@@ -1,0 +1,73 @@
+{
+  "product_source": "1f71eb59e13fba272113c1119ee2b608fa26d01a",
+  "archiver_source": "01c3b9aadd36ee4e06ba759929c19a9e2073507c",
+  "wheel_sha256": "1edeffdd568fdeedc50d01e3f737d3d9f12709bd94592c60eb097662a13412c4",
+  "original_archive_sha256": "8faba97c4fbcc4ecb2c095d5224a08912003b0258108d9ac36437d905f97af34",
+  "repacked_archive_sha256": "c0fe0b34b6dbcff66028bb2fc844b3c5991fce8789660f7d6c7839c96f6dc2a5",
+  "assets": [
+    {
+      "path": "fonts/NotoSansCJKsc-Regular.otf",
+      "bytes": 16437364,
+      "sha256": "2c76254f6fc379fddfce0a7e84fb5385bb135d3e399294f6eeb6680d0365b74b"
+    },
+    {
+      "path": "fonts/NotoEmoji.ttf",
+      "bytes": 1982596,
+      "sha256": "de6c18832938afc99caf132b39d6a30a19bac7f2e812e28db2535b4608d27551"
+    }
+  ],
+  "old_native_bytes_unchanged": true,
+  "commands": [
+    {
+      "name": "original-missing-font",
+      "argv": [
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\font-archive-288\\original-standalone\\qupathxx_app.exe",
+        "--smoke"
+      ],
+      "returncode": 1,
+      "expected": 1
+    },
+    {
+      "name": "fixed-layout",
+      "argv": [
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\font-archive-288\\repacked\\standalone\\qupathxx_app.exe",
+        "--project",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\font-archive-288\\standalone-input.qpxproj",
+        "--layout",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\font-archive-288\\standalone-workspace.ini",
+        "--smoke"
+      ],
+      "returncode": 0,
+      "expected": 0
+    },
+    {
+      "name": "fixed-layout-reload",
+      "argv": [
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\font-archive-288\\repacked\\standalone\\qupathxx_app.exe",
+        "--project",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\font-archive-288\\standalone-input.qpxproj",
+        "--layout",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\font-archive-288\\standalone-workspace.ini",
+        "--smoke"
+      ],
+      "returncode": 0,
+      "expected": 0
+    },
+    {
+      "name": "fixed-slide",
+      "argv": [
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\font-archive-288\\repacked\\standalone\\qupathxx_app.exe",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\fixtures\\CMU-1-Small-Region.svs",
+        "--smoke"
+      ],
+      "returncode": 0,
+      "expected": 0
+    }
+  ],
+  "product_rebuilt": false,
+  "binary_relabelled": false,
+  "clean_path": true,
+  "clean_machine": false,
+  "hosted_run_repeated": false,
+  "qualification_transferred": false
+}

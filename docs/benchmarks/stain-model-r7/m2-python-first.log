@@ -1,0 +1,40 @@
+.....F.F.                                                                [100%]
+================================== FAILURES ===================================
+______________ test_gui_model_save_preserves_active_source_file _______________
+
+tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4954/test_gui_model_save_preserves_0')
+
+    @GUI
+    def test_gui_model_save_preserves_active_source_file(tmp_path):
+        source = tmp_path / 'source.ppm'
+        data = b'P6\n2 2\n255\n' + bytes([16, 32, 64]) * 4
+        source.write_bytes(data)
+>       doc = q.Document(q.ppm_image_server(str(source)))
+                         ^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'qupathxx' has no attribute 'ppm_image_server'. Did you mean: 'dense_image_server'?
+
+tests\test_stain_model_files.py:178: AttributeError
+_________________ test_gui_model_save_preserves_open_project __________________
+
+tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4954/test_gui_model_save_preserves_1')
+
+    @GUI
+    def test_gui_model_save_preserves_open_project(tmp_path):
+        doc, _, _ = scene()
+        project = q.Project()
+        project.add_document(doc)
+        path = tmp_path / 'open-project.qpxproj'
+        project.save(str(path))
+        original = path.read_bytes()
+        options = q.GuiOptions()
+        options.stain_model_path = str(path)
+        options.inputs = gui_inputs(q.GuiInputTarget.SAVE_STAIN_MODEL)
+>       report = q.show(project, frame_limit=28, options=options)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       RuntimeError: GUI replay timed out waiting for event at logical frame 10
+
+tests\test_stain_model_files.py:224: RuntimeError
+=========================== short test summary info ===========================
+FAILED tests/test_stain_model_files.py::test_gui_model_save_preserves_active_source_file
+FAILED tests/test_stain_model_files.py::test_gui_model_save_preserves_open_project
+2 failed, 7 passed in 7.70s

@@ -1,0 +1,5 @@
+tests\typing\object_properties_invalid.py:2: error: Dict entry 0 has incompatible type "str": "int"; expected "str": "str"  [dict-item]
+tests\typing\object_properties_invalid.py:2: error: Dict entry 0 has incompatible type "str": "str"; expected "str": "float"  [dict-item]
+tests\typing\object_properties_invalid.py:4: error: Argument 1 to "set_object_properties" of "Document" has incompatible type "str"; expected "int"  [arg-type]
+tests\typing\object_properties_invalid.py:5: error: Argument 2 to "set_object_properties" of "Document" has incompatible type "dict[str, str]"; expected "ObjectProperties | None"  [arg-type]
+Found 4 errors in 1 file (checked 1 source file)

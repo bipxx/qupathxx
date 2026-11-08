@@ -1,0 +1,78 @@
+[
+  {
+    "name": "configure",
+    "command": [
+      "wsl.exe",
+      "-d",
+      "Ubuntu",
+      "--exec",
+      "env",
+      "GIT_DIR=/mnt/c/Users/HEQ/Projects/qupathxx/.git/worktrees/scientific-grid-159",
+      "GIT_WORK_TREE=/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159",
+      "GIT_CONFIG_COUNT=1",
+      "GIT_CONFIG_KEY_0=core.autocrlf",
+      "GIT_CONFIG_VALUE_0=true",
+      "cmake",
+      "-S",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159",
+      "-B",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native",
+      "-DCMAKE_BUILD_TYPE=Release",
+      "-DQUPATHXX_BUILD_TIFF=ON"
+    ],
+    "exit": 0,
+    "seconds": 59.53673249995336
+  },
+  {
+    "name": "build",
+    "command": [
+      "wsl.exe",
+      "-d",
+      "Ubuntu",
+      "--exec",
+      "env",
+      "GIT_DIR=/mnt/c/Users/HEQ/Projects/qupathxx/.git/worktrees/scientific-grid-159",
+      "GIT_WORK_TREE=/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159",
+      "GIT_CONFIG_COUNT=1",
+      "GIT_CONFIG_KEY_0=core.autocrlf",
+      "GIT_CONFIG_VALUE_0=true",
+      "cmake",
+      "--build",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native",
+      "--target",
+      "qupathxx_pixel_workflow_tests",
+      "--parallel",
+      "2"
+    ],
+    "exit": 0,
+    "seconds": 48.34394270007033
+  },
+  {
+    "name": "tests",
+    "command": [
+      "wsl.exe",
+      "-d",
+      "Ubuntu",
+      "--exec",
+      "env",
+      "GIT_DIR=/mnt/c/Users/HEQ/Projects/qupathxx/.git/worktrees/scientific-grid-159",
+      "GIT_WORK_TREE=/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159",
+      "GIT_CONFIG_COUNT=1",
+      "GIT_CONFIG_KEY_0=core.autocrlf",
+      "GIT_CONFIG_VALUE_0=true",
+      "ctest",
+      "--test-dir",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native",
+      "-R",
+      "^pixel_workflows$",
+      "--output-on-failure",
+      "--test-output-size-passed",
+      "1048576",
+      "--no-tests=error",
+      "--output-junit",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/rawarchive217f-linux/tests.xml"
+    ],
+    "exit": 0,
+    "seconds": 0.4101055000210181
+  }
+]

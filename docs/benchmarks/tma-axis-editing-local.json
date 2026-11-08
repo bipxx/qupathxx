@@ -1,0 +1,396 @@
+{
+  "schema": "qpx.tma-axis-editing-local/1",
+  "observed_at_utc": "2026-10-25T20:32:07.397219+00:00",
+  "compiled_source": "96172f3702ef910593880a9d5412a0b66601a5bf",
+  "source_tree_sha256": "12de03f213d3084399c8afa7cdcf1090b73c01226e6a8e12065fc0fc06e4fde4",
+  "compiler_input_files": 312,
+  "inherited_scientific_source_contract_files": 498,
+  "changed_workflow_sources": 17,
+  "scope": "Local native, installed-module and real desktop engineering checks only; not full platform, biological or supported-release acceptance.",
+  "workflow": "Atomic row/column insertion and removal through Document, nanobind, managed ViewerSession and ImGui; immutable snapshots, stable retained IDs/case metadata/geometry, protected nested cores, vacant slots, undo/redo, project restart and QPTMA export/import.",
+  "native_suites": {
+    "windows": 4,
+    "linux_tiff_project": 4
+  },
+  "runtime_passed": 187,
+  "runtime_declared_desktop_skips": 10,
+  "desktop_passed": 53,
+  "strict_positive_typing_files": 6,
+  "strict_negative_typing_errors": 3,
+  "generated_stubs_match": true,
+  "capture": {
+    "path": "tma-axis-editing-local/axis-controls.png",
+    "raw_path": "tma-axis-editing-local/axis-controls.ppm",
+    "visually_inspected": true,
+    "rows": 3,
+    "columns": 3,
+    "cores": 9,
+    "new_missing_cores": 3,
+    "ui_overflow_items": 0
+  },
+  "earlier_controls": {
+    "old_engine_api_absence_failures": 11,
+    "initial_source": "e74e97d64ab89334f17efabac48dd8e538001a0e+dirty",
+    "initial_fingerprint": "67c1aa0e475d3b7de926fd1588e6556256e46fdbe4c6f9eb1afb4ecd806b3818",
+    "native_failure": "Invalid test fixture attempted disjoint parent/child cores; corrected to satisfy existing containment. Standalone corrected test passed before source application.",
+    "linux_launcher_failure": "WSL shell interpreted a grouped regex; final launcher uses --exec. Original failed launch retained."
+  },
+  "resource_scope": "Existing axis/slot/edit/command/result limits, stale revision and queued cancellation checks. No process RSS, whole-slide, hardware timing or speedup acceptance.",
+  "remaining": [
+    "Register axis-specific semantic and typing cohorts before a new frozen platform campaign",
+    "Full engine/Mac/portable qualification for this later API source",
+    "Automatic dearraying",
+    "Independent biological/upstream TMA acceptance",
+    "All remaining original M0-M7 scope"
+  ],
+  "platform_accepted": false,
+  "biological_accepted": false,
+  "release_ready": false,
+  "overall_project_complete": false,
+  "files": {
+    "axis-controls.png": {
+      "bytes": 40825,
+      "sha256": "ee2b3a971abfa034931c5a111cd3b2ba44ac4be67afd682cd5c9b5903760830b"
+    },
+    "axis-controls.ppm": {
+      "bytes": 3840017,
+      "sha256": "b66e6f445deff17135aca7777298ca8ff44bad944b64c22f45ecde71b5409870"
+    },
+    "capture-axis-panel.py": {
+      "bytes": 767,
+      "sha256": "b27d4dc38e67e6a8b8c62bf24ca9748fc224ff62a5a1559d7c27f2223ec8635d"
+    },
+    "capture-format.json": {
+      "bytes": 285,
+      "sha256": "0b3788f39eabbb3fa51f317c217383f62200a60c946ad23d70f2b8773bb7b958"
+    },
+    "capture.log": {
+      "bytes": 68,
+      "sha256": "1d203dd292336ef0f8e3ed14c487a357084062be8b73545715de450842bb4b38"
+    },
+    "compiler-inputs.json": {
+      "bytes": 32625,
+      "sha256": "a5655875365ad8a245027ab9d98116ff0b3b67593e6a1e893a857762031befce"
+    },
+    "driver-build_tma192_linux.py": {
+      "bytes": 1898,
+      "sha256": "84878f37e517f6da37e82ff7031b5163137adaffbf4a41156facb104b2b0cc63"
+    },
+    "driver-build_tma192_windows.py": {
+      "bytes": 1691,
+      "sha256": "5bbd6d771b3ac71f013d91c7d05990f80246e7e6a0c5770f22a7d366fd003ec7"
+    },
+    "driver-build_tma193_linux.py": {
+      "bytes": 1902,
+      "sha256": "ff67b4bfcd5d200845a7f428117bcd6fb4253f32b98affe8247ac7c2271d76af"
+    },
+    "driver-build_tma193_windows.py": {
+      "bytes": 1691,
+      "sha256": "c888dcd59ad4e175f748abd2cddeda7cf4505f89fd66b8fa3717d321a35abe61"
+    },
+    "driver-install_tma193.py": {
+      "bytes": 2059,
+      "sha256": "aad46e3d702a8f3ad53056986618c694a907c92c3dcf03a4718133b27277e8f9"
+    },
+    "driver-test_tma193.py": {
+      "bytes": 2485,
+      "sha256": "8bf79f2ea777bc69c43252656b42221bd047a2913bc839318b912fde990e15d1"
+    },
+    "fixture-probe-commands.json": {
+      "bytes": 1281,
+      "sha256": "3887c3e5e074b4bcc796213d6c58283bfc31da816f8c8cb719db136163c0f1f5"
+    },
+    "fixture-probe-compile.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "fixture-probe-link.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "fixture-probe-report.json": {
+      "bytes": 979,
+      "sha256": "b2f083ed41766904a3f50a0d908dabecdf530190f79b7c2617da97bcdf7ceceb"
+    },
+    "fixture-probe-test.log": {
+      "bytes": 847,
+      "sha256": "7a093d43687b0f1d6d287a32ff0fa25713e6ca0c830c49f3189b91e2230a9abc"
+    },
+    "fixture-probe-tma_tests.cpp": {
+      "bytes": 25879,
+      "sha256": "066c1f6192b7de100dd3a8846ca5768fd23ebd1777f3f724e7f7169a9dc7776c"
+    },
+    "initial-before-tests.log": {
+      "bytes": 5778,
+      "sha256": "df7bb979b8a29e44a025e6a9af81ffdf0a03951c59437e0464e70663fe8486db"
+    },
+    "initial-before-tests.xml": {
+      "bytes": 6303,
+      "sha256": "73785e23c26ff28f4b57aa850f3bfe10b15032a29515e4faf00c000e140e35e6"
+    },
+    "initial-compiler-inputs.json": {
+      "bytes": 32625,
+      "sha256": "5f3d8795c78c13d7c42ecc62fd2a12dda6618574dd3d4829e34a501a9cd46fec"
+    },
+    "initial-desktop-command.json": {
+      "bytes": 661,
+      "sha256": "0f91f3126be4d701775886df808b9d559b9f7ed752d63051ecdd288f2cd408bb"
+    },
+    "initial-desktop-tests.log": {
+      "bytes": 102,
+      "sha256": "c32046f342bb5817c2eae1afc6f799e17530e96fc66134988b1a761c9a8572a9"
+    },
+    "initial-desktop-tests.xml": {
+      "bytes": 6381,
+      "sha256": "dfcae1e8c889821cb03ab5975721aaca06de9fa756b4bf707dd8bc3a0e8a8370"
+    },
+    "initial-installed-files.json": {
+      "bytes": 1026,
+      "sha256": "4d30de261ecae22848bd8d162f6b86cf584288de3617a393bbf028ebb00d93f8"
+    },
+    "initial-installed-probe.log": {
+      "bytes": 334,
+      "sha256": "39ded1f91e7b291f770cf96ae94cd9563576ce29bcf69b6e6e0e044654adacec"
+    },
+    "initial-linux-build.log": {
+      "bytes": 366396,
+      "sha256": "8f518a96a9878640b4c7b7d737269bbd995c7a14e3ecb697be5dcd0ac76d4f92"
+    },
+    "initial-linux-commands.json": {
+      "bytes": 2574,
+      "sha256": "f215dc5f0d49102fcb142759cfef2d07016c0bc7670bb97b43cefb9703917722"
+    },
+    "initial-linux-configure.log": {
+      "bytes": 3356,
+      "sha256": "a9d9bc0e02ca88a25c16f7c28dcad69893213ca9965d6335263e22c081c8f715"
+    },
+    "initial-linux-qptma-after.log": {
+      "bytes": 360,
+      "sha256": "138f9f95b00a1e921e19355e74589e4d9eb800dbfde8fa39d11931c114ff6136"
+    },
+    "initial-linux-qptma.xml": {
+      "bytes": 733,
+      "sha256": "ad8aae1816bf2e7542a516e35d8b12685fe5b46685b57ec74f244b06cfc906f3"
+    },
+    "initial-linux-qptma_project-after.log": {
+      "bytes": 368,
+      "sha256": "7b5cdc3d7e32777ab7bb45ffa2da535221f0b654d13c5a86b83d88d39e8ae832"
+    },
+    "initial-linux-qptma_project.xml": {
+      "bytes": 1252,
+      "sha256": "fa3a67e4d0050e200b7ad4cca1de220a6ec8ccd19cfd6505bc71a82fba2c29c1"
+    },
+    "initial-linux-test-commands-after.json": {
+      "bytes": 2119,
+      "sha256": "b1278e6628d157cbd2c680816b064c5b181facd0990a72d1d4d60093f25070c4"
+    },
+    "initial-linux-tests.log": {
+      "bytes": 603,
+      "sha256": "4f30a202580e0c275a743c9aa8e044d1bb6bf87fc0d793e0d253e5f0f99ba499"
+    },
+    "initial-linux-tma-after.log": {
+      "bytes": 469,
+      "sha256": "0b275908d718f6f83107206b4b34967bc9a88b0ce534ec638cc4979bc56c335f"
+    },
+    "initial-linux-tma.xml": {
+      "bytes": 380,
+      "sha256": "8821a0bc18d9400f41ffaf5643bb156e2f31f1f5ca2fbf7facd497aa77900541"
+    },
+    "initial-linux-viewer_session-after.log": {
+      "bytes": 371,
+      "sha256": "7576164573ec1b9d0a337ca69874c15863889e8ca3298c15f5156a781b8623b6"
+    },
+    "initial-linux-viewer_session.xml": {
+      "bytes": 746,
+      "sha256": "4bc33783c947f433f365388cdd31d138b31ae0ffdea084525cec3419c455131e"
+    },
+    "initial-nested-fixture-check.log": {
+      "bytes": 90,
+      "sha256": "85f3b8018d453234d0ed1e1a960c6420075ea3556e4e39693d956d1df19075d9"
+    },
+    "initial-python-dependencies.txt": {
+      "bytes": 266,
+      "sha256": "95a63cf9027c66e8940ca1fdc2547bb5b2321f61840d1016920d8235fa5c2660"
+    },
+    "initial-retained-native-binaries.json": {
+      "bytes": 1661,
+      "sha256": "9d4cbd6810771aa6ed9c960c5f34902c830aaafbfcc96d4291605c492c1ab6da"
+    },
+    "initial-runtime-command.json": {
+      "bytes": 1384,
+      "sha256": "db59e3dd9cb8eeecc5a0c804e1732cbed6218dd490f739817284aecafd31cca5"
+    },
+    "initial-runtime-tests.log": {
+      "bytes": 276,
+      "sha256": "ed0c539babcdb979b67c48bc97ba6ca2fddfcd36c28b74f4efdd226dc22f3f49"
+    },
+    "initial-runtime-tests.xml": {
+      "bytes": 26987,
+      "sha256": "8459d854264d482dd6831cfa5e0b0a77e0ecf64b162fccf18070fc67cb8ad035"
+    },
+    "initial-typing-axes-negative-command.json": {
+      "bytes": 334,
+      "sha256": "070c9109a147ab1ed9d626dc3b1b37cc8cc0c7a96d7b8a4e1f895fc080e5b59a"
+    },
+    "initial-typing-axes-negative.log": {
+      "bytes": 486,
+      "sha256": "8f487521e49b74e55567b7a0c30ea7219414bebeb1c8019f60765c900c351c2b"
+    },
+    "initial-typing-positive.log": {
+      "bytes": 43,
+      "sha256": "8e63ae22e8213e327a5e9cbd584067681681bd8ef7f25c869877887ccdcfc4ff"
+    },
+    "initial-windows-build.log": {
+      "bytes": 12811,
+      "sha256": "1bbb0c657c9131273a587abced1d7702cd06b54ba0bad1090f177878dad0156f"
+    },
+    "initial-windows-commands.json": {
+      "bytes": 3404,
+      "sha256": "c81f90f7488a11efe93c38d376aafc2d1561c0ad766d426aff0d21fba34000db"
+    },
+    "initial-windows-configure.log": {
+      "bytes": 3580,
+      "sha256": "fe4be1ea707b7f5448ae0d7e6657f182a4cec4208fccee557151cf4a09c74d76"
+    },
+    "initial-windows-qptma.xml": {
+      "bytes": 749,
+      "sha256": "a7d492e6f51b9c2c3ee20de452a5c6b297b9cc807b21ab7b043ddb0548a0be95"
+    },
+    "initial-windows-qptma_project.xml": {
+      "bytes": 1292,
+      "sha256": "24843eabe6ef1c04ab7d9dd96fc1b7ad6fee84434fcf97abb769673f8ea04f10"
+    },
+    "initial-windows-test-qptma.log": {
+      "bytes": 231,
+      "sha256": "940da761a11b7508e027b4572bd5d6baafb05b26c5625aba92fde4532e8899e5"
+    },
+    "initial-windows-test-qptma_project.log": {
+      "bytes": 239,
+      "sha256": "b3e9a844b33a220586219fb9056303eb856ef9fe44a5238cfd5281c98c620763"
+    },
+    "initial-windows-test-tma.log": {
+      "bytes": 356,
+      "sha256": "00764251a845d0ac63a49df51a6686d62c950724d5436bb8f1731ec8cf3adb87"
+    },
+    "initial-windows-test-viewer_session.log": {
+      "bytes": 242,
+      "sha256": "cc82abe785f89cdadd77994ebd5f8089172ba63946f148b658b7c5c489d29701"
+    },
+    "initial-windows-tma.xml": {
+      "bytes": 397,
+      "sha256": "c1da2e6e9303758f2012407cf5db338ee824b18cb5b13f8b5b4b7e074fcefb99"
+    },
+    "initial-windows-viewer_session.xml": {
+      "bytes": 765,
+      "sha256": "ef8e98da3581a374083408838c0b3d5dcb30a2f1dc6aaecb0dcc61bb3a21f17a"
+    },
+    "installed-commands.json": {
+      "bytes": 3293,
+      "sha256": "3ceb128e1fd17bb65c13e536ea4d0414ea3c2d9bc8369e3d91d7a03585ff6b75"
+    },
+    "installed-desktop.log": {
+      "bytes": 102,
+      "sha256": "3c8776732c2bf737c4256f5e948fd9d29d627e192026cca311112c65167c450c"
+    },
+    "installed-desktop.xml": {
+      "bytes": 6381,
+      "sha256": "217109c0652bca669cdbac710c7f18e0e74aa16ecb421913a128d22853f00069"
+    },
+    "installed-files.json": {
+      "bytes": 1026,
+      "sha256": "75ac9267b54af3595656d8189a37afb4781015b75b14813b6d839abb0df0208e"
+    },
+    "installed-probe.log": {
+      "bytes": 328,
+      "sha256": "7d49309d73bf53fbbf15974dcf06d88be503e18d791b5c8118ab34841181412b"
+    },
+    "installed-runtime.log": {
+      "bytes": 277,
+      "sha256": "b5d9e9cf3abbcc46e415fe9b24fd1846200c3be81c408ebad9a66e7428b505a4"
+    },
+    "installed-runtime.xml": {
+      "bytes": 26988,
+      "sha256": "2c39cb61b96b56aa66f13deb1eb5f173bd7cdb59ce51865a9fb1b45918f5a7bb"
+    },
+    "installed-typing-axes-negative.log": {
+      "bytes": 486,
+      "sha256": "8f487521e49b74e55567b7a0c30ea7219414bebeb1c8019f60765c900c351c2b"
+    },
+    "installed-typing-positive.log": {
+      "bytes": 44,
+      "sha256": "90377c8fd97127580c93ac5740d596c9ebc9db94dafa6560ee11fe16b4460c62"
+    },
+    "linux-build.log": {
+      "bytes": 5867,
+      "sha256": "dcf230d2e80b5bd51e412ca9d49f127a058116b6be408201a442df1df55333df"
+    },
+    "linux-commands.json": {
+      "bytes": 2585,
+      "sha256": "5b8bc7eeec9c9967d7ed8cc4c7a97bf52921ca2a5172956adbc4794974937e18"
+    },
+    "linux-configure.log": {
+      "bytes": 3355,
+      "sha256": "d75a3b34fd2eea97f8f60c6cdefd71b3fbfa049f11b9c0972dd3fc75635089ba"
+    },
+    "linux-tests.log": {
+      "bytes": 647,
+      "sha256": "d5d6caf977eaffa087b1d2456bd56b8d7befc3d04e485502a2fae8c376181905"
+    },
+    "linux-tests.xml": {
+      "bytes": 3326,
+      "sha256": "05d3c91e2328b0993c968cb1d10a7ad5128b6388215730f5dab48989c791438f"
+    },
+    "source-proof.json": {
+      "bytes": 121103,
+      "sha256": "e6dae5ecb3b1f8d9b866b301e96dbdda8e9a3c5e88b8171a5c38610117d3130a"
+    },
+    "windows-build.log": {
+      "bytes": 6466,
+      "sha256": "e98adcd7267bd1bacf24247e1bb8691bfd191adb0a5fd22b6e660d32c31edacd"
+    },
+    "windows-commands.json": {
+      "bytes": 3403,
+      "sha256": "8d06e3d4aab2fecf577ca0d58f4e414126e35413627228e6bd33b780b6788b96"
+    },
+    "windows-configure.log": {
+      "bytes": 3579,
+      "sha256": "67546d4db8bb9949e0379415fecaf0bea985b1ea5a0e45dc39917ee63879f627"
+    },
+    "windows-qptma.xml": {
+      "bytes": 751,
+      "sha256": "a0cb41aeb2f65bf4ec75ac2064c8147ca1a4d71ba69cef5493598bc3b3366c1a"
+    },
+    "windows-qptma_project.xml": {
+      "bytes": 1293,
+      "sha256": "4503ae1f91b0878e31f27788dd9667cb393738af06ab4711548d1e4bc842ef71"
+    },
+    "windows-test-qptma.log": {
+      "bytes": 231,
+      "sha256": "9272f66bcb4b608dcaa1aa73db694d20c67bf7b97448ff4d24fd6b456a5eeb64"
+    },
+    "windows-test-qptma_project.log": {
+      "bytes": 239,
+      "sha256": "c9ab5cc7447896b03a8f12b375658beab2f4a7095110b80f6420bb1b815c156f"
+    },
+    "windows-test-tma.log": {
+      "bytes": 231,
+      "sha256": "53516ef9891c2bc662e7a7f044774009bf61bed84fe8470008c4073a4a13c726"
+    },
+    "windows-test-viewer_session.log": {
+      "bytes": 242,
+      "sha256": "c72a7d18a10be080adcd4a686e7b85537e9f4e652a47265989dc9e39de2349ee"
+    },
+    "windows-tma.xml": {
+      "bytes": 1223,
+      "sha256": "a8f5a9c1cf0871d33cfca05af685bb3e6f195b3a9b654d66a8f04ed4cd9df43a"
+    },
+    "windows-viewer_session.xml": {
+      "bytes": 765,
+      "sha256": "6153fbc3ae417a727f0e8f1462ae9d4ef637dcf057899799f7ad56074d9266dc"
+    },
+    "workflow-source-proof.json": {
+      "bytes": 4000,
+      "sha256": "04afee5ee147c75864c16c1ea2a5213d799d6e960d1b5838ed5b67536cf1b223"
+    }
+  }
+}

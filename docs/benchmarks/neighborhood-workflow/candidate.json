@@ -1,0 +1,18 @@
+{
+  "source_revision": "618b0dd0a6f39cc062941c6ea524ac22cb863bc5",
+  "source_tree_sha256": "b30bafcb4c982c55d7069276e4c82b9119d731ef7a69d519e50a19599dcbcd95",
+  "installed_package": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\neighborhood-workflow\\installed\\Lib\\site-packages\\qupathxx",
+  "installed_wheel_members_verified": 63,
+  "compiler_inputs_verified": 506,
+  "source_archive": "qupathxx-source-618b0dd0.zip",
+  "native_members": 58,
+  "provenance_binaries": [
+    "_native.cp312-win_amd64.pyd",
+    "qupathxx_app.exe",
+    "qupathxx_batch.exe"
+  ],
+  "region_cli_identity": "No linked BuildEnvironment; exact cached build/wheel/installed bytes verified",
+  "dependency_archives_verified": 12,
+  "wheel_license": "AGPL-3.0-only",
+  "support": "Local Windows x64 engineering candidate; no new fresh-host/platform or biological qualification"
+}

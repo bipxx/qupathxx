@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.320" timestamp="2026-10-26T22:21:48.039083-04:00" hostname="HEQPC"><testcase classname="tests.test_raw_stream_contour_batch" name="test_batch_contour_moved_output_and_changed_model_use_exact_checkpoint_scope" time="0.097"><failure message="assert (0 == 1)&#10; +  where 0 = &lt;qupathxx._native.ProjectBatchReport object at 0x000001DC4BA6C140&gt;.reused">tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/q258-fixed3-pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp/test_batch_contour_moved_outpu0')
+
+    def test_batch_contour_moved_output_and_changed_model_use_exact_checkpoint_scope(tmp_path):
+        import shutil
+        p,docs,model=scene(tmp_path,(8,))
+        try:
+            output=tmp_path/"out";capture=request(p,model,options(model));first=success(q.run_project_batch(capture,str(output)))
+            written=Path(first.images[0].path)
+            reported_root=written.parent.parent
+            # Validate the directory identity and retain its Windows \\?\ spelling
+            # for subsequent long-path file operations, including the moved target.
+            assert reported_root.samefile(output) and written.is_file()
+            relative=written.relative_to(reported_root)
+            moved=reported_root.with_name("moved");shutil.move(str(output),str(moved))
+            again=success(q.run_project_batch(capture,str(moved)))
+&gt;           assert again.reused==1 and Path(again.images[0].path).samefile(moved/relative)
+E           assert (0 == 1)
+E            +  where 0 = &lt;qupathxx._native.ProjectBatchReport object at 0x000001DC4BA6C140&gt;.reused
+
+tests\test_raw_stream_contour_batch.py:201: AssertionError</failure></testcase></testsuite></testsuites>

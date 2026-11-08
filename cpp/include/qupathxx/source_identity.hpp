@@ -1,5 +1,6 @@
 #pragma once
 #include "qupathxx/file_fingerprint.hpp"
+#include <vector>
 namespace qpx {
 struct FileVersion {
     std::string path,identity_scheme,identity,stamp_scheme,modified_token,change_token;
@@ -10,11 +11,16 @@ struct FileVersion {
 struct ReaderSource {
     std::string generation,reader,locator,scope;
     std::shared_ptr<const FileVersion> primary;
+    // Additional files, sorted by absolute path, with no duplicate file identity.
+    // At most 63 companions and 128 KiB total source payload. Empty for legacy scopes.
+    std::vector<FileVersion> companions;
     void validate() const;
     std::size_t payload_bytes() const;
 };
 // Generation is process-unique and never derived from a pathname or file hash.
 std::shared_ptr<const ReaderSource> make_reader_source(std::string reader,std::string locator,std::string scope,std::shared_ptr<const FileVersion> primary={});
+std::shared_ptr<const ReaderSource> make_compound_reader_source(std::string reader,std::string locator,
+    std::shared_ptr<const FileVersion> primary,std::vector<FileVersion> companions);
 struct SourceFileAssociation {
     ReaderSource source;
     FileFingerprint fingerprint;

@@ -1,0 +1,56 @@
+[
+  {
+    "name": "configure",
+    "command": [
+      "wsl.exe",
+      "-d",
+      "Ubuntu",
+      "--exec",
+      "env",
+      "GIT_DIR=/mnt/c/Users/HEQ/Projects/qupathxx/.git/worktrees/scientific-grid-159",
+      "GIT_WORK_TREE=/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159",
+      "GIT_CONFIG_COUNT=1",
+      "GIT_CONFIG_KEY_0=core.autocrlf",
+      "GIT_CONFIG_VALUE_0=true",
+      "cmake",
+      "-S",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159",
+      "-B",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native",
+      "-DCMAKE_BUILD_TYPE=Release",
+      "-DQUPATHXX_BUILD_TIFF=ON"
+    ],
+    "exit": 0,
+    "seconds": 43.92855379998218
+  },
+  {
+    "name": "build",
+    "command": [
+      "wsl.exe",
+      "-d",
+      "Ubuntu",
+      "--exec",
+      "env",
+      "GIT_DIR=/mnt/c/Users/HEQ/Projects/qupathxx/.git/worktrees/scientific-grid-159",
+      "GIT_WORK_TREE=/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159",
+      "GIT_CONFIG_COUNT=1",
+      "GIT_CONFIG_KEY_0=core.autocrlf",
+      "GIT_CONFIG_VALUE_0=true",
+      "cmake",
+      "--build",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native",
+      "--target",
+      "qupathxx_source_identity_tests",
+      "qupathxx_file_fingerprint_tests",
+      "qupathxx_provenance_tests",
+      "qupathxx_raw_image_tests",
+      "qupathxx_resampling_tests",
+      "qupathxx_project_tests",
+      "qupathxx_save_tests",
+      "--parallel",
+      "2"
+    ],
+    "exit": 2,
+    "seconds": 52.52429520001169
+  }
+]

@@ -1,0 +1,145 @@
+{
+  "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+  "architecture": "arm64",
+  "native_suites": 50,
+  "overall_mac_accepted": false,
+  "scope": "Supplementary single-architecture checks only; full two-architecture auditor remains required",
+  "multifile": {
+    "suites": 3,
+    "tiff_enabled": true,
+    "compound_provenance_codecs": true
+  },
+  "raw_classifier": {
+    "full": true,
+    "portable_owner_jobs": true,
+    "raw_file_training_contour_consumers": true
+  },
+  "resampling": {
+    "passed": 1,
+    "independent_oracle_shapes": 2205
+  },
+  "axis": {
+    "suites": 2,
+    "axis_edits_and_owner_commands": true
+  },
+  "dearray": {
+    "fixture_cases": 5,
+    "center_tolerance_pixels": 2.0,
+    "maximum_center_error_pixels": 2.84217e-14,
+    "missing_flags_match": true,
+    "physical_units": true,
+    "pixel_recipe_preserved": true,
+    "project_workflows_covered": true
+  },
+  "qptma": {
+    "passed": 1,
+    "bounded_grid_cores": 10000,
+    "atomic_document_and_file_checks": true
+  },
+  "hierarchy": {
+    "hierarchy_enabled": true,
+    "hierarchy_qualified": 1,
+    "physical_path_policy": true,
+    "recovery_storage_qualified": true
+  },
+  "scientific": {
+    "suites": 10,
+    "project": true,
+    "geos": true,
+    "tiff": true,
+    "scientific_acceptance": false
+  },
+  "qptma_project": {
+    "passed": 1,
+    "project_storage_enabled": true,
+    "atomic_persistence_and_cli_checked": true
+  },
+  "frontier": {
+    "priority_keys": 64,
+    "heap_equivalence_cases": 1344,
+    "historical_domain_grid_checked": true
+  },
+  "tma_cases": {
+    "case_aggregation_checked": true,
+    "compensated_signed_sums_checked": true,
+    "mean_underflow_checked": true,
+    "cancellation_checked": true,
+    "signed_decimal_locale_checked": true,
+    "atomic_file_export_checked": true,
+    "input_size_checked": true,
+    "cohort_raw_pooling_checked": true,
+    "cohort_atomic_file_checked": true,
+    "oversized_read_transfer_bytes": null
+  },
+  "inventory": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "architecture": "arm64",
+    "tooling_sha256": {
+      "tools/ci/macos_native_inventory.py": "307ed0b995779597dd3f8945f43187a4a5a0b20a780b011985ce2c5be107aaa9",
+      "tools/ci/macho_dependencies.py": "0b675070250682afae9e71f0c348ea719232471b060b8f6fe982fd7f625a45c3",
+      "tools/ci/runtime_manifest.py": "d2b845bf4a4b6acbd2ecf7d2416d1198610f62fb74e8d80b7912db20f4a30791",
+      "tools/ci/pe_dependencies.py": "164689ef5c582628170500ae6d145026b546b2c1c41553b54afe1b95cd0e5efb",
+      "tools/ci/run_macos_native.py": "93d2f1395d1207ce6588c437ecfc87c55cdd872343b2eb57f38ce0fe9408a753",
+      "tools/ci/macos_inventory_evidence.py": "893d4a7853f7b41f93c73e5b76a2a6a26e140bf048b409f5aff6817cb38ff8f5",
+      ".github/workflows/ci.yml": "3a571260cf06088861454b85b53f1cc4cd58fcdf58c01d907f66e7b486b1d8b0"
+    },
+    "files": 14,
+    "binaries": 7,
+    "archive_sha256": "33a5fda671835385e6c371b80003a04093c3628a78609345b8d3d7385adf09e6",
+    "manifest_sha256": "b95408eddefe08418a86fa6c2cc0759b9d3b8f3abf77c226abfa9b54fdcd2550",
+    "otool_probe_sha256": "8392c46b411c0749115cdce986ac82bb7b25737e356f1b6bbaa823fc79ccddfc",
+    "native_snapshot_accepted": true,
+    "sdk_paths_may_be_embedded": true,
+    "runtime_resolution_complete": false,
+    "relocated_package_validated": false,
+    "external_runtime_availability_verified": false,
+    "signing_verified": false,
+    "release_ready": false,
+    "scope": "Uploaded native CLI and selected SDK runtime/notice bytes reinspected at exact source; independent otool names/versions agree. Static SDK archives remain build-input ledger only. No install-name resolution, relocation, Python/GUI/OpenSlide, ABI, signing or supported release."
+  },
+  "relocation": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "architecture": "arm64",
+    "tooling_sha256": {
+      "tools/ci/macos_relocation_evidence.py": "932b8a4788cc66bdeb9643e76bdf3ee439503a41af7b1bc7cbfee8f383663688",
+      "tools/ci/check_macos_relocated_runtime.py": "4c0fc748fce0c08a1fefb494836a033e1335d74cd6fb613c8e4218769af24ad4",
+      "tools/ci/macos_relocate.py": "9b83987806f74e206c459136078aa7a4dd155b525a60080c6e028b1663426dd6",
+      "tools/ci/macos_relocation_plan.py": "62d3bd65aeb99b02d68e7dd126a1ead4af0828dfaf6bfe3ba8fcb721675677d7",
+      "tools/ci/macos_native_inventory.py": "307ed0b995779597dd3f8945f43187a4a5a0b20a780b011985ce2c5be107aaa9",
+      "tools/ci/macho_dependencies.py": "0b675070250682afae9e71f0c348ea719232471b060b8f6fe982fd7f625a45c3",
+      "tools/ci/runtime_manifest.py": "d2b845bf4a4b6acbd2ecf7d2416d1198610f62fb74e8d80b7912db20f4a30791",
+      "tools/ci/pe_dependencies.py": "164689ef5c582628170500ae6d145026b546b2c1c41553b54afe1b95cd0e5efb",
+      "tools/ci/run_macos_native.py": "93d2f1395d1207ce6588c437ecfc87c55cdd872343b2eb57f38ce0fe9408a753",
+      ".github/workflows/ci.yml": "3a571260cf06088861454b85b53f1cc4cd58fcdf58c01d907f66e7b486b1d8b0",
+      "tests/fixtures/project-v1.qpxproj": "bb79fc7a8e47896bc8793e10ed99efed9e9ffb7887a1b8a110cbdd003547a82b"
+    },
+    "source_archive_sha256": "33a5fda671835385e6c371b80003a04093c3628a78609345b8d3d7385adf09e6",
+    "relocated_archive_sha256": "9da11af31a74de4f366ab480b5cfb071578427b7a8509b0b075564f084e24c63",
+    "plan_sha256": "9b00fc5d981a763c9fac7df9ee9e12bde043cb2d1f7ef5fc4715ec34e0ff2c37",
+    "files": 11,
+    "binaries": 4,
+    "execution": {
+      "commands": 11,
+      "execution_sha256": "61f0ec15d0a560cecd8c7c5fe249a11e42ee4c9319dfc3846def0c7d6366a563",
+      "ad_hoc_integrity_verified_on_builder": true,
+      "publisher_signature_verified": false
+    },
+    "runtime": {
+      "native_region_exact": true,
+      "native_batch_checkpoint": true,
+      "native_batch_csv": true,
+      "geos_union_area": 150,
+      "package_image_mappings_verified": true,
+      "loader_search_overrides_used": false,
+      "fixture_preserved": true
+    },
+    "relocated_native_host_engineering_accepted": true,
+    "publisher_signature_verified": false,
+    "older_os_compatibility_verified": false,
+    "python_gui_openslide_validated": false,
+    "arbitrary_abi_verified": false,
+    "release_ready": false,
+    "scope": "Exact-source original/relocated archive, Apple command/log and native region/batch/CSV/GEOS runtime proofs on builder. Fresh path with spaces and actual package image mappings; no search overrides. No older-OS, arbitrary ABI, macOS Python/GUI/OpenSlide, publisher signing or supported-release acceptance."
+  },
+  "raw_source_paths": 490
+}

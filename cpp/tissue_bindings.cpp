@@ -1,7 +1,9 @@
+#include "job_binding_utils.hpp"
 #include "qupathxx/tissue.hpp"
 #include <nanobind/nanobind.h>
 #include <nanobind/stl/array.h>
 #include <nanobind/stl/shared_ptr.h>
+#include <nanobind/stl/optional.h>
 #include <nanobind/stl/string.h>
 #include <nanobind/stl/vector.h>
 namespace nb=nanobind;
@@ -12,6 +14,9 @@ void bind_tissue(nb::module_& m) {
         .value("STAIN_1",TissueFeature::Stain1).value("STAIN_2",TissueFeature::Stain2).value("STAIN_3",TissueFeature::Stain3);
     nb::class_<TissueParameters>(m,"TissueParameters").def(nb::init<>()).def_rw("feature",&TissueParameters::feature)
         .def_rw("sampling_policy",&TissueParameters::sampling_policy)
+        .def_rw("median_cleanup",&TissueParameters::median_cleanup)
+        .def_rw("canonical_pyramid",&TissueParameters::canonical_pyramid)
+        .def_rw("smoothing_sigma",&TissueParameters::smoothing_sigma)
         .def_rw("threshold",&TissueParameters::threshold).def_rw("connectivity",&TissueParameters::connectivity)
         .def_rw("level",&TissueParameters::level)
         .def_rw("open_radius",&TissueParameters::open_radius).def_rw("close_radius",&TissueParameters::close_radius)
@@ -19,9 +24,23 @@ void bind_tissue(nb::module_& m) {
         .def_rw("min_pixels",&TissueParameters::min_pixels).def_rw("max_pixels",&TissueParameters::max_pixels)
         .def_rw("tile_size",&TissueParameters::tile_size).def_rw("max_components",&TissueParameters::max_components).def_rw("work_bytes",&TissueParameters::work_bytes)
         .def("validate",&TissueParameters::validate);
+    nb::class_<TissueGridSampling>(m,"TissueGridSampling").def(nb::init<>())
+        .def_rw("samples_x",&TissueGridSampling::samples_x).def_rw("samples_y",&TissueGridSampling::samples_y)
+        .def_rw("context_x",&TissueGridSampling::context_x).def_rw("context_y",&TissueGridSampling::context_y)
+        .def("validate",&TissueGridSampling::validate);
     nb::class_<TissueRequest>(m,"TissueRequest")
         .def_static("replay",&TissueRequest::replay,"document"_a,"record_id"_a)
+        .def_static("with_component_area_limits",&TissueRequest::with_component_area_limits,"document"_a,"object_id"_a,"transform"_a,
+            "minimum_um2"_a=nb::none(),"maximum_um2"_a=nb::none(),"parameters"_a=TissueParameters{},"nucleus"_a=false)
         .def(nb::init<const Document&,std::uint64_t,const StainTransform&,TissueParameters,bool>(),"document"_a,"object_id"_a,"transform"_a,"parameters"_a=TissueParameters{},"nucleus"_a=false)
+        .def(nb::init<const Document&,std::uint64_t,const StainTransform&,ScientificGrid,TissueParameters,bool>(),
+            "document"_a,"object_id"_a,"transform"_a,"grid"_a,"parameters"_a=TissueParameters{},"nucleus"_a=false)
+        .def_static("for_grid_roi",&TissueRequest::for_grid_roi,"document"_a,"object_id"_a,"transform"_a,"sampling"_a=TissueGridSampling{},
+            "parameters"_a=TissueParameters{},"nucleus"_a=false,"minimum_um2"_a=nb::none(),"maximum_um2"_a=nb::none())
+        .def_static("with_grid_component_area_limits",&TissueRequest::with_grid_component_area_limits,"document"_a,"object_id"_a,"transform"_a,"grid"_a,
+            "minimum_um2"_a=nb::none(),"maximum_um2"_a=nb::none(),"parameters"_a=TissueParameters{},"nucleus"_a=false)
+        .def_prop_ro("scientific_grid",[](const TissueRequest& r){return r.scientific_grid()?std::optional<ScientificGrid>(*r.scientific_grid()):std::nullopt;})
+        .def_prop_ro("downsample_x",&TissueRequest::downsample_x).def_prop_ro("downsample_y",&TissueRequest::downsample_y)
         .def("matches",&TissueRequest::matches).def_prop_ro("object_id",&TissueRequest::object_id)
         .def_prop_ro("parameters",[](const TissueRequest& r){return r.parameters();})
         .def_prop_ro("level",&TissueRequest::level).def_prop_ro("downsample",&TissueRequest::downsample)
@@ -34,6 +53,10 @@ void bind_tissue(nb::module_& m) {
         .def_prop_ro("bounds",&TissueResult::bounds).def_prop_ro("width",&TissueResult::width).def_prop_ro("height",&TissueResult::height)
         .def_prop_ro("level_bounds",&TissueResult::level_bounds).def_prop_ro("level",&TissueResult::level)
         .def_prop_ro("downsample",&TissueResult::downsample).def_prop_ro("input_format",&TissueResult::input_format)
+        .def_prop_ro("downsample_x",&TissueResult::downsample_x).def_prop_ro("downsample_y",&TissueResult::downsample_y)
+        .def_prop_ro("scientific_grid",[](const TissueResult& r){return r.scientific_grid()?std::optional<ScientificGrid>(*r.scientific_grid()):std::nullopt;})
+        .def_prop_ro("nominal_sampling",[](const TissueResult& r){return r.nominal_sampling()?std::optional<NominalCellSampling>(*r.nominal_sampling()):std::nullopt;})
+        .def("sample_edge_x",&TissueResult::sample_edge_x,"index"_a).def("sample_edge_y",&TissueResult::sample_edge_y,"index"_a)
         .def_prop_ro("roi",&TissueResult::roi).def_prop_ro("image_bounds",&TissueResult::image_bounds)
         .def_prop_ro("labels",[](const TissueResult& r){return nb::bytes(reinterpret_cast<const char*>(r.labels().data()),r.labels().size()*sizeof(std::uint32_t));})
         .def_prop_ro("mask",[](const TissueResult& r){std::string bytes(r.labels().size(),'\0');for(std::size_t i=0;i<bytes.size();++i) bytes[i]=r.labels()[i]?static_cast<char>(255):0;return nb::bytes(bytes.data(),bytes.size());})
@@ -69,11 +92,12 @@ void bind_tissue(nb::module_& m) {
         .def("tissue_status",&Document::tissue_status,"record_id"_a)
         .def_prop_ro("tissue_records",&Document::tissue_records).def_prop_ro("tissue_record_count",&Document::tissue_record_count);
     nb::class_<TissueStats,AnalysisStats>(m,"TissueStats").def_ro("phase",&TissueStats::phase);
-    nb::class_<TissueJob>(m,"TissueJob").def(nb::init<>()).def("request",&TissueJob::request)
-        .def("poll",&TissueJob::poll,"document"_a,"selected_id"_a).def("wait",&TissueJob::wait,"document"_a,"selected_id"_a,nb::call_guard<nb::gil_scoped_release>())
-        .def("cancel",&TissueJob::cancel).def_prop_ro("busy",&TissueJob::busy).def_prop_ro("result",&TissueJob::result)
-        .def("request_contours",&TissueJob::request_contours,"options"_a=TissueContourOptions{}).def_prop_ro("contours",&TissueJob::contours).def_prop_ro("contours_published",&TissueJob::contours_published)
-        .def("keep_contours",&TissueJob::keep_contours,"document"_a,"selected_id"_a,"name_prefix"_a="Tissue","class_name"_a="");
-    auto job=nb::borrow<nb::class_<TissueJob>>(m.attr("TissueJob"));
-    job.def("keep_result",&TissueJob::keep_result,"document"_a,"selected_id"_a).def("verify_result",&TissueJob::verify_result,"document"_a,"record_id"_a);
+    using PythonTissueJob=qpx::bindings::OwnerJobHolder<TissueJob>;
+    nb::class_<PythonTissueJob>(m,"TissueJob").def(nb::init<>()).def("request",qpx::bindings::owner_job_method<&TissueJob::request>())
+        .def("poll",qpx::bindings::owner_job_method<&TissueJob::poll>(),"document"_a,"selected_id"_a).def("wait",[](PythonTissueJob& job,const Document& doc,std::uint64_t selected){return qpx::bindings::wait(job,doc,selected);},"document"_a,"selected_id"_a)
+        .def("cancel",qpx::bindings::owner_job_method<&TissueJob::cancel,false>()).def_prop_ro("busy",qpx::bindings::owner_job_method<&TissueJob::busy>()).def_prop_ro("result",qpx::bindings::owner_job_method<&TissueJob::result>())
+        .def("request_contours",qpx::bindings::owner_job_method<&TissueJob::request_contours>(),"options"_a=TissueContourOptions{}).def_prop_ro("contours",qpx::bindings::owner_job_method<&TissueJob::contours>()).def_prop_ro("contours_published",qpx::bindings::owner_job_method<&TissueJob::contours_published>())
+        .def("keep_contours",qpx::bindings::owner_job_method<&TissueJob::keep_contours>(),"document"_a,"selected_id"_a,"name_prefix"_a="Tissue","class_name"_a="");
+    auto job=nb::borrow<nb::class_<PythonTissueJob>>(m.attr("TissueJob"));
+    job.def("keep_result",qpx::bindings::owner_job_method<&TissueJob::keep_result>(),"document"_a,"selected_id"_a).def("verify_result",qpx::bindings::owner_job_method<&TissueJob::verify_result>(),"document"_a,"record_id"_a);
 }

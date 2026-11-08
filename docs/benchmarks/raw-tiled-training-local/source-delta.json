@@ -1,0 +1,10 @@
+{
+  "initial_source": "fb7ddb0b97e52306a460a40a09ac22c6dcd5d81d",
+  "final_source": "1273c3ea37cb70e412c6645a748530751bddb949",
+  "changed_inputs": [
+    "cpp/tests/raw_tiled_training_checks.hpp"
+  ],
+  "reason": "Restore original metadata vector allocation after quota rejection; assigning the original text retained the oversized string capacity",
+  "initial_workflow_suites_failed": 3,
+  "unchanged_regressions_passed": 16
+}

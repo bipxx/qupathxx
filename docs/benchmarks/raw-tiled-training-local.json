@@ -1,0 +1,373 @@
+{
+  "schema": "qpx.raw-tiled-training-local/1",
+  "observed_at_utc": "2026-10-26T09:35:31.111685+00:00",
+  "source": "1273c3ea37cb70e412c6645a748530751bddb949",
+  "compiled_fingerprint": "4b977e63a28fc840997fbecc65e09bc83488038d0e8a220c14928435119be5ec",
+  "compiler_inputs": 348,
+  "status": "sparse_owner_captured_tiled_raw_training_locally_verified",
+  "native": {
+    "windows_suites": 1,
+    "linux_suites": 1,
+    "windows_training_suites": 1,
+    "unchanged_regressions_at_initial_source": 16,
+    "required_markers": [
+      "Raw tiled training: full/tiled global reservoir rows, filtered seams, sparse trillion-cell lattice, quotas, owner lifecycle, calibration and compound-source controls passed",
+      "Raw tiled training: real TIFF fractional sampling, optional backend prediction and late-file refusal passed",
+      "Raw window classifier: real TIFF fractional-window owner prediction, global ROI mask and late-file refusal passed",
+      "Raw window classifier: portable recipe/model identity, 42 full/window label-vote seams, huge indexed ROI, physical calibration, pre-IO quotas/series, cancellation/stale/copy/thread and compound-source checks passed"
+    ],
+    "backend_marker": "Raw pixel backend training: real TIFF deterministic direct/job training, historical retraining, trained archives/model files and portable prediction votes passed"
+  },
+  "scope": [
+    "ScientificRawLattice stores global geometry without whole-raster admission; equivalent recipes preserve QXS1/QRM1 bytes",
+    "Sparse ROI tile union admits unique candidate scans before decoding and retains original rational phase",
+    "One shared global-coordinate per-class reservoir for full and tiled raw training; balance only after global selection",
+    "Exact selected feature rows, classes, coordinates, minimum annotation IDs, eligible/ambiguous counts across three tile policies with raw and filtered features",
+    "Million-by-million lattice selects four rows from one 4096-core candidate tile, without a full-grid allocation",
+    "Actual Windows OpenCV backend full/tiled model bytes and votes agree with explicit identical effective parameters",
+    "Real TIFF fractional sampling, backend-positive prediction and fresh file refusal; compound companion refusal at delivery",
+    "Owner identity/revision/calibration, borrowed reader lifetime, cancellation during and after IO, failure/retry and thread controls",
+    "Scan/window/snapshot limits and actual per-window feature/sampler quotas before each window IO; changed series/metadata refuse before decoder calls"
+  ],
+  "legacy_archive_grammars_changed": false,
+  "initial_regression_source": "fb7ddb0b97e52306a460a40a09ac22c6dcd5d81d",
+  "initial_fingerprint": "dd315c96d5100f0265281036ab7efc50276f7002c450e66165217c67cbe04e6d",
+  "development_failure": "All three initial workflow suites fail because fixture text restoration retains oversized string capacity; raw logs/XML and binaries preserved. Final source changes only that test helper.",
+  "tiled_prediction_or_resume_complete": false,
+  "remaining": [
+    "Bounded tiled prediction over declared coverage with output sinks and resource checks",
+    "Versioned tiled training/stream archives and source/model/selection-safe interrupted resume",
+    "Cross-tile contours and nanobind/Python/NumPy, CLI/batch, managed viewer and ImGui workflows",
+    "Integrated platform and independent biological/model/process-resource/hardware/release acceptance"
+  ],
+  "baselines": [
+    "docs/benchmarks/raw-window-classifier-local.json",
+    "docs/benchmarks/raw-lattice-windows-local.json",
+    "docs/benchmarks/raw-pixel-replay-apply-local.json"
+  ],
+  "raw_payloads": [
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/windows/build_manifest.hpp",
+      "bytes": 706,
+      "sha256": "68f4113dbda483926809d268abd455ed065efc10753a297afe9084ce51f78f05"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/windows/configuration.json",
+      "bytes": 438,
+      "sha256": "1fdb05fd0a59139fc78658467c36bfad64008f2d672600bae623a8ffd733f958"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/windows/build.log",
+      "bytes": 2156,
+      "sha256": "938d9e7f65bc662870aaaa7aab1751873ca43f7554c82763e6e26d305a6c5cf2"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/windows/commands.json",
+      "bytes": 1456,
+      "sha256": "23664e8045724da306eab7f874896306a4e8987a1930703399abf7396427366c"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/windows/compiler-inputs.json",
+      "bytes": 36978,
+      "sha256": "7722bd6950ee5235966e01fb20f266089eff827314b07556a42cbd524d4a4754"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/windows/configure.log",
+      "bytes": 3579,
+      "sha256": "f710f229fe2d99e7c2cac5de86653368c484f44207d92633dab717f692a8840a"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/windows/output-preflight.json",
+      "bytes": 215,
+      "sha256": "7fe829dc11e9eb56df2def62dc55b99e9a20033d79a0059771fb8695e7ae08d5"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/windows/tests.log",
+      "bytes": 241,
+      "sha256": "4031f85c71dab0216f820ac3a80d13d5ab27478cbbf5259e1bc0c8f757293b59"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/windows/tests.xml",
+      "bytes": 1984,
+      "sha256": "07f693524e50d21c7cdc0689ea8d9a6d59bb88ab600e2848227c61ec3870ff79"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/linux/build_manifest.hpp",
+      "bytes": 629,
+      "sha256": "ed8b9532575de57e84a9aaa80f599623520e78cecb8cf6e032747aefb0e918f2"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/linux/configuration.json",
+      "bytes": 440,
+      "sha256": "9055e74897cee94c78a499b8be5563be9b92ed0411debc1a2045cdbd28ba7a04"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/linux/build.log",
+      "bytes": 5109,
+      "sha256": "1eb0252cac2aa603982f7386357f0d9391688258e48b329d647abe709ac79a54"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/linux/commands.json",
+      "bytes": 2191,
+      "sha256": "f94cca1b60f758dfff09138d94e1f8f257628f0667c7dee22808b7b6e9f8f7b8"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/linux/compiler-inputs.json",
+      "bytes": 36978,
+      "sha256": "7722bd6950ee5235966e01fb20f266089eff827314b07556a42cbd524d4a4754"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/linux/configure.log",
+      "bytes": 3355,
+      "sha256": "b0438d27420cef48862ff4a52f402f7704c36c4223f4231256ac5df1dc9bf26c"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/linux/output-preflight.json",
+      "bytes": 208,
+      "sha256": "f57cf15985aaac407a7c08e797809124687943e1336d3c22c6996f662aa0fde6"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/linux/tests.log",
+      "bytes": 370,
+      "sha256": "335134d3737fa1d770261f290663002faa95b08d86cf5216cdf404106c2d7d42"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/linux/tests.xml",
+      "bytes": 1876,
+      "sha256": "666496643ff1162f2ac58a7cd0560483003b6bb24a3ee3501225d82c30f06c60"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/training/build_manifest.hpp",
+      "bytes": 706,
+      "sha256": "42b8c538c2a21484b992fe0688450ae87bf3cb4dd29b2efab3f9c96761325a3d"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/training/configuration.json",
+      "bytes": 439,
+      "sha256": "efefdc00c5c4f105d6eb07ae32b7d4aa64514ca8b22df2b32a188f4283812f82"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/training/build.log",
+      "bytes": 2134,
+      "sha256": "12218ab43789a4204174a5458b142338e7bab8d6afc0feac34a8f71178487579"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/training/commands.json",
+      "bytes": 1449,
+      "sha256": "4fe77fd197997b867ad825fa8c6c8b93421470daed771e361514d7ff0c4e6103"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/training/compiler-inputs.json",
+      "bytes": 36978,
+      "sha256": "7722bd6950ee5235966e01fb20f266089eff827314b07556a42cbd524d4a4754"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/training/configure.log",
+      "bytes": 3722,
+      "sha256": "8e5ab25a2bf395b16b129536e2febd76bc22f7ad5a4e8dd4000bf17b44c46869"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/training/output-preflight.json",
+      "bytes": 217,
+      "sha256": "4891b22b0e2511c70eb7cea2ac00f3a27984c39bd09045f416d076e5d25f1390"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/training/sdk-verification.json",
+      "bytes": 202,
+      "sha256": "b55701dcbf448dd2c272bba3fe738c642e2cb4fb62bc0a25d7295d7dbd3442aa"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/training/tests.log",
+      "bytes": 239,
+      "sha256": "6c907b3d054277020721eb7f93c948bd50100d636a5e287f02a5cbdfc7ad01c1"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/training/tests.xml",
+      "bytes": 2320,
+      "sha256": "bace7f1389439d79dadaf8a432ab389a04d9354d60569cfecd6b50047df44962"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/compiler-git-proof.json",
+      "bytes": 118559,
+      "sha256": "90c4d29a683ed22c46916ee0bcf25e0483809226988813f1dca601680ccd6a20"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/initial/compiler-git-proof.json",
+      "bytes": 118528,
+      "sha256": "cf1a1f275978006fc806de3b08cbb4e33955e6d7fc419f08bf1c0d23ba7a8b90"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/initial/windows/build.log",
+      "bytes": 16981,
+      "sha256": "ac8c26378c1ca8771118b14349aebf859be9d5ca8b2679d743e75ff50c3e2f98"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/initial/windows/commands.json",
+      "bytes": 1786,
+      "sha256": "646695cd425a1771ba295187d3524dbcb37d9e4d9db20e68c1ef362e823d5c64"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/initial/windows/compiler-inputs.json",
+      "bytes": 36978,
+      "sha256": "d291891b923bff64d2029a6ba78517c9d91c60655c92faa88fc92bd7bf7c7218"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/initial/windows/configure.log",
+      "bytes": 3579,
+      "sha256": "3ba2a2659e2abccdb18b12c2e64a8c54841ae361e0f28a349646d50684124c1f"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/initial/windows/output-preflight.json",
+      "bytes": 213,
+      "sha256": "5217427c3c81c244327950fbb97f1ec35e94e9d710f4a35a903f8032959f7c41"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/initial/windows/tests.log",
+      "bytes": 2297,
+      "sha256": "de34ae1ef73f1e91809c9953baff16247d33c409171f3128c25f4cb49051ebd7"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/initial/windows/tests.xml",
+      "bytes": 6393,
+      "sha256": "86906403300b259e9a672e3cb2588476920af7f663f1786f2cd43f725203027c"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/initial/windows/build_manifest.hpp",
+      "bytes": 706,
+      "sha256": "7e28a324e7caf6841f78d7e1251a0da18ad192a38c28c68aa4088ef4b603a95f"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/initial/windows/configuration.json",
+      "bytes": 438,
+      "sha256": "1fdb05fd0a59139fc78658467c36bfad64008f2d672600bae623a8ffd733f958"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/source-delta.json",
+      "bytes": 428,
+      "sha256": "ed05551760593693ba7558db070b95ec9e4d316aefe23fe06b51d26fff31d21d"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/initial/linux/build.log",
+      "bytes": 475615,
+      "sha256": "30bafa522443b31f8498653054988a9322f99723374f14eed835f947db0716e8"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/initial/linux/commands.json",
+      "bytes": 2525,
+      "sha256": "e4e5c277785ac4794bf0808e99125dff657c2f3e46b45d94234aceef16372802"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/initial/linux/compiler-inputs.json",
+      "bytes": 36978,
+      "sha256": "d291891b923bff64d2029a6ba78517c9d91c60655c92faa88fc92bd7bf7c7218"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/initial/linux/configure.log",
+      "bytes": 3354,
+      "sha256": "ead078c60a91d450ac312122783a61d44f0367b2d06b5b809d327d45c58e82cd"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/initial/linux/output-preflight.json",
+      "bytes": 206,
+      "sha256": "eeb07950bbff2ef00705d97d1b4c1f0bb7e87f901f1bfd2d6dc6236458bcb276"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/initial/linux/tests.log",
+      "bytes": 2328,
+      "sha256": "365bc08b2500cd248a5556a19799a525c7b5d1084317e5b27cee0f885165c640"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/initial/linux/tests.xml",
+      "bytes": 6220,
+      "sha256": "516b1fcdeb25504d33fcf02bd054b73fca0fb33ab9cdf615b41add4ca4f1ad8b"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/initial/linux/build_manifest.hpp",
+      "bytes": 629,
+      "sha256": "edd4ef05955d64c20fe54fa4d42ab97455e6e84975427135c529625ac893e0c7"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/initial/linux/configuration.json",
+      "bytes": 440,
+      "sha256": "9055e74897cee94c78a499b8be5563be9b92ed0411debc1a2045cdbd28ba7a04"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/initial/training/build.log",
+      "bytes": 10552,
+      "sha256": "359b654fce00c35ed4326730ece698371ec7ce5d1274a413dd09abbe9426280f"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/initial/training/commands.json",
+      "bytes": 1551,
+      "sha256": "568d5e810419f4d88862b858a4aeacc56ea87f83fa4a81045fd7f57077d1b70f"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/initial/training/compiler-inputs.json",
+      "bytes": 36978,
+      "sha256": "d291891b923bff64d2029a6ba78517c9d91c60655c92faa88fc92bd7bf7c7218"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/initial/training/configure.log",
+      "bytes": 3722,
+      "sha256": "1f5e5dd37e26d99c93f79e4eb62858375d7d20bdc3ef918c61c6eb07e547c403"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/initial/training/output-preflight.json",
+      "bytes": 215,
+      "sha256": "ab1772c0f40f192762a096c5dc278f1310cc683ffeba7f62ad5e5d1383b68e19"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/initial/training/sdk-verification.json",
+      "bytes": 202,
+      "sha256": "b55701dcbf448dd2c272bba3fe738c642e2cb4fb62bc0a25d7295d7dbd3442aa"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/initial/training/tests.log",
+      "bytes": 2144,
+      "sha256": "7a78d229d767def969d1dfcad2ece6eac0994cc256f609dbd0fbcfed32009a4f"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/initial/training/tests.xml",
+      "bytes": 2912,
+      "sha256": "831b896c768652357b02dfd8af68b0d03aed96773e3c653f73fdb7aef57c62fa"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/initial/training/build_manifest.hpp",
+      "bytes": 706,
+      "sha256": "3ed201169d0f509b9f347ae7c99e9164abe5bd0e1bbf8a690e2a0cf68d1c2b20"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/initial/training/configuration.json",
+      "bytes": 439,
+      "sha256": "efefdc00c5c4f105d6eb07ae32b7d4aa64514ca8b22df2b32a188f4283812f82"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/retained-binaries.json",
+      "bytes": 9706,
+      "sha256": "a78432eefe87df923761af8634d6dba2eb422e8bd867e00ed3765595c293ede5"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/build_tiledtraining222.py",
+      "bytes": 4731,
+      "sha256": "b403e95cfb1c14a7482a1e11020842525d1c0e02bc80d752e555995408459f71"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/build_tiledtraining222b.py",
+      "bytes": 4394,
+      "sha256": "32c9f47c72be3f7785dc1917cc5195b3037fa4c71093f739b8626450679619f4"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/preserve_tiledtraining222.py",
+      "bytes": 2462,
+      "sha256": "2c72474e8cf98b4d2a1679194af4d2739155bdbb067016adc960f3717514568b"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-training-local/receipt_tiledtraining222.py",
+      "bytes": 11701,
+      "sha256": "26e0c05fea4917431cba6144afa4f47e2e91922e33f3b9509d0a349b27fca36b"
+    }
+  ],
+  "retained_binaries": "build/tiledtraining222-retained-binaries",
+  "main_changed": false,
+  "milestones": "M0-M7 Partial"
+}

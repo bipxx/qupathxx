@@ -1,0 +1,46 @@
+[
+  {
+    "ppm": "m2-controls-loaded.ppm",
+    "png": "m2-controls-loaded.png",
+    "ppm_sha256": "44b967eeceed57254160e9b21b1bddcd1bd692f981699af7dd6d48b3a3dfc652",
+    "png_sha256": "617aebd4a66ec0ff88e8bdca8ea8b0cb6ada82b1a38e9ca097d087fe435be61b",
+    "pixels_equal": true,
+    "size": [
+      1440,
+      900
+    ]
+  },
+  {
+    "ppm": "m2-project-position.ppm",
+    "png": "m2-project-position.png",
+    "ppm_sha256": "683fd05f5bae2c7c39a02284e6f7a43e61b80f4a832e109284df6cd9aad98ff3",
+    "png_sha256": "3c4562cd7ec12ba3c21bd68555c6cf3e7b8ddbbcfee71f5b835a818e75429717",
+    "pixels_equal": true,
+    "size": [
+      1440,
+      900
+    ]
+  },
+  {
+    "ppm": "m2-save-error-corrected.ppm",
+    "png": "m2-save-error-corrected.png",
+    "ppm_sha256": "1856adc9f23ba8f2f3aef960b999140630b74851af88001123e920f4d9da27fc",
+    "png_sha256": "289c1aecdfd0458cd6032258558e0245a4e20a1d8eab9ffdc39c5511b1d60818",
+    "pixels_equal": true,
+    "size": [
+      1440,
+      900
+    ]
+  },
+  {
+    "ppm": "m2-save-error.ppm",
+    "png": "m2-save-error.png",
+    "ppm_sha256": "90952ed023f70f87cfe3548430be59d4cd12489a9b69a3d4d0a9f541d4586241",
+    "png_sha256": "ecd82b93638c82bd8a7655ae5d12076d0a9d0477a958e93efc10ff9be9f0db8d",
+    "pixels_equal": true,
+    "size": [
+      1440,
+      900
+    ]
+  }
+]

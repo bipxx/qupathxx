@@ -1,0 +1,1314 @@
+{
+  "backtraceGraph": {
+    "commands": [
+      "add_test"
+    ],
+    "files": [
+      "C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt"
+    ],
+    "nodes": [
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 233,
+        "parent": 0
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 237,
+        "parent": 2
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 242,
+        "parent": 4
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 246,
+        "parent": 6
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 249,
+        "parent": 8
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 255,
+        "parent": 10
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 259,
+        "parent": 12
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 267,
+        "parent": 14
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 271,
+        "parent": 16
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 276,
+        "parent": 18
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 280,
+        "parent": 20
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 284,
+        "parent": 22
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 287,
+        "parent": 24
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 292,
+        "parent": 26
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 297,
+        "parent": 28
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 302,
+        "parent": 30
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 307,
+        "parent": 32
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 312,
+        "parent": 34
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 317,
+        "parent": 36
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 323,
+        "parent": 38
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 329,
+        "parent": 40
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 336,
+        "parent": 42
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 343,
+        "parent": 44
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 348,
+        "parent": 46
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 352,
+        "parent": 48
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 357,
+        "parent": 50
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 361,
+        "parent": 52
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 368,
+        "parent": 54
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 373,
+        "parent": 56
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 379,
+        "parent": 58
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 384,
+        "parent": 60
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 390,
+        "parent": 62
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 395,
+        "parent": 64
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 399,
+        "parent": 66
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 404,
+        "parent": 68
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 408,
+        "parent": 70
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 414,
+        "parent": 72
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 418,
+        "parent": 74
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 422,
+        "parent": 76
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 426,
+        "parent": 78
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 431,
+        "parent": 80
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 435,
+        "parent": 82
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 439,
+        "parent": 84
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 443,
+        "parent": 86
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 447,
+        "parent": 88
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 451,
+        "parent": 90
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 455,
+        "parent": 92
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 460,
+        "parent": 94
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 464,
+        "parent": 96
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 468,
+        "parent": 98
+      },
+      {
+        "file": 0
+      },
+      {
+        "command": 0,
+        "file": 0,
+        "line": 473,
+        "parent": 100
+      }
+    ]
+  },
+  "kind": "ctestInfo",
+  "tests": [
+    {
+      "backtrace": 1,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_pixel_workflow_tests.exe"
+      ],
+      "config": "Release",
+      "name": "pixel_workflows",
+      "properties": [
+        {
+          "name": "TIMEOUT",
+          "value": 30.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 3,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_pixel_feature_tests.exe"
+      ],
+      "config": "Release",
+      "name": "pixel_features",
+      "properties": [
+        {
+          "name": "TIMEOUT",
+          "value": 30.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 5,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_classifier_io_tests.exe"
+      ],
+      "config": "Release",
+      "name": "classifier_io",
+      "properties": [
+        {
+          "name": "TIMEOUT",
+          "value": 30.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 7,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_object_classifier_tests.exe"
+      ],
+      "config": "Release",
+      "name": "object_classifier",
+      "properties": [
+        {
+          "name": "TIMEOUT",
+          "value": 60.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 9,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_classifier_tests.exe"
+      ],
+      "config": "Release",
+      "name": "classifier",
+      "properties": [
+        {
+          "name": "TIMEOUT",
+          "value": 60.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 11,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_qptma_project_tests.exe",
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/tests/fixtures/qupath-tma-0.7.0",
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/qptma-project-test-artifacts"
+      ],
+      "config": "Release",
+      "name": "qptma_project",
+      "properties": [
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 13,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_qptma_tests.exe",
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/tests/fixtures/qupath-tma-0.7.0",
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/qptma-test-artifacts"
+      ],
+      "config": "Release",
+      "name": "qptma",
+      "properties": [
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 15,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_resampling_tests.exe"
+      ],
+      "config": "Release",
+      "name": "resampling",
+      "properties": [
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 17,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_thumbnail_tests.exe"
+      ],
+      "config": "Release",
+      "name": "thumbnail",
+      "properties": [
+        {
+          "name": "TIMEOUT",
+          "value": 30.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 19,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_viewer_session_tests.exe"
+      ],
+      "config": "Release",
+      "name": "viewer_session",
+      "properties": [
+        {
+          "name": "TIMEOUT",
+          "value": 60.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 21,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_tma_tests.exe"
+      ],
+      "config": "Release",
+      "name": "tma",
+      "properties": [
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 23,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_tma_dearray_tests.exe",
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/tests/fixtures/tma-dearray-v1",
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/tma-dearray-test-artifacts"
+      ],
+      "config": "Release",
+      "name": "tma_dearray",
+      "properties": [
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 25,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_raw_image_tests.exe"
+      ],
+      "config": "Release",
+      "name": "raw_image",
+      "properties": [
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 27,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_project_batch_tests.exe"
+      ],
+      "config": "Release",
+      "name": "project_batch",
+      "properties": [
+        {
+          "name": "TIMEOUT",
+          "value": 60.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 29,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_stain_estimation_tests.exe"
+      ],
+      "config": "Release",
+      "name": "stain_estimation",
+      "properties": [
+        {
+          "name": "TIMEOUT",
+          "value": 30.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 31,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_source_identity_tests.exe"
+      ],
+      "config": "Release",
+      "name": "source_identity",
+      "properties": [
+        {
+          "name": "TIMEOUT",
+          "value": 30.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 33,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_file_fingerprint_tests.exe"
+      ],
+      "config": "Release",
+      "name": "file_fingerprint",
+      "properties": [
+        {
+          "name": "TIMEOUT",
+          "value": 30.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 35,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_provenance_tests.exe"
+      ],
+      "config": "Release",
+      "name": "provenance",
+      "properties": [
+        {
+          "name": "TIMEOUT",
+          "value": 30.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 37,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_measurement_table_tests.exe"
+      ],
+      "config": "Release",
+      "name": "measurement_tables",
+      "properties": [
+        {
+          "name": "TIMEOUT",
+          "value": 30.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 39,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_cell_table_tests.exe"
+      ],
+      "config": "Release",
+      "name": "cell_tables",
+      "properties": [
+        {
+          "name": "TIMEOUT",
+          "value": 30.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 41,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_cell_record_tests.exe"
+      ],
+      "config": "Release",
+      "name": "cell_records",
+      "properties": [
+        {
+          "name": "TIMEOUT",
+          "value": 30.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 43,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_overlay_tests.exe"
+      ],
+      "config": "Release",
+      "name": "overlay_surface",
+      "properties": [
+        {
+          "name": "TIMEOUT",
+          "value": 30.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 45,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_cell_tests.exe"
+      ],
+      "config": "Release",
+      "name": "cells",
+      "properties": [
+        {
+          "name": "TIMEOUT",
+          "value": 30.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 47,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_cell_calibration_tests.exe"
+      ],
+      "config": "Release",
+      "name": "cell_calibration",
+      "properties": [
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 49,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_masked_gaussian_tests.exe"
+      ],
+      "config": "Release",
+      "name": "masked_gaussian",
+      "properties": [
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 51,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_log_watershed_tests.exe"
+      ],
+      "config": "Release",
+      "name": "log_watershed",
+      "properties": [
+        {
+          "name": "TIMEOUT",
+          "value": 30.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 53,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_cell_expansion_tests.exe"
+      ],
+      "config": "Release",
+      "name": "cell_expansion",
+      "properties": [
+        {
+          "name": "TIMEOUT",
+          "value": 30.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 55,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_log_cell_recipe_tests.exe"
+      ],
+      "config": "Release",
+      "name": "log_cell_recipe",
+      "properties": [
+        {
+          "name": "TIMEOUT",
+          "value": 30.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 57,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_decimal_quantity_tests.exe"
+      ],
+      "config": "Release",
+      "name": "decimal_quantities",
+      "properties": [
+        {
+          "name": "TIMEOUT",
+          "value": 30.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 59,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_object_snapshot_tests.exe"
+      ],
+      "config": "Release",
+      "name": "object_snapshots",
+      "properties": [
+        {
+          "name": "TIMEOUT",
+          "value": 30.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 61,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_tissue_record_tests.exe"
+      ],
+      "config": "Release",
+      "name": "tissue_records",
+      "properties": [
+        {
+          "name": "TIMEOUT",
+          "value": 30.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 63,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_tissue_contour_tests.exe"
+      ],
+      "config": "Release",
+      "name": "tissue_contours",
+      "properties": [
+        {
+          "name": "TIMEOUT",
+          "value": 30.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 65,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_gui_replay_tests.exe"
+      ],
+      "config": "Release",
+      "name": "gui_replay",
+      "properties": [
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 67,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_tissue_tests.exe"
+      ],
+      "config": "Release",
+      "name": "tissue",
+      "properties": [
+        {
+          "name": "TIMEOUT",
+          "value": 15.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 69,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_sha256_tests.exe"
+      ],
+      "config": "Release",
+      "name": "sha256",
+      "properties": [
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 71,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_analysis_tests.exe"
+      ],
+      "config": "Release",
+      "name": "analysis",
+      "properties": [
+        {
+          "name": "TIMEOUT",
+          "value": 15.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 73,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_stains_tests.exe"
+      ],
+      "config": "Release",
+      "name": "stains",
+      "properties": [
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 75,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_core_tests.exe"
+      ],
+      "config": "Release",
+      "name": "core",
+      "properties": [
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 77,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_server_tests.exe"
+      ],
+      "config": "Release",
+      "name": "image_server",
+      "properties": [
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 79,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_scheduler_tests.exe"
+      ],
+      "config": "Release",
+      "name": "tile_scheduler",
+      "properties": [
+        {
+          "name": "TIMEOUT",
+          "value": 30.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 81,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_view_tiles_tests.exe"
+      ],
+      "config": "Release",
+      "name": "view_tiles",
+      "properties": [
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 83,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_document_edits_tests.exe"
+      ],
+      "config": "Release",
+      "name": "document_edits",
+      "properties": [
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 85,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_geometry_tests.exe"
+      ],
+      "config": "Release",
+      "name": "geometry",
+      "properties": [
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 87,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_geometry_edits_tests.exe"
+      ],
+      "config": "Release",
+      "name": "geometry_edits",
+      "properties": [
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 89,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_spatial_tests.exe"
+      ],
+      "config": "Release",
+      "name": "spatial",
+      "properties": [
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 91,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_classes_tests.exe"
+      ],
+      "config": "Release",
+      "name": "classes",
+      "properties": [
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 93,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_selection_tests.exe"
+      ],
+      "config": "Release",
+      "name": "selection",
+      "properties": [
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 95,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_project_tests.exe"
+      ],
+      "config": "Release",
+      "name": "project",
+      "properties": [
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 97,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_interchange_tests.exe"
+      ],
+      "config": "Release",
+      "name": "interchange",
+      "properties": [
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 99,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_recovery_tests.exe"
+      ],
+      "config": "Release",
+      "name": "recovery",
+      "properties": [
+        {
+          "name": "TIMEOUT",
+          "value": 30.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    },
+    {
+      "backtrace": 101,
+      "command": [
+        "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_save_tests.exe"
+      ],
+      "config": "Release",
+      "name": "project_save",
+      "properties": [
+        {
+          "name": "TIMEOUT",
+          "value": 30.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package"
+        }
+      ]
+    }
+  ],
+  "version": {
+    "major": 1,
+    "minor": 0
+  }
+}

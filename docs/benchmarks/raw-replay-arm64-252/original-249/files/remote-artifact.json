@@ -1,0 +1,14 @@
+{
+  "id": 12681332017,
+  "name": "macos-native-arm64",
+  "size_in_bytes": 9779737,
+  "digest": "sha256:0b00dda78dcb791af3c173f834a5c8376478132d8f1312972639058f494677b9",
+  "workflow_run": {
+    "id": 40384720525,
+    "repository_id": 1427753981,
+    "head_repository_id": 1427753981,
+    "head_branch": "feature/raw-replay-macos-diagnostic-240",
+    "head_sha": "4a72fd84b7726927285bf58120d288513c65eb4e"
+  },
+  "expired": false
+}

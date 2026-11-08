@@ -1,0 +1,13 @@
+{
+  "native_source": "2b4786ed0c5c6c5f77f66c7af1ba31afeccddc59",
+  "initial_wheel_sha256": "25eaf42eafed2bd9455006f3a297d03a47b66286aead0923ea0675ca520fa3bd",
+  "final_wheel_sha256": "7faecb3307e2761ad67e67957908903870b376cbd7b8e1e761fce6ca882b2df6",
+  "changed_members": [
+    "qupathxx/_native.pyi",
+    "qupathxx/__init__.pyi",
+    "qupathxx-0.1.0.dist-info/RECORD"
+  ],
+  "unchanged_compiler_inputs": 429,
+  "binary_rebuilt": false,
+  "binary_relabelled": false
+}

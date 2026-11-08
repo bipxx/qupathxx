@@ -1,0 +1,27 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Scripts\\python.exe",
+    "-X",
+    "utf8",
+    "tools/ci/accept_manylinux.py",
+    "--artifacts",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\q285-all",
+    "--run-json",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-qualification-285\\portable-run-terminal.json",
+    "--commit",
+    "1f71eb59e13fba272113c1119ee2b608fa26d01a",
+    "--output",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-qualification-285\\portable-acceptance.json",
+    "--unified-engine",
+    "--ndpi-readers",
+    "--watershed-bodies",
+    "--sampled-cells",
+    "--small-frontier",
+    "--tma-cases",
+    "--tma-file-export",
+    "--tma-cohorts",
+    "--linux-runtime-manifest"
+  ],
+  "cwd": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gui-font-qualification-285-audit",
+  "returncode": 0
+}

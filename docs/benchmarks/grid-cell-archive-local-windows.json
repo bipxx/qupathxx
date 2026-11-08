@@ -1,0 +1,358 @@
+{
+  "schema": "qpx.grid-cell-archive-local/1",
+  "observed_at_utc": "2026-10-25T09:13:30.619871+00:00",
+  "source": "929cbd087a2f521d448992c3e1da56267d8c2d71",
+  "compiled_revision": "a16024ddd20b38bb9ba53d673a840cec5ed89ee6+dirty",
+  "source_tree_sha256": "3de23796c8f4d55478619dc91259110da2415761bac45891320c0931a5d49c23",
+  "compiler_inputs": 294,
+  "compiler": "MSVC 19.44.35225.0",
+  "platform": "Windows AMD64",
+  "configuration": {
+    "python": false,
+    "gui": false,
+    "project": true,
+    "interchange": false,
+    "geos": true,
+    "openslide": false,
+    "tiff": false,
+    "classifier_training": false,
+    "tests": true
+  },
+  "native_suites_passed": 49,
+  "independent_contract_tests_passed": 30,
+  "required_semantic_markers": [
+    "Independent Python struct/hashlib QCL5 bytes decode and canonical re-encode passed",
+    "QCL5 SQLite save, reopen, provenance attachment, replay and second save passed",
+    "QCL5 analytic ellipse, polygon hole and winding-policy geometry persistence passed",
+    "QCL5 canonical encoding, semantic rejection, captured calibration, record authority and replay passed",
+    "Native grid cell request, float64 LoG, metric shape/body, calibrated features and one-read detection passed"
+  ],
+  "native_qcl5_persistence_verified": true,
+  "native_sqlite_reopen_replay_verified": true,
+  "embedded_external_provenance_agreement_verified": true,
+  "geometry_policy_round_trips_verified": [
+    "rectangle",
+    "analytic ellipse",
+    "polygon with hole",
+    "polygon winding"
+  ],
+  "independent_byte_vector": "tests/fixtures/grid-cell-archive-v1/synthetic-single-cell.qcl",
+  "independent_vector_scope": "Synthetic historical numeric snapshot, packed with Python struct/hashlib; placeholder input hash is not sampled pixels or segmentation acceptance.",
+  "integrity_scope": "Checksums and semantic validation are not cryptographic authorship; fresh replay compares actual input pixels.",
+  "installed_python_verified": false,
+  "qca5_classifier_implemented": false,
+  "grid_csv_schema_implemented": false,
+  "scientific_detector_accepted": false,
+  "platform_campaign_accepted": false,
+  "release_ready": false,
+  "scope": "Native QCL5 full-grid/typed-request/resolved/calibration/domain persistence; canonical decoding, semantic rejection, record authority/publication, changed-pixel verification, changed-calibration rejection and real SQLite save/reopen/replay.",
+  "remaining": [
+    "QCA5 classifier feature-source provenance for grid cells",
+    "CSV schemas preserving per-axis grid and units",
+    "Python/CLI/ImGui/batch exposure and installed rebuild",
+    "exact-source platform cohorts",
+    "all remaining M0-M7 scientific/hardware/rights/licensing/release criteria"
+  ],
+  "source_proof_note": "Compiled before source commit; configured dirty revision retained verbatim. All compiler inputs match the committed source modulo recorded Git line endings and exactly match the configured raw-byte fingerprint. Final full build relinked all native targets after the last test change; no binary rebuilt solely to change a Git label.",
+  "native_artifacts": {
+    "geos.dll": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\geos.dll",
+      "bytes": 2912768,
+      "sha256": "9bff21e1082b57e9914909a156ad121d508d2203a8c6ab4d8d41eb74cc19fa0e"
+    },
+    "geos_c.dll": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\geos_c.dll",
+      "bytes": 590336,
+      "sha256": "64c8a686deccd9e3d5ae66f96ba1276c23faf6ab00564feee421ae91f552b7d6"
+    },
+    "qupathxx_analysis_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\qupathxx_analysis_tests.exe",
+      "bytes": 1426432,
+      "sha256": "59a29af9cc6734764d264d6d056c39e2a42d868e4c09a5436b96ac82092372f2"
+    },
+    "qupathxx_cell_calibration_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\qupathxx_cell_calibration_tests.exe",
+      "bytes": 1656832,
+      "sha256": "f691f13b709e64de84f8f1d258dfa0ec988eb0125001d9ac4930aea8366a0193"
+    },
+    "qupathxx_cell_expansion_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\qupathxx_cell_expansion_tests.exe",
+      "bytes": 60416,
+      "sha256": "878b4bb67414f99e59d13842f0e9fee2c4c343c1b35fdc04ec0c3caf33910014"
+    },
+    "qupathxx_cell_record_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\qupathxx_cell_record_tests.exe",
+      "bytes": 2232832,
+      "sha256": "56aa1d846e2c7ec45089c0c8a40789afa6165e19d6f5e5ae27f4271d26c6c2b6"
+    },
+    "qupathxx_cell_table_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\qupathxx_cell_table_tests.exe",
+      "bytes": 1780224,
+      "sha256": "9848c43e2aec83485f5527ea42ee6a98eaf06998fa3ad180918ecd25e4537557"
+    },
+    "qupathxx_cell_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\qupathxx_cell_tests.exe",
+      "bytes": 1856000,
+      "sha256": "bdf1d837ad9ddbcb7664b8f25d6b87f3f7ab517a2175ad0b904be82c820660e4"
+    },
+    "qupathxx_classes_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\qupathxx_classes_tests.exe",
+      "bytes": 314368,
+      "sha256": "8728fa0bd53b9e17e8fb3b342c894792fbb79f9fd08e86d1bdf7c00946c6c719"
+    },
+    "qupathxx_classifier_io_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\qupathxx_classifier_io_tests.exe",
+      "bytes": 249344,
+      "sha256": "638e67834d9a7266fa8cd729d928b8f90279dd5fcc47af11c440164747862c5c"
+    },
+    "qupathxx_classifier_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\qupathxx_classifier_tests.exe",
+      "bytes": 89088,
+      "sha256": "595b95fd6ef37f46b994c30754fada5b0a8cc342617dee233490a05e5fec32cd"
+    },
+    "qupathxx_core_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\qupathxx_core_tests.exe",
+      "bytes": 320512,
+      "sha256": "73963f7c50d241a2918a91296af6470693b97a17f7b63d134ac40ee58cf7d3c5"
+    },
+    "qupathxx_decimal_quantity_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\qupathxx_decimal_quantity_tests.exe",
+      "bytes": 35840,
+      "sha256": "7a74ec63b8d03591f8226739f261f471cd29f2e19d5975a15ab09a67105ad360"
+    },
+    "qupathxx_document_edits_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\qupathxx_document_edits_tests.exe",
+      "bytes": 320000,
+      "sha256": "3c819bb3a60d7faad4a000920323f03d7ec71a9f0305b9ff7d6c8c8804b5226a"
+    },
+    "qupathxx_file_fingerprint_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\qupathxx_file_fingerprint_tests.exe",
+      "bytes": 296448,
+      "sha256": "112bad6deed91348f7e5392d7cc41dfa11473eaf3dc5142db70710f75632c4fd"
+    },
+    "qupathxx_geometry_edits_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\qupathxx_geometry_edits_tests.exe",
+      "bytes": 325120,
+      "sha256": "b4d654bb2339172810b8e44fd72b755c287734350ccab829699cc9af2905481e"
+    },
+    "qupathxx_geometry_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\qupathxx_geometry_tests.exe",
+      "bytes": 320000,
+      "sha256": "f55315d78efa29f3cd11a66cf47e518a77f5077c3f710b5db523da18e9f31dbb"
+    },
+    "qupathxx_gui_replay_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\qupathxx_gui_replay_tests.exe",
+      "bytes": 45056,
+      "sha256": "2edae8e4955c6ef55016b237be86e13fd71c3f061a559e75c86529bb7b9a9582"
+    },
+    "qupathxx_interchange_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\qupathxx_interchange_tests.exe",
+      "bytes": 312320,
+      "sha256": "aa8514cd6a1b7a2a6295493456bc6535290662ba3c0ae870f931d8ecbb2f78fa"
+    },
+    "qupathxx_log_cell_recipe_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\qupathxx_log_cell_recipe_tests.exe",
+      "bytes": 1759744,
+      "sha256": "cc1e8986f5c7ccdf6748324eb5aa1aee7e7d1232d421628f5f7860f9ddc605fd"
+    },
+    "qupathxx_log_watershed_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\qupathxx_log_watershed_tests.exe",
+      "bytes": 148992,
+      "sha256": "ae0102615fbe9c0ce1f887147c7a7e423a26da1bca9a0bf90349b71fa8247102"
+    },
+    "qupathxx_masked_gaussian_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\qupathxx_masked_gaussian_tests.exe",
+      "bytes": 30720,
+      "sha256": "198a31464b191bf693bc70052a12ebdb016f340bc398d089728f88ca0121aba2"
+    },
+    "qupathxx_measurement_table_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\qupathxx_measurement_table_tests.exe",
+      "bytes": 1553408,
+      "sha256": "6c40ce7680dde7fe7d8cf2432389a22a07e1c87958d44fda09671d9f39f5bb60"
+    },
+    "qupathxx_object_classifier_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\qupathxx_object_classifier_tests.exe",
+      "bytes": 1841152,
+      "sha256": "2b1a0f1e92984da080eec9c8de8026771e1461beef47cdb544cb258c608c8e3f"
+    },
+    "qupathxx_object_snapshot_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\qupathxx_object_snapshot_tests.exe",
+      "bytes": 2145792,
+      "sha256": "65537863ab89f4749ca6dd7584e07a1df468d25aced248202c1968c9aa7bd803"
+    },
+    "qupathxx_pixel_feature_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\qupathxx_pixel_feature_tests.exe",
+      "bytes": 1340928,
+      "sha256": "3052623f960fceb8f832ff51032df4f1a716e4ed4495e070898b7afa00acd889"
+    },
+    "qupathxx_pixel_workflow_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\qupathxx_pixel_workflow_tests.exe",
+      "bytes": 1899520,
+      "sha256": "9ca232171cf73c070be34efd1a086513bad7fc22a082fe6c2fefd41536d37051"
+    },
+    "qupathxx_project_batch_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\qupathxx_project_batch_tests.exe",
+      "bytes": 2656768,
+      "sha256": "acbb4b9762d7adeb8b48b039a96fcf3dd22fb51502ac495679486ab7bf6a60e2"
+    },
+    "qupathxx_project_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\qupathxx_project_tests.exe",
+      "bytes": 2223104,
+      "sha256": "98b334915b8f18d68f8f6f2d4a2804a91dd08276e85ebd4bf834909a034ac2d7"
+    },
+    "qupathxx_provenance_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\qupathxx_provenance_tests.exe",
+      "bytes": 1613312,
+      "sha256": "7f6c4409f10d52e20ef1772e9eba7bf95c70798d81a6ca8b0896d404cd8bd823"
+    },
+    "qupathxx_qptma_project_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\qupathxx_qptma_project_tests.exe",
+      "bytes": 2030592,
+      "sha256": "d3e4bf6208df5947ff0c97f2f9fec2b8e99ebb5dd3988a7f7934253fe9e238ef"
+    },
+    "qupathxx_qptma_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\qupathxx_qptma_tests.exe",
+      "bytes": 396800,
+      "sha256": "7cec964423aec6585f1edd514b0af92919d13e31219f01f16663fb6d769c08aa"
+    },
+    "qupathxx_raw_image_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\qupathxx_raw_image_tests.exe",
+      "bytes": 2658304,
+      "sha256": "a529e48d8dd7dedecbcc7a3277435d253f6617f706b5d707ebb72864b3422b33"
+    },
+    "qupathxx_recovery_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\qupathxx_recovery_tests.exe",
+      "bytes": 2125312,
+      "sha256": "ff16117417d25acd3ca4b6705a4930d4318eccf13b7b2bce3fb3dc7cc2621266"
+    },
+    "qupathxx_resampling_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\qupathxx_resampling_tests.exe",
+      "bytes": 257536,
+      "sha256": "7b323fb580c6ebd0092cdf5fa2d761089a18b3534ee69ad41f285abc1c4a44e6"
+    },
+    "qupathxx_save_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\qupathxx_save_tests.exe",
+      "bytes": 1986560,
+      "sha256": "16423875cbbb4c863b54071536e532135fa9d5913f2e5f03dad5ac9beb5a00d8"
+    },
+    "qupathxx_scheduler_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\qupathxx_scheduler_tests.exe",
+      "bytes": 216064,
+      "sha256": "1e266093a04ffdcef2651f6cbecdfe3d9dba535a320621b3a37319a1686939a4"
+    },
+    "qupathxx_selection_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\qupathxx_selection_tests.exe",
+      "bytes": 316928,
+      "sha256": "d5bd59fbcb827142ac3c1ca3d3ddae727022e064ea9996e1570438d3cfd2a967"
+    },
+    "qupathxx_server_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\qupathxx_server_tests.exe",
+      "bytes": 290816,
+      "sha256": "5ca5b9be794e2d034515cb504475151aabd95f8bfc2092324a85cea58cf0e465"
+    },
+    "qupathxx_sha256_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\qupathxx_sha256_tests.exe",
+      "bytes": 25600,
+      "sha256": "bb6dbcf685bfb877a16d34ac2863e3e6684e9974eaa78fbc81ec3120e408b3e3"
+    },
+    "qupathxx_source_identity_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\qupathxx_source_identity_tests.exe",
+      "bytes": 1474048,
+      "sha256": "2eb28276500d356aa1154177dbc0d6010a3b96bd57bd592cff988b39e6e05fdf"
+    },
+    "qupathxx_spatial_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\qupathxx_spatial_tests.exe",
+      "bytes": 310784,
+      "sha256": "ebd3fa61da316cff518051721e234cae4a3469c32f94e16c202ef925d6fb28b7"
+    },
+    "qupathxx_stain_estimation_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\qupathxx_stain_estimation_tests.exe",
+      "bytes": 1478144,
+      "sha256": "0509d7e4f1142105b3c04039392e0f29dc2f51a0b5d0728a05dbcb9374d831d4"
+    },
+    "qupathxx_stains_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\qupathxx_stains_tests.exe",
+      "bytes": 248320,
+      "sha256": "d9cc3d3353422d9a2dda052868a8ea2a96389a9f63d142302b2c04d74c68364a"
+    },
+    "qupathxx_thumbnail_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\qupathxx_thumbnail_tests.exe",
+      "bytes": 218112,
+      "sha256": "5be746feca6defd43c71443c4a4623e44e652b15246aaf25dd26e861f80a7d5e"
+    },
+    "qupathxx_tissue_contour_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\qupathxx_tissue_contour_tests.exe",
+      "bytes": 1536000,
+      "sha256": "eeae87a945e25c440c623620b9c2051172cff0177ecb1aa19f79e072f19e514f"
+    },
+    "qupathxx_tissue_record_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\qupathxx_tissue_record_tests.exe",
+      "bytes": 2043392,
+      "sha256": "5d1859a6101d7b1c1be316f03b786d5ab81bc6ba77473aaa1a9b8e347415a6f7"
+    },
+    "qupathxx_tissue_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\qupathxx_tissue_tests.exe",
+      "bytes": 1414144,
+      "sha256": "2246e913bfa9d24ba221c449a39fc7227e846c7fc021e1089153404276d16b05"
+    },
+    "qupathxx_tma_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\qupathxx_tma_tests.exe",
+      "bytes": 2685952,
+      "sha256": "bbd6beb915a9a91a4bc25936642355b679b4c9e37974f5e39ccb283932c186c7"
+    },
+    "qupathxx_view_tiles_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\qupathxx_view_tiles_tests.exe",
+      "bytes": 157696,
+      "sha256": "1ddb5128da44d6a4e8715413677bc88595359ad8ccfbbe2af85a4438de301998"
+    },
+    "qupathxx_viewer_session_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridarchive165-native\\Release\\qupathxx_viewer_session_tests.exe",
+      "bytes": 2479104,
+      "sha256": "7bd49ad9df5ea7c52b7473cbe7826ea9383e7cabcc699b7024dc6a8ebe7a7182"
+    }
+  },
+  "sqlite_dependency": {
+    "sqlite3.c": {
+      "bytes": 9582521,
+      "sha256": "0c657666d819f261cc4007526ad57e1669de9949df7a8ea847aa284a2bf0ee52"
+    },
+    "sqlite3.h": {
+      "bytes": 695729,
+      "sha256": "d6c84557261893439b341d2e6c35187ae3ea24fbfd843ad94616f72d89242b8c"
+    }
+  },
+  "evidence": {
+    "build_manifest.hpp": {
+      "bytes": 712,
+      "sha256": "201d24b9875d3992d5fecc513353f379467da9f0f9d18bf2747e5b85c1b627bf"
+    },
+    "CMakeCache.txt": {
+      "bytes": 17740,
+      "sha256": "35b5320f0496795c17195e834e9d184e45fe26724ade51cd633b534610975a65"
+    },
+    "compiler-input-proof.json": {
+      "bytes": 81497,
+      "sha256": "76085a33afec1caf937339e851c729a769933e7171130366b1b46dc7c5a50daa"
+    },
+    "gridarchive165-contract-tests.xml": {
+      "bytes": 4579,
+      "sha256": "08f6c463a6d4c341c69bcd7c58c682107a6c4cb1d9eff8dab16e2636f94cadd4"
+    },
+    "gridarchive165-exact-build.log": {
+      "bytes": 7543,
+      "sha256": "288e3b63eb9965cbac0032816fb6b9072052d3f5794dc72ae57bc78d30e38782"
+    },
+    "gridarchive165-exact-tests.log": {
+      "bytes": 5162,
+      "sha256": "fae55568d3dc778e5c3b22189c5ae61c9a2ee984813b16ff76802ae7e5f81804"
+    },
+    "gridarchive165-exact-tests.xml": {
+      "bytes": 14134,
+      "sha256": "a6d5b3fbde5213d94cf4ca54777a9eb512860e6630291d13493466f1e772e2f4"
+    },
+    "record_evidence.py": {
+      "bytes": 6750,
+      "sha256": "0833da0dffe2226e651e2908bc06f091e0d2d10f103c3c6d846819694dfc615a"
+    }
+  }
+}

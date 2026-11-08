@@ -1,0 +1,17 @@
+[
+  {
+    "path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/reader-locale-297/linux/linux-products/qupathxx_raw_image_tests",
+    "bytes": 70346504,
+    "sha256": "07a70982c4ffa9a306c7c43c26031d2542302b373e24ec18b237daf26873c300"
+  },
+  {
+    "path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/reader-locale-297/linux/linux-products/qupathxx_region",
+    "bytes": 6233528,
+    "sha256": "3d3a527065e71dee5493138b2c0be8475bc62381567be350c479b2ae98055064"
+  },
+  {
+    "path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/reader-locale-297/linux/linux-products/libqupathxx_core.a",
+    "bytes": 150091454,
+    "sha256": "19e5cb816176d8aee2c5558034c6cd833bd1ea0ded9bd45b19f8edc78e969801"
+  }
+]

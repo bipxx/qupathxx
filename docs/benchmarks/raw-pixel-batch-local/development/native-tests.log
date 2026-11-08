@@ -1,0 +1,19 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/rawtraining218-windows
+    Start  1: pixel_workflows
+1/4 Test  #1: pixel_workflows ..................   Passed    2.15 sec
+    Start  2: pixel_features
+2/4 Test  #2: pixel_features ...................   Passed    0.15 sec
+    Start  5: classifier
+3/4 Test  #5: classifier .......................   Passed    0.06 sec
+    Start 14: project_batch
+4/4 Test #14: project_batch ....................***Failed    0.19 sec
+document already belongs to this project
+
+
+75% tests passed, 1 tests failed out of 4
+
+Total Test time (real) =   2.76 sec
+
+The following tests FAILED:
+	 14 - project_batch (Failed)
+Errors while running CTest

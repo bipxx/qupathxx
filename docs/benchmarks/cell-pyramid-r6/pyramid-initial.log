@@ -1,0 +1,39 @@
+F
+================================== FAILURES ===================================
+_ test_lossless_pyramid_nominal_cells_match_dense_and_replay[context0-RgbNominalSampling.INTEGER_ORIGIN-contig] _
+
+tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4921/test_lossless_pyramid_nominal_0')
+layout = 'contig', coordinates = RgbNominalSampling.INTEGER_ORIGIN
+context = (0, 0)
+
+    @pytest.mark.parametrize("layout", ["contig", "separate"])
+    @pytest.mark.parametrize("coordinates", [q.RgbNominalSampling.INTEGER_ORIGIN, q.RgbNominalSampling.AFFINE_INVERSE])
+    @pytest.mark.parametrize("context", [(0, 0), (3, 4)])
+    def test_lossless_pyramid_nominal_cells_match_dense_and_replay(tmp_path, layout, coordinates, context):
+        dense, linked, transform, parameters = scene(tmp_path, layout)
+        request = q.RgbNominalRequest(0, 0, 256, 192, 1.5, coordinates)
+        np.testing.assert_array_equal(q.read_rgb_nominal_region(linked.server, request).numpy(),
+                                      q.read_rgb_nominal_region(dense.server, request).numpy())
+        descriptor = q.NominalCellSampling(request, *context)
+        expected = q.detect_cells(q.CellRequest(dense, 1, transform, descriptor, parameters))
+        captured = q.CellRequest(linked, 1, transform, descriptor, parameters)
+        actual = q.detect_cells(captured)
+        compare(actual, expected)
+        assert actual.nuclei.input_sha256 == q.input_sha256(captured)
+        assert actual.nuclei.input_format.endswith("/2")
+        record = linked.keep_cells(captured, actual)
+        project = q.Project()
+        image = project.add_document(linked)
+        assert project.images[0].reader == "tiff" and not project.images[0].embedded
+        saved = tmp_path / "linked.qpxproj"
+        project.save(str(saved))
+        reopened = q.Project.open(str(saved)).document(image)
+>       assert reopened.server.reader == "tiff"
+               ^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'qupathxx._native.ImageServer' object has no attribute 'reader'
+
+tests\test_nominal_cell_tiff_pyramid.py:82: AttributeError
+=========================== short test summary info ===========================
+FAILED tests/test_nominal_cell_tiff_pyramid.py::test_lossless_pyramid_nominal_cells_match_dense_and_replay[context0-RgbNominalSampling.INTEGER_ORIGIN-contig]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed in 0.46s

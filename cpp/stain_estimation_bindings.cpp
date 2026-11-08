@@ -1,4 +1,6 @@
+#include "job_binding_utils.hpp"
 #include "qupathxx/stain_estimation.hpp"
+#include "qupathxx/stain_model_io.hpp"
 #include <nanobind/nanobind.h>
 #include <nanobind/stl/array.h>
 #include <nanobind/stl/optional.h>
@@ -22,12 +24,18 @@ void bind_stain_estimation(nb::module_& m) {
         .def_prop_ro("transform",&StainEstimateResult::transform);
     m.def("estimate_stains",[](const StainEstimateRequest& r){return estimate_stains(r);},"request"_a,nb::call_guard<nb::gil_scoped_release>());
     m.def("stain_model_sha256",&stain_model_sha256,"transform"_a);
+    m.def("stain_model_json",&stain_model_json,"transform"_a,nb::call_guard<nb::gil_scoped_release>());
+    m.def("stain_model_from_json",&stain_model_from_json,"text"_a,nb::call_guard<nb::gil_scoped_release>());
+    m.def("save_stain_model",&save_stain_model,"transform"_a,"path"_a,nb::call_guard<nb::gil_scoped_release>());
+    m.def("load_stain_model",&load_stain_model,"path"_a,nb::call_guard<nb::gil_scoped_release>());
     m.def("stain_estimate_json",&stain_estimate_json,"result"_a,nb::call_guard<nb::gil_scoped_release>());
     m.def("save_stain_estimate",&save_stain_estimate,"result"_a,"path"_a,nb::call_guard<nb::gil_scoped_release>());
     nb::borrow<nb::class_<StainTransform>>(m.attr("StainTransform")).def_static("from_normalized",&StainTransform::from_normalized,"stains"_a,"white"_a=ColorVector{255,255,255});
-    nb::class_<StainEstimateJob>(m,"StainEstimateJob").def(nb::init<>()).def("request",&StainEstimateJob::request).def("poll",&StainEstimateJob::poll,"document"_a,"selected_id"_a)
-        .def("wait",&StainEstimateJob::wait,"document"_a,"selected_id"_a,nb::call_guard<nb::gil_scoped_release>()).def("cancel",&StainEstimateJob::cancel).def_prop_ro("busy",&StainEstimateJob::busy).def_prop_ro("result",&StainEstimateJob::result);
-    nb::borrow<nb::class_<GuiOptions>>(m.attr("GuiOptions")).def_rw("stain_estimate_parameters",&GuiOptions::stain_estimate_parameters);
+    using PythonStainEstimateJob=qpx::bindings::OwnerJobHolder<StainEstimateJob>;
+    nb::class_<PythonStainEstimateJob>(m,"StainEstimateJob").def(nb::init<>()).def("request",qpx::bindings::owner_job_method<&StainEstimateJob::request>()).def("poll",qpx::bindings::owner_job_method<&StainEstimateJob::poll>(),"document"_a,"selected_id"_a)
+        .def("wait",[](PythonStainEstimateJob& job,const Document& doc,std::uint64_t selected){return qpx::bindings::wait(job,doc,selected);},"document"_a,"selected_id"_a).def("cancel",qpx::bindings::owner_job_method<&StainEstimateJob::cancel,false>()).def_prop_ro("busy",qpx::bindings::owner_job_method<&StainEstimateJob::busy>()).def_prop_ro("result",qpx::bindings::owner_job_method<&StainEstimateJob::result>());
+    nb::borrow<nb::class_<GuiOptions>>(m.attr("GuiOptions")).def_rw("stain_model_path",&GuiOptions::stain_model_path).def_rw("stain_estimate_parameters",&GuiOptions::stain_estimate_parameters);
     nb::borrow<nb::class_<GuiReport>>(m.attr("GuiReport")).def_ro("stain_estimate_state",&GuiReport::stain_estimate_state).def_ro("stain_estimate_error",&GuiReport::stain_estimate_error)
+        .def_ro("stain_model_state",&GuiReport::stain_model_state).def_ro("stain_model_error",&GuiReport::stain_model_error).def_ro("stain_model_sha256",&GuiReport::stain_model_sha256)
         .def_ro("stain_estimate_result",&GuiReport::stain_estimate_result).def_ro("stain_estimate_applied",&GuiReport::stain_estimate_applied);
 }

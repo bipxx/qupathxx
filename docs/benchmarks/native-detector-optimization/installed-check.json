@@ -1,0 +1,16 @@
+{
+  "source_tree": "a3cbffa4ae17136523f40464a09acfc5504a8132231694cfcd4d82efa8b3f6e7",
+  "module": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\consolidation\\development\\qupathxx\\__init__.py",
+  "cells": 2237,
+  "masks": {
+    "nucleus": "796d1dea8c9ed576e9967ce9927c52b0d09d3740715d0373fe5ad9cfc874afe1",
+    "body": "779ba6129d532d38b21de0b4125d412a43cf02727bde07abd3275f24ee2f3484"
+  },
+  "geometry": {
+    "nucleus": "7ef095af0aea7743b0c329da62d1f8580464b8f191520ec7687dca293e8fcd8a",
+    "body": "d88ad8709c21b0faa0b3c8d0b6e949446e3f26a8d50f3deb69fe0c2c0635750e"
+  },
+  "archive_replay": true,
+  "binding_objects_unchanged": 38,
+  "diagnostic_logging": false
+}

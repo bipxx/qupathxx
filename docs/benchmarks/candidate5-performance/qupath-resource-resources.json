@@ -1,0 +1,10 @@
+{
+  "engine_pid": 185656,
+  "launcher_pid": 190424,
+  "process_wall_ms": 7027.338200015947,
+  "peak_working_set_bytes": 1322782720,
+  "peak_pagefile_bytes": 7250030592,
+  "memory_samples": 165,
+  "exit_code": 0,
+  "memory_scope": "Actual engine process lifetime, including startup/warmup/oracles; OS peak counter sampled25ms"
+}

@@ -1,0 +1,51 @@
+{
+  "upstream": {
+    "tag": "v0.7.0",
+    "revision": "04ccfa4fb7d43e9b566393e08e83690b72248d44",
+    "version": "0.7.0",
+    "bundle_url": "https://github.com/qupath/qupath/releases/download/v0.7.0/QuPath-v0.7.0-Windows.zip",
+    "bundle_filename": "QuPath-v0.7.0-Windows.zip",
+    "bundle_bytes": 282594398,
+    "bundle_sha256": "5839743281d11eca1ac55c87ddcf92c89a30cba7ba2060f162036b0514b1e30c",
+    "runtime_tree_sha256": "117c0cb3074c7e3d2f4814d731bf0703d38373051d5580462a90d94036314788",
+    "runtime_files": 496,
+    "executable": "QuPath-0.7.0 (console).exe",
+    "license": "GPL-3.0-or-later",
+    "license_source": "https://github.com/qupath/qupath/blob/04ccfa4fb7d43e9b566393e08e83690b72248d44/LICENSE"
+  },
+  "synthetic": true,
+  "patient_data": false,
+  "files": {
+    "project/data/1/data.qpdata": "712c1612fa265ca1d64c2741334f073f263f81b7abf358206bb378a327e94261",
+    "project/data/1/server.json": "22abb9ce75a5d790dc89c754d5a9749de13121490bda764beb4a84ee82aa3c52",
+    "project/data/1/summary.json": "061d1f9234fb4103661c7c721bd50ec45586190c43cc8d69b1cf1af0a5876b7a",
+    "project/data/2/data.qpdata": "3022d7aeb7efc391625e5f64364380997517e3046238978d1eea8a321b996a65",
+    "project/data/2/server.json": "22abb9ce75a5d790dc89c754d5a9749de13121490bda764beb4a84ee82aa3c52",
+    "project/data/2/summary.json": "d61841dd24bb1df4854f56a11da9946f78b45cf52842c79d9c3d38aaecb581a3",
+    "project/data/3/data.qpdata": "cb1bcbc95ac4e3e49cd62a7c4c5f8bbeeaa2e2a72e7da3c7831a9a5d87dca1db",
+    "project/data/3/server.json": "22abb9ce75a5d790dc89c754d5a9749de13121490bda764beb4a84ee82aa3c52",
+    "project/data/3/summary.json": "8cf4c510520f815b462ad85ca5439de86b5a04be72bbb92ac6fe739f8cab98a8",
+    "project/data/4/data.qpdata": "d11b062169e4401d14bff76f2e625aa09e1237b6d482a1bad95b678b6788eb58",
+    "project/data/4/server.json": "22abb9ce75a5d790dc89c754d5a9749de13121490bda764beb4a84ee82aa3c52",
+    "project/data/4/summary.json": "a695e989c0668f228ed9fd59de5c03e8a682ace3a57327cc2331376af72b08bf",
+    "project/data/5/data.qpdata": "b2195dbd51f6cc416206c9df7ffccf91dcec7943522b64f8837954bb373df645",
+    "project/data/5/server.json": "22abb9ce75a5d790dc89c754d5a9749de13121490bda764beb4a84ee82aa3c52",
+    "project/data/5/summary.json": "7cdcf3308d638cd73a9ccbfd6887ac837b71687130a7b0f0ea89169994a18be9",
+    "project/data/6/data.qpdata": "91249ffd458c759f020cc09f56551753d5fe5bb37caa49991ebe03bad1f0de0b",
+    "project/data/6/server.json": "22abb9ce75a5d790dc89c754d5a9749de13121490bda764beb4a84ee82aa3c52",
+    "project/data/6/summary.json": "041ecab2d9f8fa9de2618e83892d7ba4dfdeb55823f5588788bf90f25ed0631a",
+    "project/data/7/data.qpdata": "7dcc3a7d000a8cda8f0cce901435defd3dd04c2bb9249f433c88cc084b293663",
+    "project/data/7/server.json": "22abb9ce75a5d790dc89c754d5a9749de13121490bda764beb4a84ee82aa3c52",
+    "project/data/7/summary.json": "0ba942b3bd898ccc3cd124247cff2ffa9b0c007dc1b82af845fde120903bff06",
+    "project/data/8/data.qpdata": "779f5dd9144849950e08839d62d5bf4887d1b4b8de47e84182f3df81cc99e053",
+    "project/data/8/server.json": "22abb9ce75a5d790dc89c754d5a9749de13121490bda764beb4a84ee82aa3c52",
+    "project/data/8/summary.json": "afae15380d618d34e2cdb1ab4971c83fdb36ab3f960d6150c709e8ef2d2ca6e9",
+    "project/data/metadata.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "project/project.qpproj": "d65457f2e7a1e6dfbd1ea90b5d538b8419caf56505dc99dea8d4a623f16abfca",
+    "reference.json": "e43a71ecf685b5d4cf5c347f4e5526f3819639a6a348b23382f27889ad16cbc6",
+    "source.ome.tif": "d314094e3b2f29ca7698a8a4d58982bda0e808e3233db2ca4c7c42a2b3fb17cc"
+  },
+  "probes": {
+    "tools/upstream/qupath_image_settings_reference.groovy": "2d59a7e2a5385a7f5efeed487a099eb7796ecccf3bcd273f6efdb1908bc5753a"
+  }
+}

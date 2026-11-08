@@ -1,0 +1,371 @@
+{
+  "schema": "qpx.standalone-font-archive-repair/1",
+  "state": "resource-only-repack-locally-verified",
+  "archiver_source": "01c3b9aadd36ee4e06ba759929c19a9e2073507c",
+  "product_source": "1f71eb59e13fba272113c1119ee2b608fa26d01a",
+  "native_bytes_unchanged": true,
+  "product_rebuilt": false,
+  "binary_relabelled": false,
+  "original_standalone_missing_fonts_reproduced": true,
+  "fixed_layout_reload_and_slide_smokes": 3,
+  "unit_red": {
+    "passed": 1,
+    "failed": 1
+  },
+  "unit_green": {
+    "passed": 2,
+    "failed": 0
+  },
+  "audit_controls": 1059,
+  "observer_source_paths": 550,
+  "clean_path": true,
+  "clean_machine": false,
+  "original_windows_gui_counts": {
+    "native-tests": {
+      "passed": 55,
+      "skipped": 0,
+      "expected_failures": 0
+    },
+    "python-tests": {
+      "passed": 4866,
+      "skipped": 14,
+      "expected_failures": 3
+    }
+  },
+  "original_engine": "terminal-failure",
+  "original_engine_full_auditor_returncode": 1,
+  "original_portable_full_auditor_returncode": 0,
+  "macos_last_observed": "queued",
+  "authenticated_original_archives": [
+    {
+      "name": "Windows-gui-py3.12",
+      "artifact_id": 12844140185,
+      "run_id": 40743832312,
+      "bytes": 43222408,
+      "digest": "sha256:ebf8ee63bf0176d9567cc8bd62120efc294686a087dc0d191cc44fa3dcd6ecd7"
+    },
+    {
+      "name": "Windows-headless-py3.11",
+      "artifact_id": 12842820319,
+      "run_id": 40743832312,
+      "bytes": 11974398,
+      "digest": "sha256:62c61734f4de562391b7559ac1d3a5701df06f9f7bf79b59d8e926f6dc14d63d"
+    },
+    {
+      "name": "Linux-headless-py3.12",
+      "artifact_id": 12841461609,
+      "run_id": 40743832312,
+      "bytes": 14958665,
+      "digest": "sha256:4c9eb187ddc09aacb7a63def044ddd1642f4c77520b6ffe2ff00e14738c3d172"
+    },
+    {
+      "name": "Linux-sanitize-py3.12",
+      "artifact_id": 12840214855,
+      "run_id": 40743832312,
+      "bytes": 61284,
+      "digest": "sha256:dea89c76aac661a7fa005c72017d70a60e68874da33582701b2383b6ca92e04a"
+    },
+    {
+      "name": "Linux-minimal-py3.12",
+      "artifact_id": 12839904388,
+      "run_id": 40743832312,
+      "bytes": 53627,
+      "digest": "sha256:96747353c6648881a42b797b48862b095581eb5088a2ec8542252adc975e8814"
+    },
+    {
+      "name": "manylinux-consumer-3.11",
+      "artifact_id": 12843625174,
+      "run_id": 40743859500,
+      "bytes": 86882,
+      "digest": "sha256:7c45911b273d5f1895434ce63033e1c9b89b366130ee21e1e2f861cfc131744c"
+    },
+    {
+      "name": "manylinux-consumer-3.12",
+      "artifact_id": 12843062135,
+      "run_id": 40743859500,
+      "bytes": 87601,
+      "digest": "sha256:d2f4c29a94f1467caf076413abf068c89f49a6dff1d5bc1ea91fcc4cd55e4a52"
+    },
+    {
+      "name": "manylinux-3.11",
+      "artifact_id": 12842526858,
+      "run_id": 40743859500,
+      "bytes": 15344544,
+      "digest": "sha256:e88b6c1734a1e01b97436c370e5aba64cd7fca1af6045f85c6d883f1d77732bc"
+    },
+    {
+      "name": "manylinux-3.12",
+      "artifact_id": 12842477492,
+      "run_id": 40743859500,
+      "bytes": 15341416,
+      "digest": "sha256:99dcfe71bc829aa1125c5dbd3311f353913fe20393bc6b13393f2856bf553192"
+    }
+  ],
+  "combined_candidate285_accepted": false,
+  "hosted_runs_repeated": false,
+  "own_source_platform_qualified": false,
+  "general_speed_claim": false,
+  "release_ready": false,
+  "files": [
+    {
+      "path": "ci-wheel-runtime.log",
+      "bytes": 286,
+      "sha256": "7be2893c5b249534b63652d61375b60f0009897e57b4e16b8c5d5c10e8bacdff"
+    },
+    {
+      "path": "commands.json",
+      "bytes": 1491,
+      "sha256": "7c3fd3877fcdc2b895e5af3caa59201f004e764717a0710b5d473250b234820f"
+    },
+    {
+      "path": "fixed-layout-reload.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "fixed-layout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "fixed-slide.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "new-archiver.log",
+      "bytes": 115,
+      "sha256": "56c18f87b96b631f7bc31aa817df9bfaa3dc4622bb72a5996b6a0180ab62b500"
+    },
+    {
+      "path": "new-archiver.xml",
+      "bytes": 542,
+      "sha256": "3734ffe877c4853f7fd67627aff9afb6b1f9b36f7cf6dae495a25efd1ddf1abf"
+    },
+    {
+      "path": "observer-source-proof.json",
+      "bytes": 127033,
+      "sha256": "fc867d3588e2976a12e38489983cd6b346d7159bfd0220207b5f732eb136f21e"
+    },
+    {
+      "path": "old-archiver.log",
+      "bytes": 2295,
+      "sha256": "9b77491f91a0ff8defef96e5d509bb7c1787c597223edddb28dc8fc8d9f688cd"
+    },
+    {
+      "path": "old-archiver.xml",
+      "bytes": 2685,
+      "sha256": "82fc872b50c1c15c38299f80abe397ba9d406857ba21f231846edee2f07a277a"
+    },
+    {
+      "path": "original-missing-font.log",
+      "bytes": 131,
+      "sha256": "e2c878c57b81e486492d9231adddee7838d54ad835bba5e7e1703971e38238ab"
+    },
+    {
+      "path": "preflight-command.json",
+      "bytes": 1381,
+      "sha256": "ddc588cc838e3a9b334d1a91caf09fa6b8f6b292c05008376122897c1edc5299"
+    },
+    {
+      "path": "preflight-exit.json",
+      "bytes": 25,
+      "sha256": "915162e083f2919d02dd0256744cdfa0ded3692822e24f44bf34abe86aeb75ae"
+    },
+    {
+      "path": "preflight.log",
+      "bytes": 1238,
+      "sha256": "9514423d12b43ce36f555a27effcbc7ac401ec668177fd59781e98518c6b4da0"
+    },
+    {
+      "path": "preflight.xml",
+      "bytes": 170367,
+      "sha256": "408c201c038917d1cc4e04d4cd21fef72d391625a897ef55f573c934396a6398"
+    },
+    {
+      "path": "receipt-local.json",
+      "bytes": 2595,
+      "sha256": "38b216078b236887609aaa6e4b922461c86f03a798365309445156c6ab3321d5"
+    },
+    {
+      "path": "source-runtime-proof.json",
+      "bytes": 3207,
+      "sha256": "05da74a6d2387860fc8c37ef8dcfa1846e17b3ee9b9a8bba203d54243f260a40"
+    },
+    {
+      "path": "original285/portable-acceptance.json",
+      "bytes": 533558,
+      "sha256": "6f68de55ac6d36de1d2d8adf342e5b416f07147344c098de6c1c925ba82e827b"
+    },
+    {
+      "path": "original285/portable-audit-exit.json",
+      "bytes": 885,
+      "sha256": "dc29ef7f55e308830e749b865cb2053da66cfbd38bbbc2fb429ff082dcc196be"
+    },
+    {
+      "path": "original285/portable-complete-audit.log",
+      "bytes": 126,
+      "sha256": "8ff32a8556e8596e16b2592860bb1cfcfdfa8412a0804c68f837a2e4fbbfaee1"
+    },
+    {
+      "path": "original285/portable-run-terminal.json",
+      "bytes": 16287,
+      "sha256": "ddaa4a167c4c0169af8542532734fd0bc395f3b322e0ff43f2aad2c7d1d93662"
+    },
+    {
+      "path": "original285/engine-audit-exit.json",
+      "bytes": 876,
+      "sha256": "a2f2ce6e3cb04adfe1af9c4397bb015abd07eafad3282869a2c33ed97e411f24"
+    },
+    {
+      "path": "original285/engine-complete-audit.log",
+      "bytes": 336,
+      "sha256": "ad6ae23c4385b9890814e2d039248e690a26cb30a94496a914182f1bd9502fc6"
+    },
+    {
+      "path": "original285/complete-audit-plan.json",
+      "bytes": 3052,
+      "sha256": "66aeafae59d966b25e34e047ee0579aa01cbd6ab456de8516513273966a7170e"
+    },
+    {
+      "path": "original285/observation/engine-artifacts.json",
+      "bytes": 4506,
+      "sha256": "a2fefc7f667b702528177707fe357c93fe8c2adc873cdcff8f1da923d9968f85"
+    },
+    {
+      "path": "original285/observation/engine-run.json",
+      "bytes": 25146,
+      "sha256": "d285f20bc3c212e5855bc2ddf92793c35e8be1b5cf7f19242188eb99cc900c55"
+    },
+    {
+      "path": "original285/observation/Linux-headless-py3.12-artifact.json",
+      "bytes": 812,
+      "sha256": "3b443b205ba45c5b2459a7f393d187e6274efe451a188f30b944e0d637613a8c"
+    },
+    {
+      "path": "original285/observation/Linux-minimal-py3.12-artifact.json",
+      "bytes": 808,
+      "sha256": "f428d894e3213961a0e19a8e24d3f50732f864e1bf71f6d5e0594f2cd263bb47"
+    },
+    {
+      "path": "original285/observation/Linux-sanitize-py3.12-artifact.json",
+      "bytes": 809,
+      "sha256": "a6ec5addec7f8b2a32a3c894b85375adc6949c6af389be9463e0624a9a33882b"
+    },
+    {
+      "path": "original285/observation/macos-artifacts.json",
+      "bytes": 46,
+      "sha256": "48f3f8e2db6024648ae57ea6301f1ede11b5ee11792f9391b971426f9a2f5c0d"
+    },
+    {
+      "path": "original285/observation/macos-run.json",
+      "bytes": 2006,
+      "sha256": "08af22490880cc1a97741ea19b2f22fa471a964532f27b43542ad0db1ccac187"
+    },
+    {
+      "path": "original285/observation/manylinux-3.11-artifact.json",
+      "bytes": 805,
+      "sha256": "6de244072f1121720b3e6b350812e950627aabf40ff45ae765d4bf21c70a3b4c"
+    },
+    {
+      "path": "original285/observation/manylinux-3.12-artifact.json",
+      "bytes": 805,
+      "sha256": "3cbfa09db325d267b1cd4aed2e099f866a88f4438bb9099a77b715224817a096"
+    },
+    {
+      "path": "original285/observation/manylinux-consumer-3.11-artifact.json",
+      "bytes": 811,
+      "sha256": "c34dd74312255143b130e1f675cfd86a09c5d9882a8113cb82c1c863ec0339f6"
+    },
+    {
+      "path": "original285/observation/manylinux-consumer-3.12-artifact.json",
+      "bytes": 811,
+      "sha256": "d1dadf5ef9ec510182934226ff85eb17a1edb0542778c7f743765bda0fab1470"
+    },
+    {
+      "path": "original285/observation/portable-artifacts.json",
+      "bytes": 3605,
+      "sha256": "66c0914b2c3052391fcfcff03140f3706d98d8a906f36e394d4254dc7270fff4"
+    },
+    {
+      "path": "original285/observation/portable-run.json",
+      "bytes": 16287,
+      "sha256": "ddaa4a167c4c0169af8542532734fd0bc395f3b322e0ff43f2aad2c7d1d93662"
+    },
+    {
+      "path": "original285/observation/verified.json",
+      "bytes": 2212,
+      "sha256": "9b1b34b841c9489c7fcfc2c2e2171ac1ef01849c62f0f8b94c08d68bdfb5068b"
+    },
+    {
+      "path": "original285/observation/Windows-gui-py3.12-artifact.json",
+      "bytes": 809,
+      "sha256": "1accd18d7a75b104e7eef16663dded96a1a7a5fdce4e94023a90acc25d571d12"
+    },
+    {
+      "path": "original285/observation/Windows-headless-py3.11-artifact.json",
+      "bytes": 814,
+      "sha256": "1514170edc354524ef7fb75c0c9bb1270376296f0eadf4ef3ae86cfaa15d7c56"
+    },
+    {
+      "path": "original285/123012238234-failed-job.log",
+      "bytes": 56586,
+      "sha256": "2713cbb646b3f1fcba17983b94c6e7ccb1537e1fd6333fa776d764aae84f6117"
+    },
+    {
+      "path": "original285/windows-gui/native-tests.xml",
+      "bytes": 31342,
+      "sha256": "33562961faf2ab29c0db8dada60a310c4eca7739fc53b49f2bc437f8bf8278b0"
+    },
+    {
+      "path": "original285/windows-gui/python-tests.xml",
+      "bytes": 699616,
+      "sha256": "4f92dffb725f05b26091dc6ac75cf87b13537a28be83782d91fbf4423f8b885e"
+    },
+    {
+      "path": "original285/windows-gui/diagnostic-stages.json",
+      "bytes": 43100,
+      "sha256": "a943434a317c09a1f7e6ac54dc346dba53d3c7787019bd1a7be157bd203a99fb"
+    },
+    {
+      "path": "original285/windows-gui/standalone-gui.log",
+      "bytes": 109,
+      "sha256": "7d3017fc44c66ef23ff799eacbd34aebc257dcdb29b0a6b431578b81e133256b"
+    },
+    {
+      "path": "original285/windows-gui/standalone-slide-gui.log",
+      "bytes": 109,
+      "sha256": "7d3017fc44c66ef23ff799eacbd34aebc257dcdb29b0a6b431578b81e133256b"
+    },
+    {
+      "path": "tools/audit_engine285.py",
+      "bytes": 1398,
+      "sha256": "4703cc06ef9d8326144a3ad4e9e9d122390d6d943d4d9eefbfb95b17356e2a24"
+    },
+    {
+      "path": "tools/audit_portable285.py",
+      "bytes": 1691,
+      "sha256": "e4dab58be2c4c1c24f2edb8cc81a07fc687871f83fe654043fbd2dc777c0fed7"
+    },
+    {
+      "path": "tools/repack_font288.py",
+      "bytes": 4177,
+      "sha256": "744bc1d06b3f79dce8b56cba6dd30761dbc00102f755063c3001393a45fc70e1"
+    },
+    {
+      "path": "tools/prove_archive288.py",
+      "bytes": 3948,
+      "sha256": "7de57e3c693de84974489c46e115e8bcc64d7e98f3493507752eb94a6407bd12"
+    },
+    {
+      "path": "tools/preflight_font288.py",
+      "bytes": 1162,
+      "sha256": "550c1a6a50ced5937acd61ed0d12dc399821215f940fc2a58670cd34a95a6220"
+    },
+    {
+      "path": "tools/publish_rgb287_archive288.py",
+      "bytes": 13964,
+      "sha256": "e268f76354560aaccd11f91122e65e2d81010bd66f4fc64d1178aff08175cad0"
+    }
+  ]
+}

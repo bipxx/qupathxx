@@ -1,0 +1,21 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/rawtraining218-windows
+    Start 1: pixel_workflows
+1/3 Test #1: pixel_workflows ..................***Failed    0.26 sec
+Owner-captured raw training/prediction: deterministic labels, rational axes, document calibration, bounded IO, cancellation, stale compound sources and owner-thread publication passed
+Raw training work admission: live=268356146 historical=268430565; recorded-parameter replay preserves model bytes and fresh admission preserves votes
+Raw pixel backend training: real TIFF deterministic direct/job training, historical retraining, trained archives/model files and portable prediction votes passed
+Raw pixel replay: real TIFF reopened training/prediction records verify through fresh owner jobs without promoting historical authority passed
+remove: The process cannot access the file because it is being used by another process.: "C:\Users\HEQ\AppData\Local\Temp\qpx-raw-archive-1038108563121100\source.tif"
+
+    Start 3: classifier_io
+2/3 Test #3: classifier_io ....................   Passed    0.09 sec
+    Start 5: classifier
+3/3 Test #5: classifier .......................   Passed    0.05 sec
+
+67% tests passed, 1 tests failed out of 3
+
+Total Test time (real) =   0.55 sec
+
+The following tests FAILED:
+	  1 - pixel_workflows (Failed)
+Errors while running CTest

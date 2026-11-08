@@ -1,0 +1,7 @@
+Processing c:\users\heq\projects\qupathxx\build\cell-processing-policy-302\final-wheel\qupathxx-0.1.0-cp312-cp312-win_amd64.whl
+Installing collected packages: qupathxx
+  Attempting uninstall: qupathxx
+    Found existing installation: qupathxx 0.1.0
+    Uninstalling qupathxx-0.1.0:
+      Successfully uninstalled qupathxx-0.1.0
+Successfully installed qupathxx-0.1.0

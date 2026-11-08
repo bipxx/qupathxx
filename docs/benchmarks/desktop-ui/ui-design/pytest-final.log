@@ -1,0 +1,10 @@
+........................F...........................                     [100%]
+================================== FAILURES ===================================
+_______ test_hidden_project_pane_does_not_publish_a_save_button_target ________
+tests\test_gui_layout.py:108: in test_hidden_project_pane_does_not_publish_a_save_button_target
+    with pytest.raises(RuntimeError, match='timed out'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE RuntimeError
+=========================== short test summary info ===========================
+FAILED tests/test_gui_layout.py::test_hidden_project_pane_does_not_publish_a_save_button_target
+1 failed, 51 passed, 5 deselected in 31.89s

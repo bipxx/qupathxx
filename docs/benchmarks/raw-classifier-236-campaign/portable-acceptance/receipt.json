@@ -1,0 +1,71 @@
+{
+  "schema": "qpx.raw-classifier-236-portable/1",
+  "source": "530c6bb1fd01176c7aecbcae75c065ca004f6236",
+  "run_id": 40368289302,
+  "state": "build-and-fresh-consumer-accepted",
+  "policy": "manylinux_2_28_x86_64",
+  "fresh_consumer_passed": {
+    "3.11": 3704,
+    "3.12": 3704
+  },
+  "raw_required_cohort": {
+    "cases": 58,
+    "passed_per_headless_profile": 40,
+    "declared_skips_per_headless_profile": 18,
+    "profiles": 4
+  },
+  "git_fixture": "Actual development source-proof fixture is explicitly skipped in Git-free fresh consumers; it executes on builders. Application cases and strict scientific xfails are unchanged.",
+  "scope": "Declared headless CPython ABI and fresh Debian consumer workflows only. Project license, supported release, GUI/macOS, scientific and hardware acceptance remain separate gates.",
+  "complete_campaign_accepted": false,
+  "release_ready": false,
+  "raw_payloads": {
+    "portable-audit.json": {
+      "bytes": 495207,
+      "sha256": "d44bd4d1187a6e878a77832fa30477c3d734c68b0d6f42830dc10aaf6664b980"
+    },
+    "portable-audit.log": {
+      "bytes": 126,
+      "sha256": "832113f4b194b08f5bb7e8338f1679863bf33b0359526b887c6ad1c91d38405b"
+    },
+    "portable-audit-command.json": {
+      "bytes": 860,
+      "sha256": "8593b9ba368f03dab083cc5848ee99d151217bfe65bdb5eab89efc2edca21c64"
+    },
+    "portable-run.json": {
+      "bytes": 16287,
+      "sha256": "e63a0a10adcb2da8df88a4f78191a6e229d4613d57785421e39d94278ca4cdfa"
+    },
+    "manylinux-3.11-artifact.json": {
+      "bytes": 811,
+      "sha256": "05dac0f99008eeb9620da2b57c47e81d3b14f4f51776b6b987d6c973a0da6207"
+    },
+    "manylinux-3.12-artifact.json": {
+      "bytes": 811,
+      "sha256": "642b14f00945e4634eebc66b937a080f788c9e5bbd700ebd15f03e78722d7d0e"
+    },
+    "manylinux-consumer-3.11-artifact.json": {
+      "bytes": 817,
+      "sha256": "b94f6545af2254a75d81d8db66cd2d485b0efd5e34c97fa715d6c5b3cb2cc21c"
+    },
+    "manylinux-consumer-3.12-artifact.json": {
+      "bytes": 817,
+      "sha256": "ec120ae21f064b06881c1a33689739f08b9b64e654ad11b3e5568b9534c7bc2f"
+    },
+    "manylinux-consumer-3.11/consumer-tests.xml": {
+      "bytes": 686163,
+      "sha256": "7a35e7319eba5143deafbc0b0e6ef39c3f946bd038a7b267a8fc591d215100a1"
+    },
+    "manylinux-consumer-3.11/consumer-probe.json": {
+      "bytes": 1062,
+      "sha256": "5feae517c50761a2f1cd736c601307ca4a7f66c41673e6ee1a1e053d8bbac0ac"
+    },
+    "manylinux-consumer-3.12/consumer-tests.xml": {
+      "bytes": 686163,
+      "sha256": "069c7c2fc9c363f7a8a5cf20efc036b2793e2dec0059592781c4a119a0b368da"
+    },
+    "manylinux-consumer-3.12/consumer-probe.json": {
+      "bytes": 1062,
+      "sha256": "9a4d54ed1fb9186a5292d2755f008c0cf0fd7b13c60e90d52c45504e2373a88d"
+    }
+  }
+}

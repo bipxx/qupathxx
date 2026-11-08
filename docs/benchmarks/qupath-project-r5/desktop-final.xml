@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="0" skipped="0" tests="1" time="3.217" timestamp="2026-11-04T12:27:54.687315-05:00" hostname="HEQPC"><testcase classname="tests.test_qupath_project" name="test_imgui_review_and_import_preserve_workspace_until_apply[True]" time="2.914" /></testsuite></testsuites>

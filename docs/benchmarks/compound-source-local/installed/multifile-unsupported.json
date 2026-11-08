@@ -1,0 +1,14 @@
+{
+  "native_source": "4d59c460a11ef7be5bd157df6c5e6468c660d54b",
+  "supported": false,
+  "cases": [
+    {
+      "file": "primary.ome.tif",
+      "error": "multi-file OME references are unsupported"
+    },
+    {
+      "file": "companions/planes-\u03b2.ome.tif",
+      "error": "multi-file OME references are unsupported"
+    }
+  ]
+}

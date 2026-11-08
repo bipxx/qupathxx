@@ -1,0 +1,31 @@
+{
+  "schema": "qpx.qupath-project-exchange/2",
+  "qupath_version": "0.7.0",
+  "project_sha256": "7ccdc1e90bfa94ace69ff4d5ed8a93a73a76c8d5d6bdad11ebf9aab1784080d3",
+  "files": {
+    "classifiers/classes.json": "d7cde3d5ba8e34ac4fee65731ee243dd7bddca97e29598cff8272635493da136",
+    "data/metadata.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+  },
+  "images": [
+    {
+      "entry_id": "1",
+      "qpdata_sha256": "68fd318143de13d25836e14b37ac39ffa2ffe524d78aa4d6201424d78cd00829",
+      "representation": "geojson",
+      "file": "1.geojson",
+      "sha256": "aff27183b9c4e0eeb54eba01369707a5f5fe12bbfa42bebc2fd816d81e0cfa38",
+      "pixel_width_um": 0.25,
+      "pixel_height_um": 0.5,
+      "issues": []
+    },
+    {
+      "entry_id": "2",
+      "qpdata_sha256": "11fa2d1157b9953ab018985522d5de86b34dbf9831cb929e51c974b9189975ab",
+      "representation": "geojson",
+      "file": "2.geojson",
+      "sha256": "477ad80ef989fe8f99984c1069a47ad297c1a082cd45c943f37e006d6ddf06b5",
+      "pixel_width_um": 0.7,
+      "pixel_height_um": 0.8,
+      "issues": []
+    }
+  ]
+}

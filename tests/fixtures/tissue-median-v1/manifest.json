@@ -1,0 +1,33 @@
+{
+  "source": "7873a3a52380f4f3b5039fceedb766ffaad7a0c8",
+  "platform": "Windows AMD64",
+  "compiler": "MSVC 19.44.35225.0",
+  "image": 1,
+  "object": 1,
+  "file": "pre-median.qpxproj",
+  "sha256": "1e6c8b89a6ebe715fab444e83dc429218d992836ae7f6a50276e08d9d91a5c48",
+  "cases": [
+    {
+      "record": 3,
+      "sigma": 0.0,
+      "retained_bytes": 2542,
+      "payload_bytes": 3058,
+      "table_snapshot_bytes": 68865,
+      "batch_snapshot_bytes": 106079,
+      "batch_json_bytes": 1340,
+      "work_bytes": 1118720,
+      "input_sha256": "e45b5a534e6f25f2650faa502ca5136a62bd4e64a8789d4fa6bd5ac37c8b21dd"
+    },
+    {
+      "record": 4,
+      "sigma": 1.7,
+      "retained_bytes": 2550,
+      "payload_bytes": 3066,
+      "table_snapshot_bytes": 68873,
+      "batch_snapshot_bytes": 106119,
+      "batch_json_bytes": 1369,
+      "work_bytes": 1120936,
+      "input_sha256": "e45b5a534e6f25f2650faa502ca5136a62bd4e64a8789d4fa6bd5ac37c8b21dd"
+    }
+  ]
+}

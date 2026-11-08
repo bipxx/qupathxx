@@ -1,0 +1,20 @@
+{
+  "id": 12678226380,
+  "node_id": "MDg6QXJ0aWZhY3QxMjY3ODIyNjM4MA==",
+  "name": "macos-native-arm64",
+  "size_in_bytes": 6290154,
+  "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12678226380",
+  "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12678226380/zip",
+  "expired": false,
+  "digest": "sha256:a7478ab56d1e01bc4e6246e45aadc60b628e91ab5d7198de58ddf1263bc067ac",
+  "created_at": "2026-10-26T18:41:39Z",
+  "updated_at": "2026-10-26T18:41:39Z",
+  "expires_at": "2026-11-09T18:41:37Z",
+  "workflow_run": {
+    "id": 40377716087,
+    "repository_id": 1427753981,
+    "head_repository_id": 1427753981,
+    "head_branch": "feature/raw-replay-macos-diagnostic-238",
+    "head_sha": "c3c19a91b6bcf5470863d416379d3eb08755c3d2"
+  }
+}

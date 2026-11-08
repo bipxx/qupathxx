@@ -1,0 +1,20 @@
+{
+  "id": 12863635997,
+  "node_id": "MDg6QXJ0aWZhY3QxMjg2MzYzNTk5Nw==",
+  "name": "manylinux-3.11",
+  "size_in_bytes": 15431903,
+  "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12863635997",
+  "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12863635997/zip",
+  "expired": false,
+  "digest": "sha256:e4ff61222db67496eb75066d35f60e7fcfbaa1c38130ca4f055bf82cdad1d8bd",
+  "created_at": "2026-10-29T00:32:31Z",
+  "updated_at": "2026-10-29T00:32:31Z",
+  "expires_at": "2026-11-12T00:32:29Z",
+  "workflow_run": {
+    "id": 40792343129,
+    "repository_id": 1427753981,
+    "head_repository_id": 1427753981,
+    "head_branch": "feature/reader-locale-qualification-298",
+    "head_sha": "9fbc9315e8c2417c35492cf505a8f676ecdfcf75"
+  }
+}

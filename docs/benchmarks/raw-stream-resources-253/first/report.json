@@ -1,0 +1,43 @@
+{
+  "schema": "qpx.raw-stream-resource-observation/1",
+  "contract": {
+    "schema": "qpx.raw-stream-resources/1",
+    "sizes": [
+      256,
+      1024,
+      4096
+    ],
+    "source_tile": 128,
+    "stream_tile": 128,
+    "reader_cache_bytes": 4194304,
+    "reader_decode_bytes": 2097152,
+    "stream_work_bytes": 16777216,
+    "boundary_work_bytes": 4194304,
+    "geometry_work_bytes": 4194304,
+    "contour_work_bytes": 33554432,
+    "process_peak_bytes": 268435456,
+    "process_peak_spread_bytes": 67108864,
+    "child_timeout_seconds": 180,
+    "scope": "Windows fresh-process synthetic straight two-class boundary, unit sampling, no feature halo; local engineering guard only. Not biological, general-complexity, cold-storage, clean-machine or eligible-hardware acceptance."
+  },
+  "machine": {
+    "platform": "Windows-11-10.0.26200-SP0",
+    "processor": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
+    "logical_cpus": 20,
+    "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+  },
+  "runtime_source": "3039f0c23b274a8b0f121e48df0d290447ecf2e3",
+  "runtime_fingerprint": "1b72fac80fd681c59a4316eba7cece56ed274e2abb61ef7f0f3dbf9f68eda87f",
+  "package": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-stream-history-248-final-env\\Lib\\site-packages\\qupathxx\\__init__.py",
+  "rows": [],
+  "commands": [],
+  "source_hashes": {
+    "tools\\profile_raw_stream_contours.py": "700c47031ec5f7d3b081e729faa3f4231bf89d80e8007db4ef4cac8c0d9f8140",
+    "tests\\fixtures\\raw-stream-resources-v1\\contract.json": "74b73f264ce21ae40740150b8edc7babf3c114f2962e02f4147df9c132ed153b",
+    "tools\\check_tma_large_pyramid.py": "2d2c13b18d2594eb6752933bce7036f4cc304cbcd981eb4710417acf922c9d89"
+  },
+  "scope": "Windows fresh-process synthetic straight two-class boundary, unit sampling, no feature halo; local engineering guard only. Not biological, general-complexity, cold-storage, clean-machine or eligible-hardware acceptance.",
+  "preparation_outside_measured_children": true,
+  "cold_storage_claim": false,
+  "hardware_acceptance": false
+}

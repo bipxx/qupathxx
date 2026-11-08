@@ -1,0 +1,21 @@
+Using installed wheel: C:\Users\HEQ\Projects\qupathxx\build\gap-closure\candidate6\environment\Lib\site-packages\qupathxx\__init__.py
+.F.                                                                      [100%]
+================================== FAILURES ===================================
+______ test_saved_settings_losses_require_review_and_explicit_admission _______
+
+tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-5004/test_saved_settings_losses_req0')
+
+    def test_saved_settings_losses_require_review_and_explicit_admission(tmp_path):
+        path=corpus(tmp_path,'losses');preview=q.preview_qupath_project(str(path))
+        codes={issue.code for issue in preview.issues}
+        assert not {'object_metadata_dropped','object_measurements_dropped','object_color_dropped','object_lock_dropped'} & codes
+>       assert {'classification_hierarchy_flattened','workflow_dropped'}<=codes
+E       AssertionError: assert {'classificat...flow_dropped'} <= {'workflow_dropped'}
+E
+E         Extra items in the left set:
+E         'classification_hierarchy_flattened'
+
+tests\test_qupath_saved_data.py:58: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_qupath_saved_data.py::test_saved_settings_losses_require_review_and_explicit_admission
+1 failed, 2 passed in 1.16s

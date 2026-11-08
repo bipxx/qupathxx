@@ -70,5 +70,6 @@ PixelStreamReadStats PixelStreamReadJob::poll() {
     }
     return s.stats;
 }
-PixelStreamReadStats PixelStreamReadJob::wait() {if(busy()) impl_->future.wait();return poll();}
+void PixelStreamReadJob::await_completion() {if(busy()) impl_->future.wait();}
+PixelStreamReadStats PixelStreamReadJob::wait() {await_completion();return poll();}
 }

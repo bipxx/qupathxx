@@ -1,0 +1,15 @@
+{
+  "comparison_source": "83cd41df14205601c6f9310bb042813ad0edafcf",
+  "native_source": "7231d95c25fbc9515d937036986e8c92b19da261",
+  "source_tree_sha256": "7b65e119b994f1d22056f1b66c94ba9d4bd2af9599a66227438d40cb457012ef",
+  "native_path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gui-font-delivery-283-env\\Lib\\site-packages\\qupathxx\\_native.cp312-win_amd64.pyd",
+  "native_sha256": "097657ee1d308e5f89d2b087b6e4d1e703f6c5cbc746ba2c8cb1ff269bec5911",
+  "unchanged_compiler_inputs": 415,
+  "unchanged_retained_native_products": 71,
+  "authenticated_scientific_source_paths": 661,
+  "source_clean": true,
+  "product_rebuilt": false,
+  "local_binary_relabelled": false,
+  "platform_acceptance_transferred": false,
+  "shared_test_dependencies": true
+}

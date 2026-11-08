@@ -1,0 +1,10 @@
+{
+  "source": "faa71c1fa6eb9e5bb6eab1ce11cb8389497d47d7",
+  "file": "legacy-tight-grid.qpxproj",
+  "sha256": "cade0960c6cb26961ae067bf4f5010234482a475fddd4f5998e4d28986cb976d",
+  "image_id": 1,
+  "record_id": 9,
+  "work_bytes": 18212166,
+  "input_sha256": "0fa84e8700428c2a419ebe1d4c9e0fa96da27d0dfd6aa28d85b782813971554b",
+  "provenance": "Exact old grid workspace boundary; reuses the six-record legacy project and its pinned pixels. Capture succeeds at installed faa71c1f."
+}

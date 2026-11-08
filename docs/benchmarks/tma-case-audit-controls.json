@@ -1,0 +1,55 @@
+{
+  "schema": "qpx.tma-case-audit-controls/1",
+  "positive_real_junit": {
+    "native": {
+      "case_aggregation_checked": true,
+      "compensated_signed_sums_checked": true,
+      "mean_underflow_checked": true,
+      "cancellation_checked": true,
+      "signed_decimal_locale_checked": true
+    },
+    "python": {
+      "cohort_contract_sha256": "eb85dd78682626681ae942e8f384bee4b3f04e06677cc6f9c566aac39d653472",
+      "cases_passed": 13,
+      "gui_cases_passed": 4
+    }
+  },
+  "actual_source_positive": {
+    "commit": "914b7e2cd02a49c87907d578ea0b736a8cefb71d",
+    "python": {
+      "cohort_contract_sha256": "eb85dd78682626681ae942e8f384bee4b3f04e06677cc6f9c566aac39d653472",
+      "cases_passed": 13,
+      "gui_cases_passed": 4
+    }
+  },
+  "native_junit_sha256": "6f8eddb1f25e11b557be283f056940e3b2291ab599129eaec60b2127c4f5a42a",
+  "python_junit_sha256": "1e90d133a66305722d3aef82e860d4d64e367722bd9e9d6744c27e2c0638353c",
+  "helper_sha256": "7fd5944c3f923806be943a2c0ea2a29d6453a0612ac1452a77f202463dc46117",
+  "contract_sha256": "eb85dd78682626681ae942e8f384bee4b3f04e06677cc6f9c566aac39d653472",
+  "negative_controls_rejected": [
+    "old-native-evidence",
+    "missing-native-case",
+    "duplicate-native-case",
+    "native-failure",
+    "native-error",
+    "native-skipped",
+    "missing-TMA compensated signed sums",
+    "missing-TMA case aggregation",
+    "missing-python-case",
+    "duplicate-python-case",
+    "python-failure",
+    "python-error",
+    "python-skipped",
+    "missing-desktop-case",
+    "wrong-source-commit",
+    "pre-portable-native-evidence",
+    "missing-decimal-case",
+    "duplicate-decimal-case",
+    "decimal-failure",
+    "decimal-error",
+    "decimal-skipped",
+    "missing-signed-parser-marker",
+    "changed-contract-bytes"
+  ],
+  "scope": "Guard self-check using real local JUnit and a separate local contract repository. This is not hosted candidate acceptance."
+}

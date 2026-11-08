@@ -1,0 +1,21 @@
+{
+  "local_directory": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269",
+  "files": [
+    {
+      "path": "confirmed-close-source.qpx",
+      "bytes": 1875968,
+      "sha256": "73bcb5fbd807e430ef7c351829f3f806d9ae1215ea57c3dc216daf2b610247b2"
+    },
+    {
+      "path": "finite-close-diagnostic.qpx",
+      "bytes": 1875968,
+      "sha256": "e175f0c919c37631cf8bc899efc6845e8e643e8883904d2f99a3afa397d83992"
+    },
+    {
+      "path": "finite-close-source.qpx",
+      "bytes": 1875968,
+      "sha256": "a76429e540d7edb44b032a16e038ddcfc8684b38bd86b12f60ed28a6c404132c"
+    }
+  ],
+  "bytes_preserved_locally": true
+}

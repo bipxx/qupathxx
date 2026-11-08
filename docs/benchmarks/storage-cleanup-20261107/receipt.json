@@ -1,0 +1,24 @@
+{
+  "method": "Standard NTFS compression; no deletion; Linux SDK links excluded",
+  "files_verified": 10369,
+  "targets": 144,
+  "physical_before": 3636426751,
+  "physical_after": 2012677950,
+  "reclaimed_bytes": 1623748801,
+  "free_after": 19816493056,
+  "recursive_deletion": "Rejected by automatic approval review: blocked by policy; no folders deleted",
+  "preserved": [
+    "active source and native cache",
+    "37 binding objects",
+    "published release products",
+    "fixtures and reference inputs",
+    "all original ZIPs",
+    "build/storage-cleanup-20261105"
+  ],
+  "linux_sdk_links": "Excluded after unsupported-link read; no files changed there",
+  "active_cache_verification": "37 binding objects and selected module/runtime SHA256 unchanged",
+  "source_head": "fe6dedaeb52523c5872fce85f5d2a6995c2fb546",
+  "reclaimed_gib": 1.51,
+  "free_after_gib": 18.46,
+  "free_space_scope": "Drive free space also changed from activity outside this task; only measured compression savings are attributed here"
+}

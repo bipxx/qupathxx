@@ -1,0 +1,24 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+___________ test_legacy_scales_defaults_and_day[pm-d-1e-06-86400.0] ___________
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/ome-units-r2/before-temp/test_legacy_scales_defaults_an0')
+length_unit = 'pm', time_unit = 'd', length_scale = 1e-06, time_scale = 86400.0
+
+    @pytest.mark.parametrize('length_unit,time_unit,length_scale,time_scale',[
+        (None,None,1.,1.),('um','s',1.,1.),('µm','µs',1.,.000001),
+        ('nm','ms',.001,.001),('mm','min',1000.,60.),('cm','h',10000.,3600.),
+        ('m','s',1000000.,1.),('Å','ms',.0001,.001),('pm','d',.000001,86400.)])
+    def test_legacy_scales_defaults_and_day(tmp_path,length_unit,time_unit,length_scale,time_scale):
+        value='1.234567890123456'
+        server=q.open_tiff(str(image(tmp_path,length=value,length_unit=length_unit,time=value,time_unit=time_unit)))
+>       assert server.raw_metadata.pixel_width_um==float(value)*length_scale
+E       AssertionError: assert None == (1.234567890123456 * 1e-06)
+E        +  where None = <qupathxx._native.RawImageMetadata object at 0x0000022ACE01FE90>.pixel_width_um
+E        +    where <qupathxx._native.RawImageMetadata object at 0x0000022ACE01FE90> = <qupathxx._native.ImageServer object at 0x0000022ACE01FDF0>.raw_metadata
+E        +  and   1.234567890123456 = float('1.234567890123456')
+
+build\ci\scientific-grid-159\tests\test_ome_calibration_units.py:69: AssertionError
+=========================== short test summary info ===========================
+FAILED build\ci\scientific-grid-159\tests\test_ome_calibration_units.py::test_legacy_scales_defaults_and_day[pm-d-1e-06-86400.0]
+1 failed, 82 deselected in 1.73s

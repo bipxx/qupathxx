@@ -1,0 +1,119 @@
+native source 69dc9cd7f7805bc6103cfedafa2ee72692629cd1
+F                                                                        [100%]
+================================== FAILURES ===================================
+_____ test_async_image_facts_final_release_needs_no_python_on_save_worker _____
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/root-facts-r5/ownership-before-temp/test_async_image_facts_final_r0')
+
+    @pytest.mark.skipif(not q.has_project,reason='native worker ownership')
+    def test_async_image_facts_final_release_needs_no_python_on_save_worker(tmp_path):
+        # A blocked writer forces worker-side snapshot cleanup after a replacement.
+        # Keep this bounded in a child: a GIL-dependent deleter must not hang pytest.
+        script = r"""
+    import sys,sqlite3
+    sys.path.insert(0,sys.argv[1])
+    import qupathxx as q
+    assert q.build_environment().git_revision==sys.argv[3]
+    doc=q.Document(q.Image(8,8,[20,40,60]*64));doc.set_history_limits(0,0)
+    doc.set_image_properties(q.ObjectProperties({'note':'captured'}))
+    project=q.Project();image=project.add_document(doc);path=sys.argv[2];project.save(path)
+    lock=sqlite3.connect(path);lock.execute('BEGIN IMMEDIATE')
+    job=q.ProjectSaveJob();assert job.request(project,path)
+    doc.set_image_properties(q.ObjectProperties({'note':'later'}))
+    print('waiting for blocked writer cleanup after final old-facts release',flush=True)
+    result=job.wait()
+    assert result.state=='error' and 'locked' in result.error,result.error
+    lock.rollback();lock.close()
+    assert q.Project.open(path).document(image).image_properties.metadata=={'note':'captured'}
+    assert job.request(project,path) and job.wait().applied
+    assert q.Project.open(path).document(image).image_properties.metadata=={'note':'later'}
+    print('native-only image-facts cleanup and retry passed',flush=True)
+    """
+        argv=[sys.executable,'-I','-X','utf8','-c',script,str(Path(q.__file__).parent.parent),str(tmp_path/'worker.qpxproj'),q.build_environment().git_revision]
+>       try:result=subprocess.run(argv,cwd=tmp_path,capture_output=True,text=True,timeout=15)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_image_properties.py:201: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\HEQ\AppData\Roaming\uv\python\cpython-3.12.8-windows-x86_64-none\Lib\subprocess.py:550: in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\HEQ\AppData\Roaming\uv\python\cpython-3.12.8-windows-x86_64-none\Lib\subprocess.py:1209: in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <Popen: returncode: 1 args: ['C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\...>
+input = None, endtime = 1874793.109, orig_timeout = 15
+
+    def _communicate(self, input, endtime, orig_timeout):
+        # Start reader threads feeding into a list hanging off of this
+        # object, unless they've already been started.
+        if self.stdout and not hasattr(self, "_stdout_buff"):
+            self._stdout_buff = []
+            self.stdout_thread = \
+                    threading.Thread(target=self._readerthread,
+                                     args=(self.stdout, self._stdout_buff))
+            self.stdout_thread.daemon = True
+            self.stdout_thread.start()
+        if self.stderr and not hasattr(self, "_stderr_buff"):
+            self._stderr_buff = []
+            self.stderr_thread = \
+                    threading.Thread(target=self._readerthread,
+                                     args=(self.stderr, self._stderr_buff))
+            self.stderr_thread.daemon = True
+            self.stderr_thread.start()
+    
+        if self.stdin:
+            self._stdin_write(input)
+    
+        # Wait for the reader threads, or time out.  If we time out, the
+        # threads remain reading and the fds left open in case the user
+        # calls communicate again.
+        if self.stdout is not None:
+            self.stdout_thread.join(self._remaining_time(endtime))
+            if self.stdout_thread.is_alive():
+>               raise TimeoutExpired(self.args, orig_timeout)
+E               subprocess.TimeoutExpired: Command '['C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\object-planes-r5-env\\Scripts\\python.exe', '-I', '-X', 'utf8', '-c', "\nimport sys,sqlite3\nsys.path.insert(0,sys.argv[1])\nimport qupathxx as q\nassert q.build_environment().git_revision==sys.argv[3]\ndoc=q.Document(q.Image(8,8,[20,40,60]*64));doc.set_history_limits(0,0)\ndoc.set_image_properties(q.ObjectProperties({'note':'captured'}))\nproject=q.Project();image=project.add_document(doc);path=sys.argv[2];project.save(path)\nlock=sqlite3.connect(path);lock.execute('BEGIN IMMEDIATE')\njob=q.ProjectSaveJob();assert job.request(project,path)\ndoc.set_image_properties(q.ObjectProperties({'note':'later'}))\nprint('waiting for blocked writer cleanup after final old-facts release',flush=True)\nresult=job.wait()\nassert result.state=='error' and 'locked' in result.error,result.error\nlock.rollback();lock.close()\nassert q.Project.open(path).document(image).image_properties.metadata=={'note':'captured'}\nassert job.request(project,path) and job.wait().applied\nassert q.Project.open(path).document(image).image_properties.metadata=={'note':'later'}\nprint('native-only image-facts cleanup and retry passed',flush=True)\n", 'C:\\Users\\HEQ\\Projects\\qupathxx\\build\\root-facts-r5\\probe-stage', 'C:\\Users\\HEQ\\Projects\\qupathxx\\build\\root-facts-r5\\ownership-before-temp\\test_async_image_facts_final_r0\\worker.qpxproj', '69dc9cd7f7805bc6103cfedafa2ee72692629cd1']' timed out after 15 seconds
+
+C:\Users\HEQ\AppData\Roaming\uv\python\cpython-3.12.8-windows-x86_64-none\Lib\subprocess.py:1630: TimeoutExpired
+
+During handling of the above exception, another exception occurred:
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/root-facts-r5/ownership-before-temp/test_async_image_facts_final_r0')
+
+    @pytest.mark.skipif(not q.has_project,reason='native worker ownership')
+    def test_async_image_facts_final_release_needs_no_python_on_save_worker(tmp_path):
+        # A blocked writer forces worker-side snapshot cleanup after a replacement.
+        # Keep this bounded in a child: a GIL-dependent deleter must not hang pytest.
+        script = r"""
+    import sys,sqlite3
+    sys.path.insert(0,sys.argv[1])
+    import qupathxx as q
+    assert q.build_environment().git_revision==sys.argv[3]
+    doc=q.Document(q.Image(8,8,[20,40,60]*64));doc.set_history_limits(0,0)
+    doc.set_image_properties(q.ObjectProperties({'note':'captured'}))
+    project=q.Project();image=project.add_document(doc);path=sys.argv[2];project.save(path)
+    lock=sqlite3.connect(path);lock.execute('BEGIN IMMEDIATE')
+    job=q.ProjectSaveJob();assert job.request(project,path)
+    doc.set_image_properties(q.ObjectProperties({'note':'later'}))
+    print('waiting for blocked writer cleanup after final old-facts release',flush=True)
+    result=job.wait()
+    assert result.state=='error' and 'locked' in result.error,result.error
+    lock.rollback();lock.close()
+    assert q.Project.open(path).document(image).image_properties.metadata=={'note':'captured'}
+    assert job.request(project,path) and job.wait().applied
+    assert q.Project.open(path).document(image).image_properties.metadata=={'note':'later'}
+    print('native-only image-facts cleanup and retry passed',flush=True)
+    """
+        argv=[sys.executable,'-I','-X','utf8','-c',script,str(Path(q.__file__).parent.parent),str(tmp_path/'worker.qpxproj'),q.build_environment().git_revision]
+        try:result=subprocess.run(argv,cwd=tmp_path,capture_output=True,text=True,timeout=15)
+        except subprocess.TimeoutExpired as failure:
+            output=failure.stdout or b''
+>           pytest.fail('image facts worker cleanup timed out: '+(output.decode('utf-8',errors='replace') if isinstance(output,bytes) else output))
+E           Failed: image facts worker cleanup timed out: waiting for blocked writer cleanup after final old-facts release
+
+tests\test_image_properties.py:204: Failed
+=========================== short test summary info ===========================
+FAILED tests/test_image_properties.py::test_async_image_facts_final_release_needs_no_python_on_save_worker
+1 failed in 15.30s

@@ -1,0 +1,83 @@
+{
+  "schema": "qpx.qupath-resampled-cell-debug/1",
+  "upstream": {
+    "tag": "v0.7.0",
+    "revision": "04ccfa4fb7d43e9b566393e08e83690b72248d44",
+    "version": "0.7.0",
+    "bundle_url": "https://github.com/qupath/qupath/releases/download/v0.7.0/QuPath-v0.7.0-Windows.zip",
+    "bundle_filename": "QuPath-v0.7.0-Windows.zip",
+    "bundle_bytes": 282594398,
+    "bundle_sha256": "5839743281d11eca1ac55c87ddcf92c89a30cba7ba2060f162036b0514b1e30c",
+    "runtime_tree_sha256": "117c0cb3074c7e3d2f4814d731bf0703d38373051d5580462a90d94036314788",
+    "runtime_files": 496,
+    "executable": "QuPath-0.7.0 (console).exe",
+    "license": "GPL-3.0-or-later",
+    "license_source": "https://github.com/qupath/qupath/blob/04ccfa4fb7d43e9b566393e08e83690b72248d44/LICENSE"
+  },
+  "case": "resampled_reference",
+  "capture_manifest_sha256": "0a36fa01faf55b13bd0112b39d75371c0a7ecfee795f43a5775b43a46571ac1c",
+  "base_generator_sha256": "4385490772ef21208c9de941718c2f1365547e713e6db9e43db930ced2f15e43",
+  "debug_probe_sha256": "de0cac546e7228d9a554f281c5fa7fc6e4003cd03615594b1ffdbaa0b08ef7b4",
+  "files": {
+    "contract.json": {
+      "bytes": 1575,
+      "sha256": "aab01567a8069523a8487f63aef58661ee0dbc72114f15f2e3c46c3964a8d51a"
+    },
+    "debug-probe.groovy": {
+      "bytes": 1184,
+      "sha256": "de0cac546e7228d9a554f281c5fa7fc6e4003cd03615594b1ffdbaa0b08ef7b4"
+    },
+    "debug-reference.groovy": {
+      "bytes": 8278,
+      "sha256": "cfef895faa6b48b10d3a152687d969021d06e4f82f1026c4c168ed011055661f"
+    },
+    "debug-stack.json": {
+      "bytes": 169,
+      "sha256": "3d048fcbfc72d5d232dea9f598f8688dd5b48fd8ca3b3ecb9b1800a7caf803aa"
+    },
+    "debug-stack.tif": {
+      "bytes": 439675,
+      "sha256": "e3287422c1d674bbb2abd65a06b8450dfe39cc36235ce4b3c00291fe63d78c56"
+    },
+    "driver.log": {
+      "bytes": 1668,
+      "sha256": "4b07cf03e60a9495a6a35fc070707d169a898cf899f00baf2c65f28dfbd20ec3"
+    },
+    "resampled_reference/body-decoded.u32le.gz": {
+      "bytes": 474,
+      "sha256": "16a220f13e088de3314f0659eb0d051ade43a094f63d0b7a7887e0dd6b8c7066"
+    },
+    "resampled_reference/body.u32le.gz": {
+      "bytes": 474,
+      "sha256": "16a220f13e088de3314f0659eb0d051ade43a094f63d0b7a7887e0dd6b8c7066"
+    },
+    "resampled_reference/cells.geojson": {
+      "bytes": 7012,
+      "sha256": "5c6b05f4587fa6793b4ded112b103a1b40a193443fe996e55ba0f3c134185128"
+    },
+    "resampled_reference/input.png": {
+      "bytes": 1096,
+      "sha256": "e3f2902a5924f27403121b5d4fd86cc4b27e7b0070f864af2f0eddf5f4c744e3"
+    },
+    "resampled_reference/nucleus-decoded.u32le.gz": {
+      "bytes": 385,
+      "sha256": "3efa3606c662276121d8e07cf0959a7ca52f441e1907d232a552e84a3367d278"
+    },
+    "resampled_reference/nucleus.u32le.gz": {
+      "bytes": 385,
+      "sha256": "3efa3606c662276121d8e07cf0959a7ca52f441e1907d232a552e84a3367d278"
+    },
+    "resampled_reference/processed-input.json": {
+      "bytes": 134,
+      "sha256": "c1cac5d4264a6559aaff3db262d070b1776c21c2388ee7330ecdf98c2fa5f452"
+    },
+    "resampled_reference/processed-input.png": {
+      "bytes": 1060,
+      "sha256": "28d0cae648cffd5165981d6b0f3fd86240a7c10634990540206aa37462722365"
+    },
+    "resampled_reference/reference.json": {
+      "bytes": 13529,
+      "sha256": "06aafe546e2539cee2e511e5152912e87f4debec5f895d01dc355be1cf0df321"
+    }
+  }
+}

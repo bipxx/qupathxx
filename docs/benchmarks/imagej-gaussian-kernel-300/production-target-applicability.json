@@ -1,0 +1,8 @@
+{
+  "previous_source": "adac8ca9124677ac8ee4230e9eec6821360a8acd",
+  "only_cmake_change": "standalone test target guarded by QUPATHXX_BUILD_TESTS",
+  "production_target_definitions_unchanged": true,
+  "private_source_not_linked_into_application": true,
+  "removed_test_block_sha256": "ea0b50fe61f24fa773e4aafc324cdd9dd63c09a14be915323cc8b06740a7107a",
+  "application_native_source": "28c33573ef732905e52fe49aa193bd8e5e067206"
+}

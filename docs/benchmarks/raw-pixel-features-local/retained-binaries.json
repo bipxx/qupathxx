@@ -1,0 +1,78 @@
+{
+  "source": "a13adef6f6f2b05058b61a10f24e2a6363ad07e2",
+  "fingerprint": "ae0391fd50a8707638eea93fb0d9df272d5b2bcf55145028deab483eddcaf907",
+  "binaries": [
+    {
+      "host": "windows",
+      "path": "build/rawfeatures214b-retained-binaries/windows/qupathxx_source_identity_tests.exe",
+      "bytes": 1511424,
+      "sha256": "539598def4e94b10a86b643504a7a210859653f1709d00a540c7ce45319a65b4"
+    },
+    {
+      "host": "windows",
+      "path": "build/rawfeatures214b-retained-binaries/windows/qupathxx_pixel_feature_tests.exe",
+      "bytes": 1508352,
+      "sha256": "cff0d10349c50ddab5d472c05e2ee04c023e372d0ceb377c96d8c14ad4a0dfbc"
+    },
+    {
+      "host": "windows",
+      "path": "build/rawfeatures214b-retained-binaries/windows/qupathxx_pixel_workflow_tests.exe",
+      "bytes": 1907200,
+      "sha256": "d3bf1b902074fcb9a880ca751b0c9f17cd45b1eb24ae0a04f0d21e786d8af454"
+    },
+    {
+      "host": "windows",
+      "path": "build/rawfeatures214b-retained-binaries/windows/qupathxx_classifier_tests.exe",
+      "bytes": 89088,
+      "sha256": "43b58e23e3aee73abfa76f6c414acba26a9459fbbfb060997bf18cbf86aa3020"
+    },
+    {
+      "host": "windows",
+      "path": "build/rawfeatures214b-retained-binaries/windows/qupathxx_classifier_io_tests.exe",
+      "bytes": 249344,
+      "sha256": "ee9329bc9adc83fe73ce26c4a6827d7befeaea0a2a1f17bc8072d1a214cf5a86"
+    },
+    {
+      "host": "windows",
+      "path": "build/rawfeatures214b-retained-binaries/windows/qupathxx_resampling_tests.exe",
+      "bytes": 2337792,
+      "sha256": "3fd896b343bef5d4efba8fdec037e1ab136d2b066caff2bd948ab97200e4a3b7"
+    },
+    {
+      "host": "linux",
+      "path": "build/rawfeatures214b-retained-binaries/linux/qupathxx_source_identity_tests",
+      "bytes": 2562424,
+      "sha256": "99a11ed23ecc9fe39c62f916235254e85cdc8f43b07bb1f08f17e6d94a1c33e0"
+    },
+    {
+      "host": "linux",
+      "path": "build/rawfeatures214b-retained-binaries/linux/qupathxx_pixel_feature_tests",
+      "bytes": 2613328,
+      "sha256": "af2d3c83ccf5d13fe60a04da21027040fa5f2e74240481fda13532e2cfed9fd3"
+    },
+    {
+      "host": "linux",
+      "path": "build/rawfeatures214b-retained-binaries/linux/qupathxx_pixel_workflow_tests",
+      "bytes": 4197152,
+      "sha256": "276b08f59f68ca7c071b0946e7bf1c226b40069c2828e06711593b3d43943eb7"
+    },
+    {
+      "host": "linux",
+      "path": "build/rawfeatures214b-retained-binaries/linux/qupathxx_classifier_tests",
+      "bytes": 118016,
+      "sha256": "931c80c323d7f0146a718481cae3aa1f21975f16fc0d6fbc16d4374e33d16114"
+    },
+    {
+      "host": "linux",
+      "path": "build/rawfeatures214b-retained-binaries/linux/qupathxx_classifier_io_tests",
+      "bytes": 384472,
+      "sha256": "08ed5931672993c7d8df06b3a71d968d3e4f8107d47fcb11be15824c0b71af4e"
+    },
+    {
+      "host": "linux",
+      "path": "build/rawfeatures214b-retained-binaries/linux/qupathxx_resampling_tests",
+      "bytes": 4837032,
+      "sha256": "adfcbce19f9e7815ebf116b2d47c8579e9fc673aba93ec7d38fadda6b3972612"
+    }
+  ]
+}

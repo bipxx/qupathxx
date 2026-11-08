@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-c",
+    "import os,sys; os.add_dll_directory('C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\ci\\\\gridfrontends167-package\\\\Release'); sys.path.insert(0,'C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\ci\\\\gridfrontends167-package\\\\Release'); import _native; print(_native.ObjectProperties({\"note\":\"probe\"},{\"Synthetic\":3.5}).metadata)"
+  ],
+  "returncode": 1
+}

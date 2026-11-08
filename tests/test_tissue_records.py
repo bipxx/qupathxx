@@ -1,4 +1,5 @@
 """Lossless mask archives, provenance, migrations and asynchronous isolation."""
+from project_schema_contract import CURRENT_SCHEMA_VERSION, drop_newer_project_tables
 import gc
 import hashlib
 import sqlite3
@@ -106,7 +107,7 @@ def test_full_mask_parameters_and_components_roundtrip(tmp_path, feature, connec
     assert restored.tissue_status(record) == "current" and restored.revision == revision and not restored_project.dirty
     assert restored.tissue_record(record).result.parameters.max_hole_pixels == parameters.max_hole_pixels
     with sqlite3.connect(path) as db:
-        assert db.execute("PRAGMA user_version").fetchone()[0] == 13
+        assert db.execute("PRAGMA user_version").fetchone()[0] == CURRENT_SCHEMA_VERSION
         assert db.execute("PRAGMA quick_check").fetchone()[0] == "ok"
 
 
@@ -289,7 +290,7 @@ def test_background_save_and_recovery_keep_captured_masks_during_live_removal(tm
 def test_schema3_read_and_transactional_migration(tmp_path):
     project, doc, image, obj, _, _, record, path = saved(tmp_path)
     with sqlite3.connect(path) as db:
-        db.execute("DROP TABLE raw_analysis_records");db.execute("DROP TABLE tiff_views");db.execute("DROP TABLE tma_cores");db.execute("DROP TABLE tma_grids")
+        drop_newer_project_tables(db, 26); db.execute('DROP TABLE IF EXISTS class_semantics');db.execute('DROP TABLE IF EXISTS project_class_defaults');db.execute('DROP TABLE IF EXISTS project_classes');db.execute('DROP TABLE IF EXISTS project_metadata');db.execute("DROP TABLE IF EXISTS image_tags");db.execute("DROP TABLE IF EXISTS image_details");db.execute("DROP TABLE IF EXISTS image_metadata");db.execute("DROP TABLE IF EXISTS image_axis_calibration");db.execute("DROP TABLE IF EXISTS image_data_properties");db.execute("DROP TABLE IF EXISTS image_analysis_settings");db.execute("DROP TABLE IF EXISTS image_properties");db.execute("DROP TABLE object_planes");db.execute("DROP TABLE object_properties");db.execute("DROP TABLE source_verifications");db.execute("DROP TABLE spatial_distance_records");db.execute("DROP TABLE raw_analysis_records");db.execute("DROP TABLE tiff_views");db.execute("DROP TABLE tma_cores");db.execute("DROP TABLE tma_grids")
         db.execute("DROP TABLE pixel_stream_records");db.execute("DROP TABLE pixel_classifier_records");db.execute("DROP TABLE classifier_records");db.execute("DROP TABLE analysis_provenance");db.execute("DROP TABLE cell_feature_links")
         db.execute("DROP TABLE cell_records")
         db.execute("DROP TABLE tissue_records")
@@ -306,7 +307,7 @@ def test_schema3_read_and_transactional_migration(tmp_path):
         db.execute("DROP TRIGGER fail_tissue")
     restored.save(str(path))
     with sqlite3.connect(path) as db:
-        assert db.execute("PRAGMA user_version").fetchone()[0] == 13
+        assert db.execute("PRAGMA user_version").fetchone()[0] == CURRENT_SCHEMA_VERSION
     assert q.Project.open(str(path)).document(image).tissue_record_count == 0
 
 

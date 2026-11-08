@@ -1,0 +1,20 @@
+{
+  "id": 12625570742,
+  "node_id": "MDg6QXJ0aWZhY3QxMjYyNTU3MDc0Mg==",
+  "name": "Linux-sanitize-py3.12",
+  "size_in_bytes": 42226,
+  "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12625570742",
+  "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12625570742/zip",
+  "expired": false,
+  "digest": "sha256:ea860c01090ec06467307812efdbb0486b5b13fb73177c1dde637d113118d59b",
+  "created_at": "2026-10-26T03:11:56Z",
+  "updated_at": "2026-10-26T03:11:56Z",
+  "expires_at": "2026-11-09T03:11:56Z",
+  "workflow_run": {
+    "id": 40262416972,
+    "repository_id": 1427753981,
+    "head_repository_id": 1427753981,
+    "head_branch": "feature/multifile-ome-workflow-210",
+    "head_sha": "9e7d0be94c59c2c5e363f7dfa60384f9c9c2d7d6"
+  }
+}

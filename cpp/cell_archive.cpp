@@ -1,6 +1,9 @@
 #include "cell_archive.hpp"
+#include "cell_statistics_codec.hpp"
 #include "cell_contours.hpp"
 #include "cell_numeric.hpp"
+#include "cell_recipe.hpp"
+#include "cell_expansion.hpp"
 #include "sha256.hpp"
 #include <cstring>
 #include <limits>
@@ -54,8 +57,12 @@ std::uint64_t edge(double coordinate,double scale,std::int64_t limit) {
 }
 }
 std::vector<std::uint8_t> CellArchiveCodec::encode(const CellResult& r,const std::atomic<bool>* cancelled) {
-    checkpoint(cancelled);if(std::string(r.algorithm())!="qpx.distance-watershed/1") throw std::invalid_argument("unsupported cell archive algorithm");
+    if(r.grid_parameters()) return encode_grid(r,cancelled);
+    checkpoint(cancelled);r.parameters().validate();if(std::string(r.algorithm())!=cell_detail::algorithm_id(r.parameters().algorithm)) throw std::invalid_argument("unsupported cell archive algorithm");
+    const bool statistics=r.measure_intensity_;
+    if(r.intensity_statistics_.size()!=(statistics?r.features().size():0)) throw std::invalid_argument("cell statistics vector differs from declared format");
     Writer w;const auto& n=*r.nuclei();const auto& p=r.parameters();
+    if(statistics || p.algorithm!=CellAlgorithm::DistanceWatershed) {w.bytes[3]=statistics?10:p.algorithm==CellAlgorithm::SampledLogWatershedBodies?4:(p.algorithm==CellAlgorithm::LogWatershedBodies?3:2);w.u64(static_cast<std::uint64_t>(p.algorithm));w.real(p.log_prominence);w.u64(p.context_padding);}
     for(auto v:{n.object_id(),n.object_revision(),n.document_revision(),std::uint64_t(p.feature)}) w.u64(v);
     for(auto v:{p.threshold,p.sigma,p.min_peak_radius,p.min_seed_distance,p.cell_expansion}) w.real(v);
     for(auto v:{p.min_nucleus_pixels,p.max_nucleus_pixels,std::uint64_t(p.connectivity),std::uint64_t(std::int64_t(p.level)+1),std::uint64_t(p.tile_size),std::uint64_t(p.max_cells),std::uint64_t(p.work_bytes),
@@ -69,18 +76,30 @@ std::vector<std::uint8_t> CellArchiveCodec::encode(const CellResult& r,const std
         checkpoint(cancelled);w.u64(f.nucleus_pixels);w.u64(f.cell_pixels);
         for(const auto& vector:{f.nucleus_rgb,f.cell_rgb,f.nucleus_channels,f.cell_channels}) for(auto v:vector) w.real(v);
         if(f.cytoplasm_rgb) {for(auto v:*f.cytoplasm_rgb) w.real(v);for(auto v:*f.cytoplasm_channels) w.real(v);}
+        if(statistics) cell_detail::write_cell_statistics(w,r.intensity_statistics_[f.label-1],f);
     }
     w.labels(n.labels(),cancelled);w.labels(r.cells()->labels(),cancelled);
+    if(p.algorithm==CellAlgorithm::SampledLogWatershedBodies) {
+        if(r.domain_bits_.size()!=(n.labels().size()+7)/8) throw std::invalid_argument("missing sampled cell domain");
+        w.u64(r.domain_bits_.size());w.bytes.insert(w.bytes.end(),r.domain_bits_.begin(),r.domain_bits_.end());
+    }
     const auto digest=checksum(w.bytes.data(),w.bytes.size(),n.roi(),cancelled);w.bytes.insert(w.bytes.end(),digest.begin(),digest.end());
     if(w.bytes.size()>256u*1024u*1024u) throw std::length_error("encoded cell archive exceeds 256 MiB");return w.bytes;
 }
 std::shared_ptr<const CellResult> CellArchiveCodec::decode(const std::uint8_t* data,std::size_t size,Roi roi,const ImageMetadata& metadata,const std::atomic<bool>* cancelled) {
+    if(data && size>=4 && (!std::memcmp(data,"QCL\5",4) || !std::memcmp(data,"QCL\6",4) || !std::memcmp(data,"QCL\7",4) || !std::memcmp(data,"QCL\10",4) || !std::memcmp(data,"QCL\11",4) || !std::memcmp(data,"QCL\13",4))) return decode_grid(data,size,std::move(roi),metadata,cancelled);
     checkpoint(cancelled);if(!data || size<128 || size>256u*1024u*1024u) throw std::invalid_argument("invalid cell archive size");
     const std::string digest(reinterpret_cast<const char*>(data+size-64),64);
     if(!hex(digest) || checksum(data,size-64,roi,cancelled)!=digest) throw std::invalid_argument("cell archive checksum mismatch");
-    Reader d{data,size-64};if(d.byte()!='Q' || d.byte()!='C' || d.byte()!='L' || d.byte()!=1) throw std::invalid_argument("unsupported cell archive encoding");
-    auto result=std::shared_ptr<CellResult>(new CellResult());auto& p=result->parameters_;
-    result->algorithm_="qpx.distance-watershed/1"; // Encoding version 1 retains its original numerical identity.
+    Reader d{data,size-64};if(d.byte()!='Q' || d.byte()!='C' || d.byte()!='L') throw std::invalid_argument("unsupported cell archive encoding");
+    const auto version=d.byte();if(version<1 || (version>4 && version!=10)) throw std::invalid_argument("unsupported cell archive encoding");
+    auto result=std::shared_ptr<CellResult>(new CellResult());auto& p=result->parameters_;result->measure_intensity_=version==10;
+    if(version>=2) {
+        const auto algorithm=d.u64();if((version==10 && algorithm>3) || (version!=10 && algorithm!=std::uint64_t(version-1))) throw std::invalid_argument("unsupported cell archive algorithm/version");
+        p.algorithm=static_cast<CellAlgorithm>(algorithm);p.log_prominence=d.real();p.context_padding=static_cast<std::uint32_t>(d.limited(4096));
+    }
+    const bool sampled=p.algorithm==CellAlgorithm::SampledLogWatershedBodies;
+    result->algorithm_=cell_detail::algorithm_id(p.algorithm);
     const auto object=d.u64(),object_revision=d.u64(),document_revision=d.u64();
     if(!object || object_revision>document_revision) throw std::invalid_argument("invalid cell archive identity");
     p.feature=static_cast<TissueFeature>(d.limited(3));p.threshold=d.real();p.sigma=d.real();p.min_peak_radius=d.real();p.min_seed_distance=d.real();p.cell_expansion=d.real();
@@ -94,27 +113,31 @@ std::shared_ptr<const CellResult> CellArchiveCodec::decode(const std::uint8_t* d
     const auto& source=metadata.levels[level];const auto b=roi.bounds();
     if(b.x<0 || b.y<0 || static_cast<long double>(b.x+b.width)>metadata.width || static_cast<long double>(b.y+b.height)>metadata.height) throw std::invalid_argument("cell archive ROI exceeds source");
     const auto x=d.limited(source.width),y=d.limited(source.height),width=d.limited(source.width),height=d.limited(source.height);
+    const auto left=edge(b.x,scale,source.width),top=edge(b.y,scale,source.height),right=edge(b.x+b.width,scale,source.width),bottom=edge(b.y+b.height,scale,source.height);
+    const Rect roi_grid{double(left),double(top),double(right-left),double(bottom-top)};
+    const auto expected_grid=cell_detail::processing_grid(roi_grid,source,p);
     if(!width || !height || x+width>std::uint64_t(source.width) || y+height>std::uint64_t(source.height) || width>std::numeric_limits<std::uint32_t>::max()/height ||
-       x!=edge(b.x,scale,source.width) || y!=edge(b.y,scale,source.height) || x+width!=edge(b.x+b.width,scale,source.width) || y+height!=edge(b.y+b.height,scale,source.height)) throw std::invalid_argument("invalid cell archive sample grid");
+       x!=expected_grid.x || y!=expected_grid.y || width!=expected_grid.width || height!=expected_grid.height) throw std::invalid_argument("invalid cell archive sample grid");
     const auto count=static_cast<std::size_t>(width*height);ColorVector white;std::array<ColorVector,3> stains;
     for(auto& v:white) v=d.real();for(auto& vector:stains) for(auto& v:vector) v=d.real();StainTransform::validate_normalized(stains,white);
     const auto samples=d.limited(count),threshold=d.limited(samples);result->raw_peaks_=static_cast<std::size_t>(d.limited(p.max_cells));
-    const auto markers=static_cast<std::size_t>(d.limited(result->raw_peaks_)),components=static_cast<std::size_t>(d.limited(markers));
+    const auto markers=static_cast<std::size_t>(d.limited(result->raw_peaks_)),components=static_cast<std::size_t>(d.limited(sampled?p.max_cells:markers));
     result->elapsed_ms_=d.real();const auto work=static_cast<std::size_t>(d.limited(p.work_bytes));
-    const auto base=80ull*count+40ull*std::max(width,height)+1024ull*std::min<std::size_t>(count,p.max_cells)+16ull*p.tile_size*p.tile_size+65536;
-    const auto decoded=20ull*count+components*(sizeof(CellFeature)+2*sizeof(TissueComponent)+64ull)+markers*sizeof(CellMarker)+40ull*std::max(width,height)+2*roi.payload_bytes()+4096;
+    const auto base=cell_detail::work_base(expected_grid,p,result->measure_intensity_);
+    const auto decoded=(sampled?56ull:20ull)*count+components*(sizeof(CellFeature)+(result->measure_intensity_?sizeof(CellIntensityStatistics):0)+2*sizeof(TissueComponent)+64ull)+markers*sizeof(CellMarker)+40ull*std::max(width,height)+2*roi.payload_bytes()+4096;
     if(!samples || result->elapsed_ms_<0 || (work!=base && work!=base+2ull*p.contours.work_bytes) || decoded>256u*1024u*1024u)
         throw std::invalid_argument("cell archive exceeds decoded budget or has invalid statistics");
     std::string input;for(int i=0;i<64;++i) input.push_back(static_cast<char>(d.byte()));if(!hex(input)) throw std::invalid_argument("invalid cell input digest");
     result->markers_.reserve(markers);std::uint32_t dense=0,previous=0;
     for(std::size_t i=0;i<markers;++i) {
         checkpoint(cancelled);CellMarker m;m.label=d.u32();m.result_label=d.u32();m.pixel_index=d.u32();m.radius=d.real();
-        if(m.label!=i+1 || m.result_label>components || (m.result_label && m.result_label!=++dense) || m.pixel_index>=count || (i && m.pixel_index<=previous) ||
+        if(m.label!=i+1 || m.result_label>components || (!sampled && m.result_label && m.result_label!=++dense) || m.pixel_index>=count || (i && m.pixel_index<=previous) ||
            m.radius<p.min_peak_radius || m.radius>std::hypot(double(width),double(height))) throw std::invalid_argument("invalid cell archive marker");
         m.center={(double(x)+m.pixel_index%width+.5)*scale,(double(y)+m.pixel_index/width+.5)*scale};previous=m.pixel_index;result->markers_.push_back(m);
     }
-    if(dense!=components) throw std::invalid_argument("cell marker mapping is not dense");
+    if(!sampled && dense!=components) throw std::invalid_argument("cell marker mapping is not dense");
     result->features_.resize(components);
+    if(result->measure_intensity_) result->intensity_statistics_.reserve(components);
     for(std::size_t i=0;i<components;++i) {
         checkpoint(cancelled);auto& f=result->features_[i];f.label=static_cast<std::uint32_t>(i+1);f.nucleus_pixels=d.limited(samples);f.cell_pixels=d.limited(samples);
         if(f.nucleus_pixels<p.min_nucleus_pixels || (p.max_nucleus_pixels && f.nucleus_pixels>p.max_nucleus_pixels) || f.cell_pixels<f.nucleus_pixels) throw std::invalid_argument("invalid cell compartment counts");
@@ -132,11 +155,27 @@ std::shared_ptr<const CellResult> CellArchiveCodec::decode(const std::uint8_t* d
                 }
             }
         }
+        if(result->measure_intensity_) result->intensity_statistics_.push_back(cell_detail::read_cell_statistics(d,f));
     }
     auto nucleus_labels=d.labels(count,components,cancelled),body_labels=d.labels(count,components,cancelled);
+    std::vector<std::uint8_t> historical_domain;
+    if(sampled) {
+        const auto bytes=(count+7)/8;if(d.limited(bytes)!=bytes) throw std::invalid_argument("sampled cell domain length differs");
+        result->domain_bits_.resize(bytes);for(std::size_t i=0;i<bytes;++i) {if((i&4095)==0) checkpoint(cancelled);result->domain_bits_[i]=d.byte();}
+        if(count%8 && (result->domain_bits_.back()>>(count%8))) throw std::invalid_argument("noncanonical sampled cell domain padding");
+        historical_domain.resize(count);std::uint64_t opaque=0;
+        for(std::size_t i=0;i<count;++i) {
+            if((i&4095)==0) checkpoint(cancelled);const bool inside=(result->domain_bits_[i/8]>>(i%8))&1u;historical_domain[i]=inside;opaque+=inside;
+            if(inside && (x+i%width<left || y+i/width<top || x+i%width>=right || y+i/width>=bottom ||
+                          !roi.contains({(double(x)+i%width+.5)*scale,(double(y)+i/width+.5)*scale}))) throw std::invalid_argument("sampled cell domain exceeds its ROI sample grid");
+            if(!inside && (nucleus_labels[i] || body_labels[i])) throw std::invalid_argument("sampled cell label exceeds its domain");
+        }
+        if(opaque!=samples) throw std::invalid_argument("sampled cell domain sample count differs");
+    }
     if(d.left) throw std::invalid_argument("trailing cell archive payload");
     auto raster=[&](std::vector<std::uint32_t> labels,bool body) {
         auto r=std::shared_ptr<TissueResult>(new TissueResult());r->algorithm_=body?"qpx.cell-bodies/1":"qpx.cell-nuclei/1";r->input_sha256_=input;r->roi_=roi;
+        if(p.algorithm!=CellAlgorithm::DistanceWatershed) {r->algorithm_=cell_detail::mask_algorithm(p.algorithm,body);r->input_format_override_=cell_detail::input_format(p.algorithm,level!=0);}
         r->object_id_=object;r->object_revision_=object_revision;r->document_revision_=document_revision;r->level_=level;r->downsample_=scale;r->white_=white;r->stains_=stains;
         r->image_bounds_={0,0,double(metadata.width),double(metadata.height)};r->level_bounds_={double(x),double(y),double(width),double(height)};r->bounds_={double(x)*scale,double(y)*scale,double(width)*scale,double(height)*scale};
         r->parameters_.feature=p.feature;r->parameters_.threshold=p.threshold;r->parameters_.level=level;r->parameters_.tile_size=p.tile_size;r->parameters_.max_components=p.max_cells;r->parameters_.work_bytes=p.work_bytes;
@@ -145,7 +184,11 @@ std::shared_ptr<const CellResult> CellArchiveCodec::decode(const std::uint8_t* d
         std::vector<Stats> stats(components);
         for(std::size_t i=0;i<count;++i) {
             if((i&4095)==0) checkpoint(cancelled);const auto label=r->labels_[i];if(!label) continue;const auto xx=i%width,yy=i/width;auto& s=stats[label-1];
-            if(body && !roi.contains({(double(x)+xx+.5)*scale,(double(y)+yy+.5)*scale})) throw std::invalid_argument("cell label exceeds source ROI");
+            // QCL4 already checked every opaque domain sample against the ROI
+            // and rejected every label outside that domain. Reuse that proof
+            // instead of repeating a geometry predicate for each body pixel.
+            if(body && (x+xx<left || y+yy<top || x+xx>=right || y+yy>=bottom ||
+                        (!sampled && !roi.contains({(double(x)+xx+.5)*scale,(double(y)+yy+.5)*scale})))) throw std::invalid_argument("cell label exceeds source ROI");
             ++s.n;s.sx+=xx;s.sy+=yy;s.minx=std::min<std::uint64_t>(s.minx,xx);s.miny=std::min<std::uint64_t>(s.miny,yy);s.maxx=std::max<std::uint64_t>(s.maxx,xx);s.maxy=std::max<std::uint64_t>(s.maxy,yy);
         }
         r->components_.reserve(components);
@@ -159,21 +202,23 @@ std::shared_ptr<const CellResult> CellArchiveCodec::decode(const std::uint8_t* d
     };
     result->nuclei_=raster(std::move(nucleus_labels),false);result->cells_=raster(std::move(body_labels),true);
     const auto& nuclei=result->nuclei_->labels();const auto& bodies=result->cells_->labels();
-    for(const auto& marker:result->markers_) if(marker.result_label && nuclei[marker.pixel_index]!=marker.result_label) throw std::invalid_argument("cell marker does not lie in its nucleus");
+    for(const auto& marker:result->markers_) if(marker.result_label && nuclei[marker.pixel_index]!=marker.result_label &&
+       (p.algorithm==CellAlgorithm::DistanceWatershed || nuclei[marker.pixel_index])) throw std::invalid_argument("cell marker does not lie in its nucleus or clipped context");
+    if(sampled) {
+        if(components && p.cell_expansion>0) {
+            const auto expected=cell_detail::expand_cells_watershed(nuclei,historical_domain,width,height,p.cell_expansion,p.work_bytes,cancelled);
+            if(expected.labels!=bodies) throw std::invalid_argument("sampled cell body differs from its historical watershed recipe");
+        } else if(nuclei!=bodies) throw std::invalid_argument("sampled cell body violates its empty/zero-radius recipe");
+    }
     std::vector<double> distance;std::vector<std::uint32_t> nearest;
-    if(components && p.cell_expansion>0) {distance.resize(count);for(std::size_t i=0;i<count;++i) distance[i]=nuclei[i]?0:cell_detail::infinity;cell_detail::distance(distance,width,height,false,&nearest,cancelled);}
+    if(!sampled && components && p.cell_expansion>0) {distance.resize(count);for(std::size_t i=0;i<count;++i) distance[i]=nuclei[i]?0:cell_detail::infinity;cell_detail::distance(distance,width,height,false,&nearest,cancelled);}
     for(std::size_t i=0;i<count;++i) {
         if((i&4095)==0) checkpoint(cancelled);
         if(nuclei[i] && nuclei[i]!=bodies[i]) throw std::invalid_argument("cell body does not contain its nucleus");
         if(p.cell_expansion==0 && nuclei[i]!=bodies[i]) throw std::invalid_argument("cell expansion violates zero radius");
-        if(bodies[i] && p.cell_expansion>0 && (distance[i]>p.cell_expansion*p.cell_expansion || nearest[i]==std::numeric_limits<std::uint32_t>::max() || bodies[i]!=nuclei[nearest[i]])) throw std::invalid_argument("cell body violates nearest nucleus assignment");
+        if(!sampled && bodies[i] && p.cell_expansion>0 && (distance[i]>p.cell_expansion*p.cell_expansion || nearest[i]==std::numeric_limits<std::uint32_t>::max() || bodies[i]!=nuclei[nearest[i]])) throw std::invalid_argument("cell body violates nearest nucleus assignment");
     }
-    // Geometry is derived from the validated historical labels, never from
-    // today's pixels. Preserve readable numeric-only runs if their original
-    // contour limits cannot support geometry in this build.
-    try {restore_cell_contours(*result,cancelled);}
-    catch(const std::length_error&) {result->nucleus_contours_.reset();result->cell_contours_.reset();}
-    catch(const std::runtime_error&) {result->nucleus_contours_.reset();result->cell_contours_.reset();}
-    checkpoint(cancelled);return result;
+    restore_archived_cell_contours(*result,cancelled);
+    return result;
 }
 }

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="10" skipped="0" tests="10" time="0.426" timestamp="2026-11-04T10:53:17.709742-05:00" hostname="HEQPC"><testcase classname="tests.test_ome_calibration_units" name="test_non_si_length_matches_pinned_ome_and_preserves_samples[in]" time="0.018"><failure message="assert None == 31750.0 ± 6.4e-11&#10;  &#10;  comparison failed&#10;  Obtained: None&#10;  Expected: 31750.0 ± 6.4e-11">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4855/test_non_si_length_matches_pin0')
+reference = {'name': 'INCH', 'symbol': 'in', 'micrometres': 25400.0}
+
+    @pytest.mark.parametrize('reference',NON_SI,ids=lambda r:r['symbol'])
+    def test_non_si_length_matches_pinned_ome_and_preserves_samples(tmp_path,reference):
+        server=q.open_tiff(str(image(tmp_path,length_unit=reference['symbol'])))
+        expected=1.25*reference['micrometres']
+        metadata=server.raw_metadata
+        for actual in (metadata.pixel_width_um,metadata.pixel_height_um,metadata.z_spacing_um):
+&gt;           assert actual==pytest.approx(expected,rel=2e-15,abs=0)
+E           assert None == 31750.0 ± 6.4e-11
+E             
+E             comparison failed
+E             Obtained: None
+E             Expected: 31750.0 ± 6.4e-11
+
+build\ci\scientific-grid-159\tests\test_ome_calibration_units.py:71: AssertionError</failure></testcase><testcase classname="tests.test_ome_calibration_units" name="test_non_si_length_matches_pinned_ome_and_preserves_samples[thou]" time="0.013"><failure message="assert None == 31.75 ± 6.4e-14&#10;  &#10;  comparison failed&#10;  Obtained: None&#10;  Expected: 31.75 ± 6.4e-14">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4855/test_non_si_length_matches_pin1')
+reference = {'name': 'THOU', 'symbol': 'thou', 'micrometres': 25.4}
+
+    @pytest.mark.parametrize('reference',NON_SI,ids=lambda r:r['symbol'])
+    def test_non_si_length_matches_pinned_ome_and_preserves_samples(tmp_path,reference):
+        server=q.open_tiff(str(image(tmp_path,length_unit=reference['symbol'])))
+        expected=1.25*reference['micrometres']
+        metadata=server.raw_metadata
+        for actual in (metadata.pixel_width_um,metadata.pixel_height_um,metadata.z_spacing_um):
+&gt;           assert actual==pytest.approx(expected,rel=2e-15,abs=0)
+E           assert None == 31.75 ± 6.4e-14
+E             
+E             comparison failed
+E             Obtained: None
+E             Expected: 31.75 ± 6.4e-14
+
+build\ci\scientific-grid-159\tests\test_ome_calibration_units.py:71: AssertionError</failure></testcase><testcase classname="tests.test_ome_calibration_units" name="test_non_si_length_matches_pinned_ome_and_preserves_samples[li]" time="0.013"><failure message="assert None == 2645.833333333333 ± 5.3e-12&#10;  &#10;  comparison failed&#10;  Obtained: None&#10;  Expected: 2645.833333333333 ± 5.3e-12">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4855/test_non_si_length_matches_pin2')
+reference = {'name': 'LINE', 'symbol': 'li', 'micrometres': 2116.6666666666665}
+
+    @pytest.mark.parametrize('reference',NON_SI,ids=lambda r:r['symbol'])
+    def test_non_si_length_matches_pinned_ome_and_preserves_samples(tmp_path,reference):
+        server=q.open_tiff(str(image(tmp_path,length_unit=reference['symbol'])))
+        expected=1.25*reference['micrometres']
+        metadata=server.raw_metadata
+        for actual in (metadata.pixel_width_um,metadata.pixel_height_um,metadata.z_spacing_um):
+&gt;           assert actual==pytest.approx(expected,rel=2e-15,abs=0)
+E           assert None == 2645.833333333333 ± 5.3e-12
+E             
+E             comparison failed
+E             Obtained: None
+E             Expected: 2645.833333333333 ± 5.3e-12
+
+build\ci\scientific-grid-159\tests\test_ome_calibration_units.py:71: AssertionError</failure></testcase><testcase classname="tests.test_ome_calibration_units" name="test_non_si_length_matches_pinned_ome_and_preserves_samples[ft]" time="0.010"><failure message="assert None == 381000.0 ± 7.6e-10&#10;  &#10;  comparison failed&#10;  Obtained: None&#10;  Expected: 381000.0 ± 7.6e-10">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4855/test_non_si_length_matches_pin3')
+reference = {'name': 'FOOT', 'symbol': 'ft', 'micrometres': 304800.0}
+
+    @pytest.mark.parametrize('reference',NON_SI,ids=lambda r:r['symbol'])
+    def test_non_si_length_matches_pinned_ome_and_preserves_samples(tmp_path,reference):
+        server=q.open_tiff(str(image(tmp_path,length_unit=reference['symbol'])))
+        expected=1.25*reference['micrometres']
+        metadata=server.raw_metadata
+        for actual in (metadata.pixel_width_um,metadata.pixel_height_um,metadata.z_spacing_um):
+&gt;           assert actual==pytest.approx(expected,rel=2e-15,abs=0)
+E           assert None == 381000.0 ± 7.6e-10
+E             
+E             comparison failed
+E             Obtained: None
+E             Expected: 381000.0 ± 7.6e-10
+
+build\ci\scientific-grid-159\tests\test_ome_calibration_units.py:71: AssertionError</failure></testcase><testcase classname="tests.test_ome_calibration_units" name="test_non_si_length_matches_pinned_ome_and_preserves_samples[yd]" time="0.013"><failure message="assert None == 1142999.9999999998 ± 2.3e-09&#10;  &#10;  comparison failed&#10;  Obtained: None&#10;  Expected: 1142999.9999999998 ± 2.3e-09">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4855/test_non_si_length_matches_pin4')
+reference = {'name': 'YARD', 'symbol': 'yd', 'micrometres': 914399.9999999999}
+
+    @pytest.mark.parametrize('reference',NON_SI,ids=lambda r:r['symbol'])
+    def test_non_si_length_matches_pinned_ome_and_preserves_samples(tmp_path,reference):
+        server=q.open_tiff(str(image(tmp_path,length_unit=reference['symbol'])))
+        expected=1.25*reference['micrometres']
+        metadata=server.raw_metadata
+        for actual in (metadata.pixel_width_um,metadata.pixel_height_um,metadata.z_spacing_um):
+&gt;           assert actual==pytest.approx(expected,rel=2e-15,abs=0)
+E           assert None == 1142999.9999999998 ± 2.3e-09
+E             
+E             comparison failed
+E             Obtained: None
+E             Expected: 1142999.9999999998 ± 2.3e-09
+
+build\ci\scientific-grid-159\tests\test_ome_calibration_units.py:71: AssertionError</failure></testcase><testcase classname="tests.test_ome_calibration_units" name="test_non_si_length_matches_pinned_ome_and_preserves_samples[mi]" time="0.014"><failure message="assert None == 2011680000.0 ± 4.0e-06&#10;  &#10;  comparison failed&#10;  Obtained: None&#10;  Expected: 2011680000.0 ± 4.0e-06">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4855/test_non_si_length_matches_pin5')
+reference = {'name': 'MILE', 'symbol': 'mi', 'micrometres': 1609344000.0}
+
+    @pytest.mark.parametrize('reference',NON_SI,ids=lambda r:r['symbol'])
+    def test_non_si_length_matches_pinned_ome_and_preserves_samples(tmp_path,reference):
+        server=q.open_tiff(str(image(tmp_path,length_unit=reference['symbol'])))
+        expected=1.25*reference['micrometres']
+        metadata=server.raw_metadata
+        for actual in (metadata.pixel_width_um,metadata.pixel_height_um,metadata.z_spacing_um):
+&gt;           assert actual==pytest.approx(expected,rel=2e-15,abs=0)
+E           assert None == 2011680000.0 ± 4.0e-06
+E             
+E             comparison failed
+E             Obtained: None
+E             Expected: 2011680000.0 ± 4.0e-06
+
+build\ci\scientific-grid-159\tests\test_ome_calibration_units.py:71: AssertionError</failure></testcase><testcase classname="tests.test_ome_calibration_units" name="test_non_si_length_matches_pinned_ome_and_preserves_samples[ua]" time="0.012"><failure message="assert None == 1.86997338375e+17 ± 373.995&#10;  &#10;  comparison failed&#10;  Obtained: None&#10;  Expected: 1.86997338375e+17 ± 373.995">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4855/test_non_si_length_matches_pin6')
+reference = {'name': 'ASTRONOMICALUNIT', 'symbol': 'ua', 'micrometres': 1.495978707e+17}
+
+    @pytest.mark.parametrize('reference',NON_SI,ids=lambda r:r['symbol'])
+    def test_non_si_length_matches_pinned_ome_and_preserves_samples(tmp_path,reference):
+        server=q.open_tiff(str(image(tmp_path,length_unit=reference['symbol'])))
+        expected=1.25*reference['micrometres']
+        metadata=server.raw_metadata
+        for actual in (metadata.pixel_width_um,metadata.pixel_height_um,metadata.z_spacing_um):
+&gt;           assert actual==pytest.approx(expected,rel=2e-15,abs=0)
+E           assert None == 1.86997338375e+17 ± 373.995
+E             
+E             comparison failed
+E             Obtained: None
+E             Expected: 1.86997338375e+17 ± 373.995
+
+build\ci\scientific-grid-159\tests\test_ome_calibration_units.py:71: AssertionError</failure></testcase><testcase classname="tests.test_ome_calibration_units" name="test_non_si_length_matches_pinned_ome_and_preserves_samples[ly]" time="0.012"><failure message="assert None == 1.1825913090726e+22 ± 2.4e+07&#10;  &#10;  comparison failed&#10;  Obtained: None&#10;  Expected: 1.1825913090726e+22 ± 2.4e+07">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4855/test_non_si_length_matches_pin7')
+reference = {'name': 'LIGHTYEAR', 'symbol': 'ly', 'micrometres': 9.460730472580801e+21}
+
+    @pytest.mark.parametrize('reference',NON_SI,ids=lambda r:r['symbol'])
+    def test_non_si_length_matches_pinned_ome_and_preserves_samples(tmp_path,reference):
+        server=q.open_tiff(str(image(tmp_path,length_unit=reference['symbol'])))
+        expected=1.25*reference['micrometres']
+        metadata=server.raw_metadata
+        for actual in (metadata.pixel_width_um,metadata.pixel_height_um,metadata.z_spacing_um):
+&gt;           assert actual==pytest.approx(expected,rel=2e-15,abs=0)
+E           assert None == 1.1825913090726e+22 ± 2.4e+07
+E             
+E             comparison failed
+E             Obtained: None
+E             Expected: 1.1825913090726e+22 ± 2.4e+07
+
+build\ci\scientific-grid-159\tests\test_ome_calibration_units.py:71: AssertionError</failure></testcase><testcase classname="tests.test_ome_calibration_units" name="test_non_si_length_matches_pinned_ome_and_preserves_samples[pc]" time="0.011"><failure message="assert None == 3.85709700000...e+22 ± 7.7e+07&#10;  &#10;  comparison failed&#10;  Obtained: None&#10;  Expected: 3.857097000000001e+22 ± 7.7e+07">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4855/test_non_si_length_matches_pin8')
+reference = {'name': 'PARSEC', 'symbol': 'pc', 'micrometres': 3.0856776000000003e+22}
+
+    @pytest.mark.parametrize('reference',NON_SI,ids=lambda r:r['symbol'])
+    def test_non_si_length_matches_pinned_ome_and_preserves_samples(tmp_path,reference):
+        server=q.open_tiff(str(image(tmp_path,length_unit=reference['symbol'])))
+        expected=1.25*reference['micrometres']
+        metadata=server.raw_metadata
+        for actual in (metadata.pixel_width_um,metadata.pixel_height_um,metadata.z_spacing_um):
+&gt;           assert actual==pytest.approx(expected,rel=2e-15,abs=0)
+E           assert None == 3.85709700000...e+22 ± 7.7e+07
+E             
+E             comparison failed
+E             Obtained: None
+E             Expected: 3.857097000000001e+22 ± 7.7e+07
+
+build\ci\scientific-grid-159\tests\test_ome_calibration_units.py:71: AssertionError</failure></testcase><testcase classname="tests.test_ome_calibration_units" name="test_non_si_length_matches_pinned_ome_and_preserves_samples[pt]" time="0.012"><failure message="assert None == 440.97222222222223 ± 8.8e-13&#10;  &#10;  comparison failed&#10;  Obtained: None&#10;  Expected: 440.97222222222223 ± 8.8e-13">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4855/test_non_si_length_matches_pin9')
+reference = {'name': 'POINT', 'symbol': 'pt', 'micrometres': 352.77777777777777}
+
+    @pytest.mark.parametrize('reference',NON_SI,ids=lambda r:r['symbol'])
+    def test_non_si_length_matches_pinned_ome_and_preserves_samples(tmp_path,reference):
+        server=q.open_tiff(str(image(tmp_path,length_unit=reference['symbol'])))
+        expected=1.25*reference['micrometres']
+        metadata=server.raw_metadata
+        for actual in (metadata.pixel_width_um,metadata.pixel_height_um,metadata.z_spacing_um):
+&gt;           assert actual==pytest.approx(expected,rel=2e-15,abs=0)
+E           assert None == 440.97222222222223 ± 8.8e-13
+E             
+E             comparison failed
+E             Obtained: None
+E             Expected: 440.97222222222223 ± 8.8e-13
+
+build\ci\scientific-grid-159\tests\test_ome_calibration_units.py:71: AssertionError</failure></testcase></testsuite></testsuites>

@@ -1,0 +1,8 @@
+{
+  "upstream_commit": "b916186e66aa3c02b72c6ca17455516512ed8049",
+  "original_sha256": "274731b467a7111e6320f6c8da5793d30f10f997330c758fe1b6c9fcfc64da23",
+  "patched_sha256": "0cf9487f5bd113edd04c3a346a92ae7916d9c074557e283133d8f55f52d3efed",
+  "replacement_count": 1,
+  "other_assertions_preserved": true,
+  "application_changed": false
+}

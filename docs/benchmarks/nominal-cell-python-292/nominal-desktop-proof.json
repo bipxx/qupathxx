@@ -1,0 +1,18 @@
+{
+  "native_source": "ab706d47bca3bb7fcbe05e1416b81c928e550ed4",
+  "original_image_shape": [
+    256,
+    192
+  ],
+  "published_cells": 3,
+  "record_id": 3,
+  "nominal_downsample": 1.5,
+  "canvas_visible": true,
+  "tiles_settled": true,
+  "uploaded_tiles": 1,
+  "ppm_sha256": "dfe476564844672525901784be79b01950a27b5e9d87bd3657bb1ba304da6de1",
+  "png_sha256": "c8c5d2d104adf23568fdbc937e8535ff4b0ccf11680ade2924c52f1247c2ccd4",
+  "png_lossless": true,
+  "gui_creation_controls_delivered": false,
+  "managed_viewer_command_delivered": false
+}

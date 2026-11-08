@@ -1,0 +1,13 @@
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tests/tma_dearray_tests.cpp: In member function ‘virtual qpx::PixelBuffer {anonymous}::Server::read_region(const qpx::RegionRequest&) const’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tests/tma_dearray_tests.cpp:62:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   62 |         if(change) meta.vendor="changed";if(close_on_read) is_closed=true;if(cancel_on_read) cancel_on_read->store(true);
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tests/tma_dearray_tests.cpp:62:42: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   62 |         if(change) meta.vendor="changed";if(close_on_read) is_closed=true;if(cancel_on_read) cancel_on_read->store(true);
+      |                                          ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tests/tma_dearray_tests.cpp:63:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   63 |         if(bad_shape) return PixelBuffer(1,1);auto out=image;if(bad_bytes) out.writable_bytes().pop_back();return out;
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tests/tma_dearray_tests.cpp:63:47: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   63 |         if(bad_shape) return PixelBuffer(1,1);auto out=image;if(bad_bytes) out.writable_bytes().pop_back();return out;
+      |                                               ^~~~

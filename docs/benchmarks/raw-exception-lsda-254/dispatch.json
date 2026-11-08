@@ -1,0 +1,21 @@
+{
+  "schema": "qpx.exception-link-witness-dispatch/1",
+  "source": "f2dd2633c13116279160fd6ea17796a0d38c77a1",
+  "ref": "feature/raw-exception-lsda-254",
+  "state": "run_identified",
+  "at_utc": "2026-10-26T23:03:29.265425+00:00",
+  "production_and_fixture_diff_empty": true,
+  "local_controls": 19,
+  "linux_witness": "five semantic lines and exit0; no Darwin conclusion",
+  "product_repair_established": false,
+  "returncode": 0,
+  "stdout": "",
+  "stderr": "",
+  "run": {
+    "conclusion": "",
+    "databaseId": 40417045171,
+    "headSha": "f2dd2633c13116279160fd6ea17796a0d38c77a1",
+    "status": "queued",
+    "url": "https://github.com/bipxx/qupathxx/actions/runs/40417045171"
+  }
+}

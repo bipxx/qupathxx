@@ -1,0 +1,20 @@
+{
+  "id": 12864670138,
+  "node_id": "MDg6QXJ0aWZhY3QxMjg2NDY3MDEzOA==",
+  "name": "Windows-gui-py3.12",
+  "size_in_bytes": 58156964,
+  "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12864670138",
+  "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12864670138/zip",
+  "expired": false,
+  "digest": "sha256:779191399f16b8bf58d078c295884b6e5c5f2f786922c1f5f845552b9c0659b5",
+  "created_at": "2026-10-29T00:52:34Z",
+  "updated_at": "2026-10-29T00:52:34Z",
+  "expires_at": "2026-11-12T00:52:31Z",
+  "workflow_run": {
+    "id": 40792323979,
+    "repository_id": 1427753981,
+    "head_repository_id": 1427753981,
+    "head_branch": "feature/reader-locale-qualification-298",
+    "head_sha": "9fbc9315e8c2417c35492cf505a8f676ecdfcf75"
+  }
+}

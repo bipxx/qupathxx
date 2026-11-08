@@ -1,0 +1,12 @@
+................................................F.......                 [100%]
+================================== FAILURES ===================================
+________ test_live_scale_changes_invalidate_cache_without_camera_drift ________
+tests\test_gui_scale.py:141: in test_live_scale_changes_invalidate_cache_without_camera_drift
+    assert captures[0] == captures[1]
+E   AssertionError: assert b'P6\n1440 90...7\xbd\xc2\xc7' == b'P6\n1440 90...7\xbd\xc2\xc7'
+E     
+E     At index 208951 diff: b'\xdc' != b'\xd8'
+E     Use -v to get more diff
+=========================== short test summary info ===========================
+FAILED tests/test_gui_scale.py::test_live_scale_changes_invalidate_cache_without_camera_drift
+1 failed, 55 passed, 5 deselected in 33.78s

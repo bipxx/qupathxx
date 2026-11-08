@@ -1,0 +1,26 @@
+{
+  "source": "0dc916c8d0f527eeecce03ec852ed2772695b93b",
+  "fingerprint": "718ef68c602569c75ebef62812962e1144a9c44a138ad71a183b58b537973c2c",
+  "cases": [
+    {
+      "action": "cancel",
+      "observed_running": true,
+      "state": "cancelled",
+      "committed": false,
+      "objects": 3,
+      "source_project_unchanged": true,
+      "reader_released": true,
+      "frames": 4
+    },
+    {
+      "action": "close",
+      "observed_running": true,
+      "state": "cancelled",
+      "committed": false,
+      "objects": 3,
+      "source_project_unchanged": true,
+      "reader_released": true,
+      "frames": 4
+    }
+  ]
+}

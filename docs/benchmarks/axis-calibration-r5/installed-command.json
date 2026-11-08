@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\axis-calibration-r5-env\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-c",
+    "import qupathxx as q,pytest;assert q.build_environment().git_revision=='5c179651e4d1e265a1e04f11bb2acd4634d7a081';raise SystemExit(pytest.main(['tests/test_image_axis_calibration.py::test_save_snapshot_owns_values_and_schema21_upgrade_is_atomic','-q','--junitxml=C:/Users/HEQ/Projects/qupathxx/build/axis-calibration-r5/installed.xml','--basetemp','C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\axis-calibration-r5\\\\installed-temp']))"
+  ],
+  "returncode": 0,
+  "seconds": 0.7643269998952746
+}

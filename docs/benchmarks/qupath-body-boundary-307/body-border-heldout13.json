@@ -1,0 +1,57 @@
+{
+  "cases": [
+    {
+      "name": "slide-edge-1.0",
+      "differing_labels": 0
+    },
+    {
+      "name": "slide-edge-1.25",
+      "differing_labels": 0
+    },
+    {
+      "name": "slide-edge-1.5",
+      "differing_labels": 0
+    },
+    {
+      "name": "slide-edge-2.3",
+      "differing_labels": 0
+    },
+    {
+      "name": "odd-crop-1.0",
+      "differing_labels": 0
+    },
+    {
+      "name": "odd-crop-1.25",
+      "differing_labels": 0
+    },
+    {
+      "name": "odd-crop-1.5",
+      "differing_labels": 0
+    },
+    {
+      "name": "odd-crop-2.3",
+      "differing_labels": 0
+    },
+    {
+      "name": "odd-hole-1.5",
+      "differing_labels": 0
+    },
+    {
+      "name": "sigma-0.0",
+      "differing_labels": 0
+    },
+    {
+      "name": "sigma-8.5",
+      "differing_labels": 0
+    },
+    {
+      "name": "sigma-8.500001",
+      "differing_labels": 0
+    },
+    {
+      "name": "sigma-16.0",
+      "differing_labels": 0
+    }
+  ],
+  "production_changed": false
+}

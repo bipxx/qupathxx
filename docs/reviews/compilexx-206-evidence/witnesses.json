@@ -1,0 +1,34 @@
+{
+  "junit_optimize_0": {
+    "rejected": true
+  },
+  "junit_optimize_1": {
+    "rejected": false,
+    "result": {
+      "tests": 1,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 0,
+      "seconds": 0.0,
+      "sha256": "546e9d95af278354f98c4ab03374e7b8f2058e04ac07514a6e6ff145f4112264"
+    }
+  },
+  "timestamp_cache": {
+    "source_sha256": "7f706258a3aee732c86636d6fe77accd84e94d3fb459ca6f2867857b5fcc5863",
+    "source_value": "new",
+    "loaded_value": "old",
+    "dont_write_bytecode": true
+  },
+  "baseline": {
+    "exit": 0,
+    "cases": 1,
+    "addopts": null
+  },
+  "inherited_collect_only": {
+    "exit": 0,
+    "cases": 0,
+    "addopts": "--collect-only"
+  },
+  "source": "682ba00f04611403bd4ab6116f0075d488618850"
+}

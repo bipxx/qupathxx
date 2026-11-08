@@ -1,0 +1,25 @@
+{
+  "initial_wheel_sha256": "e33b8ac4db51f7658a2d41ce3c79c6653cea0cbc87cf385b3bbaf969db2daf1f",
+  "final_wheel_sha256": "9a88130eafada25fce913163d9872fb3ab09a17dc11d465434853054142e629a",
+  "native_sha256": "8df188b78168b25d0c8b03e4e354a368ea8a2db7bd7cbc20dc99bb789ddedd70",
+  "stub_generation_from_new_wheel": true,
+  "stub_generation_argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\annotation-merge-r4-env\\Scripts\\python.exe",
+    "-X",
+    "utf8",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tools\\generate_stubs.py"
+  ],
+  "install_argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\annotation-merge-r4-env\\Scripts\\python.exe",
+    "-I",
+    "-m",
+    "pip",
+    "install",
+    "--ignore-installed",
+    "--no-index",
+    "--no-deps",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\annotation-merge-r4\\wheel\\qupathxx-0.1.0-cp312-cp312-win_amd64.whl"
+  ],
+  "native_rebuild_for_stubs": false,
+  "final_product_installs": 1
+}

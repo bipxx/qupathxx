@@ -1,0 +1,20 @@
+{
+  "id": 12625088424,
+  "node_id": "MDg6QXJ0aWZhY3QxMjYyNTA4ODQyNA==",
+  "name": "macos-native-x86_64",
+  "size_in_bytes": 11591969,
+  "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12625088424",
+  "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12625088424/zip",
+  "expired": false,
+  "digest": "sha256:9705a6149a6380da2b5d21188f182a49480fba8ce5ac74a9a2f0901f4c25c220",
+  "created_at": "2026-10-26T03:31:02Z",
+  "updated_at": "2026-10-26T03:31:02Z",
+  "expires_at": "2026-11-09T03:31:00Z",
+  "workflow_run": {
+    "id": 40262423808,
+    "repository_id": 1427753981,
+    "head_repository_id": 1427753981,
+    "head_branch": "feature/multifile-ome-workflow-210",
+    "head_sha": "9e7d0be94c59c2c5e363f7dfa60384f9c9c2d7d6"
+  }
+}

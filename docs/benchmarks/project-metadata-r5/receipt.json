@@ -1,0 +1,60 @@
+{
+  "task": "R5-PROJECTMETA1",
+  "status": "locally verified within declared project string-metadata workflow",
+  "source": "408f383e78e7f235ec2d444c3a7d2488a81c5d64",
+  "python": {
+    "initial": {
+      "passed": 247,
+      "failed": 2,
+      "skipped": 9
+    },
+    "repair1": {
+      "passed": 1,
+      "failed": 1
+    },
+    "repair2": {
+      "passed": 1,
+      "failed": 0
+    },
+    "unique_non_gui_passes": 249,
+    "desktop_passes": 2,
+    "installed_ownership_snapshot_budget_recovery_namespaces": 2
+  },
+  "native_roles": [
+    "project",
+    "project_save",
+    "qupath_project",
+    "spatial_records",
+    "gui_replay"
+  ],
+  "native_all_passed": true,
+  "older_schema_versions_covered": 24,
+  "public_stub_passes": 5,
+  "typing": {
+    "positive": "pass",
+    "negative_diagnostics": [
+      "dict-item",
+      "misc",
+      "assignment"
+    ]
+  },
+  "installed_actual_gui_authoring": "zero-image project: observed-coordinate remove/Apply/close/Ctrl+S/reopen exact map",
+  "visual_inspection": "installed-project-editor.png",
+  "product_repairs": 0,
+  "observer_repairs": [
+    "classifiers directory creation after freeze",
+    "recovery extension .qpxrecover",
+    "point manifest to absent source instead of deleting held TIFF",
+    "exact missing_image issue code"
+  ],
+  "waste": {
+    "builds": 1,
+    "build_seconds": 557.1585272999946,
+    "upstream_processes": 1,
+    "upstream_seconds": 2.771016900194809,
+    "stub_generations": 1,
+    "installs": 1,
+    "repaired_only_failed_cases": true
+  },
+  "remaining": "derived class-parent semantics and zero-image project class registry; broader formats/versions/records/races, science/resources/hosts/release"
+}

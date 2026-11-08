@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\upstream\\qupath\\runtime\\QuPath-0.7.0 (console).exe",
+    "script",
+    "--args",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\axis-calibration-r5",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tools\\upstream\\qupath_axis_calibration_reference.groovy"
+  ],
+  "returncode": 1,
+  "seconds": 4.845650699920952,
+  "probe_sha256": "6733eb002f12aaa64c9b7d55f4c96b511d62858aea4d119cb247a2af110a3fc9"
+}

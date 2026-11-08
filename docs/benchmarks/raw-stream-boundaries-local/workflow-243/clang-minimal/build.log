@@ -1,0 +1,31 @@
+[0/2] Re-checking globbed directories...
+[1/20] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/tissue_contours.cpp.o
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tissue_contours.cpp:59:31: warning: unused function 'stream_geometry' [-Wunused-function]
+   59 | const RawPixelStreamGeometry* stream_geometry(const StreamBoundaryRaster& m) {return &m.network.geometry;}
+      |                               ^~~~~~~~~~~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tissue_contours.cpp:61:13: warning: unused function 'boundary_payload' [-Wunused-function]
+   61 | std::size_t boundary_payload(const StreamBoundaryRaster& m) {
+      |             ^~~~~~~~~~~~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tissue_contours.cpp:72:27: warning: unused function 'classify_face_cells' [-Wunused-function]
+   72 | detail::RawBoundaryLabels classify_face_cells(const StreamBoundaryRaster& mask,
+      |                           ^~~~~~~~~~~~~~~~~~~
+3 warnings generated.
+[2/20] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/project.cpp.o
+[3/20] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_file_jobs.cpp.o
+[4/20] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_stream_records.cpp.o
+[5/20] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_stream.cpp.o
+[6/20] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_stream_boundaries.cpp.o
+[7/20] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_stream_contours.cpp.o
+[8/20] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/provenance.cpp.o
+[9/20] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_stream_file.cpp.o
+[10/20] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/batch_checkpoint.cpp.o
+[11/20] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/project_batch.cpp.o
+[12/20] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/viewer_session.cpp.o
+[13/20] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_frontend.cpp.o
+[14/20] Linking CXX static library libqupathxx_core.a
+[15/20] Linking CXX executable qupathxx_resampling_tests
+[16/20] Building CXX object CMakeFiles/qupathxx_viewer_session_tests.dir/cpp/tests/viewer_session_tests.cpp.o
+[17/20] Linking CXX executable qupathxx_viewer_session_tests
+[18/20] Building CXX object CMakeFiles/qupathxx_pixel_workflow_tests.dir/cpp/tests/pixel_workflow_tests.cpp.o
+[19/20] Linking CXX executable qupathxx_tissue_contour_tests
+[20/20] Linking CXX executable qupathxx_pixel_workflow_tests

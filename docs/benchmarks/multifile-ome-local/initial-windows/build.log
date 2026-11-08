@@ -1,0 +1,98 @@
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+
+  Checking File Globs
+  glfw.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\glfw-build\src\Release\glfw3.lib
+  qupathxx_sqlite.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_sqlite.lib
+  qupathxx_tiff_xml.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_tiff_xml.lib
+  nanobind-static.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\nanobind-static.lib
+  zlibstatic.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\qpx_zlib-build\Release\zs.lib
+  tiff.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\qpx_tiff-build\libtiff\Release\tiff.lib
+  tiff_server.cpp
+  provenance.cpp
+  qupathxx_core.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_core.lib
+  qupathxx_gui.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_gui.lib
+     Creating library C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/_native.lib and object C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/_native.exp
+  _native.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\_native.cp312-win_amd64.pyd
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+
+  Checking File Globs
+  qupathxx_sqlite.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_sqlite.lib
+  qupathxx_tiff_xml.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_tiff_xml.lib
+  zlibstatic.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\qpx_zlib-build\Release\zs.lib
+  tiff.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\qpx_tiff-build\libtiff\Release\tiff.lib
+  qupathxx_core.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_core.lib
+  qupathxx_region.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_region.exe
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+
+  Checking File Globs
+  qupathxx_sqlite.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_sqlite.lib
+  qupathxx_tiff_xml.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_tiff_xml.lib
+  zlibstatic.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\qpx_zlib-build\Release\zs.lib
+  tiff.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\qpx_tiff-build\libtiff\Release\tiff.lib
+  qupathxx_core.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_core.lib
+  qupathxx_batch.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_batch.exe
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+
+  Checking File Globs
+  qupathxx_sqlite.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_sqlite.lib
+  qupathxx_tiff_xml.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_tiff_xml.lib
+  zlibstatic.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\qpx_zlib-build\Release\zs.lib
+  tiff.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\qpx_tiff-build\libtiff\Release\tiff.lib
+  qupathxx_core.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_core.lib
+  qupathxx_source_identity_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_source_identity_tests.exe
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+
+  Checking File Globs
+  qupathxx_sqlite.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_sqlite.lib
+  qupathxx_tiff_xml.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_tiff_xml.lib
+  zlibstatic.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\qpx_zlib-build\Release\zs.lib
+  tiff.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\qpx_tiff-build\libtiff\Release\tiff.lib
+  qupathxx_core.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_core.lib
+  qupathxx_file_fingerprint_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_file_fingerprint_tests.exe
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+
+  Checking File Globs
+  qupathxx_sqlite.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_sqlite.lib
+  qupathxx_tiff_xml.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_tiff_xml.lib
+  zlibstatic.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\qpx_zlib-build\Release\zs.lib
+  tiff.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\qpx_tiff-build\libtiff\Release\tiff.lib
+  qupathxx_core.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_core.lib
+  qupathxx_provenance_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_provenance_tests.exe
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+
+  Checking File Globs
+  qupathxx_sqlite.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_sqlite.lib
+  qupathxx_tiff_xml.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_tiff_xml.lib
+  zlibstatic.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\qpx_zlib-build\Release\zs.lib
+  tiff.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\qpx_tiff-build\libtiff\Release\tiff.lib
+  qupathxx_core.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_core.lib
+  raw_image_tests.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_image_tests.cpp(38,86): warning C4805: '==': unsafe mix of type 'const _Ty' and type 'const bool' in operation [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_raw_image_tests.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_image_tests.cpp(38,86): warning C4805:         with [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_raw_image_tests.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_image_tests.cpp(38,86): warning C4805:         [ [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_raw_image_tests.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_image_tests.cpp(38,86): warning C4805:             _Ty=uint8_t [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_raw_image_tests.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_image_tests.cpp(38,86): warning C4805:         ] [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_raw_image_tests.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_image_tests.cpp(64,79): error C2027: use of undefined type 'qpx::ReaderSource' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_raw_image_tests.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\image_server.hpp(11,8):
+      see declaration of 'qpx::ReaderSource'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_image_tests.cpp(64,83): error C2039: 'scope': is not a member of 'std::shared_ptr<const qpx::ReaderSource>' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_raw_image_tests.vcxproj]
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\memory(1565,7):
+      see declaration of 'std::shared_ptr<const qpx::ReaderSource>'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_image_tests.cpp(64,131): error C2027: use of undefined type 'qpx::ReaderSource' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_raw_image_tests.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\image_server.hpp(11,8):
+      see declaration of 'qpx::ReaderSource'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_image_tests.cpp(64,135): error C2039: 'companions': is not a member of 'std::shared_ptr<const qpx::ReaderSource>' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_raw_image_tests.vcxproj]
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\memory(1565,7):
+      see declaration of 'std::shared_ptr<const qpx::ReaderSource>'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_image_tests.cpp(68,89): error C2027: use of undefined type 'qpx::ReaderSource' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_raw_image_tests.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\image_server.hpp(11,8):
+      see declaration of 'qpx::ReaderSource'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_image_tests.cpp(68,93): error C2039: 'companions': is not a member of 'std::shared_ptr<const qpx::ReaderSource>' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_raw_image_tests.vcxproj]
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\memory(1565,7):
+      see declaration of 'std::shared_ptr<const qpx::ReaderSource>'
+  

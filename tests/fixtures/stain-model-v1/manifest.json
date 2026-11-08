@@ -1,0 +1,7 @@
+{
+  "source": "16470ac0bed8f1f8292ba8d37ff0cc836ba9c84a",
+  "source_tree_sha256": "f8120edbdce5f7b69f3f8260c2529d0533a4dd04c7c167d4223ba98130b59cdd",
+  "file_sha256": "72bb825193351aaaca3ccb8be67310efd47e83d49e8d34b7d4d02fc38e6bcb7f",
+  "model_sha256": "5d983c4a32c0a795f99c20b4199516be041b277b087297e7610cb12ee1033e21",
+  "scope": "Existing estimator/export format from preserved installed REGION1; model-reload compatibility only, not a new scientific reference"
+}

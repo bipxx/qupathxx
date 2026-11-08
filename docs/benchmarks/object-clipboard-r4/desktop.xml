@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="2" time="2.058" timestamp="2026-11-04T17:51:44.314324-05:00" hostname="HEQPC"><testcase classname="tests.test_object_clipboard" name="test_desktop_system_clipboard_paste_selection_history_and_saved_restart" time="1.285"><failure message="assert (0 == 2)&#10; +  where 0 = len([])&#10; +    where [] = &lt;qupathxx._native.GuiReport object at 0x000001B60ADA85D0&gt;.selected_ids">tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/object-clipboard-r4/desktop-temp/test_desktop_system_clipboard_0')
+
+    @pytest.mark.skipif(not q.has_gui or os.environ.get('QUPATHXX_TEST_GUI')!='1',reason='opt-in desktop')
+    def test_desktop_system_clipboard_paste_selection_history_and_saved_restart(tmp_path):
+        from test_gui_replay import event
+        doc,parent,child,_=scene();doc.remove_annotation(doc.annotations[-1].id)
+        project=q.Project();image=project.add_document(doc);path=tmp_path/'desktop.qpxproj';project.save(str(path))
+        options=q.GuiOptions();options.docked_workspace=True;options.width=1600;options.height=1400
+        options.autosave_interval_seconds=0;options.settle_tiles=True
+        events=[event(4,q.GuiInputKind.SELECT_ALL_KEY),event(7,q.GuiInputKind.COPY_OBJECTS_KEY),
+                event(10,q.GuiInputKind.PASTE_OBJECTS_KEY),event(14,q.GuiInputKind.UNDO_KEY),event(18,q.GuiInputKind.REDO_KEY),
+                event(24,q.GuiInputKind.SAVE_KEY)]
+        options.inputs=events
+        report=q.show(project,frame_limit=45,capture_path=str(tmp_path/'clipboard.ppm'),options=options)
+        assert report.replay_complete and report.clipboard_error==''
+        assert report.clipboard_copies==1 and report.clipboard_pastes==1
+        assert report.clipboard_copied_objects==report.clipboard_pasted_objects==2
+&gt;       assert len(report.selected_ids)==2 and set(report.selected_ids).isdisjoint({parent,child})
+E       assert (0 == 2)
+E        +  where 0 = len([])
+E        +    where [] = &lt;qupathxx._native.GuiReport object at 0x000001B60ADA85D0&gt;.selected_ids
+
+tests\test_object_clipboard.py:165: AssertionError</failure></testcase><testcase classname="tests.test_object_clipboard" name="test_desktop_clipboard_survives_window_close_and_pastes_to_displayed_plane" time="0.259"><failure message="assert (True and 0 == 1)&#10; +  where True = &lt;qupathxx._native.GuiReport object at 0x000001B67ADBD190&gt;.replay_complete&#10; +  and   0 = &lt;qupathxx._native.GuiReport object at 0x000001B67ADBD190&gt;.clipboard_copies">tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/object-clipboard-r4/desktop-temp/test_desktop_clipboard_survive0')
+
+    @pytest.mark.skipif(not q.has_gui or not q.has_tiff or os.environ.get('QUPATHXX_TEST_GUI')!='1',reason='opt-in desktop planes')
+    def test_desktop_clipboard_survives_window_close_and_pastes_to_displayed_plane(tmp_path):
+        from test_gui_replay import event
+        from test_raw_analysis import scene as raw_scene
+        from test_object_planes import imported,display,plane_tuple
+        doc,_,_=raw_scene(tmp_path);obj=imported(doc,c=1,z=1,t=1);display(doc,1,1)
+        options=q.GuiOptions();options.settle_tiles=True
+        options.inputs=[event(4,q.GuiInputKind.SELECT_ALL_KEY),event(8,q.GuiInputKind.COPY_OBJECTS_KEY)]
+        first=q.show(doc,frame_limit=18,options=options)
+&gt;       assert first.replay_complete and first.clipboard_copies==1 and first.clipboard_error==''
+E       assert (True and 0 == 1)
+E        +  where True = &lt;qupathxx._native.GuiReport object at 0x000001B67ADBD190&gt;.replay_complete
+E        +  and   0 = &lt;qupathxx._native.GuiReport object at 0x000001B67ADBD190&gt;.clipboard_copies
+
+tests\test_object_clipboard.py:181: AssertionError</failure></testcase></testsuite></testsuites>

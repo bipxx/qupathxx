@@ -1,0 +1,27 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Scripts\\python.exe",
+    "-X",
+    "utf8",
+    "tools/ci/accept_manylinux.py",
+    "--artifacts",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\q276-all",
+    "--run-json",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-276\\portable-run-terminal.json",
+    "--commit",
+    "9d923225cb53009506042f6c27df2aff91e123e2",
+    "--output",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-276\\portable-acceptance.json",
+    "--unified-engine",
+    "--ndpi-readers",
+    "--watershed-bodies",
+    "--sampled-cells",
+    "--small-frontier",
+    "--tma-cases",
+    "--tma-file-export",
+    "--tma-cohorts",
+    "--linux-runtime-manifest"
+  ],
+  "cwd": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\snapshot-waits-qualification-276-audit",
+  "returncode": 0
+}

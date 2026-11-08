@@ -1,0 +1,20 @@
+{
+  "command": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\tma197-python-env\\Scripts\\python.exe",
+    "-I",
+    "-m",
+    "pytest",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\tma-axis-workflow-196\\tests\\test_qptma.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\tma-axis-workflow-196\\tests\\test_qptma_reference.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\tma-axis-workflow-196\\tests\\test_qptma_evidence.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\tma-axis-workflow-196\\tests\\test_qptma_project.py",
+    "--collect-only",
+    "-q",
+    "--noconftest",
+    "--color=no",
+    "-o",
+    "addopts="
+  ],
+  "exit": 0,
+  "source": "ad4aa2c8cfeaad652e4dd920f81ba8787eed0384"
+}

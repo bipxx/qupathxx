@@ -1,4 +1,5 @@
 #include "qupathxx/raw_image.hpp"
+#include "qupathxx/source_identity.hpp"
 #include "qupathxx/raw_analysis.hpp"
 #include "qupathxx/project.hpp"
 #include "qupathxx/project_batch.hpp"
@@ -7,21 +8,142 @@
 #include "../raw_analysis_internal.hpp"
 #include "qupathxx/core.hpp"
 #include <algorithm>
+#include <atomic>
+#include <iterator>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <random>
+#include <clocale>
 using namespace qpx;
 void check(bool value) {if(!value) throw std::runtime_error("raw image check failed");}
 template<class F> void rejects(F&& f) {try {f();}catch(const std::exception&) {return;}throw std::runtime_error("missing raw rejection");}
+void locale_independent_format_paths() {
+    const std::string original=std::setlocale(LC_CTYPE,nullptr);
+    struct Restore {std::string value;~Restore(){std::setlocale(LC_CTYPE,value.c_str());}} restore{original};
+#ifdef _WIN32
+    const char* locales[]={"C","English_United States.1252","tr-TR"};
+#else
+    const char* locales[]={"C"};
+#endif
+    for(const auto* locale:locales) {
+        check(std::setlocale(LC_CTYPE,locale)!=nullptr);
+        const std::string selected=std::setlocale(LC_CTYPE,nullptr);
+        const std::string prefix=u8"\u539f\u59cb-\u0391\u03a3-";
+        for(const auto* extension:{"TIF","TIFF","TF2","TF8","BTF"}) {
+            const auto name=prefix+"IMAGE.OME."+extension;const auto unchanged=name;
+            check(is_ome_tiff_path(name));check(name==unchanged);
+            check(is_ome_tiff_path("folder.ome/"+name));
+        }
+        check(!is_ome_tiff_path(prefix+"IMAGE.PPM"));
+        check(!is_ome_tiff_path(prefix+"IMAGE.TIFF"));
+        check(!is_ome_tiff_path("folder.ome/"+prefix+"IMAGE.TIF"));
+        check(!is_ome_tiff_path(prefix+"IMAGE.OME.TIF.backup"));
+        check(std::string(std::setlocale(LC_CTYPE,nullptr))==selected);
+    }
+}
+// Independent TIFF strips, including explicit planar channel storage. This
+// exercises physical decode reuse without depending on an encoder or the LRU.
+void multichannel_block_reuse(const std::filesystem::path& path) {
+    for(bool separate:{false,true}) for(std::size_t cache:{std::size_t(0),std::size_t(1)}) {
+        std::vector<unsigned char> bytes={'I','I',42,0,8,0,0,0};
+        auto u16=[&](std::uint16_t n){bytes.push_back(n&255);bytes.push_back(n>>8);};
+        auto u32=[&](std::uint32_t n){for(unsigned i=0;i<4;++i) bytes.push_back(std::uint8_t(n>>(8*i)));};
+        auto tag=[&](std::uint16_t id,std::uint16_t type,std::uint32_t count,std::uint32_t value){u16(id);u16(type);u32(count);u32(value);};
+        const auto strips=separate?6u:2u,block_bytes=separate?4u:12u,pixels=140u+8u*strips;
+        u16(10);tag(256,4,1,2);tag(257,4,1,2);tag(258,3,3,134);tag(259,3,1,1);tag(262,3,1,2);
+        tag(273,4,strips,140);tag(277,3,1,3);tag(278,4,1,1);tag(279,4,strips,140+4*strips);tag(284,3,1,separate?2:1);u32(0);
+        check(bytes.size()==134);u16(16);u16(16);u16(16);
+        for(unsigned i=0;i<strips;++i) u32(pixels+i*block_bytes);
+        for(unsigned i=0;i<strips;++i) u32(block_bytes);
+        if(separate) {for(unsigned c=0;c<3;++c) for(unsigned y=0;y<2;++y) for(unsigned x=0;x<2;++x) u16(std::uint16_t(100*c+2*y+x+1));}
+        else {for(unsigned y=0;y<2;++y) for(unsigned x=0;x<2;++x) for(unsigned c=0;c<3;++c) u16(std::uint16_t(100*c+2*y+x+1));}
+        std::ofstream file(path,std::ios::binary);file.write(reinterpret_cast<const char*>(bytes.data()),bytes.size());file.close();
+        TiffOpenOptions options;options.cache_bytes=cache;auto server=open_tiff(path.u8string(),options);
+        RawRegionRequest request;request.region={-1,-1,0,4,4};request.first_channel=1;request.channels=2;
+        const auto raw=server->read_raw(request);const auto& values=std::get<std::vector<std::uint16_t>>(raw.storage());
+        for(unsigned y=0;y<4;++y) for(unsigned x=0;x<4;++x) {
+            const bool inside=x>=1 && x<=2 && y>=1 && y<=2;check(raw.valid()[y*4+x]==inside);
+            for(unsigned c=0;c<2;++c) check(values[(y*4+x)*2+c]==(inside?100*(c+1)+2*(y-1)+(x-1)+1:0));
+        }
+        check(server->tiff_read_stats()->decoded_blocks==(separate?4u:2u));
+        check(server->tiff_read_stats()->peak_cache_bytes<=cache);server->close();std::filesystem::remove(path);
+    }
+}
+// Two independent hand-encoded TIFFs deliberately share IFD and strip numbers.
+// Distinct channel values expose a cache key that forgets the physical file.
+void multifile_cancel_checks(const std::shared_ptr<ImageServer>& server,const std::filesystem::path& entry,RawRegionRequest request) {
+    const auto retained=server->read_raw(request);const auto before=*server->tiff_read_stats();
+    std::atomic<bool> cancelled{true};
+    const auto refuses_cancel=[&](auto&& action) {
+        try {action();}catch(const std::runtime_error& error) {check(std::string(error.what()).find("cancelled")!=std::string::npos);return;}
+        throw std::runtime_error("missing compound TIFF cancellation refusal");
+    };
+    refuses_cancel([&]{open_tiff(entry.u8string()+".missing",{},&cancelled);});
+    refuses_cancel([&]{open_tiff(entry.u8string(),{},&cancelled);});
+    refuses_cancel([&]{server->read_raw(request,&cancelled);});
+    auto outside=request;outside.region={-100,-100,0,2,2};
+    refuses_cancel([&]{server->read_raw(outside,&cancelled);});
+    refuses_cancel([&]{server->with_tiff_view(*server->tiff_view(),&cancelled);});
+    Document doc(server);RawAnalysisRequest captured(doc,request,0,false,16);
+    refuses_cancel([&]{analyze_raw(captured,&cancelled);});
+    const auto after=*server->tiff_read_stats();
+    check(after.decoded_blocks==before.decoded_blocks && after.cache_hits==before.cache_hits && after.cache_bytes==before.cache_bytes);
+    const auto output=entry.u8string()+".cancel.npy";
+    {std::ofstream file(std::filesystem::u8path(output),std::ios::binary);file<<"preserved";}
+    refuses_cancel([&]{save_raw_numpy(retained,output,true,&cancelled);});
+    {std::ifstream file(std::filesystem::u8path(output),std::ios::binary);const std::string bytes{std::istreambuf_iterator<char>(file),std::istreambuf_iterator<char>()};check(bytes=="preserved");}
+    cancelled.store(false);save_raw_numpy(retained,output,true,&cancelled);
+    {std::ifstream file(std::filesystem::u8path(output),std::ios::binary);std::array<char,6> magic{};file.read(magic.data(),magic.size());check(std::string(magic.data()+1,5)=="NUMPY");}
+    std::filesystem::remove(std::filesystem::u8path(output));
+    check(std::get<std::vector<std::uint16_t>>(server->read_raw(request,&cancelled).storage())[1]==101);
+}
+void multifile_dispatch(const std::filesystem::path& path) {
+    namespace fs=std::filesystem;auto companion=path;companion += ".other.tif";
+    const auto write=[&](const fs::path& target,bool other) {
+        const auto xml=std::string("<OME UUID=\"")+(other?"urn:other":"urn:first")+"\"><Image><Pixels DimensionOrder=\"XYZCT\" Type=\"uint16\" SizeX=\"2\" SizeY=\"2\" SizeC=\"2\" SizeZ=\"1\" SizeT=\"1\"><Channel Name=\"A\"/><Channel Name=\"B\"/>"
+            "<TiffData IFD=\"0\" FirstC=\"0\" PlaneCount=\"1\"><UUID FileName=\""+path.filename().u8string()+"\">urn:first</UUID></TiffData>"
+            "<TiffData IFD=\"0\" FirstC=\"1\" PlaneCount=\"1\"><UUID FileName=\""+companion.filename().u8string()+"\">urn:other</UUID></TiffData></Pixels></Image></OME>";
+        std::vector<unsigned char> bytes={'I','I',42,0,8,0,0,0};
+        auto u16=[&](std::uint16_t n){bytes.push_back(n&255);bytes.push_back(n>>8);};
+        auto u32=[&](std::uint32_t n){for(unsigned i=0;i<4;++i) bytes.push_back(std::uint8_t(n>>(8*i)));};
+        auto tag=[&](std::uint16_t id,std::uint16_t type,std::uint32_t count,std::uint32_t value){u16(id);u16(type);u32(count);u32(value);};
+        u16(11);tag(256,4,1,2);tag(257,4,1,2);tag(258,3,1,16);tag(259,3,1,1);tag(262,3,1,1);
+        tag(270,2,std::uint32_t(xml.size()+1),146);tag(273,4,1,std::uint32_t(147+xml.size()));tag(277,3,1,1);tag(278,4,1,2);tag(279,4,1,8);tag(284,3,1,1);u32(0);
+        check(bytes.size()==146);bytes.insert(bytes.end(),xml.begin(),xml.end());bytes.push_back(0);for(unsigned i=1;i<=4;++i) u16(std::uint16_t(i+(other?100:0)));
+        std::ofstream file(target,std::ios::binary);file.write(reinterpret_cast<const char*>(bytes.data()),bytes.size());file.close();check(bool(file));
+    };
+    write(path,false);write(companion,true);
+    for(const auto& entry:{path,companion}) {
+        auto server=open_tiff(entry.u8string(),{});check(server->reader_source()->scope=="compound_files" && server->reader_source()->companions.size()==1);
+        RawRegionRequest request;request.region={0,0,0,2,2};request.channels=2;
+        for(unsigned repeat=0;repeat<2;++repeat) {const auto raw=server->read_raw(request);const auto& values=std::get<std::vector<std::uint16_t>>(raw.storage());for(unsigned i=0;i<4;++i) {check(values[2*i]==i+1 && values[2*i+1]==i+101);check(raw.valid()[i]);}}
+        check(server->tiff_read_stats()->decoded_blocks==2 && server->tiff_read_stats()->cache_hits==2);
+        multifile_cancel_checks(server,entry,request);
+        auto view=server->with_tiff_view(*server->tiff_view());check(view->reader_source()->companions.size()==1);server->close();check(view->read_raw(request).valid()[0]);view->close();
+    }
+    auto server=open_tiff(path.u8string(),{});RawRegionRequest request;request.region={0,0,0,2,2};request.channels=2;auto retained=server->read_raw(request);
+    // Append changes only the companion's observed version, not the primary.
+    {std::ofstream file(companion,std::ios::binary|std::ios::app);file.put('x');}
+    rejects([&]{server->read_raw(request);});request.region={-10,-10,0,2,2};rejects([&]{server->read_raw(request);});
+    rejects([&]{server->read_region({0,0,0,2,2});});rejects([&]{server->with_tiff_view(*server->tiff_view());});
+    server->close();check(std::get<std::vector<std::uint16_t>>(retained.storage())[1]==101);
+    fs::remove(companion);rejects([&]{open_tiff(path.u8string(),{});});fs::remove(path);
+}
 int main() {
     namespace fs=std::filesystem;const auto path=fs::current_path()/("raw-test-"+std::to_string(std::random_device{}())+".tif");
     try {
+        locale_independent_format_paths();
         RawPixelBuffer owned(2,2,1,SampleType::UInt16);check(owned.payload_bytes()==12 && std::get<std::vector<std::uint16_t>>(owned.storage()).size()==4);
         rejects([] {RawPixelBuffer invalid(0,2,1,SampleType::UInt8);});rejects([] {RawPixelBuffer invalid(100000,100000,3,SampleType::Float64);});
         TiffView view;view.channels={0,0,0};view.lower={0,0,0};view.upper={65535,65535,65535};check(tiff_view_decode(tiff_view_encode(view)).upper==view.upper);
         auto corrupt=tiff_view_encode(view);corrupt.back()^=1;rejects([&]{tiff_view_decode(corrupt);});
         if(has_tiff()) {
+            multifile_dispatch(path);
+            std::cout<<"TIFF multi-file UUID dispatch, colliding cache keys, view ownership and companion mutation guards passed\n";
+            std::cout<<"TIFF compound pre-cancel open/raw/view/analysis, unchanged decode/cache, atomic export preservation and retry passed\n";
+            multichannel_block_reuse(path);
+            std::cout<<"TIFF interleaved block reuse without LRU, separate-plane selection and padded values passed\n";
             // Independent minimal TIFF byte fixture: no libtiff encoder involved.
             std::vector<unsigned char> bytes={'I','I',42,0,8,0,0,0};
             auto u16=[&](std::uint16_t n){bytes.push_back(n&255);bytes.push_back(n>>8);};auto u32=[&](std::uint32_t n){for(int i=0;i<4;++i) bytes.push_back((n>>(8*i))&255);};
@@ -29,8 +151,53 @@ int main() {
             tag(256,4,2);tag(257,4,2);tag(258,3,16);tag(259,3,1);tag(262,3,1);tag(273,4,134);tag(277,3,1);tag(278,4,2);tag(279,4,8);tag(339,3,1);u32(0);
             for(auto value:{1,256,40000,65535}) u16(static_cast<std::uint16_t>(value));
             std::ofstream file(path,std::ios::binary);file.write(reinterpret_cast<const char*>(bytes.data()),bytes.size());file.close();
+            {
+                // Fixed RFC1950 stream independently produced from the eight
+                // little-endian source bytes, not libtiff's own encoder.
+                auto compressed=bytes;compressed.resize(134);
+                const unsigned char stream[]={0x78,0x9c,0x63,0x64,0x60,0x60,0x74,0x98,0xf3,0xff,0x3f,0x00,0x05,0xe6,0x02,0xdd};
+                for(std::size_t at=10;at<130;at+=12) {
+                    const auto id=unsigned(compressed[at])+(unsigned(compressed[at+1])<<8);
+                    if(id==259 || id==279) {const auto value=id==259?8u:unsigned(sizeof(stream));for(unsigned i=0;i<4;++i) compressed[at+8+i]=std::uint8_t(value>>(8*i));}
+                }
+                compressed.insert(compressed.end(),std::begin(stream),std::end(stream));
+                const auto compressed_path=fs::path(path.u8string()+".deflate.tif");
+                std::ofstream compressed_file(compressed_path,std::ios::binary);compressed_file.write(reinterpret_cast<const char*>(compressed.data()),compressed.size());compressed_file.close();
+                auto decoded=open_tiff(compressed_path.u8string());Document doc(decoded);
+                const auto result=analyze_raw(RawAnalysisRequest(doc,ScientificGrid(2,2,{0,2,1},{0,2,1})));
+                check(result->statistics().means[0]==26448. && result->statistics().valid_pixels==1);
+                decoded->close();fs::remove(compressed_path);
+                std::cout<<"Independent deflate TIFF typed grid analysis through prefixed zlib passed\n";
+            }
             auto server=open_tiff(path.u8string());const auto metadata=server->raw_metadata();check(metadata && metadata->sample_type==SampleType::UInt16 && metadata->channels==1);
             RawRegionRequest request;request.region=RegionRequest(0,0,0,2,2);const auto raw=server->read_raw(request);check(std::get<std::vector<std::uint16_t>>(raw.storage())==std::vector<std::uint16_t>({1,256,40000,65535}));
+            {
+                Document grid_document(server);const ScientificGrid grid(2,2,{0,2,1},{0,2,1});
+                RawAnalysisRequest captured(grid_document,grid);const auto result=analyze_raw(captured);
+                check(result->grid() && result->statistics().pixels==1 && result->statistics().valid_pixels==1 && result->statistics().means[0]==26448.);
+                check(result->grid()->source_metadata.sample_type==SampleType::UInt16 && raw_analysis_input_digest(captured).input_sha256==result->input_sha256());
+                const auto object=grid_document.add_rectangle({0,0,1,2},"left");
+                const ScientificGrid fine(2,2,{0,2,4,1},{0,2,4,1});
+                const auto fine_result=analyze_raw(RawAnalysisRequest(grid_document,fine,{},object));
+                check(fine_result->statistics().pixels==8 && fine_result->statistics().valid_pixels==8 && fine_result->statistics().means[0]==20000.5);
+                const auto retained=grid_document.keep_raw_analysis(captured,result);
+                RawAnalysisRequest fine_request(grid_document,fine,{},object);
+                const auto second=grid_document.keep_raw_analysis(fine_request,analyze_raw(fine_request));
+                check(raw_analysis_csv(RawTableRequest(grid_document,{retained,second},true)).find("qpx.raw-analysis-csv/2")!=std::string::npos);
+                if(has_project()) {
+                    const auto saved=fs::path(path.u8string()+".grid.qpxproj");
+                    Project project;const auto image=project.add_document(std::make_shared<Document>(grid_document),"Grid raw records");project.save(saved.u8string());
+                    const auto loaded=Project::open(saved.u8string());const auto reopened=loaded->document(image);
+                    check(reopened->raw_analysis_record_count()==2 && reopened->raw_analysis_status(retained)=="unverified");
+                    const auto replay=RawAnalysisRequest::replay(*reopened,retained);
+                    check(reopened->verify_raw_analysis(retained,replay,analyze_raw(replay)) && reopened->raw_analysis_status(retained)=="current");
+                    loaded->save(saved.u8string());const auto again=Project::open(saved.u8string())->document(image);
+                    check(again->raw_analysis_record_count()==2 && again->raw_analysis_record(second)->result->grid());
+                    fs::remove(saved);
+                    std::cout<<"QRA2 TIFF grid SQLite save/reopen, explicit replay and second save passed\n";
+                }
+                std::cout<<"Actual UInt16 TIFF scientific grid analysis, ROI upsampling and hash-only digest passed\n";
+            }
             const auto display=server->read_region(request.region);check(display.bytes()[0]==0 && display.bytes()[4]==1 && display.bytes()[8]==156 && display.bytes()[12]==255);
             const auto statistics=raw_region_statistics(*server,request);check(statistics.valid_pixels==4 && statistics.finite_samples[0]==4 && statistics.means[0]==26448.);
             request.region=RegionRequest(-1,-1,0,4,4);const auto padded=server->read_raw(request);check(std::count(padded.valid().begin(),padded.valid().end(),1)==4);
@@ -64,7 +231,8 @@ int main() {
                     if(has_project()) {
                         const auto project_path=fs::path(path.u8string()+".qpxproj");
                         {
-                            Project project;const auto image=project.add_document(std::make_shared<Document>(document),"Raw archive",path.u8string(),"tiff");project.save(project_path.u8string());
+                            Project project;const auto image=project.add_document(std::make_shared<Document>(document),"Raw archive");
+                            check(!project.images().front().embedded && project.images().front().reader=="tiff");project.save(project_path.u8string());
                             const auto loaded=Project::open(project_path.u8string());const auto restored=loaded->document(image);
                             check(restored->raw_analysis_record_count()==2 && restored->raw_analysis_status(retained)=="unverified");
                             const auto replayed=RawAnalysisRequest::replay(*restored,retained);const auto measured=analyze_raw(replayed);const auto before=restored->revision();
@@ -138,6 +306,33 @@ int main() {
                 check(resumed.reused==1 && resumed.images[0].raw_tiles==0 && resumed.images[0].raw_hashed_tiles==1 && resumed.images[0].path==first.images[0].path);
                 check(output.parent_path()==fs::current_path());fs::remove_all(output);
             }
+            if(has_project()) {
+                Project project;const auto first_image=project.add_tiff_image(path.u8string(),TiffOpenOptions{},"Grid A");
+                const auto second_image=project.add_tiff_image(path.u8string(),TiffOpenOptions{},"Grid B");
+                project.document(first_image)->add_rectangle({0,0,2,2},"whole");project.document(second_image)->add_rectangle({0,0,2,2},"whole");
+                ProjectBatchOptions options;options.kind=ProjectBatchKind::Raw;options.raw_grid=RawGridSampling{};
+                options.raw_grid->samples_x=1;options.raw_grid->samples_y=1;options.raw_grid->context_x=1;
+                const StainTransform ignored({{1,0,0},{0,1,0}});const ProjectBatchRequest captured(project,ignored,{},options);
+                check(captured.parameters_json().find("qpx.raw-grid-statistics-input/1")!=std::string::npos);
+                ProjectBatchOptions natural=options;natural.raw_grid.reset();const ProjectBatchRequest old(project,ignored,{},natural);
+                check(old.parameters_sha256()!=captured.parameters_sha256() && old.parameters_json().find("raw_grid")==std::string::npos);
+                auto invalid=options;invalid.raw.region.level=1;rejects([&]{invalid.validate();});invalid=options;invalid.roi_tile_size=16;rejects([&]{invalid.validate();});
+                const auto folder=fs::path(path.u8string()+".grid-batch");std::atomic<bool> cancelled{false};
+                const auto interrupted=run_project_batch(captured,folder.u8string(),&cancelled,[&](const auto& item){if(item.state=="saved") cancelled.store(true);});
+                check(interrupted.state=="cancelled" && interrupted.saved==1);
+                cancelled.store(false);const auto resumed=run_project_batch(captured,folder.u8string(),&cancelled);
+                if(resumed.state!="succeeded") throw std::runtime_error(resumed.error+(resumed.images.empty()?"":resumed.images[0].error));
+                check(resumed.reused==1 && resumed.saved==1 && resumed.images[0].raw_tiles==0 && resumed.images[0].raw_hashed_tiles==1);
+                const auto repeated=run_project_batch(captured,folder.u8string());check(repeated.reused==2 && repeated.saved==0);
+                for(const auto& image:repeated.images) {
+                    check(image.raw_tiles==0 && image.raw_hashed_tiles==1 && batch_checkpoint_csv(image.path).find("qpx.raw-analysis-csv/2")!=std::string::npos);
+                    const auto loaded=Project::open(image.path);const auto doc=loaded->document(image.image_id);const auto record=doc->raw_analysis_records().back();
+                    check(record->result->grid() && record->result->statistics().means[0]==26448. && record->result->grid()->grid.x().context()==1);
+                }
+                check(project.document(first_image)->raw_analysis_record_count()==0 && project.document(second_image)->raw_analysis_record_count()==0);
+                check(folder.parent_path()==fs::current_path());fs::remove_all(folder);
+                std::cout<<"Raw grid TIFF batch distinct recipe, interrupted checkpoint resume and hash-only typed CSV passed\n";
+            }
             auto alternate=*server->tiff_view();alternate.upper={40000,40000,40000};auto projected=server->with_tiff_view(alternate);
             check(projected->read_region(RegionRequest(0,0,0,2,2)).bytes()[8]==255);
             check(projected->tiff_read_stats()->decoded_blocks==1 && server->tiff_view()->upper[0]==65535);
@@ -145,7 +340,7 @@ int main() {
             check(std::get<std::vector<std::uint16_t>>(projected->read_raw(request).storage())[10]==65535);
             check(projected->tiff_read_stats()->decoded_blocks==1);projected->close();rejects([&]{server->read_raw(request);});check(std::get<std::vector<std::uint16_t>>(raw.storage())[2]==40000);
             check(path.parent_path()==fs::current_path());fs::remove(path);
-        } else rejects([&]{open_tiff(path.u8string());});
+        } else {rejects([&]{open_tiff(path.u8string());});std::cout<<"TIFF multi-file reader disabled; open refused\n";}
         std::cout<<"raw quantitative buffers, TIFF decode/cache, preview and statistics passed\n";
     }catch(const std::exception& e) {std::cerr<<e.what()<<'\n';return 1;}
 }

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="7"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="5"
+	timestamp="2026-10-30T14:37:36"
+	>
+	<testcase name="object_classifier" classname="object_classifier" time="0.039132" status="run">
+		<properties/>
+		<system-out>object classifier checks passed
+</system-out>
+	</testcase>
+	<testcase name="resampling" classname="resampling" time="2.81301" status="run">
+		<properties/>
+		<system-out>112 captured RGB affine reads exact; odd crop, tiled/context cores, signed/large origins and precision admission passed
+99 pinned RGB nominal reads, fixed-point bytes, global crop context, admission and cancellation passed
+99 public RGB nominal reader hashes, exact halo IO, closed-reader ownership and decoder/cancellation rejection passed
+99 RGB nominal captured outputs stitch at three tile sizes with unchanged context cores; six negative-context translations and admission passed
+Scientific raster precision admission agrees with exhaustive binary64 sample checks
+Native scientific grid exact geometry, rounding, context and admission passed
+Native scientific RGB float64 exact means, support, reader and cancellation checks passed
+2891 independent exact raw mean vectors across all ten sample types in both orders passed
+Native exact typed weighted means, subnormal/cancellation, atomic rejection and nearest-even rounding passed
+Streamed raw materialization exact means, pinned chunk bits/support, cancellation, admission and dense fallback passed
+Streamed raw digest canonical HWC/validity hashes, bounded chunks, metadata epoch, late faults and admission passed
+Typed raw hash-only identity, lower memory admission and pre-decoder metadata epoch passed
+94 independent typed raw grid references, 3732 channel results and canonical source/input hashes passed
+Native typed scientific raw sampling, per-channel finite/support, source-bit provenance and pre-IO admission passed
+Typed raw sampling engine identity 13c6198d92f4b6c3033fc174bb9c784d0b93abcde391211aa1e03cc6350b6012 7d38d7b95974a6e2c1e957f384cae9e6c99e0f5b
+Compound TIFF observations, QRA3/QRA4 retention, downgrade refusal and companion-only stale status passed
+Shared ROI grid raw count/context planning and pre-IO admission passed
+Raw grid captured ROI/context workspace, exact budget boundary, hash-only lower admission and single metadata epoch passed
+Independent Python struct/hashlib QRA1 and QRA2 bytes, mixed typed CSV and job replay passed
+QRA2 private eligible-count authority, changed-mask rejection, checksum-valid count corruption and historical budget compatibility passed
+QRA2 raw grid retention, canonical re-encoding, semantic corruption and fresh replay passed
+188 independent derived raw grid statistics references, ROI/core support, hash-only digest and native jobs passed
+2205 independent oracle shapes and admission/alpha/reader checks passed
+</system-out>
+	</testcase>
+	<testcase name="cell_tables" classname="cell_tables" time="0.0489552" status="run">
+		<properties/>
+		<system-out>Independent Python QCR1/QCA5 typed grid source bytes decode and canonical re-encode passed
+Grid cell CSV units, mixed natural records and captured calibration passed; classifier publication requires GEOS
+Cell tables, joined objects, locale, budgets, cancellation and atomic files passed
+</system-out>
+	</testcase>
+	<testcase name="cell_records" classname="cell_records" time="0.482886" status="run">
+		<properties/>
+		<system-out>Independent Python struct/hashlib QCL5 bytes decode and canonical re-encode passed
+QCL5 analytic ellipse and winding-policy geometry persistence passed; GEOS polygon case unavailable
+QCL5 canonical encoding, semantic rejection, captured calibration, record authority and replay passed
+Cell archive exhaustive masks, authority, snapshots, cancellation and limits passed
+</system-out>
+	</testcase>
+	<testcase name="cells" classname="cells" time="1.33707" status="run">
+		<properties/>
+		<system-out>Native grid cell request, float64 LoG, metric shape/body, calibrated features and one-read detection passed
+32 exact metric LoG signs and 128 rational-distance body expansion references passed
+ImageJ cell processing opt-in, QCL7/QCA7 identity, CSV9/10, replay and supported context passed
+Original-source sampling/processing choices, QCL8 canonical replay, CSV11 and pre-IO metric/filter refusals passed
+Original-source nominal cell captured RGB/masks/features, QCL6 canonical history, replay, calibration, budgets and cancellation passed
+Native nominal ROI bounds factory and versioned nominal cell CSV descriptors passed
+Cell distance/nearest-site references, touching nuclei and lifecycle passed
+</system-out>
+	</testcase>
+	<testcase name="qupath_response" classname="qupath_response" time="0.0105362" status="run">
+		<properties/>
+		<system-out>33 public QuPath response basins exact; plateau, border, FIFO and finite/input/budget/cancellation checks passed
+Private sampled nucleus composition, retained candidate counts and atomic failure checks passed
+</system-out>
+	</testcase>
+	<testcase name="cell_expansion" classname="cell_expansion" time="0.648553" status="run">
+		<properties/>
+		<system-out>Small frontier 64 exact priority keys and 1344 full heap-equivalence cases passed
+506 public real-slide body masks exact with boundary frontier; both queues preserve eight V1 differences, unit radius, budget and cancellation passed
+Strict-radius expansion, stable collision lines, domain barriers, work bounds and cancellation passed
+</system-out>
+	</testcase>
+</testsuite>

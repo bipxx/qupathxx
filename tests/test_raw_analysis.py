@@ -112,7 +112,7 @@ def test_axes_padding_calibration_and_display_are_independent(tmp_path):
 def test_masked_roi_statistics_are_independent_of_preview(tmp_path,nucleus):
     doc,values,_=scene(tmp_path)
     body=q.Roi.ellipse(q.Rect(2,3,11,9));inner=q.Roi.rectangle(q.Rect(5,5,4,3))
-    cell=doc.add_cell(body,inner,'Cell')
+    cell=doc.add_cell(body,inner,'Cell');doc.set_object_plane(cell,q.ObjectPlane(-1,2,1))
     capture=q.RawAnalysisRequest(doc,request(1,1,c=2,z=2,t=1),cell,nucleus=nucleus,tile_size=16)
     result=q.analyze_raw(capture)
     yy,xx=np.mgrid[:16,:24]

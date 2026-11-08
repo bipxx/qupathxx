@@ -33,12 +33,13 @@ PixelPredictionRequest::PixelPredictionRequest(const Document& doc,std::uint64_t
     const auto halo=model.options().halo(),tw=std::min<std::int64_t>(data->w,options.tile_size),th=std::min<std::int64_t>(data->h,options.tile_size),cw=std::min(level.width,tw+2*halo),ch=std::min(level.height,th+2*halo);
     // Include caller-owned decoder scratch and the per-tile prediction masks;
     // the low-level estimate includes feature extraction and bounded votes.
-    const auto external=static_cast<std::size_t>(cw)*ch*8+static_cast<std::size_t>(tw)*th*9;
+    const auto external=static_cast<std::size_t>(cw)*static_cast<std::size_t>(ch)*8+
+                        static_cast<std::size_t>(tw)*static_cast<std::size_t>(th)*9;
     if(external>options.work_bytes-data->fixed || options.work_bytes-data->fixed-external<1024*1024) throw std::length_error("pixel prediction tile scratch exceeds memory budget");
     data->feature_budget=std::min(model.options().work_bytes,options.work_bytes-data->fixed-external);auto feature_options=model.options();feature_options.work_bytes=data->feature_budget;
     const auto feature_work=pixel_feature_work_bytes(cw,ch,feature_options,PixelFeatureWindow{cw,ch,halo<cw-tw?halo:0,halo<ch-th?halo:0,tw,th});
     const auto batch=std::min<std::size_t>(512,static_cast<std::size_t>(tw)*th),columns=model.features().size(),classes=model.classes().size();
-    const auto predict_work=262144+static_cast<std::size_t>(tw)*th*(columns*4+10)+batch*(sizeof(ClassifierPrediction)+sizeof(std::size_t)+columns*4+classes*4);
+    const auto predict_work=262144+static_cast<std::size_t>(tw)*static_cast<std::size_t>(th)*(columns*4+10)+batch*(sizeof(ClassifierPrediction)+sizeof(std::size_t)+columns*4+classes*4);
     if(predict_work>data->feature_budget) throw std::length_error("pixel prediction votes exceed memory budget");data->work=data->fixed+external+std::max(feature_work,predict_work);
     data->tiles=((static_cast<std::uint64_t>(data->w)+options.tile_size-1)/options.tile_size)*((static_cast<std::uint64_t>(data->h)+options.tile_size-1)/options.tile_size);
     validate_region(data->metadata,{origin(data->x+data->w-1,level.downsample),origin(data->y+data->h-1,level.downsample),data->level,1,1});if(!authority_->matches(doc)) throw std::runtime_error("document changed during pixel prediction capture");data_=std::move(data);
@@ -104,6 +105,7 @@ bool PixelPredictionJob::request(const PixelPredictionRequest& request) {auto& s
     try {s.future=std::async(std::launch::async,[state=&s] {Impl::Completion out;const auto start=Clock::now();try {out.result=PixelPredictionKernel::run(*state->request,&state->cancelled,&state->completed);}catch(const std::exception& e) {out.error=e.what();}out.ms=elapsed(start);return out;});}catch(...) {s.request.reset();s.stats.state="failed";s.stats.phase="finished";s.stats.error="could not start pixel prediction worker";throw;}return true;
 }
 PixelTrainingStats PixelPredictionJob::poll(const Document& doc) {auto& s=*impl_;if(s.request && !s.request->matches(doc)) {s.stale=true;s.cancelled.store(true);s.result.reset();s.stats.state=busy()?"cancelling":"stale";}s.stats.completed_tiles=s.completed.load();if(busy() && s.future.wait_for(std::chrono::seconds(0))==std::future_status::ready) {try {auto out=s.future.get();s.stats.elapsed_ms=out.ms;s.stats.completed_tiles=s.completed.load();if(s.stale) s.stats.state="stale";else if(s.cancelled.load()) s.stats.state="cancelled";else if(!out.error.empty()) {s.stats.state="failed";s.stats.error=std::move(out.error);}else {s.result=std::move(out.result);s.stats.state="ready";}}catch(const std::exception& e) {s.stats.state="failed";s.stats.error=e.what();}s.stats.phase="finished";}if(!busy() && !s.result) s.request.reset();return s.stats;}
-PixelTrainingStats PixelPredictionJob::wait(const Document& doc) {poll(doc);if(busy()) impl_->future.wait();return poll(doc);}
+void PixelPredictionJob::await_completion() {if(impl_->future.valid()) impl_->future.wait();}
+PixelTrainingStats PixelPredictionJob::wait(const Document& doc) {poll(doc);await_completion();return poll(doc);}
 std::shared_ptr<const PixelPredictionResult> PixelPredictionJob::result() const {return impl_->result;}
 }

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="2" time="0.240" timestamp="2026-11-04T15:09:18.552792-05:00" hostname="HEQPC"><testcase classname="tests.test_object_edit_state" name="test_owned_state_and_scripted_geometry_hint_semantics" time="0.003"><failure message="TypeError: __init__(): incompatible function arguments. The following argument types are supported:&#10;    1. __init__(self, metadata: collections.abc.Mapping[str, str] = {}, measurements: collections.abc.Mapping[str, float] = {}) -&gt; None&#10;&#10;Invoked with types: qupathxx._native.ObjectProperties, dict, dict, kwargs = { locked: bool, color_rgb: int, class_probability: float }">def test_owned_state_and_scripted_geometry_hint_semantics():
+&gt;       doc,obj=scene();old=doc.annotation(obj);assert old.locked and old.color_rgb==0x123456 and old.class_probability==.875
+                ^^^^^^^
+
+tests\test_object_edit_state.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def scene():
+        doc=q.Document(q.Image.demo());obj=doc.add_roi(q.Roi.polygon([q.Point(100,100),q.Point(300,100),q.Point(300,300),q.Point(100,300)]))
+&gt;       doc.set_object_properties(obj,q.ObjectProperties({'note':'retained'},{'Synthetic':3.5},locked=True,color_rgb=0x123456,class_probability=.875))
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: __init__(): incompatible function arguments. The following argument types are supported:
+E           1. __init__(self, metadata: collections.abc.Mapping[str, str] = {}, measurements: collections.abc.Mapping[str, float] = {}) -&gt; None
+E       
+E       Invoked with types: qupathxx._native.ObjectProperties, dict, dict, kwargs = { locked: bool, color_rgb: int, class_probability: float }
+
+tests\test_object_edit_state.py:19: TypeError</failure></testcase><testcase classname="tests.test_object_edit_state" name="test_geojson_csv_native_extension_and_flat_nested_roundtrip" time="0.002"><failure message="TypeError: __init__(): incompatible function arguments. The following argument types are supported:&#10;    1. __init__(self, metadata: collections.abc.Mapping[str, str] = {}, measurements: collections.abc.Mapping[str, float] = {}) -&gt; None&#10;&#10;Invoked with types: qupathxx._native.ObjectProperties, dict, dict, kwargs = { locked: bool, color_rgb: int, class_probability: float }">@pytest.mark.skipif(not q.has_interchange,reason='GeoJSON')
+    def test_geojson_csv_native_extension_and_flat_nested_roundtrip():
+&gt;       doc,obj=scene()
+                ^^^^^^^
+
+tests\test_object_edit_state.py:78: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def scene():
+        doc=q.Document(q.Image.demo());obj=doc.add_roi(q.Roi.polygon([q.Point(100,100),q.Point(300,100),q.Point(300,300),q.Point(100,300)]))
+&gt;       doc.set_object_properties(obj,q.ObjectProperties({'note':'retained'},{'Synthetic':3.5},locked=True,color_rgb=0x123456,class_probability=.875))
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: __init__(): incompatible function arguments. The following argument types are supported:
+E           1. __init__(self, metadata: collections.abc.Mapping[str, str] = {}, measurements: collections.abc.Mapping[str, float] = {}) -&gt; None
+E       
+E       Invoked with types: qupathxx._native.ObjectProperties, dict, dict, kwargs = { locked: bool, color_rgb: int, class_probability: float }
+
+tests\test_object_edit_state.py:19: TypeError</failure></testcase></testsuite></testsuites>

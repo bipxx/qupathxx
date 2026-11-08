@@ -12,6 +12,15 @@ struct ObjectCellFeatureSource {
     ColorVector white;
     std::array<ColorVector,3> stains;
     std::shared_ptr<const AnalysisProvenance> provenance;
+    // Legacy parameters/downsample describe natural grids only. Explicit grids
+    // carry typed values here; scalar downsample is NaN and parameters.validate
+    // rejects the grid algorithm rather than silently reinterpret its units.
+    std::optional<ScientificGrid> scientific_grid;
+    std::shared_ptr<const NominalCellSampling> nominal_sampling;
+    std::optional<GridCellParameters> grid_parameters;
+    ResolvedGridCellParameters resolved_grid_parameters;
+    // Versioned nominal input support, retained per origin (QCA9 kind5).
+    bool nominal_exact_support=false;
     std::size_t payload_bytes() const;
 };
 // Immutable worker-prepared artifact. Reopening never restores live request authority.

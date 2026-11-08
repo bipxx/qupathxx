@@ -1,0 +1,28 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "f9f06424-b0ab-4166-99bc-ff2cac92e203",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [2, 3],
+            [2, 15],
+            [12, 15],
+            [12, 3],
+            [2, 3]
+          ]
+        ]
+      },
+      "properties": {
+        "objectType": "annotation",
+        "name": "null-color 0",
+        "classification": {
+          "name": "Cleared color"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="1"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="0"
+	timestamp="2026-11-04T20:35:23"
+	>
+	<testcase name="qupath_project" classname="qupath_project" time="0.104371" status="run">
+		<properties/>
+		<system-out>Native QuPath saved-data geometry, calibration, truncation, trailing bytes and cancellation passed
+Native saved TMA grid: identity slots, missing/case state, legacy fallback and membership refusal passed
+QuPath project native preview, source guards, new publication and replay refusal passed
+</system-out>
+	</testcase>
+</testsuite>

@@ -1,0 +1,288 @@
+{
+  "schema": "qpx.raw-stream-resource-observation/1",
+  "contract": {
+    "schema": "qpx.raw-stream-resources/1",
+    "sizes": [
+      256,
+      1024,
+      4096
+    ],
+    "source_tile": 128,
+    "stream_tile": 128,
+    "reader_cache_bytes": 4194304,
+    "reader_decode_bytes": 2097152,
+    "stream_work_bytes": 16777216,
+    "boundary_work_bytes": 4194304,
+    "geometry_work_bytes": 4194304,
+    "contour_work_bytes": 33554432,
+    "process_peak_bytes": 268435456,
+    "process_peak_spread_bytes": 67108864,
+    "child_timeout_seconds": 180,
+    "scope": "Windows fresh-process synthetic straight two-class boundary, unit sampling, no feature halo; local engineering guard only. Not biological, general-complexity, cold-storage, clean-machine or eligible-hardware acceptance."
+  },
+  "machine": {
+    "platform": "Windows-11-10.0.26200-SP0",
+    "processor": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
+    "logical_cpus": 20,
+    "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+  },
+  "runtime_source": "3039f0c23b274a8b0f121e48df0d290447ecf2e3",
+  "runtime_fingerprint": "1b72fac80fd681c59a4316eba7cece56ed274e2abb61ef7f0f3dbf9f68eda87f",
+  "package": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-stream-history-248-final-env\\Lib\\site-packages\\qupathxx\\__init__.py",
+  "rows": [
+    {
+      "size": 256,
+      "pid": 132952,
+      "memory_before_import": {
+        "peak_working_set_bytes": 20004864,
+        "working_set_bytes": 20004864,
+        "peak_commit_bytes": 11812864
+      },
+      "runtime_source": "3039f0c23b274a8b0f121e48df0d290447ecf2e3",
+      "runtime_fingerprint": "1b72fac80fd681c59a4316eba7cece56ed274e2abb61ef7f0f3dbf9f68eda87f",
+      "package": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-stream-history-248-final-env\\Lib\\site-packages\\qupathxx\\__init__.py",
+      "memory_after_import_and_hash": {
+        "peak_working_set_bytes": 28897280,
+        "working_set_bytes": 28078080,
+        "peak_commit_bytes": 17567744
+      },
+      "capture_ms": 1.1859999503940344,
+      "memory_before_trace": {
+        "peak_working_set_bytes": 29487104,
+        "working_set_bytes": 29487104,
+        "peak_commit_bytes": 17567744
+      },
+      "trace_ms": 54.369800025597215,
+      "memory_after_trace": {
+        "peak_working_set_bytes": 30941184,
+        "working_set_bytes": 30941184,
+        "peak_commit_bytes": 17887232
+      },
+      "reader": {
+        "decoded_blocks": 4,
+        "decoded_bytes": 131072,
+        "cache_bytes": 132096,
+        "peak_cache_bytes": 132096
+      },
+      "completed_samples": 65536,
+      "valid_samples": 65536,
+      "completed_windows": 4,
+      "expected_windows": 4,
+      "class_counts": [
+        32768,
+        32768
+      ],
+      "estimated_work_bytes": 21102592,
+      "payload_bytes": 487487,
+      "geometry": [
+        {
+          "label": 1,
+          "pixels": 32768,
+          "area": 32768.0,
+          "perimeter": 768.0
+        },
+        {
+          "label": 2,
+          "pixels": 32768,
+          "area": 32768.0,
+          "perimeter": 768.0
+        }
+      ],
+      "exact_rectangles": false,
+      "input_identities": {
+        "source_sha256": "14ff640ea5899ed3785fca1d5ca4ad1187b7bac258fe7e0e4e0bf739bed9a44e",
+        "model_sha256": "813e3f8a9b97b9ee5ae25ec0b55d2ebbc1e937148c26bfad7114a0904dbaf555",
+        "source_bytes": 131312
+      },
+      "memory_final": {
+        "peak_working_set_bytes": 31100928,
+        "working_set_bytes": 31100928,
+        "peak_commit_bytes": 17887232
+      }
+    },
+    {
+      "size": 1024,
+      "pid": 143576,
+      "memory_before_import": {
+        "peak_working_set_bytes": 20357120,
+        "working_set_bytes": 20357120,
+        "peak_commit_bytes": 12210176
+      },
+      "runtime_source": "3039f0c23b274a8b0f121e48df0d290447ecf2e3",
+      "runtime_fingerprint": "1b72fac80fd681c59a4316eba7cece56ed274e2abb61ef7f0f3dbf9f68eda87f",
+      "package": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-stream-history-248-final-env\\Lib\\site-packages\\qupathxx\\__init__.py",
+      "memory_after_import_and_hash": {
+        "peak_working_set_bytes": 29609984,
+        "working_set_bytes": 28155904,
+        "peak_commit_bytes": 18345984
+      },
+      "capture_ms": 1.095399959012866,
+      "memory_before_trace": {
+        "peak_working_set_bytes": 29646848,
+        "working_set_bytes": 29143040,
+        "peak_commit_bytes": 18345984
+      },
+      "trace_ms": 868.0020000319928,
+      "memory_after_trace": {
+        "peak_working_set_bytes": 32878592,
+        "working_set_bytes": 32833536,
+        "peak_commit_bytes": 19640320
+      },
+      "reader": {
+        "decoded_blocks": 64,
+        "decoded_bytes": 2097152,
+        "cache_bytes": 2113536,
+        "peak_cache_bytes": 2113536
+      },
+      "completed_samples": 1048576,
+      "valid_samples": 1048576,
+      "completed_windows": 64,
+      "expected_windows": 64,
+      "class_counts": [
+        524288,
+        524288
+      ],
+      "estimated_work_bytes": 21102592,
+      "payload_bytes": 487494,
+      "geometry": [
+        {
+          "label": 1,
+          "pixels": 524288,
+          "area": 524288.0,
+          "perimeter": 3072.0
+        },
+        {
+          "label": 2,
+          "pixels": 524288,
+          "area": 524288.0,
+          "perimeter": 3072.0
+        }
+      ],
+      "exact_rectangles": false,
+      "input_identities": {
+        "source_sha256": "99c3e937d56f2baea4308771a0551be2d40d8695c58761b47caa924d6843a0e8",
+        "model_sha256": "813e3f8a9b97b9ee5ae25ec0b55d2ebbc1e937148c26bfad7114a0904dbaf555",
+        "source_bytes": 2097760
+      },
+      "memory_final": {
+        "peak_working_set_bytes": 32878592,
+        "working_set_bytes": 30584832,
+        "peak_commit_bytes": 19640320
+      }
+    },
+    {
+      "size": 4096,
+      "pid": 146744,
+      "memory_before_import": {
+        "peak_working_set_bytes": 20353024,
+        "working_set_bytes": 20353024,
+        "peak_commit_bytes": 12206080
+      },
+      "runtime_source": "3039f0c23b274a8b0f121e48df0d290447ecf2e3",
+      "runtime_fingerprint": "1b72fac80fd681c59a4316eba7cece56ed274e2abb61ef7f0f3dbf9f68eda87f",
+      "package": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-stream-history-248-final-env\\Lib\\site-packages\\qupathxx\\__init__.py",
+      "memory_after_import_and_hash": {
+        "peak_working_set_bytes": 29499392,
+        "working_set_bytes": 27877376,
+        "peak_commit_bytes": 18251776
+      },
+      "capture_ms": 1.1936998926103115,
+      "memory_before_trace": {
+        "peak_working_set_bytes": 29552640,
+        "working_set_bytes": 29011968,
+        "peak_commit_bytes": 18251776
+      },
+      "trace_ms": 14289.27329997532,
+      "memory_after_trace": {
+        "peak_working_set_bytes": 34942976,
+        "working_set_bytes": 34787328,
+        "peak_commit_bytes": 21651456
+      },
+      "reader": {
+        "decoded_blocks": 1024,
+        "decoded_bytes": 33554432,
+        "cache_bytes": 4194048,
+        "peak_cache_bytes": 4194048
+      },
+      "completed_samples": 16777216,
+      "valid_samples": 16777216,
+      "completed_windows": 1024,
+      "expected_windows": 1024,
+      "class_counts": [
+        8388608,
+        8388608
+      ],
+      "estimated_work_bytes": 21102592,
+      "payload_bytes": 487499,
+      "geometry": [
+        {
+          "label": 1,
+          "pixels": 8388608,
+          "area": 8388608.0,
+          "perimeter": 12288.0
+        },
+        {
+          "label": 2,
+          "pixels": 8388608,
+          "area": 8388608.0,
+          "perimeter": 12288.0
+        }
+      ],
+      "exact_rectangles": false,
+      "input_identities": {
+        "source_sha256": "70cfc4290080dc1bdfac2c640478ce0d2ecda5b3bcc76dc8da3f9c06690d9332",
+        "model_sha256": "813e3f8a9b97b9ee5ae25ec0b55d2ebbc1e937148c26bfad7114a0904dbaf555",
+        "source_bytes": 33560800
+      },
+      "memory_final": {
+        "peak_working_set_bytes": 34942976,
+        "working_set_bytes": 30650368,
+        "peak_commit_bytes": 21651456
+      }
+    }
+  ],
+  "commands": [
+    {
+      "command": [
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-stream-history-248-final-env\\Scripts\\python.exe",
+        "-I",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tools\\profile_raw_stream_contours.py",
+        "--child",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw-stream-resources-253\\third\\256\\case.json"
+      ],
+      "returncode": 0,
+      "process_wall_ms": 245.7324001006782
+    },
+    {
+      "command": [
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-stream-history-248-final-env\\Scripts\\python.exe",
+        "-I",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tools\\profile_raw_stream_contours.py",
+        "--child",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw-stream-resources-253\\third\\1024\\case.json"
+      ],
+      "returncode": 0,
+      "process_wall_ms": 1049.0381000563502
+    },
+    {
+      "command": [
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-stream-history-248-final-env\\Scripts\\python.exe",
+        "-I",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tools\\profile_raw_stream_contours.py",
+        "--child",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw-stream-resources-253\\third\\4096\\case.json"
+      ],
+      "returncode": 0,
+      "process_wall_ms": 14496.38419994153
+    }
+  ],
+  "source_hashes": {
+    "tools\\profile_raw_stream_contours.py": "f12f6652fb6d1de72601c52ef4ce69526d3060ab5a33b2e27acd8c3aae6b8d1a",
+    "tests\\fixtures\\raw-stream-resources-v1\\contract.json": "74b73f264ce21ae40740150b8edc7babf3c114f2962e02f4147df9c132ed153b",
+    "tools\\check_tma_large_pyramid.py": "2d2c13b18d2594eb6752933bce7036f4cc304cbcd981eb4710417acf922c9d89"
+  },
+  "scope": "Windows fresh-process synthetic straight two-class boundary, unit sampling, no feature halo; local engineering guard only. Not biological, general-complexity, cold-storage, clean-machine or eligible-hardware acceptance.",
+  "preparation_outside_measured_children": true,
+  "cold_storage_claim": false,
+  "hardware_acceptance": false
+}

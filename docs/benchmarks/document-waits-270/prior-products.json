@@ -1,0 +1,695 @@
+[
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/geos.dll",
+    "bytes": 2912768,
+    "sha256": "9bff21e1082b57e9914909a156ad121d508d2203a8c6ab4d8d41eb74cc19fa0e",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\geos.dll"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/geos_c.dll",
+    "bytes": 590336,
+    "sha256": "64c8a686deccd9e3d5ae66f96ba1276c23faf6ab00564feee421ae91f552b7d6",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\geos_c.dll"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/nanobind-static.lib",
+    "bytes": 2876768,
+    "sha256": "548ad5d26277b378e0f99e0faf02b47fc130ba133fa362beb433ed8027dcb38a",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\nanobind-static.lib"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_analysis_tests.exe",
+    "bytes": 1434624,
+    "sha256": "892b2160ce18dccf36f422b4ba18c0de9a33de48e79ed289e883f7932cf5e370",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_analysis_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_app.exe",
+    "bytes": 7858688,
+    "sha256": "49a3d67f6d6e2024c6c861181fa46654bb17b48ef305cba6bdf2699a046506df",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_app.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_batch.exe",
+    "bytes": 5349888,
+    "sha256": "19ad79ef959ce93ccc8c92f6ea086b762f6d149167e673fe66e36d86e7f121d3",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_batch.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_cell_calibration_tests.exe",
+    "bytes": 2501632,
+    "sha256": "eb3f18ced0e5d3f30b38e0b03e8ffd5f372f7f09d7b062b5e58188474a338ddb",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_cell_calibration_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_cell_expansion_tests.exe",
+    "bytes": 60416,
+    "sha256": "44e9e085d4c4ea978e1b551a4149fec7d94d470ea57b4dd876af413f839713b2",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_cell_expansion_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_cell_record_tests.exe",
+    "bytes": 3752448,
+    "sha256": "97021ce5373f28cf7d7d70ae5a4db1e4d25de7160da39c187e728f02768d0c9f",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_cell_record_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_cell_table_tests.exe",
+    "bytes": 4307968,
+    "sha256": "29a57a8b5c15d8d910f6621d448d0b953716d8dead49242e4b13e87cdcb839db",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_cell_table_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_cell_tests.exe",
+    "bytes": 2699776,
+    "sha256": "fc54e3cb37374bbbc34731800861c477861090541328cfa5d8765c358a52470d",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_cell_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_classes_tests.exe",
+    "bytes": 321024,
+    "sha256": "30143c7b10915c67d7050e61559c7fd899b90cf0a06769cd44525834775e34b6",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_classes_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_classifier_io_tests.exe",
+    "bytes": 1084416,
+    "sha256": "4244f178ddd2a539928692992de45982669053ba9e238b46c65a1a47710d948f",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_classifier_io_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_classifier_tests.exe",
+    "bytes": 1389568,
+    "sha256": "9e89f7ace84898e34025ddf1ec38b9cc1c0b916c8243383f83c75b022bb2e31f",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_classifier_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_core.lib",
+    "bytes": 116149356,
+    "sha256": "fea7cedcfdde54ca55d6d51b4ae0b498595b64e7139aa19b9a12be65939fcf84",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_core.lib"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_core_tests.exe",
+    "bytes": 328192,
+    "sha256": "481d3716d3cd4c747de586965a91ba2f03d37e08a7157ce4fcfdbc3037d16db3",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_core_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_decimal_quantity_tests.exe",
+    "bytes": 35840,
+    "sha256": "1875e2d65f2f22933d8062ddb876459a91d6530ca8e75d69368b54b19e9410f8",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_decimal_quantity_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_document_edits_tests.exe",
+    "bytes": 326144,
+    "sha256": "cb8b59c75654deb0e278e2e2182732f4c0ea9ba23ebdc0dd4a27352da45ae009",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_document_edits_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_file_fingerprint_tests.exe",
+    "bytes": 332800,
+    "sha256": "6e74198904c3eddb97b246a3fe8eb695488f4545bc0e2a0c8589beaf6b6b8841",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_file_fingerprint_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_geometry_edits_tests.exe",
+    "bytes": 330240,
+    "sha256": "79b1fcb9674adaa0817c1bc66761ad8fada03ea3396b009fb8bc15d42c3a4c29",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_geometry_edits_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_geometry_tests.exe",
+    "bytes": 366592,
+    "sha256": "16954d6aa32e2f2cdd7520afaac0114d369c10adde1752569cadca5a6d89001b",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_geometry_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_gui.lib",
+    "bytes": 16732326,
+    "sha256": "44d1055ad97045a131e271be9129c2a5207ba3776620a26957ea365fef4f0988",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_gui.lib"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_gui_replay_tests.exe",
+    "bytes": 45568,
+    "sha256": "78708a79d14b73626d71b30882d4b29d6cb03dc9cdea5e3cc232e2ff697b8199",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_gui_replay_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_interchange_tests.exe",
+    "bytes": 513024,
+    "sha256": "2a11eb08a4d465e0a7f06cfc8eae27ea4c2a42080830c4603a34ae2e8213ce51",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_interchange_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_log_cell_recipe_tests.exe",
+    "bytes": 2604032,
+    "sha256": "e7fefb84a0ef65a7a7cd3982fb7f4d1e6d26a25db1a40790aa88f4c9471bfbcc",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_log_cell_recipe_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_log_watershed_tests.exe",
+    "bytes": 148992,
+    "sha256": "2563ea2a3230710d5799642c34d9815db8900fb7627d578bb71cdc005436e342",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_log_watershed_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_masked_gaussian_tests.exe",
+    "bytes": 30720,
+    "sha256": "68fa137cd58c72d83247ac7c842236c7d2670737904ef2b231bfcb59bf092e6a",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_masked_gaussian_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_measurement_table_tests.exe",
+    "bytes": 2876416,
+    "sha256": "d4e484353f9f5cda1e38ae986a996b18293b951c2a56cf77e0e371829451f7ba",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_measurement_table_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_object_classifier_tests.exe",
+    "bytes": 3153408,
+    "sha256": "6e7a18aeb941b01bd114dd4c1420df6f29a288d274c832707ff5bb354fc524b9",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_object_classifier_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_object_snapshot_tests.exe",
+    "bytes": 3663872,
+    "sha256": "bdca2ddf1aecdaddd646459a93da180722bea8f065caf9c688afe53da8ffa01f",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_object_snapshot_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_overlay_tests.exe",
+    "bytes": 22528,
+    "sha256": "0900e219c6ec7f2a52f62c1b2f7db49cd03332c6cf3a5a0a7602c181ccbcd629",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_overlay_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_pixel_feature_tests.exe",
+    "bytes": 2479104,
+    "sha256": "02b41e3a04aadf79b0e0be8f878f486b2d5593be1a6b0d01d14d3b990f8d9a43",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_pixel_feature_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_pixel_workflow_tests.exe",
+    "bytes": 5670400,
+    "sha256": "6da163595aefdd510bbaacd85617432ced46f3d726dfd9c3ffb496b78e3a81f1",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_pixel_workflow_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_project_batch_tests.exe",
+    "bytes": 4986368,
+    "sha256": "8fb7c8047619cd872bb11f116f19e86d33e812181e73eb284fda700cf4d5b931",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_project_batch_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_project_tests.exe",
+    "bytes": 4183040,
+    "sha256": "c74aee3919d5bc74a60c8b239d349cde0efc13ecb0e91804f293d1f349a0595a",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_project_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_provenance_tests.exe",
+    "bytes": 2459136,
+    "sha256": "fd89f750c6ede1f565413af9b702881ad68b8abc839f3117eb261e3eee725e80",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_provenance_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_qptma_project_tests.exe",
+    "bytes": 3546624,
+    "sha256": "56999660959815aeae7f755b2977a07817f224aa04317904ed69e59074292990",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_qptma_project_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_qptma_tests.exe",
+    "bytes": 406528,
+    "sha256": "009368750eb846ad4c5a9bfd9cd9c1655d651e55a5874f060dd85601c527d3be",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_qptma_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_raw_image_tests.exe",
+    "bytes": 4533248,
+    "sha256": "ddafe6ce52ba1cffa0e33eaeb12317a05324383c285dd4cf2f623c07d66c7b43",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_raw_image_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_recovery_tests.exe",
+    "bytes": 3640320,
+    "sha256": "9a4fe25d3d99f13aa78aef8c7e2bc371a1e052c4dc1f66c0ebc993a2cbbf2274",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_recovery_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_region.exe",
+    "bytes": 778752,
+    "sha256": "c914e2178fc63cca158336db795093c230464f26a74ddbe353ce1f9ef4107018",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_region.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_resampling_tests.exe",
+    "bytes": 3170304,
+    "sha256": "df50d9420e076ed910daefac6bc280450db1725f7c227ea614a23b84766c576b",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_resampling_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_save_tests.exe",
+    "bytes": 3505152,
+    "sha256": "81d453f1207f283dfe407abc35f0cb75db85f4163f1d4e69b6ae7dc4ca9de6cb",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_save_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_scheduler_tests.exe",
+    "bytes": 216064,
+    "sha256": "ffa9460166013fdd20e2fe4b25c4c349226a2cad80dae177f3deed88efdb35e3",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_scheduler_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_selection_tests.exe",
+    "bytes": 323072,
+    "sha256": "9fc49847016c1aac178c823196e91c455538d1158b3edd92d7a2bfcd6e1a184c",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_selection_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_server_tests.exe",
+    "bytes": 296448,
+    "sha256": "65680f9202f8851f496aed38c27c322ab3bf5944af55e697c47c7e6e9db0257f",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_server_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_sha256_tests.exe",
+    "bytes": 25600,
+    "sha256": "af2f95b49c099665a138d03c481bf3bd5f09be7ff91046ec19208fb7a495aade",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_sha256_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_source_identity_tests.exe",
+    "bytes": 1516544,
+    "sha256": "d2248659621dd5ae1dd030392b951f60e1e4175af15fd0237f73ea753f69e7c4",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_source_identity_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_spatial_analysis_tests.exe",
+    "bytes": 1593344,
+    "sha256": "5c151f0527d47c336f94223ade1ae4074f9830e195cadf873c7fafe7e22cf1d4",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_spatial_analysis_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_spatial_cli_tests.exe",
+    "bytes": 3580416,
+    "sha256": "69efd66d073da6b6a83750265bcb60f9f0539c34a9979a788b38903ea9b9c246",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_spatial_cli_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_spatial_frontend_tests.exe",
+    "bytes": 3073024,
+    "sha256": "338b3a95c87d64a05d1ef33087916eee8b97915344c28e92021d7246abd86621",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_spatial_frontend_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_spatial_record_tests.exe",
+    "bytes": 3637248,
+    "sha256": "0582cc630c2da71d9e7cbdf3e73cf63d62f28b3496172e796d238d5109733e8a",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_spatial_record_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_spatial_tests.exe",
+    "bytes": 363520,
+    "sha256": "57533b03d3bee1b87dbce9871ac3b5eecb6f98454fdfa859a573290dfa23313f",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_spatial_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_sqlite.lib",
+    "bytes": 3244188,
+    "sha256": "4b8ed6805790214092fa79eaf08f95f4d270332631113d3d8e6bba3c03e27a29",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_sqlite.lib"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_stains_tests.exe",
+    "bytes": 248320,
+    "sha256": "1950f77b8d6430d3feebd34b766e90286b166779bc4044a00de2bfa2b699307a",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_stains_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_stain_estimation_tests.exe",
+    "bytes": 1488896,
+    "sha256": "4f4a9af60e7c35b67870e0aa515f6ae320573c3b74ec4fa1da20c2b66019bcf9",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_stain_estimation_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_thumbnail_tests.exe",
+    "bytes": 218112,
+    "sha256": "921a69dac81885eb6edea0aa39574f650e2a10e987cc62a9072e720ff57bee9f",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_thumbnail_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_tiff_xml.lib",
+    "bytes": 364046,
+    "sha256": "35d63d35490b5a7b02d3fd81fa93b1c25f1f76d85df03cd44c5832c3e71addc5",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_tiff_xml.lib"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_tissue_contour_tests.exe",
+    "bytes": 2378240,
+    "sha256": "2a195cc89760c93512699188d27f6e6a9ba2f8f2bf324bd53845a03f74041aa8",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_tissue_contour_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_tissue_record_tests.exe",
+    "bytes": 3564544,
+    "sha256": "db03bdd1fac9cbd6ca249c1ae7730413c9a594d85335654120e5f2f8919e3a20",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_tissue_record_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_tissue_tests.exe",
+    "bytes": 2254336,
+    "sha256": "721dd8a3df855896d591048fc459c1cfdc1a3ad1a902a3a4c3c556980cbe1bca",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_tissue_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_tma_dearray_tests.exe",
+    "bytes": 5228544,
+    "sha256": "7cf8739461e35ebaab687b68c9c63e561d49cb114f04a383ab2524a4f1a1ed5d",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_tma_dearray_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_tma_tests.exe",
+    "bytes": 4556288,
+    "sha256": "bbc31be5955a03a35659d54a793ab12d70ec771b8d7a5bea8be134a5d4ed6df5",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_tma_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_viewer_session_tests.exe",
+    "bytes": 5358080,
+    "sha256": "4a88c49231c667ebcd9f6831aa5cac10bee7d6d1af4f4baf5ac9fe7fa39ebd16",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_viewer_session_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/qupathxx_view_tiles_tests.exe",
+    "bytes": 157696,
+    "sha256": "c996fb14552482d0a9d239a6290024314b868ae6acabdfb7b3ea398387dfa29c",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\qupathxx_view_tiles_tests.exe"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/_native.cp312-win_amd64.pyd",
+    "bytes": 9956864,
+    "sha256": "122e509f80a186fb624d4c72ab039f03da5e97f5f1557bf48c3449d0d7ee065f",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\_native.cp312-win_amd64.pyd"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "Release/_native.lib",
+    "bytes": 9334,
+    "sha256": "228b4690e8915550fce07e7081883fd1c79a77ef4f2b441351a0cb567492721d",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\final-products\\_native.lib"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "_deps/glfw-build/src/Release/glfw3.lib",
+    "bytes": 722228,
+    "sha256": "936718cd6a3a89560a7e1b0e0a17f66a7c6cccc49f858f99ee7f3d7e43caf378",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\gridfrontends167-package\\_deps\\glfw-build\\src\\Release\\glfw3.lib"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "_deps/qpx_tiff-build/libtiff/Release/tiff.lib",
+    "bytes": 1200722,
+    "sha256": "f9006d509a45d6832312343565962fb64c4e0029cb746cb7c7ba7a8081560ac6",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\gridfrontends167-package\\_deps\\qpx_tiff-build\\libtiff\\Release\\tiff.lib"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "_deps/qpx_tiff-build/libtiff/Release/tiffxx.lib",
+    "bytes": 24330,
+    "sha256": "c91ad235fd26d0d724fc220a0e633adfb80a784357bec8295b8a2ff8016d933c",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\gridfrontends167-package\\_deps\\qpx_tiff-build\\libtiff\\Release\\tiffxx.lib"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "_deps/qpx_tiff-build/port/Release/tiff_port.lib",
+    "bytes": 4940,
+    "sha256": "39bd5d45592bb336602500f0016aedcec9f9c3b6c5ee0aaac2167027fa8b2717",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\gridfrontends167-package\\_deps\\qpx_tiff-build\\port\\Release\\tiff_port.lib"
+  },
+  {
+    "profile": "gridfrontends167-package",
+    "path": "_deps/qpx_zlib-build/Release/zs.lib",
+    "bytes": 201976,
+    "sha256": "1e2f667f8ca2fdddeb4e83d06e982d8957cbcb81b22acbb8c40f83a7281edcde",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\gridfrontends167-package\\_deps\\qpx_zlib-build\\Release\\zs.lib"
+  },
+  {
+    "profile": "rawtraining218-windows",
+    "path": "Release/nanobind-static.lib",
+    "bytes": 2876744,
+    "sha256": "c9a267c162e4619090c31dad6feb8d80dc5320f3f8d33763b77e75fce8f5147f",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\rawtraining218-windows\\Release\\nanobind-static.lib"
+  },
+  {
+    "profile": "rawtraining218-windows",
+    "path": "Release/qupathxx_batch.exe",
+    "bytes": 4033536,
+    "sha256": "3915c2667d773bce78a9bc58bf09affa26fc28bbcaebb0b515605349f07f25c5",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\initial-off-products\\qupathxx_batch.exe"
+  },
+  {
+    "profile": "rawtraining218-windows",
+    "path": "Release/qupathxx_cell_record_tests.exe",
+    "bytes": 2898944,
+    "sha256": "33a068792d492799f209c79fc2fb387cc076e968cd11412de71e602484705ea9",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\rawtraining218-windows\\Release\\qupathxx_cell_record_tests.exe"
+  },
+  {
+    "profile": "rawtraining218-windows",
+    "path": "Release/qupathxx_classifier_io_tests.exe",
+    "bytes": 1080320,
+    "sha256": "a816623a182f801515026d4b09c5e1b6616164624675b50a47811d9cc92546c6",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\rawtraining218-windows\\Release\\qupathxx_classifier_io_tests.exe"
+  },
+  {
+    "profile": "rawtraining218-windows",
+    "path": "Release/qupathxx_classifier_tests.exe",
+    "bytes": 1389568,
+    "sha256": "a7adee13b3299661bc7bf2cf0725984595f220766270eefe41f9e3a678ab18e4",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\rawtraining218-windows\\Release\\qupathxx_classifier_tests.exe"
+  },
+  {
+    "profile": "rawtraining218-windows",
+    "path": "Release/qupathxx_core.lib",
+    "bytes": 115026926,
+    "sha256": "a2554928623991927de037f430f16d13cd1df3f38e9cac5b20b20200d34f8921",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\initial-off-products\\qupathxx_core.lib"
+  },
+  {
+    "profile": "rawtraining218-windows",
+    "path": "Release/qupathxx_geometry_edits_tests.exe",
+    "bytes": 315392,
+    "sha256": "f7809c819464c7fc22fa001c91803ab9740f6d86e65faf826c692c78d1e2c4f6",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\rawtraining218-windows\\Release\\qupathxx_geometry_edits_tests.exe"
+  },
+  {
+    "profile": "rawtraining218-windows",
+    "path": "Release/qupathxx_geometry_tests.exe",
+    "bytes": 353280,
+    "sha256": "fcc57c9a8a114de484814c82ee7bb9ee3017a500d5f1ffb8306539cb8ccccec2",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\rawtraining218-windows\\Release\\qupathxx_geometry_tests.exe"
+  },
+  {
+    "profile": "rawtraining218-windows",
+    "path": "Release/qupathxx_pixel_feature_tests.exe",
+    "bytes": 2475520,
+    "sha256": "bcb680043746eee3b01713e652a4f2fd9130f37d0247640ee0b91c4c58e53e1c",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\rawtraining218-windows\\Release\\qupathxx_pixel_feature_tests.exe"
+  },
+  {
+    "profile": "rawtraining218-windows",
+    "path": "Release/qupathxx_pixel_workflow_tests.exe",
+    "bytes": 5391360,
+    "sha256": "9e9e5dbc523e3e631f50d552f680c489a706b60706605cc986666bff8b8d1a1e",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\rawtraining218-windows\\Release\\qupathxx_pixel_workflow_tests.exe"
+  },
+  {
+    "profile": "rawtraining218-windows",
+    "path": "Release/qupathxx_project_batch_tests.exe",
+    "bytes": 3670016,
+    "sha256": "2b8e64282e455f8a5061f7dfe4696c46247cdaabf5526491c394c3283fb16288",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\rawtraining218-windows\\Release\\qupathxx_project_batch_tests.exe"
+  },
+  {
+    "profile": "rawtraining218-windows",
+    "path": "Release/qupathxx_project_tests.exe",
+    "bytes": 2883584,
+    "sha256": "b9f3c63cc433579a90d67d3a5f0a50bfad504508eb20116ced095506864814cd",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\rawtraining218-windows\\Release\\qupathxx_project_tests.exe"
+  },
+  {
+    "profile": "rawtraining218-windows",
+    "path": "Release/qupathxx_qptma_project_tests.exe",
+    "bytes": 2694656,
+    "sha256": "53c55693f6b7b6755c839c96622ee1fb3377843cd7cea47cd91a92cf4ed6ca72",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\rawtraining218-windows\\Release\\qupathxx_qptma_project_tests.exe"
+  },
+  {
+    "profile": "rawtraining218-windows",
+    "path": "Release/qupathxx_region.exe",
+    "bytes": 775680,
+    "sha256": "d7b07c7d21e645cade58f5518a0527d4f29662cc3b39c39a13f17e215ac7ed6a",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\rawtraining218-windows\\Release\\qupathxx_region.exe"
+  },
+  {
+    "profile": "rawtraining218-windows",
+    "path": "Release/qupathxx_spatial_analysis_tests.exe",
+    "bytes": 1584128,
+    "sha256": "006b5534a9c9246d753051dad4895099995f639b56dcfe5c60a8c0603c88fc82",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\initial-off-products\\qupathxx_spatial_analysis_tests.exe"
+  },
+  {
+    "profile": "rawtraining218-windows",
+    "path": "Release/qupathxx_spatial_cli_tests.exe",
+    "bytes": 2727424,
+    "sha256": "02a47770171ebade92b5b6b02b3fbca67e40282f5d2b20042c3250cbfcbef099",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\initial-off-products\\qupathxx_spatial_cli_tests.exe"
+  },
+  {
+    "profile": "rawtraining218-windows",
+    "path": "Release/qupathxx_spatial_frontend_tests.exe",
+    "bytes": 2248704,
+    "sha256": "545486db6d248d5a80298cad7e2778163f0daec455a973f38afad2f9d3b71d3d",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\initial-off-products\\qupathxx_spatial_frontend_tests.exe"
+  },
+  {
+    "profile": "rawtraining218-windows",
+    "path": "Release/qupathxx_spatial_record_tests.exe",
+    "bytes": 2784768,
+    "sha256": "c8caa05d56f8ea7195eee2c4164158fe93b384835b3cfbda8a175652bd62a8d2",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\initial-off-products\\qupathxx_spatial_record_tests.exe"
+  },
+  {
+    "profile": "rawtraining218-windows",
+    "path": "Release/qupathxx_spatial_tests.exe",
+    "bytes": 350208,
+    "sha256": "19c81fd277817678f00b8353d08cc47e833cca9cc1a3cd9e6c32797d7a6371a9",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\initial-off-products\\qupathxx_spatial_tests.exe"
+  },
+  {
+    "profile": "rawtraining218-windows",
+    "path": "Release/qupathxx_sqlite.lib",
+    "bytes": 3244184,
+    "sha256": "c8190a9ba682e195cdee178464748ba322dde20ce783c2b693ed8c04170e75a6",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\rawtraining218-windows\\Release\\qupathxx_sqlite.lib"
+  },
+  {
+    "profile": "rawtraining218-windows",
+    "path": "Release/qupathxx_tiff_xml.lib",
+    "bytes": 364046,
+    "sha256": "851f4733eccd1a3796f1591be9bcbe1c9842ed5d98813fa05f77b37899c5c0d8",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\rawtraining218-windows\\Release\\qupathxx_tiff_xml.lib"
+  },
+  {
+    "profile": "rawtraining218-windows",
+    "path": "Release/qupathxx_tissue_record_tests.exe",
+    "bytes": 2711040,
+    "sha256": "bc28fb304f43055e079870aa613dc55b7a7daff24ac21bc59122858fcce27892",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\rawtraining218-windows\\Release\\qupathxx_tissue_record_tests.exe"
+  },
+  {
+    "profile": "rawtraining218-windows",
+    "path": "Release/qupathxx_viewer_session_tests.exe",
+    "bytes": 4027392,
+    "sha256": "f04c5bbd4274f38e46daa2c03a6afbe3fb0ebd365b8f7c32ce52ce71416b77e6",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-faults-269\\initial-off-products\\qupathxx_viewer_session_tests.exe"
+  },
+  {
+    "profile": "rawtraining218-windows",
+    "path": "Release/_native.cp312-win_amd64.pyd",
+    "bytes": 7917056,
+    "sha256": "cfffab7249795cb100a2b3444a7bea0ec2f3a7d7e62fee4e95c663ab20833021",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\rawtraining218-windows\\Release\\_native.cp312-win_amd64.pyd"
+  },
+  {
+    "profile": "rawtraining218-windows",
+    "path": "Release/_native.lib",
+    "bytes": 9334,
+    "sha256": "aec03fce70ee7a57cd11cb13931ef106fe760e7116224389265e5def60c8bd9f",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\rawtraining218-windows\\Release\\_native.lib"
+  },
+  {
+    "profile": "rawtraining218-windows",
+    "path": "_deps/qpx_tiff-build/libtiff/Release/tiff.lib",
+    "bytes": 1200666,
+    "sha256": "d598bbdc83b8385e8a9411be34a5d0b5c0b98878b5211835745ccd806e9e069e",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\rawtraining218-windows\\_deps\\qpx_tiff-build\\libtiff\\Release\\tiff.lib"
+  },
+  {
+    "profile": "rawtraining218-windows",
+    "path": "_deps/qpx_zlib-build/Release/zs.lib",
+    "bytes": 201936,
+    "sha256": "5af2e40d952c4ac4d2e47c475e1d58397d970ae952229379381a6d01478854ae",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\rawtraining218-windows\\_deps\\qpx_zlib-build\\Release\\zs.lib"
+  }
+]

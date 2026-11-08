@@ -2,6 +2,7 @@
 import os
 from pathlib import Path
 import sqlite3
+import struct
 import subprocess
 import sys
 import time
@@ -49,6 +50,10 @@ def test_startup_validates_then_adopts_and_selects_image(tmp_path, kind):
     report = q.show(target, frame_limit=30, options=options)
     assert report.startup_succeeded and not report.startup_cancelled and not report.project_error
     assert report.startup_frames >= 1 and report.frames >= 30+report.startup_frames
+    assert report.rendered_frame_wall_samples == report.frames
+    assert report.rendered_frame_wall_p95_ms >= report.cpu_frame_p95_ms > 0
+    assert report.max_rendered_frame_wall_ms >= report.max_cpu_frame_ms
+
     assert report.startup_images == 2 and report.startup_objects == 1 and report.startup_ms > 0
     assert report.project_replacements == 1 and report.active_image == target.active_image == image
     assert target.identity == original.identity and report.uploaded_tiles > 0
@@ -184,6 +189,27 @@ def test_startup_opens_aperio_source_on_worker_when_fixture_available():
     report = q.show(target, frame_limit=60, options=config('image', Path(fixture)))
     assert report.startup_succeeded and report.startup_frames >= 1 and report.uploaded_tiles > 0
     assert target.document(target.active_image).metadata.levels
+
+
+@pytest.mark.skipif(os.name != 'nt', reason='Windows native executable stack contract')
+def test_native_launcher_repeated_project_startup_with_default_stack(tmp_path):
+    _, path, image, _ = source(tmp_path)
+    executable = Path(q.__file__).with_name('qupathxx_app.exe')
+    binary = executable.read_bytes()
+    pe = struct.unpack_from('<I', binary, 0x3c)[0]
+    assert binary[pe:pe+4] == b'PE\0\0'
+    optional = pe + 24
+    assert struct.unpack_from('<H', binary, optional)[0] == 0x20b
+    # Keep the regression on the native launcher's existing 1 MiB stack,
+    # including fresh process/driver initialization and selected-image loading.
+    assert struct.unpack_from('<Q', binary, optional+72)[0] == 1024*1024
+    for attempt in range(8):
+        result = subprocess.run([str(executable), '--project', str(path),
+                                 '--image-id', str(image), '--smoke'],
+                                capture_output=True, text=True, timeout=20)
+        assert result.returncode == 0, (
+            f'native startup {attempt+1}/8 exited {result.returncode & 0xffffffff:#x}: '
+            f'{result.stderr[:2000]}')
 
 
 def test_failed_startup_can_open_another_project_in_same_window(tmp_path):

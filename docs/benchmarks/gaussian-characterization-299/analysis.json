@@ -1,0 +1,362 @@
+{
+  "reference_laplacian_checks": [
+    {
+      "name": "roi-sigma1",
+      "laplacian_from_captured_blur_exact": true,
+      "maximum_error": 0.0,
+      "positive_mismatches": 0
+    },
+    {
+      "name": "constant-0.25",
+      "laplacian_from_captured_blur_exact": true,
+      "maximum_error": 0.0,
+      "positive_mismatches": 0
+    },
+    {
+      "name": "constant-1.0",
+      "laplacian_from_captured_blur_exact": true,
+      "maximum_error": 0.0,
+      "positive_mismatches": 0
+    },
+    {
+      "name": "constant-2.0",
+      "laplacian_from_captured_blur_exact": true,
+      "maximum_error": 0.0,
+      "positive_mismatches": 0
+    },
+    {
+      "name": "constant-8.5",
+      "laplacian_from_captured_blur_exact": true,
+      "maximum_error": 0.0,
+      "positive_mismatches": 0
+    },
+    {
+      "name": "constant-8.500001",
+      "laplacian_from_captured_blur_exact": true,
+      "maximum_error": 0.0,
+      "positive_mismatches": 0
+    },
+    {
+      "name": "constant-16.0",
+      "laplacian_from_captured_blur_exact": true,
+      "maximum_error": 0.0,
+      "positive_mismatches": 0
+    },
+    {
+      "name": "edge-impulse-0.25",
+      "laplacian_from_captured_blur_exact": true,
+      "maximum_error": 0.0,
+      "positive_mismatches": 0
+    },
+    {
+      "name": "edge-impulse-1.0",
+      "laplacian_from_captured_blur_exact": true,
+      "maximum_error": 0.0,
+      "positive_mismatches": 0
+    },
+    {
+      "name": "edge-impulse-2.0",
+      "laplacian_from_captured_blur_exact": true,
+      "maximum_error": 0.0,
+      "positive_mismatches": 0
+    },
+    {
+      "name": "edge-impulse-8.5",
+      "laplacian_from_captured_blur_exact": true,
+      "maximum_error": 0.0,
+      "positive_mismatches": 0
+    },
+    {
+      "name": "edge-impulse-8.500001",
+      "laplacian_from_captured_blur_exact": true,
+      "maximum_error": 0.0,
+      "positive_mismatches": 0
+    },
+    {
+      "name": "edge-impulse-16.0",
+      "laplacian_from_captured_blur_exact": true,
+      "maximum_error": 0.0,
+      "positive_mismatches": 0
+    },
+    {
+      "name": "center-impulse-0.25",
+      "laplacian_from_captured_blur_exact": true,
+      "maximum_error": 0.0,
+      "positive_mismatches": 0
+    },
+    {
+      "name": "center-impulse-1.0",
+      "laplacian_from_captured_blur_exact": true,
+      "maximum_error": 0.0,
+      "positive_mismatches": 0
+    },
+    {
+      "name": "center-impulse-2.0",
+      "laplacian_from_captured_blur_exact": true,
+      "maximum_error": 0.0,
+      "positive_mismatches": 0
+    },
+    {
+      "name": "center-impulse-8.5",
+      "laplacian_from_captured_blur_exact": true,
+      "maximum_error": 0.0,
+      "positive_mismatches": 0
+    },
+    {
+      "name": "center-impulse-8.500001",
+      "laplacian_from_captured_blur_exact": true,
+      "maximum_error": 0.0,
+      "positive_mismatches": 0
+    },
+    {
+      "name": "center-impulse-16.0",
+      "laplacian_from_captured_blur_exact": true,
+      "maximum_error": 0.0,
+      "positive_mismatches": 0
+    },
+    {
+      "name": "ramp-0.25",
+      "laplacian_from_captured_blur_exact": true,
+      "maximum_error": 0.0,
+      "positive_mismatches": 0
+    },
+    {
+      "name": "ramp-1.0",
+      "laplacian_from_captured_blur_exact": true,
+      "maximum_error": 0.0,
+      "positive_mismatches": 0
+    },
+    {
+      "name": "ramp-2.0",
+      "laplacian_from_captured_blur_exact": true,
+      "maximum_error": 0.0,
+      "positive_mismatches": 0
+    },
+    {
+      "name": "ramp-8.5",
+      "laplacian_from_captured_blur_exact": true,
+      "maximum_error": 0.0,
+      "positive_mismatches": 0
+    },
+    {
+      "name": "ramp-8.500001",
+      "laplacian_from_captured_blur_exact": true,
+      "maximum_error": 0.0,
+      "positive_mismatches": 0
+    },
+    {
+      "name": "ramp-16.0",
+      "laplacian_from_captured_blur_exact": true,
+      "maximum_error": 0.0,
+      "positive_mismatches": 0
+    },
+    {
+      "name": "vertical-0.25",
+      "laplacian_from_captured_blur_exact": true,
+      "maximum_error": 0.0,
+      "positive_mismatches": 0
+    },
+    {
+      "name": "vertical-1.0",
+      "laplacian_from_captured_blur_exact": true,
+      "maximum_error": 0.0,
+      "positive_mismatches": 0
+    },
+    {
+      "name": "vertical-2.0",
+      "laplacian_from_captured_blur_exact": true,
+      "maximum_error": 0.0,
+      "positive_mismatches": 0
+    },
+    {
+      "name": "vertical-8.5",
+      "laplacian_from_captured_blur_exact": true,
+      "maximum_error": 0.0,
+      "positive_mismatches": 0
+    },
+    {
+      "name": "vertical-8.500001",
+      "laplacian_from_captured_blur_exact": true,
+      "maximum_error": 0.0,
+      "positive_mismatches": 0
+    },
+    {
+      "name": "vertical-16.0",
+      "laplacian_from_captured_blur_exact": true,
+      "maximum_error": 0.0,
+      "positive_mismatches": 0
+    },
+    {
+      "name": "horizontal-0.25",
+      "laplacian_from_captured_blur_exact": true,
+      "maximum_error": 0.0,
+      "positive_mismatches": 0
+    },
+    {
+      "name": "horizontal-1.0",
+      "laplacian_from_captured_blur_exact": true,
+      "maximum_error": 0.0,
+      "positive_mismatches": 0
+    },
+    {
+      "name": "horizontal-2.0",
+      "laplacian_from_captured_blur_exact": true,
+      "maximum_error": 0.0,
+      "positive_mismatches": 0
+    },
+    {
+      "name": "horizontal-8.5",
+      "laplacian_from_captured_blur_exact": true,
+      "maximum_error": 0.0,
+      "positive_mismatches": 0
+    },
+    {
+      "name": "horizontal-8.500001",
+      "laplacian_from_captured_blur_exact": true,
+      "maximum_error": 0.0,
+      "positive_mismatches": 0
+    },
+    {
+      "name": "horizontal-16.0",
+      "laplacian_from_captured_blur_exact": true,
+      "maximum_error": 0.0,
+      "positive_mismatches": 0
+    }
+  ],
+  "sigma1_imagej_half_kernel": [
+    0.3989423,
+    0.24197073,
+    0.053990968,
+    0.0044318484,
+    0.00013383022,
+    1.4867195e-06
+  ],
+  "sigma1_native_radius": 3,
+  "diagnostic_float64_models": [
+    {
+      "radius": 3,
+      "replicate": false,
+      "positive_mismatches": 1733,
+      "probes": [
+        {
+          "x": 32,
+          "y": 68,
+          "response": -2.220446049250313e-16,
+          "positive": false
+        },
+        {
+          "x": 33,
+          "y": 68,
+          "response": 0.0,
+          "positive": false
+        },
+        {
+          "x": 32,
+          "y": 81,
+          "response": -2.220446049250313e-16,
+          "positive": false
+        },
+        {
+          "x": 33,
+          "y": 81,
+          "response": 0.0,
+          "positive": false
+        }
+      ]
+    },
+    {
+      "radius": 3,
+      "replicate": true,
+      "positive_mismatches": 1438,
+      "probes": [
+        {
+          "x": 32,
+          "y": 68,
+          "response": 0.0,
+          "positive": false
+        },
+        {
+          "x": 33,
+          "y": 68,
+          "response": 0.0,
+          "positive": false
+        },
+        {
+          "x": 32,
+          "y": 81,
+          "response": 0.0,
+          "positive": false
+        },
+        {
+          "x": 33,
+          "y": 81,
+          "response": 0.0,
+          "positive": false
+        }
+      ]
+    },
+    {
+      "radius": 5,
+      "replicate": false,
+      "positive_mismatches": 2550,
+      "probes": [
+        {
+          "x": 32,
+          "y": 68,
+          "response": 3.104879430670948e-06,
+          "positive": true
+        },
+        {
+          "x": 33,
+          "y": 68,
+          "response": 1.2719442985975604e-05,
+          "positive": true
+        },
+        {
+          "x": 32,
+          "y": 81,
+          "response": 3.1048794308929928e-06,
+          "positive": true
+        },
+        {
+          "x": 33,
+          "y": 81,
+          "response": 1.2719442985531515e-05,
+          "positive": true
+        }
+      ]
+    },
+    {
+      "radius": 5,
+      "replicate": true,
+      "positive_mismatches": 1434,
+      "probes": [
+        {
+          "x": 32,
+          "y": 68,
+          "response": 2.7727750904205095e-06,
+          "positive": true
+        },
+        {
+          "x": 33,
+          "y": 68,
+          "response": 1.2115871052875704e-05,
+          "positive": true
+        },
+        {
+          "x": 32,
+          "y": 81,
+          "response": 2.772775090198465e-06,
+          "positive": true
+        },
+        {
+          "x": 33,
+          "y": 81,
+          "response": 1.211587105265366e-05,
+          "positive": true
+        }
+      ]
+    }
+  ],
+  "diagnostics_are_not_production_equivalence": true
+}

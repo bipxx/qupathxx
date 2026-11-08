@@ -1,0 +1,17 @@
+{
+  "final_product_installs": 1,
+  "wheel_sha256": "e76863441227395ad53c29021a86bac316894523cb40874a20978087b6a1044f",
+  "public_bindings_unchanged": true,
+  "stub_repackaging": false,
+  "install_argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\source-verification-r5-ui-env\\Scripts\\python.exe",
+    "-I",
+    "-m",
+    "pip",
+    "install",
+    "--ignore-installed",
+    "--no-index",
+    "--no-deps",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\source-verification-r5\\wheel-ui\\qupathxx-0.1.0-cp312-cp312-win_amd64.whl"
+  ]
+}

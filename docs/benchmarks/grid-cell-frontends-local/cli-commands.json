@@ -1,0 +1,218 @@
+[
+  {
+    "args": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-native\\Release\\qupathxx_project_batch_tests.exe",
+      "--write-grid-fixture",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gridfrontends167-cli-final\\input.qpxproj"
+    ],
+    "exit": 0,
+    "stdout": "{\"schema\":\"qpx.grid-cli-input/1\",\"image\":1,\"object\":1}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-native\\Release\\qupathxx_batch.exe",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gridfrontends167-cli-final\\input.qpxproj",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gridfrontends167-cli-final\\results",
+      "--kind",
+      "cells",
+      "--cell-algorithm",
+      "grid",
+      "--cell-grid-samples",
+      "3,3",
+      "--cell-grid-context",
+      "1,1",
+      "--grid-units",
+      "um",
+      "--grid-sigma",
+      "0",
+      "--grid-prominence",
+      ".2",
+      "--grid-min-area",
+      ".75",
+      "--grid-expansion",
+      ".9",
+      "--grid-contour-bytes",
+      "1048576",
+      "--stains",
+      "1,0,0,0,1,0,0,0,1",
+      "--normalized"
+    ],
+    "exit": 0,
+    "stdout": "{\"schema\":\"qpx.batch-image/1\",\"image_id\":1,\"image_name\":\"Grid CLI input\",\"state\":\"saved\",\"path\":\"C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\gridfrontends167-cli-final\\\\results\\\\image-1-fe4edf6bde1c6f648100fad8f15d9dea23089e2b1b7a5b5d888558c6c24f1967\\\\a72130a380f51aef2bc9d841a814e1a2748feb35ac076f75a2d56e09a58559f9.qpxproj\",\"error\":\"\",\"input_sha256\":\"cc3e82172eb3ca0bb151dbf5d6d52e1062d89d400db46e8bb0cf94cbb08c4489\",\"pixel_sha256\":\"a72130a380f51aef2bc9d841a814e1a2748feb35ac076f75a2d56e09a58559f9\",\"objects\":1,\"records\":1,\"inferred_blocks\":0,\"hashed_blocks\":0,\"verified_blocks\":0,\"stream_bytes\":0,\"raw_tiles\":0,\"raw_hashed_tiles\":0,\"elapsed_ms\":28.980499999999999}\n{\"schema\":\"qpx.project-batch/1\",\"state\":\"succeeded\",\"error\":\"\",\"report_path\":\"C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\gridfrontends167-cli-final\\\\results\\\\run-7a09e46666f146c9085086f1741e4857.json\",\"parameters_sha256\":\"b274321c77740004823e35e812e15d778395d141a9a64dc1dd29998d565d0efa\",\"source_identity\":\"93dbffcb7efec0304e0ebb2d48b47843\",\"source_generation\":1,\"source_revision\":0,\"saved\":1,\"reused\":0,\"failed\":0,\"snapshot_bytes\":95261,\"capture_ms\":0.20979999999999999,\"elapsed_ms\":29.828499999999998,\"images\":[{\"schema\":\"qpx.batch-image/1\",\"image_id\":1,\"image_name\":\"Grid CLI input\",\"state\":\"saved\",\"path\":\"C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\gridfrontends167-cli-final\\\\results\\\\image-1-fe4edf6bde1c6f648100fad8f15d9dea23089e2b1b7a5b5d888558c6c24f1967\\\\a72130a380f51aef2bc9d841a814e1a2748feb35ac076f75a2d56e09a58559f9.qpxproj\",\"error\":\"\",\"input_sha256\":\"cc3e82172eb3ca0bb151dbf5d6d52e1062d89d400db46e8bb0cf94cbb08c4489\",\"pixel_sha256\":\"a72130a380f51aef2bc9d841a814e1a2748feb35ac076f75a2d56e09a58559f9\",\"objects\":1,\"records\":1,\"inferred_blocks\":0,\"hashed_blocks\":0,\"verified_blocks\":0,\"stream_bytes\":0,\"raw_tiles\":0,\"raw_hashed_tiles\":0,\"elapsed_ms\":28.980499999999999}]}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-native\\Release\\qupathxx_batch.exe",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gridfrontends167-cli-final\\input.qpxproj",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gridfrontends167-cli-final\\results",
+      "--kind",
+      "cells",
+      "--cell-algorithm",
+      "grid",
+      "--cell-grid-samples",
+      "3,3",
+      "--cell-grid-context",
+      "1,1",
+      "--grid-units",
+      "um",
+      "--grid-sigma",
+      "0",
+      "--grid-prominence",
+      ".2",
+      "--grid-min-area",
+      ".75",
+      "--grid-expansion",
+      ".9",
+      "--grid-contour-bytes",
+      "1048576",
+      "--stains",
+      "1,0,0,0,1,0,0,0,1",
+      "--normalized"
+    ],
+    "exit": 0,
+    "stdout": "{\"schema\":\"qpx.batch-image/1\",\"image_id\":1,\"image_name\":\"Grid CLI input\",\"state\":\"reused\",\"path\":\"C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\gridfrontends167-cli-final\\\\results\\\\image-1-fe4edf6bde1c6f648100fad8f15d9dea23089e2b1b7a5b5d888558c6c24f1967\\\\a72130a380f51aef2bc9d841a814e1a2748feb35ac076f75a2d56e09a58559f9.qpxproj\",\"error\":\"\",\"input_sha256\":\"cc3e82172eb3ca0bb151dbf5d6d52e1062d89d400db46e8bb0cf94cbb08c4489\",\"pixel_sha256\":\"a72130a380f51aef2bc9d841a814e1a2748feb35ac076f75a2d56e09a58559f9\",\"objects\":1,\"records\":1,\"inferred_blocks\":0,\"hashed_blocks\":0,\"verified_blocks\":0,\"stream_bytes\":0,\"raw_tiles\":0,\"raw_hashed_tiles\":0,\"elapsed_ms\":15.4625}\n{\"schema\":\"qpx.project-batch/1\",\"state\":\"succeeded\",\"error\":\"\",\"report_path\":\"C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\gridfrontends167-cli-final\\\\results\\\\run-4a81d2c1a421398b3b47f82898523af3.json\",\"parameters_sha256\":\"b274321c77740004823e35e812e15d778395d141a9a64dc1dd29998d565d0efa\",\"source_identity\":\"93dbffcb7efec0304e0ebb2d48b47843\",\"source_generation\":1,\"source_revision\":0,\"saved\":0,\"reused\":1,\"failed\":0,\"snapshot_bytes\":95261,\"capture_ms\":0.22509999999999999,\"elapsed_ms\":16.1358,\"images\":[{\"schema\":\"qpx.batch-image/1\",\"image_id\":1,\"image_name\":\"Grid CLI input\",\"state\":\"reused\",\"path\":\"C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\gridfrontends167-cli-final\\\\results\\\\image-1-fe4edf6bde1c6f648100fad8f15d9dea23089e2b1b7a5b5d888558c6c24f1967\\\\a72130a380f51aef2bc9d841a814e1a2748feb35ac076f75a2d56e09a58559f9.qpxproj\",\"error\":\"\",\"input_sha256\":\"cc3e82172eb3ca0bb151dbf5d6d52e1062d89d400db46e8bb0cf94cbb08c4489\",\"pixel_sha256\":\"a72130a380f51aef2bc9d841a814e1a2748feb35ac076f75a2d56e09a58559f9\",\"objects\":1,\"records\":1,\"inferred_blocks\":0,\"hashed_blocks\":0,\"verified_blocks\":0,\"stream_bytes\":0,\"raw_tiles\":0,\"raw_hashed_tiles\":0,\"elapsed_ms\":15.4625}]}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-native\\Release\\qupathxx_batch.exe",
+      "--export-cell-table",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gridfrontends167-cli-final\\results\\image-1-fe4edf6bde1c6f648100fad8f15d9dea23089e2b1b7a5b5d888558c6c24f1967\\a72130a380f51aef2bc9d841a814e1a2748feb35ac076f75a2d56e09a58559f9.qpxproj",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gridfrontends167-cli-final\\cells.csv",
+      "--capture-calibration"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-native\\Release\\qupathxx_batch.exe",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gridfrontends167-cli-final\\missing.qpxproj",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gridfrontends167-cli-final\\invalid",
+      "--kind",
+      "cells",
+      "--cell-algorithm",
+      "grid",
+      "--cell-grid-samples",
+      "0,3"
+    ],
+    "exit": 2,
+    "stdout": "",
+    "stderr": "{\"schema\":\"qpx.batch-error/1\",\"error\":\"grid cell sampling requires 1..1000000 samples and 0..4096 context per axis\"}\n"
+  },
+  {
+    "args": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-native\\Release\\qupathxx_batch.exe",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gridfrontends167-cli-final\\missing.qpxproj",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gridfrontends167-cli-final\\invalid",
+      "--kind",
+      "cells",
+      "--cell-algorithm",
+      "grid",
+      "--grid-units",
+      "yards"
+    ],
+    "exit": 2,
+    "stdout": "",
+    "stderr": "{\"schema\":\"qpx.batch-error/1\",\"error\":\"grid units must be px or um\"}\n"
+  },
+  {
+    "args": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-native\\Release\\qupathxx_batch.exe",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gridfrontends167-cli-final\\missing.qpxproj",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gridfrontends167-cli-final\\invalid",
+      "--kind",
+      "cells",
+      "--cell-algorithm",
+      "grid",
+      "--grid-sigma",
+      "nan"
+    ],
+    "exit": 2,
+    "stdout": "",
+    "stderr": "{\"schema\":\"qpx.batch-error/1\",\"error\":\"expected finite number: nan\"}\n"
+  },
+  {
+    "args": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-native\\Release\\qupathxx_batch.exe",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gridfrontends167-cli-final\\missing.qpxproj",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gridfrontends167-cli-final\\invalid",
+      "--kind",
+      "cells",
+      "--cell-algorithm",
+      "grid",
+      "--level",
+      "-1"
+    ],
+    "exit": 2,
+    "stdout": "",
+    "stderr": "{\"schema\":\"qpx.batch-error/1\",\"error\":\"grid cells require grid-unit options without legacy algorithm, level, tile or physical-area flags\"}\n"
+  },
+  {
+    "args": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-native\\Release\\qupathxx_batch.exe",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gridfrontends167-cli-final\\missing.qpxproj",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gridfrontends167-cli-final\\invalid",
+      "--kind",
+      "cells",
+      "--cell-algorithm",
+      "grid",
+      "--tile-size",
+      "256"
+    ],
+    "exit": 2,
+    "stdout": "",
+    "stderr": "{\"schema\":\"qpx.batch-error/1\",\"error\":\"grid cells require grid-unit options without legacy algorithm, level, tile or physical-area flags\"}\n"
+  },
+  {
+    "args": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-native\\Release\\qupathxx_batch.exe",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gridfrontends167-cli-final\\missing.qpxproj",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gridfrontends167-cli-final\\invalid",
+      "--kind",
+      "cells",
+      "--cell-algorithm",
+      "grid",
+      "--cell-algorithm",
+      "distance"
+    ],
+    "exit": 2,
+    "stdout": "",
+    "stderr": "{\"schema\":\"qpx.batch-error/1\",\"error\":\"grid cells require grid-unit options without legacy algorithm, level, tile or physical-area flags\"}\n"
+  },
+  {
+    "args": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-native\\Release\\qupathxx_batch.exe",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gridfrontends167-cli-final\\missing.qpxproj",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gridfrontends167-cli-final\\invalid",
+      "--kind",
+      "cells",
+      "--cell-algorithm",
+      "grid",
+      "--cell-context-padding",
+      "32"
+    ],
+    "exit": 2,
+    "stdout": "",
+    "stderr": "{\"schema\":\"qpx.batch-error/1\",\"error\":\"grid cells require grid-unit options without legacy algorithm, level, tile or physical-area flags\"}\n"
+  },
+  {
+    "args": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-native\\Release\\qupathxx_batch.exe",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gridfrontends167-cli-final\\missing.qpxproj",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gridfrontends167-cli-final\\invalid",
+      "--kind",
+      "cells",
+      "--cell-algorithm",
+      "grid",
+      "--cell-min-area-um2",
+      "1"
+    ],
+    "exit": 2,
+    "stdout": "",
+    "stderr": "{\"schema\":\"qpx.batch-error/1\",\"error\":\"grid cells require grid-unit options without legacy algorithm, level, tile or physical-area flags\"}\n"
+  }
+]

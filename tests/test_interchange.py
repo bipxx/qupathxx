@@ -97,13 +97,13 @@ def test_loss_reporting_subset_parents_and_unknown_properties():
     result = q.export_geojson(doc, [child], allow_losses=True)
     assert result.issues[0].code == "parent_not_exported"
     assert json.loads(result.text)["features"][0]["properties"]["qupathxx"]["parentId"] == "0"
-    data = feature({"type": "Point", "coordinates": [1, 2]}, measurements=[{"name": "Area", "value": 3}], isLocked=True)
+    data = feature({"type": "Point", "coordinates": [1, 2]}, measurements=[{"name": "Area", "value": 3}], isLocked=True, custom=True)
     target = document()
     with pytest.raises(ValueError, match="Unsupported properties"):
         q.import_geojson(target, json.dumps(data), assume_pixels=True)
     assert target.object_count == 0
     imported = q.import_geojson(target, json.dumps(data), assume_pixels=True, allow_losses=True)
-    assert [(i.code, i.count) for i in imported.issues] == [("properties_dropped", 2)]
+    assert [(i.code, i.count) for i in imported.issues] == [("properties_dropped", 1)]
 
 
 @geo
@@ -210,11 +210,23 @@ def test_unknown_geometry_and_collection_members_require_loss_permission():
 @geo
 def test_invalid_class_colors_do_not_wrap_or_drop_alpha():
     doc = document()
-    for color in [18446744073709551615, -2147483648, [255, 0, 0, 128]]:
+    for color in [18446744073709551615, -2147483649, [255, 0, 0, 256], [-1, 0, 0, 128]]:
         data = feature({"type": "Point", "coordinates": [1, 2]}, classification={"name": "Tumor", "color": color})
-        with pytest.raises(ValueError, match="color"):
+        with pytest.raises(ValueError, match="color|ARGB"):
             q.import_geojson(doc, json.dumps(data), assume_pixels=True, allow_losses=True)
     assert doc.object_count == 0 and not doc.classes
+
+
+@geo
+@pytest.mark.parametrize('wire,argb', [(-2147483648, 0x80000000), (2147483648, 0x80000000), ([255, 0, 0, 128], 0x80ff0000)])
+def test_class_argb_is_retained_instead_of_rejected_or_masked(wire, argb):
+    doc = document()
+    data = feature({"type": "Point", "coordinates": [1, 2]}, classification={"name": "Tumor", "color": wire})
+    q.import_geojson(doc, json.dumps(data), assume_pixels=True)
+    assert doc.object_class('Tumor').color_argb == argb
+    restored = document()
+    q.import_geojson(restored, q.export_geojson(doc).text)
+    assert restored.object_class('Tumor').color_argb == argb
 
 
 @geo

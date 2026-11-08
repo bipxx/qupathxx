@@ -1,0 +1,19 @@
+{
+  "id": 12615311718,
+  "name": "macos-native-x86_64",
+  "size_in_bytes": 11420701,
+  "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12615311718",
+  "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12615311718/zip",
+  "expired": false,
+  "created_at": "2026-10-25T21:43:28Z",
+  "expires_at": "2026-11-08T21:43:25Z",
+  "updated_at": "2026-10-25T21:43:28Z",
+  "digest": "sha256:ce5d6626fd00e5fef66a15a9b76d585ff0019e383fe0dc7296cbbc2f79913a37",
+  "workflow_run": {
+    "id": 40235213038,
+    "repository_id": 1427753981,
+    "head_repository_id": 1427753981,
+    "head_branch": "feature/tma-axis-workflow-196",
+    "head_sha": "ad4aa2c8cfeaad652e4dd920f81ba8787eed0384"
+  }
+}

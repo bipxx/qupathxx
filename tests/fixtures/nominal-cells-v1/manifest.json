@@ -1,0 +1,40 @@
+{
+  "schema": "qpx.nominal-cell-captured-input/1",
+  "source_capture": "qupath-cells-resampled-debug-0.7.0",
+  "capture_manifest_sha256": "1d9936c2c6eb2c53420917265557f46e76ba8ce38696856f66d4a3b8c27bf140",
+  "request": {
+    "x_px": 0,
+    "y_px": 0,
+    "width_px": 256,
+    "height_px": 192,
+    "downsample": 1.5,
+    "context_x": 0,
+    "context_y": 0
+  },
+  "output_shape": [
+    128,
+    171
+  ],
+  "sample_counts": {
+    "nucleus": 379,
+    "body": 825
+  },
+  "files": {
+    "body.u32le": {
+      "bytes": 87552,
+      "sha256": "90a5aa4a8d242863d67745d5ab27b299e4d1a7fb97e75cee8cd033591bca1f48"
+    },
+    "nucleus.u32le": {
+      "bytes": 87552,
+      "sha256": "ae981f26a6bb0cf8d6e7b8af8a02ced3f5412be0e9cd2427e8f038286b7b80fe"
+    },
+    "processed.rgb": {
+      "bytes": 65664,
+      "sha256": "b48a1de79c0300d50292169778ebb9c0eaf7b7011800fe6d78a6fd17bc804e0f"
+    },
+    "source.rgb": {
+      "bytes": 147456,
+      "sha256": "1d0be4f9c8d057876b650371b021cb93e7f3d8be63d90befb66037f1d4960443"
+    }
+  }
+}

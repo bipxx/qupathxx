@@ -1,0 +1,1631 @@
+{
+  "schema": "qpx.macos-relocation-local-validation/1",
+  "tooling_source": "40f9a452e03d590f0298f4f56dd31ebde9b031df",
+  "unit_passed": 313,
+  "unit_junit_sha256": "8265188f0115a08ccb8416fef0dfdfbbc31393dbdf0d4c472eb0f9af02d2c44c",
+  "python_cohort": {
+    "groups": [
+      {
+        "classname": "test_runtime_manifest",
+        "passed": 55
+      },
+      {
+        "classname": "test_elf_dependencies",
+        "passed": 75
+      },
+      {
+        "classname": "test_linux_runtime_manifest",
+        "passed": 50
+      },
+      {
+        "classname": "test_macho_dependencies",
+        "passed": 66
+      },
+      {
+        "classname": "test_macos_native_inventory",
+        "passed": 22
+      },
+      {
+        "classname": "test_macos_relocation_plan",
+        "passed": 34
+      },
+      {
+        "classname": "test_macos_relocate",
+        "passed": 11
+      }
+    ],
+    "passed": 313,
+    "case_contract_sha256": "8bbb596f539baea94793eef87acbc9f5df25e7358da02caf4d3967e474e1bb17",
+    "junit_sha256": "8265188f0115a08ccb8416fef0dfdfbbc31393dbdf0d4c472eb0f9af02d2c44c"
+  },
+  "planner_cases": 34,
+  "executor_verifier_cases": 11,
+  "actual_snapshot_observations": [
+    {
+      "architecture": "arm64",
+      "accepted_input_source": "82c20ff8642fbd4100f633e8dc6e2804e4af850a",
+      "snapshot_sha256": "75d6f06f9d38026ad544b1939b4bf195ee1da57765b2670db34b474534b63fc2",
+      "snapshot_files": 14,
+      "snapshot_binary_records": 7,
+      "planned_files": 11,
+      "planned_binaries": 4,
+      "planned_edges": 13,
+      "source_file_bytes": 15886169,
+      "selected_pre_edit_copy_bytes": 11664209,
+      "plan_sha256": "fe0f2c5d2f1699795e973eccd776cbce95f3a5a9949c9a04a6e928ad06350fb6",
+      "plan": {
+        "schema": "qpx.macos-native-relocation-plan/1",
+        "source_archive": "macos-native-files.zip",
+        "source_archive_sha256": "75d6f06f9d38026ad544b1939b4bf195ee1da57765b2670db34b474534b63fc2",
+        "architecture": "arm64",
+        "source_roots": {
+          "native": "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/native-build",
+          "geos": "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk",
+          "opencv": "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk"
+        },
+        "files": [
+          {
+            "source": "native/qupathxx_batch",
+            "target": "bin/qupathxx_batch",
+            "source_aliases": [
+              "native/qupathxx_batch"
+            ],
+            "source_sha256": "f8b680d495f2a3bd0086f0f79916f370ea9984172acd3792bc03a0e9480d7826",
+            "mode": 493
+          },
+          {
+            "source": "native/qupathxx_region",
+            "target": "bin/qupathxx_region",
+            "source_aliases": [
+              "native/qupathxx_region"
+            ],
+            "source_sha256": "a1a58d10daa155f2b8bf3b13435bde35346ed430bd11733c65b5fb6d0e8fe647",
+            "mode": 493
+          },
+          {
+            "source": "sdk/geos/lib/libgeos.3.15.0.dylib",
+            "target": "lib/libgeos.3.15.0.dylib",
+            "source_aliases": [
+              "sdk/geos/lib/libgeos.3.15.0.dylib",
+              "sdk/geos/lib/libgeos.dylib"
+            ],
+            "source_sha256": "ca9fcf9cb6c44142fe04fa8a017952486db72199b5c189c6d19093b0b63b8368",
+            "mode": 493
+          },
+          {
+            "source": "sdk/geos/lib/libgeos_c.1.21.0.dylib",
+            "target": "lib/libgeos_c.1.dylib",
+            "source_aliases": [
+              "sdk/geos/lib/libgeos_c.1.21.0.dylib",
+              "sdk/geos/lib/libgeos_c.1.dylib",
+              "sdk/geos/lib/libgeos_c.dylib"
+            ],
+            "source_sha256": "a847347ca183d79bc2268166ad9b13fd6adeb4233137dd8c3ed4faa1c2725223",
+            "mode": 493
+          },
+          {
+            "source": "sdk/geos/share/licenses/geos/COPYING",
+            "target": "licenses/geos/COPYING",
+            "source_aliases": [
+              "sdk/geos/share/licenses/geos/COPYING"
+            ],
+            "source_sha256": "dc626520dcd53a22f727af3ee42c770e56c97a64fe3adb063799d8ab032fe551",
+            "mode": 420
+          },
+          {
+            "source": "sdk/opencv/share/licenses/opencv/LICENSE",
+            "target": "licenses/opencv/LICENSE",
+            "source_aliases": [
+              "sdk/opencv/share/licenses/opencv/LICENSE"
+            ],
+            "source_sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+            "mode": 420
+          },
+          {
+            "source": "sdk/opencv/share/licenses/opencv/SOURCE-NOTICES.txt",
+            "target": "licenses/opencv/SOURCE-NOTICES.txt",
+            "source_aliases": [
+              "sdk/opencv/share/licenses/opencv/SOURCE-NOTICES.txt"
+            ],
+            "source_sha256": "3d02753ef4679f163387971bf7c7cab9d308fbb73668eadf8a1fea6b61851d64",
+            "mode": 420
+          },
+          {
+            "source": "sdk/opencv/share/licenses/opencv4/SoftFloat-COPYING.txt",
+            "target": "licenses/opencv/opencv4/SoftFloat-COPYING.txt",
+            "source_aliases": [
+              "sdk/opencv/share/licenses/opencv4/SoftFloat-COPYING.txt"
+            ],
+            "source_sha256": "0c5b08365136da52639d777f1ebfc03988b0169d80655c90c59f1b3fa3e526a2",
+            "mode": 420
+          },
+          {
+            "source": "sdk/opencv/share/licenses/opencv4/zlib-LICENSE",
+            "target": "licenses/opencv/opencv4/zlib-LICENSE",
+            "source_aliases": [
+              "sdk/opencv/share/licenses/opencv4/zlib-LICENSE"
+            ],
+            "source_sha256": "845efc77857d485d91fb3e0b884aaa929368c717ae8186b66fe1ed2495753243",
+            "mode": 420
+          },
+          {
+            "source": "sdk/opencv/share/licenses/opencv/softfloat-notice.txt",
+            "target": "licenses/opencv/softfloat-notice.txt",
+            "source_aliases": [
+              "sdk/opencv/share/licenses/opencv/softfloat-notice.txt"
+            ],
+            "source_sha256": "27adefc3d001216b8be5af628e3583575fedc22ea6f41917e3008c8ed8cb8ce2",
+            "mode": 420
+          },
+          {
+            "source": "sdk/opencv/share/licenses/opencv/zlib-notice.txt",
+            "target": "licenses/opencv/zlib-notice.txt",
+            "source_aliases": [
+              "sdk/opencv/share/licenses/opencv/zlib-notice.txt"
+            ],
+            "source_sha256": "4506def87bbb9339b9884dd15b5790478915210571a6547b633a569a2c78cad5",
+            "mode": 420
+          }
+        ],
+        "edits": [
+          {
+            "source": "native/qupathxx_batch",
+            "target": "bin/qupathxx_batch",
+            "source_aliases": [
+              "native/qupathxx_batch"
+            ],
+            "source_sha256": "f8b680d495f2a3bd0086f0f79916f370ea9984172acd3792bc03a0e9480d7826",
+            "mode": 493,
+            "install_id": null,
+            "remove_rpaths": [
+              "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/lib"
+            ],
+            "changes": [
+              {
+                "old": "@rpath/libgeos_c.1.dylib",
+                "new": "@executable_path/../lib/libgeos_c.1.dylib"
+              }
+            ],
+            "expected_dependencies": [
+              {
+                "mechanism": "load",
+                "name": "/usr/lib/libSystem.B.dylib",
+                "timestamp": 2,
+                "current_version": 88539136,
+                "compatibility_version": 65536
+              },
+              {
+                "mechanism": "load",
+                "name": "@executable_path/../lib/libgeos_c.1.dylib",
+                "timestamp": 2,
+                "current_version": 70912,
+                "compatibility_version": 65536
+              },
+              {
+                "mechanism": "load",
+                "name": "/usr/lib/libc++.1.dylib",
+                "timestamp": 2,
+                "current_version": 124564480,
+                "compatibility_version": 65536
+              }
+            ],
+            "expected_identity": null,
+            "original_metadata": {
+              "offset": 0,
+              "bytes": 6777840,
+              "sha256": "f8b680d495f2a3bd0086f0f79916f370ea9984172acd3792bc03a0e9480d7826",
+              "machine": "arm64",
+              "cpu_type": 16777228,
+              "cpu_subtype": 0,
+              "kind": "executable",
+              "flags": 2195589,
+              "dependencies": [
+                {
+                  "mechanism": "load",
+                  "name": "/usr/lib/libSystem.B.dylib",
+                  "timestamp": 2,
+                  "current_version": 88539136,
+                  "compatibility_version": 65536
+                },
+                {
+                  "mechanism": "load",
+                  "name": "@rpath/libgeos_c.1.dylib",
+                  "timestamp": 2,
+                  "current_version": 70912,
+                  "compatibility_version": 65536
+                },
+                {
+                  "mechanism": "load",
+                  "name": "/usr/lib/libc++.1.dylib",
+                  "timestamp": 2,
+                  "current_version": 124564480,
+                  "compatibility_version": 65536
+                }
+              ],
+              "dylib_id": null,
+              "minimum_os": [
+                {
+                  "command": 50,
+                  "platform": "macos",
+                  "minimum": 983040,
+                  "sdk": 984320,
+                  "tools": [
+                    {
+                      "tool": 3,
+                      "version": 76481792
+                    }
+                  ]
+                }
+              ],
+              "uuid": "8d675641ffd1374cab00862a71b508f1",
+              "rpaths": [
+                "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/lib"
+              ],
+              "interpreters": [
+                "/usr/lib/dyld"
+              ],
+              "interpreter_ids": [],
+              "dyld_environment": [],
+              "sub_frameworks": [],
+              "sub_umbrellas": [],
+              "sub_clients": [],
+              "sub_libraries": [],
+              "commands": [
+                25,
+                25,
+                25,
+                25,
+                25,
+                2147483700,
+                2147483699,
+                2,
+                11,
+                14,
+                27,
+                50,
+                42,
+                2147483688,
+                12,
+                12,
+                12,
+                2147483676,
+                38,
+                41,
+                29
+              ]
+            }
+          },
+          {
+            "source": "native/qupathxx_region",
+            "target": "bin/qupathxx_region",
+            "source_aliases": [
+              "native/qupathxx_region"
+            ],
+            "source_sha256": "a1a58d10daa155f2b8bf3b13435bde35346ed430bd11733c65b5fb6d0e8fe647",
+            "mode": 493,
+            "install_id": null,
+            "remove_rpaths": [
+              "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/lib"
+            ],
+            "changes": [
+              {
+                "old": "@rpath/libgeos_c.1.dylib",
+                "new": "@executable_path/../lib/libgeos_c.1.dylib"
+              }
+            ],
+            "expected_dependencies": [
+              {
+                "mechanism": "load",
+                "name": "/usr/lib/libSystem.B.dylib",
+                "timestamp": 2,
+                "current_version": 88539136,
+                "compatibility_version": 65536
+              },
+              {
+                "mechanism": "load",
+                "name": "@executable_path/../lib/libgeos_c.1.dylib",
+                "timestamp": 2,
+                "current_version": 70912,
+                "compatibility_version": 65536
+              },
+              {
+                "mechanism": "load",
+                "name": "/usr/lib/libc++.1.dylib",
+                "timestamp": 2,
+                "current_version": 124564480,
+                "compatibility_version": 65536
+              }
+            ],
+            "expected_identity": null,
+            "original_metadata": {
+              "offset": 0,
+              "bytes": 944032,
+              "sha256": "a1a58d10daa155f2b8bf3b13435bde35346ed430bd11733c65b5fb6d0e8fe647",
+              "machine": "arm64",
+              "cpu_type": 16777228,
+              "cpu_subtype": 0,
+              "kind": "executable",
+              "flags": 2195589,
+              "dependencies": [
+                {
+                  "mechanism": "load",
+                  "name": "/usr/lib/libSystem.B.dylib",
+                  "timestamp": 2,
+                  "current_version": 88539136,
+                  "compatibility_version": 65536
+                },
+                {
+                  "mechanism": "load",
+                  "name": "@rpath/libgeos_c.1.dylib",
+                  "timestamp": 2,
+                  "current_version": 70912,
+                  "compatibility_version": 65536
+                },
+                {
+                  "mechanism": "load",
+                  "name": "/usr/lib/libc++.1.dylib",
+                  "timestamp": 2,
+                  "current_version": 124564480,
+                  "compatibility_version": 65536
+                }
+              ],
+              "dylib_id": null,
+              "minimum_os": [
+                {
+                  "command": 50,
+                  "platform": "macos",
+                  "minimum": 983040,
+                  "sdk": 984320,
+                  "tools": [
+                    {
+                      "tool": 3,
+                      "version": 76481792
+                    }
+                  ]
+                }
+              ],
+              "uuid": "85e1856ee742301793e136250af05003",
+              "rpaths": [
+                "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/lib"
+              ],
+              "interpreters": [
+                "/usr/lib/dyld"
+              ],
+              "interpreter_ids": [],
+              "dyld_environment": [],
+              "sub_frameworks": [],
+              "sub_umbrellas": [],
+              "sub_clients": [],
+              "sub_libraries": [],
+              "commands": [
+                25,
+                25,
+                25,
+                25,
+                25,
+                2147483700,
+                2147483699,
+                2,
+                11,
+                14,
+                27,
+                50,
+                42,
+                2147483688,
+                12,
+                12,
+                12,
+                2147483676,
+                38,
+                41,
+                29
+              ]
+            }
+          },
+          {
+            "source": "sdk/geos/lib/libgeos.3.15.0.dylib",
+            "target": "lib/libgeos.3.15.0.dylib",
+            "source_aliases": [
+              "sdk/geos/lib/libgeos.3.15.0.dylib",
+              "sdk/geos/lib/libgeos.dylib"
+            ],
+            "source_sha256": "ca9fcf9cb6c44142fe04fa8a017952486db72199b5c189c6d19093b0b63b8368",
+            "mode": 493,
+            "install_id": "@rpath/libgeos.3.15.0.dylib",
+            "remove_rpaths": [],
+            "changes": [],
+            "expected_dependencies": [
+              {
+                "mechanism": "load",
+                "name": "/usr/lib/libc++.1.dylib",
+                "timestamp": 2,
+                "current_version": 124564480,
+                "compatibility_version": 65536
+              },
+              {
+                "mechanism": "load",
+                "name": "/usr/lib/libSystem.B.dylib",
+                "timestamp": 2,
+                "current_version": 88539136,
+                "compatibility_version": 65536
+              }
+            ],
+            "expected_identity": {
+              "name": "@rpath/libgeos.3.15.0.dylib",
+              "timestamp": 1,
+              "current_version": 200448,
+              "compatibility_version": 200448
+            },
+            "original_metadata": {
+              "offset": 0,
+              "bytes": 3383128,
+              "sha256": "ca9fcf9cb6c44142fe04fa8a017952486db72199b5c189c6d19093b0b63b8368",
+              "machine": "arm64",
+              "cpu_type": 16777228,
+              "cpu_subtype": 0,
+              "kind": "dylib",
+              "flags": 9535621,
+              "dependencies": [
+                {
+                  "mechanism": "load",
+                  "name": "/usr/lib/libc++.1.dylib",
+                  "timestamp": 2,
+                  "current_version": 124564480,
+                  "compatibility_version": 65536
+                },
+                {
+                  "mechanism": "load",
+                  "name": "/usr/lib/libSystem.B.dylib",
+                  "timestamp": 2,
+                  "current_version": 88539136,
+                  "compatibility_version": 65536
+                }
+              ],
+              "dylib_id": {
+                "name": "@rpath/libgeos.3.15.0.dylib",
+                "timestamp": 1,
+                "current_version": 200448,
+                "compatibility_version": 200448
+              },
+              "minimum_os": [
+                {
+                  "command": 50,
+                  "platform": "macos",
+                  "minimum": 983040,
+                  "sdk": 984320,
+                  "tools": [
+                    {
+                      "tool": 3,
+                      "version": 76481792
+                    }
+                  ]
+                }
+              ],
+              "uuid": "7cceb2c45e79326c9bf06b1c0910e2e0",
+              "rpaths": [],
+              "interpreters": [],
+              "interpreter_ids": [],
+              "dyld_environment": [],
+              "sub_frameworks": [],
+              "sub_umbrellas": [],
+              "sub_clients": [],
+              "sub_libraries": [],
+              "commands": [
+                25,
+                25,
+                25,
+                25,
+                13,
+                2147483700,
+                2147483699,
+                2,
+                11,
+                27,
+                50,
+                42,
+                12,
+                12,
+                38,
+                41,
+                29
+              ]
+            }
+          },
+          {
+            "source": "sdk/geos/lib/libgeos_c.1.21.0.dylib",
+            "target": "lib/libgeos_c.1.dylib",
+            "source_aliases": [
+              "sdk/geos/lib/libgeos_c.1.21.0.dylib",
+              "sdk/geos/lib/libgeos_c.1.dylib",
+              "sdk/geos/lib/libgeos_c.dylib"
+            ],
+            "source_sha256": "a847347ca183d79bc2268166ad9b13fd6adeb4233137dd8c3ed4faa1c2725223",
+            "mode": 493,
+            "install_id": "@rpath/libgeos_c.1.dylib",
+            "remove_rpaths": [
+              "@loader_path"
+            ],
+            "changes": [
+              {
+                "old": "@rpath/libgeos.3.15.0.dylib",
+                "new": "@loader_path/libgeos.3.15.0.dylib"
+              }
+            ],
+            "expected_dependencies": [
+              {
+                "mechanism": "load",
+                "name": "@loader_path/libgeos.3.15.0.dylib",
+                "timestamp": 2,
+                "current_version": 200448,
+                "compatibility_version": 200448
+              },
+              {
+                "mechanism": "load",
+                "name": "/usr/lib/libc++.1.dylib",
+                "timestamp": 2,
+                "current_version": 124564480,
+                "compatibility_version": 65536
+              },
+              {
+                "mechanism": "load",
+                "name": "/usr/lib/libSystem.B.dylib",
+                "timestamp": 2,
+                "current_version": 88539136,
+                "compatibility_version": 65536
+              }
+            ],
+            "expected_identity": {
+              "name": "@rpath/libgeos_c.1.dylib",
+              "timestamp": 1,
+              "current_version": 70912,
+              "compatibility_version": 65536
+            },
+            "original_metadata": {
+              "offset": 0,
+              "bytes": 419416,
+              "sha256": "a847347ca183d79bc2268166ad9b13fd6adeb4233137dd8c3ed4faa1c2725223",
+              "machine": "arm64",
+              "cpu_type": 16777228,
+              "cpu_subtype": 0,
+              "kind": "dylib",
+              "flags": 1147013,
+              "dependencies": [
+                {
+                  "mechanism": "load",
+                  "name": "@rpath/libgeos.3.15.0.dylib",
+                  "timestamp": 2,
+                  "current_version": 200448,
+                  "compatibility_version": 200448
+                },
+                {
+                  "mechanism": "load",
+                  "name": "/usr/lib/libc++.1.dylib",
+                  "timestamp": 2,
+                  "current_version": 124564480,
+                  "compatibility_version": 65536
+                },
+                {
+                  "mechanism": "load",
+                  "name": "/usr/lib/libSystem.B.dylib",
+                  "timestamp": 2,
+                  "current_version": 88539136,
+                  "compatibility_version": 65536
+                }
+              ],
+              "dylib_id": {
+                "name": "@rpath/libgeos_c.1.dylib",
+                "timestamp": 1,
+                "current_version": 70912,
+                "compatibility_version": 65536
+              },
+              "minimum_os": [
+                {
+                  "command": 50,
+                  "platform": "macos",
+                  "minimum": 983040,
+                  "sdk": 984320,
+                  "tools": [
+                    {
+                      "tool": 3,
+                      "version": 76481792
+                    }
+                  ]
+                }
+              ],
+              "uuid": "854b2d6ae00c3bb3a3eccee217736baf",
+              "rpaths": [
+                "@loader_path"
+              ],
+              "interpreters": [],
+              "interpreter_ids": [],
+              "dyld_environment": [],
+              "sub_frameworks": [],
+              "sub_umbrellas": [],
+              "sub_clients": [],
+              "sub_libraries": [],
+              "commands": [
+                25,
+                25,
+                25,
+                25,
+                13,
+                2147483700,
+                2147483699,
+                2,
+                11,
+                27,
+                50,
+                42,
+                12,
+                12,
+                12,
+                38,
+                41,
+                29,
+                2147483676
+              ]
+            }
+          }
+        ],
+        "dependency_edges": [
+          {
+            "source": "bin/qupathxx_batch",
+            "dependency": "/usr/lib/libSystem.B.dylib",
+            "replacement": "/usr/lib/libSystem.B.dylib",
+            "target": null,
+            "mechanism": "load",
+            "resolution": "macos-system-runtime",
+            "compatibility_version": 65536
+          },
+          {
+            "source": "bin/qupathxx_batch",
+            "dependency": "@rpath/libgeos_c.1.dylib",
+            "replacement": "@executable_path/../lib/libgeos_c.1.dylib",
+            "target": "lib/libgeos_c.1.dylib",
+            "mechanism": "load",
+            "resolution": "bundled-direct-loader-path",
+            "compatibility_version": 65536
+          },
+          {
+            "source": "bin/qupathxx_batch",
+            "dependency": "/usr/lib/libc++.1.dylib",
+            "replacement": "/usr/lib/libc++.1.dylib",
+            "target": null,
+            "mechanism": "load",
+            "resolution": "macos-system-runtime",
+            "compatibility_version": 65536
+          },
+          {
+            "source": "bin/qupathxx_batch",
+            "dependency": "/usr/lib/dyld",
+            "replacement": "/usr/lib/dyld",
+            "target": null,
+            "mechanism": "load-dylinker",
+            "resolution": "macos-system-interpreter",
+            "compatibility_version": null
+          },
+          {
+            "source": "bin/qupathxx_region",
+            "dependency": "/usr/lib/libSystem.B.dylib",
+            "replacement": "/usr/lib/libSystem.B.dylib",
+            "target": null,
+            "mechanism": "load",
+            "resolution": "macos-system-runtime",
+            "compatibility_version": 65536
+          },
+          {
+            "source": "bin/qupathxx_region",
+            "dependency": "@rpath/libgeos_c.1.dylib",
+            "replacement": "@executable_path/../lib/libgeos_c.1.dylib",
+            "target": "lib/libgeos_c.1.dylib",
+            "mechanism": "load",
+            "resolution": "bundled-direct-loader-path",
+            "compatibility_version": 65536
+          },
+          {
+            "source": "bin/qupathxx_region",
+            "dependency": "/usr/lib/libc++.1.dylib",
+            "replacement": "/usr/lib/libc++.1.dylib",
+            "target": null,
+            "mechanism": "load",
+            "resolution": "macos-system-runtime",
+            "compatibility_version": 65536
+          },
+          {
+            "source": "bin/qupathxx_region",
+            "dependency": "/usr/lib/dyld",
+            "replacement": "/usr/lib/dyld",
+            "target": null,
+            "mechanism": "load-dylinker",
+            "resolution": "macos-system-interpreter",
+            "compatibility_version": null
+          },
+          {
+            "source": "lib/libgeos.3.15.0.dylib",
+            "dependency": "/usr/lib/libc++.1.dylib",
+            "replacement": "/usr/lib/libc++.1.dylib",
+            "target": null,
+            "mechanism": "load",
+            "resolution": "macos-system-runtime",
+            "compatibility_version": 65536
+          },
+          {
+            "source": "lib/libgeos.3.15.0.dylib",
+            "dependency": "/usr/lib/libSystem.B.dylib",
+            "replacement": "/usr/lib/libSystem.B.dylib",
+            "target": null,
+            "mechanism": "load",
+            "resolution": "macos-system-runtime",
+            "compatibility_version": 65536
+          },
+          {
+            "source": "lib/libgeos_c.1.dylib",
+            "dependency": "@rpath/libgeos.3.15.0.dylib",
+            "replacement": "@loader_path/libgeos.3.15.0.dylib",
+            "target": "lib/libgeos.3.15.0.dylib",
+            "mechanism": "load",
+            "resolution": "bundled-direct-loader-path",
+            "compatibility_version": 200448
+          },
+          {
+            "source": "lib/libgeos_c.1.dylib",
+            "dependency": "/usr/lib/libc++.1.dylib",
+            "replacement": "/usr/lib/libc++.1.dylib",
+            "target": null,
+            "mechanism": "load",
+            "resolution": "macos-system-runtime",
+            "compatibility_version": 65536
+          },
+          {
+            "source": "lib/libgeos_c.1.dylib",
+            "dependency": "/usr/lib/libSystem.B.dylib",
+            "replacement": "/usr/lib/libSystem.B.dylib",
+            "target": null,
+            "mechanism": "load",
+            "resolution": "macos-system-runtime",
+            "compatibility_version": 65536
+          }
+        ],
+        "entry_points": [
+          {
+            "entry_point": "bin/qupathxx_batch",
+            "bundled_images": [
+              "bin/qupathxx_batch",
+              "lib/libgeos.3.15.0.dylib",
+              "lib/libgeos_c.1.dylib"
+            ],
+            "system_requirements": [
+              "/usr/lib/dyld",
+              "/usr/lib/libSystem.B.dylib",
+              "/usr/lib/libc++.1.dylib"
+            ]
+          },
+          {
+            "entry_point": "bin/qupathxx_region",
+            "bundled_images": [
+              "bin/qupathxx_region",
+              "lib/libgeos.3.15.0.dylib",
+              "lib/libgeos_c.1.dylib"
+            ],
+            "system_requirements": [
+              "/usr/lib/dyld",
+              "/usr/lib/libSystem.B.dylib",
+              "/usr/lib/libc++.1.dylib"
+            ]
+          }
+        ],
+        "system_requirements": [
+          "/usr/lib/dyld",
+          "/usr/lib/libSystem.B.dylib",
+          "/usr/lib/libc++.1.dylib"
+        ],
+        "declared_minimum_macos": 983040,
+        "minimum_macos_metadata_complete": true,
+        "selected_aliases_deduplicated": true,
+        "planned_rpaths": [],
+        "package_bytes_written": false,
+        "apple_tools_executed": false,
+        "dynamic_loading_verified": false,
+        "symbol_abi_verified": false,
+        "signing_verified": false,
+        "release_ready": false,
+        "scope": "Deterministic native package plan from validated snapshot bytes, explicit source roots and captured identities. All dependency kinds require a provider; no missing weak dependency is silently omitted. Bundled dependencies become direct executable/loader-relative paths and source RPATHs are removed. Declared version-floor admission is not symbol/ABI or runtime availability proof. No binaries changed or loaded."
+      }
+    },
+    {
+      "architecture": "x86_64",
+      "accepted_input_source": "82c20ff8642fbd4100f633e8dc6e2804e4af850a",
+      "snapshot_sha256": "5f574c3ad0aed7d58c2a80bf9cc483c872ca8c1f5571c52159370be5433fe3f0",
+      "snapshot_files": 14,
+      "snapshot_binary_records": 7,
+      "planned_files": 11,
+      "planned_binaries": 4,
+      "planned_edges": 13,
+      "source_file_bytes": 16342273,
+      "selected_pre_edit_copy_bytes": 11906249,
+      "plan_sha256": "f5c0f2352145c3db11915bbfe2eb42d6151c0f67a8f999be0d650be73bb7eead",
+      "plan": {
+        "schema": "qpx.macos-native-relocation-plan/1",
+        "source_archive": "macos-native-files.zip",
+        "source_archive_sha256": "5f574c3ad0aed7d58c2a80bf9cc483c872ca8c1f5571c52159370be5433fe3f0",
+        "architecture": "x86_64",
+        "source_roots": {
+          "native": "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/native-build",
+          "geos": "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk",
+          "opencv": "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk"
+        },
+        "files": [
+          {
+            "source": "native/qupathxx_batch",
+            "target": "bin/qupathxx_batch",
+            "source_aliases": [
+              "native/qupathxx_batch"
+            ],
+            "source_sha256": "e50e2b303bc34726c6b3c0c34bdbae38b5b2f0c15cb69993c7216a70ab935082",
+            "mode": 493
+          },
+          {
+            "source": "native/qupathxx_region",
+            "target": "bin/qupathxx_region",
+            "source_aliases": [
+              "native/qupathxx_region"
+            ],
+            "source_sha256": "a41554761660eb165eb6dcfbaa7dc5cfece7c8534e1f04a385ba15088e89169d",
+            "mode": 493
+          },
+          {
+            "source": "sdk/geos/lib/libgeos.3.15.0.dylib",
+            "target": "lib/libgeos.3.15.0.dylib",
+            "source_aliases": [
+              "sdk/geos/lib/libgeos.3.15.0.dylib",
+              "sdk/geos/lib/libgeos.dylib"
+            ],
+            "source_sha256": "74ac496cf73535c8f7d78398abcc2279b2ca2698752e79c1abff5ba25f118fd5",
+            "mode": 493
+          },
+          {
+            "source": "sdk/geos/lib/libgeos_c.1.21.0.dylib",
+            "target": "lib/libgeos_c.1.dylib",
+            "source_aliases": [
+              "sdk/geos/lib/libgeos_c.1.21.0.dylib",
+              "sdk/geos/lib/libgeos_c.1.dylib",
+              "sdk/geos/lib/libgeos_c.dylib"
+            ],
+            "source_sha256": "6b0d93e2e5c4f1aadc3f0e976eced7f95703565e8558f4e919c480ae7e2fab33",
+            "mode": 493
+          },
+          {
+            "source": "sdk/geos/share/licenses/geos/COPYING",
+            "target": "licenses/geos/COPYING",
+            "source_aliases": [
+              "sdk/geos/share/licenses/geos/COPYING"
+            ],
+            "source_sha256": "dc626520dcd53a22f727af3ee42c770e56c97a64fe3adb063799d8ab032fe551",
+            "mode": 420
+          },
+          {
+            "source": "sdk/opencv/share/licenses/opencv/LICENSE",
+            "target": "licenses/opencv/LICENSE",
+            "source_aliases": [
+              "sdk/opencv/share/licenses/opencv/LICENSE"
+            ],
+            "source_sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+            "mode": 420
+          },
+          {
+            "source": "sdk/opencv/share/licenses/opencv/SOURCE-NOTICES.txt",
+            "target": "licenses/opencv/SOURCE-NOTICES.txt",
+            "source_aliases": [
+              "sdk/opencv/share/licenses/opencv/SOURCE-NOTICES.txt"
+            ],
+            "source_sha256": "3d02753ef4679f163387971bf7c7cab9d308fbb73668eadf8a1fea6b61851d64",
+            "mode": 420
+          },
+          {
+            "source": "sdk/opencv/share/licenses/opencv4/SoftFloat-COPYING.txt",
+            "target": "licenses/opencv/opencv4/SoftFloat-COPYING.txt",
+            "source_aliases": [
+              "sdk/opencv/share/licenses/opencv4/SoftFloat-COPYING.txt"
+            ],
+            "source_sha256": "0c5b08365136da52639d777f1ebfc03988b0169d80655c90c59f1b3fa3e526a2",
+            "mode": 420
+          },
+          {
+            "source": "sdk/opencv/share/licenses/opencv4/zlib-LICENSE",
+            "target": "licenses/opencv/opencv4/zlib-LICENSE",
+            "source_aliases": [
+              "sdk/opencv/share/licenses/opencv4/zlib-LICENSE"
+            ],
+            "source_sha256": "845efc77857d485d91fb3e0b884aaa929368c717ae8186b66fe1ed2495753243",
+            "mode": 420
+          },
+          {
+            "source": "sdk/opencv/share/licenses/opencv/softfloat-notice.txt",
+            "target": "licenses/opencv/softfloat-notice.txt",
+            "source_aliases": [
+              "sdk/opencv/share/licenses/opencv/softfloat-notice.txt"
+            ],
+            "source_sha256": "27adefc3d001216b8be5af628e3583575fedc22ea6f41917e3008c8ed8cb8ce2",
+            "mode": 420
+          },
+          {
+            "source": "sdk/opencv/share/licenses/opencv/zlib-notice.txt",
+            "target": "licenses/opencv/zlib-notice.txt",
+            "source_aliases": [
+              "sdk/opencv/share/licenses/opencv/zlib-notice.txt"
+            ],
+            "source_sha256": "4506def87bbb9339b9884dd15b5790478915210571a6547b633a569a2c78cad5",
+            "mode": 420
+          }
+        ],
+        "edits": [
+          {
+            "source": "native/qupathxx_batch",
+            "target": "bin/qupathxx_batch",
+            "source_aliases": [
+              "native/qupathxx_batch"
+            ],
+            "source_sha256": "e50e2b303bc34726c6b3c0c34bdbae38b5b2f0c15cb69993c7216a70ab935082",
+            "mode": 493,
+            "install_id": null,
+            "remove_rpaths": [
+              "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/lib"
+            ],
+            "changes": [
+              {
+                "old": "@rpath/libgeos_c.1.dylib",
+                "new": "@executable_path/../lib/libgeos_c.1.dylib"
+              }
+            ],
+            "expected_dependencies": [
+              {
+                "mechanism": "load",
+                "name": "/usr/lib/libSystem.B.dylib",
+                "timestamp": 2,
+                "current_version": 88539136,
+                "compatibility_version": 65536
+              },
+              {
+                "mechanism": "load",
+                "name": "@executable_path/../lib/libgeos_c.1.dylib",
+                "timestamp": 2,
+                "current_version": 70912,
+                "compatibility_version": 65536
+              },
+              {
+                "mechanism": "load",
+                "name": "/usr/lib/libc++.1.dylib",
+                "timestamp": 2,
+                "current_version": 124564480,
+                "compatibility_version": 65536
+              }
+            ],
+            "expected_identity": null,
+            "original_metadata": {
+              "offset": 0,
+              "bytes": 6776656,
+              "sha256": "e50e2b303bc34726c6b3c0c34bdbae38b5b2f0c15cb69993c7216a70ab935082",
+              "machine": "x86_64",
+              "cpu_type": 16777223,
+              "cpu_subtype": 3,
+              "kind": "executable",
+              "flags": 2195589,
+              "dependencies": [
+                {
+                  "mechanism": "load",
+                  "name": "/usr/lib/libSystem.B.dylib",
+                  "timestamp": 2,
+                  "current_version": 88539136,
+                  "compatibility_version": 65536
+                },
+                {
+                  "mechanism": "load",
+                  "name": "@rpath/libgeos_c.1.dylib",
+                  "timestamp": 2,
+                  "current_version": 70912,
+                  "compatibility_version": 65536
+                },
+                {
+                  "mechanism": "load",
+                  "name": "/usr/lib/libc++.1.dylib",
+                  "timestamp": 2,
+                  "current_version": 124564480,
+                  "compatibility_version": 65536
+                }
+              ],
+              "dylib_id": null,
+              "minimum_os": [
+                {
+                  "command": 50,
+                  "platform": "macos",
+                  "minimum": 983040,
+                  "sdk": 984320,
+                  "tools": [
+                    {
+                      "tool": 3,
+                      "version": 76481792
+                    }
+                  ]
+                }
+              ],
+              "uuid": "a4299f1ccb54374cbda7bd873216eb8d",
+              "rpaths": [
+                "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/lib"
+              ],
+              "interpreters": [
+                "/usr/lib/dyld"
+              ],
+              "interpreter_ids": [],
+              "dyld_environment": [],
+              "sub_frameworks": [],
+              "sub_umbrellas": [],
+              "sub_clients": [],
+              "sub_libraries": [],
+              "commands": [
+                25,
+                25,
+                25,
+                25,
+                25,
+                2147483700,
+                2147483699,
+                2,
+                11,
+                14,
+                27,
+                50,
+                42,
+                2147483688,
+                12,
+                12,
+                12,
+                2147483676,
+                38,
+                41
+              ]
+            }
+          },
+          {
+            "source": "native/qupathxx_region",
+            "target": "bin/qupathxx_region",
+            "source_aliases": [
+              "native/qupathxx_region"
+            ],
+            "source_sha256": "a41554761660eb165eb6dcfbaa7dc5cfece7c8534e1f04a385ba15088e89169d",
+            "mode": 493,
+            "install_id": null,
+            "remove_rpaths": [
+              "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/lib"
+            ],
+            "changes": [
+              {
+                "old": "@rpath/libgeos_c.1.dylib",
+                "new": "@executable_path/../lib/libgeos_c.1.dylib"
+              }
+            ],
+            "expected_dependencies": [
+              {
+                "mechanism": "load",
+                "name": "/usr/lib/libSystem.B.dylib",
+                "timestamp": 2,
+                "current_version": 88539136,
+                "compatibility_version": 65536
+              },
+              {
+                "mechanism": "load",
+                "name": "@executable_path/../lib/libgeos_c.1.dylib",
+                "timestamp": 2,
+                "current_version": 70912,
+                "compatibility_version": 65536
+              },
+              {
+                "mechanism": "load",
+                "name": "/usr/lib/libc++.1.dylib",
+                "timestamp": 2,
+                "current_version": 124564480,
+                "compatibility_version": 65536
+              }
+            ],
+            "expected_identity": null,
+            "original_metadata": {
+              "offset": 0,
+              "bytes": 966168,
+              "sha256": "a41554761660eb165eb6dcfbaa7dc5cfece7c8534e1f04a385ba15088e89169d",
+              "machine": "x86_64",
+              "cpu_type": 16777223,
+              "cpu_subtype": 3,
+              "kind": "executable",
+              "flags": 2195589,
+              "dependencies": [
+                {
+                  "mechanism": "load",
+                  "name": "/usr/lib/libSystem.B.dylib",
+                  "timestamp": 2,
+                  "current_version": 88539136,
+                  "compatibility_version": 65536
+                },
+                {
+                  "mechanism": "load",
+                  "name": "@rpath/libgeos_c.1.dylib",
+                  "timestamp": 2,
+                  "current_version": 70912,
+                  "compatibility_version": 65536
+                },
+                {
+                  "mechanism": "load",
+                  "name": "/usr/lib/libc++.1.dylib",
+                  "timestamp": 2,
+                  "current_version": 124564480,
+                  "compatibility_version": 65536
+                }
+              ],
+              "dylib_id": null,
+              "minimum_os": [
+                {
+                  "command": 50,
+                  "platform": "macos",
+                  "minimum": 983040,
+                  "sdk": 984320,
+                  "tools": [
+                    {
+                      "tool": 3,
+                      "version": 76481792
+                    }
+                  ]
+                }
+              ],
+              "uuid": "baa441b5ccf634a3b67653d17558e8e1",
+              "rpaths": [
+                "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/lib"
+              ],
+              "interpreters": [
+                "/usr/lib/dyld"
+              ],
+              "interpreter_ids": [],
+              "dyld_environment": [],
+              "sub_frameworks": [],
+              "sub_umbrellas": [],
+              "sub_clients": [],
+              "sub_libraries": [],
+              "commands": [
+                25,
+                25,
+                25,
+                25,
+                25,
+                2147483700,
+                2147483699,
+                2,
+                11,
+                14,
+                27,
+                50,
+                42,
+                2147483688,
+                12,
+                12,
+                12,
+                2147483676,
+                38,
+                41
+              ]
+            }
+          },
+          {
+            "source": "sdk/geos/lib/libgeos.3.15.0.dylib",
+            "target": "lib/libgeos.3.15.0.dylib",
+            "source_aliases": [
+              "sdk/geos/lib/libgeos.3.15.0.dylib",
+              "sdk/geos/lib/libgeos.dylib"
+            ],
+            "source_sha256": "74ac496cf73535c8f7d78398abcc2279b2ca2698752e79c1abff5ba25f118fd5",
+            "mode": 493,
+            "install_id": "@rpath/libgeos.3.15.0.dylib",
+            "remove_rpaths": [],
+            "changes": [],
+            "expected_dependencies": [
+              {
+                "mechanism": "load",
+                "name": "/usr/lib/libc++.1.dylib",
+                "timestamp": 2,
+                "current_version": 124564480,
+                "compatibility_version": 65536
+              },
+              {
+                "mechanism": "load",
+                "name": "/usr/lib/libSystem.B.dylib",
+                "timestamp": 2,
+                "current_version": 88539136,
+                "compatibility_version": 65536
+              }
+            ],
+            "expected_identity": {
+              "name": "@rpath/libgeos.3.15.0.dylib",
+              "timestamp": 1,
+              "current_version": 200448,
+              "compatibility_version": 200448
+            },
+            "original_metadata": {
+              "offset": 0,
+              "bytes": 3611240,
+              "sha256": "74ac496cf73535c8f7d78398abcc2279b2ca2698752e79c1abff5ba25f118fd5",
+              "machine": "x86_64",
+              "cpu_type": 16777223,
+              "cpu_subtype": 3,
+              "kind": "dylib",
+              "flags": 9535621,
+              "dependencies": [
+                {
+                  "mechanism": "load",
+                  "name": "/usr/lib/libc++.1.dylib",
+                  "timestamp": 2,
+                  "current_version": 124564480,
+                  "compatibility_version": 65536
+                },
+                {
+                  "mechanism": "load",
+                  "name": "/usr/lib/libSystem.B.dylib",
+                  "timestamp": 2,
+                  "current_version": 88539136,
+                  "compatibility_version": 65536
+                }
+              ],
+              "dylib_id": {
+                "name": "@rpath/libgeos.3.15.0.dylib",
+                "timestamp": 1,
+                "current_version": 200448,
+                "compatibility_version": 200448
+              },
+              "minimum_os": [
+                {
+                  "command": 50,
+                  "platform": "macos",
+                  "minimum": 983040,
+                  "sdk": 984320,
+                  "tools": [
+                    {
+                      "tool": 3,
+                      "version": 76481792
+                    }
+                  ]
+                }
+              ],
+              "uuid": "0d7d7be536e63046844ba1327b26ca16",
+              "rpaths": [],
+              "interpreters": [],
+              "interpreter_ids": [],
+              "dyld_environment": [],
+              "sub_frameworks": [],
+              "sub_umbrellas": [],
+              "sub_clients": [],
+              "sub_libraries": [],
+              "commands": [
+                25,
+                25,
+                25,
+                25,
+                13,
+                2147483700,
+                2147483699,
+                2,
+                11,
+                27,
+                50,
+                42,
+                12,
+                12,
+                38,
+                41
+              ]
+            }
+          },
+          {
+            "source": "sdk/geos/lib/libgeos_c.1.21.0.dylib",
+            "target": "lib/libgeos_c.1.dylib",
+            "source_aliases": [
+              "sdk/geos/lib/libgeos_c.1.21.0.dylib",
+              "sdk/geos/lib/libgeos_c.1.dylib",
+              "sdk/geos/lib/libgeos_c.dylib"
+            ],
+            "source_sha256": "6b0d93e2e5c4f1aadc3f0e976eced7f95703565e8558f4e919c480ae7e2fab33",
+            "mode": 493,
+            "install_id": "@rpath/libgeos_c.1.dylib",
+            "remove_rpaths": [
+              "@loader_path"
+            ],
+            "changes": [
+              {
+                "old": "@rpath/libgeos.3.15.0.dylib",
+                "new": "@loader_path/libgeos.3.15.0.dylib"
+              }
+            ],
+            "expected_dependencies": [
+              {
+                "mechanism": "load",
+                "name": "@loader_path/libgeos.3.15.0.dylib",
+                "timestamp": 2,
+                "current_version": 200448,
+                "compatibility_version": 200448
+              },
+              {
+                "mechanism": "load",
+                "name": "/usr/lib/libc++.1.dylib",
+                "timestamp": 2,
+                "current_version": 124564480,
+                "compatibility_version": 65536
+              },
+              {
+                "mechanism": "load",
+                "name": "/usr/lib/libSystem.B.dylib",
+                "timestamp": 2,
+                "current_version": 88539136,
+                "compatibility_version": 65536
+              }
+            ],
+            "expected_identity": {
+              "name": "@rpath/libgeos_c.1.dylib",
+              "timestamp": 1,
+              "current_version": 70912,
+              "compatibility_version": 65536
+            },
+            "original_metadata": {
+              "offset": 0,
+              "bytes": 412392,
+              "sha256": "6b0d93e2e5c4f1aadc3f0e976eced7f95703565e8558f4e919c480ae7e2fab33",
+              "machine": "x86_64",
+              "cpu_type": 16777223,
+              "cpu_subtype": 3,
+              "kind": "dylib",
+              "flags": 1147013,
+              "dependencies": [
+                {
+                  "mechanism": "load",
+                  "name": "@rpath/libgeos.3.15.0.dylib",
+                  "timestamp": 2,
+                  "current_version": 200448,
+                  "compatibility_version": 200448
+                },
+                {
+                  "mechanism": "load",
+                  "name": "/usr/lib/libc++.1.dylib",
+                  "timestamp": 2,
+                  "current_version": 124564480,
+                  "compatibility_version": 65536
+                },
+                {
+                  "mechanism": "load",
+                  "name": "/usr/lib/libSystem.B.dylib",
+                  "timestamp": 2,
+                  "current_version": 88539136,
+                  "compatibility_version": 65536
+                }
+              ],
+              "dylib_id": {
+                "name": "@rpath/libgeos_c.1.dylib",
+                "timestamp": 1,
+                "current_version": 70912,
+                "compatibility_version": 65536
+              },
+              "minimum_os": [
+                {
+                  "command": 50,
+                  "platform": "macos",
+                  "minimum": 983040,
+                  "sdk": 984320,
+                  "tools": [
+                    {
+                      "tool": 3,
+                      "version": 76481792
+                    }
+                  ]
+                }
+              ],
+              "uuid": "8adf131268b2311e996dea5f8fcd298d",
+              "rpaths": [
+                "@loader_path"
+              ],
+              "interpreters": [],
+              "interpreter_ids": [],
+              "dyld_environment": [],
+              "sub_frameworks": [],
+              "sub_umbrellas": [],
+              "sub_clients": [],
+              "sub_libraries": [],
+              "commands": [
+                25,
+                25,
+                25,
+                25,
+                13,
+                2147483700,
+                2147483699,
+                2,
+                11,
+                27,
+                50,
+                42,
+                12,
+                12,
+                12,
+                38,
+                41,
+                2147483676
+              ]
+            }
+          }
+        ],
+        "dependency_edges": [
+          {
+            "source": "bin/qupathxx_batch",
+            "dependency": "/usr/lib/libSystem.B.dylib",
+            "replacement": "/usr/lib/libSystem.B.dylib",
+            "target": null,
+            "mechanism": "load",
+            "resolution": "macos-system-runtime",
+            "compatibility_version": 65536
+          },
+          {
+            "source": "bin/qupathxx_batch",
+            "dependency": "@rpath/libgeos_c.1.dylib",
+            "replacement": "@executable_path/../lib/libgeos_c.1.dylib",
+            "target": "lib/libgeos_c.1.dylib",
+            "mechanism": "load",
+            "resolution": "bundled-direct-loader-path",
+            "compatibility_version": 65536
+          },
+          {
+            "source": "bin/qupathxx_batch",
+            "dependency": "/usr/lib/libc++.1.dylib",
+            "replacement": "/usr/lib/libc++.1.dylib",
+            "target": null,
+            "mechanism": "load",
+            "resolution": "macos-system-runtime",
+            "compatibility_version": 65536
+          },
+          {
+            "source": "bin/qupathxx_batch",
+            "dependency": "/usr/lib/dyld",
+            "replacement": "/usr/lib/dyld",
+            "target": null,
+            "mechanism": "load-dylinker",
+            "resolution": "macos-system-interpreter",
+            "compatibility_version": null
+          },
+          {
+            "source": "bin/qupathxx_region",
+            "dependency": "/usr/lib/libSystem.B.dylib",
+            "replacement": "/usr/lib/libSystem.B.dylib",
+            "target": null,
+            "mechanism": "load",
+            "resolution": "macos-system-runtime",
+            "compatibility_version": 65536
+          },
+          {
+            "source": "bin/qupathxx_region",
+            "dependency": "@rpath/libgeos_c.1.dylib",
+            "replacement": "@executable_path/../lib/libgeos_c.1.dylib",
+            "target": "lib/libgeos_c.1.dylib",
+            "mechanism": "load",
+            "resolution": "bundled-direct-loader-path",
+            "compatibility_version": 65536
+          },
+          {
+            "source": "bin/qupathxx_region",
+            "dependency": "/usr/lib/libc++.1.dylib",
+            "replacement": "/usr/lib/libc++.1.dylib",
+            "target": null,
+            "mechanism": "load",
+            "resolution": "macos-system-runtime",
+            "compatibility_version": 65536
+          },
+          {
+            "source": "bin/qupathxx_region",
+            "dependency": "/usr/lib/dyld",
+            "replacement": "/usr/lib/dyld",
+            "target": null,
+            "mechanism": "load-dylinker",
+            "resolution": "macos-system-interpreter",
+            "compatibility_version": null
+          },
+          {
+            "source": "lib/libgeos.3.15.0.dylib",
+            "dependency": "/usr/lib/libc++.1.dylib",
+            "replacement": "/usr/lib/libc++.1.dylib",
+            "target": null,
+            "mechanism": "load",
+            "resolution": "macos-system-runtime",
+            "compatibility_version": 65536
+          },
+          {
+            "source": "lib/libgeos.3.15.0.dylib",
+            "dependency": "/usr/lib/libSystem.B.dylib",
+            "replacement": "/usr/lib/libSystem.B.dylib",
+            "target": null,
+            "mechanism": "load",
+            "resolution": "macos-system-runtime",
+            "compatibility_version": 65536
+          },
+          {
+            "source": "lib/libgeos_c.1.dylib",
+            "dependency": "@rpath/libgeos.3.15.0.dylib",
+            "replacement": "@loader_path/libgeos.3.15.0.dylib",
+            "target": "lib/libgeos.3.15.0.dylib",
+            "mechanism": "load",
+            "resolution": "bundled-direct-loader-path",
+            "compatibility_version": 200448
+          },
+          {
+            "source": "lib/libgeos_c.1.dylib",
+            "dependency": "/usr/lib/libc++.1.dylib",
+            "replacement": "/usr/lib/libc++.1.dylib",
+            "target": null,
+            "mechanism": "load",
+            "resolution": "macos-system-runtime",
+            "compatibility_version": 65536
+          },
+          {
+            "source": "lib/libgeos_c.1.dylib",
+            "dependency": "/usr/lib/libSystem.B.dylib",
+            "replacement": "/usr/lib/libSystem.B.dylib",
+            "target": null,
+            "mechanism": "load",
+            "resolution": "macos-system-runtime",
+            "compatibility_version": 65536
+          }
+        ],
+        "entry_points": [
+          {
+            "entry_point": "bin/qupathxx_batch",
+            "bundled_images": [
+              "bin/qupathxx_batch",
+              "lib/libgeos.3.15.0.dylib",
+              "lib/libgeos_c.1.dylib"
+            ],
+            "system_requirements": [
+              "/usr/lib/dyld",
+              "/usr/lib/libSystem.B.dylib",
+              "/usr/lib/libc++.1.dylib"
+            ]
+          },
+          {
+            "entry_point": "bin/qupathxx_region",
+            "bundled_images": [
+              "bin/qupathxx_region",
+              "lib/libgeos.3.15.0.dylib",
+              "lib/libgeos_c.1.dylib"
+            ],
+            "system_requirements": [
+              "/usr/lib/dyld",
+              "/usr/lib/libSystem.B.dylib",
+              "/usr/lib/libc++.1.dylib"
+            ]
+          }
+        ],
+        "system_requirements": [
+          "/usr/lib/dyld",
+          "/usr/lib/libSystem.B.dylib",
+          "/usr/lib/libc++.1.dylib"
+        ],
+        "declared_minimum_macos": 983040,
+        "minimum_macos_metadata_complete": true,
+        "selected_aliases_deduplicated": true,
+        "planned_rpaths": [],
+        "package_bytes_written": false,
+        "apple_tools_executed": false,
+        "dynamic_loading_verified": false,
+        "symbol_abi_verified": false,
+        "signing_verified": false,
+        "release_ready": false,
+        "scope": "Deterministic native package plan from validated snapshot bytes, explicit source roots and captured identities. All dependency kinds require a provider; no missing weak dependency is silently omitted. Bundled dependencies become direct executable/loader-relative paths and source RPATHs are removed. Declared version-floor admission is not symbol/ABI or runtime availability proof. No binaries changed or loaded."
+      }
+    }
+  ],
+  "native_compiler_inputs_unchanged": true,
+  "apple_tools_executed": false,
+  "native_runtime_workflows_verified": false,
+  "executor_tests_simulated": true,
+  "hosted_relocation_validation": "pending",
+  "release_ready": false,
+  "full_plan_complete": false,
+  "scope": "Local planner/verifier and simulated staged-tool execution; real accepted qupathxx Mac snapshots used for planning only. Selected pre-edit copy volume is not compressed output size, throughput, memory or hardware acceptance. Actual Apple edits/signature checks, relocated runtime/ABI and supported-release acceptance remain pending."
+}

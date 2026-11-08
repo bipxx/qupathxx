@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Scripts\\python.exe",
+    "-X",
+    "utf8",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\dataprops_r5_overflow_backend.py"
+  ],
+  "returncode": 0,
+  "elapsed_seconds": 34.276972100138664
+}

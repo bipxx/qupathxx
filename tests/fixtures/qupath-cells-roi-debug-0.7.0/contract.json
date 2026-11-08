@@ -1,0 +1,97 @@
+{
+  "schema": "qpx.qupath-cells-contract/1",
+  "upstream_contract": "../qupath-0.7.0/contract.json",
+  "width": 256,
+  "height": 192,
+  "white": [
+    255,
+    255,
+    255
+  ],
+  "vectors": [
+    [
+      0.65,
+      0.7,
+      0.29
+    ],
+    [
+      0.07,
+      0.99,
+      0.11
+    ]
+  ],
+  "native": {
+    "threshold": 0.4,
+    "sigma": 1.0,
+    "min_peak_radius": 1.0,
+    "min_seed_distance": 4.0,
+    "cell_expansion": 5.0,
+    "min_nucleus_pixels": 16,
+    "max_nucleus_pixels": 512,
+    "connectivity": 8,
+    "level": 0
+  },
+  "tile_sizes": [
+    16,
+    64,
+    256
+  ],
+  "comparison": {
+    "match_min_iou": 0.1,
+    "relation_min_pixels": 2,
+    "relation_min_fraction": 0.1,
+    "isolated_nucleus_iou_min": 0.85,
+    "isolated_centroid_error_max_px": 1.0,
+    "feature_absolute": 1e-06,
+    "feature_relative": 1e-06,
+    "sampling_count_error": 0
+  },
+  "cases": [
+    {
+      "name": "roi_cut_hole",
+      "pixel_size_um": [
+        0.5,
+        0.5
+      ],
+      "roi": [
+        32,
+        32,
+        192,
+        128
+      ],
+      "hole": [
+        110,
+        72,
+        35,
+        28
+      ],
+      "nuclei": [
+        [
+          32,
+          75,
+          12,
+          12
+        ],
+        [
+          128,
+          88,
+          9,
+          9
+        ],
+        [
+          108,
+          114,
+          9,
+          9
+        ],
+        [
+          180,
+          90,
+          10,
+          10
+        ]
+      ]
+    }
+  ],
+  "intent": "Independent synthetic characterization of the pinned QuPath cell plugin. Native distance watershed is a different algorithm; this contract does not establish biological or full QuPath parity. Unsupported arbitrary resampling remains visible."
+}

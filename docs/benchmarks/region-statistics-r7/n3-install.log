@@ -1,0 +1,7 @@
+Using Python 3.12.8 environment at: build\ci\project-metadata-r5-env
+Resolved 1 package in 14ms
+Prepared 1 package in 110ms
+Uninstalled 1 package in 25ms
+Installed 1 package in 61ms
+ - qupathxx==0.1.0 (from file:///C:/Users/HEQ/Projects/qupathxx/build/tissue-grid-r7/wheel/qupathxx-0.1.0-cp312-cp312-win_amd64.whl)
+ + qupathxx==0.1.0 (from file:///C:/Users/HEQ/Projects/qupathxx/build/region-statistics-r7/wheel/qupathxx-0.1.0-cp312-cp312-win_amd64.whl)

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="1.236" timestamp="2026-11-04T16:59:09.425987-05:00" hostname="HEQPC"><testcase classname="tests.test_source_plane_replacement" name="test_desktop_reviewed_source_axes_are_checked_before_apply_and_save[True]" time="0.971"><failure message="AssertionError: ('', 'C:\\Users\\HEQ\\Projects\\qupathxx\\build\\source-plane-replacement-r5\\desktop-save-temp\\test_desktop_reviewed_source_a0\\replacement-z-2.ome.tif', 2)&#10;assert 0 == 1&#10; +  where 0 = &lt;qupathxx._native.GuiReport object at 0x000001D5A650EAD0&gt;.saves_completed">tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/source-plane-replacement-r5/desktop-save-temp/test_desktop_reviewed_source_a0')
+compatible = True
+
+    @pytest.mark.skipif(not q.has_gui or os.environ.get('QUPATHXX_TEST_GUI')!='1',reason='opt-in source replacement desktop')
+    @pytest.mark.parametrize('compatible',[False,True])
+    def test_desktop_reviewed_source_axes_are_checked_before_apply_and_save(tmp_path,compatible):
+        from test_gui_replay import event
+        project,image,_=scene(tmp_path);doc=project.document(image);obj=doc.add_rectangle(q.Rect(1,2,5,6));doc.set_object_plane(obj,q.ObjectPlane(-1,1 if compatible else 2,0))
+        retain(project,image,tmp_path/'source.ome.tif');saved=tmp_path/'source.qpxproj';project.save(str(saved));before=state(project,image);baseline=saved.read_bytes();path=replacement(tmp_path,'z',2)
+        options=q.GuiOptions();options.file_fingerprint_path=str(path);options.settle_tiles=True;options.width=1280;options.height=1100
+        options.inputs=[event(4,q.GuiInputKind.FINGERPRINT_FILE_KEY),event(6,q.GuiInputKind.REVIEW_SOURCE_VERIFICATION_KEY,wait=q.GuiInputWait.FILE_FINGERPRINT_READY),
+            event(8,q.GuiInputKind.LEFT_DOWN,q.GuiInputTarget.ACCEPT_SOURCE_REPLACEMENT,q.GuiInputWait.TARGET_READY),event(9,q.GuiInputKind.LEFT_UP,q.GuiInputTarget.ACCEPT_SOURCE_REPLACEMENT),
+            event(12,q.GuiInputKind.LEFT_DOWN,q.GuiInputTarget.APPLY_SOURCE_VERIFICATION,q.GuiInputWait.TARGET_READY),event(13,q.GuiInputKind.LEFT_UP,q.GuiInputTarget.APPLY_SOURCE_VERIFICATION)]
+        if compatible:options.inputs.extend([event(23,q.GuiInputKind.MOVE,q.GuiInputTarget.SAVE_PROJECT),event(24,q.GuiInputKind.LEFT_DOWN,q.GuiInputTarget.SAVE_PROJECT,q.GuiInputWait.TARGET_READY),event(25,q.GuiInputKind.LEFT_UP,q.GuiInputTarget.SAVE_PROJECT)])
+        report=q.show(project,frame_limit=50,capture_path=str(tmp_path/'source-axis-review.ppm'),options=options)
+        assert report.replay_complete and report.file_fingerprint_state=='succeeded'
+        if compatible:
+&gt;           assert report.saves_completed==1,(report.project_error,project.images[0].source_path,doc.server.raw_metadata.z_planes)
+E           AssertionError: ('', 'C:\\Users\\HEQ\\Projects\\qupathxx\\build\\source-plane-replacement-r5\\desktop-save-temp\\test_desktop_reviewed_source_a0\\replacement-z-2.ome.tif', 2)
+E           assert 0 == 1
+E            +  where 0 = &lt;qupathxx._native.GuiReport object at 0x000001D5A650EAD0&gt;.saves_completed
+
+tests\test_source_plane_replacement.py:114: AssertionError</failure></testcase></testsuite></testsuites>

@@ -22,9 +22,60 @@ def test_native_stub_covers_public_classes_members_functions_and_constants():
         if name.startswith('_'):continue
         assert name in top,name
         if isinstance(value,type) and value.__module__=='qupathxx._native':
-            node=top[name];assert isinstance(node,ast.ClassDef)
+            node=top[name]
+            if isinstance(node,ast.AnnAssign):
+                # An exported class alias must resolve to the identical native
+                # class, whose full member surface is still checked below.
+                assert isinstance(node.annotation,ast.Name) and node.annotation.id=='TypeAlias',name
+                assert isinstance(node.value,ast.Name),name
+                assert getattr(_native,node.value.id) is value,name
+                node=top[node.value.id]
+            assert isinstance(node,ast.ClassDef),name
             members={n.name for n in node.body if isinstance(n,ast.FunctionDef)}
             members.update(n.target.id for n in node.body if isinstance(n,ast.AnnAssign) and isinstance(n.target,ast.Name))
             members.update(t.id for n in node.body if isinstance(n,ast.Assign) for t in n.targets if isinstance(t,ast.Name))
             for member in vars(value):
                 if not member.startswith('_'):assert member in members,(name,member)
+
+
+def test_packaged_signatures_do_not_expose_unbound_cpp_types():
+    from test_stub_signature_guard import generator
+    path=Path(_native.__file__).with_name('_native.pyi')
+    generator.validate_native_signatures(path.read_text(encoding='utf-8'))
+
+
+def test_raw_grid_result_descriptor_stub_is_optional():
+    tree=ast.parse(Path(_native.__file__).with_name('_native.pyi').read_text(encoding='utf-8'))
+    result=next(n for n in tree.body if isinstance(n,ast.ClassDef) and n.name=='RawAnalysisResult')
+    grid=next(n for n in result.body if isinstance(n,ast.FunctionDef) and n.name=='grid')
+    assert ast.unparse(grid.returns)=='RawAnalysisGrid | None'
+
+
+def test_raw_pixel_partial_results_are_optional_but_predictions_are_not():
+    tree=ast.parse(Path(_native.__file__).with_name('_native.pyi').read_text(encoding='utf-8'))
+    classes={n.name:n for n in tree.body if isinstance(n,ast.ClassDef)}
+    functions={n.name:n for n in tree.body if isinstance(n,ast.FunctionDef)}
+    checkpoint=classes['RawPixelTrainingCheckpointResult']
+    table=next(n for n in checkpoint.body if isinstance(n,ast.FunctionDef) and n.name=='table')
+    assert ast.unparse(table.returns)=='RawPixelTiledTrainingTable | None'
+    assert ast.unparse(functions['predict_raw_pixel_window'].returns)=='RawPixelWindowClassification'
+    assert ast.unparse(functions['classify_raw_pixel_window'].returns)=='RawPixelWindowClassification'
+
+
+def test_workflow_options_and_nullable_reports_have_usable_types():
+    tree = ast.parse(Path(_native.__file__).with_name('_native.pyi').read_text(encoding='utf-8'))
+    classes = {node.name: node for node in tree.body if isinstance(node, ast.ClassDef)}
+    for cls, field, expected in [('NuclsImportOptions', 'mpp_x', 'float'),
+                                 ('ProjectDensityRunOptions', 'csv_bytes', 'int'),
+                                 ('ProjectDensityRunOptions', 'pause_after_image', 'bool'),
+                                 ('ProjectDensityRecipe', 'images', 'Sequence[int]')]:
+        setters = [node for node in classes[cls].body if isinstance(node, ast.FunctionDef)
+                   and node.name == field and len(node.args.posonlyargs + node.args.args) == 2]
+        assert len(setters) == 1
+        parameter = (setters[0].args.posonlyargs + setters[0].args.args)[1]
+        assert ast.unparse(parameter.annotation) == expected
+    for cls, field, expected in [('ProjectDensityJob', 'result', 'ProjectDensityReport | None'),
+                                 ('ProjectDensityJob', 'manifest_result', 'ProjectDensityManifestReport | None'),
+                                 ('NuclsImportJob', 'result', 'NuclsImportReport | None')]:
+        getter = next(node for node in classes[cls].body if isinstance(node, ast.FunctionDef) and node.name == field)
+        assert ast.unparse(getter.returns) == expected

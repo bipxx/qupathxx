@@ -1,6 +1,8 @@
+#include "qupathxx/object_properties.hpp"
 #include "qupathxx/interchange.hpp"
 #include "atomic_export.hpp"
 #include "qupath_precision.hpp"
+#include "class_registry.hpp"
 #include <algorithm>
 #include <atomic>
 #include <cmath>
@@ -14,6 +16,8 @@
 #include <stdexcept>
 #ifdef QUPATHXX_HAS_INTERCHANGE
 #include <nlohmann/json.hpp>
+#include "strict_json.hpp"
+#include "qupath_class_wire.hpp"
 #endif
 
 namespace qpx {
@@ -35,7 +39,8 @@ const char* roi_kind(RoiKind kind) {
         case RoiKind::MultiPolygon:return "multipolygon"; case RoiKind::Polyline:return "polyline"; case RoiKind::Points:return "points"; }
     throw std::invalid_argument("unknown ROI kind");
 }
-void bounded(std::ostringstream& out) { if(out.tellp()>static_cast<std::streamoff>(byte_limit)) throw std::length_error("export exceeds 256 MiB limit"); }
+void bounded(std::ostringstream& out,std::size_t limit=byte_limit) { if(out.tellp()>static_cast<std::streamoff>(limit)) throw std::length_error("export exceeds byte limit"); }
+void clipboard_limit(std::size_t limit) {if(!limit || limit>byte_limit)throw std::invalid_argument("clipboard byte limit must be in 1..256 MiB");}
 void atomic_write(const std::string& path,const std::string& bytes) {
     valid_text(path,32768); if(path.empty()) throw std::invalid_argument("export path must not be empty");
     if(bytes.size()>byte_limit) throw std::length_error("export exceeds 256 MiB limit");
@@ -61,7 +66,12 @@ bool has_interchange() {
 }
 std::string measurements_csv(const Document& doc,const std::vector<std::uint64_t>& ids,bool intensity) {
     auto objects=selected(doc,ids); std::ostringstream out; out.imbue(std::locale::classic()); out<<std::setprecision(17);
-    out<<"object_id,parent_id,name,object_type,class_name,roi_type,x_px,y_px,width_px,height_px,area_px2,length_px,area_um2,nucleus_area_px2,nucleus_area_um2,mean_rgb,nucleus_mean_rgb\r\n";
+    std::set<std::string> metadata_names,measurement_names;
+    for(auto id:objects)if(const auto& p=doc.objects().at(id).properties;p) {for(const auto& [k,v]:p->metadata())metadata_names.insert(k);for(const auto& [k,v]:p->measurements())measurement_names.insert(k);if(metadata_names.size()+measurement_names.size()>4096)throw std::length_error("CSV property columns exceed 4096");}
+    bool planes=false;for(auto id:objects)planes|=doc.objects().at(id).plane!=ObjectPlane{};
+    bool editing_state=false;for(auto id:objects) {const auto& a=doc.objects().at(id);editing_state|=a.locked() || a.color_rgb().has_value() || a.class_probability().has_value();}
+    out<<"object_id,parent_id,name,object_type,class_name,roi_type,x_px,y_px,width_px,height_px,area_px2,length_px,area_um2,nucleus_area_px2,nucleus_area_um2,mean_rgb,nucleus_mean_rgb";
+    for(const auto& k:metadata_names) {out<<',';csv_text(out,"metadata:"+k);}for(const auto& k:measurement_names) {out<<',';csv_text(out,"imported:"+k);}if(editing_state)out<<",roi_locked,object_color_rgb,class_probability";if(planes)out<<",plane_c,plane_z,plane_t";out<<"\r\n";
     const bool calibrated=doc.pixel_width_um().has_value() && doc.pixel_height_um().has_value();
     for(auto id:objects) {
         const auto& a=doc.objects().at(id); auto b=a.geometry.bounds();
@@ -71,50 +81,32 @@ std::string measurements_csv(const Document& doc,const std::vector<std::uint64_t
         if(a.nucleus) out<<a.nucleus->area(); out<<',';
         if(a.nucleus && calibrated) { auto value=doc.nucleus_area_um2(id); if(!std::isfinite(value)) throw std::overflow_error("physical nucleus area exceeds numeric range"); out<<value; } out<<',';
         if(intensity && a.geometry.is_area()) out<<doc.mean_intensity(id); out<<',';
-        if(intensity && a.nucleus) out<<doc.nucleus_mean_intensity(id); out<<"\r\n"; bounded(out);
+        if(intensity && a.nucleus) out<<doc.nucleus_mean_intensity(id);
+        for(const auto& k:metadata_names) {out<<',';if(a.properties) {auto it=a.properties->metadata().find(k);if(it!=a.properties->metadata().end())csv_text(out,it->second);}}
+        for(const auto& k:measurement_names) {out<<',';if(a.properties) {auto it=a.properties->measurements().find(k);if(it!=a.properties->measurements().end()) {const auto v=it->second;if(std::isnan(v))out<<"NaN";else if(std::isinf(v))out<<(v>0?"Infinity":"-Infinity");else out<<v;}}}
+        if(editing_state) {out<<','<<(a.locked()?"true":"false")<<',';if(a.color_rgb())out<<*a.color_rgb();out<<',';if(a.class_probability()) {const auto v=*a.class_probability();if(std::isinf(v))out<<(v>0?"Infinity":"-Infinity");else out<<v;}}
+        if(planes)out<<','<<a.plane.c<<','<<a.plane.z<<','<<a.plane.t;
+        out<<"\r\n"; bounded(out);
     }
     return out.str();
 }
 void save_measurements_csv(const Document& doc,const std::string& path,const std::vector<std::uint64_t>& ids,bool intensity) { atomic_write(path,measurements_csv(doc,ids,intensity)); }
-InterchangeReport save_geojson(const Document& doc,const std::string& path,const std::vector<std::uint64_t>& ids,bool losses) {
-    auto report=export_geojson(doc,ids,losses); atomic_write(path,report.text); return report;
+InterchangeReport save_geojson(const Document& doc,const std::string& path,const std::vector<std::uint64_t>& ids,bool losses,bool nested) {
+    auto report=export_geojson(doc,ids,losses,nested); atomic_write(path,report.text); return report;
 }
 InterchangeReport load_geojson(Document& doc,const std::string& path,bool pixels,bool losses,bool qupath_precision) { return import_geojson(doc,read_file(path),pixels,losses,qupath_precision); }
 #ifndef QUPATHXX_HAS_INTERCHANGE
-InterchangeReport export_geojson(const Document&,const std::vector<std::uint64_t>&,bool) { throw std::runtime_error("GeoJSON requires QUPATHXX_BUILD_INTERCHANGE=ON"); }
+InterchangeReport export_geojson(const Document&,const std::vector<std::uint64_t>&,bool,bool) { throw std::runtime_error("GeoJSON requires QUPATHXX_BUILD_INTERCHANGE=ON"); }
 InterchangeReport import_geojson(Document&,const std::string&,bool,bool,bool) { throw std::runtime_error("GeoJSON requires QUPATHXX_BUILD_INTERCHANGE=ON"); }
+InterchangeReport copy_objects(const Document&,const std::vector<std::uint64_t>&,bool,bool,std::size_t) { throw std::runtime_error("GeoJSON requires QUPATHXX_BUILD_INTERCHANGE=ON"); }
+InterchangeReport paste_objects(Document&,const std::string&,std::optional<ObjectPlane>,bool,std::size_t) { throw std::runtime_error("GeoJSON requires QUPATHXX_BUILD_INTERCHANGE=ON"); }
 #else
 namespace {
 using Json=nlohmann::json;
 // Validate keys/depth in a streaming pass. The library's DOM callback parser
 // scans the parent array after each object, making large feature arrays quadratic.
 // A plain DOM parse following this pass retains strict input checks and linear scans.
-struct StrictJson : nlohmann::json_sax<Json> {
-    struct Frame { bool object; std::set<std::string> keys; };
-    std::vector<Frame> frames;
-    bool null() override { return true; }
-    bool boolean(bool) override { return true; }
-    bool number_integer(number_integer_t) override { return true; }
-    bool number_unsigned(number_unsigned_t) override { return true; }
-    bool number_float(number_float_t,const string_t&) override { return true; }
-    bool string(string_t&) override { return true; }
-    bool binary(binary_t&) override { return true; }
-    bool start(bool object) {
-        if(frames.size()>=128) throw std::length_error("GeoJSON nesting exceeds 128 levels");
-        frames.push_back({object,{}}); return true;
-    }
-    bool start_object(std::size_t) override { return start(true); }
-    bool start_array(std::size_t) override { return start(false); }
-    bool key(string_t& key) override {
-        if(!frames.back().keys.insert(key).second) throw std::invalid_argument("duplicate JSON member");
-        return true;
-    }
-    bool end_object() override { frames.pop_back(); return true; }
-    bool end_array() override { frames.pop_back(); return true; }
-    bool parse_error(std::size_t,const std::string&,const nlohmann::detail::exception& error) override {
-        throw std::invalid_argument(std::string("invalid GeoJSON: ")+error.what());
-    }
-};
+using StrictJson=detail::StrictJson;
 struct Notices {
     bool allowed;
     std::map<std::string,InterchangeIssue> values;
@@ -178,8 +170,10 @@ struct Reader {
     std::map<std::string,std::uint64_t> identifiers;
     std::vector<std::pair<std::size_t,std::string>> parents;
     std::map<std::string,ObjectClass> classes;
+    std::set<std::string> explicit_classes,native_classes,context_classes;
     std::size_t vertex_count=0;
     bool qupath_precision=false;
+    std::size_t max_objects=1000000;
     Point point(const Json& value) {
         if(!value.is_array() || value.size()!=2) throw std::invalid_argument("only 2D XY coordinates are supported");
         return {real(value[0]),real(value[1])};
@@ -201,17 +195,25 @@ struct Reader {
         auto shell=points(value[0],true); std::vector<Ring> holes;
         for(std::size_t i=1;i<value.size();++i) holes.push_back(points(value[i],true)); return {std::move(shell),std::move(holes)};
     }
+    ObjectPlane image_plane(const Json& geometry) {
+        ObjectPlane result;
+        if(!geometry.contains("plane"))return result;
+        const auto& value=geometry["plane"];if(!value.is_object())throw std::invalid_argument("invalid image plane");
+        for(const auto& item:value.items()) {
+            if((item.key()!="c" && item.key()!="z" && item.key()!="t") || !item.value().is_number_integer())throw std::invalid_argument("invalid image plane component");
+            // Compare in JSON before narrowing, including unsigned foreign input.
+            if(item.value()<(item.key()=="c"?-1:0) || item.value()>65535)throw std::invalid_argument("image plane index exceeds limits");
+            if(item.key()=="c")result.c=item.value().get<std::int32_t>();
+            else if(item.key()=="z")result.z=item.value().get<std::uint32_t>();
+            else result.t=item.value().get<std::uint32_t>();
+        }
+        return result;
+    }
     Roi geometry(const Json& value) {
         vertex_count=0;
         if(!value.is_object() || !value.contains("type") || !value.contains("coordinates")) throw std::invalid_argument("geometry is missing type/coordinates");
         for(const auto& member:value.items()) if(member.key()!="type" && member.key()!="coordinates" && member.key()!="plane" && member.key()!="qupathxx" && member.key()!="isEllipse" && member.key()!="bbox")
             notices.add("geometry_members_dropped","Unsupported foreign geometry members will be dropped",true);
-        if(value.contains("plane")) {
-            const auto& plane=value["plane"];
-            if(!plane.is_object()) throw std::invalid_argument("invalid image plane");
-            for(const auto& item:plane.items()) if((item.key()!="c" && item.key()!="z" && item.key()!="t") || !item.value().is_number_integer() || item.value()!=(item.key()=="c"?-1:0))
-                throw std::invalid_argument("non-default Z/T/channel planes are not supported");
-        }
         auto type=text(value["type"]); const auto& c=value["coordinates"];
         if(type=="Point") return Roi::points({point(c)});
         if(type=="MultiPoint") return Roi::points(points(c));
@@ -254,14 +256,53 @@ struct Reader {
         }
         return Roi::multipolygon(std::move(parts));
     }
-    void definition(const std::string& name,std::uint32_t rgb) {
-        if(name.empty()) throw std::invalid_argument("class name must not be empty"); valid_text(name);
-        auto existing=classes.find(name); if(existing!=classes.end() && existing->second.color!=rgb) throw std::invalid_argument("conflicting class colors in import");
-        classes.insert_or_assign(name,ObjectClass{name,rgb});
+    void definition(ObjectClass value,bool explicit_value=true,bool native=false) {
+        detail::validate_class_definition(value);
+        auto found=classes.find(value.name);
+        if(found!=classes.end()) {
+            if(found->second.parent!=value.parent)throw std::invalid_argument("conflicting class identity in import");
+            if(explicit_value && explicit_classes.count(value.name) && !(found->second==value))
+                throw std::invalid_argument("conflicting class colors in import");
+        }
+        if(found==classes.end() || (explicit_value && !explicit_classes.count(value.name)))classes.insert_or_assign(value.name,value);
+        if(explicit_value)explicit_classes.insert(value.name);
+        if(native)native_classes.insert(value.name);
+    }
+    std::string classification(const Json& c) {
+        if(!c.is_object() || c.contains("name")==c.contains("names"))throw std::invalid_argument("classification requires name or names");
+        for(const auto& member:c.items())if(member.key()!="name" && member.key()!="names" && member.key()!="color")
+            notices.add("classification_members_dropped","Unsupported classification fields will be dropped",true);
+        std::vector<std::string> path;
+        if(c.contains("name"))path.push_back(text(c["name"]));
+        else {
+            if(!c["names"].is_array() || c["names"].empty() || c["names"].size()>32)throw std::invalid_argument("invalid class path");
+            for(const auto& name:c["names"]) {
+                auto leaf=text(name);
+                if(leaf.empty())throw std::invalid_argument("empty class path component");
+                path.push_back(std::move(leaf));
+            }
+        }
+        const auto raw=c.contains("color")?detail::class_argb(c["color"]):std::nullopt;
+        std::string parent,key;
+        for(std::size_t i=0;i<path.size();++i) {
+            key=parent.empty()?path[i]:parent+": "+path[i];const bool leaf=i+1==path.size();
+            if(c.contains("names") && !native_classes.count(key) && (path[i].find(':')!=std::string::npos || path[i].find('\n')!=std::string::npos))
+                throw std::invalid_argument("invalid foreign class path component");
+            if(native_classes.count(key)) {
+                const auto& value=classes.at(key);
+                if(value.parent!=parent)throw std::invalid_argument("classification disagrees with native class ancestry");
+                // The feature is a readable projection; native metadata owns raw
+                // alpha/absence, including legacy RGB classes whose alpha is zero.
+                if(leaf && raw && !context_classes.count(key) && ((*raw&0xffffff)!=value.color || (value.color_present && (*raw>>24)!=255 && (*raw>>24)!=value.alpha)))
+                    throw std::invalid_argument("classification disagrees with native class color");
+            } else definition(ObjectClass::definition(key,leaf?raw:std::nullopt,parent),leaf);
+            parent=key;
+        }
+        return key;
     }
     void feature(const Json& value,std::uint64_t parent=0,int depth=0) {
-        if(depth>256 || objects.size()>=1000000 || !value.is_object() || value.value("type","")!="Feature") throw std::invalid_argument("invalid feature or hierarchy limit");
-        auto roi=geometry(value.at("geometry"));
+        if(depth>256 || objects.size()>=max_objects || !value.is_object() || value.value("type","")!="Feature") throw std::invalid_argument("invalid feature or hierarchy limit");
+        auto roi=geometry(value.at("geometry"));const auto plane=image_plane(value.at("geometry"));
         for(const auto& member:value.items()) if(member.key()!="type" && member.key()!="id" && member.key()!="geometry" && member.key()!="properties" && member.key()!="nucleusGeometry" && member.key()!="bbox")
             notices.add("feature_members_dropped","Unsupported foreign feature members will be dropped",true);
         Json empty=Json::object(); const auto& properties=value.contains("properties") && !value["properties"].is_null()?value["properties"]:empty;
@@ -269,75 +310,203 @@ struct Reader {
         auto type=properties.contains("objectType")?text(properties["objectType"]):"annotation";
         auto kind=type=="annotation"?ObjectKind::Annotation:(type=="detection"?ObjectKind::Detection:(type=="cell"?ObjectKind::Cell:throw std::invalid_argument("unsupported objectType: "+type)));
         std::optional<Roi> nucleus; if(value.contains("nucleusGeometry") && !value["nucleusGeometry"].is_null()) nucleus=geometry(value["nucleusGeometry"]);
+        if(nucleus && image_plane(value["nucleusGeometry"])!=plane)throw std::invalid_argument("cell and nucleus must share an image plane");
         std::string name=properties.contains("name")?text(properties["name"]):"Annotation",classification;
         if(properties.contains("classification") && !properties["classification"].is_null()) {
             const auto& c=properties["classification"];
-            if(!c.is_object() || !c.contains("name")) throw std::invalid_argument("only flat named classifications are supported");
-            for(const auto& member:c.items()) if(member.key()!="name" && member.key()!="color") notices.add("classification_members_dropped","Unsupported classification fields will be dropped",true);
-            classification=text(c["name"]);
-            auto existing=document.classes().find(classification);
-            auto rgb=c.contains("color")?color(c["color"]):(existing==document.classes().end()?ObjectClass{}.color:existing->second.color);
-            definition(classification,rgb);
+            classification=this->classification(c);
         }
-        for(const auto& p:properties.items()) if(p.key()!="name" && p.key()!="objectType" && p.key()!="classification" && p.key()!="qupathxx" && p.key()!="childObjects" && p.key()!="children")
-            notices.add("properties_dropped","Unsupported properties (measurements, metadata, locks or custom fields) will be dropped",true);
+        for(const auto& p:properties.items()) if(p.key()!="name" && p.key()!="objectType" && p.key()!="classification" && p.key()!="qupathxx" && p.key()!="metadata" && p.key()!="measurements" && p.key()!="isLocked" && p.key()!="color" && p.key()!="childObjects" && p.key()!="children")
+            notices.add("properties_dropped","Unsupported properties (custom fields) will be dropped",true);
         std::string source=value.contains("id")?identifier(value["id"]):"";
         auto local=static_cast<std::uint64_t>(objects.size()+1);
         if(!source.empty() && !identifiers.emplace(source,local).second) throw std::invalid_argument("duplicate feature ID");
-        objects.push_back({local,std::move(name),std::move(roi),parent,std::move(classification),0,kind,std::move(nucleus)}); source_ids.push_back(source);
+        objects.push_back({local,std::move(name),std::move(roi),parent,std::move(classification),0,kind,std::move(nucleus)}); objects.back().plane=plane; source_ids.push_back(source);
+        std::map<std::string,std::string> metadata;std::map<std::string,double> measurements;
+        if(properties.contains("metadata")) {
+            const auto& values=properties["metadata"];if(!values.is_object())throw std::invalid_argument("object metadata must be a string map");
+            for(const auto& item:values.items())metadata.emplace(item.key(),text(item.value()));
+        }
+        auto measurement=[&](const Json& value) {
+            if(value.is_number())return value.get<double>();
+            if(value.is_string()) {const auto special=value.get<std::string>();if(special=="NaN")return std::numeric_limits<double>::quiet_NaN();if(special=="Infinity")return std::numeric_limits<double>::infinity();if(special=="-Infinity")return -std::numeric_limits<double>::infinity();}
+            throw std::invalid_argument("measurement must be numeric or NaN/Infinity/-Infinity string");
+        };
+        if(properties.contains("measurements")) {
+            const auto& values=properties["measurements"];
+            if(values.is_object()) {for(const auto& item:values.items())measurements.emplace(item.key(),measurement(item.value()));}
+            else if(values.is_array()) {for(const auto& item:values) {
+                if(!item.is_object() || item.size()!=2 || !item.contains("name") || !item.contains("value"))throw std::invalid_argument("invalid legacy measurement");
+                if(!measurements.emplace(text(item["name"]),measurement(item["value"])).second)throw std::invalid_argument("duplicate measurement name");
+            }} else throw std::invalid_argument("measurements must be a map or legacy array");
+        }
+        bool locked=false;std::optional<std::uint32_t> object_color;std::optional<double> probability;
+        if(properties.contains("isLocked")) {if(!properties["isLocked"].is_boolean())throw std::invalid_argument("isLocked must be boolean");locked=properties["isLocked"].get<bool>();}
+        if(properties.contains("color") && !properties["color"].is_null())object_color=color(properties["color"]);
         if(properties.contains("qupathxx")) {
             const auto& q=properties["qupathxx"];
             if(!q.is_object()) throw std::invalid_argument("invalid object extension");
-            for(const auto& member:q.items()) if(member.key()!="parentId") notices.add("extensions_dropped","Unsupported native extension fields will be dropped",true);
+            for(const auto& member:q.items()) if(member.key()!="parentId" && member.key()!="classProbability") notices.add("extensions_dropped","Unsupported native extension fields will be dropped",true);
+            if(q.contains("classProbability") && !q["classProbability"].is_null())probability=measurement(q["classProbability"]);
             if(q.contains("parentId") && !q["parentId"].is_null()) {
                 if(parent) throw std::invalid_argument("nested and explicit parent both specified");
                 auto id=identifier(q["parentId"]); if(id!="0") parents.emplace_back(objects.size()-1,std::move(id));
             }
         }
+        if(!metadata.empty() || !measurements.empty() || locked || object_color || probability)objects.back().properties=std::make_shared<const ObjectProperties>(std::move(metadata),std::move(measurements),locked,object_color,probability);
         if(properties.contains("childObjects") && properties.contains("children")) throw std::invalid_argument("both children aliases specified");
         auto children=properties.find("childObjects"); if(children==properties.end()) children=properties.find("children");
         if(children!=properties.end()) { if(!children->is_array()) throw std::invalid_argument("children must be an array"); for(const auto& child:*children) feature(child,local,depth+1); }
     }
 };
 }
-InterchangeReport export_geojson(const Document& doc,const std::vector<std::uint64_t>& ids,bool losses) {
+static InterchangeReport export_geojson_impl(const Document& doc,const std::vector<std::uint64_t>& ids,bool losses,bool nested,bool clipboard,std::size_t limit) {
     auto objects=selected(doc,ids); std::set<std::uint64_t> exported(objects.begin(),objects.end()); Notices notices{losses,{}};
     Json metadata={{"version",1},{"coordinateSpace","image-pixels"},{"origin","top-left"},{"imageWidth",doc.metadata().width},{"imageHeight",doc.metadata().height},{"classes",Json::array()}};
-    std::set<std::string> used; for(auto id:objects) used.insert(doc.objects().at(id).class_name);
-    for(const auto& [name,c]:doc.classes()) if(ids.empty() || used.count(name)) metadata["classes"].push_back({{"name",name},{"color",c.color}});
-    std::ostringstream out; out.imbue(std::locale::classic()); out<<"{\"type\":\"FeatureCollection\",\"qupathxx\":"<<metadata.dump()<<",\"features\":[";
-    bool first=true;
+    std::set<std::string> used;
+    // Selected leaves require their explicit ancestor definitions as well.
     for(auto id:objects) {
+        auto name=doc.objects().at(id).class_name;
+        while(!name.empty() && used.insert(name).second)name=doc.object_class(name).parent;
+    }
+    bool extended=false;
+    for(const auto& [name,c]:doc.classes())if(ids.empty() || used.count(name))extended|=!c.parent.empty() || !c.color_present || c.alpha!=0;
+    if(extended)metadata["version"]=2;
+    for(const auto& [name,c]:doc.classes())if(ids.empty() || used.count(name)) {
+        Json value={{"name",name},{"color",c.color}};
+        if(extended) {value["parent"]=c.parent;value["argb"]=c.color_argb()?Json(*c.color_argb()):Json(nullptr);}
+        metadata["classes"].push_back(std::move(value));
+    }
+    std::ostringstream out; out.imbue(std::locale::classic()); out<<"{\"type\":\"FeatureCollection\",\"qupathxx\":"<<metadata.dump()<<",\"features\":[";
+    // Bound JSON depth before rendering any nested output. Each object adds a
+    // feature, properties object and child array; 32 levels remain below the
+    // importer's 128-container limit even with polygon/nucleus coordinates.
+    std::map<std::uint64_t,std::vector<std::uint64_t>> children;
+    std::vector<std::uint64_t> roots;
+    if(nested) {
+        if(objects.size()>1000000) throw std::length_error("nested GeoJSON exceeds one million objects");
+        for(auto id:objects) {
+            auto parent=doc.objects().at(id).parent_id;
+            if(parent && exported.count(parent)) children[parent].push_back(id);
+            else roots.push_back(id);
+        }
+        std::vector<std::pair<std::uint64_t,std::size_t>> pending;
+        for(auto id:roots) pending.emplace_back(id,1);
+        std::size_t visited=0;
+        while(!pending.empty()) {
+            auto [id,depth]=pending.back(); pending.pop_back();
+            if(depth>32) throw std::length_error("nested GeoJSON hierarchy exceeds 32 object levels");
+            ++visited;
+            if(auto found=children.find(id);found!=children.end())
+                for(auto child:found->second) pending.emplace_back(child,depth+1);
+        }
+        if(visited!=objects.size()) throw std::invalid_argument("invalid export hierarchy");
+    }
+    auto feature_for=[&](std::uint64_t id) {
         const auto& a=doc.objects().at(id); Json properties={{"name",a.name},{"objectType",object_kind(a.kind)}};
-        if(!a.class_name.empty()) { auto c=doc.object_class(a.class_name).color; properties["classification"]={{"name",a.class_name},{"color",Json::array({(c>>16)&255,(c>>8)&255,c&255})}}; }
+        if(!a.class_name.empty()) {
+            const auto& value=doc.object_class(a.class_name);const auto c=value.color;
+            Json cls={{"color",Json::array({(c>>16)&255,(c>>8)&255,c&255})}};
+            if(value.parent.empty())cls["name"]=value.name;else cls["names"]=doc.class_path(value.name);
+            if(value.color_present && value.alpha!=0 && value.alpha!=255)cls["color"].push_back(value.alpha);
+            properties["classification"]=std::move(cls);
+        }
+        if(a.locked())properties["isLocked"]=true;
+        if(const auto rgb=a.color_rgb())properties["color"]=Json::array({(*rgb>>16)&255,(*rgb>>8)&255,*rgb&255});
+        if(a.properties) {
+            if(!a.properties->metadata().empty())properties["metadata"]=a.properties->metadata();
+            if(!a.properties->measurements().empty()) {auto values=Json::object();for(const auto& [name,v]:a.properties->measurements()) {
+                if(std::isnan(v))values[name]="NaN";else if(std::isinf(v))values[name]=v>0?"Infinity":"-Infinity";else values[name]=v;
+            }properties["measurements"]=std::move(values);}
+        }
         if(a.tma_core) notices.add("tma_metadata_omitted","TMA grid, missing flags and case metadata are omitted; cores become ordinary annotations",true);
         if(a.cell_feature_link) notices.add("cell_features_dropped","Cell feature links and run archives are not represented in GeoJSON",true);
-        auto parent=a.parent_id; if(parent && !exported.count(parent)) { notices.add("parent_not_exported","Parent omitted because it is not in the exported subset",true); parent=0; }
-        properties["qupathxx"]={{"parentId",std::to_string(parent)}};
+        auto parent=a.parent_id; if(parent && !exported.count(parent)) { notices.add("parent_not_exported","Parent omitted because it is not in the exported subset",!clipboard); parent=0; }
+        if(!nested) properties["qupathxx"]={{"parentId",std::to_string(parent)}};
+        if(const auto probability=a.class_probability()) {properties["qupathxx"]["classProbability"]=std::isinf(*probability)?Json(*probability>0?"Infinity":"-Infinity"):Json(*probability);
+            notices.add("class_probability_extension","Class probability is retained in the native extension; foreign readers may omit it");}
         Json feature={{"type","Feature"},{"id",std::to_string(id)},{"geometry",geometry(a.geometry,notices)},{"properties",std::move(properties)}};
         if(a.nucleus) feature["nucleusGeometry"]=geometry(*a.nucleus,notices);
-        if(!first) out<<','; first=false; out<<feature.dump(); bounded(out);
+        if(a.plane!=ObjectPlane{}) {
+            const Json plane={{"c",a.plane.c},{"z",a.plane.z},{"t",a.plane.t}};feature["geometry"]["plane"]=plane;
+            if(a.nucleus)feature["nucleusGeometry"]["plane"]=plane;
+        }
+        return feature;
+    };
+    if(!nested) {
+        bool first=true;
+        for(auto id:objects) {
+            if(!first) out<<','; first=false; out<<feature_for(id).dump(); bounded(out,limit);
+        }
+    } else {
+        // Stream a bounded-depth forest instead of recursively copying JSON
+        // subtrees. Each object is serialized once, and sibling order is ID order.
+        struct Frame { const std::vector<std::uint64_t>* ids; std::size_t next=0; };
+        std::vector<Frame> stack{{&roots}};
+        const std::vector<std::uint64_t> empty;
+        while(!stack.empty()) {
+            auto& frame=stack.back();
+            if(frame.next==frame.ids->size()) {
+                stack.pop_back(); if(!stack.empty()) out<<"]}}";
+            } else {
+                if(frame.next) out<<',';
+                auto id=(*frame.ids)[frame.next++];
+                auto feature=feature_for(id);
+                auto properties=feature["properties"].dump(); properties.pop_back();
+                feature.erase("properties"); auto prefix=feature.dump(); prefix.pop_back();
+                out<<prefix<<",\"properties\":"<<properties<<",\"childObjects\":[";
+                auto found=children.find(id);
+                stack.push_back({found==children.end()?&empty:&found->second});
+            }
+            bounded(out,limit);
+        }
     }
-    out<<"]}\n"; bounded(out); InterchangeReport report; report.text=out.str(); report.features=objects.size(); report.issues=notices.finish(); return report;
+    out<<"]}\n"; bounded(out,limit); InterchangeReport report; report.text=out.str(); report.features=objects.size(); report.issues=notices.finish(); return report;
 }
-InterchangeReport import_geojson(Document& doc,const std::string& input,bool pixels,bool losses,bool qupath_precision) {
-    if(input.size()>byte_limit) throw std::length_error("GeoJSON exceeds 256 MiB limit");
+static InterchangeReport import_geojson_impl(Document& doc,const std::string& input,bool pixels,bool losses,bool qupath_precision,bool clipboard,std::optional<ObjectPlane> plane,std::size_t limit,const std::map<std::string,ObjectClass>* class_context=nullptr) {
+    if(input.size()>limit) throw std::length_error("GeoJSON exceeds byte limit");
     if(input.find('\0')!=std::string::npos) throw std::invalid_argument("GeoJSON contains NUL bytes");
     try {
         StrictJson validator; Json::sax_parse(input,&validator);
-        auto root=Json::parse(input); Reader reader{doc,Notices{losses,{}},{},{},{},{},{}}; reader.qupath_precision=qupath_precision;
+        auto root=Json::parse(input); Reader reader{doc,Notices{losses,{}},{},{},{},{},{}}; reader.qupath_precision=qupath_precision; if(clipboard)reader.max_objects=100000;
         if(!root.is_object()) throw std::invalid_argument("expected a Feature or FeatureCollection");
         if(root.contains("crs") && !root["crs"].is_null()) throw std::invalid_argument("geographic/projected CRS is not supported; convert to image pixels first");
         if(root.contains("qupathxx")) {
             const auto& m=root["qupathxx"];
-            if(!m.is_object() || !m.contains("version") || !m["version"].is_number_integer() || m["version"]!=1 || m.value("coordinateSpace","")!="image-pixels" || m.value("origin","")!="top-left") throw std::invalid_argument("unsupported native GeoJSON metadata");
-            if(m.at("imageWidth")!=doc.metadata().width || m.at("imageHeight")!=doc.metadata().height) throw std::invalid_argument("GeoJSON image dimensions do not match document");
+            if(!m.is_object() || !m.contains("version") || !m["version"].is_number_integer() || (m["version"]!=1 && m["version"]!=2) || m.value("coordinateSpace","")!="image-pixels" || m.value("origin","")!="top-left") throw std::invalid_argument("unsupported native GeoJSON metadata");
+            if(!m.at("imageWidth").is_number_integer() || !m.at("imageHeight").is_number_integer() || m.at("imageWidth")<=0 || m.at("imageHeight")<=0 || m.at("imageWidth")>std::numeric_limits<std::int64_t>::max() || m.at("imageHeight")>std::numeric_limits<std::int64_t>::max())throw std::invalid_argument("invalid GeoJSON image dimensions");
+            if(!clipboard && (m.at("imageWidth")!=doc.metadata().width || m.at("imageHeight")!=doc.metadata().height)) throw std::invalid_argument("GeoJSON image dimensions do not match document");
             for(const auto& member:m.items()) if(member.key()!="version" && member.key()!="coordinateSpace" && member.key()!="origin" && member.key()!="imageWidth" && member.key()!="imageHeight" && member.key()!="classes") reader.notices.add("extensions_dropped","Unsupported native extension fields will be dropped",true);
             if(m.contains("classes")) {
                 if(!m["classes"].is_array()) throw std::invalid_argument("classes must be an array");
-                for(const auto& c:m["classes"]) reader.definition(text(c.at("name")),color(c.at("color")));
+                if(m["classes"].size()>65536)throw std::length_error("class registry exceeds limit");
+                for(const auto& c:m["classes"]) {
+                    const auto name=text(c.at("name"));
+                    if(reader.classes.count(name))throw std::invalid_argument("duplicate native class definition");
+                    auto value=m["version"]==1?ObjectClass::definition(name,color(c.at("color"))):ObjectClass::definition(name,detail::class_argb(c.at("argb")),text(c.at("parent")));
+                    // Preserve and verify the stored resolved RGB cache for absent colors.
+                    if(m["version"]==2) {
+                        const auto rgb=color(c.at("color"));
+                        if(value.color_present && value.color!=rgb)throw std::invalid_argument("native class RGB disagrees with raw ARGB");
+                        value.color=rgb;
+                    }
+                    reader.definition(std::move(value),true,true);
+                }
+                std::vector<ObjectClass> values;for(const auto& [name,c]:reader.classes)values.push_back(c);
+                auto normalized=detail::normalized_class_registry(values);
+                for(const auto& [name,c]:normalized)if(c.color!=reader.classes.at(name).color)throw std::invalid_argument("native class resolved color disagrees with definition");
+                reader.classes=std::move(normalized);
             }
         } else if(!pixels) throw std::invalid_argument("untagged GeoJSON requires assume_pixels=true");
+        // Project loading establishes class-cache colors before either native
+        // saved data or assisted GeoJSON is read. A palette overrides colors,
+        // never a different parent/flat identity. No frontend parser is added.
+        if(class_context)for(const auto& [name,value]:*class_context) {
+            const auto found=reader.classes.find(name);
+            if(found!=reader.classes.end() && found->second.parent!=value.parent)throw std::invalid_argument("project class identity conflicts with imported definition");
+            reader.classes.insert_or_assign(name,value);reader.native_classes.insert(name);
+            reader.explicit_classes.insert(name);reader.context_classes.insert(name);
+        }
         auto type=root.value("type","");
         if(type=="FeatureCollection") {
             for(const auto& member:root.items()) if(member.key()!="type" && member.key()!="features" && member.key()!="qupathxx" && member.key()!="bbox" && member.key()!="crs") reader.notices.add("collection_members_dropped","Unsupported collection fields will be dropped",true);
@@ -346,11 +515,41 @@ InterchangeReport import_geojson(Document& doc,const std::string& input,bool pix
         else if(type=="Feature") reader.feature(root);
         else throw std::invalid_argument("expected FeatureCollection or Feature");
         for(const auto& [index,parent]:reader.parents) { auto id=reader.identifiers.find(parent); if(id==reader.identifiers.end()) throw std::invalid_argument("parent ID is absent from imported features"); reader.objects[index].parent_id=id->second; }
-        std::vector<ObjectClass> classes; for(const auto& [name,c]:reader.classes) classes.push_back(c);
+        std::vector<ObjectClass> definitions;for(const auto& [name,c]:reader.classes)definitions.push_back(c);
+        const auto normalized=detail::normalized_class_registry(definitions);
+        std::vector<ObjectClass> classes;for(const auto& [name,c]:normalized)classes.push_back(c);
         InterchangeReport report; report.features=reader.objects.size(); report.source_ids=std::move(reader.source_ids); report.issues=reader.notices.finish();
-        report.imported_ids=doc.append_objects(reader.objects,classes);
+        if(clipboard && reader.objects.empty())throw std::invalid_argument("clipboard contains no objects");
+        if(plane)for(auto& object:reader.objects)object.plane=*plane;
+        report.imported_ids=doc.append_objects(reader.objects,classes,clipboard?"Paste objects":"Import annotations");
         return report;
     } catch(const Json::exception& error) { throw std::invalid_argument(std::string("invalid GeoJSON: ")+error.what()); }
+}
+InterchangeReport export_geojson(const Document& doc,const std::vector<std::uint64_t>& ids,bool losses,bool nested) {
+    return export_geojson_impl(doc,ids,losses,nested,false,byte_limit);
+}
+InterchangeReport detail::import_geojson_class_context(Document& doc,const std::string& input,const std::map<std::string,ObjectClass>& classes) {
+    return import_geojson_impl(doc,input,true,true,false,false,std::nullopt,byte_limit,&classes);
+}
+InterchangeReport import_geojson(Document& doc,const std::string& input,bool pixels,bool losses,bool precision) {
+    return import_geojson_impl(doc,input,pixels,losses,precision,false,std::nullopt,byte_limit);
+}
+InterchangeReport copy_objects(const Document& doc,const std::vector<std::uint64_t>& ids,bool descendants,bool losses,std::size_t limit) {
+    clipboard_limit(limit);
+    if(ids.empty())throw std::invalid_argument("select objects before copying");
+    if(ids.size()>100000)throw std::length_error("clipboard exceeds 100000 objects");
+    auto objects=selected(doc,ids);
+    std::set<std::uint64_t> seen(objects.begin(),objects.end());
+    if(descendants)for(std::size_t i=0;i<objects.size();++i)for(auto child:doc.children(objects[i]))if(seen.insert(child).second) {
+        if(objects.size()>=100000)throw std::length_error("clipboard exceeds 100000 objects");
+        objects.push_back(child);
+    }
+    std::sort(objects.begin(),objects.end());
+    return export_geojson_impl(doc,objects,losses,true,true,limit);
+}
+InterchangeReport paste_objects(Document& doc,const std::string& text,std::optional<ObjectPlane> plane,bool losses,std::size_t limit) {
+    clipboard_limit(limit);
+    return import_geojson_impl(doc,text,true,losses,false,true,plane,limit);
 }
 #endif
 }

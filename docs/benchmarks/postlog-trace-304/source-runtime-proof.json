@@ -1,0 +1,38 @@
+{
+  "native_source": "e9d71f2862faa4c4d70a38397a9368204b6894d2",
+  "fingerprint": "8a51edb2a5e0606c91894f60314f58cae14df7cad3ae0d5edaa884e5e18b2207",
+  "compiler_inputs": 433,
+  "source_paths": 1421,
+  "windows_products": 79,
+  "linux_products": 8,
+  "installed_members": 39,
+  "tests": {
+    "native": {
+      "passed": 57,
+      "skipped": 0
+    },
+    "scientific": {
+      "passed": 896,
+      "skipped": 18
+    },
+    "preflight": {
+      "passed": 1099,
+      "skipped": 0
+    },
+    "frontends": {
+      "passed": 19,
+      "skipped": 0
+    }
+  },
+  "linux_sanitizer_suites": 3,
+  "private_exact_reference_basin_cases": 33,
+  "private_exact_heldout_workflows": 13,
+  "cross_host_exact_stage_payloads": 78,
+  "public_recipe_delivered": false,
+  "public_api_changed": false,
+  "stubs_regenerated": false,
+  "own_source_hosted_qualification": false,
+  "biological_validation": false,
+  "general_speed_claim": false,
+  "release_ready": false
+}

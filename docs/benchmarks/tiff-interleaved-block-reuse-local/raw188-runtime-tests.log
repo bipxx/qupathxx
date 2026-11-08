@@ -1,0 +1,1522 @@
+....................................FFFFFFFFFF.......................... [ 37%]
+........................................................................ [ 75%]
+.............................................sss                         [100%]
+================================== FAILURES ===================================
+_____ test_native_raw_export_exact_and_existing_output_preserved[uint16] ______
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/raw188-runtime/tmp/test_native_raw_export_exact_a0')
+dtype = 'uint16'
+
+    @pytest.mark.parametrize('dtype',['uint16','int64','uint64','float64'])
+    def test_native_raw_export_exact_and_existing_output_preserved(tmp_path,dtype):
+        values=np.arange(2*3*2*19*23,dtype='uint64').reshape(2,3,2,19,23).astype(dtype)
+        if dtype=='uint64':values[1,2,1,0,0]=2**64-1
+        path=tmp_path/'量化.ome.tif';output=tmp_path/'原始.npy'
+        if dtype in ['int64','uint64']:
+            tifffile.imwrite(path,values[1,2,1],ome=False,photometric='minisblack',tile=(16,16),compression='deflate',metadata=None)
+            axes=[]
+        else:
+            tifffile.imwrite(path,values,ome=True,photometric='minisblack',tile=(16,16),compression='deflate',metadata={'axes':'TZCYX'})
+            axes=['--z',2,'--time',1,'--channel',1]
+        args=['--raw',path,output,*axes,'--width',23,'--height',19]
+>       done=run(*args);assert done.returncode==0,done.stderr
+             ^^^^^^^^^^
+
+build\ci\scientific-grid-159\tests\test_tiff_cli.py:32: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+build\ci\scientific-grid-159\tests\test_tiff_cli.py:17: in run
+    return subprocess.run([str(CLI),*map(str,args)],capture_output=True,text=True,encoding='utf-8',timeout=40)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Roaming\uv\python\cpython-3.12.8-windows-x86_64-none\Lib\subprocess.py:548: in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Roaming\uv\python\cpython-3.12.8-windows-x86_64-none\Lib\subprocess.py:1026: in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <Popen: returncode: None args: ['C:\\Users\\HEQ\\Projects\\qupathxx\\build\\...>
+args = 'C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw188-python-env\\Lib\\site-packages\\qupathxx\\qupathxx_region.exe -...\build\\raw188-runtime\\tmp\\test_native_raw_export_exact_a0\\原始.npy --z 2 --time 1 --channel 1 --width 23 --height 19'
+executable = None, preexec_fn = None, close_fds = False, pass_fds = ()
+cwd = None, env = None
+startupinfo = <subprocess.STARTUPINFO object at 0x000002E4D42C1400>
+creationflags = 0, shell = False, p2cread = Handle(952), p2cwrite = -1
+c2pread = 11, c2pwrite = Handle(992), errread = 12, errwrite = Handle(1124)
+unused_restore_signals = True, unused_gid = None, unused_gids = None
+unused_uid = None, unused_umask = -1, unused_start_new_session = False
+unused_process_group = -1
+
+    def _execute_child(self, args, executable, preexec_fn, close_fds,
+                       pass_fds, cwd, env,
+                       startupinfo, creationflags, shell,
+                       p2cread, p2cwrite,
+                       c2pread, c2pwrite,
+                       errread, errwrite,
+                       unused_restore_signals,
+                       unused_gid, unused_gids, unused_uid,
+                       unused_umask,
+                       unused_start_new_session, unused_process_group):
+        """Execute program (MS Windows version)"""
+    
+        assert not pass_fds, "pass_fds not supported on Windows."
+    
+        if isinstance(args, str):
+            pass
+        elif isinstance(args, bytes):
+            if shell:
+                raise TypeError('bytes args is not allowed on Windows')
+            args = list2cmdline([args])
+        elif isinstance(args, os.PathLike):
+            if shell:
+                raise TypeError('path-like args is not allowed when '
+                                'shell is true')
+            args = list2cmdline([args])
+        else:
+            args = list2cmdline(args)
+    
+        if executable is not None:
+            executable = os.fsdecode(executable)
+    
+        # Process startup details
+        if startupinfo is None:
+            startupinfo = STARTUPINFO()
+        else:
+            # bpo-34044: Copy STARTUPINFO since it is modified above,
+            # so the caller can reuse it multiple times.
+            startupinfo = startupinfo.copy()
+    
+        use_std_handles = -1 not in (p2cread, c2pwrite, errwrite)
+        if use_std_handles:
+            startupinfo.dwFlags |= _winapi.STARTF_USESTDHANDLES
+            startupinfo.hStdInput = p2cread
+            startupinfo.hStdOutput = c2pwrite
+            startupinfo.hStdError = errwrite
+    
+        attribute_list = startupinfo.lpAttributeList
+        have_handle_list = bool(attribute_list and
+                                "handle_list" in attribute_list and
+                                attribute_list["handle_list"])
+    
+        # If we were given an handle_list or need to create one
+        if have_handle_list or (use_std_handles and close_fds):
+            if attribute_list is None:
+                attribute_list = startupinfo.lpAttributeList = {}
+            handle_list = attribute_list["handle_list"] = \
+                list(attribute_list.get("handle_list", []))
+    
+            if use_std_handles:
+                handle_list += [int(p2cread), int(c2pwrite), int(errwrite)]
+    
+            handle_list[:] = self._filter_handle_list(handle_list)
+    
+            if handle_list:
+                if not close_fds:
+                    warnings.warn("startupinfo.lpAttributeList['handle_list'] "
+                                  "overriding close_fds", RuntimeWarning)
+    
+                # When using the handle_list we always request to inherit
+                # handles but the only handles that will be inherited are
+                # the ones in the handle_list
+                close_fds = False
+    
+        if shell:
+            startupinfo.dwFlags |= _winapi.STARTF_USESHOWWINDOW
+            startupinfo.wShowWindow = _winapi.SW_HIDE
+            if not executable:
+                # gh-101283: without a fully-qualified path, before Windows
+                # checks the system directories, it first looks in the
+                # application directory, and also the current directory if
+                # NeedCurrentDirectoryForExePathW(ExeName) is true, so try
+                # to avoid executing unqualified "cmd.exe".
+                comspec = os.environ.get('ComSpec')
+                if not comspec:
+                    system_root = os.environ.get('SystemRoot', '')
+                    comspec = os.path.join(system_root, 'System32', 'cmd.exe')
+                    if not os.path.isabs(comspec):
+                        raise FileNotFoundError('shell not found: neither %ComSpec% nor %SystemRoot% is set')
+                if os.path.isabs(comspec):
+                    executable = comspec
+            else:
+                comspec = executable
+    
+            args = '{} /c "{}"'.format (comspec, args)
+    
+        if cwd is not None:
+            cwd = os.fsdecode(cwd)
+    
+        sys.audit("subprocess.Popen", executable, args, cwd, env)
+    
+        # Start the process
+        try:
+>           hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+                                     # no special security
+                                     None, None,
+                                     int(not close_fds),
+                                     creationflags,
+                                     env,
+                                     cwd,
+                                     startupinfo)
+E                                    FileNotFoundError: [WinError 2] The system cannot find the file specified
+
+..\..\AppData\Roaming\uv\python\cpython-3.12.8-windows-x86_64-none\Lib\subprocess.py:1538: FileNotFoundError
+______ test_native_raw_export_exact_and_existing_output_preserved[int64] ______
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/raw188-runtime/tmp/test_native_raw_export_exact_a1')
+dtype = 'int64'
+
+    @pytest.mark.parametrize('dtype',['uint16','int64','uint64','float64'])
+    def test_native_raw_export_exact_and_existing_output_preserved(tmp_path,dtype):
+        values=np.arange(2*3*2*19*23,dtype='uint64').reshape(2,3,2,19,23).astype(dtype)
+        if dtype=='uint64':values[1,2,1,0,0]=2**64-1
+        path=tmp_path/'量化.ome.tif';output=tmp_path/'原始.npy'
+        if dtype in ['int64','uint64']:
+            tifffile.imwrite(path,values[1,2,1],ome=False,photometric='minisblack',tile=(16,16),compression='deflate',metadata=None)
+            axes=[]
+        else:
+            tifffile.imwrite(path,values,ome=True,photometric='minisblack',tile=(16,16),compression='deflate',metadata={'axes':'TZCYX'})
+            axes=['--z',2,'--time',1,'--channel',1]
+        args=['--raw',path,output,*axes,'--width',23,'--height',19]
+>       done=run(*args);assert done.returncode==0,done.stderr
+             ^^^^^^^^^^
+
+build\ci\scientific-grid-159\tests\test_tiff_cli.py:32: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+build\ci\scientific-grid-159\tests\test_tiff_cli.py:17: in run
+    return subprocess.run([str(CLI),*map(str,args)],capture_output=True,text=True,encoding='utf-8',timeout=40)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Roaming\uv\python\cpython-3.12.8-windows-x86_64-none\Lib\subprocess.py:548: in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Roaming\uv\python\cpython-3.12.8-windows-x86_64-none\Lib\subprocess.py:1026: in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <Popen: returncode: None args: ['C:\\Users\\HEQ\\Projects\\qupathxx\\build\\...>
+args = 'C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw188-python-env\\Lib\\site-packages\\qupathxx\\qupathxx_region.exe -...s\\HEQ\\Projects\\qupathxx\\build\\raw188-runtime\\tmp\\test_native_raw_export_exact_a1\\原始.npy --width 23 --height 19'
+executable = None, preexec_fn = None, close_fds = False, pass_fds = ()
+cwd = None, env = None
+startupinfo = <subprocess.STARTUPINFO object at 0x000002E4D42DDA60>
+creationflags = 0, shell = False, p2cread = Handle(984), p2cwrite = -1
+c2pread = 11, c2pwrite = Handle(1124), errread = 12, errwrite = Handle(1128)
+unused_restore_signals = True, unused_gid = None, unused_gids = None
+unused_uid = None, unused_umask = -1, unused_start_new_session = False
+unused_process_group = -1
+
+    def _execute_child(self, args, executable, preexec_fn, close_fds,
+                       pass_fds, cwd, env,
+                       startupinfo, creationflags, shell,
+                       p2cread, p2cwrite,
+                       c2pread, c2pwrite,
+                       errread, errwrite,
+                       unused_restore_signals,
+                       unused_gid, unused_gids, unused_uid,
+                       unused_umask,
+                       unused_start_new_session, unused_process_group):
+        """Execute program (MS Windows version)"""
+    
+        assert not pass_fds, "pass_fds not supported on Windows."
+    
+        if isinstance(args, str):
+            pass
+        elif isinstance(args, bytes):
+            if shell:
+                raise TypeError('bytes args is not allowed on Windows')
+            args = list2cmdline([args])
+        elif isinstance(args, os.PathLike):
+            if shell:
+                raise TypeError('path-like args is not allowed when '
+                                'shell is true')
+            args = list2cmdline([args])
+        else:
+            args = list2cmdline(args)
+    
+        if executable is not None:
+            executable = os.fsdecode(executable)
+    
+        # Process startup details
+        if startupinfo is None:
+            startupinfo = STARTUPINFO()
+        else:
+            # bpo-34044: Copy STARTUPINFO since it is modified above,
+            # so the caller can reuse it multiple times.
+            startupinfo = startupinfo.copy()
+    
+        use_std_handles = -1 not in (p2cread, c2pwrite, errwrite)
+        if use_std_handles:
+            startupinfo.dwFlags |= _winapi.STARTF_USESTDHANDLES
+            startupinfo.hStdInput = p2cread
+            startupinfo.hStdOutput = c2pwrite
+            startupinfo.hStdError = errwrite
+    
+        attribute_list = startupinfo.lpAttributeList
+        have_handle_list = bool(attribute_list and
+                                "handle_list" in attribute_list and
+                                attribute_list["handle_list"])
+    
+        # If we were given an handle_list or need to create one
+        if have_handle_list or (use_std_handles and close_fds):
+            if attribute_list is None:
+                attribute_list = startupinfo.lpAttributeList = {}
+            handle_list = attribute_list["handle_list"] = \
+                list(attribute_list.get("handle_list", []))
+    
+            if use_std_handles:
+                handle_list += [int(p2cread), int(c2pwrite), int(errwrite)]
+    
+            handle_list[:] = self._filter_handle_list(handle_list)
+    
+            if handle_list:
+                if not close_fds:
+                    warnings.warn("startupinfo.lpAttributeList['handle_list'] "
+                                  "overriding close_fds", RuntimeWarning)
+    
+                # When using the handle_list we always request to inherit
+                # handles but the only handles that will be inherited are
+                # the ones in the handle_list
+                close_fds = False
+    
+        if shell:
+            startupinfo.dwFlags |= _winapi.STARTF_USESHOWWINDOW
+            startupinfo.wShowWindow = _winapi.SW_HIDE
+            if not executable:
+                # gh-101283: without a fully-qualified path, before Windows
+                # checks the system directories, it first looks in the
+                # application directory, and also the current directory if
+                # NeedCurrentDirectoryForExePathW(ExeName) is true, so try
+                # to avoid executing unqualified "cmd.exe".
+                comspec = os.environ.get('ComSpec')
+                if not comspec:
+                    system_root = os.environ.get('SystemRoot', '')
+                    comspec = os.path.join(system_root, 'System32', 'cmd.exe')
+                    if not os.path.isabs(comspec):
+                        raise FileNotFoundError('shell not found: neither %ComSpec% nor %SystemRoot% is set')
+                if os.path.isabs(comspec):
+                    executable = comspec
+            else:
+                comspec = executable
+    
+            args = '{} /c "{}"'.format (comspec, args)
+    
+        if cwd is not None:
+            cwd = os.fsdecode(cwd)
+    
+        sys.audit("subprocess.Popen", executable, args, cwd, env)
+    
+        # Start the process
+        try:
+>           hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+                                     # no special security
+                                     None, None,
+                                     int(not close_fds),
+                                     creationflags,
+                                     env,
+                                     cwd,
+                                     startupinfo)
+E                                    FileNotFoundError: [WinError 2] The system cannot find the file specified
+
+..\..\AppData\Roaming\uv\python\cpython-3.12.8-windows-x86_64-none\Lib\subprocess.py:1538: FileNotFoundError
+_____ test_native_raw_export_exact_and_existing_output_preserved[uint64] ______
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/raw188-runtime/tmp/test_native_raw_export_exact_a2')
+dtype = 'uint64'
+
+    @pytest.mark.parametrize('dtype',['uint16','int64','uint64','float64'])
+    def test_native_raw_export_exact_and_existing_output_preserved(tmp_path,dtype):
+        values=np.arange(2*3*2*19*23,dtype='uint64').reshape(2,3,2,19,23).astype(dtype)
+        if dtype=='uint64':values[1,2,1,0,0]=2**64-1
+        path=tmp_path/'量化.ome.tif';output=tmp_path/'原始.npy'
+        if dtype in ['int64','uint64']:
+            tifffile.imwrite(path,values[1,2,1],ome=False,photometric='minisblack',tile=(16,16),compression='deflate',metadata=None)
+            axes=[]
+        else:
+            tifffile.imwrite(path,values,ome=True,photometric='minisblack',tile=(16,16),compression='deflate',metadata={'axes':'TZCYX'})
+            axes=['--z',2,'--time',1,'--channel',1]
+        args=['--raw',path,output,*axes,'--width',23,'--height',19]
+>       done=run(*args);assert done.returncode==0,done.stderr
+             ^^^^^^^^^^
+
+build\ci\scientific-grid-159\tests\test_tiff_cli.py:32: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+build\ci\scientific-grid-159\tests\test_tiff_cli.py:17: in run
+    return subprocess.run([str(CLI),*map(str,args)],capture_output=True,text=True,encoding='utf-8',timeout=40)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Roaming\uv\python\cpython-3.12.8-windows-x86_64-none\Lib\subprocess.py:548: in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Roaming\uv\python\cpython-3.12.8-windows-x86_64-none\Lib\subprocess.py:1026: in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <Popen: returncode: None args: ['C:\\Users\\HEQ\\Projects\\qupathxx\\build\\...>
+args = 'C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw188-python-env\\Lib\\site-packages\\qupathxx\\qupathxx_region.exe -...s\\HEQ\\Projects\\qupathxx\\build\\raw188-runtime\\tmp\\test_native_raw_export_exact_a2\\原始.npy --width 23 --height 19'
+executable = None, preexec_fn = None, close_fds = False, pass_fds = ()
+cwd = None, env = None
+startupinfo = <subprocess.STARTUPINFO object at 0x000002E4D42DE090>
+creationflags = 0, shell = False, p2cread = Handle(1032), p2cwrite = -1
+c2pread = 11, c2pwrite = Handle(984), errread = 12, errwrite = Handle(1132)
+unused_restore_signals = True, unused_gid = None, unused_gids = None
+unused_uid = None, unused_umask = -1, unused_start_new_session = False
+unused_process_group = -1
+
+    def _execute_child(self, args, executable, preexec_fn, close_fds,
+                       pass_fds, cwd, env,
+                       startupinfo, creationflags, shell,
+                       p2cread, p2cwrite,
+                       c2pread, c2pwrite,
+                       errread, errwrite,
+                       unused_restore_signals,
+                       unused_gid, unused_gids, unused_uid,
+                       unused_umask,
+                       unused_start_new_session, unused_process_group):
+        """Execute program (MS Windows version)"""
+    
+        assert not pass_fds, "pass_fds not supported on Windows."
+    
+        if isinstance(args, str):
+            pass
+        elif isinstance(args, bytes):
+            if shell:
+                raise TypeError('bytes args is not allowed on Windows')
+            args = list2cmdline([args])
+        elif isinstance(args, os.PathLike):
+            if shell:
+                raise TypeError('path-like args is not allowed when '
+                                'shell is true')
+            args = list2cmdline([args])
+        else:
+            args = list2cmdline(args)
+    
+        if executable is not None:
+            executable = os.fsdecode(executable)
+    
+        # Process startup details
+        if startupinfo is None:
+            startupinfo = STARTUPINFO()
+        else:
+            # bpo-34044: Copy STARTUPINFO since it is modified above,
+            # so the caller can reuse it multiple times.
+            startupinfo = startupinfo.copy()
+    
+        use_std_handles = -1 not in (p2cread, c2pwrite, errwrite)
+        if use_std_handles:
+            startupinfo.dwFlags |= _winapi.STARTF_USESTDHANDLES
+            startupinfo.hStdInput = p2cread
+            startupinfo.hStdOutput = c2pwrite
+            startupinfo.hStdError = errwrite
+    
+        attribute_list = startupinfo.lpAttributeList
+        have_handle_list = bool(attribute_list and
+                                "handle_list" in attribute_list and
+                                attribute_list["handle_list"])
+    
+        # If we were given an handle_list or need to create one
+        if have_handle_list or (use_std_handles and close_fds):
+            if attribute_list is None:
+                attribute_list = startupinfo.lpAttributeList = {}
+            handle_list = attribute_list["handle_list"] = \
+                list(attribute_list.get("handle_list", []))
+    
+            if use_std_handles:
+                handle_list += [int(p2cread), int(c2pwrite), int(errwrite)]
+    
+            handle_list[:] = self._filter_handle_list(handle_list)
+    
+            if handle_list:
+                if not close_fds:
+                    warnings.warn("startupinfo.lpAttributeList['handle_list'] "
+                                  "overriding close_fds", RuntimeWarning)
+    
+                # When using the handle_list we always request to inherit
+                # handles but the only handles that will be inherited are
+                # the ones in the handle_list
+                close_fds = False
+    
+        if shell:
+            startupinfo.dwFlags |= _winapi.STARTF_USESHOWWINDOW
+            startupinfo.wShowWindow = _winapi.SW_HIDE
+            if not executable:
+                # gh-101283: without a fully-qualified path, before Windows
+                # checks the system directories, it first looks in the
+                # application directory, and also the current directory if
+                # NeedCurrentDirectoryForExePathW(ExeName) is true, so try
+                # to avoid executing unqualified "cmd.exe".
+                comspec = os.environ.get('ComSpec')
+                if not comspec:
+                    system_root = os.environ.get('SystemRoot', '')
+                    comspec = os.path.join(system_root, 'System32', 'cmd.exe')
+                    if not os.path.isabs(comspec):
+                        raise FileNotFoundError('shell not found: neither %ComSpec% nor %SystemRoot% is set')
+                if os.path.isabs(comspec):
+                    executable = comspec
+            else:
+                comspec = executable
+    
+            args = '{} /c "{}"'.format (comspec, args)
+    
+        if cwd is not None:
+            cwd = os.fsdecode(cwd)
+    
+        sys.audit("subprocess.Popen", executable, args, cwd, env)
+    
+        # Start the process
+        try:
+>           hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+                                     # no special security
+                                     None, None,
+                                     int(not close_fds),
+                                     creationflags,
+                                     env,
+                                     cwd,
+                                     startupinfo)
+E                                    FileNotFoundError: [WinError 2] The system cannot find the file specified
+
+..\..\AppData\Roaming\uv\python\cpython-3.12.8-windows-x86_64-none\Lib\subprocess.py:1538: FileNotFoundError
+_____ test_native_raw_export_exact_and_existing_output_preserved[float64] _____
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/raw188-runtime/tmp/test_native_raw_export_exact_a3')
+dtype = 'float64'
+
+    @pytest.mark.parametrize('dtype',['uint16','int64','uint64','float64'])
+    def test_native_raw_export_exact_and_existing_output_preserved(tmp_path,dtype):
+        values=np.arange(2*3*2*19*23,dtype='uint64').reshape(2,3,2,19,23).astype(dtype)
+        if dtype=='uint64':values[1,2,1,0,0]=2**64-1
+        path=tmp_path/'量化.ome.tif';output=tmp_path/'原始.npy'
+        if dtype in ['int64','uint64']:
+            tifffile.imwrite(path,values[1,2,1],ome=False,photometric='minisblack',tile=(16,16),compression='deflate',metadata=None)
+            axes=[]
+        else:
+            tifffile.imwrite(path,values,ome=True,photometric='minisblack',tile=(16,16),compression='deflate',metadata={'axes':'TZCYX'})
+            axes=['--z',2,'--time',1,'--channel',1]
+        args=['--raw',path,output,*axes,'--width',23,'--height',19]
+>       done=run(*args);assert done.returncode==0,done.stderr
+             ^^^^^^^^^^
+
+build\ci\scientific-grid-159\tests\test_tiff_cli.py:32: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+build\ci\scientific-grid-159\tests\test_tiff_cli.py:17: in run
+    return subprocess.run([str(CLI),*map(str,args)],capture_output=True,text=True,encoding='utf-8',timeout=40)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Roaming\uv\python\cpython-3.12.8-windows-x86_64-none\Lib\subprocess.py:548: in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Roaming\uv\python\cpython-3.12.8-windows-x86_64-none\Lib\subprocess.py:1026: in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <Popen: returncode: None args: ['C:\\Users\\HEQ\\Projects\\qupathxx\\build\\...>
+args = 'C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw188-python-env\\Lib\\site-packages\\qupathxx\\qupathxx_region.exe -...\build\\raw188-runtime\\tmp\\test_native_raw_export_exact_a3\\原始.npy --z 2 --time 1 --channel 1 --width 23 --height 19'
+executable = None, preexec_fn = None, close_fds = False, pass_fds = ()
+cwd = None, env = None
+startupinfo = <subprocess.STARTUPINFO object at 0x000002E4D42DC7A0>
+creationflags = 0, shell = False, p2cread = Handle(1092), p2cwrite = -1
+c2pread = 11, c2pwrite = Handle(840), errread = 12, errwrite = Handle(996)
+unused_restore_signals = True, unused_gid = None, unused_gids = None
+unused_uid = None, unused_umask = -1, unused_start_new_session = False
+unused_process_group = -1
+
+    def _execute_child(self, args, executable, preexec_fn, close_fds,
+                       pass_fds, cwd, env,
+                       startupinfo, creationflags, shell,
+                       p2cread, p2cwrite,
+                       c2pread, c2pwrite,
+                       errread, errwrite,
+                       unused_restore_signals,
+                       unused_gid, unused_gids, unused_uid,
+                       unused_umask,
+                       unused_start_new_session, unused_process_group):
+        """Execute program (MS Windows version)"""
+    
+        assert not pass_fds, "pass_fds not supported on Windows."
+    
+        if isinstance(args, str):
+            pass
+        elif isinstance(args, bytes):
+            if shell:
+                raise TypeError('bytes args is not allowed on Windows')
+            args = list2cmdline([args])
+        elif isinstance(args, os.PathLike):
+            if shell:
+                raise TypeError('path-like args is not allowed when '
+                                'shell is true')
+            args = list2cmdline([args])
+        else:
+            args = list2cmdline(args)
+    
+        if executable is not None:
+            executable = os.fsdecode(executable)
+    
+        # Process startup details
+        if startupinfo is None:
+            startupinfo = STARTUPINFO()
+        else:
+            # bpo-34044: Copy STARTUPINFO since it is modified above,
+            # so the caller can reuse it multiple times.
+            startupinfo = startupinfo.copy()
+    
+        use_std_handles = -1 not in (p2cread, c2pwrite, errwrite)
+        if use_std_handles:
+            startupinfo.dwFlags |= _winapi.STARTF_USESTDHANDLES
+            startupinfo.hStdInput = p2cread
+            startupinfo.hStdOutput = c2pwrite
+            startupinfo.hStdError = errwrite
+    
+        attribute_list = startupinfo.lpAttributeList
+        have_handle_list = bool(attribute_list and
+                                "handle_list" in attribute_list and
+                                attribute_list["handle_list"])
+    
+        # If we were given an handle_list or need to create one
+        if have_handle_list or (use_std_handles and close_fds):
+            if attribute_list is None:
+                attribute_list = startupinfo.lpAttributeList = {}
+            handle_list = attribute_list["handle_list"] = \
+                list(attribute_list.get("handle_list", []))
+    
+            if use_std_handles:
+                handle_list += [int(p2cread), int(c2pwrite), int(errwrite)]
+    
+            handle_list[:] = self._filter_handle_list(handle_list)
+    
+            if handle_list:
+                if not close_fds:
+                    warnings.warn("startupinfo.lpAttributeList['handle_list'] "
+                                  "overriding close_fds", RuntimeWarning)
+    
+                # When using the handle_list we always request to inherit
+                # handles but the only handles that will be inherited are
+                # the ones in the handle_list
+                close_fds = False
+    
+        if shell:
+            startupinfo.dwFlags |= _winapi.STARTF_USESHOWWINDOW
+            startupinfo.wShowWindow = _winapi.SW_HIDE
+            if not executable:
+                # gh-101283: without a fully-qualified path, before Windows
+                # checks the system directories, it first looks in the
+                # application directory, and also the current directory if
+                # NeedCurrentDirectoryForExePathW(ExeName) is true, so try
+                # to avoid executing unqualified "cmd.exe".
+                comspec = os.environ.get('ComSpec')
+                if not comspec:
+                    system_root = os.environ.get('SystemRoot', '')
+                    comspec = os.path.join(system_root, 'System32', 'cmd.exe')
+                    if not os.path.isabs(comspec):
+                        raise FileNotFoundError('shell not found: neither %ComSpec% nor %SystemRoot% is set')
+                if os.path.isabs(comspec):
+                    executable = comspec
+            else:
+                comspec = executable
+    
+            args = '{} /c "{}"'.format (comspec, args)
+    
+        if cwd is not None:
+            cwd = os.fsdecode(cwd)
+    
+        sys.audit("subprocess.Popen", executable, args, cwd, env)
+    
+        # Start the process
+        try:
+>           hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+                                     # no special security
+                                     None, None,
+                                     int(not close_fds),
+                                     creationflags,
+                                     env,
+                                     cwd,
+                                     startupinfo)
+E                                    FileNotFoundError: [WinError 2] The system cannot find the file specified
+
+..\..\AppData\Roaming\uv\python\cpython-3.12.8-windows-x86_64-none\Lib\subprocess.py:1538: FileNotFoundError
+________________ test_input_and_hardlink_cannot_be_overwritten ________________
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/raw188-runtime/tmp/test_input_and_hardlink_cannot0')
+
+    def test_input_and_hardlink_cannot_be_overwritten(tmp_path):
+        source=tmp_path/'input.tif';tifffile.imwrite(source,np.ones((8,8),dtype='uint16'),metadata=None)
+        alias=tmp_path/'alias.npy';os.link(source,alias);before=source.read_bytes()
+        for output in [source,alias]:
+>           done=run('--raw',source,output)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+build\ci\scientific-grid-159\tests\test_tiff_cli.py:43: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+build\ci\scientific-grid-159\tests\test_tiff_cli.py:17: in run
+    return subprocess.run([str(CLI),*map(str,args)],capture_output=True,text=True,encoding='utf-8',timeout=40)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Roaming\uv\python\cpython-3.12.8-windows-x86_64-none\Lib\subprocess.py:548: in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Roaming\uv\python\cpython-3.12.8-windows-x86_64-none\Lib\subprocess.py:1026: in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <Popen: returncode: None args: ['C:\\Users\\HEQ\\Projects\\qupathxx\\build\\...>
+args = 'C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw188-python-env\\Lib\\site-packages\\qupathxx\\qupathxx_region.exe -...\\input.tif C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw188-runtime\\tmp\\test_input_and_hardlink_cannot0\\input.tif'
+executable = None, preexec_fn = None, close_fds = False, pass_fds = ()
+cwd = None, env = None
+startupinfo = <subprocess.STARTUPINFO object at 0x000002E4D42DE450>
+creationflags = 0, shell = False, p2cread = Handle(1144), p2cwrite = -1
+c2pread = 11, c2pwrite = Handle(608), errread = 12, errwrite = Handle(1148)
+unused_restore_signals = True, unused_gid = None, unused_gids = None
+unused_uid = None, unused_umask = -1, unused_start_new_session = False
+unused_process_group = -1
+
+    def _execute_child(self, args, executable, preexec_fn, close_fds,
+                       pass_fds, cwd, env,
+                       startupinfo, creationflags, shell,
+                       p2cread, p2cwrite,
+                       c2pread, c2pwrite,
+                       errread, errwrite,
+                       unused_restore_signals,
+                       unused_gid, unused_gids, unused_uid,
+                       unused_umask,
+                       unused_start_new_session, unused_process_group):
+        """Execute program (MS Windows version)"""
+    
+        assert not pass_fds, "pass_fds not supported on Windows."
+    
+        if isinstance(args, str):
+            pass
+        elif isinstance(args, bytes):
+            if shell:
+                raise TypeError('bytes args is not allowed on Windows')
+            args = list2cmdline([args])
+        elif isinstance(args, os.PathLike):
+            if shell:
+                raise TypeError('path-like args is not allowed when '
+                                'shell is true')
+            args = list2cmdline([args])
+        else:
+            args = list2cmdline(args)
+    
+        if executable is not None:
+            executable = os.fsdecode(executable)
+    
+        # Process startup details
+        if startupinfo is None:
+            startupinfo = STARTUPINFO()
+        else:
+            # bpo-34044: Copy STARTUPINFO since it is modified above,
+            # so the caller can reuse it multiple times.
+            startupinfo = startupinfo.copy()
+    
+        use_std_handles = -1 not in (p2cread, c2pwrite, errwrite)
+        if use_std_handles:
+            startupinfo.dwFlags |= _winapi.STARTF_USESTDHANDLES
+            startupinfo.hStdInput = p2cread
+            startupinfo.hStdOutput = c2pwrite
+            startupinfo.hStdError = errwrite
+    
+        attribute_list = startupinfo.lpAttributeList
+        have_handle_list = bool(attribute_list and
+                                "handle_list" in attribute_list and
+                                attribute_list["handle_list"])
+    
+        # If we were given an handle_list or need to create one
+        if have_handle_list or (use_std_handles and close_fds):
+            if attribute_list is None:
+                attribute_list = startupinfo.lpAttributeList = {}
+            handle_list = attribute_list["handle_list"] = \
+                list(attribute_list.get("handle_list", []))
+    
+            if use_std_handles:
+                handle_list += [int(p2cread), int(c2pwrite), int(errwrite)]
+    
+            handle_list[:] = self._filter_handle_list(handle_list)
+    
+            if handle_list:
+                if not close_fds:
+                    warnings.warn("startupinfo.lpAttributeList['handle_list'] "
+                                  "overriding close_fds", RuntimeWarning)
+    
+                # When using the handle_list we always request to inherit
+                # handles but the only handles that will be inherited are
+                # the ones in the handle_list
+                close_fds = False
+    
+        if shell:
+            startupinfo.dwFlags |= _winapi.STARTF_USESHOWWINDOW
+            startupinfo.wShowWindow = _winapi.SW_HIDE
+            if not executable:
+                # gh-101283: without a fully-qualified path, before Windows
+                # checks the system directories, it first looks in the
+                # application directory, and also the current directory if
+                # NeedCurrentDirectoryForExePathW(ExeName) is true, so try
+                # to avoid executing unqualified "cmd.exe".
+                comspec = os.environ.get('ComSpec')
+                if not comspec:
+                    system_root = os.environ.get('SystemRoot', '')
+                    comspec = os.path.join(system_root, 'System32', 'cmd.exe')
+                    if not os.path.isabs(comspec):
+                        raise FileNotFoundError('shell not found: neither %ComSpec% nor %SystemRoot% is set')
+                if os.path.isabs(comspec):
+                    executable = comspec
+            else:
+                comspec = executable
+    
+            args = '{} /c "{}"'.format (comspec, args)
+    
+        if cwd is not None:
+            cwd = os.fsdecode(cwd)
+    
+        sys.audit("subprocess.Popen", executable, args, cwd, env)
+    
+        # Start the process
+        try:
+>           hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+                                     # no special security
+                                     None, None,
+                                     int(not close_fds),
+                                     creationflags,
+                                     env,
+                                     cwd,
+                                     startupinfo)
+E                                    FileNotFoundError: [WinError 2] The system cannot find the file specified
+
+..\..\AppData\Roaming\uv\python\cpython-3.12.8-windows-x86_64-none\Lib\subprocess.py:1538: FileNotFoundError
+_____________ test_invalid_arguments_never_create_output[--z--1] ______________
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/raw188-runtime/tmp/test_invalid_arguments_never_c0')
+flag = '--z', value = '-1'
+
+    @pytest.mark.parametrize('flag,value',[('--z','-1'),('--channels','0'),('--width','999999999'),('--level','9'),('--unknown','1')])
+    def test_invalid_arguments_never_create_output(tmp_path,flag,value):
+        source=tmp_path/'input.tif';tifffile.imwrite(source,np.ones((8,8),dtype='uint16'),metadata=None)
+>       output=tmp_path/'bad.npy';done=run('--raw',source,output,flag,value)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+build\ci\scientific-grid-159\tests\test_tiff_cli.py:50: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+build\ci\scientific-grid-159\tests\test_tiff_cli.py:17: in run
+    return subprocess.run([str(CLI),*map(str,args)],capture_output=True,text=True,encoding='utf-8',timeout=40)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Roaming\uv\python\cpython-3.12.8-windows-x86_64-none\Lib\subprocess.py:548: in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Roaming\uv\python\cpython-3.12.8-windows-x86_64-none\Lib\subprocess.py:1026: in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <Popen: returncode: None args: ['C:\\Users\\HEQ\\Projects\\qupathxx\\build\\...>
+args = 'C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw188-python-env\\Lib\\site-packages\\qupathxx\\qupathxx_region.exe -...ut.tif C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw188-runtime\\tmp\\test_invalid_arguments_never_c0\\bad.npy --z -1'
+executable = None, preexec_fn = None, close_fds = False, pass_fds = ()
+cwd = None, env = None
+startupinfo = <subprocess.STARTUPINFO object at 0x000002E4D431C6B0>
+creationflags = 0, shell = False, p2cread = Handle(980), p2cwrite = -1
+c2pread = 11, c2pwrite = Handle(1132), errread = 12, errwrite = Handle(1140)
+unused_restore_signals = True, unused_gid = None, unused_gids = None
+unused_uid = None, unused_umask = -1, unused_start_new_session = False
+unused_process_group = -1
+
+    def _execute_child(self, args, executable, preexec_fn, close_fds,
+                       pass_fds, cwd, env,
+                       startupinfo, creationflags, shell,
+                       p2cread, p2cwrite,
+                       c2pread, c2pwrite,
+                       errread, errwrite,
+                       unused_restore_signals,
+                       unused_gid, unused_gids, unused_uid,
+                       unused_umask,
+                       unused_start_new_session, unused_process_group):
+        """Execute program (MS Windows version)"""
+    
+        assert not pass_fds, "pass_fds not supported on Windows."
+    
+        if isinstance(args, str):
+            pass
+        elif isinstance(args, bytes):
+            if shell:
+                raise TypeError('bytes args is not allowed on Windows')
+            args = list2cmdline([args])
+        elif isinstance(args, os.PathLike):
+            if shell:
+                raise TypeError('path-like args is not allowed when '
+                                'shell is true')
+            args = list2cmdline([args])
+        else:
+            args = list2cmdline(args)
+    
+        if executable is not None:
+            executable = os.fsdecode(executable)
+    
+        # Process startup details
+        if startupinfo is None:
+            startupinfo = STARTUPINFO()
+        else:
+            # bpo-34044: Copy STARTUPINFO since it is modified above,
+            # so the caller can reuse it multiple times.
+            startupinfo = startupinfo.copy()
+    
+        use_std_handles = -1 not in (p2cread, c2pwrite, errwrite)
+        if use_std_handles:
+            startupinfo.dwFlags |= _winapi.STARTF_USESTDHANDLES
+            startupinfo.hStdInput = p2cread
+            startupinfo.hStdOutput = c2pwrite
+            startupinfo.hStdError = errwrite
+    
+        attribute_list = startupinfo.lpAttributeList
+        have_handle_list = bool(attribute_list and
+                                "handle_list" in attribute_list and
+                                attribute_list["handle_list"])
+    
+        # If we were given an handle_list or need to create one
+        if have_handle_list or (use_std_handles and close_fds):
+            if attribute_list is None:
+                attribute_list = startupinfo.lpAttributeList = {}
+            handle_list = attribute_list["handle_list"] = \
+                list(attribute_list.get("handle_list", []))
+    
+            if use_std_handles:
+                handle_list += [int(p2cread), int(c2pwrite), int(errwrite)]
+    
+            handle_list[:] = self._filter_handle_list(handle_list)
+    
+            if handle_list:
+                if not close_fds:
+                    warnings.warn("startupinfo.lpAttributeList['handle_list'] "
+                                  "overriding close_fds", RuntimeWarning)
+    
+                # When using the handle_list we always request to inherit
+                # handles but the only handles that will be inherited are
+                # the ones in the handle_list
+                close_fds = False
+    
+        if shell:
+            startupinfo.dwFlags |= _winapi.STARTF_USESHOWWINDOW
+            startupinfo.wShowWindow = _winapi.SW_HIDE
+            if not executable:
+                # gh-101283: without a fully-qualified path, before Windows
+                # checks the system directories, it first looks in the
+                # application directory, and also the current directory if
+                # NeedCurrentDirectoryForExePathW(ExeName) is true, so try
+                # to avoid executing unqualified "cmd.exe".
+                comspec = os.environ.get('ComSpec')
+                if not comspec:
+                    system_root = os.environ.get('SystemRoot', '')
+                    comspec = os.path.join(system_root, 'System32', 'cmd.exe')
+                    if not os.path.isabs(comspec):
+                        raise FileNotFoundError('shell not found: neither %ComSpec% nor %SystemRoot% is set')
+                if os.path.isabs(comspec):
+                    executable = comspec
+            else:
+                comspec = executable
+    
+            args = '{} /c "{}"'.format (comspec, args)
+    
+        if cwd is not None:
+            cwd = os.fsdecode(cwd)
+    
+        sys.audit("subprocess.Popen", executable, args, cwd, env)
+    
+        # Start the process
+        try:
+>           hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+                                     # no special security
+                                     None, None,
+                                     int(not close_fds),
+                                     creationflags,
+                                     env,
+                                     cwd,
+                                     startupinfo)
+E                                    FileNotFoundError: [WinError 2] The system cannot find the file specified
+
+..\..\AppData\Roaming\uv\python\cpython-3.12.8-windows-x86_64-none\Lib\subprocess.py:1538: FileNotFoundError
+__________ test_invalid_arguments_never_create_output[--channels-0] ___________
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/raw188-runtime/tmp/test_invalid_arguments_never_c1')
+flag = '--channels', value = '0'
+
+    @pytest.mark.parametrize('flag,value',[('--z','-1'),('--channels','0'),('--width','999999999'),('--level','9'),('--unknown','1')])
+    def test_invalid_arguments_never_create_output(tmp_path,flag,value):
+        source=tmp_path/'input.tif';tifffile.imwrite(source,np.ones((8,8),dtype='uint16'),metadata=None)
+>       output=tmp_path/'bad.npy';done=run('--raw',source,output,flag,value)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+build\ci\scientific-grid-159\tests\test_tiff_cli.py:50: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+build\ci\scientific-grid-159\tests\test_tiff_cli.py:17: in run
+    return subprocess.run([str(CLI),*map(str,args)],capture_output=True,text=True,encoding='utf-8',timeout=40)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Roaming\uv\python\cpython-3.12.8-windows-x86_64-none\Lib\subprocess.py:548: in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Roaming\uv\python\cpython-3.12.8-windows-x86_64-none\Lib\subprocess.py:1026: in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <Popen: returncode: None args: ['C:\\Users\\HEQ\\Projects\\qupathxx\\build\\...>
+args = 'C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw188-python-env\\Lib\\site-packages\\qupathxx\\qupathxx_region.exe -... C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw188-runtime\\tmp\\test_invalid_arguments_never_c1\\bad.npy --channels 0'
+executable = None, preexec_fn = None, close_fds = False, pass_fds = ()
+cwd = None, env = None
+startupinfo = <subprocess.STARTUPINFO object at 0x000002E4D431EA80>
+creationflags = 0, shell = False, p2cread = Handle(1052), p2cwrite = -1
+c2pread = 11, c2pwrite = Handle(840), errread = 12, errwrite = Handle(940)
+unused_restore_signals = True, unused_gid = None, unused_gids = None
+unused_uid = None, unused_umask = -1, unused_start_new_session = False
+unused_process_group = -1
+
+    def _execute_child(self, args, executable, preexec_fn, close_fds,
+                       pass_fds, cwd, env,
+                       startupinfo, creationflags, shell,
+                       p2cread, p2cwrite,
+                       c2pread, c2pwrite,
+                       errread, errwrite,
+                       unused_restore_signals,
+                       unused_gid, unused_gids, unused_uid,
+                       unused_umask,
+                       unused_start_new_session, unused_process_group):
+        """Execute program (MS Windows version)"""
+    
+        assert not pass_fds, "pass_fds not supported on Windows."
+    
+        if isinstance(args, str):
+            pass
+        elif isinstance(args, bytes):
+            if shell:
+                raise TypeError('bytes args is not allowed on Windows')
+            args = list2cmdline([args])
+        elif isinstance(args, os.PathLike):
+            if shell:
+                raise TypeError('path-like args is not allowed when '
+                                'shell is true')
+            args = list2cmdline([args])
+        else:
+            args = list2cmdline(args)
+    
+        if executable is not None:
+            executable = os.fsdecode(executable)
+    
+        # Process startup details
+        if startupinfo is None:
+            startupinfo = STARTUPINFO()
+        else:
+            # bpo-34044: Copy STARTUPINFO since it is modified above,
+            # so the caller can reuse it multiple times.
+            startupinfo = startupinfo.copy()
+    
+        use_std_handles = -1 not in (p2cread, c2pwrite, errwrite)
+        if use_std_handles:
+            startupinfo.dwFlags |= _winapi.STARTF_USESTDHANDLES
+            startupinfo.hStdInput = p2cread
+            startupinfo.hStdOutput = c2pwrite
+            startupinfo.hStdError = errwrite
+    
+        attribute_list = startupinfo.lpAttributeList
+        have_handle_list = bool(attribute_list and
+                                "handle_list" in attribute_list and
+                                attribute_list["handle_list"])
+    
+        # If we were given an handle_list or need to create one
+        if have_handle_list or (use_std_handles and close_fds):
+            if attribute_list is None:
+                attribute_list = startupinfo.lpAttributeList = {}
+            handle_list = attribute_list["handle_list"] = \
+                list(attribute_list.get("handle_list", []))
+    
+            if use_std_handles:
+                handle_list += [int(p2cread), int(c2pwrite), int(errwrite)]
+    
+            handle_list[:] = self._filter_handle_list(handle_list)
+    
+            if handle_list:
+                if not close_fds:
+                    warnings.warn("startupinfo.lpAttributeList['handle_list'] "
+                                  "overriding close_fds", RuntimeWarning)
+    
+                # When using the handle_list we always request to inherit
+                # handles but the only handles that will be inherited are
+                # the ones in the handle_list
+                close_fds = False
+    
+        if shell:
+            startupinfo.dwFlags |= _winapi.STARTF_USESHOWWINDOW
+            startupinfo.wShowWindow = _winapi.SW_HIDE
+            if not executable:
+                # gh-101283: without a fully-qualified path, before Windows
+                # checks the system directories, it first looks in the
+                # application directory, and also the current directory if
+                # NeedCurrentDirectoryForExePathW(ExeName) is true, so try
+                # to avoid executing unqualified "cmd.exe".
+                comspec = os.environ.get('ComSpec')
+                if not comspec:
+                    system_root = os.environ.get('SystemRoot', '')
+                    comspec = os.path.join(system_root, 'System32', 'cmd.exe')
+                    if not os.path.isabs(comspec):
+                        raise FileNotFoundError('shell not found: neither %ComSpec% nor %SystemRoot% is set')
+                if os.path.isabs(comspec):
+                    executable = comspec
+            else:
+                comspec = executable
+    
+            args = '{} /c "{}"'.format (comspec, args)
+    
+        if cwd is not None:
+            cwd = os.fsdecode(cwd)
+    
+        sys.audit("subprocess.Popen", executable, args, cwd, env)
+    
+        # Start the process
+        try:
+>           hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+                                     # no special security
+                                     None, None,
+                                     int(not close_fds),
+                                     creationflags,
+                                     env,
+                                     cwd,
+                                     startupinfo)
+E                                    FileNotFoundError: [WinError 2] The system cannot find the file specified
+
+..\..\AppData\Roaming\uv\python\cpython-3.12.8-windows-x86_64-none\Lib\subprocess.py:1538: FileNotFoundError
+________ test_invalid_arguments_never_create_output[--width-999999999] ________
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/raw188-runtime/tmp/test_invalid_arguments_never_c2')
+flag = '--width', value = '999999999'
+
+    @pytest.mark.parametrize('flag,value',[('--z','-1'),('--channels','0'),('--width','999999999'),('--level','9'),('--unknown','1')])
+    def test_invalid_arguments_never_create_output(tmp_path,flag,value):
+        source=tmp_path/'input.tif';tifffile.imwrite(source,np.ones((8,8),dtype='uint16'),metadata=None)
+>       output=tmp_path/'bad.npy';done=run('--raw',source,output,flag,value)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+build\ci\scientific-grid-159\tests\test_tiff_cli.py:50: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+build\ci\scientific-grid-159\tests\test_tiff_cli.py:17: in run
+    return subprocess.run([str(CLI),*map(str,args)],capture_output=True,text=True,encoding='utf-8',timeout=40)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Roaming\uv\python\cpython-3.12.8-windows-x86_64-none\Lib\subprocess.py:548: in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Roaming\uv\python\cpython-3.12.8-windows-x86_64-none\Lib\subprocess.py:1026: in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <Popen: returncode: None args: ['C:\\Users\\HEQ\\Projects\\qupathxx\\build\\...>
+args = 'C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw188-python-env\\Lib\\site-packages\\qupathxx\\qupathxx_region.exe -...Users\\HEQ\\Projects\\qupathxx\\build\\raw188-runtime\\tmp\\test_invalid_arguments_never_c2\\bad.npy --width 999999999'
+executable = None, preexec_fn = None, close_fds = False, pass_fds = ()
+cwd = None, env = None
+startupinfo = <subprocess.STARTUPINFO object at 0x000002E4D431D280>
+creationflags = 0, shell = False, p2cread = Handle(996), p2cwrite = -1
+c2pread = 11, c2pwrite = Handle(1140), errread = 12, errwrite = Handle(1012)
+unused_restore_signals = True, unused_gid = None, unused_gids = None
+unused_uid = None, unused_umask = -1, unused_start_new_session = False
+unused_process_group = -1
+
+    def _execute_child(self, args, executable, preexec_fn, close_fds,
+                       pass_fds, cwd, env,
+                       startupinfo, creationflags, shell,
+                       p2cread, p2cwrite,
+                       c2pread, c2pwrite,
+                       errread, errwrite,
+                       unused_restore_signals,
+                       unused_gid, unused_gids, unused_uid,
+                       unused_umask,
+                       unused_start_new_session, unused_process_group):
+        """Execute program (MS Windows version)"""
+    
+        assert not pass_fds, "pass_fds not supported on Windows."
+    
+        if isinstance(args, str):
+            pass
+        elif isinstance(args, bytes):
+            if shell:
+                raise TypeError('bytes args is not allowed on Windows')
+            args = list2cmdline([args])
+        elif isinstance(args, os.PathLike):
+            if shell:
+                raise TypeError('path-like args is not allowed when '
+                                'shell is true')
+            args = list2cmdline([args])
+        else:
+            args = list2cmdline(args)
+    
+        if executable is not None:
+            executable = os.fsdecode(executable)
+    
+        # Process startup details
+        if startupinfo is None:
+            startupinfo = STARTUPINFO()
+        else:
+            # bpo-34044: Copy STARTUPINFO since it is modified above,
+            # so the caller can reuse it multiple times.
+            startupinfo = startupinfo.copy()
+    
+        use_std_handles = -1 not in (p2cread, c2pwrite, errwrite)
+        if use_std_handles:
+            startupinfo.dwFlags |= _winapi.STARTF_USESTDHANDLES
+            startupinfo.hStdInput = p2cread
+            startupinfo.hStdOutput = c2pwrite
+            startupinfo.hStdError = errwrite
+    
+        attribute_list = startupinfo.lpAttributeList
+        have_handle_list = bool(attribute_list and
+                                "handle_list" in attribute_list and
+                                attribute_list["handle_list"])
+    
+        # If we were given an handle_list or need to create one
+        if have_handle_list or (use_std_handles and close_fds):
+            if attribute_list is None:
+                attribute_list = startupinfo.lpAttributeList = {}
+            handle_list = attribute_list["handle_list"] = \
+                list(attribute_list.get("handle_list", []))
+    
+            if use_std_handles:
+                handle_list += [int(p2cread), int(c2pwrite), int(errwrite)]
+    
+            handle_list[:] = self._filter_handle_list(handle_list)
+    
+            if handle_list:
+                if not close_fds:
+                    warnings.warn("startupinfo.lpAttributeList['handle_list'] "
+                                  "overriding close_fds", RuntimeWarning)
+    
+                # When using the handle_list we always request to inherit
+                # handles but the only handles that will be inherited are
+                # the ones in the handle_list
+                close_fds = False
+    
+        if shell:
+            startupinfo.dwFlags |= _winapi.STARTF_USESHOWWINDOW
+            startupinfo.wShowWindow = _winapi.SW_HIDE
+            if not executable:
+                # gh-101283: without a fully-qualified path, before Windows
+                # checks the system directories, it first looks in the
+                # application directory, and also the current directory if
+                # NeedCurrentDirectoryForExePathW(ExeName) is true, so try
+                # to avoid executing unqualified "cmd.exe".
+                comspec = os.environ.get('ComSpec')
+                if not comspec:
+                    system_root = os.environ.get('SystemRoot', '')
+                    comspec = os.path.join(system_root, 'System32', 'cmd.exe')
+                    if not os.path.isabs(comspec):
+                        raise FileNotFoundError('shell not found: neither %ComSpec% nor %SystemRoot% is set')
+                if os.path.isabs(comspec):
+                    executable = comspec
+            else:
+                comspec = executable
+    
+            args = '{} /c "{}"'.format (comspec, args)
+    
+        if cwd is not None:
+            cwd = os.fsdecode(cwd)
+    
+        sys.audit("subprocess.Popen", executable, args, cwd, env)
+    
+        # Start the process
+        try:
+>           hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+                                     # no special security
+                                     None, None,
+                                     int(not close_fds),
+                                     creationflags,
+                                     env,
+                                     cwd,
+                                     startupinfo)
+E                                    FileNotFoundError: [WinError 2] The system cannot find the file specified
+
+..\..\AppData\Roaming\uv\python\cpython-3.12.8-windows-x86_64-none\Lib\subprocess.py:1538: FileNotFoundError
+____________ test_invalid_arguments_never_create_output[--level-9] ____________
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/raw188-runtime/tmp/test_invalid_arguments_never_c3')
+flag = '--level', value = '9'
+
+    @pytest.mark.parametrize('flag,value',[('--z','-1'),('--channels','0'),('--width','999999999'),('--level','9'),('--unknown','1')])
+    def test_invalid_arguments_never_create_output(tmp_path,flag,value):
+        source=tmp_path/'input.tif';tifffile.imwrite(source,np.ones((8,8),dtype='uint16'),metadata=None)
+>       output=tmp_path/'bad.npy';done=run('--raw',source,output,flag,value)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+build\ci\scientific-grid-159\tests\test_tiff_cli.py:50: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+build\ci\scientific-grid-159\tests\test_tiff_cli.py:17: in run
+    return subprocess.run([str(CLI),*map(str,args)],capture_output=True,text=True,encoding='utf-8',timeout=40)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Roaming\uv\python\cpython-3.12.8-windows-x86_64-none\Lib\subprocess.py:548: in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Roaming\uv\python\cpython-3.12.8-windows-x86_64-none\Lib\subprocess.py:1026: in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <Popen: returncode: None args: ['C:\\Users\\HEQ\\Projects\\qupathxx\\build\\...>
+args = 'C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw188-python-env\\Lib\\site-packages\\qupathxx\\qupathxx_region.exe -...tif C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw188-runtime\\tmp\\test_invalid_arguments_never_c3\\bad.npy --level 9'
+executable = None, preexec_fn = None, close_fds = False, pass_fds = ()
+cwd = None, env = None
+startupinfo = <subprocess.STARTUPINFO object at 0x000002E4D42DDE20>
+creationflags = 0, shell = False, p2cread = Handle(1108), p2cwrite = -1
+c2pread = 11, c2pwrite = Handle(984), errread = 12, errwrite = Handle(844)
+unused_restore_signals = True, unused_gid = None, unused_gids = None
+unused_uid = None, unused_umask = -1, unused_start_new_session = False
+unused_process_group = -1
+
+    def _execute_child(self, args, executable, preexec_fn, close_fds,
+                       pass_fds, cwd, env,
+                       startupinfo, creationflags, shell,
+                       p2cread, p2cwrite,
+                       c2pread, c2pwrite,
+                       errread, errwrite,
+                       unused_restore_signals,
+                       unused_gid, unused_gids, unused_uid,
+                       unused_umask,
+                       unused_start_new_session, unused_process_group):
+        """Execute program (MS Windows version)"""
+    
+        assert not pass_fds, "pass_fds not supported on Windows."
+    
+        if isinstance(args, str):
+            pass
+        elif isinstance(args, bytes):
+            if shell:
+                raise TypeError('bytes args is not allowed on Windows')
+            args = list2cmdline([args])
+        elif isinstance(args, os.PathLike):
+            if shell:
+                raise TypeError('path-like args is not allowed when '
+                                'shell is true')
+            args = list2cmdline([args])
+        else:
+            args = list2cmdline(args)
+    
+        if executable is not None:
+            executable = os.fsdecode(executable)
+    
+        # Process startup details
+        if startupinfo is None:
+            startupinfo = STARTUPINFO()
+        else:
+            # bpo-34044: Copy STARTUPINFO since it is modified above,
+            # so the caller can reuse it multiple times.
+            startupinfo = startupinfo.copy()
+    
+        use_std_handles = -1 not in (p2cread, c2pwrite, errwrite)
+        if use_std_handles:
+            startupinfo.dwFlags |= _winapi.STARTF_USESTDHANDLES
+            startupinfo.hStdInput = p2cread
+            startupinfo.hStdOutput = c2pwrite
+            startupinfo.hStdError = errwrite
+    
+        attribute_list = startupinfo.lpAttributeList
+        have_handle_list = bool(attribute_list and
+                                "handle_list" in attribute_list and
+                                attribute_list["handle_list"])
+    
+        # If we were given an handle_list or need to create one
+        if have_handle_list or (use_std_handles and close_fds):
+            if attribute_list is None:
+                attribute_list = startupinfo.lpAttributeList = {}
+            handle_list = attribute_list["handle_list"] = \
+                list(attribute_list.get("handle_list", []))
+    
+            if use_std_handles:
+                handle_list += [int(p2cread), int(c2pwrite), int(errwrite)]
+    
+            handle_list[:] = self._filter_handle_list(handle_list)
+    
+            if handle_list:
+                if not close_fds:
+                    warnings.warn("startupinfo.lpAttributeList['handle_list'] "
+                                  "overriding close_fds", RuntimeWarning)
+    
+                # When using the handle_list we always request to inherit
+                # handles but the only handles that will be inherited are
+                # the ones in the handle_list
+                close_fds = False
+    
+        if shell:
+            startupinfo.dwFlags |= _winapi.STARTF_USESHOWWINDOW
+            startupinfo.wShowWindow = _winapi.SW_HIDE
+            if not executable:
+                # gh-101283: without a fully-qualified path, before Windows
+                # checks the system directories, it first looks in the
+                # application directory, and also the current directory if
+                # NeedCurrentDirectoryForExePathW(ExeName) is true, so try
+                # to avoid executing unqualified "cmd.exe".
+                comspec = os.environ.get('ComSpec')
+                if not comspec:
+                    system_root = os.environ.get('SystemRoot', '')
+                    comspec = os.path.join(system_root, 'System32', 'cmd.exe')
+                    if not os.path.isabs(comspec):
+                        raise FileNotFoundError('shell not found: neither %ComSpec% nor %SystemRoot% is set')
+                if os.path.isabs(comspec):
+                    executable = comspec
+            else:
+                comspec = executable
+    
+            args = '{} /c "{}"'.format (comspec, args)
+    
+        if cwd is not None:
+            cwd = os.fsdecode(cwd)
+    
+        sys.audit("subprocess.Popen", executable, args, cwd, env)
+    
+        # Start the process
+        try:
+>           hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+                                     # no special security
+                                     None, None,
+                                     int(not close_fds),
+                                     creationflags,
+                                     env,
+                                     cwd,
+                                     startupinfo)
+E                                    FileNotFoundError: [WinError 2] The system cannot find the file specified
+
+..\..\AppData\Roaming\uv\python\cpython-3.12.8-windows-x86_64-none\Lib\subprocess.py:1538: FileNotFoundError
+___________ test_invalid_arguments_never_create_output[--unknown-1] ___________
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/raw188-runtime/tmp/test_invalid_arguments_never_c4')
+flag = '--unknown', value = '1'
+
+    @pytest.mark.parametrize('flag,value',[('--z','-1'),('--channels','0'),('--width','999999999'),('--level','9'),('--unknown','1')])
+    def test_invalid_arguments_never_create_output(tmp_path,flag,value):
+        source=tmp_path/'input.tif';tifffile.imwrite(source,np.ones((8,8),dtype='uint16'),metadata=None)
+>       output=tmp_path/'bad.npy';done=run('--raw',source,output,flag,value)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+build\ci\scientific-grid-159\tests\test_tiff_cli.py:50: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+build\ci\scientific-grid-159\tests\test_tiff_cli.py:17: in run
+    return subprocess.run([str(CLI),*map(str,args)],capture_output=True,text=True,encoding='utf-8',timeout=40)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Roaming\uv\python\cpython-3.12.8-windows-x86_64-none\Lib\subprocess.py:548: in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Roaming\uv\python\cpython-3.12.8-windows-x86_64-none\Lib\subprocess.py:1026: in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <Popen: returncode: None args: ['C:\\Users\\HEQ\\Projects\\qupathxx\\build\\...>
+args = 'C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw188-python-env\\Lib\\site-packages\\qupathxx\\qupathxx_region.exe -...f C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw188-runtime\\tmp\\test_invalid_arguments_never_c4\\bad.npy --unknown 1'
+executable = None, preexec_fn = None, close_fds = False, pass_fds = ()
+cwd = None, env = None
+startupinfo = <subprocess.STARTUPINFO object at 0x000002E4D431D490>
+creationflags = 0, shell = False, p2cread = Handle(1080), p2cwrite = -1
+c2pread = 11, c2pwrite = Handle(1176), errread = 12, errwrite = Handle(1188)
+unused_restore_signals = True, unused_gid = None, unused_gids = None
+unused_uid = None, unused_umask = -1, unused_start_new_session = False
+unused_process_group = -1
+
+    def _execute_child(self, args, executable, preexec_fn, close_fds,
+                       pass_fds, cwd, env,
+                       startupinfo, creationflags, shell,
+                       p2cread, p2cwrite,
+                       c2pread, c2pwrite,
+                       errread, errwrite,
+                       unused_restore_signals,
+                       unused_gid, unused_gids, unused_uid,
+                       unused_umask,
+                       unused_start_new_session, unused_process_group):
+        """Execute program (MS Windows version)"""
+    
+        assert not pass_fds, "pass_fds not supported on Windows."
+    
+        if isinstance(args, str):
+            pass
+        elif isinstance(args, bytes):
+            if shell:
+                raise TypeError('bytes args is not allowed on Windows')
+            args = list2cmdline([args])
+        elif isinstance(args, os.PathLike):
+            if shell:
+                raise TypeError('path-like args is not allowed when '
+                                'shell is true')
+            args = list2cmdline([args])
+        else:
+            args = list2cmdline(args)
+    
+        if executable is not None:
+            executable = os.fsdecode(executable)
+    
+        # Process startup details
+        if startupinfo is None:
+            startupinfo = STARTUPINFO()
+        else:
+            # bpo-34044: Copy STARTUPINFO since it is modified above,
+            # so the caller can reuse it multiple times.
+            startupinfo = startupinfo.copy()
+    
+        use_std_handles = -1 not in (p2cread, c2pwrite, errwrite)
+        if use_std_handles:
+            startupinfo.dwFlags |= _winapi.STARTF_USESTDHANDLES
+            startupinfo.hStdInput = p2cread
+            startupinfo.hStdOutput = c2pwrite
+            startupinfo.hStdError = errwrite
+    
+        attribute_list = startupinfo.lpAttributeList
+        have_handle_list = bool(attribute_list and
+                                "handle_list" in attribute_list and
+                                attribute_list["handle_list"])
+    
+        # If we were given an handle_list or need to create one
+        if have_handle_list or (use_std_handles and close_fds):
+            if attribute_list is None:
+                attribute_list = startupinfo.lpAttributeList = {}
+            handle_list = attribute_list["handle_list"] = \
+                list(attribute_list.get("handle_list", []))
+    
+            if use_std_handles:
+                handle_list += [int(p2cread), int(c2pwrite), int(errwrite)]
+    
+            handle_list[:] = self._filter_handle_list(handle_list)
+    
+            if handle_list:
+                if not close_fds:
+                    warnings.warn("startupinfo.lpAttributeList['handle_list'] "
+                                  "overriding close_fds", RuntimeWarning)
+    
+                # When using the handle_list we always request to inherit
+                # handles but the only handles that will be inherited are
+                # the ones in the handle_list
+                close_fds = False
+    
+        if shell:
+            startupinfo.dwFlags |= _winapi.STARTF_USESHOWWINDOW
+            startupinfo.wShowWindow = _winapi.SW_HIDE
+            if not executable:
+                # gh-101283: without a fully-qualified path, before Windows
+                # checks the system directories, it first looks in the
+                # application directory, and also the current directory if
+                # NeedCurrentDirectoryForExePathW(ExeName) is true, so try
+                # to avoid executing unqualified "cmd.exe".
+                comspec = os.environ.get('ComSpec')
+                if not comspec:
+                    system_root = os.environ.get('SystemRoot', '')
+                    comspec = os.path.join(system_root, 'System32', 'cmd.exe')
+                    if not os.path.isabs(comspec):
+                        raise FileNotFoundError('shell not found: neither %ComSpec% nor %SystemRoot% is set')
+                if os.path.isabs(comspec):
+                    executable = comspec
+            else:
+                comspec = executable
+    
+            args = '{} /c "{}"'.format (comspec, args)
+    
+        if cwd is not None:
+            cwd = os.fsdecode(cwd)
+    
+        sys.audit("subprocess.Popen", executable, args, cwd, env)
+    
+        # Start the process
+        try:
+>           hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+                                     # no special security
+                                     None, None,
+                                     int(not close_fds),
+                                     creationflags,
+                                     env,
+                                     cwd,
+                                     startupinfo)
+E                                    FileNotFoundError: [WinError 2] The system cannot find the file specified
+
+..\..\AppData\Roaming\uv\python\cpython-3.12.8-windows-x86_64-none\Lib\subprocess.py:1538: FileNotFoundError
+=========================== short test summary info ===========================
+FAILED build\ci\scientific-grid-159\tests\test_tiff_cli.py::test_native_raw_export_exact_and_existing_output_preserved[uint16]
+FAILED build\ci\scientific-grid-159\tests\test_tiff_cli.py::test_native_raw_export_exact_and_existing_output_preserved[int64]
+FAILED build\ci\scientific-grid-159\tests\test_tiff_cli.py::test_native_raw_export_exact_and_existing_output_preserved[uint64]
+FAILED build\ci\scientific-grid-159\tests\test_tiff_cli.py::test_native_raw_export_exact_and_existing_output_preserved[float64]
+FAILED build\ci\scientific-grid-159\tests\test_tiff_cli.py::test_input_and_hardlink_cannot_be_overwritten
+FAILED build\ci\scientific-grid-159\tests\test_tiff_cli.py::test_invalid_arguments_never_create_output[--z--1]
+FAILED build\ci\scientific-grid-159\tests\test_tiff_cli.py::test_invalid_arguments_never_create_output[--channels-0]
+FAILED build\ci\scientific-grid-159\tests\test_tiff_cli.py::test_invalid_arguments_never_create_output[--width-999999999]
+FAILED build\ci\scientific-grid-159\tests\test_tiff_cli.py::test_invalid_arguments_never_create_output[--level-9]
+FAILED build\ci\scientific-grid-159\tests\test_tiff_cli.py::test_invalid_arguments_never_create_output[--unknown-1]
+10 failed, 179 passed, 3 skipped in 6.68s

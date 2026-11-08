@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\.local\\bin\\uv.exe",
+    "pip",
+    "install",
+    "--python",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\project-metadata-r5-env\\Scripts\\python.exe",
+    "--no-deps",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\project-metadata-r5\\wheel-final\\qupathxx-0.1.0-cp312-cp312-win_amd64.whl"
+  ],
+  "returncode": 0,
+  "seconds": 0.3852684001903981
+}

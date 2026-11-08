@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="8" time="0.517" timestamp="2026-10-28T10:10:28.280953-04:00" hostname="HEQPC"><testcase classname="tests.test_engine_successor_audit" name="test_legacy_record_gate_accepts_schema14_source_migrations" time="0.062"><failure message="AssertionError: ('source-bound fixture', 'test_pixel_stream_records', 34, 35, [])">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4338/test_legacy_record_gate_accept0')
+
+    def test_legacy_record_gate_accepts_schema14_source_migrations(tmp_path):
+        root,cases=legacy_record_fixture(tmp_path)
+        assert len(cases)==35
+&gt;       result=check_legacy_record_guard(tmp_path,root)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_engine_successor_audit.py:148: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_engine_successor_audit.py:141: in check_legacy_record_guard
+    exec(compile(ast.Module(body=[legacy_record_guard()],type_ignores=[]),str(AUDITOR),'exec'),scope)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    """Audit the exact-source unified native/installed Windows/Linux CI artifacts.
+    
+    Download all five named artifacts into --artifacts. This accepts correctness
+    and engineering evidence only; warm/cold timings and release gates are separate.
+    """
+    if not __debug__:
+        raise RuntimeError('artifact audit requires Python assertions enabled')
+    
+    import argparse
+    from collections import Counter
+    import hashlib
+    import importlib.util
+    import json
+    from pathlib import Path
+    import re
+    import subprocess
+    import sys
+    import math
+    import xml.etree.ElementTree as ET
+    import zipfile
+    
+    resampling_spec=importlib.util.spec_from_file_location('qpx_resampling_evidence',Path(__file__).with_name('resampling_evidence.py'))
+    resampling=importlib.util.module_from_spec(resampling_spec);exec(compile(Path(resampling_spec.origin).read_bytes(),resampling_spec.origin,"exec",dont_inherit=True),resampling.__dict__)
+    qptma_spec=importlib.util.spec_from_file_location('qpx_qptma_evidence',Path(__file__).with_name('qptma_evidence.py'))
+    qptma=importlib.util.module_from_spec(qptma_spec);exec(compile(Path(qptma_spec.origin).read_bytes(),qptma_spec.origin,"exec",dont_inherit=True),qptma.__dict__)
+    hierarchy_spec=importlib.util.spec_from_file_location('qpx_hierarchy_evidence',Path(__file__).with_name('hierarchy_evidence.py'))
+    hierarchy=importlib.util.module_from_spec(hierarchy_spec);exec(compile(Path(hierarchy_spec.origin).read_bytes(),hierarchy_spec.origin,"exec",dont_inherit=True),hierarchy.__dict__)
+    scientific_spec=importlib.util.spec_from_file_location('qpx_scientific_grid_evidence',Path(__file__).with_name('scientific_grid_evidence.py'))
+    scientific=importlib.util.module_from_spec(scientific_spec);exec(compile(Path(scientific_spec.origin).read_bytes(),scientific_spec.origin,"exec",dont_inherit=True),scientific.__dict__)
+    axis_spec=importlib.util.spec_from_file_location('qpx_tma_axis_evidence',Path(__file__).with_name('tma_axis_evidence.py'))
+    axis=importlib.util.module_from_spec(axis_spec);exec(compile(Path(axis_spec.origin).read_bytes(),axis_spec.origin,"exec",dont_inherit=True),axis.__dict__)
+    dearray_spec=importlib.util.spec_from_file_location("qpx_tma_dearray_evidence",Path(__file__).with_name("tma_dearray_evidence.py"))
+    dearray=importlib.util.module_from_spec(dearray_spec);exec(compile(Path(dearray_spec.origin).read_bytes(),dearray_spec.origin,"exec",dont_inherit=True),dearray.__dict__)
+    multifile_spec=importlib.util.spec_from_file_location("qpx_multifile_ome_evidence",Path(__file__).with_name("multifile_ome_evidence.py"))
+    multifile=importlib.util.module_from_spec(multifile_spec);exec(compile(Path(multifile_spec.origin).read_bytes(),multifile_spec.origin,"exec",dont_inherit=True),multifile.__dict__)
+    raw_spec=importlib.util.spec_from_file_location('qpx_raw_classifier_evidence',Path(__file__).with_name('raw_classifier_evidence.py'))
+    raw_classifier=importlib.util.module_from_spec(raw_spec);exec(compile(Path(raw_spec.origin).read_bytes(),raw_spec.origin,'exec',dont_inherit=True),raw_classifier.__dict__)
+    
+    
+    
+    AUDITOR_ROOT=Path(__file__).resolve().parents[2]
+    ROOT=AUDITOR_ROOT
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('run');parser.add_argument('commit')
+    parser.add_argument('--source-root',type=Path,help='Original artifact-source checkout for a separately identified successor audit; must be clean at commit')
+    parser.add_argument('--artifacts',type=Path,default=ROOT/'build/ci/unified121-hosted')
+    parser.add_argument('--output',type=Path,default=ROOT/'build/unified-ci-windows-linux.json')
+    parser.add_argument('--ndpi-readers',action='store_true',help='Also require real nine-level NDPI and default native project-link regressions')
+    parser.add_argument('--rendered-loop',action='store_true',help='Require ordinary, startup and bounded long-session rendered-loop timing cases')
+    parser.add_argument('--gui-stack',action='store_true',help='Require repeated native project startup on the default Windows executable stack')
+    parser.add_argument('--watershed-bodies',action='store_true',help='Require strict-radius production body recipes, native expansion and pinned comparison')
+    parser.add_argument('--sampled-shape',action='store_true',help='Also require all 26 frozen native masks/maxima and 53 capture/cohort checks; implies watershed bodies')
+    parser.add_argument('--sampled-cells',action='store_true',help='Require QCL4 production recipe, 53 sampled workflow cases and independent comparison; implies sampled shape')
+    parser.add_argument('--small-frontier',action='store_true',help='Require 1344 native queue comparisons and eight strict unit-radius workflow cases; implies sampled cells')
+    parser.add_argument('--tma-cases',action='store_true',help='Require exact case aggregation, numeric regression and desktop export cohorts; implies small frontier')
+    parser.add_argument('--tma-file-export',action='store_true',help='Require shared atomic file exporter and standalone TMA case CLI; implies tma cases')
+    parser.add_argument('--tma-cohorts',action='store_true',help='Require captured multi-grid case pooling, atomic file/CLI and desktop cohorts; implies file export')
+    parser.add_argument('--windows-runtime-manifest',action='store_true',help='Require source-bound Windows wheel/native archive inventories and owned forwarder probe; implies TMA cohorts')
+    parser.add_argument('--linux-runtime-manifest',action='store_true',help='Require source-bound Linux wheel file/static ELF manifests; implies TMA cohorts')
+    parser.add_argument('--linux-only',action='store_true',help='Audit only the three successful Linux jobs; never accepts the full matrix')
+    args=parser.parse_args();RUN=args.run;COMMIT=args.commit
+    if args.source_root is not None:
+        ROOT=args.source_root.resolve()
+        source_head=subprocess.check_output(['git','-C',str(ROOT),'rev-parse','HEAD'],text=True).strip()
+        if source_head!=COMMIT or subprocess.check_output(['git','-C',str(ROOT),'status','--porcelain'],text=True).strip():
+            raise ValueError('successor audit requires a clean original source checkout at the artifact commit')
+    args.tma_cohorts=args.tma_cohorts or args.windows_runtime_manifest or args.linux_runtime_manifest
+    args.tma_file_export=args.tma_file_export or args.tma_cohorts
+    args.tma_cases=args.tma_cases or args.tma_file_export
+    args.small_frontier=args.small_frontier or args.tma_cases
+    args.sampled_cells=args.sampled_cells or args.small_frontier
+    args.sampled_shape=args.sampled_shape or args.sampled_cells
+    args.watershed_bodies=args.watershed_bodies or args.sampled_shape
+    if args.small_frontier:
+        spec=importlib.util.spec_from_file_location('qpx_frontier_evidence',Path(__file__).with_name('frontier_evidence.py'))
+        frontier=importlib.util.module_from_spec(spec);exec(compile(Path(spec.origin).read_bytes(),spec.origin,"exec",dont_inherit=True),frontier.__dict__)
+    if args.tma_cases:
+        spec=importlib.util.spec_from_file_location('qpx_tma_case_evidence',Path(__file__).with_name('tma_case_evidence.py'))
+        tma_cases=importlib.util.module_from_spec(spec);exec(compile(Path(spec.origin).read_bytes(),spec.origin,"exec",dont_inherit=True),tma_cases.__dict__)
+    
+    if args.windows_runtime_manifest:
+        spec=importlib.util.spec_from_file_location('qpx_runtime_evidence',Path(__file__).with_name('runtime_manifest_evidence.py'))
+        runtime_evidence=importlib.util.module_from_spec(spec);exec(compile(Path(spec.origin).read_bytes(),spec.origin,"exec",dont_inherit=True),runtime_evidence.__dict__)
+    if args.linux_runtime_manifest:
+        spec=importlib.util.spec_from_file_location('qpx_linux_manifest_evidence',Path(__file__).with_name('linux_runtime_manifest_evidence.py'))
+        linux_manifest_evidence=importlib.util.module_from_spec(spec);exec(compile(Path(spec.origin).read_bytes(),spec.origin,"exec",dont_inherit=True),linux_manifest_evidence.__dict__)
+    
+    def sha(path):
+        return hashlib.sha256(path.read_bytes()).hexdigest()
+    def junit(path):
+        root=ET.parse(path).getroot()
+        suites=[root] if root.tag=='testsuite' else root.findall('testsuite')
+        result={k:sum(int(s.get(k,0)) for s in suites) for k in ['tests','failures','errors','skipped']}
+        result['passed']=result['tests']-result['failures']-result['errors']-result['skipped']
+        result['seconds']=sum(float(s.get('time',0)) for s in suites)
+        result['sha256']=sha(path)
+        skips=Counter(n.get('message','') for n in root.iter('skipped'))
+        if skips:result['skip_reasons']=dict(sorted(skips.items()))
+        if result['failures'] or result['errors']:
+            raise ValueError('JUnit failures or errors: '+str(path))
+        return result
+    run=json.loads(subprocess.check_output(['gh','run','view',RUN,'--repo','bipxx/qupathxx','--json','headSha,url,jobs,status,conclusion,createdAt,updatedAt']))
+    assert run['headSha']==COMMIT
+    if not args.linux_only:
+        assert run['status']=='completed' and run['conclusion']=='success'
+    run['skipped_jobs']=[j['name'] for j in run['jobs'] if j['conclusion']=='skipped']
+    run['jobs']=[j for j in run['jobs'] if j['conclusion']!='skipped']
+    assert len(run['jobs'])==5
+    if args.linux_only:
+        run['jobs']=[j for j in run['jobs'] if j['name'].startswith('Linux ')]
+    assert len(run['jobs'])==(3 if args.linux_only else 5)
+    assert all(j['status']=='completed' and j['conclusion']=='success' for j in run['jobs'])
+    folders={'Linux minimal native':'Linux-minimal-py3.12','Linux ASan UBSan native':'Linux-sanitize-py3.12','Linux headless Python 3.12 NumPy 2':'Linux-headless-py3.12',
+             'Windows headless Python 3.11 NumPy 1':'Windows-headless-py3.11','Windows GUI Python 3.12 software GL':'Windows-gui-py3.12'}
+    report=dict(schema='qpx.ci-validation/1',commit=COMMIT,engine_commit=COMMIT,run=run['url'],
+        started_utc=run['createdAt'],observed_updated_utc=run['updatedAt'],overall_status=run['status'],overall_conclusion=run['conclusion'],
+        scope='Combined native LoG production mode, C++17 decimal calibration parser, Darwin type fix and lazy conservative polygon boundary cache. Full installed regressions and inherited reader/analysis/archive/classifier/batch/runtime/desktop gates are audited at the exact dispatched source. Fifty LoG cases cover pinned nuclei, independent compartment measurements, context and automatic-level admission, transparency, physical limits, archive/classifier-source replay, CLI/batches, cancellation and desktop/viewer capture. Legacy strict scientific failures remain explicit. A Linux-only observation does not accept Windows or the overall matrix. Performance/hardware, resampling/body parity, broader biology, macOS, portable ABI/consumers, license and supported release remain separate gates.',jobs=[])
+    report['auditor']=dict(
+        source_root=str(AUDITOR_ROOT),
+        commit=subprocess.check_output(['git','-C',str(AUDITOR_ROOT),'rev-parse','HEAD'],text=True).strip(),
+        dirty=bool(subprocess.check_output(['git','-C',str(AUDITOR_ROOT),'status','--porcelain'],text=True).strip()),
+        script_sha256=sha(Path(__file__)),
+        helper_sources={p.relative_to(AUDITOR_ROOT).as_posix():sha(p)
+            for p in sorted(Path(__file__).parent.iterdir()) if p.is_file() and p.suffix in ('.py','.json')},
+        original_source_root=str(ROOT),
+        successor_audit=args.source_root is not None)
+    
+    def canonical_source_fingerprint():
+        names=subprocess.check_output(['git','-C',str(ROOT),'ls-tree','-r','--name-only',COMMIT]).decode().splitlines()
+        names=sorted(n for n in names if n in ['CMakeLists.txt','pyproject.toml'] or
+            (n.startswith('cpp/') and n.endswith(('.cpp','.hpp'))) or
+            (n.startswith('cmake/') and n.endswith(('.cmake','.in'))) or (n.startswith('src/') and n.endswith('.py')))
+        stream=subprocess.check_output(['git','-C',str(ROOT),'cat-file','--batch'],input=''.join(COMMIT+':'+n+'\n' for n in names).encode())
+        offset=0;manifest=[]
+        for name in names:
+            end=stream.index(b'\n',offset);header=stream[offset:end].split()
+            assert len(header)==3 and header[1]==b'blob'
+            size=int(header[2]);blob=stream[end+1:end+size+1];offset=end+size+2
+            manifest.append(name+'='+hashlib.sha256(blob).hexdigest()+'\n')
+        return hashlib.sha256(''.join(manifest).encode()).hexdigest()
+    report['multifile_ome_sources']=multifile.source_contract(ROOT,COMMIT)
+    report['raw_classifier_sources']=raw_classifier.source_contract(ROOT,COMMIT)
+    report['tma_axis_sources']=axis.source_contract(ROOT,COMMIT)
+    report['tma_dearray_sources']=dearray.source_contract(ROOT,COMMIT)
+    report['hierarchy_sources']=hierarchy.source_contract(ROOT,COMMIT)
+    report['scientific_grid_sources']=scientific.source_contract(ROOT,COMMIT)
+    expected_source=canonical_source_fingerprint()
+    report['git_lf_source_tree_sha256']=expected_source
+    
+    qptma_sources=qptma.source_contract(ROOT,COMMIT)
+    resampling_sources=resampling.source_contract(ROOT,COMMIT)
+    local=json.loads((ROOT/'docs/benchmarks/classifier-engine-windows.json').read_text(encoding='utf8'))
+    for job in run['jobs']:
+        folder=args.artifacts/folders[job['name']]
+        entry=dict(name=job['name'],url=job['url'],status=job['status'],conclusion=job['conclusion'],native=junit(folder/'native-tests.xml'))
+        assert entry['native']['passed']==(46 if 'GUI' in job['name'] else 45)+int(args.watershed_bodies)+4+len(raw_classifier.CONTRACT['spatial_added_native_suites'])
+        native_cases=list(ET.parse(folder/'native-tests.xml').getroot().iter('testcase'))
+        entry['multifile_ome_native']=multifile.native(native_cases,tiff=job['name']!='Linux minimal native')
+        entry['raw_classifier_native']=raw_classifier.native(native_cases,full=job['name']!='Linux minimal native')
+        entry['resampling_native']=resampling.native(native_cases)
+        entry['scientific_grid_native']=scientific.native(native_cases,project=job['name']!='Linux minimal native',geos=job['name']!='Linux minimal native',tiff=job['name']!='Linux minimal native')
+        entry['tma_axis_native']=axis.native(native_cases)
+        entry['tma_dearray_native']=dearray.native(native_cases,project=job['name']!='Linux minimal native')
+        entry['qptma_native']=qptma.native(native_cases)
+        entry['hierarchy_native']=hierarchy.native(native_cases,enabled=job['name']!='Linux minimal native')
+        entry['qptma_project_native']=qptma.project_native(native_cases,enabled=job['name']!='Linux minimal native')
+        entry['qptma_sources']={name:dict(observation) for name,observation in qptma_sources.items()}
+        entry['resampling_sources']={name:dict(observation) for name,observation in resampling_sources.items()}
+        if args.sampled_shape:
+            selected=[t for t in native_cases if t.get('name')=='log_watershed']
+            assert len(selected)==1 and 'Sampled shape 26 frozen masks and maxima passed' in selected[0].findtext('system-out',''), 'missing frozen sampled-shape native conformance'
+            fixture='tests/fixtures/imagej-shape-1.54p/capture/manifest.json'
+            assert (ROOT/fixture).read_bytes()==subprocess.check_output(['git','-C',str(ROOT),'show',COMMIT+':'+fixture]), 'shape reference differs from dispatched source'
+            entry['sampled_shape']=dict(native_frozen_masks_and_maxima=26,capture_manifest_sha256=sha(ROOT/fixture),production_integrated=False)
+            if (folder/'python-tests.xml').exists():
+                expected=json.loads((ROOT/'tests/fixtures/imagej-shape-1.54p/verification-cohorts.json').read_text())
+                entry['sampled_shape']['cohort_contract_sha256']=sha(ROOT/'tests/fixtures/imagej-shape-1.54p/verification-cohorts.json')
+                all_cases=list(ET.parse(folder/'python-tests.xml').getroot().iter('testcase'))
+                counts={}
+                for classname,names in expected.items():
+                    cases=[t for t in all_cases if t.get('classname','').rsplit('.',1)[-1]==classname]
+                    assert len(cases)==len(names) and sorted(t.get('name') for t in cases)==names, 'sampled-shape verification cohort differs: '+classname
+                    assert all(all(t.find(k) is None for k in ['failure','error','skipped']) for t in cases), 'sampled-shape verification case did not pass'
+                    counts[classname]=len(cases)
+                assert sum(counts.values())==53
+                entry['sampled_shape']['python_cohorts']=counts
+        assert {'masked_gaussian','log_watershed','log_cell_recipe','decimal_quantities','cells','geometry'} &lt;= {t.get('name') for t in native_cases}
+        assert entry['native']['skipped']==0
+        if (folder/'python-tests.xml').exists():
+            entry['python']=junit(folder/'python-tests.xml')
+            entry['resampling_python']=resampling.python(list(ET.parse(folder/'python-tests.xml').getroot().iter('testcase')))
+            entry['qptma_python']=qptma.python(list(ET.parse(folder/'python-tests.xml').getroot().iter('testcase')))
+            entry['qptma_typing']=qptma.typing_errors(folder/'qptma-typing-negative.log')
+            axis_cases=list(ET.parse(folder/'python-tests.xml').getroot().iter('testcase'))
+            entry['multifile_ome_python']=multifile.python(axis_cases)
+            entry['multifile_ome_desktop']=multifile.desktop(axis_cases,gui='GUI' in job['name'])
+            entry['multifile_ome_typing']=multifile.typing(folder)
+            entry['raw_classifier_python']=raw_classifier.python(axis_cases,gui='GUI' in job['name'])
+            entry['raw_classifier_typing']=raw_classifier.typing(folder)
+            entry['tma_axis_python']=axis.python(axis_cases)
+            entry['tma_axis_desktop']=axis.desktop(axis_cases,gui='GUI' in job['name'])
+            entry['tma_axis_typing']=axis.typing(folder/axis.TYPING_LOG)
+            entry['tma_dearray_python']=dearray.python(axis_cases)
+            entry['tma_dearray_desktop']=dearray.desktop(axis_cases,gui='GUI' in job['name'])
+            entry['tma_dearray_typing']=dearray.typing(folder)
+            entry['hierarchy_python']=hierarchy.python(list(ET.parse(folder/'python-tests.xml').getroot().iter('testcase')),gui='GUI' in job['name'])
+            entry['hierarchy_typing']=hierarchy.typing_errors(folder/'hierarchy-typing-negative.log')
+            entry['scientific_grid_python']=scientific.python(list(ET.parse(folder/'python-tests.xml').getroot().iter('testcase')),gui='GUI' in job['name'])
+            entry['scientific_grid_typing']=scientific.typing(folder)
+            if 'GUI' in job['name']:entry['qptma_desktop']=qptma.desktop(list(ET.parse(folder/'python-tests.xml').getroot().iter('testcase')))
+            contours=[t for t in ET.parse(folder/'python-tests.xml').getroot().iter('testcase') if t.get('classname','').endswith('test_pixel_contours')]
+            assert len(contours)==24 and all(not any(t.find(k) is not None for k in ['skipped','failure','error']) for t in contours)
+            entry['pixel_contour_cases']=[t.get('name') for t in contours]
+            if 'GUI' in job['name']:
+                widgets=[t for t in ET.parse(folder/'python-tests.xml').getroot().iter('testcase') if t.get('classname','').endswith('test_gui_pixel_classifier')]
+                assert len(widgets)==20 and all(not any(t.find(k) is not None for k in ['skipped','failure','error']) for t in widgets)
+                entry['pixel_widget_cases']=[t.get('name') for t in widgets]
+                saved=[t for t in ET.parse(folder/'python-tests.xml').getroot().iter('testcase') if t.get('classname','').endswith('test_gui_pixel_archives')]
+                assert len(saved)==8 and all(not any(t.find(k) is not None for k in ['skipped','failure','error']) for t in saved)
+                entry['saved_pixel_widget_cases']=[t.get('name') for t in saved]
+                windows=[t for t in ET.parse(folder/'python-tests.xml').getroot().iter('testcase') if t.get('classname','').endswith('test_gui_pixel_windows')]
+                assert len(windows)==3 and all(not any(t.find(k) is not None for k in ['skipped','failure','error']) for t in windows)
+                entry['window_pixel_widget_cases']=[t.get('name') for t in windows]
+                wheel=[t for t in ET.parse(folder/'python-tests.xml').getroot().iter('testcase') if t.get('classname','').endswith('test_gui_wheel_replay')]
+                assert len(wheel)==1 and all(not any(t.find(k) is not None for k in ['skipped','failure','error']) for t in wheel)
+                entry['wheel_isolation_cases']=[t.get('name') for t in wheel]
+                stream_widgets=[t for t in ET.parse(folder/'python-tests.xml').getroot().iter('testcase') if t.get('classname','').endswith('test_gui_pixel_stream')]
+                assert len(stream_widgets)==7 and all(not any(t.find(k) is not None for k in ['skipped','failure','error']) for t in stream_widgets)
+                entry['stream_export_widget_cases']=[t.get('name') for t in stream_widgets]
+                browser=[t for t in ET.parse(folder/'python-tests.xml').getroot().iter('testcase') if t.get('classname','').endswith('test_gui_pixel_stream_browser')]
+                assert len(browser)==9 and all(not any(t.find(k) is not None for k in ['skipped','failure','error']) for t in browser)
+                entry['stream_browser_widget_cases']=[t.get('name') for t in browser]
+                br=json.loads((folder/'gui-pixel-stream-read-benchmark.json').read_text(encoding='utf8'))
+                iw=json.loads((folder/'installed-workflow.json').read_text(encoding='utf8'))
+                assert br['native_sha256']==iw['native_sha256'] and br['environment']['source_tree_sha256']==iw['source_tree_sha256'] and br['environment']['git_revision']==COMMIT
+                assert br['blocks']==64 and br['objects']==10000 and br['verified'] and br['gpu_bytes']==65536 and br['peak_gpu_bytes']&lt;=1024*1024 and br['main_mask_gpu_bytes']==br['catalog_inspected']==br['ui_overflow']==0
+                assert br['rendered_color_samples']==6241
+                entry['gui_pixel_stream_read_benchmark']=br
+    
+                bg=json.loads((folder/'gui-pixel-stream-benchmark.json').read_text(encoding='utf8'))
+                installed=json.loads((folder/'installed-workflow.json').read_text(encoding='utf8'))
+                assert bg['native_sha256']==installed['native_sha256'] and bg['environment']['source_tree_sha256']==installed['source_tree_sha256'] and bg['environment']['git_revision']==COMMIT
+                assert bg['blocks']==64 and bg['objects']==10000 and bg['catalog_max_step']&lt;=1024 and bg['gpu_bytes']==bg['peak_gpu_bytes']==0 and bg['ui_overflow']==0
+                assert bg['estimated_producer_work_bytes']&lt;=8*1024*1024 and bg['max_block_array_bytes']==147456
+                entry['gui_pixel_stream_benchmark']=bg
+    
+    
+                window=json.loads((folder/'gui-pixel-window-benchmark.json').read_text(encoding='utf8'))
+                wf=json.loads((folder/'installed-workflow.json').read_text(encoding='utf8'))
+                assert window['native_sha256']==wf['native_sha256'] and window['environment']['source_tree_sha256']==wf['source_tree_sha256']
+                assert window['environment']['git_revision']==COMMIT and window['objects']==10000 and window['windowed'] and window['estimated_work_bytes']&lt;=8*1024*1024
+                assert window['gpu_bytes']==window['mask_width']*window['mask_height']*4 and window['mask_width']&lt;1024 and window['mask_height']&lt;1024 and window['ui_overflow']==0
+                entry['gui_pixel_window_benchmark']=window
+    
+                retention=json.loads((folder/'gui-pixel-archive-benchmark.json').read_text(encoding='utf8'))
+                assert retention['objects']==10000 and retention['size']==1024 and retention['catalog_max_step']&lt;=1024 and retention['record_catalog_max_step']&lt;=1024 and retention['gpu_bytes']==4194304 and retention['ui_overflow']==0
+                entry['gui_pixel_archive_benchmark']=retention
+    
+                contour_gui=json.loads((folder/'gui-pixel-contour-benchmark.json').read_text(encoding='utf8'))
+                assert contour_gui['native_sha256']==json.loads((folder/'installed-workflow.json').read_text(encoding='utf8'))['native_sha256']
+                assert contour_gui['objects']==10000 and contour_gui['polygon_parts']==1024 and contour_gui['gpu_bytes']==0 and contour_gui['peak_gpu_bytes']==1048576 and contour_gui['catalog_max_step']&lt;=1024 and contour_gui['ui_overflow']==0
+                entry['gui_pixel_contour_benchmark']=contour_gui
+    
+    
+            for suffix,count in [('test_pixel_archives',51),('test_pixel_archive_portable',4),('test_pixel_prediction_windows',22),('test_pixel_stream',24),('test_pixel_stream_file',38),('test_pixel_stream_file_portable',2),('test_pixel_stream_export_job',14),('test_pixel_stream_read_job',21),('test_pixel_stream_cli',46),('test_pixel_stream_records',34),('test_pixel_input_digest',25),('test_project_pixel_batch',25),('test_tma',23),('test_tiff_reader',63),('test_tiff_project',7 if args.ndpi_readers else 6),('test_tiff_cli',10),('test_raw_analysis',21),('test_raw_records',12),('test_raw_tables',3),('test_raw_batch',4)]:
+                cases=[t for t in ET.parse(folder/'python-tests.xml').getroot().iter('testcase') if t.get('classname','').endswith(suffix)]
+&gt;               assert len(cases)==count and all(not any(t.find(k) is not None for k in ['skipped','failure','error']) for t in cases), (job['name'], suffix, count, len(cases), [(t.get('name'),[k for k in ['skipped','failure','error'] if t.find(k) is not None]) for t in cases if any(t.find(k) is not None for k in ['skipped','failure','error'])])
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               AssertionError: ('source-bound fixture', 'test_pixel_stream_records', 34, 35, [])
+
+tools\ci\accept_unified_engine.py:267: AssertionError</failure></testcase><testcase classname="tests.test_engine_successor_audit" name="test_legacy_record_gate_refuses_incomplete_migrations[old_count]" time="0.049"><failure message="Failed: DID NOT RAISE AssertionError">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4338/test_legacy_record_gate_refuse0')
+change = 'old_count'
+
+    @pytest.mark.parametrize('change',['old_count','missing_version13','old_family','duplicate_identity',
+                                       'failed_version13','skipped_version13','error_version13'])
+    def test_legacy_record_gate_refuses_incomplete_migrations(tmp_path,change):
+        root,cases=legacy_record_fixture(tmp_path)
+        final=next(c for c in cases if c.get('name').endswith('[13]'))
+        if change=='old_count':root.remove(cases[-1])
+        elif change=='missing_version13':final.set('name','replacement_case')
+        elif change=='old_family':
+            for case in cases:case.set('name',case.get('name').replace('to_schema14','to_schema13'))
+        elif change=='duplicate_identity':cases[-1].set('name',cases[-2].get('name'))
+        else:ET.SubElement(final,{'failed_version13':'failure','skipped_version13':'skipped','error_version13':'error'}[change])
+&gt;       with pytest.raises(AssertionError):check_legacy_record_guard(tmp_path,root)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE AssertionError
+
+tests\test_engine_successor_audit.py:163: Failed</failure></testcase><testcase classname="tests.test_engine_successor_audit" name="test_legacy_record_gate_refuses_incomplete_migrations[missing_version13]" time="0.051" /><testcase classname="tests.test_engine_successor_audit" name="test_legacy_record_gate_refuses_incomplete_migrations[old_family]" time="0.043" /><testcase classname="tests.test_engine_successor_audit" name="test_legacy_record_gate_refuses_incomplete_migrations[duplicate_identity]" time="0.045" /><testcase classname="tests.test_engine_successor_audit" name="test_legacy_record_gate_refuses_incomplete_migrations[failed_version13]" time="0.045" /><testcase classname="tests.test_engine_successor_audit" name="test_legacy_record_gate_refuses_incomplete_migrations[skipped_version13]" time="0.050" /><testcase classname="tests.test_engine_successor_audit" name="test_legacy_record_gate_refuses_incomplete_migrations[error_version13]" time="0.049" /></testsuite></testsuites>

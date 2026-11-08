@@ -1,4 +1,6 @@
 #include "qupathxx/project_recovery.hpp"
+#include "filesystem_access.hpp"
+#include "ascii_case.hpp"
 #include <algorithm>
 #include <chrono>
 #include <cctype>
@@ -35,6 +37,7 @@
 namespace qpx {
 namespace {
 namespace fs=std::filesystem;
+using detail::access_path;
 std::string token() {
     std::random_device random; std::string result; constexpr char hex[]="0123456789abcdef";
     for(int i=0;i<32;++i) result.push_back(hex[random()&15]); return result;
@@ -45,9 +48,9 @@ fs::path location(const std::string& value) {
 }
 bool same_path(const fs::path& a,const fs::path& b) {
     if(a==b) return true;
-    std::error_code error; auto equivalent=fs::equivalent(a,b,error); if(!error) return equivalent;
-    auto left=fs::weakly_canonical(a,error); if(error) left=a.lexically_normal();
-    error.clear(); auto right=fs::weakly_canonical(b,error); if(error) right=b.lexically_normal();
+    std::error_code error; auto equivalent=fs::equivalent(access_path(a,true),access_path(b,true),error); if(!error) return equivalent;
+    auto left=fs::weakly_canonical(access_path(a,true),error); if(error) left=access_path(a,true);
+    error.clear(); auto right=fs::weakly_canonical(access_path(b,true),error); if(error) right=access_path(b,true);
 #ifdef _WIN32
     return CompareStringOrdinal(left.c_str(),-1,right.c_str(),-1,TRUE)==CSTR_EQUAL;
 #else
@@ -64,7 +67,7 @@ bool name_prefix(const fs::path& path,const std::string& prefix) {
 }
 bool recovery_extension(const fs::path& path) {
     auto ext=path.extension().u8string();
-    std::transform(ext.begin(),ext.end(),ext.begin(),[](unsigned char c){return static_cast<char>(std::tolower(c));});
+    detail::ascii_lower_in_place(ext);
     return ext==".qpxrecover";
 }
 fs::path cache_directory() {
@@ -85,7 +88,7 @@ public:
     explicit FileLock(const fs::path& path,bool create=true) {
         auto lock=path; lock+=fs::u8path(".lock");
 #ifdef _WIN32
-        if(_wsopen_s(&fd_,lock.c_str(),(create?_O_CREAT:0)|_O_RDWR|_O_BINARY|_O_NOINHERIT,_SH_DENYRW,_S_IREAD|_S_IWRITE)!=0) fd_=-1;
+        if(_wsopen_s(&fd_,access_path(lock,true).c_str(),(create?_O_CREAT:0)|_O_RDWR|_O_BINARY|_O_NOINHERIT,_SH_DENYRW,_S_IREAD|_S_IWRITE)!=0) fd_=-1;
 #else
         fd_=::open(lock.c_str(),(create?O_CREAT:0)|O_RDWR|O_CLOEXEC,0600);
         if(fd_>=0 && ::flock(fd_,LOCK_EX|LOCK_NB)!=0) { ::close(fd_); fd_=-1; }
@@ -103,13 +106,13 @@ public:
 fs::path session_path(const fs::path& destination) { auto result=destination; result+=fs::u8path(".session"); return result; }
 std::string lease_marker(const RecoveryInfo& info) {return "qupathxx recovery lease v1\n"+info.identity+'\n'+info.session+'\n';}
 std::string unmanaged_marker(const RecoveryInfo& info) {return "qupathxx recovery unmanaged v1\n"+info.identity+'\n'+info.session+'\n';}
-fs::path lease_key(const RecoveryInfo& info) {return cache_directory()/"sessions"/(info.identity+"-"+info.session);}
+fs::path lease_key(const RecoveryInfo& info) {return access_path(cache_directory()/"sessions"/(info.identity+"-"+info.session),true);}
 bool publish(const fs::path& source,const fs::path& destination,const std::atomic<bool>& cancelled) {
 #ifdef _WIN32
     auto deadline=std::chrono::steady_clock::now()+std::chrono::milliseconds(250);
     for(;;) {
         if(cancelled.load()) return false;
-        if(MoveFileExW(source.c_str(),destination.c_str(),MOVEFILE_REPLACE_EXISTING|MOVEFILE_WRITE_THROUGH)) break;
+        if(MoveFileExW(access_path(source,true).c_str(),access_path(destination,true).c_str(),MOVEFILE_REPLACE_EXISTING|MOVEFILE_WRITE_THROUGH)) break;
         auto error=GetLastError();
         if((error!=ERROR_SHARING_VIOLATION && error!=ERROR_LOCK_VIOLATION) || std::chrono::steady_clock::now()>=deadline)
             throw std::runtime_error("recovery atomic replacement failed");
@@ -129,7 +132,10 @@ struct WorkDirectory {
     fs::path path,file,marker;
     explicit WorkDirectory(const fs::path& destination,const RecoveryInfo& info) {
         const auto id=token();
-        path=destination; path+=fs::u8path(".work-"+id);
+        // The derived work/snapshot/sidecar paths may exceed MAX_PATH even
+        // when the public checkpoint path itself is short enough. Keep this
+        // prefix private; info.path and the logical image base stay unchanged.
+        path=access_path(destination,true); path+=fs::u8path(".work-"+id);
         if(!fs::create_directory(path)) throw std::runtime_error("cannot create owned recovery work directory");
         file=path/"snapshot.qpxproj";
         marker=path/"owner";
@@ -156,7 +162,7 @@ struct WorkDirectory {
 };
 bool plain_entry(const fs::path& path,bool directory) {
 #ifdef _WIN32
-    const auto attributes=GetFileAttributesW(path.c_str());
+    const auto attributes=GetFileAttributesW(access_path(path).c_str());
     if(attributes==INVALID_FILE_ATTRIBUTES || (attributes&(FILE_ATTRIBUTE_REPARSE_POINT|FILE_ATTRIBUTE_DEVICE))) return false;
     return static_cast<bool>(attributes&FILE_ATTRIBUTE_DIRECTORY)==directory;
 #else
@@ -223,13 +229,13 @@ public:
     }
 };
 std::string read_session_marker(const fs::path& path) {
-    std::ifstream input(path,std::ios::binary); std::array<char,256> data{};
+    std::ifstream input(access_path(path,true),std::ios::binary); std::array<char,256> data{};
     input.read(data.data(),data.size());
     if(!input.eof()) throw std::runtime_error("invalid recovery session marker");
     return std::string(data.data(),static_cast<std::size_t>(input.gcount()));
 }
 void write_session_marker(const fs::path& destination,const RecoveryInfo& info) {
-    const auto marker=session_path(destination);
+    const auto marker=access_path(session_path(destination),true);
     std::error_code error; const auto status=fs::symlink_status(marker,error);
     if(error && error!=std::errc::no_such_file_or_directory) throw fs::filesystem_error("cannot inspect recovery session marker",marker,error);
     if(fs::exists(status)) {
@@ -250,7 +256,7 @@ void write_session_marker(const fs::path& destination,const RecoveryInfo& info) 
     if(!output) throw std::runtime_error("cannot write recovery session marker");
 }
 void unmanage_session_marker(const fs::path& destination,const RecoveryInfo& info) {
-    const auto marker=session_path(destination);
+    const auto marker=access_path(session_path(destination),true);
     const auto expected=lease_marker(info);
     if(!fs::exists(marker) || !plain_entry(marker,false) || fs::file_size(marker)!=expected.size() || read_session_marker(marker)!=expected) return;
     // A controller can return to a previous project after losing its lease.
@@ -297,7 +303,7 @@ bool same_scope(const RecoveryInfo& a,const RecoveryInfo& b) {
 void rescue_work(const fs::path& source,const fs::path& destination) {
     // No replacement: a preexisting rescue (including a link) always wins.
 #ifdef _WIN32
-    if(!MoveFileExW(source.c_str(),destination.c_str(),MOVEFILE_WRITE_THROUGH))
+    if(!MoveFileExW(access_path(source,true).c_str(),access_path(destination,true).c_str(),MOVEFILE_WRITE_THROUGH))
         throw std::runtime_error("cannot publish rescued recovery without replacing an existing file");
 #else
     if(::link(source.c_str(),destination.c_str())!=0)
@@ -316,14 +322,14 @@ void check_owner(const std::string& path,const std::string& identity,const std::
         throw std::invalid_argument("recovery destination belongs to another project, base path or session");
 }
 void erase_owned(const std::string& path,const std::string& identity,const std::string& session,const std::string& base) {
-    if(path.empty() || !fs::exists(location(path))) return;
+    if(path.empty() || !fs::exists(access_path(location(path),true))) return;
     FileLock lock(location(path)); check_owner(path,identity,session,base);
-    if(!fs::remove(location(path))) throw std::runtime_error("recovery removal failed");
+    if(!fs::remove(access_path(location(path),true))) throw std::runtime_error("recovery removal failed");
 }
 std::string fingerprint(const fs::path& path) {
     // Streaming FNV-1a plus byte count is a consistency stamp for cooperating
     // writers, not a cryptographic/tamper-detection or authorization boundary.
-    std::ifstream input(path,std::ios::binary);
+    std::ifstream input(access_path(path,true),std::ios::binary);
     if(!input) throw std::runtime_error("cannot read recovery checkpoint for review");
     std::array<char,65536> buffer{};
     std::uint64_t hash=14695981039346656037ull,bytes=0;
@@ -388,8 +394,8 @@ bool ProjectAutosave::request(const Project& project,const std::string& requeste
     auto path=destination.u8string();
     Impl::Stamp stamp{project.instance_identity_,project.identity_,project.path_,project.revision_,project.generation_,{}};
     for(const auto& [id,e]:project.entries_) stamp.documents.emplace(id,e.document->revision());
-    if(impl_->last && *impl_->last==stamp && impl_->stats.path==path && fs::exists(destination) &&
-       fs::file_size(destination)==impl_->file_bytes && fs::last_write_time(destination)==impl_->modified) return false;
+    if(impl_->last && *impl_->last==stamp && impl_->stats.path==path && fs::exists(access_path(destination,true)) &&
+       fs::file_size(access_path(destination,true))==impl_->file_bytes && fs::last_write_time(access_path(destination,true))==impl_->modified) return false;
     auto start=std::chrono::steady_clock::now(); std::size_t bytes=0;
     auto snapshot=project.snapshot_for_save(impl_->budget,bytes);
     RecoveryInfo info; info.path=path; info.identity=project.identity_; info.session=impl_->session;
@@ -405,7 +411,7 @@ bool ProjectAutosave::request(const Project& project,const std::string& requeste
     auto future=std::async(std::launch::async,[snapshot=std::move(snapshot),info,destination,cancelled,progress,create_cache,lease=std::move(lease),retention]() mutable {
         Impl::Result result; auto start=std::chrono::steady_clock::now();
         try {
-            if(create_cache) fs::create_directories(destination.parent_path());
+            if(create_cache) fs::create_directories(access_path(destination.parent_path(),true));
             if(!lease) {
                 try {
                     const auto key=lease_key(info); fs::create_directories(key.parent_path());
@@ -416,7 +422,7 @@ bool ProjectAutosave::request(const Project& project,const std::string& requeste
             }
             {
                 FileLock lock(destination);
-                if(fs::exists(destination)) check_owner(info.path,info.identity,info.session,info.base_path);
+                if(fs::exists(access_path(destination,true))) check_owner(info.path,info.identity,info.session,info.base_path);
                 if(!lease) unmanage_session_marker(destination,info);
                 {
                     WorkDirectory work(destination,info);
@@ -428,7 +434,7 @@ bool ProjectAutosave::request(const Project& project,const std::string& requeste
                         if(result.published) {
                             progress->published.store(true);
                             result.lease=lease;
-                            result.file_bytes=fs::file_size(destination); result.modified=fs::last_write_time(destination);
+                            result.file_bytes=fs::file_size(access_path(destination,true)); result.modified=fs::last_write_time(access_path(destination,true));
                             if(lease) {
                                 try {write_session_marker(destination,info);} catch(const std::exception& e) {result.retention.error=e.what();}
                             }
@@ -541,7 +547,7 @@ void Project::discard_recovery(const std::string& path,const std::string& identi
     if(!has_project()) throw std::runtime_error("project recovery requires QUPATHXX_BUILD_PROJECT=ON");
     auto target=location(path); FileLock lock(target); auto info=inspect_recovery(target.u8string());
     if(info.identity!=identity) throw std::invalid_argument("recovery project identity does not match");
-    if(!fs::remove(target)) throw std::runtime_error("recovery removal failed");
+    if(!fs::remove(access_path(target,true))) throw std::runtime_error("recovery removal failed");
 }
 std::size_t Project::cleanup_recovery_work(const std::string& path) {
     if(!has_project()) throw std::runtime_error("project recovery requires QUPATHXX_BUILD_PROJECT=ON");
@@ -564,7 +570,7 @@ std::size_t Project::cleanup_recovery_work_impl(const std::string& path,std::siz
     const auto destination=location(path);
     const auto prefix=destination.filename().u8string()+".work-";
     std::size_t cleaned=0;
-    for(const auto& item:fs::directory_iterator(destination.parent_path())) {
+    for(const auto& item:fs::directory_iterator(access_path(destination.parent_path(),true))) {
         if((limit && cleaned>=limit) || (cancelled && cancelled->load())) break;
         const auto name=item.path().filename().u8string();
         const auto split=name.rfind(".work-");
@@ -639,7 +645,7 @@ RecoveryRetentionStats Project::prune_recoveries_impl(const std::string& current
     const auto age_ms=static_cast<std::int64_t>(policy.max_age_days*86400000.);
     const auto now_ms=std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
     const auto file_cutoff=fs::file_time_type::clock::now()-std::chrono::duration_cast<fs::file_time_type::duration>(std::chrono::duration<double>(policy.max_age_days*86400.));
-    const bool anchor_has_aliases=fs::hard_link_count(target)>1;
+    const bool anchor_has_aliases=fs::hard_link_count(access_path(target,true))>1;
     struct Candidate {RecoveryInfo info; fs::file_time_type modified; std::shared_ptr<FileLock> lease;};
     std::vector<RecoveryInfo> newest;
     std::vector<Candidate> candidates;
@@ -662,17 +668,18 @@ RecoveryRetentionStats Project::prune_recoveries_impl(const std::string& current
             if(candidates.size()>policy.max_deletions) {std::pop_heap(candidates.begin(),candidates.end(),older); candidates.pop_back();}
         } catch(const std::exception&) { /* Unknown, active or unreadable files stay protected. */ }
     };
-    for(const auto& item:fs::directory_iterator(target.parent_path())) {
+    for(const auto& item:fs::directory_iterator(access_path(target.parent_path(),true))) {
+        const auto logical=target.parent_path()/item.path().filename();
         if(stopped()) break;
         if(!recovery_extension(item.path()) || !plain_entry(item.path(),false)) continue;
         ++stats.inspected; if(progress) progress->inspected.store(stats.inspected);
         TimedSection metadata(stats.metadata_ms);
         try {
-            auto info=inspect_recovery_header(item.path().u8string(),cancelled);
+            auto info=inspect_recovery_header(logical.u8string(),cancelled);
             if(!same_scope(info)) continue;
             newest.push_back(info); std::push_heap(newest.begin(),newest.end(),newer);
             if(newest.size()>policy.keep_latest) {std::pop_heap(newest.begin(),newest.end(),newer); newest.pop_back();}
-            if(same_name(item.path(),target) || (anchor_has_aliases && same_path(item.path(),target)) || info.created_unix_ms>now_ms-age_ms) continue;
+            if(same_name(logical,target) || (anchor_has_aliases && same_path(logical,target)) || info.created_unix_ms>now_ms-age_ms) continue;
             const auto modified=fs::last_write_time(item.path()); if(modified>file_cutoff) continue;
             metadata.stop(); TimedSection ownership(stats.ownership_ms);
             if(pending.size()>=MarkerReaders::capacity) consume();
@@ -706,10 +713,10 @@ RecoveryRetentionStats Project::prune_recoveries_impl(const std::string& current
                 if(!plain_entry(path,false)) continue;
                 const auto info=inspect_recovery_header(candidate.info.path,cancelled);
                 if(!same_scope(info) || info.session!=candidate.info.session || info.created_unix_ms!=candidate.info.created_unix_ms ||
-                   info.base_generation!=candidate.info.base_generation || fs::last_write_time(path)!=candidate.modified) continue;
+                   info.base_generation!=candidate.info.base_generation || fs::last_write_time(access_path(path,true))!=candidate.modified) continue;
                 if(!plain_entry(session_path(path),false) || read_session_marker(session_path(path))!=lease_marker(info)) continue;
                 if(stopped()) break;
-                if(!fs::remove(path)) throw std::runtime_error("recovery retention removal failed");
+                if(!fs::remove(access_path(path,true))) throw std::runtime_error("recovery retention removal failed");
                 ++stats.removed; if(progress) progress->removed.store(stats.removed);
             } catch(const std::exception& e) {if(!stopped()) {++stats.failed; if(stats.error.empty()) stats.error=e.what();}}
         }
@@ -729,7 +736,7 @@ void Project::discard_recovery_checked(const RecoveryInfo& reviewed) {
     const auto current=inspect_recovery(target.u8string());
     if(current.identity!=reviewed.identity || current.session!=reviewed.session || fingerprint(target)!=reviewed.fingerprint)
         throw std::runtime_error("recovery checkpoint changed since review; review it again before deleting");
-    if(!fs::remove(target)) throw std::runtime_error("recovery removal failed");
+    if(!fs::remove(access_path(target,true))) throw std::runtime_error("recovery removal failed");
 }
 std::vector<RecoveryInfo> Project::find_recoveries(const std::string& base,std::size_t limit) {
     if(!has_project()) throw std::runtime_error("project recovery requires QUPATHXX_BUILD_PROJECT=ON");
@@ -741,18 +748,19 @@ std::vector<RecoveryInfo> Project::find_recoveries(const std::string& base,std::
     if(!base.empty()) {
         try {primary=read_save_identity(base);}
         catch(const std::exception&) {
-            std::error_code error; const auto exists=fs::exists(location(base),error);
+            std::error_code error; const auto exists=fs::exists(access_path(location(base),true),error);
             unavailable_status=error || exists?"unreadable":"missing";
         }
     }
     std::vector<RecoveryInfo> result;
     auto better=[](const auto& a,const auto& b){return a.created_unix_ms!=b.created_unix_ms?a.created_unix_ms>b.created_unix_ms:a.path<b.path;};
-    if(!fs::exists(directory)) return result;
-    for(const auto& item:fs::directory_iterator(directory)) {
+    if(!fs::exists(access_path(directory,true))) return result;
+    for(const auto& item:fs::directory_iterator(access_path(directory,true))) {
+        const auto logical=directory/item.path().filename();
         if(!recovery_extension(item.path()) || !item.is_regular_file()) continue;
         RecoveryInfo info;
         try {
-            info=inspect_recovery_header(item.path().u8string());
+            info=inspect_recovery_header(logical.u8string());
             if(base.empty()) {
                 if(!info.base_path.empty()) continue;
                 info.base_status="unsaved";
@@ -770,7 +778,7 @@ std::vector<RecoveryInfo> Project::find_recoveries(const std::string& base,std::
             // An invalid file has no trustworthy identity. Retain the existing
             // filename-prefix error visibility, without claiming association.
             if(!name_prefix(item.path(),prefix)) continue;
-            info.path=item.path().u8string(); info.error=e.what();
+            info.path=logical.u8string(); info.error=e.what();
         }
         result.push_back(std::move(info)); std::push_heap(result.begin(),result.end(),better);
         if(result.size()>limit) { std::pop_heap(result.begin(),result.end(),better); result.pop_back(); }

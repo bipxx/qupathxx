@@ -1,0 +1,79 @@
+{
+  "schema": "qpx.tma-axis-campaign/1",
+  "observed_at_utc": "2026-10-25T21:25:37.938968+00:00",
+  "source": "ad4aa2c8cfeaad652e4dd920f81ba8787eed0384",
+  "frozen_ref": "feature/tma-axis-workflow-196",
+  "preflight_passed": 329,
+  "scientific_source_contract_files": 506,
+  "axis_source_contract_files": 35,
+  "compiler_inputs": 312,
+  "local_compiled_source": "96172f3702ef910593880a9d5412a0b66601a5bf",
+  "local_module_fingerprint": "12de03f213d3084399c8afa7cdcf1090b73c01226e6a8e12065fc0fc06e4fde4",
+  "fresh_frozen_checkout_fingerprint": "2bf9748fe912d6fea5f40ffec2a674cb2078c7c846814a332161670648ea103e",
+  "canonical_compiler_git_blobs_match_local": true,
+  "identity_note": "Raw checkout fingerprints differ; do not relabel the installed source961 module as this frozen source.",
+  "runs": {
+    "engine": 40235207517,
+    "macos": 40235213038,
+    "portable": 40235218333
+  },
+  "exactly_one_dispatch_per_role": true,
+  "full_profiles": true,
+  "required_archives": 11,
+  "platform_campaign_accepted": false,
+  "biological_accepted": false,
+  "release_ready": false,
+  "overall_project_complete": false,
+  "scope": "TMA row/column APIs plus all inherited required engine/Mac/portable workflows. Automatic dearraying research preparation is excluded from this frozen candidate.",
+  "next": "Poll exact recorded handles, verify all11archive sizes/digests/source identities, then run complete frozen-source auditors before promotion. Never redispatch solely because a runner is queued.",
+  "files": {
+    "audit-plan.json": {
+      "bytes": 2898,
+      "sha256": "82d618c080c69137d7f2973973c7d0eb34369dc8d73f91ffb5b882da3b5bd16f"
+    },
+    "dispatch-state.json": {
+      "bytes": 5705,
+      "sha256": "aafc3920c2fc771373e1e5dff4f71eff8b166d5a38226a12ba9a12e97cb91415"
+    },
+    "engine-run.json": {
+      "bytes": 2475,
+      "sha256": "54d0f36b3c2a4e66d01293c6731ff4337c5215a84e3c8e6033f5af9be58c83cf"
+    },
+    "initial-summary.json": {
+      "bytes": 2091,
+      "sha256": "e2b1aa5dda3f6173f5821e1271813069ac37b0a87ad19dedd3a13570475b4151"
+    },
+    "macos-run.json": {
+      "bytes": 1619,
+      "sha256": "e0cfb0e89c97599fb1d5f1cf1b351cc747e88e75d1a18ae619066c784a5ac652"
+    },
+    "portable-run.json": {
+      "bytes": 1340,
+      "sha256": "c3f94dff1df8e442bab2767411a9430d2561913589a1534fe6486dcbe3aa98ce"
+    },
+    "preflight-axis-source-proof.json": {
+      "bytes": 8098,
+      "sha256": "a811699ebb9af8172fd4f870f1f7ba76d023be417e396a43411197815aaadbe0"
+    },
+    "preflight-compiler-inputs.json": {
+      "bytes": 32625,
+      "sha256": "a4f157ca6197a67f6180bb82c2be84b0593298d590132922484015e84eee9fda"
+    },
+    "preflight-report.json": {
+      "bytes": 3396,
+      "sha256": "02bc028956d75266a047788c0d4360fe6106da3c59535a9604939b735e4551c2"
+    },
+    "preflight-scientific-source-proof.json": {
+      "bytes": 122960,
+      "sha256": "a561730974e2a42cc275aaf482e72b84c17e40d2be0ea32b41ed272c81e286d6"
+    },
+    "preflight-tests.log": {
+      "bytes": 427,
+      "sha256": "469155350cbc5846c90fe1ee3a9585c65d257bd62b4667c7296c59dba6a9e53e"
+    },
+    "preflight-tests.xml": {
+      "bytes": 50143,
+      "sha256": "312ad23155afec6af9649b0c5f9d14d739040ed1f6df49ea991d0596204484ba"
+    }
+  }
+}

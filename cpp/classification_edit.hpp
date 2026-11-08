@@ -5,7 +5,9 @@ namespace qpx::detail {
 // enter this history record. Each row alternates its string with the live one.
 struct ClassificationEdit {
     struct Row {std::uint64_t id;std::string alternate;};
+    struct PropertyRow {std::size_t row;std::shared_ptr<const ObjectProperties> alternate;};
     std::vector<Row> rows;
+    std::vector<PropertyRow> property_rows;
     std::vector<std::string> count_keys,class_keys;
     std::vector<std::size_t> expected_counts;
     std::vector<bool> expected_classes;

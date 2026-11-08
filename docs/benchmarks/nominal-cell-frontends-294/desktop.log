@@ -1,0 +1,27 @@
+...........F.........................................                    [100%]
+================================== FAILURES ===================================
+______ test_nominal_desktop_batch_uses_existing_checkpoints_and_resumes _______
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/nominal-cell-frontends-294/desktop-temp/test_nominal_desktop_batch_use0')
+
+    @GUI
+    @pytest.mark.skipif(not q.has_project,reason='requires project storage')
+    def test_nominal_desktop_batch_uses_existing_checkpoints_and_resumes(tmp_path):
+        from test_gui_batch import options as batch_options
+        project,docs,transform,preset,_=cohort()
+        expected=q.ProjectBatchRequest(project,transform,options=preset)
+        ui=batch_options(tmp_path/'results',preset);ui.settle_tiles=True
+        for attempt in range(2):
+            report=q.show(project,frame_limit=40,options=ui)
+            assert report.batch_state=='succeeded' and not report.batch_error
+>           result=report.batch_result;assert result.parameters_sha256==expected.parameters_sha256
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: assert '87f5545a5820...792e776c19b03' == '3ce6fc30b530...87c958f111c1e'
+E             
+E             - 3ce6fc30b5304aacba6c12285883a1c1bbf4c02ca4187e49ccb87c958f111c1e
+E             + 87f5545a58207bad2fe6ec557f6f4b2789cd1e4cf9f72658725792e776c19b03
+
+tests\test_nominal_cell_frontends.py:98: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_nominal_cell_frontends.py::test_nominal_desktop_batch_uses_existing_checkpoints_and_resumes
+1 failed, 52 passed in 17.50s

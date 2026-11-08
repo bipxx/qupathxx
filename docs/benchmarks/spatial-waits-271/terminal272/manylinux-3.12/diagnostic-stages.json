@@ -1,0 +1,973 @@
+{
+  "schema": "qpx.installed-diagnostics/1",
+  "prerequisite": "verified installation",
+  "state": "failed",
+  "stages": [
+    {
+      "name": "python-tests",
+      "requires": [],
+      "state": "passed",
+      "command": [
+        "/__w/qupathxx/qupathxx/build/ci/portable/install/bin/python",
+        "-I",
+        "-m",
+        "pytest",
+        "tests",
+        "-q",
+        "-o",
+        "faulthandler_timeout=60",
+        "--junitxml=/__w/qupathxx/qupathxx/build/ci/portable/python-tests.xml"
+      ],
+      "log": "/__w/qupathxx/qupathxx/build/ci/portable/python-tests.log",
+      "timeout": 2400,
+      "expected_returncode": 0,
+      "seconds": 175.150603639
+    },
+    {
+      "name": "python-junit",
+      "requires": [],
+      "state": "passed",
+      "artifact_from": "python-tests",
+      "seconds": 0.010288230000014664
+    },
+    {
+      "name": "multifile-cohorts",
+      "requires": [
+        "python-junit"
+      ],
+      "state": "passed",
+      "seconds": 0.0069280099999105005
+    },
+    {
+      "name": "raw-classifier-cohorts",
+      "requires": [
+        "python-junit"
+      ],
+      "state": "passed",
+      "seconds": 0.0058122120000234645
+    },
+    {
+      "name": "qupath-cells-body-comparison",
+      "requires": [],
+      "state": "passed",
+      "command": [
+        "/__w/qupathxx/qupathxx/build/ci/portable/install/bin/python",
+        "-I",
+        "/__w/qupathxx/qupathxx/tools/compare_qupath_cells.py",
+        "--cell-algorithm",
+        "log-bodies",
+        "--report",
+        "/__w/qupathxx/qupathxx/build/ci/portable/qupath-cells-body-comparison.json"
+      ],
+      "log": "/__w/qupathxx/qupathxx/build/ci/portable/qupath-cells-body-comparison.log",
+      "timeout": 120,
+      "expected_returncode": 0,
+      "seconds": 1.0191900269999223
+    },
+    {
+      "name": "qupath-cells-sampled-comparison",
+      "requires": [],
+      "state": "passed",
+      "command": [
+        "/__w/qupathxx/qupathxx/build/ci/portable/install/bin/python",
+        "-I",
+        "/__w/qupathxx/qupathxx/tools/compare_qupath_cells.py",
+        "--cell-algorithm",
+        "log-sampled",
+        "--report",
+        "/__w/qupathxx/qupathxx/build/ci/portable/qupath-cells-sampled-comparison.json"
+      ],
+      "log": "/__w/qupathxx/qupathxx/build/ci/portable/qupath-cells-sampled-comparison.log",
+      "timeout": 120,
+      "expected_returncode": 0,
+      "seconds": 1.017065766000087
+    },
+    {
+      "name": "qupath-ndpi-sampled-context0",
+      "requires": [],
+      "state": "passed",
+      "command": [
+        "/__w/qupathxx/qupathxx/build/ci/portable/install/bin/python",
+        "-I",
+        "/__w/qupathxx/qupathxx/tools/compare_qupath_ndpi_cells.py",
+        "--image",
+        "/__w/qupathxx/qupathxx/build/fixtures/CMU-1.ndpi",
+        "--reference",
+        "/__w/qupathxx/qupathxx/tests/fixtures/qupath-ndpi-cells-0.7.0/capture",
+        "--include-sampled",
+        "--context-padding",
+        "0",
+        "--report",
+        "/__w/qupathxx/qupathxx/build/ci/portable/qupath-ndpi-sampled-context0.json"
+      ],
+      "log": "/__w/qupathxx/qupathxx/build/ci/portable/qupath-ndpi-sampled-context0.log",
+      "timeout": 120,
+      "expected_returncode": 0,
+      "seconds": 4.2270168920000515
+    },
+    {
+      "name": "qupath-ndpi-sampled-context32",
+      "requires": [],
+      "state": "passed",
+      "command": [
+        "/__w/qupathxx/qupathxx/build/ci/portable/install/bin/python",
+        "-I",
+        "/__w/qupathxx/qupathxx/tools/compare_qupath_ndpi_cells.py",
+        "--image",
+        "/__w/qupathxx/qupathxx/build/fixtures/CMU-1.ndpi",
+        "--reference",
+        "/__w/qupathxx/qupathxx/tests/fixtures/qupath-ndpi-cells-0.7.0/capture",
+        "--include-sampled",
+        "--context-padding",
+        "32",
+        "--report",
+        "/__w/qupathxx/qupathxx/build/ci/portable/qupath-ndpi-sampled-context32.json"
+      ],
+      "log": "/__w/qupathxx/qupathxx/build/ci/portable/qupath-ndpi-sampled-context32.log",
+      "timeout": 120,
+      "expected_returncode": 0,
+      "seconds": 3.8273110159999533
+    },
+    {
+      "name": "vendor-reader-benchmark",
+      "requires": [],
+      "state": "passed",
+      "command": [
+        "/__w/qupathxx/qupathxx/build/ci/portable/install/bin/python",
+        "-I",
+        "/__w/qupathxx/qupathxx/tools/benchmark_vendor_reader.py",
+        "--slide",
+        "/__w/qupathxx/qupathxx/build/fixtures/CMU-1.svs",
+        "--output",
+        "/__w/qupathxx/qupathxx/build/ci/portable/vendor-reader-benchmark.json"
+      ],
+      "log": "/__w/qupathxx/qupathxx/build/ci/portable/vendor-reader-benchmark.log",
+      "timeout": 120,
+      "expected_returncode": 0,
+      "seconds": 0.6158592350000163
+    },
+    {
+      "name": "ndpi-reader-benchmark",
+      "requires": [],
+      "state": "passed",
+      "command": [
+        "/__w/qupathxx/qupathxx/build/ci/portable/install/bin/python",
+        "-I",
+        "/__w/qupathxx/qupathxx/tools/benchmark_vendor_reader.py",
+        "--slide",
+        "/__w/qupathxx/qupathxx/build/fixtures/CMU-1.ndpi",
+        "--output",
+        "/__w/qupathxx/qupathxx/build/ci/portable/ndpi-reader-benchmark.json"
+      ],
+      "log": "/__w/qupathxx/qupathxx/build/ci/portable/ndpi-reader-benchmark.log",
+      "timeout": 120,
+      "expected_returncode": 0,
+      "seconds": 0.4151497919999656
+    },
+    {
+      "name": "classifier-benchmark",
+      "requires": [],
+      "state": "passed",
+      "command": [
+        "/__w/qupathxx/qupathxx/build/ci/portable/install/bin/python",
+        "-I",
+        "/__w/qupathxx/qupathxx/tools/benchmark_classifier.py",
+        "--output",
+        "/__w/qupathxx/qupathxx/build/ci/portable/classifier-benchmark.json"
+      ],
+      "log": "/__w/qupathxx/qupathxx/build/ci/portable/classifier-benchmark.log",
+      "timeout": 120,
+      "expected_returncode": 0,
+      "seconds": 3.4727395719999095
+    },
+    {
+      "name": "object-classifier-benchmark",
+      "requires": [],
+      "state": "passed",
+      "command": [
+        "/__w/qupathxx/qupathxx/build/ci/portable/install/bin/python",
+        "-I",
+        "/__w/qupathxx/qupathxx/tools/benchmark_object_classifier.py",
+        "--rows",
+        "10000",
+        "--output",
+        "/__w/qupathxx/qupathxx/build/ci/portable/object-classifier-benchmark.json"
+      ],
+      "log": "/__w/qupathxx/qupathxx/build/ci/portable/object-classifier-benchmark.log",
+      "timeout": 120,
+      "expected_returncode": 0,
+      "seconds": 0.1645785819999901
+    },
+    {
+      "name": "classifier-archive-benchmark",
+      "requires": [],
+      "state": "passed",
+      "command": [
+        "/__w/qupathxx/qupathxx/build/ci/portable/install/bin/python",
+        "-I",
+        "/__w/qupathxx/qupathxx/tools/benchmark_classifier_archives.py",
+        "--rows",
+        "10000",
+        "--output",
+        "/__w/qupathxx/qupathxx/build/ci/portable/classifier-archive-benchmark.json"
+      ],
+      "log": "/__w/qupathxx/qupathxx/build/ci/portable/classifier-archive-benchmark.log",
+      "timeout": 120,
+      "expected_returncode": 0,
+      "seconds": 0.26477756999997837
+    },
+    {
+      "name": "pixel-classifier-benchmark",
+      "requires": [],
+      "state": "passed",
+      "command": [
+        "/__w/qupathxx/qupathxx/build/ci/portable/install/bin/python",
+        "-I",
+        "/__w/qupathxx/qupathxx/tools/benchmark_pixel_classifier.py",
+        "--output",
+        "/__w/qupathxx/qupathxx/build/ci/portable/pixel-classifier-benchmark.json"
+      ],
+      "log": "/__w/qupathxx/qupathxx/build/ci/portable/pixel-classifier-benchmark.log",
+      "timeout": 120,
+      "expected_returncode": 0,
+      "seconds": 1.6182452420000573
+    },
+    {
+      "name": "pixel-workflow-benchmark",
+      "requires": [],
+      "state": "passed",
+      "command": [
+        "/__w/qupathxx/qupathxx/build/ci/portable/install/bin/python",
+        "-I",
+        "/__w/qupathxx/qupathxx/tools/benchmark_pixel_workflow.py",
+        "--output",
+        "/__w/qupathxx/qupathxx/build/ci/portable/pixel-workflow-benchmark.json"
+      ],
+      "log": "/__w/qupathxx/qupathxx/build/ci/portable/pixel-workflow-benchmark.log",
+      "timeout": 120,
+      "expected_returncode": 0,
+      "seconds": 1.2672021839999843
+    },
+    {
+      "name": "pixel-stream-benchmark",
+      "requires": [],
+      "state": "passed",
+      "command": [
+        "/__w/qupathxx/qupathxx/build/ci/portable/install/bin/python",
+        "-I",
+        "/__w/qupathxx/qupathxx/tools/benchmark_pixel_stream.py",
+        "--output",
+        "/__w/qupathxx/qupathxx/build/ci/portable/pixel-stream-benchmark.json"
+      ],
+      "log": "/__w/qupathxx/qupathxx/build/ci/portable/pixel-stream-benchmark.log",
+      "timeout": 120,
+      "expected_returncode": 0,
+      "seconds": 2.87157716899992
+    },
+    {
+      "name": "pixel-stream-file-benchmark",
+      "requires": [],
+      "state": "passed",
+      "command": [
+        "/__w/qupathxx/qupathxx/build/ci/portable/install/bin/python",
+        "-I",
+        "/__w/qupathxx/qupathxx/tools/benchmark_pixel_stream_file.py",
+        "--file",
+        "/__w/qupathxx/qupathxx/build/ci/portable/pixel-stream-file.qps",
+        "--output",
+        "/__w/qupathxx/qupathxx/build/ci/portable/pixel-stream-file-benchmark.json"
+      ],
+      "log": "/__w/qupathxx/qupathxx/build/ci/portable/pixel-stream-file-benchmark.log",
+      "timeout": 120,
+      "expected_returncode": 0,
+      "seconds": 3.3240352609998354
+    },
+    {
+      "name": "pixel-stream-read-benchmark",
+      "requires": [
+        "pixel-stream-file-benchmark"
+      ],
+      "state": "passed",
+      "command": [
+        "/__w/qupathxx/qupathxx/build/ci/portable/install/bin/python",
+        "-I",
+        "/__w/qupathxx/qupathxx/tools/benchmark_pixel_stream_read.py",
+        "--file",
+        "/__w/qupathxx/qupathxx/build/ci/portable/pixel-stream-file.qps",
+        "--output",
+        "/__w/qupathxx/qupathxx/build/ci/portable/pixel-stream-read-benchmark.json"
+      ],
+      "log": "/__w/qupathxx/qupathxx/build/ci/portable/pixel-stream-read-benchmark.log",
+      "timeout": 120,
+      "expected_returncode": 0,
+      "seconds": 0.6155571650001548
+    },
+    {
+      "name": "pixel-input-digest-benchmark",
+      "requires": [],
+      "state": "passed",
+      "command": [
+        "/__w/qupathxx/qupathxx/build/ci/portable/install/bin/python",
+        "-I",
+        "/__w/qupathxx/qupathxx/tools/benchmark_pixel_input_digest.py",
+        "--output",
+        "/__w/qupathxx/qupathxx/build/ci/portable/pixel-input-digest-benchmark.json"
+      ],
+      "log": "/__w/qupathxx/qupathxx/build/ci/portable/pixel-input-digest-benchmark.log",
+      "timeout": 120,
+      "expected_returncode": 0,
+      "seconds": 0.9665249490001315
+    },
+    {
+      "name": "project-pixel-batch-benchmark",
+      "requires": [],
+      "state": "passed",
+      "command": [
+        "/__w/qupathxx/qupathxx/build/ci/portable/install/bin/python",
+        "-I",
+        "/__w/qupathxx/qupathxx/tools/benchmark_project_pixel_batch.py",
+        "--work",
+        "/__w/qupathxx/qupathxx/build/ci/portable/project-pixel-batch",
+        "--output",
+        "/__w/qupathxx/qupathxx/build/ci/portable/project-pixel-batch-benchmark.json"
+      ],
+      "log": "/__w/qupathxx/qupathxx/build/ci/portable/project-pixel-batch-benchmark.log",
+      "timeout": 180,
+      "expected_returncode": 0,
+      "seconds": 5.329685418000054
+    },
+    {
+      "name": "pixel-batch-interrupt",
+      "requires": [],
+      "state": "passed",
+      "command": [
+        "/__w/qupathxx/qupathxx/build/ci/portable/install/bin/python",
+        "-I",
+        "/__w/qupathxx/qupathxx/tools/probe_project_pixel_batch_cancel.py",
+        "--work",
+        "/__w/qupathxx/qupathxx/build/ci/portable/pixel-batch-interrupt",
+        "--output",
+        "/__w/qupathxx/qupathxx/build/ci/portable/pixel-batch-interrupt.json"
+      ],
+      "log": "/__w/qupathxx/qupathxx/build/ci/portable/pixel-batch-interrupt.log",
+      "timeout": 90,
+      "expected_returncode": 0,
+      "seconds": 0.36488681299988457
+    },
+    {
+      "name": "tiff-reader-benchmark",
+      "requires": [],
+      "state": "passed",
+      "command": [
+        "/__w/qupathxx/qupathxx/build/ci/portable/install/bin/python",
+        "-I",
+        "/__w/qupathxx/qupathxx/tools/benchmark_tiff_reader.py",
+        "--output",
+        "/__w/qupathxx/qupathxx/build/ci/portable/tiff-reader-benchmark.json"
+      ],
+      "log": "/__w/qupathxx/qupathxx/build/ci/portable/tiff-reader-benchmark.log",
+      "timeout": 120,
+      "expected_returncode": 0,
+      "seconds": 0.8168034610000632
+    },
+    {
+      "name": "raw-records-benchmark",
+      "requires": [],
+      "state": "passed",
+      "command": [
+        "/__w/qupathxx/qupathxx/build/ci/portable/install/bin/python",
+        "-I",
+        "/__w/qupathxx/qupathxx/tools/benchmark_raw_records.py",
+        "--output",
+        "/__w/qupathxx/qupathxx/build/ci/portable/raw-records-benchmark.json"
+      ],
+      "log": "/__w/qupathxx/qupathxx/build/ci/portable/raw-records-benchmark.log",
+      "timeout": 180,
+      "expected_returncode": 0,
+      "seconds": 2.8714709810001295
+    },
+    {
+      "name": "tma-benchmark",
+      "requires": [],
+      "state": "passed",
+      "command": [
+        "/__w/qupathxx/qupathxx/build/ci/portable/install/bin/python",
+        "-I",
+        "/__w/qupathxx/qupathxx/tools/benchmark_tma.py",
+        "--output",
+        "/__w/qupathxx/qupathxx/build/ci/portable/tma-benchmark.json"
+      ],
+      "log": "/__w/qupathxx/qupathxx/build/ci/portable/tma-benchmark.log",
+      "timeout": 120,
+      "expected_returncode": 0,
+      "seconds": 0.2146551879998242
+    },
+    {
+      "name": "pixel-stream-cli-benchmark",
+      "requires": [],
+      "state": "passed",
+      "command": [
+        "/__w/qupathxx/qupathxx/build/ci/portable/install/bin/python",
+        "-I",
+        "/__w/qupathxx/qupathxx/tools/benchmark_pixel_stream_cli.py",
+        "--work",
+        "/__w/qupathxx/qupathxx/build/ci/portable/pixel-stream-cli",
+        "--output",
+        "/__w/qupathxx/qupathxx/build/ci/portable/pixel-stream-cli-benchmark.json"
+      ],
+      "log": "/__w/qupathxx/qupathxx/build/ci/portable/pixel-stream-cli-benchmark.log",
+      "timeout": 120,
+      "expected_returncode": 0,
+      "seconds": 3.5737862690000384
+    },
+    {
+      "name": "pixel-stream-record-benchmark",
+      "requires": [
+        "pixel-stream-file-benchmark"
+      ],
+      "state": "failed",
+      "command": [
+        "/__w/qupathxx/qupathxx/build/ci/portable/install/bin/python",
+        "-I",
+        "/__w/qupathxx/qupathxx/tools/benchmark_pixel_stream_records.py",
+        "--file",
+        "/__w/qupathxx/qupathxx/build/ci/portable/pixel-stream-file.qps",
+        "--project",
+        "/__w/qupathxx/qupathxx/build/ci/portable/pixel-stream-links.qpxproj",
+        "--output",
+        "/__w/qupathxx/qupathxx/build/ci/portable/pixel-stream-record-benchmark.json"
+      ],
+      "log": "/__w/qupathxx/qupathxx/build/ci/portable/pixel-stream-record-benchmark.log",
+      "timeout": 120,
+      "expected_returncode": 0,
+      "error_type": "RuntimeError",
+      "error": "command failed (1); log: /__w/qupathxx/qupathxx/build/ci/portable/pixel-stream-record-benchmark.log",
+      "seconds": 0.4154083799999171
+    },
+    {
+      "name": "pixel-stream-job-benchmark",
+      "requires": [],
+      "state": "passed",
+      "command": [
+        "/__w/qupathxx/qupathxx/build/ci/portable/install/bin/python",
+        "-I",
+        "/__w/qupathxx/qupathxx/tools/benchmark_pixel_stream_file.py",
+        "--job",
+        "--file",
+        "/__w/qupathxx/qupathxx/build/ci/portable/pixel-stream-job.qps",
+        "--output",
+        "/__w/qupathxx/qupathxx/build/ci/portable/pixel-stream-job-benchmark.json"
+      ],
+      "log": "/__w/qupathxx/qupathxx/build/ci/portable/pixel-stream-job-benchmark.log",
+      "timeout": 120,
+      "expected_returncode": 0,
+      "seconds": 3.3212794309999936
+    },
+    {
+      "name": "pixel-archive-benchmark",
+      "requires": [],
+      "state": "passed",
+      "command": [
+        "/__w/qupathxx/qupathxx/build/ci/portable/install/bin/python",
+        "-I",
+        "/__w/qupathxx/qupathxx/tools/benchmark_pixel_archives.py",
+        "--output",
+        "/__w/qupathxx/qupathxx/build/ci/portable/pixel-archive-benchmark.json"
+      ],
+      "log": "/__w/qupathxx/qupathxx/build/ci/portable/pixel-archive-benchmark.log",
+      "timeout": 120,
+      "expected_returncode": 0,
+      "seconds": 0.7664655399998992
+    },
+    {
+      "name": "stubs",
+      "requires": [],
+      "state": "passed",
+      "command": [
+        "/__w/qupathxx/qupathxx/build/ci/portable/install/bin/python",
+        "-I",
+        "/__w/qupathxx/qupathxx/tools/generate_stubs.py",
+        "--check"
+      ],
+      "log": "/__w/qupathxx/qupathxx/build/ci/portable/stubs.log",
+      "timeout": 2400,
+      "expected_returncode": 0,
+      "seconds": 0.31497649900006763
+    },
+    {
+      "name": "typing",
+      "requires": [],
+      "state": "passed",
+      "command": [
+        "/__w/qupathxx/qupathxx/build/ci/portable/install/bin/python",
+        "-I",
+        "-m",
+        "mypy",
+        "--strict",
+        "--no-incremental",
+        "tests/typing/raw_grid_valid.py",
+        "tests/typing/valid_api.py",
+        "tests/typing/hierarchy_valid.py",
+        "tests/typing/grid_cells_valid.py",
+        "examples/live_workflow.py",
+        "examples/region_workflow.py"
+      ],
+      "log": "/__w/qupathxx/qupathxx/build/ci/portable/typing.log",
+      "timeout": 2400,
+      "expected_returncode": 0,
+      "seconds": 3.6235338920000686
+    },
+    {
+      "name": "typing-positive-validation",
+      "requires": [
+        "typing"
+      ],
+      "state": "passed",
+      "seconds": 0.00010083899996971013
+    },
+    {
+      "name": "scientific-grid-typing-negative",
+      "requires": [],
+      "state": "passed",
+      "command": [
+        "/__w/qupathxx/qupathxx/build/ci/portable/install/bin/python",
+        "-I",
+        "-m",
+        "mypy",
+        "--strict",
+        "--no-incremental",
+        "tests/typing/scientific_grid_invalid.py"
+      ],
+      "log": "/__w/qupathxx/qupathxx/build/ci/portable/scientific-grid-typing-negative.log",
+      "timeout": 2400,
+      "expected_returncode": 1,
+      "seconds": 3.5730432979999023
+    },
+    {
+      "name": "scientific-grid-typing-negative-validation",
+      "requires": [
+        "scientific-grid-typing-negative"
+      ],
+      "state": "passed",
+      "seconds": 0.0003848409999136493
+    },
+    {
+      "name": "scientific-channels-typing-negative",
+      "requires": [],
+      "state": "passed",
+      "command": [
+        "/__w/qupathxx/qupathxx/build/ci/portable/install/bin/python",
+        "-I",
+        "-m",
+        "mypy",
+        "--strict",
+        "--no-incremental",
+        "tests/typing/scientific_channels_invalid.py"
+      ],
+      "log": "/__w/qupathxx/qupathxx/build/ci/portable/scientific-channels-typing-negative.log",
+      "timeout": 2400,
+      "expected_returncode": 1,
+      "seconds": 3.624438697999949
+    },
+    {
+      "name": "scientific-channels-typing-negative-validation",
+      "requires": [
+        "scientific-channels-typing-negative"
+      ],
+      "state": "passed",
+      "seconds": 0.0001852170000802289
+    },
+    {
+      "name": "grid-cells-typing-negative",
+      "requires": [],
+      "state": "passed",
+      "command": [
+        "/__w/qupathxx/qupathxx/build/ci/portable/install/bin/python",
+        "-I",
+        "-m",
+        "mypy",
+        "--strict",
+        "--no-incremental",
+        "tests/typing/grid_cells_invalid.py"
+      ],
+      "log": "/__w/qupathxx/qupathxx/build/ci/portable/grid-cells-typing-negative.log",
+      "timeout": 2400,
+      "expected_returncode": 1,
+      "seconds": 3.574154382000188
+    },
+    {
+      "name": "grid-cells-typing-negative-validation",
+      "requires": [
+        "grid-cells-typing-negative"
+      ],
+      "state": "passed",
+      "seconds": 0.00019544699989637593
+    },
+    {
+      "name": "scientific-raw-typing-negative",
+      "requires": [],
+      "state": "passed",
+      "command": [
+        "/__w/qupathxx/qupathxx/build/ci/portable/install/bin/python",
+        "-I",
+        "-m",
+        "mypy",
+        "--strict",
+        "--no-incremental",
+        "tests/typing/raw_grid_invalid.py"
+      ],
+      "log": "/__w/qupathxx/qupathxx/build/ci/portable/scientific-raw-typing-negative.log",
+      "timeout": 2400,
+      "expected_returncode": 1,
+      "seconds": 3.6238274010001987
+    },
+    {
+      "name": "scientific-raw-typing-negative-validation",
+      "requires": [
+        "scientific-raw-typing-negative"
+      ],
+      "state": "passed",
+      "seconds": 0.00017008899999382265
+    },
+    {
+      "name": "tma-axis-typing-negative",
+      "requires": [],
+      "state": "passed",
+      "command": [
+        "/__w/qupathxx/qupathxx/build/ci/portable/install/bin/python",
+        "-I",
+        "-m",
+        "mypy",
+        "--strict",
+        "--no-incremental",
+        "tests/typing/tma_axes_invalid.py"
+      ],
+      "log": "/__w/qupathxx/qupathxx/build/ci/portable/tma-axis-typing-negative.log",
+      "timeout": 2400,
+      "expected_returncode": 1,
+      "seconds": 3.5732443950000743
+    },
+    {
+      "name": "tma-axis-typing-validation",
+      "requires": [
+        "tma-axis-typing-negative"
+      ],
+      "state": "passed",
+      "seconds": 0.00026286299998901086
+    },
+    {
+      "name": "tma-dearray-typing-positive",
+      "requires": [],
+      "state": "passed",
+      "command": [
+        "/__w/qupathxx/qupathxx/build/ci/portable/install/bin/python",
+        "-I",
+        "-m",
+        "mypy",
+        "--strict",
+        "--no-incremental",
+        "tests/typing/tma_dearray_valid.py"
+      ],
+      "log": "/__w/qupathxx/qupathxx/build/ci/portable/tma-dearray-typing-positive.log",
+      "timeout": 2400,
+      "expected_returncode": 0,
+      "seconds": 3.574382877000062
+    },
+    {
+      "name": "tma-dearray-typing-negative",
+      "requires": [],
+      "state": "passed",
+      "command": [
+        "/__w/qupathxx/qupathxx/build/ci/portable/install/bin/python",
+        "-I",
+        "-m",
+        "mypy",
+        "--strict",
+        "--no-incremental",
+        "tests/typing/tma_dearray_invalid.py"
+      ],
+      "log": "/__w/qupathxx/qupathxx/build/ci/portable/tma-dearray-typing-negative.log",
+      "timeout": 2400,
+      "expected_returncode": 1,
+      "seconds": 3.5734859270000925
+    },
+    {
+      "name": "tma-dearray-units-typing-negative",
+      "requires": [],
+      "state": "passed",
+      "command": [
+        "/__w/qupathxx/qupathxx/build/ci/portable/install/bin/python",
+        "-I",
+        "-m",
+        "mypy",
+        "--strict",
+        "--no-incremental",
+        "tests/typing/tma_dearray_units_invalid.py"
+      ],
+      "log": "/__w/qupathxx/qupathxx/build/ci/portable/tma-dearray-units-typing-negative.log",
+      "timeout": 2400,
+      "expected_returncode": 1,
+      "seconds": 3.5737419500001124
+    },
+    {
+      "name": "dearray-typing-validation",
+      "requires": [
+        "tma-dearray-typing-positive",
+        "tma-dearray-typing-negative",
+        "tma-dearray-units-typing-negative"
+      ],
+      "state": "passed",
+      "seconds": 0.0007053219999306748
+    },
+    {
+      "name": "multifile-ome-typing-positive",
+      "requires": [],
+      "state": "passed",
+      "command": [
+        "/__w/qupathxx/qupathxx/build/ci/portable/install/bin/python",
+        "-I",
+        "-m",
+        "mypy",
+        "--strict",
+        "--no-incremental",
+        "tests/typing/source_companions_valid.py"
+      ],
+      "log": "/__w/qupathxx/qupathxx/build/ci/portable/multifile-ome-typing-positive.log",
+      "timeout": 2400,
+      "expected_returncode": 0,
+      "seconds": 3.573518070000091
+    },
+    {
+      "name": "multifile-ome-typing-negative",
+      "requires": [],
+      "state": "passed",
+      "command": [
+        "/__w/qupathxx/qupathxx/build/ci/portable/install/bin/python",
+        "-I",
+        "-m",
+        "mypy",
+        "--strict",
+        "--no-incremental",
+        "tests/typing/source_companions_invalid.py"
+      ],
+      "log": "/__w/qupathxx/qupathxx/build/ci/portable/multifile-ome-typing-negative.log",
+      "timeout": 2400,
+      "expected_returncode": 1,
+      "seconds": 3.6235740270001315
+    },
+    {
+      "name": "multifile-typing-validation",
+      "requires": [
+        "multifile-ome-typing-positive",
+        "multifile-ome-typing-negative"
+      ],
+      "state": "passed",
+      "seconds": 0.00047150299997156253
+    },
+    {
+      "name": "raw-classifier-typing",
+      "requires": [],
+      "state": "passed",
+      "command": [
+        "/__w/qupathxx/qupathxx/build/ci/portable/install/bin/python",
+        "-I",
+        "-m",
+        "mypy",
+        "--strict",
+        "--no-incremental",
+        "tests/typing/raw_pixel_valid.py",
+        "tests/typing/raw_batch_valid.py",
+        "tests/typing/raw_frontend_valid.py",
+        "examples/raw_classifier_workflow.py",
+        "tests/typing/raw_stream_contour_valid.py",
+        "tests/typing/spatial_valid.py",
+        "tests/typing/document_job_waits_valid.py"
+      ],
+      "log": "/__w/qupathxx/qupathxx/build/ci/portable/raw-classifier-typing.log",
+      "timeout": 2400,
+      "expected_returncode": 0,
+      "seconds": 3.623856827000054
+    },
+    {
+      "name": "raw-classifier-raw_pixel_invalid",
+      "requires": [],
+      "state": "passed",
+      "command": [
+        "/__w/qupathxx/qupathxx/build/ci/portable/install/bin/python",
+        "-I",
+        "-m",
+        "mypy",
+        "--strict",
+        "--no-incremental",
+        "tests/typing/raw_pixel_invalid.py"
+      ],
+      "log": "/__w/qupathxx/qupathxx/build/ci/portable/raw-classifier-raw_pixel_invalid.log",
+      "timeout": 2400,
+      "expected_returncode": 1,
+      "seconds": 3.5760600250000607
+    },
+    {
+      "name": "raw-classifier-raw_batch_invalid",
+      "requires": [],
+      "state": "passed",
+      "command": [
+        "/__w/qupathxx/qupathxx/build/ci/portable/install/bin/python",
+        "-I",
+        "-m",
+        "mypy",
+        "--strict",
+        "--no-incremental",
+        "tests/typing/raw_batch_invalid.py"
+      ],
+      "log": "/__w/qupathxx/qupathxx/build/ci/portable/raw-classifier-raw_batch_invalid.log",
+      "timeout": 2400,
+      "expected_returncode": 1,
+      "seconds": 3.573857590999978
+    },
+    {
+      "name": "raw-classifier-raw_frontend_invalid",
+      "requires": [],
+      "state": "passed",
+      "command": [
+        "/__w/qupathxx/qupathxx/build/ci/portable/install/bin/python",
+        "-I",
+        "-m",
+        "mypy",
+        "--strict",
+        "--no-incremental",
+        "tests/typing/raw_frontend_invalid.py"
+      ],
+      "log": "/__w/qupathxx/qupathxx/build/ci/portable/raw-classifier-raw_frontend_invalid.log",
+      "timeout": 2400,
+      "expected_returncode": 1,
+      "seconds": 3.5734016879998762
+    },
+    {
+      "name": "raw-classifier-raw_stream_contour_invalid",
+      "requires": [],
+      "state": "passed",
+      "command": [
+        "/__w/qupathxx/qupathxx/build/ci/portable/install/bin/python",
+        "-I",
+        "-m",
+        "mypy",
+        "--strict",
+        "--no-incremental",
+        "tests/typing/raw_stream_contour_invalid.py"
+      ],
+      "log": "/__w/qupathxx/qupathxx/build/ci/portable/raw-classifier-raw_stream_contour_invalid.log",
+      "timeout": 2400,
+      "expected_returncode": 1,
+      "seconds": 3.5737107659999765
+    },
+    {
+      "name": "spatial-typing-negative",
+      "requires": [],
+      "state": "passed",
+      "command": [
+        "/__w/qupathxx/qupathxx/build/ci/portable/install/bin/python",
+        "-I",
+        "-m",
+        "mypy",
+        "--strict",
+        "--no-incremental",
+        "tests/typing/spatial_invalid.py"
+      ],
+      "log": "/__w/qupathxx/qupathxx/build/ci/portable/spatial-typing-negative.log",
+      "timeout": 2400,
+      "expected_returncode": 1,
+      "seconds": 3.6233462139998664
+    },
+    {
+      "name": "raw-classifier-typing-validation",
+      "requires": [
+        "raw-classifier-typing",
+        "raw-classifier-raw_pixel_invalid",
+        "raw-classifier-raw_batch_invalid",
+        "raw-classifier-raw_frontend_invalid",
+        "raw-classifier-raw_stream_contour_invalid",
+        "spatial-typing-negative"
+      ],
+      "state": "passed",
+      "seconds": 0.0012950740001542727
+    },
+    {
+      "name": "typing-negative",
+      "requires": [],
+      "state": "passed",
+      "command": [
+        "/__w/qupathxx/qupathxx/build/ci/portable/install/bin/python",
+        "-I",
+        "-m",
+        "mypy",
+        "--strict",
+        "--no-incremental",
+        "tests/typing/invalid_api.py"
+      ],
+      "log": "/__w/qupathxx/qupathxx/build/ci/portable/typing-negative.log",
+      "timeout": 2400,
+      "expected_returncode": 1,
+      "seconds": 3.5752192709999235
+    },
+    {
+      "name": "typing-negative-validation",
+      "requires": [
+        "typing-negative"
+      ],
+      "state": "passed",
+      "seconds": 0.00027525600012268114
+    },
+    {
+      "name": "qptma-typing-negative",
+      "requires": [],
+      "state": "passed",
+      "command": [
+        "/__w/qupathxx/qupathxx/build/ci/portable/install/bin/python",
+        "-I",
+        "-m",
+        "mypy",
+        "--strict",
+        "--no-incremental",
+        "tests/typing/qptma_invalid.py"
+      ],
+      "log": "/__w/qupathxx/qupathxx/build/ci/portable/qptma-typing-negative.log",
+      "timeout": 2400,
+      "expected_returncode": 1,
+      "seconds": 3.623527617000036
+    },
+    {
+      "name": "qptma-typing-validation",
+      "requires": [
+        "qptma-typing-negative"
+      ],
+      "state": "passed",
+      "seconds": 0.00023078200001691584
+    },
+    {
+      "name": "hierarchy-typing-negative",
+      "requires": [],
+      "state": "passed",
+      "command": [
+        "/__w/qupathxx/qupathxx/build/ci/portable/install/bin/python",
+        "-I",
+        "-m",
+        "mypy",
+        "--strict",
+        "--no-incremental",
+        "tests/typing/hierarchy_invalid.py"
+      ],
+      "log": "/__w/qupathxx/qupathxx/build/ci/portable/hierarchy-typing-negative.log",
+      "timeout": 2400,
+      "expected_returncode": 1,
+      "seconds": 3.5240274239999962
+    },
+    {
+      "name": "hierarchy-typing-validation",
+      "requires": [
+        "hierarchy-typing-negative"
+      ],
+      "state": "passed",
+      "seconds": 0.00024543999984416587
+    }
+  ]
+}

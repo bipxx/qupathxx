@@ -1,0 +1,660 @@
+{
+  "engine": "development-archive-fix",
+  "source_revision": "e0178dcb6eb9609238a8c5b499afc840190dc296+dirty",
+  "source_tree_sha256": "15f6a9baf4ce114189cdbdcb00ccc565062e84a670fdb1348eeb393eb7856011",
+  "roi": [
+    29185,
+    2048,
+    512,
+    512
+  ],
+  "context": 0,
+  "warmup_runs": 6,
+  "measured_runs": 6,
+  "one_archive_only": true,
+  "runs": [
+    {
+      "iteration": 0,
+      "warmup": true,
+      "stages": {
+        "open_image": {
+          "wall_ms": 16.994200181216,
+          "cpu_ms": 15.625
+        },
+        "setup_roi": {
+          "wall_ms": 0.0926000066101551,
+          "cpu_ms": 0.0
+        },
+        "read_roi": {
+          "wall_ms": 8.219100069254637,
+          "cpu_ms": 15.625
+        },
+        "roi_statistics": {
+          "wall_ms": 20.41050000116229,
+          "cpu_ms": 15.625
+        },
+        "keep_statistics": {
+          "wall_ms": 0.042300205677747726,
+          "cpu_ms": 0.0
+        },
+        "cell_capture": {
+          "wall_ms": 0.12169964611530304,
+          "cpu_ms": 0.0
+        },
+        "cell_detection": {
+          "wall_ms": 316.89559994265437,
+          "cpu_ms": 437.5
+        },
+        "keep_cells": {
+          "wall_ms": 0.029299873858690262,
+          "cpu_ms": 0.0
+        },
+        "publish_cells": {
+          "wall_ms": 4.416499752551317,
+          "cpu_ms": 15.625
+        },
+        "density": {
+          "wall_ms": 9.369600098580122,
+          "cpu_ms": 0.0
+        }
+      },
+      "cells": 2237,
+      "area_mm2": 0.065274118144,
+      "density": 34270.85747929978,
+      "pixel_width_um": 0.499,
+      "pixel_height_um": 0.499
+    },
+    {
+      "iteration": 1,
+      "warmup": true,
+      "stages": {
+        "open_image": {
+          "wall_ms": 16.55519986525178,
+          "cpu_ms": 15.625
+        },
+        "setup_roi": {
+          "wall_ms": 0.030300114303827286,
+          "cpu_ms": 0.0
+        },
+        "read_roi": {
+          "wall_ms": 7.285499945282936,
+          "cpu_ms": 15.625
+        },
+        "roi_statistics": {
+          "wall_ms": 18.305599689483643,
+          "cpu_ms": 15.625
+        },
+        "keep_statistics": {
+          "wall_ms": 0.028100330382585526,
+          "cpu_ms": 0.0
+        },
+        "cell_capture": {
+          "wall_ms": 0.04620011895895004,
+          "cpu_ms": 0.0
+        },
+        "cell_detection": {
+          "wall_ms": 325.8206001482904,
+          "cpu_ms": 421.875
+        },
+        "keep_cells": {
+          "wall_ms": 0.02310005947947502,
+          "cpu_ms": 0.0
+        },
+        "publish_cells": {
+          "wall_ms": 5.007000174373388,
+          "cpu_ms": 15.625
+        },
+        "density": {
+          "wall_ms": 9.793899953365326,
+          "cpu_ms": 0.0
+        }
+      },
+      "cells": 2237,
+      "area_mm2": 0.065274118144,
+      "density": 34270.85747929978,
+      "pixel_width_um": 0.499,
+      "pixel_height_um": 0.499
+    },
+    {
+      "iteration": 2,
+      "warmup": true,
+      "stages": {
+        "open_image": {
+          "wall_ms": 16.52849977836013,
+          "cpu_ms": 15.625
+        },
+        "setup_roi": {
+          "wall_ms": 0.04280032590031624,
+          "cpu_ms": 0.0
+        },
+        "read_roi": {
+          "wall_ms": 7.820999715477228,
+          "cpu_ms": 0.0
+        },
+        "roi_statistics": {
+          "wall_ms": 17.77660008519888,
+          "cpu_ms": 15.625
+        },
+        "keep_statistics": {
+          "wall_ms": 0.021199695765972137,
+          "cpu_ms": 0.0
+        },
+        "cell_capture": {
+          "wall_ms": 0.05820021033287048,
+          "cpu_ms": 0.0
+        },
+        "cell_detection": {
+          "wall_ms": 312.5392999500036,
+          "cpu_ms": 421.875
+        },
+        "keep_cells": {
+          "wall_ms": 0.01930026337504387,
+          "cpu_ms": 0.0
+        },
+        "publish_cells": {
+          "wall_ms": 4.383500199764967,
+          "cpu_ms": 0.0
+        },
+        "density": {
+          "wall_ms": 8.884400129318237,
+          "cpu_ms": 0.0
+        }
+      },
+      "cells": 2237,
+      "area_mm2": 0.065274118144,
+      "density": 34270.85747929978,
+      "pixel_width_um": 0.499,
+      "pixel_height_um": 0.499
+    },
+    {
+      "iteration": 3,
+      "warmup": true,
+      "stages": {
+        "open_image": {
+          "wall_ms": 20.792999770492315,
+          "cpu_ms": 31.25
+        },
+        "setup_roi": {
+          "wall_ms": 0.03310013562440872,
+          "cpu_ms": 0.0
+        },
+        "read_roi": {
+          "wall_ms": 7.483200170099735,
+          "cpu_ms": 0.0
+        },
+        "roi_statistics": {
+          "wall_ms": 17.85479998216033,
+          "cpu_ms": 31.25
+        },
+        "keep_statistics": {
+          "wall_ms": 0.021900050342082977,
+          "cpu_ms": 0.0
+        },
+        "cell_capture": {
+          "wall_ms": 0.07179984822869301,
+          "cpu_ms": 0.0
+        },
+        "cell_detection": {
+          "wall_ms": 316.4675999432802,
+          "cpu_ms": 437.5
+        },
+        "keep_cells": {
+          "wall_ms": 0.026700086891651154,
+          "cpu_ms": 0.0
+        },
+        "publish_cells": {
+          "wall_ms": 4.60360012948513,
+          "cpu_ms": 15.625
+        },
+        "density": {
+          "wall_ms": 9.179400280117989,
+          "cpu_ms": 0.0
+        }
+      },
+      "cells": 2237,
+      "area_mm2": 0.065274118144,
+      "density": 34270.85747929978,
+      "pixel_width_um": 0.499,
+      "pixel_height_um": 0.499
+    },
+    {
+      "iteration": 4,
+      "warmup": true,
+      "stages": {
+        "open_image": {
+          "wall_ms": 17.148399725556374,
+          "cpu_ms": 15.625
+        },
+        "setup_roi": {
+          "wall_ms": 0.031200237572193146,
+          "cpu_ms": 0.0
+        },
+        "read_roi": {
+          "wall_ms": 7.387199904769659,
+          "cpu_ms": 15.625
+        },
+        "roi_statistics": {
+          "wall_ms": 17.6556003279984,
+          "cpu_ms": 15.625
+        },
+        "keep_statistics": {
+          "wall_ms": 0.019799917936325073,
+          "cpu_ms": 0.0
+        },
+        "cell_capture": {
+          "wall_ms": 0.039200298488140106,
+          "cpu_ms": 0.0
+        },
+        "cell_detection": {
+          "wall_ms": 316.96860026568174,
+          "cpu_ms": 406.25
+        },
+        "keep_cells": {
+          "wall_ms": 0.021400395780801773,
+          "cpu_ms": 0.0
+        },
+        "publish_cells": {
+          "wall_ms": 4.647199995815754,
+          "cpu_ms": 0.0
+        },
+        "density": {
+          "wall_ms": 9.79200005531311,
+          "cpu_ms": 15.625
+        }
+      },
+      "cells": 2237,
+      "area_mm2": 0.065274118144,
+      "density": 34270.85747929978,
+      "pixel_width_um": 0.499,
+      "pixel_height_um": 0.499
+    },
+    {
+      "iteration": 5,
+      "warmup": true,
+      "stages": {
+        "open_image": {
+          "wall_ms": 16.036900226026773,
+          "cpu_ms": 15.625
+        },
+        "setup_roi": {
+          "wall_ms": 0.03700004890561104,
+          "cpu_ms": 0.0
+        },
+        "read_roi": {
+          "wall_ms": 7.798399776220322,
+          "cpu_ms": 0.0
+        },
+        "roi_statistics": {
+          "wall_ms": 18.20140006020665,
+          "cpu_ms": 31.25
+        },
+        "keep_statistics": {
+          "wall_ms": 0.019000377506017685,
+          "cpu_ms": 0.0
+        },
+        "cell_capture": {
+          "wall_ms": 0.03690039739012718,
+          "cpu_ms": 0.0
+        },
+        "cell_detection": {
+          "wall_ms": 313.4633000008762,
+          "cpu_ms": 421.875
+        },
+        "keep_cells": {
+          "wall_ms": 0.02239970490336418,
+          "cpu_ms": 0.0
+        },
+        "publish_cells": {
+          "wall_ms": 4.736999981105328,
+          "cpu_ms": 0.0
+        },
+        "density": {
+          "wall_ms": 10.802799835801125,
+          "cpu_ms": 15.625
+        }
+      },
+      "cells": 2237,
+      "area_mm2": 0.065274118144,
+      "density": 34270.85747929978,
+      "pixel_width_um": 0.499,
+      "pixel_height_um": 0.499
+    },
+    {
+      "iteration": 6,
+      "warmup": false,
+      "stages": {
+        "open_image": {
+          "wall_ms": 15.797799918800592,
+          "cpu_ms": 15.625
+        },
+        "setup_roi": {
+          "wall_ms": 0.029499642550945282,
+          "cpu_ms": 0.0
+        },
+        "read_roi": {
+          "wall_ms": 7.894700393080711,
+          "cpu_ms": 15.625
+        },
+        "roi_statistics": {
+          "wall_ms": 17.784299794584513,
+          "cpu_ms": 0.0
+        },
+        "keep_statistics": {
+          "wall_ms": 0.019399914890527725,
+          "cpu_ms": 0.0
+        },
+        "cell_capture": {
+          "wall_ms": 0.04869978874921799,
+          "cpu_ms": 0.0
+        },
+        "cell_detection": {
+          "wall_ms": 314.6367999725044,
+          "cpu_ms": 421.875
+        },
+        "keep_cells": {
+          "wall_ms": 0.021600164473056793,
+          "cpu_ms": 0.0
+        },
+        "publish_cells": {
+          "wall_ms": 5.742399953305721,
+          "cpu_ms": 15.625
+        },
+        "density": {
+          "wall_ms": 9.926199913024902,
+          "cpu_ms": 0.0
+        }
+      },
+      "cells": 2237,
+      "area_mm2": 0.065274118144,
+      "density": 34270.85747929978,
+      "pixel_width_um": 0.499,
+      "pixel_height_um": 0.499
+    },
+    {
+      "iteration": 7,
+      "warmup": false,
+      "stages": {
+        "open_image": {
+          "wall_ms": 16.11649990081787,
+          "cpu_ms": 31.25
+        },
+        "setup_roi": {
+          "wall_ms": 0.03510015085339546,
+          "cpu_ms": 0.0
+        },
+        "read_roi": {
+          "wall_ms": 7.742600049823523,
+          "cpu_ms": 0.0
+        },
+        "roi_statistics": {
+          "wall_ms": 17.842399887740612,
+          "cpu_ms": 15.625
+        },
+        "keep_statistics": {
+          "wall_ms": 0.025900080800056458,
+          "cpu_ms": 0.0
+        },
+        "cell_capture": {
+          "wall_ms": 0.05499972030520439,
+          "cpu_ms": 0.0
+        },
+        "cell_detection": {
+          "wall_ms": 320.3055998310447,
+          "cpu_ms": 453.125
+        },
+        "keep_cells": {
+          "wall_ms": 0.017799902707338333,
+          "cpu_ms": 0.0
+        },
+        "publish_cells": {
+          "wall_ms": 4.276399966329336,
+          "cpu_ms": 0.0
+        },
+        "density": {
+          "wall_ms": 8.97900015115738,
+          "cpu_ms": 15.625
+        }
+      },
+      "cells": 2237,
+      "area_mm2": 0.065274118144,
+      "density": 34270.85747929978,
+      "pixel_width_um": 0.499,
+      "pixel_height_um": 0.499
+    },
+    {
+      "iteration": 8,
+      "warmup": false,
+      "stages": {
+        "open_image": {
+          "wall_ms": 15.423799864947796,
+          "cpu_ms": 15.625
+        },
+        "setup_roi": {
+          "wall_ms": 0.04669977352023125,
+          "cpu_ms": 0.0
+        },
+        "read_roi": {
+          "wall_ms": 8.43220017850399,
+          "cpu_ms": 15.625
+        },
+        "roi_statistics": {
+          "wall_ms": 17.6919000223279,
+          "cpu_ms": 15.625
+        },
+        "keep_statistics": {
+          "wall_ms": 0.0183996744453907,
+          "cpu_ms": 0.0
+        },
+        "cell_capture": {
+          "wall_ms": 0.05950033664703369,
+          "cpu_ms": 0.0
+        },
+        "cell_detection": {
+          "wall_ms": 324.0454001352191,
+          "cpu_ms": 453.125
+        },
+        "keep_cells": {
+          "wall_ms": 0.027399975806474686,
+          "cpu_ms": 0.0
+        },
+        "publish_cells": {
+          "wall_ms": 5.200199782848358,
+          "cpu_ms": 0.0
+        },
+        "density": {
+          "wall_ms": 9.62810032069683,
+          "cpu_ms": 15.625
+        }
+      },
+      "cells": 2237,
+      "area_mm2": 0.065274118144,
+      "density": 34270.85747929978,
+      "pixel_width_um": 0.499,
+      "pixel_height_um": 0.499
+    },
+    {
+      "iteration": 9,
+      "warmup": false,
+      "stages": {
+        "open_image": {
+          "wall_ms": 17.038299702107906,
+          "cpu_ms": 15.625
+        },
+        "setup_roi": {
+          "wall_ms": 0.12229988351464272,
+          "cpu_ms": 0.0
+        },
+        "read_roi": {
+          "wall_ms": 10.182799771428108,
+          "cpu_ms": 15.625
+        },
+        "roi_statistics": {
+          "wall_ms": 17.65830023214221,
+          "cpu_ms": 15.625
+        },
+        "keep_statistics": {
+          "wall_ms": 0.02259993925690651,
+          "cpu_ms": 0.0
+        },
+        "cell_capture": {
+          "wall_ms": 0.06060022860765457,
+          "cpu_ms": 0.0
+        },
+        "cell_detection": {
+          "wall_ms": 316.7854999192059,
+          "cpu_ms": 421.875
+        },
+        "keep_cells": {
+          "wall_ms": 0.01600012183189392,
+          "cpu_ms": 0.0
+        },
+        "publish_cells": {
+          "wall_ms": 4.134700167924166,
+          "cpu_ms": 0.0
+        },
+        "density": {
+          "wall_ms": 9.45480028167367,
+          "cpu_ms": 0.0
+        }
+      },
+      "cells": 2237,
+      "area_mm2": 0.065274118144,
+      "density": 34270.85747929978,
+      "pixel_width_um": 0.499,
+      "pixel_height_um": 0.499
+    },
+    {
+      "iteration": 10,
+      "warmup": false,
+      "stages": {
+        "open_image": {
+          "wall_ms": 15.207099728286266,
+          "cpu_ms": 15.625
+        },
+        "setup_roi": {
+          "wall_ms": 0.04939967766404152,
+          "cpu_ms": 0.0
+        },
+        "read_roi": {
+          "wall_ms": 7.698399946093559,
+          "cpu_ms": 0.0
+        },
+        "roi_statistics": {
+          "wall_ms": 19.531299825757742,
+          "cpu_ms": 15.625
+        },
+        "keep_statistics": {
+          "wall_ms": 0.03900006413459778,
+          "cpu_ms": 0.0
+        },
+        "cell_capture": {
+          "wall_ms": 0.08619995787739754,
+          "cpu_ms": 0.0
+        },
+        "cell_detection": {
+          "wall_ms": 325.77350037172437,
+          "cpu_ms": 453.125
+        },
+        "keep_cells": {
+          "wall_ms": 0.04970002919435501,
+          "cpu_ms": 0.0
+        },
+        "publish_cells": {
+          "wall_ms": 4.356199875473976,
+          "cpu_ms": 0.0
+        },
+        "density": {
+          "wall_ms": 9.277199860662222,
+          "cpu_ms": 0.0
+        }
+      },
+      "cells": 2237,
+      "area_mm2": 0.065274118144,
+      "density": 34270.85747929978,
+      "pixel_width_um": 0.499,
+      "pixel_height_um": 0.499
+    },
+    {
+      "iteration": 11,
+      "warmup": false,
+      "stages": {
+        "open_image": {
+          "wall_ms": 15.389199834316969,
+          "cpu_ms": 15.625
+        },
+        "setup_roi": {
+          "wall_ms": 0.04979968070983887,
+          "cpu_ms": 0.0
+        },
+        "read_roi": {
+          "wall_ms": 7.582600228488445,
+          "cpu_ms": 0.0
+        },
+        "roi_statistics": {
+          "wall_ms": 17.625499982386827,
+          "cpu_ms": 15.625
+        },
+        "keep_statistics": {
+          "wall_ms": 0.03329990431666374,
+          "cpu_ms": 0.0
+        },
+        "cell_capture": {
+          "wall_ms": 0.06640003994107246,
+          "cpu_ms": 0.0
+        },
+        "cell_detection": {
+          "wall_ms": 320.7594999112189,
+          "cpu_ms": 437.5
+        },
+        "keep_cells": {
+          "wall_ms": 0.02079969272017479,
+          "cpu_ms": 0.0
+        },
+        "publish_cells": {
+          "wall_ms": 4.067800007760525,
+          "cpu_ms": 0.0
+        },
+        "density": {
+          "wall_ms": 9.097499772906303,
+          "cpu_ms": 15.625
+        },
+        "keep_density": {
+          "wall_ms": 0.041999854147434235,
+          "cpu_ms": 0.0
+        },
+        "export_csv": {
+          "wall_ms": 3.8498002104461193,
+          "cpu_ms": 0.0
+        },
+        "save_project": {
+          "wall_ms": 67.57810013368726,
+          "cpu_ms": 46.875
+        },
+        "reopen_project": {
+          "wall_ms": 241.20259983465075,
+          "cpu_ms": 343.75
+        }
+      },
+      "workflow_ms": 696.5441997162998,
+      "cells": 2237,
+      "density": 34270.85747929978,
+      "area_mm2": 0.065274118144,
+      "rgb_sha256": "504789ddaf70cec2634889d42fd7734baeb34e40254165f82dd0f6e66b0db8db",
+      "rgb_sum": [
+        44747809,
+        28815019,
+        39138660
+      ],
+      "mask_sha256": {
+        "nucleus": "796d1dea8c9ed576e9967ce9927c52b0d09d3740715d0373fe5ad9cfc874afe1",
+        "body": "779ba6129d532d38b21de0b4125d412a43cf02727bde07abd3275f24ee2f3484"
+      },
+      "pixel_width_um": 0.499,
+      "pixel_height_um": 0.499,
+      "project_bytes": 6148096,
+      "nucleus_pixels": 116430,
+      "algorithm": "qpx.nominal-affine-rgb-qupath070-cell-bodies/2",
+      "saved_density_sha256": "5076684bc825d234955f45bd965994f0f161ceff12c4ded81a4f71d98fe0ba00"
+    }
+  ]
+}

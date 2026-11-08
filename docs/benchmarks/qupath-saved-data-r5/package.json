@@ -1,0 +1,17 @@
+{
+  "final_product_installs": 1,
+  "wheel_sha256": "17f8ea768c0928afc6a55c59ec5250d6fcdbbb086fc30157dac52cc2fa81c8e5",
+  "public_bindings_unchanged": true,
+  "stub_repackaging": false,
+  "install_argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\qupath-saved-data-r5-env\\Scripts\\python.exe",
+    "-I",
+    "-m",
+    "pip",
+    "install",
+    "--ignore-installed",
+    "--no-index",
+    "--no-deps",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\qupath-saved-data-r5\\wheel\\qupathxx-0.1.0-cp312-cp312-win_amd64.whl"
+  ]
+}

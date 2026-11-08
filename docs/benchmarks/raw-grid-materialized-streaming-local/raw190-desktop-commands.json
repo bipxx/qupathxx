@@ -1,0 +1,16 @@
+{
+  "command": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw190-python-env\\Scripts\\python.exe",
+    "-I",
+    "-m",
+    "pytest",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_raw_grid_frontends.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_gui_raw.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_gui_raw_records.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_gui_batch.py",
+    "-q",
+    "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw190-desktop\\desktop-tests.xml",
+    "--basetemp=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw190-desktop\\tmp"
+  ],
+  "exit": 0
+}

@@ -1,0 +1,293 @@
+{
+  "schema": "qpx.scientific-raw-sampling-native-local/1",
+  "observed_at_utc": "2026-10-25T14:06:12.007264+00:00",
+  "source": "c4a9a21ce306b645279ae1ee67a3bb7611f449a2",
+  "source_tree_sha256": "976fe2deceb8d117c92f93f50f60cce6696499e32eea22808e0754ce22e98605",
+  "compiler_inputs": 305,
+  "source_contract_files": 475,
+  "platforms": {
+    "windows": {
+      "selected_native_suites": 1,
+      "name": "resampling",
+      "identity": "Typed raw sampling engine identity 976fe2deceb8d117c92f93f50f60cce6696499e32eea22808e0754ce22e98605 c4a9a21ce306b645279ae1ee67a3bb7611f449a2",
+      "commands": [
+        {
+          "name": "build",
+          "command": [
+            "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\cmake.exe",
+            "--build",
+            "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package",
+            "--config",
+            "Release",
+            "--target",
+            "qupathxx_resampling_tests",
+            "--parallel",
+            "2"
+          ],
+          "exit": 0,
+          "elapsed_seconds": 18.241742399986833
+        },
+        {
+          "name": "tests",
+          "command": [
+            "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\ctest.exe",
+            "--test-dir",
+            "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package",
+            "-C",
+            "Release",
+            "-R",
+            "^resampling$",
+            "--output-on-failure",
+            "--no-tests=error",
+            "--output-junit",
+            "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw174-windows\\native-tests.xml"
+          ],
+          "exit": 0,
+          "elapsed_seconds": 0.1464618999743834
+        }
+      ]
+    },
+    "linux": {
+      "selected_native_suites": 1,
+      "name": "resampling",
+      "identity": "Typed raw sampling engine identity 976fe2deceb8d117c92f93f50f60cce6696499e32eea22808e0754ce22e98605 c4a9a21ce306b645279ae1ee67a3bb7611f449a2",
+      "commands": [
+        {
+          "name": "configure",
+          "command": [
+            "wsl.exe",
+            "-d",
+            "Ubuntu",
+            "--",
+            "env",
+            "GIT_DIR=/mnt/c/Users/HEQ/Projects/qupathxx/.git/worktrees/scientific-grid-159",
+            "GIT_WORK_TREE=/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159",
+            "GIT_CONFIG_COUNT=1",
+            "GIT_CONFIG_KEY_0=core.autocrlf",
+            "GIT_CONFIG_VALUE_0=true",
+            "cmake",
+            "-S",
+            "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159",
+            "-B",
+            "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw174-linux-native",
+            "-DCMAKE_BUILD_TYPE=Release",
+            "-DQUPATHXX_BUILD_PYTHON=OFF",
+            "-DQUPATHXX_BUILD_GUI=OFF",
+            "-DQUPATHXX_BUILD_TESTS=ON",
+            "-DQUPATHXX_BUILD_PROJECT=OFF",
+            "-DQUPATHXX_BUILD_GEOS=OFF",
+            "-DQUPATHXX_BUILD_TIFF=OFF",
+            "-DQUPATHXX_BUILD_OPENSLIDE=OFF",
+            "-DQUPATHXX_BUILD_CLASSIFIER_TRAINING=OFF"
+          ],
+          "exit": 0,
+          "elapsed_seconds": 61.68838839989621
+        },
+        {
+          "name": "build",
+          "command": [
+            "wsl.exe",
+            "-d",
+            "Ubuntu",
+            "--",
+            "env",
+            "GIT_DIR=/mnt/c/Users/HEQ/Projects/qupathxx/.git/worktrees/scientific-grid-159",
+            "GIT_WORK_TREE=/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159",
+            "GIT_CONFIG_COUNT=1",
+            "GIT_CONFIG_KEY_0=core.autocrlf",
+            "GIT_CONFIG_VALUE_0=true",
+            "cmake",
+            "--build",
+            "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw174-linux-native",
+            "--target",
+            "qupathxx_resampling_tests",
+            "--parallel",
+            "2"
+          ],
+          "exit": 0,
+          "elapsed_seconds": 137.17949179990683
+        },
+        {
+          "name": "tests",
+          "command": [
+            "wsl.exe",
+            "-d",
+            "Ubuntu",
+            "--",
+            "env",
+            "GIT_DIR=/mnt/c/Users/HEQ/Projects/qupathxx/.git/worktrees/scientific-grid-159",
+            "GIT_WORK_TREE=/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159",
+            "GIT_CONFIG_COUNT=1",
+            "GIT_CONFIG_KEY_0=core.autocrlf",
+            "GIT_CONFIG_VALUE_0=true",
+            "ctest",
+            "--test-dir",
+            "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw174-linux-native",
+            "-R",
+            "^resampling$",
+            "--output-on-failure",
+            "--no-tests=error",
+            "--output-junit",
+            "/mnt/c/Users/HEQ/Projects/qupathxx/build/raw174-linux/native-tests.xml"
+          ],
+          "exit": 0,
+          "elapsed_seconds": 0.3291204000124708
+        }
+      ]
+    }
+  },
+  "native_reference_cases": 94,
+  "channel_results_per_platform": 3732,
+  "canonical_hash_pairs_per_platform": 94,
+  "sample_types": 10,
+  "exact_mean_vectors_per_platform": 2891,
+  "exact_mean_orders": [
+    "forward",
+    "reverse"
+  ],
+  "legacy_area_oracle_shapes_per_platform": 2205,
+  "affected_python_passed": 123,
+  "oracle_python_passed_included": 6,
+  "sanitized_scope": "New raw sampler, native fake reader/tests and exact-mean tests instrumented with ASan/UBSan; linked inherited core remains unsanitized, not a full sanitizer campaign",
+  "executable_hashes": {
+    "windows": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package\\Release\\qupathxx_resampling_tests.exe",
+      "bytes": 1867264,
+      "sha256": "8029c46a5dec45a80fffd0f9e25831879851691acfd77334afb552af8779904e"
+    },
+    "linux": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw174-linux-native\\qupathxx_resampling_tests",
+      "bytes": 1255672,
+      "sha256": "637bcf3b23260a29f0f671d84ec90e296a201f41873990297bd32555a5dc44f0"
+    },
+    "sanitizer": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw174-sanitized-reader",
+      "bytes": 8857208,
+      "sha256": "a0a3afe72fb903011b11a37f481b9f6aefff8639674b04820db6e42a399ba3cf"
+    }
+  },
+  "baseline_native_cache_artifacts_retained": 63,
+  "old_installed_module_unchanged": true,
+  "build_cache_state": "Windows core library and resampling executable are current; other cached executables/module remain older and are not relabelled",
+  "scope": "Native bounded level-zero typed grid reader, all dtypes, channel/Z/T selection, per-channel finite/support, canonical source/input hashes and pre-pixel-IO admission using independent fake raw readers",
+  "native_raw_grid_reader_implemented": true,
+  "native_resampling_target_accepted": true,
+  "full_native_suite_accepted": false,
+  "new_tiff_sampling_integration_accepted": false,
+  "raw_analysis_workflow_accepted": false,
+  "installed_python_api_accepted": false,
+  "gui_accepted": false,
+  "platform_campaign_accepted": false,
+  "scientific_acceptance": false,
+  "release_ready": false,
+  "overall_project_complete": false,
+  "remaining": [
+    "Native immutable raw analysis request/result/jobs and versioned retention/replay",
+    "Shared hash-only raw grid input scan for resume",
+    "Python CLI batch ImGui adapters and installed wheel validation",
+    "Actual TIFF-backed sampling and wider vendor/pyramid/tiled admission",
+    "All remaining original M0-M7 criteria"
+  ],
+  "evidence": {
+    "build_raw174_linux.py": {
+      "bytes": 1666,
+      "sha256": "0245f1d9eed403cc8c5455efd095f0a248ae2c449183e8c02d8d2dc348df32d2"
+    },
+    "build_raw174_windows.py": {
+      "bytes": 1253,
+      "sha256": "23418985a081770c08984543c5b192a1269d188309e8b0fdc5a0ecb14e08b4ed"
+    },
+    "compiler-input-proof.json": {
+      "bytes": 71224,
+      "sha256": "52ea486cd906f96feba2cefffa89d396926c1783f7ccf04f492626ba1edad629"
+    },
+    "linux-build.log": {
+      "bytes": 379103,
+      "sha256": "26ddd3f70c915ecab364d6a370f9a5b75997ee92ee8806737009a0d178c9e758"
+    },
+    "linux-build_manifest.hpp": {
+      "bytes": 629,
+      "sha256": "33160da59589244c25725cd038ab0ded935c740550fc1b55a5c56cb08e461c02"
+    },
+    "linux-CMakeCache.txt": {
+      "bytes": 20473,
+      "sha256": "8b8868ec0ef147d2242d9684729d8a63071b772569073925b727efc2eba245ee"
+    },
+    "linux-commands.json": {
+      "bytes": 2386,
+      "sha256": "19d17d27a6488eb32ea283623a7e04532826c23861c4fff7cec921abe521b2b5"
+    },
+    "linux-configure.log": {
+      "bytes": 906,
+      "sha256": "18c71f86bf2a1e82c2d2371e85e432bbae34b26f85ae5c263a7ade32b45fecfb"
+    },
+    "linux-native-tests.xml": {
+      "bytes": 1129,
+      "sha256": "808f6e03edb36c87a2c037924d8806aae7dc0d3ab7795c6e93144aa819fc3dea"
+    },
+    "linux-tests.log": {
+      "bytes": 355,
+      "sha256": "13a6ec63309c39e246a8fed1f702d2f11679dbd56ec6fd129269a8f39553e413"
+    },
+    "python-auditor-tests.xml": {
+      "bytes": 19531,
+      "sha256": "d8b33e05c0bdcfbeb6f44590f39830a6d4cc5f4277f3a74babca156934a40f71"
+    },
+    "record_evidence.py": {
+      "bytes": 6628,
+      "sha256": "3bea387a89b8ad1a26c523e68e97f1015dbf8b32110a35f4c97f2bbbb0decebf"
+    },
+    "retained-source169-artifacts.json": {
+      "bytes": 10994,
+      "sha256": "aa4cd0225f0ca6e1cab5660be6c39910585f05ca1f7b5840514edfca54afeb53"
+    },
+    "sanitize_raw174.py": {
+      "bytes": 1405,
+      "sha256": "f3f9986282c8d0ed9f87fc5604740e422acd440883bbcdf862cbda4f4c8e6ce9"
+    },
+    "sanitizer-build.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sanitizer-commands.json": {
+      "bytes": 1322,
+      "sha256": "36241bf73d4a76683aeb497247de914ffe660486ffe86712ff3ab682faabc066"
+    },
+    "sanitizer-driver.cpp": {
+      "bytes": 151,
+      "sha256": "f7737c8f6702944fc9e3d43c1a1c088f0a1d7c9a7443086de968e922fcce7b17"
+    },
+    "sanitizer-tests.log": {
+      "bytes": 560,
+      "sha256": "07afd459af5b940e7c2e3890101cac02c7f230a7c3de36c340b70c6e3530699a"
+    },
+    "source-proof.json": {
+      "bytes": 115540,
+      "sha256": "58b518dc0ed6213c001c9bd26cd1398d3ca7dc94faafebbf96579e35ac3ea5a1"
+    },
+    "windows-build.log": {
+      "bytes": 1568,
+      "sha256": "59d39371640f393c133d98e2b52b8f4add4d62821959b6517170541259a0b88b"
+    },
+    "windows-build_manifest.hpp": {
+      "bytes": 706,
+      "sha256": "c8ee9fb398498f18357494caef4f59a2ec640e94e434066906d0d03d2068e3ab"
+    },
+    "windows-CMakeCache.txt": {
+      "bytes": 27455,
+      "sha256": "a1947f1f9bdb494410b7d44c2de5a885b3e9f4a218948d65e8eb4db747cfbbcc"
+    },
+    "windows-commands.json": {
+      "bytes": 968,
+      "sha256": "3cf73145dfb57095767425b110fbc636f0d774eb02d504831f9eabea3ccb8868"
+    },
+    "windows-native-tests.xml": {
+      "bytes": 1151,
+      "sha256": "4fccba21e5d3ef8c13804611c020daf81723d49e4d2903d016ff021e77886d93"
+    },
+    "windows-tests.log": {
+      "bytes": 236,
+      "sha256": "a921259c78ba48695bced75f2b900a92027df5f808e1cb80443c35dae22fb88c"
+    }
+  }
+}

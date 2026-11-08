@@ -6,6 +6,7 @@ struct CellTableOptions {
     std::size_t byte_limit=256*1024*1024,snapshot_budget=256*1024*1024;
     bool published_objects=false;
     bool include_capture_calibration=false;
+    bool include_intensity_statistics=false;
     void validate() const;
 };
 class CellTableRequest {
@@ -39,7 +40,7 @@ class CellTableExportJob {
 public:
     CellTableExportJob();~CellTableExportJob();CellTableExportJob(const CellTableExportJob&)=delete;
     bool request(const CellTableRequest&,const std::string& path);
-    CellTableExportStats poll();CellTableExportStats wait();void cancel();bool busy() const;
+    CellTableExportStats poll();CellTableExportStats wait();void await_completion();void cancel();bool busy() const;
 private:
     struct Impl;std::unique_ptr<Impl> impl_;
 };

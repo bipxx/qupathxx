@@ -37,6 +37,71 @@ project opening and snapshot capture precede the batch cancellation loop.
 
 ## Python and C++
 
+For original-source nominal RGB cell detection, set `cell_nominal` and reuse
+the typed detector parameters in `grid_cells`:
+
+```python
+import qupathxx as q
+
+project = q.Project.open("study.qpxproj")
+transform = q.StainTransform([[.65, .70, .29], [.07, .99, .11]])
+sampling = q.NominalCellRoiSampling()
+sampling.downsample = 1.5
+sampling.context_x = sampling.context_y = 0
+options = q.ProjectBatchOptions()
+options.kind = q.ProjectBatchKind.CELLS
+options.cell_nominal = sampling
+parameters = q.GridCellParameters()
+parameters.threshold = .4
+parameters.min_nucleus_area = 16
+parameters.max_nucleus_area = 512
+options.grid_cells = parameters
+request = q.ProjectBatchRequest(project, transform, options=options)
+report = q.run_project_batch(request, "nominal-results")
+```
+
+Supply a stain basis appropriate to the acquisition; this example uses the CLI
+default H&E basis. Request capture copies the options. Each selected ROI
+resolves its own enclosing source rectangle and image calibration through
+`CellRequest.for_nominal_roi`; its fractional ROI geometry remains unchanged.
+`NominalCellRoiSampling` is mutable configuration, while `NominalCellSampling`
+is the readonly fixed-source descriptor returned by the resulting requests and
+records. The two types have different purposes.
+
+The same workflow runs through the existing executable:
+
+```text
+qupathxx_batch study.qpxproj nominal-results --kind cells --cell-algorithm nominal --cell-nominal-downsample 1.5 --cell-nominal-context 0,0 --threshold .4 --grid-min-area 16 --grid-max-area 512
+```
+
+Use `--image ID --object ID` for a single target. Nominal mode shares `--grid-*`
+detector controls, including `--grid-units px|um`; typed flags work before or
+after nominal flags. It rejects area-grid sampling and legacy algorithm, level,
+tile or physical-area flags. Downsample must be a finite positive decimal;
+each context axis is 0..4096 output samples. Defaults are downsample1.5 and
+32 samples of context per axis. The context0 example matches the pinned fixture;
+choose detector context appropriate to the intended workflow.
+
+Sampling and typed detector parameters enter the batch recipe. Existing QCL6
+checkpoints, sampled-input hashing, interruption/resume and typed CSV are reused.
+Changing source pixels or sampling prevents reuse. Inactive legacy thresholds
+are canonicalized only for this new mode, so equivalent Python/CLI requests do
+not miss resume solely because the shared CLI threshold flag also sets unused
+legacy values. Existing recipe identities remain unchanged. See the
+[local batch/CLI receipt](benchmarks/nominal-cell-batch-293/receipt.json).
+
+In ImGui, choose **Cells** in **Project batch**. With **Use image analysis
+settings** enabled, the batch inherits the inspector's nominal sampling and typed
+detector settings. To configure the batch separately, disable that checkbox,
+enable **Nominal RGB cell grid**, and enter its downsample/context and detector
+parameters. Enabling nominal sampling clears the explicit count-grid choice.
+Changing workflows clears the inactive nominal option before capture. The open
+project remains unchanged; use its independent checkpoints to inspect results.
+The [desktop receipt](benchmarks/nominal-cell-frontends-294/receipt.json) covers
+two-image execution and resume. For OD-sum detection, the existing GUI captures
+an identity stain basis; stain-channel detection uses the configured vectors.
+Recipe identity and saved metadata preserve the basis actually used.
+
 ```python
 import qupathxx as q
 
@@ -66,6 +131,10 @@ other Python threads to continue. No Python callback executes on the worker.
 The C++ synchronous API additionally accepts an atomic cancellation flag and
 native per-image callback. An async controller's `cancel()` is nonblocking;
 its destructor cancels and joins. Reports retain strings/counts, not documents.
+If cancellation reaches the worker before output-directory creation, its
+in-memory terminal report has an empty `report_path` and creates no output.
+Once a plain output directory has been established, the worker writes its
+terminal audit after cancellation without publishing another image result.
 
 `ProjectBatchSelection` provides `image_id` and `object_ids`. Default capture
 limits are 10,000 images, 100,000 source objects and 256 MiB logical snapshot

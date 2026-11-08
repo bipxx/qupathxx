@@ -1,0 +1,20 @@
+{
+  "id": 12668394815,
+  "node_id": "MDg6QXJ0aWZhY3QxMjY2ODM5NDgxNQ==",
+  "name": "Linux-sanitize-py3.12",
+  "size_in_bytes": 56704,
+  "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12668394815",
+  "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12668394815/zip",
+  "expired": false,
+  "digest": "sha256:df654e5821ee8d23346efb508869305e1e4e2076a18c10b6dfc6e8e7f294acc4",
+  "created_at": "2026-10-26T16:58:01Z",
+  "updated_at": "2026-10-26T16:58:01Z",
+  "expires_at": "2026-11-09T16:58:00Z",
+  "workflow_run": {
+    "id": 40363168207,
+    "repository_id": 1427753981,
+    "head_repository_id": 1427753981,
+    "head_branch": "feature/raw-classifier-qualification-235",
+    "head_sha": "176ec42b274bb12429cef603b59ce704e12c6e96"
+  }
+}

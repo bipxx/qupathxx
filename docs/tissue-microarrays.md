@@ -3,7 +3,9 @@
 The native document owns one editable TMA grid. Python uses the same C++ model,
 and the ImGui **TMA...** panel (Ctrl+Alt+T) exposes creation, missing flags,
 case IDs, core geometry, labels, translation, per-core batches and metadata CSV.
-This is an initial research workflow, with broader QuPath comparison still open.
+[Row/column corrections](tma-axis-editing.md) reuse the same native model,
+including undo, Python and managed-owner commands. Their local evidence does
+not close broader QuPath/biological comparison or platform qualification.
 
 The [desktop capture](images/tma-workflow.png) shows a synthetic nine-core grid,
 case ID editing and a gray missing core. The separate
@@ -99,14 +101,135 @@ Input and output are bounded to 64 MiB by default, at most 256 MiB.
 The GUI metadata exporter uses a native background task, a captured snapshot and
 atomic new-file publication. Existing files are preserved.
 
-Automatic dearraying, rotated ellipse geometry, case-level aggregation, direct
+## Case summaries
+
+`tma_case_summary_csv(snapshot)` exports one inventory row per case ID. Cores
+without a case ID each receive their own row keyed by `unassigned_core_id`.
+Missing cores count toward inventory but contribute no measurements. Vacant
+slots are reported in the repeated grid context; these grid counts are not
+additive across summary rows.
+
+Supply `table`, `value_column`, and optionally `weight_column` to aggregate
+replicate-core measurements. Every measurement row contributes to the mean;
+this is a pooled row mean, so cores with more rows have more influence.
+The weighted mean is `sum(value * weight) / sum(weight)`. Omitted weights are
+one. Zero total weight leaves the weighted mean blank. Cases without measured
+rows retain blank statistics rather than zeros. Sums, extrema, row counts,
+measured core counts and excluded missing-core row counts are exported together.
+
+```python
+case_csv = q.tma_case_summary_csv(
+    snapshot, measurements_csv, value_column="mean_red", weight_column="pixels"
+)
+```
+
+Input rows select a captured core using `source_object_id` and
+`source_object_revision`, or `object_id` and `object_revision`. Supplied revisions
+must match the snapshot, including rows for missing cores. Tables without
+revisions require `allow_unversioned=True` and are marked unversioned in the
+output. Non-core selectors, malformed records, duplicate headers, nonfinite
+values, negative weights and unrepresentable arithmetic are rejected. The exact
+input bytes are identified by SHA-256. Input and output each have a 64 MiB
+default limit, configurable up to 256 MiB through the native/Python API.
+
+`save_tma_case_summary_csv(snapshot, output_path, input_path="", ...)` performs
+bounded binary file reads, revision-checked aggregation and atomic new-file
+publication in C++. It returns the published byte count and releases the GIL.
+The input file is checked for changes before publication. Existing destinations
+are preserved. ImGui uses this same native file exporter on its worker thread.
+
+The native batch executable provides the equivalent single-image workflow:
+
+```console
+qupathxx_batch --export-tma-cases project.qpxproj cases.csv --image 1
+qupathxx_batch --export-tma-cases project.qpxproj cases.csv --image 1 --measurements core-values.csv --value-column mean_red --weight-column pixels
+```
+
+`--image` can be omitted only for a project containing exactly one image.
+`--allow-unversioned` is explicit and never bypasses supplied stale revisions.
+`--csv-bytes` sets the independent input/output limit (default 64 MiB, maximum
+256 MiB). Success emits a `qpx.tma-case-export/1` JSON record with image,
+snapshot revision, output path and published bytes. Exit codes are 0 for saved,
+1 for data/I/O errors, 2 for malformed arguments, and 130 for cancellation.
+The CLI retains and verifies the project file observation through publication.
+The [initial installed file/CLI validation](benchmarks/tma-case-file-initial-windows.json)
+passes 27 new API/CLI cases, 75 combined TMA cases, 47 native suites and
+packaged typing checks. [Eight minimal native CLI probes](benchmarks/tma-case-file-native-cli.json)
+match the previous API bytes and preserve protected files; that executable
+imports no Python or OpenGL runtime. The [full installed Windows validation](benchmarks/tma-case-file-validation-windows.json)
+passes 2,417 tests (13 optional skips, three unchanged strict legacy scientific
+xfails), and a captured ImGui export saves the expected weighted result without
+UI overflow. The shared exporter/CLI source `083da0c` is promoted after
+[Windows/Linux](benchmarks/tma-case-file-windows-linux.json),
+[both Mac native](benchmarks/tma-case-file-macos.json) and
+[portable consumer](benchmarks/tma-case-file-portable.json) audits.
+The input-loading candidate below has separate pending gates.
+
+The TMA panel's Export tab offers **Summarize replicate cores by case**, an
+optional measurement CSV, value and weight columns, and an explicit unversioned
+input opt-in. A native worker captures the grid and settings, reads at most
+64 MiB, verifies the input file has not changed, and publishes a new output file
+atomically. Cancellation discards unpublished output. Existing files and input
+files are preserved. The [initial local installed validation](benchmarks/tma-case-initial-validation-windows.json)
+passes native, Python and desktop checks. The [final panel-label validation](benchmarks/tma-case-validation-windows.json)
+also passes the full Windows suite. The initial Mac candidate exposed a missing
+C++17 floating parser overload; the [portable signed-decimal replacement](benchmarks/tma-case-portable-parser-controls.json)
+passes the [fresh full Windows validation](benchmarks/tma-case-validation-windows.json)
+and 46 [macOS arm64 native suites](benchmarks/tma-case-parser-arm64.json).
+The case-summary source `914b7e2` is now promoted after
+[Windows/Linux](benchmarks/tma-case-windows-linux.json),
+[both Mac native architectures](benchmarks/tma-case-macos.json) and
+[portable builder/consumer](benchmarks/tma-case-portable.json) audits.
+The shared file API/CLI additions have their own pending gates described above. This does not establish biological or
+upstream equivalence. The [scale profile](benchmarks/tma-case-profile-windows.json)
+retains every trial and verifies counts and statistics independently through
+100,000 measurement rows; its timings are synthetic observations.
+
+Automatic dearraying, rotated ellipse geometry, direct
 QuPath TMA import/export, survival analysis, biological validation and supported
 hardware acceptance remain future work.
 
-The [local validation receipt](benchmarks/tma-local-windows-linux.json) records
+The original grid packet's [local validation receipt](benchmarks/tma-local-windows-linux.json) records
 the installed wheel/source identities, all 1,818 passing Python tests (six
 optional skips), 23 TMA API cases, eight desktop cases, Windows GUI/headless and
 Linux training/minimal/sanitizer results. The [GUI probe](benchmarks/tma-10000-gui-windows.json)
 inspected at most eight catalog slots per frame with zero UI overflow in the
 captured 10,000-core scene. Its timing is a workstation observation, not a
 supported hardware guarantee.
+
+
+## Input loading
+
+The input loader checks the observed regular-file size against the
+CSV budget before opening the data stream, then reserves storage for an admitted
+file. Per-chunk limits and before-publication file-version checks remain active,
+including if the file changes after the initial observation. The table schema,
+statistics and new-file publication contract are unchanged.
+
+A [native regression](benchmarks/tma-case-input-native-windows.json) measured
+1,114,112 read-transfer bytes when rejecting a 2 MiB file under a 1 MiB budget
+before the change, and zero after it. The
+[paired CLI pilot](benchmarks/tma-case-input-pilot-windows.json) retains 32 fresh
+process observations, including eight explicit warmups, at three valid sizes
+and one oversized case. All valid output hashes and independently checked
+statistics agree. The largest 24 MB table's median peak working set fell from
+41.8 MB to 31.1 MB. Timing differences are small and remain unaccepted as general
+performance or hardware evidence.
+
+Windows accounting comes from [GetProcessIoCounters](https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getprocessiocounters)
+and its [IO_COUNTERS](https://learn.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-io_counters)
+read-transfer field. These are process-wide bytes read, including cached I/O;
+they do not measure physical storage traffic. The [initial installed checks](benchmarks/tma-case-input-initial-windows.json)
+pass 47 native suites, 77 focused cases including 29 file/CLI cases, packaged
+stubs and typing checks. Twelve altered-evidence controls are rejected. The
+[full installed Windows validation](benchmarks/tma-case-input-validation-windows.json)
+passes 2,419 tests, 13 optional skips and three unchanged strict scientific
+xfails. Its visually reviewed ImGui capture reports saved state, weighted mean
+3.5 and zero UI overflow. The [Linux-only audit](benchmarks/tma-case-input-linux-partial.json)
+passes all three Linux configurations. [Both Mac native architectures](benchmarks/tma-case-input-macos.json)
+pass 46 suites and the input-size guard, without claiming process read-transfer
+measurements on Mac. The complete [Windows/Linux](benchmarks/tma-case-input-windows-linux.json)
+and [portable builder/consumer](benchmarks/tma-case-input-portable.json) engineering
+audits now pass at exact source `132288c`, which is [promoted to main](benchmarks/tma-case-input-main-promotion.json).
+These audits do not establish biological equivalence, hardware eligibility,
+general performance improvement or a supported release.

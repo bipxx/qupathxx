@@ -1,0 +1,514 @@
+{
+  "schema": "qpx.multifile-fault-qualification/1",
+  "observed_at_utc": "2026-10-26T05:07:28.208307+00:00",
+  "source": "bfa416edfd508e3e1ce184e75ec62c1a18a2a606",
+  "ref": "feature/multifile-fault-workflow-213",
+  "campaign": "docs/benchmarks/multifile-fault-213-campaign.json",
+  "prior_partial_receipt": "docs/benchmarks/multifile-fault-213-partial-qualification.json",
+  "status": "engineering_accepted",
+  "platform_campaign_accepted": true,
+  "all_original_runs_terminal_success": true,
+  "archives": {
+    "files": 11,
+    "all_sizes_digests_sources_verified": true,
+    "bytes": 101048036
+  },
+  "runs": {
+    "engine": 40268520155,
+    "macos": 40268527953,
+    "portable": 40268533643
+  },
+  "results": {
+    "engine": [
+      {
+        "name": "Linux minimal native",
+        "native_passed": 50,
+        "installed_passed": null,
+        "multifile_installed": null,
+        "multifile_desktop": null
+      },
+      {
+        "name": "Linux headless Python 3.12 NumPy 2",
+        "native_passed": 50,
+        "installed_passed": 3599,
+        "multifile_installed": 54,
+        "multifile_desktop": {
+          "passed": 0,
+          "declared_desktop_skips": 2
+        }
+      },
+      {
+        "name": "Windows GUI Python 3.12 software GL",
+        "native_passed": 51,
+        "installed_passed": 4053,
+        "multifile_installed": 54,
+        "multifile_desktop": {
+          "passed": 2,
+          "declared_desktop_skips": 0
+        }
+      },
+      {
+        "name": "Linux ASan UBSan native",
+        "native_passed": 50,
+        "installed_passed": null,
+        "multifile_installed": null,
+        "multifile_desktop": null
+      },
+      {
+        "name": "Windows headless Python 3.11 NumPy 1",
+        "native_passed": 50,
+        "installed_passed": 3601,
+        "multifile_installed": 54,
+        "multifile_desktop": {
+          "passed": 0,
+          "declared_desktop_skips": 2
+        }
+      }
+    ],
+    "macos_native": [
+      {
+        "architecture": "arm64",
+        "native_passed": 50
+      },
+      {
+        "architecture": "x86_64",
+        "native_passed": 50
+      }
+    ],
+    "portable": [
+      {
+        "python": "3.11",
+        "tests": {
+          "native": {
+            "tests": 50,
+            "passed": 50,
+            "skipped": 0,
+            "expected_scientific_failures": 0,
+            "sha256": "67c9c712b1edee60528e32fe5eba3b4115a56ffdbc1ba9842b5df45f38fa8bb2",
+            "skip_reasons": {}
+          },
+          "builder": {
+            "tests": 4066,
+            "passed": 3599,
+            "skipped": 464,
+            "expected_scientific_failures": 3,
+            "sha256": "9e164da4167397a502eeb45e66c22794f58890bf4a86407dab007ee3435bd4ed",
+            "skip_reasons": {
+              "desktop cell publication": 2,
+              "desktop replay": 11,
+              "requires geometry desktop": 1,
+              "requires managed project desktop": 1,
+              "opt-in native desktop replay": 8,
+              "opt-in desktop batch workflow": 13,
+              "opt-in desktop area limits": 3,
+              "opt-in project desktop replay": 6,
+              "opt-in desktop replay": 38,
+              "opt-in geometry desktop replay": 6,
+              "opt-in native docking": 12,
+              "opt-in project/GEOS/GeoJSON desktop migration": 4,
+              "opt-in responsive GUI": 10,
+              "requires GUI/project build and QUPATHXX_TEST_GUI=1": 96,
+              "requires GUI build and QUPATHXX_TEST_GUI=1": 34,
+              "requires GUI/training and QUPATHXX_TEST_GUI=1": 38,
+              "opt-in desktop pixel batch workflow": 6,
+              "requires GUI and QUPATHXX_TEST_GUI=1": 9,
+              "requires GUI/project and opt-in replay": 6,
+              "opt-in project desktop": 4,
+              "opt-in QPTMA desktop": 9,
+              "opt-in raw desktop": 7,
+              "opt-in raw records desktop": 5,
+              "opt-in native DPI scaling": 14,
+              "Windows native executable stack contract": 1,
+              "opt-in native GUI": 14,
+              "opt-in GEOS desktop replay": 2,
+              "opt-in TMA desktop": 24,
+              "opt-in TMA dearray desktop": 13,
+              "Windows GUI wheel-message regression": 1,
+              "opt-in native window lifecycle": 15,
+              "opt-in desktop": 3,
+              "managed desktop": 3,
+              "desktop batch": 2,
+              "desktop batch LoG recipe": 1,
+              "opt-in compound TIFF desktop": 2,
+              "opt-in NDPI desktop": 1,
+              "requires generated large pyramid fixture": 1,
+              "opt-in GUI": 3,
+              "Windows read-only replacement failure": 1,
+              "requires real desktop GUI": 1,
+              "Windows read-only file attribute check": 1,
+              "Frozen isolated-cell QuPath acceptance gates remain unresolved": 3,
+              "GEOS-disabled configuration": 1,
+              "opt-in ImGui import replay": 2,
+              "opt-in pinned Windows QuPath runtime": 1,
+              "requires quantitative project desktop": 5,
+              "Windows file sharing check": 1,
+              "Windows file delete sharing": 1,
+              "requires desktop GUI": 2,
+              "Windows case insensitive anchor path": 1,
+              "Windows read-only marker write protection": 1,
+              "Windows delete-sharing failure": 1,
+              "opt-in managed viewer": 15,
+              "requires generated OpenSlide pyramid": 1
+            }
+          },
+          "consumer": {
+            "tests": 4066,
+            "passed": 3557,
+            "skipped": 506,
+            "expected_scientific_failures": 3,
+            "sha256": "616000fb13747657527cbf0a0ef41253bb1f0b6ccde459b0812788a753cd2a74",
+            "skip_reasons": {
+              "desktop cell publication": 2,
+              "desktop replay": 11,
+              "requires opt-in Linux GEOS SDK": 4,
+              "requires geometry desktop": 1,
+              "requires managed project desktop": 1,
+              "opt-in native desktop replay": 8,
+              "opt-in desktop batch workflow": 13,
+              "opt-in desktop area limits": 3,
+              "opt-in project desktop replay": 6,
+              "opt-in desktop replay": 38,
+              "opt-in geometry desktop replay": 6,
+              "opt-in native docking": 12,
+              "opt-in project/GEOS/GeoJSON desktop migration": 4,
+              "opt-in responsive GUI": 10,
+              "requires GUI/project build and QUPATHXX_TEST_GUI=1": 96,
+              "requires GUI build and QUPATHXX_TEST_GUI=1": 34,
+              "requires GUI/training and QUPATHXX_TEST_GUI=1": 38,
+              "opt-in desktop pixel batch workflow": 6,
+              "requires GUI and QUPATHXX_TEST_GUI=1": 9,
+              "requires GUI/project and opt-in replay": 6,
+              "opt-in project desktop": 4,
+              "opt-in QPTMA desktop": 9,
+              "opt-in raw desktop": 7,
+              "opt-in raw records desktop": 5,
+              "opt-in native DPI scaling": 14,
+              "Windows native executable stack contract": 1,
+              "opt-in native GUI": 14,
+              "opt-in GEOS desktop replay": 2,
+              "opt-in TMA desktop": 24,
+              "opt-in TMA dearray desktop": 13,
+              "Windows GUI wheel-message regression": 1,
+              "opt-in native window lifecycle": 15,
+              "opt-in desktop": 3,
+              "managed desktop": 3,
+              "desktop batch": 2,
+              "desktop batch LoG recipe": 1,
+              "opt-in compound TIFF desktop": 2,
+              "opt-in pinned Hamamatsu NDPI fixture": 26,
+              "opt-in NDPI desktop": 1,
+              "opt-in full Aperio pyramid": 12,
+              "requires generated large pyramid fixture": 1,
+              "opt-in GUI": 3,
+              "Windows read-only replacement failure": 1,
+              "requires real desktop GUI": 1,
+              "Windows read-only file attribute check": 1,
+              "Frozen isolated-cell QuPath acceptance gates remain unresolved": 3,
+              "GEOS-disabled configuration": 1,
+              "opt-in ImGui import replay": 2,
+              "opt-in pinned Windows QuPath runtime": 1,
+              "requires quantitative project desktop": 5,
+              "Windows file sharing check": 1,
+              "Windows file delete sharing": 1,
+              "requires desktop GUI": 2,
+              "Windows case insensitive anchor path": 1,
+              "Windows read-only marker write protection": 1,
+              "Windows delete-sharing failure": 1,
+              "opt-in managed viewer": 15,
+              "requires generated OpenSlide pyramid": 1
+            }
+          }
+        }
+      },
+      {
+        "python": "3.12",
+        "tests": {
+          "native": {
+            "tests": 50,
+            "passed": 50,
+            "skipped": 0,
+            "expected_scientific_failures": 0,
+            "sha256": "39e9c1a34b009031cd8077d94304b970ef25de447fb1a9ff24df671f5be02bee",
+            "skip_reasons": {}
+          },
+          "builder": {
+            "tests": 4066,
+            "passed": 3599,
+            "skipped": 464,
+            "expected_scientific_failures": 3,
+            "sha256": "372c5d5c4d921d36e2f6b5d5245090cf1567f3f8c07c005405ce5da6f2c9e39d",
+            "skip_reasons": {
+              "desktop cell publication": 2,
+              "desktop replay": 11,
+              "requires geometry desktop": 1,
+              "requires managed project desktop": 1,
+              "opt-in native desktop replay": 8,
+              "opt-in desktop batch workflow": 13,
+              "opt-in desktop area limits": 3,
+              "opt-in project desktop replay": 6,
+              "opt-in desktop replay": 38,
+              "opt-in geometry desktop replay": 6,
+              "opt-in native docking": 12,
+              "opt-in project/GEOS/GeoJSON desktop migration": 4,
+              "opt-in responsive GUI": 10,
+              "requires GUI/project build and QUPATHXX_TEST_GUI=1": 96,
+              "requires GUI build and QUPATHXX_TEST_GUI=1": 34,
+              "requires GUI/training and QUPATHXX_TEST_GUI=1": 38,
+              "opt-in desktop pixel batch workflow": 6,
+              "requires GUI and QUPATHXX_TEST_GUI=1": 9,
+              "requires GUI/project and opt-in replay": 6,
+              "opt-in project desktop": 4,
+              "opt-in QPTMA desktop": 9,
+              "opt-in raw desktop": 7,
+              "opt-in raw records desktop": 5,
+              "opt-in native DPI scaling": 14,
+              "Windows native executable stack contract": 1,
+              "opt-in native GUI": 14,
+              "opt-in GEOS desktop replay": 2,
+              "opt-in TMA desktop": 24,
+              "opt-in TMA dearray desktop": 13,
+              "Windows GUI wheel-message regression": 1,
+              "opt-in native window lifecycle": 15,
+              "opt-in desktop": 3,
+              "managed desktop": 3,
+              "desktop batch": 2,
+              "desktop batch LoG recipe": 1,
+              "opt-in compound TIFF desktop": 2,
+              "opt-in NDPI desktop": 1,
+              "requires generated large pyramid fixture": 1,
+              "opt-in GUI": 3,
+              "Windows read-only replacement failure": 1,
+              "requires real desktop GUI": 1,
+              "Windows read-only file attribute check": 1,
+              "Frozen isolated-cell QuPath acceptance gates remain unresolved": 3,
+              "GEOS-disabled configuration": 1,
+              "opt-in ImGui import replay": 2,
+              "opt-in pinned Windows QuPath runtime": 1,
+              "requires quantitative project desktop": 5,
+              "Windows file sharing check": 1,
+              "Windows file delete sharing": 1,
+              "requires desktop GUI": 2,
+              "Windows case insensitive anchor path": 1,
+              "Windows read-only marker write protection": 1,
+              "Windows delete-sharing failure": 1,
+              "opt-in managed viewer": 15,
+              "requires generated OpenSlide pyramid": 1
+            }
+          },
+          "consumer": {
+            "tests": 4066,
+            "passed": 3557,
+            "skipped": 506,
+            "expected_scientific_failures": 3,
+            "sha256": "2d01adb81baa42a5128255631ebbff2db24c3ea4cec681eb55f908fcc231c584",
+            "skip_reasons": {
+              "desktop cell publication": 2,
+              "desktop replay": 11,
+              "requires opt-in Linux GEOS SDK": 4,
+              "requires geometry desktop": 1,
+              "requires managed project desktop": 1,
+              "opt-in native desktop replay": 8,
+              "opt-in desktop batch workflow": 13,
+              "opt-in desktop area limits": 3,
+              "opt-in project desktop replay": 6,
+              "opt-in desktop replay": 38,
+              "opt-in geometry desktop replay": 6,
+              "opt-in native docking": 12,
+              "opt-in project/GEOS/GeoJSON desktop migration": 4,
+              "opt-in responsive GUI": 10,
+              "requires GUI/project build and QUPATHXX_TEST_GUI=1": 96,
+              "requires GUI build and QUPATHXX_TEST_GUI=1": 34,
+              "requires GUI/training and QUPATHXX_TEST_GUI=1": 38,
+              "opt-in desktop pixel batch workflow": 6,
+              "requires GUI and QUPATHXX_TEST_GUI=1": 9,
+              "requires GUI/project and opt-in replay": 6,
+              "opt-in project desktop": 4,
+              "opt-in QPTMA desktop": 9,
+              "opt-in raw desktop": 7,
+              "opt-in raw records desktop": 5,
+              "opt-in native DPI scaling": 14,
+              "Windows native executable stack contract": 1,
+              "opt-in native GUI": 14,
+              "opt-in GEOS desktop replay": 2,
+              "opt-in TMA desktop": 24,
+              "opt-in TMA dearray desktop": 13,
+              "Windows GUI wheel-message regression": 1,
+              "opt-in native window lifecycle": 15,
+              "opt-in desktop": 3,
+              "managed desktop": 3,
+              "desktop batch": 2,
+              "desktop batch LoG recipe": 1,
+              "opt-in compound TIFF desktop": 2,
+              "opt-in pinned Hamamatsu NDPI fixture": 26,
+              "opt-in NDPI desktop": 1,
+              "opt-in full Aperio pyramid": 12,
+              "requires generated large pyramid fixture": 1,
+              "opt-in GUI": 3,
+              "Windows read-only replacement failure": 1,
+              "requires real desktop GUI": 1,
+              "Windows read-only file attribute check": 1,
+              "Frozen isolated-cell QuPath acceptance gates remain unresolved": 3,
+              "GEOS-disabled configuration": 1,
+              "opt-in ImGui import replay": 2,
+              "opt-in pinned Windows QuPath runtime": 1,
+              "requires quantitative project desktop": 5,
+              "Windows file sharing check": 1,
+              "Windows file delete sharing": 1,
+              "requires desktop GUI": 2,
+              "Windows case insensitive anchor path": 1,
+              "Windows read-only marker write protection": 1,
+              "Windows delete-sharing failure": 1,
+              "opt-in managed viewer": 15,
+              "requires generated OpenSlide pyramid": 1
+            }
+          }
+        }
+      }
+    ]
+  },
+  "raw_payloads": [
+    {
+      "path": "docs/benchmarks/multifile-fault-213-qualification/engine-audit.json",
+      "bytes": 709806,
+      "sha256": "aed0a5871e32da372813d587509d6bdad9d20831c4f664a7beb4d0b028500efe"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-qualification/engine-audit-command.json",
+      "bytes": 794,
+      "sha256": "1cd8e981ef3d1dec70d91535e7198d98804dda2f6db9554893ea3b42c7279752"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-qualification/engine-audit.log",
+      "bytes": 488,
+      "sha256": "5b0bf8eb818066070ad17a280d1987d2c8eeeb8c761207c2e3eb65b08fddd20f"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-qualification/macos-native-audit.json",
+      "bytes": 235653,
+      "sha256": "0d7f8200a50d94d685c00d38de9be0d784fa818295e003b1d2ef4f1ef044b542"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-qualification/macos-audit-command.json",
+      "bytes": 665,
+      "sha256": "80eef137df7c28ced437aff218d9452cfb5b5a9e929c22bae1a804efc2e2f7a1"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-qualification/macos-audit.log",
+      "bytes": 161,
+      "sha256": "efe9c23942a15840b3ef5aa7c89ddb0cb3c23a11a36709e1537744b27d3e53a7"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-qualification/portable-audit.json",
+      "bytes": 361334,
+      "sha256": "92c2dbc03ef522fc72c41c3c65fcc6fdc3f4afb01992c79dd8b68f434ba2e251"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-qualification/portable-audit-command.json",
+      "bytes": 869,
+      "sha256": "cb5761357aae57f2a04888dace83fdf92622a7302ed91763800e1f622e186713"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-qualification/portable-audit.log",
+      "bytes": 126,
+      "sha256": "ef8962098edeebb36a843b543330dc4d090ee2ec3336fbea8c496510559dcb82"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-qualification/engine-run.json",
+      "bytes": 16529,
+      "sha256": "0b535b9c5c7e3e4498d7880d19fcdd23e08ac3d90309cc68e9d3b158c978301b"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-qualification/macos-run.json",
+      "bytes": 4859,
+      "sha256": "ae0a1050c48ba3b7882320aa3180b41e504b2ec804c997c14a012209406637fc"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-qualification/portable-run.json",
+      "bytes": 10688,
+      "sha256": "6795cbe8ac7fedda138ba09e7b61ea7e1169f5bc72990d445af1b04d050ac743"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-qualification/artifacts/verified.json",
+      "bytes": 2659,
+      "sha256": "c19c81b5b338d1ed61a66d55a872658f544b9ba7e1a3827761b0dbc0d993d20c"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-qualification/artifacts/Windows-gui-py3.12-artifact.json",
+      "bytes": 811,
+      "sha256": "70b0e00e860e9572af45285df3139a22d7bd72f90b34df94e81d040028401531"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-qualification/artifacts/Linux-minimal-py3.12-artifact.json",
+      "bytes": 810,
+      "sha256": "90aa1debbf302d62342c1a098675cf271708855bca7f157d73a91f6b8a832c16"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-qualification/artifacts/Linux-headless-py3.12-artifact.json",
+      "bytes": 814,
+      "sha256": "b4be797332ac310de31e52210083a3967d6717ab887a71e29d88144e78b22eec"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-qualification/artifacts/Windows-headless-py3.11-artifact.json",
+      "bytes": 816,
+      "sha256": "afd0b37dfdecc4e87ec8fe04393a382f1c80992e2725f7c80e8bd929a349fd92"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-qualification/artifacts/Linux-sanitize-py3.12-artifact.json",
+      "bytes": 811,
+      "sha256": "0b859d4cbda92d4091e2b07f2c7f48ac3fa03e9d51c8530a555451d005129fc2"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-qualification/artifacts/macos-native-x86_64-artifact.json",
+      "bytes": 812,
+      "sha256": "9dc2945165819ff941e487cdd96649e80e4a7f01b5e0815004d6c79a30e15b66"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-qualification/artifacts/macos-native-arm64-artifact.json",
+      "bytes": 811,
+      "sha256": "33f2291e08ff83148be01364ce0d1f71293ae60076b7baf084afe4573c9384df"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-qualification/artifacts/manylinux-consumer-3.12-artifact.json",
+      "bytes": 813,
+      "sha256": "8f8ba0dd21cd861c11b75d37dea7628d641aac4f7903e6b956071b45c7b0938a"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-qualification/artifacts/manylinux-3.11-artifact.json",
+      "bytes": 807,
+      "sha256": "b6f02c2951d92d9af4e44fec8e20a08baef2fb261b7cae555b3dac16e132a183"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-qualification/artifacts/manylinux-3.12-artifact.json",
+      "bytes": 807,
+      "sha256": "ab71c398a3b92be5651bb3a6459a25c87d356ac6fe54af92eb5ce2cd03aa7156"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-qualification/artifacts/manylinux-consumer-3.11-artifact.json",
+      "bytes": 813,
+      "sha256": "af9fa0d68d6f3969fe904cef98d6474f4d45d59d456686c96fc20351039b446c"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-qualification/artifacts/engine-artifacts.json",
+      "bytes": 4516,
+      "sha256": "20a2615d8be99a0751deb6cf5a8460e6192ef5e46202f949e5f2549a1d7e0991"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-qualification/artifacts/macos-artifacts.json",
+      "bytes": 1834,
+      "sha256": "0464d83249df98fd394aee23533d1c1385dd8c16750506b765c543e44b73e303"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-qualification/artifacts/portable-artifacts.json",
+      "bytes": 3613,
+      "sha256": "439ec82567f8664b23c8f92dbd4f81eea39de9ed0c8047b689d6f13cdd0c8b90"
+    }
+  ],
+  "limitations": [
+    "Scope is frozen multi-file OME workflow and expanded fault/cancel/resource protocol, with inherited gates",
+    "Later raw classifier sources a13adef/ed2bf40 are not covered",
+    "Mac native inventory/relocation does not accept Mac Python/GUI/OpenSlide",
+    "Three strict scientific xfails, independent biology/hardware, broad readers and release gaps remain",
+    "Engineering acceptance does not select project license, authorize release or complete M0-M7"
+  ],
+  "main_changed": false
+}

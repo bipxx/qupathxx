@@ -1,0 +1,26 @@
+{
+  "argv": [
+    "python",
+    "-X",
+    "utf8",
+    "tools/ci/accept_unified_engine.py",
+    "40448479178",
+    "f9ad28f5d88fb6706163f8a6c2e0ffe7a96e4ec3",
+    "--artifacts",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\q260-all",
+    "--output",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\root-locator-fix-260\\linux-engine-acceptance.json",
+    "--linux-only",
+    "--ndpi-readers",
+    "--watershed-bodies",
+    "--sampled-shape",
+    "--sampled-cells",
+    "--small-frontier",
+    "--tma-cases",
+    "--tma-file-export",
+    "--tma-cohorts",
+    "--linux-runtime-manifest"
+  ],
+  "cwd": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\root-locator-qualification-260-audit",
+  "returncode": 1
+}

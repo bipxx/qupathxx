@@ -1,0 +1,81 @@
+{
+  "dataset": "NuCLS corrected single-rater",
+  "source_files_verified": 7,
+  "native_revision": "cbf4102f2cffe6ed8f71549087ae5bf74cdcd8e2",
+  "native_tree_sha256": "5a98347c5447c5b8f414d299a3411e9554c72188f92e1ca3ecd7c8c69aeee96e",
+  "generator_sha256": "c8da5671e294dfb0b982d973e807b94566cd497caadec273c3752efea5f7c821",
+  "runner_sha256": "8087f57a59ca5b706fc9c83a14f9f481d221fd76e6b01c980dc3dcab6c18f65f",
+  "workflow_sha256": "2a9e30f7cd3945eb44f09efcc6946c01dd8504902fa3a1bd5a5348e8fb98ae51",
+  "source_project_sha256": "b8215e23c81d80704b1f39725e5c0980a96f3e5f0bac0ccd599420f26482c88e",
+  "source_unchanged": true,
+  "preview_valid": true,
+  "computed_images": 2,
+  "csv_rows": 2,
+  "independent_oracles_match": true,
+  "expected": [
+    {
+      "image_id": 1,
+      "case": "TCGA-A1-A0SP-DX1_id-5ea4095addda5f8398977ebc_left-11371_top-54469_bottom-54761_right-11671",
+      "image_size": [
+        378,
+        368
+      ],
+      "mask_size": [
+        378,
+        367
+      ],
+      "fov": [
+        43,
+        21,
+        365,
+        344
+      ],
+      "annotation_count": 32,
+      "annotation_types": {
+        "rectangle": 15,
+        "polyline": 17
+      },
+      "classes": [
+        "tumor_nonMitotic"
+      ],
+      "count": 31,
+      "area_pixels": 104006,
+      "area_mm2": 0.004160240000000001,
+      "density_per_mm2": 7451.493183085589
+    },
+    {
+      "image_id": 2,
+      "case": "TCGA-A2-A0CM-DX1_id-5ea40963ddda5f8398979473_left-20097_top-57088_bottom-57366_right-20364",
+      "image_size": [
+        331,
+        345
+      ],
+      "mask_size": [
+        332,
+        345
+      ],
+      "fov": [
+        0,
+        24,
+        318,
+        342
+      ],
+      "annotation_count": 28,
+      "annotation_types": {
+        "rectangle": 14,
+        "polyline": 14
+      },
+      "classes": [
+        "AMBIGUOUS",
+        "lymphocyte",
+        "macrophage",
+        "nonTILnonMQ_stromal"
+      ],
+      "count": 27,
+      "area_pixels": 101124,
+      "area_mm2": 0.004044960000000001,
+      "density_per_mm2": 6674.973300106798
+    }
+  ],
+  "limits": "Public two-case annotated-nucleus FOV pilot, not tissue segmentation, whole-cell segmentation, independent clinical validation, cohort statistics or speed acceptance. Native Cells/nuclei are 1px square centroid markers, not imported outlines. Original RGB/mask outer extents differ by one pixel; support lies inside both. One source rectangle extends past RGB; all original centroid coordinates are preserved without clipping or resampling."
+}

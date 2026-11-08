@@ -1,0 +1,122 @@
+[
+  {
+    "name": "white-0",
+    "channel": 0,
+    "count": 256,
+    "all_signed_zero": true
+  },
+  {
+    "name": "white-0",
+    "channel": 1,
+    "count": 256,
+    "all_signed_zero": true
+  },
+  {
+    "name": "white-0",
+    "channel": 2,
+    "count": 256,
+    "all_signed_zero": true
+  },
+  {
+    "name": "white-1",
+    "channel": 0,
+    "count": 256,
+    "all_signed_zero": true
+  },
+  {
+    "name": "white-1",
+    "channel": 1,
+    "count": 256,
+    "all_signed_zero": true
+  },
+  {
+    "name": "white-1",
+    "channel": 2,
+    "count": 256,
+    "all_signed_zero": true
+  },
+  {
+    "name": "white-2",
+    "channel": 0,
+    "count": 512,
+    "all_signed_zero": true
+  },
+  {
+    "name": "white-2",
+    "channel": 1,
+    "count": 512,
+    "all_signed_zero": true
+  },
+  {
+    "name": "white-2",
+    "channel": 2,
+    "count": 512,
+    "all_signed_zero": true
+  },
+  {
+    "name": "white-4",
+    "channel": 1,
+    "count": 256,
+    "all_signed_zero": true
+  },
+  {
+    "name": "white-4",
+    "channel": 2,
+    "count": 256,
+    "all_signed_zero": true
+  },
+  {
+    "name": "white-5",
+    "channel": 0,
+    "count": 256,
+    "all_signed_zero": true
+  },
+  {
+    "name": "white-5",
+    "channel": 1,
+    "count": 512,
+    "all_signed_zero": true
+  },
+  {
+    "name": "white-5",
+    "channel": 2,
+    "count": 256,
+    "all_signed_zero": true
+  },
+  {
+    "name": "identity",
+    "channel": 0,
+    "count": 256,
+    "all_signed_zero": true
+  },
+  {
+    "name": "identity",
+    "channel": 1,
+    "count": 256,
+    "all_signed_zero": true
+  },
+  {
+    "name": "identity",
+    "channel": 2,
+    "count": 256,
+    "all_signed_zero": true
+  },
+  {
+    "name": "signed-residual",
+    "channel": 0,
+    "count": 256,
+    "all_signed_zero": true
+  },
+  {
+    "name": "signed-residual",
+    "channel": 1,
+    "count": 256,
+    "all_signed_zero": true
+  },
+  {
+    "name": "signed-residual",
+    "channel": 2,
+    "count": 256,
+    "all_signed_zero": true
+  }
+]

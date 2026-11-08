@@ -1,0 +1,584 @@
+[
+  {
+    "path": "gridfrontends167-package/_deps/glfw-build/src/Release/glfw3.lib",
+    "bytes": 722228,
+    "sha256": "936718cd6a3a89560a7e1b0e0a17f66a7c6cccc49f858f99ee7f3d7e43caf378",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/_deps/qpx_tiff-build/libtiff/Release/tiff.lib",
+    "bytes": 1200722,
+    "sha256": "f9006d509a45d6832312343565962fb64c4e0029cb746cb7c7ba7a8081560ac6",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/_deps/qpx_tiff-build/libtiff/Release/tiffxx.lib",
+    "bytes": 24330,
+    "sha256": "c91ad235fd26d0d724fc220a0e633adfb80a784357bec8295b8a2ff8016d933c",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/_deps/qpx_tiff-build/port/Release/tiff_port.lib",
+    "bytes": 4940,
+    "sha256": "39bd5d45592bb336602500f0016aedcec9f9c3b6c5ee0aaac2167027fa8b2717",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/_deps/qpx_zlib-build/Release/zs.lib",
+    "bytes": 201976,
+    "sha256": "1e2f667f8ca2fdddeb4e83d06e982d8957cbcb81b22acbb8c40f83a7281edcde",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/_native.cp312-win_amd64.pyd",
+    "bytes": 9886720,
+    "sha256": "de85f18ec88ceb8ee0de40e36bc4ab95f5120af51ed0653f8b0f55fc58c7ad73",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/_native.lib",
+    "bytes": 9334,
+    "sha256": "228b4690e8915550fce07e7081883fd1c79a77ef4f2b441351a0cb567492721d",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/geos.dll",
+    "bytes": 2912768,
+    "sha256": "9bff21e1082b57e9914909a156ad121d508d2203a8c6ab4d8d41eb74cc19fa0e",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/geos_c.dll",
+    "bytes": 590336,
+    "sha256": "64c8a686deccd9e3d5ae66f96ba1276c23faf6ab00564feee421ae91f552b7d6",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/nanobind-static.lib",
+    "bytes": 2876768,
+    "sha256": "548ad5d26277b378e0f99e0faf02b47fc130ba133fa362beb433ed8027dcb38a",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_analysis_tests.exe",
+    "bytes": 1434624,
+    "sha256": "70b9136444e6fe5fde822f86e35d0a99f617d0a3130224428aa8e6434867d06b",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_app.exe",
+    "bytes": 7767040,
+    "sha256": "0c7d6710d4d70f98d3586a893ac7742e0a6a1bc63f789df79afcd7bbfeb132a5",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_batch.exe",
+    "bytes": 5348864,
+    "sha256": "d195d162782921ec4b99f42c44df4af6922c75fb1fa7fbd1def6f30ee256c0f3",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_cell_calibration_tests.exe",
+    "bytes": 2501632,
+    "sha256": "b83e56fde56678f9cbb300a69b2581b5a471f39194c1ab5e6b8fd3dd97736b21",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_cell_expansion_tests.exe",
+    "bytes": 60416,
+    "sha256": "8bf72235dff72eae96aa165a7de635ebf80dc9af5c83976e4b48677c75e15a14",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_cell_record_tests.exe",
+    "bytes": 3752448,
+    "sha256": "86d76f01bbf9b1dd892bac78e24a4837844a570d937a34c26bd95bc98f87af39",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_cell_table_tests.exe",
+    "bytes": 4307968,
+    "sha256": "5eefce0cb0d1f96afa932441134a0ae0db353c175a2ce5405c4edd7a18e45812",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_cell_tests.exe",
+    "bytes": 2699776,
+    "sha256": "53fdaa23da30dd4b5b6d22003820f5424245747cd196b360c9cb48cebc4389aa",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_classes_tests.exe",
+    "bytes": 321024,
+    "sha256": "7975005c8d7c7f58a31299155204047bbcef15e1c60d066c47ff777053ba7770",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_classifier_io_tests.exe",
+    "bytes": 1084416,
+    "sha256": "a47dbdbfc82a694abf92570516b63649cebeb655e1a3f19a6ab9f9a22a2c4514",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_classifier_tests.exe",
+    "bytes": 1389568,
+    "sha256": "a4d7d237115bed1fa2dc050c94a8f502b0e9e628f53d791d07215cd83a7c6cfb",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_core.lib",
+    "bytes": 114612850,
+    "sha256": "77ace4641ed358b06547797196e2bf139474e568a7dba3e3135227b8496a38fa",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_core_tests.exe",
+    "bytes": 328192,
+    "sha256": "78612700122bc602c74caae9c744700dca6215ece1532e457968e7ee716d87cb",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_decimal_quantity_tests.exe",
+    "bytes": 35840,
+    "sha256": "1875e2d65f2f22933d8062ddb876459a91d6530ca8e75d69368b54b19e9410f8",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_document_edits_tests.exe",
+    "bytes": 326144,
+    "sha256": "924f402982f4e55e7889971f575020bcd22f61baf96bf5d5606e69ebdb12dd71",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_file_fingerprint_tests.exe",
+    "bytes": 332800,
+    "sha256": "b0d80f9b29473e095f4ff8757afd7b661baff2bcb423d3fb60ad7e0ac1018cfa",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_geometry_edits_tests.exe",
+    "bytes": 330240,
+    "sha256": "d50c6e610417b910ea2f73bf49c1ed1b64a8ac0c6921849adf372a4cc3547b1c",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_geometry_tests.exe",
+    "bytes": 366592,
+    "sha256": "0e34b12cc697d38bd2ebc747e05075e55c3301929518c3e8427168b85e90ce77",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_gui.lib",
+    "bytes": 16577816,
+    "sha256": "7963fe1c024977bc4f34b93e816506d4b160f6c6845ba8ec20fd8c7e8d49aaea",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_gui_replay_tests.exe",
+    "bytes": 45568,
+    "sha256": "e28d14a8902100d7038cd190841c41d4702a7a725cd84ea0977a2f05dfec5450",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_interchange_tests.exe",
+    "bytes": 513024,
+    "sha256": "eb7d1d62415e512960bed48c487a4019ac417be307104bbc5390bfb9e548191e",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_log_cell_recipe_tests.exe",
+    "bytes": 2604032,
+    "sha256": "83cccfe81c3c8c2c9fb1e8e288ca05ad747e811a2eb7abfd1c5512ed36660e1b",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_log_watershed_tests.exe",
+    "bytes": 148992,
+    "sha256": "d9b1d2575b310945847272b253ef55ec0368f2dd9cf0313e5722d67e0eabbffc",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_masked_gaussian_tests.exe",
+    "bytes": 30720,
+    "sha256": "68fa137cd58c72d83247ac7c842236c7d2670737904ef2b231bfcb59bf092e6a",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_measurement_table_tests.exe",
+    "bytes": 2876416,
+    "sha256": "b78dfea5ad2f8eb45592e9e14a7f7ff823565906f546317bbe4a392d8fd49c26",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_object_classifier_tests.exe",
+    "bytes": 3153408,
+    "sha256": "eab7f0124aa7611a4158d57f7840a4d59297fbee3f904b35897b38cb46defcfe",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_object_snapshot_tests.exe",
+    "bytes": 3663872,
+    "sha256": "a64c8339de685b575a9442f65b3f98987e314fbba211911e080d15e6b910f9fa",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_overlay_tests.exe",
+    "bytes": 22528,
+    "sha256": "f5a9b7d27b3690075a9cf892b996147f70ed9263a1d528f0071e502f9edd0873",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_pixel_feature_tests.exe",
+    "bytes": 2479104,
+    "sha256": "5955f34a3ab140174ddeaaf8008a4d6bff3ea05e695ea1a69c70c7c320305dd3",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_pixel_workflow_tests.exe",
+    "bytes": 5670400,
+    "sha256": "a6154a183f0c471fe8dfe1b2ec263ab6ffbce595982eacab0d776ae06d85f6cf",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_project_batch_tests.exe",
+    "bytes": 4986368,
+    "sha256": "41a4da153ea8c59f23cd93ce22f76804a66d83c5d1570d36ee5c862b5eae200e",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_project_tests.exe",
+    "bytes": 4183040,
+    "sha256": "0f73282b5f387197773fae5774337dba50bdbf3182b3e8aa99a6e216f29f6688",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_provenance_tests.exe",
+    "bytes": 2459136,
+    "sha256": "2538535d6d7f7220151cfc1b5b3c4afbaf7d8b44d17731b51644ae205798a8b5",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_qptma_project_tests.exe",
+    "bytes": 3546624,
+    "sha256": "b5207a5c830cb6a1ae021072c7d6429342774ccc8416882bfda61d4f09f0fcc6",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_qptma_tests.exe",
+    "bytes": 406528,
+    "sha256": "7a73987817c98c388cff0a2750c350025a1732b02be5ca6647d44be85f765c34",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_raw_image_tests.exe",
+    "bytes": 4533248,
+    "sha256": "2c4a4fa3de5c1a77723b10bddfa812cc5ceb4638176370f60865082ec147df1f",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_recovery_tests.exe",
+    "bytes": 3640320,
+    "sha256": "9f94f94914a86df1afcb72aa151cc0af39d6636888b75c65c201d9a076c87d68",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_region.exe",
+    "bytes": 778752,
+    "sha256": "890dc2b3402d215dc0c511fded8ff0ffebfe968a31f43ac8e42dcacec313bcbb",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_resampling_tests.exe",
+    "bytes": 3170304,
+    "sha256": "add95c5339177c13713db4c48cfbae4e595ce9bb26d5138c926804639adba713",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_save_tests.exe",
+    "bytes": 3505152,
+    "sha256": "cac88ae3f07263fa8f8ba9dbc87d0933029184bf11760d7dfa9537ae833d0935",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_scheduler_tests.exe",
+    "bytes": 216064,
+    "sha256": "0cea24c8c54365bb1a6444899ac94baa149403ef21e0a1baa7f6cd89d6d681f7",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_selection_tests.exe",
+    "bytes": 323072,
+    "sha256": "4fb616742f74387189d293cf3a82ecff2ced5a7b1c446d9a098bee667a5db97b",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_server_tests.exe",
+    "bytes": 296448,
+    "sha256": "dece30cde5b528d4e0a249d54e2cb66f88abe99cd3365aac10c942f8717dc3de",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_sha256_tests.exe",
+    "bytes": 25600,
+    "sha256": "f9bdd7b04a06bc3ca973a737c6ffd7b4c219d6a3d9be6ed70c6b11ef33451df3",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_source_identity_tests.exe",
+    "bytes": 1516544,
+    "sha256": "12c7f02f2108f3bd54ee2305b749f6f9bcbd02d996bff2839a15a849ecf3ece3",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_spatial_analysis_tests.exe",
+    "bytes": 1593344,
+    "sha256": "34f5831dd473a048c163d74450041bab277c203ab6df2e247a94a45a238e3659",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_spatial_cli_tests.exe",
+    "bytes": 3579904,
+    "sha256": "8247300c2584a55825a4117f0e671ed305c161103c8563376d539deed84bc9a4",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_spatial_record_tests.exe",
+    "bytes": 3637248,
+    "sha256": "c44400aa79696c7606ce73fd30d0085c9d06ea287349d3dbb919a5f45fd865b0",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_spatial_tests.exe",
+    "bytes": 363520,
+    "sha256": "fab4ba685c29fe4631d31941016e176d6b3593357baefe79ba9f9688f3ee778e",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_sqlite.lib",
+    "bytes": 3244188,
+    "sha256": "4b8ed6805790214092fa79eaf08f95f4d270332631113d3d8e6bba3c03e27a29",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_stain_estimation_tests.exe",
+    "bytes": 1488896,
+    "sha256": "3fce6d50c37874497b5451b5ea551f4ad9268584eb337f0d7101621ebf9df9a9",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_stains_tests.exe",
+    "bytes": 248320,
+    "sha256": "2d7dcf98b01492219320bf87446da37ddda4faadbed081791530fb17a4f42336",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_thumbnail_tests.exe",
+    "bytes": 218112,
+    "sha256": "d2f1f0cc18570d50716b2f66e0fc66b255d5449db8283134a335ac59df5d5e8f",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_tiff_xml.lib",
+    "bytes": 364046,
+    "sha256": "35d63d35490b5a7b02d3fd81fa93b1c25f1f76d85df03cd44c5832c3e71addc5",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_tissue_contour_tests.exe",
+    "bytes": 2378240,
+    "sha256": "fa99dc6d420c51d7784d50f0defac5392c3aaf80d933b2d21d634df3770932ca",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_tissue_record_tests.exe",
+    "bytes": 3564544,
+    "sha256": "8566178de90706304c1538d7e1b72c986924d8eb6b284dc1ff06bcb719e1f394",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_tissue_tests.exe",
+    "bytes": 2254336,
+    "sha256": "111799c9e44b86b4d4591b0cb36f8ca39ffba36ee8ff6df3561c717993cdd95f",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_tma_dearray_tests.exe",
+    "bytes": 5146112,
+    "sha256": "0fec377c07a0eb29e4c96a7bc87e92cc57a219a44f7e843199b2c8e824496943",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_tma_tests.exe",
+    "bytes": 4556288,
+    "sha256": "b5eb81d5909154d870502b0e8145da850c36e96a110b4d7c2c6ee17169195115",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_view_tiles_tests.exe",
+    "bytes": 157696,
+    "sha256": "b6c115cd94b536818e6d98477843d4a04944e1de02bfe020a3c75ecb1de517d7",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "gridfrontends167-package/Release/qupathxx_viewer_session_tests.exe",
+    "bytes": 5243392,
+    "sha256": "0d3824a968acf75d66c8ab33eaf21134486d0e677c40c6c134a6a27e5b36cfae",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "rawtraining218-windows/_deps/qpx_tiff-build/libtiff/Release/tiff.lib",
+    "bytes": 1200666,
+    "sha256": "d598bbdc83b8385e8a9411be34a5d0b5c0b98878b5211835745ccd806e9e069e",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "rawtraining218-windows/_deps/qpx_zlib-build/Release/zs.lib",
+    "bytes": 201936,
+    "sha256": "5af2e40d952c4ac4d2e47c475e1d58397d970ae952229379381a6d01478854ae",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "rawtraining218-windows/Release/_native.cp312-win_amd64.pyd",
+    "bytes": 7917056,
+    "sha256": "cfffab7249795cb100a2b3444a7bea0ec2f3a7d7e62fee4e95c663ab20833021",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "rawtraining218-windows/Release/_native.lib",
+    "bytes": 9334,
+    "sha256": "aec03fce70ee7a57cd11cb13931ef106fe760e7116224389265e5def60c8bd9f",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "rawtraining218-windows/Release/nanobind-static.lib",
+    "bytes": 2876744,
+    "sha256": "c9a267c162e4619090c31dad6feb8d80dc5320f3f8d33763b77e75fce8f5147f",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "rawtraining218-windows/Release/qupathxx_batch.exe",
+    "bytes": 4033024,
+    "sha256": "76588a2e6e7e6d655db8d0a4c5e1a8ad9beee1cf50172ecaa5a883a10526ad6c",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "rawtraining218-windows/Release/qupathxx_cell_record_tests.exe",
+    "bytes": 2898944,
+    "sha256": "33a068792d492799f209c79fc2fb387cc076e968cd11412de71e602484705ea9",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "rawtraining218-windows/Release/qupathxx_classifier_io_tests.exe",
+    "bytes": 1080320,
+    "sha256": "a816623a182f801515026d4b09c5e1b6616164624675b50a47811d9cc92546c6",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "rawtraining218-windows/Release/qupathxx_classifier_tests.exe",
+    "bytes": 1389568,
+    "sha256": "a7adee13b3299661bc7bf2cf0725984595f220766270eefe41f9e3a678ab18e4",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "rawtraining218-windows/Release/qupathxx_core.lib",
+    "bytes": 113490420,
+    "sha256": "27a442c84a7f5415dbd51d2b1d499e3aa23dd5e29b2381e6ae32259d1f7739db",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "rawtraining218-windows/Release/qupathxx_geometry_edits_tests.exe",
+    "bytes": 315392,
+    "sha256": "f7809c819464c7fc22fa001c91803ab9740f6d86e65faf826c692c78d1e2c4f6",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "rawtraining218-windows/Release/qupathxx_geometry_tests.exe",
+    "bytes": 353280,
+    "sha256": "fcc57c9a8a114de484814c82ee7bb9ee3017a500d5f1ffb8306539cb8ccccec2",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "rawtraining218-windows/Release/qupathxx_pixel_feature_tests.exe",
+    "bytes": 2475520,
+    "sha256": "bcb680043746eee3b01713e652a4f2fd9130f37d0247640ee0b91c4c58e53e1c",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "rawtraining218-windows/Release/qupathxx_pixel_workflow_tests.exe",
+    "bytes": 5391360,
+    "sha256": "9e9e5dbc523e3e631f50d552f680c489a706b60706605cc986666bff8b8d1a1e",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "rawtraining218-windows/Release/qupathxx_project_batch_tests.exe",
+    "bytes": 3670016,
+    "sha256": "2b8e64282e455f8a5061f7dfe4696c46247cdaabf5526491c394c3283fb16288",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "rawtraining218-windows/Release/qupathxx_project_tests.exe",
+    "bytes": 2883584,
+    "sha256": "b9f3c63cc433579a90d67d3a5f0a50bfad504508eb20116ced095506864814cd",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "rawtraining218-windows/Release/qupathxx_qptma_project_tests.exe",
+    "bytes": 2694656,
+    "sha256": "53c55693f6b7b6755c839c96622ee1fb3377843cd7cea47cd91a92cf4ed6ca72",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "rawtraining218-windows/Release/qupathxx_region.exe",
+    "bytes": 775680,
+    "sha256": "d7b07c7d21e645cade58f5518a0527d4f29662cc3b39c39a13f17e215ac7ed6a",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "rawtraining218-windows/Release/qupathxx_spatial_analysis_tests.exe",
+    "bytes": 1584128,
+    "sha256": "1cd10a42f649d43d13d157109f4022f5cb139f3635a4ef1e173cc2fa95e2c17f",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "rawtraining218-windows/Release/qupathxx_spatial_cli_tests.exe",
+    "bytes": 2726400,
+    "sha256": "91618d91b6b628e40a7dee4e9524f1506f117254887b37225866b2942301647b",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "rawtraining218-windows/Release/qupathxx_spatial_record_tests.exe",
+    "bytes": 2784768,
+    "sha256": "4eea9fba226917a7e4ab5b7c9c41bb91dbf7c880a23a6f6dfb3088ca7c2806d3",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "rawtraining218-windows/Release/qupathxx_spatial_tests.exe",
+    "bytes": 350208,
+    "sha256": "4d54f5e25261a242797b1f414660f4bd6e916ec88800c08597b682cac771b6a7",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "rawtraining218-windows/Release/qupathxx_sqlite.lib",
+    "bytes": 3244184,
+    "sha256": "c8190a9ba682e195cdee178464748ba322dde20ce783c2b693ed8c04170e75a6",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "rawtraining218-windows/Release/qupathxx_tiff_xml.lib",
+    "bytes": 364046,
+    "sha256": "851f4733eccd1a3796f1591be9bcbe1c9842ed5d98813fa05f77b37899c5c0d8",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "rawtraining218-windows/Release/qupathxx_tissue_record_tests.exe",
+    "bytes": 2711040,
+    "sha256": "bc28fb304f43055e079870aa613dc55b7a7daff24ac21bc59122858fcce27892",
+    "source": "unattributed; mixed historical cache products"
+  },
+  {
+    "path": "rawtraining218-windows/Release/qupathxx_viewer_session_tests.exe",
+    "bytes": 3796480,
+    "sha256": "81bbf4568479ef66e15acfd6967ff0659c65d3751f0b1b2a573d1198804a2ec2",
+    "source": "unattributed; mixed historical cache products"
+  }
+]

@@ -1,0 +1,11 @@
+WARNING: Unknown module: javafx.graphics specified to --add-opens
+WARNING: Unknown module: javafx.base specified to --add-opens
+WARNING: Unknown module: javafx.web specified to --enable-native-access
+WARNING: Unknown module: javafx.graphics specified to --enable-native-access
+WARNING: Unknown module: javafx.media specified to --enable-native-access
+20:16:03.349 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting default Locale to en_US
+20:16:03.352 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting Locale for FORMAT to en_US
+20:16:03.352 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting Locale for DISPLAY to en_US
+20:16:03.372 [main] [INFO ] qupath.lib.common.ThreadTools - Setting parallelism to 19
+20:16:03.380 [main] [INFO ] qupath.ScriptCommand - Setting tile cache size to 16352.00 MB (25.0% max memory)
+20:16:03.465 [main] [INFO ] qupath.lib.scripting.QP - Initializing type adapters

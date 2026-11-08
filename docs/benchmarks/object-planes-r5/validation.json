@@ -1,0 +1,53 @@
+{
+  "native_source": "695158a80e9cc7ebb6d16d35437d7ab7156d2869",
+  "workflow_validation_source": "774abdc46e31799fb0518370dc587a7a59492c99",
+  "observer_source": "695158a80e9cc7ebb6d16d35437d7ab7156d2869",
+  "compiler_inputs": 452,
+  "source_fingerprint": "ebe8b86236d05b84d4a75c98b352cf5ffca3ebfbc69091c9695741cda867f176",
+  "compatibility_delta": [
+    "cpp/interchange.cpp"
+  ],
+  "native_sha256": "7a0b444c37c5a286d08da151b9073c43b789c446a04923fad06479fe35b9363a",
+  "wheel_sha256": "bf70c1b9dadfb094ae04073bd21d2498448a10b45c410f9a27886d846433aace",
+  "installed_members": 62,
+  "record_verified": true,
+  "staged_headless_passes": 50,
+  "staged_desktop_skips": 2,
+  "model_passes_at_workflow_source": 921,
+  "model_declared_skips": 24,
+  "model_failure_preserved": true,
+  "corrected_compatibility_cases": 1,
+  "distinct_headless_pass_identities": 972,
+  "native_suites_at_workflow_source": 9,
+  "affected_native_suites_at_current_source": 1,
+  "desktop_passes_at_workflow_source": 3,
+  "pre_build_tool_only_controls": 60,
+  "typing_intended_errors": 13,
+  "stub_generations": 1,
+  "product_installations": 2,
+  "native_builds": 3,
+  "build_seconds": [
+    791.5267468998209,
+    724.8322097999044,
+    45.02535769995302
+  ],
+  "full_platform_campaign": false,
+  "scope": "Declared local Windows object-plane import/view/selection/raw analysis/publication/storage/export workflow; source695158a8 corrects only the imported-plane exception contract from774abdc4. Unaffected checks retain their recorded source/configuration scope. Broader QuPath semantics/science/resources/release remain open.",
+  "products": [
+    {
+      "path": "products/qupathxx_interchange_tests.exe",
+      "cache_path": "Release/qupathxx_interchange_tests.exe",
+      "sha256": "8d658a31c6d64e8b17a4da935ce470ccb407b29745ba6c8d39cc2ed0cf618edf"
+    },
+    {
+      "path": "products/interchange.obj",
+      "cache_path": "qupathxx_core.dir/Release/interchange.obj",
+      "sha256": "35677cdf298865fa2b1830752d6c8ec1325bbefbb51c4668fbc1e2c1e9295c7d"
+    },
+    {
+      "path": "products/provenance.obj",
+      "cache_path": "qupathxx_core.dir/Release/provenance.obj",
+      "sha256": "f6e6556bbde0f4d9cc6bcd41b92c4ad511d0fb12281f9c71cb1ab9f27f8949ca"
+    }
+  ]
+}

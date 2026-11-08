@@ -1,0 +1,24 @@
+{
+  "observer_source": "8275228e623908be120d0cc1a88ce98bcf65fb58",
+  "product_source": "a66c8af5e7ca7b806029f9be0360ca43e3c91f05",
+  "test_source_sha256": "eb946d1d8aa096bff16a6d9ed564095025fec27c7aeb4f353d73e985ddf86ef5",
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\cmake.exe",
+    "--build",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package",
+    "--config",
+    "Release",
+    "--target",
+    "qupathxx_project_tests",
+    "--",
+    "/p:BuildProjectReferences=false"
+  ],
+  "returncode": 0,
+  "elapsed_seconds": 17.103251500055194,
+  "retained_products": {
+    "Release/qupathxx_core.lib": "76703be2e25643e45bb47edcbd0c9b1348cb20c3328532b2d1b3c06b18619310",
+    "qupathxx_core.dir/Release/provenance.obj": "c78af3f7c558ad1868d2de24391ba4f1d200cb63e85da2709abb4637fd76216e",
+    "Release/_native.cp312-win_amd64.pyd": "db6df22913623a5ad3dea47a01f1b1270ba77a39f77b2fb287b4d871e75abdbc"
+  },
+  "retained_products_unchanged": true
+}

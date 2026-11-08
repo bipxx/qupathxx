@@ -1,0 +1,91 @@
+{
+  "schema": "qpx.production-watershed-bodies-local/1",
+  "source": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+  "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+  "source_projection": {
+    "actual_source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+    "git_lf_source_tree_sha256": "2574939bad225f90a7698980f7e8c0203dd4b1c0b977f5f3a9c08eb20b556d94",
+    "input_count": 251,
+    "committed_inputs_match_compiled": true
+  },
+  "checks": {
+    "native": {
+      "passed": 47,
+      "sha256": "f13fe284245bacb55d9b84d5620e37e3ed2a068f11c92704d764c4bf3592cf99"
+    },
+    "focused": {
+      "passed": 92,
+      "sha256": "fc319420909e7ca4f7f4e26a9786798f38a7c85ea6348f234b2a7edaa24470ab"
+    }
+  },
+  "installed_workflow_sha256": "27ef11699b45181c40dbc8a41677e7a6c869249bb3d194205899aacd2ff605d6",
+  "stubs_sha256": "f5323cb57dde65ca62cc7b523f2183b1f4ad026dafb74e41bd25dac05ebb2130",
+  "positive_typing_sha256": "281a094c39385b4d7b53e5db635f52158036861433c2a4975b9039e77a627a24",
+  "negative_typing": {
+    "rejected_lines": [
+      6,
+      7,
+      8,
+      9,
+      11,
+      13,
+      14
+    ],
+    "sha256": "6609cfbbd23b6440ab6384c6fb424e7b6e35e5555efe992a91d6225ee16e8ead"
+  },
+  "production_comparison_sha256": "d938b5b950438666fa165cbf2dd821947e5897e9e857a1a902a79ab8db6ff252",
+  "exact_pinned_masks": {
+    "nucleus": [
+      "blank",
+      "isolated_three",
+      "touching_pair",
+      "gap_pair",
+      "size_filters",
+      "gradient_noise",
+      "anisotropic_level0"
+    ],
+    "body": [
+      "blank",
+      "isolated_three",
+      "touching_pair",
+      "gap_pair",
+      "size_filters",
+      "roi_cut_hole",
+      "gradient_noise",
+      "anisotropic_level0"
+    ]
+  },
+  "explicit_winding_compartments": 42,
+  "full_gui_accepted": true,
+  "hosted_matrix_accepted": false,
+  "macos_accepted": false,
+  "performance_accepted": false,
+  "release_ready": false,
+  "scope": "Completed local Windows typed-wheel/native/installed/stub/typing/focused and full GUI validation at source2afd, plus inspected source-bound native GUI capture. ROI-hole nuclei and unmatched resampling remain different; hosted, portable, Mac, hardware, broader biology and M0-M7/release acceptance remain separate.",
+  "full_gui": {
+    "passed": 2248,
+    "total": 2264,
+    "optional_skips": 13,
+    "strict_legacy_scientific_xfails": 3,
+    "junit_sha256": "3c841dd6123f957bc7be7dcbcb98b7ff2ae4bfc7330fea9ea22f35dd21441a55",
+    "log_sha256": "2e29c762ee061be06ada3488929fc54b4ca8ecb112b1b453f5b8f516988f01b9"
+  },
+  "desktop_capture": {
+    "source": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+    "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+    "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+    "frame_sha256": "b5ae90b489afbfe3c39cf26a1f92bf738698ee38dcd44e4511ef0f24a242a819",
+    "png_sha256": "26d9a2b163bbb107ca12173c1d5db6e6db03f1e1a219092c326c8c4546b45830",
+    "framebuffer": [
+      1600,
+      1000
+    ],
+    "renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+    "algorithm": "qpx.log-watershed-bodies/1",
+    "cell_count": 3,
+    "published_cells": 3,
+    "ui_overflow_items": 0,
+    "exact_native_gui_labels": true,
+    "visually_inspected": true
+  }
+}

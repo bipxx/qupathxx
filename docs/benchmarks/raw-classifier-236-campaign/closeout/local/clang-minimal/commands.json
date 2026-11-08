@@ -1,0 +1,70 @@
+[
+  {
+    "name": "configure",
+    "command": [
+      "wsl",
+      "-d",
+      "Ubuntu",
+      "--",
+      "cmake",
+      "-S",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw-classifier-236",
+      "-B",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/rawt5-236-clang-minimal",
+      "-G",
+      "Ninja",
+      "-DCMAKE_CXX_COMPILER=clang++",
+      "-DCMAKE_BUILD_TYPE=Release",
+      "-DQUPATHXX_BUILD_PYTHON=OFF",
+      "-DQUPATHXX_BUILD_GUI=OFF",
+      "-DQUPATHXX_BUILD_GEOS=OFF",
+      "-DQUPATHXX_BUILD_OPENSLIDE=OFF",
+      "-DQUPATHXX_BUILD_TIFF=OFF",
+      "-DQUPATHXX_BUILD_PROJECT=OFF",
+      "-DQUPATHXX_BUILD_INTERCHANGE=OFF",
+      "-DQUPATHXX_BUILD_CLASSIFIER_TRAINING=OFF",
+      "-DQUPATHXX_BUILD_TESTS=ON"
+    ],
+    "exit": 0,
+    "seconds": 14.284405499929562
+  },
+  {
+    "name": "build",
+    "command": [
+      "wsl",
+      "-d",
+      "Ubuntu",
+      "--",
+      "cmake",
+      "--build",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/rawt5-236-clang-minimal",
+      "--target",
+      "qupathxx_pixel_workflow_tests",
+      "--parallel",
+      "2"
+    ],
+    "exit": 0,
+    "seconds": 105.29991200007498
+  },
+  {
+    "name": "native-test",
+    "command": [
+      "wsl",
+      "-d",
+      "Ubuntu",
+      "--",
+      "ctest",
+      "--test-dir",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/rawt5-236-clang-minimal",
+      "-R",
+      "^pixel_workflows$",
+      "--output-on-failure",
+      "--test-output-size-passed",
+      "1048576",
+      "--output-junit",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/rawt5-236/clang-minimal-diagnostic/native-tests.xml"
+    ],
+    "exit": 0,
+    "seconds": 0.9004085001070052
+  }
+]

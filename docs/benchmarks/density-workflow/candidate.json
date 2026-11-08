@@ -1,0 +1,18 @@
+{
+  "source_revision": "cbf4102f2cffe6ed8f71549087ae5bf74cdcd8e2",
+  "source_tree_sha256": "5a98347c5447c5b8f414d299a3411e9554c72188f92e1ca3ecd7c8c69aeee96e",
+  "installed_package": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\density-workflow\\installed\\Lib\\site-packages\\qupathxx",
+  "installed_wheel_members_verified": 63,
+  "compiler_inputs_verified": 515,
+  "source_archive": "qupathxx-source-cbf4102f.zip",
+  "native_members": 58,
+  "provenance_binaries": [
+    "_native.cp312-win_amd64.pyd",
+    "qupathxx_app.exe",
+    "qupathxx_batch.exe"
+  ],
+  "region_cli_identity": "No linked BuildEnvironment; exact cached build/wheel/installed bytes verified",
+  "dependency_archives_verified": 12,
+  "wheel_license": "AGPL-3.0-only",
+  "support": "Local Windows x64 engineering candidate; no new fresh-host/platform or biological qualification"
+}

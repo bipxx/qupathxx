@@ -1,0 +1,209 @@
+#include "scientific_raster.hpp"
+#include "qupathxx/provenance.hpp"
+#include "sha256.hpp"
+#include "geometry_archive.hpp"
+#include "cell_sampling_grid.hpp"
+#include <array>
+#include <algorithm>
+#include <cmath>
+#include <cstring>
+#include <limits>
+#include <stdexcept>
+
+namespace qpx {
+namespace {
+void checkpoint(const std::atomic<bool>* c) {if(c && c->load(std::memory_order_relaxed)) throw std::runtime_error("scientific raster construction cancelled");}
+
+struct Stats {
+    std::uint64_t count=0,x=0,y=0;
+    std::int64_t left=std::numeric_limits<std::int64_t>::max(),top=std::numeric_limits<std::int64_t>::max(),right=0,bottom=0;
+};
+}
+double scientific_axis_centroid(const ScientificGridAxis& axis,std::uint64_t sum,std::uint64_t count) {
+    const auto mean=double(sum)/double(count),whole=std::floor(mean);
+    const auto anchor=axis.center(axis.first_index()+static_cast<std::int64_t>(whole)).binary64();
+    return anchor+(mean-whole)*GridFraction(axis.extent(),axis.samples()).binary64();
+}
+
+void validate_scientific_axis_geometry(const ScientificGridAxis& value,std::int64_t begin,std::int64_t end,const std::atomic<bool>* cancelled) {
+    checkpoint(cancelled);
+    const auto* axis=&value;
+    if(begin<axis->first_index() || end>axis->stop_index() || begin>=end) throw std::invalid_argument("invalid scientific geometry axis range");
+    {
+        const auto first=axis->edge(begin).binary64(),last=axis->edge(end).binary64();
+        // Bound the largest representable gap over the whole axis. Each center
+        // is half a step from either edge. If that exact distance exceeds the
+        // gap bound, nearest-even rounding cannot collapse either pair.
+        const auto magnitude=std::nextafter(std::max(std::abs(first),std::abs(last)),std::numeric_limits<double>::infinity());
+        const auto gap=std::nextafter(magnitude,std::numeric_limits<double>::infinity())-magnitude;
+        const auto lower_step=std::nextafter(GridFraction(axis->extent(),axis->samples()).binary64(),0.);
+        if(std::isfinite(magnitude) && lower_step>2*gap) return;
+        // Near representability boundaries retain the exact per-sample test.
+        auto previous=first;
+        for(auto i=begin;i<end;++i) {
+            if((i&4095)==0) checkpoint(cancelled);
+            const auto next=axis->edge(i+1).binary64(),center=axis->center(i).binary64();
+            if(!std::isfinite(previous) || !std::isfinite(next) || !(previous<center && center<next))
+                throw std::invalid_argument("scientific raster grid loses world coordinate precision");
+            previous=next;
+        }
+    }
+}
+bool scientific_core_roi_contains(const Roi& roi,const ScientificGrid& grid,RoiSamplingPolicy policy,std::size_t x,std::size_t y) {
+    const auto& ax=grid.x();const auto& ay=grid.y();
+    if(x>=std::uint64_t(grid.width()) || y>=std::uint64_t(grid.height())) throw std::out_of_range("scientific sample outside grid");
+    const auto i=std::int64_t(x)+ax.first_index(),j=std::int64_t(y)+ay.first_index();
+    if(i<0 || j<0 || i>=ax.samples() || j>=ay.samples()) return false;
+    const Point center{ax.center(i).binary64(),ay.center(j).binary64()};const auto b=roi.bounds();
+    if(center.x<b.x || center.y<b.y || center.x>=b.x+b.width || center.y>=b.y+b.height) return false;
+    return policy==RoiSamplingPolicy::GeometryCoverage?roi.contains(center):roi.contains_sample(center,policy);
+}
+void validate_scientific_raster_geometry(const ScientificGrid& grid,const std::atomic<bool>* cancelled) {
+    for(const auto* axis:{&grid.x(),&grid.y()})
+        validate_scientific_axis_geometry(*axis,axis->first_index(),axis->stop_index(),cancelled);
+}
+
+bool scientific_sample_eligible(const AnalysisRequest& source,const ScientificRgbGrid& input,std::size_t x,std::size_t y) {
+    if(x>=std::uint64_t(input.width()) || y>=std::uint64_t(input.height())) throw std::out_of_range("scientific sample outside grid");
+    return input.valid()[y*std::size_t(input.width())+x] && scientific_core_roi_contains(source.roi(),input.grid(),source.sampling_policy(),x,y);
+}
+std::uint64_t scientific_raster_work_bytes(const ScientificGrid& grid,std::uint32_t count,const Roi& roi,const AnalysisProvenance& source) {
+    return 29ULL*grid.width()*grid.height()+std::uint64_t(count)*(sizeof(Stats)+sizeof(TissueComponent))+
+        source.payload_bytes()+2ULL*roi.payload_bytes()+(sizeof(TissueResult)-detail::tissue_parameter_extension_bytes)+65536;
+}
+std::vector<TissueComponent> scientific_raster_components(const ScientificGrid& grid,const std::vector<std::uint32_t>& labels,
+    std::uint32_t count,const std::atomic<bool>* cancelled) {
+    std::vector<Stats> stats(count);
+    for(std::size_t i=0;i<labels.size();++i) {
+        if((i&4095)==0) checkpoint(cancelled);if(!labels[i]) continue;
+        if(labels[i]>count) throw std::invalid_argument("scientific raster label exceeds component count");
+        auto& s=stats[labels[i]-1];const auto x=std::int64_t(i%std::size_t(grid.width())),y=std::int64_t(i/std::size_t(grid.width()));
+        ++s.count;s.x+=x;s.y+=y;s.left=std::min(s.left,x);s.top=std::min(s.top,y);s.right=std::max(s.right,x);s.bottom=std::max(s.bottom,y);
+    }
+    auto edge_x=[&](std::int64_t x){return grid.x().edge(x+grid.x().first_index()).binary64();};
+    auto edge_y=[&](std::int64_t y){return grid.y().edge(y+grid.y().first_index()).binary64();};
+    std::vector<TissueComponent> components;components.reserve(count);
+    for(std::uint32_t i=0;i<count;++i) {
+        checkpoint(cancelled);const auto& s=stats[i];if(!s.count) throw std::invalid_argument("scientific raster labels are not dense");
+        const auto x=edge_x(s.left),y=edge_y(s.top);
+        components.push_back({i+1,s.count,{x,y,edge_x(s.right+1)-x,edge_y(s.bottom+1)-y},{scientific_axis_centroid(grid.x(),s.x,s.count),scientific_axis_centroid(grid.y(),s.y,s.count)}});
+    }
+    return components;
+}
+std::string scientific_raster_input_sha256(const AnalysisRequest& source,const ScientificRgbGrid& input,const std::atomic<bool>* cancelled) {
+    checkpoint(cancelled);const auto& grid=input.grid();
+    if(!source.provenance() || source.provenance()->source.width!=grid.image_width() || source.provenance()->source.height!=grid.image_height() || input.decoded_source_sha256().size()!=64)
+        throw std::invalid_argument("scientific input source dimensions or decoded snapshot differ");
+    Sha256 hash;constexpr char format[]="qpx.grid-opaque-rgb-area/1";hash.update(format,sizeof(format)-1);
+    auto text=[&](const std::string& value) {hash.integer(value.size());hash.update(value.data(),value.size());};
+    auto real=[&](double value) {std::uint64_t bits;std::memcpy(&bits,&value,sizeof(value));hash.integer(bits);};
+    text(input.decoded_source_sha256());text(source.provenance()->reader);hash.integer(0); // explicit source level zero
+    for(auto value:{grid.image_width(),grid.image_height(),grid.x().origin(),grid.y().origin(),grid.x().extent(),grid.y().extent(),grid.x().samples(),grid.y().samples(),grid.x().context(),grid.y().context()}) hash.integer(value);
+    hash.integer(static_cast<std::uint64_t>(source.kind()));hash.integer(static_cast<std::uint64_t>(source.sampling_policy()));
+    const auto geometry=GeometryArchiveCodec::encode(source.roi());hash.integer(geometry.size());hash.update(geometry.data(),geometry.size());
+    for(auto value:source.transform().white()) real(value);
+    for(const auto& vector:source.transform().stains()) for(auto value:vector) real(value);
+    for(const auto& value:{source.provenance()->effective_pixel_width_um,source.provenance()->effective_pixel_height_um}) {
+        hash.integer(value.has_value());if(value) real(*value);
+    }
+    // Actual eligibility captures geometry-library boundary decisions as well
+    // as source support. Pack row-major bits, least-significant bit first.
+    std::array<std::uint8_t,4096> buffer{};std::size_t used=0;std::uint8_t byte=0;unsigned bit=0;
+    for(std::size_t i=0;i<input.valid().size();++i) {
+        if((i&4095)==0) checkpoint(cancelled);
+        if(scientific_sample_eligible(source,input,i%std::size_t(grid.width()),i/std::size_t(grid.width()))) byte|=std::uint8_t(1u<<bit);
+        if(++bit==8) {buffer[used++]=byte;byte=0;bit=0;if(used==buffer.size()) {hash.update(buffer.data(),used);used=0;}}
+    }
+    if(bit) buffer[used++]=byte;if(used) hash.update(buffer.data(),used);
+    checkpoint(cancelled);return hash.finish();
+}
+std::shared_ptr<const TissueResult> ScientificRasterKernel::make(const AnalysisRequest& source,const ScientificRgbGrid& input,
+    std::vector<std::uint32_t> labels,const ScientificRasterSpec& spec,const std::atomic<bool>* cancelled) {
+    checkpoint(cancelled);const auto& p=spec.parameters;const auto& grid=input.grid();p.validate();
+    if(!spec.ticket || p.level!=0 || p.sampling_policy!=source.sampling_policy() ||
+       source.kind()!=(p.feature==TissueFeature::OpticalDensitySum?AnalysisKind::OpticalDensityMeans:AnalysisKind::StainMeans) || !source.provenance() ||
+       source.provenance()->source.width!=grid.image_width() || source.provenance()->source.height!=grid.image_height())
+        throw std::invalid_argument("scientific raster source, ticket, level or sampling policy differs");
+    if(!spec.input_sha256.empty() && (spec.input_sha256.size()!=64 || !std::all_of(spec.input_sha256.begin(),spec.input_sha256.end(),[](char c){return (c>='0' && c<='9') || (c>='a' && c<='f');})))
+        throw std::invalid_argument("invalid scientific raster input digest");
+    if(labels.size()!=input.valid().size()) throw std::invalid_argument("scientific raster dimensions differ");
+    validate_scientific_raster_geometry(grid,cancelled);
+    std::uint32_t count=0;std::uint64_t samples=0,foreground=0;
+    for(std::size_t i=0;i<labels.size();++i) {
+        if((i&4095)==0) checkpoint(cancelled);
+        const auto eligible=scientific_sample_eligible(source,input,i%std::size_t(grid.width()),i/std::size_t(grid.width()));
+        samples+=eligible;
+        if(labels[i]) {
+            if(!eligible) throw std::invalid_argument("scientific raster label lies outside eligible opaque core ROI samples");
+            if(labels[i]>p.max_components) throw std::length_error("scientific raster component limit exceeded");
+            count=std::max(count,labels[i]);++foreground;
+        }
+    }
+    if(!samples || spec.threshold_pixels>samples || spec.raw_components<count || spec.raw_components>p.max_components || (!spec.body && foreground>spec.threshold_pixels))
+        throw std::invalid_argument("scientific raster counters differ from eligible samples");
+    const auto charge=scientific_raster_work_bytes(grid,count,source.roi(),*source.provenance());
+    if(charge>p.work_bytes) throw std::length_error("scientific raster input, mask and component buffers exceed work budget");
+    const auto input_sha=scientific_raster_input_sha256(source,input,cancelled);
+    if(!spec.input_sha256.empty() && spec.input_sha256!=input_sha) throw std::invalid_argument("scientific raster input digest differs");
+    auto components=scientific_raster_components(grid,labels,count,cancelled);
+    auto result=std::shared_ptr<TissueResult>(new TissueResult());result->scientific_grid_=grid;result->ticket_=spec.ticket;
+    result->roi_=source.roi();result->provenance_=source.provenance();result->image_bounds_={0,0,double(grid.image_width()),double(grid.image_height())};
+    result->parameters_=p;result->white_=source.transform().white();result->stains_=source.transform().stains();
+    result->object_id_=source.object_id();result->object_revision_=source.object_revision();result->document_revision_=source.document_revision();result->nucleus_=source.nucleus();
+    result->algorithm_=spec.body?"qpx.grid-cell-bodies/1":"qpx.grid-cell-nuclei/1";result->input_format_override_="qpx.grid-opaque-rgb-area/1";result->input_sha256_=input_sha;
+    result->labels_=std::move(labels);result->samples_=samples;result->foreground_pixels_=foreground;result->raw_components_=spec.raw_components;
+    result->threshold_pixels_=result->cleaned_pixels_=spec.body?foreground:spec.threshold_pixels;result->estimated_work_bytes_=static_cast<std::size_t>(charge);
+    const auto left=result->sample_edge_x(0),top=result->sample_edge_y(0),right=result->sample_edge_x(result->width()),bottom=result->sample_edge_y(result->height());
+    result->bounds_={left,top,right-left,bottom-top};result->components_=std::move(components);
+    checkpoint(cancelled);return result;
+}
+std::shared_ptr<const TissueResult> ScientificRasterKernel::make(const AnalysisRequest& source,const CellRgbInput& input,
+    std::vector<std::uint32_t> labels,const ScientificRasterSpec& spec,const std::atomic<bool>* cancelled) {
+    if(input.area) return make(source,*input.area,std::move(labels),spec,cancelled);
+    return make_nominal(source,input,std::move(labels),spec,nullptr,cancelled);
+}
+std::pair<std::shared_ptr<const TissueResult>,std::shared_ptr<const TissueResult>> ScientificRasterKernel::make_pair(
+    const AnalysisRequest& source,const CellRgbInput& input,std::vector<std::uint32_t> nuclei,
+    std::vector<std::uint32_t> bodies,const ScientificRasterSpec& nucleus_spec,const ScientificRasterSpec& body_spec,
+    const std::atomic<bool>* cancelled) {
+    auto nucleus=make(source,input,std::move(nuclei),nucleus_spec,cancelled);
+    auto body=input.area?make(source,input,std::move(bodies),body_spec,cancelled):
+        make_nominal(source,input,std::move(bodies),body_spec,&nucleus->input_sha256(),cancelled);
+    return {std::move(nucleus),std::move(body)};
+}
+std::shared_ptr<const TissueResult> ScientificRasterKernel::make_nominal(const AnalysisRequest& source,const CellRgbInput& input,
+    std::vector<std::uint32_t> labels,const ScientificRasterSpec& spec,const std::string* computed_digest,const std::atomic<bool>* cancelled) {
+    checkpoint(cancelled);const auto& p=spec.parameters;const auto& grid=input.grid;p.validate();
+    if(!spec.ticket || !grid.nominal || p.level!=0 || p.sampling_policy!=source.sampling_policy() ||
+       source.kind()!=(p.feature==TissueFeature::OpticalDensitySum?AnalysisKind::OpticalDensityMeans:AnalysisKind::StainMeans) || !source.provenance() ||
+       source.provenance()->source.width!=grid.image_width() || source.provenance()->source.height!=grid.image_height() || labels.size()!=input.valid().size())
+        throw std::invalid_argument("nominal cell raster source or dimensions differ");
+    std::uint32_t count=0;std::uint64_t samples=0,foreground=0;
+    for(std::size_t i=0;i<labels.size();++i) {
+        if((i&4095)==0) checkpoint(cancelled);
+        const auto eligible=input.valid()[i] && grid.core_roi_contains(source.roi(),source.sampling_policy(),i%std::size_t(grid.width()),i/std::size_t(grid.width()));
+        samples+=eligible;
+        if(labels[i]) {
+            if(!eligible || labels[i]>p.max_components) throw std::invalid_argument("nominal cell label exceeds eligible core domain or component limit");
+            count=std::max(count,labels[i]);++foreground;
+        }
+    }
+    if(!samples || spec.threshold_pixels>samples || spec.raw_components<count || spec.raw_components>p.max_components || (!spec.body && foreground>spec.threshold_pixels))
+        throw std::invalid_argument("nominal cell raster counters differ");
+    const auto charge=29ULL*labels.size()+std::uint64_t(count)*(sizeof(Stats)+sizeof(TissueComponent))+
+        source.provenance()->payload_bytes()+2ULL*source.roi().payload_bytes()+(sizeof(TissueResult)-detail::tissue_parameter_extension_bytes)+sizeof(NominalCellSampling)+65536;
+    if(charge>p.work_bytes) throw std::length_error("nominal cell raster exceeds work budget");
+    const auto digest=computed_digest?*computed_digest:cell_raster_input_sha256(source,input,cancelled);
+    if(!spec.input_sha256.empty() && spec.input_sha256!=digest) throw std::invalid_argument("nominal cell raster input differs");
+    auto result=std::shared_ptr<TissueResult>(new TissueResult());result->nominal_sampling_=grid.nominal;result->ticket_=spec.ticket;
+    result->roi_=source.roi();result->provenance_=source.provenance();result->image_bounds_={0,0,double(grid.image_width()),double(grid.image_height())};
+    result->parameters_=p;result->white_=source.transform().white();result->stains_=source.transform().stains();
+    result->object_id_=source.object_id();result->object_revision_=source.object_revision();result->document_revision_=source.document_revision();result->nucleus_=source.nucleus();
+    result->algorithm_=spec.algorithm_override?spec.algorithm_override:grid.mask_algorithm(spec.body);result->input_format_override_=grid.input_format();result->input_sha256_=digest;
+    result->downsample_=grid.step_x();result->samples_=samples;result->foreground_pixels_=foreground;result->raw_components_=spec.raw_components;
+    result->threshold_pixels_=result->cleaned_pixels_=spec.body?foreground:spec.threshold_pixels;result->estimated_work_bytes_=std::size_t(charge);
+    result->components_=grid.components(labels,count,cancelled);result->labels_=std::move(labels);
+    const auto x=grid.edge_x(0),y=grid.edge_y(0);result->bounds_={x,y,grid.edge_x(grid.width())-x,grid.edge_y(grid.height())-y};
+    checkpoint(cancelled);return result;
+}
+}

@@ -1,0 +1,6 @@
+{
+  "exit": 1,
+  "stage": "compiler fingerprint assertion before stub generation",
+  "reason": "Windows Path ordering differs from CMake case-sensitive relative-path sorting",
+  "driver_sha256": "15ff5b5a331a6ab637602751b4c294b616a8f601bb9b654b5444e08e028b4028"
+}

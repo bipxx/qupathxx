@@ -1,11 +1,13 @@
 # Native multi-image project storage
 
 The native `Project` owns shared documents, stable image IDs, image names and
-source descriptors. SQLite schema version 11 stores canonical object state,
+source descriptors. SQLite schema version 21 stores canonical object state,
 class definitions, per-axis calibration, source metadata, the active image and
 per-image camera/display views, retained analysis records, tissue masks, cell runs,
 object-classifier artifacts, pixel training/prediction artifacts, external pixel
-stream links and tissue microarray metadata. Schemas 1–10
+stream links, tissue microarray metadata, TIFF view descriptors, raw analysis
+[spatial distance tables](spatial-analysis.md) optional [object properties](object-properties.md) and
+[source verification](reader-source-association.md#project-verification-and-reviewed-replacement), historical image facts, saved analysis defaults and typed ImageData properties. Schemas 1–20
 remain readable; see [workspace migration](project-workspace.md) and
 [analysis provenance](analysis-provenance.md), [tissue archives](tissue-archive.md)
 [cell archives](cell-archive.md), [pixel classifier archives](pixel-classifier-archives.md),
@@ -65,6 +67,53 @@ input digests. They load as unverified historical values until a background
 recheck; see [analysis provenance](analysis-provenance.md). Full-source and
 environment provenance remain M5 work.
 
+## Historical image facts
+
+Schema19 adds `image_properties(image_id, payload)`, a sparse row keyed by the
+owning image. It reuses the bounded checksummed ObjectProperties codec for
+metadata and measurements; ROI lock/color/probability state is rejected at image
+level. Empty facts need no row. Schemas1-18 load with no image facts, and save
+creates the table inside the existing canonical transaction. Bad payload types,
+checksums, duplicate/orphan rows or invalid image-level editing state refuse.
+
+`Document.image_properties` owns immutable historical maps. Changes use one
+ordinary document history entry and leave object IDs, ROI facts, calibration,
+selection and ROI/render revisions unchanged. Save snapshots share the immutable
+value and charge its payload before starting IO. An in-flight save retains its
+captured value while later edits remain dirty. The loader restores facts directly
+into the private candidate without synthetic commands or persisted history.
+See [image facts](image-properties.md) for the API and import/inspector contract.
+
+## Saved image analysis defaults
+
+Schema20 adds sparse `image_analysis_settings(image_id, payload)` rows. Immutable
+owning values retain image type, profile/channel names, all three normalized
+stain vectors, residual identity and positive finite white. The existing
+checksummed facts codec carries a distinct typed marker; malformed, incompatible,
+duplicate or orphan settings refuse before publication. Schemas1-19 default
+empty. Table creation and canonical writes share the existing save transaction.
+
+Set/clear uses ordinary staged document history. Snapshots copy the native value
+and charge its payload; an in-flight save preserves its captured defaults while
+later edits remain dirty. Settings do not rewrite explicit analysis requests or
+retained recipes. See [saved defaults](image-analysis-settings.md) for Python,
+import, GUI adoption and RGB8 application limits.
+
+## Saved ImageData properties
+
+Schema21 adds sparse `image_data_properties(image_id, payload)` rows for portable
+typed null/bool/int64/binary64/text/list/map values. Native immutable shared
+construction and snapshots retain exact integers, nonfinite reals and nested
+values independently of Python wrappers. Property-only edits use normal history
+and leave ROI/render state, facts, defaults and explicit recipes unchanged.
+
+The bounded `QDP1` encoding uses sorted keys, typed values and the existing SHA-256
+authority. Loading checks checksum, canonical form, types, depth/count/payload
+bounds, duplicate keys/rows and owning image before publication. Schemas1-20
+default empty; table creation and writes share the existing migration transaction.
+Encoded SQL buffers stay alive through statement completion. See the
+[typed-property API/import policy](image-data-properties.md).
+
 ## Transactions and save conflicts
 
 Saves use one `BEGIN IMMEDIATE` transaction with `synchronous=FULL`. Prepared
@@ -74,7 +123,7 @@ are removed. Commit updates the in-memory saved path, generation and saved
 document revisions only after SQLite reports success. A failure rolls back the
 transaction and leaves unsaved in-memory edits available.
 
-The application ID is `0x51505858` and new `user_version` is 5. Schemas 1–4 migrate
+The application ID is `0x51505858` and new `user_version` is 21. Schemas 1–20 migrate
 transactionally on save. Unknown schemas and
 unrelated databases are rejected. A different project identity at the destination
 is rejected rather than overwritten. Save to a new filename for a separate copy.
@@ -88,7 +137,13 @@ filesystem and operating system assumptions of SQLite. Current failure tests
 install a trigger that aborts object insertion after earlier tables have been
 rewritten inside the transaction. They verify rollback, the previous project,
 generation/dirty state and SQLite `quick_check`. This is actual mid-save failure
-coverage; a process-kill/power-loss fault campaign remains a delivery gate.
+coverage. Existing `test_project_save.py` also kills a real native writer after
+its hot journal appears, verifies writable native recovery, and checks that a
+read-only refusal preserves the journal for a later writable recovery.
+`test_project_recovery.py` and `test_recovery_work_cleanup.py` cover abnormal exit,
+released locks and abandoned native-autosave work. These establish their tested
+process-death boundaries, not hardware power-loss durability. Reconcile these
+results before selecting another fault; there is no automatic repeat campaign.
 The format is a local SQLite database. External journal-mode/schema manipulation
 and network-filesystem durability are not part of the validated support matrix.
 
@@ -104,8 +159,15 @@ pixel request. Missing slides therefore do not prevent restoring annotations,
 classes or image dimensions. Pixel operations report a reader error until the
 link is restored. `relink(id, path)` opens a candidate and checks dimensions,
 pixel layout and every pyramid level before changing the descriptor/server.
-Manual calibration and object state remain intact. Existing references to an
-older server retain that server; the document uses the new link.
+It retains that exact verified reader in the new link, publishing its source
+observation immediately under a fresh wrapper generation. First use does not
+reopen the path. PPM retains its verified owned pixels if the path is later
+removed/replaced; TIFF/OpenSlide retain their existing reader/version behavior.
+Manual calibration, TIFF selection/budgets and object state remain intact.
+Existing references to an older server retain that server; closing the new link
+does not close those old owners. Failed verification leaves the original link
+and dirty state intact. Save snapshots and ordinary project reopening remain lazy.
+See the [scoped handoff checks](benchmarks/project-relink-r5/README.md).
 
 Relink checks structural metadata compatibility, not byte identity. Same-sized
 images with different pixels are not detected by a full-file hash. Source
@@ -219,3 +281,138 @@ records 891.3 ms native loading, 16.94 ms CPU frame p95 and 295.17 ms maximum
 frame work, with all one million objects selected, 792 visible and 4096000 bytes
 of GPU tile payload. This extends the measured flat-rectangle loading workload;
 it does not establish complex-shape, memory-pressure or cold/vendor performance.
+
+
+Opened native image documents
+-----------------------------
+
+`Project.add_document(document)` now infers the file link for an opened native
+OpenSlide or quantitative TIFF source. It preserves that source's reader and,
+for TIFF, its current axes/display selection. The project stores metadata and
+analysis records rather than embedding slide pixels. An explicit conflicting
+reader is rejected before changing the project. In-memory dense RGB images
+remain embedded; caller-supplied source paths retain their existing validation.
+
+The Hamamatsu NDPI validation packet exercises this path with real nine-level
+pixels, anisotropic calibration and a saved/replayed LoG run. The new default attachment behavior passes local native and Python/full
+Windows headless checks in its original packet. Retain source-specific receipts;
+[current scheduling and validation](api-delivery-plan.md#validation-and-build-policy)
+determine any new campaign. No database schema or existing archive encoding changes
+were needed for that attachment workflow.
+
+## Saved source verification (schema15)
+
+`source_verifications(image_id,payload)` stores optional associations for external
+images. The bounded2MiB QSV1 payload has a versioned binary header, source graph,
+file fingerprint/status and SHA-256 trailer; canonical decoding rejects malformed,
+orphan or embedded-image rows. Ordinary open restores immutable facts without
+source I/O. Missing source files remain recoverable project entries.
+
+Schemas1–14 remain readable and are upgraded on save within the same transaction
+as project rows. Failure rolls back the schema/data and preserves the prior
+committed project. Async snapshots retain the association. Clearing verification
+is an explicit project mutation. See the [review API](reader-source-association.md#project-verification-and-reviewed-replacement)
+and [scoped evidence](benchmarks/source-verification-r5/README.md).
+
+### Recovery-gap reconciliation (2026-11-04)
+
+Existing [installed results](benchmarks/annotation-migration-recovery-local/installed.xml)
+record successful writable/read-only hot-journal cases, abnormal-exit lock release,
+whole-snapshot publication during termination, locked cleanup refusal, cleanup
+failure/retry and both explicit/automatic killed-native-autosave collection cases.
+These assertions were inspected in the corresponding current tests; the older
+results retain their original source scope and are not retesting the SOURCE1
+product. SOURCE1 separately verifies its changed association persistence and
+rollback. [Cross-session work collection](recovery-work-cleanup.md#evidence-and-remaining-scope)
+already covers prior destination names and committed snapshot rescue.
+
+No new generic process-kill or cleanup campaign follows from this reconciliation.
+Unknown/unmarked debris and cooperating lock inodes are deliberately preserved.
+Full power-loss/network-filesystem durability and broader storage-pressure bounds
+remain unproved; they need a declared support/workload contract. The next concrete
+R5 implementation gap is imported object properties, which the current GeoJSON
+and saved-data routes explicitly report as dropped.
+
+## Imported object properties (schema16)
+
+[ObjectProperties](object-properties.md) retains historical string metadata and
+named binary64 measurements in immutable owners shared by objects/history/save
+snapshots. `object_properties(image_id,object_id,payload)` references the canonical
+object identity. Its bounded checksummed QOP1 codec preserves signed zero and
+special values; orphan/malformed/noncanonical data rejects before publication.
+Schemas1–15 migrate within the existing save transaction. No input-source reads
+or second Python object model are introduced. See the [local workflow evidence](benchmarks/object-properties-r5/README.md);
+remaining editing-state/plane and release work stays in the queue.
+
+## Object editing state (schema17)
+
+Schema17 uses the existing object_properties table. QOP1 remains readable and
+canonical for ordinary metadata/measurements; QOP2 adds lock/color/reported-probability
+fields. Opening schema16 permits only QOP1. Saving advances the version in the same
+transaction as object rows; a failure rolls back both. No new image read or separate
+frontend store is introduced. See the [field contract](object-properties.md#object-editing-state-editstate1-locally-verified)
+and [native/Python/UI evidence](benchmarks/object-edit-state-r5/README.md).
+
+
+## Object planes (schema18; locally verified)
+
+[Local workflow evidence](benchmarks/object-planes-r5/README.md) records the
+declared scope and retained failures. The sparse `object_planes(image_id, object_id, c, z, t)` table stores non-default
+object planes. Absent rows retain the legacy channel -1/Z0/time0 interpretation;
+schemas 1–17 remain readable and migrate transactionally on save. Constraints,
+loader checks and object foreign keys reject malformed/orphaned rows. Object
+planes travel with immutable save blocks and undo/redo snapshots.
+
+A document identifies one source series. Series changes still require another
+document. `ObjectPlane(c=-1,z=0,t=0)` uses zero-based indices; channel -1 applies
+to all channels, but Z/time are concrete indices. New interactive/native create
+commands use an explicit `ObjectEdit.create/create_geometry(..., plane=...)`
+when supplied; otherwise they inherit a parent plane or use the active displayed
+Z/time. Geometry/name/class replacement keeps
+the object's plane; `set_object_plane` and `ObjectEdit.plane` explicitly change
+it. Parent Z/time must match the child and a channel-specific parent can contain
+only that channel. Boolean/merge operands require identical planes.
+
+GeoJSON and pinned saved-data decoding retain plane components, including matching
+cell/nucleus planes. Live import/plane commands check actual source axis bounds;
+non-default planes require the quantitative TIFF reader. Project reopen remains
+lazy when a linked file is missing: it checks stored syntax/hierarchy without
+opening every source; actual reader/view/request validation checks source bounds
+when accessed. Out-of-range imports remain errors even with loss permission.
+
+Spatial queries/picking and interactive selection expose only objects matching
+the active Z/time and an enabled display channel. Document object enumeration
+still includes all planes for archival/scripted access. Display intensity/stain
+analysis refuses an object on another plane, or a channel-specific mask over a
+mixed-channel composite. Raw analysis/training/prediction requires matching
+Z/time and, for channel-specific masks, exactly the specified single channel.
+Source/object replacement uses existing request identity checks to reject stale
+publication. Explicit raw requests remain valid across display-only changes and
+may sample an object's matching plane even when another plane is displayed.
+Created tissue/pixel/streamed contour objects retain the source result plane,
+including when publication is unclipped and a different plane is displayed.
+Interactive imports retain all objects and select only currently visible ones. Shape-only/historical facts remain usable
+without changing the display.
+
+GeoJSON emits non-default planes for body and nucleus; measurement CSV adds
+`plane_c,plane_z,plane_t` only when the selection contains a non-default plane.
+No serialization of arbitrary Java plugins or execution of Groovy is introduced.
+
+Axisless QPTMA imports retain their legacy default plane, independent of the
+current display. QPTMA export refuses a non-default core plane rather than
+silently dropping it; native project storage preserves it. The existing 2D
+spatial-distance request refuses selections mixing Z/time planes; same-plane
+geometry comparisons remain independent of the displayed plane.
+
+
+## Retained planes on source replacement
+
+[Local SOURCEAXES1 evidence](benchmarks/source-plane-replacement-r5/README.md)
+verifies direct relink and reviewed adoption against retained object planes.
+Display width/height/pyramid compatibility is followed by current Z/time/channel
+bounds when non-default planes require it. A different candidate is checked
+immediately before publication, including edits/undo after review. Refusal keeps
+the old source/path/baseline and does not consume the review; repairing object
+planes can make that same byte review applicable. Candidate metadata/reader
+ownership is reused, with no pixel decoding or second reader open. A matching
+live-source no-op is unchanged. Schema18 and public signatures are unchanged.

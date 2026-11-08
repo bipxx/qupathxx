@@ -1,0 +1,62 @@
+[
+  {
+    "classname": "tests.test_source_identity",
+    "name": "test_openslide_primary_file_is_observed_without_claiming_complete_dependencies",
+    "message": "native pyramid"
+  },
+  {
+    "classname": "tests.test_source_identity",
+    "name": "test_gui_associates_active_reader_generation_and_exports_json[False]",
+    "message": "desktop replay"
+  },
+  {
+    "classname": "tests.test_source_identity",
+    "name": "test_gui_associates_active_reader_generation_and_exports_json[True]",
+    "message": "desktop replay"
+  },
+  {
+    "classname": "tests.test_file_fingerprint",
+    "name": "test_gui_file_hash_exports_json_without_selected_annotation[False]",
+    "message": "desktop replay"
+  },
+  {
+    "classname": "tests.test_file_fingerprint",
+    "name": "test_gui_file_hash_exports_json_without_selected_annotation[True]",
+    "message": "desktop replay"
+  },
+  {
+    "classname": "tests.test_file_fingerprint",
+    "name": "test_gui_failed_file_hash_preserves_old_output_and_document",
+    "message": "desktop replay"
+  },
+  {
+    "classname": "tests.test_provenance",
+    "name": "test_openslide_capture_keeps_native_locator_and_all_pyramid_levels",
+    "message": "requires OpenSlide"
+  },
+  {
+    "classname": "tests.test_raw_grid_frontends",
+    "name": "test_raw_grid_desktop_measure_keep_csv_and_render",
+    "message": "opt-in raw grid desktop"
+  },
+  {
+    "classname": "tests.test_raw_grid_frontends",
+    "name": "test_raw_grid_managed_producer_retains_verifies_and_saves",
+    "message": "opt-in raw grid desktop"
+  },
+  {
+    "classname": "tests.test_raw_grid_frontends",
+    "name": "test_raw_grid_desktop_batch_matches_native_recipe_and_resume",
+    "message": "opt-in raw grid desktop"
+  },
+  {
+    "classname": "tests.test_raw_materialized_streaming",
+    "name": "test_reduced_budget_imgui_measure_keep_and_render",
+    "message": "opt-in raw grid desktop"
+  },
+  {
+    "classname": "tests.test_raw_materialized_streaming",
+    "name": "test_reduced_budget_managed_viewer_retains_verifies_and_saves",
+    "message": "opt-in raw grid desktop"
+  }
+]

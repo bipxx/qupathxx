@@ -1,0 +1,68 @@
+{
+  "native_source": "acbdc3884a4bab3d99c62e383e9e42de89c79523",
+  "observer_source": "64acd1305fc585ea77890b2487e11620ff90dc92",
+  "source_fingerprint": "561dcf8a366c0a88c1f1da9c4c3873f51c0abd59d4e7d70d7e3fa81110694c86",
+  "compiler_inputs": 435,
+  "changed_compiler_inputs": [
+    "cpp/bindings.cpp",
+    "cpp/document_edits.cpp",
+    "cpp/gui.cpp",
+    "cpp/include/qupathxx/core.hpp",
+    "cpp/include/qupathxx/viewer_session.hpp",
+    "cpp/tests/geometry_edits_tests.cpp",
+    "cpp/tests/viewer_session_tests.cpp",
+    "cpp/viewer_bindings.cpp",
+    "cpp/viewer_session.cpp"
+  ],
+  "installed_members": 62,
+  "native_sha256": "8df188b78168b25d0c8b03e4e354a368ea8a2db7bd7cbc20dc99bb789ddedd70",
+  "wheel_sha256": "9a88130eafada25fce913163d9872fb3ab09a17dc11d465434853054142e629a",
+  "model_passes": 74,
+  "model_declared_skips": 15,
+  "desktop_passes": 4,
+  "distinct_merge_passes": 24,
+  "baseline_failures": 10,
+  "native_suites": 3,
+  "positive_typing": true,
+  "intended_typing_errors": 4,
+  "installed_stub_check": true,
+  "record_verified": true,
+  "one_selected_target_build": true,
+  "one_final_install": true,
+  "stub_repackage_native_unchanged": true,
+  "prior_codec_archives_unchanged": true,
+  "full_platform_campaign": false,
+  "ui_capture_reviewed": "merge-0.png, selected merged annotation and Tumor class visible",
+  "products": [
+    {
+      "path": "products/_native.cp312-win_amd64.pyd",
+      "cache_path": "Release/_native.cp312-win_amd64.pyd",
+      "sha256": "8df188b78168b25d0c8b03e4e354a368ea8a2db7bd7cbc20dc99bb789ddedd70"
+    },
+    {
+      "path": "products/qupathxx_geometry_edits_tests.exe",
+      "cache_path": "Release/qupathxx_geometry_edits_tests.exe",
+      "sha256": "7f3e85990eb7d17b512581d6703e89ec9c25faf674e7ced0360c02a4aae27dc0"
+    },
+    {
+      "path": "products/qupathxx_viewer_session_tests.exe",
+      "cache_path": "Release/qupathxx_viewer_session_tests.exe",
+      "sha256": "7a6c1ac8a84df0d2ec722297f415ae0816118f098871e7f97aa19d36e182a7f3"
+    },
+    {
+      "path": "products/qupathxx_selection_tests.exe",
+      "cache_path": "Release/qupathxx_selection_tests.exe",
+      "sha256": "8abf4c6136c6f1fe3edaed6cd63e5da1acb6dd3b74394a588d1c41938271fd26"
+    },
+    {
+      "path": "products/document_edits.obj",
+      "cache_path": "qupathxx_core.dir/Release/document_edits.obj",
+      "sha256": "67b81c15961e4a4f2a9f66233cec7791b7df0fbceef67ba9a1a6b830f02a21a1"
+    },
+    {
+      "path": "products/provenance.obj",
+      "cache_path": "qupathxx_core.dir/Release/provenance.obj",
+      "sha256": "9e70515434c97d5150c1d0951df76a5d7e0079a15ee248929df01b52259d97ff"
+    }
+  ]
+}

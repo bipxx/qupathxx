@@ -1,0 +1,670 @@
+{
+  "schema": "qpx.rgb-nominal-holdout/1",
+  "cases": [
+    {
+      "name": "gradient",
+      "requests": [
+        {
+          "name": "full_0_6",
+          "downsample": 0.6,
+          "bounds": [
+            0,
+            0,
+            31,
+            29
+          ]
+        },
+        {
+          "name": "full_0_9",
+          "downsample": 0.9,
+          "bounds": [
+            0,
+            0,
+            31,
+            29
+          ]
+        },
+        {
+          "name": "full_1",
+          "downsample": 1,
+          "bounds": [
+            0,
+            0,
+            31,
+            29
+          ]
+        },
+        {
+          "name": "full_1_1",
+          "downsample": 1.1,
+          "bounds": [
+            0,
+            0,
+            31,
+            29
+          ]
+        },
+        {
+          "name": "full_1_7",
+          "downsample": 1.7,
+          "bounds": [
+            0,
+            0,
+            31,
+            29
+          ]
+        },
+        {
+          "name": "full_2_1",
+          "downsample": 2.1,
+          "bounds": [
+            0,
+            0,
+            31,
+            29
+          ]
+        },
+        {
+          "name": "full_2_75",
+          "downsample": 2.75,
+          "bounds": [
+            0,
+            0,
+            31,
+            29
+          ]
+        },
+        {
+          "name": "full_4_2",
+          "downsample": 4.2,
+          "bounds": [
+            0,
+            0,
+            31,
+            29
+          ]
+        },
+        {
+          "name": "full_7_125",
+          "downsample": 7.125,
+          "bounds": [
+            0,
+            0,
+            31,
+            29
+          ]
+        },
+        {
+          "name": "crop_1_1",
+          "downsample": 1.1,
+          "bounds": [
+            3,
+            5,
+            24,
+            20
+          ]
+        },
+        {
+          "name": "crop_2_1",
+          "downsample": 2.1,
+          "bounds": [
+            3,
+            5,
+            24,
+            20
+          ]
+        },
+        {
+          "name": "crop_2_75",
+          "downsample": 2.75,
+          "bounds": [
+            3,
+            5,
+            24,
+            20
+          ]
+        }
+      ]
+    },
+    {
+      "name": "checker",
+      "requests": [
+        {
+          "name": "full_0_6",
+          "downsample": 0.6,
+          "bounds": [
+            0,
+            0,
+            31,
+            29
+          ]
+        },
+        {
+          "name": "full_0_9",
+          "downsample": 0.9,
+          "bounds": [
+            0,
+            0,
+            31,
+            29
+          ]
+        },
+        {
+          "name": "full_1",
+          "downsample": 1,
+          "bounds": [
+            0,
+            0,
+            31,
+            29
+          ]
+        },
+        {
+          "name": "full_1_1",
+          "downsample": 1.1,
+          "bounds": [
+            0,
+            0,
+            31,
+            29
+          ]
+        },
+        {
+          "name": "full_1_7",
+          "downsample": 1.7,
+          "bounds": [
+            0,
+            0,
+            31,
+            29
+          ]
+        },
+        {
+          "name": "full_2_1",
+          "downsample": 2.1,
+          "bounds": [
+            0,
+            0,
+            31,
+            29
+          ]
+        },
+        {
+          "name": "full_2_75",
+          "downsample": 2.75,
+          "bounds": [
+            0,
+            0,
+            31,
+            29
+          ]
+        },
+        {
+          "name": "full_4_2",
+          "downsample": 4.2,
+          "bounds": [
+            0,
+            0,
+            31,
+            29
+          ]
+        },
+        {
+          "name": "full_7_125",
+          "downsample": 7.125,
+          "bounds": [
+            0,
+            0,
+            31,
+            29
+          ]
+        },
+        {
+          "name": "crop_1_1",
+          "downsample": 1.1,
+          "bounds": [
+            3,
+            5,
+            24,
+            20
+          ]
+        },
+        {
+          "name": "crop_2_1",
+          "downsample": 2.1,
+          "bounds": [
+            3,
+            5,
+            24,
+            20
+          ]
+        },
+        {
+          "name": "crop_2_75",
+          "downsample": 2.75,
+          "bounds": [
+            3,
+            5,
+            24,
+            20
+          ]
+        }
+      ]
+    },
+    {
+      "name": "noise",
+      "requests": [
+        {
+          "name": "full_0_6",
+          "downsample": 0.6,
+          "bounds": [
+            0,
+            0,
+            31,
+            29
+          ]
+        },
+        {
+          "name": "full_0_9",
+          "downsample": 0.9,
+          "bounds": [
+            0,
+            0,
+            31,
+            29
+          ]
+        },
+        {
+          "name": "full_1",
+          "downsample": 1,
+          "bounds": [
+            0,
+            0,
+            31,
+            29
+          ]
+        },
+        {
+          "name": "full_1_1",
+          "downsample": 1.1,
+          "bounds": [
+            0,
+            0,
+            31,
+            29
+          ]
+        },
+        {
+          "name": "full_1_7",
+          "downsample": 1.7,
+          "bounds": [
+            0,
+            0,
+            31,
+            29
+          ]
+        },
+        {
+          "name": "full_2_1",
+          "downsample": 2.1,
+          "bounds": [
+            0,
+            0,
+            31,
+            29
+          ]
+        },
+        {
+          "name": "full_2_75",
+          "downsample": 2.75,
+          "bounds": [
+            0,
+            0,
+            31,
+            29
+          ]
+        },
+        {
+          "name": "full_4_2",
+          "downsample": 4.2,
+          "bounds": [
+            0,
+            0,
+            31,
+            29
+          ]
+        },
+        {
+          "name": "full_7_125",
+          "downsample": 7.125,
+          "bounds": [
+            0,
+            0,
+            31,
+            29
+          ]
+        },
+        {
+          "name": "crop_1_1",
+          "downsample": 1.1,
+          "bounds": [
+            3,
+            5,
+            24,
+            20
+          ]
+        },
+        {
+          "name": "crop_2_1",
+          "downsample": 2.1,
+          "bounds": [
+            3,
+            5,
+            24,
+            20
+          ]
+        },
+        {
+          "name": "crop_2_75",
+          "downsample": 2.75,
+          "bounds": [
+            3,
+            5,
+            24,
+            20
+          ]
+        }
+      ]
+    },
+    {
+      "name": "offset",
+      "requests": [
+        {
+          "name": "full_0_6",
+          "downsample": 0.6,
+          "bounds": [
+            0,
+            0,
+            47,
+            33
+          ]
+        },
+        {
+          "name": "full_0_9",
+          "downsample": 0.9,
+          "bounds": [
+            0,
+            0,
+            47,
+            33
+          ]
+        },
+        {
+          "name": "full_1",
+          "downsample": 1,
+          "bounds": [
+            0,
+            0,
+            47,
+            33
+          ]
+        },
+        {
+          "name": "full_1_1",
+          "downsample": 1.1,
+          "bounds": [
+            0,
+            0,
+            47,
+            33
+          ]
+        },
+        {
+          "name": "full_1_7",
+          "downsample": 1.7,
+          "bounds": [
+            0,
+            0,
+            47,
+            33
+          ]
+        },
+        {
+          "name": "full_2_1",
+          "downsample": 2.1,
+          "bounds": [
+            0,
+            0,
+            47,
+            33
+          ]
+        },
+        {
+          "name": "full_2_75",
+          "downsample": 2.75,
+          "bounds": [
+            0,
+            0,
+            47,
+            33
+          ]
+        },
+        {
+          "name": "full_4_2",
+          "downsample": 4.2,
+          "bounds": [
+            0,
+            0,
+            47,
+            33
+          ]
+        },
+        {
+          "name": "full_7_125",
+          "downsample": 7.125,
+          "bounds": [
+            0,
+            0,
+            47,
+            33
+          ]
+        },
+        {
+          "name": "crop_1_1",
+          "downsample": 1.1,
+          "bounds": [
+            3,
+            5,
+            40,
+            24
+          ]
+        },
+        {
+          "name": "crop_2_1",
+          "downsample": 2.1,
+          "bounds": [
+            3,
+            5,
+            40,
+            24
+          ]
+        },
+        {
+          "name": "crop_2_75",
+          "downsample": 2.75,
+          "bounds": [
+            3,
+            5,
+            40,
+            24
+          ]
+        }
+      ]
+    },
+    {
+      "name": "wide",
+      "requests": [
+        {
+          "name": "full_0_6",
+          "downsample": 0.6,
+          "bounds": [
+            0,
+            0,
+            19,
+            1
+          ]
+        },
+        {
+          "name": "full_0_9",
+          "downsample": 0.9,
+          "bounds": [
+            0,
+            0,
+            19,
+            1
+          ]
+        },
+        {
+          "name": "full_1",
+          "downsample": 1,
+          "bounds": [
+            0,
+            0,
+            19,
+            1
+          ]
+        },
+        {
+          "name": "full_1_1",
+          "downsample": 1.1,
+          "bounds": [
+            0,
+            0,
+            19,
+            1
+          ]
+        },
+        {
+          "name": "full_1_7",
+          "downsample": 1.7,
+          "bounds": [
+            0,
+            0,
+            19,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "name": "thin",
+      "requests": [
+        {
+          "name": "full_0_6",
+          "downsample": 0.6,
+          "bounds": [
+            0,
+            0,
+            1,
+            23
+          ]
+        },
+        {
+          "name": "full_0_9",
+          "downsample": 0.9,
+          "bounds": [
+            0,
+            0,
+            1,
+            23
+          ]
+        },
+        {
+          "name": "full_1",
+          "downsample": 1,
+          "bounds": [
+            0,
+            0,
+            1,
+            23
+          ]
+        },
+        {
+          "name": "full_1_1",
+          "downsample": 1.1,
+          "bounds": [
+            0,
+            0,
+            1,
+            23
+          ]
+        },
+        {
+          "name": "full_1_7",
+          "downsample": 1.7,
+          "bounds": [
+            0,
+            0,
+            1,
+            23
+          ]
+        }
+      ]
+    },
+    {
+      "name": "one",
+      "requests": [
+        {
+          "name": "full_0_6",
+          "downsample": 0.6,
+          "bounds": [
+            0,
+            0,
+            1,
+            1
+          ]
+        },
+        {
+          "name": "full_0_9",
+          "downsample": 0.9,
+          "bounds": [
+            0,
+            0,
+            1,
+            1
+          ]
+        },
+        {
+          "name": "full_1",
+          "downsample": 1,
+          "bounds": [
+            0,
+            0,
+            1,
+            1
+          ]
+        },
+        {
+          "name": "full_1_1",
+          "downsample": 1.1,
+          "bounds": [
+            0,
+            0,
+            1,
+            1
+          ]
+        },
+        {
+          "name": "full_1_7",
+          "downsample": 1.7,
+          "bounds": [
+            0,
+            0,
+            1,
+            1
+          ]
+        }
+      ]
+    }
+  ]
+}

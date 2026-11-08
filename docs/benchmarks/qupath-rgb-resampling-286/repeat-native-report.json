@@ -1,0 +1,2211 @@
+{
+  "schema": "qpx.qupath-rgb-resampling-models/1",
+  "state": "characterized-partial",
+  "scope": "Opaque RGB WrappedBufferedImageServer public readRegion on four synthetic inputs and nine in-bounds requests each.",
+  "capture_manifest_sha256": "f423900a817b8371002e02e808adb0ad6e2f706e95c73d8028a1f80f1172405b",
+  "comparison_tool_sha256": "27a76b50c04f81ea9e7978cc8f251b0542fac7536281282a345b66fc56bca7f7",
+  "cases": [
+    {
+      "case_name": "gradient",
+      "request_name": "full_0_75",
+      "downsample": 0.75,
+      "bounds": [
+        0,
+        0,
+        17,
+        13
+      ],
+      "width": 23,
+      "height": 17,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer",
+      "nominal_step": [
+        0.75,
+        0.75
+      ],
+      "realized_step": [
+        0.7391304347826086,
+        0.7647058823529411
+      ],
+      "shape_round_half_up": [
+        23,
+        17
+      ],
+      "shape_ceil": [
+        23,
+        18
+      ],
+      "models": {
+        "nominal_nearest": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "nominal_half_up": {
+          "changed_components": 1021,
+          "maximum_error": 6
+        },
+        "nominal_ties_even": {
+          "changed_components": 1021,
+          "maximum_error": 6
+        },
+        "realized_nearest": {
+          "changed_components": 273,
+          "maximum_error": 13
+        },
+        "realized_half_up": {
+          "changed_components": 1035,
+          "maximum_error": 9
+        },
+        "realized_ties_even": {
+          "changed_components": 1035,
+          "maximum_error": 9
+        }
+      },
+      "native_rgba8_area": {
+        "changed_components": 917,
+        "maximum_error": 9
+      }
+    },
+    {
+      "case_name": "gradient",
+      "request_name": "full_1",
+      "downsample": 1.0,
+      "bounds": [
+        0,
+        0,
+        17,
+        13
+      ],
+      "width": 17,
+      "height": 13,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer",
+      "nominal_step": [
+        1,
+        1
+      ],
+      "realized_step": [
+        1.0,
+        1.0
+      ],
+      "shape_round_half_up": [
+        17,
+        13
+      ],
+      "shape_ceil": [
+        17,
+        13
+      ],
+      "models": {
+        "nominal_nearest": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "nominal_half_up": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "nominal_ties_even": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "realized_nearest": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "realized_half_up": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "realized_ties_even": {
+          "changed_components": 0,
+          "maximum_error": 0
+        }
+      },
+      "native_rgba8_area": {
+        "changed_components": 0,
+        "maximum_error": 0
+      }
+    },
+    {
+      "case_name": "gradient",
+      "request_name": "full_1_25",
+      "downsample": 1.25,
+      "bounds": [
+        0,
+        0,
+        17,
+        13
+      ],
+      "width": 14,
+      "height": 10,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer",
+      "nominal_step": [
+        1.25,
+        1.25
+      ],
+      "realized_step": [
+        1.2142857142857142,
+        1.3
+      ],
+      "shape_round_half_up": [
+        14,
+        10
+      ],
+      "shape_ceil": [
+        14,
+        11
+      ],
+      "models": {
+        "nominal_nearest": {
+          "changed_components": 369,
+          "maximum_error": 6
+        },
+        "nominal_half_up": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "nominal_ties_even": {
+          "changed_components": 32,
+          "maximum_error": 1
+        },
+        "realized_nearest": {
+          "changed_components": 375,
+          "maximum_error": 12
+        },
+        "realized_half_up": {
+          "changed_components": 337,
+          "maximum_error": 6
+        },
+        "realized_ties_even": {
+          "changed_components": 338,
+          "maximum_error": 6
+        }
+      },
+      "native_rgba8_area": {
+        "changed_components": 351,
+        "maximum_error": 6
+      }
+    },
+    {
+      "case_name": "gradient",
+      "request_name": "full_1_5",
+      "downsample": 1.5,
+      "bounds": [
+        0,
+        0,
+        17,
+        13
+      ],
+      "width": 11,
+      "height": 9,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer",
+      "nominal_step": [
+        1.5,
+        1.5
+      ],
+      "realized_step": [
+        1.5454545454545454,
+        1.4444444444444444
+      ],
+      "shape_round_half_up": [
+        11,
+        9
+      ],
+      "shape_ceil": [
+        12,
+        9
+      ],
+      "models": {
+        "nominal_nearest": {
+          "changed_components": 297,
+          "maximum_error": 4
+        },
+        "nominal_half_up": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "nominal_ties_even": {
+          "changed_components": 44,
+          "maximum_error": 1
+        },
+        "realized_nearest": {
+          "changed_components": 297,
+          "maximum_error": 10
+        },
+        "realized_half_up": {
+          "changed_components": 248,
+          "maximum_error": 6
+        },
+        "realized_ties_even": {
+          "changed_components": 248,
+          "maximum_error": 6
+        }
+      },
+      "native_rgba8_area": {
+        "changed_components": 253,
+        "maximum_error": 7
+      }
+    },
+    {
+      "case_name": "gradient",
+      "request_name": "full_2",
+      "downsample": 2.0,
+      "bounds": [
+        0,
+        0,
+        17,
+        13
+      ],
+      "width": 9,
+      "height": 7,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer",
+      "nominal_step": [
+        2,
+        2
+      ],
+      "realized_step": [
+        1.8888888888888888,
+        1.8571428571428572
+      ],
+      "shape_round_half_up": [
+        9,
+        7
+      ],
+      "shape_ceil": [
+        9,
+        7
+      ],
+      "models": {
+        "nominal_nearest": {
+          "changed_components": 189,
+          "maximum_error": 232
+        },
+        "nominal_half_up": {
+          "changed_components": 45,
+          "maximum_error": 232
+        },
+        "nominal_ties_even": {
+          "changed_components": 45,
+          "maximum_error": 232
+        },
+        "realized_nearest": {
+          "changed_components": 189,
+          "maximum_error": 232
+        },
+        "realized_half_up": {
+          "changed_components": 189,
+          "maximum_error": 225
+        },
+        "realized_ties_even": {
+          "changed_components": 189,
+          "maximum_error": 225
+        }
+      },
+      "native_rgba8_area": {
+        "changed_components": 188,
+        "maximum_error": 225
+      }
+    },
+    {
+      "case_name": "gradient",
+      "request_name": "full_2_3",
+      "downsample": 2.3,
+      "bounds": [
+        0,
+        0,
+        17,
+        13
+      ],
+      "width": 7,
+      "height": 6,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer",
+      "nominal_step": [
+        2.3,
+        2.3
+      ],
+      "realized_step": [
+        2.4285714285714284,
+        2.1666666666666665
+      ],
+      "shape_round_half_up": [
+        7,
+        6
+      ],
+      "shape_ceil": [
+        8,
+        6
+      ],
+      "models": {
+        "nominal_nearest": {
+          "changed_components": 113,
+          "maximum_error": 7
+        },
+        "nominal_half_up": {
+          "changed_components": 5,
+          "maximum_error": 1
+        },
+        "nominal_ties_even": {
+          "changed_components": 2,
+          "maximum_error": 1
+        },
+        "realized_nearest": {
+          "changed_components": 116,
+          "maximum_error": 12
+        },
+        "realized_half_up": {
+          "changed_components": 110,
+          "maximum_error": 11
+        },
+        "realized_ties_even": {
+          "changed_components": 110,
+          "maximum_error": 11
+        }
+      },
+      "native_rgba8_area": {
+        "changed_components": 114,
+        "maximum_error": 10
+      }
+    },
+    {
+      "case_name": "gradient",
+      "request_name": "full_3_75",
+      "downsample": 3.75,
+      "bounds": [
+        0,
+        0,
+        17,
+        13
+      ],
+      "width": 5,
+      "height": 3,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer",
+      "nominal_step": [
+        3.75,
+        3.75
+      ],
+      "realized_step": [
+        3.4,
+        4.333333333333333
+      ],
+      "shape_round_half_up": [
+        5,
+        3
+      ],
+      "shape_ceil": [
+        5,
+        4
+      ],
+      "models": {
+        "nominal_nearest": {
+          "changed_components": 37,
+          "maximum_error": 6
+        },
+        "nominal_half_up": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "nominal_ties_even": {
+          "changed_components": 4,
+          "maximum_error": 1
+        },
+        "realized_nearest": {
+          "changed_components": 42,
+          "maximum_error": 20
+        },
+        "realized_half_up": {
+          "changed_components": 39,
+          "maximum_error": 15
+        },
+        "realized_ties_even": {
+          "changed_components": 39,
+          "maximum_error": 15
+        }
+      },
+      "native_rgba8_area": {
+        "changed_components": 40,
+        "maximum_error": 16
+      }
+    },
+    {
+      "case_name": "gradient",
+      "request_name": "crop_1_5",
+      "downsample": 1.5,
+      "bounds": [
+        1,
+        2,
+        14,
+        9
+      ],
+      "width": 9,
+      "height": 6,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer",
+      "nominal_step": [
+        1.5,
+        1.5
+      ],
+      "realized_step": [
+        1.5555555555555556,
+        1.5
+      ],
+      "shape_round_half_up": [
+        9,
+        6
+      ],
+      "shape_ceil": [
+        10,
+        6
+      ],
+      "models": {
+        "nominal_nearest": {
+          "changed_components": 162,
+          "maximum_error": 4
+        },
+        "nominal_half_up": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "nominal_ties_even": {
+          "changed_components": 27,
+          "maximum_error": 1
+        },
+        "realized_nearest": {
+          "changed_components": 162,
+          "maximum_error": 10
+        },
+        "realized_half_up": {
+          "changed_components": 117,
+          "maximum_error": 6
+        },
+        "realized_ties_even": {
+          "changed_components": 117,
+          "maximum_error": 6
+        }
+      },
+      "native_rgba8_area": {
+        "changed_components": 141,
+        "maximum_error": 6
+      }
+    },
+    {
+      "case_name": "gradient",
+      "request_name": "crop_2_3",
+      "downsample": 2.3,
+      "bounds": [
+        3,
+        1,
+        12,
+        11
+      ],
+      "width": 5,
+      "height": 5,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer",
+      "nominal_step": [
+        2.3,
+        2.3
+      ],
+      "realized_step": [
+        2.4,
+        2.2
+      ],
+      "shape_round_half_up": [
+        5,
+        5
+      ],
+      "shape_ceil": [
+        6,
+        5
+      ],
+      "models": {
+        "nominal_nearest": {
+          "changed_components": 70,
+          "maximum_error": 7
+        },
+        "nominal_half_up": {
+          "changed_components": 5,
+          "maximum_error": 1
+        },
+        "nominal_ties_even": {
+          "changed_components": 3,
+          "maximum_error": 1
+        },
+        "realized_nearest": {
+          "changed_components": 68,
+          "maximum_error": 11
+        },
+        "realized_half_up": {
+          "changed_components": 59,
+          "maximum_error": 6
+        },
+        "realized_ties_even": {
+          "changed_components": 62,
+          "maximum_error": 6
+        }
+      },
+      "native_rgba8_area": {
+        "changed_components": 63,
+        "maximum_error": 6
+      }
+    },
+    {
+      "case_name": "checker",
+      "request_name": "full_0_75",
+      "downsample": 0.75,
+      "bounds": [
+        0,
+        0,
+        17,
+        13
+      ],
+      "width": 23,
+      "height": 17,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer",
+      "nominal_step": [
+        0.75,
+        0.75
+      ],
+      "realized_step": [
+        0.7391304347826086,
+        0.7647058823529411
+      ],
+      "shape_round_half_up": [
+        23,
+        17
+      ],
+      "shape_ceil": [
+        23,
+        18
+      ],
+      "models": {
+        "nominal_nearest": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "nominal_half_up": {
+          "changed_components": 1114,
+          "maximum_error": 120
+        },
+        "nominal_ties_even": {
+          "changed_components": 1114,
+          "maximum_error": 120
+        },
+        "realized_nearest": {
+          "changed_components": 182,
+          "maximum_error": 255
+        },
+        "realized_half_up": {
+          "changed_components": 1044,
+          "maximum_error": 155
+        },
+        "realized_ties_even": {
+          "changed_components": 1044,
+          "maximum_error": 155
+        }
+      },
+      "native_rgba8_area": {
+        "changed_components": 904,
+        "maximum_error": 165
+      }
+    },
+    {
+      "case_name": "checker",
+      "request_name": "full_1",
+      "downsample": 1.0,
+      "bounds": [
+        0,
+        0,
+        17,
+        13
+      ],
+      "width": 17,
+      "height": 13,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer",
+      "nominal_step": [
+        1,
+        1
+      ],
+      "realized_step": [
+        1.0,
+        1.0
+      ],
+      "shape_round_half_up": [
+        17,
+        13
+      ],
+      "shape_ceil": [
+        17,
+        13
+      ],
+      "models": {
+        "nominal_nearest": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "nominal_half_up": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "nominal_ties_even": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "realized_nearest": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "realized_half_up": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "realized_ties_even": {
+          "changed_components": 0,
+          "maximum_error": 0
+        }
+      },
+      "native_rgba8_area": {
+        "changed_components": 0,
+        "maximum_error": 0
+      }
+    },
+    {
+      "case_name": "checker",
+      "request_name": "full_1_25",
+      "downsample": 1.25,
+      "bounds": [
+        0,
+        0,
+        17,
+        13
+      ],
+      "width": 14,
+      "height": 10,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer",
+      "nominal_step": [
+        1.25,
+        1.25
+      ],
+      "realized_step": [
+        1.2142857142857142,
+        1.3
+      ],
+      "shape_round_half_up": [
+        14,
+        10
+      ],
+      "shape_ceil": [
+        14,
+        11
+      ],
+      "models": {
+        "nominal_nearest": {
+          "changed_components": 410,
+          "maximum_error": 120
+        },
+        "nominal_half_up": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "nominal_ties_even": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "realized_nearest": {
+          "changed_components": 410,
+          "maximum_error": 223
+        },
+        "realized_half_up": {
+          "changed_components": 420,
+          "maximum_error": 121
+        },
+        "realized_ties_even": {
+          "changed_components": 420,
+          "maximum_error": 121
+        }
+      },
+      "native_rgba8_area": {
+        "changed_components": 419,
+        "maximum_error": 105
+      }
+    },
+    {
+      "case_name": "checker",
+      "request_name": "full_1_5",
+      "downsample": 1.5,
+      "bounds": [
+        0,
+        0,
+        17,
+        13
+      ],
+      "width": 11,
+      "height": 9,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer",
+      "nominal_step": [
+        1.5,
+        1.5
+      ],
+      "realized_step": [
+        1.5454545454545454,
+        1.4444444444444444
+      ],
+      "shape_round_half_up": [
+        11,
+        9
+      ],
+      "shape_ceil": [
+        12,
+        9
+      ],
+      "models": {
+        "nominal_nearest": {
+          "changed_components": 286,
+          "maximum_error": 96
+        },
+        "nominal_half_up": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "nominal_ties_even": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "realized_nearest": {
+          "changed_components": 286,
+          "maximum_error": 191
+        },
+        "realized_half_up": {
+          "changed_components": 297,
+          "maximum_error": 121
+        },
+        "realized_ties_even": {
+          "changed_components": 297,
+          "maximum_error": 121
+        }
+      },
+      "native_rgba8_area": {
+        "changed_components": 297,
+        "maximum_error": 101
+      }
+    },
+    {
+      "case_name": "checker",
+      "request_name": "full_2",
+      "downsample": 2.0,
+      "bounds": [
+        0,
+        0,
+        17,
+        13
+      ],
+      "width": 9,
+      "height": 7,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer",
+      "nominal_step": [
+        2,
+        2
+      ],
+      "realized_step": [
+        1.8888888888888888,
+        1.8571428571428572
+      ],
+      "shape_round_half_up": [
+        9,
+        7
+      ],
+      "shape_ceil": [
+        9,
+        7
+      ],
+      "models": {
+        "nominal_nearest": {
+          "changed_components": 172,
+          "maximum_error": 255
+        },
+        "nominal_half_up": {
+          "changed_components": 28,
+          "maximum_error": 128
+        },
+        "nominal_ties_even": {
+          "changed_components": 28,
+          "maximum_error": 128
+        },
+        "realized_nearest": {
+          "changed_components": 144,
+          "maximum_error": 128
+        },
+        "realized_half_up": {
+          "changed_components": 187,
+          "maximum_error": 128
+        },
+        "realized_ties_even": {
+          "changed_components": 187,
+          "maximum_error": 128
+        }
+      },
+      "native_rgba8_area": {
+        "changed_components": 189,
+        "maximum_error": 127
+      }
+    },
+    {
+      "case_name": "checker",
+      "request_name": "full_2_3",
+      "downsample": 2.3,
+      "bounds": [
+        0,
+        0,
+        17,
+        13
+      ],
+      "width": 7,
+      "height": 6,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer",
+      "nominal_step": [
+        2.3,
+        2.3
+      ],
+      "realized_step": [
+        2.4285714285714284,
+        2.1666666666666665
+      ],
+      "shape_round_half_up": [
+        7,
+        6
+      ],
+      "shape_ceil": [
+        8,
+        6
+      ],
+      "models": {
+        "nominal_nearest": {
+          "changed_components": 119,
+          "maximum_error": 126
+        },
+        "nominal_half_up": {
+          "changed_components": 69,
+          "maximum_error": 1
+        },
+        "nominal_ties_even": {
+          "changed_components": 69,
+          "maximum_error": 1
+        },
+        "realized_nearest": {
+          "changed_components": 126,
+          "maximum_error": 255
+        },
+        "realized_half_up": {
+          "changed_components": 126,
+          "maximum_error": 181
+        },
+        "realized_ties_even": {
+          "changed_components": 126,
+          "maximum_error": 181
+        }
+      },
+      "native_rgba8_area": {
+        "changed_components": 125,
+        "maximum_error": 137
+      }
+    },
+    {
+      "case_name": "checker",
+      "request_name": "full_3_75",
+      "downsample": 3.75,
+      "bounds": [
+        0,
+        0,
+        17,
+        13
+      ],
+      "width": 5,
+      "height": 3,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer",
+      "nominal_step": [
+        3.75,
+        3.75
+      ],
+      "realized_step": [
+        3.4,
+        4.333333333333333
+      ],
+      "shape_round_half_up": [
+        5,
+        3
+      ],
+      "shape_ceil": [
+        5,
+        4
+      ],
+      "models": {
+        "nominal_nearest": {
+          "changed_components": 42,
+          "maximum_error": 120
+        },
+        "nominal_half_up": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "nominal_ties_even": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "realized_nearest": {
+          "changed_components": 45,
+          "maximum_error": 255
+        },
+        "realized_half_up": {
+          "changed_components": 45,
+          "maximum_error": 223
+        },
+        "realized_ties_even": {
+          "changed_components": 45,
+          "maximum_error": 223
+        }
+      },
+      "native_rgba8_area": {
+        "changed_components": 45,
+        "maximum_error": 105
+      }
+    },
+    {
+      "case_name": "checker",
+      "request_name": "crop_1_5",
+      "downsample": 1.5,
+      "bounds": [
+        1,
+        2,
+        14,
+        9
+      ],
+      "width": 9,
+      "height": 6,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer",
+      "nominal_step": [
+        1.5,
+        1.5
+      ],
+      "realized_step": [
+        1.5555555555555556,
+        1.5
+      ],
+      "shape_round_half_up": [
+        9,
+        6
+      ],
+      "shape_ceil": [
+        10,
+        6
+      ],
+      "models": {
+        "nominal_nearest": {
+          "changed_components": 162,
+          "maximum_error": 96
+        },
+        "nominal_half_up": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "nominal_ties_even": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "realized_nearest": {
+          "changed_components": 162,
+          "maximum_error": 191
+        },
+        "realized_half_up": {
+          "changed_components": 108,
+          "maximum_error": 120
+        },
+        "realized_ties_even": {
+          "changed_components": 108,
+          "maximum_error": 120
+        }
+      },
+      "native_rgba8_area": {
+        "changed_components": 162,
+        "maximum_error": 100
+      }
+    },
+    {
+      "case_name": "checker",
+      "request_name": "crop_2_3",
+      "downsample": 2.3,
+      "bounds": [
+        3,
+        1,
+        12,
+        11
+      ],
+      "width": 5,
+      "height": 5,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer",
+      "nominal_step": [
+        2.3,
+        2.3
+      ],
+      "realized_step": [
+        2.4,
+        2.2
+      ],
+      "shape_round_half_up": [
+        5,
+        5
+      ],
+      "shape_ceil": [
+        6,
+        5
+      ],
+      "models": {
+        "nominal_nearest": {
+          "changed_components": 75,
+          "maximum_error": 126
+        },
+        "nominal_half_up": {
+          "changed_components": 51,
+          "maximum_error": 1
+        },
+        "nominal_ties_even": {
+          "changed_components": 51,
+          "maximum_error": 1
+        },
+        "realized_nearest": {
+          "changed_components": 75,
+          "maximum_error": 216
+        },
+        "realized_half_up": {
+          "changed_components": 75,
+          "maximum_error": 114
+        },
+        "realized_ties_even": {
+          "changed_components": 75,
+          "maximum_error": 114
+        }
+      },
+      "native_rgba8_area": {
+        "changed_components": 70,
+        "maximum_error": 136
+      }
+    },
+    {
+      "case_name": "noise",
+      "request_name": "full_0_75",
+      "downsample": 0.75,
+      "bounds": [
+        0,
+        0,
+        17,
+        13
+      ],
+      "width": 23,
+      "height": 17,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer",
+      "nominal_step": [
+        0.75,
+        0.75
+      ],
+      "realized_step": [
+        0.7391304347826086,
+        0.7647058823529411
+      ],
+      "shape_round_half_up": [
+        23,
+        17
+      ],
+      "shape_ceil": [
+        23,
+        18
+      ],
+      "models": {
+        "nominal_nearest": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "nominal_half_up": {
+          "changed_components": 1155,
+          "maximum_error": 129
+        },
+        "nominal_ties_even": {
+          "changed_components": 1154,
+          "maximum_error": 129
+        },
+        "realized_nearest": {
+          "changed_components": 273,
+          "maximum_error": 247
+        },
+        "realized_half_up": {
+          "changed_components": 1138,
+          "maximum_error": 162
+        },
+        "realized_ties_even": {
+          "changed_components": 1138,
+          "maximum_error": 162
+        }
+      },
+      "native_rgba8_area": {
+        "changed_components": 1063,
+        "maximum_error": 163
+      }
+    },
+    {
+      "case_name": "noise",
+      "request_name": "full_1",
+      "downsample": 1.0,
+      "bounds": [
+        0,
+        0,
+        17,
+        13
+      ],
+      "width": 17,
+      "height": 13,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer",
+      "nominal_step": [
+        1,
+        1
+      ],
+      "realized_step": [
+        1.0,
+        1.0
+      ],
+      "shape_round_half_up": [
+        17,
+        13
+      ],
+      "shape_ceil": [
+        17,
+        13
+      ],
+      "models": {
+        "nominal_nearest": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "nominal_half_up": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "nominal_ties_even": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "realized_nearest": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "realized_half_up": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "realized_ties_even": {
+          "changed_components": 0,
+          "maximum_error": 0
+        }
+      },
+      "native_rgba8_area": {
+        "changed_components": 0,
+        "maximum_error": 0
+      }
+    },
+    {
+      "case_name": "noise",
+      "request_name": "full_1_25",
+      "downsample": 1.25,
+      "bounds": [
+        0,
+        0,
+        17,
+        13
+      ],
+      "width": 14,
+      "height": 10,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer",
+      "nominal_step": [
+        1.25,
+        1.25
+      ],
+      "realized_step": [
+        1.2142857142857142,
+        1.3
+      ],
+      "shape_round_half_up": [
+        14,
+        10
+      ],
+      "shape_ceil": [
+        14,
+        11
+      ],
+      "models": {
+        "nominal_nearest": {
+          "changed_components": 416,
+          "maximum_error": 103
+        },
+        "nominal_half_up": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "nominal_ties_even": {
+          "changed_components": 6,
+          "maximum_error": 1
+        },
+        "realized_nearest": {
+          "changed_components": 417,
+          "maximum_error": 199
+        },
+        "realized_half_up": {
+          "changed_components": 414,
+          "maximum_error": 121
+        },
+        "realized_ties_even": {
+          "changed_components": 414,
+          "maximum_error": 121
+        }
+      },
+      "native_rgba8_area": {
+        "changed_components": 413,
+        "maximum_error": 89
+      }
+    },
+    {
+      "case_name": "noise",
+      "request_name": "full_1_5",
+      "downsample": 1.5,
+      "bounds": [
+        0,
+        0,
+        17,
+        13
+      ],
+      "width": 11,
+      "height": 9,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer",
+      "nominal_step": [
+        1.5,
+        1.5
+      ],
+      "realized_step": [
+        1.5454545454545454,
+        1.4444444444444444
+      ],
+      "shape_round_half_up": [
+        11,
+        9
+      ],
+      "shape_ceil": [
+        12,
+        9
+      ],
+      "models": {
+        "nominal_nearest": {
+          "changed_components": 296,
+          "maximum_error": 97
+        },
+        "nominal_half_up": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "nominal_ties_even": {
+          "changed_components": 10,
+          "maximum_error": 1
+        },
+        "realized_nearest": {
+          "changed_components": 296,
+          "maximum_error": 180
+        },
+        "realized_half_up": {
+          "changed_components": 296,
+          "maximum_error": 97
+        },
+        "realized_ties_even": {
+          "changed_components": 296,
+          "maximum_error": 97
+        }
+      },
+      "native_rgba8_area": {
+        "changed_components": 295,
+        "maximum_error": 86
+      }
+    },
+    {
+      "case_name": "noise",
+      "request_name": "full_2",
+      "downsample": 2.0,
+      "bounds": [
+        0,
+        0,
+        17,
+        13
+      ],
+      "width": 9,
+      "height": 7,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer",
+      "nominal_step": [
+        2,
+        2
+      ],
+      "realized_step": [
+        1.8888888888888888,
+        1.8571428571428572
+      ],
+      "shape_round_half_up": [
+        9,
+        7
+      ],
+      "shape_ceil": [
+        9,
+        7
+      ],
+      "models": {
+        "nominal_nearest": {
+          "changed_components": 187,
+          "maximum_error": 249
+        },
+        "nominal_half_up": {
+          "changed_components": 45,
+          "maximum_error": 223
+        },
+        "nominal_ties_even": {
+          "changed_components": 67,
+          "maximum_error": 223
+        },
+        "realized_nearest": {
+          "changed_components": 187,
+          "maximum_error": 251
+        },
+        "realized_half_up": {
+          "changed_components": 188,
+          "maximum_error": 209
+        },
+        "realized_ties_even": {
+          "changed_components": 188,
+          "maximum_error": 209
+        }
+      },
+      "native_rgba8_area": {
+        "changed_components": 187,
+        "maximum_error": 192
+      }
+    },
+    {
+      "case_name": "noise",
+      "request_name": "full_2_3",
+      "downsample": 2.3,
+      "bounds": [
+        0,
+        0,
+        17,
+        13
+      ],
+      "width": 7,
+      "height": 6,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer",
+      "nominal_step": [
+        2.3,
+        2.3
+      ],
+      "realized_step": [
+        2.4285714285714284,
+        2.1666666666666665
+      ],
+      "shape_round_half_up": [
+        7,
+        6
+      ],
+      "shape_ceil": [
+        8,
+        6
+      ],
+      "models": {
+        "nominal_nearest": {
+          "changed_components": 126,
+          "maximum_error": 116
+        },
+        "nominal_half_up": {
+          "changed_components": 20,
+          "maximum_error": 1
+        },
+        "nominal_ties_even": {
+          "changed_components": 20,
+          "maximum_error": 1
+        },
+        "realized_nearest": {
+          "changed_components": 125,
+          "maximum_error": 164
+        },
+        "realized_half_up": {
+          "changed_components": 125,
+          "maximum_error": 134
+        },
+        "realized_ties_even": {
+          "changed_components": 125,
+          "maximum_error": 134
+        }
+      },
+      "native_rgba8_area": {
+        "changed_components": 125,
+        "maximum_error": 94
+      }
+    },
+    {
+      "case_name": "noise",
+      "request_name": "full_3_75",
+      "downsample": 3.75,
+      "bounds": [
+        0,
+        0,
+        17,
+        13
+      ],
+      "width": 5,
+      "height": 3,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer",
+      "nominal_step": [
+        3.75,
+        3.75
+      ],
+      "realized_step": [
+        3.4,
+        4.333333333333333
+      ],
+      "shape_round_half_up": [
+        5,
+        3
+      ],
+      "shape_ceil": [
+        5,
+        4
+      ],
+      "models": {
+        "nominal_nearest": {
+          "changed_components": 44,
+          "maximum_error": 63
+        },
+        "nominal_half_up": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "nominal_ties_even": {
+          "changed_components": 2,
+          "maximum_error": 1
+        },
+        "realized_nearest": {
+          "changed_components": 45,
+          "maximum_error": 207
+        },
+        "realized_half_up": {
+          "changed_components": 45,
+          "maximum_error": 175
+        },
+        "realized_ties_even": {
+          "changed_components": 45,
+          "maximum_error": 175
+        }
+      },
+      "native_rgba8_area": {
+        "changed_components": 45,
+        "maximum_error": 113
+      }
+    },
+    {
+      "case_name": "noise",
+      "request_name": "crop_1_5",
+      "downsample": 1.5,
+      "bounds": [
+        1,
+        2,
+        14,
+        9
+      ],
+      "width": 9,
+      "height": 6,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer",
+      "nominal_step": [
+        1.5,
+        1.5
+      ],
+      "realized_step": [
+        1.5555555555555556,
+        1.5
+      ],
+      "shape_round_half_up": [
+        9,
+        6
+      ],
+      "shape_ceil": [
+        10,
+        6
+      ],
+      "models": {
+        "nominal_nearest": {
+          "changed_components": 160,
+          "maximum_error": 89
+        },
+        "nominal_half_up": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "nominal_ties_even": {
+          "changed_components": 7,
+          "maximum_error": 1
+        },
+        "realized_nearest": {
+          "changed_components": 160,
+          "maximum_error": 172
+        },
+        "realized_half_up": {
+          "changed_components": 160,
+          "maximum_error": 66
+        },
+        "realized_ties_even": {
+          "changed_components": 160,
+          "maximum_error": 66
+        }
+      },
+      "native_rgba8_area": {
+        "changed_components": 159,
+        "maximum_error": 60
+      }
+    },
+    {
+      "case_name": "noise",
+      "request_name": "crop_2_3",
+      "downsample": 2.3,
+      "bounds": [
+        3,
+        1,
+        12,
+        11
+      ],
+      "width": 5,
+      "height": 5,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer",
+      "nominal_step": [
+        2.3,
+        2.3
+      ],
+      "realized_step": [
+        2.4,
+        2.2
+      ],
+      "shape_round_half_up": [
+        5,
+        5
+      ],
+      "shape_ceil": [
+        6,
+        5
+      ],
+      "models": {
+        "nominal_nearest": {
+          "changed_components": 75,
+          "maximum_error": 80
+        },
+        "nominal_half_up": {
+          "changed_components": 15,
+          "maximum_error": 1
+        },
+        "nominal_ties_even": {
+          "changed_components": 15,
+          "maximum_error": 1
+        },
+        "realized_nearest": {
+          "changed_components": 74,
+          "maximum_error": 147
+        },
+        "realized_half_up": {
+          "changed_components": 74,
+          "maximum_error": 78
+        },
+        "realized_ties_even": {
+          "changed_components": 74,
+          "maximum_error": 78
+        }
+      },
+      "native_rgba8_area": {
+        "changed_components": 75,
+        "maximum_error": 80
+      }
+    },
+    {
+      "case_name": "cells",
+      "request_name": "full_0_75",
+      "downsample": 0.75,
+      "bounds": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "width": 341,
+      "height": 256,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer",
+      "nominal_step": [
+        0.75,
+        0.75
+      ],
+      "realized_step": [
+        0.750733137829912,
+        0.75
+      ],
+      "shape_round_half_up": [
+        341,
+        256
+      ],
+      "shape_ceil": [
+        342,
+        256
+      ],
+      "models": {
+        "nominal_nearest": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "nominal_half_up": {
+          "changed_components": 3043,
+          "maximum_error": 91
+        },
+        "nominal_ties_even": {
+          "changed_components": 3025,
+          "maximum_error": 91
+        },
+        "realized_nearest": {
+          "changed_components": 129,
+          "maximum_error": 150
+        },
+        "realized_half_up": {
+          "changed_components": 2900,
+          "maximum_error": 109
+        },
+        "realized_ties_even": {
+          "changed_components": 2900,
+          "maximum_error": 109
+        }
+      },
+      "native_rgba8_area": {
+        "changed_components": 1879,
+        "maximum_error": 108
+      }
+    },
+    {
+      "case_name": "cells",
+      "request_name": "full_1",
+      "downsample": 1.0,
+      "bounds": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "width": 256,
+      "height": 192,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer",
+      "nominal_step": [
+        1,
+        1
+      ],
+      "realized_step": [
+        1.0,
+        1.0
+      ],
+      "shape_round_half_up": [
+        256,
+        192
+      ],
+      "shape_ceil": [
+        256,
+        192
+      ],
+      "models": {
+        "nominal_nearest": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "nominal_half_up": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "nominal_ties_even": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "realized_nearest": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "realized_half_up": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "realized_ties_even": {
+          "changed_components": 0,
+          "maximum_error": 0
+        }
+      },
+      "native_rgba8_area": {
+        "changed_components": 0,
+        "maximum_error": 0
+      }
+    },
+    {
+      "case_name": "cells",
+      "request_name": "full_1_25",
+      "downsample": 1.25,
+      "bounds": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "width": 205,
+      "height": 154,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer",
+      "nominal_step": [
+        1.25,
+        1.25
+      ],
+      "realized_step": [
+        1.248780487804878,
+        1.2467532467532467
+      ],
+      "shape_round_half_up": [
+        205,
+        154
+      ],
+      "shape_ceil": [
+        205,
+        154
+      ],
+      "models": {
+        "nominal_nearest": {
+          "changed_components": 1111,
+          "maximum_error": 91
+        },
+        "nominal_half_up": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "nominal_ties_even": {
+          "changed_components": 176,
+          "maximum_error": 1
+        },
+        "realized_nearest": {
+          "changed_components": 1111,
+          "maximum_error": 129
+        },
+        "realized_half_up": {
+          "changed_components": 1192,
+          "maximum_error": 43
+        },
+        "realized_ties_even": {
+          "changed_components": 1192,
+          "maximum_error": 43
+        }
+      },
+      "native_rgba8_area": {
+        "changed_components": 1287,
+        "maximum_error": 50
+      }
+    },
+    {
+      "case_name": "cells",
+      "request_name": "full_1_5",
+      "downsample": 1.5,
+      "bounds": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "width": 171,
+      "height": 128,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer",
+      "nominal_step": [
+        1.5,
+        1.5
+      ],
+      "realized_step": [
+        1.4970760233918128,
+        1.5
+      ],
+      "shape_round_half_up": [
+        171,
+        128
+      ],
+      "shape_ceil": [
+        171,
+        128
+      ],
+      "models": {
+        "nominal_nearest": {
+          "changed_components": 735,
+          "maximum_error": 66
+        },
+        "nominal_half_up": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "nominal_ties_even": {
+          "changed_components": 32,
+          "maximum_error": 1
+        },
+        "realized_nearest": {
+          "changed_components": 735,
+          "maximum_error": 122
+        },
+        "realized_half_up": {
+          "changed_components": 654,
+          "maximum_error": 54
+        },
+        "realized_ties_even": {
+          "changed_components": 664,
+          "maximum_error": 54
+        }
+      },
+      "native_rgba8_area": {
+        "changed_components": 890,
+        "maximum_error": 48
+      }
+    },
+    {
+      "case_name": "cells",
+      "request_name": "full_2",
+      "downsample": 2.0,
+      "bounds": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "width": 128,
+      "height": 96,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer",
+      "nominal_step": [
+        2,
+        2
+      ],
+      "realized_step": [
+        2.0,
+        2.0
+      ],
+      "shape_round_half_up": [
+        128,
+        96
+      ],
+      "shape_ceil": [
+        128,
+        96
+      ],
+      "models": {
+        "nominal_nearest": {
+          "changed_components": 426,
+          "maximum_error": 113
+        },
+        "nominal_half_up": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "nominal_ties_even": {
+          "changed_components": 16,
+          "maximum_error": 1
+        },
+        "realized_nearest": {
+          "changed_components": 426,
+          "maximum_error": 113
+        },
+        "realized_half_up": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "realized_ties_even": {
+          "changed_components": 16,
+          "maximum_error": 1
+        }
+      },
+      "native_rgba8_area": {
+        "changed_components": 0,
+        "maximum_error": 0
+      }
+    },
+    {
+      "case_name": "cells",
+      "request_name": "full_2_3",
+      "downsample": 2.3,
+      "bounds": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "width": 111,
+      "height": 83,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer",
+      "nominal_step": [
+        2.3,
+        2.3
+      ],
+      "realized_step": [
+        2.3063063063063063,
+        2.3132530120481927
+      ],
+      "shape_round_half_up": [
+        111,
+        83
+      ],
+      "shape_ceil": [
+        112,
+        84
+      ],
+      "models": {
+        "nominal_nearest": {
+          "changed_components": 291,
+          "maximum_error": 76
+        },
+        "nominal_half_up": {
+          "changed_components": 24,
+          "maximum_error": 1
+        },
+        "nominal_ties_even": {
+          "changed_components": 26,
+          "maximum_error": 1
+        },
+        "realized_nearest": {
+          "changed_components": 294,
+          "maximum_error": 145
+        },
+        "realized_half_up": {
+          "changed_components": 389,
+          "maximum_error": 97
+        },
+        "realized_ties_even": {
+          "changed_components": 389,
+          "maximum_error": 97
+        }
+      },
+      "native_rgba8_area": {
+        "changed_components": 684,
+        "maximum_error": 93
+      }
+    },
+    {
+      "case_name": "cells",
+      "request_name": "full_3_75",
+      "downsample": 3.75,
+      "bounds": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "width": 68,
+      "height": 51,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer",
+      "nominal_step": [
+        3.75,
+        3.75
+      ],
+      "realized_step": [
+        3.764705882352941,
+        3.764705882352941
+      ],
+      "shape_round_half_up": [
+        68,
+        51
+      ],
+      "shape_ceil": [
+        69,
+        52
+      ],
+      "models": {
+        "nominal_nearest": {
+          "changed_components": 114,
+          "maximum_error": 91
+        },
+        "nominal_half_up": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "nominal_ties_even": {
+          "changed_components": 13,
+          "maximum_error": 1
+        },
+        "realized_nearest": {
+          "changed_components": 114,
+          "maximum_error": 138
+        },
+        "realized_half_up": {
+          "changed_components": 134,
+          "maximum_error": 81
+        },
+        "realized_ties_even": {
+          "changed_components": 134,
+          "maximum_error": 81
+        }
+      },
+      "native_rgba8_area": {
+        "changed_components": 416,
+        "maximum_error": 66
+      }
+    },
+    {
+      "case_name": "cells",
+      "request_name": "crop_1_5",
+      "downsample": 1.5,
+      "bounds": [
+        1,
+        2,
+        253,
+        188
+      ],
+      "width": 169,
+      "height": 125,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer",
+      "nominal_step": [
+        1.5,
+        1.5
+      ],
+      "realized_step": [
+        1.4970414201183433,
+        1.504
+      ],
+      "shape_round_half_up": [
+        169,
+        125
+      ],
+      "shape_ceil": [
+        169,
+        126
+      ],
+      "models": {
+        "nominal_nearest": {
+          "changed_components": 783,
+          "maximum_error": 66
+        },
+        "nominal_half_up": {
+          "changed_components": 0,
+          "maximum_error": 0
+        },
+        "nominal_ties_even": {
+          "changed_components": 32,
+          "maximum_error": 1
+        },
+        "realized_nearest": {
+          "changed_components": 783,
+          "maximum_error": 122
+        },
+        "realized_half_up": {
+          "changed_components": 819,
+          "maximum_error": 59
+        },
+        "realized_ties_even": {
+          "changed_components": 819,
+          "maximum_error": 59
+        }
+      },
+      "native_rgba8_area": {
+        "changed_components": 1049,
+        "maximum_error": 54
+      }
+    },
+    {
+      "case_name": "cells",
+      "request_name": "crop_2_3",
+      "downsample": 2.3,
+      "bounds": [
+        3,
+        1,
+        251,
+        190
+      ],
+      "width": 109,
+      "height": 83,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer",
+      "nominal_step": [
+        2.3,
+        2.3
+      ],
+      "realized_step": [
+        2.302752293577982,
+        2.289156626506024
+      ],
+      "shape_round_half_up": [
+        109,
+        83
+      ],
+      "shape_ceil": [
+        110,
+        83
+      ],
+      "models": {
+        "nominal_nearest": {
+          "changed_components": 316,
+          "maximum_error": 88
+        },
+        "nominal_half_up": {
+          "changed_components": 34,
+          "maximum_error": 1
+        },
+        "nominal_ties_even": {
+          "changed_components": 34,
+          "maximum_error": 1
+        },
+        "realized_nearest": {
+          "changed_components": 316,
+          "maximum_error": 138
+        },
+        "realized_half_up": {
+          "changed_components": 382,
+          "maximum_error": 71
+        },
+        "realized_ties_even": {
+          "changed_components": 382,
+          "maximum_error": 71
+        }
+      },
+      "native_rgba8_area": {
+        "changed_components": 669,
+        "maximum_error": 73
+      }
+    }
+  ],
+  "native_sampling_changed": false,
+  "sampler_equivalence_accepted": false,
+  "biological_validation": false,
+  "general_speed_claim": false,
+  "native_source": "7231d95c25fbc9515d937036986e8c92b19da261",
+  "native_source_fingerprint": "7b65e119b994f1d22056f1b66c94ba9d4bd2af9599a66227438d40cb457012ef"
+}

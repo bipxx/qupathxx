@@ -1,0 +1,8 @@
+Internal ctest changing into directory: /tmp/qupathxx-imagej300-build
+Test project /tmp/qupathxx-imagej300-build
+    Start 24: imagej_gaussian
+1/1 Test #24: imagej_gaussian ..................   Passed    0.06 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =   0.06 sec

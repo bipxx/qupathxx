@@ -1,0 +1,8 @@
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tests/tma_dearray_tests.cpp: In function ‘void {anonymous}::one_dimensional(const std::filesystem::__cxx11::path&)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tests/tma_dearray_tests.cpp:108:20: warning: loop variable ‘shape’ creates a copy from type ‘const std::pair<long unsigned int, long unsigned int>’ [-Wrange-loop-construct]
+  108 |     for(const auto shape:std::vector<std::pair<std::size_t,std::size_t>>{{1,4},{3,1},{1,1}}) {
+      |                    ^~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tests/tma_dearray_tests.cpp:108:20: note: use reference type to prevent copying
+  108 |     for(const auto shape:std::vector<std::pair<std::size_t,std::size_t>>{{1,4},{3,1},{1,1}}) {
+      |                    ^~~~~
+      |                    &

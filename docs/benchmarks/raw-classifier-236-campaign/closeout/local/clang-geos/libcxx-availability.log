@@ -1,0 +1,4 @@
+<stdin>:1:10: fatal error: 'vector' file not found
+    1 | #include <vector>
+      |          ^~~~~~~~
+1 error generated.

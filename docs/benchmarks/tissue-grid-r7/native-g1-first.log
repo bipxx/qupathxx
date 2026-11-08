@@ -1,0 +1,23 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+    Start 14: project_batch
+1/6 Test #14: project_batch ....................   Passed    1.27 sec
+    Start 24: cell_calibration
+2/6 Test #24: cell_calibration .................   Passed    0.05 sec
+    Start 36: tissue_grid
+3/6 Test #36: tissue_grid ......................***Failed    0.04 sec
+grid identity
+
+    Start 37: tissue_median
+4/6 Test #37: tissue_median ....................   Passed    0.10 sec
+    Start 38: tissue_smoothing
+5/6 Test #38: tissue_smoothing .................   Passed    0.12 sec
+    Start 39: tissue
+6/6 Test #39: tissue ...........................   Passed    0.05 sec
+
+83% tests passed, 1 tests failed out of 6
+
+Total Test time (real) =   1.84 sec
+
+The following tests FAILED:
+	 36 - tissue_grid (Failed)
+Errors while running CTest

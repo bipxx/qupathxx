@@ -1,0 +1,18 @@
+.F                                                                       [100%]
+================================== FAILURES ===================================
+____ test_native_grid_order_identity_case_state_children_and_reopen[grid] _____
+
+tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4911/test_native_grid_order_identit0')
+label = 'grid'
+
+    @pytest.mark.parametrize('label',['grid','legacy-case'])
+    def test_native_grid_order_identity_case_state_children_and_reopen(tmp_path,label):
+        source=foreign(tmp_path,label);before={p:p.read_bytes() for p in source.parent.rglob('*') if p.is_file()}
+>       preview=q.preview_qupath_project(str(source));assert preview.issues==[]
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: QuPath saved data: unsupported hierarchy object: qupath.lib.objects.TMACoreObject
+
+tests\test_qupath_saved_tma.py:74: ValueError
+=========================== short test summary info ===========================
+FAILED tests/test_qupath_saved_tma.py::test_native_grid_order_identity_case_state_children_and_reopen[grid]
+1 failed, 1 passed in 8.47s

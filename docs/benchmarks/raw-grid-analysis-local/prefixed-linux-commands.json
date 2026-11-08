@@ -1,0 +1,83 @@
+[
+  {
+    "name": "configure",
+    "command": [
+      "wsl.exe",
+      "-d",
+      "Ubuntu",
+      "--",
+      "env",
+      "GIT_DIR=/mnt/c/Users/HEQ/Projects/qupathxx/.git/worktrees/scientific-grid-159",
+      "GIT_WORK_TREE=/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159",
+      "GIT_CONFIG_COUNT=1",
+      "GIT_CONFIG_KEY_0=core.autocrlf",
+      "GIT_CONFIG_VALUE_0=true",
+      "cmake",
+      "-S",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159",
+      "-B",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw174-linux-native",
+      "-DCMAKE_BUILD_TYPE=Release",
+      "-DQUPATHXX_BUILD_PYTHON=OFF",
+      "-DQUPATHXX_BUILD_GUI=OFF",
+      "-DQUPATHXX_BUILD_TESTS=ON",
+      "-DQUPATHXX_BUILD_PROJECT=OFF",
+      "-DQUPATHXX_BUILD_GEOS=OFF",
+      "-DQUPATHXX_BUILD_TIFF=OFF",
+      "-DQUPATHXX_BUILD_OPENSLIDE=OFF",
+      "-DQUPATHXX_BUILD_CLASSIFIER_TRAINING=OFF"
+    ],
+    "exit": 0,
+    "elapsed_seconds": 25.66750400001183
+  },
+  {
+    "name": "build",
+    "command": [
+      "wsl.exe",
+      "-d",
+      "Ubuntu",
+      "--",
+      "env",
+      "GIT_DIR=/mnt/c/Users/HEQ/Projects/qupathxx/.git/worktrees/scientific-grid-159",
+      "GIT_WORK_TREE=/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159",
+      "GIT_CONFIG_COUNT=1",
+      "GIT_CONFIG_KEY_0=core.autocrlf",
+      "GIT_CONFIG_VALUE_0=true",
+      "cmake",
+      "--build",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw174-linux-native",
+      "--target",
+      "qupathxx_resampling_tests",
+      "--parallel",
+      "2"
+    ],
+    "exit": 0,
+    "elapsed_seconds": 32.28607919998467
+  },
+  {
+    "name": "tests",
+    "command": [
+      "wsl.exe",
+      "-d",
+      "Ubuntu",
+      "--",
+      "env",
+      "GIT_DIR=/mnt/c/Users/HEQ/Projects/qupathxx/.git/worktrees/scientific-grid-159",
+      "GIT_WORK_TREE=/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159",
+      "GIT_CONFIG_COUNT=1",
+      "GIT_CONFIG_KEY_0=core.autocrlf",
+      "GIT_CONFIG_VALUE_0=true",
+      "ctest",
+      "--test-dir",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw174-linux-native",
+      "-R",
+      "^resampling$",
+      "--output-on-failure",
+      "--no-tests=error",
+      "--output-junit",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/raw176-prefixed-linux/native-tests.xml"
+    ],
+    "exit": 0,
+    "elapsed_seconds": 0.19924799993168563
+  }
+]

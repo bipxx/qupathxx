@@ -1,0 +1,16 @@
+...........sF                                                            [100%]
+================================== FAILURES ===================================
+___________ test_legacy_exact_grid_budget_still_reopens_and_replays ___________
+
+    def test_legacy_exact_grid_budget_still_reopens_and_replays():
+        manifest = json.loads((LEGACY / "legacy-tight-manifest.json").read_text())
+        source = LEGACY / manifest["file"]
+        assert hashlib.sha256(source.read_bytes()).hexdigest() == manifest["sha256"]
+>       doc = q.Project.open(str(source)).document(manifest["image_id"])
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: physical cell stage exceeds work budget
+
+tests\test_cell_intensity_statistics.py:271: ValueError
+=========================== short test summary info ===========================
+FAILED tests/test_cell_intensity_statistics.py::test_legacy_exact_grid_budget_still_reopens_and_replays
+1 failed, 11 passed, 1 skipped, 1 deselected in 1.07s

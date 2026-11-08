@@ -1,0 +1,102 @@
+[
+  {
+    "context": 0,
+    "core": [
+      32,
+      32,
+      192,
+      128
+    ],
+    "compartments": {
+      "nucleus": {
+        "iou": 0.9948186528497409,
+        "native_count": 3,
+        "reference_count": 3,
+        "native_only": 0,
+        "reference_only": 4
+      },
+      "body": {
+        "iou": 1.0,
+        "native_count": 3,
+        "reference_count": 3,
+        "native_only": 0,
+        "reference_only": 0
+      }
+    }
+  },
+  {
+    "context": 2,
+    "core": [
+      32,
+      32,
+      192,
+      128
+    ],
+    "compartments": {
+      "nucleus": {
+        "iou": 0.9698492462311558,
+        "native_count": 3,
+        "reference_count": 3,
+        "native_only": 24,
+        "reference_only": 0
+      },
+      "body": {
+        "iou": 1.0,
+        "native_count": 3,
+        "reference_count": 3,
+        "native_only": 0,
+        "reference_only": 0
+      }
+    }
+  },
+  {
+    "context": 8,
+    "core": [
+      32,
+      32,
+      192,
+      128
+    ],
+    "compartments": {
+      "nucleus": {
+        "iou": 0.9698492462311558,
+        "native_count": 3,
+        "reference_count": 3,
+        "native_only": 24,
+        "reference_only": 0
+      },
+      "body": {
+        "iou": 1.0,
+        "native_count": 3,
+        "reference_count": 3,
+        "native_only": 0,
+        "reference_only": 0
+      }
+    }
+  },
+  {
+    "context": 32,
+    "core": [
+      32,
+      32,
+      192,
+      128
+    ],
+    "compartments": {
+      "nucleus": {
+        "iou": 0.9698492462311558,
+        "native_count": 3,
+        "reference_count": 3,
+        "native_only": 24,
+        "reference_only": 0
+      },
+      "body": {
+        "iou": 1.0,
+        "native_count": 3,
+        "reference_count": 3,
+        "native_only": 0,
+        "reference_only": 0
+      }
+    }
+  }
+]

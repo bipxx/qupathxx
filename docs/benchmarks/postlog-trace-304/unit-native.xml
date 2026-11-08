@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="1"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="0"
+	timestamp="2026-10-28T23:00:51"
+	>
+	<testcase name="qupath_response" classname="qupath_response" time="0.0331558" status="run">
+		<properties/>
+		<system-out>33 public QuPath response basins exact; plateau, border, FIFO and finite/input/budget/cancellation checks passed
+Private sampled nucleus composition, retained candidate counts and atomic failure checks passed
+</system-out>
+	</testcase>
+</testsuite>

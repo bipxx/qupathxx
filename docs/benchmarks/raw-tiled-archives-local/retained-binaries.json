@@ -1,0 +1,222 @@
+{
+  "source": "cc6fab40cbc54aa382e146bb5d98c22d13ddd01e",
+  "binaries": [
+    {
+      "host": "windows",
+      "suite": "pixel_workflows",
+      "source": "cc6fab40cbc54aa382e146bb5d98c22d13ddd01e",
+      "fingerprint": "1d87072234f7931583df8378551b80f46c00dec4b5bb01303b1fca9c0a907ed0",
+      "path": "build/tiledarchive225-retained-binaries/windows/qupathxx_pixel_workflow_tests.exe",
+      "bytes": 3943424,
+      "sha256": "73d0a11f33314295274527f782c313eed3a0e9c12b9abbd29ab1a633b07aa4c7"
+    },
+    {
+      "host": "linux",
+      "suite": "pixel_workflows",
+      "source": "cc6fab40cbc54aa382e146bb5d98c22d13ddd01e",
+      "fingerprint": "1d87072234f7931583df8378551b80f46c00dec4b5bb01303b1fca9c0a907ed0",
+      "path": "build/tiledarchive225-retained-binaries/linux/qupathxx_pixel_workflow_tests",
+      "bytes": 7502656,
+      "sha256": "6fe0f331ef1837237192433dae33b1bea8fd5a64f1b0083ee7a843e71bc76e8c"
+    },
+    {
+      "host": "training",
+      "suite": "pixel_workflows",
+      "source": "cc6fab40cbc54aa382e146bb5d98c22d13ddd01e",
+      "fingerprint": "1d87072234f7931583df8378551b80f46c00dec4b5bb01303b1fca9c0a907ed0",
+      "path": "build/tiledarchive225-retained-binaries/training/qupathxx_pixel_workflow_tests.exe",
+      "bytes": 5144064,
+      "sha256": "415e488c924bfa1505f9e4de5aae0e459a3fadcaaa6f4f15d3ac79d6164fffa9"
+    },
+    {
+      "host": "windows",
+      "suite": "pixel_workflows",
+      "passed": false,
+      "source": "30d0659585f1cff150fefe1bd5e18a4e17b589ef",
+      "fingerprint": "bd4fc7f7218d2d64e639e1d0db1a81ad8ad5907a2a06c43f1749f6d5037e5e13",
+      "path": "build/tiledarchive225-initial-products/windows/qupathxx_pixel_workflow_tests.exe",
+      "bytes": 3942912,
+      "sha256": "04335398a3111efad06fa6bb20f899cc119d91865324bf4f5646d01fbba6ddf1"
+    },
+    {
+      "host": "windows",
+      "suite": "pixel_features",
+      "passed": true,
+      "source": "30d0659585f1cff150fefe1bd5e18a4e17b589ef",
+      "fingerprint": "bd4fc7f7218d2d64e639e1d0db1a81ad8ad5907a2a06c43f1749f6d5037e5e13",
+      "path": "build/tiledarchive225-initial-products/windows/qupathxx_pixel_feature_tests.exe",
+      "bytes": 1650176,
+      "sha256": "b2a17df5d0236d5d28c8200be367cac9b658f4340871894fcb69ad1cda2e778d"
+    },
+    {
+      "host": "windows",
+      "suite": "resampling",
+      "passed": true,
+      "source": "30d0659585f1cff150fefe1bd5e18a4e17b589ef",
+      "fingerprint": "bd4fc7f7218d2d64e639e1d0db1a81ad8ad5907a2a06c43f1749f6d5037e5e13",
+      "path": "build/tiledarchive225-initial-products/windows/qupathxx_resampling_tests.exe",
+      "bytes": 2338816,
+      "sha256": "ab62ec53a0c1c2745c28419e46e734b8e64d4eb3b2831d714c277577aec5c158"
+    },
+    {
+      "host": "windows",
+      "suite": "raw_image",
+      "passed": true,
+      "source": "30d0659585f1cff150fefe1bd5e18a4e17b589ef",
+      "fingerprint": "bd4fc7f7218d2d64e639e1d0db1a81ad8ad5907a2a06c43f1749f6d5037e5e13",
+      "path": "build/tiledarchive225-initial-products/windows/qupathxx_raw_image_tests.exe",
+      "bytes": 3429376,
+      "sha256": "c95fdcff98b841efadb85143b5c11420267f1bbed69514799d32d5397b07c395"
+    },
+    {
+      "host": "windows",
+      "suite": "source_identity",
+      "passed": true,
+      "source": "30d0659585f1cff150fefe1bd5e18a4e17b589ef",
+      "fingerprint": "bd4fc7f7218d2d64e639e1d0db1a81ad8ad5907a2a06c43f1749f6d5037e5e13",
+      "path": "build/tiledarchive225-initial-products/windows/qupathxx_source_identity_tests.exe",
+      "bytes": 1511936,
+      "sha256": "9d6d8206031e44a4fece74cb7927194139e5f7907e02d76b5ddec4de47ee5b2c"
+    },
+    {
+      "host": "windows",
+      "suite": "provenance",
+      "passed": true,
+      "source": "30d0659585f1cff150fefe1bd5e18a4e17b589ef",
+      "fingerprint": "bd4fc7f7218d2d64e639e1d0db1a81ad8ad5907a2a06c43f1749f6d5037e5e13",
+      "path": "build/tiledarchive225-initial-products/windows/qupathxx_provenance_tests.exe",
+      "bytes": 1623040,
+      "sha256": "6a2876dbc437bcb9eeccc223bed630209b1e49730116f4bd95f5cc06556915b5"
+    },
+    {
+      "host": "windows",
+      "suite": "project",
+      "passed": true,
+      "source": "30d0659585f1cff150fefe1bd5e18a4e17b589ef",
+      "fingerprint": "bd4fc7f7218d2d64e639e1d0db1a81ad8ad5907a2a06c43f1749f6d5037e5e13",
+      "path": "build/tiledarchive225-initial-products/windows/qupathxx_project_tests.exe",
+      "bytes": 2866176,
+      "sha256": "f60ea5ae2f52723a5722e6e545935f02458b6b462446c04909813021690145a1"
+    },
+    {
+      "host": "windows",
+      "suite": "project_save",
+      "passed": true,
+      "source": "30d0659585f1cff150fefe1bd5e18a4e17b589ef",
+      "fingerprint": "bd4fc7f7218d2d64e639e1d0db1a81ad8ad5907a2a06c43f1749f6d5037e5e13",
+      "path": "build/tiledarchive225-initial-products/windows/qupathxx_save_tests.exe",
+      "bytes": 2631680,
+      "sha256": "231d9c939e037579a51ada6b6143e93d2b9ab87bf699edd7a0159cae59f91640"
+    },
+    {
+      "host": "linux",
+      "suite": "pixel_workflows",
+      "passed": false,
+      "source": "30d0659585f1cff150fefe1bd5e18a4e17b589ef",
+      "fingerprint": "bd4fc7f7218d2d64e639e1d0db1a81ad8ad5907a2a06c43f1749f6d5037e5e13",
+      "path": "build/tiledarchive225-initial-products/linux/qupathxx_pixel_workflow_tests",
+      "bytes": 7502656,
+      "sha256": "9bdedbd377552b955ecfd81645e6e23dc2ef6d7e2894d3d66758653cea652aaa"
+    },
+    {
+      "host": "linux",
+      "suite": "pixel_features",
+      "passed": true,
+      "source": "30d0659585f1cff150fefe1bd5e18a4e17b589ef",
+      "fingerprint": "bd4fc7f7218d2d64e639e1d0db1a81ad8ad5907a2a06c43f1749f6d5037e5e13",
+      "path": "build/tiledarchive225-initial-products/linux/qupathxx_pixel_feature_tests",
+      "bytes": 2842368,
+      "sha256": "64f7d1afac3735e6852f4c5ce8f4e2fc0eb294416e64182662366da23ec37da8"
+    },
+    {
+      "host": "linux",
+      "suite": "resampling",
+      "passed": true,
+      "source": "30d0659585f1cff150fefe1bd5e18a4e17b589ef",
+      "fingerprint": "bd4fc7f7218d2d64e639e1d0db1a81ad8ad5907a2a06c43f1749f6d5037e5e13",
+      "path": "build/tiledarchive225-initial-products/linux/qupathxx_resampling_tests",
+      "bytes": 5502240,
+      "sha256": "6e6eea6366101627f91b0f0bcab99fa25a262e94054af0b7f212fb0d3240d8b8"
+    },
+    {
+      "host": "linux",
+      "suite": "raw_image",
+      "passed": true,
+      "source": "30d0659585f1cff150fefe1bd5e18a4e17b589ef",
+      "fingerprint": "bd4fc7f7218d2d64e639e1d0db1a81ad8ad5907a2a06c43f1749f6d5037e5e13",
+      "path": "build/tiledarchive225-initial-products/linux/qupathxx_raw_image_tests",
+      "bytes": 6733488,
+      "sha256": "290c59a4593e93d918dcce438eedebf622714f1c2fab34c9244359ce85719f2f"
+    },
+    {
+      "host": "linux",
+      "suite": "source_identity",
+      "passed": true,
+      "source": "30d0659585f1cff150fefe1bd5e18a4e17b589ef",
+      "fingerprint": "bd4fc7f7218d2d64e639e1d0db1a81ad8ad5907a2a06c43f1749f6d5037e5e13",
+      "path": "build/tiledarchive225-initial-products/linux/qupathxx_source_identity_tests",
+      "bytes": 2567480,
+      "sha256": "954106f5f088c522e8100faf9e390b38039ce20c81e63b53cfa298b258aadd99"
+    },
+    {
+      "host": "linux",
+      "suite": "provenance",
+      "passed": true,
+      "source": "30d0659585f1cff150fefe1bd5e18a4e17b589ef",
+      "fingerprint": "bd4fc7f7218d2d64e639e1d0db1a81ad8ad5907a2a06c43f1749f6d5037e5e13",
+      "path": "build/tiledarchive225-initial-products/linux/qupathxx_provenance_tests",
+      "bytes": 4547840,
+      "sha256": "ef19269b7ccc2e291cd6b869085cd1912347fb986fb2d88a81be0629d23bcf8a"
+    },
+    {
+      "host": "linux",
+      "suite": "project",
+      "passed": true,
+      "source": "30d0659585f1cff150fefe1bd5e18a4e17b589ef",
+      "fingerprint": "bd4fc7f7218d2d64e639e1d0db1a81ad8ad5907a2a06c43f1749f6d5037e5e13",
+      "path": "build/tiledarchive225-initial-products/linux/qupathxx_project_tests",
+      "bytes": 6053040,
+      "sha256": "0a7d898d41ad9a60e2f483349eb3cbb68f6863b6976592b472627f820cdc5008"
+    },
+    {
+      "host": "linux",
+      "suite": "project_save",
+      "passed": true,
+      "source": "30d0659585f1cff150fefe1bd5e18a4e17b589ef",
+      "fingerprint": "bd4fc7f7218d2d64e639e1d0db1a81ad8ad5907a2a06c43f1749f6d5037e5e13",
+      "path": "build/tiledarchive225-initial-products/linux/qupathxx_save_tests",
+      "bytes": 6082680,
+      "sha256": "e12eadce1f0ec7fa492f3cd7294dd3c0f942aa996859fba4bf470240a1390d1f"
+    },
+    {
+      "host": "training",
+      "suite": "pixel_workflows",
+      "passed": false,
+      "source": "30d0659585f1cff150fefe1bd5e18a4e17b589ef",
+      "fingerprint": "bd4fc7f7218d2d64e639e1d0db1a81ad8ad5907a2a06c43f1749f6d5037e5e13",
+      "path": "build/tiledarchive225-initial-products/training/qupathxx_pixel_workflow_tests.exe",
+      "bytes": 5143552,
+      "sha256": "7c2214d0b54478d0ddf8ff0ef979584d97d457af332114ac62a8eef3db36c2e0"
+    },
+    {
+      "host": "training",
+      "suite": "pixel_features",
+      "passed": true,
+      "source": "30d0659585f1cff150fefe1bd5e18a4e17b589ef",
+      "fingerprint": "bd4fc7f7218d2d64e639e1d0db1a81ad8ad5907a2a06c43f1749f6d5037e5e13",
+      "path": "build/tiledarchive225-initial-products/training/qupathxx_pixel_feature_tests.exe",
+      "bytes": 2475520,
+      "sha256": "45a34f2d2edfa3c7816fa8913e6f8b9905aa312f7192f5f7176ff0ad0dd1908f"
+    },
+    {
+      "host": "training",
+      "suite": "classifier",
+      "passed": true,
+      "source": "30d0659585f1cff150fefe1bd5e18a4e17b589ef",
+      "fingerprint": "bd4fc7f7218d2d64e639e1d0db1a81ad8ad5907a2a06c43f1749f6d5037e5e13",
+      "path": "build/tiledarchive225-initial-products/training/qupathxx_classifier_tests.exe",
+      "bytes": 1389568,
+      "sha256": "56a92d76a4dd097b51b48554deb3ab58b75ababdf06ae25af84930c66f914ea2"
+    }
+  ]
+}

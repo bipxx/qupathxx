@@ -1,0 +1,258 @@
+{
+  "native_source": "bb190eb7c467a74752ff87e8e6ab0491c995c493",
+  "members": [
+    {
+      "path": "geos.dll",
+      "bytes": 2912768,
+      "sha256": "9bff21e1082b57e9914909a156ad121d508d2203a8c6ab4d8d41eb74cc19fa0e"
+    },
+    {
+      "path": "geos_c.dll",
+      "bytes": 590336,
+      "sha256": "64c8a686deccd9e3d5ae66f96ba1276c23faf6ab00564feee421ae91f552b7d6"
+    },
+    {
+      "path": "qupathxx_app.exe",
+      "bytes": 8001536,
+      "sha256": "3b20142fc06705171f2c3ac78c48f04ce0a383536aa201ed3478a699191d4af0"
+    },
+    {
+      "path": "qupathxx_batch.exe",
+      "bytes": 5384192,
+      "sha256": "8c6e9a4d7f8c5fd8430b99d79895ec25ef8361d321f4a3b37f4661a21d5183b0"
+    },
+    {
+      "path": "qupathxx_region.exe",
+      "bytes": 786432,
+      "sha256": "f176d580d55eabc2034a2fd14420d0afee87589cc92a7c27ba17a8c935c7d038"
+    },
+    {
+      "path": "fonts/NotoEmoji.ttf",
+      "bytes": 1982596,
+      "sha256": "de6c18832938afc99caf132b39d6a30a19bac7f2e812e28db2535b4608d27551"
+    },
+    {
+      "path": "fonts/NotoSansCJKsc-Regular.otf",
+      "bytes": 16437364,
+      "sha256": "2c76254f6fc379fddfce0a7e84fb5385bb135d3e399294f6eeb6680d0365b74b"
+    },
+    {
+      "path": "licenses/geos/COPYING",
+      "bytes": 26530,
+      "sha256": "dc626520dcd53a22f727af3ee42c770e56c97a64fe3adb063799d8ab032fe551"
+    },
+    {
+      "path": "licenses/glfw/LICENSE.md",
+      "bytes": 927,
+      "sha256": "7593ce7c7be05f3a0589ebc78091ba3db70f82c7a4acaea15a0b70230247df2c"
+    },
+    {
+      "path": "licenses/imagej-shape/NOTICE.txt",
+      "bytes": 817,
+      "sha256": "65434d6cd24b1808a18ad16919035d7a96d932dc04a41e2df30123173a2311fe"
+    },
+    {
+      "path": "licenses/imgui/imgl3w-LICENSE.txt",
+      "bytes": 1359,
+      "sha256": "565e23a9974c44bf7e5e47c280de542ec758a82e97dcb1da3fb3496660921f88"
+    },
+    {
+      "path": "licenses/imgui/imstb_rectpack.h-LICENSE.txt",
+      "bytes": 2631,
+      "sha256": "06f6b081941f054102bfc696d7f09b8905fee176d1ed08d334e4bad5c1d751c2"
+    },
+    {
+      "path": "licenses/imgui/imstb_textedit.h-LICENSE.txt",
+      "bytes": 2631,
+      "sha256": "06f6b081941f054102bfc696d7f09b8905fee176d1ed08d334e4bad5c1d751c2"
+    },
+    {
+      "path": "licenses/imgui/imstb_truetype.h-LICENSE.txt",
+      "bytes": 2631,
+      "sha256": "06f6b081941f054102bfc696d7f09b8905fee176d1ed08d334e4bad5c1d751c2"
+    },
+    {
+      "path": "licenses/imgui/Khronos-LICENSE.txt",
+      "bytes": 1169,
+      "sha256": "a4be3716671cb6dbc2ed80aa91bb6675eb01971147c77d7a62bee11f15b83c14"
+    },
+    {
+      "path": "licenses/imgui/Khronos-NOTICE.txt",
+      "bytes": 344,
+      "sha256": "f76051f667cfbfbf5cc55c9656cf46ce11579dcd9d9373e95daeb08ef2fc0e93"
+    },
+    {
+      "path": "licenses/imgui/LICENSE.txt",
+      "bytes": 1104,
+      "sha256": "f20418b409e53c8c9f4e90917ff395554a60320d4dfbf833da89b339cad8628a"
+    },
+    {
+      "path": "licenses/imgui/ProggyClean-LICENSE.txt",
+      "bytes": 1099,
+      "sha256": "898c573f0bf1901b40743432b1d78845bb5b4fc4c1660d6ee0820a8d987319f7"
+    },
+    {
+      "path": "licenses/imgui/ProggyForever-LICENSE.txt",
+      "bytes": 1118,
+      "sha256": "47d329848d81b5ad777bf5eca73509a4d1b730d6e2ca917f03e72010b2f59576"
+    },
+    {
+      "path": "licenses/libtiff/LICENSE.md",
+      "bytes": 2416,
+      "sha256": "0e27c2382d7b8147972bbb746e04059a1152c8d0fda9d03ef1399d1a433c4ade"
+    },
+    {
+      "path": "licenses/nanobind/LICENSE",
+      "bytes": 1521,
+      "sha256": "f305091a4e57805870b217a28ea4b1f16610eece8457d2370f822a9696b75836"
+    },
+    {
+      "path": "licenses/nlohmann-json/LICENSE.MIT",
+      "bytes": 1076,
+      "sha256": "46a65cffd1ea955132d95a8dd921640714a8d6b537d2e4e482d31145ae95b603"
+    },
+    {
+      "path": "licenses/noto-cjk/NOTICE.md",
+      "bytes": 888,
+      "sha256": "aa229a2136c426e3deca957c305727e02415198116138d8c1721222b12e22131"
+    },
+    {
+      "path": "licenses/noto-cjk/OFL.txt",
+      "bytes": 4301,
+      "sha256": "6a73f9541c2de74158c0e7cf6b0a58ef774f5a780bf191f2d7ec9cc53efe2bf2"
+    },
+    {
+      "path": "licenses/noto-emoji/OFL.txt",
+      "bytes": 4330,
+      "sha256": "500bb1ccf43df7bbb522112f9133a52b16e1c35e809632f5d8609b179152de5b"
+    },
+    {
+      "path": "licenses/opencv/LICENSE",
+      "bytes": 11358,
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "path": "licenses/opencv/softfloat-notice.txt",
+      "bytes": 2918,
+      "sha256": "07360afca97fb6a725a50797960c4506f592dab5331df2b780c85e459d422ce3"
+    },
+    {
+      "path": "licenses/opencv/SOURCE-NOTICES.txt",
+      "bytes": 96903,
+      "sha256": "d57f5f7ee96bbb3152012bfc293175868d73fe348e1d9f8a223ccfc87a3461ba"
+    },
+    {
+      "path": "licenses/opencv/zlib-notice.txt",
+      "bytes": 1359,
+      "sha256": "36bbf559e8540020cd01e5e61547ed0f295e3cba735569702ca6f284ecbd5acc"
+    },
+    {
+      "path": "licenses/robin-map/LICENSE",
+      "bytes": 1192,
+      "sha256": "3351535e1abffa4f2d6dfec9ee48bd0cdd72cd1d6d04dd9155f1ab5f58c54dbe"
+    },
+    {
+      "path": "licenses/sqlite/sqlite-LICENSE.txt",
+      "bytes": 421,
+      "sha256": "1172bc75acf43852aa9a9368887a3500b7aaea8f213c81853a1bc93d7ae262a0"
+    },
+    {
+      "path": "licenses/tiff-zlib/LICENSE",
+      "bytes": 1002,
+      "sha256": "e32ff4e00d9d94930537635291da39e7e612703334bf6fde8c7f1686fe8a45a2"
+    },
+    {
+      "path": "licenses/tinyxml2/LICENSE.txt",
+      "bytes": 808,
+      "sha256": "9332252e9b9e46db8285d4a3f0bf25f139bf1dca6781b956d57f2302efca6432"
+    }
+  ],
+  "commands": [
+    {
+      "label": "fresh",
+      "argv": [
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\nominal-cell-frontends-294\\standalone-delivery\\standalone\\qupathxx_batch.exe",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\nominal-cell-frontends-294\\standalone-delivery\\original-\u539f\u59cb\ud840\udc0b.qpxproj",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\nominal-cell-frontends-294\\standalone-delivery\\results",
+        "--kind",
+        "cells",
+        "--cell-nominal-downsample",
+        "1.5",
+        "--cell-nominal-context",
+        "0,0",
+        "--threshold",
+        ".4",
+        "--grid-sigma",
+        "1",
+        "--grid-expansion",
+        "5",
+        "--grid-min-area",
+        "16",
+        "--grid-max-area",
+        "512",
+        "--grid-contour-bytes",
+        "1048576"
+      ],
+      "returncode": 0
+    },
+    {
+      "label": "resume",
+      "argv": [
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\nominal-cell-frontends-294\\standalone-delivery\\standalone\\qupathxx_batch.exe",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\nominal-cell-frontends-294\\standalone-delivery\\original-\u539f\u59cb\ud840\udc0b.qpxproj",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\nominal-cell-frontends-294\\standalone-delivery\\results",
+        "--kind",
+        "cells",
+        "--cell-nominal-downsample",
+        "1.5",
+        "--cell-nominal-context",
+        "0,0",
+        "--threshold",
+        ".4",
+        "--grid-sigma",
+        "1",
+        "--grid-expansion",
+        "5",
+        "--grid-min-area",
+        "16",
+        "--grid-max-area",
+        "512",
+        "--grid-contour-bytes",
+        "1048576"
+      ],
+      "returncode": 0
+    },
+    {
+      "label": "layout",
+      "argv": [
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\nominal-cell-frontends-294\\standalone-delivery\\standalone\\qupathxx_app.exe",
+        "--project",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\nominal-cell-frontends-294\\standalone-delivery\\original-\u539f\u59cb\ud840\udc0b.qpxproj",
+        "--layout",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\nominal-cell-frontends-294\\standalone-delivery\\workspace.ini",
+        "--smoke"
+      ],
+      "returncode": 0
+    },
+    {
+      "label": "layout-reload",
+      "argv": [
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\nominal-cell-frontends-294\\standalone-delivery\\standalone\\qupathxx_app.exe",
+        "--project",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\nominal-cell-frontends-294\\standalone-delivery\\original-\u539f\u59cb\ud840\udc0b.qpxproj",
+        "--layout",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\nominal-cell-frontends-294\\standalone-delivery\\workspace.ini",
+        "--smoke"
+      ],
+      "returncode": 0
+    }
+  ],
+  "clean_path": true,
+  "python_files_absent": true,
+  "gui_smokes": 2,
+  "images": 2,
+  "source_unchanged": true,
+  "archive_sha256": "cf6004e02715bd44561d9ad8c98aefbfa4dee15c3c2e8d50d16e34044124ff28",
+  "clean_machine": false,
+  "release_ready": false
+}

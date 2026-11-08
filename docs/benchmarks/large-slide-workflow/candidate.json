@@ -1,0 +1,13 @@
+{
+  "source_revision": "bee4736f2ad0aeffc9907542c873f06efd335cc7",
+  "source_tree_sha256": "b52fa9b85799b7ce0b68780a84f2c95ff993c69b848ce7b24a9b74d54215e8f7",
+  "installed_package": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\large-slide-workflow\\installed\\Lib\\site-packages\\qupathxx",
+  "installed_wheel_members_verified": 63,
+  "compiler_inputs_verified": 497,
+  "source_archive": "qupathxx-source-bee4736f.zip",
+  "native_members": 58,
+  "dependency_archives_verified": 12,
+  "wheel_license": "AGPL-3.0-only",
+  "support": "Local Windows x64 engineering candidate; no new fresh-host/platform or biological qualification",
+  "native_packaging_correction": "Removed identical duplicate project LICENSE; used required native candidate basename. No binary changes."
+}

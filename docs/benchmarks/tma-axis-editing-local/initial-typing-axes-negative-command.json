@@ -1,0 +1,13 @@
+{
+  "command": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\tma192-python-env\\Scripts\\python.exe",
+    "-I",
+    "-m",
+    "mypy",
+    "--strict",
+    "--no-incremental",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\typing\\tma_axes_invalid.py"
+  ],
+  "exit": 1,
+  "expected_errors": 3
+}

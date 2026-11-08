@@ -1,0 +1,28 @@
+{
+  "argv": [
+    "python",
+    "-X",
+    "utf8",
+    "tools/ci/accept_manylinux.py",
+    "--artifacts",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\q260-all",
+    "--run-json",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\root-locator-fix-260\\portable-run-terminal.json",
+    "--commit",
+    "f9ad28f5d88fb6706163f8a6c2e0ffe7a96e4ec3",
+    "--output",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\root-locator-fix-260\\portable-acceptance.json",
+    "--unified-engine",
+    "--ndpi-readers",
+    "--watershed-bodies",
+    "--sampled-cells",
+    "--small-frontier",
+    "--tma-cases",
+    "--tma-file-export",
+    "--tma-cohorts",
+    "--linux-runtime-manifest"
+  ],
+  "cwd": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\root-locator-qualification-260-audit",
+  "returncode": 0,
+  "seconds": 11.229924200102687
+}

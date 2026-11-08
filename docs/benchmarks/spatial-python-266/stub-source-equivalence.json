@@ -1,0 +1,11 @@
+{
+  "native_source": "9fa565ab6e18a176d7c404aa07a3d2bb46da7ad1",
+  "observer_source": "2a16bd2214d0fb55410d5d1540b54cd73ec32544",
+  "compiler_inputs": 401,
+  "fingerprint": "c41ff19ae15cda61d25dab205ab60ea0c4dfd9b22376d468e7cfa0e2862b0286",
+  "all_compiler_inputs_unchanged": true,
+  "observer_only_paths": [
+    "src/qupathxx/__init__.pyi",
+    "src/qupathxx/_native.pyi"
+  ]
+}

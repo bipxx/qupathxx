@@ -1,0 +1,253 @@
+{
+  "schema": "qpx.raw-grid-python-windows-local/1",
+  "observed_at_utc": "2026-10-25T16:01:04.155140+00:00",
+  "delivery_source": "1eadf2306c23c920826a3585c024d647e3e39cff",
+  "compiled_source": "fd32e9de1f0da5a93c0e1a87701e85657515016d",
+  "source_tree_sha256": "69fd8540468bcb379d6b29b5d94208e49d1fde8effacaa85bb966ce9bdfc9bc6",
+  "compiler_inputs": 309,
+  "source_contract_files": 489,
+  "compiler_input_reuse": "All 309 compiler inputs equal tested fd32e9d bytes; later commits change generated stubs, typing/tests/cohort and documentation only. Compiled revision is preserved, not relabelled.",
+  "native_module": {
+    "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw178-python-isolated\\qupathxx\\_native.cp312-win_amd64.pyd",
+    "bytes": 6897152,
+    "sha256": "465892de99246f4b379d28f746c6984c02e731f36b5d6fd9291ee222b2eb0752"
+  },
+  "isolated_candidate_runtime_passed": 137,
+  "new_raw_binding_cases_included": 14,
+  "actual_tiff_sample_types": 10,
+  "source_zt_channel_nonfinite_selection_checked": true,
+  "array_owner_reader_close_gc_checked": true,
+  "qra2_project_replay_checked": true,
+  "typing_positive": {
+    "files": 6,
+    "sha256": "90377c8fd97127580c93ac5740d596c9ebc9db94dafa6560ee11fe16b4460c62"
+  },
+  "typing_negative": {
+    "scientific-grid-typing-negative.log": {
+      "expected_errors": 6,
+      "sha256": "fa0f319e7369bc4e6ae1478f925ebcb71d35e5ccdaa977b303fb67bbf8e61c5a"
+    },
+    "scientific-channels-typing-negative.log": {
+      "expected_errors": 5,
+      "sha256": "35f5604a3504d444da517629c6f20f599aa5f8318585314f67a06d24ef5204ee"
+    },
+    "grid-cells-typing-negative.log": {
+      "expected_errors": 7,
+      "sha256": "fa55e75252aa1d670a0e3469b9d9a438282cbef4319912379b06124deb7eef19"
+    },
+    "scientific-raw-typing-negative.log": {
+      "expected_errors": 3,
+      "sha256": "3b240a595955095e01cd512001acc9f3229c47b17925aa7e411ded2fe378a620"
+    }
+  },
+  "pure_checks_passed": 110,
+  "final_registry_auditor_passed": 89,
+  "guard_reuse_scope": "Final registry-only cohort correction rechecked all 89 auditor cases; the twelve oracle and nine signature cases remain unchanged from the 110-case run.",
+  "stubs_generated_from_tested_module": true,
+  "numpy_shadow_and_optional_descriptor_fixed": true,
+  "windows_gui_library_compile_accepted": true,
+  "linux_binding_syntax_accepted": true,
+  "isolated_windows_python_api_accepted": true,
+  "wheel_installed_accepted": false,
+  "gui_behavior_accepted": false,
+  "new_grid_cli_batch_delivery_accepted": false,
+  "complete_raw_workflow_accepted": false,
+  "full_native_suite_accepted": false,
+  "platform_campaign_accepted": false,
+  "scientific_acceptance": false,
+  "release_ready": false,
+  "overall_project_complete": false,
+  "candidate_installation": "New CPython 3.12 environment has the tested native package copied into its site-packages and independently identified under -I; primary tests use a matching isolated staged package. This is not an installed wheel qualification.",
+  "rejected_observations": [
+    "Root editable import redirected to older source/module; rejected before candidate tests; separate interpreter removed editable hook",
+    "First broader candidate lacked packaged batch executable: 135 passed, one fixture failed before CLI execution; matching current CLI built/copied and full cohort rerun",
+    "Initial generated grid descriptor lacked optionality; generated NumPy module name was shadowed by numpy methods under strict typing; regenerated using private alias without binary rebuild"
+  ],
+  "rejected_log_encodings": {
+    "rejected-missing-cli-tests.log": "Original Windows GBK stdout retained byte-for-byte; final logs explicitly UTF-8"
+  },
+  "remaining": [
+    "Raw CLI/batch grid count planning, recipe/checkpoint identity and hash-only resume",
+    "ImGui and managed viewer grid producers and runtime/visual replay",
+    "Owner-thread ROI validation and complete workspace/performance budgets",
+    "Complete wheel/native/platform campaign and remaining original M0-M7 requirements"
+  ],
+  "evidence": {
+    "build_raw178_cli.py": {
+      "bytes": 689,
+      "sha256": "8b158a60e1a066f9bc85d65dd001303089853e2b46e50c5d2759b18814abc995"
+    },
+    "build_raw178_gui.py": {
+      "bytes": 1126,
+      "sha256": "dd0c1d053d7a4ad7879761ae5db78e2500d54ebe064ca2fac77164f395a825fe"
+    },
+    "build_raw178_python.py": {
+      "bytes": 1137,
+      "sha256": "86c83e73900e8719e1c0f1df5592cb8c9f78a03ad8b3ed2560d789f6ad583f47"
+    },
+    "check_raw178_bindings.py": {
+      "bytes": 900,
+      "sha256": "0256908302c0c49f51bc1bf5ac104899b896163f2498c8c1f3ee7967cd729f53"
+    },
+    "check_raw178_typing_final.py": {
+      "bytes": 940,
+      "sha256": "308537d93e4589e14c2f957dd1967ea8aa303e062ab5ebebab1860ddea9fe553"
+    },
+    "cli-build.log": {
+      "bytes": 943,
+      "sha256": "e34564bbc0730d6b8a1e35f7d9b9cfee652063fcf14ceed0501012c8009cbe7f"
+    },
+    "cli-commands.json": {
+      "bytes": 363,
+      "sha256": "44f7a3535e2f82307dcce776fef968af649d9299284fe8b3c2e7c78bfbd11f08"
+    },
+    "compiler-input-proof.json": {
+      "bytes": 32450,
+      "sha256": "25bcc00800612f21ccd632d709627e464a1897ed47073d9086f50c5fe60df215"
+    },
+    "final-cohort-audit.xml": {
+      "bytes": 15326,
+      "sha256": "98df5ff952803181fa803ebe202395d485bf5b77c1c2a7d1daca42106164dd2c"
+    },
+    "gcc-commands.json": {
+      "bytes": 693,
+      "sha256": "49b772581c610b8f6d9dceae1c1187fc6dab6ba2c3f50b75942e1c01599f894e"
+    },
+    "gcc-syntax.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "grid-cells-typing-negative.log": {
+      "bytes": 1361,
+      "sha256": "fa55e75252aa1d670a0e3469b9d9a438282cbef4319912379b06124deb7eef19"
+    },
+    "isolated-subprocess-identity.log": {
+      "bytes": 114,
+      "sha256": "ea4153078532f1eee3199ba7ede153fff978e987c0534446adff9dfd59610069"
+    },
+    "negative-typing-commands.json": {
+      "bytes": 1561,
+      "sha256": "0bc456d012d45aa3143ece3c602db50b9bca11e76e80bae960d10fca2a64034b"
+    },
+    "positive-typing-commands.json": {
+      "bytes": 836,
+      "sha256": "a0f792b4222a05b250f90488f58928329ff321d00857fd3cf6c7dc5817613953"
+    },
+    "pure-tests.xml": {
+      "bytes": 18566,
+      "sha256": "34c6e7cb8000fefa969a20a42d08eea1ea61bedbc267898f5c4f03948ede92a9"
+    },
+    "python-build_manifest.hpp": {
+      "bytes": 706,
+      "sha256": "43161f0271198701fb7f1b379c58e7c68b23d7fd15a037579af182bceaa13a33"
+    },
+    "python-CMakeCache.txt": {
+      "bytes": 41667,
+      "sha256": "70f615ee4b4d1c2bc40650151332ef9071dd90d01c5cb48df2cd3e88e98d0bc0"
+    },
+    "raw178-gui-compile-build.log": {
+      "bytes": 915,
+      "sha256": "5dd7a8072d8e29fd403edd187868c6125b3b04f6bd99f98f5ac9dc3583f9f16c"
+    },
+    "raw178-gui-compile-commands.json": {
+      "bytes": 811,
+      "sha256": "8af099bd2f99baf71eeb16d0451b652051c39598d695f71e213d35795879172d"
+    },
+    "raw178-gui-compile-configure.log": {
+      "bytes": 258,
+      "sha256": "b0064ffff9fdef3456e87a2f09a2bf559ba5761f7bdc256ae5535f244025e48b"
+    },
+    "raw178-native-build.log": {
+      "bytes": 9071,
+      "sha256": "fb581aa6a86c50cf9e2015ec028a18709b9802ad5167b3e40fea78dc9c5b1344"
+    },
+    "raw178-native-commands.json": {
+      "bytes": 839,
+      "sha256": "d28eb077fa02407c7b522c5f0aa82fd5325e5f77235b4a430384715251a6849d"
+    },
+    "raw178-native-configure.log": {
+      "bytes": 5299,
+      "sha256": "95d8e8b64a5d50a317ebde13f6f0e636bb138d043e9da056f4c9b8243f75c579"
+    },
+    "record_raw178.py": {
+      "bytes": 8201,
+      "sha256": "2c7b8ebbab6fcc694a7378f51fb2f9465fead188530f0ec3d2751ae3019861f8"
+    },
+    "refresh_raw178_stubs.py": {
+      "bytes": 1070,
+      "sha256": "f1a3c3ecd20b776c1fd2bee70895ccbdaf857f6fbb664db53494678c2459b47c"
+    },
+    "rejected-editable-import.log": {
+      "bytes": 358,
+      "sha256": "bcfa6aaa90f537fbe8ff3f201111d0d162c9b93891e7b0df73423c119511667b"
+    },
+    "rejected-missing-cli-tests.log": {
+      "bytes": 7950,
+      "sha256": "41915d2a029d6f25648dc5d4e23fcf15ea34c1b6ec7916e15d17afb9ead1adaf"
+    },
+    "rejected-numpy-shadow-typing.log": {
+      "bytes": 1078,
+      "sha256": "48360f2e63362784b13ea25688fb129d6a533c833fbeefc9ff1b27a002202b84"
+    },
+    "retained-native-artifacts.json": {
+      "bytes": 970,
+      "sha256": "8c3dff8081cad42c94d9fac10cc294355cbab2eb54cae8846a3e1af1a2c829d0"
+    },
+    "runtime-commands.json": {
+      "bytes": 1204,
+      "sha256": "c7bfa2345ac501c1a2ce74b5f98aa97c83dab78913b2b8ef25ee5d15c5484fc7"
+    },
+    "runtime-identity.json": {
+      "bytes": 284,
+      "sha256": "902375003baca862c81c29ecdf2899024120a9e233442a1f7011152d512d740d"
+    },
+    "runtime-python-tests.xml": {
+      "bytes": 17694,
+      "sha256": "b20750bb3be6f63c903a7015e8d8d50b5fe732863e6776dc5518869fc2522c88"
+    },
+    "runtime-tests.log": {
+      "bytes": 183,
+      "sha256": "108e0ae07663c0a5869009ebe6ba22292353a657f41c123eec48eb40bdc5f259"
+    },
+    "scientific-channels-typing-negative.log": {
+      "bytes": 921,
+      "sha256": "35f5604a3504d444da517629c6f20f599aa5f8318585314f67a06d24ef5204ee"
+    },
+    "scientific-grid-typing-negative.log": {
+      "bytes": 1045,
+      "sha256": "fa0f319e7369bc4e6ae1478f925ebcb71d35e5ccdaa977b303fb67bbf8e61c5a"
+    },
+    "scientific-raw-typing-negative.log": {
+      "bytes": 698,
+      "sha256": "3b240a595955095e01cd512001acc9f3229c47b17925aa7e411ded2fe378a620"
+    },
+    "source-proof.json": {
+      "bytes": 118948,
+      "sha256": "534f3e66367a8005de2f4557710018404de1decee4c9d0ab96702a856e575474"
+    },
+    "stubs-check.log": {
+      "bytes": 48,
+      "sha256": "f5323cb57dde65ca62cc7b523f2183b1f4ad026dafb74e41bd25dac05ebb2130"
+    },
+    "stubs-commands.json": {
+      "bytes": 551,
+      "sha256": "06011542f7de348a22ea5e6fb5b7102ca9afe28b5ca81aad63efa216b788fc5a"
+    },
+    "stubs-generate.log": {
+      "bytes": 24,
+      "sha256": "9467e1fcbcc3b7a214a8ae55510ca2aecbb94ba8190b3fd4a02ba2c8446eefdf"
+    },
+    "test_raw178_candidate_isolated.py": {
+      "bytes": 2241,
+      "sha256": "42e4a5f0418ddc9618169ef09bd391955ef4363a98207453869b205d44916a37"
+    },
+    "test_raw178_regression_final.py": {
+      "bytes": 1233,
+      "sha256": "2fe4ebe98834a1f23fb1b41c485cfd0e9c2e58b916ea911c740a899136a74f8d"
+    },
+    "typing.log": {
+      "bytes": 44,
+      "sha256": "90377c8fd97127580c93ac5740d596c9ebc9db94dafa6560ee11fe16b4460c62"
+    }
+  }
+}

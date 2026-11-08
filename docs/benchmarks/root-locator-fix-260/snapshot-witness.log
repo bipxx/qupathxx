@@ -1,0 +1,14 @@
+{
+  "source": "f9ad28f5d88fb6706163f8a6c2e0ffe7a96e4ec3",
+  "native": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\root-locator-fix-260-env\\Lib\\site-packages\\qupathxx\\_native.cp312-win_amd64.pyd",
+  "changed_tables": [],
+  "ordinary_image_locator": "../source.ppm",
+  "extended_image_locator": "../source.ppm",
+  "equal_after_only_locator_normalization": true,
+  "source_file_unchanged": "a426b0f75de80d8ff3c1f18badc251cd0e4fa5e5243a2f4288d5a91d6948351d",
+  "ordinary_snapshot_sha256": "55c7de97a778445d6c9ae44eeba5ca1f486c064dc570ef88461cd59fb4fe7d42",
+  "extended_snapshot_sha256": "55c7de97a778445d6c9ae44eeba5ca1f486c064dc570ef88461cd59fb4fe7d42",
+  "same_directory": true,
+  "same_image": true,
+  "scope": "Public snapshot API serialization witness only; no repair or qualification"
+}

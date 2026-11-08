@@ -1,0 +1,205 @@
+{
+  "schema": "qpx.qupath-rgb-resampling-local/1",
+  "state": "local-reference-characterization-accepted",
+  "comparison_source": "83cd41df14205601c6f9310bb042813ad0edafcf",
+  "native_source": "7231d95c25fbc9515d937036986e8c92b19da261",
+  "captures": 2,
+  "synthetic_inputs": 4,
+  "read_requests": 36,
+  "exact_repeated_payloads_including_manifest": 43,
+  "new_installed_cases": 82,
+  "related_installed": {
+    "passed": 173,
+    "skipped": 3,
+    "expected_failures": 3
+  },
+  "complete_scientific_cohort": {
+    "passed": 359,
+    "skipped": 7,
+    "expected_failures": 0
+  },
+  "audit_controls": {
+    "passed": 1054,
+    "skipped": 0,
+    "expected_failures": 0
+  },
+  "counts_overlap": true,
+  "source_paths": 661,
+  "unchanged_compiler_inputs": 415,
+  "unchanged_retained_products": 71,
+  "native_sampling_changed": false,
+  "product_rebuilt": false,
+  "local_binary_relabelled": false,
+  "scope": "Opaque RGB public WrappedBufferedImageServer requests; no pyramid/vendor/alpha/biological acceptance.",
+  "initial_capture_failure": "Public script used unavailable getQuPathVersion(); corrected to existing public GeneralTools.getVersion(). Initial payload/logs preserved.",
+  "initial_test_collection_failure": "pytest reserves request as a parameter name; corrected to request_name before successful run.",
+  "legacy_strict_expected_failures_preserved": 3,
+  "shared_test_dependencies": true,
+  "sampler_equivalence_accepted": false,
+  "biological_validation": false,
+  "own_source_platform_qualified": false,
+  "general_speed_claim": false,
+  "release_ready": false,
+  "files": [
+    {
+      "path": "capture.log",
+      "bytes": 5477,
+      "sha256": "57a6d9c7f9d73d8f563485e507f26a2d1faab547a574ffc42ee44d7dabdfad6b"
+    },
+    {
+      "path": "capture-exit.json",
+      "bytes": 359,
+      "sha256": "b2b07dee1650babc50bce78169f4efbb4f5966ac7438b0cc578e1e798d92aef2"
+    },
+    {
+      "path": "capture2.log",
+      "bytes": 1078,
+      "sha256": "21c50de8f6f2689ad0b4ad13ad9e230d73c24c5199cdc8b3fbcc4c08b277ffcf"
+    },
+    {
+      "path": "capture2-exit.json",
+      "bytes": 360,
+      "sha256": "68ce987144f543b222e4f260938ffe77a5634cdb2ba37d6f6fb59d9562ea4358"
+    },
+    {
+      "path": "capture3-runtime.log",
+      "bytes": 1078,
+      "sha256": "075d16b0cdfbbb046b21c830b92287e08d0a22aa6437a19a33f014517050e8cb"
+    },
+    {
+      "path": "repeat-command.log",
+      "bytes": 158,
+      "sha256": "9b5c0391c55604844b57cc3141aac8b8a30289d330b79b705f71f23cc0a8ed07"
+    },
+    {
+      "path": "repeat-native-report.json",
+      "bytes": 49091,
+      "sha256": "1ccf0926f7aa6efb2d0d988d86f5893286c77bee15ced1e60f753efaf5e12306"
+    },
+    {
+      "path": "installed.log",
+      "bytes": 599,
+      "sha256": "3c85d9010d8be9630580385113313472ebdb6eb95233e2c19355ad35f42b0c6b"
+    },
+    {
+      "path": "installed.xml",
+      "bytes": 543,
+      "sha256": "9423067f6b91f7074d18f906efcdacd3a4951760853db1d501b4f93014061290"
+    },
+    {
+      "path": "installed2.log",
+      "bytes": 276,
+      "sha256": "caa24ba862a9409c063294f2667f12e7930e6cf57909ac503907eae55e4e7899"
+    },
+    {
+      "path": "installed2.xml",
+      "bytes": 26413,
+      "sha256": "2d339140021f9304a2576c3d105532a86607d33d2a916b2d29735b444b29a628"
+    },
+    {
+      "path": "scientific.log",
+      "bytes": 519,
+      "sha256": "5fbb7199b357da8b0da1908d866af11c2adbb09c036bec880cd48fb999318bd7"
+    },
+    {
+      "path": "scientific.xml",
+      "bytes": 56381,
+      "sha256": "ae3c1dd5f836f13cde53bbbcd2e54c8ed113129309c27b4ae70804294af7323b"
+    },
+    {
+      "path": "scientific-command.json",
+      "bytes": 1705,
+      "sha256": "2b7bd4f07a92514162081525be0c734f5828d7fd8e1091ff0e6f5a809b845a29"
+    },
+    {
+      "path": "scientific-exit.json",
+      "bytes": 25,
+      "sha256": "915162e083f2919d02dd0256744cdfa0ded3692822e24f44bf34abe86aeb75ae"
+    },
+    {
+      "path": "scientific-admission.json",
+      "bytes": 112,
+      "sha256": "3b92123e191fa8f62892f78da0b0990fad10d5c7de58b92f1b90f4c3e8d8376f"
+    },
+    {
+      "path": "preflight.log",
+      "bytes": 1238,
+      "sha256": "3e2ba3ccdbf36749b489c59963e08f55f0f738916e0fd160b4e0d8abbaceacea"
+    },
+    {
+      "path": "preflight.xml",
+      "bytes": 169414,
+      "sha256": "b4816f081fc6b57d321eb5bb1deeb4abe9704fdf0e2107fff0d339dd00ee5eb8"
+    },
+    {
+      "path": "preflight-command.json",
+      "bytes": 1515,
+      "sha256": "d6608ddc6c16c35be998a7813380c6e19ceb7181c06643f4f847e19dde3cea0f"
+    },
+    {
+      "path": "preflight-exit.json",
+      "bytes": 25,
+      "sha256": "915162e083f2919d02dd0256744cdfa0ded3692822e24f44bf34abe86aeb75ae"
+    },
+    {
+      "path": "scientific-source-proof.json",
+      "bytes": 158363,
+      "sha256": "3c6af4c4f31a49e75e543a6810e692450f87ceab054f8c70544a3aa102ddc0a6"
+    },
+    {
+      "path": "source-runtime-proof.json",
+      "bytes": 775,
+      "sha256": "08d0030d98ef677f995654482d18365c028c1b32ea93778660f46705b8646503"
+    },
+    {
+      "path": "repeat-proof.json",
+      "bytes": 159,
+      "sha256": "956d5b819e5cdd954a0d63eeee63ddb402ddc9993d7f5c1b236cb82e48ef7de3"
+    },
+    {
+      "path": "repeat-file-proof.json",
+      "bytes": 6799,
+      "sha256": "4a5c590e60a46e7abfafa97e8511834b8993dab22bbd39e634fdfc85ee50dae6"
+    },
+    {
+      "path": "initial-capture-source/probe_rgb_resampling_286.py",
+      "bytes": 3859,
+      "sha256": "aa10ab23c5fe7faaa5647b7ddc7c09f2eeaa40a1c5be85fc174bec66a7fb5a84"
+    },
+    {
+      "path": "initial-capture-source/reference.groovy",
+      "bytes": 1849,
+      "sha256": "979e498d5999a6f5901f797620d0b2ce2e7fea43adbfc6e6e1f01b7bcd3d3d54"
+    },
+    {
+      "path": "tools/probe_rgb_resampling_286.py",
+      "bytes": 3862,
+      "sha256": "26b2245e5957fa49cff08bc2d7265249c698ec7a17e2beee71ae6f86603a8717"
+    },
+    {
+      "path": "tools/install_rgb_fixture286.py",
+      "bytes": 1472,
+      "sha256": "515d523c844af6c0c1c82d2681c3fc82649109ba08732dab3be196dc18e61312"
+    },
+    {
+      "path": "tools/register_rgb_cohort286.py",
+      "bytes": 1596,
+      "sha256": "9fa8780312fabb84e752832a02902a860a9b081b47b88b1574613d6595d8faab"
+    },
+    {
+      "path": "tools/validate_rgb286.py",
+      "bytes": 1915,
+      "sha256": "b0954de7d2acf646ed9594c6929e78ea4756e7d62c5b87dba5e06b6805c75b41"
+    },
+    {
+      "path": "tools/prove_rgb286.py",
+      "bytes": 2796,
+      "sha256": "0cd336693ef4a323f0ce87723a483d4e751cca36878927e7fa305153168d9a63"
+    },
+    {
+      "path": "tools/publish_rgb286.py",
+      "bytes": 8304,
+      "sha256": "91c38e84654d77376f7824f0f08327a614484a3b7bdfc459ced16777028daad2"
+    }
+  ]
+}

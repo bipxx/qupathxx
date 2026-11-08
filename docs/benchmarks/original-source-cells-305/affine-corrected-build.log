@@ -1,0 +1,19 @@
+CMake is re-running because C:/Users/HEQ/Projects/qupathxx/build/ci/qupath-response304-msvc/CMakeFiles/generate.stamp is out-of-date.
+  the file 'C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/rgb_nominal.hpp'
+  is newer than 'C:/Users/HEQ/Projects/qupathxx/build/ci/qupath-response304-msvc/CMakeFiles/generate.stamp.depend'
+  result='-1'
+-- Selecting Windows SDK version 10.0.22621.0 to target Windows 10.0.26200.
+-- Configuring done (0.3s)
+-- Generating done (2.6s)
+-- Build files have been written to: C:/Users/HEQ/Projects/qupathxx/build/ci/qupath-response304-msvc
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+
+  Checking File Globs
+  cell_sampling_grid.cpp
+  resampling.cpp
+  Generating Code...
+  rgb_nominal.cpp
+  provenance.cpp
+  qupathxx_core.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\Release\qupathxx_core.lib
+  rgb_nominal_checks.cpp
+  qupathxx_resampling_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\Release\qupathxx_resampling_tests.exe

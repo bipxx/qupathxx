@@ -1,0 +1,4 @@
+tests\typing\cell_statistics_invalid.py:4: error: Argument 1 to "intensity_statistics" of "CellResult" has incompatible type "str"; expected "int"  [arg-type]
+tests\typing\cell_statistics_invalid.py:5: error: Argument 1 to "cell_intensity_statistics" of "ObjectFeatureTable" has incompatible type "str"; expected "int"  [arg-type]
+tests\typing\cell_statistics_invalid.py:6: error: Property "intensity_statistics_format" defined in "CellResult" is read-only  [misc]
+Found 3 errors in 1 file (checked 1 source file)

@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\tools\profile_raw_stream_contours.py", line 226, in <module>
+    main()
+  File "C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\tools\profile_raw_stream_contours.py", line 204, in main
+    case = prepare(q, work, size, c)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\tools\profile_raw_stream_contours.py", line 73, in prepare
+    recipe = q.RawPixelRecipe(server.raw_metadata, lattice(q, size), selection, features)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: invalid raw classifier feature dimensions

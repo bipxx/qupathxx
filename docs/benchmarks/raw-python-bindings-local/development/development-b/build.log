@@ -1,0 +1,47 @@
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+
+  Checking File Globs
+  qupathxx_sqlite.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\Release\qupathxx_sqlite.lib
+  nanobind-static.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\Release\nanobind-static.lib
+  qupathxx_tiff_xml.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\Release\qupathxx_tiff_xml.lib
+  zlibstatic.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\_deps\qpx_zlib-build\Release\zs.lib
+  tiff.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\_deps\qpx_tiff-build\libtiff\Release\tiff.lib
+  provenance.cpp
+  qupathxx_core.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\Release\qupathxx_core.lib
+  raw_pixel_file_bindings.cpp
+  raw_pixel_type_bindings.cpp
+  raw_pixel_workflow_bindings.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_file_bindings.cpp(50,182): error C2039: 'input_sha': is not a member of 'qpx::RawPixelPredictionStreamJob' [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\_native.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_stream.hpp(76,7):
+      see declaration of 'qpx::RawPixelPredictionStreamJob'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_file_bindings.cpp(50,182): error C2065: 'input_sha': undeclared identifier [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\_native.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_file_bindings.cpp(50,141): error C2672: 'qpx::bindings::job_method': no matching overloaded function found [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\_native.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_binding_utils.hpp(40,38):
+      could be 'auto qpx::bindings::job_method(void)'
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_file_bindings.cpp(50,182):
+          'Method': invalid template argument for 'qpx::bindings::job_method', expected compile-time constant expression
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_file_bindings.cpp(50,194): error C2143: syntax error: missing ')' before 'constant' [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\_native.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_file_bindings.cpp(50,99): error C2672: 'nanobind::class_<qpx::bindings::JobHolder<qpx::RawPixelPredictionStreamJob>>::def_prop_ro': no matching overloaded function found [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\_native.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\.venv\Lib\site-packages\nanobind\include\nanobind\nb_class.h(596,23):
+      could be 'nanobind::class_<qpx::bindings::JobHolder<qpx::RawPixelPredictionStreamJob>> &nanobind::class_<qpx::bindings::JobHolder<qpx::RawPixelPredictionStreamJob>>::def_prop_ro(const char *,Getter &&,const Extra ...)'
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_file_bindings.cpp(50,99):
+          'nanobind::class_<qpx::bindings::JobHolder<qpx::RawPixelPredictionStreamJob>> &nanobind::class_<qpx::bindings::JobHolder<qpx::RawPixelPredictionStreamJob>>::def_prop_ro(const char *,Getter &&,const Extra ...)': expects 3 arguments - 1 provided
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_file_bindings.cpp(50,194): error C2143: syntax error: missing ';' before 'constant' [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\_native.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_file_bindings.cpp(50,197): error C2059: syntax error: ')' [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\_native.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_file_bindings.cpp(50,276): error C2039: 'sha': is not a member of 'qpx::RawPixelPredictionStreamJob' [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\_native.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_stream.hpp(76,7):
+      see declaration of 'qpx::RawPixelPredictionStreamJob'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_file_bindings.cpp(50,276): error C2065: 'sha': undeclared identifier [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\_native.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_file_bindings.cpp(50,235): error C2672: 'qpx::bindings::job_method': no matching overloaded function found [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\_native.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_binding_utils.hpp(40,38):
+      could be 'auto qpx::bindings::job_method(void)'
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_file_bindings.cpp(50,276):
+          'Method': invalid template argument for 'qpx::bindings::job_method', expected compile-time constant expression
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_file_bindings.cpp(50,282): error C2143: syntax error: missing ')' before 'constant' [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\_native.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_file_bindings.cpp(50,282): error C2143: syntax error: missing ';' before 'constant' [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\_native.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_file_bindings.cpp(50,285): error C2059: syntax error: ')' [C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218-windows\_native.vcxproj]

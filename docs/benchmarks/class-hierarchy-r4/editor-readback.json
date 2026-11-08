@@ -1,0 +1,13 @@
+{
+  "source": "8722d96d788a550945e15b7aa3e32e29423b9a54",
+  "replay_complete": true,
+  "dirty": false,
+  "defaults": [
+    "Parent",
+    "Parent: Positive",
+    "Parent",
+    "Parent: Positive"
+  ],
+  "images": 0,
+  "purpose": "Fresh-process installed project readback and rendered registry/default inspection after mouse edit/save"
+}

@@ -1,0 +1,35 @@
+{
+  "schema": "qpx.integrated-candidate-local/1",
+  "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+  "fingerprint": "c18b09a98303bc2d3eeb57b7af79333fdc6cf8d9e0875a43586050ca4f22aa69",
+  "native_suites": 51,
+  "preflight_controls": 880,
+  "installed": {
+    "cases": 304,
+    "passed": 301,
+    "declared_skips": 3,
+    "new_history": 26
+  },
+  "typing": {
+    "positive_files": 5,
+    "negative_files": 4,
+    "intended_errors": 20
+  },
+  "source_paths": 490,
+  "visual_review": "Four1280x1000 history/file/retained captures inspected. Preview fits, historic apply stays disabled, reverified apply reports2annotations and disables repeat apply. Unicode filename renders fallback glyphs; separate metadata probe preserves the correct UTF8 name. General glyph coverage remains an open UI boundary.",
+  "sdks_unchanged": true,
+  "previous_products_preserved": 64,
+  "new_registered_products_preserved": 55,
+  "mac_runtime_repair_verified": false,
+  "remaining_roles": [
+    "macos",
+    "engine",
+    "portable"
+  ],
+  "limitations": [
+    "Local Windows GUI/TIFF/GEOS/project/training with OpenSlide OFF",
+    "Separate product install shares existing test dependencies; not clean-machine acceptance",
+    "Prior full4420-case3039f0c observation retains its own identity; it is not transferred to this product",
+    "Scientific/hardware/release and broader M0-M7 scope remain open"
+  ]
+}

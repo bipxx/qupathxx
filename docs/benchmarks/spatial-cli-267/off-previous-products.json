@@ -1,0 +1,32 @@
+{
+  "qupathxx_core.lib": {
+    "source": null,
+    "bytes": 113486028,
+    "sha256": "17bee266b2bce3ee3665f2ba2d06c6bed6977a9d73b3a8277c12a3f14e739a78"
+  },
+  "qupathxx_batch.exe": {
+    "source": null,
+    "bytes": 3839488,
+    "sha256": "9d6c4df8a910ce53f2a0492bebc46b1da72e0cdab2b9db96a0193ef64ffb6fe4"
+  },
+  "qupathxx_spatial_record_tests.exe": {
+    "source": null,
+    "bytes": 2774528,
+    "sha256": "fa2c7681bfdb758fca6c55368e5fdf0ee18a50afb65f7514b024f45a8a1301af"
+  },
+  "qupathxx_spatial_analysis_tests.exe": {
+    "source": null,
+    "bytes": 1583616,
+    "sha256": "95393dc33e3acfde86790021e23a8d5c27e73ae7dfd7daea4c151a875fc8951c"
+  },
+  "qupathxx_project_tests.exe": {
+    "source": null,
+    "bytes": 2883584,
+    "sha256": "d44769a1ea0cc890ff7a9b4e61af6c281e8a65bff47617a1ffd595d9562f0fa3"
+  },
+  "qupathxx_qptma_project_tests.exe": {
+    "source": null,
+    "bytes": 2694656,
+    "sha256": "43c2ba54631817c909422ae35145f4d7944d10edd5e92479743a6ef5dbe9e8a0"
+  }
+}

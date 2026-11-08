@@ -1,0 +1,180 @@
+[
+  {
+    "name": "configure",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\cmake.exe",
+      "-S",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159",
+      "-B",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package",
+      "-DQUPATHXX_BUILD_TIFF=ON"
+    ],
+    "exit": 0,
+    "seconds": 8.744474399951287
+  },
+  {
+    "name": "build",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\cmake.exe",
+      "--build",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package",
+      "--config",
+      "Release",
+      "--target",
+      "_native",
+      "qupathxx_region",
+      "qupathxx_batch",
+      "qupathxx_source_identity_tests",
+      "qupathxx_file_fingerprint_tests",
+      "qupathxx_provenance_tests",
+      "qupathxx_raw_image_tests",
+      "qupathxx_resampling_tests",
+      "qupathxx_project_tests",
+      "qupathxx_save_tests",
+      "--parallel",
+      "2"
+    ],
+    "exit": 0,
+    "seconds": 20.973025600076653
+  },
+  {
+    "name": "test-source_identity",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\ctest.exe",
+      "--test-dir",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package",
+      "-C",
+      "Release",
+      "-R",
+      "^source_identity$",
+      "--output-on-failure",
+      "--test-output-size-passed",
+      "1048576",
+      "--no-tests=error",
+      "--output-junit",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\multifile209b-windows\\source_identity.xml"
+    ],
+    "exit": 0,
+    "seconds": 0.3752547000767663
+  },
+  {
+    "name": "test-file_fingerprint",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\ctest.exe",
+      "--test-dir",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package",
+      "-C",
+      "Release",
+      "-R",
+      "^file_fingerprint$",
+      "--output-on-failure",
+      "--test-output-size-passed",
+      "1048576",
+      "--no-tests=error",
+      "--output-junit",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\multifile209b-windows\\file_fingerprint.xml"
+    ],
+    "exit": 0,
+    "seconds": 0.17187199997715652
+  },
+  {
+    "name": "test-provenance",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\ctest.exe",
+      "--test-dir",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package",
+      "-C",
+      "Release",
+      "-R",
+      "^provenance$",
+      "--output-on-failure",
+      "--test-output-size-passed",
+      "1048576",
+      "--no-tests=error",
+      "--output-junit",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\multifile209b-windows\\provenance.xml"
+    ],
+    "exit": 0,
+    "seconds": 0.1552517000818625
+  },
+  {
+    "name": "test-raw_image",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\ctest.exe",
+      "--test-dir",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package",
+      "-C",
+      "Release",
+      "-R",
+      "^raw_image$",
+      "--output-on-failure",
+      "--test-output-size-passed",
+      "1048576",
+      "--no-tests=error",
+      "--output-junit",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\multifile209b-windows\\raw_image.xml"
+    ],
+    "exit": 0,
+    "seconds": 0.49384060001466423
+  },
+  {
+    "name": "test-resampling",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\ctest.exe",
+      "--test-dir",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package",
+      "-C",
+      "Release",
+      "-R",
+      "^resampling$",
+      "--output-on-failure",
+      "--test-output-size-passed",
+      "1048576",
+      "--no-tests=error",
+      "--output-junit",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\multifile209b-windows\\resampling.xml"
+    ],
+    "exit": 0,
+    "seconds": 3.14173400006257
+  },
+  {
+    "name": "test-project",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\ctest.exe",
+      "--test-dir",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package",
+      "-C",
+      "Release",
+      "-R",
+      "^project$",
+      "--output-on-failure",
+      "--test-output-size-passed",
+      "1048576",
+      "--no-tests=error",
+      "--output-junit",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\multifile209b-windows\\project.xml"
+    ],
+    "exit": 0,
+    "seconds": 0.30735190003179014
+  },
+  {
+    "name": "test-project_save",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\ctest.exe",
+      "--test-dir",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package",
+      "-C",
+      "Release",
+      "-R",
+      "^project_save$",
+      "--output-on-failure",
+      "--test-output-size-passed",
+      "1048576",
+      "--no-tests=error",
+      "--output-junit",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\multifile209b-windows\\project_save.xml"
+    ],
+    "exit": 0,
+    "seconds": 0.2540649001020938
+  }
+]

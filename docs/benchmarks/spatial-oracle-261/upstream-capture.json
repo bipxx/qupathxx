@@ -1,0 +1,24 @@
+{
+  "schema": "qpx.spatial-oracle-preparation/1",
+  "state": "reference_verified",
+  "cases": 26,
+  "upstream": {
+    "tag": "v0.7.0",
+    "revision": "04ccfa4fb7d43e9b566393e08e83690b72248d44",
+    "version": "0.7.0",
+    "bundle_url": "https://github.com/qupath/qupath/releases/download/v0.7.0/QuPath-v0.7.0-Windows.zip",
+    "bundle_filename": "QuPath-v0.7.0-Windows.zip",
+    "bundle_bytes": 282594398,
+    "bundle_sha256": "5839743281d11eca1ac55c87ddcf92c89a30cba7ba2060f162036b0514b1e30c",
+    "runtime_tree_sha256": "117c0cb3074c7e3d2f4814d731bf0703d38373051d5580462a90d94036314788",
+    "runtime_files": 496,
+    "executable": "QuPath-0.7.0 (console).exe",
+    "license": "GPL-3.0-or-later",
+    "license_source": "https://github.com/qupath/qupath/blob/04ccfa4fb7d43e9b566393e08e83690b72248d44/LICENSE"
+  },
+  "contract_sha256": "5633ad9a4190f8b126ab51e019aadae1ad7153a7ce698ec97336c4b6e016f7c0",
+  "generator_sha256": "9dd1c7f7ada936020ae20aef1c828e9c7329a75e44a72ffbdbf3b4f1747eee98",
+  "reference_sha256": "3cb0820a2509a7d966097b840fd6b8d2271992fdfd1874bcd640701e5b62eb3b",
+  "native_implemented": false,
+  "platform_accepted": false
+}

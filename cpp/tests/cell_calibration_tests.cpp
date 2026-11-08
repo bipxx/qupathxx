@@ -52,6 +52,7 @@ int main() {
         auto tiny=detect_cells(CellRequest(extreme,id,transform,p));auto physical=tiny->calibrated_feature(1);
         check(std::abs(*physical.nucleus_sample_area_um2-2)<1e-12 && physical.cytoplasm_sample_area_um2==0);
         extreme.set_calibration(1e-300,1e-300);tiny=detect_cells(CellRequest(extreme,id,transform,p));
+        check(detect_cells(CellRequest::with_nucleus_area_limits(extreme,id,transform,{},0.,p))->features().empty());
         bool underflow=false;try {tiny->calibrated_feature(1);}catch(const std::overflow_error&) {underflow=true;}check(underflow);
         std::cout<<"Captured anisotropic areas/centroids, legacy unknown, detached lifetime and numerical ranges passed\n";
     } catch(const std::exception& e) {std::cerr<<e.what()<<'\n';return 1;}

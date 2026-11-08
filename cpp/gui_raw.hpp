@@ -6,6 +6,7 @@
 #include "atomic_export.hpp"
 #include "reader_file_guard.hpp"
 #include "gui_layout.hpp"
+#include "gui_raw_grid_controls.hpp"
 #include "utf8_text.hpp"
 #include <array>
 #include <future>
@@ -28,6 +29,7 @@ class GuiRaw {
     bool raw_pending_=false,csv_pending_=false,verified_=false,require_current_=false,export_selected_=false;
     int initial_tab_=0;bool activate_tab_=true;
     TiffOpenOptions options_;RawRegionRequest request_;
+    std::optional<RawGridSampling> grid_;std::size_t grid_work_=256u*1024*1024;
     std::shared_ptr<ImageServer> source_;std::weak_ptr<const char> identity_;std::weak_ptr<ImageServer> applied_;
     std::shared_ptr<const RawImageMetadata> metadata_;std::shared_ptr<const RawRegionStatistics> statistics_;
     std::shared_ptr<const RawAnalysisResult> analysis_;
@@ -86,10 +88,15 @@ class GuiRaw {
         if(follow_display_) {const auto view=source_->tiff_view();request.z=view->z;request.t=view->t;}
         if(use_selected_ && selection.primary()) object=selection.primary();
         if(!save) {
-            RawAnalysisRequest captured(doc,request,object,object?nucleus_:false);
+            if(grid_ && !object) throw std::invalid_argument("select an area ROI for a grid measurement");
+            ScientificRawOptions sampling;sampling.first_channel=request.first_channel;sampling.channels=request.channels;
+            sampling.z=request.z;sampling.t=request.t;sampling.work_bytes=grid_work_;
+            RawAnalysisRequest captured=grid_?RawAnalysisRequest::for_grid_roi(doc,object,*grid_,sampling,nucleus_):
+                RawAnalysisRequest(doc,request,object,object?nucleus_:false);
             if(!raw_job_.request(captured)) throw std::runtime_error("raw analysis is already running");
             raw_pending_=true;raw_stats_.state="running";verify_id_=0;verified_=false;analysis_.reset();statistics_.reset();task_="reading";error_.clear();return;
         }
+        if(grid_) throw std::invalid_argument("select natural sampling to export original raw samples");
         // Export retains the entire selected bounding rectangle, including OOB
         // padding and pixels outside a nonrectangular selected area.
         if(object) {
@@ -141,12 +148,24 @@ class GuiRaw {
         }
         if(csv_pending_) {csv_stats_=csv_job_.poll();if(csv_stats_.state!="running") {csv_pending_=false;if(csv_stats_.state=="failed") error_=csv_stats_.error;}}
     }
+    static ScientificRawOptions selected_axes(const RawAnalysisResult& result) {
+        if(result.grid()) return result.grid()->options;
+        const auto& region=result.region();ScientificRawOptions options;
+        options.first_channel=region.first_channel;options.channels=region.channels;options.z=region.z;options.t=region.t;
+        return options;
+    }
     static void result_table(const RawAnalysisResult& result,float scale,std::size_t& maximum) {
-        const auto& stats=result.statistics();const auto& region=result.region();const auto& context=result.object_context();
+        const auto& stats=result.statistics();const auto region=selected_axes(result);const auto& context=result.object_context();
         ImGui::TextWrapped("Captured Z %u / time %u / channels %u..%u",region.z,region.t,region.first_channel,region.first_channel+region.channels-1);
         if(result.object_id()) ImGui::TextWrapped("ROI: %s (#%llu)",context.name.c_str(),static_cast<unsigned long long>(result.object_id()));
         if(context.tma) ImGui::TextWrapped("Case: %s / core %s",context.tma->case_id.c_str(),context.tma->core_name.c_str());
-        ImGui::Text("Valid pixels: %llu",static_cast<unsigned long long>(stats.valid_pixels));
+        if(result.grid()) {
+            const auto& grid=result.grid()->grid;
+            ImGui::Text("Core grid: %lld x %lld",static_cast<long long>(grid.x().samples()),static_cast<long long>(grid.y().samples()));
+            ImGui::Text("Source: %s / measured samples: float64",sample_name(result.metadata().sample_type).c_str());
+            ImGui::Text("Eligible core samples: %llu",static_cast<unsigned long long>(stats.pixels));
+            ImGui::Text("Fully supported samples: %llu",static_cast<unsigned long long>(stats.valid_pixels));
+        } else ImGui::Text("Valid pixels: %llu",static_cast<unsigned long long>(stats.valid_pixels));
         if(ImGui::BeginTable("raw means",4,ImGuiTableFlags_Borders|ImGuiTableFlags_RowBg|ImGuiTableFlags_ScrollY,{0,150.f*scale})) {
             ImGui::TableSetupColumn("Channel");ImGui::TableSetupColumn("Mean");ImGui::TableSetupColumn("Finite");ImGui::TableSetupColumn("Nonfinite");ImGui::TableHeadersRow();
             ImGuiListClipper clip;clip.Begin(int(stats.means.size()));std::size_t inspected=0;
@@ -163,6 +182,9 @@ public:
     explicit GuiRaw(const GuiOptions& options):open_(options.raw_open),initial_options_(bool(options.tiff_options)),initial_request_(bool(options.raw_request)),initial_record_(options.raw_record_id!=0),
         nucleus_(options.analysis_nucleus),require_current_(options.raw_require_current),initial_tab_(options.raw_tab),options_(options.tiff_options?*options.tiff_options:TiffOpenOptions{}),request_(options.raw_request?*options.raw_request:RawRegionRequest{}),selected_(options.raw_record_id) {
         if(initial_tab_<0 || initial_tab_>3) throw std::invalid_argument("invalid quantitative channels tab");
+        if(options.raw_grid) {options.raw_grid->validate();grid_=*options.raw_grid;}
+        grid_work_=options.raw_grid_work_bytes;
+        ScientificRawOptions sampling;sampling.work_bytes=grid_work_;sampling.validate();
         follow_display_=!initial_request_;options_.validate();bounded_utf8(options.raw_numpy_path,32768);bounded_utf8(options.raw_csv_path,32768);
         std::copy(options.raw_numpy_path.begin(),options.raw_numpy_path.end(),path_.begin());std::copy(options.raw_csv_path.begin(),options.raw_csv_path.end(),csv_path_.begin());
         if(options.image_reader!="auto" && options.image_reader!="ppm" && options.image_reader!="openslide" && options.image_reader!="tiff") throw std::invalid_argument("invalid image reader selection");
@@ -236,6 +258,14 @@ public:
         auto perform=[&](auto&& action) {try {action();error_.clear();}catch(const std::exception& error) {failure(error);task_="failed";}};
         if(metadata_) ImGui::TextWrapped("%s / %u channels / %u Z planes / %u timepoints",sample_name(metadata_->sample_type).c_str(),metadata_->channels,metadata_->z_planes,metadata_->timepoints);
         else {ImGui::TextWrapped("Channels: %s",state_.c_str());if(state_=="unsupported") ImGui::TextWrapped("Open a TIFF/OME-TIFF with the quantitative TIFF reader.");else if((state_=="failed" || state_=="cancelled") && ui::Button("Retry channel metadata")) state_="waiting";}
+        if(metadata_) {
+            try {
+                const auto z=doc.z_position_um(options_.view.z),t=doc.timepoint_seconds(options_.view.t);
+                ImGui::TextWrapped("Physical axes: %s",doc.image_axis_calibration()?"saved image calibration":"reader calibration");
+                if(z)ImGui::Text("Z: %.10g um",*z);else ImGui::TextUnformatted("Z position: unknown");
+                if(t)ImGui::Text("Time: %.10g s",*t);else ImGui::TextUnformatted("Time: unknown");
+            } catch(const std::exception& error) {ImGui::TextWrapped("Physical axes unavailable: %s",error.what());}
+        }
         const bool disabled=blocked || busy();
         auto number=[&](const char* label,std::uint32_t& value,std::uint32_t maximum) {int n=static_cast<int>(value);if(ui::InputInt(label,&n)) value=std::uint32_t(std::clamp(n,0,int(maximum-1)));};
         if(ImGui::BeginTabBar("Quantitative views")) {
@@ -251,15 +281,22 @@ public:
             }
             if(tab("Data",1,GuiInputTarget::RawDataTab)) {
                 if(metadata_) {
-                    ImGui::BeginDisabled(disabled);ui::Checkbox("Use selected area ROI",&use_selected_);if(use_selected_) ui::Checkbox("Use selected nucleus",&nucleus_);
+                    ImGui::BeginDisabled(disabled);
+                    bool grid=bool(grid_);if(ui::Checkbox("Explicit raw grid",&grid)) grid_=grid?std::optional<RawGridSampling>(RawGridSampling{}):std::nullopt;
+                    if(grid_) {use_selected_=true;raw_grid_controls(*grid_,grid_work_);}
+                    ImGui::BeginDisabled(bool(grid_));ui::Checkbox("Use selected area ROI",&use_selected_);ImGui::EndDisabled();
+                    if(use_selected_) ui::Checkbox("Use selected nucleus",&nucleus_);
+                    if(!grid_) {
                     ui::InputInt64("Level-zero X",&request_.region.x);ui::InputInt64("Level-zero Y",&request_.region.y);ui::InputInt64("Output width",&request_.region.width);ui::InputInt64("Output height",&request_.region.height);
                     int level=request_.region.level;if(ui::InputInt("Pyramid level",&level)) request_.region.level=std::clamp(level,0,int(metadata_->levels.size())-1);
+                    }
                     number("First channel",request_.first_channel,metadata_->channels);int count=int(request_.channels);if(ui::InputInt("Channel count",&count)) request_.channels=std::uint32_t(std::clamp(count,1,int(metadata_->channels-request_.first_channel)));
                     ui::Checkbox("Follow displayed Z / time",&follow_display_);if(follow_display_) {const auto view=source_->tiff_view();request_.z=view->z;request_.t=view->t;}
                     ImGui::BeginDisabled(follow_display_);number("Data Z",request_.z,metadata_->z_planes);number("Data time",request_.t,metadata_->timepoints);ImGui::EndDisabled();ImGui::EndDisabled();
                     if(button("Measure raw channels",GuiInputTarget::MeasureRawRegion,disabled)) perform([&]{data_job(doc,selection,project,false);});
                     ui::InputTextWithHint("##raw NumPy path","New NumPy file (.npy)",path_.data(),path_.size());
-                    if(button("Export raw rectangle (.npy)",GuiInputTarget::ExportRawRegion,disabled || !path_[0])) perform([&]{data_job(doc,selection,project,true);});
+                    if(button("Export raw rectangle (.npy)",GuiInputTarget::ExportRawRegion,disabled || bool(grid_) || !path_[0])) perform([&]{data_job(doc,selection,project,true);});
+                    if(grid_) ImGui::TextWrapped("Keep a grid measurement in Results, or switch to natural sampling for original-sample NumPy export.");
                     ImGui::TextWrapped("NumPy export preserves the rectangle, including pixels outside a nonrectangular ROI. Existing files are kept.");
                 }else ImGui::TextWrapped("Channel metadata is not ready.");
                 ImGui::EndTabItem();
@@ -277,7 +314,7 @@ public:
                 auto page=doc.raw_analysis_page(cursor_,64);catalog_max_=std::max(catalog_max_,page.size());
                 ImGui::Text("Saved measurements: %llu",static_cast<unsigned long long>(doc.raw_analysis_record_count()));
                 if(ImGui::BeginListBox("##saved raw records",{-1,110.f*scale})) {
-                    for(const auto& record:page) {const auto label="#"+std::to_string(record->id)+"  "+record->result->object_context().name+"  Z "+std::to_string(record->result->region().z)+" / time "+std::to_string(record->result->region().t);
+                    for(const auto& record:page) {const auto axes=selected_axes(*record->result);const auto label="#"+std::to_string(record->id)+"  "+record->result->object_context().name+"  Z "+std::to_string(axes.z)+" / time "+std::to_string(axes.t)+(record->result->grid()?" / grid":"");
                         ImGui::PushID(std::to_string(record->id).c_str());if(ImGui::Selectable(label.c_str(),selected_==record->id)) {selected_=record->id;verified_=false;}ImGui::PopID();}
                     ImGui::EndListBox();
                 }

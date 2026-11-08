@@ -1,0 +1,283 @@
+{
+  "schema": "qpx.spatial-frontends-local/1",
+  "native_source": "d9bba6bc5affdaa34133ce82481fd9219e84a672",
+  "stub_observer": "c360ac95ab49268ed7eef8b7226ec97e11641d0f",
+  "compiler_inputs": 409,
+  "authenticated_source_paths": 517,
+  "profile": "Windows x64 GUI GEOS TIFF project training ON; OpenSlide OFF",
+  "native_suites_passed": 55,
+  "spatial_python_passed": 47,
+  "existing_consumer_regressions_passed": 85,
+  "installed_unique_passed": 132,
+  "producer_controls": {
+    "passed": 902,
+    "source": "71348555c5c18d3000804fb7f905af3f454dddfe",
+    "helpers_unchanged_afterward": true
+  },
+  "typing": {
+    "positive_files": 1,
+    "negative_expected_errors": 8
+  },
+  "record_entries": 37,
+  "all33_package_members_byte_verified": true,
+  "stubs_only_repack": true,
+  "native_binary_unchanged_by_stub_generation": true,
+  "desktop_capture_inspected": true,
+  "desktop_workflow": "run, keep, verify, export, project save/reopen",
+  "managed_workflow": "measure, keep, historical inspection, verify, CSV/no-overwrite, save/reopen; immutable result retained after owner shutdown",
+  "initial_installed": {
+    "passed": 45,
+    "failed": 2,
+    "causes": [
+      "None setter refused by shared_ptr binding",
+      "test checked export state after a fresh verification reset"
+    ]
+  },
+  "detached_regression": {
+    "red_source": "5113aa0",
+    "red_failed": true,
+    "green_source": "d9bba6b",
+    "green_passed": true,
+    "scenario": "same-pointer Document replacement after CSV commit before owner collection"
+  },
+  "local_retained_products": {
+    "before_reuse": 97,
+    "initial_native": 6,
+    "pre_correction": 67,
+    "final": 67,
+    "red_executable": "build/spatial-frontends-268/detached-red.exe"
+  },
+  "remaining": [
+    "headless/GEOS-OFF checks at this workflow source",
+    "expanded desktop source-switch/active-cancel controls",
+    "qualification cohort admission and full own-source platform qualification",
+    "scientific biological performance eligible-hardware and supported-release gates"
+  ],
+  "platform_qualification_accepted": false,
+  "speed_superiority_established": false,
+  "release_ready": false,
+  "overall_project_complete": false,
+  "environment_boundary": "Isolated product package with shared root test dependencies and SDKs; not clean-machine evidence",
+  "evidence": [
+    {
+      "path": "build-initial.log",
+      "bytes": 17441,
+      "sha256": "bcbbab96224ba24507cf62a5dca32cbac0835244d5404da0fe7f5a4ea6f4774c"
+    },
+    {
+      "path": "captures-corrected/spatial-verified.png",
+      "bytes": 77926,
+      "sha256": "9449e9a6a3a66898b4938cf95609633fa7cbe7c6338d1ccd9bac86949a65f7ab"
+    },
+    {
+      "path": "captures-initial/spatial-verified.png",
+      "bytes": 77918,
+      "sha256": "e6eba69d9c802db4ae0f197ebff2703fe8f6c7ba67d5fcc125e048901b0e7227"
+    },
+    {
+      "path": "compiler-inputs-corrected.json",
+      "bytes": 43658,
+      "sha256": "7e46e7ca8b676ce4543448b2a71e3c1ec41e6144fc4251f122c38675f993aac1"
+    },
+    {
+      "path": "compiler-inputs.json",
+      "bytes": 43658,
+      "sha256": "4d52549651f672e8073c93d9b049fd7c137187d6e6b4faf58f391f507051b41e"
+    },
+    {
+      "path": "compilexx-followup-prefix-proof.json",
+      "bytes": 262,
+      "sha256": "a17da46f2cd5ca7fcc4061e8aa313dd2decec477bbc03b7324809c752b9aa0c4"
+    },
+    {
+      "path": "compilexx-prefix-proof.json",
+      "bytes": 359,
+      "sha256": "3168ce3a83cd774125c886f3f254b2a74af1e924f0cb31d342dc49761e44b7c7"
+    },
+    {
+      "path": "consumer-regressions.log",
+      "bytes": 182,
+      "sha256": "695a38f39a115bc13ac25ea2c09acfab91df8704a99790caadd4c73969374ba7"
+    },
+    {
+      "path": "consumer-regressions.xml",
+      "bytes": 10972,
+      "sha256": "da2d73ac7d37388e7246a65e7f55fcf190ef3b08700f931089219291d26685d1"
+    },
+    {
+      "path": "detached-red-build.log",
+      "bytes": 5214,
+      "sha256": "c51f9ff986cbbad84919cf4b01223f9b76253948e402c2be842247c5eb5ebcee"
+    },
+    {
+      "path": "detached-red-verbose.log",
+      "bytes": 1907,
+      "sha256": "88719be3815ad6b36b6771419e6ebccb88859d14ee03309e89ea47b1fd8dfa1e"
+    },
+    {
+      "path": "detached-red.log",
+      "bytes": 1433,
+      "sha256": "6c940a8410bfa75637e2da4ec52548892e23c920902297e300441068b03546ec"
+    },
+    {
+      "path": "final-checks.json",
+      "bytes": 198,
+      "sha256": "1708b81463a09b68d6f1a538b2770c1996835d81adf621291ea01ff065613de0"
+    },
+    {
+      "path": "initial-native-products/inventory.json",
+      "bytes": 1080,
+      "sha256": "55a527b7b1fc0e3a64a9642d663cbc33f8527ed76b2caa7ae93b8679b5b1b529"
+    },
+    {
+      "path": "installed-proof.json",
+      "bytes": 9896,
+      "sha256": "904f5cf446d527d73380bdc79c749ae3ca66e678fa1568deb4b10c5fe5c2818b"
+    },
+    {
+      "path": "native-all-corrected-verbose.log",
+      "bytes": 59711,
+      "sha256": "11d088f7ef173049074bdda4383f6e659679c2e8a448a5b6252e3cd5cfa1a4fa"
+    },
+    {
+      "path": "native-all-corrected.log",
+      "bytes": 5795,
+      "sha256": "3b5bd9925ae76cca1641b2251124e4bb72f8767394335690e6a51d67962cea3d"
+    },
+    {
+      "path": "native-all-initial-verbose.log",
+      "bytes": 59711,
+      "sha256": "77aeaec9b2cfa56c892d1d825e69fbe4821c0b3f15a0cc4f654120d7cfad8207"
+    },
+    {
+      "path": "native-all-initial.log",
+      "bytes": 5795,
+      "sha256": "bd14964f5011394156846d76112a4338dbed3a06ffdab4c99cc6d91c1a8ad930"
+    },
+    {
+      "path": "native-initial-verbose.log",
+      "bytes": 2981,
+      "sha256": "47f0a26800df326463f94acc97261c79e38da500f62908598ce80fbe4ffaa970"
+    },
+    {
+      "path": "native-initial.log",
+      "bytes": 352,
+      "sha256": "be63d2fca52e6e8502bc21fb828ea0ca88f5b1ea184132e22247675b4915b648"
+    },
+    {
+      "path": "pre-correction-products/inventory.json",
+      "bytes": 19041,
+      "sha256": "31b98a9862141bb337f679b60cebc6d3e764f6812a3a68d67ce6b078494e67c2"
+    },
+    {
+      "path": "preflight-command.json",
+      "bytes": 1478,
+      "sha256": "ff269775a5ce80896b50a7980014ed230d498895a3db119d001c49bd44e38209"
+    },
+    {
+      "path": "preflight.log",
+      "bytes": 1075,
+      "sha256": "ada40f97cc3b39fa3e3fe0c07219dd4b61ffc1b7846aab6fd65708ae5a8c2a44"
+    },
+    {
+      "path": "preflight.xml",
+      "bytes": 142850,
+      "sha256": "8329682a1a6e1cbc04c170db8b679b06ed6d44e8ca77eb901c57b005c8612a08"
+    },
+    {
+      "path": "prior-products/inventory.json",
+      "bytes": 24913,
+      "sha256": "c8a532bbd40c085e063b9edb368ec05d8e63843be0877fad542a8ea4f373ab97"
+    },
+    {
+      "path": "producers/spatial_frontends_268_backend.py",
+      "bytes": 1015,
+      "sha256": "2f9ba1fafd152043561ea85383a2e89cfc8ed2b1f0e6089d910b643623beada3"
+    },
+    {
+      "path": "producers/spatial_frontends_268_corrected_backend.py",
+      "bytes": 1017,
+      "sha256": "c3158b0ecde242deaac86798b28c20fb22c036b32bfccc408f8b1c6fda137918"
+    },
+    {
+      "path": "producers/spatial_frontends_268_proof.py",
+      "bytes": 5381,
+      "sha256": "8e661e2c8d44c0ab0772927be95fded6bc9a6ec01711ae03a834ee91803f8d41"
+    },
+    {
+      "path": "products.json",
+      "bytes": 11590,
+      "sha256": "2ddc0c4dff8a09beadba05c9618999f7cc3ab8c1db3b9917f8c84bae7ed0a3bc"
+    },
+    {
+      "path": "python-corrected.log",
+      "bytes": 101,
+      "sha256": "ed739cc9f12a4723d19de296a5033317baeee694f3df0f6052d0ea583b949fa6"
+    },
+    {
+      "path": "python-corrected.xml",
+      "bytes": 6808,
+      "sha256": "b2e7b8c7dc36454050a9f56ae69af312051950a5de2b24e52ae68cdaf0f981f4"
+    },
+    {
+      "path": "python-initial.log",
+      "bytes": 3340,
+      "sha256": "f0074e3832283f44cadbf1f581a6a08b42045f5f71c39ba6b5c8783664388ca8"
+    },
+    {
+      "path": "python-initial.xml",
+      "bytes": 9972,
+      "sha256": "9f6a39fd57a5df35a73adba9069d9590483ee3d03c039f9c5c2c5694b36fa020"
+    },
+    {
+      "path": "source-proof-observation.json",
+      "bytes": 228,
+      "sha256": "a85de60d82780a8b9cc1118d797426be78fb8fd5cbf73c551ab784564d90d86f"
+    },
+    {
+      "path": "source-proof.json",
+      "bytes": 123684,
+      "sha256": "4641389e47a9d2cc17b9f52c3790ebbe709db0e6e06ea28d174eecd582f8196e"
+    },
+    {
+      "path": "stub-check.log",
+      "bytes": 48,
+      "sha256": "f5323cb57dde65ca62cc7b523f2183b1f4ad026dafb74e41bd25dac05ebb2130"
+    },
+    {
+      "path": "stub-generation.log",
+      "bytes": 24,
+      "sha256": "9467e1fcbcc3b7a214a8ae55510ca2aecbb94ba8190b3fd4a02ba2c8446eefdf"
+    },
+    {
+      "path": "stub-source-equivalence.json",
+      "bytes": 204,
+      "sha256": "0b4138cd6652736ae4364d3af469a90db8122ea499fe2b0d90927fee9b45d739"
+    },
+    {
+      "path": "typing-negative.log",
+      "bytes": 1249,
+      "sha256": "2982606447923c3246477451246770223ee9534812064498abad115779842b52"
+    },
+    {
+      "path": "typing-positive.log",
+      "bytes": 43,
+      "sha256": "8e63ae22e8213e327a5e9cbd584067681681bd8ef7f25c869877887ccdcfc4ff"
+    },
+    {
+      "path": "wheel-build-corrected.log",
+      "bytes": 17590,
+      "sha256": "3f6d283aab3d6962a09b9a15edbe3e88ba39469b61364aa97e8f4ee84d59e718"
+    },
+    {
+      "path": "wheel-build-initial.log",
+      "bytes": 27844,
+      "sha256": "27d407d25c5e99d9075eb31a3a56242eab9fa4c22782a9e56964a916c44dff52"
+    },
+    {
+      "path": "wheel-stub-update.json",
+      "bytes": 389,
+      "sha256": "7439e002b7ff1ae4850218ca228e03bf9ec2f04ed3b0866d8a3222e8c96a88a6"
+    }
+  ]
+}

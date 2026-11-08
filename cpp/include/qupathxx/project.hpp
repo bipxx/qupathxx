@@ -1,11 +1,15 @@
 #pragma once
 #include "qupathxx/core.hpp"
 #include <utility>
+#include <functional>
 
 namespace qpx {
 namespace detail {struct BatchCheckpoint;}
 class ProjectAutosave;
 class ProjectSaveJob;
+class ProjectSourceReview;
+struct FileFingerprint;
+struct SourceFileAssociation;
 struct RecoveryRetention {
     bool enabled=false;
     std::size_t keep_latest=10,max_deletions=32;
@@ -32,6 +36,9 @@ struct ProjectImage {
     std::string name,source_path,reader;
     std::int64_t width=0,height=0;
     bool embedded=false,available=false;
+    std::map<std::string,std::string> metadata;
+    std::optional<std::string> description;
+    std::vector<std::string> tags;
 };
 struct ProjectView {
     Point center;
@@ -46,6 +53,8 @@ class Project {
 public:
     Project();
     static std::shared_ptr<Project> open(const std::string& path);
+    // Read the current committed state without writing a hot-journal repair.
+    static std::shared_ptr<Project> open_without_journal_recovery(const std::string& path);
     static RecoveryInfo inspect_recovery(const std::string& path);
     static RecoveryInfo review_recovery(const std::string& path);
     static void discard_recovery_checked(const RecoveryInfo& reviewed);
@@ -57,17 +66,39 @@ public:
     static std::vector<RecoveryInfo> find_recoveries(const std::string& base_path="",std::size_t limit=64);
     void restore_recovery(const std::string& path,const std::string& base_path="");
     void save(const std::string& path);
+    // Snapshot and atomically publish a new project; never overwrite a target.
+    // Native publication_guard runs after staging and before commit, on owner.
+    void save_new(const std::string& path,std::size_t snapshot_bytes=512ull*1024*1024,
+        std::uint64_t file_bytes=1024ull*1024*1024,const std::atomic<bool>* cancelled=nullptr,
+        const std::function<void()>& publication_guard={});
     std::uint64_t add_image(const std::string& path,std::string reader="auto",std::string name="");
     std::uint64_t add_tiff_image(const std::string& path,const TiffOpenOptions&,std::string name="");
     std::uint64_t add_tiff_source(std::shared_ptr<ImageServer>,std::string name="");
     void set_tiff_view(std::uint64_t id,const TiffView&);
+    // An omitted source embeds dense RGB data, or keeps an opened native
+    // OpenSlide/TIFF document linked to its captured locator and reader.
     std::uint64_t add_document(std::shared_ptr<Document> document,std::string name="",
         std::string source_path="",std::string reader="auto");
     std::shared_ptr<Document> document(std::uint64_t id) const;
     std::vector<ProjectImage> images() const;
     void remove_image(std::uint64_t id);
     void rename_image(std::uint64_t id,std::string name);
+    const std::map<std::string,ObjectClass>& classes() const {return class_registry_;}
+    std::vector<std::string> class_defaults() const {return class_defaults_;}
+    void set_class_registry(const std::vector<ObjectClass>& definitions,std::vector<std::string> defaults={});
+    void apply_class_defaults(std::uint64_t image);
+    std::map<std::string,std::string> metadata() const;
+    void set_metadata(std::map<std::string,std::string> metadata={});
+    std::map<std::string,std::string> image_metadata(std::uint64_t id) const;
+    void set_image_metadata(std::uint64_t id,std::map<std::string,std::string> metadata={});
+    std::optional<std::string> image_description(std::uint64_t id) const;
+    std::vector<std::string> image_tags(std::uint64_t id) const;
+    void set_image_details(std::uint64_t id,std::optional<std::string> description={},std::vector<std::string> tags={});
     void relink(std::uint64_t id,const std::string& path);
+    std::shared_ptr<const SourceFileAssociation> source_verification(std::uint64_t id) const;
+    std::shared_ptr<ProjectSourceReview> review_source_verification(std::uint64_t id,const FileFingerprint&) const;
+    void apply_source_review(const std::shared_ptr<ProjectSourceReview>&,bool accept_changed=false);
+    void clear_source_verification(std::uint64_t id);
     std::optional<ProjectView> view(std::uint64_t id) const;
     void set_view(std::uint64_t id,ProjectView view);
     void clear_view(std::uint64_t id);
@@ -96,7 +127,7 @@ private:
         std::atomic<int> phase{1};
         std::atomic<std::size_t> images{0},objects{0},total_images{0},total_objects{0};
     };
-    static std::shared_ptr<Project> open_impl(const std::string& path,bool recovery,const std::string& base_path="",LoadProgress* progress=nullptr);
+    static std::shared_ptr<Project> open_impl(const std::string& path,bool recovery,const std::string& base_path="",LoadProgress* progress=nullptr,bool repair_journal=true);
     static std::pair<std::string,std::uint64_t> read_save_identity(const std::string& path);
     static RecoveryInfo inspect_recovery_header(const std::string& path,const std::atomic<bool>* cancelled=nullptr);
     static std::optional<RecoveryInfo> inspect_recovery_work(const std::string& path,const std::atomic<bool>* cancelled);
@@ -110,13 +141,17 @@ private:
     static RecoveryRetentionStats prune_recoveries_impl(const std::string& path,const RecoveryRetention&,
         const std::atomic<bool>* cancelled,RetentionProgress* progress);
     std::unique_ptr<Project> snapshot_for_save(std::size_t budget,std::size_t& bytes,const std::set<std::uint64_t>* selected=nullptr) const;
-    void save_impl(const std::string& path,const std::string& link_directory,const std::atomic<bool>* cancelled=nullptr,const RecoveryInfo* recovery=nullptr,const detail::BatchCheckpoint* batch=nullptr);
+    void save_impl(const std::string& path,const std::string& link_directory,const std::atomic<bool>* cancelled=nullptr,const RecoveryInfo* recovery=nullptr,const detail::BatchCheckpoint* batch=nullptr,std::uint64_t file_bytes=0);
     void save_recovery(const std::string& path,const std::string& link_directory,const RecoveryInfo& info,const std::atomic<bool>* cancelled=nullptr);
     // Only native factories can assert that the shared_ptr control block and
     // its deleter contain no Python references. External documents default off.
     struct Entry { ProjectImage info; std::shared_ptr<Document> document; bool native_lifetime=false; };
     const Entry& entry(std::uint64_t id) const;
+    std::map<std::string,ObjectClass> class_registry_;
+    std::vector<std::string> class_defaults_;
+    std::map<std::string,std::string> metadata_;
     std::map<std::uint64_t,Entry> entries_;
+    std::map<std::uint64_t,std::shared_ptr<const SourceFileAssociation>> source_verifications_;
     std::map<std::uint64_t,ProjectView> views_;
     std::map<std::uint64_t,std::uint64_t> saved_revisions_;
     std::string path_,identity_,instance_identity_,recovery_source_;

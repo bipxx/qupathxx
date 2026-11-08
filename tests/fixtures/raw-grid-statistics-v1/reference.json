@@ -1,0 +1,4478 @@
+{
+  "schema": "qpx.raw-grid-statistics-reference/1",
+  "semantics": "Exact final mean of rounded binary64 area samples; core-center ROI coverage; missing support is neither finite nor nonfinite",
+  "cases": [
+    {
+      "source_case": 0,
+      "roi": false,
+      "pixels": 20,
+      "valid_pixels": 20,
+      "channels": [
+        {
+          "finite": 20,
+          "nonfinite": 0,
+          "mean": "405389999999999a",
+          "minimum": "0000000000000000",
+          "maximum": "406fe00000000000"
+        },
+        {
+          "finite": 20,
+          "nonfinite": 0,
+          "mean": "4055666666666666",
+          "minimum": "0000000000000000",
+          "maximum": "406fe00000000000"
+        },
+        {
+          "finite": 20,
+          "nonfinite": 0,
+          "mean": "405b933333333333",
+          "minimum": "0000000000000000",
+          "maximum": "406fe00000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 0,
+      "roi": true,
+      "pixels": 6,
+      "valid_pixels": 6,
+      "channels": [
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "4050c00000000000",
+          "minimum": "0000000000000000",
+          "maximum": "406fc00000000000"
+        },
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "405fe00000000000",
+          "minimum": "0000000000000000",
+          "maximum": "406fe00000000000"
+        },
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "4047000000000000",
+          "minimum": "0000000000000000",
+          "maximum": "406fc00000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 1,
+      "roi": false,
+      "pixels": 9,
+      "valid_pixels": 9,
+      "channels": [
+        {
+          "finite": 9,
+          "nonfinite": 0,
+          "mean": "4053a33333333333",
+          "minimum": "4004000000000000",
+          "maximum": "4066500000000000"
+        },
+        {
+          "finite": 9,
+          "nonfinite": 0,
+          "mean": "4056e66666666666",
+          "minimum": "404439999999999a",
+          "maximum": "40665ccccccccccd"
+        }
+      ]
+    },
+    {
+      "source_case": 1,
+      "roi": true,
+      "pixels": 1,
+      "valid_pixels": 1,
+      "channels": [
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "405759999999999a",
+          "minimum": "405759999999999a",
+          "maximum": "405759999999999a"
+        },
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "4053f33333333333",
+          "minimum": "4053f33333333333",
+          "maximum": "4053f33333333333"
+        }
+      ]
+    },
+    {
+      "source_case": 2,
+      "roi": false,
+      "pixels": 15,
+      "valid_pixels": 15,
+      "channels": [
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "4047155555555555",
+          "minimum": "0000000000000000",
+          "maximum": "406fe00000000000"
+        },
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "4060200000000000",
+          "minimum": "4008000000000000",
+          "maximum": "406fe00000000000"
+        },
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "4050c00000000000",
+          "minimum": "0000000000000000",
+          "maximum": "406fe00000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 2,
+      "roi": true,
+      "pixels": 15,
+      "valid_pixels": 15,
+      "channels": [
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "4047155555555555",
+          "minimum": "0000000000000000",
+          "maximum": "406fe00000000000"
+        },
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "4060200000000000",
+          "minimum": "4008000000000000",
+          "maximum": "406fe00000000000"
+        },
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "4050c00000000000",
+          "minimum": "0000000000000000",
+          "maximum": "406fe00000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 3,
+      "roi": false,
+      "pixels": 6,
+      "valid_pixels": 1,
+      "channels": [
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "4037c00000000000",
+          "minimum": "4037c00000000000",
+          "maximum": "4037c00000000000"
+        },
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "406a800000000000",
+          "minimum": "406a800000000000",
+          "maximum": "406a800000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 3,
+      "roi": true,
+      "pixels": 1,
+      "valid_pixels": 1,
+      "channels": [
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "4037c00000000000",
+          "minimum": "4037c00000000000",
+          "maximum": "4037c00000000000"
+        },
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "406a800000000000",
+          "minimum": "406a800000000000",
+          "maximum": "406a800000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 4,
+      "roi": false,
+      "pixels": 4,
+      "valid_pixels": 0,
+      "channels": [
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        }
+      ]
+    },
+    {
+      "source_case": 4,
+      "roi": true,
+      "pixels": 0,
+      "valid_pixels": 0,
+      "channels": [
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        }
+      ]
+    },
+    {
+      "source_case": 5,
+      "roi": false,
+      "pixels": 12,
+      "valid_pixels": 6,
+      "channels": [
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "4052e4fa4fa4fa50",
+          "minimum": "403a99999999999a",
+          "maximum": "40675bbbbbbbbbbc"
+        },
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "405862d82d82d82d",
+          "minimum": "400d555555555555",
+          "maximum": "4064644444444444"
+        },
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "40573a4fa4fa4fa5",
+          "minimum": "404acccccccccccd",
+          "maximum": "40611bbbbbbbbbbc"
+        }
+      ]
+    },
+    {
+      "source_case": 5,
+      "roi": true,
+      "pixels": 2,
+      "valid_pixels": 2,
+      "channels": [
+        {
+          "finite": 2,
+          "nonfinite": 0,
+          "mean": "404b333333333334",
+          "minimum": "403a99999999999a",
+          "maximum": "40548ccccccccccd"
+        },
+        {
+          "finite": 2,
+          "nonfinite": 0,
+          "mean": "405bfbbbbbbbbbbc",
+          "minimum": "40536aaaaaaaaaab",
+          "maximum": "4062466666666666"
+        },
+        {
+          "finite": 2,
+          "nonfinite": 0,
+          "mean": "4051911111111111",
+          "minimum": "404acccccccccccd",
+          "maximum": "4055bbbbbbbbbbbc"
+        }
+      ]
+    },
+    {
+      "source_case": 6,
+      "roi": false,
+      "pixels": 4,
+      "valid_pixels": 4,
+      "channels": [
+        {
+          "finite": 4,
+          "nonfinite": 0,
+          "mean": "4056e66666666666",
+          "minimum": "404b333333333333",
+          "maximum": "406199999999999a"
+        }
+      ]
+    },
+    {
+      "source_case": 6,
+      "roi": true,
+      "pixels": 2,
+      "valid_pixels": 2,
+      "channels": [
+        {
+          "finite": 2,
+          "nonfinite": 0,
+          "mean": "405d0ccccccccccd",
+          "minimum": "4056e66666666666",
+          "maximum": "406199999999999a"
+        }
+      ]
+    },
+    {
+      "source_case": 7,
+      "roi": false,
+      "pixels": 9,
+      "valid_pixels": 7,
+      "channels": [
+        {
+          "finite": 7,
+          "nonfinite": 0,
+          "mean": "404ed15f15f15f16",
+          "minimum": "3ff7333333333333",
+          "maximum": "4061033333333333"
+        },
+        {
+          "finite": 7,
+          "nonfinite": 0,
+          "mean": "4057383a83a83a84",
+          "minimum": "403d266666666666",
+          "maximum": "4064c80000000000"
+        },
+        {
+          "finite": 7,
+          "nonfinite": 0,
+          "mean": "405ddc57c57c57c6",
+          "minimum": "4053c66666666666",
+          "maximum": "4067d80000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 7,
+      "roi": true,
+      "pixels": 1,
+      "valid_pixels": 0,
+      "channels": [
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        },
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        },
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        }
+      ]
+    },
+    {
+      "source_case": 8,
+      "roi": false,
+      "pixels": 20,
+      "valid_pixels": 20,
+      "channels": [
+        {
+          "finite": 20,
+          "nonfinite": 0,
+          "mean": "40d333899999999a",
+          "minimum": "0000000000000000",
+          "maximum": "40efffe000000000"
+        },
+        {
+          "finite": 20,
+          "nonfinite": 0,
+          "mean": "40d4cd6666666666",
+          "minimum": "0000000000000000",
+          "maximum": "40efffe000000000"
+        },
+        {
+          "finite": 20,
+          "nonfinite": 0,
+          "mean": "40db339333333333",
+          "minimum": "0000000000000000",
+          "maximum": "40efffe000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 8,
+      "roi": true,
+      "pixels": 6,
+      "valid_pixels": 6,
+      "channels": [
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "40d000c000000000",
+          "minimum": "0000000000000000",
+          "maximum": "40efffc000000000"
+        },
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "40dfffe000000000",
+          "minimum": "0000000000000000",
+          "maximum": "40efffe000000000"
+        },
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "40c5570000000000",
+          "minimum": "0000000000000000",
+          "maximum": "40efffc000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 9,
+      "roi": false,
+      "pixels": 9,
+      "valid_pixels": 9,
+      "channels": [
+        {
+          "finite": 9,
+          "nonfinite": 0,
+          "mean": "40d333a333333333",
+          "minimum": "4004000000000000",
+          "maximum": "40e6665000000000"
+        },
+        {
+          "finite": 9,
+          "nonfinite": 0,
+          "mean": "40d666e666666666",
+          "minimum": "40c334399999999a",
+          "maximum": "40e6665ccccccccd"
+        }
+      ]
+    },
+    {
+      "source_case": 9,
+      "roi": true,
+      "pixels": 1,
+      "valid_pixels": 1,
+      "channels": [
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "40d667599999999a",
+          "minimum": "40d667599999999a",
+          "maximum": "40d667599999999a"
+        },
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "40d333f333333333",
+          "minimum": "40d333f333333333",
+          "maximum": "40d333f333333333"
+        }
+      ]
+    },
+    {
+      "source_case": 10,
+      "roi": false,
+      "pixels": 15,
+      "valid_pixels": 15,
+      "channels": [
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "40c5571555555555",
+          "minimum": "0000000000000000",
+          "maximum": "40efffe000000000"
+        },
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "40e0002000000000",
+          "minimum": "4008000000000000",
+          "maximum": "40efffe000000000"
+        },
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "40d000c000000000",
+          "minimum": "0000000000000000",
+          "maximum": "40efffe000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 10,
+      "roi": true,
+      "pixels": 15,
+      "valid_pixels": 15,
+      "channels": [
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "40c5571555555555",
+          "minimum": "0000000000000000",
+          "maximum": "40efffe000000000"
+        },
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "40e0002000000000",
+          "minimum": "4008000000000000",
+          "maximum": "40efffe000000000"
+        },
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "40d000c000000000",
+          "minimum": "0000000000000000",
+          "maximum": "40efffe000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 11,
+      "roi": false,
+      "pixels": 6,
+      "valid_pixels": 1,
+      "channels": [
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "40b557c000000000",
+          "minimum": "40b557c000000000",
+          "maximum": "40b557c000000000"
+        },
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "40eaaa8000000000",
+          "minimum": "40eaaa8000000000",
+          "maximum": "40eaaa8000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 11,
+      "roi": true,
+      "pixels": 1,
+      "valid_pixels": 1,
+      "channels": [
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "40b557c000000000",
+          "minimum": "40b557c000000000",
+          "maximum": "40b557c000000000"
+        },
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "40eaaa8000000000",
+          "minimum": "40eaaa8000000000",
+          "maximum": "40eaaa8000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 12,
+      "roi": false,
+      "pixels": 4,
+      "valid_pixels": 0,
+      "channels": [
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        }
+      ]
+    },
+    {
+      "source_case": 12,
+      "roi": true,
+      "pixels": 0,
+      "valid_pixels": 0,
+      "channels": [
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        }
+      ]
+    },
+    {
+      "source_case": 13,
+      "roi": false,
+      "pixels": 12,
+      "valid_pixels": 6,
+      "channels": [
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "40d27d8fa4fa4fa5",
+          "minimum": "40b99a999999999a",
+          "maximum": "40e7775bbbbbbbbc"
+        },
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "40d7d30d82d82d83",
+          "minimum": "400d555555555555",
+          "maximum": "40e4446444444444"
+        },
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "40d6c1e4fa4fa4fb",
+          "minimum": "40c99acccccccccd",
+          "maximum": "40e1111bbbbbbbbc"
+        }
+      ]
+    },
+    {
+      "source_case": 13,
+      "roi": true,
+      "pixels": 2,
+      "valid_pixels": 2,
+      "channels": [
+        {
+          "finite": 2,
+          "nonfinite": 0,
+          "mean": "40c99b3333333334",
+          "minimum": "40b99a999999999a",
+          "maximum": "40d3348ccccccccd"
+        },
+        {
+          "finite": 2,
+          "nonfinite": 0,
+          "mean": "40dbbbfbbbbbbbbc",
+          "minimum": "40d3336aaaaaaaab",
+          "maximum": "40e2224666666666"
+        },
+        {
+          "finite": 2,
+          "nonfinite": 0,
+          "mean": "40d1119111111111",
+          "minimum": "40c99acccccccccd",
+          "maximum": "40d555bbbbbbbbbc"
+        }
+      ]
+    },
+    {
+      "source_case": 14,
+      "roi": false,
+      "pixels": 4,
+      "valid_pixels": 4,
+      "channels": [
+        {
+          "finite": 4,
+          "nonfinite": 0,
+          "mean": "40d666e666666666",
+          "minimum": "40c99b3333333333",
+          "maximum": "40e199999999999a"
+        }
+      ]
+    },
+    {
+      "source_case": 14,
+      "roi": true,
+      "pixels": 2,
+      "valid_pixels": 2,
+      "channels": [
+        {
+          "finite": 2,
+          "nonfinite": 0,
+          "mean": "40dccd0ccccccccd",
+          "minimum": "40d666e666666666",
+          "maximum": "40e199999999999a"
+        }
+      ]
+    },
+    {
+      "source_case": 15,
+      "roi": false,
+      "pixels": 9,
+      "valid_pixels": 7,
+      "channels": [
+        {
+          "finite": 7,
+          "nonfinite": 0,
+          "mean": "40ce2c883a83a83b",
+          "minimum": "3ff7333333333333",
+          "maximum": "40e0cd0333333333"
+        },
+        {
+          "finite": 7,
+          "nonfinite": 0,
+          "mean": "40d6a1815f15f15f",
+          "minimum": "40b99d2666666666",
+          "maximum": "40e4ccc800000000"
+        },
+        {
+          "finite": 7,
+          "nonfinite": 0,
+          "mean": "40dd7cb7c57c57c6",
+          "minimum": "40d333c666666666",
+          "maximum": "40e7ffd800000000"
+        }
+      ]
+    },
+    {
+      "source_case": 15,
+      "roi": true,
+      "pixels": 1,
+      "valid_pixels": 0,
+      "channels": [
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        },
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        },
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        }
+      ]
+    },
+    {
+      "source_case": 16,
+      "roi": false,
+      "pixels": 20,
+      "valid_pixels": 20,
+      "channels": [
+        {
+          "finite": 20,
+          "nonfinite": 0,
+          "mean": "3ff599999999999a",
+          "minimum": "c060000000000000",
+          "maximum": "405fc00000000000"
+        },
+        {
+          "finite": 20,
+          "nonfinite": 0,
+          "mean": "c010000000000000",
+          "minimum": "c060000000000000",
+          "maximum": "405fc00000000000"
+        },
+        {
+          "finite": 20,
+          "nonfinite": 0,
+          "mean": "401f99999999999a",
+          "minimum": "c060000000000000",
+          "maximum": "405fc00000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 16,
+      "roi": true,
+      "pixels": 6,
+      "valid_pixels": 6,
+      "channels": [
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "4038555555555555",
+          "minimum": "c000000000000000",
+          "maximum": "405fc00000000000"
+        },
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "bfe0000000000000",
+          "minimum": "c060000000000000",
+          "maximum": "405fc00000000000"
+        },
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "400aaaaaaaaaaaab",
+          "minimum": "c000000000000000",
+          "maximum": "4026000000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 17,
+      "roi": false,
+      "pixels": 9,
+      "valid_pixels": 9,
+      "channels": [
+        {
+          "finite": 9,
+          "nonfinite": 0,
+          "mean": "3ffc000000000001",
+          "minimum": "c033666666666666",
+          "maximum": "403499999999999a"
+        },
+        {
+          "finite": 9,
+          "nonfinite": 0,
+          "mean": "c025999999999999",
+          "minimum": "c04cd33333333333",
+          "maximum": "403c99999999999a"
+        }
+      ]
+    },
+    {
+      "source_case": 17,
+      "roi": true,
+      "pixels": 1,
+      "valid_pixels": 1,
+      "channels": [
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "c022000000000000",
+          "minimum": "c022000000000000",
+          "maximum": "c022000000000000"
+        },
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "403c99999999999a",
+          "minimum": "403c99999999999a",
+          "maximum": "403c99999999999a"
+        }
+      ]
+    },
+    {
+      "source_case": 18,
+      "roi": false,
+      "pixels": 15,
+      "valid_pixels": 15,
+      "channels": [
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "400c000000000000",
+          "minimum": "bff0000000000000",
+          "maximum": "4026000000000000"
+        },
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "3fefffffffffffff",
+          "minimum": "c060000000000000",
+          "maximum": "405fc00000000000"
+        },
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "c032555555555555",
+          "minimum": "c060000000000000",
+          "maximum": "4026000000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 18,
+      "roi": true,
+      "pixels": 15,
+      "valid_pixels": 15,
+      "channels": [
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "400c000000000000",
+          "minimum": "bff0000000000000",
+          "maximum": "4026000000000000"
+        },
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "3fefffffffffffff",
+          "minimum": "c060000000000000",
+          "maximum": "405fc00000000000"
+        },
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "c032555555555555",
+          "minimum": "c060000000000000",
+          "maximum": "4026000000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 19,
+      "roi": false,
+      "pixels": 6,
+      "valid_pixels": 1,
+      "channels": [
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "4003555555555555",
+          "minimum": "4003555555555555",
+          "maximum": "4003555555555555"
+        },
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "4034000000000000",
+          "minimum": "4034000000000000",
+          "maximum": "4034000000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 19,
+      "roi": true,
+      "pixels": 1,
+      "valid_pixels": 1,
+      "channels": [
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "4003555555555555",
+          "minimum": "4003555555555555",
+          "maximum": "4003555555555555"
+        },
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "4034000000000000",
+          "minimum": "4034000000000000",
+          "maximum": "4034000000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 20,
+      "roi": false,
+      "pixels": 4,
+      "valid_pixels": 0,
+      "channels": [
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        }
+      ]
+    },
+    {
+      "source_case": 20,
+      "roi": true,
+      "pixels": 0,
+      "valid_pixels": 0,
+      "channels": [
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        }
+      ]
+    },
+    {
+      "source_case": 21,
+      "roi": false,
+      "pixels": 12,
+      "valid_pixels": 6,
+      "channels": [
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "c010444444444444",
+          "minimum": "c038111111111111",
+          "maximum": "4030333333333333"
+        },
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "c00016c16c16c16e",
+          "minimum": "c03899999999999a",
+          "maximum": "403a777777777777"
+        },
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "4024d82d82d82d83",
+          "minimum": "c0496eeeeeeeeeef",
+          "maximum": "404addddddddddde"
+        }
+      ]
+    },
+    {
+      "source_case": 21,
+      "roi": true,
+      "pixels": 2,
+      "valid_pixels": 2,
+      "channels": [
+        {
+          "finite": 2,
+          "nonfinite": 0,
+          "mean": "400999999999999a",
+          "minimum": "c01e222222222222",
+          "maximum": "402bddddddddddde"
+        },
+        {
+          "finite": 2,
+          "nonfinite": 0,
+          "mean": "4023111111111110",
+          "minimum": "c01d99999999999a",
+          "maximum": "403a777777777777"
+        },
+        {
+          "finite": 2,
+          "nonfinite": 0,
+          "mean": "4000000000000002",
+          "minimum": "c02d555555555555",
+          "maximum": "4032aaaaaaaaaaab"
+        }
+      ]
+    },
+    {
+      "source_case": 22,
+      "roi": false,
+      "pixels": 4,
+      "valid_pixels": 4,
+      "channels": [
+        {
+          "finite": 4,
+          "nonfinite": 0,
+          "mean": "c02599999999999a",
+          "minimum": "c036cccccccccccd",
+          "maximum": "400999999999999a"
+        }
+      ]
+    },
+    {
+      "source_case": 22,
+      "roi": true,
+      "pixels": 2,
+      "valid_pixels": 2,
+      "channels": [
+        {
+          "finite": 2,
+          "nonfinite": 0,
+          "mean": "c02799999999999a",
+          "minimum": "c02999999999999a",
+          "maximum": "c02599999999999a"
+        }
+      ]
+    },
+    {
+      "source_case": 23,
+      "roi": false,
+      "pixels": 9,
+      "valid_pixels": 7,
+      "channels": [
+        {
+          "finite": 7,
+          "nonfinite": 0,
+          "mean": "3ff4af8af8af8af9",
+          "minimum": "c031800000000000",
+          "maximum": "403419999999999a"
+        },
+        {
+          "finite": 7,
+          "nonfinite": 0,
+          "mean": "c0230af8af8af8b0",
+          "minimum": "c0430ccccccccccd",
+          "maximum": "4031cccccccccccd"
+        },
+        {
+          "finite": 7,
+          "nonfinite": 0,
+          "mean": "402e6db6db6db6db",
+          "minimum": "c0430ccccccccccd",
+          "maximum": "4045000000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 23,
+      "roi": true,
+      "pixels": 1,
+      "valid_pixels": 0,
+      "channels": [
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        },
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        },
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        }
+      ]
+    },
+    {
+      "source_case": 24,
+      "roi": false,
+      "pixels": 20,
+      "valid_pixels": 20,
+      "channels": [
+        {
+          "finite": 20,
+          "nonfinite": 0,
+          "mean": "3ff599999999999a",
+          "minimum": "c0e0000000000000",
+          "maximum": "40dfffc000000000"
+        },
+        {
+          "finite": 20,
+          "nonfinite": 0,
+          "mean": "c099900000000000",
+          "minimum": "c0e0000000000000",
+          "maximum": "40dfffc000000000"
+        },
+        {
+          "finite": 20,
+          "nonfinite": 0,
+          "mean": "40999f999999999a",
+          "minimum": "c0e0000000000000",
+          "maximum": "40dfffc000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 24,
+      "roi": true,
+      "pixels": 6,
+      "valid_pixels": 6,
+      "channels": [
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "40b5585555555555",
+          "minimum": "c000000000000000",
+          "maximum": "40dfffc000000000"
+        },
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "bfe0000000000000",
+          "minimum": "c0e0000000000000",
+          "maximum": "40dfffc000000000"
+        },
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "400aaaaaaaaaaaab",
+          "minimum": "c000000000000000",
+          "maximum": "4026000000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 25,
+      "roi": false,
+      "pixels": 9,
+      "valid_pixels": 9,
+      "channels": [
+        {
+          "finite": 9,
+          "nonfinite": 0,
+          "mean": "3ffc0000000000cd",
+          "minimum": "c0b3336666666666",
+          "maximum": "40b334999999999a"
+        },
+        {
+          "finite": 9,
+          "nonfinite": 0,
+          "mean": "c0a9959999999999",
+          "minimum": "c0ccccd333333333",
+          "maximum": "40b99c999999999a"
+        }
+      ]
+    },
+    {
+      "source_case": 25,
+      "roi": true,
+      "pixels": 1,
+      "valid_pixels": 1,
+      "channels": [
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "c0a9920000000000",
+          "minimum": "c0a9920000000000",
+          "maximum": "c0a9920000000000"
+        },
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "40b99c999999999a",
+          "minimum": "40b99c999999999a",
+          "maximum": "40b99c999999999a"
+        }
+      ]
+    },
+    {
+      "source_case": 26,
+      "roi": false,
+      "pixels": 15,
+      "valid_pixels": 15,
+      "channels": [
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "400c000000000000",
+          "minimum": "bff0000000000000",
+          "maximum": "4026000000000000"
+        },
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "3feffffffffffe94",
+          "minimum": "c0e0000000000000",
+          "maximum": "40dfffc000000000"
+        },
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "c0b5525555555555",
+          "minimum": "c0e0000000000000",
+          "maximum": "4026000000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 26,
+      "roi": true,
+      "pixels": 15,
+      "valid_pixels": 15,
+      "channels": [
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "400c000000000000",
+          "minimum": "bff0000000000000",
+          "maximum": "4026000000000000"
+        },
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "3feffffffffffe94",
+          "minimum": "c0e0000000000000",
+          "maximum": "40dfffc000000000"
+        },
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "c0b5525555555555",
+          "minimum": "c0e0000000000000",
+          "maximum": "4026000000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 27,
+      "roi": false,
+      "pixels": 6,
+      "valid_pixels": 1,
+      "channels": [
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "4003555555555555",
+          "minimum": "4003555555555555",
+          "maximum": "4003555555555555"
+        },
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "40b5540000000000",
+          "minimum": "40b5540000000000",
+          "maximum": "40b5540000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 27,
+      "roi": true,
+      "pixels": 1,
+      "valid_pixels": 1,
+      "channels": [
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "4003555555555555",
+          "minimum": "4003555555555555",
+          "maximum": "4003555555555555"
+        },
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "40b5540000000000",
+          "minimum": "40b5540000000000",
+          "maximum": "40b5540000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 28,
+      "roi": false,
+      "pixels": 4,
+      "valid_pixels": 0,
+      "channels": [
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        }
+      ]
+    },
+    {
+      "source_case": 28,
+      "roi": true,
+      "pixels": 0,
+      "valid_pixels": 0,
+      "channels": [
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        }
+      ]
+    },
+    {
+      "source_case": 29,
+      "roi": false,
+      "pixels": 12,
+      "valid_pixels": 6,
+      "channels": [
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "c096baeeeeeeeeef",
+          "minimum": "c0b9981111111111",
+          "maximum": "40b1103333333333"
+        },
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "c091080b60b60b61",
+          "minimum": "c0b998999999999a",
+          "maximum": "40b99a7777777777"
+        },
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "40a114d82d82d82d",
+          "minimum": "c0c9996eeeeeeeef",
+          "maximum": "40c99addddddddde"
+        }
+      ]
+    },
+    {
+      "source_case": 29,
+      "roi": true,
+      "pixels": 2,
+      "valid_pixels": 2,
+      "channels": [
+        {
+          "finite": 2,
+          "nonfinite": 0,
+          "mean": "4009999999999a00",
+          "minimum": "c0a10f1111111111",
+          "maximum": "40a11bddddddddde"
+        },
+        {
+          "finite": 2,
+          "nonfinite": 0,
+          "mean": "40a1131111111110",
+          "minimum": "c0a10ecccccccccd",
+          "maximum": "40b99a7777777777"
+        },
+        {
+          "finite": 2,
+          "nonfinite": 0,
+          "mean": "4000000000000000",
+          "minimum": "c0b10eaaaaaaaaab",
+          "maximum": "40b112aaaaaaaaab"
+        }
+      ]
+    },
+    {
+      "source_case": 30,
+      "roi": false,
+      "pixels": 4,
+      "valid_pixels": 4,
+      "channels": [
+        {
+          "finite": 4,
+          "nonfinite": 0,
+          "mean": "c0a995999999999a",
+          "minimum": "c0b996cccccccccd",
+          "maximum": "400999999999999a"
+        }
+      ]
+    },
+    {
+      "source_case": 30,
+      "roi": true,
+      "pixels": 2,
+      "valid_pixels": 2,
+      "channels": [
+        {
+          "finite": 2,
+          "nonfinite": 0,
+          "mean": "c0a997999999999a",
+          "minimum": "c0a999999999999a",
+          "maximum": "c0a995999999999a"
+        }
+      ]
+    },
+    {
+      "source_case": 31,
+      "roi": false,
+      "pixels": 9,
+      "valid_pixels": 7,
+      "channels": [
+        {
+          "finite": 7,
+          "nonfinite": 0,
+          "mean": "3ff4af8af8af8b50",
+          "minimum": "c0b3318000000000",
+          "maximum": "40b334199999999a"
+        },
+        {
+          "finite": 7,
+          "nonfinite": 0,
+          "mean": "c0a7c0c1d41d41d4",
+          "minimum": "c0c3330ccccccccd",
+          "maximum": "40a9a3999999999a"
+        },
+        {
+          "finite": 7,
+          "nonfinite": 0,
+          "mean": "40ab70b6db6db6db",
+          "minimum": "c0c3330ccccccccd",
+          "maximum": "40c3350000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 31,
+      "roi": true,
+      "pixels": 1,
+      "valid_pixels": 0,
+      "channels": [
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        },
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        },
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        }
+      ]
+    },
+    {
+      "source_case": 32,
+      "roi": false,
+      "pixels": 20,
+      "valid_pixels": 20,
+      "channels": [
+        {
+          "finite": 20,
+          "nonfinite": 0,
+          "mean": "41d333333389999a",
+          "minimum": "0000000000000000",
+          "maximum": "41efffffffe00000"
+        },
+        {
+          "finite": 20,
+          "nonfinite": 0,
+          "mean": "41d4cccccd666666",
+          "minimum": "0000000000000000",
+          "maximum": "41efffffffe00000"
+        },
+        {
+          "finite": 20,
+          "nonfinite": 0,
+          "mean": "41db333333933333",
+          "minimum": "0000000000000000",
+          "maximum": "41efffffffe00000"
+        }
+      ]
+    },
+    {
+      "source_case": 32,
+      "roi": true,
+      "pixels": 6,
+      "valid_pixels": 6,
+      "channels": [
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "41d0000000c00000",
+          "minimum": "0000000000000000",
+          "maximum": "41efffffffc00000"
+        },
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "41dfffffffe00000",
+          "minimum": "0000000000000000",
+          "maximum": "41efffffffe00000"
+        },
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "41c5555557000000",
+          "minimum": "0000000000000000",
+          "maximum": "41efffffffc00000"
+        }
+      ]
+    },
+    {
+      "source_case": 33,
+      "roi": false,
+      "pixels": 9,
+      "valid_pixels": 9,
+      "channels": [
+        {
+          "finite": 9,
+          "nonfinite": 0,
+          "mean": "41d3333333a33333",
+          "minimum": "4004000000000000",
+          "maximum": "41e6666666500000"
+        },
+        {
+          "finite": 9,
+          "nonfinite": 0,
+          "mean": "41d6666666e66666",
+          "minimum": "41c333333439999a",
+          "maximum": "41e66666665ccccd"
+        }
+      ]
+    },
+    {
+      "source_case": 33,
+      "roi": true,
+      "pixels": 1,
+      "valid_pixels": 1,
+      "channels": [
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "41d666666759999a",
+          "minimum": "41d666666759999a",
+          "maximum": "41d666666759999a"
+        },
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "41d3333333f33333",
+          "minimum": "41d3333333f33333",
+          "maximum": "41d3333333f33333"
+        }
+      ]
+    },
+    {
+      "source_case": 34,
+      "roi": false,
+      "pixels": 15,
+      "valid_pixels": 15,
+      "channels": [
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "41c5555557155555",
+          "minimum": "0000000000000000",
+          "maximum": "41efffffffe00000"
+        },
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "41e0000000200000",
+          "minimum": "4008000000000000",
+          "maximum": "41efffffffe00000"
+        },
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "41d0000000c00000",
+          "minimum": "0000000000000000",
+          "maximum": "41efffffffe00000"
+        }
+      ]
+    },
+    {
+      "source_case": 34,
+      "roi": true,
+      "pixels": 15,
+      "valid_pixels": 15,
+      "channels": [
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "41c5555557155555",
+          "minimum": "0000000000000000",
+          "maximum": "41efffffffe00000"
+        },
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "41e0000000200000",
+          "minimum": "4008000000000000",
+          "maximum": "41efffffffe00000"
+        },
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "41d0000000c00000",
+          "minimum": "0000000000000000",
+          "maximum": "41efffffffe00000"
+        }
+      ]
+    },
+    {
+      "source_case": 35,
+      "roi": false,
+      "pixels": 6,
+      "valid_pixels": 1,
+      "channels": [
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "41b5555557c00000",
+          "minimum": "41b5555557c00000",
+          "maximum": "41b5555557c00000"
+        },
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "41eaaaaaaa800000",
+          "minimum": "41eaaaaaaa800000",
+          "maximum": "41eaaaaaaa800000"
+        }
+      ]
+    },
+    {
+      "source_case": 35,
+      "roi": true,
+      "pixels": 1,
+      "valid_pixels": 1,
+      "channels": [
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "41b5555557c00000",
+          "minimum": "41b5555557c00000",
+          "maximum": "41b5555557c00000"
+        },
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "41eaaaaaaa800000",
+          "minimum": "41eaaaaaaa800000",
+          "maximum": "41eaaaaaaa800000"
+        }
+      ]
+    },
+    {
+      "source_case": 36,
+      "roi": false,
+      "pixels": 4,
+      "valid_pixels": 0,
+      "channels": [
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        }
+      ]
+    },
+    {
+      "source_case": 36,
+      "roi": true,
+      "pixels": 0,
+      "valid_pixels": 0,
+      "channels": [
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        }
+      ]
+    },
+    {
+      "source_case": 37,
+      "roi": false,
+      "pixels": 12,
+      "valid_pixels": 6,
+      "channels": [
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "41d27d27d2e4fa50",
+          "minimum": "41b999999a99999a",
+          "maximum": "41e77777775bbbbc"
+        },
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "41d7d27d2862d82d",
+          "minimum": "400d555555555555",
+          "maximum": "41e4444444644444"
+        },
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "41d6c16c173a4fa5",
+          "minimum": "41c999999acccccd",
+          "maximum": "41e11111111bbbbc"
+        }
+      ]
+    },
+    {
+      "source_case": 37,
+      "roi": true,
+      "pixels": 2,
+      "valid_pixels": 2,
+      "channels": [
+        {
+          "finite": 2,
+          "nonfinite": 0,
+          "mean": "41c999999b333334",
+          "minimum": "41b999999a99999a",
+          "maximum": "41d33333348ccccd"
+        },
+        {
+          "finite": 2,
+          "nonfinite": 0,
+          "mean": "41dbbbbbbbfbbbbc",
+          "minimum": "41d33333336aaaab",
+          "maximum": "41e2222222466666"
+        },
+        {
+          "finite": 2,
+          "nonfinite": 0,
+          "mean": "41d1111111911111",
+          "minimum": "41c999999acccccd",
+          "maximum": "41d5555555bbbbbc"
+        }
+      ]
+    },
+    {
+      "source_case": 38,
+      "roi": false,
+      "pixels": 4,
+      "valid_pixels": 4,
+      "channels": [
+        {
+          "finite": 4,
+          "nonfinite": 0,
+          "mean": "41d6666666e66666",
+          "minimum": "41c999999b333333",
+          "maximum": "41e199999999999a"
+        }
+      ]
+    },
+    {
+      "source_case": 38,
+      "roi": true,
+      "pixels": 2,
+      "valid_pixels": 2,
+      "channels": [
+        {
+          "finite": 2,
+          "nonfinite": 0,
+          "mean": "41dccccccd0ccccd",
+          "minimum": "41d6666666e66666",
+          "maximum": "41e199999999999a"
+        }
+      ]
+    },
+    {
+      "source_case": 39,
+      "roi": false,
+      "pixels": 9,
+      "valid_pixels": 7,
+      "channels": [
+        {
+          "finite": 7,
+          "nonfinite": 0,
+          "mean": "41ce2be2bed15f16",
+          "minimum": "3ff7333333333333",
+          "maximum": "41e0cccccd033333"
+        },
+        {
+          "finite": 7,
+          "nonfinite": 0,
+          "mean": "41d6a0ea0f383a84",
+          "minimum": "41b999999d266666",
+          "maximum": "41e4ccccccc80000"
+        },
+        {
+          "finite": 7,
+          "nonfinite": 0,
+          "mean": "41dd7c57c5dc57c6",
+          "minimum": "41d3333333c66666",
+          "maximum": "41e7ffffffd80000"
+        }
+      ]
+    },
+    {
+      "source_case": 39,
+      "roi": true,
+      "pixels": 1,
+      "valid_pixels": 0,
+      "channels": [
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        },
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        },
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        }
+      ]
+    },
+    {
+      "source_case": 40,
+      "roi": false,
+      "pixels": 20,
+      "valid_pixels": 20,
+      "channels": [
+        {
+          "finite": 20,
+          "nonfinite": 0,
+          "mean": "3ff599999999999a",
+          "minimum": "c1e0000000000000",
+          "maximum": "41dfffffffc00000"
+        },
+        {
+          "finite": 20,
+          "nonfinite": 0,
+          "mean": "c199999990000000",
+          "minimum": "c1e0000000000000",
+          "maximum": "41dfffffffc00000"
+        },
+        {
+          "finite": 20,
+          "nonfinite": 0,
+          "mean": "419999999f99999a",
+          "minimum": "c1e0000000000000",
+          "maximum": "41dfffffffc00000"
+        }
+      ]
+    },
+    {
+      "source_case": 40,
+      "roi": true,
+      "pixels": 6,
+      "valid_pixels": 6,
+      "channels": [
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "41b5555558555555",
+          "minimum": "c000000000000000",
+          "maximum": "41dfffffffc00000"
+        },
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "bfe0000000000000",
+          "minimum": "c1e0000000000000",
+          "maximum": "41dfffffffc00000"
+        },
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "400aaaaaaaaaaaab",
+          "minimum": "c000000000000000",
+          "maximum": "4026000000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 41,
+      "roi": false,
+      "pixels": 9,
+      "valid_pixels": 9,
+      "channels": [
+        {
+          "finite": 9,
+          "nonfinite": 0,
+          "mean": "3ffc000000cccccd",
+          "minimum": "c1b3333333666666",
+          "maximum": "41b333333499999a"
+        },
+        {
+          "finite": 9,
+          "nonfinite": 0,
+          "mean": "c1a9999995999999",
+          "minimum": "c1ccccccccd33333",
+          "maximum": "41b999999c99999a"
+        }
+      ]
+    },
+    {
+      "source_case": 41,
+      "roi": true,
+      "pixels": 1,
+      "valid_pixels": 1,
+      "channels": [
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "c1a9999992000000",
+          "minimum": "c1a9999992000000",
+          "maximum": "c1a9999992000000"
+        },
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "41b999999c99999a",
+          "minimum": "41b999999c99999a",
+          "maximum": "41b999999c99999a"
+        }
+      ]
+    },
+    {
+      "source_case": 42,
+      "roi": false,
+      "pixels": 15,
+      "valid_pixels": 15,
+      "channels": [
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "400c000000000000",
+          "minimum": "bff0000000000000",
+          "maximum": "4026000000000000"
+        },
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "3feffffffe93e93f",
+          "minimum": "c1e0000000000000",
+          "maximum": "41dfffffffc00000"
+        },
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "c1b5555552555555",
+          "minimum": "c1e0000000000000",
+          "maximum": "4026000000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 42,
+      "roi": true,
+      "pixels": 15,
+      "valid_pixels": 15,
+      "channels": [
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "400c000000000000",
+          "minimum": "bff0000000000000",
+          "maximum": "4026000000000000"
+        },
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "3feffffffe93e93f",
+          "minimum": "c1e0000000000000",
+          "maximum": "41dfffffffc00000"
+        },
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "c1b5555552555555",
+          "minimum": "c1e0000000000000",
+          "maximum": "4026000000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 43,
+      "roi": false,
+      "pixels": 6,
+      "valid_pixels": 1,
+      "channels": [
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "4003555555555555",
+          "minimum": "4003555555555555",
+          "maximum": "4003555555555555"
+        },
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "41b5555554000000",
+          "minimum": "41b5555554000000",
+          "maximum": "41b5555554000000"
+        }
+      ]
+    },
+    {
+      "source_case": 43,
+      "roi": true,
+      "pixels": 1,
+      "valid_pixels": 1,
+      "channels": [
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "4003555555555555",
+          "minimum": "4003555555555555",
+          "maximum": "4003555555555555"
+        },
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "41b5555554000000",
+          "minimum": "41b5555554000000",
+          "maximum": "41b5555554000000"
+        }
+      ]
+    },
+    {
+      "source_case": 44,
+      "roi": false,
+      "pixels": 4,
+      "valid_pixels": 0,
+      "channels": [
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        }
+      ]
+    },
+    {
+      "source_case": 44,
+      "roi": true,
+      "pixels": 0,
+      "valid_pixels": 0,
+      "channels": [
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        }
+      ]
+    },
+    {
+      "source_case": 45,
+      "roi": false,
+      "pixels": 12,
+      "valid_pixels": 6,
+      "channels": [
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "c196c16c10444444",
+          "minimum": "c1b9999998111111",
+          "maximum": "41b1111110333333"
+        },
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "c1911111080b60b7",
+          "minimum": "c1b999999899999a",
+          "maximum": "41b999999a777777"
+        },
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "41a1111114d82d83",
+          "minimum": "c1c99999996eeeef",
+          "maximum": "41c999999addddde"
+        }
+      ]
+    },
+    {
+      "source_case": 45,
+      "roi": true,
+      "pixels": 2,
+      "valid_pixels": 2,
+      "channels": [
+        {
+          "finite": 2,
+          "nonfinite": 0,
+          "mean": "400999999a000000",
+          "minimum": "c1a111110f111111",
+          "maximum": "41a111111bddddde"
+        },
+        {
+          "finite": 2,
+          "nonfinite": 0,
+          "mean": "41a1111113111110",
+          "minimum": "c1a111110ecccccd",
+          "maximum": "41b999999a777777"
+        },
+        {
+          "finite": 2,
+          "nonfinite": 0,
+          "mean": "4000000000000000",
+          "minimum": "c1b111110eaaaaab",
+          "maximum": "41b1111112aaaaab"
+        }
+      ]
+    },
+    {
+      "source_case": 46,
+      "roi": false,
+      "pixels": 4,
+      "valid_pixels": 4,
+      "channels": [
+        {
+          "finite": 4,
+          "nonfinite": 0,
+          "mean": "c1a999999599999a",
+          "minimum": "c1b9999996cccccd",
+          "maximum": "400999999999999a"
+        }
+      ]
+    },
+    {
+      "source_case": 46,
+      "roi": true,
+      "pixels": 2,
+      "valid_pixels": 2,
+      "channels": [
+        {
+          "finite": 2,
+          "nonfinite": 0,
+          "mean": "c1a999999799999a",
+          "minimum": "c1a999999999999a",
+          "maximum": "c1a999999599999a"
+        }
+      ]
+    },
+    {
+      "source_case": 47,
+      "roi": false,
+      "pixels": 9,
+      "valid_pixels": 7,
+      "channels": [
+        {
+          "finite": 7,
+          "nonfinite": 0,
+          "mean": "3ff4af8af9075075",
+          "minimum": "c1b3333331800000",
+          "maximum": "41b333333419999a"
+        },
+        {
+          "finite": 7,
+          "nonfinite": 0,
+          "mean": "c1a7c57c530af8b0",
+          "minimum": "c1c33333330ccccd",
+          "maximum": "41a99999a399999a"
+        },
+        {
+          "finite": 7,
+          "nonfinite": 0,
+          "mean": "41ab6db6de6db6db",
+          "minimum": "c1c33333330ccccd",
+          "maximum": "41c3333335000000"
+        }
+      ]
+    },
+    {
+      "source_case": 47,
+      "roi": true,
+      "pixels": 1,
+      "valid_pixels": 0,
+      "channels": [
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        },
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        },
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        }
+      ]
+    },
+    {
+      "source_case": 48,
+      "roi": false,
+      "pixels": 20,
+      "valid_pixels": 20,
+      "channels": [
+        {
+          "finite": 20,
+          "nonfinite": 0,
+          "mean": "43d001999999999a",
+          "minimum": "0000000000000000",
+          "maximum": "43f0000000000000"
+        },
+        {
+          "finite": 20,
+          "nonfinite": 0,
+          "mean": "43d0013333333333",
+          "minimum": "0000000000000000",
+          "maximum": "43f0000000000000"
+        },
+        {
+          "finite": 20,
+          "nonfinite": 0,
+          "mean": "43d19b3333333333",
+          "minimum": "0000000000000000",
+          "maximum": "43f0000000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 48,
+      "roi": true,
+      "pixels": 6,
+      "valid_pixels": 6,
+      "channels": [
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "43d0015555555555",
+          "minimum": "4008000000000000",
+          "maximum": "43f0000000000000"
+        },
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "43d002aaaaaaaaab",
+          "minimum": "0000000000000000",
+          "maximum": "43f0000000000000"
+        },
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "43d5555555555555",
+          "minimum": "4008000000000000",
+          "maximum": "43f0000000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 49,
+      "roi": false,
+      "pixels": 9,
+      "valid_pixels": 9,
+      "channels": [
+        {
+          "finite": 9,
+          "nonfinite": 0,
+          "mean": "43d3346666666666",
+          "minimum": "43199999999999ae",
+          "maximum": "43e3333333333333"
+        },
+        {
+          "finite": 9,
+          "nonfinite": 0,
+          "mean": "43d19b3333333333",
+          "minimum": "43199999999999b3",
+          "maximum": "43e6666666666666"
+        }
+      ]
+    },
+    {
+      "source_case": 49,
+      "roi": true,
+      "pixels": 1,
+      "valid_pixels": 1,
+      "channels": [
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "43b9a66666666666",
+          "minimum": "43b9a66666666666",
+          "maximum": "43b9a66666666666"
+        },
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "43d3340000000000",
+          "minimum": "43d3340000000000",
+          "maximum": "43d3340000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 50,
+      "roi": false,
+      "pixels": 15,
+      "valid_pixels": 15,
+      "channels": [
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "43d0015555555555",
+          "minimum": "4008000000000000",
+          "maximum": "43f0000000000000"
+        },
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "43d002aaaaaaaaab",
+          "minimum": "0000000000000000",
+          "maximum": "43f0000000000000"
+        },
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "43d5555555555555",
+          "minimum": "4008000000000000",
+          "maximum": "43f0000000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 50,
+      "roi": true,
+      "pixels": 15,
+      "valid_pixels": 15,
+      "channels": [
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "43d0015555555555",
+          "minimum": "4008000000000000",
+          "maximum": "43f0000000000000"
+        },
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "43d002aaaaaaaaab",
+          "minimum": "0000000000000000",
+          "maximum": "43f0000000000000"
+        },
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "43d5555555555555",
+          "minimum": "4008000000000000",
+          "maximum": "43f0000000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 51,
+      "roi": false,
+      "pixels": 6,
+      "valid_pixels": 1,
+      "channels": [
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "43eaaaaaaaaaaaab",
+          "minimum": "43eaaaaaaaaaaaab",
+          "maximum": "43eaaaaaaaaaaaab"
+        },
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "4335555555555558",
+          "minimum": "4335555555555558",
+          "maximum": "4335555555555558"
+        }
+      ]
+    },
+    {
+      "source_case": 51,
+      "roi": true,
+      "pixels": 1,
+      "valid_pixels": 1,
+      "channels": [
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "43eaaaaaaaaaaaab",
+          "minimum": "43eaaaaaaaaaaaab",
+          "maximum": "43eaaaaaaaaaaaab"
+        },
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "4335555555555558",
+          "minimum": "4335555555555558",
+          "maximum": "4335555555555558"
+        }
+      ]
+    },
+    {
+      "source_case": 52,
+      "roi": false,
+      "pixels": 4,
+      "valid_pixels": 0,
+      "channels": [
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        }
+      ]
+    },
+    {
+      "source_case": 52,
+      "roi": true,
+      "pixels": 0,
+      "valid_pixels": 0,
+      "channels": [
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        }
+      ]
+    },
+    {
+      "source_case": 53,
+      "roi": false,
+      "pixels": 12,
+      "valid_pixels": 6,
+      "channels": [
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "43d38fe93e93e93f",
+          "minimum": "432111111111111c",
+          "maximum": "43e444cccccccccd"
+        },
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "43d2d96c16c16c17",
+          "minimum": "43b11dddddddddde",
+          "maximum": "43e1111111111111"
+        },
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "43cde1999999999a",
+          "minimum": "4311111111111129",
+          "maximum": "43ddde6666666666"
+        }
+      ]
+    },
+    {
+      "source_case": 53,
+      "roi": true,
+      "pixels": 2,
+      "valid_pixels": 2,
+      "channels": [
+        {
+          "finite": 2,
+          "nonfinite": 0,
+          "mean": "43dbbc0000000000",
+          "minimum": "43d3333333333333",
+          "maximum": "43e2226666666666"
+        },
+        {
+          "finite": 2,
+          "nonfinite": 0,
+          "mean": "43bdeaaaaaaaaaab",
+          "minimum": "43b11dddddddddde",
+          "maximum": "43c55bbbbbbbbbbc"
+        },
+        {
+          "finite": 2,
+          "nonfinite": 0,
+          "mean": "43ddde2222222222",
+          "minimum": "43ddddddddddddde",
+          "maximum": "43ddde6666666666"
+        }
+      ]
+    },
+    {
+      "source_case": 54,
+      "roi": false,
+      "pixels": 4,
+      "valid_pixels": 4,
+      "channels": [
+        {
+          "finite": 4,
+          "nonfinite": 0,
+          "mean": "43d19b3333333333",
+          "minimum": "43299999999999a1",
+          "maximum": "43e199999999999a"
+        }
+      ]
+    },
+    {
+      "source_case": 54,
+      "roi": true,
+      "pixels": 2,
+      "valid_pixels": 2,
+      "channels": [
+        {
+          "finite": 2,
+          "nonfinite": 0,
+          "mean": "43b9a66666666666",
+          "minimum": "43299999999999a1",
+          "maximum": "43c9a00000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 55,
+      "roi": false,
+      "pixels": 9,
+      "valid_pixels": 7,
+      "channels": [
+        {
+          "finite": 7,
+          "nonfinite": 0,
+          "mean": "43c5f541d41d41d4",
+          "minimum": "43199999999999a4",
+          "maximum": "43dccecccccccccd"
+        },
+        {
+          "finite": 7,
+          "nonfinite": 0,
+          "mean": "43d15ff15f15f15f",
+          "minimum": "43199999999999a8",
+          "maximum": "43e6666666666666"
+        },
+        {
+          "finite": 7,
+          "nonfinite": 0,
+          "mean": "43d126a0ea0ea0ea",
+          "minimum": "431333333333333a",
+          "maximum": "43e6666666666666"
+        }
+      ]
+    },
+    {
+      "source_case": 55,
+      "roi": true,
+      "pixels": 1,
+      "valid_pixels": 0,
+      "channels": [
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        },
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        },
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        }
+      ]
+    },
+    {
+      "source_case": 56,
+      "roi": false,
+      "pixels": 1,
+      "valid_pixels": 1,
+      "channels": [
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "4340000000000001",
+          "minimum": "4340000000000001",
+          "maximum": "4340000000000001"
+        }
+      ]
+    },
+    {
+      "source_case": 56,
+      "roi": true,
+      "pixels": 0,
+      "valid_pixels": 0,
+      "channels": [
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        }
+      ]
+    },
+    {
+      "source_case": 57,
+      "roi": false,
+      "pixels": 20,
+      "valid_pixels": 20,
+      "channels": [
+        {
+          "finite": 20,
+          "nonfinite": 0,
+          "mean": "43199999999999a0",
+          "minimum": "c3e0000000000000",
+          "maximum": "43e0000000000000"
+        },
+        {
+          "finite": 20,
+          "nonfinite": 0,
+          "mean": "431333333333333b",
+          "minimum": "c3e0000000000000",
+          "maximum": "43e0000000000000"
+        },
+        {
+          "finite": 20,
+          "nonfinite": 0,
+          "mean": "c399800000000000",
+          "minimum": "c3e0000000000000",
+          "maximum": "43e0000000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 57,
+      "roi": true,
+      "pixels": 6,
+      "valid_pixels": 6,
+      "channels": [
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "43b55aaaaaaaaaab",
+          "minimum": "c000000000000000",
+          "maximum": "43e0000000000000"
+        },
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "c3b54aaaaaaaaaab",
+          "minimum": "c3e0000000000000",
+          "maximum": "4340000000000001"
+        },
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "4009555555555555",
+          "minimum": "c3e0000000000000",
+          "maximum": "43e0000000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 58,
+      "roi": false,
+      "pixels": 9,
+      "valid_pixels": 9,
+      "channels": [
+        {
+          "finite": 9,
+          "nonfinite": 0,
+          "mean": "4313333333333322",
+          "minimum": "c3cccb3333333333",
+          "maximum": "43c3333333333333"
+        },
+        {
+          "finite": 9,
+          "nonfinite": 0,
+          "mean": "4399b33333333334",
+          "minimum": "c3b9966666666666",
+          "maximum": "43cccccccccccccd"
+        }
+      ]
+    },
+    {
+      "source_case": 58,
+      "roi": true,
+      "pixels": 1,
+      "valid_pixels": 1,
+      "channels": [
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "43299999999999a0",
+          "minimum": "43299999999999a0",
+          "maximum": "43299999999999a0"
+        },
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "c3b9966666666666",
+          "minimum": "c3b9966666666666",
+          "maximum": "c3b9966666666666"
+        }
+      ]
+    },
+    {
+      "source_case": 59,
+      "roi": false,
+      "pixels": 15,
+      "valid_pixels": 15,
+      "channels": [
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "43b55aaaaaaaaaab",
+          "minimum": "c000000000000000",
+          "maximum": "43e0000000000000"
+        },
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "c3b54aaaaaaaaaab",
+          "minimum": "c3e0000000000000",
+          "maximum": "4340000000000001"
+        },
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "4004000000000000",
+          "minimum": "c3e0000000000000",
+          "maximum": "43e0000000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 59,
+      "roi": true,
+      "pixels": 15,
+      "valid_pixels": 15,
+      "channels": [
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "43b55aaaaaaaaaab",
+          "minimum": "c000000000000000",
+          "maximum": "43e0000000000000"
+        },
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "c3b54aaaaaaaaaab",
+          "minimum": "c3e0000000000000",
+          "maximum": "4340000000000001"
+        },
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "4004000000000000",
+          "minimum": "c3e0000000000000",
+          "maximum": "43e0000000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 60,
+      "roi": false,
+      "pixels": 6,
+      "valid_pixels": 1,
+      "channels": [
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "43b5555555555555",
+          "minimum": "43b5555555555555",
+          "maximum": "43b5555555555555"
+        },
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "4335555555555558",
+          "minimum": "4335555555555558",
+          "maximum": "4335555555555558"
+        }
+      ]
+    },
+    {
+      "source_case": 60,
+      "roi": true,
+      "pixels": 1,
+      "valid_pixels": 1,
+      "channels": [
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "43b5555555555555",
+          "minimum": "43b5555555555555",
+          "maximum": "43b5555555555555"
+        },
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "4335555555555558",
+          "minimum": "4335555555555558",
+          "maximum": "4335555555555558"
+        }
+      ]
+    },
+    {
+      "source_case": 61,
+      "roi": false,
+      "pixels": 4,
+      "valid_pixels": 0,
+      "channels": [
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        }
+      ]
+    },
+    {
+      "source_case": 61,
+      "roi": true,
+      "pixels": 0,
+      "valid_pixels": 0,
+      "channels": [
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        }
+      ]
+    },
+    {
+      "source_case": 62,
+      "roi": false,
+      "pixels": 12,
+      "valid_pixels": 6,
+      "channels": [
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "c390f60b60b60b60",
+          "minimum": "c3b9955555555555",
+          "maximum": "43b999999999999a"
+        },
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "439c85b05b05b05b",
+          "minimum": "c3c999999999999a",
+          "maximum": "43c999999999999a"
+        },
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "4386fd27d27d27d2",
+          "minimum": "c3c9988888888889",
+          "maximum": "43c999999999999a"
+        }
+      ]
+    },
+    {
+      "source_case": 62,
+      "roi": true,
+      "pixels": 2,
+      "valid_pixels": 2,
+      "channels": [
+        {
+          "finite": 2,
+          "nonfinite": 0,
+          "mean": "43a1133333333334",
+          "minimum": "c3a10ccccccccccd",
+          "maximum": "43b999999999999a"
+        },
+        {
+          "finite": 2,
+          "nonfinite": 0,
+          "mean": "c390dddddddddddd",
+          "minimum": "c3a0f77777777777",
+          "maximum": "43299999999999a0"
+        },
+        {
+          "finite": 2,
+          "nonfinite": 0,
+          "mean": "42f1111111111000",
+          "minimum": "c3c9988888888889",
+          "maximum": "43c999999999999a"
+        }
+      ]
+    },
+    {
+      "source_case": 63,
+      "roi": false,
+      "pixels": 4,
+      "valid_pixels": 4,
+      "channels": [
+        {
+          "finite": 4,
+          "nonfinite": 0,
+          "mean": "4399b33333333334",
+          "minimum": "432999999999999d",
+          "maximum": "43a999999999999a"
+        }
+      ]
+    },
+    {
+      "source_case": 63,
+      "roi": true,
+      "pixels": 2,
+      "valid_pixels": 2,
+      "channels": [
+        {
+          "finite": 2,
+          "nonfinite": 0,
+          "mean": "432999999999999f",
+          "minimum": "432999999999999d",
+          "maximum": "43299999999999a1"
+        }
+      ]
+    },
+    {
+      "source_case": 64,
+      "roi": false,
+      "pixels": 9,
+      "valid_pixels": 7,
+      "channels": [
+        {
+          "finite": 7,
+          "nonfinite": 0,
+          "mean": "431f15f15f15f11b",
+          "minimum": "c3a999999999999a",
+          "maximum": "43b3333333333333"
+        },
+        {
+          "finite": 7,
+          "nonfinite": 0,
+          "mean": "437d78af8af8af8d",
+          "minimum": "c3b3333333333333",
+          "maximum": "43a999999999999a"
+        },
+        {
+          "finite": 7,
+          "nonfinite": 0,
+          "mean": "c3ab5d41d41d41d4",
+          "minimum": "c3cccccccccccccd",
+          "maximum": "4333333333333336"
+        }
+      ]
+    },
+    {
+      "source_case": 64,
+      "roi": true,
+      "pixels": 1,
+      "valid_pixels": 0,
+      "channels": [
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        },
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        },
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        }
+      ]
+    },
+    {
+      "source_case": 65,
+      "roi": false,
+      "pixels": 1,
+      "valid_pixels": 1,
+      "channels": [
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "bfe0000000000000",
+          "minimum": "bfe0000000000000",
+          "maximum": "bfe0000000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 65,
+      "roi": true,
+      "pixels": 0,
+      "valid_pixels": 0,
+      "channels": [
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        }
+      ]
+    },
+    {
+      "source_case": 66,
+      "roi": false,
+      "pixels": 20,
+      "valid_pixels": 20,
+      "channels": [
+        {
+          "finite": 20,
+          "nonfinite": 0,
+          "mean": "47b9999980000000",
+          "minimum": "c7efffffe0000000",
+          "maximum": "47efffffe0000000"
+        },
+        {
+          "finite": 20,
+          "nonfinite": 0,
+          "mean": "c7b9999980000000",
+          "minimum": "c7efffffe0000000",
+          "maximum": "47efffffe0000000"
+        },
+        {
+          "finite": 20,
+          "nonfinite": 0,
+          "mean": "3fc3333333333333",
+          "minimum": "c7efffffe0000000",
+          "maximum": "47efffffe0000000"
+        }
+      ]
+    },
+    {
+      "source_case": 66,
+      "roi": true,
+      "pixels": 6,
+      "valid_pixels": 6,
+      "channels": [
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "3fd5555555555555",
+          "minimum": "c7efffffe0000000",
+          "maximum": "47efffffe0000000"
+        },
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "37e5555580000000",
+          "minimum": "c7efffffe0000000",
+          "maximum": "47efffffe0000000"
+        },
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "c7c5555540000000",
+          "minimum": "c7efffffe0000000",
+          "maximum": "4000000000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 67,
+      "roi": false,
+      "pixels": 9,
+      "valid_pixels": 9,
+      "channels": [
+        {
+          "finite": 9,
+          "nonfinite": 0,
+          "mean": "47a9999980000000",
+          "minimum": "c7d3333320000000",
+          "maximum": "47d3333320000000"
+        },
+        {
+          "finite": 9,
+          "nonfinite": 0,
+          "mean": "c7a9999980000000",
+          "minimum": "c7d3333320000000",
+          "maximum": "47c9999980000000"
+        }
+      ]
+    },
+    {
+      "source_case": 67,
+      "roi": true,
+      "pixels": 1,
+      "valid_pixels": 1,
+      "channels": [
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "bfb999999999999a",
+          "minimum": "bfb999999999999a",
+          "maximum": "bfb999999999999a"
+        },
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "47c9999980000000",
+          "minimum": "47c9999980000000",
+          "maximum": "47c9999980000000"
+        }
+      ]
+    },
+    {
+      "source_case": 68,
+      "roi": false,
+      "pixels": 15,
+      "valid_pixels": 15,
+      "channels": [
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "3fd5555555555555",
+          "minimum": "bff0000000000000",
+          "maximum": "4000000000000000"
+        },
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "3fd60b60b60b60b6",
+          "minimum": "c7efffffe0000000",
+          "maximum": "47efffffe0000000"
+        },
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "3fc5555555555555",
+          "minimum": "bff0000000000000",
+          "maximum": "4000000000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 68,
+      "roi": true,
+      "pixels": 15,
+      "valid_pixels": 15,
+      "channels": [
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "3fd5555555555555",
+          "minimum": "bff0000000000000",
+          "maximum": "4000000000000000"
+        },
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "3fd60b60b60b60b6",
+          "minimum": "c7efffffe0000000",
+          "maximum": "47efffffe0000000"
+        },
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "3fc5555555555555",
+          "minimum": "bff0000000000000",
+          "maximum": "4000000000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 69,
+      "roi": false,
+      "pixels": 6,
+      "valid_pixels": 1,
+      "channels": [
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "c7b5555540000000",
+          "minimum": "c7b5555540000000",
+          "maximum": "c7b5555540000000"
+        },
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "c7d5555540000000",
+          "minimum": "c7d5555540000000",
+          "maximum": "c7d5555540000000"
+        }
+      ]
+    },
+    {
+      "source_case": 69,
+      "roi": true,
+      "pixels": 1,
+      "valid_pixels": 1,
+      "channels": [
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "c7b5555540000000",
+          "minimum": "c7b5555540000000",
+          "maximum": "c7b5555540000000"
+        },
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "c7d5555540000000",
+          "minimum": "c7d5555540000000",
+          "maximum": "c7d5555540000000"
+        }
+      ]
+    },
+    {
+      "source_case": 70,
+      "roi": false,
+      "pixels": 4,
+      "valid_pixels": 0,
+      "channels": [
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        }
+      ]
+    },
+    {
+      "source_case": 70,
+      "roi": true,
+      "pixels": 0,
+      "valid_pixels": 0,
+      "channels": [
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        }
+      ]
+    },
+    {
+      "source_case": 71,
+      "roi": false,
+      "pixels": 12,
+      "valid_pixels": 6,
+      "channels": [
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "47a6c16c00000000",
+          "minimum": "c7c1111100000000",
+          "maximum": "47c9999980000000"
+        },
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "c7b6c16c00000000",
+          "minimum": "c7d9999980000000",
+          "maximum": "47d9999980000000"
+        },
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "47a6c16c00000000",
+          "minimum": "c7c1111100000000",
+          "maximum": "47c9999980000000"
+        }
+      ]
+    },
+    {
+      "source_case": 71,
+      "roi": true,
+      "pixels": 2,
+      "valid_pixels": 2,
+      "channels": [
+        {
+          "finite": 2,
+          "nonfinite": 0,
+          "mean": "0000000000000000",
+          "minimum": "c7b1111100000000",
+          "maximum": "47b1111100000000"
+        },
+        {
+          "finite": 2,
+          "nonfinite": 0,
+          "mean": "0000000000000000",
+          "minimum": "c7d9999980000000",
+          "maximum": "47d9999980000000"
+        },
+        {
+          "finite": 2,
+          "nonfinite": 0,
+          "mean": "0000000000000000",
+          "minimum": "c7b1111100000000",
+          "maximum": "47b1111100000000"
+        }
+      ]
+    },
+    {
+      "source_case": 72,
+      "roi": false,
+      "pixels": 4,
+      "valid_pixels": 4,
+      "channels": [
+        {
+          "finite": 4,
+          "nonfinite": 0,
+          "mean": "c7a9999980000000",
+          "minimum": "c7c9999980000000",
+          "maximum": "47b9999980000000"
+        }
+      ]
+    },
+    {
+      "source_case": 72,
+      "roi": true,
+      "pixels": 2,
+      "valid_pixels": 2,
+      "channels": [
+        {
+          "finite": 2,
+          "nonfinite": 0,
+          "mean": "0000000000000000",
+          "minimum": "c7b9999980000000",
+          "maximum": "47b9999980000000"
+        }
+      ]
+    },
+    {
+      "source_case": 73,
+      "roi": false,
+      "pixels": 9,
+      "valid_pixels": 7,
+      "channels": [
+        {
+          "finite": 7,
+          "nonfinite": 0,
+          "mean": "47c5f15f00000000",
+          "minimum": "bfa999999999999a",
+          "maximum": "47dcccccb0000000"
+        },
+        {
+          "finite": 7,
+          "nonfinite": 0,
+          "mean": "c7c41d41c0000000",
+          "minimum": "c7dcccccb0000000",
+          "maximum": "47b9999980000000"
+        },
+        {
+          "finite": 7,
+          "nonfinite": 0,
+          "mean": "3fa5f15f15f15f16",
+          "minimum": "c7c3333320000000",
+          "maximum": "47c3333320000000"
+        }
+      ]
+    },
+    {
+      "source_case": 73,
+      "roi": true,
+      "pixels": 1,
+      "valid_pixels": 0,
+      "channels": [
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        },
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        },
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        }
+      ]
+    },
+    {
+      "source_case": 74,
+      "roi": false,
+      "pixels": 1,
+      "valid_pixels": 1,
+      "channels": [
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "0000000000000000",
+          "minimum": "0000000000000000",
+          "maximum": "0000000000000000"
+        },
+        {
+          "finite": 0,
+          "nonfinite": 1,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        },
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "3690000000000000",
+          "minimum": "3690000000000000",
+          "maximum": "3690000000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 74,
+      "roi": true,
+      "pixels": 0,
+      "valid_pixels": 0,
+      "channels": [
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        },
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        },
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        }
+      ]
+    },
+    {
+      "source_case": 75,
+      "roi": false,
+      "pixels": 1,
+      "valid_pixels": 1,
+      "channels": [
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "0000000000000000",
+          "minimum": "0000000000000000",
+          "maximum": "0000000000000000"
+        },
+        {
+          "finite": 0,
+          "nonfinite": 1,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        },
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "3690000000000000",
+          "minimum": "3690000000000000",
+          "maximum": "3690000000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 75,
+      "roi": true,
+      "pixels": 0,
+      "valid_pixels": 0,
+      "channels": [
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        },
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        },
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        }
+      ]
+    },
+    {
+      "source_case": 76,
+      "roi": false,
+      "pixels": 1,
+      "valid_pixels": 1,
+      "channels": [
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "0000000000000000",
+          "minimum": "0000000000000000",
+          "maximum": "0000000000000000"
+        },
+        {
+          "finite": 0,
+          "nonfinite": 1,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        },
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "3690000000000000",
+          "minimum": "3690000000000000",
+          "maximum": "3690000000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 76,
+      "roi": true,
+      "pixels": 0,
+      "valid_pixels": 0,
+      "channels": [
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        },
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        },
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        }
+      ]
+    },
+    {
+      "source_case": 77,
+      "roi": false,
+      "pixels": 1,
+      "valid_pixels": 0,
+      "channels": [
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        },
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        },
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        }
+      ]
+    },
+    {
+      "source_case": 77,
+      "roi": true,
+      "pixels": 0,
+      "valid_pixels": 0,
+      "channels": [
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        },
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        },
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        }
+      ]
+    },
+    {
+      "source_case": 78,
+      "roi": false,
+      "pixels": 1,
+      "valid_pixels": 1,
+      "channels": [
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "c7dfffffe0000000",
+          "minimum": "c7dfffffe0000000",
+          "maximum": "c7dfffffe0000000"
+        },
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "3690000000000000",
+          "minimum": "3690000000000000",
+          "maximum": "3690000000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 78,
+      "roi": true,
+      "pixels": 0,
+      "valid_pixels": 0,
+      "channels": [
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        },
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        }
+      ]
+    },
+    {
+      "source_case": 79,
+      "roi": false,
+      "pixels": 1,
+      "valid_pixels": 1,
+      "channels": [
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "b690000000000000",
+          "minimum": "b690000000000000",
+          "maximum": "b690000000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 79,
+      "roi": true,
+      "pixels": 0,
+      "valid_pixels": 0,
+      "channels": [
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        }
+      ]
+    },
+    {
+      "source_case": 80,
+      "roi": false,
+      "pixels": 20,
+      "valid_pixels": 20,
+      "channels": [
+        {
+          "finite": 20,
+          "nonfinite": 0,
+          "mean": "7fb9999999999999",
+          "minimum": "ffefffffffffffff",
+          "maximum": "7fefffffffffffff"
+        },
+        {
+          "finite": 20,
+          "nonfinite": 0,
+          "mean": "ffb9999999999999",
+          "minimum": "ffefffffffffffff",
+          "maximum": "7fefffffffffffff"
+        },
+        {
+          "finite": 20,
+          "nonfinite": 0,
+          "mean": "3fc3333333333333",
+          "minimum": "ffefffffffffffff",
+          "maximum": "7fefffffffffffff"
+        }
+      ]
+    },
+    {
+      "source_case": 80,
+      "roi": true,
+      "pixels": 6,
+      "valid_pixels": 6,
+      "channels": [
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "3fd5555555555555",
+          "minimum": "ffefffffffffffff",
+          "maximum": "7fefffffffffffff"
+        },
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "0002aaaaaaaaaaab",
+          "minimum": "ffefffffffffffff",
+          "maximum": "7fefffffffffffff"
+        },
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "ffc5555555555555",
+          "minimum": "ffefffffffffffff",
+          "maximum": "4000000000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 81,
+      "roi": false,
+      "pixels": 9,
+      "valid_pixels": 9,
+      "channels": [
+        {
+          "finite": 9,
+          "nonfinite": 0,
+          "mean": "7fa9999999999999",
+          "minimum": "ffd3333333333333",
+          "maximum": "7fd3333333333333"
+        },
+        {
+          "finite": 9,
+          "nonfinite": 0,
+          "mean": "ffa9999999999999",
+          "minimum": "ffd3333333333333",
+          "maximum": "7fc9999999999999"
+        }
+      ]
+    },
+    {
+      "source_case": 81,
+      "roi": true,
+      "pixels": 1,
+      "valid_pixels": 1,
+      "channels": [
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "bfb999999999999a",
+          "minimum": "bfb999999999999a",
+          "maximum": "bfb999999999999a"
+        },
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "7fc9999999999999",
+          "minimum": "7fc9999999999999",
+          "maximum": "7fc9999999999999"
+        }
+      ]
+    },
+    {
+      "source_case": 82,
+      "roi": false,
+      "pixels": 15,
+      "valid_pixels": 15,
+      "channels": [
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "3fd5555555555555",
+          "minimum": "bff0000000000000",
+          "maximum": "4000000000000000"
+        },
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "3fd60b60b60b60b6",
+          "minimum": "ffefffffffffffff",
+          "maximum": "7fefffffffffffff"
+        },
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "3fc5555555555555",
+          "minimum": "bff0000000000000",
+          "maximum": "4000000000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 82,
+      "roi": true,
+      "pixels": 15,
+      "valid_pixels": 15,
+      "channels": [
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "3fd5555555555555",
+          "minimum": "bff0000000000000",
+          "maximum": "4000000000000000"
+        },
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "3fd60b60b60b60b6",
+          "minimum": "ffefffffffffffff",
+          "maximum": "7fefffffffffffff"
+        },
+        {
+          "finite": 15,
+          "nonfinite": 0,
+          "mean": "3fc5555555555555",
+          "minimum": "bff0000000000000",
+          "maximum": "4000000000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 83,
+      "roi": false,
+      "pixels": 6,
+      "valid_pixels": 1,
+      "channels": [
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "ffb5555555555555",
+          "minimum": "ffb5555555555555",
+          "maximum": "ffb5555555555555"
+        },
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "ffd5555555555555",
+          "minimum": "ffd5555555555555",
+          "maximum": "ffd5555555555555"
+        }
+      ]
+    },
+    {
+      "source_case": 83,
+      "roi": true,
+      "pixels": 1,
+      "valid_pixels": 1,
+      "channels": [
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "ffb5555555555555",
+          "minimum": "ffb5555555555555",
+          "maximum": "ffb5555555555555"
+        },
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "ffd5555555555555",
+          "minimum": "ffd5555555555555",
+          "maximum": "ffd5555555555555"
+        }
+      ]
+    },
+    {
+      "source_case": 84,
+      "roi": false,
+      "pixels": 4,
+      "valid_pixels": 0,
+      "channels": [
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        }
+      ]
+    },
+    {
+      "source_case": 84,
+      "roi": true,
+      "pixels": 0,
+      "valid_pixels": 0,
+      "channels": [
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        }
+      ]
+    },
+    {
+      "source_case": 85,
+      "roi": false,
+      "pixels": 12,
+      "valid_pixels": 6,
+      "channels": [
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "7fa6c16c16c16c16",
+          "minimum": "ffc1111111111111",
+          "maximum": "7fc9999999999999"
+        },
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "ffb6c16c16c16c16",
+          "minimum": "ffd9999999999999",
+          "maximum": "7fd9999999999999"
+        },
+        {
+          "finite": 6,
+          "nonfinite": 0,
+          "mean": "7fa6c16c16c16c16",
+          "minimum": "ffc1111111111111",
+          "maximum": "7fc9999999999999"
+        }
+      ]
+    },
+    {
+      "source_case": 85,
+      "roi": true,
+      "pixels": 2,
+      "valid_pixels": 2,
+      "channels": [
+        {
+          "finite": 2,
+          "nonfinite": 0,
+          "mean": "0000000000000000",
+          "minimum": "ffb1111111111111",
+          "maximum": "7fb1111111111111"
+        },
+        {
+          "finite": 2,
+          "nonfinite": 0,
+          "mean": "0000000000000000",
+          "minimum": "ffd9999999999999",
+          "maximum": "7fd9999999999999"
+        },
+        {
+          "finite": 2,
+          "nonfinite": 0,
+          "mean": "0000000000000000",
+          "minimum": "ffb1111111111111",
+          "maximum": "7fb1111111111111"
+        }
+      ]
+    },
+    {
+      "source_case": 86,
+      "roi": false,
+      "pixels": 4,
+      "valid_pixels": 4,
+      "channels": [
+        {
+          "finite": 4,
+          "nonfinite": 0,
+          "mean": "ffa9999999999999",
+          "minimum": "ffc9999999999999",
+          "maximum": "7fb9999999999999"
+        }
+      ]
+    },
+    {
+      "source_case": 86,
+      "roi": true,
+      "pixels": 2,
+      "valid_pixels": 2,
+      "channels": [
+        {
+          "finite": 2,
+          "nonfinite": 0,
+          "mean": "0000000000000000",
+          "minimum": "ffb9999999999999",
+          "maximum": "7fb9999999999999"
+        }
+      ]
+    },
+    {
+      "source_case": 87,
+      "roi": false,
+      "pixels": 9,
+      "valid_pixels": 7,
+      "channels": [
+        {
+          "finite": 7,
+          "nonfinite": 0,
+          "mean": "7fc5f15f15f15f15",
+          "minimum": "bfa999999999999a",
+          "maximum": "7fdccccccccccccc"
+        },
+        {
+          "finite": 7,
+          "nonfinite": 0,
+          "mean": "ffc41d41d41d41d4",
+          "minimum": "ffdccccccccccccc",
+          "maximum": "7fb9999999999999"
+        },
+        {
+          "finite": 7,
+          "nonfinite": 0,
+          "mean": "fc32492492492492",
+          "minimum": "ffc3333333333333",
+          "maximum": "7fc3333333333333"
+        }
+      ]
+    },
+    {
+      "source_case": 87,
+      "roi": true,
+      "pixels": 1,
+      "valid_pixels": 0,
+      "channels": [
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        },
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        },
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        }
+      ]
+    },
+    {
+      "source_case": 88,
+      "roi": false,
+      "pixels": 1,
+      "valid_pixels": 1,
+      "channels": [
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "0000000000000000",
+          "minimum": "0000000000000000",
+          "maximum": "0000000000000000"
+        },
+        {
+          "finite": 0,
+          "nonfinite": 1,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        },
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "0000000000000000",
+          "minimum": "0000000000000000",
+          "maximum": "0000000000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 88,
+      "roi": true,
+      "pixels": 0,
+      "valid_pixels": 0,
+      "channels": [
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        },
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        },
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        }
+      ]
+    },
+    {
+      "source_case": 89,
+      "roi": false,
+      "pixels": 1,
+      "valid_pixels": 1,
+      "channels": [
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "0000000000000000",
+          "minimum": "0000000000000000",
+          "maximum": "0000000000000000"
+        },
+        {
+          "finite": 0,
+          "nonfinite": 1,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        },
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "0000000000000000",
+          "minimum": "0000000000000000",
+          "maximum": "0000000000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 89,
+      "roi": true,
+      "pixels": 0,
+      "valid_pixels": 0,
+      "channels": [
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        },
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        },
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        }
+      ]
+    },
+    {
+      "source_case": 90,
+      "roi": false,
+      "pixels": 1,
+      "valid_pixels": 1,
+      "channels": [
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "0000000000000000",
+          "minimum": "0000000000000000",
+          "maximum": "0000000000000000"
+        },
+        {
+          "finite": 0,
+          "nonfinite": 1,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        },
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "0000000000000000",
+          "minimum": "0000000000000000",
+          "maximum": "0000000000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 90,
+      "roi": true,
+      "pixels": 0,
+      "valid_pixels": 0,
+      "channels": [
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        },
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        },
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        }
+      ]
+    },
+    {
+      "source_case": 91,
+      "roi": false,
+      "pixels": 1,
+      "valid_pixels": 0,
+      "channels": [
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        },
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        },
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        }
+      ]
+    },
+    {
+      "source_case": 91,
+      "roi": true,
+      "pixels": 0,
+      "valid_pixels": 0,
+      "channels": [
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        },
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        },
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        }
+      ]
+    },
+    {
+      "source_case": 92,
+      "roi": false,
+      "pixels": 1,
+      "valid_pixels": 1,
+      "channels": [
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "ffdfffffffffffff",
+          "minimum": "ffdfffffffffffff",
+          "maximum": "ffdfffffffffffff"
+        },
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "0000000000000000",
+          "minimum": "0000000000000000",
+          "maximum": "0000000000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 92,
+      "roi": true,
+      "pixels": 0,
+      "valid_pixels": 0,
+      "channels": [
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        },
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        }
+      ]
+    },
+    {
+      "source_case": 93,
+      "roi": false,
+      "pixels": 1,
+      "valid_pixels": 1,
+      "channels": [
+        {
+          "finite": 1,
+          "nonfinite": 0,
+          "mean": "0000000000000000",
+          "minimum": "8000000000000000",
+          "maximum": "8000000000000000"
+        }
+      ]
+    },
+    {
+      "source_case": 93,
+      "roi": true,
+      "pixels": 0,
+      "valid_pixels": 0,
+      "channels": [
+        {
+          "finite": 0,
+          "nonfinite": 0,
+          "mean": null,
+          "minimum": null,
+          "maximum": null
+        }
+      ]
+    }
+  ]
+}

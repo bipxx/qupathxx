@@ -1,0 +1,63 @@
+{
+  "native_source": "26b4f228dbaee536119104583705200a4d4bb5f2",
+  "observer_source": "26b4f228dbaee536119104583705200a4d4bb5f2",
+  "source_fingerprint": "9e322df8f9ba187c2cfe8a85aca0a77320b67ca1d664eb0bebad1abcdf3d16c9",
+  "compiler_inputs": 442,
+  "changed_compiler_inputs": [
+    "cpp/project.cpp",
+    "cpp/tests/project_tests.cpp"
+  ],
+  "installed_members": 62,
+  "native_sha256": "ce0b9bc0df6ccd3be7ab1bc6cb72f96f7317aaef9338f46c6712476a88d16a42",
+  "wheel_sha256": "b0748240f2712ede33cd1db67849620dd664095c6cdfce14d1c7e7d3e3bc958a",
+  "model_passes": 226,
+  "model_declared_skips": 4,
+  "new_relink_workflow_passes": 4,
+  "new_observer_controls": 2,
+  "desktop_passes": 2,
+  "native_suites": 3,
+  "baseline_missing_handoff_failures": 3,
+  "baseline_preservation_passes": 1,
+  "native_build_attempts": 1,
+  "successful_native_builds": 1,
+  "final_product_installs": 1,
+  "installed_stub_check": true,
+  "record_verified": true,
+  "public_headers_bindings_and_python_unchanged": true,
+  "typing_reused": "qupath-project-r5: unchanged public signatures; current generated-stub check passes",
+  "prior_codec_archives_unchanged": true,
+  "full_platform_campaign": false,
+  "desktop_scope": "Existing successful and failed F9 relink flows, rendered source pixels and preserved view/state",
+  "products": [
+    {
+      "path": "products/_native.cp312-win_amd64.pyd",
+      "cache_path": "Release/_native.cp312-win_amd64.pyd",
+      "sha256": "ce0b9bc0df6ccd3be7ab1bc6cb72f96f7317aaef9338f46c6712476a88d16a42"
+    },
+    {
+      "path": "products/qupathxx_qupath_project_tests.exe",
+      "cache_path": "Release/qupathxx_qupath_project_tests.exe",
+      "sha256": "625d8faef096cbed431b45bf7ba88655a118ecd358b95b7954064adaa54687c1"
+    },
+    {
+      "path": "products/qupathxx_project_tests.exe",
+      "cache_path": "Release/qupathxx_project_tests.exe",
+      "sha256": "78fca9191deed6f28324223d89eaf7caf4cc51b88ff870c64643d79736709ac1"
+    },
+    {
+      "path": "products/qupathxx_interchange_tests.exe",
+      "cache_path": "Release/qupathxx_interchange_tests.exe",
+      "sha256": "978a2e833432616e3f47ef265184f347db2ecb33c35500a88544cb036b92043e"
+    },
+    {
+      "path": "products/project.obj",
+      "cache_path": "qupathxx_core.dir/Release/project.obj",
+      "sha256": "4d55ebda486ff7fd346e16582ecd49bb5e5f428c6efbd3f54c0708a286be6a72"
+    },
+    {
+      "path": "products/provenance.obj",
+      "cache_path": "qupathxx_core.dir/Release/provenance.obj",
+      "sha256": "50d926cdd444981f63194e47c16f33b48664e09e42ef1c0cbc825c17153f48c7"
+    }
+  ]
+}

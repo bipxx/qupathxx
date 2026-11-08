@@ -1,0 +1,16 @@
+{
+  "source": "a492ea5a6f7cea2f069fcc5899b6f4a20cd9554e",
+  "compiler_fingerprint": "2e217fbd3e36b7cfe58a99adff1615cd22d6e0141a256a3a89bf680f282e20ff",
+  "native_module_sha256": "fda2039b7f1d481e47749c9327208dd7d397a3666930d1deba447520a783b67f",
+  "fixture_sha256": "8686bda4a2016c5cd6d11dce30609e541747eb6404e34c5b937786960bab519e",
+  "results": {
+    "preview": {
+      "input_sha256": "f45178251b0ce1f6f40e7063ce4965fa4c1a381e6eeca862611fd144e0eb2934",
+      "recipe_sha256": "df11f43f560dc664cf69db984bbef2dc68d0a9f3f465aaa2728cf5df9ed3ea81"
+    },
+    "server": {
+      "input_sha256": "f45178251b0ce1f6f40e7063ce4965fa4c1a381e6eeca862611fd144e0eb2934",
+      "recipe_sha256": "d4ddb80af1dee623a90dfee3f9dfac3e0bbb4673abb7692bba8ef13988edcfe1"
+    }
+  }
+}

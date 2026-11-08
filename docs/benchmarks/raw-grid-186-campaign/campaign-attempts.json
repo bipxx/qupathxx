@@ -1,0 +1,197 @@
+{
+  "schema": "qpx.scientific-grid-campaign/2",
+  "source": "745662be8144ce6b81fe72f4ffba1f73bae9ad33",
+  "ref": "feature/raw-grid-workflow-186",
+  "frozen_checkout": "build/ci/raw-grid-workflow-186",
+  "profiles_sha256": "b0f907cfdcb706cf0301150577f27db7084a86ad8ea1ff0c2fb88a8fe3c8c4d1",
+  "preflight": "build/raw186-preflight-after/report.json",
+  "attempts": [
+    {
+      "role": "engine",
+      "semantic_inputs": {
+        "macos_native": false,
+        "portable_linux": false,
+        "live_reference": true,
+        "extended_readers": true
+      },
+      "wire_inputs": {
+        "macos_native": "false",
+        "portable_linux": "false",
+        "live_reference": "true",
+        "extended_readers": "true"
+      },
+      "attempted_at_utc": "2026-10-25T17:54:21.393036+00:00",
+      "state": "run_identified",
+      "known_runs_before": [],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "",
+      "run": {
+        "conclusion": "",
+        "createdAt": "2026-10-25T17:54:23Z",
+        "databaseId": 40218705420,
+        "headSha": "745662be8144ce6b81fe72f4ffba1f73bae9ad33",
+        "status": "queued",
+        "url": "https://github.com/bipxx/qupathxx/actions/runs/40218705420"
+      },
+      "last_observation": {
+        "role": "engine",
+        "run_id": 40218705420,
+        "status": "in_progress",
+        "conclusion": "",
+        "url": "https://github.com/bipxx/qupathxx/actions/runs/40218705420",
+        "jobs": [
+          {
+            "id": 121245363245,
+            "name": "Windows GUI Python 3.12 software GL",
+            "status": "in_progress",
+            "conclusion": "",
+            "step": "Build and verify"
+          },
+          {
+            "id": 121245363395,
+            "name": "Linux minimal native",
+            "status": "completed",
+            "conclusion": "success",
+            "step": null
+          },
+          {
+            "id": 121245363437,
+            "name": "Windows headless Python 3.11 NumPy 1",
+            "status": "in_progress",
+            "conclusion": "",
+            "step": "Build and verify"
+          },
+          {
+            "id": 121245363504,
+            "name": "Linux headless Python 3.12 NumPy 2",
+            "status": "in_progress",
+            "conclusion": "",
+            "step": "Build and verify"
+          },
+          {
+            "id": 121245363506,
+            "name": "Linux ASan UBSan native",
+            "status": "completed",
+            "conclusion": "success",
+            "step": null
+          }
+        ]
+      }
+    },
+    {
+      "role": "macos",
+      "semantic_inputs": {
+        "macos_native": true,
+        "portable_linux": false,
+        "live_reference": false,
+        "extended_readers": false
+      },
+      "wire_inputs": {
+        "macos_native": "true",
+        "portable_linux": "false",
+        "live_reference": "false",
+        "extended_readers": "false"
+      },
+      "attempted_at_utc": "2026-10-25T17:54:25.952423+00:00",
+      "state": "run_identified",
+      "known_runs_before": [
+        40218705420
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "",
+      "run": {
+        "conclusion": "",
+        "createdAt": "2026-10-25T17:54:27Z",
+        "databaseId": 40218710979,
+        "headSha": "745662be8144ce6b81fe72f4ffba1f73bae9ad33",
+        "status": "queued",
+        "url": "https://github.com/bipxx/qupathxx/actions/runs/40218710979"
+      },
+      "last_observation": {
+        "role": "macos",
+        "run_id": 40218710979,
+        "status": "queued",
+        "conclusion": "",
+        "url": "https://github.com/bipxx/qupathxx/actions/runs/40218710979",
+        "jobs": [
+          {
+            "id": 121245381454,
+            "name": "macOS native x86_64",
+            "status": "in_progress",
+            "conclusion": "",
+            "step": "Build and validate native engine"
+          },
+          {
+            "id": 121245381654,
+            "name": "macOS native arm64",
+            "status": "queued",
+            "conclusion": "",
+            "step": null
+          }
+        ]
+      }
+    },
+    {
+      "role": "portable",
+      "semantic_inputs": {
+        "macos_native": false,
+        "portable_linux": true,
+        "live_reference": false,
+        "extended_readers": true
+      },
+      "wire_inputs": {
+        "macos_native": "false",
+        "portable_linux": "true",
+        "live_reference": "false",
+        "extended_readers": "true"
+      },
+      "attempted_at_utc": "2026-10-25T17:54:30.294452+00:00",
+      "state": "run_identified",
+      "known_runs_before": [
+        40218705420,
+        40218710979
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "",
+      "run": {
+        "conclusion": "",
+        "createdAt": "2026-10-25T17:54:32Z",
+        "databaseId": 40218716355,
+        "headSha": "745662be8144ce6b81fe72f4ffba1f73bae9ad33",
+        "status": "queued",
+        "url": "https://github.com/bipxx/qupathxx/actions/runs/40218716355"
+      },
+      "last_observation": {
+        "role": "portable",
+        "run_id": 40218716355,
+        "status": "in_progress",
+        "conclusion": "",
+        "url": "https://github.com/bipxx/qupathxx/actions/runs/40218716355",
+        "jobs": [
+          {
+            "id": 121245398562,
+            "name": "Manylinux build Python 3.12",
+            "status": "in_progress",
+            "conclusion": "",
+            "step": "Build qualify and recheck"
+          },
+          {
+            "id": 121245398763,
+            "name": "Manylinux build Python 3.11",
+            "status": "in_progress",
+            "conclusion": "",
+            "step": "Build qualify and recheck"
+          }
+        ]
+      }
+    }
+  ],
+  "platform_campaign_accepted": false,
+  "release_ready": false,
+  "overall_project_complete": false,
+  "last_polled_at_utc": "2026-10-25T18:03:25.073499+00:00",
+  "all_terminal": false
+}

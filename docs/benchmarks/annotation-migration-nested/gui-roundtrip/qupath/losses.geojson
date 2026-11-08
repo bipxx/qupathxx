@@ -1,0 +1,34 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "20000000-0000-0000-0000-000000000001",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [10, 10],
+            [10, 30],
+            [30, 30],
+            [30, 10],
+            [10, 10]
+          ]
+        ]
+      },
+      "properties": {
+        "objectType": "annotation",
+        "name": "Unsupported properties",
+        "color": [12, 34, 56],
+        "classification": {
+          "name": "Tumor",
+          "color": [255, 32, 48]
+        },
+        "isLocked": true,
+        "measurements": {
+          "Fixture measurement": 12.5
+        }
+      }
+    }
+  ]
+}

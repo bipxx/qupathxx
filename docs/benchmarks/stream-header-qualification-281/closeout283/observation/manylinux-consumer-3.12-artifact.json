@@ -1,0 +1,20 @@
+{
+  "id": 12836501866,
+  "node_id": "MDg6QXJ0aWZhY3QxMjgzNjUwMTg2Ng==",
+  "name": "manylinux-consumer-3.12",
+  "size_in_bytes": 86815,
+  "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12836501866",
+  "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12836501866/zip",
+  "expired": false,
+  "digest": "sha256:513cf3aa833cd23c2ea036eae766e793004e12ee8f56b7acfdd6eb46afdee503",
+  "created_at": "2026-10-28T17:12:13Z",
+  "updated_at": "2026-10-28T17:12:13Z",
+  "expires_at": "2026-11-11T17:12:12Z",
+  "workflow_run": {
+    "id": 40726306463,
+    "repository_id": 1427753981,
+    "head_repository_id": 1427753981,
+    "head_branch": "feature/stream-header-qualification-281",
+    "head_sha": "3f15c2be8722ec6559d8657ecd69a839e1f200a5"
+  }
+}

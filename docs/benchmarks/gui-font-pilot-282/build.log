@@ -1,0 +1,21 @@
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+
+  1>Checking Build System
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/gui-fonts-282/CMakeLists.txt
+  dynamic_probe.cpp
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/gui-fonts-282/CMakeLists.txt
+  imgui.cpp
+C:\Users\HEQ\Projects\qupathxx\build\gui-fonts-282\dynamic_probe.cpp(71,78): error C2662: 'void *ImTextureData::GetPixels(void)': cannot convert 'this' pointer from 'const ImTextureData' to 'ImTextureData &' [C:\Users\HEQ\Projects\qupathxx\build\gui-fonts-282\build\dynamic_probe.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\gui-fonts-282\dynamic_probe.cpp(71,70):
+      Conversion loses qualifiers
+      C:\Users\HEQ\Projects\qupathxx\build\gui-fonts-282\inputs\imgui193\imgui.h(3816,25):
+      see declaration of 'ImTextureData::GetPixels'
+      C:\Users\HEQ\Projects\qupathxx\build\gui-fonts-282\dynamic_probe.cpp(71,78):
+      while trying to match the argument list '()'
+  
+  legacy_probe.cpp
+  imgui_draw.cpp
+  imgui_widgets.cpp
+  legacy_probe.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\gui-fonts-282\build\Release\legacy_probe.exe
+  imgui_tables.cpp
+  Generating Code...

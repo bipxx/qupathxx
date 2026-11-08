@@ -1,0 +1,41 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\reader-isolated-pth-301\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-m",
+    "pytest",
+    "tests/test_reader_locale.py",
+    "-q",
+    "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\qupath-input-stages-301\\reader-pth.xml"
+  ],
+  "returncode": 0,
+  "copied_interpreter_files": [
+    {
+      "path": "python.exe",
+      "sha256": "71b986e874ae1382c434f95852f5670e6d87576db2861cd03737dd4bce9d69ed"
+    },
+    {
+      "path": "python312.dll",
+      "sha256": "fbddf09b578bc1489827bcc19f591e2cd6be687f3db26b60e4dfca15f331800b"
+    },
+    {
+      "path": "python3.dll",
+      "sha256": "f924f86ae87fd7dc26c3c50e31c59dc34ce57b9a05797d40f62e1ec82e52f0da"
+    },
+    {
+      "path": "vcruntime140.dll",
+      "sha256": "bb2281b178b5c47fc98e4cf4293e59a07684e6c6d929d1c2f0acdcb245211417"
+    },
+    {
+      "path": "vcruntime140_1.dll",
+      "sha256": "c2fa6e9ad1b41bd3f7621ba7cb6cddfc10903b73a33c36d7b13afcf3ff99dbf8"
+    }
+  ],
+  "pth_sha256": "9aff4d4e384bd0e0f5eeda4aacc720d08fb8bbe8b4b4e2aa6736d4a45033236f",
+  "pth": "C:\\Users\\HEQ\\AppData\\Roaming\\uv\\python\\cpython-3.12.8-windows-x86_64-none\\Lib\nC:\\Users\\HEQ\\AppData\\Roaming\\uv\\python\\cpython-3.12.8-windows-x86_64-none\\DLLs\nC:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\reader-locale-297-env\\Lib\\site-packages\nC:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\nimport site\n",
+  "shared_test_dependencies": true,
+  "rendering_exercised": false,
+  "clean_machine": false
+}

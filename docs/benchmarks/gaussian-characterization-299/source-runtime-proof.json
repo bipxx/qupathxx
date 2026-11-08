@@ -1,0 +1,46 @@
+{
+  "schema": "qpx.gaussian-stage-local/1",
+  "observer_source": "f788d0823d9f67fe1d61fbc75a6d6cca4e1d93bf",
+  "native_source": "28c33573ef732905e52fe49aa193bd8e5e067206",
+  "fingerprint": "51983bd296f080bd15dd591d29b17d13b0d7ff8ce08003a064c962de57c5e923",
+  "source_paths": 1054,
+  "unchanged_compiler_inputs": 425,
+  "unchanged_native_products": 71,
+  "unchanged_windows_package_members": 39,
+  "new_cases": 37,
+  "new_tests_per_host": 60,
+  "tests": {
+    "api.xml": {
+      "passed": 60,
+      "skipped": 0
+    },
+    "linux/api.xml": {
+      "passed": 60,
+      "skipped": 0
+    },
+    "scientific.xml": {
+      "passed": 760,
+      "skipped": 13
+    },
+    "preflight.xml": {
+      "passed": 1087,
+      "skipped": 0
+    },
+    "preflight-collection.xml": {
+      "passed": 1,
+      "skipped": 0
+    }
+  },
+  "counts_overlap": true,
+  "preflight_unique_passes": 1088,
+  "earlier_control_bodies_unchanged": true,
+  "captured_blur_laplacian_exact": true,
+  "roi_log_matches_original_capture": true,
+  "native_rebuilt": false,
+  "standalone_diagnostic_probe_compiled": true,
+  "stub_regenerated": false,
+  "own_source_hosted_qualification": false,
+  "biological_validation": false,
+  "general_speed_claim": false,
+  "release_ready": false
+}

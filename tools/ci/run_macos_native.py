@@ -1,15 +1,19 @@
 """Validate the full native engine on macOS; no distributable package claim."""
 import argparse
 import hashlib
+import importlib.util
 import json
 import os
 from pathlib import Path
 import platform
+import shutil
 import subprocess
 import sys
 import xml.etree.ElementTree as ET
 
 ROOT=Path(__file__).resolve().parents[2]
+raw_spec=importlib.util.spec_from_file_location('qpx_raw_classifier_evidence',Path(__file__).with_name('raw_classifier_evidence.py'))
+raw_classifier=importlib.util.module_from_spec(raw_spec);exec(compile(Path(raw_spec.origin).read_bytes(),raw_spec.origin,'exec',dont_inherit=True),raw_classifier.__dict__)
 
 
 def sha(path):
@@ -54,14 +58,33 @@ def main():
         QUPATHXX_OPENCV_NOTICES=str(opencv/'share/licenses/opencv'))
     build=work/'native-build'
     run(['cmake','-S',ROOT,'-B',build,*['-D'+key+'='+value for key,value in flags.items()]],'configure')
-    run(['cmake','--build',build,'--config','Release','--parallel','2'],'build')
-    run(['ctest','--test-dir',build,'-C','Release','--output-on-failure','--parallel','1',
+    # Continue independent Ninja compilation after an error so one hosted run
+    # exposes all portability diagnostics rather than only the first file.
+    run(['cmake','--build',build,'--config','Release','--parallel','2','--','-k','0'],'build')
+    # The CLI inventory intentionally excludes tests; preserve the actual failing
+    # test program separately before CTest. Never claim the CLI snapshot contains it.
+    test_binary=build/'qupathxx_pixel_workflow_tests'
+    retained_test=work/test_binary.name
+    shutil.copyfile(test_binary,retained_test)
+    retained_test.chmod(0o755)
+    (work/'pixel-workflow-product.json').write_text(json.dumps(dict(
+        schema='qpx.macos-test-product/1',commit=os.environ.get('GITHUB_SHA'),
+        architecture=args.architecture,path=retained_test.name,
+        bytes=retained_test.stat().st_size,sha256=sha(retained_test),flags=flags,
+        scope='Original compiled test program before CTest; not test acceptance.'),indent=2)+'\n',encoding='utf-8')
+    # Retain the original compiled CLI executables and SDK identities even if CTest fails.
+    run([sys.executable,'-I',ROOT/'tools/ci/macos_native_inventory.py','--native-build',build,
+         '--geos-sdk',geos_work/'geos-sdk','--opencv-sdk',opencv,'--architecture',args.architecture,
+         '--archive',work/'macos-native-files.zip','--output',work/'macos-native-file-inventory.json',
+         '--otool-output',work/'macos-otool-probe.json'],'macos-native-inventory',300)
+    run(['ctest','--test-dir',build,'-C','Release','--output-on-failure', '--test-output-size-passed', '1048576','--parallel','1',
          '--output-junit',work/'native-tests.xml'],'native-tests',1200)
     cases=list(ET.parse(work/'native-tests.xml').getroot().iter('testcase'))
-    if len(cases)<41 or any(any(t.find(k) is not None for k in ['failure','error','skipped']) for t in cases):
+    if len(cases)<43 or any(any(t.find(k) is not None for k in ['failure','error','skipped']) for t in cases):
         raise RuntimeError('full native test evidence is incomplete')
+    raw_classifier.native(cases)
     names={t.get('name') for t in cases}
-    required={'masked_gaussian','cells','geometry','project','classifier','pixel_features'}
+    required={'decimal_quantities','masked_gaussian','log_watershed','log_cell_recipe','cells','geometry','project','classifier','pixel_features'}
     if not required.issubset(names):
         raise RuntimeError('native test evidence omits required engine modules: '+str(required-names))
     binary=build/'qupathxx_batch'
@@ -78,16 +101,28 @@ def main():
     for label,sdk in [('geos',geos_work/'geos-sdk'),('opencv',opencv)]:
         dependencies[label]={p.relative_to(sdk).as_posix():sha(p) for p in sorted(sdk.rglob('*'))
                              if p.is_file() and (p.suffix in ['.dylib','.a'] or '/licenses/' in p.as_posix())}
+    roots=dict(native=str(build),geos=str(geos_work/'geos-sdk'),opencv=str(opencv))
+    roots_file=work/'macos-relocation-source-roots.json'
+    roots_file.write_bytes((json.dumps(roots,indent=2)+'\n').encode('utf-8'))
+    relocated=work/'relocated-native'
+    run([sys.executable,'-I',ROOT/'tools/ci/macos_relocate.py','--archive',work/'macos-native-files.zip',
+         '--architecture',args.architecture,'--source-roots',roots_file,'--work',relocated],'macos-native-relocation',600)
+    run([sys.executable,'-I',ROOT/'tools/ci/check_macos_relocated_runtime.py',
+         '--archive',relocated/'macos-relocated-native.zip','--plan',relocated/'relocation-plan.json',
+         '--project-fixture',ROOT/'tests/fixtures/project-v1.qpxproj','--work',work/'relocated-runtime',
+         '--output',work/'macos-relocated-runtime.json'],'macos-relocated-runtime',600)
     report=dict(schema='qpx.macos-native-validation/1',commit=os.environ.get('GITHUB_SHA'),
-        platform=platform.platform(),architecture=args.architecture,python=sys.version,
+        platform=platform.platform(),architecture=args.architecture,python=sys.version,python_executable=sys.executable,
         compiler=subprocess.check_output(['c++','--version'],env=env,text=True).splitlines()[0],
         cmake=subprocess.check_output(['cmake','--version'],env=env,text=True).splitlines()[0],
         ninja=subprocess.check_output(['ninja','--version'],env=env,text=True).strip(),
         runner_image=dict(os=os.environ.get('ImageOS'),version=os.environ.get('ImageVersion')),
         flags=flags,tests=dict(passed=len(cases),names=sorted(names),junit_sha256=sha(work/'native-tests.xml')),
-        dependencies=dependencies,native_batch_sha256=sha(binary),region_cli_exact=True,
+        dependencies=dependencies,native_batch_sha256=sha(binary),native_region_sha256=sha(build/'qupathxx_region'),region_cli_exact=True,
         loader_overrides_used=False,python_gui_openslide_validated=False,release_ready=False,
-        scope='Native engine/geometry/TIFF/project/interchange/classifier validation on the build host. SDK paths may be embedded. No relocated macOS wheel, OpenSlide, GUI, installer, signing or supported release acceptance.')
+        scope='Native engine plus original build-host snapshot, relocated native archive and synthetic region/batch/GEOS runtime probes. '
+              'Original snapshot may embed SDK paths; relocated copies use direct package paths. '
+              'No macOS wheel, OpenSlide, GUI, installer, publisher signing, older-OS or supported release acceptance.')
     (work/'result.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
     print(json.dumps(dict(architecture=args.architecture,passed=len(cases),release_ready=False)))
 

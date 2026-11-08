@@ -1,0 +1,116 @@
+{
+  "schema": "qpx.raw-owner-observation/1",
+  "compiled_source": "8ece80e52f1b93bd62e19f0c4cc5215d6357fd68",
+  "fingerprint": "5297728aecff15fb76489a9dc9ab450eeb98d1378b37b36e4281979cabf2f951",
+  "scope": "Local observation on shared unreserved workstation; no hardware/UI budget acceptance",
+  "rows": [
+    {
+      "samples": [
+        64,
+        64
+      ],
+      "analysis_ns": 2981400,
+      "keep_ns": [
+        863500,
+        841800,
+        843800,
+        842400,
+        843900,
+        840400,
+        844200
+      ],
+      "verify_ns": [
+        2300,
+        800,
+        800,
+        500,
+        700,
+        500,
+        800
+      ],
+      "median_keep_ns": 843800,
+      "median_verify_ns": 800
+    },
+    {
+      "samples": [
+        256,
+        256
+      ],
+      "analysis_ns": 46560200,
+      "keep_ns": [
+        14161900,
+        14129400,
+        14218800,
+        14152300,
+        14103400,
+        13998400,
+        14143700
+      ],
+      "verify_ns": [
+        10100,
+        13600,
+        8800,
+        7700,
+        6700,
+        5200,
+        8200
+      ],
+      "median_keep_ns": 14143700,
+      "median_verify_ns": 8200
+    },
+    {
+      "samples": [
+        512,
+        512
+      ],
+      "analysis_ns": 191195600,
+      "keep_ns": [
+        58091800,
+        57602200,
+        57707700,
+        57765600,
+        57603400,
+        58377800,
+        58085800
+      ],
+      "verify_ns": [
+        8300,
+        6800,
+        7000,
+        5800,
+        7200,
+        8900,
+        6300
+      ],
+      "median_keep_ns": 57765600,
+      "median_verify_ns": 7000
+    },
+    {
+      "samples": [
+        65536,
+        1
+      ],
+      "analysis_ns": 81150900,
+      "keep_ns": [
+        30919900,
+        31373400,
+        30732100,
+        31099800,
+        32322400,
+        30926000,
+        30743300
+      ],
+      "verify_ns": [
+        8300,
+        6700,
+        7500,
+        8800,
+        9500,
+        8000,
+        7000
+      ],
+      "median_keep_ns": 30926000,
+      "median_verify_ns": 8000
+    }
+  ]
+}

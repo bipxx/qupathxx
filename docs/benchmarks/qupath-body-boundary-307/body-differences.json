@@ -1,0 +1,69 @@
+{
+  "shape": [
+    256,
+    256
+  ],
+  "differences": 8,
+  "border_differences": 8,
+  "reference_only": 4,
+  "native_only": 4,
+  "ownership_only": 0,
+  "pixels": [
+    {
+      "x": 35,
+      "y": 0,
+      "reference": 18,
+      "native": 0,
+      "border": true
+    },
+    {
+      "x": 36,
+      "y": 0,
+      "reference": 0,
+      "native": 2,
+      "border": true
+    },
+    {
+      "x": 255,
+      "y": 35,
+      "reference": 67,
+      "native": 0,
+      "border": true
+    },
+    {
+      "x": 255,
+      "y": 36,
+      "reference": 0,
+      "native": 78,
+      "border": true
+    },
+    {
+      "x": 255,
+      "y": 120,
+      "reference": 252,
+      "native": 0,
+      "border": true
+    },
+    {
+      "x": 255,
+      "y": 121,
+      "reference": 0,
+      "native": 266,
+      "border": true
+    },
+    {
+      "x": 71,
+      "y": 255,
+      "reference": 485,
+      "native": 0,
+      "border": true
+    },
+    {
+      "x": 72,
+      "y": 255,
+      "reference": 0,
+      "native": 492,
+      "border": true
+    }
+  ]
+}

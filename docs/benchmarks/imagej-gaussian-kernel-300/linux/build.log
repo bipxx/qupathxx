@@ -1,0 +1,5 @@
+[  0%] Building CXX object CMakeFiles/qupathxx_imagej_gaussian_tests.dir/cpp/imagej_gaussian.cpp.o
+[ 50%] Building CXX object CMakeFiles/qupathxx_imagej_gaussian_tests.dir/cpp/tests/imagej_gaussian_tests.cpp.o
+[ 50%] Building CXX object CMakeFiles/qupathxx_imagej_gaussian_tests.dir/cpp/sha256.cpp.o
+[100%] Linking CXX executable qupathxx_imagej_gaussian_tests
+[100%] Built target qupathxx_imagej_gaussian_tests

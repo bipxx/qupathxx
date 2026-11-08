@@ -1,4 +1,5 @@
 """Bounded descriptor persistence and a clipped real-window project catalog."""
+import re
 import argparse
 import hashlib
 import json
@@ -33,7 +34,9 @@ def main():
     began=time.perf_counter();project.save(str(path));save_ms=(time.perf_counter()-began)*1000
     with sqlite3.connect(path) as db:
         version=db.execute('PRAGMA user_version').fetchone()[0];count,total,maximum=db.execute('SELECT count(*),sum(length(payload)),max(length(payload)) FROM pixel_stream_records').fetchone()
-    assert version==13 and count==args.records and total<args.records*4096 and maximum<4096
+    declarations=re.findall(r'\bproject_schema_version\s*=\s*(\d+)',(Path(__file__).resolve().parents[1]/'cpp/project_schema.hpp').read_text(encoding='utf-8'))
+    assert len(declarations)==1, 'missing/ambiguous project schema declaration'
+    assert version==int(declarations[0]) and count==args.records and total<args.records*4096 and maximum<4096
     began=time.perf_counter();loaded=q.Project.open(str(path));open_ms=(time.perf_counter()-began)*1000;restored=loaded.document(image)
     assert restored.pixel_stream_record_count==args.records and all(r.link.same_content(link) for r in restored.pixel_stream_records)
     record=restored.pixel_stream_records[0];assert record.link.path==str(args.file.resolve())

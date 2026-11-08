@@ -1,0 +1,12 @@
+WARNING: Unknown module: javafx.graphics specified to --add-opens
+WARNING: Unknown module: javafx.base specified to --add-opens
+WARNING: Unknown module: javafx.web specified to --enable-native-access
+WARNING: Unknown module: javafx.graphics specified to --enable-native-access
+WARNING: Unknown module: javafx.media specified to --enable-native-access
+04:31:52.613 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting default Locale to en_US
+04:31:52.616 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting Locale for FORMAT to en_US
+04:31:52.616 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting Locale for DISPLAY to en_US
+04:31:52.635 [main] [INFO ] qupath.lib.common.ThreadTools - Setting parallelism to 19
+04:31:52.642 [main] [INFO ] qupath.ScriptCommand - Setting tile cache size to 16352.00 MB (25.0% max memory)
+04:31:52.724 [main] [INFO ] qupath.lib.scripting.QP - Initializing type adapters
+Cell statistics reference: C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\tests\fixtures\cell-intensity-statistics-v1\reference.json

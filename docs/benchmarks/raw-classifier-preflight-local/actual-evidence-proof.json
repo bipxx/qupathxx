@@ -1,0 +1,46 @@
+{
+  "native": {
+    "full": true,
+    "portable_owner_jobs": true,
+    "raw_file_training_contour_consumers": true
+  },
+  "installed": {
+    "passed": 55,
+    "declared_skips": 1,
+    "groups": [
+      {
+        "module": "test_raw_pixel_python",
+        "passed": 10,
+        "declared_skips": 0
+      },
+      {
+        "module": "test_raw_pixel_cli",
+        "passed": 14,
+        "declared_skips": 1
+      },
+      {
+        "module": "test_raw_pixel_batch",
+        "passed": 14,
+        "declared_skips": 0
+      },
+      {
+        "module": "test_gui_raw_pixel",
+        "passed": 17,
+        "declared_skips": 0
+      }
+    ]
+  },
+  "typing": {
+    "positive_files": 4,
+    "negative_files": 3,
+    "expected_errors": 12,
+    "hashes": {
+      "raw-classifier-typing.log": "d9a5631f7d87a741fbecc3236286d1792d22d349ff13846d71cdc9217307bb76",
+      "raw-classifier-raw_pixel_invalid.log": "e9960b8ed511cb8c9083ce9a6e70eb8fc142b8c0c2df724ca118473e7a37c1e0",
+      "raw-classifier-raw_batch_invalid.log": "da950fdbbefbee1f98cee2f0d60916220db34d03a889262e1fb8120a7b7a7462",
+      "raw-classifier-raw_frontend_invalid.log": "f1ab11810303c3c246ef16afa6b03da3d2e07ab98a642498b3be942e22e25a1f"
+    }
+  },
+  "declared_source_files": 458,
+  "kind": "preflight against source-bound local evidence; not a new platform qualification"
+}

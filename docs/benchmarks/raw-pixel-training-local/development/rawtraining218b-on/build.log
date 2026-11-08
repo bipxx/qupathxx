@@ -1,0 +1,88 @@
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+
+  Checking File Globs
+  1>Checking Build System
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/_deps/qpx_zlib-src/CMakeLists.txt
+  adler32.c
+  sqlite3.c
+  compress.c
+  crc32.c
+  tinyxml2.cpp
+  deflate.c
+  gzclose.c
+  gzlib.c
+  gzread.c
+  gzwrite.c
+  inflate.c
+  infback.c
+  inftrees.c
+  inffast.c
+  trees.c
+  uncompr.c
+  zutil.c
+  Generating Code...
+  qupathxx_tiff_xml.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218b-windows\Release\qupathxx_tiff_xml.lib
+  zlibstatic.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218b-windows\_deps\qpx_zlib-build\Release\zs.lib
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/_deps/qpx_tiff-src/libtiff/CMakeLists.txt
+  tif_aux.c
+  tif_close.c
+  tif_codec.c
+  tif_color.c
+  tif_compress.c
+  tif_dir.c
+  tif_dirinfo.c
+  tif_dirread.c
+  tif_dirwrite.c
+  tif_dumpmode.c
+  tif_error.c
+  tif_extension.c
+  tif_fax3.c
+  tif_fax3sm.c
+  tif_flush.c
+  tif_getimage.c
+  tif_hash_set.c
+  tif_jbig.c
+  tif_jpeg.c
+  tif_jpeg_12.c
+  Generating Code...
+  Compiling...
+  tif_lerc.c
+  tif_luv.c
+  tif_lzma.c
+  tif_lzw.c
+  tif_next.c
+  tif_ojpeg.c
+  tif_packbits.c
+  tif_pixarlog.c
+  tif_predict.c
+  tif_print.c
+  tif_read.c
+  tif_strip.c
+  tif_swab.c
+  tif_thunder.c
+  tif_tile.c
+  tif_version.c
+  tif_warning.c
+  tif_webp.c
+  tif_write.c
+  tif_zip.c
+  Generating Code...
+  Compiling...
+  tif_zstd.c
+  Generating Code...
+  tif_open.c
+  qupathxx_sqlite.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218b-windows\Release\qupathxx_sqlite.lib
+  tif_win32.c
+  Generating Code...
+  tiff.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\rawtraining218b-windows\_deps\qpx_tiff-build\libtiff\Release\tiff.lib
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  core.cpp
+  tma.cpp
+  tma_tables.cpp
+  document_edits.cpp
+  selection.cpp
+  geometry.cpp
+  spatial_index.cpp
+  image_server.cpp

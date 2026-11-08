@@ -1,0 +1,253 @@
+{
+  "schema": "qpx.vendor-reader-benchmark/1",
+  "fixture_sha256": "edf4a1ccf395c7000ae93ad3b44c07d97043810e00be0c1d167dd09bbe436e46",
+  "fixture_filename": "CMU-1.ndpi",
+  "vendor": "hamamatsu",
+  "dimensions": [
+    [
+      51200,
+      38144
+    ],
+    [
+      25600,
+      19072
+    ],
+    [
+      12800,
+      9536
+    ],
+    [
+      6400,
+      4768
+    ],
+    [
+      3200,
+      2384
+    ],
+    [
+      1600,
+      1192
+    ],
+    [
+      800,
+      596
+    ],
+    [
+      400,
+      298
+    ],
+    [
+      200,
+      149
+    ]
+  ],
+  "build_git_revision": "f5ca246e10cc85fd308c9657e386e85542125815",
+  "tool_sha256": "38ad9e0d15546a9774587af3afaabfa01e4821ac30836d054aa48232b12697f0",
+  "performance_accepted": false,
+  "source_open_ms": 2.769000013358891,
+  "protocol": "File SHA and size verification precede timers and may warm OS cache. First read on one freshly opened handle followed by nine same-region reads per natural level. No OS cache flush; this is not a cold-storage experiment.",
+  "native_sha256": "21139fb782483c30fc01b8be716062082a664a56dd767c5121d26993fd367d96",
+  "platform": "Windows-10-10.0.26200-SP0",
+  "processor": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
+  "source_tree_sha256": "fd790eda7259976d8b98f210562c124244e2d3f30c968be973c3a858f0bfbf3d",
+  "openslide_version": "4.0.1",
+  "region_shape": [
+    193,
+    257,
+    4
+  ],
+  "warm_iterations": 9,
+  "regions": [
+    {
+      "level": 0,
+      "first_read_ms": 5.725999944843352,
+      "warm_median_ms": 0.2628000220283866,
+      "warm_max_ms": 0.34989998675882816,
+      "warm_ms": [
+        0.34989998675882816,
+        0.33000006806105375,
+        0.2589001087471843,
+        0.2584999892860651,
+        0.2750999992713332,
+        0.26320002507418394,
+        0.2612000098451972,
+        0.2628000220283866,
+        0.25699997786432505
+      ],
+      "rgba_sha256": "9c93e1a6327f142169029b15de9d31ba1bf92bee7e0b14bbe7b5d2fa1829ecf4"
+    },
+    {
+      "level": 1,
+      "first_read_ms": 5.382100003771484,
+      "warm_median_ms": 0.3024999750778079,
+      "warm_max_ms": 0.3960999893024564,
+      "warm_ms": [
+        0.3960999893024564,
+        0.3024999750778079,
+        0.28739997651427984,
+        0.2853999612852931,
+        0.2848000731319189,
+        0.3019000869244337,
+        0.3128000535070896,
+        0.3939999733120203,
+        0.3127000527456403
+      ],
+      "rgba_sha256": "97d458b3c2335c4ff9697b1390648d3dd9bf6159b138f054cf7424426d4c00fd"
+    },
+    {
+      "level": 2,
+      "first_read_ms": 3.8029999705031514,
+      "warm_median_ms": 0.2924000145867467,
+      "warm_max_ms": 0.3386000171303749,
+      "warm_ms": [
+        0.3386000171303749,
+        0.3098000306636095,
+        0.2945999149233103,
+        0.29120000544935465,
+        0.29009999707341194,
+        0.29120000544935465,
+        0.2924000145867467,
+        0.2943000290542841,
+        0.28650008607655764
+      ],
+      "rgba_sha256": "9b99422425c4bf072f4744b3abaedf19cd3bdd7a1984b7f92b7acbda19d52bc2"
+    },
+    {
+      "level": 3,
+      "first_read_ms": 4.861599998548627,
+      "warm_median_ms": 0.4278999986127019,
+      "warm_max_ms": 0.5585999460890889,
+      "warm_ms": [
+        0.4278999986127019,
+        0.5585999460890889,
+        0.4856999730691314,
+        0.4285000031813979,
+        0.403400044888258,
+        0.5094999214634299,
+        0.36609999369829893,
+        0.3537999000400305,
+        0.403700047172606
+      ],
+      "rgba_sha256": "5f60aa1bf5144de75a920f9372ca71fd8e67727f1be6d52ff880df5d0bf87dad"
+    },
+    {
+      "level": 4,
+      "first_read_ms": 2.936100005172193,
+      "warm_median_ms": 0.31809997744858265,
+      "warm_max_ms": 0.3515999997034669,
+      "warm_ms": [
+        0.3515999997034669,
+        0.3228000132367015,
+        0.31809997744858265,
+        0.3166000824421644,
+        0.32029999420046806,
+        0.32970006577670574,
+        0.31399994622915983,
+        0.3128000535070896,
+        0.31429994851350784
+      ],
+      "rgba_sha256": "d9e0fdf7e444597d92eabff7ac462329f3a6ea5c8ff250d050e9997acdeffc22"
+    },
+    {
+      "level": 5,
+      "first_read_ms": 7.345399935729802,
+      "warm_median_ms": 0.502200098708272,
+      "warm_max_ms": 0.5367000121623278,
+      "warm_ms": [
+        0.5367000121623278,
+        0.5104000447317958,
+        0.502200098708272,
+        0.4987000720575452,
+        0.5121000576764345,
+        0.4952000454068184,
+        0.4903000080958009,
+        0.5032999906688929,
+        0.4941999213770032
+      ],
+      "rgba_sha256": "3c393e1a2dc0d1e7e90a85645c01559e81095831a54b550f3841a59a4625a742"
+    },
+    {
+      "level": 6,
+      "first_read_ms": 1.7985999584197998,
+      "warm_median_ms": 0.23370003327727318,
+      "warm_max_ms": 0.2566000912338495,
+      "warm_ms": [
+        0.2566000912338495,
+        0.2516999375075102,
+        0.23370003327727318,
+        0.2375999465584755,
+        0.22869999520480633,
+        0.24009996559470892,
+        0.2264999784529209,
+        0.22329995408654213,
+        0.2229000674560666
+      ],
+      "rgba_sha256": "e7cca4cca655e9c34536f73b30cc3ea55cc16ddc46f36bb22315c43579046db0"
+    },
+    {
+      "level": 7,
+      "first_read_ms": 1.2962000910192728,
+      "warm_median_ms": 0.21029997151345015,
+      "warm_max_ms": 0.28989999555051327,
+      "warm_ms": [
+        0.20569993648678064,
+        0.19910000264644623,
+        0.1990000018849969,
+        0.2253999700769782,
+        0.22069993428885937,
+        0.19859999883919954,
+        0.28989999555051327,
+        0.21929992362856865,
+        0.21029997151345015
+      ],
+      "rgba_sha256": "74f0290127a9d02e9f125cc813f1f365c2ca4d3741bcd4c916f9b37a2cdc1183"
+    },
+    {
+      "level": 8,
+      "first_read_ms": 1.1129999766126275,
+      "warm_median_ms": 0.09870005305856466,
+      "warm_max_ms": 0.1194999786093831,
+      "warm_ms": [
+        0.1194999786093831,
+        0.09290000889450312,
+        0.09370001498609781,
+        0.09440002031624317,
+        0.09870005305856466,
+        0.09670003782957792,
+        0.10109995491802692,
+        0.10029994882643223,
+        0.11650007218122482
+      ],
+      "rgba_sha256": "374be1bc7ba492d7ea53500361d80f9d7470bfac6b56d10f3769cbaef5913c40"
+    }
+  ],
+  "scheduler_first_ms": 1.6352999955415726,
+  "scheduler_cache_median_ms": 0.008999952115118504,
+  "scheduler_cache_ms": [
+    0.009199953638017178,
+    0.008999952115118504,
+    0.0073999399319291115,
+    0.00870006624609232,
+    0.02629996743053198,
+    0.011199968867003918,
+    0.008900067768990993,
+    0.0068999361246824265,
+    0.021900050342082977
+  ],
+  "scheduler_reads": 1,
+  "scheduler_cache_hits": 9,
+  "scheduler_cache_bytes": 198404,
+  "scheduler_cache_limit": 8388608,
+  "overview_ms": 1.5361999394372106,
+  "overview_source_pixels": 119200,
+  "overview_rgba_sha256": "81659731e1c6956e93d775906d8d3a56388037338802344f628181f25548495c",
+  "scope": "Pinned brightfield RGB regions only on shared workstation; first read may use OS/backend cache. Exact repeated bytes and one scheduler backend region read with nine scheduler hits. No universal speedup, RSS, hardware or frame acceptance.",
+  "hardware_snapshot": {
+    "cpu": "12th Gen Intel Core i7-12700K",
+    "physical_cores": 12,
+    "logical_processors": 20,
+    "total_physical_memory_bytes": 137167814656,
+    "scope": "Snapshot around this experiment on a shared workstation; not an isolated hardware acceptance target."
+  },
+  "raw_observation_sha256": "713888884b0cba5b7c0226b48f30497071903946613ff0286b264a911f5adeea"
+}

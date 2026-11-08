@@ -1,0 +1,53 @@
+[
+  {
+    "name": "forced-native-mixed",
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\upstream\\qupath\\runtime\\QuPath-0.7.0 (console).exe",
+      "script",
+      "--args",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\assisted-state-r5\\capture\\mixed\\project\\project.qpproj",
+      "--args",
+      "native",
+      "--args",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\assisted-state-r5\\forced-native-mixed",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tools\\upstream\\export_qupath_project_state.groovy"
+    ],
+    "returncode": 1,
+    "seconds": 3.0120782998856157,
+    "expected_success": false
+  },
+  {
+    "name": "geojson-tma",
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\upstream\\qupath\\runtime\\QuPath-0.7.0 (console).exe",
+      "script",
+      "--args",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\assisted-state-r5\\capture\\tma\\project\\project.qpproj",
+      "--args",
+      "geojson",
+      "--args",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\assisted-state-r5\\geojson-tma",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tools\\upstream\\export_qupath_project_state.groovy"
+    ],
+    "returncode": 1,
+    "seconds": 3.382931200088933,
+    "expected_success": false
+  },
+  {
+    "name": "separate-native-output",
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\upstream\\qupath\\runtime\\QuPath-0.7.0 (console).exe",
+      "script",
+      "--args",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\assisted-state-r5\\capture\\facts\\project\\project.qpproj",
+      "--args",
+      "native",
+      "--args",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\assisted-state-r5\\separate-native-output",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tools\\upstream\\export_qupath_project_state.groovy"
+    ],
+    "returncode": 0,
+    "seconds": 3.056881999829784,
+    "expected_success": true
+  }
+]

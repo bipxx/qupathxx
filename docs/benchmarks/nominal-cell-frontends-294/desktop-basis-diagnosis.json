@@ -1,0 +1,30 @@
+{
+  "native_source": "bb190eb7c467a74752ff87e8e6ab0491c995c493",
+  "report": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\nominal-cell-frontends-294\\desktop-temp\\test_nominal_desktop_batch_use0\\results\\run-8e29bd33bc4513739610b56c71a321a3.json",
+  "gui_recipe_sha256": "87f5545a58207bad2fe6ec557f6f4b2789cd1e4cf9f72658725792e776c19b03",
+  "identity_recipe_sha256": "87f5545a58207bad2fe6ec557f6f4b2789cd1e4cf9f72658725792e776c19b03",
+  "he_recipe_sha256": "3ce6fc30b5304aacba6c12285883a1c1bbf4c02ca4187e49ccb87c958f111c1e",
+  "archived_stains": [
+    [
+      1.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      1.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "archived_white": [
+    255.0,
+    255.0,
+    255.0
+  ],
+  "reason": "Existing GUI make_transform(false) selects identity basis for OD-sum. Original new test expected an H&E recipe. Saved nominal masks remain pinned; no production change is required."
+}

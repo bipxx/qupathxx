@@ -1,0 +1,8 @@
+Internal ctest changing into directory: /tmp/qupathxx-reader297-build
+Test project /tmp/qupathxx-reader297-build
+    Start 13: raw_image
+1/1 Test #13: raw_image ........................   Passed    0.03 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =   0.03 sec

@@ -1,0 +1,66 @@
+{
+  "schema": "qpx.qupath-hierarchy-roundtrip/1",
+  "state": "passed",
+  "comparison": {
+    "objects": 6,
+    "parent_links": 4,
+    "geometry_absolute_tolerance": 1e-06
+  },
+  "upstream": {
+    "tag": "v0.7.0",
+    "revision": "04ccfa4fb7d43e9b566393e08e83690b72248d44",
+    "version": "0.7.0",
+    "bundle_url": "https://github.com/qupath/qupath/releases/download/v0.7.0/QuPath-v0.7.0-Windows.zip",
+    "bundle_filename": "QuPath-v0.7.0-Windows.zip",
+    "bundle_bytes": 282594398,
+    "bundle_sha256": "5839743281d11eca1ac55c87ddcf92c89a30cba7ba2060f162036b0514b1e30c",
+    "runtime_tree_sha256": "117c0cb3074c7e3d2f4814d731bf0703d38373051d5580462a90d94036314788",
+    "runtime_files": 496,
+    "executable": "QuPath-0.7.0 (console).exe",
+    "license": "GPL-3.0-or-later",
+    "license_source": "https://github.com/qupath/qupath/blob/04ccfa4fb7d43e9b566393e08e83690b72248d44/LICENSE"
+  },
+  "generator_sha256": "bcb42f025438857739d38380c86bf33d1e9492b5e4fbc73274374bf549da70df",
+  "contract_sha256": "02f15c7b54d2afc12ba43da2b7cc2966bf14ec5614220a7efb9dec2fcb44dced",
+  "native": {
+    "git_revision": "50b44b099e0b67e60ea9e7830e4692017973a7fe",
+    "source_tree_sha256": "c974d7db6f328c4187c77895ef0380e723522fa9a4f200c2611ed89bdb70473a",
+    "module_sha256": "d27214f9e67136ffea6017ae9a101bc70dc5a79e6d903f723c113e2f3a41f770"
+  },
+  "input_kind": "native-python-export",
+  "native_engine_role": "checker and exporter",
+  "files": {
+    "native-nested.geojson": {
+      "bytes": 1775,
+      "sha256": "bf2bb67cb9405ce0fd962a19fe43684c683d94e8e127f0da1595ef33d2d26847"
+    },
+    "qupath/flat.geojson": {
+      "bytes": 3031,
+      "sha256": "3b45d047443b445e62604cf2063ff943cac25fcfbd0d2c81f04c8a5716ae23b2"
+    },
+    "qupath/hierarchy.json": {
+      "bytes": 4819,
+      "sha256": "846e5becae9e47b9b933dfaab68550e3837fa601aaa732e9e27193812a1c78db"
+    },
+    "qupath/losses.geojson": {
+      "bytes": 705,
+      "sha256": "8d76ad7bbefb78149dfb71d46ece02108d987d10e05f1402cb3f4cdad12da409"
+    },
+    "qupath/metadata-raw.geojson": {
+      "bytes": 875,
+      "sha256": "28a30c0375e97727e44e6156d4426f50ed6fbba487912ba21350e884f82bf170"
+    },
+    "qupath/nested.geojson": {
+      "bytes": 6158,
+      "sha256": "d27d27a031759b821ee790760ddc2f2405ca3d68548bf3f8f751aebb90bb85c1"
+    },
+    "qupath/reference.json": {
+      "bytes": 10413,
+      "sha256": "8ca0cad079f982a282b5b6b831eca277b524fd82fe174050a7295d6ad3a0838d"
+    },
+    "qupath.log": {
+      "bytes": 954,
+      "sha256": "c9362b1d37b6ac15a6c732365d99bdfd89b8b22721250d22f208936ff8a6ba46"
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\root-facts-r5-probe-env\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-c",
+    "import sys;sys.path.insert(0,'C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\root-facts-r5\\\\probe-stage');import qupathxx as q;assert q.build_environment().git_revision=='405ba1adba476fb736790ca486c3526db2c210dd';assert q.has_project and q.has_interchange and q.has_tiff;print('native source',q.build_environment().git_revision,flush=True);import pytest;sys.exit(pytest.main(['tests/test_pixel_stream_record_benchmark.py::test_pixel_stream_record_benchmark_accepts_current_project_schema', '-q', '--junitxml=C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\root-facts-r5\\\\staged-report-fixed.xml', '--basetemp', 'C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\root-facts-r5\\\\staged-report-fixed-temp']))"
+  ],
+  "returncode": 0,
+  "source": "405ba1adba476fb736790ca486c3526db2c210dd",
+  "product_installed": false,
+  "elapsed_seconds": 1.33304059994407
+}

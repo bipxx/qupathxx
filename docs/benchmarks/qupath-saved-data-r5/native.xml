@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="3"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="0"
+	timestamp="2026-11-04T12:53:21"
+	>
+	<testcase name="qupath_project" classname="qupath_project" time="0.21478" status="run">
+		<properties/>
+		<system-out>Native QuPath saved-data geometry, calibration, truncation, trailing bytes and cancellation passed
+QuPath project native preview, source guards, new publication and replay refusal passed
+</system-out>
+	</testcase>
+	<testcase name="project" classname="project" time="0.177137" status="run">
+		<properties/>
+		<system-out>Multi-image project round trip, source pixels and stale saves passed; SQLite 3.54.1
+</system-out>
+	</testcase>
+	<testcase name="interchange" classname="interchange" time="0.256711" status="run">
+		<properties/>
+		<system-out>Native nested GeoJSON hierarchy, nucleus, flat compatibility and depth bounds passed
+Native interchange atomicity and exact rectangle round trip passed
+</system-out>
+	</testcase>
+</testsuite>

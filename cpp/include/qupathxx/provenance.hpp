@@ -11,6 +11,7 @@ struct BuildEnvironment {
 struct AnalysisProvenance {
     std::uint64_t object_id=0,object_revision=0,document_revision=0,captured_unix_ms=0;
     bool nucleus=false;
+    bool source_only=false; // Explicit whole-source capture; never a fabricated object ID.
     ImageMetadata source;
     std::string reader,locator;
     std::optional<double> effective_pixel_width_um,effective_pixel_height_um;
@@ -21,6 +22,7 @@ struct AnalysisProvenance {
 };
 std::shared_ptr<const BuildEnvironment> build_environment();
 std::shared_ptr<const AnalysisProvenance> capture_provenance(const ImageServer&,std::uint64_t,std::uint64_t,std::uint64_t,bool,std::optional<double>,std::optional<double>);
+std::shared_ptr<const AnalysisProvenance> capture_source_provenance(const ImageServer&,std::uint64_t document_revision,std::optional<double>,std::optional<double>);
 std::string provenance_json(const AnalysisProvenance&);
 void save_provenance(const AnalysisProvenance&,const std::string& path);
 }

@@ -1,0 +1,324 @@
+{
+  "source_tree": "ef7338dd16763fc5c62b5aeb501a4b1eeb6540acb0f6bb5a17c343e175727584",
+  "compiler_inputs": 530,
+  "enum_values": [
+    [
+      "TIFF_READY",
+      43
+    ],
+    [
+      "TIFF_VIEW_APPLIED",
+      44
+    ],
+    [
+      "RAW_TASK_FINISHED",
+      45
+    ],
+    [
+      "RAW_NUMPY_SAVED",
+      46
+    ],
+    [
+      "RAW_ANALYSIS_KEPT",
+      47
+    ],
+    [
+      "RAW_ANALYSIS_VERIFIED",
+      48
+    ],
+    [
+      "RAW_MEASUREMENTS_SAVED",
+      49
+    ],
+    [
+      "RAW_PIXEL_FINISHED",
+      50
+    ],
+    [
+      "RAW_PIXEL_TRAINED",
+      51
+    ],
+    [
+      "RAW_PIXEL_PREDICTED",
+      52
+    ],
+    [
+      "RAW_PIXEL_PREVIEW_READY",
+      53
+    ],
+    [
+      "RAW_PIXEL_KEPT",
+      54
+    ],
+    [
+      "RAW_PIXEL_FILE_SAVED",
+      55
+    ],
+    [
+      "RAW_PIXEL_FILE_READ",
+      56
+    ],
+    [
+      "RAW_PIXEL_MODEL_SAVED",
+      57
+    ],
+    [
+      "RAW_PIXEL_MODEL_LOADED",
+      58
+    ],
+    [
+      "RAW_PIXEL_CONTOURS_READY",
+      59
+    ],
+    [
+      "RAW_PIXEL_CONTOURS_PUBLISHED",
+      60
+    ],
+    [
+      "TMA_GRID_READY",
+      41
+    ],
+    [
+      "TMA_METADATA_SAVED",
+      42
+    ],
+    [
+      "IMMEDIATE",
+      0
+    ],
+    [
+      "TARGET_READY",
+      1
+    ],
+    [
+      "STARTUP_FINISHED",
+      2
+    ],
+    [
+      "TISSUE_READY",
+      3
+    ],
+    [
+      "TISSUE_CONTOURS_READY",
+      4
+    ],
+    [
+      "TISSUE_CONTOURS_PUBLISHED",
+      5
+    ],
+    [
+      "TISSUE_ARCHIVED",
+      6
+    ],
+    [
+      "TISSUE_VERIFIED",
+      7
+    ],
+    [
+      "CELLS_READY",
+      8
+    ],
+    [
+      "CELLS_PUBLISHED",
+      9
+    ],
+    [
+      "CELLS_ARCHIVED",
+      10
+    ],
+    [
+      "CELLS_VERIFIED",
+      11
+    ],
+    [
+      "CELL_TABLE_SAVED",
+      12
+    ],
+    [
+      "FILE_FINGERPRINT_READY",
+      13
+    ],
+    [
+      "MEASUREMENT_TABLE_SAVED",
+      14
+    ],
+    [
+      "STAINS_ESTIMATED",
+      15
+    ],
+    [
+      "STAINS_APPLIED",
+      16
+    ],
+    [
+      "BATCH_FINISHED",
+      17
+    ],
+    [
+      "WINDOW_READY",
+      18
+    ],
+    [
+      "CLASSIFIER_TRAINED",
+      19
+    ],
+    [
+      "CLASSIFIER_PREDICTED",
+      20
+    ],
+    [
+      "CLASSIFIER_APPLIED",
+      21
+    ],
+    [
+      "CLASSIFIER_MODEL_SAVED",
+      22
+    ],
+    [
+      "CLASSIFIER_MODEL_LOADED",
+      23
+    ],
+    [
+      "CLASSIFIER_TRAINING_RETAINED",
+      24
+    ],
+    [
+      "CLASSIFIER_RECORD_LOADED",
+      25
+    ],
+    [
+      "PIXEL_TRAINED",
+      26
+    ],
+    [
+      "PIXEL_PREDICTED",
+      27
+    ],
+    [
+      "PIXEL_PREVIEW_READY",
+      28
+    ],
+    [
+      "PIXEL_MODEL_SAVED",
+      29
+    ],
+    [
+      "PIXEL_MODEL_LOADED",
+      30
+    ],
+    [
+      "PIXEL_CONTOURS_READY",
+      31
+    ],
+    [
+      "PIXEL_CONTOURS_PUBLISHED",
+      32
+    ],
+    [
+      "PIXEL_RECORD_KEPT",
+      33
+    ],
+    [
+      "PIXEL_RECORD_MODEL_LOADED",
+      34
+    ],
+    [
+      "PIXEL_HISTORICAL_PREVIEW_READY",
+      35
+    ],
+    [
+      "PIXEL_STREAM_FINISHED",
+      36
+    ],
+    [
+      "PIXEL_STREAM_READ_READY",
+      37
+    ],
+    [
+      "PIXEL_STREAM_READ_FINISHED",
+      38
+    ],
+    [
+      "PIXEL_STREAM_VERIFIED",
+      39
+    ],
+    [
+      "PIXEL_STREAM_LINKED",
+      40
+    ],
+    [
+      "SPATIAL_READY",
+      61
+    ],
+    [
+      "SPATIAL_KEPT",
+      62
+    ],
+    [
+      "SPATIAL_VERIFIED",
+      63
+    ],
+    [
+      "SPATIAL_EXPORTED",
+      64
+    ],
+    [
+      "STAIN_MODEL_FINISHED",
+      65
+    ]
+  ],
+  "runs": [
+    {
+      "iteration": 0,
+      "cells": 2237,
+      "masks": {
+        "nucleus": "796d1dea8c9ed576e9967ce9927c52b0d09d3740715d0373fe5ad9cfc874afe1",
+        "body": "779ba6129d532d38b21de0b4125d412a43cf02727bde07abd3275f24ee2f3484"
+      },
+      "geometry": {
+        "nucleus": "7ef095af0aea7743b0c329da62d1f8580464b8f191520ec7687dca293e8fcd8a",
+        "body": "d88ad8709c21b0faa0b3c8d0b6e949446e3f26a8d50f3deb69fe0c2c0635750e"
+      },
+      "wall_ms": 338.1639001891017
+    },
+    {
+      "iteration": 1,
+      "cells": 2237,
+      "masks": {
+        "nucleus": "796d1dea8c9ed576e9967ce9927c52b0d09d3740715d0373fe5ad9cfc874afe1",
+        "body": "779ba6129d532d38b21de0b4125d412a43cf02727bde07abd3275f24ee2f3484"
+      },
+      "geometry": {
+        "nucleus": "7ef095af0aea7743b0c329da62d1f8580464b8f191520ec7687dca293e8fcd8a",
+        "body": "d88ad8709c21b0faa0b3c8d0b6e949446e3f26a8d50f3deb69fe0c2c0635750e"
+      },
+      "wall_ms": 330.9477004222572
+    },
+    {
+      "iteration": 2,
+      "cells": 2237,
+      "masks": {
+        "nucleus": "796d1dea8c9ed576e9967ce9927c52b0d09d3740715d0373fe5ad9cfc874afe1",
+        "body": "779ba6129d532d38b21de0b4125d412a43cf02727bde07abd3275f24ee2f3484"
+      },
+      "geometry": {
+        "nucleus": "7ef095af0aea7743b0c329da62d1f8580464b8f191520ec7687dca293e8fcd8a",
+        "body": "d88ad8709c21b0faa0b3c8d0b6e949446e3f26a8d50f3deb69fe0c2c0635750e"
+      },
+      "wall_ms": 326.5171004459262
+    },
+    {
+      "iteration": 3,
+      "cells": 2237,
+      "masks": {
+        "nucleus": "796d1dea8c9ed576e9967ce9927c52b0d09d3740715d0373fe5ad9cfc874afe1",
+        "body": "779ba6129d532d38b21de0b4125d412a43cf02727bde07abd3275f24ee2f3484"
+      },
+      "geometry": {
+        "nucleus": "7ef095af0aea7743b0c329da62d1f8580464b8f191520ec7687dca293e8fcd8a",
+        "body": "d88ad8709c21b0faa0b3c8d0b6e949446e3f26a8d50f3deb69fe0c2c0635750e"
+      },
+      "wall_ms": 324.96019965037704
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "command": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\multifile209-python-env\\Scripts\\python.exe",
+    "-I",
+    "-m",
+    "pytest",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_multifile_ome_evidence.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_engine_successor_audit.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_ci_execution_boundaries.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_tma_dearray_evidence.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_tma_axis_evidence.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_scientific_grid_evidence.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_qptma_evidence.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_qptma_desktop_evidence.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_hierarchy_evidence.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_resampling_evidence.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_tma_large_pyramid_evidence.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_tma_large_pyramid_admission_evidence.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_source_proof_reuse.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_ci_installed_diagnostics.py",
+    "-q",
+    "--tb=short",
+    "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\diagnostics212\\complete-controls.xml"
+  ],
+  "exit": 0,
+  "seconds": 9.72155500005465,
+  "validation_source": "2098cf21f8b5e9f9c215ff0c0c24b956b8f1549f",
+  "source_files_unchanged_after_execution": true
+}

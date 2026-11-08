@@ -459,3 +459,99 @@ def polygon_sampling(document: q.Document, object_id: int, transform: q.StainTra
     batch.roi_sampling_policy = policy
     assert isinstance(member, bool)
     return result.sampling_policy
+
+
+def log_cell_recipe() -> q.CellParameters:
+    parameters = q.CellParameters()
+    parameters.algorithm = q.CellAlgorithm.LOG_WATERSHED
+    parameters.log_prominence = .5
+    parameters.context_padding = 32
+    return parameters
+
+
+def rendered_loop_metrics(report: q.GuiReport) -> tuple[float, float, int]:
+    return (report.rendered_frame_wall_p95_ms, report.max_rendered_frame_wall_ms,
+            report.rendered_frame_wall_samples)
+
+
+def watershed_body_recipe() -> q.CellParameters:
+    parameters = q.CellParameters()
+    parameters.algorithm = q.CellAlgorithm.LOG_WATERSHED_BODIES
+    return parameters
+
+
+def sampled_watershed_recipe() -> q.CellParameters:
+    return q.CellParameters(algorithm=q.CellAlgorithm.SAMPLED_LOG_WATERSHED_BODIES)
+
+
+def case_summary(snapshot: q.TmaGrid, table: str) -> str:
+    options = q.GuiOptions()
+    options.tma_case_summary = True
+    options.tma_measurements_path = 'measurements.csv'
+    options.tma_value_column = 'mean_red'
+    options.tma_weight_column = 'pixels'
+    options.tma_allow_unversioned = False
+    return q.tma_case_summary_csv(snapshot, table, 'mean_red', 'pixels')
+
+
+def save_case_summary(snapshot: q.TmaGrid, output: str, measurements: str) -> int:
+    return q.save_tma_case_summary_csv(snapshot, output, measurements, 'mean_red', 'pixels')
+
+
+def cohort_case_summary(first: q.TmaGrid, second: q.TmaGrid, table: str) -> tuple[str, str, int]:
+    captures = {1: first, 2: second}
+    options = q.GuiOptions()
+    options.tma_case_summary = True
+    options.tma_case_cohort = True
+    return (q.tma_cohort_manifest_csv(captures),
+            q.tma_cohort_case_summary_csv(captures, table, 'value', 'weight'),
+            q.save_tma_cohort_case_summary_csv(captures, 'new.csv', 'inputs.csv', 'value', 'weight'))
+
+
+def resize_region(server: q.ImageServer) -> q.PixelBuffer:
+    request = q.RegionRequest(10, 20, 0, 300, 200)
+    result = q.read_resampled_region(server, request, 120, 80)
+    return q.resample_area(result, 60, 40)
+
+
+def imported_tma_grid(document: q.Document, text: str) -> list[int]:
+    data = q.parse_qptma(text)
+    canonical: str = q.qptma_text(data)
+    return q.import_qptma(document, q.parse_qptma(canonical), grid_name="Imported study")
+
+
+def fork_imported_tma(source: str, output: str, image: int, wire: q.QptmaData) -> None:
+    project = q.Project.open_without_journal_recovery(source)
+    q.import_qptma(project.document(image), wire)
+    project.save_new(output, snapshot_bytes=536870912, file_bytes=1073741824)
+
+
+def scientific_rgb(server: q.ImageServer, width: int, height: int) -> NDArray[np.float64]:
+    axis_x = q.ScientificGridAxis(0, width, 32, context=2)
+    axis_y = q.ScientificGridAxis(0, height, 24, context=2)
+    grid = q.ScientificGrid(width, height, axis_x, axis_y)
+    center: float = float(grid.x.center(0))
+    bounds: q.GridReadBounds = grid.clipped_read_bounds
+    result: q.ScientificRgbGrid = q.read_scientific_rgb(server, grid)
+    valid: NDArray[np.uint8] = result.valid_numpy()
+    assert center >= 0 and bounds.width > 0 and valid.size > 0
+    return result.numpy()
+
+
+def scientific_channels(source: q.ScientificRgbGrid, transform: q.StainTransform) -> NDArray[np.float64]:
+    charge: int = q.scientific_channel_work_bytes(source)
+    result: q.ScientificChannels = q.scientific_deconvolve(source, transform, work_bytes=charge)
+    mode: q.ScientificChannelMode = result.mode
+    valid: NDArray[np.uint8] = result.valid_numpy()
+    assert mode == q.ScientificChannelMode.STAINS and valid.size > 0
+    return result.numpy()
+
+
+def correct_tma_axes(document: q.Document, session: q.ViewerSession, image: int) -> list[int]:
+    created: list[int] = document.insert_tma_row(1, "Added", missing=True)
+    document.insert_tma_column(0, bounds=[])
+    document.remove_tma_column(0)
+    ticket: int = session.insert_tma_row(image, 1, bounds=[q.Rect(1, 2, 3, 4)], expected_revision=5)
+    ticket = session.remove_tma_row(image, 1, expected_revision=6)
+    assert ticket > 0
+    return created

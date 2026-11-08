@@ -1,0 +1,10 @@
+{
+  "initial_failures": 30,
+  "causes": [
+    "Fixture used C++ set_active_image method name instead of Python active_image property",
+    "Copied Windows environment dict uses uppercase keys; lookup used mixed case"
+  ],
+  "raw_log_encoding": "gbk",
+  "log_decode_observer_error": "UTF-8 decoding refused the preserved locale-encoded original log",
+  "correction": "Use the public property, os.environ mapping, and explicit -X utf8; native binaries unchanged"
+}

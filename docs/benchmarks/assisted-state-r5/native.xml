@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="4"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="0"
+	timestamp="2026-11-04T21:22:10"
+	>
+	<testcase name="tma" classname="tma" time="0.231122" status="run">
+		<properties/>
+		<system-out>TMA axis insertion/removal: skewed geometry, vacant/explicit slots, metadata, nested protection, atomic history and rejection passed
+TMA case file cancellation precedes output path access
+TMA compensated signed sums and nonzero mean underflow checks passed
+TMA case aggregation, weighted arithmetic, missing/unassigned cores, stale revisions and cancellation passed
+TMA cohort raw-row pooling, image/core namespaces, isolated unassigned cores, source manifests, stale revisions and cancellation passed
+TMA cohort atomic files preserve captured CSV bytes, existing files and input aliases; capture validation and cancellation precede I/O
+Oversized CSV read-transfer bytes: 0
+Oversized CSV file budget and output protection passed
+TMA case file exports preserve captured CSV bytes and existing files
+TMA grid commands, missing cores, case IDs, snapshots, history and persistence passed
+</system-out>
+	</testcase>
+	<testcase name="qupath_project" classname="qupath_project" time="0.110218" status="run">
+		<properties/>
+		<system-out>Native QuPath saved-data geometry, calibration, truncation, trailing bytes and cancellation passed
+Native saved TMA grid: identity slots, missing/case state, legacy fallback and membership refusal passed
+QuPath project native preview, source guards, new publication and replay refusal passed
+</system-out>
+	</testcase>
+	<testcase name="project" classname="project" time="0.249466" status="run">
+		<properties/>
+		<system-out>Project source verification: historical round trip, reviewed replacement, stale/file-change refusal and codec checks passed
+Verified relink reader handoff, source observation, owned pixels and independent old-owner lifetime passed
+Project object properties: exact native persistence and independent immutable owner passed
+Multi-image project round trip, source pixels and stale saves passed; SQLite 3.54.1
+</system-out>
+	</testcase>
+	<testcase name="project_save" classname="project_save" time="0.179513" status="run">
+		<properties/>
+		<system-out>Native background save isolation, baseline reconciliation and optional-build checks passed
+</system-out>
+	</testcase>
+</testsuite>

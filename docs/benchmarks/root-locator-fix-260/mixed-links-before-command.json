@@ -1,0 +1,16 @@
+{
+  "command": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-path-fixture-258-env\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-m",
+    "pytest",
+    "tests/test_raw_pixel_batch.py::test_raw_batch_mixed_rgb_raw_links_and_both_typed_reuse_paths",
+    "-q",
+    "--junitxml",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\root-locator-fix-260\\mixed-links-before.xml"
+  ],
+  "returncode": 1,
+  "runtime_source": "a5b5394"
+}

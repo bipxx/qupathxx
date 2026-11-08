@@ -1,0 +1,60 @@
+-- Building tiff version 4.7.1
+-- Could NOT find Deflate (missing: Deflate_LIBRARY Deflate_INCLUDE_DIR) 
+-- Could NOT find JPEG (missing: JPEG_LIBRARY JPEG_INCLUDE_DIR) 
+-- Could NOT find JBIG (missing: JBIG_LIBRARY JBIG_INCLUDE_DIR) 
+-- Could NOT find LERC (missing: LERC_LIBRARY LERC_INCLUDE_DIR) 
+-- Could NOT find liblzma (missing: LIBLZMA_LIBRARY LIBLZMA_INCLUDE_DIR LIBLZMA_HAS_AUTO_DECODER LIBLZMA_HAS_EASY_ENCODER LIBLZMA_HAS_LZMA_PRESET) 
+-- Could NOT find ZSTD (missing: ZSTD_LIBRARY ZSTD_INCLUDE_DIR) 
+-- Could NOT find WebP (missing: WebP_LIBRARY WebP_INCLUDE_DIR) 
+-- Could NOT find OpenGL (missing: OPENGL_opengl_LIBRARY OPENGL_INCLUDE_DIR OpenGL) 
+-- Could NOT find GLUT (missing: GLUT_glut_LIBRARY GLUT_INCLUDE_DIR) 
+-- 
+-- Libtiff is now configured for Linux-6.18.54.1-microsoft-standard-WSL2
+-- 
+--   Libtiff build version:       4.7.1
+--   Libtiff library version:     6.2.0
+--   Libtiff release date:        20250911
+-- 
+--   Installation directory:             /usr/local
+--   Documentation directory:            share/doc/tiff
+--   C compiler:                         /usr/bin/cc
+--   C++ compiler:                       /usr/bin/c++
+--   Build shared libraries:             OFF
+--   Build tools:                        OFF
+--   Build tests:                        OFF
+--   Build contrib:                      OFF
+--   Build docs:                         OFF
+--   Build deprecated features:          OFF
+--   Enable linker symbol versioning:    TRUE
+--   Support Microsoft Document Imaging: ON
+--   Use win32 IO:                       OFF
+-- 
+--  Support for internal codecs:
+--   CCITT Group 3 & 4 algorithms:       ON
+--   Macintosh PackBits algorithm:       ON
+--   LZW algorithm:                      ON
+--   ThunderScan 4-bit RLE algorithm:    ON
+--   NeXT 2-bit RLE algorithm:           ON
+--   LogLuv high dynamic range encoding: ON
+-- 
+--  Support for external codecs:
+--   ZLIB support:                       Requested:ON Availability:TRUE Support:TRUE
+--   libdeflate support:                 Requested:OFF Availability:FALSE Support:FALSE
+--   Pixar log-format algorithm:         Requested:OFF Availability:TRUE Support:FALSE
+--   JPEG support:                       Requested:OFF Availability:FALSE Support:FALSE
+--   Old JPEG support:                   Requested:OFF Availability:FALSE Support:FALSE (Depends on JPEG Support)
+--   JPEG 8/12 bit dual mode:            Requested:OFF Availability:FALSE Support:FALSE
+--   ISO JBIG support:                   Requested:OFF Availability:FALSE Support:FALSE
+--   LERC support:                       Requested:OFF Availability:FALSE Support:FALSE
+--   LZMA2 support:                      Requested:OFF Availability:FALSE Support:FALSE
+--   ZSTD support:                       Requested:OFF Availability:FALSE Support:FALSE
+--   WEBP support:                       Requested:OFF Availability:FALSE Support:FALSE
+-- 
+--   C++ support:                        ON (requested) TRUE (availability)
+-- 
+--   OpenGL support:                     Requested:OFF Availability:FALSE Support:FALSE
+-- 
+-- Using the multi-header code from /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native/_deps/json-src/include/
+-- Configuring done (30.6s)
+-- Generating done (7.2s)
+-- Build files have been written to: /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native

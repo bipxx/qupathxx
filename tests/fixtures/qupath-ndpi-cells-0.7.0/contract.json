@@ -1,0 +1,36 @@
+{
+  "schema": "qpx.qupath-ndpi-cells-contract/1",
+  "upstream_contract": "../qupath-0.7.0/contract.json",
+  "fixture": {
+    "filename": "CMU-1.ndpi",
+    "bytes": 198030965,
+    "sha256": "edf4a1ccf395c7000ae93ad3b44c07d97043810e00be0c1d167dd09bbe436e46",
+    "url": "https://openslide.cs.cmu.edu/download/openslide-testdata/Hamamatsu/CMU-1.ndpi",
+    "license": "CC0-1.0",
+    "license_source": "https://openslide.cs.cmu.edu/download/openslide-testdata/Hamamatsu/index.yaml",
+    "dimensions": [51200, 38144]
+  },
+  "roi": [11264, 17664, 256, 256],
+  "pixel_size_um": [0.45641259698767683, 0.4550625711035267],
+  "white": [255, 255, 255],
+  "vectors": [[0.65, 0.7, 0.29], [0.07, 0.99, 0.11]],
+  "native": {
+    "threshold": 0.4,
+    "sigma": 1.0,
+    "min_peak_radius": 1.0,
+    "min_seed_distance": 4.0,
+    "cell_expansion": 5.0,
+    "min_nucleus_pixels": 16,
+    "max_nucleus_pixels": 512,
+    "connectivity": 8,
+    "context_padding": 32,
+    "level": 0
+  },
+  "tile_sizes": [16, 64, 256],
+  "comparison": {
+    "match_min_iou": 0.1,
+    "relation_min_pixels": 2,
+    "relation_min_fraction": 0.1
+  },
+  "intent": "Real-slide algorithm characterization at a pinned natural-grid ROI. No pathologist ground truth, biological accuracy, accepted segmentation tolerances or general QuPath parity. Preserve count, overlap, split/merge and feature differences."
+}

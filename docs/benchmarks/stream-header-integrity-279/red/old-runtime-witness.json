@@ -1,0 +1,46 @@
+{
+  "runtime": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\snapshot-waits-274-env\\Scripts\\python.exe",
+  "before": {
+    "created": 134376761363245757,
+    "accessed": 134376761363414280,
+    "modified": 134376761363275796,
+    "changed": 134376761363314084,
+    "attributes": 32
+  },
+  "after_write": {
+    "created": 134376761363245757,
+    "accessed": 134376761363429368,
+    "modified": 134376761363429368,
+    "changed": 134376761363429368,
+    "attributes": 32
+  },
+  "restored": {
+    "created": 134376761363245757,
+    "accessed": 134376761363414280,
+    "modified": 134376761363275796,
+    "changed": 134376761363314084,
+    "attributes": 32
+  },
+  "before_sha256": "677544e9b12e1427c2cc95de3c6e4b19864e8cdd5a4bc8ccc98b87b613d15545",
+  "changed_sha256": "bdac07213704467928c7df58494ff41410f7985e0abbc7ccc9d167e54a8e687f",
+  "changed_offsets": [
+    150
+  ],
+  "observations": {
+    "check_unchanged": {
+      "rejected": false
+    },
+    "link": {
+      "rejected": false
+    },
+    "read_block": {
+      "rejected": false
+    },
+    "verify": {
+      "rejected": false
+    },
+    "trace": {
+      "rejected": false
+    }
+  }
+}

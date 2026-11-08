@@ -1,0 +1,13 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+    Start  1: pixel_workflows
+1/4 Test  #1: pixel_workflows ..................   Passed    1.86 sec
+    Start  8: resampling
+2/4 Test  #8: resampling .......................   Passed    2.91 sec
+    Start 10: viewer_session
+3/4 Test #10: viewer_session ...................   Passed    0.95 sec
+    Start 32: tissue_contours
+4/4 Test #32: tissue_contours ..................   Passed    0.18 sec
+
+100% tests passed out of 4
+
+Total Test time (real) =   5.95 sec

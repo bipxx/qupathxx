@@ -1,0 +1,57 @@
+{
+  "product_source": "25b342fc1346e4220398c2966b18a6325aed54b4",
+  "images": 10,
+  "issues": [
+    {
+      "code": "image_settings_dropped",
+      "message": "nanoseconds: Source Z/time calibration is retained; saved ImageData calibration overrides are not applied",
+      "count": 1
+    },
+    {
+      "code": "image_settings_dropped",
+      "message": "microseconds: Source Z/time calibration is retained; saved ImageData calibration overrides are not applied",
+      "count": 1
+    },
+    {
+      "code": "image_settings_dropped",
+      "message": "milliseconds-offset: Source Z/time calibration is retained; saved ImageData calibration overrides are not applied",
+      "count": 1
+    },
+    {
+      "code": "image_settings_dropped",
+      "message": "seconds: Source Z/time calibration is retained; saved ImageData calibration overrides are not applied",
+      "count": 1
+    },
+    {
+      "code": "image_settings_dropped",
+      "message": "minutes-irregular: Source Z/time calibration is retained; saved ImageData calibration overrides are not applied",
+      "count": 1
+    },
+    {
+      "code": "image_settings_dropped",
+      "message": "hours: Source Z/time calibration is retained; saved ImageData calibration overrides are not applied",
+      "count": 1
+    },
+    {
+      "code": "image_settings_dropped",
+      "message": "days: Source Z/time calibration is retained; saved ImageData calibration overrides are not applied",
+      "count": 1
+    },
+    {
+      "code": "image_settings_dropped",
+      "message": "partial: Source Z/time calibration is retained; saved ImageData calibration overrides are not applied",
+      "count": 1
+    },
+    {
+      "code": "image_settings_dropped",
+      "message": "nonmonotonic: Source Z/time calibration is retained; saved ImageData calibration overrides are not applied",
+      "count": 1
+    },
+    {
+      "code": "image_settings_dropped",
+      "message": "unknown: Source Z/time calibration is retained; saved ImageData calibration overrides are not applied",
+      "count": 1
+    }
+  ],
+  "axis_override_api_available": false
+}

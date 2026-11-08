@@ -1,0 +1,74 @@
+{
+  "schema": "qpx.local-component-observation/1",
+  "source": "a3be74b73cc21fbdccf166fbda0d3871449a5e37",
+  "scope": "Windows Release native boundary assembler; no complete streamed-contour API acceptance",
+  "native": {
+    "passed": [
+      "pixel_workflows",
+      "tissue_contours",
+      "viewer_session"
+    ],
+    "failed": 0,
+    "skipped": 0,
+    "uniform_samples": 2000000,
+    "peak_boundary_runs": 7
+  },
+  "python": {
+    "passed": 12,
+    "runtime_source": "0dc916c8d0f527eeecce03ec852ed2772695b93b",
+    "scope": "reference reproducibility and existing installed full-grid/stream path; not new native builder"
+  },
+  "remaining": [
+    "GEOS face classification and streamed geometry",
+    "immutable result, worker and fresh atomic publication",
+    "Python/CLI/batch/desktop and retained-file workflows",
+    "scope-matched platform, scientific, hardware and release gates"
+  ],
+  "payloads": [
+    {
+      "path": "commands.json",
+      "bytes": 1542,
+      "sha256": "3ed8f87a430af8dbe43d67a468cfd98676a7f6e3f5a1dc1d8e854f9efaaac730"
+    },
+    {
+      "path": "compiler-inputs.json",
+      "bytes": 41299,
+      "sha256": "063ad10a26ed830efec7af9ebfb62a33b48d59783def5dfd3c1ef289b63e6e6c"
+    },
+    {
+      "path": "products.json",
+      "bytes": 624,
+      "sha256": "57cf86633867916efa1c4dc5a5caf77d003868302b4c23ce9fb05cb3fc64efdd"
+    },
+    {
+      "path": "configure.log",
+      "bytes": 3867,
+      "sha256": "32a1136fa0dbc9b38e15f7e22a928bacae6e767f38978d53da8b94b2020fff20"
+    },
+    {
+      "path": "build.log",
+      "bytes": 4669,
+      "sha256": "2512d089bd8a103240b76aad7013c636647a5890ddc526b8d58f6bf5d8148155"
+    },
+    {
+      "path": "native-tests.log",
+      "bytes": 442,
+      "sha256": "80993d4bd60c331573ec13b862ff5e678de9d7557a5ba8e961d17b008fbaf7e5"
+    },
+    {
+      "path": "native-tests.xml",
+      "bytes": 6664,
+      "sha256": "5a97b2939a50bfaf7814520689e67238558d68f9c1bff0bdd6b12406e6aacc51"
+    },
+    {
+      "path": "reference.log",
+      "bytes": 101,
+      "sha256": "13fd9da6fbe80108fd080df715a8b104eefd5783518039e17170ad3ed14345b4"
+    },
+    {
+      "path": "reference.xml",
+      "bytes": 2133,
+      "sha256": "c6491c02bc8e560912538ce718353349792733066d7fa09858c61946313fa0e1"
+    }
+  ]
+}

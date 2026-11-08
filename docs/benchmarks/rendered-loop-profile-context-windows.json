@@ -1,0 +1,122 @@
+[
+  {
+    "label": "hardware",
+    "exit_code": 0,
+    "elapsed_seconds": 7.204000000027008,
+    "before": {
+      "time": "2026-10-24T01:15:41.9331872-04:00",
+      "cpu": [
+        {
+          "Name": "12th Gen Intel(R) Core(TM) i7-12700K",
+          "NumberOfCores": 12,
+          "NumberOfLogicalProcessors": 20,
+          "LoadPercentage": 28
+        }
+      ],
+      "memory_bytes": 137167814656,
+      "video": [
+        {
+          "Name": "Intel(R) UHD Graphics 770",
+          "DriverVersion": "32.0.101.7088",
+          "CurrentHorizontalResolution": 1920,
+          "CurrentVerticalResolution": 1080
+        },
+        {
+          "Name": "NVIDIA GeForce RTX 4090",
+          "DriverVersion": "32.0.16.1088",
+          "CurrentHorizontalResolution": 2560,
+          "CurrentVerticalResolution": 1440
+        }
+      ]
+    },
+    "after": {
+      "time": "2026-10-24T01:15:50.5626103-04:00",
+      "cpu": [
+        {
+          "Name": "12th Gen Intel(R) Core(TM) i7-12700K",
+          "NumberOfCores": 12,
+          "NumberOfLogicalProcessors": 20,
+          "LoadPercentage": 29
+        }
+      ],
+      "memory_bytes": 137167814656,
+      "video": [
+        {
+          "Name": "Intel(R) UHD Graphics 770",
+          "DriverVersion": "32.0.101.7088",
+          "CurrentHorizontalResolution": 1920,
+          "CurrentVerticalResolution": 1080
+        },
+        {
+          "Name": "NVIDIA GeForce RTX 4090",
+          "DriverVersion": "32.0.16.1088",
+          "CurrentHorizontalResolution": 2560,
+          "CurrentVerticalResolution": 1440
+        }
+      ]
+    },
+    "output": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\frame127-profiled-hardware-viewer.json",
+    "sha256": "1a9754c11fba1edb2459728c63f345e088c63c39c372448aa8d6b4e34db46ccf",
+    "performance_accepted": false
+  },
+  {
+    "label": "software",
+    "exit_code": 0,
+    "elapsed_seconds": 9.0,
+    "before": {
+      "time": "2026-10-24T01:15:51.9983744-04:00",
+      "cpu": [
+        {
+          "Name": "12th Gen Intel(R) Core(TM) i7-12700K",
+          "NumberOfCores": 12,
+          "NumberOfLogicalProcessors": 20,
+          "LoadPercentage": 28
+        }
+      ],
+      "memory_bytes": 137167814656,
+      "video": [
+        {
+          "Name": "Intel(R) UHD Graphics 770",
+          "DriverVersion": "32.0.101.7088",
+          "CurrentHorizontalResolution": 1920,
+          "CurrentVerticalResolution": 1080
+        },
+        {
+          "Name": "NVIDIA GeForce RTX 4090",
+          "DriverVersion": "32.0.16.1088",
+          "CurrentHorizontalResolution": 2560,
+          "CurrentVerticalResolution": 1440
+        }
+      ]
+    },
+    "after": {
+      "time": "2026-10-24T01:16:02.4576037-04:00",
+      "cpu": [
+        {
+          "Name": "12th Gen Intel(R) Core(TM) i7-12700K",
+          "NumberOfCores": 12,
+          "NumberOfLogicalProcessors": 20,
+          "LoadPercentage": 7
+        }
+      ],
+      "memory_bytes": 137167814656,
+      "video": [
+        {
+          "Name": "Intel(R) UHD Graphics 770",
+          "DriverVersion": "32.0.101.7088",
+          "CurrentHorizontalResolution": 1920,
+          "CurrentVerticalResolution": 1080
+        },
+        {
+          "Name": "NVIDIA GeForce RTX 4090",
+          "DriverVersion": "32.0.16.1088",
+          "CurrentHorizontalResolution": 2560,
+          "CurrentVerticalResolution": 1440
+        }
+      ]
+    },
+    "output": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\frame127-profiled-software-viewer.json",
+    "sha256": "d7da4b59ad83e4987e231078263cb3a60bc14beaf2286c07380fe1c3ebbbdcf5",
+    "performance_accepted": false
+  }
+]

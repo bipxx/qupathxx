@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="8" time="10.543" timestamp="2026-10-26T10:50:47.645813-04:00" hostname="HEQPC"><testcase classname="tests.test_gui_raw_pixel" name="test_desktop_train_keep_preview_save_and_export_retained_file" time="2.168" /><testcase classname="tests.test_gui_raw_pixel" name="test_desktop_checkpoint_resume_without_duplicate_sampling" time="1.292" /><testcase classname="tests.test_gui_raw_pixel" name="test_desktop_historical_open_keep_remove_preserves_external_file" time="1.070" /><testcase classname="tests.test_gui_raw_pixel" name="test_raw_overlay_toggle_invalidates_cached_canvas_at_fractional_edges" time="1.885" /><testcase classname="tests.test_gui_raw_pixel" name="test_managed_raw_training_prediction_resume_read_and_saved_project" time="0.359" /><testcase classname="tests.test_gui_raw_pixel" name="test_desktop_prediction_prefix_resume_preserves_committed_bytes" time="1.329"><failure message="AssertionError: assert False&#10; +  where False = &lt;built-in method startswith of bytes object at 0x000001325BF3C0C0&gt;(b'QWS\x01\x99\x0c\x00\x00\x00\x00\x00\x00\x08\x00\x00\x00\x00\x00\x00\x00\x06\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\...2576ae8ddc19a1e1872e8e1c14d33cfa8fb287a76ddaa5766ad4202f4aff465ac5ee32c30948505c7ae24ac3590f375f40e8acc2d92e9093a33593')&#10; +    where &lt;built-in method startswith of bytes object at 0x000001325BF3C0C0&gt; = b'QWS\x01\x99\x0c\x00\x00\x00\x00\x00\x00\x08\x00\x00\x00\x00\x00\x00\x00\x06\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\...9e93105be1b0fb0c2e390c3bff0116a582541ee5c14b81bf67af0236be868b4124f98dd9ebaf192cc6de98ea451cda8e33ba3cf0db3ce2a55e3fda'.startswith&#10; +      where b'QWS\x01\x99\x0c\x00\x00\x00\x00\x00\x00\x08\x00\x00\x00\x00\x00\x00\x00\x06\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\...9e93105be1b0fb0c2e390c3bff0116a582541ee5c14b81bf67af0236be868b4124f98dd9ebaf192cc6de98ea451cda8e33ba3cf0db3ce2a55e3fda' = read_bytes()&#10; +        where read_bytes = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4122/test_desktop_prediction_prefix0/预测.qws').read_bytes">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4122/test_desktop_prediction_prefix0')
+
+    def test_desktop_prediction_prefix_resume_preserves_committed_bytes(tmp_path):
+        p, _, doc, ids, root, settings = scene(tmp_path)
+        try:
+            model = model_for(doc, ids, settings)
+            o = options(settings, root, tmp_path)
+            raw = o.raw_pixel
+            raw.model = model
+            save = raw.save
+            save.max_new_windows = 1
+            raw.save = save
+            o.raw_pixel = raw
+            o.inputs = [*click(4, q.GuiInputTarget.RAW_PIXEL_FILES_TAB),
+                *click(8, q.GuiInputTarget.RAW_PIXEL_EXPORT), ready(12, q.GuiInputWait.RAW_PIXEL_FILE_SAVED)]
+            first = q.show(p, frame_limit=35, options=o).raw_pixel
+            output = Path(raw.stream_path)
+            prefix = output.read_bytes()
+            assert first.state == "partial" and not first.error and first.link.summary.completed_windows == 1
+            assert not first.link.summary.complete
+            save.resume_path, save.replace_existing, save.max_new_windows = str(output), True, 2**64 - 1
+            raw.save = save
+            o.raw_pixel = raw
+            second = q.show(p, frame_limit=40, options=o).raw_pixel
+            assert not second.error and second.link.summary.complete
+&gt;           assert output.read_bytes().startswith(prefix)
+E           AssertionError: assert False
+E            +  where False = &lt;built-in method startswith of bytes object at 0x000001325BF3C0C0&gt;(b'QWS\x01\x99\x0c\x00\x00\x00\x00\x00\x00\x08\x00\x00\x00\x00\x00\x00\x00\x06\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\...2576ae8ddc19a1e1872e8e1c14d33cfa8fb287a76ddaa5766ad4202f4aff465ac5ee32c30948505c7ae24ac3590f375f40e8acc2d92e9093a33593')
+E            +    where &lt;built-in method startswith of bytes object at 0x000001325BF3C0C0&gt; = b'QWS\x01\x99\x0c\x00\x00\x00\x00\x00\x00\x08\x00\x00\x00\x00\x00\x00\x00\x06\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\...9e93105be1b0fb0c2e390c3bff0116a582541ee5c14b81bf67af0236be868b4124f98dd9ebaf192cc6de98ea451cda8e33ba3cf0db3ce2a55e3fda'.startswith
+E            +      where b'QWS\x01\x99\x0c\x00\x00\x00\x00\x00\x00\x08\x00\x00\x00\x00\x00\x00\x00\x06\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\...9e93105be1b0fb0c2e390c3bff0116a582541ee5c14b81bf67af0236be868b4124f98dd9ebaf192cc6de98ea451cda8e33ba3cf0db3ce2a55e3fda' = read_bytes()
+E            +        where read_bytes = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4122/test_desktop_prediction_prefix0/预测.qws').read_bytes
+
+tests\test_gui_raw_pixel.py:251: AssertionError</failure></testcase><testcase classname="tests.test_gui_raw_pixel" name="test_desktop_invalid_model_preserves_current_model_and_can_predict" time="1.413" /><testcase classname="tests.test_gui_raw_pixel" name="test_desktop_image_switch_retires_raw_prediction_and_gpu_preview" time="0.771" /></testsuite></testsuites>

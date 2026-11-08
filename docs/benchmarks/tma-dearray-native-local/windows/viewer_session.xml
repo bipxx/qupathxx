@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="1"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="0"
+	timestamp="2026-10-25T17:54:07"
+	>
+	<testcase name="viewer_session" classname="viewer_session" time="0.728607" status="run">
+		<properties/>
+		<system-out>TMA viewer axis commands: copied bounds, revision, cancellation, atomic result and edit admission passed
+Grid viewer producer copies, owner calibration capture, retention, cancellation and stale delivery passed
+Raw grid viewer copied counts/options, owner calibration, retention/replay, cancellation and stale delivery passed
+Viewer queue, owner dispatch, jobs, lifetime, limits, staleness and shutdown passed
+</system-out>
+	</testcase>
+</testsuite>

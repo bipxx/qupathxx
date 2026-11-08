@@ -1,0 +1,4 @@
+tests\typing\project_metadata_invalid.py:3: error: Dict entry 0 has incompatible type "str": "int"; expected "str": "str"  [dict-item]
+tests\typing\project_metadata_invalid.py:4: error: Property "metadata" defined in "Project" is read-only  [misc]
+tests\typing\project_metadata_invalid.py:5: error: Incompatible types in assignment (expression has type "dict[str, str]", variable has type "str")  [assignment]
+Found 3 errors in 1 file (checked 1 source file)

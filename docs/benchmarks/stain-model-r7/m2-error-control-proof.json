@@ -1,0 +1,8 @@
+{
+  "state": "failed",
+  "error": "Choose a different model path; this path aliases an open image or project file.",
+  "overflow": 0,
+  "project_sha256": "9b11a34361708575c8dc93db41146c128cb26762877e31ee64a69e2956d5092c",
+  "preserved": true,
+  "source_tree_sha256": "432eab13b81702d423091d8bdd2113d75be9ada3ab2b9a05804128b80cccc892"
+}

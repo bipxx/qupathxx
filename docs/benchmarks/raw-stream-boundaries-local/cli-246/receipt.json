@@ -1,0 +1,214 @@
+{
+  "schema": "qpx.local-installed-workflow-observation/1",
+  "runtime_source": "4e91d1e9e758b81b93664de46d4fd49f95468627",
+  "implementation_source": "97c38880614a5ef45d668b0746d72714a9b546df",
+  "source_fingerprint": "0ff19db267ddab34661919e285c13695e256943f2a4197c1666ae150f3225407",
+  "scope": "Windows cp312 native streamed contour CLI, installed with matching Python/app/region runtime. Local engineering evidence only.",
+  "wheel": {
+    "wheel_bytes": 11575918,
+    "wheel_sha256": "ad9850aa7b873442154932497a861f0c96afb75b335218950fe8c77dd1790c4e"
+  },
+  "native_passed": 9,
+  "python": {
+    "unique_cases": 243,
+    "passed": 240,
+    "declared_skips": [
+      {
+        "classname": "tests.test_project_batch",
+        "name": "test_digest_coarse_grid_independent[1]",
+        "reason": "requires OpenSlide"
+      },
+      {
+        "classname": "tests.test_project_batch",
+        "name": "test_digest_coarse_grid_independent[2]",
+        "reason": "requires OpenSlide"
+      },
+      {
+        "classname": "tests.test_raw_pixel_cli",
+        "name": "test_cli_training_backend_off_refuses_before_output",
+        "reason": "backend-OFF profile only"
+      }
+    ],
+    "new_cli_cases": 18
+  },
+  "typing": {
+    "positive_files": 5,
+    "negative_files": 4,
+    "intended_errors": 17
+  },
+  "initial_cli_observation": "32 passed, one declared skip; CLI97c3888 compared with separate installed Python7c77367. Final run uses matching installed source.",
+  "behavior": [
+    "Native and installed Python geometry/count/commitment parity on full and cropped targets",
+    "Unicode input/model paths, class metadata and parented annotation save/reopen",
+    "Input/model/reader/existing-output/sidecar collision refusal; no overwrite",
+    "Inapplicable flags and four independent quota refusals leave no destination",
+    "Real running-child interruption returns130, joins worker and releases reader without publishing",
+    "No-clip preserves center masking while omitting ROI geometry intersection"
+  ],
+  "identity": "All installed members, source/fingerprint, dependency origins and notices match. All thirteen native products retained; prior products authenticated before cache reuse. Both complete SDK trees match245. Separate consumer reuses test dependencies; not clean-machine support.",
+  "remaining": [
+    "Streamed project batches",
+    "Historical QWS1 geometry/reverification",
+    "Demonstrated Mac arm64 repair and full integrated qualification",
+    "Scientific/model and process-memory/hardware acceptance",
+    "Clean-machine supported distribution and release decisions"
+  ],
+  "files": {
+    "final/compiler-inputs.json": {
+      "bytes": 42389,
+      "sha256": "979d35126d5900cd8feee63e29f07e41d214e4a5a7d00d19f0e61ab16fd8f941"
+    },
+    "final/consumer-observer.json": {
+      "bytes": 1095,
+      "sha256": "89d5dc3570329c5c00992f751f3cfb54941b13a007249665d47a63919f665d39"
+    },
+    "final/create-env.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "final/geos-sdk-files.json": {
+      "bytes": 65762,
+      "sha256": "f79947043d949bc3ef73047c1e5bf4aa73815ecf4a10d6954f05a9cde3d9ede1"
+    },
+    "final/install-commands.json": {
+      "bytes": 1293,
+      "sha256": "da2b3160a2740b458d7dd1c10383d671f0071df11baef1c563435224f5b3def4"
+    },
+    "final/install-wheel.log": {
+      "bytes": 725,
+      "sha256": "5fd7a16ef2db084ce22469e779ec01fd2900612368d2d5c8bcf6d26442106838"
+    },
+    "final/installed-proof.json": {
+      "bytes": 9440,
+      "sha256": "c57f22cf5e3467693db1b24090c19926bb64bafdbb488874dbd44ef2cc97e5c9"
+    },
+    "final/installed-proof.log": {
+      "bytes": 113,
+      "sha256": "47518c2dd072c849e03fb5121259f83a01ecbeff6cbdbef762421c8b05010a97"
+    },
+    "final/native-tests.log": {
+      "bytes": 1024,
+      "sha256": "7e13cd288f270e06bee4c73427b6b3935d6bce656e517749014d6f1234ed63e4"
+    },
+    "final/native-tests.xml": {
+      "bytes": 11847,
+      "sha256": "6d13f7f4e13e144d0ba4232abcd8b33608e2570fd1fce9cd0ae8e9a7c5b157bc"
+    },
+    "final/opencv-sdk-files.json": {
+      "bytes": 22441,
+      "sha256": "2b74faaadcf24a73e3c32aa6da59f9989879b3fc6821e889df172159ce8fb4be"
+    },
+    "final/previous-products.json": {
+      "bytes": 2683,
+      "sha256": "394673e5b880b6da35345256bbeab3bf542e11ad17a854051a36615bde3f1218"
+    },
+    "final/products.json": {
+      "bytes": 2683,
+      "sha256": "69903f087505d51c3bc22965e3e62de43a716a1622c69f933313ff21d91ea10e"
+    },
+    "final/pyright-invalid.json": {
+      "bytes": 501,
+      "sha256": "20c653b333c5ae98f13961e2827d674959592c562b06a194176f1f9bb56c280f"
+    },
+    "final/pyright-valid.json": {
+      "bytes": 566,
+      "sha256": "f5389311181303abc2c6ecf617c010ab1159dab713e3b849456b0f40036a0653"
+    },
+    "final/python-tests.log": {
+      "bytes": 357,
+      "sha256": "a6b173a127b7dabb9548c52fe8432ee01bc7e0d90d7e14b3cc79a645aa7910f4"
+    },
+    "final/python-tests.xml": {
+      "bytes": 33154,
+      "sha256": "d570b9685d84a03b2207ee59e433129a098ec2ef293338d57019af3c5f96618b"
+    },
+    "final/stubs-check.log": {
+      "bytes": 48,
+      "sha256": "f5323cb57dde65ca62cc7b523f2183b1f4ad026dafb74e41bd25dac05ebb2130"
+    },
+    "final/typing-invalid.log": {
+      "bytes": 12867,
+      "sha256": "e790b354781029cfb0c029c403627bacf2be7614df333c9af7c5555bc1ef58b3"
+    },
+    "final/typing-valid.log": {
+      "bytes": 251,
+      "sha256": "5898ecc2ca7486c0f286814e9a55354c1cefc84d3db65614a1a32e39bebf4f71"
+    },
+    "final/verification-commands.json": {
+      "bytes": 4204,
+      "sha256": "88bfbaef01ad752a862a4c0d9de1389f7b786eec57d50caa7c76396313b46e59"
+    },
+    "final/verification.log": {
+      "bytes": 210,
+      "sha256": "85ed1b10897ccbfb7ac120b7962003d96f0accc275d22f8ade65591e1a0efeb5"
+    },
+    "final/wheel-build-command.json": {
+      "bytes": 232,
+      "sha256": "ca85ccbeacddff026d9f06bbe85728c706eaf3a0d297884972c82baab8e021c5"
+    },
+    "final/wheel-build.log": {
+      "bytes": 19409,
+      "sha256": "959564957b506d55a95e1b84c6b40c22a65364fb5b6c9ee16725de7683e9b35d"
+    },
+    "initial/build.log": {
+      "bytes": 905,
+      "sha256": "b88c698f05ef4dc14f38678aed44abcc533e5ac3b526ea5a00e684750936868b"
+    },
+    "initial/cli-initial-command.json": {
+      "bytes": 785,
+      "sha256": "d36da68ddcfc0108def2bcaf2c013e43e3c57a6849741a4e52d94fefb1240b2b"
+    },
+    "initial/cli-initial.log": {
+      "bytes": 112,
+      "sha256": "42fe9a6e0e76038834f4f12d4ba54edbfb2fefde80a71969d572e5cf6bc9c5c7"
+    },
+    "initial/cli-initial.xml": {
+      "bytes": 4864,
+      "sha256": "2935376224f7ae98d12669fca2c1183123958388113e118f35461212ac76bac6"
+    },
+    "initial/commands.json": {
+      "bytes": 826,
+      "sha256": "b367c924e4688eabaa4df369b264424490514a8b7868a5df16bb3a2f6cb1e3c6"
+    },
+    "initial/compiler-inputs.json": {
+      "bytes": 42303,
+      "sha256": "e2647a66e0d9f0a89ef7567b714c516ee5527235c131a31a8460c03c27fcdd52"
+    },
+    "initial/configure.log": {
+      "bytes": 3867,
+      "sha256": "4181d5569a5e4647ad28e0712b27627bf2725772a780b11ecb27664673d9b798"
+    },
+    "initial/previous-product.json": {
+      "bytes": 164,
+      "sha256": "93ba790327471892f958994b85d6d10b4e0c28b732ad9958cddcfd36374b8bc8"
+    },
+    "initial/product.json": {
+      "bytes": 164,
+      "sha256": "63938180ba36481fcee11a63368e76b621a86ada9295eef6e738b56cb8d2a849"
+    },
+    "tools/raw_stream_cli_246_final_backend.py": {
+      "bytes": 1292,
+      "sha256": "120a5aed6611f9c92ab3ec7426406df6ae6e8173d142a64bb5bc0ac401208c2c"
+    },
+    "tools/raw_stream_cli_246_final_proof.py": {
+      "bytes": 4175,
+      "sha256": "7ff6c4bead9bce6cfdeee2bf4a4ccdc372b4b629f5d43f2edda7b72d3994b430"
+    },
+    "tools/record_raw_stream_cli_246.py": {
+      "bytes": 4362,
+      "sha256": "d4d6ed3a24055e6d46ffa88879710bed0ce1c625ffd6d358af751a9abbbd4ba7"
+    },
+    "tools/verify_raw_stream_cli_246.py": {
+      "bytes": 5553,
+      "sha256": "36648201a5794cbb17a0cf5c07d2070e3e1e5164168f150e5f5bb25ab63fae27"
+    },
+    "final/active-shutdown/cancel-command.json": {
+      "bytes": 519,
+      "sha256": "33afb361fcacf2cccf54274bdcdd5b523c674e5293918cb300c49c9d0c86a9ea"
+    },
+    "final/active-shutdown/close-command.json": {
+      "bytes": 518,
+      "sha256": "447e298cd76c785a30c296c647172175125e5ab8a23f39c718a7d739c7af716f"
+    }
+  }
+}

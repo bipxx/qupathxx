@@ -1,0 +1,14 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+    Start 1: pixel_workflows
+1/1 Test #1: pixel_workflows ..................***Failed    0.06 sec
+Owner-captured raw training/prediction: deterministic labels, rational axes, document calibration, bounded IO, cancellation, stale compound sources and owner-thread publication passed
+ROI must lie inside the image
+
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =   0.10 sec
+
+The following tests FAILED:
+	  1 - pixel_workflows (Failed)
+Errors while running CTest

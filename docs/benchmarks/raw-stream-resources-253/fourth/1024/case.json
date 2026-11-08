@@ -1,0 +1,28 @@
+{
+  "size": 1024,
+  "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw-stream-resources-253\\fourth\\1024\\source.tif",
+  "model": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw-stream-resources-253\\fourth\\1024\\model.qrm",
+  "source_sha256": "99c3e937d56f2baea4308771a0551be2d40d8695c58761b47caa924d6843a0e8",
+  "model_sha256": "813e3f8a9b97b9ee5ae25ec0b55d2ebbc1e937148c26bfad7114a0904dbaf555",
+  "source_bytes": 2097760,
+  "contract": {
+    "schema": "qpx.raw-stream-resources/1",
+    "sizes": [
+      256,
+      1024,
+      4096
+    ],
+    "source_tile": 128,
+    "stream_tile": 128,
+    "reader_cache_bytes": 4194304,
+    "reader_decode_bytes": 2097152,
+    "stream_work_bytes": 16777216,
+    "boundary_work_bytes": 4194304,
+    "geometry_work_bytes": 4194304,
+    "contour_work_bytes": 33554432,
+    "process_peak_bytes": 268435456,
+    "process_peak_spread_bytes": 67108864,
+    "child_timeout_seconds": 180,
+    "scope": "Windows fresh-process synthetic straight two-class boundary, unit sampling, no feature halo; local engineering guard only. Not biological, general-complexity, cold-storage, clean-machine or eligible-hardware acceptance."
+  }
+}

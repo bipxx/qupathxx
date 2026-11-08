@@ -7,6 +7,14 @@ QuPath port or a compatible replacement for Java QuPath.
 
 ## Implemented
 
+- Tissue-aware cell density, radius neighborhoods and nearest-centroid distances
+  share native kernels across Python, CLI and ImGui. See the
+  [density guide](docs/benchmarks/density-workflow/README.md) and
+  [Windows candidate4](https://github.com/bipxx/qupathxx/releases/tag/v0.1.0-windows-candidate.4).
+  The [project density runner](docs/project-density.md) adds explicit per-image
+  selections, combined CSV, failure handling, cancellation and checkpoint reuse
+  using that unchanged native package.
+
 - Native tissue microarray grids support undoable core edits, missing flags,
   case IDs, project persistence, per-core analysis and CSV exports through
   Python and ImGui; see [tissue microarrays](docs/tissue-microarrays.md).
@@ -359,8 +367,13 @@ foundation, not equivalence with QuPath.
 References: [QuPath features](https://qupath.readthedocs.io/en/stable/docs/intro/about.html),
 [nanobind builds](https://nanobind.readthedocs.io/en/latest/building.html),
 [Dear ImGui](https://github.com/ocornut/imgui), [GLFW](https://www.glfw.org/).
-Downloaded dependencies retain their upstream licenses. A project license has
-not yet been selected.
+QuPathxx's own code is licensed under the GNU Affero General Public License,
+version 3 only (`AGPL-3.0-only`); see [LICENSE](LICENSE). Downloaded dependencies
+retain their separate upstream licenses and bundled notices.
+
+For the bounded Windows engineering candidate, see the
+[installed research workflow guide](docs/windows-workflow.md) for standalone
+and Python commands, supported inputs, outputs and known limits.
 
 The [geometry and spatial-query contract](docs/geometry-spatial.md) covers optional
 GEOS setup, immutable shapes, hole masks, index behavior and benchmark scope.

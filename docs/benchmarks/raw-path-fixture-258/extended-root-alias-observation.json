@@ -1,0 +1,14 @@
+{
+  "command": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-path-fixture-258-env\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw-path-fixture-258\\extended-root-alias-observer.py"
+  ],
+  "returncode": 1,
+  "runtime_source": "a5b5394",
+  "scope": "Separate explicit extended-output-root spelling diagnostic; not the ordinary-root relocation acceptance case",
+  "stdout": "",
+  "stderr": "Traceback (most recent call last):\n  File \"C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw-path-fixture-258\\extended-root-alias-observer.py\", line 219, in <module>\n    test_batch_contour_moved_output_and_changed_model_use_exact_checkpoint_scope(root)\n  File \"C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw-path-fixture-258\\extended-root-alias-observer.py\", line 205, in test_batch_contour_moved_output_and_changed_model_use_exact_checkpoint_scope\n    assert again.reused==1 and actual.is_file() and actual_root.samefile(moved)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n"
+}

@@ -1,15 +1,65 @@
 # Docked research workspace
 
-The desktop launchers use a docked layout with project/object tools on the left,
-the slide canvas in the center, image/overview/display controls on the right,
-and measurements/analysis/jobs below the canvas. Annotation tools remain above
-the workspace. Drag tabs to rearrange panels and splitters to resize them.
+The desktop launchers use a QuPath-style light workspace with Project, Image,
+Annotations and Workflow tabs on the left and a large slide canvas alongside.
+The clickable overview stays at the top right of the viewer. The menu bar and
+vector annotation toolbar sit above the workspace; the status bar shows image
+dimensions, zoom, object/selection counts and unsaved changes. Drag tabs to
+rearrange panels and splitters to resize them. Existing saved splits are retained.
 The Reset layout button restores the default arrangement. Multiple native
 platform windows are not enabled; floating panels stay inside the main window.
 
+The arrangement follows QuPath's [analysis pane, drawing toolbar and viewer
+overview](https://qupath.readthedocs.io/en/stable/docs/starting/first_steps.html).
+Menus expose existing native commands; this visual update adds no analysis
+algorithm. The compact API layout remains supported with the same light theme.
+
+![Light workspace with a synthetic demo slide, annotation and viewer overview](images/qupath-style-workspace.png)
+
+Use **Language > Choose language** to search by native name, English name or
+language code. Selection takes effect immediately. **Automatic (system)** follows
+the operating-system language (and the usual `LC_ALL`/`LC_MESSAGES`/`LANG`
+overrides). Unknown system languages use English. Changing the language keeps
+the image camera, widget IDs, popup routing, docking and project data intact.
+
+The16 built-in choices are English, Spanish, French, German, Brazilian
+Portuguese, Italian, Simplified Chinese, Traditional Chinese, Japanese, Korean,
+Russian, Turkish, Dutch, Polish, Indonesian and Vietnamese. The bundled fonts
+cover these scripts. Arabic, Indic and other scripts requiring additional fonts
+or shaping are not offered by this renderer yet.
+
+The initial126-entry catalogue covers menus, analysis tabs, drawing tools,
+project/image controls, common object controls and selected analysis commands.
+Advanced analysis labels and diagnostics without a catalogue entry retain their
+English text; the chooser states this fallback. User image/object/class names,
+file paths, measurement keys, exports and scientific numeric formats are never
+translated. This is core UI localization, not a claim of complete translation of
+every analysis dialog.
+
+![Searchable language chooser with native and English language names](images/ui-language-chooser.png)
+
+![Simplified Chinese interface with unchanged user image and object names](images/ui-language-chinese.png)
+
+The choice is saved in the separate workspace `.ini` file and survives Reset
+layout. An in-memory/compact workspace has no persistent preference file.
+`QUPATHXX_UI_LANGUAGE=en` (or another listed code, or `auto`) overrides the
+saved preference at startup, which is useful for reproducible GUI automation.
+Each viewer restores its previous language context when it exits.
+
+Translations live in `cpp/gui_i18n_catalog.inc`; language names/codes, matching,
+fallback and stable labels are in `cpp/gui_i18n.hpp`. Add a column and language
+record together when extending the catalogue. The `gui_i18n` native test checks
+duplicate keys, missing entries, printf argument compatibility, language matching,
+search, preferences and identity handling. Application-owned captions go through
+the `ui` helpers; external/user text must continue through unformatted ImGui text
+without translation.
+
+Source-scoped checks and known limits are retained in the
+[desktop UI validation record](benchmarks/desktop-ui/README.md).
+
 Dear ImGui is pinned to docking commit
-`4806a1924ff6181180bf5e4b8b79ab4394118875`, the dereferenced
-[`v1.91.9b-docking` tag](https://github.com/ocornut/imgui/tree/4806a1924ff6181180bf5e4b8b79ab4394118875).
+`b916186e66aa3c02b72c6ca17455516512ed8049`
+([1.93.0 docking source](https://github.com/ocornut/imgui/tree/b916186e66aa3c02b72c6ca17455516512ed8049)).
 The DockBuilder calls are confined to `cpp/gui_workspace.hpp`; this internal
 API must be reviewed when upgrading the pin. The upstream
 [docking guide](https://github.com/ocornut/imgui/wiki/Docking) documents tab

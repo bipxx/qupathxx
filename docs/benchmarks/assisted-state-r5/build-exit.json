@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Scripts\\python.exe",
+    "-X",
+    "utf8",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\assistedstate_r5_backend.py"
+  ],
+  "returncode": 0,
+  "elapsed_seconds": 45.54938090010546
+}

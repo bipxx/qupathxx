@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="3"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="0"
+	timestamp="2026-11-04T16:50:45"
+	>
+	<testcase name="file_fingerprint" classname="file_fingerprint" time="0.0767789" status="run">
+		<properties/>
+		<system-out>Namespace-stable locators, missing-source lexical comparison and incompatible/literal root fallback passed
+Streaming file digests, identity/stamp observations, limits, aliases and atomic worker files passed
+</system-out>
+	</testcase>
+	<testcase name="qupath_project" classname="qupath_project" time="0.0943021" status="run">
+		<properties/>
+		<system-out>Native QuPath saved-data geometry, calibration, truncation, trailing bytes and cancellation passed
+QuPath project native preview, source guards, new publication and replay refusal passed
+</system-out>
+	</testcase>
+	<testcase name="project" classname="project" time="0.204839" status="run">
+		<properties/>
+		<system-out>Project source verification: historical round trip, reviewed replacement, stale/file-change refusal and codec checks passed
+Verified relink reader handoff, source observation, owned pixels and independent old-owner lifetime passed
+Project object properties: exact native persistence and independent immutable owner passed
+Multi-image project round trip, source pixels and stale saves passed; SQLite 3.54.1
+</system-out>
+	</testcase>
+</testsuite>

@@ -1,0 +1,307 @@
+{
+  "schema": "qpx.raw-pixel-training-local/1",
+  "observed_at_utc": "2026-10-26T06:50:09.801801+00:00",
+  "source": "e7e4b6614318e2f4198f218f57fb3d16649b7836",
+  "compiled_fingerprint": "d8b69d028944af2c7f3ab0ba164c755ff60d2e02eb9e0a3429711bc0b2006b2a",
+  "compiler_inputs": 336,
+  "status": "windows_native_backend_enabled_raw_training_and_trained_archive_locally_verified",
+  "native": {
+    "windows_backend_on_suites": 3,
+    "windows_backend_off_suites": 1,
+    "required_positive_marker": "Raw pixel backend training: real TIFF deterministic direct/job training, historical retraining, trained archives/model files and portable prediction votes passed"
+  },
+  "backend": {
+    "name": "OpenCV",
+    "version": "4.11.0",
+    "sdk_verified_files": 195,
+    "linux_backend_training_accepted": false
+  },
+  "scope": [
+    "Real two-channel uint16 TIFF sampled on a non-unit grid",
+    "Deterministic direct and owner-job raw training agree",
+    "Trained archive matches recipe/classes/rows/training-matrix hash and round-trips",
+    "Historical decoded table retrains deterministically without gaining live publication authority",
+    "Atomic trained model and archive files replay; project/snapshot/recovery retain the trained model",
+    "Native predictions match direct portable forest row votes; pre-cancelled training refuses",
+    "Backend-OFF archive and workflow regressions still pass"
+  ],
+  "remaining": [
+    "Linux/Mac and integrated platform backend-enabled qualification",
+    "Live source/model replay verification and atomic owner-stage apply/undo",
+    "Phase-preserving tiled feature/sampler execution and checkpoint resume",
+    "Nanobind/Python/NumPy, CLI/batch, managed viewer and ImGui integration",
+    "Independent biological/model, process-resource/hardware and supported-release acceptance"
+  ],
+  "archive_baseline": "docs/benchmarks/raw-pixel-archives-local.json",
+  "raw_payloads": [
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/on/build_manifest.hpp",
+      "bytes": 706,
+      "sha256": "1a984ea15771f810c2ee61e1caaf9a694192bb6f63e6ab5c52acee59b5eeacec"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/on/configuration.json",
+      "bytes": 439,
+      "sha256": "efefdc00c5c4f105d6eb07ae32b7d4aa64514ca8b22df2b32a188f4283812f82"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/on/build.log",
+      "bytes": 3812,
+      "sha256": "c7d5f69abb342977fb13e5d518a3742a1322d341b4de32c1a694283b8d0788cc"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/on/commands.json",
+      "bytes": 2704,
+      "sha256": "43d770defabe1c1481ef680e99d41dc1cc8481a234e882ca7a1d2db988b907d4"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/on/compiler-inputs.json",
+      "bytes": 35580,
+      "sha256": "22e653b39681feab4f6b1422c5370795aa38ff0290c1b205acdf709dbb4d6e63"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/on/configure.log",
+      "bytes": 3722,
+      "sha256": "9bc99fcfa8eb033be5d8dac76695ac605c6a475685d1601a8b7a1b1f293f422f"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/on/sdk-verification.json",
+      "bytes": 202,
+      "sha256": "06a51df5665c659043be3472a7e8042ae1ac355de90166fe8f7b3bd4269c7b3f"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/on/tests.log",
+      "bytes": 428,
+      "sha256": "0247dfa968664faa0e9752807f956ab651731706890b30bb4c4ccb85dd41f184"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/on/tests.xml",
+      "bytes": 1590,
+      "sha256": "2a2596b2146d7a64785b6b5d4ff2121ebdb29ca4771f353bbe4e51ef181101a8"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/off/build_manifest.hpp",
+      "bytes": 706,
+      "sha256": "7e707f2651fc59e2c179335025ffa5b843fd9cf907cca38755d75121d0f30fab"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/off/configuration.json",
+      "bytes": 438,
+      "sha256": "1fdb05fd0a59139fc78658467c36bfad64008f2d672600bae623a8ffd733f958"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/off/build.log",
+      "bytes": 2156,
+      "sha256": "2fb6af75a86ec82801fb719732eac3f8cd7afdcde4e42e2478c4d4135ba97535"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/off/commands.json",
+      "bytes": 1497,
+      "sha256": "5c2857e30fc1689a358f0788bc493804957f8d796e7b648fd6b813437503f0ef"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/off/compiler-inputs.json",
+      "bytes": 35580,
+      "sha256": "22e653b39681feab4f6b1422c5370795aa38ff0290c1b205acdf709dbb4d6e63"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/off/configure.log",
+      "bytes": 3579,
+      "sha256": "37b498d43a68add3f765c90da9fe69345d7d1fbebd3a30f6ccb3854a189efaca"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/off/tests.log",
+      "bytes": 241,
+      "sha256": "31a327cf66503c8f34df6c733871af09194f0fcda5a8cee8ffee218e224d5f1e"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/off/tests.xml",
+      "bytes": 916,
+      "sha256": "b67ea90e5f063a684018bc1d64295aaf2da49cfad74bcffc102185b7036580dd"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/compiler-git-proof.json",
+      "bytes": 114339,
+      "sha256": "ebb15589237ab7a8c38d6325a1e685118bf43981111efea1113db71390919e46"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/retained-binaries.json",
+      "bytes": 1640,
+      "sha256": "5ded7c316241489251330641d0329fc8fce965fe2d18dc516580851dc322c1ed"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/build_rawtraining218d.py",
+      "bytes": 4098,
+      "sha256": "bbabd251e0113ef98d069b1cab2fb63fefe6d6c039cc40d8ffbde20797d03f2f"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/receipt_rawtraining218.py",
+      "bytes": 7392,
+      "sha256": "e40871ced4bf1bc67bbd28a52d541589608ffe944d4f38ee25301d968c474a10"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/development/rawtraining218-on/build.log",
+      "bytes": 11336,
+      "sha256": "9670e87f126466c86eae77f7727c114450bc7ed03906421f5855c44fd63eec53"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/development/rawtraining218-on/commands.json",
+      "bytes": 2706,
+      "sha256": "34666bba8db15894c6af5527db327b0395cea30b5a43265205168779704ffb2e"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/development/rawtraining218-on/compiler-inputs.json",
+      "bytes": 35580,
+      "sha256": "9504124e21390275949dc85458bc953453a18e2e7cfe31ba387c60287a949ee3"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/development/rawtraining218-on/configure.log",
+      "bytes": 6644,
+      "sha256": "d6fb7c1132080ab832344c34a4ade1d2593cfad119227e3db9f3384c382a89bf"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/development/rawtraining218-on/sdk-verification.json",
+      "bytes": 202,
+      "sha256": "06a51df5665c659043be3472a7e8042ae1ac355de90166fe8f7b3bd4269c7b3f"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/development/rawtraining218-on/tests.log",
+      "bytes": 757,
+      "sha256": "f28731d250270428d5462cfd9d5f53a4f53b49a17efd6f9dc53d4cf0b070b886"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/development/rawtraining218-on/tests.xml",
+      "bytes": 974,
+      "sha256": "e2ae3044eaf5dd88a5c441c749837ebde9e6ff78b86770869a023fc4f8167fd8"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/development/rawtraining218-off/build.log",
+      "bytes": 2156,
+      "sha256": "0dc86cbd477a26148a354675ee07b13fa8316fcef9e3c2469a70e42c55ca6665"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/development/rawtraining218-off/commands.json",
+      "bytes": 1497,
+      "sha256": "86b8005088d7a2919b8156c7d458ce61cf283287b64fd795eb3bb9e2ffb32c11"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/development/rawtraining218-off/compiler-inputs.json",
+      "bytes": 35580,
+      "sha256": "9504124e21390275949dc85458bc953453a18e2e7cfe31ba387c60287a949ee3"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/development/rawtraining218-off/configure.log",
+      "bytes": 3579,
+      "sha256": "870d397f3467e377ffaecc8a025cdf9ed96a9a3732cdafb70173ac17cc5e9b94"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/development/rawtraining218-off/tests.log",
+      "bytes": 241,
+      "sha256": "53c53343ae3271da0e0845d1e03b2737d0c60cb013bcd19d636e612c5173cdd5"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/development/rawtraining218-off/tests.xml",
+      "bytes": 916,
+      "sha256": "224daadff196be1079e0c5b07f423525f5b4614c823549eb6e89177764187732"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/development/rawtraining218b-on/build.log",
+      "bytes": 2319,
+      "sha256": "003e0380157c0c258306d7bd46f9514e95777f58d54c7bdec9317429380760a2"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/development/rawtraining218b-on/commands.json",
+      "bytes": 1566,
+      "sha256": "4c3562f5c14cabe7214471b145584a1a77ad7191fc2da1f133a874dd87ef79a2"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/development/rawtraining218b-on/compiler-inputs.json",
+      "bytes": 35580,
+      "sha256": "5663a6feca025b779c1980cbb817dc21c46426c39b23b5bc6ef8d46d6b70d7b1"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/development/rawtraining218b-on/configure.log",
+      "bytes": 6645,
+      "sha256": "4764f5509a81f0554f1a69c4f0a37dacf3f4ca28c570e6e82b80613cdd3412fc"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/development/rawtraining218b-on/sdk-verification.json",
+      "bytes": 202,
+      "sha256": "06a51df5665c659043be3472a7e8042ae1ac355de90166fe8f7b3bd4269c7b3f"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/development/rawtraining218c-on/build.log",
+      "bytes": 4433,
+      "sha256": "6367d23aa0a065d2d50c624877f8e76b8b6d71fcfeade8b79c56ee62f3007eaa"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/development/rawtraining218c-on/commands.json",
+      "bytes": 2707,
+      "sha256": "14e3b75c3c06add9138b73a5cdfd8e74c0c0b35b26688026f766f16ad41049d7"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/development/rawtraining218c-on/compiler-inputs.json",
+      "bytes": 35580,
+      "sha256": "5663a6feca025b779c1980cbb817dc21c46426c39b23b5bc6ef8d46d6b70d7b1"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/development/rawtraining218c-on/configure.log",
+      "bytes": 3722,
+      "sha256": "d588b66790160ca98e51c5ede60ba4b88f984d3330d2aa0ca4e9fbbafb675742"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/development/rawtraining218c-on/sdk-verification.json",
+      "bytes": 202,
+      "sha256": "06a51df5665c659043be3472a7e8042ae1ac355de90166fe8f7b3bd4269c7b3f"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/development/rawtraining218c-on/tests.log",
+      "bytes": 768,
+      "sha256": "5c655eef070e8058f58c6d556906cd2445c62235b6c9ffd2179cbf6462816f70"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/development/rawtraining218c-on/tests.xml",
+      "bytes": 985,
+      "sha256": "60616e99c327c26971c6f2e2d72b6b72dfed5596e7880122c4e4212721abd133"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/development/rawtraining218b-on/termination.json",
+      "bytes": 397,
+      "sha256": "2108c490086dc413e3d8402bb263e79aa51cf2fbae7286691bda476fae22c3d9"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/sdk/manifest.json",
+      "bytes": 24157,
+      "sha256": "81963b86ef1233d5c71508d06f0a96a35c5ae8211838294f47b376f8c9800615"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/sdk/licenses/LICENSE",
+      "bytes": 11358,
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/sdk/licenses/softfloat-notice.txt",
+      "bytes": 2918,
+      "sha256": "07360afca97fb6a725a50797960c4506f592dab5331df2b780c85e459d422ce3"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/sdk/licenses/SOURCE-NOTICES.txt",
+      "bytes": 96903,
+      "sha256": "d57f5f7ee96bbb3152012bfc293175868d73fe348e1d9f8a223ccfc87a3461ba"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-training-local/sdk/licenses/zlib-notice.txt",
+      "bytes": 1359,
+      "sha256": "36bbf559e8540020cd01e5e61547ed0f295e3cba735569702ca6f284ecbd5acc"
+    }
+  ],
+  "retained_binaries": "build/rawtraining218-retained-binaries",
+  "main_changed": false,
+  "milestones": "M0-M7 Partial",
+  "historical_training_identity": {
+    "live_effective_work_bytes": 268356146,
+    "historical_fresh_admission_work_bytes": 268430565,
+    "exact_model_replay": "Use the archived forest effective parameters; model identity includes admitted work_bytes",
+    "fresh_admission": "Same training matrix and votes; larger available work cap can change model bytes/hash without changing forest votes"
+  }
+}

@@ -1,0 +1,342 @@
+{
+  "engine": "direct-geometry-later-control",
+  "source_revision": "4234e8a716415d6ade8d1b6f79fed422508b9aa5+dirty",
+  "source_tree_sha256": "dddf5bb3412a58e2ade9317f46e21d06d2857ca387ba40db37d0fd5fbedeaa41",
+  "roi": [
+    29185,
+    2048,
+    512,
+    512
+  ],
+  "context": 0,
+  "runs": [
+    {
+      "iteration": 0,
+      "warmup": true,
+      "stages": {
+        "open_image": {
+          "wall_ms": 18.628399819135666,
+          "cpu_ms": 15.625
+        },
+        "setup_roi": {
+          "wall_ms": 0.11380016803741455,
+          "cpu_ms": 0.0
+        },
+        "read_roi": {
+          "wall_ms": 8.916200138628483,
+          "cpu_ms": 0.0
+        },
+        "roi_statistics": {
+          "wall_ms": 19.344700034707785,
+          "cpu_ms": 15.625
+        },
+        "keep_statistics": {
+          "wall_ms": 0.04229997284710407,
+          "cpu_ms": 0.0
+        },
+        "cell_capture": {
+          "wall_ms": 0.085500068962574,
+          "cpu_ms": 0.0
+        },
+        "cell_detection": {
+          "wall_ms": 1363.1661999970675,
+          "cpu_ms": 1343.75
+        },
+        "keep_cells": {
+          "wall_ms": 0.057900091633200645,
+          "cpu_ms": 0.0
+        },
+        "publish_cells": {
+          "wall_ms": 6.351900054141879,
+          "cpu_ms": 0.0
+        },
+        "density": {
+          "wall_ms": 9.936299873515964,
+          "cpu_ms": 15.625
+        },
+        "keep_density": {
+          "wall_ms": 0.0266998540610075,
+          "cpu_ms": 0.0
+        },
+        "export_csv": {
+          "wall_ms": 3.6299999337643385,
+          "cpu_ms": 0.0
+        },
+        "save_project": {
+          "wall_ms": 69.51459986157715,
+          "cpu_ms": 62.5
+        },
+        "reopen_project": {
+          "wall_ms": 1460.3470999281853,
+          "cpu_ms": 1437.5
+        }
+      },
+      "workflow_ms": 2962.294999975711,
+      "cells": 2237,
+      "density": 34270.85747929978,
+      "area_mm2": 0.065274118144,
+      "rgb_sha256": "504789ddaf70cec2634889d42fd7734baeb34e40254165f82dd0f6e66b0db8db",
+      "rgb_sum": [
+        44747809,
+        28815019,
+        39138660
+      ],
+      "mask_sha256": {
+        "nucleus": "796d1dea8c9ed576e9967ce9927c52b0d09d3740715d0373fe5ad9cfc874afe1",
+        "body": "779ba6129d532d38b21de0b4125d412a43cf02727bde07abd3275f24ee2f3484"
+      },
+      "pixel_width_um": 0.499,
+      "pixel_height_um": 0.499,
+      "project_bytes": 6148096,
+      "nucleus_pixels": 116430,
+      "algorithm": "qpx.nominal-affine-rgb-qupath070-cell-bodies/2",
+      "saved_density_sha256": "5076684bc825d234955f45bd965994f0f161ceff12c4ded81a4f71d98fe0ba00"
+    },
+    {
+      "iteration": 1,
+      "warmup": false,
+      "stages": {
+        "open_image": {
+          "wall_ms": 17.51699997112155,
+          "cpu_ms": 15.625
+        },
+        "setup_roi": {
+          "wall_ms": 0.03429991193115711,
+          "cpu_ms": 0.0
+        },
+        "read_roi": {
+          "wall_ms": 9.403100004419684,
+          "cpu_ms": 0.0
+        },
+        "roi_statistics": {
+          "wall_ms": 18.058500019833446,
+          "cpu_ms": 31.25
+        },
+        "keep_statistics": {
+          "wall_ms": 0.02259993925690651,
+          "cpu_ms": 0.0
+        },
+        "cell_capture": {
+          "wall_ms": 0.06589991971850395,
+          "cpu_ms": 0.0
+        },
+        "cell_detection": {
+          "wall_ms": 1719.6273999288678,
+          "cpu_ms": 1718.75
+        },
+        "keep_cells": {
+          "wall_ms": 0.03160000778734684,
+          "cpu_ms": 0.0
+        },
+        "publish_cells": {
+          "wall_ms": 10.174799943342805,
+          "cpu_ms": 15.625
+        },
+        "density": {
+          "wall_ms": 14.675699872896075,
+          "cpu_ms": 0.0
+        },
+        "keep_density": {
+          "wall_ms": 0.022399937734007835,
+          "cpu_ms": 0.0
+        },
+        "export_csv": {
+          "wall_ms": 6.001499947160482,
+          "cpu_ms": 15.625
+        },
+        "save_project": {
+          "wall_ms": 97.5569998845458,
+          "cpu_ms": 78.125
+        },
+        "reopen_project": {
+          "wall_ms": 1628.4211999736726,
+          "cpu_ms": 1609.375
+        }
+      },
+      "workflow_ms": 3564.2251998651773,
+      "cells": 2237,
+      "density": 34270.85747929978,
+      "area_mm2": 0.065274118144,
+      "rgb_sha256": "504789ddaf70cec2634889d42fd7734baeb34e40254165f82dd0f6e66b0db8db",
+      "rgb_sum": [
+        44747809,
+        28815019,
+        39138660
+      ],
+      "mask_sha256": {
+        "nucleus": "796d1dea8c9ed576e9967ce9927c52b0d09d3740715d0373fe5ad9cfc874afe1",
+        "body": "779ba6129d532d38b21de0b4125d412a43cf02727bde07abd3275f24ee2f3484"
+      },
+      "pixel_width_um": 0.499,
+      "pixel_height_um": 0.499,
+      "project_bytes": 6148096,
+      "nucleus_pixels": 116430,
+      "algorithm": "qpx.nominal-affine-rgb-qupath070-cell-bodies/2",
+      "saved_density_sha256": "5076684bc825d234955f45bd965994f0f161ceff12c4ded81a4f71d98fe0ba00"
+    },
+    {
+      "iteration": 2,
+      "warmup": false,
+      "stages": {
+        "open_image": {
+          "wall_ms": 27.32080011628568,
+          "cpu_ms": 31.25
+        },
+        "setup_roi": {
+          "wall_ms": 0.040400074794888496,
+          "cpu_ms": 0.0
+        },
+        "read_roi": {
+          "wall_ms": 9.636300150305033,
+          "cpu_ms": 0.0
+        },
+        "roi_statistics": {
+          "wall_ms": 27.534800115972757,
+          "cpu_ms": 31.25
+        },
+        "keep_statistics": {
+          "wall_ms": 0.026799971237778664,
+          "cpu_ms": 0.0
+        },
+        "cell_capture": {
+          "wall_ms": 0.10710000060498714,
+          "cpu_ms": 0.0
+        },
+        "cell_detection": {
+          "wall_ms": 1829.2743999045342,
+          "cpu_ms": 1812.5
+        },
+        "keep_cells": {
+          "wall_ms": 0.029700109735131264,
+          "cpu_ms": 0.0
+        },
+        "publish_cells": {
+          "wall_ms": 6.845799973234534,
+          "cpu_ms": 0.0
+        },
+        "density": {
+          "wall_ms": 14.78779991157353,
+          "cpu_ms": 15.625
+        },
+        "keep_density": {
+          "wall_ms": 0.03300001844763756,
+          "cpu_ms": 0.0
+        },
+        "export_csv": {
+          "wall_ms": 3.645499935373664,
+          "cpu_ms": 15.625
+        },
+        "save_project": {
+          "wall_ms": 93.39159983210266,
+          "cpu_ms": 78.125
+        },
+        "reopen_project": {
+          "wall_ms": 1775.0620997976512,
+          "cpu_ms": 1703.125
+        }
+      },
+      "workflow_ms": 3828.30259995535,
+      "cells": 2237,
+      "density": 34270.85747929978,
+      "area_mm2": 0.065274118144,
+      "rgb_sha256": "504789ddaf70cec2634889d42fd7734baeb34e40254165f82dd0f6e66b0db8db",
+      "rgb_sum": [
+        44747809,
+        28815019,
+        39138660
+      ],
+      "mask_sha256": {
+        "nucleus": "796d1dea8c9ed576e9967ce9927c52b0d09d3740715d0373fe5ad9cfc874afe1",
+        "body": "779ba6129d532d38b21de0b4125d412a43cf02727bde07abd3275f24ee2f3484"
+      },
+      "pixel_width_um": 0.499,
+      "pixel_height_um": 0.499,
+      "project_bytes": 6148096,
+      "nucleus_pixels": 116430,
+      "algorithm": "qpx.nominal-affine-rgb-qupath070-cell-bodies/2",
+      "saved_density_sha256": "5076684bc825d234955f45bd965994f0f161ceff12c4ded81a4f71d98fe0ba00"
+    },
+    {
+      "iteration": 3,
+      "warmup": false,
+      "stages": {
+        "open_image": {
+          "wall_ms": 24.00789991952479,
+          "cpu_ms": 15.625
+        },
+        "setup_roi": {
+          "wall_ms": 0.04600011743605137,
+          "cpu_ms": 0.0
+        },
+        "read_roi": {
+          "wall_ms": 10.882400209084153,
+          "cpu_ms": 0.0
+        },
+        "roi_statistics": {
+          "wall_ms": 25.715700117871165,
+          "cpu_ms": 31.25
+        },
+        "keep_statistics": {
+          "wall_ms": 0.025900080800056458,
+          "cpu_ms": 0.0
+        },
+        "cell_capture": {
+          "wall_ms": 0.05530007183551788,
+          "cpu_ms": 0.0
+        },
+        "cell_detection": {
+          "wall_ms": 1598.4195999335498,
+          "cpu_ms": 1546.875
+        },
+        "keep_cells": {
+          "wall_ms": 0.034800032153725624,
+          "cpu_ms": 0.0
+        },
+        "publish_cells": {
+          "wall_ms": 5.790199851617217,
+          "cpu_ms": 0.0
+        },
+        "density": {
+          "wall_ms": 17.510500038042665,
+          "cpu_ms": 15.625
+        },
+        "keep_density": {
+          "wall_ms": 0.018700025975704193,
+          "cpu_ms": 0.0
+        },
+        "export_csv": {
+          "wall_ms": 5.239000078290701,
+          "cpu_ms": 0.0
+        },
+        "save_project": {
+          "wall_ms": 84.71490000374615,
+          "cpu_ms": 62.5
+        },
+        "reopen_project": {
+          "wall_ms": 1562.083400087431,
+          "cpu_ms": 1546.875
+        }
+      },
+      "workflow_ms": 3375.984200043604,
+      "cells": 2237,
+      "density": 34270.85747929978,
+      "area_mm2": 0.065274118144,
+      "rgb_sha256": "504789ddaf70cec2634889d42fd7734baeb34e40254165f82dd0f6e66b0db8db",
+      "rgb_sum": [
+        44747809,
+        28815019,
+        39138660
+      ],
+      "mask_sha256": {
+        "nucleus": "796d1dea8c9ed576e9967ce9927c52b0d09d3740715d0373fe5ad9cfc874afe1",
+        "body": "779ba6129d532d38b21de0b4125d412a43cf02727bde07abd3275f24ee2f3484"
+      },
+      "pixel_width_um": 0.499,
+      "pixel_height_um": 0.499,
+      "project_bytes": 6148096,
+      "nucleus_pixels": 116430,
+      "algorithm": "qpx.nominal-affine-rgb-qupath070-cell-bodies/2",
+      "saved_density_sha256": "5076684bc825d234955f45bd965994f0f161ceff12c4ded81a4f71d98fe0ba00"
+    }
+  ]
+}

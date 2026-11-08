@@ -1,0 +1,30 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gui-font-delivery-283-env\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-m",
+    "pytest",
+    "tests/test_gui_layout.py",
+    "tests/test_gui_docking.py",
+    "tests/test_gui_scale.py",
+    "tests/test_gui_overlay.py",
+    "tests/test_gui_lifecycle.py",
+    "tests/test_gui_workspace.py",
+    "tests/test_gui_window.py",
+    "tests/test_gui_replay.py",
+    "tests/test_gui_retirement.py",
+    "-q",
+    "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\desktop-regression.xml",
+    "--basetemp",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\desktop-regression-temp",
+    "--deselect=tests/test_gui_scale.py::test_unicode_labels_render_actual_glyphs_instead_of_question_marks",
+    "--deselect=tests/test_gui_scale.py::test_unicode_dynamic_fonts_preserve_cached_pixels_across_scale_changes",
+    "--deselect=tests/test_gui_scale.py::test_packaged_fonts_are_independent_of_working_directory",
+    "--deselect=tests/test_gui_scale.py::test_packaged_fonts_reject_corrupt_assets_and_recover"
+  ],
+  "cwd": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159",
+  "source": "7231d95c25fbc9515d937036986e8c92b19da261",
+  "gui": true
+}

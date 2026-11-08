@@ -1,0 +1,138 @@
+[
+  {
+    "name": "configure",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\cmake.exe",
+      "-S",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159",
+      "-B",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package",
+      "-DQUPATHXX_BUILD_TIFF=ON"
+    ],
+    "exit": 0,
+    "elapsed_seconds": 20.45709490007721
+  },
+  {
+    "name": "build",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\cmake.exe",
+      "--build",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package",
+      "--config",
+      "Release",
+      "--target",
+      "_native",
+      "qupathxx_region",
+      "qupathxx_batch",
+      "qupathxx_resampling_tests",
+      "qupathxx_cell_tests",
+      "qupathxx_raw_image_tests",
+      "qupathxx_viewer_session_tests",
+      "qupathxx_project_batch_tests",
+      "--parallel",
+      "2"
+    ],
+    "exit": 0,
+    "elapsed_seconds": 34.98139179998543
+  },
+  {
+    "name": "test-resampling",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\ctest.exe",
+      "--test-dir",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package",
+      "-C",
+      "Release",
+      "-R",
+      "^resampling$",
+      "--output-on-failure",
+      "--test-output-size-passed",
+      "1048576",
+      "--no-tests=error",
+      "--output-junit",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw190-native\\resampling.xml"
+    ],
+    "exit": 0,
+    "elapsed_seconds": 3.7746383000630885
+  },
+  {
+    "name": "test-cells",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\ctest.exe",
+      "--test-dir",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package",
+      "-C",
+      "Release",
+      "-R",
+      "^cells$",
+      "--output-on-failure",
+      "--test-output-size-passed",
+      "1048576",
+      "--no-tests=error",
+      "--output-junit",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw190-native\\cells.xml"
+    ],
+    "exit": 0,
+    "elapsed_seconds": 0.5622718000086024
+  },
+  {
+    "name": "test-raw_image",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\ctest.exe",
+      "--test-dir",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package",
+      "-C",
+      "Release",
+      "-R",
+      "^raw_image$",
+      "--output-on-failure",
+      "--test-output-size-passed",
+      "1048576",
+      "--no-tests=error",
+      "--output-junit",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw190-native\\raw_image.xml"
+    ],
+    "exit": 0,
+    "elapsed_seconds": 0.7940875999629498
+  },
+  {
+    "name": "test-viewer_session",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\ctest.exe",
+      "--test-dir",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package",
+      "-C",
+      "Release",
+      "-R",
+      "^viewer_session$",
+      "--output-on-failure",
+      "--test-output-size-passed",
+      "1048576",
+      "--no-tests=error",
+      "--output-junit",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw190-native\\viewer_session.xml"
+    ],
+    "exit": 0,
+    "elapsed_seconds": 1.2004172999877483
+  },
+  {
+    "name": "test-project_batch",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\ctest.exe",
+      "--test-dir",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package",
+      "-C",
+      "Release",
+      "-R",
+      "^project_batch$",
+      "--output-on-failure",
+      "--test-output-size-passed",
+      "1048576",
+      "--no-tests=error",
+      "--output-junit",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw190-native\\project_batch.xml"
+    ],
+    "exit": 0,
+    "elapsed_seconds": 0.9288210000377148
+  }
+]

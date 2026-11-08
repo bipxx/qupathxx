@@ -1,0 +1,6 @@
+Using Python 3.12.8 environment at: C:\Users\HEQ\Projects\qupathxx\build\ci\scientific160-python
+Resolved 1 package in 3ms
+Prepared 1 package in 0.80ms
+Uninstalled 1 package in 5ms
+Installed 1 package in 83ms
+ ~ qupathxx==0.1.0 (from file:///C:/Users/HEQ/Projects/qupathxx/build/ci/scientific160-final-wheels/qupathxx-0.1.0-cp312-cp312-win_amd64.whl)

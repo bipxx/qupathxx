@@ -1,0 +1,30 @@
+{
+  "source": "ae7a41481a5932123562c8fbc241de48eaf0b3d5",
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Scripts\\python.exe",
+    "-X",
+    "utf8",
+    "tools/ci/accept_unified_engine.py",
+    "41110186379",
+    "ae7a41481a5932123562c8fbc241de48eaf0b3d5",
+    "--artifacts",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\q308-all",
+    "--output",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\qupath-body-boundary-qualification-308\\engine-acceptance.json",
+    "--ndpi-readers",
+    "--rendered-loop",
+    "--gui-stack",
+    "--watershed-bodies",
+    "--sampled-shape",
+    "--sampled-cells",
+    "--small-frontier",
+    "--tma-cases",
+    "--tma-file-export",
+    "--tma-cohorts",
+    "--windows-runtime-manifest",
+    "--linux-runtime-manifest"
+  ],
+  "cwd": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\qupath-body-boundary-qualification-308-audit",
+  "returncode": 0,
+  "original_complete_auditor": true
+}

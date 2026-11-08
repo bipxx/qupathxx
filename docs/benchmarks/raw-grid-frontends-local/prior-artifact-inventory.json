@@ -1,0 +1,70 @@
+{
+  "scope": "Mixed cache retained before producer build; pyd fd32e9d, selected raw180 native targets 9c99217, other executable identities not relabelled.",
+  "files": [
+    {
+      "path": "CMakeCache.txt",
+      "bytes": 41667,
+      "sha256": "70f615ee4b4d1c2bc40650151332ef9071dd90d01c5cb48df2cd3e88e98d0bc0"
+    },
+    {
+      "path": "generated/build_manifest.hpp",
+      "bytes": 706,
+      "sha256": "0803ae12d87c26c31bde2979cb976df3c46c1e0c5b2d371a0d1298cc47ab5bd5"
+    },
+    {
+      "path": "Release/_native.cp312-win_amd64.pyd",
+      "bytes": 6897152,
+      "sha256": "465892de99246f4b379d28f746c6984c02e731f36b5d6fd9291ee222b2eb0752"
+    },
+    {
+      "path": "Release/geos.dll",
+      "bytes": 2912768,
+      "sha256": "9bff21e1082b57e9914909a156ad121d508d2203a8c6ab4d8d41eb74cc19fa0e"
+    },
+    {
+      "path": "Release/geos_c.dll",
+      "bytes": 590336,
+      "sha256": "64c8a686deccd9e3d5ae66f96ba1276c23faf6ab00564feee421ae91f552b7d6"
+    },
+    {
+      "path": "Release/qupathxx_core.lib",
+      "bytes": 74457352,
+      "sha256": "e642f6b2df7546964c38cdc9b684d9ff9555fb7536c5ca867f5923b39e68b59c"
+    },
+    {
+      "path": "Release/qupathxx_gui.lib",
+      "bytes": 15324938,
+      "sha256": "9a88f368834d8c506d15aed98d6ead84362d10fbee85e257ff2668831b7f5f7f"
+    },
+    {
+      "path": "Release/qupathxx_batch.exe",
+      "bytes": 3265024,
+      "sha256": "8500710325452a506c3b8661554fa456cb902d21d315494a2b24905dcbb05110"
+    },
+    {
+      "path": "Release/qupathxx_resampling_tests.exe",
+      "bytes": 2262016,
+      "sha256": "4fdee9550bbefde7b12a7b8ffedc6a1e222715c0ef688cd47a68004cada26139"
+    },
+    {
+      "path": "Release/qupathxx_cell_tests.exe",
+      "bytes": 1855488,
+      "sha256": "a9910f21a7a5d31c532d6b65c6edb0f23cbeaa1018d76bcc890210a277fd04d1"
+    },
+    {
+      "path": "Release/qupathxx_raw_image_tests.exe",
+      "bytes": 2678272,
+      "sha256": "3d67998b727431034eb15bcbe3b7d1b96a951f81f00831cd0d96c414d3e23e09"
+    },
+    {
+      "path": "Release/qupathxx_viewer_session_tests.exe",
+      "bytes": 2502656,
+      "sha256": "145f36cdaf0c0794a988cc637177e93b13c885cf00b14c82ffd7e28a97f6e1d4"
+    },
+    {
+      "path": "Release/qupathxx_project_batch_tests.exe",
+      "bytes": 2703872,
+      "sha256": "a710094650991ab618f27370df9330bcbb645481fded7b70e2448c286e9716a4"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\object-properties-r5-env\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-m",
+    "pytest",
+    "tests/test_object_edit_state.py::test_owned_state_and_scripted_geometry_hint_semantics",
+    "tests/test_object_edit_state.py::test_geojson_csv_native_extension_and_flat_nested_roundtrip",
+    "-q",
+    "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\object-edit-state-r5\\before.xml",
+    "--basetemp=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\object-edit-state-r5\\before-temp"
+  ],
+  "returncode": 1
+}

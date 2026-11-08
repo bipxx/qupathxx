@@ -1,0 +1,24 @@
+{
+  "parent_commit": "070503e510f4dda6873c87da4dbb647571cf8398",
+  "source_tree": "ef7338dd16763fc5c62b5aeb501a4b1eeb6540acb0f6bb5a17c343e175727584",
+  "compiler_inputs": 530,
+  "binding_objects_reused": 37,
+  "affected_suites": 7,
+  "thin_prechange_cases": 28,
+  "imagej_cases": 26,
+  "exact_workflows": 4,
+  "cells": 2237,
+  "exact_rgb_masks_csv_geometry": true,
+  "control_source": "d1bee927656c1ada8b05774f9cb6eb1216fe9238d4e0144f32fdad9b5ded9910",
+  "native_warmups": 6,
+  "reference_warmups": 24,
+  "measured_runs": 6,
+  "reference_initial_unsettled_run_retained": true,
+  "published_candidate5_changed": false,
+  "strict_parity_confirmed": false,
+  "controller_sha256": {
+    "native.py": "9fda300a1f9174afa3bb33ec372120f5d4cd8b37150335c573a392195981bbab",
+    "qupath.groovy": "6eb08125010e623a87e34aa2509792d93e173f881d4ccc61424e30b7cad0a103",
+    "measure.py": "979709a1c9a4658eeb1671438b00bcfde1fba86cc7d3356d9aee31344ad4f32a"
+  }
+}

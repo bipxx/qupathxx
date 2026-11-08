@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="1"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="0"
+	timestamp="2026-10-25T12:28:18"
+	>
+	<testcase name="resampling" classname="resampling" time="0.0465356" status="run">
+		<properties/>
+		<system-out>Native scientific grid exact geometry, rounding, context and admission passed
+Native scientific RGB float64 exact means, support, reader and cancellation checks passed
+2891 independent exact raw mean vectors across all ten sample types in both orders passed
+Native exact typed weighted means, subnormal/cancellation, atomic rejection and nearest-even rounding passed
+Typed raw hash-only identity, lower memory admission and pre-decoder metadata epoch passed
+94 independent typed raw grid references, 3732 channel results and canonical source/input hashes passed
+Native typed scientific raw sampling, per-channel finite/support, source-bit provenance and pre-IO admission passed
+Typed raw sampling engine identity dc46c0c08b9a3ec95061c93e4f3fe3e1ac997232b5942363ba499b45c8ffd129 9c992171d9361ea2a438ed2ed1fae94547edf46d
+Shared ROI grid raw count/context planning and pre-IO admission passed
+Independent Python struct/hashlib QRA1 and QRA2 bytes, mixed typed CSV and job replay passed
+QRA2 raw grid retention, canonical re-encoding, semantic corruption and fresh replay passed
+188 independent derived raw grid statistics references, ROI/core support, hash-only digest and native jobs passed
+2205 independent oracle shapes and admission/alpha/reader checks passed
+</system-out>
+	</testcase>
+</testsuite>

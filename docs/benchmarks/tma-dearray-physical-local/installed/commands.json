@@ -1,0 +1,144 @@
+[
+  {
+    "name": "generate-stubs",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\tma200-python-env\\Scripts\\python.exe",
+      "-I",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tools\\generate_stubs.py"
+    ],
+    "exit": 0,
+    "expected_exit": 0,
+    "seconds": 0.5095647000707686
+  },
+  {
+    "name": "check-stubs",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\tma200-python-env\\Scripts\\python.exe",
+      "-I",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tools\\generate_stubs.py",
+      "--check"
+    ],
+    "exit": 0,
+    "expected_exit": 0,
+    "seconds": 0.6688481000019237
+  },
+  {
+    "name": "runtime",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\tma200-python-env\\Scripts\\python.exe",
+      "-I",
+      "-m",
+      "pytest",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_tma_dearray_units.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_tma_dearray_evidence.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_tma_dearray_cli.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_gui_tma_dearray.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_tma_dearray.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_tma_dearray_reference.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_tma_axes.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_tma.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_tma_case_summary.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_tma_case_export.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_tma_cohort.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_qptma.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_qptma_project.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_viewer_session.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_public_stubs.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_stub_signature_guard.py",
+      "-q",
+      "--tb=short",
+      "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\tma200-evidence\\runtime.xml",
+      "--basetemp=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\tma200-evidence\\runtime-tmp"
+    ],
+    "exit": 0,
+    "expected_exit": 0,
+    "seconds": 9.691364900092594
+  },
+  {
+    "name": "dearray-desktop",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\tma200-python-env\\Scripts\\python.exe",
+      "-I",
+      "-m",
+      "pytest",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_gui_tma_dearray.py",
+      "-q",
+      "--tb=short",
+      "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\tma200-evidence\\dearray-desktop.xml",
+      "--basetemp=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\tma200-evidence\\dearray-desktop-tmp"
+    ],
+    "exit": 0,
+    "expected_exit": 0,
+    "seconds": 2.4106634999625385
+  },
+  {
+    "name": "desktop",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\tma200-python-env\\Scripts\\python.exe",
+      "-I",
+      "-m",
+      "pytest",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_gui_tma.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_gui_qptma.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_viewer_session.py",
+      "-q",
+      "--tb=short",
+      "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\tma200-evidence\\desktop.xml",
+      "--basetemp=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\tma200-evidence\\desktop-tmp"
+    ],
+    "exit": 0,
+    "expected_exit": 0,
+    "seconds": 5.219570999965072
+  },
+  {
+    "name": "typing-positive",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\tma200-python-env\\Scripts\\python.exe",
+      "-I",
+      "-m",
+      "mypy",
+      "--strict",
+      "--no-incremental",
+      "tests/typing/tma_dearray_valid.py",
+      "tests/typing/raw_grid_valid.py",
+      "tests/typing/valid_api.py",
+      "tests/typing/hierarchy_valid.py",
+      "tests/typing/grid_cells_valid.py",
+      "examples/live_workflow.py",
+      "examples/region_workflow.py"
+    ],
+    "exit": 0,
+    "expected_exit": 0,
+    "seconds": 2.767123800003901
+  },
+  {
+    "name": "typing-dearray-negative",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\tma200-python-env\\Scripts\\python.exe",
+      "-I",
+      "-m",
+      "mypy",
+      "--strict",
+      "--no-incremental",
+      "tests/typing/tma_dearray_invalid.py"
+    ],
+    "exit": 1,
+    "expected_exit": 1,
+    "seconds": 2.577860999968834
+  },
+  {
+    "name": "typing-dearray-units-negative",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\tma200-python-env\\Scripts\\python.exe",
+      "-I",
+      "-m",
+      "mypy",
+      "--strict",
+      "--no-incremental",
+      "tests/typing/tma_dearray_units_invalid.py"
+    ],
+    "exit": 1,
+    "expected_exit": 1,
+    "seconds": 2.603261200012639
+  }
+]

@@ -1,0 +1,123 @@
+CMake is re-running because C:/Users/HEQ/Projects/qupathxx/build/ci/grid159-native/CMakeFiles/generate.stamp is out-of-date.
+  the file 'C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tests/scientific_cell_numeric_tests.cpp'
+  is newer than 'C:/Users/HEQ/Projects/qupathxx/build/ci/grid159-native/CMakeFiles/generate.stamp.depend'
+  result='-1'
+-- Selecting Windows SDK version 10.0.22621.0 to target Windows 10.0.26200.
+-- Configuring done (4.5s)
+-- Generating done (18.9s)
+-- Build files have been written to: C:/Users/HEQ/Projects/qupathxx/build/ci/grid159-native
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+
+  Checking File Globs
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  provenance.cpp
+  nanobind-static.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\nanobind-static.lib
+  qupathxx_core.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_core.lib
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+     Creating library C:/Users/HEQ/Projects/qupathxx/build/ci/grid159-native/Release/_native.lib and object C:/Users/HEQ/Projects/qupathxx/build/ci/grid159-native/Release/_native.exp
+  _native.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\_native.cp312-win_amd64.pyd
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_analysis_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_analysis_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_batch.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_batch.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  cell_expansion_tests.cpp
+  qupathxx_cell_calibration_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_cell_calibration_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_cell_record_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_cell_record_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_cell_table_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_cell_table_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_cell_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_cell_tests.exe
+  qupathxx_classes_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_classes_tests.exe
+  qupathxx_cell_expansion_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_cell_expansion_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_classifier_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_classifier_tests.exe
+  qupathxx_classifier_io_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_classifier_io_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_decimal_quantity_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_decimal_quantity_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_core_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_core_tests.exe
+  qupathxx_document_edits_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_document_edits_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_file_fingerprint_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_file_fingerprint_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_geometry_edits_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_geometry_edits_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_geometry_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_geometry_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_gui_replay_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_gui_replay_tests.exe
+  qupathxx_interchange_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_interchange_tests.exe
+  scientific_cell_numeric_tests.cpp
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  log_watershed_tests.cpp
+  qupathxx_masked_gaussian_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_masked_gaussian_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_measurement_table_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_measurement_table_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_object_classifier_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_object_classifier_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_object_snapshot_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_object_snapshot_tests.exe
+  qupathxx_log_cell_recipe_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_log_cell_recipe_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_pixel_feature_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_pixel_feature_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_pixel_workflow_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_pixel_workflow_tests.exe
+  qupathxx_log_watershed_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_log_watershed_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_project_batch_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_project_batch_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_project_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_project_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_provenance_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_provenance_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_qptma_project_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_qptma_project_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_qptma_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_qptma_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_raw_image_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_raw_image_tests.exe
+  qupathxx_recovery_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_recovery_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_region.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_region.exe
+  qupathxx_resampling_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_resampling_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_scheduler_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_scheduler_tests.exe
+  qupathxx_save_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_save_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_selection_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_selection_tests.exe
+  qupathxx_server_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_server_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_sha256_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_sha256_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_spatial_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_spatial_tests.exe
+  qupathxx_source_identity_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_source_identity_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_stain_estimation_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_stain_estimation_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_stains_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_stains_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_thumbnail_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_thumbnail_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_tissue_contour_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_tissue_contour_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_tissue_record_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_tissue_record_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_tissue_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_tissue_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_tma_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_tma_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_view_tiles_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_view_tiles_tests.exe
+  qupathxx_viewer_session_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\grid159-native\Release\qupathxx_viewer_session_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt

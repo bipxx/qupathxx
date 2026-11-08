@@ -1,0 +1,206 @@
+--- a/cpp/geometry.cpp
++++ b/cpp/geometry.cpp
+@@ -3,6 +3,7 @@
+ #include <algorithm>
+ #include <array>
+ #include <cmath>
++#include <chrono>
+ #include <cstdio>
+ #include <limits>
+ #include <locale>
+@@ -136,6 +137,7 @@
+     }
+ };
+ static_assert(sizeof(BoundaryGrid)<=640,"polygon boundary cache must remain bounded");
++thread_local std::array<double,5> roi_profile{};
+ struct Backend {
+     GEOSContextHandle_t ctx=nullptr;
+     GEOSGeometry* geometry=nullptr;
+@@ -148,10 +150,12 @@
+     // The existing context mutex also serializes initialization and access.
+     std::unique_ptr<BoundaryGrid> boundary_grid;
+     Backend() {
++        const auto start=std::chrono::steady_clock::now();
+         ctx=GEOS_init_r(); if(!ctx) throw std::bad_alloc();
+         GEOSContext_setErrorMessageHandler_r(ctx,[](const char* message,void* user) {
+             std::snprintf(static_cast<Backend*>(user)->error.data(),1024,"%s",message);
+         },this);
++        roi_profile[0]+=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-start).count();
+     }
+     ~Backend() {
+         if(prepared) GEOSPreparedGeom_destroy_r(ctx,prepared);
+@@ -171,6 +175,7 @@
+         validate_and_prepare();
+     }
+     void validate_and_prepare() {
++        const auto start=std::chrono::steady_clock::now();
+         if(GEOSisValid_r(ctx,geometry)!=1) {
+             auto free_reason=[&](char* p){GEOSFree_r(ctx,p);};
+             std::unique_ptr<char,decltype(free_reason)> reason(GEOSisValidReason_r(ctx,geometry),free_reason);
+@@ -179,8 +184,10 @@
+         }
+         if(GEOSisEmpty_r(ctx,geometry)!=0) throw std::invalid_argument("empty geometry is not an ROI");
+         prepared=GEOSPrepare_r(ctx,geometry); if(!prepared) throw std::runtime_error(error.data());
++        roi_profile[2]+=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-start).count();
+     }
+     void initialize_polygon(const std::vector<Ring>& paths,const std::vector<std::size_t>& sizes) {
++        const auto start=std::chrono::steady_clock::now();
+         // The validated binary64 rings already exist. Do not parse their WKT
+         // rendering back into coordinates for every derived cell contour.
+         auto destroy=[&](GEOSGeometry* g){if(g) GEOSGeom_destroy_r(ctx,g);};
+@@ -212,12 +219,15 @@
+             geometry=GEOSGeom_createCollection_r(ctx,GEOS_MULTIPOLYGON,raw.data(),static_cast<unsigned>(raw.size()));
+             if(!geometry) throw std::invalid_argument(std::string("GEOS geometry: ")+error.data());
+         }
++        roi_profile[1]+=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-start).count();
+         validate_and_prepare();
+     }
+     bool predicate(char result) const { if(result==2) throw std::runtime_error(error.data()); return result==1; }
+ };
+ #endif
+ }
++void reset_roi_profile(){roi_profile.fill(0);}
++void dump_roi_profile(){std::fprintf(stderr,"ROI_PROFILE context_ms=%.3f rings_ms=%.3f validate_prepare_ms=%.3f paths_ms=%.3f metrics_ms=%.3f\n",roi_profile[0],roi_profile[1],roi_profile[2],roi_profile[3],roi_profile[4]);}
+ namespace detail {
+ Rect qupath_ellipse_bounds(const Ring& shell) {
+ #ifdef QUPATHXX_HAS_GEOS
+@@ -386,6 +396,7 @@
+     (void)parts; throw std::runtime_error("polygon topology requires QUPATHXX_BUILD_GEOS=ON");
+ #else
+     if(parts.empty() || parts.size()>1000000) throw std::invalid_argument("multipolygon requires polygon parts");
++    const auto profile_start=std::chrono::steady_clock::now();
+     auto d=std::make_shared<Data>(); d->kind=parts.size()==1?RoiKind::Polygon:RoiKind::MultiPolygon;
+     // Binary geometry is authoritative. Text is derived only when requested,
+     // without mutating shared geometry or retaining a duplicate coordinate copy.
+@@ -395,10 +406,13 @@
+         for(auto& hole:part.holes) d->paths.push_back(closed(std::move(hole)));
+     }
+     d->bounds=envelope(d->paths);
++    roi_profile[3]+=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-profile_start).count();
+     d->backend=std::make_shared<Backend>(); d->backend->initialize_polygon(d->paths,d->polygon_sizes);
++    const auto profile_metrics=std::chrono::steady_clock::now();
+     if(!GEOSArea_r(d->backend->ctx,d->backend->geometry,&d->area) || !GEOSLength_r(d->backend->ctx,d->backend->geometry,&d->length) ||
+         !std::isfinite(d->area) || d->area<=0 || !std::isfinite(d->length))
+         throw std::invalid_argument("polygon area/length must be finite and positive");
++    roi_profile[4]+=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-profile_metrics).count();
+     return Roi(d);
+ #endif
+ }
+--- a/cpp/tissue_contours.cpp
++++ b/cpp/tissue_contours.cpp
+@@ -17,6 +17,7 @@
+ #include <geos_c.h>
+ #endif
+ namespace qpx {
++void reset_roi_profile();void dump_roi_profile();
+ namespace {
+ void checkpoint(const std::atomic<bool>* flag) {if(flag && flag->load(std::memory_order_relaxed)) throw std::runtime_error("tissue contour conversion cancelled");}
+ // Ordered adjacent-label pairs split straight runs at every raster junction.
+@@ -231,7 +232,8 @@
+ #ifndef QUPATHXX_HAS_GEOS
+         (void)mask;throw std::runtime_error("tissue contours require QUPATHXX_BUILD_GEOS=ON");
+ #else
+-        const auto began=std::chrono::steady_clock::now();
++        const auto began=std::chrono::steady_clock::now();reset_roi_profile();auto tick=began;double stages[9]={};
++        auto mark=[&](int i){const auto now=std::chrono::steady_clock::now();stages[i]+=std::chrono::duration<double,std::milli>(now-tick).count();tick=now;};
+         if(mask.components().size()>options.max_components) throw std::length_error("tissue contour component limit exceeded");
+         const auto base=65536ull+boundary_payload(mask)+mask.components().size()*512ull+(options.clip_to_roi?2ull*mask.roi().payload_bytes():0);
+         if(base>options.work_bytes) throw std::length_error("tissue contour work budget exceeded");
+@@ -242,7 +244,7 @@
+         },cancelled);
+         result->work_=static_cast<std::size_t>(base+result->edges_*512ull);result->components_.reserve(mask.components().size());
+         result->retained_=sizeof(TissueContours)+result->components_.capacity()*sizeof(TissueContour)+result->input_sha256_.capacity();
+-        if(result->edges_) {
++        mark(0);if(result->edges_) {
+             Backend backend(cancelled);std::vector<Geometry> owned;std::vector<const GEOSGeometry*> lines;
+             owned.reserve(result->edges_);lines.reserve(result->edges_);
+             boundary_runs(mask,[&](std::int64_t x0,std::int64_t y0,std::int64_t x1,std::int64_t y1) {
+@@ -251,8 +253,8 @@
+                 if(!seq || !GEOSCoordSeq_setXY_r(backend.ctx,seq.get(),0,double(x0),double(y0)) || !GEOSCoordSeq_setXY_r(backend.ctx,seq.get(),1,double(x1),double(y1))) throw std::runtime_error("could not build tissue contour edge");
+                 auto line=backend.own(GEOSGeom_createLineString_r(backend.ctx,seq.release()));lines.push_back(line.get());owned.push_back(std::move(line));
+             },cancelled);
+-            checkpoint(cancelled);auto faces=polygonize(backend,mask,lines,options.max_edges,cancelled);
+-            const auto image=mask.image_bounds();auto clip=backend.own(GEOSGeom_createRectangle_r(backend.ctx,0,0,image.width,image.height));
++            mark(1);checkpoint(cancelled);auto faces=polygonize(backend,mask,lines,options.max_edges,cancelled);
++            mark(2);const auto image=mask.image_bounds();auto clip=backend.own(GEOSGeom_createRectangle_r(backend.ctx,0,0,image.width,image.height));
+             if(options.clip_to_roi) {auto roi=backend.read(mask.roi().wkt());clip=backend.own(GEOSIntersection_r(backend.ctx,clip.get(),roi.get()));}
+             struct Mapping {Rect bounds;double scale;const ScientificGrid* grid;const RawPixelStreamGeometry* stream;const NominalCellSampling* nominal;const std::atomic<bool>* cancelled;};
+             const auto grid=mask.scientific_grid();const auto stream=stream_geometry(mask);
+@@ -281,7 +283,7 @@
+                 cells.push_back({std::int64_t(std::floor(x)),std::int64_t(std::floor(y))});
+             }
+             const auto located=classify_face_cells(mask,cells,options.work_bytes-result->work_,cancelled);
+-            result->work_+=located.estimated_work_bytes;
++            result->work_+=located.estimated_work_bytes;mark(3);
+             for(int i=0;i<count;++i) {
+                 checkpoint(cancelled);const auto* face=GEOSGetGeometryN_r(backend.ctx,faces.get(),i);
+                 const auto label=located.labels[std::size_t(i)];if(!label) continue;
+@@ -309,10 +311,10 @@
+                     } else {*xx=m.bounds.x+*xx*m.scale;*yy=m.bounds.y+*yy*m.scale;}
+                     return std::isfinite(*xx) && std::isfinite(*yy);
+                 },&mapping));
+-                auto clipped=backend.own(GEOSIntersection_r(backend.ctx,world.get(),clip.get()));
+-                extract(backend,clipped.get(),grouped[label-1],extracted,options.max_vertices);
++                mark(4);auto clipped=backend.own(GEOSIntersection_r(backend.ctx,world.get(),clip.get()));mark(5);
++                extract(backend,clipped.get(),grouped[label-1],extracted,options.max_vertices);mark(6);
+             }
+-            for(std::size_t i=0;i<grouped.size();++i) {
++            mark(4);for(std::size_t i=0;i<grouped.size();++i) {
+                 checkpoint(cancelled);const auto& component=mask.components()[i];
+                 if(areas[i]!=component.pixels) throw std::runtime_error("tissue contour area does not match label raster");
+                 if(grouped[i].empty()) continue;
+@@ -320,8 +322,8 @@
+                 for(const auto& path:geometry.paths()) result->vertices_+=path.size();
+                 result->retained_+=geometry.payload_bytes();if(result->retained_>options.work_bytes) throw std::length_error("tissue contour retained geometry exceeds work budget");
+                 result->components_.push_back({component.label,component.pixels,std::move(geometry)});
+-            }
+-        }
++            }mark(7);
++        }mark(8);dump_roi_profile();std::fprintf(stderr,"CONTOUR_PROFILE count_ms=%.3f lines_ms=%.3f polygonize_ms=%.3f locate_ms=%.3f transform_validate_ms=%.3f intersect_ms=%.3f extract_ms=%.3f roi_ms=%.3f cleanup_ms=%.3f\n",stages[0],stages[1],stages[2],stages[3],stages[4],stages[5],stages[6],stages[7],stages[8]);
+         checkpoint(cancelled);result->elapsed_ms_=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-began).count();return result;
+ #endif
+     }
+--- a/cpp/scientific_cells.cpp
++++ b/cpp/scientific_cells.cpp
+@@ -9,6 +9,7 @@
+ #include "imagej_gaussian.hpp"
+ #include "qupath_nuclei.hpp"
+ #include <chrono>
++#include <cstdio>
+ 
+ namespace qpx {
+ using cell_detail::checkpoint;
+@@ -194,12 +195,15 @@
+                 input[j]=value;score[i]=value;
+             }
+         }
++        const auto profile_prepared=std::chrono::steady_clock::now();
+         const auto blur=detail::imagej154p_gaussian(input,cw,ch,r.sigma_x,r.sigma_y,p.work_bytes,cancelled);
+         const auto response=detail::imagej154p_laplacian(blur,cw,ch,p.work_bytes,cancelled);
++        const auto profile_response=std::chrono::steady_clock::now();
+         if(cell_detail::qupath_processing(p.processing)) {
+             std::vector<std::uint8_t> cropped_domain(cw*ch);
+             for(std::size_t y=0;y<ch;++y) {checkpoint(cancelled);for(std::size_t x=0;x<cw;++x) cropped_domain[y*cw+x]=domain[(top+y)*width+left+x];}
+             auto stages=cell_detail::qupath070_nuclei(input,response,cropped_domain,cw,ch,r.sigma_x,log,cancelled,false);
++            std::fprintf(stderr,"NUMERIC_PROFILE prepare_ms=%.3f gaussian_laplacian_ms=%.3f nuclei_ms=%.3f\n",std::chrono::duration<double,std::milli>(profile_prepared-began).count(),std::chrono::duration<double,std::milli>(profile_response-profile_prepared).count(),std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-profile_response).count());
+             detected=std::move(stages.nuclei);
+             std::vector<std::uint32_t> labels(n);
+             for(std::size_t y=0;y<ch;++y) {checkpoint(cancelled);for(std::size_t x=0;x<cw;++x) labels[(top+y)*width+left+x]=detected.labels[y*cw+x];}
+@@ -210,6 +214,7 @@
+             for(std::size_t y=0;y<ch;++y) {checkpoint(cancelled);for(std::size_t x=0;x<cw;++x) imagej_positive[(top+y)*width+left+x]=response[y*cw+x]>0;}
+         }
+     }
++    const auto profile_nuclei=std::chrono::steady_clock::now();
+     if(phase) phase->store(2);
+     const cell_detail::PhysicalGridMetric metric(r.step_x,r.step_y);
+     if(!cell_detail::qupath_processing(p.processing)) detected=cell_detail::grid_log_watershed(score,rgb.valid(),domain,width,height,metric,p.sigma,log,cancelled,phase,
+@@ -274,7 +279,9 @@
+     spec.algorithm_override=grid.mask_algorithm(false,p.processing);
+     result->nuclei_=ScientificRasterKernel::make(c.source,rgb,std::move(detected.labels),spec,cancelled);
+     spec.body=true;spec.algorithm_override=grid.mask_algorithm(true,p.processing);spec.input_sha256=result->nuclei_->input_sha256();result->cells_=ScientificRasterKernel::make(c.source,rgb,std::move(bodies),spec,cancelled);
++    const auto profile_assembly=std::chrono::steady_clock::now();
+     if(phase) phase->store(6);restore_cell_contours(*result,cancelled);checkpoint(cancelled);
++    std::fprintf(stderr,"CELL_PROFILE assembly_ms=%.3f contours_ms=%.3f\n",std::chrono::duration<double,std::milli>(profile_assembly-profile_nuclei).count(),std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-profile_assembly).count());
+     result->elapsed_ms_=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-began).count();if(phase) phase->store(7);
+     return result;
+ }

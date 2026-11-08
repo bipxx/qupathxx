@@ -1,0 +1,25 @@
+{
+  "command": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\multifile209-python-env\\Scripts\\python.exe",
+    "-I",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tools\\ci\\accept_unified_engine.py",
+    "40262416972",
+    "9e7d0be94c59c2c5e363f7dfa60384f9c9c2d7d6",
+    "--artifacts",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\multifile210-hosted\\artifacts",
+    "--output",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\sourceproof211\\linux-successor-audit.json",
+    "--ndpi-readers",
+    "--rendered-loop",
+    "--gui-stack",
+    "--small-frontier",
+    "--windows-runtime-manifest",
+    "--linux-runtime-manifest",
+    "--linux-only",
+    "--source-root",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\multifile-ome-workflow-210"
+  ],
+  "exit": 0,
+  "seconds": 5.02458139997907,
+  "auditor_source": "0edb9485b88b954c58c082631a9d705a4fce4e91"
+}

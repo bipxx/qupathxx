@@ -1,0 +1,92 @@
+[
+  {
+    "argv": [
+      "cmake",
+      "-S",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tiff-jpeg-r2/linux-smoke",
+      "-B",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tiff-jpeg-r2/linux-build",
+      "-G",
+      "Ninja",
+      "-DCMAKE_BUILD_TYPE=Release",
+      "-DQPX_SOURCE=/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159"
+    ],
+    "returncode": 0
+  },
+  {
+    "argv": [
+      "cmake",
+      "--build",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tiff-jpeg-r2/linux-build",
+      "--target",
+      "codec",
+      "--parallel",
+      "2"
+    ],
+    "returncode": 0
+  },
+  {
+    "argv": [
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tiff-jpeg-r2/linux-build/codec",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tiff-jpeg-r2/linux-inputs/000.tif",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tiff-jpeg-r2/linux-inputs/000.raw"
+    ],
+    "returncode": 0
+  },
+  {
+    "argv": [
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tiff-jpeg-r2/linux-build/codec",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tiff-jpeg-r2/linux-inputs/001.tif",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tiff-jpeg-r2/linux-inputs/001.raw"
+    ],
+    "returncode": 0
+  },
+  {
+    "argv": [
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tiff-jpeg-r2/linux-build/codec",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tiff-jpeg-r2/linux-inputs/010.tif",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tiff-jpeg-r2/linux-inputs/010.raw"
+    ],
+    "returncode": 0
+  },
+  {
+    "argv": [
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tiff-jpeg-r2/linux-build/codec",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tiff-jpeg-r2/linux-inputs/011.tif",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tiff-jpeg-r2/linux-inputs/011.raw"
+    ],
+    "returncode": 0
+  },
+  {
+    "argv": [
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tiff-jpeg-r2/linux-build/codec",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tiff-jpeg-r2/linux-inputs/100.tif",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tiff-jpeg-r2/linux-inputs/100.raw"
+    ],
+    "returncode": 0
+  },
+  {
+    "argv": [
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tiff-jpeg-r2/linux-build/codec",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tiff-jpeg-r2/linux-inputs/101.tif",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tiff-jpeg-r2/linux-inputs/101.raw"
+    ],
+    "returncode": 0
+  },
+  {
+    "argv": [
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tiff-jpeg-r2/linux-build/codec",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tiff-jpeg-r2/linux-inputs/110.tif",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tiff-jpeg-r2/linux-inputs/110.raw"
+    ],
+    "returncode": 0
+  },
+  {
+    "argv": [
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tiff-jpeg-r2/linux-build/codec",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tiff-jpeg-r2/linux-inputs/111.tif",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tiff-jpeg-r2/linux-inputs/111.raw"
+    ],
+    "returncode": 0
+  }
+]

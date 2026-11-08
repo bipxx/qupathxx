@@ -1,0 +1,74 @@
+{
+  "source": "96172f3702ef910593880a9d5412a0b66601a5bf",
+  "base": "960f11b7fe04d94808d8ee697364002e69d79cf6",
+  "files": {
+    "cpp/bindings.cpp": {
+      "git_blob_sha256": "d93a3b99392a40b7543faa64c8c87be5042d4922befc0ff356e2985971bc4ef5",
+      "checked_out_sha256": "d93a3b99392a40b7543faa64c8c87be5042d4922befc0ff356e2985971bc4ef5"
+    },
+    "cpp/gui.cpp": {
+      "git_blob_sha256": "0a09e8e4896ebeef5d6f254bc26372f8d2d49e73c7f7027c0af964caea5e2d57",
+      "checked_out_sha256": "0a09e8e4896ebeef5d6f254bc26372f8d2d49e73c7f7027c0af964caea5e2d57"
+    },
+    "cpp/gui_replay.hpp": {
+      "git_blob_sha256": "17230ca3b8f40a02eef7533b64be2b037366d74995af6ac2dbe4cd446198ede7",
+      "checked_out_sha256": "17230ca3b8f40a02eef7533b64be2b037366d74995af6ac2dbe4cd446198ede7"
+    },
+    "cpp/gui_tma.hpp": {
+      "git_blob_sha256": "90fa98a162c794dfd6c729c604783aad0592fa4ecacb8c464a2e8118f2bf5b2c",
+      "checked_out_sha256": "90fa98a162c794dfd6c729c604783aad0592fa4ecacb8c464a2e8118f2bf5b2c"
+    },
+    "cpp/include/qupathxx/core.hpp": {
+      "git_blob_sha256": "49d5d5c832afa839ef688cc78f397c90f227ffd49119b6bc2b0fdc8540c59c16",
+      "checked_out_sha256": "49d5d5c832afa839ef688cc78f397c90f227ffd49119b6bc2b0fdc8540c59c16"
+    },
+    "cpp/include/qupathxx/viewer_session.hpp": {
+      "git_blob_sha256": "bdad9a09455685689ebee8aaa19dd4481ad7725f36fa543eb75c76fc8a1316c9",
+      "checked_out_sha256": "bdad9a09455685689ebee8aaa19dd4481ad7725f36fa543eb75c76fc8a1316c9"
+    },
+    "cpp/tests/tma_tests.cpp": {
+      "git_blob_sha256": "066c1f6192b7de100dd3a8846ca5768fd23ebd1777f3f724e7f7169a9dc7776c",
+      "checked_out_sha256": "066c1f6192b7de100dd3a8846ca5768fd23ebd1777f3f724e7f7169a9dc7776c"
+    },
+    "cpp/tests/viewer_session_tests.cpp": {
+      "git_blob_sha256": "ff102ba8c04db6c31f858cb7b66b58df3673b6ba0bc1d7d4a9e8581bd8ed3afc",
+      "checked_out_sha256": "ff102ba8c04db6c31f858cb7b66b58df3673b6ba0bc1d7d4a9e8581bd8ed3afc"
+    },
+    "cpp/tma.cpp": {
+      "git_blob_sha256": "c692f4fc12f54d2ad5c2877d1e327404f51c1b2e22799490940e8e9730358d2b",
+      "checked_out_sha256": "c692f4fc12f54d2ad5c2877d1e327404f51c1b2e22799490940e8e9730358d2b"
+    },
+    "cpp/tma_bindings.cpp": {
+      "git_blob_sha256": "e7766fc1906622fe9704edc9ed2aca49df3296d4dc19808521bca7ed7c1948c5",
+      "checked_out_sha256": "e7766fc1906622fe9704edc9ed2aca49df3296d4dc19808521bca7ed7c1948c5"
+    },
+    "cpp/viewer_bindings.cpp": {
+      "git_blob_sha256": "8a7ae0c6eb4d106202e65e5e05e2ba6ce0385ed86728aa1a6a81f71b3740d504",
+      "checked_out_sha256": "8a7ae0c6eb4d106202e65e5e05e2ba6ce0385ed86728aa1a6a81f71b3740d504"
+    },
+    "cpp/viewer_session.cpp": {
+      "git_blob_sha256": "ff761287143c003ec942fae663aca0cfc7e7c082d286e02235c471d28886d5e5",
+      "checked_out_sha256": "ff761287143c003ec942fae663aca0cfc7e7c082d286e02235c471d28886d5e5"
+    },
+    "src/qupathxx/_native.pyi": {
+      "git_blob_sha256": "257b47500cb0c680b5699d6854f9df655352b07309d565c004aa707aa9444dad",
+      "checked_out_sha256": "f4c52465618021ba3557a4f79c56ab25d685ba537c9dbd37b296e26d2c28c7a4"
+    },
+    "tests/test_gui_tma.py": {
+      "git_blob_sha256": "04b4f023bc0501a43f04f9cb671bd71f5f28badeb3ebc30c78df354d516e7eff",
+      "checked_out_sha256": "04b4f023bc0501a43f04f9cb671bd71f5f28badeb3ebc30c78df354d516e7eff"
+    },
+    "tests/test_tma_axes.py": {
+      "git_blob_sha256": "28f4afe97c9b174ed12b885092cc9883f5ebe61ee20a49b2474055bdf7a7f0df",
+      "checked_out_sha256": "28f4afe97c9b174ed12b885092cc9883f5ebe61ee20a49b2474055bdf7a7f0df"
+    },
+    "tests/typing/tma_axes_invalid.py": {
+      "git_blob_sha256": "9b67217d5dc83337c6f34ff6399377970363eb50354fa34a5c6180bdb925df51",
+      "checked_out_sha256": "9b67217d5dc83337c6f34ff6399377970363eb50354fa34a5c6180bdb925df51"
+    },
+    "tests/typing/valid_api.py": {
+      "git_blob_sha256": "84a9521461506f92e46882209edfe15af04aeb462942df1c6b16fab1ecb997f8",
+      "checked_out_sha256": "84a9521461506f92e46882209edfe15af04aeb462942df1c6b16fab1ecb997f8"
+    }
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "observer_revision": "a36c38c14ecb0aa4a8798fe0dd48166a45cf6316+dirty",
+  "analysis_result_bytes": 256,
+  "analysis_request_bytes": 24824,
+  "analysis_record_bytes": 288,
+  "compartment_statistics_bytes": 216,
+  "channel_statistics_bytes": 104,
+  "records": [
+    {
+      "id": 4,
+      "samples": 4,
+      "payload_bytes": 2141,
+      "table_bytes": 67948
+    },
+    {
+      "id": 5,
+      "samples": 4,
+      "payload_bytes": 2141,
+      "table_bytes": 67948
+    },
+    {
+      "id": 6,
+      "samples": 4,
+      "payload_bytes": 2149,
+      "table_bytes": 67956
+    },
+    {
+      "id": 7,
+      "samples": 4,
+      "payload_bytes": 2149,
+      "table_bytes": 67956
+    },
+    {
+      "id": 8,
+      "samples": 1,
+      "payload_bytes": 2141,
+      "table_bytes": 67948
+    }
+  ],
+  "unchanged_production_headers": {
+    "cpp/include/qupathxx/analysis_types.hpp": "6ca1fb4b739c553a1e2bbfafdfd587cc8dfdd6dce65b808a6959768edd75839f",
+    "cpp/include/qupathxx/analysis.hpp": "81b56e380937268adbef7533af2292ed63027c8af34089b8a4a49f1c0a263b33",
+    "cpp/include/qupathxx/core.hpp": "6ce21f34588099a6a2eb698220bb4b0eb482e5e184ee354fda9f1a58a4b6ba1d",
+    "cpp/include/qupathxx/cell_statistics.hpp": "f8f1e73eac7a6bd5a207cc0d22f4e7b1d011574b6f76422dc9685f0e12a1ba40"
+  },
+  "observer_files": {
+    "cpp/tests/region_statistics_tests.cpp": "45dffa082cd09445d7b2f48876cd10369bf7cda33a2a9fa47676bbe5688a4491",
+    "CMakeLists.txt": "2da5b054f09930f8387618def5c477dd065f234de1713bfae0288284aafbb4e0"
+  },
+  "archive_sha256": "64b2d9ae2a36d2a3bfd136e55ba9e23c030db83226cc1ff0cf53eafeb7626b00",
+  "platform_scope": "MSVC x64 Release; original installed product remains f72c1992+dirty"
+}

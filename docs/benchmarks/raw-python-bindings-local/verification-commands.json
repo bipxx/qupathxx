@@ -1,0 +1,121 @@
+[
+  {
+    "name": "install-wheel",
+    "command": [
+      "uv",
+      "pip",
+      "install",
+      "--python",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawpython229-wheel312-env\\Scripts\\python.exe",
+      "--target",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawpython229-wheel312-env\\Lib\\site-packages",
+      "--no-deps",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawpython229-final-b\\wheel\\qupathxx-0.1.0-cp312-cp312-win_amd64.whl"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "seconds": 0.4139122001361102
+  },
+  {
+    "name": "installed-proof",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawpython229-wheel312-env\\Scripts\\python.exe",
+      "-I",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawpython229_installed_proof.py"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "seconds": 0.19984849984757602
+  },
+  {
+    "name": "native-tests",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\ctest.exe",
+      "--test-dir",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawtraining218-windows",
+      "-C",
+      "Release",
+      "-R",
+      "^(pixel_features|pixel_workflows|classifier)$",
+      "--output-on-failure",
+      "--test-output-size-passed",
+      "1048576",
+      "--no-tests=error",
+      "--output-junit",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawpython229-final-b\\native-tests.xml"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "seconds": 2.0683520000893623
+  },
+  {
+    "name": "python-tests",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawpython229-wheel312-env\\Scripts\\python.exe",
+      "-I",
+      "-m",
+      "pytest",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_raw_pixel_python.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_public_stubs.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_stub_signature_guard.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_scientific_raw_bindings.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_pixel_workflows.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_raw_records.py",
+      "-q",
+      "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawpython229-final-b\\python-tests.xml"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "seconds": 2.209442000137642
+  },
+  {
+    "name": "stubs-check",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawpython229-wheel312-env\\Scripts\\python.exe",
+      "-I",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tools\\generate_stubs.py",
+      "--check"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "seconds": 0.3264111999887973
+  },
+  {
+    "name": "typing-valid",
+    "command": [
+      "uv",
+      "tool",
+      "run",
+      "--from",
+      "pyright==1.1.407",
+      "pyright",
+      "--project",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawpython229-final-b\\pyright-valid.json",
+      "--pythonpath",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawpython229-wheel312-env\\Scripts\\python.exe",
+      "--outputjson"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "seconds": 1.2323032999411225
+  },
+  {
+    "name": "typing-invalid",
+    "command": [
+      "uv",
+      "tool",
+      "run",
+      "--from",
+      "pyright==1.1.407",
+      "pyright",
+      "--project",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawpython229-final-b\\pyright-invalid.json",
+      "--pythonpath",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawpython229-wheel312-env\\Scripts\\python.exe",
+      "--outputjson"
+    ],
+    "exit": 1,
+    "expected": 1,
+    "seconds": 0.8117104000411928
+  }
+]

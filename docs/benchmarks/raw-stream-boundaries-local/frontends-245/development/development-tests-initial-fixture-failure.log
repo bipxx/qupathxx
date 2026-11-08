@@ -1,0 +1,44 @@
+.....F                                                                   [100%]
+================================== FAILURES ===================================
+__________ test_managed_streamed_result_budget_refuses_before_commit __________
+
+tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4194/test_managed_streamed_result_b0')
+
+    def test_managed_streamed_result_budget_refuses_before_commit(tmp_path):
+        project,image,doc,ids,root,settings=scene(tmp_path);model=model_for(doc,ids,settings);source=tmp_path/'quota.qpx';project.save(str(source));doc.server.close()
+        limits=q.ViewerLimits();limits.result_bytes=65536;session=q.ViewerSession(str(source),limits)
+        def producer():
+            result=completed(session,session.contour_raw_pixel_stream(image,model,settings.lattice,object_id=root,apply=True))
+            assert result.state=='failed' and 'result budget' in result.error and not result.committed and not result.object_ids
+            completed(session,session.close(True))
+>       run(session,producer)
+
+build\ci\scientific-grid-159\tests\test_gui_raw_stream_contours.py:82: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+build\ci\scientific-grid-159\tests\test_viewer_session.py:39: in run
+    if errors:raise errors[0]
+              ^^^^^^^^^^^^^^^
+build\ci\scientific-grid-159\tests\test_viewer_session.py:30: in worker
+    try:producer()
+        ^^^^^^^^^^
+build\ci\scientific-grid-159\tests\test_gui_raw_stream_contours.py:79: in producer
+    result=completed(session,session.contour_raw_pixel_stream(image,model,settings.lattice,object_id=root,apply=True))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+session = <qupathxx._native.ViewerSession object at 0x0000017C43A04C30>
+ticket = 1, consume = True
+
+    def completed(session,ticket,consume=True):
+>       e=session.wait(ticket,15);assert e.state=='succeeded',(e.action,e.state,e.error)
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: ('raw_pixel_stream_contours', 'failed', 'viewer result budget exceeded; consume completed tickets or disable retained results')
+E       assert 'failed' == 'succeeded'
+E         
+E         - succeeded
+E         + failed
+
+build\ci\scientific-grid-159\tests\test_viewer_session.py:23: AssertionError
+=========================== short test summary info ===========================
+FAILED build\ci\scientific-grid-159\tests\test_gui_raw_stream_contours.py::test_managed_streamed_result_budget_refuses_before_commit
+1 failed, 5 passed in 1.63s

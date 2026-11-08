@@ -2,6 +2,7 @@
 #include "atomic_export.hpp"
 #include "sha256.hpp"
 #include "utf8_text.hpp"
+#include "filesystem_access.hpp"
 #include <filesystem>
 #include <algorithm>
 #include <limits>
@@ -41,7 +42,7 @@ bool PixelStreamLink::same_content(const PixelStreamLink& b) const {
 std::shared_ptr<const PixelStreamLink> prepare_pixel_stream_link(const std::string& path,std::uint64_t max_bytes,const std::atomic<bool>* cancelled) {PixelStreamFile file(path,max_bytes);file.verify(cancelled);detail::export_checkpoint(cancelled);return file.link();}
 std::vector<std::uint8_t> PixelStreamRecordCodec::encode(const PixelStreamRecord& record,const std::string& directory,const std::atomic<bool>* cancel) {
     detail::export_checkpoint(cancel);detail::bounded_utf8(record.name,256);if(!record.id || record.name.empty() || !record.link) throw std::invalid_argument("invalid pixel stream record");const auto& l=*record.link;l.validate();Writer w;w.integer(record.id);w.text(record.name);
-    auto path=std::filesystem::u8path(l.path_);const auto relative=path.lexically_relative(std::filesystem::u8path(directory));if(!relative.empty()) path=relative;w.text(path.generic_u8string());
+    auto path=std::filesystem::u8path(l.path_);const auto relative=detail::relative_locator(path,std::filesystem::u8path(directory));if(!relative.empty()) path=relative;w.text(path.generic_u8string());
     w.text(l.model_);w.text(l.summary_.sha256);for(auto v:{std::uint64_t(l.width_),std::uint64_t(l.height_),l.object_,l.revision_,l.grid_[0],l.grid_[1],l.grid_[2],l.grid_[3],std::uint64_t(l.block_),std::uint64_t(l.windowed_),l.summary_.bytes,l.summary_.blocks,l.summary_.valid_pixels,l.summary_.classified_pixels,std::uint64_t(l.summary_.class_counts.size())}) w.integer(v);for(auto n:l.summary_.class_counts) w.integer(n);
     if(w.bytes.size()>limit-64) throw std::length_error("pixel stream record exceeds byte limit");Sha256 h;h.update(w.bytes.data(),w.bytes.size());const auto sha=h.finish();w.bytes.insert(w.bytes.end(),sha.begin(),sha.end());detail::export_checkpoint(cancel);return std::move(w.bytes);
 }
@@ -53,7 +54,7 @@ std::shared_ptr<const PixelStreamRecord> PixelStreamRecordCodec::decode(const st
 void Document::restore_pixel_stream(std::shared_ptr<const PixelStreamRecord> record) {
     if(!record || !record->id || record->id>revision_ || !record->link || record->link->source_width()!=metadata().width || record->link->source_height()!=metadata().height) throw std::invalid_argument("pixel stream record source/revision mismatch");
     detail::bounded_utf8(record->name,256);if(record->name.empty()) throw std::invalid_argument("pixel stream record name is empty");
-    if(streams_.count(record->id) || pixels_.count(record->id) || classifiers_.count(record->id) || cells_.count(record->id) || tissue_.count(record->id) || analysis_.count(record->id)) throw std::invalid_argument("duplicate pixel stream record ID");
+    if(raw_streams_.count(record->id) || streams_.count(record->id) || raw_pixels_.count(record->id) || pixels_.count(record->id) || classifiers_.count(record->id) || cells_.count(record->id) || tissue_.count(record->id) || analysis_.count(record->id)) throw std::invalid_argument("duplicate pixel stream record ID");
     const auto bytes=record->payload_bytes();if(streams_.size()>=10000 || bytes>64u*1024*1024-streams_bytes_) throw std::length_error("pixel stream records exceed 10000-record/64 MiB limit");streams_.emplace(record->id,std::move(record));streams_bytes_+=bytes;
 }
 std::vector<std::shared_ptr<const PixelStreamRecord>> Document::pixel_stream_records() const {std::vector<std::shared_ptr<const PixelStreamRecord>> out;out.reserve(streams_.size());for(const auto& [id,r]:streams_) out.push_back(r);return out;}

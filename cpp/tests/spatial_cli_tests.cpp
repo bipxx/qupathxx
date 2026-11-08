@@ -1,0 +1,105 @@
+#include "qupathxx/spatial_neighborhood.hpp"
+#include "qupathxx/spatial_density.hpp"
+#include "qupathxx/project.hpp"
+#include "spatial_cli.hpp"
+#include <algorithm>
+#include <cmath>
+#include <filesystem>
+#include <fstream>
+#include <iostream>
+#include <iterator>
+#include <sstream>
+#include <stdexcept>
+using namespace qpx;
+namespace fs=std::filesystem;
+void checked(bool value,int line) {if(!value) throw std::runtime_error("spatial CLI check failed at line "+std::to_string(line));}
+#define check(...) checked((__VA_ARGS__),__LINE__)
+template<class F>void rejects(F fn) {bool failed=false;try{fn();}catch(const std::exception&){failed=true;}check(failed);}
+std::string read(const fs::path& path) {std::ifstream in(path,std::ios::binary);return {std::istreambuf_iterator<char>(in),{}};}
+struct Capture {
+    std::ostringstream out,error;std::streambuf* old_out=std::cout.rdbuf(out.rdbuf());std::streambuf* old_error=std::cerr.rdbuf(error.rdbuf());
+    ~Capture() {std::cout.rdbuf(old_out);std::cerr.rdbuf(old_error);}
+};
+int main() {try {
+    std::atomic<bool> cancelled{false};check(!detail::spatial_cli({"batch","--unrelated"},cancelled));
+    if(!has_project()) {check(detail::spatial_cli({"batch","--measure-spatial","disabled.qpxproj","new.qpxproj","--image","1","--source","1"},cancelled)==1);std::cout<<"Spatial CLI project capability unavailable\n";return 0;}
+    Project project;const auto root=fs::current_path()/(project.identity()+"-spatial-cli");fs::create_directory(root);
+    auto doc=std::make_shared<Document>(Image::demo());const auto a=doc->add_detection(Roi::points({{32,32}}));
+    const auto b=doc->add_cell(Roi::rectangle({34,34,8,8}),Roi::rectangle({34,35,2,2}));const auto c=doc->add_detection(Roi::points({{32,32}}));doc->set_calibration(.5,.25);
+    const auto image=project.add_document(doc,"Missing image",(root/"absent.ppm").u8string(),"ppm");
+    const auto other=project.add_document(std::make_shared<Document>(Image::demo()),"Untouched");project.set_active_image(other);
+    const auto source=root/"source.qpxproj",output=root/"measured.qpxproj";project.save(source.u8string());const auto original=read(source);
+    const auto before_revision=doc->revision();
+    std::vector<std::string> measure={"batch","--measure-spatial",source.u8string(),output.u8string(),"--image",std::to_string(image),"--source",std::to_string(b),"--source",std::to_string(a),"--target",std::to_string(c),"--units","um","--name","Nearest cohort"};
+    {Capture log;check(detail::spatial_cli(measure,cancelled)==0);const auto text=log.out.str();check(log.error.str().empty() && text.find("\"command\":\"measure\"")!=std::string::npos && std::count(text.begin(),text.end(),'\n')==1);}
+    check(read(source)==original && doc->revision()==before_revision && !project.dirty());auto restored=Project::open(output.u8string());auto computed=restored->document(image);
+    check(restored->identity()==project.identity() && restored->active_image()==other && restored->images().size()==2 && computed->spatial_record_count()==1);
+    const auto record=computed->spatial_records()[0];const auto id=std::to_string(record->id);
+    check(record->name=="Nearest cohort" && record->result->rows().size()==2 && record->result->rows()[0].distance==0 && computed->spatial_status(record->id)=="unverified");
+    check(record->result->rows()[1].distance==std::hypot(1.5,1.) && record->result->options().units==SpatialDistanceUnits::Micrometres);
+    std::vector<std::string> export_args={"batch","--export-spatial",output.u8string(),(root/"table.csv").u8string(),"--image",std::to_string(image),"--record",id};
+    {Capture log;check(detail::spatial_cli(export_args,cancelled)==0);check(log.out.str().find("\"historical\":true")!=std::string::npos);}
+    check(read(root/"table.csv")==spatial_distance_csv(*record->result));const auto table=read(root/"table.csv"),saved=read(output);
+    std::vector<std::string> verify={"batch","--verify-spatial",output.u8string(),"--image",std::to_string(image),"--record",id};
+    {Capture log;check(detail::spatial_cli(verify,cancelled)==0);check(log.out.str().find("\"state\":\"verified\"")!=std::string::npos);}
+    check(read(output)==saved && !fs::exists(root/"absent.ppm"));
+    {Capture log;check(detail::spatial_cli(measure,cancelled)==1 && detail::spatial_cli(export_args,cancelled)==1);}check(read(output)==saved && read(root/"table.csv")==table);
+    for(auto path:{source,fs::path(source.u8string()+"-journal"),root/"absent.ppm"}) {
+        auto bad=measure;bad[3]=path.u8string();{Capture log;check(detail::spatial_cli(bad,cancelled)==1);}check(read(source)==original && !fs::exists(root/"absent.ppm"));
+    }
+    std::error_code error;fs::create_hard_link(source,root/"hardlink.qpxproj",error);
+    if(!error) {auto bad=measure;bad[3]=(root/"hardlink.qpxproj").u8string();Capture log;check(detail::spatial_cli(bad,cancelled)==1 && read(source)==original);}
+    auto bounded=export_args;bounded[3]=(root/"limited.csv").u8string();bounded.insert(bounded.end(),{"--csv-bytes","1"});{Capture log;check(detail::spatial_cli(bounded,cancelled)==1);}check(!fs::exists(root/"limited.csv"));
+    auto snapshot=measure;snapshot[3]=(root/"limited.qpxproj").u8string();snapshot.insert(snapshot.end(),{"--save-snapshot-bytes","1"});{Capture log;check(detail::spatial_cli(snapshot,cancelled)==1);}check(!fs::exists(root/"limited.qpxproj"));
+    auto stopped=measure;stopped[3]=(root/"cancelled.qpxproj").u8string();cancelled=true;{Capture log;check(detail::spatial_cli(stopped,cancelled)==130);}cancelled=false;check(!fs::exists(root/"cancelled.qpxproj"));
+    auto empty=measure;empty[3]=(root/"empty.qpxproj").u8string();empty.erase(empty.begin()+10,empty.begin()+12);{Capture log;check(detail::spatial_cli(empty,cancelled)==0);}
+    const auto missing=Project::open(empty[3])->document(image)->spatial_records()[0]->result;check(missing->target_count()==0 && !missing->rows()[0].distance && !missing->rows()[1].distance);
+    for(const auto& extra:std::vector<std::vector<std::string>>{{"--image","1"},{"--units","nm"},{"--source",std::to_string(a)},{"--source","-1"},{"--work-bytes","1"},{"--unknown","1"},{"--body","--body"},{"--name",""}}) {
+        auto bad=measure;bad.insert(bad.end(),extra.begin(),extra.end());rejects([&]{detail::spatial_cli(bad,cancelled);});
+    }
+    rejects([&]{detail::spatial_cli({"batch","--verify-spatial",output.u8string(),"--image",std::to_string(image)},cancelled);});
+    computed->remove_annotation(c);restored->save((root/"changed.qpxproj").u8string());verify[2]=(root/"changed.qpxproj").u8string();{Capture log;check(detail::spatial_cli(verify,cancelled)==1);}
+    for(const auto& item:fs::directory_iterator(root)) check(item.path().filename().u8string().find(".qpx-tmp-")==std::string::npos && item.path().filename().u8string().rfind(".qpx-save-new-",0)!=0);
+    check(read(source)==original);
+    const auto counts_path=root/"neighborhood.qpxproj";
+    auto count_measure=measure;count_measure[3]=counts_path.u8string();count_measure.insert(count_measure.end(),{"--operation","radius-count","--radius","3"});
+    {Capture log;check(detail::spatial_cli(count_measure,cancelled)==0);check(log.out.str().find("qpx.spatial-neighborhood-cli/1")!=std::string::npos);}
+    const auto count_project=Project::open(counts_path.u8string());const auto count_doc=count_project->document(image);
+    check(count_doc->neighborhood_record_count()==1 && count_doc->spatial_record_count()==0);
+    const auto count_record=count_doc->neighborhood_records().front();
+    SpatialNeighborhoodOptions p;p.units=SpatialDistanceUnits::Micrometres;p.radius=3;
+    const auto expected=measure_spatial_neighborhoods(SpatialNeighborhoodRequest(*doc,{b,a},{c},p));
+    check(count_record->result->sha256()==expected->sha256());
+    std::vector<std::string> count_export={"batch","--export-spatial",counts_path.u8string(),(root/"neighborhood.csv").u8string(),"--image",std::to_string(image),"--record",std::to_string(count_record->id),"--operation","radius-count"};
+    {Capture log;check(detail::spatial_cli(count_export,cancelled)==0);}
+    check(read(root/"neighborhood.csv")==spatial_neighborhood_csv(*expected));
+    std::vector<std::string> count_verify={"batch","--verify-spatial",counts_path.u8string(),"--image",std::to_string(image),"--record",std::to_string(count_record->id),"--operation","radius-count"};
+    {Capture log;check(detail::spatial_cli(count_verify,cancelled)==0);}
+    for(const auto& value:{"0","-1","nan","inf","3junk"}) {auto bad=count_measure;bad.back()=value;rejects([&]{detail::spatial_cli(bad,cancelled);});}
+    auto no_radius=count_measure;no_radius.resize(no_radius.size()-2);rejects([&]{detail::spatial_cli(no_radius,cancelled);});
+    auto wrong_mode=measure;wrong_mode.insert(wrong_mode.end(),{"--radius","3"});rejects([&]{detail::spatial_cli(wrong_mode,cancelled);});
+    auto density_doc=std::make_shared<Document>(Image::demo());density_doc->set_calibration(2,.5);
+    const auto window=density_doc->add_rectangle({0,0,20,20}),t1=density_doc->add_rectangle({0,0,10,10}),t2=density_doc->add_rectangle({5,0,10,10}),excluded=density_doc->add_rectangle({4,0,2,10});
+    const auto ca=density_doc->add_cell(Roi::rectangle({1,1,2,2})),cb=density_doc->add_cell(Roi::rectangle({4,4,2,2})),cc=density_doc->add_cell(Roi::rectangle({7,7,2,2}));
+    Project density_project;const auto di=density_project.add_document(density_doc,"Density missing image",(root/"density-absent.ppm").u8string(),"ppm");
+    const auto density_source=root/"density-source.qpxproj",density_output=root/"density.qpxproj";density_project.save(density_source.u8string());
+    auto ids=[&](const char* name,const std::vector<std::uint64_t>& cohort) {std::ofstream out(root/name);for(auto value:cohort)out<<value<<'\n';};
+    ids("windows.ids",{window});ids("tissue.ids",{t2,t1});ids("excluded.ids",{excluded});ids("cells.ids",{cc,cb,ca});
+    const auto expected_density=measure_spatial_density(SpatialDensityRequest(*density_doc,{window},{t1,t2},{excluded},{ca,cb,cc}));
+    std::vector<std::string> density_measure={"batch","--measure-spatial",density_source.u8string(),density_output.u8string(),"--image",std::to_string(di),"--operation","tissue-density","--source-ids",(root/"windows.ids").u8string(),"--target-ids",(root/"cells.ids").u8string(),"--tissue-ids",(root/"tissue.ids").u8string(),"--exclude-ids",(root/"excluded.ids").u8string()};
+    {Capture log;check(detail::spatial_cli(density_measure,cancelled)==0);check(log.out.str().find("qpx.spatial-density-cli/1")!=std::string::npos && log.out.str().find("cells/mm2")!=std::string::npos);}
+    const auto density_loaded=Project::open(density_output.u8string())->document(di);const auto density_record=density_loaded->density_records().front();
+    check(density_record->result->sha256()==expected_density->sha256() && density_record->result->rows()[0].count==2 && density_record->result->rows()[0].area_pixels==130);
+    std::vector<std::string> density_export={"batch","--export-spatial",density_output.u8string(),(root/"density.csv").u8string(),"--image",std::to_string(di),"--record",std::to_string(density_record->id),"--operation","tissue-density"};
+    {Capture log;check(detail::spatial_cli(density_export,cancelled)==0);}check(read(root/"density.csv")==spatial_density_csv(*expected_density));
+    std::vector<std::string> density_verify={"batch","--verify-spatial",density_output.u8string(),"--image",std::to_string(di),"--record",std::to_string(density_record->id),"--operation","tissue-density"};
+    const auto density_saved=read(density_output);{Capture log;check(detail::spatial_cli(density_verify,cancelled)==0);}check(read(density_output)==density_saved && !fs::exists(root/"density-absent.ppm"));
+    for(const auto& extra:std::vector<std::vector<std::string>>{{"--units","px"},{"--include-self"},{"--radius","2"},{"--max-distance-tests","10"},{"--tissue",std::to_string(t1)}}) {
+        auto bad=density_measure;bad.insert(bad.end(),extra.begin(),extra.end());rejects([&]{detail::spatial_cli(bad,cancelled);});
+    }
+    auto budget_density=density_measure;budget_density[3]=(root/"density-limited.qpxproj").u8string();budget_density.insert(budget_density.end(),{"--max-membership-tests","1"});
+    {Capture log;check(detail::spatial_cli(budget_density,cancelled)==1);}check(!fs::exists(root/"density-limited.qpxproj"));
+    auto wrong_density_mode=measure;wrong_density_mode.insert(wrong_density_mode.end(),{"--tissue",std::to_string(t1)});rejects([&]{detail::spatial_cli(wrong_density_mode,cancelled);});
+    fs::remove_all(root);
+    std::cout<<"Spatial CLI: native measure/save/reopen, historical streamed export, fresh verification, missing-source zero-IO, guarded inputs, no-overwrite, budgets, cancellation and argument refusal passed\n";
+}catch(const std::exception& e) {std::cerr<<e.what()<<'\n';return 1;}}

@@ -2,6 +2,10 @@
 #include "cell_contours.hpp"
 #include "cell_numeric.hpp"
 #include "calibrated_cell_numeric.hpp"
+#include "cell_recipe.hpp"
+#include "log_watershed.hpp"
+#include "cell_expansion.hpp"
+#include "scientific_cells.hpp"
 #include "sha256.hpp"
 #include <chrono>
 #include <cstring>
@@ -13,18 +17,18 @@
 namespace qpx {
 namespace {
 using cell_detail::checkpoint;
-std::size_t estimate(const TissueRequest& request,const CellParameters& p) {
-    const auto b=request.level_bounds();const auto n=static_cast<std::uint64_t>(b.width)*static_cast<std::uint64_t>(b.height);
-    const auto bytes=80ull*n+40ull*static_cast<std::uint64_t>(std::max(b.width,b.height))+1024ull*std::min<std::uint64_t>(n,p.max_cells)+16ull*p.tile_size*p.tile_size+65536+(has_geos()?2ull*p.contours.work_bytes:0);
+std::size_t estimate(const TissueRequest& request,const CellParameters& p,bool statistics) {
+    const auto b=cell_detail::processing_grid(request.level_bounds(),request.provenance()->source.levels.at(request.level()),p);
+    const auto bytes=cell_detail::work_base(b,p,statistics)+(has_geos()?2ull*p.contours.work_bytes:0);
     if(bytes>p.work_bytes) throw std::length_error("cell raster/contours exceed work budget; select a coarser level or smaller ROI");return static_cast<std::size_t>(bytes);
 }
-TissueRequest choose(const Document& doc,std::uint64_t id,const StainTransform& transform,const CellParameters& p) {
+TissueRequest choose(const Document& doc,std::uint64_t id,const StainTransform& transform,const CellParameters& p,bool statistics) {
     p.validate();TissueParameters t;t.feature=p.feature;t.threshold=p.threshold;t.tile_size=p.tile_size;t.max_components=p.max_cells;t.work_bytes=p.work_bytes;
-    if(p.level>=0) {t.level=p.level;TissueRequest r(doc,id,transform,t);estimate(r,p);return r;}
+    if(p.level>=0) {t.level=p.level;TissueRequest r(doc,id,transform,t);estimate(r,p,statistics);return r;}
     std::optional<TissueRequest> best;
     for(std::size_t i=0;i<doc.metadata().levels.size();++i) {
         t.level=static_cast<std::int32_t>(i);
-        try {TissueRequest r(doc,id,transform,t);estimate(r,p);if(!best || r.downsample()<best->downsample()) best=std::move(r);}
+        try {TissueRequest r(doc,id,transform,t);estimate(r,p,statistics);if(!best || r.downsample()<best->downsample()) best=std::move(r);}
         catch(const std::length_error&) {} // Try a coarser native level, never arbitrary resampling.
         catch(const std::invalid_argument& e) {if(std::string(e.what()).find("ROI contains no pixel centers")==std::string::npos) throw;}
     }
@@ -93,6 +97,16 @@ std::vector<std::uint32_t> watershed(const std::vector<std::uint8_t>& mask,const
 }
 }
 void CellParameters::validate() const {
+    if(algorithm==CellAlgorithm::GridLogWatershedBodies) throw std::invalid_argument("explicit-grid cells require GridCellParameters and ScientificGrid");
+    if(algorithm==CellAlgorithm::SampledLogWatershedBodies && (min_peak_radius!=0 || min_seed_distance!=0))
+        throw std::invalid_argument("sampled LoG requires zero radius and seed spacing filters; use CellParameters(SampledLogWatershedBodies)");
+    if(algorithm==CellAlgorithm::SampledLogWatershedBodies && connectivity!=8)
+        throw std::invalid_argument("sampled LoG requires eight-connected maximum analysis");
+    cell_detail::algorithm_id(algorithm);
+    if(!std::isfinite(log_prominence) || log_prominence<=0 || log_prominence>1000000 || context_padding>4096)
+        throw std::invalid_argument("invalid LoG prominence/context padding");
+    if(algorithm==CellAlgorithm::DistanceWatershed && (log_prominence!=.5 || context_padding!=32))
+        throw std::invalid_argument("nondefault LoG options require the LoG cell algorithm");
     TissueParameters t;t.feature=feature;t.threshold=threshold;t.level=level;t.tile_size=tile_size;t.work_bytes=work_bytes;t.max_components=max_cells;t.connectivity=connectivity;t.validate();
     if(!std::isfinite(sigma) || sigma<0 || sigma>16 || !std::isfinite(min_peak_radius) || min_peak_radius<0 || min_peak_radius>1000000 ||
        !std::isfinite(min_seed_distance) || min_seed_distance<0 || min_seed_distance>1000000 || !std::isfinite(cell_expansion) || cell_expansion<0 || cell_expansion>1000000)
@@ -101,41 +115,30 @@ void CellParameters::validate() const {
     contours.validate();if(!contours.clip_to_roi) throw std::invalid_argument("cell contours must clip to their source ROI");
 }
 CellRequest::CellRequest(const Document& doc,std::uint64_t id,const StainTransform& transform,CellParameters p):
-    source_(choose(doc,id,transform,p)),parameters_(p),reader_(doc.server()),transform_(transform),object_revision_(doc.annotation(id).revision),document_revision_(doc.revision()) {work_=estimate(source_,p);}
+    CellRequest(doc,id,transform,std::move(p),true) {}
+CellRequest::CellRequest(const Document& doc,std::uint64_t id,const StainTransform& transform,CellParameters p,bool statistics):
+    measure_intensity_(statistics),source_(std::make_shared<TissueRequest>(choose(doc,id,transform,p,statistics))),parameters_(p),reader_(doc.server()),transform_(transform),object_revision_(doc.annotation(id).revision),document_revision_(doc.revision()) {
+    processing_grid_=cell_detail::processing_grid(source_->level_bounds(),reader_->metadata().levels.at(level()),p);work_=estimate(*source_,p,statistics);
+}
 CellRequest CellRequest::with_nucleus_area_limits(const Document& doc,std::uint64_t id,const StainTransform& transform,
     std::optional<double> minimum,std::optional<double> maximum,CellParameters p) {
     detail::validate_cell_area_limits(minimum,maximum);
     CellRequest request(doc,id,transform,p);
     if(!minimum && !maximum) return request;
     request.physical_calibration_revision_=doc.calibration_revision();
-    const auto& provenance=request.source_.provenance();
+    const auto& provenance=request.source_->provenance();
     if(!provenance || !provenance->effective_pixel_width_um || !provenance->effective_pixel_height_um)
         throw std::invalid_argument("physical nucleus area limits require both pixel calibration axes");
     const auto x=*provenance->effective_pixel_width_um,y=*provenance->effective_pixel_height_um,scale=request.downsample();
     const auto grid=request.level_bounds();
     const auto count=static_cast<std::uint64_t>(grid.width)*static_cast<std::uint64_t>(grid.height);
-    if(count==std::numeric_limits<std::uint64_t>::max()) throw std::overflow_error("cell sampling grid is not representable");
-    auto first=[&](auto predicate) {
-        std::uint64_t lo=1,hi=count+1;
-        while(lo<hi) {const auto mid=lo+(hi-lo)/2;
-            const auto area=detail::calibrated_cell_product({double(mid),scale,scale,x,y},true);
-            if(predicate(area)) hi=mid;else lo=mid+1;
-        }
-        return lo;
-    };
-    const auto lower=minimum?first([&](double area){return area>=*minimum;}):1;
-    // A nonempty nucleus always has positive mathematical area, including when
-    // the final double underflows. Explicit maximum zero therefore rejects all.
-    const auto upper=maximum?(*maximum==0?0:first([&](double area){return area>*maximum;})-1):count;
-    const auto effective_min=std::max(p.min_nucleus_pixels,lower);
-    const auto effective_max=std::min(p.max_nucleus_pixels?p.max_nucleus_pixels:count,upper);
-    if(effective_min>effective_max) {
-        request.parameters_.min_nucleus_pixels=count+1;request.parameters_.max_nucleus_pixels=0;
-    } else {
-        request.parameters_.min_nucleus_pixels=effective_min;
-        if(upper<count && (!p.max_nucleus_pixels || upper<p.max_nucleus_pixels)) request.parameters_.max_nucleus_pixels=upper;
-    }
+    const auto limits=detail::calibrated_area_pixel_limits(count,scale,x,y,minimum,maximum,p.min_nucleus_pixels,p.max_nucleus_pixels);
+    request.parameters_.min_nucleus_pixels=limits.first;request.parameters_.max_nucleus_pixels=limits.second;
     request.parameters_.validate();return request;
+}
+std::optional<CellIntensityStatistics> CellResult::intensity_statistics(std::uint32_t label) const {
+    if(!label || label>features_.size()) throw std::out_of_range("cell label is outside this result");
+    if(!measure_intensity_) return {};return intensity_statistics_.at(label-1);
 }
 CalibratedCellFeature CellResult::calibrated_feature(std::uint32_t label) const {
     if(!label || label>features_.size()) throw std::out_of_range("cell label is outside this result");
@@ -146,22 +149,23 @@ CalibratedCellFeature CellResult::calibrated_feature(std::uint32_t label) const 
     value.pixel_height_um=provenance->effective_pixel_height_um;
     if(!value.pixel_width_um || !value.pixel_height_um) return value;
     auto product=[](std::initializer_list<double> factors) {return detail::calibrated_cell_product(factors);};
-    const auto& feature=features_[label-1];const auto scale=nuclei_->downsample();
+    const auto& feature=features_[label-1];const auto sx=nuclei_->downsample_x(),sy=nuclei_->downsample_y();
     const auto x=*value.pixel_width_um,y=*value.pixel_height_um;
-    value.nucleus_sample_area_um2=product({double(feature.nucleus_pixels),scale,scale,x,y});
-    value.cell_sample_area_um2=product({double(feature.cell_pixels),scale,scale,x,y});
-    value.cytoplasm_sample_area_um2=product({double(feature.cell_pixels-feature.nucleus_pixels),scale,scale,x,y});
+    value.nucleus_sample_area_um2=product({double(feature.nucleus_pixels),sx,sy,x,y});
+    value.cell_sample_area_um2=product({double(feature.cell_pixels),sx,sy,x,y});
+    value.cytoplasm_sample_area_um2=product({double(feature.cell_pixels-feature.nucleus_pixels),sx,sy,x,y});
     const auto a=nuclei_->components().at(label-1).centroid,b=cells_->components().at(label-1).centroid;
     value.nucleus_centroid_um=Point{product({a.x,x}),product({a.y,y})};
     value.cell_centroid_um=Point{product({b.x,x}),product({b.y,y})};
     return value;
 }
-std::size_t CellResult::retained_bytes() const {return sizeof(CellResult)+markers_.capacity()*sizeof(CellMarker)+features_.capacity()*sizeof(CellFeature)+(nuclei_?nuclei_->retained_bytes():0)+(cells_?cells_->retained_bytes():0)+(nucleus_contours_?nucleus_contours_->retained_bytes():0)+(cell_contours_?cell_contours_->retained_bytes():0);}
+std::size_t CellResult::retained_bytes() const {return sizeof(CellResult)+markers_.capacity()*sizeof(CellMarker)+features_.capacity()*sizeof(CellFeature)+intensity_statistics_.capacity()*sizeof(CellIntensityStatistics)+domain_bits_.capacity()+(nuclei_?nuclei_->retained_bytes():0)+(cells_?cells_->retained_bytes():0)+(nucleus_contours_?nucleus_contours_->retained_bytes():0)+(cell_contours_?cell_contours_->retained_bytes():0);}
 struct CellKernel {
     static std::shared_ptr<const TissueResult> raster(const CellRequest& request,std::vector<std::uint32_t> labels,std::size_t count,const std::string& digest,std::uint64_t samples,std::uint64_t threshold,bool body,const std::atomic<bool>* cancelled) {
-        auto r=std::shared_ptr<TissueResult>(new TissueResult());r->provenance_=request.source_.provenance();r->algorithm_=body?"qpx.cell-bodies/1":"qpx.cell-nuclei/1";r->input_sha256_=digest;
+        auto r=std::shared_ptr<TissueResult>(new TissueResult());r->provenance_=request.source_->provenance();r->algorithm_=body?"qpx.cell-bodies/1":"qpx.cell-nuclei/1";r->input_sha256_=digest;
+        if(request.parameters_.algorithm!=CellAlgorithm::DistanceWatershed) {r->algorithm_=cell_detail::mask_algorithm(request.parameters_.algorithm,body);r->input_format_override_=cell_detail::input_format(request.parameters_.algorithm,request.level()!=0);}
         r->bounds_=request.bounds();r->level_bounds_=request.level_bounds();r->level_=request.level();r->downsample_=request.downsample();r->roi_=request.roi();
-        r->image_bounds_={0,0,double(request.reader_->metadata().width),double(request.reader_->metadata().height)};r->parameters_=request.source_.parameters();
+        r->image_bounds_={0,0,double(request.reader_->metadata().width),double(request.reader_->metadata().height)};r->parameters_=request.source_->parameters();
         r->white_=request.transform_.white();r->stains_=request.transform_.stains();r->object_id_=request.object_id();r->object_revision_=request.object_revision_;r->document_revision_=request.document_revision_;
         r->samples_=samples;r->threshold_pixels_=threshold;r->cleaned_pixels_=threshold;r->raw_components_=count;r->estimated_work_bytes_=request.work_;r->labels_=std::move(labels);
         struct Bounds {std::uint64_t n=0,x=0,y=0;std::size_t x0=std::numeric_limits<std::size_t>::max(),y0=std::numeric_limits<std::size_t>::max(),x1=0,y1=0;};
@@ -174,42 +178,19 @@ struct CellKernel {
         if(body) r->threshold_pixels_=r->cleaned_pixels_=r->foreground_pixels_;
         return r;
     }
-    static void contours(CellResult& result,const std::atomic<bool>* cancelled) {
-        const auto& p=result.parameters_;const auto count=result.features_.size();
-        if(has_geos()) {
-            result.nucleus_contours_=trace_tissue(*result.nuclei_,p.contours,cancelled);result.cell_contours_=trace_tissue(*result.cells_,p.contours,cancelled);
-            if(result.nucleus_contours_->components().size()!=count || result.cell_contours_->components().size()!=count) throw std::runtime_error("cell contours did not preserve every label");
-            for(std::size_t i=0;i<count;++i) {checkpoint(cancelled);const auto& body=result.cell_contours_->components()[i];const auto& nucleus=result.nucleus_contours_->components()[i];
-                if(body.label!=i+1 || nucleus.label!=i+1) throw std::runtime_error("cell contour label validation failed");
-                if(!body.geometry.covers(nucleus.geometry)) {
-                    // Independent ROI intersections can leave zero-area boundary
-                    // remnants that fail GEOS Covers. Normalize this fresh body
-                    // before publication, without relaxing containment predicates.
-                    if(nucleus.geometry.boolean_operation(body.geometry,BooleanOp::Difference)) throw std::runtime_error("cell nucleus extends outside its body contour");
-                    auto united=body.geometry.boolean_operation(nucleus.geometry,BooleanOp::Union);checkpoint(cancelled);
-                    if(!united || !united->covers(body.geometry) || !united->covers(nucleus.geometry) || !result.nuclei_->roi().covers(*united)) throw std::runtime_error("cell contour boundary normalization failed");
-                    std::size_t before=0,after=0;for(const auto& path:body.geometry.paths()) before+=path.size();for(const auto& path:united->paths()) after+=path.size();
-                    // trace_tissue allocated mutable native storage; this result
-                    // has not escaped the worker or acquired any external owner.
-                    auto repaired=std::const_pointer_cast<TissueContours>(result.cell_contours_);
-                    const auto vertices=repaired->vertices_-before+after,retained=repaired->retained_-body.geometry.payload_bytes()+united->payload_bytes();
-                    if(vertices>p.contours.max_vertices || retained>p.contours.work_bytes) throw std::length_error("cell contour normalization exceeds geometry budget");
-                    repaired->components_[i].geometry=std::move(*united);repaired->vertices_=vertices;repaired->retained_=retained;
-                }
-            }
-        }
-    }
     static std::shared_ptr<const CellResult> run(const CellRequest& request,const std::atomic<bool>* cancelled,std::atomic<std::uint64_t>* completed=nullptr,std::atomic<int>* phase=nullptr) {
+        if(request.scientific_) return ScientificCellKernel::run(request,cancelled,completed,phase);
         checkpoint(cancelled);const auto began=std::chrono::steady_clock::now();const auto& p=request.parameters_;const auto grid=request.level_bounds();
         const auto width=static_cast<std::size_t>(grid.width),height=static_cast<std::size_t>(grid.height),n=width*height;const auto scale=request.downsample();
-        auto result=std::shared_ptr<CellResult>(new CellResult());result->parameters_=p;result->ticket_=request.ticket_;
+        auto result=std::shared_ptr<CellResult>(new CellResult());result->measure_intensity_=request.measure_intensity_;result->parameters_=p;result->ticket_=request.ticket_;result->algorithm_=cell_detail::algorithm_id(p.algorithm);
         std::vector<float> channels(n*3);std::vector<std::uint8_t> rgb(n*3),domain(n),mask(n);std::vector<double> smooth(n);
-        Sha256 digest;const std::string format=request.level()==0?"qpx.rgba-tiles/1":"qpx.rgba-level-tiles/1";digest.update(format.data(),format.size());const auto& metadata=request.reader_->metadata();
+        Sha256 digest;const std::string format=cell_detail::input_format(p.algorithm,request.level()!=0);digest.update(format.data(),format.size());const auto& metadata=request.reader_->metadata();
         digest.integer(metadata.width);digest.integer(metadata.height);
         if(request.level()!=0) {std::uint64_t bits;std::memcpy(&bits,&scale,8);const auto& l=metadata.levels[request.level()];digest.integer(request.level());digest.integer(l.width);digest.integer(l.height);digest.integer(bits);}
         const auto x0=static_cast<std::int64_t>(grid.x),y0=static_cast<std::int64_t>(grid.y),x1=x0+static_cast<std::int64_t>(width),y1=y0+static_cast<std::int64_t>(height);
         for(auto v:{x0,y0,x1,y1}) digest.integer(v);digest.integer(p.tile_size);std::uint64_t tiles=0,samples=0,threshold=0;
         if(phase) phase->store(1);
+        const auto roi_grid=request.source_->level_bounds();
         for(auto y=y0;y<y1;) {const auto h=std::min<std::int64_t>(p.tile_size,y1-y);
             for(auto x=x0;x<x1;) {checkpoint(cancelled);const auto w=std::min<std::int64_t>(p.tile_size,x1-x);
                 const auto rx=static_cast<std::int64_t>(std::round(static_cast<long double>(x)*scale)),ry=static_cast<std::int64_t>(std::round(static_cast<long double>(y)*scale));
@@ -218,7 +199,11 @@ struct CellKernel {
                 const auto values=p.feature==TissueFeature::OpticalDensitySum?request.transform_.optical_densities(pixels,cancelled):request.transform_.deconvolve(pixels,cancelled);
                 for(std::int64_t row=0;row<h;++row) {checkpoint(cancelled);for(std::int64_t col=0;col<w;++col) {
                     const auto src=static_cast<std::size_t>(row*w+col),dst=static_cast<std::size_t>(y-y0+row)*width+static_cast<std::size_t>(x-x0+col);
-                    if(!std::isfinite(values.values()[src*3]) || !request.roi().contains({(double(x+col)+.5)*scale,(double(y+row)+.5)*scale})) continue;
+                    if(!std::isfinite(values.values()[src*3])) continue;
+                    if(p.algorithm!=CellAlgorithm::DistanceWatershed) smooth[dst]=p.feature==TissueFeature::OpticalDensitySum?
+                        double(values.values()[src*3])+double(values.values()[src*3+1])+double(values.values()[src*3+2]):values.values()[src*3+static_cast<int>(p.feature)-1];
+                    if((p.algorithm!=CellAlgorithm::DistanceWatershed && (x+col<roi_grid.x || y+row<roi_grid.y || x+col>=roi_grid.x+roi_grid.width || y+row>=roi_grid.y+roi_grid.height)) ||
+                       !request.roi().contains({(double(x+col)+.5)*scale,(double(y+row)+.5)*scale})) continue;
                     domain[dst]=1;++samples;for(std::size_t c=0;c<3;++c) {channels[dst*3+c]=values.values()[src*3+c];rgb[dst*3+c]=pixels.bytes()[src*4+c];}
                     smooth[dst]=p.feature==TissueFeature::OpticalDensitySum?double(channels[dst*3])+double(channels[dst*3+1])+double(channels[dst*3+2]):channels[dst*3+static_cast<int>(p.feature)-1];
                 }}
@@ -226,42 +211,86 @@ struct CellKernel {
             }y+=h;
         }
         if(!samples) throw std::invalid_argument("cell ROI contains no opaque pixel centers");const auto sha=digest.finish();
-        if(phase) phase->store(2);cell_detail::gaussian(smooth,domain,width,height,p.sigma,cancelled);
-        for(std::size_t i=0;i<n;++i) {if((i&4095)==0) checkpoint(cancelled);mask[i]=domain[i] && smooth[i]>=p.threshold;threshold+=mask[i]!=0;}
-        std::vector<double>().swap(smooth);std::vector<double> distance(n);for(std::size_t i=0;i<n;++i) distance[i]=mask[i]?cell_detail::infinity:0;
-        if(phase) phase->store(3);cell_detail::distance(distance,width,height,true,nullptr,cancelled);
-        if(phase) phase->store(4);auto nuclei=watershed(mask,distance,width,height,p,result->markers_,result->raw_peaks_,cancelled);
-        std::size_t count=0;for(auto& marker:result->markers_) {marker.center={(grid.x+marker.pixel_index%width+.5)*scale,(grid.y+marker.pixel_index/width+.5)*scale};count=std::max<std::size_t>(count,marker.result_label);}
+        if(phase) phase->store(2);
+        std::vector<double> distance;std::vector<std::uint32_t> nuclei;
+        if(p.algorithm!=CellAlgorithm::DistanceWatershed) {
+            std::vector<float> feature(smooth.begin(),smooth.end());std::vector<double>().swap(smooth);
+            cell_detail::LogParameters log;log.sigma=p.sigma;log.threshold=p.threshold;log.prominence=p.log_prominence;
+            log.minimum_radius=p.min_peak_radius;log.minimum_spacing=p.min_seed_distance;log.minimum_area=p.min_nucleus_pixels;log.maximum_area=p.max_nucleus_pixels;
+            log.peak_connectivity=p.connectivity;log.maximum_cells=p.max_cells;log.work_bytes=p.work_bytes;
+            log.sampled_shape=p.algorithm==CellAlgorithm::SampledLogWatershedBodies;
+            log.eight_connected_background=log.sampled_shape;
+            auto detected=cell_detail::log_watershed(feature,domain,width,height,log,cancelled,phase);threshold=detected.candidate_pixels;
+            // Both contextual nuclei and retained ROI fragments obey the area
+            // contract. A clipped fragment cannot bypass physical area bounds.
+            std::vector<std::uint64_t> counts(detected.count+1);for(auto label:detected.labels) ++counts[label];
+            std::vector<std::uint32_t> dense(detected.count+1);std::uint32_t next=0;
+            for(std::size_t i=1;i<counts.size();++i) if(counts[i]>=p.min_nucleus_pixels && (!p.max_nucleus_pixels || counts[i]<=p.max_nucleus_pixels)) dense[i]=++next;
+            for(auto& label:detected.labels) label=dense[label];
+            for(const auto& peak:detected.peaks) {
+                if(peak.radius>=p.min_peak_radius) ++result->raw_peaks_;
+                if(peak.selected) result->markers_.push_back({static_cast<std::uint32_t>(result->markers_.size()+1),dense[peak.label],peak.index,{},peak.radius});
+            }
+            nuclei=std::move(detected.labels);
+        } else {
+            cell_detail::gaussian(smooth,domain,width,height,p.sigma,cancelled);
+            for(std::size_t i=0;i<n;++i) {if((i&4095)==0) checkpoint(cancelled);mask[i]=domain[i] && smooth[i]>=p.threshold;threshold+=mask[i]!=0;}
+            std::vector<double>().swap(smooth);distance.resize(n);for(std::size_t i=0;i<n;++i) distance[i]=mask[i]?cell_detail::infinity:0;
+            if(phase) phase->store(3);cell_detail::distance(distance,width,height,true,nullptr,cancelled);
+            if(phase) phase->store(4);nuclei=watershed(mask,distance,width,height,p,result->markers_,result->raw_peaks_,cancelled);
+        }
+        // ROI clipping can retain a component whose shape maximum lies outside
+        // the ROI. Size measurement arrays from the retained labels themselves.
+        std::size_t count=0;for(auto label:nuclei) count=std::max<std::size_t>(count,label);
+        for(auto& marker:result->markers_) marker.center={(grid.x+marker.pixel_index%width+.5)*scale,(grid.y+marker.pixel_index/width+.5)*scale};
         std::vector<std::uint8_t>().swap(mask);std::vector<std::uint32_t> bodies(n);
         if(phase) phase->store(5);
-        if(count && p.cell_expansion>0) {
+        if(count && p.cell_expansion>0 && (p.algorithm==CellAlgorithm::LogWatershedBodies || p.algorithm==CellAlgorithm::SampledLogWatershedBodies)) {
+            bodies=cell_detail::expand_cells_watershed(nuclei,domain,width,height,p.cell_expansion,p.work_bytes,cancelled).labels;
+        } else if(count && p.cell_expansion>0) {
+            distance.resize(n);
             for(std::size_t i=0;i<n;++i) {if((i&4095)==0) checkpoint(cancelled);distance[i]=nuclei[i]?0:cell_detail::infinity;}
             std::vector<std::uint32_t> nearest;cell_detail::distance(distance,width,height,false,&nearest,cancelled);
             const auto radius=p.cell_expansion*p.cell_expansion;
             for(std::size_t i=0;i<n;++i) {if((i&4095)==0) checkpoint(cancelled);if(domain[i] && distance[i]<=radius && nearest[i]!=std::numeric_limits<std::uint32_t>::max()) bodies[i]=nuclei[nearest[i]];}
         } else bodies=nuclei;
         std::vector<double>().swap(distance);
+        std::vector<cell_detail::intensity_detail::Cell> statistics(result->measure_intensity_?count:0);
+        if(result->measure_intensity_) result->intensity_statistics_.resize(count);
         result->features_.resize(count);std::vector<ColorVector> nrgb(count),brgb(count),nch(count),bch(count),cytoch(count),ncorr(count),bcorr(count),cytocorr(count);
         auto add=[](double v,double& sum,double& correction) {const auto adjusted=v-correction,next=sum+adjusted;correction=(next-sum)-adjusted;sum=next;};
         for(std::size_t i=0;i<n;++i) {
             if((i&4095)==0) checkpoint(cancelled);
             const auto a=nuclei[i],b=bodies[i];if(a && a!=b) throw std::logic_error("cell expansion lost a nucleus pixel");
+            if(result->measure_intensity_ && b) {
+                ColorVector colors,transformed;for(std::size_t c=0;c<3;++c) {colors[c]=rgb[3*i+c];transformed[c]=channels[3*i+c];}
+                auto& stats=statistics[b-1];stats.cell.add(colors,transformed);
+                if(a) stats.nucleus.add(colors,transformed);else stats.cytoplasm.add(colors,transformed);
+            }
             if(a) {auto& f=result->features_[a-1];++f.nucleus_pixels;for(int c=0;c<3;++c) {nrgb[a-1][c]+=rgb[i*3+c];add(channels[i*3+c],nch[a-1][c],ncorr[a-1][c]);}}
             if(b) {auto& f=result->features_[b-1];++f.cell_pixels;for(int c=0;c<3;++c) {brgb[b-1][c]+=rgb[i*3+c];add(channels[i*3+c],bch[b-1][c],bcorr[b-1][c]);if(!a) add(channels[i*3+c],cytoch[b-1][c],cytocorr[b-1][c]);}}
+        }
+        for(std::size_t i=0;i<statistics.size();++i) {
+            checkpoint(cancelled);auto& output=result->intensity_statistics_[i];const auto& stats=statistics[i];
+            output.nucleus=stats.nucleus.finish();output.cell=stats.cell.finish();
+            if(stats.cytoplasm.count) output.cytoplasm=stats.cytoplasm.finish();
         }
         for(std::size_t i=0;i<count;++i) {auto& f=result->features_[i];f.label=static_cast<std::uint32_t>(i+1);const auto cyto=f.cell_pixels-f.nucleus_pixels;
             if(cyto) {f.cytoplasm_rgb=ColorVector{};f.cytoplasm_channels=ColorVector{};}
             for(int c=0;c<3;++c) {f.nucleus_rgb[c]=nrgb[i][c]/double(f.nucleus_pixels);f.cell_rgb[c]=brgb[i][c]/double(f.cell_pixels);f.nucleus_channels[c]=nch[i][c]/double(f.nucleus_pixels);f.cell_channels[c]=bch[i][c]/double(f.cell_pixels);
                 if(cyto) {(*f.cytoplasm_rgb)[c]=(brgb[i][c]-nrgb[i][c])/double(cyto);(*f.cytoplasm_channels)[c]=cytoch[i][c]/double(cyto);}}
         }
+        if(p.algorithm==CellAlgorithm::SampledLogWatershedBodies) {
+            result->domain_bits_.resize((n+7)/8);
+            for(std::size_t i=0;i<n;++i) {if((i&4095)==0) checkpoint(cancelled);if(domain[i]) result->domain_bits_[i/8]|=static_cast<std::uint8_t>(1u<<(i%8));}
+        }
         std::vector<float>().swap(channels);std::vector<std::uint8_t>().swap(rgb);std::vector<std::uint8_t>().swap(domain);
         result->nuclei_=raster(request,std::move(nuclei),count,sha,samples,threshold,false,cancelled);
         result->cells_=raster(request,std::move(bodies),count,sha,samples,samples,true,cancelled);
-        if(phase) phase->store(6);contours(*result,cancelled);
+        if(phase) phase->store(6);restore_cell_contours(*result,cancelled);
         checkpoint(cancelled);result->elapsed_ms_=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-began).count();if(phase) phase->store(7);return result;
     }
 };
-void restore_cell_contours(CellResult& result,const std::atomic<bool>* cancelled) {CellKernel::contours(result,cancelled);}
 std::shared_ptr<const CellResult> detect_cells(const CellRequest& r,const std::atomic<bool>* c) {return CellKernel::run(r,c);}
 struct CellJob::Impl {
     struct Completion {std::shared_ptr<const CellResult> result;std::string error;double elapsed=0;};
@@ -285,7 +314,8 @@ CellStats CellJob::poll(const Document& doc,std::uint64_t id) {
         if(impl_->stale) impl_->stats.state="stale";else if(impl_->cancelled.load()) impl_->stats.state="cancelled";else if(!c.result) {impl_->stats.state="failed";impl_->stats.error=std::move(c.error);}else {impl_->result=std::move(c.result);impl_->stats.state="ready";impl_->stats.phase="complete";}} catch(const std::exception& e) {impl_->stats.state="failed";impl_->stats.error=e.what();}}
     if(!busy() && !impl_->result) impl_->request.reset();return impl_->stats;
 }
-CellStats CellJob::wait(const Document& doc,std::uint64_t id) {poll(doc,id);if(busy()) impl_->future.wait();return poll(doc,id);}
+void CellJob::await_completion() {if(impl_->future.valid()) impl_->future.wait();}
+CellStats CellJob::wait(const Document& doc,std::uint64_t id) {poll(doc,id);await_completion();return poll(doc,id);}
 std::vector<std::uint64_t> CellJob::keep_result(Document& doc,std::uint64_t id,std::string prefix,std::string classification) {
     if(poll(doc,id).state!="ready" || !impl_->result) throw std::logic_error("no current cells to publish");if(impl_->published) throw std::logic_error("cells already published; use Undo/Redo");
     auto ids=impl_->verified_record?doc.publish_cell_record(impl_->verified_record,std::move(prefix),std::move(classification)):

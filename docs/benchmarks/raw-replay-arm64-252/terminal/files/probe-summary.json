@@ -1,0 +1,101 @@
+{
+  "schema": "qpx.retained-exception-trace/1",
+  "process_state": 10,
+  "exited": true,
+  "exit_status": 0,
+  "exit_description": null,
+  "events": 4,
+  "throws": 2,
+  "catches": 2,
+  "observer_errors": [],
+  "breakpoints": [
+    {
+      "name": "__cxa_throw",
+      "locations": 1,
+      "hits": 2
+    },
+    {
+      "name": "__cxa_begin_catch",
+      "locations": 1,
+      "hits": 2
+    }
+  ],
+  "series_events": [
+    {
+      "event": "throw",
+      "id": 1,
+      "thread": 9802,
+      "object": "0x600001648080",
+      "typeinfo": "0x20d3d4900",
+      "type": "St16invalid_argument",
+      "message": "raw grid source series changed",
+      "stack": [
+        {
+          "index": 0,
+          "pc": "0x19e32bb7c",
+          "function": "__cxa_throw",
+          "module": "libc++abi.dylib",
+          "offset": "0x0",
+          "file": null,
+          "line": null
+        },
+        {
+          "index": 1,
+          "pc": "0x104134538",
+          "function": "main",
+          "module": "exception-probe",
+          "offset": "0x50",
+          "file": null,
+          "line": null
+        },
+        {
+          "index": 2,
+          "pc": "0x19dfd2b98",
+          "function": "start",
+          "module": "dyld",
+          "offset": "0x17bc",
+          "file": null,
+          "line": null
+        }
+      ]
+    },
+    {
+      "event": "catch",
+      "thread": 9802,
+      "argument": "0x600001648060",
+      "candidate_object": "0x600001648080",
+      "matched_throw": 1,
+      "type": "St16invalid_argument",
+      "message": "raw grid source series changed",
+      "stack": [
+        {
+          "index": 0,
+          "pc": "0x19e32b8e0",
+          "function": "__cxa_begin_catch",
+          "module": "libc++abi.dylib",
+          "offset": "0x0",
+          "file": null,
+          "line": null
+        },
+        {
+          "index": 1,
+          "pc": "0x10413456c",
+          "function": "main",
+          "module": "exception-probe",
+          "offset": "0x84",
+          "file": null,
+          "line": null
+        },
+        {
+          "index": 2,
+          "pc": "0x19dfd2b98",
+          "function": "start",
+          "module": "dyld",
+          "offset": "0x17bc",
+          "file": null,
+          "line": null
+        }
+      ]
+    }
+  ]
+}

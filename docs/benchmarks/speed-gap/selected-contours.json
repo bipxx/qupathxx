@@ -1,0 +1,47 @@
+{
+  "source_tree": "4290404591e945023f8b9ebbb946cda9cc524534a5c263ebb6db37ef3c926ca0",
+  "runs": [
+    {
+      "nucleus": {
+        "wall_ms": 165.9609000198543,
+        "cpu_ms": 156.25,
+        "components": 2237,
+        "geometry_sha256": "7ef095af0aea7743b0c329da62d1f8580464b8f191520ec7687dca293e8fcd8a"
+      },
+      "body": {
+        "wall_ms": 148.63079995848238,
+        "cpu_ms": 140.625,
+        "components": 2237,
+        "geometry_sha256": "d88ad8709c21b0faa0b3c8d0b6e949446e3f26a8d50f3deb69fe0c2c0635750e"
+      }
+    },
+    {
+      "nucleus": {
+        "wall_ms": 128.72830010019243,
+        "cpu_ms": 140.625,
+        "components": 2237,
+        "geometry_sha256": "7ef095af0aea7743b0c329da62d1f8580464b8f191520ec7687dca293e8fcd8a"
+      },
+      "body": {
+        "wall_ms": 145.6873998977244,
+        "cpu_ms": 140.625,
+        "components": 2237,
+        "geometry_sha256": "d88ad8709c21b0faa0b3c8d0b6e949446e3f26a8d50f3deb69fe0c2c0635750e"
+      }
+    },
+    {
+      "nucleus": {
+        "wall_ms": 127.99769989214838,
+        "cpu_ms": 109.375,
+        "components": 2237,
+        "geometry_sha256": "7ef095af0aea7743b0c329da62d1f8580464b8f191520ec7687dca293e8fcd8a"
+      },
+      "body": {
+        "wall_ms": 145.31829999759793,
+        "cpu_ms": 140.625,
+        "components": 2237,
+        "geometry_sha256": "d88ad8709c21b0faa0b3c8d0b6e949446e3f26a8d50f3deb69fe0c2c0635750e"
+      }
+    }
+  ]
+}

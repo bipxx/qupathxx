@@ -1,0 +1,19 @@
+{
+  "id": 12609203816,
+  "name": "Windows-gui-py3.12",
+  "size_in_bytes": 25573198,
+  "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12609203816",
+  "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12609203816/zip",
+  "expired": false,
+  "created_at": "2026-10-25T18:21:40Z",
+  "expires_at": "2026-11-08T18:21:38Z",
+  "updated_at": "2026-10-25T18:21:40Z",
+  "digest": "sha256:f2d450cd6dcb8333a5abb42b8542f0dc81e77dc7c3cbcc21ba411e63a53c649a",
+  "workflow_run": {
+    "id": 40218705420,
+    "repository_id": 1427753981,
+    "head_repository_id": 1427753981,
+    "head_branch": "feature/raw-grid-workflow-186",
+    "head_sha": "745662be8144ce6b81fe72f4ffba1f73bae9ad33"
+  }
+}

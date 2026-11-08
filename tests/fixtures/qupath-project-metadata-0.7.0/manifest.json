@@ -1,0 +1,36 @@
+{
+  "upstream": {
+    "tag": "v0.7.0",
+    "revision": "04ccfa4fb7d43e9b566393e08e83690b72248d44",
+    "version": "0.7.0",
+    "bundle_url": "https://github.com/qupath/qupath/releases/download/v0.7.0/QuPath-v0.7.0-Windows.zip",
+    "bundle_filename": "QuPath-v0.7.0-Windows.zip",
+    "bundle_bytes": 282594398,
+    "bundle_sha256": "5839743281d11eca1ac55c87ddcf92c89a30cba7ba2060f162036b0514b1e30c",
+    "runtime_tree_sha256": "117c0cb3074c7e3d2f4814d731bf0703d38373051d5580462a90d94036314788",
+    "runtime_files": 496,
+    "executable": "QuPath-0.7.0 (console).exe",
+    "license": "GPL-3.0-or-later",
+    "license_source": "https://github.com/qupath/qupath/blob/04ccfa4fb7d43e9b566393e08e83690b72248d44/LICENSE"
+  },
+  "parent": {
+    "fixture": "qupath-entry-metadata-0.7.0",
+    "manifest_sha256": "b0d9b6933c265d79d429c86d28f9fb7e38a44890b0f9b3f1a805251da90905f5",
+    "project_sha256": "8605b1ab9e5cb0eeee6fe7cc9bd8857c1fce2ce78d2177695a3c31aa1e582ce9"
+  },
+  "probes": {
+    "tools/upstream/qupath_project_metadata_reference.groovy": "19d84dad40183e8833aeb003af24194940eaed6cf8dd03cbd9f4d3473c0dd74f"
+  },
+  "files": {
+    "empty/data/1/server.json": "04ab4e766326e6691c5234c15c11a237a47a14888789279b252926f049e6592e",
+    "empty/data/metadata.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "empty/project.qpproj": "ef50bf7e63d45ef9df012dda663f1aa73e01ed8c7f7ed51a5557bed35b486adb",
+    "no-images/data/metadata.json": "62538379051bc6291d025004c69ab31f6d429b8432037128daf666ac6a1b542b",
+    "no-images/project.qpproj": "6364c4edbd2ce84c0d97e17dbfee55244c75421643ec3dddefb927bdbc20e946",
+    "reference.json": "517b78bb1cb23e825784fb292c75c59846f3681e2146119aefdebc27e41198fe",
+    "rich/data/1/server.json": "04ab4e766326e6691c5234c15c11a237a47a14888789279b252926f049e6592e",
+    "rich/data/metadata.json": "62538379051bc6291d025004c69ab31f6d429b8432037128daf666ac6a1b542b",
+    "rich/project.qpproj": "c8dc1f66334156facde8d55b57d2f91bad65d2894ba3100f5cb91fd30c23679e"
+  },
+  "scope": "Project-only save/reload, retained builder; no server/pixel/ROI read. Parent fixture supplies source identity; no duplicated TIFF."
+}

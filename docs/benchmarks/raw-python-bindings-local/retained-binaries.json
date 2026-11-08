@@ -1,0 +1,55 @@
+{
+  "source": "202b41aa908e323ac820798bec7489c0f64234b1",
+  "products": [
+    {
+      "path": "build/rawpython229-retained-binaries/_native.cp312-win_amd64.pyd",
+      "source": "202b41aa908e323ac820798bec7489c0f64234b1",
+      "fingerprint": "25cfacf0f76c4fff5749324fb816036e4d1fb27c0474cc4c90c1f85ffdfc9425",
+      "bytes": 7891456,
+      "sha256": "85c54f5003b65ad7cc9043007fc78a62651660e3176d38aa4b239d31f773fdcb"
+    },
+    {
+      "path": "build/rawpython229-retained-binaries/qupathxx_region.exe",
+      "source": "202b41aa908e323ac820798bec7489c0f64234b1",
+      "fingerprint": "25cfacf0f76c4fff5749324fb816036e4d1fb27c0474cc4c90c1f85ffdfc9425",
+      "bytes": 775680,
+      "sha256": "ad6ca9f5d156b7afc4335186a5d5bde64d4de0122cfb19a49aa4b0bacf5f19bf"
+    },
+    {
+      "path": "build/rawpython229-retained-binaries/qupathxx_batch.exe",
+      "source": "202b41aa908e323ac820798bec7489c0f64234b1",
+      "fingerprint": "25cfacf0f76c4fff5749324fb816036e4d1fb27c0474cc4c90c1f85ffdfc9425",
+      "bytes": 4298240,
+      "sha256": "4761e5ba04d309bad110082b680fa073f7557435d3a27f2b82e37959c54265c7"
+    },
+    {
+      "path": "build/rawpython229-retained-binaries/qupathxx_pixel_workflow_tests.exe",
+      "source": "202b41aa908e323ac820798bec7489c0f64234b1",
+      "fingerprint": "25cfacf0f76c4fff5749324fb816036e4d1fb27c0474cc4c90c1f85ffdfc9425",
+      "bytes": 5391360,
+      "sha256": "0f95c6ea2ed5a4ed48f24098148b5654abb1889e30335a403aedee3302d02f1e"
+    },
+    {
+      "path": "build/rawpython229-retained-binaries/qupathxx_pixel_feature_tests.exe",
+      "source": "202b41aa908e323ac820798bec7489c0f64234b1",
+      "fingerprint": "25cfacf0f76c4fff5749324fb816036e4d1fb27c0474cc4c90c1f85ffdfc9425",
+      "bytes": 2475520,
+      "sha256": "34f0e2370804d38ffbefb5231e72bd2b88ab2d2f6f53585f873b95842135c33e"
+    },
+    {
+      "path": "build/rawpython229-retained-binaries/qupathxx_classifier_tests.exe",
+      "source": "202b41aa908e323ac820798bec7489c0f64234b1",
+      "fingerprint": "25cfacf0f76c4fff5749324fb816036e4d1fb27c0474cc4c90c1f85ffdfc9425",
+      "bytes": 1389568,
+      "sha256": "0e5f64567fab5a7eb9c57ec5ce414ae672479799a7a217888bbb4f9aab39d014"
+    },
+    {
+      "path": "build/rawpython229-retained-binaries/qupathxx-0.1.0-cp312-cp312-win_amd64.whl",
+      "source": "202b41aa908e323ac820798bec7489c0f64234b1",
+      "fingerprint": "25cfacf0f76c4fff5749324fb816036e4d1fb27c0474cc4c90c1f85ffdfc9425",
+      "bytes": 5723488,
+      "sha256": "2d4a92a7970cdbe2ee27fe4c7e3f197191ce15af511afe2a760cf9060952d3a8"
+    }
+  ],
+  "development_products": "build/rawpython229-development-products/products.json"
+}

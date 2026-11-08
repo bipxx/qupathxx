@@ -104,7 +104,7 @@ double Document::area_um2(std::uint64_t id) const {
     return physical_area(area,*pixel_width_um_,*pixel_height_um_);
 }
 double Document::mean_intensity(std::uint64_t id) const {
-    return mean_rgb(*server_,find(id).geometry);
+    require_object_display_plane(id);return mean_rgb(*server_,find(id).geometry);
 }
 ShapeMeasurements Document::shape_measurements(std::uint64_t id) const {
     const auto& a=find(id); // A resident stale entry must never resurrect a deleted object.
@@ -165,6 +165,7 @@ double Document::nucleus_area_um2(std::uint64_t id) const {
     return physical_area(a.nucleus->area(),*pixel_width_um_,*pixel_height_um_);
 }
 double Document::nucleus_mean_intensity(std::uint64_t id) const {
+    require_object_display_plane(id);
     const auto& a=find(id);
     if(!a.nucleus) throw std::invalid_argument("object has no nucleus ROI");
     return mean_rgb(*server_,*a.nucleus);

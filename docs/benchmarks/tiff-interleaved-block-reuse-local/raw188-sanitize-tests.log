@@ -1,0 +1,6 @@
+TIFF interleaved block reuse without LRU, separate-plane selection and padded values passed
+Independent deflate TIFF typed grid analysis through prefixed zlib passed
+QRA2 TIFF grid SQLite save/reopen, explicit replay and second save passed
+Actual UInt16 TIFF scientific grid analysis, ROI upsampling and hash-only digest passed
+Raw grid TIFF batch distinct recipe, interrupted checkpoint resume and hash-only typed CSV passed
+raw quantitative buffers, TIFF decode/cache, preview and statistics passed

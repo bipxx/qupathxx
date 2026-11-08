@@ -1,0 +1,22 @@
+[
+  {
+    "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\imagej-gaussian-kernel-300\\windows-products\\qupathxx_imagej_gaussian_tests.exe",
+    "bytes": 93184,
+    "sha256": "34cdf5cfd04a38385cb619953d383ed60cb3599eaa9b0f2bf25ec511ea51f87f"
+  },
+  {
+    "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\imagej-gaussian-kernel-300\\windows-products\\imagej_gaussian.obj",
+    "bytes": 104146,
+    "sha256": "7096900a47983cc05c35778e2861eca4179bfbc3f9e924e82e8d65599e9d26d1"
+  },
+  {
+    "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\imagej-gaussian-kernel-300\\windows-products\\imagej_gaussian_tests.obj",
+    "bytes": 526187,
+    "sha256": "ac0d1a1d1ed50b64cf3855622fa4cd410046e61706ce3efa8b3437ca58980aaa"
+  },
+  {
+    "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\imagej-gaussian-kernel-300\\windows-products\\sha256.obj",
+    "bytes": 79642,
+    "sha256": "938df43540180c0bee4240c96114052db76459cc279d7f6dc4cf9c4b5bb514f1"
+  }
+]

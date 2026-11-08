@@ -1,0 +1,100 @@
+[
+  {
+    "label": "linux-clone",
+    "argv": [
+      "git",
+      "clone",
+      "--shared",
+      "--no-checkout",
+      "/mnt/c/Users/HEQ/Projects/qupathxx",
+      "/tmp/qupathxx-nominal293-source"
+    ],
+    "cwd": "/mnt/c/Users/HEQ/Projects/qupathxx",
+    "returncode": 0
+  },
+  {
+    "label": "linux-autocrlf",
+    "argv": [
+      "git",
+      "config",
+      "core.autocrlf",
+      "false"
+    ],
+    "cwd": "/tmp/qupathxx-nominal293-source",
+    "returncode": 0
+  },
+  {
+    "label": "linux-checkout",
+    "argv": [
+      "git",
+      "checkout",
+      "--detach",
+      "a7c8e4f456273eb8e4e0c7925371e8c273fa200e"
+    ],
+    "cwd": "/tmp/qupathxx-nominal293-source",
+    "returncode": 0
+  },
+  {
+    "label": "linux-configure",
+    "argv": [
+      "cmake",
+      "-S",
+      "/tmp/qupathxx-nominal293-source",
+      "-B",
+      "/tmp/qupathxx-nominal293-build",
+      "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
+      "-DCMAKE_CXX_FLAGS=-fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all",
+      "-DCMAKE_CXX_FLAGS_RELWITHDEBINFO=-O1 -g1 -DNDEBUG",
+      "-DQUPATHXX_BUILD_PYTHON=OFF",
+      "-DQUPATHXX_BUILD_GUI=OFF",
+      "-DQUPATHXX_BUILD_OPENSLIDE=OFF",
+      "-DQUPATHXX_BUILD_TIFF=OFF",
+      "-DQUPATHXX_BUILD_GEOS=OFF",
+      "-DQUPATHXX_BUILD_PROJECT=OFF",
+      "-DQUPATHXX_BUILD_INTERCHANGE=OFF",
+      "-DQUPATHXX_BUILD_CLASSIFIER_TRAINING=OFF",
+      "-DQUPATHXX_BUILD_TESTS=ON"
+    ],
+    "cwd": "/mnt/c/Users/HEQ/Projects/qupathxx",
+    "returncode": 0
+  },
+  {
+    "label": "linux-build",
+    "argv": [
+      "cmake",
+      "--build",
+      "/tmp/qupathxx-nominal293-build",
+      "--target",
+      "qupathxx_resampling_tests",
+      "qupathxx_cell_tests",
+      "qupathxx_cell_record_tests",
+      "qupathxx_object_classifier_tests",
+      "qupathxx_log_cell_recipe_tests",
+      "qupathxx_stains_tests",
+      "qupathxx_project_batch_tests",
+      "--parallel",
+      "2"
+    ],
+    "cwd": "/mnt/c/Users/HEQ/Projects/qupathxx",
+    "returncode": 0
+  },
+  {
+    "label": "linux-native",
+    "argv": [
+      "ctest",
+      "--test-dir",
+      "/tmp/qupathxx-nominal293-build",
+      "-R",
+      "^(resampling|cells|cell_records|object_classifier|log_cell_recipe|stains|project_batch)$",
+      "--output-on-failure",
+      "--test-output-size-passed",
+      "10000000",
+      "--test-output-size-failed",
+      "10000000",
+      "--output-junit",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/nominal-cell-batch-293/linux/linux-native.xml"
+    ],
+    "cwd": "/mnt/c/Users/HEQ/Projects/qupathxx",
+    "returncode": 0
+  }
+]

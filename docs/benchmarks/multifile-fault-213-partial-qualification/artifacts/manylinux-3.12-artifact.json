@@ -1,0 +1,20 @@
+{
+  "id": 12627499893,
+  "node_id": "MDg6QXJ0aWZhY3QxMjYyNzQ5OTg5Mw==",
+  "name": "manylinux-3.12",
+  "size_in_bytes": 13984668,
+  "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12627499893",
+  "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12627499893/zip",
+  "expired": false,
+  "digest": "sha256:e667930b071a85c62f452c06e19fa891bd595930df6d5e256cbebc26398e5b69",
+  "created_at": "2026-10-26T04:37:16Z",
+  "updated_at": "2026-10-26T04:37:16Z",
+  "expires_at": "2026-11-09T04:37:14Z",
+  "workflow_run": {
+    "id": 40268533643,
+    "repository_id": 1427753981,
+    "head_repository_id": 1427753981,
+    "head_branch": "feature/multifile-fault-workflow-213",
+    "head_sha": "bfa416edfd508e3e1ce184e75ec62c1a18a2a606"
+  }
+}

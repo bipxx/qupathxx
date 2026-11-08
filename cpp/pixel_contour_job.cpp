@@ -52,6 +52,7 @@ PixelTrainingStats PixelContourJob::poll(const Document& doc) {
     }
     if(!busy() && !s.result) s.request.reset();return s.stats;
 }
-PixelTrainingStats PixelContourJob::wait(const Document& doc) {poll(doc);if(busy()) impl_->future.wait();return poll(doc);}
+void PixelContourJob::await_completion() {if(impl_->future.valid()) impl_->future.wait();}
+PixelTrainingStats PixelContourJob::wait(const Document& doc) {poll(doc);await_completion();return poll(doc);}
 std::shared_ptr<const PixelContours> PixelContourJob::result() const {return impl_->result;}
 }

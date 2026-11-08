@@ -1,0 +1,145 @@
+{
+  "source": "b61f7baf133d1b44a791b41c235e5bf8a9d20348",
+  "files": {
+    "cpp/tma.cpp": {
+      "git_blob_sha256": "c692f4fc12f54d2ad5c2877d1e327404f51c1b2e22799490940e8e9730358d2b",
+      "checked_out_sha256": "c692f4fc12f54d2ad5c2877d1e327404f51c1b2e22799490940e8e9730358d2b"
+    },
+    "cpp/tma_bindings.cpp": {
+      "git_blob_sha256": "e7766fc1906622fe9704edc9ed2aca49df3296d4dc19808521bca7ed7c1948c5",
+      "checked_out_sha256": "e7766fc1906622fe9704edc9ed2aca49df3296d4dc19808521bca7ed7c1948c5"
+    },
+    "cpp/tma_internal.hpp": {
+      "git_blob_sha256": "7141fa002fdd4cf5701fd539c795dadf9f07c0106b0bd89d27dde18e3669fd3d",
+      "checked_out_sha256": "ea6a9a88bc4a72c0ec2228a9b566f75901762e64bbffd1021cd7d27ae842aae2"
+    },
+    "cpp/include/qupathxx/tma.hpp": {
+      "git_blob_sha256": "fdc97b88ac04b2b4f1a5866902e447f3aba5fd5c558d14cfd367953bcc0f97c9",
+      "checked_out_sha256": "080f4b6d3a645b9536682c14ba78fda2af86f9ab36d05cae540fd632d2ab7604"
+    },
+    "cpp/include/qupathxx/core.hpp": {
+      "git_blob_sha256": "49d5d5c832afa839ef688cc78f397c90f227ffd49119b6bc2b0fdc8540c59c16",
+      "checked_out_sha256": "49d5d5c832afa839ef688cc78f397c90f227ffd49119b6bc2b0fdc8540c59c16"
+    },
+    "cpp/document_edits.cpp": {
+      "git_blob_sha256": "a944e2c3e38074413d9af0115c4067e11d4c408011c9b04d405db3f75dd8a2a4",
+      "checked_out_sha256": "16f25b405e5c427772d5f8fab8da950a48e0b35612d177f30a97f14a6e89ddbd"
+    },
+    "cpp/tests/tma_tests.cpp": {
+      "git_blob_sha256": "066c1f6192b7de100dd3a8846ca5768fd23ebd1777f3f724e7f7169a9dc7776c",
+      "checked_out_sha256": "066c1f6192b7de100dd3a8846ca5768fd23ebd1777f3f724e7f7169a9dc7776c"
+    },
+    "cpp/include/qupathxx/viewer_session.hpp": {
+      "git_blob_sha256": "bdad9a09455685689ebee8aaa19dd4481ad7725f36fa543eb75c76fc8a1316c9",
+      "checked_out_sha256": "bdad9a09455685689ebee8aaa19dd4481ad7725f36fa543eb75c76fc8a1316c9"
+    },
+    "cpp/viewer_session.cpp": {
+      "git_blob_sha256": "ff761287143c003ec942fae663aca0cfc7e7c082d286e02235c471d28886d5e5",
+      "checked_out_sha256": "ff761287143c003ec942fae663aca0cfc7e7c082d286e02235c471d28886d5e5"
+    },
+    "cpp/viewer_bindings.cpp": {
+      "git_blob_sha256": "8a7ae0c6eb4d106202e65e5e05e2ba6ce0385ed86728aa1a6a81f71b3740d504",
+      "checked_out_sha256": "8a7ae0c6eb4d106202e65e5e05e2ba6ce0385ed86728aa1a6a81f71b3740d504"
+    },
+    "cpp/tests/viewer_session_tests.cpp": {
+      "git_blob_sha256": "ff102ba8c04db6c31f858cb7b66b58df3673b6ba0bc1d7d4a9e8581bd8ed3afc",
+      "checked_out_sha256": "ff102ba8c04db6c31f858cb7b66b58df3673b6ba0bc1d7d4a9e8581bd8ed3afc"
+    },
+    "cpp/gui_tma.hpp": {
+      "git_blob_sha256": "90fa98a162c794dfd6c729c604783aad0592fa4ecacb8c464a2e8118f2bf5b2c",
+      "checked_out_sha256": "90fa98a162c794dfd6c729c604783aad0592fa4ecacb8c464a2e8118f2bf5b2c"
+    },
+    "cpp/gui.cpp": {
+      "git_blob_sha256": "0a09e8e4896ebeef5d6f254bc26372f8d2d49e73c7f7027c0af964caea5e2d57",
+      "checked_out_sha256": "0a09e8e4896ebeef5d6f254bc26372f8d2d49e73c7f7027c0af964caea5e2d57"
+    },
+    "cpp/gui_replay.hpp": {
+      "git_blob_sha256": "17230ca3b8f40a02eef7533b64be2b037366d74995af6ac2dbe4cd446198ede7",
+      "checked_out_sha256": "17230ca3b8f40a02eef7533b64be2b037366d74995af6ac2dbe4cd446198ede7"
+    },
+    "cpp/bindings.cpp": {
+      "git_blob_sha256": "d93a3b99392a40b7543faa64c8c87be5042d4922befc0ff356e2985971bc4ef5",
+      "checked_out_sha256": "d93a3b99392a40b7543faa64c8c87be5042d4922befc0ff356e2985971bc4ef5"
+    },
+    "src/qupathxx/_native.pyi": {
+      "git_blob_sha256": "257b47500cb0c680b5699d6854f9df655352b07309d565c004aa707aa9444dad",
+      "checked_out_sha256": "f4c52465618021ba3557a4f79c56ab25d685ba537c9dbd37b296e26d2c28c7a4"
+    },
+    "src/qupathxx/__init__.py": {
+      "git_blob_sha256": "b103b2990f46f27f312218f33a46609bfbbedef14cbb9ecb1706aff5c5098ed1",
+      "checked_out_sha256": "b103b2990f46f27f312218f33a46609bfbbedef14cbb9ecb1706aff5c5098ed1"
+    },
+    "src/qupathxx/__init__.pyi": {
+      "git_blob_sha256": "22d7d4a293a57427c492500e5fd13aa07f8869178ed7d3ce1143106c083c5703",
+      "checked_out_sha256": "ed001412a44d9b9466dc6d7c797e4cd0c03b0cdecece90219df053006f6d56c6"
+    },
+    "tests/test_tma_axes.py": {
+      "git_blob_sha256": "28f4afe97c9b174ed12b885092cc9883f5ebe61ee20a49b2474055bdf7a7f0df",
+      "checked_out_sha256": "28f4afe97c9b174ed12b885092cc9883f5ebe61ee20a49b2474055bdf7a7f0df"
+    },
+    "tests/test_gui_tma.py": {
+      "git_blob_sha256": "04b4f023bc0501a43f04f9cb671bd71f5f28badeb3ebc30c78df354d516e7eff",
+      "checked_out_sha256": "04b4f023bc0501a43f04f9cb671bd71f5f28badeb3ebc30c78df354d516e7eff"
+    },
+    "tests/test_tma_axis_evidence.py": {
+      "git_blob_sha256": "e306c47bb315efa4622b515684ca0d984a7a8b0c3eff49389331e4a16bf0f4a0",
+      "checked_out_sha256": "e306c47bb315efa4622b515684ca0d984a7a8b0c3eff49389331e4a16bf0f4a0"
+    },
+    "tests/typing/valid_api.py": {
+      "git_blob_sha256": "84a9521461506f92e46882209edfe15af04aeb462942df1c6b16fab1ecb997f8",
+      "checked_out_sha256": "84a9521461506f92e46882209edfe15af04aeb462942df1c6b16fab1ecb997f8"
+    },
+    "tests/typing/tma_axes_invalid.py": {
+      "git_blob_sha256": "9b67217d5dc83337c6f34ff6399377970363eb50354fa34a5c6180bdb925df51",
+      "checked_out_sha256": "9b67217d5dc83337c6f34ff6399377970363eb50354fa34a5c6180bdb925df51"
+    },
+    "tools/ci/tma_axis_evidence.py": {
+      "git_blob_sha256": "ee179d8a912678ba61ca7f716db28f52a5bb4f508b9269e08dc6e9e3595aa590",
+      "checked_out_sha256": "ee179d8a912678ba61ca7f716db28f52a5bb4f508b9269e08dc6e9e3595aa590"
+    },
+    "tools/ci/tma-axis-cases.json": {
+      "git_blob_sha256": "3479aee2ead9c5eb48119b1a3db75c23a7b0d1b2927e04dd92e06dc12157eb17",
+      "checked_out_sha256": "3479aee2ead9c5eb48119b1a3db75c23a7b0d1b2927e04dd92e06dc12157eb17"
+    },
+    "tools/ci/qptma_evidence.py": {
+      "git_blob_sha256": "42c21d628c9039a193e5f176e3f3466cb22ea381769617ea1c9c9402c3224303",
+      "checked_out_sha256": "42c21d628c9039a193e5f176e3f3466cb22ea381769617ea1c9c9402c3224303"
+    },
+    "tools/ci/scientific_grid_evidence.py": {
+      "git_blob_sha256": "1a0a50e69bdf14745b024537a107d98e1698793a46c9bf1819eb2b00bf45b577",
+      "checked_out_sha256": "1a0a50e69bdf14745b024537a107d98e1698793a46c9bf1819eb2b00bf45b577"
+    },
+    "tools/ci/accept_unified_engine.py": {
+      "git_blob_sha256": "311422845f6739896bb2b96f05feecec8a522da756750480234fc7a3119d310f",
+      "checked_out_sha256": "311422845f6739896bb2b96f05feecec8a522da756750480234fc7a3119d310f"
+    },
+    "tools/ci/accept_manylinux.py": {
+      "git_blob_sha256": "cf2187583a4768cb82f4396156297db74aa50a97bf6750e9525d17ebcf6edc1e",
+      "checked_out_sha256": "cf2187583a4768cb82f4396156297db74aa50a97bf6750e9525d17ebcf6edc1e"
+    },
+    "tools/ci/accept_macos_native.py": {
+      "git_blob_sha256": "aff57670cee66b72136ca7a4c1578ae430e3ea099c5f4076febf1ec85a91d482",
+      "checked_out_sha256": "aff57670cee66b72136ca7a4c1578ae430e3ea099c5f4076febf1ec85a91d482"
+    },
+    "tools/ci/run.py": {
+      "git_blob_sha256": "316170c57859f74a46d4764e41f7c861eacaec35c99e04f88f1a9f3d40174c2f",
+      "checked_out_sha256": "316170c57859f74a46d4764e41f7c861eacaec35c99e04f88f1a9f3d40174c2f"
+    },
+    "tools/ci/run_manylinux.py": {
+      "git_blob_sha256": "106ad317de843dd989515a8ecbf28d3639c9bfa58cd007ed5fc7d1498887b167",
+      "checked_out_sha256": "106ad317de843dd989515a8ecbf28d3639c9bfa58cd007ed5fc7d1498887b167"
+    },
+    "tools/generate_stubs.py": {
+      "git_blob_sha256": "442eafa3efadc6b4eb0602958e2165cb321acf92d9f570c369d5fdc49ede94df",
+      "checked_out_sha256": "442eafa3efadc6b4eb0602958e2165cb321acf92d9f570c369d5fdc49ede94df"
+    },
+    "CMakeLists.txt": {
+      "git_blob_sha256": "3d77709c2b8725c3b1fe6280031663c3f63c0e5d375c5e3e8fe91b5d01632b1d",
+      "checked_out_sha256": "3d77709c2b8725c3b1fe6280031663c3f63c0e5d375c5e3e8fe91b5d01632b1d"
+    },
+    ".github/workflows/ci.yml": {
+      "git_blob_sha256": "abaa1cc102f5155dde8db1ecb37e02e9dcd51d5af7bcd07169d5477d5ddc4b8e",
+      "checked_out_sha256": "abaa1cc102f5155dde8db1ecb37e02e9dcd51d5af7bcd07169d5477d5ddc4b8e"
+    }
+  }
+}

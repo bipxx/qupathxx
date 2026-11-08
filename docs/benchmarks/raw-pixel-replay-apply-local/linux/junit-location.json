@@ -1,0 +1,7 @@
+{
+  "final_source": "92edba8",
+  "origin": "build\\rawreplay219-linux\\tests.xml",
+  "bytes": 2099,
+  "sha256": "a0d01647d924453f9321ec121a8a447e321dba71e2bbcbfb76e96fe482721099",
+  "reason": "Copied driver kept the original Linux output-junit path; final four-suite report copied byte-exactly to its proper run. Earlier Linux rawreplay219/219b XML reports were overwritten. Their original text logs remain; do not attribute final XML to earlier sources."
+}

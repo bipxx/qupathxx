@@ -1,0 +1,25 @@
+{
+  "source_tree": "15f6a9baf4ce114189cdbdcb00ccc565062e84a670fdb1348eeb393eb7856011",
+  "compiled_source_commit": "bd36ee65f5b3c5f58ebc66f1a527c41f0998538d",
+  "native_warmups": 6,
+  "qupath_warmups": 24,
+  "measured_runs_each": 6,
+  "archives_per_engine": 1,
+  "exact_rgb": true,
+  "exact_partitions": true,
+  "exact_retained_native_masks": true,
+  "cells": 2237,
+  "runtime_rebuilt": false,
+  "optimization_implemented": false,
+  "native_module_sha256": "8d63d644d7146f863acdf1a31ccaa8d6c6d82d487e2e3a478b53772723365cd7",
+  "controller_sha256": {
+    "measure.py": "65a8c6230b84ecf97ebb88e57f66d0edc432d2b5fd79dfb22739e37642696073",
+    "native.py": "f934affc35672208b886a1b9d59f74f11d1e887d9feae1a0c5dae37d78aa3813",
+    "qupath.groovy": "ecd57f056b219ea8574535afc49559b9810d782c22dd2163d15f614288bce4c5",
+    "summarize.py": "47867cf8fe38cc3583aa4b2a3f604770341509d63cd2f3650dce734127c4547a"
+  },
+  "fixture_sha256": "00a3d54482cd707abf254fe69dccc8d06b8ff757a1663f1290c23418c480eb30",
+  "total_local_artifact_bytes": 14245632,
+  "scope": "One matched local ROI; overlapping sample ranges and material background load. Not a general speed claim or equal archive-format comparison.",
+  "partition_oracle_sha256": "17efe60f149b4aaeec37eed3553f4b55f52f8063a0da80942eaef35c32cafdc7"
+}

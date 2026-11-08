@@ -1,0 +1,64 @@
+{
+  "native_source": "dd33c2b1890e6e90b221b4b62b18db9e9eebc92f",
+  "observer_source": "576b5b8196d98a26961612f0d9725ad15116b584",
+  "compiler_inputs": 453,
+  "source_fingerprint": "16a16f515837c413ca408d5cdc674455c76a0e77fc13dff7c316550e01f4938f",
+  "added_compiler_inputs": [
+    "cpp/clipboard_bindings.cpp"
+  ],
+  "changed_compiler_inputs": [
+    "CMakeLists.txt",
+    "cpp/bindings.cpp",
+    "cpp/document_edits.cpp",
+    "cpp/gui.cpp",
+    "cpp/gui_replay.hpp",
+    "cpp/include/qupathxx/core.hpp",
+    "cpp/include/qupathxx/interchange.hpp",
+    "cpp/interchange.cpp",
+    "cpp/tests/interchange_tests.cpp",
+    "src/qupathxx/__init__.py"
+  ],
+  "native_sha256": "53bc10ff0321b58ab05c2c9da010d199da0d6846150c1afb15ffce3cd67d025e",
+  "wheel_sha256": "91b99299930b7d6ef8046cc012572ee82a002efa958dd9b0b3a5db55c2429028",
+  "installed_members": 62,
+  "record_verified": true,
+  "baseline_failures": 1,
+  "staged_passes": 173,
+  "staged_skips": 14,
+  "new_headless_passes": 18,
+  "native_suites": 5,
+  "desktop_passes": 2,
+  "packaged_stub_passes": 5,
+  "typing_negative_diagnostics": 4,
+  "native_builds": 1,
+  "build_seconds": 705.9951734999195,
+  "product_installations": 1,
+  "stub_generations": 1,
+  "failed_staged_cases_retained": 3,
+  "failed_desktop_cases_retained": 2,
+  "failed_typing_setup_retained": true,
+  "full_platform_campaign": false,
+  "scope": "Local Windows native/Python/ImGui annotation clipboard: explicit selection/descendants, loss-aware GeoJSON, fresh IDs and hierarchy/state, atomic bounds/class/plane refusal, history, saved reopen and system clipboard/current-plane flows. Existing no-automatic-reselection history policy retained. No new scientific, supported-platform or overall speed claim.",
+  "products": [
+    {
+      "path": "products/qupathxx_interchange_tests.exe",
+      "sha256": "614d9d57191f4a7601946b7d4489be39e7e7a2ead4fc39b28902f4ed8f39c60b"
+    },
+    {
+      "path": "products/qupathxx_document_edits_tests.exe",
+      "sha256": "363db03c9c231306a7b975bd1e4fd159eac51961c3f461007458e21f55d3c54e"
+    },
+    {
+      "path": "products/qupathxx_selection_tests.exe",
+      "sha256": "6f0ea3e93781690da1ed457f17393b5e3698fc9f8912e78fff5f99bad07e7515"
+    },
+    {
+      "path": "products/qupathxx_geometry_edits_tests.exe",
+      "sha256": "08cfda7d634864a504d1364c88e5446ac59e400c2a9495bc2ee4e20a80780756"
+    },
+    {
+      "path": "products/qupathxx_project_tests.exe",
+      "sha256": "03e671ef2e7f7fba79012e2dd3f9a8e63f972baf65b963e25b65434d6b6a09f4"
+    }
+  ]
+}

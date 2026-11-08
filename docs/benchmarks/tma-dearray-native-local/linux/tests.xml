@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="5"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="2"
+	timestamp="2026-10-25T17:56:39"
+	>
+	<testcase name="qptma_project" classname="qptma_project" time="1.03696" status="run">
+		<properties/>
+		<system-out>{"schema":"qpx.qptma-project-import/1","state":"saved","image_id":2,"cores":6,"rows":2,"columns":3,"output":"/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native/qptma-project-test-artifacts/project-490085630226/imported.qpxproj"}
+{"schema":"qpx.qptma-project-export/1","state":"saved","image_id":2,"cores":6,"bytes":334,"omitted_metadata":["native_object_ids","native_grid_name","axis_labels"],"output":"/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native/qptma-project-test-artifacts/project-490085630226/exported.qptma"}
+{"schema":"qpx.batch-error/1","error":"export commit failed (destination may already exist)"}
+{"schema":"qpx.batch-error/1","error":"fingerprint output must not replace its input"}
+{"schema":"qpx.batch-error/1","error":"selected image has no TMA grid"}
+QPTMA project atomic new-file publication, budgets, guards, races, persistence and explicit-image CLI passed
+</system-out>
+	</testcase>
+	<testcase name="qptma" classname="qptma" time="0.154626" status="run">
+		<properties/>
+		<system-out>QPTMA native fixture, fractional/quoted wire, atomic history, quotas and 10000-core round trips passed
+NATIVE_QPTMA_LITERAL_OUTPUT=/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native/qptma-test-artifacts/qptma-491195499590/native-literal-text.qptma
+NATIVE_QPTMA_OUTPUT=/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native/qptma-test-artifacts/qptma-491195499590/native-export.qptma
+</system-out>
+	</testcase>
+	<testcase name="viewer_session" classname="viewer_session" time="0.312085" status="run">
+		<properties/>
+		<system-out>TMA viewer axis commands: copied bounds, revision, cancellation, atomic result and edit admission passed
+Grid viewer producer copies, owner calibration capture, retention, cancellation and stale delivery passed
+Raw grid viewer copied counts/options, owner calibration, retention/replay, cancellation and stale delivery passed
+Viewer queue, owner dispatch, jobs, lifetime, limits, staleness and shutdown passed
+</system-out>
+	</testcase>
+	<testcase name="tma" classname="tma" time="1.08486" status="run">
+		<properties/>
+		<system-out>TMA axis insertion/removal: skewed geometry, vacant/explicit slots, metadata, nested protection, atomic history and rejection passed
+TMA case file cancellation precedes output path access
+TMA compensated signed sums and nonzero mean underflow checks passed
+TMA case aggregation, weighted arithmetic, missing/unassigned cores, stale revisions and cancellation passed
+TMA cohort raw-row pooling, image/core namespaces, isolated unassigned cores, source manifests, stale revisions and cancellation passed
+TMA cohort atomic files preserve captured CSV bytes, existing files and input aliases; capture validation and cancellation precede I/O
+Oversized CSV file budget and output protection passed
+TMA case file exports preserve captured CSV bytes and existing files
+TMA grid commands, missing cores, case IDs, snapshots, history and persistence passed
+</system-out>
+	</testcase>
+	<testcase name="tma_dearray" classname="tma_dearray" time="0.220748" status="run">
+		<properties/>
+		<system-out>TMA_DEARRAY_FIXTURE aligned max_center_error_pixels=0 missing_flags=match
+TMA_DEARRAY_FIXTURE interior_missing max_center_error_pixels=0 missing_flags=match
+TMA_DEARRAY_FIXTURE rotated_missing max_center_error_pixels=2.84217e-14 missing_flags=match
+TMA_DEARRAY_FIXTURE skewed_missing max_center_error_pixels=0 missing_flags=match
+TMA_DEARRAY_FIXTURE anisotropic max_center_error_pixels=0 missing_flags=match
+TMA_DEARRAY_ADMISSION exact/minus-one budgets, pre-IO geometry, malformed reads, epoch, alpha, polarity, cancellation passed
+TMA_DEARRAY_AXES singleton/row/column, invalid missing-slot support and natural-level coordinates passed
+TMA_DEARRAY_PUBLICATION retained proposal, atomic import/undo/redo, failed import rollback and QPTMA round trip passed
+</system-out>
+	</testcase>
+</testsuite>

@@ -1,0 +1,31 @@
+{
+  "fixture_source": "7613660c47c3b850d1a173095b8a38611d900f83",
+  "fixture_contract_sha256": "315504c60d059fe85b25b1910e134a73a1521e9a998201e3ec246401dcccc107",
+  "capture_script_sha256": "160a3547447b144ec9636ddf816030f30b3848b5f5188ed39f55e90422adb048",
+  "command": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\upstream\\qupath\\runtime\\QuPath-0.7.0 (console).exe",
+    "script",
+    "--args",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\tma-dearray-v1",
+    "--args",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\tma195-reference\\reference.json",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tools\\upstream\\qupath_tma_dearray_reference.groovy"
+  ],
+  "exit": 0,
+  "java_tool_options": "-Djava.awt.headless=true",
+  "seconds": 20.099510799976997,
+  "runtime_contract": {
+    "tag": "v0.7.0",
+    "revision": "04ccfa4fb7d43e9b566393e08e83690b72248d44",
+    "version": "0.7.0",
+    "bundle_url": "https://github.com/qupath/qupath/releases/download/v0.7.0/QuPath-v0.7.0-Windows.zip",
+    "bundle_filename": "QuPath-v0.7.0-Windows.zip",
+    "bundle_bytes": 282594398,
+    "bundle_sha256": "5839743281d11eca1ac55c87ddcf92c89a30cba7ba2060f162036b0514b1e30c",
+    "runtime_tree_sha256": "117c0cb3074c7e3d2f4814d731bf0703d38373051d5580462a90d94036314788",
+    "runtime_files": 496,
+    "executable": "QuPath-0.7.0 (console).exe",
+    "license": "GPL-3.0-or-later",
+    "license_source": "https://github.com/qupath/qupath/blob/04ccfa4fb7d43e9b566393e08e83690b72248d44/LICENSE"
+  }
+}

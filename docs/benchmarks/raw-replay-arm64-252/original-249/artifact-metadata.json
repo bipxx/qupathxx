@@ -1,0 +1,25 @@
+{
+  "total_count": 1,
+  "artifacts": [
+    {
+      "id": 12695095434,
+      "node_id": "MDg6QXJ0aWZhY3QxMjY5NTA5NTQzNA==",
+      "name": "retained-arm64-249",
+      "size_in_bytes": 9784994,
+      "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12695095434",
+      "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12695095434/zip",
+      "expired": false,
+      "digest": "sha256:85654ed9f4001bf47661b49a892aa7867c6b9433c368b6df449af0aabe4f2ed4",
+      "created_at": "2026-10-26T22:37:25Z",
+      "updated_at": "2026-10-26T22:37:25Z",
+      "expires_at": "2026-11-09T22:37:23Z",
+      "workflow_run": {
+        "id": 40411025705,
+        "repository_id": 1427753981,
+        "head_repository_id": 1427753981,
+        "head_branch": "feature/raw-replay-arm64-debugger-249",
+        "head_sha": "7650055f7669779c7f6a4e69e4a37e7583edd0ee"
+      }
+    }
+  ]
+}

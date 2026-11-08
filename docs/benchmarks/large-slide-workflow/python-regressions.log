@@ -1,0 +1,26 @@
+..F.................s................................................... [ 55%]
+............sss.............ss.........................ss                [100%]
+================================== FAILURES ===================================
+__________ test_legacy_zero_extension_keeps_recorded_exact_boundary ___________
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/large-slide-workflow/pytest/test_legacy_zero_extension_kee0')
+
+    def test_legacy_zero_extension_keeps_recorded_exact_boundary(tmp_path):
+        # This immutable small fixture and boundary were produced by source6219a08f.
+        base = Path(__file__).resolve().parents[1] / 'docs/benchmarks/large-slide-workflow'
+        fixture = base / 'legacy.qpxproj'
+        baseline = json.loads((base / 'legacy-boundary.json').read_text(encoding='utf-8'))
+        path = tmp_path / 'legacy.qpxproj'
+        path.write_bytes(fixture.read_bytes())
+        project = q.Project.open(str(path))
+        record = project.document(baseline['image_id']).tissue_record(baseline['record_id'])
+        assert not record.result.parameters.canonical_pyramid
+        save = q.ProjectSaveJob(baseline['snapshot_bytes'])
+>       assert save.request(project, str(path)) and save.wait().applied
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: project snapshot exceeds memory budget
+
+tests\test_canonical_pyramid.py:114: ValueError
+=========================== short test summary info ===========================
+FAILED tests/test_canonical_pyramid.py::test_legacy_zero_extension_keeps_recorded_exact_boundary
+1 failed, 120 passed, 8 skipped in 8.70s

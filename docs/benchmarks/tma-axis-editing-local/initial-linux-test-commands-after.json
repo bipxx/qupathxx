@@ -1,0 +1,90 @@
+[
+  {
+    "suite": "tma",
+    "command": [
+      "wsl.exe",
+      "-d",
+      "Ubuntu",
+      "--exec",
+      "ctest",
+      "--test-dir",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native",
+      "-R",
+      "^tma$",
+      "--output-on-failure",
+      "--test-output-size-passed",
+      "1048576",
+      "--no-tests=error",
+      "--output-junit",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tma192-linux/tma.xml"
+    ],
+    "exit": 8,
+    "elapsed_seconds": 3.718979600002058
+  },
+  {
+    "suite": "viewer_session",
+    "command": [
+      "wsl.exe",
+      "-d",
+      "Ubuntu",
+      "--exec",
+      "ctest",
+      "--test-dir",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native",
+      "-R",
+      "^viewer_session$",
+      "--output-on-failure",
+      "--test-output-size-passed",
+      "1048576",
+      "--no-tests=error",
+      "--output-junit",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tma192-linux/viewer_session.xml"
+    ],
+    "exit": 0,
+    "elapsed_seconds": 1.2757523999316618
+  },
+  {
+    "suite": "qptma",
+    "command": [
+      "wsl.exe",
+      "-d",
+      "Ubuntu",
+      "--exec",
+      "ctest",
+      "--test-dir",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native",
+      "-R",
+      "^qptma$",
+      "--output-on-failure",
+      "--test-output-size-passed",
+      "1048576",
+      "--no-tests=error",
+      "--output-junit",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tma192-linux/qptma.xml"
+    ],
+    "exit": 0,
+    "elapsed_seconds": 0.48129669995978475
+  },
+  {
+    "suite": "qptma_project",
+    "command": [
+      "wsl.exe",
+      "-d",
+      "Ubuntu",
+      "--exec",
+      "ctest",
+      "--test-dir",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native",
+      "-R",
+      "^qptma_project$",
+      "--output-on-failure",
+      "--test-output-size-passed",
+      "1048576",
+      "--no-tests=error",
+      "--output-junit",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tma192-linux/qptma_project.xml"
+    ],
+    "exit": 0,
+    "elapsed_seconds": 2.051851100055501
+  }
+]

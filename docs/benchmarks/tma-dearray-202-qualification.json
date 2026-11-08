@@ -1,0 +1,305 @@
+{
+  "schema": "qpx.integrated-tma-dearray-qualification/1",
+  "source": "19371b74e0fabb3a91bd77ffe67ded04f46a5220",
+  "observed_at_utc": "2026-10-26T01:58:14.450456+00:00",
+  "frozen_ref": "feature/tma-dearray-workflow-202",
+  "engine_run": 40245160107,
+  "macos_run": 40245165671,
+  "portable_run": 40245171698,
+  "engine_accepted": true,
+  "macos_native_accepted": true,
+  "portable_accepted": true,
+  "artifact_archives_verified": 11,
+  "artifacts": [
+    {
+      "name": "Windows-gui-py3.12",
+      "artifact_id": 12619545822,
+      "run_id": 40245160107,
+      "sha256": "abcd0720f25a40a42f9b82f1dc77d8e7119a8377c39def7bc28d49c540695968",
+      "bytes": 25818819
+    },
+    {
+      "name": "Windows-headless-py3.11",
+      "artifact_id": 12618523850,
+      "run_id": 40245160107,
+      "sha256": "9fdf330ff32e2366356cf675a8eaa8b123fc4ed1bf80e141540ad8606425fa7e",
+      "bytes": 10925256
+    },
+    {
+      "name": "Linux-headless-py3.12",
+      "artifact_id": 12618357596,
+      "run_id": 40245160107,
+      "sha256": "8d0e2e629252db6783b7876b29de096f68463e9b65cb542c8eadd8de713c32dd",
+      "bytes": 13495695
+    },
+    {
+      "name": "Linux-minimal-py3.12",
+      "artifact_id": 12618168126,
+      "run_id": 40245160107,
+      "sha256": "a44af6982d956b5694d461fb1742f4f02f78e4428b12be2b85d12f598a50bb39",
+      "bytes": 35491
+    },
+    {
+      "name": "Linux-sanitize-py3.12",
+      "artifact_id": 12618347647,
+      "run_id": 40245160107,
+      "sha256": "90a1b228e3393a5d8bad2dc6679638409f67600c75b7a44e701a2fcf7bd563ae",
+      "bytes": 41307
+    },
+    {
+      "name": "macos-native-arm64",
+      "artifact_id": 12618632233,
+      "run_id": 40245165671,
+      "sha256": "fa5fd831ce12b45c1e50ffcb36a419be09f69d5a7dae257bedff6672c166837f",
+      "bytes": 10595015
+    },
+    {
+      "name": "macos-native-x86_64",
+      "artifact_id": 12618399388,
+      "run_id": 40245165671,
+      "sha256": "0a66326192937afa625bad8756c82284221c1ff661fa43d8ae268709357d50ec",
+      "bytes": 11505195
+    },
+    {
+      "name": "manylinux-3.11",
+      "artifact_id": 12618558832,
+      "run_id": 40245171698,
+      "sha256": "dc52d1a19da50ff1888830055f8d2db9de6c4923069f7a42c4d0554ed5b008bc",
+      "bytes": 13859888
+    },
+    {
+      "name": "manylinux-3.12",
+      "artifact_id": 12618548291,
+      "run_id": 40245171698,
+      "sha256": "6ac8f0e266bac299161ccd05bd21ddfa141b8435075b353025f0fdf71115e6dd",
+      "bytes": 13858058
+    },
+    {
+      "name": "manylinux-consumer-3.11",
+      "artifact_id": 12618983412,
+      "run_id": 40245171698,
+      "sha256": "06e09f438c24a1e496d7168d37e32e8d759dc807eeb61c37add614bb6bb1e975",
+      "bytes": 70442
+    },
+    {
+      "name": "manylinux-consumer-3.12",
+      "artifact_id": 12618789056,
+      "run_id": 40245171698,
+      "sha256": "9dc5fb50ca6d086bc264e4754460ec67fe8d514c56ca26319cd8ed0b4b73dc1a",
+      "bytes": 70030
+    }
+  ],
+  "successor_auditor": {
+    "commit": "cc2f5247e58a5522ee016adc107c9e2a136e458b",
+    "clean": true,
+    "script_sha256": "adcfd992d6309e0c7c80fd5c9cca534079a029a5b6f4a233811d4b72b653f6ee",
+    "helper_sources": {
+      "tools/ci/accept_macos_native.py": "f93f4615eaddbc6de8ce6cc79f77b068d88dd3cd7ea545d9a80e868d21f743a7",
+      "tools/ci/accept_manylinux.py": "eb89619b372f150b9895c27ac95c0f5dddace05bd603f5d0fa25ad0c22053501",
+      "tools/ci/accept_unified_engine.py": "adcfd992d6309e0c7c80fd5c9cca534079a029a5b6f4a233811d4b72b653f6ee",
+      "tools/ci/assets.py": "aec8d8ad02342c24c014685d09981f2e063a1ee5944914fb97e470f1bc8eb357",
+      "tools/ci/campaign_inputs.py": "825d4d82064cfa805ed14048d77075aedd9bc13fe2db058d9ad66e0e35fec50a",
+      "tools/ci/check_install.py": "a1d0e1cd086549611cc5452b389f0cfc023e6a0f7615a685e8785fd1d1ad7640",
+      "tools/ci/check_linux_runtime.py": "c8032797a84612df55441092cae49b78d212f340451b0a14deb4b507d6cf93e4",
+      "tools/ci/check_macos_relocated_runtime.py": "4c0fc748fce0c08a1fefb494836a033e1335d74cd6fb613c8e4218769af24ad4",
+      "tools/ci/check_manylinux_consumer.py": "22c1e5474fe5b35eaac15b510f066db06020080fb8ae86f0839c8b55db370e15",
+      "tools/ci/elf_dependencies.py": "196ec3cc942e323700d3b06521fde2a24470a679d8d14f72085bdde3bed47852",
+      "tools/ci/frontier_evidence.py": "8795538c16e0a7eb1551030d2c3fcf347ec59b1a5d2f07b33de0d910b2d04419",
+      "tools/ci/hierarchy-cases.json": "d5caa8ce1fd435684d4dd5d6be30b427777b0646193415a90d6c2dd690448c94",
+      "tools/ci/hierarchy_evidence.py": "ca90c3ddde0c37e8e2ddf3780e9bbf7997f1709723e3bca22702a234bf0ee5c2",
+      "tools/ci/linux-runtime-manifest-cases.json": "476a2c6585b073f2fede6dcfdacfb67210b0a52b3667c3d54408dd29ccdcd52f",
+      "tools/ci/linux_runtime_manifest.py": "f8a5178465731bdd1d857b2851715a78d73f609c5987a64543e9fb24bab7d4d9",
+      "tools/ci/linux_runtime_manifest_evidence.py": "7ea46a55429a7aaa00d1bb01e03dfe29a4cebf2a8cf6a2ee8fc222fe080cd19c",
+      "tools/ci/macho_dependencies.py": "0b675070250682afae9e71f0c348ea719232471b060b8f6fe982fd7f625a45c3",
+      "tools/ci/macos_inventory_evidence.py": "893d4a7853f7b41f93c73e5b76a2a6a26e140bf048b409f5aff6817cb38ff8f5",
+      "tools/ci/macos_native_inventory.py": "307ed0b995779597dd3f8945f43187a4a5a0b20a780b011985ce2c5be107aaa9",
+      "tools/ci/macos_relocate.py": "9b83987806f74e206c459136078aa7a4dd155b525a60080c6e028b1663426dd6",
+      "tools/ci/macos_relocation_evidence.py": "932b8a4788cc66bdeb9643e76bdf3ee439503a41af7b1bc7cbfee8f383663688",
+      "tools/ci/macos_relocation_plan.py": "62d3bd65aeb99b02d68e7dd126a1ead4af0828dfaf6bfe3ba8fcb721675677d7",
+      "tools/ci/manylinux-assets.json": "20997d3c9f207ca9d6e068c0e07f02d990d2b7ff80b944b8feb2f1b71f8a088f",
+      "tools/ci/pe_dependencies.py": "164689ef5c582628170500ae6d145026b546b2c1c41553b54afe1b95cd0e5efb",
+      "tools/ci/probe_pe_forwarders.py": "e64211fe65600198ed1dcf94299b4b8d3e61b1907028c3abb120474d096df545",
+      "tools/ci/qptma-cases.json": "b9edd9de650ac9ba05c312eec6fa2635225a92a2e8e58dc45981b140c7debd32",
+      "tools/ci/qptma-gui-cases.json": "ef5e9e0964f248aa1e344d5c93fb069285cd82de036ddb6ffdd745e6dde9e8a3",
+      "tools/ci/qptma_evidence.py": "42c21d628c9039a193e5f176e3f3466cb22ea381769617ea1c9c9402c3224303",
+      "tools/ci/qualify_manylinux_wheel.py": "010895a5ec8abb21230a41d35cb733d1940ebfa6c0812a373713c158aa6eeda9",
+      "tools/ci/resampling_evidence.py": "e5968d5f149d815ea5f1924764379c974156a06637f3412fe0321dfb2f653c5c",
+      "tools/ci/run.py": "b388e46aad1691273807530b0cc6d969b74b4bdb2b72c4993bfe7d86c448a45e",
+      "tools/ci/run_macos_native.py": "8a23d05c585e3037b85f0ea4272f21be4fdc083a38110435525dd449691f3ecc",
+      "tools/ci/run_manylinux.py": "106ad317de843dd989515a8ecbf28d3639c9bfa58cd007ed5fc7d1498887b167",
+      "tools/ci/runtime-assets.json": "daedeab77769002febefe1e14cc08c90d69ddecfe50a541659a8f50b5d2cd9f8",
+      "tools/ci/runtime_manifest.py": "d2b845bf4a4b6acbd2ecf7d2416d1198610f62fb74e8d80b7912db20f4a30791",
+      "tools/ci/runtime_manifest_evidence.py": "553100964c7fca7abefd2ae15ad2440ec956cb9bbf119c3e882719c3c383e1ed",
+      "tools/ci/scientific-grid-cases.json": "e7503bca55f4f6ff6517acbf0cc694ac6d01e929ca9403eb690bdf870d6666c9",
+      "tools/ci/scientific_grid_evidence.py": "0ee42c4b9a201a9957a2849da5c634e04170dc06f2aeef3fb14b65714a50a934",
+      "tools/ci/tma-axis-cases.json": "3479aee2ead9c5eb48119b1a3db75c23a7b0d1b2927e04dd92e06dc12157eb17",
+      "tools/ci/tma-dearray-cases.json": "a7412e7b23a703ad470a36bf64240de2f6ad7b8a26331bdeaa60240a33b5d703",
+      "tools/ci/tma_axis_evidence.py": "3dce76c17e314a08c962d3b70ffdbe530bcc8aef7ea6ec7066b2fe11fe6b4a91",
+      "tools/ci/tma_case_evidence.py": "868ea8cc8777d8b94ab7ce43f8f0963cdb67656f51c4cb33d2f1be6022a6ccf2",
+      "tools/ci/tma_dearray_evidence.py": "db22474f0d1804edec5b9027272832cf40c2d45aa61f0be251770bc9da9e5f98"
+    },
+    "control_sources": {
+      "tests/test_engine_successor_audit.py": "17a2c046a7e0927602354d29f64edefe1df1645c6be91e215f31e311250c9509",
+      "tests/test_ci_execution_boundaries.py": "59a1d1ca97cd23883faff488cd73f36a87e50f77ffc42d7fce88a0a080904ff1"
+    },
+    "original_source": "19371b74e0fabb3a91bd77ffe67ded04f46a5220",
+    "original_checkout_unchanged": true,
+    "correction": "The named 24-case GUI axis cohort replaces the stale 17-case aggregate check. All other inherited source/artifact/native/installed/runtime/reader/analysis/desktop/typing gates remain required. The successor records the original artifact source separately; no source proof was normalized around changed code."
+  },
+  "results": {
+    "windows_gui_native": 51,
+    "windows_gui_installed": 3678,
+    "windows_headless_native": 50,
+    "windows_headless_installed": 3228,
+    "linux_headless_native": 50,
+    "linux_headless_installed": 3226,
+    "local_auditor_controls_passed": 438,
+    "linux_stdlib_boundary_witnesses_passed": 48
+  },
+  "scope": "Integrated engineering acceptance of native/Python/ImGui/managed/CLI TMA dearraying, physical units and structural edits at source19371 plus complete inherited gates. E2 producer/auditor changes have separate local Windows/Linux boundary verification, not a newly executed hosted product build.",
+  "preserved_attempts": [
+    "Original strict engine audit rejected stale GUI count; raw log retained",
+    "First successor passed all functional checks but its final writer overwrote extended provenance; raw result retained, final successor re-audit preserves it",
+    "Original axis196 campaign remains rejected; this receipt does not relabel it"
+  ],
+  "remaining": [
+    "Biological/vendor-slide and broader scientific acceptance",
+    "Mac Python/GUI/OpenSlide and complete supported-release matrix",
+    "MFO1 compound reader-source/provenance and complete multi-file OME workflow",
+    "All remaining original M0-M7 criteria within open-source-only reader scope"
+  ],
+  "performance_accepted": false,
+  "biological_accepted": false,
+  "release_ready": false,
+  "overall_project_complete": false,
+  "payloads": {
+    "docs/benchmarks/tma-dearray-202-qualification/engine/audit.json": {
+      "bytes": 690789,
+      "sha256": "e3a3a803b0c3effc60e8eb0239b763ce0a29aea2e29d600455f7259c1b748648"
+    },
+    "docs/benchmarks/tma-dearray-202-qualification/engine/audit.log": {
+      "bytes": 488,
+      "sha256": "c3ef6a59f974e58f9399fb3e92b4206b3362c3701cdfcd492e7489734c7a852e"
+    },
+    "docs/benchmarks/tma-dearray-202-qualification/engine/command.json": {
+      "bytes": 896,
+      "sha256": "42bb96c72db1aeb25d6a601b2deae02c67fadcb6cae4ca4cb28b582e3ae41916"
+    },
+    "docs/benchmarks/tma-dearray-202-qualification/engine/original-rejected-audit.log": {
+      "bytes": 536,
+      "sha256": "7252501fe63391d0b944cad3001ddc6be9478209c417db438a8dd7e5c3160df5"
+    },
+    "docs/benchmarks/tma-dearray-202-qualification/portable/audit.json": {
+      "bytes": 341282,
+      "sha256": "639cc30c3b7b6cabc19f1bbc753aa1f51d3c6671c292eccb5e1dfe3bfc73616a"
+    },
+    "docs/benchmarks/tma-dearray-202-qualification/portable/audit.log": {
+      "bytes": 126,
+      "sha256": "4597795cff635d83daf3c9fa82969f439d22c69e3faa1abe707a8a2ea813d5d9"
+    },
+    "docs/benchmarks/tma-dearray-202-qualification/controls/tests.xml": {
+      "bytes": 66744,
+      "sha256": "2ef9b8d778909253e2c825fcb25f3a7e194a2ee8fe9bbe4e245a9d29b48cabb2"
+    },
+    "docs/benchmarks/tma-dearray-202-qualification/controls/tests.log": {
+      "bytes": 589,
+      "sha256": "9319276c338d3b663adbf07f3f4d9b1f89bac9333a149ba756146e1649da357b"
+    },
+    "docs/benchmarks/tma-dearray-202-qualification/controls/command.json": {
+      "bytes": 2418,
+      "sha256": "a7b16e96bb51d18097881faa70ac8e28bfa29cc8fdae504ef2348cf93bb88db5"
+    },
+    "docs/benchmarks/tma-dearray-202-qualification/controls/linux-boundaries.json": {
+      "bytes": 2211,
+      "sha256": "78ccecd986d7d0079a4a7415f27cad8b51ed4f5e9e5c8259da14507b54d5d306"
+    },
+    "docs/benchmarks/tma-dearray-202-qualification/controls/linux-probe.py": {
+      "bytes": 2584,
+      "sha256": "deb44c264794937fe1874e55cc4f9676d7517f4238eff084d93db855b9ec5f78"
+    },
+    "docs/benchmarks/tma-dearray-202-qualification/engine/run.json": {
+      "bytes": 16529,
+      "sha256": "11c5be0e05fe8cc64940d870d57f087075b5d4d45a1b594be9a446a34252ab00"
+    },
+    "docs/benchmarks/tma-dearray-202-qualification/artifacts/Windows-gui-py3.12-artifact.json": {
+      "bytes": 787,
+      "sha256": "ef2bd5dee3404e9dbf3bfe1deba177726e6379c1b05f6ed48832a048b7a0c41c"
+    },
+    "docs/benchmarks/tma-dearray-202-qualification/artifacts/Windows-headless-py3.11-artifact.json": {
+      "bytes": 743,
+      "sha256": "f6c857f5722e315aea4ab91fada2ef007bb300c8ec18327114f6e76cc97fcf0c"
+    },
+    "docs/benchmarks/tma-dearray-202-qualification/artifacts/Linux-headless-py3.12-artifact.json": {
+      "bytes": 741,
+      "sha256": "d592e8ae3d89e97aa5beea6c82e8f532eb85c3b107ce160fb59045eec1834103"
+    },
+    "docs/benchmarks/tma-dearray-202-qualification/artifacts/Linux-minimal-py3.12-artifact.json": {
+      "bytes": 737,
+      "sha256": "2f3bbb33ccec879a1dd33f8b13d976ce968ae9e11d1934a9771dfac55fe3fa9d"
+    },
+    "docs/benchmarks/tma-dearray-202-qualification/artifacts/Linux-sanitize-py3.12-artifact.json": {
+      "bytes": 738,
+      "sha256": "2cb9455d65c475fb6ce7a3331f9a907391cda193e772f44e9db1334aa3d4c168"
+    },
+    "docs/benchmarks/tma-dearray-202-qualification/macos/run.json": {
+      "bytes": 4859,
+      "sha256": "908e73571dc31f41568fa8b80d053035eacf0972fd3ff02fea3faf979590b56e"
+    },
+    "docs/benchmarks/tma-dearray-202-qualification/artifacts/macos-native-arm64-artifact.json": {
+      "bytes": 738,
+      "sha256": "49abfcddd9018b790c82b4d614d28b507ade248b5eeee21b4ff24abef91dac19"
+    },
+    "docs/benchmarks/tma-dearray-202-qualification/artifacts/macos-native-x86_64-artifact.json": {
+      "bytes": 739,
+      "sha256": "e120318a04507fe3a7be399e2b64ba2795c9165acb17a87288076c59112ded8d"
+    },
+    "docs/benchmarks/tma-dearray-202-qualification/portable/run.json": {
+      "bytes": 10688,
+      "sha256": "54a1017de78d8fdcd46bab1df695a36bac25ad318b69afe5a5094c7ef8cf2784"
+    },
+    "docs/benchmarks/tma-dearray-202-qualification/artifacts/manylinux-3.11-artifact.json": {
+      "bytes": 734,
+      "sha256": "7256bb8b5ba3beaa4e7e24d88ef8bfc0c9899390fd99b502479aceddcfdce86f"
+    },
+    "docs/benchmarks/tma-dearray-202-qualification/artifacts/manylinux-3.12-artifact.json": {
+      "bytes": 734,
+      "sha256": "8312589cab9fe5cb4b049bffa7eb56143cb0bffaa6ab89a4a45e0d68d7e871c3"
+    },
+    "docs/benchmarks/tma-dearray-202-qualification/artifacts/manylinux-consumer-3.11-artifact.json": {
+      "bytes": 740,
+      "sha256": "f1ec9ee973fb17b08a4f3ebc3dc17949d858cac0f8bf83cad995ac7a2cf64510"
+    },
+    "docs/benchmarks/tma-dearray-202-qualification/artifacts/manylinux-consumer-3.12-artifact.json": {
+      "bytes": 740,
+      "sha256": "d4aa404852f5ffb09aeb06ec28d00d95f088997d6a447ee3c1abd4482b03e3d1"
+    },
+    "docs/benchmarks/tma-dearray-202-macos-native/audit.json": {
+      "bytes": 221190,
+      "sha256": "a54191f2471bb3625e1876d4ce64ab1c9cc6e6051e670a737fb29eaf8a20ffed"
+    },
+    "docs/benchmarks/tma-dearray-202-macos-native/audit.log": {
+      "bytes": 161,
+      "sha256": "b1272cd506d7819aff97c2d96af07731e5b52a820b146bb20deaddddbe7cfe0a"
+    },
+    "docs/benchmarks/tma-dearray-202-macos-native/run.json": {
+      "bytes": 4859,
+      "sha256": "908e73571dc31f41568fa8b80d053035eacf0972fd3ff02fea3faf979590b56e"
+    },
+    "docs/benchmarks/tma-dearray-202-macos-native/arm64-artifact.json": {
+      "bytes": 738,
+      "sha256": "49abfcddd9018b790c82b4d614d28b507ade248b5eeee21b4ff24abef91dac19"
+    },
+    "docs/benchmarks/tma-dearray-202-macos-native/x86_64-artifact.json": {
+      "bytes": 739,
+      "sha256": "e120318a04507fe3a7be399e2b64ba2795c9165acb17a87288076c59112ded8d"
+    }
+  },
+  "retained_local_attempts": [
+    {
+      "path": "build/audit207-reaudit/engine-audit.json",
+      "bytes": 685701,
+      "sha256": "7ddc9130ef79f14fbcaf1893cf8af8122627ac675320c3f7af85e5076473b2a5",
+      "reason": "Original functionally passing result with overwritten extended provenance; final successor audit is published without duplicating this full prior evidence tree."
+    }
+  ]
+}

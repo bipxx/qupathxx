@@ -1,0 +1,227 @@
+[  1%] Built target qupathxx_tiff_xml
+[  1%] Built target qupathxx_sqlite
+[ 14%] Built target zlibstatic
+[ 44%] Built target tiff
+[ 44%] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/tiff_server.cpp.o
+[ 44%] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/provenance.cpp.o
+In file included from /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/provenance.cpp:2:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In function ‘std::string qpx::detail::export_path(const std::string&)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:30:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   30 |     if(result.size()>32768) throw std::invalid_argument("export path is too long");return result;
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:30:84: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   30 |     if(result.size()>32768) throw std::invalid_argument("export path is too long");return result;
+      |                                                                                    ^~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In constructor ‘qpx::detail::AtomicExportFile::AtomicExportFile(const std::string&, std::size_t, const std::atomic<bool>*)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:48:9: warning: this ‘for’ clause does not guard... [-Wmisleading-indentation]
+   48 |         for(int i=0;i<24;++i) suffix.push_back(hex[random()&15]);temporary_+=std::filesystem::u8path(suffix);
+      |         ^~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:48:66: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘for’
+   48 |         for(int i=0;i<24;++i) suffix.push_back(hex[random()&15]);temporary_+=std::filesystem::u8path(suffix);
+      |                                                                  ^~~~~~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In member function ‘void qpx::detail::AtomicExportFile::write(const char*, std::size_t)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:68:13: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   68 |             if(written<=0) throw std::runtime_error("export write failed");at+=static_cast<std::size_t>(written);bytes_+=static_cast<std::size_t>(written);
+      |             ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:68:76: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   68 |             if(written<=0) throw std::runtime_error("export write failed");at+=static_cast<std::size_t>(written);bytes_+=static_cast<std::size_t>(written);
+      |                                                                            ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In member function ‘void qpx::detail::AtomicExportFile::commit(bool)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:78:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   78 |         if(!close()) throw std::runtime_error("export close failed");export_checkpoint(cancelled_);
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:78:70: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   78 |         if(!close()) throw std::runtime_error("export close failed");export_checkpoint(cancelled_);
+      |                                                                      ^~~~~~~~~~~~~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/provenance.cpp: In function ‘std::string qpx::provenance_json(const AnalysisProvenance&)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/provenance.cpp:79:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   79 |     if(j.out.size()>16u*1024u*1024u) throw std::length_error("provenance JSON exceeds 16 MiB");return j.out;
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/provenance.cpp:79:96: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   79 |     if(j.out.size()>16u*1024u*1024u) throw std::length_error("provenance JSON exceeds 16 MiB");return j.out;
+      |                                                                                                ^~~~~~
+In file included from /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tiff_server.cpp:4:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In function ‘std::string qpx::detail::export_path(const std::string&)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:30:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   30 |     if(result.size()>32768) throw std::invalid_argument("export path is too long");return result;
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:30:84: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   30 |     if(result.size()>32768) throw std::invalid_argument("export path is too long");return result;
+      |                                                                                    ^~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In constructor ‘qpx::detail::AtomicExportFile::AtomicExportFile(const std::string&, std::size_t, const std::atomic<bool>*)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:48:9: warning: this ‘for’ clause does not guard... [-Wmisleading-indentation]
+   48 |         for(int i=0;i<24;++i) suffix.push_back(hex[random()&15]);temporary_+=std::filesystem::u8path(suffix);
+      |         ^~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:48:66: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘for’
+   48 |         for(int i=0;i<24;++i) suffix.push_back(hex[random()&15]);temporary_+=std::filesystem::u8path(suffix);
+      |                                                                  ^~~~~~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In member function ‘void qpx::detail::AtomicExportFile::write(const char*, std::size_t)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:68:13: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   68 |             if(written<=0) throw std::runtime_error("export write failed");at+=static_cast<std::size_t>(written);bytes_+=static_cast<std::size_t>(written);
+      |             ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:68:76: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   68 |             if(written<=0) throw std::runtime_error("export write failed");at+=static_cast<std::size_t>(written);bytes_+=static_cast<std::size_t>(written);
+      |                                                                            ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In member function ‘void qpx::detail::AtomicExportFile::commit(bool)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:78:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   78 |         if(!close()) throw std::runtime_error("export close failed");export_checkpoint(cancelled_);
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:78:70: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   78 |         if(!close()) throw std::runtime_error("export close failed");export_checkpoint(cancelled_);
+      |                                                                      ^~~~~~~~~~~~~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tiff_server.cpp: In member function ‘qpx::SampleType qpx::{anonymous}::Ifd::type() const’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tiff_server.cpp:57:13: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   57 |             if(bits==8) return s?SampleType::Int8:SampleType::UInt8;if(bits==16) return s?SampleType::Int16:SampleType::UInt16;
+      |             ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tiff_server.cpp:57:69: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   57 |             if(bits==8) return s?SampleType::Int8:SampleType::UInt8;if(bits==16) return s?SampleType::Int16:SampleType::UInt16;
+      |                                                                     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tiff_server.cpp:58:13: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   58 |             if(bits==32) return s?SampleType::Int32:SampleType::UInt32;if(bits==64) return s?SampleType::Int64:SampleType::UInt64;
+      |             ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tiff_server.cpp:58:72: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   58 |             if(bits==32) return s?SampleType::Int32:SampleType::UInt32;if(bits==64) return s?SampleType::Int64:SampleType::UInt64;
+      |                                                                        ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tiff_server.cpp: In function ‘uint32_t qpx::{anonymous}::integer(const tinyxml2::XMLElement*, const char*, std::optional<unsigned int>)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tiff_server.cpp:76:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   76 |     if(result.ec!=std::errc{} || result.ptr!=end) throw std::invalid_argument(std::string("invalid OME integer ")+key);return n;
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tiff_server.cpp:76:120: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   76 |     if(result.ec!=std::errc{} || result.ptr!=end) throw std::invalid_argument(std::string("invalid OME integer ")+key);return n;
+      |                                                                                                                        ^~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tiff_server.cpp: In static member function ‘static int qpx::{anonymous}::TiffData::error_handler(TIFF*, void*, const char*, const char*, __va_list_tag*)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tiff_server.cpp:113:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  113 |         if(prefix>0 && std::size_t(prefix)<buffer.size()) std::vsnprintf(buffer.data()+prefix,buffer.size()-std::size_t(prefix),format,args);return 1;
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tiff_server.cpp:113:142: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  113 |         if(prefix>0 && std::size_t(prefix)<buffer.size()) std::vsnprintf(buffer.data()+prefix,buffer.size()-std::size_t(prefix),format,args);return 1;
+      |                                                                                                                                              ^~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tiff_server.cpp: In member function ‘void qpx::{anonymous}::TiffData::activate(uint32_t)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tiff_server.cpp:120:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  120 |         if(handle_) TIFFClose(handle_);handle_=nullptr;active_file_=UINT32_MAX;error_[0]=0;
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tiff_server.cpp:120:40: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  120 |         if(handle_) TIFFClose(handle_);handle_=nullptr;active_file_=UINT32_MAX;error_[0]=0;
+      |                                        ^~~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tiff_server.cpp: In member function ‘uint32_t qpx::{anonymous}::TiffData::load_file(const std::string&)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tiff_server.cpp:145:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  145 |         if(entry.xml.size()>4*1024*1024-xml_bytes_) throw std::length_error("TIFF fileset XML exceeds 4 MiB");xml_bytes_+=entry.xml.size();
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tiff_server.cpp:145:111: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  145 |         if(entry.xml.size()>4*1024*1024-xml_bytes_) throw std::length_error("TIFF fileset XML exceeds 4 MiB");xml_bytes_+=entry.xml.size();
+      |                                                                                                               ^~~~~~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tiff_server.cpp:152:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  152 |         if(error_[0]) failed("cannot index TIFF directories");entry.count=std::uint32_t(roots_.size())-entry.first;return ordinal;
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tiff_server.cpp:152:63: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  152 |         if(error_[0]) failed("cannot index TIFF directories");entry.count=std::uint32_t(roots_.size())-entry.first;return ordinal;
+      |                                                               ^~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tiff_server.cpp: In member function ‘void qpx::{anonymous}::TiffData::validate_companion(uint32_t, const tinyxml2::XMLElement*) const’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tiff_server.cpp:170:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  170 |         if(!file) return;tinyxml2::XMLDocument document;parse_ome(files_[file]->xml,document);
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tiff_server.cpp:170:26: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  170 |         if(!file) return;tinyxml2::XMLDocument document;parse_ome(files_[file]->xml,document);
+      |                          ^~~~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tiff_server.cpp: In member function ‘qpx::{anonymous}::TiffData::Guards qpx::{anonymous}::TiffData::guard_files(const std::atomic<bool>*) const’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tiff_server.cpp:179:13: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  179 |             if(!same_file(*file->version,*guard->version())) throw std::runtime_error("TIFF source changed; reopen it before reading");guards.push_back(std::move(guard));
+      |             ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tiff_server.cpp:179:136: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  179 |             if(!same_file(*file->version,*guard->version())) throw std::runtime_error("TIFF source changed; reopen it before reading");guards.push_back(std::move(guard));
+      |                                                                                                                                        ^~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tiff_server.cpp: In member function ‘void qpx::{anonymous}::TiffData::index(const std::string&)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tiff_server.cpp:198:13: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  198 |             if(raw_->series>=roots_.size()) throw std::out_of_range("TIFF page/series index is outside the file");const auto& d=roots_[raw_->series];
+      |             ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tiff_server.cpp:198:115: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  198 |             if(raw_->series>=roots_.size()) throw std::out_of_range("TIFF page/series index is outside the file");const auto& d=roots_[raw_->series];
+      |                                                                                                                   ^~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tiff_server.cpp:203:13: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  203 |             if(scale && std::isfinite(x) && x>0) raw_->pixel_width_um=scale/x;if(scale && std::isfinite(y) && y>0) raw_->pixel_height_um=scale/y;
+      |             ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tiff_server.cpp:203:79: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  203 |             if(scale && std::isfinite(x) && x>0) raw_->pixel_width_um=scale/x;if(scale && std::isfinite(y) && y>0) raw_->pixel_height_um=scale/y;
+      |                                                                               ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tiff_server.cpp:211:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  211 |         if(!image) throw std::out_of_range("OME series index is outside the file");raw_->series_count=count;const auto* p=child(image,"Pixels");if(!p) throw std::invalid_argument("OME Image has no Pixels");
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tiff_server.cpp:211:84: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  211 |         if(!image) throw std::out_of_range("OME series index is outside the file");raw_->series_count=count;const auto* p=child(image,"Pixels");if(!p) throw std::invalid_argument("OME Image has no Pixels");
+      |                                                                                    ^~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tiff_server.cpp:237:17: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  237 |                 if(files_[file]->uuid!=value) throw std::invalid_argument("OME referenced file UUID differs");if(validated.insert(file).second) validate_companion(file,p);
+      |                 ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tiff_server.cpp:237:111: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  237 |                 if(files_[file]->uuid!=value) throw std::invalid_argument("OME referenced file UUID differs");if(validated.insert(file).second) validate_companion(file,p);
+      |                                                                                                               ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tiff_server.cpp: In member function ‘void qpx::{anonymous}::TiffData::levels()’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tiff_server.cpp:259:17: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  259 |                 if(!level.sub.empty() || level.samples!=root.samples || level.type()!=root.type() || level.photo!=root.photo) throw std::invalid_argument("incompatible TIFF subresolution samples");root.levels.push_back(std::move(level));}
+      |                 ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tiff_server.cpp:259:198: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  259 |                 if(!level.sub.empty() || level.samples!=root.samples || level.type()!=root.type() || level.photo!=root.photo) throw std::invalid_argument("incompatible TIFF subresolution samples");root.levels.push_back(std::move(level));}
+      |                                                                                                                                                                                                      ^~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tiff_server.cpp: In member function ‘std::shared_ptr<qpx::{anonymous}::TiffData::Block> qpx::{anonymous}::TiffData::block(const qpx::{anonymous}::Ifd&, uint32_t, uint32_t, uint16_t)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tiff_server.cpp:277:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  277 |         if(read<0 || std::uint64_t(read)!=size || error_[0]) failed("TIFF block decoding failed or returned incomplete samples");++stats_.decoded_blocks;stats_.decoded_bytes+=size;
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tiff_server.cpp:277:130: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  277 |         if(read<0 || std::uint64_t(read)!=size || error_[0]) failed("TIFF block decoding failed or returned incomplete samples");++stats_.decoded_blocks;stats_.decoded_bytes+=size;
+      |                                                                                                                                  ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tiff_server.cpp: In constructor ‘qpx::{anonymous}::TiffData::TiffData(const std::string&, qpx::TiffOpenOptions, const std::atomic<bool>*)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tiff_server.cpp:330:13: warning: this ‘for’ clause does not guard... [-Wmisleading-indentation]
+  330 |             for(const auto& file:files_) file->opening_guard->verify();detail::export_checkpoint(cancelled);
+      |             ^~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tiff_server.cpp:330:72: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘for’
+  330 |             for(const auto& file:files_) file->opening_guard->verify();detail::export_checkpoint(cancelled);
+      |                                                                        ^~~~~~
+[ 46%] Linking CXX static library libqupathxx_core.a
+[ 98%] Built target qupathxx_core
+[ 98%] Linking CXX executable qupathxx_source_identity_tests
+[100%] Built target qupathxx_source_identity_tests
+[  1%] Built target qupathxx_tiff_xml
+[  1%] Built target qupathxx_sqlite
+[ 14%] Built target zlibstatic
+[ 44%] Built target tiff
+[ 98%] Built target qupathxx_core
+[100%] Linking CXX executable qupathxx_file_fingerprint_tests
+[100%] Built target qupathxx_file_fingerprint_tests
+[  1%] Built target qupathxx_tiff_xml
+[  1%] Built target qupathxx_sqlite
+[ 14%] Built target zlibstatic
+[ 44%] Built target tiff
+[ 98%] Built target qupathxx_core
+[100%] Linking CXX executable qupathxx_provenance_tests
+[100%] Built target qupathxx_provenance_tests
+[  1%] Built target qupathxx_tiff_xml
+[  1%] Built target qupathxx_sqlite
+[ 15%] Built target zlibstatic
+[ 45%] Built target tiff
+[100%] Built target qupathxx_core
+[100%] Building CXX object CMakeFiles/qupathxx_raw_image_tests.dir/cpp/tests/raw_image_tests.cpp.o
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tests/raw_image_tests.cpp: In function ‘void multifile_dispatch(const std::filesystem::__cxx11::path&)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tests/raw_image_tests.cpp:64:81: error: invalid use of incomplete type ‘using std::__shared_ptr_access<const qpx::ReaderSource, __gnu_cxx::_S_atomic, false, false>::element_type = const struct qpx::ReaderSource’ {aka ‘const struct qpx::ReaderSource’}
+   64 |         auto server=open_tiff(entry.u8string(),{});check(server->reader_source()->scope=="compound_files" && server->reader_source()->companions.size()==1);
+      |                                                                                 ^~
+In file included from /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/include/qupathxx/raw_image.hpp:2,
+                 from /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tests/raw_image_tests.cpp:1:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/include/qupathxx/image_server.hpp:11:8: note: forward declaration of ‘std::__shared_ptr_access<const qpx::ReaderSource, __gnu_cxx::_S_atomic, false, false>::element_type’ {aka ‘struct qpx::ReaderSource’}
+   11 | struct ReaderSource;
+      |        ^~~~~~~~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tests/raw_image_tests.cpp:64:133: error: invalid use of incomplete type ‘using std::__shared_ptr_access<const qpx::ReaderSource, __gnu_cxx::_S_atomic, false, false>::element_type = const struct qpx::ReaderSource’ {aka ‘const struct qpx::ReaderSource’}
+   64 |         auto server=open_tiff(entry.u8string(),{});check(server->reader_source()->scope=="compound_files" && server->reader_source()->companions.size()==1);
+      |                                                                                                                                     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/include/qupathxx/image_server.hpp:11:8: note: forward declaration of ‘std::__shared_ptr_access<const qpx::ReaderSource, __gnu_cxx::_S_atomic, false, false>::element_type’ {aka ‘struct qpx::ReaderSource’}
+   11 | struct ReaderSource;
+      |        ^~~~~~~~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tests/raw_image_tests.cpp:68:91: error: invalid use of incomplete type ‘using std::__shared_ptr_access<const qpx::ReaderSource, __gnu_cxx::_S_atomic, false, false>::element_type = const struct qpx::ReaderSource’ {aka ‘const struct qpx::ReaderSource’}
+   68 |         auto view=server->with_tiff_view(*server->tiff_view());check(view->reader_source()->companions.size()==1);server->close();check(view->read_raw(request).valid()[0]);view->close();
+      |                                                                                           ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/include/qupathxx/image_server.hpp:11:8: note: forward declaration of ‘std::__shared_ptr_access<const qpx::ReaderSource, __gnu_cxx::_S_atomic, false, false>::element_type’ {aka ‘struct qpx::ReaderSource’}
+   11 | struct ReaderSource;
+      |        ^~~~~~~~~~~~
+gmake[3]: *** [CMakeFiles/qupathxx_raw_image_tests.dir/build.make:76: CMakeFiles/qupathxx_raw_image_tests.dir/cpp/tests/raw_image_tests.cpp.o] Error 1
+gmake[2]: *** [CMakeFiles/Makefile2:820: CMakeFiles/qupathxx_raw_image_tests.dir/all] Error 2
+gmake[1]: *** [CMakeFiles/Makefile2:827: CMakeFiles/qupathxx_raw_image_tests.dir/rule] Error 2
+gmake: *** [Makefile:421: qupathxx_raw_image_tests] Error 2

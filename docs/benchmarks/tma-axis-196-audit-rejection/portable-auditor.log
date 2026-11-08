@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "C:\Users\HEQ\Projects\qupathxx\build\ci\tma-axis-workflow-196\tools\ci\accept_manylinux.py", line 430, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\HEQ\Projects\qupathxx\build\ci\tma-axis-workflow-196\tools\ci\accept_manylinux.py", line 369, in main
+    report['qptma_cohorts'].append(dict(python=version,cohort=cohort,native=qptma_native,project_native=qptma_project,builder_typing=qptma_typing,installed=qptma.python(list(ET.parse(path).getroot().iter('testcase')))))
+                                                                                                                                                            ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HEQ\Projects\qupathxx\build\ci\tma-axis-workflow-196\tools\ci\qptma_evidence.py", line 51, in python
+    require(sorted(case.get('name') for case in selected)==names,label+' missing/duplicate/changed: '+classname)
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HEQ\Projects\qupathxx\build\ci\tma-axis-workflow-196\tools\ci\qptma_evidence.py", line 16, in require
+    if not value:raise ValueError(message)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: qptma installed cohort missing/duplicate/changed: test_qptma_evidence

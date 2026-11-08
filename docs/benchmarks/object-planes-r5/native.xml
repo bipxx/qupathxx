@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="9"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="3"
+	timestamp="2026-11-04T16:27:20"
+	>
+	<testcase name="object_classifier" classname="object_classifier" time="0.0669928" status="run">
+		<properties/>
+		<system-out>object classifier checks passed
+</system-out>
+	</testcase>
+	<testcase name="file_fingerprint" classname="file_fingerprint" time="0.083622" status="run">
+		<properties/>
+		<system-out>Namespace-stable locators, missing-source lexical comparison and incompatible/literal root fallback passed
+Streaming file digests, identity/stamp observations, limits, aliases and atomic worker files passed
+</system-out>
+	</testcase>
+	<testcase name="analysis" classname="analysis" time="0.0537567" status="run">
+		<properties/>
+		<system-out>analysis passed
+</system-out>
+	</testcase>
+	<testcase name="core" classname="core" time="0.0336592" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="qupath_project" classname="qupath_project" time="0.0922639" status="run">
+		<properties/>
+		<system-out>Native QuPath saved-data geometry, calibration, truncation, trailing bytes and cancellation passed
+QuPath project native preview, source guards, new publication and replay refusal passed
+</system-out>
+	</testcase>
+	<testcase name="spatial_records" classname="spatial_records" time="2.54659" status="run">
+		<properties/>
+		<system-out>Spatial retained records: exact capture authority, explicit cohorts, clone/replay, calibration/object staleness, closed source and historical ownership passed
+Spatial QSD1 archives: deterministic roundtrip, provenance/input/result identity, nullable rows, corruption/truncation/semantic refusal and cancellation passed
+Spatial CSV: float64 units/identity, absent versus zero, streaming atomic no-overwrite/replacement, limits/cancellation and temporary cleanup passed
+Spatial projects: schema18 save/reopen, immutable async save, history/reverification, snapshot budget, missing linked-image zero-IO replay and corrupt/orphan refusal passed
+Spatial migrations: all17 legacy schemas open without modification and transactionally upgrade with retained distance rows passed
+</system-out>
+	</testcase>
+	<testcase name="selection" classname="selection" time="0.233112" status="run">
+		<properties/>
+		<system-out>Selection, classification and atomic delete passed
+</system-out>
+	</testcase>
+	<testcase name="project" classname="project" time="0.35932" status="run">
+		<properties/>
+		<system-out>Project source verification: historical round trip, reviewed replacement, stale/file-change refusal and codec checks passed
+Verified relink reader handoff, source observation, owned pixels and independent old-owner lifetime passed
+Project object properties: exact native persistence and independent immutable owner passed
+Multi-image project round trip, source pixels and stale saves passed; SQLite 3.54.1
+</system-out>
+	</testcase>
+	<testcase name="interchange" classname="interchange" time="0.085084" status="run">
+		<properties/>
+		<system-out>Object editing state: shared facts, exact version2 codec and version1 compatibility refusal passed
+Object properties: immutable history, special numbers, checksummed codec and lossless GeoJSON round trip passed
+Native nested GeoJSON hierarchy, nucleus, flat compatibility and depth bounds passed
+Native interchange atomicity and exact rectangle round trip passed
+</system-out>
+	</testcase>
+</testsuite>

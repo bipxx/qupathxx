@@ -1,0 +1,38 @@
+{
+  "schema": "qpx.tma-case-input-audit-controls/1",
+  "source": "f3ed0623c8b4ce9849064a8b2f3d51b83363a73f",
+  "positive": {
+    "native": {
+      "case_aggregation_checked": true,
+      "compensated_signed_sums_checked": true,
+      "mean_underflow_checked": true,
+      "cancellation_checked": true,
+      "signed_decimal_locale_checked": true,
+      "atomic_file_export_checked": true,
+      "input_size_checked": true,
+      "oversized_read_transfer_bytes": 0
+    },
+    "python": {
+      "cohort_contract_sha256": "ee7150e91fcc71b5980525c846554e2579c4ef082f04d6e38f97ff8f0ce2dee6",
+      "cases_passed": 13,
+      "file_cases_passed": 29,
+      "gui_cases_passed": 4
+    }
+  },
+  "negative_controls_rejected": [
+    "pre-reservation-native-evidence",
+    "missing-file-case",
+    "duplicate-file-case",
+    "file-failure",
+    "file-error",
+    "file-skipped",
+    "missing-TMA case file cancellation precedes output path access",
+    "missing-TMA case file exports preserve captured CSV bytes and existing files",
+    "missing-Oversized CSV file budget and output protection passed",
+    "wrong-source-contract",
+    "nonzero-read-transfer",
+    "duplicate-read-transfer"
+  ],
+  "helper_sha256": "76c8cec5ab25d4285782e24fd0f2ebadca53f61ff4e6013b35a0e68046d94aeb",
+  "hosted_candidate_accepted": false
+}

@@ -1,0 +1,53 @@
+native source 3d272074d691f1919c2cf10ba5dbfccad0406d18
+............FF..........................s.............................ss [ 23%]
+.............s..........................s..........................ssss. [ 46%]
+......s....................ss.................ss........................ [ 69%]
+........................................................................ [ 92%]
+........................                                                 [100%]
+================================== FAILURES ===================================
+_________ test_invalid_python_values_refuse_at_the_boundary[values5] __________
+
+values = {'int': 9223372036854775808}
+
+    @pytest.mark.parametrize('values',[
+        {1:'nonstring'}, {'object':object()}, {'tuple':(1,2)}, {'set':{1}}, {'bytes':b'x'},
+        {'int':2**63}, {'int':-(2**63)-1}, {'bad\0key':1}, {'bad':'nul\0text'},
+        {'large':'x'*4097}, {'x'*4097:1}, {'many':[None]*4097},
+        {'node-limit':[[None]*4096 for _ in range(4)]},
+        {str(i):'x'*4000 for i in range(256)},
+    ])
+    def test_invalid_python_values_refuse_at_the_boundary(values):
+>       with pytest.raises((ValueError,TypeError,OverflowError)):q.ImageDataProperties(values)
+                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       RuntimeError: bad cast
+
+tests\test_image_data_properties.py:126: RuntimeError
+_________ test_invalid_python_values_refuse_at_the_boundary[values6] __________
+
+values = {'int': -9223372036854775809}
+
+    @pytest.mark.parametrize('values',[
+        {1:'nonstring'}, {'object':object()}, {'tuple':(1,2)}, {'set':{1}}, {'bytes':b'x'},
+        {'int':2**63}, {'int':-(2**63)-1}, {'bad\0key':1}, {'bad':'nul\0text'},
+        {'large':'x'*4097}, {'x'*4097:1}, {'many':[None]*4097},
+        {'node-limit':[[None]*4096 for _ in range(4)]},
+        {str(i):'x'*4000 for i in range(256)},
+    ])
+    def test_invalid_python_values_refuse_at_the_boundary(values):
+>       with pytest.raises((ValueError,TypeError,OverflowError)):q.ImageDataProperties(values)
+                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       RuntimeError: bad cast
+
+tests\test_image_data_properties.py:126: RuntimeError
+============================== warnings summary ===============================
+tests/test_qupath_project.py::test_project_import_preserves_sources_objects_classes_calibration_and_pixels
+tests/test_qupath_project.py::test_project_import_preserves_sources_objects_classes_calibration_and_pixels
+  C:\Users\HEQ\Projects\qupathxx\.venv\Lib\site-packages\tifffile\tifffile.py:4594: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.
+  As an alternative, you can create a new view using np.reshape (with copy=False if needed).
+    result.shape = shape
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/test_image_data_properties.py::test_invalid_python_values_refuse_at_the_boundary[values5]
+FAILED tests/test_image_data_properties.py::test_invalid_python_values_refuse_at_the_boundary[values6]
+2 failed, 296 passed, 14 skipped, 2 warnings in 18.70s

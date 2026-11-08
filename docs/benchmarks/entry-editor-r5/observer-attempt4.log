@@ -1,0 +1,9 @@
+GUI Unicode scalar input and native undo/redo passed
+Details diagnostic: present=1 description=Description α
+second line tags=3 popup scroll=0 max=0
+Saved tag [z-last]
+Saved tag [a-first]
+Saved tag []
+Entry editor actual ImGui input: metadata add/edit/duplicate refusal, details/order/null/empty, clear/cancel/stale/image removal passed
+GUI packaged dynamic fonts, bounded atlas and recoverable glyph exhaustion passed
+gui replay passed

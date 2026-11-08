@@ -1,0 +1,106 @@
+{
+  "schema": "qpx.qualification-observation/1",
+  "source": "ee19be5743cc131b297bfdbccad393f99b67b7c7",
+  "observation": "20261028T130239Z",
+  "authenticated_archives": 8,
+  "macos_native_engineering_accepted": true,
+  "engine_accepted": false,
+  "portable_accepted": false,
+  "combined_accepted": false,
+  "engine_state": "in_progress",
+  "portable_state": "completed failure",
+  "portable_consumers": "skipped",
+  "original_failures_preserved": true,
+  "files": [
+    {
+      "path": "engine-run.json",
+      "bytes": 24827,
+      "sha256": "74a6881ed11bb068d64f0ac75a741003f2db64c438fb819a20c47f71e987b631"
+    },
+    {
+      "path": "engine-artifacts.json",
+      "bytes": 3636,
+      "sha256": "7527f18ea552c2fdb8931f65bb36c3dbdf406d7828558d401d939e520ea9ebfb"
+    },
+    {
+      "path": "macos-run.json",
+      "bytes": 7026,
+      "sha256": "1f47d9af749764cd6f211bfcf36e912c5c83150597f893bd53aa50610dd2e554"
+    },
+    {
+      "path": "macos-artifacts.json",
+      "bytes": 1840,
+      "sha256": "415a1e45516df8c243c6e5864abd78003cd9fe7ec0f22d5a79df353307241db1"
+    },
+    {
+      "path": "portable-run.json",
+      "bytes": 10027,
+      "sha256": "04fbc44ebaa5612e64aa95b1b13f2399afd1abc731eb65f70129ae5963be64fa"
+    },
+    {
+      "path": "portable-artifacts.json",
+      "bytes": 1827,
+      "sha256": "ae8c33440242c6f6fc292f520fd2875bf45b19d69f8451c287ed41e0c0fec3d6"
+    },
+    {
+      "path": "verified.json",
+      "bytes": 1971,
+      "sha256": "4b86d873d3ada20f2432917f8f151a40b65dc9564744df589b7191c5aa07e77d"
+    },
+    {
+      "path": "Windows-headless-py3.11/pixel-stream-record-benchmark.log",
+      "bytes": 496,
+      "sha256": "8bfc1c88b4052cbe64415c03460c2146f00adbffc254433682a97d92ebd4d313"
+    },
+    {
+      "path": "Windows-headless-py3.11/diagnostic-stages.json",
+      "bytes": 32357,
+      "sha256": "eb580364bf99557f252044bb96ef6685882a7ca755c4e02e06ad93706d2a7e5a"
+    },
+    {
+      "path": "Linux-headless-py3.12/pixel-stream-record-benchmark.log",
+      "bytes": 514,
+      "sha256": "4339386e0e36fbe838def1c255e5d821ce59e3eb46bf12a7c32e086746a25c50"
+    },
+    {
+      "path": "Linux-headless-py3.12/diagnostic-stages.json",
+      "bytes": 31930,
+      "sha256": "ef67a2e9b9abce0cd0a9c5bb258eb1328a7fed3cefa39d3151a7e6aadc994bad"
+    },
+    {
+      "path": "manylinux-3.11/pixel-stream-record-benchmark.log",
+      "bytes": 488,
+      "sha256": "6365a935033a68c3be9b8e809db7bbbad4299d16a076f79b708e0be8c395828a"
+    },
+    {
+      "path": "manylinux-3.11/diagnostic-stages.json",
+      "bytes": 30517,
+      "sha256": "3544f86ffcd3413154882037b60ca0080693a30e8162c68079d28f8c4f8eca7f"
+    },
+    {
+      "path": "manylinux-3.12/pixel-stream-record-benchmark.log",
+      "bytes": 488,
+      "sha256": "6365a935033a68c3be9b8e809db7bbbad4299d16a076f79b708e0be8c395828a"
+    },
+    {
+      "path": "manylinux-3.12/diagnostic-stages.json",
+      "bytes": 30519,
+      "sha256": "495f1a807e2843cf484aa7affe70a53bc6f56a848189402182381f319d21edf6"
+    },
+    {
+      "path": "macos-acceptance.json",
+      "bytes": 384376,
+      "sha256": "19ec014339bfe6574a3c67571e3ca19bd5c2eb923fd1a62c8829e9809b7cfae4"
+    },
+    {
+      "path": "macos-audit.log",
+      "bytes": 161,
+      "sha256": "a4f0a53580e2e919cc95f4273e2de1485c21e9958e03fffbc5a2ce12f0f917eb"
+    },
+    {
+      "path": "complete-audit-plan.json",
+      "bytes": 2935,
+      "sha256": "226c84184f0d397a1e7ecce540a2877b9d1a358a9d00965343b384c3bc090200"
+    }
+  ]
+}

@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="15" skipped="0" tests="20" time="0.342" timestamp="2026-10-28T09:28:55.167737-04:00" hostname="HEQPC"><testcase classname="tests.test_snapshot_job_waits" name="test_snapshot_controller_rejects_foreign_collection[busy-FileFingerprintJob]" time="0.002"><failure message="Failed: DID NOT RAISE RuntimeError">job_type = &lt;class 'qupathxx._native.FileFingerprintJob'&gt;, operation = 'busy'
+
+    @pytest.mark.parametrize('job_type',JOBS,ids=lambda t:t.__name__)
+    @pytest.mark.parametrize('operation',['busy','poll','wait'])
+    def test_snapshot_controller_rejects_foreign_collection(job_type,operation):
+        job=job_type()
+        def foreign():
+            value=getattr(job,operation)
+            return value() if callable(value) else value
+        with ThreadPoolExecutor(max_workers=1) as pool:
+&gt;           with pytest.raises(RuntimeError,match='owner thread'):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE RuntimeError
+
+tests\test_snapshot_job_waits.py:20: Failed</failure></testcase><testcase classname="tests.test_snapshot_job_waits" name="test_snapshot_controller_rejects_foreign_collection[busy-CellTableExportJob]" time="0.001"><failure message="Failed: DID NOT RAISE RuntimeError">job_type = &lt;class 'qupathxx._native.CellTableExportJob'&gt;, operation = 'busy'
+
+    @pytest.mark.parametrize('job_type',JOBS,ids=lambda t:t.__name__)
+    @pytest.mark.parametrize('operation',['busy','poll','wait'])
+    def test_snapshot_controller_rejects_foreign_collection(job_type,operation):
+        job=job_type()
+        def foreign():
+            value=getattr(job,operation)
+            return value() if callable(value) else value
+        with ThreadPoolExecutor(max_workers=1) as pool:
+&gt;           with pytest.raises(RuntimeError,match='owner thread'):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE RuntimeError
+
+tests\test_snapshot_job_waits.py:20: Failed</failure></testcase><testcase classname="tests.test_snapshot_job_waits" name="test_snapshot_controller_rejects_foreign_collection[busy-MeasurementTableExportJob]" time="0.001"><failure message="Failed: DID NOT RAISE RuntimeError">job_type = &lt;class 'qupathxx._native.MeasurementTableExportJob'&gt;
+operation = 'busy'
+
+    @pytest.mark.parametrize('job_type',JOBS,ids=lambda t:t.__name__)
+    @pytest.mark.parametrize('operation',['busy','poll','wait'])
+    def test_snapshot_controller_rejects_foreign_collection(job_type,operation):
+        job=job_type()
+        def foreign():
+            value=getattr(job,operation)
+            return value() if callable(value) else value
+        with ThreadPoolExecutor(max_workers=1) as pool:
+&gt;           with pytest.raises(RuntimeError,match='owner thread'):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE RuntimeError
+
+tests\test_snapshot_job_waits.py:20: Failed</failure></testcase><testcase classname="tests.test_snapshot_job_waits" name="test_snapshot_controller_rejects_foreign_collection[busy-ThumbnailJob]" time="0.001"><failure message="Failed: DID NOT RAISE RuntimeError">job_type = &lt;class 'qupathxx._native.ThumbnailJob'&gt;, operation = 'busy'
+
+    @pytest.mark.parametrize('job_type',JOBS,ids=lambda t:t.__name__)
+    @pytest.mark.parametrize('operation',['busy','poll','wait'])
+    def test_snapshot_controller_rejects_foreign_collection(job_type,operation):
+        job=job_type()
+        def foreign():
+            value=getattr(job,operation)
+            return value() if callable(value) else value
+        with ThreadPoolExecutor(max_workers=1) as pool:
+&gt;           with pytest.raises(RuntimeError,match='owner thread'):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE RuntimeError
+
+tests\test_snapshot_job_waits.py:20: Failed</failure></testcase><testcase classname="tests.test_snapshot_job_waits" name="test_snapshot_controller_rejects_foreign_collection[busy-PixelStreamReadJob]" time="0.001"><failure message="Failed: DID NOT RAISE RuntimeError">job_type = &lt;class 'qupathxx._native.PixelStreamReadJob'&gt;, operation = 'busy'
+
+    @pytest.mark.parametrize('job_type',JOBS,ids=lambda t:t.__name__)
+    @pytest.mark.parametrize('operation',['busy','poll','wait'])
+    def test_snapshot_controller_rejects_foreign_collection(job_type,operation):
+        job=job_type()
+        def foreign():
+            value=getattr(job,operation)
+            return value() if callable(value) else value
+        with ThreadPoolExecutor(max_workers=1) as pool:
+&gt;           with pytest.raises(RuntimeError,match='owner thread'):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE RuntimeError
+
+tests\test_snapshot_job_waits.py:20: Failed</failure></testcase><testcase classname="tests.test_snapshot_job_waits" name="test_snapshot_controller_rejects_foreign_collection[poll-FileFingerprintJob]" time="0.001"><failure message="Failed: DID NOT RAISE RuntimeError">job_type = &lt;class 'qupathxx._native.FileFingerprintJob'&gt;, operation = 'poll'
+
+    @pytest.mark.parametrize('job_type',JOBS,ids=lambda t:t.__name__)
+    @pytest.mark.parametrize('operation',['busy','poll','wait'])
+    def test_snapshot_controller_rejects_foreign_collection(job_type,operation):
+        job=job_type()
+        def foreign():
+            value=getattr(job,operation)
+            return value() if callable(value) else value
+        with ThreadPoolExecutor(max_workers=1) as pool:
+&gt;           with pytest.raises(RuntimeError,match='owner thread'):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE RuntimeError
+
+tests\test_snapshot_job_waits.py:20: Failed</failure></testcase><testcase classname="tests.test_snapshot_job_waits" name="test_snapshot_controller_rejects_foreign_collection[poll-CellTableExportJob]" time="0.001"><failure message="Failed: DID NOT RAISE RuntimeError">job_type = &lt;class 'qupathxx._native.CellTableExportJob'&gt;, operation = 'poll'
+
+    @pytest.mark.parametrize('job_type',JOBS,ids=lambda t:t.__name__)
+    @pytest.mark.parametrize('operation',['busy','poll','wait'])
+    def test_snapshot_controller_rejects_foreign_collection(job_type,operation):
+        job=job_type()
+        def foreign():
+            value=getattr(job,operation)
+            return value() if callable(value) else value
+        with ThreadPoolExecutor(max_workers=1) as pool:
+&gt;           with pytest.raises(RuntimeError,match='owner thread'):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE RuntimeError
+
+tests\test_snapshot_job_waits.py:20: Failed</failure></testcase><testcase classname="tests.test_snapshot_job_waits" name="test_snapshot_controller_rejects_foreign_collection[poll-MeasurementTableExportJob]" time="0.001"><failure message="Failed: DID NOT RAISE RuntimeError">job_type = &lt;class 'qupathxx._native.MeasurementTableExportJob'&gt;
+operation = 'poll'
+
+    @pytest.mark.parametrize('job_type',JOBS,ids=lambda t:t.__name__)
+    @pytest.mark.parametrize('operation',['busy','poll','wait'])
+    def test_snapshot_controller_rejects_foreign_collection(job_type,operation):
+        job=job_type()
+        def foreign():
+            value=getattr(job,operation)
+            return value() if callable(value) else value
+        with ThreadPoolExecutor(max_workers=1) as pool:
+&gt;           with pytest.raises(RuntimeError,match='owner thread'):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE RuntimeError
+
+tests\test_snapshot_job_waits.py:20: Failed</failure></testcase><testcase classname="tests.test_snapshot_job_waits" name="test_snapshot_controller_rejects_foreign_collection[poll-ThumbnailJob]" time="0.001"><failure message="Failed: DID NOT RAISE RuntimeError">job_type = &lt;class 'qupathxx._native.ThumbnailJob'&gt;, operation = 'poll'
+
+    @pytest.mark.parametrize('job_type',JOBS,ids=lambda t:t.__name__)
+    @pytest.mark.parametrize('operation',['busy','poll','wait'])
+    def test_snapshot_controller_rejects_foreign_collection(job_type,operation):
+        job=job_type()
+        def foreign():
+            value=getattr(job,operation)
+            return value() if callable(value) else value
+        with ThreadPoolExecutor(max_workers=1) as pool:
+&gt;           with pytest.raises(RuntimeError,match='owner thread'):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE RuntimeError
+
+tests\test_snapshot_job_waits.py:20: Failed</failure></testcase><testcase classname="tests.test_snapshot_job_waits" name="test_snapshot_controller_rejects_foreign_collection[poll-PixelStreamReadJob]" time="0.002"><failure message="Failed: DID NOT RAISE RuntimeError">job_type = &lt;class 'qupathxx._native.PixelStreamReadJob'&gt;, operation = 'poll'
+
+    @pytest.mark.parametrize('job_type',JOBS,ids=lambda t:t.__name__)
+    @pytest.mark.parametrize('operation',['busy','poll','wait'])
+    def test_snapshot_controller_rejects_foreign_collection(job_type,operation):
+        job=job_type()
+        def foreign():
+            value=getattr(job,operation)
+            return value() if callable(value) else value
+        with ThreadPoolExecutor(max_workers=1) as pool:
+&gt;           with pytest.raises(RuntimeError,match='owner thread'):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE RuntimeError
+
+tests\test_snapshot_job_waits.py:20: Failed</failure></testcase><testcase classname="tests.test_snapshot_job_waits" name="test_snapshot_controller_rejects_foreign_collection[wait-FileFingerprintJob]" time="0.002"><failure message="Failed: DID NOT RAISE RuntimeError">job_type = &lt;class 'qupathxx._native.FileFingerprintJob'&gt;, operation = 'wait'
+
+    @pytest.mark.parametrize('job_type',JOBS,ids=lambda t:t.__name__)
+    @pytest.mark.parametrize('operation',['busy','poll','wait'])
+    def test_snapshot_controller_rejects_foreign_collection(job_type,operation):
+        job=job_type()
+        def foreign():
+            value=getattr(job,operation)
+            return value() if callable(value) else value
+        with ThreadPoolExecutor(max_workers=1) as pool:
+&gt;           with pytest.raises(RuntimeError,match='owner thread'):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE RuntimeError
+
+tests\test_snapshot_job_waits.py:20: Failed</failure></testcase><testcase classname="tests.test_snapshot_job_waits" name="test_snapshot_controller_rejects_foreign_collection[wait-CellTableExportJob]" time="0.001"><failure message="Failed: DID NOT RAISE RuntimeError">job_type = &lt;class 'qupathxx._native.CellTableExportJob'&gt;, operation = 'wait'
+
+    @pytest.mark.parametrize('job_type',JOBS,ids=lambda t:t.__name__)
+    @pytest.mark.parametrize('operation',['busy','poll','wait'])
+    def test_snapshot_controller_rejects_foreign_collection(job_type,operation):
+        job=job_type()
+        def foreign():
+            value=getattr(job,operation)
+            return value() if callable(value) else value
+        with ThreadPoolExecutor(max_workers=1) as pool:
+&gt;           with pytest.raises(RuntimeError,match='owner thread'):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE RuntimeError
+
+tests\test_snapshot_job_waits.py:20: Failed</failure></testcase><testcase classname="tests.test_snapshot_job_waits" name="test_snapshot_controller_rejects_foreign_collection[wait-MeasurementTableExportJob]" time="0.001"><failure message="Failed: DID NOT RAISE RuntimeError">job_type = &lt;class 'qupathxx._native.MeasurementTableExportJob'&gt;
+operation = 'wait'
+
+    @pytest.mark.parametrize('job_type',JOBS,ids=lambda t:t.__name__)
+    @pytest.mark.parametrize('operation',['busy','poll','wait'])
+    def test_snapshot_controller_rejects_foreign_collection(job_type,operation):
+        job=job_type()
+        def foreign():
+            value=getattr(job,operation)
+            return value() if callable(value) else value
+        with ThreadPoolExecutor(max_workers=1) as pool:
+&gt;           with pytest.raises(RuntimeError,match='owner thread'):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE RuntimeError
+
+tests\test_snapshot_job_waits.py:20: Failed</failure></testcase><testcase classname="tests.test_snapshot_job_waits" name="test_snapshot_controller_rejects_foreign_collection[wait-ThumbnailJob]" time="0.001"><failure message="Failed: DID NOT RAISE RuntimeError">job_type = &lt;class 'qupathxx._native.ThumbnailJob'&gt;, operation = 'wait'
+
+    @pytest.mark.parametrize('job_type',JOBS,ids=lambda t:t.__name__)
+    @pytest.mark.parametrize('operation',['busy','poll','wait'])
+    def test_snapshot_controller_rejects_foreign_collection(job_type,operation):
+        job=job_type()
+        def foreign():
+            value=getattr(job,operation)
+            return value() if callable(value) else value
+        with ThreadPoolExecutor(max_workers=1) as pool:
+&gt;           with pytest.raises(RuntimeError,match='owner thread'):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE RuntimeError
+
+tests\test_snapshot_job_waits.py:20: Failed</failure></testcase><testcase classname="tests.test_snapshot_job_waits" name="test_snapshot_controller_rejects_foreign_collection[wait-PixelStreamReadJob]" time="0.001"><failure message="Failed: DID NOT RAISE RuntimeError">job_type = &lt;class 'qupathxx._native.PixelStreamReadJob'&gt;, operation = 'wait'
+
+    @pytest.mark.parametrize('job_type',JOBS,ids=lambda t:t.__name__)
+    @pytest.mark.parametrize('operation',['busy','poll','wait'])
+    def test_snapshot_controller_rejects_foreign_collection(job_type,operation):
+        job=job_type()
+        def foreign():
+            value=getattr(job,operation)
+            return value() if callable(value) else value
+        with ThreadPoolExecutor(max_workers=1) as pool:
+&gt;           with pytest.raises(RuntimeError,match='owner thread'):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE RuntimeError
+
+tests\test_snapshot_job_waits.py:20: Failed</failure></testcase><testcase classname="tests.test_snapshot_job_waits" name="test_snapshot_controller_allows_foreign_cancel[FileFingerprintJob]" time="0.001" /><testcase classname="tests.test_snapshot_job_waits" name="test_snapshot_controller_allows_foreign_cancel[CellTableExportJob]" time="0.001" /><testcase classname="tests.test_snapshot_job_waits" name="test_snapshot_controller_allows_foreign_cancel[MeasurementTableExportJob]" time="0.001" /><testcase classname="tests.test_snapshot_job_waits" name="test_snapshot_controller_allows_foreign_cancel[ThumbnailJob]" time="0.001" /><testcase classname="tests.test_snapshot_job_waits" name="test_snapshot_controller_allows_foreign_cancel[PixelStreamReadJob]" time="0.001" /></testsuite></testsuites>

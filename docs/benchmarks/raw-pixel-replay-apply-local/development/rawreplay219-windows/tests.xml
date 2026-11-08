@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="15"
+	failures="1"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="5"
+	timestamp="2026-10-26T03:02:04"
+	>
+	<testcase name="pixel_workflows" classname="pixel_workflows" time="0.145317" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>Owner-captured raw training/prediction: deterministic labels, rational axes, document calibration, bounded IO, cancellation, stale compound sources and owner-thread publication passed
+Raw pixel replay: real TIFF reopened training/prediction records verify through fresh owner jobs without promoting historical authority passed
+remove: The process cannot access the file because it is being used by another process.: "C:\Users\HEQ\AppData\Local\Temp\qpx-raw-archive-1038152568980800\source.tif"
+</system-out>
+	</testcase>
+	<testcase name="pixel_features" classname="pixel_features" time="0.100485" status="run">
+		<properties/>
+		<system-out>Typed raw pixel features: 12 independent dtype/extreme references, per-channel support, anisotropic scales, stream seams, admission and cancellation passed
+Raw classifier QPR1 independent framing, channel/grid/physical contracts, forest votes, streams, exact budgets and atomic model files passed
+Pixel feature channels, context/tiles, alpha, schema, bounds and cancellation passed
+</system-out>
+	</testcase>
+	<testcase name="classifier_io" classname="classifier_io" time="0.0581414" status="run">
+		<properties/>
+		<system-out>classifier IO checks passed
+</system-out>
+	</testcase>
+	<testcase name="classifier" classname="classifier" time="0.0433251" status="run">
+		<properties/>
+		<system-out>classifier checks passed; training=0
+</system-out>
+	</testcase>
+	<testcase name="resampling" classname="resampling" time="2.9087" status="run">
+		<properties/>
+		<system-out>Scientific raster precision admission agrees with exhaustive binary64 sample checks
+Native scientific grid exact geometry, rounding, context and admission passed
+Native scientific RGB float64 exact means, support, reader and cancellation checks passed
+2891 independent exact raw mean vectors across all ten sample types in both orders passed
+Native exact typed weighted means, subnormal/cancellation, atomic rejection and nearest-even rounding passed
+Streamed raw materialization exact means, pinned chunk bits/support, cancellation, admission and dense fallback passed
+Streamed raw digest canonical HWC/validity hashes, bounded chunks, metadata epoch, late faults and admission passed
+Typed raw hash-only identity, lower memory admission and pre-decoder metadata epoch passed
+94 independent typed raw grid references, 3732 channel results and canonical source/input hashes passed
+Native typed scientific raw sampling, per-channel finite/support, source-bit provenance and pre-IO admission passed
+Typed raw sampling engine identity 8d9f8c4b58fc8d169fefe79688466ec1a8d0af53de19adb97458c583e057434d 73a4bd3ce864b3b4fe0150fff1b571c2509423f8
+Compound TIFF observations, QRA3/QRA4 retention, downgrade refusal and companion-only stale status passed
+Shared ROI grid raw count/context planning and pre-IO admission passed
+Raw grid captured ROI/context workspace, exact budget boundary, hash-only lower admission and single metadata epoch passed
+Independent Python struct/hashlib QRA1 and QRA2 bytes, mixed typed CSV and job replay passed
+QRA2 private eligible-count authority, changed-mask rejection, checksum-valid count corruption and historical budget compatibility passed
+QRA2 raw grid retention, canonical re-encoding, semantic corruption and fresh replay passed
+188 independent derived raw grid statistics references, ROI/core support, hash-only digest and native jobs passed
+2205 independent oracle shapes and admission/alpha/reader checks passed
+</system-out>
+	</testcase>
+	<testcase name="raw_image" classname="raw_image" time="0.348123" status="run">
+		<properties/>
+		<system-out>TIFF multi-file UUID dispatch, colliding cache keys, view ownership and companion mutation guards passed
+TIFF compound pre-cancel open/raw/view/analysis, unchanged decode/cache, atomic export preservation and retry passed
+TIFF interleaved block reuse without LRU, separate-plane selection and padded values passed
+Independent deflate TIFF typed grid analysis through prefixed zlib passed
+QRA2 TIFF grid SQLite save/reopen, explicit replay and second save passed
+Actual UInt16 TIFF scientific grid analysis, ROI upsampling and hash-only digest passed
+Raw grid TIFF batch distinct recipe, interrupted checkpoint resume and hash-only typed CSV passed
+raw quantitative buffers, TIFF decode/cache, preview and statistics passed
+</system-out>
+	</testcase>
+	<testcase name="source_identity" classname="source_identity" time="0.078331" status="run">
+		<properties/>
+		<system-out>Compound source bounds, primary-only fingerprint identity, QPV3 round trip and downgrade refusal passed
+Reader generations, observations, association, codecs and native jobs passed
+</system-out>
+	</testcase>
+	<testcase name="provenance" classname="provenance" time="0.0479028" status="run">
+		<properties/>
+		<system-out>Capture-time source/environment provenance, native codec and kernels passed
+</system-out>
+	</testcase>
+	<testcase name="tissue_contours" classname="tissue_contours" time="0.165508" status="run">
+		<properties/>
+		<system-out>Native explicit-grid raster eligibility, per-axis metadata, precision and legacy isolation passed
+GEOS explicit-grid edges, ROI holes and anisotropic areas passed
+tissue contour topology, publication and lifecycle passed
+</system-out>
+	</testcase>
+	<testcase name="tissue" classname="tissue" time="0.0540061" status="run">
+		<properties/>
+		<system-out>tissue passed
+</system-out>
+	</testcase>
+	<testcase name="document_edits" classname="document_edits" time="0.253612" status="run">
+		<properties/>
+		<system-out>Atomic edits, subtree restore, calibration and bounded undo passed
+</system-out>
+	</testcase>
+	<testcase name="geometry_edits" classname="geometry_edits" time="0.0440381" status="run">
+		<properties/>
+		<system-out>Vertex edits, holes, area overlay and journal passed
+</system-out>
+	</testcase>
+	<testcase name="project" classname="project" time="0.152815" status="run">
+		<properties/>
+		<system-out>Multi-image project round trip, source pixels and stale saves passed; SQLite 3.54.1
+</system-out>
+	</testcase>
+	<testcase name="recovery" classname="recovery" time="0.335629" status="run">
+		<properties/>
+		<system-out>Native physical path adaptation preserves logical names and UNC/drive policy passed
+Native async snapshot isolation, primary preservation and restoration passed
+</system-out>
+	</testcase>
+	<testcase name="project_save" classname="project_save" time="0.129751" status="run">
+		<properties/>
+		<system-out>Native background save isolation, baseline reconciliation and optional-build checks passed
+</system-out>
+	</testcase>
+</testsuite>

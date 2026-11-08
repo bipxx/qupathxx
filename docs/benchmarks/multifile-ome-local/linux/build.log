@@ -1,0 +1,90 @@
+[  1%] Built target qupathxx_tiff_xml
+[  1%] Built target qupathxx_sqlite
+[ 14%] Built target zlibstatic
+[ 44%] Built target tiff
+[ 44%] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/provenance.cpp.o
+In file included from /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/provenance.cpp:2:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In function ‘std::string qpx::detail::export_path(const std::string&)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:30:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   30 |     if(result.size()>32768) throw std::invalid_argument("export path is too long");return result;
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:30:84: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   30 |     if(result.size()>32768) throw std::invalid_argument("export path is too long");return result;
+      |                                                                                    ^~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In constructor ‘qpx::detail::AtomicExportFile::AtomicExportFile(const std::string&, std::size_t, const std::atomic<bool>*)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:48:9: warning: this ‘for’ clause does not guard... [-Wmisleading-indentation]
+   48 |         for(int i=0;i<24;++i) suffix.push_back(hex[random()&15]);temporary_+=std::filesystem::u8path(suffix);
+      |         ^~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:48:66: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘for’
+   48 |         for(int i=0;i<24;++i) suffix.push_back(hex[random()&15]);temporary_+=std::filesystem::u8path(suffix);
+      |                                                                  ^~~~~~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In member function ‘void qpx::detail::AtomicExportFile::write(const char*, std::size_t)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:68:13: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   68 |             if(written<=0) throw std::runtime_error("export write failed");at+=static_cast<std::size_t>(written);bytes_+=static_cast<std::size_t>(written);
+      |             ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:68:76: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   68 |             if(written<=0) throw std::runtime_error("export write failed");at+=static_cast<std::size_t>(written);bytes_+=static_cast<std::size_t>(written);
+      |                                                                            ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In member function ‘void qpx::detail::AtomicExportFile::commit(bool)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:78:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   78 |         if(!close()) throw std::runtime_error("export close failed");export_checkpoint(cancelled_);
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:78:70: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   78 |         if(!close()) throw std::runtime_error("export close failed");export_checkpoint(cancelled_);
+      |                                                                      ^~~~~~~~~~~~~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/provenance.cpp: In function ‘std::string qpx::provenance_json(const AnalysisProvenance&)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/provenance.cpp:79:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   79 |     if(j.out.size()>16u*1024u*1024u) throw std::length_error("provenance JSON exceeds 16 MiB");return j.out;
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/provenance.cpp:79:96: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   79 |     if(j.out.size()>16u*1024u*1024u) throw std::length_error("provenance JSON exceeds 16 MiB");return j.out;
+      |                                                                                                ^~~~~~
+[ 46%] Linking CXX static library libqupathxx_core.a
+[ 98%] Built target qupathxx_core
+[ 98%] Linking CXX executable qupathxx_source_identity_tests
+[100%] Built target qupathxx_source_identity_tests
+[  1%] Built target qupathxx_tiff_xml
+[  1%] Built target qupathxx_sqlite
+[ 14%] Built target zlibstatic
+[ 44%] Built target tiff
+[ 98%] Built target qupathxx_core
+[100%] Linking CXX executable qupathxx_file_fingerprint_tests
+[100%] Built target qupathxx_file_fingerprint_tests
+[  1%] Built target qupathxx_tiff_xml
+[  1%] Built target qupathxx_sqlite
+[ 14%] Built target zlibstatic
+[ 44%] Built target tiff
+[ 98%] Built target qupathxx_core
+gmake[3]: Warning: File 'CMakeFiles/qupathxx_provenance_tests.dir/compiler_depend.make' has modification time 0.019 s in the future
+[100%] Linking CXX executable qupathxx_provenance_tests
+gmake[3]: warning:  Clock skew detected.  Your build may be incomplete.
+[100%] Built target qupathxx_provenance_tests
+[  1%] Built target qupathxx_tiff_xml
+[  1%] Built target qupathxx_sqlite
+[ 15%] Built target zlibstatic
+[ 45%] Built target tiff
+[100%] Built target qupathxx_core
+[100%] Building CXX object CMakeFiles/qupathxx_raw_image_tests.dir/cpp/tests/raw_image_tests.cpp.o
+[100%] Linking CXX executable qupathxx_raw_image_tests
+[100%] Built target qupathxx_raw_image_tests
+[  1%] Built target qupathxx_tiff_xml
+[  1%] Built target qupathxx_sqlite
+[ 14%] Built target zlibstatic
+[ 43%] Built target tiff
+[ 96%] Built target qupathxx_core
+[ 96%] Linking CXX executable qupathxx_resampling_tests
+[100%] Built target qupathxx_resampling_tests
+[  1%] Built target qupathxx_tiff_xml
+[  1%] Built target qupathxx_sqlite
+[ 14%] Built target zlibstatic
+[ 44%] Built target tiff
+[ 98%] Built target qupathxx_core
+[ 98%] Linking CXX executable qupathxx_project_tests
+[100%] Built target qupathxx_project_tests
+[  1%] Built target qupathxx_tiff_xml
+[  1%] Built target qupathxx_sqlite
+[ 14%] Built target zlibstatic
+[ 44%] Built target tiff
+[ 98%] Built target qupathxx_core
+[ 98%] Linking CXX executable qupathxx_save_tests
+[100%] Built target qupathxx_save_tests

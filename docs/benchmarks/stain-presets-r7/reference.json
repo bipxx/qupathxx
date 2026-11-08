@@ -1,0 +1,72 @@
+{
+  "source_fixture": "tests/fixtures/qupath-image-settings-0.7.0/reference.json",
+  "source_fixture_sha256": "e43a71ecf685b5d4cf5c347f4e5526f3819639a6a348b23382f27889ad16cbc6",
+  "profiles": [
+    {
+      "image_type": "BRIGHTFIELD_H_E",
+      "name": "H&E default",
+      "names": [
+        "Hematoxylin",
+        "Eosin",
+        "Residual"
+      ],
+      "basis": [
+        [
+          0.6511078257574492,
+          0.7011930431234068,
+          0.29049426072255424
+        ],
+        [
+          0.2158989356208711,
+          0.8011960501132094,
+          0.5580972485873468
+        ],
+        [
+          0.315510575173205,
+          -0.5981592020094376,
+          0.736653681186286
+        ]
+      ],
+      "white": [
+        255.0,
+        255.0,
+        255.0
+      ],
+      "residual": true,
+      "model_sha256": "a7183a689ee7928a2b561a6b8726b1eaa30819f5614768febd2117ff5dfc1366"
+    },
+    {
+      "image_type": "BRIGHTFIELD_H_DAB",
+      "name": "H-DAB default",
+      "names": [
+        "Hematoxylin",
+        "DAB",
+        "Residual"
+      ],
+      "basis": [
+        [
+          0.6511078257574492,
+          0.7011930431234068,
+          0.29049426072255424
+        ],
+        [
+          0.2691668720495607,
+          0.5682411743268503,
+          0.7775931859209531
+        ],
+        [
+          0.6330435387995862,
+          -0.7128599030296364,
+          0.30180562724487753
+        ]
+      ],
+      "white": [
+        255.0,
+        255.0,
+        255.0
+      ],
+      "residual": true,
+      "model_sha256": "61cd774d5b0e34326ea2888637ac3eccfe26de55f0379efa3c42b14a6b742f79"
+    }
+  ]
+}

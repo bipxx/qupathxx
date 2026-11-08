@@ -1,0 +1,103 @@
+{
+  "schema": "qpx.expansion-frontier-local-validation/1",
+  "compiled_git_revision": "ee54cdb3ea37768ed034a3cda32ae1dedb18a36d",
+  "input_count": 254,
+  "raw_source_tree_sha256": "6abde0815a0954cdb2ee283be1caa6f4246987ea3787cc1add378239e446d83c",
+  "raw_build_fingerprint_matches": true,
+  "all_compiled_inputs_match_committed_source_after_line_ending_normalization": true,
+  "native_sha256": "c8d925bc7b926bec20490531bdd86d27b655fa3d717839f6c4ca742dd9b885da",
+  "wheel_sha256": "d5e6d8889b346f915bb21d54d5ccaffa9bb8b049b8592c178d3a908a8693d354",
+  "native": {
+    "passed": 47,
+    "skipped": 0,
+    "expected_scientific_failures": 0,
+    "sha256": "c79e20df601d8e2d048fde80991bee89afd2df5e94ec962b4e7c5e535b88979a",
+    "expected_failure_cases": []
+  },
+  "full": {
+    "passed": 2370,
+    "skipped": 13,
+    "expected_scientific_failures": 3,
+    "sha256": "c894799c031eed958ab0d529f250237a0c4def1968941bc1e404ed6f12c21679",
+    "expected_failure_cases": [
+      "test_isolated_cell_upstream_acceptance_gate[baseline_count]",
+      "test_isolated_cell_upstream_acceptance_gate[isolated_nucleus_iou]",
+      "test_isolated_cell_upstream_acceptance_gate[isolated_centroid]"
+    ]
+  },
+  "focused": {
+    "passed": 153,
+    "skipped": 0,
+    "expected_scientific_failures": 0,
+    "sha256": "c7f27d5f8544fcfb07036cfeb160c006a0910883dbec80ca00dbbd76996fe890",
+    "expected_failure_cases": []
+  },
+  "comparisons": {
+    "passed": 113,
+    "skipped": 3,
+    "expected_scientific_failures": 3,
+    "sha256": "6c374037994a2af5ae85f57565452737b740822b8b4881a645579ad8e56bf040",
+    "expected_failure_cases": [
+      "test_isolated_cell_upstream_acceptance_gate[baseline_count]",
+      "test_isolated_cell_upstream_acceptance_gate[isolated_nucleus_iou]",
+      "test_isolated_cell_upstream_acceptance_gate[isolated_centroid]"
+    ]
+  },
+  "installed": {
+    "schema": "qpx.installed-workflow/1",
+    "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+    "executable": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\software-probe140\\python.exe",
+    "native": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\queue140-windows-python\\Lib\\site-packages\\qupathxx\\_native.cp312-win_amd64.pyd",
+    "native_sha256": "c8d925bc7b926bec20490531bdd86d27b655fa3d717839f6c4ca742dd9b885da",
+    "source_tree_sha256": "6abde0815a0954cdb2ee283be1caa6f4246987ea3787cc1add378239e446d83c",
+    "gui": true,
+    "geos": true,
+    "openslide": true,
+    "gl_renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+    "openslide_version": "4.0.1",
+    "openslide_runtime_sha256": null,
+    "docked_workspace": true,
+    "layout_saved": true,
+    "monitor_scale": 1.0,
+    "framebuffer_scale": 1.0,
+    "ui_scale": 1.25,
+    "font_rebuilds": 1,
+    "ui_stacked_fields": 0,
+    "ui_wrapped_buttons": 0,
+    "ui_overflow_items": 0,
+    "ui_max_overflow": 0.0,
+    "framebuffer": [
+      1440,
+      900
+    ],
+    "raw_archive_records": 1,
+    "raw_replay_verified": true,
+    "raw_input_sha256": "ff618dfd592aaf66e46f6fdede2c89eeb5165696a781839b69df3832a94c01e5",
+    "raw_batch_reused": true,
+    "roi_samples": 320,
+    "native_batch_checkpoints": 1
+  },
+  "positive_typing_source_files": 3,
+  "negative_typing_error_lines": [
+    6,
+    7,
+    8,
+    9,
+    11,
+    13,
+    14
+  ],
+  "installed_shape_notice_sha256": "65434d6cd24b1808a18ad16919035d7a96d932dc04a41e2df30123173a2311fe",
+  "wheel_stubs_match_source": true,
+  "native_heap_equivalence_cases": 1344,
+  "independent_unit_boundary_python_cases": 8,
+  "unchanged_real_slide_compartment_maps": 36,
+  "paired_profile_observations": 60,
+  "paired_profile_warmups": 12,
+  "performance_accepted": false,
+  "hosted_frontier_candidate_accepted": false,
+  "release_ready": false,
+  "overall_project_complete": false,
+  "validation_stage": "before_domain_replay_fix",
+  "subsequent_domain_regression_failures": 2
+}

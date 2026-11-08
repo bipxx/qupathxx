@@ -1,0 +1,64 @@
+WARNING: Unknown module: javafx.graphics specified to --add-opens
+WARNING: Unknown module: javafx.base specified to --add-opens
+WARNING: Unknown module: javafx.web specified to --enable-native-access
+WARNING: Unknown module: javafx.graphics specified to --enable-native-access
+WARNING: Unknown module: javafx.media specified to --enable-native-access
+20:54:17.864 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting default Locale to en_US
+20:54:17.866 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting Locale for FORMAT to en_US
+20:54:17.866 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting Locale for DISPLAY to en_US
+20:54:17.889 [main] [INFO ] qupath.lib.common.ThreadTools - Setting parallelism to 19
+20:54:17.899 [main] [INFO ] qupath.ScriptCommand - Setting tile cache size to 16352.00 MB (25.0% max memory)
+20:54:17.999 [main] [INFO ] qupath.lib.scripting.QP - Initializing type adapters
+ERROR: It looks like you've tried to access a method that doesn't exist.
+
+20:54:19.722 [main] [ERROR] qupath.ScriptCommand - No signature of method: collectWithIndex for class: java.util.ArrayList is applicable for argument types: (probe$_run_closure2) values: [probe$_run_closure2@2026fbff] in probe.groovy at line number 25
+javax.script.ScriptException: No signature of method: collectWithIndex for class: java.util.ArrayList is applicable for argument types: (probe$_run_closure2) values: [probe$_run_closure2@2026fbff] in probe.groovy at line number 25
+	at qupath.lib.gui.scripting.languages.DefaultScriptLanguage.execute(DefaultScriptLanguage.java:309)
+	at qupath.ScriptCommand.runBatchScript(QuPath.java:524)
+	at qupath.ScriptCommand.runSingleScript(QuPath.java:475)
+	at qupath.ScriptCommand.run(QuPath.java:418)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2045)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2469)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2423)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2277)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2425)
+	at picocli.CommandLine.execute(CommandLine.java:2174)
+	at qupath.QuPath.main(QuPath.java:208)
+Caused by: groovy.lang.MissingMethodException: No signature of method: collectWithIndex for class: java.util.ArrayList is applicable for argument types: (probe$_run_closure2) values: [probe$_run_closure2@2026fbff]
+	at org.codehaus.groovy.runtime.ScriptBytecodeAdapter.unwrap(ScriptBytecodeAdapter.java:74)
+	at org.codehaus.groovy.vmplugin.v8.IndyGuardsFiltersAndSignatures.unwrap(IndyGuardsFiltersAndSignatures.java:163)
+	at org.codehaus.groovy.vmplugin.v8.IndyInterface.fromCache(IndyInterface.java:344)
+	at probe.run(probe.groovy:25)
+	at org.codehaus.groovy.jsr223.GroovyScriptEngineImpl.eval(GroovyScriptEngineImpl.java:331)
+	at org.codehaus.groovy.jsr223.GroovyScriptEngineImpl.eval(GroovyScriptEngineImpl.java:161)
+	at qupath.lib.gui.scripting.languages.DefaultScriptLanguage.execute(DefaultScriptLanguage.java:231)
+	... 12 common frames omitted
+java.lang.RuntimeException: javax.script.ScriptException: No signature of method: collectWithIndex for class: java.util.ArrayList is applicable for argument types: (probe$_run_closure2) values: [probe$_run_closure2@2026fbff] in probe.groovy at line number 25
+	at qupath.ScriptCommand.run(QuPath.java:424)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2045)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2469)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2423)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2277)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2425)
+	at picocli.CommandLine.execute(CommandLine.java:2174)
+	at qupath.QuPath.main(QuPath.java:208)
+Caused by: javax.script.ScriptException: No signature of method: collectWithIndex for class: java.util.ArrayList is applicable for argument types: (probe$_run_closure2) values: [probe$_run_closure2@2026fbff] in probe.groovy at line number 25
+	at qupath.lib.gui.scripting.languages.DefaultScriptLanguage.execute(DefaultScriptLanguage.java:309)
+	at qupath.ScriptCommand.runBatchScript(QuPath.java:524)
+	at qupath.ScriptCommand.runSingleScript(QuPath.java:475)
+	at qupath.ScriptCommand.run(QuPath.java:418)
+	... 9 more
+Caused by: groovy.lang.MissingMethodException: No signature of method: collectWithIndex for class: java.util.ArrayList is applicable for argument types: (probe$_run_closure2) values: [probe$_run_closure2@2026fbff]
+	at org.codehaus.groovy.runtime.ScriptBytecodeAdapter.unwrap(ScriptBytecodeAdapter.java:74)
+	at org.codehaus.groovy.vmplugin.v8.IndyGuardsFiltersAndSignatures.unwrap(IndyGuardsFiltersAndSignatures.java:163)
+	at org.codehaus.groovy.vmplugin.v8.IndyInterface.fromCache(IndyInterface.java:344)
+	at probe.run(probe.groovy:25)
+	at org.codehaus.groovy.jsr223.GroovyScriptEngineImpl.eval(GroovyScriptEngineImpl.java:331)
+	at org.codehaus.groovy.jsr223.GroovyScriptEngineImpl.eval(GroovyScriptEngineImpl.java:161)
+	at qupath.lib.gui.scripting.languages.DefaultScriptLanguage.execute(DefaultScriptLanguage.java:231)
+	... 12 more
+20:54:19.733 [main] [WARN ] qupath.QuPath - Calling System.exit with exit code 1

@@ -1,0 +1,32 @@
+{
+  "qupathxx_core.lib": {
+    "bytes": 113166430,
+    "sha256": "8710ca8debe8d39a7eec98b8098d84e2707375f43289cabcf599c20d28bdc57e",
+    "source": null
+  },
+  "qupathxx_project_tests.exe": {
+    "bytes": 4154880,
+    "sha256": "e8f80efd5ee7112822f2df329798d7bcbd4cb5342699cc165a00737b01abcc6a",
+    "source": null
+  },
+  "qupathxx_tissue_record_tests.exe": {
+    "bytes": 3535360,
+    "sha256": "bb0570cd2a4c686c2233a87e341ee9f78958772c3081dd1b81fc27d999a68cf2",
+    "source": null
+  },
+  "qupathxx_cell_record_tests.exe": {
+    "bytes": 3722752,
+    "sha256": "0da004cf55595838f63eb2b6f11ea5e4708a3d88a232ba52b1da51e93c1595f0",
+    "source": null
+  },
+  "qupathxx_qptma_project_tests.exe": {
+    "bytes": 3517440,
+    "sha256": "3df29371459bd545b06561e989cdd4f1042c08bb0d190f0c571648d86bb71c40",
+    "source": null
+  },
+  "qupathxx_project_batch_tests.exe": {
+    "bytes": 4958720,
+    "sha256": "e4d54bcb72f72a64689828e3558ae1cad389480e6c2f037aa5492c21666d2824",
+    "source": null
+  }
+}

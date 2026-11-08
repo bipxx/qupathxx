@@ -31,6 +31,9 @@ def main():
         with (work/log).open('w',encoding='utf-8') as stream:
             done=subprocess.run(list(map(str,arguments)),cwd=root,env=clean,stdout=stream,stderr=subprocess.STDOUT,timeout=300)
         if done.returncode:raise RuntimeError('qualified wheel check failed: '+log)
+    inspect=[python,'-I',root/'tools/ci/linux_runtime_manifest.py','--wheel',qualified]
+    run(inspect+['--output',work/'qualified-linux-runtime-manifest.json'],'qualified-linux-runtime-manifest.log')
+    run(inspect+['--verify',work/'qualified-linux-runtime-manifest.json'],'qualified-linux-runtime-verify.log')
     run([python,'-m','pip','install','--force-reinstall','--no-deps',qualified],'qualified-install.log')
     sdk=root/'build/ci/deps/openslide-linux/openslide-bin-4.0.1.2-linux-x86_64'
     geos=root/'build/deps/geos-sdk'

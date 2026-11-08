@@ -1,0 +1,20 @@
+{
+  "id": 12627448683,
+  "node_id": "MDg6QXJ0aWZhY3QxMjYyNzQ0ODY4Mw==",
+  "name": "manylinux-consumer-3.11",
+  "size_in_bytes": 74420,
+  "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12627448683",
+  "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12627448683/zip",
+  "expired": false,
+  "digest": "sha256:b6071f3adf4bcb858cb200c1ff9693a487782f7a3ac8eda91b0b6fdbc70bfe2b",
+  "created_at": "2026-10-26T04:40:27Z",
+  "updated_at": "2026-10-26T04:40:27Z",
+  "expires_at": "2026-11-09T04:40:26Z",
+  "workflow_run": {
+    "id": 40268533643,
+    "repository_id": 1427753981,
+    "head_repository_id": 1427753981,
+    "head_branch": "feature/multifile-fault-workflow-213",
+    "head_sha": "bfa416edfd508e3e1ce184e75ec62c1a18a2a606"
+  }
+}

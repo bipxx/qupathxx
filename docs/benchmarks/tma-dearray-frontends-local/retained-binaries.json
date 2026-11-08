@@ -1,0 +1,70 @@
+{
+  "compiled_source": "a492ea5a6f7cea2f069fcc5899b6f4a20cd9554e",
+  "compiler_fingerprint": "2e217fbd3e36b7cfe58a99adff1615cd22d6e0141a256a3a89bf680f282e20ff",
+  "files": {
+    "build/tma198-retained-binaries/windows/qupathxx_tma_tests.exe": {
+      "bytes": 3295232,
+      "sha256": "d63c9f86631d03adc54c00f3af092dc537b54ca83e499afc61d913175410feea"
+    },
+    "build/tma198-retained-binaries/windows/qupathxx_tma_dearray_tests.exe": {
+      "bytes": 3095552,
+      "sha256": "b8c1bcbdda9c678a39d194b7ccf8777021b447f03cd7c26dbcaa2c170d1e435e"
+    },
+    "build/tma198-retained-binaries/windows/qupathxx_viewer_session_tests.exe": {
+      "bytes": 3144192,
+      "sha256": "60cbfacc9e0f134750a699188500e538cd28b724d5ca5010046342737340b938"
+    },
+    "build/tma198-retained-binaries/windows/qupathxx_qptma_tests.exe": {
+      "bytes": 397312,
+      "sha256": "289b0b1eb002866f1231f4bada0e7183696e48d65609ff315c0abac881f0414e"
+    },
+    "build/tma198-retained-binaries/windows/qupathxx_qptma_project_tests.exe": {
+      "bytes": 2514432,
+      "sha256": "b446154e2c0a3f3c0f53c12232d076c9728dd9dbd8d799ab2d38bdd80d50f3c7"
+    },
+    "build/tma198-retained-binaries/windows/qupathxx_core.lib": {
+      "bytes": 75947516,
+      "sha256": "558563ada70ede05c9c740bc79fc05c7a52184f215fba667475ecacb779a7672"
+    },
+    "build/tma198-retained-binaries/windows/qupathxx_gui.lib": {
+      "bytes": 15524792,
+      "sha256": "52d25c3e47ea9b1c6428a0bdb74cc7fc07ccef5113110847793b9b4787c4a5de"
+    },
+    "build/tma198-retained-binaries/windows/_native.cp312-win_amd64.pyd": {
+      "bytes": 7054848,
+      "sha256": "fda2039b7f1d481e47749c9327208dd7d397a3666930d1deba447520a783b67f"
+    },
+    "build/tma198-retained-binaries/windows/qupathxx_batch.exe": {
+      "bytes": 3340288,
+      "sha256": "26f5cb6a94752341bea5314584ab01d97f67178272b438d9ba0ff734028516f5"
+    },
+    "build/tma198-retained-binaries/windows/qupathxx_region.exe": {
+      "bytes": 744448,
+      "sha256": "ae37fede0258564921f20346f59adb1308b70339db5ce97c20ded8ec940bcc53"
+    },
+    "build/tma198-retained-binaries/linux/qupathxx_tma_tests": {
+      "bytes": 5985744,
+      "sha256": "e4854b575c478231dc9113e722ba54cade17d9f800d57d897ebb6b5bf2b6910f"
+    },
+    "build/tma198-retained-binaries/linux/qupathxx_tma_dearray_tests": {
+      "bytes": 5987832,
+      "sha256": "77c1a58ab23ebc7d7402d9ea36b194380d50fac0d170dc220176588820662f0e"
+    },
+    "build/tma198-retained-binaries/linux/qupathxx_viewer_session_tests": {
+      "bytes": 6061536,
+      "sha256": "e8de9c9f79bdd97bf61ce7ad80fbd2a49be9189ea77ef82e0696c1af480fe582"
+    },
+    "build/tma198-retained-binaries/linux/qupathxx_qptma_tests": {
+      "bytes": 852432,
+      "sha256": "ed58fc698770e69d1f189efec49044957503cf22c083d34072b4af9a3658face"
+    },
+    "build/tma198-retained-binaries/linux/qupathxx_qptma_project_tests": {
+      "bytes": 5370280,
+      "sha256": "80df36db39647e154f41b58cfbfa17198949c8c8c34f75a6d0dce489734e142b"
+    },
+    "build/tma198-retained-binaries/linux/libqupathxx_core.a": {
+      "bytes": 10347752,
+      "sha256": "841db14a468d64d97aaf8e8244239e1f5808c05c7e3a2dde41d8613a75015256"
+    }
+  }
+}

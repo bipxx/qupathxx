@@ -7,6 +7,7 @@
 #include <cstring>
 #include <utility>
 #include <string>
+#include "gui_i18n.hpp"
 
 namespace qpx::ui {
 struct LayoutStats {
@@ -33,11 +34,12 @@ inline void SetNextItemWidth(float width) {ImGui::SetNextItemWidth(width>0?width
 // Groups forward hover/active state and keep each field a single flow item.
 template<class Draw> bool field(const char* label,Draw&& draw) {
     if(ImGui::GetCurrentWindow()->SkipItems) return false;
+    const auto* original=label;const auto localized=i18n::label(label);label=localized.c_str();
     const auto* end=label_end(label);
     const float room=available(),desired=std::max(1.f,ImGui::CalcItemWidth());
     const float label_width=ImGui::CalcTextSize(label,end).x;
     const bool stacked=label_width>0 && desired+label_width+ImGui::GetStyle().ItemInnerSpacing.x>room;
-    ImGui::BeginGroup();ImGui::PushID(label);
+    ImGui::BeginGroup();ImGui::PushID(original);
     if(stacked) {++layout_stats.stacked_fields;label_text(label,end);}
     ImGui::SetNextItemWidth(stacked?room:std::min(desired,std::max(1.f,room-(label_width>0?label_width+ImGui::GetStyle().ItemInnerSpacing.x:0))));
     const bool changed=draw("##value");
@@ -46,11 +48,19 @@ template<class Draw> bool field(const char* label,Draw&& draw) {
 }
 #define QPX_UI_FIELD(Name) template<class... Args> bool Name(const char* label,Args&&... args) {return field(label,[&](const char* id){return ImGui::Name(id,std::forward<Args>(args)...);});}
 QPX_UI_FIELD(InputText)
-QPX_UI_FIELD(InputTextWithHint)
 QPX_UI_FIELD(InputScalar)
 QPX_UI_FIELD(Combo)
 QPX_UI_FIELD(SliderFloat)
 #undef QPX_UI_FIELD
+template<class... Args> bool InputTextWithHint(const char* label,const char* hint,Args&&... args) {
+    return field(label,[&](const char* id){return ImGui::InputTextWithHint(id,i18n::text(hint),std::forward<Args>(args)...);});
+}
+inline bool Combo(const char* label,int* current,const char* items,int height=-1) {
+    std::string localized;
+    for(const char* item=items;*item;item+=std::strlen(item)+1) {localized+=i18n::text(item);localized+='\0';}
+    localized+='\0';
+    return field(label,[&](const char* id){return ImGui::Combo(id,current,localized.c_str(),height);});
+}
 inline bool InputScalarN(const char* label,ImGuiDataType type,void* data,int components,const void* step=nullptr,const void* fast=nullptr,const char* format=nullptr,ImGuiInputTextFlags flags=0) {
     return field(label,[&](const char* id) {
         const float width=ImGui::CalcItemWidth();
@@ -89,10 +99,11 @@ inline bool InputInt64(const char* label,std::int64_t* value) {
 // until EndCombo restores that window, rather than popping the popup's stack.
 inline bool BeginCombo(const char* label,const char* preview,ImGuiComboFlags flags=0) {
     if(ImGui::GetCurrentWindow()->SkipItems) return false;
+    const auto* original=label;const auto localized=i18n::label(label);label=localized.c_str();
     const float width=std::min(available(),std::max(1.f,ImGui::CalcItemWidth()));
     const auto* end=label_end(label);
     if(end!=label) {++layout_stats.stacked_fields;label_text(label,end);}
-    ImGui::PushID(label);ImGui::SetNextItemWidth(width);
+    ImGui::PushID(original);ImGui::SetNextItemWidth(width);
     if(ImGui::BeginCombo("##value",preview,flags)) return true;
     observe();ImGui::PopID();return false;
 }
@@ -100,6 +111,7 @@ inline void EndCombo() {ImGui::EndCombo();observe();ImGui::PopID();}
 
 inline bool Button(const char* label,ImVec2 size={0,0}) {
     if(ImGui::GetCurrentWindow()->SkipItems) return false;
+    const auto localized=i18n::label(label);label=localized.c_str();
     const auto* end=label_end(label);const auto padding=ImGui::GetStyle().FramePadding;
     const float natural=ImGui::CalcTextSize(label,end).x+2*padding.x;
     if(ImGui::GetCurrentWindow()->DC.IsSameLine && (size.x>0?size.x:natural)>available()) ImGui::NewLine();
@@ -124,9 +136,10 @@ inline bool SmallButton(const char* label) {
 }
 inline bool Checkbox(const char* label,bool* value) {
     if(ImGui::GetCurrentWindow()->SkipItems) return false;
+    const auto* original=label;const auto localized=i18n::label(label);label=localized.c_str();
     const auto* end=label_end(label);
     if(ImGui::GetCurrentWindow()->DC.IsSameLine && available()<ImGui::GetFrameHeight()+ImGui::GetStyle().ItemInnerSpacing.x+std::min(120.f,ImGui::CalcTextSize(label,end).x)) ImGui::NewLine();
-    ImGui::BeginGroup();ImGui::PushID(label);const auto id=ImGui::GetID("##value");
+    ImGui::BeginGroup();ImGui::PushID(original);const auto id=ImGui::GetID("##value");
     bool changed=ImGui::Checkbox("##value",value);
     if(end!=label) {
         ImGui::SameLine(0,ImGui::GetStyle().ItemInnerSpacing.x);
@@ -142,14 +155,25 @@ inline bool BeginPopupModal(const char* name,bool* open=nullptr,ImGuiWindowFlags
     const float width=std::max(1.f,std::min(560.f*ImGui::GetFontSize()/13.f,size.x-2*margin));
     ImGui::SetNextWindowSize({width,0},ImGuiCond_Appearing);
     ImGui::SetNextWindowSizeConstraints({width,0},{width,std::max(1.f,size.y-2*margin)});
-    return ImGui::BeginPopupModal(name,open,flags);
+    return ImGui::BeginPopupModal(i18n::label(name).c_str(),open,flags);
 }
 inline void TextDisabled(const char* format,...) {
-    va_list args;va_start(args,format);ImGui::PushTextWrapPos(0);ImGui::TextDisabledV(format,args);ImGui::PopTextWrapPos();va_end(args);
+    va_list args;va_start(args,format);ImGui::PushTextWrapPos(0);ImGui::TextDisabledV(i18n::text(format),args);ImGui::PopTextWrapPos();va_end(args);
 }
 inline void SeparatorText(const char* label) {
     if(ImGui::GetCurrentWindow()->SkipItems) return;
+    label=i18n::text(label);
     if(ImGui::CalcTextSize(label).x+2*ImGui::GetStyle().SeparatorTextPadding.x<=available()) ImGui::SeparatorText(label);
     else {ImGui::Separator();label_text(label,label_end(label));}
 }
+inline bool BeginMenu(const char* label,bool enabled=true) {return ImGui::BeginMenu(i18n::label(label).c_str(),enabled);}
+inline bool MenuItem(const char* label,const char* shortcut=nullptr,bool selected=false,bool enabled=true) {
+    return ImGui::MenuItem(i18n::label(label).c_str(),shortcut,selected,enabled);
+}
+inline bool CollapsingHeader(const char* label,ImGuiTreeNodeFlags flags=0) {return ImGui::CollapsingHeader(i18n::label(label).c_str(),flags);}
+// Use these only for application-owned captions/formats. User-supplied strings
+// continue to use TextUnformatted and never pass through the catalogue.
+inline void Text(const char* format,...) {va_list args;va_start(args,format);ImGui::TextV(i18n::text(format),args);va_end(args);}
+inline void TextWrapped(const char* format,...) {va_list args;va_start(args,format);ImGui::TextWrappedV(i18n::text(format),args);va_end(args);}
+inline void TextUnformatted(const char* caption) {ImGui::TextUnformatted(i18n::text(caption));}
 }

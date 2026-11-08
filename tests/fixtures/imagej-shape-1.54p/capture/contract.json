@@ -1,0 +1,174 @@
+{
+  "schema": "qpx.imagej-shape-contract/1",
+  "imagej_version": "1.54p",
+  "prominence": 0.5,
+  "edges_are_background": false,
+  "upstream_contract": "../qupath-0.7.0/contract.json",
+  "cases": [
+    {
+      "name": "blank",
+      "width": 9,
+      "height": 7,
+      "origin": {}
+    },
+    {
+      "name": "full",
+      "width": 9,
+      "height": 7,
+      "origin": {}
+    },
+    {
+      "name": "single",
+      "width": 9,
+      "height": 7,
+      "origin": {}
+    },
+    {
+      "name": "row",
+      "width": 10,
+      "height": 1,
+      "origin": {}
+    },
+    {
+      "name": "column",
+      "width": 1,
+      "height": 10,
+      "origin": {}
+    },
+    {
+      "name": "plateau",
+      "width": 72,
+      "height": 64,
+      "origin": {}
+    },
+    {
+      "name": "touching_disks",
+      "width": 72,
+      "height": 64,
+      "origin": {}
+    },
+    {
+      "name": "thin_neck",
+      "width": 72,
+      "height": 64,
+      "origin": {}
+    },
+    {
+      "name": "border",
+      "width": 72,
+      "height": 64,
+      "origin": {}
+    },
+    {
+      "name": "diagonal",
+      "width": 72,
+      "height": 64,
+      "origin": {}
+    },
+    {
+      "name": "ring",
+      "width": 72,
+      "height": 64,
+      "origin": {}
+    },
+    {
+      "name": "random_0",
+      "width": 64,
+      "height": 48,
+      "origin": {}
+    },
+    {
+      "name": "random_1",
+      "width": 64,
+      "height": 48,
+      "origin": {}
+    },
+    {
+      "name": "random_2",
+      "width": 64,
+      "height": 48,
+      "origin": {}
+    },
+    {
+      "name": "random_3",
+      "width": 64,
+      "height": 48,
+      "origin": {}
+    },
+    {
+      "name": "random_4",
+      "width": 64,
+      "height": 48,
+      "origin": {}
+    },
+    {
+      "name": "random_5",
+      "width": 64,
+      "height": 48,
+      "origin": {}
+    },
+    {
+      "name": "random_6",
+      "width": 64,
+      "height": 48,
+      "origin": {}
+    },
+    {
+      "name": "random_7",
+      "width": 64,
+      "height": 48,
+      "origin": {}
+    },
+    {
+      "name": "random_8",
+      "width": 64,
+      "height": 48,
+      "origin": {}
+    },
+    {
+      "name": "random_9",
+      "width": 64,
+      "height": 48,
+      "origin": {}
+    },
+    {
+      "name": "random_10",
+      "width": 64,
+      "height": 48,
+      "origin": {}
+    },
+    {
+      "name": "random_11",
+      "width": 64,
+      "height": 48,
+      "origin": {}
+    },
+    {
+      "name": "large_disks",
+      "width": 192,
+      "height": 144,
+      "origin": {}
+    },
+    {
+      "name": "ndpi_context0",
+      "width": 256,
+      "height": 256,
+      "origin": {
+        "native_region_sha256": "382aa5d205d03cc642766931db794e430709b914113cb93cd684b6f21edc8f51",
+        "native_source": "655c8541d0632adb1ae9662ffc80fbff16aa7e8f",
+        "slide_sha256": "edf4a1ccf395c7000ae93ad3b44c07d97043810e00be0c1d167dd09bbe436e46"
+      }
+    },
+    {
+      "name": "ndpi_context32",
+      "width": 320,
+      "height": 320,
+      "origin": {
+        "native_region_sha256": "cf47afdc96f0e65f27df1c83aafa390455678c39add04a6cce5b66726cc38715",
+        "native_source": "655c8541d0632adb1ae9662ffc80fbff16aa7e8f",
+        "slide_sha256": "edf4a1ccf395c7000ae93ad3b44c07d97043810e00be0c1d167dd09bbe436e46"
+      }
+    }
+  ],
+  "scope": "Shape-stage conformance only. Synthetic topology cases and native real-slide masks. No complete detector, biology, platform or performance acceptance."
+}

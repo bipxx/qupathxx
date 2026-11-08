@@ -1,0 +1,68 @@
+{
+  "schema": "qpx.macos-runtime-artifact-audit-local/1",
+  "tooling_source": "7dfc0a1d124f660d12f4cfb76b231bd778f58898",
+  "base_source": "b0d12245fa89685596a2639daeb7ec8ab0cdcc37",
+  "python_cohort": {
+    "groups": [
+      {
+        "classname": "test_runtime_manifest",
+        "passed": 55
+      },
+      {
+        "classname": "test_elf_dependencies",
+        "passed": 75
+      },
+      {
+        "classname": "test_linux_runtime_manifest",
+        "passed": 50
+      },
+      {
+        "classname": "test_macho_dependencies",
+        "passed": 66
+      },
+      {
+        "classname": "test_macos_native_inventory",
+        "passed": 22
+      },
+      {
+        "classname": "test_macos_relocation_plan",
+        "passed": 34
+      },
+      {
+        "classname": "test_macos_relocate",
+        "passed": 11
+      },
+      {
+        "classname": "test_macos_relocated_runtime",
+        "passed": 38
+      },
+      {
+        "classname": "test_macos_relocation_evidence",
+        "passed": 14
+      },
+      {
+        "classname": "test_macos_runtime_artifact_audit",
+        "passed": 24
+      }
+    ],
+    "passed": 389,
+    "case_contract_sha256": "476a2c6585b073f2fede6dcfdacfb67210b0a52b3667c3d54408dd29ccdcd52f",
+    "junit_sha256": "457741f443aa5bd84a840e684076707acfb814c543db9019ccbc45f1938ccd9d"
+  },
+  "complete_synthetic_artifact_acceptance_cases": 1,
+  "altered_artifact_rejection_cases": 23,
+  "pam_layout_rejection_cases": 7,
+  "local_host": "Windows",
+  "synthetic_macho_and_command_evidence": true,
+  "actual_apple_tools_executed": false,
+  "actual_mac_runtime_executed": false,
+  "native_compiler_inputs_unchanged": true,
+  "hosted_mac_run_for_base": {
+    "run": 40125033683,
+    "source": "b0d12245fa89685596a2639daeb7ec8ab0cdcc37",
+    "status_at_recording": "in_progress",
+    "qualifies_this_candidate": false
+  },
+  "release_ready": false,
+  "scientific_or_hardware_acceptance": false
+}

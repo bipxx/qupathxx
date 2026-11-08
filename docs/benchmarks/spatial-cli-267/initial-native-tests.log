@@ -1,0 +1,15 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+    Start  6: qptma_project
+1/5 Test  #6: qptma_project ....................   Passed    0.15 sec
+    Start 46: spatial_cli
+2/5 Test #46: spatial_cli ......................   Passed    0.39 sec
+    Start 47: spatial_records
+3/5 Test #47: spatial_records ..................   Passed    1.97 sec
+    Start 48: spatial_analysis
+4/5 Test #48: spatial_analysis .................   Passed    0.11 sec
+    Start 51: project
+5/5 Test #51: project ..........................   Passed    0.13 sec
+
+100% tests passed out of 5
+
+Total Test time (real) =   2.96 sec

@@ -1,5 +1,8 @@
 #pragma once
 #include "qupathxx/analysis.hpp"
+#include <cstddef>
+#include "qupathxx/scientific_grid.hpp"
+#include "qupathxx/nominal_cell_sampling.hpp"
 namespace qpx {
 enum class TissueFeature { OpticalDensitySum, Stain1, Stain2, Stain3 };
 struct TissueParameters {
@@ -13,20 +16,53 @@ struct TissueParameters {
     std::uint64_t min_pixels=1,max_pixels=0;
     std::size_t tile_size=256,max_components=100000,work_bytes=64*1024*1024;
     RoiSamplingPolicy sampling_policy=RoiSamplingPolicy::GeometryCoverage;
+    double smoothing_sigma=0; // Gaussian sigma in sampled pixels; 0 preserves raw thresholding.
+    bool median_cleanup=false; // Binary 3x3 median after threshold; replicated crop edges.
+    bool canonical_pyramid=false; // Explicit native level snapshot; processing tiles share one decode phase.
+    void validate() const;
+};
+namespace detail {
+// Keep inactive recipe extensions in the existing metadata allowance. The first
+// extension starts at sigma; active groups charge their actual aligned storage.
+inline constexpr std::size_t tissue_parameter_extension_bytes=sizeof(TissueParameters)-offsetof(TissueParameters,smoothing_sigma);
+inline std::size_t inactive_tissue_parameter_bytes(const TissueParameters& p) {
+    return (p.smoothing_sigma==0?sizeof(p.smoothing_sigma):0)+
+        (!p.median_cleanup && !p.canonical_pyramid?sizeof(TissueParameters)-offsetof(TissueParameters,median_cleanup):0);
+}
+}
+struct TissueGridSampling {
+    std::uint32_t samples_x=512,samples_y=512,context_x=0,context_y=0;
     void validate() const;
 };
 class TissueRequest {
 public:
     TissueRequest(const Document&,std::uint64_t object_id,const StainTransform&,TissueParameters={},bool nucleus=false);
-    bool matches(const Document& d,std::uint64_t id) const {return source_.matches(d,id);}
+    TissueRequest(const Document&,std::uint64_t object_id,const StainTransform&,ScientificGrid,TissueParameters={},bool nucleus=false);
+    static TissueRequest for_grid_roi(const Document&,std::uint64_t object_id,const StainTransform&,TissueGridSampling={},
+        TissueParameters={},bool nucleus=false,std::optional<double> minimum_um2={},std::optional<double> maximum_um2={});
+    static TissueRequest with_grid_component_area_limits(const Document&,std::uint64_t object_id,const StainTransform&,ScientificGrid,
+        std::optional<double> minimum_um2={},std::optional<double> maximum_um2={},TissueParameters={},bool nucleus=false);
+    const ScientificGrid* scientific_grid() const {return grid_.get();}
+    double downsample_x() const {return grid_?GridFraction(grid_->x().extent(),grid_->x().samples()).binary64():downsample_;}
+    double downsample_y() const {return grid_?GridFraction(grid_->y().extent(),grid_->y().samples()).binary64():downsample_;}
+
+    static TissueRequest with_component_area_limits(const Document&,std::uint64_t object_id,const StainTransform&,
+        std::optional<double> minimum_um2={},std::optional<double> maximum_um2={},TissueParameters={},bool nucleus=false);
+    bool matches(const Document& d,std::uint64_t id) const {
+        return source_.matches(d,id) && (!physical_calibration_revision_ || *physical_calibration_revision_==d.calibration_revision());
+    }
     std::uint64_t object_id() const {return source_.object_id();}
     const TissueParameters& parameters() const {return parameters_;}
     const Roi& roi() const {return source_.roi();}
     std::uint64_t total_tiles() const {return total_tiles_;}
     std::int32_t level() const {return level_;}
-    double downsample() const {return downsample_;}
-    Rect level_bounds() const {return {double(x0_),double(y0_),double(x1_-x0_),double(y1_-y0_)};}
-    Rect bounds() const {const auto b=level_bounds();return {b.x*downsample_,b.y*downsample_,b.width*downsample_,b.height*downsample_};}
+    double downsample() const {if(grid_) throw std::logic_error("explicit tissue grid requires per-axis sampling geometry");return downsample_;}
+    Rect level_bounds() const {if(grid_) throw std::logic_error("explicit tissue grid has no natural-level bounds");return {double(x0_),double(y0_),double(x1_-x0_),double(y1_-y0_)};}
+    Rect bounds() const {
+        if(grid_) {const auto& g=*grid_;const auto x=g.x().edge(g.x().first_index()).binary64(),y=g.y().edge(g.y().first_index()).binary64();
+            return {x,y,g.x().edge(g.x().stop_index()).binary64()-x,g.y().edge(g.y().stop_index()).binary64()-y};}
+        const auto b=level_bounds();return {b.x*downsample_,b.y*downsample_,b.width*downsample_,b.height*downsample_};
+    }
     std::size_t estimated_work_bytes() const {return estimated_work_bytes_;}
     const std::shared_ptr<const AnalysisProvenance>& provenance() const {return source_.provenance();}
     static TissueRequest replay(const Document&,std::uint64_t record_id);
@@ -37,11 +73,14 @@ private:
     std::shared_ptr<const char> ticket_=std::make_shared<const char>();
     AnalysisRequest source_;
     TissueParameters parameters_;
+    std::optional<std::uint64_t> physical_calibration_revision_;
     std::size_t estimated_work_bytes_=0,component_capacity_=0;
     std::int32_t level_=0;
     double downsample_=1;
     std::int64_t x0_=0,y0_=0,x1_=0,y1_=0;
     std::uint64_t total_tiles_=0;
+    std::shared_ptr<const ScientificGrid> grid_;
+    static void apply_component_area_limits(const Document&,TissueRequest&,std::optional<double>,std::optional<double>);
 };
 struct TissueComponent {
     std::uint32_t label=0;
@@ -58,12 +97,30 @@ public:
     const std::shared_ptr<const AnalysisProvenance>& provenance() const {return provenance_;}
     const std::string& input_sha256() const {return input_sha256_;}
     Rect bounds() const {return bounds_;}
-    Rect level_bounds() const {return level_bounds_;}
-    std::int64_t width() const {return static_cast<std::int64_t>(level_bounds_.width);}
-    std::int64_t height() const {return static_cast<std::int64_t>(level_bounds_.height);}
+    Rect level_bounds() const {
+        if(scientific_grid_ || nominal_sampling_) throw std::logic_error("explicit-grid raster has no natural-level bounds");
+        return level_bounds_;
+    }
+    std::int64_t width() const {return nominal_sampling_?nominal_sampling_->width():scientific_grid_?scientific_grid_->width():static_cast<std::int64_t>(level_bounds_.width);}
+    std::int64_t height() const {return nominal_sampling_?nominal_sampling_->height():scientific_grid_?scientific_grid_->height():static_cast<std::int64_t>(level_bounds_.height);}
     std::int32_t level() const {return level_;}
-    double downsample() const {return downsample_;}
-    const char* input_format() const {return analysis_input_format(parameters_.sampling_policy,level_!=0);}
+    double downsample() const {
+        if(scientific_grid_) throw std::logic_error("explicit-grid raster requires per-axis sampling geometry");
+        return downsample_;
+    }
+    const ScientificGrid* scientific_grid() const {return scientific_grid_?&*scientific_grid_:nullptr;}
+    const NominalCellSampling* nominal_sampling() const {return nominal_sampling_.get();}
+    double downsample_x() const {return scientific_grid_?GridFraction(scientific_grid_->x().extent(),scientific_grid_->x().samples()).binary64():downsample_;}
+    double downsample_y() const {return scientific_grid_?GridFraction(scientific_grid_->y().extent(),scientific_grid_->y().samples()).binary64():downsample_;}
+    double sample_edge_x(std::int64_t x) const {
+        if(x<0 || x>width()) throw std::out_of_range("raster X edge outside grid");
+        return nominal_sampling_?nominal_sampling_->edge_x(x):scientific_grid_?scientific_grid_->x().edge(x+scientific_grid_->x().first_index()).binary64():bounds_.x+double(x)*downsample_;
+    }
+    double sample_edge_y(std::int64_t y) const {
+        if(y<0 || y>height()) throw std::out_of_range("raster Y edge outside grid");
+        return nominal_sampling_?nominal_sampling_->edge_y(y):scientific_grid_?scientific_grid_->y().edge(y+scientific_grid_->y().first_index()).binary64():bounds_.y+double(y)*downsample_;
+    }
+    const char* input_format() const {return parameters_.canonical_pyramid?"qpx.rgba-pyramid-origin-zero/1":input_format_override_.empty()?analysis_input_format(parameters_.sampling_policy,level_!=0):input_format_override_.c_str();}
     const Roi& roi() const {return roi_;}
     Rect image_bounds() const {return image_bounds_;}
     const std::vector<std::uint32_t>& labels() const {return labels_;}
@@ -84,7 +141,7 @@ public:
     std::uint64_t raw_components() const {return raw_components_;}
     double elapsed_ms() const {return elapsed_ms_;}
     std::size_t estimated_work_bytes() const {return estimated_work_bytes_;}
-    std::size_t retained_bytes() const {return sizeof(TissueResult)+(provenance_?provenance_->payload_bytes():0)+labels_.capacity()*sizeof(std::uint32_t)+components_.capacity()*sizeof(TissueComponent);}
+    std::size_t retained_bytes() const {return sizeof(TissueResult)-detail::inactive_tissue_parameter_bytes(parameters_)+(provenance_?provenance_->payload_bytes():0)+labels_.capacity()*sizeof(std::uint32_t)+components_.capacity()*sizeof(TissueComponent)+(input_format_override_.empty()?0:input_format_override_.capacity());}
 private:
     friend struct TissueKernel;
     friend class Document;
@@ -92,9 +149,10 @@ private:
     friend struct TissueArchiveCodec;
     friend struct CellKernel;
     friend struct CellArchiveCodec;
+    friend struct ScientificRasterKernel;
     std::shared_ptr<const char> ticket_;
     TissueResult()=default;
-    std::string algorithm_="qpx.threshold-components/1",input_sha256_;
+    std::string algorithm_="qpx.threshold-components/1",input_sha256_,input_format_override_;
     std::shared_ptr<const AnalysisProvenance> provenance_;
     Rect bounds_,level_bounds_;
     Roi roi_;
@@ -112,6 +170,8 @@ private:
     double cleanup_ms_=0;
     double elapsed_ms_=0;
     std::size_t estimated_work_bytes_=0;
+    std::optional<ScientificGrid> scientific_grid_;
+    std::shared_ptr<const NominalCellSampling> nominal_sampling_;
 };
 std::shared_ptr<const TissueResult> detect_tissue(const TissueRequest&,const std::atomic<bool>* cancelled=nullptr);
 struct TissueRecord {
@@ -145,7 +205,7 @@ public:
     std::uint64_t object_id() const {return object_id_;}
 private:
     friend struct TissueContourKernel;
-    friend struct CellKernel;
+    friend struct CellContourKernel;
     TissueContours()=default;
     std::string input_sha256_;
     TissueContourOptions options_;
@@ -166,6 +226,8 @@ public:
     bool request(const TissueRequest&);
     TissueStats poll(const Document&,std::uint64_t selected_id);
     TissueStats wait(const Document&,std::uint64_t selected_id);
+    // Native readiness only: no Document access, delivery or captured-owner release.
+    void await_completion();
     void cancel();
     bool busy() const;
     std::shared_ptr<const TissueResult> result() const;

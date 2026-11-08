@@ -1,6 +1,7 @@
 #pragma once
 #include "qupathxx/classifier.hpp"
 #include "qupathxx/core.hpp"
+#include "qupathxx/cell_statistics.hpp"
 #include "qupathxx/provenance.hpp"
 
 namespace qpx {
@@ -37,6 +38,7 @@ private:
     friend class ObjectFeatureTable;
     friend class Document;
     friend struct ObjectClassifierArchiveCodec;
+    friend class RawPixelTiledTrainingRequest;
 };
 class ObjectFeatureTable : public std::enable_shared_from_this<ObjectFeatureTable> {
 public:
@@ -53,6 +55,7 @@ public:
     std::optional<Roi> nucleus_roi(std::size_t row) const;
     std::optional<ObjectFeatureCellOrigin> cell_origin(std::size_t row) const;
     std::optional<CellFeature> cell_feature(std::size_t row) const;
+    std::optional<CellIntensityStatistics> cell_intensity_statistics(std::size_t row) const;
 private:
     ObjectFeatureTable()=default;
     std::shared_ptr<const ObjectFeatureRequest::Data> snapshot_;
@@ -106,6 +109,8 @@ public:
     bool busy() const;void cancel();
     ObjectClassifierStats poll(const Document&);
     ObjectClassifierStats wait(const Document&);
+    // Native readiness only: no Document access, delivery or captured-owner release.
+    void await_completion();
     std::shared_ptr<const ForestModel> model() const;
     std::shared_ptr<const ObjectFeatureTable> table() const;
     std::shared_ptr<const ObjectClassificationResult> result() const;

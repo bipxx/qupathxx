@@ -1,7 +1,7 @@
+#include "json_string.hpp"
 #include "pixel_stream_cli.hpp"
 #include "qupathxx/pixel_stream_file.hpp"
 #include "qupathxx/project.hpp"
-#include "batch_checkpoint.hpp"
 #include <charconv>
 #include <chrono>
 #include <cmath>
@@ -26,12 +26,12 @@ Rect window(const std::string& text) {
     if(values.size()!=4) throw std::invalid_argument("window requires x,y,width,height");return {values[0],values[1],values[2],values[3]};
 }
 std::string summary_json(const PixelStreamFileSummary& s) {
-    std::string out="{\"bytes\":"+std::to_string(s.bytes)+",\"blocks\":"+std::to_string(s.blocks)+",\"valid_pixels\":"+std::to_string(s.valid_pixels)+",\"classified_pixels\":"+std::to_string(s.classified_pixels)+",\"content_sha256\":"+batch_json_quote(s.sha256)+",\"class_counts\":[";
+    std::string out="{\"bytes\":"+std::to_string(s.bytes)+",\"blocks\":"+std::to_string(s.blocks)+",\"valid_pixels\":"+std::to_string(s.valid_pixels)+",\"classified_pixels\":"+std::to_string(s.classified_pixels)+",\"content_sha256\":"+json_string(s.sha256)+",\"class_counts\":[";
     bool first=true;for(auto count:s.class_counts) {if(!first) out+=',';first=false;out+=std::to_string(count);}return out+"]}";
 }
 void export_line(const PixelStreamExportStats& s,const std::string& path,std::uint64_t image,std::uint64_t object,const std::string& model) {
     std::ostringstream out;out.imbue(std::locale::classic());out<<std::setprecision(17);
-    out<<"{\"schema\":\"qpx.pixel-export/1\",\"state\":"<<batch_json_quote(s.state)<<",\"error\":"<<batch_json_quote(s.error)<<",\"path\":"<<batch_json_quote(path)<<",\"image_id\":"<<image<<",\"object_id\":"<<object<<",\"model_sha256\":"<<batch_json_quote(model)<<",\"source_tree_sha256\":"<<batch_json_quote(build_environment()->source_tree_sha256)<<",\"completed_blocks\":"<<s.completed_blocks<<",\"total_blocks\":"<<s.total_blocks<<",\"estimated_work_bytes\":"<<s.estimated_work_bytes<<",\"elapsed_ms\":"<<s.elapsed_ms<<",\"summary\":"<<(s.summary?summary_json(*s.summary):"null")<<"}\n";
+    out<<"{\"schema\":\"qpx.pixel-export/1\",\"state\":"<<json_string(s.state)<<",\"error\":"<<json_string(s.error)<<",\"path\":"<<json_string(path)<<",\"image_id\":"<<image<<",\"object_id\":"<<object<<",\"model_sha256\":"<<json_string(model)<<",\"source_tree_sha256\":"<<json_string(build_environment()->source_tree_sha256)<<",\"completed_blocks\":"<<s.completed_blocks<<",\"total_blocks\":"<<s.total_blocks<<",\"estimated_work_bytes\":"<<s.estimated_work_bytes<<",\"elapsed_ms\":"<<s.elapsed_ms<<",\"summary\":"<<(s.summary?summary_json(*s.summary):"null")<<"}\n";
     std::cout<<out.str()<<std::flush;
 }
 int verify_file(const std::vector<std::string>& args,const std::atomic<bool>& cancelled) {
@@ -42,7 +42,7 @@ int verify_file(const std::vector<std::string>& args,const std::atomic<bool>& ca
     auto stats=collect();if(stats.state=="ready" && !cancelled.load()) {job.verify();stats=collect();}
     else if(stats.state=="ready") {job.cancel();stats=job.poll();}
     const auto state=stats.state=="ready" && stats.verified?"verified":stats.state;
-    std::cout<<"{\"schema\":\"qpx.pixel-verify/1\",\"state\":"<<batch_json_quote(state)<<",\"error\":"<<batch_json_quote(stats.error)<<",\"path\":"<<batch_json_quote(args[2])<<",\"source_tree_sha256\":"<<batch_json_quote(build_environment()->source_tree_sha256)<<",\"summary\":"<<(stats.verified && stats.declared_summary?summary_json(*stats.declared_summary):"null")<<"}\n"<<std::flush;
+    std::cout<<"{\"schema\":\"qpx.pixel-verify/1\",\"state\":"<<json_string(state)<<",\"error\":"<<json_string(stats.error)<<",\"path\":"<<json_string(args[2])<<",\"source_tree_sha256\":"<<json_string(build_environment()->source_tree_sha256)<<",\"summary\":"<<(stats.verified && stats.declared_summary?summary_json(*stats.declared_summary):"null")<<"}\n"<<std::flush;
     return state=="verified"?0:state=="cancelled"?130:1;
 }
 }

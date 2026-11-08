@@ -1,0 +1,34 @@
+{
+  "source": "f9ad28f5d88fb6706163f8a6c2e0ffe7a96e4ec3",
+  "files": [
+    {
+      "name": "Linux-sanitize-py3.12",
+      "artifact_id": 12710040274,
+      "run_id": 40448479178,
+      "bytes": 58729,
+      "digest": "sha256:83ecfeaabdf4656083ab7700d8c76b9102db8805947460abf2e431d6ef73c50a"
+    },
+    {
+      "name": "Linux-headless-py3.12",
+      "artifact_id": 12710031058,
+      "run_id": 40448479178,
+      "bytes": 14762841,
+      "digest": "sha256:6f69eb7d0ed30d788489e61b2b0ba1a3fcc175d343dd5045a83a5413334335e5"
+    },
+    {
+      "name": "Linux-minimal-py3.12",
+      "artifact_id": 12709576897,
+      "run_id": 40448479178,
+      "bytes": 51219,
+      "digest": "sha256:9f3938ab3012a0075ab6dd23f23dad05c752b5a5603dcf1fb63b34a0b2056312"
+    },
+    {
+      "name": "manylinux-3.11",
+      "artifact_id": 12709644237,
+      "run_id": 40448495849,
+      "bytes": 15146291,
+      "digest": "sha256:13bdc7ae37ff0254d5ebe7d8382f338cc5ea6b9dcfc444078d19338f7dc0751d"
+    }
+  ],
+  "accepted": false
+}

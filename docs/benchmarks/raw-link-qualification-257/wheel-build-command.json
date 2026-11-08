@@ -1,0 +1,11 @@
+{
+  "command": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Scripts\\python.exe",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw_link_qualification_257_backend.py"
+  ],
+  "returncode": 0,
+  "seconds": 58.86814680020325,
+  "parallelism": 2,
+  "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+  "inputs_unchanged": true
+}

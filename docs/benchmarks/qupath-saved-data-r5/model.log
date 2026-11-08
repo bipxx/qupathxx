@@ -1,0 +1,60 @@
+.F...s....................ssF..........................................s [ 27%]
+s....................................................................... [ 55%]
+........................................................................ [ 83%]
+..........................................                               [100%]
+================================== FAILURES ===================================
+______ test_direct_geometry_hierarchy_classes_ids_and_calibration_reopen ______
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/qupath-saved-data-r5/model-temp/test_direct_geometry_hierarchy0')
+
+    def test_direct_geometry_hierarchy_classes_ids_and_calibration_reopen(tmp_path):
+        path=corpus(tmp_path,'geometry');preview=q.preview_qupath_project(str(path))
+        assert preview.issues==[] and preview.images[0].objects==8
+        reference=next(row for row in json.loads((FIXTURE/'reference.json').read_bytes()) if row['name']=='geometry')['objects']
+        destination=tmp_path/'native.qpxproj';preview.import_new(str(destination))
+        doc=q.Project.open(str(destination)).document(preview.images[0].native_id)
+        assert (doc.pixel_width_um,doc.pixel_height_um)==(.25,.5)
+        ids=dict(zip(preview.images[0].source_object_ids,preview.images[0].imported_object_ids,strict=True))
+        assert set(ids)=={row['id'] for row in reference}
+>       kinds={'annotation':q.ObjectKind.Annotation,'detection':q.ObjectKind.Detection,'cell':q.ObjectKind.Cell}
+                            ^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: type object 'ObjectKind' has no attribute 'Annotation'
+
+tests\test_qupath_saved_data.py:41: AttributeError
+________ test_native_saved_data_matches_independent_assisted_exchange _________
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/qupath-saved-data-r5/model-temp/test_native_saved_data_matches0')
+
+    def test_native_saved_data_matches_independent_assisted_exchange(tmp_path):
+        path=corpus(tmp_path);assisted=q.preview_qupath_project(str(path))
+        assisted_project=assisted.import_new(str(tmp_path/'assisted.qpxproj'))
+        shutil.rmtree(path.parent/'qupathxx-exchange')
+        direct=q.preview_qupath_project(str(path));assert direct.issues==[]
+        assert [i.source_object_ids for i in direct.images]==[i.source_object_ids for i in assisted.images]
+        direct.import_new(str(tmp_path/'direct.qpxproj'))
+        reopened=q.Project.open(str(tmp_path/'direct.qpxproj'))
+        for actual,expected in zip(direct.images,assisted.images,strict=True):
+            doc=reopened.document(actual.native_id);reference=assisted_project.document(expected.native_id)
+            assert (doc.pixel_width_um,doc.pixel_height_um)==(reference.pixel_width_um,reference.pixel_height_um)
+>           assert q.export_geojson(doc,nested_hierarchy=True).text==q.export_geojson(reference,nested_hierarchy=True).text
+E           assert '{"type":"Fea...":[]}}]}}]}\n' == '{"type":"Fea...":[]}}]}}]}\n'
+E             
+E             Skipping 217 identical leading characters in diff, use -v to show
+E             - nates":[[[52.0,2.0],[52.0,42.0],[2.0,42.0],[2.0,2.0],[52.0,2.0]]],"type":"Polygon"},"id":"1","type":"Feature","properties":{"classification":{"color":[255,32,48],"name":"Tumor"},"name":"Parent α","objectType":"annotation","childObjects":[{"geometry":{"coordinates":[[[14.0,4.0],[14.0,14.0],[4.0,14.0],[4.0,4.0],[14.0,4.0]]],"type":"Polygon"},"id":"2","type":"Feature","properties":{"classification":{"color":[255,32,48],"name":"Tumor"},"name":"Child","objectType":"annotation","childObjects":[]}}]}}]}
+E             ?       ...
+E             
+E             ...Full output truncated (3 lines hidden), use '-vv' to show
+
+tests\test_qupath_project.py:180: AssertionError
+============================== warnings summary ===============================
+tests/test_qupath_project.py::test_project_import_preserves_sources_objects_classes_calibration_and_pixels
+tests/test_qupath_project.py::test_project_import_preserves_sources_objects_classes_calibration_and_pixels
+  C:\Users\HEQ\Projects\qupathxx\.venv\Lib\site-packages\tifffile\tifffile.py:4594: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.
+  As an alternative, you can create a new view using np.reshape (with copy=False if needed).
+    result.shape = shape
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/test_qupath_saved_data.py::test_direct_geometry_hierarchy_classes_ids_and_calibration_reopen
+FAILED tests/test_qupath_project.py::test_native_saved_data_matches_independent_assisted_exchange
+2 failed, 251 passed, 5 skipped, 2 warnings in 13.10s

@@ -1,0 +1,187 @@
+{
+  "schema": "qpx.spatial-native-foundation/1",
+  "source": "3af95728f123de120f91baf49ca1f89694412822",
+  "fingerprint": "b7061cd4d2afd7783e9745b6560a90078e63c6817da2e1b93ddfe3b09938e796",
+  "state": "windows_native_geometry_and_query_verified",
+  "scope": "SPAT1 geometry/query foundation only; no complete spatial user workflow or platform acceptance",
+  "compiler_inputs": 392,
+  "changed_compiler_inputs": [
+    "cpp/geometry.cpp",
+    "cpp/include/qupathxx/geometry.hpp",
+    "cpp/include/qupathxx/spatial_index.hpp",
+    "cpp/spatial_index.cpp",
+    "cpp/tests/geometry_tests.cpp",
+    "cpp/tests/spatial_tests.cpp"
+  ],
+  "native": {
+    "geos_on": {
+      "passed_suites": 3,
+      "skips": 0
+    },
+    "geos_off": {
+      "passed_suites": 3,
+      "skips": 0
+    }
+  },
+  "nearest_oracles": {
+    "reordered": 400,
+    "concurrent": 200,
+    "large_scene_entries": 100000
+  },
+  "raw_source_paths": 490,
+  "sdks_unchanged": true,
+  "previous_candidate262_products_preserved": 55,
+  "retained_current_products_per_profile": 4,
+  "query_traversal": "Fixed address-width stack; no source-by-target distance matrix",
+  "new_wheel_built": false,
+  "python_binding_implemented": false,
+  "request_result_jobs_persistence_frontends_implemented": false,
+  "platform_engineering_accepted": false,
+  "release_ready": false,
+  "overall_project_complete": false,
+  "limitations": [
+    "Native Windows MSVC checks only, not Linux/Mac/sanitizer acceptance for this new source",
+    "Polygon construction/centroid requires the existing GEOS capability; primitive centroid and nearest-point paths pass GEOS OFF",
+    "No native comparison of all26 upstream capture cases is claimed yet; analytic fixtures and exhaustive nearest-search oracles qualify only this foundation",
+    "No comparative speedup, process-memory, hardware or biological acceptance follows from native test timing",
+    "Candidate262 qualification remains isolated at e2282b8; no acceptance transfers to changed spatial code",
+    "First build misspelled the existing geometry_edits target; failure retained and corrected on the same source without rebuild of completed targets"
+  ],
+  "evidence": [
+    {
+      "path": "build-command.json",
+      "bytes": 531,
+      "sha256": "372b02f226915b9179c4f3f7155464d064856b62069017d8918dd222ec299813"
+    },
+    {
+      "path": "build.log",
+      "bytes": 14505,
+      "sha256": "749418e6091a52021ab8409e22fb74165c5a875faae1b985e54b458b8620c657"
+    },
+    {
+      "path": "compiler-inputs.json",
+      "bytes": 42132,
+      "sha256": "62f55a1302eab6679c38d2b0ed4c4affa21bfa4bad752e9ea95cf007995441b0"
+    },
+    {
+      "path": "compilexx-note-prefix-proof.json",
+      "bytes": 367,
+      "sha256": "6b132dd43756ddca049b3a5048def2c52b743b312d6fca978f8b5550153c0ab2"
+    },
+    {
+      "path": "corrected-build-command.json",
+      "bytes": 628,
+      "sha256": "331c8d79fbe628a7b72523de63d3360b21529c4d7e70390d38ba558f1c9fac59"
+    },
+    {
+      "path": "corrected-build.log",
+      "bytes": 2570,
+      "sha256": "c516b802437259d5e557568926ea050658f6d6d6ceb5e553be29172bdfca3edf"
+    },
+    {
+      "path": "geos-sdk-files.json",
+      "bytes": 65762,
+      "sha256": "b33300fe0fda396f9bb0c156a6da4470c37fcf7c0f318bd8b0e61062d2c84244"
+    },
+    {
+      "path": "interpretation.md",
+      "bytes": 3431,
+      "sha256": "4d5ee853d03c75dbf998e35b0fa81966ee065895cd19173a1b54d6ff885d4e38"
+    },
+    {
+      "path": "native-tests-command.json",
+      "bytes": 512,
+      "sha256": "b1da703dbbb9719c4f6940707717a187a2047fdf33207880a05a559802bda243"
+    },
+    {
+      "path": "native-tests.log",
+      "bytes": 427,
+      "sha256": "c1f44962075d0acdf5644efa54c41568789d0a0dd782aecc43487dcf403a87d3"
+    },
+    {
+      "path": "native-tests.xml",
+      "bytes": 1120,
+      "sha256": "f81ead56179f02a19605552c346c98a20110382076ec38dd2ba76f9135c2d4fe"
+    },
+    {
+      "path": "off-before-CMakeCache.txt",
+      "bytes": 41519,
+      "sha256": "25fc43b177953dede8db2c37bec9c37090c278b71366e9e1ff7595257e7dbd39"
+    },
+    {
+      "path": "off-build-command.json",
+      "bytes": 528,
+      "sha256": "3378202983ceb718d05ddde62ef3ff7a8fb680eac8431f56b6a9b3cddc680615"
+    },
+    {
+      "path": "off-build.log",
+      "bytes": 28194,
+      "sha256": "1ef503225e67b479d30b1fc5d315e07ce01a7cf67221141f0507e2e1ab6804a7"
+    },
+    {
+      "path": "off-build_manifest.hpp",
+      "bytes": 706,
+      "sha256": "50fb26ffa8af0027f03d533f3f9725ff9fa03bb8d59ac3030993b6e4bee0350f"
+    },
+    {
+      "path": "off-CMakeCache.txt",
+      "bytes": 41519,
+      "sha256": "25fc43b177953dede8db2c37bec9c37090c278b71366e9e1ff7595257e7dbd39"
+    },
+    {
+      "path": "off-native-tests-command.json",
+      "bytes": 514,
+      "sha256": "04589f62eb04bf0bb4952bf05d925dd4fde696989ae3f9cca4caa3dc63f6beb7"
+    },
+    {
+      "path": "off-native-tests.log",
+      "bytes": 425,
+      "sha256": "b1325a85ee0251f80c93406b33c6f8f8691fafca0496b631c78396ab7ff5dd4b"
+    },
+    {
+      "path": "off-native-tests.xml",
+      "bytes": 1110,
+      "sha256": "64a0a3a4d3f36880a154d11eb0a89c05d251561be40df236febc76f4ca800067"
+    },
+    {
+      "path": "off-previous-products.json",
+      "bytes": 3564,
+      "sha256": "d7c9cde520ce004f4001e2185820e10bcefdcdbde2f0fba87e1c7b4b6d36ace5"
+    },
+    {
+      "path": "off-products.json",
+      "bytes": 823,
+      "sha256": "60c6ae13d9f864c4ae9394d8536da1894df663edf646fd3cec669178f39a233b"
+    },
+    {
+      "path": "on-build_manifest.hpp",
+      "bytes": 706,
+      "sha256": "bd6b4daa4baeaf8e36f9da8997f49be80c3203a83aaf8e14d7d7040a1dbccaef"
+    },
+    {
+      "path": "on-CMakeCache.txt",
+      "bytes": 43624,
+      "sha256": "3cef50a49d9fce3686cb48441838e3e8c0580fb19fac7985c2fb30d33a6bf945"
+    },
+    {
+      "path": "on-products.json",
+      "bytes": 823,
+      "sha256": "7d6fc6a53c6b84a02d873912c3cc19b9017206bdd799e24632108c2c43771e26"
+    },
+    {
+      "path": "opencv-sdk-files.json",
+      "bytes": 22441,
+      "sha256": "7156e582c52b3b263496ddf120f53ab0989274f1e76d37c04ea70e66251a5ac6"
+    },
+    {
+      "path": "previous-products.json",
+      "bytes": 11415,
+      "sha256": "656187ba9a085c1741b34e67171536e9eefaa10076f12d7c52bf00c17bfd087c"
+    },
+    {
+      "path": "raw-source-proof.json",
+      "bytes": 117183,
+      "sha256": "ad25facf965622d748b0340d1eb0b505afbc29bddbc65e19f7bf599385a87bb8"
+    }
+  ]
+}

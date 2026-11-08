@@ -1,0 +1,35 @@
+{
+  "schema": "qpx.raw-replay-macos-diagnostic/1",
+  "source": "c3c19a91b6bcf5470863d416379d3eb08755c3d2",
+  "ref": "feature/raw-replay-macos-diagnostic-238",
+  "purpose": "Locate the Mac arm64 replay failure and preserve compiled programs before CTest; not full T5 qualification.",
+  "semantic_inputs": {
+    "macos_native": true,
+    "portable_linux": false,
+    "live_reference": false,
+    "extended_readers": false
+  },
+  "wire_inputs": {
+    "macos_native": "true",
+    "portable_linux": "false",
+    "live_reference": "false",
+    "extended_readers": "false"
+  },
+  "preflight_controls": 164,
+  "source_proof_sha256": "209492b4292366a4fdc5a3bf123b8e124853bd7209c5841ea20fb7589f217e28",
+  "state": "run_identified",
+  "attempted_at_utc": "2026-10-26T18:26:12.317934+00:00",
+  "known_runs_before": [],
+  "complete_campaign_accepted": false,
+  "release_ready": false,
+  "returncode": 0,
+  "stdout": "",
+  "stderr": "",
+  "run": {
+    "conclusion": "",
+    "databaseId": 40377716087,
+    "headSha": "c3c19a91b6bcf5470863d416379d3eb08755c3d2",
+    "status": "queued",
+    "url": "https://github.com/bipxx/qupathxx/actions/runs/40377716087"
+  }
+}

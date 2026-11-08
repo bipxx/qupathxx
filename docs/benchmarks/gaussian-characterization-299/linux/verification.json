@@ -1,0 +1,343 @@
+{
+  "schema": "qpx.qupath-gaussian-verification/1",
+  "cases": [
+    {
+      "name": "roi-sigma1",
+      "shape": [
+        128,
+        192
+      ],
+      "sigma": 1.0,
+      "laplacian_from_blur_exact": true
+    },
+    {
+      "name": "constant-0.25",
+      "shape": [
+        9,
+        11
+      ],
+      "sigma": 0.25,
+      "laplacian_from_blur_exact": true
+    },
+    {
+      "name": "constant-1.0",
+      "shape": [
+        9,
+        11
+      ],
+      "sigma": 1.0,
+      "laplacian_from_blur_exact": true
+    },
+    {
+      "name": "constant-2.0",
+      "shape": [
+        9,
+        11
+      ],
+      "sigma": 2.0,
+      "laplacian_from_blur_exact": true
+    },
+    {
+      "name": "constant-8.5",
+      "shape": [
+        9,
+        11
+      ],
+      "sigma": 8.5,
+      "laplacian_from_blur_exact": true
+    },
+    {
+      "name": "constant-8.500001",
+      "shape": [
+        9,
+        11
+      ],
+      "sigma": 8.500001,
+      "laplacian_from_blur_exact": true
+    },
+    {
+      "name": "constant-16.0",
+      "shape": [
+        9,
+        11
+      ],
+      "sigma": 16.0,
+      "laplacian_from_blur_exact": true
+    },
+    {
+      "name": "edge-impulse-0.25",
+      "shape": [
+        9,
+        11
+      ],
+      "sigma": 0.25,
+      "laplacian_from_blur_exact": true
+    },
+    {
+      "name": "edge-impulse-1.0",
+      "shape": [
+        9,
+        11
+      ],
+      "sigma": 1.0,
+      "laplacian_from_blur_exact": true
+    },
+    {
+      "name": "edge-impulse-2.0",
+      "shape": [
+        9,
+        11
+      ],
+      "sigma": 2.0,
+      "laplacian_from_blur_exact": true
+    },
+    {
+      "name": "edge-impulse-8.5",
+      "shape": [
+        9,
+        11
+      ],
+      "sigma": 8.5,
+      "laplacian_from_blur_exact": true
+    },
+    {
+      "name": "edge-impulse-8.500001",
+      "shape": [
+        9,
+        11
+      ],
+      "sigma": 8.500001,
+      "laplacian_from_blur_exact": true
+    },
+    {
+      "name": "edge-impulse-16.0",
+      "shape": [
+        9,
+        11
+      ],
+      "sigma": 16.0,
+      "laplacian_from_blur_exact": true
+    },
+    {
+      "name": "center-impulse-0.25",
+      "shape": [
+        9,
+        11
+      ],
+      "sigma": 0.25,
+      "laplacian_from_blur_exact": true
+    },
+    {
+      "name": "center-impulse-1.0",
+      "shape": [
+        9,
+        11
+      ],
+      "sigma": 1.0,
+      "laplacian_from_blur_exact": true
+    },
+    {
+      "name": "center-impulse-2.0",
+      "shape": [
+        9,
+        11
+      ],
+      "sigma": 2.0,
+      "laplacian_from_blur_exact": true
+    },
+    {
+      "name": "center-impulse-8.5",
+      "shape": [
+        9,
+        11
+      ],
+      "sigma": 8.5,
+      "laplacian_from_blur_exact": true
+    },
+    {
+      "name": "center-impulse-8.500001",
+      "shape": [
+        9,
+        11
+      ],
+      "sigma": 8.500001,
+      "laplacian_from_blur_exact": true
+    },
+    {
+      "name": "center-impulse-16.0",
+      "shape": [
+        9,
+        11
+      ],
+      "sigma": 16.0,
+      "laplacian_from_blur_exact": true
+    },
+    {
+      "name": "ramp-0.25",
+      "shape": [
+        17,
+        19
+      ],
+      "sigma": 0.25,
+      "laplacian_from_blur_exact": true
+    },
+    {
+      "name": "ramp-1.0",
+      "shape": [
+        17,
+        19
+      ],
+      "sigma": 1.0,
+      "laplacian_from_blur_exact": true
+    },
+    {
+      "name": "ramp-2.0",
+      "shape": [
+        17,
+        19
+      ],
+      "sigma": 2.0,
+      "laplacian_from_blur_exact": true
+    },
+    {
+      "name": "ramp-8.5",
+      "shape": [
+        17,
+        19
+      ],
+      "sigma": 8.5,
+      "laplacian_from_blur_exact": true
+    },
+    {
+      "name": "ramp-8.500001",
+      "shape": [
+        17,
+        19
+      ],
+      "sigma": 8.500001,
+      "laplacian_from_blur_exact": true
+    },
+    {
+      "name": "ramp-16.0",
+      "shape": [
+        17,
+        19
+      ],
+      "sigma": 16.0,
+      "laplacian_from_blur_exact": true
+    },
+    {
+      "name": "vertical-0.25",
+      "shape": [
+        9,
+        1
+      ],
+      "sigma": 0.25,
+      "laplacian_from_blur_exact": true
+    },
+    {
+      "name": "vertical-1.0",
+      "shape": [
+        9,
+        1
+      ],
+      "sigma": 1.0,
+      "laplacian_from_blur_exact": true
+    },
+    {
+      "name": "vertical-2.0",
+      "shape": [
+        9,
+        1
+      ],
+      "sigma": 2.0,
+      "laplacian_from_blur_exact": true
+    },
+    {
+      "name": "vertical-8.5",
+      "shape": [
+        9,
+        1
+      ],
+      "sigma": 8.5,
+      "laplacian_from_blur_exact": true
+    },
+    {
+      "name": "vertical-8.500001",
+      "shape": [
+        9,
+        1
+      ],
+      "sigma": 8.500001,
+      "laplacian_from_blur_exact": true
+    },
+    {
+      "name": "vertical-16.0",
+      "shape": [
+        9,
+        1
+      ],
+      "sigma": 16.0,
+      "laplacian_from_blur_exact": true
+    },
+    {
+      "name": "horizontal-0.25",
+      "shape": [
+        1,
+        9
+      ],
+      "sigma": 0.25,
+      "laplacian_from_blur_exact": true
+    },
+    {
+      "name": "horizontal-1.0",
+      "shape": [
+        1,
+        9
+      ],
+      "sigma": 1.0,
+      "laplacian_from_blur_exact": true
+    },
+    {
+      "name": "horizontal-2.0",
+      "shape": [
+        1,
+        9
+      ],
+      "sigma": 2.0,
+      "laplacian_from_blur_exact": true
+    },
+    {
+      "name": "horizontal-8.5",
+      "shape": [
+        1,
+        9
+      ],
+      "sigma": 8.5,
+      "laplacian_from_blur_exact": true
+    },
+    {
+      "name": "horizontal-8.500001",
+      "shape": [
+        1,
+        9
+      ],
+      "sigma": 8.500001,
+      "laplacian_from_blur_exact": true
+    },
+    {
+      "name": "horizontal-16.0",
+      "shape": [
+        1,
+        9
+      ],
+      "sigma": 16.0,
+      "laplacian_from_blur_exact": true
+    }
+  ],
+  "original_roi_log_exact": true,
+  "manifest_sha256": "75b50aa374b15922a98e466e4237425c93620e57bdff1d37e924e00330cdbe30",
+  "native_recipe_changed": false,
+  "segmentation_parity_accepted": false,
+  "biological_validation": false
+}

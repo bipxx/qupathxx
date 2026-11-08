@@ -56,7 +56,7 @@ def test_managed_raw_measure_keep_verify_export_and_save(tmp_path):
 
 def test_desktop_raw_batch_captures_requested_axes_and_reuses_checkpoint(tmp_path):
     from test_gui_batch import options as batch_options
-    project,image,values=scene(tmp_path);doc=project.document(image);doc.add_rectangle(q.Rect(0,0,4,4))
+    project,image,values=scene(tmp_path);doc=project.document(image);obj=doc.add_rectangle(q.Rect(0,0,4,4));doc.set_object_plane(obj,q.ObjectPlane(-1,2,1))
     preset=q.ProjectBatchOptions();preset.kind=q.ProjectBatchKind.RAW;preset.raw_follow_display=False
     preset.raw.z=2;preset.raw.t=1;preset.raw.channels=2
     for attempt in range(2):

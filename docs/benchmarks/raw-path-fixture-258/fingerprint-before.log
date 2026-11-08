@@ -1,0 +1,21 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+__________ test_long_windows_input_preserves_logical_path_and_digest __________
+
+tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4256/test_long_windows_input_preser0')
+
+    @pytest.mark.skipif(os.name!="nt",reason="Windows extended-path file input")
+    def test_long_windows_input_preserves_logical_path_and_digest(tmp_path):
+        logical=tmp_path/("input-"+"a"*100)/("nested-"+"b"*100)/"\u96ea.bin"
+        text=str(logical.absolute())
+        physical=Path("\\\\?\\UNC\\"+text[2:] if text.startswith("\\\\") else "\\\\?\\"+text)
+        physical.parent.mkdir(parents=True)
+        data=b"long-path fingerprint\x00"*4096;physical.write_bytes(data)
+>       value=q.fingerprint_file(text)
+              ^^^^^^^^^^^^^^^^^^^^^^^^
+E       RuntimeError: file fingerprint input is missing or not a regular file
+
+tests\test_file_fingerprint.py:23: RuntimeError
+=========================== short test summary info ===========================
+FAILED tests/test_file_fingerprint.py::test_long_windows_input_preserves_logical_path_and_digest
+1 failed in 0.27s

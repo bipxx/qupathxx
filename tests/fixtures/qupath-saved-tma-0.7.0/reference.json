@@ -1,0 +1,1433 @@
+[
+  {
+    "name": "grid",
+    "columns": 3,
+    "rows": 2,
+    "core_ids": [
+      "322c7efa-2968-4be2-a32d-c20f501219d4",
+      "79a63238-7d58-4c66-b6fb-106c22152d4c",
+      "17856f4f-091c-4a69-9cd7-e04d01e16da1",
+      "967bb7de-004a-43b3-8c48-8b447515d1e0",
+      "b2480df6-b9ca-4da4-817e-30ca2288d8f7",
+      "ed281e46-351b-4073-9a47-ff1804f4ef92"
+    ],
+    "objects": [
+      {
+        "id": "ed281e46-351b-4073-9a47-ff1804f4ef92",
+        "parent": null,
+        "name": "Unassigned",
+        "kind": "tma",
+        "bounds": [
+          42.5,
+          26.0,
+          9.75,
+          11.5
+        ],
+        "area": 88.06276907093888,
+        "plane": [
+          -1,
+          0,
+          0
+        ],
+        "case_id": "",
+        "missing": false,
+        "metadata": {
+          "note": "core-5"
+        },
+        "measurements": {
+          "Imported score": 5.5
+        },
+        "classification": null,
+        "locked": false,
+        "color": null,
+        "nucleus_area": null
+      },
+      {
+        "id": "b2480df6-b9ca-4da4-817e-30ca2288d8f7",
+        "parent": null,
+        "name": "Comma, core",
+        "kind": "tma",
+        "bounds": [
+          24.0,
+          25.875,
+          9.5,
+          11.25
+        ],
+        "area": 83.93942871310227,
+        "plane": [
+          -1,
+          0,
+          0
+        ],
+        "case_id": "comma, value",
+        "missing": true,
+        "metadata": {
+          "Case ID": "comma, value",
+          "note": "core-4"
+        },
+        "measurements": {
+          "Imported score": 4.5
+        },
+        "classification": null,
+        "locked": false,
+        "color": null,
+        "nucleus_area": null
+      },
+      {
+        "id": "967bb7de-004a-43b3-8c48-8b447515d1e0",
+        "parent": null,
+        "name": "Skipped",
+        "kind": "tma",
+        "bounds": [
+          5.5,
+          25.75,
+          9.25,
+          11.0
+        ],
+        "area": 79.91426312569037,
+        "plane": [
+          -1,
+          0,
+          0
+        ],
+        "case_id": "case α",
+        "missing": false,
+        "metadata": {
+          "Case ID": "case α",
+          "note": "core-3"
+        },
+        "measurements": {
+          "Imported score": 3.5
+        },
+        "classification": null,
+        "locked": false,
+        "color": null,
+        "nucleus_area": null
+      },
+      {
+        "id": "833cc1e6-debc-4026-a5f7-6c298545fe1c",
+        "parent": "967bb7de-004a-43b3-8c48-8b447515d1e0",
+        "name": "Nested cell",
+        "kind": "cell",
+        "bounds": [
+          8.125,
+          29.25,
+          4.0,
+          4.0
+        ],
+        "area": 12.566370614359172,
+        "plane": [
+          -1,
+          0,
+          0
+        ],
+        "case_id": null,
+        "missing": null,
+        "metadata": {},
+        "measurements": {},
+        "classification": "Tumor",
+        "locked": false,
+        "color": null,
+        "nucleus_area": 0.7853981633974483
+      },
+      {
+        "id": "17856f4f-091c-4a69-9cd7-e04d01e16da1",
+        "parent": null,
+        "name": "Replicate",
+        "kind": "tma",
+        "bounds": [
+          42.25,
+          5.75,
+          9.0,
+          10.75
+        ],
+        "area": 75.98727230870313,
+        "plane": [
+          -1,
+          0,
+          0
+        ],
+        "case_id": "",
+        "missing": false,
+        "metadata": {
+          "note": "core-2"
+        },
+        "measurements": {
+          "Imported score": 2.5
+        },
+        "classification": null,
+        "locked": false,
+        "color": null,
+        "nucleus_area": null
+      },
+      {
+        "id": "45321290-6271-41fd-b03d-c234c25d8610",
+        "parent": "17856f4f-091c-4a69-9cd7-e04d01e16da1",
+        "name": "Nested detection",
+        "kind": "detection",
+        "bounds": [
+          45.75,
+          10.125,
+          2.0,
+          2.0
+        ],
+        "area": 4.0,
+        "plane": [
+          -1,
+          0,
+          0
+        ],
+        "case_id": null,
+        "missing": null,
+        "metadata": {},
+        "measurements": {},
+        "classification": "Tumor",
+        "locked": false,
+        "color": null,
+        "nucleus_area": null
+      },
+      {
+        "id": "79a63238-7d58-4c66-b6fb-106c22152d4c",
+        "parent": null,
+        "name": "Replicate",
+        "kind": "tma",
+        "bounds": [
+          23.75,
+          5.625,
+          8.75,
+          10.5
+        ],
+        "area": 72.15845626214056,
+        "plane": [
+          -1,
+          0,
+          0
+        ],
+        "case_id": "case-one",
+        "missing": true,
+        "metadata": {
+          "Case ID": "case-one",
+          "note": "core-1"
+        },
+        "measurements": {
+          "Imported score": 1.5
+        },
+        "classification": null,
+        "locked": false,
+        "color": null,
+        "nucleus_area": null
+      },
+      {
+        "id": "322c7efa-2968-4be2-a32d-c20f501219d4",
+        "parent": null,
+        "name": "Core α",
+        "kind": "tma",
+        "bounds": [
+          5.25,
+          5.5,
+          8.5,
+          10.25
+        ],
+        "area": 68.42781498600269,
+        "plane": [
+          -1,
+          0,
+          0
+        ],
+        "case_id": "case-one",
+        "missing": false,
+        "metadata": {
+          "Case ID": "case-one",
+          "note": "core-0"
+        },
+        "measurements": {
+          "Imported score": 0.5
+        },
+        "classification": "Tumor",
+        "locked": true,
+        "color": 1193046,
+        "nucleus_area": null
+      },
+      {
+        "id": "429a7986-b925-4375-bec0-8953baffc1e5",
+        "parent": "322c7efa-2968-4be2-a32d-c20f501219d4",
+        "name": "Nested annotation",
+        "kind": "annotation",
+        "bounds": [
+          8.5,
+          9.625,
+          2.0,
+          2.0
+        ],
+        "area": 4.0,
+        "plane": [
+          -1,
+          0,
+          0
+        ],
+        "case_id": null,
+        "missing": null,
+        "metadata": {},
+        "measurements": {},
+        "classification": "Tumor",
+        "locked": false,
+        "color": null,
+        "nucleus_area": null
+      },
+      {
+        "id": "4745bdbe-85fd-4a35-ba0d-28b5fca8d9c7",
+        "parent": "429a7986-b925-4375-bec0-8953baffc1e5",
+        "name": "Grandchild",
+        "kind": "annotation",
+        "bounds": [
+          9.5,
+          10.625,
+          0.0,
+          0.0
+        ],
+        "area": 0.0,
+        "plane": [
+          -1,
+          0,
+          0
+        ],
+        "case_id": null,
+        "missing": null,
+        "metadata": {},
+        "measurements": {},
+        "classification": null,
+        "locked": false,
+        "color": null,
+        "nucleus_area": null
+      },
+      {
+        "id": "87b98db7-6dee-48e0-98b9-27e5c27d7bad",
+        "parent": null,
+        "name": "Outside",
+        "kind": "annotation",
+        "bounds": [
+          1.0,
+          41.0,
+          3.0,
+          3.0
+        ],
+        "area": 9.0,
+        "plane": [
+          -1,
+          0,
+          0
+        ],
+        "case_id": null,
+        "missing": null,
+        "metadata": {},
+        "measurements": {},
+        "classification": null,
+        "locked": false,
+        "color": null,
+        "nucleus_area": null
+      }
+    ]
+  },
+  {
+    "name": "legacy-case",
+    "columns": 3,
+    "rows": 2,
+    "core_ids": [
+      "824b73df-cd2a-472e-bf67-0dce87d53a5c",
+      "53ff79c4-f397-4f78-9264-793ca8f39e47",
+      "b4d8eefa-2d3e-4067-b940-729ac38975a6",
+      "1c3963ad-c8b4-496a-bc5d-e334743cf29b",
+      "3151df1b-81f7-4324-b9f0-4b44d919b7f2",
+      "a78e3f5c-d5f7-495a-92c1-4e74ddc1d416"
+    ],
+    "objects": [
+      {
+        "id": "a78e3f5c-d5f7-495a-92c1-4e74ddc1d416",
+        "parent": null,
+        "name": "Unassigned",
+        "kind": "tma",
+        "bounds": [
+          42.5,
+          26.0,
+          9.75,
+          11.5
+        ],
+        "area": 88.06276907093888,
+        "plane": [
+          -1,
+          0,
+          0
+        ],
+        "case_id": "legacy α",
+        "missing": false,
+        "metadata": {
+          "Case ID": "legacy α",
+          "Unique ID": "legacy α",
+          "note": "core-5"
+        },
+        "measurements": {
+          "Imported score": 5.5
+        },
+        "classification": null,
+        "locked": false,
+        "color": null,
+        "nucleus_area": null
+      },
+      {
+        "id": "3151df1b-81f7-4324-b9f0-4b44d919b7f2",
+        "parent": null,
+        "name": "Comma, core",
+        "kind": "tma",
+        "bounds": [
+          24.0,
+          25.875,
+          9.5,
+          11.25
+        ],
+        "area": 83.93942871310227,
+        "plane": [
+          -1,
+          0,
+          0
+        ],
+        "case_id": "comma, value",
+        "missing": true,
+        "metadata": {
+          "Case ID": "comma, value",
+          "note": "core-4"
+        },
+        "measurements": {
+          "Imported score": 4.5
+        },
+        "classification": null,
+        "locked": false,
+        "color": null,
+        "nucleus_area": null
+      },
+      {
+        "id": "1c3963ad-c8b4-496a-bc5d-e334743cf29b",
+        "parent": null,
+        "name": "Skipped",
+        "kind": "tma",
+        "bounds": [
+          5.5,
+          25.75,
+          9.25,
+          11.0
+        ],
+        "area": 79.91426312569037,
+        "plane": [
+          -1,
+          0,
+          0
+        ],
+        "case_id": "case α",
+        "missing": false,
+        "metadata": {
+          "Case ID": "case α",
+          "note": "core-3"
+        },
+        "measurements": {
+          "Imported score": 3.5
+        },
+        "classification": null,
+        "locked": false,
+        "color": null,
+        "nucleus_area": null
+      },
+      {
+        "id": "4189e324-a07a-4fb5-957a-1132e0bbfbe7",
+        "parent": "1c3963ad-c8b4-496a-bc5d-e334743cf29b",
+        "name": "Nested cell",
+        "kind": "cell",
+        "bounds": [
+          8.125,
+          29.25,
+          4.0,
+          4.0
+        ],
+        "area": 12.566370614359172,
+        "plane": [
+          -1,
+          0,
+          0
+        ],
+        "case_id": null,
+        "missing": null,
+        "metadata": {},
+        "measurements": {},
+        "classification": "Tumor",
+        "locked": false,
+        "color": null,
+        "nucleus_area": 0.7853981633974483
+      },
+      {
+        "id": "b4d8eefa-2d3e-4067-b940-729ac38975a6",
+        "parent": null,
+        "name": "Replicate",
+        "kind": "tma",
+        "bounds": [
+          42.25,
+          5.75,
+          9.0,
+          10.75
+        ],
+        "area": 75.98727230870313,
+        "plane": [
+          -1,
+          0,
+          0
+        ],
+        "case_id": "",
+        "missing": false,
+        "metadata": {
+          "note": "core-2"
+        },
+        "measurements": {
+          "Imported score": 2.5
+        },
+        "classification": null,
+        "locked": false,
+        "color": null,
+        "nucleus_area": null
+      },
+      {
+        "id": "c75825cc-2c3f-41b2-8658-974a8ea12c30",
+        "parent": "b4d8eefa-2d3e-4067-b940-729ac38975a6",
+        "name": "Nested detection",
+        "kind": "detection",
+        "bounds": [
+          45.75,
+          10.125,
+          2.0,
+          2.0
+        ],
+        "area": 4.0,
+        "plane": [
+          -1,
+          0,
+          0
+        ],
+        "case_id": null,
+        "missing": null,
+        "metadata": {},
+        "measurements": {},
+        "classification": "Tumor",
+        "locked": false,
+        "color": null,
+        "nucleus_area": null
+      },
+      {
+        "id": "53ff79c4-f397-4f78-9264-793ca8f39e47",
+        "parent": null,
+        "name": "Replicate",
+        "kind": "tma",
+        "bounds": [
+          23.75,
+          5.625,
+          8.75,
+          10.5
+        ],
+        "area": 72.15845626214056,
+        "plane": [
+          -1,
+          0,
+          0
+        ],
+        "case_id": "case-one",
+        "missing": true,
+        "metadata": {
+          "Case ID": "case-one",
+          "note": "core-1"
+        },
+        "measurements": {
+          "Imported score": 1.5
+        },
+        "classification": null,
+        "locked": false,
+        "color": null,
+        "nucleus_area": null
+      },
+      {
+        "id": "824b73df-cd2a-472e-bf67-0dce87d53a5c",
+        "parent": null,
+        "name": "Core α",
+        "kind": "tma",
+        "bounds": [
+          5.25,
+          5.5,
+          8.5,
+          10.25
+        ],
+        "area": 68.42781498600269,
+        "plane": [
+          -1,
+          0,
+          0
+        ],
+        "case_id": "case-one",
+        "missing": false,
+        "metadata": {
+          "Case ID": "case-one",
+          "note": "core-0"
+        },
+        "measurements": {
+          "Imported score": 0.5
+        },
+        "classification": "Tumor",
+        "locked": true,
+        "color": 1193046,
+        "nucleus_area": null
+      },
+      {
+        "id": "c02d814a-4d3d-41a4-9212-a212919f9aef",
+        "parent": "824b73df-cd2a-472e-bf67-0dce87d53a5c",
+        "name": "Nested annotation",
+        "kind": "annotation",
+        "bounds": [
+          8.5,
+          9.625,
+          2.0,
+          2.0
+        ],
+        "area": 4.0,
+        "plane": [
+          -1,
+          0,
+          0
+        ],
+        "case_id": null,
+        "missing": null,
+        "metadata": {},
+        "measurements": {},
+        "classification": "Tumor",
+        "locked": false,
+        "color": null,
+        "nucleus_area": null
+      },
+      {
+        "id": "354ae632-c89a-4ce4-9831-a6be26f3c167",
+        "parent": "c02d814a-4d3d-41a4-9212-a212919f9aef",
+        "name": "Grandchild",
+        "kind": "annotation",
+        "bounds": [
+          9.5,
+          10.625,
+          0.0,
+          0.0
+        ],
+        "area": 0.0,
+        "plane": [
+          -1,
+          0,
+          0
+        ],
+        "case_id": null,
+        "missing": null,
+        "metadata": {},
+        "measurements": {},
+        "classification": null,
+        "locked": false,
+        "color": null,
+        "nucleus_area": null
+      },
+      {
+        "id": "fa1f0cc4-ffbe-4227-b9c2-ee36733d4e76",
+        "parent": null,
+        "name": "Outside",
+        "kind": "annotation",
+        "bounds": [
+          1.0,
+          41.0,
+          3.0,
+          3.0
+        ],
+        "area": 9.0,
+        "plane": [
+          -1,
+          0,
+          0
+        ],
+        "case_id": null,
+        "missing": null,
+        "metadata": {},
+        "measurements": {},
+        "classification": null,
+        "locked": false,
+        "color": null,
+        "nucleus_area": null
+      }
+    ]
+  },
+  {
+    "name": "ragged-grid",
+    "columns": 3,
+    "rows": 1,
+    "core_ids": [
+      "c594e9a1-fbfe-43fa-ace4-79ef5d052938",
+      "3a6f2084-ac35-4bff-9d01-d08895745ce5",
+      "5c378286-9937-4019-8ac1-09b2d87266dc",
+      "27729c03-51c7-47df-a984-969e0590279a",
+      "5141c406-c39a-4a98-a581-5c15b752fd00"
+    ],
+    "objects": [
+      {
+        "id": "c594e9a1-fbfe-43fa-ace4-79ef5d052938",
+        "parent": null,
+        "name": "Core α",
+        "kind": "tma",
+        "bounds": [
+          5.25,
+          5.5,
+          8.5,
+          10.25
+        ],
+        "area": 68.42781498600269,
+        "plane": [
+          -1,
+          0,
+          0
+        ],
+        "case_id": "case-one",
+        "missing": false,
+        "metadata": {
+          "Case ID": "case-one",
+          "note": "core-0"
+        },
+        "measurements": {
+          "Imported score": 0.5
+        },
+        "classification": "Tumor",
+        "locked": true,
+        "color": 1193046,
+        "nucleus_area": null
+      },
+      {
+        "id": "3a6f2084-ac35-4bff-9d01-d08895745ce5",
+        "parent": null,
+        "name": "Replicate",
+        "kind": "tma",
+        "bounds": [
+          23.75,
+          5.625,
+          8.75,
+          10.5
+        ],
+        "area": 72.15845626214056,
+        "plane": [
+          -1,
+          0,
+          0
+        ],
+        "case_id": "case-one",
+        "missing": true,
+        "metadata": {
+          "Case ID": "case-one",
+          "note": "core-1"
+        },
+        "measurements": {
+          "Imported score": 1.5
+        },
+        "classification": null,
+        "locked": false,
+        "color": null,
+        "nucleus_area": null
+      },
+      {
+        "id": "5c378286-9937-4019-8ac1-09b2d87266dc",
+        "parent": null,
+        "name": "Replicate",
+        "kind": "tma",
+        "bounds": [
+          42.25,
+          5.75,
+          9.0,
+          10.75
+        ],
+        "area": 75.98727230870313,
+        "plane": [
+          -1,
+          0,
+          0
+        ],
+        "case_id": "",
+        "missing": false,
+        "metadata": {
+          "note": "core-2"
+        },
+        "measurements": {
+          "Imported score": 2.5
+        },
+        "classification": null,
+        "locked": false,
+        "color": null,
+        "nucleus_area": null
+      },
+      {
+        "id": "27729c03-51c7-47df-a984-969e0590279a",
+        "parent": null,
+        "name": "Skipped",
+        "kind": "tma",
+        "bounds": [
+          5.5,
+          25.75,
+          9.25,
+          11.0
+        ],
+        "area": 79.91426312569037,
+        "plane": [
+          -1,
+          0,
+          0
+        ],
+        "case_id": "case α",
+        "missing": false,
+        "metadata": {
+          "Case ID": "case α",
+          "note": "core-3"
+        },
+        "measurements": {
+          "Imported score": 3.5
+        },
+        "classification": null,
+        "locked": false,
+        "color": null,
+        "nucleus_area": null
+      },
+      {
+        "id": "5141c406-c39a-4a98-a581-5c15b752fd00",
+        "parent": null,
+        "name": "Comma, core",
+        "kind": "tma",
+        "bounds": [
+          24.0,
+          25.875,
+          9.5,
+          11.25
+        ],
+        "area": 83.93942871310227,
+        "plane": [
+          -1,
+          0,
+          0
+        ],
+        "case_id": "comma, value",
+        "missing": true,
+        "metadata": {
+          "Case ID": "comma, value",
+          "note": "core-4"
+        },
+        "measurements": {
+          "Imported score": 4.5
+        },
+        "classification": null,
+        "locked": false,
+        "color": null,
+        "nucleus_area": null
+      }
+    ]
+  },
+  {
+    "name": "duplicate-member",
+    "columns": 3,
+    "rows": 2,
+    "core_ids": [
+      "b1a51a79-eaa9-4f8f-99c6-ff9cf50b6244",
+      "b1a51a79-eaa9-4f8f-99c6-ff9cf50b6244",
+      "968ea31b-ce98-4482-bbd9-f8db3e82919a",
+      "d09f1c11-6349-4428-bb9e-ec8675d99e0c",
+      "9831ee5f-9688-4cc8-a377-ec71c8f9d760",
+      "3b39205b-66c8-481e-87ff-a49cb56cd7f6"
+    ],
+    "objects": [
+      {
+        "id": "b1a51a79-eaa9-4f8f-99c6-ff9cf50b6244",
+        "parent": null,
+        "name": "Core α",
+        "kind": "tma",
+        "bounds": [
+          5.25,
+          5.5,
+          8.5,
+          10.25
+        ],
+        "area": 68.42781498600269,
+        "plane": [
+          -1,
+          0,
+          0
+        ],
+        "case_id": "case-one",
+        "missing": false,
+        "metadata": {
+          "Case ID": "case-one",
+          "note": "core-0"
+        },
+        "measurements": {
+          "Imported score": 0.5
+        },
+        "classification": "Tumor",
+        "locked": true,
+        "color": 1193046,
+        "nucleus_area": null
+      },
+      {
+        "id": "968ea31b-ce98-4482-bbd9-f8db3e82919a",
+        "parent": null,
+        "name": "Replicate",
+        "kind": "tma",
+        "bounds": [
+          42.25,
+          5.75,
+          9.0,
+          10.75
+        ],
+        "area": 75.98727230870313,
+        "plane": [
+          -1,
+          0,
+          0
+        ],
+        "case_id": "",
+        "missing": false,
+        "metadata": {
+          "note": "core-2"
+        },
+        "measurements": {
+          "Imported score": 2.5
+        },
+        "classification": null,
+        "locked": false,
+        "color": null,
+        "nucleus_area": null
+      },
+      {
+        "id": "d09f1c11-6349-4428-bb9e-ec8675d99e0c",
+        "parent": null,
+        "name": "Skipped",
+        "kind": "tma",
+        "bounds": [
+          5.5,
+          25.75,
+          9.25,
+          11.0
+        ],
+        "area": 79.91426312569037,
+        "plane": [
+          -1,
+          0,
+          0
+        ],
+        "case_id": "case α",
+        "missing": false,
+        "metadata": {
+          "Case ID": "case α",
+          "note": "core-3"
+        },
+        "measurements": {
+          "Imported score": 3.5
+        },
+        "classification": null,
+        "locked": false,
+        "color": null,
+        "nucleus_area": null
+      },
+      {
+        "id": "9831ee5f-9688-4cc8-a377-ec71c8f9d760",
+        "parent": null,
+        "name": "Comma, core",
+        "kind": "tma",
+        "bounds": [
+          24.0,
+          25.875,
+          9.5,
+          11.25
+        ],
+        "area": 83.93942871310227,
+        "plane": [
+          -1,
+          0,
+          0
+        ],
+        "case_id": "comma, value",
+        "missing": true,
+        "metadata": {
+          "Case ID": "comma, value",
+          "note": "core-4"
+        },
+        "measurements": {
+          "Imported score": 4.5
+        },
+        "classification": null,
+        "locked": false,
+        "color": null,
+        "nucleus_area": null
+      },
+      {
+        "id": "3b39205b-66c8-481e-87ff-a49cb56cd7f6",
+        "parent": null,
+        "name": "Unassigned",
+        "kind": "tma",
+        "bounds": [
+          42.5,
+          26.0,
+          9.75,
+          11.5
+        ],
+        "area": 88.06276907093888,
+        "plane": [
+          -1,
+          0,
+          0
+        ],
+        "case_id": "",
+        "missing": false,
+        "metadata": {
+          "note": "core-5"
+        },
+        "measurements": {
+          "Imported score": 5.5
+        },
+        "classification": null,
+        "locked": false,
+        "color": null,
+        "nucleus_area": null
+      }
+    ]
+  },
+  {
+    "name": "orphan-core",
+    "columns": 3,
+    "rows": 2,
+    "core_ids": [
+      "56eda99d-3d28-43c2-8163-a4fa32dc3db6",
+      "e101efc5-d107-4faf-ab5f-e6d249d4fc41",
+      "ca4c1d78-e8bf-42dc-b583-3b3c0481a846",
+      "6e2e8b20-f95d-4301-92b1-0553799610e2",
+      "a7a3cb59-69d6-4f54-8124-8826aba4eb40",
+      "b654e725-7e94-4709-b987-ea46b250039c"
+    ],
+    "objects": [
+      {
+        "id": "56eda99d-3d28-43c2-8163-a4fa32dc3db6",
+        "parent": null,
+        "name": "Core α",
+        "kind": "tma",
+        "bounds": [
+          5.25,
+          5.5,
+          8.5,
+          10.25
+        ],
+        "area": 68.42781498600269,
+        "plane": [
+          -1,
+          0,
+          0
+        ],
+        "case_id": "case-one",
+        "missing": false,
+        "metadata": {
+          "Case ID": "case-one",
+          "note": "core-0"
+        },
+        "measurements": {
+          "Imported score": 0.5
+        },
+        "classification": "Tumor",
+        "locked": true,
+        "color": 1193046,
+        "nucleus_area": null
+      },
+      {
+        "id": "e101efc5-d107-4faf-ab5f-e6d249d4fc41",
+        "parent": null,
+        "name": "Replicate",
+        "kind": "tma",
+        "bounds": [
+          23.75,
+          5.625,
+          8.75,
+          10.5
+        ],
+        "area": 72.15845626214056,
+        "plane": [
+          -1,
+          0,
+          0
+        ],
+        "case_id": "case-one",
+        "missing": true,
+        "metadata": {
+          "Case ID": "case-one",
+          "note": "core-1"
+        },
+        "measurements": {
+          "Imported score": 1.5
+        },
+        "classification": null,
+        "locked": false,
+        "color": null,
+        "nucleus_area": null
+      },
+      {
+        "id": "ca4c1d78-e8bf-42dc-b583-3b3c0481a846",
+        "parent": null,
+        "name": "Replicate",
+        "kind": "tma",
+        "bounds": [
+          42.25,
+          5.75,
+          9.0,
+          10.75
+        ],
+        "area": 75.98727230870313,
+        "plane": [
+          -1,
+          0,
+          0
+        ],
+        "case_id": "",
+        "missing": false,
+        "metadata": {
+          "note": "core-2"
+        },
+        "measurements": {
+          "Imported score": 2.5
+        },
+        "classification": null,
+        "locked": false,
+        "color": null,
+        "nucleus_area": null
+      },
+      {
+        "id": "6e2e8b20-f95d-4301-92b1-0553799610e2",
+        "parent": null,
+        "name": "Skipped",
+        "kind": "tma",
+        "bounds": [
+          5.5,
+          25.75,
+          9.25,
+          11.0
+        ],
+        "area": 79.91426312569037,
+        "plane": [
+          -1,
+          0,
+          0
+        ],
+        "case_id": "case α",
+        "missing": false,
+        "metadata": {
+          "Case ID": "case α",
+          "note": "core-3"
+        },
+        "measurements": {
+          "Imported score": 3.5
+        },
+        "classification": null,
+        "locked": false,
+        "color": null,
+        "nucleus_area": null
+      },
+      {
+        "id": "a7a3cb59-69d6-4f54-8124-8826aba4eb40",
+        "parent": null,
+        "name": "Comma, core",
+        "kind": "tma",
+        "bounds": [
+          24.0,
+          25.875,
+          9.5,
+          11.25
+        ],
+        "area": 83.93942871310227,
+        "plane": [
+          -1,
+          0,
+          0
+        ],
+        "case_id": "comma, value",
+        "missing": true,
+        "metadata": {
+          "Case ID": "comma, value",
+          "note": "core-4"
+        },
+        "measurements": {
+          "Imported score": 4.5
+        },
+        "classification": null,
+        "locked": false,
+        "color": null,
+        "nucleus_area": null
+      },
+      {
+        "id": "b654e725-7e94-4709-b987-ea46b250039c",
+        "parent": null,
+        "name": "Unassigned",
+        "kind": "tma",
+        "bounds": [
+          42.5,
+          26.0,
+          9.75,
+          11.5
+        ],
+        "area": 88.06276907093888,
+        "plane": [
+          -1,
+          0,
+          0
+        ],
+        "case_id": "",
+        "missing": false,
+        "metadata": {
+          "note": "core-5"
+        },
+        "measurements": {
+          "Imported score": 5.5
+        },
+        "classification": null,
+        "locked": false,
+        "color": null,
+        "nucleus_area": null
+      },
+      {
+        "id": "55911f39-0104-452c-88bd-8dbaf0b5ae0c",
+        "parent": null,
+        "name": "Orphan core",
+        "kind": "tma",
+        "bounds": [
+          1.0,
+          41.0,
+          3.0,
+          3.0
+        ],
+        "area": 7.0685834705770345,
+        "plane": [
+          -1,
+          0,
+          0
+        ],
+        "case_id": "",
+        "missing": false,
+        "metadata": {},
+        "measurements": {},
+        "classification": null,
+        "locked": false,
+        "color": null,
+        "nucleus_area": null
+      }
+    ]
+  },
+  {
+    "name": "absent-member",
+    "columns": 3,
+    "rows": 2,
+    "core_ids": [
+      "71a89d85-a931-48fb-84be-8e67fc9934f6",
+      "3530cc9c-3f40-4120-bd19-26bdb88692a7",
+      "16efaa63-fb88-4529-b59c-d6e49bf21ad8",
+      "119c3b72-02ca-4f5e-a169-0e87c2c7ea76",
+      "466f5017-ba74-4cdc-aae7-2e8c0c7add89",
+      "deda6655-c7e1-42d0-bdb3-ca71661d6a8f"
+    ],
+    "objects": [
+      {
+        "id": "71a89d85-a931-48fb-84be-8e67fc9934f6",
+        "parent": null,
+        "name": "Core α",
+        "kind": "tma",
+        "bounds": [
+          5.25,
+          5.5,
+          8.5,
+          10.25
+        ],
+        "area": 68.42781498600269,
+        "plane": [
+          -1,
+          0,
+          0
+        ],
+        "case_id": "case-one",
+        "missing": false,
+        "metadata": {
+          "Case ID": "case-one",
+          "note": "core-0"
+        },
+        "measurements": {
+          "Imported score": 0.5
+        },
+        "classification": "Tumor",
+        "locked": true,
+        "color": 1193046,
+        "nucleus_area": null
+      },
+      {
+        "id": "3530cc9c-3f40-4120-bd19-26bdb88692a7",
+        "parent": null,
+        "name": "Replicate",
+        "kind": "tma",
+        "bounds": [
+          23.75,
+          5.625,
+          8.75,
+          10.5
+        ],
+        "area": 72.15845626214056,
+        "plane": [
+          -1,
+          0,
+          0
+        ],
+        "case_id": "case-one",
+        "missing": true,
+        "metadata": {
+          "Case ID": "case-one",
+          "note": "core-1"
+        },
+        "measurements": {
+          "Imported score": 1.5
+        },
+        "classification": null,
+        "locked": false,
+        "color": null,
+        "nucleus_area": null
+      },
+      {
+        "id": "16efaa63-fb88-4529-b59c-d6e49bf21ad8",
+        "parent": null,
+        "name": "Replicate",
+        "kind": "tma",
+        "bounds": [
+          42.25,
+          5.75,
+          9.0,
+          10.75
+        ],
+        "area": 75.98727230870313,
+        "plane": [
+          -1,
+          0,
+          0
+        ],
+        "case_id": "",
+        "missing": false,
+        "metadata": {
+          "note": "core-2"
+        },
+        "measurements": {
+          "Imported score": 2.5
+        },
+        "classification": null,
+        "locked": false,
+        "color": null,
+        "nucleus_area": null
+      },
+      {
+        "id": "119c3b72-02ca-4f5e-a169-0e87c2c7ea76",
+        "parent": null,
+        "name": "Skipped",
+        "kind": "tma",
+        "bounds": [
+          5.5,
+          25.75,
+          9.25,
+          11.0
+        ],
+        "area": 79.91426312569037,
+        "plane": [
+          -1,
+          0,
+          0
+        ],
+        "case_id": "case α",
+        "missing": false,
+        "metadata": {
+          "Case ID": "case α",
+          "note": "core-3"
+        },
+        "measurements": {
+          "Imported score": 3.5
+        },
+        "classification": null,
+        "locked": false,
+        "color": null,
+        "nucleus_area": null
+      },
+      {
+        "id": "466f5017-ba74-4cdc-aae7-2e8c0c7add89",
+        "parent": null,
+        "name": "Comma, core",
+        "kind": "tma",
+        "bounds": [
+          24.0,
+          25.875,
+          9.5,
+          11.25
+        ],
+        "area": 83.93942871310227,
+        "plane": [
+          -1,
+          0,
+          0
+        ],
+        "case_id": "comma, value",
+        "missing": true,
+        "metadata": {
+          "Case ID": "comma, value",
+          "note": "core-4"
+        },
+        "measurements": {
+          "Imported score": 4.5
+        },
+        "classification": null,
+        "locked": false,
+        "color": null,
+        "nucleus_area": null
+      }
+    ]
+  },
+  {
+    "name": "empty-grid",
+    "columns": 3,
+    "rows": 0,
+    "core_ids": [],
+    "objects": []
+  },
+  {
+    "name": "unlisted-core",
+    "columns": null,
+    "rows": null,
+    "core_ids": null,
+    "objects": [
+      {
+        "id": "4ba8ac41-ee0a-47c4-a14b-5d5fd31d374b",
+        "parent": null,
+        "name": "Orphan core",
+        "kind": "tma",
+        "bounds": [
+          1.0,
+          41.0,
+          3.0,
+          3.0
+        ],
+        "area": 7.0685834705770345,
+        "plane": [
+          -1,
+          0,
+          0
+        ],
+        "case_id": "",
+        "missing": false,
+        "metadata": {},
+        "measurements": {},
+        "classification": null,
+        "locked": false,
+        "color": null,
+        "nucleus_area": null
+      }
+    ]
+  }
+]

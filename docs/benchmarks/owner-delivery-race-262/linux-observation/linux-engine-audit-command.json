@@ -1,0 +1,27 @@
+{
+  "argv": [
+    "python",
+    "-X",
+    "utf8",
+    "tools/ci/accept_unified_engine.py",
+    "40646189840",
+    "e2282b8c782bfcc38fddc8aee86e28d833663dc3",
+    "--artifacts",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\q262-all",
+    "--output",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\owner-delivery-race-262\\linux-engine-acceptance.json",
+    "--linux-only",
+    "--ndpi-readers",
+    "--watershed-bodies",
+    "--sampled-shape",
+    "--sampled-cells",
+    "--small-frontier",
+    "--tma-cases",
+    "--tma-file-export",
+    "--tma-cohorts",
+    "--linux-runtime-manifest"
+  ],
+  "cwd": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\owner-delivery-qualification-262-audit",
+  "returncode": 0,
+  "seconds": 10.292635400081053
+}

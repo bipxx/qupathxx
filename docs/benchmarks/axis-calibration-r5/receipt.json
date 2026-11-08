@@ -1,0 +1,54 @@
+{
+  "requirement": "R5-CALIB1",
+  "product_source": "5c179651e4d1e265a1e04f11bb2acd4634d7a081",
+  "initial_product_source": "e5d39e44406f6b14c4e2195f217e604d1afe880a",
+  "platform": "Windows x64 CPython3.12 Release; GUI/TIFF/OpenSlide/GEOS/project/interchange enabled",
+  "fixture": "../../../tests/fixtures/qupath-axis-calibration-0.7.0/manifest.json",
+  "results": {
+    "initial_staged": {
+      "passed": 252,
+      "failed": 2,
+      "skipped": 12
+    },
+    "repaired_observers_at_initial_product": 2,
+    "initial_combined_unique_passes": 254,
+    "final_targeted_staged": {
+      "passed": 117,
+      "skipped": 5
+    },
+    "native_roles": 6,
+    "desktop": 1,
+    "installed_snapshot_upgrade": 1,
+    "installed_coordinate_missing_source_limits": 2,
+    "public_stubs": 5,
+    "positive_typing": true,
+    "expected_negative_diagnostics": 3
+  },
+  "reuse_scope": "Value/history/store/source-adoption and legacy Python downgrade inputs are unchanged from candidate1. Their original-source evidence is retained, not relabeled. Final decoder imports/refusals and rebuilt native migration roles are newly executed. Installed final smoke also covers snapshot/schema21 upgrade.",
+  "compiler_input_changes": [
+    "cpp/qupath_saved_data.cpp",
+    "cpp/tests/spatial_record_tests.cpp"
+  ],
+  "cost": {
+    "candidate_builds": 2,
+    "initial_build_seconds": 687.9628068001475,
+    "repaired_build_seconds": 41.083866300061345,
+    "stub_generations": 1,
+    "final_installs": 1,
+    "successful_first_capture_binaries_reused": 7
+  },
+  "limits": [
+    "Engineering axis retention, not full R5 interchange parity, biological accuracy, speed or supported-release acceptance.",
+    "Raw reader/acquisition metadata and historical analysis records are unchanged; no new 3D/temporal algorithms.",
+    "Version1/explicit GeoJSON retain their declared state loss; native direct/v2 use one decoder."
+  ],
+  "failures_retained": [
+    "NaN timestamp serialization refused by QuPath after seven successful saves.",
+    "Resume script CRLF edit failed at parsing; seven binaries reused by fixed resume.",
+    "Project-builder readout substituted source metadata; direct null-builder saved reference used.",
+    "Initial native decoder accepted missing time unit; fixed and nine permanent refusal controls pass.",
+    "Two observers guessed unsupported API names; repaired and targeted nodes passed.",
+    "Native legacy spatial table list expanded from18 to22; all21 older versions pass."
+  ],
+  "integrity": "integrity.json"
+}

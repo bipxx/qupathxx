@@ -1,30 +1,58 @@
-"""Labelled ROI training, saved resolution-bound recipe and source-aware prediction."""
+"""Train labelled project ROIs, save/reopen a native model and predict an ROI.
+
+python -I examples/pixel_workflow.py study.qpx new.qpc --image 1 --label 10 --label 11 --target 12
+Synthetic inputs and lifetime checks live in tools/demo_pixel_workflow.py.
+"""
+import argparse
+import json
 from pathlib import Path
-import tempfile
-import numpy as np
+
 import qupathxx as q
 
 
+def run(document: q.Document, annotation_ids: list[int], target_id: int, model_path: Path,
+        options: q.PixelTrainingOptions | None = None,
+        parameters: q.ForestParameters | None = None) -> q.PixelPredictionResult:
+    options = q.PixelTrainingOptions() if options is None else options
+    parameters = q.pixel_forest_parameters() if parameters is None else parameters
+    request = q.PixelTrainingRequest(document, annotation_ids, options=options)
+    training = q.PixelTrainingJob()
+    if not training.train(request, parameters):
+        raise RuntimeError('Native pixel training was not accepted')
+    status = training.wait(document)
+    model = training.model
+    if status.state != 'ready' or model is None:
+        raise RuntimeError(status.error or status.state)
+    q.save_pixel_classifier(model, str(model_path))
+    restored = q.load_pixel_classifier(str(model_path))
+    prediction = q.PixelPredictionJob()
+    if not prediction.request(q.PixelPredictionRequest(document, target_id, restored)):
+        raise RuntimeError('Native pixel prediction was not accepted')
+    status = prediction.wait(document)
+    result = prediction.result
+    if status.state != 'ready' or result is None:
+        raise RuntimeError(status.error or status.state)
+    return result
+
+
 def main():
-    rgb=np.empty((64,96,3),dtype=np.uint8);rgb[:,:48]=[220,30,10];rgb[:,48:]=[10,30,220]
-    doc=q.Document(q.Image.from_numpy(rgb));doc.set_calibration(.5,.5)
-    left=doc.add_roi(q.Roi.rectangle(q.Rect(0,0,48,64)));right=doc.add_roi(q.Roi.rectangle(q.Rect(48,0,48,64)))
-    doc.classify_objects([left],'red');doc.classify_objects([right],'blue')
-    options=q.PixelTrainingOptions();features=q.PixelFeatureOptions();features.sigmas=[0,1];options.features=features
-    parameters=q.ForestParameters();parameters.trees=16;parameters.max_depth=4
-    job=q.PixelTrainingJob();assert job.train(q.PixelTrainingRequest(doc,[left,right],options=options),parameters)
-    status=job.wait(doc)
-    if status.state!='ready' or job.model is None:raise RuntimeError(status.error)
-    with tempfile.TemporaryDirectory(prefix='qpx-pixel-workflow-') as folder:
-        path=str(Path(folder)/'pixel.qpc');q.save_pixel_classifier(job.model,path);model=q.load_pixel_classifier(path)
-    target=doc.add_roi(q.Roi.ellipse(q.Rect(4,4,88,56)))
-    prediction=q.PixelPredictionJob();assert prediction.request(q.PixelPredictionRequest(doc,target,model))
-    status=prediction.wait(doc);result=prediction.result
-    if status.state!='ready' or result is None:raise RuntimeError(status.error)
-    print(dict(classes=result.model.classes,counts=result.class_counts,valid_pixels=result.valid_pixels,sampling_um=model.resolution.pixel_width_um))
-    # Read-only owned masks survive controller retirement and source closure.
-    mask=result.labels_numpy();doc.rename_annotation(target,'Retire old prediction')
-    assert prediction.poll(doc).state=='stale';assert mask.any()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('project', type=Path)
+    parser.add_argument('model', type=Path, help='new native model; existing files are refused')
+    parser.add_argument('--image', type=int, required=True)
+    parser.add_argument('--label', type=int, action='append', required=True)
+    parser.add_argument('--target', type=int, required=True)
+    args = parser.parse_args()
+    project = q.Project.open_without_journal_recovery(str(args.project))
+    document = project.document(args.image)
+    try:
+        result = run(document, args.label, args.target, args.model)
+        print(json.dumps(dict(classes=result.model.classes, counts=result.class_counts,
+                              valid_pixels=result.valid_pixels, model=str(args.model),
+                              model_sha256=result.model.sha256, input_sha256=result.input_sha256)))
+    finally:
+        document.server.close()
 
 
-if __name__=='__main__':main()
+if __name__ == '__main__':
+    main()

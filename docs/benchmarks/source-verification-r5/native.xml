@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="5"
+	failures="1"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="3"
+	timestamp="2026-11-04T13:54:51"
+	>
+	<testcase name="file_fingerprint" classname="file_fingerprint" time="0.0784744" status="run">
+		<properties/>
+		<system-out>Namespace-stable locators, missing-source lexical comparison and incompatible/literal root fallback passed
+Streaming file digests, identity/stamp observations, limits, aliases and atomic worker files passed
+</system-out>
+	</testcase>
+	<testcase name="qupath_project" classname="qupath_project" time="0.108737" status="run">
+		<properties/>
+		<system-out>Native QuPath saved-data geometry, calibration, truncation, trailing bytes and cancellation passed
+QuPath project native preview, source guards, new publication and replay refusal passed
+</system-out>
+	</testcase>
+	<testcase name="spatial_records" classname="spatial_records" time="2.39443" status="run">
+		<properties/>
+		<system-out>Spatial retained records: exact capture authority, explicit cohorts, clone/replay, calibration/object staleness, closed source and historical ownership passed
+Spatial QSD1 archives: deterministic roundtrip, provenance/input/result identity, nullable rows, corruption/truncation/semantic refusal and cancellation passed
+Spatial CSV: float64 units/identity, absent versus zero, streaming atomic no-overwrite/replacement, limits/cancellation and temporary cleanup passed
+Spatial projects: schema15 save/reopen, immutable async save, history/reverification, snapshot budget, missing linked-image zero-IO replay and corrupt/orphan refusal passed
+Spatial migrations: all14 legacy schemas open without modification and transactionally upgrade with retained distance rows passed
+</system-out>
+	</testcase>
+	<testcase name="project" classname="project" time="0.0981691" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>source or dependency facts changed; explicit accept_changed is required
+</system-out>
+	</testcase>
+	<testcase name="interchange" classname="interchange" time="0.428028" status="run">
+		<properties/>
+		<system-out>Native nested GeoJSON hierarchy, nucleus, flat compatibility and depth bounds passed
+Native interchange atomicity and exact rectangle round trip passed
+</system-out>
+	</testcase>
+</testsuite>

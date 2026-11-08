@@ -1,0 +1,19 @@
+{
+  "origin": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawgui234-wheel312-env\\Lib\\site-packages\\qupathxx\\_native.cp312-win_amd64.pyd",
+  "module_sha256": "d85205d4825d5db22806c4e4222db9cc8c2d641cc87d34a0704da4651bc2857a",
+  "environment": {
+    "git_revision": "0dc916c8d0f527eeecce03ec852ed2772695b93b",
+    "source_tree_sha256": "718ef68c602569c75ebef62812962e1144a9c44a138ad71a183b58b537973c2c",
+    "compiler": "MSVC 19.44.35225.0",
+    "configuration": "Release",
+    "platform": "Windows AMD64",
+    "geos_version": "3.15.0-CAPI-1.21.0",
+    "gui": true,
+    "python": true
+  },
+  "capabilities": {
+    "tiff": true,
+    "geos": true,
+    "training": true
+  }
+}

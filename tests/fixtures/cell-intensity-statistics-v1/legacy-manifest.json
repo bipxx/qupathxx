@@ -1,0 +1,48 @@
+{
+  "source": "faa71c1fa6eb9e5bb6eab1ce11cb8389497d47d7",
+  "source_tree_sha256": "d342bd964caca0fc5cdccf1b640456fcf29eb5d293e1fe8cf9aa0a3998748644",
+  "provenance": "Reuses pinned nominal-cells-v1/source.rgb; one old-project witness for all natural recipes, area grid and exact nominal grid. No new pixel corpus.",
+  "file": "legacy-project.qpxproj",
+  "sha256": "f37c860604c5f8042cfad7d0574c0b5cfa7ef2bca4c3f948c840cad77625df71",
+  "source_rgb_sha256": "1d0be4f9c8d057876b650371b021cb93e7f3d8be63d90befb66037f1d4960443",
+  "image_id": 1,
+  "object_id": 1,
+  "records": [
+    {
+      "record_id": 3,
+      "algorithm": "qpx.distance-watershed/1",
+      "input_sha256": "3f626c695a83f3c939ae3e7a0de657f898265df05314ff342796f4a845e70453",
+      "cell_count": 2
+    },
+    {
+      "record_id": 4,
+      "algorithm": "qpx.log-watershed/1",
+      "input_sha256": "fb52d3f0821e99aed340d6080d8077e3af66433070b97c91625be8187f4fd8f8",
+      "cell_count": 3
+    },
+    {
+      "record_id": 5,
+      "algorithm": "qpx.log-watershed-bodies/1",
+      "input_sha256": "9c9a89e72c02a25558928fb13d1573182a246d54ed50428027dbd85d6f07b57e",
+      "cell_count": 3
+    },
+    {
+      "record_id": 6,
+      "algorithm": "qpx.sampled-log-watershed-bodies/1",
+      "input_sha256": "457104f1d175653cba32ccc68a3922dc23b0d1b409e50b2fefe3e4fd5d37a956",
+      "cell_count": 3
+    },
+    {
+      "record_id": 7,
+      "algorithm": "qpx.grid-log-watershed-bodies/1",
+      "input_sha256": "0fa84e8700428c2a419ebe1d4c9e0fa96da27d0dfd6aa28d85b782813971554b",
+      "cell_count": 3
+    },
+    {
+      "record_id": 8,
+      "algorithm": "qpx.nominal-rgb-log-watershed-bodies/1",
+      "input_sha256": "c7edd9b4e51ee8d705f5c2adec45a8ec6862960c0b86ac9990357cd74314114c",
+      "cell_count": 3
+    }
+  ]
+}

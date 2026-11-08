@@ -1,0 +1,23 @@
+[0/2] Re-checking globbed directories...
+-- GLOB mismatch!
+[1/2] Re-running CMake...
+-- Configuring done (3.2s)
+-- Generating done (0.5s)
+-- Build files have been written to: /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw-stream-geometry-242-minimal
+[0/2] Re-checking globbed directories...
+[1/16] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/provenance.cpp.o
+[2/16] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/batch_checkpoint.cpp.o
+[3/16] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/project.cpp.o
+[4/16] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/viewer_session.cpp.o
+[5/16] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/project_batch.cpp.o
+[6/16] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_frontend.cpp.o
+[7/16] Building CXX object CMakeFiles/qupathxx_viewer_session_tests.dir/cpp/tests/viewer_session_tests.cpp.o
+[8/16] Linking CXX static library libqupathxx_core.a
+[9/16] Building CXX object CMakeFiles/qupathxx_project_batch_tests.dir/cpp/tests/project_batch_tests.cpp.o
+[10/16] Linking CXX executable qupathxx_resampling_tests
+[11/16] Linking CXX executable qupathxx_pixel_workflow_tests
+[12/16] Building CXX object CMakeFiles/qupathxx_project_batch_tests.dir/cpp/tests/grid_cell_frontend_tests.cpp.o
+[13/16] Linking CXX executable qupathxx_viewer_session_tests
+[14/16] Building CXX object CMakeFiles/qupathxx_project_batch_tests.dir/cpp/tests/raw_pixel_batch_checks.cpp.o
+[15/16] Linking CXX executable qupathxx_tissue_contour_tests
+[16/16] Linking CXX executable qupathxx_project_batch_tests

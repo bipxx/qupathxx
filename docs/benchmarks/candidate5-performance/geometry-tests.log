@@ -1,0 +1,35 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+    Start 24: cell_records
+1/5 Test #24: cell_records .....................***Failed    0.06 sec
+GEOS geometry: IllegalArgumentException: Points of LinearRing do not form a closed linestring
+
+    Start 26: cells
+2/5 Test #26: cells ............................***Failed    0.11 sec
+Cell intensity reducer: six QuPath0.7 numeric references, sample SD n-1/absent singleton, exact compartments, float/byte and double input, finite/background/budget/cancellation checks passed; retained API integration remains open
+GEOS geometry: IllegalArgumentException: Points of LinearRing do not form a closed linestring
+
+    Start 37: tissue_contours
+3/5 Test #37: tissue_contours ..................***Failed    0.04 sec
+Native explicit-grid raster eligibility, per-axis metadata, precision and legacy isolation passed
+GEOS geometry: IllegalArgumentException: Points of LinearRing do not form a closed linestring
+
+    Start 52: geometry
+4/5 Test #52: geometry .........................***Failed    0.05 sec
+GEOS geometry: IllegalArgumentException: Points of LinearRing do not form a closed linestring
+
+    Start 54: geometry_edits
+5/5 Test #54: geometry_edits ...................***Failed    0.04 sec
+GEOS geometry: IllegalArgumentException: Points of LinearRing do not form a closed linestring
+
+
+0% tests passed, 5 tests failed out of 5
+
+Total Test time (real) =   0.47 sec
+
+The following tests FAILED:
+	 24 - cell_records (Failed)
+	 26 - cells (Failed)
+	 37 - tissue_contours (Failed)
+	 52 - geometry (Failed)
+	 54 - geometry_edits (Failed)
+Errors while running CTest

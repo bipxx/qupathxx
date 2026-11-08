@@ -1,4 +1,40 @@
 # Captures are byte-addressed by their provenance manifest.
+tests/fixtures/scientific-grid-v1/** -text
+tools/reference_scientific_grid.py text eol=lf
+tools/reference_physical_grid.py text eol=lf
+tools/reference_scientific_channels.py text eol=lf
+tests/fixtures/scientific-channels-v1/** -text
+cpp/tests/scientific_channel_reference.hpp text eol=lf
+tests/fixtures/scientific-raster-v1/** -text
+docs/benchmarks/scientific-raster-local/** -text -whitespace
+docs/benchmarks/scientific-raster-local-windows.json text eol=lf
+tests/fixtures/grid-cells-v1/** -text
+tools/reference_grid_cells.py text eol=lf
+cpp/tests/grid_cell_reference.hpp text eol=lf
+tests/fixtures/grid-cell-archive-v1/** -text
+tools/reference_grid_cell_archive.py text eol=lf
+cpp/tests/grid_cell_archive_reference.hpp text eol=lf
+docs/benchmarks/grid-cell-archive-local/** -text -whitespace
+docs/benchmarks/grid-cell-archive-local-windows.json text eol=lf
+tests/fixtures/grid-cell-consumers-v1/** -text
+tools/reference_grid_classifier_archive.py text eol=lf
+cpp/tests/grid_classifier_archive_reference.hpp text eol=lf
+docs/benchmarks/grid-cell-consumers-local/** -text -whitespace
+docs/benchmarks/grid-cell-consumers-local-windows.json text eol=lf
+docs/benchmarks/grid-cells-local/** -text -whitespace
+docs/benchmarks/grid-cells-local-windows.json text eol=lf
+tests/fixtures/physical-grid-v1/** -text
+cpp/tests/scientific_cell_reference.hpp text eol=lf
+docs/scientific-grid-contract.md text eol=lf
+cpp/tests/scientific_grid_reference.hpp text eol=lf
+docs/benchmarks/scientific-grid-geometry-local/** -text -whitespace
+docs/benchmarks/scientific-grid-geometry-local-windows.json text eol=lf
+docs/benchmarks/scientific-grid-sampling-local/** -text -whitespace
+docs/benchmarks/scientific-grid-sampling-local-windows.json text eol=lf
+docs/benchmarks/physical-grid-kernels-local/** -text -whitespace
+docs/benchmarks/physical-grid-kernels-local-windows.json text eol=lf
+docs/benchmarks/scientific-channels-local/** -text -whitespace
+docs/benchmarks/scientific-channels-local-windows.json text eol=lf
 tests/fixtures/qupath-0.7.0/** -text whitespace=cr-at-eol
 docs/benchmarks/qupath-runtime-windows.json -text whitespace=cr-at-eol
 
@@ -18,6 +54,27 @@ docs/benchmarks/macos-native-preflight.json -text whitespace=cr-at-eol
 tools/ci/run_macos_native.py text eol=lf
 tools/ci/requirements-macos-native.txt text eol=lf
 .github/workflows/ci.yml text eol=lf
+tools/ci/linux-runtime-manifest-cases.json text eol=lf
+docs/benchmarks/linux-runtime-*.json text eol=lf
+tools/ci/macho_dependencies.py text eol=lf
+tools/probe_macho_dependencies.py text eol=lf
+tests/test_macho_dependencies.py text eol=lf
+docs/benchmarks/macho-runtime-*.json text eol=lf
+tools/ci/macos_native_inventory.py text eol=lf
+tools/ci/macos_inventory_evidence.py text eol=lf
+tools/ci/run_macos_native.py text eol=lf
+tests/test_macos_native_inventory.py text eol=lf
+docs/benchmarks/macos-native-inventory-*.json text eol=lf
+tools/ci/macos_relocation_plan.py text eol=lf
+tests/test_macos_relocation_plan.py text eol=lf
+tools/ci/macos_relocate.py text eol=lf
+tests/test_macos_relocate.py text eol=lf
+docs/benchmarks/macos-relocation-*.json text eol=lf
+tools/ci/check_macos_relocated_runtime.py text eol=lf
+tools/ci/macos_relocation_evidence.py text eol=lf
+tests/test_macos_relocated_runtime.py text eol=lf
+tests/test_macos_relocation_evidence.py text eol=lf
+tests/test_macos_runtime_artifact_audit.py text eol=lf
 tools/benchmark_gaussian_workflows.py text eol=lf
 docs/benchmarks/gaussian-workflows-paired-*.json -text whitespace=cr-at-eol
 docs/benchmarks/gaussian-workflow-validation-windows-linux.json -text whitespace=cr-at-eol
@@ -25,3 +82,801 @@ docs/benchmarks/gaussian-short-kernel-*.json -text whitespace=cr-at-eol
 tools/upstream/qupath_cells_reference.groovy text eol=lf
 tools/compare_qupath_cells.py text eol=lf
 tools/qupath_cells_fixture.py text eol=lf
+
+# Bind native comparison evidence to executed script bytes.
+tools/compare_native_log_watershed.py text eol=lf
+
+tools/profile_log_cells.py text eol=lf
+docs/benchmarks/log-cell-*.json -text whitespace=cr-at-eol
+# Paired performance evidence hashes the executed benchmark bytes.
+tools/profile_roi_sampling.py text eol=lf
+tools/compare_roi_sampling_engines.py text eol=lf
+tools/profile_roi_sampling_cold.py text eol=lf
+
+docs/benchmarks/unified-native-*.json -text whitespace=cr-at-eol
+
+tools/ci/accept_unified_engine.py text eol=lf
+docs/benchmarks/unified-engine-*.json -text whitespace=cr-at-eol
+
+docs/benchmarks/ndpi-*.json -text whitespace=cr-at-eol
+
+tools/benchmark_vendor_reader.py text eol=lf
+
+docs/benchmarks/vendor-reader-*-windows.json -text whitespace=cr-at-eol
+
+tools/ci/manylinux-assets.json text eol=lf
+docs/benchmarks/portable-ndpi-*.json -text whitespace=cr-at-eol
+tools/benchmark_viewer.py text eol=lf
+tools/benchmark_overlays.py text eol=lf
+tools/qualify_navigation.py text eol=lf
+docs/benchmarks/rendered-loop-*.json -text whitespace=cr-at-eol
+docs/benchmarks/darwin-training-size-*.json -text whitespace=cr-at-eol
+docs/benchmarks/darwin-prediction-size-*.json -text whitespace=cr-at-eol
+docs/benchmarks/darwin-declarations-*.json -text whitespace=cr-at-eol
+docs/benchmarks/gui-stack-*.json -text whitespace=cr-at-eol
+docs/benchmarks/cell-expansion-*.json -text whitespace=cr-at-eol
+tools/compare_cell_expansion.py text eol=lf
+docs/benchmarks/watershed-bodies-*.json -text whitespace=cr-at-eol
+docs/benchmarks/qupath-cells-watershed-bodies-*.json -text whitespace=cr-at-eol
+docs/benchmarks/portable-body-*.json -text whitespace=cr-at-eol
+tools/compare_qupath_ndpi_cells.py text eol=lf
+tools/diagnose_qupath_ndpi_peaks.py text eol=lf
+tools/label_comparison.py text eol=lf
+tools/upstream/qupath_ndpi_cells.groovy text eol=lf
+tests/fixtures/qupath-ndpi-cells-0.7.0/*.json text eol=lf
+tests/fixtures/qupath-ndpi-cells-0.7.0/capture/* -text whitespace=cr-at-eol,-blank-at-eol
+docs/benchmarks/ndpi-cell*.json -text whitespace=cr-at-eol
+tools/compare_native_log_watershed.py text eol=lf
+tools/compare_native_ndpi_log.py text eol=lf
+tools/upstream/imagej_edm_probe.groovy text eol=lf
+tools/upstream/qupath_cell_debug_probe.groovy text eol=lf
+tools/verify_qupath_cell_debug.py text eol=lf
+tests/fixtures/qupath-ndpi-cells-0.7.0/debug/* -text whitespace=cr-at-eol,-blank-at-eol
+docs/benchmarks/zlib-isolation-macos-both.json -text whitespace=cr-at-eol
+tools/capture_imagej_shape.py text eol=lf
+tools/compare_native_shape.py text eol=lf
+tools/upstream/imagej_shape_reference.groovy text eol=lf
+tests/fixtures/imagej-shape-1.54p/** -text whitespace=cr-at-eol,-blank-at-eol
+tests/fixtures/imagej-shape-1.54p/native/*.u8 -diff
+tools/profile_sampled_log.py text eol=lf
+docs/benchmarks/sampled-shape-*.json -text whitespace=cr-at-eol
+
+# Case summaries and exact-byte audit contracts.
+tests/fixtures/tma-case-summary-workflows.json text eol=lf
+tools/ci/tma_case_evidence.py text eol=lf
+tools/profile_tma_cases.py text eol=lf
+docs/benchmarks/sampled-cells-ndpi-windows.json text eol=lf
+docs/benchmarks/tma-case-*.json -text whitespace=cr-at-eol
+docs/benchmarks/expansion-frontier-*.json -text whitespace=cr-at-eol
+
+tools/profile_tma_file_inputs.py text eol=lf
+
+# Cohort profiling and source-bound JSON evidence use explicit LF.
+tools/profile_tma_cohorts.py text eol=lf
+docs/benchmarks/tma-cohort-*.json text eol=lf
+
+# Deterministic package inventories and exact-source tooling evidence.
+tools/ci/pe_dependencies.py text eol=lf
+tools/ci/runtime_manifest.py text eol=lf
+tools/ci/runtime_manifest_evidence.py text eol=lf
+tools/ci/probe_pe_forwarders.py text eol=lf
+tests/test_runtime_manifest.py text eol=lf
+docs/benchmarks/windows-runtime-*.json text eol=lf
+tools/ci/run.py text eol=lf
+tools/profile_runtime_closures.py text eol=lf
+tools/ci/elf_dependencies.py text eol=lf
+tests/test_elf_dependencies.py text eol=lf
+docs/benchmarks/elf-runtime-*.json text eol=lf
+tools/probe_elf_dependencies.py text eol=lf
+tools/ci/linux_runtime_manifest.py text eol=lf
+tools/ci/linux_runtime_manifest_evidence.py text eol=lf
+tools/ci/run_manylinux.py text eol=lf
+tests/test_linux_runtime_manifest.py text eol=lf
+.github/workflows/ci.yml text eol=lf
+
+# QuPath TMA fixtures retain actual captured text/log bytes.
+tools/upstream/qupath_tma_reference.groovy text eol=lf
+tests/fixtures/qupath-tma-0.7.0/** -text
+tests/test_qptma_reference.py text eol=lf
+
+# Actual upstream/native interchange evidence is byte-addressed.
+docs/benchmarks/qupath-tma-native-roundtrip/** -text
+docs/benchmarks/qupath-tma-native-roundtrip-windows.json -text
+tools/ci/qptma-cases.json text eol=lf
+tools/ci/qptma_evidence.py text eol=lf
+tests/test_qptma.py text eol=lf
+tests/test_qptma_evidence.py text eol=lf
+
+# Integrated QPTMA captures and local engineering receipt retain exact bytes.
+docs/benchmarks/qptma-integrated-local/** -text
+docs/benchmarks/qptma-integrated-local-windows.json text eol=lf
+tools/ci/qptma-gui-cases.json text eol=lf
+
+# Actual upstream hierarchy/loss captures retain byte identity.
+tests/fixtures/qupath-hierarchy-0.7.0/** -text whitespace=cr-at-eol
+tools/upstream/qupath_hierarchy_reference.groovy text eol=lf
+docs/benchmarks/annotation-migration-local/** -text
+docs/benchmarks/annotation-migration-local-windows.json text eol=lf
+tests/test_qupath_hierarchy_reference.py text eol=lf
+tests/test_gui_hierarchy_migration.py text eol=lf
+
+tools/compare_qupath_hierarchy.py text eol=lf
+tests/test_geojson_hierarchy_export.py text eol=lf
+tests/test_hierarchy_comparison.py text eol=lf
+tests/typing/hierarchy_valid.py text eol=lf
+tests/typing/hierarchy_invalid.py text eol=lf
+docs/benchmarks/annotation-migration-nested/** -text whitespace=cr-at-eol
+docs/benchmarks/annotation-migration-nested-local-windows.json text eol=lf
+
+# Preserve the original failure trace, including pytest whitespace.
+docs/benchmarks/annotation-migration-nested/installed.log -whitespace
+docs/benchmarks/annotation-migration-nested/installed.xml -whitespace
+
+tests/test_recovery_long_paths.py text eol=lf
+docs/benchmarks/annotation-migration-recovery-local/** -text -whitespace
+docs/benchmarks/annotation-migration-recovery-local-windows.json text eol=lf
+
+tools/ci/hierarchy-cases.json text eol=lf
+tools/ci/hierarchy_evidence.py text eol=lf
+tests/test_hierarchy_evidence.py text eol=lf
+
+docs/benchmarks/annotation-migration-qualification-local/** -text -whitespace
+docs/benchmarks/annotation-migration-qualification-local-windows.json text eol=lf
+
+docs/benchmarks/grid-cell-frontends-local/** -text -whitespace
+docs/benchmarks/grid-cell-frontends-local-windows.json text eol=lf
+
+tools/ci/scientific_grid_evidence.py text eol=lf
+tools/ci/scientific-grid-cases.json text eol=lf
+
+docs/benchmarks/scientific-grid-ci-preflight/** -text -whitespace
+docs/benchmarks/scientific-grid-ci-preflight-windows.json text eol=lf
+
+docs/benchmarks/scientific-grid-portability-fix-local/** -text -whitespace
+docs/benchmarks/scientific-grid-portability-fix-local-windows.json text eol=lf
+docs/benchmarks/scientific-grid-169-qualification/** -text -whitespace
+docs/benchmarks/scientific-grid-169-qualification.json text eol=lf
+
+# Intermediate scope-specific observations retained on the integration branch.
+docs/benchmarks/scientific-grid-169-progress/** -text -whitespace
+docs/benchmarks/scientific-grid-169-progress.json text eol=lf
+
+tools/compare_qupath_grid_cells.py text eol=lf
+tests/test_qupath_grid_cells_reference.py text eol=lf
+
+docs/benchmarks/grid-cell-qupath-comparison-local/** -text -whitespace
+docs/benchmarks/grid-cell-qupath-comparison-local-windows.json text eol=lf
+
+tests/fixtures/qupath-cells-roi-debug-0.7.0/** -text -whitespace
+tools/qupath_roi_cell_debug.py text eol=lf
+tests/test_qupath_roi_cell_debug.py text eol=lf
+
+docs/benchmarks/grid-cell-roi-debug-local/** -text -whitespace
+docs/benchmarks/grid-cell-roi-debug-local-windows-linux.json text eol=lf
+
+tests/fixtures/qupath-cells-resampled-debug-0.7.0/** -text -whitespace
+tools/qupath_resampled_cell_debug.py text eol=lf
+tests/test_qupath_resampled_cell_debug.py text eol=lf
+
+docs/benchmarks/grid-cell-resampled-processing-local/** -text -whitespace
+docs/benchmarks/grid-cell-resampled-processing-local-windows-linux.json text eol=lf
+
+cpp/exact_weighted_mean.hpp text eol=lf
+cpp/tests/raw_scientific_numeric_tests.cpp text eol=lf
+cpp/tests/raw_scientific_mean_reference.hpp text eol=lf
+tools/reference_raw_means.py text eol=lf
+tests/test_raw_mean_reference.py text eol=lf
+tests/fixtures/raw-scientific-means-v1/** -text -whitespace
+
+docs/benchmarks/raw-scientific-means-local/** -text -whitespace
+docs/benchmarks/raw-scientific-means-local-windows-linux.json text eol=lf
+
+cpp/include/qupathxx/scientific_raw_sampling.hpp text eol=lf
+cpp/scientific_raw_sampling.cpp text eol=lf
+cpp/tests/scientific_raw_sampling_tests.cpp text eol=lf
+cpp/tests/raw_scientific_sampling_reference.hpp text eol=lf
+tools/reference_raw_sampling.py text eol=lf
+tests/test_raw_sampling_reference.py text eol=lf
+tests/fixtures/raw-scientific-sampling-v1/** -text -whitespace
+
+docs/benchmarks/raw-scientific-sampling-local/** -text -whitespace
+docs/benchmarks/raw-scientific-sampling-local-windows-linux.json text eol=lf
+
+docs/benchmarks/raw-scientific-digest-local/** -text -whitespace
+docs/benchmarks/raw-scientific-digest-local-windows-linux.json text eol=lf
+
+tools/reference_raw_grid_statistics.py text eol=lf
+tests/test_raw_grid_statistics_reference.py text eol=lf
+cpp/tests/raw_grid_statistics_reference.hpp text eol=lf
+tests/fixtures/raw-grid-statistics-v1/** -text -whitespace
+
+docs/benchmarks/raw-grid-analysis-local/** -text -whitespace
+docs/benchmarks/raw-grid-analysis-local-windows-linux.json text eol=lf
+
+cpp/scientific_raw_sampling_internal.hpp text eol=lf
+cpp/tests/raw_grid_archive_reference.hpp text eol=lf
+tools/reference_raw_grid_archive.py text eol=lf
+tests/test_raw_grid_archive_reference.py text eol=lf
+tests/fixtures/raw-grid-archive-v1/** -text -whitespace
+
+docs/benchmarks/raw-grid-retention-local/** -text -whitespace
+docs/benchmarks/raw-grid-retention-local-windows-linux.json text eol=lf
+
+cpp/scientific_raw_bindings.cpp text eol=lf
+tests/test_scientific_raw_bindings.py text eol=lf
+
+tests/typing/raw_grid_valid.py text eol=lf
+tests/typing/raw_grid_invalid.py text eol=lf
+
+docs/benchmarks/raw-grid-python-local/** -text -whitespace
+docs/benchmarks/raw-grid-python-local-windows.json text eol=lf
+
+cpp/roi_scientific_grid.hpp text eol=lf
+
+docs/benchmarks/raw-grid-batch-local/** -text -whitespace
+docs/benchmarks/raw-grid-batch-local-windows-linux.json text eol=lf
+
+cpp/gui_raw_grid_controls.hpp text eol=lf
+tests/test_raw_grid_frontends.py text eol=lf
+
+docs/benchmarks/raw-grid-frontends-local/** -text -whitespace
+docs/benchmarks/raw-grid-frontends-local-windows-linux.json text eol=lf
+
+docs/benchmarks/raw-grid-workspace-local/** -text -whitespace
+docs/benchmarks/raw-grid-workspace-local-windows-linux.json text eol=lf
+
+docs/benchmarks/raw-grid-186-campaign/** -text -whitespace
+docs/benchmarks/raw-grid-186-campaign.json text eol=lf
+
+# TIFF integration receipts retain original captured bytes, including CRLF.
+docs/benchmarks/raw-grid-tiff-layout-local/** -text -whitespace
+docs/benchmarks/raw-grid-tiff-layout-local.json text eol=lf
+docs/benchmarks/tiff-interleaved-block-reuse-local/** -text -whitespace
+docs/benchmarks/tiff-interleaved-block-reuse-local.json text eol=lf
+
+# Generated hash references and their consumers have stable source bytes.
+cpp/tests/raw_streaming_reference.hpp text eol=lf
+tools/reference_raw_streaming.py text eol=lf
+tests/test_raw_streaming.py text eol=lf
+
+# Exact-source campaign evidence retains original captured bytes.
+docs/benchmarks/raw-grid-186-qualification/** -text -whitespace
+docs/benchmarks/raw-grid-186-qualification.json text eol=lf
+
+# Streamed digest evidence is byte-addressed, including original CRLF logs.
+docs/benchmarks/raw-grid-streamed-digest-local/** -text -whitespace
+docs/benchmarks/raw-grid-streamed-digest-local.json text eol=lf
+
+tests/test_raw_materialized_streaming.py text eol=lf
+
+# Coarse-sampling evidence retains original capture bytes.
+docs/benchmarks/raw-grid-materialized-streaming-local/** -text -whitespace
+docs/benchmarks/raw-grid-materialized-streaming-local.json text eol=lf
+
+# Frozen raw-resource campaign receipts preserve original bytes.
+docs/benchmarks/raw-grid-resource-191-campaign/** -text -whitespace
+docs/benchmarks/raw-grid-resource-191-campaign.json text eol=lf
+
+# TMA axis-editing captures and logs retain original bytes.
+docs/benchmarks/tma-axis-editing-local/** -text -whitespace
+docs/benchmarks/tma-axis-editing-local.json text eol=lf
+
+# Source191 engine-only audit payloads retain exact bytes.
+docs/benchmarks/raw-grid-resource-191-engine/** -text -whitespace
+docs/benchmarks/raw-grid-resource-191-engine.json text eol=lf
+
+# TMA gate controls preserve exact JUnit, logs and source proofs.
+docs/benchmarks/tma-axis-auditor-controls/** -text -whitespace
+docs/benchmarks/tma-axis-auditor-controls.json text eol=lf
+
+# Synthetic dearray masks are byte-exact independent fixtures.
+tests/fixtures/tma-dearray-v1/*.pgm -text -whitespace
+tests/fixtures/tma-dearray-v1/*.json text eol=lf
+tools/reference_tma_dearray.py text eol=lf
+tools/upstream/qupath_tma_dearray_reference.groovy text eol=lf
+
+# Completed source191 campaign payloads preserve original bytes.
+docs/benchmarks/raw-grid-191-qualification/** -text -whitespace
+docs/benchmarks/raw-grid-191-qualification.json text eol=lf
+
+# Upstream detector observations and capture identity retain original bytes.
+tests/fixtures/tma-dearray-v1/qupath-reference.json -text -whitespace
+tests/fixtures/tma-dearray-v1/capture.log -text -whitespace
+tests/fixtures/tma-dearray-v1/capture-command.json -text -whitespace
+tests/fixtures/tma-dearray-v1/assessment.json -text -whitespace
+tools/assess_tma_dearray_reference.py text eol=lf
+
+# Exact-source TMA campaign dispatch/preflight payloads remain byte-addressed.
+docs/benchmarks/tma-axis-196-campaign/** -text -whitespace
+docs/benchmarks/tma-axis-196-campaign.json text eol=lf
+
+tests/fixtures/tma-dearray-v1/control-tests.xml -text -whitespace
+tests/fixtures/tma-dearray-v1/control-tests.log -text -whitespace
+
+# Native dearraying engineering records retain captured bytes.
+docs/benchmarks/tma-dearray-native-local/** -text -whitespace
+docs/benchmarks/tma-dearray-native-local.json text eol=lf
+
+# Dearraying frontend evidence and rejected campaign records are byte-addressed.
+docs/benchmarks/tma-dearray-frontends-local/** -text -whitespace
+docs/benchmarks/tma-dearray-frontends-local.json text eol=lf
+docs/benchmarks/tma-axis-196-audit-rejection/** -text -whitespace
+docs/benchmarks/tma-axis-196-audit-rejection.json text eol=lf
+
+# Physical-unit and named dearray qualification evidence retains original bytes.
+docs/benchmarks/tma-dearray-physical-local/** -text -whitespace
+docs/benchmarks/tma-dearray-physical-local.json text eol=lf
+
+# Frozen dearray campaign dispatch/preflight records remain byte-addressed.
+docs/benchmarks/tma-dearray-202-campaign/** -text -whitespace
+docs/benchmarks/tma-dearray-202-campaign.json text eol=lf
+
+# Large synthetic pyramid observations retain original bytes.
+docs/benchmarks/tma-large-pyramid-local/** -text -whitespace
+docs/benchmarks/tma-large-pyramid-local.json text eol=lf
+
+# Exact admission/refusal and same-reader recovery observations.
+docs/benchmarks/tma-large-pyramid-admission-local/** -text -whitespace
+docs/benchmarks/tma-large-pyramid-admission-local.json text eol=lf
+
+# Multi-file corpus and strict Mac-native qualification evidence.
+docs/benchmarks/multifile-ome-preparation/** -text -whitespace
+docs/benchmarks/multifile-ome-preparation.json text eol=lf
+docs/benchmarks/tma-dearray-202-macos-native/** -text -whitespace
+docs/benchmarks/tma-dearray-202-macos-native.json text eol=lf
+
+# Bounded cross-project efficiency review witnesses keep their original bytes.
+docs/reviews/compilexx-206-evidence/** -text -whitespace
+
+# Integrated TMA qualification preserves all original artifact/auditor bytes.
+docs/benchmarks/tma-dearray-202-qualification/** -text -whitespace
+docs/benchmarks/tma-dearray-202-qualification.json text eol=lf
+
+# Compound-source foundation retains raw local native/installed evidence bytes.
+docs/benchmarks/compound-source-local/** -text -whitespace
+docs/benchmarks/compound-source-local.json text eol=lf
+
+# Multi-file TIFF raw local evidence keeps exact payload bytes.
+docs/benchmarks/multifile-ome-local/** -text -whitespace
+docs/benchmarks/multifile-ome-local.json text eol=lf
+
+# Frozen multi-file OME campaign preflight evidence.
+docs/benchmarks/multifile-ome-210-campaign/** -text -whitespace
+docs/benchmarks/multifile-ome-210-campaign.json text eol=lf
+
+# Invocation-local source-proof reuse keeps exact observer evidence.
+docs/benchmarks/source-proof-reuse-local/** -text -whitespace
+docs/benchmarks/source-proof-reuse-local.json text eol=lf
+
+# Installed diagnostic boundary probes retain exact raw evidence.
+docs/benchmarks/installed-diagnostics-local/** -text -whitespace
+docs/benchmarks/installed-diagnostics-local.json text eol=lf
+
+# Complete multi-file OME source-bound qualification evidence.
+docs/benchmarks/multifile-ome-210-qualification/** -text -whitespace
+docs/benchmarks/multifile-ome-210-qualification.json text eol=lf
+
+# Real compound failure and cancellation controls preserve raw evidence.
+docs/benchmarks/multifile-faults-local/** -text -whitespace
+docs/benchmarks/multifile-faults-local.json text eol=lf
+
+# Expanded compound fault-control campaign preflight evidence.
+docs/benchmarks/multifile-fault-213-campaign/** -text -whitespace
+docs/benchmarks/multifile-fault-213-campaign.json text eol=lf
+
+# Source-bound native feature and partial hosted audit evidence.
+docs/benchmarks/raw-pixel-features-local/** -text -whitespace
+docs/benchmarks/raw-pixel-features-local.json -text -whitespace
+docs/benchmarks/multifile-fault-213-partial-qualification/** -text -whitespace
+docs/benchmarks/multifile-fault-213-partial-qualification.json -text -whitespace
+
+# Raw classifier and completed multi-file campaign evidence.
+docs/benchmarks/raw-pixel-classifier-local/** -text -whitespace
+docs/benchmarks/raw-pixel-classifier-local.json -text -whitespace
+docs/benchmarks/multifile-fault-213-qualification/** -text -whitespace
+docs/benchmarks/multifile-fault-213-qualification.json -text -whitespace
+
+# Owner-captured raw workflow native evidence.
+docs/benchmarks/raw-pixel-workflows-local/** -text -whitespace
+docs/benchmarks/raw-pixel-workflows-local.json -text -whitespace
+
+# Raw archive native evidence retains exact log bytes.
+docs/benchmarks/raw-pixel-archives-local/** -text -whitespace
+docs/benchmarks/raw-pixel-archives-local.json -text -whitespace
+
+# Raw backend training evidence retains exact log bytes.
+docs/benchmarks/raw-pixel-training-local/** -text -whitespace
+docs/benchmarks/raw-pixel-training-local.json -text -whitespace
+
+# Raw replay/apply evidence retains exact log bytes.
+docs/benchmarks/raw-pixel-replay-apply-local/** -text -whitespace
+docs/benchmarks/raw-pixel-replay-apply-local.json -text -whitespace
+
+# Raw lattice-window numeric evidence retains exact bytes.
+docs/benchmarks/raw-lattice-windows-local/** -text -whitespace
+docs/benchmarks/raw-lattice-windows-local.json -text -whitespace
+docs/benchmarks/raw-window-fraction-reference.json -text -whitespace
+
+# Raw window model/owner evidence retains exact bytes.
+docs/benchmarks/raw-window-classifier-local/** -text -whitespace
+docs/benchmarks/raw-window-classifier-local.json -text -whitespace
+
+# Raw tiled-training evidence retains exact source-bound bytes.
+docs/benchmarks/raw-tiled-training-local/** -text -whitespace
+docs/benchmarks/raw-tiled-training-local.json -text -whitespace
+
+# Raw prediction-stream evidence retains exact source-bound bytes.
+docs/benchmarks/raw-pixel-stream-local/** -text -whitespace
+docs/benchmarks/raw-pixel-stream-local.json -text -whitespace
+
+# Raw prediction file/resume evidence retains exact source-bound bytes.
+docs/benchmarks/raw-stream-file-local/** -text -whitespace
+docs/benchmarks/raw-stream-file-local.json -text -whitespace
+
+# Sparse raw tiled archive evidence retains exact source-bound bytes.
+docs/benchmarks/raw-tiled-archives-local/** -text -whitespace
+docs/benchmarks/raw-tiled-archives-local.json -text -whitespace
+
+# Training checkpoint evidence preserves exact source-bound bytes.
+docs/benchmarks/raw-training-checkpoint-local/** -text -whitespace
+docs/benchmarks/raw-training-checkpoint-local.json -text -whitespace
+
+# Owner file-job evidence retains exact source-bound bytes.
+docs/benchmarks/raw-pixel-file-jobs-local/** -text -whitespace
+docs/benchmarks/raw-pixel-file-jobs-local.json -text -whitespace
+
+# External raw stream link evidence retains exact source-bound bytes.
+docs/benchmarks/raw-stream-links-local/** -text -whitespace
+docs/benchmarks/raw-stream-links-local.json -text -whitespace
+
+# Installed raw Python evidence retains exact source-bound bytes.
+docs/benchmarks/raw-python-bindings-local/** -text -whitespace
+docs/benchmarks/raw-python-bindings-local.json -text -whitespace
+
+# Installed raw CLI evidence retains exact source-bound bytes.
+docs/benchmarks/raw-pixel-cli-local/** -text -whitespace
+docs/benchmarks/raw-pixel-cli-local.json -text -whitespace
+
+# Installed raw project-batch evidence retains exact source-bound bytes.
+docs/benchmarks/raw-pixel-batch-local/** -text -whitespace
+docs/benchmarks/raw-pixel-batch-local.json -text -whitespace
+
+# Installed raw desktop/managed contour evidence retains exact source-bound bytes.
+docs/benchmarks/raw-frontend-local/** -text -whitespace
+docs/benchmarks/raw-frontend-local.json -text -whitespace
+
+# Raw classifier T5 preflight preserves exact captured evidence.
+docs/benchmarks/raw-classifier-preflight-local/** -text -whitespace
+docs/benchmarks/raw-classifier-preflight-local.json -text -whitespace
+
+# Frozen raw classifier campaign dispatch and source closure.
+docs/benchmarks/raw-classifier-235-campaign/** -text -whitespace
+docs/benchmarks/raw-classifier-235-campaign.json -text -whitespace
+
+# Preserve the original Mac failure and source-bound correction observations.
+docs/benchmarks/raw-classifier-235-failure/** -text -whitespace
+docs/benchmarks/raw-classifier-235-failure.json -text -whitespace
+
+# Corrected frozen classifier campaign and original dispatch observations.
+docs/benchmarks/raw-classifier-236-campaign/** -text -whitespace
+docs/benchmarks/raw-classifier-236-campaign.json -text -whitespace
+
+# Exact synthetic cell-edge oracle for the next streamed contour workflow.
+tests/fixtures/raw-contour-seams-v1/** -text
+tools/reference_raw_contour_seams.py text eol=lf
+cpp/tests/raw_contour_seam_reference.hpp text eol=lf
+
+docs/benchmarks/raw-contour-seams-local/** -text -whitespace
+docs/benchmarks/raw-contour-seams-local.json -text -whitespace
+
+# Local native boundary assembler evidence, exact captured bytes.
+docs/benchmarks/raw-stream-boundaries-local/** -text -whitespace
+docs/benchmarks/raw-stream-boundaries-local.json -text -whitespace
+
+# Exact terminal Mac diagnostic and isolated successor evidence.
+docs/benchmarks/raw-replay-macos-240/** -text -whitespace
+docs/benchmarks/raw-classifier-contract-250/** -text -whitespace
+docs/benchmarks/raw-integration-regression-251/** -text -whitespace
+docs/benchmarks/raw-replay-arm64-252/** -text -whitespace
+docs/benchmarks/raw-stream-resources-253/** -text -whitespace
+docs/benchmarks/raw-exception-lsda-254/** -text -whitespace
+docs/benchmarks/raw-original-object-255/** -text -whitespace
+docs/benchmarks/darwin-link-policy-256/** -text -whitespace
+docs/benchmarks/raw-link-qualification-257/** -text -whitespace
+docs/benchmarks/raw-path-fixture-258/** -text -whitespace
+docs/benchmarks/root-alias-analysis-259/** -text -whitespace
+docs/benchmarks/root-locator-fix-260/** -text -whitespace
+docs/benchmarks/spatial-oracle-261/** -text -whitespace
+tests/fixtures/qupath-spatial-0.7.0/** -text -whitespace
+tools/upstream/qupath_spatial_reference.groovy text eol=lf
+tools/capture_qupath_spatial.py text eol=lf
+docs/benchmarks/owner-delivery-race-262/** -text -whitespace
+docs/benchmarks/spatial-native-263/** -text -whitespace
+
+docs/benchmarks/spatial-capture-264/** -text -whitespace
+
+docs/benchmarks/spatial-records-265/** -text -whitespace
+
+docs/benchmarks/spatial-python-266/** -text -whitespace
+
+docs/benchmarks/spatial-cli-267/** -text -whitespace
+
+docs/benchmarks/spatial-frontends-268/** -text -whitespace
+
+docs/benchmarks/spatial-faults-269/** -text -whitespace
+
+docs/benchmarks/document-waits-270/** -text -whitespace
+docs/benchmarks/spatial-waits-271/** -text -whitespace
+docs/benchmarks/schema-observer-272/** -text -whitespace
+docs/benchmarks/schema-observer-273/** -text -whitespace
+docs/benchmarks/snapshot-waits-274/** -text -whitespace
+docs/benchmarks/snapshot-waits-276/** -text -whitespace
+
+docs/benchmarks/gui-unicode-input-278/** -text -whitespace
+
+docs/benchmarks/stream-header-integrity-279/** -text -whitespace
+
+docs/benchmarks/stream-header-qualification-281/** -text -whitespace
+
+docs/benchmarks/gui-font-pilot-282/** -text -whitespace
+
+docs/benchmarks/gui-font-delivery-283/** -text -whitespace
+
+docs/benchmarks/gui-font-gl-284/** -text -whitespace
+
+docs/benchmarks/gui-font-qualification-285/** -text -whitespace
+
+tests/fixtures/qupath-rgb-resampling-0.7.0/** -text -whitespace
+tools/qupath_rgb_resampling.py text eol=lf
+tools/upstream/qupath_rgb_resampling.groovy text eol=lf
+tests/test_qupath_rgb_resampling.py text eol=lf
+
+docs/benchmarks/qupath-rgb-resampling-286/** -text -whitespace
+
+tests/fixtures/qupath-rgb-resampling-holdout-0.7.0/** -text -whitespace
+
+tests/fixtures/rgb-nominal-v1/** -text -whitespace
+tools/reference_rgb_nominal.py text eol=lf
+tests/test_rgb_nominal_reference.py text eol=lf
+
+docs/benchmarks/rgb-nominal-kernel-287/** -text -whitespace
+docs/benchmarks/font-archive-288/** -text -whitespace
+tests/test_rgb_nominal_api.py text eol=lf
+tests/typing/rgb_nominal_valid.py text eol=lf
+tests/typing/rgb_nominal_invalid.py text eol=lf
+examples/rgb_nominal_preview.py text eol=lf
+tests/test_rgb_nominal_preview.py text eol=lf
+
+docs/benchmarks/rgb-nominal-sdk-289/** -text -whitespace
+
+docs/benchmarks/rgb-nominal-context-290/** -text -whitespace
+
+tests/fixtures/nominal-cells-v1/** -text -whitespace
+tools/reference_nominal_cells.py text eol=lf
+
+docs/benchmarks/nominal-cells-291/** -text -whitespace
+
+tests/test_nominal_cell_python.py text eol=lf
+
+tests/typing/nominal_cells_valid.py text eol=lf
+
+tests/typing/nominal_cells_invalid.py text eol=lf
+
+docs/benchmarks/nominal-cell-python-292/** -text -whitespace
+
+tests/test_nominal_cell_batches.py text eol=lf
+
+tests/typing/nominal_batches_valid.py text eol=lf
+
+tests/typing/nominal_batches_invalid.py text eol=lf
+
+docs/benchmarks/nominal-cell-batch-293/** -text -whitespace
+
+tests/test_nominal_cell_frontends.py text eol=lf
+tests/typing/nominal_frontends_valid.py text eol=lf
+tests/typing/nominal_frontends_invalid.py text eol=lf
+
+docs/benchmarks/nominal-cell-frontends-294/** -text -whitespace
+
+docs/benchmarks/nominal-cell-qualification-295/** -text -whitespace
+
+tools/compare_qupath_nominal_cells.py text eol=lf
+tests/test_qupath_nominal_cells_reference.py text eol=lf
+
+docs/benchmarks/nominal-cell-comparison-296/** -text -whitespace
+
+cpp/ascii_case.hpp text eol=lf
+tests/test_reader_locale.py text eol=lf
+docs/benchmarks/reader-locale-297/** -text -whitespace
+
+docs/benchmarks/reader-locale-qualification-298/** -text -whitespace
+
+tools/qupath_gaussian.py text eol=lf
+tools/upstream/qupath_gaussian_probe.groovy text eol=lf
+tests/test_qupath_gaussian.py text eol=lf
+tests/fixtures/qupath-gaussian-1.54p/** -text -whitespace
+docs/benchmarks/gaussian-characterization-299/** -text -whitespace
+
+cpp/imagej_gaussian.cpp text eol=lf
+cpp/imagej_gaussian.hpp text eol=lf
+cpp/tests/imagej_gaussian_tests.cpp text eol=lf
+cpp/tests/imagej_gaussian_reference.hpp text eol=lf
+tools/reference_imagej_gaussian.py text eol=lf
+docs/benchmarks/imagej-gaussian-kernel-300/** -text -whitespace
+
+tools/qupath_cell_inputs.py text eol=lf
+tools/upstream/qupath_cell_inputs_probe.groovy text eol=lf
+tests/test_qupath_cell_inputs.py text eol=lf
+tests/fixtures/qupath-cell-inputs-0.7.0/** -text -whitespace
+docs/benchmarks/qupath-input-stages-301/** -text -whitespace
+
+tests/test_imagej_cell_processing.py text eol=lf
+docs/benchmarks/cell-processing-policy-302/** -text -whitespace
+tools/qupath_cell_policy_edges.py text eol=lf
+tools/upstream/qupath_cell_policy_edges.groovy text eol=lf
+tests/test_cell_policy_edges.py text eol=lf
+tests/fixtures/qupath-cell-policy-edges-0.7.0/** -text -whitespace
+
+docs/benchmarks/cell-policy-edges-303/** -text -whitespace
+tools/reference_qupath_response.py text eol=lf
+tools/upstream/qupath_response_basins_probe.groovy text eol=lf
+tests/test_qupath_response_reference.py text eol=lf
+cpp/tests/qupath_response_reference.hpp text eol=lf
+tests/fixtures/qupath-response-basins-0.7.0/** -text -whitespace
+
+docs/benchmarks/postlog-trace-304/** -text -whitespace
+tests/fixtures/rgb-affine-v2/** -text -whitespace
+tools/reference_rgb_affine.py text eol=lf
+docs/benchmarks/original-source-cells-305/** -text -whitespace
+docs/benchmarks/original-source-cell-qualification-306/** -text -whitespace
+tests/fixtures/qupath-body-boundary-v2/** -text -whitespace
+tools/reference_qupath_body_boundary.py text eol=lf
+
+docs/benchmarks/qupath-body-boundary-307/** -text -whitespace
+
+docs/benchmarks/qupath-body-boundary-qualification-308/** -text -whitespace
+
+docs/benchmarks/ome-calibration-units-r2/** -text -whitespace
+
+docs/benchmarks/binaryonly-ome-r2/** -text -whitespace
+tests/fixtures/ome-units-6.5.1/** -text -whitespace
+tools/upstream/ome_length_units.groovy -text -whitespace
+
+docs/benchmarks/ome-nonsi-r2/** -text -whitespace
+
+docs/benchmarks/tiff-jpeg-r2/** -text -whitespace
+
+tests/fixtures/qupath-annotation-merge-0.7.0/** -text -whitespace
+tools/upstream/qupath_annotation_merge.groovy -text -whitespace
+
+docs/benchmarks/annotation-merge-r4/** -text -whitespace
+
+tests/fixtures/qupath-project-0.7.0/** -text -whitespace
+tools/upstream/qupath_project_reference.groovy -text -whitespace
+tools/upstream/export_qupath_project.groovy -text -whitespace
+
+docs/benchmarks/qupath-project-r5/** -text -whitespace
+
+tests/fixtures/qupath-saved-data-0.7.0/** -text -whitespace
+tools/upstream/qupath_saved_data_reference.groovy -text -whitespace
+
+docs/benchmarks/qupath-saved-data-r5/** -text -whitespace
+
+docs/benchmarks/project-relink-r5/** -text -whitespace
+
+docs/benchmarks/source-verification-r5/** -text -whitespace
+
+docs/benchmarks/object-properties-r5/** -text -whitespace
+
+docs/benchmarks/object-edit-state-r5/** -text -whitespace
+
+docs/benchmarks/object-planes-r5/** -text -whitespace
+
+docs/benchmarks/source-plane-replacement-r5/** -text -whitespace
+
+docs/benchmarks/object-clipboard-r4/** -text -whitespace
+
+tests/fixtures/qupath-root-facts-0.7.0/** -text -whitespace
+
+docs/benchmarks/root-facts-r5/** -text -whitespace
+
+tests/fixtures/qupath-image-settings-0.7.0/** -text -whitespace
+
+docs/benchmarks/image-settings-r5/** -text -whitespace
+tools/upstream/qupath_image_settings_reference.groovy -text
+
+tests/fixtures/qupath-image-data-properties-0.7.0/** -text -whitespace
+tools/upstream/qupath_image_data_properties_reference.groovy -text
+
+docs/benchmarks/image-data-properties-r5/** -text -whitespace
+
+tests/fixtures/qupath-saved-tma-0.7.0/** -text -whitespace
+tools/upstream/qupath_saved_tma_reference.groovy -text
+
+docs/benchmarks/saved-tma-r5/** -text -whitespace
+
+tools/upstream/export_qupath_project_state.groovy -text
+tests/fixtures/qupath-assisted-state-0.7.0/** -text -whitespace
+
+docs/benchmarks/assisted-state-r5/** -text -whitespace
+
+tests/fixtures/qupath-axis-calibration-0.7.0/** -text -whitespace
+tools/upstream/qupath_axis_calibration_reference.groovy -text
+tools/upstream/read_qupath_axis_calibration.groovy -text
+
+docs/benchmarks/axis-calibration-r5/** -text -whitespace
+
+tests/fixtures/qupath-entry-metadata-0.7.0/** -text -whitespace
+tools/upstream/qupath_entry_metadata_reference.groovy -text
+
+docs/benchmarks/entry-metadata-r5/** -text -whitespace
+
+tests/fixtures/qupath-entry-details-0.7.0/** -text -whitespace
+tools/upstream/qupath_entry_details_reference.groovy -text
+
+docs/benchmarks/entry-details-r5/** -text -whitespace
+
+docs/benchmarks/entry-editor-r5/** -text -whitespace
+
+tests/fixtures/qupath-project-metadata-0.7.0/** -text -whitespace
+tools/upstream/qupath_project_metadata_reference.groovy -text
+
+docs/benchmarks/project-metadata-r5/** -text -whitespace
+
+tests/fixtures/qupath-class-hierarchy-0.7.0/** -text -whitespace
+tools/upstream/qupath_class_reference.groovy -text
+tools/upstream/qupath_class_readback.groovy -text
+tools/upstream/qupath_class_colors_reference.groovy -text
+
+docs/benchmarks/class-hierarchy-r4/** -text -whitespace
+
+docs/benchmarks/class-history-r4/** -text -whitespace
+
+tests/fixtures/cell-context-legacy-v1/** -text -whitespace
+
+docs/benchmarks/cell-context-r6/** -text -whitespace
+
+docs/benchmarks/cell-pyramid-r6/** -text -whitespace
+
+tests/fixtures/cell-intensity-statistics-v1/** -text -whitespace
+tools/upstream/qupath_cell_statistics_reference.groovy -text
+docs/benchmarks/cell-statistics-r6/** -text -whitespace
+
+tests/fixtures/stain-model-v1/** -text -whitespace
+
+# Unmodified decoder files retain upstream bytes and authenticated source hashes.
+cpp/vendor/lodepng/lodepng.cpp -text -whitespace
+cpp/vendor/lodepng/lodepng.h -text -whitespace
+cpp/vendor/lodepng/LICENSE -text -whitespace
+
+# Independent native import numerical oracle.
+tests/fixtures/nucls-import-v1/** -text whitespace=cr-at-eol
+tools/reference_nucls_numeric.py text eol=lf
+
+tests/fixtures/density-eager-wkt-v1/record.qdn -text
+
+# Preserve captured consumer failures/results, including tool-emitted whitespace.
+docs/benchmarks/consolidation/workflow-consumer*.log -text -whitespace
+docs/benchmarks/consolidation/workflow-legacy*.log -text -whitespace
+
+# Preserve boundary validation output exactly.
+docs/benchmarks/consolidation/boundary*.log -text -whitespace
+
+# Preserve desktop validation output and the captured legacy layout verbatim.
+docs/benchmarks/desktop-ui/** -text -whitespace
+tests/fixtures/gui-legacy-layout.ini -text -whitespace
+
+# The UI-only Windows build tested these new UTF-8 headers with LF bytes.
+cpp/gui_i18n.hpp text eol=lf
+cpp/gui_theme.hpp text eol=lf
+cpp/tests/gui_i18n_tests.cpp text eol=lf
+
+# Preserve native detector diagnostic evidence verbatim.
+docs/benchmarks/native-detector-optimization/*.log -text -whitespace
+docs/benchmarks/native-detector-optimization/profile.patch -text -whitespace
+
+# Preserve contour profiling evidence and measurement controller bytes.
+docs/benchmarks/contour-optimization/*.log -text -whitespace
+docs/benchmarks/contour-optimization/profile.patch -text -whitespace
+docs/benchmarks/contour-optimization/*.py text eol=lf
+docs/benchmarks/contour-optimization/source-inputs.sha256 text eol=lf

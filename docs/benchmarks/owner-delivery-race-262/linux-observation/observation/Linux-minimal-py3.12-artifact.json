@@ -1,0 +1,20 @@
+{
+  "id": 12797447829,
+  "node_id": "MDg6QXJ0aWZhY3QxMjc5NzQ0NzgyOQ==",
+  "name": "Linux-minimal-py3.12",
+  "size_in_bytes": 51154,
+  "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12797447829",
+  "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12797447829/zip",
+  "expired": false,
+  "digest": "sha256:4c93cf4101d0a66eb0baa2ed344f8f7c0e6e6664d8d10e6bdc67c62646deb820",
+  "created_at": "2026-10-28T06:52:14Z",
+  "updated_at": "2026-10-28T06:52:14Z",
+  "expires_at": "2026-11-11T06:52:13Z",
+  "workflow_run": {
+    "id": 40646189840,
+    "repository_id": 1427753981,
+    "head_repository_id": 1427753981,
+    "head_branch": "feature/owner-delivery-qualification-262",
+    "head_sha": "e2282b8c782bfcc38fddc8aee86e28d833663dc3"
+  }
+}

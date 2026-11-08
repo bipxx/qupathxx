@@ -1,0 +1,78 @@
+{
+  "engine": "development-direct-geometry",
+  "source_revision": "4234e8a716415d6ade8d1b6f79fed422508b9aa5+dirty",
+  "source_tree_sha256": "dddf5bb3412a58e2ade9317f46e21d06d2857ca387ba40db37d0fd5fbedeaa41",
+  "roi": [
+    29185,
+    2048,
+    512,
+    512
+  ],
+  "context": 0,
+  "runs": [
+    {
+      "iteration": 0,
+      "stages": {
+        "open_image": {
+          "wall_ms": 15.545699978247285,
+          "cpu_ms": 15.625
+        },
+        "setup_roi": {
+          "wall_ms": 0.07069995626807213,
+          "cpu_ms": 0.0
+        },
+        "read_roi": {
+          "wall_ms": 7.627400103956461,
+          "cpu_ms": 0.0
+        },
+        "roi_statistics": {
+          "wall_ms": 18.39870004914701,
+          "cpu_ms": 31.25
+        },
+        "keep_statistics": {
+          "wall_ms": 0.03660004585981369,
+          "cpu_ms": 0.0
+        },
+        "cell_capture": {
+          "wall_ms": 0.07309997454285622,
+          "cpu_ms": 0.0
+        },
+        "cell_detection": {
+          "wall_ms": 1217.3593000043184,
+          "cpu_ms": 1171.875
+        },
+        "keep_cells": {
+          "wall_ms": 0.04910002462565899,
+          "cpu_ms": 0.0
+        },
+        "publish_cells": {
+          "wall_ms": 6.125099956989288,
+          "cpu_ms": 0.0
+        },
+        "density": {
+          "wall_ms": 10.237599955871701,
+          "cpu_ms": 15.625
+        },
+        "keep_density": {
+          "wall_ms": 0.0241999514400959,
+          "cpu_ms": 0.0
+        },
+        "export_csv": {
+          "wall_ms": 3.465800080448389,
+          "cpu_ms": 0.0
+        },
+        "save_project": {
+          "wall_ms": 71.92189991474152,
+          "cpu_ms": 46.875
+        },
+        "reopen_project": {
+          "wall_ms": 1230.777199845761,
+          "cpu_ms": 1203.125
+        }
+      },
+      "workflow_ms": 2583.9748999569565,
+      "cells": 2237,
+      "oracles": false
+    }
+  ]
+}

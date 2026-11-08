@@ -1,7 +1,7 @@
 """Capture pinned QuPath cells or characterize an immutable captured corpus.
 
-The two detectors intentionally use different algorithms. Passing measurement
-checks does not establish segmentation parity or biological accuracy.
+Native detector modes have distinct recipe identities. Passing measurement
+checks does not establish general segmentation parity or biological accuracy.
 """
 import argparse
 from datetime import datetime, timezone
@@ -145,7 +145,7 @@ def on_polygon_boundary(roi, x, y):
     return False
 
 
-def compare_case(folder, contract, case):
+def compare_case(folder, contract, case, cell_algorithm="distance"):
     import numpy as np
     from PIL import Image
     import qupathxx as q
@@ -175,6 +175,15 @@ def compare_case(folder, contract, case):
         for key, value in contract['native'].items():
             setattr(params, key, value)
         params.tile_size = tile
+        if cell_algorithm not in ['distance', 'log', 'log-bodies', 'log-sampled']:
+            raise ValueError('unknown cell algorithm')
+        if cell_algorithm == 'log':
+            params.algorithm = q.CellAlgorithm.LOG_WATERSHED
+        elif cell_algorithm == 'log-bodies':
+            params.algorithm = q.CellAlgorithm.LOG_WATERSHED_BODIES
+        elif cell_algorithm == 'log-sampled':
+            params.algorithm = q.CellAlgorithm.SAMPLED_LOG_WATERSHED_BODIES
+            params.min_peak_radius = params.min_seed_distance = 0
         started = time.perf_counter()
         result = q.detect_cells(q.CellRequest(doc, target, transform, params))
         timings.append(dict(tile_size=tile, elapsed_ms=(time.perf_counter()-started)*1000,
@@ -258,12 +267,13 @@ def compare_case(folder, contract, case):
         characterization_gates=gates,timings=timings)
 
 
-def compare(folder):
+def compare(folder, cell_algorithm="distance"):
     import qupathxx as q
     import qupathxx._native as native
     contract = verify_capture(folder)
-    cases = [compare_case(folder, contract, case) for case in contract['cases']]
+    cases = [compare_case(folder, contract, case, cell_algorithm) for case in contract['cases']]
     return dict(schema='qpx.qupath-cells-comparison/1',state='characterized-partial',
+        cell_algorithm=cell_algorithm,build_git_revision=q.build_environment().git_revision,
         segmentation_parity_accepted=False,biological_validation=False,
         explicit_winding_sampling_accepted=all(r['passed'] for case in cases for r in case['shared_roi_regions_winding']),
         explicit_winding_compartments=sum(len(case['shared_roi_regions_winding']) for case in cases),
@@ -277,11 +287,12 @@ def main():
     parser.add_argument('--capture', type=Path, help='New output directory; runs hash-verified upstream runtime')
     parser.add_argument('--reference', type=Path, default=FIXTURES/'capture')
     parser.add_argument('--report', type=Path, required=True)
+    parser.add_argument('--cell-algorithm', choices=['distance','log','log-bodies','log-sampled'], default='distance')
     args = parser.parse_args()
     folder = args.capture or args.reference
     if args.capture:
         capture(folder)
-    report = compare(folder)
+    report = compare(folder, args.cell_algorithm)
     args.report.parent.mkdir(parents=True,exist_ok=True)
     args.report.write_bytes((json.dumps(report,indent=2,allow_nan=False)+'\n').encode('utf-8'))
     print(json.dumps(dict(state=report['state'],cases=len(report['cases']),report=str(args.report))))

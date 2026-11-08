@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\upstream\\qupath\\runtime\\QuPath-0.7.0 (console).exe",
+    "script",
+    "--args",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\cell-policy-edges-303",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\cell-policy-edges-303\\affine-probe.groovy"
+  ],
+  "returncode": 0
+}

@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\ctest.exe",
+    "--test-dir",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package",
+    "-C",
+    "Release",
+    "-R",
+    "^(qupath_project|project|interchange|spatial_records|file_fingerprint)$",
+    "--output-on-failure",
+    "--test-output-size-passed",
+    "10000000",
+    "--test-output-size-failed",
+    "10000000",
+    "--output-junit",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\source-verification-r5\\native.xml"
+  ],
+  "returncode": 8
+}

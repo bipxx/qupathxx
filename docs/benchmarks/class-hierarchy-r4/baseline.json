@@ -1,0 +1,37 @@
+{
+  "source": "408f383e78e7f235ec2d444c3a7d2488a81c5d64",
+  "cases": [
+    {
+      "case": "rgb",
+      "refused": true,
+      "error": "invalid project class"
+    },
+    {
+      "case": "empty",
+      "refused": true,
+      "error": "invalid project class"
+    },
+    {
+      "case": "rgba",
+      "refused": true,
+      "error": "invalid project class"
+    },
+    {
+      "case": "null-color",
+      "refused": true,
+      "error": "invalid QuPath project metadata: [json.exception.out_of_range.403] key 'color' not found"
+    }
+  ],
+  "native_without_defaults": {
+    "objects": 6,
+    "issues": [
+      {
+        "code": "classification_hierarchy_flattened",
+        "count": 4
+      }
+    ],
+    "no_parent_api": true
+  },
+  "derived_geojson_refusal": "only flat named classifications are supported",
+  "no_project_class_registry_api": true
+}

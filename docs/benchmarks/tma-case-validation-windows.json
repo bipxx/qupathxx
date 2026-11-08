@@ -1,0 +1,111 @@
+{
+  "schema": "qpx.tma-case-local-validation/1",
+  "compiled_git_revision": "914b7e2cd02a49c87907d578ea0b736a8cefb71d",
+  "input_count": 254,
+  "source_tree_sha256": "46a980b25e54df1f17f02945be6f59f6e8ba52419bb4264cd8a84acf79e7f323",
+  "native_sha256": "3ccda90b1916134e8a873ae358aa78fd1fb1e0d28e00588cd1e5bf90a8b0b272",
+  "raw_build_fingerprint_matches": true,
+  "all_compiled_inputs_match_committed_source_after_line_ending_normalization": true,
+  "wheel_sha256": "5500a9817aaf534c2758e611f1771ae9d78d829dab6d54638f63499a8c6f27b4",
+  "installed": {
+    "schema": "qpx.installed-workflow/1",
+    "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+    "executable": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\software-probe141\\python.exe",
+    "native": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\cases141-windows-python\\Lib\\site-packages\\qupathxx\\_native.cp312-win_amd64.pyd",
+    "native_sha256": "3ccda90b1916134e8a873ae358aa78fd1fb1e0d28e00588cd1e5bf90a8b0b272",
+    "source_tree_sha256": "46a980b25e54df1f17f02945be6f59f6e8ba52419bb4264cd8a84acf79e7f323",
+    "gui": true,
+    "geos": true,
+    "openslide": true,
+    "gl_renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+    "openslide_version": "4.0.1",
+    "openslide_runtime_sha256": null,
+    "docked_workspace": true,
+    "layout_saved": true,
+    "monitor_scale": 1.0,
+    "framebuffer_scale": 1.0,
+    "ui_scale": 1.25,
+    "font_rebuilds": 1,
+    "ui_stacked_fields": 0,
+    "ui_wrapped_buttons": 0,
+    "ui_overflow_items": 0,
+    "ui_max_overflow": 0.0,
+    "framebuffer": [
+      1440,
+      900
+    ],
+    "raw_archive_records": 1,
+    "raw_replay_verified": true,
+    "raw_input_sha256": "ff618dfd592aaf66e46f6fdede2c89eeb5165696a781839b69df3832a94c01e5",
+    "raw_batch_reused": true,
+    "roi_samples": 320,
+    "native_batch_checkpoints": 1
+  },
+  "native": {
+    "passed": 47,
+    "skipped": 0,
+    "expected_scientific_failures": 0,
+    "sha256": "6f8eddb1f25e11b557be283f056940e3b2291ab599129eaec60b2127c4f5a42a",
+    "expected_failure_cases": []
+  },
+  "focused": {
+    "passed": 48,
+    "skipped": 0,
+    "expected_scientific_failures": 0,
+    "sha256": "1e90d133a66305722d3aef82e860d4d64e367722bd9e9d6744c27e2c0638353c",
+    "expected_failure_cases": []
+  },
+  "full": {
+    "passed": 2390,
+    "skipped": 13,
+    "expected_scientific_failures": 3,
+    "sha256": "8d15a2684217907217cf62830d6ef2ed3440d108eafe73795f072ca217ec79a3",
+    "expected_failure_cases": [
+      "test_isolated_cell_upstream_acceptance_gate[baseline_count]",
+      "test_isolated_cell_upstream_acceptance_gate[isolated_nucleus_iou]",
+      "test_isolated_cell_upstream_acceptance_gate[isolated_centroid]"
+    ]
+  },
+  "independent_rational_weighted_oracle": true,
+  "initial_regressions": {
+    "compiled_git_revision": "b0620b1",
+    "failed": [
+      "test_signed_cancellation_keeps_small_replicate_contribution",
+      "test_mean_underflow_cannot_silently_become_zero"
+    ],
+    "junit_sha256": "0622321a21533113849a31ee7914808f942ccdfc58b1f1e967c728a2afd71d57",
+    "native_sha256": "74d560d38f4a9f179a76c1d730714aa007365a442189427cd14d2011c4c3e7c4"
+  },
+  "scale_profile_sha256": "273c80654e19c31663a007ce1eb6da4f605fd4fce229e96ade6fc9f346252e63",
+  "scale_profile_rows": [
+    1000,
+    10000,
+    100000
+  ],
+  "scale_profile_raw_trials": 18,
+  "scale_profile_warmups": 3,
+  "source_bound_audit_controls_sha256": "da41663d80b4268b960f9f9dfb498cebbe855e4c7b9c2fde7531e64d2c7c67f9",
+  "capture": {
+    "frames": 10,
+    "ui_overflow_items": 0,
+    "tma_error": "",
+    "capture": "build/cases141-parser-export-ui.ppm",
+    "sha256": "5ddaad34c78edde22ee4d3f0709e5770f89d8f2541cdf0696600dc002172bbce"
+  },
+  "positive_typing_source_files": 3,
+  "negative_typing_error_lines": [
+    6,
+    7,
+    8,
+    9,
+    11,
+    13,
+    14
+  ],
+  "wheel_stubs_match_source": true,
+  "hosted_tma_candidate_accepted": false,
+  "performance_accepted": false,
+  "release_ready": false,
+  "overall_project_complete": false,
+  "scope": "Local installed Windows GUI wheel and single-grid case summaries only. Full regression retains three strict legacy scientific xfails. Source-bound CI controls were checked in a separate local contract repository, not hosted CI. Synthetic timing observations are not hardware, biological, QuPath or speedup acceptance."
+}

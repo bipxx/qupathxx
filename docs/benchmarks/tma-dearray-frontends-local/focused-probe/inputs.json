@@ -1,0 +1,12 @@
+{
+  "cpp/tma_dearray.cpp": "06c01917eb7c8cd7d70af54ed765099ce8d1f3a1eae6d42cba7dce95a08e32ee",
+  "cpp/include/qupathxx/tma_dearray.hpp": "cc6c3419b2befdcb2c7c05a4c2b2f0eaf872d91c2e315775c5392d7a662bf297",
+  "cpp/tests/tma_dearray_tests.cpp": "cd3b002d71b2c58d673eab5fe10707895d2f3c92c6058364dcd5d37f7f85eeb7",
+  "cpp/viewer_session.cpp": "20f96f1d0eb7d0c385733c047ecc5612f7ab15489f22912151810150a741923b",
+  "cpp/tma_dearray_cli.cpp": "06ae0359ca934c9e0ea769568995f73651899e7ea42cc74e7df83866118eeffb",
+  "cpp/tma_dearray_cli.hpp": "ca7e7bc29ef9a30e2eb066c29942044ee972331fa277f6d5218fc05a6dcbf6fa",
+  "cpp/include/qupathxx/core.hpp": "58f7aa665c4610fd4f464008a95c82e7493c641082dcb9584da06f492345416d",
+  "cpp/include/qupathxx/viewer_session.hpp": "8719c012416cc2b98055511790a9efe35bd552b9e2ff339f271bbfee84817c50",
+  "CMakeLists.txt": "e161c955c847d593b025d03d7d5bfcecc08d1c919d589eb408ba46d63c8ec03d",
+  "retained_libqupathxx_core.a": "040cd2e4063d850ddd9f9f72f4fc4bedf3c9ce5274cf77c61952d8247f031bc6"
+}

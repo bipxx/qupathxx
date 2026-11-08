@@ -1,0 +1,106 @@
+[
+  {
+    "role": "engine",
+    "run_id": 40245160107,
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/bipxx/qupathxx/actions/runs/40245160107",
+    "jobs": [
+      {
+        "id": 121325068190,
+        "name": "Windows GUI Python 3.12 software GL",
+        "status": "completed",
+        "conclusion": "success",
+        "step": null
+      },
+      {
+        "id": 121325068252,
+        "name": "Linux ASan UBSan native",
+        "status": "completed",
+        "conclusion": "success",
+        "step": null
+      },
+      {
+        "id": 121325068294,
+        "name": "Windows headless Python 3.11 NumPy 1",
+        "status": "completed",
+        "conclusion": "success",
+        "step": null
+      },
+      {
+        "id": 121325068302,
+        "name": "Linux minimal native",
+        "status": "completed",
+        "conclusion": "success",
+        "step": null
+      },
+      {
+        "id": 121325068316,
+        "name": "Linux headless Python 3.12 NumPy 2",
+        "status": "completed",
+        "conclusion": "success",
+        "step": null
+      }
+    ]
+  },
+  {
+    "role": "macos",
+    "run_id": 40245165671,
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/bipxx/qupathxx/actions/runs/40245165671",
+    "jobs": [
+      {
+        "id": 121325085167,
+        "name": "macOS native x86_64",
+        "status": "completed",
+        "conclusion": "success",
+        "step": null
+      },
+      {
+        "id": 121325085332,
+        "name": "macOS native arm64",
+        "status": "completed",
+        "conclusion": "success",
+        "step": null
+      }
+    ]
+  },
+  {
+    "role": "portable",
+    "run_id": 40245171698,
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/bipxx/qupathxx/actions/runs/40245171698",
+    "jobs": [
+      {
+        "id": 121325102847,
+        "name": "Manylinux build Python 3.11",
+        "status": "completed",
+        "conclusion": "success",
+        "step": null
+      },
+      {
+        "id": 121325102965,
+        "name": "Manylinux build Python 3.12",
+        "status": "completed",
+        "conclusion": "success",
+        "step": null
+      },
+      {
+        "id": 121329542567,
+        "name": "Debian consumer Python 3.12",
+        "status": "completed",
+        "conclusion": "success",
+        "step": null
+      },
+      {
+        "id": 121329542571,
+        "name": "Debian consumer Python 3.11",
+        "status": "completed",
+        "conclusion": "success",
+        "step": null
+      }
+    ]
+  }
+]

@@ -1,0 +1,20 @@
+{
+  "id": 12823638446,
+  "node_id": "MDg6QXJ0aWZhY3QxMjgyMzYzODQ0Ng==",
+  "name": "Linux-minimal-py3.12",
+  "size_in_bytes": 53559,
+  "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12823638446",
+  "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12823638446/zip",
+  "expired": false,
+  "digest": "sha256:be400119c6d85636592d0d3bc86fd6eebcd1a07e88a51e1c40161aafe83c7407",
+  "created_at": "2026-10-28T14:36:35Z",
+  "updated_at": "2026-10-28T14:36:35Z",
+  "expires_at": "2026-11-11T14:36:34Z",
+  "workflow_run": {
+    "id": 40706232371,
+    "repository_id": 1427753981,
+    "head_repository_id": 1427753981,
+    "head_branch": "feature/snapshot-waits-qualification-276",
+    "head_sha": "9d923225cb53009506042f6c27df2aff91e123e2"
+  }
+}

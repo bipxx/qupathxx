@@ -1,0 +1,64 @@
+{
+  "native_source": "9fa565ab6e18a176d7c404aa07a3d2bb46da7ad1",
+  "cohorts": {
+    "corrected-spatial-tests": {
+      "cases": 40,
+      "passed": 40,
+      "skipped": []
+    },
+    "schema-regressions": {
+      "cases": 372,
+      "passed": 364,
+      "skipped": [
+        {
+          "class": "tests.test_cell_records",
+          "name": "test_native_pyramid_grid_roi_and_markers_survive[1]",
+          "reason": "requires OpenSlide"
+        },
+        {
+          "class": "tests.test_cell_records",
+          "name": "test_native_pyramid_grid_roi_and_markers_survive[2]",
+          "reason": "requires OpenSlide"
+        },
+        {
+          "class": "tests.test_project",
+          "name": "test_opened_slide_document_defaults_to_its_native_link",
+          "reason": "requires OpenSlide"
+        },
+        {
+          "class": "tests.test_project",
+          "name": "test_slide_link_keeps_explicit_unknown_calibration_and_pixels",
+          "reason": "requires identified OpenSlide fixture"
+        },
+        {
+          "class": "tests.test_project",
+          "name": "test_large_pyramid_is_a_small_project_link",
+          "reason": "requires generated large pyramid fixture"
+        },
+        {
+          "class": "tests.test_provenance",
+          "name": "test_openslide_capture_keeps_native_locator_and_all_pyramid_levels",
+          "reason": "requires OpenSlide"
+        },
+        {
+          "class": "tests.test_tissue_records",
+          "name": "test_native_pyramid_mask_and_clipped_geometry_roundtrip[1]",
+          "reason": "requires OpenSlide"
+        },
+        {
+          "class": "tests.test_tissue_records",
+          "name": "test_native_pyramid_mask_and_clipped_geometry_roundtrip[2]",
+          "reason": "requires OpenSlide"
+        }
+      ]
+    },
+    "corrected-native-tests": {
+      "cases": 53,
+      "passed": 53,
+      "skipped": []
+    }
+  },
+  "installed_unique_cases": 412,
+  "installed_passed": 404,
+  "installed_skipped": 8
+}

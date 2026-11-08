@@ -41,6 +41,65 @@
         0.499,
         0.499
       ]
+    },
+    {
+      "filename": "CMU-1.ndpi",
+      "bytes": 198030965,
+      "url": "https://openslide.cs.cmu.edu/download/openslide-testdata/Hamamatsu/CMU-1.ndpi",
+      "sha256": "edf4a1ccf395c7000ae93ad3b44c07d97043810e00be0c1d167dd09bbe436e46",
+      "license": "CC0-1.0",
+      "license_source": "https://openslide.cs.cmu.edu/download/openslide-testdata/Hamamatsu/index.yaml",
+      "source_index_sha256": "8a6f9ab124e5621a11319c65da5cb8210866452a47b063442526394b51f61f07",
+      "tier": "extended",
+      "purpose": "Real Hamamatsu NDPI pyramid, metadata/calibration, bounded region/CLI reads, scheduling, analysis and desktop navigation; opt-in extended validation",
+      "dimensions": [
+        [
+          51200,
+          38144
+        ],
+        [
+          25600,
+          19072
+        ],
+        [
+          12800,
+          9536
+        ],
+        [
+          6400,
+          4768
+        ],
+        [
+          3200,
+          2384
+        ],
+        [
+          1600,
+          1192
+        ],
+        [
+          800,
+          596
+        ],
+        [
+          400,
+          298
+        ],
+        [
+          200,
+          149
+        ]
+      ],
+      "pixel_size_um": [
+        0.45641259698767683,
+        0.4550625711035267
+      ],
+      "analysis_roi": [
+        11264,
+        17664,
+        256,
+        256
+      ]
     }
   ],
   "generated": [

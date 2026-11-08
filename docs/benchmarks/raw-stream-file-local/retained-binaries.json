@@ -1,0 +1,222 @@
+{
+  "source": "c843dfa41b331bd93d73fdcf72e3a8b00bfcff0f",
+  "binaries": [
+    {
+      "host": "windows",
+      "suite": "pixel_workflows",
+      "source": "c843dfa41b331bd93d73fdcf72e3a8b00bfcff0f",
+      "fingerprint": "af52a8132b74f07fc335c1b1aa17137f2991a03d117b9730b1ad086261bdf82e",
+      "path": "build/rawstreamfile224-retained-binaries/windows/qupathxx_pixel_workflow_tests.exe",
+      "bytes": 3876352,
+      "sha256": "d468c69205d5b4da761b0ebbef96e1d1e69244ea6fc5c2000f55b3bcd5515b24"
+    },
+    {
+      "host": "linux",
+      "suite": "pixel_workflows",
+      "source": "c843dfa41b331bd93d73fdcf72e3a8b00bfcff0f",
+      "fingerprint": "af52a8132b74f07fc335c1b1aa17137f2991a03d117b9730b1ad086261bdf82e",
+      "path": "build/rawstreamfile224-retained-binaries/linux/qupathxx_pixel_workflow_tests",
+      "bytes": 7378112,
+      "sha256": "42f42e8b2457e5ea9fe51ffa613a37c74204a28a51545b85c9e4f97dcaa3f270"
+    },
+    {
+      "host": "training",
+      "suite": "pixel_workflows",
+      "source": "c843dfa41b331bd93d73fdcf72e3a8b00bfcff0f",
+      "fingerprint": "af52a8132b74f07fc335c1b1aa17137f2991a03d117b9730b1ad086261bdf82e",
+      "path": "build/rawstreamfile224-retained-binaries/training/qupathxx_pixel_workflow_tests.exe",
+      "bytes": 5076480,
+      "sha256": "418d6b94307766d3072b7df6da841e915063f451892d8d032b9e50986741d366"
+    },
+    {
+      "host": "windows",
+      "suite": "pixel_workflows",
+      "passed": true,
+      "source": "125afbb493bfec9df9ea879d12f0eeff9def6a9b",
+      "fingerprint": "66d35562d555c233b4b415bd13a773deec4171dd59b77a76a58c3738d3c20518",
+      "path": "build/rawstreamfile224-initial-products/windows/qupathxx_pixel_workflow_tests.exe",
+      "bytes": 3871232,
+      "sha256": "fc80379f2678a53e634bb092ac463f7885bca68f7d8dac3f87b4f24e2ccc73d7"
+    },
+    {
+      "host": "windows",
+      "suite": "pixel_features",
+      "passed": true,
+      "source": "125afbb493bfec9df9ea879d12f0eeff9def6a9b",
+      "fingerprint": "66d35562d555c233b4b415bd13a773deec4171dd59b77a76a58c3738d3c20518",
+      "path": "build/rawstreamfile224-initial-products/windows/qupathxx_pixel_feature_tests.exe",
+      "bytes": 1650176,
+      "sha256": "e0b61105ca966a4cd7ac81d345441adaafa55220979143b420a121bb51f0a016"
+    },
+    {
+      "host": "windows",
+      "suite": "resampling",
+      "passed": true,
+      "source": "125afbb493bfec9df9ea879d12f0eeff9def6a9b",
+      "fingerprint": "66d35562d555c233b4b415bd13a773deec4171dd59b77a76a58c3738d3c20518",
+      "path": "build/rawstreamfile224-initial-products/windows/qupathxx_resampling_tests.exe",
+      "bytes": 2338816,
+      "sha256": "bc62eccb8ea9c87f2e7033bdbcbe5e6e5257c04592b35c8b9fb1a43325d1f951"
+    },
+    {
+      "host": "windows",
+      "suite": "raw_image",
+      "passed": true,
+      "source": "125afbb493bfec9df9ea879d12f0eeff9def6a9b",
+      "fingerprint": "66d35562d555c233b4b415bd13a773deec4171dd59b77a76a58c3738d3c20518",
+      "path": "build/rawstreamfile224-initial-products/windows/qupathxx_raw_image_tests.exe",
+      "bytes": 3374592,
+      "sha256": "7a454a7f83630c6a97c09394a0cf3d1486959385fd5562af3f02ee9cc76fd408"
+    },
+    {
+      "host": "windows",
+      "suite": "source_identity",
+      "passed": true,
+      "source": "125afbb493bfec9df9ea879d12f0eeff9def6a9b",
+      "fingerprint": "66d35562d555c233b4b415bd13a773deec4171dd59b77a76a58c3738d3c20518",
+      "path": "build/rawstreamfile224-initial-products/windows/qupathxx_source_identity_tests.exe",
+      "bytes": 1511936,
+      "sha256": "78d4146f7cb23042771af66c9e2f8f2069f35c373e3a8db8fa95c315a21b8c2a"
+    },
+    {
+      "host": "windows",
+      "suite": "provenance",
+      "passed": true,
+      "source": "125afbb493bfec9df9ea879d12f0eeff9def6a9b",
+      "fingerprint": "66d35562d555c233b4b415bd13a773deec4171dd59b77a76a58c3738d3c20518",
+      "path": "build/rawstreamfile224-initial-products/windows/qupathxx_provenance_tests.exe",
+      "bytes": 1623040,
+      "sha256": "ff40f28bee74a171c03280021ae1b0d59fdb68933dec3b0324a56b6cc238e79a"
+    },
+    {
+      "host": "windows",
+      "suite": "project",
+      "passed": true,
+      "source": "125afbb493bfec9df9ea879d12f0eeff9def6a9b",
+      "fingerprint": "66d35562d555c233b4b415bd13a773deec4171dd59b77a76a58c3738d3c20518",
+      "path": "build/rawstreamfile224-initial-products/windows/qupathxx_project_tests.exe",
+      "bytes": 2810368,
+      "sha256": "68c98cc1a411b3eacf7f8810203edf1d4b36970f940881282fff283d0e9b76db"
+    },
+    {
+      "host": "windows",
+      "suite": "project_save",
+      "passed": true,
+      "source": "125afbb493bfec9df9ea879d12f0eeff9def6a9b",
+      "fingerprint": "66d35562d555c233b4b415bd13a773deec4171dd59b77a76a58c3738d3c20518",
+      "path": "build/rawstreamfile224-initial-products/windows/qupathxx_save_tests.exe",
+      "bytes": 2576384,
+      "sha256": "fb50288316f97865a3790c6a94f2086b1ade69432f827e9970fb4b92057cda0f"
+    },
+    {
+      "host": "linux",
+      "suite": "pixel_workflows",
+      "passed": true,
+      "source": "125afbb493bfec9df9ea879d12f0eeff9def6a9b",
+      "fingerprint": "66d35562d555c233b4b415bd13a773deec4171dd59b77a76a58c3738d3c20518",
+      "path": "build/rawstreamfile224-initial-products/linux/qupathxx_pixel_workflow_tests",
+      "bytes": 7353232,
+      "sha256": "7eb86eac1d31868bbf42321d493cbcc8dc43c0a29d17312cc0af5816580f3002"
+    },
+    {
+      "host": "linux",
+      "suite": "pixel_features",
+      "passed": true,
+      "source": "125afbb493bfec9df9ea879d12f0eeff9def6a9b",
+      "fingerprint": "66d35562d555c233b4b415bd13a773deec4171dd59b77a76a58c3738d3c20518",
+      "path": "build/rawstreamfile224-initial-products/linux/qupathxx_pixel_feature_tests",
+      "bytes": 2842368,
+      "sha256": "d79d40f949167d1d7053f0ff96ce9016cf498d7870b4c9b569854471c767b1fb"
+    },
+    {
+      "host": "linux",
+      "suite": "resampling",
+      "passed": true,
+      "source": "125afbb493bfec9df9ea879d12f0eeff9def6a9b",
+      "fingerprint": "66d35562d555c233b4b415bd13a773deec4171dd59b77a76a58c3738d3c20518",
+      "path": "build/rawstreamfile224-initial-products/linux/qupathxx_resampling_tests",
+      "bytes": 5341928,
+      "sha256": "ad9d190116aef08fa9b83636f211de0aa438cfe169cb023c1b6553338b67b817"
+    },
+    {
+      "host": "linux",
+      "suite": "raw_image",
+      "passed": true,
+      "source": "125afbb493bfec9df9ea879d12f0eeff9def6a9b",
+      "fingerprint": "66d35562d555c233b4b415bd13a773deec4171dd59b77a76a58c3738d3c20518",
+      "path": "build/rawstreamfile224-initial-products/linux/qupathxx_raw_image_tests",
+      "bytes": 6573240,
+      "sha256": "1cadb48feb9926e718845b2473cf65abb07406eb38ecba8c49894cda8c9f764c"
+    },
+    {
+      "host": "linux",
+      "suite": "source_identity",
+      "passed": true,
+      "source": "125afbb493bfec9df9ea879d12f0eeff9def6a9b",
+      "fingerprint": "66d35562d555c233b4b415bd13a773deec4171dd59b77a76a58c3738d3c20518",
+      "path": "build/rawstreamfile224-initial-products/linux/qupathxx_source_identity_tests",
+      "bytes": 2567480,
+      "sha256": "0e51c0c80db411f8f4d121e7959b330786057fc3b0d5862c306a7b56d636b0da"
+    },
+    {
+      "host": "linux",
+      "suite": "provenance",
+      "passed": true,
+      "source": "125afbb493bfec9df9ea879d12f0eeff9def6a9b",
+      "fingerprint": "66d35562d555c233b4b415bd13a773deec4171dd59b77a76a58c3738d3c20518",
+      "path": "build/rawstreamfile224-initial-products/linux/qupathxx_provenance_tests",
+      "bytes": 4383432,
+      "sha256": "82f46f9cf628331596619b90cb75bcac9fa09a836f470d4b73a58d0a88eb9c84"
+    },
+    {
+      "host": "linux",
+      "suite": "project",
+      "passed": true,
+      "source": "125afbb493bfec9df9ea879d12f0eeff9def6a9b",
+      "fingerprint": "66d35562d555c233b4b415bd13a773deec4171dd59b77a76a58c3738d3c20518",
+      "path": "build/rawstreamfile224-initial-products/linux/qupathxx_project_tests",
+      "bytes": 5892792,
+      "sha256": "17aa77944b0e43b5ee8b460d2e224ac835862ef528d48be8f9270247b5914b20"
+    },
+    {
+      "host": "linux",
+      "suite": "project_save",
+      "passed": true,
+      "source": "125afbb493bfec9df9ea879d12f0eeff9def6a9b",
+      "fingerprint": "66d35562d555c233b4b415bd13a773deec4171dd59b77a76a58c3738d3c20518",
+      "path": "build/rawstreamfile224-initial-products/linux/qupathxx_save_tests",
+      "bytes": 5914240,
+      "sha256": "2fd80c822c34899f87398b0087732bb041696814d04ac8e48c711b5f01f00c27"
+    },
+    {
+      "host": "training",
+      "suite": "pixel_workflows",
+      "passed": true,
+      "source": "125afbb493bfec9df9ea879d12f0eeff9def6a9b",
+      "fingerprint": "66d35562d555c233b4b415bd13a773deec4171dd59b77a76a58c3738d3c20518",
+      "path": "build/rawstreamfile224-initial-products/training/qupathxx_pixel_workflow_tests.exe",
+      "bytes": 5071360,
+      "sha256": "24b06e4da1f3ad7c217a11b4244762b83cfc163d44861fb35c698faa2393066c"
+    },
+    {
+      "host": "training",
+      "suite": "pixel_features",
+      "passed": true,
+      "source": "125afbb493bfec9df9ea879d12f0eeff9def6a9b",
+      "fingerprint": "66d35562d555c233b4b415bd13a773deec4171dd59b77a76a58c3738d3c20518",
+      "path": "build/rawstreamfile224-initial-products/training/qupathxx_pixel_feature_tests.exe",
+      "bytes": 2475520,
+      "sha256": "ce14d354f193d89e5359acca416f4b55d39736329b2bef4cc4510711128e88d8"
+    },
+    {
+      "host": "training",
+      "suite": "classifier",
+      "passed": true,
+      "source": "125afbb493bfec9df9ea879d12f0eeff9def6a9b",
+      "fingerprint": "66d35562d555c233b4b415bd13a773deec4171dd59b77a76a58c3738d3c20518",
+      "path": "build/rawstreamfile224-initial-products/training/qupathxx_classifier_tests.exe",
+      "bytes": 1389568,
+      "sha256": "4b96027fe4a40c86660de8ab97a3a9aa37441751759457a74bf56742edce5c53"
+    }
+  ]
+}

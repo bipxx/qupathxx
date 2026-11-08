@@ -1,0 +1,6 @@
+{
+  "source_commit": "b916186e66aa3c02b72c6ca17455516512ed8049",
+  "canonical_original_sha256": "9d65a8f6e53adc2baa89eb6ea285601a0c0294bd0e624ddb4926f05dd0a55f3f",
+  "canonical_patched_sha256": "b128e296a0e6fa22de8138716fd882076acb98aeef30d9e94205ecb60e694dfc",
+  "newline_normalization_only": true
+}

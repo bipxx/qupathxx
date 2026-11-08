@@ -1,0 +1,17 @@
+{
+  "source": "2098cf21f8b5e9f9c215ff0c0c24b956b8f1549f",
+  "files": {
+    "tools/ci/run.py": {
+      "git_blob_sha256": "0690bc1f773567102fb6e3dcb9f3c2daa6adc719847f3219829fae5d3d64b18a",
+      "checked_out_sha256": "0690bc1f773567102fb6e3dcb9f3c2daa6adc719847f3219829fae5d3d64b18a"
+    },
+    "tests/test_ci_installed_diagnostics.py": {
+      "git_blob_sha256": "e199c0c847dd146774913ce21f9fa6cf060ead4b72f0c52ba4dafa2367bf7fdf",
+      "checked_out_sha256": "e199c0c847dd146774913ce21f9fa6cf060ead4b72f0c52ba4dafa2367bf7fdf"
+    },
+    "tests/fixtures/ci-installed-diagnostics-v1/legacy-command-contract.json": {
+      "git_blob_sha256": "0485fe94a67a2abf2bb3de791991cfcc8dd983df0f4e3e60a8d77950cfffe972",
+      "checked_out_sha256": "0485fe94a67a2abf2bb3de791991cfcc8dd983df0f4e3e60a8d77950cfffe972"
+    }
+  }
+}

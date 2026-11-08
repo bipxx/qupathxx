@@ -1,0 +1,24 @@
+{
+  "source": "46358eb403975a8c6d6966f0a862298e5d51a2dd",
+  "input_sha256": {
+    "cpp/qupath_class_color.hpp": "232d656bb565d89df0c8d4c364da9145ab642ca57edae9b2c6a6d00bb32c53e0",
+    "cpp/tests/class_color_checks.hpp": "25e800aa7b33d82eb4a6b3228a2baa3b953c218121c6e8f8fdb8161e0dc5488e",
+    "cpp/tests/classes_tests.cpp": "03757ad5acdce82af83fc52604aa4a38117b6e1c3b97ba617eef6c942224a1a1",
+    "cpp/utf8_text.hpp": "d26b8c624ebfdb07cab5170a88ce640c8462d505b3c3899b28c1cb7dc9929aff"
+  },
+  "binary_sha256": "f0353a9c0587bbb9aae961a8179b81f23defc08bd4012ae0b7278926d505fa9f",
+  "build_argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\cmake.exe",
+    "--build",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package",
+    "--config",
+    "Release",
+    "--target",
+    "qupathxx_classes_tests",
+    "--parallel",
+    "2"
+  ],
+  "build_returncode": 0,
+  "test_returncode": 0,
+  "scope": "Internal default-color primitive plus existing flat class history. Public hierarchy/palette integration remains pending; no wheel/stubs/install."
+}

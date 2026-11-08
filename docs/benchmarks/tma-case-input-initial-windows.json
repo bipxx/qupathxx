@@ -1,0 +1,39 @@
+{
+  "schema": "qpx.tma-case-input-initial-validation/1",
+  "compiled_git_revision": "f3ed0623c8b4ce9849064a8b2f3d51b83363a73f",
+  "input_count": 258,
+  "source_tree_sha256": "93acc1b054820f4401100165d7edf573845b30c255c13a909bdc8bbee4c08b89",
+  "native_sha256": "2d2767539b7fcf54277043b2c64a7f6914b787ae3ed399b628d5a434dcdb1b15",
+  "raw_build_fingerprint_matches": true,
+  "all_compiled_inputs_match_committed_source_after_line_ending_normalization": true,
+  "native": {
+    "passed": 47,
+    "sha256": "ea267b628e32b57be006b1ea009733ef1764d1e0c277fc01dd0c86f452c09cfd"
+  },
+  "focused": {
+    "passed": 77,
+    "sha256": "7d071a51e273866eadd8256ba73775ed608caa37c7b95b78ca48c8ad85958b47"
+  },
+  "file_api_cli_cases": 29,
+  "wheel_sha256": "7ba2971e96b6dfee18a9c3cee8c4bd05ceb8cddd87c3e74b9d8e39b5ff4a4412",
+  "native_oversize_read_transfer_bytes": 0,
+  "input_limit_boundary_cases": 2,
+  "audit_controls_rejected": 12,
+  "positive_typing_source_files": 3,
+  "negative_typing_error_lines": [
+    6,
+    7,
+    8,
+    9,
+    11,
+    13,
+    14
+  ],
+  "wheel_stubs_match_source": true,
+  "full_installed_regression_completed": false,
+  "hosted_input_optimization_accepted": false,
+  "performance_accepted": false,
+  "release_ready": false,
+  "overall_project_complete": false,
+  "scope": "Initial installed Windows/native/API/CLI/desktop validation. Full installed regression and source-bound platform audits remain pending. Pilot memory and I/O observations do not establish hardware-wide performance acceptance."
+}

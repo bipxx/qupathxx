@@ -1,0 +1,79 @@
+FFFFFFFFsssssssss....................................................... [ 29%]
+........................................................................ [ 59%]
+........................................................................ [ 89%]
+.sssssssss.s.............                                                [100%]
+================================== FAILURES ===================================
+________________ test_cli_preview_then_explicit_project_import ________________
+tests\test_tma_dearray_cli.py:27: in test_cli_preview_then_explicit_project_import
+    source, image = source_project(tmp_path)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_tma_dearray_cli.py:16: in source_project
+    project.set_active_image(1)
+    ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Project' object has no attribute 'set_active_image'. Did you mean: 'active_image'?
+______ test_cli_rejects_bad_or_duplicate_options_without_output[flags0] _______
+tests\test_tma_dearray_cli.py:48: in test_cli_rejects_bad_or_duplicate_options_without_output
+    source, image = source_project(tmp_path)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_tma_dearray_cli.py:16: in source_project
+    project.set_active_image(1)
+    ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Project' object has no attribute 'set_active_image'. Did you mean: 'active_image'?
+______ test_cli_rejects_bad_or_duplicate_options_without_output[flags1] _______
+tests\test_tma_dearray_cli.py:48: in test_cli_rejects_bad_or_duplicate_options_without_output
+    source, image = source_project(tmp_path)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_tma_dearray_cli.py:16: in source_project
+    project.set_active_image(1)
+    ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Project' object has no attribute 'set_active_image'. Did you mean: 'active_image'?
+______ test_cli_rejects_bad_or_duplicate_options_without_output[flags2] _______
+tests\test_tma_dearray_cli.py:48: in test_cli_rejects_bad_or_duplicate_options_without_output
+    source, image = source_project(tmp_path)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_tma_dearray_cli.py:16: in source_project
+    project.set_active_image(1)
+    ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Project' object has no attribute 'set_active_image'. Did you mean: 'active_image'?
+______ test_cli_rejects_bad_or_duplicate_options_without_output[flags3] _______
+tests\test_tma_dearray_cli.py:48: in test_cli_rejects_bad_or_duplicate_options_without_output
+    source, image = source_project(tmp_path)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_tma_dearray_cli.py:16: in source_project
+    project.set_active_image(1)
+    ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Project' object has no attribute 'set_active_image'. Did you mean: 'active_image'?
+______ test_cli_rejects_bad_or_duplicate_options_without_output[flags4] _______
+tests\test_tma_dearray_cli.py:48: in test_cli_rejects_bad_or_duplicate_options_without_output
+    source, image = source_project(tmp_path)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_tma_dearray_cli.py:16: in source_project
+    project.set_active_image(1)
+    ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Project' object has no attribute 'set_active_image'. Did you mean: 'active_image'?
+______ test_cli_rejects_bad_or_duplicate_options_without_output[flags5] _______
+tests\test_tma_dearray_cli.py:48: in test_cli_rejects_bad_or_duplicate_options_without_output
+    source, image = source_project(tmp_path)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_tma_dearray_cli.py:16: in source_project
+    project.set_active_image(1)
+    ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Project' object has no attribute 'set_active_image'. Did you mean: 'active_image'?
+_____________ test_cli_preserves_existing_output_and_source_alias _____________
+tests\test_tma_dearray_cli.py:64: in test_cli_preserves_existing_output_and_source_alias
+    source, image = source_project(tmp_path)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_tma_dearray_cli.py:16: in source_project
+    project.set_active_image(1)
+    ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Project' object has no attribute 'set_active_image'. Did you mean: 'active_image'?
+=========================== short test summary info ===========================
+FAILED tests/test_tma_dearray_cli.py::test_cli_preview_then_explicit_project_import
+FAILED tests/test_tma_dearray_cli.py::test_cli_rejects_bad_or_duplicate_options_without_output[flags0]
+FAILED tests/test_tma_dearray_cli.py::test_cli_rejects_bad_or_duplicate_options_without_output[flags1]
+FAILED tests/test_tma_dearray_cli.py::test_cli_rejects_bad_or_duplicate_options_without_output[flags2]
+FAILED tests/test_tma_dearray_cli.py::test_cli_rejects_bad_or_duplicate_options_without_output[flags3]
+FAILED tests/test_tma_dearray_cli.py::test_cli_rejects_bad_or_duplicate_options_without_output[flags4]
+FAILED tests/test_tma_dearray_cli.py::test_cli_rejects_bad_or_duplicate_options_without_output[flags5]
+FAILED tests/test_tma_dearray_cli.py::test_cli_preserves_existing_output_and_source_alias
+8 failed, 214 passed, 19 skipped in 10.75s

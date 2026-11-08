@@ -1,0 +1,25 @@
+{
+  "total_count": 1,
+  "artifacts": [
+    {
+      "id": 12798565925,
+      "node_id": "MDg6QXJ0aWZhY3QxMjc5ODU2NTkyNQ==",
+      "name": "macos-native-x86_64",
+      "size_in_bytes": 16192934,
+      "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12798565925",
+      "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12798565925/zip",
+      "expired": false,
+      "digest": "sha256:537c90483a56aa8b4fb6e322ba3e912981c74fb8e239c95d95916d35f34696a5",
+      "created_at": "2026-10-28T07:07:51Z",
+      "updated_at": "2026-10-28T07:07:51Z",
+      "expires_at": "2026-11-11T07:07:48Z",
+      "workflow_run": {
+        "id": 40646201004,
+        "repository_id": 1427753981,
+        "head_repository_id": 1427753981,
+        "head_branch": "feature/owner-delivery-qualification-262",
+        "head_sha": "e2282b8c782bfcc38fddc8aee86e28d833663dc3"
+      }
+    }
+  ]
+}

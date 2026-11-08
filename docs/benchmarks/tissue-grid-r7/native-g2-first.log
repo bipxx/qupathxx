@@ -1,0 +1,21 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+    Start 14: project_batch
+1/8 Test #14: project_batch ....................   Passed    1.25 sec
+    Start 19: measurement_tables
+2/8 Test #19: measurement_tables ...............   Passed    0.07 sec
+    Start 21: cell_records
+3/8 Test #21: cell_records .....................   Passed    0.71 sec
+    Start 33: tissue_records
+4/8 Test #33: tissue_records ...................   Passed    0.12 sec
+    Start 34: tissue_contours
+5/8 Test #34: tissue_contours ..................   Passed    0.17 sec
+    Start 36: tissue_grid
+6/8 Test #36: tissue_grid ......................   Passed    0.07 sec
+    Start 37: tissue_median
+7/8 Test #37: tissue_median ....................   Passed    0.11 sec
+    Start 38: tissue_smoothing
+8/8 Test #38: tissue_smoothing .................   Passed    0.13 sec
+
+100% tests passed out of 8
+
+Total Test time (real) =   2.85 sec

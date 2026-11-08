@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "C:\Users\HEQ\Projects\qupathxx\build\ci\tma-dearray-workflow-202\tools\ci\accept_unified_engine.py", line 407, in <module>
+    assert len(cases)==(17 if args.tma_cohorts else 12 if args.tma_cases else 8) and all(not any(t.find(k) is not None for k in ['skipped','failure','error']) for t in cases)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

@@ -1,0 +1,17 @@
+Native sampled shape-watershed stages
+
+cpp/shape_watershed.hpp adapts the EDM-specific processing in ImageJ 1.54p
+MaximumFinder, by Michael Schmid and Wayne Rasband. GUI, ImageJ processor,
+ROI, display/counting and non-EDM paths are excluded. Native ownership,
+cancellation, memory and traversal admission are implemented for qupathxx.
+The distance map uses qupathxx's exact squared-Euclidean transform rather
+than ImageJ's approximate 8SSEDT implementation.
+
+ImageJ describes itself as public-domain software:
+https://imagej.net/ij/docs/intro.html
+
+Versioned algorithm source:
+https://github.com/imagej/ImageJ/blob/v1.54p/ij/plugin/filter/MaximumFinder.java
+https://github.com/imagej/ImageJ/blob/v1.54p/ij/plugin/filter/EDM.java
+
+This attribution does not select a license for the qupathxx project.

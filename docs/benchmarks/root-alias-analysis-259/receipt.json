@@ -1,0 +1,51 @@
+{
+  "schema": "qpx.output-root-alias-observation/1",
+  "runtime_source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+  "observer_original_path": "build/ci/analyze_root_alias_259.py",
+  "snapshot_api": "Project.save_new",
+  "same_physical_directory": true,
+  "same_image": true,
+  "changed_sql_cells": 1,
+  "changed_field": "images.source",
+  "ordinary_locator": "../source.ppm",
+  "extended_locator": "absolute path to the same source.ppm",
+  "schema_and_pragmas_equal": true,
+  "repair_implemented": false,
+  "project_cpp_git_blob_sha256": "b9fed8e75014245c424200cd3c309f3273fefa09beb59cd786306765b131b40e",
+  "snapshot_binary_files_retained_locally": "build/root-alias-analysis-259/snapshots",
+  "scope": "Serialization witness for the separately retained batch alias reuse gap; no runtime changes or platform acceptance",
+  "installed_native_sha256": "fc3922d2ae9f8684e8665954fd8a2c096936a1655da4fb1d0a83bac4878a2086",
+  "installed_fingerprint": "8207779e99fd53ec9acfcafcceb50ce9bde1bc0620094c4b18396b4796969582",
+  "evidence": [
+    {
+      "path": "locator-selection.txt",
+      "bytes": 1128,
+      "sha256": "52928a463cc250e8981dfcb3cf4bc7ddf352a99b68c4818babad997ceaf84d5e"
+    },
+    {
+      "path": "notebook-prefix-proof.json",
+      "bytes": 180,
+      "sha256": "86356c129ff992e1f53f32d259b40dd66d74a3d232c48b8381606bbe889b54c1"
+    },
+    {
+      "path": "observation.json",
+      "bytes": 894,
+      "sha256": "6a3c0403d9d168b4f5c7dbbac941d9533742c303b04c44774395998896ac7c7f"
+    },
+    {
+      "path": "observer.py",
+      "bytes": 2323,
+      "sha256": "22159973c3c5f5b067f8fa9073d9bde756cbf9b447e53aaf2177e1fe3429ba4d"
+    },
+    {
+      "path": "source.ppm",
+      "bytes": 23,
+      "sha256": "a426b0f75de80d8ff3c1f18badc251cd0e4fa5e5243a2f4288d5a91d6948351d"
+    },
+    {
+      "path": "sqlite-differential.json",
+      "bytes": 26062,
+      "sha256": "a60f6a810002dfa201675bd7a5e460e67f26dce84c702779ce541348b83f8c02"
+    }
+  ]
+}

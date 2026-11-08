@@ -1,0 +1,71 @@
+{
+  "schema": "qpx.qualification-campaign-receipt/1",
+  "source": "5f1760a122337f1a610c95a33c8b0bd6182f7781",
+  "ref": "feature/schema-observer-qualification-273",
+  "scope": "Combined spatial workflow, nine Document-taking wait repair and strict schema14 observer repair. Every role builds its own frozen source; no acceptance transfers from262.",
+  "runs": {
+    "engine": {
+      "conclusion": "",
+      "createdAt": "2026-10-28T13:23:24Z",
+      "databaseId": 40695971669,
+      "headSha": "5f1760a122337f1a610c95a33c8b0bd6182f7781",
+      "status": "queued",
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40695971669"
+    },
+    "macos": {
+      "conclusion": "",
+      "createdAt": "2026-10-28T13:23:31Z",
+      "databaseId": 40695988673,
+      "headSha": "5f1760a122337f1a610c95a33c8b0bd6182f7781",
+      "status": "queued",
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40695988673"
+    },
+    "portable": {
+      "conclusion": "",
+      "createdAt": "2026-10-28T13:23:37Z",
+      "databaseId": 40696004980,
+      "headSha": "5f1760a122337f1a610c95a33c8b0bd6182f7781",
+      "status": "queued",
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40696004980"
+    }
+  },
+  "source_paths": 534,
+  "compiler_git_blobs_identical": 410,
+  "local_native_source": "c949826ceac5ca357a9eadabef218b30461e5686",
+  "local_products_not_relabelled": true,
+  "all_roles_build_own_source": true,
+  "engineering_accepted": false,
+  "release_ready": false,
+  "files": [
+    {
+      "path": "campaign.json",
+      "bytes": 3591,
+      "sha256": "6d7eca734654789640e94ef37f371b9eecce89b08d03688f0125d3ff287601b0"
+    },
+    {
+      "path": "frozen-source-proof.json",
+      "bytes": 134199,
+      "sha256": "4977e94a2c4ecfca21f270333d7d7893198b9f6169fb3cb30fc213ef3141161f"
+    },
+    {
+      "path": "complete-audit-plan.json",
+      "bytes": 2949,
+      "sha256": "26c5e054e61e7cd1d0115db7088182bcd47fb1ce0b5c4d6337289f489fee0da6"
+    },
+    {
+      "path": "initial-observation/engine-run.json",
+      "bytes": 21959,
+      "sha256": "efb45e21814e5f28531aa63c9db33651753391ae53222198290913febb533dca"
+    },
+    {
+      "path": "initial-observation/macos-run.json",
+      "bytes": 2006,
+      "sha256": "3c167eb60d8677a914026bd0b4ff8cb604942133e8c706cfb357c5c2cfb8329f"
+    },
+    {
+      "path": "initial-observation/portable-run.json",
+      "bytes": 1643,
+      "sha256": "94f0a46d91bc0fd5e217e4ddf5dfb44c3e60f227c13a43997b1355fa430d8df0"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "command": [
+    "uv",
+    "pip",
+    "install",
+    "--python",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-stream-frontends-245-env\\Scripts\\python.exe",
+    "--target",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-stream-frontends-245-env\\Lib\\site-packages",
+    "--reinstall",
+    "--no-deps",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw-stream-frontends-245\\final-wheel\\qupathxx-0.1.0-cp312-cp312-win_amd64.whl"
+  ],
+  "exit": 0
+}

@@ -1,0 +1,20 @@
+{
+  "id": 12798298898,
+  "node_id": "MDg6QXJ0aWZhY3QxMjc5ODI5ODg5OA==",
+  "name": "Windows-headless-py3.11",
+  "size_in_bytes": 11872499,
+  "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12798298898",
+  "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12798298898/zip",
+  "expired": false,
+  "digest": "sha256:454433b9e856915270d1689b198e4631f858b4f7ea9f312b55eb8741beac5875",
+  "created_at": "2026-10-28T07:11:15Z",
+  "updated_at": "2026-10-28T07:11:15Z",
+  "expires_at": "2026-11-11T07:11:14Z",
+  "workflow_run": {
+    "id": 40646189840,
+    "repository_id": 1427753981,
+    "head_repository_id": 1427753981,
+    "head_branch": "feature/owner-delivery-qualification-262",
+    "head_sha": "e2282b8c782bfcc38fddc8aee86e28d833663dc3"
+  }
+}

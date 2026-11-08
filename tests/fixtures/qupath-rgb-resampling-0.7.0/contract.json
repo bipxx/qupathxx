@@ -1,0 +1,385 @@
+{
+  "schema": "qpx.qupath-rgb-resampling-contract/1",
+  "cases": [
+    {
+      "name": "gradient",
+      "requests": [
+        {
+          "name": "full_0_75",
+          "downsample": 0.75,
+          "bounds": [
+            0,
+            0,
+            17,
+            13
+          ]
+        },
+        {
+          "name": "full_1",
+          "downsample": 1,
+          "bounds": [
+            0,
+            0,
+            17,
+            13
+          ]
+        },
+        {
+          "name": "full_1_25",
+          "downsample": 1.25,
+          "bounds": [
+            0,
+            0,
+            17,
+            13
+          ]
+        },
+        {
+          "name": "full_1_5",
+          "downsample": 1.5,
+          "bounds": [
+            0,
+            0,
+            17,
+            13
+          ]
+        },
+        {
+          "name": "full_2",
+          "downsample": 2,
+          "bounds": [
+            0,
+            0,
+            17,
+            13
+          ]
+        },
+        {
+          "name": "full_2_3",
+          "downsample": 2.3,
+          "bounds": [
+            0,
+            0,
+            17,
+            13
+          ]
+        },
+        {
+          "name": "full_3_75",
+          "downsample": 3.75,
+          "bounds": [
+            0,
+            0,
+            17,
+            13
+          ]
+        },
+        {
+          "name": "crop_1_5",
+          "downsample": 1.5,
+          "bounds": [
+            1,
+            2,
+            14,
+            9
+          ]
+        },
+        {
+          "name": "crop_2_3",
+          "downsample": 2.3,
+          "bounds": [
+            3,
+            1,
+            12,
+            11
+          ]
+        }
+      ]
+    },
+    {
+      "name": "checker",
+      "requests": [
+        {
+          "name": "full_0_75",
+          "downsample": 0.75,
+          "bounds": [
+            0,
+            0,
+            17,
+            13
+          ]
+        },
+        {
+          "name": "full_1",
+          "downsample": 1,
+          "bounds": [
+            0,
+            0,
+            17,
+            13
+          ]
+        },
+        {
+          "name": "full_1_25",
+          "downsample": 1.25,
+          "bounds": [
+            0,
+            0,
+            17,
+            13
+          ]
+        },
+        {
+          "name": "full_1_5",
+          "downsample": 1.5,
+          "bounds": [
+            0,
+            0,
+            17,
+            13
+          ]
+        },
+        {
+          "name": "full_2",
+          "downsample": 2,
+          "bounds": [
+            0,
+            0,
+            17,
+            13
+          ]
+        },
+        {
+          "name": "full_2_3",
+          "downsample": 2.3,
+          "bounds": [
+            0,
+            0,
+            17,
+            13
+          ]
+        },
+        {
+          "name": "full_3_75",
+          "downsample": 3.75,
+          "bounds": [
+            0,
+            0,
+            17,
+            13
+          ]
+        },
+        {
+          "name": "crop_1_5",
+          "downsample": 1.5,
+          "bounds": [
+            1,
+            2,
+            14,
+            9
+          ]
+        },
+        {
+          "name": "crop_2_3",
+          "downsample": 2.3,
+          "bounds": [
+            3,
+            1,
+            12,
+            11
+          ]
+        }
+      ]
+    },
+    {
+      "name": "noise",
+      "requests": [
+        {
+          "name": "full_0_75",
+          "downsample": 0.75,
+          "bounds": [
+            0,
+            0,
+            17,
+            13
+          ]
+        },
+        {
+          "name": "full_1",
+          "downsample": 1,
+          "bounds": [
+            0,
+            0,
+            17,
+            13
+          ]
+        },
+        {
+          "name": "full_1_25",
+          "downsample": 1.25,
+          "bounds": [
+            0,
+            0,
+            17,
+            13
+          ]
+        },
+        {
+          "name": "full_1_5",
+          "downsample": 1.5,
+          "bounds": [
+            0,
+            0,
+            17,
+            13
+          ]
+        },
+        {
+          "name": "full_2",
+          "downsample": 2,
+          "bounds": [
+            0,
+            0,
+            17,
+            13
+          ]
+        },
+        {
+          "name": "full_2_3",
+          "downsample": 2.3,
+          "bounds": [
+            0,
+            0,
+            17,
+            13
+          ]
+        },
+        {
+          "name": "full_3_75",
+          "downsample": 3.75,
+          "bounds": [
+            0,
+            0,
+            17,
+            13
+          ]
+        },
+        {
+          "name": "crop_1_5",
+          "downsample": 1.5,
+          "bounds": [
+            1,
+            2,
+            14,
+            9
+          ]
+        },
+        {
+          "name": "crop_2_3",
+          "downsample": 2.3,
+          "bounds": [
+            3,
+            1,
+            12,
+            11
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cells",
+      "requests": [
+        {
+          "name": "full_0_75",
+          "downsample": 0.75,
+          "bounds": [
+            0,
+            0,
+            256,
+            192
+          ]
+        },
+        {
+          "name": "full_1",
+          "downsample": 1,
+          "bounds": [
+            0,
+            0,
+            256,
+            192
+          ]
+        },
+        {
+          "name": "full_1_25",
+          "downsample": 1.25,
+          "bounds": [
+            0,
+            0,
+            256,
+            192
+          ]
+        },
+        {
+          "name": "full_1_5",
+          "downsample": 1.5,
+          "bounds": [
+            0,
+            0,
+            256,
+            192
+          ]
+        },
+        {
+          "name": "full_2",
+          "downsample": 2,
+          "bounds": [
+            0,
+            0,
+            256,
+            192
+          ]
+        },
+        {
+          "name": "full_2_3",
+          "downsample": 2.3,
+          "bounds": [
+            0,
+            0,
+            256,
+            192
+          ]
+        },
+        {
+          "name": "full_3_75",
+          "downsample": 3.75,
+          "bounds": [
+            0,
+            0,
+            256,
+            192
+          ]
+        },
+        {
+          "name": "crop_1_5",
+          "downsample": 1.5,
+          "bounds": [
+            1,
+            2,
+            253,
+            188
+          ]
+        },
+        {
+          "name": "crop_2_3",
+          "downsample": 2.3,
+          "bounds": [
+            3,
+            1,
+            251,
+            190
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,127 @@
+{
+  "native_source": "9627e54507b400a676f3599041e8535e15768635",
+  "native_source_tree_sha256": "92437bc438a56f953886462e6f037930fadc6931de4a4c6a44da33a5e7a724f9",
+  "native_pyd_sha256": "d4d286fab5bfcf650ade765d19a7a0eebcd31ff421784faa360c413d20a2b293",
+  "compiler_input_count": 461,
+  "compiler_inputs_sha256": "a9143e85e6cc95b73ab513d8dcf79ada84eb4c3079d25935d269d52f12f73300",
+  "observer_inputs_sha256": "fdf0e63bc5b98757a03849c86afcd0f277c6f0239f9774e3e8fbeb6b208f15ff",
+  "changed_observer_only_inputs": [
+    "cpp/tests/qupath_project_tests.cpp"
+  ],
+  "observer_core_source_tree_sha256": "681f88f12fdb1bcf2a58282115d53d837b03ee15731378d75c85d22d34f19665",
+  "observer_core_git_revision": "9627e54507b400a676f3599041e8535e15768635+dirty",
+  "observer_core_archive_sha256": "f4beb2bfaffbee9b717d1fbcd850dbbd60f7650e49f26e15ced71a317de12093",
+  "observer_environment_note": "CMake refreshed provenance after the C++ witness edit; distinct observer archive is not identified as original product. Runtime compiler sources unchanged.",
+  "wheel_sha256": "123f2ca55f568e9ac6a40f74e959d9e6a3a8dd52442d53ef83a326427c8e2a2b",
+  "installed_wheel_members_verified": 65,
+  "cohorts": {
+    "staged": {
+      "cases": 68,
+      "passed": 64,
+      "skipped": 4,
+      "failed": 0
+    },
+    "native": {
+      "cases": 4,
+      "passed": 3,
+      "skipped": 0,
+      "failed": 1
+    },
+    "native-observer": {
+      "cases": 1,
+      "passed": 1,
+      "skipped": 0,
+      "failed": 0
+    },
+    "desktop": {
+      "cases": 1,
+      "passed": 1,
+      "skipped": 0,
+      "failed": 0
+    },
+    "installed": {
+      "cases": 6,
+      "passed": 6,
+      "skipped": 0,
+      "failed": 0
+    }
+  },
+  "accepted_native_roles": {
+    "original_product": [
+      "tma",
+      "project",
+      "project_save"
+    ],
+    "repaired_observer": [
+      "qupath_project"
+    ]
+  },
+  "build": {
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Scripts\\python.exe",
+      "-X",
+      "utf8",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\savedtma_r5_backend.py"
+    ],
+    "returncode": 0,
+    "elapsed_seconds": 46.04979899991304
+  },
+  "observer_build": {
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\cmake.exe",
+      "--build",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package",
+      "--config",
+      "Release",
+      "--target",
+      "qupathxx_qupath_project_tests",
+      "--parallel",
+      "2"
+    ],
+    "returncode": 0,
+    "elapsed_seconds": null,
+    "postcheck": "Core-archive identity assertion failed: CMake regenerated provenance after the observer input changed.",
+    "original_core_library_sha256": "106eb289cae6506b1c4f858bac306fdca0c448bce8b919be37bf5d11ee8fefa3",
+    "observer_core_library_sha256": "f4beb2bfaffbee9b717d1fbcd850dbbd60f7650e49f26e15ced71a317de12093",
+    "postcheck_returncode": 1
+  },
+  "package": {
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\saved-tma-r5-env\\Scripts\\python.exe",
+      "-I",
+      "-m",
+      "pip",
+      "install",
+      "--ignore-installed",
+      "--no-index",
+      "--no-deps",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\saved-tma-r5\\wheel\\qupathxx-0.1.0-cp312-cp312-win_amd64.whl"
+    ],
+    "returncode": 0,
+    "elapsed_seconds": 2.15445589995943,
+    "final_product_installs": 1,
+    "stub_generations": 0,
+    "unchanged_api_and_schema": true,
+    "wheel_sha256": "123f2ca55f568e9ac6a40f74e959d9e6a3a8dd52442d53ef83a326427c8e2a2b",
+    "observer_difference": [
+      "cpp/tests/qupath_project_tests.cpp"
+    ]
+  },
+  "native_test_executable_sha256": {
+    "tma": "6788e7f8ffbb7786212e8d98e934c81d3ebb9bdaa527942ec9bb7d0802a1968b",
+    "project": "70f48c516c0e397ffa8e0486cd6049c52e5832e41f70693515d099c91ab642a9",
+    "save": "3203baa792f72a9ad6c8c412b29b91be9247a98c7d314c24959ef12f9964ff08",
+    "qupath_project": "9725522af1a29610806c42e670ba5141d2f9094d4e07916a8600f58bb0fd8e65"
+  },
+  "failures_retained": [
+    "capture.log",
+    "capture-fixed.log",
+    "capture-failed-probe.groovy",
+    "capture-fixed-failed-probe.groovy",
+    "baseline.log",
+    "native.log",
+    "native.xml",
+    "native-observer-before.json"
+  ],
+  "scope": "Local pinned nonempty rectangular DefaultTMAGrid/ellipse-core import, metadata/history/snapshot/store and consumer route. Unsupported variants refuse. Not all R5, biological acceptance, other hosts, resources/speed or release."
+}

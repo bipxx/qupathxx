@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\image-settings-r5-probe-env\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-m",
+    "pytest",
+    "tests/test_image_analysis_settings.py",
+    "-k",
+    "desktop",
+    "-q",
+    "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\image-settings-r5\\desktop-fixed.xml",
+    "--basetemp",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\image-settings-r5\\desktop-fixed-temp"
+  ],
+  "returncode": 0,
+  "elapsed_seconds": 5.0180927000474185
+}

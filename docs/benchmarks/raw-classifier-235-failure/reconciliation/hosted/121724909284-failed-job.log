@@ -1,0 +1,334 @@
+﻿2026-10-26T17:12:13.5453469Z Current runner version: '2.338.0'
+2026-10-26T17:12:13.5478736Z ##[group]Runner Image Provisioner
+2026-10-26T17:12:13.5479697Z Hosted Compute Agent
+2026-10-26T17:12:13.5480380Z Version: 20261021.618
+2026-10-26T17:12:13.5481012Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+2026-10-26T17:12:13.5481834Z Build Date: 2026-10-21T00:45:21Z
+2026-10-26T17:12:13.5482554Z Worker ID: {1803c97c-093e-4827-b595-eeb8d6a9eb8a}
+2026-10-26T17:12:13.5483244Z Region: westus
+2026-10-26T17:12:13.5483853Z Cloud: Azure
+2026-10-26T17:12:13.5484389Z ##[endgroup]
+2026-10-26T17:12:13.5485926Z ##[group]Operating System
+2026-10-26T17:12:13.5486577Z Ubuntu
+2026-10-26T17:12:13.5487129Z 24.04.5
+2026-10-26T17:12:13.5487693Z LTS
+2026-10-26T17:12:13.5488208Z ##[endgroup]
+2026-10-26T17:12:13.5489175Z ##[group]Runner Image
+2026-10-26T17:12:13.5489832Z Image: ubuntu-24.04
+2026-10-26T17:12:13.5490396Z Version: 20261012.334.1
+2026-10-26T17:12:13.5491694Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261012.334/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-26T17:12:13.5493255Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261012.334
+2026-10-26T17:12:13.5494325Z ##[endgroup]
+2026-10-26T17:12:13.5495384Z ##[group]GITHUB_TOKEN Permissions
+2026-10-26T17:12:13.5497332Z Contents: read
+2026-10-26T17:12:13.5497945Z Metadata: read
+2026-10-26T17:12:13.5499205Z ##[endgroup]
+2026-10-26T17:12:13.5501350Z Secret source: Actions
+2026-10-26T17:12:13.5502380Z Cache mode: write
+2026-10-26T17:12:13.5503127Z Prepare workflow directory
+2026-10-26T17:12:13.6064395Z Prepare all required actions
+2026-10-26T17:12:13.6112449Z Getting action download info
+2026-10-26T17:12:13.9998203Z Download action repository 'actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8' (SHA:08c6903cd8c0fde910a37f88322edcfb5dd907a8)
+2026-10-26T17:12:14.0981424Z Download action repository 'actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0' (SHA:634f93cb2916e3fdff6788551b99b062d0335ce0)
+2026-10-26T17:12:14.5252438Z Download action repository 'actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4' (SHA:330a01c490aca151604b8cf639adc76d48f6c5d4)
+2026-10-26T17:12:14.8525205Z Complete job name: Debian consumer Python 3.12
+2026-10-26T17:12:14.9155835Z ##[group]Checking docker version
+2026-10-26T17:12:14.9169881Z ##[command]/usr/bin/docker version --format '{{.Server.APIVersion}}'
+2026-10-26T17:12:14.9999614Z '1.48'
+2026-10-26T17:12:15.0010494Z Docker daemon API version: '1.48'
+2026-10-26T17:12:15.0011816Z ##[command]/usr/bin/docker version --format '{{.Client.APIVersion}}'
+2026-10-26T17:12:15.0181392Z '1.48'
+2026-10-26T17:12:15.0195401Z Docker client API version: '1.48'
+2026-10-26T17:12:15.0203685Z ##[endgroup]
+2026-10-26T17:12:15.0207729Z ##[group]Clean up resources from previous jobs
+2026-10-26T17:12:15.0214977Z ##[command]/usr/bin/docker ps --all --quiet --no-trunc --filter "label=9c6f11"
+2026-10-26T17:12:15.0373471Z ##[command]/usr/bin/docker network prune --force --filter "label=9c6f11"
+2026-10-26T17:12:15.0518082Z ##[endgroup]
+2026-10-26T17:12:15.0519196Z ##[group]Create local container network
+2026-10-26T17:12:15.0530621Z ##[command]/usr/bin/docker network create --label 9c6f11 github_network_23fb0e25921143e1a082bfc6bd3718a8
+2026-10-26T17:12:15.1101617Z ed3878001c58115df0640d0fded7e90a79fa0ed3bd3f883b4494d73df679c7ce
+2026-10-26T17:12:15.1137996Z ##[endgroup]
+2026-10-26T17:12:15.1164416Z ##[group]Starting job container
+2026-10-26T17:12:15.1187938Z ##[command]/usr/bin/docker pull library/python@sha256:57d96f71de145a98e7ceca18ee4ade77bba4103a33a72dfaea026b23625c6bf0
+2026-10-26T17:12:15.7683631Z docker.io/library/python@sha256:57d96f71de145a98e7ceca18ee4ade77bba4103a33a72dfaea026b23625c6bf0: Pulling from library/python
+2026-10-26T17:12:15.7687799Z 11422d7ca1a4: Pulling fs layer
+2026-10-26T17:12:15.7689498Z fd4548892b7d: Pulling fs layer
+2026-10-26T17:12:15.7690872Z 87463122edac: Pulling fs layer
+2026-10-26T17:12:15.7691861Z b52d28f2ade3: Pulling fs layer
+2026-10-26T17:12:15.7692981Z b52d28f2ade3: Waiting
+2026-10-26T17:12:16.0121672Z fd4548892b7d: Verifying Checksum
+2026-10-26T17:12:16.0123841Z fd4548892b7d: Download complete
+2026-10-26T17:12:16.0543016Z 87463122edac: Verifying Checksum
+2026-10-26T17:12:16.0544982Z 87463122edac: Download complete
+2026-10-26T17:12:16.0903571Z 11422d7ca1a4: Verifying Checksum
+2026-10-26T17:12:16.0904963Z 11422d7ca1a4: Download complete
+2026-10-26T17:12:16.2413932Z b52d28f2ade3: Verifying Checksum
+2026-10-26T17:12:16.2417166Z b52d28f2ade3: Download complete
+2026-10-26T17:12:17.2782540Z 11422d7ca1a4: Pull complete
+2026-10-26T17:12:17.9400870Z fd4548892b7d: Pull complete
+2026-10-26T17:12:18.5579610Z 87463122edac: Pull complete
+2026-10-26T17:12:18.5707275Z b52d28f2ade3: Pull complete
+2026-10-26T17:12:18.5746798Z Digest: sha256:57d96f71de145a98e7ceca18ee4ade77bba4103a33a72dfaea026b23625c6bf0
+2026-10-26T17:12:18.5753469Z Status: Downloaded newer image for python@sha256:57d96f71de145a98e7ceca18ee4ade77bba4103a33a72dfaea026b23625c6bf0
+2026-10-26T17:12:18.5769327Z docker.io/library/python@sha256:57d96f71de145a98e7ceca18ee4ade77bba4103a33a72dfaea026b23625c6bf0
+2026-10-26T17:12:18.5856898Z ##[command]/usr/bin/docker create --name 9cb6b4350c534eddbeeae0ed4cfd3f3b_librarypythonsha25657d96f71de145a98e7ceca18ee4ade77bba4103a33a72dfaea026b23625c6bf0_36e5d8 --label 9c6f11 --workdir /__w/qupathxx/qupathxx --network github_network_23fb0e25921143e1a082bfc6bd3718a8  -e "HOME=/github/home" -e GITHUB_ACTIONS=true -e CI=true -v "/var/run/docker.sock":"/var/run/docker.sock" -v "/home/runner/work":"/__w" -v "/home/runner/actions-runner/cached/2.338.0/externals":"/__e":ro -v "/home/runner/work/_temp":"/__w/_temp" -v "/home/runner/work/_actions":"/__w/_actions" -v "/opt/hostedtoolcache":"/__t" -v "/home/runner/work/_temp/_github_home":"/github/home" -v "/home/runner/work/_temp/_github_workflow":"/github/workflow" --entrypoint "tail" library/python@sha256:57d96f71de145a98e7ceca18ee4ade77bba4103a33a72dfaea026b23625c6bf0 "-f" "/dev/null"
+2026-10-26T17:12:18.6124363Z 1da40868ad855851e737331a169b25eb63cd6568b441f18db4757437cff8157f
+2026-10-26T17:12:18.6144434Z ##[command]/usr/bin/docker start 1da40868ad855851e737331a169b25eb63cd6568b441f18db4757437cff8157f
+2026-10-26T17:12:18.7968158Z 1da40868ad855851e737331a169b25eb63cd6568b441f18db4757437cff8157f
+2026-10-26T17:12:18.7986287Z ##[command]/usr/bin/docker ps --all --filter id=1da40868ad855851e737331a169b25eb63cd6568b441f18db4757437cff8157f --filter status=running --no-trunc --format "{{.ID}} {{.Status}}"
+2026-10-26T17:12:18.8116707Z 1da40868ad855851e737331a169b25eb63cd6568b441f18db4757437cff8157f Up Less than a second
+2026-10-26T17:12:18.8125383Z ##[command]/usr/bin/docker inspect --format "{{range .Config.Env}}{{println .}}{{end}}" 1da40868ad855851e737331a169b25eb63cd6568b441f18db4757437cff8157f
+2026-10-26T17:12:18.8250068Z HOME=/github/home
+2026-10-26T17:12:18.8250587Z GITHUB_ACTIONS=true
+2026-10-26T17:12:18.8250867Z CI=true
+2026-10-26T17:12:18.8251382Z PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+2026-10-26T17:12:18.8252095Z LANG=C.UTF-8
+2026-10-26T17:12:18.8252542Z GPG_KEY=7169605F62C751356D054A26A821E680E5FA6305
+2026-10-26T17:12:18.8253044Z PYTHON_VERSION=3.12.15
+2026-10-26T17:12:18.8253677Z PYTHON_SHA256=c2c4321961fab0fb999d66e0cecf521c2ab3994c7992873ea99e306c1094fd5a
+2026-10-26T17:12:18.8273390Z ##[endgroup]
+2026-10-26T17:12:18.8282522Z ##[group]Waiting for all services to be ready
+2026-10-26T17:12:18.8284283Z ##[endgroup]
+2026-10-26T17:12:18.8502133Z ##[group]Run apt-get -o Acquire::Retries=3 update
+2026-10-26T17:12:18.8502597Z [36;1mapt-get -o Acquire::Retries=3 update[0m
+2026-10-26T17:12:18.8503113Z [36;1mapt-get -o Acquire::Retries=3 install -y --no-install-recommends libstdc++6 libgcc-s1[0m
+2026-10-26T17:12:18.8507121Z shell: bash --noprofile --norc -e -o pipefail {0}
+2026-10-26T17:12:18.8507732Z ##[endgroup]
+2026-10-26T17:12:18.9568942Z Get:1 http://deb.debian.org/debian bookworm InRelease [151 kB]
+2026-10-26T17:12:18.9642054Z Get:2 http://deb.debian.org/debian bookworm-updates InRelease [55.4 kB]
+2026-10-26T17:12:18.9642833Z Get:3 http://deb.debian.org/debian-security bookworm-security InRelease [34.8 kB]
+2026-10-26T17:12:19.0189250Z Get:4 http://deb.debian.org/debian bookworm/main amd64 Packages [8790 kB]
+2026-10-26T17:12:19.0701718Z Get:5 http://deb.debian.org/debian bookworm-updates/main amd64 Packages [6924 B]
+2026-10-26T17:12:19.1160044Z Get:6 http://deb.debian.org/debian-security bookworm-security/main amd64 Packages [357 kB]
+2026-10-26T17:12:19.8340077Z Fetched 9396 kB in 1s (10.6 MB/s)
+2026-10-26T17:12:20.2243463Z Reading package lists...
+2026-10-26T17:12:20.6237823Z Reading package lists...
+2026-10-26T17:12:20.7170834Z Building dependency tree...
+2026-10-26T17:12:20.7171368Z Reading state information...
+2026-10-26T17:12:20.8161528Z libstdc++6 is already the newest version (12.2.0-14+deb12u1).
+2026-10-26T17:12:20.8162219Z libstdc++6 set to manually installed.
+2026-10-26T17:12:20.8162810Z libgcc-s1 is already the newest version (12.2.0-14+deb12u1).
+2026-10-26T17:12:20.8163560Z libgcc-s1 set to manually installed.
+2026-10-26T17:12:20.8164214Z 0 upgraded, 0 newly installed, 0 to remove and 3 not upgraded.
+2026-10-26T17:12:20.8454424Z ##[group]Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+2026-10-26T17:12:20.8454830Z with:
+2026-10-26T17:12:20.8455047Z   persist-credentials: false
+2026-10-26T17:12:20.8455310Z   repository: bipxx/qupathxx
+2026-10-26T17:12:20.8457872Z   token: ***
+2026-10-26T17:12:20.8458087Z   ssh-strict: true
+2026-10-26T17:12:20.8458491Z   ssh-user: git
+2026-10-26T17:12:20.8458687Z   clean: true
+2026-10-26T17:12:20.8458894Z   sparse-checkout-cone-mode: true
+2026-10-26T17:12:20.8459154Z   fetch-depth: 1
+2026-10-26T17:12:20.8459356Z   fetch-tags: false
+2026-10-26T17:12:20.8459565Z   show-progress: true
+2026-10-26T17:12:20.8459772Z   lfs: false
+2026-10-26T17:12:20.8459956Z   submodules: false
+2026-10-26T17:12:20.8460163Z   set-safe-directory: true
+2026-10-26T17:12:20.8460393Z ##[endgroup]
+2026-10-26T17:12:20.8507096Z ##[command]/usr/bin/docker exec  1da40868ad855851e737331a169b25eb63cd6568b441f18db4757437cff8157f sh -c "cat /etc/*release | grep ^ID"
+2026-10-26T17:12:21.0415320Z Syncing repository: bipxx/qupathxx
+2026-10-26T17:12:21.0416694Z ##[group]Getting Git version info
+2026-10-26T17:12:21.0417045Z Working directory is '/__w/qupathxx/qupathxx'
+2026-10-26T17:12:21.0417593Z ##[endgroup]
+2026-10-26T17:12:21.0417859Z Deleting the contents of '/__w/qupathxx/qupathxx'
+2026-10-26T17:12:21.0418242Z The repository will be downloaded using the GitHub REST API
+2026-10-26T17:12:21.0418954Z To create a local Git repository instead, add Git 2.18 or higher to the PATH
+2026-10-26T17:12:21.0419370Z Downloading the archive
+2026-10-26T17:12:24.0436572Z Writing archive to disk
+2026-10-26T17:12:24.0528424Z Extracting the archive
+2026-10-26T17:12:24.0634372Z [command]/usr/bin/tar xz --warning=no-unknown-keyword --overwrite -C /__w/qupathxx/qupathxx/cde601cc-b632-4413-a6c0-4f083e97b222 -f /__w/qupathxx/qupathxx/cde601cc-b632-4413-a6c0-4f083e97b222.tar.gz
+2026-10-26T17:12:24.6317812Z Resolved version bipxx-qupathxx-176ec42
+2026-10-26T17:12:24.6601547Z ##[group]Run actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
+2026-10-26T17:12:24.6602003Z with:
+2026-10-26T17:12:24.6602214Z   name: manylinux-3.12
+2026-10-26T17:12:24.6602443Z   path: build/ci/candidate
+2026-10-26T17:12:24.6602683Z   merge-multiple: false
+2026-10-26T17:12:24.6602915Z   repository: bipxx/qupathxx
+2026-10-26T17:12:24.6603144Z   run-id: 40363203596
+2026-10-26T17:12:24.6603354Z ##[endgroup]
+2026-10-26T17:12:24.6607110Z ##[command]/usr/bin/docker exec  1da40868ad855851e737331a169b25eb63cd6568b441f18db4757437cff8157f sh -c "cat /etc/*release | grep ^ID"
+2026-10-26T17:12:24.9065252Z Downloading single artifact
+2026-10-26T17:12:24.9218670Z (node:144) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-26T17:12:24.9219850Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-26T17:12:25.2157318Z Preparing to download the following artifacts:
+2026-10-26T17:12:25.2159255Z - manylinux-3.12 (ID: 12669384361, Size: 15015744, Expected Digest: sha256:4a3f0ed8424bc9da928a7d1c358ce214510e3cb291dc244456847ce1a1ccf530)
+2026-10-26T17:12:25.4764227Z Redirecting to blob download url: https://productionresultssa1.blob.core.windows.net/actions-results/4515d8b9-d63f-47e6-b22a-2547e9c9ab94/workflow-job-run-29e119ba-e6d1-5591-88c0-bb96f0ddddeb/artifacts/d6755b2c68dff5ab090847221b8615268403008f33ef4c35a8179aa655896f6c.zip
+2026-10-26T17:12:25.4766321Z Starting download of artifact to: /__w/qupathxx/qupathxx/build/ci/candidate
+2026-10-26T17:12:25.8104063Z (node:144) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+2026-10-26T17:12:28.2851960Z SHA256 digest of downloaded artifact is 4a3f0ed8424bc9da928a7d1c358ce214510e3cb291dc244456847ce1a1ccf530
+2026-10-26T17:12:28.2852568Z Artifact download completed successfully.
+2026-10-26T17:12:28.2852930Z Total of 1 artifact(s) downloaded
+2026-10-26T17:12:28.2857075Z Download artifact has finished successfully
+2026-10-26T17:12:28.3038114Z ##[group]Run python -m venv build/ci/consumer
+2026-10-26T17:12:28.3038969Z [36;1mpython -m venv build/ci/consumer[0m
+2026-10-26T17:12:28.3039588Z [36;1mbuild/ci/consumer/bin/python -m pip install --only-binary=:all: -r tools/ci/requirements.txt build/ci/candidate/qualified/*.whl[0m
+2026-10-26T17:12:28.3040274Z [36;1mbuild/ci/consumer/bin/python -I tools/fetch_reader_fixtures.py[0m
+2026-10-26T17:12:28.3040795Z shell: bash --noprofile --norc -e -o pipefail {0}
+2026-10-26T17:12:28.3041103Z ##[endgroup]
+2026-10-26T17:12:31.3849664Z WARNING: The directory '/github/home/.cache/pip' or its parent directory is not owned or is not writable by the current user. The cache has been disabled. Check the permissions and owner of that directory. If executing pip with sudo, you should use sudo's -H flag.
+2026-10-26T17:12:31.4815802Z Processing ./build/ci/candidate/qualified/qupathxx-0.1.0-cp312-cp312-manylinux_2_28_x86_64.whl
+2026-10-26T17:12:31.4989709Z Ignoring numpy: markers 'python_version < "3.12"' don't match your environment
+2026-10-26T17:12:31.5485753Z Collecting nanobind==3.1.0 (from -r tools/ci/requirements.txt (line 1))
+2026-10-26T17:12:31.5915329Z   Downloading nanobind-3.1.0-py3-none-any.whl.metadata (1.8 kB)
+2026-10-26T17:12:31.6073097Z Collecting scikit-build-core==1.1.1 (from -r tools/ci/requirements.txt (line 2))
+2026-10-26T17:12:31.6136252Z   Downloading scikit_build_core-1.1.1-py3-none-any.whl.metadata (19 kB)
+2026-10-26T17:12:31.6427928Z Collecting pytest==9.1.1 (from -r tools/ci/requirements.txt (line 3))
+2026-10-26T17:12:31.6468234Z   Downloading pytest-9.1.1-py3-none-any.whl.metadata (7.6 kB)
+2026-10-26T17:12:31.8445055Z Collecting numpy==2.5.4 (from -r tools/ci/requirements.txt (line 4))
+2026-10-26T17:12:31.8480718Z   Downloading numpy-2.5.4-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (6.6 kB)
+2026-10-26T17:12:31.9849568Z Collecting Pillow==13.0.0 (from -r tools/ci/requirements.txt (line 6))
+2026-10-26T17:12:31.9885567Z   Downloading pillow-13.0.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (9.1 kB)
+2026-10-26T17:12:32.0155181Z Collecting tifffile==2024.9.20 (from -r tools/ci/requirements.txt (line 7))
+2026-10-26T17:12:32.0195494Z   Downloading tifffile-2024.9.20-py3-none-any.whl.metadata (32 kB)
+2026-10-26T17:12:32.0388743Z Collecting openslide-python==1.4.6 (from -r tools/ci/requirements.txt (line 8))
+2026-10-26T17:12:32.0440927Z   Downloading openslide_python-1.4.6-cp311-abi3-manylinux1_x86_64.manylinux_2_5_x86_64.whl.metadata (5.1 kB)
+2026-10-26T17:12:32.1424964Z Collecting scipy==1.16.3 (from -r tools/ci/requirements.txt (line 9))
+2026-10-26T17:12:32.1511364Z   Downloading scipy-1.16.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (62 kB)
+2026-10-26T17:12:32.2109117Z Collecting scikit-image==0.26.0 (from -r tools/ci/requirements.txt (line 10))
+2026-10-26T17:12:32.2178878Z   Downloading scikit_image-0.26.0-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (15 kB)
+2026-10-26T17:12:32.3170344Z Collecting mypy==2.4.0 (from -r tools/ci/requirements.txt (line 11))
+2026-10-26T17:12:32.3208029Z   Downloading mypy-2.4.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+2026-10-26T17:12:32.3346468Z Collecting packaging>=23.2 (from scikit-build-core==1.1.1->-r tools/ci/requirements.txt (line 2))
+2026-10-26T17:12:32.3383917Z   Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+2026-10-26T17:12:32.3462781Z Collecting pathspec>=0.12.0 (from scikit-build-core==1.1.1->-r tools/ci/requirements.txt (line 2))
+2026-10-26T17:12:32.3498790Z   Downloading pathspec-1.1.1-py3-none-any.whl.metadata (14 kB)
+2026-10-26T17:12:32.3666794Z Collecting iniconfig>=1.0.1 (from pytest==9.1.1->-r tools/ci/requirements.txt (line 3))
+2026-10-26T17:12:32.3698418Z   Downloading iniconfig-2.3.1-py3-none-any.whl.metadata (2.8 kB)
+2026-10-26T17:12:32.3799220Z Collecting pluggy<2,>=1.5 (from pytest==9.1.1->-r tools/ci/requirements.txt (line 3))
+2026-10-26T17:12:32.3834388Z   Downloading pluggy-1.7.0-py3-none-any.whl.metadata (5.0 kB)
+2026-10-26T17:12:32.3964563Z Collecting pygments>=2.7.2 (from pytest==9.1.1->-r tools/ci/requirements.txt (line 3))
+2026-10-26T17:12:32.3995567Z   Downloading pygments-2.21.0-py3-none-any.whl.metadata (2.5 kB)
+2026-10-26T17:12:32.4232299Z Collecting networkx>=3.0 (from scikit-image==0.26.0->-r tools/ci/requirements.txt (line 10))
+2026-10-26T17:12:32.4264610Z   Downloading networkx-3.7-py3-none-any.whl.metadata (6.7 kB)
+2026-10-26T17:12:32.4502502Z Collecting imageio!=2.35.0,>=2.33 (from scikit-image==0.26.0->-r tools/ci/requirements.txt (line 10))
+2026-10-26T17:12:32.4532660Z   Downloading imageio-2.38.1-py3-none-any.whl.metadata (9.7 kB)
+2026-10-26T17:12:32.4822401Z Collecting lazy-loader>=0.4 (from scikit-image==0.26.0->-r tools/ci/requirements.txt (line 10))
+2026-10-26T17:12:32.4856054Z   Downloading lazy_loader-0.6-py3-none-any.whl.metadata (6.0 kB)
+2026-10-26T17:12:32.5134016Z Collecting typing_extensions>=4.6.0 (from mypy==2.4.0->-r tools/ci/requirements.txt (line 11))
+2026-10-26T17:12:32.5166434Z   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+2026-10-26T17:12:32.5227336Z Collecting mypy_extensions>=1.0.0 (from mypy==2.4.0->-r tools/ci/requirements.txt (line 11))
+2026-10-26T17:12:32.5262270Z   Downloading mypy_extensions-1.1.0-py3-none-any.whl.metadata (1.1 kB)
+2026-10-26T17:12:32.6311460Z Collecting librt>=0.16.0 (from mypy==2.4.0->-r tools/ci/requirements.txt (line 11))
+2026-10-26T17:12:32.6343618Z   Downloading librt-0.16.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (1.3 kB)
+2026-10-26T17:12:32.6771551Z Collecting ast-serialize<1.0.0,>=0.11.2 (from mypy==2.4.0->-r tools/ci/requirements.txt (line 11))
+2026-10-26T17:12:32.6801886Z   Downloading ast_serialize-0.13.1-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (1.4 kB)
+2026-10-26T17:12:32.6990756Z Downloading nanobind-3.1.0-py3-none-any.whl (316 kB)
+2026-10-26T17:12:32.7082115Z Downloading scikit_build_core-1.1.1-py3-none-any.whl (293 kB)
+2026-10-26T17:12:32.7147608Z Downloading pytest-9.1.1-py3-none-any.whl (386 kB)
+2026-10-26T17:12:32.7241982Z Downloading numpy-2.5.4-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.7 MB)
+2026-10-26T17:12:32.8020272Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.7/16.7 MB 221.8 MB/s eta 0:00:00
+2026-10-26T17:12:32.8061199Z Downloading pillow-13.0.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (7.1 MB)
+2026-10-26T17:12:32.8278878Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 7.1/7.1 MB 365.4 MB/s eta 0:00:00
+2026-10-26T17:12:32.8327891Z Downloading tifffile-2024.9.20-py3-none-any.whl (228 kB)
+2026-10-26T17:12:32.8384497Z Downloading openslide_python-1.4.6-cp311-abi3-manylinux1_x86_64.manylinux_2_5_x86_64.whl (36 kB)
+2026-10-26T17:12:32.8427346Z Downloading scipy-1.16.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (35.7 MB)
+2026-10-26T17:12:33.0562449Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 35.7/35.7 MB 170.3 MB/s eta 0:00:00
+2026-10-26T17:12:33.0622076Z Downloading scikit_image-0.26.0-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (13.6 MB)
+2026-10-26T17:12:33.1260368Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 13.6/13.6 MB 218.1 MB/s eta 0:00:00
+2026-10-26T17:12:33.1322371Z Downloading mypy-2.4.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (15.6 MB)
+2026-10-26T17:12:33.2215431Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 15.6/15.6 MB 176.1 MB/s eta 0:00:00
+2026-10-26T17:12:33.2252678Z Downloading ast_serialize-0.13.1-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (1.3 MB)
+2026-10-26T17:12:33.2332693Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 185.4 MB/s eta 0:00:00
+2026-10-26T17:12:33.2362861Z Downloading imageio-2.38.1-py3-none-any.whl (328 kB)
+2026-10-26T17:12:33.2497865Z Downloading iniconfig-2.3.1-py3-none-any.whl (7.6 kB)
+2026-10-26T17:12:33.2539381Z Downloading lazy_loader-0.6-py3-none-any.whl (8.8 kB)
+2026-10-26T17:12:33.2572561Z Downloading librt-0.16.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (531 kB)
+2026-10-26T17:12:33.2627846Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 532.0/532.0 kB 190.6 MB/s eta 0:00:00
+2026-10-26T17:12:33.2658930Z Downloading mypy_extensions-1.1.0-py3-none-any.whl (5.0 kB)
+2026-10-26T17:12:33.2704600Z Downloading networkx-3.7-py3-none-any.whl (2.1 MB)
+2026-10-26T17:12:33.2834639Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 178.9 MB/s eta 0:00:00
+2026-10-26T17:12:33.2871454Z Downloading packaging-26.3-py3-none-any.whl (129 kB)
+2026-10-26T17:12:33.2914145Z Downloading pathspec-1.1.1-py3-none-any.whl (57 kB)
+2026-10-26T17:12:33.2945272Z Downloading pluggy-1.7.0-py3-none-any.whl (27 kB)
+2026-10-26T17:12:33.2976520Z Downloading pygments-2.21.0-py3-none-any.whl (1.3 MB)
+2026-10-26T17:12:33.3054772Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 181.0 MB/s eta 0:00:00
+2026-10-26T17:12:33.3089290Z Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+2026-10-26T17:12:33.4925990Z Installing collected packages: typing_extensions, qupathxx, pygments, pluggy, Pillow, pathspec, packaging, numpy, networkx, nanobind, mypy_extensions, librt, iniconfig, ast-serialize, tifffile, scipy, scikit-build-core, pytest, openslide-python, mypy, lazy-loader, imageio, scikit-image
+2026-10-26T17:12:43.8286611Z Successfully installed Pillow-13.0.0 ast-serialize-0.13.1 imageio-2.38.1 iniconfig-2.3.1 lazy-loader-0.6 librt-0.16.0 mypy-2.4.0 mypy_extensions-1.1.0 nanobind-3.1.0 networkx-3.7 numpy-2.5.4 openslide-python-1.4.6 packaging-26.3 pathspec-1.1.1 pluggy-1.7.0 pygments-2.21.0 pytest-9.1.1 qupathxx-0.1.0 scikit-build-core-1.1.1 scikit-image-0.26.0 scipy-1.16.3 tifffile-2024.9.20 typing_extensions-4.16.0
+2026-10-26T17:12:43.9307767Z 
+2026-10-26T17:12:43.9308642Z [notice] A new release of pip is available: 25.0.1 -> 26.2.2
+2026-10-26T17:12:43.9309669Z [notice] To update, run: python -m pip install --upgrade pip
+2026-10-26T17:12:46.1321976Z /__w/qupathxx/qupathxx/build/fixtures/CMU-1-Small-Region.svs
+2026-10-26T17:12:46.1503915Z ##[group]Run unset LD_LIBRARY_PATH LD_PRELOAD
+2026-10-26T17:12:46.1504614Z [36;1munset LD_LIBRARY_PATH LD_PRELOAD[0m
+2026-10-26T17:12:46.1505157Z [36;1mtest ! -d build/deps/geos-sdk[0m
+2026-10-26T17:12:46.1506574Z [36;1mbuild/ci/consumer/bin/python -I tools/ci/linux_runtime_manifest.py --wheel build/ci/candidate/qualified/*.whl --verify build/ci/candidate/qualified-linux-runtime-manifest.json[0m
+2026-10-26T17:12:46.1509806Z [36;1mbuild/ci/consumer/bin/python -I tools/ci/linux_runtime_manifest.py --wheel build/ci/candidate/qualified/*.whl --output build/ci/consumer-linux-runtime-manifest.json > build/ci/consumer-linux-runtime-manifest.log[0m
+2026-10-26T17:12:46.1512854Z [36;1mbuild/ci/consumer/bin/python -I tools/ci/check_manylinux_consumer.py --wheel build/ci/candidate/qualified/*.whl --qualification build/ci/candidate/qualification.json --slide build/fixtures/CMU-1-Small-Region.svs --output build/ci/consumer-probe.json[0m
+2026-10-26T17:12:46.1516414Z [36;1mQUPATHXX_TEST_GUI=0 QUPATHXX_APERIO_FIXTURE="$PWD/build/fixtures/CMU-1-Small-Region.svs" build/ci/consumer/bin/python -I -m pytest tests -q -o faulthandler_timeout=60 --junitxml=build/ci/consumer-tests.xml > build/ci/consumer-tests.log 2>&1[0m
+2026-10-26T17:12:46.1518693Z shell: bash --noprofile --norc -e -o pipefail {0}
+2026-10-26T17:12:46.1519244Z ##[endgroup]
+2026-10-26T17:12:46.4724688Z {"schema": "qpx.linux-package-manifest/1", "files": 46, "binaries": 6, "verified": true, "release_ready": false}
+2026-10-26T17:12:47.2088591Z {
+2026-10-26T17:12:47.2089179Z   "schema": "qpx.manylinux-consumer/1",
+2026-10-26T17:12:47.2089743Z   "engine_commit": "176ec42b274bb12429cef603b59ce704e12c6e96",
+2026-10-26T17:12:47.2090261Z   "policy": "manylinux_2_28_x86_64",
+2026-10-26T17:12:47.2090861Z   "wheel_sha256": "5953f5e2e976546943c3e4ee88ecfc8ba6123610608776071e09064635072f8a",
+2026-10-26T17:12:47.2091671Z   "native_sha256": "bc998481827d8851a633f457358f88bf40c0da912c3d0e2eba9294026b66d59a",
+2026-10-26T17:12:47.2092582Z   "source_tree_sha256": "2236f2e64582efa2fad4cd028852bcd7cbbfbbd10cc09fdb2e43b79285aefa51",
+2026-10-26T17:12:47.2093317Z   "python": "3.12.15 (main, Oct 21 2026, 01:08:07) [GCC 12.2.0]",
+2026-10-26T17:12:47.2093890Z   "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.36",
+2026-10-26T17:12:47.2094362Z   "libc": [
+2026-10-26T17:12:47.2094628Z     "glibc",
+2026-10-26T17:12:47.2094888Z     "2.36"
+2026-10-26T17:12:47.2095139Z   ],
+2026-10-26T17:12:47.2095399Z   "mapped_runtimes": [
+2026-10-26T17:12:47.2118070Z     "libgeos.so.3.15.0",
+2026-10-26T17:12:47.2118597Z     "libgeos_c.so.1",
+2026-10-26T17:12:47.2118992Z     "libopenslide.so.1"
+2026-10-26T17:12:47.2119362Z   ],
+2026-10-26T17:12:47.2119692Z   "loader_overrides_used": false,
+2026-10-26T17:12:47.2120155Z   "geos_union_area": 150,
+2026-10-26T17:12:47.2120816Z   "slide_sha256": "ed92d5a9f2e86df67640d6f92ce3e231419ce127131697fbbce42ad5e002c8a7",
+2026-10-26T17:12:47.2121593Z   "real_slide_mean": 148.28722222222223,
+2026-10-26T17:12:47.2122104Z   "unicode_annotation_reopened": true,
+2026-10-26T17:12:47.2122620Z   "retained_analysis_reopened": true,
+2026-10-26T17:12:47.2123099Z   "measurement_csv": true,
+2026-10-26T17:12:47.2123485Z   "native_region_exact": true,
+2026-10-26T17:12:47.2123914Z   "native_batch_checkpoint": true,
+2026-10-26T17:12:47.2124385Z   "native_batch_csv": true
+2026-10-26T17:12:47.2124790Z }
+2026-10-26T17:14:41.0785086Z ##[error]Process completed with exit code 1.
+2026-10-26T17:14:41.0857766Z ##[group]Run actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+2026-10-26T17:14:41.0858187Z with:
+2026-10-26T17:14:41.0858733Z   name: manylinux-consumer-3.12
+2026-10-26T17:14:41.0858997Z   retention-days: 14
+2026-10-26T17:14:41.0859243Z   if-no-files-found: warn
+2026-10-26T17:14:41.0860002Z   path: build/ci/consumer-probe.json
+build/ci/consumer-tests.xml
+build/ci/consumer-tests.log
+build/ci/consumer-linux-runtime-manifest.json
+build/ci/consumer-linux-runtime-manifest.log
+
+2026-10-26T17:14:41.0860810Z   compression-level: 6
+2026-10-26T17:14:41.0861038Z   overwrite: false
+2026-10-26T17:14:41.0861266Z   include-hidden-files: false
+2026-10-26T17:14:41.0861517Z ##[endgroup]
+2026-10-26T17:14:41.0865886Z ##[command]/usr/bin/docker exec  1da40868ad855851e737331a169b25eb63cd6568b441f18db4757437cff8157f sh -c "cat /etc/*release | grep ^ID"
+2026-10-26T17:14:41.3447207Z (node:5882) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-26T17:14:41.3448624Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-26T17:14:41.3544236Z Multiple search paths detected. Calculating the least common ancestor of all paths
+2026-10-26T17:14:41.3547002Z The least common ancestor is /__w/qupathxx/qupathxx/build/ci. This will be the root directory of the artifact
+2026-10-26T17:14:41.3547856Z With the provided path, there will be 5 files uploaded
+2026-10-26T17:14:41.3551520Z Artifact name is valid!
+2026-10-26T17:14:41.3552339Z Root directory input is valid!
+2026-10-26T17:14:41.7545693Z Beginning upload of artifact content to blob storage
+2026-10-26T17:14:41.7925453Z (node:5882) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-10-26T17:14:42.2181214Z Uploaded bytes 83147
+2026-10-26T17:14:42.3000898Z Finished uploading artifact content to blob storage!
+2026-10-26T17:14:42.3002311Z SHA256 digest of uploaded artifact zip is 13d3be3215a6ddf06ef96fdd58bb3a84688a87f8def7448b2d34f89e5eb16e8f
+2026-10-26T17:14:42.3005600Z Finalizing artifact upload
+2026-10-26T17:14:42.7720994Z Artifact manylinux-consumer-3.12.zip successfully finalized. Artifact ID 12669928831
+2026-10-26T17:14:42.7722753Z Artifact manylinux-consumer-3.12 has been successfully uploaded! Final size is 83147 bytes. Artifact ID is 12669928831
+2026-10-26T17:14:42.7729790Z Artifact download URL: https://github.com/bipxx/qupathxx/actions/runs/40363203596/artifacts/12669928831
+2026-10-26T17:14:42.7954175Z Post job cleanup.
+2026-10-26T17:14:42.7962045Z ##[command]/usr/bin/docker exec  1da40868ad855851e737331a169b25eb63cd6568b441f18db4757437cff8157f sh -c "cat /etc/*release | grep ^ID"
+2026-10-26T17:14:42.9825209Z Stop and remove container: 9cb6b4350c534eddbeeae0ed4cfd3f3b_librarypythonsha25657d96f71de145a98e7ceca18ee4ade77bba4103a33a72dfaea026b23625c6bf0_36e5d8
+2026-10-26T17:14:42.9830521Z ##[command]/usr/bin/docker rm --force 1da40868ad855851e737331a169b25eb63cd6568b441f18db4757437cff8157f
+2026-10-26T17:14:44.2720178Z 1da40868ad855851e737331a169b25eb63cd6568b441f18db4757437cff8157f
+2026-10-26T17:14:44.2749700Z Remove container network: github_network_23fb0e25921143e1a082bfc6bd3718a8
+2026-10-26T17:14:44.2753970Z ##[command]/usr/bin/docker network rm github_network_23fb0e25921143e1a082bfc6bd3718a8
+2026-10-26T17:14:44.3713542Z github_network_23fb0e25921143e1a082bfc6bd3718a8
+2026-10-26T17:14:44.3784490Z Cleaning up orphan processes
+2026-10-26T17:14:44.4152648Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0, actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

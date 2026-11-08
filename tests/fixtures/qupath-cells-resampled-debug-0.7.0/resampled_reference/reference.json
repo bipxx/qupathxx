@@ -1,0 +1,491 @@
+{
+  "schema": "qpx.qupath-cells-reference/1",
+  "case_name": "resampled_reference",
+  "qupath_version": "0.7.0",
+  "java_version": "25.0.2",
+  "width": 256,
+  "height": 192,
+  "parameters": {
+    "detectionImageBrightfield": "Optical density sum",
+    "requestedPixelSizeMicrons": 0.75,
+    "backgroundRadiusMicrons": 0.0,
+    "backgroundByReconstruction": true,
+    "medianRadiusMicrons": 0.0,
+    "sigmaMicrons": 0.5,
+    "minAreaMicrons": 4.0,
+    "maxAreaMicrons": 128.0,
+    "threshold": 0.4,
+    "maxBackground": 2.0,
+    "watershedPostProcess": true,
+    "excludeDAB": false,
+    "cellExpansionMicrons": 2.5,
+    "includeNuclei": true,
+    "smoothBoundaries": false,
+    "makeMeasurements": true
+  },
+  "count": 3,
+  "collisions": {
+    "nucleus": 0,
+    "body": 0
+  },
+  "regions": [
+    {
+      "label": 1,
+      "compartment": "nucleus",
+      "pixels": 252,
+      "rgb_mean": [
+        77.38095238095238,
+        57.301587301587304,
+        121.42857142857143
+      ],
+      "od_mean": [
+        0.5239055878113187,
+        0.6572780298098685,
+        0.32350118458271027
+      ],
+      "stain_mean": [
+        0.8353795102900929,
+        0.07840428826591325,
+        0.07681884386000179
+      ],
+      "area": true,
+      "area_um2": 63.0,
+      "centroid": [
+        48.0,
+        60.0
+      ]
+    },
+    {
+      "label": 2,
+      "compartment": "nucleus",
+      "pixels": 153,
+      "rgb_mean": [
+        82.84313725490196,
+        62.58169934640523,
+        124.70588235294117
+      ],
+      "od_mean": [
+        0.506531423603008,
+        0.6368615724682029,
+        0.31465105975375457
+      ],
+      "stain_mean": [
+        0.8084107434827518,
+        0.07681212856683856,
+        0.07592450725097283
+      ],
+      "area": true,
+      "area_um2": 39.375,
+      "centroid": [
+        192.0,
+        64.00714111328125
+      ]
+    },
+    {
+      "label": 3,
+      "compartment": "nucleus",
+      "pixels": 451,
+      "rgb_mean": [
+        79.32372505543238,
+        59.17960088691796,
+        122.59423503325942
+      ],
+      "od_mean": [
+        0.5177259999275736,
+        0.6500163687075057,
+        0.3203534001191281
+      ],
+      "stain_mean": [
+        0.8257873444394632,
+        0.07783799392982756,
+        0.07650074903789222
+      ],
+      "area": true,
+      "area_um2": 110.8125,
+      "centroid": [
+        115.07740783691406,
+        100.07740783691406
+      ]
+    },
+    {
+      "label": 1,
+      "compartment": "body",
+      "pixels": 576,
+      "rgb_mean": [
+        158.40277777777777,
+        135.70833333333334,
+        170.11111111111111
+      ],
+      "od_mean": [
+        0.2662831492553879,
+        0.3543958015119036,
+        0.19212392083783117
+      ],
+      "stain_mean": [
+        0.4354375726931418,
+        0.05467177774779783,
+        0.06343024333990696
+      ],
+      "area": true,
+      "area_um2": 144.0,
+      "centroid": [
+        48.0,
+        60.0
+      ]
+    },
+    {
+      "label": 2,
+      "compartment": "body",
+      "pixels": 432,
+      "rgb_mean": [
+        171.25,
+        148.55555555555554,
+        178.16666666666666
+      ],
+      "od_mean": [
+        0.2258809668969156,
+        0.30617422155208057,
+        0.17080137428517142
+      ],
+      "stain_mean": [
+        0.37246567023814553,
+        0.050348745085001506,
+        0.060713221707070865
+      ],
+      "area": true,
+      "area_um2": 106.875,
+      "centroid": [
+        192.0,
+        64.14473724365234
+      ]
+    },
+    {
+      "label": 3,
+      "compartment": "body",
+      "pixels": 845,
+      "rgb_mean": [
+        145.5207100591716,
+        123.2284023668639,
+        162.35976331360948
+      ],
+      "od_mean": [
+        0.3072291014947482,
+        0.4025589915863156,
+        0.21302840424007213
+      ],
+      "stain_mean": [
+        0.4990117115381907,
+        0.058463556847959404,
+        0.06557851681077974
+      ],
+      "area": true,
+      "area_um2": 213.1875,
+      "centroid": [
+        115.11016082763672,
+        100.11016082763672
+      ]
+    }
+  ],
+  "decoded_regions": [
+    {
+      "label": 1,
+      "compartment": "nucleus",
+      "pixels": 252,
+      "rgb_mean": [
+        77.38095238095238,
+        57.301587301587304,
+        121.42857142857143
+      ],
+      "od_mean": [
+        0.5239055878113187,
+        0.6572780298098685,
+        0.32350118458271027
+      ],
+      "stain_mean": [
+        0.8353795102900929,
+        0.07840428826591325,
+        0.07681884386000179
+      ],
+      "area": true,
+      "area_um2": 63.0,
+      "centroid": [
+        48.0,
+        60.0
+      ]
+    },
+    {
+      "label": 2,
+      "compartment": "nucleus",
+      "pixels": 153,
+      "rgb_mean": [
+        82.84313725490196,
+        62.58169934640523,
+        124.70588235294117
+      ],
+      "od_mean": [
+        0.506531423603008,
+        0.6368615724682029,
+        0.31465105975375457
+      ],
+      "stain_mean": [
+        0.8084107434827518,
+        0.07681212856683856,
+        0.07592450725097283
+      ],
+      "area": true,
+      "area_um2": 39.375,
+      "centroid": [
+        192.0,
+        64.00714111328125
+      ]
+    },
+    {
+      "label": 3,
+      "compartment": "nucleus",
+      "pixels": 451,
+      "rgb_mean": [
+        79.32372505543238,
+        59.17960088691796,
+        122.59423503325942
+      ],
+      "od_mean": [
+        0.5177259999275736,
+        0.6500163687075057,
+        0.3203534001191281
+      ],
+      "stain_mean": [
+        0.8257873444394632,
+        0.07783799392982756,
+        0.07650074903789222
+      ],
+      "area": true,
+      "area_um2": 110.8125,
+      "centroid": [
+        115.07740783691406,
+        100.07740783691406
+      ]
+    },
+    {
+      "label": 1,
+      "compartment": "body",
+      "pixels": 576,
+      "rgb_mean": [
+        158.40277777777777,
+        135.70833333333334,
+        170.11111111111111
+      ],
+      "od_mean": [
+        0.2662831492553879,
+        0.3543958015119036,
+        0.19212392083783117
+      ],
+      "stain_mean": [
+        0.4354375726931418,
+        0.05467177774779783,
+        0.06343024333990696
+      ],
+      "area": true,
+      "area_um2": 144.0,
+      "centroid": [
+        48.0,
+        60.0
+      ]
+    },
+    {
+      "label": 2,
+      "compartment": "body",
+      "pixels": 432,
+      "rgb_mean": [
+        171.25,
+        148.55555555555554,
+        178.16666666666666
+      ],
+      "od_mean": [
+        0.2258809668969156,
+        0.30617422155208057,
+        0.17080137428517142
+      ],
+      "stain_mean": [
+        0.37246567023814553,
+        0.050348745085001506,
+        0.060713221707070865
+      ],
+      "area": true,
+      "area_um2": 106.875,
+      "centroid": [
+        192.0,
+        64.14473724365234
+      ]
+    },
+    {
+      "label": 3,
+      "compartment": "body",
+      "pixels": 845,
+      "rgb_mean": [
+        145.5207100591716,
+        123.2284023668639,
+        162.35976331360948
+      ],
+      "od_mean": [
+        0.3072291014947482,
+        0.4025589915863156,
+        0.21302840424007213
+      ],
+      "stain_mean": [
+        0.4990117115381907,
+        0.058463556847959404,
+        0.06557851681077974
+      ],
+      "area": true,
+      "area_um2": 213.1875,
+      "centroid": [
+        115.11016082763672,
+        100.11016082763672
+      ]
+    }
+  ],
+  "decoded_collisions": {
+    "nucleus": 0,
+    "body": 0
+  },
+  "plugin_measurements": [
+    {
+      "label": 1,
+      "measurements": {
+        "Nucleus: Area": 63.0,
+        "Nucleus: Perimeter": 28.53122329711914,
+        "Nucleus: Circularity": 0.9725448489189148,
+        "Nucleus: Max caliper": 9.604686737060547,
+        "Nucleus: Min caliper": 9.0,
+        "Nucleus: Eccentricity": 0.0,
+        "Nucleus: A OD mean": 0.8324530124664307,
+        "Nucleus: A OD sum": 93.2347412109375,
+        "Nucleus: A OD std dev": 0.053175006061792374,
+        "Nucleus: A OD max": 0.8471351265907288,
+        "Nucleus: A OD min": 0.641585648059845,
+        "Nucleus: A OD range": 0.2055494785308838,
+        "Nucleus: B OD mean": 0.07701920717954636,
+        "Nucleus: B OD sum": 8.626151084899902,
+        "Nucleus: B OD std dev": 0.007529983296990395,
+        "Nucleus: B OD max": 0.07909830659627914,
+        "Nucleus: B OD min": 0.0499909445643425,
+        "Nucleus: B OD range": 0.029107362031936646,
+        "Cell: Area": 144.0,
+        "Cell: Perimeter": 43.01650619506836,
+        "Cell: Circularity": 0.9779173135757446,
+        "Cell: Max caliper": 14.230249404907227,
+        "Cell: Min caliper": 13.5,
+        "Cell: Eccentricity": 0.0,
+        "Cell: A OD mean": 0.42886582016944885,
+        "Cell: A OD std dev": 0.35902878642082214,
+        "Cell: A OD max": 0.8471351265907288,
+        "Cell: A OD min": 0.10262155532836914,
+        "Cell: B OD mean": 0.053417909890413284,
+        "Cell: B OD std dev": 0.02145041897892952,
+        "Cell: B OD max": 0.07909830659627914,
+        "Cell: B OD min": 0.03139756992459297,
+        "Cytoplasm: A OD mean": 0.11496467143297195,
+        "Cytoplasm: A OD std dev": 0.029485536739230156,
+        "Cytoplasm: A OD max": 0.23277300596237183,
+        "Cytoplasm: A OD min": 0.10262155532836914,
+        "Cytoplasm: B OD mean": 0.035061344504356384,
+        "Cytoplasm: B OD std dev": 9.454290266148746E-4,
+        "Cytoplasm: B OD max": 0.03537515178322792,
+        "Cytoplasm: B OD min": 0.03139756992459297,
+        "Nucleus/Cell area ratio": 0.4375
+      }
+    },
+    {
+      "label": 2,
+      "measurements": {
+        "Nucleus: Area": 39.375,
+        "Nucleus: Perimeter": 22.3492431640625,
+        "Nucleus: Circularity": 0.9906148314476013,
+        "Nucleus: Max caliper": 8.077747344970703,
+        "Nucleus: Min caliper": 6.75,
+        "Nucleus: Eccentricity": 0.4054296910762787,
+        "Nucleus: A OD mean": 0.7984037399291992,
+        "Nucleus: A OD sum": 55.88825988769531,
+        "Nucleus: A OD std dev": 0.11812862753868103,
+        "Nucleus: A OD max": 0.8471351265907288,
+        "Nucleus: A OD min": 0.43197938799858093,
+        "Nucleus: A OD range": 0.4151557385921478,
+        "Nucleus: B OD mean": 0.07370846718549728,
+        "Nucleus: B OD sum": 5.159592628479004,
+        "Nucleus: B OD std dev": 0.012471286579966545,
+        "Nucleus: B OD max": 0.07909830659627914,
+        "Nucleus: B OD min": 0.038581669330596924,
+        "Nucleus: B OD range": 0.04051663726568222,
+        "Cell: Area": 106.875,
+        "Cell: Perimeter": 36.83452224731445,
+        "Cell: Circularity": 0.9898647665977478,
+        "Cell: Max caliper": 12.81600570678711,
+        "Cell: Min caliper": 11.25,
+        "Cell: Eccentricity": 0.3285430669784546,
+        "Cell: A OD mean": 0.3681723475456238,
+        "Cell: A OD std dev": 0.3389156758785248,
+        "Cell: A OD max": 0.8471351265907288,
+        "Cell: A OD min": 0.05173105001449585,
+        "Cell: B OD mean": 0.048499371856451035,
+        "Cell: B OD std dev": 0.02113623544573784,
+        "Cell: B OD max": 0.07909830659627914,
+        "Cell: B OD min": 0.004826596938073635,
+        "Cytoplasm: A OD mean": 0.11720405519008636,
+        "Cytoplasm: A OD std dev": 0.04408456012606621,
+        "Cytoplasm: A OD max": 0.3489959239959717,
+        "Cytoplasm: A OD min": 0.05173105001449585,
+        "Cytoplasm: B OD mean": 0.03379406780004501,
+        "Cytoplasm: B OD std dev": 0.005240248050540686,
+        "Cytoplasm: B OD max": 0.03537515178322792,
+        "Cytoplasm: B OD min": 0.004826596938073635,
+        "Nucleus/Cell area ratio": 0.3684210479259491
+      }
+    },
+    {
+      "label": 3,
+      "measurements": {
+        "Nucleus: Area": 110.8125,
+        "Nucleus: Perimeter": 38.77386474609375,
+        "Nucleus: Circularity": 0.9262334704399109,
+        "Nucleus: Max caliper": 12.81600570678711,
+        "Nucleus: Min caliper": 12.0,
+        "Nucleus: Eccentricity": 0.17873559892177582,
+        "Nucleus: A OD mean": 0.821973443031311,
+        "Nucleus: A OD sum": 161.9287567138672,
+        "Nucleus: A OD std dev": 0.0783921554684639,
+        "Nucleus: A OD max": 0.8471351265907288,
+        "Nucleus: A OD min": 0.43197938799858093,
+        "Nucleus: A OD range": 0.4151557385921478,
+        "Nucleus: B OD mean": 0.07600419223308563,
+        "Nucleus: B OD sum": 14.972825050354004,
+        "Nucleus: B OD std dev": 0.009242170490324497,
+        "Nucleus: B OD max": 0.07909830659627914,
+        "Nucleus: B OD min": 0.038581669330596924,
+        "Nucleus: B OD range": 0.04051663726568222,
+        "Cell: Area": 213.1875,
+        "Cell: Perimeter": 53.2591438293457,
+        "Cell: Circularity": 0.9444592595100403,
+        "Cell: Max caliper": 17.557050704956055,
+        "Cell: Min caliper": 16.44023323059082,
+        "Cell: Eccentricity": 0.06065411865711212,
+        "Cell: A OD mean": 0.48838570713996887,
+        "Cell: A OD std dev": 0.354897141456604,
+        "Cell: A OD max": 0.8471351265907288,
+        "Cell: A OD min": 0.06585264950990677,
+        "Cell: B OD mean": 0.05622405186295509,
+        "Cell: B OD std dev": 0.021743038669228554,
+        "Cell: B OD max": 0.07909830659627914,
+        "Cell: B OD min": 0.010710840113461018,
+        "Cytoplasm: A OD mean": 0.12730450928211212,
+        "Cytoplasm: A OD std dev": 0.0645408183336258,
+        "Cytoplasm: A OD max": 0.43197938799858093,
+        "Cytoplasm: A OD min": 0.06585264950990677,
+        "Cytoplasm: B OD mean": 0.03481368348002434,
+        "Cytoplasm: B OD std dev": 0.00283502833917737,
+        "Cytoplasm: B OD max": 0.038581669330596924,
+        "Cytoplasm: B OD min": 0.010710840113461018,
+        "Nucleus/Cell area ratio": 0.519788920879364
+      }
+    }
+  ]
+}

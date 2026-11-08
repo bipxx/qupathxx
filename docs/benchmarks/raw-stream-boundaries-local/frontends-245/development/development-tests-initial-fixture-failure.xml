@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="6" time="1.398" timestamp="2026-10-26T16:16:58.511182-04:00" hostname="HEQPC"><testcase classname="tests.test_gui_raw_stream_contours" name="test_desktop_streamed_preview_apply_undo_redo[False-False]" time="0.716" /><testcase classname="tests.test_gui_raw_stream_contours" name="test_desktop_streamed_preview_apply_undo_redo[True-False]" time="0.101" /><testcase classname="tests.test_gui_raw_stream_contours" name="test_desktop_streamed_preview_apply_undo_redo[True-True]" time="0.084" /><testcase classname="tests.test_gui_raw_stream_contours" name="test_desktop_edit_retires_streamed_preview" time="0.097" /><testcase classname="tests.test_gui_raw_stream_contours" name="test_managed_cropped_streamed_preview_apply_save_reopen" time="0.091" /><testcase classname="tests.test_gui_raw_stream_contours" name="test_managed_streamed_result_budget_refuses_before_commit" time="0.067"><failure message="AssertionError: ('raw_pixel_stream_contours', 'failed', 'viewer result budget exceeded; consume completed tickets or disable retained results')&#10;assert 'failed' == 'succeeded'&#10;  &#10;  - succeeded&#10;  + failed">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4194/test_managed_streamed_result_b0')
+
+    def test_managed_streamed_result_budget_refuses_before_commit(tmp_path):
+        project,image,doc,ids,root,settings=scene(tmp_path);model=model_for(doc,ids,settings);source=tmp_path/'quota.qpx';project.save(str(source));doc.server.close()
+        limits=q.ViewerLimits();limits.result_bytes=65536;session=q.ViewerSession(str(source),limits)
+        def producer():
+            result=completed(session,session.contour_raw_pixel_stream(image,model,settings.lattice,object_id=root,apply=True))
+            assert result.state=='failed' and 'result budget' in result.error and not result.committed and not result.object_ids
+            completed(session,session.close(True))
+&gt;       run(session,producer)
+
+build\ci\scientific-grid-159\tests\test_gui_raw_stream_contours.py:82: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+build\ci\scientific-grid-159\tests\test_viewer_session.py:39: in run
+    if errors:raise errors[0]
+              ^^^^^^^^^^^^^^^
+build\ci\scientific-grid-159\tests\test_viewer_session.py:30: in worker
+    try:producer()
+        ^^^^^^^^^^
+build\ci\scientific-grid-159\tests\test_gui_raw_stream_contours.py:79: in producer
+    result=completed(session,session.contour_raw_pixel_stream(image,model,settings.lattice,object_id=root,apply=True))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+session = &lt;qupathxx._native.ViewerSession object at 0x0000017C43A04C30&gt;
+ticket = 1, consume = True
+
+    def completed(session,ticket,consume=True):
+&gt;       e=session.wait(ticket,15);assert e.state=='succeeded',(e.action,e.state,e.error)
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: ('raw_pixel_stream_contours', 'failed', 'viewer result budget exceeded; consume completed tickets or disable retained results')
+E       assert 'failed' == 'succeeded'
+E         
+E         - succeeded
+E         + failed
+
+build\ci\scientific-grid-159\tests\test_viewer_session.py:23: AssertionError</failure></testcase></testsuite></testsuites>

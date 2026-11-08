@@ -1,0 +1,152 @@
+.....................................................F.................. [ 52%]
+................................................................         [100%]
+================================== FAILURES ===================================
+___________ test_native_cli_raw_axes_unicode_checkpoint_and_resume ____________
+
+tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-3985/test_native_cli_raw_axes_unico0')
+
+    def test_native_cli_raw_axes_unicode_checkpoint_and_resume(tmp_path):
+        from qupathxx import _native
+        cli=Path(_native.__file__).with_name('qupathxx_batch.exe' if os.name=='nt' else 'qupathxx_batch')
+        project,image,values=scene(tmp_path);doc=project.document(image);doc.add_rectangle(q.Rect(0,0,4,4))
+        path=tmp_path/'量化.qpxproj';project.save(str(path));directory=tmp_path/'结果'
+        command=[str(cli),str(path),str(directory),'--kind','raw','--raw-channel','1','--raw-z','2','--raw-time','1','--tile-size','16']
+>       done=subprocess.run(command,capture_output=True,text=True,encoding='utf-8',timeout=40)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+build\ci\scientific-grid-159\tests\test_raw_batch.py:88: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+..\..\AppData\Roaming\uv\python\cpython-3.12.8-windows-x86_64-none\Lib\subprocess.py:548: in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\AppData\Roaming\uv\python\cpython-3.12.8-windows-x86_64-none\Lib\subprocess.py:1026: in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <Popen: returncode: None args: ['C:\\Users\\HEQ\\Projects\\qupathxx\\build\\...>
+args = 'C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw178-python-isolated\\qupathxx\\qupathxx_batch.exe C:\\Users\\HEQ\\AppDa...HEQ\\pytest-3985\\test_native_cli_raw_axes_unico0\\结果 --kind raw --raw-channel 1 --raw-z 2 --raw-time 1 --tile-size 16'
+executable = None, preexec_fn = None, close_fds = False, pass_fds = ()
+cwd = None, env = None
+startupinfo = <subprocess.STARTUPINFO object at 0x00000224F34A1D60>
+creationflags = 0, shell = False, p2cread = Handle(1376), p2cwrite = -1
+c2pread = 11, c2pwrite = Handle(1092), errread = 12, errwrite = Handle(1348)
+unused_restore_signals = True, unused_gid = None, unused_gids = None
+unused_uid = None, unused_umask = -1, unused_start_new_session = False
+unused_process_group = -1
+
+    def _execute_child(self, args, executable, preexec_fn, close_fds,
+                       pass_fds, cwd, env,
+                       startupinfo, creationflags, shell,
+                       p2cread, p2cwrite,
+                       c2pread, c2pwrite,
+                       errread, errwrite,
+                       unused_restore_signals,
+                       unused_gid, unused_gids, unused_uid,
+                       unused_umask,
+                       unused_start_new_session, unused_process_group):
+        """Execute program (MS Windows version)"""
+    
+        assert not pass_fds, "pass_fds not supported on Windows."
+    
+        if isinstance(args, str):
+            pass
+        elif isinstance(args, bytes):
+            if shell:
+                raise TypeError('bytes args is not allowed on Windows')
+            args = list2cmdline([args])
+        elif isinstance(args, os.PathLike):
+            if shell:
+                raise TypeError('path-like args is not allowed when '
+                                'shell is true')
+            args = list2cmdline([args])
+        else:
+            args = list2cmdline(args)
+    
+        if executable is not None:
+            executable = os.fsdecode(executable)
+    
+        # Process startup details
+        if startupinfo is None:
+            startupinfo = STARTUPINFO()
+        else:
+            # bpo-34044: Copy STARTUPINFO since it is modified above,
+            # so the caller can reuse it multiple times.
+            startupinfo = startupinfo.copy()
+    
+        use_std_handles = -1 not in (p2cread, c2pwrite, errwrite)
+        if use_std_handles:
+            startupinfo.dwFlags |= _winapi.STARTF_USESTDHANDLES
+            startupinfo.hStdInput = p2cread
+            startupinfo.hStdOutput = c2pwrite
+            startupinfo.hStdError = errwrite
+    
+        attribute_list = startupinfo.lpAttributeList
+        have_handle_list = bool(attribute_list and
+                                "handle_list" in attribute_list and
+                                attribute_list["handle_list"])
+    
+        # If we were given an handle_list or need to create one
+        if have_handle_list or (use_std_handles and close_fds):
+            if attribute_list is None:
+                attribute_list = startupinfo.lpAttributeList = {}
+            handle_list = attribute_list["handle_list"] = \
+                list(attribute_list.get("handle_list", []))
+    
+            if use_std_handles:
+                handle_list += [int(p2cread), int(c2pwrite), int(errwrite)]
+    
+            handle_list[:] = self._filter_handle_list(handle_list)
+    
+            if handle_list:
+                if not close_fds:
+                    warnings.warn("startupinfo.lpAttributeList['handle_list'] "
+                                  "overriding close_fds", RuntimeWarning)
+    
+                # When using the handle_list we always request to inherit
+                # handles but the only handles that will be inherited are
+                # the ones in the handle_list
+                close_fds = False
+    
+        if shell:
+            startupinfo.dwFlags |= _winapi.STARTF_USESHOWWINDOW
+            startupinfo.wShowWindow = _winapi.SW_HIDE
+            if not executable:
+                # gh-101283: without a fully-qualified path, before Windows
+                # checks the system directories, it first looks in the
+                # application directory, and also the current directory if
+                # NeedCurrentDirectoryForExePathW(ExeName) is true, so try
+                # to avoid executing unqualified "cmd.exe".
+                comspec = os.environ.get('ComSpec')
+                if not comspec:
+                    system_root = os.environ.get('SystemRoot', '')
+                    comspec = os.path.join(system_root, 'System32', 'cmd.exe')
+                    if not os.path.isabs(comspec):
+                        raise FileNotFoundError('shell not found: neither %ComSpec% nor %SystemRoot% is set')
+                if os.path.isabs(comspec):
+                    executable = comspec
+            else:
+                comspec = executable
+    
+            args = '{} /c "{}"'.format (comspec, args)
+    
+        if cwd is not None:
+            cwd = os.fsdecode(cwd)
+    
+        sys.audit("subprocess.Popen", executable, args, cwd, env)
+    
+        # Start the process
+        try:
+>           hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+                                     # no special security
+                                     None, None,
+                                     int(not close_fds),
+                                     creationflags,
+                                     env,
+                                     cwd,
+                                     startupinfo)
+E                                    FileNotFoundError: [WinError 2] The system cannot find the file specified
+
+..\..\AppData\Roaming\uv\python\cpython-3.12.8-windows-x86_64-none\Lib\subprocess.py:1538: FileNotFoundError
+=========================== short test summary info ===========================
+FAILED build\ci\scientific-grid-159\tests\test_raw_batch.py::test_native_cli_raw_axes_unicode_checkpoint_and_resume
+1 failed, 135 passed in 4.18s

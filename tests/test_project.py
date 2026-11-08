@@ -1,3 +1,4 @@
+from project_schema_contract import CURRENT_SCHEMA_VERSION
 import shutil
 import os
 import sqlite3
@@ -8,8 +9,54 @@ from pathlib import Path
 import pytest
 
 import qupathxx as q
+from test_tissue_levels import pyramid_levels
 
 pytestmark = pytest.mark.skipif(not q.has_project, reason="requires native project storage")
+
+
+@pytest.mark.skipif(os.name!="nt",reason="Windows namespace locator equivalence")
+@pytest.mark.parametrize("missing",[False,True])
+def test_snapshot_root_namespace_spelling_keeps_identical_linked_input(tmp_path,missing):
+    source=tmp_path/"source.ppm"
+    original_bytes=b"P6\n2 2\n255\n"+bytes([30,60,90])*4
+    source.write_bytes(original_bytes)
+    project=q.Project();project.add_image(str(source),"ppm")
+    original=tmp_path/"original.qpxproj";project.save(str(original))
+    if missing:source.unlink()
+    first=q.Project.open(str(original));second=q.Project.open(str(original))
+    directory=tmp_path/"snapshots";directory.mkdir()
+    plain=directory/"plain.qpxproj";extended=directory/"extended.qpxproj"
+    text=str(extended)
+    argument="\\\\?\\UNC\\"+text[2:] if text.startswith("\\\\") else "\\\\?\\"+text
+    first.save_new(str(plain));second.save_new(argument)
+    assert Path(argument).parent.samefile(directory)
+    assert plain.read_bytes()==extended.read_bytes()
+    for path in [plain,extended]:
+        with sqlite3.connect(path) as db:
+            assert db.execute("SELECT source FROM images").fetchone()[0]=="../source.ppm"
+    if missing:assert not source.exists()
+    else:assert source.read_bytes()==original_bytes
+
+
+def test_opened_slide_document_defaults_to_its_native_link(pyramid_levels, tmp_path):
+    source, _ = pyramid_levels
+    doc = q.Document(source)
+    project = q.Project()
+    before = project.dirty
+    with pytest.raises(ValueError, match='reader differs'):
+        project.add_document(doc, reader='ppm')
+    assert project.dirty == before and not project.images and project.generation == 0
+    image = project.add_document(doc)
+    entry, = project.images
+    assert image == 1 and not entry.embedded and entry.reader == 'openslide'
+    path = tmp_path/'native-link.qpxproj'
+    project.save(str(path))
+    with sqlite3.connect(path) as db:
+        assert db.execute('SELECT rgb IS NULL FROM images').fetchone()[0] == 1
+    restored = q.Project.open(str(path)).document(image)
+    request = q.RegionRequest(17, 19, 1, 31, 23)
+    assert restored.server.read_region(request).data == source.read_region(request).data
+    assert len(restored.metadata.levels) == 3
 
 
 def ppm(path, width=8, height=8):
@@ -81,7 +128,7 @@ def test_multi_image_roundtrip_preserves_state_pixels_and_identity(tmp_path):
     assert loaded.dirty
     assert loaded.document(second).server.read_region(q.RegionRequest(0, 0, 0, 1, 1)).data == bytes([30, 60, 90, 255])
     with sqlite3.connect(path) as database:
-        assert database.execute("PRAGMA user_version").fetchone()[0] == 13
+        assert database.execute("PRAGMA user_version").fetchone()[0] == CURRENT_SCHEMA_VERSION
         assert database.execute("SELECT source FROM images WHERE id=?", (str(second),)).fetchone()[0] == "images/source.ppm"
         assert database.execute("PRAGMA quick_check").fetchone()[0] == "ok"
 

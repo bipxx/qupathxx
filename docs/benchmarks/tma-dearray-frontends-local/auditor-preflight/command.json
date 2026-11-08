@@ -1,0 +1,37 @@
+{
+  "command": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\tma197-python-env\\Scripts\\python.exe",
+    "-I",
+    "-m",
+    "pytest",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_campaign_inputs.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_hierarchy_evidence.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_macos_relocation_evidence.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_manylinux_acceptance.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_manylinux_body_acceptance.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_manylinux_qualification.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_qptma_desktop_evidence.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_qptma_evidence.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_resampling_evidence.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_scientific_grid_evidence.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_tma_axis_evidence.py",
+    "-q",
+    "--tb=short",
+    "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\tma199-auditors\\tests.xml"
+  ],
+  "exit": 0,
+  "seconds": 14.238518300000578,
+  "test_sources": [
+    "test_campaign_inputs.py",
+    "test_hierarchy_evidence.py",
+    "test_macos_relocation_evidence.py",
+    "test_manylinux_acceptance.py",
+    "test_manylinux_body_acceptance.py",
+    "test_manylinux_qualification.py",
+    "test_qptma_desktop_evidence.py",
+    "test_qptma_evidence.py",
+    "test_resampling_evidence.py",
+    "test_scientific_grid_evidence.py",
+    "test_tma_axis_evidence.py"
+  ]
+}

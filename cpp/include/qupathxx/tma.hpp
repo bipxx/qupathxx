@@ -1,5 +1,6 @@
 #pragma once
 #include "qupathxx/core.hpp"
+#include <atomic>
 
 namespace qpx {
 // Level-zero coordinates. The two step vectors permit rotated/skewed lattices;
@@ -72,5 +73,35 @@ private:
 // default; callers may opt out for tables without a revision column.
 std::string tma_metadata_csv(const TmaGrid&,std::size_t byte_limit=64*1024*1024);
 std::string tma_context_csv(const TmaGrid&,const std::string& table,std::size_t byte_limit=64*1024*1024,bool require_revision=true);
+// Replicate cores share a case ID; unassigned cores remain separate rows.
+// Missing cores contribute inventory counts but no measurement values.
+// Existing revision selectors are always checked. Legacy tables lacking one
+// require allow_unversioned; an absent measurement table exports inventory only.
+std::string tma_case_summary_csv(const TmaGrid&,const std::string& table="",const std::string& value_column="",
+    const std::string& weight_column="",std::size_t byte_limit=64*1024*1024,bool allow_unversioned=false,
+    const std::atomic<bool>* cancelled=nullptr);
+// Read an optional bounded measurement file and atomically create a new CSV.
+// Existing destinations are preserved; the input is verified before publication.
+std::size_t save_tma_case_summary_csv(const TmaGrid&,const std::string& output_path,
+    const std::string& input_path="",const std::string& value_column="",const std::string& weight_column="",
+    std::size_t byte_limit=64*1024*1024,bool allow_unversioned=false,const std::atomic<bool>* cancelled=nullptr);
+// Caller-owned positive image namespaces bind immutable grid captures. Core IDs
+// are local to each image. Equal nonempty case IDs pool raw measurement rows;
+// unassigned cores remain isolated by (image ID, core ID).
+using TmaCohort=std::map<std::uint64_t,std::shared_ptr<const TmaGrid>>;
+// Canonical source inventory binds each full metadata CSV by SHA-256. At most
+// 4096 grids and byte_limit bytes of total captured payload are admitted.
+std::string tma_cohort_manifest_csv(const TmaCohort&,std::size_t byte_limit=64*1024*1024,
+    const std::atomic<bool>* cancelled=nullptr);
+// Cohort measurement tables require image_id (or source_image_id), in addition
+// to the existing core/revision selectors. Input, output and captured-payload
+// budgets apply independently. Single-grid summary schema/bytes are unchanged.
+std::string tma_cohort_case_summary_csv(const TmaCohort&,const std::string& table="",const std::string& value_column="",
+    const std::string& weight_column="",std::size_t byte_limit=64*1024*1024,bool allow_unversioned=false,
+    const std::atomic<bool>* cancelled=nullptr);
+// Shared bounded loader and atomic new-file publication for cohort summaries.
+std::size_t save_tma_cohort_case_summary_csv(const TmaCohort&,const std::string& output_path,
+    const std::string& input_path="",const std::string& value_column="",const std::string& weight_column="",
+    std::size_t byte_limit=64*1024*1024,bool allow_unversioned=false,const std::atomic<bool>* cancelled=nullptr);
 std::vector<ObjectEdit> tma_grid_edits(const TmaGridOptions&);
 }

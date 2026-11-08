@@ -7,18 +7,29 @@
 #include <set>
 #include <list>
 #include "qupathxx/image_server.hpp"
+#include "qupathxx/scientific_grid.hpp"
 #include "qupathxx/display.hpp"
 #include "qupathxx/geometry.hpp"
 #include "qupathxx/spatial_index.hpp"
 #include "qupathxx/analysis_types.hpp"
+#include "qupathxx/object_plane.hpp"
+#include "qupathxx/image_analysis_settings.hpp"
+#include "qupathxx/image_axis_calibration.hpp"
+#include "qupathxx/gui_input_wait.hpp"
 
 namespace qpx {
-namespace detail {struct ClassificationEdit;class GuiPixelClassifier;class GuiTma;class GuiRaw;class ViewerOwner;struct TmaIndex;}
+struct TissueGridSampling;
+class ImageDataProperties;
+namespace detail {struct ClassificationEdit;class GuiPixelClassifier;class GuiTma;class GuiRaw;class GuiRawPixel;class ViewerOwner;class SpatialFrontend;struct TmaIndex;}
 class RawAnalysisRequest;class RawAnalysisResult;struct RawAnalysisRecord;
 struct TmaGridOptions;
+struct TmaDearrayOptions;struct TmaDearrayResult;
 class TmaGrid;
 class TmaCoreInfo;
 class Project;
+class ObjectProperties;
+struct GuiRawPixelOptions;struct GuiRawPixelReport;
+struct GuiSpatialOptions;struct GuiSpatialReport;
 struct FileFingerprint;
 struct SourceFileAssociation;
 struct StainEstimateResult;
@@ -33,6 +44,8 @@ class PixelTrainingRequest;
 class PixelPredictionRequest;
 class PixelClassifierArchive;
 struct PixelClassifierRecord;
+class RawPixelArchive;struct RawPixelRecord;class RawPixelTrainingRequest;class RawPixelPredictionRequest;class RawPixelTiledTrainingRequest;class RawPixelTiledTrainingTable;
+class RawPixelTrainingTable;class RawPixelClassifier;class RawPixelClassification;
 class PixelContours;
 struct TissueContourOptions;
 struct PixelTrainingOptions;
@@ -42,11 +55,25 @@ struct PixelStreamExportStats;
 struct PixelStreamReadStats;
 class PixelStreamLink;
 struct PixelStreamRecord;
+class RawPixelStreamLink;struct RawPixelStreamRecord;
 class ObjectClassificationResult;
 class ObjectClassifierArchive;
 class ObjectFeatureRequest;
+class SpatialDistanceRequest;
+class SpatialDistanceResult;
+struct SpatialDistanceRecord;
+class SpatialNeighborhoodRequest;
+class SpatialNeighborhoodResult;
+struct SpatialNeighborhoodRecord;
+class SpatialDensityRequest;
+class SpatialDensityResult;
+struct SpatialDensityRecord;
 struct ObjectClassifierRecord;
 struct CellParameters;
+struct GridCellSampling;
+struct NominalCellRoiSampling;
+struct RawGridSampling;
+struct GridCellParameters;
 struct ProjectBatchOptions;
 struct ProjectBatchReport;
 class CellResult;
@@ -71,7 +98,19 @@ struct FeatureCacheStats {
 };
 struct ObjectClass {
     std::string name;
-    std::uint32_t color = 0x41e1be; // RGB, no alpha.
+    std::uint32_t color = 0x41e1be; // Resolved RGB view; legacy aggregate initialization stays valid.
+    std::string parent; // Explicit registry key; empty means a flat/root definition.
+    std::uint8_t alpha=0;
+    bool color_present=true;
+    std::optional<std::uint32_t> color_argb() const {
+        if(!color_present)return {};return (std::uint32_t(alpha)<<24)|(color&0xffffff);
+    }
+    std::string leaf_name() const {return parent.empty()?name:name.substr(parent.size()+2);}
+    static ObjectClass definition(std::string name,std::optional<std::uint32_t> argb=0x41e1be,std::string parent={});
+    bool operator==(const ObjectClass& other) const {
+        return name==other.name && color==other.color && parent==other.parent &&
+            color_present==other.color_present && (!color_present || alpha==other.alpha);
+    }
 };
 struct CellFeatureLink {
     std::uint64_t record_id=0;
@@ -89,18 +128,26 @@ struct Annotation {
     std::optional<Roi> nucleus;
     std::optional<CellFeatureLink> cell_feature_link;
     std::shared_ptr<const TmaCoreInfo> tma_core;
+    std::shared_ptr<const ObjectProperties> properties;
+    ObjectPlane plane;
+    bool locked() const;
+    std::optional<std::uint32_t> color_rgb() const;
+    std::optional<double> class_probability() const;
     Rect bounds() const;
     bool is_detection() const { return kind!=ObjectKind::Annotation; }
 };
-enum class ObjectEditKind { Create, Replace, Remove, TmaMetadata };
+enum class ObjectEditKind { Create, Replace, Remove, TmaMetadata, Properties, Plane };
 struct ObjectEdit {
     ObjectEditKind kind;
     Annotation value;
-    static ObjectEdit create(Rect roi, std::string name="Annotation", std::uint64_t parent_id=0, std::string class_name="");
+    std::optional<ObjectPlane> creation_plane;
+    static ObjectEdit create(Rect roi, std::string name="Annotation", std::uint64_t parent_id=0, std::string class_name="", std::optional<ObjectPlane> plane=std::nullopt);
     static ObjectEdit replace(std::uint64_t id, Rect roi, std::string name, std::uint64_t parent_id=0, std::string class_name="");
     static ObjectEdit remove(std::uint64_t id);
+    static ObjectEdit plane(std::uint64_t id,ObjectPlane);
+    static ObjectEdit properties(std::uint64_t id,std::shared_ptr<const ObjectProperties>);
     static ObjectEdit tma_metadata(std::uint64_t id,std::shared_ptr<const TmaCoreInfo>);
-    static ObjectEdit create_geometry(Roi geometry, std::string name="Annotation", std::uint64_t parent_id=0, std::string class_name="", ObjectKind kind=ObjectKind::Annotation, std::optional<Roi> nucleus=std::nullopt);
+    static ObjectEdit create_geometry(Roi geometry, std::string name="Annotation", std::uint64_t parent_id=0, std::string class_name="", ObjectKind kind=ObjectKind::Annotation, std::optional<Roi> nucleus=std::nullopt, std::optional<ObjectPlane> plane=std::nullopt);
     static ObjectEdit replace_geometry(std::uint64_t id, Roi geometry, std::string name, std::uint64_t parent_id=0, std::string class_name="", ObjectKind kind=ObjectKind::Annotation, std::optional<Roi> nucleus=std::nullopt);
 };
 double mean_rgb(const ImageServer&, const Rect&, const std::atomic<bool>* cancelled = nullptr);
@@ -123,9 +170,12 @@ class Document {
     friend class CellTableRequest;
     friend class MeasurementTableRequest;
     friend class ObjectFeatureRequest;
+    friend class SpatialDistanceRequest;
+    friend class detail::SpatialFrontend;
     friend class detail::GuiPixelClassifier;
     friend class detail::GuiTma;
     friend class detail::GuiRaw;
+    friend class detail::GuiRawPixel;
     friend class detail::ViewerOwner;
 public:
     explicit Document(Image image);
@@ -133,6 +183,12 @@ public:
     const Image& image() const { return dense_image(*server_); }
     std::shared_ptr<ImageServer> server() const { return server_; }
     void set_tiff_view(const TiffView&);
+    ObjectPlane active_plane() const;
+    void validate_object_plane(const ObjectPlane&) const;
+    bool object_visible(std::uint64_t id) const;
+    void require_object_display_plane(std::uint64_t id) const;
+    void require_object_raw_plane(std::uint64_t id,std::uint32_t first_channel,std::uint32_t channels,std::uint32_t z,std::uint32_t t) const;
+    void set_object_plane(std::uint64_t id,ObjectPlane);
     const ImageMetadata& metadata() const { return server_->metadata(); }
     std::vector<Annotation> annotations() const;
     const std::map<std::uint64_t,Annotation>& objects() const { return objects_; }
@@ -144,6 +200,17 @@ public:
     std::uint64_t tma_revision() const {return tma_revision_;}
     std::vector<std::uint64_t> create_tma_grid(const TmaGridOptions&);
     std::uint64_t add_tma_core(std::size_t row,std::size_t column,Rect bounds,std::string case_id="",bool missing=false);
+    // No bounds: infer positions. Empty bounds: insert vacant slots. Otherwise
+    // supply one rectangle per cross-axis slot. Existing geometry/IDs stay put.
+    // Atomic structural corrections; retained cores keep geometry, IDs and case data.
+    // Absent bounds infer neighboring centers. Empty bounds insert vacant slots;
+    // otherwise provide one ellipse bound per cross-axis slot. Ambiguous spacing
+    // rejects without mutation. Removal deletes selected cores and descendants,
+    // protecting/reparenting cores in other axes and their descendant subtrees.
+    std::vector<std::uint64_t> insert_tma_row(std::size_t index,std::string label="",std::optional<std::vector<Rect>> bounds={},bool missing=false);
+    std::vector<std::uint64_t> insert_tma_column(std::size_t index,std::string label="",std::optional<std::vector<Rect>> bounds={},bool missing=false);
+    void remove_tma_row(std::size_t index);
+    void remove_tma_column(std::size_t index);
     void translate_tma_grid(double dx,double dy,bool include_descendants=true);
     void set_tma_missing(const std::vector<std::uint64_t>&,bool);
     void set_tma_case_ids(const std::map<std::uint64_t,std::string>&);
@@ -151,12 +218,28 @@ public:
     void clear_tma_grid(bool delete_cores=false);
     std::uint64_t revision() const { return revision_; }
     std::uint64_t structure_revision() const { return structure_revision_; }
+    std::uint64_t object_visibility_revision() const {return structure_revision_>object_plane_revision_?structure_revision_:object_plane_revision_;}
     // Geometry/class/calibration commands change this; archival records do not.
     std::uint64_t render_revision() const { return render_revision_; }
+    // Historical image-level facts. ROI editing state is not meaningful here.
+    std::shared_ptr<const ObjectProperties> image_properties() const {return image_properties_;}
+    void set_image_properties(std::shared_ptr<const ObjectProperties> properties={});
+    const std::optional<ImageAxisCalibration>& image_axis_calibration() const {return image_axis_calibration_;}
+    void set_image_axis_calibration(std::optional<ImageAxisCalibration> value={});
+    std::optional<double> z_spacing_um() const;
+    std::optional<double> z_position_um(std::uint32_t z) const;
+    std::optional<double> timepoint_seconds(std::uint32_t t) const;
+    const std::optional<ImageAnalysisSettings>& image_analysis_settings() const {return image_analysis_settings_;}
+    void set_image_analysis_settings(std::optional<ImageAnalysisSettings> settings={});
+    std::shared_ptr<const ImageDataProperties> image_data_properties() const {return image_data_properties_;}
+    void set_image_data_properties(std::shared_ptr<const ImageDataProperties> properties={});
     const std::map<std::string,ObjectClass>& classes() const { return classes_; }
     ObjectClass object_class(const std::string& name) const;
     std::size_t class_count(const std::string& name) const;
     void set_class(std::string name, std::uint32_t color);
+    void set_class_definition(ObjectClass definition);
+    void replace_class_registry(const std::vector<ObjectClass>& definitions,std::string label="Replace class registry");
+    std::vector<std::string> class_path(const std::string& name) const;
     void remove_class(const std::string& name);
     void rename_class(const std::string& old_name, std::string new_name);
     void classify_objects(const std::vector<std::uint64_t>& ids, std::string class_name);
@@ -176,12 +259,18 @@ public:
     void add_hole(std::uint64_t id,std::size_t part,Ring hole);
     void remove_hole(std::uint64_t id,std::size_t part,std::size_t hole);
     void apply_boolean(std::uint64_t target,const std::vector<std::uint64_t>& operands,BooleanOp operation);
+    // New root annotation; inputs replaced, surviving direct children promoted
+    // to root. Mixed area/point input requires explicit point-loss admission.
+    std::uint64_t merge_annotations(const std::vector<std::uint64_t>& ids,bool discard_points=false);
+    void set_object_properties(std::uint64_t id,std::shared_ptr<const ObjectProperties>);
+    void set_object_edit_state(std::uint64_t id,bool locked,std::optional<std::uint32_t> color_rgb=std::nullopt,std::optional<double> class_probability=std::nullopt);
     void rename_annotation(std::uint64_t id, std::string name);
     void classify_annotation(std::uint64_t id, std::string class_name);
     void reparent_annotation(std::uint64_t id, std::uint64_t parent_id);
     std::vector<std::uint64_t> execute(const std::vector<ObjectEdit>& edits, std::string label="Edit objects");
     // Import-local IDs/parents are remapped; existing native IDs are untouched.
     std::vector<std::uint64_t> append_objects(const std::vector<Annotation>& objects,const std::vector<ObjectClass>& classes);
+    std::vector<std::uint64_t> append_objects(const std::vector<Annotation>& objects,const std::vector<ObjectClass>& classes,const std::string& history_label);
     std::vector<std::uint64_t> children(std::uint64_t parent_id) const;
     std::vector<std::uint64_t> query_region(Rect bounds) const;
     std::vector<std::uint64_t> pick(Point point,double tolerance=0) const;
@@ -209,6 +298,27 @@ public:
     double mean_intensity(std::uint64_t id) const;
     double nucleus_area_um2(std::uint64_t id) const;
     double nucleus_mean_intensity(std::uint64_t id) const;
+    std::vector<std::shared_ptr<const SpatialDistanceRecord>> spatial_records() const;
+    std::shared_ptr<const SpatialDistanceRecord> spatial_record(std::uint64_t) const;
+    std::size_t spatial_record_count() const {return spatial_records_.size()+spatial_snapshot_.size();}
+    std::uint64_t keep_spatial(const SpatialDistanceRequest&,std::shared_ptr<const SpatialDistanceResult>,std::string name="Spatial distances");
+    bool verify_spatial(std::uint64_t,const SpatialDistanceRequest&,std::shared_ptr<const SpatialDistanceResult>);
+    std::string spatial_status(std::uint64_t) const;
+    bool remove_spatial(std::uint64_t);
+    std::vector<std::shared_ptr<const SpatialNeighborhoodRecord>> neighborhood_records() const;
+    std::shared_ptr<const SpatialNeighborhoodRecord> neighborhood_record(std::uint64_t) const;
+    std::size_t neighborhood_record_count() const {return neighborhood_records_.size()+neighborhood_snapshot_.size();}
+    std::uint64_t keep_neighborhood(const SpatialNeighborhoodRequest&,std::shared_ptr<const SpatialNeighborhoodResult>,std::string name="Spatial neighborhoods");
+    bool verify_neighborhood(std::uint64_t,const SpatialNeighborhoodRequest&,std::shared_ptr<const SpatialNeighborhoodResult>);
+    std::string neighborhood_status(std::uint64_t) const;
+    bool remove_neighborhood(std::uint64_t);
+    std::vector<std::shared_ptr<const SpatialDensityRecord>> density_records() const;
+    std::shared_ptr<const SpatialDensityRecord> density_record(std::uint64_t) const;
+    std::size_t density_record_count() const {return density_records_.size()+density_snapshot_.size();}
+    std::uint64_t keep_density(const SpatialDensityRequest&,std::shared_ptr<const SpatialDensityResult>,std::string name="Tissue cell density");
+    bool verify_density(std::uint64_t,const SpatialDensityRequest&,std::shared_ptr<const SpatialDensityResult>);
+    std::string density_status(std::uint64_t) const;
+    bool remove_density(std::uint64_t);
     std::vector<AnalysisRecord> analysis_records() const;
     std::size_t analysis_record_count() const {return analysis_.size()+analysis_snapshot_count_;}
     AnalysisRecord analysis_record(std::uint64_t id) const;
@@ -248,12 +358,30 @@ public:
     std::uint64_t keep_pixel_training(const PixelTrainingRequest&,std::shared_ptr<const PixelClassifierArchive>,std::string name="Pixel classifier training");
     std::uint64_t keep_pixel_prediction(const PixelPredictionRequest&,std::shared_ptr<const PixelClassifierArchive>,std::string name="Pixel classifier prediction");
     bool remove_pixel_classifier_record(std::uint64_t id);
+    std::vector<std::shared_ptr<const RawPixelRecord>> raw_pixel_records() const;
+    std::shared_ptr<const RawPixelRecord> raw_pixel_record(std::uint64_t) const;
+    std::size_t raw_pixel_record_count() const {return raw_pixels_.size()+raw_pixels_snapshot_.size();}
+    std::uint64_t keep_raw_pixel_training(const RawPixelTrainingRequest&,std::shared_ptr<const RawPixelArchive>,std::string name="Raw pixel training");
+    std::uint64_t keep_raw_pixel_tiled_training(const RawPixelTiledTrainingRequest&,std::shared_ptr<const RawPixelArchive>,std::string name="Raw tiled pixel training");
+    std::uint64_t keep_raw_pixel_prediction(const RawPixelPredictionRequest&,std::shared_ptr<const RawPixelArchive>,std::string name="Raw pixel prediction");
+    bool remove_raw_pixel_record(std::uint64_t);
+    bool verify_raw_pixel_training(std::uint64_t,const RawPixelTrainingRequest&,std::shared_ptr<const RawPixelTrainingTable>,std::shared_ptr<const RawPixelClassifier> model={}) const;
+    bool verify_raw_pixel_tiled_training(std::uint64_t,const RawPixelTiledTrainingRequest&,std::shared_ptr<const RawPixelTiledTrainingTable>,std::shared_ptr<const RawPixelClassifier> model={}) const;
+    bool verify_raw_pixel_prediction(std::uint64_t,const RawPixelPredictionRequest&,std::shared_ptr<const RawPixelClassification>) const;
     std::vector<std::shared_ptr<const PixelStreamRecord>> pixel_stream_records() const;
     std::shared_ptr<const PixelStreamRecord> pixel_stream_record(std::uint64_t id) const;
     std::size_t pixel_stream_record_count() const {return streams_.size()+streams_snapshot_.size();}
     std::uint64_t keep_pixel_stream(std::shared_ptr<const PixelStreamLink>,std::string name="Pixel stream");
     bool remove_pixel_stream_record(std::uint64_t id);
     void relink_pixel_stream_record(std::uint64_t id,std::shared_ptr<const PixelStreamLink>);
+    std::vector<std::shared_ptr<const RawPixelStreamRecord>> raw_pixel_stream_records() const;
+    std::shared_ptr<const RawPixelStreamRecord> raw_pixel_stream_record(std::uint64_t id) const;
+    std::size_t raw_pixel_stream_record_count() const {return raw_streams_.size()+raw_streams_snapshot_.size();}
+    // Records reference historical files; deleting a record never deletes output.
+    // New keep/relink requires a freshly checked verification observation.
+    std::uint64_t keep_raw_pixel_stream(std::shared_ptr<const RawPixelStreamLink>,std::string name="Raw pixel stream");
+    bool remove_raw_pixel_stream_record(std::uint64_t id);
+    void relink_raw_pixel_stream_record(std::uint64_t id,std::shared_ptr<const RawPixelStreamLink>);
     std::vector<std::shared_ptr<const RawAnalysisRecord>> raw_analysis_records() const;
     std::vector<std::shared_ptr<const RawAnalysisRecord>> raw_analysis_page(std::uint64_t after_id=0,std::size_t limit=64) const;
     std::shared_ptr<const RawAnalysisRecord> raw_analysis_record(std::uint64_t id) const;
@@ -272,6 +400,8 @@ private:
     friend struct ObjectClassifierKernel;
     friend class AnalysisRequest;
     friend class RawAnalysisRequest;
+    friend class RawPixelWindowPredictionRequest;
+    friend class RawPixelTiledTrainingRequest;
     // Copies/assignments are independent live authorities, including when a
     // copied document happens to share its immutable image source and IDs.
     struct AnalysisIdentity {
@@ -280,6 +410,41 @@ private:
         AnalysisIdentity(const AnalysisIdentity&) {}
         AnalysisIdentity& operator=(const AnalysisIdentity&) {token=std::make_shared<const char>();return *this;}
     } analysis_identity_;
+    struct StoredSpatial {
+        std::shared_ptr<const SpatialDistanceRecord> value;
+        std::shared_ptr<const char> identity;
+        bool verified=false;
+    };
+    std::map<std::uint64_t,StoredSpatial> spatial_records_;
+    std::vector<std::shared_ptr<const SpatialDistanceRecord>> spatial_snapshot_;
+    std::size_t spatial_bytes_=0;
+    void restore_spatial(std::shared_ptr<const SpatialDistanceRecord>);
+    struct StoredNeighborhood {
+        std::shared_ptr<const SpatialNeighborhoodRecord> value;
+        std::shared_ptr<const char> identity;
+        bool verified=false;
+    };
+    std::map<std::uint64_t,StoredNeighborhood> neighborhood_records_;
+    std::vector<std::shared_ptr<const SpatialNeighborhoodRecord>> neighborhood_snapshot_;
+    std::size_t neighborhood_bytes_=0;
+    // Inactive additive metadata fits the existing snapshot metadata allowance,
+    // preserving exact legacy budgets when no neighborhood records are present.
+    std::size_t inactive_neighborhood_metadata_bytes() const {
+        return neighborhood_record_count()?0:sizeof(neighborhood_records_)+sizeof(neighborhood_snapshot_)+sizeof(neighborhood_bytes_);
+    }
+    void restore_neighborhood(std::shared_ptr<const SpatialNeighborhoodRecord>);
+    struct StoredDensity {
+        std::shared_ptr<const SpatialDensityRecord> value;
+        std::shared_ptr<const char> identity;
+        bool verified=false;
+    };
+    std::map<std::uint64_t,StoredDensity> density_records_;
+    std::vector<std::shared_ptr<const SpatialDensityRecord>> density_snapshot_;
+    std::size_t density_bytes_=0;
+    std::size_t inactive_density_metadata_bytes() const {
+        return density_record_count()?0:sizeof(density_records_)+sizeof(density_snapshot_)+sizeof(density_bytes_);
+    }
+    void restore_density(std::shared_ptr<const SpatialDensityRecord>);
     struct StoredRawAnalysis {
         std::shared_ptr<const RawAnalysisRecord> value;
         std::shared_ptr<const char> identity;
@@ -382,16 +547,24 @@ private:
     std::vector<std::shared_ptr<const PixelClassifierRecord>> pixels_snapshot_;
     std::size_t pixels_bytes_=0;
     void restore_pixel_classifier(std::shared_ptr<const PixelClassifierRecord>);
+    std::map<std::uint64_t,std::shared_ptr<const RawPixelRecord>> raw_pixels_;
+    std::vector<std::shared_ptr<const RawPixelRecord>> raw_pixels_snapshot_;
+    std::size_t raw_pixels_bytes_=0;
+    void restore_raw_pixel(std::shared_ptr<const RawPixelRecord>);
     std::map<std::uint64_t,std::shared_ptr<const PixelStreamRecord>> streams_;
     std::vector<std::shared_ptr<const PixelStreamRecord>> streams_snapshot_;
     std::size_t streams_bytes_=0;
     void restore_pixel_stream(std::shared_ptr<const PixelStreamRecord>);
+    std::map<std::uint64_t,std::shared_ptr<const RawPixelStreamRecord>> raw_streams_;
+    std::vector<std::shared_ptr<const RawPixelStreamRecord>> raw_streams_snapshot_;
+    std::size_t raw_streams_bytes_=0;
+    void restore_raw_pixel_stream(std::shared_ptr<const RawPixelStreamRecord>);
 
     Document() = default; // Project's private save snapshots populate canonical fields only.
     static std::shared_ptr<Document> restore(std::shared_ptr<ImageServer> server,
         const std::vector<Annotation>& objects,const std::vector<ObjectClass>& classes,
         std::optional<double> pixel_width,std::optional<double> pixel_height,
-        std::uint64_t next_id,std::uint64_t revision);
+        std::uint64_t next_id,std::uint64_t revision,std::shared_ptr<const ObjectProperties> image_properties={},std::optional<ImageAnalysisSettings> image_settings={},std::shared_ptr<const ImageDataProperties> data_properties={},std::optional<ImageAxisCalibration> axis_calibration={});
     const Annotation& find(std::uint64_t id) const;
     void publish_roi(std::uint64_t id,Roi geometry,std::string label);
     using ObjectPatch = std::map<std::uint64_t,std::optional<Annotation>>;
@@ -405,6 +578,13 @@ private:
         ClassificationHistory(ClassificationHistory&&) noexcept=default;
         ClassificationHistory& operator=(ClassificationHistory&&) noexcept=default;
     };
+    struct ImagePropertiesHistory {
+        std::shared_ptr<const ObjectProperties> before,after;
+    };
+    static std::shared_ptr<const ObjectProperties> normalize_image_properties(std::shared_ptr<const ObjectProperties>);
+    struct ImageDataPropertiesHistory {std::shared_ptr<const ImageDataProperties> before,after;};
+    struct ImageAxisHistory {std::optional<ImageAxisCalibration> before,after;};
+    struct ImageSettingsHistory {std::optional<ImageAnalysisSettings> before,after;};
     struct EditRecord {
         ObjectPatch before,after;
         Calibration before_calibration,after_calibration;
@@ -412,6 +592,10 @@ private:
         std::string label;
         std::size_t bytes = 0;
         ClassificationHistory classifications{};
+        std::shared_ptr<const ImagePropertiesHistory> image_properties;
+        std::shared_ptr<const ImageSettingsHistory> image_settings;
+        std::shared_ptr<const ImageAxisHistory> axis_calibration;
+        std::shared_ptr<const ImageDataPropertiesHistory> data_properties;
     };
     struct Staging;
     std::shared_ptr<const detail::TmaIndex> tma_index_;
@@ -423,9 +607,16 @@ private:
     void commit(Staging&, Calibration);
     void save_edit(Staging&, Calibration, std::string label);
     void trim_history();
+    std::vector<ObjectEdit> tma_insert_axis_edits(bool column,std::size_t index,std::string label,const std::optional<std::vector<Rect>>& bounds,bool missing,std::size_t edit_limit=100000) const;
+    std::vector<ObjectEdit> tma_remove_axis_edits(bool column,std::size_t index,std::size_t edit_limit=100000) const;
     void refresh_spatial() const;
     std::shared_ptr<ImageServer> server_;
     std::map<std::uint64_t,Annotation> objects_;
+    std::shared_ptr<const ObjectProperties> image_properties_;
+    std::optional<ImageAnalysisSettings> image_analysis_settings_;
+    std::optional<ImageAxisCalibration> image_axis_calibration_;
+    void validate_axis_source(const ImageServer&) const;
+    std::shared_ptr<const ImageDataProperties> image_data_properties_;
     struct ObjectBlock;
     // Published blocks are immutable. Captures copy block handles, never live
     // map nodes; edits prepare replacements before committing canonical state.
@@ -441,6 +632,7 @@ private:
     std::uint64_t revision_ = 0;
     std::uint64_t structure_revision_ = 0;
     std::uint64_t render_revision_ = 0;
+    std::uint64_t object_plane_revision_ = 0;
     std::size_t history_steps_ = 128, history_budget_ = 64*1024*1024, history_bytes_ = 0;
     std::optional<double> pixel_width_um_, pixel_height_um_;
     std::uint64_t calibration_revision_=0;
@@ -646,7 +838,9 @@ struct GuiReport {
     std::uint64_t pixel_stream_record_id=0,pixel_stream_selected_record_id=0;
     std::size_t pixel_stream_record_catalog_max_step=0;
     bool pixel_stream_record_catalog_complete=false;
-    std::string tma_error,tma_export_state;
+    std::string tma_error,tma_export_state,qptma_state;
+    std::shared_ptr<const TmaDearrayResult> tma_dearray_result;
+    std::size_t qptma_preview_cores=0,qptma_preview_missing=0,qptma_preview_max_step=0,qptma_export_bytes=0;
     std::vector<std::uint64_t> tma_created_ids;
     std::size_t tma_cores=0,tma_missing_cores=0,tma_catalog_max_step=0,tma_metadata_bytes=0;
     std::string tiff_state,raw_task_state,raw_error;
@@ -658,10 +852,24 @@ struct GuiReport {
     std::size_t raw_records=0,raw_csv_bytes=0;
     std::uint64_t overview_source_pixel_limit=4*1024*1024;
 
+    // Bounded recent rendered-loop samples, using the CPU timer's warmup
+    // policy. Includes swap/capture and post-paint startup dispatch, while
+    // suspended iterations and final shutdown are outside this measurement.
+    double rendered_frame_wall_p95_ms=0,max_rendered_frame_wall_ms=0;
+    std::size_t rendered_frame_wall_samples=0;
+    std::shared_ptr<const GuiRawPixelReport> raw_pixel;
+    std::shared_ptr<const GuiSpatialReport> spatial;
+    std::size_t clipboard_copies=0,clipboard_pastes=0,clipboard_copied_objects=0,clipboard_pasted_objects=0;
+    std::string clipboard_error;
+
+    std::optional<ScientificGrid> tissue_grid;
+    double tissue_downsample_x=0,tissue_downsample_y=0;
+    std::shared_ptr<const CompartmentIntensityStatistics> analysis_intensity_statistics;
+    std::string stain_model_state="idle",stain_model_error,stain_model_sha256;
 };
-enum class GuiInputKind { Move, LeftDown, LeftUp, RightDown, RightUp, Wheel, RectangleKey, UndoKey, RedoKey, DeleteKey, EllipseKey, PolygonKey, PolylineKey, PointsKey, FinishKey, SelectAllKey, EscapeKey, VertexKey, HoleKey, InsertKey, BooleanKey, SaveKey, ExportKey, ImportKey, NextImageKey, PreviousImageKey, AddImageKey, RelinkImageKey, AutosaveKey, RecoverKey, CloseWindow, OpenProjectKey, NewProjectKey, RemoveImageKey, ReviewRecoveryKey, FindRecoveriesKey, StopRecoveryMaintenanceKey, AnalyzeKey, CancelAnalysisKey, KeepAnalysisKey, RecheckAnalysisKey, DetectTissueKey, CancelTissueKey, TraceTissueKey, KeepTissueContoursKey, KeepTissueKey, RecheckTissueKey, DetectCellsKey, KeepCellsKey, CancelCellsKey, KeepCellRunKey, RecheckCellRunKey, ExportCellTableKey, CancelCellTableKey, FingerprintFileKey, CancelFingerprintFileKey, ExportMeasurementTableKey, CancelMeasurementTableKey, EstimateStainsKey, ApplyStainEstimateKey, CancelStainEstimateKey, RunBatchKey, CancelBatchKey, ResizeWindow, MinimizeWindow, RestoreWindow, SetUiScale, ObjectClassifierKey, PixelClassifierKey, TmaKey, RawChannelsKey };
-enum class GuiInputTarget { Canvas, Overview, ObjectList, Image, ProjectList, DisplayReset, DiscardRecoveryReplacement, KeepRecoveryClose, CancelClose, DiscardClose, SaveClose, SaveRecoveryReplacement, CancelRecoveryReplacement, CancelProjectLoad, ConfirmRemoveImage, CancelRemoveImage, ConfirmDiscardCheckpoint, CancelDiscardCheckpoint, Window, ResetLayout, SaveProject, TrainObjectClassifier, PredictObjectClasses, ApplyObjectClasses, CancelObjectClassifier, SaveClassifierModel, LoadClassifierModel, KeepClassifierTraining, UseClassifierRecord, TrainPixelClassifier, PredictPixelClasses, CancelPixelClassifier, SavePixelModel, LoadPixelModel, TogglePixelOverlay, TracePixelContours, PublishPixelContours, KeepPixelTraining, KeepPixelPrediction, UsePixelRecordModel, PreviewPixelRecord, RemovePixelRecord, ExportPixelStream, OpenPixelStreamBrowser, OpenPixelStreamFile, ReadPixelStreamBlock, PreviousPixelStreamBlock, NextPixelStreamBlock, VerifyPixelStreamFile, CancelPixelStreamRead, ClosePixelStreamFile, KeepPixelStreamLink, OpenPixelStreamRecord, RelinkPixelStreamRecord, RemovePixelStreamRecord, CreateTmaGrid, ToggleTmaMissing, SelectTmaPresent, ApplyTmaCase, ApplyTmaGeometry, TranslateTmaGrid, ClearTmaGrid, OpenTmaBatch, ExportTmaMetadata, CancelTmaMetadata, TmaCoreTab, TmaGridTab, TmaExportTab, ApplyTmaLabels, ApplyTiffView, AddTiffSeries, MeasureRawRegion, ExportRawRegion, CancelRawTask, RawDisplayTab, RawDataTab, RawResultsTab, KeepRawAnalysis, VerifyRawAnalysisRecord, RemoveRawAnalysisRecord, ExportRawMeasurements, CancelRawMeasurements, RawRecordsTab, OverviewBudgetIncrease, OverviewBudgetDecrease };
-enum class GuiInputWait { Immediate, TargetReady, StartupFinished, TissueReady, TissueContoursReady, TissueContoursPublished, TissueArchived, TissueVerified, CellsReady, CellsPublished, CellsArchived, CellsVerified, CellTableSaved, FileFingerprintReady, MeasurementTableSaved, StainsEstimated, StainsApplied, BatchFinished, WindowReady, ObjectClassifierTrained, ObjectClassifierPredicted, ObjectClassifierApplied, ClassifierModelSaved, ClassifierModelLoaded, ClassifierTrainingRetained, ClassifierRecordLoaded, PixelClassifierTrained, PixelClassifierPredicted, PixelPreviewReady, PixelModelSaved, PixelModelLoaded, PixelContoursReady, PixelContoursPublished, PixelRecordKept, PixelRecordModelLoaded, PixelHistoricalPreviewReady, PixelStreamFinished, PixelStreamReadReady, PixelStreamReadFinished, PixelStreamVerified, PixelStreamLinked , TmaGridReady, TmaMetadataSaved, TiffReady, TiffViewApplied, RawTaskFinished, RawNumpySaved, RawAnalysisKept, RawAnalysisVerified, RawMeasurementsSaved };
+enum class GuiInputKind { Move, LeftDown, LeftUp, RightDown, RightUp, Wheel, RectangleKey, UndoKey, RedoKey, DeleteKey, EllipseKey, PolygonKey, PolylineKey, PointsKey, FinishKey, SelectAllKey, EscapeKey, VertexKey, HoleKey, InsertKey, BooleanKey, SaveKey, ExportKey, ImportKey, NextImageKey, PreviousImageKey, AddImageKey, RelinkImageKey, AutosaveKey, RecoverKey, CloseWindow, OpenProjectKey, NewProjectKey, RemoveImageKey, ReviewRecoveryKey, FindRecoveriesKey, StopRecoveryMaintenanceKey, AnalyzeKey, CancelAnalysisKey, KeepAnalysisKey, RecheckAnalysisKey, DetectTissueKey, CancelTissueKey, TraceTissueKey, KeepTissueContoursKey, KeepTissueKey, RecheckTissueKey, DetectCellsKey, KeepCellsKey, CancelCellsKey, KeepCellRunKey, RecheckCellRunKey, ExportCellTableKey, CancelCellTableKey, FingerprintFileKey, CancelFingerprintFileKey, ExportMeasurementTableKey, CancelMeasurementTableKey, EstimateStainsKey, ApplyStainEstimateKey, CancelStainEstimateKey, RunBatchKey, CancelBatchKey, ResizeWindow, MinimizeWindow, RestoreWindow, SetUiScale, ObjectClassifierKey, PixelClassifierKey, TmaKey, RawChannelsKey, MergeKey, ReviewSourceVerificationKey, CopyObjectsKey, PasteObjectsKey, PasteCurrentPlaneKey };
+enum class GuiInputTarget { Canvas, Overview, ObjectList, Image, ProjectList, DisplayReset, DiscardRecoveryReplacement, KeepRecoveryClose, CancelClose, DiscardClose, SaveClose, SaveRecoveryReplacement, CancelRecoveryReplacement, CancelProjectLoad, ConfirmRemoveImage, CancelRemoveImage, ConfirmDiscardCheckpoint, CancelDiscardCheckpoint, Window, ResetLayout, SaveProject, TrainObjectClassifier, PredictObjectClasses, ApplyObjectClasses, CancelObjectClassifier, SaveClassifierModel, LoadClassifierModel, KeepClassifierTraining, UseClassifierRecord, TrainPixelClassifier, PredictPixelClasses, CancelPixelClassifier, SavePixelModel, LoadPixelModel, TogglePixelOverlay, TracePixelContours, PublishPixelContours, KeepPixelTraining, KeepPixelPrediction, UsePixelRecordModel, PreviewPixelRecord, RemovePixelRecord, ExportPixelStream, OpenPixelStreamBrowser, OpenPixelStreamFile, ReadPixelStreamBlock, PreviousPixelStreamBlock, NextPixelStreamBlock, VerifyPixelStreamFile, CancelPixelStreamRead, ClosePixelStreamFile, KeepPixelStreamLink, OpenPixelStreamRecord, RelinkPixelStreamRecord, RemovePixelStreamRecord, CreateTmaGrid, ToggleTmaMissing, SelectTmaPresent, ApplyTmaCase, ApplyTmaGeometry, TranslateTmaGrid, ClearTmaGrid, OpenTmaBatch, ExportTmaMetadata, CancelTmaMetadata, TmaCoreTab, TmaGridTab, TmaExportTab, ApplyTmaLabels, ApplyTiffView, AddTiffSeries, MeasureRawRegion, ExportRawRegion, CancelRawTask, RawDisplayTab, RawDataTab, RawResultsTab, KeepRawAnalysis, VerifyRawAnalysisRecord, RemoveRawAnalysisRecord, ExportRawMeasurements, CancelRawMeasurements, RawRecordsTab, OverviewBudgetIncrease, OverviewBudgetDecrease, LoadQptmaPreview, ApplyQptmaPreview, ExportQptma, CancelQptma, DiscardQptmaPreview, AcknowledgeQptmaLosses, TmaInsertRowBefore, TmaInsertRowAfter, TmaInsertColumnBefore, TmaInsertColumnAfter, TmaRemoveRow, TmaRemoveColumn, TmaDetectGrid, RawPixelTrain, RawPixelPredict, RawPixelCancel, RawPixelKeepTraining, RawPixelSaveModel, RawPixelLoadModel, RawPixelExport, RawPixelOpenFile, RawPixelKeepLink, RawPixelOpenRecord, RawPixelRemoveRecord, RawPixelToggleOverlay, RawPixelHide, RawPixelTrainingTab, RawPixelFilesTab, RawPixelRecordsTab, RawPixelTrace, RawPixelApply, RawPixelContoursTab, RawPixelTraceFile, RawPixelReplayFile, RawPixelApplyFile, SpatialOpen, SpatialSources, SpatialTargets, SpatialRun, SpatialCancel, SpatialKeep, SpatialInspect, SpatialVerify, SpatialExport, SpatialRemove, SpatialPath, SpatialOperation, SpatialRadius, SpatialRecordId, ApplySourceVerification, AcceptSourceReplacement, ToggleObjectLock, ApplyObjectEditState, ClearObjectProperties, CopyObjects, PasteObjects, PasteCurrentPlane, UseImageStains, LoadStainModel, SaveStainModel, SpatialTissue, SpatialExclusions };
+
 struct GuiInput {
     int frame = 0;
     GuiInputKind kind = GuiInputKind::Move;
@@ -693,19 +901,26 @@ struct GuiOptions {
     double recovery_max_age_days=30;
     RoiSamplingPolicy roi_sampling_policy=RoiSamplingPolicy::GeometryCoverage,tissue_sampling_policy=RoiSamplingPolicy::GeometryCoverage;
     int analysis_kind=0; // 0: RGB optical-density means; 1: supplied-stain means.
-    bool analysis_nucleus=false;
+    bool analysis_nucleus=false,analysis_intensity_statistics=false;
     std::vector<double> analysis_vectors={.65,.70,.29,.07,.99,.11};
     std::vector<double> analysis_white={255,255,255};
+    std::string stain_model_path;
     int tissue_feature=0,tissue_connectivity=8;
-    double tissue_threshold=.3;
+    double tissue_threshold=.3,tissue_smoothing_sigma=0;
     std::uint64_t tissue_min_pixels=1,tissue_max_pixels=0;
     int tissue_open_radius=0,tissue_close_radius=0;
-    bool tissue_fill_holes=false;
+    bool tissue_fill_holes=false,tissue_median_cleanup=false,tissue_canonical_pyramid=false;
+    std::uint64_t tissue_work_bytes=64u*1024u*1024u;
     std::uint64_t tissue_max_hole_pixels=0;
     std::int32_t tissue_level=-1;
     double replay_timeout_seconds=5;
     bool settle_tiles=false;
     std::shared_ptr<const CellParameters> cell_parameters;
+    std::shared_ptr<const TissueGridSampling> tissue_grid;
+    std::shared_ptr<const GridCellSampling> cell_grid;
+    std::shared_ptr<const NominalCellRoiSampling> cell_nominal;
+    std::shared_ptr<const GridCellParameters> grid_cell_parameters;
+    std::optional<double> tissue_min_component_area_um2,tissue_max_component_area_um2;
     std::optional<double> cell_min_nucleus_area_um2,cell_max_nucleus_area_um2;
     std::size_t overlay_cache_budget=64*1024*1024;
     std::string cell_table_path;
@@ -713,6 +928,7 @@ struct GuiOptions {
     std::size_t cell_table_byte_limit=256*1024*1024,cell_table_snapshot_budget=256*1024*1024;
     bool cell_table_published_objects=false;
     bool cell_table_capture_calibration=false;
+    bool cell_table_intensity_statistics=false;
     std::string file_fingerprint_path,file_fingerprint_output;
     std::uint64_t file_fingerprint_byte_limit=std::uint64_t(1)<<40;
     std::size_t file_fingerprint_buffer_bytes=1024*1024;
@@ -733,12 +949,19 @@ struct GuiOptions {
     bool raw_require_current=false;
     std::shared_ptr<const TiffOpenOptions> tiff_options;
     std::shared_ptr<const RawRegionRequest> raw_request;
+    std::shared_ptr<const RawGridSampling> raw_grid;
+    std::size_t raw_grid_work_bytes=256u*1024*1024;
     int tma_tab=0;
     std::shared_ptr<const TmaGridOptions> tma_options;
-    std::string tma_case_id,tma_metadata_path;
+    std::shared_ptr<const TmaDearrayOptions> tma_dearray_options;
+    std::string tma_case_id,tma_metadata_path,qptma_input_path,qptma_output_path;
+    bool tma_case_summary=false,tma_allow_unversioned=false,tma_case_cohort=false;
+    std::string tma_insert_label;bool tma_insert_cores=true,tma_insert_missing=false;
+    std::string tma_measurements_path,tma_value_column,tma_weight_column;
     Point tma_translation;
     std::optional<Rect> tma_core_bounds;
     bool interchange_assume_pixels=false,interchange_allow_losses=false,qupath_ellipse_precision=false;
+    bool interchange_nested_hierarchy=false;
     detail::ViewerOwner* viewer_owner=nullptr;
     bool docked_workspace=false,reset_layout=false;
     std::string layout_path;
@@ -768,6 +991,8 @@ struct GuiOptions {
     std::string pixel_stream_read_path;
     std::uint64_t pixel_stream_read_index=0,pixel_stream_read_max_bytes=1ULL<<40;
     std::uint64_t overview_source_pixel_limit=4*1024*1024;
+    std::shared_ptr<const GuiRawPixelOptions> raw_pixel;
+    std::shared_ptr<const GuiSpatialOptions> spatial;
 };
 GuiReport run_gui(Document& document, int frame_limit = 0, const std::string& capture_path = "", const GuiOptions& options = {});
 std::string default_workspace_layout_path();

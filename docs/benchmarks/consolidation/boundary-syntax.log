@@ -1,0 +1,15 @@
+rgb_preview.cpp
+rgb_preview_tests.cpp
+cpp/tests/rgb_preview_tests.cpp(40): error C2039: 'identity': is not a member of 'qpx::Document'
+cpp/include\qupathxx/core.hpp(169): note: see declaration of 'qpx::Document'
+cpp/tests/rgb_preview_tests.cpp(40): error C2672: 'std::filesystem::u8path': no matching overloaded function found
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\filesystem(1417): note: could be 'std::filesystem::path std::filesystem::u8path(_InIt,_InIt)'
+cpp/tests/rgb_preview_tests.cpp(40): note: 'std::filesystem::path std::filesystem::u8path(_InIt,_InIt)': expects 2 arguments - 1 provided
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\filesystem(1412): note: or       'std::filesystem::path std::filesystem::u8path(const _Src &)'
+cpp/tests/rgb_preview_tests.cpp(40): error C2737: 'root': const object must be initialized
+cpp/tests/rgb_preview_tests.cpp(41): error C3536: 'root': cannot be used before it is initialized
+cpp/tests/rgb_preview_tests.cpp(41): error C2297: '/': not valid as right operand has type 'const char [11]'
+cpp/tests/rgb_preview_tests.cpp(41): error C2737: 'path': const object must be initialized
+cpp/tests/rgb_preview_tests.cpp(42): error C3536: 'path': cannot be used before it is initialized
+cpp/tests/rgb_preview_tests.cpp(44): error C3536: 'source': cannot be used before it is initialized
+thumbnail_bindings.cpp

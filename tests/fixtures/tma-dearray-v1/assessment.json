@@ -1,0 +1,97 @@
+{
+  "schema": "qpx.tma-dearray-reference-assessment/1",
+  "center_tolerance_pixels": 2.0,
+  "full_grid_cases": 5,
+  "within_preregistered_contract": 4,
+  "cases": [
+    {
+      "name": "aligned",
+      "state": "detected",
+      "expected": "full_grid",
+      "eligible_for_automatic_acceptance": true,
+      "rows": 3,
+      "columns": 4,
+      "exact_dimensions": true,
+      "max_center_error_pixels": 0.0,
+      "center_tolerance_passed": true,
+      "missing_flags_match": true,
+      "requires_review_or_refusal": false
+    },
+    {
+      "name": "interior_missing",
+      "state": "detected",
+      "expected": "full_grid",
+      "eligible_for_automatic_acceptance": true,
+      "rows": 3,
+      "columns": 4,
+      "exact_dimensions": true,
+      "max_center_error_pixels": 1.4142135623730951,
+      "center_tolerance_passed": true,
+      "missing_flags_match": true,
+      "requires_review_or_refusal": false
+    },
+    {
+      "name": "rotated_missing",
+      "state": "detected",
+      "expected": "full_grid",
+      "eligible_for_automatic_acceptance": true,
+      "rows": 3,
+      "columns": 4,
+      "exact_dimensions": true,
+      "max_center_error_pixels": 2.0,
+      "center_tolerance_passed": true,
+      "missing_flags_match": true,
+      "requires_review_or_refusal": false
+    },
+    {
+      "name": "skewed_missing",
+      "state": "detected",
+      "expected": "full_grid",
+      "eligible_for_automatic_acceptance": false,
+      "rows": 3,
+      "columns": 4,
+      "exact_dimensions": true,
+      "max_center_error_pixels": 2.23606797749979,
+      "center_tolerance_passed": false,
+      "missing_flags_match": true,
+      "requires_review_or_refusal": true
+    },
+    {
+      "name": "anisotropic",
+      "state": "detected",
+      "expected": "full_grid",
+      "eligible_for_automatic_acceptance": true,
+      "rows": 3,
+      "columns": 4,
+      "exact_dimensions": true,
+      "max_center_error_pixels": 1.4142135623730951,
+      "center_tolerance_passed": true,
+      "missing_flags_match": true,
+      "requires_review_or_refusal": false
+    },
+    {
+      "name": "unobserved_row",
+      "state": "detected",
+      "expected": "review_or_refuse",
+      "eligible_for_automatic_acceptance": false,
+      "rows": 2,
+      "columns": 4,
+      "exact_dimensions": false,
+      "requires_review_or_refusal": true
+    },
+    {
+      "name": "blank",
+      "state": "detected",
+      "expected": "review_or_refuse",
+      "eligible_for_automatic_acceptance": false,
+      "rows": 1,
+      "columns": 1,
+      "exact_dimensions": false,
+      "requires_review_or_refusal": true
+    }
+  ],
+  "native_detector_implemented": false,
+  "biological_accepted": false,
+  "release_ready": false,
+  "scope": "Synthetic binary-mask upstream characterization; not RGB preprocessing, native implementation, large-slide or biological acceptance."
+}

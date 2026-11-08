@@ -1,0 +1,7 @@
+Using Python 3.12.8 environment at: C:\Users\HEQ\Projects\qupathxx\build\ci\channels162-python
+Resolved 1 package in 14ms
+Prepared 1 package in 18ms
+Uninstalled 1 package in 3ms
+Installed 1 package in 68ms
+ - qupathxx==0.1.0 (from file:///C:/Users/HEQ/Projects/qupathxx/build/ci/channels162-first-wheels/qupathxx-0.1.0-cp312-cp312-win_amd64.whl)
+ + qupathxx==0.1.0 (from file:///C:/Users/HEQ/Projects/qupathxx/build/ci/channels162-final-wheels/qupathxx-0.1.0-cp312-cp312-win_amd64.whl)

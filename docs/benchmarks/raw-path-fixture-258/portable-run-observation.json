@@ -1,0 +1,278 @@
+{
+  "observed_at_utc": "2026-10-27T02:54:32.687055+00:00",
+  "run": {
+    "conclusion": "",
+    "databaseId": 40440044976,
+    "headSha": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "jobs": [
+      {
+        "completedAt": "0001-01-01T00:00:00Z",
+        "conclusion": "",
+        "databaseId": 121977961242,
+        "name": "Manylinux build Python 3.11",
+        "startedAt": "2026-10-27T02:43:08Z",
+        "status": "in_progress",
+        "steps": [
+          {
+            "completedAt": "2026-10-27T02:43:09Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-10-27T02:43:08Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-27T02:43:39Z",
+            "conclusion": "success",
+            "name": "Initialize containers",
+            "number": 2,
+            "startedAt": "2026-10-27T02:43:09Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-27T02:43:42Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8",
+            "number": 3,
+            "startedAt": "2026-10-27T02:43:39Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-27T02:43:59Z",
+            "conclusion": "success",
+            "name": "Qualification dependencies",
+            "number": 4,
+            "startedAt": "2026-10-27T02:43:42Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-27T02:43:59Z",
+            "conclusion": "success",
+            "name": "Baseline GEOS SDK cache",
+            "number": 5,
+            "startedAt": "2026-10-27T02:43:59Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-27T02:44:00Z",
+            "conclusion": "success",
+            "name": "Baseline OpenCV SDK cache",
+            "number": 6,
+            "startedAt": "2026-10-27T02:43:59Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-27T02:44:00Z",
+            "conclusion": "success",
+            "name": "Reader fixture cache",
+            "number": 7,
+            "startedAt": "2026-10-27T02:44:00Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "0001-01-01T00:00:00Z",
+            "conclusion": "",
+            "name": "Build qualify and recheck",
+            "number": 8,
+            "startedAt": "2026-10-27T02:44:00Z",
+            "status": "in_progress"
+          },
+          {
+            "completedAt": "0001-01-01T00:00:00Z",
+            "conclusion": "",
+            "name": "Qualified wheel and audit evidence",
+            "number": 9,
+            "startedAt": "0001-01-01T00:00:00Z",
+            "status": "pending"
+          },
+          {
+            "completedAt": "0001-01-01T00:00:00Z",
+            "conclusion": "",
+            "name": "Post Reader fixture cache",
+            "number": 14,
+            "startedAt": "0001-01-01T00:00:00Z",
+            "status": "pending"
+          },
+          {
+            "completedAt": "0001-01-01T00:00:00Z",
+            "conclusion": "",
+            "name": "Post Baseline OpenCV SDK cache",
+            "number": 15,
+            "startedAt": "0001-01-01T00:00:00Z",
+            "status": "pending"
+          },
+          {
+            "completedAt": "0001-01-01T00:00:00Z",
+            "conclusion": "",
+            "name": "Post Baseline GEOS SDK cache",
+            "number": 16,
+            "startedAt": "0001-01-01T00:00:00Z",
+            "status": "pending"
+          },
+          {
+            "completedAt": "0001-01-01T00:00:00Z",
+            "conclusion": "",
+            "name": "Post Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8",
+            "number": 17,
+            "startedAt": "0001-01-01T00:00:00Z",
+            "status": "pending"
+          },
+          {
+            "completedAt": "0001-01-01T00:00:00Z",
+            "conclusion": "",
+            "name": "Stop containers",
+            "number": 18,
+            "startedAt": "0001-01-01T00:00:00Z",
+            "status": "pending"
+          }
+        ],
+        "url": "https://github.com/bipxx/qupathxx/actions/runs/40440044976/job/121977961242"
+      },
+      {
+        "completedAt": "0001-01-01T00:00:00Z",
+        "conclusion": "",
+        "databaseId": 121977961456,
+        "name": "Manylinux build Python 3.12",
+        "startedAt": "2026-10-27T02:43:08Z",
+        "status": "in_progress",
+        "steps": [
+          {
+            "completedAt": "2026-10-27T02:43:11Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-10-27T02:43:09Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-27T02:43:41Z",
+            "conclusion": "success",
+            "name": "Initialize containers",
+            "number": 2,
+            "startedAt": "2026-10-27T02:43:11Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-27T02:43:44Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8",
+            "number": 3,
+            "startedAt": "2026-10-27T02:43:41Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-27T02:44:02Z",
+            "conclusion": "success",
+            "name": "Qualification dependencies",
+            "number": 4,
+            "startedAt": "2026-10-27T02:43:44Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-27T02:44:02Z",
+            "conclusion": "success",
+            "name": "Baseline GEOS SDK cache",
+            "number": 5,
+            "startedAt": "2026-10-27T02:44:02Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-27T02:44:03Z",
+            "conclusion": "success",
+            "name": "Baseline OpenCV SDK cache",
+            "number": 6,
+            "startedAt": "2026-10-27T02:44:02Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-27T02:44:03Z",
+            "conclusion": "success",
+            "name": "Reader fixture cache",
+            "number": 7,
+            "startedAt": "2026-10-27T02:44:03Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "0001-01-01T00:00:00Z",
+            "conclusion": "",
+            "name": "Build qualify and recheck",
+            "number": 8,
+            "startedAt": "2026-10-27T02:44:03Z",
+            "status": "in_progress"
+          },
+          {
+            "completedAt": "0001-01-01T00:00:00Z",
+            "conclusion": "",
+            "name": "Qualified wheel and audit evidence",
+            "number": 9,
+            "startedAt": "0001-01-01T00:00:00Z",
+            "status": "pending"
+          },
+          {
+            "completedAt": "0001-01-01T00:00:00Z",
+            "conclusion": "",
+            "name": "Post Reader fixture cache",
+            "number": 14,
+            "startedAt": "0001-01-01T00:00:00Z",
+            "status": "pending"
+          },
+          {
+            "completedAt": "0001-01-01T00:00:00Z",
+            "conclusion": "",
+            "name": "Post Baseline OpenCV SDK cache",
+            "number": 15,
+            "startedAt": "0001-01-01T00:00:00Z",
+            "status": "pending"
+          },
+          {
+            "completedAt": "0001-01-01T00:00:00Z",
+            "conclusion": "",
+            "name": "Post Baseline GEOS SDK cache",
+            "number": 16,
+            "startedAt": "0001-01-01T00:00:00Z",
+            "status": "pending"
+          },
+          {
+            "completedAt": "0001-01-01T00:00:00Z",
+            "conclusion": "",
+            "name": "Post Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8",
+            "number": 17,
+            "startedAt": "0001-01-01T00:00:00Z",
+            "status": "pending"
+          },
+          {
+            "completedAt": "0001-01-01T00:00:00Z",
+            "conclusion": "",
+            "name": "Stop containers",
+            "number": 18,
+            "startedAt": "0001-01-01T00:00:00Z",
+            "status": "pending"
+          }
+        ],
+        "url": "https://github.com/bipxx/qupathxx/actions/runs/40440044976/job/121977961456"
+      },
+      {
+        "completedAt": "2026-10-27T02:43:06Z",
+        "conclusion": "skipped",
+        "databaseId": 121977962176,
+        "name": "macOS native ${{ matrix.architecture }}",
+        "startedAt": "2026-10-27T02:43:06Z",
+        "status": "completed",
+        "steps": [],
+        "url": "https://github.com/bipxx/qupathxx/actions/runs/40440044976/job/121977962176"
+      },
+      {
+        "completedAt": "2026-10-27T02:43:06Z",
+        "conclusion": "skipped",
+        "databaseId": 121977962603,
+        "name": "matrix.name",
+        "startedAt": "2026-10-27T02:43:06Z",
+        "status": "completed",
+        "steps": [],
+        "url": "https://github.com/bipxx/qupathxx/actions/runs/40440044976/job/121977962603"
+      }
+    ],
+    "status": "in_progress",
+    "url": "https://github.com/bipxx/qupathxx/actions/runs/40440044976"
+  }
+}

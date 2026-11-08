@@ -1,0 +1,23 @@
+{
+  "argv": [
+    "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/real-ndpi307-linux-env/bin/python",
+    "-I",
+    "-X",
+    "utf8",
+    "-c",
+    "import sys;sys.path.insert(0,sys.argv.pop(1));from pip._internal.cli.main import main;raise SystemExit(main())",
+    "/mnt/c/Users/HEQ/Projects/qupathxx/.venv/Lib/site-packages",
+    "install",
+    "--ignore-installed",
+    "--only-binary=:all:",
+    "--no-deps",
+    "--index-url",
+    "https://pypi.org/simple",
+    "numpy==2.5.4",
+    "Pillow==13.0.0",
+    "scipy==1.16.3",
+    "/mnt/c/Users/HEQ/Projects/qupathxx/build/q306-all/Linux-headless-py3.12/wheels/qupathxx-0.1.0-cp312-cp312-linux_x86_64.whl"
+  ],
+  "returncode": 1,
+  "wheel_sha256": "c4be0a8c6e9347c0b2f03e89bc48e8dc8c1adac042f36506d50d8d8a8f331f1a"
+}

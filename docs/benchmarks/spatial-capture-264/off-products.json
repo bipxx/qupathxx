@@ -1,0 +1,27 @@
+{
+  "qupathxx_core.lib": {
+    "source": "2b9c5d76f3c3be8a9237f67b890cc5f2d081826b",
+    "bytes": 112044004,
+    "sha256": "b9c999b079272a4cf025c46f152bbc8cac2988a87eb5a2c193f5fd55a791fb4f"
+  },
+  "qupathxx_spatial_analysis_tests.exe": {
+    "source": "2b9c5d76f3c3be8a9237f67b890cc5f2d081826b",
+    "bytes": 1582080,
+    "sha256": "533bb0ad39c0ccbb55c44951589c078d687d4ecf3e6cef2879510d40cd875ac2"
+  },
+  "qupathxx_geometry_tests.exe": {
+    "source": "2b9c5d76f3c3be8a9237f67b890cc5f2d081826b",
+    "bytes": 352256,
+    "sha256": "69b7920805e6be909c47d8313dbfd115dc919c14799dc399ca056ce62d80aee4"
+  },
+  "qupathxx_spatial_tests.exe": {
+    "source": "2b9c5d76f3c3be8a9237f67b890cc5f2d081826b",
+    "bytes": 349696,
+    "sha256": "17ee7fbee024bcd16939da313af2f651a28a0d7a9d65ab6d6583a1bed3bd28dc"
+  },
+  "qupathxx_geometry_edits_tests.exe": {
+    "source": "2b9c5d76f3c3be8a9237f67b890cc5f2d081826b",
+    "bytes": 314368,
+    "sha256": "794cedbd599516feaacea35f3fce0ba641e793c24c45939dd2fedf9bc917af7f"
+  }
+}

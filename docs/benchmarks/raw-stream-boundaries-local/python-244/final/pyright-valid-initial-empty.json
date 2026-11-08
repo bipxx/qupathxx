@@ -1,0 +1,14 @@
+{
+  "include": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\typing\\raw_pixel_valid.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\typing\\raw_batch_valid.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\typing\\raw_frontend_valid.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\examples\\raw_classifier_workflow.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\typing\\raw_stream_contour_valid.py"
+  ],
+  "exclude": [],
+  "venvPath": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci",
+  "venv": "raw-stream-contour-244-env",
+  "pythonVersion": "3.12",
+  "typeCheckingMode": "basic"
+}

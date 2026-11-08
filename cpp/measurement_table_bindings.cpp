@@ -1,3 +1,4 @@
+#include "job_binding_utils.hpp"
 #include "qupathxx/measurement_tables.hpp"
 #include "qupathxx/project.hpp"
 #include <nanobind/nanobind.h>
@@ -35,8 +36,8 @@ void bind_measurement_tables(nb::module_& m) {
         .def_ro("rows",&MeasurementTableExportStats::rows).def_ro("total_rows",&MeasurementTableExportStats::total_rows).def_ro("bytes",&MeasurementTableExportStats::bytes)
         .def_ro("completed",&MeasurementTableExportStats::completed).def_ro("document_revision",&MeasurementTableExportStats::document_revision).def_ro("snapshot_bytes",&MeasurementTableExportStats::snapshot_bytes)
         .def_ro("capture_ms",&MeasurementTableExportStats::capture_ms).def_ro("write_ms",&MeasurementTableExportStats::write_ms);
-    nb::class_<MeasurementTableExportJob>(m,"MeasurementTableExportJob").def(nb::init<>()).def("request",&MeasurementTableExportJob::request)
-        .def("poll",&MeasurementTableExportJob::poll).def("wait",&MeasurementTableExportJob::wait,nb::call_guard<nb::gil_scoped_release>()).def("cancel",&MeasurementTableExportJob::cancel).def_prop_ro("busy",&MeasurementTableExportJob::busy);
+    nb::class_<qpx::bindings::OwnerJobHolder<MeasurementTableExportJob>>(m,"MeasurementTableExportJob").def(nb::init<>()).def("request",qpx::bindings::owner_job_method<&MeasurementTableExportJob::request>())
+        .def("poll",qpx::bindings::owner_job_method<&MeasurementTableExportJob::poll>()).def("wait",[](qpx::bindings::OwnerJobHolder<MeasurementTableExportJob>& job){return qpx::bindings::wait(job);}).def("cancel",qpx::bindings::owner_job_method<&MeasurementTableExportJob::cancel,false>()).def_prop_ro("busy",qpx::bindings::owner_job_method<&MeasurementTableExportJob::busy>());
     auto options=nb::borrow<nb::class_<GuiOptions>>(m.attr("GuiOptions"));
     options.def_rw("measurement_table_path",&GuiOptions::measurement_table_path).def_rw("measurement_table_kind",&GuiOptions::measurement_table_kind)
         .def_rw("measurement_table_require_current",&GuiOptions::measurement_table_require_current)

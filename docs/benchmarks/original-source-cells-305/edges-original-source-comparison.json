@@ -1,0 +1,1914 @@
+{
+  "schema": "qpx.qupath-cell-policy-edge-comparison/1",
+  "state": "characterized-partial",
+  "processing_policy": "qupath070",
+  "sampling": "affine-inverse",
+  "native_source": "26cae2af9f8d1ee54b1b5871079e67646a9faf07",
+  "native_sha256": "639f72ca0f436e5cda22e90c40034cc96c110fbbeaa0e9239ca8ba809343fe97",
+  "reference_manifest_sha256": "058e151f7881aefba28dff1dc6e6a5802a46fecedcbfa90e2c3c14600732fc4a",
+  "cases": [
+    {
+      "name": "slide-edge-1.0",
+      "input_rgb_exact": true,
+      "input_component_differences": 0,
+      "input_first_yxc": [],
+      "native_feature_domain": "actual native nominal RGB",
+      "upstream_refined_boundaries": false,
+      "shape": [
+        192,
+        256
+      ],
+      "sigma": 1.0,
+      "downsample": 1.0,
+      "metrics": {
+        "nucleus": {
+          "reference_count": 5,
+          "native_count": 5,
+          "matches": [
+            {
+              "reference_label": 1,
+              "native_label": 1,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 162,
+              "native_pixels": 162
+            },
+            {
+              "reference_label": 2,
+              "native_label": 2,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 158,
+              "native_pixels": 158
+            },
+            {
+              "reference_label": 3,
+              "native_label": 3,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 316,
+              "native_pixels": 316
+            },
+            {
+              "reference_label": 4,
+              "native_label": 4,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 266,
+              "native_pixels": 266
+            },
+            {
+              "reference_label": 5,
+              "native_label": 5,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 254,
+              "native_pixels": 254
+            }
+          ],
+          "unmatched_reference": 0,
+          "unmatched_native": 0,
+          "split_reference_labels": [],
+          "merged_native_labels": [],
+          "foreground_iou": 1.0,
+          "foreground_dice": 1.0
+        },
+        "body": {
+          "reference_count": 5,
+          "native_count": 5,
+          "matches": [
+            {
+              "reference_label": 1,
+              "native_label": 1,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 342,
+              "native_pixels": 342
+            },
+            {
+              "reference_label": 2,
+              "native_label": 2,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 340,
+              "native_pixels": 340
+            },
+            {
+              "reference_label": 3,
+              "native_label": 3,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 648,
+              "native_pixels": 648
+            },
+            {
+              "reference_label": 4,
+              "native_label": 4,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 504,
+              "native_pixels": 504
+            },
+            {
+              "reference_label": 5,
+              "native_label": 5,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 476,
+              "native_pixels": 476
+            }
+          ],
+          "unmatched_reference": 0,
+          "unmatched_native": 0,
+          "split_reference_labels": [],
+          "merged_native_labels": [],
+          "foreground_iou": 1.0,
+          "foreground_dice": 1.0
+        }
+      },
+      "features": [
+        {
+          "label": 1,
+          "compartment": "nucleus",
+          "samples": 162,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 1,
+          "compartment": "body",
+          "samples": 342,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 2,
+          "compartment": "nucleus",
+          "samples": 158,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 2,
+          "compartment": "body",
+          "samples": 340,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 3,
+          "compartment": "nucleus",
+          "samples": 316,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 3,
+          "compartment": "body",
+          "samples": 648,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 4,
+          "compartment": "nucleus",
+          "samples": 266,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 4,
+          "compartment": "body",
+          "samples": 504,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 5,
+          "compartment": "nucleus",
+          "samples": 254,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 5,
+          "compartment": "body",
+          "samples": 476,
+          "processing_arithmetic_accepted": true
+        }
+      ],
+      "input_sha256": "73c818687522e62574c0f27fab508539d0493b8671ee8400a56c7df3492f7a58"
+    },
+    {
+      "name": "slide-edge-1.25",
+      "input_rgb_exact": true,
+      "input_component_differences": 0,
+      "input_first_yxc": [],
+      "native_feature_domain": "actual native nominal RGB",
+      "upstream_refined_boundaries": false,
+      "shape": [
+        154,
+        205
+      ],
+      "sigma": 1.0,
+      "downsample": 1.25,
+      "metrics": {
+        "nucleus": {
+          "reference_count": 5,
+          "native_count": 5,
+          "matches": [
+            {
+              "reference_label": 1,
+              "native_label": 1,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 96,
+              "native_pixels": 96
+            },
+            {
+              "reference_label": 2,
+              "native_label": 2,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 98,
+              "native_pixels": 98
+            },
+            {
+              "reference_label": 3,
+              "native_label": 3,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 201,
+              "native_pixels": 201
+            },
+            {
+              "reference_label": 4,
+              "native_label": 4,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 164,
+              "native_pixels": 164
+            },
+            {
+              "reference_label": 5,
+              "native_label": 5,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 146,
+              "native_pixels": 146
+            }
+          ],
+          "unmatched_reference": 0,
+          "unmatched_native": 0,
+          "split_reference_labels": [],
+          "merged_native_labels": [],
+          "foreground_iou": 1.0,
+          "foreground_dice": 1.0
+        },
+        "body": {
+          "reference_count": 5,
+          "native_count": 5,
+          "matches": [
+            {
+              "reference_label": 1,
+              "native_label": 1,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 216,
+              "native_pixels": 216
+            },
+            {
+              "reference_label": 2,
+              "native_label": 2,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 214,
+              "native_pixels": 214
+            },
+            {
+              "reference_label": 3,
+              "native_label": 3,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 409,
+              "native_pixels": 409
+            },
+            {
+              "reference_label": 4,
+              "native_label": 4,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 326,
+              "native_pixels": 326
+            },
+            {
+              "reference_label": 5,
+              "native_label": 5,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 312,
+              "native_pixels": 312
+            }
+          ],
+          "unmatched_reference": 0,
+          "unmatched_native": 0,
+          "split_reference_labels": [],
+          "merged_native_labels": [],
+          "foreground_iou": 1.0,
+          "foreground_dice": 1.0
+        }
+      },
+      "features": [
+        {
+          "label": 1,
+          "compartment": "nucleus",
+          "samples": 96,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 1,
+          "compartment": "body",
+          "samples": 216,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 2,
+          "compartment": "nucleus",
+          "samples": 98,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 2,
+          "compartment": "body",
+          "samples": 214,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 3,
+          "compartment": "nucleus",
+          "samples": 201,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 3,
+          "compartment": "body",
+          "samples": 409,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 4,
+          "compartment": "nucleus",
+          "samples": 164,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 4,
+          "compartment": "body",
+          "samples": 326,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 5,
+          "compartment": "nucleus",
+          "samples": 146,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 5,
+          "compartment": "body",
+          "samples": 312,
+          "processing_arithmetic_accepted": true
+        }
+      ],
+      "input_sha256": "5fc5dbe75d1dc5834ed54467ca57aea2ea3f1a9926e3bfecce61b00341861d14"
+    },
+    {
+      "name": "slide-edge-1.5",
+      "input_rgb_exact": true,
+      "input_component_differences": 0,
+      "input_first_yxc": [],
+      "native_feature_domain": "actual native nominal RGB",
+      "upstream_refined_boundaries": false,
+      "shape": [
+        128,
+        171
+      ],
+      "sigma": 1.0,
+      "downsample": 1.5,
+      "metrics": {
+        "nucleus": {
+          "reference_count": 5,
+          "native_count": 5,
+          "matches": [
+            {
+              "reference_label": 1,
+              "native_label": 1,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 76,
+              "native_pixels": 76
+            },
+            {
+              "reference_label": 2,
+              "native_label": 2,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 75,
+              "native_pixels": 75
+            },
+            {
+              "reference_label": 3,
+              "native_label": 3,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 140,
+              "native_pixels": 140
+            },
+            {
+              "reference_label": 4,
+              "native_label": 4,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 131,
+              "native_pixels": 131
+            },
+            {
+              "reference_label": 5,
+              "native_label": 5,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 120,
+              "native_pixels": 120
+            }
+          ],
+          "unmatched_reference": 0,
+          "unmatched_native": 0,
+          "split_reference_labels": [],
+          "merged_native_labels": [],
+          "foreground_iou": 1.0,
+          "foreground_dice": 1.0
+        },
+        "body": {
+          "reference_count": 5,
+          "native_count": 5,
+          "matches": [
+            {
+              "reference_label": 1,
+              "native_label": 1,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 157,
+              "native_pixels": 157
+            },
+            {
+              "reference_label": 2,
+              "native_label": 2,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 157,
+              "native_pixels": 157
+            },
+            {
+              "reference_label": 3,
+              "native_label": 3,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 302,
+              "native_pixels": 302
+            },
+            {
+              "reference_label": 4,
+              "native_label": 4,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 233,
+              "native_pixels": 233
+            },
+            {
+              "reference_label": 5,
+              "native_label": 5,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 218,
+              "native_pixels": 218
+            }
+          ],
+          "unmatched_reference": 0,
+          "unmatched_native": 0,
+          "split_reference_labels": [],
+          "merged_native_labels": [],
+          "foreground_iou": 1.0,
+          "foreground_dice": 1.0
+        }
+      },
+      "features": [
+        {
+          "label": 1,
+          "compartment": "nucleus",
+          "samples": 76,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 1,
+          "compartment": "body",
+          "samples": 157,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 2,
+          "compartment": "nucleus",
+          "samples": 75,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 2,
+          "compartment": "body",
+          "samples": 157,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 3,
+          "compartment": "nucleus",
+          "samples": 140,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 3,
+          "compartment": "body",
+          "samples": 302,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 4,
+          "compartment": "nucleus",
+          "samples": 131,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 4,
+          "compartment": "body",
+          "samples": 233,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 5,
+          "compartment": "nucleus",
+          "samples": 120,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 5,
+          "compartment": "body",
+          "samples": 218,
+          "processing_arithmetic_accepted": true
+        }
+      ],
+      "input_sha256": "f081b6480653a264f448239ee45f32b51e370baebd4f5745795abeb876da35ef"
+    },
+    {
+      "name": "slide-edge-2.3",
+      "input_rgb_exact": true,
+      "input_component_differences": 0,
+      "input_first_yxc": [],
+      "native_feature_domain": "actual native nominal RGB",
+      "upstream_refined_boundaries": false,
+      "shape": [
+        83,
+        111
+      ],
+      "sigma": 1.0,
+      "downsample": 2.3,
+      "metrics": {
+        "nucleus": {
+          "reference_count": 5,
+          "native_count": 5,
+          "matches": [
+            {
+              "reference_label": 1,
+              "native_label": 1,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 27,
+              "native_pixels": 27
+            },
+            {
+              "reference_label": 2,
+              "native_label": 2,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 29,
+              "native_pixels": 29
+            },
+            {
+              "reference_label": 3,
+              "native_label": 3,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 62,
+              "native_pixels": 62
+            },
+            {
+              "reference_label": 4,
+              "native_label": 4,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 46,
+              "native_pixels": 46
+            },
+            {
+              "reference_label": 5,
+              "native_label": 5,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 39,
+              "native_pixels": 39
+            }
+          ],
+          "unmatched_reference": 0,
+          "unmatched_native": 0,
+          "split_reference_labels": [],
+          "merged_native_labels": [],
+          "foreground_iou": 1.0,
+          "foreground_dice": 1.0
+        },
+        "body": {
+          "reference_count": 5,
+          "native_count": 5,
+          "matches": [
+            {
+              "reference_label": 1,
+              "native_label": 1,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 58,
+              "native_pixels": 58
+            },
+            {
+              "reference_label": 2,
+              "native_label": 2,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 58,
+              "native_pixels": 58
+            },
+            {
+              "reference_label": 3,
+              "native_label": 3,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 120,
+              "native_pixels": 120
+            },
+            {
+              "reference_label": 4,
+              "native_label": 4,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 88,
+              "native_pixels": 88
+            },
+            {
+              "reference_label": 5,
+              "native_label": 5,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 78,
+              "native_pixels": 78
+            }
+          ],
+          "unmatched_reference": 0,
+          "unmatched_native": 0,
+          "split_reference_labels": [],
+          "merged_native_labels": [],
+          "foreground_iou": 1.0,
+          "foreground_dice": 1.0
+        }
+      },
+      "features": [
+        {
+          "label": 1,
+          "compartment": "nucleus",
+          "samples": 27,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 1,
+          "compartment": "body",
+          "samples": 58,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 2,
+          "compartment": "nucleus",
+          "samples": 29,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 2,
+          "compartment": "body",
+          "samples": 58,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 3,
+          "compartment": "nucleus",
+          "samples": 62,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 3,
+          "compartment": "body",
+          "samples": 120,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 4,
+          "compartment": "nucleus",
+          "samples": 46,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 4,
+          "compartment": "body",
+          "samples": 88,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 5,
+          "compartment": "nucleus",
+          "samples": 39,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 5,
+          "compartment": "body",
+          "samples": 78,
+          "processing_arithmetic_accepted": true
+        }
+      ],
+      "input_sha256": "ab7d44ca53b22ab2aada2b48b85484756ec771a363d6289f986c5b85dd1fa02a"
+    },
+    {
+      "name": "odd-crop-1.0",
+      "input_rgb_exact": true,
+      "input_component_differences": 0,
+      "input_first_yxc": [],
+      "native_feature_domain": "actual native nominal RGB",
+      "upstream_refined_boundaries": false,
+      "shape": [
+        173,
+        241
+      ],
+      "sigma": 1.0,
+      "downsample": 1.0,
+      "metrics": {
+        "nucleus": {
+          "reference_count": 4,
+          "native_count": 4,
+          "matches": [
+            {
+              "reference_label": 1,
+              "native_label": 1,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 212,
+              "native_pixels": 212
+            },
+            {
+              "reference_label": 2,
+              "native_label": 2,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 158,
+              "native_pixels": 158
+            },
+            {
+              "reference_label": 3,
+              "native_label": 3,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 256,
+              "native_pixels": 256
+            },
+            {
+              "reference_label": 4,
+              "native_label": 4,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 224,
+              "native_pixels": 224
+            }
+          ],
+          "unmatched_reference": 0,
+          "unmatched_native": 0,
+          "split_reference_labels": [],
+          "merged_native_labels": [],
+          "foreground_iou": 1.0,
+          "foreground_dice": 1.0
+        },
+        "body": {
+          "reference_count": 4,
+          "native_count": 4,
+          "matches": [
+            {
+              "reference_label": 1,
+              "native_label": 1,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 414,
+              "native_pixels": 414
+            },
+            {
+              "reference_label": 2,
+              "native_label": 2,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 340,
+              "native_pixels": 340
+            },
+            {
+              "reference_label": 3,
+              "native_label": 3,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 556,
+              "native_pixels": 556
+            },
+            {
+              "reference_label": 4,
+              "native_label": 4,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 436,
+              "native_pixels": 436
+            }
+          ],
+          "unmatched_reference": 0,
+          "unmatched_native": 0,
+          "split_reference_labels": [],
+          "merged_native_labels": [],
+          "foreground_iou": 1.0,
+          "foreground_dice": 1.0
+        }
+      },
+      "features": [
+        {
+          "label": 1,
+          "compartment": "nucleus",
+          "samples": 212,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 1,
+          "compartment": "body",
+          "samples": 414,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 2,
+          "compartment": "nucleus",
+          "samples": 158,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 2,
+          "compartment": "body",
+          "samples": 340,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 3,
+          "compartment": "nucleus",
+          "samples": 256,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 3,
+          "compartment": "body",
+          "samples": 556,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 4,
+          "compartment": "nucleus",
+          "samples": 224,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 4,
+          "compartment": "body",
+          "samples": 436,
+          "processing_arithmetic_accepted": true
+        }
+      ],
+      "input_sha256": "7e2872ec93980be2d2ca7e761ec39024a9322649eae0fc1b10bbf81a65e5e137"
+    },
+    {
+      "name": "odd-crop-1.25",
+      "input_rgb_exact": true,
+      "input_component_differences": 0,
+      "input_first_yxc": [],
+      "native_feature_domain": "actual native nominal RGB",
+      "upstream_refined_boundaries": false,
+      "shape": [
+        138,
+        193
+      ],
+      "sigma": 1.0,
+      "downsample": 1.25,
+      "metrics": {
+        "nucleus": {
+          "reference_count": 5,
+          "native_count": 5,
+          "matches": [
+            {
+              "reference_label": 1,
+              "native_label": 1,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 119,
+              "native_pixels": 119
+            },
+            {
+              "reference_label": 2,
+              "native_label": 2,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 100,
+              "native_pixels": 100
+            },
+            {
+              "reference_label": 3,
+              "native_label": 3,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 164,
+              "native_pixels": 164
+            },
+            {
+              "reference_label": 4,
+              "native_label": 4,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 138,
+              "native_pixels": 138
+            },
+            {
+              "reference_label": 5,
+              "native_label": 5,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 317,
+              "native_pixels": 317
+            }
+          ],
+          "unmatched_reference": 0,
+          "unmatched_native": 0,
+          "split_reference_labels": [],
+          "merged_native_labels": [],
+          "foreground_iou": 1.0,
+          "foreground_dice": 1.0
+        },
+        "body": {
+          "reference_count": 5,
+          "native_count": 5,
+          "matches": [
+            {
+              "reference_label": 1,
+              "native_label": 1,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 262,
+              "native_pixels": 262
+            },
+            {
+              "reference_label": 2,
+              "native_label": 2,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 216,
+              "native_pixels": 216
+            },
+            {
+              "reference_label": 3,
+              "native_label": 3,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 354,
+              "native_pixels": 354
+            },
+            {
+              "reference_label": 4,
+              "native_label": 4,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 276,
+              "native_pixels": 276
+            },
+            {
+              "reference_label": 5,
+              "native_label": 5,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 527,
+              "native_pixels": 527
+            }
+          ],
+          "unmatched_reference": 0,
+          "unmatched_native": 0,
+          "split_reference_labels": [],
+          "merged_native_labels": [],
+          "foreground_iou": 1.0,
+          "foreground_dice": 1.0
+        }
+      },
+      "features": [
+        {
+          "label": 1,
+          "compartment": "nucleus",
+          "samples": 119,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 1,
+          "compartment": "body",
+          "samples": 262,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 2,
+          "compartment": "nucleus",
+          "samples": 100,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 2,
+          "compartment": "body",
+          "samples": 216,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 3,
+          "compartment": "nucleus",
+          "samples": 164,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 3,
+          "compartment": "body",
+          "samples": 354,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 4,
+          "compartment": "nucleus",
+          "samples": 138,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 4,
+          "compartment": "body",
+          "samples": 276,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 5,
+          "compartment": "nucleus",
+          "samples": 317,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 5,
+          "compartment": "body",
+          "samples": 527,
+          "processing_arithmetic_accepted": true
+        }
+      ],
+      "input_sha256": "a2b9688d3457eafbea8ed2f78127f26afcc624ec431d93f0e9f5f2c67a583bea"
+    },
+    {
+      "name": "odd-crop-1.5",
+      "input_rgb_exact": true,
+      "input_component_differences": 0,
+      "input_first_yxc": [],
+      "native_feature_domain": "actual native nominal RGB",
+      "upstream_refined_boundaries": false,
+      "shape": [
+        115,
+        161
+      ],
+      "sigma": 1.0,
+      "downsample": 1.5,
+      "metrics": {
+        "nucleus": {
+          "reference_count": 5,
+          "native_count": 5,
+          "matches": [
+            {
+              "reference_label": 1,
+              "native_label": 1,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 99,
+              "native_pixels": 99
+            },
+            {
+              "reference_label": 2,
+              "native_label": 2,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 74,
+              "native_pixels": 74
+            },
+            {
+              "reference_label": 3,
+              "native_label": 3,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 112,
+              "native_pixels": 112
+            },
+            {
+              "reference_label": 4,
+              "native_label": 4,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 108,
+              "native_pixels": 108
+            },
+            {
+              "reference_label": 5,
+              "native_label": 5,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 222,
+              "native_pixels": 222
+            }
+          ],
+          "unmatched_reference": 0,
+          "unmatched_native": 0,
+          "split_reference_labels": [],
+          "merged_native_labels": [],
+          "foreground_iou": 1.0,
+          "foreground_dice": 1.0
+        },
+        "body": {
+          "reference_count": 5,
+          "native_count": 5,
+          "matches": [
+            {
+              "reference_label": 1,
+              "native_label": 1,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 189,
+              "native_pixels": 189
+            },
+            {
+              "reference_label": 2,
+              "native_label": 2,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 154,
+              "native_pixels": 154
+            },
+            {
+              "reference_label": 3,
+              "native_label": 3,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 256,
+              "native_pixels": 256
+            },
+            {
+              "reference_label": 4,
+              "native_label": 4,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 208,
+              "native_pixels": 208
+            },
+            {
+              "reference_label": 5,
+              "native_label": 5,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 370,
+              "native_pixels": 370
+            }
+          ],
+          "unmatched_reference": 0,
+          "unmatched_native": 0,
+          "split_reference_labels": [],
+          "merged_native_labels": [],
+          "foreground_iou": 1.0,
+          "foreground_dice": 1.0
+        }
+      },
+      "features": [
+        {
+          "label": 1,
+          "compartment": "nucleus",
+          "samples": 99,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 1,
+          "compartment": "body",
+          "samples": 189,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 2,
+          "compartment": "nucleus",
+          "samples": 74,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 2,
+          "compartment": "body",
+          "samples": 154,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 3,
+          "compartment": "nucleus",
+          "samples": 112,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 3,
+          "compartment": "body",
+          "samples": 256,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 4,
+          "compartment": "nucleus",
+          "samples": 108,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 4,
+          "compartment": "body",
+          "samples": 208,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 5,
+          "compartment": "nucleus",
+          "samples": 222,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 5,
+          "compartment": "body",
+          "samples": 370,
+          "processing_arithmetic_accepted": true
+        }
+      ],
+      "input_sha256": "1c354d9cbb1bd264593ca1e4836cb9065497e23fd3698e2bc521afc14ad666fd"
+    },
+    {
+      "name": "odd-crop-2.3",
+      "input_rgb_exact": true,
+      "input_component_differences": 0,
+      "input_first_yxc": [],
+      "native_feature_domain": "actual native nominal RGB",
+      "upstream_refined_boundaries": false,
+      "shape": [
+        75,
+        105
+      ],
+      "sigma": 1.0,
+      "downsample": 2.3,
+      "metrics": {
+        "nucleus": {
+          "reference_count": 4,
+          "native_count": 4,
+          "matches": [
+            {
+              "reference_label": 1,
+              "native_label": 1,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 39,
+              "native_pixels": 39
+            },
+            {
+              "reference_label": 2,
+              "native_label": 2,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 30,
+              "native_pixels": 30
+            },
+            {
+              "reference_label": 3,
+              "native_label": 3,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 45,
+              "native_pixels": 45
+            },
+            {
+              "reference_label": 4,
+              "native_label": 4,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 44,
+              "native_pixels": 44
+            }
+          ],
+          "unmatched_reference": 0,
+          "unmatched_native": 0,
+          "split_reference_labels": [],
+          "merged_native_labels": [],
+          "foreground_iou": 1.0,
+          "foreground_dice": 1.0
+        },
+        "body": {
+          "reference_count": 4,
+          "native_count": 4,
+          "matches": [
+            {
+              "reference_label": 1,
+              "native_label": 1,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 76,
+              "native_pixels": 76
+            },
+            {
+              "reference_label": 2,
+              "native_label": 2,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 62,
+              "native_pixels": 62
+            },
+            {
+              "reference_label": 3,
+              "native_label": 3,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 97,
+              "native_pixels": 97
+            },
+            {
+              "reference_label": 4,
+              "native_label": 4,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 81,
+              "native_pixels": 81
+            }
+          ],
+          "unmatched_reference": 0,
+          "unmatched_native": 0,
+          "split_reference_labels": [],
+          "merged_native_labels": [],
+          "foreground_iou": 1.0,
+          "foreground_dice": 1.0
+        }
+      },
+      "features": [
+        {
+          "label": 1,
+          "compartment": "nucleus",
+          "samples": 39,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 1,
+          "compartment": "body",
+          "samples": 76,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 2,
+          "compartment": "nucleus",
+          "samples": 30,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 2,
+          "compartment": "body",
+          "samples": 62,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 3,
+          "compartment": "nucleus",
+          "samples": 45,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 3,
+          "compartment": "body",
+          "samples": 97,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 4,
+          "compartment": "nucleus",
+          "samples": 44,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 4,
+          "compartment": "body",
+          "samples": 81,
+          "processing_arithmetic_accepted": true
+        }
+      ],
+      "input_sha256": "84252f90f16e2218f70474428645a8270e83f0f4b2f06737f1fee6d877d34759"
+    },
+    {
+      "name": "odd-hole-1.5",
+      "input_rgb_exact": true,
+      "input_component_differences": 0,
+      "input_first_yxc": [],
+      "native_feature_domain": "actual native nominal RGB",
+      "upstream_refined_boundaries": false,
+      "shape": [
+        115,
+        161
+      ],
+      "sigma": 1.0,
+      "downsample": 1.5,
+      "metrics": {
+        "nucleus": {
+          "reference_count": 4,
+          "native_count": 4,
+          "matches": [
+            {
+              "reference_label": 1,
+              "native_label": 1,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 99,
+              "native_pixels": 99
+            },
+            {
+              "reference_label": 2,
+              "native_label": 2,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 74,
+              "native_pixels": 74
+            },
+            {
+              "reference_label": 3,
+              "native_label": 3,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 108,
+              "native_pixels": 108
+            },
+            {
+              "reference_label": 4,
+              "native_label": 4,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 222,
+              "native_pixels": 222
+            }
+          ],
+          "unmatched_reference": 0,
+          "unmatched_native": 0,
+          "split_reference_labels": [],
+          "merged_native_labels": [],
+          "foreground_iou": 1.0,
+          "foreground_dice": 1.0
+        },
+        "body": {
+          "reference_count": 4,
+          "native_count": 4,
+          "matches": [
+            {
+              "reference_label": 1,
+              "native_label": 1,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 189,
+              "native_pixels": 189
+            },
+            {
+              "reference_label": 2,
+              "native_label": 2,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 154,
+              "native_pixels": 154
+            },
+            {
+              "reference_label": 3,
+              "native_label": 3,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 208,
+              "native_pixels": 208
+            },
+            {
+              "reference_label": 4,
+              "native_label": 4,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 370,
+              "native_pixels": 370
+            }
+          ],
+          "unmatched_reference": 0,
+          "unmatched_native": 0,
+          "split_reference_labels": [],
+          "merged_native_labels": [],
+          "foreground_iou": 1.0,
+          "foreground_dice": 1.0
+        }
+      },
+      "features": [
+        {
+          "label": 1,
+          "compartment": "nucleus",
+          "samples": 99,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 1,
+          "compartment": "body",
+          "samples": 189,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 2,
+          "compartment": "nucleus",
+          "samples": 74,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 2,
+          "compartment": "body",
+          "samples": 154,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 3,
+          "compartment": "nucleus",
+          "samples": 108,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 3,
+          "compartment": "body",
+          "samples": 208,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 4,
+          "compartment": "nucleus",
+          "samples": 222,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 4,
+          "compartment": "body",
+          "samples": 370,
+          "processing_arithmetic_accepted": true
+        }
+      ],
+      "input_sha256": "6a534c5a7da1bdb680f739a025496a8f4eb431ae91b072235aa34e08a69be2f3"
+    },
+    {
+      "name": "sigma-0.0",
+      "input_rgb_exact": true,
+      "input_component_differences": 0,
+      "input_first_yxc": [],
+      "native_feature_domain": "actual native nominal RGB",
+      "upstream_refined_boundaries": false,
+      "shape": [
+        192,
+        256
+      ],
+      "sigma": 0.0,
+      "downsample": 1.0,
+      "metrics": {
+        "nucleus": {
+          "reference_count": 0,
+          "native_count": 0,
+          "matches": [],
+          "unmatched_reference": 0,
+          "unmatched_native": 0,
+          "split_reference_labels": [],
+          "merged_native_labels": [],
+          "foreground_iou": 1.0,
+          "foreground_dice": 1.0
+        },
+        "body": {
+          "reference_count": 0,
+          "native_count": 0,
+          "matches": [],
+          "unmatched_reference": 0,
+          "unmatched_native": 0,
+          "split_reference_labels": [],
+          "merged_native_labels": [],
+          "foreground_iou": 1.0,
+          "foreground_dice": 1.0
+        }
+      },
+      "features": [],
+      "input_sha256": "1701e41edf348fb837118d1ec0dc4fd41fa5499143caf12d870dcf50c5a67ca5"
+    },
+    {
+      "name": "sigma-8.5",
+      "input_rgb_exact": true,
+      "input_component_differences": 0,
+      "input_first_yxc": [],
+      "native_feature_domain": "actual native nominal RGB",
+      "upstream_refined_boundaries": true,
+      "shape": [
+        192,
+        256
+      ],
+      "sigma": 8.5,
+      "downsample": 1.0,
+      "metrics": {
+        "nucleus": {
+          "reference_count": 2,
+          "native_count": 2,
+          "matches": [
+            {
+              "reference_label": 1,
+              "native_label": 1,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 1604,
+              "native_pixels": 1604
+            },
+            {
+              "reference_label": 2,
+              "native_label": 2,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 1936,
+              "native_pixels": 1936
+            }
+          ],
+          "unmatched_reference": 0,
+          "unmatched_native": 0,
+          "split_reference_labels": [],
+          "merged_native_labels": [],
+          "foreground_iou": 1.0,
+          "foreground_dice": 1.0
+        },
+        "body": {
+          "reference_count": 2,
+          "native_count": 2,
+          "matches": [
+            {
+              "reference_label": 1,
+              "native_label": 1,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 2288,
+              "native_pixels": 2288
+            },
+            {
+              "reference_label": 2,
+              "native_label": 2,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 2676,
+              "native_pixels": 2676
+            }
+          ],
+          "unmatched_reference": 0,
+          "unmatched_native": 0,
+          "split_reference_labels": [],
+          "merged_native_labels": [],
+          "foreground_iou": 1.0,
+          "foreground_dice": 1.0
+        }
+      },
+      "features": [
+        {
+          "label": 1,
+          "compartment": "nucleus",
+          "samples": 1604,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 1,
+          "compartment": "body",
+          "samples": 2288,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 2,
+          "compartment": "nucleus",
+          "samples": 1936,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 2,
+          "compartment": "body",
+          "samples": 2676,
+          "processing_arithmetic_accepted": true
+        }
+      ],
+      "input_sha256": "1701e41edf348fb837118d1ec0dc4fd41fa5499143caf12d870dcf50c5a67ca5"
+    },
+    {
+      "name": "sigma-8.500001",
+      "input_rgb_exact": true,
+      "input_component_differences": 0,
+      "input_first_yxc": [],
+      "native_feature_domain": "actual native nominal RGB",
+      "upstream_refined_boundaries": true,
+      "shape": [
+        192,
+        256
+      ],
+      "sigma": 8.500001,
+      "downsample": 1.0,
+      "metrics": {
+        "nucleus": {
+          "reference_count": 2,
+          "native_count": 2,
+          "matches": [
+            {
+              "reference_label": 1,
+              "native_label": 1,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 1602,
+              "native_pixels": 1602
+            },
+            {
+              "reference_label": 2,
+              "native_label": 2,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 1941,
+              "native_pixels": 1941
+            }
+          ],
+          "unmatched_reference": 0,
+          "unmatched_native": 0,
+          "split_reference_labels": [],
+          "merged_native_labels": [],
+          "foreground_iou": 1.0,
+          "foreground_dice": 1.0
+        },
+        "body": {
+          "reference_count": 2,
+          "native_count": 2,
+          "matches": [
+            {
+              "reference_label": 1,
+              "native_label": 1,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 2286,
+              "native_pixels": 2286
+            },
+            {
+              "reference_label": 2,
+              "native_label": 2,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 2681,
+              "native_pixels": 2681
+            }
+          ],
+          "unmatched_reference": 0,
+          "unmatched_native": 0,
+          "split_reference_labels": [],
+          "merged_native_labels": [],
+          "foreground_iou": 1.0,
+          "foreground_dice": 1.0
+        }
+      },
+      "features": [
+        {
+          "label": 1,
+          "compartment": "nucleus",
+          "samples": 1602,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 1,
+          "compartment": "body",
+          "samples": 2286,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 2,
+          "compartment": "nucleus",
+          "samples": 1941,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 2,
+          "compartment": "body",
+          "samples": 2681,
+          "processing_arithmetic_accepted": true
+        }
+      ],
+      "input_sha256": "1701e41edf348fb837118d1ec0dc4fd41fa5499143caf12d870dcf50c5a67ca5"
+    },
+    {
+      "name": "sigma-16.0",
+      "input_rgb_exact": true,
+      "input_component_differences": 0,
+      "input_first_yxc": [],
+      "native_feature_domain": "actual native nominal RGB",
+      "upstream_refined_boundaries": true,
+      "shape": [
+        192,
+        256
+      ],
+      "sigma": 16.0,
+      "downsample": 1.0,
+      "metrics": {
+        "nucleus": {
+          "reference_count": 2,
+          "native_count": 2,
+          "matches": [
+            {
+              "reference_label": 1,
+              "native_label": 1,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 2428,
+              "native_pixels": 2428
+            },
+            {
+              "reference_label": 2,
+              "native_label": 2,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 2718,
+              "native_pixels": 2718
+            }
+          ],
+          "unmatched_reference": 0,
+          "unmatched_native": 0,
+          "split_reference_labels": [],
+          "merged_native_labels": [],
+          "foreground_iou": 1.0,
+          "foreground_dice": 1.0
+        },
+        "body": {
+          "reference_count": 2,
+          "native_count": 2,
+          "matches": [
+            {
+              "reference_label": 1,
+              "native_label": 1,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 3252,
+              "native_pixels": 3252
+            },
+            {
+              "reference_label": 2,
+              "native_label": 2,
+              "iou": 1.0,
+              "centroid_error_px": 0.0,
+              "reference_pixels": 3586,
+              "native_pixels": 3586
+            }
+          ],
+          "unmatched_reference": 0,
+          "unmatched_native": 0,
+          "split_reference_labels": [],
+          "merged_native_labels": [],
+          "foreground_iou": 1.0,
+          "foreground_dice": 1.0
+        }
+      },
+      "features": [
+        {
+          "label": 1,
+          "compartment": "nucleus",
+          "samples": 2428,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 1,
+          "compartment": "body",
+          "samples": 3252,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 2,
+          "compartment": "nucleus",
+          "samples": 2718,
+          "processing_arithmetic_accepted": true
+        },
+        {
+          "label": 2,
+          "compartment": "body",
+          "samples": 3586,
+          "processing_arithmetic_accepted": true
+        }
+      ],
+      "input_sha256": "1701e41edf348fb837118d1ec0dc4fd41fa5499143caf12d870dcf50c5a67ca5"
+    }
+  ],
+  "biological_validation": false,
+  "general_speed_claim": false,
+  "segmentation_parity_accepted": false
+}

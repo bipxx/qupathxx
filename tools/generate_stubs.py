@@ -7,11 +7,27 @@ import argparse
 import ast
 import enum
 import importlib
+import re
 import types
 from pathlib import Path
 import subprocess
 import sys
 import tempfile
+
+
+def validate_native_signatures(text):
+    for line in text.splitlines():
+        if re.match(r'\s*def ',line) and re.search(r'\b(?:std|qpx)::',line):
+            raise ValueError('unbound C++ type in generated stub; register the nanobind type/caster: '+line.strip())
+
+
+def numpy_annotation_alias(text):
+    lines=[]
+    for line in text.splitlines(keepends=True):
+        if line.strip()=='import numpy':line=line.replace('import numpy','import numpy as _numpy')
+        elif not line.startswith(('import ','from ')):line=re.sub(r'\bnumpy\.', '_numpy.',line)
+        lines.append(line)
+    return ''.join(lines)
 
 
 def main():
@@ -25,10 +41,23 @@ def main():
         native_only={name for name,value in vars(module).items() if isinstance(value,type) and value.__module__=='qupathxx._native' and not issubclass(value,enum.Enum) and isinstance(vars(value).get('__init__'),types.WrapperDescriptorType)}
         for line in text.splitlines():
             if line.startswith('class '):current=line.split()[1].split('(')[0].rstrip(':')
+            elif line.startswith('def '):current=''
             if 'def numpy(' in line and current in ('Image','PixelBuffer','FloatRgbImage'):
                 dtype='float32' if current=='FloatRgbImage' else 'uint8';line=line.replace('-> object:','-> NDArray[numpy.'+dtype+']:')
+            if current in ('ViewerEvent','GuiSpatialReport'):line=line.replace('-> SpatialDistanceResult:', '-> SpatialDistanceResult | None:')
+            if current=='GuiReport':line=line.replace('-> GuiSpatialReport:', '-> GuiSpatialReport | None:')
+            if current=='GuiOptions' and 'def spatial(' in line:line=line.replace('-> GuiSpatialOptions:', '-> GuiSpatialOptions | None:').replace('arg: GuiSpatialOptions,','arg: GuiSpatialOptions | None,')
+            if current=='Annotation' and 'def properties(' in line:line=line.replace('-> ObjectProperties:', '-> ObjectProperties | None:')
+            if current=='Document' and 'def image_properties(' in line:line=line.replace('-> ObjectProperties:', '-> ObjectProperties | None:')
+            if current=='Document' and 'def image_data_properties(' in line:line=line.replace('-> ImageDataProperties:', '-> ImageDataProperties | None:')
+            if current=='ImageDataProperties':line=line.replace('values: dict =', 'values: dict[str, object] =').replace('-> dict:', '-> dict[str, object]:')
+            if current=='Document' and 'def image_analysis_settings(' in line:line=line.replace('-> ImageAnalysisSettings:', '-> ImageAnalysisSettings | None:')
+            if current=='QptmaData' and 'def cores(' in line:line=line.replace('arg: list,','arg: list[QptmaCore],')
             if 'def labels_numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.uint32]:')
             if current=='PixelFeatureImage' and 'def numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.float32]:')
+            if current in ('ScientificRgbGrid','ScientificChannels','ScientificRawGrid'):
+                if 'def numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.float64]:')
+                if 'def valid_numpy(' in line or 'def reasons_numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.uint8]:')
             if current in ('PixelFeatureImage','PixelClassification','PixelPredictionResult') and 'def valid_numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.uint8]:')
             if current in ('PixelClassification','PixelPredictionResult') and 'def vote_fractions_numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.float32]:')
             if current=='RawPixelBuffer':
@@ -38,6 +67,35 @@ def main():
                 if 'def numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.float32]:')
                 if 'def coordinates_numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.int64]:')
                 if 'def annotation_ids_numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.uint64]:')
+            if current=='ScientificRawWindowData':
+                if 'def numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.float64]:')
+                if 'def valid_numpy(' in line or 'def reasons_numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.uint8]:')
+            if current in ('RawPixelTrainingTable','RawPixelTiledTrainingTable'):
+                if 'def values_numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.float32]:')
+                if 'def coordinates_numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.int64]:')
+                if 'def annotation_ids_numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.uint64]:')
+            if current in ('RawPixelClassification','RawPixelWindowClassification'):
+                if 'def valid_numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.uint8]:')
+                if 'def vote_fractions_numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.float32]:')
+            raw_nullable={
+                'GuiRawPixelReport':['RawPixelFileContours','RawPixelStreamContours','RawPixelClassifier','RawPixelArchive','RawPixelTrainingCheckpoint','RawPixelWindowClassification','RawPixelStreamLink','RawPixelContours'],
+                'GuiReport':['GuiRawPixelReport'],
+                'ViewerEvent':['RawPixelFileContours','RawPixelStreamContours','RawPixelArchive','RawPixelTrainingCheckpoint','RawPixelWindowClassification','RawPixelStreamLink','RawPixelContours'],
+                'RawPixelTrainingJob':['RawPixelTrainingTable','RawPixelClassifier'],
+                'RawPixelTiledTrainingJob':['RawPixelTiledTrainingTable','RawPixelClassifier'],
+                'RawPixelPredictionJob':['RawPixelClassification'],
+                'RawPixelWindowPredictionJob':['RawPixelWindowClassification'],
+                'SpatialDistanceJob':['SpatialDistanceResult'],
+                'RawPixelContourJob':['RawPixelContours'],
+                'RawPixelStreamContourJob':['RawPixelStreamContours'],
+                'RawPixelArchive':['RawPixelTrainingTable','RawPixelTiledTrainingTable','RawPixelClassification','RawPixelClassifier'],
+                'RawPixelTrainingCheckpointResult':['RawPixelTiledTrainingTable'],
+                'RawPixelPredictionStream':['RawPixelWindowClassification'],
+                'RawPixelPredictionStreamJob':['RawPixelWindowClassification'],
+                'RawPixelStreamSaveJob':['RawPixelStreamLink'],
+                'RawPixelStreamFileReadJob':['RawPixelFileContours','RawPixelStreamFile','RawPixelStreamLink','RawPixelWindowClassification'],
+            }
+            for name in raw_nullable.get(current,[]):line=line.replace('-> '+name+':','-> '+name+' | None:')
             if current=='PixelTrainingJob':
                 for name in ['PixelClassifier','PixelTrainingTable']:line=line.replace('-> '+name+':','-> '+name+' | None:')
             if current=='PixelClassifierArchive':
@@ -54,6 +112,12 @@ def main():
             if current in ('GuiOptions','GuiReport') and 'def pixel_' in line:
                 for name in ['PixelClassifier','PixelTrainingTable','PixelPredictionResult','PixelTrainingOptions','PixelPredictionOptions','ForestParameters','PixelContours','TissueContourOptions']:
                     line=line.replace('-> '+name+':','-> '+name+' | None:').replace('arg: '+name+',','arg: '+name+' | None,')
+            if current=='RawAnalysisResult' and 'def grid(' in line:
+                line=line.replace('-> RawAnalysisGrid:', '-> RawAnalysisGrid | None:')
+            if current=='ReaderSource' and 'def primary(' in line:
+                line=line.replace('-> FileVersion:', '-> FileVersion | None:')
+            if current in ('ImageServer','AnalysisProvenance') and 'def reader_source(' in line:
+                line=line.replace('-> ReaderSource:', '-> ReaderSource | None:')
             if current in ('GuiOptions','GuiReport') and 'def classifier_' in line:
                 for name in ['ForestModel','ObjectFeatureOptions','ForestParameters','ObjectClassificationResult']:
                     line=line.replace('-> '+name+':','-> '+name+' | None:').replace('arg: '+name+',','arg: '+name+' | None,')
@@ -61,18 +125,41 @@ def main():
             # distinction for the thumbnail publication/report accessors.
             if current in ('ThumbnailJob','GuiReport'):
                 line=line.replace('-> ThumbnailResult:', '-> ThumbnailResult | None:')
+            if current in ('ProjectDensityJob','NuclsImportJob'):
+                for name in ('ProjectDensityReport','ProjectDensityManifestReport','NuclsImportReport'):
+                    line=line.replace('-> '+name+':','-> '+name+' | None:')
             lines.append(line)
             if line.startswith('class ') and current in native_only:
                 lines.append('    def __init__(self, _native_only: Never) -> None: ...')
         native='# Generated by tools/generate_stubs.py; do not edit.\n'+'\n'.join(lines)+'\n'
+        workflow_options={'ProjectDensitySelection','ProjectDensityRecipe','ProjectDensityRunOptions','NuclsImportLimits','NuclsImportOptions'}
+        stub_tree=ast.parse(native)
+        for node in stub_tree.body:
+            if not isinstance(node,ast.ClassDef) or node.name not in workflow_options:continue
+            getters={n.name:ast.unparse(n.returns) for n in node.body if isinstance(n,ast.FunctionDef) and n.returns and len(n.args.posonlyargs+n.args.args)==1}
+            for method in node.body:
+                if not isinstance(method,ast.FunctionDef):continue
+                parameters=method.args.posonlyargs+method.args.args
+                if len(parameters)!=2 or not parameters[1].annotation or ast.unparse(parameters[1].annotation)!='object':continue
+                annotation=getters.get(method.name)
+                if node.name=='ProjectDensitySelection' and method.name=='ids':annotation='Sequence[Sequence[int]]'
+                elif node.name=='ProjectDensityRecipe' and method.name=='images':annotation='Sequence[int]'
+                if annotation:
+                    line=native.splitlines()[method.lineno-1]
+                    native=native.replace(line,line.replace('arg: object','arg: '+annotation),1)
+        native=numpy_annotation_alias(native)
+        validate_native_signatures(native)
     tree=ast.parse((package/'__init__.py').read_text(encoding='utf8'))
     names=next(ast.literal_eval(n.value) for n in tree.body if isinstance(n,ast.Assign) and any(isinstance(t,ast.Name) and t.id=='__all__' for t in n.targets))
+    for node in ast.walk(tree):
+        if isinstance(node,ast.AugAssign) and isinstance(node.target,ast.Name) and node.target.id=='__all__' and isinstance(node.op,ast.Add):
+            names.extend(name for name in ast.literal_eval(node.value) if hasattr(module,name))
     names=list(dict.fromkeys(names))
     public='# Generated by tools/generate_stubs.py; do not edit.\nfrom ._native import (\n'+''.join(f'    {n} as {n},\n' for n in names)+')\n\n__all__: list[str]\n'
     for path,value in [(package/'_native.pyi',native),(package/'__init__.pyi',public),(package/'py.typed','')]:
         if args.check:
             if not path.exists() or path.read_text(encoding='utf8')!=value:raise SystemExit(f'stubs differ: {path}; regenerate against the current installed wheel')
-        else:path.write_text(value,encoding='utf8')
+        else:path.write_text(value,encoding='utf8',newline='\n')
     print('Public stubs match the installed native module' if args.check else 'Generated public stubs')
 
 

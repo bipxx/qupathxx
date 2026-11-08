@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\axis-calibration-r5-probe-env\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-m",
+    "pytest",
+    "tests/test_image_axis_calibration.py",
+    "-k",
+    "desktop",
+    "-q",
+    "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\axis-calibration-r5\\desktop.xml",
+    "--basetemp",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\axis-calibration-r5\\desktop-temp"
+  ],
+  "returncode": 0,
+  "elapsed_seconds": 1.5667962001170963
+}

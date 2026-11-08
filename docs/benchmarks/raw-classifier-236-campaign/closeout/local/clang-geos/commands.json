@@ -1,0 +1,60 @@
+[
+  {
+    "name": "configure",
+    "command": [
+      "wsl",
+      "-d",
+      "Ubuntu",
+      "--",
+      "cmake",
+      "-S",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw-classifier-236",
+      "-B",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/rawt5-236-clang-minimal",
+      "-DQUPATHXX_BUILD_GEOS=ON",
+      "-DGEOS_ROOT=/home/heq/.cache/qupathxx-reader90-geos/geos-sdk",
+      "-DCMAKE_PREFIX_PATH=/home/heq/.cache/qupathxx-reader90-geos/geos-sdk"
+    ],
+    "exit": 0,
+    "seconds": 7.788603099994361
+  },
+  {
+    "name": "build",
+    "command": [
+      "wsl",
+      "-d",
+      "Ubuntu",
+      "--",
+      "cmake",
+      "--build",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/rawt5-236-clang-minimal",
+      "--target",
+      "qupathxx_pixel_workflow_tests",
+      "--parallel",
+      "2"
+    ],
+    "exit": 0,
+    "seconds": 92.9620115000289
+  },
+  {
+    "name": "native-test",
+    "command": [
+      "wsl",
+      "-d",
+      "Ubuntu",
+      "--",
+      "ctest",
+      "--test-dir",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/rawt5-236-clang-minimal",
+      "-R",
+      "^pixel_workflows$",
+      "--output-on-failure",
+      "--test-output-size-passed",
+      "1048576",
+      "--output-junit",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/rawt5-236/clang-geos-diagnostic/native-tests.xml"
+    ],
+    "exit": 0,
+    "seconds": 0.9167233998887241
+  }
+]

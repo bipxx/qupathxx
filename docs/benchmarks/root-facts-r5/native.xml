@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="6"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="1"
+	timestamp="2026-11-04T18:25:54"
+	>
+	<testcase name="object_classifier" classname="object_classifier" time="0.0588796" status="run">
+		<properties/>
+		<system-out>object classifier checks passed
+</system-out>
+	</testcase>
+	<testcase name="document_edits" classname="document_edits" time="0.23352" status="run">
+		<properties/>
+		<system-out>Native image facts: immutable history, ROI separation and unchanged render/spatial revisions passed
+Atomic edits, subtree restore, calibration and bounded undo passed
+</system-out>
+	</testcase>
+	<testcase name="qupath_project" classname="qupath_project" time="0.0833844" status="run">
+		<properties/>
+		<system-out>Native QuPath saved-data geometry, calibration, truncation, trailing bytes and cancellation passed
+QuPath project native preview, source guards, new publication and replay refusal passed
+</system-out>
+	</testcase>
+	<testcase name="project" classname="project" time="0.196756" status="run">
+		<properties/>
+		<system-out>Project source verification: historical round trip, reviewed replacement, stale/file-change refusal and codec checks passed
+Verified relink reader handoff, source observation, owned pixels and independent old-owner lifetime passed
+Project object properties: exact native persistence and independent immutable owner passed
+Multi-image project round trip, source pixels and stale saves passed; SQLite 3.54.1
+</system-out>
+	</testcase>
+	<testcase name="interchange" classname="interchange" time="0.0596733" status="run">
+		<properties/>
+		<system-out>Object editing state: shared facts, exact version2 codec and version1 compatibility refusal passed
+Object properties: immutable history, special numbers, checksummed codec and lossless GeoJSON round trip passed
+Native nested GeoJSON hierarchy, nucleus, flat compatibility and depth bounds passed
+Native clipboard selection, graph remapping, atomic history and byte refusal passed
+Native interchange atomicity and exact rectangle round trip passed
+</system-out>
+	</testcase>
+	<testcase name="project_save" classname="project_save" time="0.122529" status="run">
+		<properties/>
+		<system-out>Native background save isolation, baseline reconciliation and optional-build checks passed
+</system-out>
+	</testcase>
+</testsuite>

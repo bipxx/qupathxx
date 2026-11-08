@@ -1,0 +1,8 @@
+Internal ctest changing into directory: /tmp/qupathxx-rgb290-build
+Test project /tmp/qupathxx-rgb290-build
+    Start 8: resampling
+1/1 Test #8: resampling .......................   Passed    2.63 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =   2.63 sec

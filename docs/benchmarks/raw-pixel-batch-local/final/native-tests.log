@@ -1,0 +1,13 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/rawtraining218-windows
+    Start  1: pixel_workflows
+1/4 Test  #1: pixel_workflows ..................   Passed    1.86 sec
+    Start  2: pixel_features
+2/4 Test  #2: pixel_features ...................   Passed    0.14 sec
+    Start  5: classifier
+3/4 Test  #5: classifier .......................   Passed    0.06 sec
+    Start 14: project_batch
+4/4 Test #14: project_batch ....................   Passed    0.88 sec
+
+100% tests passed out of 4
+
+Total Test time (real) =   3.07 sec

@@ -1,0 +1,94 @@
+........................................................................ [  7%]
+........................................................................ [ 15%]
+........................................................................ [ 23%]
+........................................................................ [ 31%]
+........................................................................ [ 39%]
+........................................................................ [ 47%]
+........................................................................ [ 55%]
+F.F..................................................................... [ 63%]
+........................................................................ [ 71%]
+........................................................................ [ 79%]
+........................................................................ [ 87%]
+........................................................................ [ 95%]
+......................................                                   [100%]
+================================== FAILURES ===================================
+_ test_actual_git_source_mismatch_and_publication_snapshot[tests/fixtures/qupath-spatial-0.7.0/contract.json] _
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/q264-preflight-cohort/test_actual_git_source_mismatc5')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000193DF1B8080>
+changed_path = 'tests/fixtures/qupath-spatial-0.7.0/contract.json'
+
+    @pytest.mark.parametrize('changed_path',['cpp/raw_pixel_frontend.cpp','tests/raw_stream_contour_shutdown_child.py','tests/raw_file_contour_shutdown_child.py','tools/reference_raw_contour_seams.py','tests/fixtures/raw-contour-seams-v1/reference.json',
+        'tests/fixtures/qupath-spatial-0.7.0/contract.json','tests/fixtures/qupath-spatial-0.7.0/reference.json','tests/fixtures/qupath-spatial-0.7.0/manifest.json','tools/upstream/qupath_spatial_reference.groovy','tools/capture_qupath_spatial.py'])
+    def test_actual_git_source_mismatch_and_publication_snapshot(tmp_path,monkeypatch,changed_path):
+        if shutil.which('git') is None:
+            pytest.skip('development source-proof fixture requires git; package consumers do not')
+        paths=[changed_path,'tools/ci/raw-classifier-cases.json']
+        for name in paths:
+            path=tmp_path/name;path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes((ROOT/name).read_bytes())
+        def git(*args):return subprocess.check_output(['git','-C',str(tmp_path),*args],stderr=subprocess.STDOUT,text=True).strip()
+        git('init','-q');git('add','.')
+        git('-c','user.name=Preflight','-c','user.email=preflight@example.invalid','-c','commit.gpgsign=false','commit','-qm','source witness')
+>       commit=git('rev-parse','HEAD');monkeypatch.setattr(evidence,'SOURCES',paths);proof=evidence.source_contract(tmp_path,commit)
+                                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_raw_classifier_evidence.py:161: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tools\ci\raw_classifier_evidence.py:52: in source_contract
+    return common.source_contract(root,commit,SOURCES,label='raw classifier',raw_prefixes=('tests/data/','tests/fixtures/qupath-spatial-0.7.0/'))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tools\ci\qptma_evidence.py:33: in source_contract
+    require(canonical==blob,label+' source differs: '+relative)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = False
+message = 'raw classifier source differs: tests/fixtures/qupath-spatial-0.7.0/contract.json'
+
+    def require(value,message):
+>       if not value:raise ValueError(message)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: raw classifier source differs: tests/fixtures/qupath-spatial-0.7.0/contract.json
+
+tools\ci\qptma_evidence.py:16: ValueError
+_ test_actual_git_source_mismatch_and_publication_snapshot[tests/fixtures/qupath-spatial-0.7.0/manifest.json] _
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/q264-preflight-cohort/test_actual_git_source_mismatc7')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000193DF1B9B20>
+changed_path = 'tests/fixtures/qupath-spatial-0.7.0/manifest.json'
+
+    @pytest.mark.parametrize('changed_path',['cpp/raw_pixel_frontend.cpp','tests/raw_stream_contour_shutdown_child.py','tests/raw_file_contour_shutdown_child.py','tools/reference_raw_contour_seams.py','tests/fixtures/raw-contour-seams-v1/reference.json',
+        'tests/fixtures/qupath-spatial-0.7.0/contract.json','tests/fixtures/qupath-spatial-0.7.0/reference.json','tests/fixtures/qupath-spatial-0.7.0/manifest.json','tools/upstream/qupath_spatial_reference.groovy','tools/capture_qupath_spatial.py'])
+    def test_actual_git_source_mismatch_and_publication_snapshot(tmp_path,monkeypatch,changed_path):
+        if shutil.which('git') is None:
+            pytest.skip('development source-proof fixture requires git; package consumers do not')
+        paths=[changed_path,'tools/ci/raw-classifier-cases.json']
+        for name in paths:
+            path=tmp_path/name;path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes((ROOT/name).read_bytes())
+        def git(*args):return subprocess.check_output(['git','-C',str(tmp_path),*args],stderr=subprocess.STDOUT,text=True).strip()
+        git('init','-q');git('add','.')
+        git('-c','user.name=Preflight','-c','user.email=preflight@example.invalid','-c','commit.gpgsign=false','commit','-qm','source witness')
+>       commit=git('rev-parse','HEAD');monkeypatch.setattr(evidence,'SOURCES',paths);proof=evidence.source_contract(tmp_path,commit)
+                                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_raw_classifier_evidence.py:161: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tools\ci\raw_classifier_evidence.py:52: in source_contract
+    return common.source_contract(root,commit,SOURCES,label='raw classifier',raw_prefixes=('tests/data/','tests/fixtures/qupath-spatial-0.7.0/'))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tools\ci\qptma_evidence.py:33: in source_contract
+    require(canonical==blob,label+' source differs: '+relative)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = False
+message = 'raw classifier source differs: tests/fixtures/qupath-spatial-0.7.0/manifest.json'
+
+    def require(value,message):
+>       if not value:raise ValueError(message)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: raw classifier source differs: tests/fixtures/qupath-spatial-0.7.0/manifest.json
+
+tools\ci\qptma_evidence.py:16: ValueError
+=========================== short test summary info ===========================
+FAILED tests/test_raw_classifier_evidence.py::test_actual_git_source_mismatch_and_publication_snapshot[tests/fixtures/qupath-spatial-0.7.0/contract.json]
+FAILED tests/test_raw_classifier_evidence.py::test_actual_git_source_mismatch_and_publication_snapshot[tests/fixtures/qupath-spatial-0.7.0/manifest.json]
+2 failed, 900 passed in 28.16s

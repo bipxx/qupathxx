@@ -3,25 +3,42 @@
 #include "qupathxx/cells.hpp"
 #include "qupathxx/pixel_stream.hpp"
 #include "qupathxx/raw_tables.hpp"
+#include "qupathxx/raw_pixel_stream_file.hpp"
+#include "qupathxx/raw_pixel_stream_contours.hpp"
 #include <functional>
 namespace qpx {
-enum class ProjectBatchKind { Roi, Tissue, Cells, Pixels, Raw };
+enum class ProjectBatchKind { Roi, Tissue, Cells, Pixels, Raw, RawPixels, RawPixelContours };
 enum class ProjectBatchFailure { Stop, Continue };
 struct ProjectBatchOptions {
     ProjectBatchKind kind=ProjectBatchKind::Roi;
     ProjectBatchFailure failure=ProjectBatchFailure::Stop;
     AnalysisKind roi_kind=AnalysisKind::OpticalDensityMeans;
     ObjectKind object_kind=ObjectKind::Annotation;
-    bool nucleus=false,resume=true,publish_cells=false,tma_only=false,include_missing_tma=false;
+    bool nucleus=false,resume=true,publish_cells=false,tma_only=false,include_missing_tma=false,roi_intensity_statistics=false;
     std::size_t roi_tile_size=256,snapshot_budget=256*1024*1024,materialize_budget=512*1024*1024,result_budget=256*1024*1024,csv_limit=64*1024*1024;
     std::uint64_t checkpoint_limit=1024ULL*1024*1024;
     TissueParameters tissue;CellParameters cells;
+    std::optional<GridCellSampling> cell_grid;
+    std::optional<NominalCellRoiSampling> cell_nominal;
+    GridCellParameters grid_cells;
+    std::optional<double> tissue_min_component_area_um2,tissue_max_component_area_um2;
     std::optional<double> cell_min_nucleus_area_um2,cell_max_nucleus_area_um2;
     std::optional<PixelClassifier> pixel_model;
     PixelStreamOptions pixels;
     std::uint64_t pixel_file_limit=1ULL<<40,pixel_total_limit=1ULL<<40;
+    std::optional<RawPixelClassifier> raw_pixel_model;
+    // Omitted axes use a unit level-zero lattice per image. Explicit axes keep
+    // their exact origins/extents/sample counts; never silently rebase a model.
+    std::optional<ScientificGridAxis> raw_pixel_x,raw_pixel_y;
+    RawPixelStreamOptions raw_pixels;
+    RawPixelStreamContourOptions raw_contours;
+    std::string raw_contour_prefix="Raw pixel";
+    std::size_t raw_contour_publication_bytes=64u*1024*1024;
+    std::size_t raw_pixel_file_work_bytes=256u*1024*1024;
+    std::optional<RawGridSampling> raw_grid;std::size_t raw_grid_work_bytes=256u*1024*1024;
     RawRegionRequest raw;bool raw_follow_display=true;std::uint64_t raw_max_pixels=1000000000;
     RoiSamplingPolicy roi_sampling_policy=RoiSamplingPolicy::GeometryCoverage;
+    std::shared_ptr<const TissueGridSampling> tissue_grid;
     void validate() const;
 };
 struct ProjectBatchSelection {std::uint64_t image_id=0;std::vector<std::uint64_t> object_ids;};

@@ -1,0 +1,21 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\cmake.exe",
+    "--build",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package",
+    "--config",
+    "Release",
+    "--target",
+    "qupathxx_batch",
+    "qupathxx_spatial_cli_tests",
+    "qupathxx_spatial_record_tests",
+    "qupathxx_spatial_analysis_tests",
+    "qupathxx_project_tests",
+    "qupathxx_qptma_project_tests",
+    "--parallel",
+    "2"
+  ],
+  "source": "7a2f959372ec0d645b307eb0233bff47e134e421",
+  "returncode": 0,
+  "seconds": 38.75568760000169
+}

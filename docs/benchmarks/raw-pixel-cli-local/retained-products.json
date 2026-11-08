@@ -1,0 +1,60 @@
+{
+  "products": [
+    {
+      "path": "build/rawcli230-retained-binaries/training-on/_native.cp312-win_amd64.pyd",
+      "source": "f4631104a8120921afe13b58b0d79a17d40fb78b",
+      "fingerprint": "6543badb58a42c6cb04bbb16f85345cb2d69c9df9d8312b1fcde260bd282a8bd",
+      "bytes": 7891456,
+      "sha256": "a9cf6e4857e4b39f432beb91750f6f746cae5e4d9b12fa87b719d711c55d5388"
+    },
+    {
+      "path": "build/rawcli230-retained-binaries/training-on/qupathxx_region.exe",
+      "source": "f4631104a8120921afe13b58b0d79a17d40fb78b",
+      "fingerprint": "6543badb58a42c6cb04bbb16f85345cb2d69c9df9d8312b1fcde260bd282a8bd",
+      "bytes": 775680,
+      "sha256": "d5bc588c70d54ee054ab4d6388851c474a9fbb5be8df9f5220148785e451a0c7"
+    },
+    {
+      "path": "build/rawcli230-retained-binaries/training-on/qupathxx_batch.exe",
+      "source": "f4631104a8120921afe13b58b0d79a17d40fb78b",
+      "fingerprint": "6543badb58a42c6cb04bbb16f85345cb2d69c9df9d8312b1fcde260bd282a8bd",
+      "bytes": 5071360,
+      "sha256": "bcf9980b5362bd6d3ba67bbba1a7469a8c5415fe9e5ec2ce7d4c03eea5673807"
+    },
+    {
+      "path": "build/rawcli230-retained-binaries/training-on/qupathxx_pixel_workflow_tests.exe",
+      "source": "f4631104a8120921afe13b58b0d79a17d40fb78b",
+      "fingerprint": "6543badb58a42c6cb04bbb16f85345cb2d69c9df9d8312b1fcde260bd282a8bd",
+      "bytes": 5391360,
+      "sha256": "ad010c45707e13f0a38ac79fe2ac1a5f3dedb8a2b31e2dc2f97e72fa9200b294"
+    },
+    {
+      "path": "build/rawcli230-retained-binaries/training-on/qupathxx_pixel_feature_tests.exe",
+      "source": "f4631104a8120921afe13b58b0d79a17d40fb78b",
+      "fingerprint": "6543badb58a42c6cb04bbb16f85345cb2d69c9df9d8312b1fcde260bd282a8bd",
+      "bytes": 2475520,
+      "sha256": "edfdf0407bad2d3f2b18ca5fe1812d7770720a83437284a556b780a9622deea3"
+    },
+    {
+      "path": "build/rawcli230-retained-binaries/training-on/qupathxx_classifier_tests.exe",
+      "source": "f4631104a8120921afe13b58b0d79a17d40fb78b",
+      "fingerprint": "6543badb58a42c6cb04bbb16f85345cb2d69c9df9d8312b1fcde260bd282a8bd",
+      "bytes": 1389568,
+      "sha256": "d19ff0666d022e498e26e1d7607db44ee7eda3c162eea1e6e6c82c0b38d1753f"
+    },
+    {
+      "path": "build/rawcli230-retained-binaries/training-on/qupathxx-0.1.0-cp312-cp312-win_amd64.whl",
+      "source": "f4631104a8120921afe13b58b0d79a17d40fb78b",
+      "fingerprint": "6543badb58a42c6cb04bbb16f85345cb2d69c9df9d8312b1fcde260bd282a8bd",
+      "bytes": 6050227,
+      "sha256": "5c56900108b87a9165766ab63ab09cba74125882eb936380ca7dd1127c470e7b"
+    },
+    {
+      "path": "build/rawcli230-retained-binaries/backend-off/qupathxx_batch.exe",
+      "source": "f4631104a8120921afe13b58b0d79a17d40fb78b",
+      "fingerprint": "6543badb58a42c6cb04bbb16f85345cb2d69c9df9d8312b1fcde260bd282a8bd",
+      "bytes": 3848704,
+      "sha256": "7de5559fc7d2fe3b8a27b9f5c4afbabe9693ff3b51698ddb5874fe872f211ae0"
+    }
+  ]
+}

@@ -1,0 +1,106 @@
+{
+  "schema": "qpx.qualification-campaign/1",
+  "source": "9fbc9315e8c2417c35492cf505a8f676ecdfcf75",
+  "ref": "feature/reader-locale-qualification-298",
+  "local_native_source": "28c33573ef732905e52fe49aa193bd8e5e067206",
+  "local_binary_provenance_not_relabelled": true,
+  "source_paths": 898,
+  "canonical_compiler_blobs_equal": 425,
+  "roles": {
+    "engine": {
+      "state": "run_identified",
+      "semantic_inputs": {
+        "macos_native": false,
+        "portable_linux": false,
+        "live_reference": true,
+        "extended_readers": true
+      },
+      "gh_inputs": {
+        "macos_native": "false",
+        "portable_linux": "false",
+        "live_reference": "true",
+        "extended_readers": "true"
+      },
+      "at_utc": "2026-10-29T00:10:42.057328+00:00",
+      "known_runs_before": [],
+      "input_helper_sha256": "b0f907cfdcb706cf0301150577f27db7084a86ad8ea1ff0c2fb88a8fe3c8c4d1",
+      "api_workflow_id": 392658909,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "",
+      "run": {
+        "databaseId": 40792323979,
+        "headSha": "9fbc9315e8c2417c35492cf505a8f676ecdfcf75",
+        "status": "queued",
+        "conclusion": "",
+        "url": "https://github.com/bipxx/qupathxx/actions/runs/40792323979",
+        "createdAt": "2026-10-29T00:10:43Z"
+      }
+    },
+    "macos": {
+      "state": "run_identified",
+      "semantic_inputs": {
+        "macos_native": true,
+        "portable_linux": false,
+        "live_reference": false,
+        "extended_readers": false
+      },
+      "gh_inputs": {
+        "macos_native": "true",
+        "portable_linux": "false",
+        "live_reference": "false",
+        "extended_readers": "false"
+      },
+      "at_utc": "2026-10-29T00:10:47.193996+00:00",
+      "known_runs_before": [
+        40792323979
+      ],
+      "input_helper_sha256": "b0f907cfdcb706cf0301150577f27db7084a86ad8ea1ff0c2fb88a8fe3c8c4d1",
+      "api_workflow_id": 392658909,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "",
+      "run": {
+        "databaseId": 40792333489,
+        "headSha": "9fbc9315e8c2417c35492cf505a8f676ecdfcf75",
+        "status": "queued",
+        "conclusion": "",
+        "url": "https://github.com/bipxx/qupathxx/actions/runs/40792333489",
+        "createdAt": "2026-10-29T00:10:48Z"
+      }
+    },
+    "portable": {
+      "state": "run_identified",
+      "semantic_inputs": {
+        "macos_native": false,
+        "portable_linux": true,
+        "live_reference": false,
+        "extended_readers": true
+      },
+      "gh_inputs": {
+        "macos_native": "false",
+        "portable_linux": "true",
+        "live_reference": "false",
+        "extended_readers": "true"
+      },
+      "at_utc": "2026-10-29T00:10:52.213569+00:00",
+      "known_runs_before": [
+        40792323979,
+        40792333489
+      ],
+      "input_helper_sha256": "b0f907cfdcb706cf0301150577f27db7084a86ad8ea1ff0c2fb88a8fe3c8c4d1",
+      "api_workflow_id": 392658909,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "",
+      "run": {
+        "databaseId": 40792343129,
+        "headSha": "9fbc9315e8c2417c35492cf505a8f676ecdfcf75",
+        "status": "queued",
+        "conclusion": "",
+        "url": "https://github.com/bipxx/qupathxx/actions/runs/40792343129",
+        "createdAt": "2026-10-29T00:10:53Z"
+      }
+    }
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "schema": "qpx.spatial-oracle-preparation/1",
+  "state": "upstream_reference_verified_native_pending",
+  "prepared_at_utc": "2026-10-27T04:28:55.117881+00:00",
+  "upstream_revision": "04ccfa4fb7d43e9b566393e08e83690b72248d44",
+  "reference_cases": 26,
+  "validator_controls": 17,
+  "geometry_tolerance": {
+    "absolute": 1e-09,
+    "relative": 1e-12
+  },
+  "geometry_storage": "GENERAL",
+  "separate_storage_cases": 4,
+  "native_implemented": false,
+  "platform_accepted": false,
+  "release_ready": false,
+  "all_milestones_partial": true,
+  "preserved_failed_attempts": 5,
+  "scope": "Independent synthetic reference for the next SPAT1 workflow. Current candidate260 source and qualification remain immutable.",
+  "evidence": [
+    {
+      "path": "capture-command.json",
+      "bytes": 413,
+      "sha256": "6ffda20d5406626b3d59d78da873705bd13b9ddc1ce76b0740906626c12d8ea4"
+    },
+    {
+      "path": "compilexx-note-prefix-proof.json",
+      "bytes": 367,
+      "sha256": "c1b9f412652fe9492231f3165a22d380d8e4e0c5da01c706551c640b7e05eb02"
+    },
+    {
+      "path": "controls-command.json",
+      "bytes": 509,
+      "sha256": "c3ba84e0368231fe4ae1c3fd52c8666ff09ce591213e4cda88dbb823e3c5a010"
+    },
+    {
+      "path": "controls.xml",
+      "bytes": 2709,
+      "sha256": "61ae75c9081aa13546e8badde3b47c13be0b64e154b783d247dad76db5e8afde"
+    },
+    {
+      "path": "explicit-storage-failed-capture.log",
+      "bytes": 953,
+      "sha256": "e80e589629184dcaaf9edbff0b1aaf2795432bb2f1f246bb4aff9cb659758d84"
+    },
+    {
+      "path": "failed-attempts.json",
+      "bytes": 5029,
+      "sha256": "09e04f521aec8c5e47c59228e263a0d87d4bdcdb42bd2d70512df02935649baf"
+    },
+    {
+      "path": "gson-failed-capture.log",
+      "bytes": 12123,
+      "sha256": "094484ee9b64c59ae454452c928074c4c7eb05367761276c5b82d3aab2e6b1e8"
+    },
+    {
+      "path": "initial-failed-capture.log",
+      "bytes": 6913,
+      "sha256": "9cfb514f4bba32b6f58738715b049958b29c65823a248bae7b737e9fe44ce967"
+    },
+    {
+      "path": "qupath.log",
+      "bytes": 953,
+      "sha256": "7dbacc5e1d0c730ee915f61f42b6bd665e8301dfbc08022720a48d6bdf92a637"
+    },
+    {
+      "path": "storage-diagnostic-failed-capture.log",
+      "bytes": 953,
+      "sha256": "9163d12556211b85ebf95754b128a64273ff2f26ba9466767e524bc23c7854e9"
+    },
+    {
+      "path": "typed-arrays-failed-capture.log",
+      "bytes": 953,
+      "sha256": "2c9bf4d316eec2d05a6ce05e53fc53e2146b2531aa86f60024350c00932e7550"
+    },
+    {
+      "path": "upstream-capture.json",
+      "bytes": 1171,
+      "sha256": "0e3f67334f32c40839d17670cb38d54b77ba78c929e777ef6e9da6d9cb4e9aec"
+    }
+  ]
+}

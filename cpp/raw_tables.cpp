@@ -16,6 +16,7 @@ struct RawTableRequest::Data {
     struct Entry {std::shared_ptr<const RawAnalysisRecord> record;std::string status;};
     std::vector<Entry> records;
     std::vector<std::string> protected_sources;
+    bool grid_schema=false;
     std::uint64_t rows=0;
     std::size_t bytes=0;
 };
@@ -28,7 +29,7 @@ RawTableRequest::RawTableRequest(const Document& document,const std::vector<std:
     std::set<std::string> paths;for(const auto& path:protected_paths) paths.insert(detail::export_path(path));const auto current=document.server()->source_locator();if(!current.empty()) paths.insert(current);
     auto capture=[&](const std::shared_ptr<const RawAnalysisRecord>& record) {
         auto status=document.raw_analysis_status(record->id);if(require_current && status!="current") throw std::invalid_argument("raw table contains unverified or stale records");
-        add(record->payload_bytes()+status.capacity()+1);data->rows+=record->result->region().channels;paths.insert(record->result->source()->locator);
+        add(record->payload_bytes()+status.capacity()+1);data->grid_schema=data->grid_schema || record->result->grid().has_value();data->rows+=record->result->grid()?record->result->grid()->options.channels:record->result->region().channels;paths.insert(record->result->source()->locator);
         data->records.push_back({record,std::move(status)});
     };
     if(ids.empty()) for(const auto& record:document.raw_analysis_records()) capture(record);
@@ -54,19 +55,33 @@ constexpr char header[]="schema,record_id,object_id,object_revision,document_rev
 }
 struct RawTableKernel {
     template<class Sink> static void write(const RawTableRequest& request,Sink&& sink,const std::atomic<bool>* cancelled,std::atomic<std::uint64_t>* completed=nullptr) {
-        detail::export_checkpoint(cancelled);sink(header,sizeof(header)-1);
+        detail::export_checkpoint(cancelled);
+        if(request.data_->grid_schema) {
+            std::string typed_header(header,sizeof(header)-3);
+            typed_header+=",sampling_kind,derived_sample_type,grid_origin_x,grid_origin_y,grid_extent_x,grid_extent_y,grid_samples_x,grid_samples_y,grid_context_x,grid_context_y,decoded_source_sha256,sampling_input_sha256\r\n";
+            sink(typed_header.data(),typed_header.size());
+        } else sink(header,sizeof(header)-1);
         for(const auto& entry:request.data_->records) {
-            const auto& record=*entry.record;const auto& result=*record.result;const auto& region=result.region();const auto& metadata=result.metadata();const auto& stats=result.statistics();const auto& file=*result.source()->primary;const auto& context=result.object_context();const auto& tma=context.tma;
+            const auto& record=*entry.record;const auto& result=*record.result;const auto region=result.grid()?RawRegionRequest{{result.grid()->grid.x().origin(),result.grid()->grid.y().origin(),0,result.grid()->grid.width(),result.grid()->grid.height()},result.grid()->options.first_channel,result.grid()->options.channels,result.grid()->options.z,result.grid()->options.t}:result.region();const auto& metadata=result.metadata();const auto& stats=result.statistics();const auto& file=*result.source()->primary;const auto& context=result.object_context();const auto& tma=context.tma;
             const auto roi=record.mask?record.mask->wkt():std::string{};
             for(std::uint32_t c=0;c<region.channels;++c) {
                 detail::export_checkpoint(cancelled);
-                const auto row=line({"qpx.raw-analysis-csv/1",std::to_string(record.id),std::to_string(result.object_id()),std::to_string(result.object_revision()),std::to_string(result.document_revision()),context.name,context.class_name,std::to_string(context.parent_id),context.kind==ObjectKind::Cell?"cell":context.kind==ObjectKind::Detection?"detection":"annotation",
+                std::vector<std::string> fields={request.data_->grid_schema?"qpx.raw-analysis-csv/2":"qpx.raw-analysis-csv/1",std::to_string(record.id),std::to_string(result.object_id()),std::to_string(result.object_revision()),std::to_string(result.document_revision()),context.name,context.class_name,std::to_string(context.parent_id),context.kind==ObjectKind::Cell?"cell":context.kind==ObjectKind::Detection?"detection":"annotation",
                     tma?std::to_string(tma->core_id):std::string{},tma?std::to_string(tma->core_revision):std::string{},tma?tma->grid_name:std::string{},tma?std::to_string(tma->row):std::string{},tma?std::to_string(tma->column):std::string{},
                     tma?tma->row_label:std::string{},tma?tma->column_label:std::string{},tma?tma->core_name:std::string{},tma?tma->case_id:std::string{},tma?(tma->missing?"1":"0"):std::string{},entry.status,result.algorithm(),result.input_sha256(),
-                    std::to_string(metadata.series),std::to_string(region.z),std::to_string(region.t),std::to_string(region.first_channel+c),metadata.channel_names[c],sample_name(metadata.sample_type),std::to_string(region.region.level),real(metadata.downsample),
-                    std::to_string(region.region.x),std::to_string(region.region.y),std::to_string(region.region.width),std::to_string(region.region.height),std::to_string(stats.pixels),std::to_string(stats.valid_pixels),std::to_string(stats.finite_samples[c]),std::to_string(stats.nonfinite_samples[c]),
+                    std::to_string(metadata.series),std::to_string(region.z),std::to_string(region.t),std::to_string(region.first_channel+c),metadata.channel_names[c],sample_name(metadata.sample_type),result.grid()?std::string{}:std::to_string(region.region.level),result.grid()?std::string{}:real(metadata.downsample),
+                    result.grid()?std::string{}:std::to_string(region.region.x),result.grid()?std::string{}:std::to_string(region.region.y),std::to_string(region.region.width),std::to_string(region.region.height),std::to_string(stats.pixels),std::to_string(stats.valid_pixels),std::to_string(stats.finite_samples[c]),std::to_string(stats.nonfinite_samples[c]),
                     real(stats.means[c]),real(stats.minima[c]),real(stats.maxima[c]),real(result.pixel_width_um()),real(result.pixel_height_um()),real(metadata.z_spacing_um),real(metadata.time_interval_seconds),result.nucleus()?"1":"0",roi,
-                    file.path,std::to_string(file.bytes),file.identity_scheme,file.identity,file.stamp_scheme,file.modified_token,file.change_token,std::to_string(file.observed_unix_ms)});
+                    file.path,std::to_string(file.bytes),file.identity_scheme,file.identity,file.stamp_scheme,file.modified_token,file.change_token,std::to_string(file.observed_unix_ms)};
+                if(request.data_->grid_schema) {
+                    if(result.grid()) {
+                        const auto& capture=*result.grid();const auto& g=capture.grid;
+                        for(const auto& value:std::vector<std::string>{"explicit_grid","float64",std::to_string(g.x().origin()),std::to_string(g.y().origin()),std::to_string(g.x().extent()),std::to_string(g.y().extent()),std::to_string(g.x().samples()),std::to_string(g.y().samples()),std::to_string(g.x().context()),std::to_string(g.y().context()),capture.decoded_source_sha256,capture.sampling_input_sha256}) fields.push_back(value);
+                    } else {
+                        fields.push_back("natural_level");fields.push_back("float64");fields.resize(fields.size()+10);
+                    }
+                }
+                const auto row=line(fields);
                 sink(row.data(),row.size());if(completed) completed->fetch_add(1,std::memory_order_relaxed);
             }
         }detail::export_checkpoint(cancelled);

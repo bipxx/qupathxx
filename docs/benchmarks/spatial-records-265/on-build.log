@@ -1,0 +1,651 @@
+CMake is re-running because C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/CMakeFiles/generate.stamp is out-of-date.
+  the file 'C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt'
+  is newer than 'C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/CMakeFiles/generate.stamp.depend'
+  result='-1'
+-- Selecting Windows SDK version 10.0.22621.0 to target Windows 10.0.26200.
+-- Building tiff version 4.7.1
+-- Could NOT find Deflate (missing: Deflate_LIBRARY Deflate_INCLUDE_DIR) 
+-- Could NOT find JPEG (missing: JPEG_LIBRARY JPEG_INCLUDE_DIR) 
+-- Could NOT find JBIG (missing: JBIG_LIBRARY JBIG_INCLUDE_DIR) 
+-- Could NOT find LERC (missing: LERC_LIBRARY LERC_INCLUDE_DIR) 
+-- Could NOT find liblzma (missing: LIBLZMA_LIBRARY LIBLZMA_INCLUDE_DIR LIBLZMA_HAS_AUTO_DECODER LIBLZMA_HAS_EASY_ENCODER LIBLZMA_HAS_LZMA_PRESET) 
+-- Could NOT find ZSTD (missing: ZSTD_LIBRARY ZSTD_INCLUDE_DIR) 
+-- Could NOT find WebP (missing: WebP_LIBRARY WebP_INCLUDE_DIR) 
+-- Found OpenGL: opengl32  found components: OpenGL
+-- Could NOT find GLUT (missing: GLUT_glut_LIBRARY GLUT_INCLUDE_DIR) 
+-- Include resource version information for LibTIFF
+-- 
+-- Libtiff is now configured for Windows-10.0.26200
+-- 
+--   Libtiff build version:       4.7.1
+--   Libtiff library version:     6.2.0
+--   Libtiff release date:        20250911
+-- 
+--   Installation directory:             C:/Users/HEQ/AppData/Local/Temp/tmpv8cvizc3/wheel/platlib
+--   Documentation directory:            share/doc/tiff
+--   C compiler:                         C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe
+--   C++ compiler:                       C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe
+--   Build shared libraries:             OFF
+--   Build tools:                        OFF
+--   Build tests:                        OFF
+--   Build contrib:                      OFF
+--   Build docs:                         OFF
+--   Build deprecated features:          OFF
+--   Enable linker symbol versioning:    FALSE
+--   Support Microsoft Document Imaging: ON
+--   Use win32 IO:                       ON
+-- 
+--  Support for internal codecs:
+--   CCITT Group 3 & 4 algorithms:       ON
+--   Macintosh PackBits algorithm:       ON
+--   LZW algorithm:                      ON
+--   ThunderScan 4-bit RLE algorithm:    ON
+--   NeXT 2-bit RLE algorithm:           ON
+--   LogLuv high dynamic range encoding: ON
+-- 
+--  Support for external codecs:
+--   ZLIB support:                       Requested:ON Availability:TRUE Support:TRUE
+--   libdeflate support:                 Requested:OFF Availability:FALSE Support:FALSE
+--   Pixar log-format algorithm:         Requested:OFF Availability:TRUE Support:FALSE
+--   JPEG support:                       Requested:OFF Availability:FALSE Support:FALSE
+--   Old JPEG support:                   Requested:OFF Availability:FALSE Support:FALSE (Depends on JPEG Support)
+--   JPEG 8/12 bit dual mode:            Requested:OFF Availability:FALSE Support:FALSE
+--   ISO JBIG support:                   Requested:OFF Availability:FALSE Support:FALSE
+--   LERC support:                       Requested:OFF Availability:FALSE Support:FALSE
+--   LZMA2 support:                      Requested:OFF Availability:FALSE Support:FALSE
+--   ZSTD support:                       Requested:OFF Availability:FALSE Support:FALSE
+--   WEBP support:                       Requested:OFF Availability:FALSE Support:FALSE
+-- 
+--   C++ support:                        ON (requested) TRUE (availability)
+-- 
+--   OpenGL support:                     Requested:OFF Availability:FALSE Support:FALSE
+-- 
+-- OpenCV ARCH: x64
+-- OpenCV RUNTIME: vc17
+-- OpenCV STATIC: ON
+-- Found OpenCV 4.11.0 in C:/Users/HEQ/Projects/qupathxx/build/deps/opencv-sdk/x64/vc17/staticlib
+-- Using the multi-header code from C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/_deps/json-src/include/
+-- Including Win32 support
+-- Found OpenGL: opengl32
+-- Configuring done (3.5s)
+-- Generating done (2.1s)
+-- Build files have been written to: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+
+  Checking File Globs
+  1>Checking Build System
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_tiff_xml.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_tiff_xml.lib
+  zlibstatic.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\qpx_zlib-build\Release\zs.lib
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  tiff.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\qpx_tiff-build\libtiff\Release\tiff.lib
+  qupathxx_sqlite.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_sqlite.lib
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  core.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/core.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  tma.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tma.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  tma_tables.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tma_tables.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  document_edits.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/document_edits.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\document_edits.cpp(305,8): warning C4551: function call missing argument list [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\document_edits.cpp(305,8): error C2597: illegal reference to non-static member 'qpx::Document::spatial_' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\document_edits.cpp(305,8):
+      see declaration of 'qpx::Document::spatial_'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\document_edits.cpp(305,8): error C3867: 'qpx::Document::spatial_': non-standard syntax; use '&' to create a pointer to member [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\document_edits.cpp(305,8): error C2568: '&&': unable to resolve function overload [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  selection.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/selection.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  spatial_index.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/spatial_index.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\spatial_index.cpp(112,29): warning C4551: function call missing argument list [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\spatial_index.cpp(112,29): error C2597: illegal reference to non-static member 'qpx::Document::spatial_' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\spatial_index.cpp(112,29):
+      see declaration of 'qpx::Document::spatial_'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\spatial_index.cpp(112,29): error C3867: 'qpx::Document::spatial_': non-standard syntax; use '&' to create a pointer to member [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\spatial_index.cpp(112,29): error C2568: '&&': unable to resolve function overload [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\spatial_index.cpp(121,5): error C3536: 'result': cannot be used before it is initialized [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\spatial_index.cpp(121,23): error C2672: 'std::remove_if': no matching overloaded function found [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\algorithm(4604,30):
+      could be '_FwdIt std::remove_if(_ExPo &&,_FwdIt,_FwdIt,_Pr) noexcept'
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\spatial_index.cpp(121,23):
+          '_FwdIt std::remove_if(_ExPo &&,_FwdIt,_FwdIt,_Pr) noexcept': expects 4 arguments - 2 provided
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(2350,43):
+      or       '_FwdIt std::remove_if(_FwdIt,const _FwdIt,_Pr)'
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\spatial_index.cpp(121,23):
+          '_FwdIt std::remove_if(_FwdIt,const _FwdIt,_Pr)': expects 3 arguments - 2 provided
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\spatial_index.cpp(123,10): error C2672: 'std::sort': no matching overloaded function found [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\algorithm(8417,6):
+      could be 'void std::sort(_ExPo &&,const _RanIt,const _RanIt) noexcept'
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\spatial_index.cpp(123,10):
+          'void std::sort(_ExPo &&,const _RanIt,const _RanIt) noexcept': expects 3 arguments - 1 provided
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\algorithm(8414,6):
+      or       'void std::sort(_ExPo &&,_RanIt,_RanIt,_Pr) noexcept'
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\spatial_index.cpp(123,10):
+          'void std::sort(_ExPo &&,_RanIt,_RanIt,_Pr) noexcept': expects 4 arguments - 1 provided
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\algorithm(8408,19):
+      or       'void std::sort(const _RanIt,const _RanIt)'
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\spatial_index.cpp(123,10):
+          'void std::sort(const _RanIt,const _RanIt)': expects 2 arguments - 1 provided
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\algorithm(8400,19):
+      or       'void std::sort(const _RanIt,const _RanIt,_Pr)'
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\spatial_index.cpp(123,10):
+          'void std::sort(const _RanIt,const _RanIt,_Pr)': expects 3 arguments - 1 provided
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\spatial_index.cpp(123,63): error C2672: 'std::unique': no matching overloaded function found [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\algorithm(4889,30):
+      could be '_FwdIt std::unique(_ExPo &&,_FwdIt,_FwdIt) noexcept'
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\spatial_index.cpp(123,63):
+          '_FwdIt std::unique(_ExPo &&,_FwdIt,_FwdIt) noexcept': expects 3 arguments - 1 provided
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\algorithm(4881,30):
+      or       '_FwdIt std::unique(_ExPo &&,_FwdIt,_FwdIt,_Pr) noexcept'
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\spatial_index.cpp(123,63):
+          '_FwdIt std::unique(_ExPo &&,_FwdIt,_FwdIt,_Pr) noexcept': expects 4 arguments - 1 provided
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\algorithm(4875,43):
+      or       '_FwdIt std::unique(_FwdIt,_FwdIt)'
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\spatial_index.cpp(123,63):
+          '_FwdIt std::unique(_FwdIt,_FwdIt)': expects 2 arguments - 1 provided
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\algorithm(4850,43):
+      or       '_FwdIt std::unique(_FwdIt,_FwdIt,_Pr)'
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\spatial_index.cpp(123,63):
+          '_FwdIt std::unique(_FwdIt,_FwdIt,_Pr)': expects 3 arguments - 1 provided
+  
+  image_server.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/image_server.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  view_tiles.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/view_tiles.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  project.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/project.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\project.cpp(197,25): error C2530: 'entry': references must be initialized [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\project.cpp(197,25): error C3531: 'entry': a symbol whose type contains 'auto' must have an initializer [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\project.cpp(197,30): error C2143: syntax error: missing ';' before ':' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\project.cpp(197,51): error C2143: syntax error: missing ';' before ')' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\project.cpp(752,23): error C2530: 'entry': references must be initialized [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\project.cpp(752,23): error C3531: 'entry': a symbol whose type contains 'auto' must have an initializer [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\project.cpp(752,28): error C2143: syntax error: missing ';' before ':' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\project.cpp(752,49): error C2143: syntax error: missing ';' before ')' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  project_recovery.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/project_recovery.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  project_save.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/project_save.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  interchange.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/interchange.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  analysis.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/analysis.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  analysis_records.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/analysis_records.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  tissue.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tissue.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  tissue_contours.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tissue_contours.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  tissue_records.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tissue_records.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  tissue_archive.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tissue_archive.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  cells.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/cells.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  spatial_analysis.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/spatial_analysis.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\spatial_analysis.cpp(136,17): error C2530: 'stored': references must be initialized [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\spatial_analysis.cpp(136,42): error C3536: 'stored': cannot be used before it is initialized [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\spatial_analysis.cpp(139,16): error C2737: 'it': const object must be initialized [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\spatial_analysis.cpp(139,40): error C3536: 'it': cannot be used before it is initialized [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\spatial_analysis.cpp(142,118): error C3312: no callable 'begin' function found for type 'unknown' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\spatial_analysis.cpp(142,118): error C3312: no callable 'end' function found for type 'unknown' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\spatial_analysis.cpp(142,112): error C2530: 'entry': references must be initialized [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\spatial_analysis.cpp(142,112): error C3531: 'entry': a symbol whose type contains 'auto' must have an initializer [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\spatial_analysis.cpp(142,117): error C2143: syntax error: missing ';' before ':' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\spatial_analysis.cpp(142,126): error C2143: syntax error: missing ';' before ')' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\spatial_analysis.cpp(142,118): error C2451: a conditional expression of type 'unknown' is not valid [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\spatial_analysis.cpp(142,118):
+      ill-formed reference to a non-static member
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\spatial_analysis.cpp(145,60): error C2530: 'stored': references must be initialized [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\spatial_analysis.cpp(146,9): error C3536: 'stored': cannot be used before it is initialized [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\spatial_analysis.cpp(156,17): error C2530: 'stored': references must be initialized [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\spatial_analysis.cpp(156,34): error C3536: 'stored': cannot be used before it is initialized [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\spatial_analysis.cpp(159,16): error C2737: 'it': const object must be initialized [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\spatial_analysis.cpp(159,40): error C3536: 'it': cannot be used before it is initialized [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  Generating Code...
+  Compiling...
+  spatial_archive.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/spatial_archive.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  spatial_export.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/spatial_export.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  scientific_raster.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/scientific_raster.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  scientific_cells.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/scientific_cells.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  scientific_cell_archive.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/scientific_cell_archive.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  tma_case_export.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tma_case_export.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  qptma.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/qptma.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  tma_dearray.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tma_dearray.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  raw_image.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/raw_image.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  raw_analysis.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/raw_analysis.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  raw_analysis_records.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/raw_analysis_records.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  raw_analysis_archive.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/raw_analysis_archive.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  raw_tables.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/raw_tables.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  object_classifier.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/object_classifier.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  pixel_features.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/pixel_features.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  raw_pixel_workflows.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/raw_pixel_workflows.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  raw_pixel_archive.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/raw_pixel_archive.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  raw_pixel_records.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/raw_pixel_records.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_records.cpp(30,59): warning C4456: declaration of 'x' hides previous local declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_records.cpp(28,17):
+      see declaration of 'x'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_records.cpp(30,83): warning C4456: declaration of 'y' hides previous local declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_records.cpp(28,41):
+      see declaration of 'y'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_records.cpp(36,72): warning C4456: declaration of 'x' hides previous local declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_records.cpp(35,17):
+      see declaration of 'x'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_records.cpp(36,109): warning C4456: declaration of 'y' hides previous local declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_records.cpp(35,41):
+      see declaration of 'y'
+  
+  pixel_training.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/pixel_training.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  pixel_prediction.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/pixel_prediction.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  Generating Code...
+  Compiling...
+  pixel_stream.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/pixel_stream.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  pixel_stream_file.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/pixel_stream_file.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  pixel_stream_export_job.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/pixel_stream_export_job.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  pixel_stream_read_job.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/pixel_stream_read_job.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  pixel_stream_records.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/pixel_stream_records.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  pixel_contour_job.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/pixel_contour_job.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  pixel_classifier_archive.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/pixel_classifier_archive.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  pixel_classifier_records.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/pixel_classifier_records.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  document_classifications.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/document_classifications.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  object_classifier_archive.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/object_classifier_archive.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  object_classifier_records.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/object_classifier_records.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  raw_pixel_contour_job.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/raw_pixel_contour_job.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  raw_pixel_window_workflows.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/raw_pixel_window_workflows.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  raw_pixel_tiled_training.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/raw_pixel_tiled_training.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  raw_pixel_tiled_archive.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/raw_pixel_tiled_archive.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  raw_pixel_training_checkpoint.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/raw_pixel_training_checkpoint.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  raw_pixel_file_jobs.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/raw_pixel_file_jobs.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  raw_pixel_stream_records.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/raw_pixel_stream_records.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  raw_pixel_stream.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/raw_pixel_stream.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  raw_stream_boundaries.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/raw_stream_boundaries.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  Generating Code...
+  Compiling...
+  raw_pixel_stream_contours.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/raw_pixel_stream_contours.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  raw_pixel_stream_file.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/raw_pixel_stream_file.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_stream_file.cpp(54,41): warning C4459: declaration of 'maximum' hides global declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_stream_file.cpp(22,25):
+      see declaration of 'qpx::`anonymous-namespace'::maximum'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_stream_file.cpp(57,28): warning C4459: declaration of 'maximum' hides global declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_stream_file.cpp(22,25):
+      see declaration of 'qpx::`anonymous-namespace'::maximum'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_stream_file.cpp(58,34): warning C4459: declaration of 'maximum' hides global declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_stream_file.cpp(22,25):
+      see declaration of 'qpx::`anonymous-namespace'::maximum'
+  
+  workspace_preferences.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/workspace_preferences.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  cell_records.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/cell_records.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  cell_archive.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/cell_archive.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  cell_tables.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/cell_tables.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  measurement_tables.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/measurement_tables.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  provenance_codec.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/provenance_codec.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  stain_estimation.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/stain_estimation.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  input_digest.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/input_digest.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  batch_checkpoint.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/batch_checkpoint.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  project_batch.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/project_batch.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  viewer_session.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/viewer_session.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  raw_pixel_frontend.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(538,49): error C2371: 'qpx::Document::spatial_': redefinition; different basic types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/raw_pixel_frontend.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\core.hpp(339,43):
+      see declaration of 'qpx::Document::spatial_'
+  
+  Generating Code...

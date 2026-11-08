@@ -1,0 +1,8 @@
+{
+  "image": 1,
+  "record": 3,
+  "result_sha256": "4ad079e288d17245419194dc7849729f3df02f1095482b6418efb2dccaf25ed8",
+  "csv": "source_id,source_revision,source_kind,source_nucleus,source_x,source_y,target_id,target_revision,target_kind,target_nucleus,target_x,target_y,distance,units,status,algorithm,input_sha256,result_sha256,x_scale,y_scale,prefer_nucleus,exclude_self\n1,1,1,false,10,10,2,2,1,false,13,14,5,px,matched,qpx.centroid-nearest/1,946fc792a45d1097be3422ca958cfbff6b6b2ee8dedc7980f67078077cc0c36e,4ad079e288d17245419194dc7849729f3df02f1095482b6418efb2dccaf25ed8,1,1,true,true\n",
+  "project_sha256": "3b4065167ebb9e1cafee0d6684b87a0db173cd4ed02179aace307ff7a3b72025",
+  "source": "5a98347c5447c5b8f414d299a3411e9554c72188f92e1ca3ecd7c8c69aeee96e"
+}

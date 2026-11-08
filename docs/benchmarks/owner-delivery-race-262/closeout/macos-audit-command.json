@@ -1,0 +1,24 @@
+{
+  "argv": [
+    "python",
+    "-X",
+    "utf8",
+    "tools/ci/accept_macos_native.py",
+    "40646201004",
+    "e2282b8c782bfcc38fddc8aee86e28d833663dc3",
+    "--artifacts",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\q262-all",
+    "--output",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\owner-delivery-race-262\\macos-acceptance.json",
+    "--sampled-cells",
+    "--small-frontier",
+    "--tma-cases",
+    "--tma-file-export",
+    "--tma-cohorts",
+    "--macho-inventory",
+    "--macos-relocation"
+  ],
+  "cwd": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\owner-delivery-qualification-262-audit",
+  "returncode": 0,
+  "seconds": 4.555891900090501
+}

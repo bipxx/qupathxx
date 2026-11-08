@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.20)
+project(newbasins LANGUAGES CXX)
+add_executable(newbasins main.cpp)
+target_compile_features(newbasins PRIVATE cxx_std_17)
+target_compile_options(newbasins PRIVATE /fp:strict)
+target_include_directories(newbasins PRIVATE "C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp")

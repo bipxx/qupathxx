@@ -1,0 +1,89 @@
+{
+  "source": "faa71c1fa6eb9e5bb6eab1ce11cb8389497d47d7",
+  "source_tree_sha256": "d342bd964caca0fc5cdccf1b640456fcf29eb5d293e1fe8cf9aa0a3998748644",
+  "native_sha256": "816e18a8304f45c48546be35afbdc42cce7b35390c1220fb617e17a6ffd7172d",
+  "package_integrity_reused": "../cell-context-r6/integrity.json",
+  "test": "tests/test_nominal_cell_tiff_pyramid.py",
+  "test_sha256": "8000b310c9d94cf4e873f71841d109fc2790c86aca32788bd3ef09ede07421cd",
+  "source_rgb": "tests/fixtures/nominal-cells-v1/source.rgb",
+  "source_rgb_sha256": "1d0be4f9c8d057876b650371b021cb93e7f3d8be63d90befb66037f1d4960443",
+  "source_shape": [
+    192,
+    256,
+    3
+  ],
+  "source_dtype": "uint8",
+  "reader": "native TIFF/libtiff",
+  "layout": [
+    "contig",
+    "separate"
+  ],
+  "compression": "Deflate",
+  "tile": [
+    16,
+    16
+  ],
+  "bigtiff": true,
+  "pyramid": [
+    {
+      "width": 256,
+      "height": 192,
+      "downsample": 1,
+      "pixels": "retained source RGB"
+    },
+    {
+      "width": 128,
+      "height": 96,
+      "downsample": 2,
+      "pixels": "deliberately uniform white255"
+    }
+  ],
+  "roi": [
+    0,
+    0,
+    256,
+    192
+  ],
+  "calibration_um": [
+    0.5,
+    0.5
+  ],
+  "nominal_downsample": 1.5,
+  "coordinates": [
+    "IntegerOrigin",
+    "AffineInverse"
+  ],
+  "contexts": [
+    [
+      0,
+      0
+    ],
+    [
+      3,
+      4
+    ]
+  ],
+  "expected": {
+    "cell_count": 3,
+    "nucleus_foreground": 379,
+    "body_foreground": 825,
+    "pixels": "exact dense RGB equality",
+    "masks": "exact dense labels",
+    "features": "exact RGB/OD compartment values and calibrated sample areas"
+  },
+  "results": {
+    "sdk_cli": {
+      "passed": 10,
+      "skipped": 1,
+      "xml": "pyramid-sdk.xml"
+    },
+    "gui": {
+      "passed": 1,
+      "xml": "pyramid-gui.xml"
+    }
+  },
+  "native_changes": 0,
+  "builds": 0,
+  "installs": 0,
+  "scope": "Lossless uint8 RGB TIFF SubIFD nominal level-zero workflow only; no vendor-wide, raw fluorescence, biology, resource or speed acceptance"
+}

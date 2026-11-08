@@ -1,0 +1,42 @@
+[
+  {
+    "path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/postlog-trace-304/linux/products/qupathxx_qupath_response_tests",
+    "bytes": 1253432,
+    "sha256": "0788f3649c206498f8c97d59d53f6c69aaea8276d5653c38026f929d060a8b6c"
+  },
+  {
+    "path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/postlog-trace-304/linux/products/qupathxx_log_watershed_tests",
+    "bytes": 1921504,
+    "sha256": "ff5ca6fbe04aae8fdd895bf93bd3f7ac452dc650f0edf46c254b8fa13d2852c5"
+  },
+  {
+    "path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/postlog-trace-304/linux/products/qupathxx_cell_expansion_tests",
+    "bytes": 529728,
+    "sha256": "67433d71e55194a5e75dc8d4e6e78a528cbf061222e7e7a7865eeff34fa1c70c"
+  },
+  {
+    "path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/postlog-trace-304/linux/products/nucleus-probe",
+    "bytes": 1430504,
+    "sha256": "c260dce86acd9700bc519edd6c0c7c7cd3dc8e5d470c84019fd887e81ecd97b6"
+  },
+  {
+    "path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/postlog-trace-304/linux/products/qupathxx_qupath_response_tests.dir-imagej_gaussian.cpp.o",
+    "bytes": 179296,
+    "sha256": "c8696d101d96935e5509175377a9477b794066e7c1b6d5a6b6e2e013164856b6"
+  },
+  {
+    "path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/postlog-trace-304/linux/products/qupathxx_qupath_response_tests.dir-qupath_response_tests.cpp.o",
+    "bytes": 1539584,
+    "sha256": "d0452dd19bcbbb6d075a0ecef5937093e5151183ff0bd55c63e44d110277e0bc"
+  },
+  {
+    "path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/postlog-trace-304/linux/products/qupathxx_log_watershed_tests.dir-log_watershed_tests.cpp.o",
+    "bytes": 2586816,
+    "sha256": "4708facf9fd9699c7be8cb47861ff51e477a36207d098cf6ab1bdc48a5efedd3"
+  },
+  {
+    "path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/postlog-trace-304/linux/products/qupathxx_cell_expansion_tests.dir-cell_expansion_tests.cpp.o",
+    "bytes": 701456,
+    "sha256": "310e2fe02b78c09ce1a370e87aceb8936b8e93cb85f4e101426400d65885d58d"
+  }
+]

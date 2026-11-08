@@ -1,0 +1,36 @@
+{
+  "upstream": {
+    "tag": "v0.7.0",
+    "revision": "04ccfa4fb7d43e9b566393e08e83690b72248d44",
+    "version": "0.7.0",
+    "bundle_url": "https://github.com/qupath/qupath/releases/download/v0.7.0/QuPath-v0.7.0-Windows.zip",
+    "bundle_filename": "QuPath-v0.7.0-Windows.zip",
+    "bundle_bytes": 282594398,
+    "bundle_sha256": "5839743281d11eca1ac55c87ddcf92c89a30cba7ba2060f162036b0514b1e30c",
+    "runtime_tree_sha256": "117c0cb3074c7e3d2f4814d731bf0703d38373051d5580462a90d94036314788",
+    "runtime_files": 496,
+    "executable": "QuPath-0.7.0 (console).exe",
+    "license": "GPL-3.0-or-later",
+    "license_source": "https://github.com/qupath/qupath/blob/04ccfa4fb7d43e9b566393e08e83690b72248d44/LICENSE"
+  },
+  "synthetic": true,
+  "patient_data": false,
+  "files": {
+    "project/classifiers/classes.json": "d7cde3d5ba8e34ac4fee65731ee243dd7bddca97e29598cff8272635493da136",
+    "project/data/1/data.qpdata": "68fd318143de13d25836e14b37ac39ffa2ffe524d78aa4d6201424d78cd00829",
+    "project/data/2/data.qpdata": "11fa2d1157b9953ab018985522d5de86b34dbf9831cb929e51c974b9189975ab",
+    "project/data/metadata.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "project/project.qpproj": "f910160826aa109a55a3030340e9f531a37eee41c5dc38b2911c24ccfdea3998",
+    "project/qupathxx-exchange/1.geojson": "aff27183b9c4e0eeb54eba01369707a5f5fe12bbfa42bebc2fd816d81e0cfa38",
+    "project/qupathxx-exchange/2.geojson": "477ad80ef989fe8f99984c1069a47ad297c1a082cd45c943f37e006d6ddf06b5",
+    "project/qupathxx-exchange/index.json": "2f032110c28aef71fe48748a0f03c8cd8ca9c1dd29693c023cdbfa17687d04dc",
+    "reference.json": "8b7da51f2b1578e7c1ce3b24c8d51547eb93ab00b9112aa9054799793e16e23a",
+    "sources/gray.ome.tif": "9218cddecace0cd805137babc5c94dceb1a5d769d216d58bbf379fd5e9f5876b",
+    "sources/slide \u03b1.ome.tif": "d314094e3b2f29ca7698a8a4d58982bda0e808e3233db2ca4c7c42a2b3fb17cc"
+  },
+  "probes": {
+    "tools/upstream/qupath_project_reference.groovy": "17f163240a41ab325d8813c611f7082653dd40936f4b5a9b2e9646e771364be1",
+    "tools/upstream/export_qupath_project.groovy": "66fcef007fb0ef203e31dbe5ab536917e8cab4dd9bcd19e70b57ec278f063f7b"
+  },
+  "scope": "Two actual QuPath project entries and saved hierarchies; source paths are relocated explicitly by tests. Java binary decoding is not established by this fixture."
+}

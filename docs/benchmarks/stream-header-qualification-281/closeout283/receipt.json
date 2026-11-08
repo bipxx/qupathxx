@@ -1,0 +1,296 @@
+{
+  "schema": "qpx.qualification-closeout/1",
+  "source": "3f15c2be8722ec6559d8657ecd69a839e1f200a5",
+  "state": "complete-engine-macos-native-portable-engineering-accepted",
+  "role_runs": {
+    "engine": 40726273936,
+    "macos": 40726289400,
+    "portable": 40726306463
+  },
+  "authenticated_archives": [
+    {
+      "name": "Windows-headless-py3.11",
+      "artifact_id": 12836460667,
+      "run_id": 40726273936,
+      "bytes": 11974417,
+      "digest": "sha256:a8beaf3239b32c02e9836d0e0fe34a36176a1f0366a4300e28b822da43cfebc7"
+    },
+    {
+      "name": "Windows-gui-py3.12",
+      "artifact_id": 12835549098,
+      "run_id": 40726273936,
+      "bytes": 28214133,
+      "digest": "sha256:7580b137e10f7fa140849d986f74d8c4648e1e3f2ada62618191aa18dd1f6e8d"
+    },
+    {
+      "name": "Linux-headless-py3.12",
+      "artifact_id": 12834288843,
+      "run_id": 40726273936,
+      "bytes": 14958634,
+      "digest": "sha256:d2f629bc220fcec7fb7ba3c845d964dc10ac2e6ff2ba9d893be1704ae8a4d32f"
+    },
+    {
+      "name": "Linux-sanitize-py3.12",
+      "artifact_id": 12832874010,
+      "run_id": 40726273936,
+      "bytes": 61292,
+      "digest": "sha256:f10c6ea6921f25bf8cc9d8d7c9dd4a54985b22846ebb932662d6e61cf8a57274"
+    },
+    {
+      "name": "Linux-minimal-py3.12",
+      "artifact_id": 12832438536,
+      "run_id": 40726273936,
+      "bytes": 53611,
+      "digest": "sha256:3d2af6132eab9b423d3d03fd33e8a4f7b770de071fbe509c0d2960ae26626861"
+    },
+    {
+      "name": "macos-native-x86_64",
+      "artifact_id": 12836946292,
+      "run_id": 40726289400,
+      "bytes": 16337470,
+      "digest": "sha256:0341bd2a1660119d3911b54df3613303bb61034076dc8ffab24f9e5e01085b3c"
+    },
+    {
+      "name": "macos-native-arm64",
+      "artifact_id": 12833532907,
+      "run_id": 40726289400,
+      "bytes": 15249903,
+      "digest": "sha256:78bb556fcf7a607adb3eb5f482df3449057add024b47b0e707186dc40141c405"
+    },
+    {
+      "name": "manylinux-consumer-3.12",
+      "artifact_id": 12836501866,
+      "run_id": 40726306463,
+      "bytes": 86815,
+      "digest": "sha256:513cf3aa833cd23c2ea036eae766e793004e12ee8f56b7acfdd6eb46afdee503"
+    },
+    {
+      "name": "manylinux-3.11",
+      "artifact_id": 12836320609,
+      "run_id": 40726306463,
+      "bytes": 15343858,
+      "digest": "sha256:8c1290750aa84f7dc350815462abd95df745620f0c8ee7f3379ea4747661e95e"
+    },
+    {
+      "name": "manylinux-3.12",
+      "artifact_id": 12835672018,
+      "run_id": 40726306463,
+      "bytes": 15341463,
+      "digest": "sha256:4880e429f2ded26e74efac1e1d59d199df45d6ee24deed83e8737b94ac8e7384"
+    },
+    {
+      "name": "manylinux-consumer-3.11",
+      "artifact_id": 12835233954,
+      "run_id": 40726306463,
+      "bytes": 86270,
+      "digest": "sha256:a30158ea5f10d7126e596877efffcd303b3314ab1756a8fc77573838ededeb67"
+    }
+  ],
+  "complete_original_auditors": true,
+  "frozen_checkout_clean": true,
+  "gui_overview_visually_inspected": true,
+  "gui_inspection": "Source-specific whole-slide canvas and overview display tissue; toolbar and calibration controls are visible.",
+  "later_font_source_qualified": false,
+  "public_main_promoted": false,
+  "milestones": "M0-M7 remain Partial",
+  "scientific_accepted": false,
+  "general_speed_claim": false,
+  "release_ready": false,
+  "files": [
+    {
+      "path": "audits/campaign.json",
+      "bytes": 3549,
+      "sha256": "bcad72c5d8f9d970db1bb5546f228373ed81a3a08071de012a824e1d8c94e978"
+    },
+    {
+      "path": "audits/compilexx-append-proof.json",
+      "bytes": 149,
+      "sha256": "ae232d2d2339d06f45c398a0033a3bb99b2856d257bce51d15885b94b51f0055"
+    },
+    {
+      "path": "audits/complete-audit-plan.json",
+      "bytes": 2991,
+      "sha256": "3dd6d62f1165239d198aec3f53de3d6acb5a67995a20f90ba53ec2be44a51a1b"
+    },
+    {
+      "path": "audits/engine-acceptance.json",
+      "bytes": 872280,
+      "sha256": "1f269614fd397cf9cdf3dd8acec4e61ecd606b76297ee61abcc0ccb9b43b8850"
+    },
+    {
+      "path": "audits/engine-audit-exit.json",
+      "bytes": 854,
+      "sha256": "c878de97b1b6edcf765c7f12f0f8fb4b2ad9b5eaa63b6ce2108cae66d183bc0c"
+    },
+    {
+      "path": "audits/engine-complete-audit.log",
+      "bytes": 488,
+      "sha256": "bdee825b52974c8e73a21515a91db86b03b8ddb55f969bf68d4b157b580573ff"
+    },
+    {
+      "path": "audits/frozen-source-proof.json",
+      "bytes": 124780,
+      "sha256": "110e72aed7e7700b230dc197741d89a1c3ba37e7198a11796c013f7521109e68"
+    },
+    {
+      "path": "audits/initial-no-runs.json",
+      "bytes": 69,
+      "sha256": "174cfa2e863e117210766063be61e5afefc5576f5ec465ec579e1ceca5f7899c"
+    },
+    {
+      "path": "audits/local-native-equivalence.json",
+      "bytes": 6215,
+      "sha256": "079e4d9987828b68ee7e84df7e35ac93feff8485e2969edcacfc6be5f1e3994e"
+    },
+    {
+      "path": "audits/macos-acceptance.json",
+      "bytes": 386533,
+      "sha256": "0e878aabb013f4ef680ea8334b7b9c61ab55c5c672b263dbb312da2dedba6515"
+    },
+    {
+      "path": "audits/macos-audit-exit.json",
+      "bytes": 718,
+      "sha256": "2da0b3b30ce115936b62baaff63c7022ca4e5ef715804f20fca2e5e3fa147c01"
+    },
+    {
+      "path": "audits/macos-complete-audit.log",
+      "bytes": 161,
+      "sha256": "fcb6cee3568c4190b3594489a057363c37697d0cfab417f84cc15ae6e729e53c"
+    },
+    {
+      "path": "audits/portable-acceptance.json",
+      "bytes": 530764,
+      "sha256": "7eea51fcc0b8eeae9de712bc2be622723bacb78c731dabfabdf8d0d55d6faea4"
+    },
+    {
+      "path": "audits/portable-audit-exit.json",
+      "bytes": 900,
+      "sha256": "f77852cde8c00ee4307eff1b803976034784ee9b950cc9737fd22627d7fd828e"
+    },
+    {
+      "path": "audits/portable-complete-audit.log",
+      "bytes": 126,
+      "sha256": "373ead25ac33967212484c9c39ce6b2ed3cdcd780f1c22769f4e52ac57f5034d"
+    },
+    {
+      "path": "audits/portable-run-terminal.json",
+      "bytes": 16287,
+      "sha256": "c706732eda08799e707b9a1f841dfac172b13439b6990adcf6aa5f458e0daf60"
+    },
+    {
+      "path": "audits/workflow.json",
+      "bytes": 130,
+      "sha256": "540b853b4a07d754fc7f068dfc4414cb04a16415f1d4b659392d1cbbda7793d8"
+    },
+    {
+      "path": "observation/engine-artifacts.json",
+      "bytes": 4531,
+      "sha256": "f9688658bdafb5dadb1bbc3a08f68f4ac1038cd6eac8aa69b0ea687b97430c97"
+    },
+    {
+      "path": "observation/engine-run.json",
+      "bytes": 25146,
+      "sha256": "371dce86cb218e324f814bc9dbc6a826ec4f2e5fafd50c1a3c85864eca6aa9c7"
+    },
+    {
+      "path": "observation/Linux-headless-py3.12-artifact.json",
+      "bytes": 817,
+      "sha256": "015e06b2be6e0eb613bc31407c47781d57f845446217b24b9260a798d6160d76"
+    },
+    {
+      "path": "observation/Linux-minimal-py3.12-artifact.json",
+      "bytes": 813,
+      "sha256": "23d7d0f5253f48f23811bba8ea54a41b6ad02f9f80290119072fbfeb7fe4ab4e"
+    },
+    {
+      "path": "observation/Linux-sanitize-py3.12-artifact.json",
+      "bytes": 814,
+      "sha256": "87166158fa712ae93f0abb817a1d9b0e740f187d493a290f05575cacca080b17"
+    },
+    {
+      "path": "observation/macos-artifacts.json",
+      "bytes": 1840,
+      "sha256": "c7227ae17a8aa361e54b815de8109fe8618fb4c6bebe9b93efd574200786cb19"
+    },
+    {
+      "path": "observation/macos-native-arm64-artifact.json",
+      "bytes": 814,
+      "sha256": "28fb7855bd5cc71055b2f4081aaf360f76d1bf35c32e9f1c331301453fa037df"
+    },
+    {
+      "path": "observation/macos-native-x86_64-artifact.json",
+      "bytes": 815,
+      "sha256": "452ce6d1b42aca034f1ee98640f9356cca97082adfae049adeca43c0102b9e7d"
+    },
+    {
+      "path": "observation/macos-run.json",
+      "bytes": 7026,
+      "sha256": "36d14af18f33ed79d6f4878cb3e55c0644e6f2e560fa6fe8caaf5da8ae9abdc9"
+    },
+    {
+      "path": "observation/manylinux-3.11-artifact.json",
+      "bytes": 810,
+      "sha256": "9f032dd2a3065f7a2f73b7d414e932fe3283f87178ef5dde30df724810fa5933"
+    },
+    {
+      "path": "observation/manylinux-3.12-artifact.json",
+      "bytes": 810,
+      "sha256": "5017e7f734e23b98ce936d922853afdae7ee0374641459505ba16fd1d4a948cf"
+    },
+    {
+      "path": "observation/manylinux-consumer-3.11-artifact.json",
+      "bytes": 816,
+      "sha256": "c728a2616fcf2b063b00cbacb7f1a6aacaaf984540fb5c53a9cac0951682a716"
+    },
+    {
+      "path": "observation/manylinux-consumer-3.12-artifact.json",
+      "bytes": 816,
+      "sha256": "88f7ec230e0f7400fc11636c213350c54cf900cf0885ca122f0b4820486c23ad"
+    },
+    {
+      "path": "observation/portable-artifacts.json",
+      "bytes": 3625,
+      "sha256": "ff6c9474f28ac450dc9e77a459425f387460b5f87962677b39e20f7fb93b73a9"
+    },
+    {
+      "path": "observation/portable-run.json",
+      "bytes": 16287,
+      "sha256": "c706732eda08799e707b9a1f841dfac172b13439b6990adcf6aa5f458e0daf60"
+    },
+    {
+      "path": "observation/verified.json",
+      "bytes": 2681,
+      "sha256": "b33103104525c405d4184f72373d7b307a18cab0630833693d7229aa10ce31e9"
+    },
+    {
+      "path": "observation/Windows-gui-py3.12-artifact.json",
+      "bytes": 814,
+      "sha256": "5513adabf1983cf672d93b33dc5eb0c9f16b05a058030892c3b3fe900edc7ed8"
+    },
+    {
+      "path": "observation/Windows-headless-py3.11-artifact.json",
+      "bytes": 819,
+      "sha256": "c7963987fef1aa8589d8a5095f48c006396ab2d5dd1bdb365bece69f3138f13e"
+    },
+    {
+      "path": "gui/gui-overview.png",
+      "bytes": 677502,
+      "sha256": "5a1341efad272bf6195331920c304da7e5897d357da74a766786f66241e2abeb"
+    },
+    {
+      "path": "gui/gui-overview-benchmark.json",
+      "bytes": 2748,
+      "sha256": "1ce93506b37d183b8b38d7669a00587a028944cdef30d84aebbe087993ce56fd"
+    },
+    {
+      "path": "gui/gui-overview-benchmark.log",
+      "bytes": 2748,
+      "sha256": "1ce93506b37d183b8b38d7669a00587a028944cdef30d84aebbe087993ce56fd"
+    },
+    {
+      "path": "tools/close_candidate281.py",
+      "bytes": 6605,
+      "sha256": "361c4557a8b859360095395575456f61cf3167f12a0eb7ae92bef1c54e258c87"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.140" timestamp="2026-11-04T17:37:21.042968-05:00" hostname="HEQPC"><testcase classname="tests.test_object_clipboard" name="test_selection_scope_is_explicit_and_descendants_are_optional" time="0.001"><failure message="AttributeError: module 'qupathxx' has no attribute 'copy_objects'">def test_selection_scope_is_explicit_and_descendants_are_optional():
+        doc,parent,child,other=scene()
+&gt;       only=q.copy_objects(doc,[parent]);assert only.features==1
+             ^^^^^^^^^^^^^^
+E       AttributeError: module 'qupathxx' has no attribute 'copy_objects'
+
+tests\test_object_clipboard.py:60: AttributeError</failure></testcase></testsuite></testsuites>

@@ -1,0 +1,18 @@
+{
+  "source_revision": "af71201b87f984e7ae2a760e219dab7d72d335e9+dirty",
+  "source_tree_sha256": "b30bafcb4c982c55d7069276e4c82b9119d731ef7a69d519e50a19599dcbcd95",
+  "cohort_cells": 20000,
+  "expected_count_per_cell": 19999,
+  "distance_tests": 399980000,
+  "snapshot_bytes": 7362670,
+  "estimated_native_work_bytes": 12491086,
+  "retained_result_payload_bytes": 8322837,
+  "process_peak_working_set_bytes": 68603904,
+  "memory_scope": "whole observer process including Python, scene/edit history and libraries; not a native work allowance",
+  "python_ticks_during_native_wait": 191,
+  "observed_wait_seconds": 2.9402423000428826,
+  "capture_ms": 38.878,
+  "input_sha256": "b5330cbc987bab2aa12d1306f244166ca694d7d8a5afe035fdf3994a7cb9deef",
+  "result_sha256": "eec7c2ae625712e7b48d9d7cfbb86959140cce6484ca0d9d8a9be6739dd3c9e1",
+  "scope": "Worst-case coincident centroid workload, no pruning benefit; one local observation, no speed or general RSS cap claim"
+}

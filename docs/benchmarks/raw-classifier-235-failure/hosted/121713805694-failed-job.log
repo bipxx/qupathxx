@@ -1,0 +1,382 @@
+﻿2026-10-26T16:55:53.5366600Z Current runner version: '2.338.0'
+2026-10-26T16:55:53.5382690Z ##[group]Runner Image Provisioner
+2026-10-26T16:55:53.5383660Z Hosted Compute Agent
+2026-10-26T16:55:53.5384050Z Version: 20260828.587
+2026-10-26T16:55:53.5384470Z Commit: abac92662cab4cc7352de4f9f9d2e2419aad9c29
+2026-10-26T16:55:53.5384940Z Build Date: 2026-08-28T16:44:25Z
+2026-10-26T16:55:53.5385390Z Worker ID: {d1d4485e-62d2-46f8-bcf6-65ba91c51ba0}
+2026-10-26T16:55:53.5385910Z Azure Region: westus
+2026-10-26T16:55:53.5386330Z ##[endgroup]
+2026-10-26T16:55:53.5387210Z ##[group]Operating System
+2026-10-26T16:55:53.5387600Z macOS
+2026-10-26T16:55:53.5387940Z 15.7.9
+2026-10-26T16:55:53.5388260Z 24G830
+2026-10-26T16:55:53.5388600Z ##[endgroup]
+2026-10-26T16:55:53.5388960Z ##[group]Runner Image
+2026-10-26T16:55:53.5389350Z Image: macos-15-arm64
+2026-10-26T16:55:53.5389720Z Version: 20260907.0337.1
+2026-10-26T16:55:53.5390560Z Included Software: https://github.com/actions/runner-images/blob/macos-15-arm64/20260907.0337/images/macos/macos-15-arm64-Readme.md
+2026-10-26T16:55:53.5391610Z Image Release: https://github.com/actions/runner-images/releases/tag/macos-15-arm64%2F20260907.0337
+2026-10-26T16:55:53.5392380Z ##[endgroup]
+2026-10-26T16:55:53.5393130Z ##[group]GITHUB_TOKEN Permissions
+2026-10-26T16:55:53.5394180Z Contents: read
+2026-10-26T16:55:53.5394550Z Metadata: read
+2026-10-26T16:55:53.5394990Z ##[endgroup]
+2026-10-26T16:55:53.5396430Z Secret source: Actions
+2026-10-26T16:55:53.5397030Z Cache mode: write
+2026-10-26T16:55:53.5397470Z Prepare workflow directory
+2026-10-26T16:55:53.5693890Z Prepare all required actions
+2026-10-26T16:55:53.5732400Z Getting action download info
+2026-10-26T16:55:54.0366660Z Download action repository 'actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8' (SHA:08c6903cd8c0fde910a37f88322edcfb5dd907a8)
+2026-10-26T16:55:54.3317850Z Download action repository 'actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c' (SHA:e797f83bcb11b83ae66e0230d6156d7c80228e7c)
+2026-10-26T16:55:54.4591530Z Download action repository 'actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4' (SHA:330a01c490aca151604b8cf639adc76d48f6c5d4)
+2026-10-26T16:55:54.6906850Z Complete job name: macOS native arm64
+2026-10-26T16:55:54.7482560Z ##[group]Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+2026-10-26T16:55:54.7483540Z with:
+2026-10-26T16:55:54.7483940Z   persist-credentials: false
+2026-10-26T16:55:54.7484360Z   repository: bipxx/qupathxx
+2026-10-26T16:55:54.7487190Z   token: ***
+2026-10-26T16:55:54.7487760Z   ssh-strict: true
+2026-10-26T16:55:54.7488110Z   ssh-user: git
+2026-10-26T16:55:54.7488420Z   clean: true
+2026-10-26T16:55:54.7488750Z   sparse-checkout-cone-mode: true
+2026-10-26T16:55:54.7489120Z   fetch-depth: 1
+2026-10-26T16:55:54.7489440Z   fetch-tags: false
+2026-10-26T16:55:54.7489820Z   show-progress: true
+2026-10-26T16:55:54.7490190Z   lfs: false
+2026-10-26T16:55:54.7490500Z   submodules: false
+2026-10-26T16:55:54.7490910Z   set-safe-directory: true
+2026-10-26T16:55:54.7491510Z ##[endgroup]
+2026-10-26T16:55:55.1197900Z Syncing repository: bipxx/qupathxx
+2026-10-26T16:55:55.1199420Z ##[group]Getting Git version info
+2026-10-26T16:55:55.1200910Z Working directory is '/Users/runner/work/qupathxx/qupathxx'
+2026-10-26T16:55:55.1201720Z [command]/opt/homebrew/bin/git version
+2026-10-26T16:55:55.2428370Z git version 2.55.0
+2026-10-26T16:55:55.2451990Z ##[endgroup]
+2026-10-26T16:55:55.2463580Z Copying '/Users/runner/.gitconfig' to '/Users/runner/work/_temp/ec52232c-7ac1-4d7f-98c2-8ccc6e7e24ff/.gitconfig'
+2026-10-26T16:55:55.2471130Z Temporarily overriding HOME='/Users/runner/work/_temp/ec52232c-7ac1-4d7f-98c2-8ccc6e7e24ff' before making global git config changes
+2026-10-26T16:55:55.2472760Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-26T16:55:55.2474330Z [command]/opt/homebrew/bin/git config --global --add safe.directory /Users/runner/work/qupathxx/qupathxx
+2026-10-26T16:55:55.2614420Z Deleting the contents of '/Users/runner/work/qupathxx/qupathxx'
+2026-10-26T16:55:55.2624920Z ##[group]Initializing the repository
+2026-10-26T16:55:55.2625790Z [command]/opt/homebrew/bin/git init /Users/runner/work/qupathxx/qupathxx
+2026-10-26T16:55:55.2906030Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-26T16:55:55.2908030Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-26T16:55:55.2922440Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-26T16:55:55.2923610Z hint: call:
+2026-10-26T16:55:55.2924090Z hint:
+2026-10-26T16:55:55.2924570Z hint: 	git config --global init.defaultBranch <name>
+2026-10-26T16:55:55.2925070Z hint:
+2026-10-26T16:55:55.2925660Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-26T16:55:55.2926460Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-26T16:55:55.2927240Z hint:
+2026-10-26T16:55:55.2929350Z hint: 	git branch -m <name>
+2026-10-26T16:55:55.2929880Z hint:
+2026-10-26T16:55:55.2931060Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-26T16:55:55.2932120Z Initialized empty Git repository in /Users/runner/work/qupathxx/qupathxx/.git/
+2026-10-26T16:55:55.2933770Z [command]/opt/homebrew/bin/git remote add origin https://github.com/bipxx/qupathxx
+2026-10-26T16:55:55.2998850Z ##[endgroup]
+2026-10-26T16:55:55.3000050Z ##[group]Disabling automatic garbage collection
+2026-10-26T16:55:55.3002850Z [command]/opt/homebrew/bin/git config --local gc.auto 0
+2026-10-26T16:55:55.3066730Z ##[endgroup]
+2026-10-26T16:55:55.3067410Z ##[group]Setting up auth
+2026-10-26T16:55:55.3070300Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-26T16:55:55.3145910Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-26T16:55:55.4220980Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-26T16:55:55.4243900Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-26T16:55:55.5414170Z [command]/opt/homebrew/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-26T16:55:55.5611640Z ##[endgroup]
+2026-10-26T16:55:55.5613230Z ##[group]Fetching the repository
+2026-10-26T16:55:55.5614770Z [command]/opt/homebrew/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +176ec42b274bb12429cef603b59ce704e12c6e96:refs/remotes/origin/feature/raw-classifier-qualification-235
+2026-10-26T16:55:57.1961310Z From https://github.com/bipxx/qupathxx
+2026-10-26T16:55:57.1966260Z  * [new ref]         176ec42b274bb12429cef603b59ce704e12c6e96 -> origin/feature/raw-classifier-qualification-235
+2026-10-26T16:55:57.2112300Z ##[endgroup]
+2026-10-26T16:55:57.2136560Z ##[group]Determining the checkout info
+2026-10-26T16:55:57.2213160Z ##[endgroup]
+2026-10-26T16:55:57.2262340Z [command]/opt/homebrew/bin/git sparse-checkout disable
+2026-10-26T16:55:57.2335240Z [command]/opt/homebrew/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-26T16:55:57.2338100Z ##[group]Checking out the ref
+2026-10-26T16:55:57.2339700Z [command]/opt/homebrew/bin/git checkout --progress --force -B feature/raw-classifier-qualification-235 refs/remotes/origin/feature/raw-classifier-qualification-235
+2026-10-26T16:55:58.3202170Z Updating files:  88% (4409/4992)
+2026-10-26T16:55:58.3265010Z Updating files:  89% (4443/4992)
+2026-10-26T16:55:58.3503580Z Updating files:  90% (4493/4992)
+2026-10-26T16:55:58.3579810Z Updating files:  91% (4543/4992)
+2026-10-26T16:55:58.3635520Z Updating files:  92% (4593/4992)
+2026-10-26T16:55:58.3738000Z Updating files:  93% (4643/4992)
+2026-10-26T16:55:58.3824160Z Updating files:  94% (4693/4992)
+2026-10-26T16:55:58.3933580Z Updating files:  95% (4743/4992)
+2026-10-26T16:55:58.4058560Z Updating files:  96% (4793/4992)
+2026-10-26T16:55:58.4187100Z Updating files:  97% (4843/4992)
+2026-10-26T16:55:58.4335060Z Updating files:  98% (4893/4992)
+2026-10-26T16:55:58.4422660Z Updating files:  99% (4943/4992)
+2026-10-26T16:55:58.4434590Z Updating files: 100% (4992/4992)
+2026-10-26T16:55:58.4438370Z Updating files: 100% (4992/4992), done.
+2026-10-26T16:55:58.4583090Z Switched to a new branch 'feature/raw-classifier-qualification-235'
+2026-10-26T16:55:58.4630280Z branch 'feature/raw-classifier-qualification-235' set up to track 'origin/feature/raw-classifier-qualification-235'.
+2026-10-26T16:55:58.4639430Z ##[endgroup]
+2026-10-26T16:55:58.4778820Z [command]/opt/homebrew/bin/git log -1 --format=%H
+2026-10-26T16:55:58.4866950Z 176ec42b274bb12429cef603b59ce704e12c6e96
+2026-10-26T16:55:58.4961790Z ##[group]Removing auth
+2026-10-26T16:55:58.4965140Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-26T16:55:58.5044630Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-26T16:55:58.5943710Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-26T16:55:58.6006740Z http.https://github.com/.extraheader
+2026-10-26T16:55:58.6014430Z [command]/opt/homebrew/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-26T16:55:58.6085170Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-26T16:55:58.6879180Z ##[endgroup]
+2026-10-26T16:55:58.7147950Z ##[group]Run actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
+2026-10-26T16:55:58.7148560Z with:
+2026-10-26T16:55:58.7148830Z   python-version: 3.12
+2026-10-26T16:55:58.7149100Z   check-latest: false
+2026-10-26T16:55:58.7151770Z   token: ***
+2026-10-26T16:55:58.7152070Z   update-environment: true
+2026-10-26T16:55:58.7152500Z   allow-prereleases: false
+2026-10-26T16:55:58.7152790Z   freethreaded: false
+2026-10-26T16:55:58.7153070Z ##[endgroup]
+2026-10-26T16:55:58.9123700Z ##[group]Installed versions
+2026-10-26T16:55:59.0102380Z (node:1159) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-26T16:55:59.0103100Z Successfully set up CPython (3.12.10)
+2026-10-26T16:55:59.0103960Z ##[endgroup]
+2026-10-26T16:55:59.0104330Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-26T16:55:59.0210860Z ##[group]Run python -m pip install --require-hashes --only-binary=:all: -r tools/ci/requirements-macos-native.txt
+2026-10-26T16:55:59.0211750Z [36;1mpython -m pip install --require-hashes --only-binary=:all: -r tools/ci/requirements-macos-native.txt[0m
+2026-10-26T16:55:59.0274390Z shell: /bin/bash -e {0}
+2026-10-26T16:55:59.0274700Z env:
+2026-10-26T16:55:59.0275020Z   pythonLocation: /Users/runner/hostedtoolcache/Python/3.12.10/arm64
+2026-10-26T16:55:59.0275520Z   PKG_CONFIG_PATH: /Users/runner/hostedtoolcache/Python/3.12.10/arm64/lib/pkgconfig
+2026-10-26T16:55:59.0276020Z   Python_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.12.10/arm64
+2026-10-26T16:55:59.0276550Z   Python2_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.12.10/arm64
+2026-10-26T16:55:59.0276970Z   Python3_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.12.10/arm64
+2026-10-26T16:55:59.0277310Z ##[endgroup]
+2026-10-26T16:56:00.6813830Z Collecting cmake==4.4.4 (from -r tools/ci/requirements-macos-native.txt (line 1))
+2026-10-26T16:56:00.7883940Z   Downloading cmake-4.4.4-py3-none-macosx_10_10_universal2.whl (54.4 MB)
+2026-10-26T16:56:01.2952420Z      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 54.4/54.4 MB 111.7 MB/s  0:00:00
+2026-10-26T16:56:01.3967990Z Collecting ninja==1.13.0 (from -r tools/ci/requirements-macos-native.txt (line 2))
+2026-10-26T16:56:01.4033680Z   Downloading ninja-1.13.0-py3-none-macosx_10_9_universal2.whl (310 kB)
+2026-10-26T16:56:01.4387010Z Installing collected packages: ninja, cmake
+2026-10-26T16:56:02.5928760Z 
+2026-10-26T16:56:02.5938400Z Successfully installed cmake-4.4.4 ninja-1.13.0
+2026-10-26T16:56:02.5942820Z 
+2026-10-26T16:56:02.5943060Z [notice] A new release of pip is available: 26.2.1 -> 26.2.2
+2026-10-26T16:56:02.5943520Z [notice] To update, run: python -m pip install --upgrade pip
+2026-10-26T16:56:02.6541210Z ##[group]Run python -I tools/ci/run_macos_native.py --work build/ci/macos-native --architecture 'arm64'
+2026-10-26T16:56:02.6542000Z [36;1mpython -I tools/ci/run_macos_native.py --work build/ci/macos-native --architecture 'arm64'[0m
+2026-10-26T16:56:02.6584840Z shell: /bin/bash -e {0}
+2026-10-26T16:56:02.6585170Z env:
+2026-10-26T16:56:02.6585500Z   pythonLocation: /Users/runner/hostedtoolcache/Python/3.12.10/arm64
+2026-10-26T16:56:02.6586270Z   PKG_CONFIG_PATH: /Users/runner/hostedtoolcache/Python/3.12.10/arm64/lib/pkgconfig
+2026-10-26T16:56:02.6586900Z   Python_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.12.10/arm64
+2026-10-26T16:56:02.6587460Z   Python2_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.12.10/arm64
+2026-10-26T16:56:02.6588010Z   Python3_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.12.10/arm64
+2026-10-26T16:56:02.6588430Z ##[endgroup]
+2026-10-26T16:56:02.8665490Z Starting geos-build
+2026-10-26T16:59:11.7944990Z Passed geos-build
+2026-10-26T16:59:11.7950050Z Starting opencv-build
+2026-10-26T17:01:08.6729050Z Passed opencv-build
+2026-10-26T17:01:08.6826020Z Starting configure
+2026-10-26T17:01:23.3936950Z Passed configure
+2026-10-26T17:01:23.3937220Z Starting build
+2026-10-26T17:04:18.7688470Z lding CXX object CMakeFiles/qupathxx_core.dir/cpp/pixel_classifier.cpp.o
+2026-10-26T17:04:18.7695680Z [113/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/pixel_prediction.cpp.o
+2026-10-26T17:04:18.7698130Z [114/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/pixel_training.cpp.o
+2026-10-26T17:04:18.7701470Z Traceback (most recent call last):
+2026-10-26T17:04:18.7724290Z   File "/Users/runner/work/qupathxx/qupathxx/tools/ci/run_macos_native.py", line 118, in <module>
+2026-10-26T17:04:18.7745230Z [115/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/pixel_stream.cpp.o
+2026-10-26T17:04:18.7746870Z [116/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/pixel_stream_export_job.cpp.o
+2026-10-26T17:04:18.7748620Z [117/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/pixel_stream_file.cpp.o
+2026-10-26T17:04:18.7750390Z [118/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/pixel_stream_read_job.cpp.o
+2026-10-26T17:04:18.7751980Z [119/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/pixel_stream_records.cpp.o
+2026-10-26T17:04:18.7753500Z [120/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/pixel_contour_job.cpp.o
+2026-10-26T17:04:18.7755300Z [121/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/pixel_classifier_records.cpp.o
+2026-10-26T17:04:18.7757280Z [122/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/pixel_classifier_archive.cpp.o
+2026-10-26T17:04:18.7758910Z [123/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/geometry_archive.cpp.o
+2026-10-26T17:04:18.7760320Z [124/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/document_classifications.cpp.o
+2026-10-26T17:04:18.7762000Z [125/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/object_classifier_records.cpp.o
+2026-10-26T17:04:18.7763730Z [126/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/object_classifier_archive.cpp.o
+2026-10-26T17:04:18.7765230Z [127/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/classifier_io.cpp.o
+2026-10-26T17:04:18.7768110Z [128/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_contour_job.cpp.o
+2026-10-26T17:04:18.7771350Z [129/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_window_workflows.cpp.o
+2026-10-26T17:04:18.7800420Z [130/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_tiled_training.cpp.o
+2026-10-26T17:04:18.7801110Z [131/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_tiled_archive.cpp.o
+2026-10-26T17:04:18.7801840Z [132/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_training_checkpoint.cpp.o
+2026-10-26T17:04:18.7802510Z [133/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_file_jobs.cpp.o
+2026-10-26T17:04:18.7829540Z [134/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_stream_records.cpp.o
+2026-10-26T17:04:18.7830750Z [135/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_stream.cpp.o
+2026-10-26T17:04:18.7831420Z [136/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/workspace_preferences.cpp.o
+2026-10-26T17:04:18.7832250Z [137/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_stream_file.cpp.o
+2026-10-26T17:04:18.7832870Z [138/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/cell_records.cpp.o
+2026-10-26T17:04:18.7833510Z [139/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/cell_archive.cpp.o
+2026-10-26T17:04:18.7834160Z [140/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/cell_tables.cpp.o
+2026-10-26T17:04:18.7834950Z /Users/runner/work/qupathxx/qupathxx/cpp/cell_tables.cpp:52:133: warning: missing field 'x' initializer [-Wmissing-field-initializers]
+2026-10-26T17:04:18.7836550Z    52 |         images.push_back({id,doc.revision(),std::uint64_t(doc.metadata().width),std::uint64_t(doc.metadata().height),std::move(name)});
+2026-10-26T17:04:18.7837180Z       |                                                                                                                                     ^
+2026-10-26T17:04:18.7837970Z /Users/runner/work/qupathxx/qupathxx/cpp/cell_tables.cpp:61:176: warning: missing field 'runs' initializer [-Wmissing-field-initializers]
+2026-10-26T17:04:18.7839030Z    61 |         images.push_back({id,doc.revision(),std::uint64_t(doc.metadata().width),std::uint64_t(doc.metadata().height),std::move(name),doc.pixel_width_um(),doc.pixel_height_um()});
+2026-10-26T17:04:18.7839850Z       |                                                                                                                                                                                ^
+2026-10-26T17:04:18.7840470Z 2 warnings generated.
+2026-10-26T17:04:18.7840820Z [141/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/provenance.cpp.o
+2026-10-26T17:04:18.7841440Z [142/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/measurement_tables.cpp.o
+2026-10-26T17:04:18.7841990Z [143/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/file_fingerprint.cpp.o
+2026-10-26T17:04:18.7842660Z [144/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/provenance_codec.cpp.o
+2026-10-26T17:04:18.7843180Z [145/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/source_identity.cpp.o
+2026-10-26T17:04:18.7843780Z [146/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/stain_estimation.cpp.o
+2026-10-26T17:04:18.7844300Z [147/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/input_digest.cpp.o
+2026-10-26T17:04:18.7844860Z [148/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/batch_checkpoint.cpp.o
+2026-10-26T17:04:18.7845400Z [149/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/project_batch.cpp.o
+2026-10-26T17:04:18.7845960Z [150/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/viewer_session.cpp.o
+2026-10-26T17:04:18.7846550Z [151/283] Linking CXX static library libqupathxx_tiff_xml.a
+2026-10-26T17:04:18.7846950Z [152/283] Linking C static library libqupathxx_sqlite.a
+2026-10-26T17:04:18.7847460Z [153/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_frontend.cpp.o
+2026-10-26T17:04:18.7847950Z [154/283] Linking C static library _deps/qpx_tiff-build/libtiff/libtiff.a
+2026-10-26T17:04:18.7848500Z [155/283] Building CXX object CMakeFiles/qupathxx_region.dir/cpp/region_main.cpp.o
+2026-10-26T17:04:18.7849470Z [156/283] Building CXX object CMakeFiles/qupathxx_region.dir/cpp/raw_cli.cpp.o
+2026-10-26T17:04:18.7850010Z [157/283] Building CXX object CMakeFiles/qupathxx_batch.dir/cpp/batch_main.cpp.o
+2026-10-26T17:04:18.7850510Z [158/283] Building CXX object CMakeFiles/qupathxx_batch.dir/cpp/raw_pixel_cli.cpp.o
+2026-10-26T17:04:18.7851110Z [159/283] Building CXX object CMakeFiles/qupathxx_batch.dir/cpp/pixel_stream_cli.cpp.o
+2026-10-26T17:04:18.7852160Z [160/283] Building CXX object CMakeFiles/qupathxx_batch.dir/cpp/cell_table_cli.cpp.o
+2026-10-26T17:04:18.7852730Z [161/283] Building CXX object CMakeFiles/qupathxx_batch.dir/cpp/tma_case_cli.cpp.o
+2026-10-26T17:04:18.7853390Z [162/283] Building CXX object CMakeFiles/qupathxx_batch.dir/cpp/qptma_project_cli.cpp.o
+2026-10-26T17:04:18.7854070Z [163/283] Building CXX object CMakeFiles/qupathxx_batch.dir/cpp/tma_dearray_cli.cpp.o
+2026-10-26T17:04:18.7854890Z [164/283] Building CXX object CMakeFiles/qupathxx_pixel_workflow_tests.dir/cpp/tests/pixel_workflow_tests.cpp.o
+2026-10-26T17:04:18.7855660Z FAILED: [code=1] CMakeFiles/qupathxx_pixel_workflow_tests.dir/cpp/tests/pixel_workflow_tests.cpp.o 
+2026-10-26T17:04:18.7857490Z /usr/bin/c++  -I/Users/runner/work/qupathxx/qupathxx/cpp/include -O3 -DNDEBUG -std=gnu++17 -arch arm64 -MD -MT CMakeFiles/qupathxx_pixel_workflow_tests.dir/cpp/tests/pixel_workflow_tests.cpp.o -MF CMakeFiles/qupathxx_pixel_workflow_tests.dir/cpp/tests/pixel_workflow_tests.cpp.o.d -o CMakeFiles/qupathxx_pixel_workflow_tests.dir/cpp/tests/pixel_workflow_tests.cpp.o -c /Users/runner/work/qupathxx/qupathxx/cpp/tests/pixel_workflow_tests.cpp
+2026-10-26T17:04:18.7859710Z In file included from /Users/runner/work/qupathxx/qupathxx/cpp/tests/pixel_workflow_tests.cpp:8:
+2026-10-26T17:04:18.7860950Z /Users/runner/work/qupathxx/qupathxx/cpp/tests/raw_tiled_archive_checks.hpp:22:88: error: 'auto' deduced as 'std::size_t' (aka 'unsigned long') in declaration of 'at' and deduced as 'std::uint64_t' (aka 'unsigned long long') in declaration of 'id'
+2026-10-26T17:04:18.7863030Z    22 |     const auto annotations=c.integer();for(std::uint64_t i=0;i<annotations;++i) {const auto at=c.p,id=c.integer();if(id==unused) out.unused=at;c.p+=2*8;if(tiled) c.blob();else c.p+=8;c.blob();}
+2026-10-26T17:04:18.7863940Z       |                                                                                        ^       ~~~    ~~~~~~~~~~~
+2026-10-26T17:04:18.7864450Z 1 error generated.
+2026-10-26T17:04:18.7864990Z [165/283] Building CXX object CMakeFiles/qupathxx_pixel_feature_tests.dir/cpp/tests/pixel_feature_tests.cpp.o
+2026-10-26T17:04:18.7865780Z [166/283] Building CXX object CMakeFiles/qupathxx_classifier_tests.dir/cpp/tests/classifier_tests.cpp.o
+2026-10-26T17:04:18.7866590Z [167/283] Building CXX object CMakeFiles/qupathxx_classifier_io_tests.dir/cpp/tests/classifier_io_tests.cpp.o
+2026-10-26T17:04:18.7867320Z [168/283] Building CXX object CMakeFiles/qupathxx_qptma_project_tests.dir/cpp/tests/qptma_project_tests.cpp.o
+2026-10-26T17:04:18.7868050Z [169/283] Building CXX object CMakeFiles/qupathxx_qptma_project_tests.dir/cpp/qptma_project_cli.cpp.o
+2026-10-26T17:04:18.7868800Z [170/283] Building CXX object CMakeFiles/qupathxx_object_classifier_tests.dir/cpp/tests/object_classifier_tests.cpp.o
+2026-10-26T17:04:18.7869790Z [171/283] Building CXX object CMakeFiles/qupathxx_qptma_tests.dir/cpp/tests/qptma_tests.cpp.o
+2026-10-26T17:04:18.7870420Z [172/283] Building CXX object CMakeFiles/qupathxx_resampling_tests.dir/cpp/tests/resampling_tests.cpp.o
+2026-10-26T17:04:18.7871120Z [173/283] Building CXX object CMakeFiles/qupathxx_resampling_tests.dir/cpp/tests/scientific_sampling_tests.cpp.o
+2026-10-26T17:04:18.7871940Z [174/283] Building CXX object CMakeFiles/qupathxx_resampling_tests.dir/cpp/tests/scientific_grid_geometry_tests.cpp.o
+2026-10-26T17:04:18.8011130Z [175/283] Building CXX object CMakeFiles/qupathxx_resampling_tests.dir/cpp/tests/raw_scientific_numeric_tests.cpp.o
+2026-10-26T17:04:18.8014430Z [176/283] Building CXX object CMakeFiles/qupathxx_thumbnail_tests.dir/cpp/tests/thumbnail_tests.cpp.o
+2026-10-26T17:04:18.8016260Z [177/283] Building CXX object CMakeFiles/qupathxx_resampling_tests.dir/cpp/tests/scientific_raw_sampling_tests.cpp.o
+2026-10-26T17:04:18.8018230Z [178/283] Building CXX object CMakeFiles/qupathxx_viewer_session_tests.dir/cpp/tests/viewer_session_tests.cpp.o
+2026-10-26T17:04:18.8019990Z [179/283] Building CXX object CMakeFiles/qupathxx_tma_tests.dir/cpp/tests/tma_tests.cpp.o
+2026-10-26T17:04:18.8022610Z [180/283] Building CXX object CMakeFiles/qupathxx_tma_dearray_tests.dir/cpp/tests/tma_dearray_tests.cpp.o
+2026-10-26T17:04:18.8024790Z [181/283] Building CXX object CMakeFiles/qupathxx_tma_dearray_tests.dir/cpp/tma_dearray_cli.cpp.o
+2026-10-26T17:04:18.8025510Z [182/283] Building CXX object CMakeFiles/qupathxx_project_batch_tests.dir/cpp/tests/project_batch_tests.cpp.o
+2026-10-26T17:04:18.8026440Z [183/283] Building CXX object CMakeFiles/qupathxx_raw_image_tests.dir/cpp/tests/raw_image_tests.cpp.o
+2026-10-26T17:04:18.8027160Z [184/283] Building CXX object CMakeFiles/qupathxx_project_batch_tests.dir/cpp/tests/grid_cell_frontend_tests.cpp.o
+2026-10-26T17:04:18.8027970Z [185/283] Building CXX object CMakeFiles/qupathxx_stain_estimation_tests.dir/cpp/tests/stain_estimation_tests.cpp.o
+2026-10-26T17:04:18.8028810Z [186/283] Building CXX object CMakeFiles/qupathxx_project_batch_tests.dir/cpp/tests/raw_pixel_batch_checks.cpp.o
+2026-10-26T17:04:18.8029570Z [187/283] Building CXX object CMakeFiles/qupathxx_file_fingerprint_tests.dir/cpp/tests/file_fingerprint_tests.cpp.o
+2026-10-26T17:04:18.8030440Z [188/283] Building CXX object CMakeFiles/qupathxx_source_identity_tests.dir/cpp/tests/source_identity_tests.cpp.o
+2026-10-26T17:04:18.8031130Z [189/283] Building CXX object CMakeFiles/qupathxx_provenance_tests.dir/cpp/tests/provenance_tests.cpp.o
+2026-10-26T17:04:18.8032130Z [190/283] Building CXX object CMakeFiles/qupathxx_measurement_table_tests.dir/cpp/tests/measurement_table_tests.cpp.o
+2026-10-26T17:04:18.8034280Z [191/283] Building CXX object CMakeFiles/qupathxx_cell_table_tests.dir/cpp/tests/cell_table_tests.cpp.o
+2026-10-26T17:04:18.8036060Z [192/283] Building CXX object CMakeFiles/qupathxx_cell_table_tests.dir/cpp/tests/grid_cell_consumers_tests.cpp.o
+2026-10-26T17:04:18.8037740Z [193/283] Building CXX object CMakeFiles/qupathxx_cell_record_tests.dir/cpp/tests/cell_record_tests.cpp.o
+2026-10-26T17:04:18.8039460Z [194/283] Building CXX object CMakeFiles/qupathxx_cell_tests.dir/cpp/tests/cell_tests.cpp.o
+2026-10-26T17:04:18.8041250Z [195/283] Building CXX object CMakeFiles/qupathxx_cell_record_tests.dir/cpp/tests/scientific_cell_archive_tests.cpp.o
+2026-10-26T17:04:18.8043040Z [196/283] Building CXX object CMakeFiles/qupathxx_cell_calibration_tests.dir/cpp/tests/cell_calibration_tests.cpp.o
+2026-10-26T17:04:18.8044760Z [197/283] Building CXX object CMakeFiles/qupathxx_masked_gaussian_tests.dir/cpp/tests/masked_gaussian_tests.cpp.o
+2026-10-26T17:04:18.8046300Z [198/283] Building CXX object CMakeFiles/qupathxx_cell_tests.dir/cpp/tests/scientific_cell_tests.cpp.o
+2026-10-26T17:04:18.8048130Z [199/283] Building CXX object CMakeFiles/qupathxx_cell_expansion_tests.dir/cpp/tests/cell_expansion_tests.cpp.o
+2026-10-26T17:04:18.8049710Z [200/283] Building CXX object CMakeFiles/qupathxx_log_watershed_tests.dir/cpp/tests/log_watershed_tests.cpp.o
+2026-10-26T17:04:18.8051450Z [201/283] Building CXX object CMakeFiles/qupathxx_log_cell_recipe_tests.dir/cpp/tests/log_cell_recipe_tests.cpp.o
+2026-10-26T17:04:18.8052820Z [202/283] Building CXX object CMakeFiles/qupathxx_log_cell_recipe_tests.dir/cpp/tests/scientific_cell_numeric_tests.cpp.o
+2026-10-26T17:04:18.8053720Z [203/283] Building CXX object CMakeFiles/qupathxx_decimal_quantity_tests.dir/cpp/tests/decimal_quantity_tests.cpp.o
+2026-10-26T17:04:18.8054490Z [204/283] Building CXX object CMakeFiles/qupathxx_object_snapshot_tests.dir/cpp/tests/object_snapshot_tests.cpp.o
+2026-10-26T17:04:18.8055140Z [205/283] Building CXX object CMakeFiles/qupathxx_tissue_record_tests.dir/cpp/tests/tissue_record_tests.cpp.o
+2026-10-26T17:04:18.8056090Z [206/283] Building CXX object CMakeFiles/qupathxx_tissue_contour_tests.dir/cpp/tests/tissue_contour_tests.cpp.o
+2026-10-26T17:04:18.8056860Z [207/283] Building CXX object CMakeFiles/qupathxx_tissue_contour_tests.dir/cpp/tests/scientific_raster_tests.cpp.o
+2026-10-26T17:04:18.8057590Z [208/283] Building CXX object CMakeFiles/qupathxx_gui_replay_tests.dir/cpp/tests/gui_replay_tests.cpp.o
+2026-10-26T17:04:18.8058280Z [209/283] Building CXX object CMakeFiles/qupathxx_sha256_tests.dir/cpp/tests/sha256_tests.cpp.o
+2026-10-26T17:04:18.8059100Z [210/283] Building CXX object CMakeFiles/qupathxx_tissue_tests.dir/cpp/tests/tissue_tests.cpp.o
+2026-10-26T17:04:18.8059700Z [211/283] Building CXX object CMakeFiles/qupathxx_stains_tests.dir/cpp/tests/stains_tests.cpp.o
+2026-10-26T17:04:18.8060340Z [212/283] Building CXX object CMakeFiles/qupathxx_stains_tests.dir/cpp/tests/scientific_channel_tests.cpp.o
+2026-10-26T17:04:18.8061050Z [213/283] Building CXX object CMakeFiles/qupathxx_analysis_tests.dir/cpp/tests/analysis_tests.cpp.o
+2026-10-26T17:04:18.8061740Z [214/283] Building CXX object CMakeFiles/qupathxx_server_tests.dir/cpp/tests/image_server_tests.cpp.o
+2026-10-26T17:04:18.8062400Z [215/283] Building CXX object CMakeFiles/qupathxx_scheduler_tests.dir/cpp/tests/tile_scheduler_tests.cpp.o
+2026-10-26T17:04:18.8063040Z [216/283] Building CXX object CMakeFiles/qupathxx_core_tests.dir/cpp/tests/core_tests.cpp.o
+2026-10-26T17:04:18.8063640Z [217/283] Building CXX object CMakeFiles/qupathxx_view_tiles_tests.dir/cpp/tests/view_tiles_tests.cpp.o
+2026-10-26T17:04:18.8064330Z [218/283] Building CXX object CMakeFiles/qupathxx_document_edits_tests.dir/cpp/tests/document_edits_tests.cpp.o
+2026-10-26T17:04:18.8065000Z [219/283] Building CXX object CMakeFiles/qupathxx_geometry_tests.dir/cpp/tests/geometry_tests.cpp.o
+2026-10-26T17:04:18.8065700Z [220/283] Building CXX object CMakeFiles/qupathxx_geometry_edits_tests.dir/cpp/tests/geometry_edits_tests.cpp.o
+2026-10-26T17:04:18.8066360Z [221/283] Building CXX object CMakeFiles/qupathxx_spatial_tests.dir/cpp/tests/spatial_tests.cpp.o
+2026-10-26T17:04:18.8066920Z [222/283] Building CXX object CMakeFiles/qupathxx_classes_tests.dir/cpp/tests/classes_tests.cpp.o
+2026-10-26T17:04:18.8067510Z [223/283] Building CXX object CMakeFiles/qupathxx_selection_tests.dir/cpp/tests/selection_tests.cpp.o
+2026-10-26T17:04:18.8068190Z [224/283] Building CXX object CMakeFiles/qupathxx_project_tests.dir/cpp/tests/project_tests.cpp.o
+2026-10-26T17:04:18.8068880Z [225/283] Building CXX object CMakeFiles/qupathxx_interchange_tests.dir/cpp/tests/interchange_tests.cpp.o
+2026-10-26T17:04:18.8069520Z [226/283] Building CXX object CMakeFiles/qupathxx_recovery_tests.dir/cpp/tests/recovery_tests.cpp.o
+2026-10-26T17:04:18.8070170Z [227/283] Building CXX object CMakeFiles/qupathxx_save_tests.dir/cpp/tests/save_tests.cpp.o
+2026-10-26T17:04:18.8070710Z [228/283] Linking CXX executable qupathxx_masked_gaussian_tests
+2026-10-26T17:04:18.8071100Z [229/283] Linking CXX executable qupathxx_log_watershed_tests
+2026-10-26T17:04:18.8071560Z [230/283] Linking CXX executable qupathxx_cell_expansion_tests
+2026-10-26T17:04:18.8071950Z [231/283] Linking CXX executable qupathxx_decimal_quantity_tests
+2026-10-26T17:04:18.8072500Z [232/283] Building CXX object _deps/qpx_tiff-build/libtiff/CMakeFiles/tiffxx.dir/tif_stream.cxx.o
+2026-10-26T17:04:18.8073050Z [233/283] Linking CXX static library _deps/qpx_tiff-build/libtiff/libtiffxx.a
+2026-10-26T17:04:18.8073560Z ninja: build stopped: cannot make progress due to previous errors.
+2026-10-26T17:04:18.8073870Z 
+2026-10-26T17:04:18.8074090Z     main()
+2026-10-26T17:04:18.8074620Z   File "/Users/runner/work/qupathxx/qupathxx/tools/ci/run_macos_native.py", line 62, in main
+2026-10-26T17:04:18.8075200Z     run(['cmake','--build',build,'--config','Release','--parallel','2','--','-k','0'],'build')
+2026-10-26T17:04:18.8075810Z   File "/Users/runner/work/qupathxx/qupathxx/tools/ci/run_macos_native.py", line 42, in run
+2026-10-26T17:04:18.8076220Z     raise RuntimeError(name+' failed')
+2026-10-26T17:04:18.8076800Z RuntimeError: build failed
+2026-10-26T17:04:18.8099270Z ##[error]Process completed with exit code 1.
+2026-10-26T17:04:18.8290630Z ##[group]Run actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+2026-10-26T17:04:18.8291070Z with:
+2026-10-26T17:04:18.8291310Z   name: macos-native-arm64
+2026-10-26T17:04:18.8291540Z   retention-days: 14
+2026-10-26T17:04:18.8291750Z   if-no-files-found: warn
+2026-10-26T17:04:18.8293710Z   path: build/ci/macos-native/*.json
+build/ci/macos-native/*.log
+build/ci/macos-native/*.xml
+build/ci/macos-native/macos-native-files.zip
+build/ci/macos-native/relocated-native/*.zip
+build/ci/macos-native/relocated-native/*.json
+build/ci/macos-native/relocated-native/*.log
+build/ci/macos-native/relocated-runtime/*.json
+build/ci/macos-native/relocated-runtime/*.log
+build/ci/macos-native/relocated-runtime/*.pam
+build/ci/macos-native/relocated-runtime/*.ppm
+build/ci/macos-native/relocated-runtime/*.csv
+build/ci/macos-native/relocated-runtime/*.qpxproj
+build/ci/macos-native/relocated-runtime/batch/**/*.qpxproj
+
+2026-10-26T17:04:18.8295780Z   compression-level: 6
+2026-10-26T17:04:18.8296120Z   overwrite: false
+2026-10-26T17:04:18.8296400Z   include-hidden-files: false
+2026-10-26T17:04:18.8296640Z env:
+2026-10-26T17:04:18.8296970Z   pythonLocation: /Users/runner/hostedtoolcache/Python/3.12.10/arm64
+2026-10-26T17:04:18.8297460Z   PKG_CONFIG_PATH: /Users/runner/hostedtoolcache/Python/3.12.10/arm64/lib/pkgconfig
+2026-10-26T17:04:18.8297980Z   Python_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.12.10/arm64
+2026-10-26T17:04:18.8298430Z   Python2_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.12.10/arm64
+2026-10-26T17:04:18.8298910Z   Python3_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.12.10/arm64
+2026-10-26T17:04:18.8299260Z ##[endgroup]
+2026-10-26T17:04:19.2788510Z (node:23213) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-26T17:04:19.2789280Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-26T17:04:19.2883020Z With the provided path, there will be 4 files uploaded
+2026-10-26T17:04:19.2885490Z Artifact name is valid!
+2026-10-26T17:04:19.2886120Z Root directory input is valid!
+2026-10-26T17:04:19.7338260Z Beginning upload of artifact content to blob storage
+2026-10-26T17:04:19.7568320Z (node:23213) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-10-26T17:04:20.1321370Z Uploaded bytes 23922
+2026-10-26T17:04:20.1969670Z Finished uploading artifact content to blob storage!
+2026-10-26T17:04:20.1970480Z SHA256 digest of uploaded artifact zip is 2757c64c5a6e8924e7395840f4b95ddb5c3173d90a96f302b0b19ca41982415d
+2026-10-26T17:04:20.1971720Z Finalizing artifact upload
+2026-10-26T17:04:20.6912190Z Artifact macos-native-arm64.zip successfully finalized. Artifact ID 12670720374
+2026-10-26T17:04:20.6931840Z Artifact macos-native-arm64 has been successfully uploaded! Final size is 23922 bytes. Artifact ID is 12670720374
+2026-10-26T17:04:20.6934340Z Artifact download URL: https://github.com/bipxx/qupathxx/actions/runs/40363189978/artifacts/12670720374
+2026-10-26T17:04:20.7148780Z Post job cleanup.
+2026-10-26T17:04:20.8619590Z [command]/opt/homebrew/bin/git version
+2026-10-26T17:04:20.8958950Z git version 2.55.0
+2026-10-26T17:04:20.8999110Z Copying '/Users/runner/.gitconfig' to '/Users/runner/work/_temp/9e924468-d4d1-4223-93bd-421931940e4d/.gitconfig'
+2026-10-26T17:04:20.9013990Z Temporarily overriding HOME='/Users/runner/work/_temp/9e924468-d4d1-4223-93bd-421931940e4d' before making global git config changes
+2026-10-26T17:04:20.9015110Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-26T17:04:20.9021030Z [command]/opt/homebrew/bin/git config --global --add safe.directory /Users/runner/work/qupathxx/qupathxx
+2026-10-26T17:04:20.9168530Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-26T17:04:20.9256320Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-26T17:04:21.1684180Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-26T17:04:21.1688700Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-26T17:04:21.2863280Z Cleaning up orphan processes
+2026-10-26T17:04:23.5109110Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

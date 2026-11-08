@@ -8,6 +8,10 @@ on:
     paths-ignore: ['docs/**', 'README.md']
   workflow_dispatch:
     inputs:
+      candidate_release_tag:
+        description: Test frozen Windows release assets only; no engine builds or full matrix
+        type: string
+        default: ''
       macos_native:
         description: Validate native engine and pinned geometry/training SDKs on Intel and Apple silicon
         type: boolean
@@ -29,12 +33,13 @@ permissions:
   contents: read
 
 concurrency:
-  group: ci-${{ github.workflow }}-${{ github.ref }}
+  # Independent engine, Mac and portable gates must not cancel one another.
+  group: ci-${{ github.workflow }}-${{ github.ref }}-${{ inputs.candidate_release_tag && 'candidate' || inputs.macos_native && 'macos' || inputs.portable_linux && 'portable' || 'engine' }}
   cancel-in-progress: true
 
 jobs:
   validate:
-    if: ${{ !inputs.portable_linux && !inputs.macos_native }}
+    if: ${{ !inputs.candidate_release_tag && !inputs.portable_linux && !inputs.macos_native }}
     name: ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
@@ -124,6 +129,52 @@ jobs:
             build/ci/job/wheels/*.whl
             build/ci/job/qupathxx-windows-x64-candidate.zip
 
+  windows-candidate:
+    if: ${{ inputs.candidate_release_tag && !inputs.portable_linux && !inputs.macos_native }}
+    # GitHub hides draft releases from tokens without push-capable contents access.
+    # This job only reads the prepared draft; it never edits or publishes releases.
+    permissions:
+      contents: write
+    runs-on: windows-2022
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
+        with:
+          python-version: '3.12'
+      - name: Fetch exact frozen candidate assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CANDIDATE_TAG: ${{ inputs.candidate_release_tag }}
+        shell: pwsh
+        run: |
+          gh release download "$env:CANDIDATE_TAG" --repo "$env:GITHUB_REPOSITORY" --dir build/windows-handoff/input --pattern '*.whl' --pattern 'qupathxx-windows-x64-candidate.zip' --pattern 'qupathxx-source-6219a08f.zip' --pattern 'CMU-1.svs'
+          if ($LASTEXITCODE -ne 0) { throw 'Candidate download failed' }
+      - name: Fresh host frozen install and user workflow
+        shell: powershell
+        run: |
+          Set-DisplayResolution -Width 1920 -Height 1080 -Force
+          python -I tools/ci/check_windows_handoff.py --input build/windows-handoff/input --work build/windows-handoff/run
+          if ($LASTEXITCODE -ne 0) { throw 'Candidate workflow failed' }
+      - name: Uninstall while preserving user outputs
+        shell: pwsh
+        run: ./tools/ci/remove_windows_candidate.ps1 -Work build/windows-handoff/run
+      - name: Handoff evidence
+        if: always()
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+        with:
+          name: windows-candidate-handoff
+          retention-days: 30
+          if-no-files-found: warn
+          path: |
+            build/windows-handoff/run/*.json
+            build/windows-handoff/run/*.log
+            build/windows-handoff/run/sdk/*.json
+            build/windows-handoff/run/desktop/*.json
+            build/windows-handoff/run/desktop/*.ppm
+
   macos-native:
     if: ${{ inputs.macos_native && !inputs.portable_linux }}
     name: macOS native ${{ matrix.architecture }}
@@ -159,6 +210,18 @@ jobs:
             build/ci/macos-native/*.json
             build/ci/macos-native/*.log
             build/ci/macos-native/*.xml
+            build/ci/macos-native/macos-native-files.zip
+            build/ci/macos-native/qupathxx_pixel_workflow_tests
+            build/ci/macos-native/relocated-native/*.zip
+            build/ci/macos-native/relocated-native/*.json
+            build/ci/macos-native/relocated-native/*.log
+            build/ci/macos-native/relocated-runtime/*.json
+            build/ci/macos-native/relocated-runtime/*.log
+            build/ci/macos-native/relocated-runtime/*.pam
+            build/ci/macos-native/relocated-runtime/*.ppm
+            build/ci/macos-native/relocated-runtime/*.csv
+            build/ci/macos-native/relocated-runtime/*.qpxproj
+            build/ci/macos-native/relocated-runtime/batch/**/*.qpxproj
 
   manylinux-build:
     if: ${{ inputs.portable_linux }}
@@ -259,6 +322,8 @@ jobs:
         run: |
           unset LD_LIBRARY_PATH LD_PRELOAD
           test ! -d build/deps/geos-sdk
+          build/ci/consumer/bin/python -I tools/ci/linux_runtime_manifest.py --wheel build/ci/candidate/qualified/*.whl --verify build/ci/candidate/qualified-linux-runtime-manifest.json
+          build/ci/consumer/bin/python -I tools/ci/linux_runtime_manifest.py --wheel build/ci/candidate/qualified/*.whl --output build/ci/consumer-linux-runtime-manifest.json > build/ci/consumer-linux-runtime-manifest.log
           build/ci/consumer/bin/python -I tools/ci/check_manylinux_consumer.py --wheel build/ci/candidate/qualified/*.whl --qualification build/ci/candidate/qualification.json --slide build/fixtures/CMU-1-Small-Region.svs --output build/ci/consumer-probe.json
           QUPATHXX_TEST_GUI=0 QUPATHXX_APERIO_FIXTURE="$PWD/build/fixtures/CMU-1-Small-Region.svs" build/ci/consumer/bin/python -I -m pytest tests -q -o faulthandler_timeout=60 --junitxml=build/ci/consumer-tests.xml > build/ci/consumer-tests.log 2>&1
       - name: Consumer evidence
@@ -272,3 +337,5 @@ jobs:
             build/ci/consumer-probe.json
             build/ci/consumer-tests.xml
             build/ci/consumer-tests.log
+            build/ci/consumer-linux-runtime-manifest.json
+            build/ci/consumer-linux-runtime-manifest.log

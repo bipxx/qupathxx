@@ -1,0 +1,622 @@
+{
+  "version": "0.7.0",
+  "createTimestamp": 1793845887460,
+  "modifyTimestamp": 1793845887460,
+  "uri": "file:/C:/Users/HEQ/Projects/qupathxx/build/axis-calibration-r5/capture-resumed/project/project.qpproj",
+  "lastID": 10,
+  "images": [
+    {
+      "serverBuilder": {
+        "builderType": "uri",
+        "providerClassName": "qupath.lib.images.servers.bioformats.BioFormatsServerBuilder",
+        "uri": "file:/C:/Users/HEQ/Projects/qupathxx/build/axis-calibration-r5/capture-resumed/source.ome.tif",
+        "args": [
+          "--series",
+          "0"
+        ],
+        "metadata": {
+          "name": "source.ome.tif - Image0",
+          "width": 20,
+          "height": 16,
+          "sizeZ": 3,
+          "sizeT": 4,
+          "channelType": "DEFAULT",
+          "isRGB": false,
+          "pixelType": "UINT16",
+          "levels": [
+            {
+              "downsample": 1.0,
+              "width": 20,
+              "height": 16
+            }
+          ],
+          "channels": [
+            {
+              "name": "Channel 1",
+              "color": -1
+            }
+          ],
+          "pixelCalibration": {
+            "pixelWidth": {
+              "value": 0.25,
+              "unit": "µm"
+            },
+            "pixelHeight": {
+              "value": 0.5,
+              "unit": "µm"
+            },
+            "zSpacing": {
+              "value": 1.75,
+              "unit": "µm"
+            },
+            "timeUnit": "SECONDS",
+            "timepoints": [
+              0.0,
+              0.25,
+              0.5,
+              0.75
+            ]
+          },
+          "preferredTileWidth": 20,
+          "preferredTileHeight": 16
+        }
+      },
+      "entryID": 1,
+      "randomizedName": "d58c0331-d429-49c3-9f5e-584f533a13b3",
+      "imageName": "nanoseconds",
+      "metadata": {},
+      "tags": []
+    },
+    {
+      "serverBuilder": {
+        "builderType": "uri",
+        "providerClassName": "qupath.lib.images.servers.bioformats.BioFormatsServerBuilder",
+        "uri": "file:/C:/Users/HEQ/Projects/qupathxx/build/axis-calibration-r5/capture-resumed/source.ome.tif",
+        "args": [
+          "--series",
+          "0"
+        ],
+        "metadata": {
+          "name": "source.ome.tif - Image0",
+          "width": 20,
+          "height": 16,
+          "sizeZ": 3,
+          "sizeT": 4,
+          "channelType": "DEFAULT",
+          "isRGB": false,
+          "pixelType": "UINT16",
+          "levels": [
+            {
+              "downsample": 1.0,
+              "width": 20,
+              "height": 16
+            }
+          ],
+          "channels": [
+            {
+              "name": "Channel 1",
+              "color": -1
+            }
+          ],
+          "pixelCalibration": {
+            "pixelWidth": {
+              "value": 0.25,
+              "unit": "µm"
+            },
+            "pixelHeight": {
+              "value": 0.5,
+              "unit": "µm"
+            },
+            "zSpacing": {
+              "value": 1.75,
+              "unit": "µm"
+            },
+            "timeUnit": "SECONDS",
+            "timepoints": [
+              0.0,
+              0.25,
+              0.5,
+              0.75
+            ]
+          },
+          "preferredTileWidth": 20,
+          "preferredTileHeight": 16
+        }
+      },
+      "entryID": 2,
+      "randomizedName": "3163fcd3-28f5-410b-9890-b8cf8aadeda2",
+      "imageName": "microseconds",
+      "metadata": {},
+      "tags": []
+    },
+    {
+      "serverBuilder": {
+        "builderType": "uri",
+        "providerClassName": "qupath.lib.images.servers.bioformats.BioFormatsServerBuilder",
+        "uri": "file:/C:/Users/HEQ/Projects/qupathxx/build/axis-calibration-r5/capture-resumed/source.ome.tif",
+        "args": [
+          "--series",
+          "0"
+        ],
+        "metadata": {
+          "name": "source.ome.tif - Image0",
+          "width": 20,
+          "height": 16,
+          "sizeZ": 3,
+          "sizeT": 4,
+          "channelType": "DEFAULT",
+          "isRGB": false,
+          "pixelType": "UINT16",
+          "levels": [
+            {
+              "downsample": 1.0,
+              "width": 20,
+              "height": 16
+            }
+          ],
+          "channels": [
+            {
+              "name": "Channel 1",
+              "color": -1
+            }
+          ],
+          "pixelCalibration": {
+            "pixelWidth": {
+              "value": 0.25,
+              "unit": "µm"
+            },
+            "pixelHeight": {
+              "value": 0.5,
+              "unit": "µm"
+            },
+            "zSpacing": {
+              "value": 1.75,
+              "unit": "µm"
+            },
+            "timeUnit": "SECONDS",
+            "timepoints": [
+              0.0,
+              0.25,
+              0.5,
+              0.75
+            ]
+          },
+          "preferredTileWidth": 20,
+          "preferredTileHeight": 16
+        }
+      },
+      "entryID": 3,
+      "randomizedName": "b3adf435-2014-414b-85ad-4e8307499643",
+      "imageName": "milliseconds-offset",
+      "metadata": {},
+      "tags": []
+    },
+    {
+      "serverBuilder": {
+        "builderType": "uri",
+        "providerClassName": "qupath.lib.images.servers.bioformats.BioFormatsServerBuilder",
+        "uri": "file:/C:/Users/HEQ/Projects/qupathxx/build/axis-calibration-r5/capture-resumed/source.ome.tif",
+        "args": [
+          "--series",
+          "0"
+        ],
+        "metadata": {
+          "name": "source.ome.tif - Image0",
+          "width": 20,
+          "height": 16,
+          "sizeZ": 3,
+          "sizeT": 4,
+          "channelType": "DEFAULT",
+          "isRGB": false,
+          "pixelType": "UINT16",
+          "levels": [
+            {
+              "downsample": 1.0,
+              "width": 20,
+              "height": 16
+            }
+          ],
+          "channels": [
+            {
+              "name": "Channel 1",
+              "color": -1
+            }
+          ],
+          "pixelCalibration": {
+            "pixelWidth": {
+              "value": 0.25,
+              "unit": "µm"
+            },
+            "pixelHeight": {
+              "value": 0.5,
+              "unit": "µm"
+            },
+            "zSpacing": {
+              "value": 1.75,
+              "unit": "µm"
+            },
+            "timeUnit": "SECONDS",
+            "timepoints": [
+              0.0,
+              0.25,
+              0.5,
+              0.75
+            ]
+          },
+          "preferredTileWidth": 20,
+          "preferredTileHeight": 16
+        }
+      },
+      "entryID": 4,
+      "randomizedName": "5e6ff7da-f5d7-43dd-b6ad-d57c3be2ad78",
+      "imageName": "seconds",
+      "metadata": {},
+      "tags": []
+    },
+    {
+      "serverBuilder": {
+        "builderType": "uri",
+        "providerClassName": "qupath.lib.images.servers.bioformats.BioFormatsServerBuilder",
+        "uri": "file:/C:/Users/HEQ/Projects/qupathxx/build/axis-calibration-r5/capture-resumed/source.ome.tif",
+        "args": [
+          "--series",
+          "0"
+        ],
+        "metadata": {
+          "name": "source.ome.tif - Image0",
+          "width": 20,
+          "height": 16,
+          "sizeZ": 3,
+          "sizeT": 4,
+          "channelType": "DEFAULT",
+          "isRGB": false,
+          "pixelType": "UINT16",
+          "levels": [
+            {
+              "downsample": 1.0,
+              "width": 20,
+              "height": 16
+            }
+          ],
+          "channels": [
+            {
+              "name": "Channel 1",
+              "color": -1
+            }
+          ],
+          "pixelCalibration": {
+            "pixelWidth": {
+              "value": 0.25,
+              "unit": "µm"
+            },
+            "pixelHeight": {
+              "value": 0.5,
+              "unit": "µm"
+            },
+            "zSpacing": {
+              "value": 1.75,
+              "unit": "µm"
+            },
+            "timeUnit": "SECONDS",
+            "timepoints": [
+              0.0,
+              0.25,
+              0.5,
+              0.75
+            ]
+          },
+          "preferredTileWidth": 20,
+          "preferredTileHeight": 16
+        }
+      },
+      "entryID": 5,
+      "randomizedName": "13decedb-1c6d-484d-bf9b-76f2e78b76db",
+      "imageName": "minutes-irregular",
+      "metadata": {},
+      "tags": []
+    },
+    {
+      "serverBuilder": {
+        "builderType": "uri",
+        "providerClassName": "qupath.lib.images.servers.bioformats.BioFormatsServerBuilder",
+        "uri": "file:/C:/Users/HEQ/Projects/qupathxx/build/axis-calibration-r5/capture-resumed/source.ome.tif",
+        "args": [
+          "--series",
+          "0"
+        ],
+        "metadata": {
+          "name": "source.ome.tif - Image0",
+          "width": 20,
+          "height": 16,
+          "sizeZ": 3,
+          "sizeT": 4,
+          "channelType": "DEFAULT",
+          "isRGB": false,
+          "pixelType": "UINT16",
+          "levels": [
+            {
+              "downsample": 1.0,
+              "width": 20,
+              "height": 16
+            }
+          ],
+          "channels": [
+            {
+              "name": "Channel 1",
+              "color": -1
+            }
+          ],
+          "pixelCalibration": {
+            "pixelWidth": {
+              "value": 0.25,
+              "unit": "µm"
+            },
+            "pixelHeight": {
+              "value": 0.5,
+              "unit": "µm"
+            },
+            "zSpacing": {
+              "value": 1.75,
+              "unit": "µm"
+            },
+            "timeUnit": "SECONDS",
+            "timepoints": [
+              0.0,
+              0.25,
+              0.5,
+              0.75
+            ]
+          },
+          "preferredTileWidth": 20,
+          "preferredTileHeight": 16
+        }
+      },
+      "entryID": 6,
+      "randomizedName": "d55e0cd8-d107-4847-935a-b733c5e8e7f4",
+      "imageName": "hours",
+      "metadata": {},
+      "tags": []
+    },
+    {
+      "serverBuilder": {
+        "builderType": "uri",
+        "providerClassName": "qupath.lib.images.servers.bioformats.BioFormatsServerBuilder",
+        "uri": "file:/C:/Users/HEQ/Projects/qupathxx/build/axis-calibration-r5/capture-resumed/source.ome.tif",
+        "args": [
+          "--series",
+          "0"
+        ],
+        "metadata": {
+          "name": "source.ome.tif - Image0",
+          "width": 20,
+          "height": 16,
+          "sizeZ": 3,
+          "sizeT": 4,
+          "channelType": "DEFAULT",
+          "isRGB": false,
+          "pixelType": "UINT16",
+          "levels": [
+            {
+              "downsample": 1.0,
+              "width": 20,
+              "height": 16
+            }
+          ],
+          "channels": [
+            {
+              "name": "Channel 1",
+              "color": -1
+            }
+          ],
+          "pixelCalibration": {
+            "pixelWidth": {
+              "value": 0.25,
+              "unit": "µm"
+            },
+            "pixelHeight": {
+              "value": 0.5,
+              "unit": "µm"
+            },
+            "zSpacing": {
+              "value": 1.75,
+              "unit": "µm"
+            },
+            "timeUnit": "SECONDS",
+            "timepoints": [
+              0.0,
+              0.25,
+              0.5,
+              0.75
+            ]
+          },
+          "preferredTileWidth": 20,
+          "preferredTileHeight": 16
+        }
+      },
+      "entryID": 7,
+      "randomizedName": "58e0d08c-6c8a-4f2c-9c02-0ce053a8e90b",
+      "imageName": "days",
+      "metadata": {},
+      "tags": []
+    },
+    {
+      "serverBuilder": {
+        "builderType": "uri",
+        "providerClassName": "qupath.lib.images.servers.bioformats.BioFormatsServerBuilder",
+        "uri": "file:/C:/Users/HEQ/Projects/qupathxx/build/axis-calibration-r5/capture-resumed/source.ome.tif",
+        "args": [
+          "--series",
+          "0"
+        ],
+        "metadata": {
+          "name": "source.ome.tif - Image0",
+          "width": 20,
+          "height": 16,
+          "sizeZ": 3,
+          "sizeT": 4,
+          "channelType": "DEFAULT",
+          "isRGB": false,
+          "pixelType": "UINT16",
+          "levels": [
+            {
+              "downsample": 1.0,
+              "width": 20,
+              "height": 16
+            }
+          ],
+          "channels": [
+            {
+              "name": "Channel 1",
+              "color": -1
+            }
+          ],
+          "pixelCalibration": {
+            "pixelWidth": {
+              "value": 0.25,
+              "unit": "µm"
+            },
+            "pixelHeight": {
+              "value": 0.5,
+              "unit": "µm"
+            },
+            "zSpacing": {
+              "value": 4.5,
+              "unit": "µm"
+            },
+            "timeUnit": "SECONDS",
+            "timepoints": [
+              0.0,
+              3.25
+            ]
+          },
+          "preferredTileWidth": 20,
+          "preferredTileHeight": 16
+        }
+      },
+      "entryID": 8,
+      "randomizedName": "69ef5d62-7490-4e70-9d41-81d2399755e3",
+      "imageName": "partial",
+      "metadata": {},
+      "tags": []
+    },
+    {
+      "serverBuilder": {
+        "builderType": "uri",
+        "providerClassName": "qupath.lib.images.servers.bioformats.BioFormatsServerBuilder",
+        "uri": "file:/C:/Users/HEQ/Projects/qupathxx/build/axis-calibration-r5/capture-resumed/source.ome.tif",
+        "args": [
+          "--series",
+          "0"
+        ],
+        "metadata": {
+          "name": "source.ome.tif - Image0",
+          "width": 20,
+          "height": 16,
+          "sizeZ": 3,
+          "sizeT": 4,
+          "channelType": "DEFAULT",
+          "isRGB": false,
+          "pixelType": "UINT16",
+          "levels": [
+            {
+              "downsample": 1.0,
+              "width": 20,
+              "height": 16
+            }
+          ],
+          "channels": [
+            {
+              "name": "Channel 1",
+              "color": -1
+            }
+          ],
+          "pixelCalibration": {
+            "pixelWidth": {
+              "value": 0.25,
+              "unit": "µm"
+            },
+            "pixelHeight": {
+              "value": 0.5,
+              "unit": "µm"
+            },
+            "zSpacing": {
+              "value": 4.5,
+              "unit": "µm"
+            },
+            "timeUnit": "SECONDS",
+            "timepoints": [
+              5.0,
+              3.0,
+              3.0,
+              -1.0
+            ]
+          },
+          "preferredTileWidth": 20,
+          "preferredTileHeight": 16
+        }
+      },
+      "entryID": 9,
+      "randomizedName": "b840129d-f412-4e83-ae90-785355799969",
+      "imageName": "nonmonotonic",
+      "metadata": {},
+      "tags": []
+    },
+    {
+      "serverBuilder": {
+        "builderType": "uri",
+        "providerClassName": "qupath.lib.images.servers.bioformats.BioFormatsServerBuilder",
+        "uri": "file:/C:/Users/HEQ/Projects/qupathxx/build/axis-calibration-r5/capture-resumed/source.ome.tif",
+        "args": [
+          "--series",
+          "0"
+        ],
+        "metadata": {
+          "name": "source.ome.tif - Image0",
+          "width": 20,
+          "height": 16,
+          "sizeZ": 3,
+          "sizeT": 4,
+          "channelType": "DEFAULT",
+          "isRGB": false,
+          "pixelType": "UINT16",
+          "levels": [
+            {
+              "downsample": 1.0,
+              "width": 20,
+              "height": 16
+            }
+          ],
+          "channels": [
+            {
+              "name": "Channel 1",
+              "color": -1
+            }
+          ],
+          "pixelCalibration": {
+            "pixelWidth": {
+              "value": 0.25,
+              "unit": "µm"
+            },
+            "pixelHeight": {
+              "value": 0.5,
+              "unit": "µm"
+            },
+            "zSpacing": {
+              "value": 1.0,
+              "unit": "z-slice"
+            },
+            "timeUnit": "SECONDS",
+            "timepoints": []
+          },
+          "preferredTileWidth": 20,
+          "preferredTileHeight": 16
+        }
+      },
+      "entryID": 10,
+      "randomizedName": "e2b7fbbb-9b8b-427f-b89d-f4856ef1db93",
+      "imageName": "unknown",
+      "metadata": {},
+      "tags": []
+    }
+  ]
+}

@@ -1,0 +1,181 @@
+*** scikit-build-core 1.1.1 using CMake 4.4.4 (wheel)
+*** Configuring CMake...
+loading initial cache file C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\CMakeInit.txt
+-- Selecting Windows SDK version 10.0.22621.0 to target Windows 10.0.26200.
+-- Building tiff version 4.7.1
+-- Could NOT find Deflate (missing: Deflate_LIBRARY Deflate_INCLUDE_DIR) 
+-- Could NOT find JPEG (missing: JPEG_LIBRARY JPEG_INCLUDE_DIR) 
+-- Could NOT find JBIG (missing: JBIG_LIBRARY JBIG_INCLUDE_DIR) 
+-- Could NOT find LERC (missing: LERC_LIBRARY LERC_INCLUDE_DIR) 
+-- Could NOT find liblzma (missing: LIBLZMA_LIBRARY LIBLZMA_INCLUDE_DIR LIBLZMA_HAS_AUTO_DECODER LIBLZMA_HAS_EASY_ENCODER LIBLZMA_HAS_LZMA_PRESET) 
+-- Could NOT find ZSTD (missing: ZSTD_LIBRARY ZSTD_INCLUDE_DIR) 
+-- Could NOT find WebP (missing: WebP_LIBRARY WebP_INCLUDE_DIR) 
+-- Found OpenGL: opengl32  found components: OpenGL
+-- Could NOT find GLUT (missing: GLUT_glut_LIBRARY GLUT_INCLUDE_DIR) 
+-- Include resource version information for LibTIFF
+-- 
+-- Libtiff is now configured for Windows-10.0.26200
+-- 
+--   Libtiff build version:       4.7.1
+--   Libtiff library version:     6.2.0
+--   Libtiff release date:        20250911
+-- 
+--   Installation directory:             C:/Users/HEQ/AppData/Local/Temp/tmp17pmpsz2/wheel/platlib
+--   Documentation directory:            share/doc/tiff
+--   C compiler:                         C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe
+--   C++ compiler:                       C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe
+--   Build shared libraries:             OFF
+--   Build tools:                        OFF
+--   Build tests:                        OFF
+--   Build contrib:                      OFF
+--   Build docs:                         OFF
+--   Build deprecated features:          OFF
+--   Enable linker symbol versioning:    FALSE
+--   Support Microsoft Document Imaging: ON
+--   Use win32 IO:                       ON
+-- 
+--  Support for internal codecs:
+--   CCITT Group 3 & 4 algorithms:       ON
+--   Macintosh PackBits algorithm:       ON
+--   LZW algorithm:                      ON
+--   ThunderScan 4-bit RLE algorithm:    ON
+--   NeXT 2-bit RLE algorithm:           ON
+--   LogLuv high dynamic range encoding: ON
+-- 
+--  Support for external codecs:
+--   ZLIB support:                       Requested:ON Availability:TRUE Support:TRUE
+--   libdeflate support:                 Requested:OFF Availability:FALSE Support:FALSE
+--   Pixar log-format algorithm:         Requested:OFF Availability:TRUE Support:FALSE
+--   JPEG support:                       Requested:OFF Availability:FALSE Support:FALSE
+--   Old JPEG support:                   Requested:OFF Availability:FALSE Support:FALSE (Depends on JPEG Support)
+--   JPEG 8/12 bit dual mode:            Requested:OFF Availability:FALSE Support:FALSE
+--   ISO JBIG support:                   Requested:OFF Availability:FALSE Support:FALSE
+--   LERC support:                       Requested:OFF Availability:FALSE Support:FALSE
+--   LZMA2 support:                      Requested:OFF Availability:FALSE Support:FALSE
+--   ZSTD support:                       Requested:OFF Availability:FALSE Support:FALSE
+--   WEBP support:                       Requested:OFF Availability:FALSE Support:FALSE
+-- 
+--   C++ support:                        ON (requested) TRUE (availability)
+-- 
+--   OpenGL support:                     Requested:OFF Availability:FALSE Support:FALSE
+-- 
+-- OpenCV ARCH: x64
+-- OpenCV RUNTIME: vc17
+-- OpenCV STATIC: ON
+-- Found OpenCV 4.11.0 in C:/Users/HEQ/Projects/qupathxx/build/deps/opencv-sdk/x64/vc17/staticlib
+-- Using the multi-header code from C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/_deps/json-src/include/
+-- Including Win32 support
+-- Found OpenGL: opengl32
+-- Configuring done (3.4s)
+-- Generating done (2.8s)
+-- Build files have been written to: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+*** Building project with Visual Studio 17 2022...
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+
+  Checking File Globs
+  glfw.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\glfw-build\src\Release\glfw3.lib
+  nanobind-static.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\nanobind-static.lib
+  qupathxx_sqlite.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_sqlite.lib
+  qupathxx_tiff_xml.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_tiff_xml.lib
+  zlibstatic.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\qpx_zlib-build\Release\zs.lib
+  tiff.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\qpx_tiff-build\libtiff\Release\tiff.lib
+  provenance.cpp
+  qupathxx_core.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_core.lib
+  gui.cpp
+  qupathxx_gui.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_gui.lib
+     Creating library C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/_native.lib and object C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/_native.exp
+  _native.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\_native.cp312-win_amd64.pyd
+  qupathxx_analysis_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_analysis_tests.exe
+  qupathxx_app.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_app.exe
+  qupathxx_batch.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_batch.exe
+  qupathxx_cell_calibration_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_cell_calibration_tests.exe
+  cell_expansion_tests.cpp
+  qupathxx_cell_record_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_cell_record_tests.exe
+  qupathxx_cell_table_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_cell_table_tests.exe
+  qupathxx_classes_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_classes_tests.exe
+  qupathxx_cell_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_cell_tests.exe
+  qupathxx_classifier_io_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_classifier_io_tests.exe
+  qupathxx_cell_expansion_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_cell_expansion_tests.exe
+  qupathxx_classifier_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_classifier_tests.exe
+  qupathxx_decimal_quantity_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_decimal_quantity_tests.exe
+  qupathxx_core_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_core_tests.exe
+  qupathxx_file_fingerprint_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_file_fingerprint_tests.exe
+  qupathxx_document_edits_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_document_edits_tests.exe
+  qupathxx_geometry_edits_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_geometry_edits_tests.exe
+  qupathxx_geometry_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_geometry_tests.exe
+  qupathxx_gui_replay_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_gui_replay_tests.exe
+  qupathxx_interchange_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_interchange_tests.exe
+  qupathxx_masked_gaussian_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_masked_gaussian_tests.exe
+  log_watershed_tests.cpp
+  qupathxx_log_cell_recipe_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_log_cell_recipe_tests.exe
+  qupathxx_measurement_table_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_measurement_table_tests.exe
+  qupathxx_object_classifier_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_object_classifier_tests.exe
+  qupathxx_overlay_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_overlay_tests.exe
+  qupathxx_object_snapshot_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_object_snapshot_tests.exe
+  qupathxx_pixel_feature_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_pixel_feature_tests.exe
+  qupathxx_pixel_workflow_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_pixel_workflow_tests.exe
+  qupathxx_project_batch_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_project_batch_tests.exe
+  qupathxx_log_watershed_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_log_watershed_tests.exe
+  qupathxx_provenance_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_provenance_tests.exe
+  qupathxx_project_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_project_tests.exe
+  qupathxx_qptma_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_qptma_tests.exe
+  qupathxx_qptma_project_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_qptma_project_tests.exe
+  qupathxx_raw_image_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_raw_image_tests.exe
+  qupathxx_recovery_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_recovery_tests.exe
+  qupathxx_region.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_region.exe
+  qupathxx_resampling_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_resampling_tests.exe
+  qupathxx_save_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_save_tests.exe
+  qupathxx_scheduler_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_scheduler_tests.exe
+  qupathxx_selection_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_selection_tests.exe
+  qupathxx_server_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_server_tests.exe
+  qupathxx_sha256_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_sha256_tests.exe
+  qupathxx_source_identity_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_source_identity_tests.exe
+  qupathxx_spatial_analysis_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_spatial_analysis_tests.exe
+  qupathxx_spatial_cli_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_spatial_cli_tests.exe
+  qupathxx_spatial_frontend_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_spatial_frontend_tests.exe
+  qupathxx_spatial_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_spatial_tests.exe
+  qupathxx_spatial_record_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_spatial_record_tests.exe
+  qupathxx_stains_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_stains_tests.exe
+  qupathxx_stain_estimation_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_stain_estimation_tests.exe
+  qupathxx_thumbnail_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_thumbnail_tests.exe
+  qupathxx_tissue_contour_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_tissue_contour_tests.exe
+  qupathxx_tissue_record_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_tissue_record_tests.exe
+  qupathxx_tissue_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_tissue_tests.exe
+  qupathxx_tma_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_tma_tests.exe
+  qupathxx_tma_dearray_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_tma_dearray_tests.exe
+  qupathxx_view_tiles_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_view_tiles_tests.exe
+  tiff_port.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\qpx_tiff-build\port\Release\tiff_port.lib
+  tiffxx.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\qpx_tiff-build\libtiff\Release\tiffxx.lib
+  qupathxx_viewer_session_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_viewer_session_tests.exe
+*** Installing project into wheel...
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmp17pmpsz2\wheel\platlib/qupathxx/licenses/imagej-shape/NOTICE.txt
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmp17pmpsz2\wheel\platlib/qupathxx/licenses/libtiff/LICENSE.md
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmp17pmpsz2\wheel\platlib/qupathxx/licenses/tiff-zlib/LICENSE
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmp17pmpsz2\wheel\platlib/qupathxx/licenses/tinyxml2/LICENSE.txt
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmp17pmpsz2\wheel\platlib/qupathxx/licenses/opencv/LICENSE
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmp17pmpsz2\wheel\platlib/qupathxx/licenses/opencv/softfloat-notice.txt
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmp17pmpsz2\wheel\platlib/qupathxx/licenses/opencv/zlib-notice.txt
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmp17pmpsz2\wheel\platlib/qupathxx/licenses/opencv/SOURCE-NOTICES.txt
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmp17pmpsz2\wheel\platlib/qupathxx/licenses/nlohmann-json/LICENSE.MIT
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmp17pmpsz2\wheel\platlib/qupathxx/licenses/sqlite/sqlite-LICENSE.txt
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmp17pmpsz2\wheel\platlib/qupathxx/geos_c.dll
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmp17pmpsz2\wheel\platlib/qupathxx/geos.dll
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmp17pmpsz2\wheel\platlib/qupathxx/licenses/geos/COPYING
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmp17pmpsz2\wheel\platlib/qupathxx/qupathxx_region.exe
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmp17pmpsz2\wheel\platlib/qupathxx/qupathxx_batch.exe
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmp17pmpsz2\wheel\platlib/qupathxx/licenses/glfw/LICENSE.md
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmp17pmpsz2\wheel\platlib/qupathxx/licenses/imgui/LICENSE.txt
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmp17pmpsz2\wheel\platlib/qupathxx/licenses/imgui/imstb_rectpack.h-LICENSE.txt
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmp17pmpsz2\wheel\platlib/qupathxx/licenses/imgui/imstb_textedit.h-LICENSE.txt
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmp17pmpsz2\wheel\platlib/qupathxx/licenses/imgui/imstb_truetype.h-LICENSE.txt
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmp17pmpsz2\wheel\platlib/qupathxx/licenses/imgui/imgl3w-LICENSE.txt
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmp17pmpsz2\wheel\platlib/qupathxx/licenses/imgui/Khronos-NOTICE.txt
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmp17pmpsz2\wheel\platlib/qupathxx/licenses/imgui/ProggyClean-LICENSE.txt
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmp17pmpsz2\wheel\platlib/qupathxx/licenses/imgui/Khronos-LICENSE.txt
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmp17pmpsz2\wheel\platlib/qupathxx/qupathxx_app.exe
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmp17pmpsz2\wheel\platlib/qupathxx/licenses/nanobind/LICENSE
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmp17pmpsz2\wheel\platlib/qupathxx/licenses/robin-map/LICENSE
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmp17pmpsz2\wheel\platlib/qupathxx/_native.cp312-win_amd64.pyd
+*** Making wheel...
+*** Created qupathxx-0.1.0-cp312-cp312-win_amd64.whl
+qupathxx-0.1.0-cp312-cp312-win_amd64.whl

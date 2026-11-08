@@ -1,0 +1,62 @@
+[
+  {
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\stream-header-integrity-279-env\\Scripts\\python.exe",
+      "-I",
+      "-X",
+      "utf8",
+      "-m",
+      "pytest",
+      "tests/test_pixel_stream_file.py",
+      "tests/test_pixel_stream_file_portable.py",
+      "tests/test_pixel_stream_read_job.py",
+      "tests/test_pixel_stream_export_job.py",
+      "tests/test_gui_layout.py",
+      "tests/test_gui_docking.py",
+      "tests/test_gui_scale.py",
+      "tests/test_gui_overlay.py",
+      "tests/test_gui_lifecycle.py",
+      "tests/test_gui_workspace.py",
+      "tests/test_gui_window.py",
+      "tests/test_gui_replay.py",
+      "tests/test_gui_retirement.py",
+      "-q",
+      "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\stream-header-integrity-279\\stream-and-ui-regressions.xml",
+      "--basetemp",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\stream-header-integrity-279\\stream-and-ui-regressions-temp"
+    ],
+    "cwd": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159",
+    "gui_opt_in": false,
+    "worktree_clean_at_start": false,
+    "source_subset_proof": "supplemental-source-proof.json",
+    "source": "3bd6591930baa64ae5826d8ba3e2efaee37e8376"
+  },
+  {
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\stream-header-integrity-279-env\\Scripts\\python.exe",
+      "-I",
+      "-X",
+      "utf8",
+      "-m",
+      "pytest",
+      "tests/test_gui_layout.py",
+      "tests/test_gui_docking.py",
+      "tests/test_gui_scale.py",
+      "tests/test_gui_overlay.py",
+      "tests/test_gui_lifecycle.py",
+      "tests/test_gui_workspace.py",
+      "tests/test_gui_window.py",
+      "tests/test_gui_replay.py",
+      "tests/test_gui_retirement.py",
+      "-q",
+      "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\stream-header-integrity-279\\gui-regressions.xml",
+      "--basetemp",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\stream-header-integrity-279\\gui-regressions-temp"
+    ],
+    "cwd": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159",
+    "gui_opt_in": true,
+    "worktree_clean_at_start": false,
+    "source_subset_proof": "supplemental-source-proof.json",
+    "source": "3bd6591930baa64ae5826d8ba3e2efaee37e8376"
+  }
+]

@@ -1,0 +1,349 @@
+{
+  "schema": "qpx.raw-classifier-failure-observation/1",
+  "accepted": false,
+  "candidate_source": "176ec42b274bb12429cef603b59ce704e12c6e96",
+  "campaign": "raw-classifier-235-campaign.json",
+  "failed_job": {
+    "run_id": 40363189978,
+    "job_id": 121713805694,
+    "architecture": "arm64",
+    "artifact_id": 12670720374,
+    "cause": "Two mixed size_t/uint64_t auto declarations do not deduce one type on Darwin"
+  },
+  "correction_source": "b8a465e59971ef67f7621beed530d875aa549d67",
+  "correction_compiler_fingerprint": "cfd215a57070066c4ffe93df45b93bc1ec3ce93b74f835ade26283bb7a9373e8",
+  "changed_compiler_inputs": [
+    "cpp/raw_pixel_archive.cpp",
+    "cpp/tests/raw_tiled_archive_checks.hpp"
+  ],
+  "local_validation": {
+    "windows_minimal_native_suites": 2,
+    "darwin_syntax_targets": [
+      "arm64-apple-macos13",
+      "x86_64-apple-macos13"
+    ],
+    "old_declarations_rejected": true,
+    "new_declarations_compile": true,
+    "full_mac_acceptance": false,
+    "retained_products": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawt5-236\\minimal\\products"
+  },
+  "partial_hosted_validation": "Five completed Linux/Windows/manylinux producer profiles satisfy their raw-specific native/headless/typing contracts; one Mac failure archive retained. Not full engine, portable or campaign acceptance.",
+  "remaining": "Continue original live jobs; preserve every outcome. Frozen candidate cannot pass the complete matrix. Successor qualification remains required.",
+  "raw_payloads": {
+    "hosted/engine-run.json": {
+      "bytes": 24513,
+      "sha256": "74c0ce008be7e6f54b6047bc9086e0947aba980291f27fb8ce017ad5b4183630"
+    },
+    "hosted/macos-run.json": {
+      "bytes": 6734,
+      "sha256": "4141555c86cf9657988817d583a2f6da50883ebf4a38a5303828084a5c90e407"
+    },
+    "hosted/portable-run.json": {
+      "bytes": 9018,
+      "sha256": "fc332ae1735ea538181d5b46f218d6fc990516c1aaacf1aa6842cc7fea982e61"
+    },
+    "hosted/verified.json": {
+      "bytes": 1038,
+      "sha256": "74a6889cf2effff0da4e0026cb3b0c93674b73d39506ab1ba3a32b08ffa2bc78"
+    },
+    "hosted/macos-native-arm64-artifact.json": {
+      "bytes": 812,
+      "sha256": "d9782894ba903cd47a320b3a511df45f719cccd6c2fa39b816326a6f60e10a69"
+    },
+    "hosted/macos-native-arm64/build.log": {
+      "bytes": 28926,
+      "sha256": "f1f7707bbe168fa833bba909f5ead913d3b94d0307f630a93647383bcc3e2fe3"
+    },
+    "hosted/macos-native-arm64/configure.log": {
+      "bytes": 7625,
+      "sha256": "9dcf5923f99503c4396055899f4db67a983f4e964a78b0ded0281dfbb35f0a6e"
+    },
+    "hosted/macos-native-arm64/geos-build.log": {
+      "bytes": 131594,
+      "sha256": "f6af8b7410e07f461dd030ef75f7d954aad4a0b40d518b264de38c9d918b9169"
+    },
+    "hosted/macos-native-arm64/opencv-build.log": {
+      "bytes": 59031,
+      "sha256": "f56821a5861050ffd452ed97fdb1b1d733fdb72601e6dea959c820e9777b1b2a"
+    },
+    "hosted/macos-native-arm64.zip": {
+      "bytes": 23922,
+      "sha256": "2757c64c5a6e8924e7395840f4b95ddb5c3173d90a96f302b0b19ca41982415d"
+    },
+    "hosted/121713805694-failed-job.log": {
+      "bytes": 38054,
+      "sha256": "ee3f103f79f2b66ecd3b052862696cd6dfcb625339bb2a35aa53dafa720f7a4c"
+    },
+    "hosted/raw-partial-contract.json": {
+      "bytes": 1967,
+      "sha256": "0e8f3f122691b00144b63006d8cf0963095a09f15d0cbf6e7b8000568f71d5b6"
+    },
+    "hosted/Linux-headless-py3.12-artifact.json": {
+      "bytes": 818,
+      "sha256": "b74116c1609d514b146ad463d70a5760c8f235f438b84c07c36ed0032feff2ea"
+    },
+    "hosted/Linux-headless-py3.12/native-tests.xml": {
+      "bytes": 26015,
+      "sha256": "a191b8e106d70395a9ca099615bbd26aa8f0c326dd512c9c87cef5ca8a13b888"
+    },
+    "hosted/Linux-headless-py3.12/python-tests.xml": {
+      "bytes": 683796,
+      "sha256": "6853063b32e990597ee3a760a68fbe4ebb73bb37a278ade89874d48856532e9b"
+    },
+    "hosted/Linux-headless-py3.12/raw-classifier-typing.log": {
+      "bytes": 43,
+      "sha256": "71144743c83babea384888a735db0c4daba3d4d7b7942b6839984bd5c21b52bb"
+    },
+    "hosted/Linux-headless-py3.12/raw-classifier-raw_pixel_invalid.log": {
+      "bytes": 872,
+      "sha256": "1a76a35865f954cf7822fc6ca762005f32969e818f72a4f07b1b99f35d3ee520"
+    },
+    "hosted/Linux-headless-py3.12/raw-classifier-raw_batch_invalid.log": {
+      "bytes": 592,
+      "sha256": "ec99042b609fa2d436d18ee21a8adcfcc12207eda34c011d9d4aa11587b56b75"
+    },
+    "hosted/Linux-headless-py3.12/raw-classifier-raw_frontend_invalid.log": {
+      "bytes": 959,
+      "sha256": "a5c5390687f5fce8cd98cae060e975fc171146030c7121be4ff19828ac13504d"
+    },
+    "hosted/Linux-sanitize-py3.12-artifact.json": {
+      "bytes": 815,
+      "sha256": "34a16d58134c971554a94711a2c70428116a817fa88937bd34646e12d72c11fd"
+    },
+    "hosted/Linux-sanitize-py3.12/native-tests.xml": {
+      "bytes": 25888,
+      "sha256": "8e98a70c5a559a80939e0841301320bd3431df8f55b4942579f19c417ec5ff00"
+    },
+    "hosted/Linux-minimal-py3.12-artifact.json": {
+      "bytes": 814,
+      "sha256": "1a6305f735daf1f2d354d66381b9b80bf451bf9a2e323c181c4ff591f148a5cb"
+    },
+    "hosted/Linux-minimal-py3.12/native-tests.xml": {
+      "bytes": 18837,
+      "sha256": "deef8ff0c24c01f79894028c037c57f721bf631ef05f7f4536adefaa62ae91b0"
+    },
+    "local/minimal/build.log": {
+      "bytes": 2322,
+      "sha256": "5c291c5d83f775546b236ef22816390a86e632a814bf40a8868f8345671d58d4"
+    },
+    "local/minimal/commands.json": {
+      "bytes": 1936,
+      "sha256": "d2b19bc7ab6d6ec89c25b3c25b8bef8ab2fdd20ebd349f56799a0b0f951c7d50"
+    },
+    "local/minimal/compiler-inputs.json": {
+      "bytes": 40880,
+      "sha256": "77e309569c024b25ec5003155884fc0c479ddced2127cb131cbbf95b36980bd9"
+    },
+    "local/minimal/configure.log": {
+      "bytes": 228,
+      "sha256": "51eb001975d45fbfc196c5a3f028118781b8ad5c14ea32fb20b0d441539f1a1b"
+    },
+    "local/minimal/native-tests.log": {
+      "bytes": 339,
+      "sha256": "1a8dc8eeb1644698f58d3399effb017f18aef5e1027e453efb8c4f6c663716ec"
+    },
+    "local/minimal/native-tests.xml": {
+      "bytes": 3192,
+      "sha256": "39aaa955ca51c6202f381cc23830b81ccd3e502b5cf18bd8c32b2ee6d01916c0"
+    },
+    "local/minimal/products.json": {
+      "bytes": 221,
+      "sha256": "072ca2c66c84725ab172122cf49ef88ade38a59c1c1658dbfe50980a5b915d0f"
+    },
+    "local/darwin-deduction/corrected-arm64-apple-macos13.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "local/darwin-deduction/corrected-x86_64-apple-macos13.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "local/darwin-deduction/corrected.cpp": {
+      "bytes": 636,
+      "sha256": "cfa84bfab438a40aa9dacbb4c85b1a186fb7c46e8ee24e9e516b154640aadb4c"
+    },
+    "local/darwin-deduction/original-arm64-apple-macos13.log": {
+      "bytes": 1008,
+      "sha256": "e22fc6909c877bc37074bdb3c2860777e494f2a7a0e5c127739180b3cf40839c"
+    },
+    "local/darwin-deduction/original-x86_64-apple-macos13.log": {
+      "bytes": 1008,
+      "sha256": "e22fc6909c877bc37074bdb3c2860777e494f2a7a0e5c127739180b3cf40839c"
+    },
+    "local/darwin-deduction/original.cpp": {
+      "bytes": 614,
+      "sha256": "00460222678db4398437aff82387de2f0d60bb27fdbcfba7aa813e367bbf0c32"
+    },
+    "local/darwin-deduction/results.json": {
+      "bytes": 2013,
+      "sha256": "ceb81d58b3553944fa62c723cf4fe7a85a66bba44f08296b8a241e3706ff5d29"
+    },
+    "collect.py": {
+      "bytes": 4707,
+      "sha256": "d13ab4cdd6f64024f7bac4b6770610c1f3df361292c15874caced5ec44ebdb11"
+    },
+    "hosted/latest/engine-run.json": {
+      "bytes": 24827,
+      "sha256": "573ddd31390238a02908e8c3ce39752c2773590f75cbaf91db89ec7d4f3afe97"
+    },
+    "hosted/latest/macos-run.json": {
+      "bytes": 6734,
+      "sha256": "4141555c86cf9657988817d583a2f6da50883ebf4a38a5303828084a5c90e407"
+    },
+    "hosted/latest/portable-run.json": {
+      "bytes": 9036,
+      "sha256": "7750c405f3ed8e5058e782c70d4d9e169ee93a90d811a63fc1fd391d4d79ac05"
+    },
+    "hosted/latest/verified.json": {
+      "bytes": 1507,
+      "sha256": "6cb91c783d22df7591b080f1f9b7cdb0ea0cccd9c25e8ea7e8f62b4c173dafd1"
+    },
+    "hosted/Windows-headless-py3.11-artifact.json": {
+      "bytes": 820,
+      "sha256": "17e1a8e15bf05681e75ce7e575678bb2d452c949a899b494163fd66e9d1747ea"
+    },
+    "hosted/Windows-headless-py3.11/native-tests.xml": {
+      "bytes": 26377,
+      "sha256": "d13faefd2078e58c38c4d8257fc5bc85e2f5473bb9c987a314f03baf1a410b4f"
+    },
+    "hosted/Windows-headless-py3.11/python-tests.xml": {
+      "bytes": 677138,
+      "sha256": "6ccbf98798a0f95e352107f37e8cea075aa5d2194f2e1c94288bf06ee89e4054"
+    },
+    "hosted/Windows-headless-py3.11/raw-classifier-typing.log": {
+      "bytes": 44,
+      "sha256": "d9a5631f7d87a741fbecc3236286d1792d22d349ff13846d71cdc9217307bb76"
+    },
+    "hosted/Windows-headless-py3.11/raw-classifier-raw_pixel_invalid.log": {
+      "bytes": 853,
+      "sha256": "8795e3b68e33797a94af47a09c123ae255fd540d844c2499d9f0ab59ceb481c6"
+    },
+    "hosted/Windows-headless-py3.11/raw-classifier-raw_batch_invalid.log": {
+      "bytes": 596,
+      "sha256": "da950fdbbefbee1f98cee2f0d60916220db34d03a889262e1fb8120a7b7a7462"
+    },
+    "hosted/Windows-headless-py3.11/raw-classifier-raw_frontend_invalid.log": {
+      "bytes": 965,
+      "sha256": "f1ab11810303c3c246ef16afa6b03da3d2e07ab98a642498b3be942e22e25a1f"
+    },
+    "hosted/manylinux-3.11-artifact.json": {
+      "bytes": 811,
+      "sha256": "74c2c2cc515f2556ca3dd9647709469e0c3962d1f04b6e1947187119556e7b18"
+    },
+    "hosted/manylinux-3.11/native-tests.xml": {
+      "bytes": 25927,
+      "sha256": "fa073891be426e82a15e7dda96a6185e8402634ab1107da5da20c25096b35df6"
+    },
+    "hosted/manylinux-3.11/python-tests.xml": {
+      "bytes": 677529,
+      "sha256": "dbaa859e0ea8f535546c2abf96c5f66ab816ee2d54978e38ca7e51b9c469e36c"
+    },
+    "hosted/manylinux-3.11/raw-classifier-typing.log": {
+      "bytes": 43,
+      "sha256": "71144743c83babea384888a735db0c4daba3d4d7b7942b6839984bd5c21b52bb"
+    },
+    "hosted/manylinux-3.11/raw-classifier-raw_pixel_invalid.log": {
+      "bytes": 848,
+      "sha256": "9782ef3b8d957850e8798c5f76b00ea7d87efde0899c3382d19a4e447754e3c3"
+    },
+    "hosted/manylinux-3.11/raw-classifier-raw_batch_invalid.log": {
+      "bytes": 592,
+      "sha256": "ec99042b609fa2d436d18ee21a8adcfcc12207eda34c011d9d4aa11587b56b75"
+    },
+    "hosted/manylinux-3.11/raw-classifier-raw_frontend_invalid.log": {
+      "bytes": 959,
+      "sha256": "a5c5390687f5fce8cd98cae060e975fc171146030c7121be4ff19828ac13504d"
+    }
+  },
+  "additional_partial_raw_contracts": {
+    "Windows-headless-py3.11": {
+      "native": {
+        "full": true,
+        "portable_owner_jobs": true,
+        "raw_file_training_contour_consumers": true
+      },
+      "python": {
+        "passed": 40,
+        "declared_skips": 18,
+        "groups": [
+          {
+            "module": "test_raw_pixel_python",
+            "passed": 12,
+            "declared_skips": 0
+          },
+          {
+            "module": "test_raw_pixel_cli",
+            "passed": 14,
+            "declared_skips": 1
+          },
+          {
+            "module": "test_raw_pixel_batch",
+            "passed": 14,
+            "declared_skips": 0
+          },
+          {
+            "module": "test_gui_raw_pixel",
+            "passed": 0,
+            "declared_skips": 17
+          }
+        ]
+      },
+      "typing": {
+        "positive_files": 4,
+        "negative_files": 3,
+        "expected_errors": 12,
+        "hashes": {
+          "raw-classifier-typing.log": "d9a5631f7d87a741fbecc3236286d1792d22d349ff13846d71cdc9217307bb76",
+          "raw-classifier-raw_pixel_invalid.log": "8795e3b68e33797a94af47a09c123ae255fd540d844c2499d9f0ab59ceb481c6",
+          "raw-classifier-raw_batch_invalid.log": "da950fdbbefbee1f98cee2f0d60916220db34d03a889262e1fb8120a7b7a7462",
+          "raw-classifier-raw_frontend_invalid.log": "f1ab11810303c3c246ef16afa6b03da3d2e07ab98a642498b3be942e22e25a1f"
+        }
+      }
+    },
+    "manylinux-3.11": {
+      "native": {
+        "full": true,
+        "portable_owner_jobs": true,
+        "raw_file_training_contour_consumers": true
+      },
+      "python": {
+        "passed": 40,
+        "declared_skips": 18,
+        "groups": [
+          {
+            "module": "test_raw_pixel_python",
+            "passed": 12,
+            "declared_skips": 0
+          },
+          {
+            "module": "test_raw_pixel_cli",
+            "passed": 14,
+            "declared_skips": 1
+          },
+          {
+            "module": "test_raw_pixel_batch",
+            "passed": 14,
+            "declared_skips": 0
+          },
+          {
+            "module": "test_gui_raw_pixel",
+            "passed": 0,
+            "declared_skips": 17
+          }
+        ]
+      },
+      "typing": {
+        "positive_files": 4,
+        "negative_files": 3,
+        "expected_errors": 12,
+        "hashes": {
+          "raw-classifier-typing.log": "71144743c83babea384888a735db0c4daba3d4d7b7942b6839984bd5c21b52bb",
+          "raw-classifier-raw_pixel_invalid.log": "9782ef3b8d957850e8798c5f76b00ea7d87efde0899c3382d19a4e447754e3c3",
+          "raw-classifier-raw_batch_invalid.log": "ec99042b609fa2d436d18ee21a8adcfcc12207eda34c011d9d4aa11587b56b75",
+          "raw-classifier-raw_frontend_invalid.log": "a5c5390687f5fce8cd98cae060e975fc171146030c7121be4ff19828ac13504d"
+        }
+      }
+    }
+  },
+  "authenticated_archive_count_at_latest_observation": 6
+}

@@ -1,0 +1,46 @@
+--- a/log_response_regions.hpp
++++ b/log_response_regions.hpp
+@@ -81,6 +81,7 @@
+         for(auto y=top;y<=bottom;++y) {checkpoint(cancelled);for(auto x=left;x<=right;++x) if(state[y*width+x]!=1) {sum+=score[y*width+x];++count;}}
+         if(count && sum/count>p.threshold) for(auto y=top;y<=bottom;++y) {checkpoint(cancelled);for(auto x=left;x<=right;++x) if(state[y*width+x]!=1) mask[y*width+x]=1;}
+     }
++    std::printf("\"basin_box_samples\":%llu,",(unsigned long long)box_work);
+     std::vector<std::uint8_t> expanded(n);
+     for(std::size_t i=0;i<n;++i) {
+         if((i&4095)==0) checkpoint(cancelled);if(!positive[i]) continue;
+--- a/log_sampled_nuclei.hpp
++++ b/log_sampled_nuclei.hpp
+@@ -34,6 +34,7 @@
+             if(result.count>=p.maximum_cells) throw std::length_error("sampled nucleus output limit exceeded");dense[id]=static_cast<std::uint32_t>(++result.count);
+         }
+     }
++    std::printf("\"nucleus_box_samples\":%llu,",(unsigned long long)box_work);
+     for(std::size_t i=0;i<n;++i) {if((i&4095)==0) checkpoint(cancelled);result.labels[i]=dense[result.labels[i]];}
+     for(std::size_t i=0;i<shaped.maxima.size();++i) {const auto index=shaped.maxima[i];result.peaks.push_back({index,result.labels[index],shaped.maxima_radii[i],true});}
+     return result;
+--- a/shape_watershed.hpp
++++ b/shape_watershed.hpp
+@@ -175,18 +175,19 @@
+         // Includes output, float EDM/ridges, double EDT, types, quantized levels,
+         // candidate ordering, work/change lists and the largest EDT line workspace.
+         const auto line=std::max(width_,height_);if(line>work_bytes/64 || size_>(work_bytes-line*64)/64) throw std::length_error("shape watershed work budget exceeded");
++        auto probe_start=std::chrono::steady_clock::now(); auto probe_tick=[&](const char* key){auto now=std::chrono::steady_clock::now();std::printf("\"%s\":%.6f,",key,std::chrono::duration<double,std::milli>(now-probe_start).count());probe_start=std::chrono::steady_clock::now();};
+         ShapeSplit output;output.mask.resize(size_);
+         if(std::none_of(mask.begin(),mask.end(),[](auto v){return v==0;})) {std::fill(output.mask.begin(),output.mask.end(),1);return output;}
+         if(std::none_of(mask.begin(),mask.end(),[](auto v){return v!=0;})) return output;
+         std::vector<double> squared(size_);for(std::size_t i=0;i<size_;++i) squared[i]=mask[i]?infinity:0;
+         cell_detail::distance(squared,width_,height_,false,nullptr,cancelled_);edm_.resize(size_);
+         for(std::size_t i=0;i<size_;++i) edm_[i]=static_cast<float>(std::sqrt(squared[i]));std::vector<double>().swap(squared);
+-        ridge_.resize(size_);types_.assign(size_,0);levels_.resize(size_);queue_.clear();queue_.reserve(size_);peaks_.clear();
++        probe_tick("shape_edt"); ridge_.resize(size_);types_.assign(size_,0);levels_.resize(size_);queue_.clear();queue_.reserve(size_);peaks_.clear();
+         for(std::size_t i=0;i<size_;++i) {step();ridge_[i]=ridge_height(i);}
+-        const auto extrema=std::minmax_element(edm_.begin(),edm_.end());find_candidates(*extrema.first,*extrema.second);
+-        mark_maxima(prominence);quantize(*extrema.second);flatten_suppressed();grow_levels();
++        probe_tick("shape_ridges"); const auto extrema=std::minmax_element(edm_.begin(),edm_.end());find_candidates(*extrema.first,*extrema.second);
++        probe_tick("shape_candidates"); mark_maxima(prominence);probe_tick("shape_maxima");quantize(*extrema.second);probe_tick("shape_quantize");flatten_suppressed();probe_tick("shape_flatten");grow_levels();probe_tick("shape_grow");
+         for(std::size_t i=0;i<size_;++i) {step();output.mask[i]=mask[i] && levels_[i]==255;if(types_[i]&point) {output.maxima.push_back(static_cast<std::uint32_t>(i));output.maxima_radii.push_back(edm_[i]);}}
+-        checkpoint(cancelled_);return output;
++        probe_tick("shape_output"); checkpoint(cancelled_);return output;
+     }
+ };
+ 

@@ -1,0 +1,21 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+    Start  1: pixel_workflows
+1/8 Test  #1: pixel_workflows ..................   Passed    1.66 sec
+    Start  2: pixel_features
+2/8 Test  #2: pixel_features ...................   Passed    0.17 sec
+    Start  8: resampling
+3/8 Test  #8: resampling .......................   Passed    2.95 sec
+    Start 13: raw_image
+4/8 Test #13: raw_image ........................   Passed    0.37 sec
+    Start 16: source_identity
+5/8 Test #16: source_identity ..................   Passed    0.19 sec
+    Start 18: provenance
+6/8 Test #18: provenance .......................   Passed    0.05 sec
+    Start 48: project
+7/8 Test #48: project ..........................   Passed    0.15 sec
+    Start 51: project_save
+8/8 Test #51: project_save .....................   Passed    0.14 sec
+
+100% tests passed out of 8
+
+Total Test time (real) =   5.98 sec

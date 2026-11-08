@@ -1,0 +1,8 @@
+{
+  "changed": [
+    "manifest.json"
+  ],
+  "unchanged_numerical_members": 4,
+  "canonical_manifest_newline": "LF",
+  "reference_generator_has_no_interpolation": true
+}

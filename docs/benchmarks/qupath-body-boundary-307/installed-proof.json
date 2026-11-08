@@ -1,0 +1,309 @@
+{
+  "native_source": "7d38d7b95974a6e2c1e957f384cae9e6c99e0f5b",
+  "observer_source": "321b8bece45fec8a5e1bafed0fcd3e756904af72",
+  "fingerprint": "7b0d3d223520fd6eedd09bf5fcbf66d1e97418c24ba3cd3436232b5ab440da9c",
+  "wheel_sha256": "02ef6324554ea3d65a69de457f5f62ee35b0452bde7b07aae60d87ed7fed7b17",
+  "native_sha256": "9168909d11e62eeb5b91ed507aa67c2313e3b3124f92c51a2e13e47cce02a9f1",
+  "members": [
+    {
+      "path": "qupathxx/__init__.py",
+      "bytes": 18828,
+      "sha256": "72445b6e7920d03ebd2ef763edac65cc6aad6befff8c75d490a887487277dd99"
+    },
+    {
+      "path": "qupathxx/__init__.pyi",
+      "bytes": 19716,
+      "sha256": "cf7f3d8bc486e3c22af55dfc51f03936adfa69b51104ad6fc036bafa6c2114a0"
+    },
+    {
+      "path": "qupathxx/__main__.py",
+      "bytes": 5391,
+      "sha256": "91d7eca53fc7a88257ef05e28bd31efacbf521bd789c165839fb42fdca4f8e41"
+    },
+    {
+      "path": "qupathxx/_native.cp312-win_amd64.pyd",
+      "bytes": 10183680,
+      "sha256": "9168909d11e62eeb5b91ed507aa67c2313e3b3124f92c51a2e13e47cce02a9f1"
+    },
+    {
+      "path": "qupathxx/_native.pyi",
+      "bytes": 270610,
+      "sha256": "cbad87df7fb6af9b5131305c2117513456ccd2f7b201a100c21af2b87ae07881"
+    },
+    {
+      "path": "qupathxx/fonts/NotoEmoji.ttf",
+      "bytes": 1982596,
+      "sha256": "de6c18832938afc99caf132b39d6a30a19bac7f2e812e28db2535b4608d27551"
+    },
+    {
+      "path": "qupathxx/fonts/NotoSansCJKsc-Regular.otf",
+      "bytes": 16437364,
+      "sha256": "2c76254f6fc379fddfce0a7e84fb5385bb135d3e399294f6eeb6680d0365b74b"
+    },
+    {
+      "path": "qupathxx/geos.dll",
+      "bytes": 2912768,
+      "sha256": "9bff21e1082b57e9914909a156ad121d508d2203a8c6ab4d8d41eb74cc19fa0e"
+    },
+    {
+      "path": "qupathxx/geos_c.dll",
+      "bytes": 590336,
+      "sha256": "64c8a686deccd9e3d5ae66f96ba1276c23faf6ab00564feee421ae91f552b7d6"
+    },
+    {
+      "path": "qupathxx/libopenslide-1.dll",
+      "bytes": 8704019,
+      "sha256": "dc8e35ad0ce001c4e878f2bebc23e87fb85d2bdebec5a542af2ecec3cb5cd635"
+    },
+    {
+      "path": "qupathxx/licenses/geos/COPYING",
+      "bytes": 26530,
+      "sha256": "dc626520dcd53a22f727af3ee42c770e56c97a64fe3adb063799d8ab032fe551"
+    },
+    {
+      "path": "qupathxx/licenses/glfw/LICENSE.md",
+      "bytes": 927,
+      "sha256": "7593ce7c7be05f3a0589ebc78091ba3db70f82c7a4acaea15a0b70230247df2c"
+    },
+    {
+      "path": "qupathxx/licenses/imagej-shape/NOTICE.txt",
+      "bytes": 817,
+      "sha256": "65434d6cd24b1808a18ad16919035d7a96d932dc04a41e2df30123173a2311fe"
+    },
+    {
+      "path": "qupathxx/licenses/imgui/imgl3w-LICENSE.txt",
+      "bytes": 1359,
+      "sha256": "565e23a9974c44bf7e5e47c280de542ec758a82e97dcb1da3fb3496660921f88"
+    },
+    {
+      "path": "qupathxx/licenses/imgui/imstb_rectpack.h-LICENSE.txt",
+      "bytes": 2631,
+      "sha256": "06f6b081941f054102bfc696d7f09b8905fee176d1ed08d334e4bad5c1d751c2"
+    },
+    {
+      "path": "qupathxx/licenses/imgui/imstb_textedit.h-LICENSE.txt",
+      "bytes": 2631,
+      "sha256": "06f6b081941f054102bfc696d7f09b8905fee176d1ed08d334e4bad5c1d751c2"
+    },
+    {
+      "path": "qupathxx/licenses/imgui/imstb_truetype.h-LICENSE.txt",
+      "bytes": 2631,
+      "sha256": "06f6b081941f054102bfc696d7f09b8905fee176d1ed08d334e4bad5c1d751c2"
+    },
+    {
+      "path": "qupathxx/licenses/imgui/Khronos-LICENSE.txt",
+      "bytes": 1169,
+      "sha256": "a4be3716671cb6dbc2ed80aa91bb6675eb01971147c77d7a62bee11f15b83c14"
+    },
+    {
+      "path": "qupathxx/licenses/imgui/Khronos-NOTICE.txt",
+      "bytes": 344,
+      "sha256": "f76051f667cfbfbf5cc55c9656cf46ce11579dcd9d9373e95daeb08ef2fc0e93"
+    },
+    {
+      "path": "qupathxx/licenses/imgui/LICENSE.txt",
+      "bytes": 1104,
+      "sha256": "f20418b409e53c8c9f4e90917ff395554a60320d4dfbf833da89b339cad8628a"
+    },
+    {
+      "path": "qupathxx/licenses/imgui/ProggyClean-LICENSE.txt",
+      "bytes": 1099,
+      "sha256": "898c573f0bf1901b40743432b1d78845bb5b4fc4c1660d6ee0820a8d987319f7"
+    },
+    {
+      "path": "qupathxx/licenses/imgui/ProggyForever-LICENSE.txt",
+      "bytes": 1118,
+      "sha256": "47d329848d81b5ad777bf5eca73509a4d1b730d6e2ca917f03e72010b2f59576"
+    },
+    {
+      "path": "qupathxx/licenses/libtiff/LICENSE.md",
+      "bytes": 2416,
+      "sha256": "0e27c2382d7b8147972bbb746e04059a1152c8d0fda9d03ef1399d1a433c4ade"
+    },
+    {
+      "path": "qupathxx/licenses/nanobind/LICENSE",
+      "bytes": 1521,
+      "sha256": "f305091a4e57805870b217a28ea4b1f16610eece8457d2370f822a9696b75836"
+    },
+    {
+      "path": "qupathxx/licenses/nlohmann-json/LICENSE.MIT",
+      "bytes": 1076,
+      "sha256": "46a65cffd1ea955132d95a8dd921640714a8d6b537d2e4e482d31145ae95b603"
+    },
+    {
+      "path": "qupathxx/licenses/noto-cjk/NOTICE.md",
+      "bytes": 888,
+      "sha256": "aa229a2136c426e3deca957c305727e02415198116138d8c1721222b12e22131"
+    },
+    {
+      "path": "qupathxx/licenses/noto-cjk/OFL.txt",
+      "bytes": 4301,
+      "sha256": "6a73f9541c2de74158c0e7cf6b0a58ef774f5a780bf191f2d7ec9cc53efe2bf2"
+    },
+    {
+      "path": "qupathxx/licenses/noto-emoji/OFL.txt",
+      "bytes": 4330,
+      "sha256": "500bb1ccf43df7bbb522112f9133a52b16e1c35e809632f5d8609b179152de5b"
+    },
+    {
+      "path": "qupathxx/licenses/opencv/LICENSE",
+      "bytes": 11358,
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "path": "qupathxx/licenses/opencv/softfloat-notice.txt",
+      "bytes": 2918,
+      "sha256": "07360afca97fb6a725a50797960c4506f592dab5331df2b780c85e459d422ce3"
+    },
+    {
+      "path": "qupathxx/licenses/opencv/SOURCE-NOTICES.txt",
+      "bytes": 96903,
+      "sha256": "d57f5f7ee96bbb3152012bfc293175868d73fe348e1d9f8a223ccfc87a3461ba"
+    },
+    {
+      "path": "qupathxx/licenses/opencv/zlib-notice.txt",
+      "bytes": 1359,
+      "sha256": "36bbf559e8540020cd01e5e61547ed0f295e3cba735569702ca6f284ecbd5acc"
+    },
+    {
+      "path": "qupathxx/licenses/openslide-sdk/cairo/COPYING",
+      "bytes": 1576,
+      "sha256": "67228a9f7c5f9b67c58f556f1be178f62da4d9e2e6285318d8c74d567255abdf"
+    },
+    {
+      "path": "qupathxx/licenses/openslide-sdk/cairo/COPYING-LGPL-2.1",
+      "bytes": 26533,
+      "sha256": "9e9e8608c4cdda51a78cc3a385f4ec9a2e4c96d5ecad74ac8bca5fca3e563b7d"
+    },
+    {
+      "path": "qupathxx/licenses/openslide-sdk/cairo/COPYING-MPL-1.1",
+      "bytes": 25755,
+      "sha256": "53692a2ed6c6a2c6ec9b32dd0b820dfae91e0a1fcdf625ca9ed0bdf8705fcc4f"
+    },
+    {
+      "path": "qupathxx/licenses/openslide-sdk/glib/COPYING",
+      "bytes": 25967,
+      "sha256": "fa6f36630bb1e0c571d34b2bbdf188d08495c9dbf58f28cac112f303fc1f58fb"
+    },
+    {
+      "path": "qupathxx/licenses/openslide-sdk/libdicom/LICENSE",
+      "bytes": 1075,
+      "sha256": "86287375f6fc517fb9d69a62ec08ebd08f33869d426aec0a4c575376fa3daca8"
+    },
+    {
+      "path": "qupathxx/licenses/openslide-sdk/libffi/LICENSE",
+      "bytes": 1132,
+      "sha256": "d5699fa516968e3a1550e6c902b7441c78856f2603d61bedd0b0662a26655366"
+    },
+    {
+      "path": "qupathxx/licenses/openslide-sdk/libjpeg-turbo/LICENSE.md",
+      "bytes": 5622,
+      "sha256": "e10114e6e40f3d0311c401ca25245ac5ef459a43c20f976fd63f03e816f5741f"
+    },
+    {
+      "path": "qupathxx/licenses/openslide-sdk/libjpeg-turbo/README.ijg",
+      "bytes": 12799,
+      "sha256": "75815e3bf6484201a3c3d17a1bbf10f2e8e3237f84df10a2357ea896db2a81d6"
+    },
+    {
+      "path": "qupathxx/licenses/openslide-sdk/libpng/LICENSE",
+      "bytes": 5345,
+      "sha256": "bdb0a645ea18c60507d0368379b1ac5474b92255fcc2d115e07486a7672ba526"
+    },
+    {
+      "path": "qupathxx/licenses/openslide-sdk/libtiff/LICENSE.md",
+      "bytes": 2416,
+      "sha256": "0e27c2382d7b8147972bbb746e04059a1152c8d0fda9d03ef1399d1a433c4ade"
+    },
+    {
+      "path": "qupathxx/licenses/openslide-sdk/libxml2/Copyright",
+      "bytes": 1314,
+      "sha256": "5d4873884a890122a4b9b20ad56ac6f7da1d796a5bfcf04a427970ac96217626"
+    },
+    {
+      "path": "qupathxx/licenses/openslide-sdk/OpenJPEG/LICENSE",
+      "bytes": 2112,
+      "sha256": "a6af136f3e15038a666b61f376612a07d9a4e48cb7c01adbf3e33b3f14ab49b6"
+    },
+    {
+      "path": "qupathxx/licenses/openslide-sdk/OpenSlide/COPYING.LESSER",
+      "bytes": 26419,
+      "sha256": "20e50fe7aae3e56378ebf0417d9de904f55a0e61e4df315333e632a4d3555d95"
+    },
+    {
+      "path": "qupathxx/licenses/openslide-sdk/pixman/COPYING",
+      "bytes": 2087,
+      "sha256": "fac9270f0987b96ff4533fca3548c633e02083cbba4a0172a3b149b2e4019793"
+    },
+    {
+      "path": "qupathxx/licenses/openslide-sdk/proxy-libintl/COPYING",
+      "bytes": 25292,
+      "sha256": "d245807f90032872d1438d741ed21e2490e1175dc8aa3afa5ddb6c8e529b58e5"
+    },
+    {
+      "path": "qupathxx/licenses/openslide-sdk/SQLite/PUBLIC-DOMAIN.txt",
+      "bytes": 291,
+      "sha256": "452d1e9b9ac57647fd26b9a0eee6a647e0d090f180897b3626ea1278ccb1cf95"
+    },
+    {
+      "path": "qupathxx/licenses/openslide-sdk/uthash/LICENSE",
+      "bytes": 1141,
+      "sha256": "e9b9aac8421b6d29176c6f23f6f7a907194245e35ef99ace10839734961cfaa2"
+    },
+    {
+      "path": "qupathxx/licenses/openslide-sdk/zlib-ng/LICENSE.md",
+      "bytes": 867,
+      "sha256": "6c9f0d975b41afaa34d22f55bb8986ce69e5cb7ad327cb2b28820cd425edf5ee"
+    },
+    {
+      "path": "qupathxx/licenses/openslide-sdk/Zstandard/LICENSE",
+      "bytes": 1549,
+      "sha256": "7055266497633c9025b777c78eb7235af13922117480ed5c674677adc381c9d8"
+    },
+    {
+      "path": "qupathxx/licenses/robin-map/LICENSE",
+      "bytes": 1192,
+      "sha256": "3351535e1abffa4f2d6dfec9ee48bd0cdd72cd1d6d04dd9155f1ab5f58c54dbe"
+    },
+    {
+      "path": "qupathxx/licenses/sqlite/sqlite-LICENSE.txt",
+      "bytes": 421,
+      "sha256": "1172bc75acf43852aa9a9368887a3500b7aaea8f213c81853a1bc93d7ae262a0"
+    },
+    {
+      "path": "qupathxx/licenses/tiff-zlib/LICENSE",
+      "bytes": 1002,
+      "sha256": "e32ff4e00d9d94930537635291da39e7e612703334bf6fde8c7f1686fe8a45a2"
+    },
+    {
+      "path": "qupathxx/licenses/tinyxml2/LICENSE.txt",
+      "bytes": 808,
+      "sha256": "9332252e9b9e46db8285d4a3f0bf25f139bf1dca6781b956d57f2302efca6432"
+    },
+    {
+      "path": "qupathxx/py.typed",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "qupathxx/qupathxx_app.exe",
+      "bytes": 8041472,
+      "sha256": "b82ff89dc50d3ad37ca18bff11dd59685c43a257e0b052497b49ec1d8fb52337"
+    },
+    {
+      "path": "qupathxx/qupathxx_batch.exe",
+      "bytes": 5424640,
+      "sha256": "60c551dc0d815c56ec5c551e2825591c140a6a395901c0b9270b44d6850e1f51"
+    },
+    {
+      "path": "qupathxx/qupathxx_region.exe",
+      "bytes": 795648,
+      "sha256": "766a2d0b66f57c91bface2d0a1c002e8f09951ab901333060ade2e598bd2aec0"
+    }
+  ],
+  "wheel_record_rows": 63,
+  "installed_record_rows": 69,
+  "shared_test_dependencies": true,
+  "clean_machine": false,
+  "stubs_regenerated": true
+}

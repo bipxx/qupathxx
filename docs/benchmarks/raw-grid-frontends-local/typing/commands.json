@@ -1,0 +1,72 @@
+[
+  {
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw181-python-env\\Scripts\\python.exe",
+      "-I",
+      "-m",
+      "mypy",
+      "--strict",
+      "--no-incremental",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\typing\\raw_grid_valid.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\typing\\valid_api.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\typing\\hierarchy_valid.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\typing\\grid_cells_valid.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\examples\\live_workflow.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\examples\\region_workflow.py"
+    ],
+    "exit": 0,
+    "expected": 0
+  },
+  {
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw181-python-env\\Scripts\\python.exe",
+      "-I",
+      "-m",
+      "mypy",
+      "--strict",
+      "--no-incremental",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\typing\\scientific_grid_invalid.py"
+    ],
+    "exit": 1,
+    "expected": 1
+  },
+  {
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw181-python-env\\Scripts\\python.exe",
+      "-I",
+      "-m",
+      "mypy",
+      "--strict",
+      "--no-incremental",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\typing\\scientific_channels_invalid.py"
+    ],
+    "exit": 1,
+    "expected": 1
+  },
+  {
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw181-python-env\\Scripts\\python.exe",
+      "-I",
+      "-m",
+      "mypy",
+      "--strict",
+      "--no-incremental",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\typing\\grid_cells_invalid.py"
+    ],
+    "exit": 1,
+    "expected": 1
+  },
+  {
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw181-python-env\\Scripts\\python.exe",
+      "-I",
+      "-m",
+      "mypy",
+      "--strict",
+      "--no-incremental",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\typing\\raw_grid_invalid.py"
+    ],
+    "exit": 1,
+    "expected": 1
+  }
+]

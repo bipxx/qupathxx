@@ -1,0 +1,19 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+    Start 63: density_panel
+1/4 Test #63: density_panel ....................   Passed    0.74 sec
+    Start 64: density_resume
+2/4 Test #64: density_resume ...................   Passed    0.57 sec
+    Start 65: density_manifest
+3/4 Test #65: density_manifest .................   Passed    0.14 sec
+    Start 66: density_manifest_generation
+4/4 Test #66: density_manifest_generation ......***Failed    0.28 sec
+invalid spatial distance budgets
+
+
+75% tests passed, 1 tests failed out of 4
+
+Total Test time (real) =   1.87 sec
+
+The following tests FAILED:
+	 66 - density_manifest_generation (Failed)
+Errors while running CTest

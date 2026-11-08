@@ -161,7 +161,11 @@ completion and can delay shutdown. This baseline motivated the subsequent
 [maintenance progress/cancellation and profiling](recovery-maintenance-progress.md)
 work. Broader cold/network/storage-pressure performance remains unverified.
 
-Automatic discovery/cleanup of abandoned work directories belonging to earlier
-session destinations, obsolete lock-sidecar collection and
-initial CLI loading progress remain unfinished. All other open M0-M7 requirements
-remain active.
+[Version-2 work cleanup](recovery-work-cleanup.md#version-2-cross-session-collection)
+already discovers marked work under earlier session destination names and rescues
+committed snapshots. Unmarked/unknown debris is preserved. Lock-sidecar existence
+does not establish liveness; cooperating collectors retain lock inodes to avoid
+replacement races. Any future obsolete-sidecar collection must identify a safely
+removable class first; deleting a zero-byte lock by age or PID is not a pending
+fix. Initial CLI loading progress and broader storage-pressure/resource behavior
+remain open under R11/R12. Other M0-M7 requirements remain active.

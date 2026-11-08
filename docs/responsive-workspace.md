@@ -12,11 +12,11 @@ fit across a row. Narrow color editors show hex values while retaining the
 color picker. Numeric fields omit stepper buttons when those buttons would
 crowd out text entry. Long status/help text wraps at the pane edge.
 
-Toolbar buttons flow onto another row as needed. Navigation shortcuts move
-into the Help popup when the full hint does not fit. Auto UI restores the
-monitor-aware 100% multiplier. Compact inspectors occupy at most 45% of the
-window, leaving canvas space when the window narrows. The overview fits its
-pane with its 5:3 display shape; its decoded-thumbnail and texture budgets
+Toolbar buttons flow onto another row as needed. Navigation shortcuts appear
+in the Help menu. View > Automatic UI size restores the monitor-aware 100%
+multiplier. Compact inspectors occupy at most 45% of the window, leaving canvas
+space when the window narrows. The overview retains its 5:3 display shape in
+the top right of docked viewers or the compact inspector; its decoded-thumbnail and texture budgets
 remain separate from the main tile budget.
 
 Modal width and height are bounded by the viewport, with vertical scrolling

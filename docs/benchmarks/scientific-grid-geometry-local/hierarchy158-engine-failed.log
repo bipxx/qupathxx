@@ -1,0 +1,367 @@
+Windows headless Python 3.11 NumPy 1	Build and verify	﻿2026-10-25T05:54:05.7579124Z ##[group]Run python -I tools/ci/run.py --mode 'headless' --work build/ci/job $LIVE_REFERENCE $EXTENDED_READERS
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T05:54:05.7580243Z [36;1mpython -I tools/ci/run.py --mode 'headless' --work build/ci/job $LIVE_REFERENCE $EXTENDED_READERS[0m
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T05:54:05.7596336Z shell: C:\Program Files\Git\bin\bash.EXE --noprofile --norc -e -o pipefail {0}
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T05:54:05.7596780Z env:
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T05:54:05.7597067Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.11.9\x64
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T05:54:05.7597576Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.11.9\x64/lib/pkgconfig
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T05:54:05.7598092Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.11.9\x64
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T05:54:05.7598532Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.11.9\x64
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T05:54:05.7598974Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.11.9\x64
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T05:54:05.7599315Z   LIVE_REFERENCE: 
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T05:54:05.7599562Z   EXTENDED_READERS: --extended-readers
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T05:54:05.7599882Z ##[endgroup]
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T05:54:08.4004122Z + C:\hostedtoolcache\windows\Python\3.11.9\x64\python.exe -I D:\a\qupathxx\qupathxx\tools\fetch_reader_fixtures.py --extended
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T05:55:23.0180460Z + C:\hostedtoolcache\windows\Python\3.11.9\x64\python.exe -m pip wheel . --no-deps --no-build-isolation --wheel-dir D:\a\qupathxx\qupathxx\build\ci\job\wheels --config-settings build-dir=D:\a\qupathxx\qupathxx\build\ci\job\native-build --config-settings cmake.define.QUPATHXX_BUILD_TESTS=ON --config-settings cmake.define.QUPATHXX_BUILD_GUI=OFF --config-settings cmake.define.QUPATHXX_BUILD_PYTHON=ON --config-settings cmake.define.QUPATHXX_BUILD_GEOS=ON --config-settings cmake.define.QUPATHXX_BUILD_INTERCHANGE=ON --config-settings cmake.define.QUPATHXX_BUILD_PROJECT=ON --config-settings cmake.define.QUPATHXX_BUILD_CLASSIFIER_TRAINING=ON --config-settings cmake.define.QUPATHXX_BUILD_TIFF=ON --config-settings cmake.define.QUPATHXX_BUILD_OPENSLIDE=ON --config-settings cmake.define.GEOS_ROOT=D:\a\qupathxx\qupathxx\build\deps\geos-sdk --config-settings cmake.define.OpenCV_DIR=D:\a\qupathxx\qupathxx\build\deps\opencv-sdk --config-settings cmake.define.QUPATHXX_OPENCV_NOTICES=D:\a\qupathxx\qupathxx\build\deps\opencv-sdk\share\licenses\opencv --config-settings cmake.define.OpenSlide_ROOT=D:\a\qupathxx\qupathxx\build\ci\deps\openslide\openslide-bin-4.0.1.2-windows-x64
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:05:35.8820439Z + ctest --test-dir D:\a\qupathxx\qupathxx\build\ci\job\native-build -C Release --output-on-failure --output-junit D:\a\qupathxx\qupathxx\build\ci\job\native-tests.xml
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:05:41.2653508Z + C:\hostedtoolcache\windows\Python\3.11.9\x64\python.exe -I D:\a\qupathxx\qupathxx\tools\ci\runtime_manifest.py --wheel D:\a\qupathxx\qupathxx\build\ci\job\wheels\qupathxx-0.1.0-cp311-cp311-win_amd64.whl --output D:\a\qupathxx\qupathxx\build\ci\job\windows-wheel-runtime-manifest.json
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:05:41.4978266Z + C:\hostedtoolcache\windows\Python\3.11.9\x64\python.exe -I D:\a\qupathxx\qupathxx\tools\ci\runtime_manifest.py --wheel D:\a\qupathxx\qupathxx\build\ci\job\wheels\qupathxx-0.1.0-cp311-cp311-win_amd64.whl --verify D:\a\qupathxx\qupathxx\build\ci\job\windows-wheel-runtime-manifest.json
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:05:41.7249887Z + C:\hostedtoolcache\windows\Python\3.11.9\x64\python.exe -I D:\a\qupathxx\qupathxx\tools\ci\probe_pe_forwarders.py --work D:\a\qupathxx\qupathxx\build\ci\job\native-forwarder-probe --output D:\a\qupathxx\qupathxx\build\ci\job\pe-forwarder-native.json
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:05:44.5920313Z + C:\hostedtoolcache\windows\Python\3.11.9\x64\python.exe -m venv D:\a\qupathxx\qupathxx\build\ci\job\install
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:05:49.0872745Z + D:\a\qupathxx\qupathxx\build\ci\job\install\Scripts\python.exe -m pip install -r D:\a\qupathxx\qupathxx\tools\ci\requirements.txt D:\a\qupathxx\qupathxx\build\ci\job\wheels\qupathxx-0.1.0-cp311-cp311-win_amd64.whl
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:06:07.4001393Z + D:\a\qupathxx\qupathxx\build\ci\job\install\Scripts\python.exe -I D:\a\qupathxx\qupathxx\tools\ci\check_install.py --wheel D:\a\qupathxx\qupathxx\build\ci\job\wheels\qupathxx-0.1.0-cp311-cp311-win_amd64.whl --output D:\a\qupathxx\qupathxx\build\ci\job\installed-workflow.json --standalone-project D:\a\qupathxx\qupathxx\build\ci\job\standalone-input.qpxproj --openslide-version 4.0.1
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:06:08.2604396Z + D:\a\qupathxx\qupathxx\build\ci\job\install\Scripts\python.exe -I -m pytest tests -q -o faulthandler_timeout=60 --junitxml=D:\a\qupathxx\qupathxx\build\ci\job/python-tests.xml
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9681967Z ........................................................................ [  2%]
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9683072Z ........................................................................ [  4%]
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9683933Z .............................ss......................................... [  6%]
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9684954Z ........................................................................ [  9%]
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9685817Z ..........s............................................................. [ 11%]
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9686573Z ........................................................................ [ 13%]
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9687465Z ....sss...........................................ssss....ssssssssssssss [ 16%]
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9688609Z ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss [ 18%]
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9689993Z ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss [ 20%]
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9691315Z ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss [ 23%]
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9692720Z ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss [ 25%]
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9694066Z ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss [ 27%]
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9695182Z ss...................................................................... [ 30%]
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9696062Z ........................................................................ [ 32%]
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9696907Z .................................................s..........ss.......... [ 34%]
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9697814Z .....................s......s..........s................................ [ 37%]
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9698591Z ........................................................................ [ 39%]
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9699332Z ........................................................................ [ 41%]
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9700083Z ......................................F................................. [ 44%]
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9700851Z .................ssss.s.........................s....................... [ 46%]
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9701599Z ..................................s.s................................... [ 48%]
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9702323Z ........................................................................ [ 51%]
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9703054Z ........................................................................ [ 53%]
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9703729Z ........................................................................ [ 55%]
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9704465Z ........................................................................ [ 58%]
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9705181Z ..................................s..................s.................. [ 60%]
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9705913Z .....................................s.................................. [ 62%]
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9706602Z ........................................................................ [ 65%]
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9707334Z ........................................................................ [ 67%]
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9708103Z .........xxx.......................................sss.................. [ 69%]
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9708838Z ...............................................s........................ [ 72%]
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9709568Z ...................................................................s.... [ 74%]
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9710489Z Traceback (most recent call last):
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9720426Z   File "D:\a\qupathxx\qupathxx\tools\ci\run.py", line 360, in <module>
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9722734Z     main()
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9723363Z   File "D:\a\qupathxx\qupathxx\tools\ci\run.py", line 202, in main
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9724431Z     run([test_python, '-I', '-m', 'pytest', 'tests', '-q', '-o', 'faulthandler_timeout=60',
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9725332Z   File "D:\a\qupathxx\qupathxx\tools\ci\run.py", line 26, in run
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9726176Z     raise RuntimeError(f'command failed ({result.returncode}); log: {log}')
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9727168Z RuntimeError: command failed (1); log: D:\a\qupathxx\qupathxx\build\ci\job\python-tests.log
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9728065Z .s...................................................................... [ 76%]
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9728790Z ........................................................................ [ 79%]
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9729537Z ........s..........ss.................................s.....ss.......... [ 81%]
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9730266Z ......................................ss................................ [ 83%]
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9731025Z ....s.....................................s............................. [ 86%]
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9731724Z ........................................................................ [ 88%]
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9732431Z ........................................................................ [ 90%]
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9733109Z ......................s................................................. [ 93%]
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9733910Z .........s.............................................................. [ 95%]
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9734624Z ........................................................................ [ 97%]
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9735366Z .........................................ss.........sssssssss.s..        [100%]
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9736060Z ================================== FAILURES ===================================
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9736870Z __ test_complete_synthetic_cohort_binds_both_abis_but_never_accepts_release ___
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9737483Z 
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9738199Z tmp_path = WindowsPath('C:/Users/runneradmin/AppData/Local/Temp/pytest-of-runneradmin/pytest-0/test_complete_synthetic_cohort0')
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9739094Z 
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9739533Z     def test_complete_synthetic_cohort_binds_both_abis_but_never_accepts_release(tmp_path):
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9740427Z         for version in ['3.11','3.12']:cohort(tmp_path,version)
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9741040Z >       report=module.audit(tmp_path,run(),COMMIT)
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9741592Z                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9741934Z 
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9742143Z tests\test_manylinux_acceptance.py:87: 
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9742764Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9743381Z tools\ci\accept_manylinux.py:175: in audit
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9744156Z     versions=[audit_version(Path(folder),version,commit,assets) for version in ['3.11','3.12']]
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9745034Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9745693Z tools\ci\accept_manylinux.py:175: in <listcomp>
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9746512Z     versions=[audit_version(Path(folder),version,commit,assets) for version in ['3.11','3.12']]
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9747444Z               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9748049Z tools\ci\accept_manylinux.py:156: in audit_version
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9748922Z     require('Success: no issues found in 4 source files' in (build/'typing.log').read_text(encoding='utf-8'),
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9749851Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9750276Z 
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9750568Z condition = False, message = 'positive typing check missing'
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9750988Z 
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9751192Z     def require(condition, message):
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9751697Z         if not condition:
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9752319Z >           raise ValueError(message)
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9752869Z E           ValueError: positive typing check missing
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9754115Z 
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9754302Z tools\ci\accept_manylinux.py:30: ValueError
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9754880Z =========================== short test summary info ===========================
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9756296Z FAILED tests/test_manylinux_acceptance.py::test_complete_synthetic_cohort_binds_both_abis_but_never_accepts_release - ValueError: positive typing check missing
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9757778Z 1 failed, 2652 passed, 433 skipped, 3 xfailed in 234.08s (0:03:54)
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9758273Z 
+Windows headless Python 3.11 NumPy 1	Build and verify	2026-10-25T06:10:02.9924438Z ##[error]Process completed with exit code 1.
+Windows GUI Python 3.12 software GL	Build and verify	﻿2026-10-25T05:52:56.1240705Z ##[group]Run python -I tools/ci/run.py --mode 'gui' --work build/ci/job $LIVE_REFERENCE $EXTENDED_READERS
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T05:52:56.1241143Z [36;1mpython -I tools/ci/run.py --mode 'gui' --work build/ci/job $LIVE_REFERENCE $EXTENDED_READERS[0m
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T05:52:56.1248246Z shell: C:\Program Files\Git\bin\bash.EXE --noprofile --norc -e -o pipefail {0}
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T05:52:56.1248468Z env:
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T05:52:56.1248627Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.12.10\x64
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T05:52:56.1248956Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.12.10\x64/lib/pkgconfig
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T05:52:56.1249283Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T05:52:56.1249629Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T05:52:56.1249929Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T05:52:56.1250172Z   LIVE_REFERENCE: --live-reference
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T05:52:56.1250406Z   EXTENDED_READERS: --extended-readers
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T05:52:56.1250681Z ##[endgroup]
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T05:53:00.9106569Z + C:\hostedtoolcache\windows\Python\3.12.10\x64\python.exe -I D:\a\qupathxx\qupathxx\tools\fetch_reader_fixtures.py --extended
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T05:57:22.6396914Z + C:\hostedtoolcache\windows\Python\3.12.10\x64\python.exe -m pip wheel . --no-deps --no-build-isolation --wheel-dir D:\a\qupathxx\qupathxx\build\ci\job\wheels --config-settings build-dir=D:\a\qupathxx\qupathxx\build\ci\job\native-build --config-settings cmake.define.QUPATHXX_BUILD_TESTS=ON --config-settings cmake.define.QUPATHXX_BUILD_GUI=ON --config-settings cmake.define.QUPATHXX_BUILD_PYTHON=ON --config-settings cmake.define.QUPATHXX_BUILD_GEOS=ON --config-settings cmake.define.QUPATHXX_BUILD_INTERCHANGE=ON --config-settings cmake.define.QUPATHXX_BUILD_PROJECT=ON --config-settings cmake.define.QUPATHXX_BUILD_CLASSIFIER_TRAINING=ON --config-settings cmake.define.QUPATHXX_BUILD_TIFF=ON --config-settings cmake.define.QUPATHXX_BUILD_OPENSLIDE=ON --config-settings cmake.define.GEOS_ROOT=D:\a\qupathxx\qupathxx\build\deps\geos-sdk --config-settings cmake.define.OpenCV_DIR=D:\a\qupathxx\qupathxx\build\deps\opencv-sdk --config-settings cmake.define.QUPATHXX_OPENCV_NOTICES=D:\a\qupathxx\qupathxx\build\deps\opencv-sdk\share\licenses\opencv --config-settings cmake.define.OpenSlide_ROOT=D:\a\qupathxx\qupathxx\build\ci\deps\openslide\openslide-bin-4.0.1.2-windows-x64
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:04:37.2453441Z + ctest --test-dir D:\a\qupathxx\qupathxx\build\ci\job\native-build -C Release --output-on-failure --output-junit D:\a\qupathxx\qupathxx\build\ci\job\native-tests.xml
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:04:40.7408094Z + C:\hostedtoolcache\windows\Python\3.12.10\x64\python.exe -I D:\a\qupathxx\qupathxx\tools\ci\runtime_manifest.py --wheel D:\a\qupathxx\qupathxx\build\ci\job\wheels\qupathxx-0.1.0-cp312-cp312-win_amd64.whl --gui --output D:\a\qupathxx\qupathxx\build\ci\job\windows-wheel-runtime-manifest.json
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:04:40.9528212Z + C:\hostedtoolcache\windows\Python\3.12.10\x64\python.exe -I D:\a\qupathxx\qupathxx\tools\ci\runtime_manifest.py --wheel D:\a\qupathxx\qupathxx\build\ci\job\wheels\qupathxx-0.1.0-cp312-cp312-win_amd64.whl --gui --verify D:\a\qupathxx\qupathxx\build\ci\job\windows-wheel-runtime-manifest.json
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:04:41.1606955Z + C:\hostedtoolcache\windows\Python\3.12.10\x64\python.exe -I D:\a\qupathxx\qupathxx\tools\ci\probe_pe_forwarders.py --work D:\a\qupathxx\qupathxx\build\ci\job\native-forwarder-probe --output D:\a\qupathxx\qupathxx\build\ci\job\pe-forwarder-native.json
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:04:43.0157214Z + C:\hostedtoolcache\windows\Python\3.12.10\x64\python.exe -m venv D:\a\qupathxx\qupathxx\build\ci\job\install
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:04:45.7600421Z + D:\a\qupathxx\qupathxx\build\ci\job\install\Scripts\python.exe -m pip install -r D:\a\qupathxx\qupathxx\tools\ci\requirements.txt D:\a\qupathxx\qupathxx\build\ci\job\wheels\qupathxx-0.1.0-cp312-cp312-win_amd64.whl
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:04:58.6100369Z + D:\a\qupathxx\qupathxx\build\ci\job\install\Scripts\python.exe -I D:\a\qupathxx\qupathxx\tools\ci\assets.py --software-python D:\a\qupathxx\qupathxx\build\ci\job\software-python --mesa-root D:\a\qupathxx\qupathxx\build\ci\deps\mesa\x64
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:04:58.8094215Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I D:\a\qupathxx\qupathxx\tools\ci\check_install.py --wheel D:\a\qupathxx\qupathxx\build\ci\job\wheels\qupathxx-0.1.0-cp312-cp312-win_amd64.whl --output D:\a\qupathxx\qupathxx\build\ci\job\installed-workflow.json --standalone-project D:\a\qupathxx\qupathxx\build\ci\job\standalone-input.qpxproj --openslide-version 4.0.1 --gui --software-gl
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:05:00.4678516Z + D:\a\qupathxx\qupathxx\build\ci\job\software-python\python.exe -I -m pytest tests -q -o faulthandler_timeout=60 --junitxml=D:\a\qupathxx\qupathxx\build\ci\job/python-tests.xml
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8755835Z ........................................................................ [  2%]
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8756499Z ........................................................................ [  4%]
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8756943Z ........................................................................ [  6%]
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8757498Z ........................................................................ [  9%]
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8757868Z ..........s............................................................. [ 11%]
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8758128Z ........................................................................ [ 13%]
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8758417Z ..................................................ssss.................. [ 16%]
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8758677Z ........................................................................ [ 18%]
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8758955Z ........................................................................ [ 20%]
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8759264Z ........................................................................ [ 23%]
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8759555Z ................................................................Timeout (0:01:00)!
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8759812Z Thread 0x00000a90 (most recent call first):
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8760443Z   File "D:\a\qupathxx\qupathxx\tests\test_gui_tiles.py", line 41 in test_rendered_loop_timing_retains_bounded_recent_samples
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8760987Z   File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\_pytest\python.py", line 167 in pytest_pyfunc_call
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8761610Z   File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\pluggy\_execution.py", line 147 in _multicall
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8762167Z   File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\pluggy\_manager.py", line 183 in _hookexec
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8762621Z   File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\pluggy\_caller.py", line 197 in __call__
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8807228Z   File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\_pytest\python.py", line 1707 in runtest
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8807709Z   File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\_pytest\runner.py", line 184 in pytest_runtest_call
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8808223Z   File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\pluggy\_execution.py", line 147 in _multicall
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8808698Z   File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\pluggy\_manager.py", line 183 in _hookexec
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8809149Z   File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\pluggy\_caller.py", line 197 in __call__
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8809634Z   File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\_pytest\runner.py", line 250 in <lambda>
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8810075Z   File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\_pytest\runner.py", line 361 in from_call
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8810567Z   File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\_pytest\runner.py", line 249 in call_and_report
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8811063Z   File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\_pytest\runner.py", line 139 in runtestprotocol
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8812268Z   File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\_pytest\runner.py", line 118 in pytest_runtest_protocol
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8812770Z   File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\pluggy\_execution.py", line 147 in _multicall
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8813221Z   File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\pluggy\_manager.py", line 183 in _hookexec
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8813685Z   File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\pluggy\_caller.py", line 197 in __call__
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8814145Z   File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\_pytest\main.py", line 408 in pytest_runtestloop
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8814634Z   File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\pluggy\_execution.py", line 147 in _multicall
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8815322Z Traceback (most recent call last):
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8822763Z   File "D:\a\qupathxx\qupathxx\tools\ci\run.py", line 360, in <module>
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8823203Z     main()
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8823440Z   File "D:\a\qupathxx\qupathxx\tools\ci\run.py", line 202, in main
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8823792Z     run([test_python, '-I', '-m', 'pytest', 'tests', '-q', '-o', 'faulthandler_timeout=60',
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8824187Z   File "D:\a\qupathxx\qupathxx\tools\ci\run.py", line 26, in run
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8824537Z     raise RuntimeError(f'command failed ({result.returncode}); log: {log}')
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8824896Z RuntimeError: command failed (1); log: D:\a\qupathxx\qupathxx\build\ci\job\python-tests.log
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8825351Z   File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\pluggy\_manager.py", line 183 in _hookexec
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8825837Z   File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\pluggy\_caller.py", line 197 in __call__
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8826283Z   File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\_pytest\main.py", line 384 in _main
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8826752Z   File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\_pytest\main.py", line 330 in wrap_session
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8827225Z   File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\_pytest\main.py", line 377 in pytest_cmdline_main
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8827725Z   File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\pluggy\_execution.py", line 147 in _multicall
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8828180Z   File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\pluggy\_manager.py", line 183 in _hookexec
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8828655Z   File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\pluggy\_caller.py", line 197 in __call__
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8829761Z   File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\_pytest\config\__init__.py", line 229 in _main
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8830254Z   File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\_pytest\config\__init__.py", line 253 in _console_main
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8830754Z   File "D:\a\qupathxx\qupathxx\build\ci\job\install\Lib\site-packages\pytest\__main__.py", line 9 in <module>
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8831091Z   File "<frozen runpy>", line 88 in _run_code
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8831375Z   File "<frozen runpy>", line 198 in _run_module_as_main
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8831603Z ......s. [ 25%]
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8831840Z ........................................................................ [ 27%]
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8832115Z ..s..................................................................... [ 30%]
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8832405Z ........................................................................ [ 32%]
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8832691Z ........................................................................ [ 34%]
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8832950Z ........................................................................ [ 37%]
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8833230Z ........................................................................ [ 39%]
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8833486Z ........................................................................ [ 41%]
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8833880Z ......................................F................................. [ 44%]
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8834139Z ........................................................................ [ 46%]
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8834414Z ........................................................................ [ 48%]
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8834666Z ........................................................................ [ 51%]
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8834937Z ........................................................................ [ 53%]
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8835213Z ........................................................................ [ 55%]
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8835466Z ........................................................................ [ 58%]
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8835741Z ..................................s..................................... [ 60%]
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8835997Z ........................................................................ [ 62%]
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8836274Z ........................................................................ [ 65%]
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8836525Z ........................................................................ [ 67%]
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8836809Z .........xxx.......................................s.................... [ 69%]
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8837068Z ........................................................................ [ 72%]
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8837359Z ........................................................................ [ 74%]
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8837634Z ........................................................................ [ 76%]
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8837894Z ........................................................................ [ 79%]
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8838174Z ........................................................................ [ 81%]
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8838429Z ........................................................................ [ 83%]
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8838711Z ..........................................s............................. [ 86%]
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8838969Z ........................................................................ [ 88%]
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8839247Z ........................................................................ [ 90%]
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8839504Z ........................................................................ [ 93%]
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8839782Z ........................................................................ [ 95%]
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8840035Z ........................................................................ [ 97%]
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8840392Z .................................................................        [100%]
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8840667Z ================================== FAILURES ===================================
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8840961Z __ test_complete_synthetic_cohort_binds_both_abis_but_never_accepts_release ___
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8841172Z 
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8841443Z tmp_path = WindowsPath('C:/Users/runneradmin/AppData/Local/Temp/pytest-of-runneradmin/pytest-0/test_complete_synthetic_cohort0')
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8841748Z 
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8841907Z     def test_complete_synthetic_cohort_binds_both_abis_but_never_accepts_release(tmp_path):
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8842256Z         for version in ['3.11','3.12']:cohort(tmp_path,version)
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8842513Z >       report=module.audit(tmp_path,run(),COMMIT)
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8842755Z                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8842893Z 
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8842990Z tests\test_manylinux_acceptance.py:87: 
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8843229Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8843493Z tools\ci\accept_manylinux.py:175: in audit
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8843799Z     versions=[audit_version(Path(folder),version,commit,assets) for version in ['3.11','3.12']]
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8844141Z               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8844471Z tools\ci\accept_manylinux.py:156: in audit_version
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8844801Z     require('Success: no issues found in 4 source files' in (build/'typing.log').read_text(encoding='utf-8'),
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8845164Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8845328Z 
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8845439Z condition = False, message = 'positive typing check missing'
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8845613Z 
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8845702Z     def require(condition, message):
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8845933Z         if not condition:
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8846251Z >           raise ValueError(message)
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8846499Z E           ValueError: positive typing check missing
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8846654Z 
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8846748Z tools\ci\accept_manylinux.py:30: ValueError
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8847103Z ============================== warnings summary ===============================
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8848481Z tests/test_macos_native_inventory.py::test_changed_archive_layout_modes_and_binaries_fail[duplicate]
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8849031Z   D:\a\qupathxx\qupathxx\tools\ci\macos_native_inventory.py:57: UserWarning: Overlapped entries: 'native/qupathxx_batch' (possible zip bomb)
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8849477Z     with archive.open(entry) as content:data=content.read(256*1024*1024+1)
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8849684Z 
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8849875Z -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8850183Z =========================== short test summary info ===========================
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8850678Z FAILED tests/test_manylinux_acceptance.py::test_complete_synthetic_cohort_binds_both_abis_but_never_accepts_release - ValueError: positive typing check missing
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8851182Z 1 failed, 3075 passed, 10 skipped, 3 xfailed, 1 warning in 683.92s (0:11:23)
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8851356Z 
+Windows GUI Python 3.12 software GL	Build and verify	2026-10-25T06:16:24.8998517Z ##[error]Process completed with exit code 1.
+Linux headless Python 3.12 NumPy 2	Build and verify	﻿2026-10-25T06:09:36.0273361Z ##[group]Run python -I tools/ci/run.py --mode 'headless' --work build/ci/job $LIVE_REFERENCE $EXTENDED_READERS
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:09:36.0274168Z [36;1mpython -I tools/ci/run.py --mode 'headless' --work build/ci/job $LIVE_REFERENCE $EXTENDED_READERS[0m
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:09:36.0339355Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:09:36.0339780Z env:
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:09:36.0340065Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:09:36.0340533Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:09:36.0340994Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:09:36.0341413Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:09:36.0341842Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:09:36.0342263Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:09:36.0342628Z   LIVE_REFERENCE: 
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:09:36.0342881Z   EXTENDED_READERS: --extended-readers
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:09:36.0343221Z ##[endgroup]
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:09:38.9456750Z + /opt/hostedtoolcache/Python/3.12.15/x64/bin/python -I /home/runner/work/qupathxx/qupathxx/tools/fetch_reader_fixtures.py --extended
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:10:39.3966583Z + /opt/hostedtoolcache/Python/3.12.15/x64/bin/python -m pip wheel . --no-deps --no-build-isolation --wheel-dir /home/runner/work/qupathxx/qupathxx/build/ci/job/wheels --config-settings build-dir=/home/runner/work/qupathxx/qupathxx/build/ci/job/native-build --config-settings cmake.define.QUPATHXX_BUILD_TESTS=ON --config-settings cmake.define.QUPATHXX_BUILD_GUI=OFF --config-settings cmake.define.QUPATHXX_BUILD_PYTHON=ON --config-settings cmake.define.QUPATHXX_BUILD_GEOS=ON --config-settings cmake.define.QUPATHXX_BUILD_INTERCHANGE=ON --config-settings cmake.define.QUPATHXX_BUILD_PROJECT=ON --config-settings cmake.define.QUPATHXX_BUILD_CLASSIFIER_TRAINING=ON --config-settings cmake.define.QUPATHXX_BUILD_TIFF=ON --config-settings cmake.define.QUPATHXX_BUILD_OPENSLIDE=ON --config-settings cmake.define.GEOS_ROOT=/home/runner/work/qupathxx/qupathxx/build/deps/geos-sdk --config-settings cmake.define.QUPATHXX_BUNDLE_GEOS=ON --config-settings cmake.define.OpenCV_DIR=/home/runner/work/qupathxx/qupathxx/build/deps/opencv-sdk/lib/cmake/opencv4 --config-settings cmake.define.QUPATHXX_OPENCV_NOTICES=/home/runner/work/qupathxx/qupathxx/build/deps/opencv-sdk/share/licenses/opencv --config-settings cmake.define.OpenSlide_ROOT=/home/runner/work/qupathxx/qupathxx/build/ci/deps/openslide-linux/openslide-bin-4.0.1.2-linux-x86_64 --config-settings cmake.define.QUPATHXX_BUNDLE_OPENSLIDE=ON
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:14:16.5293198Z + ctest --test-dir /home/runner/work/qupathxx/qupathxx/build/ci/job/native-build -C Release --output-on-failure --output-junit /home/runner/work/qupathxx/qupathxx/build/ci/job/native-tests.xml
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:14:19.8974698Z + /opt/hostedtoolcache/Python/3.12.15/x64/bin/python -m venv /home/runner/work/qupathxx/qupathxx/build/ci/job/install
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:14:22.9694806Z + /home/runner/work/qupathxx/qupathxx/build/ci/job/install/bin/python -m pip install -r /home/runner/work/qupathxx/qupathxx/tools/ci/requirements.txt /home/runner/work/qupathxx/qupathxx/build/ci/job/wheels/qupathxx-0.1.0-cp312-cp312-linux_x86_64.whl
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:14:36.7716024Z + /opt/hostedtoolcache/Python/3.12.15/x64/bin/python -I /home/runner/work/qupathxx/qupathxx/tools/ci/linux_runtime_manifest.py --wheel /home/runner/work/qupathxx/qupathxx/build/ci/job/wheels/qupathxx-0.1.0-cp312-cp312-linux_x86_64.whl --output /home/runner/work/qupathxx/qupathxx/build/ci/job/linux-wheel-runtime-manifest.json
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:14:37.0366951Z + /opt/hostedtoolcache/Python/3.12.15/x64/bin/python -I /home/runner/work/qupathxx/qupathxx/tools/ci/linux_runtime_manifest.py --wheel /home/runner/work/qupathxx/qupathxx/build/ci/job/wheels/qupathxx-0.1.0-cp312-cp312-linux_x86_64.whl --verify /home/runner/work/qupathxx/qupathxx/build/ci/job/linux-wheel-runtime-manifest.json
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:14:37.3019896Z + /home/runner/work/qupathxx/qupathxx/build/ci/job/install/bin/python -I /home/runner/work/qupathxx/qupathxx/tools/ci/check_linux_runtime.py --wheel /home/runner/work/qupathxx/qupathxx/build/ci/job/wheels/qupathxx-0.1.0-cp312-cp312-linux_x86_64.whl --geos-sdk /home/runner/work/qupathxx/qupathxx/build/deps/geos-sdk --openslide-sdk /home/runner/work/qupathxx/qupathxx/build/ci/deps/openslide-linux/openslide-bin-4.0.1.2-linux-x86_64 --output /home/runner/work/qupathxx/qupathxx/build/ci/job/linux-runtime.json
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:14:37.6717820Z + /home/runner/work/qupathxx/qupathxx/build/ci/job/install/bin/python -I /home/runner/work/qupathxx/qupathxx/tools/ci/check_install.py --wheel /home/runner/work/qupathxx/qupathxx/build/ci/job/wheels/qupathxx-0.1.0-cp312-cp312-linux_x86_64.whl --output /home/runner/work/qupathxx/qupathxx/build/ci/job/installed-workflow.json --standalone-project /home/runner/work/qupathxx/qupathxx/build/ci/job/standalone-input.qpxproj --openslide-version 4.0.1 --openslide-runtime-sha256 552b5b77901bc9c7e7cc6e02a0b4f2861ffa85572b036a063db4f19ed2f357df
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:14:38.2894289Z + /home/runner/work/qupathxx/qupathxx/build/ci/job/install/bin/python -I -m pytest tests -q -o faulthandler_timeout=60 --junitxml=/home/runner/work/qupathxx/qupathxx/build/ci/job/python-tests.xml
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.5998078Z ........................................................................ [  2%]
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.5999615Z ........................................................................ [  4%]
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6000873Z .............................ss......................................... [  6%]
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6001954Z ........................................................................ [  9%]
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6003328Z ........................................................................ [ 11%]
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6004484Z ........................................................................ [ 13%]
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6005420Z ....sss...................................................ssssssssssssss [ 16%]
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6006505Z ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss [ 18%]
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6008141Z ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss [ 20%]
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6009584Z ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss [ 23%]
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6010759Z ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss [ 25%]
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6011957Z ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss [ 27%]
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6013344Z ss...................................................................... [ 30%]
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6014080Z ........................................................................ [ 32%]
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6014692Z .................................................s..........ss.......... [ 34%]
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6015289Z .....................s......s..........s................................ [ 37%]
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6015891Z ........................................................................ [ 39%]
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6016501Z ........................................................................ [ 41%]
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6017093Z ......................................F................................. [ 44%]
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6017700Z .................ssss.s.........................s....................... [ 46%]
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6018317Z ..................................s.s................................... [ 48%]
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6018909Z ........................................................................ [ 51%]
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6020078Z ........................................................................ [ 53%]
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6020670Z ........................................................................ [ 55%]
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6021253Z ........................................................................ [ 58%]
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6021897Z ..................................s..................s.................. [ 60%]
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6023100Z ...........................s.........s................................s. [ 62%]
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6023835Z ........................................................................ [ 65%]
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6024703Z ........................................................................ [ 67%]
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6025473Z .........xxx.......................................sss.................. [ 69%]
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6026329Z ...............................................s........................ [ 72%]
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6027172Z .......................................s.......s...................s...s [ 74%]
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6028109Z .s...s...........s...................................................... [ 76%]
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6028907Z ........................................................................ [ 79%]
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6030038Z ........s..........ss.................................s.....ss.......... [ 81%]
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6030909Z ......................................ss................................ [ 83%]
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6031763Z ....s.....................................s............................. [ 86%]
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6046782Z ........................................................................ [ 88%]
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6047532Z ........................................................................ [ 90%]
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6048256Z ......................s................................................. [ 93%]
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6048998Z .........s.............................................................. [ 95%]
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6050040Z ........................................................................ [ 97%]
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6050759Z .........................................ss.........sssssssss.s..        [100%]
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6051458Z =================================== FAILURES ===================================
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6052289Z ___ test_complete_synthetic_cohort_binds_both_abis_but_never_accepts_release ___
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6053188Z 
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6053641Z tmp_path = PosixPath('/tmp/pytest-of-runner/pytest-0/test_complete_synthetic_cohort0')
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6054235Z 
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6054687Z     def test_complete_synthetic_cohort_binds_both_abis_but_never_accepts_release(tmp_path):
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6055518Z         for version in ['3.11','3.12']:cohort(tmp_path,version)
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6056062Z >       report=module.audit(tmp_path,run(),COMMIT)
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6056578Z                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6056926Z 
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6057133Z tests/test_manylinux_acceptance.py:87: 
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6057754Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6058386Z tools/ci/accept_manylinux.py:175: in audit
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6059374Z     versions=[audit_version(Path(folder),version,commit,assets) for version in ['3.11','3.12']]
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6060425Z               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6061051Z tools/ci/accept_manylinux.py:156: in audit_version
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6061975Z     require('Success: no issues found in 4 source files' in (build/'typing.log').read_text(encoding='utf-8'),
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6062934Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6063349Z 
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6063619Z condition = False, message = 'positive typing check missing'
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6064007Z 
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6064173Z     def require(condition, message):
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6064580Z         if not condition:
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6064981Z >           raise ValueError(message)
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6065481Z E           ValueError: positive typing check missing
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6065833Z 
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6066027Z tools/ci/accept_manylinux.py:30: ValueError
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6066603Z =============================== warnings summary ===============================
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6067841Z tests/test_macos_native_inventory.py::test_changed_archive_layout_modes_and_binaries_fail[duplicate]
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6069591Z   /home/runner/work/qupathxx/qupathxx/tools/ci/macos_native_inventory.py:57: UserWarning: Overlapped entries: 'native/qupathxx_batch' (possible zip bomb)
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6070884Z     with archive.open(entry) as content:data=content.read(256*1024*1024+1)
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6071353Z 
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6071716Z -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6072485Z =========================== short test summary info ============================
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6073738Z FAILED tests/test_manylinux_acceptance.py::test_complete_synthetic_cohort_binds_both_abis_but_never_accepts_release - ValueError: positive typing check missing
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6075063Z 1 failed, 2650 passed, 435 skipped, 3 xfailed, 1 warning in 90.41s (0:01:30)
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6075548Z 
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6075799Z Traceback (most recent call last):
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6083517Z   File "/home/runner/work/qupathxx/qupathxx/tools/ci/run.py", line 360, in <module>
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6084225Z     main()
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6084816Z   File "/home/runner/work/qupathxx/qupathxx/tools/ci/run.py", line 202, in main
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6085681Z     run([test_python, '-I', '-m', 'pytest', 'tests', '-q', '-o', 'faulthandler_timeout=60',
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6086578Z   File "/home/runner/work/qupathxx/qupathxx/tools/ci/run.py", line 26, in run
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6087481Z     raise RuntimeError(f'command failed ({result.returncode}); log: {log}')
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6088498Z RuntimeError: command failed (1); log: /home/runner/work/qupathxx/qupathxx/build/ci/job/python-tests.log
+Linux headless Python 3.12 NumPy 2	Build and verify	2026-10-25T06:16:09.6158123Z ##[error]Process completed with exit code 1.

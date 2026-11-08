@@ -1,0 +1,157 @@
+{
+  "schema": "qpx.tma-large-pyramid-observation/1",
+  "fixture": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\tma203-fixtures\\large-tma.ome.tif",
+  "contract_sha256": "bf9f0c0798e6adda47ccb5d6cdd890b32c1ca61fb020be650d102ad995eb82c3",
+  "engine": {
+    "revision": "4b0e1313fad77d5bc5c4bccf495e9e120df488ac",
+    "fingerprint": "6eb238703a073afce7247f89cd63c324969c990ca6db2a26c15d5fd3f0cc69f6",
+    "module": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\tma200-python-env\\Lib\\site-packages\\qupathxx\\_native.cp312-win_amd64.pyd",
+    "module_sha256": "277353370a0a6a3984c607c1c5c5ca13b4143cc51fb3128f8078128486da5b86"
+  },
+  "image_width": 30720,
+  "image_height": 22528,
+  "plan": {
+    "level": 3,
+    "width": 480,
+    "height": 352,
+    "source_width": 480,
+    "source_height": 352,
+    "source_pixels": 168960,
+    "level_downsample": 64.0
+  },
+  "core_size": {
+    "width": 512.0,
+    "height": 384.0,
+    "width_pixels": 2048.0,
+    "height_pixels": 3072.0,
+    "pixel_width_um": 0.25,
+    "pixel_height_um": 0.125,
+    "calibration_from_reader": true
+  },
+  "cores": [
+    {
+      "center": [
+        7179.267605633803,
+        6161.895608947804
+      ],
+      "observed": true,
+      "missing": false
+    },
+    {
+      "center": [
+        11019.267605633802,
+        6161.895608947804
+      ],
+      "observed": true,
+      "missing": false
+    },
+    {
+      "center": [
+        14859.267605633802,
+        6161.895608947804
+      ],
+      "observed": true,
+      "missing": false
+    },
+    {
+      "center": [
+        18699.267605633802,
+        6161.895608947804
+      ],
+      "observed": true,
+      "missing": false
+    },
+    {
+      "center": [
+        7179.267605633803,
+        10001.895608947805
+      ],
+      "observed": true,
+      "missing": false
+    },
+    {
+      "center": [
+        11019.267605633802,
+        10001.895608947805
+      ],
+      "observed": true,
+      "missing": false
+    },
+    {
+      "center": [
+        14859.267605633802,
+        10001.895608947805
+      ],
+      "observed": false,
+      "missing": true
+    },
+    {
+      "center": [
+        18699.267605633802,
+        10001.895608947805
+      ],
+      "observed": true,
+      "missing": false
+    },
+    {
+      "center": [
+        7179.267605633803,
+        13841.895608947805
+      ],
+      "observed": true,
+      "missing": false
+    },
+    {
+      "center": [
+        11019.267605633802,
+        13841.895608947805
+      ],
+      "observed": true,
+      "missing": false
+    },
+    {
+      "center": [
+        14859.267605633802,
+        13841.895608947805
+      ],
+      "observed": true,
+      "missing": false
+    },
+    {
+      "center": [
+        18699.267605633802,
+        13841.895608947805
+      ],
+      "observed": true,
+      "missing": false
+    }
+  ],
+  "before": {
+    "decoded_blocks": 0,
+    "decoded_bytes": 0,
+    "cache_hits": 0,
+    "directory_switches": 3,
+    "cache_bytes": 0,
+    "peak_cache_bytes": 0
+  },
+  "after": {
+    "decoded_blocks": 4,
+    "decoded_bytes": 786432,
+    "cache_hits": 8,
+    "directory_switches": 3,
+    "cache_bytes": 787456,
+    "peak_cache_bytes": 787456
+  },
+  "estimated_work_bytes": 2787328,
+  "payload_bytes": 2892,
+  "elapsed_seconds": 0.008427100023254752,
+  "input_sha256": "9ac8469f10794f7fd797be4f2cdc70bd17b7e3be4803b702e53eea20cac75879",
+  "recipe_sha256": "9a76100a4d154d5f3528cb68cd24b79319620ac0872f8d938be4080786947741",
+  "memory": {
+    "peak_working_set_bytes": 33435648,
+    "working_set_bytes": 26558464,
+    "peak_commit_bytes": 21700608
+  },
+  "failures": [],
+  "accepted": true
+}

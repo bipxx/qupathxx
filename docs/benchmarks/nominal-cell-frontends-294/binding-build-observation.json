@@ -1,0 +1,29 @@
+{
+  "observed_utc": "2026-10-28T22:27:11.8722290Z",
+  "process_id": 149376,
+  "cpu_seconds": 480.1875,
+  "private_bytes": 1681457152,
+  "binding_objects": [
+    {
+      "Name": "analysis_bindings.obj",
+      "Length": 573975,
+      "LastWriteTimeUtc": "2026-10-28T22:19:14.7273449Z"
+    },
+    {
+      "Name": "bindings.obj",
+      "Length": 0,
+      "LastWriteTimeUtc": "2026-10-28T22:19:19.6660432Z"
+    },
+    {
+      "Name": "cell_bindings.obj",
+      "Length": 2008441,
+      "LastWriteTimeUtc": "2026-10-28T22:19:55.628407Z"
+    },
+    {
+      "Name": "viewer_bindings.obj",
+      "Length": 2479434,
+      "LastWriteTimeUtc": "2026-10-28T22:19:46.6460452Z"
+    }
+  ],
+  "scope": "Observation during active compilation; bindings.obj is unfinished while the named peer objects are written. No compiler policy change or build-speed claim."
+}

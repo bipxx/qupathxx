@@ -1,0 +1,839 @@
+{
+  "schema": "qpx.raw-pixel-archives-local/1",
+  "observed_at_utc": "2026-10-26T06:41:59.749851+00:00",
+  "source": "440f6105db82933076e325d3d1e5f8e0a0aeaaac",
+  "compiled_fingerprint": "cc60cb8b59f09ba0c8317c01f948b75aa8170c6fa9b9da2b2f56fb9e4ad0f3cc",
+  "compiler_inputs": 336,
+  "status": "native_sampling_prediction_archives_and_document_project_retention_locally_verified",
+  "native": {
+    "windows_suites": 1,
+    "linux_suites": 1,
+    "required_markers": [
+      "Owner-captured raw training/prediction: deterministic labels, rational axes, document calibration, bounded IO, cancellation, stale compound sources and owner-thread publication passed",
+      "Raw pixel archives: real TIFF retention, project save/reopen, snapshot save, stale-file refusal and historical-only decode passed",
+      "Raw pixel archives: sampling/prediction semantic round trips, rational axes, authority refusal, tamper/cancel and atomic replacement passed"
+    ]
+  },
+  "inherited_regressions": {
+    "source": "220304dc036c5c341fec4005d6261f0752ed047d",
+    "fingerprint": "cb2e543c1a9aa034a97c611cc054561550c8dfe43b2266b2e40ccc5349a9c62e",
+    "passing_suites_per_host": 10,
+    "failed_suite": "pixel_workflows",
+    "failure": "test-owned recovery sidecars prevented empty-directory removal",
+    "applicability": "Only raw_pixel_archive_checks.hpp changed; it is consumed by pixel_workflows. Other ten results retain their original source, not relabeled as the final source.",
+    "changed_compiler_inputs": [
+      "cpp/tests/raw_pixel_archive_checks.hpp"
+    ]
+  },
+  "formats": {
+    "new_raw_model": "QRM1",
+    "legacy_raw_model": "explicit strict QPR1 read preserving original bytes/hash",
+    "recipe": "QXS1",
+    "table": "QXT1",
+    "prediction": "QXP1",
+    "record": "QXR1",
+    "source_only_provenance": "QPV4 with explicit codec opt-in",
+    "sql_schema": 13
+  },
+  "scope": [
+    "Sampling and prediction semantic round trips with independent model framing and original forest authority",
+    "Real TIFF Document retention, project save/reopen, snapshot save and recovery readback",
+    "Historical decode lacks publication authority; owner/source/capture identity required for keep",
+    "Unsupported source footprint, corrupted/versioned/truncated/hash-tampered archives reject",
+    "Atomic archive replacement preserves unrelated and cancelled destinations",
+    "Strict source-only provenance does not weaken existing object consumers"
+  ],
+  "remaining": [
+    "Positive backend-enabled raw forest training and trained archive acceptance",
+    "Explicit live source/model replay verification and owner-stage apply/undo",
+    "Phase-preserving tiled sampling/features, streaming and checkpoint resume",
+    "Nanobind/Python/NumPy, CLI/batch, managed viewer and ImGui integration",
+    "Integrated source-bound platform and independent biological/model/hardware/release acceptance"
+  ],
+  "backend_enabled_training_accepted": false,
+  "raw_payloads": [
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/windows/build_manifest.hpp",
+      "bytes": 706,
+      "sha256": "76dd2ea3dbb4c067ca4b74d3b59003eddcd8f2719bc12327c3a8c55fcb3a6c21"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/windows/configuration.json",
+      "bytes": 438,
+      "sha256": "1fdb05fd0a59139fc78658467c36bfad64008f2d672600bae623a8ffd733f958"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/windows/build.log",
+      "bytes": 2156,
+      "sha256": "0dc86cbd477a26148a354675ee07b13fa8316fcef9e3c2469a70e42c55ca6665"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/windows/commands.json",
+      "bytes": 1458,
+      "sha256": "299e7f4debfa67220f9ec26cccbea9858557efedebbf30ce2eec0072757b5ec1"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/windows/compiler-inputs.json",
+      "bytes": 35238,
+      "sha256": "f3931d43304386e4cb1caf1ed429e7da19673a15606c5a62ceb0be6d8aff5fa9"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/windows/configure.log",
+      "bytes": 3579,
+      "sha256": "af04bb0003910562168850d9f9b193ba29bf4c4a6bd3772025574b00a88a403d"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/windows/pixel_workflows.xml",
+      "bytes": 916,
+      "sha256": "8b18401f4ae00f30b081a4e6ffad57441437cf6984247395c8d46527d6281df2"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/windows/test-pixel_workflows.log",
+      "bytes": 241,
+      "sha256": "476022e67e5ac5777beed02c84db087639421fbf6c1e610919ab4f5dde6e9678"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/linux/build_manifest.hpp",
+      "bytes": 629,
+      "sha256": "dbb04e76cfe72fe9edaaa5f6d6329b41f0d8ac18c65cac6b3819fa8214c3120d"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/linux/configuration.json",
+      "bytes": 440,
+      "sha256": "9055e74897cee94c78a499b8be5563be9b92ed0411debc1a2045cdbd28ba7a04"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/linux/build.log",
+      "bytes": 5109,
+      "sha256": "33aa9ae5e460f6a69dd00578ea2c424dc21e956303db2880b2b3a53940dee06b"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/linux/commands.json",
+      "bytes": 2180,
+      "sha256": "13c07104900e55405ea7bc990f112a1251674b3d8719ede6584c41fa1ccdee36"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/linux/compiler-inputs.json",
+      "bytes": 35238,
+      "sha256": "f3931d43304386e4cb1caf1ed429e7da19673a15606c5a62ceb0be6d8aff5fa9"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/linux/configure.log",
+      "bytes": 3354,
+      "sha256": "cd234d68460b246ac9e57494d43b4887618cf1be1bf6a2752b87d8c3e7e5b5bc"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/linux/tests.log",
+      "bytes": 370,
+      "sha256": "a710bb70c20b45b3ced285694d670fdf33ead9cef1326f8667dfbd5042404880"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/linux/tests.xml",
+      "bytes": 897,
+      "sha256": "eefada8fe34291c0f437934fc7d1dbad41732c1e1345284e5821a83a7f1cbb62"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217-windows/build.log",
+      "bytes": 6492,
+      "sha256": "c885e9e630e9df421f5cfa75e022ca29733a4957b57368cc587563c959d527f2"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217-windows/commands.json",
+      "bytes": 1195,
+      "sha256": "571923da88f846d16938b892627162de0846c043e6f7a4b177dadb6c1b8b48b7"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217-windows/compiler-inputs.json",
+      "bytes": 35238,
+      "sha256": "9c54503b6eab89ce20073f3c0c3ac8340ddbef142ee6bb882a2c0584356a33d8"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217-windows/configure.log",
+      "bytes": 3579,
+      "sha256": "ee63403f9fa821e298c0de6157e45fad8fe3b2c5fb358a5218a5820da08b9c8c"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217-linux/build.log",
+      "bytes": 259611,
+      "sha256": "26664d063d899acaa4a336a8150f898662f1141303dde2a9ca5bbe8539d06b83"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217-linux/commands.json",
+      "bytes": 1714,
+      "sha256": "cc51daad71e08902106c6fa18345adc10fbfd5fc83bb1b99b45ea11ff825d182"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217-linux/compiler-inputs.json",
+      "bytes": 35238,
+      "sha256": "9c54503b6eab89ce20073f3c0c3ac8340ddbef142ee6bb882a2c0584356a33d8"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217-linux/configure.log",
+      "bytes": 3354,
+      "sha256": "c87b78a0b59314c2df912b32be34a2a05cab252a2b30b7a76f8c4273c481c0d2"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217b-windows/build.log",
+      "bytes": 13232,
+      "sha256": "ce22bb56d34482f1644fbfa95f0034bac7f3c1d54821f2a3f2d23704bb81764b"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217b-windows/classifier.xml",
+      "bytes": 381,
+      "sha256": "d82ce5fc43785584415854b69de26f320e9a9dd6ecab5e22c9028794cfd4d11c"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217b-windows/classifier_io.xml",
+      "bytes": 379,
+      "sha256": "0f37c5267df6744301fdb9daa62fa5b72ec3de471367ec4f0732412217fdf631"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217b-windows/commands.json",
+      "bytes": 7819,
+      "sha256": "20e7cefd0cb0b5b3543183995054240d70256dbbc16d44c3acaf9e3da422d9af"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217b-windows/compiler-inputs.json",
+      "bytes": 35238,
+      "sha256": "2a3ee8f40ddc0eb25aba5b98fa74bf50f317e42dfd860905554ad277d7683f07"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217b-windows/configure.log",
+      "bytes": 3579,
+      "sha256": "0ad9857c71cde33c49e927afd93591427727f38a5f3939a47eea8585f03bb271"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217b-windows/pixel_features.xml",
+      "bytes": 737,
+      "sha256": "24aff521f5d906bc2b9ee5dfebbdd9e1ff22bb66740abc100b447b772cf4e598"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217b-windows/pixel_workflows.xml",
+      "bytes": 415,
+      "sha256": "925f0725371459c0ad4be58b382a3fcefcade09745f4a476b575a2d696038d23"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217b-windows/project.xml",
+      "bytes": 420,
+      "sha256": "0a2f70d7e714538c08c76637ed34057a32bdbf1c395ee327e1c3cdde4314ebc9"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217b-windows/project_save.xml",
+      "bytes": 439,
+      "sha256": "f8fae2c6478f7c2ec49455fbdb63e43d12822aa9764ff1b7bbba01196fd3a7b2"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217b-windows/provenance.xml",
+      "bytes": 421,
+      "sha256": "ee4c5e0129beb81dc339624c9ada30fd98454ee24d0ca6a00d5f849e933448eb"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217b-windows/raw_image.xml",
+      "bytes": 1072,
+      "sha256": "605a76de63ec419acf19812801f94ae387d0697895f7235c3cb1b9dcfba3bbeb"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217b-windows/recovery.xml",
+      "bytes": 502,
+      "sha256": "699ccce8c5ca42ab9e3516270a597d14f0a2161a2500b681bb42cff888e27894"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217b-windows/resampling.xml",
+      "bytes": 2307,
+      "sha256": "633e1cd343ce24f43bcf220c7bdcbac9a86fcdcb7270f426954573f75ec096df"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217b-windows/source_identity.xml",
+      "bytes": 537,
+      "sha256": "b8001525c27ac22d1b499411585350121feed6bad5d121bdd487ddfbe399ed23"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217b-windows/test-classifier.log",
+      "bytes": 236,
+      "sha256": "e811dad919ab5f127f21c17f0e575981fc4d2746cb2396984478e14afd414ea3"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217b-windows/test-classifier_io.log",
+      "bytes": 239,
+      "sha256": "31f70656f0db7010eb1e475016db63e3a53df105d68fa9b311ee7138e23853bc"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217b-windows/test-pixel_features.log",
+      "bytes": 240,
+      "sha256": "84d00d7b9105f490131c3c89cd71ad8a913810895d0912797bc14ceddac33e70"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217b-windows/test-pixel_workflows.log",
+      "bytes": 372,
+      "sha256": "fd9da443ee5ad46eb79bd4169f8cb8f38559f30d46446d56ce1c0f9bf0ea930b"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217b-windows/test-project.log",
+      "bytes": 235,
+      "sha256": "33f9845628c45fca5d162465c0ad8c565b577f943fd14695f38cf6bd6a731975"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217b-windows/test-project_save.log",
+      "bytes": 240,
+      "sha256": "711870cf2f32f0dae673204f701ebba18677db9fdb2bf7d7e6db980924e47213"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217b-windows/test-provenance.log",
+      "bytes": 238,
+      "sha256": "72cf5c82248cf3539956233aae17477de115ce8a35aeea4ccf3542fe7295ae43"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217b-windows/test-raw_image.log",
+      "bytes": 237,
+      "sha256": "26d633d6866c334c900dd409ebb3e11c630e3fb3338f9e4dabe5062f8b8baa42"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217b-windows/test-recovery.log",
+      "bytes": 236,
+      "sha256": "882e2be1501e6135030bd1cf8eaa7ae74b44f457dc1a7e3ce70a5239c98757ea"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217b-windows/test-resampling.log",
+      "bytes": 236,
+      "sha256": "de446a350475c116f5c87457e1718f103e149ca70bc03c1bab97da19fb47984b"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217b-windows/test-source_identity.log",
+      "bytes": 243,
+      "sha256": "3f29058b6f59b66e5cbcbbb4b1631fa89d06988bea6a7c35e4616087416973a9"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217b-linux/build.log",
+      "bytes": 173397,
+      "sha256": "e0f6795162b4cd66f503c89200e1b179a8bbb018d311e0c627bf8548632ca407"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217b-linux/commands.json",
+      "bytes": 2649,
+      "sha256": "236d78364ac49b3eccedc4d056d700feab4de54e50abaf648ccae33aa63a32a3"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217b-linux/compiler-inputs.json",
+      "bytes": 35238,
+      "sha256": "2a3ee8f40ddc0eb25aba5b98fa74bf50f317e42dfd860905554ad277d7683f07"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217b-linux/configure.log",
+      "bytes": 3354,
+      "sha256": "701edfc051a9a85000748e38bfe3fa48143c7cd9fe6049516797b666ad062083"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217b-linux/tests.log",
+      "bytes": 1491,
+      "sha256": "e7627b349168eea5bf58b095c25c224f1585fac286997b74ae95b6fbc3e12082"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217b-linux/tests.xml",
+      "bytes": 5516,
+      "sha256": "dea0dcf886b832ee3d86992c1102e2a81f10b21f538dfde17d99beefcd61d919"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217c-windows/build.log",
+      "bytes": 17416,
+      "sha256": "0aaefa960961cc2c7ea7faff41f11191c4b6cec04482e90bf5f42c083f1a95b1"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217c-windows/classifier.xml",
+      "bytes": 382,
+      "sha256": "12e8a50360c5b5487e0bc986f6bbd6f1e9d42712ff99df3ee58bcbf7f7bc2682"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217c-windows/classifier_io.xml",
+      "bytes": 379,
+      "sha256": "330ba71fc6433f738cd6434e88d61af29cda1df5f156f5230f845ad918c219d4"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217c-windows/commands.json",
+      "bytes": 7815,
+      "sha256": "af7a449f68a4f21f73ff3f7af79a0eef85ee4be169349c137dec4af31b23cc9c"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217c-windows/compiler-inputs.json",
+      "bytes": 35238,
+      "sha256": "5e7f8c9a71b94f8bd1f44cbff26191d24193863a8c62744868ce1930f21efcad"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217c-windows/configure.log",
+      "bytes": 3579,
+      "sha256": "f3341e38eb45270b748819681467a0e3c1e52e0cee9643cf1b82141a3457510c"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217c-windows/pixel_features.xml",
+      "bytes": 737,
+      "sha256": "fe44c3a4fe8b69d460bc5986e8f249d9300bd009a10d4aa94eb50193ad612335"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217c-windows/pixel_workflows.xml",
+      "bytes": 621,
+      "sha256": "bb8d7d2f794c441e11c6a34244d2c1a6716346ba54dc26f8ae04c4a07402c3eb"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217c-windows/project.xml",
+      "bytes": 422,
+      "sha256": "7999d0d28a14c1fdaed3c81aa946d275848944129a9bda5692b48970627eb640"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217c-windows/project_save.xml",
+      "bytes": 439,
+      "sha256": "08b740f98335b4590205c5a435c3f052729e3ac2936cc28c6635f790ae21740c"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217c-windows/provenance.xml",
+      "bytes": 421,
+      "sha256": "6d489fa62a391c3992b4173c350ea335d53b9fb5c5198400553f20d948918446"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217c-windows/raw_image.xml",
+      "bytes": 1072,
+      "sha256": "79344d2efdfa97a601c0f8ba8243cf96c37d7d3adbc80ed3a20ecd469975f70b"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217c-windows/recovery.xml",
+      "bytes": 502,
+      "sha256": "b2d83ad71a869f5666e1fa01ec4567e59bd2fc170270e3d5310398327a59b991"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217c-windows/resampling.xml",
+      "bytes": 2308,
+      "sha256": "1b724f49dbc4f422c35201005dba6820e047f8deb62daa0edbfa06f2a85c1abf"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217c-windows/source_identity.xml",
+      "bytes": 537,
+      "sha256": "e7db386578e2c2ab78af714ebe39466401335fa6f0c5876af626b4b8d378fc28"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217c-windows/test-classifier.log",
+      "bytes": 236,
+      "sha256": "e811dad919ab5f127f21c17f0e575981fc4d2746cb2396984478e14afd414ea3"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217c-windows/test-classifier_io.log",
+      "bytes": 239,
+      "sha256": "4e79ff921f64f9d99fdf14d874f2369a97bb18f54c43b2110558856051f662ed"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217c-windows/test-pixel_features.log",
+      "bytes": 240,
+      "sha256": "83f7eec7c2608ffed34cd70bfdd195c67027ee14931d0157cdfa1cabb2c28716"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217c-windows/test-pixel_workflows.log",
+      "bytes": 578,
+      "sha256": "e4e1989db61448059a77f6c6a52145cd7d62f28857ec481faf0e4aeddf44c399"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217c-windows/test-project.log",
+      "bytes": 235,
+      "sha256": "786aa463aff5c0a4d93af84f0656f2fb1c08bc305b1b36ad2c19c61099f4ba74"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217c-windows/test-project_save.log",
+      "bytes": 240,
+      "sha256": "a41ff4884918f0f0a44ed2f8faf3de959ed0727fc0755c6ca4e0adfb364d096d"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217c-windows/test-provenance.log",
+      "bytes": 238,
+      "sha256": "72cf5c82248cf3539956233aae17477de115ce8a35aeea4ccf3542fe7295ae43"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217c-windows/test-raw_image.log",
+      "bytes": 237,
+      "sha256": "f88175da10baa5e590f5f3f7edcf147d8d8ad5559540bf9cdb4adfe0c23f0403"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217c-windows/test-recovery.log",
+      "bytes": 236,
+      "sha256": "44aa95592ad8e8f267424c53c544bd5404da21f57152e05de8cae6390f2d260b"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217c-windows/test-resampling.log",
+      "bytes": 236,
+      "sha256": "f44097e8371fd6e1e8554c9cb44e615881e7e65c8e9dff36ed774b4789ea591a"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217c-windows/test-source_identity.log",
+      "bytes": 243,
+      "sha256": "ff41870adbced66a196b6a9273a6202182adedbde9956d19a528fb6a487e2ffc"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217c-linux/build.log",
+      "bytes": 401463,
+      "sha256": "c02290982343be8cc3d0da9249cbc4eb82b73bbca653336a0ec59247aceb8035"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217c-linux/commands.json",
+      "bytes": 2649,
+      "sha256": "869abc2cb48460af97d6e2906030ae51dc880cfef3952bae64ad464262e0c445"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217c-linux/compiler-inputs.json",
+      "bytes": 35238,
+      "sha256": "5e7f8c9a71b94f8bd1f44cbff26191d24193863a8c62744868ce1930f21efcad"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217c-linux/configure.log",
+      "bytes": 3354,
+      "sha256": "0add8a095d69bdef1fc41fc5281a0c24f2d9cff69924b24ef6d07b94405b978b"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217c-linux/tests.log",
+      "bytes": 1697,
+      "sha256": "7514ec81b5a7e6e8dfb0627cae3a2bdb980024e7791f3af7f687c00f4b3c634a"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217c-linux/tests.xml",
+      "bytes": 5721,
+      "sha256": "469bcf2e8a1802ec535a7c149176e44a24e53ddb24c7422e46e997331481fa79"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217d-windows/build.log",
+      "bytes": 10659,
+      "sha256": "519e990aa99961935b0e0fc9540acc499a6f03431060c267273df30111540c26"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217d-windows/classifier.xml",
+      "bytes": 382,
+      "sha256": "acbadf2fd1c98e4d3bd9b77a45c01b7579d67d2426574883db1bd3b043ac375c"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217d-windows/classifier_io.xml",
+      "bytes": 377,
+      "sha256": "7ffd684d771c66f4d8fe42c62ea8c06d6327715347f23b0ba29c62fe2a630939"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217d-windows/commands.json",
+      "bytes": 7814,
+      "sha256": "7a6b431e81cd1f6dcd6be17d8c31bff0db033e9d1168227ca17fcc51f637bb75"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217d-windows/compiler-inputs.json",
+      "bytes": 35238,
+      "sha256": "b157c767dba45d56399505491644489e5a8628856c4a5c9f6148577b431ef5bd"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217d-windows/configure.log",
+      "bytes": 3579,
+      "sha256": "57c1fb38c99a634e6546070302461deb2fe1cdf380a2f9faecdfccbe99fa12b8"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217d-windows/pixel_features.xml",
+      "bytes": 737,
+      "sha256": "f451010655bb44fe728a186cdf770c389bdab810e7310b66a79e1f63b8520015"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217d-windows/pixel_workflows.xml",
+      "bytes": 602,
+      "sha256": "84fa993baf0a0a6c8413de391deeade40244713d06b0e040af88b554c5743ae7"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217d-windows/project.xml",
+      "bytes": 422,
+      "sha256": "83adc9c93bb4a90ba6566aad966546b07283aaa00bf255fe86c885708a38c998"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217d-windows/project_save.xml",
+      "bytes": 438,
+      "sha256": "e6a62a3e3c46e1f82d050967973c6aacb7f6f16af900983d7c906be3eb924a16"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217d-windows/provenance.xml",
+      "bytes": 421,
+      "sha256": "90530c0c83a748b1935da68ceae74e88d3499e80fea786f47ddd2b690fc7750d"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217d-windows/raw_image.xml",
+      "bytes": 1072,
+      "sha256": "dec864d0e48c8cdab75e74174a89c2b0a9fbb558d2136e3e58d05b8542485634"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217d-windows/recovery.xml",
+      "bytes": 502,
+      "sha256": "7990c56c3f3041be3698f7ed97713cfcd3e560255d1f9fd753cf280a83e96e57"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217d-windows/resampling.xml",
+      "bytes": 2308,
+      "sha256": "13a06b1e6a33387cdbd2c5d91fc828f260c8b22b9af9dfe01bde27ea406f690f"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217d-windows/source_identity.xml",
+      "bytes": 537,
+      "sha256": "940ec05520dd41781f0d9032638c33e2d0e10de52734a9c5bab2386e2c99d390"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217d-windows/test-classifier.log",
+      "bytes": 236,
+      "sha256": "292c2ced97a0e3413b5394c6cdfce65d5658abcf83fdcecb329a9f95327d19d2"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217d-windows/test-classifier_io.log",
+      "bytes": 239,
+      "sha256": "fa2b9f410ed4444c6c14232fcfb3d5b7c83bf46fc8dc4263ab1e233fdfb5af76"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217d-windows/test-pixel_features.log",
+      "bytes": 240,
+      "sha256": "84d00d7b9105f490131c3c89cd71ad8a913810895d0912797bc14ceddac33e70"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217d-windows/test-pixel_workflows.log",
+      "bytes": 558,
+      "sha256": "85a1f099ef38fe956c4f56f91b7350173f9c8a0a70db7921f23798b539a9ac1c"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217d-windows/test-project.log",
+      "bytes": 235,
+      "sha256": "247dfa636ffbe7ed1fefab7acc4e9fe6590403c57b2788c0bc574d5565999327"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217d-windows/test-project_save.log",
+      "bytes": 240,
+      "sha256": "c0bd343cabcbc6792aa9be1d0e93e6b448d3c3df7f1419110039ccbe90fad3e4"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217d-windows/test-provenance.log",
+      "bytes": 238,
+      "sha256": "84160777775ec465c838d851c1106ec144d3a926bff7d588cb7e95476422c3a2"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217d-windows/test-raw_image.log",
+      "bytes": 237,
+      "sha256": "176c190e849ab5eda96fa19a5e021cc54311c6f8325b6d01af69b8010ca6f76d"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217d-windows/test-recovery.log",
+      "bytes": 236,
+      "sha256": "88b8298a66fb40f460a81214547a94dcebfea2f70b805a0c7f1af6e4e045377b"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217d-windows/test-resampling.log",
+      "bytes": 236,
+      "sha256": "f44097e8371fd6e1e8554c9cb44e615881e7e65c8e9dff36ed774b4789ea591a"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217d-windows/test-source_identity.log",
+      "bytes": 243,
+      "sha256": "ff41870adbced66a196b6a9273a6202182adedbde9956d19a528fb6a487e2ffc"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217d-linux/build.log",
+      "bytes": 25405,
+      "sha256": "b12f2a6cea16f8b422eb1aca52b75af3b7f7f8a3857002c0007b1ac113e46df8"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217d-linux/commands.json",
+      "bytes": 2650,
+      "sha256": "2ed5747d11f841f24f89f6a28f0fbc16ad09acbba497ef264779bbc6200da8d8"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217d-linux/compiler-inputs.json",
+      "bytes": 35238,
+      "sha256": "b157c767dba45d56399505491644489e5a8628856c4a5c9f6148577b431ef5bd"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217d-linux/configure.log",
+      "bytes": 3354,
+      "sha256": "0ad8fd5136c12452d6626ba813803782790ac72b074a8302f6fac5fbd6c77e99"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217d-linux/tests.log",
+      "bytes": 1677,
+      "sha256": "247513c300ebc733112b85c9d46346e68202399d9d018b0c6487d221788eae1c"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217d-linux/tests.xml",
+      "bytes": 5698,
+      "sha256": "cd92696e62e479c91d32e8daba8c5509dd0444d2b70c8c2d875c1e84a9320c5b"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217e-windows/build.log",
+      "bytes": 10659,
+      "sha256": "519e990aa99961935b0e0fc9540acc499a6f03431060c267273df30111540c26"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217e-windows/classifier.xml",
+      "bytes": 382,
+      "sha256": "ea99a68f0e0b58b68c836f96f9393917db030e9cdc48deec97a3891c62859574"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217e-windows/classifier_io.xml",
+      "bytes": 379,
+      "sha256": "14905ade71762ff19f1bd52d489f924cd0971d62fefcb6206d80befd4f65027f"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217e-windows/commands.json",
+      "bytes": 7819,
+      "sha256": "8b30edf673a36c2f7b04ce34e09f12d0800dac4588718056699c94227e5f371c"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217e-windows/compiler-inputs.json",
+      "bytes": 35238,
+      "sha256": "40e2f1b7955c9b46cba969be14472f03a8157e36e6cc4740847b412df18b30c2"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217e-windows/configure.log",
+      "bytes": 3579,
+      "sha256": "3091a4dc1818ba2c92ac0f99b172b5deb187823d9692a4985694cadca5ab50c3"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217e-windows/pixel_features.xml",
+      "bytes": 737,
+      "sha256": "2fc6ec33f32b86afba6b19ace22fef762cceba71554cd247339a22646243ba47"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217e-windows/pixel_workflows.xml",
+      "bytes": 806,
+      "sha256": "573d2f1cccc614d248b50e8e2f7795c58655fc69da0d3175cc17d802927941be"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217e-windows/project.xml",
+      "bytes": 422,
+      "sha256": "216b2cd63c88e6341a0e5f2bd9f1affc6742cb0ae1151e9629490eeaa41a98b1"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217e-windows/project_save.xml",
+      "bytes": 439,
+      "sha256": "555da17c5c68721a74ad594100719fad433aeda90d2dc902e3855515e8b71736"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217e-windows/provenance.xml",
+      "bytes": 421,
+      "sha256": "a4347dcfc8074b082a9ed1ae11b1bd087fcb82922d30d67f838814feb56e4885"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217e-windows/raw_image.xml",
+      "bytes": 1072,
+      "sha256": "73d97433565b5041996960b5d9b7342eb3b3aef94af4d333d285df237a85a280"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217e-windows/recovery.xml",
+      "bytes": 502,
+      "sha256": "35451abcc7a54f151de05e4c5bd6d8d222101b6a96f578973e54fdfe31f00092"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217e-windows/resampling.xml",
+      "bytes": 2308,
+      "sha256": "4b053e0f468be759252d62a306069deb92fc9a63fea09517e55f9738ebc334b8"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217e-windows/source_identity.xml",
+      "bytes": 537,
+      "sha256": "cdd9b1a856e96f8d2442404f787e7344570bf3c73af19a988aca8de73c97a75c"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217e-windows/test-classifier.log",
+      "bytes": 236,
+      "sha256": "b713ccd00e5cf7641261efa4bbfaed449dbaf99ab4fcbdb375e8b4703f9f9e4f"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217e-windows/test-classifier_io.log",
+      "bytes": 239,
+      "sha256": "4e79ff921f64f9d99fdf14d874f2369a97bb18f54c43b2110558856051f662ed"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217e-windows/test-pixel_features.log",
+      "bytes": 240,
+      "sha256": "84d00d7b9105f490131c3c89cd71ad8a913810895d0912797bc14ceddac33e70"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217e-windows/test-pixel_workflows.log",
+      "bytes": 762,
+      "sha256": "5e23edcfc32086c3cdbc6320c9459f992f682f3be2ee8da6f3441dc094d2f90d"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217e-windows/test-project.log",
+      "bytes": 235,
+      "sha256": "eb58e3abcb9edc71d6e2450491dad228949208c8597c542cdd1ddd47c2e22d56"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217e-windows/test-project_save.log",
+      "bytes": 240,
+      "sha256": "504217a8794bdc98f66fae06926604c7d69e9405dc9fb8455ee55db7bc0575a8"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217e-windows/test-provenance.log",
+      "bytes": 238,
+      "sha256": "72cf5c82248cf3539956233aae17477de115ce8a35aeea4ccf3542fe7295ae43"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217e-windows/test-raw_image.log",
+      "bytes": 237,
+      "sha256": "f88175da10baa5e590f5f3f7edcf147d8d8ad5559540bf9cdb4adfe0c23f0403"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217e-windows/test-recovery.log",
+      "bytes": 236,
+      "sha256": "e879797542d0ff1a3e93e027ebfa9be2e2a04ad550a8dc2af76cc9e7e6b2d0a8"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217e-windows/test-resampling.log",
+      "bytes": 236,
+      "sha256": "de446a350475c116f5c87457e1718f103e149ca70bc03c1bab97da19fb47984b"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217e-windows/test-source_identity.log",
+      "bytes": 243,
+      "sha256": "7e57d217a8590e6725cdf2ef1a8c11ce95dd4517bc90070ed89bb3ffee73c6c1"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217e-linux/build.log",
+      "bytes": 25196,
+      "sha256": "536543d13565ce81f37f0c88dfe2011c56d0ef8d21ab1599f15e1d8a5ff0aa5d"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217e-linux/commands.json",
+      "bytes": 2651,
+      "sha256": "cef3dd5981b9dd891107f0b9eb9562120ff0d440b42d6bd834acb050b5c2b85e"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217e-linux/compiler-inputs.json",
+      "bytes": 35238,
+      "sha256": "40e2f1b7955c9b46cba969be14472f03a8157e36e6cc4740847b412df18b30c2"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217e-linux/configure.log",
+      "bytes": 3354,
+      "sha256": "0fb0334f1140932c91449a8fe0885a2064f2dcf8e2e34bc52e876da37d4dc069"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217e-linux/tests.log",
+      "bytes": 1866,
+      "sha256": "9d55083eb8437414c1221f25850e7855eb1eb38fd0645027b48d8030d528bc2c"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/development/rawarchive217e-linux/tests.xml",
+      "bytes": 5892,
+      "sha256": "3f91131ac2efe96f46d3c11a1e60fa71fdc97ef2c2359dfc8c15810ddc4a27e2"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/compiler-git-proof.json",
+      "bytes": 114339,
+      "sha256": "32d86aa0a30b347037b9bf3d2224f35dcfcc6e4e27dabbbbfd26d3ac226b3fa0"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/retained-binaries.json",
+      "bytes": 855,
+      "sha256": "96811ca8575499c79ce19b40f238d115755ca42c74ab95811b855cb8c505ae77"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/build_rawarchive217f.py",
+      "bytes": 3529,
+      "sha256": "91ff204405d5c123733b6468030279d33b3f3e4cc4d9401d9688ba750b6f126d"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-archives-local/receipt_rawarchive217.py",
+      "bytes": 8551,
+      "sha256": "4130fa7acdcf2d2d1aa5f1fff3f08c8b1dfc7020c2774873078805b1e3965892"
+    }
+  ],
+  "retained_binaries": "build/rawarchive217f-retained-binaries",
+  "main_changed": false,
+  "milestones": "M0-M7 Partial"
+}

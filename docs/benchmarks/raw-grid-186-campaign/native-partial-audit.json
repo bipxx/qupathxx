@@ -1,0 +1,76 @@
+{
+  "schema": "qpx.raw-grid-native-partial/1",
+  "source": "745662be8144ce6b81fe72f4ffba1f73bae9ad33",
+  "run": 40218705420,
+  "jobs": [
+    {
+      "name": "Linux-minimal-py3.12",
+      "native_passed": 49,
+      "artifact_id": 12608269714,
+      "science": {
+        "suites": 10,
+        "project": false,
+        "geos": false,
+        "tiff": false,
+        "scientific_acceptance": false
+      },
+      "resampling": {
+        "passed": 1,
+        "independent_oracle_shapes": 2205
+      },
+      "qptma": {
+        "passed": 1,
+        "bounded_grid_cores": 10000,
+        "atomic_document_and_file_checks": true
+      },
+      "qptma_project": {
+        "passed": 1,
+        "project_storage_enabled": false,
+        "atomic_persistence_and_cli_checked": false
+      },
+      "hierarchy": {
+        "hierarchy_enabled": false,
+        "hierarchy_qualified": 0,
+        "physical_path_policy": true,
+        "recovery_storage_qualified": false
+      },
+      "engine_identity": "Typed raw sampling engine identity 95587624d0ea85ab55c41f2759a87c5f9187ce6954bfddcf499639a6b285a72e 745662be8144ce6b81fe72f4ffba1f73bae9ad33"
+    },
+    {
+      "name": "Linux-sanitize-py3.12",
+      "native_passed": 49,
+      "artifact_id": 12608496959,
+      "science": {
+        "suites": 10,
+        "project": true,
+        "geos": true,
+        "tiff": true,
+        "scientific_acceptance": false
+      },
+      "resampling": {
+        "passed": 1,
+        "independent_oracle_shapes": 2205
+      },
+      "qptma": {
+        "passed": 1,
+        "bounded_grid_cores": 10000,
+        "atomic_document_and_file_checks": true
+      },
+      "qptma_project": {
+        "passed": 1,
+        "project_storage_enabled": true,
+        "atomic_persistence_and_cli_checked": true
+      },
+      "hierarchy": {
+        "hierarchy_enabled": true,
+        "hierarchy_qualified": 1,
+        "physical_path_policy": true,
+        "recovery_storage_qualified": true
+      },
+      "engine_identity": "Typed raw sampling engine identity 95587624d0ea85ab55c41f2759a87c5f9187ce6954bfddcf499639a6b285a72e 745662be8144ce6b81fe72f4ffba1f73bae9ad33"
+    }
+  ],
+  "scope": "Two completed Linux native variants only; Windows,Mac native and portable build/consumer gates pending.",
+  "platform_campaign_accepted": false,
+  "release_ready": false
+}

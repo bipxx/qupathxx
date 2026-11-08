@@ -1,0 +1,43 @@
+{
+  "requirement": "R5-ASSISTSTATE1",
+  "product_source": "25b342fc1346e4220398c2966b18a6325aed54b4",
+  "platform": "Windows x64 CPython3.12 Release; project/interchange/TIFF/OpenSlide/GEOS/GUI enabled",
+  "fixture": "../../../tests/fixtures/qupath-assisted-state-0.7.0/manifest.json",
+  "results": {
+    "staged_original": {
+      "passed": 76,
+      "failed": 1,
+      "skipped": 5
+    },
+    "observer_repair": {
+      "passed": 4,
+      "failed": 1
+    },
+    "absent_member_repair": {
+      "passed": 1
+    },
+    "combined_staged_unique_passes": 77,
+    "native_roles": 4,
+    "desktop": 1,
+    "installed_mixed_and_stubs": 6,
+    "producer_controls": 3
+  },
+  "failures": [
+    "Original staged observer attempted to modify absent classes.json; no product failure.",
+    "Repaired observer correctly saw input-appeared error but expected changed; final observer uses existence-specific message.",
+    "Root python had no pip; retained wheel installed once with discovered uv.",
+    "Earlier inline nested-quote command failed before execution; literal here-string repaired it.",
+    "Windows rg wildcard path failed; directory plus -g filtering used."
+  ],
+  "cost": {
+    "product_builds": 1,
+    "build_seconds": 45.54938090010546,
+    "successful_installs": 1,
+    "stub_generations": 0,
+    "producer_captures_reused": 6,
+    "producer_control_runs": 3
+  },
+  "scope": "Explicit exchange2 native/GeoJSON/mixed selection, four native image state groups, source guards, retained hierarchy/TMA, old exchange1 compatibility and actual Python/desktop routes. Not full R5 parity, biological accuracy, resource/speed or supported-release acceptance.",
+  "integrity": "integrity.json",
+  "observer": "tests/test_qupath_assisted_state.py changed after product freeze; hashes in integrity.json; compiler inputs unchanged"
+}

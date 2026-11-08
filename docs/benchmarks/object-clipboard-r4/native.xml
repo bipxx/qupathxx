@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="5"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="1"
+	timestamp="2026-11-04T17:49:58"
+	>
+	<testcase name="document_edits" classname="document_edits" time="0.221131" status="run">
+		<properties/>
+		<system-out>Atomic edits, subtree restore, calibration and bounded undo passed
+</system-out>
+	</testcase>
+	<testcase name="geometry_edits" classname="geometry_edits" time="0.038705" status="run">
+		<properties/>
+		<system-out>Annotation merge, point union, child preservation and atomic history passed
+Vertex edits, holes, area overlay and journal passed
+</system-out>
+	</testcase>
+	<testcase name="selection" classname="selection" time="0.223406" status="run">
+		<properties/>
+		<system-out>Selection, classification and atomic delete passed
+</system-out>
+	</testcase>
+	<testcase name="project" classname="project" time="0.196452" status="run">
+		<properties/>
+		<system-out>Project source verification: historical round trip, reviewed replacement, stale/file-change refusal and codec checks passed
+Verified relink reader handoff, source observation, owned pixels and independent old-owner lifetime passed
+Project object properties: exact native persistence and independent immutable owner passed
+Multi-image project round trip, source pixels and stale saves passed; SQLite 3.54.1
+</system-out>
+	</testcase>
+	<testcase name="interchange" classname="interchange" time="0.0528096" status="run">
+		<properties/>
+		<system-out>Object editing state: shared facts, exact version2 codec and version1 compatibility refusal passed
+Object properties: immutable history, special numbers, checksummed codec and lossless GeoJSON round trip passed
+Native nested GeoJSON hierarchy, nucleus, flat compatibility and depth bounds passed
+Native clipboard selection, graph remapping, atomic history and byte refusal passed
+Native interchange atomicity and exact rectangle round trip passed
+</system-out>
+	</testcase>
+</testsuite>

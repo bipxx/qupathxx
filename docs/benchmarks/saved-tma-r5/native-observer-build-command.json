@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\cmake.exe",
+    "--build",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package",
+    "--config",
+    "Release",
+    "--target",
+    "qupathxx_qupath_project_tests",
+    "--parallel",
+    "2"
+  ],
+  "returncode": 0,
+  "elapsed_seconds": null,
+  "postcheck": "Core-archive identity assertion failed: CMake regenerated provenance after the observer input changed.",
+  "original_core_library_sha256": "106eb289cae6506b1c4f858bac306fdca0c448bce8b919be37bf5d11ee8fefa3",
+  "observer_core_library_sha256": "f4beb2bfaffbee9b717d1fbcd850dbbd60f7650e49f26e15ced71a317de12093",
+  "postcheck_returncode": 1
+}

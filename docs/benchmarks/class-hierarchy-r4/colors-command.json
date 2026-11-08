@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\upstream\\qupath\\runtime\\QuPath-0.7.0 (console).exe",
+    "script",
+    "--args",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\class-hierarchy-r4",
+    "--args",
+    "Dark candidate 141",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tools\\upstream\\qupath_class_colors_reference.groovy"
+  ],
+  "returncode": 0,
+  "seconds": 2.0635496000759304,
+  "probe_sha256": "a4d174d3cd37b4ca79cd8db703305a37f08761213a09cf08c893fa7f30b7a0d8",
+  "dark_first_triplet": [
+    13,
+    38,
+    21
+  ]
+}

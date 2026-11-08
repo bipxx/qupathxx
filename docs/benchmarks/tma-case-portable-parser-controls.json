@@ -1,0 +1,30 @@
+{
+  "schema": "qpx.tma-case-portable-parser-controls/1",
+  "source_fix": "691895f",
+  "positive_native": {
+    "case_aggregation_checked": true,
+    "compensated_signed_sums_checked": true,
+    "mean_underflow_checked": true,
+    "cancellation_checked": true,
+    "signed_decimal_locale_checked": true
+  },
+  "negative_controls_rejected": [
+    "pre-portability-native-evidence",
+    "missing-decimal-case",
+    "duplicate-decimal-case",
+    "decimal-failure",
+    "decimal-error",
+    "decimal-skipped",
+    "missing-signed-parser-marker"
+  ],
+  "native_junit_sha256": "d764f32e2008295fe35b40de90e05494108b2e3dde8d25589b420506298dd5f2",
+  "helper_sha256": "7fd5944c3f923806be943a2c0ea2a29d6453a0612ac1452a77f202463dc46117",
+  "initial_macos_source": "758bc390dd8732443bc2f1072fbdbab0918412ad",
+  "initial_macos_run": 40095326796,
+  "failed_architecture": "arm64",
+  "failed_build_log_sha256": "d4f1159d993b1e88fb85217feafa28b62320203ef49e4fabd5a62df9323176f0",
+  "failure": "Xcode 16.4 libc++ C++17 has no floating std::from_chars overload; native build stopped before tests",
+  "replacement": "Strict signed-decimal grammar and immutable per-process C locale via existing DecimalLocale",
+  "scope": "Windows minimal native parser/TMA checks and auditor controls only. New installed/platform candidate acceptance remains pending.",
+  "release_ready": false
+}

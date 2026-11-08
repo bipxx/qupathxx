@@ -5,6 +5,7 @@
 #include "utf8_text.hpp"
 #include "object_feature_snapshot.hpp"
 #include "object_classifier_archive.hpp"
+#include "cell_sampling_grid.hpp"
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -66,9 +67,14 @@ ObjectFeatureRequest::ObjectFeatureRequest(const Document& doc,const std::vector
             if(options.cytoplasm_rgb && !cell.cytoplasm_rgb) throw std::invalid_argument("cell has no cytoplasm measurements");
             data->cells.push_back(std::move(cell));
             const auto& link=*a.cell_feature_link;auto found=source_runs.find(link.record_id);
+            if(auto statistics=doc.cell_record(link.record_id)->result->intensity_statistics(link.label)) data->store_statistics(data->cells.size()-1,std::move(*statistics));
             if(found==source_runs.end()) {
                 const auto record=doc.cell_record(link.record_id);const auto& result=*record->result;const auto& nucleus=*result.nuclei();
-                auto run=std::make_shared<ObjectCellFeatureSource>();run->record_id=link.record_id;run->object_id=nucleus.object_id();run->object_revision=nucleus.object_revision();run->document_revision=nucleus.document_revision();run->cell_count=result.features().size();run->producer=record->producer;run->algorithm=result.algorithm();run->input_sha256=nucleus.input_sha256();run->parameters=result.parameters();run->roi=nucleus.roi();run->level=nucleus.level();run->downsample=nucleus.downsample();run->white=nucleus.white();run->stains=nucleus.stains();run->provenance=nucleus.provenance();
+                auto run=std::make_shared<ObjectCellFeatureSource>();run->record_id=link.record_id;run->object_id=nucleus.object_id();run->object_revision=nucleus.object_revision();run->document_revision=nucleus.document_revision();run->cell_count=result.features().size();run->producer=record->producer;run->algorithm=result.algorithm();run->input_sha256=nucleus.input_sha256();run->roi=nucleus.roi();run->level=nucleus.level();run->white=nucleus.white();run->stains=nucleus.stains();run->provenance=nucleus.provenance();
+                if(result.grid_parameters()) {
+                    if(nucleus.nominal_sampling()) {run->nominal_sampling=std::make_shared<const NominalCellSampling>(*nucleus.nominal_sampling());run->nominal_exact_support=CellSamplingGrid::exact_support_for(*nucleus.nominal_sampling(),nucleus.input_format());}else run->scientific_grid=*nucleus.scientific_grid();run->grid_parameters=*result.grid_parameters();run->resolved_grid_parameters=*result.resolved_grid_parameters();
+                    run->parameters.algorithm=CellAlgorithm::GridLogWatershedBodies;run->downsample=std::numeric_limits<double>::quiet_NaN();
+                } else {run->parameters=result.parameters();run->downsample=nucleus.downsample();}
                 charge(run->payload_bytes());found=source_runs.emplace(link.record_id,std::move(run)).first;
             }
             data->origins.push_back({link.record_id,link.label,found->second});
@@ -96,6 +102,12 @@ const Roi& ObjectFeatureTable::body_roi(std::size_t row) const {return snapshot_
 std::optional<Roi> ObjectFeatureTable::nucleus_roi(std::size_t row) const {return snapshot_->rows.at(row).nucleus;}
 std::optional<ObjectFeatureCellOrigin> ObjectFeatureTable::cell_origin(std::size_t row) const {(void)snapshot_->rows.at(row);if(snapshot_->origins.empty()) return {};return snapshot_->origins.at(row);}
 std::optional<CellFeature> ObjectFeatureTable::cell_feature(std::size_t row) const {(void)snapshot_->rows.at(row);if(snapshot_->cells.empty()) return {};return snapshot_->cells.at(row);}
+std::optional<CellIntensityStatistics> ObjectFeatureTable::cell_intensity_statistics(std::size_t row) const {
+    (void)snapshot_->rows.at(row);const auto& stats=snapshot_->statistics;
+    const auto it=std::lower_bound(stats.begin(),stats.end(),row,[](const auto& entry,std::size_t value){return entry.first<value;});
+    if(it==stats.end() || it->first!=row) return {};return it->second;
+}
+
 
 
 struct ObjectClassifierKernel {
@@ -233,7 +245,8 @@ ObjectClassifierStats ObjectClassifierJob::poll(const Document& doc) {
     }
     if(!busy() && !s.model) {s.request.reset();s.input_model.reset();}return s.stats;
 }
-ObjectClassifierStats ObjectClassifierJob::wait(const Document& doc) {poll(doc);if(busy()) impl_->future.wait();return poll(doc);}
+void ObjectClassifierJob::await_completion() {if(impl_->future.valid()) impl_->future.wait();}
+ObjectClassifierStats ObjectClassifierJob::wait(const Document& doc) {poll(doc);await_completion();return poll(doc);}
 std::shared_ptr<const ForestModel> ObjectClassifierJob::model() const {return impl_->model;}
 std::shared_ptr<const ObjectFeatureTable> ObjectClassifierJob::table() const {return impl_->table;}
 std::shared_ptr<const ObjectClassificationResult> ObjectClassifierJob::result() const {return impl_->result;}

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="1"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="0"
+	timestamp="2026-10-25T17:54:07"
+	>
+	<testcase name="tma_dearray" classname="tma_dearray" time="0.135168" status="run">
+		<properties/>
+		<system-out>TMA_DEARRAY_FIXTURE aligned max_center_error_pixels=0 missing_flags=match
+TMA_DEARRAY_FIXTURE interior_missing max_center_error_pixels=0 missing_flags=match
+TMA_DEARRAY_FIXTURE rotated_missing max_center_error_pixels=2.84217e-14 missing_flags=match
+TMA_DEARRAY_FIXTURE skewed_missing max_center_error_pixels=0 missing_flags=match
+TMA_DEARRAY_FIXTURE anisotropic max_center_error_pixels=0 missing_flags=match
+TMA_DEARRAY_ADMISSION exact/minus-one budgets, pre-IO geometry, malformed reads, epoch, alpha, polarity, cancellation passed
+TMA_DEARRAY_AXES singleton/row/column, invalid missing-slot support and natural-level coordinates passed
+TMA_DEARRAY_PUBLICATION retained proposal, atomic import/undo/redo, failed import rollback and QPTMA round trip passed
+</system-out>
+	</testcase>
+</testsuite>

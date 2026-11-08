@@ -1,0 +1,5 @@
+{
+  "stage": "Open saved test artifact",
+  "exit": 1,
+  "reason": "Guessed pytest directory suffix differed from actual truncated node directory; no project opened and no capture made"
+}

@@ -1,0 +1,20 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\document-waits-270-env\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tools\\benchmark_pixel_stream_records.py",
+    "--file",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\schema-observer-272\\benchmark-green-temp\\test_pixel_stream_record_bench0\\mask.qps",
+    "--records",
+    "10000",
+    "--project",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\schema-observer-272\\headless-10000.qpxproj",
+    "--output",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\schema-observer-272\\headless-10000.json"
+  ],
+  "cwd": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159",
+  "runtime_source": "c949826",
+  "observer_source": "3aca3d9"
+}

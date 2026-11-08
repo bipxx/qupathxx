@@ -1,0 +1,32 @@
+{
+  "pathClasses": [
+    {
+      "name": "Tumor α: Positive: High",
+      "color": 7833753
+    },
+    {
+      "name": "Tumor α",
+      "color": 1127253
+    },
+    {
+      "name": "Tumor α: Negative",
+      "color": 4487082
+    },
+    {
+      "name": "Tumor α: Positive",
+      "color": 11149841
+    },
+    {
+      "name": "Cell µ 🚀",
+      "color": 11259375
+    },
+    {
+      "name": "Marker / label #1",
+      "color": 1193046
+    },
+    {
+      "name": "Tumor α: Positive: High",
+      "color": 7833753
+    }
+  ]
+}

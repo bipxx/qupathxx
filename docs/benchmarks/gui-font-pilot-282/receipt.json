@@ -1,0 +1,265 @@
+{
+  "schema": "qpx.gui-font-pilot/1",
+  "retained_native_source": "3bd6591930baa64ae5826d8ba3e2efaee37e8376",
+  "old_imgui": "4806a1924ff6181180bf5e4b8b79ab4394118875",
+  "candidate_imgui": "b916186e66aa3c02b72c6ca17455516512ed8049",
+  "candidate_tag": "v1.93.0-docking",
+  "wchar_bits": 32,
+  "sampled_codepoints": 21,
+  "all_sampled_glyphs_present_at_normal_large_maximum": true,
+  "ascii_and_accented_latin_advance_and_raster_preserved": true,
+  "old_default_glyphs": 224,
+  "old_full_bmp_rgba_upload_estimate_bytes": 16777216,
+  "dynamic_ascii_frame_glyphs": 19,
+  "dynamic_final_glyphs": 39,
+  "dynamic_normal_cpu_texture_peak_bytes": 262144,
+  "dynamic_large_cpu_texture_peak_bytes": 786432,
+  "atlas_active_rgba_limit_bytes": 16777216,
+  "stress_supported": 1600,
+  "stress_present": 1396,
+  "stress_cpu_texture_peak_bytes": 33292288,
+  "stress_simulated_gpu_peak_bytes": 33030144,
+  "unpatched_assertions_enabled_exit": 3,
+  "patched_assertions_enabled_exit": 0,
+  "quota_exhaustion_is_recoverable_in_pilot": true,
+  "other_assertions_preserved": true,
+  "upstream_checkout_unmodified": true,
+  "application_changed": false,
+  "application_rebuilt": false,
+  "gl_context_used": false,
+  "gpu_bytes_simulated_not_measured": true,
+  "process_rss_measured": false,
+  "shaping_or_zwj_ligatures_verified": false,
+  "general_unicode_coverage_claim": false,
+  "general_speed_claim": false,
+  "application_font_delivery_complete": false,
+  "full_platform_accepted": false,
+  "release_ready": false,
+  "files": [
+    {
+      "path": "CMakeLists.txt",
+      "bytes": 1745,
+      "sha256": "a8d56538289537fc5253173a69e34c8e281d689e81a6ce4239cc0bebd1b38aa5"
+    },
+    {
+      "path": "legacy_probe.cpp",
+      "bytes": 4840,
+      "sha256": "027e4b35eb33d1d5b4bb8ae0f2fb776e115fbd37a91da9004c1d5db91eb705e6"
+    },
+    {
+      "path": "dynamic_probe.cpp",
+      "bytes": 8802,
+      "sha256": "8dc44bab8b3a241fd412a40e2171b5787d19bd6b3be4620c650acd19c6708da5"
+    },
+    {
+      "path": "input-identity.json",
+      "bytes": 2165,
+      "sha256": "1b7b7cb91a588735a9351a478a812a8380179578298fb13e12bb48ec0f748e71"
+    },
+    {
+      "path": "budget-patch.json",
+      "bytes": 349,
+      "sha256": "825ea142ed8ffbe053e57a9f370e5e7d5adb7e4bab06da63b6c71a4419a876d8"
+    },
+    {
+      "path": "assertion-budget-controls.json",
+      "bytes": 1682,
+      "sha256": "1ce81911bb02a487a3b931bc7106803a1c96918f2bbea2bfe674ab280791b1b2"
+    },
+    {
+      "path": "additional-commands.json",
+      "bytes": 2435,
+      "sha256": "a03935f2729fbe653fbb9a13edc4e88ae05b5f85debed1cb2ec00525696812f7"
+    },
+    {
+      "path": "legacy-normal.json",
+      "bytes": 2873,
+      "sha256": "e79f84b96e6d34b6e292bda5219c706ac1af7ee88c1f5f099cbbfc926cf4ba4b"
+    },
+    {
+      "path": "legacy-large.json",
+      "bytes": 2918,
+      "sha256": "de261f2d25ef36e3d337057af055883c2dda051f74db1081a20772c50a86ea39"
+    },
+    {
+      "path": "legacy-default.json",
+      "bytes": 2833,
+      "sha256": "faab53e76be98a93f43778cfc8288c95b52d079712ba4f96039554960bbdf251"
+    },
+    {
+      "path": "legacy-full-bmp.json",
+      "bytes": 2879,
+      "sha256": "5385d4d27731936a4e50d37843fd4196243bb4ca504062d6dd76e1f9928425f7"
+    },
+    {
+      "path": "dynamic-normal.json",
+      "bytes": 3051,
+      "sha256": "87b339b609e2fd5f854f22f89a2ce0cd883f7c68db1abe271f4a68448379d0c1"
+    },
+    {
+      "path": "dynamic-density2.json",
+      "bytes": 3072,
+      "sha256": "ec66de1746a08bee82bcca8f7aece00c23535699863a547f2f877058624cede5"
+    },
+    {
+      "path": "dynamic-large.json",
+      "bytes": 3094,
+      "sha256": "3f49a74eab6b0e4bae3be569e5851148bdcf64b5e62a45f2bafdaadf64b12537"
+    },
+    {
+      "path": "dynamic-stress.json",
+      "bytes": 3111,
+      "sha256": "f0b793aaefdcb5a23b9a5d51be1f4a89d64c3b835af51c474a0fc597c92e9f4f"
+    },
+    {
+      "path": "dynamic-emoji-large.json",
+      "bytes": 3367,
+      "sha256": "e17508fdc700fb4edd5cc8ff955b00c36a341bdf9ba876dbd682168ae57e45c5"
+    },
+    {
+      "path": "assert-budget-red.log",
+      "bytes": 160,
+      "sha256": "a1356f84d2b1deee82b090bee243da46dbed5938491d85d954305a63f68c7f65"
+    },
+    {
+      "path": "assert-budget-green.log",
+      "bytes": 120,
+      "sha256": "a8e0857e437a3d4e953d440cf106c2dac301050dae908ab170ed2a0936689c4a"
+    },
+    {
+      "path": "assert-budget-green.json",
+      "bytes": 3383,
+      "sha256": "cd1618e255bff108cf39a853f7479e4d7175768a650bbfbc59afa60fb9e1a6ab"
+    },
+    {
+      "path": "assert-normal-green.log",
+      "bytes": 106,
+      "sha256": "1e58c2e30d3e65b90265b69576184e6f3b979d4c7f42948fdf3d4adf41bf8b25"
+    },
+    {
+      "path": "assert-normal-green.json",
+      "bytes": 3365,
+      "sha256": "d48fbfd39853de818b8bb3eaf94f0e84f2756291440f4c7749ee4a3b743c330d"
+    },
+    {
+      "path": "emoji-normal.json",
+      "bytes": 3316,
+      "sha256": "7dc6d4eddf180b72f244d119fb96569b8c89d9385d8ac79d1174b21abe89d397"
+    },
+    {
+      "path": "emoji-density2.json",
+      "bytes": 3337,
+      "sha256": "d04b1682e4d02d6631b0acc812be9476b5028e7b01eaea1cad2fd8b1c7d2f297"
+    },
+    {
+      "path": "emoji-maximum.json",
+      "bytes": 3399,
+      "sha256": "b3e2a4469a4e514a9636cf896faf6db19ef53d75127d04438d715d79f05d4ec2"
+    },
+    {
+      "path": "dynamic-emoji-large.png",
+      "bytes": 12884,
+      "sha256": "b8f62ae60c373a6074452b6365cd7f1e6a12949bd008aa8ea09987acfb8f0ae5"
+    },
+    {
+      "path": "build.log",
+      "bytes": 1202,
+      "sha256": "a9e97a3156bc1fba117dd1b0092215ec449305df918aaae1f8485e7ffb111fee"
+    },
+    {
+      "path": "build-final.log",
+      "bytes": 388,
+      "sha256": "3443f8c2a9d7d63537c16fe790e222ffc0a8ac8cc576220107474a810c90fd45"
+    },
+    {
+      "path": "build-catch.log",
+      "bytes": 298,
+      "sha256": "c0ee66f2b34267bc0844b4fec1b39732b5cd37f1d736efd0fa7f4144765287b2"
+    },
+    {
+      "path": "build-emoji.log",
+      "bytes": 298,
+      "sha256": "c0ee66f2b34267bc0844b4fec1b39732b5cd37f1d736efd0fa7f4144765287b2"
+    },
+    {
+      "path": "build-budget.log",
+      "bytes": 2484,
+      "sha256": "92962adc4e51822cbf149c53fed3b84531d0f2f04ab8e029614d3343b5efe12b"
+    },
+    {
+      "path": "retained-cjk-only/dynamic_probe.cpp",
+      "bytes": 7782,
+      "sha256": "36444d8ca725315e959c46e76967b2559081674f439569af8278751ac959058d"
+    },
+    {
+      "path": "retained-cjk-only/identity.json",
+      "bytes": 472,
+      "sha256": "f981c55a6f13e662ff4f97880f373d993efe2b83bd610f847f00aaa8fae8c74f"
+    },
+    {
+      "path": "retained-emoji/dynamic_probe.cpp",
+      "bytes": 8623,
+      "sha256": "7f0efd5fcbe04b48d557c3351c41bc76bc6e520750641c3bbc15356cd82dc5b6"
+    },
+    {
+      "path": "retained-emoji/identity.json",
+      "bytes": 233,
+      "sha256": "12f085dd32777b62fe9456be5fecdf6333459b92a5e2a394a978eb065a48e8b4"
+    },
+    {
+      "path": "inputs/cjk-manifest.json",
+      "bytes": 1352,
+      "sha256": "64ac43f58decc6ee8a1c260b89a6a7d0e6b72a99e38129e76390be1f0b4063a3"
+    },
+    {
+      "path": "inputs/emoji-manifest.json",
+      "bytes": 1462,
+      "sha256": "00ed8e8a6bc5ca6fc58fe1cd630984ea2f3e23b8fe6f07b1a13c50ae6b8f7ddc"
+    },
+    {
+      "path": "inputs/emoji-OFL.txt",
+      "bytes": 4330,
+      "sha256": "500bb1ccf43df7bbb522112f9133a52b16e1c35e809632f5d8609b179152de5b"
+    },
+    {
+      "path": "inputs/emoji-METADATA.pb",
+      "bytes": 12386,
+      "sha256": "88d5f22b863f40f1e0f14484e018cd93c5e0d899e80523d84351483b2bd3d993"
+    },
+    {
+      "path": "inputs/cjk-OFL.txt",
+      "bytes": 4301,
+      "sha256": "6a73f9541c2de74158c0e7cf6b0a58ef774f5a780bf191f2d7ec9cc53efe2bf2"
+    },
+    {
+      "path": "inputs/cjk-NOTICE.md",
+      "bytes": 888,
+      "sha256": "aa229a2136c426e3deca957c305727e02415198116138d8c1721222b12e22131"
+    },
+    {
+      "path": "inputs/imgui-LICENSE.txt",
+      "bytes": 1104,
+      "sha256": "f20418b409e53c8c9f4e90917ff395554a60320d4dfbf833da89b339cad8628a"
+    },
+    {
+      "path": "tools/prepare_font_pilot_282.py",
+      "bytes": 3093,
+      "sha256": "9447630305043c94ecdb57d90a2fe97a1513cd87315fa617991112180d50af7f"
+    },
+    {
+      "path": "tools/fetch_emoji_font_282.py",
+      "bytes": 1580,
+      "sha256": "f0681a8b25e81340405c1848c1777af935447e21285c0d49f2b1d27ab0a4c80b"
+    },
+    {
+      "path": "budget-patch-canonical.json",
+      "bytes": 307,
+      "sha256": "55de3ef8344992766032a93bf8a5e9cc848172370361837f44b4c149bd00d323"
+    },
+    {
+      "path": "font-budget.patch",
+      "bytes": 498,
+      "sha256": "92c1545a2f268fc309dd7ba29c2eca506e95048226bb432f20b7a8bfe6da5ad8"
+    }
+  ]
+}

@@ -11,6 +11,9 @@ public:
     AnalysisRequest(const Document&,std::uint64_t object_id,const StainTransform&,
         AnalysisKind kind=AnalysisKind::StainMeans,bool nucleus=false,std::size_t tile_size=256);
     AnalysisRequest(const Document&,std::uint64_t,const StainTransform&,AnalysisKind,bool,std::size_t,RoiSamplingPolicy);
+    static AnalysisRequest with_intensity_statistics(const Document&,std::uint64_t,const StainTransform&,
+        AnalysisKind=AnalysisKind::StainMeans,bool nucleus=false,std::size_t tile_size=256,RoiSamplingPolicy=RoiSamplingPolicy::GeometryCoverage);
+    bool measure_intensity() const {return measure_intensity_;}
     bool matches(const Document&,std::uint64_t selected_id) const;
     std::uint64_t object_id() const {return object_id_;}
     std::uint64_t object_revision() const {return object_revision_;}
@@ -31,14 +34,16 @@ private:
     friend class StainEstimateRequest;
     friend class Document;
     friend class TissueRequest;
+    friend class CellRequest;
     friend struct TissueKernel;
-    AnalysisRequest(const Document&,std::uint64_t,const StainTransform&,AnalysisKind,bool,std::size_t,bool allow_empty_grid,RoiSamplingPolicy=RoiSamplingPolicy::GeometryCoverage);
+    AnalysisRequest(const Document&,std::uint64_t,const StainTransform&,AnalysisKind,bool,std::size_t,bool allow_empty_grid,RoiSamplingPolicy=RoiSamplingPolicy::GeometryCoverage,bool snapshot_only=false);
     std::shared_ptr<const char> identity_;
     std::shared_ptr<ImageServer> source_;
     std::uint64_t object_id_,object_revision_,document_revision_,total_tiles_;
     AnalysisKind kind_;
     RoiSamplingPolicy sampling_policy_=RoiSamplingPolicy::GeometryCoverage;
     bool nucleus_;
+    bool snapshot_only_=false,measure_intensity_=false;
     std::size_t tile_size_;
     Roi roi_;
     std::shared_ptr<const AnalysisProvenance> provenance_;
@@ -62,6 +67,8 @@ public:
     bool request(const AnalysisRequest&);
     AnalysisStats poll(const Document&,std::uint64_t selected_id);
     AnalysisStats wait(const Document&,std::uint64_t selected_id);
+    // Native readiness only: no Document access, delivery or captured-owner release.
+    void await_completion();
     void cancel();
     bool busy() const;
     std::optional<AnalysisResult> result() const;

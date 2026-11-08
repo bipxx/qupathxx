@@ -1,0 +1,25 @@
+{
+  "initial_wheel_sha256": "05457f231fe8578660bd3a4cdb4f841c0546e7d24af692062589a1bae5d2705c",
+  "final_wheel_sha256": "4cfbd76c168a50b77d5691011aed91191f7efe6c3221bec9b98ed270ac89ff1d",
+  "native_sha256": "6b383e1501cfd7aa844ee51d5cdfe0e0fbfe5ce472e2dc0cb5980c446a3dd9be",
+  "stub_generation_from_new_wheel": true,
+  "stub_generation_argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\object-edit-state-r5-env\\Scripts\\python.exe",
+    "-X",
+    "utf8",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tools\\generate_stubs.py"
+  ],
+  "install_argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\object-edit-state-r5-env\\Scripts\\python.exe",
+    "-I",
+    "-m",
+    "pip",
+    "install",
+    "--ignore-installed",
+    "--no-index",
+    "--no-deps",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\object-edit-state-r5\\wheel-final\\qupathxx-0.1.0-cp312-cp312-win_amd64.whl"
+  ],
+  "native_rebuild_for_stubs": false,
+  "final_product_installs": 1
+}

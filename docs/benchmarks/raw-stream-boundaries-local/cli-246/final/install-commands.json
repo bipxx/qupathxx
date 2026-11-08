@@ -1,0 +1,45 @@
+[
+  {
+    "name": "create-env",
+    "args": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Scripts\\python.exe",
+      "-m",
+      "venv",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-stream-cli-246-env"
+    ],
+    "exit": 0,
+    "seconds": 7.995226699858904
+  },
+  {
+    "name": "install-wheel",
+    "args": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-stream-cli-246-env\\Scripts\\python.exe",
+      "-m",
+      "pip",
+      "install",
+      "--no-deps",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw-stream-cli-246\\final-wheel\\qupathxx-0.1.0-cp312-cp312-win_amd64.whl"
+    ],
+    "exit": 0,
+    "seconds": 2.579151100013405
+  },
+  {
+    "name": "installed-proof",
+    "args": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-stream-cli-246-env\\Scripts\\python.exe",
+      "-I",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw_stream_cli_246_final_proof.py"
+    ],
+    "exit": 0,
+    "seconds": 0.7402547998353839
+  },
+  {
+    "name": "verification",
+    "args": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Scripts\\python.exe",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\verify_raw_stream_cli_246.py"
+    ],
+    "exit": 0,
+    "seconds": 71.0544469000306
+  }
+]

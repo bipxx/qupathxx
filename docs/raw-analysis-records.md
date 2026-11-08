@@ -53,6 +53,16 @@ the input digest and the statistics; verification changes derived state without
 changing the canonical document revision. A file observation is not a hash of the
 whole file. External image bytes are not embedded or frozen by saving a record.
 
+The [compound-source foundation](benchmarks/compound-source-local.json) retains
+all observed companions in new, bounded codec variants: QPV3 for provenance,
+QRA3 for natural-region raw results and QRA4 for explicit-grid raw results.
+Existing QPV1/QPV2 and single-file QRA1/QRA2 stay readable; frozen QRA1/QRA2
+fixtures re-encode byte-for-byte. Compound encodings cannot be downgraded to an
+older tag and silently discard companions. Raw current/stale comparisons include
+every observed companion, and replay keeps historical observations immutable.
+These are source observations, not full-file hashes. Native multi-file OME
+opening and its project/frontend qualification remain separate pending work.
+
 ```python
 replay = q.RawAnalysisRequest.replay(document, record_id)
 verified = document.verify_raw_analysis(record_id, replay, q.analyze_raw(replay))
@@ -101,3 +111,31 @@ distinct results for one child ROI nested under a parent and TMA core; it checks
 rows and reopens the saved records. [Cross-platform evidence](benchmarks/raw-records-cross-platform.json)
 compares native Windows/Linux input hashes, statistics, original case context and
 archive interchange. Timing observations apply to the measured machine.
+
+
+## Explicit-grid native records
+
+The additive `RawAnalysisRequest(document, ScientificGrid, ScientificRawOptions,
+object_id, nucleus, max_pixels)` path uses `qpx.raw-grid-statistics/1`. It captures
+original dtype/axes/calibration separately from effective document calibration
+and derived binary64 samples. Grid results expose `grid()` and reject natural
+`region()` access. Core-center eligibility is separate from full footprint
+support; missing source support is neither a finite zero nor a nonfinite sample.
+
+QRA2 stores the explicit grid and original source metadata; QRA1 stays unchanged
+for natural results. Both have independent struct/hashlib byte references.
+Retained/reopened records are historical until a fresh explicit replay verifies
+the source, object/context, calibration, hashes and statistic bits. Existing
+project blob storage supports both versions. Natural-only CSV remains schema 1;
+grid/mixed CSV uses schema 2 with explicit core geometry, contexts, sampling kind,
+source dtype and derived sample type, and blanks for natural scalar coordinates.
+See the [typed contract](scientific-grid-contract.md#qra2-grid-records-and-typed-raw-csv)
+and [local native evidence](benchmarks/raw-grid-retention-local-windows-linux.json).
+
+The grid path is exposed through Python/stubs, CLI/batch and ImGui/managed
+viewer workflows; see the [quantitative workflow guide](quantitative-tiff.md) and
+[current task](current-task.md) for exact source and qualification scope.
+Large hash-only source verification now uses bounded decoded chunks plus the
+canonical validity suffix, retaining the same digest and archive bytes. Full
+materialized sampling still has its own admission and source-window limits.
+Biological, hardware and supported-release acceptance remain separate.

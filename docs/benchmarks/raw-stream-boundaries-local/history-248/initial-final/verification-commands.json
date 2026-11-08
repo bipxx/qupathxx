@@ -1,0 +1,106 @@
+[
+  {
+    "name": "native-tests",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\ctest.exe",
+      "--test-dir",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package",
+      "-C",
+      "Release",
+      "-R",
+      "^(project_batch|pixel_features|pixel_workflows|classifier|viewer_session|gui_replay|overlay_surface|resampling|tissue_contours)$",
+      "--output-on-failure",
+      "--test-output-size-passed",
+      "1048576",
+      "--no-tests=error",
+      "--output-junit",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw-stream-history-248\\final\\native-tests.xml"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "seconds": 7.686999999918044
+  },
+  {
+    "name": "python-tests",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-stream-history-248-env\\Scripts\\python.exe",
+      "-I",
+      "-m",
+      "pytest",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_raw_file_contours.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_raw_stream_contour_batch.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_gui_batch.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_gui_pixel_batch.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_raw_stream_contour_cli.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_raw_pixel_batch.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_project_batch.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_raw_pixel_cli.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_raw_pixel_python.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_pixel_stream_cli.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_project_pixel_batch.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_raw_batch.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_public_stubs.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_gui_raw_pixel.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_gui_pixel_classifier.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_viewer_session.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_raw_stream_contour_python.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_raw_contour_seams.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_gui_raw_stream_contours.py",
+      "-q",
+      "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw-stream-history-248\\final\\python-tests.xml"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "seconds": 102.76500000013039
+  },
+  {
+    "name": "stubs-check",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-stream-history-248-env\\Scripts\\python.exe",
+      "-I",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tools\\generate_stubs.py",
+      "--check"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "seconds": 0.45399999991059303
+  },
+  {
+    "name": "typing-valid",
+    "command": [
+      "uv",
+      "tool",
+      "run",
+      "--from",
+      "pyright==1.1.407",
+      "pyright",
+      "--project",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw-stream-history-248\\final\\pyright-valid.json",
+      "--pythonpath",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-stream-history-248-env\\Scripts\\python.exe",
+      "--outputjson"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "seconds": 1.281999999890104
+  },
+  {
+    "name": "typing-invalid",
+    "command": [
+      "uv",
+      "tool",
+      "run",
+      "--from",
+      "pyright==1.1.407",
+      "pyright",
+      "--project",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw-stream-history-248\\final\\pyright-invalid.json",
+      "--pythonpath",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-stream-history-248-env\\Scripts\\python.exe",
+      "--outputjson"
+    ],
+    "exit": 1,
+    "expected": 1,
+    "seconds": 0.9059999999590218
+  }
+]

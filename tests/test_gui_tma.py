@@ -6,6 +6,7 @@ import qupathxx as q
 from test_tma import scene, rows
 from test_gui_tiles import replay
 from test_viewer_session import completed, run
+from test_tma_case_summary import measurement_table
 
 pytestmark = pytest.mark.skipif(not q.has_gui or os.environ.get('QUPATHXX_TEST_GUI') != '1', reason='opt-in TMA desktop')
 
@@ -115,6 +116,37 @@ def test_fill_vacancy_and_dissolve_keep_objects():
     assert doc.undo() and doc.tma_core_count == 6
 
 
+@pytest.mark.parametrize('mode', ['inventory', 'weighted', 'input_alias', 'stale'])
+def test_case_summary_export(tmp_path, mode):
+    doc, ids = scene()
+    doc.set_tma_case_ids({ids[0]: 'replicate', ids[1]: 'replicate'})
+    snapshot = doc.tma_grid()
+    table = measurement_table(snapshot, [(ids[0], 2, 1), (ids[1], 4, 3)])
+    source, output = tmp_path/'measurements.csv', tmp_path/'cases.csv'
+    source.write_bytes(table.encode())
+    o = options()
+    o.tma_tab, o.tma_case_summary = 2, True
+    o.tma_metadata_path = str(source if mode == 'input_alias' else output)
+    if mode != 'inventory':
+        o.tma_measurements_path = str(source)
+        o.tma_value_column, o.tma_weight_column = 'value', 'weight'
+    if mode == 'stale':
+        doc.set_tma_missing([ids[0]], True)
+    o.inputs = click(4, q.GuiInputTarget.TMA_EXPORT)
+    report = q.show(doc, frame_limit=30, options=o)
+    assert source.read_bytes() == table.encode()
+    assert report.ui_overflow_items == 0
+    if mode in ('input_alias', 'stale'):
+        assert report.tma_export_state == 'failed' and report.tma_error
+        assert not output.exists()
+    else:
+        assert report.tma_export_state == 'saved' and not report.tma_error
+        row = next(r for r in rows(output.read_text(encoding='utf8')) if r['case_id'] == 'replicate')
+        assert row['cores'] == '2'
+        assert row['weighted_mean'] == ('3.5' if mode == 'weighted' else '')
+        assert report.tma_metadata_bytes == output.stat().st_size
+
+
 @pytest.mark.skipif(not q.has_project, reason='batch project')
 def test_per_core_batch_launcher_excludes_missing(tmp_path):
     doc, ids = scene()
@@ -154,3 +186,104 @@ def test_managed_grid_and_metadata_commands(tmp_path):
     saved = q.Project.open(str(output)).document(image)
     assert saved.tma_core_count == 4 and len(saved.tma_core_ids()) == 3
     assert saved.tma_grid().core(0, 0).tma_core.case_id == 'queued case'
+
+@pytest.mark.skipif(not q.has_project, reason='project cohort export')
+@pytest.mark.parametrize('mode', ['inventory', 'weighted', 'stale', 'input_alias', 'no_project'])
+def test_project_cohort_export_captures_all_tma_grids(tmp_path, mode):
+    from test_tma_cohort import setup_cohort
+    documents, snapshots, table = setup_cohort((1, 2))
+    project = q.Project()
+    assert [project.add_document(doc, 'grid') for doc in documents] == [1, 2]
+    project.add_document(q.Document(q.Image(16, 16, [0]*16*16*3)), 'plain')
+    source, output = tmp_path/'cohort-input.csv', tmp_path/'cohort-output.csv'
+    source.write_bytes(table.encode('utf-8'))
+    o = options()
+    o.tma_tab, o.tma_case_summary, o.tma_case_cohort = 2, True, True
+    o.tma_metadata_path = str(source if mode == 'input_alias' else output)
+    if mode != 'inventory':
+        o.tma_measurements_path, o.tma_value_column, o.tma_weight_column = str(source), 'value', 'weight'
+    if mode == 'stale':
+        documents[1].set_tma_case_ids({snapshots[2].core(0, 0).id: 'later'})
+    o.inputs = click(4, q.GuiInputTarget.TMA_EXPORT)
+    report = q.show(documents[0] if mode == 'no_project' else project, frame_limit=30, options=o)
+    assert source.read_bytes() == table.encode('utf-8') and report.ui_overflow_items == 0
+    if mode in ('stale', 'input_alias', 'no_project'):
+        assert report.tma_export_state == 'failed' and report.tma_error
+        assert not output.exists()
+    else:
+        assert report.tma_export_state == 'saved' and not report.tma_error
+        expected = q.tma_cohort_case_summary_csv(snapshots, table if mode == 'weighted' else '', 'value' if mode == 'weighted' else '', 'weight' if mode == 'weighted' else '')
+        assert output.read_bytes() == expected.encode('utf-8')
+        pooled = next(row for row in rows(expected) if row['case_id'] == 'P')
+        assert pooled['grids'] == '2' and pooled['weighted_mean'] == ('5' if mode == 'weighted' else '')
+        assert report.tma_metadata_bytes == output.stat().st_size
+
+
+@pytest.mark.parametrize('target,rows,columns', [
+    (q.GuiInputTarget.TMA_INSERT_ROW_AFTER, 3, 3),
+    (q.GuiInputTarget.TMA_INSERT_COLUMN_AFTER, 2, 4),
+    (q.GuiInputTarget.TMA_REMOVE_ROW, 1, 3),
+    (q.GuiInputTarget.TMA_REMOVE_COLUMN, 2, 2),
+])
+def test_structural_axis_controls(target, rows, columns, tmp_path):
+    doc, ids = scene()
+    o = options()
+    o.tma_tab = 1
+    o.tma_insert_label = 'Added'
+    o.tma_insert_missing = True
+    o.inputs = click(4, target)
+    report = q.show(doc, frame_limit=25, options=o)
+    assert not report.tma_error
+    assert (doc.tma_grid().info.rows, doc.tma_grid().info.columns) == (rows, columns)
+    assert report.ui_overflow_items == 0
+    assert doc.undo() and doc.tma_core_count == 6
+    assert doc.redo() and doc.tma_grid().info.rows == rows
+
+
+def test_managed_axis_commands_save_and_restart(tmp_path):
+    doc, ids = scene()
+    project = q.Project()
+    image = project.add_document(doc, 'TMA axes')
+    source, output = tmp_path/'source.qpxproj', tmp_path/'edited.qpxproj'
+    project.save(str(source))
+    endpoint = q.ViewerSession(str(source))
+    def producer():
+        before = completed(endpoint, endpoint.inspect(image, ids[0]))
+        result = completed(endpoint, endpoint.insert_tma_row(image, 1, 'New', missing=True, expected_revision=before.document_revision))
+        assert result.committed and len(result.object_ids) == 3
+        held = completed(endpoint, endpoint.inspect(image, result.object_ids[0]))
+        assert held.object.tma_core.missing and held.object.tma_core.case_id == ''
+        stale = endpoint.remove_tma_row(image, 1, expected_revision=before.document_revision)
+        assert endpoint.wait(stale, 15).state == 'stale'
+        endpoint.take(stale)
+        completed(endpoint, endpoint.remove_tma_column(image, 2))
+        completed(endpoint, endpoint.save(str(output)))
+        completed(endpoint, endpoint.close(True))
+    report = run(endpoint, producer)
+    assert report.frames > 0
+    restored = q.Project.open(str(output)).document(image)
+    assert (restored.tma_grid().info.rows, restored.tma_grid().info.columns) == (3, 2)
+    assert restored.tma_core_count == 6 and restored.tma_grid().core(1, 0).tma_core.missing
+
+
+@pytest.mark.parametrize('limit', ['max_edits', 'command_bytes'])
+def test_managed_axis_budget_rejects_before_mutation(tmp_path, limit):
+    doc, ids = scene()
+    project = q.Project()
+    image = project.add_document(doc, 'bounded axes')
+    source = tmp_path/'source.qpxproj'
+    project.save(str(source))
+    limits = q.ViewerLimits()
+    setattr(limits, limit, 2 if limit == 'max_edits' else 4096)
+    endpoint = q.ViewerSession(str(source), limits)
+    def producer():
+        before = completed(endpoint, endpoint.inspect(image, ids[0]))
+        ticket = endpoint.insert_tma_row(image, 1)
+        result = endpoint.wait(ticket, 15)
+        assert result.state == 'failed' and not result.committed
+        assert ('edit limit' if limit == 'max_edits' else 'command budget') in result.error
+        endpoint.take(ticket)
+        after = completed(endpoint, endpoint.inspect(image, ids[0]))
+        assert after.document_revision == before.document_revision
+        completed(endpoint, endpoint.close(True))
+    run(endpoint, producer)

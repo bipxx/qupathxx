@@ -1,0 +1,369 @@
+CMake is re-running because C:/Users/HEQ/Projects/qupathxx/build/ci/qupath-response304-msvc/CMakeFiles/generate.stamp is out-of-date.
+  the file 'C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt'
+  is newer than 'C:/Users/HEQ/Projects/qupathxx/build/ci/qupath-response304-msvc/CMakeFiles/generate.stamp.depend'
+  result='-1'
+-- Selecting Windows SDK version 10.0.22621.0 to target Windows 10.0.26200.
+-- Configuring done (0.2s)
+-- Generating done (1.6s)
+-- Build files have been written to: C:/Users/HEQ/Projects/qupathxx/build/ci/qupath-response304-msvc
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+
+  Checking File Globs
+  1>Checking Build System
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  core.cpp
+  tma.cpp
+  tma_tables.cpp
+  document_edits.cpp
+  selection.cpp
+  geometry.cpp
+  spatial_index.cpp
+  image_server.cpp
+  openslide_server.cpp
+  tile_scheduler.cpp
+  view_tiles.cpp
+  display.cpp
+  project.cpp
+  project_recovery.cpp
+  project_save.cpp
+  interchange.cpp
+  stains.cpp
+  analysis.cpp
+  sha256.cpp
+  analysis_records.cpp
+  Generating Code...
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\interchange.cpp(80,1): warning C4702: unreachable code [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_core.vcxproj]
+  Compiling...
+  tissue.cpp
+  tissue_contours.cpp
+  tissue_records.cpp
+  tissue_archive.cpp
+  cells.cpp
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5310,24): warning C4244: '=': conversion from 'const _Ty' to 'unsigned char', possible loss of data [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5310,24): warning C4244:         with [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5310,24): warning C4244:         [ [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5310,24): warning C4244:             _Ty=int [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5310,24): warning C4244:         ] [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/cells.cpp')
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5310,24):
+      the template instantiation context (the oldest one first) is
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\shape_watershed.hpp(97,33):
+          see reference to function template instantiation 'void std::fill<std::_Vector_iterator<std::_Vector_val<std::_Simple_types<_Ty>>>,int>(const _FwdIt,const _FwdIt,const int &)' being compiled
+          with
+          [
+              _Ty=uint8_t,
+              _FwdIt=std::_Vector_iterator<std::_Vector_val<std::_Simple_types<uint8_t>>>
+          ]
+  
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5264,37): warning C4244: 'initializing': conversion from 'const _Ty' to 'unsigned char', possible loss of data [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5264,37): warning C4244:         with [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5264,37): warning C4244:         [ [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5264,37): warning C4244:             _Ty=int [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5264,37): warning C4244:         ] [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/cells.cpp')
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5264,37):
+      the template instantiation context (the oldest one first) is
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\shape_watershed.hpp(97,33):
+          see reference to function template instantiation 'void std::fill<std::_Vector_iterator<std::_Vector_val<std::_Simple_types<_Ty>>>,int>(const _FwdIt,const _FwdIt,const int &)' being compiled
+          with
+          [
+              _Ty=uint8_t,
+              _FwdIt=std::_Vector_iterator<std::_Vector_val<std::_Simple_types<uint8_t>>>
+          ]
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5299,22):
+          see reference to function template instantiation 'void std::_Fill_memset<unsigned char*,_Ty>(_CtgIt,const _Ty,const size_t)' being compiled
+          with
+          [
+              _Ty=int,
+              _CtgIt=unsigned char *
+          ]
+  
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(732,82): warning C4244: 'initializing': conversion from 'double' to '_Ty', possible loss of data [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(732,82): warning C4244:         with [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(732,82): warning C4244:         [ [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(732,82): warning C4244:             _Ty=float [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(732,82): warning C4244:         ] [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/cells.cpp')
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(732,82):
+      the template instantiation context (the oldest one first) is
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\cells.cpp(255,39):
+          see reference to function template instantiation 'std::vector<float,std::allocator<float>>::vector<std::_Vector_iterator<std::_Vector_val<std::_Simple_types<_Ty>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
+          with
+          [
+              _Ty=double,
+              _Iter=std::_Vector_iterator<std::_Vector_val<std::_Simple_types<double>>>,
+              _Alloc=std::allocator<float>
+          ]
+              C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\cells.cpp(255,39):
+              see the first reference to 'std::vector<float,std::allocator<float>>::vector' in 'qpx::CellKernel::run'
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vector(700,13):
+          see reference to function template instantiation 'void std::vector<float,std::allocator<float>>::_Construct_n<double*,double*>(const unsigned __int64,double *&&,double *&&)' being compiled
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vector(2120,41):
+          see reference to function template instantiation 'float *std::_Uninitialized_copy<_Ty,_Ty,std::allocator<float>>(_InIt,_Se,float *,_Alloc &)' being compiled
+          with
+          [
+              _Ty=double *,
+              _InIt=double *,
+              _Se=double *,
+              _Alloc=std::allocator<float>
+          ]
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(1902,18):
+          see reference to function template instantiation 'void std::_Uninitialized_backout_al<std::allocator<float>>::_Emplace_back<double&>(double &)' being compiled
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(1844,35):
+          see reference to function template instantiation 'void std::_Default_allocator_traits<_Alloc>::construct<_Ty,double&>(_Alloc &,_Objty *const ,double &)' being compiled
+          with
+          [
+              _Alloc=std::allocator<float>,
+              _Ty=float,
+              _Objty=float
+          ]
+  
+  thumbnail.cpp
+  resampling.cpp
+  spatial_analysis.cpp
+  spatial_archive.cpp
+  spatial_export.cpp
+  spatial_frontend.cpp
+  scientific_sampling.cpp
+  scientific_raw_sampling.cpp
+  scientific_channels.cpp
+  scientific_raster.cpp
+  scientific_cells.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\scientific_cells.cpp(168,30): warning C4456: declaration of 'c' hides previous local declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\scientific_cells.cpp(140,89):
+      see declaration of 'c'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\scientific_cells.cpp(177,30): warning C4456: declaration of 'c' hides previous local declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\scientific_cells.cpp(140,89):
+      see declaration of 'c'
+  
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5310,24): warning C4244: '=': conversion from 'const _Ty' to 'unsigned char', possible loss of data [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5310,24): warning C4244:         with [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5310,24): warning C4244:         [ [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5310,24): warning C4244:             _Ty=int [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5310,24): warning C4244:         ] [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/scientific_cells.cpp')
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5310,24):
+      the template instantiation context (the oldest one first) is
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\shape_watershed.hpp(97,33):
+          see reference to function template instantiation 'void std::fill<std::_Vector_iterator<std::_Vector_val<std::_Simple_types<_Ty>>>,int>(const _FwdIt,const _FwdIt,const int &)' being compiled
+          with
+          [
+              _Ty=uint8_t,
+              _FwdIt=std::_Vector_iterator<std::_Vector_val<std::_Simple_types<uint8_t>>>
+          ]
+  
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5264,37): warning C4244: 'initializing': conversion from 'const _Ty' to 'unsigned char', possible loss of data [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5264,37): warning C4244:         with [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5264,37): warning C4244:         [ [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5264,37): warning C4244:             _Ty=int [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5264,37): warning C4244:         ] [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/scientific_cells.cpp')
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5264,37):
+      the template instantiation context (the oldest one first) is
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\shape_watershed.hpp(97,33):
+          see reference to function template instantiation 'void std::fill<std::_Vector_iterator<std::_Vector_val<std::_Simple_types<_Ty>>>,int>(const _FwdIt,const _FwdIt,const int &)' being compiled
+          with
+          [
+              _Ty=uint8_t,
+              _FwdIt=std::_Vector_iterator<std::_Vector_val<std::_Simple_types<uint8_t>>>
+          ]
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5299,22):
+          see reference to function template instantiation 'void std::_Fill_memset<unsigned char*,_Ty>(_CtgIt,const _Ty,const size_t)' being compiled
+          with
+          [
+              _Ty=int,
+              _CtgIt=unsigned char *
+          ]
+  
+  cell_sampling_grid.cpp
+  scientific_cell_archive.cpp
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5310,24): warning C4244: '=': conversion from 'const _Ty' to 'unsigned char', possible loss of data [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5310,24): warning C4244:         with [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5310,24): warning C4244:         [ [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5310,24): warning C4244:             _Ty=int [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5310,24): warning C4244:         ] [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/scientific_cell_archive.cpp')
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5310,24):
+      the template instantiation context (the oldest one first) is
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\shape_watershed.hpp(97,33):
+          see reference to function template instantiation 'void std::fill<std::_Vector_iterator<std::_Vector_val<std::_Simple_types<_Ty>>>,int>(const _FwdIt,const _FwdIt,const int &)' being compiled
+          with
+          [
+              _Ty=uint8_t,
+              _FwdIt=std::_Vector_iterator<std::_Vector_val<std::_Simple_types<uint8_t>>>
+          ]
+  
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5264,37): warning C4244: 'initializing': conversion from 'const _Ty' to 'unsigned char', possible loss of data [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5264,37): warning C4244:         with [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5264,37): warning C4244:         [ [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5264,37): warning C4244:             _Ty=int [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5264,37): warning C4244:         ] [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/scientific_cell_archive.cpp')
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5264,37):
+      the template instantiation context (the oldest one first) is
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\shape_watershed.hpp(97,33):
+          see reference to function template instantiation 'void std::fill<std::_Vector_iterator<std::_Vector_val<std::_Simple_types<_Ty>>>,int>(const _FwdIt,const _FwdIt,const int &)' being compiled
+          with
+          [
+              _Ty=uint8_t,
+              _FwdIt=std::_Vector_iterator<std::_Vector_val<std::_Simple_types<uint8_t>>>
+          ]
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5299,22):
+          see reference to function template instantiation 'void std::_Fill_memset<unsigned char*,_Ty>(_CtgIt,const _Ty,const size_t)' being compiled
+          with
+          [
+              _Ty=int,
+              _CtgIt=unsigned char *
+          ]
+  
+  tma_case_export.cpp
+  qptma.cpp
+  Generating Code...
+  Compiling...
+  tma_dearray.cpp
+  raw_image.cpp
+  tiff_server.cpp
+  raw_analysis.cpp
+  raw_analysis_records.cpp
+  raw_analysis_archive.cpp
+  raw_tables.cpp
+  classifier.cpp
+  object_classifier.cpp
+  pixel_features.cpp
+  raw_pixel_features.cpp
+  raw_pixel_classifier.cpp
+  raw_pixel_workflows.cpp
+  raw_pixel_archive.cpp
+  raw_pixel_records.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_records.cpp(30,59): warning C4456: declaration of 'x' hides previous local declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_records.cpp(28,17):
+      see declaration of 'x'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_records.cpp(30,83): warning C4456: declaration of 'y' hides previous local declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_records.cpp(28,41):
+      see declaration of 'y'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_records.cpp(36,72): warning C4456: declaration of 'x' hides previous local declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_records.cpp(35,17):
+      see declaration of 'x'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_records.cpp(36,109): warning C4456: declaration of 'y' hides previous local declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_records.cpp(35,41):
+      see declaration of 'y'
+  
+  pixel_classifier.cpp
+  pixel_training.cpp
+  pixel_prediction.cpp
+  pixel_stream.cpp
+  pixel_stream_file.cpp
+  Generating Code...
+  Compiling...
+  pixel_stream_export_job.cpp
+  pixel_stream_read_job.cpp
+  pixel_stream_records.cpp
+  pixel_contour_job.cpp
+  pixel_classifier_archive.cpp
+  pixel_classifier_records.cpp
+  document_classifications.cpp
+  geometry_archive.cpp
+  object_classifier_archive.cpp
+  object_classifier_records.cpp
+  classifier_io.cpp
+  raw_pixel_contour_job.cpp
+  raw_pixel_window_workflows.cpp
+  raw_pixel_tiled_training.cpp
+  raw_pixel_tiled_archive.cpp
+  raw_pixel_training_checkpoint.cpp
+  raw_pixel_file_jobs.cpp
+  raw_pixel_stream_records.cpp
+  raw_pixel_stream.cpp
+  raw_stream_boundaries.cpp
+  Generating Code...
+  Compiling...
+  raw_pixel_stream_contours.cpp
+  raw_pixel_stream_file.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_stream_file.cpp(54,41): warning C4459: declaration of 'maximum' hides global declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_stream_file.cpp(22,25):
+      see declaration of 'qpx::`anonymous-namespace'::maximum'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_stream_file.cpp(57,28): warning C4459: declaration of 'maximum' hides global declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_stream_file.cpp(22,25):
+      see declaration of 'qpx::`anonymous-namespace'::maximum'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_stream_file.cpp(58,34): warning C4459: declaration of 'maximum' hides global declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_stream_file.cpp(22,25):
+      see declaration of 'qpx::`anonymous-namespace'::maximum'
+  
+  workspace_preferences.cpp
+  cell_records.cpp
+  cell_archive.cpp
+  cell_tables.cpp
+  measurement_tables.cpp
+  provenance_codec.cpp
+  file_fingerprint.cpp
+  source_identity.cpp
+  stain_estimation.cpp
+  input_digest.cpp
+  batch_checkpoint.cpp
+  project_batch.cpp
+  viewer_session.cpp
+  raw_pixel_frontend.cpp
+  Generating Code...
+  rgb_nominal.cpp
+  imagej_gaussian.cpp
+  Generating Code...
+  provenance.cpp
+  qupathxx_core.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\Release\qupathxx_core.lib
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  resampling_tests.cpp
+  rgb_nominal_checks.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\rgb_nominal_checks.cpp(87,34): error C2660: 'qpx::detail::plan_rgb_nominal': function does not take 9 arguments [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_resampling_tests.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\rgb_nominal.hpp(22,16):
+      see declaration of 'qpx::detail::plan_rgb_nominal'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\rgb_nominal_checks.cpp(87,34):
+      while trying to match the argument list '(int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, double, nullptr, qpx::detail::RgbNominalCoordinates)'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\rgb_nominal_checks.cpp(87,20): error C2737: 'affine': const object must be initialized [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_resampling_tests.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\rgb_nominal_checks.cpp(88,16): error C3536: 'affine': cannot be used before it is initialized [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_resampling_tests.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\rgb_nominal_checks.cpp(129,25): error C2660: 'qpx::detail::plan_rgb_nominal': function does not take 9 arguments [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_resampling_tests.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\rgb_nominal.hpp(22,16):
+      see declaration of 'qpx::detail::plan_rgb_nominal'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\rgb_nominal_checks.cpp(129,25):
+      while trying to match the argument list '(int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, double, nullptr, const qpx::detail::RgbNominalCoordinates)'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\rgb_nominal_checks.cpp(149,32): error C2660: 'qpx::detail::plan_rgb_nominal': function does not take 9 arguments [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_resampling_tests.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\rgb_nominal.hpp(22,16):
+      see declaration of 'qpx::detail::plan_rgb_nominal'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\rgb_nominal_checks.cpp(149,32):
+      while trying to match the argument list '(int, int, int, int, int, int, int, nullptr, const qpx::detail::RgbNominalCoordinates)'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\rgb_nominal_checks.cpp(151,29): error C2660: 'qpx::detail::plan_rgb_nominal': function does not take 9 arguments [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_resampling_tests.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\rgb_nominal.hpp(22,16):
+      see declaration of 'qpx::detail::plan_rgb_nominal'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\rgb_nominal_checks.cpp(151,29):
+      while trying to match the argument list '(__int64, __int64, __int64, __int64, int, int, int, nullptr, const qpx::detail::RgbNominalCoordinates)'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\rgb_nominal_checks.cpp(153,41): error C2660: 'qpx::detail::plan_rgb_nominal': function does not take 9 arguments [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_resampling_tests.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\rgb_nominal.hpp(22,16):
+      see declaration of 'qpx::detail::plan_rgb_nominal'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\rgb_nominal_checks.cpp(153,41):
+      while trying to match the argument list '(int, int, int64_t, int, int, int, int, nullptr, const qpx::detail::RgbNominalCoordinates)'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\rgb_nominal_checks.cpp(154,41): error C2660: 'qpx::detail::plan_rgb_nominal': function does not take 9 arguments [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_resampling_tests.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\rgb_nominal.hpp(22,16):
+      see declaration of 'qpx::detail::plan_rgb_nominal'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\rgb_nominal_checks.cpp(154,41):
+      while trying to match the argument list '(int, int, int64_t, int, int, int, int, nullptr, const qpx::detail::RgbNominalCoordinates)'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\rgb_nominal_checks.cpp(155,40): error C2660: 'qpx::detail::plan_rgb_nominal': function does not take 9 arguments [C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\qupathxx_resampling_tests.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\rgb_nominal.hpp(22,16):
+      see declaration of 'qpx::detail::plan_rgb_nominal'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\rgb_nominal_checks.cpp(155,40):
+      while trying to match the argument list '(int, int, int, int, int, int, int, nullptr, qpx::detail::RgbNominalCoordinates)'
+  
+  scientific_grid_geometry_tests.cpp
+  scientific_sampling_tests.cpp
+  raw_scientific_numeric_tests.cpp
+  scientific_raw_sampling_tests.cpp
+  Generating Code...

@@ -1,0 +1,161 @@
+[  1%] Built target qupathxx_tiff_xml
+[  3%] Built target qupathxx_sqlite
+[ 14%] Built target zlibstatic
+[ 43%] Built target tiff
+[ 43%] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_file_jobs.cpp.o
+[ 43%] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/provenance.cpp.o
+In file included from /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/provenance.cpp:2:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In function ‘std::string qpx::detail::export_path(const std::string&)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:30:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   30 |     if(result.size()>32768) throw std::invalid_argument("export path is too long");return result;
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:30:84: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   30 |     if(result.size()>32768) throw std::invalid_argument("export path is too long");return result;
+      |                                                                                    ^~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In constructor ‘qpx::detail::AtomicExportFile::AtomicExportFile(const std::string&, std::size_t, const std::atomic<bool>*)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:48:9: warning: this ‘for’ clause does not guard... [-Wmisleading-indentation]
+   48 |         for(int i=0;i<24;++i) suffix.push_back(hex[random()&15]);temporary_+=std::filesystem::u8path(suffix);
+      |         ^~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:48:66: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘for’
+   48 |         for(int i=0;i<24;++i) suffix.push_back(hex[random()&15]);temporary_+=std::filesystem::u8path(suffix);
+      |                                                                  ^~~~~~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In member function ‘void qpx::detail::AtomicExportFile::write(const char*, std::size_t)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:68:13: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   68 |             if(written<=0) throw std::runtime_error("export write failed");at+=static_cast<std::size_t>(written);bytes_+=static_cast<std::size_t>(written);
+      |             ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:68:76: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   68 |             if(written<=0) throw std::runtime_error("export write failed");at+=static_cast<std::size_t>(written);bytes_+=static_cast<std::size_t>(written);
+      |                                                                            ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In member function ‘void qpx::detail::AtomicExportFile::commit(bool)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:78:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   78 |         if(!close()) throw std::runtime_error("export close failed");export_checkpoint(cancelled_);
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:78:70: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   78 |         if(!close()) throw std::runtime_error("export close failed");export_checkpoint(cancelled_);
+      |                                                                      ^~~~~~~~~~~~~~~~~
+In file included from /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/include/qupathxx/scientific_raw_sampling.hpp:4,
+                 from /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/include/qupathxx/raw_pixel_features.hpp:2,
+                 from /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/include/qupathxx/raw_pixel_classifier.hpp:2,
+                 from /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/include/qupathxx/raw_pixel_workflows.hpp:2,
+                 from /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/include/qupathxx/raw_pixel_window_workflows.hpp:2,
+                 from /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/include/qupathxx/raw_pixel_stream.hpp:2,
+                 from /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/include/qupathxx/raw_pixel_stream_file.hpp:2,
+                 from /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/include/qupathxx/raw_pixel_file_jobs.hpp:2,
+                 from /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_file_jobs.cpp:1:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/include/qupathxx/scientific_raw_window.hpp: In member function ‘qpx::GridFraction qpx::ScientificRawWindowAxis::edge(int64_t) const’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/include/qupathxx/scientific_raw_window.hpp:33:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   33 |         if(index<first_index() || index>stop_index()) throw std::out_of_range("raw window edge outside captured context");return lattice_.edge(index);
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/include/qupathxx/scientific_raw_window.hpp:33:123: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   33 |         if(index<first_index() || index>stop_index()) throw std::out_of_range("raw window edge outside captured context");return lattice_.edge(index);
+      |                                                                                                                           ^~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/include/qupathxx/scientific_raw_window.hpp: In member function ‘qpx::GridFraction qpx::ScientificRawWindowAxis::center(int64_t) const’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/include/qupathxx/scientific_raw_window.hpp:36:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   36 |         if(index<first_index() || index>=stop_index()) throw std::out_of_range("raw window center outside captured context");return lattice_.center(index);
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/include/qupathxx/scientific_raw_window.hpp:36:126: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   36 |         if(index<first_index() || index>=stop_index()) throw std::out_of_range("raw window center outside captured context");return lattice_.center(index);
+      |                                                                                                                              ^~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/provenance.cpp: In function ‘std::string qpx::provenance_json(const AnalysisProvenance&)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/provenance.cpp:81:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   81 |     if(j.out.size()>16u*1024u*1024u) throw std::length_error("provenance JSON exceeds 16 MiB");return j.out;
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/provenance.cpp:81:96: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   81 |     if(j.out.size()>16u*1024u*1024u) throw std::length_error("provenance JSON exceeds 16 MiB");return j.out;
+      |                                                                                                ^~~~~~
+In file included from /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_file_jobs.cpp:3:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In function ‘std::string qpx::detail::export_path(const std::string&)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:30:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   30 |     if(result.size()>32768) throw std::invalid_argument("export path is too long");return result;
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:30:84: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   30 |     if(result.size()>32768) throw std::invalid_argument("export path is too long");return result;
+      |                                                                                    ^~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In constructor ‘qpx::detail::AtomicExportFile::AtomicExportFile(const std::string&, std::size_t, const std::atomic<bool>*)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:48:9: warning: this ‘for’ clause does not guard... [-Wmisleading-indentation]
+   48 |         for(int i=0;i<24;++i) suffix.push_back(hex[random()&15]);temporary_+=std::filesystem::u8path(suffix);
+      |         ^~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:48:66: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘for’
+   48 |         for(int i=0;i<24;++i) suffix.push_back(hex[random()&15]);temporary_+=std::filesystem::u8path(suffix);
+      |                                                                  ^~~~~~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In member function ‘void qpx::detail::AtomicExportFile::write(const char*, std::size_t)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:68:13: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   68 |             if(written<=0) throw std::runtime_error("export write failed");at+=static_cast<std::size_t>(written);bytes_+=static_cast<std::size_t>(written);
+      |             ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:68:76: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   68 |             if(written<=0) throw std::runtime_error("export write failed");at+=static_cast<std::size_t>(written);bytes_+=static_cast<std::size_t>(written);
+      |                                                                            ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In member function ‘void qpx::detail::AtomicExportFile::commit(bool)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:78:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   78 |         if(!close()) throw std::runtime_error("export close failed");export_checkpoint(cancelled_);
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:78:70: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   78 |         if(!close()) throw std::runtime_error("export close failed");export_checkpoint(cancelled_);
+      |                                                                      ^~~~~~~~~~~~~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_file_jobs.cpp: In member function ‘void qpx::{anonymous}::CheckpointOutput::check() const’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_file_jobs.cpp:16:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   16 |         if(a.bytes!=b.bytes || a.identity_scheme!=b.identity_scheme || a.identity!=b.identity || a.stamp_scheme!=b.stamp_scheme || a.modified_token!=b.modified_token || a.change_token!=b.change_token) throw std::runtime_error("raw training checkpoint output changed before delivery");guard.verify();
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_file_jobs.cpp:16:285: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   16 |         if(a.bytes!=b.bytes || a.identity_scheme!=b.identity_scheme || a.identity!=b.identity || a.stamp_scheme!=b.stamp_scheme || a.modified_token!=b.modified_token || a.change_token!=b.change_token) throw std::runtime_error("raw training checkpoint output changed before delivery");guard.verify();
+      |                                                                                                                                                                                                                                                                                             ^~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_file_jobs.cpp: In member function ‘qpx::RawPixelFileJobStats qpx::RawPixelStreamSaveJob::poll(const qpx::Document&)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_file_jobs.cpp:39:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   39 |     if(!s.state.future.valid() && !s.state.pending) s.capture.reset();return s.state.stats;
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_file_jobs.cpp:39:71: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   39 |     if(!s.state.future.valid() && !s.state.pending) s.capture.reset();return s.state.stats;
+      |                                                                       ^~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_file_jobs.cpp: In member function ‘std::optional<qpx::RawPixelStreamFileSummary> qpx::RawPixelStreamSaveJob::take(const qpx::Document&)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_file_jobs.cpp:43:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   43 |     if(poll(doc).state!="ready") return {};auto out=impl_->state.take();if(!out) return {};impl_->capture.reset();return std::move(out->summary);
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_file_jobs.cpp:43:44: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   43 |     if(poll(doc).state!="ready") return {};auto out=impl_->state.take();if(!out) return {};impl_->capture.reset();return std::move(out->summary);
+      |                                            ^~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_file_jobs.cpp: In member function ‘qpx::RawPixelFileJobStats qpx::RawPixelTrainingCheckpointJob::poll(const qpx::Document&)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_file_jobs.cpp:62:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   62 |     if(!s.state.future.valid() && !s.state.pending) s.capture.reset();return s.state.stats;
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_file_jobs.cpp:62:71: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   62 |     if(!s.state.future.valid() && !s.state.pending) s.capture.reset();return s.state.stats;
+      |                                                                       ^~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_file_jobs.cpp: In member function ‘std::optional<qpx::RawPixelTrainingCheckpointResult> qpx::RawPixelTrainingCheckpointJob::take(const qpx::Document&)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_file_jobs.cpp:66:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   66 |     if(poll(doc).state!="ready") return {};auto out=impl_->state.take();if(!out) return {};impl_->capture.reset();return std::move(out->result);
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_file_jobs.cpp:66:44: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   66 |     if(poll(doc).state!="ready") return {};auto out=impl_->state.take();if(!out) return {};impl_->capture.reset();return std::move(out->result);
+      |                                            ^~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_file_jobs.cpp: In member function ‘bool qpx::RawPixelStreamFileReadJob::open(const std::string&, qpx::RawPixelStreamFileLimits)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_file_jobs.cpp:78:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   78 |     if(!s.state.start([path,limits](const std::atomic<bool>* c) {detail::export_checkpoint(c);auto file=std::make_shared<const RawPixelStreamFile>(path,limits);file->verify(c);detail::export_checkpoint(c);return ReadOutput{std::move(file),{}};},"verifying prediction file")) return false;s.opening=true;return true;
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_file_jobs.cpp:78:289: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   78 |     if(!s.state.start([path,limits](const std::atomic<bool>* c) {detail::export_checkpoint(c);auto file=std::make_shared<const RawPixelStreamFile>(path,limits);file->verify(c);detail::export_checkpoint(c);return ReadOutput{std::move(file),{}};},"verifying prediction file")) return false;s.opening=true;return true;
+      |                                                                                                                                                                                                                                                                                                 ^
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_file_jobs.cpp: In member function ‘bool qpx::RawPixelStreamFileReadJob::read(std::shared_ptr<const qpx::RawPixelStreamFile>, uint64_t)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_file_jobs.cpp:82:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   82 |     if(!s.state.start([file=std::move(file),index](const std::atomic<bool>* c) {auto block=file->read_block(index,c);detail::export_checkpoint(c);return ReadOutput{file,std::move(block)};},"reading prediction block",1)) return false;s.opening=false;return true;
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_file_jobs.cpp:82:234: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   82 |     if(!s.state.start([file=std::move(file),index](const std::atomic<bool>* c) {auto block=file->read_block(index,c);detail::export_checkpoint(c);return ReadOutput{file,std::move(block)};},"reading prediction block",1)) return false;s.opening=false;return true;
+      |                                                                                                                                                                                                                                          ^
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_file_jobs.cpp: In member function ‘std::shared_ptr<const qpx::RawPixelStreamFile> qpx::RawPixelStreamFileReadJob::take_file()’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_file_jobs.cpp:90:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   90 |     if(poll().state!="ready" || !impl_->opening) return {};auto out=impl_->state.take();return out?std::move(out->file):nullptr;
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_file_jobs.cpp:90:60: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   90 |     if(poll().state!="ready" || !impl_->opening) return {};auto out=impl_->state.take();return out?std::move(out->file):nullptr;
+      |                                                            ^~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_file_jobs.cpp: In member function ‘std::shared_ptr<const qpx::RawPixelWindowClassification> qpx::RawPixelStreamFileReadJob::take_block()’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_file_jobs.cpp:93:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   93 |     if(poll().state!="ready" || impl_->opening) return {};auto out=impl_->state.take();return out?std::move(out->block):nullptr;
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_file_jobs.cpp:93:59: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   93 |     if(poll().state!="ready" || impl_->opening) return {};auto out=impl_->state.take();return out?std::move(out->block):nullptr;
+      |                                                           ^~~~
+[ 43%] Linking CXX static library libqupathxx_core.a
+[100%] Built target qupathxx_core
+[100%] Linking CXX executable qupathxx_pixel_workflow_tests
+[100%] Built target qupathxx_pixel_workflow_tests

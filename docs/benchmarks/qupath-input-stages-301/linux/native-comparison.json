@@ -1,0 +1,157 @@
+{
+  "schema": "qpx.qupath-cell-input-verification/1",
+  "cases": [
+    {
+      "name": "white-0",
+      "pixels": 65536,
+      "od_arrays": 3,
+      "float32_sum_exact": true,
+      "sum_once_in_float64_changed_pixels": 18229,
+      "signed_stain_samples": 66319
+    },
+    {
+      "name": "white-1",
+      "pixels": 65536,
+      "od_arrays": 3,
+      "float32_sum_exact": true,
+      "sum_once_in_float64_changed_pixels": 17493,
+      "signed_stain_samples": 70514
+    },
+    {
+      "name": "white-2",
+      "pixels": 65536,
+      "od_arrays": 3,
+      "float32_sum_exact": true,
+      "sum_once_in_float64_changed_pixels": 0,
+      "signed_stain_samples": 0
+    },
+    {
+      "name": "white-3",
+      "pixels": 65536,
+      "od_arrays": 3,
+      "float32_sum_exact": true,
+      "sum_once_in_float64_changed_pixels": 7392,
+      "signed_stain_samples": 50105
+    },
+    {
+      "name": "white-4",
+      "pixels": 65536,
+      "od_arrays": 3,
+      "float32_sum_exact": true,
+      "sum_once_in_float64_changed_pixels": 6657,
+      "signed_stain_samples": 60558
+    },
+    {
+      "name": "white-5",
+      "pixels": 65536,
+      "od_arrays": 3,
+      "float32_sum_exact": true,
+      "sum_once_in_float64_changed_pixels": 15148,
+      "signed_stain_samples": 82744
+    },
+    {
+      "name": "identity",
+      "pixels": 65536,
+      "od_arrays": 3,
+      "float32_sum_exact": true,
+      "sum_once_in_float64_changed_pixels": 18229,
+      "signed_stain_samples": 0
+    },
+    {
+      "name": "three-explicit",
+      "pixels": 65536,
+      "od_arrays": 3,
+      "float32_sum_exact": true,
+      "sum_once_in_float64_changed_pixels": 17179,
+      "signed_stain_samples": 67904
+    },
+    {
+      "name": "signed-residual",
+      "pixels": 65536,
+      "od_arrays": 3,
+      "float32_sum_exact": true,
+      "sum_once_in_float64_changed_pixels": 18229,
+      "signed_stain_samples": 55776
+    },
+    {
+      "name": "roi-default",
+      "pixels": 24576,
+      "od_arrays": 3,
+      "float32_sum_exact": true,
+      "sum_once_in_float64_changed_pixels": 23524,
+      "signed_stain_samples": 22172
+    },
+    {
+      "name": "resampled-default",
+      "pixels": 21888,
+      "od_arrays": 3,
+      "float32_sum_exact": true,
+      "sum_once_in_float64_changed_pixels": 21418,
+      "signed_stain_samples": 20943
+    }
+  ],
+  "original_plugin_inputs_exact": true,
+  "manifest_sha256": "59da6330184a7b1c63300fe6e264a3890da6687226494238ddd9b4a71ab61b5a",
+  "biological_validation": false,
+  "segmentation_parity_accepted": false,
+  "native_comparisons": [
+    {
+      "name": "white-0",
+      "exact_arrays": 7,
+      "normalized_stain_arrays": 3
+    },
+    {
+      "name": "white-1",
+      "exact_arrays": 7,
+      "normalized_stain_arrays": 3
+    },
+    {
+      "name": "white-2",
+      "exact_arrays": 7,
+      "normalized_stain_arrays": 3
+    },
+    {
+      "name": "white-3",
+      "exact_arrays": 7,
+      "normalized_stain_arrays": 3
+    },
+    {
+      "name": "white-4",
+      "exact_arrays": 7,
+      "normalized_stain_arrays": 3
+    },
+    {
+      "name": "white-5",
+      "exact_arrays": 7,
+      "normalized_stain_arrays": 3
+    },
+    {
+      "name": "identity",
+      "exact_arrays": 7,
+      "normalized_stain_arrays": 3
+    },
+    {
+      "name": "three-explicit",
+      "exact_arrays": 7,
+      "normalized_stain_arrays": 3
+    },
+    {
+      "name": "signed-residual",
+      "exact_arrays": 7,
+      "normalized_stain_arrays": 3
+    },
+    {
+      "name": "roi-default",
+      "exact_arrays": 7,
+      "normalized_stain_arrays": 3
+    },
+    {
+      "name": "resampled-default",
+      "exact_arrays": 7,
+      "normalized_stain_arrays": 3
+    }
+  ],
+  "native_source": "9fbc9315e8c2417c35492cf505a8f676ecdfcf75",
+  "native_fingerprint": "ab6b01f25903f86ac8c0f52bf94218baa3b009999cf5995d164d8feef375da6f",
+  "native_math_changed": false
+}

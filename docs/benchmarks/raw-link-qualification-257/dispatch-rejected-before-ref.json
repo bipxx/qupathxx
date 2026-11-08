@@ -1,0 +1,50 @@
+{
+  "schema": "qpx.staged-qualification-campaign/1",
+  "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+  "ref": "feature/raw-link-qualification-257",
+  "staging": "Complete Mac-native role first; engine/portable only after strict Mac acceptance at this exact source",
+  "local_gates": "local-readiness.json",
+  "roles": {
+    "macos": {
+      "state": "dispatch_attempted",
+      "at_utc": "2026-10-26T23:53:04.597616+00:00",
+      "semantic_inputs": {
+        "macos_native": true,
+        "portable_linux": false,
+        "live_reference": false,
+        "extended_readers": false
+      },
+      "gh_inputs": {
+        "macos_native": "true",
+        "portable_linux": "false",
+        "live_reference": "false",
+        "extended_readers": "false"
+      },
+      "input_helper_sha256": "825d4d82064cfa805ed14048d77075aedd9bc13fe2db058d9ad66e0e35fec50a",
+      "command": [
+        "gh",
+        "workflow",
+        "run",
+        "ci.yml",
+        "--repo",
+        "bipxx/qupathxx",
+        "--ref",
+        "feature/raw-link-qualification-257",
+        "--json"
+      ],
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "could not create workflow dispatch event: HTTP 422: No ref found for: feature/raw-link-qualification-257 (https://api.github.com/repos/bipxx/qupathxx/actions/workflows/392658909/dispatches)\n"
+    },
+    "engine": {
+      "state": "not_dispatched",
+      "requires": "strict_mac_acceptance"
+    },
+    "portable": {
+      "state": "not_dispatched",
+      "requires": "strict_mac_acceptance"
+    }
+  },
+  "overall_engineering_accepted": false,
+  "release_ready": false
+}

@@ -1,0 +1,201 @@
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+
+  Checking File Globs
+  nanobind-static.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\nanobind-static.lib
+  glfw.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\glfw-build\src\Release\glfw3.lib
+  qupathxx_sqlite.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_sqlite.lib
+  qupathxx_tiff_xml.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_tiff_xml.lib
+  zlibstatic.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\qpx_zlib-build\Release\zs.lib
+  tiff.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\qpx_tiff-build\libtiff\Release\tiff.lib
+  analysis.cpp
+  analysis_records.cpp
+  batch_checkpoint.cpp
+  cell_archive.cpp
+  cell_records.cpp
+  cell_tables.cpp
+  cells.cpp
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(732,82): warning C4244: 'initializing': conversion from 'double' to '_Ty', possible loss of data [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(732,82): warning C4244:         with [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(732,82): warning C4244:         [ [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(732,82): warning C4244:             _Ty=float [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(732,82): warning C4244:         ] [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/cells.cpp')
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(732,82):
+      the template instantiation context (the oldest one first) is
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\cells.cpp(255,39):
+          see reference to function template instantiation 'std::vector<float,std::allocator<float>>::vector<std::_Vector_iterator<std::_Vector_val<std::_Simple_types<_Ty>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
+          with
+          [
+              _Ty=double,
+              _Iter=std::_Vector_iterator<std::_Vector_val<std::_Simple_types<double>>>,
+              _Alloc=std::allocator<float>
+          ]
+              C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\cells.cpp(255,39):
+              see the first reference to 'std::vector<float,std::allocator<float>>::vector' in 'qpx::CellKernel::run'
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vector(700,13):
+          see reference to function template instantiation 'void std::vector<float,std::allocator<float>>::_Construct_n<double*,double*>(const unsigned __int64,double *&&,double *&&)' being compiled
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vector(2120,41):
+          see reference to function template instantiation 'float *std::_Uninitialized_copy<_Ty,_Ty,std::allocator<float>>(_InIt,_Se,float *,_Alloc &)' being compiled
+          with
+          [
+              _Ty=double *,
+              _InIt=double *,
+              _Se=double *,
+              _Alloc=std::allocator<float>
+          ]
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(1902,18):
+          see reference to function template instantiation 'void std::_Uninitialized_backout_al<std::allocator<float>>::_Emplace_back<double&>(double &)' being compiled
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(1844,35):
+          see reference to function template instantiation 'void std::_Default_allocator_traits<_Alloc>::construct<_Ty,double&>(_Alloc &,_Objty *const ,double &)' being compiled
+          with
+          [
+              _Alloc=std::allocator<float>,
+              _Ty=float,
+              _Objty=float
+          ]
+  
+  core.cpp
+  document_classifications.cpp
+  document_edits.cpp
+  image_server.cpp
+  input_digest.cpp
+  interchange.cpp
+  measurement_tables.cpp
+  object_classifier.cpp
+  object_classifier_archive.cpp
+  object_classifier_records.cpp
+  pixel_classifier_archive.cpp
+  pixel_classifier_records.cpp
+  pixel_contour_job.cpp
+  Generating Code...
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\interchange.cpp(80,1): warning C4702: unreachable code [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  Compiling...
+  pixel_features.cpp
+  pixel_prediction.cpp
+  pixel_stream.cpp
+  pixel_stream_export_job.cpp
+  pixel_stream_file.cpp
+  pixel_stream_read_job.cpp
+  pixel_stream_records.cpp
+  pixel_training.cpp
+  project.cpp
+  project_batch.cpp
+  project_recovery.cpp
+  project_save.cpp
+  provenance_codec.cpp
+  qptma.cpp
+  raw_analysis.cpp
+  raw_analysis_archive.cpp
+  raw_analysis_records.cpp
+  raw_image.cpp
+  raw_pixel_archive.cpp
+  raw_pixel_contour_job.cpp
+  Generating Code...
+  Compiling...
+  raw_pixel_frontend.cpp
+  raw_pixel_records.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_records.cpp(30,59): warning C4456: declaration of 'x' hides previous local declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_records.cpp(28,17):
+      see declaration of 'x'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_records.cpp(30,83): warning C4456: declaration of 'y' hides previous local declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_records.cpp(28,41):
+      see declaration of 'y'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_records.cpp(36,72): warning C4456: declaration of 'x' hides previous local declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_records.cpp(35,17):
+      see declaration of 'x'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_records.cpp(36,109): warning C4456: declaration of 'y' hides previous local declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_records.cpp(35,41):
+      see declaration of 'y'
+  
+  raw_pixel_stream.cpp
+  raw_pixel_stream_file.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_stream_file.cpp(51,41): warning C4459: declaration of 'maximum' hides global declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_stream_file.cpp(19,25):
+      see declaration of 'qpx::`anonymous-namespace'::maximum'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_stream_file.cpp(54,28): warning C4459: declaration of 'maximum' hides global declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_stream_file.cpp(19,25):
+      see declaration of 'qpx::`anonymous-namespace'::maximum'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_stream_file.cpp(55,34): warning C4459: declaration of 'maximum' hides global declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_stream_file.cpp(19,25):
+      see declaration of 'qpx::`anonymous-namespace'::maximum'
+  
+  raw_pixel_stream_records.cpp
+  raw_pixel_tiled_archive.cpp
+  raw_pixel_tiled_training.cpp
+  raw_pixel_training_checkpoint.cpp
+  raw_pixel_window_workflows.cpp
+  raw_pixel_workflows.cpp
+  raw_tables.cpp
+  scientific_cell_archive.cpp
+  scientific_cells.cpp
+  scientific_raster.cpp
+  selection.cpp
+  spatial_index.cpp
+  stain_estimation.cpp
+  tissue.cpp
+  tissue_archive.cpp
+  tissue_contours.cpp
+  Generating Code...
+  Compiling...
+  tissue_records.cpp
+  tma.cpp
+  tma_case_export.cpp
+  tma_dearray.cpp
+  tma_tables.cpp
+  view_tiles.cpp
+  viewer_session.cpp
+  workspace_preferences.cpp
+  Generating Code...
+  provenance.cpp
+  qupathxx_core.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_core.lib
+  gui.cpp
+  qupathxx_gui.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_gui.lib
+  analysis_bindings.cpp
+  array_bindings.cpp
+  bindings.cpp
+  cell_bindings.cpp
+  cell_table_bindings.cpp
+  file_fingerprint_bindings.cpp
+  measurement_table_bindings.cpp
+  object_classifier_archive_bindings.cpp
+  object_classifier_bindings.cpp
+  pixel_classifier_archive_bindings.cpp
+  pixel_workflow_bindings.cpp
+  project_batch_bindings.cpp
+  provenance_bindings.cpp
+  raw_analysis_bindings.cpp
+  raw_image_bindings.cpp
+  raw_pixel_file_bindings.cpp
+  raw_pixel_frontend_bindings.cpp
+  raw_pixel_workflow_bindings.cpp
+  stain_estimation_bindings.cpp
+  tissue_bindings.cpp
+  tma_bindings.cpp
+  viewer_bindings.cpp
+     Creating library C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/_native.lib and object C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/_native.exp
+  _native.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\_native.cp312-win_amd64.pyd
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+
+  Checking File Globs
+  qupathxx_sqlite.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_sqlite.lib
+  qupathxx_tiff_xml.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_tiff_xml.lib
+  zlibstatic.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\qpx_zlib-build\Release\zs.lib
+  tiff.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\qpx_tiff-build\libtiff\Release\tiff.lib
+  qupathxx_core.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_core.lib
+  viewer_session_tests.cpp
+  qupathxx_viewer_session_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_viewer_session_tests.exe
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+
+  Checking File Globs
+  qupathxx_sqlite.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_sqlite.lib
+  qupathxx_tiff_xml.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_tiff_xml.lib
+  zlibstatic.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\qpx_zlib-build\Release\zs.lib
+  tiff.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\qpx_tiff-build\libtiff\Release\tiff.lib
+  qupathxx_core.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_core.lib
+  gui_replay_tests.cpp
+  qupathxx_gui_replay_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_gui_replay_tests.exe

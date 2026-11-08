@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\upstream\\qupath\\runtime\\QuPath-0.7.0 (console).exe",
+    "script",
+    "--args",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\class-hierarchy-r4",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tools\\upstream\\qupath_class_readback.groovy"
+  ],
+  "returncode": 0,
+  "seconds": 2.2051623999141157,
+  "probe_sha256": "ffa20d750fa35fa9a32be93fccc25abd11e5b9f2bac6a7ffb1bdfe8da4d98cc7",
+  "purpose": "Fresh process avoids class-singleton cache contamination"
+}

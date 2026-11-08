@@ -1,26 +1,47 @@
 #include "qupathxx/cells.hpp"
 #include "cell_object_status.hpp"
+#include "scientific_cells.hpp"
+#include "qupathxx/provenance.hpp"
 #include <limits>
 #include <stdexcept>
 #include <tuple>
 namespace qpx {
 namespace {
 void advance(std::uint64_t r) {if(r==std::numeric_limits<std::uint64_t>::max()) throw std::overflow_error("document revision exhausted");}
-auto parameters(const CellParameters& p) {return std::make_tuple(p.feature,p.threshold,p.sigma,p.min_peak_radius,p.min_seed_distance,p.cell_expansion,p.min_nucleus_pixels,p.max_nucleus_pixels,
+auto parameters(const CellParameters& p) {return std::make_tuple(p.algorithm,p.log_prominence,p.context_padding,p.feature,p.threshold,p.sigma,p.min_peak_radius,p.min_seed_distance,p.cell_expansion,p.min_nucleus_pixels,p.max_nucleus_pixels,
     p.connectivity,p.level,p.tile_size,p.max_cells,p.work_bytes,p.contours.clip_to_roi,p.contours.max_components,p.contours.max_edges,p.contours.max_vertices,p.contours.work_bytes);}
 auto feature(const CellFeature& f) {return std::tie(f.label,f.nucleus_pixels,f.cell_pixels,f.nucleus_rgb,f.cell_rgb,f.nucleus_channels,f.cell_channels,f.cytoplasm_rgb,f.cytoplasm_channels);}
 auto marker(const CellMarker& m) {return std::tie(m.label,m.result_label,m.pixel_index,m.center.x,m.center.y,m.radius);}
+auto grid_parameters(const GridCellParameters& p) {return std::make_tuple(p.processing,p.units,p.feature,p.threshold,p.sigma,p.log_prominence,p.min_peak_radius,p.min_seed_distance,p.cell_expansion,
+    p.min_nucleus_area,p.max_nucleus_area,p.sampling_policy,p.max_cells,p.work_bytes,p.contours.clip_to_roi,p.contours.max_components,p.contours.max_edges,p.contours.max_vertices,p.contours.work_bytes);}
+auto grid(const ScientificGrid& g) {return std::make_tuple(g.image_width(),g.image_height(),g.x().origin(),g.y().origin(),g.x().extent(),g.y().extent(),g.x().samples(),g.y().samples(),g.x().context(),g.y().context());}
+auto resolved(const ResolvedGridCellParameters& p) {return std::make_tuple(p.step_x,p.step_y,p.sigma_x,p.sigma_y,p.min_nucleus_samples,p.max_nucleus_samples);}
+auto nominal(const NominalCellSampling& n) {
+    const auto& r=n.source_request();return std::make_tuple(r.x_px,r.y_px,r.width_px,r.height_px,r.downsample,n.context_x(),n.context_y(),r.sampling);
+}
+bool same_sampling(const TissueResult& a,const TissueResult& b) {
+    if(a.nominal_sampling() || b.nominal_sampling()) return a.nominal_sampling() && b.nominal_sampling() && std::string(a.input_format())==b.input_format() && nominal(*a.nominal_sampling())==nominal(*b.nominal_sampling());
+    return a.scientific_grid() && b.scientific_grid() && grid(*a.scientific_grid())==grid(*b.scientific_grid());
+}
+bool same_grid_request(const CellResult& a,const CellResult& b) {
+    const auto& x=a.nuclei()->provenance();const auto& y=b.nuclei()->provenance();
+    return a.grid_parameters() && b.grid_parameters() && same_sampling(*a.nuclei(),*b.nuclei()) && x && y &&
+        grid_parameters(*a.grid_parameters())==grid_parameters(*b.grid_parameters()) &&
+        resolved(*a.resolved_grid_parameters())==resolved(*b.resolved_grid_parameters()) && x->effective_pixel_width_um==y->effective_pixel_width_um && x->effective_pixel_height_um==y->effective_pixel_height_um;
+}
 bool same_request(const CellResult& a,const CellResult& b) {
-    return a.nuclei()->object_id()==b.nuclei()->object_id() && a.nuclei()->object_revision()==b.nuclei()->object_revision() &&
-        a.nuclei()->roi().equals(b.nuclei()->roi()) && parameters(a.parameters())==parameters(b.parameters()) &&
+    return a.intensity_statistics_format()==b.intensity_statistics_format() && a.nuclei()->object_id()==b.nuclei()->object_id() && a.nuclei()->object_revision()==b.nuclei()->object_revision() &&
+        a.nuclei()->roi().equals(b.nuclei()->roi()) &&
         a.nuclei()->white()==b.nuclei()->white() && a.nuclei()->stains()==b.nuclei()->stains() &&
-        a.nuclei()->level()==b.nuclei()->level() && a.nuclei()->downsample()==b.nuclei()->downsample();
+        a.nuclei()->level()==b.nuclei()->level() &&
+        ((a.grid_parameters() || b.grid_parameters())?same_grid_request(a,b):
+            (parameters(a.parameters())==parameters(b.parameters()) && a.nuclei()->downsample()==b.nuclei()->downsample()));
 }
 bool equivalent(const CellResult& a,const CellResult& b) {
     if(!same_request(a,b) || std::string(a.algorithm())!=b.algorithm() || a.nuclei()->input_sha256()!=b.nuclei()->input_sha256() || a.nuclei()->samples()!=b.nuclei()->samples() ||
        a.nuclei()->threshold_pixels()!=b.nuclei()->threshold_pixels() || a.nuclei()->labels()!=b.nuclei()->labels() || a.cells()->labels()!=b.cells()->labels() ||
        a.raw_peaks()!=b.raw_peaks() || a.features().size()!=b.features().size() || a.markers().size()!=b.markers().size()) return false;
-    for(std::size_t i=0;i<a.features().size();++i) if(feature(a.features()[i])!=feature(b.features()[i])) return false;
+    for(std::size_t i=0;i<a.features().size();++i) if(feature(a.features()[i])!=feature(b.features()[i]) || a.intensity_statistics(a.features()[i].label)!=b.intensity_statistics(b.features()[i].label)) return false;
     for(std::size_t i=0;i<a.markers().size();++i) if(marker(a.markers()[i])!=marker(b.markers()[i])) return false;
     return true;
 }
@@ -93,7 +114,9 @@ bool Document::verify_cells(std::uint64_t id,const CellRequest& request,const Ce
     auto it=cells_.find(id);if(it==cells_.end()) throw std::out_of_range("cell record does not exist");
     auto& stored=it->second;
     if(!same_request(*stored.value->result,result)) throw std::invalid_argument("verification request does not match saved cell parameters");
-    stored.identity=analysis_identity_.token;stored.source=server_;stored.verified=equivalent(*stored.value->result,result);return stored.verified;
+    stored.identity=analysis_identity_.token;stored.source=server_;
+    stored.verified=stored.value->result->domain_bits_==result.domain_bits_ && equivalent(*stored.value->result,result);
+    return stored.verified;
 }
 std::shared_ptr<const CellRecord> Document::cell_record(std::uint64_t id) const {auto it=cells_.find(id);if(it==cells_.end()) throw std::out_of_range("cell record does not exist");return it->second.value;}
 std::vector<std::shared_ptr<const CellRecord>> Document::cell_records() const {std::vector<std::shared_ptr<const CellRecord>> records;records.reserve(cells_.size());for(const auto& entry:cells_) records.push_back(entry.second.value);return records;}
@@ -107,6 +130,10 @@ std::string Document::cell_status(std::uint64_t id) const {
     if(!stored.identity || stored.identity!=analysis_identity_.token) return "unverified";
     if(stored.source.lock().get()!=server_.get()) return "source_changed";
     if(server_->closed()) return "source_closed";
+    if(record->result->grid_parameters()) {
+        const auto& p=result.provenance();
+        if(!p || p->effective_pixel_width_um!=pixel_width_um() || p->effective_pixel_height_um!=pixel_height_um()) return "calibration_changed";
+    }
     return stored.verified?"current":"verification_failed";
 }
 bool Document::remove_cells(std::uint64_t id) {
@@ -115,7 +142,18 @@ bool Document::remove_cells(std::uint64_t id) {
 }
 CellRequest CellRequest::replay(const Document& document,std::uint64_t id) {
     const auto record=document.cell_record(id);const auto& r=*record->result->nuclei();
-    CellRequest request(document,r.object_id(),StainTransform::from_normalized(r.stains(),r.white()),record->result->parameters());
+    if(record->result->grid_parameters()) {
+        if((!r.scientific_grid() && !r.nominal_sampling()) || !r.provenance()) throw std::invalid_argument("saved grid cell geometry or provenance is missing");
+        const auto transform=StainTransform::from_normalized(r.stains(),r.white());
+        CellRequest request=r.nominal_sampling()?CellRequest(document,r.object_id(),transform,CellSamplingGrid(document.metadata().width,document.metadata().height,*r.nominal_sampling(),CellSamplingGrid::exact_support_for(*r.nominal_sampling(),r.input_format())),*record->result->grid_parameters(),record->result->intensity_statistics_format().has_value()):
+            CellRequest(document,r.object_id(),transform,CellSamplingGrid(*r.scientific_grid()),*record->result->grid_parameters(),record->result->intensity_statistics_format().has_value());
+        const auto& p=request.scientific_->source.provenance();
+        if(document.annotation(r.object_id()).revision!=r.object_revision() || !request.roi().equals(r.roi()) ||
+           p->effective_pixel_width_um!=r.provenance()->effective_pixel_width_um || p->effective_pixel_height_um!=r.provenance()->effective_pixel_height_um ||
+           resolved(*request.resolved_grid_parameters())!=resolved(*record->result->resolved_grid_parameters())) throw std::invalid_argument("saved grid cell object, calibration or resolved geometry changed");
+        return request;
+    }
+    CellRequest request(document,r.object_id(),StainTransform::from_normalized(r.stains(),r.white()),record->result->parameters(),record->result->intensity_statistics_format().has_value());
     if(document.annotation(r.object_id()).revision!=r.object_revision() || !request.roi().equals(r.roi()) || request.level()!=r.level() || request.downsample()!=r.downsample())
         throw std::invalid_argument("saved cell object or pyramid has changed");
     return request;

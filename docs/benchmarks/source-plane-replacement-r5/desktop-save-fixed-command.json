@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\source-plane-replacement-r5-env\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-m",
+    "pytest",
+    "tests/test_source_plane_replacement.py::test_desktop_reviewed_source_axes_are_checked_before_apply_and_save[True]",
+    "-q",
+    "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\source-plane-replacement-r5\\desktop-save-fixed.xml",
+    "--basetemp",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\source-plane-replacement-r5\\desktop-save-fixed-temp"
+  ],
+  "returncode": 0,
+  "elapsed_seconds": 3.792336900020018
+}

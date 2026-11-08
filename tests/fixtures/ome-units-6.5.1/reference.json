@@ -1,0 +1,52 @@
+[
+  {
+    "name": "INCH",
+    "symbol": "in",
+    "micrometres": 25400.0
+  },
+  {
+    "name": "THOU",
+    "symbol": "thou",
+    "micrometres": 25.4
+  },
+  {
+    "name": "LINE",
+    "symbol": "li",
+    "micrometres": 2116.6666666666665
+  },
+  {
+    "name": "FOOT",
+    "symbol": "ft",
+    "micrometres": 304800.0
+  },
+  {
+    "name": "YARD",
+    "symbol": "yd",
+    "micrometres": 914399.9999999999
+  },
+  {
+    "name": "MILE",
+    "symbol": "mi",
+    "micrometres": 1.609344E9
+  },
+  {
+    "name": "ASTRONOMICALUNIT",
+    "symbol": "ua",
+    "micrometres": 1.495978707E17
+  },
+  {
+    "name": "LIGHTYEAR",
+    "symbol": "ly",
+    "micrometres": 9.460730472580801E21
+  },
+  {
+    "name": "PARSEC",
+    "symbol": "pc",
+    "micrometres": 3.0856776000000003E22
+  },
+  {
+    "name": "POINT",
+    "symbol": "pt",
+    "micrometres": 352.77777777777777
+  }
+]

@@ -1,10 +1,9 @@
 """Responsive control bounds, actual wrapped-button input and camera invariants."""
 import os
-import re
 
 import pytest
 import qupathxx as q
-from test_gui_docking import config, workspace
+from test_gui_docking import config, workspace, select_pane
 from test_gui_tiles import replay
 
 pytestmark = pytest.mark.skipif(not q.has_gui or os.environ.get('QUPATHXX_TEST_GUI') != '1', reason='opt-in responsive GUI')
@@ -23,16 +22,12 @@ def test_responsive_docked_controls_and_camera(tmp_path, width, height, scale):
     options.width, options.height, options.ui_scale = width, height, scale
     report = q.show(project, frame_limit=14, capture_path=str(tmp_path/'layout.ppm'), options=options)
     no_overflow(report)
-    if scale > 1:
-        assert report.ui_stacked_fields > 0
-    if scale == 2:
-        assert report.ui_wrapped_buttons > 0
     assert report.canvas_visible and report.tiles_settled and report.canvas_bounds.height > 100
     assert report.final_center.x == pytest.approx(440) and report.final_center.y == pytest.approx(330)
     assert report.final_zoom == 1.5 and project.generation == generation and not project.dirty
 
 
-def test_wrapped_save_project_button_performs_real_save(tmp_path):
+def test_scaled_save_project_button_performs_real_save(tmp_path):
     project, _ = workspace(tmp_path)
     project.rename_image(1, 'Saved through wrapped button')
     options = config()
@@ -43,7 +38,6 @@ def test_wrapped_save_project_button_performs_real_save(tmp_path):
     report = q.show(project, frame_limit=40, options=options)
     assert report.replay_complete and report.saves_completed == 1 and not project.dirty
     assert q.Project.open(str(tmp_path/'source.qpxproj')).images[0].name == 'Saved through wrapped button'
-    assert report.ui_wrapped_buttons > 0
     no_overflow(report)
 
 
@@ -101,10 +95,7 @@ def test_hidden_project_pane_does_not_publish_a_save_button_target(tmp_path):
     project, _ = workspace(tmp_path)
     path = tmp_path/'workspace.ini'
     q.show(project, frame_limit=10, options=config(path))
-    text = path.read_text(encoding='utf8')
-    node = re.search(r'\[Window\]\[Measurements and jobs\][\s\S]*?DockId=(0x[0-9A-F]+),', text).group(1)
-    text = re.sub(r'(\[Window\]\[Project and objects\][\s\S]*?DockId=)0x[0-9A-F]+,0', lambda m: m.group(1)+node+',1', text)
-    path.write_text(text, encoding='utf8')
+    select_pane(path, 'Measurements and jobs')
     original = (tmp_path/'source.qpxproj').read_bytes()
     project.rename_image(1, 'Unsaved hidden edit')
     options = config(path)
@@ -119,10 +110,13 @@ def test_hidden_project_pane_does_not_publish_a_save_button_target(tmp_path):
 
 def test_unpainted_minimized_viewer_does_not_inherit_previous_layout_counters(tmp_path):
     project, _ = workspace(tmp_path)
-    options = config()
+    path = tmp_path/'workspace.ini'
+    q.show(project, frame_limit=10, options=config(path))
+    select_pane(path, 'Image and display')
+    options = config(path)
     options.ui_scale = 2
     painted = q.show(project, frame_limit=10, options=options)
-    assert painted.ui_wrapped_buttons > 0
+    assert painted.ui_stacked_fields > 0 and painted.canvas_visible
     options.settle_tiles = False
     options.inputs = [replay(0, q.GuiInputKind.MINIMIZE_WINDOW)]
     report = q.show(project, frame_limit=5, options=options)

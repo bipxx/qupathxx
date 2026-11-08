@@ -1,0 +1,72 @@
+{
+  "schema": "qpx.physical-grid-kernels-local/1",
+  "observed_at_utc": "2026-10-25T07:11:16.365021+00:00",
+  "source": "02de0d481557c908166a774a4873259a690156f8",
+  "configured_git_revision": "6a74e4989ea8f6198c88df3dedfe57b18d29ebca+dirty",
+  "source_tree_sha256": "32e4707f0564292ea55b9d8b656fb2b1b69f4bd3487ad234203265ef58dd45e9",
+  "compiler_inputs": 278,
+  "platform": "Windows x64 MSVC 19.44.35225.0",
+  "configuration": "Python enabled; GUI/project/interchange/GEOS/readers/training disabled",
+  "scope": "Internal physical metric, weighted distance and Gaussian preparation; new detector/request/result/archive/frontend path not implemented",
+  "native_suites_passed": 49,
+  "reference_tests_passed": 16,
+  "exact_distance_cases": 36,
+  "exact_product_comparisons": 517,
+  "native_exhaustive_site_trials": 1024,
+  "decimal_gaussian_cases": 9,
+  "gaussian_absolute_tolerance": 2e-12,
+  "gaussian_relative_tolerance": 2e-12,
+  "native_recipe_executable_sha256": "8887b738cef7de62da83ad935b53575bda7a6f989aef306daf2a0bf582243d09",
+  "development_regression": {
+    "case": "extreme-x-metric-owner 3x8",
+    "initial": "nearest site 0 instead of 3 at output index 4",
+    "correction": "exact comparisons of binary64 squared metric weights using portable uint64 limbs and integer envelope boundaries",
+    "prior_accepted_engine_regression": false
+  },
+  "new_kernels_called_by_production_recipes": false,
+  "new_python_kernel_api": false,
+  "scientific_detector_accepted": false,
+  "platform_campaign_accepted": false,
+  "release_ready": false,
+  "remaining": [
+    "float64 OD/stain transformation path",
+    "per-axis raster/result/provenance metadata",
+    "additive cell request and LoG/shape/body integration",
+    "grid digest/archive/replay and Python/CLI/ImGui/batch workflow",
+    "full inherited M0-M7 and scientific/hardware/release acceptance"
+  ],
+  "evidence": {
+    "build_manifest.hpp": {
+      "bytes": 712,
+      "sha256": "ec443fabd2225b7d3adeb89b0b712ffc9e7fd8f8b835893618b0f57996e6cc84"
+    },
+    "initial-development-numeric.hpp": {
+      "bytes": 11092,
+      "sha256": "4b0a7dffb9ce4b323e083dbbfa49a84c1197484bbe37dd754c9bb00a9db2fd70"
+    },
+    "initial-distance-failure.log": {
+      "bytes": 94,
+      "sha256": "5e84fb858c1231f218558af8cab01bb9e4e203d25229d11e468204443411c401"
+    },
+    "native-build.log": {
+      "bytes": 13363,
+      "sha256": "ba592cbbcdfa48baa6d89d54c025ef703c860fa72ffe5788d22e705ca7391d2e"
+    },
+    "native-tests.log": {
+      "bytes": 5155,
+      "sha256": "1683ed06fbf22ff92f3d759a114ba67b7488ef22b287c11573bf79159748ddaa"
+    },
+    "native-tests.xml": {
+      "bytes": 11948,
+      "sha256": "bd933d7125e843bce59245133ad7562e96b7db43245dc2f0cf547dd512b1fe9a"
+    },
+    "reference-tests.xml": {
+      "bytes": 2580,
+      "sha256": "e379141dcb546bd5f4d65c5728c45a29f5aaeabc9de3a95bd4db426a177530e6"
+    },
+    "source-proof.json": {
+      "bytes": 66206,
+      "sha256": "5101f19575831876ccbb690fe1e6acf1aa444427152ffbcbef0641da2fa95360"
+    }
+  }
+}

@@ -1,0 +1,165 @@
+{
+  "schema": "qpx.macos-native-inventory-controls/1",
+  "tool_source": "43ff8335880a4ebb65251b1a480cac44044ee5bb",
+  "synthetic_only": true,
+  "actual_otool_executed": false,
+  "actual_qupathxx_native_binaries": false,
+  "positive": {
+    "source": "43ff8335880a4ebb65251b1a480cac44044ee5bb",
+    "architecture": "arm64",
+    "tooling_sha256": {
+      "tools/ci/macos_native_inventory.py": "f565de3a2f555aafabd7312ff05dc04cc1712d4d0f41b5bd626d6a19a57dc74a",
+      "tools/ci/macho_dependencies.py": "0b675070250682afae9e71f0c348ea719232471b060b8f6fe982fd7f625a45c3",
+      "tools/ci/runtime_manifest.py": "2013ad073943f4c200e6a44f8db2de13b094d05aa35d691c0e367d80a4734c28",
+      "tools/ci/pe_dependencies.py": "164689ef5c582628170500ae6d145026b546b2c1c41553b54afe1b95cd0e5efb",
+      "tools/ci/run_macos_native.py": "1a35405cec3f5817c28abbe07aa968514919d2db5879a11e08d221fdafb397f0",
+      "tools/ci/macos_inventory_evidence.py": "667dc35fe680175c55991a823389420421c644181d8697b1c104fbd827948c12",
+      ".github/workflows/ci.yml": "9bb5bbdb7d1c95e01f363b011caf259b1b43a78ea387d62e6b62d9dd86eec6ff"
+    },
+    "files": 6,
+    "binaries": 4,
+    "archive_sha256": "3119d1a0169d69b3887d38eeb677d80e178d4ec1844b84bcd81f2dbfd2c927e3",
+    "manifest_sha256": "1e1077ec254eace9db56ab65d94a9b0dd45b4c21dfab40ef1970b1c218ca5958",
+    "otool_probe_sha256": "7739baa1f7a7ec01ef3360c916fce584decb5fd514b31b7889514d7369f27360",
+    "native_snapshot_accepted": true,
+    "sdk_paths_may_be_embedded": true,
+    "runtime_resolution_complete": false,
+    "relocated_package_validated": false,
+    "external_runtime_availability_verified": false,
+    "signing_verified": false,
+    "release_ready": false,
+    "scope": "Uploaded native CLI and selected SDK runtime/notice bytes reinspected at exact source; independent otool names/versions agree. Static SDK archives remain build-input ledger only. No install-name resolution, relocation, Python/GUI/OpenSlide, ABI, signing or supported release."
+  },
+  "positive_python_cohort": {
+    "groups": [
+      {
+        "classname": "test_runtime_manifest",
+        "passed": 55
+      },
+      {
+        "classname": "test_elf_dependencies",
+        "passed": 75
+      },
+      {
+        "classname": "test_linux_runtime_manifest",
+        "passed": 50
+      },
+      {
+        "classname": "test_macho_dependencies",
+        "passed": 66
+      },
+      {
+        "classname": "test_macos_native_inventory",
+        "passed": 22
+      }
+    ],
+    "passed": 268,
+    "case_contract_sha256": "1fb3348923d554c137be80cf5206a28062c5564dec36d8581f17b7e0cd4cfe75",
+    "junit_sha256": "e502c26446fcf670d994e893ba89f137fa7d84917f3faa03c5edf11599e64654"
+  },
+  "rejected_count": 25,
+  "rejected": [
+    {
+      "label": "missing macos-native-files.zip",
+      "error": "[Errno 2] No such file or directory: 'C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\macos150-controls-e0c9a370468d\\\\artifacts\\\\macos-native-files.zip'"
+    },
+    {
+      "label": "missing macos-native-file-inventory.json",
+      "error": "[WinError 2] The system cannot find the file specified: 'C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\macos150-controls-e0c9a370468d\\\\artifacts\\\\macos-native-file-inventory.json'"
+    },
+    {
+      "label": "missing macos-otool-probe.json",
+      "error": "[WinError 2] The system cannot find the file specified: 'C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\macos150-controls-e0c9a370468d\\\\artifacts\\\\macos-otool-probe.json'"
+    },
+    {
+      "label": "missing macho-otool-0000.log",
+      "error": "[WinError 2] The system cannot find the file specified: 'C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\macos150-controls-e0c9a370468d\\\\artifacts\\\\macho-otool-0000.log'"
+    },
+    {
+      "label": "changed manifest hash",
+      "error": "Mac inventory differs from uploaded archive"
+    },
+    {
+      "label": "changed manifest mode",
+      "error": "Mac inventory differs from uploaded archive"
+    },
+    {
+      "label": "changed manifest machine",
+      "error": "Mac inventory differs from uploaded archive"
+    },
+    {
+      "label": "changed manifest file",
+      "error": "Mac inventory differs from uploaded archive"
+    },
+    {
+      "label": "changed manifest release",
+      "error": "Mac inventory differs from uploaded archive"
+    },
+    {
+      "label": "changed manifest bool_type",
+      "error": "Mac inventory differs from uploaded archive"
+    },
+    {
+      "label": "changed otool hash",
+      "error": "Mac otool source/scope differs"
+    },
+    {
+      "label": "changed otool arch",
+      "error": "Mac otool source/scope differs"
+    },
+    {
+      "label": "changed otool release",
+      "error": "Mac otool source/scope differs"
+    },
+    {
+      "label": "changed otool scope",
+      "error": "Mac otool evidence fields/scope differ"
+    },
+    {
+      "label": "changed otool fields",
+      "error": "Mac otool evidence fields/scope differ"
+    },
+    {
+      "label": "changed otool missing",
+      "error": "Mac otool binary cohort missing or duplicated"
+    },
+    {
+      "label": "changed otool duplicate",
+      "error": "Mac otool binary cohort missing or duplicated"
+    },
+    {
+      "label": "changed otool log_path",
+      "error": "invalid/duplicate otool log path"
+    },
+    {
+      "label": "changed otool log_hash",
+      "error": "Mac otool log bytes changed"
+    },
+    {
+      "label": "changed otool dependency",
+      "error": "Mac otool parsed record differs"
+    },
+    {
+      "label": "changed tested binary native_batch_sha256",
+      "error": "Mac native snapshot differs from tested binaries"
+    },
+    {
+      "label": "changed tested binary native_region_sha256",
+      "error": "Mac native snapshot differs from tested binaries"
+    },
+    {
+      "label": "changed SDK build ledger",
+      "error": "Mac SDK runtime/notices snapshot differs from build ledger"
+    },
+    {
+      "label": "changed raw otool log",
+      "error": "Mac otool log bytes changed"
+    },
+    {
+      "label": "old source",
+      "error": "Mac inventory tooling differs from dispatched source: tools/ci/macos_native_inventory.py"
+    }
+  ],
+  "release_ready": false,
+  "scope": "Independent synthetic Mach-O/SDK fixture snapshot and altered-record controls. Real Mac native binaries, otool execution and exact-source hosted validation remain pending."
+}

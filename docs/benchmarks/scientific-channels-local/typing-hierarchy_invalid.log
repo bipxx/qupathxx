@@ -1,0 +1,4 @@
+tests\typing\hierarchy_invalid.py:4: error: Argument "nested_hierarchy" to "export_geojson" has incompatible type "str"; expected "bool"  [arg-type]
+tests\typing\hierarchy_invalid.py:5: error: Argument "nested_hierarchy" to "save_geojson" has incompatible type "list[bool]"; expected "bool"  [arg-type]
+tests\typing\hierarchy_invalid.py:7: error: Incompatible types in assignment (expression has type "str", variable has type "bool")  [assignment]
+Found 3 errors in 1 file (checked 1 source file)

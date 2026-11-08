@@ -1,0 +1,4 @@
+tests\typing\stain_model_files_invalid.py:4: error: Argument 1 to "load_stain_model" has incompatible type "int"; expected "str"  [arg-type]
+tests\typing\stain_model_files_invalid.py:5: error: Argument 1 to "save_stain_model" has incompatible type "str"; expected "StainTransform"  [arg-type]
+tests\typing\stain_model_files_invalid.py:5: error: Argument 2 to "save_stain_model" has incompatible type "StainTransform"; expected "str"  [arg-type]
+Found 3 errors in 1 file (checked 1 source file)

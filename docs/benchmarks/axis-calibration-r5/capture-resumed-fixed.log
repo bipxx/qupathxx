@@ -1,0 +1,52 @@
+WARNING: Unknown module: javafx.graphics specified to --add-opens
+WARNING: Unknown module: javafx.base specified to --add-opens
+WARNING: Unknown module: javafx.web specified to --enable-native-access
+WARNING: Unknown module: javafx.graphics specified to --enable-native-access
+WARNING: Unknown module: javafx.media specified to --enable-native-access
+21:31:25.735 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting default Locale to en_US
+21:31:25.740 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting Locale for FORMAT to en_US
+21:31:25.741 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting Locale for DISPLAY to en_US
+21:31:25.770 [main] [INFO ] qupath.lib.common.ThreadTools - Setting parallelism to 19
+21:31:25.779 [main] [INFO ] qupath.ScriptCommand - Setting tile cache size to 16352.00 MB (25.0% max memory)
+21:31:25.878 [main] [INFO ] qupath.lib.scripting.QP - Initializing type adapters
+21:31:27.650 [main] [INFO ] q.l.i.s.b.BioFormatsServerOptions - Setting max Bio-Formats readers to 20
+21:31:27.938 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:31:28.502 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:31:28.633 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:31:28.698 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:31:28.713 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:31:28.762 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:31:28.788 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:31:28.800 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:31:28.835 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:31:28.859 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:31:28.875 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:31:28.900 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:31:28.927 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:31:28.940 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:31:28.968 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:31:28.986 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:31:28.999 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:31:29.033 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:31:29.061 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:31:29.075 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:31:29.106 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:31:29.124 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:31:29.140 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:31:29.218 [main] [WARN ] qupath.lib.projects.DefaultProject - Updating ID property to C:\Users\HEQ\Projects\qupathxx\build\axis-calibration-r5\capture-resumed\project\project.qpproj::8
+21:31:29.229 [main] [INFO ] qupath.lib.io.PathIO - Writing object hierarchy with 1 object(s)...
+21:31:29.232 [main] [INFO ] qupath.lib.io.PathIO - Image data written in 0.01 seconds
+21:31:29.259 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:31:29.281 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:31:29.300 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:31:29.306 [main] [WARN ] qupath.lib.projects.DefaultProject - Updating ID property to C:\Users\HEQ\Projects\qupathxx\build\axis-calibration-r5\capture-resumed\project\project.qpproj::9
+21:31:29.308 [main] [INFO ] qupath.lib.io.PathIO - Writing object hierarchy with 1 object(s)...
+21:31:29.309 [main] [INFO ] qupath.lib.io.PathIO - Image data written in 0.00 seconds
+21:31:29.332 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:31:29.351 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:31:29.363 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:31:29.368 [main] [WARN ] qupath.lib.projects.DefaultProject - Updating ID property to C:\Users\HEQ\Projects\qupathxx\build\axis-calibration-r5\capture-resumed\project\project.qpproj::10
+21:31:29.370 [main] [INFO ] qupath.lib.io.PathIO - Writing object hierarchy with 1 object(s)...
+21:31:29.371 [main] [INFO ] qupath.lib.io.PathIO - Image data written in 0.00 seconds
+21:31:29.394 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:31:29.415 [main] [INFO ] qupath.ScriptCommand - Script result: C:\Users\HEQ\Projects\qupathxx\build\axis-calibration-r5\capture-resumed\reference.json

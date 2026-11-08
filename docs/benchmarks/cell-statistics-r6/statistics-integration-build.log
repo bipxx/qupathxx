@@ -1,0 +1,455 @@
+CMake is re-running because C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/CMakeFiles/generate.stamp is out-of-date.
+  the file 'C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/cell_archive.cpp'
+  is newer than 'C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/CMakeFiles/generate.stamp.depend'
+  result='-1'
+-- Selecting Windows SDK version 10.0.22621.0 to target Windows 10.0.26200.
+-- Building tiff version 4.7.1
+-- Could NOT find Deflate (missing: Deflate_LIBRARY Deflate_INCLUDE_DIR) 
+-- Could NOT find JBIG (missing: JBIG_LIBRARY JBIG_INCLUDE_DIR) 
+-- Could NOT find LERC (missing: LERC_LIBRARY LERC_INCLUDE_DIR) 
+-- Could NOT find liblzma (missing: LIBLZMA_LIBRARY LIBLZMA_INCLUDE_DIR LIBLZMA_HAS_AUTO_DECODER LIBLZMA_HAS_EASY_ENCODER LIBLZMA_HAS_LZMA_PRESET) 
+-- Could NOT find ZSTD (missing: ZSTD_LIBRARY ZSTD_INCLUDE_DIR) 
+-- Could NOT find WebP (missing: WebP_LIBRARY WebP_INCLUDE_DIR) 
+-- Found OpenGL: opengl32  found components: OpenGL
+-- Could NOT find GLUT (missing: GLUT_glut_LIBRARY GLUT_INCLUDE_DIR) 
+-- Include resource version information for LibTIFF
+-- 
+-- Libtiff is now configured for Windows-10.0.26200
+-- 
+--   Libtiff build version:       4.7.1
+--   Libtiff library version:     6.2.0
+--   Libtiff release date:        20250911
+-- 
+--   Installation directory:             C:/Users/HEQ/AppData/Local/Temp/tmpk5aqplx1/wheel/platlib
+--   Documentation directory:            share/doc/tiff
+--   C compiler:                         C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe
+--   C++ compiler:                       C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe
+--   Build shared libraries:             OFF
+--   Build tools:                        OFF
+--   Build tests:                        OFF
+--   Build contrib:                      OFF
+--   Build docs:                         OFF
+--   Build deprecated features:          OFF
+--   Enable linker symbol versioning:    FALSE
+--   Support Microsoft Document Imaging: ON
+--   Use win32 IO:                       ON
+-- 
+--  Support for internal codecs:
+--   CCITT Group 3 & 4 algorithms:       ON
+--   Macintosh PackBits algorithm:       ON
+--   LZW algorithm:                      ON
+--   ThunderScan 4-bit RLE algorithm:    ON
+--   NeXT 2-bit RLE algorithm:           ON
+--   LogLuv high dynamic range encoding: ON
+-- 
+--  Support for external codecs:
+--   ZLIB support:                       Requested:ON Availability:TRUE Support:TRUE
+--   libdeflate support:                 Requested:OFF Availability:FALSE Support:FALSE
+--   Pixar log-format algorithm:         Requested:OFF Availability:TRUE Support:FALSE
+--   JPEG support:                       Requested:ON Availability:TRUE Support:TRUE
+--   Old JPEG support:                   Requested:OFF Availability:TRUE Support:FALSE
+--   JPEG 8/12 bit dual mode:            Support: yes (libjpeg turbo >= 3.0 dual mode)
+--   ISO JBIG support:                   Requested:OFF Availability:FALSE Support:FALSE
+--   LERC support:                       Requested:OFF Availability:FALSE Support:FALSE
+--   LZMA2 support:                      Requested:OFF Availability:FALSE Support:FALSE
+--   ZSTD support:                       Requested:OFF Availability:FALSE Support:FALSE
+--   WEBP support:                       Requested:OFF Availability:FALSE Support:FALSE
+-- 
+--   C++ support:                        ON (requested) TRUE (availability)
+-- 
+--   OpenGL support:                     Requested:OFF Availability:FALSE Support:FALSE
+-- 
+-- OpenCV ARCH: x64
+-- OpenCV RUNTIME: vc17
+-- OpenCV STATIC: ON
+-- Found OpenCV 4.11.0 in C:/Users/HEQ/Projects/qupathxx/build/deps/opencv-sdk/x64/vc17/staticlib
+-- Using the multi-header code from C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/_deps/json-src/include/
+-- Including Win32 support
+-- Found OpenGL: opengl32
+-- Configuring done (4.8s)
+-- Generating done (1.9s)
+-- Build files have been written to: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+
+  Checking File Globs
+  1>Checking Build System
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_sqlite.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_sqlite.lib
+  qupathxx_tiff_xml.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_tiff_xml.lib
+  zlibstatic.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\qpx_zlib-build\Release\zs.lib
+  tiff.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\qpx_tiff-build\libtiff\Release\tiff.lib
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  analysis.cpp
+  analysis_records.cpp
+  batch_checkpoint.cpp
+  cell_archive.cpp
+  cell_records.cpp
+  cell_sampling_grid.cpp
+  cell_tables.cpp
+  cells.cpp
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(732,82): warning C4244: 'initializing': conversion from 'double' to '_Ty', possible loss of data [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(732,82): warning C4244:         with [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(732,82): warning C4244:         [ [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(732,82): warning C4244:             _Ty=float [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(732,82): warning C4244:         ] [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/cells.cpp')
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(732,82):
+      the template instantiation context (the oldest one first) is
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\cells.cpp(261,39):
+          see reference to function template instantiation 'std::vector<float,std::allocator<float>>::vector<std::_Vector_iterator<std::_Vector_val<std::_Simple_types<_Ty>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
+          with
+          [
+              _Ty=double,
+              _Iter=std::_Vector_iterator<std::_Vector_val<std::_Simple_types<double>>>,
+              _Alloc=std::allocator<float>
+          ]
+              C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\cells.cpp(261,39):
+              see the first reference to 'std::vector<float,std::allocator<float>>::vector' in 'qpx::CellKernel::run'
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vector(700,13):
+          see reference to function template instantiation 'void std::vector<float,std::allocator<float>>::_Construct_n<double*,double*>(const unsigned __int64,double *&&,double *&&)' being compiled
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vector(2120,41):
+          see reference to function template instantiation 'float *std::_Uninitialized_copy<_Ty,_Ty,std::allocator<float>>(_InIt,_Se,float *,_Alloc &)' being compiled
+          with
+          [
+              _Ty=double *,
+              _InIt=double *,
+              _Se=double *,
+              _Alloc=std::allocator<float>
+          ]
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(1902,18):
+          see reference to function template instantiation 'void std::_Uninitialized_backout_al<std::allocator<float>>::_Emplace_back<double&>(double &)' being compiled
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(1844,35):
+          see reference to function template instantiation 'void std::_Default_allocator_traits<_Alloc>::construct<_Ty,double&>(_Alloc &,_Objty *const ,double &)' being compiled
+          with
+          [
+              _Alloc=std::allocator<float>,
+              _Ty=float,
+              _Objty=float
+          ]
+  
+  core.cpp
+  document_classifications.cpp
+  document_edits.cpp
+  image_analysis_settings.cpp
+  image_axis_calibration.cpp
+  image_server.cpp
+  input_digest.cpp
+  interchange.cpp
+  measurement_tables.cpp
+  object_classifier.cpp
+  object_classifier_archive.cpp
+  object_classifier_records.cpp
+  Generating Code...
+  Compiling...
+  pixel_classifier_archive.cpp
+  pixel_classifier_records.cpp
+  pixel_contour_job.cpp
+  pixel_features.cpp
+  pixel_prediction.cpp
+  pixel_stream.cpp
+  pixel_stream_export_job.cpp
+  pixel_stream_file.cpp
+  pixel_stream_read_job.cpp
+  pixel_stream_records.cpp
+  pixel_training.cpp
+  project.cpp
+  project_batch.cpp
+  project_recovery.cpp
+  project_save.cpp
+  project_source.cpp
+  provenance_codec.cpp
+  qptma.cpp
+  qupath_project.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\qupath_project.cpp(35,36): warning C4458: declaration of 'path' hides class member [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\qupath_project.cpp(31,17):
+      see declaration of 'qpx::QuPathProjectPreview::Impl::path'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\qupath_project.cpp(39,37): warning C4458: declaration of 'path' hides class member [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\qupath_project.cpp(31,17):
+      see declaration of 'qpx::QuPathProjectPreview::Impl::path'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\qupath_project.cpp(44,36): warning C4458: declaration of 'path' hides class member [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\qupath_project.cpp(31,17):
+      see declaration of 'qpx::QuPathProjectPreview::Impl::path'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\qupath_project.cpp(48,41): warning C4458: declaration of 'path' hides class member [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\qupath_project.cpp(31,17):
+      see declaration of 'qpx::QuPathProjectPreview::Impl::path'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\qupath_project.cpp(61,26): warning C4458: declaration of 'path' hides class member [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\qupath_project.cpp(31,17):
+      see declaration of 'qpx::QuPathProjectPreview::Impl::path'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\qupath_project.cpp(62,25): warning C4458: declaration of 'path' hides class member [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\qupath_project.cpp(31,17):
+      see declaration of 'qpx::QuPathProjectPreview::Impl::path'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\qupath_project.cpp(115,25): warning C4457: declaration of 'path' hides function parameter [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\qupath_project.cpp(108,87):
+      see declaration of 'path'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\qupath_project.cpp(158,24): warning C4457: declaration of 'path' hides function parameter [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\qupath_project.cpp(108,87):
+      see declaration of 'path'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\qupath_project.cpp(237,42): warning C4389: '!=': signed/unsigned mismatch [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\qupath_project.cpp(237,91): warning C4389: '!=': signed/unsigned mismatch [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  qupath_saved_data.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\qupath_saved_data.cpp(299,14): warning C4458: declaration of 'result' hides class member [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\qupath_saved_data.cpp(181,42):
+      see declaration of 'qpx::detail::`anonymous-namespace'::Decoder::result'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\qupath_saved_data.cpp(443,68): warning C4458: declaration of 'count' hides class member [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\qupath_saved_data.cpp(181,82):
+      see declaration of 'qpx::detail::`anonymous-namespace'::Decoder::count'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\qupath_saved_data.cpp(543,29): warning C4457: declaration of 'values' hides function parameter [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\qupath_saved_data.cpp(510,51):
+      see declaration of 'values'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\qupath_saved_data.cpp(560,163): warning C4458: declaration of 'count' hides class member [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\qupath_saved_data.cpp(181,82):
+      see declaration of 'qpx::detail::`anonymous-namespace'::Decoder::count'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\qupath_saved_data.cpp(568,38): warning C4456: declaration of 'name' hides previous local declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\qupath_saved_data.cpp(556,64):
+      see declaration of 'name'
+  
+  Generating Code...
+  Compiling...
+  raw_analysis.cpp
+  raw_analysis_archive.cpp
+  raw_analysis_records.cpp
+  raw_image.cpp
+  raw_pixel_archive.cpp
+  raw_pixel_contour_job.cpp
+  raw_pixel_file_jobs.cpp
+  raw_pixel_frontend.cpp
+  raw_pixel_records.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_records.cpp(30,59): warning C4456: declaration of 'x' hides previous local declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_records.cpp(28,17):
+      see declaration of 'x'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_records.cpp(30,83): warning C4456: declaration of 'y' hides previous local declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_records.cpp(28,41):
+      see declaration of 'y'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_records.cpp(36,72): warning C4456: declaration of 'x' hides previous local declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_records.cpp(35,17):
+      see declaration of 'x'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_records.cpp(36,109): warning C4456: declaration of 'y' hides previous local declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_records.cpp(35,41):
+      see declaration of 'y'
+  
+  raw_pixel_stream.cpp
+  raw_pixel_stream_contours.cpp
+  raw_pixel_stream_file.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_stream_file.cpp(54,41): warning C4459: declaration of 'maximum' hides global declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_stream_file.cpp(22,25):
+      see declaration of 'qpx::`anonymous-namespace'::maximum'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_stream_file.cpp(57,28): warning C4459: declaration of 'maximum' hides global declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_stream_file.cpp(22,25):
+      see declaration of 'qpx::`anonymous-namespace'::maximum'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_stream_file.cpp(58,34): warning C4459: declaration of 'maximum' hides global declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_stream_file.cpp(22,25):
+      see declaration of 'qpx::`anonymous-namespace'::maximum'
+  
+  raw_pixel_stream_records.cpp
+  raw_pixel_tiled_archive.cpp
+  raw_pixel_tiled_training.cpp
+  raw_pixel_training_checkpoint.cpp
+  raw_pixel_window_workflows.cpp
+  raw_pixel_workflows.cpp
+  raw_stream_boundaries.cpp
+  raw_tables.cpp
+  Generating Code...
+  Compiling...
+  scientific_cell_archive.cpp
+  scientific_cells.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\scientific_cells.cpp(177,30): warning C4456: declaration of 'c' hides previous local declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\scientific_cells.cpp(145,89):
+      see declaration of 'c'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\scientific_cells.cpp(186,30): warning C4456: declaration of 'c' hides previous local declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\scientific_cells.cpp(145,89):
+      see declaration of 'c'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\scientific_cells.cpp(241,60): warning C4456: declaration of 'c' hides previous local declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\scientific_cells.cpp(145,89):
+      see declaration of 'c'
+  
+  scientific_raster.cpp
+  selection.cpp
+  spatial_analysis.cpp
+  spatial_archive.cpp
+  spatial_export.cpp
+  spatial_frontend.cpp
+  spatial_index.cpp
+  stain_estimation.cpp
+  tissue.cpp
+  tissue_archive.cpp
+  tissue_contours.cpp
+  tissue_records.cpp
+  tma.cpp
+  tma_case_export.cpp
+  tma_dearray.cpp
+  tma_tables.cpp
+  view_tiles.cpp
+  viewer_session.cpp
+  Generating Code...
+  Compiling...
+  workspace_preferences.cpp
+  Generating Code...
+  provenance.cpp
+  qupathxx_core.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_core.lib
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  cell_intensity_statistics_tests.cpp
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(732,82): warning C4244: 'initializing': conversion from 'double' to '_Objty', possible loss of data [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_cell_tests.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(732,82): warning C4244:         with [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_cell_tests.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(732,82): warning C4244:         [ [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_cell_tests.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(732,82): warning C4244:             _Objty=float [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_cell_tests.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(732,82): warning C4244:         ] [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_cell_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/cell_intensity_statistics_tests.cpp')
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(732,82):
+      the template instantiation context (the oldest one first) is
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\cell_intensity_statistics_tests.cpp(61,44):
+          see reference to function template instantiation 'std::vector<float,std::allocator<float>>::vector<std::_Vector_iterator<std::_Vector_val<std::_Simple_types<_Ty>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
+          with
+          [
+              _Ty=double,
+              _Iter=std::_Vector_iterator<std::_Vector_val<std::_Simple_types<double>>>,
+              _Alloc=std::allocator<float>
+          ]
+              C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\cell_intensity_statistics_tests.cpp(61,44):
+              see the first reference to 'std::vector<float,std::allocator<float>>::vector' in 'check_cell_intensity_statistics'
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vector(700,13):
+          see reference to function template instantiation 'void std::vector<float,std::allocator<float>>::_Construct_n<double*,double*>(const unsigned __int64,double *&&,double *&&)' being compiled
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vector(2120,41):
+          see reference to function template instantiation 'float *std::_Uninitialized_copy<_Ty,_Ty,std::allocator<float>>(_InIt,_Se,float *,_Alloc &)' being compiled
+          with
+          [
+              _Ty=double *,
+              _InIt=double *,
+              _Se=double *,
+              _Alloc=std::allocator<float>
+          ]
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(1902,18):
+          see reference to function template instantiation 'void std::_Uninitialized_backout_al<_Alloc>::_Emplace_back<double&>(double &)' being compiled
+          with
+          [
+              _Alloc=std::allocator<float>
+          ]
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(1844,35):
+          see reference to function template instantiation 'void std::_Default_allocator_traits<_Alloc>::construct<_Ty,double&>(_Alloc &,_Objty *const ,double &)' being compiled
+          with
+          [
+              _Alloc=std::allocator<float>,
+              _Ty=float,
+              _Objty=float
+          ]
+  
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(732,82): warning C4244: 'initializing': conversion from 'double' to '_Objty', possible loss of data [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_cell_tests.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(732,82): warning C4244:         with [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_cell_tests.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(732,82): warning C4244:         [ [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_cell_tests.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(732,82): warning C4244:             _Objty=unsigned char [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_cell_tests.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(732,82): warning C4244:         ] [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_cell_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/cell_intensity_statistics_tests.cpp')
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(732,82):
+      the template instantiation context (the oldest one first) is
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\cell_intensity_statistics_tests.cpp(62,45):
+          see reference to function template instantiation 'std::vector<uint8_t,std::allocator<uint8_t>>::vector<std::_Vector_iterator<std::_Vector_val<std::_Simple_types<_Ty>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
+          with
+          [
+              _Ty=double,
+              _Iter=std::_Vector_iterator<std::_Vector_val<std::_Simple_types<double>>>,
+              _Alloc=std::allocator<uint8_t>
+          ]
+              C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\cell_intensity_statistics_tests.cpp(62,45):
+              see the first reference to 'std::vector<uint8_t,std::allocator<uint8_t>>::vector' in 'check_cell_intensity_statistics'
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vector(700,13):
+          see reference to function template instantiation 'void std::vector<uint8_t,std::allocator<uint8_t>>::_Construct_n<double*,double*>(const unsigned __int64,double *&&,double *&&)' being compiled
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vector(2120,41):
+          see reference to function template instantiation 'unsigned char *std::_Uninitialized_copy<_Ty,_Ty,std::allocator<uint8_t>>(_InIt,_Se,unsigned char *,_Alloc &)' being compiled
+          with
+          [
+              _Ty=double *,
+              _InIt=double *,
+              _Se=double *,
+              _Alloc=std::allocator<uint8_t>
+          ]
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(1902,18):
+          see reference to function template instantiation 'void std::_Uninitialized_backout_al<_Alloc>::_Emplace_back<double&>(double &)' being compiled
+          with
+          [
+              _Alloc=std::allocator<uint8_t>
+          ]
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(1844,35):
+          see reference to function template instantiation 'void std::_Default_allocator_traits<_Alloc>::construct<_Ty,double&>(_Alloc &,_Objty *const ,double &)' being compiled
+          with
+          [
+              _Alloc=std::allocator<uint8_t>,
+              _Ty=unsigned char,
+              _Objty=unsigned char
+          ]
+  
+  cell_tests.cpp
+  nominal_cell_tests.cpp
+  scientific_cell_tests.cpp
+  Generating Code...
+LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_cell_tests.vcxproj]
+  qupathxx_cell_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_cell_tests.exe
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+
+  Checking File Globs
+  qupathxx_tiff_xml.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_tiff_xml.lib
+  qupathxx_sqlite.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_sqlite.lib
+  zlibstatic.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\qpx_zlib-build\Release\zs.lib
+  tiff.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\qpx_tiff-build\libtiff\Release\tiff.lib
+  qupathxx_core.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_core.lib
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  object_classifier_tests.cpp
+  qupathxx_object_classifier_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_object_classifier_tests.exe
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+
+  Checking File Globs
+  qupathxx_tiff_xml.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_tiff_xml.lib
+  qupathxx_sqlite.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_sqlite.lib
+  zlibstatic.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\qpx_zlib-build\Release\zs.lib
+  tiff.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\qpx_tiff-build\libtiff\Release\tiff.lib
+  qupathxx_core.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_core.lib
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  log_cell_recipe_tests.cpp
+  qupathxx_log_cell_recipe_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_log_cell_recipe_tests.exe
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+
+  Checking File Globs
+  qupathxx_tiff_xml.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_tiff_xml.lib
+  qupathxx_sqlite.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_sqlite.lib
+  zlibstatic.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\qpx_zlib-build\Release\zs.lib
+  tiff.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\qpx_tiff-build\libtiff\Release\tiff.lib
+  qupathxx_core.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_core.lib
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  cell_record_tests.cpp
+  scientific_cell_archive_tests.cpp
+  Generating Code...
+LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_cell_record_tests.vcxproj]
+  qupathxx_cell_record_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_cell_record_tests.exe
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+
+  Checking File Globs
+  qupathxx_tiff_xml.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_tiff_xml.lib
+  qupathxx_sqlite.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_sqlite.lib
+  zlibstatic.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\qpx_zlib-build\Release\zs.lib
+  tiff.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\qpx_tiff-build\libtiff\Release\tiff.lib
+  qupathxx_core.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_core.lib
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  cell_table_tests.cpp
+  grid_cell_consumers_tests.cpp
+  Generating Code...
+LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_cell_table_tests.vcxproj]
+  qupathxx_cell_table_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_cell_table_tests.exe

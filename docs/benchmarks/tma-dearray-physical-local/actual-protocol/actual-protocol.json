@@ -1,0 +1,60 @@
+{
+  "windows": {
+    "fixture_cases": 5,
+    "center_tolerance_pixels": 2.0,
+    "maximum_center_error_pixels": 2.84217e-14,
+    "missing_flags_match": true,
+    "physical_units": true,
+    "pixel_recipe_preserved": true,
+    "project_workflows_covered": true
+  },
+  "linux": {
+    "fixture_cases": 5,
+    "center_tolerance_pixels": 2.0,
+    "maximum_center_error_pixels": 2.84217e-14,
+    "missing_flags_match": true,
+    "physical_units": true,
+    "pixel_recipe_preserved": true,
+    "project_workflows_covered": true
+  },
+  "runtime-current": {
+    "passed": 0,
+    "declared_desktop_skips": 13,
+    "installed": {
+      "passed": 51,
+      "groups": [
+        {
+          "classname": "test_tma_dearray",
+          "passed": 9
+        },
+        {
+          "classname": "test_tma_dearray_units",
+          "passed": 14
+        },
+        {
+          "classname": "test_tma_dearray_cli",
+          "passed": 10
+        },
+        {
+          "classname": "test_tma_dearray_reference",
+          "passed": 18
+        }
+      ]
+    }
+  },
+  "dearray-desktop": {
+    "passed": 13,
+    "declared_desktop_skips": 0
+  },
+  "typing": {
+    "positive_files": 1,
+    "intended_negative_errors": 6,
+    "log_sha256": {
+      "tma-dearray-typing-positive.log": "8e63ae22e8213e327a5e9cbd584067681681bd8ef7f25c869877887ccdcfc4ff",
+      "tma-dearray-typing-negative.log": "ece74685259d5a400f9bb834bd5d521a25ff265c61a5568c6cff65c90642dd39",
+      "tma-dearray-units-typing-negative.log": "87c39b0bd4d2c73ace10326aaeb80a138c9ed30c10358d6b7492c7e53262b120"
+    }
+  },
+  "old_native_rejected": "TMA dearray native semantics missing/duplicate",
+  "old_installed_rejected": "TMA dearray installed cohort missing/duplicate/changed: test_tma_dearray_units"
+}

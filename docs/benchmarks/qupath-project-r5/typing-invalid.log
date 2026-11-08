@@ -1,0 +1,3 @@
+tests\typing\qupath_project_invalid.py:4: error: Dict entry 0 has incompatible type "int": "int"; expected "str": "str"  [dict-item]
+tests\typing\qupath_project_invalid.py:5: error: Argument "allow_losses" to "import_new" of "QuPathProjectPreview" has incompatible type "str"; expected "bool"  [arg-type]
+Found 2 errors in 1 file (checked 1 source file)

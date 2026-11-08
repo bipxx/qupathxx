@@ -1,0 +1,403 @@
+{
+  "schema": "qpx.public-affine-heldout-diagnostic/1",
+  "cases": [
+    {
+      "name": "baseline/gradient/full_0_75",
+      "differing_components": 0
+    },
+    {
+      "name": "baseline/gradient/full_1",
+      "differing_components": 0
+    },
+    {
+      "name": "baseline/gradient/full_1_25",
+      "differing_components": 0
+    },
+    {
+      "name": "baseline/gradient/full_1_5",
+      "differing_components": 0
+    },
+    {
+      "name": "baseline/gradient/full_2",
+      "differing_components": 0
+    },
+    {
+      "name": "baseline/gradient/full_2_3",
+      "differing_components": 0
+    },
+    {
+      "name": "baseline/gradient/full_3_75",
+      "differing_components": 0
+    },
+    {
+      "name": "baseline/gradient/crop_1_5",
+      "differing_components": 0
+    },
+    {
+      "name": "baseline/gradient/crop_2_3",
+      "differing_components": 0
+    },
+    {
+      "name": "baseline/checker/full_0_75",
+      "differing_components": 0
+    },
+    {
+      "name": "baseline/checker/full_1",
+      "differing_components": 0
+    },
+    {
+      "name": "baseline/checker/full_1_25",
+      "differing_components": 0
+    },
+    {
+      "name": "baseline/checker/full_1_5",
+      "differing_components": 0
+    },
+    {
+      "name": "baseline/checker/full_2",
+      "differing_components": 0
+    },
+    {
+      "name": "baseline/checker/full_2_3",
+      "differing_components": 0
+    },
+    {
+      "name": "baseline/checker/full_3_75",
+      "differing_components": 0
+    },
+    {
+      "name": "baseline/checker/crop_1_5",
+      "differing_components": 0
+    },
+    {
+      "name": "baseline/checker/crop_2_3",
+      "differing_components": 0
+    },
+    {
+      "name": "baseline/noise/full_0_75",
+      "differing_components": 0
+    },
+    {
+      "name": "baseline/noise/full_1",
+      "differing_components": 0
+    },
+    {
+      "name": "baseline/noise/full_1_25",
+      "differing_components": 0
+    },
+    {
+      "name": "baseline/noise/full_1_5",
+      "differing_components": 0
+    },
+    {
+      "name": "baseline/noise/full_2",
+      "differing_components": 0
+    },
+    {
+      "name": "baseline/noise/full_2_3",
+      "differing_components": 0
+    },
+    {
+      "name": "baseline/noise/full_3_75",
+      "differing_components": 0
+    },
+    {
+      "name": "baseline/noise/crop_1_5",
+      "differing_components": 0
+    },
+    {
+      "name": "baseline/noise/crop_2_3",
+      "differing_components": 0
+    },
+    {
+      "name": "baseline/cells/full_0_75",
+      "differing_components": 0
+    },
+    {
+      "name": "baseline/cells/full_1",
+      "differing_components": 0
+    },
+    {
+      "name": "baseline/cells/full_1_25",
+      "differing_components": 0
+    },
+    {
+      "name": "baseline/cells/full_1_5",
+      "differing_components": 0
+    },
+    {
+      "name": "baseline/cells/full_2",
+      "differing_components": 0
+    },
+    {
+      "name": "baseline/cells/full_2_3",
+      "differing_components": 0
+    },
+    {
+      "name": "baseline/cells/full_3_75",
+      "differing_components": 0
+    },
+    {
+      "name": "baseline/cells/crop_1_5",
+      "differing_components": 0
+    },
+    {
+      "name": "baseline/cells/crop_2_3",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/gradient/full_0_6",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/gradient/full_0_9",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/gradient/full_1",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/gradient/full_1_1",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/gradient/full_1_7",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/gradient/full_2_1",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/gradient/full_2_75",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/gradient/full_4_2",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/gradient/full_7_125",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/gradient/crop_1_1",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/gradient/crop_2_1",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/gradient/crop_2_75",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/checker/full_0_6",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/checker/full_0_9",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/checker/full_1",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/checker/full_1_1",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/checker/full_1_7",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/checker/full_2_1",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/checker/full_2_75",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/checker/full_4_2",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/checker/full_7_125",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/checker/crop_1_1",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/checker/crop_2_1",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/checker/crop_2_75",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/noise/full_0_6",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/noise/full_0_9",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/noise/full_1",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/noise/full_1_1",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/noise/full_1_7",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/noise/full_2_1",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/noise/full_2_75",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/noise/full_4_2",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/noise/full_7_125",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/noise/crop_1_1",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/noise/crop_2_1",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/noise/crop_2_75",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/offset/full_0_6",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/offset/full_0_9",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/offset/full_1",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/offset/full_1_1",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/offset/full_1_7",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/offset/full_2_1",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/offset/full_2_75",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/offset/full_4_2",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/offset/full_7_125",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/offset/crop_1_1",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/offset/crop_2_1",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/offset/crop_2_75",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/wide/full_0_6",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/wide/full_0_9",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/wide/full_1",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/wide/full_1_1",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/wide/full_1_7",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/thin/full_0_6",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/thin/full_0_9",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/thin/full_1",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/thin/full_1_1",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/thin/full_1_7",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/one/full_0_6",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/one/full_0_9",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/one/full_1",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/one/full_1_1",
+      "differing_components": 0
+    },
+    {
+      "name": "holdout/one/full_1_7",
+      "differing_components": 0
+    }
+  ],
+  "native_changed": false,
+  "generalized_sampler_accepted": false
+}

@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\cmake.exe",
+    "-DCMAKE_INSTALL_PREFIX=C:/Users/HEQ/Projects/qupathxx/build/real-ndpi-307/packaging-stage",
+    "-DCMAKE_INSTALL_CONFIG_NAME=Release",
+    "-P",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\real-ndpi-307\\install-sdk-path-repaired.cmake"
+  ],
+  "returncode": 0
+}

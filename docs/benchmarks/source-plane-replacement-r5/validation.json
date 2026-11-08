@@ -1,0 +1,54 @@
+{
+  "native_source": "eb53f2bc50d6f76c47d954cb84ca439d65472923",
+  "observer_source": "1b359d96a343c4cbc778845dbb254cf3619690e9",
+  "compiler_inputs": 452,
+  "source_fingerprint": "bc2de437c6f8d3d42b34dd8348eb92b90da41ca467dba74a35136e02382bdb30",
+  "changed_compiler_inputs": [
+    "cpp/project.cpp"
+  ],
+  "native_sha256": "a9286487d96fc6a48780c16a11e41b3c79a9dc7b0aa2d3ad23375d7ee470b04a",
+  "wheel_sha256": "f18c27168ccb55a8548acb29cdfda841fbfeeded08bd731e9dacdbe580b4a2f3",
+  "installed_members": 62,
+  "record_verified": true,
+  "baseline_failures": 6,
+  "staged_passes": 93,
+  "staged_declared_skips": 11,
+  "new_headless_passes": 15,
+  "native_suites": 3,
+  "desktop_passes": 2,
+  "failed_desktop_attempts_preserved": 3,
+  "native_builds": 1,
+  "build_seconds": 37.373223799979314,
+  "product_installations": 1,
+  "stub_generations": 0,
+  "unchanged_stubs_and_typing_inputs_reused": true,
+  "full_platform_campaign": false,
+  "scope": "Local Windows retained Z/time/channel compatibility on relink/review publication, current-plane/undo races, atomic refusal, compatible reduction, reader handoff, save/replay and real ImGui actions. GUI retry evidence distinguishes viewport state and copied input-vector semantics; no native correction/rebuild was needed.",
+  "products": [
+    {
+      "path": "products/qupathxx_project_tests.exe",
+      "cache_path": "Release/qupathxx_project_tests.exe",
+      "sha256": "470f2bfd7eee2244a80a44fea12e3f35ce5b28b0a03f817a388468e0160bbd38"
+    },
+    {
+      "path": "products/qupathxx_qupath_project_tests.exe",
+      "cache_path": "Release/qupathxx_qupath_project_tests.exe",
+      "sha256": "05cf81e8db62bc3f556cb15aafe0e59ecbcfc79111f5cd792d1c654f012fc5a8"
+    },
+    {
+      "path": "products/qupathxx_file_fingerprint_tests.exe",
+      "cache_path": "Release/qupathxx_file_fingerprint_tests.exe",
+      "sha256": "f722f6d80e41e692abeda97a9d4b4b614aeca191b0e963f48b3b6dfde6282fce"
+    },
+    {
+      "path": "products/project.obj",
+      "cache_path": "qupathxx_core.dir/Release/project.obj",
+      "sha256": "da3785e21496afbd3462bf68eff47d6cf820e050f28bf08804300ec64903ab4b"
+    },
+    {
+      "path": "products/provenance.obj",
+      "cache_path": "qupathxx_core.dir/Release/provenance.obj",
+      "sha256": "82d372f74823a16f9f893ff6e0156da1c5e7bff5f1f06518190d4b94b10978c3"
+    }
+  ]
+}

@@ -1,0 +1,656 @@
+{
+  "native_source": "28c33573ef732905e52fe49aa193bd8e5e067206",
+  "cases": [
+    {
+      "name": "white-0",
+      "od_channels": [
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        }
+      ],
+      "sum": {
+        "changed_components": 0,
+        "maximum_absolute_error": 0.0,
+        "first_coordinates": []
+      },
+      "stains": [
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        }
+      ],
+      "normalized_stains": [
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        }
+      ]
+    },
+    {
+      "name": "white-1",
+      "od_channels": [
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        }
+      ],
+      "sum": {
+        "changed_components": 0,
+        "maximum_absolute_error": 0.0,
+        "first_coordinates": []
+      },
+      "stains": [
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        }
+      ],
+      "normalized_stains": [
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        }
+      ]
+    },
+    {
+      "name": "white-2",
+      "od_channels": [
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        }
+      ],
+      "sum": {
+        "changed_components": 0,
+        "maximum_absolute_error": 0.0,
+        "first_coordinates": []
+      },
+      "stains": [
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        }
+      ],
+      "normalized_stains": [
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        }
+      ]
+    },
+    {
+      "name": "white-3",
+      "od_channels": [
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        }
+      ],
+      "sum": {
+        "changed_components": 0,
+        "maximum_absolute_error": 0.0,
+        "first_coordinates": []
+      },
+      "stains": [
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        }
+      ],
+      "normalized_stains": [
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        }
+      ]
+    },
+    {
+      "name": "white-4",
+      "od_channels": [
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        }
+      ],
+      "sum": {
+        "changed_components": 0,
+        "maximum_absolute_error": 0.0,
+        "first_coordinates": []
+      },
+      "stains": [
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        }
+      ],
+      "normalized_stains": [
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        }
+      ]
+    },
+    {
+      "name": "white-5",
+      "od_channels": [
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        }
+      ],
+      "sum": {
+        "changed_components": 0,
+        "maximum_absolute_error": 0.0,
+        "first_coordinates": []
+      },
+      "stains": [
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        }
+      ],
+      "normalized_stains": [
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        }
+      ]
+    },
+    {
+      "name": "identity",
+      "od_channels": [
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        }
+      ],
+      "sum": {
+        "changed_components": 0,
+        "maximum_absolute_error": 0.0,
+        "first_coordinates": []
+      },
+      "stains": [
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        }
+      ],
+      "normalized_stains": [
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        }
+      ]
+    },
+    {
+      "name": "three-explicit",
+      "od_channels": [
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        }
+      ],
+      "sum": {
+        "changed_components": 0,
+        "maximum_absolute_error": 0.0,
+        "first_coordinates": []
+      },
+      "stains": [
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        }
+      ],
+      "normalized_stains": [
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        }
+      ]
+    },
+    {
+      "name": "signed-residual",
+      "od_channels": [
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        }
+      ],
+      "sum": {
+        "changed_components": 0,
+        "maximum_absolute_error": 0.0,
+        "first_coordinates": []
+      },
+      "stains": [
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        }
+      ],
+      "normalized_stains": [
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        }
+      ]
+    },
+    {
+      "name": "roi-default",
+      "od_channels": [
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        }
+      ],
+      "sum": {
+        "changed_components": 0,
+        "maximum_absolute_error": 0.0,
+        "first_coordinates": []
+      },
+      "stains": [
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        }
+      ],
+      "normalized_stains": [
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        }
+      ]
+    },
+    {
+      "name": "resampled-default",
+      "od_channels": [
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        }
+      ],
+      "sum": {
+        "changed_components": 0,
+        "maximum_absolute_error": 0.0,
+        "first_coordinates": []
+      },
+      "stains": [
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        }
+      ],
+      "normalized_stains": [
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        },
+        {
+          "changed_components": 0,
+          "maximum_absolute_error": 0.0,
+          "first_coordinates": []
+        }
+      ]
+    }
+  ],
+  "metric": "exact float32 bits; no tolerance fitted",
+  "native_changed": false
+}

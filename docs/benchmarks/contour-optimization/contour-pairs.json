@@ -1,0 +1,604 @@
+{
+  "identities": {
+    "baseline": {
+      "ready": true,
+      "source_tree": "a3cbffa4ae17136523f40464a09acfc5504a8132231694cfcd4d82efa8b3f6e7"
+    },
+    "candidate": {
+      "ready": true,
+      "source_tree": "2875ca45645052c72636340337212c0ebdd5dba44057cfd237cefc5be38a2f2e"
+    }
+  },
+  "warmups_per_worker": 4,
+  "measured_pairs": 12,
+  "concurrent_timing": false,
+  "exact_geometry_counts_work_and_retained": true,
+  "summary": {
+    "nucleus": {
+      "baseline_median_ms": 113.71065024286509,
+      "candidate_median_ms": 100.03034980036318,
+      "median_paired_saving_ms": 17.49014970846474,
+      "reduction_fraction": 0.12030799589381724,
+      "baseline_samples": [
+        112.68389970064163,
+        115.36739999428391,
+        134.57729993388057,
+        109.1800001449883,
+        134.19760018587112,
+        110.88160006329417,
+        134.71620017662644,
+        130.28240017592907,
+        108.78830030560493,
+        109.4034998677671,
+        113.44920005649328,
+        113.97210042923689
+      ],
+      "candidate_samples": [
+        96.39139985665679,
+        89.55989964306355,
+        109.45370001718402,
+        100.96899978816509,
+        110.93159997835755,
+        115.55820005014539,
+        100.18999967724085,
+        98.44749979674816,
+        102.45530027896166,
+        90.71570029482245,
+        99.87069992348552,
+        99.86500022932887
+      ]
+    },
+    "body": {
+      "baseline_median_ms": 135.9474000055343,
+      "candidate_median_ms": 111.32409982383251,
+      "median_paired_saving_ms": 24.140599882230163,
+      "reduction_fraction": 0.18112373006544724,
+      "baseline_samples": [
+        131.9136000238359,
+        148.4562996774912,
+        146.22770017012954,
+        129.62700007483363,
+        127.07679998129606,
+        128.21129988878965,
+        151.72560000792146,
+        129.31759981438518,
+        159.0805002488196,
+        128.82820004597306,
+        139.98119998723269,
+        154.93320021778345
+      ],
+      "candidate_samples": [
+        107.03930025920272,
+        107.12329996749759,
+        107.93250007554889,
+        106.22010007500648,
+        129.993399605155,
+        112.87779966369271,
+        113.90719981864095,
+        111.43499985337257,
+        111.21319979429245,
+        106.82639991864562,
+        128.91749991104007,
+        117.48769972473383
+      ]
+    }
+  },
+  "runs": [
+    {
+      "iteration": 0,
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "baseline": {
+        "nucleus": {
+          "wall_ms": 112.68389970064163,
+          "geometry": "7ef095af0aea7743b0c329da62d1f8580464b8f191520ec7687dca293e8fcd8a",
+          "edges": 60520,
+          "vertices": 60520,
+          "work_bytes": 32242164,
+          "retained_bytes": 1451855
+        },
+        "body": {
+          "wall_ms": 131.9136000238359,
+          "geometry": "d88ad8709c21b0faa0b3c8d0b6e949446e3f26a8d50f3deb69fe0c2c0635750e",
+          "edges": 77540,
+          "vertices": 77540,
+          "work_bytes": 40956404,
+          "retained_bytes": 1724055
+        }
+      },
+      "candidate": {
+        "nucleus": {
+          "wall_ms": 96.39139985665679,
+          "geometry": "7ef095af0aea7743b0c329da62d1f8580464b8f191520ec7687dca293e8fcd8a",
+          "edges": 60520,
+          "vertices": 60520,
+          "work_bytes": 32242164,
+          "retained_bytes": 1451855
+        },
+        "body": {
+          "wall_ms": 107.03930025920272,
+          "geometry": "d88ad8709c21b0faa0b3c8d0b6e949446e3f26a8d50f3deb69fe0c2c0635750e",
+          "edges": 77540,
+          "vertices": 77540,
+          "work_bytes": 40956404,
+          "retained_bytes": 1724055
+        }
+      }
+    },
+    {
+      "iteration": 1,
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "candidate": {
+        "nucleus": {
+          "wall_ms": 89.55989964306355,
+          "geometry": "7ef095af0aea7743b0c329da62d1f8580464b8f191520ec7687dca293e8fcd8a",
+          "edges": 60520,
+          "vertices": 60520,
+          "work_bytes": 32242164,
+          "retained_bytes": 1451855
+        },
+        "body": {
+          "wall_ms": 107.12329996749759,
+          "geometry": "d88ad8709c21b0faa0b3c8d0b6e949446e3f26a8d50f3deb69fe0c2c0635750e",
+          "edges": 77540,
+          "vertices": 77540,
+          "work_bytes": 40956404,
+          "retained_bytes": 1724055
+        }
+      },
+      "baseline": {
+        "nucleus": {
+          "wall_ms": 115.36739999428391,
+          "geometry": "7ef095af0aea7743b0c329da62d1f8580464b8f191520ec7687dca293e8fcd8a",
+          "edges": 60520,
+          "vertices": 60520,
+          "work_bytes": 32242164,
+          "retained_bytes": 1451855
+        },
+        "body": {
+          "wall_ms": 148.4562996774912,
+          "geometry": "d88ad8709c21b0faa0b3c8d0b6e949446e3f26a8d50f3deb69fe0c2c0635750e",
+          "edges": 77540,
+          "vertices": 77540,
+          "work_bytes": 40956404,
+          "retained_bytes": 1724055
+        }
+      }
+    },
+    {
+      "iteration": 2,
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "baseline": {
+        "nucleus": {
+          "wall_ms": 134.57729993388057,
+          "geometry": "7ef095af0aea7743b0c329da62d1f8580464b8f191520ec7687dca293e8fcd8a",
+          "edges": 60520,
+          "vertices": 60520,
+          "work_bytes": 32242164,
+          "retained_bytes": 1451855
+        },
+        "body": {
+          "wall_ms": 146.22770017012954,
+          "geometry": "d88ad8709c21b0faa0b3c8d0b6e949446e3f26a8d50f3deb69fe0c2c0635750e",
+          "edges": 77540,
+          "vertices": 77540,
+          "work_bytes": 40956404,
+          "retained_bytes": 1724055
+        }
+      },
+      "candidate": {
+        "nucleus": {
+          "wall_ms": 109.45370001718402,
+          "geometry": "7ef095af0aea7743b0c329da62d1f8580464b8f191520ec7687dca293e8fcd8a",
+          "edges": 60520,
+          "vertices": 60520,
+          "work_bytes": 32242164,
+          "retained_bytes": 1451855
+        },
+        "body": {
+          "wall_ms": 107.93250007554889,
+          "geometry": "d88ad8709c21b0faa0b3c8d0b6e949446e3f26a8d50f3deb69fe0c2c0635750e",
+          "edges": 77540,
+          "vertices": 77540,
+          "work_bytes": 40956404,
+          "retained_bytes": 1724055
+        }
+      }
+    },
+    {
+      "iteration": 3,
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "candidate": {
+        "nucleus": {
+          "wall_ms": 100.96899978816509,
+          "geometry": "7ef095af0aea7743b0c329da62d1f8580464b8f191520ec7687dca293e8fcd8a",
+          "edges": 60520,
+          "vertices": 60520,
+          "work_bytes": 32242164,
+          "retained_bytes": 1451855
+        },
+        "body": {
+          "wall_ms": 106.22010007500648,
+          "geometry": "d88ad8709c21b0faa0b3c8d0b6e949446e3f26a8d50f3deb69fe0c2c0635750e",
+          "edges": 77540,
+          "vertices": 77540,
+          "work_bytes": 40956404,
+          "retained_bytes": 1724055
+        }
+      },
+      "baseline": {
+        "nucleus": {
+          "wall_ms": 109.1800001449883,
+          "geometry": "7ef095af0aea7743b0c329da62d1f8580464b8f191520ec7687dca293e8fcd8a",
+          "edges": 60520,
+          "vertices": 60520,
+          "work_bytes": 32242164,
+          "retained_bytes": 1451855
+        },
+        "body": {
+          "wall_ms": 129.62700007483363,
+          "geometry": "d88ad8709c21b0faa0b3c8d0b6e949446e3f26a8d50f3deb69fe0c2c0635750e",
+          "edges": 77540,
+          "vertices": 77540,
+          "work_bytes": 40956404,
+          "retained_bytes": 1724055
+        }
+      }
+    },
+    {
+      "iteration": 4,
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "baseline": {
+        "nucleus": {
+          "wall_ms": 134.19760018587112,
+          "geometry": "7ef095af0aea7743b0c329da62d1f8580464b8f191520ec7687dca293e8fcd8a",
+          "edges": 60520,
+          "vertices": 60520,
+          "work_bytes": 32242164,
+          "retained_bytes": 1451855
+        },
+        "body": {
+          "wall_ms": 127.07679998129606,
+          "geometry": "d88ad8709c21b0faa0b3c8d0b6e949446e3f26a8d50f3deb69fe0c2c0635750e",
+          "edges": 77540,
+          "vertices": 77540,
+          "work_bytes": 40956404,
+          "retained_bytes": 1724055
+        }
+      },
+      "candidate": {
+        "nucleus": {
+          "wall_ms": 110.93159997835755,
+          "geometry": "7ef095af0aea7743b0c329da62d1f8580464b8f191520ec7687dca293e8fcd8a",
+          "edges": 60520,
+          "vertices": 60520,
+          "work_bytes": 32242164,
+          "retained_bytes": 1451855
+        },
+        "body": {
+          "wall_ms": 129.993399605155,
+          "geometry": "d88ad8709c21b0faa0b3c8d0b6e949446e3f26a8d50f3deb69fe0c2c0635750e",
+          "edges": 77540,
+          "vertices": 77540,
+          "work_bytes": 40956404,
+          "retained_bytes": 1724055
+        }
+      }
+    },
+    {
+      "iteration": 5,
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "candidate": {
+        "nucleus": {
+          "wall_ms": 115.55820005014539,
+          "geometry": "7ef095af0aea7743b0c329da62d1f8580464b8f191520ec7687dca293e8fcd8a",
+          "edges": 60520,
+          "vertices": 60520,
+          "work_bytes": 32242164,
+          "retained_bytes": 1451855
+        },
+        "body": {
+          "wall_ms": 112.87779966369271,
+          "geometry": "d88ad8709c21b0faa0b3c8d0b6e949446e3f26a8d50f3deb69fe0c2c0635750e",
+          "edges": 77540,
+          "vertices": 77540,
+          "work_bytes": 40956404,
+          "retained_bytes": 1724055
+        }
+      },
+      "baseline": {
+        "nucleus": {
+          "wall_ms": 110.88160006329417,
+          "geometry": "7ef095af0aea7743b0c329da62d1f8580464b8f191520ec7687dca293e8fcd8a",
+          "edges": 60520,
+          "vertices": 60520,
+          "work_bytes": 32242164,
+          "retained_bytes": 1451855
+        },
+        "body": {
+          "wall_ms": 128.21129988878965,
+          "geometry": "d88ad8709c21b0faa0b3c8d0b6e949446e3f26a8d50f3deb69fe0c2c0635750e",
+          "edges": 77540,
+          "vertices": 77540,
+          "work_bytes": 40956404,
+          "retained_bytes": 1724055
+        }
+      }
+    },
+    {
+      "iteration": 6,
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "baseline": {
+        "nucleus": {
+          "wall_ms": 134.71620017662644,
+          "geometry": "7ef095af0aea7743b0c329da62d1f8580464b8f191520ec7687dca293e8fcd8a",
+          "edges": 60520,
+          "vertices": 60520,
+          "work_bytes": 32242164,
+          "retained_bytes": 1451855
+        },
+        "body": {
+          "wall_ms": 151.72560000792146,
+          "geometry": "d88ad8709c21b0faa0b3c8d0b6e949446e3f26a8d50f3deb69fe0c2c0635750e",
+          "edges": 77540,
+          "vertices": 77540,
+          "work_bytes": 40956404,
+          "retained_bytes": 1724055
+        }
+      },
+      "candidate": {
+        "nucleus": {
+          "wall_ms": 100.18999967724085,
+          "geometry": "7ef095af0aea7743b0c329da62d1f8580464b8f191520ec7687dca293e8fcd8a",
+          "edges": 60520,
+          "vertices": 60520,
+          "work_bytes": 32242164,
+          "retained_bytes": 1451855
+        },
+        "body": {
+          "wall_ms": 113.90719981864095,
+          "geometry": "d88ad8709c21b0faa0b3c8d0b6e949446e3f26a8d50f3deb69fe0c2c0635750e",
+          "edges": 77540,
+          "vertices": 77540,
+          "work_bytes": 40956404,
+          "retained_bytes": 1724055
+        }
+      }
+    },
+    {
+      "iteration": 7,
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "candidate": {
+        "nucleus": {
+          "wall_ms": 98.44749979674816,
+          "geometry": "7ef095af0aea7743b0c329da62d1f8580464b8f191520ec7687dca293e8fcd8a",
+          "edges": 60520,
+          "vertices": 60520,
+          "work_bytes": 32242164,
+          "retained_bytes": 1451855
+        },
+        "body": {
+          "wall_ms": 111.43499985337257,
+          "geometry": "d88ad8709c21b0faa0b3c8d0b6e949446e3f26a8d50f3deb69fe0c2c0635750e",
+          "edges": 77540,
+          "vertices": 77540,
+          "work_bytes": 40956404,
+          "retained_bytes": 1724055
+        }
+      },
+      "baseline": {
+        "nucleus": {
+          "wall_ms": 130.28240017592907,
+          "geometry": "7ef095af0aea7743b0c329da62d1f8580464b8f191520ec7687dca293e8fcd8a",
+          "edges": 60520,
+          "vertices": 60520,
+          "work_bytes": 32242164,
+          "retained_bytes": 1451855
+        },
+        "body": {
+          "wall_ms": 129.31759981438518,
+          "geometry": "d88ad8709c21b0faa0b3c8d0b6e949446e3f26a8d50f3deb69fe0c2c0635750e",
+          "edges": 77540,
+          "vertices": 77540,
+          "work_bytes": 40956404,
+          "retained_bytes": 1724055
+        }
+      }
+    },
+    {
+      "iteration": 8,
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "baseline": {
+        "nucleus": {
+          "wall_ms": 108.78830030560493,
+          "geometry": "7ef095af0aea7743b0c329da62d1f8580464b8f191520ec7687dca293e8fcd8a",
+          "edges": 60520,
+          "vertices": 60520,
+          "work_bytes": 32242164,
+          "retained_bytes": 1451855
+        },
+        "body": {
+          "wall_ms": 159.0805002488196,
+          "geometry": "d88ad8709c21b0faa0b3c8d0b6e949446e3f26a8d50f3deb69fe0c2c0635750e",
+          "edges": 77540,
+          "vertices": 77540,
+          "work_bytes": 40956404,
+          "retained_bytes": 1724055
+        }
+      },
+      "candidate": {
+        "nucleus": {
+          "wall_ms": 102.45530027896166,
+          "geometry": "7ef095af0aea7743b0c329da62d1f8580464b8f191520ec7687dca293e8fcd8a",
+          "edges": 60520,
+          "vertices": 60520,
+          "work_bytes": 32242164,
+          "retained_bytes": 1451855
+        },
+        "body": {
+          "wall_ms": 111.21319979429245,
+          "geometry": "d88ad8709c21b0faa0b3c8d0b6e949446e3f26a8d50f3deb69fe0c2c0635750e",
+          "edges": 77540,
+          "vertices": 77540,
+          "work_bytes": 40956404,
+          "retained_bytes": 1724055
+        }
+      }
+    },
+    {
+      "iteration": 9,
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "candidate": {
+        "nucleus": {
+          "wall_ms": 90.71570029482245,
+          "geometry": "7ef095af0aea7743b0c329da62d1f8580464b8f191520ec7687dca293e8fcd8a",
+          "edges": 60520,
+          "vertices": 60520,
+          "work_bytes": 32242164,
+          "retained_bytes": 1451855
+        },
+        "body": {
+          "wall_ms": 106.82639991864562,
+          "geometry": "d88ad8709c21b0faa0b3c8d0b6e949446e3f26a8d50f3deb69fe0c2c0635750e",
+          "edges": 77540,
+          "vertices": 77540,
+          "work_bytes": 40956404,
+          "retained_bytes": 1724055
+        }
+      },
+      "baseline": {
+        "nucleus": {
+          "wall_ms": 109.4034998677671,
+          "geometry": "7ef095af0aea7743b0c329da62d1f8580464b8f191520ec7687dca293e8fcd8a",
+          "edges": 60520,
+          "vertices": 60520,
+          "work_bytes": 32242164,
+          "retained_bytes": 1451855
+        },
+        "body": {
+          "wall_ms": 128.82820004597306,
+          "geometry": "d88ad8709c21b0faa0b3c8d0b6e949446e3f26a8d50f3deb69fe0c2c0635750e",
+          "edges": 77540,
+          "vertices": 77540,
+          "work_bytes": 40956404,
+          "retained_bytes": 1724055
+        }
+      }
+    },
+    {
+      "iteration": 10,
+      "order": [
+        "baseline",
+        "candidate"
+      ],
+      "baseline": {
+        "nucleus": {
+          "wall_ms": 113.44920005649328,
+          "geometry": "7ef095af0aea7743b0c329da62d1f8580464b8f191520ec7687dca293e8fcd8a",
+          "edges": 60520,
+          "vertices": 60520,
+          "work_bytes": 32242164,
+          "retained_bytes": 1451855
+        },
+        "body": {
+          "wall_ms": 139.98119998723269,
+          "geometry": "d88ad8709c21b0faa0b3c8d0b6e949446e3f26a8d50f3deb69fe0c2c0635750e",
+          "edges": 77540,
+          "vertices": 77540,
+          "work_bytes": 40956404,
+          "retained_bytes": 1724055
+        }
+      },
+      "candidate": {
+        "nucleus": {
+          "wall_ms": 99.87069992348552,
+          "geometry": "7ef095af0aea7743b0c329da62d1f8580464b8f191520ec7687dca293e8fcd8a",
+          "edges": 60520,
+          "vertices": 60520,
+          "work_bytes": 32242164,
+          "retained_bytes": 1451855
+        },
+        "body": {
+          "wall_ms": 128.91749991104007,
+          "geometry": "d88ad8709c21b0faa0b3c8d0b6e949446e3f26a8d50f3deb69fe0c2c0635750e",
+          "edges": 77540,
+          "vertices": 77540,
+          "work_bytes": 40956404,
+          "retained_bytes": 1724055
+        }
+      }
+    },
+    {
+      "iteration": 11,
+      "order": [
+        "candidate",
+        "baseline"
+      ],
+      "candidate": {
+        "nucleus": {
+          "wall_ms": 99.86500022932887,
+          "geometry": "7ef095af0aea7743b0c329da62d1f8580464b8f191520ec7687dca293e8fcd8a",
+          "edges": 60520,
+          "vertices": 60520,
+          "work_bytes": 32242164,
+          "retained_bytes": 1451855
+        },
+        "body": {
+          "wall_ms": 117.48769972473383,
+          "geometry": "d88ad8709c21b0faa0b3c8d0b6e949446e3f26a8d50f3deb69fe0c2c0635750e",
+          "edges": 77540,
+          "vertices": 77540,
+          "work_bytes": 40956404,
+          "retained_bytes": 1724055
+        }
+      },
+      "baseline": {
+        "nucleus": {
+          "wall_ms": 113.97210042923689,
+          "geometry": "7ef095af0aea7743b0c329da62d1f8580464b8f191520ec7687dca293e8fcd8a",
+          "edges": 60520,
+          "vertices": 60520,
+          "work_bytes": 32242164,
+          "retained_bytes": 1451855
+        },
+        "body": {
+          "wall_ms": 154.93320021778345,
+          "geometry": "d88ad8709c21b0faa0b3c8d0b6e949446e3f26a8d50f3deb69fe0c2c0635750e",
+          "edges": 77540,
+          "vertices": 77540,
+          "work_bytes": 40956404,
+          "retained_bytes": 1724055
+        }
+      }
+    }
+  ]
+}

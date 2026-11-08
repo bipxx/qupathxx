@@ -1,0 +1,80 @@
+FFFFFFFFFFF                                                              [100%]
+================================== FAILURES ===================================
+___________ test_insert_preserves_old_cores_and_atomic_history[row] ___________
+build\ci\scientific-grid-159\tests\test_tma_axes.py:19: in test_insert_preserves_old_cores_and_atomic_history
+    added = getattr(doc, f'insert_tma_{axis}')(1, 'new', missing=True)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Document' object has no attribute 'insert_tma_row'
+_________ test_insert_preserves_old_cores_and_atomic_history[column] __________
+build\ci\scientific-grid-159\tests\test_tma_axes.py:19: in test_insert_preserves_old_cores_and_atomic_history
+    added = getattr(doc, f'insert_tma_{axis}')(1, 'new', missing=True)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Document' object has no attribute 'insert_tma_column'
+__________________ test_explicit_and_vacant_insertions[row] ___________________
+build\ci\scientific-grid-159\tests\test_tma_axes.py:40: in test_explicit_and_vacant_insertions
+    added = getattr(doc, f'insert_tma_{axis}')(0, bounds=explicit)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Document' object has no attribute 'insert_tma_row'
+_________________ test_explicit_and_vacant_insertions[column] _________________
+build\ci\scientific-grid-159\tests\test_tma_axes.py:40: in test_explicit_and_vacant_insertions
+    added = getattr(doc, f'insert_tma_{axis}')(0, bounds=explicit)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Document' object has no attribute 'insert_tma_column'
+_____________________ test_rejection_is_atomic[<lambda>0] _____________________
+build\ci\scientific-grid-159\tests\test_tma_axes.py:61: in test_rejection_is_atomic
+    operation(doc)
+build\ci\scientific-grid-159\tests\test_tma_axes.py:51: in <lambda>
+    lambda d: d.insert_tma_row(3),
+              ^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Document' object has no attribute 'insert_tma_row'
+_____________________ test_rejection_is_atomic[<lambda>1] _____________________
+build\ci\scientific-grid-159\tests\test_tma_axes.py:61: in test_rejection_is_atomic
+    operation(doc)
+build\ci\scientific-grid-159\tests\test_tma_axes.py:52: in <lambda>
+    lambda d: d.remove_tma_column(3),
+              ^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Document' object has no attribute 'remove_tma_column'
+_____________________ test_rejection_is_atomic[<lambda>2] _____________________
+build\ci\scientific-grid-159\tests\test_tma_axes.py:61: in test_rejection_is_atomic
+    operation(doc)
+build\ci\scientific-grid-159\tests\test_tma_axes.py:53: in <lambda>
+    lambda d: d.insert_tma_column(1, '1'),
+              ^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Document' object has no attribute 'insert_tma_column'
+_____________________ test_rejection_is_atomic[<lambda>3] _____________________
+build\ci\scientific-grid-159\tests\test_tma_axes.py:61: in test_rejection_is_atomic
+    operation(doc)
+build\ci\scientific-grid-159\tests\test_tma_axes.py:54: in <lambda>
+    lambda d: d.insert_tma_row(1, bounds=[q.Rect(1, 1, 2, 2)]),
+              ^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Document' object has no attribute 'insert_tma_row'
+_____________________ test_rejection_is_atomic[<lambda>4] _____________________
+build\ci\scientific-grid-159\tests\test_tma_axes.py:61: in test_rejection_is_atomic
+    operation(doc)
+build\ci\scientific-grid-159\tests\test_tma_axes.py:55: in <lambda>
+    lambda d: d.insert_tma_row(1, 'x' * 129),
+              ^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Document' object has no attribute 'insert_tma_row'
+__________________ test_singleton_requires_explicit_spacing ___________________
+build\ci\scientific-grid-159\tests\test_tma_axes.py:74: in test_singleton_requires_explicit_spacing
+    doc.insert_tma_row(0)
+    ^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Document' object has no attribute 'insert_tma_row'
+________________ test_edited_grid_project_and_qptma_roundtrip _________________
+build\ci\scientific-grid-159\tests\test_tma_axes.py:82: in test_edited_grid_project_and_qptma_roundtrip
+    new = doc.insert_tma_row(1, 'Inserted')
+          ^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Document' object has no attribute 'insert_tma_row'
+=========================== short test summary info ===========================
+FAILED build\ci\scientific-grid-159\tests\test_tma_axes.py::test_insert_preserves_old_cores_and_atomic_history[row]
+FAILED build\ci\scientific-grid-159\tests\test_tma_axes.py::test_insert_preserves_old_cores_and_atomic_history[column]
+FAILED build\ci\scientific-grid-159\tests\test_tma_axes.py::test_explicit_and_vacant_insertions[row]
+FAILED build\ci\scientific-grid-159\tests\test_tma_axes.py::test_explicit_and_vacant_insertions[column]
+FAILED build\ci\scientific-grid-159\tests\test_tma_axes.py::test_rejection_is_atomic[<lambda>0]
+FAILED build\ci\scientific-grid-159\tests\test_tma_axes.py::test_rejection_is_atomic[<lambda>1]
+FAILED build\ci\scientific-grid-159\tests\test_tma_axes.py::test_rejection_is_atomic[<lambda>2]
+FAILED build\ci\scientific-grid-159\tests\test_tma_axes.py::test_rejection_is_atomic[<lambda>3]
+FAILED build\ci\scientific-grid-159\tests\test_tma_axes.py::test_rejection_is_atomic[<lambda>4]
+FAILED build\ci\scientific-grid-159\tests\test_tma_axes.py::test_singleton_requires_explicit_spacing
+FAILED build\ci\scientific-grid-159\tests\test_tma_axes.py::test_edited_grid_project_and_qptma_roundtrip
+11 failed in 0.68s

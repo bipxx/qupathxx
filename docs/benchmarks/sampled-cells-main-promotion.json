@@ -1,0 +1,34 @@
+{
+  "schema": "qpx.validated-main-promotion/1",
+  "previous_main": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+  "promoted_source": "ddd3bb981ee9ef1c1ff396fa47c6239dd1dfa97c",
+  "observed_remote_main": "ddd3bb981ee9ef1c1ff396fa47c6239dd1dfa97c",
+  "fast_forward": true,
+  "source_only": true,
+  "evidence": {
+    "hosted": {
+      "path": "sampled139-hosted-acceptance.json",
+      "sha256": "0ff40216b2287353ec40dc7d707d0a18633998ddfa825030b0dae65bcce38f9a",
+      "run": "https://github.com/bipxx/qupathxx/actions/runs/40086149386"
+    },
+    "macos": {
+      "path": "sampled139-macos-acceptance.json",
+      "sha256": "6bc5b011a66011d9332b43e17bfddf508fbf953e234f2312eb6685dfdd7c98db",
+      "run": "https://github.com/bipxx/qupathxx/actions/runs/40086153497"
+    },
+    "portable": {
+      "path": "sampled139-portable-acceptance.json",
+      "sha256": "671b45038032e78cb40a2ebc4313ade53648c607cdc501be22b3807ea72e675a",
+      "run": "https://github.com/bipxx/qupathxx/actions/runs/40086155799"
+    }
+  },
+  "windows_linux_engineering_accepted": true,
+  "portable_builder_consumer_accepted": true,
+  "macos_native_both_architectures_accepted": true,
+  "macos_python_gui_openslide_accepted": false,
+  "optimization_candidate_included": false,
+  "hardware_accepted": false,
+  "biological_validation": false,
+  "release_ready": false,
+  "overall_project_complete": false
+}

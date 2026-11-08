@@ -1,0 +1,13 @@
+engine in_progress 
+authenticated Linux-sanitize-py3.12 58589
+authenticated Windows-headless-py3.11 11872499
+authenticated Linux-headless-py3.12 14761512
+authenticated Linux-minimal-py3.12 51154
+macos queued 
+authenticated macos-native-x86_64 16192934
+portable completed success
+authenticated manylinux-consumer-3.11 81286
+authenticated manylinux-consumer-3.12 82375
+authenticated manylinux-3.11 15145952
+authenticated manylinux-3.12 15144269
+Preserved 9 archives; partial observation, not acceptance. C:\Users\HEQ\Projects\qupathxx\build\q262-all\20261028T072305Z

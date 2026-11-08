@@ -1,0 +1,49 @@
+{
+  "source": "e5d39e44406f6b14c4e2195f217e604d1afe880a",
+  "results": [
+    {
+      "case": "missing-time-unit",
+      "refused": false
+    },
+    {
+      "case": "unknown-time-unit",
+      "refused": true,
+      "error": "QuPath saved data: unsupported saved time unit"
+    },
+    {
+      "case": "time-unit-type",
+      "refused": true,
+      "error": "QuPath saved data: invalid saved time unit"
+    },
+    {
+      "case": "time-array-type",
+      "refused": true,
+      "error": "QuPath saved data: invalid saved timestamp array"
+    },
+    {
+      "case": "time-element-type",
+      "refused": true,
+      "error": "QuPath saved data: invalid saved timestamp"
+    },
+    {
+      "case": "time-overflow",
+      "refused": true,
+      "error": "QuPath saved data: saved timestamp unit conversion is not representable"
+    },
+    {
+      "case": "too-many-source-times",
+      "refused": true,
+      "error": "saved timestamps exceed source time domain"
+    },
+    {
+      "case": "unknown-z-unit",
+      "refused": true,
+      "error": "QuPath saved data: unsupported saved Z spacing unit"
+    },
+    {
+      "case": "zero-z",
+      "refused": true,
+      "error": "QuPath saved data: invalid saved Z spacing"
+    }
+  ]
+}

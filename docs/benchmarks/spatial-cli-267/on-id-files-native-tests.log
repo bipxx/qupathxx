@@ -1,0 +1,23 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+    Start  6: qptma_project
+1/5 Test  #6: qptma_project ....................   Passed    0.15 sec
+    Start 46: spatial_cli
+2/5 Test #46: spatial_cli ......................   Passed    0.40 sec
+    Start 47: spatial_records
+3/5 Test #47: spatial_records ..................***Failed    0.13 sec
+Spatial retained records: exact capture authority, explicit cohorts, clone/replay, calibration/object staleness, closed source and historical ownership passed
+Spatial QSD1 archives: deterministic roundtrip, provenance/input/result identity, nullable rows, corruption/truncation/semantic refusal and cancellation passed
+spatial records check failed at line 21
+
+    Start 48: spatial_analysis
+4/5 Test #48: spatial_analysis .................   Passed    0.10 sec
+    Start 51: project
+5/5 Test #51: project ..........................   Passed    0.13 sec
+
+80% tests passed, 1 tests failed out of 5
+
+Total Test time (real) =   1.08 sec
+
+The following tests FAILED:
+	 47 - spatial_records (Failed)
+Errors while running CTest

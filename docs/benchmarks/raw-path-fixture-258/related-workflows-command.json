@@ -1,0 +1,22 @@
+{
+  "command": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-path-fixture-258-env\\Scripts\\python.exe",
+    "-X",
+    "utf8",
+    "-m",
+    "pytest",
+    "tests/test_raw_stream_contour_batch.py",
+    "tests/test_raw_pixel_batch.py",
+    "tests/test_project_batch.py",
+    "tests/test_project_pixel_batch.py",
+    "tests/test_file_fingerprint.py",
+    "-q",
+    "--basetemp",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\q258-related",
+    "--junitxml",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw-path-fixture-258\\related-workflows.xml"
+  ],
+  "cwd": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159",
+  "returncode": 0,
+  "seconds": 16.109727000119165
+}

@@ -1,0 +1,24 @@
+.FF                                                                      [100%]
+================================== FAILURES ===================================
+_ test_unicode_reader_dispatch_and_nominal_resume[English_United States.1252] _
+build\ci\scientific-grid-159\tests\test_reader_locale.py:49: in test_unicode_reader_dispatch_and_nominal_resume
+    assert result.returncode == 0, result.stdout + result.stderr
+E   AssertionError: Traceback (most recent call last):
+E       File "<string>", line 16, in <module>
+E     RuntimeError: No mapping for the Unicode character exists in the target multi-byte code page.
+E     
+E   assert 1 == 0
+E    +  where 1 = CompletedProcess(args=['C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\nominal-cell-frontends-294-env\\Scripts\\python...line 16, in <module>\nRuntimeError: No mapping for the Unicode character exists in the target multi-byte code page.\n').returncode
+___________ test_unicode_reader_dispatch_and_nominal_resume[tr-TR] ____________
+build\ci\scientific-grid-159\tests\test_reader_locale.py:49: in test_unicode_reader_dispatch_and_nominal_resume
+    assert result.returncode == 0, result.stdout + result.stderr
+E   AssertionError: Traceback (most recent call last):
+E       File "<string>", line 16, in <module>
+E     RuntimeError: No mapping for the Unicode character exists in the target multi-byte code page.
+E     
+E   assert 1 == 0
+E    +  where 1 = CompletedProcess(args=['C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\nominal-cell-frontends-294-env\\Scripts\\python...line 16, in <module>\nRuntimeError: No mapping for the Unicode character exists in the target multi-byte code page.\n').returncode
+=========================== short test summary info ===========================
+FAILED build\ci\scientific-grid-159\tests\test_reader_locale.py::test_unicode_reader_dispatch_and_nominal_resume[English_United States.1252]
+FAILED build\ci\scientific-grid-159\tests\test_reader_locale.py::test_unicode_reader_dispatch_and_nominal_resume[tr-TR]
+2 failed, 1 passed in 1.66s

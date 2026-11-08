@@ -1,0 +1,110 @@
+{
+  "schema": "qpx.native-cell-expansion-comparison/1",
+  "environment": {
+    "source_tree_sha256": "04eb185d216645996e9216a4f5ef46da2d2d5aadcd139d3d8ffd6ebb22d11903",
+    "git_revision": "d7ba04e38f002b15a0dc6fe31266bddb32fddce7"
+  },
+  "native_sha256": "ba40917d25544324958d28bd5d046085722f11130bb6ad8156722fe923b427cc",
+  "tool_sha256": "ca1bfa152e98176775b5d8cebb7c99ab2f326fc40c2ec02fc836ad0939f3a91b",
+  "contract_sha256": "b3c0f4ce79e46cfe9947fa9b2f8e751267fd335328873bc9987dca0d7614c223",
+  "cases": [
+    {
+      "name": "blank",
+      "state": "compared",
+      "differing_label_pixels": 0,
+      "exact": true,
+      "input_nucleus_sha256": "b59ff9abf210f5e820d77d2d092f2e2af277df02fcb3c547a2bdb726230a1796",
+      "reference_body_sha256": "b59ff9abf210f5e820d77d2d092f2e2af277df02fcb3c547a2bdb726230a1796",
+      "actual_label_sha256": "3381de4ca9f3a477f25989dfc8b744e7916046b7aa369f61a9a2f7dc0963ec9e",
+      "expected_label_sha256": "3381de4ca9f3a477f25989dfc8b744e7916046b7aa369f61a9a2f7dc0963ec9e"
+    },
+    {
+      "name": "isolated_three",
+      "state": "compared",
+      "differing_label_pixels": 0,
+      "exact": true,
+      "input_nucleus_sha256": "e488a847c5b454611f6d6fa998ac63bd2985434d224c6e1e80bfeaff0d6ea956",
+      "reference_body_sha256": "9cf55ad65dd8cd4b3c21732b985385a3cca31cbea7c9be94dc99e53e2fb9eff9",
+      "actual_label_sha256": "d24655da939f74bb3e12d4660fc48ce8ce4ca7a92769cc5ce0faf0b4f152f649",
+      "expected_label_sha256": "d24655da939f74bb3e12d4660fc48ce8ce4ca7a92769cc5ce0faf0b4f152f649"
+    },
+    {
+      "name": "touching_pair",
+      "state": "compared",
+      "differing_label_pixels": 0,
+      "exact": true,
+      "input_nucleus_sha256": "43c2c6f245e4ef8a00adae7493b9d04b5ec406a440e331e2f795e05698803437",
+      "reference_body_sha256": "3bbb4617376ef8cdaafae87647e5ecac69433c0da23cb8aaa75091ed474eb74c",
+      "actual_label_sha256": "8b3007d2203addf5770790ccda2cc9b9345054feb8cf4218720fc94a92314190",
+      "expected_label_sha256": "8b3007d2203addf5770790ccda2cc9b9345054feb8cf4218720fc94a92314190"
+    },
+    {
+      "name": "gap_pair",
+      "state": "compared",
+      "differing_label_pixels": 0,
+      "exact": true,
+      "input_nucleus_sha256": "09ef0afad300fd513facb12433cd8d096ae62c6686eb602a6333fc218d521a72",
+      "reference_body_sha256": "8968e98be87b6d1350447cf9f92c42a563baeb149f357aecc890edec3ebda191",
+      "actual_label_sha256": "af4cc20bc57bb59695a026ab8088a7698d80e6e60478927d2ab228ec89d696f6",
+      "expected_label_sha256": "af4cc20bc57bb59695a026ab8088a7698d80e6e60478927d2ab228ec89d696f6"
+    },
+    {
+      "name": "size_filters",
+      "state": "compared",
+      "differing_label_pixels": 0,
+      "exact": true,
+      "input_nucleus_sha256": "dc7cd5c2fccb645db7fab08ae2fdbd8680dac22a6ef40dd37e905b2741d87937",
+      "reference_body_sha256": "98bbe2adfc4aa67e79df17a688d095cd5cdf5779efbc8c7d9ef689178191090c",
+      "actual_label_sha256": "0f468db671c100ea7899aa32a8f192dad3d2cd61a4fe1b8838ec596b72517097",
+      "expected_label_sha256": "0f468db671c100ea7899aa32a8f192dad3d2cd61a4fe1b8838ec596b72517097"
+    },
+    {
+      "name": "roi_cut_hole",
+      "state": "excluded",
+      "reason": "Context/ROI clipping or a different sampling grid requires separate production integration."
+    },
+    {
+      "name": "gradient_noise",
+      "state": "compared",
+      "differing_label_pixels": 0,
+      "exact": true,
+      "input_nucleus_sha256": "cb6ad763314af95394ba9aa44489328cae2437b711d94aaefc1f41748489edf0",
+      "reference_body_sha256": "d19b69f235b7309a08f286a165839ac5300e02ba79bd84f57f97325c4472913b",
+      "actual_label_sha256": "c7c6d84340906b2a1f0f1ecb936dd0dd4586952beff503f6ffffa3d90d42d1e5",
+      "expected_label_sha256": "c7c6d84340906b2a1f0f1ecb936dd0dd4586952beff503f6ffffa3d90d42d1e5"
+    },
+    {
+      "name": "anisotropic_level0",
+      "state": "compared",
+      "differing_label_pixels": 0,
+      "exact": true,
+      "input_nucleus_sha256": "e488a847c5b454611f6d6fa998ac63bd2985434d224c6e1e80bfeaff0d6ea956",
+      "reference_body_sha256": "9cf55ad65dd8cd4b3c21732b985385a3cca31cbea7c9be94dc99e53e2fb9eff9",
+      "actual_label_sha256": "d24655da939f74bb3e12d4660fc48ce8ce4ca7a92769cc5ce0faf0b4f152f649",
+      "expected_label_sha256": "d24655da939f74bb3e12d4660fc48ce8ce4ca7a92769cc5ce0faf0b4f152f649"
+    },
+    {
+      "name": "resampled_reference",
+      "state": "excluded",
+      "reason": "Context/ROI clipping or a different sampling grid requires separate production integration."
+    }
+  ],
+  "capture_manifest_sha256": "0a36fa01faf55b13bd0112b39d75371c0a7ecfee795f43a5775b43a46571ac1c",
+  "capture_verifier_sha256": "876ddff2e1dc4dc4544a6f2c33d44cae44ed9c2f28daa7d05a9cd7024aae1d66",
+  "production_recipe_integrated": false,
+  "segmentation_parity_accepted": false,
+  "biological_validation": false,
+  "performance_accepted": false,
+  "scope": "Expansion-only comparison starting from pinned upstream nuclei. No detector, context, arbitrary resampling or production recipe acceptance.",
+  "native_expansion_corpus_accepted": true,
+  "source_projection": {
+    "compiled_inputs_match": true,
+    "input_count": 251,
+    "actual_source_tree_sha256": "04eb185d216645996e9216a4f5ef46da2d2d5aadcd139d3d8ffd6ebb22d11903",
+    "tool_commit": "10d001cd7b6961d229cece2b58bd4f90a03c7ae1"
+  },
+  "native_tests": {
+    "passed": 1,
+    "junit_sha256": "fcc7ea84437cada5315d12569d590d3cae5b7493e2d995fb9cd0e32b5300bfd7"
+  }
+}

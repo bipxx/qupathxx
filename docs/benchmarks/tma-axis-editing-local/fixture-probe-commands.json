@@ -1,0 +1,47 @@
+[
+  {
+    "name": "compile",
+    "command": [
+      "/usr/bin/c++",
+      "-O3",
+      "-DNDEBUG",
+      "-I/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/include",
+      "-iquote",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tests",
+      "-c",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tma192-fixture-probe/tma_tests.cpp",
+      "-o",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tma192-fixture-probe/tma_tests.o"
+    ],
+    "exit": 0,
+    "seconds": 7.257316478000001
+  },
+  {
+    "name": "link",
+    "command": [
+      "/usr/bin/c++",
+      "-O3",
+      "-DNDEBUG",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tma192-fixture-probe/tma_tests.o",
+      "-o",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tma192-fixture-probe/tma_tests",
+      "libqupathxx_core.a",
+      "_deps/qpx_tiff-build/libtiff/libtiff.a",
+      "_deps/qpx_zlib-build/libz.a",
+      "/usr/lib/x86_64-linux-gnu/libm.so",
+      "libqupathxx_tiff_xml.a",
+      "libqupathxx_sqlite.a",
+      "-ldl"
+    ],
+    "exit": 0,
+    "seconds": 5.4962123510000005
+  },
+  {
+    "name": "test",
+    "command": [
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tma192-fixture-probe/tma_tests"
+    ],
+    "exit": 0,
+    "seconds": 1.0751039340000013
+  }
+]

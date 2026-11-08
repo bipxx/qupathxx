@@ -1,0 +1,22 @@
+[
+  {
+    "path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/imagej-gaussian-kernel-300/linux/products/qupathxx_imagej_gaussian_tests",
+    "bytes": 580336,
+    "sha256": "7767087f7791bb2ce20d21c0a11d642591dfab9f4de450e042a37aabb0c19079"
+  },
+  {
+    "path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/imagej-gaussian-kernel-300/linux/products/imagej_gaussian.cpp.o",
+    "bytes": 179272,
+    "sha256": "db6b70178fbaf3ff8b52a738e5c70bc06ebc64ae14702559db253df69293d3d7"
+  },
+  {
+    "path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/imagej-gaussian-kernel-300/linux/products/sha256.cpp.o",
+    "bytes": 99624,
+    "sha256": "a396d5e7e951303eecc81b8efce5b55473b8bf03b5574ecb65b4fc944be8c9d7"
+  },
+  {
+    "path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/imagej-gaussian-kernel-300/linux/products/imagej_gaussian_tests.cpp.o",
+    "bytes": 506200,
+    "sha256": "42d9c45041360bfc9ace2a31e8d1f6e481bd8905e78138ba61a1e8f41ea54efd"
+  }
+]

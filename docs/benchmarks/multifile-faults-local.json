@@ -1,0 +1,268 @@
+{
+  "schema": "qpx.multifile-faults-local/1",
+  "observed_at_utc": "2026-10-26T04:22:25.819466+00:00",
+  "compiled_source": "bfa416edfd508e3e1ce184e75ec62c1a18a2a606",
+  "compiled_fingerprint": "0a65065bf470bba1591efa9492ea73749cb33471b9f5ace54c6c45feeabd1f33",
+  "compiler_inputs": 317,
+  "scope": "Local real compound TIFF EOF/Deflate faults, decoder and scientific workspace admission, actual job cancellation/publication and native pre-cancel/export controls. No production reader/binding API change; platform qualification for the expanded cohort remains pending.",
+  "results": {
+    "installed": {
+      "passed": 321,
+      "skipped": 14
+    },
+    "desktop": {
+      "passed": 17,
+      "skipped": 0
+    },
+    "controls": {
+      "passed": 619,
+      "skipped": 0
+    },
+    "linux_native": {
+      "passed": 7,
+      "skipped": 0
+    }
+  },
+  "required_installed_cases": 54,
+  "new_failure_cases": 10,
+  "new_native_marker": "TIFF compound pre-cancel open/raw/view/analysis, unchanged decode/cache, atomic export preservation and retry passed",
+  "cancellation": {
+    "partial_completed_tiles": 2,
+    "partial_total_tiles": 4096,
+    "completed_unpublished_tiles": 1,
+    "prior_record_preserved": true,
+    "retry_ready": true,
+    "child_deadline_seconds": 30
+  },
+  "contracts": [
+    "Malformed companion EOF data and invalid Deflate payload fail raw/preview reads at both levels, while a valid channel and earlier owning buffer remain usable. Repair requires a fresh reader with a distinct generation.",
+    "A 128 KiB companion tile rejects a 64 KiB decoder budget after valid primary decoding; a sufficient budget succeeds without multiplying the 1 KiB shared cache.",
+    "Exact streamed workspace succeeds and minus-one refuses before decoding, from either entry point.",
+    "Failed and cancelled compound jobs publish no result/record, retain prior records/revision and accept a later valid request.",
+    "Pre-cancel C++ open/raw/outside/view/analysis performs no decoder/cache work; cancelled replacement export preserves original bytes and a later retry succeeds."
+  ],
+  "installed_module": {
+    "module": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\multifile213-python-env\\Lib\\site-packages\\qupathxx\\_native.cp312-win_amd64.pyd",
+    "source": "bfa416edfd508e3e1ce184e75ec62c1a18a2a606",
+    "fingerprint": "0a65065bf470bba1591efa9492ea73749cb33471b9f5ace54c6c45feeabd1f33",
+    "tiff": true,
+    "gui": true,
+    "openslide": false,
+    "module_sha256": "a1a8514c45bc9855cdfa53ee9ec99ca547c33093473fcbeb71d5d3424f8e4091"
+  },
+  "retained_binaries": "build/multifile213-retained-binaries/manifest.json",
+  "skips": "The 17-case desktop follow-up covers 12 desktop skips; two local OpenSlide-disabled capability skips remain. Cohorts overlap.",
+  "preserved_observations": [
+    "Initial one-byte uncompressed count injection did not force an error; a fresh independent observation confirms all original pixels were returned. Genuine EOF offsets replace that injection.",
+    "The post-test observer initially decoded isolated Windows cp936 stdout as UTF-8. The successful JUnit and raw log remain unchanged; later diagnostic commands use -X utf8."
+  ],
+  "remaining": "Expanded engine/Mac-native/portable campaign at this exact source is pending. Broader fault/stress, vendor/whole-slide, scientific, hardware and release requirements remain open.",
+  "release_ready": false,
+  "overall_project_complete": false,
+  "files": {
+    "docs/benchmarks/multifile-faults-local/windows/build.log": {
+      "bytes": 10227,
+      "sha256": "4c0d282341c588192159a5f14f8e6e0660a6161f1ea6ac5960b46ef9ba317f4c"
+    },
+    "docs/benchmarks/multifile-faults-local/windows/commands.json": {
+      "bytes": 5322,
+      "sha256": "d031e4b43aecfea36c5a0f9dbad4a99a2f0f05f1ab02c91b0979da31513e1d7b"
+    },
+    "docs/benchmarks/multifile-faults-local/windows/compiler-inputs.json": {
+      "bytes": 33137,
+      "sha256": "cbb7555ec2a2ee074d197a184d0edd69e3c53b322708db32088794adf9cb54cc"
+    },
+    "docs/benchmarks/multifile-faults-local/windows/configure.log": {
+      "bytes": 3579,
+      "sha256": "d047ef2bd57a0af178a33f51e2c990bcbf89b273d82e38b25f39e539ca383869"
+    },
+    "docs/benchmarks/multifile-faults-local/windows/file_fingerprint.xml": {
+      "bytes": 456,
+      "sha256": "791657e29e62c9db108894454e8cc7c475f1280f3d34aeef8c0804b02c547290"
+    },
+    "docs/benchmarks/multifile-faults-local/windows/project.xml": {
+      "bytes": 422,
+      "sha256": "9bc02d1b8315b605ced61f8203e55ab6bd10f9b7f816054053b0eabf39dd821f"
+    },
+    "docs/benchmarks/multifile-faults-local/windows/project_save.xml": {
+      "bytes": 439,
+      "sha256": "5aedad55cfd0c7e4ef854c5ff5073d6c0ca92447b4e11daab40e53f2f46edcb9"
+    },
+    "docs/benchmarks/multifile-faults-local/windows/provenance.xml": {
+      "bytes": 421,
+      "sha256": "fa3a6ac05cfb1386db4341546b686fb11833b4cd4b782d56bd0f8a3c23f60f20"
+    },
+    "docs/benchmarks/multifile-faults-local/windows/raw_image.xml": {
+      "bytes": 1072,
+      "sha256": "94bf40aa9b5a64a693f8b2a14ecea67395535a2be2738a90f64e6106fed99fec"
+    },
+    "docs/benchmarks/multifile-faults-local/windows/resampling.xml": {
+      "bytes": 2308,
+      "sha256": "75e823d53fd2062f7509a4fedf86b424c1dee1f078bc17146363dbef9a3a82ed"
+    },
+    "docs/benchmarks/multifile-faults-local/windows/source_identity.xml": {
+      "bytes": 537,
+      "sha256": "225ec3d0fc0e818d22e5dd9077dc101bb520087e650fc55a9b79d708cbafef26"
+    },
+    "docs/benchmarks/multifile-faults-local/windows/test-file_fingerprint.log": {
+      "bytes": 244,
+      "sha256": "c4ecb639ef575adb418c80491acc1e1e7b129865a7ecbb29345c34b29e3cbdf9"
+    },
+    "docs/benchmarks/multifile-faults-local/windows/test-project.log": {
+      "bytes": 235,
+      "sha256": "eb58e3abcb9edc71d6e2450491dad228949208c8597c542cdd1ddd47c2e22d56"
+    },
+    "docs/benchmarks/multifile-faults-local/windows/test-project_save.log": {
+      "bytes": 240,
+      "sha256": "a41ff4884918f0f0a44ed2f8faf3de959ed0727fc0755c6ca4e0adfb364d096d"
+    },
+    "docs/benchmarks/multifile-faults-local/windows/test-provenance.log": {
+      "bytes": 238,
+      "sha256": "cc4ea7b218fbeede3a62ae56bd5d0abd3ffe148ba146a059c40be14fd52f471e"
+    },
+    "docs/benchmarks/multifile-faults-local/windows/test-raw_image.log": {
+      "bytes": 237,
+      "sha256": "cb3b8b58d703d06dfba264543515bb7ec3ceb0e8e5429dd7a4d9003e93adc2d7"
+    },
+    "docs/benchmarks/multifile-faults-local/windows/test-resampling.log": {
+      "bytes": 236,
+      "sha256": "de446a350475c116f5c87457e1718f103e149ca70bc03c1bab97da19fb47984b"
+    },
+    "docs/benchmarks/multifile-faults-local/windows/test-source_identity.log": {
+      "bytes": 243,
+      "sha256": "d6fe8efb3afe568f2eb116cf160b870b5714761b25b4be5aab83aece3a7ce9f7"
+    },
+    "docs/benchmarks/multifile-faults-local/linux/build.log": {
+      "bytes": 6689,
+      "sha256": "08c6adaee748dcce1847cae4483554c584b14ff8f5c4dce09054692ee461fa46"
+    },
+    "docs/benchmarks/multifile-faults-local/linux/commands.json": {
+      "bytes": 2458,
+      "sha256": "ce50a580c3ee203274e24ec53c09ea9f46ae25814b1e8bb4ca7ccc6f2eb8ce08"
+    },
+    "docs/benchmarks/multifile-faults-local/linux/compiler-inputs.json": {
+      "bytes": 33137,
+      "sha256": "cbb7555ec2a2ee074d197a184d0edd69e3c53b322708db32088794adf9cb54cc"
+    },
+    "docs/benchmarks/multifile-faults-local/linux/configure.log": {
+      "bytes": 3354,
+      "sha256": "efb8b0a6301d4152b0411c5320ea10f843c36035d6cb05b17c62d24c1cb9c758"
+    },
+    "docs/benchmarks/multifile-faults-local/linux/tests.log": {
+      "bytes": 946,
+      "sha256": "d3784aa1d6834655859351d7a3cec44c053b18da10acbb84111d36d6f35cf6a3"
+    },
+    "docs/benchmarks/multifile-faults-local/linux/tests.xml": {
+      "bytes": 4382,
+      "sha256": "cbebd98354f1d4d29777332740cf73de1a884f8e8af67d5537297e68a9604779"
+    },
+    "docs/benchmarks/multifile-faults-local/installed/app-link.log": {
+      "bytes": 1062,
+      "sha256": "0450b28a70b3bdba50a033fa018740ed4e30e92484ebe6d0681de5864b081e43"
+    },
+    "docs/benchmarks/multifile-faults-local/installed/count-repair-observation.json": {
+      "bytes": 330,
+      "sha256": "b4744a45f4d3110987741e40fb98ce267d3a3959b4ba51a96ea04c36403e13a5"
+    },
+    "docs/benchmarks/multifile-faults-local/installed/desktop-command.json": {
+      "bytes": 2518,
+      "sha256": "b1765c03ec713733b3da577e5d34e7b9d29b6b8a7c22be16d0b48e47f64d37d6"
+    },
+    "docs/benchmarks/multifile-faults-local/installed/desktop.log": {
+      "bytes": 102,
+      "sha256": "89697c3240402e34c149303dfea31dac24ae4d05c31a8c5530d1f91442beb13d"
+    },
+    "docs/benchmarks/multifile-faults-local/installed/desktop.xml": {
+      "bytes": 2485,
+      "sha256": "6b35900bb329999bf54dcab87a44042e6af30ec5e8832b771d3a756c6fd57a67"
+    },
+    "docs/benchmarks/multifile-faults-local/installed/identity.json": {
+      "bytes": 438,
+      "sha256": "bbaec8cd2af6104e50e9ab208e27bf400e33c6478858747bb7e3ab9876d17718"
+    },
+    "docs/benchmarks/multifile-faults-local/installed/install-commands.json": {
+      "bytes": 901,
+      "sha256": "5619856dd396a5f082d7c890412e76ab340e5867aa24bdea52a821750348d900"
+    },
+    "docs/benchmarks/multifile-faults-local/installed/install.log": {
+      "bytes": 3096,
+      "sha256": "173e8f8bb3b23024c3ed78cf8b4f2b0ca9dd1b7da0e6f6229c6152bb3fa2c068"
+    },
+    "docs/benchmarks/multifile-faults-local/installed/required-cohort-admission.json": {
+      "bytes": 692,
+      "sha256": "48c68735c85887e2d4332e767e182ecde21b8248a112940ed3e6d4e1916ff42a"
+    },
+    "docs/benchmarks/multifile-faults-local/installed/runtime-command.json": {
+      "bytes": 2793,
+      "sha256": "d4dee5aa5f53199742da44905cfd8e7f97f0ace0a0604b630af6b6c3c12f4bc7"
+    },
+    "docs/benchmarks/multifile-faults-local/installed/runtime-observation.json": {
+      "bytes": 2156,
+      "sha256": "f44796d2116da995921d544eb1c4dfd2c18e8d1b364f7aadd4b6a6ccb7207f2d"
+    },
+    "docs/benchmarks/multifile-faults-local/installed/runtime.log": {
+      "bytes": 3229,
+      "sha256": "98357ae56fc5be3c6d715cafb0d9e5586e9e7cf9ee69a6cb04072e4f642f8949"
+    },
+    "docs/benchmarks/multifile-faults-local/installed/runtime.xml": {
+      "bytes": 158083,
+      "sha256": "af93656c38315f6a0414c111abf01bdc6025a2ec6b39eafecdb969b4583c0ffa"
+    },
+    "docs/benchmarks/multifile-faults-local/controls/command.json": {
+      "bytes": 2023,
+      "sha256": "37e489eb9d9a90f615a6806ce98cf1886f2c3a25ea2ed221f951867f0283d36c"
+    },
+    "docs/benchmarks/multifile-faults-local/controls/controls.log": {
+      "bytes": 750,
+      "sha256": "6f79fc8b7b3bffea5d83f0e23e8132ad7ae266c4b83e1f63f195d6d1bfe7c4a1"
+    },
+    "docs/benchmarks/multifile-faults-local/controls/controls.xml": {
+      "bytes": 93750,
+      "sha256": "dcfdf8726aed14552d097ebc4197ce328cce76abd51f30bf9a95aa507be2027f"
+    },
+    "docs/benchmarks/multifile-faults-local/development/multifile213-initial.xml": {
+      "bytes": 3095,
+      "sha256": "5be4ed6ff8557762de76daaa6184209dd31aeee12a2ca327e739db9495ea7f36"
+    },
+    "docs/benchmarks/multifile-faults-local/development/multifile213-initial.log": {
+      "bytes": 1862,
+      "sha256": "a1425cbc9ef3c1d5f67717cb2547d51fcee8fe57d417e596995e20aebddcedf0"
+    },
+    "docs/benchmarks/multifile-faults-local/development/multifile213-faults.xml": {
+      "bytes": 1911,
+      "sha256": "8a3391efe9f83abdd7ca171cd79b9eb57c1eaf267dd4170877b48536ff6bd36f"
+    },
+    "docs/benchmarks/multifile-faults-local/development/multifile213-faults.log": {
+      "bytes": 101,
+      "sha256": "ef9b9b58fcb85af1e6e2cefa5b552abd26644d1a7c41d092ddbffc51a5105bc5"
+    },
+    "docs/benchmarks/multifile-faults-local/development/multifile213-cohort-controls.xml": {
+      "bytes": 14529,
+      "sha256": "df5bf8c7c1c34cb99e3ee2c04d38aa2b36504cb6172e90d8739ba1fe850aebee"
+    },
+    "docs/benchmarks/multifile-faults-local/development/multifile213-cohort-controls.log": {
+      "bytes": 182,
+      "sha256": "939689b861f4aae9dfe93fa97f760225159f23ac36143eef827f93ec42557074"
+    },
+    "docs/benchmarks/multifile-faults-local/compiler-git-proof.json": {
+      "bytes": 72606,
+      "sha256": "7a658ac733b2e1c1566f0d8ac67fccc5c8712ea0d44c1447da748b41936cc77c"
+    },
+    "docs/benchmarks/multifile-faults-local/retained-binaries.json": {
+      "bytes": 5387,
+      "sha256": "8a5db2ab24d4e5edf0ee43700390cf71c3a253cc37156a26d1a8e54a67384c26"
+    },
+    "docs/benchmarks/multifile-faults-local/build-driver.py": {
+      "bytes": 3889,
+      "sha256": "0701f51793162341cdc1b942d40c8a806f4406775119fd615fa9a1a00d00e892"
+    },
+    "docs/benchmarks/multifile-faults-local/windows/build_manifest.hpp": {
+      "bytes": 706,
+      "sha256": "b4d945f53561bfa43d93d577fa38140c6b091416e3a95eb752c85b8e5ad858ee"
+    },
+    "docs/benchmarks/multifile-faults-local/linux/build_manifest.hpp": {
+      "bytes": 629,
+      "sha256": "5d10cf881a22eeb5b89a78234d8c6b465dfeb5c7124159633905e0cd7ed32b62"
+    }
+  }
+}

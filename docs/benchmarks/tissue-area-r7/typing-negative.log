@@ -1,0 +1,4 @@
+tests\typing\tissue_area_invalid.py:4: error: Argument "minimum_um2" to "with_component_area_limits" of "TissueRequest" has incompatible type "str"; expected "float | None"  [arg-type]
+tests\typing\tissue_area_invalid.py:5: error: Argument "maximum_um2" to "tissue_with_component_area_limits" of "ViewerSession" has incompatible type "list[float]"; expected "float | None"  [arg-type]
+tests\typing\tissue_area_invalid.py:7: error: Incompatible types in assignment (expression has type "str", variable has type "float | None")  [assignment]
+Found 3 errors in 1 file (checked 1 source file)

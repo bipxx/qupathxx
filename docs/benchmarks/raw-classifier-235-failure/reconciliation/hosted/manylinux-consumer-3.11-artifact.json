@@ -1,0 +1,20 @@
+{
+  "id": 12671175992,
+  "node_id": "MDg6QXJ0aWZhY3QxMjY3MTE3NTk5Mg==",
+  "name": "manylinux-consumer-3.11",
+  "size_in_bytes": 82449,
+  "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12671175992",
+  "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12671175992/zip",
+  "expired": false,
+  "digest": "sha256:38ca555b4e6dd920de7e6d32de064afd40174aadfa0d64c0b97cb083910679dc",
+  "created_at": "2026-10-26T17:14:49Z",
+  "updated_at": "2026-10-26T17:14:49Z",
+  "expires_at": "2026-11-09T17:14:48Z",
+  "workflow_run": {
+    "id": 40363203596,
+    "repository_id": 1427753981,
+    "head_repository_id": 1427753981,
+    "head_branch": "feature/raw-classifier-qualification-235",
+    "head_sha": "176ec42b274bb12429cef603b59ce704e12c6e96"
+  }
+}

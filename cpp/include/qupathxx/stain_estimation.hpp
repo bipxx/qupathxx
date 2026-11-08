@@ -47,6 +47,8 @@ public:
     bool request(const StainEstimateRequest&);
     AnalysisStats poll(const Document&,std::uint64_t selected_id);
     AnalysisStats wait(const Document&,std::uint64_t selected_id);
+    // Native readiness only: no Document access, delivery or captured-owner release.
+    void await_completion();
     void cancel();bool busy() const;
     std::optional<StainEstimateResult> result() const;
 private:

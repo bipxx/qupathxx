@@ -1,0 +1,271 @@
+{
+  "schema": "qpx.multifile-ome-qualification/1",
+  "observed_at_utc": "2026-10-26T03:47:48.789969+00:00",
+  "source": "9e7d0be94c59c2c5e363f7dfa60384f9c9c2d7d6",
+  "ref": "feature/multifile-ome-workflow-210",
+  "frozen_checkout": "build/ci/multifile-ome-workflow-210",
+  "campaign": "docs/benchmarks/multifile-ome-210-campaign.json",
+  "local_workflow": "docs/benchmarks/multifile-ome-local.json",
+  "status": "engineering_accepted",
+  "platform_campaign_accepted": true,
+  "archives": {
+    "files": 11,
+    "bytes": 101026761,
+    "retained_root": "build/multifile210-hosted/artifacts",
+    "all_sizes_digests_sources_verified": true
+  },
+  "runs": {
+    "engine": {
+      "id": 40262416972,
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40262416972",
+      "inputs": {
+        "macos_native": false,
+        "portable_linux": false,
+        "live_reference": true,
+        "extended_readers": true
+      }
+    },
+    "macos": {
+      "id": 40262423808,
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40262423808",
+      "inputs": {
+        "macos_native": true,
+        "portable_linux": false,
+        "live_reference": false,
+        "extended_readers": false
+      }
+    },
+    "portable": {
+      "id": 40262431017,
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40262431017",
+      "inputs": {
+        "macos_native": false,
+        "portable_linux": true,
+        "live_reference": false,
+        "extended_readers": true
+      }
+    }
+  },
+  "results": {
+    "engine": [
+      {
+        "name": "Windows GUI Python 3.12 software GL",
+        "native_passed": 51,
+        "installed_passed": 3986,
+        "multifile_native": {
+          "suites": 3,
+          "tiff_enabled": true,
+          "compound_provenance_codecs": true
+        },
+        "multifile_installed_passed": 44,
+        "multifile_desktop": {
+          "passed": 2,
+          "declared_desktop_skips": 0
+        }
+      },
+      {
+        "name": "Linux minimal native",
+        "native_passed": 50,
+        "installed_passed": null,
+        "multifile_native": {
+          "suites": 3,
+          "tiff_enabled": false,
+          "compound_provenance_codecs": true
+        },
+        "multifile_installed_passed": null,
+        "multifile_desktop": null
+      },
+      {
+        "name": "Windows headless Python 3.11 NumPy 1",
+        "native_passed": 50,
+        "installed_passed": 3534,
+        "multifile_native": {
+          "suites": 3,
+          "tiff_enabled": true,
+          "compound_provenance_codecs": true
+        },
+        "multifile_installed_passed": 44,
+        "multifile_desktop": {
+          "passed": 0,
+          "declared_desktop_skips": 2
+        }
+      },
+      {
+        "name": "Linux headless Python 3.12 NumPy 2",
+        "native_passed": 50,
+        "installed_passed": 3532,
+        "multifile_native": {
+          "suites": 3,
+          "tiff_enabled": true,
+          "compound_provenance_codecs": true
+        },
+        "multifile_installed_passed": 44,
+        "multifile_desktop": {
+          "passed": 0,
+          "declared_desktop_skips": 2
+        }
+      },
+      {
+        "name": "Linux ASan UBSan native",
+        "native_passed": 50,
+        "installed_passed": null,
+        "multifile_native": {
+          "suites": 3,
+          "tiff_enabled": true,
+          "compound_provenance_codecs": true
+        },
+        "multifile_installed_passed": null,
+        "multifile_desktop": null
+      }
+    ],
+    "macos_native": [
+      {
+        "architecture": "arm64",
+        "native_passed": 50
+      },
+      {
+        "architecture": "x86_64",
+        "native_passed": 50
+      }
+    ],
+    "portable": [
+      {
+        "python": "3.11",
+        "native_passed": 50,
+        "builder_passed": 3532,
+        "consumer_passed": 3490,
+        "expected_scientific_failures": 3
+      },
+      {
+        "python": "3.12",
+        "native_passed": 50,
+        "builder_passed": 3532,
+        "consumer_passed": 3490,
+        "expected_scientific_failures": 3
+      }
+    ]
+  },
+  "scope": "Exact-source multi-file TIFF/provenance/project/Python/CLI/batch/ImGui/managed workflow engineering acceptance with all inherited engine, Mac-native inventory/relocation and portable builder/fresh-consumer gates. Mac scope is native-only. Synthetic correctness and engineering qualification do not establish biological equivalence, hardware/RSS acceptance or a supported release.",
+  "tooling_followups": {
+    "e3": "docs/benchmarks/source-proof-reuse-local.json",
+    "e4": "docs/benchmarks/installed-diagnostics-local.json",
+    "later_producer": "2098cf21f8b5e9f9c215ff0c0c24b956b8f1549f",
+    "later_producer_hosted_here": false
+  },
+  "remaining": [
+    "MFO1 remains open for unproven companion fault/cancellation and decoder/work-budget adversarial controls; the current engineering campaign does not waive them.",
+    "All M0-M7 remain Partial; complete SCI1/REL1 scope and scientific/dataset/hardware/license decisions.",
+    "Three strict legacy scientific xfails remain unresolved; do not relax them.",
+    "Broader eligible vendor/whole-slide and partial/BinaryOnly OME, reader fault/cancellation/resource stress, raw classifier features and broader annotation/interchange remain.",
+    "Mac Python/GUI/OpenSlide, older OS/ABI/installers/notices/signing/clean-machine support remain open.",
+    "No project-license selection, release/PyPI/signing or new public-main promotion is performed by this receipt."
+  ],
+  "release_ready": false,
+  "overall_project_complete": false,
+  "files": {
+    "docs/benchmarks/multifile-ome-210-qualification/engine-audit.json": {
+      "bytes": 707766,
+      "sha256": "c0d62ac4a11846b7f76c101cc4b4fb4e8fbcb15ad15868f98ca0daacc7e3fb78"
+    },
+    "docs/benchmarks/multifile-ome-210-qualification/engine-audit.log": {
+      "bytes": 488,
+      "sha256": "4c8be4f41d9a8015806d88985d84175221b587fcd6bf7d0d521267e5a256f11e"
+    },
+    "docs/benchmarks/multifile-ome-210-qualification/engine-audit-command.json": {
+      "bytes": 769,
+      "sha256": "d66b796b5df24648612aa19aa348b886f33289ed596c3a04d56dccb813c094d6"
+    },
+    "docs/benchmarks/multifile-ome-210-qualification/macos-native-audit.json": {
+      "bytes": 234845,
+      "sha256": "4381140e0ea3de0a75facf26a34ef1016fd079ba20ade29f2c7e0fcafeab5bd8"
+    },
+    "docs/benchmarks/multifile-ome-210-qualification/macos-native-audit.log": {
+      "bytes": 161,
+      "sha256": "8accdd5c67d6381869e791cc41e6e567e0625796b8f76900a5ca7b6b2f6e46f4"
+    },
+    "docs/benchmarks/multifile-ome-210-qualification/macos-native-audit-command.json": {
+      "bytes": 640,
+      "sha256": "d0c755a55d446febfa5a593791a344778ebff95d99cd12ec16a524215118104a"
+    },
+    "docs/benchmarks/multifile-ome-210-qualification/portable-audit.json": {
+      "bytes": 360138,
+      "sha256": "ca4cbed4a12a1ab6dc0551e2c8b836ac8e07c3cac3053e57cd3f8b5f11517664"
+    },
+    "docs/benchmarks/multifile-ome-210-qualification/portable-audit.log": {
+      "bytes": 126,
+      "sha256": "b3b7de1df222dc59755d721a0cc0471d88fec1b51f842c711b00b32e08e6e4d3"
+    },
+    "docs/benchmarks/multifile-ome-210-qualification/portable-audit-command.json": {
+      "bytes": 843,
+      "sha256": "e205b2b9515ba5cc561a216aa11bb45fbb10fd129f30e471a2773e1e1d7a1638"
+    },
+    "docs/benchmarks/multifile-ome-210-qualification/engine-run.json": {
+      "bytes": 16529,
+      "sha256": "16cb8ddc4453d81ec7393eb6c0001e03fbdd5543f3040cfb4ea8bc14bd90fdd2"
+    },
+    "docs/benchmarks/multifile-ome-210-qualification/macos-run.json": {
+      "bytes": 4859,
+      "sha256": "6b926b2ec123617fd3682c30bd8a258f262ebb547ef537b4e1795f108fb6b8e6"
+    },
+    "docs/benchmarks/multifile-ome-210-qualification/portable-run.json": {
+      "bytes": 10688,
+      "sha256": "297ad7cfaae7e8feb87a887bc2f157bc3cca257dfc8c8834985ddc5f338cd1a8"
+    },
+    "docs/benchmarks/multifile-ome-210-qualification/summary.json": {
+      "bytes": 2565,
+      "sha256": "c4eb1eeeeef114f4c63142ef76d396f622cbe963ec5da4e07951b32a8e309c8b"
+    },
+    "docs/benchmarks/multifile-ome-210-qualification/artifact-metadata/Windows-gui-py3.12.json": {
+      "bytes": 809,
+      "sha256": "649862c2dfb283e9246f4ab1bc55162c67e538b30bc87f08e3b9567cc3b0fea6"
+    },
+    "docs/benchmarks/multifile-ome-210-qualification/artifact-metadata/Linux-headless-py3.12.json": {
+      "bytes": 812,
+      "sha256": "c5bcfe59a8d3f5b085c1dded7bac1ece54f8e6fea7354db9ae00b1d9d4e56af7"
+    },
+    "docs/benchmarks/multifile-ome-210-qualification/artifact-metadata/Linux-sanitize-py3.12.json": {
+      "bytes": 809,
+      "sha256": "f8c5282c1536677b291a1b701a9ba1e1ccf5cbed759e17f8f2ae429f7d652529"
+    },
+    "docs/benchmarks/multifile-ome-210-qualification/artifact-metadata/Linux-minimal-py3.12.json": {
+      "bytes": 808,
+      "sha256": "89a7efa66a956af719be7d04ee97b31b9314ed0a3c7a2a779662122733215962"
+    },
+    "docs/benchmarks/multifile-ome-210-qualification/artifact-metadata/Windows-headless-py3.11.json": {
+      "bytes": 814,
+      "sha256": "c41a22b5eb873d7f6b0ecc70aee4d30a6eb96ee23f0ce0b2a28e3abce95a63d5"
+    },
+    "docs/benchmarks/multifile-ome-210-qualification/artifact-metadata/macos-native-arm64.json": {
+      "bytes": 809,
+      "sha256": "9dce359cced3f2805f895ea7f8e7068a23c83ec7d205ea2890fccffc7fc2f38f"
+    },
+    "docs/benchmarks/multifile-ome-210-qualification/artifact-metadata/macos-native-x86_64.json": {
+      "bytes": 810,
+      "sha256": "0c72301fb9b2d39f13463c64514c7c7ceba826ff6148f63f532d0216a93ebec0"
+    },
+    "docs/benchmarks/multifile-ome-210-qualification/artifact-metadata/manylinux-3.12.json": {
+      "bytes": 805,
+      "sha256": "cfed6f3bc0b52b96a18d3c6a196cbdc8200d8624b39fd54a95d22ecbad38f235"
+    },
+    "docs/benchmarks/multifile-ome-210-qualification/artifact-metadata/manylinux-consumer-3.12.json": {
+      "bytes": 811,
+      "sha256": "ba628e59a38fa7e071e1a03e0ff29f19cd46627365d0e7e7db9a299909588702"
+    },
+    "docs/benchmarks/multifile-ome-210-qualification/artifact-metadata/manylinux-3.11.json": {
+      "bytes": 805,
+      "sha256": "def1cb588f00ee8e49483676ebd4abfb2319874f1f5f0425537bd3f9c06110e3"
+    },
+    "docs/benchmarks/multifile-ome-210-qualification/artifact-metadata/manylinux-consumer-3.11.json": {
+      "bytes": 811,
+      "sha256": "b136efefc8917a7fcd4cbb0a4179ddc929e12ee10b56aad4fe07906f5b345991"
+    },
+    "docs/benchmarks/multifile-ome-210-qualification/verified-artifacts.json": {
+      "bytes": 2659,
+      "sha256": "0bcacf46fb7eff6b79e1c2898b811864dc6358860cc218ff45b73858a8ebfe61"
+    },
+    "docs/benchmarks/multifile-ome-210-qualification/terminal-state-before-acceptance.json": {
+      "bytes": 6250,
+      "sha256": "7274b55cbe17728b68939a6c75af11ff002d85cd1f0ad12520315f0990edddd8"
+    }
+  }
+}

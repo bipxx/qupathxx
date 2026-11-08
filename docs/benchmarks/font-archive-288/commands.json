@@ -1,0 +1,47 @@
+[
+  {
+    "name": "original-missing-font",
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\font-archive-288\\original-standalone\\qupathxx_app.exe",
+      "--smoke"
+    ],
+    "returncode": 1,
+    "expected": 1
+  },
+  {
+    "name": "fixed-layout",
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\font-archive-288\\repacked\\standalone\\qupathxx_app.exe",
+      "--project",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\font-archive-288\\standalone-input.qpxproj",
+      "--layout",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\font-archive-288\\standalone-workspace.ini",
+      "--smoke"
+    ],
+    "returncode": 0,
+    "expected": 0
+  },
+  {
+    "name": "fixed-layout-reload",
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\font-archive-288\\repacked\\standalone\\qupathxx_app.exe",
+      "--project",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\font-archive-288\\standalone-input.qpxproj",
+      "--layout",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\font-archive-288\\standalone-workspace.ini",
+      "--smoke"
+    ],
+    "returncode": 0,
+    "expected": 0
+  },
+  {
+    "name": "fixed-slide",
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\font-archive-288\\repacked\\standalone\\qupathxx_app.exe",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\fixtures\\CMU-1-Small-Region.svs",
+      "--smoke"
+    ],
+    "returncode": 0,
+    "expected": 0
+  }
+]

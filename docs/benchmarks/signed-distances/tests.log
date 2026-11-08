@@ -1,0 +1,23 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+    Start 55: spatial_neighborhood_records
+1/9 Test #55: spatial_neighborhood_records .....   Passed    0.38 sec
+    Start 56: spatial_density_records
+2/9 Test #56: spatial_density_records ..........   Passed    0.24 sec
+    Start 57: spatial_density
+3/9 Test #57: spatial_density ..................   Passed    0.06 sec
+    Start 58: spatial_neighborhood
+4/9 Test #58: spatial_neighborhood .............   Passed    0.13 sec
+    Start 59: signed_distance
+5/9 Test #59: signed_distance ..................   Passed    0.21 sec
+    Start 61: spatial_frontend
+6/9 Test #61: spatial_frontend .................   Passed    0.13 sec
+    Start 64: spatial_cli
+7/9 Test #64: spatial_cli ......................   Passed    0.56 sec
+    Start 65: spatial_records
+8/9 Test #65: spatial_records ..................   Passed    7.37 sec
+    Start 66: spatial_analysis
+9/9 Test #66: spatial_analysis .................   Passed    0.21 sec
+
+100% tests passed out of 9
+
+Total Test time (real) =   9.58 sec

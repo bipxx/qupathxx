@@ -1,0 +1,992 @@
+[
+  {
+    "name": "baseline/gradient/full_0_75",
+    "step": 0.75,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\gradient\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\gradient\\full_0_75.png"
+  },
+  {
+    "name": "baseline/gradient/full_1",
+    "step": 1,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\gradient\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\gradient\\full_1.png"
+  },
+  {
+    "name": "baseline/gradient/full_1_25",
+    "step": 1.25,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\gradient\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\gradient\\full_1_25.png"
+  },
+  {
+    "name": "baseline/gradient/full_1_5",
+    "step": 1.5,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\gradient\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\gradient\\full_1_5.png"
+  },
+  {
+    "name": "baseline/gradient/full_2",
+    "step": 2,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\gradient\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\gradient\\full_2.png"
+  },
+  {
+    "name": "baseline/gradient/full_2_3",
+    "step": 2.3,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\gradient\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\gradient\\full_2_3.png"
+  },
+  {
+    "name": "baseline/gradient/full_3_75",
+    "step": 3.75,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\gradient\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\gradient\\full_3_75.png"
+  },
+  {
+    "name": "baseline/gradient/crop_1_5",
+    "step": 1.5,
+    "origin": [
+      1,
+      2
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\gradient\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\gradient\\crop_1_5.png"
+  },
+  {
+    "name": "baseline/gradient/crop_2_3",
+    "step": 2.3,
+    "origin": [
+      3,
+      1
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\gradient\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\gradient\\crop_2_3.png"
+  },
+  {
+    "name": "baseline/checker/full_0_75",
+    "step": 0.75,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\checker\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\checker\\full_0_75.png"
+  },
+  {
+    "name": "baseline/checker/full_1",
+    "step": 1,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\checker\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\checker\\full_1.png"
+  },
+  {
+    "name": "baseline/checker/full_1_25",
+    "step": 1.25,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\checker\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\checker\\full_1_25.png"
+  },
+  {
+    "name": "baseline/checker/full_1_5",
+    "step": 1.5,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\checker\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\checker\\full_1_5.png"
+  },
+  {
+    "name": "baseline/checker/full_2",
+    "step": 2,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\checker\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\checker\\full_2.png"
+  },
+  {
+    "name": "baseline/checker/full_2_3",
+    "step": 2.3,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\checker\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\checker\\full_2_3.png"
+  },
+  {
+    "name": "baseline/checker/full_3_75",
+    "step": 3.75,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\checker\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\checker\\full_3_75.png"
+  },
+  {
+    "name": "baseline/checker/crop_1_5",
+    "step": 1.5,
+    "origin": [
+      1,
+      2
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\checker\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\checker\\crop_1_5.png"
+  },
+  {
+    "name": "baseline/checker/crop_2_3",
+    "step": 2.3,
+    "origin": [
+      3,
+      1
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\checker\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\checker\\crop_2_3.png"
+  },
+  {
+    "name": "baseline/noise/full_0_75",
+    "step": 0.75,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\noise\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\noise\\full_0_75.png"
+  },
+  {
+    "name": "baseline/noise/full_1",
+    "step": 1,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\noise\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\noise\\full_1.png"
+  },
+  {
+    "name": "baseline/noise/full_1_25",
+    "step": 1.25,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\noise\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\noise\\full_1_25.png"
+  },
+  {
+    "name": "baseline/noise/full_1_5",
+    "step": 1.5,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\noise\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\noise\\full_1_5.png"
+  },
+  {
+    "name": "baseline/noise/full_2",
+    "step": 2,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\noise\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\noise\\full_2.png"
+  },
+  {
+    "name": "baseline/noise/full_2_3",
+    "step": 2.3,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\noise\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\noise\\full_2_3.png"
+  },
+  {
+    "name": "baseline/noise/full_3_75",
+    "step": 3.75,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\noise\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\noise\\full_3_75.png"
+  },
+  {
+    "name": "baseline/noise/crop_1_5",
+    "step": 1.5,
+    "origin": [
+      1,
+      2
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\noise\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\noise\\crop_1_5.png"
+  },
+  {
+    "name": "baseline/noise/crop_2_3",
+    "step": 2.3,
+    "origin": [
+      3,
+      1
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\noise\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\noise\\crop_2_3.png"
+  },
+  {
+    "name": "baseline/cells/full_0_75",
+    "step": 0.75,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\cells\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\cells\\full_0_75.png"
+  },
+  {
+    "name": "baseline/cells/full_1",
+    "step": 1,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\cells\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\cells\\full_1.png"
+  },
+  {
+    "name": "baseline/cells/full_1_25",
+    "step": 1.25,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\cells\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\cells\\full_1_25.png"
+  },
+  {
+    "name": "baseline/cells/full_1_5",
+    "step": 1.5,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\cells\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\cells\\full_1_5.png"
+  },
+  {
+    "name": "baseline/cells/full_2",
+    "step": 2,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\cells\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\cells\\full_2.png"
+  },
+  {
+    "name": "baseline/cells/full_2_3",
+    "step": 2.3,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\cells\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\cells\\full_2_3.png"
+  },
+  {
+    "name": "baseline/cells/full_3_75",
+    "step": 3.75,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\cells\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\cells\\full_3_75.png"
+  },
+  {
+    "name": "baseline/cells/crop_1_5",
+    "step": 1.5,
+    "origin": [
+      1,
+      2
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\cells\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\cells\\crop_1_5.png"
+  },
+  {
+    "name": "baseline/cells/crop_2_3",
+    "step": 2.3,
+    "origin": [
+      3,
+      1
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\cells\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-0.7.0\\cells\\crop_2_3.png"
+  },
+  {
+    "name": "holdout/gradient/full_0_6",
+    "step": 0.6,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\gradient\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\gradient\\full_0_6.png"
+  },
+  {
+    "name": "holdout/gradient/full_0_9",
+    "step": 0.9,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\gradient\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\gradient\\full_0_9.png"
+  },
+  {
+    "name": "holdout/gradient/full_1",
+    "step": 1,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\gradient\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\gradient\\full_1.png"
+  },
+  {
+    "name": "holdout/gradient/full_1_1",
+    "step": 1.1,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\gradient\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\gradient\\full_1_1.png"
+  },
+  {
+    "name": "holdout/gradient/full_1_7",
+    "step": 1.7,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\gradient\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\gradient\\full_1_7.png"
+  },
+  {
+    "name": "holdout/gradient/full_2_1",
+    "step": 2.1,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\gradient\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\gradient\\full_2_1.png"
+  },
+  {
+    "name": "holdout/gradient/full_2_75",
+    "step": 2.75,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\gradient\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\gradient\\full_2_75.png"
+  },
+  {
+    "name": "holdout/gradient/full_4_2",
+    "step": 4.2,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\gradient\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\gradient\\full_4_2.png"
+  },
+  {
+    "name": "holdout/gradient/full_7_125",
+    "step": 7.125,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\gradient\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\gradient\\full_7_125.png"
+  },
+  {
+    "name": "holdout/gradient/crop_1_1",
+    "step": 1.1,
+    "origin": [
+      3,
+      5
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\gradient\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\gradient\\crop_1_1.png"
+  },
+  {
+    "name": "holdout/gradient/crop_2_1",
+    "step": 2.1,
+    "origin": [
+      3,
+      5
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\gradient\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\gradient\\crop_2_1.png"
+  },
+  {
+    "name": "holdout/gradient/crop_2_75",
+    "step": 2.75,
+    "origin": [
+      3,
+      5
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\gradient\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\gradient\\crop_2_75.png"
+  },
+  {
+    "name": "holdout/checker/full_0_6",
+    "step": 0.6,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\checker\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\checker\\full_0_6.png"
+  },
+  {
+    "name": "holdout/checker/full_0_9",
+    "step": 0.9,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\checker\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\checker\\full_0_9.png"
+  },
+  {
+    "name": "holdout/checker/full_1",
+    "step": 1,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\checker\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\checker\\full_1.png"
+  },
+  {
+    "name": "holdout/checker/full_1_1",
+    "step": 1.1,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\checker\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\checker\\full_1_1.png"
+  },
+  {
+    "name": "holdout/checker/full_1_7",
+    "step": 1.7,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\checker\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\checker\\full_1_7.png"
+  },
+  {
+    "name": "holdout/checker/full_2_1",
+    "step": 2.1,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\checker\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\checker\\full_2_1.png"
+  },
+  {
+    "name": "holdout/checker/full_2_75",
+    "step": 2.75,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\checker\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\checker\\full_2_75.png"
+  },
+  {
+    "name": "holdout/checker/full_4_2",
+    "step": 4.2,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\checker\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\checker\\full_4_2.png"
+  },
+  {
+    "name": "holdout/checker/full_7_125",
+    "step": 7.125,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\checker\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\checker\\full_7_125.png"
+  },
+  {
+    "name": "holdout/checker/crop_1_1",
+    "step": 1.1,
+    "origin": [
+      3,
+      5
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\checker\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\checker\\crop_1_1.png"
+  },
+  {
+    "name": "holdout/checker/crop_2_1",
+    "step": 2.1,
+    "origin": [
+      3,
+      5
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\checker\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\checker\\crop_2_1.png"
+  },
+  {
+    "name": "holdout/checker/crop_2_75",
+    "step": 2.75,
+    "origin": [
+      3,
+      5
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\checker\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\checker\\crop_2_75.png"
+  },
+  {
+    "name": "holdout/noise/full_0_6",
+    "step": 0.6,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\noise\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\noise\\full_0_6.png"
+  },
+  {
+    "name": "holdout/noise/full_0_9",
+    "step": 0.9,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\noise\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\noise\\full_0_9.png"
+  },
+  {
+    "name": "holdout/noise/full_1",
+    "step": 1,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\noise\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\noise\\full_1.png"
+  },
+  {
+    "name": "holdout/noise/full_1_1",
+    "step": 1.1,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\noise\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\noise\\full_1_1.png"
+  },
+  {
+    "name": "holdout/noise/full_1_7",
+    "step": 1.7,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\noise\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\noise\\full_1_7.png"
+  },
+  {
+    "name": "holdout/noise/full_2_1",
+    "step": 2.1,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\noise\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\noise\\full_2_1.png"
+  },
+  {
+    "name": "holdout/noise/full_2_75",
+    "step": 2.75,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\noise\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\noise\\full_2_75.png"
+  },
+  {
+    "name": "holdout/noise/full_4_2",
+    "step": 4.2,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\noise\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\noise\\full_4_2.png"
+  },
+  {
+    "name": "holdout/noise/full_7_125",
+    "step": 7.125,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\noise\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\noise\\full_7_125.png"
+  },
+  {
+    "name": "holdout/noise/crop_1_1",
+    "step": 1.1,
+    "origin": [
+      3,
+      5
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\noise\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\noise\\crop_1_1.png"
+  },
+  {
+    "name": "holdout/noise/crop_2_1",
+    "step": 2.1,
+    "origin": [
+      3,
+      5
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\noise\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\noise\\crop_2_1.png"
+  },
+  {
+    "name": "holdout/noise/crop_2_75",
+    "step": 2.75,
+    "origin": [
+      3,
+      5
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\noise\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\noise\\crop_2_75.png"
+  },
+  {
+    "name": "holdout/offset/full_0_6",
+    "step": 0.6,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\offset\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\offset\\full_0_6.png"
+  },
+  {
+    "name": "holdout/offset/full_0_9",
+    "step": 0.9,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\offset\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\offset\\full_0_9.png"
+  },
+  {
+    "name": "holdout/offset/full_1",
+    "step": 1,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\offset\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\offset\\full_1.png"
+  },
+  {
+    "name": "holdout/offset/full_1_1",
+    "step": 1.1,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\offset\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\offset\\full_1_1.png"
+  },
+  {
+    "name": "holdout/offset/full_1_7",
+    "step": 1.7,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\offset\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\offset\\full_1_7.png"
+  },
+  {
+    "name": "holdout/offset/full_2_1",
+    "step": 2.1,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\offset\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\offset\\full_2_1.png"
+  },
+  {
+    "name": "holdout/offset/full_2_75",
+    "step": 2.75,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\offset\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\offset\\full_2_75.png"
+  },
+  {
+    "name": "holdout/offset/full_4_2",
+    "step": 4.2,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\offset\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\offset\\full_4_2.png"
+  },
+  {
+    "name": "holdout/offset/full_7_125",
+    "step": 7.125,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\offset\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\offset\\full_7_125.png"
+  },
+  {
+    "name": "holdout/offset/crop_1_1",
+    "step": 1.1,
+    "origin": [
+      3,
+      5
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\offset\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\offset\\crop_1_1.png"
+  },
+  {
+    "name": "holdout/offset/crop_2_1",
+    "step": 2.1,
+    "origin": [
+      3,
+      5
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\offset\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\offset\\crop_2_1.png"
+  },
+  {
+    "name": "holdout/offset/crop_2_75",
+    "step": 2.75,
+    "origin": [
+      3,
+      5
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\offset\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\offset\\crop_2_75.png"
+  },
+  {
+    "name": "holdout/wide/full_0_6",
+    "step": 0.6,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\wide\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\wide\\full_0_6.png"
+  },
+  {
+    "name": "holdout/wide/full_0_9",
+    "step": 0.9,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\wide\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\wide\\full_0_9.png"
+  },
+  {
+    "name": "holdout/wide/full_1",
+    "step": 1,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\wide\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\wide\\full_1.png"
+  },
+  {
+    "name": "holdout/wide/full_1_1",
+    "step": 1.1,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\wide\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\wide\\full_1_1.png"
+  },
+  {
+    "name": "holdout/wide/full_1_7",
+    "step": 1.7,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\wide\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\wide\\full_1_7.png"
+  },
+  {
+    "name": "holdout/thin/full_0_6",
+    "step": 0.6,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\thin\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\thin\\full_0_6.png"
+  },
+  {
+    "name": "holdout/thin/full_0_9",
+    "step": 0.9,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\thin\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\thin\\full_0_9.png"
+  },
+  {
+    "name": "holdout/thin/full_1",
+    "step": 1,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\thin\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\thin\\full_1.png"
+  },
+  {
+    "name": "holdout/thin/full_1_1",
+    "step": 1.1,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\thin\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\thin\\full_1_1.png"
+  },
+  {
+    "name": "holdout/thin/full_1_7",
+    "step": 1.7,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\thin\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\thin\\full_1_7.png"
+  },
+  {
+    "name": "holdout/one/full_0_6",
+    "step": 0.6,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\one\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\one\\full_0_6.png"
+  },
+  {
+    "name": "holdout/one/full_0_9",
+    "step": 0.9,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\one\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\one\\full_0_9.png"
+  },
+  {
+    "name": "holdout/one/full_1",
+    "step": 1,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\one\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\one\\full_1.png"
+  },
+  {
+    "name": "holdout/one/full_1_1",
+    "step": 1.1,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\one\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\one\\full_1_1.png"
+  },
+  {
+    "name": "holdout/one/full_1_7",
+    "step": 1.7,
+    "origin": [
+      0,
+      0
+    ],
+    "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\one\\input.png",
+    "expected": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-rgb-resampling-holdout-0.7.0\\one\\full_1_7.png"
+  }
+]

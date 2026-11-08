@@ -1,0 +1,332 @@
+{
+  "_native.cp312-win_amd64.pyd": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 9756672,
+    "sha256": "aff209e98f7c5c1339be2c91d781082b17abd032f05af8cca3a1baa9425f4fe0",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_analysis_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 1432576,
+    "sha256": "74e902302fd368c64c3168250a0ad9af02d6a0e9f9cbaee049dd37134f8d4949",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_app.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 7727104,
+    "sha256": "60e3d139d871f4c29ae78a03da7918191a607a2f20d794536709e6085bd2b8c4",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_batch.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 5254656,
+    "sha256": "3869a64b30ae3ba3a33dc958699335bb40fb265bc6b8d511eb6650505d9a73d6",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_cell_calibration_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 2501120,
+    "sha256": "bb73eae76d6a9188cd0c77261fc391ce65823a3da4047d0d48b7d80239c90443",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_cell_expansion_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 60416,
+    "sha256": "7f4188a185c532aac7415ddd7de64b0d524c0542c40ca73b37ca783d04e7aca2",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_cell_record_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 3711488,
+    "sha256": "876e382a4d51b6713e610c43c79559e702e595f7bf4c32aa859d3ee535e43b47",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_cell_table_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 4269056,
+    "sha256": "398e2aaa376f2e7a5689f97613cc799d32bad571b3bdd004c43c56626afd1c00",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_cell_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 2699264,
+    "sha256": "9190eb6d5ba775857f7b33b89ad3a553420b6862be238b9d323a908d9b5bd922",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_classes_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 320000,
+    "sha256": "adb3f24fd050f9a1858fe7b96c0751ab51f7fbc632b44deed632565188dfc405",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_classifier_io_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 1080320,
+    "sha256": "3360d95fb2d2572f26e21bcd951a66dfb0528b5b4a614b1a11ed722c6deda4d2",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_classifier_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 1389568,
+    "sha256": "1c0c61e7d7a217015a490d91f0ce8eaa5d1aa5c8eec0aa49f0d1d62b873d9056",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_core_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 326144,
+    "sha256": "9ef11de097ed8625aff0784443717e073ba20a39da058fd63fd9638e2c81286d",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_decimal_quantity_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 35840,
+    "sha256": "1875e2d65f2f22933d8062ddb876459a91d6530ca8e75d69368b54b19e9410f8",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_document_edits_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 324608,
+    "sha256": "12ac94c08bb2afcbee0e4f42195582698c018621160f741ff845b12243155494",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_file_fingerprint_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 305664,
+    "sha256": "20b34b9d173ce04f0e4661caea228530302f50e9b94839a3f10af5920bc5268d",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_geometry_edits_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 329728,
+    "sha256": "71f8d856a3b131a045184078604fa8a9697480b125cd3015f3b40545a3047e1c",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_geometry_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 324608,
+    "sha256": "34a8b37795a1e410f9c4065f7ae0358151f05ad42d219868ecde034ca0d1fb48",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_gui_replay_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 45568,
+    "sha256": "751dc8e69acdeb24ba0a137f893d142bf93667e90cd97d3609984434e047d75b",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_interchange_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 511488,
+    "sha256": "71216ad5333a2c273f262aa7233644c6a036f71c1c58855293a4a0501015cebd",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_log_cell_recipe_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 2603008,
+    "sha256": "3ee09dad11af1b5f3c17cadec19a574356334f0c54ba161b21a0524292fdf3d0",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_log_watershed_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 148992,
+    "sha256": "0d3e041991799095f03d1703e9b73eaf771c001fe4dd36615a570bb19278f54b",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_masked_gaussian_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 30720,
+    "sha256": "68fa137cd58c72d83247ac7c842236c7d2670737904ef2b231bfcb59bf092e6a",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_measurement_table_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 2870784,
+    "sha256": "e26f23177fd778c0001b2ab971d171beada8dbd3d1b22b6c1636d1b3969cba5c",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_object_classifier_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 3151872,
+    "sha256": "3fb1fc1c7812acdfd1c411eb13cf9863554cc32eeb07ae50c0bc9b28bfc24a6d",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_object_snapshot_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 3624448,
+    "sha256": "16afa1ed53314ad8121f2050625bff295d7e8c2d0e29613f958b4d58abe2523b",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_overlay_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 22528,
+    "sha256": "adca933a42f3a885a8ef26a5102fd0899e9e578ebede2aa8c0e2e540eac75221",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_pixel_feature_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 2475520,
+    "sha256": "4c6174ca419da13a561751299bd491e74b69430eb5c37c02212cd089b18b6ce1",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_pixel_workflow_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 5629952,
+    "sha256": "9576a72846a16f8506f358c2107c650f2127eca601508f06c1d63b8e31717cc2",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_project_batch_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 4946944,
+    "sha256": "712728a3b0a7d354c74d2c36d4aa585d32ba9ac900cf6ec5e1f592857bced3e8",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_project_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 4144640,
+    "sha256": "6b5d2fb32236beb93aeab09df960f346d7fab398b9ab0540067ccdfb268eaa2d",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_provenance_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 2458112,
+    "sha256": "46da295076e952b9aa478981e169a7bdea9c1ef7e535315bcf8216b56b26461b",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_qptma_project_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 3506688,
+    "sha256": "2039a385b354885a808c77a6287702dda6a5d040f534787fd3d1bc550e2efc72",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_qptma_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 401920,
+    "sha256": "90032eda2d6df966a2dacb670754514e740c88be7add6ec65f4a339b1dc8f0ae",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_raw_image_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 4492288,
+    "sha256": "c5d6eb9dfdc9ca8499d4d068d21d98c693304f38d511f9dc3a190a3051bff70b",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_recovery_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 3600896,
+    "sha256": "22db557651c81d1c5f831dd1d18148cf196f7a787cbfc2050f7a1c368952f31a",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_region.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 775680,
+    "sha256": "3f70280e25fb61b85e0084e2fc6e96ba65394e3e5e32619276a72d3f70177d23",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_resampling_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 3168768,
+    "sha256": "38196c89961f9c470162fc5eb95f02164b10a3653ba8c760440d73ebd9e2b7a9",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_save_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 3465728,
+    "sha256": "a7850ea179278bd4955fc7e3b7ff4de925f668027dc7da3de5be62338e870056",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_scheduler_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 216064,
+    "sha256": "58557db2f5d9c57b83c25a02869218fb717a8c3d10ff7ce7fe5030eed3afac22",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_selection_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 322048,
+    "sha256": "8ca2ab0e7a21b03acd933cb61b1fc72d1c5bf8a06ae29f80679193645901acd8",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_server_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 295936,
+    "sha256": "f3d7ca36534e23b0076444461fd82e7fb239569e662c53366f98a38b626dcfe3",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_sha256_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 25600,
+    "sha256": "deb6c756dc82b44aa781e4fbf014bef32556bd55a40e36753d13a65dd52e7682",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_source_identity_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 1511936,
+    "sha256": "c4f6763ef5442e4fe678ad387dfe82e57aee9c343bc39bf666e4f7a6487a3771",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_spatial_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 315904,
+    "sha256": "82a8977ba3a3979918f2b0f6721b46f810f2293d300a05c8793ee9eb04a04a05",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_stain_estimation_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 1484288,
+    "sha256": "c6359d5c5cc2119e3b8e3c65c2b4211e8e47f10c29e36cd707678fc62310357d",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_stains_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 248320,
+    "sha256": "783cb83f47f22f8838b065e036823cef9b5ceca3a0a8d77ffe0978cd9cdc14d2",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_thumbnail_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 218112,
+    "sha256": "7c02e13ff909f3dc83e795562b8d4a2f930cda80046f9a829313cff0a2f8c2db",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_tissue_contour_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 2377728,
+    "sha256": "c113aa3b25393be08e61321ed23a2ee9fffea51ae0b08556da2bcfeaf30d59cb",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_tissue_record_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 3524608,
+    "sha256": "e805cc82f9b391b2643c72333b8d5c55f9bfbbc57dc0e5995e256200db7bab95",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_tissue_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 2253312,
+    "sha256": "a210f0bfa6191748b2715121a8716a413bab2d58146e4972580702bcb3f1e6fa",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_tma_dearray_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 5106688,
+    "sha256": "be130aae5a735ee00ba5044f8dfa44ab8f86fe5900416975183e72db3e34264a",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_tma_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 4515840,
+    "sha256": "c4336e959f0f3e9544f4cfd56c018db222f636664d2654834fbb1349ba0237df",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_view_tiles_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 157696,
+    "sha256": "669d3e2a84929105840a67c344e067ed47195dfea4f5e47629717679f3eca3d7",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  },
+  "qupathxx_viewer_session_tests.exe": {
+    "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+    "bytes": 5203456,
+    "sha256": "9dfb74a7fa86b5ae1c07e728b41ad7b3504da26face8c1710ab08452613dce32",
+    "basis": "ALL_BUILD completed and target is a registered CTest command or packaged product"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "source": "f506a5a8b60a181521fbbda19ed6198f042b5a45",
+  "source_files_verified": 55,
+  "required_headless": 101,
+  "required_gui": 105,
+  "new_and_inherited_controls_passed": 140,
+  "native": {
+    "hierarchy_enabled": true,
+    "hierarchy_qualified": 1,
+    "physical_path_policy": true,
+    "recovery_storage_qualified": true
+  },
+  "stale_source_rejected": true,
+  "old_accepted_native_artifact_rejected_for_new_scope": true,
+  "compiled_source": "df0733c3782f99518e89d7e2f40787dbb2be3094",
+  "new_native_build_required": false,
+  "scope": "Local cohort parser/source checks; not hosted artifact acceptance"
+}

@@ -1,0 +1,584 @@
+{
+  "schema": "qpx.body-navigation-observation/1",
+  "qualification": {
+    "schema": "qpx.navigation-qualification/1",
+    "engine_commit": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+    "started_utc": "2026-10-24T07:59:12.276921+00:00",
+    "navigation_target_accepted": false,
+    "overall_project_complete": false,
+    "overall_performance_accepted": false,
+    "release_ready": false,
+    "trials": [
+      {
+        "number": 1,
+        "before": {
+          "time": "2026-10-24T03:59:14.2931854-04:00",
+          "cpu": [
+            {
+              "Name": "12th Gen Intel(R) Core(TM) i7-12700K",
+              "NumberOfCores": 12,
+              "NumberOfLogicalProcessors": 20,
+              "LoadPercentage": 22
+            }
+          ],
+          "memory_bytes": 137167814656,
+          "video": [
+            {
+              "Name": "Intel(R) UHD Graphics 770",
+              "DriverVersion": "32.0.101.7088",
+              "CurrentHorizontalResolution": 1920,
+              "CurrentVerticalResolution": 1080,
+              "CurrentRefreshRate": 60
+            },
+            {
+              "Name": "NVIDIA GeForce RTX 4090",
+              "DriverVersion": "32.0.16.1088",
+              "CurrentHorizontalResolution": 2560,
+              "CurrentVerticalResolution": 1440,
+              "CurrentRefreshRate": 59
+            }
+          ]
+        },
+        "issues": [],
+        "exit_code": 0,
+        "after": {
+          "time": "2026-10-24T03:59:22.7359808-04:00",
+          "cpu": [
+            {
+              "Name": "12th Gen Intel(R) Core(TM) i7-12700K",
+              "NumberOfCores": 12,
+              "NumberOfLogicalProcessors": 20,
+              "LoadPercentage": 14
+            }
+          ],
+          "memory_bytes": 137167814656,
+          "video": [
+            {
+              "Name": "Intel(R) UHD Graphics 770",
+              "DriverVersion": "32.0.101.7088",
+              "CurrentHorizontalResolution": 1920,
+              "CurrentVerticalResolution": 1080,
+              "CurrentRefreshRate": 60
+            },
+            {
+              "Name": "NVIDIA GeForce RTX 4090",
+              "DriverVersion": "32.0.16.1088",
+              "CurrentHorizontalResolution": 2560,
+              "CurrentVerticalResolution": 1440,
+              "CurrentRefreshRate": 59
+            }
+          ]
+        },
+        "receipt_sha256": "eb9637f8b422d47fb2881ef848951a804383008984863f03a3d09c808d355f0a"
+      },
+      {
+        "number": 2,
+        "before": {
+          "time": "2026-10-24T03:59:24.1708076-04:00",
+          "cpu": [
+            {
+              "Name": "12th Gen Intel(R) Core(TM) i7-12700K",
+              "NumberOfCores": 12,
+              "NumberOfLogicalProcessors": 20,
+              "LoadPercentage": 27
+            }
+          ],
+          "memory_bytes": 137167814656,
+          "video": [
+            {
+              "Name": "Intel(R) UHD Graphics 770",
+              "DriverVersion": "32.0.101.7088",
+              "CurrentHorizontalResolution": 1920,
+              "CurrentVerticalResolution": 1080,
+              "CurrentRefreshRate": 60
+            },
+            {
+              "Name": "NVIDIA GeForce RTX 4090",
+              "DriverVersion": "32.0.16.1088",
+              "CurrentHorizontalResolution": 2560,
+              "CurrentVerticalResolution": 1440,
+              "CurrentRefreshRate": 59
+            }
+          ]
+        },
+        "issues": [
+          "before: observed CPU load exceeds 25 percent or is unavailable"
+        ],
+        "exit_code": 0,
+        "after": {
+          "time": "2026-10-24T03:59:32.7328141-04:00",
+          "cpu": [
+            {
+              "Name": "12th Gen Intel(R) Core(TM) i7-12700K",
+              "NumberOfCores": 12,
+              "NumberOfLogicalProcessors": 20,
+              "LoadPercentage": 22
+            }
+          ],
+          "memory_bytes": 137167814656,
+          "video": [
+            {
+              "Name": "Intel(R) UHD Graphics 770",
+              "DriverVersion": "32.0.101.7088",
+              "CurrentHorizontalResolution": 1920,
+              "CurrentVerticalResolution": 1080,
+              "CurrentRefreshRate": 60
+            },
+            {
+              "Name": "NVIDIA GeForce RTX 4090",
+              "DriverVersion": "32.0.16.1088",
+              "CurrentHorizontalResolution": 2560,
+              "CurrentVerticalResolution": 1440,
+              "CurrentRefreshRate": 59
+            }
+          ]
+        },
+        "receipt_sha256": "2d9496aab78d6156a60c917e25aae819989ef2ebc58628f43972b4910a3bc078"
+      },
+      {
+        "number": 3,
+        "before": {
+          "time": "2026-10-24T03:59:34.1750479-04:00",
+          "cpu": [
+            {
+              "Name": "12th Gen Intel(R) Core(TM) i7-12700K",
+              "NumberOfCores": 12,
+              "NumberOfLogicalProcessors": 20,
+              "LoadPercentage": 22
+            }
+          ],
+          "memory_bytes": 137167814656,
+          "video": [
+            {
+              "Name": "Intel(R) UHD Graphics 770",
+              "DriverVersion": "32.0.101.7088",
+              "CurrentHorizontalResolution": 1920,
+              "CurrentVerticalResolution": 1080,
+              "CurrentRefreshRate": 60
+            },
+            {
+              "Name": "NVIDIA GeForce RTX 4090",
+              "DriverVersion": "32.0.16.1088",
+              "CurrentHorizontalResolution": 2560,
+              "CurrentVerticalResolution": 1440,
+              "CurrentRefreshRate": 59
+            }
+          ]
+        },
+        "issues": [],
+        "exit_code": 0,
+        "after": {
+          "time": "2026-10-24T03:59:42.6489769-04:00",
+          "cpu": [
+            {
+              "Name": "12th Gen Intel(R) Core(TM) i7-12700K",
+              "NumberOfCores": 12,
+              "NumberOfLogicalProcessors": 20,
+              "LoadPercentage": 14
+            }
+          ],
+          "memory_bytes": 137167814656,
+          "video": [
+            {
+              "Name": "Intel(R) UHD Graphics 770",
+              "DriverVersion": "32.0.101.7088",
+              "CurrentHorizontalResolution": 1920,
+              "CurrentVerticalResolution": 1080,
+              "CurrentRefreshRate": 60
+            },
+            {
+              "Name": "NVIDIA GeForce RTX 4090",
+              "DriverVersion": "32.0.16.1088",
+              "CurrentHorizontalResolution": 2560,
+              "CurrentVerticalResolution": 1440,
+              "CurrentRefreshRate": 59
+            }
+          ]
+        },
+        "receipt_sha256": "a86bcc74241ec75ffdf9710f3e619854cb1be75f9a1ae0a2cd77b49627a624d0"
+      }
+    ],
+    "tool_sha256": "b0eb3d31deff996ec55c9f08a33811d8749bfc30a54b04e0552aaf60f103b006",
+    "protocol_sha256": "0958130efd55cd55edc9a269af7d9cd022e707f54ceaf5e7fdfd5234e17b765e",
+    "scope": "Frozen RTX 4090 NDPI navigation workload only; three independent processes and six views.",
+    "engine_audit_sha256": "8d5c86d1ebf8d8ee3172ab2774f819e81544cbcc8776f0da32c748972a06d438",
+    "native_sha256": "a0dd35fe61f0786167714941aabafceaa1b5de8e7b32ff18754287ee35718781",
+    "source_tree_sha256": "2faa8ec9323c7f1dc23a672ba5190439e9a1d7ff32244c1eb23a2783e484d880",
+    "wheel_sha256": "2dd7eb71e4a9da43ea52871b97faf2c2cc19f3f64dbc7b7c087d689a2987b186",
+    "benchmark_tool_sha256": "acb0f034fcc818519cefc20f3bc7222c6b470b30169d76a49a07b0dc235a3bc2",
+    "fixture_sha256": "edf4a1ccf395c7000ae93ad3b44c07d97043810e00be0c1d167dd09bbe436e46",
+    "host": {
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python": "3.12.8"
+    },
+    "finished_utc": "2026-10-24T07:59:42.751041+00:00"
+  },
+  "trials": [
+    {
+      "schema": "qpx.viewer-benchmark/2",
+      "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+      "tool_sha256": "acb0f034fcc818519cefc20f3bc7222c6b470b30169d76a49a07b0dc235a3bc2",
+      "performance_accepted": false,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "processor": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
+      "python": "3.12.8",
+      "fixture": "CMU-1.ndpi",
+      "sha256": "edf4a1ccf395c7000ae93ad3b44c07d97043810e00be0c1d167dd09bbe436e46",
+      "source_tree_sha256": "2faa8ec9323c7f1dc23a672ba5190439e9a1d7ff32244c1eb23a2783e484d880",
+      "native_sha256": "a0dd35fe61f0786167714941aabafceaa1b5de8e7b32ff18754287ee35718781",
+      "window_logical_size": [
+        2560,
+        1440
+      ],
+      "ui_multiplier": 1,
+      "scale_cycle": true,
+      "runs": [
+        {
+          "name": "first-view",
+          "elapsed_seconds": 3.527946799993515,
+          "frames": 180,
+          "cpu_frame_p95_ms": 17.0279,
+          "replay_complete": true,
+          "replay_frame": 180,
+          "replay_wait_frames": 0,
+          "tiles_settled": true,
+          "final_zoom": 5.681747443875566,
+          "final_center": [
+            25579.198625411034,
+            19048.82822789989
+          ],
+          "max_cpu_frame_ms": 17.5104,
+          "rendered_frame_wall_p95_ms": 17.0921,
+          "max_rendered_frame_wall_ms": 17.5896,
+          "rendered_frame_wall_samples": 170,
+          "uploaded_tiles": 43,
+          "peak_gpu_payload_bytes": 10949024,
+          "pending_tiles_at_exit": 0,
+          "framebuffer_size": [
+            2560,
+            1440
+          ],
+          "generations": 25,
+          "gl_renderer": "NVIDIA GeForce RTX 4090/PCIe/SSE2",
+          "docked_workspace": true,
+          "overview_state": "succeeded",
+          "overview_gpu_payload_bytes": 120600,
+          "gl_version": "3.2.0 NVIDIA 610.88",
+          "monitor_scale": 1.0,
+          "framebuffer_scale": 1.0,
+          "effective_ui_scale": 1.25,
+          "font_rebuilds": 4,
+          "ui_stacked_fields": 0,
+          "ui_wrapped_buttons": 0,
+          "ui_overflow_items": 0,
+          "ui_max_overflow": 0.0,
+          "ui_overflow_label": "",
+          "native_phase_profile": {
+            "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\navigation133-hardware-qualification\\trial-1-phases\\first-view.json",
+            "sha256": "837504fa8a29dcee35aeb5b6902edd8fb49293fe93cd6240391280a8f8539476",
+            "samples": 180,
+            "scope": "CPU phases before swap/capture; bounded first 4096 frames, including warmup"
+          }
+        },
+        {
+          "name": "repeat-view",
+          "elapsed_seconds": 3.0352639000630006,
+          "frames": 180,
+          "cpu_frame_p95_ms": 17.0926,
+          "replay_complete": true,
+          "replay_frame": 180,
+          "replay_wait_frames": 0,
+          "tiles_settled": true,
+          "final_zoom": 5.681747443875566,
+          "final_center": [
+            25579.198625411034,
+            19048.82822789989
+          ],
+          "max_cpu_frame_ms": 18.3788,
+          "rendered_frame_wall_p95_ms": 17.1596,
+          "max_rendered_frame_wall_ms": 18.4511,
+          "rendered_frame_wall_samples": 170,
+          "uploaded_tiles": 34,
+          "peak_gpu_payload_bytes": 8769952,
+          "pending_tiles_at_exit": 0,
+          "framebuffer_size": [
+            2560,
+            1440
+          ],
+          "generations": 25,
+          "gl_renderer": "NVIDIA GeForce RTX 4090/PCIe/SSE2",
+          "docked_workspace": true,
+          "overview_state": "succeeded",
+          "overview_gpu_payload_bytes": 120600,
+          "gl_version": "3.2.0 NVIDIA 610.88",
+          "monitor_scale": 1.0,
+          "framebuffer_scale": 1.0,
+          "effective_ui_scale": 1.25,
+          "font_rebuilds": 4,
+          "ui_stacked_fields": 0,
+          "ui_wrapped_buttons": 0,
+          "ui_overflow_items": 0,
+          "ui_max_overflow": 0.0,
+          "ui_overflow_label": "",
+          "native_phase_profile": {
+            "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\navigation133-hardware-qualification\\trial-1-phases\\repeat-view.json",
+            "sha256": "e8dd1653ad77695d891bf5d51f47fabcc950366fd8c11ca0dd4119a8b193b81a",
+            "samples": 180,
+            "scope": "CPU phases before swap/capture; bounded first 4096 frames, including warmup"
+          }
+        }
+      ],
+      "scope": "ImGui zoom/overview replay. CPU timing excludes explicit swap/vsync and capture; includes planning/upload/draw submission. Driver calls may block. Rendered-loop wall metrics include swap/capture/post-paint startup dispatch; suspended iterations and final shutdown are excluded. Retains at most 4096 recent samples, excluding the first ten frames unless startup instrumentation is requested. No GPU completion or photon-latency claim."
+    },
+    {
+      "schema": "qpx.viewer-benchmark/2",
+      "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+      "tool_sha256": "acb0f034fcc818519cefc20f3bc7222c6b470b30169d76a49a07b0dc235a3bc2",
+      "performance_accepted": false,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "processor": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
+      "python": "3.12.8",
+      "fixture": "CMU-1.ndpi",
+      "sha256": "edf4a1ccf395c7000ae93ad3b44c07d97043810e00be0c1d167dd09bbe436e46",
+      "source_tree_sha256": "2faa8ec9323c7f1dc23a672ba5190439e9a1d7ff32244c1eb23a2783e484d880",
+      "native_sha256": "a0dd35fe61f0786167714941aabafceaa1b5de8e7b32ff18754287ee35718781",
+      "window_logical_size": [
+        2560,
+        1440
+      ],
+      "ui_multiplier": 1,
+      "scale_cycle": true,
+      "runs": [
+        {
+          "name": "first-view",
+          "elapsed_seconds": 3.481200100039132,
+          "frames": 180,
+          "cpu_frame_p95_ms": 16.9214,
+          "replay_complete": true,
+          "replay_frame": 180,
+          "replay_wait_frames": 0,
+          "tiles_settled": true,
+          "final_zoom": 5.681747443875566,
+          "final_center": [
+            25579.198625411034,
+            19048.82822789989
+          ],
+          "max_cpu_frame_ms": 17.4543,
+          "rendered_frame_wall_p95_ms": 17.0605,
+          "max_rendered_frame_wall_ms": 17.5845,
+          "rendered_frame_wall_samples": 170,
+          "uploaded_tiles": 50,
+          "peak_gpu_payload_bytes": 12693920,
+          "pending_tiles_at_exit": 0,
+          "framebuffer_size": [
+            2560,
+            1440
+          ],
+          "generations": 25,
+          "gl_renderer": "NVIDIA GeForce RTX 4090/PCIe/SSE2",
+          "docked_workspace": true,
+          "overview_state": "succeeded",
+          "overview_gpu_payload_bytes": 120600,
+          "gl_version": "3.2.0 NVIDIA 610.88",
+          "monitor_scale": 1.0,
+          "framebuffer_scale": 1.0,
+          "effective_ui_scale": 1.25,
+          "font_rebuilds": 4,
+          "ui_stacked_fields": 0,
+          "ui_wrapped_buttons": 0,
+          "ui_overflow_items": 0,
+          "ui_max_overflow": 0.0,
+          "ui_overflow_label": "",
+          "native_phase_profile": {
+            "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\navigation133-hardware-qualification\\trial-2-phases\\first-view.json",
+            "sha256": "9e5a77e5de9c2769ff0cfcfbf0daa01c538f10fc10f8e51473ca6e5ddb00e2f7",
+            "samples": 180,
+            "scope": "CPU phases before swap/capture; bounded first 4096 frames, including warmup"
+          }
+        },
+        {
+          "name": "repeat-view",
+          "elapsed_seconds": 3.0243051999714226,
+          "frames": 180,
+          "cpu_frame_p95_ms": 17.1163,
+          "replay_complete": true,
+          "replay_frame": 180,
+          "replay_wait_frames": 0,
+          "tiles_settled": true,
+          "final_zoom": 5.681747443875566,
+          "final_center": [
+            25579.198625411034,
+            19048.82822789989
+          ],
+          "max_cpu_frame_ms": 18.0356,
+          "rendered_frame_wall_p95_ms": 17.241,
+          "max_rendered_frame_wall_ms": 18.1521,
+          "rendered_frame_wall_samples": 170,
+          "uploaded_tiles": 36,
+          "peak_gpu_payload_bytes": 9294240,
+          "pending_tiles_at_exit": 0,
+          "framebuffer_size": [
+            2560,
+            1440
+          ],
+          "generations": 25,
+          "gl_renderer": "NVIDIA GeForce RTX 4090/PCIe/SSE2",
+          "docked_workspace": true,
+          "overview_state": "succeeded",
+          "overview_gpu_payload_bytes": 120600,
+          "gl_version": "3.2.0 NVIDIA 610.88",
+          "monitor_scale": 1.0,
+          "framebuffer_scale": 1.0,
+          "effective_ui_scale": 1.25,
+          "font_rebuilds": 4,
+          "ui_stacked_fields": 0,
+          "ui_wrapped_buttons": 0,
+          "ui_overflow_items": 0,
+          "ui_max_overflow": 0.0,
+          "ui_overflow_label": "",
+          "native_phase_profile": {
+            "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\navigation133-hardware-qualification\\trial-2-phases\\repeat-view.json",
+            "sha256": "b86b4f78d0e34061ae09052daef943c4904a052c9a5aed3b9e2720b6ee915087",
+            "samples": 180,
+            "scope": "CPU phases before swap/capture; bounded first 4096 frames, including warmup"
+          }
+        }
+      ],
+      "scope": "ImGui zoom/overview replay. CPU timing excludes explicit swap/vsync and capture; includes planning/upload/draw submission. Driver calls may block. Rendered-loop wall metrics include swap/capture/post-paint startup dispatch; suspended iterations and final shutdown are excluded. Retains at most 4096 recent samples, excluding the first ten frames unless startup instrumentation is requested. No GPU completion or photon-latency claim."
+    },
+    {
+      "schema": "qpx.viewer-benchmark/2",
+      "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+      "tool_sha256": "acb0f034fcc818519cefc20f3bc7222c6b470b30169d76a49a07b0dc235a3bc2",
+      "performance_accepted": false,
+      "platform": "Windows-11-10.0.26200-SP0",
+      "processor": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
+      "python": "3.12.8",
+      "fixture": "CMU-1.ndpi",
+      "sha256": "edf4a1ccf395c7000ae93ad3b44c07d97043810e00be0c1d167dd09bbe436e46",
+      "source_tree_sha256": "2faa8ec9323c7f1dc23a672ba5190439e9a1d7ff32244c1eb23a2783e484d880",
+      "native_sha256": "a0dd35fe61f0786167714941aabafceaa1b5de8e7b32ff18754287ee35718781",
+      "window_logical_size": [
+        2560,
+        1440
+      ],
+      "ui_multiplier": 1,
+      "scale_cycle": true,
+      "runs": [
+        {
+          "name": "first-view",
+          "elapsed_seconds": 3.5181802000151947,
+          "frames": 180,
+          "cpu_frame_p95_ms": 16.975,
+          "replay_complete": true,
+          "replay_frame": 180,
+          "replay_wait_frames": 0,
+          "tiles_settled": true,
+          "final_zoom": 5.681747443875566,
+          "final_center": [
+            25579.198625411034,
+            19048.82822789989
+          ],
+          "max_cpu_frame_ms": 17.6555,
+          "rendered_frame_wall_p95_ms": 17.0809,
+          "max_rendered_frame_wall_ms": 17.8405,
+          "rendered_frame_wall_samples": 170,
+          "uploaded_tiles": 50,
+          "peak_gpu_payload_bytes": 12693920,
+          "pending_tiles_at_exit": 0,
+          "framebuffer_size": [
+            2560,
+            1440
+          ],
+          "generations": 25,
+          "gl_renderer": "NVIDIA GeForce RTX 4090/PCIe/SSE2",
+          "docked_workspace": true,
+          "overview_state": "succeeded",
+          "overview_gpu_payload_bytes": 120600,
+          "gl_version": "3.2.0 NVIDIA 610.88",
+          "monitor_scale": 1.0,
+          "framebuffer_scale": 1.0,
+          "effective_ui_scale": 1.25,
+          "font_rebuilds": 4,
+          "ui_stacked_fields": 0,
+          "ui_wrapped_buttons": 0,
+          "ui_overflow_items": 0,
+          "ui_max_overflow": 0.0,
+          "ui_overflow_label": "",
+          "native_phase_profile": {
+            "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\navigation133-hardware-qualification\\trial-3-phases\\first-view.json",
+            "sha256": "cc718bcdcbc40a11f1fca2b660a197d1735dff5865ecaff4200a7f30cf185d91",
+            "samples": 180,
+            "scope": "CPU phases before swap/capture; bounded first 4096 frames, including warmup"
+          }
+        },
+        {
+          "name": "repeat-view",
+          "elapsed_seconds": 3.0198043000418693,
+          "frames": 180,
+          "cpu_frame_p95_ms": 16.9598,
+          "replay_complete": true,
+          "replay_frame": 180,
+          "replay_wait_frames": 0,
+          "tiles_settled": true,
+          "final_zoom": 5.681747443875566,
+          "final_center": [
+            25579.198625411034,
+            19048.82822789989
+          ],
+          "max_cpu_frame_ms": 17.4648,
+          "rendered_frame_wall_p95_ms": 17.0878,
+          "max_rendered_frame_wall_ms": 17.5649,
+          "rendered_frame_wall_samples": 170,
+          "uploaded_tiles": 36,
+          "peak_gpu_payload_bytes": 9294240,
+          "pending_tiles_at_exit": 0,
+          "framebuffer_size": [
+            2560,
+            1440
+          ],
+          "generations": 25,
+          "gl_renderer": "NVIDIA GeForce RTX 4090/PCIe/SSE2",
+          "docked_workspace": true,
+          "overview_state": "succeeded",
+          "overview_gpu_payload_bytes": 120600,
+          "gl_version": "3.2.0 NVIDIA 610.88",
+          "monitor_scale": 1.0,
+          "framebuffer_scale": 1.0,
+          "effective_ui_scale": 1.25,
+          "font_rebuilds": 4,
+          "ui_stacked_fields": 0,
+          "ui_wrapped_buttons": 0,
+          "ui_overflow_items": 0,
+          "ui_max_overflow": 0.0,
+          "ui_overflow_label": "",
+          "native_phase_profile": {
+            "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\navigation133-hardware-qualification\\trial-3-phases\\repeat-view.json",
+            "sha256": "e7c60828b4f826521cc5a56e3fb655bfbdf68b594ad355bb55ad9ff553eb6854",
+            "samples": 180,
+            "scope": "CPU phases before swap/capture; bounded first 4096 frames, including warmup"
+          }
+        }
+      ],
+      "scope": "ImGui zoom/overview replay. CPU timing excludes explicit swap/vsync and capture; includes planning/upload/draw submission. Driver calls may block. Rendered-loop wall metrics include swap/capture/post-paint startup dispatch; suspended iterations and final shutdown are excluded. Retains at most 4096 recent samples, excluding the first ten frames unless startup instrumentation is requested. No GPU completion or photon-latency claim."
+    }
+  ],
+  "files": {
+    "qualification.json": "6bb662e742c284c1159657794a044ca98f5470111c9a7f89d9fdc9ba74aaa284",
+    "trial-1-phases/first-view.json": "837504fa8a29dcee35aeb5b6902edd8fb49293fe93cd6240391280a8f8539476",
+    "trial-1-phases/repeat-view.json": "e8dd1653ad77695d891bf5d51f47fabcc950366fd8c11ca0dd4119a8b193b81a",
+    "trial-1.json": "eb9637f8b422d47fb2881ef848951a804383008984863f03a3d09c808d355f0a",
+    "trial-1.log": "eb9637f8b422d47fb2881ef848951a804383008984863f03a3d09c808d355f0a",
+    "trial-2-phases/first-view.json": "9e5a77e5de9c2769ff0cfcfbf0daa01c538f10fc10f8e51473ca6e5ddb00e2f7",
+    "trial-2-phases/repeat-view.json": "b86b4f78d0e34061ae09052daef943c4904a052c9a5aed3b9e2720b6ee915087",
+    "trial-2.json": "2d9496aab78d6156a60c917e25aae819989ef2ebc58628f43972b4910a3bc078",
+    "trial-2.log": "2d9496aab78d6156a60c917e25aae819989ef2ebc58628f43972b4910a3bc078",
+    "trial-3-phases/first-view.json": "cc718bcdcbc40a11f1fca2b660a197d1735dff5865ecaff4200a7f30cf185d91",
+    "trial-3-phases/repeat-view.json": "e7c60828b4f826521cc5a56e3fb655bfbdf68b594ad355bb55ad9ff553eb6854",
+    "trial-3.json": "a86bcc74241ec75ffdf9710f3e619854cb1be75f9a1ae0a2cd77b49627a624d0",
+    "trial-3.log": "a86bcc74241ec75ffdf9710f3e619854cb1be75f9a1ae0a2cd77b49627a624d0"
+  },
+  "navigation_target_accepted": false,
+  "overall_performance_accepted": false,
+  "scope": "All three processes and six views retained. Trial 2 began at CPU load 27 percent, above the frozen 25 percent ceiling. No trial excluded or protocol relaxed. Phase-file identities retained; raw files remain in the local qualification directory."
+}

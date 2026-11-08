@@ -1,0 +1,46 @@
+{
+  "schema": "qpx.tma-case-file-main-promotion/1",
+  "previous_main": "914b7e2cd02a49c87907d578ea0b736a8cefb71d",
+  "promoted_source": "083da0c00542c9a74405e5ef7c920ce63c650952",
+  "observed_remote_main": "083da0c00542c9a74405e5ef7c920ce63c650952",
+  "fast_forward_only": true,
+  "forced": false,
+  "root_local_main": "c86d3237f6f679f5651948d95c17e2d617684c46",
+  "root_local_main_unchanged": true,
+  "engineering_audits": [
+    {
+      "file": "cases142-hosted-acceptance.json",
+      "sha256": "345e1b025b14efd0803598ee9cf9dbe534fd1a4702ce33a2de140f0056b9b7a9"
+    },
+    {
+      "file": "cases142-macos-acceptance.json",
+      "sha256": "65acc6cf0bfca7695f40f7a50a84a718da2a540506bc0dc6edb85e8676d4645a"
+    },
+    {
+      "file": "cases142-portable-acceptance.json",
+      "sha256": "f5184769fac691288773ff022848f5e525990e1f5065194c8f25e8acba48266c"
+    }
+  ],
+  "hosted_engine_run": 40099212306,
+  "hosted_macos_run": 40099213973,
+  "hosted_portable_run": 40099215451,
+  "performance_accepted": false,
+  "release_ready": false,
+  "overall_project_complete": false,
+  "scope": "Shared bounded native case-file API, thin Python file binding, ImGui worker reuse and standalone CLI after exact-source engineering audits. The input-size reservation optimization is a separate unaccepted candidate. No biological parity, hardware eligibility, license or supported release acceptance.",
+  "published_evidence": [
+    {
+      "path": "docs/benchmarks/tma-case-file-windows-linux.json",
+      "sha256": "345e1b025b14efd0803598ee9cf9dbe534fd1a4702ce33a2de140f0056b9b7a9"
+    },
+    {
+      "path": "docs/benchmarks/tma-case-file-macos.json",
+      "sha256": "65acc6cf0bfca7695f40f7a50a84a718da2a540506bc0dc6edb85e8676d4645a"
+    },
+    {
+      "path": "docs/benchmarks/tma-case-file-portable.json",
+      "sha256": "a9aed631fb7d90f243500884b773019d944abc6568b690d0c83044f3feafcb5d"
+    }
+  ],
+  "audit_receipt_format_note": "engineering_audits records original local receipts; published_evidence records equivalent public JSON normalized to LF."
+}

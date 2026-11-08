@@ -1,0 +1,15 @@
+{
+  "args": [
+    "xcrun",
+    "clang++",
+    "-std=c++17",
+    "-O2",
+    "/Users/runner/work/qupathxx/qupathxx/build/retained-arm64-252/exception-probe.cpp",
+    "-o",
+    "/Users/runner/work/qupathxx/qupathxx/build/retained-arm64-252/exception-probe"
+  ],
+  "cwd": "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/native-build",
+  "returncode": 0,
+  "timed_out": false,
+  "seconds": 1.679377708000004
+}

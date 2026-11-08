@@ -1,0 +1,362 @@
+﻿2026-10-26T17:45:28.2265850Z Current runner version: '2.338.0'
+2026-10-26T17:45:28.2287670Z ##[group]Runner Image Provisioner
+2026-10-26T17:45:28.2288460Z Hosted Compute Agent
+2026-10-26T17:45:28.2288840Z Version: 20260828.587
+2026-10-26T17:45:28.2289270Z Commit: abac92662cab4cc7352de4f9f9d2e2419aad9c29
+2026-10-26T17:45:28.2289760Z Build Date: 2026-08-28T16:44:25Z
+2026-10-26T17:45:28.2290250Z Worker ID: {dc286bd1-a764-474b-83b6-cb1da5d3c49b}
+2026-10-26T17:45:28.2291880Z Azure Region: westus
+2026-10-26T17:45:28.2292440Z ##[endgroup]
+2026-10-26T17:45:28.2293810Z ##[group]Operating System
+2026-10-26T17:45:28.2294250Z macOS
+2026-10-26T17:45:28.2294600Z 15.7.9
+2026-10-26T17:45:28.2294930Z 24G830
+2026-10-26T17:45:28.2295280Z ##[endgroup]
+2026-10-26T17:45:28.2295640Z ##[group]Runner Image
+2026-10-26T17:45:28.2296050Z Image: macos-15-arm64
+2026-10-26T17:45:28.2296510Z Version: 20260907.0337.1
+2026-10-26T17:45:28.2297700Z Included Software: https://github.com/actions/runner-images/blob/macos-15-arm64/20260907.0337/images/macos/macos-15-arm64-Readme.md
+2026-10-26T17:45:28.2298850Z Image Release: https://github.com/actions/runner-images/releases/tag/macos-15-arm64%2F20260907.0337
+2026-10-26T17:45:28.2299560Z ##[endgroup]
+2026-10-26T17:45:28.2300430Z ##[group]GITHUB_TOKEN Permissions
+2026-10-26T17:45:28.2302960Z Contents: read
+2026-10-26T17:45:28.2303420Z Metadata: read
+2026-10-26T17:45:28.2303860Z ##[endgroup]
+2026-10-26T17:45:28.2305550Z Secret source: Actions
+2026-10-26T17:45:28.2306230Z Cache mode: write
+2026-10-26T17:45:28.2308190Z Prepare workflow directory
+2026-10-26T17:45:28.2735870Z Prepare all required actions
+2026-10-26T17:45:28.2786190Z Getting action download info
+2026-10-26T17:45:28.7204070Z Download action repository 'actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8' (SHA:08c6903cd8c0fde910a37f88322edcfb5dd907a8)
+2026-10-26T17:45:29.0122190Z Download action repository 'actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c' (SHA:e797f83bcb11b83ae66e0230d6156d7c80228e7c)
+2026-10-26T17:45:29.1539550Z Download action repository 'actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4' (SHA:330a01c490aca151604b8cf639adc76d48f6c5d4)
+2026-10-26T17:45:29.4130850Z Complete job name: macOS native arm64
+2026-10-26T17:45:29.5158760Z ##[group]Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+2026-10-26T17:45:29.5159610Z with:
+2026-10-26T17:45:29.5160020Z   persist-credentials: false
+2026-10-26T17:45:29.5160450Z   repository: bipxx/qupathxx
+2026-10-26T17:45:29.5163650Z   token: ***
+2026-10-26T17:45:29.5163960Z   ssh-strict: true
+2026-10-26T17:45:29.5164290Z   ssh-user: git
+2026-10-26T17:45:29.5164620Z   clean: true
+2026-10-26T17:45:29.5164970Z   sparse-checkout-cone-mode: true
+2026-10-26T17:45:29.5165370Z   fetch-depth: 1
+2026-10-26T17:45:29.5165700Z   fetch-tags: false
+2026-10-26T17:45:29.5166030Z   show-progress: true
+2026-10-26T17:45:29.5166370Z   lfs: false
+2026-10-26T17:45:29.5166680Z   submodules: false
+2026-10-26T17:45:29.5167020Z   set-safe-directory: true
+2026-10-26T17:45:29.5167580Z ##[endgroup]
+2026-10-26T17:45:29.9282250Z Syncing repository: bipxx/qupathxx
+2026-10-26T17:45:29.9283850Z ##[group]Getting Git version info
+2026-10-26T17:45:29.9284600Z Working directory is '/Users/runner/work/qupathxx/qupathxx'
+2026-10-26T17:45:29.9285550Z [command]/opt/homebrew/bin/git version
+2026-10-26T17:45:29.9865960Z git version 2.55.0
+2026-10-26T17:45:29.9887690Z ##[endgroup]
+2026-10-26T17:45:29.9895410Z Copying '/Users/runner/.gitconfig' to '/Users/runner/work/_temp/f73d5c0b-1126-4ccc-b834-82330c2474d5/.gitconfig'
+2026-10-26T17:45:29.9908030Z Temporarily overriding HOME='/Users/runner/work/_temp/f73d5c0b-1126-4ccc-b834-82330c2474d5' before making global git config changes
+2026-10-26T17:45:29.9910670Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-26T17:45:29.9914670Z [command]/opt/homebrew/bin/git config --global --add safe.directory /Users/runner/work/qupathxx/qupathxx
+2026-10-26T17:45:30.0033580Z Deleting the contents of '/Users/runner/work/qupathxx/qupathxx'
+2026-10-26T17:45:30.0041410Z ##[group]Initializing the repository
+2026-10-26T17:45:30.0046990Z [command]/opt/homebrew/bin/git init /Users/runner/work/qupathxx/qupathxx
+2026-10-26T17:45:30.0305730Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-26T17:45:30.0307380Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-26T17:45:30.0308260Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-26T17:45:30.0308830Z hint: call:
+2026-10-26T17:45:30.0309210Z hint:
+2026-10-26T17:45:30.0309630Z hint: 	git config --global init.defaultBranch <name>
+2026-10-26T17:45:30.0310090Z hint:
+2026-10-26T17:45:30.0310530Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-26T17:45:30.0311220Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-26T17:45:30.0311930Z hint:
+2026-10-26T17:45:30.0312250Z hint: 	git branch -m <name>
+2026-10-26T17:45:30.0312600Z hint:
+2026-10-26T17:45:30.0313080Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-26T17:45:30.0313800Z Initialized empty Git repository in /Users/runner/work/qupathxx/qupathxx/.git/
+2026-10-26T17:45:30.0321150Z [command]/opt/homebrew/bin/git remote add origin https://github.com/bipxx/qupathxx
+2026-10-26T17:45:30.0424540Z ##[endgroup]
+2026-10-26T17:45:30.0425270Z ##[group]Disabling automatic garbage collection
+2026-10-26T17:45:30.0432400Z [command]/opt/homebrew/bin/git config --local gc.auto 0
+2026-10-26T17:45:30.0535400Z ##[endgroup]
+2026-10-26T17:45:30.0537190Z ##[group]Setting up auth
+2026-10-26T17:45:30.0548300Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-26T17:45:30.0641140Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-26T17:45:30.1859470Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-26T17:45:30.1951530Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-26T17:45:30.2963910Z [command]/opt/homebrew/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-26T17:45:30.3073030Z ##[endgroup]
+2026-10-26T17:45:30.3075350Z ##[group]Fetching the repository
+2026-10-26T17:45:30.3080910Z [command]/opt/homebrew/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +530c6bb1fd01176c7aecbcae75c065ca004f6236:refs/remotes/origin/feature/raw-classifier-qualification-236
+2026-10-26T17:45:32.1399140Z From https://github.com/bipxx/qupathxx
+2026-10-26T17:45:32.1405120Z  * [new ref]         530c6bb1fd01176c7aecbcae75c065ca004f6236 -> origin/feature/raw-classifier-qualification-236
+2026-10-26T17:45:32.1407530Z ##[endgroup]
+2026-10-26T17:45:32.1408280Z ##[group]Determining the checkout info
+2026-10-26T17:45:32.1408930Z ##[endgroup]
+2026-10-26T17:45:32.1412190Z [command]/opt/homebrew/bin/git sparse-checkout disable
+2026-10-26T17:45:32.1497670Z [command]/opt/homebrew/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-26T17:45:32.1577880Z ##[group]Checking out the ref
+2026-10-26T17:45:32.1583690Z [command]/opt/homebrew/bin/git checkout --progress --force -B feature/raw-classifier-qualification-236 refs/remotes/origin/feature/raw-classifier-qualification-236
+2026-10-26T17:45:33.2481010Z Updating files:  90% (4637/5103)
+2026-10-26T17:45:33.2634160Z Updating files:  91% (4644/5103)
+2026-10-26T17:45:33.2703550Z Updating files:  92% (4695/5103)
+2026-10-26T17:45:33.2766310Z Updating files:  93% (4746/5103)
+2026-10-26T17:45:33.2833790Z Updating files:  94% (4797/5103)
+2026-10-26T17:45:33.3007910Z Updating files:  95% (4848/5103)
+2026-10-26T17:45:33.3112970Z Updating files:  96% (4899/5103)
+2026-10-26T17:45:33.3215750Z Updating files:  97% (4950/5103)
+2026-10-26T17:45:33.3315990Z Updating files:  98% (5001/5103)
+2026-10-26T17:45:33.3417800Z Updating files:  99% (5052/5103)
+2026-10-26T17:45:33.3526860Z Updating files: 100% (5103/5103)
+2026-10-26T17:45:33.3628760Z Updating files: 100% (5103/5103), done.
+2026-10-26T17:45:33.3684260Z Switched to a new branch 'feature/raw-classifier-qualification-236'
+2026-10-26T17:45:33.3795610Z branch 'feature/raw-classifier-qualification-236' set up to track 'origin/feature/raw-classifier-qualification-236'.
+2026-10-26T17:45:33.3898120Z ##[endgroup]
+2026-10-26T17:45:33.3954240Z [command]/opt/homebrew/bin/git log -1 --format=%H
+2026-10-26T17:45:33.3959140Z 530c6bb1fd01176c7aecbcae75c065ca004f6236
+2026-10-26T17:45:33.4047470Z ##[group]Removing auth
+2026-10-26T17:45:33.4149410Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-26T17:45:33.4177550Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-26T17:45:33.5074950Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-26T17:45:33.5152830Z http.https://github.com/.extraheader
+2026-10-26T17:45:33.5219190Z [command]/opt/homebrew/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-26T17:45:33.5295280Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-26T17:45:33.6335140Z ##[endgroup]
+2026-10-26T17:45:33.6676540Z ##[group]Run actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
+2026-10-26T17:45:33.6676880Z with:
+2026-10-26T17:45:33.6677020Z   python-version: 3.12
+2026-10-26T17:45:33.6677200Z   check-latest: false
+2026-10-26T17:45:33.6680050Z   token: ***
+2026-10-26T17:45:33.6680220Z   update-environment: true
+2026-10-26T17:45:33.6680430Z   allow-prereleases: false
+2026-10-26T17:45:33.6680630Z   freethreaded: false
+2026-10-26T17:45:33.6680830Z ##[endgroup]
+2026-10-26T17:45:33.8249630Z ##[group]Installed versions
+2026-10-26T17:45:33.8384770Z (node:1127) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-26T17:45:33.8386980Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-26T17:45:33.8388100Z Successfully set up CPython (3.12.10)
+2026-10-26T17:45:33.8388750Z ##[endgroup]
+2026-10-26T17:45:33.8492360Z ##[group]Run python -m pip install --require-hashes --only-binary=:all: -r tools/ci/requirements-macos-native.txt
+2026-10-26T17:45:33.8493100Z [36;1mpython -m pip install --require-hashes --only-binary=:all: -r tools/ci/requirements-macos-native.txt[0m
+2026-10-26T17:45:33.8567900Z shell: /bin/bash -e {0}
+2026-10-26T17:45:33.8568190Z env:
+2026-10-26T17:45:33.8569450Z   pythonLocation: /Users/runner/hostedtoolcache/Python/3.12.10/arm64
+2026-10-26T17:45:33.8570740Z   PKG_CONFIG_PATH: /Users/runner/hostedtoolcache/Python/3.12.10/arm64/lib/pkgconfig
+2026-10-26T17:45:33.8571880Z   Python_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.12.10/arm64
+2026-10-26T17:45:33.8572560Z   Python2_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.12.10/arm64
+2026-10-26T17:45:33.8573070Z   Python3_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.12.10/arm64
+2026-10-26T17:45:33.8573430Z ##[endgroup]
+2026-10-26T17:45:36.6218010Z Collecting cmake==4.4.4 (from -r tools/ci/requirements-macos-native.txt (line 1))
+2026-10-26T17:45:36.7087050Z   Downloading cmake-4.4.4-py3-none-macosx_10_10_universal2.whl (54.4 MB)
+2026-10-26T17:45:37.5875540Z      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 54.4/54.4 MB 64.7 MB/s  0:00:00
+2026-10-26T17:45:37.6836790Z Collecting ninja==1.13.0 (from -r tools/ci/requirements-macos-native.txt (line 2))
+2026-10-26T17:45:37.6976660Z   Downloading ninja-1.13.0-py3-none-macosx_10_9_universal2.whl (310 kB)
+2026-10-26T17:45:37.7546040Z Installing collected packages: ninja, cmake
+2026-10-26T17:45:39.0499370Z 
+2026-10-26T17:45:39.0508080Z Successfully installed cmake-4.4.4 ninja-1.13.0
+2026-10-26T17:45:39.0513660Z 
+2026-10-26T17:45:39.0514050Z [notice] A new release of pip is available: 26.2.1 -> 26.2.2
+2026-10-26T17:45:39.0514460Z [notice] To update, run: python -m pip install --upgrade pip
+2026-10-26T17:45:39.1159510Z ##[group]Run python -I tools/ci/run_macos_native.py --work build/ci/macos-native --architecture 'arm64'
+2026-10-26T17:45:39.1160150Z [36;1mpython -I tools/ci/run_macos_native.py --work build/ci/macos-native --architecture 'arm64'[0m
+2026-10-26T17:45:39.1195050Z shell: /bin/bash -e {0}
+2026-10-26T17:45:39.1195350Z env:
+2026-10-26T17:45:39.1195690Z   pythonLocation: /Users/runner/hostedtoolcache/Python/3.12.10/arm64
+2026-10-26T17:45:39.1196170Z   PKG_CONFIG_PATH: /Users/runner/hostedtoolcache/Python/3.12.10/arm64/lib/pkgconfig
+2026-10-26T17:45:39.1196650Z   Python_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.12.10/arm64
+2026-10-26T17:45:39.1197160Z   Python2_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.12.10/arm64
+2026-10-26T17:45:39.1197560Z   Python3_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.12.10/arm64
+2026-10-26T17:45:39.1197870Z ##[endgroup]
+2026-10-26T17:45:39.3470400Z Starting geos-build
+2026-10-26T17:48:57.2640770Z Passed geos-build
+2026-10-26T17:48:57.2643750Z Starting opencv-build
+2026-10-26T17:50:52.0848490Z Passed opencv-build
+2026-10-26T17:50:52.0951340Z Starting configure
+2026-10-26T17:51:06.2805740Z Passed configure
+2026-10-26T17:51:06.2806380Z Starting build
+2026-10-26T17:54:05.7551530Z Passed build
+2026-10-26T17:54:05.7553860Z Starting native-tests
+2026-10-26T17:54:11.2189830Z Test project /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/native-build
+2026-10-26T17:54:11.2196250Z Traceback (most recent call last):
+2026-10-26T17:54:11.2196630Z       Start  1: pixel_workflows
+2026-10-26T17:54:11.2214900Z   File "/Users/runner/work/qupathxx/qupathxx/tools/ci/run_macos_native.py", line 118, in <module>
+2026-10-26T17:54:11.2215600Z  1/50 Test  #1: pixel_workflows ..................***Failed    0.05 sec
+2026-10-26T17:54:11.2216480Z Owner-captured raw training/prediction: deterministic labels, rational axes, document calibration, bounded IO, cancellation, stale compound sources and owner-thread publication passed
+2026-10-26T17:54:11.2217970Z Raw training work admission: live=268356897 historical=268430817; recorded-parameter replay preserves model bytes and fresh admission preserves votes
+2026-10-26T17:54:11.2218970Z Raw pixel backend training: real TIFF deterministic direct/job training, historical retraining, trained archives/model files and portable prediction votes passed
+2026-10-26T17:54:11.2220040Z Raw pixel replay: real TIFF reopened training/prediction records verify through fresh owner jobs without promoting historical authority passed
+2026-10-26T17:54:11.2221590Z Raw pixel archives: real TIFF retention, project save/reopen, snapshot save, stale-file refusal and historical-only decode passed
+2026-10-26T17:54:11.2222520Z Raw pixel archives: sampling/prediction semantic round trips, rational axes, authority refusal, tamper/cancel and atomic replacement passed
+2026-10-26T17:54:11.2223280Z raw pixel contours require the matching live prediction capture
+2026-10-26T17:54:11.2223610Z 
+2026-10-26T17:54:11.2223700Z       Start  2: pixel_features
+2026-10-26T17:54:11.2224170Z  2/50 Test  #2: pixel_features ...................   Passed    0.07 sec
+2026-10-26T17:54:11.2224610Z       Start  3: classifier_io
+2026-10-26T17:54:11.2224980Z  3/50 Test  #3: classifier_io ....................   Passed    0.01 sec
+2026-10-26T17:54:11.2225450Z       Start  4: object_classifier
+2026-10-26T17:54:11.2225790Z  4/50 Test  #4: object_classifier ................   Passed    0.01 sec
+2026-10-26T17:54:11.2226230Z       Start  5: classifier
+2026-10-26T17:54:11.2226540Z  5/50 Test  #5: classifier .......................   Passed    0.01 sec
+2026-10-26T17:54:11.2235960Z       Start  6: qptma_project
+2026-10-26T17:54:11.2236480Z  6/50 Test  #6: qptma_project ....................   Passed    0.04 sec
+2026-10-26T17:54:11.2236940Z       Start  7: qptma
+2026-10-26T17:54:11.2237510Z  7/50 Test  #7: qptma ............................   Passed    0.02 sec
+2026-10-26T17:54:11.2237900Z       Start  8: resampling
+2026-10-26T17:54:11.2239330Z  8/50 Test  #8: resampling .......................   Passed    1.94 sec
+2026-10-26T17:54:11.2239730Z       Start  9: thumbnail
+2026-10-26T17:54:11.2240220Z  9/50 Test  #9: thumbnail ........................   Passed    0.02 sec
+2026-10-26T17:54:11.2240610Z       Start 10: viewer_session
+2026-10-26T17:54:11.2240990Z 10/50 Test #10: viewer_session ...................   Passed    0.62 sec
+2026-10-26T17:54:11.2241380Z       Start 11: tma
+2026-10-26T17:54:11.2241800Z 11/50 Test #11: tma ..............................   Passed    0.04 sec
+2026-10-26T17:54:11.2242210Z       Start 12: tma_dearray
+2026-10-26T17:54:11.2242710Z 12/50 Test #12: tma_dearray ......................   Passed    0.37 sec
+2026-10-26T17:54:11.2243760Z       Start 13: raw_image
+2026-10-26T17:54:11.2244090Z 13/50 Test #13: raw_image ........................   Passed    0.12 sec
+2026-10-26T17:54:11.2244560Z       Start 14: project_batch
+2026-10-26T17:54:11.2244910Z 14/50 Test #14: project_batch ....................   Passed    0.26 sec
+2026-10-26T17:54:11.2245440Z       Start 15: stain_estimation
+2026-10-26T17:54:11.2245880Z 15/50 Test #15: stain_estimation .................   Passed    0.01 sec
+2026-10-26T17:54:11.2246360Z       Start 16: source_identity
+2026-10-26T17:54:11.2246830Z 16/50 Test #16: source_identity ..................   Passed    0.01 sec
+2026-10-26T17:54:11.2247420Z       Start 17: file_fingerprint
+2026-10-26T17:54:11.2248170Z 17/50 Test #17: file_fingerprint .................   Passed    0.01 sec
+2026-10-26T17:54:11.2248720Z       Start 18: provenance
+2026-10-26T17:54:11.2249070Z 18/50 Test #18: provenance .......................   Passed    0.01 sec
+2026-10-26T17:54:11.2249680Z       Start 19: measurement_tables
+2026-10-26T17:54:11.2250060Z 19/50 Test #19: measurement_tables ...............   Passed    0.01 sec
+2026-10-26T17:54:11.2250570Z       Start 20: cell_tables
+2026-10-26T17:54:11.2251000Z 20/50 Test #20: cell_tables ......................   Passed    0.03 sec
+2026-10-26T17:54:11.2252330Z       Start 21: cell_records
+2026-10-26T17:54:11.2252890Z 21/50 Test #21: cell_records .....................   Passed    0.54 sec
+2026-10-26T17:54:11.2253310Z       Start 22: cells
+2026-10-26T17:54:11.2253780Z 22/50 Test #22: cells ............................   Passed    0.02 sec
+2026-10-26T17:54:11.2254210Z       Start 23: cell_calibration
+2026-10-26T17:54:11.2254710Z 23/50 Test #23: cell_calibration .................   Passed    0.02 sec
+2026-10-26T17:54:11.2255100Z       Start 24: masked_gaussian
+2026-10-26T17:54:11.2255860Z 24/50 Test #24: masked_gaussian ..................   Passed    0.07 sec
+2026-10-26T17:54:11.2256350Z       Start 25: log_watershed
+2026-10-26T17:54:11.2256800Z 25/50 Test #25: log_watershed ....................   Passed    0.06 sec
+2026-10-26T17:54:11.2257110Z       Start 26: cell_expansion
+2026-10-26T17:54:11.2257390Z 26/50 Test #26: cell_expansion ...................   Passed    0.11 sec
+2026-10-26T17:54:11.2257780Z       Start 27: log_cell_recipe
+2026-10-26T17:54:11.2258210Z 27/50 Test #27: log_cell_recipe ..................   Passed    0.07 sec
+2026-10-26T17:54:11.2258590Z       Start 28: decimal_quantities
+2026-10-26T17:54:11.2446380Z 28/50 Test #28: decimal_quantities ...............   Passed    0.02 sec
+2026-10-26T17:54:11.2446860Z       Start 29: object_snapshots
+2026-10-26T17:54:11.2447160Z 29/50 Test #29: object_snapshots .................   Passed    0.08 sec
+2026-10-26T17:54:11.2447490Z       Start 30: tissue_records
+2026-10-26T17:54:11.2447810Z 30/50 Test #30: tissue_records ...................   Passed    0.10 sec
+2026-10-26T17:54:11.2448130Z       Start 31: tissue_contours
+2026-10-26T17:54:11.2448390Z 31/50 Test #31: tissue_contours ..................   Passed    0.07 sec
+2026-10-26T17:54:11.2449560Z       Start 32: gui_replay
+2026-10-26T17:54:11.2449810Z 32/50 Test #32: gui_replay .......................   Passed    0.00 sec
+2026-10-26T17:54:11.2450170Z       Start 33: tissue
+2026-10-26T17:54:11.2450500Z 33/50 Test #33: tissue ...........................   Passed    0.01 sec
+2026-10-26T17:54:11.2450860Z       Start 34: sha256
+2026-10-26T17:54:11.2451380Z 34/50 Test #34: sha256 ...........................   Passed    0.01 sec
+2026-10-26T17:54:11.2451690Z       Start 35: analysis
+2026-10-26T17:54:11.2451920Z 35/50 Test #35: analysis .........................   Passed    0.02 sec
+2026-10-26T17:54:11.2452180Z       Start 36: stains
+2026-10-26T17:54:11.2452400Z 36/50 Test #36: stains ...........................   Passed    0.02 sec
+2026-10-26T17:54:11.2452690Z       Start 37: core
+2026-10-26T17:54:11.2452910Z 37/50 Test #37: core .............................   Passed    0.00 sec
+2026-10-26T17:54:11.2453180Z       Start 38: image_server
+2026-10-26T17:54:11.2453450Z 38/50 Test #38: image_server .....................   Passed    0.00 sec
+2026-10-26T17:54:11.2453740Z       Start 39: tile_scheduler
+2026-10-26T17:54:11.2454010Z 39/50 Test #39: tile_scheduler ...................   Passed    0.00 sec
+2026-10-26T17:54:11.2454300Z       Start 40: view_tiles
+2026-10-26T17:54:11.2454640Z 40/50 Test #40: view_tiles .......................   Passed    0.00 sec
+2026-10-26T17:54:11.2454930Z       Start 41: document_edits
+2026-10-26T17:54:11.2455180Z 41/50 Test #41: document_edits ...................   Passed    0.01 sec
+2026-10-26T17:54:11.2455650Z       Start 42: geometry
+2026-10-26T17:54:11.2456000Z 42/50 Test #42: geometry .........................   Passed    0.01 sec
+2026-10-26T17:54:11.2456280Z       Start 43: geometry_edits
+2026-10-26T17:54:11.2456560Z 43/50 Test #43: geometry_edits ...................   Passed    0.01 sec
+2026-10-26T17:54:11.2456830Z       Start 44: spatial
+2026-10-26T17:54:11.2457110Z 44/50 Test #44: spatial ..........................   Passed    0.00 sec
+2026-10-26T17:54:11.2457380Z       Start 45: classes
+2026-10-26T17:54:11.2457640Z 45/50 Test #45: classes ..........................   Passed    0.01 sec
+2026-10-26T17:54:11.2458060Z       Start 46: selection
+2026-10-26T17:54:11.2458400Z 46/50 Test #46: selection ........................   Passed    0.01 sec
+2026-10-26T17:54:11.2458850Z       Start 47: project
+2026-10-26T17:54:11.2459270Z 47/50 Test #47: project ..........................   Passed    0.06 sec
+2026-10-26T17:54:11.2459890Z       Start 48: interchange
+2026-10-26T17:54:11.2460240Z 48/50 Test #48: interchange ......................   Passed    0.01 sec
+2026-10-26T17:54:11.2460520Z       Start 49: recovery
+2026-10-26T17:54:11.2460750Z 49/50 Test #49: recovery .........................   Passed    0.09 sec
+2026-10-26T17:54:11.2461070Z       Start 50: project_save
+2026-10-26T17:54:11.2461340Z 50/50 Test #50: project_save .....................   Passed    0.07 sec
+2026-10-26T17:54:11.2461560Z 
+2026-10-26T17:54:11.2461720Z 98% tests passed, 1 tests failed out of 50
+2026-10-26T17:54:11.2461890Z 
+2026-10-26T17:54:11.2462030Z Total Test time (real) =   5.15 sec
+2026-10-26T17:54:11.2462180Z 
+2026-10-26T17:54:11.2462250Z The following tests FAILED:
+2026-10-26T17:54:11.2462580Z 	  1 - pixel_workflows (Failed)
+2026-10-26T17:54:11.2462840Z Errors while running CTest
+2026-10-26T17:54:11.2462960Z 
+2026-10-26T17:54:11.2463160Z     main()
+2026-10-26T17:54:11.2463750Z   File "/Users/runner/work/qupathxx/qupathxx/tools/ci/run_macos_native.py", line 63, in main
+2026-10-26T17:54:11.2464400Z     run(['ctest','--test-dir',build,'-C','Release','--output-on-failure', '--test-output-size-passed', '1048576','--parallel','1',
+2026-10-26T17:54:11.2465130Z   File "/Users/runner/work/qupathxx/qupathxx/tools/ci/run_macos_native.py", line 42, in run
+2026-10-26T17:54:11.2465610Z     raise RuntimeError(name+' failed')
+2026-10-26T17:54:11.2465950Z RuntimeError: native-tests failed
+2026-10-26T17:54:11.2585350Z ##[error]Process completed with exit code 1.
+2026-10-26T17:54:11.2854940Z ##[group]Run actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+2026-10-26T17:54:11.2855480Z with:
+2026-10-26T17:54:11.2855700Z   name: macos-native-arm64
+2026-10-26T17:54:11.2855990Z   retention-days: 14
+2026-10-26T17:54:11.2856220Z   if-no-files-found: warn
+2026-10-26T17:54:11.2858110Z   path: build/ci/macos-native/*.json
+build/ci/macos-native/*.log
+build/ci/macos-native/*.xml
+build/ci/macos-native/macos-native-files.zip
+build/ci/macos-native/relocated-native/*.zip
+build/ci/macos-native/relocated-native/*.json
+build/ci/macos-native/relocated-native/*.log
+build/ci/macos-native/relocated-runtime/*.json
+build/ci/macos-native/relocated-runtime/*.log
+build/ci/macos-native/relocated-runtime/*.pam
+build/ci/macos-native/relocated-runtime/*.ppm
+build/ci/macos-native/relocated-runtime/*.csv
+build/ci/macos-native/relocated-runtime/*.qpxproj
+build/ci/macos-native/relocated-runtime/batch/**/*.qpxproj
+
+2026-10-26T17:54:11.2860050Z   compression-level: 6
+2026-10-26T17:54:11.2860410Z   overwrite: false
+2026-10-26T17:54:11.2860750Z   include-hidden-files: false
+2026-10-26T17:54:11.2861060Z env:
+2026-10-26T17:54:11.2861360Z   pythonLocation: /Users/runner/hostedtoolcache/Python/3.12.10/arm64
+2026-10-26T17:54:11.2861890Z   PKG_CONFIG_PATH: /Users/runner/hostedtoolcache/Python/3.12.10/arm64/lib/pkgconfig
+2026-10-26T17:54:11.2862350Z   Python_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.12.10/arm64
+2026-10-26T17:54:11.2862820Z   Python2_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.12.10/arm64
+2026-10-26T17:54:11.2863320Z   Python3_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.12.10/arm64
+2026-10-26T17:54:11.2863650Z ##[endgroup]
+2026-10-26T17:54:11.8668230Z (node:23329) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-26T17:54:11.8669280Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-26T17:54:11.8808100Z With the provided path, there will be 6 files uploaded
+2026-10-26T17:54:11.8811600Z Artifact name is valid!
+2026-10-26T17:54:11.8812590Z Root directory input is valid!
+2026-10-26T17:54:12.3354390Z Beginning upload of artifact content to blob storage
+2026-10-26T17:54:12.3782130Z (node:23329) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-10-26T17:54:12.7501980Z Uploaded bytes 31696
+2026-10-26T17:54:12.8559610Z Finished uploading artifact content to blob storage!
+2026-10-26T17:54:12.8664910Z SHA256 digest of uploaded artifact zip is 99bdae8436f4ac965c4d376913c08007ab70675d0cfda14654d141768e094f17
+2026-10-26T17:54:12.8760610Z Finalizing artifact upload
+2026-10-26T17:54:13.3683940Z Artifact macos-native-arm64.zip successfully finalized. Artifact ID 12673656042
+2026-10-26T17:54:13.3685900Z Artifact macos-native-arm64 has been successfully uploaded! Final size is 31696 bytes. Artifact ID is 12673656042
+2026-10-26T17:54:13.3697820Z Artifact download URL: https://github.com/bipxx/qupathxx/actions/runs/40368276721/artifacts/12673656042
+2026-10-26T17:54:13.3939660Z Post job cleanup.
+2026-10-26T17:54:13.6359410Z [command]/opt/homebrew/bin/git version
+2026-10-26T17:54:13.6615440Z git version 2.55.0
+2026-10-26T17:54:13.6643470Z Copying '/Users/runner/.gitconfig' to '/Users/runner/work/_temp/df7c6989-d122-423b-a91f-2609ac8d2c97/.gitconfig'
+2026-10-26T17:54:13.6658090Z Temporarily overriding HOME='/Users/runner/work/_temp/df7c6989-d122-423b-a91f-2609ac8d2c97' before making global git config changes
+2026-10-26T17:54:13.6658880Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-26T17:54:13.6664830Z [command]/opt/homebrew/bin/git config --global --add safe.directory /Users/runner/work/qupathxx/qupathxx
+2026-10-26T17:54:13.6815860Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-26T17:54:13.6934770Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-26T17:54:13.8799980Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-26T17:54:13.8886840Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-26T17:54:13.9853740Z Cleaning up orphan processes
+2026-10-26T17:54:16.8826790Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

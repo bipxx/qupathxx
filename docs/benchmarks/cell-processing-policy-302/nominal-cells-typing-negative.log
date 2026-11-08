@@ -1,0 +1,7 @@
+tests\typing\nominal_cells_invalid.py:4: error: Property "context_x" defined in "NominalCellSampling" is read-only  [misc]
+tests\typing\nominal_cells_invalid.py:5: error: Property "downsample" defined in "RgbNominalRequest" is read-only  [misc]
+tests\typing\nominal_cells_invalid.py:6: error: Argument 1 to "NominalCellSampling" has incompatible type "RegionRequest"; expected "RgbNominalRequest"  [arg-type]
+tests\typing\nominal_cells_invalid.py:7: error: Argument 1 to "for_nominal_roi" of "CellRequest" has incompatible type "None"; expected "Document"  [arg-type]
+tests\typing\nominal_cells_invalid.py:7: error: Argument 3 to "for_nominal_roi" of "CellRequest" has incompatible type "None"; expected "StainTransform"  [arg-type]
+tests\typing\nominal_cells_invalid.py:7: error: Argument 4 to "for_nominal_roi" of "CellRequest" has incompatible type "str"; expected "float"  [arg-type]
+Found 6 errors in 1 file (checked 1 source file)

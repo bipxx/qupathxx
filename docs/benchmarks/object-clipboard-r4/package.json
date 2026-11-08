@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\object-clipboard-r4-env\\Scripts\\python.exe",
+    "-I",
+    "-m",
+    "pip",
+    "install",
+    "--ignore-installed",
+    "--no-index",
+    "--no-deps",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\object-clipboard-r4\\wheel-final\\qupathxx-0.1.0-cp312-cp312-win_amd64.whl"
+  ],
+  "final_product_installs": 1,
+  "stub_generations": 1,
+  "native_bytes_reused": true,
+  "wheel_sha256": "91b99299930b7d6ef8046cc012572ee82a002efa958dd9b0b3a5db55c2429028"
+}

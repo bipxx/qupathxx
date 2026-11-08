@@ -1,0 +1,13 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+    Start 36: tissue_grid
+1/1 Test #36: tissue_grid ......................***Failed    0.04 sec
+tissue ROI contains no opaque pixel centers
+
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =   0.08 sec
+
+The following tests FAILED:
+	 36 - tissue_grid (Failed)
+Errors while running CTest

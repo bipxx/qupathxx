@@ -1,0 +1,90 @@
+{
+  "source": "bfa416edfd508e3e1ce184e75ec62c1a18a2a606",
+  "files": {
+    "CMakeLists.txt": {
+      "git_blob_sha256": "e161c955c847d593b025d03d7d5bfcecc08d1c919d589eb408ba46d63c8ec03d",
+      "checked_out_sha256": "523a453c1147abd4363afa5d42535458a79d2f3d2082d6ca7dc9153063e1fb53",
+      "crlf_normalized": true
+    },
+    "cpp/resampling.cpp": {
+      "git_blob_sha256": "cb08260ee2c441dd9ac32744dc12b89f5ac5a731ffc8d99fff5e072523be6a71",
+      "checked_out_sha256": "fe9fe6d82324af395cb34e1a41d6b732ae5530a721fcfc78164db204886dfa4d",
+      "crlf_normalized": true
+    },
+    "cpp/include/qupathxx/resampling.hpp": {
+      "git_blob_sha256": "5e00606f0d1df1a60a160db7fb2d323c02672159c64bda10747b2071790713b8",
+      "checked_out_sha256": "f5436e240bc35d1de60f9386d5ac26247e78ba16726899de7085a2a3d1cbde75",
+      "crlf_normalized": true
+    },
+    "cpp/thumbnail.cpp": {
+      "git_blob_sha256": "71ff501a57e119f7032c980fe12ffb9504027363521707cfb2d8b7119b5e7301",
+      "checked_out_sha256": "47da8089c0f42fde103d26e70558898e6a5ca430ccb58445ffa1862bd6f3878e",
+      "crlf_normalized": true
+    },
+    "cpp/region_main.cpp": {
+      "git_blob_sha256": "17b8d3ec56d22ec98ab40a42e31cd7372e5fd49ff54a1a2ca610409149a2dd5e",
+      "checked_out_sha256": "b0e5d46c283a9194ac4460fb3fa0dec47cd3b043bb3d8e3ece1afbf9c82f025d",
+      "crlf_normalized": true
+    },
+    "cpp/bindings.cpp": {
+      "git_blob_sha256": "96bda29079a11308b514ca77a0f7430f5a23a2217703973ea65ce3ea5d097831",
+      "checked_out_sha256": "536cefe54b60d9f530655b6b7558ece794d6aebedbf301e968f1ed0cc02eeefd",
+      "crlf_normalized": true
+    },
+    "cpp/tests/resampling_tests.cpp": {
+      "git_blob_sha256": "ed0fe917e078ecdc7a2dc0467efecd84a8a0395895a3d7953fc9e870dee46050",
+      "checked_out_sha256": "e497cf5b2733949616ed0442ec015de19bd9959a0896d4dcf3a978fc571ae47b",
+      "crlf_normalized": true
+    },
+    "src/qupathxx/__init__.py": {
+      "git_blob_sha256": "f42748352cd5ca2c9e542848953bc7818650322b0b8436a787d7b6264ee27fc9",
+      "checked_out_sha256": "ca03929d9b47dbe8085097420e0520c045aba1fbdb1ea4e00ea826d26a570ade",
+      "crlf_normalized": true
+    },
+    "src/qupathxx/__init__.pyi": {
+      "git_blob_sha256": "6639caa5434bd1875fc0c3c8dc670df98f3ab94c62cb78193fa066e5912e8ac3",
+      "checked_out_sha256": "1538d834fb68d9a762ad4d2c98423deb39515e005edb4fffaa8e31fa2cd3ddd6",
+      "crlf_normalized": true
+    },
+    "src/qupathxx/_native.pyi": {
+      "git_blob_sha256": "ccf7a107c090640afb00a7c63d42ea738728958596236271e7c0c43c101cb7f9",
+      "checked_out_sha256": "cdddc7b6faa4031a2ccfe4982929755619fea65aaac378cb879a207b4d7801bc",
+      "crlf_normalized": true
+    },
+    "tests/test_resampling.py": {
+      "git_blob_sha256": "a1861c7d0264b81c26626dc111a97fe463af7937b0b2aec0b6d1e9c67ab1ac1c",
+      "checked_out_sha256": "66e0f73d0a65ff102acc4b1e26d6a02e1454126ab14f1cb43a5249ae3eb0cba2",
+      "crlf_normalized": true
+    },
+    "tests/test_resampling_evidence.py": {
+      "git_blob_sha256": "8ac6bb9e205bbb3e6658c137224c48c418ce782e97a1acb67a03f99c67126ded",
+      "checked_out_sha256": "fe379ad716a3f580911f5932c65dad34b0f9383180d667c9baddc85d2c3220ee",
+      "crlf_normalized": true
+    },
+    "tools/ci/resampling_evidence.py": {
+      "git_blob_sha256": "9ac1a528cd5535341da4c18b727c389532bd0f21998c0649d1db02c59e03b0bb",
+      "checked_out_sha256": "2f285c932b9ddcbbe90b2b5abae710cb2a588bafcf90255b5f1bb21686cac59a",
+      "crlf_normalized": true
+    },
+    "tools/ci/accept_unified_engine.py": {
+      "git_blob_sha256": "9d67c9872e6f4a55adc90c17a3d62e5354ba666a93578461b9600d81498019c3",
+      "checked_out_sha256": "9d67c9872e6f4a55adc90c17a3d62e5354ba666a93578461b9600d81498019c3",
+      "crlf_normalized": false
+    },
+    "tools/ci/accept_manylinux.py": {
+      "git_blob_sha256": "81ae82f691e0dbe9df7fb0c69ee11f820d1606439b707c929f0c358b92a60e3c",
+      "checked_out_sha256": "81ae82f691e0dbe9df7fb0c69ee11f820d1606439b707c929f0c358b92a60e3c",
+      "crlf_normalized": false
+    },
+    "tools/ci/accept_macos_native.py": {
+      "git_blob_sha256": "61f716095a4dbcf225a9e8d83289a0b66ad241d8fc914a9371f102380d1f240a",
+      "checked_out_sha256": "0b0947ed362733bb37edb6dc4c9a48eda1d22d9a24362dc2eeb24f28c80c211a",
+      "crlf_normalized": true
+    },
+    "tools/ci/qptma_evidence.py": {
+      "git_blob_sha256": "2f3e388a0653249d6997433180893d526f1e71890470ea1893d9d6799da78cc4",
+      "checked_out_sha256": "2f3e388a0653249d6997433180893d526f1e71890470ea1893d9d6799da78cc4",
+      "crlf_normalized": false
+    }
+  }
+}

@@ -1,0 +1,119 @@
+{
+  "schema": "qpx.original-source-integration-checkpoint/1",
+  "partial": true,
+  "base_commit": "ae921a0b42a6b60b5d9a92fdae331c3e9834a1fd",
+  "working_sources": {
+    "CMakeLists.txt": {
+      "bytes": 40303,
+      "sha256": "706dfbf97d556e6c3fac531cfccd5e340a03aba7afcbdc9606e0806f37b15247"
+    },
+    "cpp/rgb_nominal.hpp": {
+      "bytes": 2320,
+      "sha256": "209a644af4aae8a246941215341aea66e13fac5fb5d400b49afa2236b2404fa2"
+    },
+    "cpp/rgb_nominal.cpp": {
+      "bytes": 9620,
+      "sha256": "9c73b2db50930703ecadcd72c4855b8c3c1cf60f14cf6fa429e608c235dd49b2"
+    },
+    "cpp/tests/rgb_nominal_checks.cpp": {
+      "bytes": 14815,
+      "sha256": "2f886ad2165688567e2ccba7d6f0ae8c8e2e4034d3cf6647be60e76af63bc9d2"
+    },
+    "tools/reference_rgb_affine.py": {
+      "bytes": 2562,
+      "sha256": "53227a8c49f190ce2684982c4002b9daed30e14e44a47c81ad33f5f7dea04b25"
+    },
+    "tests/test_rgb_nominal_reference.py": {
+      "bytes": 3776,
+      "sha256": "abafd0cd31bbe4140d30f8ac8d6ea8793c1caf8ff7c4ff71a4f3521c66085762"
+    },
+    "tools/ci/scientific_grid_evidence.py": {
+      "bytes": 15527,
+      "sha256": "fa762daee0bc0bf2bdcb6633981c880a99b0d09ffd7bf219846a06f47fa5cd5a"
+    },
+    "tools/ci/scientific-grid-cases.json": {
+      "bytes": 74578,
+      "sha256": "06fda525669b38ea39b0fbdbe4bc98d98dca124b91d4c2394ca546f171cf141e"
+    },
+    "tools/ci/raw_classifier_evidence.py": {
+      "bytes": 10350,
+      "sha256": "beb1b948e28db57c623f8b74bbbb1e40c0507bd5a7f749c338a4fc9c52f7e934"
+    },
+    "docs/original-source-cell-integration.md": {
+      "bytes": 5204,
+      "sha256": "65cbe76f71672dc327b125cb8a4a2b1e6e452792b024088dec0c9182809924a3"
+    }
+  },
+  "checks": {
+    "affine-cohort.xml": {
+      "cases": 1,
+      "failed": 0
+    },
+    "affine-installed-cohort.xml": {
+      "cases": 14,
+      "failed": 0
+    },
+    "affine-corrected-native.xml": {
+      "cases": 1,
+      "failed": 0
+    },
+    "affine-auditor-controls.xml": {
+      "cases": 465,
+      "failed": 9
+    }
+  },
+  "notes": {
+    "path": "C:\\Users\\HEQ\\Projects\\compilexx\\docs\\notes\\qupathxx-build-inefficiencies.md",
+    "prefix_bytes": 348235,
+    "prefix_sha256": "8f0feeb12b393c452b8e17e7a228e41992312c730f4fbc6dfb29a01f3acdc05a",
+    "append_bytes": 1846,
+    "append_sha256": "0a6848d1b3ddcfbbf0449d730368a665342ced14c57568c72d242a97207ad25f",
+    "prefix_preserved": true
+  },
+  "files": {
+    "affine-auditor-controls.xml": {
+      "bytes": 126899,
+      "sha256": "b09b9c72a4779423e69698fcfc29d2b61802240e2e5f1ae1f14a578f5eca1254"
+    },
+    "affine-build.log": {
+      "bytes": 29274,
+      "sha256": "737194e037cbac68c05894ef388c09cc66476d322c30f0c30564a985a9abdbe6"
+    },
+    "affine-cohort.xml": {
+      "bytes": 411,
+      "sha256": "707f0cd134164a70246aa08aa17f1665f327defa54c52a95f4ca302e265741f1"
+    },
+    "affine-commands.json": {
+      "bytes": 414,
+      "sha256": "04896a120910dd3d2317002fb42f85bb284d481dbafc2169a8bf3da03d5a1fc6"
+    },
+    "affine-corrected-build.log": {
+      "bytes": 1055,
+      "sha256": "da52cb05a878c3220a2df11aaa8d0c3110da6d65ad87e7a1ce36ebc519f739a3"
+    },
+    "affine-corrected-commands.json": {
+      "bytes": 946,
+      "sha256": "3a8543dd3cfb4ebf83548331b33114cabe1a86eed53ce61150f3f3ca46cae134"
+    },
+    "affine-corrected-native.log": {
+      "bytes": 235,
+      "sha256": "b4d5dfbe57ec1de9336c208ee81a6a1c329183653caf81bd42f1c87750de7a3c"
+    },
+    "affine-corrected-native.xml": {
+      "bytes": 1470,
+      "sha256": "98f763af8e93be3e00d14eff3128e31b4d77e73b1c45cb125eec1da822ace4fb"
+    },
+    "affine-installed-cohort.xml": {
+      "bytes": 2604,
+      "sha256": "f26957f7dc3821c65b74342cf71eee5689f1bfd39882d646110c11ec305214dc"
+    },
+    "affine-native-full.log": {
+      "bytes": 3263,
+      "sha256": "bc6026a5754f904e5dcc8467fa69280d8dd6ab2a2775bac00af5c801ae3d2ea3"
+    },
+    "qupathxx_resampling_tests.exe": {
+      "bytes": 1348096,
+      "sha256": "4620ce383a49f14269cd98c3e96ac0238276ddaeab0c11bb8914d2e3c7f746f7"
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "file": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\tma203-fixtures\\large-tma.ome.tif",
+  "bytes": 2939541,
+  "sha256": "364897c6b105b6f5e630730f9f8fe3ff616b77470827122b77d1a027943c6f7d",
+  "contract_sha256": "ee012c92deed5702af895438f2875f73088910b434571f7cad0b645ebecf8805",
+  "tifffile_version": "2024.9.20",
+  "numpy_version": "2.5.4"
+}

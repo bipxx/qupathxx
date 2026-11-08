@@ -1,0 +1,77 @@
+{
+  "schema": "qpx.scientific-raster-input-vectors/1",
+  "scope": "Independent hashlib/struct synthetic conformance vector; no detector acceptance",
+  "decoded": {
+    "format": "qpx.level-zero-rgba-window/1",
+    "image": [
+      10,
+      10
+    ],
+    "clipped_bounds": [
+      0,
+      0,
+      8,
+      10
+    ],
+    "rgba_pixel": [
+      32,
+      32,
+      32,
+      255
+    ],
+    "pixel_count": 80,
+    "sha256": "df9be96d64e700183ef552de4fb0fb10d6b4bc8f290f9906d3399b6e159fab99"
+  },
+  "input": {
+    "format": "qpx.grid-opaque-rgb-area/1",
+    "reader": "qpx.dense-rgb/1",
+    "grid_fields": [
+      10,
+      10,
+      2,
+      1,
+      4,
+      6,
+      2,
+      2,
+      1,
+      1
+    ],
+    "kind": 0,
+    "sampling_policy": 0,
+    "roi_rectangle": [
+      2.0,
+      1.0,
+      4.0,
+      6.0
+    ],
+    "white": [
+      255.0,
+      255.0,
+      255.0
+    ],
+    "stains": [
+      [
+        1.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        1.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "calibration": [
+      0.5,
+      0.25
+    ],
+    "domain_hex": "6006",
+    "sha256": "f06532a66cd89373a219d1dc103c99d0f51918969ab920a6327e94304f835df1"
+  }
+}

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="5"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="4"
+	timestamp="2026-10-25T18:16:13"
+	>
+	<testcase name="qptma_project" classname="qptma_project" time="1.6161" status="run">
+		<properties/>
+		<system-out>{"schema":"qpx.qptma-project-import/1","state":"saved","image_id":2,"cores":6,"rows":2,"columns":3,"output":"/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native/qptma-project-test-artifacts/project-506307618106/imported.qpxproj"}
+{"schema":"qpx.qptma-project-export/1","state":"saved","image_id":2,"cores":6,"bytes":334,"omitted_metadata":["native_object_ids","native_grid_name","axis_labels"],"output":"/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native/qptma-project-test-artifacts/project-506307618106/exported.qptma"}
+{"schema":"qpx.batch-error/1","error":"export commit failed (destination may already exist)"}
+{"schema":"qpx.batch-error/1","error":"fingerprint output must not replace its input"}
+{"schema":"qpx.batch-error/1","error":"selected image has no TMA grid"}
+QPTMA project atomic new-file publication, budgets, guards, races, persistence and explicit-image CLI passed
+</system-out>
+	</testcase>
+	<testcase name="qptma" classname="qptma" time="0.113645" status="run">
+		<properties/>
+		<system-out>QPTMA native fixture, fractional/quoted wire, atomic history, quotas and 10000-core round trips passed
+NATIVE_QPTMA_LITERAL_OUTPUT=/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native/qptma-test-artifacts/qptma-507980792122/native-literal-text.qptma
+NATIVE_QPTMA_OUTPUT=/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native/qptma-test-artifacts/qptma-507980792122/native-export.qptma
+</system-out>
+	</testcase>
+	<testcase name="viewer_session" classname="viewer_session" time="0.27788" status="run">
+		<properties/>
+		<system-out>TMA viewer axis commands: copied bounds, revision, cancellation, atomic result and edit admission passed
+Grid viewer producer copies, owner calibration capture, retention, cancellation and stale delivery passed
+Raw grid viewer copied counts/options, owner calibration, retention/replay, cancellation and stale delivery passed
+Viewer queue, owner dispatch, jobs, lifetime, limits, staleness and shutdown passed
+</system-out>
+	</testcase>
+	<testcase name="tma" classname="tma" time="1.67099" status="run">
+		<properties/>
+		<system-out>TMA axis insertion/removal: skewed geometry, vacant/explicit slots, metadata, nested protection, atomic history and rejection passed
+TMA case file cancellation precedes output path access
+TMA compensated signed sums and nonzero mean underflow checks passed
+TMA case aggregation, weighted arithmetic, missing/unassigned cores, stale revisions and cancellation passed
+TMA cohort raw-row pooling, image/core namespaces, isolated unassigned cores, source manifests, stale revisions and cancellation passed
+TMA cohort atomic files preserve captured CSV bytes, existing files and input aliases; capture validation and cancellation precede I/O
+Oversized CSV file budget and output protection passed
+TMA case file exports preserve captured CSV bytes and existing files
+TMA grid commands, missing cores, case IDs, snapshots, history and persistence passed
+</system-out>
+	</testcase>
+	<testcase name="tma_dearray" classname="tma_dearray" time="0.707798" status="run">
+		<properties/>
+		<system-out>TMA_DEARRAY_FIXTURE aligned max_center_error_pixels=0 missing_flags=match
+TMA_DEARRAY_FIXTURE interior_missing max_center_error_pixels=0 missing_flags=match
+TMA_DEARRAY_FIXTURE rotated_missing max_center_error_pixels=2.84217e-14 missing_flags=match
+TMA_DEARRAY_FIXTURE skewed_missing max_center_error_pixels=0 missing_flags=match
+TMA_DEARRAY_FIXTURE anisotropic max_center_error_pixels=0 missing_flags=match
+TMA_DEARRAY_ADMISSION exact/minus-one budgets, pre-IO geometry, malformed reads, epoch, alpha, polarity, cancellation passed
+TMA_DEARRAY_AXES singleton/row/column, invalid missing-slot support and natural-level coordinates passed
+TMA_DEARRAY_PUBLICATION retained proposal, atomic import/undo/redo, failed import rollback and QPTMA round trip passed
+{"schema":"qpx.tma-dearray-preview/1","state":"saved","image_id":1,"rows":3,"columns":4,"candidates":11,"input_sha256":"0b9bd24f83954a30cce4aaf63e34600b57821c7bb31cccf793a22915e9533b0a","recipe_sha256":"a40dfa50cad0ecf912d8402ef97f8771346441cf44d2bf8e72f85f37041d7344","output":"/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native/tma-dearray-test-artifacts/510242570090/detected.qptma"}
+{"schema":"qpx.batch-error/1","error":"export commit failed (destination may already exist)"}
+{"schema":"qpx.batch-error/1","error":"fingerprint output must not replace its input"}
+{"schema":"qpx.batch-error/1","error":"TMA source and detection exceed working payload budget"}
+{"schema":"qpx.batch-error/1","error":"export cancelled"}
+TMA_DEARRAY_OWNER copied parameters, immutable retention, atomic apply/history, stale revision, cancellation and budgets passed
+TMA_DEARRAY_CLI explicit image/options, read-only project, atomic new-file preview, source guards, cancellation and limits passed
+</system-out>
+	</testcase>
+</testsuite>

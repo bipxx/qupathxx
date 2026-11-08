@@ -1,0 +1,29 @@
+{
+  "source": "701fa672db3745aebc7fc5d71108b2c8780cbb6e",
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Scripts\\python.exe",
+    "-X",
+    "utf8",
+    "tools/ci/accept_manylinux.py",
+    "--artifacts",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\q306-all",
+    "--run-json",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\original-source-cell-qualification-306\\portable-run-terminal.json",
+    "--commit",
+    "701fa672db3745aebc7fc5d71108b2c8780cbb6e",
+    "--output",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\original-source-cell-qualification-306\\portable-acceptance.json",
+    "--unified-engine",
+    "--ndpi-readers",
+    "--watershed-bodies",
+    "--sampled-cells",
+    "--small-frontier",
+    "--tma-cases",
+    "--tma-file-export",
+    "--tma-cohorts",
+    "--linux-runtime-manifest"
+  ],
+  "cwd": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\original-source-cell-qualification-306-audit",
+  "returncode": 0,
+  "original_complete_auditor": true
+}

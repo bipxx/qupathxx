@@ -1,0 +1,51 @@
+{
+  "verified_utc": "2026-11-07T05:12:12.151045+00:00",
+  "application_environment": {
+    "git_revision": "a9edd64e1d3284df4dd75041696e8d6560a08352+dirty",
+    "source_tree_sha256": "23111b16241308cab967c5ae11dd5c760fe385c3c5f5446dca7a4711394c99d1",
+    "compiler": "MSVC 19.44.35225.0",
+    "compiler_flags": "base=/DWIN32 /D_WINDOWS /EHsc;Release=/O2 /Ob2 /DNDEBUG;Debug=/Zi /Ob0 /Od /RTC1;RelWithDebInfo=/Zi /O2 /Ob1 /DNDEBUG;MinSizeRel=/O1 /Ob1 /DNDEBUG",
+    "configuration": "Release",
+    "platform": "Windows AMD64"
+  },
+  "compiler_input_count": 519,
+  "compiler_tree_sha256": "23111b16241308cab967c5ae11dd5c760fe385c3c5f5446dca7a4711394c99d1",
+  "files_sha256": {
+    "CMakeLists.txt": "d5a57feec65939d702848a6ed0e5909966249b0697973e18e12c26009833c9f5",
+    "cpp/gui.cpp": "385362cac2031c7a584107e0d05f661f00e05b7dd608e8db932832c3008f480b",
+    "cpp/gui_project_density.hpp": "40908f932f58e62fb7828c9e39ce793085fbcaf972e21ccd2179dd9f99bdcaba",
+    "cpp/project_density_panel.hpp": "b4b1ea5c8d1c0f5e5f150f2b6a301b7f23b1b3ceac63cb5b1d959beb559c8d0d",
+    "cpp/project_density_panel.cpp": "8420dfe975edc57631b8d35ad06845ed9cc95148087a62c2d3b935ea046de155",
+    "cpp/tests/project_density_panel_tests.cpp": "46783dbfe5f266e565f27f09fb138bcb0134da68bde1879087e712914327278c"
+  },
+  "application_sha256": "472e952d27b2d26ed363000359ba212c27ba4bd64527a0578a761393efb789ff",
+  "bundle_files": 56,
+  "bundle_files_verified": true,
+  "reader_dlls_match_candidate4": true,
+  "desktop_selected_cells": [
+    32,
+    28
+  ],
+  "desktop_density_counts": [
+    31,
+    27
+  ],
+  "desktop_area_pixels": [
+    104006,
+    101124
+  ],
+  "saved_images": 2,
+  "csv_rows": 2,
+  "failed_images": 0,
+  "source_project_sha256": "85f4c62987a5be0516a7bd06334d2794dc90bdd53ca6e7fb12c217dd9693d8bb",
+  "source_and_original_fixture_unchanged": true,
+  "checkpoint_stored_hashes_exact": true,
+  "candidate4_python_replay_verifies": true,
+  "selector_change_clears_preview_observed": true,
+  "short_id_rows_readable": true,
+  "results_folder_opener_observed": true,
+  "csv_opener_reached_windows_app_chooser": true,
+  "csv_association_changed": false,
+  "binding_or_wheel_rebuilt": false,
+  "limits": "Local Windows x64 development app and public two-FOV annotated-nucleus pilot. Density kernels/codecs/CSV and published candidate4 are unchanged. No new release, fresh-host, additional platform, biology, tissue/whole-cell segmentation or speed claim. GUI panel has no resume control."
+}

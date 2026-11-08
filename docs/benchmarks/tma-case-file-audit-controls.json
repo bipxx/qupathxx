@@ -1,0 +1,35 @@
+{
+  "schema": "qpx.tma-case-file-audit-controls/1",
+  "source": "4b52d2393fd001ee3171ca9fcaedb38744ce1a7b",
+  "positive": {
+    "native": {
+      "case_aggregation_checked": true,
+      "compensated_signed_sums_checked": true,
+      "mean_underflow_checked": true,
+      "cancellation_checked": true,
+      "signed_decimal_locale_checked": true,
+      "atomic_file_export_checked": true
+    },
+    "python": {
+      "cohort_contract_sha256": "fa9d5493ea57d162f7d6aee3c4198962b79507a56ef14db55a6dcb131fe231de",
+      "cases_passed": 13,
+      "file_cases_passed": 27,
+      "gui_cases_passed": 4
+    }
+  },
+  "negative_controls_rejected": [
+    "old-native-without-file-contract",
+    "missing-file-case",
+    "duplicate-file-case",
+    "file-failure",
+    "file-error",
+    "file-skipped",
+    "missing-TMA case file cancellation precedes output path access",
+    "missing-TMA case file exports preserve captured CSV bytes and existing files",
+    "wrong-source-contract"
+  ],
+  "helper_sha256": "b92967d8247c2735ab169616533d18458aeb0a00ca9555e47d8fe4289ae5afcb",
+  "native_junit_sha256": "afbd79fec1f9fb4aadbefdeb8b20cd2b907b846e4d8fea9accdf7bffb063a1ca",
+  "python_junit_sha256": "68a4c34f1e20ebad2dca8512832e1fc34a45f9ed29e24ddf08fe40f4c21cdf1c",
+  "hosted_candidate_accepted": false
+}

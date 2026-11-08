@@ -1,0 +1,24 @@
+test_expected_and_escaped_cases (test_exception_lsda_witness.WitnessControls.test_expected_and_escaped_cases) ... ok
+test_false_success_and_census_reject (test_exception_lsda_witness.WitnessControls.test_false_success_and_census_reject) ... ok
+test_admission_before_creation (test_retained_arm64_replay.ArchiveTests.test_admission_before_creation) ... ok
+test_ambiguous_product (test_retained_arm64_replay.ArchiveTests.test_ambiguous_product) ... ok
+test_bad_paths (test_retained_arm64_replay.ArchiveTests.test_bad_paths) ... ok
+test_case_collision (test_retained_arm64_replay.ArchiveTests.test_case_collision) ... ok
+test_diagnostic_commands_do_not_change_inferior (test_retained_arm64_replay.ArchiveTests.test_diagnostic_commands_do_not_change_inferior) ... ok
+test_existing_destination_preserved (test_retained_arm64_replay.ArchiveTests.test_existing_destination_preserved) ... ok
+test_special_member (test_retained_arm64_replay.ArchiveTests.test_special_member) ... ok
+test_valid_regular_archive (test_retained_arm64_replay.ArchiveTests.test_valid_regular_archive) ... ok
+test_wrong_original_archive (test_retained_arm64_replay.ArchiveTests.test_wrong_original_archive) ... ok
+test_catch_matches_exact_object (test_retained_arm64_replay.CallbackTests.test_catch_matches_exact_object) ... ok
+test_event_limit_rejects (test_retained_arm64_replay.CallbackTests.test_event_limit_rejects) ... ok
+test_read_error_is_explicit (test_retained_arm64_replay.CallbackTests.test_read_error_is_explicit) ... ok
+test_throw_message_and_type (test_retained_arm64_replay.CallbackTests.test_throw_message_and_type) ... ok
+test_unknown_type_does_not_read_message_layout (test_retained_arm64_replay.CallbackTests.test_unknown_type_does_not_read_message_layout) ... ok
+test_unmatched_catch_is_explicit (test_retained_arm64_replay.CallbackTests.test_unmatched_catch_is_explicit) ... ok
+test_wrong_type_is_distinguished (test_retained_arm64_replay.CallbackTests.test_wrong_type_is_distinguished) ... ok
+test_exact_fetch_admits_original_but_rejects_changed_product (test_retained_arm64_replay.ShallowCheckoutTests.test_exact_fetch_admits_original_but_rejects_changed_product) ... ok
+
+----------------------------------------------------------------------
+Ran 19 tests in 0.849s
+
+OK

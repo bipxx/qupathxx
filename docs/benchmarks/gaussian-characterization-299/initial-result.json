@@ -1,0 +1,29 @@
+{
+  "cases": 37,
+  "reference_roi_log_bytes_exact": true,
+  "kernel_files": 37,
+  "biological_validation": false,
+  "native_modified": false,
+  "probes": [
+    {
+      "x": 32,
+      "y": 68,
+      "log": 2.7418136596679688e-06
+    },
+    {
+      "x": 33,
+      "y": 68,
+      "log": 1.1682510375976562e-05
+    },
+    {
+      "x": 32,
+      "y": 81,
+      "log": 2.7418136596679688e-06
+    },
+    {
+      "x": 33,
+      "y": 81,
+      "log": 1.1682510375976562e-05
+    }
+  ]
+}

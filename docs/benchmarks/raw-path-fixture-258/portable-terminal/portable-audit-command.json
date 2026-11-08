@@ -1,0 +1,29 @@
+{
+  "command": [
+    "python",
+    "-X",
+    "utf8",
+    "tools/ci/accept_manylinux.py",
+    "--artifacts",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\q258-all",
+    "--run-json",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw-path-fixture-258\\portable-run-terminal.json",
+    "--commit",
+    "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "--output",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw-path-fixture-258\\portable-acceptance.json",
+    "--unified-engine",
+    "--ndpi-readers",
+    "--watershed-bodies",
+    "--sampled-cells",
+    "--small-frontier",
+    "--tma-cases",
+    "--tma-file-export",
+    "--tma-cohorts",
+    "--linux-runtime-manifest"
+  ],
+  "cwd": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-path-qualification-258-audit",
+  "returncode": 0,
+  "stdout": "{\"state\": \"build-and-fresh-consumer-accepted\", \"commit\": \"a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027\", \"release_ready\": false}\n",
+  "stderr": ""
+}

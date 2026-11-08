@@ -1,4 +1,5 @@
 """Schema10 stores historical descriptors; project loading never opens QPS files."""
+from project_schema_contract import CURRENT_SCHEMA_VERSION, drop_newer_project_tables
 import hashlib
 import os
 from pathlib import Path
@@ -67,7 +68,7 @@ def test_schema11_roundtrip_and_missing_file_do_not_access_external_values(tmp_p
     assert saved.link.same_content(link) and saved.link.path==str(path.resolve()) and restored.pixel_stream_record_count==1
     assert not loaded.dirty and restored.object_count==0 and saved.link.summary.blocks==12
     with sqlite3.connect(source) as db:
-        assert db.execute('PRAGMA user_version').fetchone()[0]==13
+        assert db.execute('PRAGMA user_version').fetchone()[0]==CURRENT_SCHEMA_VERSION
         blob=db.execute('SELECT payload FROM pixel_stream_records').fetchone()[0]
         assert blob[:4]==b'QSL\1' and len(blob)<4096 and path.name.encode('utf-8') in blob
         assert str(tmp_path).encode('utf-8') not in blob
@@ -120,10 +121,10 @@ def test_complete_different_valid_file_is_rejected_for_saved_link(tmp_path):
     assert failed.state=='failed' and 'does not match' in failed.error and failed.block is None
 
 
-@pytest.mark.parametrize('version',range(1,13))
-def test_legacy_schemas_load_and_transactionally_upgrade_to_schema13(tmp_path,version):
+@pytest.mark.parametrize('version',range(1,CURRENT_SCHEMA_VERSION))
+def test_legacy_schemas_load_and_transactionally_upgrade_to_schema18(tmp_path,version):
     project,image,doc,_,_=scene(tmp_path);source=tmp_path/'legacy.qpxproj';project.save(str(source))
-    tables=[(13,'raw_analysis_records'),(12,'tiff_views'),(11,'tma_cores'),(11,'tma_grids'),(10,'pixel_stream_records'),(9,'pixel_classifier_records'),(8,'classifier_records'),(7,'analysis_provenance'),(6,'cell_feature_links'),(5,'cell_records'),(4,'tissue_records'),(3,'analysis_records'),(2,'views')]
+    tables=[(21,'image_data_properties'),(20,'image_analysis_settings'),(19,'image_properties'),(18,'object_planes'),(16,'object_properties'),(15,'source_verifications'),(14,'spatial_distance_records'),(13,'raw_analysis_records'),(12,'tiff_views'),(11,'tma_cores'),(11,'tma_grids'),(10,'pixel_stream_records'),(9,'pixel_classifier_records'),(8,'classifier_records'),(7,'analysis_provenance'),(6,'cell_feature_links'),(5,'cell_records'),(4,'tissue_records'),(3,'analysis_records'),(2,'views')]
     with sqlite3.connect(source) as db:
         for added,name in tables:
             if added>version:db.execute('DROP TABLE '+name)
@@ -131,13 +132,13 @@ def test_legacy_schemas_load_and_transactionally_upgrade_to_schema13(tmp_path,ve
     loaded=q.Project.open(str(source));assert loaded.document(image).pixel_stream_record_count==0
     loaded.save(str(source))
     with sqlite3.connect(source) as db:
-        assert db.execute('PRAGMA user_version').fetchone()[0]==13 and db.execute('SELECT count(*) FROM pixel_stream_records').fetchone()[0]==0
+        assert db.execute('PRAGMA user_version').fetchone()[0]==CURRENT_SCHEMA_VERSION and db.execute('SELECT count(*) FROM pixel_stream_records').fetchone()[0]==0
 
 
 def test_schema9_migration_rolls_back_with_the_original_bytes_intact(tmp_path):
     project,_,_,_,_=scene(tmp_path);source=tmp_path/'legacy.qpxproj';project.save(str(source))
     with sqlite3.connect(source) as db:
-        db.execute("DROP TABLE raw_analysis_records");db.execute("DROP TABLE tiff_views");db.execute("DROP TABLE tma_cores");db.execute("DROP TABLE tma_grids")
+        drop_newer_project_tables(db, 26); db.execute('DROP TABLE IF EXISTS class_semantics');db.execute('DROP TABLE IF EXISTS project_class_defaults');db.execute('DROP TABLE IF EXISTS project_classes');db.execute('DROP TABLE IF EXISTS project_metadata');db.execute("DROP TABLE IF EXISTS image_tags");db.execute("DROP TABLE IF EXISTS image_details");db.execute("DROP TABLE IF EXISTS image_metadata");db.execute("DROP TABLE IF EXISTS image_axis_calibration");db.execute("DROP TABLE IF EXISTS image_data_properties");db.execute("DROP TABLE IF EXISTS image_analysis_settings");db.execute("DROP TABLE IF EXISTS image_properties");db.execute("DROP TABLE object_planes");db.execute("DROP TABLE object_properties");db.execute("DROP TABLE source_verifications");db.execute("DROP TABLE spatial_distance_records");db.execute("DROP TABLE raw_analysis_records");db.execute("DROP TABLE tiff_views");db.execute("DROP TABLE tma_cores");db.execute("DROP TABLE tma_grids")
         db.execute('DROP TABLE pixel_stream_records');db.execute('PRAGMA user_version=9')
         db.execute("CREATE TRIGGER fail_stream_migration BEFORE INSERT ON images BEGIN SELECT RAISE(ABORT,'injected stream migration'); END")
     loaded=q.Project.open(str(source));before=source.read_bytes()
@@ -147,7 +148,7 @@ def test_schema9_migration_rolls_back_with_the_original_bytes_intact(tmp_path):
         assert db.execute('PRAGMA user_version').fetchone()[0]==9 and db.execute("SELECT count(*) FROM sqlite_schema WHERE name='pixel_stream_records'").fetchone()[0]==0
         db.execute('DROP TRIGGER fail_stream_migration')
     loaded.save(str(source))
-    with sqlite3.connect(source) as db:assert db.execute('PRAGMA user_version').fetchone()[0]==13
+    with sqlite3.connect(source) as db:assert db.execute('PRAGMA user_version').fetchone()[0]==CURRENT_SCHEMA_VERSION
 
 
 @pytest.mark.parametrize('mutation',['checksum','id','orphan','source','bounds','class-counts','trailing'])

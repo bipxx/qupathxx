@@ -1,0 +1,1192 @@
+-- The C compiler identification is AppleClang 17.0.0.17000013
+-- The CXX compiler identification is AppleClang 17.0.0.17000013
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- GEOS: Version 3.15.0
+-- GEOS: C API Version 1.21.0
+-- GEOS: JTS port 1.20.0
+-- GEOS: Build type: Release
+-- GEOS: Run-time output: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-build/bin
+-- GEOS: Archives output: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-build/lib
+-- GEOS: Require C++17
+-- Performing Test COMPILER_HAS_SIMD
+-- Performing Test COMPILER_HAS_SIMD - Success
+-- Looking for pow in m
+-- Looking for pow in m - found
+-- Looking for C++ include cfenv
+-- Looking for C++ include cfenv - found
+-- GEOS: Build geosop OFF
+-- GEOS: Build astyle OFF
+-- GEOS: Configured 'dist' target
+-- GEOS: Configured 'distcheck' target
+-- Configuring done (4.9s)
+-- Generating done (0.1s)
+-- Build files have been written to: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-build
+[1/474] Building CXX object CMakeFiles/geos.dir/src/algorithm/Angle.cpp.o
+[2/474] Building CXX object CMakeFiles/geos.dir/src/algorithm/Area.cpp.o
+[3/474] Building CXX object CMakeFiles/geos.dir/src/algorithm/BoundaryNodeRule.cpp.o
+[4/474] Building CXX object CMakeFiles/geos.dir/src/algorithm/CGAlgorithmsDD.cpp.o
+[5/474] Building CXX object CMakeFiles/geos.dir/src/algorithm/Centroid.cpp.o
+[6/474] Building CXX object CMakeFiles/geos.dir/src/algorithm/CircularArcIntersector.cpp.o
+[7/474] Building CXX object CMakeFiles/geos.dir/src/algorithm/CircularArcs.cpp.o
+[8/474] Building CXX object CMakeFiles/geos.dir/src/algorithm/ConvexHull.cpp.o
+[9/474] Building CXX object CMakeFiles/geos.dir/src/algorithm/Distance.cpp.o
+[10/474] Building CXX object CMakeFiles/geos.dir/src/algorithm/HCoordinate.cpp.o
+[11/474] Building CXX object CMakeFiles/geos.dir/src/algorithm/InteriorPointArea.cpp.o
+[12/474] Building CXX object CMakeFiles/geos.dir/src/algorithm/InteriorPointLine.cpp.o
+[13/474] Building CXX object CMakeFiles/geos.dir/src/algorithm/InteriorPointPoint.cpp.o
+[14/474] Building CXX object CMakeFiles/geos.dir/src/algorithm/Intersection.cpp.o
+[15/474] Building CXX object CMakeFiles/geos.dir/src/algorithm/Length.cpp.o
+[16/474] Building CXX object CMakeFiles/geos.dir/src/algorithm/LineToCurveConverter.cpp.o
+[17/474] Building CXX object CMakeFiles/geos.dir/src/algorithm/LineIntersector.cpp.o
+[18/474] Building CXX object CMakeFiles/geos.dir/src/algorithm/MinimumAreaRectangle.cpp.o
+[19/474] Building CXX object CMakeFiles/geos.dir/src/algorithm/MinimumBoundingCircle.cpp.o
+[20/474] Building CXX object CMakeFiles/geos.dir/src/algorithm/NotRepresentableException.cpp.o
+[21/474] Building CXX object CMakeFiles/geos.dir/src/algorithm/MinimumDiameter.cpp.o
+[22/474] Building CXX object CMakeFiles/geos.dir/src/algorithm/Orientation.cpp.o
+[23/474] Building CXX object CMakeFiles/geos.dir/src/algorithm/PointLocation.cpp.o
+[24/474] Building CXX object CMakeFiles/geos.dir/src/algorithm/PointLocator.cpp.o
+[25/474] Building CXX object CMakeFiles/geos.dir/src/algorithm/PolygonNodeTopology.cpp.o
+[26/474] Building CXX object CMakeFiles/geos.dir/src/algorithm/RayCrossingCounter.cpp.o
+[27/474] Building CXX object CMakeFiles/geos.dir/src/algorithm/Rectangle.cpp.o
+[28/474] Building CXX object CMakeFiles/geos.dir/src/algorithm/RobustDeterminant.cpp.o
+[29/474] Building CXX object CMakeFiles/geos.dir/src/algorithm/construct/ExactMaxInscribedCircle.cpp.o
+[30/474] Building CXX object CMakeFiles/geos.dir/src/algorithm/construct/IndexedDistanceToPoint.cpp.o
+[31/474] Building CXX object CMakeFiles/geos.dir/src/algorithm/construct/IndexedPointInPolygonsLocator.cpp.o
+[32/474] Building CXX object CMakeFiles/geos.dir/src/algorithm/construct/LargestEmptyCircle.cpp.o
+[33/474] Building CXX object CMakeFiles/geos.dir/src/algorithm/construct/MaximumInscribedCircle.cpp.o
+[34/474] Building CXX object CMakeFiles/geos.dir/src/algorithm/distance/DiscreteFrechetDistance.cpp.o
+[35/474] Building CXX object CMakeFiles/geos.dir/src/algorithm/distance/DiscreteHausdorffDistance.cpp.o
+[36/474] Building CXX object CMakeFiles/geos.dir/src/algorithm/distance/DistanceToPoint.cpp.o
+[37/474] Building CXX object CMakeFiles/geos.dir/src/algorithm/hull/ConcaveHull.cpp.o
+[38/474] Building CXX object CMakeFiles/geos.dir/src/algorithm/hull/ConcaveHullOfPolygons.cpp.o
+[39/474] Building CXX object CMakeFiles/geos.dir/src/algorithm/hull/HullTri.cpp.o
+[40/474] Building CXX object CMakeFiles/geos.dir/src/algorithm/hull/HullTriangulation.cpp.o
+[41/474] Building CXX object CMakeFiles/geos.dir/src/algorithm/hull/OuterShellsExtracter.cpp.o
+[42/474] Building CXX object CMakeFiles/geos.dir/src/algorithm/locate/PointOnGeometryLocator.cpp.o
+[43/474] Building CXX object CMakeFiles/geos.dir/src/algorithm/locate/IndexedPointInAreaLocator.cpp.o
+[44/474] Building CXX object CMakeFiles/geos.dir/src/algorithm/locate/SimplePointInAreaLocator.cpp.o
+[45/474] Building CXX object CMakeFiles/geos.dir/src/coverage/Corner.cpp.o
+[46/474] Building CXX object CMakeFiles/geos.dir/src/coverage/CleanCoverage.cpp.o
+[47/474] Building CXX object CMakeFiles/geos.dir/src/coverage/CoverageBoundarySegmentFinder.cpp.o
+[48/474] Building CXX object CMakeFiles/geos.dir/src/coverage/CoverageEdge.cpp.o
+[49/474] Building CXX object CMakeFiles/geos.dir/src/coverage/CoverageCleaner.cpp.o
+[50/474] Building CXX object CMakeFiles/geos.dir/src/coverage/CoverageEdges.cpp.o
+[51/474] Building CXX object CMakeFiles/geos.dir/src/coverage/CoverageGapFinder.cpp.o
+[52/474] Building CXX object CMakeFiles/geos.dir/src/coverage/CoveragePolygon.cpp.o
+[53/474] Building CXX object CMakeFiles/geos.dir/src/coverage/CoverageRing.cpp.o
+[54/474] Building CXX object CMakeFiles/geos.dir/src/coverage/CoveragePolygonValidator.cpp.o
+[55/474] Building CXX object CMakeFiles/geos.dir/src/coverage/CoverageRingEdges.cpp.o
+[56/474] Building CXX object CMakeFiles/geos.dir/src/coverage/CoverageSimplifier.cpp.o
+[57/474] Building CXX object CMakeFiles/geos.dir/src/coverage/CoverageUnion.cpp.o
+[58/474] Building CXX object CMakeFiles/geos.dir/src/coverage/CoverageValidator.cpp.o
+[59/474] Building CXX object CMakeFiles/geos.dir/src/coverage/InvalidSegmentDetector.cpp.o
+[60/474] Building CXX object CMakeFiles/geos.dir/src/coverage/VertexRingCounter.cpp.o
+[61/474] Building CXX object CMakeFiles/geos.dir/src/coverage/TPVWSimplifier.cpp.o
+[62/474] Building CXX object CMakeFiles/geos.dir/src/dissolve/DissolveEdgeGraph.cpp.o
+[63/474] Building CXX object CMakeFiles/geos.dir/src/dissolve/DissolveHalfEdge.cpp.o
+[64/474] Building CXX object CMakeFiles/geos.dir/src/dissolve/LineDissolver.cpp.o
+[65/474] Building CXX object CMakeFiles/geos.dir/src/edgegraph/EdgeGraph.cpp.o
+[66/474] Building CXX object CMakeFiles/geos.dir/src/edgegraph/EdgeGraphBuilder.cpp.o
+[67/474] Building CXX object CMakeFiles/geos.dir/src/edgegraph/HalfEdge.cpp.o
+[68/474] Building CXX object CMakeFiles/geos.dir/src/edgegraph/MarkHalfEdge.cpp.o
+[69/474] Building CXX object CMakeFiles/geos.dir/src/geom/CircularArc.cpp.o
+[70/474] Building CXX object CMakeFiles/geos.dir/src/geom/CircularString.cpp.o
+[71/474] Building CXX object CMakeFiles/geos.dir/src/geom/CompoundCurve.cpp.o
+[72/474] Building CXX object CMakeFiles/geos.dir/src/geom/Coordinate.cpp.o
+[73/474] Building CXX object CMakeFiles/geos.dir/src/geom/Curve.cpp.o
+[74/474] Building CXX object CMakeFiles/geos.dir/src/geom/CoordinateSequence.cpp.o
+[75/474] Building CXX object CMakeFiles/geos.dir/src/geom/CurvePolygon.cpp.o
+[76/474] Building CXX object CMakeFiles/geos.dir/src/geom/Dimension.cpp.o
+[77/474] Building CXX object CMakeFiles/geos.dir/src/geom/Envelope.cpp.o
+[78/474] Building CXX object CMakeFiles/geos.dir/src/geom/Geometry.cpp.o
+[79/474] Building CXX object CMakeFiles/geos.dir/src/geom/GeometryCollection.cpp.o
+[80/474] Building CXX object CMakeFiles/geos.dir/src/geom/GeometryComponentFilter.cpp.o
+[81/474] Building CXX object CMakeFiles/geos.dir/src/geom/GeometryFactory.cpp.o
+[82/474] Building CXX object CMakeFiles/geos.dir/src/geom/HeuristicOverlay.cpp.o
+[83/474] Building CXX object CMakeFiles/geos.dir/src/geom/IntersectionMatrix.cpp.o
+[84/474] Building CXX object CMakeFiles/geos.dir/src/geom/LineSegment.cpp.o
+[85/474] Building CXX object CMakeFiles/geos.dir/src/geom/LineString.cpp.o
+[86/474] Building CXX object CMakeFiles/geos.dir/src/geom/LinearRing.cpp.o
+[87/474] Building CXX object CMakeFiles/geos.dir/src/geom/Location.cpp.o
+[88/474] Building CXX object CMakeFiles/geos.dir/src/geom/MultiCurve.cpp.o
+[89/474] Building CXX object CMakeFiles/geos.dir/src/geom/MultiLineString.cpp.o
+[90/474] Building CXX object CMakeFiles/geos.dir/src/geom/MultiPoint.cpp.o
+[91/474] Building CXX object CMakeFiles/geos.dir/src/geom/MultiPolygon.cpp.o
+[92/474] Building CXX object CMakeFiles/geos.dir/src/geom/MultiSurface.cpp.o
+[93/474] Building CXX object CMakeFiles/geos.dir/src/geom/Point.cpp.o
+[94/474] Building CXX object CMakeFiles/geos.dir/src/geom/Polygon.cpp.o
+[95/474] Building CXX object CMakeFiles/geos.dir/src/geom/Position.cpp.o
+[96/474] Building CXX object CMakeFiles/geos.dir/src/geom/Quadrant.cpp.o
+[97/474] Building CXX object CMakeFiles/geos.dir/src/geom/PrecisionModel.cpp.o
+[98/474] Building CXX object CMakeFiles/geos.dir/src/geom/Surface.cpp.o
+[99/474] Building CXX object CMakeFiles/geos.dir/src/geom/SimpleCurve.cpp.o
+[100/474] Building CXX object CMakeFiles/geos.dir/src/geom/Triangle.cpp.o
+[101/474] Building CXX object CMakeFiles/geos.dir/src/geom/prep/AbstractPreparedPolygonContains.cpp.o
+[102/474] Building CXX object CMakeFiles/geos.dir/src/geom/prep/BasicPreparedGeometry.cpp.o
+[103/474] Building CXX object CMakeFiles/geos.dir/src/geom/prep/PreparedGeometry.cpp.o
+[104/474] Building CXX object CMakeFiles/geos.dir/src/geom/prep/PreparedGeometryFactory.cpp.o
+[105/474] Building CXX object CMakeFiles/geos.dir/src/geom/prep/PreparedLineString.cpp.o
+[106/474] Building CXX object CMakeFiles/geos.dir/src/geom/prep/PreparedLineStringDistance.cpp.o
+[107/474] Building CXX object CMakeFiles/geos.dir/src/geom/prep/PreparedLineStringIntersects.cpp.o
+[108/474] Building CXX object CMakeFiles/geos.dir/src/geom/prep/PreparedLineStringNearestPoints.cpp.o
+[109/474] Building CXX object CMakeFiles/geos.dir/src/geom/prep/PreparedPoint.cpp.o
+[110/474] Building CXX object CMakeFiles/geos.dir/src/geom/prep/PreparedPolygon.cpp.o
+[111/474] Building CXX object CMakeFiles/geos.dir/src/geom/prep/PreparedPolygonContains.cpp.o
+[112/474] Building CXX object CMakeFiles/geos.dir/src/geom/prep/PreparedPolygonCovers.cpp.o
+[113/474] Building CXX object CMakeFiles/geos.dir/src/geom/prep/PreparedPolygonContainsProperly.cpp.o
+[114/474] Building CXX object CMakeFiles/geos.dir/src/geom/prep/PreparedPolygonDistance.cpp.o
+[115/474] Building CXX object CMakeFiles/geos.dir/src/geom/prep/PreparedPolygonIntersects.cpp.o
+[116/474] Building CXX object CMakeFiles/geos.dir/src/geom/util/ComponentCoordinateExtracter.cpp.o
+[117/474] Building CXX object CMakeFiles/geos.dir/src/geom/prep/PreparedPolygonPredicate.cpp.o
+[118/474] Building CXX object CMakeFiles/geos.dir/src/geom/util/CoordinateOperation.cpp.o
+[119/474] Building CXX object CMakeFiles/geos.dir/src/geom/util/CurveBuilder.cpp.o
+[120/474] Building CXX object CMakeFiles/geos.dir/src/geom/util/GeometryCombiner.cpp.o
+[121/474] Building CXX object CMakeFiles/geos.dir/src/geom/util/Densifier.cpp.o
+[122/474] Building CXX object CMakeFiles/geos.dir/src/geom/util/GeometryEditor.cpp.o
+[123/474] Building CXX object CMakeFiles/geos.dir/src/geom/util/GeometryFixer.cpp.o
+[124/474] Building CXX object CMakeFiles/geos.dir/src/geom/util/GeometryMapper.cpp.o
+[125/474] Building CXX object CMakeFiles/geos.dir/src/geom/util/GeometryTransformer.cpp.o
+[126/474] Building CXX object CMakeFiles/geos.dir/src/geom/util/LinealExtracter.cpp.o
+[127/474] Building CXX object CMakeFiles/geos.dir/src/geom/util/LinearComponentExtracter.cpp.o
+[128/474] Building CXX object CMakeFiles/geos.dir/src/geom/util/NoOpGeometryOperation.cpp.o
+[129/474] Building CXX object CMakeFiles/geos.dir/src/geom/util/PointExtracter.cpp.o
+[130/474] Building CXX object CMakeFiles/geos.dir/src/geom/util/PolygonExtracter.cpp.o
+[131/474] Building CXX object CMakeFiles/geos.dir/src/geom/util/PolygonalExtracter.cpp.o
+[132/474] Building CXX object CMakeFiles/geos.dir/src/geom/util/ShortCircuitedGeometryVisitor.cpp.o
+[133/474] Building CXX object CMakeFiles/geos.dir/src/geom/util/SimpleCurveExtracter.cpp.o
+[134/474] Building CXX object CMakeFiles/geos.dir/src/geom/util/SineStarFactory.cpp.o
+[135/474] Building CXX object CMakeFiles/geos.dir/src/geom/util/SurfaceExtracter.cpp.o
+[136/474] Building CXX object CMakeFiles/geos.dir/src/geomgraph/Depth.cpp.o
+[137/474] Building CXX object CMakeFiles/geos.dir/src/geomgraph/DirectedEdge.cpp.o
+[138/474] Building CXX object CMakeFiles/geos.dir/src/geomgraph/DirectedEdgeStar.cpp.o
+[139/474] Building CXX object CMakeFiles/geos.dir/src/geomgraph/Edge.cpp.o
+[140/474] Building CXX object CMakeFiles/geos.dir/src/geomgraph/EdgeEnd.cpp.o
+[141/474] Building CXX object CMakeFiles/geos.dir/src/geomgraph/EdgeEndStar.cpp.o
+[142/474] Building CXX object CMakeFiles/geos.dir/src/geomgraph/EdgeIntersectionList.cpp.o
+[143/474] Building CXX object CMakeFiles/geos.dir/src/geomgraph/EdgeList.cpp.o
+[144/474] Building CXX object CMakeFiles/geos.dir/src/geomgraph/EdgeNodingValidator.cpp.o
+[145/474] Building CXX object CMakeFiles/geos.dir/src/geomgraph/EdgeRing.cpp.o
+[146/474] Building CXX object CMakeFiles/geos.dir/src/geomgraph/GeometryGraph.cpp.o
+[147/474] Building CXX object CMakeFiles/geos.dir/src/geomgraph/GraphComponent.cpp.o
+[148/474] Building CXX object CMakeFiles/geos.dir/src/geomgraph/Label.cpp.o
+[149/474] Building CXX object CMakeFiles/geos.dir/src/geomgraph/NodeFactory.cpp.o
+[150/474] Building CXX object CMakeFiles/geos.dir/src/geomgraph/Node.cpp.o
+[151/474] Building CXX object CMakeFiles/geos.dir/src/geomgraph/NodeMap.cpp.o
+[152/474] Building CXX object CMakeFiles/geos.dir/src/geomgraph/PlanarGraph.cpp.o
+[153/474] Building CXX object CMakeFiles/geos.dir/src/geomgraph/TopologyLocation.cpp.o
+[154/474] Building CXX object CMakeFiles/geos.dir/src/geomgraph/index/MonotoneChainEdge.cpp.o
+[155/474] Building CXX object CMakeFiles/geos.dir/src/geomgraph/index/MonotoneChainIndexer.cpp.o
+[156/474] Building CXX object CMakeFiles/geos.dir/src/geomgraph/index/SegmentIntersector.cpp.o
+[157/474] Building CXX object CMakeFiles/geos.dir/src/geomgraph/index/SimpleEdgeSetIntersector.cpp.o
+[158/474] Building CXX object CMakeFiles/geos.dir/src/geomgraph/index/SimpleMCSweepLineIntersector.cpp.o
+[159/474] Building CXX object CMakeFiles/geos.dir/src/geomgraph/index/SimpleSweepLineIntersector.cpp.o
+[160/474] Building CXX object CMakeFiles/geos.dir/src/geomgraph/index/SweepLineEvent.cpp.o
+[161/474] Building CXX object CMakeFiles/geos.dir/src/geomgraph/index/SweepLineSegment.cpp.o
+[162/474] Building CXX object CMakeFiles/geos.dir/src/index/bintree/Bintree.cpp.o
+[163/474] Building CXX object CMakeFiles/geos.dir/src/index/VertexSequencePackedRtree.cpp.o
+[164/474] Building CXX object CMakeFiles/geos.dir/src/index/bintree/Interval.cpp.o
+[165/474] Building CXX object CMakeFiles/geos.dir/src/index/bintree/Key.cpp.o
+[166/474] Building CXX object CMakeFiles/geos.dir/src/index/bintree/Node.cpp.o
+[167/474] Building CXX object CMakeFiles/geos.dir/src/index/bintree/NodeBase.cpp.o
+[168/474] Building CXX object CMakeFiles/geos.dir/src/index/bintree/Root.cpp.o
+[169/474] Building CXX object CMakeFiles/geos.dir/src/index/chain/MonotoneChain.cpp.o
+[170/474] Building CXX object CMakeFiles/geos.dir/src/index/chain/MonotoneChainBuilder.cpp.o
+[171/474] Building CXX object CMakeFiles/geos.dir/src/index/chain/MonotoneChainOverlapAction.cpp.o
+[172/474] Building CXX object CMakeFiles/geos.dir/src/index/chain/MonotoneChainSelectAction.cpp.o
+[173/474] Building CXX object CMakeFiles/geos.dir/src/index/intervalrtree/IntervalRTreeBranchNode.cpp.o
+[174/474] Building CXX object CMakeFiles/geos.dir/src/index/intervalrtree/IntervalRTreeLeafNode.cpp.o
+[175/474] Building CXX object CMakeFiles/geos.dir/src/index/intervalrtree/SortedPackedIntervalRTree.cpp.o
+[176/474] Building CXX object CMakeFiles/geos.dir/src/index/kdtree/KdNode.cpp.o
+[177/474] Building CXX object CMakeFiles/geos.dir/src/index/quadtree/IntervalSize.cpp.o
+[178/474] Building CXX object CMakeFiles/geos.dir/src/index/kdtree/KdTree.cpp.o
+[179/474] Building CXX object CMakeFiles/geos.dir/src/index/quadtree/Key.cpp.o
+[180/474] Building CXX object CMakeFiles/geos.dir/src/index/quadtree/Node.cpp.o
+[181/474] Building CXX object CMakeFiles/geos.dir/src/index/quadtree/NodeBase.cpp.o
+[182/474] Building CXX object CMakeFiles/geos.dir/src/index/quadtree/Quadtree.cpp.o
+[183/474] Building CXX object CMakeFiles/geos.dir/src/index/quadtree/Root.cpp.o
+[184/474] Building CXX object CMakeFiles/geos.dir/src/index/strtree/AbstractSTRtree.cpp.o
+[185/474] Building CXX object CMakeFiles/geos.dir/src/index/strtree/BoundablePair.cpp.o
+[186/474] Building CXX object CMakeFiles/geos.dir/src/index/strtree/EnvelopeUtil.cpp.o
+[187/474] Building CXX object CMakeFiles/geos.dir/src/index/strtree/GeometryItemDistance.cpp.o
+[188/474] Building CXX object CMakeFiles/geos.dir/src/index/strtree/Interval.cpp.o
+[189/474] Building CXX object CMakeFiles/geos.dir/src/index/strtree/SIRtree.cpp.o
+[190/474] Building CXX object CMakeFiles/geos.dir/src/index/strtree/STRtree.cpp.o
+[191/474] Building CXX object CMakeFiles/geos.dir/src/index/strtree/SimpleSTRdistance.cpp.o
+[192/474] Building CXX object CMakeFiles/geos.dir/src/index/strtree/SimpleSTRnode.cpp.o
+[193/474] Building CXX object CMakeFiles/geos.dir/src/index/sweepline/SweepLineEvent.cpp.o
+[194/474] Building CXX object CMakeFiles/geos.dir/src/index/sweepline/SweepLineIndex.cpp.o
+[195/474] Building CXX object CMakeFiles/geos.dir/src/index/sweepline/SweepLineInterval.cpp.o
+[196/474] Building CXX object CMakeFiles/geos.dir/src/index/strtree/SimpleSTRtree.cpp.o
+[197/474] Building CXX object CMakeFiles/geos.dir/src/io/ByteOrderDataInStream.cpp.o
+[198/474] Building CXX object CMakeFiles/geos.dir/src/io/ByteOrderValues.cpp.o
+[199/474] Building CXX object CMakeFiles/geos.dir/src/io/CLocalizer.cpp.o
+[200/474] Building CXX object CMakeFiles/geos.dir/src/io/GeoJSON.cpp.o
+[201/474] Building CXX object CMakeFiles/geos.dir/src/io/GeoJSONWriter.cpp.o
+[202/474] Building CXX object CMakeFiles/geos.dir/src/io/GeoJSONReader.cpp.o
+[203/474] Building CXX object CMakeFiles/geos.dir/src/io/ParseException.cpp.o
+[204/474] Building CXX object CMakeFiles/geos.dir/src/io/StringTokenizer.cpp.o
+[205/474] Building CXX object CMakeFiles/geos.dir/src/io/WKBStreamReader.cpp.o
+[206/474] Building CXX object CMakeFiles/geos.dir/src/io/WKBReader.cpp.o
+[207/474] Building CXX object CMakeFiles/geos.dir/src/io/WKBWriter.cpp.o
+[208/474] Building CXX object CMakeFiles/geos.dir/src/io/WKTFileReader.cpp.o
+[209/474] Building CXX object CMakeFiles/geos.dir/src/io/WKTStreamReader.cpp.o
+[210/474] Building CXX object CMakeFiles/geos.dir/src/io/WKTReader.cpp.o
+[211/474] Building CXX object CMakeFiles/geos.dir/src/io/Writer.cpp.o
+[212/474] Building CXX object CMakeFiles/geos.dir/src/io/WKTWriter.cpp.o
+[213/474] Building CXX object CMakeFiles/geos.dir/src/linearref/ExtractLineByLocation.cpp.o
+[214/474] Building CXX object CMakeFiles/geos.dir/src/linearref/LengthIndexOfPoint.cpp.o
+[215/474] Building CXX object CMakeFiles/geos.dir/src/linearref/LengthIndexedLine.cpp.o
+[216/474] Building CXX object CMakeFiles/geos.dir/src/linearref/LengthLocationMap.cpp.o
+[217/474] Building CXX object CMakeFiles/geos.dir/src/linearref/LinearGeometryBuilder.cpp.o
+[218/474] Building CXX object CMakeFiles/geos.dir/src/linearref/LinearIterator.cpp.o
+[219/474] Building CXX object CMakeFiles/geos.dir/src/linearref/LinearLocation.cpp.o
+[220/474] Building CXX object CMakeFiles/geos.dir/src/linearref/LocationIndexOfLine.cpp.o
+[221/474] Building CXX object CMakeFiles/geos.dir/src/linearref/LocationIndexOfPoint.cpp.o
+[222/474] Building CXX object CMakeFiles/geos.dir/src/math/DD.cpp.o
+[223/474] Building CXX object CMakeFiles/geos.dir/src/noding/ArcIntersectionAdder.cpp.o
+[224/474] Building CXX object CMakeFiles/geos.dir/src/noding/ArcNoder.cpp.o
+[225/474] Building CXX object CMakeFiles/geos.dir/src/noding/ArcString.cpp.o
+[226/474] Building CXX object CMakeFiles/geos.dir/src/noding/BasicSegmentString.cpp.o
+[227/474] Building CXX object CMakeFiles/geos.dir/src/noding/DirectionIndependentArcString.cpp.o
+[228/474] Building CXX object CMakeFiles/geos.dir/src/noding/BoundaryChainNoder.cpp.o
+[229/474] Building CXX object CMakeFiles/geos.dir/src/noding/FastNodingValidator.cpp.o
+[230/474] Building CXX object CMakeFiles/geos.dir/src/noding/FastSegmentSetIntersectionFinder.cpp.o
+[231/474] Building CXX object CMakeFiles/geos.dir/src/noding/IntersectionAdder.cpp.o
+[232/474] Building CXX object CMakeFiles/geos.dir/src/noding/GeometryNoder.cpp.o
+[233/474] Building CXX object CMakeFiles/geos.dir/src/noding/IntersectionFinderAdder.cpp.o
+[234/474] Building CXX object CMakeFiles/geos.dir/src/noding/IteratedNoder.cpp.o
+[235/474] Building CXX object CMakeFiles/geos.dir/src/noding/MCIndexNoder.cpp.o
+[236/474] Building CXX object CMakeFiles/geos.dir/src/noding/MCIndexSegmentSetMutualIntersector.cpp.o
+[237/474] Building CXX object CMakeFiles/geos.dir/src/noding/NodableArcString.cpp.o
+[238/474] Building CXX object CMakeFiles/geos.dir/src/noding/NodedSegmentString.cpp.o
+[239/474] Building CXX object CMakeFiles/geos.dir/src/noding/Noder.cpp.o
+[240/474] Building CXX object CMakeFiles/geos.dir/src/noding/NodingIntersectionFinder.cpp.o
+[241/474] Building CXX object CMakeFiles/geos.dir/src/noding/NodingValidator.cpp.o
+[242/474] Building CXX object CMakeFiles/geos.dir/src/noding/Octant.cpp.o
+[243/474] Building CXX object CMakeFiles/geos.dir/src/noding/OrientedCoordinateArray.cpp.o
+[244/474] Building CXX object CMakeFiles/geos.dir/src/noding/PathString.cpp.o
+[245/474] Building CXX object CMakeFiles/geos.dir/src/noding/ScaledNoder.cpp.o
+[246/474] Building CXX object CMakeFiles/geos.dir/src/noding/SegmentExtractingNoder.cpp.o
+[247/474] Building CXX object CMakeFiles/geos.dir/src/noding/SegmentNode.cpp.o
+[248/474] Building CXX object CMakeFiles/geos.dir/src/noding/SegmentIntersectionDetector.cpp.o
+[249/474] Building CXX object CMakeFiles/geos.dir/src/noding/SegmentString.cpp.o
+[250/474] Building CXX object CMakeFiles/geos.dir/src/noding/SegmentNodeList.cpp.o
+[251/474] Building CXX object CMakeFiles/geos.dir/src/noding/SegmentStringUtil.cpp.o
+[252/474] Building CXX object CMakeFiles/geos.dir/src/noding/SimpleNoder.cpp.o
+[253/474] Building CXX object CMakeFiles/geos.dir/src/noding/ValidatingNoder.cpp.o
+[254/474] Building CXX object CMakeFiles/geos.dir/src/noding/snap/SnappingIntersectionAdder.cpp.o
+[255/474] Building CXX object CMakeFiles/geos.dir/src/noding/snap/SnappingNoder.cpp.o
+[256/474] Building CXX object CMakeFiles/geos.dir/src/noding/snap/SnappingPointIndex.cpp.o
+[257/474] Building CXX object CMakeFiles/geos.dir/src/noding/snapround/HotPixel.cpp.o
+[258/474] Building CXX object CMakeFiles/geos.dir/src/noding/snapround/HotPixelIndex.cpp.o
+[259/474] Building CXX object CMakeFiles/geos.dir/src/noding/snapround/MCIndexPointSnapper.cpp.o
+[260/474] Building CXX object CMakeFiles/geos.dir/src/noding/snapround/SnapRoundingIntersectionAdder.cpp.o
+[261/474] Building CXX object CMakeFiles/geos.dir/src/noding/snapround/MCIndexSnapRounder.cpp.o
+[262/474] Building CXX object CMakeFiles/geos.dir/src/operation/BoundaryOp.cpp.o
+[263/474] Building CXX object CMakeFiles/geos.dir/src/noding/snapround/SnapRoundingNoder.cpp.o
+[264/474] Building CXX object CMakeFiles/geos.dir/src/operation/GeometryGraphOperation.cpp.o
+[265/474] Building CXX object CMakeFiles/geos.dir/src/operation/buffer/BufferCurveSetBuilder.cpp.o
+[266/474] Building CXX object CMakeFiles/geos.dir/src/operation/buffer/BufferBuilder.cpp.o
+[267/474] Building CXX object CMakeFiles/geos.dir/src/operation/buffer/BufferInputLineSimplifier.cpp.o
+[268/474] Building CXX object CMakeFiles/geos.dir/src/operation/buffer/BufferNodeFactory.cpp.o
+[269/474] Building CXX object CMakeFiles/geos.dir/src/operation/buffer/BufferOp.cpp.o
+[270/474] Building CXX object CMakeFiles/geos.dir/src/operation/buffer/BufferParameters.cpp.o
+[271/474] Building CXX object CMakeFiles/geos.dir/src/operation/buffer/BufferSubgraph.cpp.o
+[272/474] Building CXX object CMakeFiles/geos.dir/src/operation/buffer/MaximalEdgeRing.cpp.o
+[273/474] Building CXX object CMakeFiles/geos.dir/src/operation/buffer/MinimalEdgeRing.cpp.o
+[274/474] Building CXX object CMakeFiles/geos.dir/src/operation/buffer/OffsetCurve.cpp.o
+[275/474] Building CXX object CMakeFiles/geos.dir/src/operation/buffer/OffsetCurveBuilder.cpp.o
+[276/474] Building CXX object CMakeFiles/geos.dir/src/operation/buffer/OffsetCurveSection.cpp.o
+[277/474] Building CXX object CMakeFiles/geos.dir/src/operation/buffer/OffsetSegmentGenerator.cpp.o
+[278/474] Building CXX object CMakeFiles/geos.dir/src/operation/buffer/PolygonBuilder.cpp.o
+[279/474] Building CXX object CMakeFiles/geos.dir/src/operation/buffer/RightmostEdgeFinder.cpp.o
+[280/474] Building CXX object CMakeFiles/geos.dir/src/operation/buffer/SubgraphDepthLocater.cpp.o
+[281/474] Building CXX object CMakeFiles/geos.dir/src/operation/buffer/SegmentMCIndex.cpp.o
+[282/474] Building CXX object CMakeFiles/geos.dir/src/operation/cluster/Clusters.cpp.o
+[283/474] Building CXX object CMakeFiles/geos.dir/src/operation/cluster/AbstractClusterFinder.cpp.o
+[284/474] Building CXX object CMakeFiles/geos.dir/src/operation/cluster/GeometryFlattener.cpp.o
+[285/474] Building CXX object CMakeFiles/geos.dir/src/operation/cluster/DBSCANClusterFinder.cpp.o
+[286/474] Building CXX object CMakeFiles/geos.dir/src/operation/cluster/UnionFind.cpp.o
+[287/474] Building CXX object CMakeFiles/geos.dir/src/operation/distance/ConnectedElementLocationFilter.cpp.o
+[288/474] Building CXX object CMakeFiles/geos.dir/src/operation/distance/ConnectedElementPointFilter.cpp.o
+[289/474] Building CXX object CMakeFiles/geos.dir/src/operation/distance/DistanceOp.cpp.o
+[290/474] Building CXX object CMakeFiles/geos.dir/src/operation/distance/FacetSequence.cpp.o
+[291/474] Building CXX object CMakeFiles/geos.dir/src/operation/distance/GeometryLocation.cpp.o
+[292/474] Building CXX object CMakeFiles/geos.dir/src/operation/distance/FacetSequenceTreeBuilder.cpp.o
+[293/474] Building CXX object CMakeFiles/geos.dir/src/operation/grid/Cell.cpp.o
+[294/474] Building CXX object CMakeFiles/geos.dir/src/operation/distance/IndexedFacetDistance.cpp.o
+[295/474] Building CXX object CMakeFiles/geos.dir/src/operation/grid/FloodFill.cpp.o
+[296/474] Building CXX object CMakeFiles/geos.dir/src/operation/grid/Grid.cpp.o
+[297/474] Building CXX object CMakeFiles/geos.dir/src/operation/grid/PerimeterDistance.cpp.o
+[298/474] Building CXX object CMakeFiles/geos.dir/src/operation/grid/Traversal.cpp.o
+[299/474] Building CXX object CMakeFiles/geos.dir/src/operation/grid/GridIntersection.cpp.o
+[300/474] Building CXX object CMakeFiles/geos.dir/src/operation/intersection/Rectangle.cpp.o
+[301/474] Building CXX object CMakeFiles/geos.dir/src/operation/grid/TraversalAreas.cpp.o
+[302/474] Building CXX object CMakeFiles/geos.dir/src/operation/intersection/RectangleIntersection.cpp.o
+[303/474] Building CXX object CMakeFiles/geos.dir/src/operation/linemerge/EdgeString.cpp.o
+[304/474] Building CXX object CMakeFiles/geos.dir/src/operation/intersection/RectangleIntersectionBuilder.cpp.o
+[305/474] Building CXX object CMakeFiles/geos.dir/src/operation/linemerge/LineMergeDirectedEdge.cpp.o
+[306/474] Building CXX object CMakeFiles/geos.dir/src/operation/linemerge/LineMergeEdge.cpp.o
+[307/474] Building CXX object CMakeFiles/geos.dir/src/operation/linemerge/LineMergeGraph.cpp.o
+[308/474] Building CXX object CMakeFiles/geos.dir/src/operation/linemerge/LineMerger.cpp.o
+[309/474] Building CXX object CMakeFiles/geos.dir/src/operation/linemerge/LineSequencer.cpp.o
+[310/474] Building CXX object CMakeFiles/geos.dir/src/operation/overlay/snap/GeometrySnapper.cpp.o
+[311/474] Building CXX object CMakeFiles/geos.dir/src/operation/overlay/snap/LineStringSnapper.cpp.o
+[312/474] Building CXX object CMakeFiles/geos.dir/src/operation/overlay/snap/SnapOverlayOp.cpp.o
+[313/474] Building CXX object CMakeFiles/geos.dir/src/operation/overlay/validate/OffsetPointGenerator.cpp.o
+[314/474] Building CXX object CMakeFiles/geos.dir/src/operation/overlay/validate/FuzzyPointLocator.cpp.o
+[315/474] Building CXX object CMakeFiles/geos.dir/src/operation/overlayng/CoverageUnion.cpp.o
+[316/474] Building CXX object CMakeFiles/geos.dir/src/operation/overlay/validate/OverlayResultValidator.cpp.o
+[317/474] Building CXX object CMakeFiles/geos.dir/src/operation/overlayng/EdgeKey.cpp.o
+[318/474] Building CXX object CMakeFiles/geos.dir/src/operation/overlayng/Edge.cpp.o
+[319/474] Building CXX object CMakeFiles/geos.dir/src/operation/overlayng/EdgeMerger.cpp.o
+[320/474] Building CXX object CMakeFiles/geos.dir/src/operation/overlayng/EdgeSourceInfo.cpp.o
+[321/474] Building CXX object CMakeFiles/geos.dir/src/operation/overlayng/ElevationModel.cpp.o
+[322/474] Building CXX object CMakeFiles/geos.dir/src/operation/overlayng/EdgeNodingBuilder.cpp.o
+[323/474] Building CXX object CMakeFiles/geos.dir/src/operation/overlayng/IndexedPointOnLineLocator.cpp.o
+[324/474] Building CXX object CMakeFiles/geos.dir/src/operation/overlayng/InputGeometry.cpp.o
+[325/474] Building CXX object CMakeFiles/geos.dir/src/operation/overlayng/IntersectionPointBuilder.cpp.o
+[326/474] Building CXX object CMakeFiles/geos.dir/src/operation/overlayng/LineBuilder.cpp.o
+[327/474] Building CXX object CMakeFiles/geos.dir/src/operation/overlayng/LineLimiter.cpp.o
+[328/474] Building CXX object CMakeFiles/geos.dir/src/operation/overlayng/MaximalEdgeRing.cpp.o
+[329/474] Building CXX object CMakeFiles/geos.dir/src/operation/overlayng/OverlayEdge.cpp.o
+[330/474] Building CXX object CMakeFiles/geos.dir/src/operation/overlayng/OverlayEdgeRing.cpp.o
+[331/474] Building CXX object CMakeFiles/geos.dir/src/operation/overlayng/OverlayGraph.cpp.o
+[332/474] Building CXX object CMakeFiles/geos.dir/src/operation/overlayng/OverlayLabel.cpp.o
+[333/474] Building CXX object CMakeFiles/geos.dir/src/operation/overlayng/OverlayLabeller.cpp.o
+[334/474] Building CXX object CMakeFiles/geos.dir/src/operation/overlayng/OverlayMixedPoints.cpp.o
+[335/474] Building CXX object CMakeFiles/geos.dir/src/operation/overlayng/OverlayNG.cpp.o
+[336/474] Building CXX object CMakeFiles/geos.dir/src/operation/overlayng/OverlayNGRobust.cpp.o
+[337/474] Building CXX object CMakeFiles/geos.dir/src/operation/overlayng/OverlayUtil.cpp.o
+[338/474] Building CXX object CMakeFiles/geos.dir/src/operation/overlayng/OverlayPoints.cpp.o
+[339/474] Building CXX object CMakeFiles/geos.dir/src/operation/overlayng/PrecisionReducer.cpp.o
+[340/474] Building CXX object CMakeFiles/geos.dir/src/operation/overlayng/PolygonBuilder.cpp.o
+[341/474] Building CXX object CMakeFiles/geos.dir/src/operation/overlayng/PrecisionUtil.cpp.o
+[342/474] Building CXX object CMakeFiles/geos.dir/src/operation/overlayng/RobustClipEnvelopeComputer.cpp.o
+[343/474] Building CXX object CMakeFiles/geos.dir/src/operation/overlayng/RingClipper.cpp.o
+[344/474] Building CXX object CMakeFiles/geos.dir/src/operation/overlayng/UnaryUnionNG.cpp.o
+[345/474] Building CXX object CMakeFiles/geos.dir/src/operation/polygonize/BuildArea.cpp.o
+[346/474] Building CXX object CMakeFiles/geos.dir/src/operation/polygonize/EdgeRing.cpp.o
+[347/474] Building CXX object CMakeFiles/geos.dir/src/operation/polygonize/HoleAssigner.cpp.o
+[348/474] Building CXX object CMakeFiles/geos.dir/src/operation/polygonize/PolygonizeDirectedEdge.cpp.o
+[349/474] Building CXX object CMakeFiles/geos.dir/src/operation/polygonize/PolygonizeEdge.cpp.o
+[350/474] Building CXX object CMakeFiles/geos.dir/src/operation/polygonize/PolygonizeGraph.cpp.o
+[351/474] Building CXX object CMakeFiles/geos.dir/src/operation/polygonize/Polygonizer.cpp.o
+[352/474] Building CXX object CMakeFiles/geos.dir/src/operation/predicate/RectangleContains.cpp.o
+[353/474] Building CXX object CMakeFiles/geos.dir/src/operation/predicate/RectangleIntersects.cpp.o
+[354/474] Building CXX object CMakeFiles/geos.dir/src/operation/predicate/SegmentIntersectionTester.cpp.o
+[355/474] Building CXX object CMakeFiles/geos.dir/src/operation/relate/EdgeEndBuilder.cpp.o
+[356/474] Building CXX object CMakeFiles/geos.dir/src/operation/relate/EdgeEndBundle.cpp.o
+[357/474] Building CXX object CMakeFiles/geos.dir/src/operation/relate/EdgeEndBundleStar.cpp.o
+[358/474] Building CXX object CMakeFiles/geos.dir/src/operation/relate/RelateComputer.cpp.o
+[359/474] Building CXX object CMakeFiles/geos.dir/src/operation/relate/RelateNode.cpp.o
+[360/474] Building CXX object CMakeFiles/geos.dir/src/operation/relate/RelateNodeFactory.cpp.o
+[361/474] Building CXX object CMakeFiles/geos.dir/src/operation/relate/RelateNodeGraph.cpp.o
+[362/474] Building CXX object CMakeFiles/geos.dir/src/operation/relate/RelateOp.cpp.o
+[363/474] Building CXX object CMakeFiles/geos.dir/src/operation/relateng/AdjacentEdgeLocator.cpp.o
+[364/474] Building CXX object CMakeFiles/geos.dir/src/operation/relateng/BasicPredicate.cpp.o
+[365/474] Building CXX object CMakeFiles/geos.dir/src/operation/relateng/DimensionLocation.cpp.o
+[366/474] Building CXX object CMakeFiles/geos.dir/src/operation/relateng/EdgeSegmentIntersector.cpp.o
+[367/474] Building CXX object CMakeFiles/geos.dir/src/operation/relateng/EdgeSegmentOverlapAction.cpp.o
+[368/474] Building CXX object CMakeFiles/geos.dir/src/operation/relateng/IMPatternMatcher.cpp.o
+[369/474] Building CXX object CMakeFiles/geos.dir/src/operation/relateng/EdgeSetIntersector.cpp.o
+[370/474] Building CXX object CMakeFiles/geos.dir/src/operation/relateng/IMPredicate.cpp.o
+[371/474] Building CXX object CMakeFiles/geos.dir/src/operation/relateng/LineStringExtracter.cpp.o
+[372/474] Building CXX object CMakeFiles/geos.dir/src/operation/relateng/LinearBoundary.cpp.o
+[373/474] Building CXX object CMakeFiles/geos.dir/src/operation/relateng/NodeSection.cpp.o
+[374/474] Building CXX object CMakeFiles/geos.dir/src/operation/relateng/NodeSections.cpp.o
+[375/474] Building CXX object CMakeFiles/geos.dir/src/operation/relateng/PolygonNodeConverter.cpp.o
+[376/474] Building CXX object CMakeFiles/geos.dir/src/operation/relateng/RelateEdge.cpp.o
+[377/474] Building CXX object CMakeFiles/geos.dir/src/operation/relateng/RelateGeometry.cpp.o
+[378/474] Building CXX object CMakeFiles/geos.dir/src/operation/relateng/RelateNode.cpp.o
+[379/474] Building CXX object CMakeFiles/geos.dir/src/operation/relateng/RelateNG.cpp.o
+[380/474] Building CXX object CMakeFiles/geos.dir/src/operation/relateng/RelatePointLocator.cpp.o
+[381/474] Building CXX object CMakeFiles/geos.dir/src/operation/relateng/RelatePredicate.cpp.o
+[382/474] Building CXX object CMakeFiles/geos.dir/src/operation/relateng/RelateSegmentString.cpp.o
+[383/474] Building CXX object CMakeFiles/geos.dir/src/operation/relateng/TopologyComputer.cpp.o
+[384/474] Building CXX object CMakeFiles/geos.dir/src/operation/sharedpaths/SharedPathsOp.cpp.o
+[385/474] Building CXX object CMakeFiles/geos.dir/src/operation/spanning/SpanningTree.cpp.o
+[386/474] Building CXX object CMakeFiles/geos.dir/src/operation/split/GeometrySplitter.cpp.o
+[387/474] Building CXX object CMakeFiles/geos.dir/src/operation/split/SplitLinealAtPoint.cpp.o
+[388/474] Building CXX object CMakeFiles/geos.dir/src/operation/union/CascadedPolygonUnion.cpp.o
+[389/474] Building CXX object CMakeFiles/geos.dir/src/operation/union/CoverageUnion.cpp.o
+[390/474] Building CXX object CMakeFiles/geos.dir/src/operation/union/OverlapUnion.cpp.o
+[391/474] Building CXX object CMakeFiles/geos.dir/src/operation/union/PointGeometryUnion.cpp.o
+[392/474] Building CXX object CMakeFiles/geos.dir/src/operation/union/UnionStrategy.cpp.o
+[393/474] Building CXX object CMakeFiles/geos.dir/src/operation/union/UnaryUnionOp.cpp.o
+[394/474] Building CXX object CMakeFiles/geos.dir/src/operation/valid/IndexedNestedHoleTester.cpp.o
+[395/474] Building CXX object CMakeFiles/geos.dir/src/operation/valid/IndexedNestedPolygonTester.cpp.o
+[396/474] Building CXX object CMakeFiles/geos.dir/src/operation/valid/IsSimpleOp.cpp.o
+[397/474] Building CXX object CMakeFiles/geos.dir/src/operation/valid/IsValidOp.cpp.o
+[398/474] Building CXX object CMakeFiles/geos.dir/src/operation/valid/PolygonIntersectionAnalyzer.cpp.o
+[399/474] Building CXX object CMakeFiles/geos.dir/src/operation/valid/MakeValid.cpp.o
+[400/474] Building CXX object CMakeFiles/geos.dir/src/operation/valid/PolygonRingSelfNode.cpp.o
+[401/474] Building CXX object CMakeFiles/geos.dir/src/operation/valid/PolygonRing.cpp.o
+[402/474] Building CXX object CMakeFiles/geos.dir/src/operation/valid/PolygonRingTouch.cpp.o
+[403/474] Building CXX object CMakeFiles/geos.dir/src/operation/valid/RepeatedPointRemover.cpp.o
+[404/474] Building CXX object CMakeFiles/geos.dir/src/operation/valid/PolygonTopologyAnalyzer.cpp.o
+[405/474] Building CXX object CMakeFiles/geos.dir/src/operation/valid/RepeatedPointTester.cpp.o
+[406/474] Building CXX object CMakeFiles/geos.dir/src/operation/valid/TopologyValidationError.cpp.o
+[407/474] Building CXX object CMakeFiles/geos.dir/src/planargraph/DirectedEdge.cpp.o
+[408/474] Building CXX object CMakeFiles/geos.dir/src/planargraph/DirectedEdgeStar.cpp.o
+[409/474] Building CXX object CMakeFiles/geos.dir/src/planargraph/Edge.cpp.o
+[410/474] Building CXX object CMakeFiles/geos.dir/src/planargraph/Node.cpp.o
+[411/474] Building CXX object CMakeFiles/geos.dir/src/planargraph/NodeMap.cpp.o
+[412/474] Building CXX object CMakeFiles/geos.dir/src/planargraph/PlanarGraph.cpp.o
+[413/474] Building CXX object CMakeFiles/geos.dir/src/planargraph/Subgraph.cpp.o
+[414/474] Building CXX object CMakeFiles/geos.dir/src/precision/CommonBits.cpp.o
+[415/474] Building CXX object CMakeFiles/geos.dir/src/planargraph/algorithm/ConnectedSubgraphFinder.cpp.o
+[416/474] Building CXX object CMakeFiles/geos.dir/src/precision/CommonBitsOp.cpp.o
+[417/474] Building CXX object CMakeFiles/geos.dir/src/precision/CommonBitsRemover.cpp.o
+[418/474] Building CXX object CMakeFiles/geos.dir/src/precision/EnhancedPrecisionOp.cpp.o
+[419/474] Building CXX object CMakeFiles/geos.dir/src/precision/GeometryPrecisionReducer.cpp.o
+[420/474] Building CXX object CMakeFiles/geos.dir/src/precision/PointwisePrecisionReducerTransformer.cpp.o
+[421/474] Building CXX object CMakeFiles/geos.dir/src/precision/MinimumClearance.cpp.o
+[422/474] Building CXX object CMakeFiles/geos.dir/src/precision/PrecisionReducerTransformer.cpp.o
+[423/474] Building CXX object CMakeFiles/geos.dir/src/precision/SimpleGeometryPrecisionReducer.cpp.o
+[424/474] Building CXX object CMakeFiles/geos.dir/src/shape/GeometricShapeBuilder.cpp.o
+[425/474] Building CXX object CMakeFiles/geos.dir/src/shape/fractal/HilbertCode.cpp.o
+[426/474] Building CXX object CMakeFiles/geos.dir/src/shape/fractal/MortonCode.cpp.o
+[427/474] Building CXX object CMakeFiles/geos.dir/src/shape/fractal/HilbertEncoder.cpp.o
+[428/474] Building CXX object CMakeFiles/geos.dir/src/simplify/ComponentJumpChecker.cpp.o
+[429/474] Building CXX object CMakeFiles/geos.dir/src/shape/random/RandomPointsBuilder.cpp.o
+[430/474] Building CXX object CMakeFiles/geos.dir/src/simplify/DouglasPeuckerLineSimplifier.cpp.o
+[431/474] Building CXX object CMakeFiles/geos.dir/src/simplify/DouglasPeuckerSimplifier.cpp.o
+[432/474] Building CXX object CMakeFiles/geos.dir/src/simplify/LineSegmentIndex.cpp.o
+[433/474] Building CXX object CMakeFiles/geos.dir/src/simplify/LinkedLine.cpp.o
+[434/474] Building CXX object CMakeFiles/geos.dir/src/simplify/LinkedRing.cpp.o
+[435/474] Building CXX object CMakeFiles/geos.dir/src/simplify/PolygonHullSimplifier.cpp.o
+[436/474] Building CXX object CMakeFiles/geos.dir/src/simplify/RingHull.cpp.o
+[437/474] Building CXX object CMakeFiles/geos.dir/src/simplify/RingHullIndex.cpp.o
+[438/474] Building CXX object CMakeFiles/geos.dir/src/simplify/TaggedLineSegment.cpp.o
+[439/474] Building CXX object CMakeFiles/geos.dir/src/simplify/TaggedLineString.cpp.o
+[440/474] Building CXX object CMakeFiles/geos.dir/src/simplify/TaggedLineStringSimplifier.cpp.o
+[441/474] Building CXX object CMakeFiles/geos.dir/src/simplify/TaggedLinesSimplifier.cpp.o
+[442/474] Building CXX object CMakeFiles/geos.dir/src/simplify/TopologyPreservingSimplifier.cpp.o
+[443/474] Building CXX object CMakeFiles/geos.dir/src/triangulate/DelaunayTriangulationBuilder.cpp.o
+[444/474] Building CXX object CMakeFiles/geos.dir/src/triangulate/IncrementalDelaunayTriangulator.cpp.o
+[445/474] Building CXX object CMakeFiles/geos.dir/src/triangulate/VoronoiDiagramBuilder.cpp.o
+[446/474] Building CXX object CMakeFiles/geos.dir/src/triangulate/polygon/ConstrainedDelaunayTriangulator.cpp.o
+[447/474] Building CXX object CMakeFiles/geos.dir/src/triangulate/polygon/PolygonEarClipper.cpp.o
+[448/474] Building CXX object CMakeFiles/geos.dir/src/triangulate/polygon/PolygonHoleJoiner.cpp.o
+[449/474] Building CXX object CMakeFiles/geos.dir/src/triangulate/polygon/PolygonNoder.cpp.o
+[450/474] Building CXX object CMakeFiles/geos.dir/src/triangulate/polygon/PolygonTriangulator.cpp.o
+[451/474] Building CXX object CMakeFiles/geos.dir/src/triangulate/polygon/TriDelaunayImprover.cpp.o
+[452/474] Building CXX object CMakeFiles/geos.dir/src/triangulate/quadedge/LastFoundQuadEdgeLocator.cpp.o
+[453/474] Building CXX object CMakeFiles/geos.dir/src/triangulate/quadedge/LocateFailureException.cpp.o
+[454/474] Building CXX object CMakeFiles/geos.dir/src/triangulate/quadedge/QuadEdge.cpp.o
+[455/474] Building CXX object CMakeFiles/geos.dir/src/triangulate/quadedge/QuadEdgeSubdivision.cpp.o
+[456/474] Building CXX object CMakeFiles/geos.dir/src/triangulate/quadedge/TrianglePredicate.cpp.o
+[457/474] Building CXX object CMakeFiles/geos.dir/src/triangulate/quadedge/Vertex.cpp.o
+[458/474] Building CXX object CMakeFiles/geos.dir/src/triangulate/tri/Tri.cpp.o
+[459/474] Building CXX object CMakeFiles/geos.dir/src/triangulate/tri/TriEdge.cpp.o
+[460/474] Building CXX object CMakeFiles/geos.dir/src/triangulate/tri/TriangulationBuilder.cpp.o
+[461/474] Building CXX object CMakeFiles/geos.dir/src/util/Assert.cpp.o
+[462/474] Building CXX object CMakeFiles/geos.dir/src/util/Interrupt.cpp.o
+[463/474] Building CXX object CMakeFiles/geos.dir/src/util/GeometricShapeFactory.cpp.o
+[464/474] Building CXX object CMakeFiles/geos.dir/src/util/Profiler.cpp.o
+[465/474] Building CXX object CMakeFiles/geos.dir/src/util/Progress.cpp.o
+[466/474] Building CXX object CMakeFiles/geos.dir/src/util/math.cpp.o
+[467/474] Building CXX object CMakeFiles/geos.dir/src/util/string.cpp.o
+[468/474] Building C object src/deps/CMakeFiles/ryu.dir/ryu/d2s.c.o
+[469/474] Linking CXX shared library lib/libgeos.3.15.0.dylib
+[470/474] Creating library symlink lib/libgeos.dylib
+[471/474] Building CXX object CMakeFiles/geos_c.dir/capi/geos_c.cpp.o
+[472/474] Building CXX object CMakeFiles/geos_c.dir/capi/geos_ts_c.cpp.o
+[473/474] Linking CXX shared library lib/libgeos_c.1.21.0.dylib
+[474/474] Creating library symlink lib/libgeos_c.1.dylib lib/libgeos_c.dylib
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/lib/libgeos.3.15.0.dylib
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/lib/libgeos.dylib
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/lib/libgeos_c.1.21.0.dylib
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/lib/libgeos_c.1.dylib
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/lib/libgeos_c.dylib
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/lib/cmake/GEOS/geos-targets.cmake
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/lib/cmake/GEOS/geos-targets-release.cmake
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/lib/cmake/GEOS/geos-config.cmake
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/lib/cmake/GEOS/geos-config-version.cmake
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geomgraph
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geomgraph/Label.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geomgraph/NodeMap.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geomgraph/Edge.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geomgraph/NodeFactory.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geomgraph/EdgeIntersectionList.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geomgraph/EdgeEndStar.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geomgraph/DirectedEdgeStar.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geomgraph/DirectedEdge.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geomgraph/Node.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geomgraph/EdgeIntersection.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geomgraph/EdgeRing.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geomgraph/GraphComponent.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geomgraph/EdgeNodingValidator.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geomgraph/index
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geomgraph/index/SegmentIntersector.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geomgraph/index/SweepLineEventObj.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geomgraph/index/SweepLineSegment.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geomgraph/index/SweepLineEvent.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geomgraph/index/MonotoneChain.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geomgraph/index/SimpleSweepLineIntersector.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geomgraph/index/MonotoneChainEdge.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geomgraph/index/SimpleEdgeSetIntersector.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geomgraph/index/SimpleMCSweepLineIntersector.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geomgraph/index/EdgeSetIntersector.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geomgraph/index/MonotoneChainIndexer.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geomgraph/Depth.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geomgraph/TopologyLocation.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geomgraph/EdgeEnd.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geomgraph/EdgeList.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geomgraph/GeometryGraph.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geomgraph/PlanarGraph.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/split
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/split/GeometrySplitter.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/split/SplitLinealAtPoint.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/valid
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/valid/IsSimpleOp.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/valid/RepeatedPointRemover.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/valid/TopologyValidationError.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/valid/IsValidOp.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/valid/ConsistentAreaTester.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/valid/PolygonRing.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/valid/MakeValid.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/valid/PolygonRingSelfNode.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/valid/RepeatedPointTester.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/valid/PolygonRingTouch.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/valid/PolygonIntersectionAnalyzer.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/valid/PolygonTopologyAnalyzer.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/valid/IndexedNestedPolygonTester.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/valid/IndexedNestedHoleTester.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/BoundaryOp.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/cluster
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/cluster/EnvelopeIntersectsClusterFinder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/cluster/AbstractClusterFinder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/cluster/GeometryFlattener.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/cluster/DBSCANClusterFinder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/cluster/GeometryIntersectsClusterFinder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/cluster/UnionFind.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/cluster/EnvelopeDistanceClusterFinder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/cluster/DisjointOperation.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/cluster/Clusters.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/cluster/GeometryDistanceClusterFinder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/predicate
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/predicate/RectangleIntersects.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/predicate/RectangleContains.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/predicate/SegmentIntersectionTester.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/relateng
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/relateng/LineStringExtracter.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/relateng/IntersectionMatrixPattern.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/relateng/PolygonNodeConverter.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/relateng/RelateGeometry.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/relateng/RelatePointLocator.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/relateng/AdjacentEdgeLocator.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/relateng/RelateSegmentString.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/relateng/TopologyPredicate.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/relateng/TopologyComputer.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/relateng/RelateMatrixPredicate.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/relateng/RelateNode.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/relateng/EdgeSegmentOverlapAction.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/relateng/RelateNG.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/relateng/RelatePredicate.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/relateng/DimensionLocation.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/relateng/NodeSection.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/relateng/IMPatternMatcher.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/relateng/RelateEdge.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/relateng/EdgeSegmentIntersector.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/relateng/BasicPredicate.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/relateng/LinearBoundary.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/relateng/EdgeSetIntersector.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/relateng/NodeSections.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/relateng/IMPredicate.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/overlayng
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/overlayng/InputGeometry.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/overlayng/OverlayMixedPoints.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/overlayng/RingClipper.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/overlayng/EdgeSourceInfo.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/overlayng/LineBuilder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/overlayng/PrecisionReducer.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/overlayng/Edge.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/overlayng/OverlayGraph.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/overlayng/OverlayNG.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/overlayng/LineLimiter.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/overlayng/OverlayLabel.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/overlayng/OverlayEdgeRing.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/overlayng/OverlayPoints.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/overlayng/PrecisionUtil.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/overlayng/OverlayUtil.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/overlayng/IndexedPointOnLineLocator.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/overlayng/UnaryUnionNG.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/overlayng/CoverageUnion.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/overlayng/EdgeKey.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/overlayng/OverlayLabeller.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/overlayng/EdgeMerger.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/overlayng/PolygonBuilder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/overlayng/ElevationModel.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/overlayng/IntersectionPointBuilder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/overlayng/RobustClipEnvelopeComputer.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/overlayng/EdgeNodingBuilder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/overlayng/MaximalEdgeRing.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/overlayng/OverlayEdge.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/overlayng/OverlayNGRobust.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/distance
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/distance/ConnectedElementPointFilter.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/distance/DistanceOp.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/distance/GeometryLocation.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/distance/IndexedFacetDistance.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/distance/FacetSequenceTreeBuilder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/distance/FacetSequence.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/distance/ConnectedElementLocationFilter.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/GeometryGraphOperation.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/intersection
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/intersection/RectangleIntersectionBuilder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/intersection/RectangleIntersection.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/intersection/Rectangle.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/polygonize
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/polygonize/PolygonizeEdge.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/polygonize/Polygonizer.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/polygonize/EdgeRing.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/polygonize/PolygonizeGraph.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/polygonize/BuildArea.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/polygonize/PolygonizeDirectedEdge.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/polygonize/HoleAssigner.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/union
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/union/OverlapUnion.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/union/UnaryUnionOp.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/union/CascadedPolygonUnion.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/union/DisjointSubsetUnion.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/union/CoverageUnion.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/union/UnionStrategy.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/union/PointGeometryUnion.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/spanning
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/spanning/SpanningTree.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/linemerge
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/linemerge/LineMergeEdge.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/linemerge/LineSequencer.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/linemerge/LineMergeDirectedEdge.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/linemerge/LineMerger.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/linemerge/LineMergeGraph.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/linemerge/EdgeString.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/relate
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/relate/RelateOp.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/relate/EdgeEndBundleStar.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/relate/RelateNodeFactory.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/relate/RelateNodeGraph.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/relate/RelateNode.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/relate/RelateComputer.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/relate/EdgeEndBundle.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/relate/EdgeEndBuilder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/overlay
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/overlay/validate
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/overlay/validate/OffsetPointGenerator.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/overlay/validate/FuzzyPointLocator.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/overlay/validate/OverlayResultValidator.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/overlay/snap
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/overlay/snap/GeometrySnapper.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/overlay/snap/LineStringSnapper.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/overlay/snap/SnapOverlayOp.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/sharedpaths
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/sharedpaths/SharedPathsOp.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/buffer
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/buffer/OffsetCurve.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/buffer/BufferCurveSetBuilder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/buffer/OffsetSegmentString.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/buffer/BufferInputLineSimplifier.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/buffer/BufferBuilder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/buffer/OffsetCurveSection.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/buffer/OffsetSegmentGenerator.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/buffer/BufferNodeFactory.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/buffer/SubgraphDepthLocater.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/buffer/SegmentMCIndex.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/buffer/PolygonBuilder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/buffer/OffsetCurveBuilder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/buffer/RightmostEdgeFinder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/buffer/MinimalEdgeRing.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/buffer/BufferSubgraph.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/buffer/BufferOp.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/buffer/MaximalEdgeRing.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/buffer/BufferParameters.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/grid
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/grid/PerimeterDistance.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/grid/FloodFill.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/grid/Cell.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/grid/Traversal.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/grid/Matrix.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/grid/Grid.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/grid/GridIntersection.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/grid/Crossing.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/grid/Side.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/grid/TraversalAreas.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/shape
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/shape/fractal
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/shape/fractal/HilbertEncoder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/shape/fractal/MortonCode.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/shape/fractal/HilbertCode.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/shape/GeometricShapeBuilder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/shape/random
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/shape/random/RandomPointsBuilder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/export.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/util
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/util/Progress.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/util/GeometricShapeFactory.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/util/GEOSException.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/util/Machine.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/util/TopologyException.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/util/UniqueCoordinateArrayFilter.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/util/Interrupt.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/util/math.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/util/UnsupportedOperationException.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/util/IllegalStateException.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/util/CoordinateArrayFilter.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/util/Assert.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/util/IllegalArgumentException.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/util/AssertionFailedException.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/util/string.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/linearref
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/linearref/LinearLocation.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/linearref/LengthIndexOfPoint.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/linearref/ExtractLineByLocation.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/linearref/LinearIterator.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/linearref/LengthLocationMap.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/linearref/LinearGeometryBuilder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/linearref/LocationIndexOfLine.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/linearref/LocationIndexOfPoint.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/linearref/LocationIndexedLine.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/linearref/LengthIndexedLine.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/io
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/io/CLocalizer.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/io/WKBReader.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/io/GeoJSONReader.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/io/GeoJSON.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/io/WKTFileReader.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/io/WKTReader.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/io/ByteOrderValues.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/io/WKBConstants.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/io/StringTokenizer.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/io/WKBWriter.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/io/OrdinateSet.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/io/GeoJSONWriter.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/io/Writer.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/io/WKTStreamReader.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/io/ParseException.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/io/WKBStreamReader.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/io/ByteOrderDataInStream.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/io/CheckOrdinatesFilter.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/io/WKTWriter.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/planargraph
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/planargraph/Subgraph.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/planargraph/NodeMap.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/planargraph/Edge.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/planargraph/DirectedEdgeStar.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/planargraph/DirectedEdge.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/planargraph/Node.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/planargraph/algorithm
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/planargraph/algorithm/ConnectedSubgraphFinder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/planargraph/GraphComponent.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/planargraph/PlanarGraph.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/InteriorPointArea.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/PointInRing.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/HCoordinate.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/locate
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/locate/IndexedPointInAreaLocator.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/locate/SimplePointInAreaLocator.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/locate/PointOnGeometryLocator.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/LineToCurveParams.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/Intersection.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/Orientation.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/Distance.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/PolygonNodeTopology.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/CircularArcs.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/MinimumAreaRectangle.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/InteriorPointPoint.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/hull
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/hull/ConcaveHullOfPolygons.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/hull/ConcaveHull.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/hull/HullTriangulation.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/hull/OuterShellsExtracter.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/hull/HullTri.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/MinimumBoundingCircle.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/distance
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/distance/PointPairDistance.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/distance/DistanceToPoint.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/distance/DiscreteHausdorffDistance.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/distance/DiscreteFrechetDistance.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/LineIntersector.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/NotRepresentableException.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/CircularArcIntersector.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/RobustDeterminant.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/Area.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/Interpolate.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/Centroid.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/RayCrossingCounter.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/Angle.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/BoundaryNodeRule.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/LineToCurveConverter.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/CentralEndpointIntersector.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/MinimumDiameter.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/Length.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/InteriorPointLine.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/Rectangle.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/PointLocation.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/ConvexHull.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/CGAlgorithmsDD.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/PointLocator.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/CurveToLineParams.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/construct
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/construct/IndexedPointInPolygonsLocator.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/construct/IndexedDistanceToPoint.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/construct/MaximumInscribedCircle.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/construct/ExactMaxInscribedCircle.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/construct/LargestEmptyCircle.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/math
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/math/DD.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/constants.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/Polygon.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/prep
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/prep/PreparedPolygon.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/prep/PreparedPoint.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/prep/PreparedPolygonIntersects.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/prep/PreparedPolygonCovers.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/prep/PreparedGeometry.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/prep/PreparedPolygonDistance.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/prep/PreparedLineString.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/prep/PreparedPolygonContainsProperly.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/prep/BasicPreparedGeometry.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/prep/AbstractPreparedPolygonContains.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/prep/PreparedPolygonPredicate.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/prep/PreparedLineStringIntersects.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/prep/PreparedLineStringNearestPoints.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/prep/PreparedLineStringDistance.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/prep/PreparedGeometryFactory.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/prep/PreparedPolygonContains.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/GeometryFilter.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/GeometryCollection.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/CircularString.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/Point.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/util
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/util/GeometryLister.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/util/CoordinateOperation.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/util/SineStarFactory.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/util/PolygonalExtracter.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/util/GeometryCombiner.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/util/ComponentCoordinateExtracter.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/util/CurveBuilder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/util/NoOpGeometryOperation.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/util/PolygonExtracter.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/util/GeometryFixer.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/util/LinearComponentExtracter.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/util/SurfaceExtracter.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/util/PointExtracter.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/util/GeometryMapper.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/util/SimpleCurveExtracter.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/util/GeometryTransformer.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/util/ShortCircuitedGeometryVisitor.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/util/GeometryExtracter.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/util/GeometryEditorOperation.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/util/LinealExtracter.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/util/Densifier.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/util/GeometryEditor.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/Surface.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/GeometryFactory.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/MultiCurve.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/CoordinateSequenceFilter.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/SimpleCurve.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/Coordinate.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/LineSegment.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/Curve.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/MultiPolygon.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/CoordinateList.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/GeometryTypeName.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/MultiLineString.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/IntersectionMatrix.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/LinearRing.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/Quadrant.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/SurfaceImpl.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/PrecisionModel.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/MultiSurface.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/GeometryComponentFilter.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/Triangle.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/CurvePolygon.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/Location.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/Envelope.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/CompoundCurve.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/CoordinateSequence.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/CircularArc.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/MultiPoint.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/LineString.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/CoordinateSequenceIterator.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/Dimension.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/Position.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/CoordinateSequences.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/Geometry.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/CoordinateFilter.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/HeuristicOverlay.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/namespaces.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/util.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/edgegraph
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/edgegraph/EdgeGraphBuilder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/edgegraph/MarkHalfEdge.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/edgegraph/HalfEdge.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/edgegraph/EdgeGraph.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/kdtree
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/kdtree/KdTree.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/kdtree/KdNode.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/kdtree/KdNodeVisitor.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/VertexSequencePackedRtree.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/SpatialIndex.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/sweepline
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/sweepline/SweepLineIndex.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/sweepline/SweepLineInterval.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/sweepline/SweepLineOverlapAction.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/sweepline/SweepLineEvent.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/strtree
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/strtree/EnvelopeUtil.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/strtree/AbstractNode.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/strtree/AbstractSTRtree.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/strtree/ItemDistance.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/strtree/STRtree.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/strtree/GeometryItemDistance.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/strtree/TemplateSTRtreeDistance.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/strtree/TemplateSTRtree.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/strtree/TemplateSTRNode.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/strtree/TemplateSTRNodePair.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/strtree/SimpleSTRdistance.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/strtree/ItemBoundable.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/strtree/SIRtree.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/strtree/SimpleSTRtree.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/strtree/BoundablePair.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/strtree/Interval.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/strtree/SimpleSTRnode.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/strtree/Boundable.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/chain
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/chain/MonotoneChainSelectAction.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/chain/MonotoneChain.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/chain/MonotoneChainOverlapAction.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/chain/MonotoneChainBuilder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/intervalrtree
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/intervalrtree/IntervalRTreeNode.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/intervalrtree/IntervalRTreeBranchNode.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/intervalrtree/IntervalRTreeLeafNode.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/intervalrtree/SortedPackedIntervalRTree.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/ItemVisitor.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/bintree
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/bintree/Key.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/bintree/NodeBase.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/bintree/Node.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/bintree/Bintree.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/bintree/Root.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/bintree/Interval.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/quadtree
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/quadtree/IntervalSize.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/quadtree/Key.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/quadtree/NodeBase.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/quadtree/Node.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/quadtree/Root.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/quadtree/Quadtree.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/vend
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/triangulate
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/triangulate/VoronoiDiagramBuilder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/triangulate/tri
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/triangulate/tri/TriList.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/triangulate/tri/TriangulationBuilder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/triangulate/tri/Tri.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/triangulate/tri/TriEdge.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/triangulate/DelaunayTriangulationBuilder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/triangulate/polygon
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/triangulate/polygon/PolygonEarClipper.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/triangulate/polygon/TriDelaunayImprover.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/triangulate/polygon/PolygonTriangulator.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/triangulate/polygon/ConstrainedDelaunayTriangulator.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/triangulate/polygon/PolygonNoder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/triangulate/polygon/PolygonHoleJoiner.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/triangulate/quadedge
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/triangulate/quadedge/Vertex.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/triangulate/quadedge/QuadEdgeQuartet.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/triangulate/quadedge/LastFoundQuadEdgeLocator.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/triangulate/quadedge/QuadEdge.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/triangulate/quadedge/QuadEdgeLocator.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/triangulate/quadedge/QuadEdgeSubdivision.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/triangulate/quadedge/TrianglePredicate.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/triangulate/quadedge/LocateFailureException.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/triangulate/quadedge/TriangleVisitor.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/triangulate/IncrementalDelaunayTriangulator.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/precision
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/precision/CommonBitsRemover.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/precision/MinimumClearance.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/precision/EnhancedPrecisionOp.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/precision/PointwisePrecisionReducerTransformer.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/precision/PrecisionReducerTransformer.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/precision/GeometryPrecisionReducer.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/precision/SimpleGeometryPrecisionReducer.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/precision/CommonBitsOp.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/precision/CommonBits.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/simplify
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/simplify/TaggedLineSegment.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/simplify/LinkedLine.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/simplify/LineSegmentIndex.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/simplify/TaggedLineStringSimplifier.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/simplify/TopologyPreservingSimplifier.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/simplify/PolygonHullSimplifier.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/simplify/DouglasPeuckerSimplifier.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/simplify/ComponentJumpChecker.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/simplify/DouglasPeuckerLineSimplifier.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/simplify/TaggedLineString.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/simplify/LinkedRing.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/simplify/RingHull.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/simplify/RingHullIndex.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/simplify/TaggedLinesSimplifier.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/profiler.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/coverage
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/coverage/CoverageRing.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/coverage/CoverageEdge.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/coverage/CoverageEdges.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/coverage/CoverageGapFinder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/coverage/VertexRingCounter.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/coverage/CoverageRingEdges.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/coverage/CoverageBoundarySegmentFinder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/coverage/CoveragePolygonValidator.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/coverage/CoverageValidator.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/coverage/CoverageCleaner.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/coverage/CoveragePolygon.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/coverage/InvalidSegmentDetector.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/coverage/CleanCoverage.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/coverage/CoverageUnion.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/coverage/Corner.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/coverage/CoverageSimplifier.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/coverage/TPVWSimplifier.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/IntersectionAdder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/SegmentIntersector.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/MCIndexSegmentSetMutualIntersector.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/SegmentNodeList.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/FastNodingValidator.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/Octant.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/OrientedCoordinateArray.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/NodedSegmentString.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/BasicSegmentString.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/snapround
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/snapround/HotPixel.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/snapround/MCIndexPointSnapper.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/snapround/MCIndexSnapRounder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/snapround/SnapRoundingNoder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/snapround/SnapRoundingIntersectionAdder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/snapround/HotPixelIndex.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/IntersectionFinderAdder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/SinglePassNoder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/SegmentExtractingNoder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/ArcString.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/NodableSegmentString.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/NodablePath.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/Noder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/NodingValidator.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/SegmentPointComparator.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/ArcIntersectionAdder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/MCIndexNoder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/FastSegmentSetIntersectionFinder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/PathString.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/SegmentNode.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/SegmentIntersectionDetector.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/ArcNoder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/DirectionIndependentArcString.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/NodingIntersectionFinder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/SimpleNoder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/ScaledNoder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/SegmentString.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/SegmentSetMutualIntersector.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/ValidatingNoder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/snap
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/snap/SnappingPointIndex.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/snap/SnappingIntersectionAdder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/snap/SnappingNoder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/SegmentStringUtil.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/BoundaryChainNoder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/ArcIntersector.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/NodableArcString.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/GeometryNoder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/IteratedNoder.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/dissolve
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/dissolve/DissolveEdgeGraph.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/dissolve/DissolveHalfEdge.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/dissolve/LineDissolver.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom.h
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/version.h
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geomgraph
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geomgraph/index
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/split
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/valid
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/cluster
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/predicate
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/relateng
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/overlayng
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/distance
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/intersection
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/polygonize
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/union
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/spanning
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/linemerge
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/relate
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/overlay
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/overlay/validate
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/overlay/snap
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/sharedpaths
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/buffer
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/operation/grid
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/shape
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/shape/fractal
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/shape/random
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/util
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/linearref
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/io
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/planargraph
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/planargraph/algorithm
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/locate
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/hull
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/distance
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/algorithm/construct
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/math
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/prep
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/geom/util
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/edgegraph
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/kdtree
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/sweepline
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/strtree
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/chain
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/intervalrtree
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/bintree
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/index/quadtree
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/vend
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/vend/json.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/vend/include_nlohmann_json.hpp
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/triangulate
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/triangulate/tri
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/triangulate/polygon
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/triangulate/quadedge
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/precision
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/simplify
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/coverage
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/snapround
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/noding/snap
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos/dissolve
+-- Up-to-date: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos_c.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/bin/geos-config
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/lib/pkgconfig/geos.pc
+GEOS_ROOT=/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk

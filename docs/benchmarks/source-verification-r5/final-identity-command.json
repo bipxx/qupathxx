@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\source-verification-r5-ui-env\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-m",
+    "pytest",
+    "tests/test_provenance.py::test_environment_describes_build_and_actual_enabled_native_dependencies",
+    "tests/test_provenance.py::test_source_fingerprint_matches_configured_source_byte_manifest",
+    "tests/test_project_source.py",
+    "-q",
+    "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\source-verification-r5\\final-identity.xml",
+    "--basetemp=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\source-verification-r5\\final-identity-temp"
+  ],
+  "returncode": 0
+}

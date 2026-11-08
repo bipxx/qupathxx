@@ -1,0 +1,48 @@
+{
+  "schema": "qpx.tma-case-input-main-promotion/1",
+  "previous_main": "083da0c00542c9a74405e5ef7c920ce63c650952",
+  "promoted_source": "132288c377ed65fa50b9acaad80d8e82b0f64fe0",
+  "observed_remote_main": "132288c377ed65fa50b9acaad80d8e82b0f64fe0",
+  "fast_forward_only": true,
+  "forced": false,
+  "root_local_main": "c86d3237f6f679f5651948d95c17e2d617684c46",
+  "root_local_main_unchanged": true,
+  "engineering_audits": [
+    {
+      "file": "cases143-engine-acceptance.json",
+      "sha256": "d0a89332c015d2443aa334f5a4483df9f24899071b08ab17c3c8ad9729f0673e"
+    },
+    {
+      "file": "cases143-macos-acceptance.json",
+      "sha256": "fb3ba15d614ca81dddaf5c36eba39cf2466a616e203df27b71c6a6a8ea4a2f3d"
+    },
+    {
+      "file": "cases143-portable-acceptance.json",
+      "sha256": "a05d405fc8e632d6fd6dbcd0c3ee8d445320db7b92dd329e83994ececc9f3e83"
+    }
+  ],
+  "hosted_engine_run": 40103157726,
+  "hosted_macos_run": 40103159981,
+  "hosted_portable_run": 40103162243,
+  "performance_accepted": false,
+  "release_ready": false,
+  "overall_project_complete": false,
+  "scope": "Observed-size admission before CSV data reads and reserved input storage after exact-source Windows/Linux, both Mac native and portable builder/consumer audits. General speedup, hardware eligibility, biological parity, licensing and supported release remain open. Separate cohort candidate 144 is not included.",
+  "public_evidence": [
+    {
+      "file": "tma-case-input-windows-linux.json",
+      "sha256": "d0a89332c015d2443aa334f5a4483df9f24899071b08ab17c3c8ad9729f0673e",
+      "original_receipt": "cases143-engine-acceptance.json"
+    },
+    {
+      "file": "tma-case-input-macos.json",
+      "sha256": "fb3ba15d614ca81dddaf5c36eba39cf2466a616e203df27b71c6a6a8ea4a2f3d",
+      "original_receipt": "cases143-macos-acceptance.json"
+    },
+    {
+      "file": "tma-case-input-portable.json",
+      "sha256": "8cdd61199d12e62a4a65621a84de11ad9b4d9f3f159399542fc7b932f88c688c",
+      "original_receipt": "cases143-portable-acceptance.json"
+    }
+  ]
+}

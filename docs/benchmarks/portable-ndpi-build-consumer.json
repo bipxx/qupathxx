@@ -1,0 +1,1207 @@
+{
+  "schema": "qpx.manylinux-acceptance/1",
+  "commit": "1b900756a1a8ee7e8b6f453aada7755a4caa6955",
+  "run": "https://github.com/bipxx/qupathxx/actions/runs/40061659942",
+  "policy": "manylinux_2_28_x86_64",
+  "state": "build-and-fresh-consumer-accepted",
+  "release_ready": false,
+  "versions": [
+    {
+      "python": "3.11",
+      "source_tree_sha256": "0d90fd4bd797ff1a2993efb22e2d1349561e55118d9dde1f08bb26ea163471d0",
+      "wheel": "qupathxx-0.1.0-cp311-cp311-manylinux_2_28_x86_64.whl",
+      "wheel_sha256": "6aa91f62123db677ec361458e053dadc873022f5ddbbfd1fe8158624b9ff267e",
+      "native_sha256": "c02dd0d35252f5838b3f8b7a6651a032b519c315ba556b6083a6f6f344b6df98",
+      "runtimes": {
+        "libgeos_c.so.1": "ea8d31fb8e5f2b2a43cabd0fdf88bce4e586fd27163b8209106ac602980a15c7",
+        "libgeos.so.3.15.0": "7ef59bcd035c2f1f0c7eb5348a74fbf8c18a633dd294c4df47dfefe065161770",
+        "libopenslide.so.1": "552b5b77901bc9c7e7cc6e02a0b4f2861ffa85572b036a063db4f19ed2f357df"
+      },
+      "fixture_sha256": "ed92d5a9f2e86df67640d6f92ce3e231419ce127131697fbbce42ad5e002c8a7",
+      "builder_image": "quay.io/pypa/manylinux_2_28_x86_64@sha256:076b19ef6e698f28649fa817c49d14443201e01da85240e8e52f93e8daa49bff",
+      "consumer_image": "library/python@sha256:8fb0b110b022c70cbe09d3ff1fb313654f31f9c814abb0d48180af56d906a199",
+      "tests": {
+        "native": {
+          "tests": 45,
+          "passed": 45,
+          "skipped": 0,
+          "expected_scientific_failures": 0,
+          "sha256": "ba7706f1b3b77627113c53a93de3e3a3e4ee518ad7dd1d0ac9e6afe9f81e4cea",
+          "skip_reasons": {}
+        },
+        "builder": {
+          "tests": 2220,
+          "passed": 1812,
+          "skipped": 405,
+          "expected_scientific_failures": 3,
+          "sha256": "b44079c12a1f6dc00c6e06e4b0d31b99fb1f2996700fe628a9c4a68997f2d024",
+          "skip_reasons": {
+            "desktop cell publication": 2,
+            "desktop replay": 11,
+            "opt-in native desktop replay": 8,
+            "opt-in desktop batch workflow": 13,
+            "opt-in desktop area limits": 3,
+            "opt-in project desktop replay": 6,
+            "opt-in desktop replay": 38,
+            "opt-in geometry desktop replay": 6,
+            "opt-in native docking": 12,
+            "opt-in responsive GUI": 10,
+            "requires GUI/project build and QUPATHXX_TEST_GUI=1": 96,
+            "requires GUI build and QUPATHXX_TEST_GUI=1": 33,
+            "requires GUI/training and QUPATHXX_TEST_GUI=1": 38,
+            "opt-in desktop pixel batch workflow": 6,
+            "requires GUI and QUPATHXX_TEST_GUI=1": 9,
+            "requires GUI/project and opt-in replay": 6,
+            "opt-in project desktop": 4,
+            "opt-in raw desktop": 7,
+            "opt-in raw records desktop": 5,
+            "opt-in native DPI scaling": 14,
+            "opt-in native GUI": 14,
+            "opt-in GEOS desktop replay": 2,
+            "opt-in TMA desktop": 8,
+            "Windows GUI wheel-message regression": 1,
+            "opt-in native window lifecycle": 15,
+            "opt-in desktop": 1,
+            "managed desktop": 1,
+            "desktop batch LoG recipe": 1,
+            "opt-in NDPI desktop": 1,
+            "requires generated large pyramid fixture": 1,
+            "opt-in GUI": 3,
+            "Windows read-only replacement failure": 1,
+            "requires real desktop GUI": 1,
+            "Windows read-only file attribute check": 1,
+            "Frozen isolated-cell QuPath acceptance gates remain unresolved": 3,
+            "GEOS-disabled configuration": 1,
+            "opt-in ImGui import replay": 2,
+            "opt-in pinned Windows QuPath runtime": 1,
+            "Windows file sharing check": 1,
+            "Windows file delete sharing": 1,
+            "requires desktop GUI": 2,
+            "Windows case insensitive anchor path": 1,
+            "Windows read-only marker write protection": 1,
+            "Windows delete-sharing failure": 1,
+            "opt-in managed viewer": 15,
+            "requires generated OpenSlide pyramid": 1
+          }
+        },
+        "consumer": {
+          "tests": 2220,
+          "passed": 1773,
+          "skipped": 444,
+          "expected_scientific_failures": 3,
+          "sha256": "6d071353f5128a2ba507fa6947cd16b3ed4ab02ed121a06889ad00bc0b38770c",
+          "skip_reasons": {
+            "desktop cell publication": 2,
+            "desktop replay": 11,
+            "requires opt-in Linux GEOS SDK": 4,
+            "opt-in native desktop replay": 8,
+            "opt-in desktop batch workflow": 13,
+            "opt-in desktop area limits": 3,
+            "opt-in project desktop replay": 6,
+            "opt-in desktop replay": 38,
+            "opt-in geometry desktop replay": 6,
+            "opt-in native docking": 12,
+            "opt-in responsive GUI": 10,
+            "requires GUI/project build and QUPATHXX_TEST_GUI=1": 96,
+            "requires GUI build and QUPATHXX_TEST_GUI=1": 33,
+            "requires GUI/training and QUPATHXX_TEST_GUI=1": 38,
+            "opt-in desktop pixel batch workflow": 6,
+            "requires GUI and QUPATHXX_TEST_GUI=1": 9,
+            "requires GUI/project and opt-in replay": 6,
+            "opt-in project desktop": 4,
+            "opt-in raw desktop": 7,
+            "opt-in raw records desktop": 5,
+            "opt-in native DPI scaling": 14,
+            "opt-in native GUI": 14,
+            "opt-in GEOS desktop replay": 2,
+            "opt-in TMA desktop": 8,
+            "Windows GUI wheel-message regression": 1,
+            "opt-in native window lifecycle": 15,
+            "opt-in desktop": 1,
+            "managed desktop": 1,
+            "desktop batch LoG recipe": 1,
+            "opt-in pinned Hamamatsu NDPI fixture": 23,
+            "opt-in NDPI desktop": 1,
+            "opt-in full Aperio pyramid": 12,
+            "requires generated large pyramid fixture": 1,
+            "opt-in GUI": 3,
+            "Windows read-only replacement failure": 1,
+            "requires real desktop GUI": 1,
+            "Windows read-only file attribute check": 1,
+            "Frozen isolated-cell QuPath acceptance gates remain unresolved": 3,
+            "GEOS-disabled configuration": 1,
+            "opt-in ImGui import replay": 2,
+            "opt-in pinned Windows QuPath runtime": 1,
+            "Windows file sharing check": 1,
+            "Windows file delete sharing": 1,
+            "requires desktop GUI": 2,
+            "Windows case insensitive anchor path": 1,
+            "Windows read-only marker write protection": 1,
+            "Windows delete-sharing failure": 1,
+            "opt-in managed viewer": 15,
+            "requires generated OpenSlide pyramid": 1
+          }
+        }
+      },
+      "evidence": {
+        "manylinux-3.11\\auditwheel-after.log": "a3f909e474a2ed7a8c98d67b9db41f1e9e8ef8ef6b8574669d6874da56e8b35f",
+        "manylinux-3.11\\auditwheel-before.log": "48778fc67199909a7a4e1e17856bb0b233f89dbe3e35d0bfbaa6a0e09e1c14cf",
+        "manylinux-3.11\\auditwheel-repair.log": "2042d79dba6fc6f7580369f7a3ac7520fde8d9a7f23bd5aaf1ba78b1a7d9110f",
+        "manylinux-3.11\\build-image.json": "610b21acd7ebd3c295f9beda6faf43df470b4603423b6531f9dcf45eeba7237b",
+        "manylinux-3.11\\classifier-archive-benchmark.json": "198cf1dad0d850a4bab59bd4db282d718c2b8cbb8814eb0440633a07a1b97778",
+        "manylinux-3.11\\classifier-archive-benchmark.log": "9be8b6d6a748b38cf7ddebe150d0cc7a5bad107945a9acfb1b8575da7a7d02b2",
+        "manylinux-3.11\\classifier-benchmark.json": "3574e189336b98ab06f54d6f97aca0d16f3c982bd47b30c9f822744de4cce2e4",
+        "manylinux-3.11\\classifier-benchmark.log": "cefa250fc6ca4be9fc1033d1c5598814ef4cd5a5e08f42e0c4fdd15fde537ab4",
+        "manylinux-3.11\\fixtures.log": "6585ff29e6c925a151c86032e0c3f10e7b1b5b59d6d6273b3c5ebaa4c350b412",
+        "manylinux-3.11\\geos-build.log": "7c4f75cf17c85d7d175dcc83f8f5c51bf04ed2b12ca94d5ba3133354ed685b56",
+        "manylinux-3.11\\install.log": "1d9345cddb3a110f2c269001913d5ce34bf12876f67a7d11a8fd6aa8db8988a9",
+        "manylinux-3.11\\installed-workflow.json": "372d525453d80c344623a3f878945e651e26b8279b5732aba267bf211841bd5c",
+        "manylinux-3.11\\installed-workflow.log": "372d525453d80c344623a3f878945e651e26b8279b5732aba267bf211841bd5c",
+        "manylinux-3.11\\linux-runtime.json": "0bc590846dd8dd2e7d9ca8428f1fb7ba543071382fa3b5c6784c8ab3eff7af41",
+        "manylinux-3.11\\linux-runtime.log": "0bc590846dd8dd2e7d9ca8428f1fb7ba543071382fa3b5c6784c8ab3eff7af41",
+        "manylinux-3.11\\native-tests.log": "2628918dc0048135b1331289e797753ab213dc48b2f59c63898f7d7920ea35cf",
+        "manylinux-3.11\\native-tests.xml": "ba7706f1b3b77627113c53a93de3e3a3e4ee518ad7dd1d0ac9e6afe9f81e4cea",
+        "manylinux-3.11\\object-classifier-benchmark.json": "5ce37352f73ff0f780142c514ba2cf7e79add2ce89c3e0fb384166a3dcadef1a",
+        "manylinux-3.11\\object-classifier-benchmark.log": "b37ba22ec6cb8673bed3d0cd8146643c6bce06b9c1a333fda814ad9dba9ed642",
+        "manylinux-3.11\\opencv-build.log": "a42880e3f242c2f14ad3e9c64e820e6e67cc73743d8a5a82f0d6bc2b0b136c6a",
+        "manylinux-3.11\\pixel-archive-benchmark.json": "5c9ddf4e6468a6c375a1d63aa869901695dc03f4dbcb9f7a6898b0563be4de3e",
+        "manylinux-3.11\\pixel-archive-benchmark.log": "5c9ddf4e6468a6c375a1d63aa869901695dc03f4dbcb9f7a6898b0563be4de3e",
+        "manylinux-3.11\\pixel-batch-interrupt.json": "e8ccbd7f91a90c62a1b6f6cad9d215a0565112a548c3b4735391a2bb2c79367f",
+        "manylinux-3.11\\pixel-batch-interrupt.log": "e8ccbd7f91a90c62a1b6f6cad9d215a0565112a548c3b4735391a2bb2c79367f",
+        "manylinux-3.11\\pixel-classifier-benchmark.json": "6d37c4d00b97139a47124bea451a7a878a315047b4eb8613cecb5d72f7747bff",
+        "manylinux-3.11\\pixel-classifier-benchmark.log": "6d37c4d00b97139a47124bea451a7a878a315047b4eb8613cecb5d72f7747bff",
+        "manylinux-3.11\\pixel-input-digest-benchmark.json": "3255b28a35d3e1af35f0ebff34a3e119f3c9ea7ae916ec1bc28ab55fbb6fa585",
+        "manylinux-3.11\\pixel-input-digest-benchmark.log": "3255b28a35d3e1af35f0ebff34a3e119f3c9ea7ae916ec1bc28ab55fbb6fa585",
+        "manylinux-3.11\\pixel-stream-benchmark.json": "951a7a83a6c96dc36a7807d8fe4fda383b11d9110ef5e194046d3e4166093fc1",
+        "manylinux-3.11\\pixel-stream-benchmark.log": "951a7a83a6c96dc36a7807d8fe4fda383b11d9110ef5e194046d3e4166093fc1",
+        "manylinux-3.11\\pixel-stream-cli-benchmark.json": "7a653268a145d668f48c17b466fc50539539bc0092da30a9dca156b0ee2f5346",
+        "manylinux-3.11\\pixel-stream-cli-benchmark.log": "7a653268a145d668f48c17b466fc50539539bc0092da30a9dca156b0ee2f5346",
+        "manylinux-3.11\\pixel-stream-file-benchmark.json": "220f124068c70e5b906dec5fe41ed0f57a01dc42c41c61f02888e8e1d92c3fd0",
+        "manylinux-3.11\\pixel-stream-file-benchmark.log": "220f124068c70e5b906dec5fe41ed0f57a01dc42c41c61f02888e8e1d92c3fd0",
+        "manylinux-3.11\\pixel-stream-job-benchmark.json": "436a024cd1b7d111e4d48a5153d8f7341dfbb721902f5fd92eded11e5b8b1f5f",
+        "manylinux-3.11\\pixel-stream-job-benchmark.log": "436a024cd1b7d111e4d48a5153d8f7341dfbb721902f5fd92eded11e5b8b1f5f",
+        "manylinux-3.11\\pixel-stream-read-benchmark.json": "85d1111dfebc3846ccde8eee670d1fb766ba7eb96ccb24ec70b7bb9525a99694",
+        "manylinux-3.11\\pixel-stream-read-benchmark.log": "85d1111dfebc3846ccde8eee670d1fb766ba7eb96ccb24ec70b7bb9525a99694",
+        "manylinux-3.11\\pixel-stream-record-benchmark.json": "ddfc5300e62ecbba9291aac794d81e4301cefc370f4f525a84ef09bf03627798",
+        "manylinux-3.11\\pixel-stream-record-benchmark.log": "ddfc5300e62ecbba9291aac794d81e4301cefc370f4f525a84ef09bf03627798",
+        "manylinux-3.11\\pixel-workflow-benchmark.json": "490863c94f78358ac2fba5e593d3b73df30d2d65296ef044768098a8581a70b4",
+        "manylinux-3.11\\pixel-workflow-benchmark.log": "490863c94f78358ac2fba5e593d3b73df30d2d65296ef044768098a8581a70b4",
+        "manylinux-3.11\\project-pixel-batch-benchmark.json": "04da7c619f7a060c118a522be137d486dc945928ff276808a6413967bc376445",
+        "manylinux-3.11\\project-pixel-batch-benchmark.log": "04da7c619f7a060c118a522be137d486dc945928ff276808a6413967bc376445",
+        "manylinux-3.11\\python-tests.log": "e9146acba333436b77442ae118dd49b7ee007ebbf1b547e33d52e9c5debe9077",
+        "manylinux-3.11\\python-tests.xml": "b44079c12a1f6dc00c6e06e4b0d31b99fb1f2996700fe628a9c4a68997f2d024",
+        "manylinux-3.11\\qualification.json": "b18312b5e56d9633415adc59bb254e0f1a009d54aebc8233410ab80131939c85",
+        "manylinux-3.11\\qualified-install.log": "3b53f577ad399ff43fc9ad092ef740e3a5b2f966932dd45bf1e96a2ed98e41af",
+        "manylinux-3.11\\qualified-installed.json": "372d525453d80c344623a3f878945e651e26b8279b5732aba267bf211841bd5c",
+        "manylinux-3.11\\qualified-installed.log": "372d525453d80c344623a3f878945e651e26b8279b5732aba267bf211841bd5c",
+        "manylinux-3.11\\qualified-runtime.json": "5fd8f9bc0820876c37eaaa67db2fd46bbda997e992e828f9a866420b7ae76800",
+        "manylinux-3.11\\qualified-runtime.log": "5fd8f9bc0820876c37eaaa67db2fd46bbda997e992e828f9a866420b7ae76800",
+        "manylinux-3.11\\raw-records-benchmark.json": "095840cb56699512cc053bd928353a4a87147c01ba016e906f2938803348ea76",
+        "manylinux-3.11\\raw-records-benchmark.log": "095840cb56699512cc053bd928353a4a87147c01ba016e906f2938803348ea76",
+        "manylinux-3.11\\result.json": "8bfa9723e1caf58e8abc1797c5432fb9ca7bf78d1fdad75c7c356aad4473c6a6",
+        "manylinux-3.11\\stubs.log": "820fb7328bf07e4438dd45655755085f118f178efd9d4af074057ff0e9eb03d0",
+        "manylinux-3.11\\tiff-reader-benchmark.json": "fbc9a6e5a32565f8d8f137696108cd75727f5b18be4a30e8bae0d6c85f5e5855",
+        "manylinux-3.11\\tiff-reader-benchmark.log": "fbc9a6e5a32565f8d8f137696108cd75727f5b18be4a30e8bae0d6c85f5e5855",
+        "manylinux-3.11\\tma-benchmark.json": "16c0099bf1d56cca624af6e495bd79350a4005914c7466200fafd292648b6f64",
+        "manylinux-3.11\\tma-benchmark.log": "16c0099bf1d56cca624af6e495bd79350a4005914c7466200fafd292648b6f64",
+        "manylinux-3.11\\typing-negative.log": "6252753b768b8a08f20bf6ca9caf615a342940505778db5476bf3151c377d6e1",
+        "manylinux-3.11\\typing.log": "8228fcc5ce46d42d01caf3cd941f4e9c5f2bcc372bb5b147a2f0572d2dd675a8",
+        "manylinux-3.11\\vendor-reader-benchmark.json": "6de35822d303dff4306a27f37c1488f742094631d6a342bd7994eadad9f9fb94",
+        "manylinux-3.11\\vendor-reader-benchmark.log": "6de35822d303dff4306a27f37c1488f742094631d6a342bd7994eadad9f9fb94",
+        "manylinux-3.11\\venv.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "manylinux-3.11\\wheel-build.log": "a419a49e65fe60cc46ceff438656d1eed3a12a874f5796583d7ac8163b2766c6",
+        "manylinux-consumer-3.11\\consumer-probe.json": "952c548ffa9817268a52af6dd1d4bd5d1d3831dc239b3965f8b22ef71c84f8c9",
+        "manylinux-consumer-3.11\\consumer-tests.log": "2bf8230893160a5b2f5ac67cb7c7c7054ff198a26de61b99ad2293cdd6911223",
+        "manylinux-consumer-3.11\\consumer-tests.xml": "6d071353f5128a2ba507fa6947cd16b3ed4ab02ed121a06889ad00bc0b38770c"
+      },
+      "runtime_payloads_unchanged": true,
+      "fresh_consumer_workflows": true
+    },
+    {
+      "python": "3.12",
+      "source_tree_sha256": "0d90fd4bd797ff1a2993efb22e2d1349561e55118d9dde1f08bb26ea163471d0",
+      "wheel": "qupathxx-0.1.0-cp312-cp312-manylinux_2_28_x86_64.whl",
+      "wheel_sha256": "83eee7e54b0181cc9fe48b32587319ec5e65b6f5e70ec1b34b14cf40adea06e9",
+      "native_sha256": "e77922da8882a8a8bc5f18c9a7cc976ab7864ae82fb030e99e980d778290e0d4",
+      "runtimes": {
+        "libgeos_c.so.1": "ea8d31fb8e5f2b2a43cabd0fdf88bce4e586fd27163b8209106ac602980a15c7",
+        "libgeos.so.3.15.0": "7ef59bcd035c2f1f0c7eb5348a74fbf8c18a633dd294c4df47dfefe065161770",
+        "libopenslide.so.1": "552b5b77901bc9c7e7cc6e02a0b4f2861ffa85572b036a063db4f19ed2f357df"
+      },
+      "fixture_sha256": "ed92d5a9f2e86df67640d6f92ce3e231419ce127131697fbbce42ad5e002c8a7",
+      "builder_image": "quay.io/pypa/manylinux_2_28_x86_64@sha256:076b19ef6e698f28649fa817c49d14443201e01da85240e8e52f93e8daa49bff",
+      "consumer_image": "library/python@sha256:57d96f71de145a98e7ceca18ee4ade77bba4103a33a72dfaea026b23625c6bf0",
+      "tests": {
+        "native": {
+          "tests": 45,
+          "passed": 45,
+          "skipped": 0,
+          "expected_scientific_failures": 0,
+          "sha256": "baac1f81a5df6f005d5d4d2d28fbac2422f7cb40e8697e62e5e1d4ddabc1fb7a",
+          "skip_reasons": {}
+        },
+        "builder": {
+          "tests": 2220,
+          "passed": 1812,
+          "skipped": 405,
+          "expected_scientific_failures": 3,
+          "sha256": "dc3533fae60bb3fa6cbcb5576222167cfabb59b6322a0afe03185f920ed52b25",
+          "skip_reasons": {
+            "desktop cell publication": 2,
+            "desktop replay": 11,
+            "opt-in native desktop replay": 8,
+            "opt-in desktop batch workflow": 13,
+            "opt-in desktop area limits": 3,
+            "opt-in project desktop replay": 6,
+            "opt-in desktop replay": 38,
+            "opt-in geometry desktop replay": 6,
+            "opt-in native docking": 12,
+            "opt-in responsive GUI": 10,
+            "requires GUI/project build and QUPATHXX_TEST_GUI=1": 96,
+            "requires GUI build and QUPATHXX_TEST_GUI=1": 33,
+            "requires GUI/training and QUPATHXX_TEST_GUI=1": 38,
+            "opt-in desktop pixel batch workflow": 6,
+            "requires GUI and QUPATHXX_TEST_GUI=1": 9,
+            "requires GUI/project and opt-in replay": 6,
+            "opt-in project desktop": 4,
+            "opt-in raw desktop": 7,
+            "opt-in raw records desktop": 5,
+            "opt-in native DPI scaling": 14,
+            "opt-in native GUI": 14,
+            "opt-in GEOS desktop replay": 2,
+            "opt-in TMA desktop": 8,
+            "Windows GUI wheel-message regression": 1,
+            "opt-in native window lifecycle": 15,
+            "opt-in desktop": 1,
+            "managed desktop": 1,
+            "desktop batch LoG recipe": 1,
+            "opt-in NDPI desktop": 1,
+            "requires generated large pyramid fixture": 1,
+            "opt-in GUI": 3,
+            "Windows read-only replacement failure": 1,
+            "requires real desktop GUI": 1,
+            "Windows read-only file attribute check": 1,
+            "Frozen isolated-cell QuPath acceptance gates remain unresolved": 3,
+            "GEOS-disabled configuration": 1,
+            "opt-in ImGui import replay": 2,
+            "opt-in pinned Windows QuPath runtime": 1,
+            "Windows file sharing check": 1,
+            "Windows file delete sharing": 1,
+            "requires desktop GUI": 2,
+            "Windows case insensitive anchor path": 1,
+            "Windows read-only marker write protection": 1,
+            "Windows delete-sharing failure": 1,
+            "opt-in managed viewer": 15,
+            "requires generated OpenSlide pyramid": 1
+          }
+        },
+        "consumer": {
+          "tests": 2220,
+          "passed": 1773,
+          "skipped": 444,
+          "expected_scientific_failures": 3,
+          "sha256": "d8cf156d6b85496828ea30cfd2a1239045536b646e2627bee0675ba6196bd20c",
+          "skip_reasons": {
+            "desktop cell publication": 2,
+            "desktop replay": 11,
+            "requires opt-in Linux GEOS SDK": 4,
+            "opt-in native desktop replay": 8,
+            "opt-in desktop batch workflow": 13,
+            "opt-in desktop area limits": 3,
+            "opt-in project desktop replay": 6,
+            "opt-in desktop replay": 38,
+            "opt-in geometry desktop replay": 6,
+            "opt-in native docking": 12,
+            "opt-in responsive GUI": 10,
+            "requires GUI/project build and QUPATHXX_TEST_GUI=1": 96,
+            "requires GUI build and QUPATHXX_TEST_GUI=1": 33,
+            "requires GUI/training and QUPATHXX_TEST_GUI=1": 38,
+            "opt-in desktop pixel batch workflow": 6,
+            "requires GUI and QUPATHXX_TEST_GUI=1": 9,
+            "requires GUI/project and opt-in replay": 6,
+            "opt-in project desktop": 4,
+            "opt-in raw desktop": 7,
+            "opt-in raw records desktop": 5,
+            "opt-in native DPI scaling": 14,
+            "opt-in native GUI": 14,
+            "opt-in GEOS desktop replay": 2,
+            "opt-in TMA desktop": 8,
+            "Windows GUI wheel-message regression": 1,
+            "opt-in native window lifecycle": 15,
+            "opt-in desktop": 1,
+            "managed desktop": 1,
+            "desktop batch LoG recipe": 1,
+            "opt-in pinned Hamamatsu NDPI fixture": 23,
+            "opt-in NDPI desktop": 1,
+            "opt-in full Aperio pyramid": 12,
+            "requires generated large pyramid fixture": 1,
+            "opt-in GUI": 3,
+            "Windows read-only replacement failure": 1,
+            "requires real desktop GUI": 1,
+            "Windows read-only file attribute check": 1,
+            "Frozen isolated-cell QuPath acceptance gates remain unresolved": 3,
+            "GEOS-disabled configuration": 1,
+            "opt-in ImGui import replay": 2,
+            "opt-in pinned Windows QuPath runtime": 1,
+            "Windows file sharing check": 1,
+            "Windows file delete sharing": 1,
+            "requires desktop GUI": 2,
+            "Windows case insensitive anchor path": 1,
+            "Windows read-only marker write protection": 1,
+            "Windows delete-sharing failure": 1,
+            "opt-in managed viewer": 15,
+            "requires generated OpenSlide pyramid": 1
+          }
+        }
+      },
+      "evidence": {
+        "manylinux-3.12\\auditwheel-after.log": "db95d6cc5820b25336f5b06ea8e2ff930346eb906537e74228af19fcfc47058e",
+        "manylinux-3.12\\auditwheel-before.log": "beb6c4fe08c302566bb8ad67528115baac888a338117d2b1fc2ea57ff3b1475e",
+        "manylinux-3.12\\auditwheel-repair.log": "0da40faa60f4954003bb4baa65ffabd1a045cd061c9bb31feeacbff528be8c88",
+        "manylinux-3.12\\build-image.json": "11ddfa0ef0895d4f0ee375a4be1af3cde5956e7bd02281d6db721552b65f6f50",
+        "manylinux-3.12\\classifier-archive-benchmark.json": "4f50b3c1f5ba832a73f3141275fac5acaa37673f37b146d7fc0b3331812a3371",
+        "manylinux-3.12\\classifier-archive-benchmark.log": "a71f01d9095d5d55fb8f44e0d49ccf4a27c8666927c4f676eb22386259970c2c",
+        "manylinux-3.12\\classifier-benchmark.json": "c1761df6ed6e934870585815e648947b08e4d87d61caa37705e2ebbeb7ca8553",
+        "manylinux-3.12\\classifier-benchmark.log": "fd0d687af9612a8ee69bdb23bf5f672757522b366b8d141ac9c2e1f567b21918",
+        "manylinux-3.12\\fixtures.log": "6585ff29e6c925a151c86032e0c3f10e7b1b5b59d6d6273b3c5ebaa4c350b412",
+        "manylinux-3.12\\geos-build.log": "1381a4db1ce399ca8dab9e93aa1c16cdbde081b35d1cb4f4825c2475c58f1dc7",
+        "manylinux-3.12\\install.log": "7f9231e1afd97f22338a61b9a0ce2e391e2777cfbd13aa812bef5359f2f03468",
+        "manylinux-3.12\\installed-workflow.json": "2569d7facf98d025208141e287f5aefb1b3a8717f5d4a0a9a049cd1209beef51",
+        "manylinux-3.12\\installed-workflow.log": "2569d7facf98d025208141e287f5aefb1b3a8717f5d4a0a9a049cd1209beef51",
+        "manylinux-3.12\\linux-runtime.json": "b9a0e34d0b7ef8f7fa97a2eec4aa941fb6b7d6431f1d196ff3cc1bf292c7aa68",
+        "manylinux-3.12\\linux-runtime.log": "b9a0e34d0b7ef8f7fa97a2eec4aa941fb6b7d6431f1d196ff3cc1bf292c7aa68",
+        "manylinux-3.12\\native-tests.log": "2c233c570e0b8b1d8dbd210b24593d0251fd697c281d324be2d13f6b29cb0831",
+        "manylinux-3.12\\native-tests.xml": "baac1f81a5df6f005d5d4d2d28fbac2422f7cb40e8697e62e5e1d4ddabc1fb7a",
+        "manylinux-3.12\\object-classifier-benchmark.json": "187ae8da901b717cbf758e4b025bc0a622618df953c9396da7fc72a805cdd6ed",
+        "manylinux-3.12\\object-classifier-benchmark.log": "3a703d11e3c5c47d2fe49eaf8bdc6dcad5dc2b932d644be40e2be0c9c4a1fcb1",
+        "manylinux-3.12\\opencv-build.log": "c918906b6a79b31a9f0ef902906b9bed8fa7fc047640872497cca12919c5eb26",
+        "manylinux-3.12\\pixel-archive-benchmark.json": "b30ea4cf222ab0e0d5708cb8289473589b48382d7c4521c226501440c63ffd28",
+        "manylinux-3.12\\pixel-archive-benchmark.log": "b30ea4cf222ab0e0d5708cb8289473589b48382d7c4521c226501440c63ffd28",
+        "manylinux-3.12\\pixel-batch-interrupt.json": "ae4e763280e384c9dea2f1c5bb561a96aa94c1b03b7b744b67e52fce0a1bb5df",
+        "manylinux-3.12\\pixel-batch-interrupt.log": "ae4e763280e384c9dea2f1c5bb561a96aa94c1b03b7b744b67e52fce0a1bb5df",
+        "manylinux-3.12\\pixel-classifier-benchmark.json": "ecb93fae4d8cb8d11bd3751338aad3b26b373f9d2617af308db085927f1e5c95",
+        "manylinux-3.12\\pixel-classifier-benchmark.log": "ecb93fae4d8cb8d11bd3751338aad3b26b373f9d2617af308db085927f1e5c95",
+        "manylinux-3.12\\pixel-input-digest-benchmark.json": "a345b46e6e0d0873b33a289f55e5768d192d18f99308891c3f3f54d6042f54ff",
+        "manylinux-3.12\\pixel-input-digest-benchmark.log": "a345b46e6e0d0873b33a289f55e5768d192d18f99308891c3f3f54d6042f54ff",
+        "manylinux-3.12\\pixel-stream-benchmark.json": "a8a8c460e09ced3ec77b05beeb30e655c6b68a5d7c6cf7a43d7237d5ccb54007",
+        "manylinux-3.12\\pixel-stream-benchmark.log": "a8a8c460e09ced3ec77b05beeb30e655c6b68a5d7c6cf7a43d7237d5ccb54007",
+        "manylinux-3.12\\pixel-stream-cli-benchmark.json": "8955716f414fd3b1d391f91e0bfc7d17d23baab1c68d8f912bf01545e2f09e6a",
+        "manylinux-3.12\\pixel-stream-cli-benchmark.log": "8955716f414fd3b1d391f91e0bfc7d17d23baab1c68d8f912bf01545e2f09e6a",
+        "manylinux-3.12\\pixel-stream-file-benchmark.json": "5da8298921d4cc5842f6e139f818a8ac9473984e750f194ae3afab9c89c01711",
+        "manylinux-3.12\\pixel-stream-file-benchmark.log": "5da8298921d4cc5842f6e139f818a8ac9473984e750f194ae3afab9c89c01711",
+        "manylinux-3.12\\pixel-stream-job-benchmark.json": "14d30c376057a16f14ab27172d2ac027df91e74a1231df172f37eedd54d93b99",
+        "manylinux-3.12\\pixel-stream-job-benchmark.log": "14d30c376057a16f14ab27172d2ac027df91e74a1231df172f37eedd54d93b99",
+        "manylinux-3.12\\pixel-stream-read-benchmark.json": "bd850b383808db0ca1505997aefff835afa207efd5c970452604e0954e57f82f",
+        "manylinux-3.12\\pixel-stream-read-benchmark.log": "bd850b383808db0ca1505997aefff835afa207efd5c970452604e0954e57f82f",
+        "manylinux-3.12\\pixel-stream-record-benchmark.json": "52ccd8f44b2459515d1e9a0c80fcf822c75cdc4cb2eec075357875d1124731d3",
+        "manylinux-3.12\\pixel-stream-record-benchmark.log": "52ccd8f44b2459515d1e9a0c80fcf822c75cdc4cb2eec075357875d1124731d3",
+        "manylinux-3.12\\pixel-workflow-benchmark.json": "80428d8317203c06a11f31d116597d01d1ef6a6844ff9b21a6561bbf70675647",
+        "manylinux-3.12\\pixel-workflow-benchmark.log": "80428d8317203c06a11f31d116597d01d1ef6a6844ff9b21a6561bbf70675647",
+        "manylinux-3.12\\project-pixel-batch-benchmark.json": "1d5f0bd77cff7e3f7d912e2622479998e2f1fc60ff739194feef07ed35264571",
+        "manylinux-3.12\\project-pixel-batch-benchmark.log": "1d5f0bd77cff7e3f7d912e2622479998e2f1fc60ff739194feef07ed35264571",
+        "manylinux-3.12\\python-tests.log": "0e5fd2cda42f6014898a794097e5b1187c90500816a794d8dff17155080576bb",
+        "manylinux-3.12\\python-tests.xml": "dc3533fae60bb3fa6cbcb5576222167cfabb59b6322a0afe03185f920ed52b25",
+        "manylinux-3.12\\qualification.json": "8f349ddde540a9e045e2100f34d9225a54e66a834a048f8ab9b401d20cc81075",
+        "manylinux-3.12\\qualified-install.log": "c92a6795539db4ffab67936f5c473c71d30ffab9e4b151b22ed78d95f0bc7f8f",
+        "manylinux-3.12\\qualified-installed.json": "2569d7facf98d025208141e287f5aefb1b3a8717f5d4a0a9a049cd1209beef51",
+        "manylinux-3.12\\qualified-installed.log": "2569d7facf98d025208141e287f5aefb1b3a8717f5d4a0a9a049cd1209beef51",
+        "manylinux-3.12\\qualified-runtime.json": "474823d176e0cdeddb28aa6c7760829129b395b6a74301c4e5dacb3154670144",
+        "manylinux-3.12\\qualified-runtime.log": "474823d176e0cdeddb28aa6c7760829129b395b6a74301c4e5dacb3154670144",
+        "manylinux-3.12\\raw-records-benchmark.json": "ea4e5c5c0f51f2c3d3ef7c3c9ce3a71fc018283f3c86717780c5e6c40afa897a",
+        "manylinux-3.12\\raw-records-benchmark.log": "ea4e5c5c0f51f2c3d3ef7c3c9ce3a71fc018283f3c86717780c5e6c40afa897a",
+        "manylinux-3.12\\result.json": "63dacca6c4e9921ce5149520fef6267cfdf35e2610a37c94359e6b86a7c1df1f",
+        "manylinux-3.12\\stubs.log": "820fb7328bf07e4438dd45655755085f118f178efd9d4af074057ff0e9eb03d0",
+        "manylinux-3.12\\tiff-reader-benchmark.json": "ea815fda127f55ca25cdfae0695f657d64641906e1e72308e94e1fc1be414e18",
+        "manylinux-3.12\\tiff-reader-benchmark.log": "ea815fda127f55ca25cdfae0695f657d64641906e1e72308e94e1fc1be414e18",
+        "manylinux-3.12\\tma-benchmark.json": "ba839f749fb6e616ee0a782fb4f33f033690802bee2fc8a7d22cb55d59d10f76",
+        "manylinux-3.12\\tma-benchmark.log": "ba839f749fb6e616ee0a782fb4f33f033690802bee2fc8a7d22cb55d59d10f76",
+        "manylinux-3.12\\typing-negative.log": "a1787cf629e1f16f8fdc2e3a7d6fdee281d2a79738f68301b1a6d5f41953fb26",
+        "manylinux-3.12\\typing.log": "8228fcc5ce46d42d01caf3cd941f4e9c5f2bcc372bb5b147a2f0572d2dd675a8",
+        "manylinux-3.12\\vendor-reader-benchmark.json": "2c53fc15b68f4adbb1de5e1dad5d0979ff5c72bd46c13a2f8184d216e4576649",
+        "manylinux-3.12\\vendor-reader-benchmark.log": "2c53fc15b68f4adbb1de5e1dad5d0979ff5c72bd46c13a2f8184d216e4576649",
+        "manylinux-3.12\\venv.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "manylinux-3.12\\wheel-build.log": "0353e514697e38bdc57fb2b57671f12aa3dccb8346f1068a049d6eebf80a89cb",
+        "manylinux-consumer-3.12\\consumer-probe.json": "0248206e07fb41811651c821604e7a8347d605c4f50a1869dc45be8fa6936eda",
+        "manylinux-consumer-3.12\\consumer-tests.log": "f9b1e50df9afbc758dd87ca7126ddae262ea0646bee7dc152ad7bf1c9b94bb94",
+        "manylinux-consumer-3.12\\consumer-tests.xml": "d8cf156d6b85496828ea30cfd2a1239045536b646e2627bee0675ba6196bd20c"
+      },
+      "runtime_payloads_unchanged": true,
+      "fresh_consumer_workflows": true
+    }
+  ],
+  "assets_sha256": "20997d3c9f207ca9d6e068c0e07f02d990d2b7ff80b944b8feb2f1b71f8a088f",
+  "auditor_sha256": "ae0e6562451e85ba4767b6ef1f94b48e2f24b1b54d2fe6c25d18ef46a1393242",
+  "scope": "Declared headless CPython ABI and fresh Debian consumer workflows only. Project license, supported release, GUI/macOS, scientific and hardware acceptance remain separate gates.",
+  "unified_engine_cohorts": [
+    {
+      "python": "3.11",
+      "cohort": "builder",
+      "log_passed": 47,
+      "log_desktop_skipped": 3,
+      "log_cases": [
+        "test_log_installed_nucleus_reference[16-blank]",
+        "test_log_installed_nucleus_reference[16-isolated_three]",
+        "test_log_installed_nucleus_reference[16-touching_pair]",
+        "test_log_installed_nucleus_reference[16-gap_pair]",
+        "test_log_installed_nucleus_reference[16-size_filters]",
+        "test_log_installed_nucleus_reference[16-roi_cut_hole]",
+        "test_log_installed_nucleus_reference[16-gradient_noise]",
+        "test_log_installed_nucleus_reference[16-anisotropic_level0]",
+        "test_log_installed_nucleus_reference[16-resampled_reference]",
+        "test_log_installed_nucleus_reference[64-blank]",
+        "test_log_installed_nucleus_reference[64-isolated_three]",
+        "test_log_installed_nucleus_reference[64-touching_pair]",
+        "test_log_installed_nucleus_reference[64-gap_pair]",
+        "test_log_installed_nucleus_reference[64-size_filters]",
+        "test_log_installed_nucleus_reference[64-roi_cut_hole]",
+        "test_log_installed_nucleus_reference[64-gradient_noise]",
+        "test_log_installed_nucleus_reference[64-anisotropic_level0]",
+        "test_log_installed_nucleus_reference[64-resampled_reference]",
+        "test_log_installed_nucleus_reference[256-blank]",
+        "test_log_installed_nucleus_reference[256-isolated_three]",
+        "test_log_installed_nucleus_reference[256-touching_pair]",
+        "test_log_installed_nucleus_reference[256-gap_pair]",
+        "test_log_installed_nucleus_reference[256-size_filters]",
+        "test_log_installed_nucleus_reference[256-roi_cut_hole]",
+        "test_log_installed_nucleus_reference[256-gradient_noise]",
+        "test_log_installed_nucleus_reference[256-anisotropic_level0]",
+        "test_log_installed_nucleus_reference[256-resampled_reference]",
+        "test_detector_parameters_are_captured_and_inactive_options_reject",
+        "test_log_saved_recipe_replay_tables_and_classifier_sources[False]",
+        "test_log_saved_recipe_replay_tables_and_classifier_sources[True]",
+        "test_log_batch_resume_and_cli_recipe",
+        "test_log_gui_and_copied_recipe",
+        "test_context_pixels_change_only_the_contextual_digest",
+        "test_context_budget_is_admitted_before_launch",
+        "test_log_physical_area_limits_and_stale_calibration",
+        "test_log_transparent_pixels_never_become_labels",
+        "test_log_natural_pyramid_context_hash[16]",
+        "test_log_natural_pyramid_context_hash[64]",
+        "test_log_managed_viewer_captures_detector_recipe",
+        "test_log_jobs_reject_stale_results_and_cancel[selection]",
+        "test_log_jobs_reject_stale_results_and_cancel[rename]",
+        "test_log_jobs_reject_stale_results_and_cancel[close]",
+        "test_log_jobs_reject_stale_results_and_cancel[authority]",
+        "test_log_jobs_reject_stale_results_and_cancel[cancel]",
+        "test_log_candidate_failure_is_atomic_and_worker_reusable",
+        "test_log_auto_level_uses_expanded_context_budget[0]",
+        "test_log_auto_level_uses_expanded_context_budget[1]",
+        "test_log_auto_level_uses_expanded_context_budget[2]",
+        "test_mixed_detector_tables_and_classifier_sources_roundtrip",
+        "test_log_gui_batch_captures_recipe_and_checkpoint"
+      ],
+      "cache_cases": [
+        "test_sparse_boundary_cells_match_exact_fraction_reference[False-0.0]",
+        "test_sparse_boundary_cells_match_exact_fraction_reference[False-1048576.5]",
+        "test_sparse_boundary_cells_match_exact_fraction_reference[False--1048576.5]",
+        "test_sparse_boundary_cells_match_exact_fraction_reference[True-0.0]",
+        "test_sparse_boundary_cells_match_exact_fraction_reference[True-1048576.5]",
+        "test_sparse_boundary_cells_match_exact_fraction_reference[True--1048576.5]",
+        "test_concurrent_first_winding_queries_share_one_native_geometry",
+        "test_extreme_aspect_ratio_retains_exact_boundary_rules",
+        "test_concurrent_exterior_queries_then_first_intersecting_queries"
+      ],
+      "decimal_cases": [
+        "test_ome_decimal_quantity_contract[.125e+1-1.25]",
+        "test_ome_decimal_quantity_contract[001.25-1.25]",
+        "test_ome_decimal_quantity_contract[1.-1.0]",
+        "test_ome_decimal_quantity_contract[1e-308-1e-308]",
+        "test_ome_decimal_quantity_contract[+1-None]",
+        "test_ome_decimal_quantity_contract[ 1-None]",
+        "test_ome_decimal_quantity_contract[1 -None]",
+        "test_ome_decimal_quantity_contract[0x1p0-None]",
+        "test_ome_decimal_quantity_contract[1,25-None]",
+        "test_ome_decimal_quantity_contract[nan-None]",
+        "test_ome_decimal_quantity_contract[1e309-None]",
+        "test_ome_decimal_quantity_contract[1e-9999-None]"
+      ],
+      "junit_sha256": "b44079c12a1f6dc00c6e06e4b0d31b99fb1f2996700fe628a9c4a68997f2d024"
+    },
+    {
+      "python": "3.11",
+      "cohort": "consumer",
+      "log_passed": 47,
+      "log_desktop_skipped": 3,
+      "log_cases": [
+        "test_log_installed_nucleus_reference[16-blank]",
+        "test_log_installed_nucleus_reference[16-isolated_three]",
+        "test_log_installed_nucleus_reference[16-touching_pair]",
+        "test_log_installed_nucleus_reference[16-gap_pair]",
+        "test_log_installed_nucleus_reference[16-size_filters]",
+        "test_log_installed_nucleus_reference[16-roi_cut_hole]",
+        "test_log_installed_nucleus_reference[16-gradient_noise]",
+        "test_log_installed_nucleus_reference[16-anisotropic_level0]",
+        "test_log_installed_nucleus_reference[16-resampled_reference]",
+        "test_log_installed_nucleus_reference[64-blank]",
+        "test_log_installed_nucleus_reference[64-isolated_three]",
+        "test_log_installed_nucleus_reference[64-touching_pair]",
+        "test_log_installed_nucleus_reference[64-gap_pair]",
+        "test_log_installed_nucleus_reference[64-size_filters]",
+        "test_log_installed_nucleus_reference[64-roi_cut_hole]",
+        "test_log_installed_nucleus_reference[64-gradient_noise]",
+        "test_log_installed_nucleus_reference[64-anisotropic_level0]",
+        "test_log_installed_nucleus_reference[64-resampled_reference]",
+        "test_log_installed_nucleus_reference[256-blank]",
+        "test_log_installed_nucleus_reference[256-isolated_three]",
+        "test_log_installed_nucleus_reference[256-touching_pair]",
+        "test_log_installed_nucleus_reference[256-gap_pair]",
+        "test_log_installed_nucleus_reference[256-size_filters]",
+        "test_log_installed_nucleus_reference[256-roi_cut_hole]",
+        "test_log_installed_nucleus_reference[256-gradient_noise]",
+        "test_log_installed_nucleus_reference[256-anisotropic_level0]",
+        "test_log_installed_nucleus_reference[256-resampled_reference]",
+        "test_detector_parameters_are_captured_and_inactive_options_reject",
+        "test_log_saved_recipe_replay_tables_and_classifier_sources[False]",
+        "test_log_saved_recipe_replay_tables_and_classifier_sources[True]",
+        "test_log_batch_resume_and_cli_recipe",
+        "test_log_gui_and_copied_recipe",
+        "test_context_pixels_change_only_the_contextual_digest",
+        "test_context_budget_is_admitted_before_launch",
+        "test_log_physical_area_limits_and_stale_calibration",
+        "test_log_transparent_pixels_never_become_labels",
+        "test_log_natural_pyramid_context_hash[16]",
+        "test_log_natural_pyramid_context_hash[64]",
+        "test_log_managed_viewer_captures_detector_recipe",
+        "test_log_jobs_reject_stale_results_and_cancel[selection]",
+        "test_log_jobs_reject_stale_results_and_cancel[rename]",
+        "test_log_jobs_reject_stale_results_and_cancel[close]",
+        "test_log_jobs_reject_stale_results_and_cancel[authority]",
+        "test_log_jobs_reject_stale_results_and_cancel[cancel]",
+        "test_log_candidate_failure_is_atomic_and_worker_reusable",
+        "test_log_auto_level_uses_expanded_context_budget[0]",
+        "test_log_auto_level_uses_expanded_context_budget[1]",
+        "test_log_auto_level_uses_expanded_context_budget[2]",
+        "test_mixed_detector_tables_and_classifier_sources_roundtrip",
+        "test_log_gui_batch_captures_recipe_and_checkpoint"
+      ],
+      "cache_cases": [
+        "test_sparse_boundary_cells_match_exact_fraction_reference[False-0.0]",
+        "test_sparse_boundary_cells_match_exact_fraction_reference[False-1048576.5]",
+        "test_sparse_boundary_cells_match_exact_fraction_reference[False--1048576.5]",
+        "test_sparse_boundary_cells_match_exact_fraction_reference[True-0.0]",
+        "test_sparse_boundary_cells_match_exact_fraction_reference[True-1048576.5]",
+        "test_sparse_boundary_cells_match_exact_fraction_reference[True--1048576.5]",
+        "test_concurrent_first_winding_queries_share_one_native_geometry",
+        "test_extreme_aspect_ratio_retains_exact_boundary_rules",
+        "test_concurrent_exterior_queries_then_first_intersecting_queries"
+      ],
+      "decimal_cases": [
+        "test_ome_decimal_quantity_contract[.125e+1-1.25]",
+        "test_ome_decimal_quantity_contract[001.25-1.25]",
+        "test_ome_decimal_quantity_contract[1.-1.0]",
+        "test_ome_decimal_quantity_contract[1e-308-1e-308]",
+        "test_ome_decimal_quantity_contract[+1-None]",
+        "test_ome_decimal_quantity_contract[ 1-None]",
+        "test_ome_decimal_quantity_contract[1 -None]",
+        "test_ome_decimal_quantity_contract[0x1p0-None]",
+        "test_ome_decimal_quantity_contract[1,25-None]",
+        "test_ome_decimal_quantity_contract[nan-None]",
+        "test_ome_decimal_quantity_contract[1e309-None]",
+        "test_ome_decimal_quantity_contract[1e-9999-None]"
+      ],
+      "junit_sha256": "6d071353f5128a2ba507fa6947cd16b3ed4ab02ed121a06889ad00bc0b38770c"
+    },
+    {
+      "python": "3.12",
+      "cohort": "builder",
+      "log_passed": 47,
+      "log_desktop_skipped": 3,
+      "log_cases": [
+        "test_log_installed_nucleus_reference[16-blank]",
+        "test_log_installed_nucleus_reference[16-isolated_three]",
+        "test_log_installed_nucleus_reference[16-touching_pair]",
+        "test_log_installed_nucleus_reference[16-gap_pair]",
+        "test_log_installed_nucleus_reference[16-size_filters]",
+        "test_log_installed_nucleus_reference[16-roi_cut_hole]",
+        "test_log_installed_nucleus_reference[16-gradient_noise]",
+        "test_log_installed_nucleus_reference[16-anisotropic_level0]",
+        "test_log_installed_nucleus_reference[16-resampled_reference]",
+        "test_log_installed_nucleus_reference[64-blank]",
+        "test_log_installed_nucleus_reference[64-isolated_three]",
+        "test_log_installed_nucleus_reference[64-touching_pair]",
+        "test_log_installed_nucleus_reference[64-gap_pair]",
+        "test_log_installed_nucleus_reference[64-size_filters]",
+        "test_log_installed_nucleus_reference[64-roi_cut_hole]",
+        "test_log_installed_nucleus_reference[64-gradient_noise]",
+        "test_log_installed_nucleus_reference[64-anisotropic_level0]",
+        "test_log_installed_nucleus_reference[64-resampled_reference]",
+        "test_log_installed_nucleus_reference[256-blank]",
+        "test_log_installed_nucleus_reference[256-isolated_three]",
+        "test_log_installed_nucleus_reference[256-touching_pair]",
+        "test_log_installed_nucleus_reference[256-gap_pair]",
+        "test_log_installed_nucleus_reference[256-size_filters]",
+        "test_log_installed_nucleus_reference[256-roi_cut_hole]",
+        "test_log_installed_nucleus_reference[256-gradient_noise]",
+        "test_log_installed_nucleus_reference[256-anisotropic_level0]",
+        "test_log_installed_nucleus_reference[256-resampled_reference]",
+        "test_detector_parameters_are_captured_and_inactive_options_reject",
+        "test_log_saved_recipe_replay_tables_and_classifier_sources[False]",
+        "test_log_saved_recipe_replay_tables_and_classifier_sources[True]",
+        "test_log_batch_resume_and_cli_recipe",
+        "test_log_gui_and_copied_recipe",
+        "test_context_pixels_change_only_the_contextual_digest",
+        "test_context_budget_is_admitted_before_launch",
+        "test_log_physical_area_limits_and_stale_calibration",
+        "test_log_transparent_pixels_never_become_labels",
+        "test_log_natural_pyramid_context_hash[16]",
+        "test_log_natural_pyramid_context_hash[64]",
+        "test_log_managed_viewer_captures_detector_recipe",
+        "test_log_jobs_reject_stale_results_and_cancel[selection]",
+        "test_log_jobs_reject_stale_results_and_cancel[rename]",
+        "test_log_jobs_reject_stale_results_and_cancel[close]",
+        "test_log_jobs_reject_stale_results_and_cancel[authority]",
+        "test_log_jobs_reject_stale_results_and_cancel[cancel]",
+        "test_log_candidate_failure_is_atomic_and_worker_reusable",
+        "test_log_auto_level_uses_expanded_context_budget[0]",
+        "test_log_auto_level_uses_expanded_context_budget[1]",
+        "test_log_auto_level_uses_expanded_context_budget[2]",
+        "test_mixed_detector_tables_and_classifier_sources_roundtrip",
+        "test_log_gui_batch_captures_recipe_and_checkpoint"
+      ],
+      "cache_cases": [
+        "test_sparse_boundary_cells_match_exact_fraction_reference[False-0.0]",
+        "test_sparse_boundary_cells_match_exact_fraction_reference[False-1048576.5]",
+        "test_sparse_boundary_cells_match_exact_fraction_reference[False--1048576.5]",
+        "test_sparse_boundary_cells_match_exact_fraction_reference[True-0.0]",
+        "test_sparse_boundary_cells_match_exact_fraction_reference[True-1048576.5]",
+        "test_sparse_boundary_cells_match_exact_fraction_reference[True--1048576.5]",
+        "test_concurrent_first_winding_queries_share_one_native_geometry",
+        "test_extreme_aspect_ratio_retains_exact_boundary_rules",
+        "test_concurrent_exterior_queries_then_first_intersecting_queries"
+      ],
+      "decimal_cases": [
+        "test_ome_decimal_quantity_contract[.125e+1-1.25]",
+        "test_ome_decimal_quantity_contract[001.25-1.25]",
+        "test_ome_decimal_quantity_contract[1.-1.0]",
+        "test_ome_decimal_quantity_contract[1e-308-1e-308]",
+        "test_ome_decimal_quantity_contract[+1-None]",
+        "test_ome_decimal_quantity_contract[ 1-None]",
+        "test_ome_decimal_quantity_contract[1 -None]",
+        "test_ome_decimal_quantity_contract[0x1p0-None]",
+        "test_ome_decimal_quantity_contract[1,25-None]",
+        "test_ome_decimal_quantity_contract[nan-None]",
+        "test_ome_decimal_quantity_contract[1e309-None]",
+        "test_ome_decimal_quantity_contract[1e-9999-None]"
+      ],
+      "junit_sha256": "dc3533fae60bb3fa6cbcb5576222167cfabb59b6322a0afe03185f920ed52b25"
+    },
+    {
+      "python": "3.12",
+      "cohort": "consumer",
+      "log_passed": 47,
+      "log_desktop_skipped": 3,
+      "log_cases": [
+        "test_log_installed_nucleus_reference[16-blank]",
+        "test_log_installed_nucleus_reference[16-isolated_three]",
+        "test_log_installed_nucleus_reference[16-touching_pair]",
+        "test_log_installed_nucleus_reference[16-gap_pair]",
+        "test_log_installed_nucleus_reference[16-size_filters]",
+        "test_log_installed_nucleus_reference[16-roi_cut_hole]",
+        "test_log_installed_nucleus_reference[16-gradient_noise]",
+        "test_log_installed_nucleus_reference[16-anisotropic_level0]",
+        "test_log_installed_nucleus_reference[16-resampled_reference]",
+        "test_log_installed_nucleus_reference[64-blank]",
+        "test_log_installed_nucleus_reference[64-isolated_three]",
+        "test_log_installed_nucleus_reference[64-touching_pair]",
+        "test_log_installed_nucleus_reference[64-gap_pair]",
+        "test_log_installed_nucleus_reference[64-size_filters]",
+        "test_log_installed_nucleus_reference[64-roi_cut_hole]",
+        "test_log_installed_nucleus_reference[64-gradient_noise]",
+        "test_log_installed_nucleus_reference[64-anisotropic_level0]",
+        "test_log_installed_nucleus_reference[64-resampled_reference]",
+        "test_log_installed_nucleus_reference[256-blank]",
+        "test_log_installed_nucleus_reference[256-isolated_three]",
+        "test_log_installed_nucleus_reference[256-touching_pair]",
+        "test_log_installed_nucleus_reference[256-gap_pair]",
+        "test_log_installed_nucleus_reference[256-size_filters]",
+        "test_log_installed_nucleus_reference[256-roi_cut_hole]",
+        "test_log_installed_nucleus_reference[256-gradient_noise]",
+        "test_log_installed_nucleus_reference[256-anisotropic_level0]",
+        "test_log_installed_nucleus_reference[256-resampled_reference]",
+        "test_detector_parameters_are_captured_and_inactive_options_reject",
+        "test_log_saved_recipe_replay_tables_and_classifier_sources[False]",
+        "test_log_saved_recipe_replay_tables_and_classifier_sources[True]",
+        "test_log_batch_resume_and_cli_recipe",
+        "test_log_gui_and_copied_recipe",
+        "test_context_pixels_change_only_the_contextual_digest",
+        "test_context_budget_is_admitted_before_launch",
+        "test_log_physical_area_limits_and_stale_calibration",
+        "test_log_transparent_pixels_never_become_labels",
+        "test_log_natural_pyramid_context_hash[16]",
+        "test_log_natural_pyramid_context_hash[64]",
+        "test_log_managed_viewer_captures_detector_recipe",
+        "test_log_jobs_reject_stale_results_and_cancel[selection]",
+        "test_log_jobs_reject_stale_results_and_cancel[rename]",
+        "test_log_jobs_reject_stale_results_and_cancel[close]",
+        "test_log_jobs_reject_stale_results_and_cancel[authority]",
+        "test_log_jobs_reject_stale_results_and_cancel[cancel]",
+        "test_log_candidate_failure_is_atomic_and_worker_reusable",
+        "test_log_auto_level_uses_expanded_context_budget[0]",
+        "test_log_auto_level_uses_expanded_context_budget[1]",
+        "test_log_auto_level_uses_expanded_context_budget[2]",
+        "test_mixed_detector_tables_and_classifier_sources_roundtrip",
+        "test_log_gui_batch_captures_recipe_and_checkpoint"
+      ],
+      "cache_cases": [
+        "test_sparse_boundary_cells_match_exact_fraction_reference[False-0.0]",
+        "test_sparse_boundary_cells_match_exact_fraction_reference[False-1048576.5]",
+        "test_sparse_boundary_cells_match_exact_fraction_reference[False--1048576.5]",
+        "test_sparse_boundary_cells_match_exact_fraction_reference[True-0.0]",
+        "test_sparse_boundary_cells_match_exact_fraction_reference[True-1048576.5]",
+        "test_sparse_boundary_cells_match_exact_fraction_reference[True--1048576.5]",
+        "test_concurrent_first_winding_queries_share_one_native_geometry",
+        "test_extreme_aspect_ratio_retains_exact_boundary_rules",
+        "test_concurrent_exterior_queries_then_first_intersecting_queries"
+      ],
+      "decimal_cases": [
+        "test_ome_decimal_quantity_contract[.125e+1-1.25]",
+        "test_ome_decimal_quantity_contract[001.25-1.25]",
+        "test_ome_decimal_quantity_contract[1.-1.0]",
+        "test_ome_decimal_quantity_contract[1e-308-1e-308]",
+        "test_ome_decimal_quantity_contract[+1-None]",
+        "test_ome_decimal_quantity_contract[ 1-None]",
+        "test_ome_decimal_quantity_contract[1 -None]",
+        "test_ome_decimal_quantity_contract[0x1p0-None]",
+        "test_ome_decimal_quantity_contract[1,25-None]",
+        "test_ome_decimal_quantity_contract[nan-None]",
+        "test_ome_decimal_quantity_contract[1e309-None]",
+        "test_ome_decimal_quantity_contract[1e-9999-None]"
+      ],
+      "junit_sha256": "d8cf156d6b85496828ea30cfd2a1239045536b646e2627bee0675ba6196bd20c"
+    }
+  ],
+  "ndpi_reader_cohorts": [
+    {
+      "python": "3.11",
+      "cohort": "builder",
+      "ndpi_passed": 23,
+      "ndpi_skipped": 1,
+      "default_link_passed": 2,
+      "ndpi_cases": [
+        {
+          "name": "test_ndpi_metadata_and_anisotropic_calibration",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[0]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[1]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[2]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[3]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[4]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[5]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[6]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[7]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[8]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[0]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[1]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[2]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[3]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[4]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[5]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[6]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[7]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[8]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_complete_overview_and_source_budget",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_scheduler_cache_and_pending_close",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_log_detection_tile_invariance_and_saved_replay",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_truncated_container_rejects",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_desktop_pyramid_settles",
+          "skipped": true
+        }
+      ],
+      "junit_sha256": "b44079c12a1f6dc00c6e06e4b0d31b99fb1f2996700fe628a9c4a68997f2d024"
+    },
+    {
+      "python": "3.11",
+      "cohort": "consumer",
+      "ndpi_passed": 0,
+      "ndpi_skipped": 24,
+      "default_link_passed": 2,
+      "ndpi_cases": [
+        {
+          "name": "test_ndpi_metadata_and_anisotropic_calibration",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[0]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[1]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[2]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[3]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[4]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[5]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[6]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[7]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[8]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[0]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[1]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[2]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[3]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[4]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[5]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[6]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[7]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[8]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_complete_overview_and_source_budget",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_scheduler_cache_and_pending_close",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_log_detection_tile_invariance_and_saved_replay",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_truncated_container_rejects",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_desktop_pyramid_settles",
+          "skipped": true
+        }
+      ],
+      "junit_sha256": "6d071353f5128a2ba507fa6947cd16b3ed4ab02ed121a06889ad00bc0b38770c"
+    },
+    {
+      "python": "3.12",
+      "cohort": "builder",
+      "ndpi_passed": 23,
+      "ndpi_skipped": 1,
+      "default_link_passed": 2,
+      "ndpi_cases": [
+        {
+          "name": "test_ndpi_metadata_and_anisotropic_calibration",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[0]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[1]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[2]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[3]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[4]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[5]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[6]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[7]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[8]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[0]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[1]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[2]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[3]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[4]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[5]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[6]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[7]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[8]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_complete_overview_and_source_budget",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_scheduler_cache_and_pending_close",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_log_detection_tile_invariance_and_saved_replay",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_truncated_container_rejects",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_desktop_pyramid_settles",
+          "skipped": true
+        }
+      ],
+      "junit_sha256": "dc3533fae60bb3fa6cbcb5576222167cfabb59b6322a0afe03185f920ed52b25"
+    },
+    {
+      "python": "3.12",
+      "cohort": "consumer",
+      "ndpi_passed": 0,
+      "ndpi_skipped": 24,
+      "default_link_passed": 2,
+      "ndpi_cases": [
+        {
+          "name": "test_ndpi_metadata_and_anisotropic_calibration",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[0]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[1]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[2]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[3]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[4]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[5]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[6]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[7]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[8]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[0]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[1]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[2]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[3]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[4]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[5]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[6]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[7]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[8]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_complete_overview_and_source_budget",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_scheduler_cache_and_pending_close",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_log_detection_tile_invariance_and_saved_replay",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_truncated_container_rejects",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_desktop_pyramid_settles",
+          "skipped": true
+        }
+      ],
+      "junit_sha256": "d8cf156d6b85496828ea30cfd2a1239045536b646e2627bee0675ba6196bd20c"
+    }
+  ],
+  "negative_ndpi_probe": {
+    "previous_non_ndpi_engine_rejected": true,
+    "log_sha256": "fa07c359a9bb395e4eedfbfaef1f654f8b479fd8c36eae3334fdb2704b054d36"
+  },
+  "auditor_unit_tests": {
+    "passed": 17,
+    "log_sha256": "2adc3b09a0741fac816642431b8b1056ce14350cf0fb191774bf54b696deed1d"
+  }
+}

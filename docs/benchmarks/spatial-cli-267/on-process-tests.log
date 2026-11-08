@@ -1,0 +1,274 @@
+FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF                                           [100%]
+================================== FAILURES ===================================
+________ test_native_measure_export_verify_and_reopen[False-False-px] _________
+tests\test_spatial_cli.py:51: in test_native_measure_export_verify_and_reopen
+    project,doc,image,(a,b,c),source=scene(tmp_path);original=source.read_bytes();output=tmp_path/'measured ¦Á.qpxproj'
+                                     ^^^^^^^^^^^^^^^
+tests\test_spatial_cli.py:42: in scene
+    untouched=project.add_document(q.Document(q.Image.demo()),'Embedded reference');project.set_active_image(untouched)
+                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Project' object has no attribute 'set_active_image'. Did you mean: 'active_image'?
+________ test_native_measure_export_verify_and_reopen[False-False-um] _________
+tests\test_spatial_cli.py:51: in test_native_measure_export_verify_and_reopen
+    project,doc,image,(a,b,c),source=scene(tmp_path);original=source.read_bytes();output=tmp_path/'measured ¦Á.qpxproj'
+                                     ^^^^^^^^^^^^^^^
+tests\test_spatial_cli.py:42: in scene
+    untouched=project.add_document(q.Document(q.Image.demo()),'Embedded reference');project.set_active_image(untouched)
+                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Project' object has no attribute 'set_active_image'. Did you mean: 'active_image'?
+_________ test_native_measure_export_verify_and_reopen[False-True-px] _________
+tests\test_spatial_cli.py:51: in test_native_measure_export_verify_and_reopen
+    project,doc,image,(a,b,c),source=scene(tmp_path);original=source.read_bytes();output=tmp_path/'measured ¦Á.qpxproj'
+                                     ^^^^^^^^^^^^^^^
+tests\test_spatial_cli.py:42: in scene
+    untouched=project.add_document(q.Document(q.Image.demo()),'Embedded reference');project.set_active_image(untouched)
+                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Project' object has no attribute 'set_active_image'. Did you mean: 'active_image'?
+_________ test_native_measure_export_verify_and_reopen[False-True-um] _________
+tests\test_spatial_cli.py:51: in test_native_measure_export_verify_and_reopen
+    project,doc,image,(a,b,c),source=scene(tmp_path);original=source.read_bytes();output=tmp_path/'measured ¦Á.qpxproj'
+                                     ^^^^^^^^^^^^^^^
+tests\test_spatial_cli.py:42: in scene
+    untouched=project.add_document(q.Document(q.Image.demo()),'Embedded reference');project.set_active_image(untouched)
+                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Project' object has no attribute 'set_active_image'. Did you mean: 'active_image'?
+_________ test_native_measure_export_verify_and_reopen[True-False-px] _________
+tests\test_spatial_cli.py:51: in test_native_measure_export_verify_and_reopen
+    project,doc,image,(a,b,c),source=scene(tmp_path);original=source.read_bytes();output=tmp_path/'measured ¦Á.qpxproj'
+                                     ^^^^^^^^^^^^^^^
+tests\test_spatial_cli.py:42: in scene
+    untouched=project.add_document(q.Document(q.Image.demo()),'Embedded reference');project.set_active_image(untouched)
+                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Project' object has no attribute 'set_active_image'. Did you mean: 'active_image'?
+_________ test_native_measure_export_verify_and_reopen[True-False-um] _________
+tests\test_spatial_cli.py:51: in test_native_measure_export_verify_and_reopen
+    project,doc,image,(a,b,c),source=scene(tmp_path);original=source.read_bytes();output=tmp_path/'measured ¦Á.qpxproj'
+                                     ^^^^^^^^^^^^^^^
+tests\test_spatial_cli.py:42: in scene
+    untouched=project.add_document(q.Document(q.Image.demo()),'Embedded reference');project.set_active_image(untouched)
+                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Project' object has no attribute 'set_active_image'. Did you mean: 'active_image'?
+_________ test_native_measure_export_verify_and_reopen[True-True-px] __________
+tests\test_spatial_cli.py:51: in test_native_measure_export_verify_and_reopen
+    project,doc,image,(a,b,c),source=scene(tmp_path);original=source.read_bytes();output=tmp_path/'measured ¦Á.qpxproj'
+                                     ^^^^^^^^^^^^^^^
+tests\test_spatial_cli.py:42: in scene
+    untouched=project.add_document(q.Document(q.Image.demo()),'Embedded reference');project.set_active_image(untouched)
+                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Project' object has no attribute 'set_active_image'. Did you mean: 'active_image'?
+_________ test_native_measure_export_verify_and_reopen[True-True-um] __________
+tests\test_spatial_cli.py:51: in test_native_measure_export_verify_and_reopen
+    project,doc,image,(a,b,c),source=scene(tmp_path);original=source.read_bytes();output=tmp_path/'measured ¦Á.qpxproj'
+                                     ^^^^^^^^^^^^^^^
+tests\test_spatial_cli.py:42: in scene
+    untouched=project.add_document(q.Document(q.Image.demo()),'Embedded reference');project.set_active_image(untouched)
+                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Project' object has no attribute 'set_active_image'. Did you mean: 'active_image'?
+___ test_parser_refuses_invalid_options_before_opening_any_project[extra0] ____
+tests\test_spatial_cli.py:80: in test_parser_refuses_invalid_options_before_opening_any_project
+    output=tmp_path/'new.qpxproj';run(cli,['--measure-spatial',tmp_path/'does-not-exist.qpxproj',output,'--image','1','--source','1',*extra],2)
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_spatial_cli.py:24: in run
+    if os.name=='nt':env['PATH']=os.pathsep.join([str(cli.parent),str(Path(env['SystemRoot'])/'System32'),env['SystemRoot']])
+                                                                           ^^^^^^^^^^^^^^^^^
+E   KeyError: 'SystemRoot'
+___ test_parser_refuses_invalid_options_before_opening_any_project[extra1] ____
+tests\test_spatial_cli.py:80: in test_parser_refuses_invalid_options_before_opening_any_project
+    output=tmp_path/'new.qpxproj';run(cli,['--measure-spatial',tmp_path/'does-not-exist.qpxproj',output,'--image','1','--source','1',*extra],2)
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_spatial_cli.py:24: in run
+    if os.name=='nt':env['PATH']=os.pathsep.join([str(cli.parent),str(Path(env['SystemRoot'])/'System32'),env['SystemRoot']])
+                                                                           ^^^^^^^^^^^^^^^^^
+E   KeyError: 'SystemRoot'
+___ test_parser_refuses_invalid_options_before_opening_any_project[extra2] ____
+tests\test_spatial_cli.py:80: in test_parser_refuses_invalid_options_before_opening_any_project
+    output=tmp_path/'new.qpxproj';run(cli,['--measure-spatial',tmp_path/'does-not-exist.qpxproj',output,'--image','1','--source','1',*extra],2)
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_spatial_cli.py:24: in run
+    if os.name=='nt':env['PATH']=os.pathsep.join([str(cli.parent),str(Path(env['SystemRoot'])/'System32'),env['SystemRoot']])
+                                                                           ^^^^^^^^^^^^^^^^^
+E   KeyError: 'SystemRoot'
+___ test_parser_refuses_invalid_options_before_opening_any_project[extra3] ____
+tests\test_spatial_cli.py:80: in test_parser_refuses_invalid_options_before_opening_any_project
+    output=tmp_path/'new.qpxproj';run(cli,['--measure-spatial',tmp_path/'does-not-exist.qpxproj',output,'--image','1','--source','1',*extra],2)
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_spatial_cli.py:24: in run
+    if os.name=='nt':env['PATH']=os.pathsep.join([str(cli.parent),str(Path(env['SystemRoot'])/'System32'),env['SystemRoot']])
+                                                                           ^^^^^^^^^^^^^^^^^
+E   KeyError: 'SystemRoot'
+___ test_parser_refuses_invalid_options_before_opening_any_project[extra4] ____
+tests\test_spatial_cli.py:80: in test_parser_refuses_invalid_options_before_opening_any_project
+    output=tmp_path/'new.qpxproj';run(cli,['--measure-spatial',tmp_path/'does-not-exist.qpxproj',output,'--image','1','--source','1',*extra],2)
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_spatial_cli.py:24: in run
+    if os.name=='nt':env['PATH']=os.pathsep.join([str(cli.parent),str(Path(env['SystemRoot'])/'System32'),env['SystemRoot']])
+                                                                           ^^^^^^^^^^^^^^^^^
+E   KeyError: 'SystemRoot'
+___ test_parser_refuses_invalid_options_before_opening_any_project[extra5] ____
+tests\test_spatial_cli.py:80: in test_parser_refuses_invalid_options_before_opening_any_project
+    output=tmp_path/'new.qpxproj';run(cli,['--measure-spatial',tmp_path/'does-not-exist.qpxproj',output,'--image','1','--source','1',*extra],2)
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_spatial_cli.py:24: in run
+    if os.name=='nt':env['PATH']=os.pathsep.join([str(cli.parent),str(Path(env['SystemRoot'])/'System32'),env['SystemRoot']])
+                                                                           ^^^^^^^^^^^^^^^^^
+E   KeyError: 'SystemRoot'
+___ test_parser_refuses_invalid_options_before_opening_any_project[extra6] ____
+tests\test_spatial_cli.py:80: in test_parser_refuses_invalid_options_before_opening_any_project
+    output=tmp_path/'new.qpxproj';run(cli,['--measure-spatial',tmp_path/'does-not-exist.qpxproj',output,'--image','1','--source','1',*extra],2)
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_spatial_cli.py:24: in run
+    if os.name=='nt':env['PATH']=os.pathsep.join([str(cli.parent),str(Path(env['SystemRoot'])/'System32'),env['SystemRoot']])
+                                                                           ^^^^^^^^^^^^^^^^^
+E   KeyError: 'SystemRoot'
+___ test_parser_refuses_invalid_options_before_opening_any_project[extra7] ____
+tests\test_spatial_cli.py:80: in test_parser_refuses_invalid_options_before_opening_any_project
+    output=tmp_path/'new.qpxproj';run(cli,['--measure-spatial',tmp_path/'does-not-exist.qpxproj',output,'--image','1','--source','1',*extra],2)
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_spatial_cli.py:24: in run
+    if os.name=='nt':env['PATH']=os.pathsep.join([str(cli.parent),str(Path(env['SystemRoot'])/'System32'),env['SystemRoot']])
+                                                                           ^^^^^^^^^^^^^^^^^
+E   KeyError: 'SystemRoot'
+___ test_parser_refuses_invalid_options_before_opening_any_project[extra8] ____
+tests\test_spatial_cli.py:80: in test_parser_refuses_invalid_options_before_opening_any_project
+    output=tmp_path/'new.qpxproj';run(cli,['--measure-spatial',tmp_path/'does-not-exist.qpxproj',output,'--image','1','--source','1',*extra],2)
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_spatial_cli.py:24: in run
+    if os.name=='nt':env['PATH']=os.pathsep.join([str(cli.parent),str(Path(env['SystemRoot'])/'System32'),env['SystemRoot']])
+                                                                           ^^^^^^^^^^^^^^^^^
+E   KeyError: 'SystemRoot'
+___ test_parser_refuses_invalid_options_before_opening_any_project[extra9] ____
+tests\test_spatial_cli.py:80: in test_parser_refuses_invalid_options_before_opening_any_project
+    output=tmp_path/'new.qpxproj';run(cli,['--measure-spatial',tmp_path/'does-not-exist.qpxproj',output,'--image','1','--source','1',*extra],2)
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_spatial_cli.py:24: in run
+    if os.name=='nt':env['PATH']=os.pathsep.join([str(cli.parent),str(Path(env['SystemRoot'])/'System32'),env['SystemRoot']])
+                                                                           ^^^^^^^^^^^^^^^^^
+E   KeyError: 'SystemRoot'
+______ test_source_aliases_limits_and_stale_history_are_non_destructive _______
+tests\test_spatial_cli.py:85: in test_source_aliases_limits_and_stale_history_are_non_destructive
+    _,doc,image,(a,b,c),source=scene(tmp_path);original=source.read_bytes();output=tmp_path/'new.qpxproj'
+                               ^^^^^^^^^^^^^^^
+tests\test_spatial_cli.py:42: in scene
+    untouched=project.add_document(q.Document(q.Image.demo()),'Embedded reference');project.set_active_image(untouched)
+                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Project' object has no attribute 'set_active_image'. Did you mean: 'active_image'?
+_____________ test_unknown_calibration_and_image_record_selection _____________
+tests\test_spatial_cli.py:103: in test_unknown_calibration_and_image_record_selection
+    _,_,image,(a,b,c),source=scene(tmp_path,False);output=tmp_path/'unknown.qpxproj'
+                             ^^^^^^^^^^^^^^^^^^^^^
+tests\test_spatial_cli.py:42: in scene
+    untouched=project.add_document(q.Document(q.Image.demo()),'Embedded reference');project.set_active_image(untouched)
+                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Project' object has no attribute 'set_active_image'. Did you mean: 'active_image'?
+____ test_id_files_bypass_command_line_limits_and_preserve_cohort_identity ____
+tests\test_spatial_cli.py:118: in test_id_files_bypass_command_line_limits_and_preserve_cohort_identity
+    report=run(cli,['--measure-spatial',source,output,'--image',image,'--source-ids',sources,'--target-ids',targets])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_spatial_cli.py:24: in run
+    if os.name=='nt':env['PATH']=os.pathsep.join([str(cli.parent),str(Path(env['SystemRoot'])/'System32'),env['SystemRoot']])
+                                                                           ^^^^^^^^^^^^^^^^^
+E   KeyError: 'SystemRoot'
+___________ test_id_file_refusals_are_bounded_and_non_destructive[] ___________
+tests\test_spatial_cli.py:132: in test_id_file_refusals_are_bounded_and_non_destructive
+    _,_,image,_,source=scene(tmp_path);before=source.read_bytes();ids=tmp_path/'ids.txt';ids.write_bytes(text.encode());output=tmp_path/'refused.qpxproj'
+                       ^^^^^^^^^^^^^^^
+tests\test_spatial_cli.py:42: in scene
+    untouched=project.add_document(q.Document(q.Image.demo()),'Embedded reference');project.set_active_image(untouched)
+                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Project' object has no attribute 'set_active_image'. Did you mean: 'active_image'?
+__________ test_id_file_refusals_are_bounded_and_non_destructive[0] ___________
+tests\test_spatial_cli.py:132: in test_id_file_refusals_are_bounded_and_non_destructive
+    _,_,image,_,source=scene(tmp_path);before=source.read_bytes();ids=tmp_path/'ids.txt';ids.write_bytes(text.encode());output=tmp_path/'refused.qpxproj'
+                       ^^^^^^^^^^^^^^^
+tests\test_spatial_cli.py:42: in scene
+    untouched=project.add_document(q.Document(q.Image.demo()),'Embedded reference');project.set_active_image(untouched)
+                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Project' object has no attribute 'set_active_image'. Did you mean: 'active_image'?
+__________ test_id_file_refusals_are_bounded_and_non_destructive[-1] __________
+tests\test_spatial_cli.py:132: in test_id_file_refusals_are_bounded_and_non_destructive
+    _,_,image,_,source=scene(tmp_path);before=source.read_bytes();ids=tmp_path/'ids.txt';ids.write_bytes(text.encode());output=tmp_path/'refused.qpxproj'
+                       ^^^^^^^^^^^^^^^
+tests\test_spatial_cli.py:42: in scene
+    untouched=project.add_document(q.Document(q.Image.demo()),'Embedded reference');project.set_active_image(untouched)
+                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Project' object has no attribute 'set_active_image'. Did you mean: 'active_image'?
+__________ test_id_file_refusals_are_bounded_and_non_destructive[+1] __________
+tests\test_spatial_cli.py:132: in test_id_file_refusals_are_bounded_and_non_destructive
+    _,_,image,_,source=scene(tmp_path);before=source.read_bytes();ids=tmp_path/'ids.txt';ids.write_bytes(text.encode());output=tmp_path/'refused.qpxproj'
+                       ^^^^^^^^^^^^^^^
+tests\test_spatial_cli.py:42: in scene
+    untouched=project.add_document(q.Document(q.Image.demo()),'Embedded reference');project.set_active_image(untouched)
+                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Project' object has no attribute 'set_active_image'. Did you mean: 'active_image'?
+_________ test_id_file_refusals_are_bounded_and_non_destructive[1,2] __________
+tests\test_spatial_cli.py:132: in test_id_file_refusals_are_bounded_and_non_destructive
+    _,_,image,_,source=scene(tmp_path);before=source.read_bytes();ids=tmp_path/'ids.txt';ids.write_bytes(text.encode());output=tmp_path/'refused.qpxproj'
+                       ^^^^^^^^^^^^^^^
+tests\test_spatial_cli.py:42: in scene
+    untouched=project.add_document(q.Document(q.Image.demo()),'Embedded reference');project.set_active_image(untouched)
+                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Project' object has no attribute 'set_active_image'. Did you mean: 'active_image'?
+________ test_id_file_refusals_are_bounded_and_non_destructive[1\x00] _________
+tests\test_spatial_cli.py:132: in test_id_file_refusals_are_bounded_and_non_destructive
+    _,_,image,_,source=scene(tmp_path);before=source.read_bytes();ids=tmp_path/'ids.txt';ids.write_bytes(text.encode());output=tmp_path/'refused.qpxproj'
+                       ^^^^^^^^^^^^^^^
+tests\test_spatial_cli.py:42: in scene
+    untouched=project.add_document(q.Document(q.Image.demo()),'Embedded reference');project.set_active_image(untouched)
+                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Project' object has no attribute 'set_active_image'. Did you mean: 'active_image'?
+_ test_id_file_refusals_are_bounded_and_non_destructive[18446744073709551616] _
+tests\test_spatial_cli.py:132: in test_id_file_refusals_are_bounded_and_non_destructive
+    _,_,image,_,source=scene(tmp_path);before=source.read_bytes();ids=tmp_path/'ids.txt';ids.write_bytes(text.encode());output=tmp_path/'refused.qpxproj'
+                       ^^^^^^^^^^^^^^^
+tests\test_spatial_cli.py:42: in scene
+    untouched=project.add_document(q.Document(q.Image.demo()),'Embedded reference');project.set_active_image(untouched)
+                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Project' object has no attribute 'set_active_image'. Did you mean: 'active_image'?
+_________ test_id_file_refusals_are_bounded_and_non_destructive[1\n1] _________
+tests\test_spatial_cli.py:132: in test_id_file_refusals_are_bounded_and_non_destructive
+    _,_,image,_,source=scene(tmp_path);before=source.read_bytes();ids=tmp_path/'ids.txt';ids.write_bytes(text.encode());output=tmp_path/'refused.qpxproj'
+                       ^^^^^^^^^^^^^^^
+tests\test_spatial_cli.py:42: in scene
+    untouched=project.add_document(q.Document(q.Image.demo()),'Embedded reference');project.set_active_image(untouched)
+                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Project' object has no attribute 'set_active_image'. Did you mean: 'active_image'?
+_______________ test_id_file_count_limit_and_empty_target_file ________________
+tests\test_spatial_cli.py:138: in test_id_file_count_limit_and_empty_target_file
+    _,_,image,(a,_,_),source=scene(tmp_path);ids=tmp_path/'many.txt';ids.write_text('1\n'*100001);output=tmp_path/'refused.qpxproj'
+                             ^^^^^^^^^^^^^^^
+tests\test_spatial_cli.py:42: in scene
+    untouched=project.add_document(q.Document(q.Image.demo()),'Embedded reference');project.set_active_image(untouched)
+                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'qupathxx._native.Project' object has no attribute 'set_active_image'. Did you mean: 'active_image'?
+=========================== short test summary info ===========================
+FAILED tests/test_spatial_cli.py::test_native_measure_export_verify_and_reopen[False-False-px]
+FAILED tests/test_spatial_cli.py::test_native_measure_export_verify_and_reopen[False-False-um]
+FAILED tests/test_spatial_cli.py::test_native_measure_export_verify_and_reopen[False-True-px]
+FAILED tests/test_spatial_cli.py::test_native_measure_export_verify_and_reopen[False-True-um]
+FAILED tests/test_spatial_cli.py::test_native_measure_export_verify_and_reopen[True-False-px]
+FAILED tests/test_spatial_cli.py::test_native_measure_export_verify_and_reopen[True-False-um]
+FAILED tests/test_spatial_cli.py::test_native_measure_export_verify_and_reopen[True-True-px]
+FAILED tests/test_spatial_cli.py::test_native_measure_export_verify_and_reopen[True-True-um]
+FAILED tests/test_spatial_cli.py::test_parser_refuses_invalid_options_before_opening_any_project[extra0]
+FAILED tests/test_spatial_cli.py::test_parser_refuses_invalid_options_before_opening_any_project[extra1]
+FAILED tests/test_spatial_cli.py::test_parser_refuses_invalid_options_before_opening_any_project[extra2]
+FAILED tests/test_spatial_cli.py::test_parser_refuses_invalid_options_before_opening_any_project[extra3]
+FAILED tests/test_spatial_cli.py::test_parser_refuses_invalid_options_before_opening_any_project[extra4]
+FAILED tests/test_spatial_cli.py::test_parser_refuses_invalid_options_before_opening_any_project[extra5]
+FAILED tests/test_spatial_cli.py::test_parser_refuses_invalid_options_before_opening_any_project[extra6]
+FAILED tests/test_spatial_cli.py::test_parser_refuses_invalid_options_before_opening_any_project[extra7]
+FAILED tests/test_spatial_cli.py::test_parser_refuses_invalid_options_before_opening_any_project[extra8]
+FAILED tests/test_spatial_cli.py::test_parser_refuses_invalid_options_before_opening_any_project[extra9]
+FAILED tests/test_spatial_cli.py::test_source_aliases_limits_and_stale_history_are_non_destructive
+FAILED tests/test_spatial_cli.py::test_unknown_calibration_and_image_record_selection
+FAILED tests/test_spatial_cli.py::test_id_files_bypass_command_line_limits_and_preserve_cohort_identity
+FAILED tests/test_spatial_cli.py::test_id_file_refusals_are_bounded_and_non_destructive[]
+FAILED tests/test_spatial_cli.py::test_id_file_refusals_are_bounded_and_non_destructive[0]
+FAILED tests/test_spatial_cli.py::test_id_file_refusals_are_bounded_and_non_destructive[-1]
+FAILED tests/test_spatial_cli.py::test_id_file_refusals_are_bounded_and_non_destructive[+1]
+FAILED tests/test_spatial_cli.py::test_id_file_refusals_are_bounded_and_non_destructive[1,2]
+FAILED tests/test_spatial_cli.py::test_id_file_refusals_are_bounded_and_non_destructive[1\x00]
+FAILED tests/test_spatial_cli.py::test_id_file_refusals_are_bounded_and_non_destructive[18446744073709551616]
+FAILED tests/test_spatial_cli.py::test_id_file_refusals_are_bounded_and_non_destructive[1\n1]
+FAILED tests/test_spatial_cli.py::test_id_file_count_limit_and_empty_target_file
+30 failed in 0.59s

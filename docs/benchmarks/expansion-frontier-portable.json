@@ -1,0 +1,2378 @@
+{
+  "schema": "qpx.manylinux-acceptance/1",
+  "commit": "691c0f386d958d4ef630869bd025acf8019245ec",
+  "run": "https://github.com/bipxx/qupathxx/actions/runs/40091959604",
+  "policy": "manylinux_2_28_x86_64",
+  "state": "build-and-fresh-consumer-accepted",
+  "release_ready": false,
+  "versions": [
+    {
+      "python": "3.11",
+      "source_tree_sha256": "a5f94658401ddc8abf75238930ce0c1a8d66bf0e5f1538d0b7e7e9e47e9e5dd9",
+      "wheel": "qupathxx-0.1.0-cp311-cp311-manylinux_2_28_x86_64.whl",
+      "wheel_sha256": "b16de7e6c96038fb784318142089db80c2ee93dda6e1be0c55ed1c6bea1f001d",
+      "native_sha256": "15dc984aef369b3a3ec8fda987bf9d4326e99fe5137b7c65dbbc4b8d0eb7b261",
+      "runtimes": {
+        "libgeos_c.so.1": "ea8d31fb8e5f2b2a43cabd0fdf88bce4e586fd27163b8209106ac602980a15c7",
+        "libgeos.so.3.15.0": "7ef59bcd035c2f1f0c7eb5348a74fbf8c18a633dd294c4df47dfefe065161770",
+        "libopenslide.so.1": "552b5b77901bc9c7e7cc6e02a0b4f2861ffa85572b036a063db4f19ed2f357df"
+      },
+      "fixture_sha256": "ed92d5a9f2e86df67640d6f92ce3e231419ce127131697fbbce42ad5e002c8a7",
+      "builder_image": "quay.io/pypa/manylinux_2_28_x86_64@sha256:076b19ef6e698f28649fa817c49d14443201e01da85240e8e52f93e8daa49bff",
+      "consumer_image": "library/python@sha256:8fb0b110b022c70cbe09d3ff1fb313654f31f9c814abb0d48180af56d906a199",
+      "tests": {
+        "native": {
+          "tests": 46,
+          "passed": 46,
+          "skipped": 0,
+          "expected_scientific_failures": 0,
+          "sha256": "a1220a09d212fbc69e7d7e516076cec3b35c5f358e1d5c354e8c859d43be3f8c",
+          "skip_reasons": {}
+        },
+        "builder": {
+          "tests": 2389,
+          "passed": 1973,
+          "skipped": 413,
+          "expected_scientific_failures": 3,
+          "sha256": "0801f860c935f1dd68d5ea7d82383202a0425a0e3a5fed68495961939f629eb4",
+          "skip_reasons": {
+            "desktop cell publication": 2,
+            "desktop replay": 11,
+            "opt-in native desktop replay": 8,
+            "opt-in desktop batch workflow": 13,
+            "opt-in desktop area limits": 3,
+            "opt-in project desktop replay": 6,
+            "opt-in desktop replay": 38,
+            "opt-in geometry desktop replay": 6,
+            "opt-in native docking": 12,
+            "opt-in responsive GUI": 10,
+            "requires GUI/project build and QUPATHXX_TEST_GUI=1": 96,
+            "requires GUI build and QUPATHXX_TEST_GUI=1": 34,
+            "requires GUI/training and QUPATHXX_TEST_GUI=1": 38,
+            "opt-in desktop pixel batch workflow": 6,
+            "requires GUI and QUPATHXX_TEST_GUI=1": 9,
+            "requires GUI/project and opt-in replay": 6,
+            "opt-in project desktop": 4,
+            "opt-in raw desktop": 7,
+            "opt-in raw records desktop": 5,
+            "opt-in native DPI scaling": 14,
+            "Windows native executable stack contract": 1,
+            "opt-in native GUI": 14,
+            "opt-in GEOS desktop replay": 2,
+            "opt-in TMA desktop": 8,
+            "Windows GUI wheel-message regression": 1,
+            "opt-in native window lifecycle": 15,
+            "opt-in desktop": 3,
+            "managed desktop": 3,
+            "desktop batch": 2,
+            "desktop batch LoG recipe": 1,
+            "opt-in NDPI desktop": 1,
+            "requires generated large pyramid fixture": 1,
+            "opt-in GUI": 3,
+            "Windows read-only replacement failure": 1,
+            "requires real desktop GUI": 1,
+            "Windows read-only file attribute check": 1,
+            "Frozen isolated-cell QuPath acceptance gates remain unresolved": 3,
+            "GEOS-disabled configuration": 1,
+            "opt-in ImGui import replay": 2,
+            "opt-in pinned Windows QuPath runtime": 1,
+            "Windows file sharing check": 1,
+            "Windows file delete sharing": 1,
+            "requires desktop GUI": 2,
+            "Windows case insensitive anchor path": 1,
+            "Windows read-only marker write protection": 1,
+            "Windows delete-sharing failure": 1,
+            "opt-in managed viewer": 15,
+            "requires generated OpenSlide pyramid": 1
+          }
+        },
+        "consumer": {
+          "tests": 2389,
+          "passed": 1931,
+          "skipped": 455,
+          "expected_scientific_failures": 3,
+          "sha256": "90e8046bc0671d2debdfe4975065bfb331cb3eb2bff0107ee8f2535386f4a78f",
+          "skip_reasons": {
+            "desktop cell publication": 2,
+            "desktop replay": 11,
+            "requires opt-in Linux GEOS SDK": 4,
+            "opt-in native desktop replay": 8,
+            "opt-in desktop batch workflow": 13,
+            "opt-in desktop area limits": 3,
+            "opt-in project desktop replay": 6,
+            "opt-in desktop replay": 38,
+            "opt-in geometry desktop replay": 6,
+            "opt-in native docking": 12,
+            "opt-in responsive GUI": 10,
+            "requires GUI/project build and QUPATHXX_TEST_GUI=1": 96,
+            "requires GUI build and QUPATHXX_TEST_GUI=1": 34,
+            "requires GUI/training and QUPATHXX_TEST_GUI=1": 38,
+            "opt-in desktop pixel batch workflow": 6,
+            "requires GUI and QUPATHXX_TEST_GUI=1": 9,
+            "requires GUI/project and opt-in replay": 6,
+            "opt-in project desktop": 4,
+            "opt-in raw desktop": 7,
+            "opt-in raw records desktop": 5,
+            "opt-in native DPI scaling": 14,
+            "Windows native executable stack contract": 1,
+            "opt-in native GUI": 14,
+            "opt-in GEOS desktop replay": 2,
+            "opt-in TMA desktop": 8,
+            "Windows GUI wheel-message regression": 1,
+            "opt-in native window lifecycle": 15,
+            "opt-in desktop": 3,
+            "managed desktop": 3,
+            "desktop batch": 2,
+            "desktop batch LoG recipe": 1,
+            "opt-in pinned Hamamatsu NDPI fixture": 26,
+            "opt-in NDPI desktop": 1,
+            "opt-in full Aperio pyramid": 12,
+            "requires generated large pyramid fixture": 1,
+            "opt-in GUI": 3,
+            "Windows read-only replacement failure": 1,
+            "requires real desktop GUI": 1,
+            "Windows read-only file attribute check": 1,
+            "Frozen isolated-cell QuPath acceptance gates remain unresolved": 3,
+            "GEOS-disabled configuration": 1,
+            "opt-in ImGui import replay": 2,
+            "opt-in pinned Windows QuPath runtime": 1,
+            "Windows file sharing check": 1,
+            "Windows file delete sharing": 1,
+            "requires desktop GUI": 2,
+            "Windows case insensitive anchor path": 1,
+            "Windows read-only marker write protection": 1,
+            "Windows delete-sharing failure": 1,
+            "opt-in managed viewer": 15,
+            "requires generated OpenSlide pyramid": 1
+          }
+        }
+      },
+      "evidence": {
+        "manylinux-3.11\\auditwheel-after.log": "562fa822693e1c2279656c2a4581269be9fdde8967ffce3347b644417cd88eda",
+        "manylinux-3.11\\auditwheel-before.log": "4cdfb201d8138ee080539c58c24324a8f5dd70c3f7126c67148e523e4c923be0",
+        "manylinux-3.11\\auditwheel-repair.log": "2042d79dba6fc6f7580369f7a3ac7520fde8d9a7f23bd5aaf1ba78b1a7d9110f",
+        "manylinux-3.11\\build-image.json": "9bc8eb57dd7cb1f28ec4be90b2535e7e12ce567e6edb68062f9e3283e18e3e05",
+        "manylinux-3.11\\classifier-archive-benchmark.json": "8195d1554d2f0fc15517b32e852cbf88fab413882ec78428d01ba64bb07bec72",
+        "manylinux-3.11\\classifier-archive-benchmark.log": "6b0b580c6da92f5a8f15e949204153493ffb25a96ef396bd8ad40a02ae044afe",
+        "manylinux-3.11\\classifier-benchmark.json": "06c98b8c3619742ae9fa221c0180750d54321d32ba115fef8d255022c3fb2e41",
+        "manylinux-3.11\\classifier-benchmark.log": "7a6d26f3a4216ef494cb4ba53f890e0fa0dac05a19df2f340989f2e34feb040a",
+        "manylinux-3.11\\fixtures.log": "6585ff29e6c925a151c86032e0c3f10e7b1b5b59d6d6273b3c5ebaa4c350b412",
+        "manylinux-3.11\\geos-build.log": "7df8898f7031a22f27d6b40f5e6469d48479cd8b070541905e6a90236651dbc7",
+        "manylinux-3.11\\install.log": "820dc575838591500360136de5d265531fa9e06d56ae5c6cfc64ffa009a2add4",
+        "manylinux-3.11\\installed-workflow.json": "ec2a89af88cbe534ee41dd48fac264802678ea4fe59d8f5b5f46f3fb326a78f8",
+        "manylinux-3.11\\installed-workflow.log": "ec2a89af88cbe534ee41dd48fac264802678ea4fe59d8f5b5f46f3fb326a78f8",
+        "manylinux-3.11\\linux-runtime.json": "e1daf7e12984894050d800c2c55df4e2bb0e4a9fdc2db666db358d93d552491d",
+        "manylinux-3.11\\linux-runtime.log": "e1daf7e12984894050d800c2c55df4e2bb0e4a9fdc2db666db358d93d552491d",
+        "manylinux-3.11\\native-tests.log": "66af9bfa1445084d4ea111ae16eee8c72fa9cf4d4088de783746c457308d54de",
+        "manylinux-3.11\\native-tests.xml": "a1220a09d212fbc69e7d7e516076cec3b35c5f358e1d5c354e8c859d43be3f8c",
+        "manylinux-3.11\\ndpi-reader-benchmark.json": "cbbe1f6f1af6019ded2d7affd9237193c11672a171dbeca1d934c87785aef9f9",
+        "manylinux-3.11\\ndpi-reader-benchmark.log": "cbbe1f6f1af6019ded2d7affd9237193c11672a171dbeca1d934c87785aef9f9",
+        "manylinux-3.11\\object-classifier-benchmark.json": "966e592f8f63ebae43bcbdafb0b59867c5c703fb2ffd841cd8002fd9325bd0c8",
+        "manylinux-3.11\\object-classifier-benchmark.log": "4be1ef8d63c4dd432a5d5891c27b3faa9762bbff732eefe143276ab3fbb62874",
+        "manylinux-3.11\\opencv-build.log": "2672531cd3c99b2a6d9aa1dcb6910516e7c87a62167941e48524da49e1c7a5e0",
+        "manylinux-3.11\\pixel-archive-benchmark.json": "cfd899a0bc3fd042f169f71ceaa9b2045c6599cccca0e8681c066f12a5d317e5",
+        "manylinux-3.11\\pixel-archive-benchmark.log": "cfd899a0bc3fd042f169f71ceaa9b2045c6599cccca0e8681c066f12a5d317e5",
+        "manylinux-3.11\\pixel-batch-interrupt.json": "a91d3b3353a59ffcfcf3bc854de009406b03c6960d383c9885c60e15fea8d018",
+        "manylinux-3.11\\pixel-batch-interrupt.log": "a91d3b3353a59ffcfcf3bc854de009406b03c6960d383c9885c60e15fea8d018",
+        "manylinux-3.11\\pixel-classifier-benchmark.json": "07b90591e07c6a77ceb6e58eedd95ba1f9dc6c0bdb52fa161636a746002bd5a3",
+        "manylinux-3.11\\pixel-classifier-benchmark.log": "07b90591e07c6a77ceb6e58eedd95ba1f9dc6c0bdb52fa161636a746002bd5a3",
+        "manylinux-3.11\\pixel-input-digest-benchmark.json": "65b8a7436ad936a6bf7f4f6f911e23985cbd23361a4df7e4b8b80acc4ba96535",
+        "manylinux-3.11\\pixel-input-digest-benchmark.log": "65b8a7436ad936a6bf7f4f6f911e23985cbd23361a4df7e4b8b80acc4ba96535",
+        "manylinux-3.11\\pixel-stream-benchmark.json": "f87101847907886ddd30653d4d33810e0318bcabb64346c3f1574f7cf99ac848",
+        "manylinux-3.11\\pixel-stream-benchmark.log": "f87101847907886ddd30653d4d33810e0318bcabb64346c3f1574f7cf99ac848",
+        "manylinux-3.11\\pixel-stream-cli-benchmark.json": "6273b9068b96ea313667c19566baafe8680ce41d611b5d4eb1e5f92fce8a8dc4",
+        "manylinux-3.11\\pixel-stream-cli-benchmark.log": "6273b9068b96ea313667c19566baafe8680ce41d611b5d4eb1e5f92fce8a8dc4",
+        "manylinux-3.11\\pixel-stream-file-benchmark.json": "6127d17d75d19c03b2d3ca461523d6ef45894b8208f6e9a8efc453dad33ccce0",
+        "manylinux-3.11\\pixel-stream-file-benchmark.log": "6127d17d75d19c03b2d3ca461523d6ef45894b8208f6e9a8efc453dad33ccce0",
+        "manylinux-3.11\\pixel-stream-job-benchmark.json": "34b44feb4a73a414ca598a02b146830b79cd46d12d8b1f595fe415252c5b1579",
+        "manylinux-3.11\\pixel-stream-job-benchmark.log": "34b44feb4a73a414ca598a02b146830b79cd46d12d8b1f595fe415252c5b1579",
+        "manylinux-3.11\\pixel-stream-read-benchmark.json": "1d45182f8ce2964c0d081bb0f91a57c9e157c9e8ac7e430b7b1a6cd5d2636176",
+        "manylinux-3.11\\pixel-stream-read-benchmark.log": "1d45182f8ce2964c0d081bb0f91a57c9e157c9e8ac7e430b7b1a6cd5d2636176",
+        "manylinux-3.11\\pixel-stream-record-benchmark.json": "c604bc08e1c70c0012db06b8cfe6e9f42ddb6c4b4dad042cd99495f396faa9ce",
+        "manylinux-3.11\\pixel-stream-record-benchmark.log": "c604bc08e1c70c0012db06b8cfe6e9f42ddb6c4b4dad042cd99495f396faa9ce",
+        "manylinux-3.11\\pixel-workflow-benchmark.json": "b3ae51b6bcf89e0bb95928253f98bc54eac128d571e70b14dd76f4c1de6f61e2",
+        "manylinux-3.11\\pixel-workflow-benchmark.log": "b3ae51b6bcf89e0bb95928253f98bc54eac128d571e70b14dd76f4c1de6f61e2",
+        "manylinux-3.11\\project-pixel-batch-benchmark.json": "66d8bff3d1d45300e5b710ac176434a11f5cf1997b6dc827a1d31f231db1df77",
+        "manylinux-3.11\\project-pixel-batch-benchmark.log": "66d8bff3d1d45300e5b710ac176434a11f5cf1997b6dc827a1d31f231db1df77",
+        "manylinux-3.11\\python-tests.log": "4768be205ff57a4e736c93fc7b462f407281f10e13366fee5f33484260f5da7d",
+        "manylinux-3.11\\python-tests.xml": "0801f860c935f1dd68d5ea7d82383202a0425a0e3a5fed68495961939f629eb4",
+        "manylinux-3.11\\qualification.json": "1745a3362d0d98c6459d6a692b5518693827d06c4af6eea61fbe8131e2721344",
+        "manylinux-3.11\\qualified-install.log": "3b53f577ad399ff43fc9ad092ef740e3a5b2f966932dd45bf1e96a2ed98e41af",
+        "manylinux-3.11\\qualified-installed.json": "ec2a89af88cbe534ee41dd48fac264802678ea4fe59d8f5b5f46f3fb326a78f8",
+        "manylinux-3.11\\qualified-installed.log": "ec2a89af88cbe534ee41dd48fac264802678ea4fe59d8f5b5f46f3fb326a78f8",
+        "manylinux-3.11\\qualified-runtime.json": "7b5257a6b8ab884fed1e06237d4df322a388241902ed7b578c4a6abb8d2cb5c2",
+        "manylinux-3.11\\qualified-runtime.log": "7b5257a6b8ab884fed1e06237d4df322a388241902ed7b578c4a6abb8d2cb5c2",
+        "manylinux-3.11\\qupath-cells-body-comparison.json": "4417e2310656c6516b6929ee183e7e8a6e71d0b39fbcad1463034872dd79421a",
+        "manylinux-3.11\\qupath-cells-body-comparison.log": "54a8950becb5094900dcabd73fd7052883a7b8c1d2ca79fe5b837d77b1de8a69",
+        "manylinux-3.11\\qupath-cells-sampled-comparison.json": "8bd28d9e740101819526af6ae9ec0ff003af01aca0522fee72bf9a0b566db418",
+        "manylinux-3.11\\qupath-cells-sampled-comparison.log": "0c64e1d11f18727485f9cf9e0505ca213e283d4f8e85bc05a5161109be838bae",
+        "manylinux-3.11\\qupath-ndpi-sampled-context0.json": "ae85e416939ca231521aed2d49575e41d4307038f321c4169abfff49fd332509",
+        "manylinux-3.11\\qupath-ndpi-sampled-context0.log": "f0abd307092bddc641a00cd253e43bcbf9c54a7ce21911b05e690e9817942520",
+        "manylinux-3.11\\qupath-ndpi-sampled-context32.json": "373f88468dc7f033a5dd49efdc27855b19a13b0e6fec9b298b569f2506ffd5fc",
+        "manylinux-3.11\\qupath-ndpi-sampled-context32.log": "2e430f8c0e4717c149d092366d9cf34149b8ea0cd47b86a8bdd8cbcda51f79eb",
+        "manylinux-3.11\\raw-records-benchmark.json": "d085f7af31a3361744cc8b4dc9774174627cdc6dc79c18927e9a3a8c0c41e31f",
+        "manylinux-3.11\\raw-records-benchmark.log": "d085f7af31a3361744cc8b4dc9774174627cdc6dc79c18927e9a3a8c0c41e31f",
+        "manylinux-3.11\\result.json": "4381fddc1574e97e524fee3a650fe808403b8396a426cb7a5b08d33506a9ea89",
+        "manylinux-3.11\\stubs.log": "820fb7328bf07e4438dd45655755085f118f178efd9d4af074057ff0e9eb03d0",
+        "manylinux-3.11\\tiff-reader-benchmark.json": "43c3008fac577927896f7ef72f9eebb010189ac7af7ad99b457a166ba70e7786",
+        "manylinux-3.11\\tiff-reader-benchmark.log": "43c3008fac577927896f7ef72f9eebb010189ac7af7ad99b457a166ba70e7786",
+        "manylinux-3.11\\tma-benchmark.json": "176e644aaded130fff8e04539280934532a1f97baa3eb801a51775d81fab58e1",
+        "manylinux-3.11\\tma-benchmark.log": "176e644aaded130fff8e04539280934532a1f97baa3eb801a51775d81fab58e1",
+        "manylinux-3.11\\typing-negative.log": "6252753b768b8a08f20bf6ca9caf615a342940505778db5476bf3151c377d6e1",
+        "manylinux-3.11\\typing.log": "8228fcc5ce46d42d01caf3cd941f4e9c5f2bcc372bb5b147a2f0572d2dd675a8",
+        "manylinux-3.11\\vendor-reader-benchmark.json": "bb7b733743e906258d59e7d9a54229ec30397e4168f4f76a002109ac80e2d1e2",
+        "manylinux-3.11\\vendor-reader-benchmark.log": "bb7b733743e906258d59e7d9a54229ec30397e4168f4f76a002109ac80e2d1e2",
+        "manylinux-3.11\\venv.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "manylinux-3.11\\wheel-build.log": "2c223b10dba3e14f1404b905eb5d69d8c4887e811915b6de010720abac285f28",
+        "manylinux-consumer-3.11\\consumer-probe.json": "7a2d846544c5ad19f0d37fcf7f4110fa96738aec94acee3e6d3986f1d87e8dff",
+        "manylinux-consumer-3.11\\consumer-tests.log": "166782b137785961dc5885e0f6704b0edb9cbcfff275a213912bbb3c0f9dc94d",
+        "manylinux-consumer-3.11\\consumer-tests.xml": "90e8046bc0671d2debdfe4975065bfb331cb3eb2bff0107ee8f2535386f4a78f"
+      },
+      "runtime_payloads_unchanged": true,
+      "fresh_consumer_workflows": true
+    },
+    {
+      "python": "3.12",
+      "source_tree_sha256": "a5f94658401ddc8abf75238930ce0c1a8d66bf0e5f1538d0b7e7e9e47e9e5dd9",
+      "wheel": "qupathxx-0.1.0-cp312-cp312-manylinux_2_28_x86_64.whl",
+      "wheel_sha256": "40709ecd8175a9fce6dc70271e699906d3698f4f849c10d83bc9e684f0b250e4",
+      "native_sha256": "5d4e526483290a0d353bd68857c227363874771b2993ff8cf3484cdc3209757a",
+      "runtimes": {
+        "libgeos_c.so.1": "ea8d31fb8e5f2b2a43cabd0fdf88bce4e586fd27163b8209106ac602980a15c7",
+        "libgeos.so.3.15.0": "7ef59bcd035c2f1f0c7eb5348a74fbf8c18a633dd294c4df47dfefe065161770",
+        "libopenslide.so.1": "552b5b77901bc9c7e7cc6e02a0b4f2861ffa85572b036a063db4f19ed2f357df"
+      },
+      "fixture_sha256": "ed92d5a9f2e86df67640d6f92ce3e231419ce127131697fbbce42ad5e002c8a7",
+      "builder_image": "quay.io/pypa/manylinux_2_28_x86_64@sha256:076b19ef6e698f28649fa817c49d14443201e01da85240e8e52f93e8daa49bff",
+      "consumer_image": "library/python@sha256:57d96f71de145a98e7ceca18ee4ade77bba4103a33a72dfaea026b23625c6bf0",
+      "tests": {
+        "native": {
+          "tests": 46,
+          "passed": 46,
+          "skipped": 0,
+          "expected_scientific_failures": 0,
+          "sha256": "978513ad42fde929e3d06894533de9f9988b406b95d1cc47099b54eb183c9d53",
+          "skip_reasons": {}
+        },
+        "builder": {
+          "tests": 2389,
+          "passed": 1973,
+          "skipped": 413,
+          "expected_scientific_failures": 3,
+          "sha256": "54d52d059e121ab26903df8ae125e0f9a36a2a672104628fc67fe8489b6efb7a",
+          "skip_reasons": {
+            "desktop cell publication": 2,
+            "desktop replay": 11,
+            "opt-in native desktop replay": 8,
+            "opt-in desktop batch workflow": 13,
+            "opt-in desktop area limits": 3,
+            "opt-in project desktop replay": 6,
+            "opt-in desktop replay": 38,
+            "opt-in geometry desktop replay": 6,
+            "opt-in native docking": 12,
+            "opt-in responsive GUI": 10,
+            "requires GUI/project build and QUPATHXX_TEST_GUI=1": 96,
+            "requires GUI build and QUPATHXX_TEST_GUI=1": 34,
+            "requires GUI/training and QUPATHXX_TEST_GUI=1": 38,
+            "opt-in desktop pixel batch workflow": 6,
+            "requires GUI and QUPATHXX_TEST_GUI=1": 9,
+            "requires GUI/project and opt-in replay": 6,
+            "opt-in project desktop": 4,
+            "opt-in raw desktop": 7,
+            "opt-in raw records desktop": 5,
+            "opt-in native DPI scaling": 14,
+            "Windows native executable stack contract": 1,
+            "opt-in native GUI": 14,
+            "opt-in GEOS desktop replay": 2,
+            "opt-in TMA desktop": 8,
+            "Windows GUI wheel-message regression": 1,
+            "opt-in native window lifecycle": 15,
+            "opt-in desktop": 3,
+            "managed desktop": 3,
+            "desktop batch": 2,
+            "desktop batch LoG recipe": 1,
+            "opt-in NDPI desktop": 1,
+            "requires generated large pyramid fixture": 1,
+            "opt-in GUI": 3,
+            "Windows read-only replacement failure": 1,
+            "requires real desktop GUI": 1,
+            "Windows read-only file attribute check": 1,
+            "Frozen isolated-cell QuPath acceptance gates remain unresolved": 3,
+            "GEOS-disabled configuration": 1,
+            "opt-in ImGui import replay": 2,
+            "opt-in pinned Windows QuPath runtime": 1,
+            "Windows file sharing check": 1,
+            "Windows file delete sharing": 1,
+            "requires desktop GUI": 2,
+            "Windows case insensitive anchor path": 1,
+            "Windows read-only marker write protection": 1,
+            "Windows delete-sharing failure": 1,
+            "opt-in managed viewer": 15,
+            "requires generated OpenSlide pyramid": 1
+          }
+        },
+        "consumer": {
+          "tests": 2389,
+          "passed": 1931,
+          "skipped": 455,
+          "expected_scientific_failures": 3,
+          "sha256": "40f69a4ea92961b39e667c9a55c5be5a99b38c35c125e94225c1264553249224",
+          "skip_reasons": {
+            "desktop cell publication": 2,
+            "desktop replay": 11,
+            "requires opt-in Linux GEOS SDK": 4,
+            "opt-in native desktop replay": 8,
+            "opt-in desktop batch workflow": 13,
+            "opt-in desktop area limits": 3,
+            "opt-in project desktop replay": 6,
+            "opt-in desktop replay": 38,
+            "opt-in geometry desktop replay": 6,
+            "opt-in native docking": 12,
+            "opt-in responsive GUI": 10,
+            "requires GUI/project build and QUPATHXX_TEST_GUI=1": 96,
+            "requires GUI build and QUPATHXX_TEST_GUI=1": 34,
+            "requires GUI/training and QUPATHXX_TEST_GUI=1": 38,
+            "opt-in desktop pixel batch workflow": 6,
+            "requires GUI and QUPATHXX_TEST_GUI=1": 9,
+            "requires GUI/project and opt-in replay": 6,
+            "opt-in project desktop": 4,
+            "opt-in raw desktop": 7,
+            "opt-in raw records desktop": 5,
+            "opt-in native DPI scaling": 14,
+            "Windows native executable stack contract": 1,
+            "opt-in native GUI": 14,
+            "opt-in GEOS desktop replay": 2,
+            "opt-in TMA desktop": 8,
+            "Windows GUI wheel-message regression": 1,
+            "opt-in native window lifecycle": 15,
+            "opt-in desktop": 3,
+            "managed desktop": 3,
+            "desktop batch": 2,
+            "desktop batch LoG recipe": 1,
+            "opt-in pinned Hamamatsu NDPI fixture": 26,
+            "opt-in NDPI desktop": 1,
+            "opt-in full Aperio pyramid": 12,
+            "requires generated large pyramid fixture": 1,
+            "opt-in GUI": 3,
+            "Windows read-only replacement failure": 1,
+            "requires real desktop GUI": 1,
+            "Windows read-only file attribute check": 1,
+            "Frozen isolated-cell QuPath acceptance gates remain unresolved": 3,
+            "GEOS-disabled configuration": 1,
+            "opt-in ImGui import replay": 2,
+            "opt-in pinned Windows QuPath runtime": 1,
+            "Windows file sharing check": 1,
+            "Windows file delete sharing": 1,
+            "requires desktop GUI": 2,
+            "Windows case insensitive anchor path": 1,
+            "Windows read-only marker write protection": 1,
+            "Windows delete-sharing failure": 1,
+            "opt-in managed viewer": 15,
+            "requires generated OpenSlide pyramid": 1
+          }
+        }
+      },
+      "evidence": {
+        "manylinux-3.12\\auditwheel-after.log": "08d43b35376931aaeb8009e9ba64ae11732e04a6e606fec106b239b03575fa57",
+        "manylinux-3.12\\auditwheel-before.log": "417dd7e93d072987b07ca1a138c730c823790f2f8ec01092cea6f24bb4fa2001",
+        "manylinux-3.12\\auditwheel-repair.log": "0da40faa60f4954003bb4baa65ffabd1a045cd061c9bb31feeacbff528be8c88",
+        "manylinux-3.12\\build-image.json": "6560ece0c496713b4c9ac97f4afb12ab78aa2b1ae197df5facca62ceeeea9a47",
+        "manylinux-3.12\\classifier-archive-benchmark.json": "b986f952bf9f0469bf99e0dcf7f2bf7b348ae6bdd5d4e60c30d5017ee2261232",
+        "manylinux-3.12\\classifier-archive-benchmark.log": "28c4077e9bee57143140091e3d80416a4ba81b473434c3938c5e10572c36d746",
+        "manylinux-3.12\\classifier-benchmark.json": "fcaa672384df989eb5f4d01516c099f1552a7123ac39479a523401d5273f01b2",
+        "manylinux-3.12\\classifier-benchmark.log": "0a5316d750c45fb3a48f498bd6f17014040eab28ca1648a1cca630caa0f81454",
+        "manylinux-3.12\\fixtures.log": "6585ff29e6c925a151c86032e0c3f10e7b1b5b59d6d6273b3c5ebaa4c350b412",
+        "manylinux-3.12\\geos-build.log": "1381a4db1ce399ca8dab9e93aa1c16cdbde081b35d1cb4f4825c2475c58f1dc7",
+        "manylinux-3.12\\install.log": "cbf2870f3046a8fac17d5bfdd7823e20316d68fe6cac540c6f91915ba3007382",
+        "manylinux-3.12\\installed-workflow.json": "d8b663daba2d79917f6107e73a7fc617fd64f802073abb050db26e6e6dbf7d92",
+        "manylinux-3.12\\installed-workflow.log": "d8b663daba2d79917f6107e73a7fc617fd64f802073abb050db26e6e6dbf7d92",
+        "manylinux-3.12\\linux-runtime.json": "70f1561a34974b1f779fad7bad87a5e03cedd2417bcd1bd026510d2416fcf8b1",
+        "manylinux-3.12\\linux-runtime.log": "70f1561a34974b1f779fad7bad87a5e03cedd2417bcd1bd026510d2416fcf8b1",
+        "manylinux-3.12\\native-tests.log": "7ec71bfc6fa1ca81ec15a639fb16fa3a1d4cd0299836a24aa6f104782a19a62b",
+        "manylinux-3.12\\native-tests.xml": "978513ad42fde929e3d06894533de9f9988b406b95d1cc47099b54eb183c9d53",
+        "manylinux-3.12\\ndpi-reader-benchmark.json": "2a6a2ba67fab466c1fd2f5561d3624febb072e65f30e9f09229237be3bba9260",
+        "manylinux-3.12\\ndpi-reader-benchmark.log": "2a6a2ba67fab466c1fd2f5561d3624febb072e65f30e9f09229237be3bba9260",
+        "manylinux-3.12\\object-classifier-benchmark.json": "d21fb843d0599f99bf7cc0db6d8b589ee874b0569068a11ef74b6e9a05b51760",
+        "manylinux-3.12\\object-classifier-benchmark.log": "90bfc2ae0c7bba725de1c71e49658fe9bc4983d63b2b45bbe2eafb3da97bb43d",
+        "manylinux-3.12\\opencv-build.log": "2bf00baba8e2057d002aa096431d321ae0acbdd5c53ebe5fcb6e3051592941a1",
+        "manylinux-3.12\\pixel-archive-benchmark.json": "bc888c67f1f87936b06abd3b44650eaf9f06441d449512411bfbfc369428e3b1",
+        "manylinux-3.12\\pixel-archive-benchmark.log": "bc888c67f1f87936b06abd3b44650eaf9f06441d449512411bfbfc369428e3b1",
+        "manylinux-3.12\\pixel-batch-interrupt.json": "6fe84576e01a4f0207d402b92bb3ad3093a2728eae90bf191c3f068bb0d9f959",
+        "manylinux-3.12\\pixel-batch-interrupt.log": "6fe84576e01a4f0207d402b92bb3ad3093a2728eae90bf191c3f068bb0d9f959",
+        "manylinux-3.12\\pixel-classifier-benchmark.json": "cfe6c7a4c31ec38c8859afebe8cb3bb33bcff58510ffb47ad6273e54eb7e3b64",
+        "manylinux-3.12\\pixel-classifier-benchmark.log": "cfe6c7a4c31ec38c8859afebe8cb3bb33bcff58510ffb47ad6273e54eb7e3b64",
+        "manylinux-3.12\\pixel-input-digest-benchmark.json": "1872f3be277890aa638238e4f66dcd40ac0b0c94c32affd22dd998751aef51b2",
+        "manylinux-3.12\\pixel-input-digest-benchmark.log": "1872f3be277890aa638238e4f66dcd40ac0b0c94c32affd22dd998751aef51b2",
+        "manylinux-3.12\\pixel-stream-benchmark.json": "c996b19f03737343561f52dee93c7935bdd4e7fdd07f1c5e803bde0c04d3bfdb",
+        "manylinux-3.12\\pixel-stream-benchmark.log": "c996b19f03737343561f52dee93c7935bdd4e7fdd07f1c5e803bde0c04d3bfdb",
+        "manylinux-3.12\\pixel-stream-cli-benchmark.json": "7a2a4fcf1beea02c7b90615b053e2cc52ea7bd5acbfd45db65c594106e20fc97",
+        "manylinux-3.12\\pixel-stream-cli-benchmark.log": "7a2a4fcf1beea02c7b90615b053e2cc52ea7bd5acbfd45db65c594106e20fc97",
+        "manylinux-3.12\\pixel-stream-file-benchmark.json": "1239730e4b826a983cfe61c755e8a15fa2f1d6924fe06ff48a35c7062728d530",
+        "manylinux-3.12\\pixel-stream-file-benchmark.log": "1239730e4b826a983cfe61c755e8a15fa2f1d6924fe06ff48a35c7062728d530",
+        "manylinux-3.12\\pixel-stream-job-benchmark.json": "707352a24174037f5e1286ab1df7a86d2c9c76591c1d2ccf169a8de05fecf3e7",
+        "manylinux-3.12\\pixel-stream-job-benchmark.log": "707352a24174037f5e1286ab1df7a86d2c9c76591c1d2ccf169a8de05fecf3e7",
+        "manylinux-3.12\\pixel-stream-read-benchmark.json": "72448c636d399850d6472a9ee552e7ea3bdb7c36a43e0f2b4d85acf706cd3edb",
+        "manylinux-3.12\\pixel-stream-read-benchmark.log": "72448c636d399850d6472a9ee552e7ea3bdb7c36a43e0f2b4d85acf706cd3edb",
+        "manylinux-3.12\\pixel-stream-record-benchmark.json": "0e611702f9ec1fe1f9edeb4aee87b72bfb48d5a649d8b5a97376cd5c95d95e02",
+        "manylinux-3.12\\pixel-stream-record-benchmark.log": "0e611702f9ec1fe1f9edeb4aee87b72bfb48d5a649d8b5a97376cd5c95d95e02",
+        "manylinux-3.12\\pixel-workflow-benchmark.json": "bd589603a98d94d9955eb195fc27e218f89a510a8813f4f32813d8ae3ecd9f92",
+        "manylinux-3.12\\pixel-workflow-benchmark.log": "bd589603a98d94d9955eb195fc27e218f89a510a8813f4f32813d8ae3ecd9f92",
+        "manylinux-3.12\\project-pixel-batch-benchmark.json": "138f93d86bf5afbf0601b4c5f9374edbf9ee22fd2ef8e230047e4f387fdb870b",
+        "manylinux-3.12\\project-pixel-batch-benchmark.log": "138f93d86bf5afbf0601b4c5f9374edbf9ee22fd2ef8e230047e4f387fdb870b",
+        "manylinux-3.12\\python-tests.log": "59b44387030681088811214a03037eb758cd98daecb86858e8a52b94c9cab18d",
+        "manylinux-3.12\\python-tests.xml": "54d52d059e121ab26903df8ae125e0f9a36a2a672104628fc67fe8489b6efb7a",
+        "manylinux-3.12\\qualification.json": "65277bc2bf69c0c852c464508d5f4f5cc24fcf68fce319a5a8fdfc814632f810",
+        "manylinux-3.12\\qualified-install.log": "c92a6795539db4ffab67936f5c473c71d30ffab9e4b151b22ed78d95f0bc7f8f",
+        "manylinux-3.12\\qualified-installed.json": "d8b663daba2d79917f6107e73a7fc617fd64f802073abb050db26e6e6dbf7d92",
+        "manylinux-3.12\\qualified-installed.log": "d8b663daba2d79917f6107e73a7fc617fd64f802073abb050db26e6e6dbf7d92",
+        "manylinux-3.12\\qualified-runtime.json": "55f067faf119a9364a4faa559c22277fbc540cb7186c54fd089a44550e6beb04",
+        "manylinux-3.12\\qualified-runtime.log": "55f067faf119a9364a4faa559c22277fbc540cb7186c54fd089a44550e6beb04",
+        "manylinux-3.12\\qupath-cells-body-comparison.json": "11af76683e628d8bd27251dfa542394f90e7d72673b2d46d7e6402c2d69cb20b",
+        "manylinux-3.12\\qupath-cells-body-comparison.log": "54a8950becb5094900dcabd73fd7052883a7b8c1d2ca79fe5b837d77b1de8a69",
+        "manylinux-3.12\\qupath-cells-sampled-comparison.json": "d984cbdb549785bdf84ddda303c5ef92e598ac20b974cef5bf6796db29ce729a",
+        "manylinux-3.12\\qupath-cells-sampled-comparison.log": "0c64e1d11f18727485f9cf9e0505ca213e283d4f8e85bc05a5161109be838bae",
+        "manylinux-3.12\\qupath-ndpi-sampled-context0.json": "275faa947f2589dfad4ac292fb7ea74c2bcf6ffd5a48866c6356e5802a7a0cc7",
+        "manylinux-3.12\\qupath-ndpi-sampled-context0.log": "f0abd307092bddc641a00cd253e43bcbf9c54a7ce21911b05e690e9817942520",
+        "manylinux-3.12\\qupath-ndpi-sampled-context32.json": "0b8742329539a17b5fbea89f540ea257b778a823228d88ee4dddf4f758979424",
+        "manylinux-3.12\\qupath-ndpi-sampled-context32.log": "2e430f8c0e4717c149d092366d9cf34149b8ea0cd47b86a8bdd8cbcda51f79eb",
+        "manylinux-3.12\\raw-records-benchmark.json": "d760bb5cf5c4278a50a17385c0aa28a2dadc409bc8ff0e73fdfe03447b10ede8",
+        "manylinux-3.12\\raw-records-benchmark.log": "d760bb5cf5c4278a50a17385c0aa28a2dadc409bc8ff0e73fdfe03447b10ede8",
+        "manylinux-3.12\\result.json": "85a03f860e4e1405cd22302160077a6a8e9a639e2ebf2f178fc8f4c632bdc638",
+        "manylinux-3.12\\stubs.log": "820fb7328bf07e4438dd45655755085f118f178efd9d4af074057ff0e9eb03d0",
+        "manylinux-3.12\\tiff-reader-benchmark.json": "77011aa150174d36a8f82e3d57eed88f74ae694ee9b452930afff532dff49cdf",
+        "manylinux-3.12\\tiff-reader-benchmark.log": "77011aa150174d36a8f82e3d57eed88f74ae694ee9b452930afff532dff49cdf",
+        "manylinux-3.12\\tma-benchmark.json": "97950d359569df75e7a4dd8f9e31c17c2724f3fd6ee221f284cb595b73d7e0f6",
+        "manylinux-3.12\\tma-benchmark.log": "97950d359569df75e7a4dd8f9e31c17c2724f3fd6ee221f284cb595b73d7e0f6",
+        "manylinux-3.12\\typing-negative.log": "a1787cf629e1f16f8fdc2e3a7d6fdee281d2a79738f68301b1a6d5f41953fb26",
+        "manylinux-3.12\\typing.log": "8228fcc5ce46d42d01caf3cd941f4e9c5f2bcc372bb5b147a2f0572d2dd675a8",
+        "manylinux-3.12\\vendor-reader-benchmark.json": "e8c76981773499ef79cd7c0f1c3334e7f540c95695718bcd687abca85f0c0aa3",
+        "manylinux-3.12\\vendor-reader-benchmark.log": "e8c76981773499ef79cd7c0f1c3334e7f540c95695718bcd687abca85f0c0aa3",
+        "manylinux-3.12\\venv.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "manylinux-3.12\\wheel-build.log": "8996546c18c893d16e6c3f4e81cf6441b1b30da136161e5cd3e70a9e00c4c3c4",
+        "manylinux-consumer-3.12\\consumer-probe.json": "5c2954941f443dd1eaf13b5d97ca57b59eb1108885977e93a9de8a9c8b4184e6",
+        "manylinux-consumer-3.12\\consumer-tests.log": "2a988b40c27d53ce0abc7096c9552b2ffefa984ea16a593be32fec7eb8dc0484",
+        "manylinux-consumer-3.12\\consumer-tests.xml": "40f69a4ea92961b39e667c9a55c5be5a99b38c35c125e94225c1264553249224"
+      },
+      "runtime_payloads_unchanged": true,
+      "fresh_consumer_workflows": true
+    }
+  ],
+  "assets_sha256": "20997d3c9f207ca9d6e068c0e07f02d990d2b7ff80b944b8feb2f1b71f8a088f",
+  "auditor_sha256": "3f8a0e9a7c234aa2f94c8fe711d18f6d3aa4633d76a7d0662d08a24ed2e4a1b9",
+  "scope": "Declared headless CPython ABI and fresh Debian consumer workflows only. Project license, supported release, GUI/macOS, scientific and hardware acceptance remain separate gates.",
+  "unified_engine_cohorts": [
+    {
+      "python": "3.11",
+      "cohort": "builder",
+      "log_passed": 47,
+      "log_desktop_skipped": 3,
+      "log_cases": [
+        "test_log_installed_nucleus_reference[16-blank]",
+        "test_log_installed_nucleus_reference[16-isolated_three]",
+        "test_log_installed_nucleus_reference[16-touching_pair]",
+        "test_log_installed_nucleus_reference[16-gap_pair]",
+        "test_log_installed_nucleus_reference[16-size_filters]",
+        "test_log_installed_nucleus_reference[16-roi_cut_hole]",
+        "test_log_installed_nucleus_reference[16-gradient_noise]",
+        "test_log_installed_nucleus_reference[16-anisotropic_level0]",
+        "test_log_installed_nucleus_reference[16-resampled_reference]",
+        "test_log_installed_nucleus_reference[64-blank]",
+        "test_log_installed_nucleus_reference[64-isolated_three]",
+        "test_log_installed_nucleus_reference[64-touching_pair]",
+        "test_log_installed_nucleus_reference[64-gap_pair]",
+        "test_log_installed_nucleus_reference[64-size_filters]",
+        "test_log_installed_nucleus_reference[64-roi_cut_hole]",
+        "test_log_installed_nucleus_reference[64-gradient_noise]",
+        "test_log_installed_nucleus_reference[64-anisotropic_level0]",
+        "test_log_installed_nucleus_reference[64-resampled_reference]",
+        "test_log_installed_nucleus_reference[256-blank]",
+        "test_log_installed_nucleus_reference[256-isolated_three]",
+        "test_log_installed_nucleus_reference[256-touching_pair]",
+        "test_log_installed_nucleus_reference[256-gap_pair]",
+        "test_log_installed_nucleus_reference[256-size_filters]",
+        "test_log_installed_nucleus_reference[256-roi_cut_hole]",
+        "test_log_installed_nucleus_reference[256-gradient_noise]",
+        "test_log_installed_nucleus_reference[256-anisotropic_level0]",
+        "test_log_installed_nucleus_reference[256-resampled_reference]",
+        "test_detector_parameters_are_captured_and_inactive_options_reject",
+        "test_log_saved_recipe_replay_tables_and_classifier_sources[False]",
+        "test_log_saved_recipe_replay_tables_and_classifier_sources[True]",
+        "test_log_batch_resume_and_cli_recipe",
+        "test_log_gui_and_copied_recipe",
+        "test_context_pixels_change_only_the_contextual_digest",
+        "test_context_budget_is_admitted_before_launch",
+        "test_log_physical_area_limits_and_stale_calibration",
+        "test_log_transparent_pixels_never_become_labels",
+        "test_log_natural_pyramid_context_hash[16]",
+        "test_log_natural_pyramid_context_hash[64]",
+        "test_log_managed_viewer_captures_detector_recipe",
+        "test_log_jobs_reject_stale_results_and_cancel[selection]",
+        "test_log_jobs_reject_stale_results_and_cancel[rename]",
+        "test_log_jobs_reject_stale_results_and_cancel[close]",
+        "test_log_jobs_reject_stale_results_and_cancel[authority]",
+        "test_log_jobs_reject_stale_results_and_cancel[cancel]",
+        "test_log_candidate_failure_is_atomic_and_worker_reusable",
+        "test_log_auto_level_uses_expanded_context_budget[0]",
+        "test_log_auto_level_uses_expanded_context_budget[1]",
+        "test_log_auto_level_uses_expanded_context_budget[2]",
+        "test_mixed_detector_tables_and_classifier_sources_roundtrip",
+        "test_log_gui_batch_captures_recipe_and_checkpoint"
+      ],
+      "cache_cases": [
+        "test_sparse_boundary_cells_match_exact_fraction_reference[False-0.0]",
+        "test_sparse_boundary_cells_match_exact_fraction_reference[False-1048576.5]",
+        "test_sparse_boundary_cells_match_exact_fraction_reference[False--1048576.5]",
+        "test_sparse_boundary_cells_match_exact_fraction_reference[True-0.0]",
+        "test_sparse_boundary_cells_match_exact_fraction_reference[True-1048576.5]",
+        "test_sparse_boundary_cells_match_exact_fraction_reference[True--1048576.5]",
+        "test_concurrent_first_winding_queries_share_one_native_geometry",
+        "test_extreme_aspect_ratio_retains_exact_boundary_rules",
+        "test_concurrent_exterior_queries_then_first_intersecting_queries"
+      ],
+      "decimal_cases": [
+        "test_ome_decimal_quantity_contract[.125e+1-1.25]",
+        "test_ome_decimal_quantity_contract[001.25-1.25]",
+        "test_ome_decimal_quantity_contract[1.-1.0]",
+        "test_ome_decimal_quantity_contract[1e-308-1e-308]",
+        "test_ome_decimal_quantity_contract[+1-None]",
+        "test_ome_decimal_quantity_contract[ 1-None]",
+        "test_ome_decimal_quantity_contract[1 -None]",
+        "test_ome_decimal_quantity_contract[0x1p0-None]",
+        "test_ome_decimal_quantity_contract[1,25-None]",
+        "test_ome_decimal_quantity_contract[nan-None]",
+        "test_ome_decimal_quantity_contract[1e309-None]",
+        "test_ome_decimal_quantity_contract[1e-9999-None]"
+      ],
+      "junit_sha256": "0801f860c935f1dd68d5ea7d82383202a0425a0e3a5fed68495961939f629eb4"
+    },
+    {
+      "python": "3.11",
+      "cohort": "consumer",
+      "log_passed": 47,
+      "log_desktop_skipped": 3,
+      "log_cases": [
+        "test_log_installed_nucleus_reference[16-blank]",
+        "test_log_installed_nucleus_reference[16-isolated_three]",
+        "test_log_installed_nucleus_reference[16-touching_pair]",
+        "test_log_installed_nucleus_reference[16-gap_pair]",
+        "test_log_installed_nucleus_reference[16-size_filters]",
+        "test_log_installed_nucleus_reference[16-roi_cut_hole]",
+        "test_log_installed_nucleus_reference[16-gradient_noise]",
+        "test_log_installed_nucleus_reference[16-anisotropic_level0]",
+        "test_log_installed_nucleus_reference[16-resampled_reference]",
+        "test_log_installed_nucleus_reference[64-blank]",
+        "test_log_installed_nucleus_reference[64-isolated_three]",
+        "test_log_installed_nucleus_reference[64-touching_pair]",
+        "test_log_installed_nucleus_reference[64-gap_pair]",
+        "test_log_installed_nucleus_reference[64-size_filters]",
+        "test_log_installed_nucleus_reference[64-roi_cut_hole]",
+        "test_log_installed_nucleus_reference[64-gradient_noise]",
+        "test_log_installed_nucleus_reference[64-anisotropic_level0]",
+        "test_log_installed_nucleus_reference[64-resampled_reference]",
+        "test_log_installed_nucleus_reference[256-blank]",
+        "test_log_installed_nucleus_reference[256-isolated_three]",
+        "test_log_installed_nucleus_reference[256-touching_pair]",
+        "test_log_installed_nucleus_reference[256-gap_pair]",
+        "test_log_installed_nucleus_reference[256-size_filters]",
+        "test_log_installed_nucleus_reference[256-roi_cut_hole]",
+        "test_log_installed_nucleus_reference[256-gradient_noise]",
+        "test_log_installed_nucleus_reference[256-anisotropic_level0]",
+        "test_log_installed_nucleus_reference[256-resampled_reference]",
+        "test_detector_parameters_are_captured_and_inactive_options_reject",
+        "test_log_saved_recipe_replay_tables_and_classifier_sources[False]",
+        "test_log_saved_recipe_replay_tables_and_classifier_sources[True]",
+        "test_log_batch_resume_and_cli_recipe",
+        "test_log_gui_and_copied_recipe",
+        "test_context_pixels_change_only_the_contextual_digest",
+        "test_context_budget_is_admitted_before_launch",
+        "test_log_physical_area_limits_and_stale_calibration",
+        "test_log_transparent_pixels_never_become_labels",
+        "test_log_natural_pyramid_context_hash[16]",
+        "test_log_natural_pyramid_context_hash[64]",
+        "test_log_managed_viewer_captures_detector_recipe",
+        "test_log_jobs_reject_stale_results_and_cancel[selection]",
+        "test_log_jobs_reject_stale_results_and_cancel[rename]",
+        "test_log_jobs_reject_stale_results_and_cancel[close]",
+        "test_log_jobs_reject_stale_results_and_cancel[authority]",
+        "test_log_jobs_reject_stale_results_and_cancel[cancel]",
+        "test_log_candidate_failure_is_atomic_and_worker_reusable",
+        "test_log_auto_level_uses_expanded_context_budget[0]",
+        "test_log_auto_level_uses_expanded_context_budget[1]",
+        "test_log_auto_level_uses_expanded_context_budget[2]",
+        "test_mixed_detector_tables_and_classifier_sources_roundtrip",
+        "test_log_gui_batch_captures_recipe_and_checkpoint"
+      ],
+      "cache_cases": [
+        "test_sparse_boundary_cells_match_exact_fraction_reference[False-0.0]",
+        "test_sparse_boundary_cells_match_exact_fraction_reference[False-1048576.5]",
+        "test_sparse_boundary_cells_match_exact_fraction_reference[False--1048576.5]",
+        "test_sparse_boundary_cells_match_exact_fraction_reference[True-0.0]",
+        "test_sparse_boundary_cells_match_exact_fraction_reference[True-1048576.5]",
+        "test_sparse_boundary_cells_match_exact_fraction_reference[True--1048576.5]",
+        "test_concurrent_first_winding_queries_share_one_native_geometry",
+        "test_extreme_aspect_ratio_retains_exact_boundary_rules",
+        "test_concurrent_exterior_queries_then_first_intersecting_queries"
+      ],
+      "decimal_cases": [
+        "test_ome_decimal_quantity_contract[.125e+1-1.25]",
+        "test_ome_decimal_quantity_contract[001.25-1.25]",
+        "test_ome_decimal_quantity_contract[1.-1.0]",
+        "test_ome_decimal_quantity_contract[1e-308-1e-308]",
+        "test_ome_decimal_quantity_contract[+1-None]",
+        "test_ome_decimal_quantity_contract[ 1-None]",
+        "test_ome_decimal_quantity_contract[1 -None]",
+        "test_ome_decimal_quantity_contract[0x1p0-None]",
+        "test_ome_decimal_quantity_contract[1,25-None]",
+        "test_ome_decimal_quantity_contract[nan-None]",
+        "test_ome_decimal_quantity_contract[1e309-None]",
+        "test_ome_decimal_quantity_contract[1e-9999-None]"
+      ],
+      "junit_sha256": "90e8046bc0671d2debdfe4975065bfb331cb3eb2bff0107ee8f2535386f4a78f"
+    },
+    {
+      "python": "3.12",
+      "cohort": "builder",
+      "log_passed": 47,
+      "log_desktop_skipped": 3,
+      "log_cases": [
+        "test_log_installed_nucleus_reference[16-blank]",
+        "test_log_installed_nucleus_reference[16-isolated_three]",
+        "test_log_installed_nucleus_reference[16-touching_pair]",
+        "test_log_installed_nucleus_reference[16-gap_pair]",
+        "test_log_installed_nucleus_reference[16-size_filters]",
+        "test_log_installed_nucleus_reference[16-roi_cut_hole]",
+        "test_log_installed_nucleus_reference[16-gradient_noise]",
+        "test_log_installed_nucleus_reference[16-anisotropic_level0]",
+        "test_log_installed_nucleus_reference[16-resampled_reference]",
+        "test_log_installed_nucleus_reference[64-blank]",
+        "test_log_installed_nucleus_reference[64-isolated_three]",
+        "test_log_installed_nucleus_reference[64-touching_pair]",
+        "test_log_installed_nucleus_reference[64-gap_pair]",
+        "test_log_installed_nucleus_reference[64-size_filters]",
+        "test_log_installed_nucleus_reference[64-roi_cut_hole]",
+        "test_log_installed_nucleus_reference[64-gradient_noise]",
+        "test_log_installed_nucleus_reference[64-anisotropic_level0]",
+        "test_log_installed_nucleus_reference[64-resampled_reference]",
+        "test_log_installed_nucleus_reference[256-blank]",
+        "test_log_installed_nucleus_reference[256-isolated_three]",
+        "test_log_installed_nucleus_reference[256-touching_pair]",
+        "test_log_installed_nucleus_reference[256-gap_pair]",
+        "test_log_installed_nucleus_reference[256-size_filters]",
+        "test_log_installed_nucleus_reference[256-roi_cut_hole]",
+        "test_log_installed_nucleus_reference[256-gradient_noise]",
+        "test_log_installed_nucleus_reference[256-anisotropic_level0]",
+        "test_log_installed_nucleus_reference[256-resampled_reference]",
+        "test_detector_parameters_are_captured_and_inactive_options_reject",
+        "test_log_saved_recipe_replay_tables_and_classifier_sources[False]",
+        "test_log_saved_recipe_replay_tables_and_classifier_sources[True]",
+        "test_log_batch_resume_and_cli_recipe",
+        "test_log_gui_and_copied_recipe",
+        "test_context_pixels_change_only_the_contextual_digest",
+        "test_context_budget_is_admitted_before_launch",
+        "test_log_physical_area_limits_and_stale_calibration",
+        "test_log_transparent_pixels_never_become_labels",
+        "test_log_natural_pyramid_context_hash[16]",
+        "test_log_natural_pyramid_context_hash[64]",
+        "test_log_managed_viewer_captures_detector_recipe",
+        "test_log_jobs_reject_stale_results_and_cancel[selection]",
+        "test_log_jobs_reject_stale_results_and_cancel[rename]",
+        "test_log_jobs_reject_stale_results_and_cancel[close]",
+        "test_log_jobs_reject_stale_results_and_cancel[authority]",
+        "test_log_jobs_reject_stale_results_and_cancel[cancel]",
+        "test_log_candidate_failure_is_atomic_and_worker_reusable",
+        "test_log_auto_level_uses_expanded_context_budget[0]",
+        "test_log_auto_level_uses_expanded_context_budget[1]",
+        "test_log_auto_level_uses_expanded_context_budget[2]",
+        "test_mixed_detector_tables_and_classifier_sources_roundtrip",
+        "test_log_gui_batch_captures_recipe_and_checkpoint"
+      ],
+      "cache_cases": [
+        "test_sparse_boundary_cells_match_exact_fraction_reference[False-0.0]",
+        "test_sparse_boundary_cells_match_exact_fraction_reference[False-1048576.5]",
+        "test_sparse_boundary_cells_match_exact_fraction_reference[False--1048576.5]",
+        "test_sparse_boundary_cells_match_exact_fraction_reference[True-0.0]",
+        "test_sparse_boundary_cells_match_exact_fraction_reference[True-1048576.5]",
+        "test_sparse_boundary_cells_match_exact_fraction_reference[True--1048576.5]",
+        "test_concurrent_first_winding_queries_share_one_native_geometry",
+        "test_extreme_aspect_ratio_retains_exact_boundary_rules",
+        "test_concurrent_exterior_queries_then_first_intersecting_queries"
+      ],
+      "decimal_cases": [
+        "test_ome_decimal_quantity_contract[.125e+1-1.25]",
+        "test_ome_decimal_quantity_contract[001.25-1.25]",
+        "test_ome_decimal_quantity_contract[1.-1.0]",
+        "test_ome_decimal_quantity_contract[1e-308-1e-308]",
+        "test_ome_decimal_quantity_contract[+1-None]",
+        "test_ome_decimal_quantity_contract[ 1-None]",
+        "test_ome_decimal_quantity_contract[1 -None]",
+        "test_ome_decimal_quantity_contract[0x1p0-None]",
+        "test_ome_decimal_quantity_contract[1,25-None]",
+        "test_ome_decimal_quantity_contract[nan-None]",
+        "test_ome_decimal_quantity_contract[1e309-None]",
+        "test_ome_decimal_quantity_contract[1e-9999-None]"
+      ],
+      "junit_sha256": "54d52d059e121ab26903df8ae125e0f9a36a2a672104628fc67fe8489b6efb7a"
+    },
+    {
+      "python": "3.12",
+      "cohort": "consumer",
+      "log_passed": 47,
+      "log_desktop_skipped": 3,
+      "log_cases": [
+        "test_log_installed_nucleus_reference[16-blank]",
+        "test_log_installed_nucleus_reference[16-isolated_three]",
+        "test_log_installed_nucleus_reference[16-touching_pair]",
+        "test_log_installed_nucleus_reference[16-gap_pair]",
+        "test_log_installed_nucleus_reference[16-size_filters]",
+        "test_log_installed_nucleus_reference[16-roi_cut_hole]",
+        "test_log_installed_nucleus_reference[16-gradient_noise]",
+        "test_log_installed_nucleus_reference[16-anisotropic_level0]",
+        "test_log_installed_nucleus_reference[16-resampled_reference]",
+        "test_log_installed_nucleus_reference[64-blank]",
+        "test_log_installed_nucleus_reference[64-isolated_three]",
+        "test_log_installed_nucleus_reference[64-touching_pair]",
+        "test_log_installed_nucleus_reference[64-gap_pair]",
+        "test_log_installed_nucleus_reference[64-size_filters]",
+        "test_log_installed_nucleus_reference[64-roi_cut_hole]",
+        "test_log_installed_nucleus_reference[64-gradient_noise]",
+        "test_log_installed_nucleus_reference[64-anisotropic_level0]",
+        "test_log_installed_nucleus_reference[64-resampled_reference]",
+        "test_log_installed_nucleus_reference[256-blank]",
+        "test_log_installed_nucleus_reference[256-isolated_three]",
+        "test_log_installed_nucleus_reference[256-touching_pair]",
+        "test_log_installed_nucleus_reference[256-gap_pair]",
+        "test_log_installed_nucleus_reference[256-size_filters]",
+        "test_log_installed_nucleus_reference[256-roi_cut_hole]",
+        "test_log_installed_nucleus_reference[256-gradient_noise]",
+        "test_log_installed_nucleus_reference[256-anisotropic_level0]",
+        "test_log_installed_nucleus_reference[256-resampled_reference]",
+        "test_detector_parameters_are_captured_and_inactive_options_reject",
+        "test_log_saved_recipe_replay_tables_and_classifier_sources[False]",
+        "test_log_saved_recipe_replay_tables_and_classifier_sources[True]",
+        "test_log_batch_resume_and_cli_recipe",
+        "test_log_gui_and_copied_recipe",
+        "test_context_pixels_change_only_the_contextual_digest",
+        "test_context_budget_is_admitted_before_launch",
+        "test_log_physical_area_limits_and_stale_calibration",
+        "test_log_transparent_pixels_never_become_labels",
+        "test_log_natural_pyramid_context_hash[16]",
+        "test_log_natural_pyramid_context_hash[64]",
+        "test_log_managed_viewer_captures_detector_recipe",
+        "test_log_jobs_reject_stale_results_and_cancel[selection]",
+        "test_log_jobs_reject_stale_results_and_cancel[rename]",
+        "test_log_jobs_reject_stale_results_and_cancel[close]",
+        "test_log_jobs_reject_stale_results_and_cancel[authority]",
+        "test_log_jobs_reject_stale_results_and_cancel[cancel]",
+        "test_log_candidate_failure_is_atomic_and_worker_reusable",
+        "test_log_auto_level_uses_expanded_context_budget[0]",
+        "test_log_auto_level_uses_expanded_context_budget[1]",
+        "test_log_auto_level_uses_expanded_context_budget[2]",
+        "test_mixed_detector_tables_and_classifier_sources_roundtrip",
+        "test_log_gui_batch_captures_recipe_and_checkpoint"
+      ],
+      "cache_cases": [
+        "test_sparse_boundary_cells_match_exact_fraction_reference[False-0.0]",
+        "test_sparse_boundary_cells_match_exact_fraction_reference[False-1048576.5]",
+        "test_sparse_boundary_cells_match_exact_fraction_reference[False--1048576.5]",
+        "test_sparse_boundary_cells_match_exact_fraction_reference[True-0.0]",
+        "test_sparse_boundary_cells_match_exact_fraction_reference[True-1048576.5]",
+        "test_sparse_boundary_cells_match_exact_fraction_reference[True--1048576.5]",
+        "test_concurrent_first_winding_queries_share_one_native_geometry",
+        "test_extreme_aspect_ratio_retains_exact_boundary_rules",
+        "test_concurrent_exterior_queries_then_first_intersecting_queries"
+      ],
+      "decimal_cases": [
+        "test_ome_decimal_quantity_contract[.125e+1-1.25]",
+        "test_ome_decimal_quantity_contract[001.25-1.25]",
+        "test_ome_decimal_quantity_contract[1.-1.0]",
+        "test_ome_decimal_quantity_contract[1e-308-1e-308]",
+        "test_ome_decimal_quantity_contract[+1-None]",
+        "test_ome_decimal_quantity_contract[ 1-None]",
+        "test_ome_decimal_quantity_contract[1 -None]",
+        "test_ome_decimal_quantity_contract[0x1p0-None]",
+        "test_ome_decimal_quantity_contract[1,25-None]",
+        "test_ome_decimal_quantity_contract[nan-None]",
+        "test_ome_decimal_quantity_contract[1e309-None]",
+        "test_ome_decimal_quantity_contract[1e-9999-None]"
+      ],
+      "junit_sha256": "40f69a4ea92961b39e667c9a55c5be5a99b38c35c125e94225c1264553249224"
+    }
+  ],
+  "ndpi_reader_cohorts": [
+    {
+      "python": "3.11",
+      "cohort": "builder",
+      "ndpi_passed": 23,
+      "ndpi_skipped": 1,
+      "default_link_passed": 2,
+      "ndpi_cases": [
+        {
+          "name": "test_ndpi_metadata_and_anisotropic_calibration",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[0]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[1]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[2]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[3]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[4]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[5]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[6]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[7]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[8]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[0]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[1]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[2]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[3]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[4]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[5]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[6]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[7]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[8]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_complete_overview_and_source_budget",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_scheduler_cache_and_pending_close",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_log_detection_tile_invariance_and_saved_replay",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_truncated_container_rejects",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_desktop_pyramid_settles",
+          "skipped": true
+        }
+      ],
+      "junit_sha256": "0801f860c935f1dd68d5ea7d82383202a0425a0e3a5fed68495961939f629eb4"
+    },
+    {
+      "python": "3.11",
+      "cohort": "consumer",
+      "ndpi_passed": 0,
+      "ndpi_skipped": 24,
+      "default_link_passed": 2,
+      "ndpi_cases": [
+        {
+          "name": "test_ndpi_metadata_and_anisotropic_calibration",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[0]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[1]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[2]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[3]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[4]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[5]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[6]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[7]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[8]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[0]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[1]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[2]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[3]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[4]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[5]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[6]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[7]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[8]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_complete_overview_and_source_budget",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_scheduler_cache_and_pending_close",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_log_detection_tile_invariance_and_saved_replay",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_truncated_container_rejects",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_desktop_pyramid_settles",
+          "skipped": true
+        }
+      ],
+      "junit_sha256": "90e8046bc0671d2debdfe4975065bfb331cb3eb2bff0107ee8f2535386f4a78f"
+    },
+    {
+      "python": "3.12",
+      "cohort": "builder",
+      "ndpi_passed": 23,
+      "ndpi_skipped": 1,
+      "default_link_passed": 2,
+      "ndpi_cases": [
+        {
+          "name": "test_ndpi_metadata_and_anisotropic_calibration",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[0]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[1]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[2]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[3]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[4]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[5]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[6]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[7]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[8]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[0]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[1]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[2]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[3]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[4]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[5]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[6]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[7]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[8]",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_complete_overview_and_source_budget",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_scheduler_cache_and_pending_close",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_log_detection_tile_invariance_and_saved_replay",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_truncated_container_rejects",
+          "skipped": false
+        },
+        {
+          "name": "test_ndpi_desktop_pyramid_settles",
+          "skipped": true
+        }
+      ],
+      "junit_sha256": "54d52d059e121ab26903df8ae125e0f9a36a2a672104628fc67fe8489b6efb7a"
+    },
+    {
+      "python": "3.12",
+      "cohort": "consumer",
+      "ndpi_passed": 0,
+      "ndpi_skipped": 24,
+      "default_link_passed": 2,
+      "ndpi_cases": [
+        {
+          "name": "test_ndpi_metadata_and_anisotropic_calibration",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[0]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[1]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[2]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[3]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[4]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[5]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[6]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[7]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_all_levels_padding_and_owned_pixels[8]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[0]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[1]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[2]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[3]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[4]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[5]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[6]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[7]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_installed_region_cli[8]",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_complete_overview_and_source_budget",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_scheduler_cache_and_pending_close",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_log_detection_tile_invariance_and_saved_replay",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_truncated_container_rejects",
+          "skipped": true
+        },
+        {
+          "name": "test_ndpi_desktop_pyramid_settles",
+          "skipped": true
+        }
+      ],
+      "junit_sha256": "40f69a4ea92961b39e667c9a55c5be5a99b38c35c125e94225c1264553249224"
+    }
+  ],
+  "watershed_body_cohorts": [
+    {
+      "python": "3.11",
+      "cohort": "builder",
+      "passed": 39,
+      "desktop_skipped": 3,
+      "cases": [
+        "test_production_body_mode_pinned_labels_and_measurements[16-blank]",
+        "test_production_body_mode_pinned_labels_and_measurements[16-isolated_three]",
+        "test_production_body_mode_pinned_labels_and_measurements[16-touching_pair]",
+        "test_production_body_mode_pinned_labels_and_measurements[16-gap_pair]",
+        "test_production_body_mode_pinned_labels_and_measurements[16-size_filters]",
+        "test_production_body_mode_pinned_labels_and_measurements[16-roi_cut_hole]",
+        "test_production_body_mode_pinned_labels_and_measurements[16-gradient_noise]",
+        "test_production_body_mode_pinned_labels_and_measurements[16-anisotropic_level0]",
+        "test_production_body_mode_pinned_labels_and_measurements[16-resampled_reference]",
+        "test_production_body_mode_pinned_labels_and_measurements[64-blank]",
+        "test_production_body_mode_pinned_labels_and_measurements[64-isolated_three]",
+        "test_production_body_mode_pinned_labels_and_measurements[64-touching_pair]",
+        "test_production_body_mode_pinned_labels_and_measurements[64-gap_pair]",
+        "test_production_body_mode_pinned_labels_and_measurements[64-size_filters]",
+        "test_production_body_mode_pinned_labels_and_measurements[64-roi_cut_hole]",
+        "test_production_body_mode_pinned_labels_and_measurements[64-gradient_noise]",
+        "test_production_body_mode_pinned_labels_and_measurements[64-anisotropic_level0]",
+        "test_production_body_mode_pinned_labels_and_measurements[64-resampled_reference]",
+        "test_production_body_mode_pinned_labels_and_measurements[256-blank]",
+        "test_production_body_mode_pinned_labels_and_measurements[256-isolated_three]",
+        "test_production_body_mode_pinned_labels_and_measurements[256-touching_pair]",
+        "test_production_body_mode_pinned_labels_and_measurements[256-gap_pair]",
+        "test_production_body_mode_pinned_labels_and_measurements[256-size_filters]",
+        "test_production_body_mode_pinned_labels_and_measurements[256-roi_cut_hole]",
+        "test_production_body_mode_pinned_labels_and_measurements[256-gradient_noise]",
+        "test_production_body_mode_pinned_labels_and_measurements[256-anisotropic_level0]",
+        "test_production_body_mode_pinned_labels_and_measurements[256-resampled_reference]",
+        "test_body_archive_replay_classifier_and_legacy_records",
+        "test_body_batch_mode_has_distinct_resume_and_cli_recipe",
+        "test_body_gui_captured_recipe_and_published_pixels",
+        "test_body_worker_rejects_stale_authority_and_cancellation[selection]",
+        "test_body_worker_rejects_stale_authority_and_cancellation[rename]",
+        "test_body_worker_rejects_stale_authority_and_cancellation[close]",
+        "test_body_worker_rejects_stale_authority_and_cancellation[authority]",
+        "test_body_worker_rejects_stale_authority_and_cancellation[cancel]",
+        "test_body_candidate_limit_failure_keeps_document_and_worker_reusable",
+        "test_body_expansion_respects_transparent_source_domain",
+        "test_body_mode_natural_level_identity_and_work_admission[0]",
+        "test_body_mode_natural_level_identity_and_work_admission[1]",
+        "test_body_mode_natural_level_identity_and_work_admission[2]",
+        "test_body_managed_viewer_copies_recipe_and_reopens_retained_result",
+        "test_body_gui_batch_keeps_distinct_recipe"
+      ],
+      "junit_sha256": "0801f860c935f1dd68d5ea7d82383202a0425a0e3a5fed68495961939f629eb4"
+    },
+    {
+      "python": "3.11",
+      "cohort": "consumer",
+      "passed": 39,
+      "desktop_skipped": 3,
+      "cases": [
+        "test_production_body_mode_pinned_labels_and_measurements[16-blank]",
+        "test_production_body_mode_pinned_labels_and_measurements[16-isolated_three]",
+        "test_production_body_mode_pinned_labels_and_measurements[16-touching_pair]",
+        "test_production_body_mode_pinned_labels_and_measurements[16-gap_pair]",
+        "test_production_body_mode_pinned_labels_and_measurements[16-size_filters]",
+        "test_production_body_mode_pinned_labels_and_measurements[16-roi_cut_hole]",
+        "test_production_body_mode_pinned_labels_and_measurements[16-gradient_noise]",
+        "test_production_body_mode_pinned_labels_and_measurements[16-anisotropic_level0]",
+        "test_production_body_mode_pinned_labels_and_measurements[16-resampled_reference]",
+        "test_production_body_mode_pinned_labels_and_measurements[64-blank]",
+        "test_production_body_mode_pinned_labels_and_measurements[64-isolated_three]",
+        "test_production_body_mode_pinned_labels_and_measurements[64-touching_pair]",
+        "test_production_body_mode_pinned_labels_and_measurements[64-gap_pair]",
+        "test_production_body_mode_pinned_labels_and_measurements[64-size_filters]",
+        "test_production_body_mode_pinned_labels_and_measurements[64-roi_cut_hole]",
+        "test_production_body_mode_pinned_labels_and_measurements[64-gradient_noise]",
+        "test_production_body_mode_pinned_labels_and_measurements[64-anisotropic_level0]",
+        "test_production_body_mode_pinned_labels_and_measurements[64-resampled_reference]",
+        "test_production_body_mode_pinned_labels_and_measurements[256-blank]",
+        "test_production_body_mode_pinned_labels_and_measurements[256-isolated_three]",
+        "test_production_body_mode_pinned_labels_and_measurements[256-touching_pair]",
+        "test_production_body_mode_pinned_labels_and_measurements[256-gap_pair]",
+        "test_production_body_mode_pinned_labels_and_measurements[256-size_filters]",
+        "test_production_body_mode_pinned_labels_and_measurements[256-roi_cut_hole]",
+        "test_production_body_mode_pinned_labels_and_measurements[256-gradient_noise]",
+        "test_production_body_mode_pinned_labels_and_measurements[256-anisotropic_level0]",
+        "test_production_body_mode_pinned_labels_and_measurements[256-resampled_reference]",
+        "test_body_archive_replay_classifier_and_legacy_records",
+        "test_body_batch_mode_has_distinct_resume_and_cli_recipe",
+        "test_body_gui_captured_recipe_and_published_pixels",
+        "test_body_worker_rejects_stale_authority_and_cancellation[selection]",
+        "test_body_worker_rejects_stale_authority_and_cancellation[rename]",
+        "test_body_worker_rejects_stale_authority_and_cancellation[close]",
+        "test_body_worker_rejects_stale_authority_and_cancellation[authority]",
+        "test_body_worker_rejects_stale_authority_and_cancellation[cancel]",
+        "test_body_candidate_limit_failure_keeps_document_and_worker_reusable",
+        "test_body_expansion_respects_transparent_source_domain",
+        "test_body_mode_natural_level_identity_and_work_admission[0]",
+        "test_body_mode_natural_level_identity_and_work_admission[1]",
+        "test_body_mode_natural_level_identity_and_work_admission[2]",
+        "test_body_managed_viewer_copies_recipe_and_reopens_retained_result",
+        "test_body_gui_batch_keeps_distinct_recipe"
+      ],
+      "junit_sha256": "90e8046bc0671d2debdfe4975065bfb331cb3eb2bff0107ee8f2535386f4a78f"
+    },
+    {
+      "python": "3.12",
+      "cohort": "builder",
+      "passed": 39,
+      "desktop_skipped": 3,
+      "cases": [
+        "test_production_body_mode_pinned_labels_and_measurements[16-blank]",
+        "test_production_body_mode_pinned_labels_and_measurements[16-isolated_three]",
+        "test_production_body_mode_pinned_labels_and_measurements[16-touching_pair]",
+        "test_production_body_mode_pinned_labels_and_measurements[16-gap_pair]",
+        "test_production_body_mode_pinned_labels_and_measurements[16-size_filters]",
+        "test_production_body_mode_pinned_labels_and_measurements[16-roi_cut_hole]",
+        "test_production_body_mode_pinned_labels_and_measurements[16-gradient_noise]",
+        "test_production_body_mode_pinned_labels_and_measurements[16-anisotropic_level0]",
+        "test_production_body_mode_pinned_labels_and_measurements[16-resampled_reference]",
+        "test_production_body_mode_pinned_labels_and_measurements[64-blank]",
+        "test_production_body_mode_pinned_labels_and_measurements[64-isolated_three]",
+        "test_production_body_mode_pinned_labels_and_measurements[64-touching_pair]",
+        "test_production_body_mode_pinned_labels_and_measurements[64-gap_pair]",
+        "test_production_body_mode_pinned_labels_and_measurements[64-size_filters]",
+        "test_production_body_mode_pinned_labels_and_measurements[64-roi_cut_hole]",
+        "test_production_body_mode_pinned_labels_and_measurements[64-gradient_noise]",
+        "test_production_body_mode_pinned_labels_and_measurements[64-anisotropic_level0]",
+        "test_production_body_mode_pinned_labels_and_measurements[64-resampled_reference]",
+        "test_production_body_mode_pinned_labels_and_measurements[256-blank]",
+        "test_production_body_mode_pinned_labels_and_measurements[256-isolated_three]",
+        "test_production_body_mode_pinned_labels_and_measurements[256-touching_pair]",
+        "test_production_body_mode_pinned_labels_and_measurements[256-gap_pair]",
+        "test_production_body_mode_pinned_labels_and_measurements[256-size_filters]",
+        "test_production_body_mode_pinned_labels_and_measurements[256-roi_cut_hole]",
+        "test_production_body_mode_pinned_labels_and_measurements[256-gradient_noise]",
+        "test_production_body_mode_pinned_labels_and_measurements[256-anisotropic_level0]",
+        "test_production_body_mode_pinned_labels_and_measurements[256-resampled_reference]",
+        "test_body_archive_replay_classifier_and_legacy_records",
+        "test_body_batch_mode_has_distinct_resume_and_cli_recipe",
+        "test_body_gui_captured_recipe_and_published_pixels",
+        "test_body_worker_rejects_stale_authority_and_cancellation[selection]",
+        "test_body_worker_rejects_stale_authority_and_cancellation[rename]",
+        "test_body_worker_rejects_stale_authority_and_cancellation[close]",
+        "test_body_worker_rejects_stale_authority_and_cancellation[authority]",
+        "test_body_worker_rejects_stale_authority_and_cancellation[cancel]",
+        "test_body_candidate_limit_failure_keeps_document_and_worker_reusable",
+        "test_body_expansion_respects_transparent_source_domain",
+        "test_body_mode_natural_level_identity_and_work_admission[0]",
+        "test_body_mode_natural_level_identity_and_work_admission[1]",
+        "test_body_mode_natural_level_identity_and_work_admission[2]",
+        "test_body_managed_viewer_copies_recipe_and_reopens_retained_result",
+        "test_body_gui_batch_keeps_distinct_recipe"
+      ],
+      "junit_sha256": "54d52d059e121ab26903df8ae125e0f9a36a2a672104628fc67fe8489b6efb7a"
+    },
+    {
+      "python": "3.12",
+      "cohort": "consumer",
+      "passed": 39,
+      "desktop_skipped": 3,
+      "cases": [
+        "test_production_body_mode_pinned_labels_and_measurements[16-blank]",
+        "test_production_body_mode_pinned_labels_and_measurements[16-isolated_three]",
+        "test_production_body_mode_pinned_labels_and_measurements[16-touching_pair]",
+        "test_production_body_mode_pinned_labels_and_measurements[16-gap_pair]",
+        "test_production_body_mode_pinned_labels_and_measurements[16-size_filters]",
+        "test_production_body_mode_pinned_labels_and_measurements[16-roi_cut_hole]",
+        "test_production_body_mode_pinned_labels_and_measurements[16-gradient_noise]",
+        "test_production_body_mode_pinned_labels_and_measurements[16-anisotropic_level0]",
+        "test_production_body_mode_pinned_labels_and_measurements[16-resampled_reference]",
+        "test_production_body_mode_pinned_labels_and_measurements[64-blank]",
+        "test_production_body_mode_pinned_labels_and_measurements[64-isolated_three]",
+        "test_production_body_mode_pinned_labels_and_measurements[64-touching_pair]",
+        "test_production_body_mode_pinned_labels_and_measurements[64-gap_pair]",
+        "test_production_body_mode_pinned_labels_and_measurements[64-size_filters]",
+        "test_production_body_mode_pinned_labels_and_measurements[64-roi_cut_hole]",
+        "test_production_body_mode_pinned_labels_and_measurements[64-gradient_noise]",
+        "test_production_body_mode_pinned_labels_and_measurements[64-anisotropic_level0]",
+        "test_production_body_mode_pinned_labels_and_measurements[64-resampled_reference]",
+        "test_production_body_mode_pinned_labels_and_measurements[256-blank]",
+        "test_production_body_mode_pinned_labels_and_measurements[256-isolated_three]",
+        "test_production_body_mode_pinned_labels_and_measurements[256-touching_pair]",
+        "test_production_body_mode_pinned_labels_and_measurements[256-gap_pair]",
+        "test_production_body_mode_pinned_labels_and_measurements[256-size_filters]",
+        "test_production_body_mode_pinned_labels_and_measurements[256-roi_cut_hole]",
+        "test_production_body_mode_pinned_labels_and_measurements[256-gradient_noise]",
+        "test_production_body_mode_pinned_labels_and_measurements[256-anisotropic_level0]",
+        "test_production_body_mode_pinned_labels_and_measurements[256-resampled_reference]",
+        "test_body_archive_replay_classifier_and_legacy_records",
+        "test_body_batch_mode_has_distinct_resume_and_cli_recipe",
+        "test_body_gui_captured_recipe_and_published_pixels",
+        "test_body_worker_rejects_stale_authority_and_cancellation[selection]",
+        "test_body_worker_rejects_stale_authority_and_cancellation[rename]",
+        "test_body_worker_rejects_stale_authority_and_cancellation[close]",
+        "test_body_worker_rejects_stale_authority_and_cancellation[authority]",
+        "test_body_worker_rejects_stale_authority_and_cancellation[cancel]",
+        "test_body_candidate_limit_failure_keeps_document_and_worker_reusable",
+        "test_body_expansion_respects_transparent_source_domain",
+        "test_body_mode_natural_level_identity_and_work_admission[0]",
+        "test_body_mode_natural_level_identity_and_work_admission[1]",
+        "test_body_mode_natural_level_identity_and_work_admission[2]",
+        "test_body_managed_viewer_copies_recipe_and_reopens_retained_result",
+        "test_body_gui_batch_keeps_distinct_recipe"
+      ],
+      "junit_sha256": "40f69a4ea92961b39e667c9a55c5be5a99b38c35c125e94225c1264553249224"
+    }
+  ],
+  "sampled_cell_cohorts": [
+    {
+      "python": "3.11",
+      "cohort": "builder",
+      "passed": 50,
+      "desktop_skipped": 3,
+      "real_slide_skipped": 0,
+      "cases": [
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[16-blank]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[16-isolated_three]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[16-touching_pair]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[16-gap_pair]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[16-size_filters]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[16-roi_cut_hole]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[16-gradient_noise]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[16-anisotropic_level0]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[16-resampled_reference]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[64-blank]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[64-isolated_three]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[64-touching_pair]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[64-gap_pair]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[64-size_filters]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[64-roi_cut_hole]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[64-gradient_noise]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[64-anisotropic_level0]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[64-resampled_reference]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[256-blank]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[256-isolated_three]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[256-touching_pair]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[256-gap_pair]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[256-size_filters]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[256-roi_cut_hole]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[256-gradient_noise]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[256-anisotropic_level0]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[256-resampled_reference]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_archive_replay_classifier_and_legacy_records",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_batch_mode_has_distinct_resume_and_cli_recipe",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_gui_captured_recipe_and_published_pixels",
+          "skipped": true
+        },
+        {
+          "name": "test_sampled_worker_rejects_stale_authority_and_cancellation[selection]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_worker_rejects_stale_authority_and_cancellation[rename]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_worker_rejects_stale_authority_and_cancellation[close]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_worker_rejects_stale_authority_and_cancellation[authority]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_worker_rejects_stale_authority_and_cancellation[cancel]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_candidate_limit_failure_keeps_document_and_worker_reusable",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_expansion_respects_transparent_source_domain",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_mode_natural_level_identity_and_work_admission[0]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_mode_natural_level_identity_and_work_admission[1]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_mode_natural_level_identity_and_work_admission[2]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_managed_viewer_copies_recipe_and_reopens_retained_result",
+          "skipped": true
+        },
+        {
+          "name": "test_sampled_gui_batch_keeps_distinct_recipe",
+          "skipped": true
+        },
+        {
+          "name": "test_sampled_constructor_preset_keeps_existing_defaults",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_rejects_inactive_controls[min_peak_radius-1.0]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_rejects_inactive_controls[min_seed_distance-4.0]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_rejects_inactive_controls[connectivity-4]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_inclusive_physical_area_matches_frozen_pixel_cutoff",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_physical_request_rejects_changed_calibration",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_signed_invalid_historical_domain_is_rejected[domain]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_signed_invalid_historical_domain_is_rejected[length]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_signed_invalid_historical_domain_is_rejected[padding]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_real_slide_keeps_characterization_and_exact_saved_replay[0]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_real_slide_keeps_characterization_and_exact_saved_replay[32]",
+          "skipped": false
+        }
+      ],
+      "cohort_contract_sha256": "1973ebc460c1032320e43cedce4c88ec90596df07b5d03d61655cda167dbb846",
+      "junit_sha256": "0801f860c935f1dd68d5ea7d82383202a0425a0e3a5fed68495961939f629eb4"
+    },
+    {
+      "python": "3.11",
+      "cohort": "consumer",
+      "passed": 48,
+      "desktop_skipped": 3,
+      "real_slide_skipped": 2,
+      "cases": [
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[16-blank]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[16-isolated_three]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[16-touching_pair]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[16-gap_pair]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[16-size_filters]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[16-roi_cut_hole]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[16-gradient_noise]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[16-anisotropic_level0]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[16-resampled_reference]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[64-blank]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[64-isolated_three]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[64-touching_pair]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[64-gap_pair]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[64-size_filters]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[64-roi_cut_hole]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[64-gradient_noise]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[64-anisotropic_level0]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[64-resampled_reference]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[256-blank]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[256-isolated_three]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[256-touching_pair]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[256-gap_pair]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[256-size_filters]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[256-roi_cut_hole]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[256-gradient_noise]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[256-anisotropic_level0]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[256-resampled_reference]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_archive_replay_classifier_and_legacy_records",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_batch_mode_has_distinct_resume_and_cli_recipe",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_gui_captured_recipe_and_published_pixels",
+          "skipped": true
+        },
+        {
+          "name": "test_sampled_worker_rejects_stale_authority_and_cancellation[selection]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_worker_rejects_stale_authority_and_cancellation[rename]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_worker_rejects_stale_authority_and_cancellation[close]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_worker_rejects_stale_authority_and_cancellation[authority]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_worker_rejects_stale_authority_and_cancellation[cancel]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_candidate_limit_failure_keeps_document_and_worker_reusable",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_expansion_respects_transparent_source_domain",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_mode_natural_level_identity_and_work_admission[0]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_mode_natural_level_identity_and_work_admission[1]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_mode_natural_level_identity_and_work_admission[2]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_managed_viewer_copies_recipe_and_reopens_retained_result",
+          "skipped": true
+        },
+        {
+          "name": "test_sampled_gui_batch_keeps_distinct_recipe",
+          "skipped": true
+        },
+        {
+          "name": "test_sampled_constructor_preset_keeps_existing_defaults",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_rejects_inactive_controls[min_peak_radius-1.0]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_rejects_inactive_controls[min_seed_distance-4.0]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_rejects_inactive_controls[connectivity-4]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_inclusive_physical_area_matches_frozen_pixel_cutoff",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_physical_request_rejects_changed_calibration",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_signed_invalid_historical_domain_is_rejected[domain]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_signed_invalid_historical_domain_is_rejected[length]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_signed_invalid_historical_domain_is_rejected[padding]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_real_slide_keeps_characterization_and_exact_saved_replay[0]",
+          "skipped": true
+        },
+        {
+          "name": "test_sampled_real_slide_keeps_characterization_and_exact_saved_replay[32]",
+          "skipped": true
+        }
+      ],
+      "cohort_contract_sha256": "1973ebc460c1032320e43cedce4c88ec90596df07b5d03d61655cda167dbb846",
+      "junit_sha256": "90e8046bc0671d2debdfe4975065bfb331cb3eb2bff0107ee8f2535386f4a78f"
+    },
+    {
+      "python": "3.12",
+      "cohort": "builder",
+      "passed": 50,
+      "desktop_skipped": 3,
+      "real_slide_skipped": 0,
+      "cases": [
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[16-blank]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[16-isolated_three]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[16-touching_pair]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[16-gap_pair]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[16-size_filters]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[16-roi_cut_hole]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[16-gradient_noise]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[16-anisotropic_level0]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[16-resampled_reference]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[64-blank]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[64-isolated_three]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[64-touching_pair]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[64-gap_pair]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[64-size_filters]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[64-roi_cut_hole]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[64-gradient_noise]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[64-anisotropic_level0]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[64-resampled_reference]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[256-blank]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[256-isolated_three]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[256-touching_pair]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[256-gap_pair]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[256-size_filters]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[256-roi_cut_hole]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[256-gradient_noise]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[256-anisotropic_level0]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[256-resampled_reference]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_archive_replay_classifier_and_legacy_records",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_batch_mode_has_distinct_resume_and_cli_recipe",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_gui_captured_recipe_and_published_pixels",
+          "skipped": true
+        },
+        {
+          "name": "test_sampled_worker_rejects_stale_authority_and_cancellation[selection]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_worker_rejects_stale_authority_and_cancellation[rename]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_worker_rejects_stale_authority_and_cancellation[close]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_worker_rejects_stale_authority_and_cancellation[authority]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_worker_rejects_stale_authority_and_cancellation[cancel]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_candidate_limit_failure_keeps_document_and_worker_reusable",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_expansion_respects_transparent_source_domain",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_mode_natural_level_identity_and_work_admission[0]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_mode_natural_level_identity_and_work_admission[1]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_mode_natural_level_identity_and_work_admission[2]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_managed_viewer_copies_recipe_and_reopens_retained_result",
+          "skipped": true
+        },
+        {
+          "name": "test_sampled_gui_batch_keeps_distinct_recipe",
+          "skipped": true
+        },
+        {
+          "name": "test_sampled_constructor_preset_keeps_existing_defaults",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_rejects_inactive_controls[min_peak_radius-1.0]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_rejects_inactive_controls[min_seed_distance-4.0]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_rejects_inactive_controls[connectivity-4]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_inclusive_physical_area_matches_frozen_pixel_cutoff",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_physical_request_rejects_changed_calibration",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_signed_invalid_historical_domain_is_rejected[domain]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_signed_invalid_historical_domain_is_rejected[length]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_signed_invalid_historical_domain_is_rejected[padding]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_real_slide_keeps_characterization_and_exact_saved_replay[0]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_real_slide_keeps_characterization_and_exact_saved_replay[32]",
+          "skipped": false
+        }
+      ],
+      "cohort_contract_sha256": "1973ebc460c1032320e43cedce4c88ec90596df07b5d03d61655cda167dbb846",
+      "junit_sha256": "54d52d059e121ab26903df8ae125e0f9a36a2a672104628fc67fe8489b6efb7a"
+    },
+    {
+      "python": "3.12",
+      "cohort": "consumer",
+      "passed": 48,
+      "desktop_skipped": 3,
+      "real_slide_skipped": 2,
+      "cases": [
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[16-blank]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[16-isolated_three]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[16-touching_pair]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[16-gap_pair]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[16-size_filters]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[16-roi_cut_hole]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[16-gradient_noise]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[16-anisotropic_level0]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[16-resampled_reference]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[64-blank]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[64-isolated_three]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[64-touching_pair]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[64-gap_pair]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[64-size_filters]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[64-roi_cut_hole]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[64-gradient_noise]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[64-anisotropic_level0]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[64-resampled_reference]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[256-blank]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[256-isolated_three]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[256-touching_pair]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[256-gap_pair]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[256-size_filters]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[256-roi_cut_hole]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[256-gradient_noise]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[256-anisotropic_level0]",
+          "skipped": false
+        },
+        {
+          "name": "test_production_sampled_mode_pinned_labels_and_measurements[256-resampled_reference]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_archive_replay_classifier_and_legacy_records",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_batch_mode_has_distinct_resume_and_cli_recipe",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_gui_captured_recipe_and_published_pixels",
+          "skipped": true
+        },
+        {
+          "name": "test_sampled_worker_rejects_stale_authority_and_cancellation[selection]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_worker_rejects_stale_authority_and_cancellation[rename]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_worker_rejects_stale_authority_and_cancellation[close]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_worker_rejects_stale_authority_and_cancellation[authority]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_worker_rejects_stale_authority_and_cancellation[cancel]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_candidate_limit_failure_keeps_document_and_worker_reusable",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_expansion_respects_transparent_source_domain",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_mode_natural_level_identity_and_work_admission[0]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_mode_natural_level_identity_and_work_admission[1]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_mode_natural_level_identity_and_work_admission[2]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_managed_viewer_copies_recipe_and_reopens_retained_result",
+          "skipped": true
+        },
+        {
+          "name": "test_sampled_gui_batch_keeps_distinct_recipe",
+          "skipped": true
+        },
+        {
+          "name": "test_sampled_constructor_preset_keeps_existing_defaults",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_rejects_inactive_controls[min_peak_radius-1.0]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_rejects_inactive_controls[min_seed_distance-4.0]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_rejects_inactive_controls[connectivity-4]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_inclusive_physical_area_matches_frozen_pixel_cutoff",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_physical_request_rejects_changed_calibration",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_signed_invalid_historical_domain_is_rejected[domain]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_signed_invalid_historical_domain_is_rejected[length]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_signed_invalid_historical_domain_is_rejected[padding]",
+          "skipped": false
+        },
+        {
+          "name": "test_sampled_real_slide_keeps_characterization_and_exact_saved_replay[0]",
+          "skipped": true
+        },
+        {
+          "name": "test_sampled_real_slide_keeps_characterization_and_exact_saved_replay[32]",
+          "skipped": true
+        }
+      ],
+      "cohort_contract_sha256": "1973ebc460c1032320e43cedce4c88ec90596df07b5d03d61655cda167dbb846",
+      "junit_sha256": "40f69a4ea92961b39e667c9a55c5be5a99b38c35c125e94225c1264553249224"
+    }
+  ],
+  "frontier_helper_sha256": "cedb98f343fa68b468ec2814f41bdbb566542dcf898e7299ba5459b73f0d4e95",
+  "small_frontier_cohorts": [
+    {
+      "python": "3.11",
+      "cohort": "builder",
+      "native": {
+        "priority_keys": 64,
+        "heap_equivalence_cases": 1344,
+        "historical_domain_grid_checked": true
+      },
+      "passed": 8,
+      "domain_replay_passed": 3,
+      "cohort_contract_sha256": "062d7eeedbe751a495a96db65cf8b0bd436e5f54cb4e7cf6c6a9c96ca03bdfd6"
+    },
+    {
+      "python": "3.11",
+      "cohort": "consumer",
+      "native": {
+        "priority_keys": 64,
+        "heap_equivalence_cases": 1344,
+        "historical_domain_grid_checked": true
+      },
+      "passed": 8,
+      "domain_replay_passed": 3,
+      "cohort_contract_sha256": "062d7eeedbe751a495a96db65cf8b0bd436e5f54cb4e7cf6c6a9c96ca03bdfd6"
+    },
+    {
+      "python": "3.12",
+      "cohort": "builder",
+      "native": {
+        "priority_keys": 64,
+        "heap_equivalence_cases": 1344,
+        "historical_domain_grid_checked": true
+      },
+      "passed": 8,
+      "domain_replay_passed": 3,
+      "cohort_contract_sha256": "062d7eeedbe751a495a96db65cf8b0bd436e5f54cb4e7cf6c6a9c96ca03bdfd6"
+    },
+    {
+      "python": "3.12",
+      "cohort": "consumer",
+      "native": {
+        "priority_keys": 64,
+        "heap_equivalence_cases": 1344,
+        "historical_domain_grid_checked": true
+      },
+      "passed": 8,
+      "domain_replay_passed": 3,
+      "cohort_contract_sha256": "062d7eeedbe751a495a96db65cf8b0bd436e5f54cb4e7cf6c6a9c96ca03bdfd6"
+    }
+  ]
+}

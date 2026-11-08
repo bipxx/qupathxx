@@ -1,0 +1,38 @@
+{
+  "native_revision": "cbf4102f2cffe6ed8f71549087ae5bf74cdcd8e2",
+  "native_tree_sha256": "5a98347c5447c5b8f414d299a3411e9554c72188f92e1ca3ecd7c8c69aeee96e",
+  "importer_sha256": "0440dd587b744c940777068da4c8c88296c76a802b51f5da86587c89f9455f81",
+  "workflow_sha256": "de02290ce0ace0b37810643c54889524f542554344229a1a2ca3031334b93a8e",
+  "imported_project_sha256": "7ff1a51917c5d9754930e5da12f8486aa32f962751317d3921c2a4925409dae3",
+  "imported_project_unchanged": true,
+  "original_pixels_exact": true,
+  "source_files_verified": 7,
+  "imported_pairs": 2,
+  "imported_annotations": [
+    32,
+    28
+  ],
+  "all_classes_preserved": true,
+  "outlines_reject_outside_source": true,
+  "centroids_explicit": true,
+  "density_counts": [
+    31,
+    27
+  ],
+  "density_areas_pixels": [
+    104006.0,
+    101124.0
+  ],
+  "prior_pilot_oracles_match": true,
+  "python_dependencies": {
+    "Pillow": {
+      "version": "13.0.0",
+      "license": "MIT-CMU"
+    },
+    "numpy": {
+      "version": "2.5.4",
+      "license": "BSD-3-Clause AND 0BSD AND MIT AND Zlib AND CC0-1.0"
+    }
+  },
+  "limits": "NuCLS PNG/CSV only; Cell body/nucleus markers are annotated nuclei, not whole cells. FOV support/oracles reused from the prior pilot. No new native build, package/install, download or scientific acceptance."
+}

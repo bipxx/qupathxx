@@ -1,0 +1,78 @@
+{
+    "version": "1.1.407",
+    "time": "1793017504228",
+    "generalDiagnostics": [
+        {
+            "file": "c:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\typing\\raw_pixel_invalid.py",
+            "severity": "error",
+            "message": "Type \"NDArray[float32]\" is not assignable to declared type \"NDArray[uint8]\"\n  \"ndarray[_AnyShape, dtype[float32]]\" is not assignable to \"ndarray[_AnyShape, dtype[uint8]]\"\n    Type parameter \"_DTypeT_co@ndarray\" is covariant, but \"dtype[float32]\" is not a subtype of \"dtype[uint8]\"\n      \"dtype[float32]\" is not assignable to \"dtype[uint8]\"\n        Type parameter \"_ScalarT_co@dtype\" is covariant, but \"float32\" is not a subtype of \"uint8\"\n          \"floating[_32Bit]\" is not assignable to \"unsignedinteger[_8Bit]\"",
+            "range": {
+                "start": {
+                    "line": 8,
+                    "character": 49
+                },
+                "end": {
+                    "line": 8,
+                    "character": 69
+                }
+            },
+            "rule": "reportAssignmentType"
+        },
+        {
+            "file": "c:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\typing\\raw_pixel_invalid.py",
+            "severity": "error",
+            "message": "Type \"RawPixelTiledTrainingTable | None\" is not assignable to declared type \"RawPixelTiledTrainingTable\"\n  Type \"RawPixelTiledTrainingTable | None\" is not assignable to type \"RawPixelTiledTrainingTable\"\n    \"None\" is not assignable to \"RawPixelTiledTrainingTable\"",
+            "range": {
+                "start": {
+                    "line": 9,
+                    "character": 58
+                },
+                "end": {
+                    "line": 9,
+                    "character": 70
+                }
+            },
+            "rule": "reportAssignmentType"
+        },
+        {
+            "file": "c:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\typing\\raw_pixel_invalid.py",
+            "severity": "error",
+            "message": "Argument of type \"RawPixelTrainingRequest\" cannot be assigned to parameter \"request\" of type \"RawPixelTiledTrainingRequest\" in function \"sample_raw_pixel_tiled_training\"\n  \"RawPixelTrainingRequest\" is not assignable to \"RawPixelTiledTrainingRequest\"",
+            "range": {
+                "start": {
+                    "line": 10,
+                    "character": 38
+                },
+                "end": {
+                    "line": 10,
+                    "character": 45
+                }
+            },
+            "rule": "reportArgumentType"
+        },
+        {
+            "file": "c:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\typing\\raw_pixel_invalid.py",
+            "severity": "error",
+            "message": "Type \"RawPixelWindowClassification\" is not assignable to declared type \"RawPixelClassification\"\n  \"RawPixelWindowClassification\" is not assignable to \"RawPixelClassification\"",
+            "range": {
+                "start": {
+                    "line": 11,
+                    "character": 55
+                },
+                "end": {
+                    "line": 11,
+                    "character": 95
+                }
+            },
+            "rule": "reportAssignmentType"
+        }
+    ],
+    "summary": {
+        "filesAnalyzed": 1,
+        "errorCount": 4,
+        "warningCount": 0,
+        "informationCount": 0,
+        "timeInSec": 0.325
+    }
+}
+

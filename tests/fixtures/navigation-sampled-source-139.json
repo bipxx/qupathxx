@@ -1,0 +1,15 @@
+{
+  "schema": "qpx.navigation-source-substitution/1",
+  "original_engine_commit": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+  "engine_commit": "ddd3bb981ee9ef1c1ff396fa47c6239dd1dfa97c",
+  "frozen_protocol_sha256": "0958130efd55cd55edc9a269af7d9cd022e707f54ceaf5e7fdfd5234e17b765e",
+  "benchmark_tool_sha256": "acb0f034fcc818519cefc20f3bc7222c6b470b30169d76a49a07b0dc235a3bc2",
+  "engine_auditor_sha256": "1596cf45f43392cd206265bfc9007cfe7aeccdf30b9b20176ad57533795c1a00",
+  "scope": "Only the audited engine source changes. Hardware, renderer, workload, trial count, all before/after load ceilings, measurements and acceptance thresholds remain frozen. All trials retained; no substitution of CPU-affinity profiling for this protocol.",
+  "criteria_source_commit": "ddd3bb981ee9ef1c1ff396fa47c6239dd1dfa97c",
+  "criteria_sha256": {
+    "snapshot": "af803e6c643a1afb3481147549e435f1db42b83d80f7ef45c680fbff88b967a7",
+    "hardware_issues": "a49a09e0b857080a8b092d0c5b5eea542b308f89f5e8145c9fbbb3b1514f4f04",
+    "inspect_view": "411656c7c358399aa321f508ce57abe809614812d8fbfea867210e68ffcd900c"
+  }
+}

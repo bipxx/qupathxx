@@ -1,0 +1,345 @@
+{
+  "schema": "qpx.imagej-shape-capture/1",
+  "upstream": {
+    "tag": "v0.7.0",
+    "revision": "04ccfa4fb7d43e9b566393e08e83690b72248d44",
+    "version": "0.7.0",
+    "bundle_url": "https://github.com/qupath/qupath/releases/download/v0.7.0/QuPath-v0.7.0-Windows.zip",
+    "bundle_filename": "QuPath-v0.7.0-Windows.zip",
+    "bundle_bytes": 282594398,
+    "bundle_sha256": "5839743281d11eca1ac55c87ddcf92c89a30cba7ba2060f162036b0514b1e30c",
+    "runtime_tree_sha256": "117c0cb3074c7e3d2f4814d731bf0703d38373051d5580462a90d94036314788",
+    "runtime_files": 496,
+    "executable": "QuPath-0.7.0 (console).exe",
+    "license": "GPL-3.0-or-later",
+    "license_source": "https://github.com/qupath/qupath/blob/04ccfa4fb7d43e9b566393e08e83690b72248d44/LICENSE"
+  },
+  "generator_sha256": "d33fc0ca2d8833f53e767067e827e717e03a87978e7a896e2b280d92418c1992",
+  "input_generator_sha256": "4592d70f602e6b028b0888a9db53cd06f068f6924bbdaced7cafad10a522ebe0",
+  "files": {
+    "blank/input.u8.gz": {
+      "bytes": 24,
+      "sha256": "9a151635e5963d49ee3b434beb80c92766722e2ac36756b1c7bd54274140d9ac"
+    },
+    "blank/mask.u8.gz": {
+      "bytes": 24,
+      "sha256": "7795b4d84aaade581e6ba329f3a77c1676bd35adc53c147516068b82e7481fac"
+    },
+    "blank/maxima.u8.gz": {
+      "bytes": 24,
+      "sha256": "7795b4d84aaade581e6ba329f3a77c1676bd35adc53c147516068b82e7481fac"
+    },
+    "border/input.u8.gz": {
+      "bytes": 111,
+      "sha256": "fbba997a699d00c0e64130b7d1ff548d44d7f161bae95a39d56518602778f561"
+    },
+    "border/mask.u8.gz": {
+      "bytes": 126,
+      "sha256": "f5b035167fa477377861d68af5e932d23fd932713ae7a83a7a2407ab8897fdbc"
+    },
+    "border/maxima.u8.gz": {
+      "bytes": 45,
+      "sha256": "07afe025b19908549fdcaf10c9f286d346ba1cc5385410d247731a5515af537d"
+    },
+    "column/input.u8.gz": {
+      "bytes": 27,
+      "sha256": "420fe6fe3ddb5264c94790e20cb3c9bf34ccda77d03c9f45aa85bf9808389799"
+    },
+    "column/mask.u8.gz": {
+      "bytes": 27,
+      "sha256": "63731e352cf8b61cbafdc0d171defef72e45a9825f8b074b5941ddf183278b63"
+    },
+    "column/maxima.u8.gz": {
+      "bytes": 26,
+      "sha256": "cc76b2df85a707e162bb42d29307a65ed3d49f10243c66fd62dd4b6965558a54"
+    },
+    "contract.json": {
+      "bytes": 3421,
+      "sha256": "a50e64fa1e922e363c970a65cae0a4ecf9c1ec19ac3fdb33d4cabb39bcd398ef"
+    },
+    "diagonal/input.u8.gz": {
+      "bytes": 60,
+      "sha256": "007cbfb20e5a6d44d73d10623a127e253946e4f25c3eb6016a3b08701a37871c"
+    },
+    "diagonal/mask.u8.gz": {
+      "bytes": 61,
+      "sha256": "decf94feeab7ab549ec6a598a94c38402bdb5a07ef5f4fb724869d45eeccf070"
+    },
+    "diagonal/maxima.u8.gz": {
+      "bytes": 46,
+      "sha256": "c4ab0a418fc8aa295dc23930a4fc1c56b78b8beb2f9890bf5373b040c1acb7e0"
+    },
+    "full/input.u8.gz": {
+      "bytes": 24,
+      "sha256": "118435c63ebaf2f152726cbb435cf41f72f89e6217c97ec4896a379e58e05ebe"
+    },
+    "full/mask.u8.gz": {
+      "bytes": 24,
+      "sha256": "6d67ed280acb29d18e8842e9b015a3a8b546344ca9b84a8391b91233d82358bf"
+    },
+    "full/maxima.u8.gz": {
+      "bytes": 24,
+      "sha256": "7795b4d84aaade581e6ba329f3a77c1676bd35adc53c147516068b82e7481fac"
+    },
+    "large_disks/input.u8.gz": {
+      "bytes": 338,
+      "sha256": "5f92d69cddbd7ed2853a43c5470af3d81ef7707fd73e80a923d7fec520978601"
+    },
+    "large_disks/mask.u8.gz": {
+      "bytes": 426,
+      "sha256": "9195355e01a9ba7e57786c4939953800bf30d6245c7e571d06f0b0f39d1fcc0f"
+    },
+    "large_disks/maxima.u8.gz": {
+      "bytes": 67,
+      "sha256": "66d43345382c41aefd42e894aa42eaad6cfc3330d28e610fccc6f70afb3bcec5"
+    },
+    "ndpi_context0/input.u8.gz": {
+      "bytes": 7701,
+      "sha256": "a4dcd5f5784b97171b8e5de983cd7042098b5c920e86171572e8dad98593779f"
+    },
+    "ndpi_context0/mask.u8.gz": {
+      "bytes": 8297,
+      "sha256": "9a7fccc6a1c7ec121a6b55a6a2c81bc5f75186c88b836c6e3f9b1b7be6da2dd2"
+    },
+    "ndpi_context0/maxima.u8.gz": {
+      "bytes": 1458,
+      "sha256": "0c38a317af70d8dfdf699af07eab310645f348d3310d0b60528d9363057f80be"
+    },
+    "ndpi_context32/input.u8.gz": {
+      "bytes": 11971,
+      "sha256": "667ca53a5f96ad94fbaa4e4b8a9d266a33b9b79cb5b187cec042d0aa07122227"
+    },
+    "ndpi_context32/mask.u8.gz": {
+      "bytes": 12982,
+      "sha256": "183320a2d34e796427b4cfd669bbc8210c49f486963e6ab92eecc1422f022cf8"
+    },
+    "ndpi_context32/maxima.u8.gz": {
+      "bytes": 2234,
+      "sha256": "84af30dac7d7f6170b15a4d8d600915957ab76777042a761d44ae0ee0d409550"
+    },
+    "plateau/input.u8.gz": {
+      "bytes": 51,
+      "sha256": "b904b4c81d42637e2146c485a78d0d665ed9c359e817e4836fd45f114ee866f2"
+    },
+    "plateau/mask.u8.gz": {
+      "bytes": 51,
+      "sha256": "07222c5865659abceca315dca8fe59cdebb8ed20f3ad70f0c56ef279cdf26168"
+    },
+    "plateau/maxima.u8.gz": {
+      "bytes": 46,
+      "sha256": "58d5e9d9b4f429e95dcab842bba6cbc0a0e192aa28d8f8f960110c2057ecdf74"
+    },
+    "random_0/input.u8.gz": {
+      "bytes": 510,
+      "sha256": "844e631f35073aeccf7a3c78305b9bca0e53b066ad3e1e9a2cfe22b2d1f2f615"
+    },
+    "random_0/mask.u8.gz": {
+      "bytes": 503,
+      "sha256": "7f02f3390c70181f6b6cb85d84c1946616cb89bce874367bf321a2877795a638"
+    },
+    "random_0/maxima.u8.gz": {
+      "bytes": 149,
+      "sha256": "38f05f36b120fb9dc7c22e6b8d691a89daebe81dda2bb85c2ab4162dbadb3139"
+    },
+    "random_1/input.u8.gz": {
+      "bytes": 482,
+      "sha256": "19c5b5a289a354be2966c45f473384b5a0311265b05f182ac584c689bad2f31d"
+    },
+    "random_1/mask.u8.gz": {
+      "bytes": 472,
+      "sha256": "8fe7b9167a12b6386a34d37d1684b1c853e27013da78c6c0df959fcbfd8a3053"
+    },
+    "random_1/maxima.u8.gz": {
+      "bytes": 148,
+      "sha256": "b01817e86611d1797666e5b13d6098a4256012d2ee0f16cf26480fd037d42312"
+    },
+    "random_10/input.u8.gz": {
+      "bytes": 475,
+      "sha256": "faeb84795b39013184141e615fafe733671801b3347110e5b38bfa604ed64ee0"
+    },
+    "random_10/mask.u8.gz": {
+      "bytes": 465,
+      "sha256": "182ecfe3c6c191b8e184937756754719017cb1baf73ca2a029f34e1722bbf012"
+    },
+    "random_10/maxima.u8.gz": {
+      "bytes": 135,
+      "sha256": "04e4b3ba7b9e8c669b30d4f067d5ea5d30459c22407ae55555315691fe8dcb5e"
+    },
+    "random_11/input.u8.gz": {
+      "bytes": 498,
+      "sha256": "8ea70aa024e9bb8bb40259f2a30fb55b0ff875bffbce9186222abd4ab6f2a797"
+    },
+    "random_11/mask.u8.gz": {
+      "bytes": 501,
+      "sha256": "9fdce6bebabc48873bc4bb6e0e3a900a4ee99b5f954e7227237ca4ba9823e900"
+    },
+    "random_11/maxima.u8.gz": {
+      "bytes": 136,
+      "sha256": "36de36837de5a260f8e6291a3208c1bba09506db531131e2f75d2b5a12b93ef8"
+    },
+    "random_2/input.u8.gz": {
+      "bytes": 498,
+      "sha256": "1e9b57977f842d95b71248088a6a30441fa6c8ebdee6837d4aff06e4d7ae6b14"
+    },
+    "random_2/mask.u8.gz": {
+      "bytes": 490,
+      "sha256": "2159d063986ed66488c2fdbda0ab557a413714056ed3d6c7e37ebed22617eadd"
+    },
+    "random_2/maxima.u8.gz": {
+      "bytes": 140,
+      "sha256": "8b0e6368cac0060114805efdcf0419c8015c409c8035e9ce9f26a3025a30af86"
+    },
+    "random_3/input.u8.gz": {
+      "bytes": 508,
+      "sha256": "0fad8b44eb2e0453aa02d3bca0d8979f2079dfc40c7d3e8415ab113137044f12"
+    },
+    "random_3/mask.u8.gz": {
+      "bytes": 504,
+      "sha256": "e199da98f832fbc8fe1d8bfa06c01376974d380a96824a0d5c8820eb15de9d60"
+    },
+    "random_3/maxima.u8.gz": {
+      "bytes": 140,
+      "sha256": "431fba06ab5913405832879357cbc9af87b4bc3eff6744f660bc1db7a43fc7c6"
+    },
+    "random_4/input.u8.gz": {
+      "bytes": 490,
+      "sha256": "06c26be104166b7f2593a6c5c1af060db1a90da14bd5ee45d05eb9fd25dfd383"
+    },
+    "random_4/mask.u8.gz": {
+      "bytes": 488,
+      "sha256": "b0df3d7ab266b786721e8c18d8fc5d0e3f402a1b062c416ff98393a5b836a799"
+    },
+    "random_4/maxima.u8.gz": {
+      "bytes": 144,
+      "sha256": "1d0f0861b2698e28c72f868d67884cf2469852e9ced4abae4b2bded2e89b1382"
+    },
+    "random_5/input.u8.gz": {
+      "bytes": 496,
+      "sha256": "80a9b3557c32404a9db74f364e67a74a630cbaf2a66f52937b54ecf1a285a1a8"
+    },
+    "random_5/mask.u8.gz": {
+      "bytes": 488,
+      "sha256": "e196a901370a380ff5017a518d4b2980084141dc35c814bcc9db997a0fc1c210"
+    },
+    "random_5/maxima.u8.gz": {
+      "bytes": 135,
+      "sha256": "cabe546097e885ca27797be935e17aa71a7082a94b7f1920f15e9ef2221a2848"
+    },
+    "random_6/input.u8.gz": {
+      "bytes": 490,
+      "sha256": "44118eb55bf631357a5e9523fe697e4bbb365d0b22955233583d62248d5d3d62"
+    },
+    "random_6/mask.u8.gz": {
+      "bytes": 491,
+      "sha256": "992b635453ae3bafbfbd943958d85475dde6e65c846cd913fd84518935c64fbe"
+    },
+    "random_6/maxima.u8.gz": {
+      "bytes": 129,
+      "sha256": "744c3e79a03ba56a249e9748e69f1fa8abeb6f48d3c1eece6cc909cf8194fab1"
+    },
+    "random_7/input.u8.gz": {
+      "bytes": 500,
+      "sha256": "3f493bc56476ea7df50902f81175513c8afbbfcfbcb0bd6b9a350ebd8166fdd3"
+    },
+    "random_7/mask.u8.gz": {
+      "bytes": 497,
+      "sha256": "21aa172e30eef5b86fd24e229c9f011296c7de1760b51c834406995e99a27cfa"
+    },
+    "random_7/maxima.u8.gz": {
+      "bytes": 149,
+      "sha256": "6173d8989807e3d6cf1cf5b42e93190800877a06aca770216c7002dce37344dc"
+    },
+    "random_8/input.u8.gz": {
+      "bytes": 496,
+      "sha256": "b6fa13aaa861502c32101356ec55d5696561b306aa8e721b4c01de9568083990"
+    },
+    "random_8/mask.u8.gz": {
+      "bytes": 479,
+      "sha256": "013b85301b645a1dedc507a88f9d9c0f34df398e53827ffc7ed245f9e6f29ff1"
+    },
+    "random_8/maxima.u8.gz": {
+      "bytes": 138,
+      "sha256": "7983cbae7ce4752d7c017ff2d1f63079f301c5122b094aba98179c25b46a2558"
+    },
+    "random_9/input.u8.gz": {
+      "bytes": 488,
+      "sha256": "e050c75e564c2ea170e40b9b9b7c52ead3635c33d1897037fb8264231a103920"
+    },
+    "random_9/mask.u8.gz": {
+      "bytes": 492,
+      "sha256": "0dc3fb087925ebdb8253e652e7e35b25254b680758a6af3697c3100a80a15ba9"
+    },
+    "random_9/maxima.u8.gz": {
+      "bytes": 126,
+      "sha256": "7a9ec4801884bed0904c6c4ea701e0da0c82aede762c1af5a025ec6367876621"
+    },
+    "reference.json": {
+      "bytes": 2209,
+      "sha256": "1bab9e32ec24baeb3b7966f8352d697f681f557b3a897734f9f7e8982a3b98e5"
+    },
+    "ring/input.u8.gz": {
+      "bytes": 139,
+      "sha256": "386aaf468f3e5bf00c87f05fb7d7cf92efce0474dc3de20db64e72622d60da65"
+    },
+    "ring/mask.u8.gz": {
+      "bytes": 156,
+      "sha256": "9d8fc825d04ffe6b5d587c8c5277c666287426bef9ec4baf107f623ff7fc6a3e"
+    },
+    "ring/maxima.u8.gz": {
+      "bytes": 46,
+      "sha256": "c852e34cbbbf616cc211ce90f37a95cb54705feb07d050e6cd53d0a557327f32"
+    },
+    "row/input.u8.gz": {
+      "bytes": 27,
+      "sha256": "420fe6fe3ddb5264c94790e20cb3c9bf34ccda77d03c9f45aa85bf9808389799"
+    },
+    "row/mask.u8.gz": {
+      "bytes": 27,
+      "sha256": "63731e352cf8b61cbafdc0d171defef72e45a9825f8b074b5941ddf183278b63"
+    },
+    "row/maxima.u8.gz": {
+      "bytes": 26,
+      "sha256": "cc76b2df85a707e162bb42d29307a65ed3d49f10243c66fd62dd4b6965558a54"
+    },
+    "runtime.log": {
+      "bytes": 951,
+      "sha256": "56ef38cc081ee0df2aa5c5b9d3da0058e10f5e3888f15750e0c80c7f06573ed0"
+    },
+    "single/input.u8.gz": {
+      "bytes": 28,
+      "sha256": "015223cf962bf31fc10407a0f3e3cba8470f27628747f4c62f506abd3450761b"
+    },
+    "single/mask.u8.gz": {
+      "bytes": 28,
+      "sha256": "63a91796635324cb8bc635819b66c72fcdac3669a87654cf3a9da6d48850c663"
+    },
+    "single/maxima.u8.gz": {
+      "bytes": 28,
+      "sha256": "63a91796635324cb8bc635819b66c72fcdac3669a87654cf3a9da6d48850c663"
+    },
+    "thin_neck/input.u8.gz": {
+      "bytes": 102,
+      "sha256": "e4a60df29d7e66540b810c37d494dd93ddd7187cbf75262f46e2f8f936c70b7e"
+    },
+    "thin_neck/mask.u8.gz": {
+      "bytes": 115,
+      "sha256": "5c7409f668ba1adfb3c325e77f4d0fb945c0bb92ad79a39f09fb0f9748df6d30"
+    },
+    "thin_neck/maxima.u8.gz": {
+      "bytes": 44,
+      "sha256": "9553011f1fb27b5604922e83860481b4bc3c47e685b49463fc99955438a48e65"
+    },
+    "touching_disks/input.u8.gz": {
+      "bytes": 115,
+      "sha256": "a0b46102c0af046b5c12cc091b7af9f8c1b27c5b3def77498bacfa3fd0af8f50"
+    },
+    "touching_disks/mask.u8.gz": {
+      "bytes": 131,
+      "sha256": "691f1bd0a5bb250efeda2fdd037c76c046f009c15284d80808a0ba6f6ceabbc2"
+    },
+    "touching_disks/maxima.u8.gz": {
+      "bytes": 46,
+      "sha256": "396828df0bcfecee4605a4674f55a0ced2548b3fc5684e2c30de873d2a3fa4a5"
+    }
+  }
+}

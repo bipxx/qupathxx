@@ -1,0 +1,7 @@
+Using CPython 3.12.8 interpreter at: build\ci\raw-stream-frontends-245-env\Scripts\python.exe
+Resolved 1 package in 14ms
+Prepared 1 package in 53ms
+Uninstalled 1 package in 6ms
+Installed 1 package in 54ms
+ - qupathxx==0.1.0 (from file:///C:/Users/HEQ/Projects/qupathxx/build/raw-stream-frontends-245/development-wheel/qupathxx-0.1.0-cp312-cp312-win_amd64.whl)
+ + qupathxx==0.1.0 (from file:///C:/Users/HEQ/Projects/qupathxx/build/raw-stream-frontends-245/final-wheel/qupathxx-0.1.0-cp312-cp312-win_amd64.whl)

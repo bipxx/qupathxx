@@ -1,0 +1,189 @@
+{
+  "schema": "qpx.qupath-tma-native-roundtrip/1",
+  "code_source": "250d9484bb0c15bd02c3bbb2e73c62ef7f22924b",
+  "codec_source": "41d80377e66d363e61ad0425eb659c0871f3b799",
+  "upstream_revision": "04ccfa4fb7d43e9b566393e08e83690b72248d44",
+  "qupath_version": "0.7.0",
+  "runtime_tree_sha256": "117c0cb3074c7e3d2f4814d731bf0703d38373051d5580462a90d94036314788",
+  "runtime_files": 496,
+  "native_minimal_suites_passed": 48,
+  "native_10000_core_roundtrip": true,
+  "native_atomic_document_and_history_checks": true,
+  "actual_native_files_imported_by_qupath": 2,
+  "cores_per_file": 6,
+  "all_supported_fields_exact": true,
+  "literal_quotes_and_surrounding_spaces_preserved": true,
+  "source_hint_never_resolved": true,
+  "native_only_metadata_reported": [
+    "native_object_ids",
+    "native_grid_name",
+    "axis_labels"
+  ],
+  "python_bindings_validation": "189 focused installed cases pass; 22 optional project/reader/feature cases skip in the minimal build",
+  "project_persistence_validation": false,
+  "standalone_project_commands": false,
+  "imgui_import_export": false,
+  "retained_failure": "CSV quoting introduced extra literal quotes in QuPath. The native codec now reads/writes literal TSV fields; corrected native and actual upstream round trips pass.",
+  "files": {
+    "native-export.qptma": {
+      "sha256": "b26dfff06134568a9466e65b4f1eefd675759afb2cae6365376799bb49a0c446",
+      "bytes": 384
+    },
+    "qupath-import.json": {
+      "sha256": "fb1cd4f686c760ca6ff7e1e403c412d4609d15c4ac670517c9a371399d8cb577",
+      "bytes": 5167
+    },
+    "capture.log": {
+      "sha256": "2f7821b9c67275be9d7e86f1f5e8ad2a494c5cc2772a67d3ac85138657869e72",
+      "bytes": 1099
+    },
+    "literal-text.qptma": {
+      "sha256": "aacf95d7497106bdbffad476744f70c1b6f353547accef73ab27235597c55ad4",
+      "bytes": 394
+    },
+    "literal-import.json": {
+      "sha256": "db6452e90e45e53d89de60fc8cc1d7f5823c8aabafd7e1f0fe95ca401768fbbe",
+      "bytes": 5179
+    },
+    "literal-capture.log": {
+      "sha256": "b7be3185f2d727cc304744173f961a616102ac57f3fdce158e16561293c2f668",
+      "bytes": 1099
+    },
+    "failed-csv-quoting.qptma": {
+      "sha256": "05d050dcf7f37a023f9f7966c00451f0ebb704f0525d6b9fd8af1170efc449a6",
+      "bytes": 388
+    },
+    "failed-csv-quoting-import.json": {
+      "sha256": "f9abc0dec02dad55cc353bc3d54f6385a9cdf96e5aa03b81c9312f956bd0e25b",
+      "bytes": 5175
+    }
+  },
+  "scientific_hardware_or_supported_release_acceptance": false,
+  "full_goal_complete": false,
+  "tooling_source": "49e66dc2a23915bfd2822a2dc840ccd94d1a5cf8",
+  "installed_passed": 189,
+  "installed_skipped": [
+    {
+      "name": "test_project_roundtrip_and_schema10_upgrade",
+      "reason": "project storage"
+    },
+    {
+      "name": "test_corrupt_project_metadata_rejected[checksum]",
+      "reason": "project storage"
+    },
+    {
+      "name": "test_corrupt_project_metadata_rejected[row]",
+      "reason": "project storage"
+    },
+    {
+      "name": "test_corrupt_project_metadata_rejected[missing]",
+      "reason": "project storage"
+    },
+    {
+      "name": "test_corrupt_project_metadata_rejected[orphan]",
+      "reason": "project storage"
+    },
+    {
+      "name": "test_corrupt_project_metadata_rejected[duplicate-slot]",
+      "reason": "project storage"
+    },
+    {
+      "name": "test_corrupt_project_metadata_rejected[case-limit]",
+      "reason": "project storage"
+    },
+    {
+      "name": "test_batch_present_missing_and_snapshot_capture",
+      "reason": "project storage"
+    },
+    {
+      "name": "test_per_core_workflows_join_metadata[ProjectBatchKind.ROI]",
+      "reason": "project storage"
+    },
+    {
+      "name": "test_per_core_workflows_join_metadata[ProjectBatchKind.TISSUE]",
+      "reason": "project storage"
+    },
+    {
+      "name": "test_per_core_workflows_join_metadata[ProjectBatchKind.CELLS]",
+      "reason": "project storage"
+    },
+    {
+      "name": "test_per_core_workflows_join_metadata[ProjectBatchKind.PIXELS]",
+      "reason": "project storage"
+    },
+    {
+      "name": "test_all_missing_grid_has_empty_analysis_and_keeps_inventory",
+      "reason": "project storage"
+    },
+    {
+      "name": "test_native_cli_tma_scope_and_csv[False]",
+      "reason": "project storage"
+    },
+    {
+      "name": "test_native_cli_tma_scope_and_csv[True]",
+      "reason": "project storage"
+    },
+    {
+      "name": "test_real_pyramid_uses_bounded_complete_natural_level",
+      "reason": "requires generated OpenSlide pyramid"
+    },
+    {
+      "name": "test_small_pyramid_selection_and_complete_pixels_against_fraction_oracle[dimensions0]",
+      "reason": "requires OpenSlide"
+    },
+    {
+      "name": "test_small_pyramid_selection_and_complete_pixels_against_fraction_oracle[dimensions1]",
+      "reason": "requires OpenSlide"
+    },
+    {
+      "name": "test_small_pyramid_selection_and_complete_pixels_against_fraction_oracle[dimensions2]",
+      "reason": "requires OpenSlide"
+    },
+    {
+      "name": "test_small_pyramid_selection_and_complete_pixels_against_fraction_oracle[dimensions3]",
+      "reason": "requires OpenSlide"
+    },
+    {
+      "name": "test_image_view_survives_project_relink_and_removal",
+      "reason": "requires projects"
+    },
+    {
+      "name": "test_documented_region_workflow_example",
+      "reason": "requires projects"
+    }
+  ],
+  "installed_junit_sha256": "18d34b0e1c47578638bbc5f7496cbc929ce0eb8bef91aa4eb913fbff6c52e6e6",
+  "qptma_cohort": {
+    "passed": 56,
+    "groups": [
+      {
+        "classname": "test_qptma",
+        "passed": 23
+      },
+      {
+        "classname": "test_qptma_reference",
+        "passed": 14
+      },
+      {
+        "classname": "test_qptma_evidence",
+        "passed": 19
+      }
+    ]
+  },
+  "native_junit_sha256": "64c0155ff95a15f5976cf81b297318f2f53de59a02308adad59c0456ff7dcbaa",
+  "wheel_sha256": "9717cc3e19db3b20675b537b68c3db1f0da290d9a7edb5b6b005ed46a6d70af9",
+  "stubs_match_installed_module": true,
+  "strict_typing_valid_files": 3,
+  "qptma_negative_typing": {
+    "expected_errors": 3,
+    "sha256": "33a82566b1a0503969d660a671bb03b6f801ab9f54a80cae7a3241810b62ef5e"
+  },
+  "local_configuration": "Windows minimal Python; GUI/project/interchange/GEOS/optional readers disabled",
+  "retained_installation_check_failure": {
+    "junit": "build/qptma155-installed-final-tests.xml",
+    "failed": 2,
+    "passed": 187,
+    "skipped": 22,
+    "reason": "Relative wheel reinstall used the wrong worktree path; checks read older packaged stubs. Absolute-path reinstall fixes packaged stub and typing checks; final verified run passes."
+  }
+}

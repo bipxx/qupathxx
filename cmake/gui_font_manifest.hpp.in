@@ -1,0 +1,10 @@
+#pragma once
+#include <cstddef>
+namespace qpx::detail {
+inline constexpr char gui_cjk_name[]="@QPX_GUI_CJK_NAME@";
+inline constexpr std::size_t gui_cjk_bytes=@QPX_GUI_CJK_BYTES@;
+inline constexpr char gui_cjk_sha256[]="@QPX_GUI_CJK_SHA256@";
+inline constexpr char gui_emoji_name[]="@QPX_GUI_EMOJI_NAME@";
+inline constexpr std::size_t gui_emoji_bytes=@QPX_GUI_EMOJI_BYTES@;
+inline constexpr char gui_emoji_sha256[]="@QPX_GUI_EMOJI_SHA256@";
+}

@@ -1,0 +1,5 @@
+Using Python 3.12.8 environment at: build\ci\gui-font-delivery-283-env
+Resolved 1 package in 11ms
+Prepared 1 package in 72ms
+Installed 1 package in 39ms
+ + qupathxx==0.1.0 (from file:///C:/Users/HEQ/Projects/qupathxx/build/gui-font-delivery-283/initial-wheel/qupathxx-0.1.0-cp312-cp312-win_amd64.whl)

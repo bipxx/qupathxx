@@ -1,0 +1,158 @@
+{
+  "schema": "qpx.scientific-channels-local/1",
+  "observed_at_utc": "2026-10-25T07:38:12.152665+00:00",
+  "source": "bbf3f6106e110b17a37e007ba5c97678fcb0c0f2",
+  "identity": {
+    "package": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\channels162-python\\Lib\\site-packages\\qupathxx\\__init__.py",
+    "native": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\channels162-python\\Lib\\site-packages\\qupathxx\\_native.cp312-win_amd64.pyd",
+    "native_sha256": "adc8fef90714fbe461a298abc696e6a94878e906c31a1afe5961cf3cb7ab7ae2",
+    "source_tree_sha256": "231e791779910835c430bfd0d246e18b947e21d65f51d94062fcbbe6e246565b",
+    "git_revision": "bbf3f6106e110b17a37e007ba5c97678fcb0c0f2",
+    "gui": false,
+    "python": true,
+    "interchange": false,
+    "project": false,
+    "geos": false,
+    "openslide": false,
+    "tiff": false,
+    "wheel_sha256": "1e24e3746fd990bbca2e0073e9de80afcb32213577337431f719a5ded6b32551",
+    "wheel": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\channels162-final-wheels\\qupathxx-0.1.0-cp312-cp312-win_amd64.whl"
+  },
+  "compiler_inputs": 283,
+  "configuration": "Windows x64 CPython 3.12 minimal; GUI/project/interchange/GEOS/readers/training disabled",
+  "native_suites_passed": 49,
+  "installed_cases": 165,
+  "installed_passed": 163,
+  "installed_skips": [
+    {
+      "name": "test_image_view_survives_project_relink_and_removal",
+      "message": "requires projects"
+    },
+    {
+      "name": "test_documented_region_workflow_example",
+      "message": "requires projects"
+    }
+  ],
+  "installed_cohorts": {
+    "tests.test_scientific_channels": 34,
+    "tests.test_scientific_channel_reference": 4,
+    "tests.test_stains": 24,
+    "tests.test_physical_grid_reference": 6,
+    "tests.test_scientific_sampling": 33,
+    "tests.test_scientific_grid_reference": 10,
+    "tests.test_arrays": 39,
+    "tests.test_resampling": 13,
+    "tests.test_public_stubs": 2
+  },
+  "positive_typing_source_files": 4,
+  "expected_negative_typing_errors": 24,
+  "negative_channels_errors": 5,
+  "packaged_stub_sha256": {
+    "_native.pyi": "54d87b77d0d7fcd0a22390858583059c713f5d5237208094bb883f868a5c6065",
+    "__init__.pyi": "cdc3deb3fde622e8744731157ad27e182bb810135fdff9886ce4d243f13a848c",
+    "py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "decimal_channel_cases": 44,
+  "legacy_float32_rgb_probes": 262144,
+  "numeric_absolute_tolerance": 2e-12,
+  "numeric_relative_tolerance": 2e-12,
+  "float64_channel_stage_accepted_locally": true,
+  "per_axis_tissue_result_implemented": false,
+  "new_cell_recipe_implemented": false,
+  "scientific_detector_accepted": false,
+  "platform_campaign_accepted": false,
+  "release_ready": false,
+  "remaining": [
+    "per-axis TissueResult and contour/provenance geometry",
+    "new cell request and physical LoG/shape/body integration",
+    "grid input digest/archive/replay",
+    "Python/CLI/ImGui/batch detector workflow",
+    "source-bound qualification and full inherited M0-M7 requirements"
+  ],
+  "evidence": {
+    "build_manifest.hpp": {
+      "bytes": 706,
+      "sha256": "6b0693908854213654ea239ef0b1a2b29779da81e4c105d6a4c263569c609261"
+    },
+    "build_wheel.py": {
+      "bytes": 1310,
+      "sha256": "3babd2b427031037eb39d66abe488ad06126edd6a533fe28b0fd96fc89a48477"
+    },
+    "channels162-final-build.log": {
+      "bytes": 8771,
+      "sha256": "96628d934aee52376253fdaecc1be0587e81d995159d08f5b8cdb4c8309e71f1"
+    },
+    "channels162-first-build.log": {
+      "bytes": 13996,
+      "sha256": "0334ce456a256f291ad4ffbb0ba8459e858909f4f124a3aa5c256f25f8c07372"
+    },
+    "commands.json": {
+      "bytes": 5112,
+      "sha256": "c8dbf10578baf5f505d2f64f3a3441f165a3b296fbc7232a239811646f44294a"
+    },
+    "identity.json": {
+      "bytes": 873,
+      "sha256": "4b175863e02505d8c0dfbdfba78ef20b7bbccf307d7e4834cd1c8f7d3065d4fa"
+    },
+    "identity.log": {
+      "bytes": 618,
+      "sha256": "fee996ee14be93e6832d6726476c4be15a0e162b476112abbba359a90f1d2419"
+    },
+    "install.log": {
+      "bytes": 486,
+      "sha256": "ff63828d6dc4fd079b8d108c4ac29f044239f88edaf01bee94ede3776b06ecef"
+    },
+    "installed-tests.log": {
+      "bytes": 275,
+      "sha256": "2be339bd0ad8f692be788fa6679fd6a64e9f92d974e5fa838b9cf35692b2e331"
+    },
+    "native-tests.xml": {
+      "bytes": 12123,
+      "sha256": "82695c00b6017ff31b7fca69ac0335a35b1b2758f17ba32efaf27929d5c62507"
+    },
+    "native.log": {
+      "bytes": 5052,
+      "sha256": "c02757c14623192e553fab07514671aec942f4dd5b373bbd32ef4372476ad958"
+    },
+    "python-tests.xml": {
+      "bytes": 23364,
+      "sha256": "f0db5b824a3942d5d022d815b413efcf9d985aa1d15a0ab92e394db750c14f44"
+    },
+    "source-proof.json": {
+      "bytes": 68829,
+      "sha256": "a97cbc6d30ecee02012240b72c39411807b7a095963d74e9c1da44a15165cc75"
+    },
+    "stubs.log": {
+      "bytes": 48,
+      "sha256": "f5323cb57dde65ca62cc7b523f2183b1f4ad026dafb74e41bd25dac05ebb2130"
+    },
+    "typing-hierarchy_invalid.log": {
+      "bytes": 501,
+      "sha256": "8d7b129bf74a9379d82d646f1455f03ae3259c026c20897d9fd2d4eeb4009b9e"
+    },
+    "typing-invalid_api.log": {
+      "bytes": 1043,
+      "sha256": "6609cfbbd23b6440ab6384c6fb424e7b6e35e5555efe992a91d6225ee16e8ead"
+    },
+    "typing-qptma_invalid.log": {
+      "bytes": 426,
+      "sha256": "33a82566b1a0503969d660a671bb03b6f801ab9f54a80cae7a3241810b62ef5e"
+    },
+    "typing-scientific_channels_invalid.log": {
+      "bytes": 776,
+      "sha256": "06afd6329e8766f28af34b41e03274ddf278425bbb936867cbf578d1b7bf9550"
+    },
+    "typing-scientific_grid_invalid.log": {
+      "bytes": 871,
+      "sha256": "ca156230f56d67bfdf26d2c276b6750630ea10644cb7adfff861abad6cc82ca0"
+    },
+    "typing.log": {
+      "bytes": 44,
+      "sha256": "d9a5631f7d87a741fbecc3236286d1792d22d349ff13846d71cdc9217307bb76"
+    },
+    "verify_channels162.py": {
+      "bytes": 3704,
+      "sha256": "800e36e423cceba0c027a723a44d82bd044721e2fc0b8a921712b29a3487dcd9"
+    }
+  }
+}

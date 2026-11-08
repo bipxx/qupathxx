@@ -1,0 +1,50 @@
+{
+  "runtime_source": "9931536; fixture validation only, no concurrent Document access",
+  "cases": [
+    {
+      "kind": "AnalysisJob",
+      "state": "cancelled",
+      "seconds": 0.030999999959021807
+    },
+    {
+      "kind": "TissueJob",
+      "state": "cancelled",
+      "seconds": 0.0
+    },
+    {
+      "kind": "CellJob",
+      "state": "cancelled",
+      "seconds": 0.0
+    },
+    {
+      "kind": "StainEstimateJob",
+      "state": "cancelled",
+      "seconds": 0.1720000000204891
+    },
+    {
+      "kind": "ObjectClassifierJob",
+      "state": "cancelled",
+      "seconds": 0.06300000008195639
+    },
+    {
+      "kind": "PixelStreamExportJob",
+      "state": "cancelled",
+      "seconds": 0.015999999828636646
+    },
+    {
+      "kind": "PixelTrainingJob",
+      "state": "cancelled",
+      "seconds": 0.0
+    },
+    {
+      "kind": "PixelPredictionJob",
+      "state": "cancelled",
+      "seconds": 0.0
+    },
+    {
+      "kind": "PixelContourJob",
+      "state": "cancelled",
+      "seconds": 0.7030000002123415
+    }
+  ]
+}

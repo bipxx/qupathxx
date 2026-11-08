@@ -1,0 +1,47 @@
+[
+  {
+    "path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/cell-processing-policy-302/linux/linux-products/qupathxx_resampling_tests",
+    "bytes": 55834256,
+    "sha256": "5fbea867a06bc15220953f4a55f57c80a9db778546734bc5c32099e684087f91"
+  },
+  {
+    "path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/cell-processing-policy-302/linux/linux-products/qupathxx_cell_tests",
+    "bytes": 58124736,
+    "sha256": "0157a4906a2649ff382c652f70e4ac7b0ec1d50cdbe2538d9b9ed3989781bca1"
+  },
+  {
+    "path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/cell-processing-policy-302/linux/linux-products/qupathxx_cell_record_tests",
+    "bytes": 56425488,
+    "sha256": "f61625726501bbc9029909401145134190ffa1b7b3df9b21a306b30b76851d0c"
+  },
+  {
+    "path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/cell-processing-policy-302/linux/linux-products/qupathxx_object_classifier_tests",
+    "bytes": 52097216,
+    "sha256": "2270ce9b67dc3a9e9a946dc30cf5a56f75f5984769f6dd587b2ea0382fc19d70"
+  },
+  {
+    "path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/cell-processing-policy-302/linux/linux-products/qupathxx_log_cell_recipe_tests",
+    "bytes": 52011752,
+    "sha256": "c8dddec507f97fde53f4557d00caf33603deb7b644a227af51f49bccf94f4dd0"
+  },
+  {
+    "path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/cell-processing-policy-302/linux/linux-products/qupathxx_stains_tests",
+    "bytes": 6750920,
+    "sha256": "baaa89b2f5a96f1abb137f38db3e8bffc4425f2d5f6d13c29db838ffb9e6b6fd"
+  },
+  {
+    "path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/cell-processing-policy-302/linux/linux-products/qupathxx_cell_table_tests",
+    "bytes": 55167328,
+    "sha256": "4b10c5764feb5245dfaef9609f6f5f02e480cb03ee706fb186efa5a6a33ebcaf"
+  },
+  {
+    "path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/cell-processing-policy-302/linux/linux-products/qupathxx_imagej_gaussian_tests",
+    "bytes": 580600,
+    "sha256": "da850c7d42f793bdb233b7156ddac9fb4babbf5623afa093ceced81074e43af9"
+  },
+  {
+    "path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/cell-processing-policy-302/linux/linux-products/libqupathxx_core.a",
+    "bytes": 150426204,
+    "sha256": "060f0542cd7c8d03fe60ceb0fca3b58e18aba4e066b3f5f27492415ee36397d0"
+  }
+]

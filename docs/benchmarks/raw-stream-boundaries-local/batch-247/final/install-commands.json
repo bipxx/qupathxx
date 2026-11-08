@@ -1,0 +1,45 @@
+[
+  {
+    "name": "create-env",
+    "args": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Scripts\\python.exe",
+      "-m",
+      "venv",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-stream-batch-247-env"
+    ],
+    "exit": 0,
+    "seconds": 6.589918699814007
+  },
+  {
+    "name": "install-wheel",
+    "args": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-stream-batch-247-env\\Scripts\\python.exe",
+      "-m",
+      "pip",
+      "install",
+      "--no-deps",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw-stream-batch-247\\final-wheel\\qupathxx-0.1.0-cp312-cp312-win_amd64.whl"
+    ],
+    "exit": 0,
+    "seconds": 2.272451100172475
+  },
+  {
+    "name": "installed-proof",
+    "args": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-stream-batch-247-env\\Scripts\\python.exe",
+      "-I",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw_stream_batch_247_final_proof.py"
+    ],
+    "exit": 0,
+    "seconds": 0.6711674998514354
+  },
+  {
+    "name": "verification",
+    "args": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Scripts\\python.exe",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\verify_raw_stream_batch_247.py"
+    ],
+    "exit": 0,
+    "seconds": 91.81988670001738
+  }
+]

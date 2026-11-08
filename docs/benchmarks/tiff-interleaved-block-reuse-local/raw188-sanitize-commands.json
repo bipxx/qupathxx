@@ -1,0 +1,60 @@
+[
+  {
+    "name": "build",
+    "command": [
+      "wsl.exe",
+      "-d",
+      "Ubuntu",
+      "--",
+      "g++",
+      "-std=c++17",
+      "-O1",
+      "-g",
+      "-fsanitize=address,undefined",
+      "-fno-omit-frame-pointer",
+      "-Wall",
+      "-Wextra",
+      "-Wpedantic",
+      "-Wno-misleading-indentation",
+      "-DQUPATHXX_HAS_INTERCHANGE",
+      "-DQUPATHXX_HAS_PROJECT",
+      "-DQUPATHXX_HAS_TIFF",
+      "-I/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/include",
+      "-I/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native/generated",
+      "-I/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native/_deps/qpx_tiff-src/libtiff",
+      "-I/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native/_deps/qpx_tiff-build/libtiff",
+      "-I/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native/_deps/qpx_xml-src",
+      "-I/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native/_deps/json-src/include",
+      "-I/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native/_deps/sqlite-src",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tiff_server.cpp",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tests/raw_image_tests.cpp",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native/libqupathxx_core.a",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native/_deps/qpx_tiff-build/libtiff/libtiff.a",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native/_deps/qpx_zlib-build/libz.a",
+      "/usr/lib/x86_64-linux-gnu/libm.so",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native/libqupathxx_tiff_xml.a",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native/libqupathxx_sqlite.a",
+      "-ldl",
+      "-pthread",
+      "-o",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw188-sanitized-reader"
+    ],
+    "exit": 0,
+    "elapsed_seconds": 46.13123030005954
+  },
+  {
+    "name": "tests",
+    "command": [
+      "wsl.exe",
+      "-d",
+      "Ubuntu",
+      "--",
+      "env",
+      "ASAN_OPTIONS=detect_leaks=1:detect_stack_use_after_return=1",
+      "UBSAN_OPTIONS=halt_on_error=1",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw188-sanitized-reader"
+    ],
+    "exit": 0,
+    "elapsed_seconds": 1.6815166000742465
+  }
+]

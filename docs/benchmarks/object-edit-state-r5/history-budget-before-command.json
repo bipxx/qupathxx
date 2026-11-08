@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\object-properties-r5-env\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-m",
+    "pytest",
+    "tests/test_object_edit_state.py::test_plain_classification_keeps_the_existing_compact_history_budget",
+    "-q",
+    "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\object-edit-state-r5\\history-budget-before.xml",
+    "--basetemp=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\object-edit-state-r5\\history-budget-before-temp"
+  ],
+  "returncode": 0
+}

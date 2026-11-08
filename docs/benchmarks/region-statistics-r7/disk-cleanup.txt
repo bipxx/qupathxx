@@ -1,0 +1,7 @@
+Retained C:\Users\HEQ\Projects\qupathxx\build\upstream\qupath\QuPath-v0.7.0-Windows.zip
+Removed duplicate C:\Users\HEQ\Projects\qupathxx\build\upstream\qupath-fetch-proof\QuPath-v0.7.0-Windows.zip
+SHA256 5839743281d11eca1ac55c87ddcf92c89a30cba7ba2060f162036b0514b1e30c
+Bytes freed 282594398
+Retained generated cancellation input C:\Users\HEQ\Projects\qupathxx\build\source-verification-r5\model-temp\test_cancel_progress_and_late_0\large.bin SHA256 254bcc3fc4f27172636df4bf32de9f107f620d559b20d760197e452b97453917
+Removed duplicate C:\Users\HEQ\Projects\qupathxx\build\snapshot-waits-274\legacy-temp\test_cancel_progress_and_late_0\large.bin; 134217728 bytes
+Removed duplicate C:\Users\HEQ\Projects\qupathxx\build\q262-python-cohort\test_cancel_progress_and_late_0\large.bin; 134217728 bytes

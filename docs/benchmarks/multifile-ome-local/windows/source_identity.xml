@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="1"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="0"
+	timestamp="2026-10-25T22:50:56"
+	>
+	<testcase name="source_identity" classname="source_identity" time="0.248323" status="run">
+		<properties/>
+		<system-out>Compound source bounds, primary-only fingerprint identity, QPV3 round trip and downgrade refusal passed
+Reader generations, observations, association, codecs and native jobs passed
+</system-out>
+	</testcase>
+</testsuite>

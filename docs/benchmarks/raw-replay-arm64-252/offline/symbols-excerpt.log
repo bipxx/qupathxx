@@ -1,0 +1,4 @@
+00000001000611f8 t void raw_feature_checks::rejects<std::length_error, raw_window_classifier_checks::run()::'lambda6'()>(raw_window_classifier_checks::run()::'lambda6'())
+00000001000612ac t void raw_feature_checks::rejects<std::length_error, raw_window_classifier_checks::run()::'lambda7'()>(raw_window_classifier_checks::run()::'lambda7'())
+00000001000612ac t void raw_feature_checks::rejects<std::invalid_argument, raw_window_classifier_checks::run()::'lambda10'()>(raw_window_classifier_checks::run()::'lambda10'())
+00000001000611f8 t void raw_feature_checks::rejects<std::invalid_argument, raw_window_classifier_checks::run()::'lambda9'()>(raw_window_classifier_checks::run()::'lambda9'())

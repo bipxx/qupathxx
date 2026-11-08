@@ -1,7 +1,15 @@
+#include "json_string.hpp"
 #include "qupathxx/project_batch.hpp"
-#include "batch_checkpoint.hpp"
+#include "qupathxx/stain_model_io.hpp"
+#include "decimal_quantity.hpp"
 #include "pixel_stream_cli.hpp"
+#include "raw_pixel_cli.hpp"
 #include "cell_table_cli.hpp"
+#include "spatial_cli.hpp"
+#include "native_workflow_cli.hpp"
+#include "tma_case_cli.hpp"
+#include "qptma_project_cli.hpp"
+#include "tma_dearray_cli.hpp"
 #include <charconv>
 #include <cmath>
 #include <csignal>
@@ -29,42 +37,117 @@ int execute(const std::vector<std::string>& args) {
     using namespace qpx;
     if(args.size()==1 || (args.size()==2 && args[1]=="--help")) {
         std::cout<<"Usage: qupathxx_batch PROJECT OUTPUT_DIRECTORY [options]\n"
+            "       qupathxx_batch --project-density MANIFEST NEW_DIRECTORY [--resume-from DIRECTORY --recompute --stop-on-error]\n"
+            "       qupathxx_batch --density-manifest PROJECT --window-class NAME --tissue-class NAME --all-cells [--output NEW_MANIFEST]\n"
+            "       qupathxx_batch --import-nucls IMAGES ANNOTATIONS --mpp-x N --mpp-y N --representation outlines|centroids [--output NEW_PROJECT]\n"
             "       qupathxx_batch --export-csv CHECKPOINT OUTPUT.csv\n"
+            "       qupathxx_batch --measure-spatial PROJECT NEW_PROJECT --image ID --source ID ... [--target ID ...] [options]\n"
+            "       density: --source ROI --target CELL --tissue ROI [--exclude ROI]; ID-file variants --source-ids/--target-ids/--tissue-ids/--exclude-ids\n"
+            "       density limits: --max-membership-tests N --max-geometry-operations N --max-geometry-vertices N; curves need --polygonize-curves\n"
+            "       spatial options: --operation nearest-distance|signed-boundary|radius-count|tissue-density; radius-count measure requires --radius R (uses --units px|um)\n"
+            "       qupathxx_batch --export-spatial PROJECT NEW_TABLE.csv --image ID --record ID [--csv-bytes N]\n"
+            "       qupathxx_batch --verify-spatial PROJECT --image ID --record ID\n"
+            "Spatial cohorts: --source-ids FILE --target-ids FILE (whitespace-separated IDs; one mode per cohort)\n"
+            "                 --ids-bytes N (per file, max 4 MiB; at most 100000 IDs)\n"
+            "Spatial measure: --units px|um --body --include-self --name TEXT (no targets means absent distances)\n"
+            "                 --snapshot-bytes N --work-bytes N --max-distance-tests N\n"
+            "                 --save-snapshot-bytes N --project-bytes N (new outputs only; geometry only)\n"
             "       qupathxx_batch --export-cell-table PROJECT OUTPUT.csv [--capture-calibration] [--published] [--require-current]\n"
+            "       qupathxx_batch --export-tma-cases PROJECT OUTPUT.csv [--image ID]\n"
+            "       qupathxx_batch --export-tma-cohort PROJECT OUTPUT.csv (--image ID ... | --all-tma-images)\n"
             "       qupathxx_batch --export-pixels PROJECT IMAGE_ID OBJECT_ID MODEL OUTPUT.qps [options]\n"
             "       qupathxx_batch --verify-pixels FILE.qps [--file-bytes N]\n"
             "Pixel export: --block-size N --work-bytes N --tile-size N --file-bytes N\n"
             "              --max-pixels N --max-blocks N --min-vote NUMBER\n"
             "              --window X,Y,WIDTH,HEIGHT --replace-existing\n"
+            "TMA case export: --measurements INPUT.csv --value-column NAME\n"
+            "                 --weight-column NAME --allow-unversioned --csv-bytes N\n"
             "Raw options: --raw-level N --raw-channel N --raw-channels N (zero-based axes)\n"
             "             --raw-z N --raw-time N --raw-explicit-axes --raw-max-pixels N\n"
-            "--kind od|stains|tissue|cells|pixels|raw  --image ID (repeatable)\n"
+            "Raw grids: --raw-grid-samples NX,NY [--raw-grid-context CX,CY --raw-grid-work-bytes N] (no level/tile flags)\n"
+            "--kind od|stains|tissue|cells|pixels|raw|raw-pixels|raw-contours  --image ID (repeatable)\n"
+            "Cells: --cell-algorithm distance|log|log-bodies|log-sampled --cell-log-prominence N --cell-context-padding N\n"
+            "Nominal cells: --cell-algorithm nominal --cell-nominal-downsample D --cell-nominal-context CX,CY --cell-processing quantitative|imagej154p|qupath070|qupath070-v2 --cell-nominal-sampling integer-origin|affine-inverse\n"
+            "               (positive decimal D; shares --grid-* physical detector parameters below)\n"
+            "Grid cells: --cell-algorithm grid --cell-grid-samples NX,NY --cell-grid-context CX,CY\n"
+            "            --grid-units px|um --grid-feature od|stain1|stain2|stain3\n"
+            "            --grid-sigma N --grid-prominence N --grid-min-radius N --grid-seed-spacing N\n"
+            "            --grid-expansion N --grid-min-area N --grid-max-area N\n"
+            "            --grid-work-bytes N --grid-max-cells N --grid-contour-bytes N\n"
+            "            --grid-sampling coverage|winding (distances/areas use grid units)\n"
             "--object ID (repeatable, requires one --image)\n"
             "Pixel batches: --pixel-model MODEL --block-size N --pixel-work-bytes N\n"
             "               --pixel-file-bytes N --pixel-total-bytes N --min-vote NUMBER\n"
             "               --max-pixels N --max-blocks N (per target)\n"
-            "--white R,G,B  --stains R,G,B,R,G,B[,R,G,B]  --normalized\n"
+            "--white R,G,B  --stains R,G,B,R,G,B[,R,G,B]  --normalized  OR --stain-model FILE\n"
             "--threshold NUMBER  --level INTEGER  --tile-size INTEGER\n"
+            "Tissue grid: --tissue-grid NX NY CX CY (ROI counts, sampled context per axis)\n"
+            "Tissue median: --tissue-median (3x3 binary cleanup after threshold)\n"
+            "Tissue snapshot: --tissue-canonical-pyramid --level N --tissue-work-bytes N (explicit level above zero)\n"
+            "Tissue Gaussian: --tissue-sigma NUMBER (sampled pixels, 0..16)\n"
+            "Tissue area: --tissue-min-area-um2 NUMBER --tissue-max-area-um2 NUMBER (inclusive)\n"
             "Cell area: --cell-min-area-um2 NUMBER --cell-max-area-um2 NUMBER (inclusive)\n"
             "--roi-sampling coverage|winding  --tissue-sampling coverage|winding\n"
-            "--continue-on-error  --no-resume  --publish-cells  --nucleus\n"
+            "--continue-on-error  --no-resume  --publish-cells  --nucleus  --roi-intensity-statistics\n"
             "--tma-only  --include-missing-tma (TMA scope only)\n"
             "--snapshot-bytes N  --materialize-bytes N  --result-bytes N\n"
             "--csv-bytes N  --checkpoint-bytes N\n"
             "Default model: H&E basis (0.65,0.70,0.29), (0.07,0.99,0.11).\n"
+            "--import-qptma PROJECT GRID.qptma OUTPUT.qpxproj --image ID [--qptma-bytes N --snapshot-bytes N --project-bytes N]\n"
+            "--export-qptma PROJECT OUTPUT.qptma --image ID [--qptma-bytes N]\n"
+            "--detect-tma PROJECT OUTPUT.qptma --image ID --rows N --columns N --core-width SIZE --core-height SIZE\n"
+            "TMA preview: --core-units px|um (default px) --polarity dark|light --missing-density N --bounds-scale N --min-valid-fraction N\n"
+            "             --preview-width N --preview-height N --source-pixels N --output-pixels N --work-bytes N\n"
+            "             --min-component-area N --max-component-area N --min-component-extent N\n"
+            "             --max-fit-error N --max-rotation N --max-candidates N --pair-checks N --qptma-bytes N --name TEXT\n"
+            "       qupathxx_batch --train-raw-pixels PROJECT IMAGE_ID MODEL --checkpoint FILE --archive FILE [raw options]\n"
+            "       qupathxx_batch --export-raw-pixels PROJECT IMAGE_ID MODEL OUTPUT [raw options]\n"
+            "       qupathxx_batch --contour-raw-pixels PROJECT IMAGE_ID MODEL NEW_PROJECT [contour options]\n"
+            "       qupathxx_batch --inspect-raw-contours FILE [file/contour limits; --json-bytes N]\n"
+            "       qupathxx_batch --replay-raw-contours PROJECT IMAGE_ID FILE NEW_PROJECT [file/contour/project limits]\n"
+            "       qupathxx_batch --verify-raw-pixels FILE [--file-bytes N --file-work-bytes N]\n"
+            "Contour options: raw axes/tiles/object/region/vote/sample limits; --name-prefix TEXT --no-clip\n"
+            "             --contour-work-bytes N --boundary-work-bytes N --max-boundary-runs N --total-work-bytes N\n"
+            "             --max-components N --max-edges N --max-vertices N --publication-work-bytes N\n"
+            "             --snapshot-bytes N --project-bytes N (new project only; no resume/replace)\n"
+            "Raw contour batches: --raw-contour-prefix TEXT --raw-contour-no-clip\n"
+            "  --raw-contour-work-bytes N --raw-contour-total-work-bytes N --raw-contour-boundary-work-bytes N\n"
+            "  --raw-contour-max-boundary-runs N --raw-contour-max-components N --raw-contour-max-edges N --raw-contour-max-vertices N\n"
+            "  --raw-contour-publication-bytes N\n"
+            "Raw classifier batches: --kind raw-pixels|raw-contours --raw-pixel-model MODEL [--raw-pixel-x-axis O,E,N,C --raw-pixel-y-axis O,E,N,C]\n"
+            "             --raw-pixel-tile-width N --raw-pixel-tile-height N --raw-pixel-work-bytes N\n"
+            "             --raw-pixel-file-work-bytes N --raw-pixel-max-samples N --raw-pixel-max-windows N --raw-pixel-min-vote N\n"
+            "             --pixel-file-bytes N --pixel-total-bytes N (shared RGB/raw output quotas)\n"
+            "Raw options: --x-axis O,E,N,C --y-axis O,E,N,C (default unit level-zero lattice)\n"
+            "             --tile-width N --tile-height N --work-bytes N --max-windows N --object ID\n"
+            "             --resume FILE --max-new-windows N --replace-existing --output-project NEW_FILE\n"
+            "Raw training: --channels N --first-channel N --z N --time N --offsets LIST --scales LIST\n"
+            "              --sigmas X,Y,... --gradient --laplacian --physical-sigmas --max-samples N\n"
+            "              --samples-per-class N --max-scanned-samples N --unbalanced --seed N\n"
+            "              --trees N --max-depth N --min-samples N --active-features N --forest-work-bytes N --checkpoint-bytes N --checkpoint-work-bytes N\n"
+            "Raw prediction: --region X,Y,W,H (sample indices) --min-vote N --max-samples N --file-bytes N --file-work-bytes N\n"
             "JSONL stdout; exit 0 success, 1 failure/partial, 2 arguments, 130 cancelled.\n";
         return args.size()==1?2:0;
     }
     try {
+        if(const auto result=detail::native_workflow_cli(args,cancelled)) return *result;
+        if(const auto result=detail::raw_pixel_cli(args,cancelled)) return *result;
         if(const auto result=detail::pixel_stream_cli(args,cancelled)) return *result;
+        if(const auto result=detail::spatial_cli(args,cancelled)) return *result;
         if(const auto result=detail::cell_table_cli(args,cancelled)) return *result;
+        if(const auto result=detail::tma_case_cli(args,cancelled)) return *result;
+        if(const auto result=detail::qptma_project_cli(args,cancelled)) return *result;
+        if(const auto result=detail::tma_dearray_cli(args,cancelled)) return *result;
         if(args.size()==4 && args[1]=="--export-csv") {save_batch_checkpoint_csv(args[2],args[3]);return 0;}
         if(args.size()<3 || args[1].rfind("--",0)==0) throw std::invalid_argument("expected PROJECT and OUTPUT_DIRECTORY; see --help");
         ProjectBatchOptions options;std::vector<ProjectBatchSelection> selection;std::vector<std::uint64_t> objects;
-        std::optional<std::size_t> requested_tile_size;std::string pixel_model_path;ColorVector white{255,255,255};std::vector<ColorVector> stains{{.65,.70,.29},{.07,.99,.11}};bool normalized=false;
+        bool raw_contour_flags=false,typed_cell_flags=false,processing_flag=false;
+        bool legacy_cell_flags=false,legacy_algorithm=false,requested_raw_level=false,requested_raw_grid=false,raw_grid_flags=false,raw_pixel_flags=false;
+        bool requested_level=false;std::optional<std::size_t> requested_tile_size;std::string pixel_model_path,raw_pixel_model_path;ColorVector white{255,255,255};std::vector<ColorVector> stains{{.65,.70,.29},{.07,.99,.11}};bool normalized=false;std::optional<std::string> stain_model_path;bool numeric_stain_model=false;
         for(std::size_t i=3;i<args.size();++i) {
-            const auto& flag=args[i];auto value=[&]()->const std::string& {if(++i==args.size()) throw std::invalid_argument("missing value for "+flag);return args[i];};
-            if(flag=="--kind") {const auto& v=value();if(v=="od" || v=="stains") {options.kind=ProjectBatchKind::Roi;options.roi_kind=v=="od"?AnalysisKind::OpticalDensityMeans:AnalysisKind::StainMeans;}else if(v=="tissue") options.kind=ProjectBatchKind::Tissue;else if(v=="cells") options.kind=ProjectBatchKind::Cells;else if(v=="pixels") options.kind=ProjectBatchKind::Pixels;else if(v=="raw") options.kind=ProjectBatchKind::Raw;else throw std::invalid_argument("unknown batch kind");}
+            const auto& flag=args[i];if(flag=="--white" || flag=="--stains" || flag=="--normalized") numeric_stain_model=true;auto value=[&]()->const std::string& {if(++i==args.size()) throw std::invalid_argument("missing value for "+flag);return args[i];};
+            if(flag.rfind("--raw-pixel-",0)==0) raw_pixel_flags=true;
+            if(flag=="--kind") {const auto& v=value();if(v=="od" || v=="stains") {options.kind=ProjectBatchKind::Roi;options.roi_kind=v=="od"?AnalysisKind::OpticalDensityMeans:AnalysisKind::StainMeans;}else if(v=="tissue") options.kind=ProjectBatchKind::Tissue;else if(v=="cells") options.kind=ProjectBatchKind::Cells;else if(v=="pixels") options.kind=ProjectBatchKind::Pixels;else if(v=="raw") options.kind=ProjectBatchKind::Raw;else if(v=="raw-pixels") options.kind=ProjectBatchKind::RawPixels;else if(v=="raw-contours") options.kind=ProjectBatchKind::RawPixelContours;else throw std::invalid_argument("unknown batch kind");}
             else if(flag=="--roi-sampling" || flag=="--tissue-sampling") {
                 const auto& v=value();
                 if(v!="coverage" && v!="winding") throw std::invalid_argument("sampling must be coverage or winding");
@@ -73,13 +156,45 @@ int execute(const std::vector<std::string>& args) {
             }
             else if(flag=="--raw-level" || flag=="--raw-channel" || flag=="--raw-channels" || flag=="--raw-z" || flag=="--raw-time") {
                 const auto n=integer(value());if(n>65535 && !(flag=="--raw-channels" && n==65536)) throw std::invalid_argument("raw axis exceeds limit");
-                if(flag=="--raw-level") options.raw.region.level=static_cast<std::int32_t>(n);
+                if(flag=="--raw-level") {requested_raw_level=true;options.raw.region.level=static_cast<std::int32_t>(n);}
                 else if(flag=="--raw-channel") options.raw.first_channel=static_cast<std::uint32_t>(n);
                 else if(flag=="--raw-channels") options.raw.channels=static_cast<std::uint32_t>(n);
                 else {options.raw_follow_display=false;if(flag=="--raw-z") options.raw.z=static_cast<std::uint32_t>(n);else options.raw.t=static_cast<std::uint32_t>(n);}
             }
+            else if(flag=="--raw-grid-samples" || flag=="--raw-grid-context" || flag=="--raw-grid-work-bytes") {
+                raw_grid_flags=true;if(!options.raw_grid) options.raw_grid=RawGridSampling{};
+                if(flag=="--raw-grid-work-bytes") options.raw_grid_work_bytes=std::size_t(integer(value()));
+                else {
+                    const auto v=value();const auto comma=v.find(',');
+                    if(comma==std::string::npos || v.find(',',comma+1)!=std::string::npos) throw std::invalid_argument("raw grid axes require two comma-separated integers");
+                    const auto x=integer(v.substr(0,comma)),y=integer(v.substr(comma+1));const auto limit=flag=="--raw-grid-samples"?1000000u:4096u;
+                    if(x>limit || y>limit) throw std::invalid_argument("raw grid axes exceed limits");
+                    if(flag=="--raw-grid-samples") {requested_raw_grid=true;options.raw_grid->samples_x=std::uint32_t(x);options.raw_grid->samples_y=std::uint32_t(y);}
+                    else {options.raw_grid->context_x=std::uint32_t(x);options.raw_grid->context_y=std::uint32_t(y);}
+                }
+            }
             else if(flag=="--raw-max-pixels") options.raw_max_pixels=integer(value());
             else if(flag=="--raw-explicit-axes") options.raw_follow_display=false;
+            else if(flag=="--raw-contour-work-bytes") {raw_contour_flags=true;options.raw_contours.contours.work_bytes=static_cast<std::size_t>(integer(value()));}
+            else if(flag=="--raw-contour-total-work-bytes") {raw_contour_flags=true;options.raw_contours.work_bytes=static_cast<std::size_t>(integer(value()));}
+            else if(flag=="--raw-contour-boundary-work-bytes") {raw_contour_flags=true;options.raw_contours.boundary_work_bytes=static_cast<std::size_t>(integer(value()));}
+            else if(flag=="--raw-contour-max-boundary-runs") {raw_contour_flags=true;options.raw_contours.max_boundary_runs=static_cast<std::size_t>(integer(value()));}
+            else if(flag=="--raw-contour-max-components") {raw_contour_flags=true;options.raw_contours.contours.max_components=static_cast<std::size_t>(integer(value()));}
+            else if(flag=="--raw-contour-max-edges") {raw_contour_flags=true;options.raw_contours.contours.max_edges=static_cast<std::size_t>(integer(value()));}
+            else if(flag=="--raw-contour-max-vertices") {raw_contour_flags=true;options.raw_contours.contours.max_vertices=static_cast<std::size_t>(integer(value()));}
+            else if(flag=="--raw-contour-publication-bytes") {raw_contour_flags=true;options.raw_contour_publication_bytes=static_cast<std::size_t>(integer(value()));}
+            else if(flag=="--raw-contour-prefix") {raw_contour_flags=true;options.raw_contour_prefix=value();}
+            else if(flag=="--raw-contour-no-clip") {raw_contour_flags=true;options.raw_contours.contours.clip_to_roi=false;}
+            else if(flag=="--raw-pixel-model") raw_pixel_model_path=value();
+            else if(flag=="--raw-pixel-x-axis") options.raw_pixel_x=detail::raw_pixel_cli_axis(value());
+            else if(flag=="--raw-pixel-y-axis") options.raw_pixel_y=detail::raw_pixel_cli_axis(value());
+            else if(flag=="--raw-pixel-tile-width") options.raw_pixels.tile_width=static_cast<std::int64_t>(integer(value()));
+            else if(flag=="--raw-pixel-tile-height") options.raw_pixels.tile_height=static_cast<std::int64_t>(integer(value()));
+            else if(flag=="--raw-pixel-work-bytes") options.raw_pixels.work_bytes=static_cast<std::size_t>(integer(value()));
+            else if(flag=="--raw-pixel-file-work-bytes") options.raw_pixel_file_work_bytes=static_cast<std::size_t>(integer(value()));
+            else if(flag=="--raw-pixel-max-samples") options.raw_pixels.max_samples=integer(value());
+            else if(flag=="--raw-pixel-max-windows") options.raw_pixels.max_windows=integer(value());
+            else if(flag=="--raw-pixel-min-vote") options.raw_pixels.min_vote_fraction=real(value());
             else if(flag=="--pixel-model") pixel_model_path=value();
             else if(flag=="--block-size") options.pixels.block_size=static_cast<std::size_t>(integer(value()));
             else if(flag=="--pixel-work-bytes") options.pixels.prediction.work_bytes=static_cast<std::size_t>(integer(value()));
@@ -90,13 +205,74 @@ int execute(const std::vector<std::string>& args) {
             else if(flag=="--min-vote") options.pixels.prediction.min_vote_fraction=real(value());
             else if(flag=="--image") selection.push_back({integer(value()),{}});
             else if(flag=="--object") objects.push_back(integer(value()));
+            else if(flag=="--stain-model") {if(stain_model_path)throw std::invalid_argument("duplicate --stain-model");stain_model_path=value();}
             else if(flag=="--white") {const auto v=numbers(value());if(v.size()!=3) throw std::invalid_argument("white requires three components");std::copy(v.begin(),v.end(),white.begin());}
             else if(flag=="--stains") {const auto v=numbers(value());if(v.size()!=6 && v.size()!=9) throw std::invalid_argument("stains require six or nine components");stains.clear();for(std::size_t n=0;n<v.size();n+=3) stains.push_back({v[n],v[n+1],v[n+2]});}
             else if(flag=="--normalized") normalized=true;
-            else if(flag=="--threshold") options.cells.threshold=options.tissue.threshold=real(value());
+            else if(flag=="--threshold") options.grid_cells.threshold=options.cells.threshold=options.tissue.threshold=real(value());
+            else if(flag=="--cell-algorithm") {const auto v=value();if(v=="grid") {if(!options.cell_grid) options.cell_grid=GridCellSampling{};}else if(v=="nominal") {if(!options.cell_nominal) options.cell_nominal=NominalCellRoiSampling{};}else {legacy_algorithm=true;if(v=="distance") options.cells.algorithm=CellAlgorithm::DistanceWatershed;else if(v=="log") options.cells.algorithm=CellAlgorithm::LogWatershed;else if(v=="log-bodies") options.cells.algorithm=CellAlgorithm::LogWatershedBodies;else if(v=="log-sampled") options.cells.algorithm=CellAlgorithm::SampledLogWatershedBodies;else throw std::invalid_argument("unknown cell algorithm");}}
+            else if(flag=="--cell-processing") {
+                processing_flag=true;
+                const auto v=value();
+                if(v=="quantitative") options.grid_cells.processing=CellProcessingPolicy::Quantitative;
+                else if(v=="imagej154p") options.grid_cells.processing=CellProcessingPolicy::ImageJ154p;
+                else if(v=="qupath070") options.grid_cells.processing=CellProcessingPolicy::QuPath070;
+                else if(v=="qupath070-v2") options.grid_cells.processing=CellProcessingPolicy::QuPath070V2;
+                else throw std::invalid_argument("cell processing must be quantitative or imagej154p (also accepts qupath070 and qupath070-v2)");
+            }
+            else if(flag=="--cell-nominal-sampling") {
+                const auto v=value();
+                if(!options.cell_nominal) options.cell_nominal=NominalCellRoiSampling{};
+                if(v=="integer-origin") options.cell_nominal->sampling=RgbNominalSampling::IntegerOrigin;
+                else if(v=="affine-inverse") options.cell_nominal->sampling=RgbNominalSampling::AffineInverse;
+                else throw std::invalid_argument("nominal sampling must be integer-origin or affine-inverse");
+            }
+            else if(flag=="--cell-nominal-downsample" || flag=="--cell-nominal-context") {
+                if(!options.cell_nominal) options.cell_nominal=NominalCellRoiSampling{};auto& n=*options.cell_nominal;
+                if(flag=="--cell-nominal-downsample") {
+                    const auto parsed=detail::positive_decimal_quantity(value().c_str());
+                    if(!parsed) throw std::invalid_argument("nominal downsample requires a positive decimal number");n.downsample=*parsed;
+                } else {
+                    const auto v=value();const auto comma=v.find(',');
+                    if(comma==std::string::npos || v.find(',',comma+1)!=std::string::npos) throw std::invalid_argument("nominal context requires two comma-separated integers");
+                    const auto x=integer(v.substr(0,comma)),y=integer(v.substr(comma+1));
+                    if(x>4096 || y>4096) throw std::invalid_argument("nominal context exceeds4096 samples");n.context_x=std::uint32_t(x);n.context_y=std::uint32_t(y);
+                }
+            }
+            else if(flag=="--cell-grid-samples" || flag=="--cell-grid-context" || flag.rfind("--grid-",0)==0) {
+                typed_cell_flags=true;auto& p=options.grid_cells;
+                if(flag=="--cell-grid-samples" || flag=="--cell-grid-context") {
+                    if(!options.cell_grid) options.cell_grid=GridCellSampling{};auto& g=*options.cell_grid;
+                    const auto v=value();const auto comma=v.find(',');if(comma==std::string::npos || v.find(',',comma+1)!=std::string::npos) throw std::invalid_argument("grid axes require two comma-separated integers");
+                    const auto x=integer(v.substr(0,comma)),y=integer(v.substr(comma+1));const auto limit=flag=="--cell-grid-samples"?1000000u:4096u;
+                    if(x>limit || y>limit) throw std::invalid_argument("grid axes exceed their count/context limits");
+                    if(flag=="--cell-grid-samples") {g.samples_x=std::uint32_t(x);g.samples_y=std::uint32_t(y);}else {g.context_x=std::uint32_t(x);g.context_y=std::uint32_t(y);}
+                } else if(flag=="--grid-units") {const auto v=value();if(v=="px") p.units=GridCellUnits::LevelZeroPixels;else if(v=="um") p.units=GridCellUnits::Micrometres;else throw std::invalid_argument("grid units must be px or um");}
+                else if(flag=="--grid-feature") {const auto v=value();if(v=="od") p.feature=TissueFeature::OpticalDensitySum;else if(v=="stain1") p.feature=TissueFeature::Stain1;else if(v=="stain2") p.feature=TissueFeature::Stain2;else if(v=="stain3") p.feature=TissueFeature::Stain3;else throw std::invalid_argument("unknown grid cell feature");}
+                else if(flag=="--grid-sampling") {const auto v=value();if(v=="coverage") p.sampling_policy=RoiSamplingPolicy::GeometryCoverage;else if(v=="winding") p.sampling_policy=RoiSamplingPolicy::PolygonWinding;else throw std::invalid_argument("grid sampling must be coverage or winding");}
+                else if(flag=="--grid-sigma") p.sigma=real(value());else if(flag=="--grid-prominence") p.log_prominence=real(value());
+                else if(flag=="--grid-min-radius") p.min_peak_radius=real(value());else if(flag=="--grid-seed-spacing") p.min_seed_distance=real(value());
+                else if(flag=="--grid-expansion") p.cell_expansion=real(value());else if(flag=="--grid-min-area") p.min_nucleus_area=real(value());else if(flag=="--grid-max-area") p.max_nucleus_area=real(value());
+                else if(flag=="--grid-work-bytes") p.work_bytes=std::size_t(integer(value()));else if(flag=="--grid-max-cells") p.max_cells=std::size_t(integer(value()));
+                else if(flag=="--grid-contour-bytes") p.contours.work_bytes=std::size_t(integer(value()));else throw std::invalid_argument("unknown grid option: "+flag);
+            }
+            else if(flag=="--cell-log-prominence") {legacy_cell_flags=true;options.cells.log_prominence=real(value());}
+            else if(flag=="--cell-context-padding") {legacy_cell_flags=true;const auto n=integer(value());if(n>4096) throw std::invalid_argument("cell context padding exceeds 4096");options.cells.context_padding=static_cast<std::uint32_t>(n);}
+            else if(flag=="--tissue-grid") {
+                auto next=[&](std::uint64_t limit) {const auto n=integer(value());if(n>limit) throw std::invalid_argument("tissue grid count/context exceeds limit");return std::uint32_t(n);};
+                TissueGridSampling sampling;sampling.samples_x=next(1000000);sampling.samples_y=next(1000000);
+                sampling.context_x=next(4096);sampling.context_y=next(4096);sampling.validate();
+                options.tissue_grid=std::make_shared<const TissueGridSampling>(sampling);
+            }
+            else if(flag=="--tissue-median") options.tissue.median_cleanup=true;
+            else if(flag=="--tissue-canonical-pyramid") options.tissue.canonical_pyramid=true;
+            else if(flag=="--tissue-work-bytes") {const auto n=integer(value());if(!n || n>512ULL*1024*1024) throw std::invalid_argument("tissue work budget must be 1 byte..512 MiB");options.tissue.work_bytes=static_cast<std::size_t>(n);}
+            else if(flag=="--tissue-sigma") options.tissue.smoothing_sigma=real(value());
+            else if(flag=="--tissue-min-area-um2") options.tissue_min_component_area_um2=real(value());
+            else if(flag=="--tissue-max-area-um2") options.tissue_max_component_area_um2=real(value());
             else if(flag=="--cell-min-area-um2") options.cell_min_nucleus_area_um2=real(value());
             else if(flag=="--cell-max-area-um2") options.cell_max_nucleus_area_um2=real(value());
-            else if(flag=="--level") {const auto& v=value();if(v=="-1") options.cells.level=options.tissue.level=-1;else {auto n=integer(v);if(n>INT32_MAX) throw std::invalid_argument("level exceeds int32");options.cells.level=options.tissue.level=static_cast<std::int32_t>(n);}}
+            else if(flag=="--level") {requested_level=true;const auto& v=value();if(v=="-1") options.cells.level=options.tissue.level=-1;else {auto n=integer(v);if(n>INT32_MAX) throw std::invalid_argument("level exceeds int32");options.cells.level=options.tissue.level=static_cast<std::int32_t>(n);}}
             else if(flag=="--tile-size") requested_tile_size=static_cast<std::size_t>(integer(value()));
             else if(flag=="--snapshot-bytes") options.snapshot_budget=static_cast<std::size_t>(integer(value()));
             else if(flag=="--materialize-bytes") options.materialize_budget=static_cast<std::size_t>(integer(value()));
@@ -109,18 +285,30 @@ int execute(const std::vector<std::string>& args) {
             else if(flag=="--no-resume") options.resume=false;
             else if(flag=="--publish-cells") options.publish_cells=true;
             else if(flag=="--nucleus") options.nucleus=true;
+            else if(flag=="--roi-intensity-statistics") options.roi_intensity_statistics=true;
             else throw std::invalid_argument("unknown option: "+flag);
         }
+        if(stain_model_path && numeric_stain_model) throw std::invalid_argument("--stain-model conflicts with --white, --stains and --normalized");
+        if(raw_contour_flags && options.kind!=ProjectBatchKind::RawPixelContours) throw std::invalid_argument("raw contour flags require --kind raw-contours");
+        if(raw_pixel_flags && options.kind!=ProjectBatchKind::RawPixels && options.kind!=ProjectBatchKind::RawPixelContours) throw std::invalid_argument("raw classifier flags require --kind raw-pixels or raw-contours");
+        if(!raw_pixel_model_path.empty()) options.raw_pixel_model=load_raw_pixel_classifier(raw_pixel_model_path,&cancelled);
+        if(raw_grid_flags && !requested_raw_grid) throw std::invalid_argument("raw grid options require --raw-grid-samples NX,NY");
+        if(options.raw_grid && (requested_raw_level || requested_level || requested_tile_size)) throw std::invalid_argument("raw grids do not accept natural level or tile flags");
+        if(options.cells.algorithm==CellAlgorithm::SampledLogWatershedBodies) {options.cells.min_peak_radius=0;options.cells.min_seed_distance=0;}
+        if(typed_cell_flags && !options.cell_nominal && !options.cell_grid) options.cell_grid=GridCellSampling{};
+        if(processing_flag && !options.cell_nominal) throw std::invalid_argument("--cell-processing requires nominal RGB cell sampling");
+        if((options.cell_grid || options.cell_nominal) && (legacy_algorithm || legacy_cell_flags || requested_level || requested_tile_size || options.cell_min_nucleus_area_um2 || options.cell_max_nucleus_area_um2))
+            throw std::invalid_argument("grid cells require grid-unit options without legacy algorithm, level, tile or physical-area flags");
         if(!objects.empty()) {if(selection.size()!=1) throw std::invalid_argument("--object requires exactly one --image");selection[0].object_ids=objects;}
         if(normalized && stains.size()!=3) throw std::invalid_argument("--normalized requires a complete nine-component basis");
         if(requested_tile_size) {if(options.kind==ProjectBatchKind::Pixels) options.pixels.prediction.tile_size=*requested_tile_size;else options.roi_tile_size=options.cells.tile_size=options.tissue.tile_size=*requested_tile_size;}
         if(!pixel_model_path.empty()) {if(options.kind!=ProjectBatchKind::Pixels) throw std::invalid_argument("--pixel-model requires --kind pixels");options.pixel_model=load_pixel_classifier(pixel_model_path,&cancelled);}
-        const auto transform=normalized?StainTransform::from_normalized({stains[0],stains[1],stains[2]},white):StainTransform(stains,white);options.validate();
+        const auto transform=stain_model_path?load_stain_model(*stain_model_path):(normalized?StainTransform::from_normalized({stains[0],stains[1],stains[2]},white):StainTransform(stains,white));options.validate();
         auto project=Project::open(args[1]);ProjectBatchRequest request(*project,transform,selection,options);project.reset();
         const auto report=run_project_batch(request,args[2],&cancelled,[](const auto& image){std::cout<<project_batch_image_json(image)<<'\n'<<std::flush;});
         std::cout<<project_batch_report_json(report)<<std::flush;return report.state=="succeeded"?0:report.state=="cancelled"?130:1;
     } catch(const std::exception& e) {
-        std::cerr<<"{\"schema\":\"qpx.batch-error/1\",\"error\":"<<qpx::detail::batch_json_quote(e.what())<<"}\n";return cancelled.load()?130:2;
+        std::cerr<<"{\"schema\":\"qpx.batch-error/1\",\"error\":"<<qpx::detail::json_string(e.what())<<"}\n";return cancelled.load()?130:2;
     }
 }
 }

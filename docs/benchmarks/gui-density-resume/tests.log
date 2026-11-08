@@ -1,0 +1,9 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+    Start 61: density_panel
+1/2 Test #61: density_panel ....................   Passed    0.74 sec
+    Start 62: density_resume
+2/2 Test #62: density_resume ...................   Passed    0.81 sec
+
+100% tests passed out of 2
+
+Total Test time (real) =   1.64 sec

@@ -1,0 +1,22 @@
+{
+  "checks": {
+    "rgb_exact": true,
+    "canonical_partitions_exact": true,
+    "counts_exact": true,
+    "calibration_exact": true
+  },
+  "roi": [
+    11392,
+    17792,
+    256,
+    256
+  ],
+  "cells": 558,
+  "calibration_um": [
+    0.45641259698767683,
+    0.4550625711035267
+  ],
+  "source_tree": "2875ca45645052c72636340337212c0ebdd5dba44057cfd237cefc5be38a2f2e",
+  "independent_compartment_rgb_arithmetic": true,
+  "biological_validation": false
+}

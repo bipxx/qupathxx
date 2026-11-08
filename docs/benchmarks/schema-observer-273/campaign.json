@@ -1,0 +1,106 @@
+{
+  "schema": "qpx.qualification-campaign/1",
+  "source": "5f1760a122337f1a610c95a33c8b0bd6182f7781",
+  "ref": "feature/schema-observer-qualification-273",
+  "local_native_source": "c949826ceac5ca357a9eadabef218b30461e5686",
+  "local_observer_source": "3aca3d9",
+  "local_compiler_blobs_equivalent": true,
+  "local_binary_provenance_not_relabelled": true,
+  "roles": {
+    "engine": {
+      "state": "run_identified",
+      "semantic_inputs": {
+        "macos_native": false,
+        "portable_linux": false,
+        "live_reference": true,
+        "extended_readers": true
+      },
+      "gh_inputs": {
+        "macos_native": "false",
+        "portable_linux": "false",
+        "live_reference": "true",
+        "extended_readers": "true"
+      },
+      "at_utc": "2026-10-28T13:23:22.165451+00:00",
+      "known_runs_before": [],
+      "input_helper_sha256": "b0f907cfdcb706cf0301150577f27db7084a86ad8ea1ff0c2fb88a8fe3c8c4d1",
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "",
+      "run": {
+        "conclusion": "",
+        "createdAt": "2026-10-28T13:23:24Z",
+        "databaseId": 40695971669,
+        "headSha": "5f1760a122337f1a610c95a33c8b0bd6182f7781",
+        "status": "queued",
+        "url": "https://github.com/bipxx/qupathxx/actions/runs/40695971669"
+      }
+    },
+    "macos": {
+      "state": "run_identified",
+      "semantic_inputs": {
+        "macos_native": true,
+        "portable_linux": false,
+        "live_reference": false,
+        "extended_readers": false
+      },
+      "gh_inputs": {
+        "macos_native": "true",
+        "portable_linux": "false",
+        "live_reference": "false",
+        "extended_readers": "false"
+      },
+      "at_utc": "2026-10-28T13:23:28.689868+00:00",
+      "known_runs_before": [
+        40695971669
+      ],
+      "input_helper_sha256": "b0f907cfdcb706cf0301150577f27db7084a86ad8ea1ff0c2fb88a8fe3c8c4d1",
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "",
+      "run": {
+        "conclusion": "",
+        "createdAt": "2026-10-28T13:23:31Z",
+        "databaseId": 40695988673,
+        "headSha": "5f1760a122337f1a610c95a33c8b0bd6182f7781",
+        "status": "queued",
+        "url": "https://github.com/bipxx/qupathxx/actions/runs/40695988673"
+      }
+    },
+    "portable": {
+      "state": "run_identified",
+      "semantic_inputs": {
+        "macos_native": false,
+        "portable_linux": true,
+        "live_reference": false,
+        "extended_readers": true
+      },
+      "gh_inputs": {
+        "macos_native": "false",
+        "portable_linux": "true",
+        "live_reference": "false",
+        "extended_readers": "true"
+      },
+      "at_utc": "2026-10-28T13:23:34.810201+00:00",
+      "known_runs_before": [
+        40695971669,
+        40695988673
+      ],
+      "input_helper_sha256": "b0f907cfdcb706cf0301150577f27db7084a86ad8ea1ff0c2fb88a8fe3c8c4d1",
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "",
+      "run": {
+        "conclusion": "",
+        "createdAt": "2026-10-28T13:23:37Z",
+        "databaseId": 40696004980,
+        "headSha": "5f1760a122337f1a610c95a33c8b0bd6182f7781",
+        "status": "queued",
+        "url": "https://github.com/bipxx/qupathxx/actions/runs/40696004980"
+      }
+    }
+  },
+  "overall_engineering_accepted": false,
+  "release_ready": false,
+  "scope": "Combined spatial workflow, nine Document-taking wait repair and strict schema14 observer repair. Every role builds its own frozen source; no acceptance transfers from262."
+}

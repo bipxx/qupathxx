@@ -1,6 +1,10 @@
+#include "qupathxx/tissue.hpp"
 #include "qupathxx/pixel_stream_file.hpp"
 #include "qupathxx/core.hpp"
+#include "qupathxx/spatial_analysis.hpp"
+#include "qupathxx/spatial_frontend.hpp"
 #include "qupathxx/thumbnail.hpp"
+#include "qupathxx/resampling.hpp"
 #include "qupathxx/analysis.hpp"
 #include "qupathxx/project.hpp"
 #include "qupathxx/project_recovery.hpp"
@@ -9,23 +13,39 @@
 #include "qupathxx/stains.hpp"
 #include <nanobind/nanobind.h>
 #include <nanobind/stl/string.h>
+#include <nanobind/stl/map.h>
 #include <nanobind/stl/vector.h>
 #include <nanobind/stl/array.h>
 #include <nanobind/stl/optional.h>
 #include <nanobind/stl/shared_ptr.h>
 #include <stdexcept>
+#include <limits>
+#include <new>
 namespace nb = nanobind;
 using namespace nb::literals;
 void bind_scheduler(nb::module_&);
 void bind_analysis(nb::module_&);
+void bind_spatial(nb::module_&);
 void bind_stain_estimation(nb::module_&);
 void bind_project_batch(nb::module_&);
+void bind_native_workflows(nb::module_&);
 void bind_tma(nb::module_&);
 void bind_raw_images(nb::module_&);
 void bind_raw_analysis(nb::module_&);
 void bind_arrays(nb::module_&);
+void bind_object_properties(nb::module_&);
+void bind_image_axis_calibration(nb::module_&);
+void bind_image_analysis_settings(nb::module_&);
+void bind_image_data_properties(nb::module_&);
+void bind_clipboard(nb::module_&);
 void bind_thumbnails(nb::module_&);
+void bind_scientific_grid(nb::module_&);
+void bind_scientific_raw(nb::module_&);
 void bind_classifiers(nb::module_&);
+void bind_raw_pixel_types(nb::module_&);
+void bind_raw_pixel_workflows(nb::module_&);
+void bind_raw_pixel_files(nb::module_&);
+void bind_raw_pixel_frontends(nb::module_&);
 void bind_viewer_session(nb::module_&);
 void bind_tissue(nb::module_&);
 void bind_cells(nb::module_&);
@@ -84,18 +104,36 @@ NB_MODULE(_native, m) {
         .def_ro("base_entries",&SpatialStats::base_entries).def_ro("dirty_entries",&SpatialStats::dirty_entries);
     nb::enum_<ObjectKind>(m,"ObjectKind").value("ANNOTATION",ObjectKind::Annotation)
         .value("DETECTION",ObjectKind::Detection).value("CELL",ObjectKind::Cell);
-    nb::class_<ObjectClass>(m,"ObjectClass").def_ro("name",&ObjectClass::name).def_ro("color",&ObjectClass::color);
+    nb::class_<ObjectClass>(m,"ObjectClass")
+        .def("__init__",[](ObjectClass* self,std::string name,std::optional<std::int64_t> packed,std::string parent) {
+            std::optional<std::uint32_t> argb;
+            if(packed) {
+                if(*packed<std::numeric_limits<std::int32_t>::min() || *packed>std::numeric_limits<std::uint32_t>::max())throw std::invalid_argument("class ARGB must fit signed or unsigned32 bits");
+                argb=static_cast<std::uint32_t>(*packed);
+            }
+            new(self) ObjectClass(ObjectClass::definition(std::move(name),argb,std::move(parent)));
+        },"name"_a,"color_argb"_a=std::optional<std::int64_t>{0x41e1be},"parent"_a="",
+        "Owning class definition. Parent is an explicit registry key; None retains absent raw color. Register the definition to resolve derived display colors.")
+        .def_ro("name",&ObjectClass::name).def_ro("color",&ObjectClass::color)
+        .def_ro("parent",&ObjectClass::parent).def_prop_ro("leaf_name",&ObjectClass::leaf_name)
+        .def_prop_ro("color_argb",&ObjectClass::color_argb).def("__eq__",&ObjectClass::operator==);
+    nb::class_<ObjectPlane>(m,"ObjectPlane")
+        .def(nb::init<std::int32_t,std::uint32_t,std::uint32_t>(),"c"_a=-1,"z"_a=0,"t"_a=0)
+        .def_ro("c",&ObjectPlane::c).def_ro("z",&ObjectPlane::z).def_ro("t",&ObjectPlane::t)
+        .def("__eq__",&ObjectPlane::operator==);
     nb::class_<Annotation>(m, "Annotation").def_ro("id", &Annotation::id).def_ro("name", &Annotation::name)
         .def_prop_ro("roi", [](const Annotation& a) { return a.geometry.bounds(); })
         .def_prop_ro("geometry",[](const Annotation& a){return a.geometry;})
+        .def_ro("plane",&Annotation::plane)
         .def_ro("kind",&Annotation::kind).def_prop_ro("is_detection",&Annotation::is_detection)
         .def_prop_ro("nucleus",[](const Annotation& a){return a.nucleus;}).def_prop_ro("bounds",&Annotation::bounds)
         .def_ro("parent_id",&Annotation::parent_id).def_ro("class_name",&Annotation::class_name).def_ro("revision",&Annotation::revision);
     nb::class_<ObjectEdit>(m,"ObjectEdit")
-        .def_static("create",&ObjectEdit::create,"roi"_a,"name"_a="Annotation","parent_id"_a=0,"class_name"_a="")
+        .def_static("create",&ObjectEdit::create,"roi"_a,"name"_a="Annotation","parent_id"_a=0,"class_name"_a="","plane"_a=nb::none())
         .def_static("replace",&ObjectEdit::replace,"id"_a,"roi"_a,"name"_a,"parent_id"_a=0,"class_name"_a="")
-        .def_static("create_geometry",&ObjectEdit::create_geometry,"geometry"_a,"name"_a="Annotation","parent_id"_a=0,"class_name"_a="","kind"_a=ObjectKind::Annotation,"nucleus"_a=nb::none())
+        .def_static("create_geometry",&ObjectEdit::create_geometry,"geometry"_a,"name"_a="Annotation","parent_id"_a=0,"class_name"_a="","kind"_a=ObjectKind::Annotation,"nucleus"_a=nb::none(),"plane"_a=nb::none())
         .def_static("replace_geometry",&ObjectEdit::replace_geometry,"id"_a,"geometry"_a,"name"_a,"parent_id"_a=0,"class_name"_a="","kind"_a=ObjectKind::Annotation,"nucleus"_a=nb::none())
+        .def_static("plane",&ObjectEdit::plane,"id"_a,"plane"_a)
         .def_static("remove",&ObjectEdit::remove);
     nb::class_<Image>(m, "Image").def(nb::init<int,int,std::vector<std::uint8_t>>(), "width"_a, "height"_a, "rgb"_a)
         .def_static("demo", &Image::demo).def_static("read_ppm", &Image::read_ppm)
@@ -124,6 +162,24 @@ NB_MODULE(_native, m) {
         .def("read_region", &ImageServer::read_region, "request"_a, nb::call_guard<nb::gil_scoped_release>())
         .def("close", &ImageServer::close, nb::call_guard<nb::gil_scoped_release>())
         .def_prop_ro("closed", &ImageServer::closed);
+    m.def("resample_area", [](const PixelBuffer& pixels,std::int64_t width,std::int64_t height) {return resample_area(pixels,width,height);},
+          "pixels"_a,"width"_a,"height"_a,nb::call_guard<nb::gil_scoped_release>());
+    nb::enum_<RgbNominalSampling>(m,"RgbNominalSampling")
+        .value("INTEGER_ORIGIN",RgbNominalSampling::IntegerOrigin).value("AFFINE_INVERSE",RgbNominalSampling::AffineInverse);
+    nb::class_<RgbNominalRequest>(m,"RgbNominalRequest")
+        .def(nb::init<std::int64_t,std::int64_t,std::int64_t,std::int64_t,double,RgbNominalSampling>(),
+             "x_px"_a,"y_px"_a,"width_px"_a,"height_px"_a,"downsample"_a=1.,"sampling"_a=RgbNominalSampling::IntegerOrigin)
+        .def_ro("x_px",&RgbNominalRequest::x_px).def_ro("y_px",&RgbNominalRequest::y_px)
+        .def_ro("width_px",&RgbNominalRequest::width_px).def_ro("height_px",&RgbNominalRequest::height_px)
+        .def_ro("downsample",&RgbNominalRequest::downsample)
+        .def_ro("sampling",&RgbNominalRequest::sampling)
+        .def_prop_ro("algorithm",&RgbNominalRequest::algorithm);
+    m.def("read_rgb_nominal_region",[](const ImageServer& server,const RgbNominalRequest& request) {
+        return read_rgb_nominal_region(server,request);
+    },"server"_a,"request"_a,nb::call_guard<nb::gil_scoped_release>());
+    m.def("read_resampled_region", [](const ImageServer& server,const RegionRequest& request,std::int64_t width,std::int64_t height) {
+        return read_resampled_region(server,request,width,height);
+    },"server"_a,"request"_a,"width"_a,"height"_a,nb::call_guard<nb::gil_scoped_release>());
     m.def("dense_image_server", &dense_image_server);
     m.def("open_slide", &open_slide, "path"_a, nb::call_guard<nb::gil_scoped_release>());
     m.attr("has_openslide") = has_openslide();
@@ -137,6 +193,16 @@ NB_MODULE(_native, m) {
         .def_ro("entries",&FeatureCacheStats::entries).def_ro("capacity",&FeatureCacheStats::capacity)
         .def_ro("hits",&FeatureCacheStats::hits).def_ro("misses",&FeatureCacheStats::misses);
     nb::class_<Document>(m, "Document").def(nb::init<Image>())
+        .def_prop_ro("neighborhood_records",&Document::neighborhood_records).def_prop_ro("neighborhood_record_count",&Document::neighborhood_record_count)
+        .def("neighborhood_record",&Document::neighborhood_record,"record_id"_a)
+        .def("keep_neighborhood",&Document::keep_neighborhood,"request"_a,"result"_a,"name"_a="Spatial neighborhoods")
+        .def("verify_neighborhood",&Document::verify_neighborhood,"record_id"_a,"request"_a,"result"_a)
+        .def("neighborhood_status",&Document::neighborhood_status,"record_id"_a).def("remove_neighborhood",&Document::remove_neighborhood,"record_id"_a)
+        .def_prop_ro("spatial_records",&Document::spatial_records).def_prop_ro("spatial_record_count",&Document::spatial_record_count)
+        .def("spatial_record",&Document::spatial_record,"record_id"_a).def("spatial_status",&Document::spatial_status,"record_id"_a)
+        .def("keep_spatial",&Document::keep_spatial,"request"_a,"result"_a,"name"_a="Spatial distances")
+        .def("verify_spatial",&Document::verify_spatial,"record_id"_a,"request"_a,"result"_a)
+        .def("remove_spatial",&Document::remove_spatial,"record_id"_a)
         .def_prop_ro("analysis_records",&Document::analysis_records).def("analysis_record",&Document::analysis_record)
         .def_prop_ro("analysis_record_count",&Document::analysis_record_count)
         .def("latest_analysis",&Document::latest_analysis).def("analysis_status",&Document::analysis_status)
@@ -158,6 +224,8 @@ NB_MODULE(_native, m) {
         .def("add_hole",&Document::add_hole,"id"_a,"part"_a,"hole"_a)
         .def("remove_hole",&Document::remove_hole,"id"_a,"part"_a,"hole"_a)
         .def("apply_boolean",&Document::apply_boolean,"target"_a,"operands"_a,"operation"_a)
+        .def("merge_annotations",&Document::merge_annotations,"object_ids"_a,"discard_points"_a=false,
+             "Replace area or point annotations with one new root annotation in a single undo step. Surviving children move to root; mixed area/point input requires explicit discard_points.")
         .def("remove_annotation", &Document::remove_annotation).def("remove_objects",&Document::remove_objects)
         .def("annotation",&Document::annotation)
         .def_prop_ro("object_count",&Document::object_count).def_prop_ro("revision",&Document::revision)
@@ -171,9 +239,15 @@ NB_MODULE(_native, m) {
         })
         .def("object_class",&Document::object_class).def("class_count",&Document::class_count)
         .def("set_class",&Document::set_class,"name"_a,"color"_a)
+        .def("set_class_definition",&Document::set_class_definition,"definition"_a)
+        .def("replace_class_registry",&Document::replace_class_registry,"definitions"_a,"label"_a="Replace class registry")
+        .def("class_path",&Document::class_path,"name"_a)
         .def("remove_class",&Document::remove_class).def("rename_class",&Document::rename_class)
         .def("classify_objects",&Document::classify_objects,"ids"_a,"class_name"_a)
         .def("children",&Document::children)
+        .def("set_object_plane",&Document::set_object_plane,"id"_a,"plane"_a)
+        .def_prop_ro("active_plane",&Document::active_plane)
+        .def("object_visible",&Document::object_visible,"id"_a)
         .def("query_region",&Document::query_region)
         .def("pick",&Document::pick,"point"_a,"tolerance"_a=0)
         .def_prop_ro("spatial_stats",&Document::spatial_stats)
@@ -195,9 +269,9 @@ NB_MODULE(_native, m) {
         .def_ro("issues",&InterchangeReport::issues).def_ro("imported_ids",&InterchangeReport::imported_ids)
         .def_ro("source_ids",&InterchangeReport::source_ids).def_ro("features",&InterchangeReport::features);
     m.attr("has_interchange")=has_interchange();
-    m.def("export_geojson",&export_geojson,"document"_a,"ids"_a=std::vector<std::uint64_t>{},"allow_losses"_a=false);
+    m.def("export_geojson",&export_geojson,"document"_a,"ids"_a=std::vector<std::uint64_t>{},"allow_losses"_a=false,"nested_hierarchy"_a=false);
     m.def("import_geojson",&import_geojson,"document"_a,"text"_a,"assume_pixels"_a=false,"allow_losses"_a=false,"qupath_ellipse_precision"_a=false);
-    m.def("save_geojson",&save_geojson,"document"_a,"path"_a,"ids"_a=std::vector<std::uint64_t>{},"allow_losses"_a=false);
+    m.def("save_geojson",&save_geojson,"document"_a,"path"_a,"ids"_a=std::vector<std::uint64_t>{},"allow_losses"_a=false,"nested_hierarchy"_a=false);
     m.def("load_geojson",&load_geojson,"document"_a,"path"_a,"assume_pixels"_a=false,"allow_losses"_a=false,"qupath_ellipse_precision"_a=false);
     m.def("measurements_csv",&measurements_csv,"document"_a,"ids"_a=std::vector<std::uint64_t>{},"include_intensity"_a=false);
     m.def("save_measurements_csv",&save_measurements_csv,"document"_a,"path"_a,"ids"_a=std::vector<std::uint64_t>{},"include_intensity"_a=false);
@@ -205,7 +279,7 @@ NB_MODULE(_native, m) {
         .def_ro("id",&ProjectImage::id).def_ro("name",&ProjectImage::name)
         .def_ro("source_path",&ProjectImage::source_path).def_ro("reader",&ProjectImage::reader)
         .def_ro("width",&ProjectImage::width).def_ro("height",&ProjectImage::height)
-        .def_ro("embedded",&ProjectImage::embedded).def_ro("available",&ProjectImage::available);
+        .def_ro("embedded",&ProjectImage::embedded).def_ro("available",&ProjectImage::available).def_ro("metadata",&ProjectImage::metadata).def_ro("description",&ProjectImage::description).def_ro("tags",&ProjectImage::tags);
     nb::class_<ProjectView>(m,"ProjectView").def(nb::init<>()).def_rw("center",&ProjectView::center)
         .def_rw("zoom",&ProjectView::zoom).def_rw("display",&ProjectView::display).def("validate",&ProjectView::validate);
     nb::class_<RecoveryInfo>(m,"RecoveryInfo").def_ro("path",&RecoveryInfo::path).def_ro("identity",&RecoveryInfo::identity)
@@ -256,6 +330,21 @@ NB_MODULE(_native, m) {
         .def("add_document",&Project::add_document,"document"_a,"name"_a="","source_path"_a="","reader"_a="auto")
         .def("document",&Project::document).def_prop_ro("images",&Project::images)
         .def("remove_image",&Project::remove_image).def("relink",&Project::relink).def("rename_image",&Project::rename_image)
+        .def("image_description",&Project::image_description,"id"_a)
+        .def("image_tags",&Project::image_tags,"id"_a)
+        .def("set_image_details",&Project::set_image_details,"id"_a,"description"_a=nb::none(),"tags"_a=std::vector<std::string>{})
+        .def_prop_ro("classes",[](const Project& p) {
+            std::vector<ObjectClass> result;result.reserve(p.classes().size());
+            for(const auto& [name,value]:p.classes())result.push_back(value);
+            return result;
+        })
+        .def_prop_ro("class_defaults",&Project::class_defaults)
+        .def("set_class_registry",&Project::set_class_registry,"definitions"_a,"defaults"_a=std::vector<std::string>{})
+        .def("apply_class_defaults",&Project::apply_class_defaults,"image_id"_a)
+        .def_prop_ro("metadata",&Project::metadata)
+        .def("set_metadata",&Project::set_metadata,"metadata"_a=std::map<std::string,std::string>{})
+        .def("image_metadata",&Project::image_metadata,"id"_a)
+        .def("set_image_metadata",&Project::set_image_metadata,"id"_a,"metadata"_a=std::map<std::string,std::string>{})
         .def("view",&Project::view).def("set_view",&Project::set_view).def("clear_view",&Project::clear_view)
         .def_prop_rw("active_image",&Project::active_image,&Project::set_active_image)
         .def_prop_ro("dirty",&Project::dirty).def_prop_ro("path",&Project::path)
@@ -304,8 +393,8 @@ NB_MODULE(_native, m) {
         .value("EXPORT_MEASUREMENT_TABLE_KEY",GuiInputKind::ExportMeasurementTableKey).value("CANCEL_MEASUREMENT_TABLE_KEY",GuiInputKind::CancelMeasurementTableKey)
         .value("ESTIMATE_STAINS_KEY",GuiInputKind::EstimateStainsKey).value("APPLY_STAIN_ESTIMATE_KEY",GuiInputKind::ApplyStainEstimateKey).value("CANCEL_STAIN_ESTIMATE_KEY",GuiInputKind::CancelStainEstimateKey)
         .value("RUN_BATCH_KEY",GuiInputKind::RunBatchKey).value("CANCEL_BATCH_KEY",GuiInputKind::CancelBatchKey)
-        .value("RESIZE_WINDOW",GuiInputKind::ResizeWindow).value("MINIMIZE_WINDOW",GuiInputKind::MinimizeWindow).value("RESTORE_WINDOW",GuiInputKind::RestoreWindow).value("SET_UI_SCALE",GuiInputKind::SetUiScale).value("OBJECT_CLASSIFIERS_KEY",GuiInputKind::ObjectClassifierKey).value("PIXEL_CLASSIFIERS_KEY",GuiInputKind::PixelClassifierKey).value("RAW_CHANNELS_KEY",GuiInputKind::RawChannelsKey).value("TMA_KEY",GuiInputKind::TmaKey)
-        .value("FINGERPRINT_FILE_KEY",GuiInputKind::FingerprintFileKey).value("CANCEL_FINGERPRINT_FILE_KEY",GuiInputKind::CancelFingerprintFileKey);
+        .value("RESIZE_WINDOW",GuiInputKind::ResizeWindow).value("MINIMIZE_WINDOW",GuiInputKind::MinimizeWindow).value("RESTORE_WINDOW",GuiInputKind::RestoreWindow).value("SET_UI_SCALE",GuiInputKind::SetUiScale).value("OBJECT_CLASSIFIERS_KEY",GuiInputKind::ObjectClassifierKey).value("PIXEL_CLASSIFIERS_KEY",GuiInputKind::PixelClassifierKey).value("RAW_CHANNELS_KEY",GuiInputKind::RawChannelsKey).value("MERGE_KEY",GuiInputKind::MergeKey).value("TMA_KEY",GuiInputKind::TmaKey)
+        .value("FINGERPRINT_FILE_KEY",GuiInputKind::FingerprintFileKey).value("CANCEL_FINGERPRINT_FILE_KEY",GuiInputKind::CancelFingerprintFileKey).value("REVIEW_SOURCE_VERIFICATION_KEY",GuiInputKind::ReviewSourceVerificationKey).value("COPY_OBJECTS_KEY",GuiInputKind::CopyObjectsKey).value("PASTE_OBJECTS_KEY",GuiInputKind::PasteObjectsKey).value("PASTE_CURRENT_PLANE_KEY",GuiInputKind::PasteCurrentPlaneKey);
     nb::enum_<GuiInputTarget>(m,"GuiInputTarget").value("CANVAS",GuiInputTarget::Canvas).value("OVERVIEW",GuiInputTarget::Overview).value("OBJECT_LIST",GuiInputTarget::ObjectList).value("IMAGE",GuiInputTarget::Image).value("PROJECT_LIST",GuiInputTarget::ProjectList).value("DISPLAY_RESET",GuiInputTarget::DisplayReset)
         .value("DISCARD_RECOVERY_REPLACEMENT",GuiInputTarget::DiscardRecoveryReplacement).value("KEEP_RECOVERY_CLOSE",GuiInputTarget::KeepRecoveryClose).value("CANCEL_CLOSE",GuiInputTarget::CancelClose).value("DISCARD_CLOSE",GuiInputTarget::DiscardClose)
         .value("SAVE_CLOSE",GuiInputTarget::SaveClose).value("SAVE_RECOVERY_REPLACEMENT",GuiInputTarget::SaveRecoveryReplacement).value("CANCEL_RECOVERY_REPLACEMENT",GuiInputTarget::CancelRecoveryReplacement).value("CANCEL_PROJECT_LOAD",GuiInputTarget::CancelProjectLoad).value("CONFIRM_REMOVE_IMAGE",GuiInputTarget::ConfirmRemoveImage).value("CANCEL_REMOVE_IMAGE",GuiInputTarget::CancelRemoveImage).value("CONFIRM_DISCARD_CHECKPOINT",GuiInputTarget::ConfirmDiscardCheckpoint).value("CANCEL_DISCARD_CHECKPOINT",GuiInputTarget::CancelDiscardCheckpoint).value("WINDOW",GuiInputTarget::Window).value("RESET_LAYOUT",GuiInputTarget::ResetLayout).value("SAVE_PROJECT",GuiInputTarget::SaveProject)
@@ -325,34 +414,39 @@ NB_MODULE(_native, m) {
         .value("TMA_CORE_TAB",GuiInputTarget::TmaCoreTab).value("TMA_GRID_TAB",GuiInputTarget::TmaGridTab).value("TMA_EXPORT_TAB",GuiInputTarget::TmaExportTab).value("TMA_LABELS",GuiInputTarget::ApplyTmaLabels)
         .value("TIFF_APPLY",GuiInputTarget::ApplyTiffView).value("TIFF_ADD_SERIES",GuiInputTarget::AddTiffSeries).value("RAW_MEASURE",GuiInputTarget::MeasureRawRegion).value("RAW_EXPORT",GuiInputTarget::ExportRawRegion).value("RAW_CANCEL",GuiInputTarget::CancelRawTask).value("RAW_DISPLAY_TAB",GuiInputTarget::RawDisplayTab).value("RAW_DATA_TAB",GuiInputTarget::RawDataTab).value("RAW_RESULTS_TAB",GuiInputTarget::RawResultsTab)
         .value("RAW_KEEP",GuiInputTarget::KeepRawAnalysis).value("RAW_VERIFY",GuiInputTarget::VerifyRawAnalysisRecord).value("RAW_REMOVE",GuiInputTarget::RemoveRawAnalysisRecord).value("RAW_CSV_EXPORT",GuiInputTarget::ExportRawMeasurements).value("RAW_CSV_CANCEL",GuiInputTarget::CancelRawMeasurements).value("RAW_RECORDS_TAB",GuiInputTarget::RawRecordsTab)
-        .value("OVERVIEW_BUDGET_INCREASE",GuiInputTarget::OverviewBudgetIncrease).value("OVERVIEW_BUDGET_DECREASE",GuiInputTarget::OverviewBudgetDecrease);
-    nb::enum_<GuiInputWait>(m,"GuiInputWait").value("TIFF_READY",GuiInputWait::TiffReady).value("TIFF_VIEW_APPLIED",GuiInputWait::TiffViewApplied).value("RAW_TASK_FINISHED",GuiInputWait::RawTaskFinished).value("RAW_NUMPY_SAVED",GuiInputWait::RawNumpySaved).value("RAW_ANALYSIS_KEPT",GuiInputWait::RawAnalysisKept).value("RAW_ANALYSIS_VERIFIED",GuiInputWait::RawAnalysisVerified).value("RAW_MEASUREMENTS_SAVED",GuiInputWait::RawMeasurementsSaved).value("TMA_GRID_READY",GuiInputWait::TmaGridReady).value("TMA_METADATA_SAVED",GuiInputWait::TmaMetadataSaved).value("IMMEDIATE",GuiInputWait::Immediate).value("TARGET_READY",GuiInputWait::TargetReady).value("STARTUP_FINISHED",GuiInputWait::StartupFinished)
-        .value("TISSUE_READY",GuiInputWait::TissueReady).value("TISSUE_CONTOURS_READY",GuiInputWait::TissueContoursReady).value("TISSUE_CONTOURS_PUBLISHED",GuiInputWait::TissueContoursPublished)
-        .value("TISSUE_ARCHIVED",GuiInputWait::TissueArchived).value("TISSUE_VERIFIED",GuiInputWait::TissueVerified)
-        .value("CELLS_READY",GuiInputWait::CellsReady).value("CELLS_PUBLISHED",GuiInputWait::CellsPublished)
-        .value("CELLS_ARCHIVED",GuiInputWait::CellsArchived).value("CELLS_VERIFIED",GuiInputWait::CellsVerified).value("CELL_TABLE_SAVED",GuiInputWait::CellTableSaved).value("FILE_FINGERPRINT_READY",GuiInputWait::FileFingerprintReady).value("MEASUREMENT_TABLE_SAVED",GuiInputWait::MeasurementTableSaved).value("STAINS_ESTIMATED",GuiInputWait::StainsEstimated).value("STAINS_APPLIED",GuiInputWait::StainsApplied).value("BATCH_FINISHED",GuiInputWait::BatchFinished).value("WINDOW_READY",GuiInputWait::WindowReady)
-        .value("CLASSIFIER_TRAINED",GuiInputWait::ObjectClassifierTrained).value("CLASSIFIER_PREDICTED",GuiInputWait::ObjectClassifierPredicted)
-        .value("CLASSIFIER_APPLIED",GuiInputWait::ObjectClassifierApplied).value("CLASSIFIER_MODEL_SAVED",GuiInputWait::ClassifierModelSaved).value("CLASSIFIER_MODEL_LOADED",GuiInputWait::ClassifierModelLoaded)
-        .value("CLASSIFIER_TRAINING_RETAINED",GuiInputWait::ClassifierTrainingRetained).value("CLASSIFIER_RECORD_LOADED",GuiInputWait::ClassifierRecordLoaded)
-        .value("PIXEL_TRAINED",GuiInputWait::PixelClassifierTrained).value("PIXEL_PREDICTED",GuiInputWait::PixelClassifierPredicted).value("PIXEL_PREVIEW_READY",GuiInputWait::PixelPreviewReady)
-        .value("PIXEL_MODEL_SAVED",GuiInputWait::PixelModelSaved).value("PIXEL_MODEL_LOADED",GuiInputWait::PixelModelLoaded).value("PIXEL_CONTOURS_READY",GuiInputWait::PixelContoursReady).value("PIXEL_CONTOURS_PUBLISHED",GuiInputWait::PixelContoursPublished)
-        .value("PIXEL_RECORD_KEPT",GuiInputWait::PixelRecordKept).value("PIXEL_RECORD_MODEL_LOADED",GuiInputWait::PixelRecordModelLoaded).value("PIXEL_HISTORICAL_PREVIEW_READY",GuiInputWait::PixelHistoricalPreviewReady).value("PIXEL_STREAM_FINISHED",GuiInputWait::PixelStreamFinished)
-        .value("PIXEL_STREAM_READ_READY",GuiInputWait::PixelStreamReadReady).value("PIXEL_STREAM_READ_FINISHED",GuiInputWait::PixelStreamReadFinished).value("PIXEL_STREAM_VERIFIED",GuiInputWait::PixelStreamVerified).value("PIXEL_STREAM_LINKED",GuiInputWait::PixelStreamLinked);
+        .value("OVERVIEW_BUDGET_INCREASE",GuiInputTarget::OverviewBudgetIncrease).value("OVERVIEW_BUDGET_DECREASE",GuiInputTarget::OverviewBudgetDecrease)
+        .value("QPTMA_LOAD_PREVIEW",GuiInputTarget::LoadQptmaPreview).value("QPTMA_APPLY",GuiInputTarget::ApplyQptmaPreview)
+        .value("QPTMA_EXPORT",GuiInputTarget::ExportQptma).value("QPTMA_CANCEL",GuiInputTarget::CancelQptma)
+        .value("QPTMA_DISCARD_PREVIEW",GuiInputTarget::DiscardQptmaPreview).value("QPTMA_ACKNOWLEDGE_LOSSES",GuiInputTarget::AcknowledgeQptmaLosses)
+        .value("TMA_INSERT_ROW_BEFORE",GuiInputTarget::TmaInsertRowBefore).value("TMA_INSERT_ROW_AFTER",GuiInputTarget::TmaInsertRowAfter)
+        .value("TMA_INSERT_COLUMN_BEFORE",GuiInputTarget::TmaInsertColumnBefore).value("TMA_INSERT_COLUMN_AFTER",GuiInputTarget::TmaInsertColumnAfter)
+        .value("TMA_REMOVE_ROW",GuiInputTarget::TmaRemoveRow).value("TMA_REMOVE_COLUMN",GuiInputTarget::TmaRemoveColumn).value("TMA_DETECT_GRID",GuiInputTarget::TmaDetectGrid).value("RAW_PIXEL_TRAIN",GuiInputTarget::RawPixelTrain).value("RAW_PIXEL_PREDICT",GuiInputTarget::RawPixelPredict).value("RAW_PIXEL_CANCEL",GuiInputTarget::RawPixelCancel).value("RAW_PIXEL_KEEP_TRAINING",GuiInputTarget::RawPixelKeepTraining).value("RAW_PIXEL_SAVE_MODEL",GuiInputTarget::RawPixelSaveModel).value("RAW_PIXEL_LOAD_MODEL",GuiInputTarget::RawPixelLoadModel).value("RAW_PIXEL_EXPORT",GuiInputTarget::RawPixelExport).value("RAW_PIXEL_OPEN_FILE",GuiInputTarget::RawPixelOpenFile).value("RAW_PIXEL_KEEP_LINK",GuiInputTarget::RawPixelKeepLink).value("RAW_PIXEL_OPEN_RECORD",GuiInputTarget::RawPixelOpenRecord).value("RAW_PIXEL_REMOVE_RECORD",GuiInputTarget::RawPixelRemoveRecord).value("RAW_PIXEL_TOGGLE_OVERLAY",GuiInputTarget::RawPixelToggleOverlay).value("RAW_PIXEL_HIDE",GuiInputTarget::RawPixelHide).value("RAW_PIXEL_TRAINING_TAB",GuiInputTarget::RawPixelTrainingTab).value("RAW_PIXEL_FILES_TAB",GuiInputTarget::RawPixelFilesTab).value("RAW_PIXEL_RECORDS_TAB",GuiInputTarget::RawPixelRecordsTab).value("RAW_PIXEL_TRACE",GuiInputTarget::RawPixelTrace).value("RAW_PIXEL_APPLY",GuiInputTarget::RawPixelApply).value("RAW_PIXEL_CONTOURS_TAB",GuiInputTarget::RawPixelContoursTab).value("RAW_PIXEL_TRACE_FILE",GuiInputTarget::RawPixelTraceFile).value("RAW_PIXEL_REPLAY_FILE",GuiInputTarget::RawPixelReplayFile).value("RAW_PIXEL_APPLY_FILE",GuiInputTarget::RawPixelApplyFile).value("SPATIAL_OPEN",GuiInputTarget::SpatialOpen).value("SPATIAL_SOURCES",GuiInputTarget::SpatialSources).value("SPATIAL_TARGETS",GuiInputTarget::SpatialTargets).value("SPATIAL_RUN",GuiInputTarget::SpatialRun).value("SPATIAL_CANCEL",GuiInputTarget::SpatialCancel).value("SPATIAL_KEEP",GuiInputTarget::SpatialKeep).value("SPATIAL_INSPECT",GuiInputTarget::SpatialInspect).value("SPATIAL_VERIFY",GuiInputTarget::SpatialVerify).value("SPATIAL_EXPORT",GuiInputTarget::SpatialExport).value("SPATIAL_REMOVE",GuiInputTarget::SpatialRemove).value("SPATIAL_PATH",GuiInputTarget::SpatialPath).value("SPATIAL_OPERATION",GuiInputTarget::SpatialOperation).value("SPATIAL_RADIUS",GuiInputTarget::SpatialRadius).value("SPATIAL_RECORD_ID",GuiInputTarget::SpatialRecordId).value("APPLY_SOURCE_VERIFICATION",GuiInputTarget::ApplySourceVerification).value("ACCEPT_SOURCE_REPLACEMENT",GuiInputTarget::AcceptSourceReplacement).value("TOGGLE_OBJECT_LOCK",GuiInputTarget::ToggleObjectLock).value("APPLY_OBJECT_EDIT_STATE",GuiInputTarget::ApplyObjectEditState).value("CLEAR_OBJECT_PROPERTIES",GuiInputTarget::ClearObjectProperties).value("COPY_OBJECTS",GuiInputTarget::CopyObjects).value("PASTE_OBJECTS",GuiInputTarget::PasteObjects).value("PASTE_CURRENT_PLANE",GuiInputTarget::PasteCurrentPlane).value("USE_IMAGE_STAINS",GuiInputTarget::UseImageStains).value("LOAD_STAIN_MODEL",GuiInputTarget::LoadStainModel).value("SAVE_STAIN_MODEL",GuiInputTarget::SaveStainModel).value("SPATIAL_TISSUE",GuiInputTarget::SpatialTissue).value("SPATIAL_EXCLUSIONS",GuiInputTarget::SpatialExclusions);
+    auto input_wait=nb::enum_<GuiInputWait>(m,"GuiInputWait");
+    for(const auto& condition:detail::gui_input_wait_values) input_wait.value(condition.python_name,condition.value);
     nb::class_<GuiInput>(m,"GuiInput").def(nb::init<>()).def_rw("frame",&GuiInput::frame).def_rw("kind",&GuiInput::kind)
         .def_rw("target",&GuiInput::target).def_rw("x",&GuiInput::x).def_rw("y",&GuiInput::y).def_rw("wheel",&GuiInput::wheel).def_rw("ctrl",&GuiInput::ctrl).def_rw("shift",&GuiInput::shift).def_rw("wait_for",&GuiInput::wait_for);
     nb::class_<GuiOptions>(m,"GuiOptions").def(nb::init<>())
         .def_rw("ui_scale",&GuiOptions::ui_scale).def_rw("docked_workspace",&GuiOptions::docked_workspace).def_rw("layout_path",&GuiOptions::layout_path).def_rw("reset_layout",&GuiOptions::reset_layout).def_rw("width",&GuiOptions::width).def_rw("height",&GuiOptions::height)
         .def_rw("replay_timeout_seconds",&GuiOptions::replay_timeout_seconds).def_rw("settle_tiles",&GuiOptions::settle_tiles).def_rw("overview_source_pixel_limit",&GuiOptions::overview_source_pixel_limit)
-        .def_rw("interchange_assume_pixels",&GuiOptions::interchange_assume_pixels).def_rw("interchange_allow_losses",&GuiOptions::interchange_allow_losses).def_rw("qupath_ellipse_precision",&GuiOptions::qupath_ellipse_precision)
+        .def_rw("interchange_assume_pixels",&GuiOptions::interchange_assume_pixels).def_rw("interchange_allow_losses",&GuiOptions::interchange_allow_losses).def_rw("interchange_nested_hierarchy",&GuiOptions::interchange_nested_hierarchy).def_rw("qupath_ellipse_precision",&GuiOptions::qupath_ellipse_precision)
         .def_rw("overlay_cache_budget",&GuiOptions::overlay_cache_budget)
         .def_rw("display",&GuiOptions::display).def_rw("inputs",&GuiOptions::inputs).def_rw("start_view",&GuiOptions::start_view).def_rw("project",&GuiOptions::project).def_rw("interchange_path",&GuiOptions::interchange_path).def_rw("project_image_path",&GuiOptions::project_image_path)
         .def_rw("autosave_path",&GuiOptions::autosave_path).def_rw("recovery_path",&GuiOptions::recovery_path).def_rw("recovery_base_path",&GuiOptions::recovery_base_path).def_rw("project_open_path",&GuiOptions::project_open_path).def_rw("autosave_interval_seconds",&GuiOptions::autosave_interval_seconds).def_rw("autosave_snapshot_budget",&GuiOptions::autosave_snapshot_budget).def_rw("save_snapshot_budget",&GuiOptions::save_snapshot_budget)
         .def_rw("startup_path",&GuiOptions::startup_path).def_rw("startup_kind",&GuiOptions::startup_kind).def_rw("startup_image_id",&GuiOptions::startup_image_id)
         .def_rw("recovery_retention_enabled",&GuiOptions::recovery_retention_enabled).def_rw("recovery_keep_latest",&GuiOptions::recovery_keep_latest).def_rw("recovery_max_age_days",&GuiOptions::recovery_max_age_days)
         .def_rw("roi_sampling_policy",&GuiOptions::roi_sampling_policy).def_rw("tissue_sampling_policy",&GuiOptions::tissue_sampling_policy)
+        .def_rw("analysis_intensity_statistics",&GuiOptions::analysis_intensity_statistics)
         .def_rw("analysis_kind",&GuiOptions::analysis_kind).def_rw("analysis_nucleus",&GuiOptions::analysis_nucleus)
         .def_rw("analysis_vectors",&GuiOptions::analysis_vectors).def_rw("analysis_white",&GuiOptions::analysis_white)
+        .def_prop_rw("tissue_grid",[](const GuiOptions& o)->std::optional<TissueGridSampling> {return o.tissue_grid?std::optional<TissueGridSampling>(*o.tissue_grid):std::nullopt;},
+            [](GuiOptions& o,std::optional<TissueGridSampling> v) {o.tissue_grid=v?std::make_shared<const TissueGridSampling>(*v):nullptr;})
+        .def_rw("tissue_median_cleanup",&GuiOptions::tissue_median_cleanup)
+        .def_rw("tissue_canonical_pyramid",&GuiOptions::tissue_canonical_pyramid)
+        .def_rw("tissue_work_bytes",&GuiOptions::tissue_work_bytes)
+        .def_rw("tissue_smoothing_sigma",&GuiOptions::tissue_smoothing_sigma)
         .def_rw("tissue_feature",&GuiOptions::tissue_feature).def_rw("tissue_threshold",&GuiOptions::tissue_threshold)
+        .def_rw("tissue_min_component_area_um2",&GuiOptions::tissue_min_component_area_um2)
+        .def_rw("tissue_max_component_area_um2",&GuiOptions::tissue_max_component_area_um2)
         .def_rw("tissue_connectivity",&GuiOptions::tissue_connectivity).def_rw("tissue_min_pixels",&GuiOptions::tissue_min_pixels).def_rw("tissue_max_pixels",&GuiOptions::tissue_max_pixels)
         .def_rw("tissue_level",&GuiOptions::tissue_level)
         .def_rw("tissue_open_radius",&GuiOptions::tissue_open_radius).def_rw("tissue_close_radius",&GuiOptions::tissue_close_radius)
@@ -375,6 +469,9 @@ NB_MODULE(_native, m) {
         .def_ro("replay_complete",&GuiReport::replay_complete).def_ro("tiles_settled",&GuiReport::tiles_settled)
         .def_ro("uploaded_tiles",&GuiReport::uploaded_tiles).def_ro("peak_gpu_bytes",&GuiReport::peak_gpu_bytes)
         .def_ro("generations",&GuiReport::generations).def_ro("cpu_frame_p95_ms",&GuiReport::cpu_frame_p95_ms)
+        .def_ro("rendered_frame_wall_p95_ms",&GuiReport::rendered_frame_wall_p95_ms)
+        .def_ro("max_rendered_frame_wall_ms",&GuiReport::max_rendered_frame_wall_ms)
+        .def_ro("rendered_frame_wall_samples",&GuiReport::rendered_frame_wall_samples)
         .def_ro("pending_tiles",&GuiReport::pending_tiles).def_ro("final_zoom",&GuiReport::final_zoom)
         .def_ro("final_origin",&GuiReport::final_origin).def_ro("framebuffer_width",&GuiReport::framebuffer_width)
         .def_ro("framebuffer_height",&GuiReport::framebuffer_height).def_ro("final_center",&GuiReport::final_center)
@@ -389,6 +486,9 @@ NB_MODULE(_native, m) {
         .def_ro("startup_images",&GuiReport::startup_images).def_ro("startup_objects",&GuiReport::startup_objects).def_ro("startup_ms",&GuiReport::startup_ms)
         .def_ro("retention_metadata_ms",&GuiReport::retention_metadata_ms).def_ro("retention_ownership_ms",&GuiReport::retention_ownership_ms).def_ro("retention_removal_ms",&GuiReport::retention_removal_ms).def_ro("retention_prefetch_peak",&GuiReport::retention_prefetch_peak)
         .def_ro("analysis_state",&GuiReport::analysis_state).def_ro("analysis_error",&GuiReport::analysis_error)
+        .def_prop_ro("analysis_intensity_statistics",[](const GuiReport& r)->std::optional<CompartmentIntensityStatistics> {
+            if(r.analysis_intensity_statistics) return *r.analysis_intensity_statistics;return std::nullopt;
+        })
         .def_ro("analysis_means",&GuiReport::analysis_means).def_ro("analysis_samples",&GuiReport::analysis_samples)
         .def_ro("analysis_object",&GuiReport::analysis_object).def_ro("analysis_tiles",&GuiReport::analysis_tiles).def_ro("analysis_ms",&GuiReport::analysis_ms)
         .def_ro("analysis_records",&GuiReport::analysis_records).def_ro("saved_analysis_status",&GuiReport::saved_analysis_status)
@@ -396,6 +496,8 @@ NB_MODULE(_native, m) {
         .def_ro("tissue_components",&GuiReport::tissue_components).def_ro("tissue_gpu_bytes",&GuiReport::tissue_gpu_bytes)
         .def_ro("tissue_samples",&GuiReport::tissue_samples).def_ro("tissue_foreground_pixels",&GuiReport::tissue_foreground_pixels)
         .def_ro("tissue_ms",&GuiReport::tissue_ms).def_ro("tissue_preview_ready",&GuiReport::tissue_preview_ready)
+        .def_prop_ro("tissue_grid",[](const GuiReport& r){return r.tissue_grid;})
+        .def_ro("tissue_downsample_x",&GuiReport::tissue_downsample_x).def_ro("tissue_downsample_y",&GuiReport::tissue_downsample_y)
         .def_ro("tissue_level",&GuiReport::tissue_level).def_ro("tissue_downsample",&GuiReport::tissue_downsample)
         .def_ro("tissue_width",&GuiReport::tissue_width).def_ro("tissue_height",&GuiReport::tissue_height)
         .def_ro("tissue_cleaned_pixels",&GuiReport::tissue_cleaned_pixels).def_ro("tissue_filled_pixels",&GuiReport::tissue_filled_pixels)
@@ -405,20 +507,33 @@ NB_MODULE(_native, m) {
         .def_ro("tissue_annotations_added",&GuiReport::tissue_annotations_added).def_ro("tissue_contours_published",&GuiReport::tissue_contours_published)
         .def_ro("saved_tissue_id",&GuiReport::saved_tissue_id).def_ro("saved_tissue_status",&GuiReport::saved_tissue_status);
     bind_analysis(m);
+    bind_spatial(m);
     bind_stain_estimation(m);
     bind_tissue(m);
     bind_cells(m);
     bind_cell_tables(m);
     bind_measurement_tables(m);
     bind_provenance(m);
+    bind_object_properties(m);
+    bind_image_axis_calibration(m);
+    bind_image_analysis_settings(m);
+    bind_image_data_properties(m);
+    bind_clipboard(m);
     bind_file_fingerprint(m);
     bind_tma(m);
     bind_raw_images(m);
+    bind_scientific_grid(m);
+    bind_scientific_raw(m);
     bind_raw_analysis(m);
     bind_project_batch(m);
+    bind_native_workflows(m);
     bind_arrays(m);
     bind_thumbnails(m);
     bind_classifiers(m);
+    bind_raw_pixel_types(m);
+    bind_raw_pixel_workflows(m);
+    bind_raw_pixel_files(m);
+    bind_raw_pixel_frontends(m);
     m.def("default_workspace_layout_path",&default_workspace_layout_path);
     bind_viewer_session(m);
 #ifdef QUPATHXX_HAS_GUI

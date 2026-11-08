@@ -1,0 +1,20 @@
+{
+  "id": 12625776451,
+  "node_id": "MDg6QXJ0aWZhY3QxMjYyNTc3NjQ1MQ==",
+  "name": "Linux-headless-py3.12",
+  "size_in_bytes": 13641427,
+  "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12625776451",
+  "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12625776451/zip",
+  "expired": false,
+  "digest": "sha256:9342956043ac8a9bf1ea401ae1b022858f6814125aa13bd1d4e60e7e6c6da048",
+  "created_at": "2026-10-26T03:16:18Z",
+  "updated_at": "2026-10-26T03:16:18Z",
+  "expires_at": "2026-11-09T03:16:17Z",
+  "workflow_run": {
+    "id": 40262416972,
+    "repository_id": 1427753981,
+    "head_repository_id": 1427753981,
+    "head_branch": "feature/multifile-ome-workflow-210",
+    "head_sha": "9e7d0be94c59c2c5e363f7dfa60384f9c9c2d7d6"
+  }
+}

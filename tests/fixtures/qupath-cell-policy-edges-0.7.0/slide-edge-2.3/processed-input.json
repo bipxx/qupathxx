@@ -1,0 +1,12 @@
+{
+  "downsample": 2.3,
+  "request": [
+    0,
+    0,
+    256,
+    192
+  ],
+  "width": 111,
+  "height": 83,
+  "bufferedImageType": 1
+}

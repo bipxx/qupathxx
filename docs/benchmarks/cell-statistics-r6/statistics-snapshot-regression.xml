@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.358" timestamp="2026-11-05T05:38:54.843327-05:00" hostname="HEQPC"><testcase classname="tests.test_cell_intensity_statistics" name="test_old_classifier_exact_snapshot_budget_reopens" time="0.138"><failure message="ValueError: classifier feature archive exceeds snapshot budget">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4929/test_old_classifier_exact_snap0')
+
+    def test_old_classifier_exact_snapshot_budget_reopens(tmp_path):
+        from zipfile import ZipFile
+    
+        manifest = json.loads((LEGACY / "legacy-snapshot-budget-manifest.json").read_text())
+        source = LEGACY / manifest["file"]
+        assert hashlib.sha256(source.read_bytes()).hexdigest() == manifest["archive_sha256"]
+        with ZipFile(source) as archive:
+            payload = archive.read(manifest["project"])
+        assert hashlib.sha256(payload).hexdigest() == manifest["project_sha256"]
+        project_file = tmp_path / manifest["project"]
+        project_file.write_bytes(payload)
+&gt;       project = q.Project.open(str(project_file))
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: classifier feature archive exceeds snapshot budget
+
+tests\test_cell_intensity_statistics.py:293: ValueError</failure></testcase></testsuite></testsuites>

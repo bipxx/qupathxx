@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\entry-details-r5-probe-env\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-m",
+    "pytest",
+    "tests/test_project_entry_details.py",
+    "-k",
+    "desktop",
+    "-q",
+    "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\entry-details-r5\\desktop.xml",
+    "--basetemp",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\entry-details-r5\\desktop-temp"
+  ],
+  "returncode": 0,
+  "elapsed_seconds": 2.291904899990186
+}

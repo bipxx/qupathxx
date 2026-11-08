@@ -1,0 +1,416 @@
+[
+  {
+    "path": "Release/geos.dll",
+    "bytes": 2912768,
+    "sha256": "9bff21e1082b57e9914909a156ad121d508d2203a8c6ab4d8d41eb74cc19fa0e",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\geos.dll"
+  },
+  {
+    "path": "Release/geos_c.dll",
+    "bytes": 590336,
+    "sha256": "64c8a686deccd9e3d5ae66f96ba1276c23faf6ab00564feee421ae91f552b7d6",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\geos_c.dll"
+  },
+  {
+    "path": "Release/nanobind-static.lib",
+    "bytes": 2876768,
+    "sha256": "548ad5d26277b378e0f99e0faf02b47fc130ba133fa362beb433ed8027dcb38a",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\nanobind-static.lib"
+  },
+  {
+    "path": "Release/qupathxx_analysis_tests.exe",
+    "bytes": 1434624,
+    "sha256": "5c4d9454642c8365e2df7571fb78915d6a71b5ea9eeb40a9870b907f9aff7aca",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_analysis_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_app.exe",
+    "bytes": 7858688,
+    "sha256": "d00ecdb86f12eb3bc1161cce646834f66175c7eba0d21b74ba75fe6bbc1d8886",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_app.exe"
+  },
+  {
+    "path": "Release/qupathxx_batch.exe",
+    "bytes": 5349888,
+    "sha256": "21791ce4ba2a0e6a1fc036f93dace8def8fb62d81cdb4b363a9d0c251914b74c",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_batch.exe"
+  },
+  {
+    "path": "Release/qupathxx_cell_calibration_tests.exe",
+    "bytes": 2501632,
+    "sha256": "0c5588b15b8dd93e7109b242525531b804ed7ea1573d77e6920d6bccd54cf725",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_cell_calibration_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_cell_expansion_tests.exe",
+    "bytes": 60416,
+    "sha256": "fd3e8e300e00df038c77e281e069f67ed8742c838957c29438d738cbe8ad55a0",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_cell_expansion_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_cell_record_tests.exe",
+    "bytes": 3752448,
+    "sha256": "d77bf871e66a8451a98a4973172120ba309e6df23db1b3b00e8b0b673d77f1e1",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_cell_record_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_cell_table_tests.exe",
+    "bytes": 4307968,
+    "sha256": "0204207cc1ff603ccae1c2ba52d0ed5f955941c9ec588249a9cc6173b1558e4c",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_cell_table_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_cell_tests.exe",
+    "bytes": 2699776,
+    "sha256": "88f078f023765675d8bebd5170c8928bb1165b813948d2acba8c3bffaeb93406",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_cell_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_classes_tests.exe",
+    "bytes": 321024,
+    "sha256": "935edb1ffb2c1fcd627071bd5d265688e535120819ea0a1e8aab4ac51d91d8e1",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_classes_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_classifier_io_tests.exe",
+    "bytes": 1084416,
+    "sha256": "59e4f5c904aa15d56759f2b89e82842fa4f17569938179fce38c2d1e77cae5b4",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_classifier_io_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_classifier_tests.exe",
+    "bytes": 1389568,
+    "sha256": "b9d057c8ee131d527c7eb74b3873e4542f798b49816c81d1ee5b6bf469274cb6",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_classifier_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_core.lib",
+    "bytes": 116159676,
+    "sha256": "fe2484801e2fd65158b2bfa51a649b97ed1474f0abc35ee7d2d255393dbfb225",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_core.lib"
+  },
+  {
+    "path": "Release/qupathxx_core_tests.exe",
+    "bytes": 328192,
+    "sha256": "e9b431ce2129b1fce9a004f1cf757940ef2d3832fd3d92de95e2e9325be63a1d",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_core_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_decimal_quantity_tests.exe",
+    "bytes": 35840,
+    "sha256": "1875e2d65f2f22933d8062ddb876459a91d6530ca8e75d69368b54b19e9410f8",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_decimal_quantity_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_document_edits_tests.exe",
+    "bytes": 326144,
+    "sha256": "e7385b42567a218d9da0b7db80fc4ee19fe9bea394cfd029c92e350f6fcbedfe",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_document_edits_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_file_fingerprint_tests.exe",
+    "bytes": 332800,
+    "sha256": "e9d75487c35ecd8f434e147174dd741775fcca02ecfc3311924880068fd47bff",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_file_fingerprint_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_geometry_edits_tests.exe",
+    "bytes": 330240,
+    "sha256": "01082114d7c9075079fea34b845cb960cf2aa34493a59ad7059a8a36fa5db152",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_geometry_edits_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_geometry_tests.exe",
+    "bytes": 366592,
+    "sha256": "f85f99be21509f4204c1770b2ee0e488a7863e9476dd92e8938f3b156971f50a",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_geometry_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_gui.lib",
+    "bytes": 16732326,
+    "sha256": "f04a852813afc6ae9ec9d10ac41f83600be378ffc50f9d6734563c859a429fa3",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_gui.lib"
+  },
+  {
+    "path": "Release/qupathxx_gui_replay_tests.exe",
+    "bytes": 45568,
+    "sha256": "c65d418e6f924daa56685b3a05c6045e1c7858687098497cee9f6b44a5c53a9f",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_gui_replay_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_interchange_tests.exe",
+    "bytes": 513024,
+    "sha256": "970308e19a59d0667973b81c6504301c90d1e59980f06044471c4fe6abab1569",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_interchange_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_log_cell_recipe_tests.exe",
+    "bytes": 2604032,
+    "sha256": "5e0d52f5da0587d6558aa149fdfb8453b927e3cc09eec7dabd60811868e0a719",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_log_cell_recipe_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_log_watershed_tests.exe",
+    "bytes": 148992,
+    "sha256": "8c55868940824dd19edaf20e934026628735ccd4a4d90569a97a62d969693106",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_log_watershed_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_masked_gaussian_tests.exe",
+    "bytes": 30720,
+    "sha256": "68fa137cd58c72d83247ac7c842236c7d2670737904ef2b231bfcb59bf092e6a",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_masked_gaussian_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_measurement_table_tests.exe",
+    "bytes": 2876416,
+    "sha256": "5a170b794eabeae103b779f5345f87dbc9b720bf8204e807f313a2db03fbdd4f",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_measurement_table_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_object_classifier_tests.exe",
+    "bytes": 3153408,
+    "sha256": "bb02711cfd69ca80148ea8b343336863bc7c929af01ef9d3da523056aaeaa2f0",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_object_classifier_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_object_snapshot_tests.exe",
+    "bytes": 3663872,
+    "sha256": "230421b6a755d7f39a148c37bdf85dd6677e2b97439242f696516796f951a0a2",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_object_snapshot_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_overlay_tests.exe",
+    "bytes": 22528,
+    "sha256": "5138681ecaff3119cfc7c9509cd7a783812dcbefc951c16401921baf848a0d92",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_overlay_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_pixel_feature_tests.exe",
+    "bytes": 2479104,
+    "sha256": "ae94f23eeadb26e2906577c07551055871bf19ce5303019a8cd16e842f00dd03",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_pixel_feature_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_pixel_workflow_tests.exe",
+    "bytes": 5670400,
+    "sha256": "6936e4881aca43ccf18edcf51022fd47b7b6ac4d44f9aa29676bcc2893517011",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_pixel_workflow_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_project_batch_tests.exe",
+    "bytes": 4986368,
+    "sha256": "df9489a41ce66d4c3bbeb4862ff99f3225bb7822c364276ddb75bce08bcdec45",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_project_batch_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_project_tests.exe",
+    "bytes": 4183040,
+    "sha256": "471d0099254d202c59798044d87f390a945990908106f8f3d7bcb0dff7200054",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_project_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_provenance_tests.exe",
+    "bytes": 2459136,
+    "sha256": "2d91d489cec303f5e0331d5b6463c4878b92a297ee38f70bcdf8d494215da5f0",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_provenance_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_qptma_project_tests.exe",
+    "bytes": 3546624,
+    "sha256": "25a187b73c59c760818a704f9f104a0cb82f85c6a5af3ae3867359e3de53080f",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_qptma_project_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_qptma_tests.exe",
+    "bytes": 406528,
+    "sha256": "cfc26c9e42004c3c670cf0f9976c9e87a959bd14ca7d544b1fd6fda067e8ab5a",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_qptma_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_raw_image_tests.exe",
+    "bytes": 4533248,
+    "sha256": "f496e11e51c6f03bea38df675c08d7f5a88f6d3fb93f93309f1d8217aabd5cb3",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_raw_image_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_recovery_tests.exe",
+    "bytes": 3640320,
+    "sha256": "23c811ca671c0c10e879a41dc5d595b524152d5852dc43471d161e3bd8a821ec",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_recovery_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_region.exe",
+    "bytes": 778752,
+    "sha256": "ab860a3715adcaff0ab3f30e998680bafe4e3c4519941c3616237a725ece7649",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_region.exe"
+  },
+  {
+    "path": "Release/qupathxx_resampling_tests.exe",
+    "bytes": 3170304,
+    "sha256": "ec645af0d6475d9a2d89250e32a4dfca0d0e5c7fe96df76b016588d61d5e9ca8",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_resampling_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_save_tests.exe",
+    "bytes": 3505152,
+    "sha256": "3c17ebaa732492bd459ce9db06994cb62f1a6e549bd2f1cda54d669cc2022a52",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_save_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_scheduler_tests.exe",
+    "bytes": 216064,
+    "sha256": "14da4f0a55de25ffbcb0908ecaaaf62ad5c16065044e2c0ef52dcfb9c273f541",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_scheduler_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_selection_tests.exe",
+    "bytes": 323072,
+    "sha256": "31f9ce6c1ddbbdb16c288bbfbc9725f59fa241a647cb4f9862275b9aa9ff3807",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_selection_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_server_tests.exe",
+    "bytes": 296448,
+    "sha256": "638c1281740ce34b106310509c629e62a2f054580710c5d91b975c4856bca8ba",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_server_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_sha256_tests.exe",
+    "bytes": 25600,
+    "sha256": "ca12ecc615f5ddfc6821679907280a5ef4553ef3a38dc1e769df656689eed91c",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_sha256_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_source_identity_tests.exe",
+    "bytes": 1516544,
+    "sha256": "e0c5f67d06c9336dc22ae59d089b26f41f6710367b5c634bb9dd7b6885eb28ee",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_source_identity_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_spatial_analysis_tests.exe",
+    "bytes": 1593344,
+    "sha256": "02074dffbe4ae82ee1f257a1639555edeba56c4d864cc6991dad02c37d7affc0",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_spatial_analysis_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_spatial_cli_tests.exe",
+    "bytes": 3580416,
+    "sha256": "dedca70265ce390a38ba0bb277640c475a73d41e077596a23791e45f454ff8e7",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_spatial_cli_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_spatial_frontend_tests.exe",
+    "bytes": 3073024,
+    "sha256": "ef180f31a0d88a558cf6955d91785c2b1bb33fa665b84ce6e3961a132751e7a6",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_spatial_frontend_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_spatial_record_tests.exe",
+    "bytes": 3637248,
+    "sha256": "cbed0d0c05bcf07382b25fbc550805a97d11935c3bf14e95416bb9f03349f70e",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_spatial_record_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_spatial_tests.exe",
+    "bytes": 363520,
+    "sha256": "e0adf6a8aa6766b0bebfc3fd01e24a20f999f3259317bc11cdf68aba9da2d863",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_spatial_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_sqlite.lib",
+    "bytes": 3244188,
+    "sha256": "4b8ed6805790214092fa79eaf08f95f4d270332631113d3d8e6bba3c03e27a29",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_sqlite.lib"
+  },
+  {
+    "path": "Release/qupathxx_stains_tests.exe",
+    "bytes": 248320,
+    "sha256": "88cfe5b80ea39ed7dc079f6b9bdd04a5e1837867fcba07c50f2a65fe46113f8a",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_stains_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_stain_estimation_tests.exe",
+    "bytes": 1488896,
+    "sha256": "1bafaca039baa75dffc4db1d6cb42e4748c53d46dbb53a1b33e78dd0abe6f454",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_stain_estimation_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_thumbnail_tests.exe",
+    "bytes": 218112,
+    "sha256": "d7759c68c6b80e935745926dd1868641931d33797ca590993f0fb1cb24c245be",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_thumbnail_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_tiff_xml.lib",
+    "bytes": 364046,
+    "sha256": "35d63d35490b5a7b02d3fd81fa93b1c25f1f76d85df03cd44c5832c3e71addc5",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_tiff_xml.lib"
+  },
+  {
+    "path": "Release/qupathxx_tissue_contour_tests.exe",
+    "bytes": 2378240,
+    "sha256": "67c5402dbf0f85c0fd22891c1d82fdcf733186c33c1c79121237e773dedf0b55",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_tissue_contour_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_tissue_record_tests.exe",
+    "bytes": 3564544,
+    "sha256": "8792ef5079109274f0282e8764ec6a6b9ee45b30246c9a9a10b476c5dde5d8c6",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_tissue_record_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_tissue_tests.exe",
+    "bytes": 2254336,
+    "sha256": "9cf3f1afcb1caf786a5ba51f2ff816c473afa93ce24624ccb20789b4aac1e8c6",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_tissue_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_tma_dearray_tests.exe",
+    "bytes": 5228544,
+    "sha256": "8a5856fe83f09638ada78462154f16c42647e74d39cfde3c804e5a5b494846e3",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_tma_dearray_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_tma_tests.exe",
+    "bytes": 4556288,
+    "sha256": "84df3556fd1d9b005fb671e4f7db9151c01c7cbacba371f4b9c0a32340ac83bc",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_tma_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_viewer_session_tests.exe",
+    "bytes": 5358080,
+    "sha256": "2160a8e40f6d74d6e6d3b605ecd4c8f8706f0c81748a8c2399f669297a7d8d7b",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_viewer_session_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_view_tiles_tests.exe",
+    "bytes": 157696,
+    "sha256": "f23a47aea92eabaa51aab90b3332ca93ad7ff31c264dfaa4270c7aeec1a1da5a",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\qupathxx_view_tiles_tests.exe"
+  },
+  {
+    "path": "Release/_native.cp312-win_amd64.pyd",
+    "bytes": 9969664,
+    "sha256": "c78fdd399d20f7a9396dab724ac1e162d79098b1cdd3dd2063aa1777997bf674",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\_native.cp312-win_amd64.pyd"
+  },
+  {
+    "path": "Release/_native.lib",
+    "bytes": 9334,
+    "sha256": "228b4690e8915550fce07e7081883fd1c79a77ef4f2b441351a0cb567492721d",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\Release\\_native.lib"
+  },
+  {
+    "path": "CMakeFiles/4.4.4/CompilerIdC/CompilerIdC.exe",
+    "bytes": 14848,
+    "sha256": "7c78a4f104b843ec0fed1d0ae22cc86a4b269eaa99e90a905b6fefd2cfba72ea",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\CMakeFiles\\4.4.4\\CompilerIdC\\CompilerIdC.exe"
+  },
+  {
+    "path": "CMakeFiles/4.4.4/CompilerIdCXX/CompilerIdCXX.exe",
+    "bytes": 15360,
+    "sha256": "1cd88308be674092e78c327d6cddbc1b59c66d8d1ea5873ef8a6219896dde163",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\snapshot-waits-274\\final-products\\CMakeFiles\\4.4.4\\CompilerIdCXX\\CompilerIdCXX.exe"
+  }
+]

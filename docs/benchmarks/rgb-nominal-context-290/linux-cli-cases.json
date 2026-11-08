@@ -1,0 +1,1586 @@
+[
+  {
+    "name": "baseline_gradient_full_0_75",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "17",
+      "13",
+      "0.75",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "baseline_gradient_full_1",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "17",
+      "13",
+      "1.0",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "baseline_gradient_full_1_25",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "17",
+      "13",
+      "1.25",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "baseline_gradient_full_1_5",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "17",
+      "13",
+      "1.5",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "baseline_gradient_full_2",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "17",
+      "13",
+      "2.0",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "baseline_gradient_full_2_3",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "17",
+      "13",
+      "2.3",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "baseline_gradient_full_3_75",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "17",
+      "13",
+      "3.75",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "baseline_gradient_crop_1_5",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "1",
+      "2",
+      "14",
+      "9",
+      "1.5",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "baseline_gradient_crop_2_3",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "3",
+      "1",
+      "12",
+      "11",
+      "2.3",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "baseline_checker_full_0_75",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "17",
+      "13",
+      "0.75",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "baseline_checker_full_1",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "17",
+      "13",
+      "1.0",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "baseline_checker_full_1_25",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "17",
+      "13",
+      "1.25",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "baseline_checker_full_1_5",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "17",
+      "13",
+      "1.5",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "baseline_checker_full_2",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "17",
+      "13",
+      "2.0",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "baseline_checker_full_2_3",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "17",
+      "13",
+      "2.3",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "baseline_checker_full_3_75",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "17",
+      "13",
+      "3.75",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "baseline_checker_crop_1_5",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "1",
+      "2",
+      "14",
+      "9",
+      "1.5",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "baseline_checker_crop_2_3",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "3",
+      "1",
+      "12",
+      "11",
+      "2.3",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "baseline_noise_full_0_75",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "17",
+      "13",
+      "0.75",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "baseline_noise_full_1",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "17",
+      "13",
+      "1.0",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "baseline_noise_full_1_25",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "17",
+      "13",
+      "1.25",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "baseline_noise_full_1_5",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "17",
+      "13",
+      "1.5",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "baseline_noise_full_2",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "17",
+      "13",
+      "2.0",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "baseline_noise_full_2_3",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "17",
+      "13",
+      "2.3",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "baseline_noise_full_3_75",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "17",
+      "13",
+      "3.75",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "baseline_noise_crop_1_5",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "1",
+      "2",
+      "14",
+      "9",
+      "1.5",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "baseline_noise_crop_2_3",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "3",
+      "1",
+      "12",
+      "11",
+      "2.3",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "baseline_cells_full_0_75",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "256",
+      "192",
+      "0.75",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "baseline_cells_full_1",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "256",
+      "192",
+      "1.0",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "baseline_cells_full_1_25",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "256",
+      "192",
+      "1.25",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "baseline_cells_full_1_5",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "256",
+      "192",
+      "1.5",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "baseline_cells_full_2",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "256",
+      "192",
+      "2.0",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "baseline_cells_full_2_3",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "256",
+      "192",
+      "2.3",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "baseline_cells_full_3_75",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "256",
+      "192",
+      "3.75",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "baseline_cells_crop_1_5",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "1",
+      "2",
+      "253",
+      "188",
+      "1.5",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "baseline_cells_crop_2_3",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "3",
+      "1",
+      "251",
+      "190",
+      "2.3",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_gradient_full_0_6",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "31",
+      "29",
+      "0.6",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_gradient_full_0_9",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "31",
+      "29",
+      "0.9",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_gradient_full_1",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "31",
+      "29",
+      "1.0",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_gradient_full_1_1",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "31",
+      "29",
+      "1.1",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_gradient_full_1_7",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "31",
+      "29",
+      "1.7",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_gradient_full_2_1",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "31",
+      "29",
+      "2.1",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_gradient_full_2_75",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "31",
+      "29",
+      "2.75",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_gradient_full_4_2",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "31",
+      "29",
+      "4.2",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_gradient_full_7_125",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "31",
+      "29",
+      "7.125",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_gradient_crop_1_1",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "3",
+      "5",
+      "24",
+      "20",
+      "1.1",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_gradient_crop_2_1",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "3",
+      "5",
+      "24",
+      "20",
+      "2.1",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_gradient_crop_2_75",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "3",
+      "5",
+      "24",
+      "20",
+      "2.75",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_checker_full_0_6",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "31",
+      "29",
+      "0.6",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_checker_full_0_9",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "31",
+      "29",
+      "0.9",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_checker_full_1",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "31",
+      "29",
+      "1.0",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_checker_full_1_1",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "31",
+      "29",
+      "1.1",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_checker_full_1_7",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "31",
+      "29",
+      "1.7",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_checker_full_2_1",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "31",
+      "29",
+      "2.1",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_checker_full_2_75",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "31",
+      "29",
+      "2.75",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_checker_full_4_2",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "31",
+      "29",
+      "4.2",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_checker_full_7_125",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "31",
+      "29",
+      "7.125",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_checker_crop_1_1",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "3",
+      "5",
+      "24",
+      "20",
+      "1.1",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_checker_crop_2_1",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "3",
+      "5",
+      "24",
+      "20",
+      "2.1",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_checker_crop_2_75",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "3",
+      "5",
+      "24",
+      "20",
+      "2.75",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_noise_full_0_6",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "31",
+      "29",
+      "0.6",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_noise_full_0_9",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "31",
+      "29",
+      "0.9",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_noise_full_1",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "31",
+      "29",
+      "1.0",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_noise_full_1_1",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "31",
+      "29",
+      "1.1",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_noise_full_1_7",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "31",
+      "29",
+      "1.7",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_noise_full_2_1",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "31",
+      "29",
+      "2.1",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_noise_full_2_75",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "31",
+      "29",
+      "2.75",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_noise_full_4_2",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "31",
+      "29",
+      "4.2",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_noise_full_7_125",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "31",
+      "29",
+      "7.125",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_noise_crop_1_1",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "3",
+      "5",
+      "24",
+      "20",
+      "1.1",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_noise_crop_2_1",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "3",
+      "5",
+      "24",
+      "20",
+      "2.1",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_noise_crop_2_75",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "3",
+      "5",
+      "24",
+      "20",
+      "2.75",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_offset_full_0_6",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "47",
+      "33",
+      "0.6",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_offset_full_0_9",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "47",
+      "33",
+      "0.9",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_offset_full_1",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "47",
+      "33",
+      "1.0",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_offset_full_1_1",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "47",
+      "33",
+      "1.1",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_offset_full_1_7",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "47",
+      "33",
+      "1.7",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_offset_full_2_1",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "47",
+      "33",
+      "2.1",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_offset_full_2_75",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "47",
+      "33",
+      "2.75",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_offset_full_4_2",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "47",
+      "33",
+      "4.2",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_offset_full_7_125",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "47",
+      "33",
+      "7.125",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_offset_crop_1_1",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "3",
+      "5",
+      "40",
+      "24",
+      "1.1",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_offset_crop_2_1",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "3",
+      "5",
+      "40",
+      "24",
+      "2.1",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_offset_crop_2_75",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "3",
+      "5",
+      "40",
+      "24",
+      "2.75",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_wide_full_0_6",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "19",
+      "1",
+      "0.6",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_wide_full_0_9",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "19",
+      "1",
+      "0.9",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_wide_full_1",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "19",
+      "1",
+      "1.0",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_wide_full_1_1",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "19",
+      "1",
+      "1.1",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_wide_full_1_7",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "19",
+      "1",
+      "1.7",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_thin_full_0_6",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "1",
+      "23",
+      "0.6",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_thin_full_0_9",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "1",
+      "23",
+      "0.9",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_thin_full_1",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "1",
+      "23",
+      "1.0",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_thin_full_1_1",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "1",
+      "23",
+      "1.1",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_thin_full_1_7",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "1",
+      "23",
+      "1.7",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_one_full_0_6",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "1",
+      "1",
+      "0.6",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_one_full_0_9",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "1",
+      "1",
+      "0.9",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_one_full_1",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "1",
+      "1",
+      "1.0",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_one_full_1_1",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "1",
+      "1",
+      "1.1",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  },
+  {
+    "name": "holdout_one_full_1_7",
+    "argv": [
+      "/tmp/qupathxx-rgb290-build/qupathxx_region",
+      "--rgb-nominal",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/source-\u539f\u59cb-\ud840\udc0b.ppm",
+      "0",
+      "0",
+      "1",
+      "1",
+      "1.7",
+      "/tmp/qupathxx-rgb290-build/cli-captured-tests/result.pam"
+    ],
+    "returncode": 0,
+    "stderr": ""
+  }
+]

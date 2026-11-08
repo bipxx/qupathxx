@@ -1,0 +1,113 @@
+{
+  "native_source": "2b4786ed0c5c6c5f77f66c7af1ba31afeccddc59",
+  "observer_source": "28e062dd342622c0b7a0cdc4d3624c09fe07c521",
+  "fingerprint": "9ecd5effb4e53c7e7c8d31af601493489b95e24e8d311674edd16ceca7f0c83a",
+  "compiler_inputs": 429,
+  "source_paths": 1159,
+  "retained_products": 76,
+  "package_members": 39,
+  "tests": {
+    "native.xml": {
+      "passed": 56,
+      "skipped": 0
+    },
+    "policy.xml": {
+      "passed": 114,
+      "skipped": 0
+    },
+    "frontends.xml": {
+      "passed": 19,
+      "skipped": 0
+    },
+    "scientific.xml": {
+      "passed": 826,
+      "skipped": 18
+    },
+    "preflight.xml": {
+      "passed": 1097,
+      "skipped": 0
+    }
+  },
+  "comparison_ious": {
+    "0": {
+      "blank": {
+        "nucleus": 1.0,
+        "body": 1.0
+      },
+      "isolated_three": {
+        "nucleus": 1.0,
+        "body": 1.0
+      },
+      "touching_pair": {
+        "nucleus": 1.0,
+        "body": 1.0
+      },
+      "gap_pair": {
+        "nucleus": 1.0,
+        "body": 1.0
+      },
+      "size_filters": {
+        "nucleus": 1.0,
+        "body": 1.0
+      },
+      "roi_cut_hole": {
+        "nucleus": 1.0,
+        "body": 1.0
+      },
+      "gradient_noise": {
+        "nucleus": 1.0,
+        "body": 1.0
+      },
+      "anisotropic_level0": {
+        "nucleus": 1.0,
+        "body": 1.0
+      },
+      "resampled_reference": {
+        "nucleus": 1.0,
+        "body": 1.0
+      }
+    },
+    "32": {
+      "blank": {
+        "nucleus": 1.0,
+        "body": 1.0
+      },
+      "isolated_three": {
+        "nucleus": 1.0,
+        "body": 1.0
+      },
+      "touching_pair": {
+        "nucleus": 1.0,
+        "body": 1.0
+      },
+      "gap_pair": {
+        "nucleus": 1.0,
+        "body": 1.0
+      },
+      "size_filters": {
+        "nucleus": 1.0,
+        "body": 1.0
+      },
+      "roi_cut_hole": {
+        "nucleus": 0.9698492462311558,
+        "body": 1.0
+      },
+      "gradient_noise": {
+        "nucleus": 1.0,
+        "body": 1.0
+      },
+      "anisotropic_level0": {
+        "nucleus": 1.0,
+        "body": 1.0
+      },
+      "resampled_reference": {
+        "nucleus": 1.0,
+        "body": 1.0
+      }
+    }
+  },
+  "own_source_hosted_qualification": false,
+  "biological_validation": false,
+  "general_speed_claim": false,
+  "release_ready": false
+}

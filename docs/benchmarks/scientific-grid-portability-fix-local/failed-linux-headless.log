@@ -1,0 +1,3 @@
+2026-10-25T10:52:58.9857300Z stubs differ: /home/runner/work/qupathxx/qupathxx/src/qupathxx/_native.pyi; regenerate against the current installed wheel
+2026-10-25T10:52:58.9866832Z     raise RuntimeError(f'command failed ({result.returncode}); log: {log}')
+2026-10-25T10:52:58.9867273Z RuntimeError: command failed (1); log: /home/runner/work/qupathxx/qupathxx/build/ci/job/stubs.log

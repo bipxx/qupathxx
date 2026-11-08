@@ -1,0 +1,24 @@
+{
+  "source_revision": "3155df804a778daf2d470b3ea60363630e735c98",
+  "source_tree_sha256": "2ddb06c5da4de69aaf040253e30958cdd105f1a0e7e51aba82388eff4125fa13",
+  "wheel": "qupathxx-0.1.0-5-cp312-cp312-win_amd64.whl",
+  "wheel_sha256": "879c40c59bc4b469d403f2de9f47aea1b44aadadbb789fc68dfa197e0a285a25",
+  "immutable_wheel_members_verified": 67,
+  "compiler_inputs_verified": 522,
+  "dependency_archives_verified": 12,
+  "source_archive": "qupathxx-source-3155df80.zip",
+  "installed_package": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\windows-candidate5\\environment\\Lib\\site-packages\\qupathxx",
+  "license": "AGPL-3.0-only",
+  "environment": {
+    "git_revision": "3155df804a778daf2d470b3ea60363630e735c98",
+    "source_tree_sha256": "2ddb06c5da4de69aaf040253e30958cdd105f1a0e7e51aba82388eff4125fa13",
+    "compiler": "MSVC 19.44.35225.0",
+    "compiler_flags": "base=/DWIN32 /D_WINDOWS /EHsc;Release=/O2 /Ob2 /DNDEBUG;Debug=/Zi /Ob0 /Od /RTC1;RelWithDebInfo=/Zi /O2 /Ob1 /DNDEBUG;MinSizeRel=/O1 /Ob1 /DNDEBUG",
+    "configuration": "Release",
+    "platform": "Windows AMD64",
+    "geos_version": "3.15.0-CAPI-1.21.0",
+    "openslide_version": "4.0.1",
+    "sqlite_version": "3.54.1"
+  },
+  "support": "Local Windows x64 CPython3.12 engineering install/run/removal; no fresh-host, signing, additional-platform, biology or speed qualification"
+}

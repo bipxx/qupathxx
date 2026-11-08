@@ -1,0 +1,46 @@
+{
+  "schema": "qpx.expansion-frontier-main-promotion/1",
+  "previous_main": "ddd3bb981ee9ef1c1ff396fa47c6239dd1dfa97c",
+  "promoted_source": "691c0f386d958d4ef630869bd025acf8019245ec",
+  "observed_remote_main": "691c0f386d958d4ef630869bd025acf8019245ec",
+  "fast_forward_only": true,
+  "forced": false,
+  "root_local_main": "c86d3237f6f679f5651948d95c17e2d617684c46",
+  "root_local_main_unchanged": true,
+  "engineering_audits": [
+    {
+      "file": "frontier140-hosted-acceptance.json",
+      "sha256": "7ffb5abf7dd43947f439b12a452a74275dcf5cb27be0702225ed2ee9f1ccd2f0"
+    },
+    {
+      "file": "frontier140-macos-acceptance.json",
+      "sha256": "794d1f83d163f1c87545274cf9214534656caab4536871c33fa57275cc670e32"
+    },
+    {
+      "file": "frontier140-portable-acceptance.json",
+      "sha256": "e19a261010567724c2272ed879d802adf034eefd85284afc5c82cefae773bdd0"
+    }
+  ],
+  "hosted_engine_run": 40091955672,
+  "hosted_macos_run": 40091958026,
+  "hosted_portable_run": 40091959604,
+  "performance_accepted": false,
+  "release_ready": false,
+  "overall_project_complete": false,
+  "scope": "Promotes correctness fixes and bounded expansion queue after exact-source engineering audits. Does not establish a general speedup, hardware eligibility, scientific parity, license or supported release. TMA source 758bc39 remains a separate validation candidate.",
+  "published_evidence": [
+    {
+      "path": "docs/benchmarks/expansion-frontier-windows-linux.json",
+      "sha256": "7ffb5abf7dd43947f439b12a452a74275dcf5cb27be0702225ed2ee9f1ccd2f0"
+    },
+    {
+      "path": "docs/benchmarks/expansion-frontier-macos.json",
+      "sha256": "794d1f83d163f1c87545274cf9214534656caab4536871c33fa57275cc670e32"
+    },
+    {
+      "path": "docs/benchmarks/expansion-frontier-portable.json",
+      "sha256": "338963bd9d810b68602728b58e5a27e5a6a3418d716567beb6a38a2c854252d3"
+    }
+  ],
+  "audit_receipt_format_note": "engineering_audits records exact original local audit files; published_evidence records the equivalent public JSON receipts normalized to LF."
+}

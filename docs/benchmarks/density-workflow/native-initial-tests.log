@@ -1,0 +1,131 @@
+Start testing: Nov 06 11:46 Eastern Standard Time
+----------------------------------------------------------
+52/69 Testing: geometry
+52/69 Test: geometry
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_geometry_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"geometry" start time: Nov 06 11:46 Eastern Standard Time
+Output:
+----------------------------------------------------------
+ROI centroids: analytic bodies, area/length/point weights, numeric limits and shared snapshots passed; GEOS=1
+Analytic shapes, topology, ownership and shape undo passed; GEOS 3.15.0-CAPI-1.21.0
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Passed.
+"geometry" end time: Nov 06 11:46 Eastern Standard Time
+"geometry" time elapsed: 00:00:00
+----------------------------------------------------------
+
+55/69 Testing: spatial_neighborhood_records
+55/69 Test: spatial_neighborhood_records
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_neighborhood_record_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"spatial_neighborhood_records" start time: Nov 06 11:46 Eastern Standard Time
+Output:
+----------------------------------------------------------
+Neighborhood retention: keep/list/status, independent copy, explicit-cohort replay, stale geometry, historical lifetime and record cap passed
+Neighborhood QSN1/CSV: exact roundtrip, corrupted/truncated/invalid-count rejection, locale-independent rows and bounded atomic publication passed
+Neighborhood projects: async snapshot, mixed QSD1/QSN1 replay, write rollback, schema27 upgrade and exact legacy snapshot boundary passed
+Artifacts: C:\Users\HEQ\AppData\Local\Temp\qupathxx-neighborhood-records-2023620497510700
+<end of output>
+Test time =   0.43 sec
+----------------------------------------------------------
+Test Passed.
+"spatial_neighborhood_records" end time: Nov 06 11:46 Eastern Standard Time
+"spatial_neighborhood_records" time elapsed: 00:00:00
+----------------------------------------------------------
+
+56/69 Testing: spatial_density_records
+56/69 Test: spatial_density_records
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_density_record_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"spatial_density_records" start time: Nov 06 11:46 Eastern Standard Time
+Output:
+----------------------------------------------------------
+Density retention: keep/list/status, independent copies, explicit-cohort replay, stale geometry/calibration/policy and historical lifetime passed
+Density QDN1/CSV: exact geometry/value/policy roundtrip, corrupted/truncated/resealed semantic rejection and bounded atomic publication passed
+Density projects: immutable async snapshot, mixed QSD1/QSN1/QDN1, save rollback, schema28 upgrade and exact inactive legacy snapshot boundary passed
+Artifacts: C:\Users\HEQ\AppData\Local\Temp\qupathxx-density-records-2023620967791500
+<end of output>
+Test time =   0.32 sec
+----------------------------------------------------------
+Test Passed.
+"spatial_density_records" end time: Nov 06 11:46 Eastern Standard Time
+"spatial_density_records" time elapsed: 00:00:00
+----------------------------------------------------------
+
+57/69 Testing: spatial_density
+57/69 Test: spatial_density
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_density_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"spatial_density" start time: Nov 06 11:46 Eastern Standard Time
+Output:
+----------------------------------------------------------
+Density analytic oracle: clipped overlapping tissue, exclusion edges, inclusive outer edges, independent windows, calibrated area, empty/zero and deterministic identity passed
+Density topology: holes/closed hole edges, multipart, explicit512-segment curves, nucleus/body preference and complete exclusion passed
+Density admission/jobs: calibration, required/duplicate/missing/typed cohorts, geometry/work/predicate quotas, cancel/stale/retry, detached capture and extreme area arithmetic passed
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"spatial_density" end time: Nov 06 11:46 Eastern Standard Time
+"spatial_density" time elapsed: 00:00:00
+----------------------------------------------------------
+
+58/69 Testing: spatial_neighborhood
+58/69 Test: spatial_neighborhood
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_neighborhood_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"spatial_neighborhood" start time: Nov 06 11:46 Eastern Standard Time
+Output:
+----------------------------------------------------------
+Radius index: independent squared-distance oracle, inclusive/adjacent boundaries, anisotropic pruning, work/cancel and extreme-coordinate cases passed
+Neighborhood capture: ordered identity, units, nucleus/body, empty/duplicate cohorts, owner checks and reader-free detached execution passed
+Neighborhood jobs: direct parity, wait/owner/cancel/retry/stale, snapshot/work/comparison bounds and joining shutdown passed
+<end of output>
+Test time =   0.14 sec
+----------------------------------------------------------
+Test Passed.
+"spatial_neighborhood" end time: Nov 06 11:46 Eastern Standard Time
+"spatial_neighborhood" time elapsed: 00:00:00
+----------------------------------------------------------
+
+59/69 Testing: spatial
+59/69 Test: spatial
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_spatial_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"spatial" start time: Nov 06 11:46 Eastern Standard Time
+Output:
+----------------------------------------------------------
+Nearest-point spatial queries: 400 reordered and 200 concurrent exhaustive oracles, 100000-point scenes, anisotropy, ties, identity exclusion, cancellation and numeric limits passed
+Spatial queries, delta updates, picking and undo passed
+<end of output>
+Test time =   0.09 sec
+----------------------------------------------------------
+Test Passed.
+"spatial" end time: Nov 06 11:46 Eastern Standard Time
+"spatial" time elapsed: 00:00:00
+----------------------------------------------------------
+
+62/69 Testing: spatial_records
+62/69 Test: spatial_records
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_spatial_record_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"spatial_records" start time: Nov 06 11:46 Eastern Standard Time
+Output:
+----------------------------------------------------------
+Spatial retained records: exact capture authority, explicit cohorts, clone/replay, calibration/object staleness, closed source and historical ownership passed
+Spatial QSD1 archives: deterministic roundtrip, provenance/input/result identity, nullable rows, corruption/truncation/semantic refusal and cancellation passed
+Spatial CSV: float64 units/identity, absent versus zero, streaming atomic no-overwrite/replacement, limits/cancellation and temporary cleanup passed
+Spatial projects: schema29 save/reopen, immutable async save, history/reverification, snapshot budget, missing linked-image zero-IO replay and corrupt/orphan refusal passed
+Spatial migrations: all28 legacy schemas open without modification and transactionally upgrade with retained distance rows passed
+<end of output>
+Test time =   8.88 sec
+----------------------------------------------------------
+Test Passed.
+"spatial_records" end time: Nov 06 11:46 Eastern Standard Time
+"spatial_records" time elapsed: 00:00:08
+----------------------------------------------------------
+
+End testing: Nov 06 11:46 Eastern Standard Time

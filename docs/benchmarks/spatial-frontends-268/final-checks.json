@@ -1,0 +1,8 @@
+{
+  "stubs_match": true,
+  "positive_typing_passed": true,
+  "negative_diagnostics": 8,
+  "record_entries": 37,
+  "record_hashes_sizes_verified": true,
+  "authenticated_source_paths": 517
+}

@@ -1,0 +1,18 @@
+{
+  "command": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-link-qualification-257-env\\Scripts\\python.exe",
+    "-X",
+    "utf8",
+    "-m",
+    "pytest",
+    "tests\\test_raw_stream_contour_batch.py::test_batch_contour_moved_output_and_changed_model_use_exact_checkpoint_scope",
+    "-q",
+    "--basetemp",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\q258-fixed-pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp",
+    "--junitxml",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw-path-fixture-258\\fixed-long.xml"
+  ],
+  "cwd": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159",
+  "returncode": 1,
+  "test_sha256": "02e599fc51fe7423d47410016dcef804b7601b7c82ab47a8d07e30cb6c8d133a"
+}

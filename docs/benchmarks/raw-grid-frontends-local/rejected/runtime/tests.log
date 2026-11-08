@@ -1,0 +1,24 @@
+........................................................................ [ 49%]
+..................................................................F...ss [ 99%]
+s                                                                        [100%]
+================================== FAILURES ===================================
+___________ test_raw_grid_endpoint_admission_and_queue_reclamation ____________
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/raw181-runtime/tmp/test_raw_grid_endpoint_admissi0')
+
+    def test_raw_grid_endpoint_admission_and_queue_reclamation(tmp_path):
+        endpoint=q.ViewerSession(str(tmp_path/'not-opened.qpxproj'))
+        value=sampling();options=q.ScientificRawOptions()
+        value.samples_x=0
+        with pytest.raises(ValueError):endpoint.analyze_raw_grid(1,1,value,options)
+        value.samples_x=1
+        with pytest.raises(ValueError):endpoint.analyze_raw_grid(1,0,value,options)
+        options.channels=0
+>       with pytest.raises(ValueError):endpoint.analyze_raw_grid(1,1,value,options)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       IndexError: scientific raw channel/Z/time selection exceeds limits
+
+build\ci\scientific-grid-159\tests\test_raw_grid_frontends.py:59: IndexError
+=========================== short test summary info ===========================
+FAILED build\ci\scientific-grid-159\tests\test_raw_grid_frontends.py::test_raw_grid_endpoint_admission_and_queue_reclamation
+1 failed, 141 passed, 3 skipped in 4.40s

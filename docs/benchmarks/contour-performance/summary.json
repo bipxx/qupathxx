@@ -1,0 +1,433 @@
+{
+  "scope": "One Windows ROI; one warmup and three measured native workflows per block; prior frozen QuPath masks reused, no new cross-engine time ratio",
+  "native_source": "649869072f9fa9b0ab50a7e9245ac90f2cd39765+dirty",
+  "native_tree": "08f5967e9e7de1109a00f9985c9c98344d1c7ab9e6523413d9f7d76557d6c756",
+  "blocks": {
+    "native-before": {
+      "source_tree": "dddf5bb3412a58e2ade9317f46e21d06d2857ca387ba40db37d0fd5fbedeaa41",
+      "workflow": {
+        "median_ms": 3214.7687999531627,
+        "min_ms": 3070.3019998036325,
+        "max_ms": 3464.532000012696
+      },
+      "stages": {
+        "open_image": {
+          "median_ms": 19.47719999589026,
+          "min_ms": 17.984299920499325,
+          "max_ms": 22.25840021856129
+        },
+        "setup_roi": {
+          "median_ms": 0.03760005347430706,
+          "min_ms": 0.03150012344121933,
+          "max_ms": 0.04100007936358452
+        },
+        "read_roi": {
+          "median_ms": 7.6142000034451485,
+          "min_ms": 7.379199843853712,
+          "max_ms": 11.333000147715211
+        },
+        "roi_statistics": {
+          "median_ms": 19.490599865093827,
+          "min_ms": 17.768700141459703,
+          "max_ms": 24.138799868524075
+        },
+        "keep_statistics": {
+          "median_ms": 0.02510007470846176,
+          "min_ms": 0.021399930119514465,
+          "max_ms": 0.025799963623285294
+        },
+        "cell_capture": {
+          "median_ms": 0.07060007192194462,
+          "min_ms": 0.04740012809634209,
+          "max_ms": 0.07499987259507179
+        },
+        "cell_detection": {
+          "median_ms": 1449.9953999184072,
+          "min_ms": 1444.1943001002073,
+          "max_ms": 1536.6607001051307
+        },
+        "keep_cells": {
+          "median_ms": 0.02219993621110916,
+          "min_ms": 0.017800135537981987,
+          "max_ms": 0.023099826648831367
+        },
+        "publish_cells": {
+          "median_ms": 4.633400123566389,
+          "min_ms": 3.7954000290483236,
+          "max_ms": 6.7702000960707664
+        },
+        "density": {
+          "median_ms": 9.355399990454316,
+          "min_ms": 8.867299882695079,
+          "max_ms": 14.604700030758977
+        },
+        "keep_density": {
+          "median_ms": 0.015599885955452919,
+          "min_ms": 0.015400117263197899,
+          "max_ms": 0.01919991336762905
+        },
+        "export_csv": {
+          "median_ms": 4.454500041902065,
+          "min_ms": 3.8755000568926334,
+          "max_ms": 4.788799909874797
+        },
+        "save_project": {
+          "median_ms": 75.36800019443035,
+          "min_ms": 73.53779999539256,
+          "max_ms": 99.13929994218051
+        },
+        "reopen_project": {
+          "median_ms": 1598.0783998966217,
+          "min_ms": 1448.7038999795914,
+          "max_ms": 1721.6139000374824
+        }
+      }
+    },
+    "native-after": {
+      "source_tree": "08f5967e9e7de1109a00f9985c9c98344d1c7ab9e6523413d9f7d76557d6c756",
+      "workflow": {
+        "median_ms": 2988.490799907595,
+        "min_ms": 2665.5762000009418,
+        "max_ms": 3012.0824000332505
+      },
+      "stages": {
+        "open_image": {
+          "median_ms": 20.58799983933568,
+          "min_ms": 17.777200089767575,
+          "max_ms": 29.945200076326728
+        },
+        "setup_roi": {
+          "median_ms": 0.057999975979328156,
+          "min_ms": 0.030700117349624634,
+          "max_ms": 0.07620011456310749
+        },
+        "read_roi": {
+          "median_ms": 10.135000105947256,
+          "min_ms": 7.498899940401316,
+          "max_ms": 11.700900038704276
+        },
+        "roi_statistics": {
+          "median_ms": 24.635500041767955,
+          "min_ms": 17.90560013614595,
+          "max_ms": 26.181899942457676
+        },
+        "keep_statistics": {
+          "median_ms": 0.029999995604157448,
+          "min_ms": 0.019600149244070053,
+          "max_ms": 0.04279986023902893
+        },
+        "cell_capture": {
+          "median_ms": 0.09360001422464848,
+          "min_ms": 0.06289989687502384,
+          "max_ms": 0.0979001633822918
+        },
+        "cell_detection": {
+          "median_ms": 1219.4217999931425,
+          "min_ms": 1154.330400051549,
+          "max_ms": 1285.7296001166105
+        },
+        "keep_cells": {
+          "median_ms": 0.024700071662664413,
+          "min_ms": 0.022700056433677673,
+          "max_ms": 0.02629985101521015
+        },
+        "publish_cells": {
+          "median_ms": 6.13819994032383,
+          "min_ms": 6.111199967563152,
+          "max_ms": 6.989700021222234
+        },
+        "density": {
+          "median_ms": 15.727499965578318,
+          "min_ms": 15.320300124585629,
+          "max_ms": 18.320800038054585
+        },
+        "keep_density": {
+          "median_ms": 0.02219993621110916,
+          "min_ms": 0.0200001522898674,
+          "max_ms": 0.02759997732937336
+        },
+        "export_csv": {
+          "median_ms": 5.849499953910708,
+          "min_ms": 4.43600001744926,
+          "max_ms": 6.366700166836381
+        },
+        "save_project": {
+          "median_ms": 106.52789985761046,
+          "min_ms": 85.30910010449588,
+          "max_ms": 218.9750000834465
+        },
+        "reopen_project": {
+          "median_ms": 1353.8197001907974,
+          "min_ms": 1236.1803001258522,
+          "max_ms": 1631.3811999280006
+        }
+      }
+    },
+    "native-control": {
+      "source_tree": "dddf5bb3412a58e2ade9317f46e21d06d2857ca387ba40db37d0fd5fbedeaa41",
+      "workflow": {
+        "median_ms": 3564.2251998651773,
+        "min_ms": 3375.984200043604,
+        "max_ms": 3828.30259995535
+      },
+      "stages": {
+        "open_image": {
+          "median_ms": 24.00789991952479,
+          "min_ms": 17.51699997112155,
+          "max_ms": 27.32080011628568
+        },
+        "setup_roi": {
+          "median_ms": 0.040400074794888496,
+          "min_ms": 0.03429991193115711,
+          "max_ms": 0.04600011743605137
+        },
+        "read_roi": {
+          "median_ms": 9.636300150305033,
+          "min_ms": 9.403100004419684,
+          "max_ms": 10.882400209084153
+        },
+        "roi_statistics": {
+          "median_ms": 25.715700117871165,
+          "min_ms": 18.058500019833446,
+          "max_ms": 27.534800115972757
+        },
+        "keep_statistics": {
+          "median_ms": 0.025900080800056458,
+          "min_ms": 0.02259993925690651,
+          "max_ms": 0.026799971237778664
+        },
+        "cell_capture": {
+          "median_ms": 0.06589991971850395,
+          "min_ms": 0.05530007183551788,
+          "max_ms": 0.10710000060498714
+        },
+        "cell_detection": {
+          "median_ms": 1719.6273999288678,
+          "min_ms": 1598.4195999335498,
+          "max_ms": 1829.2743999045342
+        },
+        "keep_cells": {
+          "median_ms": 0.03160000778734684,
+          "min_ms": 0.029700109735131264,
+          "max_ms": 0.034800032153725624
+        },
+        "publish_cells": {
+          "median_ms": 6.845799973234534,
+          "min_ms": 5.790199851617217,
+          "max_ms": 10.174799943342805
+        },
+        "density": {
+          "median_ms": 14.78779991157353,
+          "min_ms": 14.675699872896075,
+          "max_ms": 17.510500038042665
+        },
+        "keep_density": {
+          "median_ms": 0.022399937734007835,
+          "min_ms": 0.018700025975704193,
+          "max_ms": 0.03300001844763756
+        },
+        "export_csv": {
+          "median_ms": 5.239000078290701,
+          "min_ms": 3.645499935373664,
+          "max_ms": 6.001499947160482
+        },
+        "save_project": {
+          "median_ms": 93.39159983210266,
+          "min_ms": 84.71490000374615,
+          "max_ms": 97.5569998845458
+        },
+        "reopen_project": {
+          "median_ms": 1628.4211999736726,
+          "min_ms": 1562.083400087431,
+          "max_ms": 1775.0620997976512
+        }
+      }
+    }
+  },
+  "workflow_time_reduction_vs_controls": {
+    "native-before": 0.0703870213151454,
+    "native-control": 0.1615314318464951
+  },
+  "exact_comparisons": [
+    {
+      "iteration": 0,
+      "cells": 2237,
+      "exact_rgb_masks_and_csv_across_native": true,
+      "exact_qupath_partitions": true
+    },
+    {
+      "iteration": 1,
+      "cells": 2237,
+      "exact_rgb_masks_and_csv_across_native": true,
+      "exact_qupath_partitions": true
+    },
+    {
+      "iteration": 2,
+      "cells": 2237,
+      "exact_rgb_masks_and_csv_across_native": true,
+      "exact_qupath_partitions": true
+    },
+    {
+      "iteration": 3,
+      "cells": 2237,
+      "exact_rgb_masks_and_csv_across_native": true,
+      "exact_qupath_partitions": true
+    }
+  ],
+  "contour_probes": {
+    "profile": {
+      "nucleus": {
+        "median_ms": 338.8644999358803,
+        "min_ms": 331.2885998748243,
+        "max_ms": 354.0258000139147
+      },
+      "body": {
+        "median_ms": 440.47520007006824,
+        "min_ms": 433.8471998926252,
+        "max_ms": 467.8167998790741
+      }
+    },
+    "candidate": {
+      "nucleus": {
+        "median_ms": 269.9659001082182,
+        "min_ms": 260.6823998503387,
+        "max_ms": 272.20270014368
+      },
+      "body": {
+        "median_ms": 324.1717000491917,
+        "min_ms": 319.31220018304884,
+        "max_ms": 334.79319978505373
+      }
+    },
+    "final": {
+      "nucleus": {
+        "median_ms": 283.7779000401497,
+        "min_ms": 272.78060000389814,
+        "max_ms": 284.3416000250727
+      },
+      "body": {
+        "median_ms": 340.4032001271844,
+        "min_ms": 329.5013001188636,
+        "max_ms": 344.00849998928607
+      }
+    },
+    "control": {
+      "nucleus": {
+        "median_ms": 412.95840009115636,
+        "min_ms": 393.7657999340445,
+        "max_ms": 571.233999915421
+      },
+      "body": {
+        "median_ms": 666.472899960354,
+        "min_ms": 489.4570999313146,
+        "max_ms": 777.1026000846177
+      }
+    }
+  },
+  "exact_ordered_geometry_preserved": true,
+  "instrumented_baseline_phases": [
+    {
+      "edges": 60520.0,
+      "count": 2237.0,
+      "count_ms": 1.868,
+      "lines_ms": 13.033,
+      "polygonize_ms": 159.759,
+      "locate_ms": 1.568,
+      "transform_validate_ms": 18.48,
+      "intersect_ms": 56.307,
+      "extract_ms": 1.205,
+      "finalize_ms": 77.367
+    },
+    {
+      "edges": 77540.0,
+      "count": 2237.0,
+      "count_ms": 1.694,
+      "lines_ms": 15.439,
+      "polygonize_ms": 225.576,
+      "locate_ms": 11.302,
+      "transform_validate_ms": 21.596,
+      "intersect_ms": 62.915,
+      "extract_ms": 1.276,
+      "finalize_ms": 97.727
+    },
+    {
+      "edges": 60520.0,
+      "count": 2237.0,
+      "count_ms": 1.811,
+      "lines_ms": 13.523,
+      "polygonize_ms": 178.599,
+      "locate_ms": 1.466,
+      "transform_validate_ms": 18.906,
+      "intersect_ms": 57.353,
+      "extract_ms": 1.339,
+      "finalize_ms": 80.961
+    },
+    {
+      "edges": 77540.0,
+      "count": 2237.0,
+      "count_ms": 1.634,
+      "lines_ms": 14.531,
+      "polygonize_ms": 250.306,
+      "locate_ms": 8.198,
+      "transform_validate_ms": 23.078,
+      "intersect_ms": 67.788,
+      "extract_ms": 1.611,
+      "finalize_ms": 96.549
+    },
+    {
+      "edges": 60520.0,
+      "count": 2237.0,
+      "count_ms": 1.76,
+      "lines_ms": 11.799,
+      "polygonize_ms": 169.462,
+      "locate_ms": 1.386,
+      "transform_validate_ms": 18.169,
+      "intersect_ms": 55.413,
+      "extract_ms": 1.084,
+      "finalize_ms": 76.917
+    },
+    {
+      "edges": 77540.0,
+      "count": 2237.0,
+      "count_ms": 1.583,
+      "lines_ms": 14.133,
+      "polygonize_ms": 233.034,
+      "locate_ms": 7.705,
+      "transform_validate_ms": 21.396,
+      "intersect_ms": 62.284,
+      "extract_ms": 1.265,
+      "finalize_ms": 95.796
+    },
+    {
+      "edges": 60520.0,
+      "count": 2237.0,
+      "count_ms": 1.839,
+      "lines_ms": 11.862,
+      "polygonize_ms": 161.754,
+      "locate_ms": 1.369,
+      "transform_validate_ms": 18.527,
+      "intersect_ms": 56.218,
+      "extract_ms": 1.127,
+      "finalize_ms": 75.525
+    },
+    {
+      "edges": 77540.0,
+      "count": 2237.0,
+      "count_ms": 1.677,
+      "lines_ms": 14.749,
+      "polygonize_ms": 224.339,
+      "locate_ms": 7.486,
+      "transform_validate_ms": 22.619,
+      "intersect_ms": 63.819,
+      "extract_ms": 1.391,
+      "finalize_ms": 95.718
+    }
+  ],
+  "reference_report_sha256": "81bdec82acc2944dd2d8f83e03041c27eb26158d720c53eb1630b9eadcb07d91",
+  "caveats": [
+    "Host timing drift is substantial; percentages are local observations, not statistical or universal claims.",
+    "Temporary phase instrumentation was removed from the candidate; the baseline source/probe is retained.",
+    "No new resource-only RAM run or QuPath timing; previous memory/reference timings do not acquire this source identity.",
+    "Candidate5 release files are unchanged; this is a development source optimization."
+  ]
+}

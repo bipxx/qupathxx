@@ -1,0 +1,93 @@
+F............s                                                           [100%]
+================================== FAILURES ===================================
+_______________ test_cli_train_resume_predict_retain_and_verify _______________
+
+source = (WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4105/test_cli_train_resume_predict_0/��Ŀ.qpx'), 1, <...1, 2], WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4105/test_cli_train_resume_predict_0/����.tif'))
+tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4105/test_cli_train_resume_predict_0')
+
+    def test_cli_train_resume_predict_retain_and_verify(source, tmp_path):
+        require_training()
+        path, image, doc, ids, _ = source
+        before = path.read_bytes()
+        args = arguments(source, tmp_path)
+        partial = final(run(*args, "--max-new-windows", 1), 1)
+        assert partial["state"] == "partial" and partial["model_sha256"] is None
+        assert not (tmp_path / "ģ��.qrm").exists() and not (tmp_path / "ѵ��.qtt").exists()
+        trained = final(run(*args, "--resume", tmp_path / "����.qtc", "--replace-existing",
+                            "--output-project", tmp_path / "trained.qpx"))
+        assert trained["state"] == "trained" and trained["replayed_windows"] == 1
+        lattice = q.ScientificRawLattice(8, 6, q.ScientificGridAxis(0, 8, 7, 2),
+                                        q.ScientificGridAxis(0, 6, 5, 2))
+        selection, features = q.ScientificRawOptions(), q.RawPixelFeatureOptions()
+        selection.channels = 2
+        selection.work_bytes = features.work_bytes = 16 * 1024**2
+        features.offsets, features.scales = [0, 0], [1, 1]
+        options, tiles = q.RawPixelTrainingOptions(), q.RawPixelTileOptions()
+        options.max_samples, options.max_samples_per_class, options.work_bytes = 12, 6, 16 * 1024**2
+        tiles.width = tiles.height = 2
+        request = q.RawPixelTiledTrainingRequest(doc, ids, lattice, selection, features, options, tiles)
+        table = q.sample_raw_pixel_tiled_training(request)
+        parameters = q.ForestParameters()
+        parameters.trees, parameters.max_depth, parameters.work_bytes = 5, 3, 2 * 1024**2
+        reference = q.train_raw_pixel_tiled_classifier(table, parameters)
+        model = q.load_raw_pixel_classifier(str(tmp_path / "ģ��.qrm"))
+        assert model.to_bytes() == reference.to_bytes()
+        assert trained["rows"] == table.row_count and trained["table_sha256"] == table.sha256
+        archive = q.load_raw_pixel_archive(str(tmp_path / "ѵ��.qtt"))
+        np.testing.assert_array_equal(archive.tiled_table.values_numpy(), table.values_numpy())
+        saved = q.Project.open(str(tmp_path / "trained.qpx"))
+        assert saved.document(image).raw_pixel_record_count == 1
+        saved.document(image).server.close()
+        output = tmp_path / "���.qws"
+        export = ["--export-raw-pixels", path, image, tmp_path / "ģ��.qrm", output,
+                  "--x-axis", "0,8,7,2", "--y-axis", "0,6,5,2", "--tile-width", 2,
+                  "--tile-height", 2, "--work-bytes", 16 * 1024**2]
+        prefix = final(run(*export, "--max-new-windows", 1), 1)
+        assert prefix["state"] == "partial" and prefix["summary"]["completed_windows"] == 1
+        result = final(run(*export, "--resume", output, "--replace-existing",
+                           "--output-project", tmp_path / "prediction.qpx"))
+        assert result["state"] == "saved" and result["summary"]["complete"]
+        assert result["summary"]["reused_windows"] == 1
+        stream_options = q.RawPixelStreamOptions()
+        stream_options.tile_width = stream_options.tile_height = 2
+        stream_options.work_bytes = 16 * 1024**2
+        prediction = q.RawPixelTiledPredictionRequest(doc, model, lattice, stream_options)
+        stream = q.RawPixelPredictionStream(prediction)
+        file = q.RawPixelStreamFile(str(output))
+        file.verify()
+        for i in range(file.declared_summary.completed_windows):
+            actual, expected = file.read_block(i), stream.next()
+            np.testing.assert_array_equal(actual.labels_numpy(), expected.labels_numpy())
+            np.testing.assert_array_equal(actual.vote_fractions_numpy(), expected.vote_fractions_numpy())
+            np.testing.assert_array_equal(actual.valid_numpy(), expected.valid_numpy())
+        assert stream.next() is None
+        verified = final(run("--verify-raw-pixels", output))
+        assert verified["state"] == "verified" and verified["summary"]["sha256"] == result["summary"]["sha256"]
+        reopened = q.Project.open(str(tmp_path / "prediction.qpx"))
+        assert reopened.document(image).raw_pixel_stream_record_count == 1
+        reopened.document(image).server.close()
+        assert path.read_bytes() == before
+        # A complete fresh export and a replayed export have identical persisted bytes.
+        other = tmp_path / "fresh.qws"
+        fresh = export.copy()
+        fresh[5] = other
+>       assert final(run(*fresh))["summary"]["reused_windows"] == 0
+               ^^^^^^^^^^^^^^^^^^
+
+tests\test_raw_pixel_cli.py:125: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+done = CompletedProcess(args=['C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawtraining218-windows\\Release\\qupathxx_batch...\\HEQ\\\\AppData\\\\Local\\\\Temp\\\\pytest-of-HEQ\\\\pytest-4105\\\\test_cli_train_resume_predict_0\\\\fresh.qws"}\n')
+code = 0
+
+    def final(done, code=0):
+>       assert done.returncode == code, done.stdout + done.stderr
+E       AssertionError: {"schema":"qpx.batch-error/1","error":"unknown raw prediction option: C:\\Users\\HEQ\\AppData\\Local\\Temp\\pytest-of-HEQ\\pytest-4105\\test_cli_train_resume_predict_0\\fresh.qws"}
+E         
+E       assert 2 == 0
+E        +  where 2 = CompletedProcess(args=['C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawtraining218-windows\\Release\\qupathxx_batch...\\HEQ\\\\AppData\\\\Local\\\\Temp\\\\pytest-of-HEQ\\\\pytest-4105\\\\test_cli_train_resume_predict_0\\\\fresh.qws"}\n').returncode
+
+tests\test_raw_pixel_cli.py:25: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_raw_pixel_cli.py::test_cli_train_resume_predict_retain_and_verify
+1 failed, 12 passed, 1 skipped in 1.39s

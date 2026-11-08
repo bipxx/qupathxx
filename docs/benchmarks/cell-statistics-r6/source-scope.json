@@ -1,0 +1,20 @@
+{
+  "source": "e7576d61482d002cd84f6d2cec0f6fedd67087c5+dirty",
+  "source_tree_sha256": "f1a30e5f0b521134ceee70c3e0383ff43173b9a878f799f63ee772a4086f164b",
+  "compiler_input_count": 478,
+  "changed_inputs_from_installed_faa71c1f": {
+    "CMakeLists.txt": "efeefaca9ee6bb9a01ae0e8d4e4e59c4bf200e3332ec5d3c732eda5615dc1906",
+    "cpp/cell_intensity_statistics.hpp": "904d3efb0e0f954d4a37ba4924ae0dbc527a3e26c487e00c0fae81644bf6f637",
+    "cpp/tests/cell_intensity_statistics_tests.cpp": "fb1236bf2833deb62a31e5f5fcdd7987c8e086676ac21c1b950d2c18c4b49789",
+    "cpp/tests/cell_tests.cpp": "4172a43dd594fc101ffb7a2faf6ad4ce283f6a3ad9f23aea73154c4dd395ff27",
+    "cpp/tests/nominal_cell_tests.cpp": "047685de52cbc69eba3d2d6b5de0a74eeafb9c3ffe1df1068c9977378a044faf"
+  },
+  "configuration": "Reused Release cell test target; existing optional features unchanged",
+  "result": "statistics-reducer.xml",
+  "scope": "Private statistics reducer/reference only; no production CellResult/bindings/codec/export integration yet",
+  "installed_runtime_unchanged": "faa71c1fa6eb9e5bb6eab1ce11cb8389497d47d7",
+  "wheel_builds": 0,
+  "stub_generations": 0,
+  "installs": 0,
+  "reference_manifest": "../../../tests/fixtures/cell-intensity-statistics-v1/manifest.json"
+}

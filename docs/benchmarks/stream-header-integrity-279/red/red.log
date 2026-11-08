@@ -1,0 +1,484 @@
+FFFFFFFFFFFFFFFFFFFF                                                     [100%]
+================================== FAILURES ===================================
+_ test_changed_header_is_refused_at_every_reader_boundary[check_unchanged-dimensions] _
+
+case = (<qupathxx._native.Project object at 0x000001A04B0B1B60>, 1, <qupathxx._native.Document object at 0x000001A024C2AB10>,...tificRawLattice object at 0x000001A024C2ADF0>, <qupathxx._native.RawPixelClassifier object at 0x000001A024BDBD80>, ...)
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/raw-header-integrity-279-second/red-temp/test_changed_header_is_refused0')
+part = 'dimensions', operation = 'check_unchanged'
+
+    @pytest.mark.parametrize("part",["dimensions","options","model","last_body_byte"])
+    @pytest.mark.parametrize("operation",["check_unchanged","link","read_block","verify","trace"])
+    def test_changed_header_is_refused_at_every_reader_boundary(case,tmp_path,part,operation):
+        *_,limits,options=case;path,_=save(case,tmp_path)
+        reader=q.RawPixelStreamFile(str(path),limits);reader.verify();assert reader.verified
+        original=path.read_bytes();body_end=12+int.from_bytes(original[4:12],"little")
+        offset={"dimensions":12,"options":150,"model":180,"last_body_byte":body_end-1}[part]
+        assert 12<=offset<body_end
+        mutate_header(path,offset)
+        action={"check_unchanged":reader.check_unchanged,"link":reader.link,
+                "read_block":lambda:reader.read_block(0),"verify":reader.verify,
+                "trace":lambda:q.trace_raw_pixel_stream_file(reader,options)}[operation]
+>       with pytest.raises((RuntimeError,ValueError)):action()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE any of (RuntimeError, ValueError)
+
+tests\test_raw_file_contours.py:118: Failed
+_ test_changed_header_is_refused_at_every_reader_boundary[check_unchanged-options] _
+
+case = (<qupathxx._native.Project object at 0x000001A04B0B0F30>, 1, <qupathxx._native.Document object at 0x000001A024C2B910>,...tificRawLattice object at 0x000001A024C2B950>, <qupathxx._native.RawPixelClassifier object at 0x000001A04B0E7AE0>, ...)
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/raw-header-integrity-279-second/red-temp/test_changed_header_is_refused1')
+part = 'options', operation = 'check_unchanged'
+
+    @pytest.mark.parametrize("part",["dimensions","options","model","last_body_byte"])
+    @pytest.mark.parametrize("operation",["check_unchanged","link","read_block","verify","trace"])
+    def test_changed_header_is_refused_at_every_reader_boundary(case,tmp_path,part,operation):
+        *_,limits,options=case;path,_=save(case,tmp_path)
+        reader=q.RawPixelStreamFile(str(path),limits);reader.verify();assert reader.verified
+        original=path.read_bytes();body_end=12+int.from_bytes(original[4:12],"little")
+        offset={"dimensions":12,"options":150,"model":180,"last_body_byte":body_end-1}[part]
+        assert 12<=offset<body_end
+        mutate_header(path,offset)
+        action={"check_unchanged":reader.check_unchanged,"link":reader.link,
+                "read_block":lambda:reader.read_block(0),"verify":reader.verify,
+                "trace":lambda:q.trace_raw_pixel_stream_file(reader,options)}[operation]
+>       with pytest.raises((RuntimeError,ValueError)):action()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE any of (RuntimeError, ValueError)
+
+tests\test_raw_file_contours.py:118: Failed
+_ test_changed_header_is_refused_at_every_reader_boundary[check_unchanged-model] _
+
+case = (<qupathxx._native.Project object at 0x000001A04B0B1A70>, 1, <qupathxx._native.Document object at 0x000001A024C2B9D0>,...tificRawLattice object at 0x000001A024C2B670>, <qupathxx._native.RawPixelClassifier object at 0x000001A04B0E7780>, ...)
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/raw-header-integrity-279-second/red-temp/test_changed_header_is_refused2')
+part = 'model', operation = 'check_unchanged'
+
+    @pytest.mark.parametrize("part",["dimensions","options","model","last_body_byte"])
+    @pytest.mark.parametrize("operation",["check_unchanged","link","read_block","verify","trace"])
+    def test_changed_header_is_refused_at_every_reader_boundary(case,tmp_path,part,operation):
+        *_,limits,options=case;path,_=save(case,tmp_path)
+        reader=q.RawPixelStreamFile(str(path),limits);reader.verify();assert reader.verified
+        original=path.read_bytes();body_end=12+int.from_bytes(original[4:12],"little")
+        offset={"dimensions":12,"options":150,"model":180,"last_body_byte":body_end-1}[part]
+        assert 12<=offset<body_end
+        mutate_header(path,offset)
+        action={"check_unchanged":reader.check_unchanged,"link":reader.link,
+                "read_block":lambda:reader.read_block(0),"verify":reader.verify,
+                "trace":lambda:q.trace_raw_pixel_stream_file(reader,options)}[operation]
+>       with pytest.raises((RuntimeError,ValueError)):action()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE any of (RuntimeError, ValueError)
+
+tests\test_raw_file_contours.py:118: Failed
+_ test_changed_header_is_refused_at_every_reader_boundary[check_unchanged-last_body_byte] _
+
+case = (<qupathxx._native.Project object at 0x000001A04B0B2C40>, 1, <qupathxx._native.Document object at 0x000001A024C2ADB0>,...tificRawLattice object at 0x000001A024C2B590>, <qupathxx._native.RawPixelClassifier object at 0x000001A04B0E6040>, ...)
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/raw-header-integrity-279-second/red-temp/test_changed_header_is_refused3')
+part = 'last_body_byte', operation = 'check_unchanged'
+
+    @pytest.mark.parametrize("part",["dimensions","options","model","last_body_byte"])
+    @pytest.mark.parametrize("operation",["check_unchanged","link","read_block","verify","trace"])
+    def test_changed_header_is_refused_at_every_reader_boundary(case,tmp_path,part,operation):
+        *_,limits,options=case;path,_=save(case,tmp_path)
+        reader=q.RawPixelStreamFile(str(path),limits);reader.verify();assert reader.verified
+        original=path.read_bytes();body_end=12+int.from_bytes(original[4:12],"little")
+        offset={"dimensions":12,"options":150,"model":180,"last_body_byte":body_end-1}[part]
+        assert 12<=offset<body_end
+        mutate_header(path,offset)
+        action={"check_unchanged":reader.check_unchanged,"link":reader.link,
+                "read_block":lambda:reader.read_block(0),"verify":reader.verify,
+                "trace":lambda:q.trace_raw_pixel_stream_file(reader,options)}[operation]
+>       with pytest.raises((RuntimeError,ValueError)):action()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE any of (RuntimeError, ValueError)
+
+tests\test_raw_file_contours.py:118: Failed
+__ test_changed_header_is_refused_at_every_reader_boundary[link-dimensions] ___
+
+case = (<qupathxx._native.Project object at 0x000001A04B0B17A0>, 1, <qupathxx._native.Document object at 0x000001A024C2AC70>,...tificRawLattice object at 0x000001A024C2B930>, <qupathxx._native.RawPixelClassifier object at 0x000001A04B0E6A30>, ...)
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/raw-header-integrity-279-second/red-temp/test_changed_header_is_refused4')
+part = 'dimensions', operation = 'link'
+
+    @pytest.mark.parametrize("part",["dimensions","options","model","last_body_byte"])
+    @pytest.mark.parametrize("operation",["check_unchanged","link","read_block","verify","trace"])
+    def test_changed_header_is_refused_at_every_reader_boundary(case,tmp_path,part,operation):
+        *_,limits,options=case;path,_=save(case,tmp_path)
+        reader=q.RawPixelStreamFile(str(path),limits);reader.verify();assert reader.verified
+        original=path.read_bytes();body_end=12+int.from_bytes(original[4:12],"little")
+        offset={"dimensions":12,"options":150,"model":180,"last_body_byte":body_end-1}[part]
+        assert 12<=offset<body_end
+        mutate_header(path,offset)
+        action={"check_unchanged":reader.check_unchanged,"link":reader.link,
+                "read_block":lambda:reader.read_block(0),"verify":reader.verify,
+                "trace":lambda:q.trace_raw_pixel_stream_file(reader,options)}[operation]
+>       with pytest.raises((RuntimeError,ValueError)):action()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE any of (RuntimeError, ValueError)
+
+tests\test_raw_file_contours.py:118: Failed
+____ test_changed_header_is_refused_at_every_reader_boundary[link-options] ____
+
+case = (<qupathxx._native.Project object at 0x000001A04B0B34B0>, 1, <qupathxx._native.Document object at 0x000001A024C2B170>,...tificRawLattice object at 0x000001A024C2B070>, <qupathxx._native.RawPixelClassifier object at 0x000001A04B1607E0>, ...)
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/raw-header-integrity-279-second/red-temp/test_changed_header_is_refused5')
+part = 'options', operation = 'link'
+
+    @pytest.mark.parametrize("part",["dimensions","options","model","last_body_byte"])
+    @pytest.mark.parametrize("operation",["check_unchanged","link","read_block","verify","trace"])
+    def test_changed_header_is_refused_at_every_reader_boundary(case,tmp_path,part,operation):
+        *_,limits,options=case;path,_=save(case,tmp_path)
+        reader=q.RawPixelStreamFile(str(path),limits);reader.verify();assert reader.verified
+        original=path.read_bytes();body_end=12+int.from_bytes(original[4:12],"little")
+        offset={"dimensions":12,"options":150,"model":180,"last_body_byte":body_end-1}[part]
+        assert 12<=offset<body_end
+        mutate_header(path,offset)
+        action={"check_unchanged":reader.check_unchanged,"link":reader.link,
+                "read_block":lambda:reader.read_block(0),"verify":reader.verify,
+                "trace":lambda:q.trace_raw_pixel_stream_file(reader,options)}[operation]
+>       with pytest.raises((RuntimeError,ValueError)):action()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE any of (RuntimeError, ValueError)
+
+tests\test_raw_file_contours.py:118: Failed
+_____ test_changed_header_is_refused_at_every_reader_boundary[link-model] _____
+
+case = (<qupathxx._native.Project object at 0x000001A04B0B3870>, 1, <qupathxx._native.Document object at 0x000001A024C2BB30>,...tificRawLattice object at 0x000001A024C2AFD0>, <qupathxx._native.RawPixelClassifier object at 0x000001A04B1623A0>, ...)
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/raw-header-integrity-279-second/red-temp/test_changed_header_is_refused6')
+part = 'model', operation = 'link'
+
+    @pytest.mark.parametrize("part",["dimensions","options","model","last_body_byte"])
+    @pytest.mark.parametrize("operation",["check_unchanged","link","read_block","verify","trace"])
+    def test_changed_header_is_refused_at_every_reader_boundary(case,tmp_path,part,operation):
+        *_,limits,options=case;path,_=save(case,tmp_path)
+        reader=q.RawPixelStreamFile(str(path),limits);reader.verify();assert reader.verified
+        original=path.read_bytes();body_end=12+int.from_bytes(original[4:12],"little")
+        offset={"dimensions":12,"options":150,"model":180,"last_body_byte":body_end-1}[part]
+        assert 12<=offset<body_end
+        mutate_header(path,offset)
+        action={"check_unchanged":reader.check_unchanged,"link":reader.link,
+                "read_block":lambda:reader.read_block(0),"verify":reader.verify,
+                "trace":lambda:q.trace_raw_pixel_stream_file(reader,options)}[operation]
+>       with pytest.raises((RuntimeError,ValueError)):action()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE any of (RuntimeError, ValueError)
+
+tests\test_raw_file_contours.py:118: Failed
+_ test_changed_header_is_refused_at_every_reader_boundary[link-last_body_byte] _
+
+case = (<qupathxx._native.Project object at 0x000001A04B0B3C30>, 1, <qupathxx._native.Document object at 0x000001A04B148410>,...tificRawLattice object at 0x000001A04B148090>, <qupathxx._native.RawPixelClassifier object at 0x000001A04B1631E0>, ...)
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/raw-header-integrity-279-second/red-temp/test_changed_header_is_refused7')
+part = 'last_body_byte', operation = 'link'
+
+    @pytest.mark.parametrize("part",["dimensions","options","model","last_body_byte"])
+    @pytest.mark.parametrize("operation",["check_unchanged","link","read_block","verify","trace"])
+    def test_changed_header_is_refused_at_every_reader_boundary(case,tmp_path,part,operation):
+        *_,limits,options=case;path,_=save(case,tmp_path)
+        reader=q.RawPixelStreamFile(str(path),limits);reader.verify();assert reader.verified
+        original=path.read_bytes();body_end=12+int.from_bytes(original[4:12],"little")
+        offset={"dimensions":12,"options":150,"model":180,"last_body_byte":body_end-1}[part]
+        assert 12<=offset<body_end
+        mutate_header(path,offset)
+        action={"check_unchanged":reader.check_unchanged,"link":reader.link,
+                "read_block":lambda:reader.read_block(0),"verify":reader.verify,
+                "trace":lambda:q.trace_raw_pixel_stream_file(reader,options)}[operation]
+>       with pytest.raises((RuntimeError,ValueError)):action()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE any of (RuntimeError, ValueError)
+
+tests\test_raw_file_contours.py:118: Failed
+_ test_changed_header_is_refused_at_every_reader_boundary[read_block-dimensions] _
+
+case = (<qupathxx._native.Project object at 0x000001A04B19C030>, 1, <qupathxx._native.Document object at 0x000001A04B1489B0>,...tificRawLattice object at 0x000001A04B148350>, <qupathxx._native.RawPixelClassifier object at 0x000001A04B163AB0>, ...)
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/raw-header-integrity-279-second/red-temp/test_changed_header_is_refused8')
+part = 'dimensions', operation = 'read_block'
+
+    @pytest.mark.parametrize("part",["dimensions","options","model","last_body_byte"])
+    @pytest.mark.parametrize("operation",["check_unchanged","link","read_block","verify","trace"])
+    def test_changed_header_is_refused_at_every_reader_boundary(case,tmp_path,part,operation):
+        *_,limits,options=case;path,_=save(case,tmp_path)
+        reader=q.RawPixelStreamFile(str(path),limits);reader.verify();assert reader.verified
+        original=path.read_bytes();body_end=12+int.from_bytes(original[4:12],"little")
+        offset={"dimensions":12,"options":150,"model":180,"last_body_byte":body_end-1}[part]
+        assert 12<=offset<body_end
+        mutate_header(path,offset)
+        action={"check_unchanged":reader.check_unchanged,"link":reader.link,
+                "read_block":lambda:reader.read_block(0),"verify":reader.verify,
+                "trace":lambda:q.trace_raw_pixel_stream_file(reader,options)}[operation]
+>       with pytest.raises((RuntimeError,ValueError)):action()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE any of (RuntimeError, ValueError)
+
+tests\test_raw_file_contours.py:118: Failed
+_ test_changed_header_is_refused_at_every_reader_boundary[read_block-options] _
+
+case = (<qupathxx._native.Project object at 0x000001A04B19C3F0>, 1, <qupathxx._native.Document object at 0x000001A04B14ADD0>,...tificRawLattice object at 0x000001A04B1494F0>, <qupathxx._native.RawPixelClassifier object at 0x000001A04B163600>, ...)
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/raw-header-integrity-279-second/red-temp/test_changed_header_is_refused9')
+part = 'options', operation = 'read_block'
+
+    @pytest.mark.parametrize("part",["dimensions","options","model","last_body_byte"])
+    @pytest.mark.parametrize("operation",["check_unchanged","link","read_block","verify","trace"])
+    def test_changed_header_is_refused_at_every_reader_boundary(case,tmp_path,part,operation):
+        *_,limits,options=case;path,_=save(case,tmp_path)
+        reader=q.RawPixelStreamFile(str(path),limits);reader.verify();assert reader.verified
+        original=path.read_bytes();body_end=12+int.from_bytes(original[4:12],"little")
+        offset={"dimensions":12,"options":150,"model":180,"last_body_byte":body_end-1}[part]
+        assert 12<=offset<body_end
+        mutate_header(path,offset)
+        action={"check_unchanged":reader.check_unchanged,"link":reader.link,
+                "read_block":lambda:reader.read_block(0),"verify":reader.verify,
+                "trace":lambda:q.trace_raw_pixel_stream_file(reader,options)}[operation]
+>       with pytest.raises((RuntimeError,ValueError)):action()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE any of (RuntimeError, ValueError)
+
+tests\test_raw_file_contours.py:118: Failed
+__ test_changed_header_is_refused_at_every_reader_boundary[read_block-model] __
+
+case = (<qupathxx._native.Project object at 0x000001A04B19C7B0>, 1, <qupathxx._native.Document object at 0x000001A04B149A30>,...tificRawLattice object at 0x000001A04B149BD0>, <qupathxx._native.RawPixelClassifier object at 0x000001A04B1982A0>, ...)
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/raw-header-integrity-279-second/red-temp/test_changed_header_is_refused10')
+part = 'model', operation = 'read_block'
+
+    @pytest.mark.parametrize("part",["dimensions","options","model","last_body_byte"])
+    @pytest.mark.parametrize("operation",["check_unchanged","link","read_block","verify","trace"])
+    def test_changed_header_is_refused_at_every_reader_boundary(case,tmp_path,part,operation):
+        *_,limits,options=case;path,_=save(case,tmp_path)
+        reader=q.RawPixelStreamFile(str(path),limits);reader.verify();assert reader.verified
+        original=path.read_bytes();body_end=12+int.from_bytes(original[4:12],"little")
+        offset={"dimensions":12,"options":150,"model":180,"last_body_byte":body_end-1}[part]
+        assert 12<=offset<body_end
+        mutate_header(path,offset)
+        action={"check_unchanged":reader.check_unchanged,"link":reader.link,
+                "read_block":lambda:reader.read_block(0),"verify":reader.verify,
+                "trace":lambda:q.trace_raw_pixel_stream_file(reader,options)}[operation]
+>       with pytest.raises((RuntimeError,ValueError)):action()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE any of (RuntimeError, ValueError)
+
+tests\test_raw_file_contours.py:118: Failed
+_ test_changed_header_is_refused_at_every_reader_boundary[read_block-last_body_byte] _
+
+case = (<qupathxx._native.Project object at 0x000001A04B19CB70>, 1, <qupathxx._native.Document object at 0x000001A04B149DD0>,...tificRawLattice object at 0x000001A04B14A130>, <qupathxx._native.RawPixelClassifier object at 0x000001A04B199CE0>, ...)
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/raw-header-integrity-279-second/red-temp/test_changed_header_is_refused11')
+part = 'last_body_byte', operation = 'read_block'
+
+    @pytest.mark.parametrize("part",["dimensions","options","model","last_body_byte"])
+    @pytest.mark.parametrize("operation",["check_unchanged","link","read_block","verify","trace"])
+    def test_changed_header_is_refused_at_every_reader_boundary(case,tmp_path,part,operation):
+        *_,limits,options=case;path,_=save(case,tmp_path)
+        reader=q.RawPixelStreamFile(str(path),limits);reader.verify();assert reader.verified
+        original=path.read_bytes();body_end=12+int.from_bytes(original[4:12],"little")
+        offset={"dimensions":12,"options":150,"model":180,"last_body_byte":body_end-1}[part]
+        assert 12<=offset<body_end
+        mutate_header(path,offset)
+        action={"check_unchanged":reader.check_unchanged,"link":reader.link,
+                "read_block":lambda:reader.read_block(0),"verify":reader.verify,
+                "trace":lambda:q.trace_raw_pixel_stream_file(reader,options)}[operation]
+>       with pytest.raises((RuntimeError,ValueError)):action()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE any of (RuntimeError, ValueError)
+
+tests\test_raw_file_contours.py:118: Failed
+_ test_changed_header_is_refused_at_every_reader_boundary[verify-dimensions] __
+
+case = (<qupathxx._native.Project object at 0x000001A04B19CF30>, 1, <qupathxx._native.Document object at 0x000001A04B14AA30>,...tificRawLattice object at 0x000001A04B14A050>, <qupathxx._native.RawPixelClassifier object at 0x000001A04B19A760>, ...)
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/raw-header-integrity-279-second/red-temp/test_changed_header_is_refused12')
+part = 'dimensions', operation = 'verify'
+
+    @pytest.mark.parametrize("part",["dimensions","options","model","last_body_byte"])
+    @pytest.mark.parametrize("operation",["check_unchanged","link","read_block","verify","trace"])
+    def test_changed_header_is_refused_at_every_reader_boundary(case,tmp_path,part,operation):
+        *_,limits,options=case;path,_=save(case,tmp_path)
+        reader=q.RawPixelStreamFile(str(path),limits);reader.verify();assert reader.verified
+        original=path.read_bytes();body_end=12+int.from_bytes(original[4:12],"little")
+        offset={"dimensions":12,"options":150,"model":180,"last_body_byte":body_end-1}[part]
+        assert 12<=offset<body_end
+        mutate_header(path,offset)
+        action={"check_unchanged":reader.check_unchanged,"link":reader.link,
+                "read_block":lambda:reader.read_block(0),"verify":reader.verify,
+                "trace":lambda:q.trace_raw_pixel_stream_file(reader,options)}[operation]
+>       with pytest.raises((RuntimeError,ValueError)):action()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE any of (RuntimeError, ValueError)
+
+tests\test_raw_file_contours.py:118: Failed
+___ test_changed_header_is_refused_at_every_reader_boundary[verify-options] ___
+
+case = (<qupathxx._native.Project object at 0x000001A04B19D2F0>, 1, <qupathxx._native.Document object at 0x000001A04B148590>,...tificRawLattice object at 0x000001A04B14AB70>, <qupathxx._native.RawPixelClassifier object at 0x000001A04B19A310>, ...)
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/raw-header-integrity-279-second/red-temp/test_changed_header_is_refused13')
+part = 'options', operation = 'verify'
+
+    @pytest.mark.parametrize("part",["dimensions","options","model","last_body_byte"])
+    @pytest.mark.parametrize("operation",["check_unchanged","link","read_block","verify","trace"])
+    def test_changed_header_is_refused_at_every_reader_boundary(case,tmp_path,part,operation):
+        *_,limits,options=case;path,_=save(case,tmp_path)
+        reader=q.RawPixelStreamFile(str(path),limits);reader.verify();assert reader.verified
+        original=path.read_bytes();body_end=12+int.from_bytes(original[4:12],"little")
+        offset={"dimensions":12,"options":150,"model":180,"last_body_byte":body_end-1}[part]
+        assert 12<=offset<body_end
+        mutate_header(path,offset)
+        action={"check_unchanged":reader.check_unchanged,"link":reader.link,
+                "read_block":lambda:reader.read_block(0),"verify":reader.verify,
+                "trace":lambda:q.trace_raw_pixel_stream_file(reader,options)}[operation]
+>       with pytest.raises((RuntimeError,ValueError)):action()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE any of (RuntimeError, ValueError)
+
+tests\test_raw_file_contours.py:118: Failed
+____ test_changed_header_is_refused_at_every_reader_boundary[verify-model] ____
+
+case = (<qupathxx._native.Project object at 0x000001A04B19D6B0>, 1, <qupathxx._native.Document object at 0x000001A04B148CF0>,...tificRawLattice object at 0x000001A04B149790>, <qupathxx._native.RawPixelClassifier object at 0x000001A04B19AD60>, ...)
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/raw-header-integrity-279-second/red-temp/test_changed_header_is_refused14')
+part = 'model', operation = 'verify'
+
+    @pytest.mark.parametrize("part",["dimensions","options","model","last_body_byte"])
+    @pytest.mark.parametrize("operation",["check_unchanged","link","read_block","verify","trace"])
+    def test_changed_header_is_refused_at_every_reader_boundary(case,tmp_path,part,operation):
+        *_,limits,options=case;path,_=save(case,tmp_path)
+        reader=q.RawPixelStreamFile(str(path),limits);reader.verify();assert reader.verified
+        original=path.read_bytes();body_end=12+int.from_bytes(original[4:12],"little")
+        offset={"dimensions":12,"options":150,"model":180,"last_body_byte":body_end-1}[part]
+        assert 12<=offset<body_end
+        mutate_header(path,offset)
+        action={"check_unchanged":reader.check_unchanged,"link":reader.link,
+                "read_block":lambda:reader.read_block(0),"verify":reader.verify,
+                "trace":lambda:q.trace_raw_pixel_stream_file(reader,options)}[operation]
+>       with pytest.raises((RuntimeError,ValueError)):action()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE any of (RuntimeError, ValueError)
+
+tests\test_raw_file_contours.py:118: Failed
+_ test_changed_header_is_refused_at_every_reader_boundary[verify-last_body_byte] _
+
+case = (<qupathxx._native.Project object at 0x000001A04B0B3690>, 1, <qupathxx._native.Document object at 0x000001A024C2BDF0>,...tificRawLattice object at 0x000001A024C2BB30>, <qupathxx._native.RawPixelClassifier object at 0x000001A04B162940>, ...)
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/raw-header-integrity-279-second/red-temp/test_changed_header_is_refused15')
+part = 'last_body_byte', operation = 'verify'
+
+    @pytest.mark.parametrize("part",["dimensions","options","model","last_body_byte"])
+    @pytest.mark.parametrize("operation",["check_unchanged","link","read_block","verify","trace"])
+    def test_changed_header_is_refused_at_every_reader_boundary(case,tmp_path,part,operation):
+        *_,limits,options=case;path,_=save(case,tmp_path)
+        reader=q.RawPixelStreamFile(str(path),limits);reader.verify();assert reader.verified
+        original=path.read_bytes();body_end=12+int.from_bytes(original[4:12],"little")
+        offset={"dimensions":12,"options":150,"model":180,"last_body_byte":body_end-1}[part]
+        assert 12<=offset<body_end
+        mutate_header(path,offset)
+        action={"check_unchanged":reader.check_unchanged,"link":reader.link,
+                "read_block":lambda:reader.read_block(0),"verify":reader.verify,
+                "trace":lambda:q.trace_raw_pixel_stream_file(reader,options)}[operation]
+>       with pytest.raises((RuntimeError,ValueError)):action()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE any of (RuntimeError, ValueError)
+
+tests\test_raw_file_contours.py:118: Failed
+__ test_changed_header_is_refused_at_every_reader_boundary[trace-dimensions] __
+
+case = (<qupathxx._native.Project object at 0x000001A04B0B2F10>, 1, <qupathxx._native.Document object at 0x000001A024C2AF50>,...tificRawLattice object at 0x000001A024C2ACF0>, <qupathxx._native.RawPixelClassifier object at 0x000001A04B160690>, ...)
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/raw-header-integrity-279-second/red-temp/test_changed_header_is_refused16')
+part = 'dimensions', operation = 'trace'
+
+    @pytest.mark.parametrize("part",["dimensions","options","model","last_body_byte"])
+    @pytest.mark.parametrize("operation",["check_unchanged","link","read_block","verify","trace"])
+    def test_changed_header_is_refused_at_every_reader_boundary(case,tmp_path,part,operation):
+        *_,limits,options=case;path,_=save(case,tmp_path)
+        reader=q.RawPixelStreamFile(str(path),limits);reader.verify();assert reader.verified
+        original=path.read_bytes();body_end=12+int.from_bytes(original[4:12],"little")
+        offset={"dimensions":12,"options":150,"model":180,"last_body_byte":body_end-1}[part]
+        assert 12<=offset<body_end
+        mutate_header(path,offset)
+        action={"check_unchanged":reader.check_unchanged,"link":reader.link,
+                "read_block":lambda:reader.read_block(0),"verify":reader.verify,
+                "trace":lambda:q.trace_raw_pixel_stream_file(reader,options)}[operation]
+>       with pytest.raises((RuntimeError,ValueError)):action()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE any of (RuntimeError, ValueError)
+
+tests\test_raw_file_contours.py:118: Failed
+___ test_changed_header_is_refused_at_every_reader_boundary[trace-options] ____
+
+case = (<qupathxx._native.Project object at 0x000001A04B0B0F30>, 1, <qupathxx._native.Document object at 0x000001A024C2B570>,...tificRawLattice object at 0x000001A024C2B590>, <qupathxx._native.RawPixelClassifier object at 0x000001A04B160D50>, ...)
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/raw-header-integrity-279-second/red-temp/test_changed_header_is_refused17')
+part = 'options', operation = 'trace'
+
+    @pytest.mark.parametrize("part",["dimensions","options","model","last_body_byte"])
+    @pytest.mark.parametrize("operation",["check_unchanged","link","read_block","verify","trace"])
+    def test_changed_header_is_refused_at_every_reader_boundary(case,tmp_path,part,operation):
+        *_,limits,options=case;path,_=save(case,tmp_path)
+        reader=q.RawPixelStreamFile(str(path),limits);reader.verify();assert reader.verified
+        original=path.read_bytes();body_end=12+int.from_bytes(original[4:12],"little")
+        offset={"dimensions":12,"options":150,"model":180,"last_body_byte":body_end-1}[part]
+        assert 12<=offset<body_end
+        mutate_header(path,offset)
+        action={"check_unchanged":reader.check_unchanged,"link":reader.link,
+                "read_block":lambda:reader.read_block(0),"verify":reader.verify,
+                "trace":lambda:q.trace_raw_pixel_stream_file(reader,options)}[operation]
+>       with pytest.raises((RuntimeError,ValueError)):action()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE any of (RuntimeError, ValueError)
+
+tests\test_raw_file_contours.py:118: Failed
+____ test_changed_header_is_refused_at_every_reader_boundary[trace-model] _____
+
+case = (<qupathxx._native.Project object at 0x000001A04B0B2B50>, 1, <qupathxx._native.Document object at 0x000001A04B148570>,...tificRawLattice object at 0x000001A04B14B7B0>, <qupathxx._native.RawPixelClassifier object at 0x000001A04B160390>, ...)
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/raw-header-integrity-279-second/red-temp/test_changed_header_is_refused18')
+part = 'model', operation = 'trace'
+
+    @pytest.mark.parametrize("part",["dimensions","options","model","last_body_byte"])
+    @pytest.mark.parametrize("operation",["check_unchanged","link","read_block","verify","trace"])
+    def test_changed_header_is_refused_at_every_reader_boundary(case,tmp_path,part,operation):
+        *_,limits,options=case;path,_=save(case,tmp_path)
+        reader=q.RawPixelStreamFile(str(path),limits);reader.verify();assert reader.verified
+        original=path.read_bytes();body_end=12+int.from_bytes(original[4:12],"little")
+        offset={"dimensions":12,"options":150,"model":180,"last_body_byte":body_end-1}[part]
+        assert 12<=offset<body_end
+        mutate_header(path,offset)
+        action={"check_unchanged":reader.check_unchanged,"link":reader.link,
+                "read_block":lambda:reader.read_block(0),"verify":reader.verify,
+                "trace":lambda:q.trace_raw_pixel_stream_file(reader,options)}[operation]
+>       with pytest.raises((RuntimeError,ValueError)):action()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE any of (RuntimeError, ValueError)
+
+tests\test_raw_file_contours.py:118: Failed
+_ test_changed_header_is_refused_at_every_reader_boundary[trace-last_body_byte] _
+
+case = (<qupathxx._native.Project object at 0x000001A04B0B2970>, 1, <qupathxx._native.Document object at 0x000001A04B149590>,...tificRawLattice object at 0x000001A04B149710>, <qupathxx._native.RawPixelClassifier object at 0x000001A04B0E47E0>, ...)
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/raw-header-integrity-279-second/red-temp/test_changed_header_is_refused19')
+part = 'last_body_byte', operation = 'trace'
+
+    @pytest.mark.parametrize("part",["dimensions","options","model","last_body_byte"])
+    @pytest.mark.parametrize("operation",["check_unchanged","link","read_block","verify","trace"])
+    def test_changed_header_is_refused_at_every_reader_boundary(case,tmp_path,part,operation):
+        *_,limits,options=case;path,_=save(case,tmp_path)
+        reader=q.RawPixelStreamFile(str(path),limits);reader.verify();assert reader.verified
+        original=path.read_bytes();body_end=12+int.from_bytes(original[4:12],"little")
+        offset={"dimensions":12,"options":150,"model":180,"last_body_byte":body_end-1}[part]
+        assert 12<=offset<body_end
+        mutate_header(path,offset)
+        action={"check_unchanged":reader.check_unchanged,"link":reader.link,
+                "read_block":lambda:reader.read_block(0),"verify":reader.verify,
+                "trace":lambda:q.trace_raw_pixel_stream_file(reader,options)}[operation]
+>       with pytest.raises((RuntimeError,ValueError)):action()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE any of (RuntimeError, ValueError)
+
+tests\test_raw_file_contours.py:118: Failed
+=========================== short test summary info ===========================
+FAILED tests/test_raw_file_contours.py::test_changed_header_is_refused_at_every_reader_boundary[check_unchanged-dimensions]
+FAILED tests/test_raw_file_contours.py::test_changed_header_is_refused_at_every_reader_boundary[check_unchanged-options]
+FAILED tests/test_raw_file_contours.py::test_changed_header_is_refused_at_every_reader_boundary[check_unchanged-model]
+FAILED tests/test_raw_file_contours.py::test_changed_header_is_refused_at_every_reader_boundary[check_unchanged-last_body_byte]
+FAILED tests/test_raw_file_contours.py::test_changed_header_is_refused_at_every_reader_boundary[link-dimensions]
+FAILED tests/test_raw_file_contours.py::test_changed_header_is_refused_at_every_reader_boundary[link-options]
+FAILED tests/test_raw_file_contours.py::test_changed_header_is_refused_at_every_reader_boundary[link-model]
+FAILED tests/test_raw_file_contours.py::test_changed_header_is_refused_at_every_reader_boundary[link-last_body_byte]
+FAILED tests/test_raw_file_contours.py::test_changed_header_is_refused_at_every_reader_boundary[read_block-dimensions]
+FAILED tests/test_raw_file_contours.py::test_changed_header_is_refused_at_every_reader_boundary[read_block-options]
+FAILED tests/test_raw_file_contours.py::test_changed_header_is_refused_at_every_reader_boundary[read_block-model]
+FAILED tests/test_raw_file_contours.py::test_changed_header_is_refused_at_every_reader_boundary[read_block-last_body_byte]
+FAILED tests/test_raw_file_contours.py::test_changed_header_is_refused_at_every_reader_boundary[verify-dimensions]
+FAILED tests/test_raw_file_contours.py::test_changed_header_is_refused_at_every_reader_boundary[verify-options]
+FAILED tests/test_raw_file_contours.py::test_changed_header_is_refused_at_every_reader_boundary[verify-model]
+FAILED tests/test_raw_file_contours.py::test_changed_header_is_refused_at_every_reader_boundary[verify-last_body_byte]
+FAILED tests/test_raw_file_contours.py::test_changed_header_is_refused_at_every_reader_boundary[trace-dimensions]
+FAILED tests/test_raw_file_contours.py::test_changed_header_is_refused_at_every_reader_boundary[trace-options]
+FAILED tests/test_raw_file_contours.py::test_changed_header_is_refused_at_every_reader_boundary[trace-model]
+FAILED tests/test_raw_file_contours.py::test_changed_header_is_refused_at_every_reader_boundary[trace-last_body_byte]
+20 failed, 26 deselected in 1.53s

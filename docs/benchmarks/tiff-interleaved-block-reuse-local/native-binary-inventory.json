@@ -1,0 +1,50 @@
+{
+  "Windows/qupathxx_resampling_tests.exe": {
+    "bytes": 2279936,
+    "sha256": "a1521f49cf7773c0a860bc7e50cceb7e52065c506d3a403a7ac982c7753bd5a8"
+  },
+  "Windows/qupathxx_cell_tests.exe": {
+    "bytes": 1856512,
+    "sha256": "741c5a6e43855b89a2e82815c59380b4fbfacdaddb7902d2f1982dcb06ab1e73"
+  },
+  "Windows/qupathxx_raw_image_tests.exe": {
+    "bytes": 3227136,
+    "sha256": "44bf73c3b4d2f21021a79793e7ac9f6a36da7f85cdc1e233fc07e051342ab4a9"
+  },
+  "Windows/qupathxx_viewer_session_tests.exe": {
+    "bytes": 3036160,
+    "sha256": "fcc5a3d177cf0e108bbfc204b4dcd52bc9e80e69fac9d2656ef8a91967d01bfd"
+  },
+  "Windows/qupathxx_project_batch_tests.exe": {
+    "bytes": 3230720,
+    "sha256": "b55f0b05b789b104a2f8c11ce780ea50f2dc3b66ae3a274cd9b585c990e7755f"
+  },
+  "Linux/libqupathxx_core.a": {
+    "bytes": 10197192,
+    "sha256": "f33a6499db8cb9172c127994d4bc69d3983243d1138fbeb7a14b1f18575d61f5"
+  },
+  "Linux/qupathxx_resampling_tests": {
+    "bytes": 4710664,
+    "sha256": "7a4d6873cdb876d4ac6a916650561a9ae88736abfe24d53c5cda35f654728d82"
+  },
+  "Linux/qupathxx_cell_tests": {
+    "bytes": 3825472,
+    "sha256": "5f962eaf09f52e4b3ae3b9b2faf7d8f7df759d75127dd1750e61cd5675441229"
+  },
+  "Linux/qupathxx_raw_image_tests": {
+    "bytes": 5920848,
+    "sha256": "a6284545bdd6b0e45a104d2f7f7fbed9254e3a1734d161431c48982a0c2907ab"
+  },
+  "Linux/qupathxx_viewer_session_tests": {
+    "bytes": 5876296,
+    "sha256": "04b8e626d48ba4015e5429d8e15c9b276ed82edaa500afd2066a86202c4a9088"
+  },
+  "Linux/qupathxx_project_batch_tests": {
+    "bytes": 5910376,
+    "sha256": "096b523dc5d5861bc4bd547753ee154ae0f9ab0b6d93e9bf5c45053b735de9a4"
+  },
+  "Linux-selective-ASan-UBSan/raw188-sanitized-reader": {
+    "bytes": 22090720,
+    "sha256": "5d63df4e99ae3cdbde321ca5ba47c7c8687cc5d9a18f0fd96182a384fbb4022d"
+  }
+}

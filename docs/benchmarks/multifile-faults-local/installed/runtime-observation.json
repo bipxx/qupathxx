@@ -1,0 +1,64 @@
+{
+  "raw_log_encoding": "cp936",
+  "tests_exit": 0,
+  "passed": 321,
+  "skips": [
+    {
+      "name": "test_compound_imgui_measure_keep_and_csv",
+      "reason": "opt-in compound TIFF desktop"
+    },
+    {
+      "name": "test_compound_managed_measure_verify_and_project_save",
+      "reason": "opt-in compound TIFF desktop"
+    },
+    {
+      "name": "test_openslide_primary_file_is_observed_without_claiming_complete_dependencies",
+      "reason": "native pyramid"
+    },
+    {
+      "name": "test_gui_associates_active_reader_generation_and_exports_json[False]",
+      "reason": "desktop replay"
+    },
+    {
+      "name": "test_gui_associates_active_reader_generation_and_exports_json[True]",
+      "reason": "desktop replay"
+    },
+    {
+      "name": "test_gui_file_hash_exports_json_without_selected_annotation[False]",
+      "reason": "desktop replay"
+    },
+    {
+      "name": "test_gui_file_hash_exports_json_without_selected_annotation[True]",
+      "reason": "desktop replay"
+    },
+    {
+      "name": "test_gui_failed_file_hash_preserves_old_output_and_document",
+      "reason": "desktop replay"
+    },
+    {
+      "name": "test_openslide_capture_keeps_native_locator_and_all_pyramid_levels",
+      "reason": "requires OpenSlide"
+    },
+    {
+      "name": "test_raw_grid_desktop_measure_keep_csv_and_render",
+      "reason": "opt-in raw grid desktop"
+    },
+    {
+      "name": "test_raw_grid_managed_producer_retains_verifies_and_saves",
+      "reason": "opt-in raw grid desktop"
+    },
+    {
+      "name": "test_raw_grid_desktop_batch_matches_native_recipe_and_resume",
+      "reason": "opt-in raw grid desktop"
+    },
+    {
+      "name": "test_reduced_budget_imgui_measure_keep_and_render",
+      "reason": "opt-in raw grid desktop"
+    },
+    {
+      "name": "test_reduced_budget_managed_viewer_retains_verifies_and_saves",
+      "reason": "opt-in raw grid desktop"
+    }
+  ],
+  "note": "Post-test observer attempted UTF-8 decoding of isolated Windows stdout and failed. Original raw log retained; JUnit verifies successful tests. Future isolated commands use -X utf8."
+}

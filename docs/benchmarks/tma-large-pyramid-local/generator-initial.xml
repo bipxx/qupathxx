@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="4" time="0.391" timestamp="2026-10-25T19:43:08.606653-04:00" hostname="HEQPC"><testcase classname="tests.test_tma_large_pyramid_generator" name="test_streamed_pixels_match_independent_scalar_ellipse_and_white_padding[1]" time="0.165" /><testcase classname="tests.test_tma_large_pyramid_generator" name="test_streamed_pixels_match_independent_scalar_ellipse_and_white_padding[4]" time="0.003"><failure message="AssertionError: &#10;Arrays are not equal&#10;&#10;Mismatched elements: 768 / 768 (100%)&#10;First 5 mismatches are at indices:&#10; [0, 0, 0]: 123 (ACTUAL), 255 (DESIRED)&#10; [0, 0, 1]: 123 (ACTUAL), 255 (DESIRED)&#10; [0, 0, 2]: 123 (ACTUAL), 255 (DESIRED)&#10; [0, 1, 0]: 123 (ACTUAL), 255 (DESIRED)&#10; [0, 1, 1]: 123 (ACTUAL), 255 (DESIRED)&#10;Max absolute difference among violations: 124&#10;Max relative difference among violations: 0.48627451&#10; ACTUAL: array([[[123, 123, 123],&#10;        [123, 123, 123],&#10;        [123, 123, 123],...&#10; DESIRED: array([[[255, 255, 255],&#10;        [255, 255, 255],&#10;        [255, 255, 255],...">scale = 4
+
+    @pytest.mark.parametrize('scale',[1,4])
+    def test_streamed_pixels_match_independent_scalar_ellipse_and_white_padding(scale):
+        contract=scene()
+        width=(contract['width']+scale-1)//scale
+        height=(contract['height']+scale-1)//scale
+        actual=list(generator.tiles(contract,scale))
+        assert len(actual)==((width+15)//16)*((height+15)//16)
+        for index,tile in enumerate(actual):
+            top=(index//((width+15)//16))*16
+            left=(index%((width+15)//16))*16
+            assert tile.flags.owndata
+            for y in range(16):
+                for x in range(16):
+                    inside=False
+                    if left+x&lt;width and top+y&lt;height:
+                        dx=scale*(2*(left+x)+1)-22
+                        dy=scale*(2*(top+y)+1)-26
+                        inside=dx*dx*18**2+dy*dy*12**2&lt;=12**2*18**2
+                    assert tuple(tile[y,x]) == ((0,0,0) if inside else (255,255,255))
+        saved=actual[0].copy()
+        actual[-1].fill(123)
+&gt;       np.testing.assert_array_equal(actual[0],saved)
+E       AssertionError: 
+E       Arrays are not equal
+E       
+E       Mismatched elements: 768 / 768 (100%)
+E       First 5 mismatches are at indices:
+E        [0, 0, 0]: 123 (ACTUAL), 255 (DESIRED)
+E        [0, 0, 1]: 123 (ACTUAL), 255 (DESIRED)
+E        [0, 0, 2]: 123 (ACTUAL), 255 (DESIRED)
+E        [0, 1, 0]: 123 (ACTUAL), 255 (DESIRED)
+E        [0, 1, 1]: 123 (ACTUAL), 255 (DESIRED)
+E       Max absolute difference among violations: 124
+E       Max relative difference among violations: 0.48627451
+E        ACTUAL: array([[[123, 123, 123],
+E               [123, 123, 123],
+E               [123, 123, 123],...
+E        DESIRED: array([[[255, 255, 255],
+E               [255, 255, 255],
+E               [255, 255, 255],...
+
+tests\test_tma_large_pyramid_generator.py:42: AssertionError</failure></testcase><testcase classname="tests.test_tma_large_pyramid_generator" name="test_written_levels_calibration_and_existing_output_refusal" time="0.024" /><testcase classname="tests.test_tma_large_pyramid_generator" name="test_preregistered_scene_has_large_base_and_bounded_coarse_level" time="0.000" /></testsuite></testsuites>

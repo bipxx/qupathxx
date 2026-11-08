@@ -1,0 +1,5 @@
+{
+  "native": "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/native-build",
+  "geos": "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk",
+  "opencv": "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk"
+}

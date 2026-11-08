@@ -1,0 +1,20 @@
+{
+  "scope": "Standalone project-density Python/CLI runner over unchanged installed candidate4; no native build, new wheel/install, segmentation or GUI changes",
+  "native_revision": "cbf4102f2cffe6ed8f71549087ae5bf74cdcd8e2",
+  "native_tree_sha256": "5a98347c5447c5b8f414d299a3411e9554c72188f92e1ca3ecd7c8c69aeee96e",
+  "tests_passed": 29,
+  "tests_seconds": 3.89,
+  "test_log": "tests.log",
+  "initial_failure": "Existing Project.dirty property was called as a method in one test; corrected test alone passed, then final resource/sidecar/identity changes qualified by the29-case module",
+  "reference_workflow": "workflow.json",
+  "reference_scope": "Existing506-cell crop used twice to test original image namespaces; not independent specimens",
+  "source_sha256": {
+    "examples/project_density.py": "8087f57a59ca5b706fc9c83a14f9f481d221fd76e6b01c980dc3dcab6c18f65f",
+    "examples/project_density_manifest.json": "f7e7d00c536297d6b598a18e90c4189719fd6648a73295e6da75f82aaccae833",
+    "tests/test_project_density_runner.py": "a3528513e2fae4ac8a4340752fba71133aec4b9af4d1570f58760dadf00dd5e6",
+    "docs/benchmarks/project-density-runner/workflow.py": "e7eb67ce6c9d80ba3e24da7ff3743a88897983ac8bb9e5025645ac8088dd1027"
+  },
+  "candidate4_preserved": true,
+  "source_projects_preserved": true,
+  "checkpoints_reused_without_copy": true
+}

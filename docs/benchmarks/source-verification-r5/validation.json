@@ -1,0 +1,63 @@
+{
+  "native_source": "ca00921948ca8b893546b1386543ca8289d72c40",
+  "first_candidate_source": "a66c8af5e7ca7b806029f9be0360ca43e3c91f05",
+  "observer_source": "7b6f871e444089d52b663a7b331bb79f19ac40f3",
+  "source_fingerprint": "608e7728f55b84ce83f88d69a173d19550d9a9b05bd20cb0221c054c984a2aa4",
+  "compiler_inputs": 446,
+  "changed_inputs_since_first_candidate": [
+    "cpp/gui.cpp",
+    "cpp/tests/project_tests.cpp"
+  ],
+  "installed_members": 62,
+  "native_sha256": "fcbdb8734a93df6c094cbca5b3fe835f96dce32319c2297e26e1075c18687b3a",
+  "wheel_sha256": "e76863441227395ad53c29021a86bac316894523cb40874a20978087b6a1044f",
+  "record_verified": true,
+  "model_scope": "687 passes,10 declared skips on a66c8af5; unchanged production core reused, not relabeled",
+  "final_identity_source_workflow_passes": 18,
+  "final_identity_desktop_skips": 3,
+  "final_native_project_pass": true,
+  "other_native_suites_reused": 4,
+  "desktop_distinct_passes": 3,
+  "desktop_final_sources": [
+    "ca009219 product",
+    "7b6f871e observer"
+  ],
+  "typing_valid": true,
+  "typing_intended_errors": 3,
+  "stub_check_final": true,
+  "native_build_attempts": 3,
+  "successful_native_builds": 2,
+  "build_elapsed_seconds": [
+    668.1275957999751,
+    546.5838933999185,
+    70.1112059999723
+  ],
+  "observer_only_build_seconds": 17.103251500055194,
+  "candidate_product_installations": 2,
+  "final_corrected_installations": 1,
+  "gui_fix_regenerated_stubs": false,
+  "full_platform_campaign": false,
+  "scope": "Windows local; primary-file hash and compound dependency metadata, not all companion bytes or historical decoder proof",
+  "products": [
+    {
+      "path": "products/_native.cp312-win_amd64.pyd",
+      "cache_path": "Release/_native.cp312-win_amd64.pyd",
+      "sha256": "fcbdb8734a93df6c094cbca5b3fe835f96dce32319c2297e26e1075c18687b3a"
+    },
+    {
+      "path": "products/qupathxx_project_tests.exe",
+      "cache_path": "Release/qupathxx_project_tests.exe",
+      "sha256": "eed94020e0c0053d46fe1c2752a0e2619c985a4bcb4718cd5651e3c0fcddd7e9"
+    },
+    {
+      "path": "products/project_source.obj",
+      "cache_path": "qupathxx_core.dir/Release/project_source.obj",
+      "sha256": "8bd9e7b6fea231834a3bc65094be495c9a56831d4be887e0a732b87012af6350"
+    },
+    {
+      "path": "products/provenance.obj",
+      "cache_path": "qupathxx_core.dir/Release/provenance.obj",
+      "sha256": "deddc486d55bb156e7bbfbfe1d1172ee6d74e98d5de224d11a8ca0ec7cabebcf"
+    }
+  ]
+}

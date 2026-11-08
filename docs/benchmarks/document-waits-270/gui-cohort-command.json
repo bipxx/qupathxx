@@ -1,0 +1,32 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\document-waits-270-env\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-m",
+    "pytest",
+    "tests/test_raw_pixel_python.py",
+    "tests/test_raw_pixel_cli.py",
+    "tests/test_raw_pixel_batch.py",
+    "tests/test_gui_raw_pixel.py",
+    "tests/test_raw_stream_contour_python.py",
+    "tests/test_raw_contour_seams.py",
+    "tests/test_gui_raw_stream_contours.py",
+    "tests/test_raw_stream_contour_cli.py",
+    "tests/test_raw_stream_contour_batch.py",
+    "tests/test_raw_file_contours.py",
+    "tests/test_spatial_python.py",
+    "tests/test_spatial_cli.py",
+    "tests/test_spatial_frontends.py",
+    "tests/test_document_job_waits.py",
+    "-q",
+    "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\document-waits-270\\gui-cohort.xml",
+    "--basetemp",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\document-waits-270\\gui-cohort-temp"
+  ],
+  "cwd": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159",
+  "gui_opt_in": true,
+  "runtime_source": "c949826",
+  "runtime_gui_capability": true
+}

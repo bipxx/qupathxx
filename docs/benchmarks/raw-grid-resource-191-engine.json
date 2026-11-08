@@ -1,0 +1,90 @@
+{
+  "schema": "qpx.raw-grid-resource-191-engine/1",
+  "observed_at_utc": "2026-10-25T20:32:27.297761+00:00",
+  "source": "61e546ee59944e07b2b15a16b84054813de8393e",
+  "run": 40226794203,
+  "engine_accepted": true,
+  "source_contract_files": 498,
+  "archive_digests_verified": {
+    "Windows-gui-py3.12": {
+      "sha256": "68380658fbdc8d6a822caa98bdd41c1a6b665a9abf32de9fc432eedd4927d7b3",
+      "bytes": 25620194
+    },
+    "Windows-headless-py3.11": {
+      "sha256": "2c0499703de5fde0e02c88465b18891576fa879b8b56dd6babe1877a8dec5215",
+      "bytes": 10840257
+    },
+    "Linux-headless-py3.12": {
+      "sha256": "0573a1088df8e562dcece3ccbc2672ac27773a84c31aa10b922660ae9df3ef73",
+      "bytes": 13392367
+    },
+    "Linux-minimal-py3.12": {
+      "sha256": "813cc6f108ae8339d3e1a4825edc5e904c740e773611e2af229340df9efaccac",
+      "bytes": 34865
+    },
+    "Linux-sanitize-py3.12": {
+      "sha256": "eab839a81da8494784abaa9571a45f939a49c04bfd14d5da1a970ef800f8993f",
+      "bytes": 40100
+    }
+  },
+  "windows_gui": {
+    "native_suites": 50,
+    "installed_passed": 3499
+  },
+  "windows_headless": {
+    "native_suites": 49,
+    "installed_passed": 3069
+  },
+  "linux_headless": {
+    "native_suites": 49,
+    "installed_passed": 3067
+  },
+  "minimal_native_suites": 49,
+  "sanitizer_native_suites": 49,
+  "scope": "Complete five-job engine audit at frozen source191, including inherited semantic, installed, runtime, reader, desktop and typing cohorts. The auditor retains historical overview prose; its source-bound per-cohort checks and artifacts determine this receipt.",
+  "macos_accepted": false,
+  "portable_accepted": false,
+  "full_campaign_accepted": false,
+  "new_tma_axis_api_accepted": false,
+  "release_ready": false,
+  "overall_project_complete": false,
+  "remaining": "Original Mac Intel and portable build/consumer handles remain live. No main promotion before all required campaign gates pass.",
+  "files": {
+    "audit-plan.json": {
+      "bytes": 2783,
+      "sha256": "2781f80c0b8d4881c535383f8d7c8673b5c854c96f3632a5d6455dce9157e0fc"
+    },
+    "engine-run.json": {
+      "bytes": 16529,
+      "sha256": "9854c381ca7691bf17c2bb9ace2d42ea62281a465abffccfa7643746342c2c8d"
+    },
+    "full-engine-audit.json": {
+      "bytes": 653151,
+      "sha256": "0082adb83e7262b386d7f50dfa672288ffc7563665c60135b6f86339f9ab9635"
+    },
+    "full-engine-audit.log": {
+      "bytes": 488,
+      "sha256": "1ddc73ec2ec0ccb2c2811adbff3506d9759d52e2309f9c20a88c8cd98824c5d5"
+    },
+    "Linux-headless-py3.12-artifact.json": {
+      "bytes": 738,
+      "sha256": "4d89750e92e0e39a0c67c41def51bf253eb4c139bb2c23fe35c2c7a6f17dfdc4"
+    },
+    "Linux-minimal-py3.12-artifact.json": {
+      "bytes": 734,
+      "sha256": "60334a15cc64ca8597e62268c82e97935e1f2fed5a346715f35bbaa25a83737b"
+    },
+    "Linux-sanitize-py3.12-artifact.json": {
+      "bytes": 735,
+      "sha256": "28ac9db61ad03cc700f286accd6927d9f29b983f0e945ebdb21dbfd4ac76eafb"
+    },
+    "Windows-gui-py3.12-artifact.json": {
+      "bytes": 735,
+      "sha256": "e3039387be63e8eaa2b99b9b7e99ffd538efa176fc9176a9f8fc1b253c67efc0"
+    },
+    "Windows-headless-py3.11-artifact.json": {
+      "bytes": 740,
+      "sha256": "76436ea252feb9783c0b43ac92abc655a19705d94ac3e921f66f212c602fe164"
+    }
+  }
+}

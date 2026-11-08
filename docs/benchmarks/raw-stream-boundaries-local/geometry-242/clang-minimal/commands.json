@@ -1,0 +1,45 @@
+[
+  {
+    "name": "build",
+    "command": [
+      "wsl",
+      "-d",
+      "Ubuntu",
+      "--",
+      "cmake",
+      "--build",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw-stream-geometry-242-minimal",
+      "--target",
+      "qupathxx_pixel_workflow_tests",
+      "qupathxx_tissue_contour_tests",
+      "qupathxx_resampling_tests",
+      "qupathxx_viewer_session_tests",
+      "--parallel",
+      "2"
+    ],
+    "exit": 0,
+    "seconds": 187.07267109979875
+  },
+  {
+    "name": "native-tests",
+    "command": [
+      "wsl",
+      "-d",
+      "Ubuntu",
+      "--",
+      "ctest",
+      "--test-dir",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw-stream-geometry-242-minimal",
+      "-R",
+      "^(pixel_workflows|tissue_contours|resampling|viewer_session)$",
+      "--output-on-failure",
+      "--test-output-size-passed",
+      "1048576",
+      "--no-tests=error",
+      "--output-junit",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/raw-stream-geometry-242/clang-minimal/native-tests.xml"
+    ],
+    "exit": 2,
+    "seconds": 0.12532779993489385
+  }
+]

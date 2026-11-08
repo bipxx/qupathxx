@@ -1,0 +1,70 @@
+{
+  "payloads": {
+    "contract.json": {
+      "first_sha256": "555116d31c678c635d53ce2f447bcd6d2e269698bd38ba13431a4f40647e7eaa",
+      "repeat_sha256": "555116d31c678c635d53ce2f447bcd6d2e269698bd38ba13431a4f40647e7eaa",
+      "equal": true
+    },
+    "debug-probe.groovy": {
+      "first_sha256": "de0cac546e7228d9a554f281c5fa7fc6e4003cd03615594b1ffdbaa0b08ef7b4",
+      "repeat_sha256": "de0cac546e7228d9a554f281c5fa7fc6e4003cd03615594b1ffdbaa0b08ef7b4",
+      "equal": true
+    },
+    "debug-reference.groovy": {
+      "first_sha256": "e8c492e8b464bd171699326f2c18a8665c68a79429117f8ca11d2d82ed47ae73",
+      "repeat_sha256": "e8c492e8b464bd171699326f2c18a8665c68a79429117f8ca11d2d82ed47ae73",
+      "equal": true
+    },
+    "debug-stack.json": {
+      "first_sha256": "6dc8d914077a0ed3b7c6cf21caf34c2726d919595bef7bcb3aaf936631f46056",
+      "repeat_sha256": "6dc8d914077a0ed3b7c6cf21caf34c2726d919595bef7bcb3aaf936631f46056",
+      "equal": true
+    },
+    "debug-stack.tif": {
+      "first_sha256": "4d724067342a0bdedeb26384b8fb66d46d12d343e4b12687bf659f40ce743778",
+      "repeat_sha256": "4d724067342a0bdedeb26384b8fb66d46d12d343e4b12687bf659f40ce743778",
+      "equal": true
+    },
+    "driver.log": {
+      "first_sha256": "4293f04c56bad40792b615be4e1a3e6ccc7f78c3e42ed48a8c9bee50377cf190",
+      "repeat_sha256": "ad53f85f48fa0921d07962f74b91c1b473d013e94be13be79721ef13a87e8d20",
+      "equal": false
+    },
+    "roi_cut_hole/body-decoded.u32le.gz": {
+      "first_sha256": "f57cde54a6b7a87536858b88b7944a531c326de82cafa4d8dab9e1c5c473d9a8",
+      "repeat_sha256": "f57cde54a6b7a87536858b88b7944a531c326de82cafa4d8dab9e1c5c473d9a8",
+      "equal": true
+    },
+    "roi_cut_hole/body.u32le.gz": {
+      "first_sha256": "f57cde54a6b7a87536858b88b7944a531c326de82cafa4d8dab9e1c5c473d9a8",
+      "repeat_sha256": "f57cde54a6b7a87536858b88b7944a531c326de82cafa4d8dab9e1c5c473d9a8",
+      "equal": true
+    },
+    "roi_cut_hole/cells.geojson": {
+      "first_sha256": "e704acdb97497820dd32b33b8462f95edca6aa774244727b3e92971ebe1f8d55",
+      "repeat_sha256": "e704acdb97497820dd32b33b8462f95edca6aa774244727b3e92971ebe1f8d55",
+      "equal": true
+    },
+    "roi_cut_hole/input.png": {
+      "first_sha256": "989709b333d97602dc0064136c0b23e6592c7154553ff208c8f68b4818146a66",
+      "repeat_sha256": "989709b333d97602dc0064136c0b23e6592c7154553ff208c8f68b4818146a66",
+      "equal": true
+    },
+    "roi_cut_hole/nucleus-decoded.u32le.gz": {
+      "first_sha256": "cec010bb33e1ac8a74c6c6781400af0f7b4ba7c84aa0a5347840931a33086080",
+      "repeat_sha256": "cec010bb33e1ac8a74c6c6781400af0f7b4ba7c84aa0a5347840931a33086080",
+      "equal": true
+    },
+    "roi_cut_hole/nucleus.u32le.gz": {
+      "first_sha256": "cec010bb33e1ac8a74c6c6781400af0f7b4ba7c84aa0a5347840931a33086080",
+      "repeat_sha256": "cec010bb33e1ac8a74c6c6781400af0f7b4ba7c84aa0a5347840931a33086080",
+      "equal": true
+    },
+    "roi_cut_hole/reference.json": {
+      "first_sha256": "a07fbdc7ce90b7eebb26ba6281019c307ce0203281e1065ef59669f103ba34ff",
+      "repeat_sha256": "a07fbdc7ce90b7eebb26ba6281019c307ce0203281e1065ef59669f103ba34ff",
+      "equal": true
+    }
+  },
+  "non_log_payloads_identical": 12
+}

@@ -1,0 +1,21 @@
+{
+  "schema": "qpx.qupath-body-boundary-reference/1",
+  "source_capture_sha256": "3db9318d0e17eb0ce25b608f6b3772461427c64f3b3dd18bff34cafabcce4c26",
+  "source_contract_sha256": "22334ca85a1ac68146542508fa96ea3b259441218ef2ab1d63837975ee603f89",
+  "generator_sha256": "197ca8dced87f78557a955e3dc76ebe41aa2f42ea68afebeff122d7bf9d3c223",
+  "width": 256,
+  "height": 256,
+  "expansion_radius": 5.0,
+  "labels": 506,
+  "expansion_performed": false,
+  "files": {
+    "body.u32le": {
+      "bytes": 262144,
+      "sha256": "95b9684c4b3e862b594983e9cf80bf84c8fe7348842c27e34ddbc6696f18c7ce"
+    },
+    "nucleus.u32le": {
+      "bytes": 262144,
+      "sha256": "aed6aa9c63e3058bb27fafceec326881735b9828d67d5ebb4b698d5d1bcc6252"
+    }
+  }
+}

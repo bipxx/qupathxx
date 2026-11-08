@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="3" skipped="0" tests="3" time="1.614" timestamp="2026-10-28T19:59:10.291966-04:00" hostname="HEQPC"><testcase classname="tests.test_reader_locale" name="test_unicode_reader_dispatch_and_nominal_resume[C]" time="0.413"><failure message="AssertionError: Traceback (most recent call last):&#10;    File &quot;&lt;string&gt;&quot;, line 21, in &lt;module&gt;&#10;  ValueError: destination contains a different project; choose a new path&#10;  &#10;assert 1 == 0&#10; +  where 1 = CompletedProcess(args=['C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\nominal-cell-frontends-294-env\\Scripts\\python...:\n  File &quot;&lt;string&gt;&quot;, line 21, in &lt;module&gt;\nValueError: destination contains a different project; choose a new path\n').returncode">build\ci\scientific-grid-159\tests\test_reader_locale.py:49: in test_unicode_reader_dispatch_and_nominal_resume
+    assert result.returncode == 0, result.stdout + result.stderr
+E   AssertionError: Traceback (most recent call last):
+E       File "&lt;string&gt;", line 21, in &lt;module&gt;
+E     ValueError: destination contains a different project; choose a new path
+E     
+E   assert 1 == 0
+E    +  where 1 = CompletedProcess(args=['C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\nominal-cell-frontends-294-env\\Scripts\\python...:\n  File "&lt;string&gt;", line 21, in &lt;module&gt;\nValueError: destination contains a different project; choose a new path\n').returncode</failure></testcase><testcase classname="tests.test_reader_locale" name="test_unicode_reader_dispatch_and_nominal_resume[English_United States.1252]" time="0.534"><failure message="AssertionError: Traceback (most recent call last):&#10;    File &quot;&lt;string&gt;&quot;, line 16, in &lt;module&gt;&#10;  RuntimeError: No mapping for the Unicode character exists in the target multi-byte code page.&#10;  &#10;assert 1 == 0&#10; +  where 1 = CompletedProcess(args=['C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\nominal-cell-frontends-294-env\\Scripts\\python...line 16, in &lt;module&gt;\nRuntimeError: No mapping for the Unicode character exists in the target multi-byte code page.\n').returncode">build\ci\scientific-grid-159\tests\test_reader_locale.py:49: in test_unicode_reader_dispatch_and_nominal_resume
+    assert result.returncode == 0, result.stdout + result.stderr
+E   AssertionError: Traceback (most recent call last):
+E       File "&lt;string&gt;", line 16, in &lt;module&gt;
+E     RuntimeError: No mapping for the Unicode character exists in the target multi-byte code page.
+E     
+E   assert 1 == 0
+E    +  where 1 = CompletedProcess(args=['C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\nominal-cell-frontends-294-env\\Scripts\\python...line 16, in &lt;module&gt;\nRuntimeError: No mapping for the Unicode character exists in the target multi-byte code page.\n').returncode</failure></testcase><testcase classname="tests.test_reader_locale" name="test_unicode_reader_dispatch_and_nominal_resume[tr-TR]" time="0.587"><failure message="AssertionError: Traceback (most recent call last):&#10;    File &quot;&lt;string&gt;&quot;, line 16, in &lt;module&gt;&#10;  RuntimeError: No mapping for the Unicode character exists in the target multi-byte code page.&#10;  &#10;assert 1 == 0&#10; +  where 1 = CompletedProcess(args=['C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\nominal-cell-frontends-294-env\\Scripts\\python...line 16, in &lt;module&gt;\nRuntimeError: No mapping for the Unicode character exists in the target multi-byte code page.\n').returncode">build\ci\scientific-grid-159\tests\test_reader_locale.py:49: in test_unicode_reader_dispatch_and_nominal_resume
+    assert result.returncode == 0, result.stdout + result.stderr
+E   AssertionError: Traceback (most recent call last):
+E       File "&lt;string&gt;", line 16, in &lt;module&gt;
+E     RuntimeError: No mapping for the Unicode character exists in the target multi-byte code page.
+E     
+E   assert 1 == 0
+E    +  where 1 = CompletedProcess(args=['C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\nominal-cell-frontends-294-env\\Scripts\\python...line 16, in &lt;module&gt;\nRuntimeError: No mapping for the Unicode character exists in the target multi-byte code page.\n').returncode</failure></testcase></testsuite></testsuites>

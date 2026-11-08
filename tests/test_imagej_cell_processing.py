@@ -1,0 +1,255 @@
+"""Opt-in numerical policy must survive every native workflow boundary."""
+import csv
+import io
+import json
+
+import numpy as np
+import pytest
+import qupathxx as q
+
+from test_nominal_cell_python import scene, request, FIXTURE
+from test_nominal_cell_batches import cohort, execute, invoke, flags
+
+
+def compatible():
+    doc, obj, transform, p = scene()
+    p.processing = q.CellProcessingPolicy.IMAGEJ_154P
+    return doc, obj, transform, p
+
+
+@pytest.mark.skipif(not q.has_project, reason='requires project storage')
+def test_affine_qupath_history_csv_and_saved_replay_keep_both_choices(tmp_path):
+    doc,obj,transform,p=scene();records=[]
+    for processing in (q.CellProcessingPolicy.QUANTITATIVE,q.CellProcessingPolicy.IMAGEJ_154P,q.CellProcessingPolicy.QUPATH_070,q.CellProcessingPolicy.QUPATH_070_V2):
+        p.processing=processing
+        for sampling in (q.RgbNominalSampling.INTEGER_ORIGIN,q.RgbNominalSampling.AFFINE_INVERSE):
+            captured=q.CellRequest.for_nominal_roi(doc,obj,transform,1.5,0,0,p,sampling)
+            records.append((doc.keep_cells(captured,q.detect_cells(captured)),processing,sampling))
+    for calibration,version in ((False,11),(True,12)):
+        options=q.CellTableOptions();options.include_capture_calibration=calibration
+        rows=list(csv.DictReader(io.StringIO(q.cell_measurements_csv(q.CellTableRequest(doc,[r[0] for r in records],options)))))
+        assert len(rows)==24 and all(None not in row for row in rows)
+        assert {row['table_schema'] for row in rows}=={'qpx.cell-table/'+str(version)}
+        assert {row['processing_policy'] for row in rows}=={'quantitative/1','imagej154p/1','qupath070/1','qupath070/2'}
+        assert {row['sampling_algorithm'] for row in rows}=={'qpx.rgb-nominal/1','qpx.rgb-nominal-affine/1'}
+    project=q.Project();image=project.add_document(doc);path=tmp_path/'choices.qpxproj';project.save(str(path))
+    restored=q.Project.open(str(path)).document(image)
+    for identity,processing,sampling in records:
+        replay=q.CellRequest.replay(restored,identity)
+        assert replay.nominal_sampling.source_request.sampling==sampling and replay.grid_parameters.processing==processing
+        assert restored.verify_cells(identity,replay,q.detect_cells(replay))
+
+
+@pytest.mark.skipif(not q.has_project, reason='requires project batches')
+@pytest.mark.parametrize('revision',[1,2])
+def test_affine_qupath_batch_resume_keeps_distinct_copied_recipes(tmp_path,revision):
+    project,_,transform,options,_=cohort()
+    if revision==2:
+        previous=options.grid_cells;previous.processing=q.CellProcessingPolicy.QUPATH_070;options.grid_cells=previous
+        previous_sampling=options.cell_nominal;previous_sampling.sampling=q.RgbNominalSampling.AFFINE_INVERSE;options.cell_nominal=previous_sampling
+    old=q.ProjectBatchRequest(project,transform,options=options)
+    n=options.cell_nominal;n.sampling=q.RgbNominalSampling.AFFINE_INVERSE;options.cell_nominal=n
+    policy=q.CellProcessingPolicy.QUPATH_070 if revision==1 else q.CellProcessingPolicy.QUPATH_070_V2
+    p=options.grid_cells;p.processing=policy;options.grid_cells=p
+    new=q.ProjectBatchRequest(project,transform,options=options)
+    n.sampling=q.RgbNominalSampling.INTEGER_ORIGIN;p.processing=q.CellProcessingPolicy.QUANTITATIVE
+    assert old.parameters_sha256!=new.parameters_sha256
+    recipe=json.loads(new.parameters_json)['nominal_cells']
+    assert recipe['sampling_algorithm']=='qpx.rgb-nominal-affine/1' and recipe['processing']=='qupath070/'+str(revision)
+    assert recipe['detector_algorithm']=='qpx.nominal-affine-rgb-qupath070-cell-bodies/'+str(revision)
+    a=execute(old,tmp_path);b=execute(new,tmp_path);c=execute(new,tmp_path)
+    assert a.saved==b.saved==c.reused==2 and b.reused==c.saved==0
+    assert {entry.path for entry in a.images}.isdisjoint(entry.path for entry in b.images)
+    for entry in c.images:
+        saved=q.Project.open(entry.path).document(entry.image_id).cell_records[0].result
+        assert saved.grid_parameters.processing==policy
+        assert saved.nominal_sampling.source_request.sampling==q.RgbNominalSampling.AFFINE_INVERSE
+
+
+@pytest.mark.skipif(not q.has_project, reason='requires project batches')
+@pytest.mark.parametrize('before',[True,False])
+@pytest.mark.parametrize('revision',[1,2])
+def test_affine_qupath_cli_delivers_canonical_saved_recipe(tmp_path,before,revision):
+    project,_,_,_,_=cohort();source=tmp_path/'source.qpxproj';project.save(str(source))
+    policy=['--cell-processing','qupath070' if revision==1 else 'qupath070-v2','--cell-nominal-sampling','affine-inverse']
+    result=invoke(source,tmp_path/'out',policy+flags() if before else flags()+policy)
+    assert result.returncode==0,result.stderr
+    report=json.loads(result.stdout.splitlines()[-1])
+    for entry in report['images']:
+        saved=q.Project.open(entry['path']).document(entry['image_id']).cell_records[0].result
+        assert saved.grid_parameters.processing==(q.CellProcessingPolicy.QUPATH_070 if revision==1 else q.CellProcessingPolicy.QUPATH_070_V2)
+        assert saved.nominal_sampling.source_request.sampling==q.RgbNominalSampling.AFFINE_INVERSE
+
+
+def test_processing_defaults_and_request_copy_preserve_distinct_recipes():
+    doc, obj, transform, p = scene()
+    assert p.processing == q.CellProcessingPolicy.QUANTITATIVE
+    quantitative = request(doc, obj, transform, p)
+    p.processing = q.CellProcessingPolicy.IMAGEJ_154P
+    imagej = request(doc, obj, transform, p)
+    p.processing = q.CellProcessingPolicy.QUANTITATIVE
+    imagej.grid_parameters.processing = q.CellProcessingPolicy.QUANTITATIVE
+    assert quantitative.grid_parameters.processing == p.processing
+    assert imagej.grid_parameters.processing == q.CellProcessingPolicy.IMAGEJ_154P
+    a, b = q.detect_cells(quantitative), q.detect_cells(imagej)
+    assert a.algorithm == 'qpx.nominal-rgb-log-watershed-bodies/1'
+    assert b.algorithm == 'qpx.nominal-rgb-imagej154p-log-watershed-bodies/1'
+    assert a.nuclei.input_sha256 == b.nuclei.input_sha256
+    for mask, name in [(b.nuclei, 'nucleus'), (b.cells, 'body')]:
+        expected = np.frombuffer((FIXTURE / (name + '.u32le')).read_bytes(), dtype='<u4').reshape(128, 171)
+        np.testing.assert_array_equal(mask.labels_numpy(), expected)
+
+
+def test_imagej_processing_refuses_area_grids():
+    doc, obj, transform, p = compatible()
+    with pytest.raises(ValueError, match='nominal'):
+        q.CellRequest.for_grid_roi(doc, obj, transform, q.GridCellSampling(), p)
+
+
+@pytest.mark.skipif(not q.has_project, reason='requires project storage')
+def test_processing_mixed_history_csv_and_saved_replay(tmp_path):
+    doc, obj, transform, p = compatible()
+    imagej = request(doc, obj, transform, p)
+    run = doc.keep_cells(imagej, q.detect_cells(imagej))
+    p.processing = q.CellProcessingPolicy.QUANTITATIVE
+    quantitative = request(doc, obj, transform, p)
+    old = doc.keep_cells(quantitative, q.detect_cells(quantitative))
+    for calibration, schema in [(False, 9), (True, 10)]:
+        options = q.CellTableOptions(); options.include_capture_calibration = calibration
+        rows = list(csv.DictReader(io.StringIO(q.cell_measurements_csv(q.CellTableRequest(doc, [run, old], options)))))
+        assert len(rows) == 6 and all(None not in row for row in rows)
+        assert {row['table_schema'] for row in rows} == {'qpx.cell-table/' + str(schema)}
+        assert {row['processing_policy'] for row in rows} == {'quantitative/1', 'imagej154p/1'}
+    old_csv = q.cell_measurements_csv(q.CellTableRequest(doc, [old]))
+    assert 'processing_policy' not in old_csv and 'qpx.cell-table/7' in old_csv
+    project = q.Project(); image = project.add_document(doc)
+    path = tmp_path / 'policies.qpxproj'; project.save(str(path))
+    restored = q.Project.open(str(path)).document(image)
+    for identity, policy in [(run, q.CellProcessingPolicy.IMAGEJ_154P), (old, q.CellProcessingPolicy.QUANTITATIVE)]:
+        replay = q.CellRequest.replay(restored, identity)
+        assert replay.grid_parameters.processing == policy
+        assert restored.verify_cells(identity, replay, q.detect_cells(replay))
+
+
+@pytest.mark.skipif(not q.has_project or not q.has_geos, reason='requires classifier publication')
+def test_classifier_origin_retains_processing_policy(tmp_path):
+    from test_object_classifier_archives import model_for
+    doc, obj, transform, p = compatible(); captured = request(doc, obj, transform, p)
+    run = doc.keep_cells(captured, q.detect_cells(captured)); ids = doc.publish_cell_record(run)
+    p.processing = q.CellProcessingPolicy.QUANTITATIVE
+    legacy = request(doc, obj, transform, p)
+    old = doc.keep_cells(legacy, q.detect_cells(legacy)); ids += doc.publish_cell_record(old)
+    options = q.ObjectFeatureOptions(); options.cell_rgb = True
+    features = q.ObjectFeatureRequest(doc, ids, options); table = q.extract_object_features(features)
+    job = q.ObjectClassifierJob(); assert job.predict(features, model_for(table.features))
+    assert job.wait(doc).state == 'ready'; job.apply(doc)
+    record = doc.classifier_records[0]
+    project = q.Project(); image = project.add_document(doc)
+    path = tmp_path / 'classifier.qpxproj'; project.save(str(path))
+    restored = q.Project.open(str(path)).document(image).classifier_record(record.id).archive.table
+    origins = [restored.cell_origin(index).source for index in range(6)]
+    assert {origin.grid_parameters.processing for origin in origins} == {
+        q.CellProcessingPolicy.IMAGEJ_154P, q.CellProcessingPolicy.QUANTITATIVE}
+    assert {origin.algorithm for origin in origins} == {
+        'qpx.nominal-rgb-imagej154p-log-watershed-bodies/1', 'qpx.nominal-rgb-log-watershed-bodies/1'}
+
+
+@pytest.mark.skipif(not q.has_project, reason='requires project batches')
+def test_batch_resume_does_not_alias_processing_policies(tmp_path):
+    project, _, transform, options, _ = cohort()
+    old = q.ProjectBatchRequest(project, transform, options=options)
+    p = options.grid_cells; p.processing = q.CellProcessingPolicy.IMAGEJ_154P; options.grid_cells = p
+    new = q.ProjectBatchRequest(project, transform, options=options)
+    assert old.parameters_sha256 != new.parameters_sha256
+    assert 'processing' not in json.loads(old.parameters_json)['nominal_cells']
+    recipe = json.loads(new.parameters_json)['nominal_cells']
+    assert recipe['processing'] == 'imagej154p/1'
+    assert recipe['detector_algorithm'] == 'qpx.nominal-rgb-imagej154p-log-watershed-bodies/1'
+    a = execute(old, tmp_path); b = execute(new, tmp_path); c = execute(new, tmp_path)
+    assert a.saved == b.saved == c.reused == 2 and b.reused == c.saved == 0
+    assert {entry.path for entry in a.images}.isdisjoint(entry.path for entry in b.images)
+    for entry in b.images:
+        record = q.Project.open(entry.path).document(entry.image_id).cell_records[0]
+        assert record.result.grid_parameters.processing == q.CellProcessingPolicy.IMAGEJ_154P
+
+
+@pytest.mark.skipif(not q.has_project, reason='requires native project CLI')
+@pytest.mark.parametrize('before', [False, True])
+def test_cli_processing_flag_order_and_retained_recipe(tmp_path, before):
+    project, _, _, _, _ = cohort(); source = tmp_path / 'source.qpxproj'; project.save(str(source))
+    policy = ['--cell-processing', 'imagej154p']
+    result = invoke(source, tmp_path / 'out', policy + flags() if before else flags() + policy)
+    assert result.returncode == 0, result.stdout + result.stderr
+    saved = json.loads(result.stdout.splitlines()[-1])['images']
+    assert len(saved) == 2
+    for entry in saved:
+        checkpoint = q.Project.open(entry['path']).document(entry['image_id'])
+        assert checkpoint.cell_record_count == 1
+        assert checkpoint.cell_records[0].result.grid_parameters.processing == q.CellProcessingPolicy.IMAGEJ_154P
+
+
+def test_gui_options_copy_processing_policy():
+    _, _, _, p = compatible(); options = q.GuiOptions(); options.grid_cell_parameters = p
+    p.processing = q.CellProcessingPolicy.QUANTITATIVE
+    options.grid_cell_parameters.processing = q.CellProcessingPolicy.QUANTITATIVE
+    assert options.grid_cell_parameters.processing == q.CellProcessingPolicy.IMAGEJ_154P
+
+
+@pytest.mark.parametrize('flags_,message', [
+    (['--cell-processing', 'unknown'], 'quantitative or imagej154p'),
+    (['--cell-processing', 'imagej154p'], 'requires nominal'),
+    (['--cell-processing', 'quantitative'], 'requires nominal'),
+])
+def test_cli_rejects_invalid_processing_before_open(tmp_path, flags_, message):
+    result = invoke(tmp_path / 'absent.qpxproj', tmp_path / 'out', flags_)
+    assert result.returncode == 2 and message in json.loads(result.stderr)['error']
+    assert not (tmp_path / 'out').exists()
+
+
+@pytest.fixture(scope='module')
+def reference_report():
+    from test_qupath_nominal_cells_reference import comparison
+    return comparison.compare(context=0, processing='imagej154p')
+
+
+@pytest.fixture(scope='module',params=[1,2])
+def affine_reference_report(request):
+    from test_qupath_nominal_cells_reference import comparison
+    report=comparison.compare(context=0,processing='qupath070' if request.param==1 else 'qupath070-v2',sampling='affine-inverse')
+    report['requested_revision']=request.param
+    return report
+
+
+@pytest.mark.skipif(not q.has_geos, reason='requires reference ROI geometry')
+@pytest.mark.parametrize('name',[
+    'blank','isolated_three','touching_pair','gap_pair','size_filters',
+    'gradient_noise','anisotropic_level0','roi_cut_hole','resampled_reference',
+])
+def test_affine_qupath_recipe_preserves_original_nine_public_workflows(affine_reference_report,name):
+    case=next(c for c in affine_reference_report['cases'] if c['case_name']==name)
+    assert case['algorithm']=='qpx.nominal-affine-rgb-qupath070-cell-bodies/'+str(affine_reference_report['requested_revision'])
+    assert case['independent_processing_rgb_exact']
+    assert all(f['processing_arithmetic_accepted'] for f in case['feature_checks'])
+    for metric in case['level_zero_segmentation'].values():
+        assert metric['foreground_iou']==metric['foreground_dice']==1
+        assert metric['unmatched_reference']==metric['unmatched_native']==0
+        assert not metric['split_reference_labels'] and not metric['merged_native_labels']
+        assert all(m['iou']==1 and m['centroid_error_px']==0 for m in metric['matches'])
+
+
+@pytest.mark.skipif(not q.has_geos, reason='requires reference ROI geometry')
+@pytest.mark.parametrize('name', [
+    'blank', 'isolated_three', 'touching_pair', 'gap_pair', 'size_filters',
+    'gradient_noise', 'anisotropic_level0', 'roi_cut_hole', 'resampled_reference',
+])
+def test_imagej_policy_reference_masks(reference_report, name):
+    # Case names are checked against the pinned corpus, never inferred from output.
+    case = next(c for c in reference_report['cases'] if c['case_name'] == name)
+    assert case['algorithm'] == 'qpx.nominal-rgb-imagej154p-log-watershed-bodies/1'
+    assert case['independent_processing_rgb_exact']
+    assert all(f['processing_arithmetic_accepted'] for f in case['feature_checks'])
+    for metric in case['level_zero_segmentation'].values():
+        assert metric['foreground_iou'] == metric['foreground_dice'] == 1
+        assert metric['unmatched_reference'] == metric['unmatched_native'] == 0
+        assert not metric['split_reference_labels'] and not metric['merged_native_labels']
+        assert all(m['iou'] == 1 and m['centroid_error_px'] == 0 for m in metric['matches'])

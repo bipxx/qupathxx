@@ -1,0 +1,18 @@
+{
+  "command": [
+    "wsl.exe",
+    "--exec",
+    "/usr/bin/clang++",
+    "-O3",
+    "-DNDEBUG",
+    "-std=gnu++17",
+    "-I",
+    "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw-original-object-255/cpp/include",
+    "-c",
+    "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw-original-object-255/cpp/tests/pixel_workflow_tests.cpp",
+    "-o",
+    "/mnt/c/Users/HEQ/Projects/qupathxx/build/raw-original-object-255/linux-original-test.o"
+  ],
+  "returncode": 0,
+  "scope": "Standalone original test TU syntax/compilation on Linux; not an Apple result"
+}

@@ -1,0 +1,352 @@
+{
+  "schema": "qpx.grid-cell-consumers-local/1",
+  "observed_at_utc": "2026-10-25T09:33:17.409712+00:00",
+  "source": "f8fbc980defb510c821a3b0a81ed4cc428630d50",
+  "compiled_revision": "1a8a2e296e9e0161ff251ceccc33440932f88b5e+dirty",
+  "source_tree_sha256": "e3fdcb3991c06a83821e19e8930c3f945ac5f5ebf77b544a7f3c36d4e2c54598",
+  "compiler_inputs": 297,
+  "compiler": "MSVC 19.44.35225.0",
+  "platform": "Windows AMD64",
+  "configuration": {
+    "python": false,
+    "gui": false,
+    "project": true,
+    "interchange": false,
+    "geos": true,
+    "openslide": false,
+    "tiff": false,
+    "classifier_training": false,
+    "tests": true
+  },
+  "native_suites_passed": 49,
+  "independent_contract_tests_passed": 33,
+  "required_semantic_markers": [
+    "Independent Python QCR1/QCA5 typed grid source bytes decode and canonical re-encode passed",
+    "QCA5 mixed grid/natural classifier sources and CSV project save/reopen passed",
+    "Grid cell CSV schema 5/6, mixed/manual rows, captured units, QCA5 provenance and upsampled source limits passed",
+    "Independent Python struct/hashlib QCL5 bytes decode and canonical re-encode passed",
+    "QCL5 SQLite save, reopen, provenance attachment, replay and second save passed"
+  ],
+  "qca5_native_sources_verified": true,
+  "csv_schema_5_6_verified": true,
+  "mixed_natural_grid_sources_verified": true,
+  "upsampled_sample_limit_verified": true,
+  "sqlite_classifier_csv_reopen_verified": true,
+  "qcl5_independent_byte_regression_verified": true,
+  "installed_python_verified": false,
+  "binding_scalar_guards_edited_but_not_built": true,
+  "scientific_detector_accepted": false,
+  "platform_campaign_accepted": false,
+  "release_ready": false,
+  "scope": "Native QCA5 typed source capture/canonical persistence, mixed natural and grid manifests, core sample/area limits, backend-free prediction snapshots and project reopening; CSV schema 5/6 preserves explicit grid/units/calibration across mixed/manual/project rows. No-grid formats remain unchanged.",
+  "independent_vector": "tests/fixtures/grid-cell-consumers-v1/synthetic-classifier.qcr",
+  "independent_vector_scope": "Python struct/hashlib protocol snapshot, independent QCL5 descriptor and hand-authored forest; not model training or scientific acceptance.",
+  "remaining": [
+    "typed nanobind grid request/result/source metadata and installed package validation",
+    "CLI/ImGui/managed viewer/batch workflow integration",
+    "exact-source complete platform cohorts",
+    "all remaining M0-M7 scientific/hardware/rights/licensing/release criteria"
+  ],
+  "source_proof_note": "Compiled before source commit; configured dirty revision retained verbatim. All compiler inputs match committed source modulo recorded Git line endings and exactly match the configured raw-byte fingerprint. Final full build relinked every native target after the last compiler-input change; no binary rebuilt solely to change a Git label.",
+  "native_artifacts": {
+    "geos.dll": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\geos.dll",
+      "bytes": 2912768,
+      "sha256": "9bff21e1082b57e9914909a156ad121d508d2203a8c6ab4d8d41eb74cc19fa0e"
+    },
+    "geos_c.dll": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\geos_c.dll",
+      "bytes": 590336,
+      "sha256": "64c8a686deccd9e3d5ae66f96ba1276c23faf6ab00564feee421ae91f552b7d6"
+    },
+    "qupathxx_analysis_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\qupathxx_analysis_tests.exe",
+      "bytes": 1426432,
+      "sha256": "2e1b4f0607f30a2b01e3517e1c8538c95e5b196058377b40ef23caf0d06c18a4"
+    },
+    "qupathxx_cell_calibration_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\qupathxx_cell_calibration_tests.exe",
+      "bytes": 1656832,
+      "sha256": "2a6e792a0321d9177d3ef2955d5850739f00a389b799b78e0d9df943d38d9b37"
+    },
+    "qupathxx_cell_expansion_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\qupathxx_cell_expansion_tests.exe",
+      "bytes": 60416,
+      "sha256": "49627fd7a7f8918ec2107ff7acc620109858b0e247f743427ba439aad5c168c8"
+    },
+    "qupathxx_cell_record_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\qupathxx_cell_record_tests.exe",
+      "bytes": 2241024,
+      "sha256": "66ebd18ca6fdabaa352ed92401dc0a40f0bf1548a852f2ea2a240fd0ab3632ec"
+    },
+    "qupathxx_cell_table_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\qupathxx_cell_table_tests.exe",
+      "bytes": 2354688,
+      "sha256": "f42ab641c2a1455972fe337d60ef557f77d359b9d4c6e4a388c0c0bf9754ff7a"
+    },
+    "qupathxx_cell_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\qupathxx_cell_tests.exe",
+      "bytes": 1856000,
+      "sha256": "81c246ad4ac76bb4f86f011be4d0a74d38bb0b8c44127dfe9dfd48022c21edeb"
+    },
+    "qupathxx_classes_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\qupathxx_classes_tests.exe",
+      "bytes": 314368,
+      "sha256": "e3e149487d2be5f189c6df2f9897416ed52253fa3e8fb6db27700404f34eb0f1"
+    },
+    "qupathxx_classifier_io_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\qupathxx_classifier_io_tests.exe",
+      "bytes": 249344,
+      "sha256": "f751b8d7024d8dd55508e62f9c74d27ece85267433b24af07573befec641471e"
+    },
+    "qupathxx_classifier_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\qupathxx_classifier_tests.exe",
+      "bytes": 89088,
+      "sha256": "a810233bf8315b068d8e390c19298ca6becbcedf15e9d55d9c0ac976066baa58"
+    },
+    "qupathxx_core_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\qupathxx_core_tests.exe",
+      "bytes": 320512,
+      "sha256": "2e62c8c981b4c5b25d24e4b01a3f4861fc8b7ee76d954a197abaaf29cbb637c4"
+    },
+    "qupathxx_decimal_quantity_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\qupathxx_decimal_quantity_tests.exe",
+      "bytes": 35840,
+      "sha256": "b6df0c1a97649cc7d9138b5b8d8d64ce5f25ae778fbac90c2a2f469949ea81fd"
+    },
+    "qupathxx_document_edits_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\qupathxx_document_edits_tests.exe",
+      "bytes": 320000,
+      "sha256": "2e8a6a5bddefdf8737106d674e181725dca6d369273520b77d67beb6d2e5111e"
+    },
+    "qupathxx_file_fingerprint_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\qupathxx_file_fingerprint_tests.exe",
+      "bytes": 296448,
+      "sha256": "9ca12d12fc4053856e5bfff0d19cd314fdf3a24c8df3c5afd84c3d9fb7fe6c8a"
+    },
+    "qupathxx_geometry_edits_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\qupathxx_geometry_edits_tests.exe",
+      "bytes": 325120,
+      "sha256": "fd2ad9b271c351f20bd9bd558790487b9e8a8b06e387f26c3b09f9a7a469b523"
+    },
+    "qupathxx_geometry_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\qupathxx_geometry_tests.exe",
+      "bytes": 320000,
+      "sha256": "eb57dbfbec6afeeb4963b7ac30b00ab41d41e6626fa04a47b5c943ac25465fe0"
+    },
+    "qupathxx_gui_replay_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\qupathxx_gui_replay_tests.exe",
+      "bytes": 45056,
+      "sha256": "c9a9e90293b648b42392fcec3ea44fc66794fd08dd10e67e1a6070737cf438c1"
+    },
+    "qupathxx_interchange_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\qupathxx_interchange_tests.exe",
+      "bytes": 312320,
+      "sha256": "b1601b1a44ad2740e7fd9eb57b78c474a6aa21ca82403cafa18ea2ce811c98b3"
+    },
+    "qupathxx_log_cell_recipe_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\qupathxx_log_cell_recipe_tests.exe",
+      "bytes": 1759744,
+      "sha256": "6a9c8f6c688b75cba9816f83ac2d1dc87fa7d9d169666b89dc951579d965fd07"
+    },
+    "qupathxx_log_watershed_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\qupathxx_log_watershed_tests.exe",
+      "bytes": 148992,
+      "sha256": "033641b1b1e488c00b8450185f1a72682d72d3127c6dfa4dc75fb5665e96d1ae"
+    },
+    "qupathxx_masked_gaussian_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\qupathxx_masked_gaussian_tests.exe",
+      "bytes": 30720,
+      "sha256": "df6264c700aa8287470cf592b44dae61017e3d3d39db6aaa55b0640795aba8ca"
+    },
+    "qupathxx_measurement_table_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\qupathxx_measurement_table_tests.exe",
+      "bytes": 1553408,
+      "sha256": "c103719fc890cfa0a40e0dcf38210dc894c321c0632f4d1ed415886bd5e18515"
+    },
+    "qupathxx_object_classifier_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\qupathxx_object_classifier_tests.exe",
+      "bytes": 1857024,
+      "sha256": "6f312a6d3b29897385422e8f50310fe00a6df2d39d5326ebf3d519edd2368989"
+    },
+    "qupathxx_object_snapshot_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\qupathxx_object_snapshot_tests.exe",
+      "bytes": 2153472,
+      "sha256": "b10692eaab19027b5cfe1a3e937e6ae7ded2ca9dcf4e85b46e8f743be289c93a"
+    },
+    "qupathxx_pixel_feature_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\qupathxx_pixel_feature_tests.exe",
+      "bytes": 1340928,
+      "sha256": "5aa0da93a3c809e84e2b685d7e1d391b8d597f3f94b2e9e183dbd18b94329d34"
+    },
+    "qupathxx_pixel_workflow_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\qupathxx_pixel_workflow_tests.exe",
+      "bytes": 1900032,
+      "sha256": "8bbf191d2ebd3fbc2c823cc8c8611fe651ababaf1e536bae828aef74c215755d"
+    },
+    "qupathxx_project_batch_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\qupathxx_project_batch_tests.exe",
+      "bytes": 2670592,
+      "sha256": "600e517388771c5100de69198e0e29a5f2b5025b71bfc59cedfa0925a65bb0ae"
+    },
+    "qupathxx_project_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\qupathxx_project_tests.exe",
+      "bytes": 2231296,
+      "sha256": "58d9718a0b90f0c8dba363ee71e14ee0b732271d0e2a6015d03e8380dd4df2a2"
+    },
+    "qupathxx_provenance_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\qupathxx_provenance_tests.exe",
+      "bytes": 1613312,
+      "sha256": "5c67f0681d53f6e34c3368c9b5f6ae7e2462aa112e41a4566286fad02328b37a"
+    },
+    "qupathxx_qptma_project_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\qupathxx_qptma_project_tests.exe",
+      "bytes": 2037760,
+      "sha256": "6170fd72f43a80ce9035d01e7783b9b5772c104e952daaa3e70c57b76f5f7766"
+    },
+    "qupathxx_qptma_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\qupathxx_qptma_tests.exe",
+      "bytes": 396800,
+      "sha256": "bcfa62343ff9bca251d02641806ac666d857626a7dbe12121ae7a17a0de93e7b"
+    },
+    "qupathxx_raw_image_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\qupathxx_raw_image_tests.exe",
+      "bytes": 2672640,
+      "sha256": "b24c98bf89c860fa27a36f2c24a2b63f28875bf0d0d3664604d628794827593f"
+    },
+    "qupathxx_recovery_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\qupathxx_recovery_tests.exe",
+      "bytes": 2132480,
+      "sha256": "4e561c35e34ec417f1d3eb128522692dc60a78ceaf4fc1856b321a4288a63938"
+    },
+    "qupathxx_resampling_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\qupathxx_resampling_tests.exe",
+      "bytes": 257536,
+      "sha256": "c5c85104f10ca7e129c1380139f62b748745afacee504fbb731812e463108dcd"
+    },
+    "qupathxx_save_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\qupathxx_save_tests.exe",
+      "bytes": 1994240,
+      "sha256": "2c9b1b3d17a134f4b70986273e7e137cc752bd0296029d7afeecd766b0bfc8ea"
+    },
+    "qupathxx_scheduler_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\qupathxx_scheduler_tests.exe",
+      "bytes": 216064,
+      "sha256": "cf02ad4ebc2a16e170d44bffbc6a1220411f5aba4fab600a4ae7f5dddd19fea6"
+    },
+    "qupathxx_selection_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\qupathxx_selection_tests.exe",
+      "bytes": 316928,
+      "sha256": "4835ee8c05cf06e32b6e33565c8bb51d770b8564e1d1056adccb27e4d2d6deb0"
+    },
+    "qupathxx_server_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\qupathxx_server_tests.exe",
+      "bytes": 290816,
+      "sha256": "221fc51f58f0c96162e3cf897c917198d796e4cb24c228781d35f0038878628b"
+    },
+    "qupathxx_sha256_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\qupathxx_sha256_tests.exe",
+      "bytes": 25600,
+      "sha256": "baee7d13b43f4d1b88f06a9b22c998e9cb429905260b60cac29f0d48e6120801"
+    },
+    "qupathxx_source_identity_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\qupathxx_source_identity_tests.exe",
+      "bytes": 1474048,
+      "sha256": "4b541350b5e964d5536feff2a900a1fcd1b96edabfe2bf2756b320296a7530ae"
+    },
+    "qupathxx_spatial_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\qupathxx_spatial_tests.exe",
+      "bytes": 310784,
+      "sha256": "12c6205d925001e957182173f6767fa3e87f4e1872826131725750ba9974961c"
+    },
+    "qupathxx_stain_estimation_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\qupathxx_stain_estimation_tests.exe",
+      "bytes": 1478144,
+      "sha256": "f62cd125aaa25ae64d029ff5dec69255d567824b11976854de32355a600279c3"
+    },
+    "qupathxx_stains_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\qupathxx_stains_tests.exe",
+      "bytes": 248320,
+      "sha256": "d233f11c2fd7570fc2bd4379b5fddc20b8bafedfeda2607af6dfb458e0ff0e72"
+    },
+    "qupathxx_thumbnail_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\qupathxx_thumbnail_tests.exe",
+      "bytes": 218112,
+      "sha256": "a9dbddc267842a59e84f4a2dde924f41705ae36d3ae6a6f1a60965bdc3332c50"
+    },
+    "qupathxx_tissue_contour_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\qupathxx_tissue_contour_tests.exe",
+      "bytes": 1536000,
+      "sha256": "e00c322822806555581d0c6f8706642d63517d0ae073037b482e37aa16ff8f96"
+    },
+    "qupathxx_tissue_record_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\qupathxx_tissue_record_tests.exe",
+      "bytes": 2051584,
+      "sha256": "f243057e1cc0bd8343d3d8677b2a075b00b66cdd461c1f0a6b71ebdd83139400"
+    },
+    "qupathxx_tissue_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\qupathxx_tissue_tests.exe",
+      "bytes": 1414144,
+      "sha256": "1633805dadbc06005ad99c19d4dd85f5900d626fb734bdfaf144b3efcf626bdc"
+    },
+    "qupathxx_tma_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\qupathxx_tma_tests.exe",
+      "bytes": 2700800,
+      "sha256": "5fe271a17d713f091b450a94bb8657eafba8e23562ea190e5da76c63cd1c560a"
+    },
+    "qupathxx_view_tiles_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\qupathxx_view_tiles_tests.exe",
+      "bytes": 157696,
+      "sha256": "3850a444a432f18db220218bbc5962fd4985fec1efa78a00e7e10471dcdfe997"
+    },
+    "qupathxx_viewer_session_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridconsumers166-native\\Release\\qupathxx_viewer_session_tests.exe",
+      "bytes": 2492928,
+      "sha256": "785c967d71a72a914b43ab86eb524b90211164e18e53b7cf99b4da4da34a05e9"
+    }
+  },
+  "sqlite_dependency": {
+    "sqlite3.c": {
+      "bytes": 9582521,
+      "sha256": "0c657666d819f261cc4007526ad57e1669de9949df7a8ea847aa284a2bf0ee52"
+    },
+    "sqlite3.h": {
+      "bytes": 695729,
+      "sha256": "d6c84557261893439b341d2e6c35187ae3ea24fbfd843ad94616f72d89242b8c"
+    }
+  },
+  "evidence": {
+    "build_manifest.hpp": {
+      "bytes": 712,
+      "sha256": "d9e21c142d7a2c93a2a924acf589aae1289f564c5fd424ac37afec6be8cc569e"
+    },
+    "CMakeCache.txt": {
+      "bytes": 17750,
+      "sha256": "44cb8cb3ed4bdc9877900d2439d66eeaff980823cca725f8070fc9094eec6d84"
+    },
+    "compiler-input-proof.json": {
+      "bytes": 82361,
+      "sha256": "20546ebe7aead2501f4742f668d30388dacc5458cb24c35a2ac1a054ad59c8ce"
+    },
+    "gridconsumers166-contract-tests.xml": {
+      "bytes": 5029,
+      "sha256": "adc4700e613102823174d63cc845266053972698f2c35ad381e8a2e23b9f6b28"
+    },
+    "gridconsumers166-final-build.log": {
+      "bytes": 15695,
+      "sha256": "5f023b14180b14e2b1c88030eef25e2974c68854cba12a7166c634c73e1eb7ff"
+    },
+    "gridconsumers166-final-tests.log": {
+      "bytes": 5164,
+      "sha256": "a5c80d3ee5f6ca1046284558fc6121160bff2fcba22bcee6b5b1e2d94fb05117"
+    },
+    "gridconsumers166-final-tests.xml": {
+      "bytes": 14422,
+      "sha256": "06ee055c624f7824dea8cb1131ef12fb3e809b30479a8c53c7bea2d318ed3f48"
+    },
+    "record_evidence.py": {
+      "bytes": 6629,
+      "sha256": "9b18e697ffd84fa7ac5564ad4f26dc031fd863a8129052656f6ea40203cf0ce3"
+    }
+  }
+}

@@ -1,0 +1,43 @@
+Start testing: Oct 28 06:23 Eastern Daylight Time
+----------------------------------------------------------
+10/55 Testing: viewer_session
+10/55 Test: viewer_session
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_viewer_session_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"viewer_session" start time: Oct 28 06:23 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Raw contour frontend: fresh bounded rational-grid trace, atomic apply/undo/redo, stale/cancel/budget/oversize refusal passed; GEOS=1
+Raw managed contours: historical preview, fresh revision-guarded apply, atomic undo/redo, active cancellation and pre-commit result admission passed; GEOS=1
+Raw streamed frontend/viewer: cropped direct parity, preview, fresh revision/apply, retained payload/ID admission, atomic undo/redo and stale/cancel/refusal passed; GEOS=1
+Raw pixel viewer: owner training/checkpoint resume, bounded prediction, verified file retention, historical isolation, actual-source-version rejection, stale/queued-and-running-cancel/retry/removal and active shutdown join passed; training=1
+TMA viewer axis commands: copied bounds, revision, cancellation, atomic result and edit admission passed
+Grid viewer producer copies, owner calibration capture, retention, cancellation and stale delivery passed
+Raw grid viewer copied counts/options, owner calibration, retention/replay, cancellation and stale delivery passed
+Spatial managed viewer: shared controller, retained payload admission before keep, history/verify/export, cancellation, expected revisions and stale delivery passed
+Viewer queue, owner dispatch, jobs, lifetime, limits, staleness and shutdown passed
+<end of output>
+Test time =   1.23 sec
+----------------------------------------------------------
+Test Passed.
+"viewer_session" end time: Oct 28 06:23 Eastern Daylight Time
+"viewer_session" time elapsed: 00:00:01
+----------------------------------------------------------
+
+46/55 Testing: spatial_frontend
+46/55 Test: spatial_frontend
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_spatial_frontend_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"spatial_frontend" start time: Oct 28 06:23 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Spatial shared frontend: capture/keep/history/verify, clone and revision guards, cancellation/retry, atomic protected export, budgets, removed-record ownership and shutdown passed
+<end of output>
+Test time =   0.09 sec
+----------------------------------------------------------
+Test Passed.
+"spatial_frontend" end time: Oct 28 06:23 Eastern Daylight Time
+"spatial_frontend" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Oct 28 06:23 Eastern Daylight Time

@@ -1,0 +1,339 @@
+{
+  "schema": "qpx.local-installed-workflow-observation/1",
+  "runtime_source": "7c773677ec902c31b74e3ebc8d51adde19d5c250",
+  "implementation_source": "8795f26b9a13ccc86dfda16e036968ccfcb00837",
+  "test_fixture_correction_source": "03ecaee3f7826a58f1f7466e58b0afce4bf55a94",
+  "source_fingerprint": "db0eb21af2c165d6a6821702399f85943a32033493eb26091645bd5b4f1bc57d",
+  "scope": "Windows cp312 streamed contour desktop and managed viewer delivery through the shared native frontend. New CLI/batch and historical QWS1 geometry reopen remain open.",
+  "wheel_artifacts": {
+    "development": {
+      "name": "qupathxx-0.1.0-cp312-cp312-win_amd64.whl",
+      "bytes": 11540766,
+      "sha256": "1c6c0bf78be8a6371b39ec60b9a1ee6af0c9b61277232e9b1f8c7ad142154f3b"
+    },
+    "final": {
+      "name": "qupathxx-0.1.0-cp312-cp312-win_amd64.whl",
+      "bytes": 11540836,
+      "sha256": "0b4e26afc5d5f894045a7df3e07f346d9f014d983898eeefe38ec1bb6a13d8bf"
+    }
+  },
+  "native_passed": 9,
+  "python": {
+    "unique_cases": 225,
+    "passed": 222,
+    "declared_skips": 3,
+    "new_gui_managed_cases": 6,
+    "GUI_opt_in": "QUPATHXX_TEST_GUI=1 on the complete final run"
+  },
+  "typing": {
+    "positive_files": 5,
+    "positive_errors": 0,
+    "negative_files": 4,
+    "intended_errors": 17,
+    "streamed_errors": 5
+  },
+  "new_behavior": [
+    "Desktop Stream tiled prediction mode reuses existing trace/preview/apply controls; full-grid default remains available",
+    "Bounded colored preview uses common TissueContours geometry; switching settings or editing document retires live preview",
+    "Native frontend consumes existing whole-stream job; cancellation/shutdown joins it",
+    "ViewerSession.contour_raw_pixel_stream provides cropped historical preview or fresh revision-guarded apply; event retains immutable streamed result",
+    "Result payload plus anticipated IDs reserved before managed atomic publication; low result quota fails before mutation",
+    "Actual desktop mouse trace/apply, undo/redo, stale edit retirement, managed cropped apply/save/reopen geometry all pass"
+  ],
+  "initial_fixture_failure": "Negative quota test used a success-only wait helper, which rejected the correct failed ticket. Original 5-pass/1-fail observation retained; corrected fixture directly checks failed ticket and reruns unchanged wheel. No C++ repair/rebuild for that correction.",
+  "visual_review": "Final synthetic 1280x1000 desktop capture inspected: tiled mode and clipped contour preview, limits controls and applied status fit without UI overflow. PNG is a lossless conversion of retained raw PPM.",
+  "shutdown": {
+    "cancel": {
+      "mode": "cancel",
+      "observed_busy": true,
+      "observed_state": "running",
+      "produced_windows": 0,
+      "total_windows": 2240,
+      "runtime_source": "7c773677ec902c31b74e3ebc8d51adde19d5c250",
+      "shutdown_completed": true
+    },
+    "close": {
+      "mode": "close",
+      "observed_busy": true,
+      "observed_state": "running",
+      "produced_windows": 0,
+      "total_windows": 2240,
+      "runtime_source": "7c773677ec902c31b74e3ebc8d51adde19d5c250",
+      "shutdown_completed": true
+    }
+  },
+  "identity": "All final installed members, executables, compiled source/fingerprint, capabilities, GEOS DLL origins and notices match. Both SDK trees unchanged from receipt244. Separate installed environment reuses test dependencies; not clean-machine/release acceptance.",
+  "remaining": [
+    "Shared native CLI and project batch streamed contour consumers",
+    "Historical QWS1 geometry conversion/reopen/replay with fresh live authority",
+    "Scope-matched complete platform, scientific/resource/hardware and release gates"
+  ],
+  "complete_campaign_accepted": false,
+  "payloads": [
+    {
+      "path": "development/compiler-inputs.json",
+      "bytes": 42389,
+      "sha256": "f2ac48fb9a495027a0f1a2d269d6554de0e9a4460743ccce561ea219942b1118"
+    },
+    {
+      "path": "development/previous-products.json",
+      "bytes": 2683,
+      "sha256": "6311201494ee096cd134b96b5b3458f7143dcc45e60059b3138aa4f46703e172"
+    },
+    {
+      "path": "development/development-wheel-build.log",
+      "bytes": 19460,
+      "sha256": "a697378e58c7928cc81cd09acf0e68b8a2f741d936ee8343d068739179d90d65"
+    },
+    {
+      "path": "development/development-wheel-command.json",
+      "bytes": 246,
+      "sha256": "6c555312aa940cfff125d73083b046b34dffca168294adc343d9c791f18bee54"
+    },
+    {
+      "path": "development/development-install.log",
+      "bytes": 331,
+      "sha256": "443b8d864d9bbfc1fe67e74939bcc654f9d5196fa92ed119595d4ea11bbdd511"
+    },
+    {
+      "path": "development/development-proof.log",
+      "bytes": 113,
+      "sha256": "47518c2dd072c849e03fb5121259f83a01ecbeff6cbdbef762421c8b05010a97"
+    },
+    {
+      "path": "development/installed-proof.json",
+      "bytes": 9476,
+      "sha256": "a7f802c0eedac899990ec23e1c6c007ebd69cb902d365be8170354a64790f076"
+    },
+    {
+      "path": "development/development-tests.log",
+      "bytes": 100,
+      "sha256": "5d27cd0bd0bdb082dfb9586e2f56064fafe45faf5742c36e98e3e831dc979d5b"
+    },
+    {
+      "path": "development/development-tests.xml",
+      "bytes": 1046,
+      "sha256": "08f8e9db565ed311eebcc182fca131233cc9ddb26355782c3bc03397499d9b50"
+    },
+    {
+      "path": "development/development-tests-command.json",
+      "bytes": 616,
+      "sha256": "78297123560c3efc0558c7809247bfbab6c6ff6177280619a20aebff14a54588"
+    },
+    {
+      "path": "development/development-tests-initial-fixture-failure.log",
+      "bytes": 2791,
+      "sha256": "e187cf787c34183934d6e6fb4bf147834287942b55d9bebd5993b279a88bb927"
+    },
+    {
+      "path": "development/development-tests-initial-fixture-failure.xml",
+      "bytes": 3615,
+      "sha256": "8d142d723ac1f33e0e14aeeb1ef167da0ed3b62d882c376a2d287bac4e2d8f49"
+    },
+    {
+      "path": "development/development-tests-initial-fixture-failure-command.json",
+      "bytes": 481,
+      "sha256": "147fc89921ee5a55f672aa1c58821138ac132891739192216ebb13d78054ba08"
+    },
+    {
+      "path": "native-pilot/commands.json",
+      "bytes": 1479,
+      "sha256": "af467dc4d91f3d711814088210cc16aa2ef3259e7124d17ee6484289d4891a79"
+    },
+    {
+      "path": "native-pilot/configure.log",
+      "bytes": 3867,
+      "sha256": "b4972bdee4971770f2264645ad121f1487bc6b28f101f6d7cbcc558fcdf4cabc"
+    },
+    {
+      "path": "native-pilot/build.log",
+      "bytes": 972,
+      "sha256": "63c497afced866597a4b347206d183d6cbe7221008f1b74431f1b3da4d422614"
+    },
+    {
+      "path": "native-pilot/native-tests.xml",
+      "bytes": 1472,
+      "sha256": "a4944e904c75195e630bcb5609ca8323a0464258e6d924a7122d6dc0b3257c00"
+    },
+    {
+      "path": "native-pilot/native-tests.log",
+      "bytes": 242,
+      "sha256": "9adf9586d94f83f5a35ac86c239e444133e50b13d2d72b568b473c5f4e01f45a"
+    },
+    {
+      "path": "native-pilot/product.json",
+      "bytes": 164,
+      "sha256": "b32a30102c3faebb3e5c742f78e477a2c1e2d8646dab4899ca4627535d709bdc"
+    },
+    {
+      "path": "native-pilot/previous-product.json",
+      "bytes": 164,
+      "sha256": "14f5d13c43fe0fe92b24bc09c0dd02e9e30a386f721ca1815dd58e965cadf700"
+    },
+    {
+      "path": "final/compiler-inputs.json",
+      "bytes": 42389,
+      "sha256": "0192048ec5cc9ae6f94f251685a102e104112f653a077288ef49a110be4d4b04"
+    },
+    {
+      "path": "final/previous-products.json",
+      "bytes": 2683,
+      "sha256": "21878a55da034ed2df85a10599592880243ae2c508fbd8cf3773d4692274aa86"
+    },
+    {
+      "path": "final/products.json",
+      "bytes": 2683,
+      "sha256": "ae420fe9fb49eeeb7fa3d7babc5b2edbb623fed2cfba844fead04493bed35449"
+    },
+    {
+      "path": "final/wheel-build.log",
+      "bytes": 19409,
+      "sha256": "565b3f28700561a82cdfd4a8b9a0edc7bff19731881e8e57fecbe4ee5ec7bf56"
+    },
+    {
+      "path": "final/wheel-command.json",
+      "bytes": 253,
+      "sha256": "73b07297c73680b1837a2b14f75741477790cecd33b3eac8f07d78b217adfb98"
+    },
+    {
+      "path": "final/install.log",
+      "bytes": 509,
+      "sha256": "5c0b3f1611959c54126daa52714cfe06aa5e006aa4bc7a1a5fb070937810be11"
+    },
+    {
+      "path": "final/install-command.json",
+      "bytes": 491,
+      "sha256": "af311710db0a433cd072182dac758244a1cd934728dc2c385922901e81589000"
+    },
+    {
+      "path": "final/installed-proof.json",
+      "bytes": 9470,
+      "sha256": "f955524f5139c7846a5330d3e153fbe230e7ed04ac8ea5316fe6a6c9b7cf515d"
+    },
+    {
+      "path": "final/installed-proof.log",
+      "bytes": 113,
+      "sha256": "47518c2dd072c849e03fb5121259f83a01ecbeff6cbdbef762421c8b05010a97"
+    },
+    {
+      "path": "final/native-tests.xml",
+      "bytes": 11848,
+      "sha256": "f230ab197fd527558b924e21988db15ac99330847a6fb7902052ace900192779"
+    },
+    {
+      "path": "final/native-tests.log",
+      "bytes": 1024,
+      "sha256": "42ff2fa03fe208a6e131046ab33a187c34f6e02705f68d17a6baac64b7cc50b3"
+    },
+    {
+      "path": "final/python-tests.xml",
+      "bytes": 30579,
+      "sha256": "e05f8f351421852cc90f8935cdd5fe988b9958aa6ef437c9d0f9d6a650f01b44"
+    },
+    {
+      "path": "final/python-tests.log",
+      "bytes": 357,
+      "sha256": "c877c5b2426b42428e628b0df778f2783aa030cfbac8ad01dec90c337366f867"
+    },
+    {
+      "path": "final/stubs-check.log",
+      "bytes": 48,
+      "sha256": "f5323cb57dde65ca62cc7b523f2183b1f4ad026dafb74e41bd25dac05ebb2130"
+    },
+    {
+      "path": "final/typing-valid.log",
+      "bytes": 251,
+      "sha256": "31f00081fc90e32dbb35ef3c12e79fb8625f217db90baac3cc4438192004b682"
+    },
+    {
+      "path": "final/typing-invalid.log",
+      "bytes": 12867,
+      "sha256": "75396f048972a51d04ea31cecfc1c3f4bb5c4926a0995305cb235305618faa66"
+    },
+    {
+      "path": "final/pyright-valid.json",
+      "bytes": 572,
+      "sha256": "3cbeb2da48bc34614dec83b7b294cd5f229b1fd84988d798d89af5ba75b4f216"
+    },
+    {
+      "path": "final/pyright-invalid.json",
+      "bytes": 507,
+      "sha256": "7ec20440e7824ecc0049d40c7b6b8deb0164d67074b5cce01ba500189c9bb76a"
+    },
+    {
+      "path": "final/verification-commands.json",
+      "bytes": 4135,
+      "sha256": "066119c2b46286e77315b6c0a4f281d0f8136284b848f9bd3a87f3ca62fdb587"
+    },
+    {
+      "path": "final/consumer-observer.json",
+      "bytes": 878,
+      "sha256": "a2ac7876ee440eae8ca73c375beb7220065d44b41cda42603a91ddd3132bf523"
+    },
+    {
+      "path": "final/active-shutdown/cancel-command.json",
+      "bytes": 525,
+      "sha256": "0fccc97429f474b57f6eed95d8946e6f541091942385578a0e6ddccf8c15ceda"
+    },
+    {
+      "path": "final/active-shutdown/cancel-stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "final/active-shutdown/cancel-stdout.log",
+      "bytes": 208,
+      "sha256": "ab51195f9977e65f272872d9ad8ad61b2b5b8fbf7743fba4803798a596f1cda1"
+    },
+    {
+      "path": "final/active-shutdown/close-command.json",
+      "bytes": 524,
+      "sha256": "229d02a8681e52d4f9f075f5171e5e6b073a5fdd253bbd55229a817651647a73"
+    },
+    {
+      "path": "final/active-shutdown/close-stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "final/active-shutdown/close-stdout.log",
+      "bytes": 207,
+      "sha256": "aaf285fee93bcf3f63eab898098cb1bdcf946412cb2209da0bd0633d1ae2023a"
+    },
+    {
+      "path": "final/streamed-desktop.png",
+      "bytes": 29150,
+      "sha256": "08cf10b5be0eb4e5c95e2311b808e08ba3869c53465a1acf8f56df9ac731044a"
+    },
+    {
+      "path": "final/geos-sdk-files.json",
+      "bytes": 65762,
+      "sha256": "b33300fe0fda396f9bb0c156a6da4470c37fcf7c0f318bd8b0e61062d2c84244"
+    },
+    {
+      "path": "final/opencv-sdk-files.json",
+      "bytes": 22441,
+      "sha256": "7156e582c52b3b263496ddf120f53ab0989274f1e76d37c04ea70e66251a5ac6"
+    },
+    {
+      "path": "tools/raw_stream_frontends_245_backend.py",
+      "bytes": 1295,
+      "sha256": "78626ae0f4d42ed0dc68de92f31193b30d606ac09a6a1499e480badeee85ac2a"
+    },
+    {
+      "path": "tools/raw_stream_frontends_245_final_backend.py",
+      "bytes": 1289,
+      "sha256": "003f167d9ac118eb3a23ffbde664f3a0e2f7afd5862650e74b239d5479b5fea3"
+    },
+    {
+      "path": "tools/raw_stream_frontends_245_final_proof.py",
+      "bytes": 4122,
+      "sha256": "dd7780a18033c9d6dfb0bf26ba133895d731ba0a85d564801554d7da8c6a0b1c"
+    },
+    {
+      "path": "tools/verify_raw_stream_frontends_245.py",
+      "bytes": 5036,
+      "sha256": "9fa712219070605ed383aae973fd43fb931e44804fad22e384b798184b28c765"
+    }
+  ]
+}

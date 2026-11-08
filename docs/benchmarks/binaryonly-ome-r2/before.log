@@ -1,0 +1,106 @@
+...FFFFFF                                                                [100%]
+================================== FAILURES ===================================
+__ test_open_either_member_reads_all_axes_levels_and_tracks_metadata[0-xml] ___
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/binaryonly-r2/before-temp/test_open_either_member_reads_0')
+master = 'xml', entry = 0
+
+    @pytest.mark.parametrize('master',['xml','tiff','tiff-default'])
+    @pytest.mark.parametrize('entry',[0,1])
+    def test_open_either_member_reads_all_axes_levels_and_tracks_metadata(tmp_path,master,entry):
+        directory=tmp_path/'corpus';manifest=fixture.generate(directory,master)
+>       server=q.open_tiff(str(directory/fixture.planes.FILES[entry]));meta=server.raw_metadata
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       IndexError: OME series index is outside the file
+
+build\ci\scientific-grid-159\tests\test_binaryonly_ome.py:58: IndexError
+__ test_open_either_member_reads_all_axes_levels_and_tracks_metadata[0-tiff] __
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/binaryonly-r2/before-temp/test_open_either_member_reads_1')
+master = 'tiff', entry = 0
+
+    @pytest.mark.parametrize('master',['xml','tiff','tiff-default'])
+    @pytest.mark.parametrize('entry',[0,1])
+    def test_open_either_member_reads_all_axes_levels_and_tracks_metadata(tmp_path,master,entry):
+        directory=tmp_path/'corpus';manifest=fixture.generate(directory,master)
+>       server=q.open_tiff(str(directory/fixture.planes.FILES[entry]));meta=server.raw_metadata
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: OME companion series metadata differs
+
+build\ci\scientific-grid-159\tests\test_binaryonly_ome.py:58: ValueError
+_ test_open_either_member_reads_all_axes_levels_and_tracks_metadata[0-tiff-default] _
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/binaryonly-r2/before-temp/test_open_either_member_reads_2')
+master = 'tiff-default', entry = 0
+
+    @pytest.mark.parametrize('master',['xml','tiff','tiff-default'])
+    @pytest.mark.parametrize('entry',[0,1])
+    def test_open_either_member_reads_all_axes_levels_and_tracks_metadata(tmp_path,master,entry):
+        directory=tmp_path/'corpus';manifest=fixture.generate(directory,master)
+>       server=q.open_tiff(str(directory/fixture.planes.FILES[entry]));meta=server.raw_metadata
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: OME companion series metadata differs
+
+build\ci\scientific-grid-159\tests\test_binaryonly_ome.py:58: ValueError
+__ test_open_either_member_reads_all_axes_levels_and_tracks_metadata[1-xml] ___
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/binaryonly-r2/before-temp/test_open_either_member_reads_3')
+master = 'xml', entry = 1
+
+    @pytest.mark.parametrize('master',['xml','tiff','tiff-default'])
+    @pytest.mark.parametrize('entry',[0,1])
+    def test_open_either_member_reads_all_axes_levels_and_tracks_metadata(tmp_path,master,entry):
+        directory=tmp_path/'corpus';manifest=fixture.generate(directory,master)
+>       server=q.open_tiff(str(directory/fixture.planes.FILES[entry]));meta=server.raw_metadata
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       IndexError: OME series index is outside the file
+
+build\ci\scientific-grid-159\tests\test_binaryonly_ome.py:58: IndexError
+__ test_open_either_member_reads_all_axes_levels_and_tracks_metadata[1-tiff] __
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/binaryonly-r2/before-temp/test_open_either_member_reads_4')
+master = 'tiff', entry = 1
+
+    @pytest.mark.parametrize('master',['xml','tiff','tiff-default'])
+    @pytest.mark.parametrize('entry',[0,1])
+    def test_open_either_member_reads_all_axes_levels_and_tracks_metadata(tmp_path,master,entry):
+        directory=tmp_path/'corpus';manifest=fixture.generate(directory,master)
+>       server=q.open_tiff(str(directory/fixture.planes.FILES[entry]));meta=server.raw_metadata
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       IndexError: OME series index is outside the file
+
+build\ci\scientific-grid-159\tests\test_binaryonly_ome.py:58: IndexError
+_ test_open_either_member_reads_all_axes_levels_and_tracks_metadata[1-tiff-default] _
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/binaryonly-r2/before-temp/test_open_either_member_reads_5')
+master = 'tiff-default', entry = 1
+
+    @pytest.mark.parametrize('master',['xml','tiff','tiff-default'])
+    @pytest.mark.parametrize('entry',[0,1])
+    def test_open_either_member_reads_all_axes_levels_and_tracks_metadata(tmp_path,master,entry):
+        directory=tmp_path/'corpus';manifest=fixture.generate(directory,master)
+>       server=q.open_tiff(str(directory/fixture.planes.FILES[entry]));meta=server.raw_metadata
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       IndexError: OME series index is outside the file
+
+build\ci\scientific-grid-159\tests\test_binaryonly_ome.py:58: IndexError
+============================== warnings summary ===============================
+tests/test_binaryonly_ome.py: 48 warnings
+  C:\Users\HEQ\Projects\qupathxx\.venv\Lib\site-packages\tifffile\tifffile.py:8928: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.
+  As an alternative, you can create a new view using np.reshape (with copy=False if needed).
+    result.shape = keyframe.shaped
+
+tests/test_binaryonly_ome.py: 48 warnings
+  C:\Users\HEQ\Projects\qupathxx\.venv\Lib\site-packages\tifffile\tifffile.py:8931: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.
+  As an alternative, you can create a new view using np.reshape (with copy=False if needed).
+    result.shape = keyframe.shape
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED build\ci\scientific-grid-159\tests\test_binaryonly_ome.py::test_open_either_member_reads_all_axes_levels_and_tracks_metadata[0-xml]
+FAILED build\ci\scientific-grid-159\tests\test_binaryonly_ome.py::test_open_either_member_reads_all_axes_levels_and_tracks_metadata[0-tiff]
+FAILED build\ci\scientific-grid-159\tests\test_binaryonly_ome.py::test_open_either_member_reads_all_axes_levels_and_tracks_metadata[0-tiff-default]
+FAILED build\ci\scientific-grid-159\tests\test_binaryonly_ome.py::test_open_either_member_reads_all_axes_levels_and_tracks_metadata[1-xml]
+FAILED build\ci\scientific-grid-159\tests\test_binaryonly_ome.py::test_open_either_member_reads_all_axes_levels_and_tracks_metadata[1-tiff]
+FAILED build\ci\scientific-grid-159\tests\test_binaryonly_ome.py::test_open_either_member_reads_all_axes_levels_and_tracks_metadata[1-tiff-default]
+6 failed, 3 passed, 28 deselected, 96 warnings in 0.78s

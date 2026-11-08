@@ -1,0 +1,15 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+    Start 17: file_fingerprint
+1/5 Test #17: file_fingerprint .................   Passed    0.07 sec
+    Start 46: qupath_project
+2/5 Test #46: qupath_project ...................   Passed    0.09 sec
+    Start 51: spatial_records
+3/5 Test #51: spatial_records ..................   Passed    2.29 sec
+    Start 55: project
+4/5 Test #55: project ..........................   Passed    0.21 sec
+    Start 56: interchange
+5/5 Test #56: interchange ......................   Passed    0.07 sec
+
+100% tests passed out of 5
+
+Total Test time (real) =   2.95 sec

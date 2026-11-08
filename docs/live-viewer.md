@@ -1,5 +1,50 @@
 # Live Python viewer sessions
 
+## Original-source nominal cells
+
+`ViewerSession.nominal_cells` uses the existing queued cell-analysis command.
+Submit it from the producer thread while the main thread runs `q.show(session)`:
+
+```python
+sampling = q.NominalCellRoiSampling()
+sampling.downsample = 1.5
+sampling.context_x = sampling.context_y = 32
+parameters = q.GridCellParameters()
+parameters.threshold = .4
+parameters.min_nucleus_area = 16
+parameters.max_nucleus_area = 512
+ticket = session.nominal_cells(
+    image_id, object_id, transform, sampling, parameters, retain_result=True)
+event = session.wait(ticket)
+if event.state != "succeeded":
+    raise RuntimeError(event.error or event.state)
+event = session.take(ticket)
+record_id = event.record_id
+descriptor = event.cells.nominal_sampling
+```
+
+Here `session`, the IDs and stain transform belong to the producer workflow
+below. Submission copies the sampling and detector parameters. The native owner
+resolves the live image/ROI and calibration when the command starts; changes
+before completion prevent stale publication. Cancellation uses the existing
+ticket API. A successful cell command always archives its result in the owned
+project. `retain_result=True` additionally returns it as `event.cells`; the
+default `False` omits that potentially large ticket payload. Existing
+`export_cells` and `save` commands operate on the archived record in both cases.
+
+For direct ImGui use, enable **Nominal RGB cell grid** under **Watershed cells**,
+enter its downsample/context and typed detector parameters, select an area ROI,
+then choose **Detect cells**. Existing preview, keep, publish, recheck and table
+controls consume the original-source result. Initial Python settings use
+`GuiOptions.cell_nominal` and `grid_cell_parameters`. Getters return owned copies;
+assign modified values back. Assemble replay events in a local list and assign
+`options.inputs = events` once; appending to its getter does not update options.
+
+The [local frontend receipt](benchmarks/nominal-cell-frontends-294/receipt.json)
+covers pinned masks, actual mode switching, direct archive/publish/CSV, desktop
+batch resume, managed save/export, lifetime and stale/cancel checks. It does not
+establish broader scientific or supported-platform acceptance.
+
 `ViewerSession` is a thread-safe endpoint for a native-owned ImGui workspace.
 The main Python thread calls `q.show(session)`; a Python producer thread submits
 typed commands and waits for their notifications. The viewer opens its own

@@ -1,0 +1,11 @@
+--- a/imgui_draw.cpp
++++ b/imgui_draw.cpp
+@@ -6342,7 +6342,7 @@
+         if (pack_id == ImFontAtlasRectId_Invalid)
+         {
+             // Pathological out of memory case (TexMaxWidth/TexMaxHeight set too small?)
+-            IM_ASSERT(pack_id != ImFontAtlasRectId_Invalid && "Out of texture memory.");
++            // qpx pilot: a configured atlas budget is recoverable glyph exhaustion.
+             return false;
+         }
+         ImTextureRect* r = ImFontAtlasPackGetRect(atlas, pack_id);

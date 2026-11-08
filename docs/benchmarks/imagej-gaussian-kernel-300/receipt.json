@@ -1,0 +1,284 @@
+{
+  "schema": "qpx.imagej-gaussian-private-local/1",
+  "source": "647576b458144d5ca1e032eb108f9e62930fba99",
+  "source_paths": 1059,
+  "compiler_inputs": 429,
+  "windows_fingerprint": "dcc2622dceebd426edfd2bffdff45ea49fe6eefe85945b3d5b3a709911036fb8",
+  "private_standalone_products": 8,
+  "exact_reference_arrays": 74,
+  "reference_cases": 37,
+  "tests": {
+    "windows-final-native.xml": {
+      "passed": 1,
+      "skipped": 0
+    },
+    "linux/native.xml": {
+      "passed": 1,
+      "skipped": 0
+    },
+    "scientific.xml": {
+      "passed": 761,
+      "skipped": 13
+    },
+    "preflight.xml": {
+      "passed": 1095,
+      "skipped": 0
+    }
+  },
+  "application_native_source": "28c33573ef732905e52fe49aa193bd8e5e067206",
+  "unchanged_application_products": 71,
+  "unchanged_windows_package_members": 39,
+  "application_rebuilt": false,
+  "public_api_changed": false,
+  "gaussian_private_only": true,
+  "shared_test_dependencies": true,
+  "clean_machine": false,
+  "biological_validation": false,
+  "general_speed_claim": false,
+  "release_ready": false,
+  "state": "private-kernel-msvc-and-gcc-sanitizers-locally-verified",
+  "initial_test_failure": "2x2 overflow rejection fixture; corrected3x3",
+  "initial_observer_failure": "Literal FP switch search failed; actual MSBuild Strict properties verified",
+  "remaining": [
+    "Exact RGB-to-float32 OD input stage and held-out grids/scales",
+    "Versioned opt-in request/archive/replay and all consumers",
+    "Broader biological/platform/resource/hardware/support/license/release gates and all M0-M7 exits"
+  ],
+  "files": [
+    {
+      "path": "collect.log",
+      "bytes": 6010,
+      "sha256": "6fed8fa725a1358028d7ab40acfed7272924b18259ea1a3168347caf4fd19bbd"
+    },
+    {
+      "path": "compiler-inputs.json",
+      "bytes": 45745,
+      "sha256": "b17e1007f78c65b39dad00596f6f73eb9c623f61979fe71482eb3c8541c96035"
+    },
+    {
+      "path": "compilexx-append-proof.json",
+      "bytes": 360,
+      "sha256": "e4620d3151c027cd074fbd9b82934913d8d8736a4f8736c0bcf292964c95ce1d"
+    },
+    {
+      "path": "exact-output-proof.json",
+      "bytes": 12182,
+      "sha256": "280ccb9f87a7ee0be4c252d21c54796915432aeb1723d8b1be3bf8ca26c17e4d"
+    },
+    {
+      "path": "initial-probe.log",
+      "bytes": 29,
+      "sha256": "fd7027bbe1c272843c58655c472c1a97a9af4ee4c5135bdfcbd49085dc7a9e0e"
+    },
+    {
+      "path": "linux/autocrlf.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "linux/build.log",
+      "bytes": 412,
+      "sha256": "b6404547c6e1d4bf79d5ffa3c2477bbbd0ffb756279952386ec5a49a8484fcdb"
+    },
+    {
+      "path": "linux/checkout.log",
+      "bytes": 97,
+      "sha256": "dd1d049530edf57b157ad961af854ee377f0943219a95bbd39c7ba6ec3ba4a68"
+    },
+    {
+      "path": "linux/clone.log",
+      "bytes": 55,
+      "sha256": "41798efa351e8de8d7bcf3642791e45009bc819d23ba098ae736a1ad2bd9c109"
+    },
+    {
+      "path": "linux/command-results.json",
+      "bytes": 2243,
+      "sha256": "9238cdb306ba66cd130fb194808d67450b5d6bd20486cf1161dc70f6d279b90e"
+    },
+    {
+      "path": "linux/compiler-inputs.json",
+      "bytes": 45225,
+      "sha256": "56256103dd249b8e7ec34042d1a354d652f6004f02c626bc4a7c478d31bef14f"
+    },
+    {
+      "path": "linux/compiler-version.txt",
+      "bytes": 246,
+      "sha256": "88b7c4b67564a146863224148116065fee418539f0a408f3636a68f3bde51805"
+    },
+    {
+      "path": "linux/configure.log",
+      "bytes": 746,
+      "sha256": "1c8bc94cd9663fbcc31df5a89ecab082aa0d7172bf0204827c7abfd5103f1a30"
+    },
+    {
+      "path": "linux/native-complete.log",
+      "bytes": 930,
+      "sha256": "94df6af5c77531360d76818d3ae9b8552be8843db856e872fd7cc1ba9ec5ad04"
+    },
+    {
+      "path": "linux/native-products.json",
+      "bytes": 932,
+      "sha256": "767cc5089f644da7e5310bd0bf451285f2e1e1bbd7e5bcd4bbe476adf5336ad8"
+    },
+    {
+      "path": "linux/native.log",
+      "bytes": 294,
+      "sha256": "ba0d4a730e9146631a21965b2eede764f7b69f9cba6b31e4c0d56d78e2bdf7bc"
+    },
+    {
+      "path": "linux/native.xml",
+      "bytes": 472,
+      "sha256": "6f32c1c984ca359e389d092213342dd408945dd224c73e52ac8a6736c8a634c0"
+    },
+    {
+      "path": "native-command-results.json",
+      "bytes": 1847,
+      "sha256": "6deeefc3632eb59e9963be2ec91921fb9d635c39f1de85a2a9d289551098ced2"
+    },
+    {
+      "path": "preflight-command-results.json",
+      "bytes": 1323,
+      "sha256": "b43b2412d3086cfe8480d14973d236d9d1f30fcdf3c5946263aae2b7a6dc7e49"
+    },
+    {
+      "path": "preflight.log",
+      "bytes": 1319,
+      "sha256": "ebd2c28921a76aff49f8b211f2d9b3342495d23af326ba8941de5798ec511c3b"
+    },
+    {
+      "path": "preflight.xml",
+      "bytes": 176254,
+      "sha256": "5d17fc9643f71ad0375ec93ed96fd655b63530d07a0643bef169c88d66ee9b4b"
+    },
+    {
+      "path": "production-target-applicability.json",
+      "bytes": 436,
+      "sha256": "626d437c1220971e31d5a2218d1da0cfe8e1e68b2e2a919233b1612e08f40d48"
+    },
+    {
+      "path": "raw_classifier_evidence-source-proof.json",
+      "bytes": 176030,
+      "sha256": "63c3e26d05d2c015812306129d2dafaf8d30e954836ba68ca94e716844966469"
+    },
+    {
+      "path": "repaired-probe.log",
+      "bytes": 134,
+      "sha256": "3f27706ff83dba85b618fdbbc8671b261f8eaa34c1ffd0d9e95ea4d2d6c27e43"
+    },
+    {
+      "path": "scientific-command-results.json",
+      "bytes": 1882,
+      "sha256": "36296d867cb094e558c8a5dd647cf8d1bdce9f864ceca329c2e249ab0fe42e92"
+    },
+    {
+      "path": "scientific.log",
+      "bytes": 925,
+      "sha256": "4cc148c0f63b81b48051b97641101f44c363bec1d1777ce2c108981f40c99c45"
+    },
+    {
+      "path": "scientific.xml",
+      "bytes": 117604,
+      "sha256": "31aaf60018ab54074e807f7a63d8028f297e70081c09216f018f1c3166814b5c"
+    },
+    {
+      "path": "scientific_grid_evidence-source-proof.json",
+      "bytes": 231774,
+      "sha256": "f052fb23c93b176466adbdf137f9287ba624305f14ff8eac770f7d2d61f4c907"
+    },
+    {
+      "path": "source-runtime-proof.json",
+      "bytes": 1103,
+      "sha256": "c428efacb2707867fc8726e85eb6b21ade02f42510d624722263d86ed8f84625"
+    },
+    {
+      "path": "windows-build-manifest.hpp",
+      "bytes": 706,
+      "sha256": "09185660a7c8c97e2048c2bdfd85a53bcf7c99ac8be419033ae73fea89e2a977"
+    },
+    {
+      "path": "windows-build.log",
+      "bytes": 2448,
+      "sha256": "e41e0e034e0ef9fba72747a8140c2b5140714db0ef6bf9059ac1041ade6ebcb9"
+    },
+    {
+      "path": "windows-configure.log",
+      "bytes": 1268,
+      "sha256": "79a16615e1d83833738f1268c1705855b809fcd57880b8c1f39bc91cf890af49"
+    },
+    {
+      "path": "windows-final-build.log",
+      "bytes": 433,
+      "sha256": "16cd304937e4f26ae3bbdd7f8fb556c7b31b1fcc72b72fd5bde3a05a93c7c1a4"
+    },
+    {
+      "path": "windows-final-configure.log",
+      "bytes": 231,
+      "sha256": "e36806fea5066ef0eb59ffaa41f5b50b1dd7a94e1abcfa91e61d5c9df1c6bddc"
+    },
+    {
+      "path": "windows-final-native-complete.log",
+      "bytes": 1167,
+      "sha256": "293785bc01ff2b4617e34b093af0e560e3dbd350462a0b64694a19e92f3c7972"
+    },
+    {
+      "path": "windows-final-native.log",
+      "bytes": 243,
+      "sha256": "e98f04f4457c91dd78d0d0be5d01d9413d07aefbf0b9cfff2528856c96d1e13e"
+    },
+    {
+      "path": "windows-final-native.xml",
+      "bytes": 487,
+      "sha256": "b6f9a29ea87742afdd920401e20d0b0c90c6888d5c75932ecdbbb66804435c70"
+    },
+    {
+      "path": "windows-native-products.json",
+      "bytes": 975,
+      "sha256": "2b688a0fecfd466cae85ab043d27657531f42c9738746d611ea4ccbe93415b8a"
+    },
+    {
+      "path": "windows-native-target.vcxproj",
+      "bytes": 198654,
+      "sha256": "ffc9bef2e408ab738f562e8ff9a9ccaefa4e946beb2bfba56a7187bf7ba21845"
+    },
+    {
+      "path": "windows-native.log",
+      "bytes": 250,
+      "sha256": "7289c06d6c3fc25522868cef41384edce828bc63b79878eaa3e55a684dae7fa1"
+    },
+    {
+      "path": "windows-native.xml",
+      "bytes": 488,
+      "sha256": "fede5837a465ffd16f62240a840aee9851328e9baa3636916d712278731060d7"
+    },
+    {
+      "path": "observers/prepare_imagej300.py",
+      "bytes": 1753,
+      "sha256": "88f30213aefa98e8517840bc8332f7790c6d084a752e2516e10e058ce827be8c"
+    },
+    {
+      "path": "observers/validate_imagej300.py",
+      "bytes": 2870,
+      "sha256": "8829289258196584597c4ef6f10b8865a163c7fe79824d6154d2bb3c476618d4"
+    },
+    {
+      "path": "observers/linux_imagej300.py",
+      "bytes": 3377,
+      "sha256": "e7f8c6f1f4b407cf8cc88937496dab0c92eda7e7d1857c1be439cb5e3c2aaca1"
+    },
+    {
+      "path": "observers/prove_imagej300_initial.py",
+      "bytes": 5330,
+      "sha256": "876b68e7437aac0c7c99626cd47d7c2ddfaec425535338e7a0e207d634785cdd"
+    },
+    {
+      "path": "observers/prove_imagej300.py",
+      "bytes": 5460,
+      "sha256": "b24601aa918e537d3df602ee2bb22e1d789b3e672fc223b419bb3130b0303093"
+    },
+    {
+      "path": "observers/publish_imagej300.py",
+      "bytes": 10433,
+      "sha256": "fe1b57180252afc8889a2ce6f23ff23af7ea7a882cb54487bc4a44fb68fd22c4"
+    }
+  ]
+}

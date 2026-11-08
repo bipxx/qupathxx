@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="3" time="4.010" timestamp="2026-11-04T14:06:14.448064-05:00" hostname="HEQPC"><testcase classname="tests.test_project_source" name="test_desktop_hash_review_apply_and_save[False-False]" time="1.566" /><testcase classname="tests.test_project_source" name="test_desktop_hash_review_apply_and_save[True-False]" time="0.890"><failure message="assert not True&#10; +  where True = &lt;qupathxx._native.Project object at 0x000001FE7B410130&gt;.dirty">tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/source-verification-r5/desktop-ui-temp/test_desktop_hash_review_apply1')
+changed = True, accept = False
+
+    @pytest.mark.skipif(not q.has_gui or os.environ.get('QUPATHXX_TEST_GUI')!='1',reason='opt-in source verification desktop')
+    @pytest.mark.parametrize('changed,accept',[(False,False),(True,False),(True,True)])
+    def test_desktop_hash_review_apply_and_save(tmp_path,changed,accept):
+        from test_gui_replay import event
+        p,image,doc,obj,source,path=scene(tmp_path)
+        if changed:retain(p,image,source);p.save(str(path))
+        candidate=ppm(tmp_path/'candidate.ppm',96) if changed else source
+        options=q.GuiOptions();options.file_fingerprint_path=str(candidate);options.settle_tiles=True
+        inputs=[event(4,q.GuiInputKind.FINGERPRINT_FILE_KEY),event(6,q.GuiInputKind.REVIEW_SOURCE_VERIFICATION_KEY,wait=q.GuiInputWait.FILE_FINGERPRINT_READY)]
+        if accept:
+            inputs.extend([event(8,q.GuiInputKind.LEFT_DOWN,q.GuiInputTarget.ACCEPT_SOURCE_REPLACEMENT,q.GuiInputWait.TARGET_READY),event(9,q.GuiInputKind.LEFT_UP,q.GuiInputTarget.ACCEPT_SOURCE_REPLACEMENT)])
+        if not changed or accept:
+            inputs.extend([event(12,q.GuiInputKind.LEFT_DOWN,q.GuiInputTarget.APPLY_SOURCE_VERIFICATION,q.GuiInputWait.TARGET_READY),event(13,q.GuiInputKind.LEFT_UP,q.GuiInputTarget.APPLY_SOURCE_VERIFICATION)])
+        if not changed or accept:inputs.append(event(24,q.GuiInputKind.SAVE_KEY))
+        options.inputs=inputs
+        report=q.show(p,frame_limit=50,capture_path=str(tmp_path/'source-review.ppm'),options=options)
+        assert report.replay_complete and report.file_fingerprint_state=='succeeded'
+        expected=96 if accept else 16;assert doc.mean_intensity(obj)==expected
+        verification=p.source_verification(image)
+        assert verification is not None
+        expected_path=candidate if accept else source
+        assert verification.fingerprint.sha256==hashlib.sha256(expected_path.read_bytes()).hexdigest()
+&gt;       assert not p.dirty
+E       assert not True
+E        +  where True = &lt;qupathxx._native.Project object at 0x000001FE7B410130&gt;.dirty
+
+tests\test_project_source.py:197: AssertionError</failure></testcase><testcase classname="tests.test_project_source" name="test_desktop_hash_review_apply_and_save[True-True]" time="0.905" /></testsuite></testsuites>

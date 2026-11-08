@@ -1,0 +1,25 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/rawtraining218-windows
+      Start  6: qptma_project
+ 1/10 Test  #6: qptma_project ....................   Passed    0.15 sec
+      Start 14: project_batch
+ 2/10 Test #14: project_batch ....................   Passed    0.92 sec
+      Start 21: cell_records
+ 3/10 Test #21: cell_records .....................   Passed    0.17 sec
+      Start 30: tissue_records
+ 4/10 Test #30: tissue_records ...................   Passed    0.10 sec
+      Start 42: geometry
+ 5/10 Test #42: geometry .........................   Passed    0.03 sec
+      Start 43: geometry_edits
+ 6/10 Test #43: geometry_edits ...................   Passed    0.14 sec
+      Start 44: spatial
+ 7/10 Test #44: spatial ..........................   Passed    0.06 sec
+      Start 45: spatial_records
+ 8/10 Test #45: spatial_records ..................   Passed    1.95 sec
+      Start 46: spatial_analysis
+ 9/10 Test #46: spatial_analysis .................   Passed    0.11 sec
+      Start 49: project
+10/10 Test #49: project ..........................   Passed    0.23 sec
+
+100% tests passed out of 10
+
+Total Test time (real) =   4.11 sec

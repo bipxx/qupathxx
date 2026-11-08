@@ -1,0 +1,79 @@
+F.FF.                                                                    [100%]
+================================== FAILURES ===================================
+________ test_desktop_train_keep_preview_save_and_export_retained_file ________
+
+tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4118/test_desktop_train_keep_previe0')
+
+    def test_desktop_train_keep_preview_save_and_export_retained_file(tmp_path):
+        p, image, doc, ids, root, settings = scene(tmp_path)
+        try:
+            o = options(settings, root, tmp_path)
+            o.inputs = [*click(4, q.GuiInputTarget.RAW_PIXEL_TRAIN), ready(8, q.GuiInputWait.RAW_PIXEL_TRAINED),
+                *click(12, q.GuiInputTarget.RAW_PIXEL_KEEP_TRAINING), ready(16, q.GuiInputWait.RAW_PIXEL_KEPT),
+                *click(20, q.GuiInputTarget.RAW_PIXEL_FILES_TAB), *click(24, q.GuiInputTarget.RAW_PIXEL_PREDICT),
+                ready(28, q.GuiInputWait.RAW_PIXEL_PREVIEW_READY), *click(32, q.GuiInputTarget.RAW_PIXEL_SAVE_MODEL),
+                ready(36, q.GuiInputWait.RAW_PIXEL_MODEL_SAVED), *click(40, q.GuiInputTarget.RAW_PIXEL_EXPORT),
+                ready(44, q.GuiInputWait.RAW_PIXEL_FILE_SAVED), *click(48, q.GuiInputTarget.RAW_PIXEL_RECORDS_TAB),
+                *click(52, q.GuiInputTarget.RAW_PIXEL_KEEP_LINK)]
+>           report = q.show(p, frame_limit=85, options=o)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           RuntimeError: GUI replay timed out waiting for event at logical frame 24
+
+build\ci\scientific-grid-159\tests\test_gui_raw_pixel.py:79: RuntimeError
+______ test_desktop_historical_open_keep_remove_preserves_external_file _______
+
+tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4118/test_desktop_historical_open_k0')
+
+    def test_desktop_historical_open_keep_remove_preserves_external_file(tmp_path):
+        p, _, doc, ids, root, settings = scene(tmp_path)
+        try:
+            model = model_for(doc, ids, settings)
+            output = tmp_path / "ÀúÊ·.qws"
+            stream = q.RawPixelStreamOptions()
+            stream.tile_width = stream.tile_height = 2
+            q.save_raw_pixel_stream(q.RawPixelTiledPredictionRequest(doc, model, settings.lattice, stream, object_id=root), str(output))
+            original = output.read_bytes()
+            o = options(settings, root, tmp_path)
+            raw = o.raw_pixel
+            raw.stream_path = str(output)
+            o.raw_pixel = raw
+            o.inputs = [*click(4, q.GuiInputTarget.RAW_PIXEL_FILES_TAB), *click(8, q.GuiInputTarget.RAW_PIXEL_OPEN_FILE),
+                ready(12, q.GuiInputWait.RAW_PIXEL_FILE_READ), *click(16, q.GuiInputTarget.RAW_PIXEL_RECORDS_TAB),
+                *click(20, q.GuiInputTarget.RAW_PIXEL_KEEP_LINK), *click(24, q.GuiInputTarget.RAW_PIXEL_OPEN_RECORD),
+                ready(28, q.GuiInputWait.RAW_PIXEL_FILE_READ), *click(32, q.GuiInputTarget.RAW_PIXEL_REMOVE_RECORD)]
+>           report = q.show(p, frame_limit=60, options=o)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           RuntimeError: GUI replay timed out waiting for event at logical frame 8
+
+build\ci\scientific-grid-159\tests\test_gui_raw_pixel.py:139: RuntimeError
+____ test_raw_overlay_toggle_invalidates_cached_canvas_at_fractional_edges ____
+
+tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4118/test_raw_overlay_toggle_invali0')
+
+    def test_raw_overlay_toggle_invalidates_cached_canvas_at_fractional_edges(tmp_path):
+        captures = []
+        for hidden in (False, True):
+            directory = tmp_path / str(hidden)
+            directory.mkdir()
+            p, _, doc, ids, root, settings = scene(directory)
+            try:
+                o = options(settings, root, directory)
+                raw = o.raw_pixel
+                raw.model = model_for(doc, ids, settings)
+                o.raw_pixel = raw
+                o.inputs = [*click(4, q.GuiInputTarget.RAW_PIXEL_FILES_TAB), *click(8, q.GuiInputTarget.RAW_PIXEL_PREDICT),
+                    ready(12, q.GuiInputWait.RAW_PIXEL_PREVIEW_READY)]
+                if hidden:
+                    o.inputs += click(16, q.GuiInputTarget.RAW_PIXEL_TOGGLE_OVERLAY)
+                o.inputs += click(20, q.GuiInputTarget.RAW_PIXEL_HIDE)
+                path = directory / "canvas.ppm"
+>               report = q.show(p, frame_limit=50, capture_path=str(path), options=o)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               RuntimeError: GUI replay timed out waiting for event at logical frame 8
+
+build\ci\scientific-grid-159\tests\test_gui_raw_pixel.py:164: RuntimeError
+=========================== short test summary info ===========================
+FAILED build\ci\scientific-grid-159\tests\test_gui_raw_pixel.py::test_desktop_train_keep_preview_save_and_export_retained_file
+FAILED build\ci\scientific-grid-159\tests\test_gui_raw_pixel.py::test_desktop_historical_open_keep_remove_preserves_external_file
+FAILED build\ci\scientific-grid-159\tests\test_gui_raw_pixel.py::test_raw_overlay_toggle_invalidates_cached_canvas_at_fractional_edges
+3 failed, 2 passed in 79.38s (0:01:19)

@@ -1,0 +1,7 @@
+Using CPython 3.12.8 interpreter at: build\ci\raw-stream-contour-244-env\Scripts\python.exe
+Resolved 1 package in 32ms
+Prepared 1 package in 66ms
+Uninstalled 1 package in 10ms
+Installed 1 package in 56ms
+ - qupathxx==0.1.0 (from file:///C:/Users/HEQ/Projects/qupathxx/build/raw-stream-contour-python-244/development-wheel/qupathxx-0.1.0-cp312-cp312-win_amd64.whl)
+ + qupathxx==0.1.0 (from file:///C:/Users/HEQ/Projects/qupathxx/build/raw-stream-contour-python-244/final-wheel/qupathxx-0.1.0-cp312-cp312-win_amd64.whl)

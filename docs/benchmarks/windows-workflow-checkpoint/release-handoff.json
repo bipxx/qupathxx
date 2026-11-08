@@ -1,0 +1,14 @@
+{
+  "tag": "v0.1.0-windows-candidate.1",
+  "native_source_revision": "6219a08f1713d641633156e70f12b3fd70331d82",
+  "hosted_run": "https://github.com/bipxx/qupathxx/actions/runs/42099947943",
+  "harness_commit": "c0aeba86e457917a69fad4a9808d02fd064daa80",
+  "fresh_host_install_run_uninstall": true,
+  "protected_user_files": 7,
+  "local_windows": "Windows 11 Pro 10.0.26200 x64",
+  "hosted_image": "20261101.353.1",
+  "test_renderer": "pinned Mesa, test-only; absent from shipping archives",
+  "dependency_sources": "a3cbad1fb685b4efc6e669dc57a76dcc3922a39de5d4d2de6e8724da9ef40c9b",
+  "engine_builds": 0,
+  "scope": "engineering prerelease; declared local/fresh-host Windows workflows only"
+}

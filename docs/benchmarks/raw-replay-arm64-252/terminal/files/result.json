@@ -1,0 +1,152 @@
+{
+  "schema": "qpx.retained-arm64-diagnostic/1",
+  "runtime_source": "4a72fd84b7726927285bf58120d288513c65eb4e",
+  "diagnostic_source": "71d4105176c717f16a38b3fde0ea932cb3745aa7",
+  "original_program_sha256": "a55c203c8fc7c05c1dfddd5b6ee024c63a638f5c908b75f32a34cc1d8239b9a2",
+  "plain_exit": 1,
+  "debugger_exit": 1,
+  "series_events": [
+    {
+      "event": "throw",
+      "id": 134,
+      "thread": 9885,
+      "object": "0x600003230080",
+      "typeinfo": "0x20d3d4900",
+      "type": "St16invalid_argument",
+      "message": "raw grid source series changed",
+      "stack": [
+        {
+          "index": 0,
+          "pc": "0x19e32bb7c",
+          "function": "__cxa_throw",
+          "module": "libc++abi.dylib",
+          "offset": "0x0",
+          "file": null,
+          "line": null
+        },
+        {
+          "index": 1,
+          "pc": "0x104c7ae30",
+          "function": "unsigned long qpx::(anonymous namespace)::work_bytes<qpx::ScientificRawWindow>(qpx::RawImageMetadata const&, qpx::ScientificRawWindow const&, qpx::ScientificRawOptions, bool, qpx::detail::ScientificRawReserve const&)",
+          "module": "qupathxx_pixel_workflow_tests",
+          "offset": "0x35c",
+          "file": null,
+          "line": null
+        },
+        {
+          "index": 2,
+          "pc": "0x104c7cc90",
+          "function": "qpx::(anonymous namespace)::RawCapture qpx::(anonymous namespace)::capture_raw<qpx::ScientificRawWindow>(qpx::ImageServer const&, qpx::ScientificRawWindow const&, qpx::ScientificRawOptions, std::__1::atomic<bool> const*, bool, qpx::detail::ScientificRawReserve const&)",
+          "module": "qupathxx_pixel_workflow_tests",
+          "offset": "0x1b0",
+          "file": null,
+          "line": null
+        },
+        {
+          "index": 3,
+          "pc": "0x104c7b030",
+          "function": "auto qpx::ScientificRawKernel::read<qpx::ScientificRawWindow>(qpx::ImageServer const&, qpx::ScientificRawWindow const&, qpx::ScientificRawOptions, std::__1::atomic<bool> const*, qpx::detail::ScientificRawReserve const&)",
+          "module": "qupathxx_pixel_workflow_tests",
+          "offset": "0x74",
+          "file": null,
+          "line": null
+        },
+        {
+          "index": 4,
+          "pc": "0x104c7dab4",
+          "function": "qpx::detail::read_scientific_raw_window_reserved(qpx::ImageServer const&, qpx::ScientificRawWindow const&, qpx::ScientificRawOptions, qpx::detail::ScientificRawReserve const&, std::__1::atomic<bool> const*)",
+          "module": "qupathxx_pixel_workflow_tests",
+          "offset": "0x30",
+          "file": null,
+          "line": null
+        },
+        {
+          "index": 5,
+          "pc": "0x104d61f7c",
+          "function": "qpx::RawPixelWindowPredictionKernel::run_window(qpx::RawPixelWindowPredictionRequest::Data const&, qpx::ScientificRawWindow const&, qpx::ImageServer&, std::__1::atomic<bool> const*, std::__1::atomic<unsigned long long>*, std::__1::atomic<int>*)",
+          "module": "qupathxx_pixel_workflow_tests",
+          "offset": "0x130",
+          "file": null,
+          "line": null
+        },
+        {
+          "index": 6,
+          "pc": "0x104bb1214",
+          "function": "void raw_feature_checks::rejects<std::invalid_argument, raw_window_classifier_checks::run()::'lambda9'()>(raw_window_classifier_checks::run()::'lambda9'())",
+          "module": "qupathxx_pixel_workflow_tests",
+          "offset": "0x1c",
+          "file": null,
+          "line": null
+        },
+        {
+          "index": 7,
+          "pc": "0x104b73418",
+          "function": "raw_window_classifier_checks::run()",
+          "module": "qupathxx_pixel_workflow_tests",
+          "offset": "0x193c",
+          "file": null,
+          "line": null
+        },
+        {
+          "index": 8,
+          "pc": "0x104b520b0",
+          "function": "main",
+          "module": "qupathxx_pixel_workflow_tests",
+          "offset": "0x68",
+          "file": null,
+          "line": null
+        },
+        {
+          "index": 9,
+          "pc": "0x19dfd2b98",
+          "function": "start",
+          "module": "dyld",
+          "offset": "0x17bc",
+          "file": null,
+          "line": null
+        }
+      ]
+    },
+    {
+      "event": "catch",
+      "thread": 9885,
+      "argument": "0x600003230060",
+      "candidate_object": "0x600003230080",
+      "matched_throw": 134,
+      "type": "St16invalid_argument",
+      "message": "raw grid source series changed",
+      "stack": [
+        {
+          "index": 0,
+          "pc": "0x19e32b8e0",
+          "function": "__cxa_begin_catch",
+          "module": "libc++abi.dylib",
+          "offset": "0x0",
+          "file": null,
+          "line": null
+        },
+        {
+          "index": 1,
+          "pc": "0x104b61088",
+          "function": "main",
+          "module": "qupathxx_pixel_workflow_tests",
+          "offset": "0xf040",
+          "file": null,
+          "line": null
+        },
+        {
+          "index": 2,
+          "pc": "0x19dfd2b98",
+          "function": "start",
+          "module": "dyld",
+          "offset": "0x17bc",
+          "file": null,
+          "line": null
+        }
+      ]
+    }
+  ],
+  "observer_probe_accepted": true,
+  "loader_override": "/Users/runner/work/qupathxx/qupathxx/build/retained-arm64-252/retained-runtime/sdk/geos/lib",
+  "scope": "Unmodified retained binary/runtime replay and exception observation only. No runtime repair, T5 acceptance, relocation or release claim."
+}

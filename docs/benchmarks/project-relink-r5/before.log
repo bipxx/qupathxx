@@ -1,0 +1,64 @@
+FF.F                                                                     [100%]
+================================== FAILURES ===================================
+_______ test_relink_keeps_verified_pixels_source_and_old_owner[remove] ________
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/project-relink-r5/before-temp/test_relink_keeps_verified_pix0')
+mutation = 'remove'
+
+    @pytest.mark.parametrize('mutation',['remove','replace'])
+    def test_relink_keeps_verified_pixels_source_and_old_owner(tmp_path,mutation):
+        original=ppm(tmp_path/'original.ppm',16);candidate=ppm(tmp_path/'candidate.ppm',96)
+        p=q.Project();image=p.add_image(str(original),reader='ppm');doc=p.document(image)
+        obj=doc.add_rectangle(q.Rect(1,2,20,16));doc.set_calibration(.25,.5)
+        old=doc.server;old_source=q.reader_source_json(old.reader_source);before=doc.revision
+        path=tmp_path/'saved.qpxproj';p.save(str(path))
+        p.relink(image,str(candidate));linked=doc.server;source=linked.reader_source
+>       assert source.scope=='single_file' and source.primary.path==str(candidate)
+E       AssertionError: assert ('unopened' == 'single_file'
+E         
+E         - single_file
+E         + unopened)
+
+tests\test_project_relink.py:23: AssertionError
+_______ test_relink_keeps_verified_pixels_source_and_old_owner[replace] _______
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/project-relink-r5/before-temp/test_relink_keeps_verified_pix1')
+mutation = 'replace'
+
+    @pytest.mark.parametrize('mutation',['remove','replace'])
+    def test_relink_keeps_verified_pixels_source_and_old_owner(tmp_path,mutation):
+        original=ppm(tmp_path/'original.ppm',16);candidate=ppm(tmp_path/'candidate.ppm',96)
+        p=q.Project();image=p.add_image(str(original),reader='ppm');doc=p.document(image)
+        obj=doc.add_rectangle(q.Rect(1,2,20,16));doc.set_calibration(.25,.5)
+        old=doc.server;old_source=q.reader_source_json(old.reader_source);before=doc.revision
+        path=tmp_path/'saved.qpxproj';p.save(str(path))
+        p.relink(image,str(candidate));linked=doc.server;source=linked.reader_source
+>       assert source.scope=='single_file' and source.primary.path==str(candidate)
+E       AssertionError: assert ('unopened' == 'single_file'
+E         
+E         - single_file
+E         + unopened)
+
+tests\test_project_relink.py:23: AssertionError
+__________ test_relink_retains_verified_tiff_axes_options_and_source __________
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/project-relink-r5/before-temp/test_relink_retains_verified_t0')
+
+    @pytest.mark.skipif(not q.has_tiff,reason='TIFF reader')
+    def test_relink_retains_verified_tiff_axes_options_and_source(tmp_path):
+        p,image,values=scene(tmp_path);doc=p.document(image);doc.set_calibration(.25,.5)
+        view=doc.server.tiff_view;view.z=1;view.t=1;view.channels=[1,0,-1]
+        view.lower=[0,0,0];view.upper=[5000,5000,5000];p.set_tiff_view(image,view)
+        old=doc.server;old_generation=old.reader_source.generation
+        candidate=tmp_path/'candidate.ome.tif';shutil.copyfile(tmp_path/'source.ome.tif',candidate)
+        p.relink(image,str(candidate));linked=doc.server;source=linked.reader_source
+>       assert source.primary is not None and source.primary.path==str(candidate)
+E       assert (None is not None)
+E        +  where None = <qupathxx._native.ReaderSource object at 0x000001F97F890650>.primary
+
+tests\test_project_relink.py:65: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_project_relink.py::test_relink_keeps_verified_pixels_source_and_old_owner[remove]
+FAILED tests/test_project_relink.py::test_relink_keeps_verified_pixels_source_and_old_owner[replace]
+FAILED tests/test_project_relink.py::test_relink_retains_verified_tiff_axes_options_and_source
+3 failed, 1 passed in 0.83s

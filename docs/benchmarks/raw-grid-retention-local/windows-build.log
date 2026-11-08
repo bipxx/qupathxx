@@ -1,0 +1,13 @@
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+
+  Checking File Globs
+  qupathxx_sqlite.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_sqlite.lib
+  project.cpp
+  raw_analysis.cpp
+  raw_analysis_archive.cpp
+  raw_analysis_records.cpp
+  Generating Code...
+  provenance.cpp
+  qupathxx_core.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_core.lib
+  scientific_raw_sampling_tests.cpp
+  qupathxx_resampling_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_resampling_tests.exe

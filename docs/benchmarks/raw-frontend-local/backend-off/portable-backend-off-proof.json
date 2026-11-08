@@ -1,0 +1,36 @@
+{
+  "source": "0dc916c8d0f527eeecce03ec852ed2772695b93b",
+  "fingerprint": "718ef68c602569c75ebef62812962e1144a9c44a138ad71a183b58b537973c2c",
+  "flags": {
+    "QUPATHXX_BUILD_CLASSIFIER_TRAINING": "OFF",
+    "QUPATHXX_BUILD_GEOS": "OFF",
+    "QUPATHXX_BUILD_GUI": "OFF",
+    "QUPATHXX_BUILD_INTERCHANGE": "ON",
+    "QUPATHXX_BUILD_OPENSLIDE": "OFF",
+    "QUPATHXX_BUILD_PROJECT": "ON",
+    "QUPATHXX_BUILD_PYTHON": "ON",
+    "QUPATHXX_BUILD_TESTS": "ON",
+    "QUPATHXX_BUILD_TIFF": "ON"
+  },
+  "command": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawtraining218-windows\\Release\\qupathxx_batch.exe",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawgui234-backend-off\\fixture\\input.qpx",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawgui234-backend-off\\fixture\\out",
+    "--kind",
+    "raw-pixels",
+    "--raw-pixel-model",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawgui234-backend-off\\fixture\\model.qrm",
+    "--raw-pixel-tile-width",
+    "2",
+    "--raw-pixel-tile-height",
+    "2",
+    "--raw-pixel-work-bytes",
+    "16777216"
+  ],
+  "saved": 2,
+  "reused": 2,
+  "verified_numeric_blocks": 27,
+  "model_sha256": "9aaa1a31f9adf5c6f00a09f2331a7c9ae2a8b806d7a3ac3501636b6004521724",
+  "source_project_unchanged": true,
+  "executable_sha256": "9d6c4df8a910ce53f2a0492bebc46b1da72e0cdab2b9db96a0193ef64ffb6fe4"
+}

@@ -1,0 +1,11 @@
+{
+  "initial_source": "125afbb493bfec9df9ea879d12f0eeff9def6a9b",
+  "final_source": "c843dfa41b331bd93d73fdcf72e3a8b00bfcff0f",
+  "changed_inputs": [
+    "cpp/raw_pixel_stream_file.cpp",
+    "cpp/tests/raw_stream_file_checks.hpp"
+  ],
+  "reason": "Code review found a missing absent-destination conditional commit; final source preserves a concurrently created output and adds the blocked-IO competing-writer control",
+  "initial_workflow_suites_passed": 3,
+  "unchanged_regressions_passed": 16
+}

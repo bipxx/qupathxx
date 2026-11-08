@@ -1,0 +1,20 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+    Start 10: viewer_session
+1/1 Test #10: viewer_session ...................***Failed    1.19 sec
+Raw contour frontend: fresh bounded rational-grid trace, atomic apply/undo/redo, stale/cancel/budget/oversize refusal passed; GEOS=1
+Raw managed contours: historical preview, fresh revision-guarded apply, atomic undo/redo, active cancellation and pre-commit result admission passed; GEOS=1
+Raw streamed frontend/viewer: cropped direct parity, preview, fresh revision/apply, retained payload/ID admission, atomic undo/redo and stale/cancel/refusal passed; GEOS=1
+Raw pixel viewer: owner training/checkpoint resume, bounded prediction, verified file retention, historical isolation, actual-source-version rejection, stale/queued-and-running-cancel/retry/removal and active shutdown join passed; training=1
+TMA viewer axis commands: copied bounds, revision, cancellation, atomic result and edit admission passed
+Grid viewer producer copies, owner calibration capture, retention, cancellation and stale delivery passed
+Raw grid viewer copied counts/options, owner calibration, retention/replay, cancellation and stale delivery passed
+viewer session check failed at line 44
+
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =   1.24 sec
+
+The following tests FAILED:
+	 10 - viewer_session (Failed)
+Errors while running CTest

@@ -1,0 +1,55 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+________ test_raw_batch_mixed_rgb_raw_links_and_both_typed_reuse_paths ________
+
+tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4263/test_raw_batch_mixed_rgb_raw_l0')
+
+    def test_raw_batch_mixed_rgb_raw_links_and_both_typed_reuse_paths(tmp_path):
+        p, docs, model = scene(tmp_path, (8,))
+        try:
+            image, doc, root, _ = docs[0]
+            lattice = q.ScientificRawLattice(8, 6, q.ScientificGridAxis(0, 8, 8), q.ScientificGridAxis(0, 6, 6))
+            native = q.RawPixelTiledPredictionRequest(doc, model, lattice, object_id=root)
+            raw_path = tmp_path / "prior.qws"
+            q.save_raw_pixel_stream(native, str(raw_path))
+            file = q.RawPixelStreamFile(str(raw_path))
+            file.verify()
+            doc.keep_raw_pixel_stream(file.link())
+            rgb_model = q.PixelStreamFile(str(FIXTURE)).read_block(0).model
+            rgb_path = tmp_path / "prior.qps"
+            q.save_pixel_stream(q.PixelPredictionStream(doc, root, rgb_model), str(rgb_path))
+            rgb = q.PixelStreamFile(str(rgb_path))
+            rgb.verify()
+            doc.keep_pixel_stream(rgb.link())
+            for kind in ("raw", "rgb"):
+                o = options(model) if kind == "raw" else q.ProjectBatchOptions()
+                if kind == "rgb":
+                    o.kind, o.pixel_model = q.ProjectBatchKind.PIXELS, rgb_model
+                r = request(p, model, o)
+                first = success(q.run_project_batch(r, str(tmp_path / kind)))
+                second = success(q.run_project_batch(r, str(tmp_path / kind)))
+                assert first.saved == second.reused == 1
+                saved = q.Project.open(first.images[0].path)
+                assert saved.document(image).raw_pixel_stream_record_count == (2 if kind == "raw" else 1)
+                assert saved.document(image).pixel_stream_record_count == (1 if kind == "raw" else 2)
+                close(saved)
+            if os.name=="nt":
+                source=tmp_path/"linked-source.qpxproj";p.save(str(source))
+                first=q.Project.open(str(source));second=q.Project.open(str(source))
+                try:
+                    folder=tmp_path/"snapshots";folder.mkdir()
+                    plain=folder/"plain.qpxproj";extended=folder/"extended.qpxproj"
+                    text=str(extended)
+                    argument="\\\\?\\UNC\\"+text[2:] if text.startswith("\\\\") else "\\\\?\\"+text
+                    first.save_new(str(plain));second.save_new(argument)
+                    # Images, QSL1 and QWL1 locators all contribute to the input seal.
+>                   assert plain.read_bytes()==extended.read_bytes()
+E                   AssertionError: assert b'SQLite form...0\x00\x00\x00' == b'SQLite form...0\x00\x00\x00'
+E                     
+E                     At index 8198 diff: b'\xbd' != b'd'
+E                     Use -v to get more diff
+
+tests\test_raw_pixel_batch.py:237: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_raw_pixel_batch.py::test_raw_batch_mixed_rgb_raw_links_and_both_typed_reuse_paths
+1 failed in 0.61s

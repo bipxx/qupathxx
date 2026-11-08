@@ -1,0 +1,7 @@
+C:\Users\HEQ\Projects\qupathxx\build\rawt5-236\darwin-deduction\original.cpp:9:38: error: 'auto' deduced as 'std::uint64_t' (aka 'unsigned long long') in declaration of 'count' and deduced as 'std::size_t' (aka 'unsigned long') in declaration of 'classes'
+    9 | void dimensions(const Data& d){const auto count=std::uint64_t(d.grid.x().samples())*std::uint64_t(d.grid.y().samples()),classes=d.model.forest().classes().size();}
+      |                                      ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:\Users\HEQ\Projects\qupathxx\build\rawt5-236\darwin-deduction\original.cpp:10:32: error: 'auto' deduced as 'std::size_t' (aka 'unsigned long') in declaration of 'at' and deduced as 'std::uint64_t' (aka 'unsigned long long') in declaration of 'id'
+   10 | void position(Cursor& c){const auto at=c.p,id=c.integer();}
+      |                                ^       ~~~    ~~~~~~~~~~~
+2 errors generated.

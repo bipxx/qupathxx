@@ -1,0 +1,52 @@
+[
+  {
+    "name": "configure",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\cmake.exe",
+      "-S",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159",
+      "-B",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawtraining218-windows"
+    ],
+    "exit": 0,
+    "seconds": 3.079388599842787
+  },
+  {
+    "name": "build",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\cmake.exe",
+      "--build",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawtraining218-windows",
+      "--config",
+      "Release",
+      "--target",
+      "qupathxx_pixel_feature_tests",
+      "qupathxx_pixel_workflow_tests",
+      "qupathxx_classifier_tests",
+      "--parallel",
+      "2"
+    ],
+    "exit": 0,
+    "seconds": 141.30895279999822
+  },
+  {
+    "name": "tests",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\ctest.exe",
+      "--test-dir",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawtraining218-windows",
+      "-C",
+      "Release",
+      "-R",
+      "^(pixel_features|pixel_workflows|classifier)$",
+      "--output-on-failure",
+      "--test-output-size-passed",
+      "1048576",
+      "--no-tests=error",
+      "--output-junit",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawstreamlinks228-training\\tests.xml"
+    ],
+    "exit": 8,
+    "seconds": 1.868727499851957
+  }
+]

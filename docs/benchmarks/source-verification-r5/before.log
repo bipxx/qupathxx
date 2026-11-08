@@ -1,0 +1,37 @@
+FF                                                                       [100%]
+================================== FAILURES ===================================
+_____ test_initial_verification_is_reviewed_and_reopens_without_source_io _____
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/source-verification-r5/before-temp/test_initial_verification_is_r0')
+
+    def test_initial_verification_is_reviewed_and_reopens_without_source_io(tmp_path):
+        p,image,doc,obj,source,path=scene(tmp_path);before=q.reader_source_json(doc.server.reader_source)
+>       review=p.review_source_verification(image,fingerprint(source))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'qupathxx._native.Project' object has no attribute 'review_source_verification'
+
+tests\test_project_source.py:32: AttributeError
+____ test_changed_bytes_require_explicit_acceptance_and_keep_old_analysis _____
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/source-verification-r5/before-temp/test_changed_bytes_require_exp0')
+
+    def test_changed_bytes_require_explicit_acceptance_and_keep_old_analysis(tmp_path):
+>       p,image,doc,obj,source,path=scene(tmp_path);retain(p,image,source)
+                                                    ^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_project_source.py:58: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+p = <qupathxx._native.Project object at 0x0000012C4BB79020>, image = 1
+path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/source-verification-r5/before-temp/test_changed_bytes_require_exp0/original.ppm')
+
+    def retain(p,image,path):
+>       review=p.review_source_verification(image,fingerprint(path));p.apply_source_review(review);return review
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'qupathxx._native.Project' object has no attribute 'review_source_verification'
+
+tests\test_project_source.py:27: AttributeError
+=========================== short test summary info ===========================
+FAILED tests/test_project_source.py::test_initial_verification_is_reviewed_and_reopens_without_source_io
+FAILED tests/test_project_source.py::test_changed_bytes_require_explicit_acceptance_and_keep_old_analysis
+2 failed in 0.50s

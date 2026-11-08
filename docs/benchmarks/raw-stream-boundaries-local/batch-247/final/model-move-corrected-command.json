@@ -1,0 +1,15 @@
+{
+  "args": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-stream-batch-247-env\\Scripts\\python.exe",
+    "-I",
+    "-m",
+    "pytest",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_raw_stream_contour_batch.py::test_batch_contour_moved_output_and_changed_model_use_exact_checkpoint_scope",
+    "-q",
+    "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw-stream-batch-247\\final\\model-move-corrected.xml"
+  ],
+  "exit": 0,
+  "seconds": 0.9775154001545161,
+  "test_sha256": "6779b0deed44e5ca0edf699fa42f3a0e290ec2f3b3193c281e83f0e8bb46228a",
+  "runtime_source": "f5ec3eb14140f134c61b0bc1bd23a117c12bdd2a"
+}

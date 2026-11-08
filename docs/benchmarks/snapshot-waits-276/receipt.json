@@ -1,0 +1,85 @@
+{
+  "schema": "qpx.qualification-campaign-receipt/1",
+  "source": "9d923225cb53009506042f6c27df2aff91e123e2",
+  "ref": "feature/snapshot-waits-qualification-276",
+  "scope": "Combined spatial workflow, fourteen older-controller wait repairs and schema14 benchmark/migration cohort observer repairs. Every role builds its own frozen source; no acceptance transfers from273.",
+  "runs": {
+    "engine": {
+      "databaseId": 40706232371,
+      "headSha": "9d923225cb53009506042f6c27df2aff91e123e2",
+      "status": "queued",
+      "conclusion": "",
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40706232371",
+      "createdAt": "2026-10-28T14:28:13Z"
+    },
+    "macos": {
+      "databaseId": 40706246737,
+      "headSha": "9d923225cb53009506042f6c27df2aff91e123e2",
+      "status": "queued",
+      "conclusion": "",
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40706246737",
+      "createdAt": "2026-10-28T14:28:19Z"
+    },
+    "portable": {
+      "databaseId": 40706261296,
+      "headSha": "9d923225cb53009506042f6c27df2aff91e123e2",
+      "status": "queued",
+      "conclusion": "",
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40706261296",
+      "createdAt": "2026-10-28T14:28:24Z"
+    }
+  },
+  "authenticated_source_paths": 539,
+  "compiler_git_blobs_identical": 410,
+  "local_native_source": "048cf254db302f0a1997dac249a8688da26e13e7",
+  "local_products_not_relabelled": true,
+  "all_roles_build_own_source": true,
+  "initial_cli_metadata_timeout_preserved": true,
+  "no_runs_confirmed_before_recovery": true,
+  "one_identified_run_per_role": true,
+  "engineering_accepted": false,
+  "qualified_baseline": "5f1760a122337f1a610c95a33c8b0bd6182f7781",
+  "release_ready": false,
+  "files": [
+    {
+      "path": "campaign.json",
+      "bytes": 4637,
+      "sha256": "eb489be6afcf6c4c636468b9acb935cab3b03504bde41ebfce3fbedbee900577"
+    },
+    {
+      "path": "campaign-before-recovery.json",
+      "bytes": 1465,
+      "sha256": "c76748a6198a37667e2cdfad149675ff00ffc0b0e159989650ef310de4d0b596"
+    },
+    {
+      "path": "recovery-no-runs-observation.json",
+      "bytes": 193,
+      "sha256": "8b8dae294ed34d3f83c9a9a6199d387016b9397eee2aa8447bc5eeea8ad380a2"
+    },
+    {
+      "path": "frozen-source-proof.json",
+      "bytes": 135448,
+      "sha256": "d34829cdd761a9544154fdab31e3aceda8c4aa69e5d7a8cf9a7235c0955a3637"
+    },
+    {
+      "path": "complete-audit-plan.json",
+      "bytes": 2942,
+      "sha256": "9c18da7b4cbefbc7647331346e1f333733733c33f5aefbb61c6cd7371604a98c"
+    },
+    {
+      "path": "initial-observation/engine-run.json",
+      "bytes": 3114,
+      "sha256": "35fb328a24bf154b464bffef3e8feef9c3edfbcf774ad3526723e53aeaf59e70"
+    },
+    {
+      "path": "initial-observation/macos-run.json",
+      "bytes": 4224,
+      "sha256": "cd2107d59f12eb5e4e01d3deb5a792fe13fad3f63f76edb6251adead7e17c916"
+    },
+    {
+      "path": "initial-observation/portable-run.json",
+      "bytes": 1643,
+      "sha256": "88080c2e38b87d101e3e2a2938053a35562bfb92ba61d2dfa35bb2efd1c036d1"
+    }
+  ]
+}

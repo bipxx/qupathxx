@@ -1,0 +1,12 @@
+{
+  "command": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-stream-history-248-final-env\\Scripts\\python.exe",
+    "-I",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tools\\profile_raw_stream_contours.py",
+    "--work",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw-stream-resources-253\\first"
+  ],
+  "returncode": 1,
+  "seconds": 0.5469200001098216,
+  "observer_source": "27c392edc4c9ae363a5385b9d0a607fd0094888e"
+}

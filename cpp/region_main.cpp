@@ -1,8 +1,11 @@
 #include "reader_provenance.hpp"
 #include "qupathxx/core.hpp"
 #include "qupathxx/thumbnail.hpp"
+#include "qupathxx/resampling.hpp"
 #include "qupathxx/raw_image.hpp"
 #include "raw_cli.hpp"
+#include "decimal_quantity.hpp"
+#include "ascii_case.hpp"
 #include <fstream>
 #include <filesystem>
 #include <iostream>
@@ -18,24 +21,45 @@ std::int64_t number(const char* text) {
 }
 static int launch(int argc, char** argv) {
     if(argc>1 && std::string(argv[1])=="--raw") return raw_region_cli(argc,argv);
+    const bool resample=argc>1 && std::string(argv[1])=="--resample";
     const bool thumbnail=argc>1 && std::string(argv[1])=="--thumbnail";
-    if ((thumbnail && !(argc==6 || (argc==8 && std::string(argv[6])=="--source-pixels"))) || (!thumbnail && argc!=8)) {
+    const bool nominal=argc>1 && std::string(argv[1])=="--rgb-nominal";
+    if ((thumbnail && !(argc==6 || (argc==8 && std::string(argv[6])=="--source-pixels"))) || (resample && argc!=11) ||
+        (nominal && !(argc==9 || (argc==11 && std::string(argv[9])=="--sampling"))) || (!thumbnail && !resample && !nominal && argc!=8)) {
         std::cerr << "Usage: qupathxx_region IMAGE X Y LEVEL WIDTH HEIGHT OUTPUT.pam\n"
                      "       qupathxx_region --thumbnail IMAGE MAX_WIDTH MAX_HEIGHT OUTPUT.pam [--source-pixels PIXELS]\n"
+                     "       qupathxx_region --resample IMAGE X Y LEVEL SOURCE_WIDTH SOURCE_HEIGHT WIDTH HEIGHT OUTPUT.pam\n"
+                     "       qupathxx_region --rgb-nominal IMAGE X Y SOURCE_WIDTH SOURCE_HEIGHT DOWNSAMPLE OUTPUT.pam [--sampling integer-origin|affine-inverse]\n"
                      "Level-zero X/Y; output WIDTH/HEIGHT at LEVEL. PPM uses dense reader.\n";
         return 2;
     }
     try {
-        const std::string path = argv[thumbnail?2:1];
-        const auto output=argv[thumbnail?5:7];
+        const std::string path = argv[(thumbnail || resample || nominal)?2:1];
+        const auto output=argv[thumbnail?5:resample?10:nominal?8:7];
         if (std::filesystem::weakly_canonical(std::filesystem::u8path(path)) ==
             std::filesystem::weakly_canonical(std::filesystem::u8path(output)))
             throw std::invalid_argument("output must not overwrite the source image");
-        auto server = path.size() >= 4 && path.substr(path.size()-4) == ".ppm"
+        std::optional<qpx::RgbNominalRequest> nominal_request;
+        if(nominal) {
+            const auto step=qpx::detail::positive_decimal_quantity(argv[7]);
+            if(!step) throw std::invalid_argument("RGB nominal downsample must be a positive finite decimal");
+            auto sampling=qpx::RgbNominalSampling::IntegerOrigin;
+            if(argc==11) {
+                const std::string value=argv[10];
+                if(value=="affine-inverse") sampling=qpx::RgbNominalSampling::AffineInverse;
+                else if(value!="integer-origin") throw std::invalid_argument("nominal sampling must be integer-origin or affine-inverse");
+            }
+            nominal_request.emplace(number(argv[3]),number(argv[4]),number(argv[5]),number(argv[6]),*step,sampling);
+        }
+        auto extension=std::filesystem::u8path(path).extension().u8string();
+        qpx::detail::ascii_lower_in_place(extension);
+        auto server = extension == ".ppm"
             ? qpx::ppm_image_server(path) : qpx::has_tiff() && qpx::is_ome_tiff_path(path)?qpx::open_tiff(path):qpx::open_slide(path);
         std::shared_ptr<const qpx::ThumbnailResult> preview;
         std::optional<qpx::PixelBuffer> explicit_region;
-        if(thumbnail) {
+        if(nominal) {
+            explicit_region.emplace(qpx::read_rgb_nominal_region(*server,*nominal_request));
+        } else if(thumbnail) {
             const auto w=number(argv[3]),h=number(argv[4]);
             if(w<1 || h<1 || w>4096 || h>4096) throw std::invalid_argument("thumbnail bounds must be 1..4096 pixels");
             qpx::ThumbnailOptions options;options.max_width=static_cast<std::int32_t>(w);options.max_height=static_cast<std::int32_t>(h);
@@ -43,9 +67,11 @@ static int launch(int argc, char** argv) {
             options.validate();
             preview=qpx::read_thumbnail(*server,options);
         } else {
-            auto level=number(argv[4]);
+            const auto offset=resample?1:0;auto level=number(argv[4+offset]);
             if(level<0 || level>std::numeric_limits<std::int32_t>::max()) throw std::out_of_range("invalid level");
-            explicit_region.emplace(server->read_region({number(argv[2]),number(argv[3]),static_cast<std::int32_t>(level),number(argv[5]),number(argv[6])}));
+            qpx::RegionRequest request{number(argv[2+offset]),number(argv[3+offset]),static_cast<std::int32_t>(level),number(argv[5+offset]),number(argv[6+offset])};
+            if(resample) explicit_region.emplace(qpx::read_resampled_region(*server,request,number(argv[8]),number(argv[9])));
+            else explicit_region.emplace(server->read_region(request));
         }
         const auto& region=thumbnail?preview->pixels:*explicit_region;
         std::ofstream out(std::filesystem::u8path(output), std::ios::binary);

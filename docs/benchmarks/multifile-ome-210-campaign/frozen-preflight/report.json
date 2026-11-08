@@ -1,0 +1,18 @@
+{
+  "source": "9e7d0be94c59c2c5e363f7dfa60384f9c9c2d7d6",
+  "observed_at_utc": "2026-10-26T03:05:50.253173+00:00",
+  "passed": 562,
+  "source_contract_files": {
+    "multifile": 55,
+    "scientific": 514,
+    "axis": 35,
+    "dearray": 60,
+    "qptma": 42,
+    "resampling": 16,
+    "hierarchy": 55
+  },
+  "compiler_inputs": 317,
+  "fresh_checkout_fingerprint": "5b6e52eb06999a2150d2619dee6c21c6c08c6f27f1b3d0fe9ebfa500a2831dcf",
+  "scope": "Frozen clean-checkout exact-cohort admission controls and source proofs; not platform acceptance",
+  "release_ready": false
+}

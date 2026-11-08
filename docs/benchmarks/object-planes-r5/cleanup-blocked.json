@@ -1,0 +1,12 @@
+{
+  "action": "Remove four redundant extracted wheel stages",
+  "decision": "Automatic approval review rejected command creation: blocked by policy",
+  "command_executed": false,
+  "stages_retained": {
+    "first-probe-stage": true,
+    "final-probe-stage": true,
+    "compat-probe-stage": true,
+    "stub-stage": true
+  },
+  "retry_attempted": false
+}

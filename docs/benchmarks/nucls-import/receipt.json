@@ -1,0 +1,13 @@
+{
+  "files_sha256": {
+    "examples/nucls_import.py": "0440dd587b744c940777068da4c8c88296c76a802b51f5da86587c89f9455f81",
+    "tests/test_nucls_import.py": "779b77141bec66770167f73fdb79c227f2daafa9e273bec2d750d73c53388cd0",
+    "docs/benchmarks/nucls-import/workflow.py": "de02290ce0ace0b37810643c54889524f542554344229a1a2ca3031334b93a8e"
+  },
+  "tests_passed": 29,
+  "native_compiler_inputs_unchanged": 515,
+  "density_consumers_unchanged": true,
+  "installed_workflow": "workflow.json",
+  "test_log": "tests.log",
+  "scope": "Standalone NuCLS PNG/CSV importer; installed candidate4 unchanged. No new wheel/build/install."
+}

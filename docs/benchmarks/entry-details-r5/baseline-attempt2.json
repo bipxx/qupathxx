@@ -1,0 +1,4 @@
+{
+  "failure": "Baseline path glob included baseline-attempt1.json instead of a directory; preview received a nonexistent child path",
+  "action": "Filter by is_dir, require one known baseline directory and verify project file before API call"
+}

@@ -1,0 +1,45 @@
+[
+  {
+    "id": "1",
+    "name": "metadata α",
+    "metadata": {
+      "": "empty key",
+      "batch": "A",
+      "empty": "",
+      "é": "decomposed",
+      "integer": "9223372036854775807",
+      "multiline": "line1\nline2\t\"quoted\"",
+      "null-word": "null",
+      "patient": "Synthetic α 🚀",
+      "é": "composed"
+    },
+    "description": null,
+    "tags": []
+  },
+  {
+    "id": "2",
+    "name": "empty",
+    "metadata": {},
+    "description": null,
+    "tags": []
+  },
+  {
+    "id": "3",
+    "name": "with-losses",
+    "metadata": {
+      "": "empty key",
+      "batch": "A",
+      "empty": "",
+      "é": "decomposed",
+      "integer": "9223372036854775807",
+      "multiline": "line1\nline2\t\"quoted\"",
+      "null-word": "null",
+      "patient": "Synthetic α 🚀",
+      "é": "composed"
+    },
+    "description": "Free text stays a distinct field",
+    "tags": [
+      "research-tag"
+    ]
+  }
+]

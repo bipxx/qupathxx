@@ -12,8 +12,10 @@ checks and why the older Ubuntu system reader is outside that acceptance.
 Image dimensions and region coordinates use signed 64-bit integers. Each pyramid
 level records width, height and its actual downsample factor; do not assume
 powers of two. Region `x` and `y` refer to level zero, while requested width and
-height count pixels at the requested level. There is no implicit resampling to
-an arbitrary user-selected downsample. Unsupported levels fail before decoding.
+height count pixels at the requested level. Natural-level reads preserve their sampling grid. Explicit
+[arbitrary-size region resampling](region-resampling.md) maps a requested natural
+rectangle onto a specified output size with alpha-aware area filtering.
+Unsupported levels fail before decoding.
 
 The initial pixel type is unsigned 8-bit RGBA, packed in row-major order with
 four bytes per pixel and no row padding. This is explicit metadata rather than

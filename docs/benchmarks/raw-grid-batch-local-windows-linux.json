@@ -1,0 +1,317 @@
+{
+  "schema": "qpx.raw-grid-batch-local/1",
+  "observed_at_utc": "2026-10-25T16:28:42.796455+00:00",
+  "compiled_source": "9c992171d9361ea2a438ed2ed1fae94547edf46d",
+  "source_tree_sha256": "dc46c0c08b9a3ec95061c93e4f3fe3e1ac997232b5942363ba499b45c8ffd129",
+  "compiler_inputs": 310,
+  "source_contract_files": 490,
+  "native_selected_suites": {
+    "windows": 2,
+    "linux": 2,
+    "tiff-linux": 4
+  },
+  "auditor_cases_passed": 99,
+  "native_cli": {
+    "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package\\Release\\qupathxx_batch.exe",
+    "bytes": 3265024,
+    "sha256": "8500710325452a506c3b8661554fa456cb902d21d315494a2b24905dcbb05110"
+  },
+  "checkpoint_fixture_reader_module": {
+    "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw178-python-env\\Lib\\site-packages\\qupathxx\\_native.cp312-win_amd64.pyd",
+    "bytes": 6897152,
+    "sha256": "465892de99246f4b379d28f746c6984c02e731f36b5d6fd9291ee222b2eb0752"
+  },
+  "checkpoint_fixture_reader_scope": "Previously accepted fd32e9d Python module creates input projects and reads compatible QRA2; it does not expose or test the new producer API.",
+  "exact_uint64_cli_checked": true,
+  "ome_channel_z_time_cli_checked": true,
+  "unicode_checkpoint_cli_checked": true,
+  "cli_compute_hash_only_resume_checked": true,
+  "cli_flag_conflicts_checked": true,
+  "two_image_interrupted_resume_checked": true,
+  "raw_grid_recipe_separate_from_natural_checked": true,
+  "typed_csv_qra2_checked": true,
+  "cell_project_batch_regressions_checked": true,
+  "rejected_attempts": [
+    "Three source845 resampling failures from impossible outside Document annotation setup; independent later suites were not run by fail-fast runners.",
+    "Initial CLI fixture writer rejected OME uint64 before CLI execution; corrected tests use ordinary uint64 TIFF and separate float64 OME axes fixture."
+  ],
+  "limits": [
+    "Selected local native suites only; no complete native/platform/wheel campaign.",
+    "RawGridSampling Python producer bindings syntax checked earlier; runtime and generated stubs pending grouped candidate.",
+    "No new GUI producer controls/interaction acceptance, workspace/performance budget or biological/release acceptance."
+  ],
+  "overall_project_complete": false,
+  "release_ready": false,
+  "milestones": {
+    "M0": "Partial",
+    "M1": "Partial",
+    "M2": "Partial",
+    "M3": "Partial",
+    "M4": "Partial",
+    "M5": "Partial",
+    "M6": "Partial",
+    "M7": "Partial"
+  },
+  "artifacts": {
+    "windows/build.log": {
+      "bytes": 2631,
+      "sha256": "fa8594419ef770b1794a5a66437bf75bcbaa3bf1ea4b7676a9023de26f3eb6a0"
+    },
+    "windows/cells-tests.xml": {
+      "bytes": 605,
+      "sha256": "36a7649b24f11161c8201b3d95c87a64babb0d7577fd324a6a8fc01dfbd12b29"
+    },
+    "windows/commands.json": {
+      "bytes": 2059,
+      "sha256": "b688efb9508c2ca93d001277dd575a96c809e80df7356677e84d47790f297615"
+    },
+    "windows/configure.log": {
+      "bytes": 3581,
+      "sha256": "0d324c235fde5a08dd86399093ddccc8f4d755663790c416d6aea3ff36dee6e0"
+    },
+    "windows/native-tests.xml": {
+      "bytes": 1617,
+      "sha256": "1a3cf0bc23eff55bc93ee36a5423cfe2fba18775982beff471467d017ab4341a"
+    },
+    "windows/tests-cells.log": {
+      "bytes": 233,
+      "sha256": "a23f4251317d2257b05de5121409817f6939cfbfbf5a944972c9eeb5945d08d9"
+    },
+    "windows/tests.log": {
+      "bytes": 236,
+      "sha256": "7ad2b62cadc63e4462c7cb65c2a00ea95f9a09533e6c5b03ddb95a33a0019933"
+    },
+    "rejected-179/windows/build.log": {
+      "bytes": 3426,
+      "sha256": "2628abae2f01e2cafa400a43e564a4c6e59d8e3dc927dd6fb04631554aa61e43"
+    },
+    "rejected-179/windows/commands.json": {
+      "bytes": 1466,
+      "sha256": "e86ba2be9d0121f9b0c1319f3b5cb8f35145ad5bf18c5e7c996530153ae6492d"
+    },
+    "rejected-179/windows/configure.log": {
+      "bytes": 3579,
+      "sha256": "7f8bf138d295423549987cf1f1a88155f85b4c1b7c894866ed591695890593cf"
+    },
+    "rejected-179/windows/native-tests.xml": {
+      "bytes": 1233,
+      "sha256": "e3f5c170b90ed11961ac6bff940500753a7842c50213e308fd4462a0540d1ceb"
+    },
+    "rejected-179/windows/tests.log": {
+      "bytes": 1183,
+      "sha256": "7861086158ac1b8000d306bf1104f819b59f15bf2825fca77582e2c9fce3ebc1"
+    },
+    "windows/build_manifest.hpp": {
+      "bytes": 706,
+      "sha256": "0803ae12d87c26c31bde2979cb976df3c46c1e0c5b2d371a0d1298cc47ab5bd5"
+    },
+    "windows/CMakeCache.txt": {
+      "bytes": 41667,
+      "sha256": "70f615ee4b4d1c2bc40650151332ef9071dd90d01c5cb48df2cd3e88e98d0bc0"
+    },
+    "windows/runner.py": {
+      "bytes": 1751,
+      "sha256": "c9ce76f8d2e92f6532887127131825010c344801e4a6c38638edd6766a04e502"
+    },
+    "linux/build.log": {
+      "bytes": 47945,
+      "sha256": "7fcdffb09906d6d844427e557ac301462a0d846db5cecbdb5d6161fcae953df9"
+    },
+    "linux/cells-tests.xml": {
+      "bytes": 588,
+      "sha256": "6ac6c7295196bb54eee6a9b15153d227e307de1f17605324006a74e4f952d941"
+    },
+    "linux/commands.json": {
+      "bytes": 3277,
+      "sha256": "e70b8b6618c53ba654e59e5adaa7b01cc264a511664f647c384ed66103a8d380"
+    },
+    "linux/configure.log": {
+      "bytes": 279,
+      "sha256": "f8621fc5d381c8bc6d0162ad4de4045d583eb57160741566f28c7e320148f284"
+    },
+    "linux/native-tests.xml": {
+      "bytes": 1590,
+      "sha256": "a6fd30e6d411d1ad896a8ef9135ee2f5282f7c8c3c676d0abab458eefcc111d6"
+    },
+    "linux/tests-cells.log": {
+      "bytes": 352,
+      "sha256": "9ea5e23a730d8c9c19c1da417285dd6cc4c28aab29b255e4ca4c08ad273c1a43"
+    },
+    "linux/tests.log": {
+      "bytes": 355,
+      "sha256": "496bba585bbb0b523d98b841854dbf9a19635a75bfc95133f75d3cf56a859739"
+    },
+    "rejected-179/linux/build.log": {
+      "bytes": 110019,
+      "sha256": "383b39ba0f9ca5b98bde9bd52457dc7a7ed0c46406ef806882a6a596137ca5fd"
+    },
+    "rejected-179/linux/commands.json": {
+      "bytes": 2465,
+      "sha256": "6d4a24ded54698357b04954dda657a08aeb16422cda80caf3ca36e11cb1a9a21"
+    },
+    "rejected-179/linux/configure.log": {
+      "bytes": 279,
+      "sha256": "f46fb4043f7981f997618ce6c7adfebd51229e486529af9af9b77d0a17580c31"
+    },
+    "rejected-179/linux/native-tests.xml": {
+      "bytes": 1209,
+      "sha256": "1f71094325c5e32d97cfefd68f5c7196240025f4b15fafeb703d738ace3337c3"
+    },
+    "rejected-179/linux/tests.log": {
+      "bytes": 1286,
+      "sha256": "bb10f7840818b0b6db6f38f1b5c15dddafd875d733c5b80f125a1d09b48e9841"
+    },
+    "linux/build_manifest.hpp": {
+      "bytes": 629,
+      "sha256": "761f60fd73971162022b646b5cb55843930d9e46a38904a6050a74e64221a586"
+    },
+    "linux/CMakeCache.txt": {
+      "bytes": 20473,
+      "sha256": "8b8868ec0ef147d2242d9684729d8a63071b772569073925b727efc2eba245ee"
+    },
+    "linux/runner.py": {
+      "bytes": 2031,
+      "sha256": "8e7372e8c00d319d95448ebef49284091e5a733514d22a969070d6ac95d4cd35"
+    },
+    "tiff-linux/build.log": {
+      "bytes": 48741,
+      "sha256": "d069109609a513c4508371b00c8faa885528dd63b3225651eff55bd6210ed0ae"
+    },
+    "tiff-linux/cells-tests.xml": {
+      "bytes": 588,
+      "sha256": "688caf8db2cd73697351e27a041a4f5b1ae0814a3ed72f20e3e6133cc4156bd7"
+    },
+    "tiff-linux/commands.json": {
+      "bytes": 5057,
+      "sha256": "6950a2ab7d0a4d1637a8845138f129788ef7d5083734859f4b9b2884b06b0917"
+    },
+    "tiff-linux/configure.log": {
+      "bytes": 3354,
+      "sha256": "200ccb72c700a994cd85008fd9f6408f744edd7210296344e6d0761e6d4dd54f"
+    },
+    "tiff-linux/native-tests.xml": {
+      "bytes": 1590,
+      "sha256": "63161fcfef768fc6d0978ab972fd9ab485a2383b37e5151b8c647384c40cb15b"
+    },
+    "tiff-linux/project-batch-tests.xml": {
+      "bytes": 532,
+      "sha256": "71eaedf997bc9631089bf0f63963e67e64b2e5d6a774223d9a6d5eab59563c77"
+    },
+    "tiff-linux/raw-image-tests.xml": {
+      "bytes": 734,
+      "sha256": "ff57526232b9ef509e28a87158dec110f2f32f8305cec2ea4d30baed1422a764"
+    },
+    "tiff-linux/tests-cells.log": {
+      "bytes": 362,
+      "sha256": "b5dd861583e53ba27921fae09706ad2e882224e55857efd4b65095ef3c7d88f4"
+    },
+    "tiff-linux/tests-project-batch.log": {
+      "bytes": 370,
+      "sha256": "6dd921341f01643ad80b1c67f4aea078d5f0a5cd11af871c6e7eee05cf8238e0"
+    },
+    "tiff-linux/tests-raw-image.log": {
+      "bytes": 366,
+      "sha256": "f7cfbc9b4598fcde86e7788572f02b2a401b561ff9edb2f33333e47d949c6bbc"
+    },
+    "tiff-linux/tests-resampling.log": {
+      "bytes": 365,
+      "sha256": "897b29dd40b39f8c2f6ca380d819f6b7346939b7804d87307bb1c557aa3748bf"
+    },
+    "rejected-179/tiff-linux/build.log": {
+      "bytes": 122846,
+      "sha256": "62c33c6d9255a085b9e5a9d3b71fd22e67af438f1b6516b1d224b1634a588689"
+    },
+    "rejected-179/tiff-linux/commands.json": {
+      "bytes": 2568,
+      "sha256": "92ea452433aa275cd8515ec6f59f67834aa3e0f8029dd0d5fe4cf1d73f182c65"
+    },
+    "rejected-179/tiff-linux/configure.log": {
+      "bytes": 3354,
+      "sha256": "875126e539fc4cf534e04bda465faca10388d1a19146aaec69f0a7c2367db552"
+    },
+    "rejected-179/tiff-linux/native-tests.xml": {
+      "bytes": 1209,
+      "sha256": "332c8ca586d31254481266c3cc220324b021616089f9203c8b1b2fd767f1fe58"
+    },
+    "rejected-179/tiff-linux/tests-resampling.log": {
+      "bytes": 1296,
+      "sha256": "d0aa8e01d6b224d84a107c46d8745a66f77ef779392e04abf0d720f8ee3857b5"
+    },
+    "tiff-linux/build_manifest.hpp": {
+      "bytes": 629,
+      "sha256": "761f60fd73971162022b646b5cb55843930d9e46a38904a6050a74e64221a586"
+    },
+    "tiff-linux/CMakeCache.txt": {
+      "bytes": 39223,
+      "sha256": "ea2b5d167122d78f7f0eae67e76853ebba324d183725215ad4101056a98310ca"
+    },
+    "tiff-linux/runner.py": {
+      "bytes": 2579,
+      "sha256": "53745db249c92635b27286ae4993edc023ced48b57b0c1c76f1c71d830eed4ca"
+    },
+    "auditor-tests.xml": {
+      "bytes": 16903,
+      "sha256": "e978cb28ed11f5836cc8385d7946c866180ca84894d60399512df92435036ed8"
+    },
+    "source-proof.json": {
+      "bytes": 119180,
+      "sha256": "fc53e586e1686b6358a7f39214074502e5dbd41da8c8111f3206312f6452093d"
+    },
+    "compiler-input-proof.json": {
+      "bytes": 32440,
+      "sha256": "4d29b7cbc24c701386ded08e8a72d25e136d6da470322487cdc60c731b52bd48"
+    },
+    "cli/results.json": {
+      "bytes": 3618,
+      "sha256": "5497e272b3e900e5d42d092c545fa5300a7c601d09ecfa339669f433deb7ad54"
+    },
+    "cli/uint64/0.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "cli/uint64/0.stdout": {
+      "bytes": 1834,
+      "sha256": "53c706a1ac9feab41a2ab1f96a3dba0de8431391ea456898e307693aa5139968"
+    },
+    "cli/uint64/1.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "cli/uint64/1.stdout": {
+      "bytes": 1814,
+      "sha256": "02978a0d60efd66ffa4a11a9a2a46bb7badee6909b89dee89e252ddb2d74e1a6"
+    },
+    "cli/axes/0.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "cli/axes/0.stdout": {
+      "bytes": 1812,
+      "sha256": "c5336bd63952cd7a94650216267a7870ed4a0f60bacbf40476d84ed3837ee1e3"
+    },
+    "cli/axes/1.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "cli/axes/1.stdout": {
+      "bytes": 1827,
+      "sha256": "8bdb11e998b4aa690d5a40a042ac10737da4ef367f9458fb6cd24e7d488de565"
+    },
+    "cli/check.py": {
+      "bytes": 2846,
+      "sha256": "2c3779089bddca58ab0369ab1c0da6cbf75eff15398df03014a7a19edda19bb6"
+    },
+    "rejected-ome-uint64-check.py": {
+      "bytes": 2435,
+      "sha256": "f4fa79baa1dc7054698c7530272ce62550178b21547cb2be8d99a7453950a76e"
+    },
+    "prior-native-inventory.json": {
+      "bytes": 2209,
+      "sha256": "9f2f927d46d8c0b8b04a03028e962ca5fd2310ce98d248d6b912bcc987fed860"
+    },
+    "record_evidence.py": {
+      "bytes": 6724,
+      "sha256": "540837b8071793c56c1aab78d529357a1521fc78fff6b7ecf274bbc5b27b185c"
+    }
+  }
+}

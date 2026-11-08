@@ -1,0 +1,3 @@
+examples\raw_classifier_workflow.py:15: error: Missing type arguments for generic type "dict"  [type-arg]
+examples\raw_classifier_workflow.py:52: error: Argument 1 to "append" of "list" has incompatible type "RawPixelStreamSaveJob"; expected "RawPixelTrainingCheckpointJob"  [arg-type]
+Found 2 errors in 1 file (checked 4 source files)

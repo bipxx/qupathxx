@@ -1,0 +1,11 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+    Start 10: viewer_session
+1/3 Test #10: viewer_session ...................   Passed    1.61 sec
+    Start 46: geometry_edits
+2/3 Test #46: geometry_edits ...................   Passed    0.05 sec
+    Start 53: selection
+3/3 Test #53: selection ........................   Passed    0.23 sec
+
+100% tests passed out of 3
+
+Total Test time (real) =   2.20 sec

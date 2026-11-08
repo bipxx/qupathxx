@@ -1,0 +1,58 @@
+WARNING: Unknown module: javafx.graphics specified to --add-opens
+WARNING: Unknown module: javafx.base specified to --add-opens
+WARNING: Unknown module: javafx.web specified to --enable-native-access
+WARNING: Unknown module: javafx.graphics specified to --enable-native-access
+WARNING: Unknown module: javafx.media specified to --enable-native-access
+21:23:31.466 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting default Locale to en_US
+21:23:31.468 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting Locale for FORMAT to en_US
+21:23:31.468 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting Locale for DISPLAY to en_US
+21:23:31.495 [main] [INFO ] qupath.lib.common.ThreadTools - Setting parallelism to 19
+21:23:31.509 [main] [INFO ] qupath.ScriptCommand - Setting tile cache size to 16352.00 MB (25.0% max memory)
+21:23:31.631 [main] [INFO ] qupath.lib.scripting.QP - Initializing type adapters
+21:23:33.925 [main] [ERROR] qupath.ScriptCommand - TMA grids require native-saved-data representation in export_qupath_project_state.groovy at line number 96
+javax.script.ScriptException: TMA grids require native-saved-data representation in export_qupath_project_state.groovy at line number 96
+	at qupath.lib.gui.scripting.languages.DefaultScriptLanguage.execute(DefaultScriptLanguage.java:309)
+	at qupath.ScriptCommand.runBatchScript(QuPath.java:524)
+	at qupath.ScriptCommand.runSingleScript(QuPath.java:475)
+	at qupath.ScriptCommand.run(QuPath.java:418)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2045)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2469)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2423)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2277)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2425)
+	at picocli.CommandLine.execute(CommandLine.java:2174)
+	at qupath.QuPath.main(QuPath.java:208)
+Caused by: java.lang.IllegalArgumentException: TMA grids require native-saved-data representation
+	at org.codehaus.groovy.vmplugin.v8.IndyInterface.fromCache(IndyInterface.java:344)
+	at export_qupath_project_state.run(export_qupath_project_state.groovy:96)
+	at org.codehaus.groovy.jsr223.GroovyScriptEngineImpl.eval(GroovyScriptEngineImpl.java:331)
+	at org.codehaus.groovy.jsr223.GroovyScriptEngineImpl.eval(GroovyScriptEngineImpl.java:161)
+	at qupath.lib.gui.scripting.languages.DefaultScriptLanguage.execute(DefaultScriptLanguage.java:231)
+	... 12 common frames omitted
+java.lang.RuntimeException: javax.script.ScriptException: TMA grids require native-saved-data representation in export_qupath_project_state.groovy at line number 96
+	at qupath.ScriptCommand.run(QuPath.java:424)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2045)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2469)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2423)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2277)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2425)
+	at picocli.CommandLine.execute(CommandLine.java:2174)
+	at qupath.QuPath.main(QuPath.java:208)
+Caused by: javax.script.ScriptException: TMA grids require native-saved-data representation in export_qupath_project_state.groovy at line number 96
+	at qupath.lib.gui.scripting.languages.DefaultScriptLanguage.execute(DefaultScriptLanguage.java:309)
+	at qupath.ScriptCommand.runBatchScript(QuPath.java:524)
+	at qupath.ScriptCommand.runSingleScript(QuPath.java:475)
+	at qupath.ScriptCommand.run(QuPath.java:418)
+	... 9 more
+Caused by: java.lang.IllegalArgumentException: TMA grids require native-saved-data representation
+	at org.codehaus.groovy.vmplugin.v8.IndyInterface.fromCache(IndyInterface.java:344)
+	at export_qupath_project_state.run(export_qupath_project_state.groovy:96)
+	at org.codehaus.groovy.jsr223.GroovyScriptEngineImpl.eval(GroovyScriptEngineImpl.java:331)
+	at org.codehaus.groovy.jsr223.GroovyScriptEngineImpl.eval(GroovyScriptEngineImpl.java:161)
+	at qupath.lib.gui.scripting.languages.DefaultScriptLanguage.execute(DefaultScriptLanguage.java:231)
+	... 12 more
+21:23:33.930 [main] [WARN ] qupath.QuPath - Calling System.exit with exit code 1

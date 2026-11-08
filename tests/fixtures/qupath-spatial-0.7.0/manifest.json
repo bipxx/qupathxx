@@ -1,0 +1,21 @@
+{
+  "schema": "qpx.spatial-reference-manifest/1",
+  "files": {
+    "tests/fixtures/qupath-spatial-0.7.0/contract.json": {
+      "bytes": 26392,
+      "sha256": "5633ad9a4190f8b126ab51e019aadae1ad7153a7ce698ec97336c4b6e016f7c0"
+    },
+    "tests/fixtures/qupath-spatial-0.7.0/reference.json": {
+      "bytes": 62990,
+      "sha256": "3cb0820a2509a7d966097b840fd6b8d2271992fdfd1874bcd640701e5b62eb3b"
+    },
+    "tools/upstream/qupath_spatial_reference.groovy": {
+      "bytes": 4212,
+      "sha256": "9dd1c7f7ada936020ae20aef1c828e9c7329a75e44a72ffbdbf3b4f1747eee98"
+    },
+    "tools/capture_qupath_spatial.py": {
+      "bytes": 5570,
+      "sha256": "029c2272b1f76892ce21b2e297827c2f69172fe55c881826fdc66bfda0c70558"
+    }
+  }
+}

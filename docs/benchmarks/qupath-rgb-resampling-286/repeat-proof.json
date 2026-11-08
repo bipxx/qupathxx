@@ -1,0 +1,6 @@
+{
+  "byte_identical_payloads_including_manifest": 43,
+  "actual_captures": 2,
+  "runtime_logs_excluded": true,
+  "registered_unique_passing_cases": 82
+}

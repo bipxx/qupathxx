@@ -1,0 +1,85 @@
+{
+  "total_count": 4,
+  "artifacts": [
+    {
+      "id": 12704876467,
+      "node_id": "MDg6QXJ0aWZhY3QxMjcwNDg3NjQ2Nw==",
+      "name": "manylinux-consumer-3.12",
+      "size_in_bytes": 81920,
+      "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12704876467",
+      "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12704876467/zip",
+      "expired": false,
+      "digest": "sha256:84d651ac811c4694b1b09e78f502151cbd72ed3ff975eadd99a5595f0b0c0803",
+      "created_at": "2026-10-27T02:13:49Z",
+      "updated_at": "2026-10-27T02:13:49Z",
+      "expires_at": "2026-11-10T02:13:48Z",
+      "workflow_run": {
+        "id": 40434749058,
+        "repository_id": 1427753981,
+        "head_repository_id": 1427753981,
+        "head_branch": "feature/raw-link-qualification-257",
+        "head_sha": "d57df0166888eb335d989d404bdae4d1b63c66a4"
+      }
+    },
+    {
+      "id": 12704826102,
+      "node_id": "MDg6QXJ0aWZhY3QxMjcwNDgyNjEwMg==",
+      "name": "manylinux-3.12",
+      "size_in_bytes": 15140469,
+      "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12704826102",
+      "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12704826102/zip",
+      "expired": false,
+      "digest": "sha256:ad0ad5a4266d3ce01d2d5b14d3f5aecf182720d091570d1930d7389adbf3aaf4",
+      "created_at": "2026-10-27T02:10:43Z",
+      "updated_at": "2026-10-27T02:10:43Z",
+      "expires_at": "2026-11-10T02:10:41Z",
+      "workflow_run": {
+        "id": 40434749058,
+        "repository_id": 1427753981,
+        "head_repository_id": 1427753981,
+        "head_branch": "feature/raw-link-qualification-257",
+        "head_sha": "d57df0166888eb335d989d404bdae4d1b63c66a4"
+      }
+    },
+    {
+      "id": 12704727185,
+      "node_id": "MDg6QXJ0aWZhY3QxMjcwNDcyNzE4NQ==",
+      "name": "manylinux-consumer-3.11",
+      "size_in_bytes": 81502,
+      "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12704727185",
+      "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12704727185/zip",
+      "expired": false,
+      "digest": "sha256:1a9bf75095d283629a3ac39183073d001c1d09675272bada9e5903f538ce79da",
+      "created_at": "2026-10-27T02:13:58Z",
+      "updated_at": "2026-10-27T02:13:58Z",
+      "expires_at": "2026-11-10T02:13:57Z",
+      "workflow_run": {
+        "id": 40434749058,
+        "repository_id": 1427753981,
+        "head_repository_id": 1427753981,
+        "head_branch": "feature/raw-link-qualification-257",
+        "head_sha": "d57df0166888eb335d989d404bdae4d1b63c66a4"
+      }
+    },
+    {
+      "id": 12704637007,
+      "node_id": "MDg6QXJ0aWZhY3QxMjcwNDYzNzAwNw==",
+      "name": "manylinux-3.11",
+      "size_in_bytes": 15143565,
+      "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12704637007",
+      "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12704637007/zip",
+      "expired": false,
+      "digest": "sha256:deb07c071f7659175dcb3c2843cb715fce3e6c414f1b0f964517ff9109bf89d5",
+      "created_at": "2026-10-27T02:10:33Z",
+      "updated_at": "2026-10-27T02:10:33Z",
+      "expires_at": "2026-11-10T02:10:32Z",
+      "workflow_run": {
+        "id": 40434749058,
+        "repository_id": 1427753981,
+        "head_repository_id": 1427753981,
+        "head_branch": "feature/raw-link-qualification-257",
+        "head_sha": "d57df0166888eb335d989d404bdae4d1b63c66a4"
+      }
+    }
+  ]
+}

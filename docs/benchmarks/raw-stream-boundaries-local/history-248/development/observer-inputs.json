@@ -1,0 +1,10 @@
+{
+  "compiled_source": "78b820d",
+  "files": {
+    "tests/test_raw_file_contours.py": "5f3c06ac73b448403e8a50d7f65fa190f4b2627c69a7b950fcb4146b0c4e3875",
+    "tests/raw_file_contour_shutdown_child.py": "84bd8b485f5c196cf4515ae8a1f953f27d4e3efe75551794254516abc5845b1b",
+    "tests/typing/raw_stream_contour_valid.py": "bd85c9f64e423ffa1cbaf0ae726ee017f84e341da75101d87cf372d8eb2d7b1a",
+    "tests/typing/raw_stream_contour_invalid.py": "e62863966fb1ddfdbe098aa8836d97cfbb85b22dcda394bfe48261759c88ef62",
+    "tools/generate_stubs.py": "298ed4ec87dfad243fd16a2f5966f095af510764099250c98c8b8fa5e2c62533"
+  }
+}

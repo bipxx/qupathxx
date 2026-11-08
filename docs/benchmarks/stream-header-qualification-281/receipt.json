@@ -1,0 +1,104 @@
+{
+  "schema": "qpx.stream-header-qualification-campaign/1",
+  "source": "3f15c2be8722ec6559d8657ecd69a839e1f200a5",
+  "ref": "feature/stream-header-qualification-281",
+  "local_native_source": "3bd6591930baa64ae5826d8ba3e2efaee37e8376",
+  "local_wait_observer": "128b313d49920350c6c341daa17f93930ebe020c",
+  "local_fixture_observer": "73b2f8ed6906b9f0610cc295c700dd08437420e7",
+  "state": "three_roles_initially_queued",
+  "role_runs": {
+    "engine": 40726273936,
+    "macos": 40726289400,
+    "portable": 40726306463
+  },
+  "authenticated_source_paths": 540,
+  "canonical_compiler_blobs_equal": 410,
+  "fresh_checkout_newline_only_differences": 144,
+  "local_binary_relabelled": false,
+  "hosted_roles_must_build_own_source": true,
+  "dispatches_per_role": 1,
+  "required_archives": 11,
+  "observed_archives": 0,
+  "full_auditors_prepared_not_executed": true,
+  "engineering_accepted": false,
+  "scientific_accepted": false,
+  "general_speed_claim": false,
+  "release_ready": false,
+  "files": [
+    {
+      "path": "campaign.json",
+      "bytes": 3549,
+      "sha256": "bcad72c5d8f9d970db1bb5546f228373ed81a3a08071de012a824e1d8c94e978"
+    },
+    {
+      "path": "complete-audit-plan.json",
+      "bytes": 2991,
+      "sha256": "3dd6d62f1165239d198aec3f53de3d6acb5a67995a20f90ba53ec2be44a51a1b"
+    },
+    {
+      "path": "frozen-source-proof.json",
+      "bytes": 124780,
+      "sha256": "110e72aed7e7700b230dc197741d89a1c3ba37e7198a11796c013f7521109e68"
+    },
+    {
+      "path": "initial-no-runs.json",
+      "bytes": 69,
+      "sha256": "174cfa2e863e117210766063be61e5afefc5576f5ec465ec579e1ceca5f7899c"
+    },
+    {
+      "path": "local-native-equivalence.json",
+      "bytes": 6215,
+      "sha256": "079e4d9987828b68ee7e84df7e35ac93feff8485e2969edcacfc6be5f1e3994e"
+    },
+    {
+      "path": "workflow.json",
+      "bytes": 130,
+      "sha256": "540b853b4a07d754fc7f068dfc4414cb04a16415f1d4b659392d1cbbda7793d8"
+    },
+    {
+      "path": "initial/engine-artifacts.json",
+      "bytes": 46,
+      "sha256": "48f3f8e2db6024648ae57ea6301f1ede11b5ee11792f9391b971426f9a2f5c0d"
+    },
+    {
+      "path": "initial/engine-run.json",
+      "bytes": 6641,
+      "sha256": "88ed3fb7f2856247fbfb67aec51d4828d79046997e28c9b9e6b5e847a04b4c60"
+    },
+    {
+      "path": "initial/macos-artifacts.json",
+      "bytes": 46,
+      "sha256": "48f3f8e2db6024648ae57ea6301f1ede11b5ee11792f9391b971426f9a2f5c0d"
+    },
+    {
+      "path": "initial/macos-run.json",
+      "bytes": 2006,
+      "sha256": "e3df9420ea6f7994c3469d51c100378dc9fa482f5ee52d4fedff3ef88dc24b44"
+    },
+    {
+      "path": "initial/portable-artifacts.json",
+      "bytes": 46,
+      "sha256": "48f3f8e2db6024648ae57ea6301f1ede11b5ee11792f9391b971426f9a2f5c0d"
+    },
+    {
+      "path": "initial/portable-run.json",
+      "bytes": 1643,
+      "sha256": "d6422a904c89c39fdd9d85642e3de9d2008a09fe0ec39b2332f667babe7d0f59"
+    },
+    {
+      "path": "initial/verified.json",
+      "bytes": 100,
+      "sha256": "21398fad99817ab7b44711ce10fa95c5ebd8711f3da9e8002e21dda4de77af64"
+    },
+    {
+      "path": "tools/dispatch_stream_header_281.py",
+      "bytes": 5470,
+      "sha256": "cb70c99c965672f81added31715915590710a64a537bf12fca6b2b947b4cd416"
+    },
+    {
+      "path": "tools/collect_candidate281.py",
+      "bytes": 4845,
+      "sha256": "300509561c70a27ab1eea6e7ffa7eb98e0cbef69cdb7533dd012c2a3ed46adfa"
+    }
+  ]
+}

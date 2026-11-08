@@ -1,0 +1,68 @@
+{
+  "schema": "qpx.source-promotion/1",
+  "before": "15ee0e83e0c377b526fecefeff88733db79a9585",
+  "after": "d943e9cd505252300e94c8d7e11e5623b43735a6",
+  "fast_forward": true,
+  "local_root_head_preserved": "c86d3237f6f679f5651948d95c17e2d617684c46",
+  "receipts": {
+    "engine": {
+      "file": "runtime145-engine-acceptance.json",
+      "sha256": "b866e39d17deaab5099917783205d5e6ad45266aebb31b53a0ab2b6885b300ea",
+      "published_file": "windows-runtime-manifest-engine.json",
+      "published_lf_sha256": "b866e39d17deaab5099917783205d5e6ad45266aebb31b53a0ab2b6885b300ea"
+    },
+    "macos": {
+      "file": "runtime145-macos-acceptance.json",
+      "sha256": "e5f4ad79237a71f27b8f0890ea7e880a21551b94a4560e8fb3c3aa96c60226be",
+      "published_file": "windows-runtime-manifest-macos.json",
+      "published_lf_sha256": "e5f4ad79237a71f27b8f0890ea7e880a21551b94a4560e8fb3c3aa96c60226be"
+    },
+    "portable": {
+      "file": "runtime145-portable-acceptance.json",
+      "sha256": "53d0821a5d7c92ad44bcbe9b54ecf518d90d428826fe5bfe016d59fa325fd2aa",
+      "published_file": "windows-runtime-manifest-portable.json",
+      "published_lf_sha256": "190248566dbff999f0f8d3c4a5e18c47859229b60c74b5d56ef026f5e8aa13bd"
+    }
+  },
+  "new_manifest_cohorts": [
+    {
+      "path": "build\\ci\\runtime145-hosted-final\\Linux-headless-py3.12\\python-tests.xml",
+      "passed": 54,
+      "junit_sha256": "388296fe6231364fc1f1761a37dd0a69897a3bb1b0fdb553b9c013465ab72871"
+    },
+    {
+      "path": "build\\ci\\runtime145-hosted-final\\Windows-gui-py3.12\\python-tests.xml",
+      "passed": 54,
+      "junit_sha256": "9b81d402bb0810e5601734b8666f9e75eb421270f3e6113fd691f330899fdccd"
+    },
+    {
+      "path": "build\\ci\\runtime145-hosted-final\\Windows-headless-py3.11\\python-tests.xml",
+      "passed": 54,
+      "junit_sha256": "8ab2e05114702620e5f823834f8258fcc1aa0b013a3964ddab60b5c9dab6db1c"
+    },
+    {
+      "path": "build\\ci\\runtime145-portable-hosted\\manylinux-3.11\\python-tests.xml",
+      "passed": 54,
+      "junit_sha256": "b2e2288c4c6bac0622d4501e7f9e08aecd1b401b4cd811a60483686ded6c8b75"
+    },
+    {
+      "path": "build\\ci\\runtime145-portable-hosted\\manylinux-3.12\\python-tests.xml",
+      "passed": 54,
+      "junit_sha256": "ea991bdda3ea826fbc55bfa4fbf476a90cdb2cda0a3c83bfc39f42c99efc66da"
+    },
+    {
+      "path": "build\\ci\\runtime145-portable-hosted\\manylinux-consumer-3.11\\consumer-tests.xml",
+      "passed": 54,
+      "junit_sha256": "81a9b7ba59832bd9e47b91a89c09a841e3322543122c626b7482b738c271cb1f"
+    },
+    {
+      "path": "build\\ci\\runtime145-portable-hosted\\manylinux-consumer-3.12\\consumer-tests.xml",
+      "passed": 54,
+      "junit_sha256": "803911114b3b1916bbb64eb5e0526eb476dabc494e0f3938e6fe70d004e14fe2"
+    }
+  ],
+  "native_engine_inputs_unchanged": true,
+  "release_ready": false,
+  "full_plan_complete": false,
+  "scope": "Promotes exact-source Windows file/static PE manifest engineering evidence. Later146/147/148 changes are separate candidates; no dynamic loader, runtime availability, hardware, biology, signing, license or supported-release acceptance."
+}

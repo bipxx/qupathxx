@@ -1,0 +1,51 @@
+{
+  "schema": "qpx.tma-cohort-portable-rejection/1",
+  "source": "15ee0e83e0c377b526fecefeff88733db79a9585",
+  "run": "https://github.com/bipxx/qupathxx/actions/runs/40107889036",
+  "workflow_conclusion": "success",
+  "state": "rejected-incomplete-reader-scope",
+  "required_extended_readers": true,
+  "observed_extended_readers": false,
+  "audit_error": "native NDPI project replay was not exercised",
+  "audit_log_sha256": "81dfd46090c9f4c257ea089ce10b2f4528e1df00396ea47b88b3827595c926c0",
+  "cohort_helper_observations": [
+    {
+      "python": "3.11",
+      "cohort": "builder",
+      "cohort_cases_passed": 46,
+      "file_cases_passed": 29,
+      "native_cohort_markers_checked": true
+    },
+    {
+      "python": "3.11",
+      "cohort": "consumer",
+      "cohort_cases_passed": 46,
+      "file_cases_passed": 29,
+      "native_cohort_markers_checked": true
+    },
+    {
+      "python": "3.12",
+      "cohort": "builder",
+      "cohort_cases_passed": 46,
+      "file_cases_passed": 29,
+      "native_cohort_markers_checked": true
+    },
+    {
+      "python": "3.12",
+      "cohort": "consumer",
+      "cohort_cases_passed": 46,
+      "file_cases_passed": 29,
+      "native_cohort_markers_checked": true
+    }
+  ],
+  "corrected_run": "https://github.com/bipxx/qupathxx/actions/runs/40109395411",
+  "corrected_inputs": {
+    "portable_linux": true,
+    "extended_readers": true
+  },
+  "gates_relaxed": false,
+  "original_evidence_retained": true,
+  "engineering_accepted": false,
+  "release_ready": false,
+  "scope": "The dispatch omitted the required extended-reader input, so optional NDPI native replay was absent in both builders. The artifact audit correctly rejected the narrower successful workflow. Cohort helper observations do not override the broader qualification gate; one corrected dispatch at the same source remains pending."
+}

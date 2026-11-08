@@ -28,7 +28,9 @@ Plan plan(std::int64_t iw,std::int64_t ih,const PixelFeatureOptions& options,std
     if(x<r.input_x || y<r.input_y || right>r.input_x+iw || bottom>r.input_y+ih) throw std::invalid_argument("pixel feature input does not contain the required image context halo");
     const auto width=static_cast<std::uint64_t>(right-x),height=static_cast<std::uint64_t>(bottom-y);
     if(width>options.work_bytes/128/height) throw std::length_error("pixel feature working context exceeds memory budget");
-    std::size_t bytes=static_cast<std::size_t>(width*height*128);const auto outw=static_cast<std::uint64_t>(r.width),outh=static_cast<std::uint64_t>(r.height),stride=4*options.feature_count()+1;
+    std::size_t bytes=static_cast<std::size_t>(width*height*128);
+    const auto outw=static_cast<std::uint64_t>(r.width),outh=static_cast<std::uint64_t>(r.height);
+    const auto stride=4*options.feature_count()+1;
     if(outw>(options.work_bytes-bytes)/stride/outh) throw std::length_error("pixel feature output exceeds memory budget");
     bytes+=static_cast<std::size_t>(outw*outh*stride);if(bytes>options.work_bytes || 65536>options.work_bytes-bytes) throw std::length_error("pixel feature scratch exceeds memory budget");bytes+=65536;
     return {r,x,y,right-x,bottom-y,bytes};

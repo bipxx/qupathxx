@@ -1,0 +1,32 @@
+{
+  "positive": {
+    "files": 9,
+    "sha256": "f645b10e21546f038559fbaaffb91f957d61ada15bed410cfd1fd85e15524598"
+  },
+  "negative": {
+    "scientific-grid-typing-negative.log": {
+      "expected_errors": 6,
+      "sha256": "ca156230f56d67bfdf26d2c276b6750630ea10644cb7adfff861abad6cc82ca0"
+    },
+    "scientific-channels-typing-negative.log": {
+      "expected_errors": 5,
+      "sha256": "06afd6329e8766f28af34b41e03274ddf278425bbb936867cbf578d1b7bf9550"
+    },
+    "grid-cells-typing-negative.log": {
+      "expected_errors": 7,
+      "sha256": "df439b5f564630337d1b1a49f492e072d8c79971c2bf8e6e1f1d6cb810dd9ea2"
+    },
+    "scientific-raw-typing-negative.log": {
+      "expected_errors": 3,
+      "sha256": "d0ea12f812312b390a2a0391c0580cbd3ed3d0f460aa95fa536ff6e13a6d76f5"
+    },
+    "rgb-nominal-typing-negative.log": {
+      "expected_errors": 3,
+      "sha256": "5fdd29a87514ea65c735b136be5d6556a6b5c2734304ec9aa6fb6904789d1f0a"
+    },
+    "nominal-cells-typing-negative.log": {
+      "expected_errors": 6,
+      "sha256": "55b6fc9a529f785be6315f565ff658c47a3faa41cfca34e7ba496cedc2e3f191"
+    }
+  }
+}

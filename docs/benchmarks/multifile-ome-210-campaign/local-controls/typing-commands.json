@@ -1,0 +1,26 @@
+[
+  {
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\multifile209-python-env\\Scripts\\python.exe",
+      "-I",
+      "-m",
+      "mypy",
+      "--strict",
+      "--no-incremental",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\typing\\source_companions_valid.py"
+    ],
+    "exit": 0
+  },
+  {
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\multifile209-python-env\\Scripts\\python.exe",
+      "-I",
+      "-m",
+      "mypy",
+      "--strict",
+      "--no-incremental",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\typing\\source_companions_invalid.py"
+    ],
+    "exit": 1
+  }
+]

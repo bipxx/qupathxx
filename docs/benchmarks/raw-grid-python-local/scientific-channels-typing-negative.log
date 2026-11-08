@@ -1,0 +1,6 @@
+build\ci\scientific-grid-159\tests\typing\scientific_channels_invalid.py:4: error: Missing positional argument "_native_only" in call to "ScientificChannels"  [call-arg]
+build\ci\scientific-grid-159\tests\typing\scientific_channels_invalid.py:6: error: Property "mode" defined in "ScientificChannels" is read-only  [misc]
+build\ci\scientific-grid-159\tests\typing\scientific_channels_invalid.py:7: error: Property "samples" defined in "ScientificGridAxis" is read-only  [misc]
+build\ci\scientific-grid-159\tests\typing\scientific_channels_invalid.py:8: error: Argument 2 to "scientific_optical_densities" has incompatible type "list[int]"; expected "StainTransform"  [arg-type]
+build\ci\scientific-grid-159\tests\typing\scientific_channels_invalid.py:9: error: Argument "work_bytes" to "scientific_deconvolve" has incompatible type "str"; expected "int"  [arg-type]
+Found 5 errors in 1 file (checked 1 source file)

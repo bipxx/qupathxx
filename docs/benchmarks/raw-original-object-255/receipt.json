@@ -1,0 +1,133 @@
+{
+  "schema": "qpx.original-test-object-local/1",
+  "source": "09a7b83704701ce07eff936e910bd739a52267df",
+  "original_source": "4a72fd84b7726927285bf58120d288513c65eb4e",
+  "run": 40418232358,
+  "artifact": 12697795107,
+  "archive_bytes": 32157397,
+  "archive_sha256": "347141f74348abf55802d16161847e4239abec7712bea0ae020169213ca626bf",
+  "same_object_sha256": "d7a6ecdcde495259b61b0490c4c5d9f48e7744674052b0c7ca8e993356198cec",
+  "analysis_products_executed": false,
+  "link_stage_cause_isolated": true,
+  "metadata_corrected_with_no_deduplicate": true,
+  "product_runtime_repair_verified": false,
+  "findings": "terminal/link-isolation-findings.json",
+  "followup_build_policy_source": "87b9dacf73603ca900ac4f56b627a966fde63507",
+  "limitations": [
+    "Same original test TU and object, two analysis-only link modes; core/SDKs were not rebuilt",
+    "No execution of incomplete products or complete repaired product yet",
+    "Full candidate Mac-native runtime confirmation and all other required roles remain open"
+  ],
+  "evidence": [
+    {
+      "path": "default-bind-excerpt.log",
+      "bytes": 208,
+      "sha256": "89454159c2712b9cf1ba50bf84e703d74f3c48dd5bc3dfe6ecc9d2d4f803a368"
+    },
+    {
+      "path": "default-symbols-excerpt.log",
+      "bytes": 698,
+      "sha256": "fee24119868ea028fdc570279a6ec7a20dbc33998fc4ac1cf2e042b3113ff5b1"
+    },
+    {
+      "path": "dispatch.json",
+      "bytes": 809,
+      "sha256": "7a9329abb5c4b16be443fc3f8411080f994a8750cd3cbe002a1b49c4a70d46ce"
+    },
+    {
+      "path": "linux-command.json",
+      "bytes": 571,
+      "sha256": "fcf8ce8d2f29a0c9ef8a7acb30e6f8bbcad2770524de503266bb660f42e2614d"
+    },
+    {
+      "path": "linux-compile.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "local-raw-inventory.json",
+      "bytes": 6087,
+      "sha256": "609bc7c94ef7c2e055ca5f8dcdfba545cb0c7ad001561c2ddf20b98db80f7547"
+    },
+    {
+      "path": "no-deduplicate-bind-excerpt.log",
+      "bytes": 208,
+      "sha256": "ff0c2e87355eabb7c1e0a33b351a73913db2ab730dcb7b20bd2d3f741c2d7375"
+    },
+    {
+      "path": "no-deduplicate-symbols-excerpt.log",
+      "bytes": 698,
+      "sha256": "c3c36353e24423dbb31f405a747a14111766583c04e68bf4fb4fe523ea0e6f2f"
+    },
+    {
+      "path": "notebook-linker-stage-prefix-proof.json",
+      "bytes": 277,
+      "sha256": "db00ad01b521dae871d18953a9fb709e2ef3cf89fb91d3791c237c8075bda4e6"
+    },
+    {
+      "path": "terminal/artifacts.json",
+      "bytes": 937,
+      "sha256": "9ad0e24c02f3bd6774d5422de3675baec4c1bf854560b55bde6a466c388e9693"
+    },
+    {
+      "path": "terminal/files/architecture.log",
+      "bytes": 6,
+      "sha256": "c1669e1d8edca98769c37d494b76442a1d6e5ffffd7b4da1fb63aef8ebaf6f01"
+    },
+    {
+      "path": "terminal/files/compiler.log",
+      "bytes": 206,
+      "sha256": "df12815703ce3452ab4bd51ecbea4cf8155246b94b5b15113a580ff6aec2befd"
+    },
+    {
+      "path": "terminal/files/default-link.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "terminal/files/host.log",
+      "bytes": 66,
+      "sha256": "31fd674ddb951680692d7b68cafdeab5baa6b3e82aae843269dad73b53f25fc5"
+    },
+    {
+      "path": "terminal/files/no-deduplicate-link.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "terminal/files/original-assembly.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "terminal/files/original-compile.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "terminal/files/report.json",
+      "bytes": 6625,
+      "sha256": "6c5c3c91bb75035643f62b810c40ec62743400db2bd3b8c05f13c729880b496a"
+    },
+    {
+      "path": "terminal/files/xcode.log",
+      "bytes": 30,
+      "sha256": "a8be4f9af0a29137fe7e59b9928056d4a0df297bb46ba40f80eaa6b0ae982f12"
+    },
+    {
+      "path": "terminal/link-isolation-findings.json",
+      "bytes": 4578,
+      "sha256": "8b72066ad53afea080c1e87ce32558b5b530dc9590df286054ef0ef9638090f5"
+    },
+    {
+      "path": "terminal/run.json",
+      "bytes": 1709,
+      "sha256": "b0f5c195acf09f3bf3872ab6850f73125ed915734dc1510bae5cf7d787be8a1e"
+    },
+    {
+      "path": "terminal/run.log",
+      "bytes": 24606,
+      "sha256": "5fb2e689957f501edc49698e293ad54547e4939a8498e7458954f2d369f8b0d0"
+    }
+  ]
+}

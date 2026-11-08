@@ -1,0 +1,144 @@
+WARNING: Unknown module: javafx.graphics specified to --add-opens
+WARNING: Unknown module: javafx.base specified to --add-opens
+WARNING: Unknown module: javafx.web specified to --enable-native-access
+WARNING: Unknown module: javafx.graphics specified to --enable-native-access
+WARNING: Unknown module: javafx.media specified to --enable-native-access
+20:18:28.147 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting default Locale to en_US
+20:18:28.150 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting Locale for FORMAT to en_US
+20:18:28.150 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting Locale for DISPLAY to en_US
+20:18:28.171 [main] [INFO ] qupath.lib.common.ThreadTools - Setting parallelism to 19
+20:18:28.182 [main] [INFO ] qupath.ScriptCommand - Setting tile cache size to 16352.00 MB (25.0% max memory)
+20:18:28.273 [main] [INFO ] qupath.lib.scripting.QP - Initializing type adapters
+20:18:29.178 [main] [ERROR] qupath.ScriptCommand - startup failed:
+qupath_saved_tma_reference.groovy: 19: Unexpected input: '{' @ line 18, column 121.
+   t-member','empty-grid','unlisted-core'].each {label ->
+                                                ^
+
+1 error
+ in qupath_saved_tma_reference.groovy at line number 18
+javax.script.ScriptException: startup failed:
+qupath_saved_tma_reference.groovy: 19: Unexpected input: '{' @ line 18, column 121.
+   t-member','empty-grid','unlisted-core'].each {label ->
+                                                ^
+
+1 error
+ in qupath_saved_tma_reference.groovy at line number 18
+	at qupath.lib.gui.scripting.languages.DefaultScriptLanguage.execute(DefaultScriptLanguage.java:309)
+	at qupath.ScriptCommand.runBatchScript(QuPath.java:524)
+	at qupath.ScriptCommand.runSingleScript(QuPath.java:475)
+	at qupath.ScriptCommand.run(QuPath.java:418)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2045)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2469)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2423)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2277)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2425)
+	at picocli.CommandLine.execute(CommandLine.java:2174)
+	at qupath.QuPath.main(QuPath.java:208)
+Caused by: org.codehaus.groovy.control.MultipleCompilationErrorsException: startup failed:
+qupath_saved_tma_reference.groovy: 19: Unexpected input: '{' @ line 19, column 121.
+   t-member','empty-grid','unlisted-core'].each {label ->
+                                                ^
+
+1 error
+
+	at org.codehaus.groovy.control.ErrorCollector.failIfErrors(ErrorCollector.java:292)
+	at org.codehaus.groovy.control.ErrorCollector.addFatalError(ErrorCollector.java:148)
+	at org.apache.groovy.parser.antlr4.AstBuilder.collectSyntaxError(AstBuilder.java:4714)
+	at org.apache.groovy.parser.antlr4.AstBuilder$3.syntaxError(AstBuilder.java:4725)
+	at groovyjarjarantlr4.v4.runtime.ProxyErrorListener.syntaxError(ProxyErrorListener.java:44)
+	at groovyjarjarantlr4.v4.runtime.Parser.notifyErrorListeners(Parser.java:543)
+	at groovyjarjarantlr4.v4.runtime.DefaultErrorStrategy.notifyErrorListeners(DefaultErrorStrategy.java:154)
+	at org.apache.groovy.parser.antlr4.internal.DescriptiveErrorStrategy.reportInputMismatch(DescriptiveErrorStrategy.java:104)
+	at org.apache.groovy.parser.antlr4.internal.DescriptiveErrorStrategy.recover(DescriptiveErrorStrategy.java:55)
+	at org.apache.groovy.parser.antlr4.internal.DescriptiveErrorStrategy.recoverInline(DescriptiveErrorStrategy.java:68)
+	at groovyjarjarantlr4.v4.runtime.Parser.match(Parser.java:213)
+	at org.apache.groovy.parser.antlr4.GroovyParser.compilationUnit(GroovyParser.java:366)
+	at org.apache.groovy.parser.antlr4.AstBuilder.buildCST(AstBuilder.java:250)
+	at org.apache.groovy.parser.antlr4.AstBuilder.buildCST(AstBuilder.java:228)
+	at org.apache.groovy.parser.antlr4.AstBuilder.buildAST(AstBuilder.java:269)
+	at org.apache.groovy.parser.antlr4.Antlr4ParserPlugin.buildAST(Antlr4ParserPlugin.java:58)
+	at org.codehaus.groovy.control.SourceUnit.buildAST(SourceUnit.java:256)
+	at java.base/java.util.Iterator.forEachRemaining(Unknown Source)
+	at java.base/java.util.Spliterators$IteratorSpliterator.forEachRemaining(Unknown Source)
+	at java.base/java.util.stream.ReferencePipeline$Head.forEach(Unknown Source)
+	at org.codehaus.groovy.control.CompilationUnit.compile(CompilationUnit.java:639)
+	at groovy.lang.GroovyClassLoader.doParseClass(GroovyClassLoader.java:399)
+	at groovy.lang.GroovyClassLoader.lambda$parseClass$5(GroovyClassLoader.java:345)
+	at org.codehaus.groovy.runtime.memoize.ConcurrentCommonCache.getAndPut(ConcurrentCommonCache.java:138)
+	at groovy.lang.GroovyClassLoader.parseClass(GroovyClassLoader.java:345)
+	at groovy.lang.GroovyClassLoader.parseClass(GroovyClassLoader.java:329)
+	at groovy.lang.GroovyClassLoader.parseClass(GroovyClassLoader.java:303)
+	at org.codehaus.groovy.jsr223.GroovyScriptEngineImpl.getScriptClass(GroovyScriptEngineImpl.java:350)
+	at org.codehaus.groovy.jsr223.GroovyScriptEngineImpl.eval(GroovyScriptEngineImpl.java:159)
+	at qupath.lib.gui.scripting.languages.DefaultScriptLanguage.execute(DefaultScriptLanguage.java:231)
+	... 12 common frames omitted
+java.lang.RuntimeException: javax.script.ScriptException: startup failed:
+qupath_saved_tma_reference.groovy: 19: Unexpected input: '{' @ line 18, column 121.
+   t-member','empty-grid','unlisted-core'].each {label ->
+                                                ^
+
+1 error
+ in qupath_saved_tma_reference.groovy at line number 18
+	at qupath.ScriptCommand.run(QuPath.java:424)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2045)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2469)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2423)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2277)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2425)
+	at picocli.CommandLine.execute(CommandLine.java:2174)
+	at qupath.QuPath.main(QuPath.java:208)
+Caused by: javax.script.ScriptException: startup failed:
+qupath_saved_tma_reference.groovy: 19: Unexpected input: '{' @ line 18, column 121.
+   t-member','empty-grid','unlisted-core'].each {label ->
+                                                ^
+
+1 error
+ in qupath_saved_tma_reference.groovy at line number 18
+	at qupath.lib.gui.scripting.languages.DefaultScriptLanguage.execute(DefaultScriptLanguage.java:309)
+	at qupath.ScriptCommand.runBatchScript(QuPath.java:524)
+	at qupath.ScriptCommand.runSingleScript(QuPath.java:475)
+	at qupath.ScriptCommand.run(QuPath.java:418)
+	... 9 more
+Caused by: org.codehaus.groovy.control.MultipleCompilationErrorsException: startup failed:
+qupath_saved_tma_reference.groovy: 19: Unexpected input: '{' @ line 19, column 121.
+   t-member','empty-grid','unlisted-core'].each {label ->
+                                                ^
+
+1 error
+
+	at org.codehaus.groovy.control.ErrorCollector.failIfErrors(ErrorCollector.java:292)
+	at org.codehaus.groovy.control.ErrorCollector.addFatalError(ErrorCollector.java:148)
+	at org.apache.groovy.parser.antlr4.AstBuilder.collectSyntaxError(AstBuilder.java:4714)
+	at org.apache.groovy.parser.antlr4.AstBuilder$3.syntaxError(AstBuilder.java:4725)
+	at groovyjarjarantlr4.v4.runtime.ProxyErrorListener.syntaxError(ProxyErrorListener.java:44)
+	at groovyjarjarantlr4.v4.runtime.Parser.notifyErrorListeners(Parser.java:543)
+	at groovyjarjarantlr4.v4.runtime.DefaultErrorStrategy.notifyErrorListeners(DefaultErrorStrategy.java:154)
+	at org.apache.groovy.parser.antlr4.internal.DescriptiveErrorStrategy.reportInputMismatch(DescriptiveErrorStrategy.java:104)
+	at org.apache.groovy.parser.antlr4.internal.DescriptiveErrorStrategy.recover(DescriptiveErrorStrategy.java:55)
+	at org.apache.groovy.parser.antlr4.internal.DescriptiveErrorStrategy.recoverInline(DescriptiveErrorStrategy.java:68)
+	at groovyjarjarantlr4.v4.runtime.Parser.match(Parser.java:213)
+	at org.apache.groovy.parser.antlr4.GroovyParser.compilationUnit(GroovyParser.java:366)
+	at org.apache.groovy.parser.antlr4.AstBuilder.buildCST(AstBuilder.java:250)
+	at org.apache.groovy.parser.antlr4.AstBuilder.buildCST(AstBuilder.java:228)
+	at org.apache.groovy.parser.antlr4.AstBuilder.buildAST(AstBuilder.java:269)
+	at org.apache.groovy.parser.antlr4.Antlr4ParserPlugin.buildAST(Antlr4ParserPlugin.java:58)
+	at org.codehaus.groovy.control.SourceUnit.buildAST(SourceUnit.java:256)
+	at java.base/java.util.Iterator.forEachRemaining(Unknown Source)
+	at java.base/java.util.Spliterators$IteratorSpliterator.forEachRemaining(Unknown Source)
+	at java.base/java.util.stream.ReferencePipeline$Head.forEach(Unknown Source)
+	at org.codehaus.groovy.control.CompilationUnit.compile(CompilationUnit.java:639)
+	at groovy.lang.GroovyClassLoader.doParseClass(GroovyClassLoader.java:399)
+	at groovy.lang.GroovyClassLoader.lambda$parseClass$5(GroovyClassLoader.java:345)
+	at org.codehaus.groovy.runtime.memoize.ConcurrentCommonCache.getAndPut(ConcurrentCommonCache.java:138)
+	at groovy.lang.GroovyClassLoader.parseClass(GroovyClassLoader.java:345)
+	at groovy.lang.GroovyClassLoader.parseClass(GroovyClassLoader.java:329)
+	at groovy.lang.GroovyClassLoader.parseClass(GroovyClassLoader.java:303)
+	at org.codehaus.groovy.jsr223.GroovyScriptEngineImpl.getScriptClass(GroovyScriptEngineImpl.java:350)
+	at org.codehaus.groovy.jsr223.GroovyScriptEngineImpl.eval(GroovyScriptEngineImpl.java:159)
+	at qupath.lib.gui.scripting.languages.DefaultScriptLanguage.execute(DefaultScriptLanguage.java:231)
+	... 12 more
+20:18:29.182 [main] [WARN ] qupath.QuPath - Calling System.exit with exit code 1

@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\nominal-cell-frontends-294-env\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "tools/generate_stubs.py"
+  ],
+  "returncode": 0
+}

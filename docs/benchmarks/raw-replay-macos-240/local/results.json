@@ -1,0 +1,77 @@
+[
+  {
+    "name": "positive",
+    "compile": [
+      "wsl",
+      "-d",
+      "Ubuntu",
+      "--",
+      "clang++",
+      "-std=c++17",
+      "-O3",
+      "-I/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/include",
+      "-I/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp",
+      "-I/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tests",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/raw-replay-macos-238/refusal-observer/positive.cpp",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/rawt5-236-clang-minimal/libqupathxx_core.a",
+      "-L/home/heq/.cache/qupathxx-reader90-geos/geos-sdk/lib",
+      "-Wl,-rpath,/home/heq/.cache/qupathxx-reader90-geos/geos-sdk/lib",
+      "-lgeos_c",
+      "-pthread",
+      "-o",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/raw-replay-macos-238/refusal-observer/positive"
+    ],
+    "exit": 0,
+    "injected": false
+  },
+  {
+    "name": "historical-wrong-type",
+    "compile": [
+      "wsl",
+      "-d",
+      "Ubuntu",
+      "--",
+      "clang++",
+      "-std=c++17",
+      "-O3",
+      "-I/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/include",
+      "-I/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp",
+      "-I/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tests",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/raw-replay-macos-238/refusal-observer/historical-wrong-type.cpp",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/rawt5-236-clang-minimal/libqupathxx_core.a",
+      "-L/home/heq/.cache/qupathxx-reader90-geos/geos-sdk/lib",
+      "-Wl,-rpath,/home/heq/.cache/qupathxx-reader90-geos/geos-sdk/lib",
+      "-lgeos_c",
+      "-pthread",
+      "-o",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/raw-replay-macos-238/refusal-observer/historical-wrong-type"
+    ],
+    "exit": 1,
+    "injected": true
+  },
+  {
+    "name": "foreign-wrong-type",
+    "compile": [
+      "wsl",
+      "-d",
+      "Ubuntu",
+      "--",
+      "clang++",
+      "-std=c++17",
+      "-O3",
+      "-I/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/include",
+      "-I/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp",
+      "-I/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tests",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/raw-replay-macos-238/refusal-observer/foreign-wrong-type.cpp",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/rawt5-236-clang-minimal/libqupathxx_core.a",
+      "-L/home/heq/.cache/qupathxx-reader90-geos/geos-sdk/lib",
+      "-Wl,-rpath,/home/heq/.cache/qupathxx-reader90-geos/geos-sdk/lib",
+      "-lgeos_c",
+      "-pthread",
+      "-o",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/raw-replay-macos-238/refusal-observer/foreign-wrong-type"
+    ],
+    "exit": 1,
+    "injected": true
+  }
+]

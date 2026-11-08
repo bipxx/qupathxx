@@ -1,0 +1,35 @@
+{
+  "native_source": "28c33573ef732905e52fe49aa193bd8e5e067206",
+  "observer_source": "e1dc6457b23f30ca0c0b0d275a8f265797018745",
+  "fingerprint": "51983bd296f080bd15dd591d29b17d13b0d7ff8ce08003a064c962de57c5e923",
+  "compiler_inputs": 425,
+  "source_paths": 898,
+  "retained_products": 71,
+  "package_members": 39,
+  "tests": {
+    "native.xml": {
+      "passed": 55,
+      "skipped": 0
+    },
+    "regression.xml": {
+      "passed": 31,
+      "skipped": 0
+    },
+    "region.xml": {
+      "passed": 1,
+      "skipped": 0
+    },
+    "scientific.xml": {
+      "passed": 700,
+      "skipped": 13
+    },
+    "preflight.xml": {
+      "passed": 1087,
+      "skipped": 0
+    }
+  },
+  "own_source_hosted_qualification": false,
+  "biological_validation": false,
+  "general_speed_claim": false,
+  "release_ready": false
+}

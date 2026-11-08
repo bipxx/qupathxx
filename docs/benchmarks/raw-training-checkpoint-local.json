@@ -1,0 +1,203 @@
+{
+  "schema": "qpx.raw-training-checkpoint-local/1",
+  "observed_at_utc": "2026-10-26T11:20:58.670297+00:00",
+  "source": "fb7ab73a8d08fab31f4c0517ad6618c44316de85",
+  "compiled_fingerprint": "00a97e4db9fb8eea0d85f46191890699f73fb95cf9dc01129c4bb0fa16e98043",
+  "compiler_inputs": 363,
+  "status": "deterministic_bounded_training_prefix_checkpoint_replay_locally_verified",
+  "native": {
+    "windows_suites": 8,
+    "linux_suites": 8,
+    "windows_training_suites": 3,
+    "required_markers": [
+      "Raw training checkpoint: real TIFF project close/reopen, fresh replay, optional trained model, calibration/file and source-alias refusal passed",
+      "Raw training checkpoint: independent QTC1 bounds, balanced/unbalanced multistage replay, exact rows/hashes/bytes, input tamper, limits, cancellation and concurrent-writer refusal passed",
+      "Raw tiled archive: independent QTT1 geometry/rows, balanced/unbalanced and huge-lattice round trips, semantic tamper, all-selected record bounds, authority/replay and atomic files passed",
+      "Raw tiled training: full/tiled global reservoir rows, filtered seams, sparse trillion-cell lattice, quotas, owner lifecycle, calibration and compound-source controls passed"
+    ],
+    "backend_marker": "Raw training checkpoint: actual backend uninterrupted/resumed table and model bytes passed",
+    "backend_marker_count": 2
+  },
+  "scope": [
+    "Distinct bounded QTC1 historical training prefix commitments; no serialized reservoir, hash implementation state or restored live authority",
+    "Request identity binds recipe, original lattice/axes, ordered immutable annotation IDs/revisions/kinds/classes/geometry, sampling/tile/work policy, source reader/metadata epoch and effective calibration",
+    "Replay traverses completed cores through the same sampler/features/global reservoir and original input-hash grammar; validates cumulative prefix before advancing",
+    "Balanced/unbalanced multistage resumed rows, labels, owners, coordinates, counts, input/result hashes and final checkpoint bytes equal uninterrupted execution",
+    "Actual Windows backend model bytes agree after sampling resume with identical explicitly supplied effective parameters; forest fitting itself is not checkpointed",
+    "Real TIFF project close/reopen resumes under fresh capture with original file observations and independently reconstructed complete table",
+    "Empty prefix performs no pixel IO; partial prefixes publish no table; completed-prefix resume replays all cores instead of trusting a historical completion flag",
+    "Independent little-endian framing/count controls, rehashed prefix tamper, changed decoded input, request/calibration/file mismatch, truncation, quotas and cancellation controls",
+    "Atomic explicit checkpoint publication protects prior output on failure/cancellation and a competing newly created destination even when replacement is allowed; source paths/hardlink aliases refuse output"
+  ],
+  "limitations": [
+    "Resume repeats prefix decoding and feature extraction; memory is bounded but IO/time are not constant",
+    "Synchronous native API; owner file jobs, retained prediction-file references, installed nanobind/Python/CLI/batch/ImGui/viewer adapters remain open",
+    "Caller trains the completed table with explicit forest parameters; no interrupted forest-fitting state is saved",
+    "Automatic checkpoint scheduling/maintenance, abrupt-process/power-loss, integrated platform, biological/model, process-resource/hardware and release acceptance remain open"
+  ],
+  "raw_payloads": [
+    {
+      "path": "docs/benchmarks/raw-training-checkpoint-local/windows/build_manifest.hpp",
+      "bytes": 706,
+      "sha256": "2fccb8465101a586c19108de532b39b5ff7175a305a85d6b7ade137f4bc21d3c"
+    },
+    {
+      "path": "docs/benchmarks/raw-training-checkpoint-local/windows/configuration.json",
+      "bytes": 438,
+      "sha256": "1fdb05fd0a59139fc78658467c36bfad64008f2d672600bae623a8ffd733f958"
+    },
+    {
+      "path": "docs/benchmarks/raw-training-checkpoint-local/windows/build.log",
+      "bytes": 10921,
+      "sha256": "f4aba4d5b9746889a4b92cd3b942b761326621708c7dd742e62bd0fca8fd1367"
+    },
+    {
+      "path": "docs/benchmarks/raw-training-checkpoint-local/windows/commands.json",
+      "bytes": 1792,
+      "sha256": "cb8d9255545d40ea95bc955f5c3d2fd247f23d162259c61d67e5dd62e2293024"
+    },
+    {
+      "path": "docs/benchmarks/raw-training-checkpoint-local/windows/compiler-inputs.json",
+      "bytes": 38694,
+      "sha256": "206cb05428a5c8031062f2c56ef6ca7272333567a41bc560d028f574c1cafb66"
+    },
+    {
+      "path": "docs/benchmarks/raw-training-checkpoint-local/windows/configure.log",
+      "bytes": 3579,
+      "sha256": "ac1f7cf35a051e571f87a629527db9edc1bd1e075cf6f8731ff6b93ae5e244bd"
+    },
+    {
+      "path": "docs/benchmarks/raw-training-checkpoint-local/windows/output-preflight.json",
+      "bytes": 223,
+      "sha256": "2ab3f1558358f9189a2ba0cd87f245e280295b88d472ff00470d3189efef2b63"
+    },
+    {
+      "path": "docs/benchmarks/raw-training-checkpoint-local/windows/tests.log",
+      "bytes": 915,
+      "sha256": "dd8e7a02e0e86a05caed6812e473845cfdf1ceb2e4f9d0a3e64c3068de7e3bef"
+    },
+    {
+      "path": "docs/benchmarks/raw-training-checkpoint-local/windows/tests.xml",
+      "bytes": 8183,
+      "sha256": "5cd8994c0d2bfc96bed13ebf8796cd1bd051f3b7aab87f0c365aad34a4bac9c8"
+    },
+    {
+      "path": "docs/benchmarks/raw-training-checkpoint-local/linux/build_manifest.hpp",
+      "bytes": 629,
+      "sha256": "d33625bcd31226b28253f66b7cd6db5bd19e4df79035240be227231ec3932df1"
+    },
+    {
+      "path": "docs/benchmarks/raw-training-checkpoint-local/linux/configuration.json",
+      "bytes": 440,
+      "sha256": "9055e74897cee94c78a499b8be5563be9b92ed0411debc1a2045cdbd28ba7a04"
+    },
+    {
+      "path": "docs/benchmarks/raw-training-checkpoint-local/linux/build.log",
+      "bytes": 70518,
+      "sha256": "c6a433bdac40466168e1665ca3187f6881a226f0670bdb6d3ddb37a0af081372"
+    },
+    {
+      "path": "docs/benchmarks/raw-training-checkpoint-local/linux/commands.json",
+      "bytes": 2529,
+      "sha256": "6fd6710bbcd6ab56d9ca3ee2cf0449272f7fb3203f1af78e18d2e674553137f5"
+    },
+    {
+      "path": "docs/benchmarks/raw-training-checkpoint-local/linux/compiler-inputs.json",
+      "bytes": 38694,
+      "sha256": "206cb05428a5c8031062f2c56ef6ca7272333567a41bc560d028f574c1cafb66"
+    },
+    {
+      "path": "docs/benchmarks/raw-training-checkpoint-local/linux/configure.log",
+      "bytes": 3354,
+      "sha256": "cfbd4003069d71db125a3d005bdb06e7bfed9e0d1bbd133bd4b31ac7963f0f01"
+    },
+    {
+      "path": "docs/benchmarks/raw-training-checkpoint-local/linux/output-preflight.json",
+      "bytes": 216,
+      "sha256": "9659bccff6ba083e9d1578221989049059d002e99e139183cc1f2349e0885f68"
+    },
+    {
+      "path": "docs/benchmarks/raw-training-checkpoint-local/linux/tests.log",
+      "bytes": 1044,
+      "sha256": "1de02b0c21a765b03c7361ca5a1fd0d957664875f27fb7c5ab24b3ea8b4cc625"
+    },
+    {
+      "path": "docs/benchmarks/raw-training-checkpoint-local/linux/tests.xml",
+      "bytes": 8003,
+      "sha256": "eb229d346c039d5e807f94f77777dfe04decce36f34bef1b8667ac15582141ff"
+    },
+    {
+      "path": "docs/benchmarks/raw-training-checkpoint-local/training/build_manifest.hpp",
+      "bytes": 706,
+      "sha256": "47a731cf70bbdc0bd46efad1f45fcd4c5b3dfa0dc0247e50f16a5666d2e1f741"
+    },
+    {
+      "path": "docs/benchmarks/raw-training-checkpoint-local/training/configuration.json",
+      "bytes": 439,
+      "sha256": "efefdc00c5c4f105d6eb07ae32b7d4aa64514ca8b22df2b32a188f4283812f82"
+    },
+    {
+      "path": "docs/benchmarks/raw-training-checkpoint-local/training/build.log",
+      "bytes": 6142,
+      "sha256": "7e9781ff622ef48a6b262f54ee8ea9efdfd0262ad8f9af93b8d715cd9c95be8b"
+    },
+    {
+      "path": "docs/benchmarks/raw-training-checkpoint-local/training/commands.json",
+      "bytes": 1556,
+      "sha256": "e63fce548bd73ac1dfb8cc0dfd97a573d4fe73291e222f360d68f04b9589fb52"
+    },
+    {
+      "path": "docs/benchmarks/raw-training-checkpoint-local/training/compiler-inputs.json",
+      "bytes": 38694,
+      "sha256": "206cb05428a5c8031062f2c56ef6ca7272333567a41bc560d028f574c1cafb66"
+    },
+    {
+      "path": "docs/benchmarks/raw-training-checkpoint-local/training/configure.log",
+      "bytes": 3722,
+      "sha256": "90e6b0d9d6b917d6275249c6bcc1ef7adef154f143fbff5e31874363ba4ae46f"
+    },
+    {
+      "path": "docs/benchmarks/raw-training-checkpoint-local/training/output-preflight.json",
+      "bytes": 225,
+      "sha256": "a3decc13a0890bb8c0ad91098ea236f3ede4143617da06cab7984f6f9c206acb"
+    },
+    {
+      "path": "docs/benchmarks/raw-training-checkpoint-local/training/sdk-verification.json",
+      "bytes": 202,
+      "sha256": "b55701dcbf448dd2c272bba3fe738c642e2cb4fb62bc0a25d7295d7dbd3442aa"
+    },
+    {
+      "path": "docs/benchmarks/raw-training-checkpoint-local/training/tests.log",
+      "bytes": 429,
+      "sha256": "6b983eca077d90dc05830c7c6022d686daf5e42110cb1040c5f4c8ad08158822"
+    },
+    {
+      "path": "docs/benchmarks/raw-training-checkpoint-local/training/tests.xml",
+      "bytes": 5138,
+      "sha256": "bea73ed62cfb2cd3e79503a9310fac1df33480a65807b9b075a9424ada99ff5b"
+    },
+    {
+      "path": "docs/benchmarks/raw-training-checkpoint-local/compiler-git-proof.json",
+      "bytes": 123800,
+      "sha256": "63bca78658f52af8e9c5c05841af4334478a52b3092b0af18a9d1ccf6ed1f71c"
+    },
+    {
+      "path": "docs/benchmarks/raw-training-checkpoint-local/retained-binaries.json",
+      "bytes": 8121,
+      "sha256": "dbd4ad4123e1fa24a5fc68e689634aa34abb228e08885c877ab320f875ed9ad4"
+    },
+    {
+      "path": "docs/benchmarks/raw-training-checkpoint-local/build_trainingcheckpoint226.py",
+      "bytes": 4703,
+      "sha256": "e505ba8a285575eb05cbc6d6746a0df864bd7ea887b9c91f0ffe5a9a76e1ff31"
+    },
+    {
+      "path": "docs/benchmarks/raw-training-checkpoint-local/receipt_trainingcheckpoint226.py",
+      "bytes": 8616,
+      "sha256": "a0e9cf1d1513ee6f02dc99204b440b3cb5b28c6948cfa319b364d26703d00945"
+    }
+  ],
+  "retained_binaries": "build/trainingcheckpoint226-retained-binaries",
+  "main_changed": false,
+  "milestones": "M0-M7 Partial"
+}

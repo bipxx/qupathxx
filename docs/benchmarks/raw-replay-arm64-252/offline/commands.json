@@ -1,0 +1,37 @@
+[
+  {
+    "command": [
+      "wsl.exe",
+      "--exec",
+      "/usr/bin/llvm-nm-18",
+      "--demangle",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/raw-replay-macos-240/hosted/macos-native-arm64/qupathxx_pixel_workflow_tests"
+    ],
+    "returncode": 0,
+    "log": "symbols.log"
+  },
+  {
+    "command": [
+      "wsl.exe",
+      "--exec",
+      "/usr/bin/llvm-objdump-18",
+      "--macho",
+      "--unwind-info",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/raw-replay-macos-240/hosted/macos-native-arm64/qupathxx_pixel_workflow_tests"
+    ],
+    "returncode": 0,
+    "log": "unwind.log"
+  },
+  {
+    "command": [
+      "wsl.exe",
+      "--exec",
+      "/usr/bin/llvm-objdump-18",
+      "--macho",
+      "--section-headers",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/raw-replay-macos-240/hosted/macos-native-arm64/qupathxx_pixel_workflow_tests"
+    ],
+    "returncode": 0,
+    "log": "sections.log"
+  }
+]

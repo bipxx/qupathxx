@@ -1,0 +1,172 @@
+exception-link-witness	Set up job	﻿2026-10-26T23:06:04.8329140Z Current runner version: '2.338.0'
+exception-link-witness	Set up job	2026-10-26T23:06:04.8389040Z ##[group]Runner Image Provisioner
+exception-link-witness	Set up job	2026-10-26T23:06:04.8389890Z Hosted Compute Agent
+exception-link-witness	Set up job	2026-10-26T23:06:04.8390250Z Version: 20260828.587
+exception-link-witness	Set up job	2026-10-26T23:06:04.8390660Z Commit: abac92662cab4cc7352de4f9f9d2e2419aad9c29
+exception-link-witness	Set up job	2026-10-26T23:06:04.8391120Z Build Date: 2026-08-28T16:44:25Z
+exception-link-witness	Set up job	2026-10-26T23:06:04.8391570Z Worker ID: {48f20f93-e914-4d0c-b7c3-ed540230cefe}
+exception-link-witness	Set up job	2026-10-26T23:06:04.8392090Z Azure Region: westus
+exception-link-witness	Set up job	2026-10-26T23:06:04.8392520Z ##[endgroup]
+exception-link-witness	Set up job	2026-10-26T23:06:04.8393730Z ##[group]Operating System
+exception-link-witness	Set up job	2026-10-26T23:06:04.8394200Z macOS
+exception-link-witness	Set up job	2026-10-26T23:06:04.8396750Z 15.7.9
+exception-link-witness	Set up job	2026-10-26T23:06:04.8398990Z 24G830
+exception-link-witness	Set up job	2026-10-26T23:06:04.8399490Z ##[endgroup]
+exception-link-witness	Set up job	2026-10-26T23:06:04.8399870Z ##[group]Runner Image
+exception-link-witness	Set up job	2026-10-26T23:06:04.8400300Z Image: macos-15-arm64
+exception-link-witness	Set up job	2026-10-26T23:06:04.8400680Z Version: 20260907.0337.1
+exception-link-witness	Set up job	2026-10-26T23:06:04.8401440Z Included Software: https://github.com/actions/runner-images/blob/macos-15-arm64/20260907.0337/images/macos/macos-15-arm64-Readme.md
+exception-link-witness	Set up job	2026-10-26T23:06:04.8402710Z Image Release: https://github.com/actions/runner-images/releases/tag/macos-15-arm64%2F20260907.0337
+exception-link-witness	Set up job	2026-10-26T23:06:04.8403510Z ##[endgroup]
+exception-link-witness	Set up job	2026-10-26T23:06:04.8404330Z ##[group]GITHUB_TOKEN Permissions
+exception-link-witness	Set up job	2026-10-26T23:06:04.8406820Z Contents: read
+exception-link-witness	Set up job	2026-10-26T23:06:04.8407230Z Metadata: read
+exception-link-witness	Set up job	2026-10-26T23:06:04.8407620Z ##[endgroup]
+exception-link-witness	Set up job	2026-10-26T23:06:04.8413150Z Secret source: Actions
+exception-link-witness	Set up job	2026-10-26T23:06:04.8415250Z Cache mode: write
+exception-link-witness	Set up job	2026-10-26T23:06:04.8416630Z Prepare workflow directory
+exception-link-witness	Set up job	2026-10-26T23:06:04.8736720Z Prepare all required actions
+exception-link-witness	Set up job	2026-10-26T23:06:04.8803640Z Getting action download info
+exception-link-witness	Set up job	2026-10-26T23:06:05.2988020Z Download action repository 'actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8' (SHA:08c6903cd8c0fde910a37f88322edcfb5dd907a8)
+exception-link-witness	Set up job	2026-10-26T23:06:05.6516770Z Download action repository 'actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4' (SHA:330a01c490aca151604b8cf639adc76d48f6c5d4)
+exception-link-witness	Set up job	2026-10-26T23:06:05.8849270Z Complete job name: exception-link-witness
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	﻿2026-10-26T23:06:05.9402070Z ##[group]Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:05.9402920Z with:
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:05.9403290Z   repository: bipxx/qupathxx
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:05.9406750Z   token: ***
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:05.9407120Z   ssh-strict: true
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:05.9407490Z   ssh-user: git
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:05.9407890Z   persist-credentials: true
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:05.9408260Z   clean: true
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:05.9408680Z   sparse-checkout-cone-mode: true
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:05.9409070Z   fetch-depth: 1
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:05.9409390Z   fetch-tags: false
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:05.9409720Z   show-progress: true
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:05.9410060Z   lfs: false
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:05.9410370Z   submodules: false
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:05.9410720Z   set-safe-directory: true
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:05.9411470Z ##[endgroup]
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:06.3857860Z Syncing repository: bipxx/qupathxx
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:06.3859940Z ##[group]Getting Git version info
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:06.3861190Z Working directory is '/Users/runner/work/qupathxx/qupathxx'
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:06.3863450Z [command]/opt/homebrew/bin/git version
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:06.4454580Z git version 2.55.0
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:06.4473970Z ##[endgroup]
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:06.4482180Z Copying '/Users/runner/.gitconfig' to '/Users/runner/work/_temp/c1a705a3-8973-4284-baa1-2c7ca4282fa0/.gitconfig'
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:06.4489930Z Temporarily overriding HOME='/Users/runner/work/_temp/c1a705a3-8973-4284-baa1-2c7ca4282fa0' before making global git config changes
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:06.4491190Z Adding repository directory to the temporary git global config as a safe directory
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:06.4492430Z [command]/opt/homebrew/bin/git config --global --add safe.directory /Users/runner/work/qupathxx/qupathxx
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:06.4607840Z Deleting the contents of '/Users/runner/work/qupathxx/qupathxx'
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:06.4610810Z ##[group]Initializing the repository
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:06.4614180Z [command]/opt/homebrew/bin/git init /Users/runner/work/qupathxx/qupathxx
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:06.4836300Z hint: Using 'master' as the name for the initial branch. This default branch name
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:06.4837610Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:06.4838530Z hint: to use in all of your new repositories, which will suppress this warning,
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:06.4839290Z hint: call:
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:06.4839690Z hint:
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:06.4840160Z hint: 	git config --global init.defaultBranch <name>
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:06.4840710Z hint:
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:06.4841290Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:06.4842580Z hint: 'development'. The just-created branch can be renamed via this command:
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:06.4843250Z hint:
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:06.4843620Z hint: 	git branch -m <name>
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:06.4844030Z hint:
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:06.4844700Z hint: Disable this message with "git config set advice.defaultBranchName false"
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:06.4845610Z Initialized empty Git repository in /Users/runner/work/qupathxx/qupathxx/.git/
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:06.4862270Z [command]/opt/homebrew/bin/git remote add origin https://github.com/bipxx/qupathxx
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:06.4962300Z ##[endgroup]
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:06.4963390Z ##[group]Disabling automatic garbage collection
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:06.4969300Z [command]/opt/homebrew/bin/git config --local gc.auto 0
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:06.5053320Z ##[endgroup]
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:06.5055560Z ##[group]Setting up auth
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:06.5059540Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp core\.sshCommand
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:06.5150430Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:06.6206290Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:06.6288860Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:06.7354230Z [command]/opt/homebrew/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:06.7481640Z ##[endgroup]
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:06.7482770Z ##[group]Fetching the repository
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:06.7495120Z [command]/opt/homebrew/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +f2dd2633c13116279160fd6ea17796a0d38c77a1:refs/remotes/origin/feature/raw-exception-lsda-254
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:08.3745650Z From https://github.com/bipxx/qupathxx
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:08.3746600Z  * [new ref]         f2dd2633c13116279160fd6ea17796a0d38c77a1 -> origin/feature/raw-exception-lsda-254
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:08.3748950Z ##[endgroup]
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:08.3749420Z ##[group]Determining the checkout info
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:08.3750360Z ##[endgroup]
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:08.3754960Z [command]/opt/homebrew/bin/git sparse-checkout disable
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:08.3839000Z [command]/opt/homebrew/bin/git config --local --unset-all extensions.worktreeConfig
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:08.3917900Z ##[group]Checking out the ref
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:08.3921040Z [command]/opt/homebrew/bin/git checkout --progress --force -B feature/raw-exception-lsda-254 refs/remotes/origin/feature/raw-exception-lsda-254
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:09.4924580Z Updating files:  83% (4312/5169)
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:09.5026640Z Updating files:  84% (4342/5169)
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:09.5085870Z Updating files:  85% (4394/5169)
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:09.5250230Z Updating files:  86% (4446/5169)
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:09.5362350Z Updating files:  87% (4498/5169)
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:09.5484500Z Updating files:  88% (4549/5169)
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:09.5608170Z Updating files:  89% (4601/5169)
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:09.5924000Z Updating files:  90% (4653/5169)
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:09.6020360Z Updating files:  91% (4704/5169)
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:09.6100180Z Updating files:  92% (4756/5169)
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:09.6184990Z Updating files:  93% (4808/5169)
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:09.6275140Z Updating files:  94% (4859/5169)
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:09.6372710Z Updating files:  95% (4911/5169)
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:09.6506880Z Updating files:  96% (4963/5169)
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:09.6598000Z Updating files:  97% (5014/5169)
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:09.6731560Z Updating files:  98% (5066/5169)
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:09.6807200Z Updating files:  99% (5118/5169)
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:09.6808070Z Updating files: 100% (5169/5169)
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:09.6808670Z Updating files: 100% (5169/5169), done.
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:09.6954790Z Switched to a new branch 'feature/raw-exception-lsda-254'
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:09.6978350Z branch 'feature/raw-exception-lsda-254' set up to track 'origin/feature/raw-exception-lsda-254'.
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:09.7040600Z ##[endgroup]
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:09.7169800Z [command]/opt/homebrew/bin/git log -1 --format=%H
+exception-link-witness	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:09.7247360Z f2dd2633c13116279160fd6ea17796a0d38c77a1
+exception-link-witness	Fetch exact original comparison commit	﻿2026-10-26T23:06:09.7637930Z ##[group]Run git fetch --no-tags --depth=1 origin 4a72fd84b7726927285bf58120d288513c65eb4e
+exception-link-witness	Fetch exact original comparison commit	2026-10-26T23:06:09.7638820Z [36;1mgit fetch --no-tags --depth=1 origin 4a72fd84b7726927285bf58120d288513c65eb4e[0m
+exception-link-witness	Fetch exact original comparison commit	2026-10-26T23:06:09.7701620Z shell: /bin/bash -e {0}
+exception-link-witness	Fetch exact original comparison commit	2026-10-26T23:06:09.7702510Z ##[endgroup]
+exception-link-witness	Fetch exact original comparison commit	2026-10-26T23:06:10.2476670Z From https://github.com/bipxx/qupathxx
+exception-link-witness	Fetch exact original comparison commit	2026-10-26T23:06:10.2477360Z  * branch            4a72fd84b7726927285bf58120d288513c65eb4e -> FETCH_HEAD
+exception-link-witness	Verify unchanged product and observe two link modes	﻿2026-10-26T23:06:10.2532700Z ##[group]Run git diff --exit-code 4a72fd84b7726927285bf58120d288513c65eb4e -- cpp src cmake CMakeLists.txt pyproject.toml tests
+exception-link-witness	Verify unchanged product and observe two link modes	2026-10-26T23:06:10.2533660Z [36;1mgit diff --exit-code 4a72fd84b7726927285bf58120d288513c65eb4e -- cpp src cmake CMakeLists.txt pyproject.toml tests[0m
+exception-link-witness	Verify unchanged product and observe two link modes	2026-10-26T23:06:10.2534340Z [36;1mpython3 -I tools/ci/observe_exception_lsda.py --out build/exception-lsda-254[0m
+exception-link-witness	Verify unchanged product and observe two link modes	2026-10-26T23:06:10.2571280Z shell: /bin/bash -e {0}
+exception-link-witness	Verify unchanged product and observe two link modes	2026-10-26T23:06:10.2571600Z ##[endgroup]
+exception-link-witness	Preserve sources objects binaries and observations	﻿2026-10-26T23:06:14.4553970Z ##[group]Run actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+exception-link-witness	Preserve sources objects binaries and observations	2026-10-26T23:06:14.4554330Z with:
+exception-link-witness	Preserve sources objects binaries and observations	2026-10-26T23:06:14.4554510Z   name: exception-lsda-254
+exception-link-witness	Preserve sources objects binaries and observations	2026-10-26T23:06:14.4554710Z   retention-days: 14
+exception-link-witness	Preserve sources objects binaries and observations	2026-10-26T23:06:14.4554890Z   if-no-files-found: error
+exception-link-witness	Preserve sources objects binaries and observations	2026-10-26T23:06:14.4555070Z   compression-level: 0
+exception-link-witness	Preserve sources objects binaries and observations	2026-10-26T23:06:14.4555270Z   path: build/exception-lsda-254/**
+exception-link-witness	Preserve sources objects binaries and observations	2026-10-26T23:06:14.4555470Z   overwrite: false
+exception-link-witness	Preserve sources objects binaries and observations	2026-10-26T23:06:14.4555640Z   include-hidden-files: false
+exception-link-witness	Preserve sources objects binaries and observations	2026-10-26T23:06:14.4555820Z ##[endgroup]
+exception-link-witness	Preserve sources objects binaries and observations	2026-10-26T23:06:14.6274770Z (node:2112) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+exception-link-witness	Preserve sources objects binaries and observations	2026-10-26T23:06:14.6275430Z (Use `node --trace-deprecation ...` to show where the warning was created)
+exception-link-witness	Preserve sources objects binaries and observations	2026-10-26T23:06:14.6325780Z With the provided path, there will be 27 files uploaded
+exception-link-witness	Preserve sources objects binaries and observations	2026-10-26T23:06:14.6328470Z Artifact name is valid!
+exception-link-witness	Preserve sources objects binaries and observations	2026-10-26T23:06:14.6328890Z Root directory input is valid!
+exception-link-witness	Preserve sources objects binaries and observations	2026-10-26T23:06:15.0569150Z Beginning upload of artifact content to blob storage
+exception-link-witness	Preserve sources objects binaries and observations	2026-10-26T23:06:15.0981550Z (node:2112) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+exception-link-witness	Preserve sources objects binaries and observations	2026-10-26T23:06:15.6008890Z Uploaded bytes 306454
+exception-link-witness	Preserve sources objects binaries and observations	2026-10-26T23:06:15.6755510Z Finished uploading artifact content to blob storage!
+exception-link-witness	Preserve sources objects binaries and observations	2026-10-26T23:06:15.6757560Z SHA256 digest of uploaded artifact zip is 03d977112cde365f27f0d751423a142567024283445d5dd8c6c1cf2d90eb444f
+exception-link-witness	Preserve sources objects binaries and observations	2026-10-26T23:06:15.6759220Z Finalizing artifact upload
+exception-link-witness	Preserve sources objects binaries and observations	2026-10-26T23:06:16.1501550Z Artifact exception-lsda-254.zip successfully finalized. Artifact ID 12695474123
+exception-link-witness	Preserve sources objects binaries and observations	2026-10-26T23:06:16.1502200Z Artifact exception-lsda-254 has been successfully uploaded! Final size is 306454 bytes. Artifact ID is 12695474123
+exception-link-witness	Preserve sources objects binaries and observations	2026-10-26T23:06:16.1507140Z Artifact download URL: https://github.com/bipxx/qupathxx/actions/runs/40417045171/artifacts/12695474123
+exception-link-witness	Post Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	﻿2026-10-26T23:06:16.1646530Z Post job cleanup.
+exception-link-witness	Post Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:16.2531310Z [command]/opt/homebrew/bin/git version
+exception-link-witness	Post Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:16.2599050Z git version 2.55.0
+exception-link-witness	Post Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:16.2615170Z Copying '/Users/runner/.gitconfig' to '/Users/runner/work/_temp/82edaced-a803-4c87-b849-f892829ef8ab/.gitconfig'
+exception-link-witness	Post Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:16.2621150Z Temporarily overriding HOME='/Users/runner/work/_temp/82edaced-a803-4c87-b849-f892829ef8ab' before making global git config changes
+exception-link-witness	Post Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:16.2621950Z Adding repository directory to the temporary git global config as a safe directory
+exception-link-witness	Post Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:16.2624290Z [command]/opt/homebrew/bin/git config --global --add safe.directory /Users/runner/work/qupathxx/qupathxx
+exception-link-witness	Post Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:16.2682490Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp core\.sshCommand
+exception-link-witness	Post Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:16.2734550Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+exception-link-witness	Post Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:16.3423710Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+exception-link-witness	Post Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:16.3473230Z http.https://github.com/.extraheader
+exception-link-witness	Post Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:16.3479810Z [command]/opt/homebrew/bin/git config --local --unset-all http.https://github.com/.extraheader
+exception-link-witness	Post Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T23:06:16.3536230Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+exception-link-witness	Complete job	﻿2026-10-26T23:06:16.4278130Z Cleaning up orphan processes
+exception-link-witness	Complete job	2026-10-26T23:06:16.5159580Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

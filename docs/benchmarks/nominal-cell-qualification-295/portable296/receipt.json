@@ -1,0 +1,72 @@
+{
+  "schema": "qpx.nominal-cell-qualification-portable/1",
+  "state": "original-complete-portable-role-accepted",
+  "source": "a7eb78de75387bce2da7b3d59b7f0a2ab6126cee",
+  "run": 40782658569,
+  "url": "https://github.com/bipxx/qupathxx/actions/runs/40782658569",
+  "authenticated_portable_archives": 4,
+  "total_collected_archives_at_observation": 8,
+  "complete_original_auditor": true,
+  "engine_accepted": false,
+  "macos_accepted": false,
+  "combined_accepted": false,
+  "main_promoted": false,
+  "release_ready": false,
+  "files": [
+    {
+      "path": "portable-run-terminal.json",
+      "bytes": 16287,
+      "sha256": "9d8467c4043f6a2d9b3c853820309cb78dca892a216c2917bccd599c660bcf40"
+    },
+    {
+      "path": "portable-complete-audit.log",
+      "bytes": 126,
+      "sha256": "b0e2027c21f98e03b0c06d0acde8b4e2226c78ea81976c2de03917f08b1f4f83"
+    },
+    {
+      "path": "portable-audit-exit.json",
+      "bytes": 984,
+      "sha256": "b02da9dcf58f62d5ddc901ce5f686d3b401deaab39241dad75bc20c72748a804"
+    },
+    {
+      "path": "portable-acceptance.json",
+      "bytes": 589010,
+      "sha256": "ec8d5256ed2ed8bdccdb13cd55266e48e125ff8a0103b0f6fa7c8ac0cc45b28c"
+    },
+    {
+      "path": "portable-run.json",
+      "bytes": 16287,
+      "sha256": "9d8467c4043f6a2d9b3c853820309cb78dca892a216c2917bccd599c660bcf40"
+    },
+    {
+      "path": "portable-artifacts.json",
+      "bytes": 3621,
+      "sha256": "79be53e31406b580f1aa3c5484612d114ee0fc969ef8328d154ecb6e0520ec36"
+    },
+    {
+      "path": "verified.json",
+      "bytes": 1978,
+      "sha256": "3d280163d046d6058cbff8f502e88a8fad73933a31730bc164ae357af1624658"
+    },
+    {
+      "path": "manylinux-3.11-artifact.json",
+      "bytes": 809,
+      "sha256": "76b94598bb44df7534f61f484acf25661ed055e989c09003ab69a08079ec02b1"
+    },
+    {
+      "path": "manylinux-3.12-artifact.json",
+      "bytes": 809,
+      "sha256": "389000613a76311ea610b1604f1aec80199ccc05f2184606c6d6c8a6a175a054"
+    },
+    {
+      "path": "manylinux-consumer-3.11-artifact.json",
+      "bytes": 815,
+      "sha256": "d70bf6495c9c6f445112ab4e24c6958f5392f07e2b415689ba8cddd9d398e70d"
+    },
+    {
+      "path": "manylinux-consumer-3.12-artifact.json",
+      "bytes": 815,
+      "sha256": "bd0115a3fc94d0f335110734cadc621605eb5ebf2edb0005792818b29915d3d8"
+    }
+  ]
+}

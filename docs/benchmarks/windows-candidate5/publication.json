@@ -1,0 +1,106 @@
+{
+  "url": "https://github.com/bipxx/qupathxx/releases/tag/v0.1.0-windows-candidate.5",
+  "release_id": 437389713,
+  "tag": "v0.1.0-windows-candidate.5",
+  "source_revision": "3155df804a778daf2d470b3ea60363630e735c98",
+  "source_tree_sha256": "2ddb06c5da4de69aaf040253e30958cdd105f1a0e7e51aba82388eff4125fa13",
+  "published_at": "2026-11-07T06:34:21Z",
+  "prerelease": true,
+  "assets_verified_before_and_after_publication": [
+    {
+      "name": "candidate.json",
+      "bytes": 1372,
+      "sha256": "1ea46f0f679393a6f67679ef11077bc2e0777681425507aacbeddcc6b177242b"
+    },
+    {
+      "name": "dependency-sources.json",
+      "bytes": 4724,
+      "sha256": "3bba9c87935ceb6dd73f2eea47029ea72957a1603fe52fd992f44899a3359547"
+    },
+    {
+      "name": "handoff.json",
+      "bytes": 1497,
+      "sha256": "8e04c99f55e76bfd66d5c51168d6c15614e95e69da9e3471fa095dc71600ca6a"
+    },
+    {
+      "name": "installation.json",
+      "bytes": 4142,
+      "sha256": "adc8da2703cb2dccbd57c429583151b40c5e4cd2eab7f990b27469c790cbff97"
+    },
+    {
+      "name": "installed-desktop.json",
+      "bytes": 184,
+      "sha256": "28fb6bee107714f456bab6e548600776592c6d335c69671a753f5be7dee67d33"
+    },
+    {
+      "name": "installed-workflow.json",
+      "bytes": 8794,
+      "sha256": "14bedebb0599c2803ea685bce314070aa6a2a0901273c50b7eb6c34c8f3400f7"
+    },
+    {
+      "name": "native-runtime-manifest.json",
+      "bytes": 47691,
+      "sha256": "9d42bfcf40dbf4640b5923c1cdcbc80726f2537d512e07f06155b95285cc35e3"
+    },
+    {
+      "name": "project-density.md",
+      "bytes": 7233,
+      "sha256": "7ded4c5da24773f93d7fa2f4f47c0861cfa228acb83f7ad6db3ecbb15bf11ff0"
+    },
+    {
+      "name": "qupathxx-0.1.0-5-cp312-cp312-win_amd64.whl",
+      "bytes": 33126166,
+      "sha256": "879c40c59bc4b469d403f2de9f47aea1b44aadadbb789fc68dfa197e0a285a25"
+    },
+    {
+      "name": "qupathxx-dependency-sources.zip",
+      "bytes": 135374582,
+      "sha256": "a3cbad1fb685b4efc6e669dc57a76dcc3922a39de5d4d2de6e8724da9ef40c9b"
+    },
+    {
+      "name": "qupathxx-source-3155df80.zip",
+      "bytes": 67147884,
+      "sha256": "4126e7b0e432b901e2318ee10956629fab07b8e2ffc7eb8905fa106daafb575d"
+    },
+    {
+      "name": "qupathxx-windows-x64-candidate.zip",
+      "bytes": 28025160,
+      "sha256": "786ac255b19010dfb73900c8c87e005117c88ca03287e7c4cd3e11297ad3c035"
+    },
+    {
+      "name": "RUN.md",
+      "bytes": 2698,
+      "sha256": "20b507592663a6617bc709022f6315befb4a38d4ecbbe7f5f3c4dd4e2738fc3d"
+    },
+    {
+      "name": "SHA256SUMS",
+      "bytes": 1628,
+      "sha256": "83eec5d0392b1577898be76966d11a8cf4144a0275ba2998ed92a98b62ef4254"
+    },
+    {
+      "name": "signed-distances.md",
+      "bytes": 4925,
+      "sha256": "156f3ce1434d9819ab6312f275a92538b3e816f3bacd51228dc71c2d1d9e777f"
+    },
+    {
+      "name": "signed-example.csv",
+      "bytes": 1050,
+      "sha256": "5cb2d44663ce4215a7f65a73530fa80e0a09833d50cab49d48e0c8552d44b309"
+    },
+    {
+      "name": "signed-example.qpxproj",
+      "bytes": 2670592,
+      "sha256": "9f2c87f098ea66fd42083cbfb7e3c78eb178b8dea31991184e44d335d288a75f"
+    },
+    {
+      "name": "signed-input.qpxproj",
+      "bytes": 2670592,
+      "sha256": "81e0442b389ffbe880a141e39c21ed6fd35040273ef3ab84cb1c67c8a1ce49d3"
+    },
+    {
+      "name": "wheel-runtime-manifest.json",
+      "bytes": 60814,
+      "sha256": "e45a00be51498e8939b420dd9736c25e49b47767070d0023a85c2337fb726d8e"
+    }
+  ]
+}

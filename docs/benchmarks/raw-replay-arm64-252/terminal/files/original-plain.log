@@ -1,0 +1,13 @@
+Owner-captured raw training/prediction: deterministic labels, rational axes, document calibration, bounded IO, cancellation, stale compound sources and owner-thread publication passed
+Raw training work admission: live=268356897 historical=268430817; recorded-parameter replay preserves model bytes and fresh admission preserves votes
+Raw pixel backend training: real TIFF deterministic direct/job training, historical retraining, trained archives/model files and portable prediction votes passed
+Raw pixel replay: real TIFF reopened training/prediction records verify through fresh owner jobs without promoting historical authority passed
+Raw pixel archives: real TIFF retention, project save/reopen, snapshot save, stale-file refusal and historical-only decode passed
+Raw pixel archives: sampling/prediction semantic round trips, rational axes, authority refusal, tamper/cancel and atomic replacement passed
+Raw replay refusal [historical]: type=St16invalid_argument message=raw pixel contours require the matching live prediction capture
+Raw replay refusal [historical]: expected invalid_argument caught
+Raw replay refusal [foreign]: type=St16invalid_argument message=raw pixel contours require the matching live prediction capture
+Raw replay refusal [foreign]: expected invalid_argument caught
+Raw pixel contours: rational axes/context, raster membership/area, bounded conversion, cancel, atomic apply/undo/redo and stale authority passed
+Raw pixel replay: pre-IO capture, source-bit comparison, historical/cross-document refusal, recipe/calibration/annotation checks and owner-job verification passed
+raw grid source series changed

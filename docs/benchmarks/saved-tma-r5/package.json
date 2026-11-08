@@ -1,0 +1,22 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\saved-tma-r5-env\\Scripts\\python.exe",
+    "-I",
+    "-m",
+    "pip",
+    "install",
+    "--ignore-installed",
+    "--no-index",
+    "--no-deps",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\saved-tma-r5\\wheel\\qupathxx-0.1.0-cp312-cp312-win_amd64.whl"
+  ],
+  "returncode": 0,
+  "elapsed_seconds": 2.15445589995943,
+  "final_product_installs": 1,
+  "stub_generations": 0,
+  "unchanged_api_and_schema": true,
+  "wheel_sha256": "123f2ca55f568e9ac6a40f74e959d9e6a3a8dd52442d53ef83a326427c8e2a2b",
+  "observer_difference": [
+    "cpp/tests/qupath_project_tests.cpp"
+  ]
+}

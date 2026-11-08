@@ -1,0 +1,15 @@
+{
+  "files_sha256": {
+    "examples/density_manifest.py": "c8da5671e294dfb0b982d973e807b94566cd497caadec273c3752efea5f7c821",
+    "examples/project_density.py": "8087f57a59ca5b706fc9c83a14f9f481d221fd76e6b01c980dc3dcab6c18f65f",
+    "tests/test_density_manifest.py": "862440ccca79922e604ab2e1247ae159e9b6e66c1c5542ba8e48dce354be5657",
+    "docs/benchmarks/density-manifest/workflow.py": "544b48d59866e8ccd8504ff6547da19a3b48ea21e9a49cafb9f71a296783f413"
+  },
+  "tests_passed": 22,
+  "native_compiler_inputs_unchanged": 515,
+  "batch_runner_unchanged": true,
+  "installed_workflow": "workflow.json",
+  "test_log": "tests.log",
+  "raw_failure_logs": "main build/density-manifest/tests-initial.log, tests-repair.log, tests-final.log",
+  "scope": "Standalone exact-class selection; unchanged installed candidate4. No native rebuild or wheel."
+}

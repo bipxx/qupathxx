@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="6"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="2"
+	timestamp="2026-10-26T01:36:56"
+	>
+	<testcase name="pixel_workflows" classname="pixel_workflows" time="0.154235" status="run">
+		<properties/>
+		<system-out>Owner-captured raw training/prediction: deterministic labels, rational axes, document calibration, bounded IO, cancellation, stale compound sources and owner-thread publication passed
+Annotation sampling, overlap/balance, portable resolution, tiled source prediction and stale jobs passed
+</system-out>
+	</testcase>
+	<testcase name="pixel_features" classname="pixel_features" time="0.0490205" status="run">
+		<properties/>
+		<system-out>Typed raw pixel features: 12 independent dtype/extreme references, per-channel support, anisotropic scales, stream seams, admission and cancellation passed
+Raw classifier QPR1 independent framing, channel/grid/physical contracts, forest votes, streams, exact budgets and atomic model files passed
+Pixel feature channels, context/tiles, alpha, schema, bounds and cancellation passed
+</system-out>
+	</testcase>
+	<testcase name="classifier_io" classname="classifier_io" time="0.0200222" status="run">
+		<properties/>
+		<system-out>classifier IO checks passed
+</system-out>
+	</testcase>
+	<testcase name="classifier" classname="classifier" time="0.00417287" status="run">
+		<properties/>
+		<system-out>classifier checks passed; training=0
+</system-out>
+	</testcase>
+	<testcase name="resampling" classname="resampling" time="1.65172" status="run">
+		<properties/>
+		<system-out>Scientific raster precision admission agrees with exhaustive binary64 sample checks
+Native scientific grid exact geometry, rounding, context and admission passed
+Native scientific RGB float64 exact means, support, reader and cancellation checks passed
+2891 independent exact raw mean vectors across all ten sample types in both orders passed
+Native exact typed weighted means, subnormal/cancellation, atomic rejection and nearest-even rounding passed
+Streamed raw materialization exact means, pinned chunk bits/support, cancellation, admission and dense fallback passed
+Streamed raw digest canonical HWC/validity hashes, bounded chunks, metadata epoch, late faults and admission passed
+Typed raw hash-only identity, lower memory admission and pre-decoder metadata epoch passed
+94 independent typed raw grid references, 3732 channel results and canonical source/input hashes passed
+Native typed scientific raw sampling, per-channel finite/support, source-bit provenance and pre-IO admission passed
+Typed raw sampling engine identity 700f1a1033155cfe23ba5f2a0bce29eac3a61977e3accd8663428a36e5e1677c 7beb80bd0d8368249afcc1a6610b5d1a77c1b4b0
+Compound TIFF observations, QRA3/QRA4 retention, downgrade refusal and companion-only stale status passed
+Shared ROI grid raw count/context planning and pre-IO admission passed
+Raw grid captured ROI/context workspace, exact budget boundary, hash-only lower admission and single metadata epoch passed
+Independent Python struct/hashlib QRA1 and QRA2 bytes, mixed typed CSV and job replay passed
+QRA2 private eligible-count authority, changed-mask rejection, checksum-valid count corruption and historical budget compatibility passed
+QRA2 raw grid retention, canonical re-encoding, semantic corruption and fresh replay passed
+188 independent derived raw grid statistics references, ROI/core support, hash-only digest and native jobs passed
+2205 independent oracle shapes and admission/alpha/reader checks passed
+</system-out>
+	</testcase>
+	<testcase name="source_identity" classname="source_identity" time="0.159891" status="run">
+		<properties/>
+		<system-out>Compound source bounds, primary-only fingerprint identity, QPV3 round trip and downgrade refusal passed
+Reader generations, observations, association, codecs and native jobs passed
+</system-out>
+	</testcase>
+</testsuite>

@@ -1,0 +1,24 @@
+..............................ss........................................ [ 22%]
+............................................s..ss....................... [ 45%]
+...sss.................s................................................ [ 67%]
+.....................sss...........................ss................... [ 90%]
+..............................                                           [100%]
+============================== warnings summary ===============================
+tests/test_multifile_ome_fixture.py: 32 warnings
+  C:\Users\HEQ\Projects\qupathxx\build\ci\multifile209-python-env\Lib\site-packages\tifffile\tifffile.py:8928: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.
+  As an alternative, you can create a new view using np.reshape (with copy=False if needed).
+    result.shape = keyframe.shaped
+
+tests/test_multifile_ome_fixture.py: 32 warnings
+  C:\Users\HEQ\Projects\qupathxx\build\ci\multifile209-python-env\Lib\site-packages\tifffile\tifffile.py:8931: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.
+  As an alternative, you can create a new view using np.reshape (with copy=False if needed).
+    result.shape = keyframe.shape
+
+tests/test_multifile_ome_fixture.py::test_independent_ome_reader_resolves_base_fileset_from_either_member[primary.ome.tif]
+tests/test_multifile_ome_fixture.py::test_independent_ome_reader_resolves_base_fileset_from_either_member[companions/planes-\u03b2.ome.tif]
+  C:\Users\HEQ\Projects\qupathxx\build\ci\multifile209-python-env\Lib\site-packages\tifffile\tifffile.py:4594: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.
+  As an alternative, you can create a new view using np.reshape (with copy=False if needed).
+    result.shape = shape
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+304 passed, 14 skipped, 66 warnings in 18.07s

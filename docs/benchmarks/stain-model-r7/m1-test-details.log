@@ -1,0 +1,69 @@
+Start testing: Nov 05 11:21 Eastern Standard Time
+----------------------------------------------------------
+15/64 Testing: stain_models
+15/64 Test: stain_models
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_stain_model_tests.exe" "C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/tests/fixtures/stain-model-v1/pre-loader-estimate.json"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"stain_models" start time: Nov 05 11:21 Eastern Standard Time
+Output:
+----------------------------------------------------------
+Stain model exact basis/hash/white, old export, malformed/duplicate/schema/shape/finite/size/file/atomic boundaries passed
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"stain_models" end time: Nov 05 11:21 Eastern Standard Time
+"stain_models" time elapsed: 00:00:00
+----------------------------------------------------------
+
+16/64 Testing: stain_models_disabled
+16/64 Test: stain_models_disabled
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_stain_model_disabled_tests.exe" "C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/tests/fixtures/stain-model-v1/pre-loader-estimate.json"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"stain_models_disabled" start time: Nov 05 11:21 Eastern Standard Time
+Output:
+----------------------------------------------------------
+Stain model writer works; disabled parser/load capability rejected without JSON dependency
+<end of output>
+Test time =   0.05 sec
+----------------------------------------------------------
+Test Passed.
+"stain_models_disabled" end time: Nov 05 11:21 Eastern Standard Time
+"stain_models_disabled" time elapsed: 00:00:00
+----------------------------------------------------------
+
+17/64 Testing: stain_estimation
+17/64 Test: stain_estimation
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_stain_estimation_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"stain_estimation" start time: Nov 05 11:21 Eastern Standard Time
+Output:
+----------------------------------------------------------
+Native stain estimation, models, budgets, cancellation and stale jobs passed
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"stain_estimation" end time: Nov 05 11:21 Eastern Standard Time
+"stain_estimation" time elapsed: 00:00:00
+----------------------------------------------------------
+
+45/64 Testing: stains
+45/64 Test: stains
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/qupathxx_stains_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+"stains" start time: Nov 05 11:21 Eastern Standard Time
+Output:
+----------------------------------------------------------
+Native scientific float64 OD/stains, validity, captured basis and admission passed
+Legacy byte/float32 stain transforms preserve frozen arithmetic across 262144 RGB probes
+stains passed
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Passed.
+"stains" end time: Nov 05 11:21 Eastern Standard Time
+"stains" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Nov 05 11:21 Eastern Standard Time

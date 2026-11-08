@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="2" time="0.327" timestamp="2026-10-25T07:02:22.215658-04:00" hostname="HEQPC"><testcase classname="tests.test_scientific_sampling" name="test_decoded_source_hash_is_owned_string_and_tracks_raw_bytes" time="0.005"><failure message="TypeError: Unable to convert function return value to a Python type! The signature was&#10;    (self) -&gt; std::basic_string&lt;char,std::char_traits&lt;char&gt;,std::allocator&lt;char&gt; &gt;">def test_decoded_source_hash_is_owned_string_and_tracks_raw_bytes():
+        import hashlib
+        grid=q.ScientificGrid(2,2,q.ScientificGridAxis(0,2,1),q.ScientificGridAxis(0,2,1))
+        def read(rgb):
+            return q.read_scientific_rgb(q.dense_image_server(q.Image.from_numpy(rgb)),grid)
+        original=np.full((2,2,3),42,dtype=np.uint8)
+        result=read(original)
+        rgba=np.concatenate((original,np.full((2,2,1),255,dtype=np.uint8)),axis=2)
+        expected=hashlib.sha256(b'qpx.level-zero-rgba-window/1'+struct.pack('&lt;6Q',2,2,0,0,2,2)+rgba.tobytes()).hexdigest()
+&gt;       digest=result.decoded_source_sha256
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: Unable to convert function return value to a Python type! The signature was
+E           (self) -&gt; std::basic_string&lt;char,std::char_traits&lt;char&gt;,std::allocator&lt;char&gt; &gt;
+
+tests\test_scientific_sampling.py:109: TypeError</failure></testcase><testcase classname="tests.test_grid_cell_frontends" name="test_grid_request_metadata_is_owned_and_legacy_scalar_is_guarded" time="0.002"><failure message="TypeError: Unable to convert function return value to a Python type! The signature was&#10;    (self) -&gt; std::optional&lt;qpx::ScientificGrid&gt;">def test_grid_request_metadata_is_owned_and_legacy_scalar_is_guarded():
+        doc, obj, transform, sampling, p = scene()
+        request = q.CellRequest.for_grid_roi(doc, obj, transform, sampling, p)
+        sampling.samples_x, p.min_nucleus_area = 1, 10000
+        request.grid_parameters.min_nucleus_area = 20000
+        result = q.detect_cells(request)
+        assert result.algorithm == 'qpx.grid-log-watershed-bodies/1'
+        assert result.scientific_grid.x.samples == 3
+&gt;       assert result.nuclei.scientific_grid.x.samples == 3
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: Unable to convert function return value to a Python type! The signature was
+E           (self) -&gt; std::optional&lt;qpx::ScientificGrid&gt;
+
+tests\test_grid_cell_frontends.py:39: TypeError</failure></testcase></testsuite></testsuites>

@@ -1,0 +1,34 @@
+{
+  "source_revision": "af71201b87f984e7ae2a760e219dab7d72d335e9+dirty",
+  "original_roi": [
+    11264,
+    17664,
+    256,
+    256
+  ],
+  "pixel_size_um": [
+    0.45641259698767683,
+    0.4550625711035267
+  ],
+  "translation": [
+    -11264,
+    -17664
+  ],
+  "imported_cells": 506,
+  "image_id": 1,
+  "used_capture_files": {
+    "contract.json": {
+      "bytes": 1363,
+      "sha256": "22334ca85a1ac68146542508fa96ea3b259441218ef2ab1d63837975ee603f89"
+    },
+    "input.png": {
+      "bytes": 177371,
+      "sha256": "c47928377aff5c53170c108843663718929043f28201fc6fa3c30715973a2342"
+    },
+    "cells.geojson": {
+      "bytes": 1147649,
+      "sha256": "358ae3cc262757a74dc51ab66290f541c3dfc1cc1fc006d2bac00d209a7541d1"
+    }
+  },
+  "scope": "Existing reference geometry and crop; no new segmentation or biological acceptance"
+}

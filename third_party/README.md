@@ -32,3 +32,9 @@ its `LICENSE`, embedded softfloat/zlib notices and source notice inventory.
 The OpenSlide SDK notice tree covers its bundled dependencies as well as
 OpenSlide itself. These are dependency notices; their presence does not resolve
 the outstanding project license or the release distribution review.
+
+- Native NuCLS PNG decoding uses unmodified [LodePNG sources and pin](../cpp/vendor/lodepng/README.md)
+  under the [Zlib license](../cpp/vendor/lodepng/LICENSE). The decoder is compiled
+  without ancillary metadata conversion or platform codecs; its license is
+  installed alongside the application notices. The vendored sources belong in
+  the matching application source archive.

@@ -1,0 +1,62 @@
+{
+  "schema": "qpx.quantitative-tiff-layout-local/1",
+  "observed_at_utc": "2026-10-25T18:27:41.866744+00:00",
+  "compiled_source": "326c66c15d13631d8f46104c7f41f2c8cb13f951",
+  "delivery_source": "23b5c7105204620f9d98cbf7cce23745495f8a4a",
+  "compiler_input_files": 311,
+  "source_tree_sha256": "6b3c4fb14e290508947e7c8ec71394221a9eb1952ea1b12861f719d70b660261",
+  "source_contract_files": 494,
+  "module_path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw183-python-env\\Lib\\site-packages\\qupathxx\\_native.cp312-win_amd64.pyd",
+  "python_package": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw183-python-env\\Lib\\site-packages\\qupathxx",
+  "candidate_inventory": {
+    "__init__.py": {
+      "bytes": 12685,
+      "sha256": "b103b2990f46f27f312218f33a46609bfbbedef14cbb9ecb1706aff5c5098ed1"
+    },
+    "__init__.pyi": {
+      "bytes": 13784,
+      "sha256": "ed001412a44d9b9466dc6d7c797e4cd0c03b0cdecece90219df053006f6d56c6"
+    },
+    "__main__.py": {
+      "bytes": 5391,
+      "sha256": "91d7eca53fc7a88257ef05e28bd31efacbf521bd789c165839fb42fdca4f8e41"
+    },
+    "_native.cp312-win_amd64.pyd": {
+      "bytes": 6917120,
+      "sha256": "b426342906d81003912acb5d619842ee79ecf0776702200fb295ed78a6eacfae"
+    },
+    "_native.pyi": {
+      "bytes": 205051,
+      "sha256": "7a16df766b98154cb1b2f0cb267ed089490e56ca8fa83bd8eb73b1a64208365b"
+    },
+    "geos.dll": {
+      "bytes": 2912768,
+      "sha256": "9bff21e1082b57e9914909a156ad121d508d2203a8c6ab4d8d41eb74cc19fa0e"
+    },
+    "geos_c.dll": {
+      "bytes": 590336,
+      "sha256": "64c8a686deccd9e3d5ae66f96ba1276c23faf6ab00564feee421ae91f552b7d6"
+    },
+    "py.typed": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "qupathxx_batch.exe": {
+      "bytes": 3268608,
+      "sha256": "3fb9d05bc87115e322f2c0a9e6dff6acd2f53fe63c34908c8be19d094872189e"
+    }
+  },
+  "scientific_cohort": {
+    "passed": 243,
+    "declared_headless_gui_skips": 5,
+    "gui": false,
+    "scientific_acceptance": false
+  },
+  "new_layout_cases": 30,
+  "reader_and_auditor_passed": 216,
+  "first_attempt": "27 fixture setup failures: ImageServer has no context manager; use contextlib.closing. No native change.",
+  "scope": "Local installed Windows synthetic typed TIFF reader/sampler integration; not a new platform campaign, biological or supported-release acceptance.",
+  "platform_campaign_accepted": false,
+  "release_ready": false,
+  "overall_project_complete": false
+}

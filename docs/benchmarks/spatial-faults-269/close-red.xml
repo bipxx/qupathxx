@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="4.502" timestamp="2026-10-28T06:50:58.527598-04:00" hostname="HEQPC"><testcase classname="tests.test_spatial_frontends" name="test_actual_window_close_cancels_and_joins_spatial_worker" time="4.284"><failure message="AssertionError: {&quot;replay_complete&quot;: true, &quot;state&quot;: &quot;ready&quot;, &quot;busy&quot;: false, &quot;frames&quot;: 13}&#10;  Traceback (most recent call last):&#10;    File &quot;&lt;string&gt;&quot;, line 18, in &lt;module&gt;&#10;  AssertionError&#10;  &#10;assert 1 == 0&#10; +  where 1 = CompletedProcess(args=['C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\spatial-frontends-268-env\\Scripts\\python.exe'...rames&quot;: 13}\n', stderr='Traceback (most recent call last):\n  File &quot;&lt;string&gt;&quot;, line 18, in &lt;module&gt;\nAssertionError\n').returncode">tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/spatial-faults-269/close-red-temp/test_actual_window_close_cance0')
+
+    @GUI
+    def test_actual_window_close_cancels_and_joins_spatial_worker(tmp_path):
+        code="""
+    import json,sys
+    import qupathxx as q
+    doc=q.Document(q.Image(64,64,[80]*64*64*3));roi=q.Roi.points([q.Point(32,32)])
+    doc.execute([q.ObjectEdit.create_geometry(roi) for _ in range(20000)])
+    ids=[a.id for a in doc.annotations];project=q.Project();project.add_document(doc,'Close during analysis');project.save(sys.argv[1])
+    o=q.GuiOptions();o.width=1280;o.height=1000;o.autosave_interval_seconds=0
+    spatial=q.GuiSpatialOptions();spatial.open=spatial.run=True;spatial.sources=spatial.targets=ids
+    analysis=spatial.analysis;analysis.max_distance_tests=1&lt;&lt;40;spatial.analysis=analysis;o.spatial=spatial
+    e=q.GuiInput();e.frame=8;e.kind=q.GuiInputKind.CLOSE_WINDOW
+    # Viewing persists the camera, so acknowledge the ordinary dirty-close dialog.
+    down=q.GuiInput();down.frame=10;down.kind=q.GuiInputKind.LEFT_DOWN;down.target=q.GuiInputTarget.DISCARD_CLOSE;down.wait_for=q.GuiInputWait.TARGET_READY
+    up=q.GuiInput();up.frame=11;up.kind=q.GuiInputKind.LEFT_UP;up.target=q.GuiInputTarget.DISCARD_CLOSE
+    o.inputs=[e,down,up]
+    report=q.show(project,frame_limit=60,options=o)
+    print(json.dumps(dict(replay_complete=report.replay_complete,state=report.spatial.state,busy=report.spatial.busy,frames=report.frames)))
+    assert report.frames&lt;60
+    assert report.replay_complete and report.spatial.state=='cancelled' and not report.spatial.busy
+    assert report.spatial.result is None and doc.spatial_record_count==0
+    print(json.dumps(dict(state=report.spatial.state,distance_tests=report.spatial.analysis.distance_tests)))
+    """
+        child=subprocess.run([sys.executable,'-I','-X','utf8','-c',code,str(tmp_path/'source.qpx')],capture_output=True,text=True,encoding='utf-8',timeout=30)
+&gt;       assert child.returncode==0,child.stdout+child.stderr
+E       AssertionError: {"replay_complete": true, "state": "ready", "busy": false, "frames": 13}
+E         Traceback (most recent call last):
+E           File "&lt;string&gt;", line 18, in &lt;module&gt;
+E         AssertionError
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\spatial-frontends-268-env\\Scripts\\python.exe'...rames": 13}\n', stderr='Traceback (most recent call last):\n  File "&lt;string&gt;", line 18, in &lt;module&gt;\nAssertionError\n').returncode
+
+build\ci\scientific-grid-159\tests\test_spatial_frontends.py:199: AssertionError</failure></testcase></testsuite></testsuites>

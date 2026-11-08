@@ -1,0 +1,34 @@
+{
+  "private_candidate": true,
+  "production_changed": false,
+  "cases": [
+    {
+      "boundary_frontier": false,
+      "small_frontier": false,
+      "reference_label_differences": 8,
+      "byte_exact_installed_baseline": true,
+      "sha256": "962c2160c830e871dfa911ac94e3b8dda665b333ddd3a12e286db527695aa11e"
+    },
+    {
+      "boundary_frontier": false,
+      "small_frontier": true,
+      "reference_label_differences": 8,
+      "byte_exact_installed_baseline": true,
+      "sha256": "962c2160c830e871dfa911ac94e3b8dda665b333ddd3a12e286db527695aa11e"
+    },
+    {
+      "boundary_frontier": true,
+      "small_frontier": false,
+      "reference_label_differences": 0,
+      "byte_exact_installed_baseline": false,
+      "sha256": "373cac6453a1606a8b05770b95f4e4c97b6b5861a3fc7968d778dd21da28928d"
+    },
+    {
+      "boundary_frontier": true,
+      "small_frontier": true,
+      "reference_label_differences": 0,
+      "byte_exact_installed_baseline": false,
+      "sha256": "373cac6453a1606a8b05770b95f4e4c97b6b5861a3fc7968d778dd21da28928d"
+    }
+  ]
+}

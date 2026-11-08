@@ -1,0 +1,29 @@
+{
+  "schema": "qpx.manylinux-consumer/1",
+  "engine_commit": "530c6bb1fd01176c7aecbcae75c065ca004f6236",
+  "policy": "manylinux_2_28_x86_64",
+  "wheel_sha256": "1c8b2c3a51ece565a175b1c28b74535b2fe39ef124191a28c28e7ca7cbb05f60",
+  "native_sha256": "edbfbd2a336a1d985f82ef6edbfa040f94e522bb33110e3fe91f8e9fdd0d5a80",
+  "source_tree_sha256": "87e45294b062d5ac61388443522f6a48f3f911366cf2e9def261b1d7757aa47c",
+  "python": "3.12.15 (main, Oct 21 2026, 01:08:07) [GCC 12.2.0]",
+  "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.36",
+  "libc": [
+    "glibc",
+    "2.36"
+  ],
+  "mapped_runtimes": [
+    "libgeos.so.3.15.0",
+    "libgeos_c.so.1",
+    "libopenslide.so.1"
+  ],
+  "loader_overrides_used": false,
+  "geos_union_area": 150,
+  "slide_sha256": "ed92d5a9f2e86df67640d6f92ce3e231419ce127131697fbbce42ad5e002c8a7",
+  "real_slide_mean": 148.28722222222223,
+  "unicode_annotation_reopened": true,
+  "retained_analysis_reopened": true,
+  "measurement_csv": true,
+  "native_region_exact": true,
+  "native_batch_checkpoint": true,
+  "native_batch_csv": true
+}

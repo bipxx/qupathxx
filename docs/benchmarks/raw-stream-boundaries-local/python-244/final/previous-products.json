@@ -1,0 +1,67 @@
+{
+  "_native.cp312-win_amd64.pyd": {
+    "sha256": "ba33cae08c35e2f5ed1d033a3c46914bf1663e3c2219c33873ba22d4b47be52b",
+    "bytes": 9654784,
+    "source": "b6bb50e5c0481c440975ee76be9f5102330d7b38"
+  },
+  "qupathxx_region.exe": {
+    "sha256": "3c05b6757637790a6926b0e5536c0309effb5b01f214acc81efe97ef7fae7eb8",
+    "bytes": 775680,
+    "source": "not re-established; retained as found before final build"
+  },
+  "qupathxx_batch.exe": {
+    "sha256": "0006e41a28c5aace77874e64e62c380c7f3107e711ec38a3a1391296ca068aa5",
+    "bytes": 5131776,
+    "source": "not re-established; retained as found before final build"
+  },
+  "qupathxx_app.exe": {
+    "sha256": "e20e75ec339b493a620c3e7fe6a4226e74aa6dd85797a4d9f75d78855adc99ad",
+    "bytes": 5526016,
+    "source": "not re-established; retained as found before final build"
+  },
+  "qupathxx_project_batch_tests.exe": {
+    "sha256": "67c4ccf1d40cacc431e2c5fb321e896d464324be234b4e319b7d5715f7f943ee",
+    "bytes": 4879360,
+    "source": "not re-established; retained as found before final build"
+  },
+  "qupathxx_pixel_workflow_tests.exe": {
+    "sha256": "a4f2469321675f1989c5d8bdfc614e7fdab075f3a76a99c4efa6c5cf81736083",
+    "bytes": 5584384,
+    "source": "1fb2624f521867779eb730c4467e7b8eda2a8000"
+  },
+  "qupathxx_pixel_feature_tests.exe": {
+    "sha256": "af1f0b9f4108a28752879beacceb7b202cbb4a18aa30bc06b370e5c10377420b",
+    "bytes": 2475520,
+    "source": "not re-established; retained as found before final build"
+  },
+  "qupathxx_classifier_tests.exe": {
+    "sha256": "ffd7a76c4ed38c74432d98419473cef1c9b3a20ca610982491c1f9d75ee7582a",
+    "bytes": 1389568,
+    "source": "not re-established; retained as found before final build"
+  },
+  "qupathxx_viewer_session_tests.exe": {
+    "sha256": "c1570e5e893da73dfd5804c390c72d5adb95172713e8946b773658aeff6e4039",
+    "bytes": 5104128,
+    "source": "1fb2624f521867779eb730c4467e7b8eda2a8000"
+  },
+  "qupathxx_gui_replay_tests.exe": {
+    "sha256": "cd56cd618d8f78b49ee534304f9fe34da50ca02fcac41e37f633d077a20b2386",
+    "bytes": 45568,
+    "source": "not re-established; retained as found before final build"
+  },
+  "qupathxx_overlay_tests.exe": {
+    "sha256": "a71e6b46d5cd1e3c06cd08c545bc3626610dc2edb18943f26584f42bef9b5c5a",
+    "bytes": 22528,
+    "source": "not re-established; retained as found before final build"
+  },
+  "qupathxx_resampling_tests.exe": {
+    "sha256": "e38571945ab2a43b023270adf9eb104b1bee89803741a10465c04b34a1bf083b",
+    "bytes": 3168768,
+    "source": "1fb2624f521867779eb730c4467e7b8eda2a8000"
+  },
+  "qupathxx_tissue_contour_tests.exe": {
+    "sha256": "83f9ddedcaf76d576306a1500b0dd387d90317914db4398463df3026ecd6ae97",
+    "bytes": 2377728,
+    "source": "1fb2624f521867779eb730c4467e7b8eda2a8000"
+  }
+}

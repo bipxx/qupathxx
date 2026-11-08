@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "C:\Users\HEQ\Projects\qupathxx\build\ci\tma-axis-workflow-196\tools\ci\accept_unified_engine.py", line 158, in <module>
+    entry['qptma_python']=qptma.python(list(ET.parse(folder/'python-tests.xml').getroot().iter('testcase')))
+                          ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HEQ\Projects\qupathxx\build\ci\tma-axis-workflow-196\tools\ci\qptma_evidence.py", line 51, in python
+    require(sorted(case.get('name') for case in selected)==names,label+' missing/duplicate/changed: '+classname)
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HEQ\Projects\qupathxx\build\ci\tma-axis-workflow-196\tools\ci\qptma_evidence.py", line 16, in require
+    if not value:raise ValueError(message)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: qptma installed cohort missing/duplicate/changed: test_qptma_evidence

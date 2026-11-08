@@ -1,0 +1,120 @@
+{
+  "schema": "qpx.expansion-frontier-local-validation/1",
+  "compiled_git_revision": "d544b38df0828f6c4694525066961f4613fa2934",
+  "input_count": 254,
+  "raw_source_tree_sha256": "0b0384e0327307230a280675ed513b46f1ec0b64f77cf0e12601ccc35c8b17bc",
+  "raw_build_fingerprint_matches": true,
+  "all_compiled_inputs_match_committed_source_after_line_ending_normalization": true,
+  "native_sha256": "402521cd4e2bacaf6c6a503262b9a5c9f4bdecf8996ee3a20a0d91cdfa6b7632",
+  "wheel_sha256": "2c4b5d86cdff834588d331320b608e9f8739f7540c4b7cd00a47edab89870ede",
+  "native": {
+    "passed": 47,
+    "skipped": 0,
+    "expected_scientific_failures": 0,
+    "sha256": "514e4dcc78f97403e7cd16f6143c4c0bfc42aba6f7edff2899ce75f6df4cb52b",
+    "expected_failure_cases": []
+  },
+  "full": {
+    "passed": 2373,
+    "skipped": 13,
+    "expected_scientific_failures": 3,
+    "sha256": "3373227f81bbe3ca87ba7c27d3b0c5fd584b3a24529e8fc3b278cbe2e1257281",
+    "expected_failure_cases": [
+      "test_isolated_cell_upstream_acceptance_gate[baseline_count]",
+      "test_isolated_cell_upstream_acceptance_gate[isolated_nucleus_iou]",
+      "test_isolated_cell_upstream_acceptance_gate[isolated_centroid]"
+    ]
+  },
+  "focused": {
+    "passed": 156,
+    "skipped": 0,
+    "expected_scientific_failures": 0,
+    "sha256": "109417398f5e8cd139441ef5badfcb180228b97744590c71b4272f2341bc0420",
+    "expected_failure_cases": []
+  },
+  "comparisons": {
+    "passed": 116,
+    "skipped": 3,
+    "expected_scientific_failures": 3,
+    "sha256": "cfbca91b27321c630cd62593bf0e3beac985c42949fb9ea0b76786a379c29d85",
+    "expected_failure_cases": [
+      "test_isolated_cell_upstream_acceptance_gate[baseline_count]",
+      "test_isolated_cell_upstream_acceptance_gate[isolated_nucleus_iou]",
+      "test_isolated_cell_upstream_acceptance_gate[isolated_centroid]"
+    ]
+  },
+  "installed": {
+    "schema": "qpx.installed-workflow/1",
+    "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+    "executable": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\software-probe140\\python.exe",
+    "native": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\queue140-windows-python\\Lib\\site-packages\\qupathxx\\_native.cp312-win_amd64.pyd",
+    "native_sha256": "402521cd4e2bacaf6c6a503262b9a5c9f4bdecf8996ee3a20a0d91cdfa6b7632",
+    "source_tree_sha256": "0b0384e0327307230a280675ed513b46f1ec0b64f77cf0e12601ccc35c8b17bc",
+    "gui": true,
+    "geos": true,
+    "openslide": true,
+    "gl_renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+    "openslide_version": "4.0.1",
+    "openslide_runtime_sha256": null,
+    "docked_workspace": true,
+    "layout_saved": true,
+    "monitor_scale": 1.0,
+    "framebuffer_scale": 1.0,
+    "ui_scale": 1.25,
+    "font_rebuilds": 1,
+    "ui_stacked_fields": 0,
+    "ui_wrapped_buttons": 0,
+    "ui_overflow_items": 0,
+    "ui_max_overflow": 0.0,
+    "framebuffer": [
+      1440,
+      900
+    ],
+    "raw_archive_records": 1,
+    "raw_replay_verified": true,
+    "raw_input_sha256": "ff618dfd592aaf66e46f6fdede2c89eeb5165696a781839b69df3832a94c01e5",
+    "raw_batch_reused": true,
+    "roi_samples": 320,
+    "native_batch_checkpoints": 1
+  },
+  "positive_typing_source_files": 3,
+  "negative_typing_error_lines": [
+    6,
+    7,
+    8,
+    9,
+    11,
+    13,
+    14
+  ],
+  "installed_shape_notice_sha256": "65434d6cd24b1808a18ad16919035d7a96d932dc04a41e2df30123173a2311fe",
+  "wheel_stubs_match_source": true,
+  "native_heap_equivalence_cases": 1344,
+  "independent_unit_boundary_python_cases": 8,
+  "unchanged_real_slide_compartment_maps": 36,
+  "paired_profile_observations": 60,
+  "paired_profile_warmups": 12,
+  "performance_accepted": false,
+  "hosted_frontier_candidate_accepted": false,
+  "release_ready": false,
+  "overall_project_complete": false,
+  "validation_stage": "after_exact_domain_replay_and_sample_grid_fixes",
+  "domain_regressions_before": {
+    "failed": 2,
+    "passed": 1,
+    "junit_sha256": "0d25c1f4f7f7f60fa34cd6f69b4dd6dce91bc1541d109b71c686667837e44d3d"
+  },
+  "domain_regressions_after_passed": 3,
+  "comparison_reports_sha256": {
+    "production-comparison": "f33b6c4d02309e7ffae50aa743a755b53348dede9aaae3115117e1f9b618e47b",
+    "ndpi-context0": "89a24c6788e1cfa827544dbd601fcf5d581aad0048fbcf49fe423c2c0e22ba47",
+    "ndpi-context32": "509d979d04274cc953ff6d827ed97c7da03778d480ebaccc29a7f1d418e7e2db"
+  },
+  "frozen_real_mask_baseline_sha256": "60aad5ee4de16f4e192233c6af5e6e9ea95e8fbc91273358909b699e703f739f",
+  "affinity_profile": {
+    "observations": 60,
+    "warmups": 12,
+    "mask": "0x1",
+    "sha256": "3d22640423109dc3dcb8004fc6ac1442278ee838cc4f80a17d64890b8b175b39"
+  }
+}

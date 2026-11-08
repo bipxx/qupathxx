@@ -1,0 +1,158 @@
+WARNING: Unknown module: javafx.graphics specified to --add-opens
+WARNING: Unknown module: javafx.base specified to --add-opens
+WARNING: Unknown module: javafx.web specified to --enable-native-access
+WARNING: Unknown module: javafx.graphics specified to --enable-native-access
+WARNING: Unknown module: javafx.media specified to --enable-native-access
+21:29:27.218 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting default Locale to en_US
+21:29:27.223 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting Locale for FORMAT to en_US
+21:29:27.223 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting Locale for DISPLAY to en_US
+21:29:27.245 [main] [INFO ] qupath.lib.common.ThreadTools - Setting parallelism to 19
+21:29:27.257 [main] [INFO ] qupath.ScriptCommand - Setting tile cache size to 16352.00 MB (25.0% max memory)
+21:29:27.412 [main] [INFO ] qupath.lib.scripting.QP - Initializing type adapters
+21:29:29.382 [main] [INFO ] q.l.i.s.b.BioFormatsServerOptions - Setting max Bio-Formats readers to 20
+21:29:29.712 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:29:30.308 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:29:30.483 [main] [WARN ] qupath.lib.projects.DefaultProject - Updating ID property to C:\Users\HEQ\Projects\qupathxx\build\axis-calibration-r5\project\project.qpproj::1
+21:29:30.496 [main] [INFO ] qupath.lib.io.PathIO - Writing object hierarchy with 1 object(s)...
+21:29:30.510 [main] [INFO ] qupath.lib.io.PathIO - Image data written in 0.03 seconds
+21:29:30.558 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:29:30.603 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:29:30.624 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:29:30.629 [main] [WARN ] qupath.lib.projects.DefaultProject - Updating ID property to C:\Users\HEQ\Projects\qupathxx\build\axis-calibration-r5\project\project.qpproj::2
+21:29:30.632 [main] [INFO ] qupath.lib.io.PathIO - Writing object hierarchy with 1 object(s)...
+21:29:30.632 [main] [INFO ] qupath.lib.io.PathIO - Image data written in 0.00 seconds
+21:29:30.656 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:29:30.676 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:29:30.694 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:29:30.699 [main] [WARN ] qupath.lib.projects.DefaultProject - Updating ID property to C:\Users\HEQ\Projects\qupathxx\build\axis-calibration-r5\project\project.qpproj::3
+21:29:30.703 [main] [INFO ] qupath.lib.io.PathIO - Writing object hierarchy with 1 object(s)...
+21:29:30.704 [main] [INFO ] qupath.lib.io.PathIO - Image data written in 0.00 seconds
+21:29:30.726 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:29:30.744 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:29:30.758 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:29:30.764 [main] [WARN ] qupath.lib.projects.DefaultProject - Updating ID property to C:\Users\HEQ\Projects\qupathxx\build\axis-calibration-r5\project\project.qpproj::4
+21:29:30.766 [main] [INFO ] qupath.lib.io.PathIO - Writing object hierarchy with 1 object(s)...
+21:29:30.767 [main] [INFO ] qupath.lib.io.PathIO - Image data written in 0.00 seconds
+21:29:30.797 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:29:30.812 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:29:30.826 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:29:30.837 [main] [WARN ] qupath.lib.projects.DefaultProject - Updating ID property to C:\Users\HEQ\Projects\qupathxx\build\axis-calibration-r5\project\project.qpproj::5
+21:29:30.842 [main] [INFO ] qupath.lib.io.PathIO - Writing object hierarchy with 1 object(s)...
+21:29:30.843 [main] [INFO ] qupath.lib.io.PathIO - Image data written in 0.00 seconds
+21:29:30.865 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:29:30.881 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:29:30.899 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:29:30.904 [main] [WARN ] qupath.lib.projects.DefaultProject - Updating ID property to C:\Users\HEQ\Projects\qupathxx\build\axis-calibration-r5\project\project.qpproj::6
+21:29:30.907 [main] [INFO ] qupath.lib.io.PathIO - Writing object hierarchy with 1 object(s)...
+21:29:30.907 [main] [INFO ] qupath.lib.io.PathIO - Image data written in 0.00 seconds
+21:29:30.935 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:29:30.954 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:29:30.970 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:29:30.974 [main] [WARN ] qupath.lib.projects.DefaultProject - Updating ID property to C:\Users\HEQ\Projects\qupathxx\build\axis-calibration-r5\project\project.qpproj::7
+21:29:30.977 [main] [INFO ] qupath.lib.io.PathIO - Writing object hierarchy with 1 object(s)...
+21:29:30.977 [main] [INFO ] qupath.lib.io.PathIO - Image data written in 0.00 seconds
+21:29:30.996 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:29:31.014 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:29:31.027 [main] [WARN ] q.l.i.s.b.BioFormatsImageServer - Time stamps read from Bioformats have not been fully verified & should not be relied upon (values updated in v0.6.0)
+21:29:31.033 [main] [WARN ] qupath.lib.projects.DefaultProject - Updating ID property to C:\Users\HEQ\Projects\qupathxx\build\axis-calibration-r5\project\project.qpproj::8
+21:29:31.037 [main] [ERROR] qupath.ScriptCommand - JSON forbids NaN and infinities: NaN in qupath_axis_calibration_reference.groovy at line number 37
+javax.script.ScriptException: JSON forbids NaN and infinities: NaN in qupath_axis_calibration_reference.groovy at line number 37
+	at qupath.lib.gui.scripting.languages.DefaultScriptLanguage.execute(DefaultScriptLanguage.java:309)
+	at qupath.ScriptCommand.runBatchScript(QuPath.java:524)
+	at qupath.ScriptCommand.runSingleScript(QuPath.java:475)
+	at qupath.ScriptCommand.run(QuPath.java:418)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2045)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2469)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2423)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2277)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2425)
+	at picocli.CommandLine.execute(CommandLine.java:2174)
+	at qupath.QuPath.main(QuPath.java:208)
+Caused by: java.lang.IllegalArgumentException: JSON forbids NaN and infinities: NaN
+	at com.google.gson.internal.bind.JsonTreeWriter.value(JsonTreeWriter.java:201)
+	at com.google.gson.internal.bind.TypeAdapters$13.write(TypeAdapters.java:418)
+	at com.google.gson.internal.bind.TypeAdapters$13.write(TypeAdapters.java:403)
+	at com.google.gson.internal.bind.TypeAdapterRuntimeTypeWrapper.write(TypeAdapterRuntimeTypeWrapper.java:73)
+	at com.google.gson.internal.bind.ArrayTypeAdapter.write(ArrayTypeAdapter.java:108)
+	at com.google.gson.internal.bind.TypeAdapterRuntimeTypeWrapper.write(TypeAdapterRuntimeTypeWrapper.java:73)
+	at com.google.gson.internal.bind.ReflectiveTypeAdapterFactory$2.write(ReflectiveTypeAdapterFactory.java:251)
+	at com.google.gson.internal.bind.ReflectiveTypeAdapterFactory$Adapter.write(ReflectiveTypeAdapterFactory.java:491)
+	at com.google.gson.internal.bind.TypeAdapterRuntimeTypeWrapper.write(TypeAdapterRuntimeTypeWrapper.java:73)
+	at com.google.gson.internal.bind.ReflectiveTypeAdapterFactory$2.write(ReflectiveTypeAdapterFactory.java:251)
+	at com.google.gson.internal.bind.ReflectiveTypeAdapterFactory$Adapter.write(ReflectiveTypeAdapterFactory.java:491)
+	at com.google.gson.internal.bind.TypeAdapterRuntimeTypeWrapper.write(TypeAdapterRuntimeTypeWrapper.java:73)
+	at com.google.gson.internal.bind.ReflectiveTypeAdapterFactory$2.write(ReflectiveTypeAdapterFactory.java:251)
+	at com.google.gson.internal.bind.ReflectiveTypeAdapterFactory$Adapter.write(ReflectiveTypeAdapterFactory.java:491)
+	at com.google.gson.TypeAdapter.toJsonTree(TypeAdapter.java:181)
+	at qupath.lib.io.GsonTools$SubTypeAdapterFactory$SubTypeAdapter.write(GsonTools.java:230)
+	at com.google.gson.TypeAdapter$NullSafeTypeAdapter.write(TypeAdapter.java:304)
+	at com.google.gson.internal.bind.TypeAdapterRuntimeTypeWrapper.write(TypeAdapterRuntimeTypeWrapper.java:73)
+	at com.google.gson.internal.bind.ReflectiveTypeAdapterFactory$2.write(ReflectiveTypeAdapterFactory.java:251)
+	at com.google.gson.internal.bind.ReflectiveTypeAdapterFactory$Adapter.write(ReflectiveTypeAdapterFactory.java:491)
+	at com.google.gson.Gson.toJson(Gson.java:943)
+	at com.google.gson.Gson.toJson(Gson.java:898)
+	at com.google.gson.Gson.toJson(Gson.java:847)
+	at com.google.gson.Gson.toJson(Gson.java:824)
+	at qupath.lib.io.PathIO.writeImageDataSerialized(PathIO.java:674)
+	at qupath.lib.io.PathIO.writeImageData(PathIO.java:648)
+	at qupath.lib.projects.DefaultProject$DefaultProjectImageEntry.saveImageData(DefaultProject.java:720)
+	at org.codehaus.groovy.vmplugin.v8.IndyInterface.fromCache(IndyInterface.java:344)
+	at qupath_axis_calibration_reference.run(qupath_axis_calibration_reference.groovy:37)
+	at org.codehaus.groovy.jsr223.GroovyScriptEngineImpl.eval(GroovyScriptEngineImpl.java:331)
+	at org.codehaus.groovy.jsr223.GroovyScriptEngineImpl.eval(GroovyScriptEngineImpl.java:161)
+	at qupath.lib.gui.scripting.languages.DefaultScriptLanguage.execute(DefaultScriptLanguage.java:231)
+	... 12 common frames omitted
+java.lang.RuntimeException: javax.script.ScriptException: JSON forbids NaN and infinities: NaN in qupath_axis_calibration_reference.groovy at line number 37
+	at qupath.ScriptCommand.run(QuPath.java:424)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2045)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2469)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2423)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2277)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2425)
+	at picocli.CommandLine.execute(CommandLine.java:2174)
+	at qupath.QuPath.main(QuPath.java:208)
+Caused by: javax.script.ScriptException: JSON forbids NaN and infinities: NaN in qupath_axis_calibration_reference.groovy at line number 37
+	at qupath.lib.gui.scripting.languages.DefaultScriptLanguage.execute(DefaultScriptLanguage.java:309)
+	at qupath.ScriptCommand.runBatchScript(QuPath.java:524)
+	at qupath.ScriptCommand.runSingleScript(QuPath.java:475)
+	at qupath.ScriptCommand.run(QuPath.java:418)
+	... 9 more
+Caused by: java.lang.IllegalArgumentException: JSON forbids NaN and infinities: NaN
+	at com.google.gson.internal.bind.JsonTreeWriter.value(JsonTreeWriter.java:201)
+	at com.google.gson.internal.bind.TypeAdapters$13.write(TypeAdapters.java:418)
+	at com.google.gson.internal.bind.TypeAdapters$13.write(TypeAdapters.java:403)
+	at com.google.gson.internal.bind.TypeAdapterRuntimeTypeWrapper.write(TypeAdapterRuntimeTypeWrapper.java:73)
+	at com.google.gson.internal.bind.ArrayTypeAdapter.write(ArrayTypeAdapter.java:108)
+	at com.google.gson.internal.bind.TypeAdapterRuntimeTypeWrapper.write(TypeAdapterRuntimeTypeWrapper.java:73)
+	at com.google.gson.internal.bind.ReflectiveTypeAdapterFactory$2.write(ReflectiveTypeAdapterFactory.java:251)
+	at com.google.gson.internal.bind.ReflectiveTypeAdapterFactory$Adapter.write(ReflectiveTypeAdapterFactory.java:491)
+	at com.google.gson.internal.bind.TypeAdapterRuntimeTypeWrapper.write(TypeAdapterRuntimeTypeWrapper.java:73)
+	at com.google.gson.internal.bind.ReflectiveTypeAdapterFactory$2.write(ReflectiveTypeAdapterFactory.java:251)
+	at com.google.gson.internal.bind.ReflectiveTypeAdapterFactory$Adapter.write(ReflectiveTypeAdapterFactory.java:491)
+	at com.google.gson.internal.bind.TypeAdapterRuntimeTypeWrapper.write(TypeAdapterRuntimeTypeWrapper.java:73)
+	at com.google.gson.internal.bind.ReflectiveTypeAdapterFactory$2.write(ReflectiveTypeAdapterFactory.java:251)
+	at com.google.gson.internal.bind.ReflectiveTypeAdapterFactory$Adapter.write(ReflectiveTypeAdapterFactory.java:491)
+	at com.google.gson.TypeAdapter.toJsonTree(TypeAdapter.java:181)
+	at qupath.lib.io.GsonTools$SubTypeAdapterFactory$SubTypeAdapter.write(GsonTools.java:230)
+	at com.google.gson.TypeAdapter$NullSafeTypeAdapter.write(TypeAdapter.java:304)
+	at com.google.gson.internal.bind.TypeAdapterRuntimeTypeWrapper.write(TypeAdapterRuntimeTypeWrapper.java:73)
+	at com.google.gson.internal.bind.ReflectiveTypeAdapterFactory$2.write(ReflectiveTypeAdapterFactory.java:251)
+	at com.google.gson.internal.bind.ReflectiveTypeAdapterFactory$Adapter.write(ReflectiveTypeAdapterFactory.java:491)
+	at com.google.gson.Gson.toJson(Gson.java:943)
+	at com.google.gson.Gson.toJson(Gson.java:898)
+	at com.google.gson.Gson.toJson(Gson.java:847)
+	at com.google.gson.Gson.toJson(Gson.java:824)
+	at qupath.lib.io.PathIO.writeImageDataSerialized(PathIO.java:674)
+	at qupath.lib.io.PathIO.writeImageData(PathIO.java:648)
+	at qupath.lib.projects.DefaultProject$DefaultProjectImageEntry.saveImageData(DefaultProject.java:720)
+	at org.codehaus.groovy.vmplugin.v8.IndyInterface.fromCache(IndyInterface.java:344)
+	at qupath_axis_calibration_reference.run(qupath_axis_calibration_reference.groovy:37)
+	at org.codehaus.groovy.jsr223.GroovyScriptEngineImpl.eval(GroovyScriptEngineImpl.java:331)
+	at org.codehaus.groovy.jsr223.GroovyScriptEngineImpl.eval(GroovyScriptEngineImpl.java:161)
+	at qupath.lib.gui.scripting.languages.DefaultScriptLanguage.execute(DefaultScriptLanguage.java:231)
+	... 12 more
+21:29:31.040 [main] [WARN ] qupath.QuPath - Calling System.exit with exit code 1

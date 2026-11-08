@@ -2,6 +2,7 @@
 #include "qupathxx/tma.hpp"
 
 namespace qpx::detail {
+void validate_tma_cohort(const TmaCohort&,std::size_t,const std::atomic<bool>*);
 struct TmaIndex {
     std::shared_ptr<const TmaGridInfo> info;
     std::map<std::size_t,std::uint64_t> slots;

@@ -1,0 +1,16 @@
+{
+  "reference": "QuPath 0.7.0 RunningStatistics via the existing cached runtime",
+  "source_url": "https://github.com/qupath/qupath/tree/04ccfa4fb7d43e9b566393e08e83690b72248d44",
+  "script": "tools/upstream/qupath_cell_statistics_reference.groovy",
+  "script_sha256": "7d8b783925283bd4467459b9d48d4f038435f9a252b85887c765e6d29983479d",
+  "jars": {
+    "qupath-core-0.7.0.jar": "5cd9fa2d86e98730dea5477786677dbfbf11fe606a9157b86c786774b39b9121",
+    "qupath-core-processing-0.7.0.jar": "d6c73a8c25069fbd22048242d10176ace70b97936ee4e8d91e2981699d8cf8ef"
+  },
+  "files": {
+    "reference.json": "9e2b5a92d5c75cdf89123cd8787c6d507cf9572ec548e7bb1f0208231d7843e4",
+    "reference.tsv": "b2d850b7b4509b4abcf0e9480a067a04bedc1d2c048c4a6dac4e29427543062d"
+  },
+  "contract": "Sample standard deviation uses n-1; unavailable for n<2. Empty extrema/mean unavailable. JSON omits unavailable values; TSV uses none. Reducer rejects nonfinite foreground samples rather than dropping values.",
+  "provenance": "Procedural numeric vectors; no new pixels or third-party specimen data. TSV is a deterministic projection of reference.json."
+}

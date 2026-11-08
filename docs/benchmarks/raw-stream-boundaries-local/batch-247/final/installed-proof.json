@@ -1,0 +1,261 @@
+{
+  "package": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-stream-batch-247-env\\Lib\\site-packages\\qupathxx",
+  "native": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-stream-batch-247-env\\Lib\\site-packages\\qupathxx\\_native.cp312-win_amd64.pyd",
+  "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+  "source": "f5ec3eb14140f134c61b0bc1bd23a117c12bdd2a",
+  "fingerprint": "935f82eb32a1905c2f8db60970612e68da1ffba01b80ec35ecfa16c9fb583569",
+  "wheel": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw-stream-batch-247\\final-wheel\\qupathxx-0.1.0-cp312-cp312-win_amd64.whl",
+  "wheel_bytes": 11597415,
+  "wheel_sha256": "b16297a0446d523cbf9b85aeb0d4cd2072b9f2c18e8d11e6858ee42151211a36",
+  "wheel_members": [
+    {
+      "path": "qupathxx/__init__.py",
+      "bytes": 17489,
+      "sha256": "3a990a244799c460ccdb22ed2998c53c871faf23443daff686d411598b637fed"
+    },
+    {
+      "path": "qupathxx/__init__.pyi",
+      "bytes": 18452,
+      "sha256": "63e6b4940f1b956d28b17d38b747c3e9267d2c582b3724273a990112bd7cc19f"
+    },
+    {
+      "path": "qupathxx/__main__.py",
+      "bytes": 5391,
+      "sha256": "91d7eca53fc7a88257ef05e28bd31efacbf521bd789c165839fb42fdca4f8e41"
+    },
+    {
+      "path": "qupathxx/_native.cp312-win_amd64.pyd",
+      "bytes": 9688576,
+      "sha256": "f0f7ef6e791e5c9077d3c6592a916582ea443e15cfb4c411ca8534be33a784a4"
+    },
+    {
+      "path": "qupathxx/_native.pyi",
+      "bytes": 254482,
+      "sha256": "ef11c907d36c45f56a063f28bf51de895cfc8539ee574851b1d84d645af637f6"
+    },
+    {
+      "path": "qupathxx/geos.dll",
+      "bytes": 2912768,
+      "sha256": "9bff21e1082b57e9914909a156ad121d508d2203a8c6ab4d8d41eb74cc19fa0e"
+    },
+    {
+      "path": "qupathxx/geos_c.dll",
+      "bytes": 590336,
+      "sha256": "64c8a686deccd9e3d5ae66f96ba1276c23faf6ab00564feee421ae91f552b7d6"
+    },
+    {
+      "path": "qupathxx/licenses/geos/COPYING",
+      "bytes": 26530,
+      "sha256": "dc626520dcd53a22f727af3ee42c770e56c97a64fe3adb063799d8ab032fe551"
+    },
+    {
+      "path": "qupathxx/licenses/glfw/LICENSE.md",
+      "bytes": 927,
+      "sha256": "7593ce7c7be05f3a0589ebc78091ba3db70f82c7a4acaea15a0b70230247df2c"
+    },
+    {
+      "path": "qupathxx/licenses/imagej-shape/NOTICE.txt",
+      "bytes": 817,
+      "sha256": "65434d6cd24b1808a18ad16919035d7a96d932dc04a41e2df30123173a2311fe"
+    },
+    {
+      "path": "qupathxx/licenses/imgui/imgl3w-LICENSE.txt",
+      "bytes": 1359,
+      "sha256": "565e23a9974c44bf7e5e47c280de542ec758a82e97dcb1da3fb3496660921f88"
+    },
+    {
+      "path": "qupathxx/licenses/imgui/imstb_rectpack.h-LICENSE.txt",
+      "bytes": 2631,
+      "sha256": "06f6b081941f054102bfc696d7f09b8905fee176d1ed08d334e4bad5c1d751c2"
+    },
+    {
+      "path": "qupathxx/licenses/imgui/imstb_textedit.h-LICENSE.txt",
+      "bytes": 2631,
+      "sha256": "06f6b081941f054102bfc696d7f09b8905fee176d1ed08d334e4bad5c1d751c2"
+    },
+    {
+      "path": "qupathxx/licenses/imgui/imstb_truetype.h-LICENSE.txt",
+      "bytes": 2631,
+      "sha256": "06f6b081941f054102bfc696d7f09b8905fee176d1ed08d334e4bad5c1d751c2"
+    },
+    {
+      "path": "qupathxx/licenses/imgui/Khronos-LICENSE.txt",
+      "bytes": 1169,
+      "sha256": "a4be3716671cb6dbc2ed80aa91bb6675eb01971147c77d7a62bee11f15b83c14"
+    },
+    {
+      "path": "qupathxx/licenses/imgui/Khronos-NOTICE.txt",
+      "bytes": 344,
+      "sha256": "f76051f667cfbfbf5cc55c9656cf46ce11579dcd9d9373e95daeb08ef2fc0e93"
+    },
+    {
+      "path": "qupathxx/licenses/imgui/LICENSE.txt",
+      "bytes": 1104,
+      "sha256": "55e058cc5899e6077a819ad1005d6d1f4528f65ae100795c9692f9fa6525a8ce"
+    },
+    {
+      "path": "qupathxx/licenses/imgui/ProggyClean-LICENSE.txt",
+      "bytes": 1099,
+      "sha256": "898c573f0bf1901b40743432b1d78845bb5b4fc4c1660d6ee0820a8d987319f7"
+    },
+    {
+      "path": "qupathxx/licenses/libtiff/LICENSE.md",
+      "bytes": 2416,
+      "sha256": "0e27c2382d7b8147972bbb746e04059a1152c8d0fda9d03ef1399d1a433c4ade"
+    },
+    {
+      "path": "qupathxx/licenses/nanobind/LICENSE",
+      "bytes": 1521,
+      "sha256": "f305091a4e57805870b217a28ea4b1f16610eece8457d2370f822a9696b75836"
+    },
+    {
+      "path": "qupathxx/licenses/nlohmann-json/LICENSE.MIT",
+      "bytes": 1076,
+      "sha256": "46a65cffd1ea955132d95a8dd921640714a8d6b537d2e4e482d31145ae95b603"
+    },
+    {
+      "path": "qupathxx/licenses/opencv/LICENSE",
+      "bytes": 11358,
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "path": "qupathxx/licenses/opencv/softfloat-notice.txt",
+      "bytes": 2918,
+      "sha256": "07360afca97fb6a725a50797960c4506f592dab5331df2b780c85e459d422ce3"
+    },
+    {
+      "path": "qupathxx/licenses/opencv/SOURCE-NOTICES.txt",
+      "bytes": 96903,
+      "sha256": "d57f5f7ee96bbb3152012bfc293175868d73fe348e1d9f8a223ccfc87a3461ba"
+    },
+    {
+      "path": "qupathxx/licenses/opencv/zlib-notice.txt",
+      "bytes": 1359,
+      "sha256": "36bbf559e8540020cd01e5e61547ed0f295e3cba735569702ca6f284ecbd5acc"
+    },
+    {
+      "path": "qupathxx/licenses/robin-map/LICENSE",
+      "bytes": 1192,
+      "sha256": "3351535e1abffa4f2d6dfec9ee48bd0cdd72cd1d6d04dd9155f1ab5f58c54dbe"
+    },
+    {
+      "path": "qupathxx/licenses/sqlite/sqlite-LICENSE.txt",
+      "bytes": 421,
+      "sha256": "1172bc75acf43852aa9a9368887a3500b7aaea8f213c81853a1bc93d7ae262a0"
+    },
+    {
+      "path": "qupathxx/licenses/tiff-zlib/LICENSE",
+      "bytes": 1002,
+      "sha256": "e32ff4e00d9d94930537635291da39e7e612703334bf6fde8c7f1686fe8a45a2"
+    },
+    {
+      "path": "qupathxx/licenses/tinyxml2/LICENSE.txt",
+      "bytes": 808,
+      "sha256": "9332252e9b9e46db8285d4a3f0bf25f139bf1dca6781b956d57f2302efca6432"
+    },
+    {
+      "path": "qupathxx/py.typed",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "qupathxx/qupathxx_app.exe",
+      "bytes": 7689728,
+      "sha256": "91841029ea61dbfe2e530aa5f444b15898444f28e21a4dc8a51d804f5b12fbbf"
+    },
+    {
+      "path": "qupathxx/qupathxx_batch.exe",
+      "bytes": 5220864,
+      "sha256": "e363f8717d23da09c2924c6b54a5ec4565a33f9dd6e61b31300b67a5205628d0"
+    },
+    {
+      "path": "qupathxx/qupathxx_region.exe",
+      "bytes": 775680,
+      "sha256": "9f3b757b4a8fe9bcec446e30f448578893110bf9356ac71d90c69cba08002d9d"
+    }
+  ],
+  "new_public_exports": [
+    "ScientificRawLattice",
+    "ScientificRawWindowAxis",
+    "ScientificRawWindow",
+    "ScientificRawWindowData",
+    "scientific_raw_window_work_bytes",
+    "read_scientific_raw_window",
+    "digest_scientific_raw_window",
+    "RawPixelFeatureScale",
+    "RawPixelFeatureOptions",
+    "RawPixelRecipe",
+    "RawPixelClassifier",
+    "load_raw_pixel_classifier",
+    "save_raw_pixel_classifier",
+    "RawPixelTrainingOptions",
+    "RawPixelTileOptions",
+    "RawPixelJobStats",
+    "RawPixelClassification",
+    "RawPixelWindowClassification",
+    "RawPixelTrainingTable",
+    "RawPixelTiledTrainingTable",
+    "RawPixelTrainingRequest",
+    "RawPixelTiledTrainingRequest",
+    "RawPixelPredictionRequest",
+    "RawPixelWindowPredictionRequest",
+    "RawPixelTrainingJob",
+    "RawPixelTiledTrainingJob",
+    "RawPixelPredictionJob",
+    "RawPixelWindowPredictionJob",
+    "sample_raw_pixel_training",
+    "sample_raw_pixel_tiled_training",
+    "train_raw_pixel_classifier",
+    "train_raw_pixel_tiled_classifier",
+    "predict_raw_pixel_region",
+    "predict_raw_pixel_window",
+    "classify_raw_pixels",
+    "classify_raw_pixel_window",
+    "RawPixelContours",
+    "RawPixelContourJob",
+    "trace_raw_pixel_prediction",
+    "publish_raw_pixel_contours",
+    "RawPixelArchive",
+    "RawPixelRecord",
+    "archive_raw_pixel_training",
+    "archive_raw_pixel_tiled_training",
+    "archive_raw_pixel_prediction",
+    "load_raw_pixel_archive",
+    "save_raw_pixel_archive",
+    "RawPixelStreamRegion",
+    "RawPixelStreamOptions",
+    "RawPixelTiledPredictionRequest",
+    "RawPixelPredictionStream",
+    "RawPixelStreamJobStats",
+    "RawPixelPredictionStreamJob",
+    "RawPixelStreamFileLimits",
+    "RawPixelStreamFileSummary",
+    "RawPixelStreamSaveOptions",
+    "RawPixelStreamFile",
+    "RawPixelStreamLink",
+    "RawPixelStreamRecord",
+    "prepare_raw_pixel_stream_link",
+    "save_raw_pixel_stream",
+    "RawPixelTrainingCheckpointLimits",
+    "RawPixelTrainingCheckpoint",
+    "RawPixelTrainingCheckpointOptions",
+    "RawPixelTrainingCheckpointResult",
+    "load_raw_pixel_training_checkpoint",
+    "save_raw_pixel_training_checkpoint",
+    "RawPixelFileJobStats",
+    "RawPixelStreamSaveJob",
+    "RawPixelTrainingCheckpointJob",
+    "RawPixelStreamFileReadJob"
+  ],
+  "shared_test_dependencies": "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages",
+  "gui": true,
+  "geos": true,
+  "training": true,
+  "tiff": true,
+  "project": true,
+  "loaded_geos": {
+    "geos.dll": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-stream-batch-247-env\\Lib\\site-packages\\qupathxx\\geos.dll",
+    "geos_c.dll": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-stream-batch-247-env\\Lib\\site-packages\\qupathxx\\geos_c.dll"
+  },
+  "geos_version": "3.15.0-CAPI-1.21.0"
+}

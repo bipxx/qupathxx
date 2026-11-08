@@ -1,0 +1,21 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+    Start 17: file_fingerprint
+1/5 Test #17: file_fingerprint .................   Passed    0.08 sec
+    Start 46: qupath_project
+2/5 Test #46: qupath_project ...................   Passed    0.11 sec
+    Start 51: spatial_records
+3/5 Test #51: spatial_records ..................   Passed    2.39 sec
+    Start 55: project
+4/5 Test #55: project ..........................***Failed    0.10 sec
+source or dependency facts changed; explicit accept_changed is required
+
+    Start 56: interchange
+5/5 Test #56: interchange ......................   Passed    0.43 sec
+
+80% tests passed, 1 tests failed out of 5
+
+Total Test time (real) =   3.54 sec
+
+The following tests FAILED:
+	 55 - project (Failed)
+Errors while running CTest

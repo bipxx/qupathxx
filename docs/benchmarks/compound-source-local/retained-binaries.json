@@ -1,0 +1,112 @@
+{
+  "source": "4d59c460a11ef7be5bd157df6c5e6468c660d54b",
+  "fingerprint": "891b3dab78aab234dec830cc3be6bbe2819fc0dd70e50d44dc381b12be9a2062",
+  "files": {
+    "build/compound208-retained-binaries/windows/_native.cp312-win_amd64.pyd": {
+      "bytes": 7078400,
+      "sha256": "d2639f1927e0e0a28c17874135efc4a95d683c75bb889d4dc8da7618c3ff962b",
+      "role": "retained_compound_source_foundation"
+    },
+    "build/compound208-retained-binaries/windows/qupathxx_app.exe": {
+      "bytes": 5502464,
+      "sha256": "1da0c7bc12624a7508afa2ccd53f83591631b5671ac640a8474a9eb017e29a08",
+      "role": "retained_compound_source_foundation"
+    },
+    "build/compound208-retained-binaries/windows/qupathxx_region.exe": {
+      "bytes": 748544,
+      "sha256": "9abf7e6bf23c7b662af4dfd701b4fde08d8eca3a1ee040d463b61e335af7711c",
+      "role": "retained_compound_source_foundation"
+    },
+    "build/compound208-retained-binaries/windows/qupathxx_batch.exe": {
+      "bytes": 3354112,
+      "sha256": "cb9fcc20439e27a05ed1254730f1a3005b27217c8141c4e356278860121ee492",
+      "role": "retained_compound_source_foundation"
+    },
+    "build/compound208-retained-binaries/windows/qupathxx_core.lib": {
+      "bytes": 76466070,
+      "sha256": "8555af9249a908e0c3bef1d535b7fe4db7b4901c914461aad9e4c4674b3a4a70",
+      "role": "retained_compound_source_foundation"
+    },
+    "build/compound208-retained-binaries/windows/qupathxx_gui.lib": {
+      "bytes": 15533312,
+      "sha256": "fb73e22b10e89f25c378e1b894012fe3606809f189d0a87d0b3185869e928abd",
+      "role": "retained_compound_source_foundation"
+    },
+    "build/compound208-retained-binaries/windows/qupathxx_source_identity_tests.exe": {
+      "bytes": 1511424,
+      "sha256": "ed72502397bba3bdbc8cfb711455e30a9da2d154e391a0fdd7417949577e3f49",
+      "role": "retained_compound_source_foundation"
+    },
+    "build/compound208-retained-binaries/windows/qupathxx_file_fingerprint_tests.exe": {
+      "bytes": 305664,
+      "sha256": "20c720ff8403ce943f0d18d3f6f2541a1c763804215b0e716e466d91167f343f",
+      "role": "retained_compound_source_foundation"
+    },
+    "build/compound208-retained-binaries/windows/qupathxx_provenance_tests.exe": {
+      "bytes": 1622528,
+      "sha256": "bf453561fc1641b5a39c2998dec2ffb5b1724fb073ae6438c349e5026f4e126f",
+      "role": "retained_compound_source_foundation"
+    },
+    "build/compound208-retained-binaries/windows/qupathxx_raw_image_tests.exe": {
+      "bytes": 3256832,
+      "sha256": "69090cfad330dcf8ac947965802851cff15d839e20de5c1bb83a3179182e5e67",
+      "role": "retained_compound_source_foundation"
+    },
+    "build/compound208-retained-binaries/windows/qupathxx_resampling_tests.exe": {
+      "bytes": 2337792,
+      "sha256": "70fccb53b8a3d6eca6eb83176748d17a6182ae9500d7370556bc4c216ce9cc28",
+      "role": "retained_compound_source_foundation"
+    },
+    "build/compound208-retained-binaries/windows/qupathxx_project_tests.exe": {
+      "bytes": 2715136,
+      "sha256": "56ef992e99c73cf4e6829e9b6433af82c7241b46ccc511e7146aa4cf409100cb",
+      "role": "retained_compound_source_foundation"
+    },
+    "build/compound208-retained-binaries/windows/qupathxx_save_tests.exe": {
+      "bytes": 2478592,
+      "sha256": "3ca5a4aebc697573ffec0069b81228cc36b47acc3f7bb02207e78bf0999e63c1",
+      "role": "retained_compound_source_foundation"
+    },
+    "build/compound208-retained-binaries/linux/libqupathxx_core.a": {
+      "bytes": 10481848,
+      "sha256": "2f2880b95fc826a14056725d5c18bf03b88330fa8e758b120faccb31bc04fb3a",
+      "role": "retained_compound_source_foundation"
+    },
+    "build/compound208-retained-binaries/linux/qupathxx_source_identity_tests": {
+      "bytes": 2562424,
+      "sha256": "2a29e06ddf46a736c2c5549794344f73223185f4e8330e1af4659a0a1abea569",
+      "role": "retained_compound_source_foundation"
+    },
+    "build/compound208-retained-binaries/linux/qupathxx_file_fingerprint_tests": {
+      "bytes": 303536,
+      "sha256": "dcd4c93a04be109281d2aa1a87a413bc521a0e6b0ec879492b7d157cf835245a",
+      "role": "retained_compound_source_foundation"
+    },
+    "build/compound208-retained-binaries/linux/qupathxx_provenance_tests": {
+      "bytes": 3643120,
+      "sha256": "13a16c5f4df6d9d88005b5f8a8df1ca5a9747b39b2587a6e964a3e9277827c07",
+      "role": "retained_compound_source_foundation"
+    },
+    "build/compound208-retained-binaries/linux/qupathxx_raw_image_tests": {
+      "bytes": 6023896,
+      "sha256": "6b132f132abc782d3b8bc127d1d9b20c787f9693dc88f653dc88167b3be67777",
+      "role": "retained_compound_source_foundation"
+    },
+    "build/compound208-retained-binaries/linux/qupathxx_resampling_tests": {
+      "bytes": 4837032,
+      "sha256": "35351e384dc7af7232700485827c6168515dbeeed74716935d064da48f452999",
+      "role": "retained_compound_source_foundation"
+    },
+    "build/compound208-retained-binaries/linux/qupathxx_project_tests": {
+      "bytes": 5364616,
+      "sha256": "2849a188c4d37f3b74f0cf036742a82f8297e8b196938f978d472b774444efef",
+      "role": "retained_compound_source_foundation"
+    },
+    "build/compound208-retained-binaries/linux/qupathxx_save_tests": {
+      "bytes": 5389888,
+      "sha256": "df66363cd609d51626a10c2d79565c7adbae0f8c11a1b69630d3778050747eb0",
+      "role": "retained_compound_source_foundation"
+    }
+  },
+  "total_bytes": 161517230
+}

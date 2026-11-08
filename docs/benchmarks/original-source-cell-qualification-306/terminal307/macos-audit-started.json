@@ -1,0 +1,25 @@
+{
+  "source": "701fa672db3745aebc7fc5d71108b2c8780cbb6e",
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Scripts\\python.exe",
+    "-X",
+    "utf8",
+    "tools/ci/accept_macos_native.py",
+    "40817708194",
+    "701fa672db3745aebc7fc5d71108b2c8780cbb6e",
+    "--artifacts",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\q306-all",
+    "--output",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\original-source-cell-qualification-306\\macos-acceptance.json",
+    "--sampled-cells",
+    "--small-frontier",
+    "--tma-cases",
+    "--tma-file-export",
+    "--tma-cohorts",
+    "--macho-inventory",
+    "--macos-relocation"
+  ],
+  "cwd": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\original-source-cell-qualification-306-audit",
+  "started_utc": "2026-10-30T18:13:31.805168+00:00",
+  "original_complete_auditor": true
+}

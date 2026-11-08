@@ -1,0 +1,38 @@
+{
+  "schema": "qpx.qupath-cells-reference/1",
+  "case_name": "sigma-0.0",
+  "qupath_version": "0.7.0",
+  "java_version": "25.0.2",
+  "width": 256,
+  "height": 192,
+  "parameters": {
+    "detectionImageBrightfield": "Optical density sum",
+    "requestedPixelSizeMicrons": 0.5,
+    "backgroundRadiusMicrons": 0.0,
+    "backgroundByReconstruction": true,
+    "medianRadiusMicrons": 0.0,
+    "sigmaMicrons": 0.0,
+    "minAreaMicrons": 4.0,
+    "maxAreaMicrons": 1024.0,
+    "threshold": 0.4,
+    "maxBackground": 2.0,
+    "watershedPostProcess": true,
+    "excludeDAB": false,
+    "cellExpansionMicrons": 2.5,
+    "includeNuclei": true,
+    "smoothBoundaries": false,
+    "makeMeasurements": true
+  },
+  "count": 0,
+  "collisions": {
+    "nucleus": 0,
+    "body": 0
+  },
+  "regions": [],
+  "decoded_regions": [],
+  "decoded_collisions": {
+    "nucleus": 0,
+    "body": 0
+  },
+  "plugin_measurements": []
+}

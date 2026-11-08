@@ -1,0 +1,191 @@
+{
+  "package": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawpython229-wheel312-env\\Lib\\site-packages\\qupathxx",
+  "native": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawpython229-wheel312-env\\Lib\\site-packages\\qupathxx\\_native.cp312-win_amd64.pyd",
+  "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+  "source": "202b41aa908e323ac820798bec7489c0f64234b1",
+  "fingerprint": "25cfacf0f76c4fff5749324fb816036e4d1fb27c0474cc4c90c1f85ffdfc9425",
+  "wheel": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawpython229-final-b\\wheel\\qupathxx-0.1.0-cp312-cp312-win_amd64.whl",
+  "wheel_bytes": 5723488,
+  "wheel_sha256": "2d4a92a7970cdbe2ee27fe4c7e3f197191ce15af511afe2a760cf9060952d3a8",
+  "wheel_members": [
+    {
+      "path": "qupathxx/__init__.py",
+      "bytes": 17049,
+      "sha256": "251cd0d1398bdd1150c168fc9a80b777dd508896dc19a2b27d194a310393e9ee"
+    },
+    {
+      "path": "qupathxx/__init__.pyi",
+      "bytes": 17996,
+      "sha256": "6f792c89941319782a06b0f195a7ec3b75e9e7c011b33bbb2ea6b7ca848f7fb6"
+    },
+    {
+      "path": "qupathxx/__main__.py",
+      "bytes": 5391,
+      "sha256": "91d7eca53fc7a88257ef05e28bd31efacbf521bd789c165839fb42fdca4f8e41"
+    },
+    {
+      "path": "qupathxx/_native.cp312-win_amd64.pyd",
+      "bytes": 7891456,
+      "sha256": "85c54f5003b65ad7cc9043007fc78a62651660e3176d38aa4b239d31f773fdcb"
+    },
+    {
+      "path": "qupathxx/_native.pyi",
+      "bytes": 241292,
+      "sha256": "e08db94e2fae696da6742c85257d511cc8dd87a7f333cd53993ec77ef2af4c7b"
+    },
+    {
+      "path": "qupathxx/licenses/imagej-shape/NOTICE.txt",
+      "bytes": 817,
+      "sha256": "65434d6cd24b1808a18ad16919035d7a96d932dc04a41e2df30123173a2311fe"
+    },
+    {
+      "path": "qupathxx/licenses/libtiff/LICENSE.md",
+      "bytes": 2416,
+      "sha256": "0e27c2382d7b8147972bbb746e04059a1152c8d0fda9d03ef1399d1a433c4ade"
+    },
+    {
+      "path": "qupathxx/licenses/nanobind/LICENSE",
+      "bytes": 1521,
+      "sha256": "f305091a4e57805870b217a28ea4b1f16610eece8457d2370f822a9696b75836"
+    },
+    {
+      "path": "qupathxx/licenses/nlohmann-json/LICENSE.MIT",
+      "bytes": 1076,
+      "sha256": "46a65cffd1ea955132d95a8dd921640714a8d6b537d2e4e482d31145ae95b603"
+    },
+    {
+      "path": "qupathxx/licenses/opencv/LICENSE",
+      "bytes": 11358,
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "path": "qupathxx/licenses/opencv/softfloat-notice.txt",
+      "bytes": 2918,
+      "sha256": "07360afca97fb6a725a50797960c4506f592dab5331df2b780c85e459d422ce3"
+    },
+    {
+      "path": "qupathxx/licenses/opencv/SOURCE-NOTICES.txt",
+      "bytes": 96903,
+      "sha256": "d57f5f7ee96bbb3152012bfc293175868d73fe348e1d9f8a223ccfc87a3461ba"
+    },
+    {
+      "path": "qupathxx/licenses/opencv/zlib-notice.txt",
+      "bytes": 1359,
+      "sha256": "36bbf559e8540020cd01e5e61547ed0f295e3cba735569702ca6f284ecbd5acc"
+    },
+    {
+      "path": "qupathxx/licenses/robin-map/LICENSE",
+      "bytes": 1192,
+      "sha256": "3351535e1abffa4f2d6dfec9ee48bd0cdd72cd1d6d04dd9155f1ab5f58c54dbe"
+    },
+    {
+      "path": "qupathxx/licenses/sqlite/sqlite-LICENSE.txt",
+      "bytes": 421,
+      "sha256": "1172bc75acf43852aa9a9368887a3500b7aaea8f213c81853a1bc93d7ae262a0"
+    },
+    {
+      "path": "qupathxx/licenses/tiff-zlib/LICENSE",
+      "bytes": 1002,
+      "sha256": "e32ff4e00d9d94930537635291da39e7e612703334bf6fde8c7f1686fe8a45a2"
+    },
+    {
+      "path": "qupathxx/licenses/tinyxml2/LICENSE.txt",
+      "bytes": 808,
+      "sha256": "9332252e9b9e46db8285d4a3f0bf25f139bf1dca6781b956d57f2302efca6432"
+    },
+    {
+      "path": "qupathxx/py.typed",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "qupathxx/qupathxx_batch.exe",
+      "bytes": 4298240,
+      "sha256": "4761e5ba04d309bad110082b680fa073f7557435d3a27f2b82e37959c54265c7"
+    },
+    {
+      "path": "qupathxx/qupathxx_region.exe",
+      "bytes": 775680,
+      "sha256": "ad6ca9f5d156b7afc4335186a5d5bde64d4de0122cfb19a49aa4b0bacf5f19bf"
+    }
+  ],
+  "new_public_exports": [
+    "ScientificRawLattice",
+    "ScientificRawWindowAxis",
+    "ScientificRawWindow",
+    "ScientificRawWindowData",
+    "scientific_raw_window_work_bytes",
+    "read_scientific_raw_window",
+    "digest_scientific_raw_window",
+    "RawPixelFeatureScale",
+    "RawPixelFeatureOptions",
+    "RawPixelRecipe",
+    "RawPixelClassifier",
+    "load_raw_pixel_classifier",
+    "save_raw_pixel_classifier",
+    "RawPixelTrainingOptions",
+    "RawPixelTileOptions",
+    "RawPixelJobStats",
+    "RawPixelClassification",
+    "RawPixelWindowClassification",
+    "RawPixelTrainingTable",
+    "RawPixelTiledTrainingTable",
+    "RawPixelTrainingRequest",
+    "RawPixelTiledTrainingRequest",
+    "RawPixelPredictionRequest",
+    "RawPixelWindowPredictionRequest",
+    "RawPixelTrainingJob",
+    "RawPixelTiledTrainingJob",
+    "RawPixelPredictionJob",
+    "RawPixelWindowPredictionJob",
+    "sample_raw_pixel_training",
+    "sample_raw_pixel_tiled_training",
+    "train_raw_pixel_classifier",
+    "train_raw_pixel_tiled_classifier",
+    "predict_raw_pixel_region",
+    "predict_raw_pixel_window",
+    "classify_raw_pixels",
+    "classify_raw_pixel_window",
+    "RawPixelContours",
+    "RawPixelContourJob",
+    "trace_raw_pixel_prediction",
+    "publish_raw_pixel_contours",
+    "RawPixelArchive",
+    "RawPixelRecord",
+    "archive_raw_pixel_training",
+    "archive_raw_pixel_tiled_training",
+    "archive_raw_pixel_prediction",
+    "load_raw_pixel_archive",
+    "save_raw_pixel_archive",
+    "RawPixelStreamRegion",
+    "RawPixelStreamOptions",
+    "RawPixelTiledPredictionRequest",
+    "RawPixelPredictionStream",
+    "RawPixelStreamJobStats",
+    "RawPixelPredictionStreamJob",
+    "RawPixelStreamFileLimits",
+    "RawPixelStreamFileSummary",
+    "RawPixelStreamSaveOptions",
+    "RawPixelStreamFile",
+    "RawPixelStreamLink",
+    "RawPixelStreamRecord",
+    "prepare_raw_pixel_stream_link",
+    "save_raw_pixel_stream",
+    "RawPixelTrainingCheckpointLimits",
+    "RawPixelTrainingCheckpoint",
+    "RawPixelTrainingCheckpointOptions",
+    "RawPixelTrainingCheckpointResult",
+    "load_raw_pixel_training_checkpoint",
+    "save_raw_pixel_training_checkpoint",
+    "RawPixelFileJobStats",
+    "RawPixelStreamSaveJob",
+    "RawPixelTrainingCheckpointJob",
+    "RawPixelStreamFileReadJob"
+  ],
+  "shared_test_dependencies": "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages",
+  "gui": false,
+  "geos": false,
+  "training": true,
+  "tiff": true,
+  "project": true
+}

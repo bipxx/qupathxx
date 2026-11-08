@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\nominal-cells-291-env\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-m",
+    "pytest",
+    "tests/test_scientific_grid_evidence.py",
+    "tests/test_raw_classifier_evidence.py",
+    "-q",
+    "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\nominal-cells-291\\auditor.xml",
+    "--basetemp",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\nominal-cells-291\\auditor-temp"
+  ],
+  "returncode": 0
+}

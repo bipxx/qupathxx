@@ -1,0 +1,302 @@
+{
+  "schema": "qpx.compound-source-local/1",
+  "observed_at_utc": "2026-10-26T02:28:48.475309+00:00",
+  "compiled_source": "4d59c460a11ef7be5bd157df6c5e6468c660d54b",
+  "compiled_fingerprint": "891b3dab78aab234dec830cc3be6bbe2819fc0dd70e50d44dc381b12be9a2062",
+  "compiler_inputs": 317,
+  "validation_source": "916d2fc9682aac34a01076861e61a832bee15a08",
+  "source_files": {
+    "cpp/include/qupathxx/source_identity.hpp": "f3a5c05e5b013d63855d1464e5662bf7380048acc9a29d540504af56ffdd45d0",
+    "cpp/include/qupathxx/file_fingerprint.hpp": "9fc70e6fbe5f658df014c9b36e80b0c13941457b39a44ed70827d26e82c978f4",
+    "cpp/source_identity.cpp": "a95812f06ce89b43dc4a9e54e3f31f97b71c6fe413bd2d410fcad84c1380f1d5",
+    "cpp/reader_file_guard.hpp": "9e0f68a509b44db62e4599bce0d1beb24c702d609b3ede4c540063f8038bf5f1",
+    "cpp/provenance_codec.cpp": "cfbec17a0acc4520cc7487fd5e892544933f3322b34538d37cfd7851ade7e2c6",
+    "cpp/provenance_bindings.cpp": "dee14b52d024ae279ba2b7c7e9ac227b23c4144b75f7f4ff8ded376055f7fe59",
+    "cpp/file_fingerprint.cpp": "128f1e35d8462785bfc7f9d3e8cce130077e69d4a7791ea5be8ecd3c554f549d",
+    "cpp/raw_analysis.cpp": "43d7c62528e755777af7176086296071b81a05b0d78f9fee813bb3019db945a9",
+    "cpp/raw_analysis_records.cpp": "de7259d81470b39fdc4512d18db4aee702e8bf83de922c1766f3b4c5e3ac6239",
+    "cpp/raw_analysis_archive.cpp": "6d60dd2ff4c788db0af90e2bc1f1a99a3d9424f6f03a2160b26cd77c1fe3e72e",
+    "cpp/tests/source_identity_tests.cpp": "2c3513f1a26d9db275d76d81eb3e4911a9f0043393ecb164f7f7f5360a03b18d",
+    "cpp/tests/scientific_raw_sampling_tests.cpp": "22c6c94b5bc9256c8a37956239646a33b9e5ff3cfb5fe7a8193d88fd8baa5b41",
+    "tools/generate_stubs.py": "03e38f8149441a390f141f4fef222346f8de72f5d26f3b7cd790c6ebad375020",
+    "src/qupathxx/_native.pyi": "cdddc7b6faa4031a2ccfe4982929755619fea65aaac378cb879a207b4d7801bc",
+    "tests/test_source_companions.py": "d0cf08f6b2d5e693bbc895be7fe02a50740bc6c6fb00f47b8b69e8e3bfc8ccd6",
+    "tests/typing/source_companions_valid.py": "9739fa2dff8f2e34fb75ab6b20609b9186c0d54440250a0536626228c7ceed79",
+    "tests/typing/source_companions_invalid.py": "1fe25230f911673d6dd4693ff99c288a9b392ae2bf5b069709e194207d002f49"
+  },
+  "results": {
+    "native_suites_per_host": 7,
+    "windows_native_passed": true,
+    "linux_native_passed": true,
+    "installed_passed": 200,
+    "installed_declared_skips": 12,
+    "desktop_passed": 15,
+    "remaining_capability_skips": 2,
+    "remaining_skips": "OpenSlide disabled in this local Windows configuration",
+    "typing_positive_sources": 7,
+    "typing_negative_errors": {
+      "file": "source_companions_invalid.py",
+      "lines": [
+        4,
+        5,
+        6
+      ]
+    },
+    "stubs_match": true
+  },
+  "scope": "Local bounded source/provenance/raw-codec foundation, with legacy single-file project/CLI/desktop regression coverage. Not native multi-file TIFF opening, full hosted qualification, biological or supported-release acceptance.",
+  "contracts": {
+    "max_companions": 63,
+    "max_source_payload_bytes": 131072,
+    "companion_order": "strict absolute-path ordering; no duplicate path or physical file identity",
+    "legacy_json": "reader-source/1 and source-file-association/1 remain unchanged for old scopes",
+    "compound_json": "reader-source/2 and source-file-association/2",
+    "primary_fingerprint_status": "matching_primary_metadata",
+    "provenance_versions": "QPV1/QPV2 retained; QPV3 for compound sources",
+    "raw_versions": "Frozen QRA1/QRA2 byte round trips retained; QRA3 natural compound and QRA4 grid compound",
+    "source_comparison": "Primary and every companion observation; generations are not content hashes"
+  },
+  "retained_binaries": {
+    "manifest": "build/compound208-retained-binaries/manifest.json",
+    "files": 21,
+    "bytes": 161517230
+  },
+  "installed_module": {
+    "module": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\compound208-python-env\\Lib\\site-packages\\qupathxx\\_native.cp312-win_amd64.pyd",
+    "source": "4d59c460a11ef7be5bd157df6c5e6468c660d54b",
+    "fingerprint": "891b3dab78aab234dec830cc3be6bbe2819fc0dd70e50d44dc381b12be9a2062",
+    "module_sha256": "d2639f1927e0e0a28c17874135efc4a95d683c75bb889d4dc8da7618c3ff962b"
+  },
+  "capabilities": {
+    "tiff": true,
+    "project": true,
+    "gui": true,
+    "openslide": false
+  },
+  "remaining": [
+    "Explicit FileName/UUID file dispatch and all-file read guards in existing TIFF reader",
+    "Shared decoder/cache budgets and file-aware cache/directory keys",
+    "Real two-member corpus C/Z/T and subresolution verification from both entry points",
+    "Nonempty companion-list Python lifetime checks through the actual reader",
+    "Project restart/relink and complete native/Python/CLI/batch/ImGui/managed multi-file workflow",
+    "Full platform/scientific/hardware/release requirements remain active"
+  ],
+  "multifile_open_supported": false,
+  "platform_campaign_accepted": false,
+  "release_ready": false,
+  "overall_project_complete": false,
+  "payloads": {
+    "docs/benchmarks/compound-source-local/native-windows/build.log": {
+      "bytes": 11941,
+      "sha256": "b9c55426d2163cb42f1bfd22f5b6c783b7640b0a0097580bed04400648d56f2e"
+    },
+    "docs/benchmarks/compound-source-local/native-windows/commands.json": {
+      "bytes": 5312,
+      "sha256": "89e10b7f9b47f2b2480ba1bda443900b2944d89e82d68fa69fc0249b5c00a1d7"
+    },
+    "docs/benchmarks/compound-source-local/native-windows/compiler-inputs.json": {
+      "bytes": 33137,
+      "sha256": "dcb19209b05ad64c8b3d4ef9f3dc7ff35084ba72b373172412cdffe155c16745"
+    },
+    "docs/benchmarks/compound-source-local/native-windows/configure.log": {
+      "bytes": 3579,
+      "sha256": "0956d6738be5151272a818b4b54167961454310d235e4f9474bbb01d2f99119a"
+    },
+    "docs/benchmarks/compound-source-local/native-windows/file_fingerprint.xml": {
+      "bytes": 456,
+      "sha256": "448cc5f24597c0429e7b4563b0c3c94d30d288b45b8c7b5436b8f6f9aa959706"
+    },
+    "docs/benchmarks/compound-source-local/native-windows/project.xml": {
+      "bytes": 421,
+      "sha256": "5643dc288593a548725e84c03fe8a759d94999312a36b843337768d6f4f806ee"
+    },
+    "docs/benchmarks/compound-source-local/native-windows/project_save.xml": {
+      "bytes": 439,
+      "sha256": "c905f6c22f4a5cb5882b54ff1010476cc08f22439277fbbf30ce9a764ebc7c7a"
+    },
+    "docs/benchmarks/compound-source-local/native-windows/provenance.xml": {
+      "bytes": 420,
+      "sha256": "723293ef8af3bbd636c1baa8ffa9f0d60c122fbe0467db3dfac92ac05784f63f"
+    },
+    "docs/benchmarks/compound-source-local/native-windows/raw_image.xml": {
+      "bytes": 848,
+      "sha256": "5258ec5969095936906f7896cfd7a534ce2097dcaa30c62b3b5c30eac60e55c1"
+    },
+    "docs/benchmarks/compound-source-local/native-windows/resampling.xml": {
+      "bytes": 2308,
+      "sha256": "fe3ff344444614d4c4c357c7b12b7c8b58189983751b3e6c16594642e31060e6"
+    },
+    "docs/benchmarks/compound-source-local/native-windows/source_identity.xml": {
+      "bytes": 537,
+      "sha256": "165a63d3c5cdefdf635756a12b15ad2585194978121c171bc28826a342f8797d"
+    },
+    "docs/benchmarks/compound-source-local/native-windows/test-file_fingerprint.log": {
+      "bytes": 244,
+      "sha256": "2621389af60e6e6e75642edacb336d79fdadc5552c8e44c1552321aedf4459f3"
+    },
+    "docs/benchmarks/compound-source-local/native-windows/test-project.log": {
+      "bytes": 235,
+      "sha256": "4aa940137af22a17e1cf4679c2c619dfce1bb1c12b735b164302731a6b4db56f"
+    },
+    "docs/benchmarks/compound-source-local/native-windows/test-project_save.log": {
+      "bytes": 240,
+      "sha256": "cea37de3f0bd8120d0bb741fa5b77eb4a5f63fd0d7d5dfbcab853459cf698c7b"
+    },
+    "docs/benchmarks/compound-source-local/native-windows/test-provenance.log": {
+      "bytes": 238,
+      "sha256": "3416aa2980b66423613c504e2f12653408d9eb1e3f83681dd06b6b48902afef1"
+    },
+    "docs/benchmarks/compound-source-local/native-windows/test-raw_image.log": {
+      "bytes": 237,
+      "sha256": "737c16231629ec3791165bc831ab5446413315e92a49fd2afc9ed3be96894219"
+    },
+    "docs/benchmarks/compound-source-local/native-windows/test-resampling.log": {
+      "bytes": 236,
+      "sha256": "c0f8ea310235be32883175ee4fe17a751445637aae328fc79a8d20b3b595713d"
+    },
+    "docs/benchmarks/compound-source-local/native-windows/test-source_identity.log": {
+      "bytes": 243,
+      "sha256": "4629469687cce0b5617a889eb36c83ae6854609d87fd5c9bc6b090f035a77174"
+    },
+    "docs/benchmarks/compound-source-local/native-windows/build_manifest.hpp": {
+      "bytes": 706,
+      "sha256": "30e195cab0a2484da216843e717ad98fd6a5094dcc5141138bc0e5bbbb066e5c"
+    },
+    "docs/benchmarks/compound-source-local/native-linux/build.log": {
+      "bytes": 150746,
+      "sha256": "6381163908d55d05de6fa057e8f1a41f3c51b7db89b8745c92a1626d24f91ba3"
+    },
+    "docs/benchmarks/compound-source-local/native-linux/commands.json": {
+      "bytes": 2457,
+      "sha256": "0aa3fba05d390624d94fc0486d2283f77eeb19e04cda44ffa6f730c741ec90bc"
+    },
+    "docs/benchmarks/compound-source-local/native-linux/compiler-inputs.json": {
+      "bytes": 33137,
+      "sha256": "dcb19209b05ad64c8b3d4ef9f3dc7ff35084ba72b373172412cdffe155c16745"
+    },
+    "docs/benchmarks/compound-source-local/native-linux/configure.log": {
+      "bytes": 3354,
+      "sha256": "39dc5205b87204ede25e6f27942c2c9e504649337658639392734f32210ad2e9"
+    },
+    "docs/benchmarks/compound-source-local/native-linux/tests.log": {
+      "bytes": 946,
+      "sha256": "aebf1a3993217b6a258e41692b40f5fc217768c9b42c4269a0e036dced347991"
+    },
+    "docs/benchmarks/compound-source-local/native-linux/tests.xml": {
+      "bytes": 4158,
+      "sha256": "cff6c11499bf060543ceb59f22fc51a944428612991e6a383c9d0d4d19f0a5d6"
+    },
+    "docs/benchmarks/compound-source-local/native-linux/build_manifest.hpp": {
+      "bytes": 629,
+      "sha256": "ee4b974cd50eddcc5959c56b21ef431360f319640307f6593ea7318146c4bcac"
+    },
+    "docs/benchmarks/compound-source-local/installed/app-link.log": {
+      "bytes": 1173,
+      "sha256": "4dbf8640a554cb00948bcbf933cd5a77fe7a4ed5098b49d53020833cae2ed062"
+    },
+    "docs/benchmarks/compound-source-local/installed/check-stubs.log": {
+      "bytes": 48,
+      "sha256": "f5323cb57dde65ca62cc7b523f2183b1f4ad026dafb74e41bd25dac05ebb2130"
+    },
+    "docs/benchmarks/compound-source-local/installed/commands.json": {
+      "bytes": 868,
+      "sha256": "076a2b131c7de580c6b3e88498c2cf91511ed8b0dfe7952f3bbc65b893b53dca"
+    },
+    "docs/benchmarks/compound-source-local/installed/desktop-command.json": {
+      "bytes": 2145,
+      "sha256": "602c75784cc56f51fb4af4e96abef0cb5120389fd3014fe4731eb4fedabb3d9d"
+    },
+    "docs/benchmarks/compound-source-local/installed/desktop.log": {
+      "bytes": 102,
+      "sha256": "6a71f1cbd619b41242ff23f3190ce4770f7c7f52c50f8842c3f059efc7bd4764"
+    },
+    "docs/benchmarks/compound-source-local/installed/desktop.xml": {
+      "bytes": 2236,
+      "sha256": "2240c89de0ac847ee485e11fb2ffb2e48b3f9c226c1d16f6a66bbc1972628047"
+    },
+    "docs/benchmarks/compound-source-local/installed/identity.json": {
+      "bytes": 375,
+      "sha256": "c4bbb5a3c9e1d08e456a904e9b2a0ce21df18a23baf0803b61aaffe02c3407d4"
+    },
+    "docs/benchmarks/compound-source-local/installed/identity.log": {
+      "bytes": 281,
+      "sha256": "3bfc5c9ff23beb9750ff505b948a58f6fe08eceaa969045aa2b5ba87dc25d851"
+    },
+    "docs/benchmarks/compound-source-local/installed/install.log": {
+      "bytes": 3073,
+      "sha256": "7d878f54d0168aee51888a6f014d8b0d6db29701c501be4c416273ae41b243ff"
+    },
+    "docs/benchmarks/compound-source-local/installed/multifile-unsupported.json": {
+      "bytes": 346,
+      "sha256": "12dffc366f63b1b7e683ab03b27bc41b50f4b79de97fdfe1dacea1d74b73f8dc"
+    },
+    "docs/benchmarks/compound-source-local/installed/runtime-command.json": {
+      "bytes": 2755,
+      "sha256": "466dcd2e4beddcd1c8ff25a28c837c9e3a3739933ed4aad45ba8d8eca2e5b214"
+    },
+    "docs/benchmarks/compound-source-local/installed/runtime.log": {
+      "bytes": 277,
+      "sha256": "1a9c470c0e43e417d7e6100b4f77aab0ca3cc8296b628a089290326b91603ab0"
+    },
+    "docs/benchmarks/compound-source-local/installed/runtime.xml": {
+      "bytes": 32952,
+      "sha256": "8907010aab7165026b037da9623064a2b4e2740f4bc8de38fc2fe076384782e9"
+    },
+    "docs/benchmarks/compound-source-local/installed/skips.json": {
+      "bytes": 2074,
+      "sha256": "2babd3f11a1c72fd61797af5604d853bd2d6623a46be018a910738623fcdad72"
+    },
+    "docs/benchmarks/compound-source-local/installed/stub-generation.log": {
+      "bytes": 24,
+      "sha256": "9467e1fcbcc3b7a214a8ae55510ca2aecbb94ba8190b3fd4a02ba2c8446eefdf"
+    },
+    "docs/benchmarks/compound-source-local/installed/typing-commands.json": {
+      "bytes": 1240,
+      "sha256": "4cd6d07f99d809fbdb0858d4aae35aeaf2c82b6410c24a4b3687823e8eb6a79e"
+    },
+    "docs/benchmarks/compound-source-local/installed/typing-negative.log": {
+      "bytes": 450,
+      "sha256": "b7747b66d39f4d1e42237354a4cbefdb5f57e555fa8713ff15dd6644933e9ce3"
+    },
+    "docs/benchmarks/compound-source-local/installed/typing-positive-broad-command.json": {
+      "bytes": 999,
+      "sha256": "131275c91e2d097b3ee4f6ca66cf4ea2da71944ac2c71594a438d56dbb488bcc"
+    },
+    "docs/benchmarks/compound-source-local/installed/typing-positive-broad.log": {
+      "bytes": 44,
+      "sha256": "e2702f9afc4c0f80ff1e8624f77af7a7d2689ca184512114aae5967a76229ba8"
+    },
+    "docs/benchmarks/compound-source-local/installed/typing-positive.log": {
+      "bytes": 43,
+      "sha256": "8e63ae22e8213e327a5e9cbd584067681681bd8ef7f25c869877887ccdcfc4ff"
+    },
+    "docs/benchmarks/compound-source-local/compiler-git-proof.json": {
+      "bytes": 71336,
+      "sha256": "a23c9315f5dabd70db0ff62e3d49d807f6305b652dd5bc6cec3a41eb84e7cb8c"
+    },
+    "docs/benchmarks/compound-source-local/capabilities.json": {
+      "bytes": 66,
+      "sha256": "73cd60c68409c3f27a2c0b154e1d29cefa57ebe01ce72b74370d0d42ce0b141e"
+    },
+    "docs/benchmarks/compound-source-local/retained-binaries.json": {
+      "bytes": 5325,
+      "sha256": "6c7367219d3fa27e4b19ba8fe2c3f770111fc85c770949459b0cda326f55f63a"
+    },
+    "docs/benchmarks/compound-source-local/build-driver.py": {
+      "bytes": 3887,
+      "sha256": "1d231afb6f738afd2a1ecf4a7ef95bcc0b041a3dec11d90818006ecb3ae4d6b4"
+    },
+    "docs/benchmarks/compound-source-local/environment/0.log": {
+      "bytes": 212,
+      "sha256": "f8a4f430cc2b7e7bd3f42eaf8d1de98d9c23d22e67264e036e9fc2384b655538"
+    },
+    "docs/benchmarks/compound-source-local/environment/1.log": {
+      "bytes": 430,
+      "sha256": "d3eea4258c00c1f1843e8ffa83c7aa12a67d8e685591ffa583440f79fedf9e0c"
+    },
+    "docs/benchmarks/compound-source-local/environment/commands.json": {
+      "bytes": 749,
+      "sha256": "1dc3c720492dd5e31bbe0b0261124896d469e3d2c72055f52e033bea535cc38c"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+  "test_files": {
+    "test_raw_file_contours": "4f205dd79ca1c8f2674a6a456e876fdde9128dfa1a448cfe8e7f21b73496a299",
+    "test_raw_stream_contour_batch": "6779b0deed44e5ca0edf699fa42f3a0e290ec2f3b3193c281e83f0e8bb46228a",
+    "test_gui_batch": "2e5b8142625e6426c0284367e112eb3e20c6e0ed9fd70c9afc8e0cb8bf4c2186",
+    "test_gui_pixel_batch": "d3a106b1ed64c6e1e39d8676336626000a773f1b9955249c34d8a2edbb802a17",
+    "test_raw_stream_contour_cli": "76a7d780213bce7b60c8401467b6315ffa354b48585d726abef2fae7af95a6c2",
+    "test_raw_pixel_batch": "32d01f5c4c6d4bd2d141259021ceac388c14b0759b89e728371d8699100f08d9",
+    "test_project_batch": "474c2b565564287b4d055a2d81ff9c2d8d49f77afe4a7a38bccbebbeb0ca39f3",
+    "test_raw_pixel_cli": "23b0b471c78959350d5fcc3b1f1acb6d55972adeaac0a93fcc551ac2f263691a",
+    "test_raw_pixel_python": "0c7a2a44efb28f74c0d9808fb9e8fb69d4dbaaf2710305467124510f54b89aa8",
+    "test_pixel_stream_cli": "4c27e6e55d57c1e27436de95a19711602b4118eb860c5e0fff43739a2dcf72e5",
+    "test_project_pixel_batch": "05d2c49caf1f65dbd30044a37fd9e342e4a04d4165999913bcb7ceacddd2ad5d",
+    "test_raw_batch": "9e69324440b8319074482a9a747bdd6e1dd3c540f2ff964a79bd6c6596335883",
+    "test_public_stubs": "b58201e8778b5bfb9a5b080551cea3e3573c77ec8be26c0221a413d02a2774f0",
+    "test_gui_raw_pixel": "10b898c9e6bfc7c916bae5306fba20554b54f036539f6b8c31978170960950b2",
+    "test_gui_pixel_classifier": "5580332d85d5c8bd50035d48233a017afac9145911cdf1cbbc480bae1ee9d530",
+    "test_viewer_session": "3bdab62dc3e219e6f06e96b1041746f650e5ca0a05fc56e2a4b7011fd7ae4fc8",
+    "test_raw_stream_contour_python": "a3057a5a6d9c8885d1793c1633b20a815fe426188cf76c5d71e69733b9ca22e4",
+    "test_raw_contour_seams": "6c2182ecbf819a7e4c965c93d8e9abed24cf7a7f78659d8bde5020b339896401",
+    "test_gui_raw_stream_contours": "5a248a9a2d43f69c214f79abde1b18ef42e4bd652ba945c26c3a8756acaa8476"
+  },
+  "runtime_source": "d57df0166888eb335d989d404bdae4d1b63c66a4"
+}

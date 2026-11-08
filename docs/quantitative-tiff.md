@@ -31,22 +31,37 @@ minima and maxima. In particular, statistics do not promise exact uint64 integer
 arithmetic. Optional ROI masks select pixel centers; `.npy` exports contain the
 whole requested rectangle and do not serialize the separate validity mask.
 
+The [reader licensing policy](reader-license-policy.md) retains this open-source
+libtiff/zlib/tinyxml2/libjpeg-turbo stack and excludes proprietary decoder dependencies.
+
 ## Supported inputs
 
 | Property | Contract |
 | --- | --- |
-| Containers | TIFF and BigTIFF; one-file OME-TIFF |
+| Containers | TIFF and BigTIFF; one-file OME-TIFF and explicit UUID/FileName multi-file OME (feature-branch synthetic engineering qualification; further fault/resource controls open) |
 | Types | uint8/16/32/64, int8/16/32/64, float32/64 |
 | Layout | Strips or tiles; contiguous or separate planes; both byte orders |
 | Photometric | Top-left grayscale MINISBLACK/MINISWHITE or RGB; source alpha honored per pyramid level in preview |
-| Compression | Uncompressed, LZW, PackBits, Deflate |
+| Compression | Uncompressed, LZW, PackBits, Deflate; 8-bit scalar/RGB JPEG with full streams or JPEGTables |
 | OME axes | All six Z/C/T orders, explicit TiffData mappings, grouped RGB samples |
 | Pyramid | Native SubIFDs with increasing integer isotropic scales |
 | Plain TIFF pages | Separate series; no guessed Z/time axes |
 
-JPEG, JPEG2000, palette/YCbCr, rotated orientations, bit-packed and complex
-samples, multi-file OME and noninteger/anisotropic pyramids are rejected by this
+Old-style JPEG (compression6), JPEG2000, palette/YCbCr, rotated orientations, bit-packed and complex
+samples and noninteger/anisotropic pyramids are rejected by this
 reader. Existing OpenSlide format support remains available separately.
+[R2-CODEC1](benchmarks/tiff-jpeg-r2/README.md) adds JPEG through the existing
+libtiff path with pinned static libjpeg-turbo3.1.3 and packaged licenses/attribution.
+Raw values are the decoded lossy samples, not the encoder's original input.
+This software is based in part on the work of the Independent JPEG Group.
+
+Multi-file opening uses the same APIs and retains companion observations.
+See the [slice contract and limits](multifile-ome-tiff.md) and
+[engineering qualification](benchmarks/multifile-ome-210-qualification.json). Unresolved UUID-only
+references and incomplete mappings reject explicitly. Explicit BinaryOnly
+headers now resolve a full XML metadata companion or master TIFF through the
+[guarded dataset path](benchmarks/binaryonly-ome-r2/README.md). XML dependencies
+are part of source provenance and change rejection, including cached reads.
 Ordinary `.tif` auto-selection retains OpenSlide; `.ome.tif`/`.ome.tiff` selects
 the quantitative reader when enabled. Choose `reader="tiff"` explicitly for
 other TIFFs. Unsupported or incomplete OME mappings fail explicitly.
@@ -55,6 +70,18 @@ OME physical sizes and time intervals are normalized to micrometers and
 seconds when supported units and positive finite values are present. Missing,
 unknown or invalid calibration remains absent. Raw sample arrays are never
 scaled by calibration or display settings.
+
+The [R2-SI1 conversion](benchmarks/ome-calibration-units-r2/README.md) recognizes
+the OME2016-06 SI prefix range (yotta through yocto) for metres and seconds,
+plus minutes, hours and days. Results are micrometres and seconds. The existing
+`um` alias, canonical micro symbol and angstrom conversion remain supported;
+[R2-UNIT2](benchmarks/ome-nonsi-r2/README.md) additionally normalizes `in`,
+`thou`, `li`, `ft`, `yd`, `mi`, `ua`, `ly`, `pc` and `pt` using pinned OME
+conversion factors (including its approximate parsec). Units are case-sensitive.
+`pixel` and `reference frame` do not establish physical calibration. Positive
+finite normalized values, including representable subnormals, are retained;
+overflow and conversion to zero remain absent. Companion metadata is compared
+using the same normalized quantities. Raw sample values are unchanged.
 
 ## Display views and persistence
 
@@ -138,3 +165,41 @@ exports, alpha regression, launcher checks and remaining limits.
 per-channel statistics, exact input digests, original object/TMA context,
 explicit replay verification, CSV snapshots and captured project batches.
 The Data, Results and Records tabs share native workers with Python commands.
+
+
+## Interleaved block reuse
+
+Adjacent requested channels stored in the same interleaved TIFF IFD share each
+decoded strip/tile during a raw read, including when the LRU is disabled or the
+block exceeds its capacity. Separate-plane samples still decode their distinct
+physical blocks. Output channel order, native dtype/bits, edge padding and file
+identity checks are unchanged. Cancellation is checked before decoding and
+between copied rows. This reduces redundant decoding, not the caller's output
+buffer or configured decoder/cache memory requirements.
+
+
+## Coarse quantitative measurements with a smaller work budget
+
+On a quantitative document, use the existing ROI count recipe and work ceiling;
+Python, native batch/CLI and the desktop use the same sampler and record path.
+For example, with a supported image having at least three raw channels:
+
+```python
+sampling = q.RawGridSampling()
+sampling.samples_x, sampling.samples_y = 7, 5
+options = q.ScientificRawOptions()
+options.first_channel, options.channels = 1, 2
+options.work_bytes = 768 * 1024
+request = q.RawAnalysisRequest.for_grid_roi(document, object_id, sampling, options)
+result = q.analyze_raw(request)
+record_id = document.keep_raw_analysis(request, result)
+```
+
+Coarse grids can use bounded chunk capture and verified rereads. Dense grids keep
+the full-window path when chunk work/memory would be worse. Exact values, source
+bits, channel support and archived numerical recipes are preserved. Admission
+includes captured request/context and can reject before decoding when the work
+ceiling does not fit. Reader/cache and process memory remain separate budgets.
+This strategy can perform more reads/hashing; it is not a speedup promise or
+complete whole-slide support. See the [contract](scientific-grid-contract.md#bounded-coarse-grid-materialization)
+and [current evidence](current-task.md).

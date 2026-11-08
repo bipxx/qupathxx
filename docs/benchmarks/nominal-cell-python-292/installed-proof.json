@@ -1,0 +1,214 @@
+{
+  "native_source": "ab706d47bca3bb7fcbe05e1416b81c928e550ed4",
+  "observer_source": "8a90c43f85d832404a85c098df46bc25fefd155f",
+  "package": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\nominal-cell-python-292-env\\Lib\\site-packages\\qupathxx",
+  "fingerprint": "465a51f48a6ed0834e8264b561e6b89b87d0abdca464620e23ba31bcd718fae8",
+  "initial_wheel_sha256": "14555f6668e290d71781f451a6257d0e64ef56974caa7efedff732d711f9485f",
+  "final_wheel_sha256": "29a164d1994de0bdc74e246b3208588f149dc4031c8aeaa3f963334669d94840",
+  "changed_members": [
+    "qupathxx/__init__.pyi",
+    "qupathxx/_native.pyi",
+    "qupathxx-0.1.0.dist-info/RECORD"
+  ],
+  "records": 43,
+  "members": [
+    {
+      "path": "qupathxx/__init__.py",
+      "bytes": 18539,
+      "sha256": "8da124034261cf3b5077e147832bf631e41b551949bcc171731ed12a30cecd00"
+    },
+    {
+      "path": "qupathxx/__init__.pyi",
+      "bytes": 19566,
+      "sha256": "1b29f6599e259b372b3a596d6307181035fa920672b0a619080d28ca3a898396"
+    },
+    {
+      "path": "qupathxx/__main__.py",
+      "bytes": 5391,
+      "sha256": "91d7eca53fc7a88257ef05e28bd31efacbf521bd789c165839fb42fdca4f8e41"
+    },
+    {
+      "path": "qupathxx/_native.cp312-win_amd64.pyd",
+      "bytes": 10126848,
+      "sha256": "8144ec53594fe4128538e9f5609b36995e1e82c8768b73aa4b973d798c696e71"
+    },
+    {
+      "path": "qupathxx/_native.pyi",
+      "bytes": 268783,
+      "sha256": "c2c74b722fbd2fad4d20c2a46a10907adbb2c18fe713bd9a54740467a3532b76"
+    },
+    {
+      "path": "qupathxx/fonts/NotoEmoji.ttf",
+      "bytes": 1982596,
+      "sha256": "de6c18832938afc99caf132b39d6a30a19bac7f2e812e28db2535b4608d27551"
+    },
+    {
+      "path": "qupathxx/fonts/NotoSansCJKsc-Regular.otf",
+      "bytes": 16437364,
+      "sha256": "2c76254f6fc379fddfce0a7e84fb5385bb135d3e399294f6eeb6680d0365b74b"
+    },
+    {
+      "path": "qupathxx/geos.dll",
+      "bytes": 2912768,
+      "sha256": "9bff21e1082b57e9914909a156ad121d508d2203a8c6ab4d8d41eb74cc19fa0e"
+    },
+    {
+      "path": "qupathxx/geos_c.dll",
+      "bytes": 590336,
+      "sha256": "64c8a686deccd9e3d5ae66f96ba1276c23faf6ab00564feee421ae91f552b7d6"
+    },
+    {
+      "path": "qupathxx/licenses/geos/COPYING",
+      "bytes": 26530,
+      "sha256": "dc626520dcd53a22f727af3ee42c770e56c97a64fe3adb063799d8ab032fe551"
+    },
+    {
+      "path": "qupathxx/licenses/glfw/LICENSE.md",
+      "bytes": 927,
+      "sha256": "7593ce7c7be05f3a0589ebc78091ba3db70f82c7a4acaea15a0b70230247df2c"
+    },
+    {
+      "path": "qupathxx/licenses/imagej-shape/NOTICE.txt",
+      "bytes": 817,
+      "sha256": "65434d6cd24b1808a18ad16919035d7a96d932dc04a41e2df30123173a2311fe"
+    },
+    {
+      "path": "qupathxx/licenses/imgui/imgl3w-LICENSE.txt",
+      "bytes": 1359,
+      "sha256": "565e23a9974c44bf7e5e47c280de542ec758a82e97dcb1da3fb3496660921f88"
+    },
+    {
+      "path": "qupathxx/licenses/imgui/imstb_rectpack.h-LICENSE.txt",
+      "bytes": 2631,
+      "sha256": "06f6b081941f054102bfc696d7f09b8905fee176d1ed08d334e4bad5c1d751c2"
+    },
+    {
+      "path": "qupathxx/licenses/imgui/imstb_textedit.h-LICENSE.txt",
+      "bytes": 2631,
+      "sha256": "06f6b081941f054102bfc696d7f09b8905fee176d1ed08d334e4bad5c1d751c2"
+    },
+    {
+      "path": "qupathxx/licenses/imgui/imstb_truetype.h-LICENSE.txt",
+      "bytes": 2631,
+      "sha256": "06f6b081941f054102bfc696d7f09b8905fee176d1ed08d334e4bad5c1d751c2"
+    },
+    {
+      "path": "qupathxx/licenses/imgui/Khronos-LICENSE.txt",
+      "bytes": 1169,
+      "sha256": "a4be3716671cb6dbc2ed80aa91bb6675eb01971147c77d7a62bee11f15b83c14"
+    },
+    {
+      "path": "qupathxx/licenses/imgui/Khronos-NOTICE.txt",
+      "bytes": 344,
+      "sha256": "f76051f667cfbfbf5cc55c9656cf46ce11579dcd9d9373e95daeb08ef2fc0e93"
+    },
+    {
+      "path": "qupathxx/licenses/imgui/LICENSE.txt",
+      "bytes": 1104,
+      "sha256": "f20418b409e53c8c9f4e90917ff395554a60320d4dfbf833da89b339cad8628a"
+    },
+    {
+      "path": "qupathxx/licenses/imgui/ProggyClean-LICENSE.txt",
+      "bytes": 1099,
+      "sha256": "898c573f0bf1901b40743432b1d78845bb5b4fc4c1660d6ee0820a8d987319f7"
+    },
+    {
+      "path": "qupathxx/licenses/imgui/ProggyForever-LICENSE.txt",
+      "bytes": 1118,
+      "sha256": "47d329848d81b5ad777bf5eca73509a4d1b730d6e2ca917f03e72010b2f59576"
+    },
+    {
+      "path": "qupathxx/licenses/libtiff/LICENSE.md",
+      "bytes": 2416,
+      "sha256": "0e27c2382d7b8147972bbb746e04059a1152c8d0fda9d03ef1399d1a433c4ade"
+    },
+    {
+      "path": "qupathxx/licenses/nanobind/LICENSE",
+      "bytes": 1521,
+      "sha256": "f305091a4e57805870b217a28ea4b1f16610eece8457d2370f822a9696b75836"
+    },
+    {
+      "path": "qupathxx/licenses/nlohmann-json/LICENSE.MIT",
+      "bytes": 1076,
+      "sha256": "46a65cffd1ea955132d95a8dd921640714a8d6b537d2e4e482d31145ae95b603"
+    },
+    {
+      "path": "qupathxx/licenses/noto-cjk/NOTICE.md",
+      "bytes": 888,
+      "sha256": "aa229a2136c426e3deca957c305727e02415198116138d8c1721222b12e22131"
+    },
+    {
+      "path": "qupathxx/licenses/noto-cjk/OFL.txt",
+      "bytes": 4301,
+      "sha256": "6a73f9541c2de74158c0e7cf6b0a58ef774f5a780bf191f2d7ec9cc53efe2bf2"
+    },
+    {
+      "path": "qupathxx/licenses/noto-emoji/OFL.txt",
+      "bytes": 4330,
+      "sha256": "500bb1ccf43df7bbb522112f9133a52b16e1c35e809632f5d8609b179152de5b"
+    },
+    {
+      "path": "qupathxx/licenses/opencv/LICENSE",
+      "bytes": 11358,
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "path": "qupathxx/licenses/opencv/softfloat-notice.txt",
+      "bytes": 2918,
+      "sha256": "07360afca97fb6a725a50797960c4506f592dab5331df2b780c85e459d422ce3"
+    },
+    {
+      "path": "qupathxx/licenses/opencv/SOURCE-NOTICES.txt",
+      "bytes": 96903,
+      "sha256": "d57f5f7ee96bbb3152012bfc293175868d73fe348e1d9f8a223ccfc87a3461ba"
+    },
+    {
+      "path": "qupathxx/licenses/opencv/zlib-notice.txt",
+      "bytes": 1359,
+      "sha256": "36bbf559e8540020cd01e5e61547ed0f295e3cba735569702ca6f284ecbd5acc"
+    },
+    {
+      "path": "qupathxx/licenses/robin-map/LICENSE",
+      "bytes": 1192,
+      "sha256": "3351535e1abffa4f2d6dfec9ee48bd0cdd72cd1d6d04dd9155f1ab5f58c54dbe"
+    },
+    {
+      "path": "qupathxx/licenses/sqlite/sqlite-LICENSE.txt",
+      "bytes": 421,
+      "sha256": "1172bc75acf43852aa9a9368887a3500b7aaea8f213c81853a1bc93d7ae262a0"
+    },
+    {
+      "path": "qupathxx/licenses/tiff-zlib/LICENSE",
+      "bytes": 1002,
+      "sha256": "e32ff4e00d9d94930537635291da39e7e612703334bf6fde8c7f1686fe8a45a2"
+    },
+    {
+      "path": "qupathxx/licenses/tinyxml2/LICENSE.txt",
+      "bytes": 808,
+      "sha256": "9332252e9b9e46db8285d4a3f0bf25f139bf1dca6781b956d57f2302efca6432"
+    },
+    {
+      "path": "qupathxx/py.typed",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "qupathxx/qupathxx_app.exe",
+      "bytes": 7996928,
+      "sha256": "9b9c2d1409c10c23caf882c7d5c035ad49b9e1f99e6377bd94043956871fbcf4"
+    },
+    {
+      "path": "qupathxx/qupathxx_batch.exe",
+      "bytes": 5380096,
+      "sha256": "d3ae28164dc47d225a969b6e4bca76bd1e6fd87fed47e5a829bc3b932f00b242"
+    },
+    {
+      "path": "qupathxx/qupathxx_region.exe",
+      "bytes": 786432,
+      "sha256": "f591506d06ebed4cd76a7f8fa410993a9dfc9daaf3efa49078d6db2392ae37c0"
+    }
+  ],
+  "native_and_font_bytes_unchanged_by_stub_patch": true,
+  "shared_test_dependencies": true,
+  "clean_machine": false
+}

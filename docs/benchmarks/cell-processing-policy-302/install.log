@@ -1,0 +1,7 @@
+Processing c:\users\heq\projects\qupathxx\build\cell-processing-policy-302\initial-wheel\qupathxx-0.1.0-cp312-cp312-win_amd64.whl
+Installing collected packages: qupathxx
+  Attempting uninstall: qupathxx
+    Found existing installation: qupathxx 0.1.0
+    Not uninstalling qupathxx at c:\users\heq\projects\qupathxx\.venv\lib\site-packages, outside environment C:\Users\HEQ\Projects\qupathxx\build\ci\cell-policy302-env
+    Can't uninstall 'qupathxx'. No files were found to uninstall.
+Successfully installed qupathxx-0.1.0

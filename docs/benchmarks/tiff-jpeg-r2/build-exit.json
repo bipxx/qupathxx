@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Scripts\\python.exe",
+    "-X",
+    "utf8",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\jpeg_r2_backend.py"
+  ],
+  "returncode": 0,
+  "selected_targets": [
+    "_native",
+    "qupathxx_region",
+    "qupathxx_batch",
+    "qupathxx_app",
+    "qupathxx_raw_image_tests",
+    "qupathxx_source_identity_tests"
+  ]
+}

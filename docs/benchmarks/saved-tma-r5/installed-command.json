@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\saved-tma-r5-env\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-c",
+    "import qupathxx as q;from pathlib import Path;assert q.build_environment().git_revision=='9627e54507b400a676f3599041e8535e15768635';assert Path(q.__file__).resolve().is_relative_to(Path('C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\ci\\\\saved-tma-r5-env'));import pytest;raise SystemExit(pytest.main(['tests/test_qupath_saved_tma.py::test_multiple_saved_grids_keep_image_namespaces_and_case_pooling', 'tests/test_public_stubs.py', '-q', '--junitxml=C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\saved-tma-r5\\\\installed.xml', '--basetemp', 'C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\saved-tma-r5\\\\installed-temp']))"
+  ],
+  "returncode": 0,
+  "elapsed_seconds": 1.377856899984181
+}

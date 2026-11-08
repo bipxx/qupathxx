@@ -1,0 +1,39 @@
+........................................................................ [ 33%]
+................................................................F....... [ 66%]
+...................s.................................................... [ 99%]
+.                                                                        [100%]
+================================== FAILURES ===================================
+_________________ test_unsaved_default_cache_survives_restart _________________
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/ci/hierarchy158-final-integration-captures/test_unsaved_default_cache_sur0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001878A995A60>
+
+    def test_unsaved_default_cache_survives_restart(tmp_path, monkeypatch):
+        monkeypatch.setenv("LOCALAPPDATA" if os.name == "nt" else "XDG_STATE_HOME", str(tmp_path))
+        project = q.Project()
+        image = project.add_document(q.Document(q.Image(4, 4, [40, 80, 160]*16)))
+        project.document(image).add_rectangle(q.Rect(0, 0, 2, 2), "Unsaved work")
+        autosave = q.ProjectAutosave()
+        path = Path(autosave.default_path(project))
+        assert path.is_relative_to(tmp_path)
+        assert autosave.request(project)
+>       ready(autosave)
+
+tests\test_project_recovery.py:220: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+autosave = <qupathxx._native.ProjectAutosave object at 0x00000187B290F1F0>
+
+    def ready(autosave):
+        result = autosave.wait()
+>       assert result.state == "ready", result.error
+E       AssertionError: create_directory: The filename or extension is too long.: "C:\Users\HEQ\Projects\qupathxx\build\ci\hierarchy158-final-integration-captures\test_unsaved_default_cache_sur0\qupathxx\recovery\6f971e6018b1b35199f22316b26227ba.recovery-d2bc3c8b1f7d5f310e34979f0ccaa051.qpxrecover.work-990995db3e6af60481ed95fbb06af5db"
+E       assert 'error' == 'ready'
+E         
+E         - ready
+E         + error
+
+tests\test_project_recovery.py:30: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_project_recovery.py::test_unsaved_default_cache_survives_restart
+1 failed, 215 passed, 1 skipped in 101.05s (0:01:41)

@@ -1,3 +1,4 @@
+#include "json_string.hpp"
 #include "qupathxx/provenance.hpp"
 #include "atomic_export.hpp"
 #include "utf8_text.hpp"
@@ -23,7 +24,7 @@ bool hex(const std::string& s) {return s.size()==64 && s.find_first_not_of("0123
 void calibration(std::optional<double> v) {if(v && (!std::isfinite(*v) || *v<=0)) throw std::invalid_argument("invalid provenance calibration");}
 struct Json {
     std::string out;
-    void string(const std::string& s) {out+='"';constexpr char hex[]="0123456789abcdef";for(unsigned char c:s) {if(c=='"' || c=='\\') {out+='\\';out+=char(c);}else if(c<32) {out+="\\u00";out+=hex[c>>4];out+=hex[c&15];}else out+=char(c);}out+='"';}
+    void string(const std::string& s) {out+=detail::json_string(s);}
     void integer(std::uint64_t v) {char b[32];auto r=std::to_chars(b,b+32,v);if(r.ec!=std::errc{}) throw std::runtime_error("provenance integer format failed");out.append(b,r.ptr);}
     void real(double v) {char b[128];auto r=std::to_chars(b,b+128,v,std::chars_format::general,std::numeric_limits<double>::max_digits10);if(r.ec!=std::errc{}) throw std::runtime_error("provenance real format failed");out.append(b,r.ptr);}
     void optional(std::optional<double> v) {if(v) real(*v);else out+="null";}
@@ -55,7 +56,7 @@ std::shared_ptr<const BuildEnvironment> build_environment() {
 std::size_t AnalysisProvenance::payload_bytes() const {return sizeof(*this)+source.vendor.capacity()+source.levels.capacity()*sizeof(ImageLevel)+reader.capacity()+locator.capacity()+(environment?environment->payload_bytes():0)+(reader_source?reader_source->payload_bytes():0);}
 void AnalysisProvenance::validate() const {
     text(reader);text(locator);text(source.vendor,4096);
-    if(captured_unix_ms>std::uint64_t(std::numeric_limits<std::int64_t>::max()) || !object_id || !object_revision || object_revision>document_revision || !environment || reader.empty() || source.width<=0 || source.height<=0 || source.levels.empty() || source.levels.size()>65536 || source.pixel_type!=PixelType::UInt8 || source.layout!=PixelLayout::RGBA)
+    if(captured_unix_ms>std::uint64_t(std::numeric_limits<std::int64_t>::max()) || (source_only?(object_id || object_revision || nucleus):(!object_id || !object_revision || object_revision>document_revision)) || !environment || reader.empty() || source.width<=0 || source.height<=0 || source.levels.empty() || source.levels.size()>65536 || source.pixel_type!=PixelType::UInt8 || source.layout!=PixelLayout::RGBA)
         throw std::invalid_argument("invalid analysis provenance");
     if(source.levels[0].width!=source.width || source.levels[0].height!=source.height || source.levels[0].downsample!=1) throw std::invalid_argument("invalid provenance pyramid");
     for(const auto& l:source.levels) if(l.width<=0 || l.height<=0 || !std::isfinite(l.downsample) || l.downsample<1) throw std::invalid_argument("invalid provenance level");
@@ -63,13 +64,15 @@ void AnalysisProvenance::validate() const {
     if(reader_source) {reader_source->validate();if(reader_source->locator!=locator) throw std::invalid_argument("provenance reader locator mismatch");}
     environment->validate();if(payload_bytes()>4u*1024u*1024u) throw std::length_error("analysis provenance exceeds 4 MiB");
 }
-std::shared_ptr<const AnalysisProvenance> capture_provenance(const ImageServer& server,std::uint64_t id,std::uint64_t revision,std::uint64_t document,bool nucleus,std::optional<double> x,std::optional<double> y) {
-    auto p=std::make_shared<AnalysisProvenance>();p->object_id=id;p->object_revision=revision;p->document_revision=document;p->nucleus=nucleus;
+static std::shared_ptr<const AnalysisProvenance> capture_provenance_impl(const ImageServer& server,std::uint64_t id,std::uint64_t revision,std::uint64_t document,bool nucleus,std::optional<double> x,std::optional<double> y,bool source_only) {
+    auto p=std::make_shared<AnalysisProvenance>();p->object_id=id;p->object_revision=revision;p->document_revision=document;p->nucleus=nucleus;p->source_only=source_only;
     const auto now=std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();if(now<0) throw std::runtime_error("invalid provenance capture clock");p->captured_unix_ms=static_cast<std::uint64_t>(now);
     p->reader_source=server.reader_source();p->source=server.metadata();p->reader=server.reader_id();p->locator=server.source_locator();p->effective_pixel_width_um=x;p->effective_pixel_height_um=y;p->environment=build_environment();p->validate();return p;
 }
+std::shared_ptr<const AnalysisProvenance> capture_provenance(const ImageServer& server,std::uint64_t id,std::uint64_t revision,std::uint64_t document,bool nucleus,std::optional<double> x,std::optional<double> y) {return capture_provenance_impl(server,id,revision,document,nucleus,x,y,false);}
+std::shared_ptr<const AnalysisProvenance> capture_source_provenance(const ImageServer& server,std::uint64_t document,std::optional<double> x,std::optional<double> y) {return capture_provenance_impl(server,0,0,document,false,x,y,true);}
 std::string provenance_json(const AnalysisProvenance& p) {
-    p.validate();const auto& e=*p.environment;Json j;j.out="{";j.field("schema","qpx.analysis-provenance/1");
+    p.validate();const auto& e=*p.environment;Json j;j.out="{";j.field("schema",p.source_only?"qpx.source-provenance/1":"qpx.analysis-provenance/1");if(p.source_only) j.field("scope","source");
     j.out+="\"object_id\":";j.integer(p.object_id);j.out+=",\"object_revision\":";j.integer(p.object_revision);j.out+=",\"document_revision\":";j.integer(p.document_revision);j.out+=",\"captured_unix_ms\":";j.integer(p.captured_unix_ms);j.out+=",\"nucleus\":";j.out+=p.nucleus?"true":"false";
     j.out+=",\"source\":{";j.field("reader",p.reader);j.field("locator",p.locator);j.field("vendor",p.source.vendor);j.field("pixel_contract","qpx.device-rgba8/1");j.out+="\"width\":";j.integer(p.source.width);j.out+=",\"height\":";j.integer(p.source.height);
     j.out+=",\"pixel_width_um\":";j.optional(p.source.pixel_width_um);j.out+=",\"pixel_height_um\":";j.optional(p.source.pixel_height_um);j.out+=",\"effective_pixel_width_um\":";j.optional(p.effective_pixel_width_um);j.out+=",\"effective_pixel_height_um\":";j.optional(p.effective_pixel_height_um);j.out+=",\"levels\":[";

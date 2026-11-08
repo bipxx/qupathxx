@@ -1,0 +1,42 @@
+{
+  "__init__.py": {
+    "bytes": 12685,
+    "sha256": "b103b2990f46f27f312218f33a46609bfbbedef14cbb9ecb1706aff5c5098ed1"
+  },
+  "__init__.pyi": {
+    "bytes": 13784,
+    "sha256": "ed001412a44d9b9466dc6d7c797e4cd0c03b0cdecece90219df053006f6d56c6"
+  },
+  "__main__.py": {
+    "bytes": 5391,
+    "sha256": "91d7eca53fc7a88257ef05e28bd31efacbf521bd789c165839fb42fdca4f8e41"
+  },
+  "_native.cp312-win_amd64.pyd": {
+    "bytes": 6937088,
+    "sha256": "6eb534fcd4ce83b3156692b198e3eea0ca30aaf3931ce94304ab5ec149a9575c"
+  },
+  "_native.pyi": {
+    "bytes": 205051,
+    "sha256": "7a16df766b98154cb1b2f0cb267ed089490e56ca8fa83bd8eb73b1a64208365b"
+  },
+  "geos.dll": {
+    "bytes": 2912768,
+    "sha256": "9bff21e1082b57e9914909a156ad121d508d2203a8c6ab4d8d41eb74cc19fa0e"
+  },
+  "geos_c.dll": {
+    "bytes": 590336,
+    "sha256": "64c8a686deccd9e3d5ae66f96ba1276c23faf6ab00564feee421ae91f552b7d6"
+  },
+  "py.typed": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "qupathxx_batch.exe": {
+    "bytes": 3288576,
+    "sha256": "f8acd6a9044bce3a3bb20cb1e439cc238600cf5d38f8ceb35b6de8ac98e2c9a6"
+  },
+  "qupathxx_region.exe": {
+    "bytes": 744448,
+    "sha256": "ffe709c927266485453d1312cf2d97b5e02875cf1b3e8d0583e4e87fc8c45029"
+  }
+}

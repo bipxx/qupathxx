@@ -1,0 +1,12 @@
+{
+  "runtime": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\candidate5-performance\\runtime-final",
+  "runtime_files": 63,
+  "runtime_manifest_sha256": "9246e3260b889532482bea33ca5444b997c04518fc6e09303a52c5e60daa8f1b",
+  "raw_tree": "dddf5bb3412a58e2ade9317f46e21d06d2857ca387ba40db37d0fd5fbedeaa41",
+  "compiler_inputs": 522,
+  "source_snapshot": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\candidate5-performance\\raw-source-changes.zip",
+  "source_snapshot_sha256": "6f9612a75cc76cd3a42fe4f60d0670368540aa189ebd47c18d20e1def4e12441",
+  "baseline_module_sha256": "c2d85dd3eaf1ee99c1ff153b9bf508355a9a4d997f478c9946054f87e207782d",
+  "app_smoke": "Exited successfully opening the exact affected candidate5 project; final-app-smoke.log is empty on success",
+  "published_candidate5_changed": false
+}

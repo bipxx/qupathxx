@@ -1,0 +1,9 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+    Start 66: workflow_contract
+1/2 Test #66: workflow_contract ................   Passed    0.68 sec
+    Start 67: nucls_import
+2/2 Test #67: nucls_import .....................   Passed    0.35 sec
+
+100% tests passed out of 2
+
+Total Test time (real) =   1.13 sec

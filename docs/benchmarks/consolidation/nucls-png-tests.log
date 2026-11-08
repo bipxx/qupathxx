@@ -1,0 +1,9 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+    Start 66: nucls_png
+1/2 Test #66: nucls_png ........................   Passed    0.25 sec
+    Start 67: density_manifest
+2/2 Test #67: density_manifest .................   Passed    0.20 sec
+
+100% tests passed out of 2
+
+Total Test time (real) =   0.54 sec

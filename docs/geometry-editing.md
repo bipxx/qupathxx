@@ -71,6 +71,68 @@ doc.apply_boolean(obj, [other], q.BooleanOp.UNION)
 assert doc.object_count == 2  # Operand retained; target ID unchanged.
 ```
 
+## Merge annotation objects
+
+`Document.merge_annotations(object_ids, discard_points=False)` replaces the
+specified area or point annotations with a new root annotation and returns its
+new ID. This is one `Merge annotations` undo step. The existing `apply_boolean`
+operation still replaces its target geometry and retains all operands.
+
+The merged object uses the native default name `Annotation`. If exactly one
+nonempty class occurs among the inputs, it is retained (including a classified
+plus an unclassified input); conflicting classes produce an unclassified result.
+Names and historical measurements are not combined into a new measurement.
+Surviving direct children of removed inputs move to the root with their existing
+IDs, geometry, metadata and own descendants. The merge does not automatically
+resolve containment under a different parent. Undo restores the complete input
+and parent state; redo restores the same merged ID. Unrelated objects/classes
+remain intact. Save/reopen uses the existing project schema.
+
+Area inputs use the existing immutable union implementation; multiple areas
+require GEOS and ellipses retain the documented polygon approximation. Point
+inputs form a deduplicated, ordered set under the existing million-vertex limit.
+A mixed area/point merge rejects unless `discard_points=True` explicitly admits
+discarding the point ROIs, including points outside the resulting area. This
+explicit option supplies the pinned QuPath behavior without silent default loss.
+
+Empty selections, duplicate/missing IDs, line ROIs, detections, cells and TMA
+cores reject. Geometry, validation and history-budget failures leave document
+state, redo history and the next object ID unchanged. A singleton selection is
+allowed and creates a replacement identity. Direct calls do not own selection:
+presentation controllers select the returned ID, and ordinary undo pruning does
+not silently select restored inputs.
+
+```python
+merged = doc.merge_annotations([first, second])
+assert doc.undo_label == "Merge annotations"
+doc.undo()
+doc.redo()  # Restores the same merged ID.
+```
+
+`ViewerSession.merge_annotations(image_id, object_ids, discard_points=False,
+expected_revision=None)` submits the same native operation on the viewer owner.
+The ticket returns its new ID in `object_id` and `object_ids`. Stale revisions
+reject before mutation; queue/cancellation/result ownership follow the existing
+managed command contract. The active image's selection becomes the merged object;
+merging an inactive image does not change the active image's selection.
+
+The ImGui inspector offers **Merge annotations (M)** for multiple selected
+objects. Mixed input exposes an explicit discard-points checkbox; a selection
+or document revision change clears that acknowledgement. The mixed-input check is cached
+by workspace/image/document/selection revisions instead of rescanning each frame.
+
+API compatibility review ([AIP-180](https://google.aip.dev/180),
+[AIP-190](https://google.aip.dev/190)): native/SDK methods, names, fields, defaults
+and errors reviewed; addition preserves the old Boolean method and enum ordinals.
+Documentation/examples and expected-revision behavior are covered here; stubs and
+installed consumers are checked at task closeout. REST resources, auth and HTTP
+retry/transcoding rules are not applicable to this local SDK. A retry using
+removed input IDs rejects; callers retain the successful returned identity.
+
+[R4-MERGE1 local verification](benchmarks/annotation-merge-r4/README.md) records
+the pinned ten-case capture,24 distinct merge passes, three affected native suites,
+actual standalone/managed desktop flows and installed typing/stub/package identity.
+
 ## GUI workflow
 
 Select an annotation, then choose Vertices or press V. Drag a handle to move it;

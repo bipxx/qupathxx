@@ -1,25 +1,46 @@
-"""Train/save/reopen a pixel recipe; classify an owned RGBA buffer."""
-import tempfile
+"""Predict an explicit saved-project ROI with a portable native pixel model.
+
+python -I examples/pixel_classifier.py study.qpx model.qpc --image 1 --target 12
+Synthetic raw-buffer training checks live in tools/demo_pixel_classifier.py.
+"""
+import argparse
+import json
 from pathlib import Path
-import numpy as np
+
 import qupathxx as q
 
 
+def run(document: q.Document, model: q.PixelClassifier, target_id: int,
+        options: q.PixelPredictionOptions | None = None) -> q.PixelPredictionResult:
+    request = q.PixelPredictionRequest(document, target_id, model,
+                                       q.PixelPredictionOptions() if options is None else options)
+    job = q.PixelPredictionJob()
+    if not job.request(request):
+        raise RuntimeError('Native pixel prediction was not accepted')
+    status = job.wait(document)
+    result = job.result
+    if status.state != 'ready' or result is None:
+        raise RuntimeError(status.error or status.state)
+    return result
+
+
 def main():
-    rgba=np.zeros((64,96,4),dtype=np.uint8);rgba[:,:,3]=255
-    rgba[:,:48,:3]=[220,30,10];rgba[:,48:,:3]=[10,30,220]
-    pixels=q.PixelBuffer.from_numpy(rgba)
-    options=q.PixelFeatureOptions();options.sigmas=[0,1]
-    features=q.extract_pixel_features(pixels,options)
-    labels=np.tile(np.arange(96)>=48,64).astype(np.uint32)
-    parameters=q.ForestParameters();parameters.trees=16;parameters.max_depth=4
-    forest=q.train_forest(features.numpy().reshape(-1,options.feature_count),labels,features.features,['red','blue'],parameters)
-    recipe=q.PixelClassifier(forest,options)
-    with tempfile.TemporaryDirectory(prefix='qpx-pixel-example-') as folder:
-        path=str(Path(folder)/'model.qpc');q.save_pixel_classifier(recipe,path)
-        result=q.classify_pixels(pixels,q.load_pixel_classifier(path))
-    np.testing.assert_array_equal(result.labels_numpy(),labels.reshape(64,96)+1)
-    print(dict(classes=result.classes,counts=result.class_counts,model_sha256=result.model_sha256))
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('project', type=Path)
+    parser.add_argument('model', type=Path)
+    parser.add_argument('--image', type=int, required=True)
+    parser.add_argument('--target', type=int, required=True)
+    args = parser.parse_args()
+    project = q.Project.open_without_journal_recovery(str(args.project))
+    document = project.document(args.image)
+    try:
+        result = run(document, q.load_pixel_classifier(str(args.model)), args.target)
+        print(json.dumps(dict(classes=result.model.classes, counts=result.class_counts,
+                              valid_pixels=result.valid_pixels, input_sha256=result.input_sha256,
+                              model_sha256=result.model.sha256)))
+    finally:
+        document.server.close()
 
 
-if __name__=='__main__':main()
+if __name__ == '__main__':
+    main()

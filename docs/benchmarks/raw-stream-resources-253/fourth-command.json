@@ -1,0 +1,12 @@
+{
+  "command": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-stream-history-248-final-env\\Scripts\\python.exe",
+    "-I",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tools\\profile_raw_stream_contours.py",
+    "--work",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw-stream-resources-253\\fourth"
+  ],
+  "returncode": 0,
+  "seconds": 16.627696899930015,
+  "observer_change": "Exact authored corner sets instead of representation-sensitive Roi.equals; original thresholds unchanged"
+}

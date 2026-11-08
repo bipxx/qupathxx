@@ -1,0 +1,16 @@
+{
+  "command": [
+    "C:\\Users\\HEQ\\AppData\\Local\\Microsoft\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\python.exe",
+    "-I",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\multifile-ome-workflow-210\\tools\\ci\\accept_macos_native.py",
+    "40262423808",
+    "9e7d0be94c59c2c5e363f7dfa60384f9c9c2d7d6",
+    "--artifacts",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\multifile210-hosted\\artifacts",
+    "--output",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\multifile210-hosted\\macos-native-audit.json",
+    "--macos-relocation"
+  ],
+  "exit": 0,
+  "seconds": 5.5508983000181615
+}

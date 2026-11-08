@@ -1,0 +1,6 @@
+native-tests passed
+python-tests passed
+stubs-check passed
+typing-valid passed
+typing-invalid passed
+Final installed consumer/native/typing closure passes with runtime and observer sources kept separate.

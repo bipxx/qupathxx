@@ -1,0 +1,43 @@
+{
+  "native_source": "88a0053069111a3920a7ea6544b1f04147145f53",
+  "source_fingerprint": "96175515ab433349cc0c8cf47b188144f9615cd525f6579e13c2209390c70b3c",
+  "changed_compiler_inputs": [
+    "cpp/tiff_server.cpp"
+  ],
+  "installed_members": 59,
+  "native_sha256": "2f5907c88fb2bad90b0684ed586e0d02c4f1d2893c68a74ba9f56583d37391be",
+  "wheel_sha256": "a603591e3c843fba7cca0f5d2654e5f700602b9d315d368605876107dd07ffdc",
+  "unit_cases_passed": 83,
+  "reader_cases_passed": 183,
+  "declared_skips": [
+    {
+      "name": "test_compound_imgui_measure_keep_and_csv",
+      "reason": "opt-in compound TIFF desktop"
+    },
+    {
+      "name": "test_compound_managed_measure_verify_and_project_save",
+      "reason": "opt-in compound TIFF desktop"
+    }
+  ],
+  "native_suites_passed": 1,
+  "stubs_unchanged": true,
+  "full_platform_campaign": false,
+  "products": [
+    {
+      "path": "products\\_native.cp312-win_amd64.pyd",
+      "sha256": "2f5907c88fb2bad90b0684ed586e0d02c4f1d2893c68a74ba9f56583d37391be"
+    },
+    {
+      "path": "products\\qupathxx_raw_image_tests.exe",
+      "sha256": "130b9795bfe1bd7e7a951061bf76c7026560e3668e9d83bf8f54d402e1dd3b06"
+    },
+    {
+      "path": "products\\tiff_server.obj",
+      "sha256": "4b117632dbc641f5b1938f8d8046f3895194415bdee50682c3271adcd1e90e85"
+    },
+    {
+      "path": "products\\provenance.obj",
+      "sha256": "c11e8712af0e3b311c915c907b902a1b6872ce89846e7afa590e8b5c1cf700b8"
+    }
+  ]
+}

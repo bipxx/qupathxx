@@ -1,0 +1,3892 @@
+{
+  "schema": "qpx.elf-reader-validation/1",
+  "source": "567dba3bcf1251f017e130d999be1b534eb1e76c",
+  "parser": {
+    "schema": "qpx.elf-dependency-oracle/1",
+    "parser_sha256": "196ec3cc942e323700d3b06521fde2a24470a679d8d14f72085bdde3bed47852",
+    "probe_sha256": "1e2c47be9eb64f5d7a5c91713768358ce4edbb325e22bd2d184387aa854820b7",
+    "input_source": "15ee0e83e0c377b526fecefeff88733db79a9585",
+    "oracle": "pyelftools",
+    "oracle_version": "0.32",
+    "records": [
+      {
+        "archive": "qupathxx-0.1.0-cp312-cp312-linux_x86_64.whl",
+        "archive_sha256": "b39b05f07d4ad7f18f56f85b82bb9cd4bd604b8fb6d7404a8a8a51e94fd28e3a",
+        "binaries": [
+          {
+            "path": "qupathxx/_native.cpython-312-x86_64-linux-gnu.so",
+            "sha256": "900d59f69cbf93aee193559ba9adb9739d0ccd286020b8cb08cbe773094903a4",
+            "oracle_equal": true,
+            "inventory": {
+              "format": "ELF64",
+              "machine": "x86_64",
+              "endian": "little",
+              "kind": "shared-object",
+              "interpreter": null,
+              "needed": [
+                "libm.so.6",
+                "libz.so.1",
+                "libgeos_c.so.1",
+                "libopenslide.so.1",
+                "libstdc++.so.6",
+                "libgcc_s.so.1",
+                "libc.so.6",
+                "ld-linux-x86-64.so.2"
+              ],
+              "soname": null,
+              "rpath": null,
+              "runpath": [
+                "$ORIGIN"
+              ],
+              "auxiliary": [],
+              "filters": [],
+              "audit": null,
+              "depaudit": null,
+              "version_requirements": [
+                {
+                  "file": "libgcc_s.so.1",
+                  "versions": [
+                    {
+                      "name": "GCC_3.0",
+                      "hash": 192489040,
+                      "flags": 0,
+                      "index": 37
+                    }
+                  ]
+                },
+                {
+                  "file": "ld-linux-x86-64.so.2",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.3",
+                      "hash": 225011987,
+                      "flags": 0,
+                      "index": 36
+                    }
+                  ]
+                },
+                {
+                  "file": "libm.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.29",
+                      "hash": 110530953,
+                      "flags": 0,
+                      "index": 24
+                    },
+                    {
+                      "name": "GLIBC_2.35",
+                      "hash": 110530997,
+                      "flags": 0,
+                      "index": 18
+                    },
+                    {
+                      "name": "GLIBC_2.2.5",
+                      "hash": 157882997,
+                      "flags": 0,
+                      "index": 5
+                    }
+                  ]
+                },
+                {
+                  "file": "libstdc++.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBCXX_3.4.20",
+                      "hash": 43513968,
+                      "flags": 0,
+                      "index": 34
+                    },
+                    {
+                      "name": "CXXABI_1.3.8",
+                      "hash": 196071800,
+                      "flags": 0,
+                      "index": 33
+                    },
+                    {
+                      "name": "CXXABI_1.3.3",
+                      "hash": 196071795,
+                      "flags": 0,
+                      "index": 29
+                    },
+                    {
+                      "name": "CXXABI_1.3.9",
+                      "hash": 196071801,
+                      "flags": 0,
+                      "index": 28
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.18",
+                      "hash": 43513960,
+                      "flags": 0,
+                      "index": 27
+                    },
+                    {
+                      "name": "CXXABI_1.3.2",
+                      "hash": 196071794,
+                      "flags": 0,
+                      "index": 25
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.29",
+                      "hash": 43513977,
+                      "flags": 0,
+                      "index": 23
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.9",
+                      "hash": 36274057,
+                      "flags": 0,
+                      "index": 21
+                    },
+                    {
+                      "name": "CXXABI_1.3",
+                      "hash": 90943443,
+                      "flags": 0,
+                      "index": 20
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.30",
+                      "hash": 43513920,
+                      "flags": 0,
+                      "index": 17
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.11",
+                      "hash": 43513953,
+                      "flags": 0,
+                      "index": 16
+                    },
+                    {
+                      "name": "CXXABI_1.3.11",
+                      "hash": 184358897,
+                      "flags": 0,
+                      "index": 14
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.14",
+                      "hash": 43513956,
+                      "flags": 0,
+                      "index": 13
+                    },
+                    {
+                      "name": "CXXABI_1.3.5",
+                      "hash": 196071797,
+                      "flags": 0,
+                      "index": 12
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.22",
+                      "hash": 43513970,
+                      "flags": 0,
+                      "index": 11
+                    },
+                    {
+                      "name": "CXXABI_1.3.13",
+                      "hash": 184358899,
+                      "flags": 0,
+                      "index": 10
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.15",
+                      "hash": 43513957,
+                      "flags": 0,
+                      "index": 9
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.19",
+                      "hash": 43513961,
+                      "flags": 0,
+                      "index": 8
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.26",
+                      "hash": 43513974,
+                      "flags": 0,
+                      "index": 6
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.21",
+                      "hash": 43513969,
+                      "flags": 0,
+                      "index": 4
+                    },
+                    {
+                      "name": "GLIBCXX_3.4",
+                      "hash": 143796596,
+                      "flags": 0,
+                      "index": 3
+                    }
+                  ]
+                },
+                {
+                  "file": "libc.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.28",
+                      "hash": 110530952,
+                      "flags": 0,
+                      "index": 35
+                    },
+                    {
+                      "name": "GLIBC_2.33",
+                      "hash": 110530995,
+                      "flags": 0,
+                      "index": 32
+                    },
+                    {
+                      "name": "GLIBC_2.32",
+                      "hash": 110530994,
+                      "flags": 0,
+                      "index": 31
+                    },
+                    {
+                      "name": "GLIBC_2.4",
+                      "hash": 225011988,
+                      "flags": 0,
+                      "index": 30
+                    },
+                    {
+                      "name": "GLIBC_2.14",
+                      "hash": 110530964,
+                      "flags": 0,
+                      "index": 26
+                    },
+                    {
+                      "name": "GLIBC_2.3",
+                      "hash": 225011987,
+                      "flags": 0,
+                      "index": 22
+                    },
+                    {
+                      "name": "GLIBC_2.38",
+                      "hash": 110531000,
+                      "flags": 0,
+                      "index": 19
+                    },
+                    {
+                      "name": "GLIBC_2.3.4",
+                      "hash": 157882740,
+                      "flags": 0,
+                      "index": 15
+                    },
+                    {
+                      "name": "GLIBC_2.34",
+                      "hash": 110530996,
+                      "flags": 0,
+                      "index": 7
+                    },
+                    {
+                      "name": "GLIBC_2.2.5",
+                      "hash": 157882997,
+                      "flags": 0,
+                      "index": 2
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "path": "qupathxx/libgeos.so.3.15.0",
+            "sha256": "1eac69ca6de9cb51ce148e1e3f368dbcc1f062b067eef2265ca387f6d7f9c201",
+            "oracle_equal": true,
+            "inventory": {
+              "format": "ELF64",
+              "machine": "x86_64",
+              "endian": "little",
+              "kind": "shared-object",
+              "interpreter": null,
+              "needed": [
+                "libstdc++.so.6",
+                "libm.so.6",
+                "libgcc_s.so.1",
+                "libc.so.6",
+                "ld-linux-x86-64.so.2"
+              ],
+              "soname": "libgeos.so.3.15.0",
+              "rpath": null,
+              "runpath": [
+                "$ORIGIN"
+              ],
+              "auxiliary": [],
+              "filters": [],
+              "audit": null,
+              "depaudit": null,
+              "version_requirements": [
+                {
+                  "file": "libgcc_s.so.1",
+                  "versions": [
+                    {
+                      "name": "GCC_3.0",
+                      "hash": 192489040,
+                      "flags": 0,
+                      "index": 27
+                    }
+                  ]
+                },
+                {
+                  "file": "ld-linux-x86-64.so.2",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.3",
+                      "hash": 225011987,
+                      "flags": 0,
+                      "index": 26
+                    }
+                  ]
+                },
+                {
+                  "file": "libm.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.29",
+                      "hash": 110530953,
+                      "flags": 0,
+                      "index": 17
+                    },
+                    {
+                      "name": "GLIBC_2.2.5",
+                      "hash": 157882997,
+                      "flags": 0,
+                      "index": 6
+                    }
+                  ]
+                },
+                {
+                  "file": "libc.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.32",
+                      "hash": 110530994,
+                      "flags": 0,
+                      "index": 22
+                    },
+                    {
+                      "name": "GLIBC_2.4",
+                      "hash": 225011988,
+                      "flags": 0,
+                      "index": 21
+                    },
+                    {
+                      "name": "GLIBC_2.14",
+                      "hash": 110530964,
+                      "flags": 0,
+                      "index": 18
+                    },
+                    {
+                      "name": "GLIBC_2.3.4",
+                      "hash": 157882740,
+                      "flags": 0,
+                      "index": 13
+                    },
+                    {
+                      "name": "GLIBC_2.38",
+                      "hash": 110531000,
+                      "flags": 0,
+                      "index": 12
+                    },
+                    {
+                      "name": "GLIBC_2.2.5",
+                      "hash": 157882997,
+                      "flags": 0,
+                      "index": 3
+                    }
+                  ]
+                },
+                {
+                  "file": "libstdc++.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBCXX_3.4.32",
+                      "hash": 43513922,
+                      "flags": 0,
+                      "index": 25
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.20",
+                      "hash": 43513968,
+                      "flags": 0,
+                      "index": 24
+                    },
+                    {
+                      "name": "CXXABI_1.3.8",
+                      "hash": 196071800,
+                      "flags": 0,
+                      "index": 23
+                    },
+                    {
+                      "name": "CXXABI_1.3.9",
+                      "hash": 196071801,
+                      "flags": 0,
+                      "index": 20
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.18",
+                      "hash": 43513960,
+                      "flags": 0,
+                      "index": 19
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.29",
+                      "hash": 43513977,
+                      "flags": 0,
+                      "index": 16
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.9",
+                      "hash": 36274057,
+                      "flags": 0,
+                      "index": 15
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.11",
+                      "hash": 43513953,
+                      "flags": 0,
+                      "index": 14
+                    },
+                    {
+                      "name": "CXXABI_1.3",
+                      "hash": 90943443,
+                      "flags": 0,
+                      "index": 11
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.26",
+                      "hash": 43513974,
+                      "flags": 0,
+                      "index": 10
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.14",
+                      "hash": 43513956,
+                      "flags": 0,
+                      "index": 9
+                    },
+                    {
+                      "name": "CXXABI_1.3.5",
+                      "hash": 196071797,
+                      "flags": 0,
+                      "index": 8
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.21",
+                      "hash": 43513969,
+                      "flags": 0,
+                      "index": 7
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.15",
+                      "hash": 43513957,
+                      "flags": 0,
+                      "index": 5
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.19",
+                      "hash": 43513961,
+                      "flags": 0,
+                      "index": 4
+                    },
+                    {
+                      "name": "GLIBCXX_3.4",
+                      "hash": 143796596,
+                      "flags": 0,
+                      "index": 2
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "path": "qupathxx/libgeos_c.so.1",
+            "sha256": "e7017ca40df07cbabde2ef4e96370716255da4f96e446d898698025c441573b8",
+            "oracle_equal": true,
+            "inventory": {
+              "format": "ELF64",
+              "machine": "x86_64",
+              "endian": "little",
+              "kind": "shared-object",
+              "interpreter": null,
+              "needed": [
+                "libgeos.so.3.15.0",
+                "libstdc++.so.6",
+                "libm.so.6",
+                "libgcc_s.so.1",
+                "libc.so.6"
+              ],
+              "soname": "libgeos_c.so.1",
+              "rpath": null,
+              "runpath": [
+                "$ORIGIN"
+              ],
+              "auxiliary": [],
+              "filters": [],
+              "audit": null,
+              "depaudit": null,
+              "version_requirements": [
+                {
+                  "file": "libgcc_s.so.1",
+                  "versions": [
+                    {
+                      "name": "GCC_3.0",
+                      "hash": 192489040,
+                      "flags": 0,
+                      "index": 16
+                    }
+                  ]
+                },
+                {
+                  "file": "libc.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.32",
+                      "hash": 110530994,
+                      "flags": 0,
+                      "index": 14
+                    },
+                    {
+                      "name": "GLIBC_2.4",
+                      "hash": 225011988,
+                      "flags": 0,
+                      "index": 12
+                    },
+                    {
+                      "name": "GLIBC_2.14",
+                      "hash": 110530964,
+                      "flags": 0,
+                      "index": 10
+                    },
+                    {
+                      "name": "GLIBC_2.3.4",
+                      "hash": 157882740,
+                      "flags": 0,
+                      "index": 9
+                    },
+                    {
+                      "name": "GLIBC_2.2.5",
+                      "hash": 157882997,
+                      "flags": 0,
+                      "index": 6
+                    }
+                  ]
+                },
+                {
+                  "file": "libm.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.2.5",
+                      "hash": 157882997,
+                      "flags": 0,
+                      "index": 5
+                    }
+                  ]
+                },
+                {
+                  "file": "libstdc++.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBCXX_3.4.32",
+                      "hash": 43513922,
+                      "flags": 0,
+                      "index": 15
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.9",
+                      "hash": 36274057,
+                      "flags": 0,
+                      "index": 13
+                    },
+                    {
+                      "name": "CXXABI_1.3.9",
+                      "hash": 196071801,
+                      "flags": 0,
+                      "index": 11
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.29",
+                      "hash": 43513977,
+                      "flags": 0,
+                      "index": 8
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.11",
+                      "hash": 43513953,
+                      "flags": 0,
+                      "index": 7
+                    },
+                    {
+                      "name": "CXXABI_1.3",
+                      "hash": 90943443,
+                      "flags": 0,
+                      "index": 4
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.21",
+                      "hash": 43513969,
+                      "flags": 0,
+                      "index": 3
+                    },
+                    {
+                      "name": "GLIBCXX_3.4",
+                      "hash": 143796596,
+                      "flags": 0,
+                      "index": 2
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "path": "qupathxx/libopenslide.so.1",
+            "sha256": "552b5b77901bc9c7e7cc6e02a0b4f2861ffa85572b036a063db4f19ed2f357df",
+            "oracle_equal": true,
+            "inventory": {
+              "format": "ELF64",
+              "machine": "x86_64",
+              "endian": "little",
+              "kind": "shared-object",
+              "interpreter": null,
+              "needed": [
+                "libm.so.6",
+                "libdl.so.2",
+                "libgcc_s.so.1",
+                "libpthread.so.0",
+                "libc.so.6",
+                "ld-linux-x86-64.so.2"
+              ],
+              "soname": "libopenslide.so.1",
+              "rpath": null,
+              "runpath": [
+                "$ORIGIN/../lib"
+              ],
+              "auxiliary": [],
+              "filters": [],
+              "audit": null,
+              "depaudit": null,
+              "version_requirements": [
+                {
+                  "file": "libdl.so.2",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.2.5",
+                      "hash": 157882997,
+                      "flags": 0,
+                      "index": 20
+                    }
+                  ]
+                },
+                {
+                  "file": "ld-linux-x86-64.so.2",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.3",
+                      "hash": 225011987,
+                      "flags": 0,
+                      "index": 19
+                    }
+                  ]
+                },
+                {
+                  "file": "libgcc_s.so.1",
+                  "versions": [
+                    {
+                      "name": "GCC_3.0",
+                      "hash": 192489040,
+                      "flags": 0,
+                      "index": 22
+                    },
+                    {
+                      "name": "GCC_3.3.1",
+                      "hash": 153509729,
+                      "flags": 0,
+                      "index": 7
+                    }
+                  ]
+                },
+                {
+                  "file": "libpthread.so.0",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.12",
+                      "hash": 110530962,
+                      "flags": 0,
+                      "index": 11
+                    },
+                    {
+                      "name": "GLIBC_2.3.2",
+                      "hash": 157882738,
+                      "flags": 0,
+                      "index": 6
+                    },
+                    {
+                      "name": "GLIBC_2.2.5",
+                      "hash": 157882997,
+                      "flags": 0,
+                      "index": 5
+                    }
+                  ]
+                },
+                {
+                  "file": "libc.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.8",
+                      "hash": 225011992,
+                      "flags": 0,
+                      "index": 24
+                    },
+                    {
+                      "name": "GLIBC_2.14",
+                      "hash": 110530964,
+                      "flags": 0,
+                      "index": 23
+                    },
+                    {
+                      "name": "GLIBC_2.28",
+                      "hash": 110530952,
+                      "flags": 0,
+                      "index": 21
+                    },
+                    {
+                      "name": "GLIBC_2.25",
+                      "hash": 110530949,
+                      "flags": 0,
+                      "index": 18
+                    },
+                    {
+                      "name": "GLIBC_2.4",
+                      "hash": 225011988,
+                      "flags": 0,
+                      "index": 17
+                    },
+                    {
+                      "name": "GLIBC_2.3.3",
+                      "hash": 157882739,
+                      "flags": 0,
+                      "index": 16
+                    },
+                    {
+                      "name": "GLIBC_2.7",
+                      "hash": 225011991,
+                      "flags": 0,
+                      "index": 14
+                    },
+                    {
+                      "name": "GLIBC_2.3.4",
+                      "hash": 157882740,
+                      "flags": 0,
+                      "index": 13
+                    },
+                    {
+                      "name": "GLIBC_2.17",
+                      "hash": 110530967,
+                      "flags": 0,
+                      "index": 12
+                    },
+                    {
+                      "name": "GLIBC_2.11",
+                      "hash": 110530961,
+                      "flags": 0,
+                      "index": 10
+                    },
+                    {
+                      "name": "GLIBC_2.16",
+                      "hash": 110530966,
+                      "flags": 0,
+                      "index": 9
+                    },
+                    {
+                      "name": "GLIBC_2.3",
+                      "hash": 225011987,
+                      "flags": 0,
+                      "index": 8
+                    },
+                    {
+                      "name": "GLIBC_2.2.5",
+                      "hash": 157882997,
+                      "flags": 0,
+                      "index": 4
+                    },
+                    {
+                      "name": "GLIBC_2.9",
+                      "hash": 225011993,
+                      "flags": 0,
+                      "index": 3
+                    }
+                  ]
+                },
+                {
+                  "file": "libm.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.15",
+                      "hash": 110530965,
+                      "flags": 0,
+                      "index": 15
+                    },
+                    {
+                      "name": "GLIBC_2.2.5",
+                      "hash": 157882997,
+                      "flags": 0,
+                      "index": 2
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "path": "qupathxx/qupathxx_batch",
+            "sha256": "1097ca62f0a8b369902e2c8c5e010e9e57a8e2e3279e38893000c9fe8e536b87",
+            "oracle_equal": true,
+            "inventory": {
+              "format": "ELF64",
+              "machine": "x86_64",
+              "endian": "little",
+              "kind": "executable",
+              "interpreter": "/lib64/ld-linux-x86-64.so.2",
+              "needed": [
+                "libm.so.6",
+                "libz.so.1",
+                "libgeos_c.so.1",
+                "libopenslide.so.1",
+                "libstdc++.so.6",
+                "libgcc_s.so.1",
+                "libc.so.6",
+                "ld-linux-x86-64.so.2"
+              ],
+              "soname": null,
+              "rpath": null,
+              "runpath": [
+                "$ORIGIN"
+              ],
+              "auxiliary": [],
+              "filters": [],
+              "audit": null,
+              "depaudit": null,
+              "version_requirements": [
+                {
+                  "file": "libgcc_s.so.1",
+                  "versions": [
+                    {
+                      "name": "GCC_3.0",
+                      "hash": 192489040,
+                      "flags": 0,
+                      "index": 39
+                    }
+                  ]
+                },
+                {
+                  "file": "ld-linux-x86-64.so.2",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.3",
+                      "hash": 225011987,
+                      "flags": 0,
+                      "index": 38
+                    }
+                  ]
+                },
+                {
+                  "file": "libm.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.27",
+                      "hash": 110530951,
+                      "flags": 0,
+                      "index": 40
+                    },
+                    {
+                      "name": "GLIBC_2.29",
+                      "hash": 110530953,
+                      "flags": 0,
+                      "index": 23
+                    },
+                    {
+                      "name": "GLIBC_2.35",
+                      "hash": 110530997,
+                      "flags": 0,
+                      "index": 17
+                    },
+                    {
+                      "name": "GLIBC_2.2.5",
+                      "hash": 157882997,
+                      "flags": 0,
+                      "index": 4
+                    }
+                  ]
+                },
+                {
+                  "file": "libstdc++.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBCXX_3.4.32",
+                      "hash": 43513922,
+                      "flags": 0,
+                      "index": 36
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.20",
+                      "hash": 43513968,
+                      "flags": 0,
+                      "index": 35
+                    },
+                    {
+                      "name": "CXXABI_1.3.8",
+                      "hash": 196071800,
+                      "flags": 0,
+                      "index": 34
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.17",
+                      "hash": 43513959,
+                      "flags": 0,
+                      "index": 32
+                    },
+                    {
+                      "name": "CXXABI_1.3.3",
+                      "hash": 196071795,
+                      "flags": 0,
+                      "index": 29
+                    },
+                    {
+                      "name": "CXXABI_1.3.9",
+                      "hash": 196071801,
+                      "flags": 0,
+                      "index": 28
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.18",
+                      "hash": 43513960,
+                      "flags": 0,
+                      "index": 27
+                    },
+                    {
+                      "name": "CXXABI_1.3.11",
+                      "hash": 184358897,
+                      "flags": 0,
+                      "index": 26
+                    },
+                    {
+                      "name": "CXXABI_1.3.2",
+                      "hash": 196071794,
+                      "flags": 0,
+                      "index": 24
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.29",
+                      "hash": 43513977,
+                      "flags": 0,
+                      "index": 22
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.9",
+                      "hash": 36274057,
+                      "flags": 0,
+                      "index": 20
+                    },
+                    {
+                      "name": "CXXABI_1.3",
+                      "hash": 90943443,
+                      "flags": 0,
+                      "index": 19
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.11",
+                      "hash": 43513953,
+                      "flags": 0,
+                      "index": 16
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.14",
+                      "hash": 43513956,
+                      "flags": 0,
+                      "index": 14
+                    },
+                    {
+                      "name": "CXXABI_1.3.5",
+                      "hash": 196071797,
+                      "flags": 0,
+                      "index": 13
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.22",
+                      "hash": 43513970,
+                      "flags": 0,
+                      "index": 11
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.21",
+                      "hash": 43513969,
+                      "flags": 0,
+                      "index": 10
+                    },
+                    {
+                      "name": "CXXABI_1.3.13",
+                      "hash": 184358899,
+                      "flags": 0,
+                      "index": 9
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.15",
+                      "hash": 43513957,
+                      "flags": 0,
+                      "index": 8
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.19",
+                      "hash": 43513961,
+                      "flags": 0,
+                      "index": 7
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.26",
+                      "hash": 43513974,
+                      "flags": 0,
+                      "index": 5
+                    },
+                    {
+                      "name": "GLIBCXX_3.4",
+                      "hash": 143796596,
+                      "flags": 0,
+                      "index": 3
+                    }
+                  ]
+                },
+                {
+                  "file": "libc.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.28",
+                      "hash": 110530952,
+                      "flags": 0,
+                      "index": 37
+                    },
+                    {
+                      "name": "GLIBC_2.33",
+                      "hash": 110530995,
+                      "flags": 0,
+                      "index": 33
+                    },
+                    {
+                      "name": "GLIBC_2.32",
+                      "hash": 110530994,
+                      "flags": 0,
+                      "index": 31
+                    },
+                    {
+                      "name": "GLIBC_2.4",
+                      "hash": 225011988,
+                      "flags": 0,
+                      "index": 30
+                    },
+                    {
+                      "name": "GLIBC_2.14",
+                      "hash": 110530964,
+                      "flags": 0,
+                      "index": 25
+                    },
+                    {
+                      "name": "GLIBC_2.3",
+                      "hash": 225011987,
+                      "flags": 0,
+                      "index": 21
+                    },
+                    {
+                      "name": "GLIBC_2.38",
+                      "hash": 110531000,
+                      "flags": 0,
+                      "index": 18
+                    },
+                    {
+                      "name": "GLIBC_2.3.4",
+                      "hash": 157882740,
+                      "flags": 0,
+                      "index": 15
+                    },
+                    {
+                      "name": "GLIBC_2.6",
+                      "hash": 225011990,
+                      "flags": 0,
+                      "index": 12
+                    },
+                    {
+                      "name": "GLIBC_2.34",
+                      "hash": 110530996,
+                      "flags": 0,
+                      "index": 6
+                    },
+                    {
+                      "name": "GLIBC_2.2.5",
+                      "hash": 157882997,
+                      "flags": 0,
+                      "index": 2
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "path": "qupathxx/qupathxx_region",
+            "sha256": "cd39efaf0a5593eb0d0275b5bf08ef0be1314f97d23f6fdc041f3414b5ada997",
+            "oracle_equal": true,
+            "inventory": {
+              "format": "ELF64",
+              "machine": "x86_64",
+              "endian": "little",
+              "kind": "executable",
+              "interpreter": "/lib64/ld-linux-x86-64.so.2",
+              "needed": [
+                "libm.so.6",
+                "libz.so.1",
+                "libgeos_c.so.1",
+                "libopenslide.so.1",
+                "libstdc++.so.6",
+                "libgcc_s.so.1",
+                "libc.so.6",
+                "ld-linux-x86-64.so.2"
+              ],
+              "soname": null,
+              "rpath": null,
+              "runpath": [
+                "$ORIGIN"
+              ],
+              "auxiliary": [],
+              "filters": [],
+              "audit": null,
+              "depaudit": null,
+              "version_requirements": [
+                {
+                  "file": "libgcc_s.so.1",
+                  "versions": [
+                    {
+                      "name": "GCC_3.0",
+                      "hash": 192489040,
+                      "flags": 0,
+                      "index": 35
+                    }
+                  ]
+                },
+                {
+                  "file": "ld-linux-x86-64.so.2",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.3",
+                      "hash": 225011987,
+                      "flags": 0,
+                      "index": 34
+                    }
+                  ]
+                },
+                {
+                  "file": "libm.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.29",
+                      "hash": 110530953,
+                      "flags": 0,
+                      "index": 21
+                    },
+                    {
+                      "name": "GLIBC_2.35",
+                      "hash": 110530997,
+                      "flags": 0,
+                      "index": 14
+                    },
+                    {
+                      "name": "GLIBC_2.2.5",
+                      "hash": 157882997,
+                      "flags": 0,
+                      "index": 7
+                    }
+                  ]
+                },
+                {
+                  "file": "libstdc++.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBCXX_3.4.32",
+                      "hash": 43513922,
+                      "flags": 0,
+                      "index": 32
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.20",
+                      "hash": 43513968,
+                      "flags": 0,
+                      "index": 31
+                    },
+                    {
+                      "name": "CXXABI_1.3.8",
+                      "hash": 196071800,
+                      "flags": 0,
+                      "index": 30
+                    },
+                    {
+                      "name": "CXXABI_1.3.3",
+                      "hash": 196071795,
+                      "flags": 0,
+                      "index": 27
+                    },
+                    {
+                      "name": "CXXABI_1.3.9",
+                      "hash": 196071801,
+                      "flags": 0,
+                      "index": 26
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.18",
+                      "hash": 43513960,
+                      "flags": 0,
+                      "index": 25
+                    },
+                    {
+                      "name": "CXXABI_1.3.11",
+                      "hash": 184358897,
+                      "flags": 0,
+                      "index": 24
+                    },
+                    {
+                      "name": "CXXABI_1.3.2",
+                      "hash": 196071794,
+                      "flags": 0,
+                      "index": 22
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.9",
+                      "hash": 36274057,
+                      "flags": 0,
+                      "index": 19
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.29",
+                      "hash": 43513977,
+                      "flags": 0,
+                      "index": 18
+                    },
+                    {
+                      "name": "CXXABI_1.3",
+                      "hash": 90943443,
+                      "flags": 0,
+                      "index": 16
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.11",
+                      "hash": 43513953,
+                      "flags": 0,
+                      "index": 13
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.14",
+                      "hash": 43513956,
+                      "flags": 0,
+                      "index": 11
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.21",
+                      "hash": 43513969,
+                      "flags": 0,
+                      "index": 10
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.22",
+                      "hash": 43513970,
+                      "flags": 0,
+                      "index": 9
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.26",
+                      "hash": 43513974,
+                      "flags": 0,
+                      "index": 8
+                    },
+                    {
+                      "name": "CXXABI_1.3.13",
+                      "hash": 184358899,
+                      "flags": 0,
+                      "index": 6
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.15",
+                      "hash": 43513957,
+                      "flags": 0,
+                      "index": 5
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.19",
+                      "hash": 43513961,
+                      "flags": 0,
+                      "index": 4
+                    },
+                    {
+                      "name": "GLIBCXX_3.4",
+                      "hash": 143796596,
+                      "flags": 0,
+                      "index": 3
+                    }
+                  ]
+                },
+                {
+                  "file": "libc.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.33",
+                      "hash": 110530995,
+                      "flags": 0,
+                      "index": 33
+                    },
+                    {
+                      "name": "GLIBC_2.32",
+                      "hash": 110530994,
+                      "flags": 0,
+                      "index": 29
+                    },
+                    {
+                      "name": "GLIBC_2.4",
+                      "hash": 225011988,
+                      "flags": 0,
+                      "index": 28
+                    },
+                    {
+                      "name": "GLIBC_2.14",
+                      "hash": 110530964,
+                      "flags": 0,
+                      "index": 23
+                    },
+                    {
+                      "name": "GLIBC_2.34",
+                      "hash": 110530996,
+                      "flags": 0,
+                      "index": 20
+                    },
+                    {
+                      "name": "GLIBC_2.3",
+                      "hash": 225011987,
+                      "flags": 0,
+                      "index": 17
+                    },
+                    {
+                      "name": "GLIBC_2.38",
+                      "hash": 110531000,
+                      "flags": 0,
+                      "index": 15
+                    },
+                    {
+                      "name": "GLIBC_2.3.4",
+                      "hash": 157882740,
+                      "flags": 0,
+                      "index": 12
+                    },
+                    {
+                      "name": "GLIBC_2.2.5",
+                      "hash": 157882997,
+                      "flags": 0,
+                      "index": 2
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "archive": "qupathxx-0.1.0-cp311-cp311-manylinux_2_28_x86_64.whl",
+        "archive_sha256": "28ae3172c86e01ff5d68b67f4a709bf784f56abebb9049159d77292de3dd06b5",
+        "binaries": [
+          {
+            "path": "qupathxx/_native.cpython-311-x86_64-linux-gnu.so",
+            "sha256": "2a9abf8f2e35c001bb7b076569b8cb5e44f8d9972a4e3848598308abe95b0552",
+            "oracle_equal": true,
+            "inventory": {
+              "format": "ELF64",
+              "machine": "x86_64",
+              "endian": "little",
+              "kind": "shared-object",
+              "interpreter": null,
+              "needed": [
+                "libm.so.6",
+                "libz.so.1",
+                "libpthread.so.0",
+                "librt.so.1",
+                "libdl.so.2",
+                "libgeos_c.so.1",
+                "libopenslide.so.1",
+                "libstdc++.so.6",
+                "libgcc_s.so.1",
+                "libc.so.6",
+                "ld-linux-x86-64.so.2"
+              ],
+              "soname": null,
+              "rpath": null,
+              "runpath": [
+                "$ORIGIN"
+              ],
+              "auxiliary": [],
+              "filters": [],
+              "audit": null,
+              "depaudit": null,
+              "version_requirements": [
+                {
+                  "file": "ld-linux-x86-64.so.2",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.3",
+                      "hash": 225011987,
+                      "flags": 0,
+                      "index": 31
+                    }
+                  ]
+                },
+                {
+                  "file": "libgcc_s.so.1",
+                  "versions": [
+                    {
+                      "name": "GCC_3.0",
+                      "hash": 192489040,
+                      "flags": 0,
+                      "index": 16
+                    },
+                    {
+                      "name": "GCC_4.3.0",
+                      "hash": 153575264,
+                      "flags": 0,
+                      "index": 12
+                    }
+                  ]
+                },
+                {
+                  "file": "libpthread.so.0",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.3.2",
+                      "hash": 157882738,
+                      "flags": 0,
+                      "index": 28
+                    },
+                    {
+                      "name": "GLIBC_2.2.5",
+                      "hash": 157882997,
+                      "flags": 0,
+                      "index": 6
+                    }
+                  ]
+                },
+                {
+                  "file": "libm.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.2.5",
+                      "hash": 157882997,
+                      "flags": 0,
+                      "index": 5
+                    }
+                  ]
+                },
+                {
+                  "file": "libstdc++.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBCXX_3.4.20",
+                      "hash": 43513968,
+                      "flags": 0,
+                      "index": 29
+                    },
+                    {
+                      "name": "CXXABI_1.3.3",
+                      "hash": 196071795,
+                      "flags": 0,
+                      "index": 27
+                    },
+                    {
+                      "name": "CXXABI_1.3.9",
+                      "hash": 196071801,
+                      "flags": 0,
+                      "index": 26
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.18",
+                      "hash": 43513960,
+                      "flags": 0,
+                      "index": 24
+                    },
+                    {
+                      "name": "CXXABI_1.3.2",
+                      "hash": 196071794,
+                      "flags": 0,
+                      "index": 22
+                    },
+                    {
+                      "name": "CXXABI_1.3.8",
+                      "hash": 196071800,
+                      "flags": 0,
+                      "index": 20
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.9",
+                      "hash": 36274057,
+                      "flags": 0,
+                      "index": 19
+                    },
+                    {
+                      "name": "CXXABI_1.3",
+                      "hash": 90943443,
+                      "flags": 0,
+                      "index": 18
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.11",
+                      "hash": 43513953,
+                      "flags": 0,
+                      "index": 15
+                    },
+                    {
+                      "name": "CXXABI_1.3.11",
+                      "hash": 184358897,
+                      "flags": 0,
+                      "index": 13
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.14",
+                      "hash": 43513956,
+                      "flags": 0,
+                      "index": 11
+                    },
+                    {
+                      "name": "CXXABI_1.3.5",
+                      "hash": 196071797,
+                      "flags": 0,
+                      "index": 10
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.22",
+                      "hash": 43513970,
+                      "flags": 0,
+                      "index": 9
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.15",
+                      "hash": 43513957,
+                      "flags": 0,
+                      "index": 8
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.19",
+                      "hash": 43513961,
+                      "flags": 0,
+                      "index": 7
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.21",
+                      "hash": 43513969,
+                      "flags": 0,
+                      "index": 4
+                    },
+                    {
+                      "name": "GLIBCXX_3.4",
+                      "hash": 143796596,
+                      "flags": 0,
+                      "index": 3
+                    }
+                  ]
+                },
+                {
+                  "file": "libc.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.17",
+                      "hash": 110530967,
+                      "flags": 0,
+                      "index": 32
+                    },
+                    {
+                      "name": "GLIBC_2.28",
+                      "hash": 110530952,
+                      "flags": 0,
+                      "index": 30
+                    },
+                    {
+                      "name": "GLIBC_2.26",
+                      "hash": 110530950,
+                      "flags": 0,
+                      "index": 25
+                    },
+                    {
+                      "name": "GLIBC_2.14",
+                      "hash": 110530964,
+                      "flags": 0,
+                      "index": 23
+                    },
+                    {
+                      "name": "GLIBC_2.6",
+                      "hash": 225011990,
+                      "flags": 0,
+                      "index": 21
+                    },
+                    {
+                      "name": "GLIBC_2.3",
+                      "hash": 225011987,
+                      "flags": 0,
+                      "index": 17
+                    },
+                    {
+                      "name": "GLIBC_2.4",
+                      "hash": 225011988,
+                      "flags": 0,
+                      "index": 14
+                    },
+                    {
+                      "name": "GLIBC_2.2.5",
+                      "hash": 157882997,
+                      "flags": 0,
+                      "index": 2
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "path": "qupathxx/libgeos.so.3.15.0",
+            "sha256": "7ef59bcd035c2f1f0c7eb5348a74fbf8c18a633dd294c4df47dfefe065161770",
+            "oracle_equal": true,
+            "inventory": {
+              "format": "ELF64",
+              "machine": "x86_64",
+              "endian": "little",
+              "kind": "shared-object",
+              "interpreter": null,
+              "needed": [
+                "libstdc++.so.6",
+                "libm.so.6",
+                "libgcc_s.so.1",
+                "libc.so.6",
+                "ld-linux-x86-64.so.2"
+              ],
+              "soname": "libgeos.so.3.15.0",
+              "rpath": null,
+              "runpath": [
+                "$ORIGIN"
+              ],
+              "auxiliary": [],
+              "filters": [],
+              "audit": null,
+              "depaudit": null,
+              "version_requirements": [
+                {
+                  "file": "libgcc_s.so.1",
+                  "versions": [
+                    {
+                      "name": "GCC_3.0",
+                      "hash": 192489040,
+                      "flags": 0,
+                      "index": 19
+                    }
+                  ]
+                },
+                {
+                  "file": "ld-linux-x86-64.so.2",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.3",
+                      "hash": 225011987,
+                      "flags": 0,
+                      "index": 18
+                    }
+                  ]
+                },
+                {
+                  "file": "libm.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.2.5",
+                      "hash": 157882997,
+                      "flags": 0,
+                      "index": 6
+                    }
+                  ]
+                },
+                {
+                  "file": "libc.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.14",
+                      "hash": 110530964,
+                      "flags": 0,
+                      "index": 14
+                    },
+                    {
+                      "name": "GLIBC_2.2.5",
+                      "hash": 157882997,
+                      "flags": 0,
+                      "index": 3
+                    }
+                  ]
+                },
+                {
+                  "file": "libstdc++.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBCXX_3.4.20",
+                      "hash": 43513968,
+                      "flags": 0,
+                      "index": 17
+                    },
+                    {
+                      "name": "CXXABI_1.3.9",
+                      "hash": 196071801,
+                      "flags": 0,
+                      "index": 16
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.18",
+                      "hash": 43513960,
+                      "flags": 0,
+                      "index": 15
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.9",
+                      "hash": 36274057,
+                      "flags": 0,
+                      "index": 13
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.11",
+                      "hash": 43513953,
+                      "flags": 0,
+                      "index": 12
+                    },
+                    {
+                      "name": "CXXABI_1.3.8",
+                      "hash": 196071800,
+                      "flags": 0,
+                      "index": 11
+                    },
+                    {
+                      "name": "CXXABI_1.3",
+                      "hash": 90943443,
+                      "flags": 0,
+                      "index": 10
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.14",
+                      "hash": 43513956,
+                      "flags": 0,
+                      "index": 9
+                    },
+                    {
+                      "name": "CXXABI_1.3.5",
+                      "hash": 196071797,
+                      "flags": 0,
+                      "index": 8
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.21",
+                      "hash": 43513969,
+                      "flags": 0,
+                      "index": 7
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.15",
+                      "hash": 43513957,
+                      "flags": 0,
+                      "index": 5
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.19",
+                      "hash": 43513961,
+                      "flags": 0,
+                      "index": 4
+                    },
+                    {
+                      "name": "GLIBCXX_3.4",
+                      "hash": 143796596,
+                      "flags": 0,
+                      "index": 2
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "path": "qupathxx/libgeos_c.so.1",
+            "sha256": "ea8d31fb8e5f2b2a43cabd0fdf88bce4e586fd27163b8209106ac602980a15c7",
+            "oracle_equal": true,
+            "inventory": {
+              "format": "ELF64",
+              "machine": "x86_64",
+              "endian": "little",
+              "kind": "shared-object",
+              "interpreter": null,
+              "needed": [
+                "libgeos.so.3.15.0",
+                "libstdc++.so.6",
+                "libm.so.6",
+                "libgcc_s.so.1",
+                "libc.so.6"
+              ],
+              "soname": "libgeos_c.so.1",
+              "rpath": null,
+              "runpath": [
+                "$ORIGIN"
+              ],
+              "auxiliary": [],
+              "filters": [],
+              "audit": null,
+              "depaudit": null,
+              "version_requirements": [
+                {
+                  "file": "libgcc_s.so.1",
+                  "versions": [
+                    {
+                      "name": "GCC_3.0",
+                      "hash": 192489040,
+                      "flags": 0,
+                      "index": 11
+                    }
+                  ]
+                },
+                {
+                  "file": "libc.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.14",
+                      "hash": 110530964,
+                      "flags": 0,
+                      "index": 8
+                    },
+                    {
+                      "name": "GLIBC_2.2.5",
+                      "hash": 157882997,
+                      "flags": 0,
+                      "index": 6
+                    }
+                  ]
+                },
+                {
+                  "file": "libm.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.2.5",
+                      "hash": 157882997,
+                      "flags": 0,
+                      "index": 5
+                    }
+                  ]
+                },
+                {
+                  "file": "libstdc++.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBCXX_3.4.9",
+                      "hash": 36274057,
+                      "flags": 0,
+                      "index": 10
+                    },
+                    {
+                      "name": "CXXABI_1.3.9",
+                      "hash": 196071801,
+                      "flags": 0,
+                      "index": 9
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.11",
+                      "hash": 43513953,
+                      "flags": 0,
+                      "index": 7
+                    },
+                    {
+                      "name": "CXXABI_1.3",
+                      "hash": 90943443,
+                      "flags": 0,
+                      "index": 4
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.21",
+                      "hash": 43513969,
+                      "flags": 0,
+                      "index": 3
+                    },
+                    {
+                      "name": "GLIBCXX_3.4",
+                      "hash": 143796596,
+                      "flags": 0,
+                      "index": 2
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "path": "qupathxx/libopenslide.so.1",
+            "sha256": "552b5b77901bc9c7e7cc6e02a0b4f2861ffa85572b036a063db4f19ed2f357df",
+            "oracle_equal": true,
+            "inventory": {
+              "format": "ELF64",
+              "machine": "x86_64",
+              "endian": "little",
+              "kind": "shared-object",
+              "interpreter": null,
+              "needed": [
+                "libm.so.6",
+                "libdl.so.2",
+                "libgcc_s.so.1",
+                "libpthread.so.0",
+                "libc.so.6",
+                "ld-linux-x86-64.so.2"
+              ],
+              "soname": "libopenslide.so.1",
+              "rpath": null,
+              "runpath": [
+                "$ORIGIN/../lib"
+              ],
+              "auxiliary": [],
+              "filters": [],
+              "audit": null,
+              "depaudit": null,
+              "version_requirements": [
+                {
+                  "file": "libdl.so.2",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.2.5",
+                      "hash": 157882997,
+                      "flags": 0,
+                      "index": 20
+                    }
+                  ]
+                },
+                {
+                  "file": "ld-linux-x86-64.so.2",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.3",
+                      "hash": 225011987,
+                      "flags": 0,
+                      "index": 19
+                    }
+                  ]
+                },
+                {
+                  "file": "libgcc_s.so.1",
+                  "versions": [
+                    {
+                      "name": "GCC_3.0",
+                      "hash": 192489040,
+                      "flags": 0,
+                      "index": 22
+                    },
+                    {
+                      "name": "GCC_3.3.1",
+                      "hash": 153509729,
+                      "flags": 0,
+                      "index": 7
+                    }
+                  ]
+                },
+                {
+                  "file": "libpthread.so.0",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.12",
+                      "hash": 110530962,
+                      "flags": 0,
+                      "index": 11
+                    },
+                    {
+                      "name": "GLIBC_2.3.2",
+                      "hash": 157882738,
+                      "flags": 0,
+                      "index": 6
+                    },
+                    {
+                      "name": "GLIBC_2.2.5",
+                      "hash": 157882997,
+                      "flags": 0,
+                      "index": 5
+                    }
+                  ]
+                },
+                {
+                  "file": "libc.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.8",
+                      "hash": 225011992,
+                      "flags": 0,
+                      "index": 24
+                    },
+                    {
+                      "name": "GLIBC_2.14",
+                      "hash": 110530964,
+                      "flags": 0,
+                      "index": 23
+                    },
+                    {
+                      "name": "GLIBC_2.28",
+                      "hash": 110530952,
+                      "flags": 0,
+                      "index": 21
+                    },
+                    {
+                      "name": "GLIBC_2.25",
+                      "hash": 110530949,
+                      "flags": 0,
+                      "index": 18
+                    },
+                    {
+                      "name": "GLIBC_2.4",
+                      "hash": 225011988,
+                      "flags": 0,
+                      "index": 17
+                    },
+                    {
+                      "name": "GLIBC_2.3.3",
+                      "hash": 157882739,
+                      "flags": 0,
+                      "index": 16
+                    },
+                    {
+                      "name": "GLIBC_2.7",
+                      "hash": 225011991,
+                      "flags": 0,
+                      "index": 14
+                    },
+                    {
+                      "name": "GLIBC_2.3.4",
+                      "hash": 157882740,
+                      "flags": 0,
+                      "index": 13
+                    },
+                    {
+                      "name": "GLIBC_2.17",
+                      "hash": 110530967,
+                      "flags": 0,
+                      "index": 12
+                    },
+                    {
+                      "name": "GLIBC_2.11",
+                      "hash": 110530961,
+                      "flags": 0,
+                      "index": 10
+                    },
+                    {
+                      "name": "GLIBC_2.16",
+                      "hash": 110530966,
+                      "flags": 0,
+                      "index": 9
+                    },
+                    {
+                      "name": "GLIBC_2.3",
+                      "hash": 225011987,
+                      "flags": 0,
+                      "index": 8
+                    },
+                    {
+                      "name": "GLIBC_2.2.5",
+                      "hash": 157882997,
+                      "flags": 0,
+                      "index": 4
+                    },
+                    {
+                      "name": "GLIBC_2.9",
+                      "hash": 225011993,
+                      "flags": 0,
+                      "index": 3
+                    }
+                  ]
+                },
+                {
+                  "file": "libm.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.15",
+                      "hash": 110530965,
+                      "flags": 0,
+                      "index": 15
+                    },
+                    {
+                      "name": "GLIBC_2.2.5",
+                      "hash": 157882997,
+                      "flags": 0,
+                      "index": 2
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "path": "qupathxx/qupathxx_batch",
+            "sha256": "d7fa6331086bdf1a0a8133419891830c5ac00015cc912f10690b2a44756a2308",
+            "oracle_equal": true,
+            "inventory": {
+              "format": "ELF64",
+              "machine": "x86_64",
+              "endian": "little",
+              "kind": "executable",
+              "interpreter": "/lib64/ld-linux-x86-64.so.2",
+              "needed": [
+                "libm.so.6",
+                "libz.so.1",
+                "libpthread.so.0",
+                "librt.so.1",
+                "libdl.so.2",
+                "libgeos_c.so.1",
+                "libopenslide.so.1",
+                "libstdc++.so.6",
+                "libgcc_s.so.1",
+                "libc.so.6",
+                "ld-linux-x86-64.so.2"
+              ],
+              "soname": null,
+              "rpath": null,
+              "runpath": [
+                "$ORIGIN"
+              ],
+              "auxiliary": [],
+              "filters": [],
+              "audit": null,
+              "depaudit": null,
+              "version_requirements": [
+                {
+                  "file": "ld-linux-x86-64.so.2",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.3",
+                      "hash": 225011987,
+                      "flags": 0,
+                      "index": 32
+                    }
+                  ]
+                },
+                {
+                  "file": "libgcc_s.so.1",
+                  "versions": [
+                    {
+                      "name": "GCC_3.0",
+                      "hash": 192489040,
+                      "flags": 0,
+                      "index": 16
+                    },
+                    {
+                      "name": "GCC_4.3.0",
+                      "hash": 153575264,
+                      "flags": 0,
+                      "index": 13
+                    }
+                  ]
+                },
+                {
+                  "file": "libpthread.so.0",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.2.5",
+                      "hash": 157882997,
+                      "flags": 0,
+                      "index": 5
+                    }
+                  ]
+                },
+                {
+                  "file": "libm.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.27",
+                      "hash": 110530951,
+                      "flags": 0,
+                      "index": 34
+                    },
+                    {
+                      "name": "GLIBC_2.2.5",
+                      "hash": 157882997,
+                      "flags": 0,
+                      "index": 4
+                    }
+                  ]
+                },
+                {
+                  "file": "libstdc++.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBCXX_3.4.20",
+                      "hash": 43513968,
+                      "flags": 0,
+                      "index": 30
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.17",
+                      "hash": 43513959,
+                      "flags": 0,
+                      "index": 28
+                    },
+                    {
+                      "name": "CXXABI_1.3.3",
+                      "hash": 196071795,
+                      "flags": 0,
+                      "index": 27
+                    },
+                    {
+                      "name": "CXXABI_1.3.9",
+                      "hash": 196071801,
+                      "flags": 0,
+                      "index": 26
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.18",
+                      "hash": 43513960,
+                      "flags": 0,
+                      "index": 24
+                    },
+                    {
+                      "name": "CXXABI_1.3.11",
+                      "hash": 184358897,
+                      "flags": 0,
+                      "index": 23
+                    },
+                    {
+                      "name": "CXXABI_1.3.2",
+                      "hash": 196071794,
+                      "flags": 0,
+                      "index": 21
+                    },
+                    {
+                      "name": "CXXABI_1.3.8",
+                      "hash": 196071800,
+                      "flags": 0,
+                      "index": 20
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.9",
+                      "hash": 36274057,
+                      "flags": 0,
+                      "index": 19
+                    },
+                    {
+                      "name": "CXXABI_1.3",
+                      "hash": 90943443,
+                      "flags": 0,
+                      "index": 18
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.11",
+                      "hash": 43513953,
+                      "flags": 0,
+                      "index": 15
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.14",
+                      "hash": 43513956,
+                      "flags": 0,
+                      "index": 12
+                    },
+                    {
+                      "name": "CXXABI_1.3.5",
+                      "hash": 196071797,
+                      "flags": 0,
+                      "index": 11
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.22",
+                      "hash": 43513970,
+                      "flags": 0,
+                      "index": 9
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.21",
+                      "hash": 43513969,
+                      "flags": 0,
+                      "index": 8
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.15",
+                      "hash": 43513957,
+                      "flags": 0,
+                      "index": 7
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.19",
+                      "hash": 43513961,
+                      "flags": 0,
+                      "index": 6
+                    },
+                    {
+                      "name": "GLIBCXX_3.4",
+                      "hash": 143796596,
+                      "flags": 0,
+                      "index": 3
+                    }
+                  ]
+                },
+                {
+                  "file": "libc.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.17",
+                      "hash": 110530967,
+                      "flags": 0,
+                      "index": 33
+                    },
+                    {
+                      "name": "GLIBC_2.28",
+                      "hash": 110530952,
+                      "flags": 0,
+                      "index": 31
+                    },
+                    {
+                      "name": "GLIBC_2.3.4",
+                      "hash": 157882740,
+                      "flags": 0,
+                      "index": 29
+                    },
+                    {
+                      "name": "GLIBC_2.26",
+                      "hash": 110530950,
+                      "flags": 0,
+                      "index": 25
+                    },
+                    {
+                      "name": "GLIBC_2.14",
+                      "hash": 110530964,
+                      "flags": 0,
+                      "index": 22
+                    },
+                    {
+                      "name": "GLIBC_2.3",
+                      "hash": 225011987,
+                      "flags": 0,
+                      "index": 17
+                    },
+                    {
+                      "name": "GLIBC_2.4",
+                      "hash": 225011988,
+                      "flags": 0,
+                      "index": 14
+                    },
+                    {
+                      "name": "GLIBC_2.6",
+                      "hash": 225011990,
+                      "flags": 0,
+                      "index": 10
+                    },
+                    {
+                      "name": "GLIBC_2.2.5",
+                      "hash": 157882997,
+                      "flags": 0,
+                      "index": 2
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "path": "qupathxx/qupathxx_region",
+            "sha256": "e1a37bad4e4f4f43f7013a6d56a229515413aa7d2f3635888c4f72e4926bf3eb",
+            "oracle_equal": true,
+            "inventory": {
+              "format": "ELF64",
+              "machine": "x86_64",
+              "endian": "little",
+              "kind": "executable",
+              "interpreter": "/lib64/ld-linux-x86-64.so.2",
+              "needed": [
+                "libm.so.6",
+                "libz.so.1",
+                "libpthread.so.0",
+                "librt.so.1",
+                "libdl.so.2",
+                "libgeos_c.so.1",
+                "libopenslide.so.1",
+                "libstdc++.so.6",
+                "libgcc_s.so.1",
+                "libc.so.6",
+                "ld-linux-x86-64.so.2"
+              ],
+              "soname": null,
+              "rpath": null,
+              "runpath": [
+                "$ORIGIN"
+              ],
+              "auxiliary": [],
+              "filters": [],
+              "audit": null,
+              "depaudit": null,
+              "version_requirements": [
+                {
+                  "file": "ld-linux-x86-64.so.2",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.3",
+                      "hash": 225011987,
+                      "flags": 0,
+                      "index": 29
+                    }
+                  ]
+                },
+                {
+                  "file": "libgcc_s.so.1",
+                  "versions": [
+                    {
+                      "name": "GCC_3.0",
+                      "hash": 192489040,
+                      "flags": 0,
+                      "index": 15
+                    },
+                    {
+                      "name": "GCC_4.3.0",
+                      "hash": 153575264,
+                      "flags": 0,
+                      "index": 12
+                    }
+                  ]
+                },
+                {
+                  "file": "libm.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.2.5",
+                      "hash": 157882997,
+                      "flags": 0,
+                      "index": 7
+                    }
+                  ]
+                },
+                {
+                  "file": "libpthread.so.0",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.2.5",
+                      "hash": 157882997,
+                      "flags": 0,
+                      "index": 4
+                    }
+                  ]
+                },
+                {
+                  "file": "libstdc++.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBCXX_3.4.20",
+                      "hash": 43513968,
+                      "flags": 0,
+                      "index": 28
+                    },
+                    {
+                      "name": "CXXABI_1.3.3",
+                      "hash": 196071795,
+                      "flags": 0,
+                      "index": 27
+                    },
+                    {
+                      "name": "CXXABI_1.3.9",
+                      "hash": 196071801,
+                      "flags": 0,
+                      "index": 26
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.18",
+                      "hash": 43513960,
+                      "flags": 0,
+                      "index": 24
+                    },
+                    {
+                      "name": "CXXABI_1.3.11",
+                      "hash": 184358897,
+                      "flags": 0,
+                      "index": 23
+                    },
+                    {
+                      "name": "CXXABI_1.3.2",
+                      "hash": 196071794,
+                      "flags": 0,
+                      "index": 21
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.9",
+                      "hash": 36274057,
+                      "flags": 0,
+                      "index": 20
+                    },
+                    {
+                      "name": "CXXABI_1.3.8",
+                      "hash": 196071800,
+                      "flags": 0,
+                      "index": 18
+                    },
+                    {
+                      "name": "CXXABI_1.3",
+                      "hash": 90943443,
+                      "flags": 0,
+                      "index": 17
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.11",
+                      "hash": 43513953,
+                      "flags": 0,
+                      "index": 14
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.14",
+                      "hash": 43513956,
+                      "flags": 0,
+                      "index": 11
+                    },
+                    {
+                      "name": "CXXABI_1.3.5",
+                      "hash": 196071797,
+                      "flags": 0,
+                      "index": 10
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.21",
+                      "hash": 43513969,
+                      "flags": 0,
+                      "index": 9
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.22",
+                      "hash": 43513970,
+                      "flags": 0,
+                      "index": 8
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.15",
+                      "hash": 43513957,
+                      "flags": 0,
+                      "index": 6
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.19",
+                      "hash": 43513961,
+                      "flags": 0,
+                      "index": 5
+                    },
+                    {
+                      "name": "GLIBCXX_3.4",
+                      "hash": 143796596,
+                      "flags": 0,
+                      "index": 3
+                    }
+                  ]
+                },
+                {
+                  "file": "libc.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.17",
+                      "hash": 110530967,
+                      "flags": 0,
+                      "index": 30
+                    },
+                    {
+                      "name": "GLIBC_2.26",
+                      "hash": 110530950,
+                      "flags": 0,
+                      "index": 25
+                    },
+                    {
+                      "name": "GLIBC_2.14",
+                      "hash": 110530964,
+                      "flags": 0,
+                      "index": 22
+                    },
+                    {
+                      "name": "GLIBC_2.6",
+                      "hash": 225011990,
+                      "flags": 0,
+                      "index": 19
+                    },
+                    {
+                      "name": "GLIBC_2.3",
+                      "hash": 225011987,
+                      "flags": 0,
+                      "index": 16
+                    },
+                    {
+                      "name": "GLIBC_2.4",
+                      "hash": 225011988,
+                      "flags": 0,
+                      "index": 13
+                    },
+                    {
+                      "name": "GLIBC_2.2.5",
+                      "hash": 157882997,
+                      "flags": 0,
+                      "index": 2
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "archive": "qupathxx-0.1.0-cp312-cp312-manylinux_2_28_x86_64.whl",
+        "archive_sha256": "3b9663c89f36d805dd26c0f599993cf5952af5a58ba389f2a54d88f7c039240e",
+        "binaries": [
+          {
+            "path": "qupathxx/_native.cpython-312-x86_64-linux-gnu.so",
+            "sha256": "ef0eb165355feee6ac45383bf618ae150abe152ac96ff53508a1f128e70723ef",
+            "oracle_equal": true,
+            "inventory": {
+              "format": "ELF64",
+              "machine": "x86_64",
+              "endian": "little",
+              "kind": "shared-object",
+              "interpreter": null,
+              "needed": [
+                "libm.so.6",
+                "libz.so.1",
+                "libpthread.so.0",
+                "librt.so.1",
+                "libdl.so.2",
+                "libgeos_c.so.1",
+                "libopenslide.so.1",
+                "libstdc++.so.6",
+                "libgcc_s.so.1",
+                "libc.so.6",
+                "ld-linux-x86-64.so.2"
+              ],
+              "soname": null,
+              "rpath": null,
+              "runpath": [
+                "$ORIGIN"
+              ],
+              "auxiliary": [],
+              "filters": [],
+              "audit": null,
+              "depaudit": null,
+              "version_requirements": [
+                {
+                  "file": "ld-linux-x86-64.so.2",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.3",
+                      "hash": 225011987,
+                      "flags": 0,
+                      "index": 31
+                    }
+                  ]
+                },
+                {
+                  "file": "libgcc_s.so.1",
+                  "versions": [
+                    {
+                      "name": "GCC_3.0",
+                      "hash": 192489040,
+                      "flags": 0,
+                      "index": 16
+                    },
+                    {
+                      "name": "GCC_4.3.0",
+                      "hash": 153575264,
+                      "flags": 0,
+                      "index": 12
+                    }
+                  ]
+                },
+                {
+                  "file": "libpthread.so.0",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.3.2",
+                      "hash": 157882738,
+                      "flags": 0,
+                      "index": 28
+                    },
+                    {
+                      "name": "GLIBC_2.2.5",
+                      "hash": 157882997,
+                      "flags": 0,
+                      "index": 6
+                    }
+                  ]
+                },
+                {
+                  "file": "libm.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.2.5",
+                      "hash": 157882997,
+                      "flags": 0,
+                      "index": 5
+                    }
+                  ]
+                },
+                {
+                  "file": "libstdc++.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBCXX_3.4.20",
+                      "hash": 43513968,
+                      "flags": 0,
+                      "index": 29
+                    },
+                    {
+                      "name": "CXXABI_1.3.3",
+                      "hash": 196071795,
+                      "flags": 0,
+                      "index": 27
+                    },
+                    {
+                      "name": "CXXABI_1.3.9",
+                      "hash": 196071801,
+                      "flags": 0,
+                      "index": 26
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.18",
+                      "hash": 43513960,
+                      "flags": 0,
+                      "index": 24
+                    },
+                    {
+                      "name": "CXXABI_1.3.2",
+                      "hash": 196071794,
+                      "flags": 0,
+                      "index": 22
+                    },
+                    {
+                      "name": "CXXABI_1.3.8",
+                      "hash": 196071800,
+                      "flags": 0,
+                      "index": 20
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.9",
+                      "hash": 36274057,
+                      "flags": 0,
+                      "index": 19
+                    },
+                    {
+                      "name": "CXXABI_1.3",
+                      "hash": 90943443,
+                      "flags": 0,
+                      "index": 18
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.11",
+                      "hash": 43513953,
+                      "flags": 0,
+                      "index": 15
+                    },
+                    {
+                      "name": "CXXABI_1.3.11",
+                      "hash": 184358897,
+                      "flags": 0,
+                      "index": 13
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.14",
+                      "hash": 43513956,
+                      "flags": 0,
+                      "index": 11
+                    },
+                    {
+                      "name": "CXXABI_1.3.5",
+                      "hash": 196071797,
+                      "flags": 0,
+                      "index": 10
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.22",
+                      "hash": 43513970,
+                      "flags": 0,
+                      "index": 9
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.15",
+                      "hash": 43513957,
+                      "flags": 0,
+                      "index": 8
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.19",
+                      "hash": 43513961,
+                      "flags": 0,
+                      "index": 7
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.21",
+                      "hash": 43513969,
+                      "flags": 0,
+                      "index": 4
+                    },
+                    {
+                      "name": "GLIBCXX_3.4",
+                      "hash": 143796596,
+                      "flags": 0,
+                      "index": 3
+                    }
+                  ]
+                },
+                {
+                  "file": "libc.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.17",
+                      "hash": 110530967,
+                      "flags": 0,
+                      "index": 32
+                    },
+                    {
+                      "name": "GLIBC_2.28",
+                      "hash": 110530952,
+                      "flags": 0,
+                      "index": 30
+                    },
+                    {
+                      "name": "GLIBC_2.26",
+                      "hash": 110530950,
+                      "flags": 0,
+                      "index": 25
+                    },
+                    {
+                      "name": "GLIBC_2.14",
+                      "hash": 110530964,
+                      "flags": 0,
+                      "index": 23
+                    },
+                    {
+                      "name": "GLIBC_2.6",
+                      "hash": 225011990,
+                      "flags": 0,
+                      "index": 21
+                    },
+                    {
+                      "name": "GLIBC_2.3",
+                      "hash": 225011987,
+                      "flags": 0,
+                      "index": 17
+                    },
+                    {
+                      "name": "GLIBC_2.4",
+                      "hash": 225011988,
+                      "flags": 0,
+                      "index": 14
+                    },
+                    {
+                      "name": "GLIBC_2.2.5",
+                      "hash": 157882997,
+                      "flags": 0,
+                      "index": 2
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "path": "qupathxx/libgeos.so.3.15.0",
+            "sha256": "7ef59bcd035c2f1f0c7eb5348a74fbf8c18a633dd294c4df47dfefe065161770",
+            "oracle_equal": true,
+            "inventory": {
+              "format": "ELF64",
+              "machine": "x86_64",
+              "endian": "little",
+              "kind": "shared-object",
+              "interpreter": null,
+              "needed": [
+                "libstdc++.so.6",
+                "libm.so.6",
+                "libgcc_s.so.1",
+                "libc.so.6",
+                "ld-linux-x86-64.so.2"
+              ],
+              "soname": "libgeos.so.3.15.0",
+              "rpath": null,
+              "runpath": [
+                "$ORIGIN"
+              ],
+              "auxiliary": [],
+              "filters": [],
+              "audit": null,
+              "depaudit": null,
+              "version_requirements": [
+                {
+                  "file": "libgcc_s.so.1",
+                  "versions": [
+                    {
+                      "name": "GCC_3.0",
+                      "hash": 192489040,
+                      "flags": 0,
+                      "index": 19
+                    }
+                  ]
+                },
+                {
+                  "file": "ld-linux-x86-64.so.2",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.3",
+                      "hash": 225011987,
+                      "flags": 0,
+                      "index": 18
+                    }
+                  ]
+                },
+                {
+                  "file": "libm.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.2.5",
+                      "hash": 157882997,
+                      "flags": 0,
+                      "index": 6
+                    }
+                  ]
+                },
+                {
+                  "file": "libc.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.14",
+                      "hash": 110530964,
+                      "flags": 0,
+                      "index": 14
+                    },
+                    {
+                      "name": "GLIBC_2.2.5",
+                      "hash": 157882997,
+                      "flags": 0,
+                      "index": 3
+                    }
+                  ]
+                },
+                {
+                  "file": "libstdc++.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBCXX_3.4.20",
+                      "hash": 43513968,
+                      "flags": 0,
+                      "index": 17
+                    },
+                    {
+                      "name": "CXXABI_1.3.9",
+                      "hash": 196071801,
+                      "flags": 0,
+                      "index": 16
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.18",
+                      "hash": 43513960,
+                      "flags": 0,
+                      "index": 15
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.9",
+                      "hash": 36274057,
+                      "flags": 0,
+                      "index": 13
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.11",
+                      "hash": 43513953,
+                      "flags": 0,
+                      "index": 12
+                    },
+                    {
+                      "name": "CXXABI_1.3.8",
+                      "hash": 196071800,
+                      "flags": 0,
+                      "index": 11
+                    },
+                    {
+                      "name": "CXXABI_1.3",
+                      "hash": 90943443,
+                      "flags": 0,
+                      "index": 10
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.14",
+                      "hash": 43513956,
+                      "flags": 0,
+                      "index": 9
+                    },
+                    {
+                      "name": "CXXABI_1.3.5",
+                      "hash": 196071797,
+                      "flags": 0,
+                      "index": 8
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.21",
+                      "hash": 43513969,
+                      "flags": 0,
+                      "index": 7
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.15",
+                      "hash": 43513957,
+                      "flags": 0,
+                      "index": 5
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.19",
+                      "hash": 43513961,
+                      "flags": 0,
+                      "index": 4
+                    },
+                    {
+                      "name": "GLIBCXX_3.4",
+                      "hash": 143796596,
+                      "flags": 0,
+                      "index": 2
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "path": "qupathxx/libgeos_c.so.1",
+            "sha256": "ea8d31fb8e5f2b2a43cabd0fdf88bce4e586fd27163b8209106ac602980a15c7",
+            "oracle_equal": true,
+            "inventory": {
+              "format": "ELF64",
+              "machine": "x86_64",
+              "endian": "little",
+              "kind": "shared-object",
+              "interpreter": null,
+              "needed": [
+                "libgeos.so.3.15.0",
+                "libstdc++.so.6",
+                "libm.so.6",
+                "libgcc_s.so.1",
+                "libc.so.6"
+              ],
+              "soname": "libgeos_c.so.1",
+              "rpath": null,
+              "runpath": [
+                "$ORIGIN"
+              ],
+              "auxiliary": [],
+              "filters": [],
+              "audit": null,
+              "depaudit": null,
+              "version_requirements": [
+                {
+                  "file": "libgcc_s.so.1",
+                  "versions": [
+                    {
+                      "name": "GCC_3.0",
+                      "hash": 192489040,
+                      "flags": 0,
+                      "index": 11
+                    }
+                  ]
+                },
+                {
+                  "file": "libc.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.14",
+                      "hash": 110530964,
+                      "flags": 0,
+                      "index": 8
+                    },
+                    {
+                      "name": "GLIBC_2.2.5",
+                      "hash": 157882997,
+                      "flags": 0,
+                      "index": 6
+                    }
+                  ]
+                },
+                {
+                  "file": "libm.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.2.5",
+                      "hash": 157882997,
+                      "flags": 0,
+                      "index": 5
+                    }
+                  ]
+                },
+                {
+                  "file": "libstdc++.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBCXX_3.4.9",
+                      "hash": 36274057,
+                      "flags": 0,
+                      "index": 10
+                    },
+                    {
+                      "name": "CXXABI_1.3.9",
+                      "hash": 196071801,
+                      "flags": 0,
+                      "index": 9
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.11",
+                      "hash": 43513953,
+                      "flags": 0,
+                      "index": 7
+                    },
+                    {
+                      "name": "CXXABI_1.3",
+                      "hash": 90943443,
+                      "flags": 0,
+                      "index": 4
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.21",
+                      "hash": 43513969,
+                      "flags": 0,
+                      "index": 3
+                    },
+                    {
+                      "name": "GLIBCXX_3.4",
+                      "hash": 143796596,
+                      "flags": 0,
+                      "index": 2
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "path": "qupathxx/libopenslide.so.1",
+            "sha256": "552b5b77901bc9c7e7cc6e02a0b4f2861ffa85572b036a063db4f19ed2f357df",
+            "oracle_equal": true,
+            "inventory": {
+              "format": "ELF64",
+              "machine": "x86_64",
+              "endian": "little",
+              "kind": "shared-object",
+              "interpreter": null,
+              "needed": [
+                "libm.so.6",
+                "libdl.so.2",
+                "libgcc_s.so.1",
+                "libpthread.so.0",
+                "libc.so.6",
+                "ld-linux-x86-64.so.2"
+              ],
+              "soname": "libopenslide.so.1",
+              "rpath": null,
+              "runpath": [
+                "$ORIGIN/../lib"
+              ],
+              "auxiliary": [],
+              "filters": [],
+              "audit": null,
+              "depaudit": null,
+              "version_requirements": [
+                {
+                  "file": "libdl.so.2",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.2.5",
+                      "hash": 157882997,
+                      "flags": 0,
+                      "index": 20
+                    }
+                  ]
+                },
+                {
+                  "file": "ld-linux-x86-64.so.2",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.3",
+                      "hash": 225011987,
+                      "flags": 0,
+                      "index": 19
+                    }
+                  ]
+                },
+                {
+                  "file": "libgcc_s.so.1",
+                  "versions": [
+                    {
+                      "name": "GCC_3.0",
+                      "hash": 192489040,
+                      "flags": 0,
+                      "index": 22
+                    },
+                    {
+                      "name": "GCC_3.3.1",
+                      "hash": 153509729,
+                      "flags": 0,
+                      "index": 7
+                    }
+                  ]
+                },
+                {
+                  "file": "libpthread.so.0",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.12",
+                      "hash": 110530962,
+                      "flags": 0,
+                      "index": 11
+                    },
+                    {
+                      "name": "GLIBC_2.3.2",
+                      "hash": 157882738,
+                      "flags": 0,
+                      "index": 6
+                    },
+                    {
+                      "name": "GLIBC_2.2.5",
+                      "hash": 157882997,
+                      "flags": 0,
+                      "index": 5
+                    }
+                  ]
+                },
+                {
+                  "file": "libc.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.8",
+                      "hash": 225011992,
+                      "flags": 0,
+                      "index": 24
+                    },
+                    {
+                      "name": "GLIBC_2.14",
+                      "hash": 110530964,
+                      "flags": 0,
+                      "index": 23
+                    },
+                    {
+                      "name": "GLIBC_2.28",
+                      "hash": 110530952,
+                      "flags": 0,
+                      "index": 21
+                    },
+                    {
+                      "name": "GLIBC_2.25",
+                      "hash": 110530949,
+                      "flags": 0,
+                      "index": 18
+                    },
+                    {
+                      "name": "GLIBC_2.4",
+                      "hash": 225011988,
+                      "flags": 0,
+                      "index": 17
+                    },
+                    {
+                      "name": "GLIBC_2.3.3",
+                      "hash": 157882739,
+                      "flags": 0,
+                      "index": 16
+                    },
+                    {
+                      "name": "GLIBC_2.7",
+                      "hash": 225011991,
+                      "flags": 0,
+                      "index": 14
+                    },
+                    {
+                      "name": "GLIBC_2.3.4",
+                      "hash": 157882740,
+                      "flags": 0,
+                      "index": 13
+                    },
+                    {
+                      "name": "GLIBC_2.17",
+                      "hash": 110530967,
+                      "flags": 0,
+                      "index": 12
+                    },
+                    {
+                      "name": "GLIBC_2.11",
+                      "hash": 110530961,
+                      "flags": 0,
+                      "index": 10
+                    },
+                    {
+                      "name": "GLIBC_2.16",
+                      "hash": 110530966,
+                      "flags": 0,
+                      "index": 9
+                    },
+                    {
+                      "name": "GLIBC_2.3",
+                      "hash": 225011987,
+                      "flags": 0,
+                      "index": 8
+                    },
+                    {
+                      "name": "GLIBC_2.2.5",
+                      "hash": 157882997,
+                      "flags": 0,
+                      "index": 4
+                    },
+                    {
+                      "name": "GLIBC_2.9",
+                      "hash": 225011993,
+                      "flags": 0,
+                      "index": 3
+                    }
+                  ]
+                },
+                {
+                  "file": "libm.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.15",
+                      "hash": 110530965,
+                      "flags": 0,
+                      "index": 15
+                    },
+                    {
+                      "name": "GLIBC_2.2.5",
+                      "hash": 157882997,
+                      "flags": 0,
+                      "index": 2
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "path": "qupathxx/qupathxx_batch",
+            "sha256": "d7fa6331086bdf1a0a8133419891830c5ac00015cc912f10690b2a44756a2308",
+            "oracle_equal": true,
+            "inventory": {
+              "format": "ELF64",
+              "machine": "x86_64",
+              "endian": "little",
+              "kind": "executable",
+              "interpreter": "/lib64/ld-linux-x86-64.so.2",
+              "needed": [
+                "libm.so.6",
+                "libz.so.1",
+                "libpthread.so.0",
+                "librt.so.1",
+                "libdl.so.2",
+                "libgeos_c.so.1",
+                "libopenslide.so.1",
+                "libstdc++.so.6",
+                "libgcc_s.so.1",
+                "libc.so.6",
+                "ld-linux-x86-64.so.2"
+              ],
+              "soname": null,
+              "rpath": null,
+              "runpath": [
+                "$ORIGIN"
+              ],
+              "auxiliary": [],
+              "filters": [],
+              "audit": null,
+              "depaudit": null,
+              "version_requirements": [
+                {
+                  "file": "ld-linux-x86-64.so.2",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.3",
+                      "hash": 225011987,
+                      "flags": 0,
+                      "index": 32
+                    }
+                  ]
+                },
+                {
+                  "file": "libgcc_s.so.1",
+                  "versions": [
+                    {
+                      "name": "GCC_3.0",
+                      "hash": 192489040,
+                      "flags": 0,
+                      "index": 16
+                    },
+                    {
+                      "name": "GCC_4.3.0",
+                      "hash": 153575264,
+                      "flags": 0,
+                      "index": 13
+                    }
+                  ]
+                },
+                {
+                  "file": "libpthread.so.0",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.2.5",
+                      "hash": 157882997,
+                      "flags": 0,
+                      "index": 5
+                    }
+                  ]
+                },
+                {
+                  "file": "libm.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.27",
+                      "hash": 110530951,
+                      "flags": 0,
+                      "index": 34
+                    },
+                    {
+                      "name": "GLIBC_2.2.5",
+                      "hash": 157882997,
+                      "flags": 0,
+                      "index": 4
+                    }
+                  ]
+                },
+                {
+                  "file": "libstdc++.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBCXX_3.4.20",
+                      "hash": 43513968,
+                      "flags": 0,
+                      "index": 30
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.17",
+                      "hash": 43513959,
+                      "flags": 0,
+                      "index": 28
+                    },
+                    {
+                      "name": "CXXABI_1.3.3",
+                      "hash": 196071795,
+                      "flags": 0,
+                      "index": 27
+                    },
+                    {
+                      "name": "CXXABI_1.3.9",
+                      "hash": 196071801,
+                      "flags": 0,
+                      "index": 26
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.18",
+                      "hash": 43513960,
+                      "flags": 0,
+                      "index": 24
+                    },
+                    {
+                      "name": "CXXABI_1.3.11",
+                      "hash": 184358897,
+                      "flags": 0,
+                      "index": 23
+                    },
+                    {
+                      "name": "CXXABI_1.3.2",
+                      "hash": 196071794,
+                      "flags": 0,
+                      "index": 21
+                    },
+                    {
+                      "name": "CXXABI_1.3.8",
+                      "hash": 196071800,
+                      "flags": 0,
+                      "index": 20
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.9",
+                      "hash": 36274057,
+                      "flags": 0,
+                      "index": 19
+                    },
+                    {
+                      "name": "CXXABI_1.3",
+                      "hash": 90943443,
+                      "flags": 0,
+                      "index": 18
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.11",
+                      "hash": 43513953,
+                      "flags": 0,
+                      "index": 15
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.14",
+                      "hash": 43513956,
+                      "flags": 0,
+                      "index": 12
+                    },
+                    {
+                      "name": "CXXABI_1.3.5",
+                      "hash": 196071797,
+                      "flags": 0,
+                      "index": 11
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.22",
+                      "hash": 43513970,
+                      "flags": 0,
+                      "index": 9
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.21",
+                      "hash": 43513969,
+                      "flags": 0,
+                      "index": 8
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.15",
+                      "hash": 43513957,
+                      "flags": 0,
+                      "index": 7
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.19",
+                      "hash": 43513961,
+                      "flags": 0,
+                      "index": 6
+                    },
+                    {
+                      "name": "GLIBCXX_3.4",
+                      "hash": 143796596,
+                      "flags": 0,
+                      "index": 3
+                    }
+                  ]
+                },
+                {
+                  "file": "libc.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.17",
+                      "hash": 110530967,
+                      "flags": 0,
+                      "index": 33
+                    },
+                    {
+                      "name": "GLIBC_2.28",
+                      "hash": 110530952,
+                      "flags": 0,
+                      "index": 31
+                    },
+                    {
+                      "name": "GLIBC_2.3.4",
+                      "hash": 157882740,
+                      "flags": 0,
+                      "index": 29
+                    },
+                    {
+                      "name": "GLIBC_2.26",
+                      "hash": 110530950,
+                      "flags": 0,
+                      "index": 25
+                    },
+                    {
+                      "name": "GLIBC_2.14",
+                      "hash": 110530964,
+                      "flags": 0,
+                      "index": 22
+                    },
+                    {
+                      "name": "GLIBC_2.3",
+                      "hash": 225011987,
+                      "flags": 0,
+                      "index": 17
+                    },
+                    {
+                      "name": "GLIBC_2.4",
+                      "hash": 225011988,
+                      "flags": 0,
+                      "index": 14
+                    },
+                    {
+                      "name": "GLIBC_2.6",
+                      "hash": 225011990,
+                      "flags": 0,
+                      "index": 10
+                    },
+                    {
+                      "name": "GLIBC_2.2.5",
+                      "hash": 157882997,
+                      "flags": 0,
+                      "index": 2
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "path": "qupathxx/qupathxx_region",
+            "sha256": "e1a37bad4e4f4f43f7013a6d56a229515413aa7d2f3635888c4f72e4926bf3eb",
+            "oracle_equal": true,
+            "inventory": {
+              "format": "ELF64",
+              "machine": "x86_64",
+              "endian": "little",
+              "kind": "executable",
+              "interpreter": "/lib64/ld-linux-x86-64.so.2",
+              "needed": [
+                "libm.so.6",
+                "libz.so.1",
+                "libpthread.so.0",
+                "librt.so.1",
+                "libdl.so.2",
+                "libgeos_c.so.1",
+                "libopenslide.so.1",
+                "libstdc++.so.6",
+                "libgcc_s.so.1",
+                "libc.so.6",
+                "ld-linux-x86-64.so.2"
+              ],
+              "soname": null,
+              "rpath": null,
+              "runpath": [
+                "$ORIGIN"
+              ],
+              "auxiliary": [],
+              "filters": [],
+              "audit": null,
+              "depaudit": null,
+              "version_requirements": [
+                {
+                  "file": "ld-linux-x86-64.so.2",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.3",
+                      "hash": 225011987,
+                      "flags": 0,
+                      "index": 29
+                    }
+                  ]
+                },
+                {
+                  "file": "libgcc_s.so.1",
+                  "versions": [
+                    {
+                      "name": "GCC_3.0",
+                      "hash": 192489040,
+                      "flags": 0,
+                      "index": 15
+                    },
+                    {
+                      "name": "GCC_4.3.0",
+                      "hash": 153575264,
+                      "flags": 0,
+                      "index": 12
+                    }
+                  ]
+                },
+                {
+                  "file": "libm.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.2.5",
+                      "hash": 157882997,
+                      "flags": 0,
+                      "index": 7
+                    }
+                  ]
+                },
+                {
+                  "file": "libpthread.so.0",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.2.5",
+                      "hash": 157882997,
+                      "flags": 0,
+                      "index": 4
+                    }
+                  ]
+                },
+                {
+                  "file": "libstdc++.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBCXX_3.4.20",
+                      "hash": 43513968,
+                      "flags": 0,
+                      "index": 28
+                    },
+                    {
+                      "name": "CXXABI_1.3.3",
+                      "hash": 196071795,
+                      "flags": 0,
+                      "index": 27
+                    },
+                    {
+                      "name": "CXXABI_1.3.9",
+                      "hash": 196071801,
+                      "flags": 0,
+                      "index": 26
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.18",
+                      "hash": 43513960,
+                      "flags": 0,
+                      "index": 24
+                    },
+                    {
+                      "name": "CXXABI_1.3.11",
+                      "hash": 184358897,
+                      "flags": 0,
+                      "index": 23
+                    },
+                    {
+                      "name": "CXXABI_1.3.2",
+                      "hash": 196071794,
+                      "flags": 0,
+                      "index": 21
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.9",
+                      "hash": 36274057,
+                      "flags": 0,
+                      "index": 20
+                    },
+                    {
+                      "name": "CXXABI_1.3.8",
+                      "hash": 196071800,
+                      "flags": 0,
+                      "index": 18
+                    },
+                    {
+                      "name": "CXXABI_1.3",
+                      "hash": 90943443,
+                      "flags": 0,
+                      "index": 17
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.11",
+                      "hash": 43513953,
+                      "flags": 0,
+                      "index": 14
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.14",
+                      "hash": 43513956,
+                      "flags": 0,
+                      "index": 11
+                    },
+                    {
+                      "name": "CXXABI_1.3.5",
+                      "hash": 196071797,
+                      "flags": 0,
+                      "index": 10
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.21",
+                      "hash": 43513969,
+                      "flags": 0,
+                      "index": 9
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.22",
+                      "hash": 43513970,
+                      "flags": 0,
+                      "index": 8
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.15",
+                      "hash": 43513957,
+                      "flags": 0,
+                      "index": 6
+                    },
+                    {
+                      "name": "GLIBCXX_3.4.19",
+                      "hash": 43513961,
+                      "flags": 0,
+                      "index": 5
+                    },
+                    {
+                      "name": "GLIBCXX_3.4",
+                      "hash": 143796596,
+                      "flags": 0,
+                      "index": 3
+                    }
+                  ]
+                },
+                {
+                  "file": "libc.so.6",
+                  "versions": [
+                    {
+                      "name": "GLIBC_2.17",
+                      "hash": 110530967,
+                      "flags": 0,
+                      "index": 30
+                    },
+                    {
+                      "name": "GLIBC_2.26",
+                      "hash": 110530950,
+                      "flags": 0,
+                      "index": 25
+                    },
+                    {
+                      "name": "GLIBC_2.14",
+                      "hash": 110530964,
+                      "flags": 0,
+                      "index": 22
+                    },
+                    {
+                      "name": "GLIBC_2.6",
+                      "hash": 225011990,
+                      "flags": 0,
+                      "index": 19
+                    },
+                    {
+                      "name": "GLIBC_2.3",
+                      "hash": 225011987,
+                      "flags": 0,
+                      "index": 16
+                    },
+                    {
+                      "name": "GLIBC_2.4",
+                      "hash": 225011988,
+                      "flags": 0,
+                      "index": 13
+                    },
+                    {
+                      "name": "GLIBC_2.2.5",
+                      "hash": 157882997,
+                      "flags": 0,
+                      "index": 2
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "package_binaries_extracted": false,
+    "package_binaries_loaded": false,
+    "release_ready": false,
+    "scope": "Dynamic names, search/interpreter fields and version requirements only. No symbol resolution, package resolution, loader, prerequisite availability or release acceptance."
+  },
+  "focused": {
+    "passed": 130,
+    "elf_passed": 75,
+    "windows_manifest_passed": 55,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "junit_sha256": "22c73000672fd46924613657ba998a308b4c6901e3d1ade56cee16ebe8cfb306"
+  },
+  "native_compiler_inputs_unchanged": true,
+  "new_engine_compilation": false,
+  "package_manifest_integration": false,
+  "hosted_validation": "pending",
+  "release_ready": false,
+  "full_plan_complete": false,
+  "retained_prior_observations": [
+    "Initial 54 ELF cases passed.",
+    "Aggregate name budget extension: 55 ELF cases passed.",
+    "Initial GNU version requirement cases: 74 passed.",
+    "Final multiple-dependency/overlap case: 75 ELF and 55 Windows cases passed.",
+    "Initial name-only and GNU-version real-wheel oracle reports are retained in ignored build evidence."
+  ]
+}

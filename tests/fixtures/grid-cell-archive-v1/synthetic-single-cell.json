@@ -1,0 +1,34 @@
+{
+  "schema": "qpx.qcl5-independent-vector/1",
+  "scope": "Synthetic historical numeric snapshot; no sampled input or segmentation acceptance",
+  "bytes": 1253,
+  "sha256": "e65cbafb2f5a0a94c6593168d535b3bf645121af719438ebae65d03df3421f74",
+  "roi": [
+    0,
+    0,
+    1,
+    1
+  ],
+  "image": [
+    1,
+    1
+  ],
+  "units": "micrometres",
+  "sample_steps": [
+    0.5,
+    0.25
+  ],
+  "nucleus_area_um2": 0.125,
+  "nucleus_rgb": [
+    32,
+    32,
+    32
+  ],
+  "nucleus_channels": [
+    0.9013902021140492,
+    0.9013902021140492,
+    0.9013902021140492
+  ],
+  "input_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "provenance_sha256": "7bff848efc46750c95c6138ae5aa79b45061cefea18abc3300ffcf2bbb80eac3"
+}

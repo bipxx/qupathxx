@@ -1,0 +1,60 @@
+[
+  {
+    "name": "create-env",
+    "args": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Scripts\\python.exe",
+      "-m",
+      "venv",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-stream-batch-247-development-env"
+    ],
+    "exit": 0,
+    "seconds": 7.476085799979046
+  },
+  {
+    "name": "install",
+    "args": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-stream-batch-247-development-env\\Scripts\\python.exe",
+      "-m",
+      "pip",
+      "install",
+      "--no-deps",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw-stream-batch-247\\development-wheel\\qupathxx-0.1.0-cp312-cp312-win_amd64.whl"
+    ],
+    "exit": 0,
+    "seconds": 2.253032400039956
+  },
+  {
+    "name": "native",
+    "args": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\ctest.exe",
+      "--test-dir",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package",
+      "-C",
+      "Release",
+      "-R",
+      "^(project_batch|pixel_workflows|viewer_session|gui_replay)$",
+      "--output-on-failure",
+      "--test-output-size-passed",
+      "1048576",
+      "--no-tests=error",
+      "--output-junit",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw-stream-batch-247\\development\\native.xml"
+    ],
+    "exit": 0,
+    "seconds": 3.9246172001585364
+  },
+  {
+    "name": "new-python",
+    "args": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-stream-batch-247-development-env\\Scripts\\python.exe",
+      "-I",
+      "-m",
+      "pytest",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_raw_stream_contour_batch.py",
+      "-q",
+      "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw-stream-batch-247\\development\\new-python.xml"
+    ],
+    "exit": 1,
+    "seconds": 4.102627999847755
+  }
+]

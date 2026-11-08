@@ -1,0 +1,193 @@
+{
+  "native_source": "7231d95c25fbc9515d937036986e8c92b19da261",
+  "compiler_inputs_unchanged": 415,
+  "product_source": "fec74acadee7c32f93d835e73fd78f8348e026de",
+  "upstream_imgui": "b916186e66aa3c02b72c6ca17455516512ed8049",
+  "files": [
+    {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-gl-284\\probe.cpp",
+      "bytes": 9642,
+      "sha256": "3cbf7801453810b772220e0fdcbc02bff77e3ce6d72c54ebaa9a658583dd64ec"
+    },
+    {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-gl-284\\CMakeLists.txt",
+      "bytes": 1293,
+      "sha256": "46faaa6c6591ee32dc1694f73cd004a2c1a384cce6119808184cb496d07e5447"
+    },
+    {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-delivery-283\\final-products\\Release\\qupathxx_gui.lib",
+      "bytes": 17731576,
+      "sha256": "f51d102629c6618e0d52b34f3cc2f5b84cbf45758cfa1215b3f8482d05176bfd"
+    },
+    {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package\\_deps\\glfw-build\\src\\Release\\glfw3.lib",
+      "bytes": 722228,
+      "sha256": "936718cd6a3a89560a7e1b0e0a17f66a7c6cccc49f858f99ee7f3d7e43caf378"
+    },
+    {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\cpp\\gui_fonts.hpp",
+      "bytes": 597,
+      "sha256": "545fa06605a0e7cbc3eabb9df0b7bf4483d580e0c5fcbe1aa86431bd9a7a009c"
+    },
+    {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\cp312-cp312-win_amd64\\_deps\\glfw-src\\include\\GLFW\\glfw3.h",
+      "bytes": 248373,
+      "sha256": "0fd04b330d92fc4bd6630c20d1006cef36d25b16ec9f911ec4041918482307bb"
+    },
+    {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-fonts-282\\inputs\\imgui193\\imconfig.h",
+      "bytes": 13285,
+      "sha256": "d9eebb853e534e39692f96c7521146f77017c9096c6945a5635a0737abefe48e"
+    },
+    {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-fonts-282\\inputs\\imgui193\\imgui.h",
+      "bytes": 483176,
+      "sha256": "d13945ef9e98a235064139fb4645bf5a3e4ba1ed1105f96ea3c3a36a4dde1f58"
+    },
+    {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-fonts-282\\inputs\\imgui193\\imgui_internal.h",
+      "bytes": 347394,
+      "sha256": "409748f53361b234ad6ec5da7a4a75925f19425a22232dd210fecf52877b5ebb"
+    },
+    {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-fonts-282\\inputs\\imgui193\\imstb_rectpack.h",
+      "bytes": 20973,
+      "sha256": "7f9bffb8ac5e79d20787fdc20d29d29f7474dca673f64d4a9a8a9f9373e40972"
+    },
+    {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-fonts-282\\inputs\\imgui193\\imstb_textedit.h",
+      "bytes": 61638,
+      "sha256": "24a8db00354af8f4057417841635a1b6dfd8986f1608336fe6f10d6fd9769aaa"
+    },
+    {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-fonts-282\\inputs\\imgui193\\imstb_truetype.h",
+      "bytes": 204588,
+      "sha256": "a4131c7a2e324c0625250830af6976adb5732b453f0fc6e8bc5ad70065bc2b79"
+    },
+    {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-fonts-282\\inputs\\imgui193\\backends\\imgui_impl_allegro5.h",
+      "bytes": 3078,
+      "sha256": "da98b0e5235e84222c5e769ed472b06b01b89497467dd153eeca4490e54227cc"
+    },
+    {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-fonts-282\\inputs\\imgui193\\backends\\imgui_impl_android.h",
+      "bytes": 2331,
+      "sha256": "9b17aba51438d5f9cc4b8c2f0db1e6f9a3a4b8625b6c4b885d2124fb3f4afd13"
+    },
+    {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-fonts-282\\inputs\\imgui193\\backends\\imgui_impl_dx10.h",
+      "bytes": 3058,
+      "sha256": "1ecfa4632b6910d00577a73b1d8aee58cc7f34fc6f2428eaca9dcc23a8304b63"
+    },
+    {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-fonts-282\\inputs\\imgui193\\backends\\imgui_impl_dx11.h",
+      "bytes": 3168,
+      "sha256": "9e6dfc36ccddfb21f0283dedc3cd79646ed8ba24fcc7a7717c1f77e14b9ccaa3"
+    },
+    {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-fonts-282\\inputs\\imgui193\\backends\\imgui_impl_dx12.h",
+      "bytes": 5562,
+      "sha256": "0f163edaf8853e8f2b36cf78d0e3e904430b6e828cf0f41766ace05ea2f1bf9e"
+    },
+    {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-fonts-282\\inputs\\imgui193\\backends\\imgui_impl_dx9.h",
+      "bytes": 2258,
+      "sha256": "ee6c918707f6db67f7a25602843f74cea736f77f827fcdf0787e8d2b2634a198"
+    },
+    {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-fonts-282\\inputs\\imgui193\\backends\\imgui_impl_glfw.h",
+      "bytes": 5586,
+      "sha256": "38fe28e770610de5b7dcf36f796bca6321e7e6ef0653fade9a8d517bca1f7335"
+    },
+    {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-fonts-282\\inputs\\imgui193\\backends\\imgui_impl_glut.h",
+      "bytes": 3340,
+      "sha256": "30461e68ae146f17ee158800bc01bdf20e767bed59a82bc179d15160e8be01cb"
+    },
+    {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-fonts-282\\inputs\\imgui193\\backends\\imgui_impl_metal.h",
+      "bytes": 4126,
+      "sha256": "7fc2d6b4e72c6fd9b818d1c03ae145dc19989c46e353ad8bf30cfa04465bc3c9"
+    },
+    {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-fonts-282\\inputs\\imgui193\\backends\\imgui_impl_metal4.h",
+      "bytes": 5174,
+      "sha256": "ed722ff9be449654a9a51a5823c63e71457c6f1f2ae260f27f7061d45d00f5ee"
+    },
+    {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-fonts-282\\inputs\\imgui193\\backends\\imgui_impl_null.h",
+      "bytes": 1634,
+      "sha256": "bbdf9ba0f25675b8759c174be522ee8be3dd33b097effed89876a1ebfe68d3bf"
+    },
+    {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-fonts-282\\inputs\\imgui193\\backends\\imgui_impl_opengl2.h",
+      "bytes": 2995,
+      "sha256": "d56510ddc5c7ce1574c307fc678c12d234e783ab41304d6dc79b4335248131a7"
+    },
+    {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-fonts-282\\inputs\\imgui193\\backends\\imgui_impl_opengl3.h",
+      "bytes": 5015,
+      "sha256": "00a64f7d85c4ebdac51a06d481ea05dfb196adab930a6935ac3bc1335d48530f"
+    },
+    {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-fonts-282\\inputs\\imgui193\\backends\\imgui_impl_opengl3_loader.h",
+      "bytes": 42176,
+      "sha256": "e3f78660cf6323bf580870b2b79e23c76e0680b1c19b5bf4cd279a286c1118c9"
+    },
+    {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-fonts-282\\inputs\\imgui193\\backends\\imgui_impl_osx.h",
+      "bytes": 3008,
+      "sha256": "d43324419c628abef3cfad2a4684754ee714a1175168fbd8c6f5734e1314fe56"
+    },
+    {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-fonts-282\\inputs\\imgui193\\backends\\imgui_impl_qnx.h",
+      "bytes": 1817,
+      "sha256": "2a2a0acf39565608e617351a456c3ef610d9a482d10c255bf0d379b181b762fa"
+    },
+    {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-fonts-282\\inputs\\imgui193\\backends\\imgui_impl_sdl2.h",
+      "bytes": 4677,
+      "sha256": "7bfad99ba818e14af0c420ec637d599845dac00c4db836f004c4c3ec3d2c23a7"
+    },
+    {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-fonts-282\\inputs\\imgui193\\backends\\imgui_impl_sdl3.h",
+      "bytes": 4460,
+      "sha256": "1cbce6a59b80c2e6c6834d9db2942984b0a18423f340d1d15f25a67fc89a6bc0"
+    },
+    {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-fonts-282\\inputs\\imgui193\\backends\\imgui_impl_sdlgpu3.h",
+      "bytes": 4506,
+      "sha256": "e36081068ef31e78e991b620b5c22b880431ab061398ddc751a622059c4a0268"
+    },
+    {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-fonts-282\\inputs\\imgui193\\backends\\imgui_impl_sdlgpu3_shaders.h",
+      "bytes": 67851,
+      "sha256": "9135ee2537113055701da2c0945ba4ce0589252b306d5bdbe037f49a47e40d9d"
+    },
+    {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-fonts-282\\inputs\\imgui193\\backends\\imgui_impl_sdlrenderer2.h",
+      "bytes": 3481,
+      "sha256": "fbb12453dd6d937c63ebe7268054523bf51dd29c96f3367fcf70db4f66b90c69"
+    },
+    {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-fonts-282\\inputs\\imgui193\\backends\\imgui_impl_sdlrenderer3.h",
+      "bytes": 3436,
+      "sha256": "18b2b39d71f3771f1f8486033a9cdb936c4f253b31d40cde6be12193099d794e"
+    },
+    {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-fonts-282\\inputs\\imgui193\\backends\\imgui_impl_vulkan.h",
+      "bytes": 18883,
+      "sha256": "3cea2138e05aa5c3e6dac0af299a4fca95ad3b0301b4f352ba139f7a30f4736e"
+    },
+    {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-fonts-282\\inputs\\imgui193\\backends\\imgui_impl_wgpu.h",
+      "bytes": 6591,
+      "sha256": "511f2cd3e327e6fb2f3cdd6a0c40b36d358f1592c2929157147ce6977de8fd26"
+    },
+    {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-fonts-282\\inputs\\imgui193\\backends\\imgui_impl_win32.h",
+      "bytes": 3672,
+      "sha256": "2f6c01267b71042a549bca90b2bc461bee8365b4290c4d44167ca037ddb7c325"
+    }
+  ]
+}

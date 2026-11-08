@@ -170,3 +170,25 @@ The final installed-wheel regression passes 876 Python cases with two Windows
 symlink cases skipped. All 26 full-GUI native suites and 25 suites in each
 core/minimal configuration pass. A native desktop capture additionally verifies
 that the destination, export button, successful status and row count are readable.
+
+## Nominal RGB cell tables
+
+Tables containing nominal results use version7, or8 with capture-time calibrated
+features. This applies to document/project and run/published-object table variants.
+Existing natural and area-grid tables retain their earlier formats. A mixed table
+uses the nominal-capable version and discriminates each row with `sampling_grid`.
+
+Nominal rows use `sampling_grid=nominal_rgb`, `detector_mode=nominal-log-bodies` and
+`grid_input_format=qpx.nominal-cell-rgb/1`. The result's algorithm identity and
+input digest stay in their existing columns. `grid_origin_*` and `grid_extent_*`
+describe the integer requested source rectangle; `grid_samples_*` give rounded
+core output counts; `sample_step_*` retain the independent nominal spacing.
+For example,256 requested pixels at1.5 have171 output samples:256/171 is not the
+sampling step. Context columns count additional output samples on each side.
+Unknown calibration remains blank; captured per-axis calibration drives physical
+features. CSV formatting reads retained records and does not re-decode image pixels.
+
+The [SDK292 receipt](benchmarks/nominal-cell-python-292/receipt.json) includes
+original-document async retention, project reopen/replay and named-column CSV
+checks, as well as existing table regressions. Direct/batch CLI nominal options
+and desktop creation controls remain separate delivery work.

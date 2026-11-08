@@ -1,0 +1,36 @@
+....................F                                                    [100%]
+================================== FAILURES ===================================
+__________ test_actual_window_close_cancels_and_joins_spatial_worker __________
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/spatial-faults-269/gui-initial-temp/test_actual_window_close_cance0')
+
+    @GUI
+    def test_actual_window_close_cancels_and_joins_spatial_worker(tmp_path):
+        code="""
+    import json,sys
+    import qupathxx as q
+    doc=q.Document(q.Image(64,64,[80]*64*64*3));roi=q.Roi.points([q.Point(32,32)])
+    doc.execute([q.ObjectEdit.create_geometry(roi) for _ in range(20000)])
+    ids=[a.id for a in doc.annotations];project=q.Project();project.add_document(doc,'Close during analysis');project.save(sys.argv[1])
+    o=q.GuiOptions();o.width=1280;o.height=1000;o.autosave_interval_seconds=0
+    spatial=q.GuiSpatialOptions();spatial.open=spatial.run=True;spatial.sources=spatial.targets=ids
+    analysis=spatial.analysis;analysis.max_distance_tests=1<<40;spatial.analysis=analysis;o.spatial=spatial
+    e=q.GuiInput();e.frame=8;e.kind=q.GuiInputKind.CLOSE_WINDOW;o.inputs=[e]
+    report=q.show(project,frame_limit=0,options=o)
+    assert report.replay_complete and report.spatial.state=='cancelled' and not report.spatial.busy
+    assert report.spatial.result is None and doc.spatial_record_count==0
+    print(json.dumps(dict(state=report.spatial.state,distance_tests=report.spatial.analysis.distance_tests)))
+    """
+        child=subprocess.run([sys.executable,'-I','-X','utf8','-c',code,str(tmp_path/'source.qpx')],capture_output=True,text=True,encoding='utf-8',timeout=30)
+>       assert child.returncode==0,child.stdout+child.stderr
+E       AssertionError: Traceback (most recent call last):
+E           File "<string>", line 11, in <module>
+E         ValueError: invalid replay event; frame must be inside finite run, starting at 2 for UI input
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\spatial-frontends-268-env\\Scripts\\python.exe'...line 11, in <module>\nValueError: invalid replay event; frame must be inside finite run, starting at 2 for UI input\n').returncode
+
+tests\test_spatial_frontends.py:193: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_spatial_frontends.py::test_actual_window_close_cancels_and_joins_spatial_worker
+1 failed, 20 passed in 3.41s

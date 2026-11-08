@@ -1,0 +1,42 @@
+native source e5d39e44406f6b14c4e2195f217e604d1afe880a
+.............................F............Fs............................ [ 27%]
+.......ss...........s.....................s.........................s... [ 54%]
+..........................ss........................................s... [ 81%]
+..........s.................ss....................                       [100%]
+================================== FAILURES ===================================
+________ test_save_snapshot_owns_values_and_schema21_upgrade_is_atomic ________
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/axis-calibration-r5/staged-temp/test_save_snapshot_owns_values0')
+
+    def test_save_snapshot_owns_values_and_schema21_upgrade_is_atomic(tmp_path):
+        project,image,doc,source=workspace(tmp_path);path=tmp_path/'saved.qpxproj'
+>       doc.create_annotation(q.Rect(1,2,3,4));doc.set_image_axis_calibration(q.ImageAxisCalibration(4.5,[1,2,3,4]))
+        ^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'qupathxx._native.Document' object has no attribute 'create_annotation'. Did you mean: 'rename_annotation'?
+
+tests\test_image_axis_calibration.py:84: AttributeError
+_________ test_source_reduction_checks_retained_undo_and_redo_states __________
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/axis-calibration-r5/staged-temp/test_source_reduction_checks_r0')
+
+    def test_source_reduction_checks_retained_undo_and_redo_states(tmp_path):
+        project,image,doc,source=workspace(tmp_path);doc.set_image_axis_calibration(q.ImageAxisCalibration(4.5,[0,1,2,3]));doc.set_image_axis_calibration()
+        smaller=tmp_path/'smaller.ome.tif';tifffile.imwrite(smaller,np.zeros((2,3,16,20),dtype='uint16'),ome=True,photometric='minisblack',metadata={'axes':'TZYX'})
+>       old=doc.server;revision=project.revision
+                                ^^^^^^^^^^^^^^^^
+E       AttributeError: 'qupathxx._native.Project' object has no attribute 'revision'
+
+tests\test_image_axis_calibration.py:130: AttributeError
+============================== warnings summary ===============================
+tests/test_axis_calibration_capture.py::test_source_pixels_and_acquisition_axes_are_independent
+tests/test_qupath_project.py::test_project_import_preserves_sources_objects_classes_calibration_and_pixels
+tests/test_qupath_project.py::test_project_import_preserves_sources_objects_classes_calibration_and_pixels
+  C:\Users\HEQ\Projects\qupathxx\.venv\Lib\site-packages\tifffile\tifffile.py:4594: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.
+  As an alternative, you can create a new view using np.reshape (with copy=False if needed).
+    result.shape = shape
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/test_image_axis_calibration.py::test_save_snapshot_owns_values_and_schema21_upgrade_is_atomic
+FAILED tests/test_image_axis_calibration.py::test_source_reduction_checks_retained_undo_and_redo_states
+2 failed, 252 passed, 12 skipped, 3 warnings in 14.87s

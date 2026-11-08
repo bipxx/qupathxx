@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "C:\Users\HEQ\Projects\qupathxx\build\ci\root-locator-qualification-260-audit\tools\ci\accept_unified_engine.py", line 112, in <module>
+    assert all(j['status']=='completed' and j['conclusion']=='success' for j in run['jobs'])
+           ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

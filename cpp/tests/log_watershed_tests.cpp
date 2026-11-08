@@ -1,0 +1,212 @@
+#include "../log_watershed.hpp"
+#include "../shape_watershed.hpp"
+#include "build_manifest.hpp"
+#include <cstring>
+#include <fstream>
+#include <iostream>
+#include <iomanip>
+
+namespace {
+void require(bool condition) {if(!condition) throw std::runtime_error("LoG watershed contract failed");}
+void reconstruction_oracle() {
+    // Independent simultaneous fixed-point dilation, without a priority queue
+    // or the production neighbor traversal. Quarter-valued inputs are exact.
+    for(auto shape:{std::pair<std::size_t,std::size_t>{1,9},{9,1},{5,7},{13,11}})
+    for(double prominence:{.125,.5,2.}) {
+        const auto width=shape.first,height=shape.second,n=width*height;
+        std::vector<double> d(n),previous(n);std::vector<std::uint8_t> mask(n),expected(n);
+        for(std::size_t i=0;i<n;++i) {
+            mask[i]=i%7!=3;d[i]=mask[i]?double((i*37)%13+1)/4:0;
+            previous[i]=mask[i]?std::max(0.,d[i]-prominence):0;
+        }
+        bool settled=false;
+        for(std::size_t step=0;step<=n;++step) {
+            auto next=previous;
+            for(std::size_t y=0;y<height;++y) for(std::size_t x=0;x<width;++x) {
+                const auto i=y*width+x;if(!mask[i]) continue;double value=previous[i];
+                for(int dy=-1;dy<=1;++dy) for(int dx=-1;dx<=1;++dx) {
+                    const auto xx=static_cast<std::int64_t>(x)+dx,yy=static_cast<std::int64_t>(y)+dy;
+                    if(xx>=0 && yy>=0 && xx<static_cast<std::int64_t>(width) && yy<static_cast<std::int64_t>(height)) {
+                        const auto j=static_cast<std::size_t>(yy)*width+static_cast<std::size_t>(xx);
+                        if(mask[j]) value=std::max(value,previous[j]);
+                    }
+                }
+                next[i]=std::min(d[i],value);
+            }
+            if(next==previous) {settled=true;break;}previous=std::move(next);
+        }
+        require(settled);
+        for(std::size_t i=0;i<n;++i) expected[i]=mask[i] && d[i]-previous[i]>=prominence;
+        require(qpx::cell_detail::log_h_maxima(d,mask,width,height,prominence,nullptr)==expected);
+    }
+}
+std::uint32_t read_integer(std::istream& stream) {
+    unsigned char bytes[4];if(!stream.read(reinterpret_cast<char*>(bytes),4)) throw std::runtime_error("truncated LoG input");
+    return std::uint32_t(bytes[0])|(std::uint32_t(bytes[1])<<8)|(std::uint32_t(bytes[2])<<16)|(std::uint32_t(bytes[3])<<24);
+}
+void write_integer(std::ostream& stream,std::uint32_t value) {
+    for(unsigned i=0;i<4;++i) stream.put(static_cast<char>((value>>(i*8))&255));
+}
+void shape_probe(const char* input,const char* output,bool maxima_only=false) {
+    std::ifstream stream(input,std::ios::binary);char magic[4];stream.read(magic,4);require(stream.good() && std::memcmp(magic,"QLR1",4)==0);
+    const auto width=read_integer(stream),height=read_integer(stream);read_integer(stream);
+    require(width && height && std::uint64_t(width)*height<=1024*1024);std::vector<std::uint8_t> mask(std::size_t(width)*height);
+    for(auto& value:mask) value=read_integer(stream)!=0;require(stream.peek()==std::char_traits<char>::eof());
+    const auto result=qpx::cell_detail::sampled_shape_watershed(mask,width,height);
+    std::ofstream target(output,std::ios::binary|std::ios::trunc);require(bool(target));target.write("QLR1",4);
+    write_integer(target,width);write_integer(target,height);write_integer(target,1);
+    if(maxima_only) {std::vector<std::uint8_t> points(mask.size());for(auto i:result.maxima) points[i]=1;for(auto v:points) write_integer(target,v);}
+    else for(auto v:result.mask) write_integer(target,v);target.flush();require(bool(target));
+}
+void shape_contract() {
+    using qpx::cell_detail::sampled_shape_watershed;
+    const std::vector<std::uint8_t> blank(25),full(25,1),single={0,0,0,0,1,0,0,0,0};
+    require(sampled_shape_watershed(blank,5,5).mask==blank);require(sampled_shape_watershed(full,5,5).mask==full);
+    require(sampled_shape_watershed(single,3,3).mask==single);
+    qpx::cell_detail::SampledShapeWatershed reusable(3,3,100,nullptr);
+    require(reusable.run(single,.5,100000).mask==single);require(reusable.run(std::vector<std::uint8_t>(9),.5,100000).mask==std::vector<std::uint8_t>(9));require(reusable.run(single,.5,100000).mask==single);
+    bool invalid=false;try {sampled_shape_watershed(single,2,3);} catch(const std::invalid_argument&) {invalid=true;}require(invalid);
+    bool bounded=false;try {sampled_shape_watershed(single,3,3,.5,100,1);} catch(const std::length_error&) {bounded=true;}require(bounded);
+    std::atomic<bool> cancelled{true};bool stopped=false;try {sampled_shape_watershed(single,3,3,.5,100,100000,&cancelled);} catch(const std::runtime_error&) {stopped=true;}require(stopped);
+    std::vector<std::uint8_t> particles(81);for(std::size_t y=1;y<9;y+=3) for(std::size_t x=1;x<9;x+=3) particles[y*9+x]=1;
+    bool limited=false;try {sampled_shape_watershed(particles,9,9,.5,1);} catch(const std::length_error&) {limited=true;}require(limited);
+}
+void thin_shape_reference() {
+    struct Case {std::size_t width,height;const char* input;const char* mask;const char* maxima;};
+    const Case cases[]={
+        {1,1,"0","0","0"},
+        {1,1,"1","1","0"},
+        {1,1,"0","0","0"},
+        {1,1,"0","0","0"},
+        {1,9,"000000000","000000000","000000000"},
+        {1,9,"111111111","111111111","000000000"},
+        {1,9,"011110101","011110101","000100101"},
+        {1,9,"011010101","011010101","001010101"},
+        {9,1,"000000000","000000000","000000000"},
+        {9,1,"111111111","111111111","000000000"},
+        {9,1,"011110101","011110101","000100101"},
+        {9,1,"011010101","011010101","001010101"},
+        {2,2,"0000","0000","0000"},
+        {2,2,"1111","1111","0000"},
+        {2,2,"0111","0111","0001"},
+        {2,2,"0110","0110","0010"},
+        {2,9,"000000000000000000","000000000000000000","000000000000000000"},
+        {2,9,"111111111111111111","111111111111111111","000000000000000000"},
+        {2,9,"011110101010111101","011110101010111101","000000000000000100"},
+        {2,9,"011010101010101101","011010101010101101","000000001000000000"},
+        {9,2,"000000000000000000","000000000000000000","000000000000000000"},
+        {9,2,"111111111111111111","111111111111111111","000000000000000000"},
+        {9,2,"011110101010111101","011110101010111101","000000000000010001"},
+        {9,2,"011010101010101101","011010101010101101","000010000000000001"},
+        {3,3,"000000000","000000000","000000000"},
+        {3,3,"111111111","111111111","000000000"},
+        {3,3,"011110101","011110101","000010000"},
+        {3,3,"011010101","011010101","000010000"}};
+    for(const auto& sample:cases) {
+        const auto n=sample.width*sample.height;std::vector<std::uint8_t> input(n),expected(n),maxima(n);
+        for(std::size_t i=0;i<n;++i) {input[i]=sample.input[i]-'0';expected[i]=sample.mask[i]-'0';maxima[i]=sample.maxima[i]-'0';}
+        const auto result=qpx::cell_detail::sampled_shape_watershed(input,sample.width,sample.height);
+        std::vector<std::uint8_t> points(n);for(auto i:result.maxima) points.at(i)=1;
+        require(result.mask==expected && points==maxima);
+    }
+}
+void shape_reference() {
+    const std::string root=QUPATHXX_SHAPE_FIXTURE;std::ifstream index(root+"/index.txt");require(bool(index));
+    auto read=[&](const std::string& file,std::size_t size) {
+        std::ifstream stream(root+"/"+file,std::ios::binary);std::vector<std::uint8_t> bytes(size);
+        require(bool(stream.read(reinterpret_cast<char*>(bytes.data()),static_cast<std::streamsize>(size))));require(stream.peek()==std::char_traits<char>::eof());return bytes;
+    };
+    std::string name;std::size_t width=0,height=0,cases=0;
+    while(index>>name>>width>>height) {
+        require(width && height && width<=1024*1024/height);const auto size=width*height;
+        const auto input=read(name+".input.u8",size),expected=read(name+".mask.u8",size),maxima=read(name+".maxima.u8",size);
+        const auto result=qpx::cell_detail::sampled_shape_watershed(input,width,height);std::vector<std::uint8_t> points(size);for(auto i:result.maxima) points[i]=1;
+        if(result.mask!=expected || points!=maxima) throw std::runtime_error("Sampled shape frozen mask/maxima differ: "+name);
+        ++cases;
+    }
+    require(index.eof() && cases==26);std::cout<<"Sampled shape 26 frozen masks and maxima passed\n";
+}
+void probe(const char* input,const char* output,bool response_basins=false,bool regions_only=false,bool dual_background=false,bool sampled_shape=false) {
+    std::ifstream stream(input,std::ios::binary);char magic[4];stream.read(magic,4);
+    require(stream.good() && std::memcmp(magic,"QLP1",4)==0);
+    const auto width=read_integer(stream),height=read_integer(stream);
+    require(width && height && std::uint64_t(width)*height<=1024*1024);
+    const auto n=std::size_t(width)*height;std::vector<float> score(n);std::vector<std::uint8_t> domain(n);
+    for(auto& value:score) {const auto bits=read_integer(stream);std::memcpy(&value,&bits,4);}
+    require(bool(stream.read(reinterpret_cast<char*>(domain.data()),static_cast<std::streamsize>(n))));
+    require(stream.peek()==std::char_traits<char>::eof());
+    qpx::cell_detail::LogParameters parameters;parameters.response_basins=response_basins;
+    parameters.eight_connected_background=dual_background;
+    parameters.sampled_shape=sampled_shape;if(sampled_shape) {parameters.minimum_radius=0;parameters.minimum_spacing=0;}
+    qpx::cell_detail::LogResult result;
+    if(regions_only) {
+        const auto mask=response_basins?qpx::cell_detail::log_basin_regions(score,width,height,parameters,nullptr):qpx::cell_detail::log_regions(score,width,height,parameters,nullptr);
+        result.labels.assign(mask.begin(),mask.end());result.count=std::any_of(mask.begin(),mask.end(),[](auto value){return value!=0;})?1:0;
+    } else result=qpx::cell_detail::log_watershed(score,domain,width,height,parameters);
+    std::ofstream target(output,std::ios::binary|std::ios::trunc);require(bool(target));
+    target.write("QLR1",4);write_integer(target,width);write_integer(target,height);write_integer(target,static_cast<std::uint32_t>(result.count));
+    for(auto value:result.labels) write_integer(target,value);target.flush();require(bool(target));
+}
+}
+int main(int argc,char** argv) {
+    try {
+        if(argc==2 && std::string(argv[1])=="--environment") {
+            std::cout<<"{\"source_tree_sha256\":"<<std::quoted(qpx::build_info::source_sha256)
+                     <<",\"git_revision\":"<<std::quoted(qpx::build_info::git_revision)
+                     <<",\"compiler\":"<<std::quoted(qpx::build_info::compiler)<<"}\n";return 0;
+        }
+        if(argc==3) {probe(argv[1],argv[2]);return 0;}
+        if(argc==4 && std::string(argv[1])=="--response-basins") {probe(argv[2],argv[3],true);return 0;}
+        if(argc==4 && std::string(argv[1])=="--regions") {probe(argv[2],argv[3],false,true);return 0;}
+        if(argc==4 && std::string(argv[1])=="--response-regions") {probe(argv[2],argv[3],true,true);return 0;}
+        if(argc==4 && std::string(argv[1])=="--dual-background") {probe(argv[2],argv[3],false,false,true);return 0;}
+        if(argc==4 && std::string(argv[1])=="--dual-regions") {probe(argv[2],argv[3],false,true,true);return 0;}
+        if(argc==4 && std::string(argv[1])=="--shape-split") {shape_probe(argv[2],argv[3]);return 0;}
+        if(argc==4 && std::string(argv[1])=="--shape-maxima") {shape_probe(argv[2],argv[3],true);return 0;}
+        if(argc==4 && std::string(argv[1])=="--sampled-shape") {probe(argv[2],argv[3],false,false,true,true);return 0;}
+        require(argc==1);
+        using namespace qpx::cell_detail;
+        reconstruction_oracle();
+        shape_contract();thin_shape_reference();
+        shape_reference();
+        std::vector<std::uint8_t> leak4={0,1,1,1,0,1,1,1,1},leak8=leak4;
+        log_fill_holes(leak4,3,3,nullptr);log_fill_holes(leak8,3,3,nullptr,true);
+        require(leak4[4]==1 && leak8[4]==0);
+        require(log_response_basins({0,3,2,1,2,3,0},7,1,20,nullptr)==std::vector<std::uint32_t>({0,1,1,0,2,2,0}));
+        require(log_response_basins({0,3,3,2,1,0},6,1,20,nullptr)==std::vector<std::uint32_t>({0,1,1,1,1,0}));
+        require(log_response_basins({0,.0005f,0},3,1,20,nullptr)==std::vector<std::uint32_t>({0,0,0}));
+        bool basin_limit=false;try {log_response_basins({0,3,1,3,0},5,1,1,nullptr);} catch(const std::length_error&) {basin_limit=true;}require(basin_limit);
+        require(log_response_basins({0,2,2,3,0},5,1,20,nullptr)==std::vector<std::uint32_t>({0,1,1,1,0}));
+        require(log_response_basins({0,0,0,0},2,2,20,nullptr)==std::vector<std::uint32_t>({0,0,0,0}));
+        bool invalid_basins=false;try {log_response_basins({0},2,2,20,nullptr);} catch(const std::invalid_argument&) {invalid_basins=true;}require(invalid_basins);
+        std::atomic<bool> basin_cancel{true};bool basin_stopped=false;try {log_response_basins({0,1,0},3,1,20,&basin_cancel);} catch(const std::runtime_error&) {basin_stopped=true;}require(basin_stopped);
+        const std::vector<double> distance={0,1,2,1.8,2.1,1,0};
+        const std::vector<std::uint8_t> mask={0,1,1,1,1,1,0};
+        require(log_h_maxima(distance,mask,7,1,.5,nullptr)==std::vector<std::uint8_t>({0,0,0,0,1,0,0}));
+        require(log_h_maxima(distance,mask,7,1,.1,nullptr)==std::vector<std::uint8_t>({0,0,1,0,1,0,0}));
+        require(log_h_maxima({0,1,2,2,1,0},{0,1,1,1,1,0},6,1,.5,nullptr)==std::vector<std::uint8_t>({0,0,1,1,0,0}));
+        std::vector<float> score(65*65);std::vector<std::uint8_t> domain(score.size(),1);
+        require(log_watershed(score,domain,65,65).count==0);
+        for(std::size_t y=0;y<65;++y) for(std::size_t x=0;x<65;++x) {
+            const auto dx=double(x)-32,dy=double(y)-32;score[y*65+x]=dx*dx+dy*dy<=81?1.f:0.f;
+        }
+        const auto disk=log_watershed(score,domain,65,65);require(disk.count==1);
+        LogParameters sampled;sampled.sampled_shape=true;sampled.eight_connected_background=true;sampled.minimum_radius=0;sampled.minimum_spacing=0;
+        require(log_watershed(score,domain,65,65,sampled).labels==disk.labels);
+        auto unsupported=sampled;unsupported.minimum_spacing=4;bool explicit_controls=false;
+        try {log_watershed(score,domain,65,65,unsupported);} catch(const std::invalid_argument&) {explicit_controls=true;}require(explicit_controls);
+        LogParameters basin_parameters;basin_parameters.response_basins=true;
+        require(log_watershed(score,domain,65,65,basin_parameters).labels==disk.labels);
+        require(disk.labels[32*65+32]==1 && disk.labels.front()==0);
+        std::fill(domain.begin(),domain.end(),0);require(log_watershed(score,domain,65,65).count==0);
+        require(log_watershed(score,domain,65,65,sampled).count==0);
+        std::atomic<bool> cancelled{true};bool stopped=false;
+        try {log_watershed(score,domain,65,65,{},&cancelled);} catch(const std::runtime_error&) {stopped=true;}
+        require(stopped);
+        LogParameters tiny;tiny.work_bytes=1;bool bounded=false;
+        try {log_watershed(score,domain,65,65,tiny);} catch(const std::length_error&) {bounded=true;}
+        require(bounded);
+        tiny.response_basins=true;bounded=false;try {log_watershed(score,domain,65,65,tiny);} catch(const std::length_error&) {bounded=true;}require(bounded);
+        std::cout<<"LoG regions, prominence reconstruction, native labels, clipping, cancellation and work guard passed\n";
+    } catch(const std::exception& e) {std::cerr<<e.what()<<'\n';return 1;}
+}

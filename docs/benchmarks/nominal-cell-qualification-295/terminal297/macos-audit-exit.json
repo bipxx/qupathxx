@@ -1,0 +1,23 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Scripts\\python.exe",
+    "-X",
+    "utf8",
+    "tools/ci/accept_macos_native.py",
+    "40782648204",
+    "a7eb78de75387bce2da7b3d59b7f0a2ab6126cee",
+    "--artifacts",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\q295-all",
+    "--output",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\nominal-cell-qualification-295\\macos-acceptance.json",
+    "--sampled-cells",
+    "--small-frontier",
+    "--tma-cases",
+    "--tma-file-export",
+    "--tma-cohorts",
+    "--macho-inventory",
+    "--macos-relocation"
+  ],
+  "cwd": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\nominal-cell-qualification-295-audit",
+  "returncode": 0
+}

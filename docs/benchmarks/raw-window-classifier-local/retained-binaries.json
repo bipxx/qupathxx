@@ -1,0 +1,176 @@
+{
+  "source": "642f728425cc7a4ed2b25950590c5b794528917c",
+  "binaries": [
+    {
+      "host": "windows",
+      "suite": "pixel_features",
+      "source": "642f728425cc7a4ed2b25950590c5b794528917c",
+      "fingerprint": "6765391d27434651f330586154975f9f306f941fd5cac18df988c5eea6e93c8a",
+      "path": "build/windowmodel221-retained-binaries/windows/qupathxx_pixel_feature_tests.exe",
+      "bytes": 1649664,
+      "sha256": "6d208be266adf91401be49e1fa9da4ec96eacbf4dc5ddc704eae327bfdc43426"
+    },
+    {
+      "host": "windows",
+      "suite": "pixel_workflows",
+      "source": "642f728425cc7a4ed2b25950590c5b794528917c",
+      "fingerprint": "6765391d27434651f330586154975f9f306f941fd5cac18df988c5eea6e93c8a",
+      "path": "build/windowmodel221-retained-binaries/windows/qupathxx_pixel_workflow_tests.exe",
+      "bytes": 3603968,
+      "sha256": "f911f919e850d41243334f3ae0c5e198d54c58da3632cb414ef5b75dc0b968cc"
+    },
+    {
+      "host": "windows",
+      "suite": "project",
+      "source": "642f728425cc7a4ed2b25950590c5b794528917c",
+      "fingerprint": "6765391d27434651f330586154975f9f306f941fd5cac18df988c5eea6e93c8a",
+      "path": "build/windowmodel221-retained-binaries/windows/qupathxx_project_tests.exe",
+      "bytes": 2810368,
+      "sha256": "1a28f571781f35becc682a1e8a64b49dabdd5f2b07deb019ca2536b7ed7120fd"
+    },
+    {
+      "host": "windows",
+      "suite": "project_save",
+      "source": "642f728425cc7a4ed2b25950590c5b794528917c",
+      "fingerprint": "6765391d27434651f330586154975f9f306f941fd5cac18df988c5eea6e93c8a",
+      "path": "build/windowmodel221-retained-binaries/windows/qupathxx_save_tests.exe",
+      "bytes": 2576384,
+      "sha256": "0193de895756e3f67ce7c578a3c614959cff931acac5dd1be9367126a1f954e9"
+    },
+    {
+      "host": "windows",
+      "suite": "provenance",
+      "source": "642f728425cc7a4ed2b25950590c5b794528917c",
+      "fingerprint": "6765391d27434651f330586154975f9f306f941fd5cac18df988c5eea6e93c8a",
+      "path": "build/windowmodel221-retained-binaries/windows/qupathxx_provenance_tests.exe",
+      "bytes": 1623040,
+      "sha256": "94717ebbc522b07f0012f5736c0aa9c75541ee4b4694440d25f5ba7ef4490674"
+    },
+    {
+      "host": "windows",
+      "suite": "raw_image",
+      "source": "642f728425cc7a4ed2b25950590c5b794528917c",
+      "fingerprint": "6765391d27434651f330586154975f9f306f941fd5cac18df988c5eea6e93c8a",
+      "path": "build/windowmodel221-retained-binaries/windows/qupathxx_raw_image_tests.exe",
+      "bytes": 3374592,
+      "sha256": "146f70b4465432f28c1e28751aee116d861333be7c72668d1075ff52acc1aeaa"
+    },
+    {
+      "host": "windows",
+      "suite": "resampling",
+      "source": "642f728425cc7a4ed2b25950590c5b794528917c",
+      "fingerprint": "6765391d27434651f330586154975f9f306f941fd5cac18df988c5eea6e93c8a",
+      "path": "build/windowmodel221-retained-binaries/windows/qupathxx_resampling_tests.exe",
+      "bytes": 2338816,
+      "sha256": "fa2271e1a1d9c2d3612503bc92efae0bdf40ecad97ebfffef5cb456a58a34e6e"
+    },
+    {
+      "host": "windows",
+      "suite": "source_identity",
+      "source": "642f728425cc7a4ed2b25950590c5b794528917c",
+      "fingerprint": "6765391d27434651f330586154975f9f306f941fd5cac18df988c5eea6e93c8a",
+      "path": "build/windowmodel221-retained-binaries/windows/qupathxx_source_identity_tests.exe",
+      "bytes": 1511936,
+      "sha256": "ae637a9f729bf4b07c653ce6ab4e04a5e87d0b9183fbca4d039017c37f398753"
+    },
+    {
+      "host": "linux",
+      "suite": "pixel_features",
+      "source": "642f728425cc7a4ed2b25950590c5b794528917c",
+      "fingerprint": "6765391d27434651f330586154975f9f306f941fd5cac18df988c5eea6e93c8a",
+      "path": "build/windowmodel221-retained-binaries/linux/qupathxx_pixel_feature_tests",
+      "bytes": 2840264,
+      "sha256": "098c422110dc1b2b650f684854e5c8b84d639ca211ecbecb5eebfe0b441a00be"
+    },
+    {
+      "host": "linux",
+      "suite": "pixel_workflows",
+      "source": "642f728425cc7a4ed2b25950590c5b794528917c",
+      "fingerprint": "6765391d27434651f330586154975f9f306f941fd5cac18df988c5eea6e93c8a",
+      "path": "build/windowmodel221-retained-binaries/linux/qupathxx_pixel_workflow_tests",
+      "bytes": 6834328,
+      "sha256": "2f72711b683db169d5880c4c79cc1fcc7e7bec9395a46e2654e7269f61cca8a7"
+    },
+    {
+      "host": "linux",
+      "suite": "project",
+      "source": "642f728425cc7a4ed2b25950590c5b794528917c",
+      "fingerprint": "6765391d27434651f330586154975f9f306f941fd5cac18df988c5eea6e93c8a",
+      "path": "build/windowmodel221-retained-binaries/linux/qupathxx_project_tests",
+      "bytes": 5876160,
+      "sha256": "5c872be846ffd18cb99a6ba74b1f09d67dd52f54e17bc7115b53ff9e6962ff6e"
+    },
+    {
+      "host": "linux",
+      "suite": "project_save",
+      "source": "642f728425cc7a4ed2b25950590c5b794528917c",
+      "fingerprint": "6765391d27434651f330586154975f9f306f941fd5cac18df988c5eea6e93c8a",
+      "path": "build/windowmodel221-retained-binaries/linux/qupathxx_save_tests",
+      "bytes": 5905800,
+      "sha256": "76444a1c69d69fa66828e1bb121dfce9d5ff3201f1febf0b571480ef6203bb0b"
+    },
+    {
+      "host": "linux",
+      "suite": "provenance",
+      "source": "642f728425cc7a4ed2b25950590c5b794528917c",
+      "fingerprint": "6765391d27434651f330586154975f9f306f941fd5cac18df988c5eea6e93c8a",
+      "path": "build/windowmodel221-retained-binaries/linux/qupathxx_provenance_tests",
+      "bytes": 4370896,
+      "sha256": "c49d4e4de99ccc2d5fb6abc2abb13f8417d56d031999cc5b71a4647f8e0c3de7"
+    },
+    {
+      "host": "linux",
+      "suite": "raw_image",
+      "source": "642f728425cc7a4ed2b25950590c5b794528917c",
+      "fingerprint": "6765391d27434651f330586154975f9f306f941fd5cac18df988c5eea6e93c8a",
+      "path": "build/windowmodel221-retained-binaries/linux/qupathxx_raw_image_tests",
+      "bytes": 6556608,
+      "sha256": "f88f4f96ce14e2097f32a4aa0494b69d3888167c8a5bb3828ded519545e52da8"
+    },
+    {
+      "host": "linux",
+      "suite": "resampling",
+      "source": "642f728425cc7a4ed2b25950590c5b794528917c",
+      "fingerprint": "6765391d27434651f330586154975f9f306f941fd5cac18df988c5eea6e93c8a",
+      "path": "build/windowmodel221-retained-binaries/linux/qupathxx_resampling_tests",
+      "bytes": 5325296,
+      "sha256": "57e3a1373fb14eada000b4f14de940f78bad8f6f1420eb8c1024f48e0796e017"
+    },
+    {
+      "host": "linux",
+      "suite": "source_identity",
+      "source": "642f728425cc7a4ed2b25950590c5b794528917c",
+      "fingerprint": "6765391d27434651f330586154975f9f306f941fd5cac18df988c5eea6e93c8a",
+      "path": "build/windowmodel221-retained-binaries/linux/qupathxx_source_identity_tests",
+      "bytes": 2567480,
+      "sha256": "070163d1c834e18df3ff8636a2a966e66dd6cb5a62fc338933e992e433bf88ac"
+    },
+    {
+      "host": "training",
+      "suite": "classifier",
+      "source": "642f728425cc7a4ed2b25950590c5b794528917c",
+      "fingerprint": "6765391d27434651f330586154975f9f306f941fd5cac18df988c5eea6e93c8a",
+      "path": "build/windowmodel221-retained-binaries/training/qupathxx_classifier_tests.exe",
+      "bytes": 1389568,
+      "sha256": "4f2aab19852ce38cf1c4d48eae966b99d21c445dc8120929f0baca352ceb4d69"
+    },
+    {
+      "host": "training",
+      "suite": "pixel_features",
+      "source": "642f728425cc7a4ed2b25950590c5b794528917c",
+      "fingerprint": "6765391d27434651f330586154975f9f306f941fd5cac18df988c5eea6e93c8a",
+      "path": "build/windowmodel221-retained-binaries/training/qupathxx_pixel_feature_tests.exe",
+      "bytes": 2475008,
+      "sha256": "99bed43156feb0ed4488d797c912d5e5e4beaca23583f24a9d8318fecb5a2f4d"
+    },
+    {
+      "host": "training",
+      "suite": "pixel_workflows",
+      "source": "642f728425cc7a4ed2b25950590c5b794528917c",
+      "fingerprint": "6765391d27434651f330586154975f9f306f941fd5cac18df988c5eea6e93c8a",
+      "path": "build/windowmodel221-retained-binaries/training/qupathxx_pixel_workflow_tests.exe",
+      "bytes": 4805120,
+      "sha256": "eefc364502e0c6ce0c613a5489e7a16b3827f8ea83de0e8bfb5725260f9e8c37"
+    }
+  ]
+}

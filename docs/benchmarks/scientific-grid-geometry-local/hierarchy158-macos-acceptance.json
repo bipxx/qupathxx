@@ -1,0 +1,1262 @@
+{
+  "hierarchy_sources": {
+    "cpp/interchange.cpp": {
+      "git_blob_sha256": "9cc751ba4b5d2b1610dfb2cdadb6b87fc6a39d73632a9df14f61fb444f517b43",
+      "checked_out_sha256": "9cc751ba4b5d2b1610dfb2cdadb6b87fc6a39d73632a9df14f61fb444f517b43"
+    },
+    "cpp/include/qupathxx/interchange.hpp": {
+      "git_blob_sha256": "193a54878203c51ac09cced0b148a831f90aa841cc6612f058187c651801db61",
+      "checked_out_sha256": "193a54878203c51ac09cced0b148a831f90aa841cc6612f058187c651801db61"
+    },
+    "cpp/filesystem_access.hpp": {
+      "git_blob_sha256": "3031bb4a9ac7858a8599143d5b4d4c96074e6be143f013eb1006ee570c9438d8",
+      "checked_out_sha256": "3031bb4a9ac7858a8599143d5b4d4c96074e6be143f013eb1006ee570c9438d8"
+    },
+    "cpp/project.cpp": {
+      "git_blob_sha256": "05f516f55e39a849404d26f8493507d0cc0e7c49b5daf17b2704c00b5ecca27c",
+      "checked_out_sha256": "ef552040e5482c52efcd5f4781756d7811353d27cf795b25a480ed19be276f73"
+    },
+    "cpp/project_recovery.cpp": {
+      "git_blob_sha256": "e8a6882b47c11d1db78a0b1ed4f74a4592fa1b2067fcbd94a434f716f08ea3ea",
+      "checked_out_sha256": "e8a6882b47c11d1db78a0b1ed4f74a4592fa1b2067fcbd94a434f716f08ea3ea"
+    },
+    "cpp/project_batch.cpp": {
+      "git_blob_sha256": "9470c934d4a6dca7d23bc50ad2d21c726cf15d3a8862328fb5b1067ba5da2b75",
+      "checked_out_sha256": "9470c934d4a6dca7d23bc50ad2d21c726cf15d3a8862328fb5b1067ba5da2b75"
+    },
+    "cpp/include/qupathxx/project.hpp": {
+      "git_blob_sha256": "7936ed1c3c8a4eea50b0fce35370e69dcbc943fe6ecdc7164646ac4c8f3765e0",
+      "checked_out_sha256": "41f59ac9a135e39efd2eb896556cbadfe58ad25eb10c510ad41985f05613d43f"
+    },
+    "cpp/include/qupathxx/project_recovery.hpp": {
+      "git_blob_sha256": "4689f4c5f8e570ed369c37ed77da39dd88cef889cdd2a0de2b4465250cf78a18",
+      "checked_out_sha256": "161d19a6b2b56d9d5c62188b4683ed4359effa000ad3ce8ac007122f86a6a543"
+    },
+    "cpp/include/qupathxx/core.hpp": {
+      "git_blob_sha256": "c8b5681876156a9352d715aad66788edf836b4972b220c5b1719bc74de7a09cc",
+      "checked_out_sha256": "c8b5681876156a9352d715aad66788edf836b4972b220c5b1719bc74de7a09cc"
+    },
+    "cpp/gui.cpp": {
+      "git_blob_sha256": "3d55051370f3cdbd370242b98d1f1ec8460b0d61c07bcffd97a40bbd48e53b67",
+      "checked_out_sha256": "3d55051370f3cdbd370242b98d1f1ec8460b0d61c07bcffd97a40bbd48e53b67"
+    },
+    "cpp/bindings.cpp": {
+      "git_blob_sha256": "57b40cee48fca4cfe1046e86fe465225469bbb116a9f18790f9de119558bde3a",
+      "checked_out_sha256": "57b40cee48fca4cfe1046e86fe465225469bbb116a9f18790f9de119558bde3a"
+    },
+    "cpp/tests/interchange_tests.cpp": {
+      "git_blob_sha256": "ef746c5f0f14c5d3347883a5870c69bd66b7e7a4cff6a189f9b7fb973c41187b",
+      "checked_out_sha256": "ef746c5f0f14c5d3347883a5870c69bd66b7e7a4cff6a189f9b7fb973c41187b"
+    },
+    "cpp/tests/recovery_tests.cpp": {
+      "git_blob_sha256": "f074c957ed2e408ce6775f50852edebe7f71dd7e4933e181a247c8eb334c1131",
+      "checked_out_sha256": "ae7a3f2b8da531756aeae9950fdc6061442bc843e66716686bc2dc998e535469"
+    },
+    "CMakeLists.txt": {
+      "git_blob_sha256": "75fe14484840aa3a2b666d689b760038e1a1dce291bca7b6e0ddca2060b7951b",
+      "checked_out_sha256": "5baf9235a6a2c5ffc00b8782f04852f7f76eb50da1962b2677e03dc93106f159"
+    },
+    "src/qupathxx/_native.pyi": {
+      "git_blob_sha256": "37a6924979c2ce5971824379c958a03e29ab588604599dd32e6db8fbcd4b9120",
+      "checked_out_sha256": "42dc9457423c9f38e3629137b22d4f6a3aaed4f1749f1722c622bd688b67d060"
+    },
+    "src/qupathxx/__init__.py": {
+      "git_blob_sha256": "3b279414673c20963b9bd315e90f8e0300aec0434cceececb8110dabb66058a0",
+      "checked_out_sha256": "e55c895327779c6d8d8938e35c550187f1f0f6ffb01478bfcd8f30a5557508e6"
+    },
+    "src/qupathxx/__init__.pyi": {
+      "git_blob_sha256": "f56dbd42347b14b29e806eef5d4af84e982b5d2ac8f6573ba7a8e94be2631d9b",
+      "checked_out_sha256": "b1e3f5961f279aeff14a91db04ad03240ea115a76949142f838c56959c6fadf8"
+    },
+    "tools/upstream/qupath_hierarchy_reference.groovy": {
+      "git_blob_sha256": "bcb42f025438857739d38380c86bf33d1e9492b5e4fbc73274374bf549da70df",
+      "checked_out_sha256": "bcb42f025438857739d38380c86bf33d1e9492b5e4fbc73274374bf549da70df"
+    },
+    "tools/compare_qupath_hierarchy.py": {
+      "git_blob_sha256": "8d1eb825cffd27480c0bac07764831f56e375dea261f5c3278aafee8471cc5bd",
+      "checked_out_sha256": "8d1eb825cffd27480c0bac07764831f56e375dea261f5c3278aafee8471cc5bd"
+    },
+    "tools/fetch_qupath.py": {
+      "git_blob_sha256": "b10395716a52e55e8cb32ad91e304625a25f270e5dfef5d96f1bb2beb02e93b2",
+      "checked_out_sha256": "b10395716a52e55e8cb32ad91e304625a25f270e5dfef5d96f1bb2beb02e93b2"
+    },
+    "tools/ci/hierarchy_evidence.py": {
+      "git_blob_sha256": "81ba46fa24df253269966fec721e4b799a5e12db9f7dceab3be0e11574551121",
+      "checked_out_sha256": "81ba46fa24df253269966fec721e4b799a5e12db9f7dceab3be0e11574551121"
+    },
+    "tools/ci/hierarchy-cases.json": {
+      "git_blob_sha256": "d5caa8ce1fd435684d4dd5d6be30b427777b0646193415a90d6c2dd690448c94",
+      "checked_out_sha256": "d5caa8ce1fd435684d4dd5d6be30b427777b0646193415a90d6c2dd690448c94"
+    },
+    "tools/ci/qptma_evidence.py": {
+      "git_blob_sha256": "e9f6fb56391a93ee228c085e51e77e971c77e2d243e41a1e617707cc3f0ac0a3",
+      "checked_out_sha256": "e9f6fb56391a93ee228c085e51e77e971c77e2d243e41a1e617707cc3f0ac0a3"
+    },
+    "tools/ci/accept_unified_engine.py": {
+      "git_blob_sha256": "5e78473aa95750adb151b9da84b71f445f789dc8bf7c8869e2aabda60b7b3408",
+      "checked_out_sha256": "5e78473aa95750adb151b9da84b71f445f789dc8bf7c8869e2aabda60b7b3408"
+    },
+    "tools/ci/accept_macos_native.py": {
+      "git_blob_sha256": "21853f27bdd35831d4ecf2746f933d48172763e69661a221134020622b84ee88",
+      "checked_out_sha256": "21853f27bdd35831d4ecf2746f933d48172763e69661a221134020622b84ee88"
+    },
+    "tools/ci/accept_manylinux.py": {
+      "git_blob_sha256": "a9560fff0aa1f5274b514bde4182409436e881858f48b46dbd2e15d633f3d666",
+      "checked_out_sha256": "a9560fff0aa1f5274b514bde4182409436e881858f48b46dbd2e15d633f3d666"
+    },
+    "tools/ci/run.py": {
+      "git_blob_sha256": "b4cddb15ef89562884a9f2e8e9039e0a89243284ec29fa378c834f9e5ad63afb",
+      "checked_out_sha256": "b4cddb15ef89562884a9f2e8e9039e0a89243284ec29fa378c834f9e5ad63afb"
+    },
+    "tools/generate_stubs.py": {
+      "git_blob_sha256": "1c4d3c9824ba52adaf08a0624d95947860c7afe5ae2dd2e08a4945a7e1fd1e0a",
+      "checked_out_sha256": "205c9b85d4de27b0a054faad00df8d24401f7745a0dc8e52adc84c124b64ebc9"
+    },
+    ".github/workflows/ci.yml": {
+      "git_blob_sha256": "abaa1cc102f5155dde8db1ecb37e02e9dcd51d5af7bcd07169d5477d5ddc4b8e",
+      "checked_out_sha256": "abaa1cc102f5155dde8db1ecb37e02e9dcd51d5af7bcd07169d5477d5ddc4b8e"
+    },
+    "tests/typing/hierarchy_valid.py": {
+      "git_blob_sha256": "266610375b36980335c9afa39531e5fadf227b34978e9b641396aa521eed6e38",
+      "checked_out_sha256": "266610375b36980335c9afa39531e5fadf227b34978e9b641396aa521eed6e38"
+    },
+    "tests/typing/hierarchy_invalid.py": {
+      "git_blob_sha256": "dc5a052b1e4e14b9da532b35190183404b74f63fb8abe12913c8f4a23f355161",
+      "checked_out_sha256": "dc5a052b1e4e14b9da532b35190183404b74f63fb8abe12913c8f4a23f355161"
+    },
+    "docs/benchmarks/annotation-migration-recovery-local-windows.json": {
+      "git_blob_sha256": "22f34fc539c16ce07b25a48945590998e852efeb8d3cadc48d59fdcfeaea7ff0",
+      "checked_out_sha256": "22f34fc539c16ce07b25a48945590998e852efeb8d3cadc48d59fdcfeaea7ff0"
+    },
+    "docs/benchmarks/annotation-migration-recovery-local/python-roundtrip/native-nested.geojson": {
+      "git_blob_sha256": "bf2bb67cb9405ce0fd962a19fe43684c683d94e8e127f0da1595ef33d2d26847",
+      "checked_out_sha256": "bf2bb67cb9405ce0fd962a19fe43684c683d94e8e127f0da1595ef33d2d26847"
+    },
+    "docs/benchmarks/annotation-migration-recovery-local/python-roundtrip/report.json": {
+      "git_blob_sha256": "032a871a3909c98d3d98dbf9ff27197d9407d82ad2b14c97fc8c90e7184dc168",
+      "checked_out_sha256": "032a871a3909c98d3d98dbf9ff27197d9407d82ad2b14c97fc8c90e7184dc168"
+    },
+    "docs/benchmarks/annotation-migration-recovery-local/python-roundtrip/qupath/reference.json": {
+      "git_blob_sha256": "342be7ea53c13e8e41e7c039fee189f61bd814c0e9b612d701fc89d900b84784",
+      "checked_out_sha256": "342be7ea53c13e8e41e7c039fee189f61bd814c0e9b612d701fc89d900b84784"
+    },
+    "docs/benchmarks/annotation-migration-recovery-local/python-roundtrip/qupath.log": {
+      "git_blob_sha256": "64fdf9e4d2af1b229e1e6722ed1f66e9a4c132c7082e6acaea46940c37521c3e",
+      "checked_out_sha256": "64fdf9e4d2af1b229e1e6722ed1f66e9a4c132c7082e6acaea46940c37521c3e"
+    },
+    "tests/test_geojson_hierarchy_export.py": {
+      "git_blob_sha256": "5a5743db2945038cc337bc3751d2f0413d232c2e11c9d0d5be773b9e2ceeb162",
+      "checked_out_sha256": "5a5743db2945038cc337bc3751d2f0413d232c2e11c9d0d5be773b9e2ceeb162"
+    },
+    "tests/test_qupath_hierarchy_reference.py": {
+      "git_blob_sha256": "f85e5d335e343c1d5d1aaccfcf3754d5abf98ef167d05e791b451320ec501edd",
+      "checked_out_sha256": "f85e5d335e343c1d5d1aaccfcf3754d5abf98ef167d05e791b451320ec501edd"
+    },
+    "tests/test_hierarchy_comparison.py": {
+      "git_blob_sha256": "f78abcee587b63c177ef43358fe353c8d6756ca8fc46170bb1f82593c4d20aef",
+      "checked_out_sha256": "f78abcee587b63c177ef43358fe353c8d6756ca8fc46170bb1f82593c4d20aef"
+    },
+    "tests/test_recovery_long_paths.py": {
+      "git_blob_sha256": "1828b53d94d6d705fac29d8a72dc9da975ee286058ae95d57daa2f06fc1344c2",
+      "checked_out_sha256": "1828b53d94d6d705fac29d8a72dc9da975ee286058ae95d57daa2f06fc1344c2"
+    },
+    "tests/test_interchange.py": {
+      "git_blob_sha256": "83d82bfeb64701478491042d2acea11efbce6d54b813ad6c07425ea9201b6331",
+      "checked_out_sha256": "b8b74d0e6caabed2546d4503b54fd08862b62288eaa2b441a3d8a842b14fc61a"
+    },
+    "tests/test_gui_hierarchy_migration.py": {
+      "git_blob_sha256": "0aa9a5e0d061a9196b27b7f31e838c1f05957bedbc4be5b9d76be240d6bc4ba7",
+      "checked_out_sha256": "0aa9a5e0d061a9196b27b7f31e838c1f05957bedbc4be5b9d76be240d6bc4ba7"
+    },
+    "tests/test_hierarchy_evidence.py": {
+      "git_blob_sha256": "e63e8f411a60d905430e0ffe138891c2950070133b6bad423cb3fee7bd37f383",
+      "checked_out_sha256": "e63e8f411a60d905430e0ffe138891c2950070133b6bad423cb3fee7bd37f383"
+    },
+    "tests/fixtures/qupath-hierarchy-0.7.0/manifest.json": {
+      "git_blob_sha256": "8aed85b0d3a89da04b5c38d7e78abc593ab048cfa1ca399aefa0b1e4862f6cb2",
+      "checked_out_sha256": "8aed85b0d3a89da04b5c38d7e78abc593ab048cfa1ca399aefa0b1e4862f6cb2"
+    },
+    "tests/fixtures/qupath-hierarchy-0.7.0/contract.json": {
+      "git_blob_sha256": "02f15c7b54d2afc12ba43da2b7cc2966bf14ec5614220a7efb9dec2fcb44dced",
+      "checked_out_sha256": "02f15c7b54d2afc12ba43da2b7cc2966bf14ec5614220a7efb9dec2fcb44dced"
+    },
+    "tests/fixtures/qupath-hierarchy-0.7.0/hierarchy.json": {
+      "git_blob_sha256": "f7915158c432bd9c87e523d6eb99b451faf7517e1d0b543dc419b4e9da5b6869",
+      "checked_out_sha256": "f7915158c432bd9c87e523d6eb99b451faf7517e1d0b543dc419b4e9da5b6869"
+    },
+    "tests/fixtures/qupath-hierarchy-0.7.0/nested.geojson": {
+      "git_blob_sha256": "d27d27a031759b821ee790760ddc2f2405ca3d68548bf3f8f751aebb90bb85c1",
+      "checked_out_sha256": "d27d27a031759b821ee790760ddc2f2405ca3d68548bf3f8f751aebb90bb85c1"
+    },
+    "tests/fixtures/qupath-hierarchy-0.7.0/flat.geojson": {
+      "git_blob_sha256": "3b45d047443b445e62604cf2063ff943cac25fcfbd0d2c81f04c8a5716ae23b2",
+      "checked_out_sha256": "3b45d047443b445e62604cf2063ff943cac25fcfbd0d2c81f04c8a5716ae23b2"
+    },
+    "tests/fixtures/qupath-hierarchy-0.7.0/losses.geojson": {
+      "git_blob_sha256": "8d76ad7bbefb78149dfb71d46ece02108d987d10e05f1402cb3f4cdad12da409",
+      "checked_out_sha256": "8d76ad7bbefb78149dfb71d46ece02108d987d10e05f1402cb3f4cdad12da409"
+    },
+    "tests/fixtures/qupath-hierarchy-0.7.0/metadata-raw.geojson": {
+      "git_blob_sha256": "28a30c0375e97727e44e6156d4426f50ed6fbba487912ba21350e884f82bf170",
+      "checked_out_sha256": "28a30c0375e97727e44e6156d4426f50ed6fbba487912ba21350e884f82bf170"
+    },
+    "tests/fixtures/qupath-hierarchy-0.7.0/reference.json": {
+      "git_blob_sha256": "310950d9d2702016f9c4d71445c7e9411bc249c255a856e1b908116e6c185b1c",
+      "checked_out_sha256": "310950d9d2702016f9c4d71445c7e9411bc249c255a856e1b908116e6c185b1c"
+    },
+    "tests/fixtures/qupath-hierarchy-0.7.0/capture.log": {
+      "git_blob_sha256": "4f55ff39d5036e50efe2bffdd6b9415af0f4fd81ff1de821242042f044ffeb29",
+      "checked_out_sha256": "4f55ff39d5036e50efe2bffdd6b9415af0f4fd81ff1de821242042f044ffeb29"
+    },
+    "tests/fixtures/qupath-hierarchy-0.7.0/native-export.geojson": {
+      "git_blob_sha256": "463c53e05e12b8a6d18313ba3bb6e1e0f10e91f99bcb94cf48a7a27bd879690b",
+      "checked_out_sha256": "463c53e05e12b8a6d18313ba3bb6e1e0f10e91f99bcb94cf48a7a27bd879690b"
+    },
+    "tests/fixtures/qupath-hierarchy-0.7.0/native-roundtrip.json": {
+      "git_blob_sha256": "24756804d60aa07bbc15029d4af2c706b34c8246eaca6f9eb0f3a19a096f9207",
+      "checked_out_sha256": "24756804d60aa07bbc15029d4af2c706b34c8246eaca6f9eb0f3a19a096f9207"
+    },
+    "tests/fixtures/qupath-hierarchy-0.7.0/native-roundtrip.log": {
+      "git_blob_sha256": "ce55bd3f898e206171ee08109025ab5935018f028c40b5926d4cb952f4686a01",
+      "checked_out_sha256": "ce55bd3f898e206171ee08109025ab5935018f028c40b5926d4cb952f4686a01"
+    }
+  },
+  "schema": "qpx.macos-native-audit/1",
+  "source": "207f008efc7e7b3e2633fbae312a9cc24f48a535",
+  "run": "https://github.com/bipxx/qupathxx/actions/runs/40166866585",
+  "jobs": [
+    {
+      "architecture": "arm64",
+      "native_passed": 49,
+      "frozen_shape_masks_and_maxima": 26,
+      "sampled_production_native": true,
+      "evidence_sha256": {
+        "batch-runtime-links.log": "4afc2e4a4a2cd6c7b7c850b6e7eda2ac5c686404e65e27a0d9664e0d35f65fe1",
+        "binary-architecture.log": "ace2cebdca953c0e043c2b1b7acb18d24e37032627e7740c2a39caa70a73b49f",
+        "build.log": "7b8c145d00c89c3f1269f612e8f27a082ea015e12d261dd60a3b50530dd70453",
+        "configure.log": "71fdae3ad7682a41073f676e86ca5f97221e4b82404d51f51590ae01375ef420",
+        "geos-build.log": "9ed9ea88091e2b9d4b88099aee4396e04dbf40d74e8e6e7d0bdbc8b4b95042db",
+        "macho-otool-0000.log": "4afc2e4a4a2cd6c7b7c850b6e7eda2ac5c686404e65e27a0d9664e0d35f65fe1",
+        "macho-otool-0001.log": "fc2ae976b449fb32410bd4752b3df0020c3e28f4151b58fec6a7bd78e61aadf2",
+        "macho-otool-0002.log": "64c3fcd4dd4ca81e484cbbb08730f89b4f1203d80f9f843740e330eb249e8dc0",
+        "macho-otool-0003.log": "2244b29a10b194415bd2bf35931c136a5cb1f8b690183a7d92988458ab1c048c",
+        "macho-otool-0004.log": "c24bfd2181b4a231ea1e97b99ce7d19b35a069d4471cf815d8f553e8f66e42c8",
+        "macho-otool-0005.log": "7be1e4b394270da54b33594320d4662b5c4009847c65c853da0b7faa6dc1d11a",
+        "macho-otool-0006.log": "e2bb4b23857081d2ade58449026dbfc809e6f67666bf306acb0cca109c9d61f0",
+        "macos-native-file-inventory.json": "02fe39456bc5454391607fe3285cfade5247605194d4420d0ff517ea7ee16607",
+        "macos-native-files.zip": "14176c5a854433f5840bb524b080c1576935b8c2849a94b707c0a5d51d7e7c8b",
+        "macos-native-inventory.log": "12db2a04a5feb14742a03f9551fdec3995f7b3f21ce12b857e93dc07aec6dd60",
+        "macos-native-relocation.log": "9677e2ae6e08ac0e8c327a8435053a7a91a57099fb05d997152898ecfa7d3708",
+        "macos-otool-probe.json": "f8b211b934c47aa6e11ac9db93643dff58a1911063a156696ad588cb37a757fd",
+        "macos-relocated-runtime.json": "67e3de63d2094413fdd23a0b14c51517b9b2abebd5fd5de03994d74ad5b56bcb",
+        "macos-relocated-runtime.log": "c1bf8aa45ed36a7b3e8f8dc94b7e5aa22a31bc55eeed8b5f395d335ba8278573",
+        "macos-relocation-source-roots.json": "b8d21e6e2a11b8b442cc8ec5058f123088ef9ae9b8cce327f2b84e3d8453569d",
+        "native-tests.log": "686b1ecf4f553b10b23550a37e0d9d9d4482eb2769755a811c3af61651eb054b",
+        "native-tests.xml": "60ccfc80c0dbc32423d7d94eacc005bc67da42e1bc44efe574b2074486119b68",
+        "opencv-build.log": "6a64ccf8b903080db28efc1d6f2f0f84ce2894107a67ce4ef345b8a7d7502d94",
+        "region-cli.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "result.json": "074da7a532909fbe62ddb3b0e8e75a0f3e09ff8b6387a192ae88b42dd0ad46dd"
+      },
+      "ci_result": {
+        "schema": "qpx.macos-native-validation/1",
+        "commit": "207f008efc7e7b3e2633fbae312a9cc24f48a535",
+        "platform": "macOS-15.7.9-arm64-arm-64bit",
+        "architecture": "arm64",
+        "python": "3.12.10 (v3.12.10:0cc81280367, Apr  8 2025, 08:46:59) [Clang 13.0.0 (clang-1300.0.29.30)]",
+        "python_executable": "/Library/Frameworks/Python.framework/Versions/3.12/bin/python",
+        "compiler": "Apple clang version 17.0.0 (clang-1700.0.13.5)",
+        "cmake": "cmake version 4.4.4",
+        "ninja": "1.13.0.git.kitware.jobserver-pipe-1",
+        "runner_image": {
+          "os": "macos15",
+          "version": "20260907.0337.1"
+        },
+        "flags": {
+          "CMAKE_BUILD_TYPE": "Release",
+          "CMAKE_OSX_ARCHITECTURES": "arm64",
+          "QUPATHXX_BUILD_TESTS": "ON",
+          "QUPATHXX_BUILD_PYTHON": "OFF",
+          "QUPATHXX_BUILD_GUI": "OFF",
+          "QUPATHXX_BUILD_GEOS": "ON",
+          "QUPATHXX_BUNDLE_GEOS": "OFF",
+          "GEOS_ROOT": "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk",
+          "QUPATHXX_BUILD_OPENSLIDE": "OFF",
+          "QUPATHXX_BUNDLE_OPENSLIDE": "OFF",
+          "QUPATHXX_BUILD_TIFF": "ON",
+          "QUPATHXX_BUILD_PROJECT": "ON",
+          "QUPATHXX_BUILD_INTERCHANGE": "ON",
+          "QUPATHXX_BUILD_CLASSIFIER_TRAINING": "ON",
+          "OpenCV_DIR": "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/lib/cmake/opencv4",
+          "QUPATHXX_OPENCV_NOTICES": "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/share/licenses/opencv"
+        },
+        "tests": {
+          "passed": 49,
+          "names": [
+            "analysis",
+            "cell_calibration",
+            "cell_expansion",
+            "cell_records",
+            "cell_tables",
+            "cells",
+            "classes",
+            "classifier",
+            "classifier_io",
+            "core",
+            "decimal_quantities",
+            "document_edits",
+            "file_fingerprint",
+            "geometry",
+            "geometry_edits",
+            "gui_replay",
+            "image_server",
+            "interchange",
+            "log_cell_recipe",
+            "log_watershed",
+            "masked_gaussian",
+            "measurement_tables",
+            "object_classifier",
+            "object_snapshots",
+            "pixel_features",
+            "pixel_workflows",
+            "project",
+            "project_batch",
+            "project_save",
+            "provenance",
+            "qptma",
+            "qptma_project",
+            "raw_image",
+            "recovery",
+            "resampling",
+            "selection",
+            "sha256",
+            "source_identity",
+            "spatial",
+            "stain_estimation",
+            "stains",
+            "thumbnail",
+            "tile_scheduler",
+            "tissue",
+            "tissue_contours",
+            "tissue_records",
+            "tma",
+            "view_tiles",
+            "viewer_session"
+          ],
+          "junit_sha256": "60ccfc80c0dbc32423d7d94eacc005bc67da42e1bc44efe574b2074486119b68"
+        },
+        "dependencies": {
+          "geos": {
+            "lib/libgeos.3.15.0.dylib": "ca9fcf9cb6c44142fe04fa8a017952486db72199b5c189c6d19093b0b63b8368",
+            "lib/libgeos.dylib": "ca9fcf9cb6c44142fe04fa8a017952486db72199b5c189c6d19093b0b63b8368",
+            "lib/libgeos_c.1.21.0.dylib": "a847347ca183d79bc2268166ad9b13fd6adeb4233137dd8c3ed4faa1c2725223",
+            "lib/libgeos_c.1.dylib": "a847347ca183d79bc2268166ad9b13fd6adeb4233137dd8c3ed4faa1c2725223",
+            "lib/libgeos_c.dylib": "a847347ca183d79bc2268166ad9b13fd6adeb4233137dd8c3ed4faa1c2725223",
+            "share/licenses/geos/COPYING": "dc626520dcd53a22f727af3ee42c770e56c97a64fe3adb063799d8ab032fe551"
+          },
+          "opencv": {
+            "lib/libopencv_core.a": "a323e9f2d8c71435c5f6a58ea0583a7d4bcec83cb6ca779da698db6f0ac5e92f",
+            "lib/libopencv_ml.a": "9390f80a4140f4d614efe00cb211d3ff24b6c90be115fef94277b8660ed759d7",
+            "lib/opencv4/3rdparty/libtegra_hal.a": "a4ca9c0aa44c3112cfab13fbd938b45f51caedd55eb3c64dc5532a08e4f788df",
+            "lib/opencv4/3rdparty/libzlib.a": "885a91052fa50314a2b5e621ee08a3bd7954e075acc3c08eb6217f32b6f9bee8",
+            "share/licenses/opencv/LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+            "share/licenses/opencv/SOURCE-NOTICES.txt": "3d02753ef4679f163387971bf7c7cab9d308fbb73668eadf8a1fea6b61851d64",
+            "share/licenses/opencv/softfloat-notice.txt": "27adefc3d001216b8be5af628e3583575fedc22ea6f41917e3008c8ed8cb8ce2",
+            "share/licenses/opencv/zlib-notice.txt": "4506def87bbb9339b9884dd15b5790478915210571a6547b633a569a2c78cad5",
+            "share/licenses/opencv4/SoftFloat-COPYING.txt": "0c5b08365136da52639d777f1ebfc03988b0169d80655c90c59f1b3fa3e526a2",
+            "share/licenses/opencv4/zlib-LICENSE": "845efc77857d485d91fb3e0b884aaa929368c717ae8186b66fe1ed2495753243"
+          }
+        },
+        "native_batch_sha256": "03f272f9b405dba50af830ee68c911960667d5301a04a8028b654334c9c0e3b3",
+        "native_region_sha256": "006f3d7954908a06f39179bb8bd2af75b27676a140d63cfb08d3be62502b4bb0",
+        "region_cli_exact": true,
+        "loader_overrides_used": false,
+        "python_gui_openslide_validated": false,
+        "release_ready": false,
+        "scope": "Native engine plus original build-host snapshot, relocated native archive and synthetic region/batch/GEOS runtime probes. Original snapshot may embed SDK paths; relocated copies use direct package paths. No macOS wheel, OpenSlide, GUI, installer, publisher signing, older-OS or supported release acceptance."
+      },
+      "resampling_native": {
+        "passed": 1,
+        "independent_oracle_shapes": 2205
+      },
+      "qptma_native": {
+        "passed": 1,
+        "bounded_grid_cores": 10000,
+        "atomic_document_and_file_checks": true
+      },
+      "hierarchy_native": {
+        "hierarchy_enabled": true,
+        "hierarchy_qualified": 1,
+        "physical_path_policy": true,
+        "recovery_storage_qualified": true
+      },
+      "qptma_project_native": {
+        "passed": 1,
+        "project_storage_enabled": true,
+        "atomic_persistence_and_cli_checked": true
+      },
+      "qptma_sources": {
+        "cpp/project.cpp": {
+          "git_blob_sha256": "05f516f55e39a849404d26f8493507d0cc0e7c49b5daf17b2704c00b5ecca27c",
+          "checked_out_sha256": "ef552040e5482c52efcd5f4781756d7811353d27cf795b25a480ed19be276f73"
+        },
+        "cpp/include/qupathxx/project.hpp": {
+          "git_blob_sha256": "7936ed1c3c8a4eea50b0fce35370e69dcbc943fe6ecdc7164646ac4c8f3765e0",
+          "checked_out_sha256": "41f59ac9a135e39efd2eb896556cbadfe58ad25eb10c510ad41985f05613d43f"
+        },
+        "cpp/qptma_project_cli.cpp": {
+          "git_blob_sha256": "4654570fcb35bd50ef50b6723ac88c53240cc14679c5c1630eed0c8cc0386ab1",
+          "checked_out_sha256": "208dd58620f23869aac76e7fa913ad1e08730fb8065f012d16f89dd5a2740c82"
+        },
+        "cpp/qptma_project_cli.hpp": {
+          "git_blob_sha256": "273fab3b44eb8b479ece2f3dc309fb13acf68b32daf97c7c6bb7ea03072cb6e5",
+          "checked_out_sha256": "c736b4ccad7e350c1afca00218df98c6d8686c0680b0e8e484e781462dfd5590"
+        },
+        "cpp/batch_main.cpp": {
+          "git_blob_sha256": "dc54673fce16bfc23a023374e178fdf0d23db8b70cd741b4a2670e2d706f4a60",
+          "checked_out_sha256": "7c3a13c8287b2fbc32d6eb2fe36ee74d6c25f4335af7bf52be1fc40698b01326"
+        },
+        "cpp/tests/qptma_project_tests.cpp": {
+          "git_blob_sha256": "9e5fbdae23904b244ced82ca15135d63f4645d54b5a645e646f7f506133d3c78",
+          "checked_out_sha256": "0bd81806f99d91995c4fd32cb9df7a036c12b29825210d570b99531de285333e"
+        },
+        "tests/test_qptma_project.py": {
+          "git_blob_sha256": "017fe6d5b21c4a319e2484ca5d5e4483a8ea12876b10839befaae0d42c151861",
+          "checked_out_sha256": "d867760e7278b8bc07550e9ff536d2ed78e18626c9d1d746f3bda80135a385ba"
+        },
+        "CMakeLists.txt": {
+          "git_blob_sha256": "75fe14484840aa3a2b666d689b760038e1a1dce291bca7b6e0ddca2060b7951b",
+          "checked_out_sha256": "5baf9235a6a2c5ffc00b8782f04852f7f76eb50da1962b2677e03dc93106f159"
+        },
+        "cpp/qptma.cpp": {
+          "git_blob_sha256": "ede2b82887e7f7f0e7ac83204da51aed4a8ec3733e8dc7238308a5a587ee2321",
+          "checked_out_sha256": "593b4a0418784f59d71b9fb24cc6bd9f836eae4e42124cd53c132b31e0f59c69"
+        },
+        "cpp/include/qupathxx/qptma.hpp": {
+          "git_blob_sha256": "5172403012333dfadc6e57679cc06848103482d77b31e69bc7771b751198bd55",
+          "checked_out_sha256": "fdca0f55ea2bf3a8442e5497809d0eec8bab2a3c9373bdd1228d151bde82c6c7"
+        },
+        "cpp/tma_bindings.cpp": {
+          "git_blob_sha256": "6565aeee2d7dbd26395f562da40c1e4ab384a8d5f47e49dfec26a6ed46c84636",
+          "checked_out_sha256": "5e310e93d9a8ed9532ffac1ab18c4201e4fc1bcaab4646784ea68fc9ba862b71"
+        },
+        "cpp/tests/qptma_tests.cpp": {
+          "git_blob_sha256": "7c71592e0c10fc8e4fea151ab3db7b719938bf87812bb2fb57ab3572ba581e7e",
+          "checked_out_sha256": "2a8ede8e8ac949855b03ee786e258ee2d4f6855559b655878b5ddbb1a847c795"
+        },
+        "src/qupathxx/__init__.py": {
+          "git_blob_sha256": "3b279414673c20963b9bd315e90f8e0300aec0434cceececb8110dabb66058a0",
+          "checked_out_sha256": "e55c895327779c6d8d8938e35c550187f1f0f6ffb01478bfcd8f30a5557508e6"
+        },
+        "src/qupathxx/__init__.pyi": {
+          "git_blob_sha256": "f56dbd42347b14b29e806eef5d4af84e982b5d2ac8f6573ba7a8e94be2631d9b",
+          "checked_out_sha256": "b1e3f5961f279aeff14a91db04ad03240ea115a76949142f838c56959c6fadf8"
+        },
+        "src/qupathxx/_native.pyi": {
+          "git_blob_sha256": "37a6924979c2ce5971824379c958a03e29ab588604599dd32e6db8fbcd4b9120",
+          "checked_out_sha256": "42dc9457423c9f38e3629137b22d4f6a3aaed4f1749f1722c622bd688b67d060"
+        },
+        "tests/test_qptma.py": {
+          "git_blob_sha256": "ee67d98ed0389c51aec3f11daf723d6d63823c4eb67e596257ce10a77ba8bbfb",
+          "checked_out_sha256": "ee67d98ed0389c51aec3f11daf723d6d63823c4eb67e596257ce10a77ba8bbfb"
+        },
+        "tests/test_qptma_reference.py": {
+          "git_blob_sha256": "72a78fdd6228b131cef90d45ec26f5e04cc0114aa1c0836e007631708266145b",
+          "checked_out_sha256": "72a78fdd6228b131cef90d45ec26f5e04cc0114aa1c0836e007631708266145b"
+        },
+        "tests/test_qptma_evidence.py": {
+          "git_blob_sha256": "b10ca0916758e010cb425e5df8364c8a33d0033c743dd2a2a27287e89b53dcff",
+          "checked_out_sha256": "b10ca0916758e010cb425e5df8364c8a33d0033c743dd2a2a27287e89b53dcff"
+        },
+        "tools/ci/accept_unified_engine.py": {
+          "git_blob_sha256": "5e78473aa95750adb151b9da84b71f445f789dc8bf7c8869e2aabda60b7b3408",
+          "checked_out_sha256": "5e78473aa95750adb151b9da84b71f445f789dc8bf7c8869e2aabda60b7b3408"
+        },
+        "tools/ci/accept_manylinux.py": {
+          "git_blob_sha256": "a9560fff0aa1f5274b514bde4182409436e881858f48b46dbd2e15d633f3d666",
+          "checked_out_sha256": "a9560fff0aa1f5274b514bde4182409436e881858f48b46dbd2e15d633f3d666"
+        },
+        "tools/ci/accept_macos_native.py": {
+          "git_blob_sha256": "21853f27bdd35831d4ecf2746f933d48172763e69661a221134020622b84ee88",
+          "checked_out_sha256": "21853f27bdd35831d4ecf2746f933d48172763e69661a221134020622b84ee88"
+        },
+        "cpp/gui_tma.hpp": {
+          "git_blob_sha256": "89e960908df0553aec1cc956aeb2a321961a1db50ab4a09ad68cfcae946fc36c",
+          "checked_out_sha256": "d6e9713aba94170a68af0c7ab4262e6061a7d45f55b86fb459268530b6c2d0a8"
+        },
+        "cpp/gui.cpp": {
+          "git_blob_sha256": "3d55051370f3cdbd370242b98d1f1ec8460b0d61c07bcffd97a40bbd48e53b67",
+          "checked_out_sha256": "3d55051370f3cdbd370242b98d1f1ec8460b0d61c07bcffd97a40bbd48e53b67"
+        },
+        "cpp/gui_replay.hpp": {
+          "git_blob_sha256": "967b5bf43624b826cc3f8913521dad83205ffb6ee69fd9f1f7ba6e62bca3060d",
+          "checked_out_sha256": "7c9b3e0242edef83ca2fe79eada279fbf166accffbf510a8d5ce39501c47f03f"
+        },
+        "cpp/include/qupathxx/core.hpp": {
+          "git_blob_sha256": "c8b5681876156a9352d715aad66788edf836b4972b220c5b1719bc74de7a09cc",
+          "checked_out_sha256": "c8b5681876156a9352d715aad66788edf836b4972b220c5b1719bc74de7a09cc"
+        },
+        "cpp/bindings.cpp": {
+          "git_blob_sha256": "57b40cee48fca4cfe1046e86fe465225469bbb116a9f18790f9de119558bde3a",
+          "checked_out_sha256": "57b40cee48fca4cfe1046e86fe465225469bbb116a9f18790f9de119558bde3a"
+        },
+        "tests/test_gui_qptma.py": {
+          "git_blob_sha256": "6ef94dec12f1ffcfba0de40b4fed57bef4d0f54d119db0970244a5f69d0c21ae",
+          "checked_out_sha256": "832406281edf456177e004c02f1aad7d745ccc16f42f74b719b5524584bd6d0c"
+        },
+        "tests/test_qptma_desktop_evidence.py": {
+          "git_blob_sha256": "53d1aa3ab5ec9ed9907f443216e9615788fe4a1fb0bbdf65c9541fa5b8f311da",
+          "checked_out_sha256": "85a65b668ff21fd7ec6ad1b1016879426b2738bd8a669b405d78c67fc13f6dd8"
+        },
+        "tools/ci/qptma-gui-cases.json": {
+          "git_blob_sha256": "ef5e9e0964f248aa1e344d5c93fb069285cd82de036ddb6ffdd745e6dde9e8a3",
+          "checked_out_sha256": "ef5e9e0964f248aa1e344d5c93fb069285cd82de036ddb6ffdd745e6dde9e8a3"
+        },
+        ".github/workflows/ci.yml": {
+          "git_blob_sha256": "abaa1cc102f5155dde8db1ecb37e02e9dcd51d5af7bcd07169d5477d5ddc4b8e",
+          "checked_out_sha256": "abaa1cc102f5155dde8db1ecb37e02e9dcd51d5af7bcd07169d5477d5ddc4b8e"
+        },
+        "tools/ci/qptma_evidence.py": {
+          "git_blob_sha256": "e9f6fb56391a93ee228c085e51e77e971c77e2d243e41a1e617707cc3f0ac0a3",
+          "checked_out_sha256": "e9f6fb56391a93ee228c085e51e77e971c77e2d243e41a1e617707cc3f0ac0a3"
+        },
+        "tools/ci/qptma-cases.json": {
+          "git_blob_sha256": "244e3a95b3b484fcfa5f436570fce8c2b813ab15e3f3da07fc819a9bbbb75c9d",
+          "checked_out_sha256": "244e3a95b3b484fcfa5f436570fce8c2b813ab15e3f3da07fc819a9bbbb75c9d"
+        },
+        "tools/ci/run.py": {
+          "git_blob_sha256": "b4cddb15ef89562884a9f2e8e9039e0a89243284ec29fa378c834f9e5ad63afb",
+          "checked_out_sha256": "b4cddb15ef89562884a9f2e8e9039e0a89243284ec29fa378c834f9e5ad63afb"
+        },
+        "tools/generate_stubs.py": {
+          "git_blob_sha256": "1c4d3c9824ba52adaf08a0624d95947860c7afe5ae2dd2e08a4945a7e1fd1e0a",
+          "checked_out_sha256": "205c9b85d4de27b0a054faad00df8d24401f7745a0dc8e52adc84c124b64ebc9"
+        },
+        "tests/typing/qptma_invalid.py": {
+          "git_blob_sha256": "4be88a438c82e633cc42e40389e13b96a8ce39932969190a4aa8246cc03f2008",
+          "checked_out_sha256": "bdd28c0614dfef4dbb41d4e340db4b70e6283d1cf63a83fd28bbd7291831dcbf"
+        },
+        "tests/typing/valid_api.py": {
+          "git_blob_sha256": "1a98a8f8796101b3635206300ff40b3df8e9b889a4a079cddfb246084953bbf7",
+          "checked_out_sha256": "521872986749126865dba1f802de5bc01b92d925c0eafc20af84d926fe9ccbed"
+        },
+        "tools/upstream/qupath_tma_reference.groovy": {
+          "git_blob_sha256": "e710a48db64bf99b094ac92a3fa30e5eb58f6b6899f13f1402aeade92e5785d1",
+          "checked_out_sha256": "e710a48db64bf99b094ac92a3fa30e5eb58f6b6899f13f1402aeade92e5785d1"
+        },
+        "tests/fixtures/qupath-tma-0.7.0/manifest.json": {
+          "git_blob_sha256": "ac8763a7450d1d13ab2a057ec066073c33c232e73ef3ab66c428cfd43219a622",
+          "checked_out_sha256": "ac8763a7450d1d13ab2a057ec066073c33c232e73ef3ab66c428cfd43219a622"
+        },
+        "tests/fixtures/qupath-tma-0.7.0/reference.json": {
+          "git_blob_sha256": "c86a526e61b735a6512ae3cb98284ade445813cb73a4ad859789e5fd0a1c865b",
+          "checked_out_sha256": "c86a526e61b735a6512ae3cb98284ade445813cb73a4ad859789e5fd0a1c865b"
+        },
+        "tests/fixtures/qupath-tma-0.7.0/fractional-import.qptma": {
+          "git_blob_sha256": "ca38fb51e34b0f160cf0f152258a053b956ab8781b2309eeaa4dfcd4d5ffdcc2",
+          "checked_out_sha256": "ca38fb51e34b0f160cf0f152258a053b956ab8781b2309eeaa4dfcd4d5ffdcc2"
+        },
+        "tests/fixtures/qupath-tma-0.7.0/qupath-export.qptma": {
+          "git_blob_sha256": "ac2b4725fb97e4f74a88c27630a29ac34dd09f182626a3189b2a38cf2ea2ff47",
+          "checked_out_sha256": "ac2b4725fb97e4f74a88c27630a29ac34dd09f182626a3189b2a38cf2ea2ff47"
+        },
+        "tests/fixtures/qupath-tma-0.7.0/capture.log": {
+          "git_blob_sha256": "d9de5de6f5973d9cd82cd4748a18e00d440d7ef25e3cea82c2e30e920cdaf543",
+          "checked_out_sha256": "d9de5de6f5973d9cd82cd4748a18e00d440d7ef25e3cea82c2e30e920cdaf543"
+        }
+      },
+      "resampling_sources": {
+        "CMakeLists.txt": {
+          "git_blob_sha256": "75fe14484840aa3a2b666d689b760038e1a1dce291bca7b6e0ddca2060b7951b",
+          "checked_out_sha256": "5baf9235a6a2c5ffc00b8782f04852f7f76eb50da1962b2677e03dc93106f159",
+          "crlf_normalized": true
+        },
+        "cpp/resampling.cpp": {
+          "git_blob_sha256": "cb08260ee2c441dd9ac32744dc12b89f5ac5a731ffc8d99fff5e072523be6a71",
+          "checked_out_sha256": "fe9fe6d82324af395cb34e1a41d6b732ae5530a721fcfc78164db204886dfa4d",
+          "crlf_normalized": true
+        },
+        "cpp/include/qupathxx/resampling.hpp": {
+          "git_blob_sha256": "5e00606f0d1df1a60a160db7fb2d323c02672159c64bda10747b2071790713b8",
+          "checked_out_sha256": "f5436e240bc35d1de60f9386d5ac26247e78ba16726899de7085a2a3d1cbde75",
+          "crlf_normalized": true
+        },
+        "cpp/thumbnail.cpp": {
+          "git_blob_sha256": "71ff501a57e119f7032c980fe12ffb9504027363521707cfb2d8b7119b5e7301",
+          "checked_out_sha256": "47da8089c0f42fde103d26e70558898e6a5ca430ccb58445ffa1862bd6f3878e",
+          "crlf_normalized": true
+        },
+        "cpp/region_main.cpp": {
+          "git_blob_sha256": "17b8d3ec56d22ec98ab40a42e31cd7372e5fd49ff54a1a2ca610409149a2dd5e",
+          "checked_out_sha256": "b0e5d46c283a9194ac4460fb3fa0dec47cd3b043bb3d8e3ece1afbf9c82f025d",
+          "crlf_normalized": true
+        },
+        "cpp/bindings.cpp": {
+          "git_blob_sha256": "57b40cee48fca4cfe1046e86fe465225469bbb116a9f18790f9de119558bde3a",
+          "checked_out_sha256": "57b40cee48fca4cfe1046e86fe465225469bbb116a9f18790f9de119558bde3a",
+          "crlf_normalized": false
+        },
+        "cpp/tests/resampling_tests.cpp": {
+          "git_blob_sha256": "63a9bd37873d2b4df71167fe1ec1f7bb9d82e88b77bc0c865f53b47edb80c82a",
+          "checked_out_sha256": "e6ec764148d9a7a29dd4abc787ebf42c68d26851427d981bf0a42740cfa7b59c",
+          "crlf_normalized": true
+        },
+        "src/qupathxx/__init__.py": {
+          "git_blob_sha256": "3b279414673c20963b9bd315e90f8e0300aec0434cceececb8110dabb66058a0",
+          "checked_out_sha256": "e55c895327779c6d8d8938e35c550187f1f0f6ffb01478bfcd8f30a5557508e6",
+          "crlf_normalized": true
+        },
+        "src/qupathxx/__init__.pyi": {
+          "git_blob_sha256": "f56dbd42347b14b29e806eef5d4af84e982b5d2ac8f6573ba7a8e94be2631d9b",
+          "checked_out_sha256": "b1e3f5961f279aeff14a91db04ad03240ea115a76949142f838c56959c6fadf8",
+          "crlf_normalized": true
+        },
+        "src/qupathxx/_native.pyi": {
+          "git_blob_sha256": "37a6924979c2ce5971824379c958a03e29ab588604599dd32e6db8fbcd4b9120",
+          "checked_out_sha256": "42dc9457423c9f38e3629137b22d4f6a3aaed4f1749f1722c622bd688b67d060",
+          "crlf_normalized": true
+        },
+        "tests/test_resampling.py": {
+          "git_blob_sha256": "a1861c7d0264b81c26626dc111a97fe463af7937b0b2aec0b6d1e9c67ab1ac1c",
+          "checked_out_sha256": "66e0f73d0a65ff102acc4b1e26d6a02e1454126ab14f1cb43a5249ae3eb0cba2",
+          "crlf_normalized": true
+        },
+        "tests/test_resampling_evidence.py": {
+          "git_blob_sha256": "cb38ba72036e97520dbe223a3057dd8c350c607a4c40d5ddca10a25f91708ed4",
+          "checked_out_sha256": "7027236bc181a21665281ab88c137fc1a9c96da0f18214013cc894a2b45f6a37",
+          "crlf_normalized": true
+        },
+        "tools/ci/resampling_evidence.py": {
+          "git_blob_sha256": "8195ba6f2c69d726564495e8dc8cf160494360130abb154f275c363e5a1caa8c",
+          "checked_out_sha256": "e5968d5f149d815ea5f1924764379c974156a06637f3412fe0321dfb2f653c5c",
+          "crlf_normalized": true
+        },
+        "tools/ci/accept_unified_engine.py": {
+          "git_blob_sha256": "5e78473aa95750adb151b9da84b71f445f789dc8bf7c8869e2aabda60b7b3408",
+          "checked_out_sha256": "5e78473aa95750adb151b9da84b71f445f789dc8bf7c8869e2aabda60b7b3408",
+          "crlf_normalized": false
+        },
+        "tools/ci/accept_manylinux.py": {
+          "git_blob_sha256": "a9560fff0aa1f5274b514bde4182409436e881858f48b46dbd2e15d633f3d666",
+          "checked_out_sha256": "a9560fff0aa1f5274b514bde4182409436e881858f48b46dbd2e15d633f3d666",
+          "crlf_normalized": false
+        },
+        "tools/ci/accept_macos_native.py": {
+          "git_blob_sha256": "21853f27bdd35831d4ecf2746f933d48172763e69661a221134020622b84ee88",
+          "checked_out_sha256": "21853f27bdd35831d4ecf2746f933d48172763e69661a221134020622b84ee88",
+          "crlf_normalized": false
+        }
+      },
+      "small_frontier": {
+        "priority_keys": 64,
+        "heap_equivalence_cases": 1344,
+        "historical_domain_grid_checked": true
+      },
+      "tma_cases": {
+        "case_aggregation_checked": true,
+        "compensated_signed_sums_checked": true,
+        "mean_underflow_checked": true,
+        "cancellation_checked": true,
+        "signed_decimal_locale_checked": true,
+        "atomic_file_export_checked": true,
+        "input_size_checked": true,
+        "cohort_raw_pooling_checked": true,
+        "cohort_atomic_file_checked": true,
+        "oversized_read_transfer_bytes": null
+      },
+      "macho_inventory": {
+        "source": "207f008efc7e7b3e2633fbae312a9cc24f48a535",
+        "architecture": "arm64",
+        "tooling_sha256": {
+          "tools/ci/macos_native_inventory.py": "f565de3a2f555aafabd7312ff05dc04cc1712d4d0f41b5bd626d6a19a57dc74a",
+          "tools/ci/macho_dependencies.py": "0b675070250682afae9e71f0c348ea719232471b060b8f6fe982fd7f625a45c3",
+          "tools/ci/runtime_manifest.py": "2013ad073943f4c200e6a44f8db2de13b094d05aa35d691c0e367d80a4734c28",
+          "tools/ci/pe_dependencies.py": "164689ef5c582628170500ae6d145026b546b2c1c41553b54afe1b95cd0e5efb",
+          "tools/ci/run_macos_native.py": "8ebee070c9e4f686d27eceb07798186823f5070ed703cd36d7b4b4afd2bc7b28",
+          "tools/ci/macos_inventory_evidence.py": "667dc35fe680175c55991a823389420421c644181d8697b1c104fbd827948c12",
+          ".github/workflows/ci.yml": "abaa1cc102f5155dde8db1ecb37e02e9dcd51d5af7bcd07169d5477d5ddc4b8e"
+        },
+        "files": 14,
+        "binaries": 7,
+        "archive_sha256": "14176c5a854433f5840bb524b080c1576935b8c2849a94b707c0a5d51d7e7c8b",
+        "manifest_sha256": "02fe39456bc5454391607fe3285cfade5247605194d4420d0ff517ea7ee16607",
+        "otool_probe_sha256": "f8b211b934c47aa6e11ac9db93643dff58a1911063a156696ad588cb37a757fd",
+        "native_snapshot_accepted": true,
+        "sdk_paths_may_be_embedded": true,
+        "runtime_resolution_complete": false,
+        "relocated_package_validated": false,
+        "external_runtime_availability_verified": false,
+        "signing_verified": false,
+        "release_ready": false,
+        "scope": "Uploaded native CLI and selected SDK runtime/notice bytes reinspected at exact source; independent otool names/versions agree. Static SDK archives remain build-input ledger only. No install-name resolution, relocation, Python/GUI/OpenSlide, ABI, signing or supported release."
+      },
+      "macos_relocation": {
+        "source": "207f008efc7e7b3e2633fbae312a9cc24f48a535",
+        "architecture": "arm64",
+        "tooling_sha256": {
+          "tools/ci/macos_relocation_evidence.py": "9defffa07530738b2ab3ac68c6499de400eaefa3057adb6447e9261e6f930776",
+          "tools/ci/check_macos_relocated_runtime.py": "0f196503974c842bdd90ccad009b4261ce70cb3adc254764c60038070d2c6289",
+          "tools/ci/macos_relocate.py": "00cf7580e74d3b5140fdd76d4750dcea49a9dc4df852d6fdc2778322851a5180",
+          "tools/ci/macos_relocation_plan.py": "160f259e9a70634fcd1d9f45313681193019b8f1c08911c03f62a672a1329f80",
+          "tools/ci/macos_native_inventory.py": "f565de3a2f555aafabd7312ff05dc04cc1712d4d0f41b5bd626d6a19a57dc74a",
+          "tools/ci/macho_dependencies.py": "0b675070250682afae9e71f0c348ea719232471b060b8f6fe982fd7f625a45c3",
+          "tools/ci/runtime_manifest.py": "2013ad073943f4c200e6a44f8db2de13b094d05aa35d691c0e367d80a4734c28",
+          "tools/ci/pe_dependencies.py": "164689ef5c582628170500ae6d145026b546b2c1c41553b54afe1b95cd0e5efb",
+          "tools/ci/run_macos_native.py": "8ebee070c9e4f686d27eceb07798186823f5070ed703cd36d7b4b4afd2bc7b28",
+          ".github/workflows/ci.yml": "abaa1cc102f5155dde8db1ecb37e02e9dcd51d5af7bcd07169d5477d5ddc4b8e",
+          "tests/fixtures/project-v1.qpxproj": "bb79fc7a8e47896bc8793e10ed99efed9e9ffb7887a1b8a110cbdd003547a82b"
+        },
+        "source_archive_sha256": "14176c5a854433f5840bb524b080c1576935b8c2849a94b707c0a5d51d7e7c8b",
+        "relocated_archive_sha256": "939a7e39c1ad6db79a805140078e6ffdd468e982eb957c89f9910d94144d83c3",
+        "plan_sha256": "1994c9ca2365363d5163ec2225a6bbfe1eba99ef7d610f4d45272fab8c4321c9",
+        "files": 11,
+        "binaries": 4,
+        "execution": {
+          "commands": 11,
+          "execution_sha256": "770d37323b83f64720e1e2f212e969aba26924abccf1672d5c0ed24ba0648c08",
+          "ad_hoc_integrity_verified_on_builder": true,
+          "publisher_signature_verified": false
+        },
+        "runtime": {
+          "native_region_exact": true,
+          "native_batch_checkpoint": true,
+          "native_batch_csv": true,
+          "geos_union_area": 150,
+          "package_image_mappings_verified": true,
+          "loader_search_overrides_used": false,
+          "fixture_preserved": true
+        },
+        "relocated_native_host_engineering_accepted": true,
+        "publisher_signature_verified": false,
+        "older_os_compatibility_verified": false,
+        "python_gui_openslide_validated": false,
+        "arbitrary_abi_verified": false,
+        "release_ready": false,
+        "scope": "Exact-source original/relocated archive, Apple command/log and native region/batch/CSV/GEOS runtime proofs on builder. Fresh path with spaces and actual package image mappings; no search overrides. No older-OS, arbitrary ABI, macOS Python/GUI/OpenSlide, publisher signing or supported-release acceptance."
+      }
+    },
+    {
+      "architecture": "x86_64",
+      "native_passed": 49,
+      "frozen_shape_masks_and_maxima": 26,
+      "sampled_production_native": true,
+      "evidence_sha256": {
+        "batch-runtime-links.log": "4afc2e4a4a2cd6c7b7c850b6e7eda2ac5c686404e65e27a0d9664e0d35f65fe1",
+        "binary-architecture.log": "54ade753244e0ad7770febf1e587ffdc259f1875a14f0cc7b17857be21b50190",
+        "build.log": "4b9985a22c6fa93a50d1f8581cc32a6feb76782f83e95891e90d67a4f12caa84",
+        "configure.log": "528baab04899441c36fa267eb186819ed4ee49ea716bc1bd45a35e916012bf6a",
+        "geos-build.log": "c0b274ec33da3051c47a692595bc2a2a094f2e5d702f4cab95cd4d18ec4c8a74",
+        "macho-otool-0000.log": "4afc2e4a4a2cd6c7b7c850b6e7eda2ac5c686404e65e27a0d9664e0d35f65fe1",
+        "macho-otool-0001.log": "fc2ae976b449fb32410bd4752b3df0020c3e28f4151b58fec6a7bd78e61aadf2",
+        "macho-otool-0002.log": "64c3fcd4dd4ca81e484cbbb08730f89b4f1203d80f9f843740e330eb249e8dc0",
+        "macho-otool-0003.log": "2244b29a10b194415bd2bf35931c136a5cb1f8b690183a7d92988458ab1c048c",
+        "macho-otool-0004.log": "c24bfd2181b4a231ea1e97b99ce7d19b35a069d4471cf815d8f553e8f66e42c8",
+        "macho-otool-0005.log": "7be1e4b394270da54b33594320d4662b5c4009847c65c853da0b7faa6dc1d11a",
+        "macho-otool-0006.log": "e2bb4b23857081d2ade58449026dbfc809e6f67666bf306acb0cca109c9d61f0",
+        "macos-native-file-inventory.json": "2ee927e5940119316213661b0ed04cf7a7057afd3b9512148bbb4d3064492cfe",
+        "macos-native-files.zip": "b2d248d932b7f6fae0fad9f4a31fe119acef278650e9d3e6bd94c70414286b52",
+        "macos-native-inventory.log": "12db2a04a5feb14742a03f9551fdec3995f7b3f21ce12b857e93dc07aec6dd60",
+        "macos-native-relocation.log": "86155fd8a192ca719dfec2111c651005a19c7023018e0053d1ade47124e92f19",
+        "macos-otool-probe.json": "fdd5db31272c61d4c150394dac38aab96c7c54c71b54b09c2bd26637266703a1",
+        "macos-relocated-runtime.json": "2f945e01ca82546aaf5ed117c0161d8edfaba8cc8ee86a6639b0ef410ca19a4a",
+        "macos-relocated-runtime.log": "689dcfec67e53ff2efe2a45e3c7a51ce56eb54619857f7a231c667bbf445caa8",
+        "macos-relocation-source-roots.json": "b8d21e6e2a11b8b442cc8ec5058f123088ef9ae9b8cce327f2b84e3d8453569d",
+        "native-tests.log": "698176a5273a179012984f52ecd0e73ad0a7c904677b08967789307704b553e4",
+        "native-tests.xml": "00da653a4aa21b84275539e307fbcb363aaa28cceff0d6ee35529b52989103fa",
+        "opencv-build.log": "23bd16ccdc939fa4d58a3deb060229dc811fbae49fb7d055b4cac44ab6f13d87",
+        "region-cli.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "result.json": "b51bf01d22b2667c6f95b1c1857350d44d377d63c939be2051ea43d58229eddc"
+      },
+      "ci_result": {
+        "schema": "qpx.macos-native-validation/1",
+        "commit": "207f008efc7e7b3e2633fbae312a9cc24f48a535",
+        "platform": "macOS-15.7.9-x86_64-i386-64bit",
+        "architecture": "x86_64",
+        "python": "3.12.10 (v3.12.10:0cc81280367, Apr  8 2025, 08:47:00) [Clang 13.0.0 (clang-1300.0.29.30)]",
+        "python_executable": "/Library/Frameworks/Python.framework/Versions/3.12/bin/python",
+        "compiler": "Apple clang version 17.0.0 (clang-1700.0.13.5)",
+        "cmake": "cmake version 4.4.4",
+        "ninja": "1.13.0.git.kitware.jobserver-pipe-1",
+        "runner_image": {
+          "os": "macos15",
+          "version": "20260824.0482.1"
+        },
+        "flags": {
+          "CMAKE_BUILD_TYPE": "Release",
+          "CMAKE_OSX_ARCHITECTURES": "x86_64",
+          "QUPATHXX_BUILD_TESTS": "ON",
+          "QUPATHXX_BUILD_PYTHON": "OFF",
+          "QUPATHXX_BUILD_GUI": "OFF",
+          "QUPATHXX_BUILD_GEOS": "ON",
+          "QUPATHXX_BUNDLE_GEOS": "OFF",
+          "GEOS_ROOT": "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk",
+          "QUPATHXX_BUILD_OPENSLIDE": "OFF",
+          "QUPATHXX_BUNDLE_OPENSLIDE": "OFF",
+          "QUPATHXX_BUILD_TIFF": "ON",
+          "QUPATHXX_BUILD_PROJECT": "ON",
+          "QUPATHXX_BUILD_INTERCHANGE": "ON",
+          "QUPATHXX_BUILD_CLASSIFIER_TRAINING": "ON",
+          "OpenCV_DIR": "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/lib/cmake/opencv4",
+          "QUPATHXX_OPENCV_NOTICES": "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/share/licenses/opencv"
+        },
+        "tests": {
+          "passed": 49,
+          "names": [
+            "analysis",
+            "cell_calibration",
+            "cell_expansion",
+            "cell_records",
+            "cell_tables",
+            "cells",
+            "classes",
+            "classifier",
+            "classifier_io",
+            "core",
+            "decimal_quantities",
+            "document_edits",
+            "file_fingerprint",
+            "geometry",
+            "geometry_edits",
+            "gui_replay",
+            "image_server",
+            "interchange",
+            "log_cell_recipe",
+            "log_watershed",
+            "masked_gaussian",
+            "measurement_tables",
+            "object_classifier",
+            "object_snapshots",
+            "pixel_features",
+            "pixel_workflows",
+            "project",
+            "project_batch",
+            "project_save",
+            "provenance",
+            "qptma",
+            "qptma_project",
+            "raw_image",
+            "recovery",
+            "resampling",
+            "selection",
+            "sha256",
+            "source_identity",
+            "spatial",
+            "stain_estimation",
+            "stains",
+            "thumbnail",
+            "tile_scheduler",
+            "tissue",
+            "tissue_contours",
+            "tissue_records",
+            "tma",
+            "view_tiles",
+            "viewer_session"
+          ],
+          "junit_sha256": "00da653a4aa21b84275539e307fbcb363aaa28cceff0d6ee35529b52989103fa"
+        },
+        "dependencies": {
+          "geos": {
+            "lib/libgeos.3.15.0.dylib": "74ac496cf73535c8f7d78398abcc2279b2ca2698752e79c1abff5ba25f118fd5",
+            "lib/libgeos.dylib": "74ac496cf73535c8f7d78398abcc2279b2ca2698752e79c1abff5ba25f118fd5",
+            "lib/libgeos_c.1.21.0.dylib": "6b0d93e2e5c4f1aadc3f0e976eced7f95703565e8558f4e919c480ae7e2fab33",
+            "lib/libgeos_c.1.dylib": "6b0d93e2e5c4f1aadc3f0e976eced7f95703565e8558f4e919c480ae7e2fab33",
+            "lib/libgeos_c.dylib": "6b0d93e2e5c4f1aadc3f0e976eced7f95703565e8558f4e919c480ae7e2fab33",
+            "share/licenses/geos/COPYING": "dc626520dcd53a22f727af3ee42c770e56c97a64fe3adb063799d8ab032fe551"
+          },
+          "opencv": {
+            "lib/libopencv_core.a": "2d3a818e359b72cbcd127bc8ec898434c332406fa0df156f0cc9599b827bc535",
+            "lib/libopencv_ml.a": "770568956d2db579b0d640ce53930c573636e152e7da4611dcd0e5dd6f81ff90",
+            "lib/opencv4/3rdparty/libzlib.a": "eb81d721e372eb9d201a4d2af7bffd290ca0844f1b48a12dbf8507f9b96ab97b",
+            "share/licenses/opencv/LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+            "share/licenses/opencv/SOURCE-NOTICES.txt": "3d02753ef4679f163387971bf7c7cab9d308fbb73668eadf8a1fea6b61851d64",
+            "share/licenses/opencv/softfloat-notice.txt": "27adefc3d001216b8be5af628e3583575fedc22ea6f41917e3008c8ed8cb8ce2",
+            "share/licenses/opencv/zlib-notice.txt": "4506def87bbb9339b9884dd15b5790478915210571a6547b633a569a2c78cad5",
+            "share/licenses/opencv4/SoftFloat-COPYING.txt": "0c5b08365136da52639d777f1ebfc03988b0169d80655c90c59f1b3fa3e526a2",
+            "share/licenses/opencv4/zlib-LICENSE": "845efc77857d485d91fb3e0b884aaa929368c717ae8186b66fe1ed2495753243"
+          }
+        },
+        "native_batch_sha256": "c8f803b0790bb58f83b2be082939d984173d98dd082cddafb14c42dc56dd459d",
+        "native_region_sha256": "553915019d253c9dfe635a6a7f875e1f7802183182e8a507728ac1f5cdb16e52",
+        "region_cli_exact": true,
+        "loader_overrides_used": false,
+        "python_gui_openslide_validated": false,
+        "release_ready": false,
+        "scope": "Native engine plus original build-host snapshot, relocated native archive and synthetic region/batch/GEOS runtime probes. Original snapshot may embed SDK paths; relocated copies use direct package paths. No macOS wheel, OpenSlide, GUI, installer, publisher signing, older-OS or supported release acceptance."
+      },
+      "resampling_native": {
+        "passed": 1,
+        "independent_oracle_shapes": 2205
+      },
+      "qptma_native": {
+        "passed": 1,
+        "bounded_grid_cores": 10000,
+        "atomic_document_and_file_checks": true
+      },
+      "hierarchy_native": {
+        "hierarchy_enabled": true,
+        "hierarchy_qualified": 1,
+        "physical_path_policy": true,
+        "recovery_storage_qualified": true
+      },
+      "qptma_project_native": {
+        "passed": 1,
+        "project_storage_enabled": true,
+        "atomic_persistence_and_cli_checked": true
+      },
+      "qptma_sources": {
+        "cpp/project.cpp": {
+          "git_blob_sha256": "05f516f55e39a849404d26f8493507d0cc0e7c49b5daf17b2704c00b5ecca27c",
+          "checked_out_sha256": "ef552040e5482c52efcd5f4781756d7811353d27cf795b25a480ed19be276f73"
+        },
+        "cpp/include/qupathxx/project.hpp": {
+          "git_blob_sha256": "7936ed1c3c8a4eea50b0fce35370e69dcbc943fe6ecdc7164646ac4c8f3765e0",
+          "checked_out_sha256": "41f59ac9a135e39efd2eb896556cbadfe58ad25eb10c510ad41985f05613d43f"
+        },
+        "cpp/qptma_project_cli.cpp": {
+          "git_blob_sha256": "4654570fcb35bd50ef50b6723ac88c53240cc14679c5c1630eed0c8cc0386ab1",
+          "checked_out_sha256": "208dd58620f23869aac76e7fa913ad1e08730fb8065f012d16f89dd5a2740c82"
+        },
+        "cpp/qptma_project_cli.hpp": {
+          "git_blob_sha256": "273fab3b44eb8b479ece2f3dc309fb13acf68b32daf97c7c6bb7ea03072cb6e5",
+          "checked_out_sha256": "c736b4ccad7e350c1afca00218df98c6d8686c0680b0e8e484e781462dfd5590"
+        },
+        "cpp/batch_main.cpp": {
+          "git_blob_sha256": "dc54673fce16bfc23a023374e178fdf0d23db8b70cd741b4a2670e2d706f4a60",
+          "checked_out_sha256": "7c3a13c8287b2fbc32d6eb2fe36ee74d6c25f4335af7bf52be1fc40698b01326"
+        },
+        "cpp/tests/qptma_project_tests.cpp": {
+          "git_blob_sha256": "9e5fbdae23904b244ced82ca15135d63f4645d54b5a645e646f7f506133d3c78",
+          "checked_out_sha256": "0bd81806f99d91995c4fd32cb9df7a036c12b29825210d570b99531de285333e"
+        },
+        "tests/test_qptma_project.py": {
+          "git_blob_sha256": "017fe6d5b21c4a319e2484ca5d5e4483a8ea12876b10839befaae0d42c151861",
+          "checked_out_sha256": "d867760e7278b8bc07550e9ff536d2ed78e18626c9d1d746f3bda80135a385ba"
+        },
+        "CMakeLists.txt": {
+          "git_blob_sha256": "75fe14484840aa3a2b666d689b760038e1a1dce291bca7b6e0ddca2060b7951b",
+          "checked_out_sha256": "5baf9235a6a2c5ffc00b8782f04852f7f76eb50da1962b2677e03dc93106f159"
+        },
+        "cpp/qptma.cpp": {
+          "git_blob_sha256": "ede2b82887e7f7f0e7ac83204da51aed4a8ec3733e8dc7238308a5a587ee2321",
+          "checked_out_sha256": "593b4a0418784f59d71b9fb24cc6bd9f836eae4e42124cd53c132b31e0f59c69"
+        },
+        "cpp/include/qupathxx/qptma.hpp": {
+          "git_blob_sha256": "5172403012333dfadc6e57679cc06848103482d77b31e69bc7771b751198bd55",
+          "checked_out_sha256": "fdca0f55ea2bf3a8442e5497809d0eec8bab2a3c9373bdd1228d151bde82c6c7"
+        },
+        "cpp/tma_bindings.cpp": {
+          "git_blob_sha256": "6565aeee2d7dbd26395f562da40c1e4ab384a8d5f47e49dfec26a6ed46c84636",
+          "checked_out_sha256": "5e310e93d9a8ed9532ffac1ab18c4201e4fc1bcaab4646784ea68fc9ba862b71"
+        },
+        "cpp/tests/qptma_tests.cpp": {
+          "git_blob_sha256": "7c71592e0c10fc8e4fea151ab3db7b719938bf87812bb2fb57ab3572ba581e7e",
+          "checked_out_sha256": "2a8ede8e8ac949855b03ee786e258ee2d4f6855559b655878b5ddbb1a847c795"
+        },
+        "src/qupathxx/__init__.py": {
+          "git_blob_sha256": "3b279414673c20963b9bd315e90f8e0300aec0434cceececb8110dabb66058a0",
+          "checked_out_sha256": "e55c895327779c6d8d8938e35c550187f1f0f6ffb01478bfcd8f30a5557508e6"
+        },
+        "src/qupathxx/__init__.pyi": {
+          "git_blob_sha256": "f56dbd42347b14b29e806eef5d4af84e982b5d2ac8f6573ba7a8e94be2631d9b",
+          "checked_out_sha256": "b1e3f5961f279aeff14a91db04ad03240ea115a76949142f838c56959c6fadf8"
+        },
+        "src/qupathxx/_native.pyi": {
+          "git_blob_sha256": "37a6924979c2ce5971824379c958a03e29ab588604599dd32e6db8fbcd4b9120",
+          "checked_out_sha256": "42dc9457423c9f38e3629137b22d4f6a3aaed4f1749f1722c622bd688b67d060"
+        },
+        "tests/test_qptma.py": {
+          "git_blob_sha256": "ee67d98ed0389c51aec3f11daf723d6d63823c4eb67e596257ce10a77ba8bbfb",
+          "checked_out_sha256": "ee67d98ed0389c51aec3f11daf723d6d63823c4eb67e596257ce10a77ba8bbfb"
+        },
+        "tests/test_qptma_reference.py": {
+          "git_blob_sha256": "72a78fdd6228b131cef90d45ec26f5e04cc0114aa1c0836e007631708266145b",
+          "checked_out_sha256": "72a78fdd6228b131cef90d45ec26f5e04cc0114aa1c0836e007631708266145b"
+        },
+        "tests/test_qptma_evidence.py": {
+          "git_blob_sha256": "b10ca0916758e010cb425e5df8364c8a33d0033c743dd2a2a27287e89b53dcff",
+          "checked_out_sha256": "b10ca0916758e010cb425e5df8364c8a33d0033c743dd2a2a27287e89b53dcff"
+        },
+        "tools/ci/accept_unified_engine.py": {
+          "git_blob_sha256": "5e78473aa95750adb151b9da84b71f445f789dc8bf7c8869e2aabda60b7b3408",
+          "checked_out_sha256": "5e78473aa95750adb151b9da84b71f445f789dc8bf7c8869e2aabda60b7b3408"
+        },
+        "tools/ci/accept_manylinux.py": {
+          "git_blob_sha256": "a9560fff0aa1f5274b514bde4182409436e881858f48b46dbd2e15d633f3d666",
+          "checked_out_sha256": "a9560fff0aa1f5274b514bde4182409436e881858f48b46dbd2e15d633f3d666"
+        },
+        "tools/ci/accept_macos_native.py": {
+          "git_blob_sha256": "21853f27bdd35831d4ecf2746f933d48172763e69661a221134020622b84ee88",
+          "checked_out_sha256": "21853f27bdd35831d4ecf2746f933d48172763e69661a221134020622b84ee88"
+        },
+        "cpp/gui_tma.hpp": {
+          "git_blob_sha256": "89e960908df0553aec1cc956aeb2a321961a1db50ab4a09ad68cfcae946fc36c",
+          "checked_out_sha256": "d6e9713aba94170a68af0c7ab4262e6061a7d45f55b86fb459268530b6c2d0a8"
+        },
+        "cpp/gui.cpp": {
+          "git_blob_sha256": "3d55051370f3cdbd370242b98d1f1ec8460b0d61c07bcffd97a40bbd48e53b67",
+          "checked_out_sha256": "3d55051370f3cdbd370242b98d1f1ec8460b0d61c07bcffd97a40bbd48e53b67"
+        },
+        "cpp/gui_replay.hpp": {
+          "git_blob_sha256": "967b5bf43624b826cc3f8913521dad83205ffb6ee69fd9f1f7ba6e62bca3060d",
+          "checked_out_sha256": "7c9b3e0242edef83ca2fe79eada279fbf166accffbf510a8d5ce39501c47f03f"
+        },
+        "cpp/include/qupathxx/core.hpp": {
+          "git_blob_sha256": "c8b5681876156a9352d715aad66788edf836b4972b220c5b1719bc74de7a09cc",
+          "checked_out_sha256": "c8b5681876156a9352d715aad66788edf836b4972b220c5b1719bc74de7a09cc"
+        },
+        "cpp/bindings.cpp": {
+          "git_blob_sha256": "57b40cee48fca4cfe1046e86fe465225469bbb116a9f18790f9de119558bde3a",
+          "checked_out_sha256": "57b40cee48fca4cfe1046e86fe465225469bbb116a9f18790f9de119558bde3a"
+        },
+        "tests/test_gui_qptma.py": {
+          "git_blob_sha256": "6ef94dec12f1ffcfba0de40b4fed57bef4d0f54d119db0970244a5f69d0c21ae",
+          "checked_out_sha256": "832406281edf456177e004c02f1aad7d745ccc16f42f74b719b5524584bd6d0c"
+        },
+        "tests/test_qptma_desktop_evidence.py": {
+          "git_blob_sha256": "53d1aa3ab5ec9ed9907f443216e9615788fe4a1fb0bbdf65c9541fa5b8f311da",
+          "checked_out_sha256": "85a65b668ff21fd7ec6ad1b1016879426b2738bd8a669b405d78c67fc13f6dd8"
+        },
+        "tools/ci/qptma-gui-cases.json": {
+          "git_blob_sha256": "ef5e9e0964f248aa1e344d5c93fb069285cd82de036ddb6ffdd745e6dde9e8a3",
+          "checked_out_sha256": "ef5e9e0964f248aa1e344d5c93fb069285cd82de036ddb6ffdd745e6dde9e8a3"
+        },
+        ".github/workflows/ci.yml": {
+          "git_blob_sha256": "abaa1cc102f5155dde8db1ecb37e02e9dcd51d5af7bcd07169d5477d5ddc4b8e",
+          "checked_out_sha256": "abaa1cc102f5155dde8db1ecb37e02e9dcd51d5af7bcd07169d5477d5ddc4b8e"
+        },
+        "tools/ci/qptma_evidence.py": {
+          "git_blob_sha256": "e9f6fb56391a93ee228c085e51e77e971c77e2d243e41a1e617707cc3f0ac0a3",
+          "checked_out_sha256": "e9f6fb56391a93ee228c085e51e77e971c77e2d243e41a1e617707cc3f0ac0a3"
+        },
+        "tools/ci/qptma-cases.json": {
+          "git_blob_sha256": "244e3a95b3b484fcfa5f436570fce8c2b813ab15e3f3da07fc819a9bbbb75c9d",
+          "checked_out_sha256": "244e3a95b3b484fcfa5f436570fce8c2b813ab15e3f3da07fc819a9bbbb75c9d"
+        },
+        "tools/ci/run.py": {
+          "git_blob_sha256": "b4cddb15ef89562884a9f2e8e9039e0a89243284ec29fa378c834f9e5ad63afb",
+          "checked_out_sha256": "b4cddb15ef89562884a9f2e8e9039e0a89243284ec29fa378c834f9e5ad63afb"
+        },
+        "tools/generate_stubs.py": {
+          "git_blob_sha256": "1c4d3c9824ba52adaf08a0624d95947860c7afe5ae2dd2e08a4945a7e1fd1e0a",
+          "checked_out_sha256": "205c9b85d4de27b0a054faad00df8d24401f7745a0dc8e52adc84c124b64ebc9"
+        },
+        "tests/typing/qptma_invalid.py": {
+          "git_blob_sha256": "4be88a438c82e633cc42e40389e13b96a8ce39932969190a4aa8246cc03f2008",
+          "checked_out_sha256": "bdd28c0614dfef4dbb41d4e340db4b70e6283d1cf63a83fd28bbd7291831dcbf"
+        },
+        "tests/typing/valid_api.py": {
+          "git_blob_sha256": "1a98a8f8796101b3635206300ff40b3df8e9b889a4a079cddfb246084953bbf7",
+          "checked_out_sha256": "521872986749126865dba1f802de5bc01b92d925c0eafc20af84d926fe9ccbed"
+        },
+        "tools/upstream/qupath_tma_reference.groovy": {
+          "git_blob_sha256": "e710a48db64bf99b094ac92a3fa30e5eb58f6b6899f13f1402aeade92e5785d1",
+          "checked_out_sha256": "e710a48db64bf99b094ac92a3fa30e5eb58f6b6899f13f1402aeade92e5785d1"
+        },
+        "tests/fixtures/qupath-tma-0.7.0/manifest.json": {
+          "git_blob_sha256": "ac8763a7450d1d13ab2a057ec066073c33c232e73ef3ab66c428cfd43219a622",
+          "checked_out_sha256": "ac8763a7450d1d13ab2a057ec066073c33c232e73ef3ab66c428cfd43219a622"
+        },
+        "tests/fixtures/qupath-tma-0.7.0/reference.json": {
+          "git_blob_sha256": "c86a526e61b735a6512ae3cb98284ade445813cb73a4ad859789e5fd0a1c865b",
+          "checked_out_sha256": "c86a526e61b735a6512ae3cb98284ade445813cb73a4ad859789e5fd0a1c865b"
+        },
+        "tests/fixtures/qupath-tma-0.7.0/fractional-import.qptma": {
+          "git_blob_sha256": "ca38fb51e34b0f160cf0f152258a053b956ab8781b2309eeaa4dfcd4d5ffdcc2",
+          "checked_out_sha256": "ca38fb51e34b0f160cf0f152258a053b956ab8781b2309eeaa4dfcd4d5ffdcc2"
+        },
+        "tests/fixtures/qupath-tma-0.7.0/qupath-export.qptma": {
+          "git_blob_sha256": "ac2b4725fb97e4f74a88c27630a29ac34dd09f182626a3189b2a38cf2ea2ff47",
+          "checked_out_sha256": "ac2b4725fb97e4f74a88c27630a29ac34dd09f182626a3189b2a38cf2ea2ff47"
+        },
+        "tests/fixtures/qupath-tma-0.7.0/capture.log": {
+          "git_blob_sha256": "d9de5de6f5973d9cd82cd4748a18e00d440d7ef25e3cea82c2e30e920cdaf543",
+          "checked_out_sha256": "d9de5de6f5973d9cd82cd4748a18e00d440d7ef25e3cea82c2e30e920cdaf543"
+        }
+      },
+      "resampling_sources": {
+        "CMakeLists.txt": {
+          "git_blob_sha256": "75fe14484840aa3a2b666d689b760038e1a1dce291bca7b6e0ddca2060b7951b",
+          "checked_out_sha256": "5baf9235a6a2c5ffc00b8782f04852f7f76eb50da1962b2677e03dc93106f159",
+          "crlf_normalized": true
+        },
+        "cpp/resampling.cpp": {
+          "git_blob_sha256": "cb08260ee2c441dd9ac32744dc12b89f5ac5a731ffc8d99fff5e072523be6a71",
+          "checked_out_sha256": "fe9fe6d82324af395cb34e1a41d6b732ae5530a721fcfc78164db204886dfa4d",
+          "crlf_normalized": true
+        },
+        "cpp/include/qupathxx/resampling.hpp": {
+          "git_blob_sha256": "5e00606f0d1df1a60a160db7fb2d323c02672159c64bda10747b2071790713b8",
+          "checked_out_sha256": "f5436e240bc35d1de60f9386d5ac26247e78ba16726899de7085a2a3d1cbde75",
+          "crlf_normalized": true
+        },
+        "cpp/thumbnail.cpp": {
+          "git_blob_sha256": "71ff501a57e119f7032c980fe12ffb9504027363521707cfb2d8b7119b5e7301",
+          "checked_out_sha256": "47da8089c0f42fde103d26e70558898e6a5ca430ccb58445ffa1862bd6f3878e",
+          "crlf_normalized": true
+        },
+        "cpp/region_main.cpp": {
+          "git_blob_sha256": "17b8d3ec56d22ec98ab40a42e31cd7372e5fd49ff54a1a2ca610409149a2dd5e",
+          "checked_out_sha256": "b0e5d46c283a9194ac4460fb3fa0dec47cd3b043bb3d8e3ece1afbf9c82f025d",
+          "crlf_normalized": true
+        },
+        "cpp/bindings.cpp": {
+          "git_blob_sha256": "57b40cee48fca4cfe1046e86fe465225469bbb116a9f18790f9de119558bde3a",
+          "checked_out_sha256": "57b40cee48fca4cfe1046e86fe465225469bbb116a9f18790f9de119558bde3a",
+          "crlf_normalized": false
+        },
+        "cpp/tests/resampling_tests.cpp": {
+          "git_blob_sha256": "63a9bd37873d2b4df71167fe1ec1f7bb9d82e88b77bc0c865f53b47edb80c82a",
+          "checked_out_sha256": "e6ec764148d9a7a29dd4abc787ebf42c68d26851427d981bf0a42740cfa7b59c",
+          "crlf_normalized": true
+        },
+        "src/qupathxx/__init__.py": {
+          "git_blob_sha256": "3b279414673c20963b9bd315e90f8e0300aec0434cceececb8110dabb66058a0",
+          "checked_out_sha256": "e55c895327779c6d8d8938e35c550187f1f0f6ffb01478bfcd8f30a5557508e6",
+          "crlf_normalized": true
+        },
+        "src/qupathxx/__init__.pyi": {
+          "git_blob_sha256": "f56dbd42347b14b29e806eef5d4af84e982b5d2ac8f6573ba7a8e94be2631d9b",
+          "checked_out_sha256": "b1e3f5961f279aeff14a91db04ad03240ea115a76949142f838c56959c6fadf8",
+          "crlf_normalized": true
+        },
+        "src/qupathxx/_native.pyi": {
+          "git_blob_sha256": "37a6924979c2ce5971824379c958a03e29ab588604599dd32e6db8fbcd4b9120",
+          "checked_out_sha256": "42dc9457423c9f38e3629137b22d4f6a3aaed4f1749f1722c622bd688b67d060",
+          "crlf_normalized": true
+        },
+        "tests/test_resampling.py": {
+          "git_blob_sha256": "a1861c7d0264b81c26626dc111a97fe463af7937b0b2aec0b6d1e9c67ab1ac1c",
+          "checked_out_sha256": "66e0f73d0a65ff102acc4b1e26d6a02e1454126ab14f1cb43a5249ae3eb0cba2",
+          "crlf_normalized": true
+        },
+        "tests/test_resampling_evidence.py": {
+          "git_blob_sha256": "cb38ba72036e97520dbe223a3057dd8c350c607a4c40d5ddca10a25f91708ed4",
+          "checked_out_sha256": "7027236bc181a21665281ab88c137fc1a9c96da0f18214013cc894a2b45f6a37",
+          "crlf_normalized": true
+        },
+        "tools/ci/resampling_evidence.py": {
+          "git_blob_sha256": "8195ba6f2c69d726564495e8dc8cf160494360130abb154f275c363e5a1caa8c",
+          "checked_out_sha256": "e5968d5f149d815ea5f1924764379c974156a06637f3412fe0321dfb2f653c5c",
+          "crlf_normalized": true
+        },
+        "tools/ci/accept_unified_engine.py": {
+          "git_blob_sha256": "5e78473aa95750adb151b9da84b71f445f789dc8bf7c8869e2aabda60b7b3408",
+          "checked_out_sha256": "5e78473aa95750adb151b9da84b71f445f789dc8bf7c8869e2aabda60b7b3408",
+          "crlf_normalized": false
+        },
+        "tools/ci/accept_manylinux.py": {
+          "git_blob_sha256": "a9560fff0aa1f5274b514bde4182409436e881858f48b46dbd2e15d633f3d666",
+          "checked_out_sha256": "a9560fff0aa1f5274b514bde4182409436e881858f48b46dbd2e15d633f3d666",
+          "crlf_normalized": false
+        },
+        "tools/ci/accept_macos_native.py": {
+          "git_blob_sha256": "21853f27bdd35831d4ecf2746f933d48172763e69661a221134020622b84ee88",
+          "checked_out_sha256": "21853f27bdd35831d4ecf2746f933d48172763e69661a221134020622b84ee88",
+          "crlf_normalized": false
+        }
+      },
+      "small_frontier": {
+        "priority_keys": 64,
+        "heap_equivalence_cases": 1344,
+        "historical_domain_grid_checked": true
+      },
+      "tma_cases": {
+        "case_aggregation_checked": true,
+        "compensated_signed_sums_checked": true,
+        "mean_underflow_checked": true,
+        "cancellation_checked": true,
+        "signed_decimal_locale_checked": true,
+        "atomic_file_export_checked": true,
+        "input_size_checked": true,
+        "cohort_raw_pooling_checked": true,
+        "cohort_atomic_file_checked": true,
+        "oversized_read_transfer_bytes": null
+      },
+      "macho_inventory": {
+        "source": "207f008efc7e7b3e2633fbae312a9cc24f48a535",
+        "architecture": "x86_64",
+        "tooling_sha256": {
+          "tools/ci/macos_native_inventory.py": "f565de3a2f555aafabd7312ff05dc04cc1712d4d0f41b5bd626d6a19a57dc74a",
+          "tools/ci/macho_dependencies.py": "0b675070250682afae9e71f0c348ea719232471b060b8f6fe982fd7f625a45c3",
+          "tools/ci/runtime_manifest.py": "2013ad073943f4c200e6a44f8db2de13b094d05aa35d691c0e367d80a4734c28",
+          "tools/ci/pe_dependencies.py": "164689ef5c582628170500ae6d145026b546b2c1c41553b54afe1b95cd0e5efb",
+          "tools/ci/run_macos_native.py": "8ebee070c9e4f686d27eceb07798186823f5070ed703cd36d7b4b4afd2bc7b28",
+          "tools/ci/macos_inventory_evidence.py": "667dc35fe680175c55991a823389420421c644181d8697b1c104fbd827948c12",
+          ".github/workflows/ci.yml": "abaa1cc102f5155dde8db1ecb37e02e9dcd51d5af7bcd07169d5477d5ddc4b8e"
+        },
+        "files": 14,
+        "binaries": 7,
+        "archive_sha256": "b2d248d932b7f6fae0fad9f4a31fe119acef278650e9d3e6bd94c70414286b52",
+        "manifest_sha256": "2ee927e5940119316213661b0ed04cf7a7057afd3b9512148bbb4d3064492cfe",
+        "otool_probe_sha256": "fdd5db31272c61d4c150394dac38aab96c7c54c71b54b09c2bd26637266703a1",
+        "native_snapshot_accepted": true,
+        "sdk_paths_may_be_embedded": true,
+        "runtime_resolution_complete": false,
+        "relocated_package_validated": false,
+        "external_runtime_availability_verified": false,
+        "signing_verified": false,
+        "release_ready": false,
+        "scope": "Uploaded native CLI and selected SDK runtime/notice bytes reinspected at exact source; independent otool names/versions agree. Static SDK archives remain build-input ledger only. No install-name resolution, relocation, Python/GUI/OpenSlide, ABI, signing or supported release."
+      },
+      "macos_relocation": {
+        "source": "207f008efc7e7b3e2633fbae312a9cc24f48a535",
+        "architecture": "x86_64",
+        "tooling_sha256": {
+          "tools/ci/macos_relocation_evidence.py": "9defffa07530738b2ab3ac68c6499de400eaefa3057adb6447e9261e6f930776",
+          "tools/ci/check_macos_relocated_runtime.py": "0f196503974c842bdd90ccad009b4261ce70cb3adc254764c60038070d2c6289",
+          "tools/ci/macos_relocate.py": "00cf7580e74d3b5140fdd76d4750dcea49a9dc4df852d6fdc2778322851a5180",
+          "tools/ci/macos_relocation_plan.py": "160f259e9a70634fcd1d9f45313681193019b8f1c08911c03f62a672a1329f80",
+          "tools/ci/macos_native_inventory.py": "f565de3a2f555aafabd7312ff05dc04cc1712d4d0f41b5bd626d6a19a57dc74a",
+          "tools/ci/macho_dependencies.py": "0b675070250682afae9e71f0c348ea719232471b060b8f6fe982fd7f625a45c3",
+          "tools/ci/runtime_manifest.py": "2013ad073943f4c200e6a44f8db2de13b094d05aa35d691c0e367d80a4734c28",
+          "tools/ci/pe_dependencies.py": "164689ef5c582628170500ae6d145026b546b2c1c41553b54afe1b95cd0e5efb",
+          "tools/ci/run_macos_native.py": "8ebee070c9e4f686d27eceb07798186823f5070ed703cd36d7b4b4afd2bc7b28",
+          ".github/workflows/ci.yml": "abaa1cc102f5155dde8db1ecb37e02e9dcd51d5af7bcd07169d5477d5ddc4b8e",
+          "tests/fixtures/project-v1.qpxproj": "bb79fc7a8e47896bc8793e10ed99efed9e9ffb7887a1b8a110cbdd003547a82b"
+        },
+        "source_archive_sha256": "b2d248d932b7f6fae0fad9f4a31fe119acef278650e9d3e6bd94c70414286b52",
+        "relocated_archive_sha256": "63d5def56c17ff89a7b373eaf5c6d156bef899b78a1baf20c847dfe98b30e90f",
+        "plan_sha256": "cf172d18f268c13ff0e00e9b707d89b12b11657c72f178c328bac03bb79fee4c",
+        "files": 11,
+        "binaries": 4,
+        "execution": {
+          "commands": 11,
+          "execution_sha256": "4e19114f5466b51565fe692bd49eda4c3511317098ba02dd0d45ae124b76bc60",
+          "ad_hoc_integrity_verified_on_builder": true,
+          "publisher_signature_verified": false
+        },
+        "runtime": {
+          "native_region_exact": true,
+          "native_batch_checkpoint": true,
+          "native_batch_csv": true,
+          "geos_union_area": 150,
+          "package_image_mappings_verified": true,
+          "loader_search_overrides_used": false,
+          "fixture_preserved": true
+        },
+        "relocated_native_host_engineering_accepted": true,
+        "publisher_signature_verified": false,
+        "older_os_compatibility_verified": false,
+        "python_gui_openslide_validated": false,
+        "arbitrary_abi_verified": false,
+        "release_ready": false,
+        "scope": "Exact-source original/relocated archive, Apple command/log and native region/batch/CSV/GEOS runtime proofs on builder. Fresh path with spaces and actual package image mappings; no search overrides. No older-OS, arbitrary ABI, macOS Python/GUI/OpenSlide, publisher signing or supported-release acceptance."
+      }
+    }
+  ],
+  "auditor_sha256": "21853f27bdd35831d4ecf2746f933d48172763e69661a221134020622b84ee88",
+  "native_engineering_accepted": true,
+  "production_sampled_native_required": true,
+  "python_gui_openslide_validated": false,
+  "small_frontier_required": true,
+  "frontier_helper_sha256": "8795538c16e0a7eb1551030d2c3fcf347ec59b1a5d2f07b33de0d910b2d04419",
+  "tma_cohorts_required": true,
+  "tma_file_export_required": true,
+  "tma_cases_required": true,
+  "tma_case_helper_sha256": "868ea8cc8777d8b94ab7ce43f8f0963cdb67656f51c4cb33d2f1be6022a6ccf2",
+  "macho_native_inventory_required": true,
+  "macos_relocation_required": true,
+  "portable_package_validated": false,
+  "performance_accepted": false,
+  "release_ready": false,
+  "scope": "Exact-source CI native tests, frozen shape conformance, architecture and region CLI records. Original/relocated native archive bytes, Apple command logs and fresh native region/batch/GEOS probes are audited. No macOS Python wheel, OpenSlide, GUI, publisher signing, older-OS, biological or supported-release acceptance."
+}

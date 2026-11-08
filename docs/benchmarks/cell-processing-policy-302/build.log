@@ -1,0 +1,400 @@
+*** scikit-build-core 1.1.1 using CMake 4.4.4 (wheel)
+*** Configuring CMake...
+loading initial cache file C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\CMakeInit.txt
+-- Selecting Windows SDK version 10.0.22621.0 to target Windows 10.0.26200.
+-- Building tiff version 4.7.1
+-- Could NOT find Deflate (missing: Deflate_LIBRARY Deflate_INCLUDE_DIR) 
+-- Could NOT find JPEG (missing: JPEG_LIBRARY JPEG_INCLUDE_DIR) 
+-- Could NOT find JBIG (missing: JBIG_LIBRARY JBIG_INCLUDE_DIR) 
+-- Could NOT find LERC (missing: LERC_LIBRARY LERC_INCLUDE_DIR) 
+-- Could NOT find liblzma (missing: LIBLZMA_LIBRARY LIBLZMA_INCLUDE_DIR LIBLZMA_HAS_AUTO_DECODER LIBLZMA_HAS_EASY_ENCODER LIBLZMA_HAS_LZMA_PRESET) 
+-- Could NOT find ZSTD (missing: ZSTD_LIBRARY ZSTD_INCLUDE_DIR) 
+-- Could NOT find WebP (missing: WebP_LIBRARY WebP_INCLUDE_DIR) 
+-- Found OpenGL: opengl32  found components: OpenGL
+-- Could NOT find GLUT (missing: GLUT_glut_LIBRARY GLUT_INCLUDE_DIR) 
+-- Include resource version information for LibTIFF
+-- 
+-- Libtiff is now configured for Windows-10.0.26200
+-- 
+--   Libtiff build version:       4.7.1
+--   Libtiff library version:     6.2.0
+--   Libtiff release date:        20250911
+-- 
+--   Installation directory:             C:/Users/HEQ/AppData/Local/Temp/tmpc9r8kw6a/wheel/platlib
+--   Documentation directory:            share/doc/tiff
+--   C compiler:                         C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe
+--   C++ compiler:                       C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe
+--   Build shared libraries:             OFF
+--   Build tools:                        OFF
+--   Build tests:                        OFF
+--   Build contrib:                      OFF
+--   Build docs:                         OFF
+--   Build deprecated features:          OFF
+--   Enable linker symbol versioning:    FALSE
+--   Support Microsoft Document Imaging: ON
+--   Use win32 IO:                       ON
+-- 
+--  Support for internal codecs:
+--   CCITT Group 3 & 4 algorithms:       ON
+--   Macintosh PackBits algorithm:       ON
+--   LZW algorithm:                      ON
+--   ThunderScan 4-bit RLE algorithm:    ON
+--   NeXT 2-bit RLE algorithm:           ON
+--   LogLuv high dynamic range encoding: ON
+-- 
+--  Support for external codecs:
+--   ZLIB support:                       Requested:ON Availability:TRUE Support:TRUE
+--   libdeflate support:                 Requested:OFF Availability:FALSE Support:FALSE
+--   Pixar log-format algorithm:         Requested:OFF Availability:TRUE Support:FALSE
+--   JPEG support:                       Requested:OFF Availability:FALSE Support:FALSE
+--   Old JPEG support:                   Requested:OFF Availability:FALSE Support:FALSE (Depends on JPEG Support)
+--   JPEG 8/12 bit dual mode:            Requested:OFF Availability:FALSE Support:FALSE
+--   ISO JBIG support:                   Requested:OFF Availability:FALSE Support:FALSE
+--   LERC support:                       Requested:OFF Availability:FALSE Support:FALSE
+--   LZMA2 support:                      Requested:OFF Availability:FALSE Support:FALSE
+--   ZSTD support:                       Requested:OFF Availability:FALSE Support:FALSE
+--   WEBP support:                       Requested:OFF Availability:FALSE Support:FALSE
+-- 
+--   C++ support:                        ON (requested) TRUE (availability)
+-- 
+--   OpenGL support:                     Requested:OFF Availability:FALSE Support:FALSE
+-- 
+-- OpenCV ARCH: x64
+-- OpenCV RUNTIME: vc17
+-- OpenCV STATIC: ON
+-- Found OpenCV 4.11.0 in C:/Users/HEQ/Projects/qupathxx/build/deps/opencv-sdk/x64/vc17/staticlib
+-- Using the multi-header code from C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/_deps/json-src/include/
+-- Including Win32 support
+-- Found OpenGL: opengl32
+-- Configuring done (6.3s)
+-- Generating done (4.0s)
+-- Build files have been written to: C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+*** Building project with Visual Studio 17 2022...
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+
+  Checking File Globs
+  1>Checking Build System
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  nanobind-static.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\nanobind-static.lib
+  qupathxx_sqlite.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_sqlite.lib
+  glfw.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\glfw-build\src\Release\glfw3.lib
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_tiff_xml.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_tiff_xml.lib
+  zlibstatic.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\qpx_zlib-build\Release\zs.lib
+  tiff.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\qpx_tiff-build\libtiff\Release\tiff.lib
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  batch_checkpoint.cpp
+  cell_archive.cpp
+  cell_records.cpp
+  cell_sampling_grid.cpp
+  cell_tables.cpp
+  cells.cpp
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(732,82): warning C4244: 'initializing': conversion from 'double' to '_Ty', possible loss of data [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(732,82): warning C4244:         with [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(732,82): warning C4244:         [ [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(732,82): warning C4244:             _Ty=float [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(732,82): warning C4244:         ] [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/cells.cpp')
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(732,82):
+      the template instantiation context (the oldest one first) is
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\cells.cpp(255,39):
+          see reference to function template instantiation 'std::vector<float,std::allocator<float>>::vector<std::_Vector_iterator<std::_Vector_val<std::_Simple_types<_Ty>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
+          with
+          [
+              _Ty=double,
+              _Iter=std::_Vector_iterator<std::_Vector_val<std::_Simple_types<double>>>,
+              _Alloc=std::allocator<float>
+          ]
+              C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\cells.cpp(255,39):
+              see the first reference to 'std::vector<float,std::allocator<float>>::vector' in 'qpx::CellKernel::run'
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vector(700,13):
+          see reference to function template instantiation 'void std::vector<float,std::allocator<float>>::_Construct_n<double*,double*>(const unsigned __int64,double *&&,double *&&)' being compiled
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vector(2120,41):
+          see reference to function template instantiation 'float *std::_Uninitialized_copy<_Ty,_Ty,std::allocator<float>>(_InIt,_Se,float *,_Alloc &)' being compiled
+          with
+          [
+              _Ty=double *,
+              _InIt=double *,
+              _Se=double *,
+              _Alloc=std::allocator<float>
+          ]
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(1902,18):
+          see reference to function template instantiation 'void std::_Uninitialized_backout_al<std::allocator<float>>::_Emplace_back<double&>(double &)' being compiled
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory(1844,35):
+          see reference to function template instantiation 'void std::_Default_allocator_traits<_Alloc>::construct<_Ty,double&>(_Alloc &,_Objty *const ,double &)' being compiled
+          with
+          [
+              _Alloc=std::allocator<float>,
+              _Ty=float,
+              _Objty=float
+          ]
+  
+  document_edits.cpp
+  input_digest.cpp
+  object_classifier.cpp
+  object_classifier_archive.cpp
+  object_classifier_records.cpp
+  pixel_stream.cpp
+  project.cpp
+  project_batch.cpp
+  raw_analysis.cpp
+  raw_analysis_records.cpp
+  raw_pixel_archive.cpp
+  raw_pixel_records.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_records.cpp(30,59): warning C4456: declaration of 'x' hides previous local declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_records.cpp(28,17):
+      see declaration of 'x'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_records.cpp(30,83): warning C4456: declaration of 'y' hides previous local declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_records.cpp(28,41):
+      see declaration of 'y'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_records.cpp(36,72): warning C4456: declaration of 'x' hides previous local declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_records.cpp(35,17):
+      see declaration of 'x'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_records.cpp(36,109): warning C4456: declaration of 'y' hides previous local declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_records.cpp(35,41):
+      see declaration of 'y'
+  
+  raw_pixel_tiled_archive.cpp
+  raw_pixel_tiled_training.cpp
+  Generating Code...
+  Compiling...
+  raw_pixel_training_checkpoint.cpp
+  scientific_cell_archive.cpp
+  scientific_cells.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\scientific_cells.cpp(168,30): warning C4456: declaration of 'c' hides previous local declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\scientific_cells.cpp(140,89):
+      see declaration of 'c'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\scientific_cells.cpp(177,30): warning C4456: declaration of 'c' hides previous local declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\scientific_cells.cpp(140,89):
+      see declaration of 'c'
+  
+  scientific_raster.cpp
+  tissue_contours.cpp
+  viewer_session.cpp
+  Generating Code...
+  imagej_gaussian.cpp
+  provenance.cpp
+  qupathxx_core.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_core.lib
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  gui.cpp
+  qupathxx_gui.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_gui.lib
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  cell_bindings.cpp
+  cell_table_bindings.cpp
+  object_classifier_archive_bindings.cpp
+  object_classifier_bindings.cpp
+  pixel_workflow_bindings.cpp
+  project_batch_bindings.cpp
+  viewer_bindings.cpp
+     Creating library C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/_native.lib and object C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package/Release/_native.exp
+  _native.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\_native.cp312-win_amd64.pyd
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_analysis_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_analysis_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  batch_main.cpp
+  cell_calibration_tests.cpp
+  qupathxx_app.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_app.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  cell_expansion_tests.cpp
+  cell_table_cli.cpp
+  qupathxx_cell_expansion_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_cell_expansion_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_cell_calibration_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_cell_calibration_tests.exe
+  cell_record_tests.cpp
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  cell_table_tests.cpp
+  Generating Code...
+  scientific_cell_archive_tests.cpp
+  grid_cell_consumers_tests.cpp
+  Generating Code...
+  Generating Code...
+  qupathxx_batch.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_batch.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  cell_tests.cpp
+  nominal_cell_tests.cpp
+  scientific_cell_tests.cpp
+  Generating Code...
+  qupathxx_cell_record_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_cell_record_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_cell_table_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_cell_table_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_classes_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_classes_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_classifier_io_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_classifier_io_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_classifier_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_classifier_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_decimal_quantity_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_decimal_quantity_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_core_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_core_tests.exe
+  qupathxx_document_edits_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_document_edits_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_file_fingerprint_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_file_fingerprint_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_geometry_edits_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_geometry_edits_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_geometry_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_geometry_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_gui_replay_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_gui_replay_tests.exe
+  imagej_gaussian_tests.cpp
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  imagej_gaussian.cpp
+  qupathxx_interchange_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_interchange_tests.exe
+  sha256.cpp
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  log_cell_recipe_tests.cpp
+  Generating Code...
+  qupathxx_imagej_gaussian_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_imagej_gaussian_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  log_watershed_tests.cpp
+  qupathxx_log_cell_recipe_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_log_cell_recipe_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_masked_gaussian_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_masked_gaussian_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_log_watershed_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_log_watershed_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  object_classifier_tests.cpp
+  qupathxx_measurement_table_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_measurement_table_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_cell_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_cell_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_object_snapshot_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_object_snapshot_tests.exe
+  qupathxx_overlay_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_overlay_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_pixel_feature_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_pixel_feature_tests.exe
+  pixel_workflow_tests.cpp
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  grid_cell_frontend_tests.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\pixel_workflow_tests.cpp(95,425): warning C4805: '==': unsafe mix of type 'const _Ty' and type 'const bool' in operation [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\pixel_workflow_tests.cpp(95,425): warning C4805:         with [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\pixel_workflow_tests.cpp(95,425): warning C4805:         [ [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\pixel_workflow_tests.cpp(95,425): warning C4805:             _Ty=uint8_t [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\pixel_workflow_tests.cpp(95,425): warning C4805:         ] [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  nominal_cell_batch_tests.cpp
+  qupathxx_object_classifier_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_object_classifier_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  project_tests.cpp
+  project_batch_tests.cpp
+  raw_pixel_batch_checks.cpp
+  qupathxx_project_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_project_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  provenance_tests.cpp
+  Generating Code...
+  qupathxx_provenance_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_provenance_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_qptma_project_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_qptma_project_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_qptma_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_qptma_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  raw_image_tests.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_image_tests.cpp(66,86): warning C4805: '==': unsafe mix of type 'const _Ty' and type 'const bool' in operation [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_raw_image_tests.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_image_tests.cpp(66,86): warning C4805:         with [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_raw_image_tests.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_image_tests.cpp(66,86): warning C4805:         [ [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_raw_image_tests.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_image_tests.cpp(66,86): warning C4805:             _Ty=uint8_t [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_raw_image_tests.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_image_tests.cpp(66,86): warning C4805:         ] [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_raw_image_tests.vcxproj]
+  qupathxx_project_batch_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_project_batch_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_recovery_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_recovery_tests.exe
+  qupathxx_region.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_region.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  scientific_grid_geometry_tests.cpp
+  qupathxx_pixel_workflow_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_pixel_workflow_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_save_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_save_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_resampling_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_resampling_tests.exe
+  qupathxx_scheduler_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_scheduler_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_selection_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_selection_tests.exe
+  qupathxx_raw_image_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_raw_image_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_sha256_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_sha256_tests.exe
+  qupathxx_server_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_server_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_source_identity_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_source_identity_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_spatial_analysis_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_spatial_analysis_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_spatial_cli_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_spatial_cli_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_spatial_frontend_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_spatial_frontend_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_spatial_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_spatial_tests.exe
+  qupathxx_spatial_record_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_spatial_record_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_stain_estimation_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_stain_estimation_tests.exe
+  qupathxx_stains_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_stains_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  scientific_raster_tests.cpp
+  qupathxx_thumbnail_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_thumbnail_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_tissue_record_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_tissue_record_tests.exe
+  qupathxx_tissue_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_tissue_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  tma_dearray_tests.cpp
+  tma_tests.cpp
+  qupathxx_tissue_contour_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_tissue_contour_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_view_tiles_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_view_tiles_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  viewer_session_tests.cpp
+  qupathxx_tma_dearray_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_tma_dearray_tests.exe
+  tiff_port.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\qpx_tiff-build\port\Release\tiff_port.lib
+  tiffxx.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\qpx_tiff-build\libtiff\Release\tiffxx.lib
+  qupathxx_tma_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_tma_tests.exe
+  qupathxx_viewer_session_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_viewer_session_tests.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+*** Installing project into wheel...
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmpc9r8kw6a\wheel\platlib/qupathxx/licenses/imagej-shape/NOTICE.txt
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmpc9r8kw6a\wheel\platlib/qupathxx/licenses/libtiff/LICENSE.md
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmpc9r8kw6a\wheel\platlib/qupathxx/licenses/tiff-zlib/LICENSE
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmpc9r8kw6a\wheel\platlib/qupathxx/licenses/tinyxml2/LICENSE.txt
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmpc9r8kw6a\wheel\platlib/qupathxx/licenses/opencv/LICENSE
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmpc9r8kw6a\wheel\platlib/qupathxx/licenses/opencv/softfloat-notice.txt
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmpc9r8kw6a\wheel\platlib/qupathxx/licenses/opencv/zlib-notice.txt
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmpc9r8kw6a\wheel\platlib/qupathxx/licenses/opencv/SOURCE-NOTICES.txt
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmpc9r8kw6a\wheel\platlib/qupathxx/licenses/nlohmann-json/LICENSE.MIT
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmpc9r8kw6a\wheel\platlib/qupathxx/licenses/sqlite/sqlite-LICENSE.txt
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmpc9r8kw6a\wheel\platlib/qupathxx/geos_c.dll
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmpc9r8kw6a\wheel\platlib/qupathxx/geos.dll
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmpc9r8kw6a\wheel\platlib/qupathxx/licenses/geos/COPYING
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmpc9r8kw6a\wheel\platlib/qupathxx/qupathxx_region.exe
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmpc9r8kw6a\wheel\platlib/qupathxx/qupathxx_batch.exe
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmpc9r8kw6a\wheel\platlib/qupathxx/fonts/NotoSansCJKsc-Regular.otf
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmpc9r8kw6a\wheel\platlib/qupathxx/fonts/NotoEmoji.ttf
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmpc9r8kw6a\wheel\platlib/qupathxx/licenses/noto-cjk/OFL.txt
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmpc9r8kw6a\wheel\platlib/qupathxx/licenses/noto-cjk/NOTICE.md
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmpc9r8kw6a\wheel\platlib/qupathxx/licenses/noto-emoji/OFL.txt
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmpc9r8kw6a\wheel\platlib/qupathxx/licenses/glfw/LICENSE.md
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmpc9r8kw6a\wheel\platlib/qupathxx/licenses/imgui/LICENSE.txt
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmpc9r8kw6a\wheel\platlib/qupathxx/licenses/imgui/imstb_rectpack.h-LICENSE.txt
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmpc9r8kw6a\wheel\platlib/qupathxx/licenses/imgui/imstb_textedit.h-LICENSE.txt
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmpc9r8kw6a\wheel\platlib/qupathxx/licenses/imgui/imstb_truetype.h-LICENSE.txt
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmpc9r8kw6a\wheel\platlib/qupathxx/licenses/imgui/imgl3w-LICENSE.txt
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmpc9r8kw6a\wheel\platlib/qupathxx/licenses/imgui/Khronos-NOTICE.txt
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmpc9r8kw6a\wheel\platlib/qupathxx/licenses/imgui/ProggyClean-LICENSE.txt
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmpc9r8kw6a\wheel\platlib/qupathxx/licenses/imgui/ProggyForever-LICENSE.txt
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmpc9r8kw6a\wheel\platlib/qupathxx/licenses/imgui/Khronos-LICENSE.txt
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmpc9r8kw6a\wheel\platlib/qupathxx/qupathxx_app.exe
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmpc9r8kw6a\wheel\platlib/qupathxx/licenses/nanobind/LICENSE
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmpc9r8kw6a\wheel\platlib/qupathxx/licenses/robin-map/LICENSE
+-- Installing: C:\Users\HEQ\AppData\Local\Temp\tmpc9r8kw6a\wheel\platlib/qupathxx/_native.cp312-win_amd64.pyd
+*** Making wheel...
+*** Created qupathxx-0.1.0-cp312-cp312-win_amd64.whl
+qupathxx-0.1.0-cp312-cp312-win_amd64.whl

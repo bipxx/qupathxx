@@ -1,0 +1,160 @@
+{
+  "native_source": "cb693c5a20e32e40c25a71246613a6955036ae5c",
+  "first_candidate_source": "3d272074d691f1919c2cf10ba5dbfccad0406d18",
+  "compiler_input_count": 461,
+  "changed_compiler_inputs": [
+    "cpp/image_data_properties_bindings.cpp"
+  ],
+  "compiler_inputs_sha256": "213ae4aef96c187a6e5d62d7b35c1aac0334f6f2144b970fa22ef71f8a23c465",
+  "observer_inputs_sha256": "41908f0526fabbf6747176d66a6dea60081d90903e43d0a278ca7dd118386ae0",
+  "native_pyd_sha256": "85b9e3381c92bce85cef4a1569a35f87b3ff293c6f3750ccf88fe35ffc953f77",
+  "wheel_sha256": "ac34eff234e0c971e4f793d8a9b094882c921d280f8c096740a640ee63956042",
+  "installed_wheel_members_verified": 65,
+  "cohorts": {
+    "staged": {
+      "cases": 312,
+      "passed": 296,
+      "skipped": 14,
+      "failed": 2
+    },
+    "staged-overflow": {
+      "cases": 41,
+      "passed": 40,
+      "skipped": 1,
+      "failed": 0
+    },
+    "desktop": {
+      "cases": 1,
+      "passed": 1,
+      "skipped": 0,
+      "failed": 0
+    },
+    "native-overflow": {
+      "cases": 4,
+      "passed": 4,
+      "skipped": 0,
+      "failed": 0
+    },
+    "installed": {
+      "cases": 1,
+      "passed": 1,
+      "skipped": 0,
+      "failed": 0
+    },
+    "public-stubs": {
+      "cases": 5,
+      "passed": 5,
+      "skipped": 0,
+      "failed": 0
+    }
+  },
+  "accepted_headless_union": {
+    "cases": 312,
+    "passed": 298,
+    "skipped": 14
+  },
+  "reused_legacy": {
+    "source": "3d272074d691f1919c2cf10ba5dbfccad0406d18",
+    "cases": 271,
+    "passed": 258,
+    "scope": "Unchanged non-property-module bodies/core/store; only PyLong conversion binding changed. Generated build identity is current; no legacy binary is relabeled."
+  },
+  "builds": [
+    {
+      "argv": [
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Scripts\\python.exe",
+        "-X",
+        "utf8",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\dataprops_r5_backend.py"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 679.9485975999851
+    },
+    {
+      "argv": [
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Scripts\\python.exe",
+        "-X",
+        "utf8",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\dataprops_r5_overflow_backend.py"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 34.276972100138664
+    }
+  ],
+  "package": {
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\image-data-properties-r5-env\\Scripts\\python.exe",
+      "-I",
+      "-m",
+      "pip",
+      "install",
+      "--ignore-installed",
+      "--no-index",
+      "--no-deps",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\image-data-properties-r5\\wheel-final\\qupathxx-0.1.0-cp312-cp312-win_amd64.whl"
+    ],
+    "final_product_installs": 1,
+    "stub_generations": 1,
+    "native_bytes_reused": true,
+    "wheel_sha256": "ac34eff234e0c971e4f793d8a9b094882c921d280f8c096740a640ee63956042"
+  },
+  "typing": {
+    "typing": {
+      "argv": [
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\image-data-properties-r5-env\\Scripts\\python.exe",
+        "-I",
+        "-m",
+        "mypy",
+        "--no-incremental",
+        "--follow-imports=silent",
+        "--strict",
+        "tests/typing/image_data_properties_valid.py"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 2.443096600007266
+    },
+    "typing-negative": {
+      "argv": [
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\image-data-properties-r5-env\\Scripts\\python.exe",
+        "-I",
+        "-m",
+        "mypy",
+        "--no-incremental",
+        "--follow-imports=silent",
+        "--strict",
+        "tests/typing/image_data_properties_invalid.py"
+      ],
+      "returncode": 1,
+      "elapsed_seconds": 2.540773899992928
+    },
+    "public-stubs": {
+      "argv": [
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\image-data-properties-r5-env\\Scripts\\python.exe",
+        "-I",
+        "-X",
+        "utf8",
+        "-m",
+        "pytest",
+        "tests/test_public_stubs.py",
+        "-q",
+        "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\image-data-properties-r5\\public-stubs.xml",
+        "--basetemp",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\image-data-properties-r5\\public-stubs-temp"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 1.0847523999400437
+    }
+  },
+  "native_test_executable_sha256": {
+    "document_edits": "7b7a4c4b33d9d807c55de21250cd46c7bb5b9d1aab088e4006bb58b89c83eb21",
+    "project": "aade98d5c182727b92b88f78af00ad20cad4625218f9dd2e95e1251fa58dda8a",
+    "save": "955a8030ea1cd0c948ebd9ebe88b72d8aaba87632c3e411a94a911763280ee10",
+    "qupath_project": "f0f85be6d1fdcb882c1c78572835c38acdde54af292183bec28794a05efb9921"
+  },
+  "failures_retained": [
+    "baseline.log",
+    "staged.log",
+    "staged.xml"
+  ],
+  "scope": "Local Windows declared portable ImageData-property workflow; broader Java classes/versions, R4/R5 inventory, biological acceptance, resource/speed and release claims remain open."
+}

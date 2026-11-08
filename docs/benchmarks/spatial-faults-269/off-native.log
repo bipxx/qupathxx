@@ -1,0 +1,17 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/rawtraining218-windows
+    Start 10: viewer_session
+1/6 Test #10: viewer_session ...................   Passed    0.76 sec
+    Start 44: spatial
+2/6 Test #44: spatial ..........................   Passed    0.16 sec
+    Start 45: spatial_frontend
+3/6 Test #45: spatial_frontend .................   Passed    0.32 sec
+    Start 46: spatial_cli
+4/6 Test #46: spatial_cli ......................   Passed    0.55 sec
+    Start 47: spatial_records
+5/6 Test #47: spatial_records ..................   Passed    2.06 sec
+    Start 48: spatial_analysis
+6/6 Test #48: spatial_analysis .................   Passed    0.11 sec
+
+100% tests passed out of 6
+
+Total Test time (real) =   4.33 sec

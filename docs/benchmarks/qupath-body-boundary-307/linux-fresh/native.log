@@ -1,0 +1,20 @@
+Internal ctest changing into directory: /tmp/qupathxx-boundary307-build
+Test project /tmp/qupathxx-boundary307-build
+    Start  4: object_classifier
+1/7 Test  #4: object_classifier ................   Passed    0.04 sec
+    Start  8: resampling
+2/7 Test  #8: resampling .......................   Passed    2.81 sec
+    Start 20: cell_tables
+3/7 Test #20: cell_tables ......................   Passed    0.05 sec
+    Start 21: cell_records
+4/7 Test #21: cell_records .....................   Passed    0.48 sec
+    Start 22: cells
+5/7 Test #22: cells ............................   Passed    1.34 sec
+    Start 25: qupath_response
+6/7 Test #25: qupath_response ..................   Passed    0.01 sec
+    Start 28: cell_expansion
+7/7 Test #28: cell_expansion ...................   Passed    0.65 sec
+
+100% tests passed, 0 tests failed out of 7
+
+Total Test time (real) =   5.40 sec

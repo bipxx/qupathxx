@@ -1,0 +1,85 @@
+{
+  "source_tree": "13b2f410acac28b155ccd35a39e2d709cfe5b1ad9159cb55604e0bebefa34ac2",
+  "module": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\consolidation\\development\\qupathxx\\__init__.py",
+  "density_rows": 8,
+  "density_counts_areas_exact": true,
+  "density_csv_equal": true,
+  "bidirectional_resume_reuses": 2,
+  "checkpoint_replay": true,
+  "nucls_objects": [
+    32,
+    28
+  ],
+  "nucls_preview_equal": true,
+  "nucls_pixels_geometry_calibration_properties_equal_legacy": true,
+  "source_hashes": {
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\project-density-runner\\workflow\\selections.json": "430679740c09459e29df80378c94258892ba3253b7db2cf3c694eff399ff1425",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\project-density-runner\\workflow\\study.qpxproj": "74ce7d04eb1ff9558506041a610d8c3bddb030600f962054fc3f045b58bb4fcb",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\research-density-pilot\\nucls\\TCGA-A1-A0SP-DX1_id-5ea4095addda5f8398977ebc_left-11371_top-54469_bottom-54761_right-11671.png": "a0136a49776ad05b3444ed21d79f01e24d78dfd826c4f5ff5223d3bfc958559d",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\research-density-pilot\\nucls\\TCGA-A1-A0SP-DX1_id-5ea4095addda5f8398977ebc_left-11371_top-54469_bottom-54761_right-11671.csv": "4473f27e274520b0d64e69dd1f893413aee916cc1767095d511ba93fe51eb607",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\research-density-pilot\\nucls\\TCGA-A1-A0SP-DX1_id-5ea4095addda5f8398977ebc_left-11371_top-54469_bottom-54761_right-11671-mask.png": "d38d832a7c9cafcb38b687a5a30a8a2aa87583aa56ad6fc7c3fa12a7167af247",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\research-density-pilot\\nucls\\TCGA-A2-A0CM-DX1_id-5ea40963ddda5f8398979473_left-20097_top-57088_bottom-57366_right-20364.png": "b6e27885e5c8def287f501182a1d8af981c192d75eb6cc6689c57a854fd8c746",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\research-density-pilot\\nucls\\TCGA-A2-A0CM-DX1_id-5ea40963ddda5f8398979473_left-20097_top-57088_bottom-57366_right-20364.csv": "6118f9dcac74472864bda0d761e2de475c7f1b5d965dd767f08436fd392d9698",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\research-density-pilot\\nucls\\TCGA-A2-A0CM-DX1_id-5ea40963ddda5f8398979473_left-20097_top-57088_bottom-57366_right-20364-mask.png": "99728af91da7f861540e587796c0ca63e61d705f376792cf4797f8aaae8f0db5",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\research-density-pilot\\nucls\\nucleus_GTcodes.csv": "a52166cfccb1a8f0883b4ad20d29dd4e402cd675268b7bdbde13255ede02c26f"
+  },
+  "native_calls": [
+    {
+      "args": [
+        "--project-density",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\project-density-runner\\workflow\\selections.json",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\consolidation\\installed-routes\\native-density"
+      ],
+      "retained_report": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\consolidation\\installed-routes\\native-density\\report.json"
+    },
+    {
+      "args": [
+        "--project-density",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\project-density-runner\\workflow\\selections.json",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\consolidation\\installed-routes\\native-resume",
+        "--resume-from",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\consolidation\\installed-routes\\python-density"
+      ],
+      "retained_report": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\consolidation\\installed-routes\\native-resume\\report.json"
+    },
+    {
+      "args": [
+        "--import-nucls",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\research-density-pilot\\nucls",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\research-density-pilot\\nucls",
+        "--mpp-x",
+        ".2",
+        "--mpp-y",
+        ".2",
+        "--representation",
+        "centroids",
+        "--name",
+        "TCGA-A1-A0SP-DX1_id-5ea4095addda5f8398977ebc_left-11371_top-54469_bottom-54761_right-11671",
+        "--name",
+        "TCGA-A2-A0CM-DX1_id-5ea40963ddda5f8398979473_left-20097_top-57088_bottom-57366_right-20364"
+      ],
+      "exit": 0
+    },
+    {
+      "args": [
+        "--import-nucls",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\research-density-pilot\\nucls",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\research-density-pilot\\nucls",
+        "--mpp-x",
+        ".2",
+        "--mpp-y",
+        ".2",
+        "--representation",
+        "centroids",
+        "--name",
+        "TCGA-A1-A0SP-DX1_id-5ea4095addda5f8398977ebc_left-11371_top-54469_bottom-54761_right-11671",
+        "--name",
+        "TCGA-A2-A0CM-DX1_id-5ea40963ddda5f8398979473_left-20097_top-57088_bottom-57366_right-20364",
+        "--output",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\consolidation\\installed-routes\\native-import.qpxproj"
+      ],
+      "retained_project": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\consolidation\\installed-routes\\native-import.qpxproj"
+    }
+  ],
+  "binary_release": false
+}

@@ -1,0 +1,39 @@
+{
+  "schema": "qpx.imagej-gaussian-private-local/1",
+  "source": "647576b458144d5ca1e032eb108f9e62930fba99",
+  "source_paths": 1059,
+  "compiler_inputs": 429,
+  "windows_fingerprint": "dcc2622dceebd426edfd2bffdff45ea49fe6eefe85945b3d5b3a709911036fb8",
+  "private_standalone_products": 8,
+  "exact_reference_arrays": 74,
+  "reference_cases": 37,
+  "tests": {
+    "windows-final-native.xml": {
+      "passed": 1,
+      "skipped": 0
+    },
+    "linux/native.xml": {
+      "passed": 1,
+      "skipped": 0
+    },
+    "scientific.xml": {
+      "passed": 761,
+      "skipped": 13
+    },
+    "preflight.xml": {
+      "passed": 1095,
+      "skipped": 0
+    }
+  },
+  "application_native_source": "28c33573ef732905e52fe49aa193bd8e5e067206",
+  "unchanged_application_products": 71,
+  "unchanged_windows_package_members": 39,
+  "application_rebuilt": false,
+  "public_api_changed": false,
+  "gaussian_private_only": true,
+  "shared_test_dependencies": true,
+  "clean_machine": false,
+  "biological_validation": false,
+  "general_speed_claim": false,
+  "release_ready": false
+}

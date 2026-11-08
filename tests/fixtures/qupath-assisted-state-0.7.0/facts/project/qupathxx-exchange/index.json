@@ -1,0 +1,16 @@
+{
+  "schema": "qpx.qupath-project-exchange/2",
+  "qupath_version": "0.7.0",
+  "project_sha256": "8d908292006cc8cdcfe4199f5cf8d7a7b3d9bb1f8e1551a3c17a770be451036c",
+  "files": {
+    "classifiers/classes.json": null,
+    "data/metadata.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+  },
+  "images": [
+    {
+      "entry_id": "1",
+      "qpdata_sha256": "a7111c5d7715530b6de5a29a7e91e7481f1b362d27f2d1a3d28c31e40e656e47",
+      "representation": "native-saved-data"
+    }
+  ]
+}

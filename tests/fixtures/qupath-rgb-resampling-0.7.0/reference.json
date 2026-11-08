@@ -1,0 +1,547 @@
+{
+  "schema": "qpx.qupath-rgb-resampling-capture/1",
+  "qupath_version": "0.7.0",
+  "java_version": "25.0.2",
+  "cases": [
+    {
+      "case_name": "gradient",
+      "request_name": "full_0_75",
+      "downsample": 0.75,
+      "bounds": [
+        0,
+        0,
+        17,
+        13
+      ],
+      "width": 23,
+      "height": 17,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer"
+    },
+    {
+      "case_name": "gradient",
+      "request_name": "full_1",
+      "downsample": 1.0,
+      "bounds": [
+        0,
+        0,
+        17,
+        13
+      ],
+      "width": 17,
+      "height": 13,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer"
+    },
+    {
+      "case_name": "gradient",
+      "request_name": "full_1_25",
+      "downsample": 1.25,
+      "bounds": [
+        0,
+        0,
+        17,
+        13
+      ],
+      "width": 14,
+      "height": 10,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer"
+    },
+    {
+      "case_name": "gradient",
+      "request_name": "full_1_5",
+      "downsample": 1.5,
+      "bounds": [
+        0,
+        0,
+        17,
+        13
+      ],
+      "width": 11,
+      "height": 9,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer"
+    },
+    {
+      "case_name": "gradient",
+      "request_name": "full_2",
+      "downsample": 2.0,
+      "bounds": [
+        0,
+        0,
+        17,
+        13
+      ],
+      "width": 9,
+      "height": 7,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer"
+    },
+    {
+      "case_name": "gradient",
+      "request_name": "full_2_3",
+      "downsample": 2.3,
+      "bounds": [
+        0,
+        0,
+        17,
+        13
+      ],
+      "width": 7,
+      "height": 6,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer"
+    },
+    {
+      "case_name": "gradient",
+      "request_name": "full_3_75",
+      "downsample": 3.75,
+      "bounds": [
+        0,
+        0,
+        17,
+        13
+      ],
+      "width": 5,
+      "height": 3,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer"
+    },
+    {
+      "case_name": "gradient",
+      "request_name": "crop_1_5",
+      "downsample": 1.5,
+      "bounds": [
+        1,
+        2,
+        14,
+        9
+      ],
+      "width": 9,
+      "height": 6,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer"
+    },
+    {
+      "case_name": "gradient",
+      "request_name": "crop_2_3",
+      "downsample": 2.3,
+      "bounds": [
+        3,
+        1,
+        12,
+        11
+      ],
+      "width": 5,
+      "height": 5,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer"
+    },
+    {
+      "case_name": "checker",
+      "request_name": "full_0_75",
+      "downsample": 0.75,
+      "bounds": [
+        0,
+        0,
+        17,
+        13
+      ],
+      "width": 23,
+      "height": 17,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer"
+    },
+    {
+      "case_name": "checker",
+      "request_name": "full_1",
+      "downsample": 1.0,
+      "bounds": [
+        0,
+        0,
+        17,
+        13
+      ],
+      "width": 17,
+      "height": 13,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer"
+    },
+    {
+      "case_name": "checker",
+      "request_name": "full_1_25",
+      "downsample": 1.25,
+      "bounds": [
+        0,
+        0,
+        17,
+        13
+      ],
+      "width": 14,
+      "height": 10,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer"
+    },
+    {
+      "case_name": "checker",
+      "request_name": "full_1_5",
+      "downsample": 1.5,
+      "bounds": [
+        0,
+        0,
+        17,
+        13
+      ],
+      "width": 11,
+      "height": 9,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer"
+    },
+    {
+      "case_name": "checker",
+      "request_name": "full_2",
+      "downsample": 2.0,
+      "bounds": [
+        0,
+        0,
+        17,
+        13
+      ],
+      "width": 9,
+      "height": 7,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer"
+    },
+    {
+      "case_name": "checker",
+      "request_name": "full_2_3",
+      "downsample": 2.3,
+      "bounds": [
+        0,
+        0,
+        17,
+        13
+      ],
+      "width": 7,
+      "height": 6,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer"
+    },
+    {
+      "case_name": "checker",
+      "request_name": "full_3_75",
+      "downsample": 3.75,
+      "bounds": [
+        0,
+        0,
+        17,
+        13
+      ],
+      "width": 5,
+      "height": 3,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer"
+    },
+    {
+      "case_name": "checker",
+      "request_name": "crop_1_5",
+      "downsample": 1.5,
+      "bounds": [
+        1,
+        2,
+        14,
+        9
+      ],
+      "width": 9,
+      "height": 6,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer"
+    },
+    {
+      "case_name": "checker",
+      "request_name": "crop_2_3",
+      "downsample": 2.3,
+      "bounds": [
+        3,
+        1,
+        12,
+        11
+      ],
+      "width": 5,
+      "height": 5,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer"
+    },
+    {
+      "case_name": "noise",
+      "request_name": "full_0_75",
+      "downsample": 0.75,
+      "bounds": [
+        0,
+        0,
+        17,
+        13
+      ],
+      "width": 23,
+      "height": 17,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer"
+    },
+    {
+      "case_name": "noise",
+      "request_name": "full_1",
+      "downsample": 1.0,
+      "bounds": [
+        0,
+        0,
+        17,
+        13
+      ],
+      "width": 17,
+      "height": 13,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer"
+    },
+    {
+      "case_name": "noise",
+      "request_name": "full_1_25",
+      "downsample": 1.25,
+      "bounds": [
+        0,
+        0,
+        17,
+        13
+      ],
+      "width": 14,
+      "height": 10,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer"
+    },
+    {
+      "case_name": "noise",
+      "request_name": "full_1_5",
+      "downsample": 1.5,
+      "bounds": [
+        0,
+        0,
+        17,
+        13
+      ],
+      "width": 11,
+      "height": 9,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer"
+    },
+    {
+      "case_name": "noise",
+      "request_name": "full_2",
+      "downsample": 2.0,
+      "bounds": [
+        0,
+        0,
+        17,
+        13
+      ],
+      "width": 9,
+      "height": 7,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer"
+    },
+    {
+      "case_name": "noise",
+      "request_name": "full_2_3",
+      "downsample": 2.3,
+      "bounds": [
+        0,
+        0,
+        17,
+        13
+      ],
+      "width": 7,
+      "height": 6,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer"
+    },
+    {
+      "case_name": "noise",
+      "request_name": "full_3_75",
+      "downsample": 3.75,
+      "bounds": [
+        0,
+        0,
+        17,
+        13
+      ],
+      "width": 5,
+      "height": 3,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer"
+    },
+    {
+      "case_name": "noise",
+      "request_name": "crop_1_5",
+      "downsample": 1.5,
+      "bounds": [
+        1,
+        2,
+        14,
+        9
+      ],
+      "width": 9,
+      "height": 6,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer"
+    },
+    {
+      "case_name": "noise",
+      "request_name": "crop_2_3",
+      "downsample": 2.3,
+      "bounds": [
+        3,
+        1,
+        12,
+        11
+      ],
+      "width": 5,
+      "height": 5,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer"
+    },
+    {
+      "case_name": "cells",
+      "request_name": "full_0_75",
+      "downsample": 0.75,
+      "bounds": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "width": 341,
+      "height": 256,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer"
+    },
+    {
+      "case_name": "cells",
+      "request_name": "full_1",
+      "downsample": 1.0,
+      "bounds": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "width": 256,
+      "height": 192,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer"
+    },
+    {
+      "case_name": "cells",
+      "request_name": "full_1_25",
+      "downsample": 1.25,
+      "bounds": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "width": 205,
+      "height": 154,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer"
+    },
+    {
+      "case_name": "cells",
+      "request_name": "full_1_5",
+      "downsample": 1.5,
+      "bounds": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "width": 171,
+      "height": 128,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer"
+    },
+    {
+      "case_name": "cells",
+      "request_name": "full_2",
+      "downsample": 2.0,
+      "bounds": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "width": 128,
+      "height": 96,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer"
+    },
+    {
+      "case_name": "cells",
+      "request_name": "full_2_3",
+      "downsample": 2.3,
+      "bounds": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "width": 111,
+      "height": 83,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer"
+    },
+    {
+      "case_name": "cells",
+      "request_name": "full_3_75",
+      "downsample": 3.75,
+      "bounds": [
+        0,
+        0,
+        256,
+        192
+      ],
+      "width": 68,
+      "height": 51,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer"
+    },
+    {
+      "case_name": "cells",
+      "request_name": "crop_1_5",
+      "downsample": 1.5,
+      "bounds": [
+        1,
+        2,
+        253,
+        188
+      ],
+      "width": 169,
+      "height": 125,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer"
+    },
+    {
+      "case_name": "cells",
+      "request_name": "crop_2_3",
+      "downsample": 2.3,
+      "bounds": [
+        3,
+        1,
+        251,
+        190
+      ],
+      "width": 109,
+      "height": 83,
+      "buffered_image_type": 1,
+      "server_class": "qupath.lib.images.servers.WrappedBufferedImageServer"
+    }
+  ]
+}

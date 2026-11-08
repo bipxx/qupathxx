@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="1"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="2"
+	timestamp="2026-10-28T14:59:38"
+	>
+	<testcase name="resampling" classname="resampling" time="2.94721" status="run">
+		<properties/>
+		<system-out>99 pinned RGB nominal reads, fixed-point bytes, global crop context, admission and cancellation passed
+Scientific raster precision admission agrees with exhaustive binary64 sample checks
+Native scientific grid exact geometry, rounding, context and admission passed
+Native scientific RGB float64 exact means, support, reader and cancellation checks passed
+2891 independent exact raw mean vectors across all ten sample types in both orders passed
+Native exact typed weighted means, subnormal/cancellation, atomic rejection and nearest-even rounding passed
+Streamed raw materialization exact means, pinned chunk bits/support, cancellation, admission and dense fallback passed
+Streamed raw digest canonical HWC/validity hashes, bounded chunks, metadata epoch, late faults and admission passed
+Typed raw hash-only identity, lower memory admission and pre-decoder metadata epoch passed
+94 independent typed raw grid references, 3732 channel results and canonical source/input hashes passed
+Native typed scientific raw sampling, pe...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+</testsuite>

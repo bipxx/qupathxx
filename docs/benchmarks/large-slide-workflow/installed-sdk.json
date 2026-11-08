@@ -1,0 +1,29 @@
+{
+  "source_revision": "bee4736f2ad0aeffc9907542c873f06efd335cc7",
+  "source_tree_sha256": "b52fa9b85799b7ce0b68780a84f2c95ff993c69b848ce7b24a9b74d54215e8f7",
+  "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\fixtures\\CMU-1.svs",
+  "image_id": 1,
+  "object_id": 1,
+  "roi": [
+    29185,
+    2048,
+    512,
+    512
+  ],
+  "pixel_width_um": 0.499,
+  "pixel_height_um": 0.499,
+  "samples": 262144,
+  "tissue_foreground_pixels": 1083798,
+  "tissue_components": 688,
+  "tissue_object_id": 2,
+  "tissue_level": 2,
+  "tissue_width": 2875,
+  "tissue_height": 2057,
+  "tissue_samples": 5913875,
+  "tissue_work_bytes": 102136112,
+  "whole_slide_tissue": true,
+  "analysis_record": 3,
+  "tissue_record": 4,
+  "independent_rgb_statistics": true,
+  "saved_replay": true
+}

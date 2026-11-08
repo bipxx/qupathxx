@@ -1,0 +1,219 @@
+{
+  "schema": "qpx.font285-terminal-roles/1",
+  "source": "1f71eb59e13fba272113c1119ee2b608fa26d01a",
+  "state": "terminal-engine-unaccepted-macos-and-portable-independently-accepted",
+  "authenticated_archives": 11,
+  "engine_run": 40743832312,
+  "macos_run": 40743845473,
+  "portable_run": 40743859500,
+  "original_engine_auditor_accepted": false,
+  "original_macos_auditor_accepted": true,
+  "original_portable_auditor_accepted": true,
+  "macos_native_suites_per_architecture": 54,
+  "combined_accepted": false,
+  "redispatched": false,
+  "native_rebuilt": false,
+  "later_source_acceptance_transferred": false,
+  "files": [
+    {
+      "path": "observation/engine-artifacts.json",
+      "bytes": 4506,
+      "sha256": "a2fefc7f667b702528177707fe357c93fe8c2adc873cdcff8f1da923d9968f85"
+    },
+    {
+      "path": "observation/engine-run.json",
+      "bytes": 25146,
+      "sha256": "d285f20bc3c212e5855bc2ddf92793c35e8be1b5cf7f19242188eb99cc900c55"
+    },
+    {
+      "path": "observation/Linux-headless-py3.12-artifact.json",
+      "bytes": 812,
+      "sha256": "3b443b205ba45c5b2459a7f393d187e6274efe451a188f30b944e0d637613a8c"
+    },
+    {
+      "path": "observation/Linux-minimal-py3.12-artifact.json",
+      "bytes": 808,
+      "sha256": "f428d894e3213961a0e19a8e24d3f50732f864e1bf71f6d5e0594f2cd263bb47"
+    },
+    {
+      "path": "observation/Linux-sanitize-py3.12-artifact.json",
+      "bytes": 809,
+      "sha256": "a6ec5addec7f8b2a32a3c894b85375adc6949c6af389be9463e0624a9a33882b"
+    },
+    {
+      "path": "observation/macos-artifacts.json",
+      "bytes": 1830,
+      "sha256": "bef4d87f73b7d5345f6aa1b3c932c73b16bf212c10e8cb777cd00b44c0791155"
+    },
+    {
+      "path": "observation/macos-native-arm64-artifact.json",
+      "bytes": 809,
+      "sha256": "a8cf9a5b0fe7e461655bc97ec5f33c0c86a604d91e137a7de996a0bd272aee51"
+    },
+    {
+      "path": "observation/macos-native-arm64-download.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "observation/macos-native-x86_64-artifact.json",
+      "bytes": 810,
+      "sha256": "722b758d0ed4a51477e4be29c33f34121e7ca1a631e4fbde378ab4d5c3d4347f"
+    },
+    {
+      "path": "observation/macos-run.json",
+      "bytes": 7026,
+      "sha256": "e8ceabc22cf123f3abb5805d8c90cbb7f9bdccbb5ac7331ceb0dfa97274099b6"
+    },
+    {
+      "path": "observation/manylinux-3.11-artifact.json",
+      "bytes": 805,
+      "sha256": "6de244072f1121720b3e6b350812e950627aabf40ff45ae765d4bf21c70a3b4c"
+    },
+    {
+      "path": "observation/manylinux-3.12-artifact.json",
+      "bytes": 805,
+      "sha256": "3cbfa09db325d267b1cd4aed2e099f866a88f4438bb9099a77b715224817a096"
+    },
+    {
+      "path": "observation/manylinux-consumer-3.11-artifact.json",
+      "bytes": 811,
+      "sha256": "c34dd74312255143b130e1f675cfd86a09c5d9882a8113cb82c1c863ec0339f6"
+    },
+    {
+      "path": "observation/manylinux-consumer-3.12-artifact.json",
+      "bytes": 811,
+      "sha256": "d1dadf5ef9ec510182934226ff85eb17a1edb0542778c7f743765bda0fab1470"
+    },
+    {
+      "path": "observation/portable-artifacts.json",
+      "bytes": 3605,
+      "sha256": "66c0914b2c3052391fcfcff03140f3706d98d8a906f36e394d4254dc7270fff4"
+    },
+    {
+      "path": "observation/portable-run.json",
+      "bytes": 16287,
+      "sha256": "ddaa4a167c4c0169af8542532734fd0bc395f3b322e0ff43f2aad2c7d1d93662"
+    },
+    {
+      "path": "observation/verified.json",
+      "bytes": 2681,
+      "sha256": "2e18f00ad22028975166a234675fa75d0d3526f7a716f4e274589f4413c8ecd4"
+    },
+    {
+      "path": "observation/Windows-gui-py3.12-artifact.json",
+      "bytes": 809,
+      "sha256": "1accd18d7a75b104e7eef16663dded96a1a7a5fdce4e94023a90acc25d571d12"
+    },
+    {
+      "path": "observation/Windows-headless-py3.11-artifact.json",
+      "bytes": 814,
+      "sha256": "1514170edc354524ef7fb75c0c9bb1270376296f0eadf4ef3ae86cfaa15d7c56"
+    },
+    {
+      "path": "macos-acceptance.json",
+      "bytes": 389279,
+      "sha256": "26488e9a1c4d2a25be29980034c82f2608ae8ab9c9b9296ae6a819be244bf6ea"
+    },
+    {
+      "path": "macos-complete-audit.log",
+      "bytes": 161,
+      "sha256": "ff5f8a76b7c8e104a99bfd4cabc3dd7c95ef57ce820b8fdc0f24aae05d38e000"
+    },
+    {
+      "path": "macos-audit-exit.json",
+      "bytes": 708,
+      "sha256": "b4823f8f9b695b8edbffa6b24e0eb6b9fa6650e6def34977217baffb9eccffd8"
+    },
+    {
+      "path": "engine-complete-audit.log",
+      "bytes": 336,
+      "sha256": "ad6ae23c4385b9890814e2d039248e690a26cb30a94496a914182f1bd9502fc6"
+    },
+    {
+      "path": "engine-audit-exit.json",
+      "bytes": 876,
+      "sha256": "a2f2ce6e3cb04adfe1af9c4397bb015abd07eafad3282869a2c33ed97e411f24"
+    },
+    {
+      "path": "portable-acceptance.json",
+      "bytes": 533558,
+      "sha256": "6f68de55ac6d36de1d2d8adf342e5b416f07147344c098de6c1c925ba82e827b"
+    },
+    {
+      "path": "portable-complete-audit.log",
+      "bytes": 126,
+      "sha256": "8ff32a8556e8596e16b2592860bb1cfcfdfa8412a0804c68f837a2e4fbbfaee1"
+    },
+    {
+      "path": "portable-audit-exit.json",
+      "bytes": 885,
+      "sha256": "dc29ef7f55e308830e749b865cb2053da66cfbd38bbbc2fb429ff082dcc196be"
+    },
+    {
+      "path": "complete-audit-plan.json",
+      "bytes": 3052,
+      "sha256": "66aeafae59d966b25e34e047ee0579aa01cbd6ab456de8516513273966a7170e"
+    },
+    {
+      "path": "arm64/native-tests.xml",
+      "bytes": 30656,
+      "sha256": "9fdb123e9452fbef3899591ce45b8a0a7d48fc176c6412eab1063b6b0f0631de"
+    },
+    {
+      "path": "arm64/native-tests.log",
+      "bytes": 5583,
+      "sha256": "91518def25ccfebe1b609c9f8a530678ef18a7c9d5c5650521829f5dc3176a09"
+    },
+    {
+      "path": "arm64/result.json",
+      "bytes": 5152,
+      "sha256": "8e5bee23f1a7fe96a30101bb1e0a6cb5896d7d6112b1f7c212e932719a23a318"
+    },
+    {
+      "path": "arm64/macos-native-file-inventory.json",
+      "bytes": 19901,
+      "sha256": "0f39564f3a15ab019f67fd71b608501be50d4390f659fe5cd46a3d91c560289d"
+    },
+    {
+      "path": "arm64/macos-relocated-runtime.json",
+      "bytes": 5867,
+      "sha256": "200e06f971ca14659a8192c825a8c87d25249486f29586dae4afb8ed994ffc7f"
+    },
+    {
+      "path": "arm64/macos-relocation-source-roots.json",
+      "bytes": 261,
+      "sha256": "b8d21e6e2a11b8b442cc8ec5058f123088ef9ae9b8cce327f2b84e3d8453569d"
+    },
+    {
+      "path": "x86_64/native-tests.xml",
+      "bytes": 30639,
+      "sha256": "6a71bf18b9e4b65fba432992f70baf4da107928432e0e4e85a9ac0a0a4a6c613"
+    },
+    {
+      "path": "x86_64/native-tests.log",
+      "bytes": 5583,
+      "sha256": "1b204becdda2630b41068c819e88dd3eda5fa6b6cccf026fac2845663d193754"
+    },
+    {
+      "path": "x86_64/result.json",
+      "bytes": 5043,
+      "sha256": "be5c6aeab4097544ba68ea6b8a7d82539ede526154ba5ffdd2e5cc3f66dc029d"
+    },
+    {
+      "path": "x86_64/macos-native-file-inventory.json",
+      "bytes": 19797,
+      "sha256": "81d985af72d42883179014af3e97c22bd5dc38082ecab63af1bd5fd614f03594"
+    },
+    {
+      "path": "x86_64/macos-relocated-runtime.json",
+      "bytes": 5868,
+      "sha256": "5a7b047e05a42d532e76a24ff2282dc70291258323b4d8045167c24236ad5b63"
+    },
+    {
+      "path": "x86_64/macos-relocation-source-roots.json",
+      "bytes": 261,
+      "sha256": "b8d21e6e2a11b8b442cc8ec5058f123088ef9ae9b8cce327f2b84e3d8453569d"
+    }
+  ]
+}

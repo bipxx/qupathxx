@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="1"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="0"
+	timestamp="2026-10-26T00:44:47"
+	>
+	<testcase name="pixel_features" classname="pixel_features" time="0.0691364" status="run">
+		<properties/>
+		<system-out>Typed raw pixel features: 12 independent dtype/extreme references, per-channel support, anisotropic scales, stream seams, admission and cancellation passed
+Pixel feature channels, context/tiles, alpha, schema, bounds and cancellation passed
+</system-out>
+	</testcase>
+</testsuite>

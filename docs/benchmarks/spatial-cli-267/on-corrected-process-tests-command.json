@@ -1,0 +1,24 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\spatial-python-266-env\\Scripts\\python.exe",
+    "-X",
+    "utf8",
+    "-I",
+    "-m",
+    "pytest",
+    "tests/test_spatial_cli.py",
+    "-q",
+    "--tb=short",
+    "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-cli-267\\on-corrected-process-tests.xml",
+    "--basetemp",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\q267-on-corrected-process-tests"
+  ],
+  "cwd": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159",
+  "cli_source": "9468ae3edf2e0d7c12cc442238bc46f411edb7d6",
+  "observer_source": "65f2c5dd57dc0b5e41f24acf859040ceef1db046",
+  "fixture_runtime_source": "9fa565ab6e18a176d7c404aa07a3d2bb46da7ad1",
+  "runtime": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-cli-267\\on-runtime",
+  "returncode": 0,
+  "seconds": 3.859491700073704,
+  "cli_path_policy": "executable folder + Windows/System32 + Windows only"
+}

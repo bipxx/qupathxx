@@ -1,0 +1,20 @@
+{
+  "source_revision": "aa48265f8222ff3c83c7c6da16bace828fa9a259+dirty",
+  "source_tree_sha256": "5a98347c5447c5b8f414d299a3411e9554c72188f92e1ca3ecd7c8c69aeee96e",
+  "cells": 20000,
+  "windows": 500,
+  "expected_count_per_roi": 20000,
+  "expected_area_pixels_per_roi": 3600,
+  "membership_tests": 10000000,
+  "geometry_operations": 1000,
+  "snapshot_bytes": 7555374,
+  "estimated_native_work_bytes": 27458484,
+  "retained_result_payload_bytes": 7792049,
+  "process_peak_working_set_bytes": 69103616,
+  "python_ticks_during_native_wait": 119,
+  "observed_wait_seconds": 1.8476339001208544,
+  "input_sha256": "e3be43a0de131b07cb303914b6e43cecb3b640fa2511abed25c3a1c1dd304a16",
+  "result_sha256": "e4eacbe7a2ec86de4d6e4c62137ecd97dbee40da797bf89f85f28ddaea07b92e",
+  "memory_scope": "Whole Python process with scene/edit history and native libraries; opaque GEOS scratch is not a native-payload/RSS guarantee",
+  "scope": "One bounded coincident-cell/all-overlapping-ROI observation; no dense pair matrix, speed-superiority or biological acceptance claim"
+}

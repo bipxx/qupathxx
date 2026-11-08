@@ -1,0 +1,24 @@
+{
+  "command": [
+    "C:\\Users\\HEQ\\AppData\\Local\\Microsoft\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\multifile-fault-workflow-213\\tools\\ci\\accept_manylinux.py",
+    "--artifacts",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\multifile213-hosted\\artifacts",
+    "--run-json",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\multifile213-hosted\\portable-run.json",
+    "--commit",
+    "bfa416edfd508e3e1ce184e75ec62c1a18a2a606",
+    "--output",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\multifile213-hosted\\portable-audit.json",
+    "--ndpi-readers",
+    "--watershed-bodies",
+    "--sampled-cells",
+    "--small-frontier",
+    "--linux-runtime-manifest"
+  ],
+  "exit": 0,
+  "seconds": 6.349878199980594
+}

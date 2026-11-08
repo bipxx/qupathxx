@@ -1,0 +1,23 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Scripts\\python.exe",
+    "-X",
+    "utf8",
+    "tools/ci/accept_macos_native.py",
+    "40743845473",
+    "1f71eb59e13fba272113c1119ee2b608fa26d01a",
+    "--artifacts",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\q285-all",
+    "--output",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gui-font-qualification-285\\macos-acceptance.json",
+    "--sampled-cells",
+    "--small-frontier",
+    "--tma-cases",
+    "--tma-file-export",
+    "--tma-cohorts",
+    "--macho-inventory",
+    "--macos-relocation"
+  ],
+  "cwd": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gui-font-qualification-285-audit",
+  "returncode": 0
+}

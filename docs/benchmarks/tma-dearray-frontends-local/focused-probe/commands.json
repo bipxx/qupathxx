@@ -1,0 +1,141 @@
+[
+  {
+    "name": "compile-tma_dearray",
+    "command": [
+      "wsl.exe",
+      "-d",
+      "Ubuntu",
+      "--cd",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native",
+      "--exec",
+      "/usr/bin/c++",
+      "-std=c++17",
+      "-O2",
+      "-DNDEBUG",
+      "-Wall",
+      "-Wextra",
+      "-I/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/include",
+      "-c",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tma_dearray.cpp",
+      "-o",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tma198-native-probe/tma_dearray.o"
+    ],
+    "exit": 0,
+    "seconds": 2.370806400082074
+  },
+  {
+    "name": "compile-viewer_session",
+    "command": [
+      "wsl.exe",
+      "-d",
+      "Ubuntu",
+      "--cd",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native",
+      "--exec",
+      "/usr/bin/c++",
+      "-std=c++17",
+      "-O2",
+      "-DNDEBUG",
+      "-Wall",
+      "-Wextra",
+      "-I/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/include",
+      "-c",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/viewer_session.cpp",
+      "-o",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tma198-native-probe/viewer_session.o"
+    ],
+    "exit": 0,
+    "seconds": 5.569900800008327
+  },
+  {
+    "name": "compile-tma_dearray_cli",
+    "command": [
+      "wsl.exe",
+      "-d",
+      "Ubuntu",
+      "--cd",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native",
+      "--exec",
+      "/usr/bin/c++",
+      "-std=c++17",
+      "-O2",
+      "-DNDEBUG",
+      "-Wall",
+      "-Wextra",
+      "-I/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/include",
+      "-c",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tma_dearray_cli.cpp",
+      "-o",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tma198-native-probe/tma_dearray_cli.o"
+    ],
+    "exit": 0,
+    "seconds": 2.4592208999674767
+  },
+  {
+    "name": "compile-tests-tma_dearray_tests",
+    "command": [
+      "wsl.exe",
+      "-d",
+      "Ubuntu",
+      "--cd",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native",
+      "--exec",
+      "/usr/bin/c++",
+      "-std=c++17",
+      "-O2",
+      "-DNDEBUG",
+      "-Wall",
+      "-Wextra",
+      "-I/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/include",
+      "-c",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tests/tma_dearray_tests.cpp",
+      "-o",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tma198-native-probe/tma_dearray_tests.o"
+    ],
+    "exit": 0,
+    "seconds": 5.124706399976276
+  },
+  {
+    "name": "link",
+    "command": [
+      "wsl.exe",
+      "-d",
+      "Ubuntu",
+      "--cd",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native",
+      "--exec",
+      "/usr/bin/c++",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tma198-native-probe/tma_dearray.o",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tma198-native-probe/viewer_session.o",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tma198-native-probe/tma_dearray_cli.o",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tma198-native-probe/tma_dearray_tests.o",
+      "-o",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tma198-native-probe/tma_dearray_tests",
+      "libqupathxx_core.a",
+      "_deps/qpx_tiff-build/libtiff/libtiff.a",
+      "_deps/qpx_zlib-build/libz.a",
+      "/usr/lib/x86_64-linux-gnu/libm.so",
+      "libqupathxx_tiff_xml.a",
+      "libqupathxx_sqlite.a",
+      "-ldl"
+    ],
+    "exit": 0,
+    "seconds": 4.253773299977183
+  },
+  {
+    "name": "test",
+    "command": [
+      "wsl.exe",
+      "-d",
+      "Ubuntu",
+      "--cd",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native",
+      "--exec",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tma198-native-probe/tma_dearray_tests",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/tests/fixtures/tma-dearray-v1",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tma198-native-probe/artifacts"
+    ],
+    "exit": 0,
+    "seconds": 0.6289573999820277
+  }
+]

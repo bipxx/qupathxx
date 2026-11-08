@@ -1,0 +1,112 @@
+{
+  "schema": "qpx.gui-font-qualification-campaign/1",
+  "source": "1f71eb59e13fba272113c1119ee2b608fa26d01a",
+  "ref": "feature/gui-font-qualification-285",
+  "state": "three-full-roles-initially-queued",
+  "runs": {
+    "engine": 40743832312,
+    "macos": 40743845473,
+    "portable": 40743859500
+  },
+  "dispatches_per_role": 1,
+  "required_archives": 11,
+  "observed_archives": 0,
+  "source_paths": 547,
+  "canonical_compiler_blobs_equal": 415,
+  "fresh_checkout_newline_only_differences": 149,
+  "local_native_source": "7231d95c25fbc9515d937036986e8c92b19da261",
+  "local_binary_relabelled": false,
+  "hosted_roles_build_own_source": true,
+  "full_audits_prepared_not_executed": true,
+  "engineering_accepted": false,
+  "scientific_accepted": false,
+  "general_speed_claim": false,
+  "release_ready": false,
+  "files": [
+    {
+      "path": "campaign.json",
+      "bytes": 3423,
+      "sha256": "a9ecc4817938bf529f4567af009a0720be1bbae36b5085a8fb61ddd088e20c2e"
+    },
+    {
+      "path": "complete-audit-plan.json",
+      "bytes": 3052,
+      "sha256": "66aeafae59d966b25e34e047ee0579aa01cbd6ab456de8516513273966a7170e"
+    },
+    {
+      "path": "frozen-source-proof.json",
+      "bytes": 126360,
+      "sha256": "abae548a4d0cdf9b34a44dfd5df6fdc00fa5c302d8402d0682fa2b631affc284"
+    },
+    {
+      "path": "initial-no-runs.json",
+      "bytes": 69,
+      "sha256": "417c65eb5cfa29232234aa90a6a34ee8622ce25bbd6bd87c8ebcc180e874a77e"
+    },
+    {
+      "path": "local-native-equivalence.json",
+      "bytes": 6373,
+      "sha256": "bb6a3d0fcf60984b9d3b62d16e0102e7e0856b3c6f5bbdb9dd9747ff513d422e"
+    },
+    {
+      "path": "workflow.json",
+      "bytes": 130,
+      "sha256": "540b853b4a07d754fc7f068dfc4414cb04a16415f1d4b659392d1cbbda7793d8"
+    },
+    {
+      "path": "initial/engine-artifacts.json",
+      "bytes": 46,
+      "sha256": "48f3f8e2db6024648ae57ea6301f1ede11b5ee11792f9391b971426f9a2f5c0d"
+    },
+    {
+      "path": "initial/engine-run.json",
+      "bytes": 17087,
+      "sha256": "2295308f3073daf1a668e3873cb4e00536c3f611e39e1869550944b7c441a39c"
+    },
+    {
+      "path": "initial/macos-artifacts.json",
+      "bytes": 46,
+      "sha256": "48f3f8e2db6024648ae57ea6301f1ede11b5ee11792f9391b971426f9a2f5c0d"
+    },
+    {
+      "path": "initial/macos-run.json",
+      "bytes": 2006,
+      "sha256": "08af22490880cc1a97741ea19b2f22fa471a964532f27b43542ad0db1ccac187"
+    },
+    {
+      "path": "initial/portable-artifacts.json",
+      "bytes": 46,
+      "sha256": "48f3f8e2db6024648ae57ea6301f1ede11b5ee11792f9391b971426f9a2f5c0d"
+    },
+    {
+      "path": "initial/portable-run.json",
+      "bytes": 1643,
+      "sha256": "2ea390fe5e3c91f75c961d8874bd48f32b8d85441fbbbad821949ae43d5a2ca2"
+    },
+    {
+      "path": "initial/verified.json",
+      "bytes": 100,
+      "sha256": "3d4baf7036a5467723b91510fdb9177fdd1e3ee40e3c85724f26214b9f672f68"
+    },
+    {
+      "path": "tools/dispatch_font_285.py",
+      "bytes": 5669,
+      "sha256": "29c6b40caeed0af14062cca81e68dc5cc31ea1ad5f5ced04cd9be9f4a5a5424b"
+    },
+    {
+      "path": "tools/collect_candidate285.py",
+      "bytes": 4845,
+      "sha256": "4be51c128ade4e2d086adec276bb20a6d5c9808eb1eef312be07eaa68e3a641b"
+    },
+    {
+      "path": "tools/prepare_campaign285.py",
+      "bytes": 1813,
+      "sha256": "e4a2c5981899b98e7c9abeced1ce018db7790e49d42727db06a6fed807eda342"
+    },
+    {
+      "path": "tools/publish_campaign285.py",
+      "bytes": 5364,
+      "sha256": "ff2d9a0b1247cd842bb8d685437274691e3433f9d3b4c269ba2834bdc82adaa2"
+    }
+  ]
+}

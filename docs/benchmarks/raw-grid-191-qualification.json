@@ -1,0 +1,276 @@
+{
+  "schema": "qpx.integrated-raw-resource-qualification/1",
+  "source": "61e546ee59944e07b2b15a16b84054813de8393e",
+  "observed_at_utc": "2026-10-25T21:04:49.954280+00:00",
+  "frozen_ref": "feature/raw-grid-workflow-191",
+  "engine_run": 40226794203,
+  "macos_run": 40226800465,
+  "portable_run": 40226806311,
+  "engine_accepted": true,
+  "macos_native_accepted": true,
+  "portable_accepted": true,
+  "artifact_archives_verified": 11,
+  "source_contract_files": 498,
+  "artifacts": [
+    {
+      "name": "Windows-gui-py3.12",
+      "artifact_id": 12612173847,
+      "run_id": 40226794203,
+      "sha256": "68380658fbdc8d6a822caa98bdd41c1a6b665a9abf32de9fc432eedd4927d7b3",
+      "bytes": 25620194
+    },
+    {
+      "name": "Windows-headless-py3.11",
+      "artifact_id": 12612990523,
+      "run_id": 40226794203,
+      "sha256": "2c0499703de5fde0e02c88465b18891576fa879b8b56dd6babe1877a8dec5215",
+      "bytes": 10840257
+    },
+    {
+      "name": "Linux-headless-py3.12",
+      "artifact_id": 12611569498,
+      "run_id": 40226794203,
+      "sha256": "0573a1088df8e562dcece3ccbc2672ac27773a84c31aa10b922660ae9df3ef73",
+      "bytes": 13392367
+    },
+    {
+      "name": "Linux-minimal-py3.12",
+      "artifact_id": 12611583853,
+      "run_id": 40226794203,
+      "sha256": "813cc6f108ae8339d3e1a4825edc5e904c740e773611e2af229340df9efaccac",
+      "bytes": 34865
+    },
+    {
+      "name": "Linux-sanitize-py3.12",
+      "artifact_id": 12611578957,
+      "run_id": 40226794203,
+      "sha256": "eab839a81da8494784abaa9571a45f939a49c04bfd14d5da1a970ef800f8993f",
+      "bytes": 40100
+    },
+    {
+      "name": "macos-native-arm64",
+      "artifact_id": 12612780241,
+      "run_id": 40226800465,
+      "sha256": "dc36f3400f864fdcab6735378f3fc6440587fdb6e842f8e593d34cb44b03ef20",
+      "bytes": 10495486
+    },
+    {
+      "name": "macos-native-x86_64",
+      "artifact_id": 12613655606,
+      "run_id": 40226800465,
+      "sha256": "9b37f18817c2798426f0799e296e3a20257c01eb66c928088dcd85c0a07e5963",
+      "bytes": 11385547
+    },
+    {
+      "name": "manylinux-3.11",
+      "artifact_id": 12613890688,
+      "run_id": 40226806311,
+      "sha256": "493d123040d01c0c36026b194c24e377522d1c656340858ad5589e3b780dd5a4",
+      "bytes": 13754874
+    },
+    {
+      "name": "manylinux-3.12",
+      "artifact_id": 12613910772,
+      "run_id": 40226806311,
+      "sha256": "92ed50bf6e29f63b470d1eab3e96e011440216178f351eab414dae08d96e6643",
+      "bytes": 13754069
+    },
+    {
+      "name": "manylinux-consumer-3.11",
+      "artifact_id": 12613499901,
+      "run_id": 40226806311,
+      "sha256": "aa3b40d53e9b95a3fd8e062446517e5eb3611d737f7245139e00b7dfd099a411",
+      "bytes": 67840
+    },
+    {
+      "name": "manylinux-consumer-3.12",
+      "artifact_id": 12613656903,
+      "run_id": 40226806311,
+      "sha256": "5a3a06ce469ce0db02e548f275c5d5fa57f9e29bd128c178dd7e6d3234137141",
+      "bytes": 68441
+    }
+  ],
+  "engine_results": [
+    {
+      "name": "Linux headless Python 3.12 NumPy 2",
+      "native": 49,
+      "installed": 3067,
+      "scientific": {
+        "passed": 276,
+        "declared_headless_gui_skips": 7,
+        "gui": false,
+        "scientific_acceptance": false
+      }
+    },
+    {
+      "name": "Windows GUI Python 3.12 software GL",
+      "native": 50,
+      "installed": 3499,
+      "scientific": {
+        "passed": 283,
+        "declared_headless_gui_skips": 0,
+        "gui": true,
+        "scientific_acceptance": false
+      }
+    },
+    {
+      "name": "Linux minimal native",
+      "native": 49,
+      "installed": null,
+      "scientific": null
+    },
+    {
+      "name": "Windows headless Python 3.11 NumPy 1",
+      "native": 49,
+      "installed": 3069,
+      "scientific": {
+        "passed": 276,
+        "declared_headless_gui_skips": 7,
+        "gui": false,
+        "scientific_acceptance": false
+      }
+    },
+    {
+      "name": "Linux ASan UBSan native",
+      "native": 49,
+      "installed": null,
+      "scientific": null
+    }
+  ],
+  "macos_results": [
+    {
+      "architecture": "arm64",
+      "native": 49
+    },
+    {
+      "architecture": "x86_64",
+      "native": 49
+    }
+  ],
+  "portable_results": [
+    {
+      "python": "3.11",
+      "native": 49,
+      "builder": 3067,
+      "consumer": 3025
+    },
+    {
+      "python": "3.12",
+      "native": 49,
+      "builder": 3067,
+      "consumer": 3025
+    }
+  ],
+  "scope": "Complete source191 engine/Mac-native/portable engineering qualification for inherited workflows and typed raw-grid TIFF layout, decoder reuse, streamed digest and bounded coarse materialization. Independent science, hardware/RSS, remaining reader/large-slide scope and supported release are separate.",
+  "excluded_later_code": "TMA axis APIs and later auditor/dearray preparation are outside this source and require their own qualification.",
+  "legacy_strict_scientific_xfails": 3,
+  "macos_python_gui_openslide_accepted": false,
+  "hardware_performance_accepted": false,
+  "biological_accepted": false,
+  "release_ready": false,
+  "overall_project_complete": false,
+  "milestones": {
+    "M0": "Partial",
+    "M1": "Partial",
+    "M2": "Partial",
+    "M3": "Partial",
+    "M4": "Partial",
+    "M5": "Partial",
+    "M6": "Partial",
+    "M7": "Partial"
+  },
+  "files": {
+    "audit-plan.json": {
+      "bytes": 2783,
+      "sha256": "2781f80c0b8d4881c535383f8d7c8673b5c854c96f3632a5d6455dce9157e0fc"
+    },
+    "campaign.json": {
+      "bytes": 6234,
+      "sha256": "3fcbfd5705f9d8f7def74c4ac958df7544b9394204a37825254a5a03b1ec5c86"
+    },
+    "engine-run.json": {
+      "bytes": 16529,
+      "sha256": "9854c381ca7691bf17c2bb9ace2d42ea62281a465abffccfa7643746342c2c8d"
+    },
+    "full-engine-audit.json": {
+      "bytes": 653151,
+      "sha256": "0082adb83e7262b386d7f50dfa672288ffc7563665c60135b6f86339f9ab9635"
+    },
+    "full-engine-audit.log": {
+      "bytes": 488,
+      "sha256": "1ddc73ec2ec0ccb2c2811adbff3506d9759d52e2309f9c20a88c8cd98824c5d5"
+    },
+    "Linux-headless-py3.12-artifact.json": {
+      "bytes": 738,
+      "sha256": "4d89750e92e0e39a0c67c41def51bf253eb4c139bb2c23fe35c2c7a6f17dfdc4"
+    },
+    "Linux-minimal-py3.12-artifact.json": {
+      "bytes": 734,
+      "sha256": "60334a15cc64ca8597e62268c82e97935e1f2fed5a346715f35bbaa25a83737b"
+    },
+    "Linux-sanitize-py3.12-artifact.json": {
+      "bytes": 735,
+      "sha256": "28ac9db61ad03cc700f286accd6927d9f29b983f0e945ebdb21dbfd4ac76eafb"
+    },
+    "macos-native-arm64-artifact.json": {
+      "bytes": 735,
+      "sha256": "2d7b9f85ab9c2ea844ded31c1a0fd5ae7f43c2489881d63d6849d3580f54d7b7"
+    },
+    "macos-native-audit.json": {
+      "bytes": 194854,
+      "sha256": "9d0e865f161466cc22288ca4a2a22428288cca51f095f2bda19a6e801b7fd671"
+    },
+    "macos-native-audit.log": {
+      "bytes": 161,
+      "sha256": "0e113c8d0f70490765f55ae988afb10dd3a08b409aefbec26cd007e945516199"
+    },
+    "macos-native-x86_64-artifact.json": {
+      "bytes": 736,
+      "sha256": "8b51dcd496a20844e2dd27baa493ebc744b6e8dd4dde908c080aa3cfff346a7f"
+    },
+    "macos-run.json": {
+      "bytes": 4859,
+      "sha256": "3ce5ceb76333200dc58894bc7a4b361587566063dcea809f2ba08798aafa0b5f"
+    },
+    "manylinux-3.11-artifact.json": {
+      "bytes": 731,
+      "sha256": "aac1a116bcce13df9b2bf8588322f04d7d44572f232fbd96baea7dfc3df74285"
+    },
+    "manylinux-3.12-artifact.json": {
+      "bytes": 731,
+      "sha256": "922739886e47ce4c86afbea4fdf676a16fc5b2a922475b94ac0e90597464f48f"
+    },
+    "manylinux-consumer-3.11-artifact.json": {
+      "bytes": 737,
+      "sha256": "0c6378a60df16fbdce44dffa7df1990d11c46dc34a3f65bba36d6ce736f67219"
+    },
+    "manylinux-consumer-3.12-artifact.json": {
+      "bytes": 737,
+      "sha256": "dc2256d46e0655ce4ceef0d19107e89295407cffa08ce20457c274127e72af38"
+    },
+    "portable-audit.json": {
+      "bytes": 305917,
+      "sha256": "6d1c4b24d33ca092a62ac35d8122a2fc5a2300a9c90444ed1a03d6b672438640"
+    },
+    "portable-audit.log": {
+      "bytes": 126,
+      "sha256": "53dbdc8cf2fe2c506366b3daa88ded5a83f43c1999848378e4212987a5eb27d0"
+    },
+    "portable-run.json": {
+      "bytes": 10688,
+      "sha256": "cb13d42f3c6c5f74483a2c3653b5e70afd7e6ee613845d152082b02f9bc442fd"
+    },
+    "source-proof.json": {
+      "bytes": 121103,
+      "sha256": "ac49ba9cfbf188247772765adff48c4d1b048dfd9acbd126be6513db749f43dd"
+    },
+    "Windows-gui-py3.12-artifact.json": {
+      "bytes": 735,
+      "sha256": "e3039387be63e8eaa2b99b9b7e99ffd538efa176fc9176a9f8fc1b253c67efc0"
+    },
+    "Windows-headless-py3.11-artifact.json": {
+      "bytes": 740,
+      "sha256": "76436ea252feb9783c0b43ac92abc655a19705d94ac3e921f66f212c602fe164"
+    }
+  }
+}

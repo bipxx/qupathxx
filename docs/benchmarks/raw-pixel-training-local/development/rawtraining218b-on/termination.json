@@ -1,0 +1,6 @@
+{
+  "status": "deliberately_stopped_after_wrong_cache_selection",
+  "reason": "Diagnostic driver accidentally changed cache directory as well as output prefix; the original Windows process tree was identified and terminated. Corrected run218c reused the existing cache. This was not an observation timeout or successful test result.",
+  "original_session": 88937,
+  "windows_driver_pid": 113104
+}

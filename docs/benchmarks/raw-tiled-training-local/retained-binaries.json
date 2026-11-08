@@ -1,0 +1,222 @@
+{
+  "source": "1273c3ea37cb70e412c6645a748530751bddb949",
+  "binaries": [
+    {
+      "host": "windows",
+      "suite": "pixel_workflows",
+      "source": "1273c3ea37cb70e412c6645a748530751bddb949",
+      "fingerprint": "4b977e63a28fc840997fbecc65e09bc83488038d0e8a220c14928435119be5ec",
+      "path": "build/tiledtraining222-retained-binaries/windows/qupathxx_pixel_workflow_tests.exe",
+      "bytes": 3693056,
+      "sha256": "b13330198b625b35d2db254d054ee7129bd2b80a42f00d6d05747578abd8662d"
+    },
+    {
+      "host": "linux",
+      "suite": "pixel_workflows",
+      "source": "1273c3ea37cb70e412c6645a748530751bddb949",
+      "fingerprint": "4b977e63a28fc840997fbecc65e09bc83488038d0e8a220c14928435119be5ec",
+      "path": "build/tiledtraining222-retained-binaries/linux/qupathxx_pixel_workflow_tests",
+      "bytes": 6993992,
+      "sha256": "a3457b6a24e17214a38fdc0a0a8d9c1bbcce21b98d59808f2d6a2e75494cda9f"
+    },
+    {
+      "host": "training",
+      "suite": "pixel_workflows",
+      "source": "1273c3ea37cb70e412c6645a748530751bddb949",
+      "fingerprint": "4b977e63a28fc840997fbecc65e09bc83488038d0e8a220c14928435119be5ec",
+      "path": "build/tiledtraining222-retained-binaries/training/qupathxx_pixel_workflow_tests.exe",
+      "bytes": 4893184,
+      "sha256": "cf51ea4ba9776b9613a30f2086a6887fd88017db5dcca28a8de24b7a68a566a4"
+    },
+    {
+      "host": "windows",
+      "suite": "pixel_workflows",
+      "passed": false,
+      "source": "fb7ddb0b97e52306a460a40a09ac22c6dcd5d81d",
+      "fingerprint": "dd315c96d5100f0265281036ab7efc50276f7002c450e66165217c67cbe04e6d",
+      "path": "build/tiledtraining222-initial-products/windows/qupathxx_pixel_workflow_tests.exe",
+      "bytes": 3693056,
+      "sha256": "45dfd57a402a345eb74693a8b51cc41f8e7200d39ba3c0f93ce7bccc383807cc"
+    },
+    {
+      "host": "windows",
+      "suite": "pixel_features",
+      "passed": true,
+      "source": "fb7ddb0b97e52306a460a40a09ac22c6dcd5d81d",
+      "fingerprint": "dd315c96d5100f0265281036ab7efc50276f7002c450e66165217c67cbe04e6d",
+      "path": "build/tiledtraining222-initial-products/windows/qupathxx_pixel_feature_tests.exe",
+      "bytes": 1649664,
+      "sha256": "082c79dfc279e97c1bb6769a57a21e0850c2e3483f90b0808f23c681835e901f"
+    },
+    {
+      "host": "windows",
+      "suite": "resampling",
+      "passed": true,
+      "source": "fb7ddb0b97e52306a460a40a09ac22c6dcd5d81d",
+      "fingerprint": "dd315c96d5100f0265281036ab7efc50276f7002c450e66165217c67cbe04e6d",
+      "path": "build/tiledtraining222-initial-products/windows/qupathxx_resampling_tests.exe",
+      "bytes": 2338816,
+      "sha256": "0630d040c47766c118891cce4b6bdba6af373299e75a1f317490a77b1d5525e0"
+    },
+    {
+      "host": "windows",
+      "suite": "raw_image",
+      "passed": true,
+      "source": "fb7ddb0b97e52306a460a40a09ac22c6dcd5d81d",
+      "fingerprint": "dd315c96d5100f0265281036ab7efc50276f7002c450e66165217c67cbe04e6d",
+      "path": "build/tiledtraining222-initial-products/windows/qupathxx_raw_image_tests.exe",
+      "bytes": 3374592,
+      "sha256": "fc6d0eb32406090f370c41335a0dba0b0ffcfd2f37b8d2bbdc4a84b8f734b753"
+    },
+    {
+      "host": "windows",
+      "suite": "source_identity",
+      "passed": true,
+      "source": "fb7ddb0b97e52306a460a40a09ac22c6dcd5d81d",
+      "fingerprint": "dd315c96d5100f0265281036ab7efc50276f7002c450e66165217c67cbe04e6d",
+      "path": "build/tiledtraining222-initial-products/windows/qupathxx_source_identity_tests.exe",
+      "bytes": 1511936,
+      "sha256": "8098b99985908e7adcdecfe19a4d778fd8d20dae675572a92e927bd57b087f88"
+    },
+    {
+      "host": "windows",
+      "suite": "provenance",
+      "passed": true,
+      "source": "fb7ddb0b97e52306a460a40a09ac22c6dcd5d81d",
+      "fingerprint": "dd315c96d5100f0265281036ab7efc50276f7002c450e66165217c67cbe04e6d",
+      "path": "build/tiledtraining222-initial-products/windows/qupathxx_provenance_tests.exe",
+      "bytes": 1623040,
+      "sha256": "7772b6b9c1f7808402eea84b7bbcd89beb156aef75c4e9dfa0e8a82b5cf55864"
+    },
+    {
+      "host": "windows",
+      "suite": "project",
+      "passed": true,
+      "source": "fb7ddb0b97e52306a460a40a09ac22c6dcd5d81d",
+      "fingerprint": "dd315c96d5100f0265281036ab7efc50276f7002c450e66165217c67cbe04e6d",
+      "path": "build/tiledtraining222-initial-products/windows/qupathxx_project_tests.exe",
+      "bytes": 2810368,
+      "sha256": "1b88862f97acab65ac30291ae1905345ed5a83d70aabed909da9fb826e46f78d"
+    },
+    {
+      "host": "windows",
+      "suite": "project_save",
+      "passed": true,
+      "source": "fb7ddb0b97e52306a460a40a09ac22c6dcd5d81d",
+      "fingerprint": "dd315c96d5100f0265281036ab7efc50276f7002c450e66165217c67cbe04e6d",
+      "path": "build/tiledtraining222-initial-products/windows/qupathxx_save_tests.exe",
+      "bytes": 2576384,
+      "sha256": "64df06c2d8523ed790f2972a7e0acebfff1cf6e4c1eb82ee60b3a3ca6c61f6ef"
+    },
+    {
+      "host": "linux",
+      "suite": "pixel_workflows",
+      "passed": false,
+      "source": "fb7ddb0b97e52306a460a40a09ac22c6dcd5d81d",
+      "fingerprint": "dd315c96d5100f0265281036ab7efc50276f7002c450e66165217c67cbe04e6d",
+      "path": "build/tiledtraining222-initial-products/linux/qupathxx_pixel_workflow_tests",
+      "bytes": 6989680,
+      "sha256": "04f7d590b503dd6674dd875e650f3e5ccca904e39ae0fdbcd6c332cce83aa6cc"
+    },
+    {
+      "host": "linux",
+      "suite": "pixel_features",
+      "passed": true,
+      "source": "fb7ddb0b97e52306a460a40a09ac22c6dcd5d81d",
+      "fingerprint": "dd315c96d5100f0265281036ab7efc50276f7002c450e66165217c67cbe04e6d",
+      "path": "build/tiledtraining222-initial-products/linux/qupathxx_pixel_feature_tests",
+      "bytes": 2841848,
+      "sha256": "ac02f0df89eca8e67c7d276685132d9be6490151e42d1314703657321e4fe5b3"
+    },
+    {
+      "host": "linux",
+      "suite": "resampling",
+      "passed": true,
+      "source": "fb7ddb0b97e52306a460a40a09ac22c6dcd5d81d",
+      "fingerprint": "dd315c96d5100f0265281036ab7efc50276f7002c450e66165217c67cbe04e6d",
+      "path": "build/tiledtraining222-initial-products/linux/qupathxx_resampling_tests",
+      "bytes": 5340864,
+      "sha256": "c0ff31c221b2ca8e0322b5c9d287532f334661ca798dac4811ce5a89e21acaff"
+    },
+    {
+      "host": "linux",
+      "suite": "raw_image",
+      "passed": true,
+      "source": "fb7ddb0b97e52306a460a40a09ac22c6dcd5d81d",
+      "fingerprint": "dd315c96d5100f0265281036ab7efc50276f7002c450e66165217c67cbe04e6d",
+      "path": "build/tiledtraining222-initial-products/linux/qupathxx_raw_image_tests",
+      "bytes": 6568072,
+      "sha256": "71d5e0dcef152392db854705692f0adee3c1ca5e5968a4823e6c5edb75b29d62"
+    },
+    {
+      "host": "linux",
+      "suite": "source_identity",
+      "passed": true,
+      "source": "fb7ddb0b97e52306a460a40a09ac22c6dcd5d81d",
+      "fingerprint": "dd315c96d5100f0265281036ab7efc50276f7002c450e66165217c67cbe04e6d",
+      "path": "build/tiledtraining222-initial-products/linux/qupathxx_source_identity_tests",
+      "bytes": 2567480,
+      "sha256": "55a60bf79ea917152e82278b936cb383717086a4e3bacd311afe208e46eed85e"
+    },
+    {
+      "host": "linux",
+      "suite": "provenance",
+      "passed": true,
+      "source": "fb7ddb0b97e52306a460a40a09ac22c6dcd5d81d",
+      "fingerprint": "dd315c96d5100f0265281036ab7efc50276f7002c450e66165217c67cbe04e6d",
+      "path": "build/tiledtraining222-initial-products/linux/qupathxx_provenance_tests",
+      "bytes": 4382360,
+      "sha256": "b6a4e98263b59a0f40f8a214f04d19f3f66821ecb951670dc7e7558f65a412db"
+    },
+    {
+      "host": "linux",
+      "suite": "project",
+      "passed": true,
+      "source": "fb7ddb0b97e52306a460a40a09ac22c6dcd5d81d",
+      "fingerprint": "dd315c96d5100f0265281036ab7efc50276f7002c450e66165217c67cbe04e6d",
+      "path": "build/tiledtraining222-initial-products/linux/qupathxx_project_tests",
+      "bytes": 5891728,
+      "sha256": "3ab4044882ba2e4fb510bf9504814d2bdec0aca9aec4970f3ff569063d7b8942"
+    },
+    {
+      "host": "linux",
+      "suite": "project_save",
+      "passed": true,
+      "source": "fb7ddb0b97e52306a460a40a09ac22c6dcd5d81d",
+      "fingerprint": "dd315c96d5100f0265281036ab7efc50276f7002c450e66165217c67cbe04e6d",
+      "path": "build/tiledtraining222-initial-products/linux/qupathxx_save_tests",
+      "bytes": 5913168,
+      "sha256": "6f84a7a308048223f2cf302a1858962f79cc5adb421372766dc8576d0eea573a"
+    },
+    {
+      "host": "training",
+      "suite": "pixel_workflows",
+      "passed": false,
+      "source": "fb7ddb0b97e52306a460a40a09ac22c6dcd5d81d",
+      "fingerprint": "dd315c96d5100f0265281036ab7efc50276f7002c450e66165217c67cbe04e6d",
+      "path": "build/tiledtraining222-initial-products/training/qupathxx_pixel_workflow_tests.exe",
+      "bytes": 4893184,
+      "sha256": "d282642797c28e3acc6749a80e7c64191c844ebc1914dda501246a41aafcc6c5"
+    },
+    {
+      "host": "training",
+      "suite": "pixel_features",
+      "passed": true,
+      "source": "fb7ddb0b97e52306a460a40a09ac22c6dcd5d81d",
+      "fingerprint": "dd315c96d5100f0265281036ab7efc50276f7002c450e66165217c67cbe04e6d",
+      "path": "build/tiledtraining222-initial-products/training/qupathxx_pixel_feature_tests.exe",
+      "bytes": 2475008,
+      "sha256": "0c690c7e66a588b3d9a07b28dcd320a9aa151a1cd1b8ebece8b3976e9cc51f16"
+    },
+    {
+      "host": "training",
+      "suite": "classifier",
+      "passed": true,
+      "source": "fb7ddb0b97e52306a460a40a09ac22c6dcd5d81d",
+      "fingerprint": "dd315c96d5100f0265281036ab7efc50276f7002c450e66165217c67cbe04e6d",
+      "path": "build/tiledtraining222-initial-products/training/qupathxx_classifier_tests.exe",
+      "bytes": 1389568,
+      "sha256": "14cbad9f965d5f87f10c58e892bb580425d7e0e1762e37ec661b299ee03f40bc"
+    }
+  ]
+}

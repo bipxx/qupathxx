@@ -1,0 +1,114 @@
+{
+  "archive": "qupathxx-dependency-sources.zip",
+  "sha256": "a3cbad1fb685b4efc6e669dc57a76dcc3922a39de5d4d2de6e8724da9ef40c9b",
+  "sources": [
+    {
+      "component": "geos",
+      "version": "3.15.0",
+      "url": "https://download.osgeo.org/geos/geos-3.15.0.tar.bz2",
+      "filename": "geos-3.15.0.tar.bz2",
+      "sha256": "d5e5192a686d065eaed082de14dd26244c5c8e02bff16b2c6cce3265f648e00e",
+      "bytes": 7120409,
+      "pin": "recorded archive SHA256"
+    },
+    {
+      "component": "opencv",
+      "version": "31b0eeea0b44b370fd0712312df4214d4ae1b158",
+      "url": "https://codeload.github.com/opencv/opencv/tar.gz/31b0eeea0b44b370fd0712312df4214d4ae1b158",
+      "filename": "opencv-31b0eeea0b44b370fd0712312df4214d4ae1b158.tar.gz",
+      "sha256": "bb15d5c85bab38c1377c0c7dd7ff201b078bcdb41cc4ff9f85ac61aa56b5f631",
+      "bytes": 95080706,
+      "pin": "recorded archive SHA256"
+    },
+    {
+      "component": "sqlite",
+      "version": "3.54.1",
+      "url": "https://www.sqlite.org/2026/sqlite-amalgamation-3540100.zip",
+      "filename": "sqlite-amalgamation-3540100.zip",
+      "sha256": "0a9c8e34352dad46006aa82836d5383bff9dc6bc9ce5a60553c05aa30e6ad1f9",
+      "bytes": 2990966,
+      "pin": "recorded archive SHA256"
+    },
+    {
+      "component": "nlohmann-json",
+      "version": "3.12.0",
+      "url": "https://github.com/nlohmann/json/releases/download/v3.12.0/json.tar.xz",
+      "filename": "json-3.12.0.tar.xz",
+      "sha256": "42f6e95cad6ec532fd372391373363b62a14af6d771056dbfc86160e6dfff7aa",
+      "bytes": 114576,
+      "pin": "recorded archive SHA256"
+    },
+    {
+      "component": "openslide-sdk-and-dependencies",
+      "version": "4.0.1.2",
+      "url": "https://github.com/openslide/openslide-bin/releases/download/v4.0.1.2/openslide-bin-4.0.1.2.tar.gz",
+      "filename": "openslide-bin-4.0.1.2.tar.gz",
+      "sha256": "83c9a4a598f3a5fe1dea83e123745e48b94ce7eab99833f04902bdf4fa0af1db",
+      "bytes": 18591480,
+      "pin": "recorded archive SHA256"
+    },
+    {
+      "component": "zlib",
+      "version": "1.3.2",
+      "url": "https://github.com/madler/zlib/releases/download/v1.3.2/zlib-1.3.2.tar.gz",
+      "filename": "zlib-1.3.2.tar.gz",
+      "sha256": "bb329a0a2cd0274d05519d61c667c062e06990d72e125ee2dfa8de64f0119d16",
+      "bytes": 1502830,
+      "pin": "recorded archive SHA256"
+    },
+    {
+      "component": "libtiff",
+      "version": "4.7.1",
+      "url": "https://download.osgeo.org/libtiff/tiff-4.7.1.tar.xz",
+      "filename": "tiff-4.7.1.tar.xz",
+      "sha256": "b92017489bdc1db3a4c97191aa4b75366673cb746de0dce5d7a749d5954681ba",
+      "bytes": 2358600,
+      "pin": "recorded archive SHA256"
+    },
+    {
+      "component": "tinyxml2",
+      "version": "11.0.0",
+      "url": "https://codeload.github.com/leethomason/tinyxml2/tar.gz/refs/tags/11.0.0",
+      "filename": "tinyxml2-11.0.0.tar.gz",
+      "sha256": "5556deb5081fb246ee92afae73efd943c889cef0cafea92b0b82422d6a18f289",
+      "bytes": 642878,
+      "pin": "recorded archive SHA256"
+    },
+    {
+      "component": "libjpeg-turbo",
+      "version": "3.1.3",
+      "url": "https://codeload.github.com/libjpeg-turbo/libjpeg-turbo/tar.gz/refs/tags/3.1.3",
+      "filename": "libjpeg-turbo-3.1.3.tar.gz",
+      "sha256": "3a13a5ba767dc8264bc40b185e41368a80d5d5f945944d1dbaa4b2fb0099f4e5",
+      "bytes": 2516606,
+      "pin": "recorded archive SHA256"
+    },
+    {
+      "component": "imgui",
+      "version": "b916186e66aa3c02b72c6ca17455516512ed8049",
+      "url": "https://codeload.github.com/ocornut/imgui/tar.gz/b916186e66aa3c02b72c6ca17455516512ed8049",
+      "filename": "imgui-b916186.tar.gz",
+      "sha256": "a8e9ed7adb544e2d528722e96a229272716fb9e220a4b9e2ceee5469d548f562",
+      "bytes": 2365283,
+      "pin": "resolved immutable upstream commit"
+    },
+    {
+      "component": "glfw",
+      "version": "7b6aead9fb88b3623e3b3725ebb42670cbe4c579",
+      "url": "https://codeload.github.com/glfw/glfw/tar.gz/7b6aead9fb88b3623e3b3725ebb42670cbe4c579",
+      "filename": "glfw-3.4.tar.gz",
+      "sha256": "169d49096e339caabbc12e1762273c5cb9130a535a282ba46cf5c14ab6e55694",
+      "bytes": 938351,
+      "pin": "resolved immutable upstream commit"
+    },
+    {
+      "component": "nanobind-and-robin-map",
+      "version": "3.1.0",
+      "url": "https://files.pythonhosted.org/packages/c7/1f/e28fae715401e8f57400e72aeaff4fde12046d31828164f34f61f0816da8/nanobind-3.1.0.tar.gz",
+      "filename": "nanobind-3.1.0.tar.gz",
+      "sha256": "6661e3dc1434d78781ccf7913442d90361dab395c3424efadb63bbb6ddea7ea3",
+      "bytes": 1145390,
+      "pin": "recorded archive SHA256"
+    }
+  ]
+}

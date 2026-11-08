@@ -1,0 +1,106 @@
+Candidate source b66ed9cfd91fe9cc88ff0d8b61c9e4c15e52886a stage C:\Users\HEQ\Projects\qupathxx\build\class-hierarchy-r4\stage\qupathxx\__init__.py
+..................................................F..................... [ 21%]
+..............................................ss........................ [ 43%]
+................s...................................s................... [ 65%]
+.ss.........................F..F..........................ss............ [ 87%]
+...................s.......................                              [100%]
+================================== FAILURES ===================================
+__________ test_in_use_removal_rename_collision_budget_and_branching __________
+
+    def test_in_use_removal_rename_collision_budget_and_branching():
+        doc = q.Document(q.Image.demo())
+        obj = doc.add_detection(q.Roi.rectangle(q.Rect(0, 0, 5, 5)), class_name="Tumor")
+        doc.set_class("Other", 0x123456)
+        revision, history = doc.revision, doc.history_bytes
+        with pytest.raises(ValueError, match="assigned"):
+            doc.remove_class("Tumor")
+        with pytest.raises(ValueError, match="exists"):
+            doc.rename_class("Tumor", "Other")
+>       with pytest.raises(ValueError, match="empty"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'empty'
+E         Actual message: 'invalid class name or RGB view'
+
+tests\test_classes.py:117: AssertionError
+_ test_bulk_restore_rejects_invalid_canonical_rows_without_writing_source[UPDATE classes SET name=''-empty] _
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/class-hierarchy-r4/staged-temp/test_bulk_restore_rejects_inva7')
+sql = "UPDATE classes SET name=''", match = 'empty'
+
+    @pytest.mark.parametrize('sql,match', [
+        ("UPDATE objects SET parent=id", 'cycle'),
+        ("UPDATE objects SET parent='999'", 'parent'),
+        ("UPDATE objects SET class_name='Unregistered'", 'registered'),
+        ("UPDATE objects SET revision='0'", 'revision'),
+        ("UPDATE objects SET revision='999'", 'revision'),
+        ("UPDATE images SET next_object='1'", 'identity'),
+        ("UPDATE classes SET color=16777216", 'color'),
+        ("UPDATE classes SET name=''", 'empty'),
+        ("UPDATE objects SET name=char(0)", 'NUL'),
+        ("UPDATE objects SET class_name=char(0)", 'NUL'),
+        ("UPDATE classes SET name=char(0)", 'NUL'),
+    ])
+    def test_bulk_restore_rejects_invalid_canonical_rows_without_writing_source(tmp_path, sql, match):
+        path, _ = fixture(tmp_path)
+        db = sqlite3.connect(path)
+        try:
+            db.execute(sql)
+            db.commit()
+        finally:
+            db.close()
+        before = path.read_bytes()
+>       with pytest.raises((ValueError, RuntimeError), match=match):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'empty'
+E         Actual message: 'invalid class name or RGB view'
+
+tests\test_project_restore_validation.py:88: AssertionError
+_ test_bulk_restore_rejects_invalid_canonical_rows_without_writing_source[UPDATE classes SET name=char(0)-NUL] _
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/class-hierarchy-r4/staged-temp/test_bulk_restore_rejects_inva10')
+sql = 'UPDATE classes SET name=char(0)', match = 'NUL'
+
+    @pytest.mark.parametrize('sql,match', [
+        ("UPDATE objects SET parent=id", 'cycle'),
+        ("UPDATE objects SET parent='999'", 'parent'),
+        ("UPDATE objects SET class_name='Unregistered'", 'registered'),
+        ("UPDATE objects SET revision='0'", 'revision'),
+        ("UPDATE objects SET revision='999'", 'revision'),
+        ("UPDATE images SET next_object='1'", 'identity'),
+        ("UPDATE classes SET color=16777216", 'color'),
+        ("UPDATE classes SET name=''", 'empty'),
+        ("UPDATE objects SET name=char(0)", 'NUL'),
+        ("UPDATE objects SET class_name=char(0)", 'NUL'),
+        ("UPDATE classes SET name=char(0)", 'NUL'),
+    ])
+    def test_bulk_restore_rejects_invalid_canonical_rows_without_writing_source(tmp_path, sql, match):
+        path, _ = fixture(tmp_path)
+        db = sqlite3.connect(path)
+        try:
+            db.execute(sql)
+            db.commit()
+        finally:
+            db.close()
+        before = path.read_bytes()
+>       with pytest.raises((ValueError, RuntimeError), match=match):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'NUL'
+E         Actual message: 'invalid bounded text'
+
+tests\test_project_restore_validation.py:88: AssertionError
+============================== warnings summary ===============================
+tests/test_qupath_project.py::test_project_import_preserves_sources_objects_classes_calibration_and_pixels
+tests/test_qupath_project.py::test_project_import_preserves_sources_objects_classes_calibration_and_pixels
+  C:\Users\HEQ\Projects\qupathxx\.venv\Lib\site-packages\tifffile\tifffile.py:4594: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.
+  As an alternative, you can create a new view using np.reshape (with copy=False if needed).
+    result.shape = shape
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/test_classes.py::test_in_use_removal_rename_collision_budget_and_branching
+FAILED tests/test_project_restore_validation.py::test_bulk_restore_rejects_invalid_canonical_rows_without_writing_source[UPDATE classes SET name=''-empty]
+FAILED tests/test_project_restore_validation.py::test_bulk_restore_rejects_invalid_canonical_rows_without_writing_source[UPDATE classes SET name=char(0)-NUL]
+3 failed, 319 passed, 9 skipped, 2 warnings in 17.22s

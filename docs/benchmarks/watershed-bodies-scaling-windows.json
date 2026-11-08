@@ -1,0 +1,2888 @@
+{
+  "schema": "qpx.watershed-bodies-profile/1",
+  "source": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+  "tool_commit": "53be209d9764d5cfee7f0e13e2de185ece7f2edc",
+  "tool_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+  "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+  "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+  "performance_accepted": false,
+  "all_output_checks_passed": true,
+  "nuclei_match_between_modes": true,
+  "body_differences_retained": true,
+  "protocol": "Fresh process per observation. Both modes run sequentially after the full GUI process exited. Per mode and size: four alternating tile-order pairs, first pair excluded from summaries and retained raw. All48 observations and12 warmups retained. No hardware target or comparative speed acceptance.",
+  "summaries": {
+    "log": {
+      "schema": "qpx.log-cells-profile/1",
+      "performance_accepted": false,
+      "cell_algorithm": "log",
+      "cases": [
+        {
+          "size": 256,
+          "cells": 16,
+          "summary": {
+            "64": {
+              "capture_ms": {
+                "median": 0.0473,
+                "minimum": 0.0428,
+                "maximum": 0.0691
+              },
+              "detection_wall_ms": {
+                "median": 17.3384,
+                "minimum": 17.1505,
+                "maximum": 17.8802
+              },
+              "worker_ms": {
+                "median": 17.3197,
+                "minimum": 17.1291,
+                "maximum": 17.8604
+              },
+              "process_peak_after_detection_bytes": {
+                "median": 47005696,
+                "minimum": 47001600,
+                "maximum": 47202304
+              },
+              "process_peak_after_checks_bytes": {
+                "median": 55898112,
+                "minimum": 55877632,
+                "maximum": 55902208
+              }
+            },
+            "256": {
+              "capture_ms": {
+                "median": 0.0483,
+                "minimum": 0.0477,
+                "maximum": 0.058
+              },
+              "detection_wall_ms": {
+                "median": 17.7896,
+                "minimum": 16.4177,
+                "maximum": 17.8205
+              },
+              "worker_ms": {
+                "median": 17.7686,
+                "minimum": 16.3937,
+                "maximum": 17.8008
+              },
+              "process_peak_after_detection_bytes": {
+                "median": 46936064,
+                "minimum": 46919680,
+                "maximum": 47165440
+              },
+              "process_peak_after_checks_bytes": {
+                "median": 56000512,
+                "minimum": 55865344,
+                "maximum": 56037376
+              }
+            }
+          },
+          "samples": [
+            {
+              "size": 256,
+              "tile_size": 256,
+              "cells": 16,
+              "capture_ms": 0.0483,
+              "detection_wall_ms": 16.4177,
+              "worker_ms": 16.3937,
+              "algorithm": "qpx.log-watershed/1",
+              "estimated_work_bytes": 88958976,
+              "retained_bytes": 589928,
+              "process_peak_after_setup_bytes": 44920832,
+              "process_peak_after_detection_bytes": 46919680,
+              "process_peak_after_checks_bytes": 56000512,
+              "label_and_feature_sha256": {
+                "nuclei": "03326a8d169e71c93d6e822597244c8c44fa523b7caf1e1b2cbcc457f3cdc67a",
+                "bodies": "083791f7949b3fd1dbf50ae384ebf9a214d2c900af8750ce1adb48ce88e3f453",
+                "features": "6e7ad7ea0b67519e5e6fd9452c46179fb06a2bcb2bd0f3158776021cee3ef4cb"
+              },
+              "input_sha256": "5c0cc53029174e1b66ac956d0025dc95e5da0e30eebeedecf838ea8245c571b8",
+              "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+              "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+              "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+              "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+              "platform": "Windows-11-10.0.26200-SP0",
+              "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+            },
+            {
+              "size": 256,
+              "tile_size": 64,
+              "cells": 16,
+              "capture_ms": 0.0428,
+              "detection_wall_ms": 17.1505,
+              "worker_ms": 17.1291,
+              "algorithm": "qpx.log-watershed/1",
+              "estimated_work_bytes": 87975936,
+              "retained_bytes": 589928,
+              "process_peak_after_setup_bytes": 44949504,
+              "process_peak_after_detection_bytes": 47202304,
+              "process_peak_after_checks_bytes": 55902208,
+              "label_and_feature_sha256": {
+                "nuclei": "03326a8d169e71c93d6e822597244c8c44fa523b7caf1e1b2cbcc457f3cdc67a",
+                "bodies": "083791f7949b3fd1dbf50ae384ebf9a214d2c900af8750ce1adb48ce88e3f453",
+                "features": "6e7ad7ea0b67519e5e6fd9452c46179fb06a2bcb2bd0f3158776021cee3ef4cb"
+              },
+              "input_sha256": "7d3b7204ce9a3d6f001b1746b5a5899cdcbaf7e6f9df3eb69e3c891f877a8f6f",
+              "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+              "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+              "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+              "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+              "platform": "Windows-11-10.0.26200-SP0",
+              "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+            },
+            {
+              "size": 256,
+              "tile_size": 64,
+              "cells": 16,
+              "capture_ms": 0.0473,
+              "detection_wall_ms": 17.8802,
+              "worker_ms": 17.8604,
+              "algorithm": "qpx.log-watershed/1",
+              "estimated_work_bytes": 87975936,
+              "retained_bytes": 589928,
+              "process_peak_after_setup_bytes": 45064192,
+              "process_peak_after_detection_bytes": 47005696,
+              "process_peak_after_checks_bytes": 55877632,
+              "label_and_feature_sha256": {
+                "nuclei": "03326a8d169e71c93d6e822597244c8c44fa523b7caf1e1b2cbcc457f3cdc67a",
+                "bodies": "083791f7949b3fd1dbf50ae384ebf9a214d2c900af8750ce1adb48ce88e3f453",
+                "features": "6e7ad7ea0b67519e5e6fd9452c46179fb06a2bcb2bd0f3158776021cee3ef4cb"
+              },
+              "input_sha256": "7d3b7204ce9a3d6f001b1746b5a5899cdcbaf7e6f9df3eb69e3c891f877a8f6f",
+              "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+              "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+              "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+              "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+              "platform": "Windows-11-10.0.26200-SP0",
+              "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+            },
+            {
+              "size": 256,
+              "tile_size": 256,
+              "cells": 16,
+              "capture_ms": 0.0477,
+              "detection_wall_ms": 17.7896,
+              "worker_ms": 17.7686,
+              "algorithm": "qpx.log-watershed/1",
+              "estimated_work_bytes": 88958976,
+              "retained_bytes": 589928,
+              "process_peak_after_setup_bytes": 44949504,
+              "process_peak_after_detection_bytes": 47165440,
+              "process_peak_after_checks_bytes": 56037376,
+              "label_and_feature_sha256": {
+                "nuclei": "03326a8d169e71c93d6e822597244c8c44fa523b7caf1e1b2cbcc457f3cdc67a",
+                "bodies": "083791f7949b3fd1dbf50ae384ebf9a214d2c900af8750ce1adb48ce88e3f453",
+                "features": "6e7ad7ea0b67519e5e6fd9452c46179fb06a2bcb2bd0f3158776021cee3ef4cb"
+              },
+              "input_sha256": "5c0cc53029174e1b66ac956d0025dc95e5da0e30eebeedecf838ea8245c571b8",
+              "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+              "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+              "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+              "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+              "platform": "Windows-11-10.0.26200-SP0",
+              "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+            },
+            {
+              "size": 256,
+              "tile_size": 256,
+              "cells": 16,
+              "capture_ms": 0.058,
+              "detection_wall_ms": 17.8205,
+              "worker_ms": 17.8008,
+              "algorithm": "qpx.log-watershed/1",
+              "estimated_work_bytes": 88958976,
+              "retained_bytes": 589928,
+              "process_peak_after_setup_bytes": 44916736,
+              "process_peak_after_detection_bytes": 46936064,
+              "process_peak_after_checks_bytes": 55865344,
+              "label_and_feature_sha256": {
+                "nuclei": "03326a8d169e71c93d6e822597244c8c44fa523b7caf1e1b2cbcc457f3cdc67a",
+                "bodies": "083791f7949b3fd1dbf50ae384ebf9a214d2c900af8750ce1adb48ce88e3f453",
+                "features": "6e7ad7ea0b67519e5e6fd9452c46179fb06a2bcb2bd0f3158776021cee3ef4cb"
+              },
+              "input_sha256": "5c0cc53029174e1b66ac956d0025dc95e5da0e30eebeedecf838ea8245c571b8",
+              "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+              "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+              "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+              "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+              "platform": "Windows-11-10.0.26200-SP0",
+              "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+            },
+            {
+              "size": 256,
+              "tile_size": 64,
+              "cells": 16,
+              "capture_ms": 0.0691,
+              "detection_wall_ms": 17.3384,
+              "worker_ms": 17.3197,
+              "algorithm": "qpx.log-watershed/1",
+              "estimated_work_bytes": 87975936,
+              "retained_bytes": 589928,
+              "process_peak_after_setup_bytes": 45047808,
+              "process_peak_after_detection_bytes": 47001600,
+              "process_peak_after_checks_bytes": 55898112,
+              "label_and_feature_sha256": {
+                "nuclei": "03326a8d169e71c93d6e822597244c8c44fa523b7caf1e1b2cbcc457f3cdc67a",
+                "bodies": "083791f7949b3fd1dbf50ae384ebf9a214d2c900af8750ce1adb48ce88e3f453",
+                "features": "6e7ad7ea0b67519e5e6fd9452c46179fb06a2bcb2bd0f3158776021cee3ef4cb"
+              },
+              "input_sha256": "7d3b7204ce9a3d6f001b1746b5a5899cdcbaf7e6f9df3eb69e3c891f877a8f6f",
+              "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+              "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+              "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+              "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+              "platform": "Windows-11-10.0.26200-SP0",
+              "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+            }
+          ]
+        },
+        {
+          "size": 512,
+          "cells": 64,
+          "summary": {
+            "64": {
+              "capture_ms": {
+                "median": 0.0712,
+                "minimum": 0.0624,
+                "maximum": 0.1573
+              },
+              "detection_wall_ms": {
+                "median": 71.5625,
+                "minimum": 70.7785,
+                "maximum": 80.4171
+              },
+              "worker_ms": {
+                "median": 71.5384,
+                "minimum": 70.7562,
+                "maximum": 80.3733
+              },
+              "process_peak_after_detection_bytes": {
+                "median": 59785216,
+                "minimum": 59703296,
+                "maximum": 60514304
+              },
+              "process_peak_after_checks_bytes": {
+                "median": 65191936,
+                "minimum": 65130496,
+                "maximum": 65245184
+              }
+            },
+            "256": {
+              "capture_ms": {
+                "median": 0.063,
+                "minimum": 0.0597,
+                "maximum": 0.0653
+              },
+              "detection_wall_ms": {
+                "median": 71.6651,
+                "minimum": 71.3082,
+                "maximum": 74.5096
+              },
+              "worker_ms": {
+                "median": 71.644,
+                "minimum": 71.2717,
+                "maximum": 74.4862
+              },
+              "process_peak_after_detection_bytes": {
+                "median": 60411904,
+                "minimum": 59957248,
+                "maximum": 60645376
+              },
+              "process_peak_after_checks_bytes": {
+                "median": 65277952,
+                "minimum": 65081344,
+                "maximum": 65277952
+              }
+            }
+          },
+          "samples": [
+            {
+              "size": 512,
+              "tile_size": 256,
+              "cells": 64,
+              "capture_ms": 0.0653,
+              "detection_wall_ms": 74.5096,
+              "worker_ms": 74.4862,
+              "algorithm": "qpx.log-watershed/1",
+              "estimated_work_bytes": 120426496,
+              "retained_bytes": 2349056,
+              "process_peak_after_setup_bytes": 53153792,
+              "process_peak_after_detection_bytes": 60411904,
+              "process_peak_after_checks_bytes": 65081344,
+              "label_and_feature_sha256": {
+                "nuclei": "8ff907ad85882f1bf1cb756152adf85cd7678ddea26a3f87bf068717b40ead9b",
+                "bodies": "879d303b99f66e4206640825399a4037511b7697673dcbeeb0dc91cbe21f7b37",
+                "features": "383d6b4fe73ee3a41f0d3cc912c53a3265cbca60a8ff8c03e66c9455a7720c50"
+              },
+              "input_sha256": "76c86bac57c3d29eef1abc8cbe7ae511a80eeae77103b8d229ca7b50d65f0cb0",
+              "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+              "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+              "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+              "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+              "platform": "Windows-11-10.0.26200-SP0",
+              "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+            },
+            {
+              "size": 512,
+              "tile_size": 64,
+              "cells": 64,
+              "capture_ms": 0.0712,
+              "detection_wall_ms": 71.5625,
+              "worker_ms": 71.5384,
+              "algorithm": "qpx.log-watershed/1",
+              "estimated_work_bytes": 119443456,
+              "retained_bytes": 2349056,
+              "process_peak_after_setup_bytes": 53284864,
+              "process_peak_after_detection_bytes": 59785216,
+              "process_peak_after_checks_bytes": 65191936,
+              "label_and_feature_sha256": {
+                "nuclei": "8ff907ad85882f1bf1cb756152adf85cd7678ddea26a3f87bf068717b40ead9b",
+                "bodies": "879d303b99f66e4206640825399a4037511b7697673dcbeeb0dc91cbe21f7b37",
+                "features": "383d6b4fe73ee3a41f0d3cc912c53a3265cbca60a8ff8c03e66c9455a7720c50"
+              },
+              "input_sha256": "eaf359849e32858b443e50625f4409c916bf6ba8f315062f0b4d66dc98808cb5",
+              "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+              "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+              "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+              "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+              "platform": "Windows-11-10.0.26200-SP0",
+              "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+            },
+            {
+              "size": 512,
+              "tile_size": 64,
+              "cells": 64,
+              "capture_ms": 0.0624,
+              "detection_wall_ms": 70.7785,
+              "worker_ms": 70.7562,
+              "algorithm": "qpx.log-watershed/1",
+              "estimated_work_bytes": 119443456,
+              "retained_bytes": 2349056,
+              "process_peak_after_setup_bytes": 53260288,
+              "process_peak_after_detection_bytes": 59703296,
+              "process_peak_after_checks_bytes": 65130496,
+              "label_and_feature_sha256": {
+                "nuclei": "8ff907ad85882f1bf1cb756152adf85cd7678ddea26a3f87bf068717b40ead9b",
+                "bodies": "879d303b99f66e4206640825399a4037511b7697673dcbeeb0dc91cbe21f7b37",
+                "features": "383d6b4fe73ee3a41f0d3cc912c53a3265cbca60a8ff8c03e66c9455a7720c50"
+              },
+              "input_sha256": "eaf359849e32858b443e50625f4409c916bf6ba8f315062f0b4d66dc98808cb5",
+              "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+              "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+              "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+              "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+              "platform": "Windows-11-10.0.26200-SP0",
+              "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+            },
+            {
+              "size": 512,
+              "tile_size": 256,
+              "cells": 64,
+              "capture_ms": 0.063,
+              "detection_wall_ms": 71.3082,
+              "worker_ms": 71.2717,
+              "algorithm": "qpx.log-watershed/1",
+              "estimated_work_bytes": 120426496,
+              "retained_bytes": 2349056,
+              "process_peak_after_setup_bytes": 53440512,
+              "process_peak_after_detection_bytes": 59957248,
+              "process_peak_after_checks_bytes": 65277952,
+              "label_and_feature_sha256": {
+                "nuclei": "8ff907ad85882f1bf1cb756152adf85cd7678ddea26a3f87bf068717b40ead9b",
+                "bodies": "879d303b99f66e4206640825399a4037511b7697673dcbeeb0dc91cbe21f7b37",
+                "features": "383d6b4fe73ee3a41f0d3cc912c53a3265cbca60a8ff8c03e66c9455a7720c50"
+              },
+              "input_sha256": "76c86bac57c3d29eef1abc8cbe7ae511a80eeae77103b8d229ca7b50d65f0cb0",
+              "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+              "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+              "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+              "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+              "platform": "Windows-11-10.0.26200-SP0",
+              "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+            },
+            {
+              "size": 512,
+              "tile_size": 256,
+              "cells": 64,
+              "capture_ms": 0.0597,
+              "detection_wall_ms": 71.6651,
+              "worker_ms": 71.644,
+              "algorithm": "qpx.log-watershed/1",
+              "estimated_work_bytes": 120426496,
+              "retained_bytes": 2349056,
+              "process_peak_after_setup_bytes": 53370880,
+              "process_peak_after_detection_bytes": 60645376,
+              "process_peak_after_checks_bytes": 65277952,
+              "label_and_feature_sha256": {
+                "nuclei": "8ff907ad85882f1bf1cb756152adf85cd7678ddea26a3f87bf068717b40ead9b",
+                "bodies": "879d303b99f66e4206640825399a4037511b7697673dcbeeb0dc91cbe21f7b37",
+                "features": "383d6b4fe73ee3a41f0d3cc912c53a3265cbca60a8ff8c03e66c9455a7720c50"
+              },
+              "input_sha256": "76c86bac57c3d29eef1abc8cbe7ae511a80eeae77103b8d229ca7b50d65f0cb0",
+              "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+              "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+              "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+              "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+              "platform": "Windows-11-10.0.26200-SP0",
+              "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+            },
+            {
+              "size": 512,
+              "tile_size": 64,
+              "cells": 64,
+              "capture_ms": 0.1573,
+              "detection_wall_ms": 80.4171,
+              "worker_ms": 80.3733,
+              "algorithm": "qpx.log-watershed/1",
+              "estimated_work_bytes": 119443456,
+              "retained_bytes": 2349056,
+              "process_peak_after_setup_bytes": 53227520,
+              "process_peak_after_detection_bytes": 60514304,
+              "process_peak_after_checks_bytes": 65245184,
+              "label_and_feature_sha256": {
+                "nuclei": "8ff907ad85882f1bf1cb756152adf85cd7678ddea26a3f87bf068717b40ead9b",
+                "bodies": "879d303b99f66e4206640825399a4037511b7697673dcbeeb0dc91cbe21f7b37",
+                "features": "383d6b4fe73ee3a41f0d3cc912c53a3265cbca60a8ff8c03e66c9455a7720c50"
+              },
+              "input_sha256": "eaf359849e32858b443e50625f4409c916bf6ba8f315062f0b4d66dc98808cb5",
+              "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+              "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+              "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+              "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+              "platform": "Windows-11-10.0.26200-SP0",
+              "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+            }
+          ]
+        },
+        {
+          "size": 1024,
+          "cells": 256,
+          "summary": {
+            "64": {
+              "capture_ms": {
+                "median": 0.0619,
+                "minimum": 0.0474,
+                "maximum": 0.1332
+              },
+              "detection_wall_ms": {
+                "median": 327.1968,
+                "minimum": 327.1684,
+                "maximum": 333.5929
+              },
+              "worker_ms": {
+                "median": 327.1688,
+                "minimum": 327.1318,
+                "maximum": 333.5577
+              },
+              "process_peak_after_detection_bytes": {
+                "median": 112017408,
+                "minimum": 111902720,
+                "maximum": 112058368
+              },
+              "process_peak_after_checks_bytes": {
+                "median": 112017408,
+                "minimum": 111902720,
+                "maximum": 112058368
+              }
+            },
+            "256": {
+              "capture_ms": {
+                "median": 0.0504,
+                "minimum": 0.0495,
+                "maximum": 0.0701
+              },
+              "detection_wall_ms": {
+                "median": 308.3974,
+                "minimum": 303.1987,
+                "maximum": 330.1463
+              },
+              "worker_ms": {
+                "median": 308.3702,
+                "minimum": 303.1723,
+                "maximum": 330.118
+              },
+              "process_peak_after_detection_bytes": {
+                "median": 111935488,
+                "minimum": 111845376,
+                "maximum": 112058368
+              },
+              "process_peak_after_checks_bytes": {
+                "median": 111935488,
+                "minimum": 111845376,
+                "maximum": 112058368
+              }
+            }
+          },
+          "samples": [
+            {
+              "size": 1024,
+              "tile_size": 256,
+              "cells": 256,
+              "capture_ms": 0.0504,
+              "detection_wall_ms": 330.1463,
+              "worker_ms": 330.118,
+              "algorithm": "qpx.log-watershed/1",
+              "estimated_work_bytes": 246276096,
+              "retained_bytes": 9387120,
+              "process_peak_after_setup_bytes": 88043520,
+              "process_peak_after_detection_bytes": 112058368,
+              "process_peak_after_checks_bytes": 112058368,
+              "label_and_feature_sha256": {
+                "nuclei": "9ef7b132b6a562b69d56fb620dc065ce0830b2d32903e672334c079de9f79a06",
+                "bodies": "00c814d8e1585d4f743c4cd19ba987dceada12f09727f2d9da24e406fdf54c88",
+                "features": "e5a87f5b790fe90c408c2e5df4c518ac80ed34e76c8f20ff07561a65e5aac86e"
+              },
+              "input_sha256": "eae0a13ab4d69087d700726ae3d4ef89d337fa3ccac0d83051a4faecb600078e",
+              "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+              "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+              "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+              "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+              "platform": "Windows-11-10.0.26200-SP0",
+              "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+            },
+            {
+              "size": 1024,
+              "tile_size": 64,
+              "cells": 256,
+              "capture_ms": 0.0619,
+              "detection_wall_ms": 327.1968,
+              "worker_ms": 327.1688,
+              "algorithm": "qpx.log-watershed/1",
+              "estimated_work_bytes": 245293056,
+              "retained_bytes": 9387120,
+              "process_peak_after_setup_bytes": 87990272,
+              "process_peak_after_detection_bytes": 112058368,
+              "process_peak_after_checks_bytes": 112058368,
+              "label_and_feature_sha256": {
+                "nuclei": "9ef7b132b6a562b69d56fb620dc065ce0830b2d32903e672334c079de9f79a06",
+                "bodies": "00c814d8e1585d4f743c4cd19ba987dceada12f09727f2d9da24e406fdf54c88",
+                "features": "e5a87f5b790fe90c408c2e5df4c518ac80ed34e76c8f20ff07561a65e5aac86e"
+              },
+              "input_sha256": "6c3470d6604150931c108e5bcd51b3f4d33cec6c8f067a6154bca0bb26fdb8c2",
+              "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+              "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+              "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+              "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+              "platform": "Windows-11-10.0.26200-SP0",
+              "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+            },
+            {
+              "size": 1024,
+              "tile_size": 64,
+              "cells": 256,
+              "capture_ms": 0.0474,
+              "detection_wall_ms": 333.5929,
+              "worker_ms": 333.5577,
+              "algorithm": "qpx.log-watershed/1",
+              "estimated_work_bytes": 245293056,
+              "retained_bytes": 9387120,
+              "process_peak_after_setup_bytes": 87937024,
+              "process_peak_after_detection_bytes": 112017408,
+              "process_peak_after_checks_bytes": 112017408,
+              "label_and_feature_sha256": {
+                "nuclei": "9ef7b132b6a562b69d56fb620dc065ce0830b2d32903e672334c079de9f79a06",
+                "bodies": "00c814d8e1585d4f743c4cd19ba987dceada12f09727f2d9da24e406fdf54c88",
+                "features": "e5a87f5b790fe90c408c2e5df4c518ac80ed34e76c8f20ff07561a65e5aac86e"
+              },
+              "input_sha256": "6c3470d6604150931c108e5bcd51b3f4d33cec6c8f067a6154bca0bb26fdb8c2",
+              "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+              "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+              "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+              "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+              "platform": "Windows-11-10.0.26200-SP0",
+              "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+            },
+            {
+              "size": 1024,
+              "tile_size": 256,
+              "cells": 256,
+              "capture_ms": 0.0495,
+              "detection_wall_ms": 303.1987,
+              "worker_ms": 303.1723,
+              "algorithm": "qpx.log-watershed/1",
+              "estimated_work_bytes": 246276096,
+              "retained_bytes": 9387120,
+              "process_peak_after_setup_bytes": 87949312,
+              "process_peak_after_detection_bytes": 111935488,
+              "process_peak_after_checks_bytes": 111935488,
+              "label_and_feature_sha256": {
+                "nuclei": "9ef7b132b6a562b69d56fb620dc065ce0830b2d32903e672334c079de9f79a06",
+                "bodies": "00c814d8e1585d4f743c4cd19ba987dceada12f09727f2d9da24e406fdf54c88",
+                "features": "e5a87f5b790fe90c408c2e5df4c518ac80ed34e76c8f20ff07561a65e5aac86e"
+              },
+              "input_sha256": "eae0a13ab4d69087d700726ae3d4ef89d337fa3ccac0d83051a4faecb600078e",
+              "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+              "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+              "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+              "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+              "platform": "Windows-11-10.0.26200-SP0",
+              "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+            },
+            {
+              "size": 1024,
+              "tile_size": 256,
+              "cells": 256,
+              "capture_ms": 0.0701,
+              "detection_wall_ms": 308.3974,
+              "worker_ms": 308.3702,
+              "algorithm": "qpx.log-watershed/1",
+              "estimated_work_bytes": 246276096,
+              "retained_bytes": 9387120,
+              "process_peak_after_setup_bytes": 87896064,
+              "process_peak_after_detection_bytes": 111845376,
+              "process_peak_after_checks_bytes": 111845376,
+              "label_and_feature_sha256": {
+                "nuclei": "9ef7b132b6a562b69d56fb620dc065ce0830b2d32903e672334c079de9f79a06",
+                "bodies": "00c814d8e1585d4f743c4cd19ba987dceada12f09727f2d9da24e406fdf54c88",
+                "features": "e5a87f5b790fe90c408c2e5df4c518ac80ed34e76c8f20ff07561a65e5aac86e"
+              },
+              "input_sha256": "eae0a13ab4d69087d700726ae3d4ef89d337fa3ccac0d83051a4faecb600078e",
+              "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+              "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+              "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+              "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+              "platform": "Windows-11-10.0.26200-SP0",
+              "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+            },
+            {
+              "size": 1024,
+              "tile_size": 64,
+              "cells": 256,
+              "capture_ms": 0.1332,
+              "detection_wall_ms": 327.1684,
+              "worker_ms": 327.1318,
+              "algorithm": "qpx.log-watershed/1",
+              "estimated_work_bytes": 245293056,
+              "retained_bytes": 9387120,
+              "process_peak_after_setup_bytes": 87887872,
+              "process_peak_after_detection_bytes": 111902720,
+              "process_peak_after_checks_bytes": 111902720,
+              "label_and_feature_sha256": {
+                "nuclei": "9ef7b132b6a562b69d56fb620dc065ce0830b2d32903e672334c079de9f79a06",
+                "bodies": "00c814d8e1585d4f743c4cd19ba987dceada12f09727f2d9da24e406fdf54c88",
+                "features": "e5a87f5b790fe90c408c2e5df4c518ac80ed34e76c8f20ff07561a65e5aac86e"
+              },
+              "input_sha256": "6c3470d6604150931c108e5bcd51b3f4d33cec6c8f067a6154bca0bb26fdb8c2",
+              "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+              "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+              "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+              "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+              "platform": "Windows-11-10.0.26200-SP0",
+              "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+            }
+          ]
+        }
+      ],
+      "protocol": "Fresh child per observation; one excluded pair followed by three retained pairs per size, alternating tile order. Timers exclude image setup and independent output checks. Native synchronous production detector.",
+      "limitations": [
+        "Synthetic isolated disks only; this does not establish biological throughput.",
+        "Whole-process peak RSS includes Python, NumPy, input generation, imports and native allocations; it is not the native work estimate.",
+        "Shared workstation with uncontrolled other workloads; no hardware, frame-budget or universal speed claim."
+      ]
+    },
+    "log-bodies": {
+      "schema": "qpx.log-cells-profile/1",
+      "performance_accepted": false,
+      "cell_algorithm": "log-bodies",
+      "cases": [
+        {
+          "size": 256,
+          "cells": 16,
+          "summary": {
+            "64": {
+              "capture_ms": {
+                "median": 0.0541,
+                "minimum": 0.0496,
+                "maximum": 0.0909
+              },
+              "detection_wall_ms": {
+                "median": 18.0421,
+                "minimum": 16.7701,
+                "maximum": 21.3641
+              },
+              "worker_ms": {
+                "median": 18.0074,
+                "minimum": 16.7038,
+                "maximum": 21.3438
+              },
+              "process_peak_after_detection_bytes": {
+                "median": 47022080,
+                "minimum": 46878720,
+                "maximum": 47202304
+              },
+              "process_peak_after_checks_bytes": {
+                "median": 55955456,
+                "minimum": 55767040,
+                "maximum": 56025088
+              }
+            },
+            "256": {
+              "capture_ms": {
+                "median": 0.057,
+                "minimum": 0.0498,
+                "maximum": 0.0643
+              },
+              "detection_wall_ms": {
+                "median": 17.6797,
+                "minimum": 17.0678,
+                "maximum": 21.0358
+              },
+              "worker_ms": {
+                "median": 17.6562,
+                "minimum": 17.048,
+                "maximum": 21.0099
+              },
+              "process_peak_after_detection_bytes": {
+                "median": 46854144,
+                "minimum": 46825472,
+                "maximum": 46862336
+              },
+              "process_peak_after_checks_bytes": {
+                "median": 55934976,
+                "minimum": 55898112,
+                "maximum": 55967744
+              }
+            }
+          },
+          "samples": [
+            {
+              "size": 256,
+              "tile_size": 256,
+              "cells": 16,
+              "capture_ms": 0.0498,
+              "detection_wall_ms": 17.0678,
+              "worker_ms": 17.048,
+              "algorithm": "qpx.log-watershed-bodies/1",
+              "estimated_work_bytes": 88958976,
+              "retained_bytes": 586952,
+              "process_peak_after_setup_bytes": 44978176,
+              "process_peak_after_detection_bytes": 46825472,
+              "process_peak_after_checks_bytes": 55898112,
+              "label_and_feature_sha256": {
+                "nuclei": "03326a8d169e71c93d6e822597244c8c44fa523b7caf1e1b2cbcc457f3cdc67a",
+                "bodies": "6e866acc0914cb45cba9b23edf34901993363b67a4df85d54269853dc8fddc9e",
+                "features": "e8a05f98754c0e54e5d8f2955beb274eca6cb50288f2e66bfba2b9bde174903d"
+              },
+              "input_sha256": "2cc22005a95f2a80cad14d19c911ed8fa9d822dd77ff20f8be3d4609d505267f",
+              "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+              "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+              "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+              "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+              "platform": "Windows-11-10.0.26200-SP0",
+              "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+            },
+            {
+              "size": 256,
+              "tile_size": 64,
+              "cells": 16,
+              "capture_ms": 0.0541,
+              "detection_wall_ms": 21.3641,
+              "worker_ms": 21.3438,
+              "algorithm": "qpx.log-watershed-bodies/1",
+              "estimated_work_bytes": 87975936,
+              "retained_bytes": 586952,
+              "process_peak_after_setup_bytes": 44900352,
+              "process_peak_after_detection_bytes": 46878720,
+              "process_peak_after_checks_bytes": 55767040,
+              "label_and_feature_sha256": {
+                "nuclei": "03326a8d169e71c93d6e822597244c8c44fa523b7caf1e1b2cbcc457f3cdc67a",
+                "bodies": "6e866acc0914cb45cba9b23edf34901993363b67a4df85d54269853dc8fddc9e",
+                "features": "e8a05f98754c0e54e5d8f2955beb274eca6cb50288f2e66bfba2b9bde174903d"
+              },
+              "input_sha256": "8e11a327099b89b4d0d1c59d703327a8a44c44a2c97a45e356ed4eaf58818912",
+              "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+              "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+              "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+              "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+              "platform": "Windows-11-10.0.26200-SP0",
+              "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+            },
+            {
+              "size": 256,
+              "tile_size": 64,
+              "cells": 16,
+              "capture_ms": 0.0496,
+              "detection_wall_ms": 16.7701,
+              "worker_ms": 16.7038,
+              "algorithm": "qpx.log-watershed-bodies/1",
+              "estimated_work_bytes": 87975936,
+              "retained_bytes": 586952,
+              "process_peak_after_setup_bytes": 45027328,
+              "process_peak_after_detection_bytes": 47022080,
+              "process_peak_after_checks_bytes": 55955456,
+              "label_and_feature_sha256": {
+                "nuclei": "03326a8d169e71c93d6e822597244c8c44fa523b7caf1e1b2cbcc457f3cdc67a",
+                "bodies": "6e866acc0914cb45cba9b23edf34901993363b67a4df85d54269853dc8fddc9e",
+                "features": "e8a05f98754c0e54e5d8f2955beb274eca6cb50288f2e66bfba2b9bde174903d"
+              },
+              "input_sha256": "8e11a327099b89b4d0d1c59d703327a8a44c44a2c97a45e356ed4eaf58818912",
+              "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+              "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+              "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+              "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+              "platform": "Windows-11-10.0.26200-SP0",
+              "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+            },
+            {
+              "size": 256,
+              "tile_size": 256,
+              "cells": 16,
+              "capture_ms": 0.0643,
+              "detection_wall_ms": 17.6797,
+              "worker_ms": 17.6562,
+              "algorithm": "qpx.log-watershed-bodies/1",
+              "estimated_work_bytes": 88958976,
+              "retained_bytes": 586952,
+              "process_peak_after_setup_bytes": 44994560,
+              "process_peak_after_detection_bytes": 46862336,
+              "process_peak_after_checks_bytes": 55967744,
+              "label_and_feature_sha256": {
+                "nuclei": "03326a8d169e71c93d6e822597244c8c44fa523b7caf1e1b2cbcc457f3cdc67a",
+                "bodies": "6e866acc0914cb45cba9b23edf34901993363b67a4df85d54269853dc8fddc9e",
+                "features": "e8a05f98754c0e54e5d8f2955beb274eca6cb50288f2e66bfba2b9bde174903d"
+              },
+              "input_sha256": "2cc22005a95f2a80cad14d19c911ed8fa9d822dd77ff20f8be3d4609d505267f",
+              "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+              "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+              "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+              "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+              "platform": "Windows-11-10.0.26200-SP0",
+              "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+            },
+            {
+              "size": 256,
+              "tile_size": 256,
+              "cells": 16,
+              "capture_ms": 0.057,
+              "detection_wall_ms": 21.0358,
+              "worker_ms": 21.0099,
+              "algorithm": "qpx.log-watershed-bodies/1",
+              "estimated_work_bytes": 88958976,
+              "retained_bytes": 586952,
+              "process_peak_after_setup_bytes": 44826624,
+              "process_peak_after_detection_bytes": 46854144,
+              "process_peak_after_checks_bytes": 55934976,
+              "label_and_feature_sha256": {
+                "nuclei": "03326a8d169e71c93d6e822597244c8c44fa523b7caf1e1b2cbcc457f3cdc67a",
+                "bodies": "6e866acc0914cb45cba9b23edf34901993363b67a4df85d54269853dc8fddc9e",
+                "features": "e8a05f98754c0e54e5d8f2955beb274eca6cb50288f2e66bfba2b9bde174903d"
+              },
+              "input_sha256": "2cc22005a95f2a80cad14d19c911ed8fa9d822dd77ff20f8be3d4609d505267f",
+              "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+              "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+              "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+              "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+              "platform": "Windows-11-10.0.26200-SP0",
+              "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+            },
+            {
+              "size": 256,
+              "tile_size": 64,
+              "cells": 16,
+              "capture_ms": 0.0909,
+              "detection_wall_ms": 18.0421,
+              "worker_ms": 18.0074,
+              "algorithm": "qpx.log-watershed-bodies/1",
+              "estimated_work_bytes": 87975936,
+              "retained_bytes": 586952,
+              "process_peak_after_setup_bytes": 44957696,
+              "process_peak_after_detection_bytes": 47202304,
+              "process_peak_after_checks_bytes": 56025088,
+              "label_and_feature_sha256": {
+                "nuclei": "03326a8d169e71c93d6e822597244c8c44fa523b7caf1e1b2cbcc457f3cdc67a",
+                "bodies": "6e866acc0914cb45cba9b23edf34901993363b67a4df85d54269853dc8fddc9e",
+                "features": "e8a05f98754c0e54e5d8f2955beb274eca6cb50288f2e66bfba2b9bde174903d"
+              },
+              "input_sha256": "8e11a327099b89b4d0d1c59d703327a8a44c44a2c97a45e356ed4eaf58818912",
+              "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+              "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+              "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+              "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+              "platform": "Windows-11-10.0.26200-SP0",
+              "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+            }
+          ]
+        },
+        {
+          "size": 512,
+          "cells": 64,
+          "summary": {
+            "64": {
+              "capture_ms": {
+                "median": 0.0666,
+                "minimum": 0.0449,
+                "maximum": 0.071
+              },
+              "detection_wall_ms": {
+                "median": 70.6967,
+                "minimum": 70.069,
+                "maximum": 75.4896
+              },
+              "worker_ms": {
+                "median": 70.6758,
+                "minimum": 70.0414,
+                "maximum": 75.4647
+              },
+              "process_peak_after_detection_bytes": {
+                "median": 59727872,
+                "minimum": 59654144,
+                "maximum": 60690432
+              },
+              "process_peak_after_checks_bytes": {
+                "median": 64970752,
+                "minimum": 64933888,
+                "maximum": 64987136
+              }
+            },
+            "256": {
+              "capture_ms": {
+                "median": 0.0661,
+                "minimum": 0.0599,
+                "maximum": 0.1699
+              },
+              "detection_wall_ms": {
+                "median": 72.0585,
+                "minimum": 70.09,
+                "maximum": 72.955
+              },
+              "worker_ms": {
+                "median": 72.0325,
+                "minimum": 70.0675,
+                "maximum": 72.9306
+              },
+              "process_peak_after_detection_bytes": {
+                "median": 60559360,
+                "minimum": 59707392,
+                "maximum": 60579840
+              },
+              "process_peak_after_checks_bytes": {
+                "median": 64892928,
+                "minimum": 64819200,
+                "maximum": 65044480
+              }
+            }
+          },
+          "samples": [
+            {
+              "size": 512,
+              "tile_size": 256,
+              "cells": 64,
+              "capture_ms": 0.0599,
+              "detection_wall_ms": 72.955,
+              "worker_ms": 72.9306,
+              "algorithm": "qpx.log-watershed-bodies/1",
+              "estimated_work_bytes": 120426496,
+              "retained_bytes": 2336960,
+              "process_peak_after_setup_bytes": 53321728,
+              "process_peak_after_detection_bytes": 60579840,
+              "process_peak_after_checks_bytes": 65044480,
+              "label_and_feature_sha256": {
+                "nuclei": "8ff907ad85882f1bf1cb756152adf85cd7678ddea26a3f87bf068717b40ead9b",
+                "bodies": "d0ee12097f99896a11abcec0154ac81ee0220951a67ebc592dad2bd0784e7739",
+                "features": "18fa105de252f8ad61a126d7b443ecadb33e0ff205927b1be4f5a60ec13cfe3c"
+              },
+              "input_sha256": "1c070eaa2c3846ce56df828c8d8ca8866c8d4ff496faf013fb4c22d41854a63d",
+              "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+              "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+              "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+              "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+              "platform": "Windows-11-10.0.26200-SP0",
+              "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+            },
+            {
+              "size": 512,
+              "tile_size": 64,
+              "cells": 64,
+              "capture_ms": 0.0666,
+              "detection_wall_ms": 70.069,
+              "worker_ms": 70.0414,
+              "algorithm": "qpx.log-watershed-bodies/1",
+              "estimated_work_bytes": 119443456,
+              "retained_bytes": 2336960,
+              "process_peak_after_setup_bytes": 53186560,
+              "process_peak_after_detection_bytes": 59654144,
+              "process_peak_after_checks_bytes": 64933888,
+              "label_and_feature_sha256": {
+                "nuclei": "8ff907ad85882f1bf1cb756152adf85cd7678ddea26a3f87bf068717b40ead9b",
+                "bodies": "d0ee12097f99896a11abcec0154ac81ee0220951a67ebc592dad2bd0784e7739",
+                "features": "18fa105de252f8ad61a126d7b443ecadb33e0ff205927b1be4f5a60ec13cfe3c"
+              },
+              "input_sha256": "a48bcc08dfa1ddd06650ecd18acd793dd27ad6dfd65b6e6c603ebe50fdeb9b4f",
+              "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+              "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+              "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+              "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+              "platform": "Windows-11-10.0.26200-SP0",
+              "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+            },
+            {
+              "size": 512,
+              "tile_size": 64,
+              "cells": 64,
+              "capture_ms": 0.0449,
+              "detection_wall_ms": 70.6967,
+              "worker_ms": 70.6758,
+              "algorithm": "qpx.log-watershed-bodies/1",
+              "estimated_work_bytes": 119443456,
+              "retained_bytes": 2336960,
+              "process_peak_after_setup_bytes": 53338112,
+              "process_peak_after_detection_bytes": 59727872,
+              "process_peak_after_checks_bytes": 64970752,
+              "label_and_feature_sha256": {
+                "nuclei": "8ff907ad85882f1bf1cb756152adf85cd7678ddea26a3f87bf068717b40ead9b",
+                "bodies": "d0ee12097f99896a11abcec0154ac81ee0220951a67ebc592dad2bd0784e7739",
+                "features": "18fa105de252f8ad61a126d7b443ecadb33e0ff205927b1be4f5a60ec13cfe3c"
+              },
+              "input_sha256": "a48bcc08dfa1ddd06650ecd18acd793dd27ad6dfd65b6e6c603ebe50fdeb9b4f",
+              "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+              "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+              "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+              "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+              "platform": "Windows-11-10.0.26200-SP0",
+              "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+            },
+            {
+              "size": 512,
+              "tile_size": 256,
+              "cells": 64,
+              "capture_ms": 0.0661,
+              "detection_wall_ms": 70.09,
+              "worker_ms": 70.0675,
+              "algorithm": "qpx.log-watershed-bodies/1",
+              "estimated_work_bytes": 120426496,
+              "retained_bytes": 2336960,
+              "process_peak_after_setup_bytes": 53284864,
+              "process_peak_after_detection_bytes": 60559360,
+              "process_peak_after_checks_bytes": 64892928,
+              "label_and_feature_sha256": {
+                "nuclei": "8ff907ad85882f1bf1cb756152adf85cd7678ddea26a3f87bf068717b40ead9b",
+                "bodies": "d0ee12097f99896a11abcec0154ac81ee0220951a67ebc592dad2bd0784e7739",
+                "features": "18fa105de252f8ad61a126d7b443ecadb33e0ff205927b1be4f5a60ec13cfe3c"
+              },
+              "input_sha256": "1c070eaa2c3846ce56df828c8d8ca8866c8d4ff496faf013fb4c22d41854a63d",
+              "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+              "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+              "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+              "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+              "platform": "Windows-11-10.0.26200-SP0",
+              "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+            },
+            {
+              "size": 512,
+              "tile_size": 256,
+              "cells": 64,
+              "capture_ms": 0.1699,
+              "detection_wall_ms": 72.0585,
+              "worker_ms": 72.0325,
+              "algorithm": "qpx.log-watershed-bodies/1",
+              "estimated_work_bytes": 120426496,
+              "retained_bytes": 2336960,
+              "process_peak_after_setup_bytes": 53149696,
+              "process_peak_after_detection_bytes": 59707392,
+              "process_peak_after_checks_bytes": 64819200,
+              "label_and_feature_sha256": {
+                "nuclei": "8ff907ad85882f1bf1cb756152adf85cd7678ddea26a3f87bf068717b40ead9b",
+                "bodies": "d0ee12097f99896a11abcec0154ac81ee0220951a67ebc592dad2bd0784e7739",
+                "features": "18fa105de252f8ad61a126d7b443ecadb33e0ff205927b1be4f5a60ec13cfe3c"
+              },
+              "input_sha256": "1c070eaa2c3846ce56df828c8d8ca8866c8d4ff496faf013fb4c22d41854a63d",
+              "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+              "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+              "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+              "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+              "platform": "Windows-11-10.0.26200-SP0",
+              "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+            },
+            {
+              "size": 512,
+              "tile_size": 64,
+              "cells": 64,
+              "capture_ms": 0.071,
+              "detection_wall_ms": 75.4896,
+              "worker_ms": 75.4647,
+              "algorithm": "qpx.log-watershed-bodies/1",
+              "estimated_work_bytes": 119443456,
+              "retained_bytes": 2336960,
+              "process_peak_after_setup_bytes": 53477376,
+              "process_peak_after_detection_bytes": 60690432,
+              "process_peak_after_checks_bytes": 64987136,
+              "label_and_feature_sha256": {
+                "nuclei": "8ff907ad85882f1bf1cb756152adf85cd7678ddea26a3f87bf068717b40ead9b",
+                "bodies": "d0ee12097f99896a11abcec0154ac81ee0220951a67ebc592dad2bd0784e7739",
+                "features": "18fa105de252f8ad61a126d7b443ecadb33e0ff205927b1be4f5a60ec13cfe3c"
+              },
+              "input_sha256": "a48bcc08dfa1ddd06650ecd18acd793dd27ad6dfd65b6e6c603ebe50fdeb9b4f",
+              "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+              "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+              "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+              "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+              "platform": "Windows-11-10.0.26200-SP0",
+              "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+            }
+          ]
+        },
+        {
+          "size": 1024,
+          "cells": 256,
+          "summary": {
+            "64": {
+              "capture_ms": {
+                "median": 0.053,
+                "minimum": 0.0507,
+                "maximum": 0.0587
+              },
+              "detection_wall_ms": {
+                "median": 307.1112,
+                "minimum": 297.3411,
+                "maximum": 315.4609
+              },
+              "worker_ms": {
+                "median": 307.0442,
+                "minimum": 297.311,
+                "maximum": 315.3695
+              },
+              "process_peak_after_detection_bytes": {
+                "median": 112017408,
+                "minimum": 111984640,
+                "maximum": 112107520
+              },
+              "process_peak_after_checks_bytes": {
+                "median": 112017408,
+                "minimum": 111984640,
+                "maximum": 112107520
+              }
+            },
+            "256": {
+              "capture_ms": {
+                "median": 0.0825,
+                "minimum": 0.0639,
+                "maximum": 0.1023
+              },
+              "detection_wall_ms": {
+                "median": 317.9917,
+                "minimum": 299.4522,
+                "maximum": 318.8704
+              },
+              "worker_ms": {
+                "median": 317.9642,
+                "minimum": 299.3854,
+                "maximum": 318.8413
+              },
+              "process_peak_after_detection_bytes": {
+                "median": 111947776,
+                "minimum": 111902720,
+                "maximum": 111992832
+              },
+              "process_peak_after_checks_bytes": {
+                "median": 111947776,
+                "minimum": 111902720,
+                "maximum": 111992832
+              }
+            }
+          },
+          "samples": [
+            {
+              "size": 1024,
+              "tile_size": 256,
+              "cells": 256,
+              "capture_ms": 0.0825,
+              "detection_wall_ms": 317.9917,
+              "worker_ms": 317.9642,
+              "algorithm": "qpx.log-watershed-bodies/1",
+              "estimated_work_bytes": 246276096,
+              "retained_bytes": 9338224,
+              "process_peak_after_setup_bytes": 88043520,
+              "process_peak_after_detection_bytes": 111992832,
+              "process_peak_after_checks_bytes": 111992832,
+              "label_and_feature_sha256": {
+                "nuclei": "9ef7b132b6a562b69d56fb620dc065ce0830b2d32903e672334c079de9f79a06",
+                "bodies": "e05154a1a9937e0ba75609aa60054c61194d4d2920076dca5eba02b677fa9b51",
+                "features": "59bb0af803343a90607f7809216640b6b84131ce33022d7ef324d82b0f6b5464"
+              },
+              "input_sha256": "60964dc17b98c7c2b0bb6c32689f3cae0d186477ecb77416ac2de493a932ef5f",
+              "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+              "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+              "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+              "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+              "platform": "Windows-11-10.0.26200-SP0",
+              "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+            },
+            {
+              "size": 1024,
+              "tile_size": 64,
+              "cells": 256,
+              "capture_ms": 0.0507,
+              "detection_wall_ms": 307.1112,
+              "worker_ms": 307.0442,
+              "algorithm": "qpx.log-watershed-bodies/1",
+              "estimated_work_bytes": 245293056,
+              "retained_bytes": 9338224,
+              "process_peak_after_setup_bytes": 88023040,
+              "process_peak_after_detection_bytes": 112017408,
+              "process_peak_after_checks_bytes": 112017408,
+              "label_and_feature_sha256": {
+                "nuclei": "9ef7b132b6a562b69d56fb620dc065ce0830b2d32903e672334c079de9f79a06",
+                "bodies": "e05154a1a9937e0ba75609aa60054c61194d4d2920076dca5eba02b677fa9b51",
+                "features": "59bb0af803343a90607f7809216640b6b84131ce33022d7ef324d82b0f6b5464"
+              },
+              "input_sha256": "825a582f795145b22344f1cee248d92b94a5e7be4f1a1741e9a3911adb936616",
+              "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+              "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+              "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+              "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+              "platform": "Windows-11-10.0.26200-SP0",
+              "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+            },
+            {
+              "size": 1024,
+              "tile_size": 64,
+              "cells": 256,
+              "capture_ms": 0.053,
+              "detection_wall_ms": 297.3411,
+              "worker_ms": 297.311,
+              "algorithm": "qpx.log-watershed-bodies/1",
+              "estimated_work_bytes": 245293056,
+              "retained_bytes": 9338224,
+              "process_peak_after_setup_bytes": 87928832,
+              "process_peak_after_detection_bytes": 111984640,
+              "process_peak_after_checks_bytes": 111984640,
+              "label_and_feature_sha256": {
+                "nuclei": "9ef7b132b6a562b69d56fb620dc065ce0830b2d32903e672334c079de9f79a06",
+                "bodies": "e05154a1a9937e0ba75609aa60054c61194d4d2920076dca5eba02b677fa9b51",
+                "features": "59bb0af803343a90607f7809216640b6b84131ce33022d7ef324d82b0f6b5464"
+              },
+              "input_sha256": "825a582f795145b22344f1cee248d92b94a5e7be4f1a1741e9a3911adb936616",
+              "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+              "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+              "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+              "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+              "platform": "Windows-11-10.0.26200-SP0",
+              "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+            },
+            {
+              "size": 1024,
+              "tile_size": 256,
+              "cells": 256,
+              "capture_ms": 0.0639,
+              "detection_wall_ms": 299.4522,
+              "worker_ms": 299.3854,
+              "algorithm": "qpx.log-watershed-bodies/1",
+              "estimated_work_bytes": 246276096,
+              "retained_bytes": 9338224,
+              "process_peak_after_setup_bytes": 87891968,
+              "process_peak_after_detection_bytes": 111902720,
+              "process_peak_after_checks_bytes": 111902720,
+              "label_and_feature_sha256": {
+                "nuclei": "9ef7b132b6a562b69d56fb620dc065ce0830b2d32903e672334c079de9f79a06",
+                "bodies": "e05154a1a9937e0ba75609aa60054c61194d4d2920076dca5eba02b677fa9b51",
+                "features": "59bb0af803343a90607f7809216640b6b84131ce33022d7ef324d82b0f6b5464"
+              },
+              "input_sha256": "60964dc17b98c7c2b0bb6c32689f3cae0d186477ecb77416ac2de493a932ef5f",
+              "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+              "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+              "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+              "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+              "platform": "Windows-11-10.0.26200-SP0",
+              "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+            },
+            {
+              "size": 1024,
+              "tile_size": 256,
+              "cells": 256,
+              "capture_ms": 0.1023,
+              "detection_wall_ms": 318.8704,
+              "worker_ms": 318.8413,
+              "algorithm": "qpx.log-watershed-bodies/1",
+              "estimated_work_bytes": 246276096,
+              "retained_bytes": 9338224,
+              "process_peak_after_setup_bytes": 87875584,
+              "process_peak_after_detection_bytes": 111947776,
+              "process_peak_after_checks_bytes": 111947776,
+              "label_and_feature_sha256": {
+                "nuclei": "9ef7b132b6a562b69d56fb620dc065ce0830b2d32903e672334c079de9f79a06",
+                "bodies": "e05154a1a9937e0ba75609aa60054c61194d4d2920076dca5eba02b677fa9b51",
+                "features": "59bb0af803343a90607f7809216640b6b84131ce33022d7ef324d82b0f6b5464"
+              },
+              "input_sha256": "60964dc17b98c7c2b0bb6c32689f3cae0d186477ecb77416ac2de493a932ef5f",
+              "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+              "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+              "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+              "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+              "platform": "Windows-11-10.0.26200-SP0",
+              "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+            },
+            {
+              "size": 1024,
+              "tile_size": 64,
+              "cells": 256,
+              "capture_ms": 0.0587,
+              "detection_wall_ms": 315.4609,
+              "worker_ms": 315.3695,
+              "algorithm": "qpx.log-watershed-bodies/1",
+              "estimated_work_bytes": 245293056,
+              "retained_bytes": 9338224,
+              "process_peak_after_setup_bytes": 88096768,
+              "process_peak_after_detection_bytes": 112107520,
+              "process_peak_after_checks_bytes": 112107520,
+              "label_and_feature_sha256": {
+                "nuclei": "9ef7b132b6a562b69d56fb620dc065ce0830b2d32903e672334c079de9f79a06",
+                "bodies": "e05154a1a9937e0ba75609aa60054c61194d4d2920076dca5eba02b677fa9b51",
+                "features": "59bb0af803343a90607f7809216640b6b84131ce33022d7ef324d82b0f6b5464"
+              },
+              "input_sha256": "825a582f795145b22344f1cee248d92b94a5e7be4f1a1741e9a3911adb936616",
+              "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+              "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+              "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+              "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+              "platform": "Windows-11-10.0.26200-SP0",
+              "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+            }
+          ]
+        }
+      ],
+      "protocol": "Fresh child per observation; one excluded pair followed by three retained pairs per size, alternating tile order. Timers exclude image setup and independent output checks. Native synchronous production detector.",
+      "limitations": [
+        "Synthetic isolated disks only; this does not establish biological throughput.",
+        "Whole-process peak RSS includes Python, NumPy, input generation, imports and native allocations; it is not the native work estimate.",
+        "Shared workstation with uncontrolled other workloads; no hardware, frame-budget or universal speed claim."
+      ]
+    }
+  },
+  "raw": [
+    {
+      "mode": "log",
+      "repetition": 0,
+      "excluded_warmup": true,
+      "record": {
+        "size": 1024,
+        "tile_size": 256,
+        "cells": 256,
+        "capture_ms": 0.0679,
+        "detection_wall_ms": 322.9317,
+        "worker_ms": 322.8907,
+        "algorithm": "qpx.log-watershed/1",
+        "estimated_work_bytes": 246276096,
+        "retained_bytes": 9387120,
+        "process_peak_after_setup_bytes": 87830528,
+        "process_peak_after_detection_bytes": 111841280,
+        "process_peak_after_checks_bytes": 111841280,
+        "label_and_feature_sha256": {
+          "nuclei": "9ef7b132b6a562b69d56fb620dc065ce0830b2d32903e672334c079de9f79a06",
+          "bodies": "00c814d8e1585d4f743c4cd19ba987dceada12f09727f2d9da24e406fdf54c88",
+          "features": "e5a87f5b790fe90c408c2e5df4c518ac80ed34e76c8f20ff07561a65e5aac86e"
+        },
+        "input_sha256": "eae0a13ab4d69087d700726ae3d4ef89d337fa3ccac0d83051a4faecb600078e",
+        "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+        "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+        "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+      },
+      "record_sha256": "04277734eb44205eaa7b5def151a3b8fa927203f9d783f5aae58ed630fbdaa01"
+    },
+    {
+      "mode": "log",
+      "repetition": 0,
+      "excluded_warmup": true,
+      "record": {
+        "size": 1024,
+        "tile_size": 64,
+        "cells": 256,
+        "capture_ms": 0.1132,
+        "detection_wall_ms": 387.7121,
+        "worker_ms": 387.6727,
+        "algorithm": "qpx.log-watershed/1",
+        "estimated_work_bytes": 245293056,
+        "retained_bytes": 9387120,
+        "process_peak_after_setup_bytes": 87924736,
+        "process_peak_after_detection_bytes": 111984640,
+        "process_peak_after_checks_bytes": 111984640,
+        "label_and_feature_sha256": {
+          "nuclei": "9ef7b132b6a562b69d56fb620dc065ce0830b2d32903e672334c079de9f79a06",
+          "bodies": "00c814d8e1585d4f743c4cd19ba987dceada12f09727f2d9da24e406fdf54c88",
+          "features": "e5a87f5b790fe90c408c2e5df4c518ac80ed34e76c8f20ff07561a65e5aac86e"
+        },
+        "input_sha256": "6c3470d6604150931c108e5bcd51b3f4d33cec6c8f067a6154bca0bb26fdb8c2",
+        "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+        "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+        "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+      },
+      "record_sha256": "2199e1d0973f9d378bbd750c42db71bc0fa9e001e536e0c2c4863e9fb8ef2c91"
+    },
+    {
+      "mode": "log",
+      "repetition": 1,
+      "excluded_warmup": false,
+      "record": {
+        "size": 1024,
+        "tile_size": 256,
+        "cells": 256,
+        "capture_ms": 0.0504,
+        "detection_wall_ms": 330.1463,
+        "worker_ms": 330.118,
+        "algorithm": "qpx.log-watershed/1",
+        "estimated_work_bytes": 246276096,
+        "retained_bytes": 9387120,
+        "process_peak_after_setup_bytes": 88043520,
+        "process_peak_after_detection_bytes": 112058368,
+        "process_peak_after_checks_bytes": 112058368,
+        "label_and_feature_sha256": {
+          "nuclei": "9ef7b132b6a562b69d56fb620dc065ce0830b2d32903e672334c079de9f79a06",
+          "bodies": "00c814d8e1585d4f743c4cd19ba987dceada12f09727f2d9da24e406fdf54c88",
+          "features": "e5a87f5b790fe90c408c2e5df4c518ac80ed34e76c8f20ff07561a65e5aac86e"
+        },
+        "input_sha256": "eae0a13ab4d69087d700726ae3d4ef89d337fa3ccac0d83051a4faecb600078e",
+        "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+        "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+        "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+      },
+      "record_sha256": "3945bb7f2bbcb3e6d634166a8f3e4195632dc6f2c90ad0041a0e28c3c8f0b2ae"
+    },
+    {
+      "mode": "log",
+      "repetition": 1,
+      "excluded_warmup": false,
+      "record": {
+        "size": 1024,
+        "tile_size": 64,
+        "cells": 256,
+        "capture_ms": 0.0619,
+        "detection_wall_ms": 327.1968,
+        "worker_ms": 327.1688,
+        "algorithm": "qpx.log-watershed/1",
+        "estimated_work_bytes": 245293056,
+        "retained_bytes": 9387120,
+        "process_peak_after_setup_bytes": 87990272,
+        "process_peak_after_detection_bytes": 112058368,
+        "process_peak_after_checks_bytes": 112058368,
+        "label_and_feature_sha256": {
+          "nuclei": "9ef7b132b6a562b69d56fb620dc065ce0830b2d32903e672334c079de9f79a06",
+          "bodies": "00c814d8e1585d4f743c4cd19ba987dceada12f09727f2d9da24e406fdf54c88",
+          "features": "e5a87f5b790fe90c408c2e5df4c518ac80ed34e76c8f20ff07561a65e5aac86e"
+        },
+        "input_sha256": "6c3470d6604150931c108e5bcd51b3f4d33cec6c8f067a6154bca0bb26fdb8c2",
+        "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+        "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+        "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+      },
+      "record_sha256": "a0062e141b3e98f1540883728514b63d2e3c2c54242b958bd3de72ceacaa24fa"
+    },
+    {
+      "mode": "log",
+      "repetition": 2,
+      "excluded_warmup": false,
+      "record": {
+        "size": 1024,
+        "tile_size": 256,
+        "cells": 256,
+        "capture_ms": 0.0495,
+        "detection_wall_ms": 303.1987,
+        "worker_ms": 303.1723,
+        "algorithm": "qpx.log-watershed/1",
+        "estimated_work_bytes": 246276096,
+        "retained_bytes": 9387120,
+        "process_peak_after_setup_bytes": 87949312,
+        "process_peak_after_detection_bytes": 111935488,
+        "process_peak_after_checks_bytes": 111935488,
+        "label_and_feature_sha256": {
+          "nuclei": "9ef7b132b6a562b69d56fb620dc065ce0830b2d32903e672334c079de9f79a06",
+          "bodies": "00c814d8e1585d4f743c4cd19ba987dceada12f09727f2d9da24e406fdf54c88",
+          "features": "e5a87f5b790fe90c408c2e5df4c518ac80ed34e76c8f20ff07561a65e5aac86e"
+        },
+        "input_sha256": "eae0a13ab4d69087d700726ae3d4ef89d337fa3ccac0d83051a4faecb600078e",
+        "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+        "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+        "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+      },
+      "record_sha256": "af1c1f4fe246d614e31565a731524924cddf278d80f34c661c0106b098968451"
+    },
+    {
+      "mode": "log",
+      "repetition": 2,
+      "excluded_warmup": false,
+      "record": {
+        "size": 1024,
+        "tile_size": 64,
+        "cells": 256,
+        "capture_ms": 0.0474,
+        "detection_wall_ms": 333.5929,
+        "worker_ms": 333.5577,
+        "algorithm": "qpx.log-watershed/1",
+        "estimated_work_bytes": 245293056,
+        "retained_bytes": 9387120,
+        "process_peak_after_setup_bytes": 87937024,
+        "process_peak_after_detection_bytes": 112017408,
+        "process_peak_after_checks_bytes": 112017408,
+        "label_and_feature_sha256": {
+          "nuclei": "9ef7b132b6a562b69d56fb620dc065ce0830b2d32903e672334c079de9f79a06",
+          "bodies": "00c814d8e1585d4f743c4cd19ba987dceada12f09727f2d9da24e406fdf54c88",
+          "features": "e5a87f5b790fe90c408c2e5df4c518ac80ed34e76c8f20ff07561a65e5aac86e"
+        },
+        "input_sha256": "6c3470d6604150931c108e5bcd51b3f4d33cec6c8f067a6154bca0bb26fdb8c2",
+        "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+        "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+        "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+      },
+      "record_sha256": "3f4d078ceb4b7498ec0c245ff4cd7a5896a15183b79ebcd2cb8b6f30ab8c9430"
+    },
+    {
+      "mode": "log",
+      "repetition": 3,
+      "excluded_warmup": false,
+      "record": {
+        "size": 1024,
+        "tile_size": 256,
+        "cells": 256,
+        "capture_ms": 0.0701,
+        "detection_wall_ms": 308.3974,
+        "worker_ms": 308.3702,
+        "algorithm": "qpx.log-watershed/1",
+        "estimated_work_bytes": 246276096,
+        "retained_bytes": 9387120,
+        "process_peak_after_setup_bytes": 87896064,
+        "process_peak_after_detection_bytes": 111845376,
+        "process_peak_after_checks_bytes": 111845376,
+        "label_and_feature_sha256": {
+          "nuclei": "9ef7b132b6a562b69d56fb620dc065ce0830b2d32903e672334c079de9f79a06",
+          "bodies": "00c814d8e1585d4f743c4cd19ba987dceada12f09727f2d9da24e406fdf54c88",
+          "features": "e5a87f5b790fe90c408c2e5df4c518ac80ed34e76c8f20ff07561a65e5aac86e"
+        },
+        "input_sha256": "eae0a13ab4d69087d700726ae3d4ef89d337fa3ccac0d83051a4faecb600078e",
+        "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+        "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+        "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+      },
+      "record_sha256": "9c4c28ebbb085a9b1417106cb4f8ec753a8c9b5d92f3984f7b8a9ad38b7b6c37"
+    },
+    {
+      "mode": "log",
+      "repetition": 3,
+      "excluded_warmup": false,
+      "record": {
+        "size": 1024,
+        "tile_size": 64,
+        "cells": 256,
+        "capture_ms": 0.1332,
+        "detection_wall_ms": 327.1684,
+        "worker_ms": 327.1318,
+        "algorithm": "qpx.log-watershed/1",
+        "estimated_work_bytes": 245293056,
+        "retained_bytes": 9387120,
+        "process_peak_after_setup_bytes": 87887872,
+        "process_peak_after_detection_bytes": 111902720,
+        "process_peak_after_checks_bytes": 111902720,
+        "label_and_feature_sha256": {
+          "nuclei": "9ef7b132b6a562b69d56fb620dc065ce0830b2d32903e672334c079de9f79a06",
+          "bodies": "00c814d8e1585d4f743c4cd19ba987dceada12f09727f2d9da24e406fdf54c88",
+          "features": "e5a87f5b790fe90c408c2e5df4c518ac80ed34e76c8f20ff07561a65e5aac86e"
+        },
+        "input_sha256": "6c3470d6604150931c108e5bcd51b3f4d33cec6c8f067a6154bca0bb26fdb8c2",
+        "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+        "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+        "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+      },
+      "record_sha256": "b657a5b054e973d843435a5f87eb8da601f46d2e4908d7757ba68c668330558c"
+    },
+    {
+      "mode": "log",
+      "repetition": 0,
+      "excluded_warmup": true,
+      "record": {
+        "size": 256,
+        "tile_size": 256,
+        "cells": 16,
+        "capture_ms": 0.0735,
+        "detection_wall_ms": 17.1101,
+        "worker_ms": 17.0899,
+        "algorithm": "qpx.log-watershed/1",
+        "estimated_work_bytes": 88958976,
+        "retained_bytes": 589928,
+        "process_peak_after_setup_bytes": 44978176,
+        "process_peak_after_detection_bytes": 46948352,
+        "process_peak_after_checks_bytes": 56049664,
+        "label_and_feature_sha256": {
+          "nuclei": "03326a8d169e71c93d6e822597244c8c44fa523b7caf1e1b2cbcc457f3cdc67a",
+          "bodies": "083791f7949b3fd1dbf50ae384ebf9a214d2c900af8750ce1adb48ce88e3f453",
+          "features": "6e7ad7ea0b67519e5e6fd9452c46179fb06a2bcb2bd0f3158776021cee3ef4cb"
+        },
+        "input_sha256": "5c0cc53029174e1b66ac956d0025dc95e5da0e30eebeedecf838ea8245c571b8",
+        "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+        "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+        "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+      },
+      "record_sha256": "09e631f60c4ff2b0cdd160529f9a5cc5c03d05da8f45118cef44fd72e0351426"
+    },
+    {
+      "mode": "log",
+      "repetition": 0,
+      "excluded_warmup": true,
+      "record": {
+        "size": 256,
+        "tile_size": 64,
+        "cells": 16,
+        "capture_ms": 0.0523,
+        "detection_wall_ms": 17.6395,
+        "worker_ms": 17.5944,
+        "algorithm": "qpx.log-watershed/1",
+        "estimated_work_bytes": 87975936,
+        "retained_bytes": 589928,
+        "process_peak_after_setup_bytes": 45023232,
+        "process_peak_after_detection_bytes": 46993408,
+        "process_peak_after_checks_bytes": 55955456,
+        "label_and_feature_sha256": {
+          "nuclei": "03326a8d169e71c93d6e822597244c8c44fa523b7caf1e1b2cbcc457f3cdc67a",
+          "bodies": "083791f7949b3fd1dbf50ae384ebf9a214d2c900af8750ce1adb48ce88e3f453",
+          "features": "6e7ad7ea0b67519e5e6fd9452c46179fb06a2bcb2bd0f3158776021cee3ef4cb"
+        },
+        "input_sha256": "7d3b7204ce9a3d6f001b1746b5a5899cdcbaf7e6f9df3eb69e3c891f877a8f6f",
+        "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+        "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+        "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+      },
+      "record_sha256": "94b71428004ed7e45876ef91bfb104dd95453e3c0ea5791ac2ccad26398d9491"
+    },
+    {
+      "mode": "log",
+      "repetition": 1,
+      "excluded_warmup": false,
+      "record": {
+        "size": 256,
+        "tile_size": 256,
+        "cells": 16,
+        "capture_ms": 0.0483,
+        "detection_wall_ms": 16.4177,
+        "worker_ms": 16.3937,
+        "algorithm": "qpx.log-watershed/1",
+        "estimated_work_bytes": 88958976,
+        "retained_bytes": 589928,
+        "process_peak_after_setup_bytes": 44920832,
+        "process_peak_after_detection_bytes": 46919680,
+        "process_peak_after_checks_bytes": 56000512,
+        "label_and_feature_sha256": {
+          "nuclei": "03326a8d169e71c93d6e822597244c8c44fa523b7caf1e1b2cbcc457f3cdc67a",
+          "bodies": "083791f7949b3fd1dbf50ae384ebf9a214d2c900af8750ce1adb48ce88e3f453",
+          "features": "6e7ad7ea0b67519e5e6fd9452c46179fb06a2bcb2bd0f3158776021cee3ef4cb"
+        },
+        "input_sha256": "5c0cc53029174e1b66ac956d0025dc95e5da0e30eebeedecf838ea8245c571b8",
+        "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+        "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+        "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+      },
+      "record_sha256": "ee1f513195848eaf0884e9aaf7c33494e712a5f9d6440e6ada44e9ae84b7fbaa"
+    },
+    {
+      "mode": "log",
+      "repetition": 1,
+      "excluded_warmup": false,
+      "record": {
+        "size": 256,
+        "tile_size": 64,
+        "cells": 16,
+        "capture_ms": 0.0428,
+        "detection_wall_ms": 17.1505,
+        "worker_ms": 17.1291,
+        "algorithm": "qpx.log-watershed/1",
+        "estimated_work_bytes": 87975936,
+        "retained_bytes": 589928,
+        "process_peak_after_setup_bytes": 44949504,
+        "process_peak_after_detection_bytes": 47202304,
+        "process_peak_after_checks_bytes": 55902208,
+        "label_and_feature_sha256": {
+          "nuclei": "03326a8d169e71c93d6e822597244c8c44fa523b7caf1e1b2cbcc457f3cdc67a",
+          "bodies": "083791f7949b3fd1dbf50ae384ebf9a214d2c900af8750ce1adb48ce88e3f453",
+          "features": "6e7ad7ea0b67519e5e6fd9452c46179fb06a2bcb2bd0f3158776021cee3ef4cb"
+        },
+        "input_sha256": "7d3b7204ce9a3d6f001b1746b5a5899cdcbaf7e6f9df3eb69e3c891f877a8f6f",
+        "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+        "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+        "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+      },
+      "record_sha256": "29b8f4b3db2964ef5b087fd45c313380c1c71d77310d2182d108a863bf4f705c"
+    },
+    {
+      "mode": "log",
+      "repetition": 2,
+      "excluded_warmup": false,
+      "record": {
+        "size": 256,
+        "tile_size": 256,
+        "cells": 16,
+        "capture_ms": 0.0477,
+        "detection_wall_ms": 17.7896,
+        "worker_ms": 17.7686,
+        "algorithm": "qpx.log-watershed/1",
+        "estimated_work_bytes": 88958976,
+        "retained_bytes": 589928,
+        "process_peak_after_setup_bytes": 44949504,
+        "process_peak_after_detection_bytes": 47165440,
+        "process_peak_after_checks_bytes": 56037376,
+        "label_and_feature_sha256": {
+          "nuclei": "03326a8d169e71c93d6e822597244c8c44fa523b7caf1e1b2cbcc457f3cdc67a",
+          "bodies": "083791f7949b3fd1dbf50ae384ebf9a214d2c900af8750ce1adb48ce88e3f453",
+          "features": "6e7ad7ea0b67519e5e6fd9452c46179fb06a2bcb2bd0f3158776021cee3ef4cb"
+        },
+        "input_sha256": "5c0cc53029174e1b66ac956d0025dc95e5da0e30eebeedecf838ea8245c571b8",
+        "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+        "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+        "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+      },
+      "record_sha256": "f2fd8d5a1362ac2868afaa240c7cc13c97d117d9665544bb136059d2d5d58ae7"
+    },
+    {
+      "mode": "log",
+      "repetition": 2,
+      "excluded_warmup": false,
+      "record": {
+        "size": 256,
+        "tile_size": 64,
+        "cells": 16,
+        "capture_ms": 0.0473,
+        "detection_wall_ms": 17.8802,
+        "worker_ms": 17.8604,
+        "algorithm": "qpx.log-watershed/1",
+        "estimated_work_bytes": 87975936,
+        "retained_bytes": 589928,
+        "process_peak_after_setup_bytes": 45064192,
+        "process_peak_after_detection_bytes": 47005696,
+        "process_peak_after_checks_bytes": 55877632,
+        "label_and_feature_sha256": {
+          "nuclei": "03326a8d169e71c93d6e822597244c8c44fa523b7caf1e1b2cbcc457f3cdc67a",
+          "bodies": "083791f7949b3fd1dbf50ae384ebf9a214d2c900af8750ce1adb48ce88e3f453",
+          "features": "6e7ad7ea0b67519e5e6fd9452c46179fb06a2bcb2bd0f3158776021cee3ef4cb"
+        },
+        "input_sha256": "7d3b7204ce9a3d6f001b1746b5a5899cdcbaf7e6f9df3eb69e3c891f877a8f6f",
+        "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+        "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+        "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+      },
+      "record_sha256": "62a02ee66efd197d8967455715ba9e1983556260d051478cfb365b24ebac1ea3"
+    },
+    {
+      "mode": "log",
+      "repetition": 3,
+      "excluded_warmup": false,
+      "record": {
+        "size": 256,
+        "tile_size": 256,
+        "cells": 16,
+        "capture_ms": 0.058,
+        "detection_wall_ms": 17.8205,
+        "worker_ms": 17.8008,
+        "algorithm": "qpx.log-watershed/1",
+        "estimated_work_bytes": 88958976,
+        "retained_bytes": 589928,
+        "process_peak_after_setup_bytes": 44916736,
+        "process_peak_after_detection_bytes": 46936064,
+        "process_peak_after_checks_bytes": 55865344,
+        "label_and_feature_sha256": {
+          "nuclei": "03326a8d169e71c93d6e822597244c8c44fa523b7caf1e1b2cbcc457f3cdc67a",
+          "bodies": "083791f7949b3fd1dbf50ae384ebf9a214d2c900af8750ce1adb48ce88e3f453",
+          "features": "6e7ad7ea0b67519e5e6fd9452c46179fb06a2bcb2bd0f3158776021cee3ef4cb"
+        },
+        "input_sha256": "5c0cc53029174e1b66ac956d0025dc95e5da0e30eebeedecf838ea8245c571b8",
+        "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+        "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+        "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+      },
+      "record_sha256": "6570b542aa95335afc8833ee34e4e195ab631ff4053f2e12ad9375f2ea20f32c"
+    },
+    {
+      "mode": "log",
+      "repetition": 3,
+      "excluded_warmup": false,
+      "record": {
+        "size": 256,
+        "tile_size": 64,
+        "cells": 16,
+        "capture_ms": 0.0691,
+        "detection_wall_ms": 17.3384,
+        "worker_ms": 17.3197,
+        "algorithm": "qpx.log-watershed/1",
+        "estimated_work_bytes": 87975936,
+        "retained_bytes": 589928,
+        "process_peak_after_setup_bytes": 45047808,
+        "process_peak_after_detection_bytes": 47001600,
+        "process_peak_after_checks_bytes": 55898112,
+        "label_and_feature_sha256": {
+          "nuclei": "03326a8d169e71c93d6e822597244c8c44fa523b7caf1e1b2cbcc457f3cdc67a",
+          "bodies": "083791f7949b3fd1dbf50ae384ebf9a214d2c900af8750ce1adb48ce88e3f453",
+          "features": "6e7ad7ea0b67519e5e6fd9452c46179fb06a2bcb2bd0f3158776021cee3ef4cb"
+        },
+        "input_sha256": "7d3b7204ce9a3d6f001b1746b5a5899cdcbaf7e6f9df3eb69e3c891f877a8f6f",
+        "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+        "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+        "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+      },
+      "record_sha256": "82c211289b50481f30aa105a477b0db531411f017a7db4dec3b1ae71c1486f38"
+    },
+    {
+      "mode": "log",
+      "repetition": 0,
+      "excluded_warmup": true,
+      "record": {
+        "size": 512,
+        "tile_size": 256,
+        "cells": 64,
+        "capture_ms": 0.0502,
+        "detection_wall_ms": 71.3254,
+        "worker_ms": 71.3,
+        "algorithm": "qpx.log-watershed/1",
+        "estimated_work_bytes": 120426496,
+        "retained_bytes": 2349056,
+        "process_peak_after_setup_bytes": 53362688,
+        "process_peak_after_detection_bytes": 60604416,
+        "process_peak_after_checks_bytes": 65196032,
+        "label_and_feature_sha256": {
+          "nuclei": "8ff907ad85882f1bf1cb756152adf85cd7678ddea26a3f87bf068717b40ead9b",
+          "bodies": "879d303b99f66e4206640825399a4037511b7697673dcbeeb0dc91cbe21f7b37",
+          "features": "383d6b4fe73ee3a41f0d3cc912c53a3265cbca60a8ff8c03e66c9455a7720c50"
+        },
+        "input_sha256": "76c86bac57c3d29eef1abc8cbe7ae511a80eeae77103b8d229ca7b50d65f0cb0",
+        "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+        "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+        "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+      },
+      "record_sha256": "de2e36244a2500f06e8845af305e77129c303ddb9f1d29dd0f2f378aa7c8692f"
+    },
+    {
+      "mode": "log",
+      "repetition": 0,
+      "excluded_warmup": true,
+      "record": {
+        "size": 512,
+        "tile_size": 64,
+        "cells": 64,
+        "capture_ms": 0.0634,
+        "detection_wall_ms": 67.9696,
+        "worker_ms": 67.9454,
+        "algorithm": "qpx.log-watershed/1",
+        "estimated_work_bytes": 119443456,
+        "retained_bytes": 2349056,
+        "process_peak_after_setup_bytes": 53383168,
+        "process_peak_after_detection_bytes": 60669952,
+        "process_peak_after_checks_bytes": 65314816,
+        "label_and_feature_sha256": {
+          "nuclei": "8ff907ad85882f1bf1cb756152adf85cd7678ddea26a3f87bf068717b40ead9b",
+          "bodies": "879d303b99f66e4206640825399a4037511b7697673dcbeeb0dc91cbe21f7b37",
+          "features": "383d6b4fe73ee3a41f0d3cc912c53a3265cbca60a8ff8c03e66c9455a7720c50"
+        },
+        "input_sha256": "eaf359849e32858b443e50625f4409c916bf6ba8f315062f0b4d66dc98808cb5",
+        "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+        "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+        "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+      },
+      "record_sha256": "f50745e7ac14a9bad4a1ecf01298bbbcd94c4827abc987cfebed871e327d9807"
+    },
+    {
+      "mode": "log",
+      "repetition": 1,
+      "excluded_warmup": false,
+      "record": {
+        "size": 512,
+        "tile_size": 256,
+        "cells": 64,
+        "capture_ms": 0.0653,
+        "detection_wall_ms": 74.5096,
+        "worker_ms": 74.4862,
+        "algorithm": "qpx.log-watershed/1",
+        "estimated_work_bytes": 120426496,
+        "retained_bytes": 2349056,
+        "process_peak_after_setup_bytes": 53153792,
+        "process_peak_after_detection_bytes": 60411904,
+        "process_peak_after_checks_bytes": 65081344,
+        "label_and_feature_sha256": {
+          "nuclei": "8ff907ad85882f1bf1cb756152adf85cd7678ddea26a3f87bf068717b40ead9b",
+          "bodies": "879d303b99f66e4206640825399a4037511b7697673dcbeeb0dc91cbe21f7b37",
+          "features": "383d6b4fe73ee3a41f0d3cc912c53a3265cbca60a8ff8c03e66c9455a7720c50"
+        },
+        "input_sha256": "76c86bac57c3d29eef1abc8cbe7ae511a80eeae77103b8d229ca7b50d65f0cb0",
+        "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+        "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+        "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+      },
+      "record_sha256": "b7a84e8d8181c1732210b02a15eea306d78cb3f10fd4bce7e985a848d8791fa4"
+    },
+    {
+      "mode": "log",
+      "repetition": 1,
+      "excluded_warmup": false,
+      "record": {
+        "size": 512,
+        "tile_size": 64,
+        "cells": 64,
+        "capture_ms": 0.0712,
+        "detection_wall_ms": 71.5625,
+        "worker_ms": 71.5384,
+        "algorithm": "qpx.log-watershed/1",
+        "estimated_work_bytes": 119443456,
+        "retained_bytes": 2349056,
+        "process_peak_after_setup_bytes": 53284864,
+        "process_peak_after_detection_bytes": 59785216,
+        "process_peak_after_checks_bytes": 65191936,
+        "label_and_feature_sha256": {
+          "nuclei": "8ff907ad85882f1bf1cb756152adf85cd7678ddea26a3f87bf068717b40ead9b",
+          "bodies": "879d303b99f66e4206640825399a4037511b7697673dcbeeb0dc91cbe21f7b37",
+          "features": "383d6b4fe73ee3a41f0d3cc912c53a3265cbca60a8ff8c03e66c9455a7720c50"
+        },
+        "input_sha256": "eaf359849e32858b443e50625f4409c916bf6ba8f315062f0b4d66dc98808cb5",
+        "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+        "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+        "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+      },
+      "record_sha256": "e5c57eb2f42258327d3bf8fa60bdde2af4bdc9f0ed3cddfa97f5ed8f260749ef"
+    },
+    {
+      "mode": "log",
+      "repetition": 2,
+      "excluded_warmup": false,
+      "record": {
+        "size": 512,
+        "tile_size": 256,
+        "cells": 64,
+        "capture_ms": 0.063,
+        "detection_wall_ms": 71.3082,
+        "worker_ms": 71.2717,
+        "algorithm": "qpx.log-watershed/1",
+        "estimated_work_bytes": 120426496,
+        "retained_bytes": 2349056,
+        "process_peak_after_setup_bytes": 53440512,
+        "process_peak_after_detection_bytes": 59957248,
+        "process_peak_after_checks_bytes": 65277952,
+        "label_and_feature_sha256": {
+          "nuclei": "8ff907ad85882f1bf1cb756152adf85cd7678ddea26a3f87bf068717b40ead9b",
+          "bodies": "879d303b99f66e4206640825399a4037511b7697673dcbeeb0dc91cbe21f7b37",
+          "features": "383d6b4fe73ee3a41f0d3cc912c53a3265cbca60a8ff8c03e66c9455a7720c50"
+        },
+        "input_sha256": "76c86bac57c3d29eef1abc8cbe7ae511a80eeae77103b8d229ca7b50d65f0cb0",
+        "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+        "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+        "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+      },
+      "record_sha256": "d289a9c7ab1aae0be0f5f399a782653651a2e0fa7c50cc3dbd4ecbc514ac8d3c"
+    },
+    {
+      "mode": "log",
+      "repetition": 2,
+      "excluded_warmup": false,
+      "record": {
+        "size": 512,
+        "tile_size": 64,
+        "cells": 64,
+        "capture_ms": 0.0624,
+        "detection_wall_ms": 70.7785,
+        "worker_ms": 70.7562,
+        "algorithm": "qpx.log-watershed/1",
+        "estimated_work_bytes": 119443456,
+        "retained_bytes": 2349056,
+        "process_peak_after_setup_bytes": 53260288,
+        "process_peak_after_detection_bytes": 59703296,
+        "process_peak_after_checks_bytes": 65130496,
+        "label_and_feature_sha256": {
+          "nuclei": "8ff907ad85882f1bf1cb756152adf85cd7678ddea26a3f87bf068717b40ead9b",
+          "bodies": "879d303b99f66e4206640825399a4037511b7697673dcbeeb0dc91cbe21f7b37",
+          "features": "383d6b4fe73ee3a41f0d3cc912c53a3265cbca60a8ff8c03e66c9455a7720c50"
+        },
+        "input_sha256": "eaf359849e32858b443e50625f4409c916bf6ba8f315062f0b4d66dc98808cb5",
+        "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+        "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+        "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+      },
+      "record_sha256": "c8feeb4cee5b95d79c6d70f88fe1c7587c7895c2c37e118783281098c9178100"
+    },
+    {
+      "mode": "log",
+      "repetition": 3,
+      "excluded_warmup": false,
+      "record": {
+        "size": 512,
+        "tile_size": 256,
+        "cells": 64,
+        "capture_ms": 0.0597,
+        "detection_wall_ms": 71.6651,
+        "worker_ms": 71.644,
+        "algorithm": "qpx.log-watershed/1",
+        "estimated_work_bytes": 120426496,
+        "retained_bytes": 2349056,
+        "process_peak_after_setup_bytes": 53370880,
+        "process_peak_after_detection_bytes": 60645376,
+        "process_peak_after_checks_bytes": 65277952,
+        "label_and_feature_sha256": {
+          "nuclei": "8ff907ad85882f1bf1cb756152adf85cd7678ddea26a3f87bf068717b40ead9b",
+          "bodies": "879d303b99f66e4206640825399a4037511b7697673dcbeeb0dc91cbe21f7b37",
+          "features": "383d6b4fe73ee3a41f0d3cc912c53a3265cbca60a8ff8c03e66c9455a7720c50"
+        },
+        "input_sha256": "76c86bac57c3d29eef1abc8cbe7ae511a80eeae77103b8d229ca7b50d65f0cb0",
+        "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+        "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+        "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+      },
+      "record_sha256": "2e81cc80efe4d95b12f6eac26a2e4c8dfe88f6bb501ef299624a4f646a8eeeaa"
+    },
+    {
+      "mode": "log",
+      "repetition": 3,
+      "excluded_warmup": false,
+      "record": {
+        "size": 512,
+        "tile_size": 64,
+        "cells": 64,
+        "capture_ms": 0.1573,
+        "detection_wall_ms": 80.4171,
+        "worker_ms": 80.3733,
+        "algorithm": "qpx.log-watershed/1",
+        "estimated_work_bytes": 119443456,
+        "retained_bytes": 2349056,
+        "process_peak_after_setup_bytes": 53227520,
+        "process_peak_after_detection_bytes": 60514304,
+        "process_peak_after_checks_bytes": 65245184,
+        "label_and_feature_sha256": {
+          "nuclei": "8ff907ad85882f1bf1cb756152adf85cd7678ddea26a3f87bf068717b40ead9b",
+          "bodies": "879d303b99f66e4206640825399a4037511b7697673dcbeeb0dc91cbe21f7b37",
+          "features": "383d6b4fe73ee3a41f0d3cc912c53a3265cbca60a8ff8c03e66c9455a7720c50"
+        },
+        "input_sha256": "eaf359849e32858b443e50625f4409c916bf6ba8f315062f0b4d66dc98808cb5",
+        "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+        "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+        "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+      },
+      "record_sha256": "67e7d995e23c5e94006bf12d3e030bd0c66b33ca0a2349e79c429bb28b90eba8"
+    },
+    {
+      "mode": "log-bodies",
+      "repetition": 0,
+      "excluded_warmup": true,
+      "record": {
+        "size": 1024,
+        "tile_size": 256,
+        "cells": 256,
+        "capture_ms": 0.0782,
+        "detection_wall_ms": 339.3651,
+        "worker_ms": 339.3233,
+        "algorithm": "qpx.log-watershed-bodies/1",
+        "estimated_work_bytes": 246276096,
+        "retained_bytes": 9338224,
+        "process_peak_after_setup_bytes": 87937024,
+        "process_peak_after_detection_bytes": 111955968,
+        "process_peak_after_checks_bytes": 111955968,
+        "label_and_feature_sha256": {
+          "nuclei": "9ef7b132b6a562b69d56fb620dc065ce0830b2d32903e672334c079de9f79a06",
+          "bodies": "e05154a1a9937e0ba75609aa60054c61194d4d2920076dca5eba02b677fa9b51",
+          "features": "59bb0af803343a90607f7809216640b6b84131ce33022d7ef324d82b0f6b5464"
+        },
+        "input_sha256": "60964dc17b98c7c2b0bb6c32689f3cae0d186477ecb77416ac2de493a932ef5f",
+        "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+        "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+        "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+      },
+      "record_sha256": "c4c0d1842b870d1b6ed43653a055ad2a9bd2e92ff5a4347bffd647ed04e1241a"
+    },
+    {
+      "mode": "log-bodies",
+      "repetition": 0,
+      "excluded_warmup": true,
+      "record": {
+        "size": 1024,
+        "tile_size": 64,
+        "cells": 256,
+        "capture_ms": 0.0626,
+        "detection_wall_ms": 519.0726,
+        "worker_ms": 519.0309,
+        "algorithm": "qpx.log-watershed-bodies/1",
+        "estimated_work_bytes": 245293056,
+        "retained_bytes": 9338224,
+        "process_peak_after_setup_bytes": 88018944,
+        "process_peak_after_detection_bytes": 112164864,
+        "process_peak_after_checks_bytes": 112164864,
+        "label_and_feature_sha256": {
+          "nuclei": "9ef7b132b6a562b69d56fb620dc065ce0830b2d32903e672334c079de9f79a06",
+          "bodies": "e05154a1a9937e0ba75609aa60054c61194d4d2920076dca5eba02b677fa9b51",
+          "features": "59bb0af803343a90607f7809216640b6b84131ce33022d7ef324d82b0f6b5464"
+        },
+        "input_sha256": "825a582f795145b22344f1cee248d92b94a5e7be4f1a1741e9a3911adb936616",
+        "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+        "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+        "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+      },
+      "record_sha256": "d8d392bd00fc1531f3d28c923fcbcaab631346007e5519b56ccf42cc4e26b6f5"
+    },
+    {
+      "mode": "log-bodies",
+      "repetition": 1,
+      "excluded_warmup": false,
+      "record": {
+        "size": 1024,
+        "tile_size": 256,
+        "cells": 256,
+        "capture_ms": 0.0825,
+        "detection_wall_ms": 317.9917,
+        "worker_ms": 317.9642,
+        "algorithm": "qpx.log-watershed-bodies/1",
+        "estimated_work_bytes": 246276096,
+        "retained_bytes": 9338224,
+        "process_peak_after_setup_bytes": 88043520,
+        "process_peak_after_detection_bytes": 111992832,
+        "process_peak_after_checks_bytes": 111992832,
+        "label_and_feature_sha256": {
+          "nuclei": "9ef7b132b6a562b69d56fb620dc065ce0830b2d32903e672334c079de9f79a06",
+          "bodies": "e05154a1a9937e0ba75609aa60054c61194d4d2920076dca5eba02b677fa9b51",
+          "features": "59bb0af803343a90607f7809216640b6b84131ce33022d7ef324d82b0f6b5464"
+        },
+        "input_sha256": "60964dc17b98c7c2b0bb6c32689f3cae0d186477ecb77416ac2de493a932ef5f",
+        "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+        "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+        "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+      },
+      "record_sha256": "d67a012e1404dc2db7750bb05f928d295351e73c73e8563a145e4e39dca962f4"
+    },
+    {
+      "mode": "log-bodies",
+      "repetition": 1,
+      "excluded_warmup": false,
+      "record": {
+        "size": 1024,
+        "tile_size": 64,
+        "cells": 256,
+        "capture_ms": 0.0507,
+        "detection_wall_ms": 307.1112,
+        "worker_ms": 307.0442,
+        "algorithm": "qpx.log-watershed-bodies/1",
+        "estimated_work_bytes": 245293056,
+        "retained_bytes": 9338224,
+        "process_peak_after_setup_bytes": 88023040,
+        "process_peak_after_detection_bytes": 112017408,
+        "process_peak_after_checks_bytes": 112017408,
+        "label_and_feature_sha256": {
+          "nuclei": "9ef7b132b6a562b69d56fb620dc065ce0830b2d32903e672334c079de9f79a06",
+          "bodies": "e05154a1a9937e0ba75609aa60054c61194d4d2920076dca5eba02b677fa9b51",
+          "features": "59bb0af803343a90607f7809216640b6b84131ce33022d7ef324d82b0f6b5464"
+        },
+        "input_sha256": "825a582f795145b22344f1cee248d92b94a5e7be4f1a1741e9a3911adb936616",
+        "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+        "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+        "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+      },
+      "record_sha256": "f844ba80c8ecca77279f550e58cfc82bbfc3661da17947c4ba24acc65e89bd62"
+    },
+    {
+      "mode": "log-bodies",
+      "repetition": 2,
+      "excluded_warmup": false,
+      "record": {
+        "size": 1024,
+        "tile_size": 256,
+        "cells": 256,
+        "capture_ms": 0.0639,
+        "detection_wall_ms": 299.4522,
+        "worker_ms": 299.3854,
+        "algorithm": "qpx.log-watershed-bodies/1",
+        "estimated_work_bytes": 246276096,
+        "retained_bytes": 9338224,
+        "process_peak_after_setup_bytes": 87891968,
+        "process_peak_after_detection_bytes": 111902720,
+        "process_peak_after_checks_bytes": 111902720,
+        "label_and_feature_sha256": {
+          "nuclei": "9ef7b132b6a562b69d56fb620dc065ce0830b2d32903e672334c079de9f79a06",
+          "bodies": "e05154a1a9937e0ba75609aa60054c61194d4d2920076dca5eba02b677fa9b51",
+          "features": "59bb0af803343a90607f7809216640b6b84131ce33022d7ef324d82b0f6b5464"
+        },
+        "input_sha256": "60964dc17b98c7c2b0bb6c32689f3cae0d186477ecb77416ac2de493a932ef5f",
+        "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+        "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+        "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+      },
+      "record_sha256": "59c57e43127d41e43ad0514a183e8457a623e3dea093000415f22a741a7c6e35"
+    },
+    {
+      "mode": "log-bodies",
+      "repetition": 2,
+      "excluded_warmup": false,
+      "record": {
+        "size": 1024,
+        "tile_size": 64,
+        "cells": 256,
+        "capture_ms": 0.053,
+        "detection_wall_ms": 297.3411,
+        "worker_ms": 297.311,
+        "algorithm": "qpx.log-watershed-bodies/1",
+        "estimated_work_bytes": 245293056,
+        "retained_bytes": 9338224,
+        "process_peak_after_setup_bytes": 87928832,
+        "process_peak_after_detection_bytes": 111984640,
+        "process_peak_after_checks_bytes": 111984640,
+        "label_and_feature_sha256": {
+          "nuclei": "9ef7b132b6a562b69d56fb620dc065ce0830b2d32903e672334c079de9f79a06",
+          "bodies": "e05154a1a9937e0ba75609aa60054c61194d4d2920076dca5eba02b677fa9b51",
+          "features": "59bb0af803343a90607f7809216640b6b84131ce33022d7ef324d82b0f6b5464"
+        },
+        "input_sha256": "825a582f795145b22344f1cee248d92b94a5e7be4f1a1741e9a3911adb936616",
+        "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+        "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+        "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+      },
+      "record_sha256": "fa6e4d1892f41b5be1390e22a11cf80241da8a4d177513d048dd09d9b9d0c2c2"
+    },
+    {
+      "mode": "log-bodies",
+      "repetition": 3,
+      "excluded_warmup": false,
+      "record": {
+        "size": 1024,
+        "tile_size": 256,
+        "cells": 256,
+        "capture_ms": 0.1023,
+        "detection_wall_ms": 318.8704,
+        "worker_ms": 318.8413,
+        "algorithm": "qpx.log-watershed-bodies/1",
+        "estimated_work_bytes": 246276096,
+        "retained_bytes": 9338224,
+        "process_peak_after_setup_bytes": 87875584,
+        "process_peak_after_detection_bytes": 111947776,
+        "process_peak_after_checks_bytes": 111947776,
+        "label_and_feature_sha256": {
+          "nuclei": "9ef7b132b6a562b69d56fb620dc065ce0830b2d32903e672334c079de9f79a06",
+          "bodies": "e05154a1a9937e0ba75609aa60054c61194d4d2920076dca5eba02b677fa9b51",
+          "features": "59bb0af803343a90607f7809216640b6b84131ce33022d7ef324d82b0f6b5464"
+        },
+        "input_sha256": "60964dc17b98c7c2b0bb6c32689f3cae0d186477ecb77416ac2de493a932ef5f",
+        "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+        "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+        "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+      },
+      "record_sha256": "5e1ae8051655d50ea07e35019b4efe855a272661ed1c2841227fda36bfba2e43"
+    },
+    {
+      "mode": "log-bodies",
+      "repetition": 3,
+      "excluded_warmup": false,
+      "record": {
+        "size": 1024,
+        "tile_size": 64,
+        "cells": 256,
+        "capture_ms": 0.0587,
+        "detection_wall_ms": 315.4609,
+        "worker_ms": 315.3695,
+        "algorithm": "qpx.log-watershed-bodies/1",
+        "estimated_work_bytes": 245293056,
+        "retained_bytes": 9338224,
+        "process_peak_after_setup_bytes": 88096768,
+        "process_peak_after_detection_bytes": 112107520,
+        "process_peak_after_checks_bytes": 112107520,
+        "label_and_feature_sha256": {
+          "nuclei": "9ef7b132b6a562b69d56fb620dc065ce0830b2d32903e672334c079de9f79a06",
+          "bodies": "e05154a1a9937e0ba75609aa60054c61194d4d2920076dca5eba02b677fa9b51",
+          "features": "59bb0af803343a90607f7809216640b6b84131ce33022d7ef324d82b0f6b5464"
+        },
+        "input_sha256": "825a582f795145b22344f1cee248d92b94a5e7be4f1a1741e9a3911adb936616",
+        "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+        "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+        "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+      },
+      "record_sha256": "1ce5d0352df505da0eea4867b9bb845fb36ce61d17870546cd8640944dcd82df"
+    },
+    {
+      "mode": "log-bodies",
+      "repetition": 0,
+      "excluded_warmup": true,
+      "record": {
+        "size": 256,
+        "tile_size": 256,
+        "cells": 16,
+        "capture_ms": 0.0619,
+        "detection_wall_ms": 16.8207,
+        "worker_ms": 16.7994,
+        "algorithm": "qpx.log-watershed-bodies/1",
+        "estimated_work_bytes": 88958976,
+        "retained_bytes": 586952,
+        "process_peak_after_setup_bytes": 44949504,
+        "process_peak_after_detection_bytes": 46944256,
+        "process_peak_after_checks_bytes": 55820288,
+        "label_and_feature_sha256": {
+          "nuclei": "03326a8d169e71c93d6e822597244c8c44fa523b7caf1e1b2cbcc457f3cdc67a",
+          "bodies": "6e866acc0914cb45cba9b23edf34901993363b67a4df85d54269853dc8fddc9e",
+          "features": "e8a05f98754c0e54e5d8f2955beb274eca6cb50288f2e66bfba2b9bde174903d"
+        },
+        "input_sha256": "2cc22005a95f2a80cad14d19c911ed8fa9d822dd77ff20f8be3d4609d505267f",
+        "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+        "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+        "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+      },
+      "record_sha256": "47cdf2161ef4814ce382a3c8936668236d025ad52d23187faf895a5dd419a79e"
+    },
+    {
+      "mode": "log-bodies",
+      "repetition": 0,
+      "excluded_warmup": true,
+      "record": {
+        "size": 256,
+        "tile_size": 64,
+        "cells": 16,
+        "capture_ms": 0.0511,
+        "detection_wall_ms": 17.6359,
+        "worker_ms": 17.618,
+        "algorithm": "qpx.log-watershed-bodies/1",
+        "estimated_work_bytes": 87975936,
+        "retained_bytes": 586952,
+        "process_peak_after_setup_bytes": 44969984,
+        "process_peak_after_detection_bytes": 46792704,
+        "process_peak_after_checks_bytes": 55885824,
+        "label_and_feature_sha256": {
+          "nuclei": "03326a8d169e71c93d6e822597244c8c44fa523b7caf1e1b2cbcc457f3cdc67a",
+          "bodies": "6e866acc0914cb45cba9b23edf34901993363b67a4df85d54269853dc8fddc9e",
+          "features": "e8a05f98754c0e54e5d8f2955beb274eca6cb50288f2e66bfba2b9bde174903d"
+        },
+        "input_sha256": "8e11a327099b89b4d0d1c59d703327a8a44c44a2c97a45e356ed4eaf58818912",
+        "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+        "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+        "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+      },
+      "record_sha256": "f67f884e9d085bfa0848a15d3a162185ea8534855b2892802dcd28740b62f0d2"
+    },
+    {
+      "mode": "log-bodies",
+      "repetition": 1,
+      "excluded_warmup": false,
+      "record": {
+        "size": 256,
+        "tile_size": 256,
+        "cells": 16,
+        "capture_ms": 0.0498,
+        "detection_wall_ms": 17.0678,
+        "worker_ms": 17.048,
+        "algorithm": "qpx.log-watershed-bodies/1",
+        "estimated_work_bytes": 88958976,
+        "retained_bytes": 586952,
+        "process_peak_after_setup_bytes": 44978176,
+        "process_peak_after_detection_bytes": 46825472,
+        "process_peak_after_checks_bytes": 55898112,
+        "label_and_feature_sha256": {
+          "nuclei": "03326a8d169e71c93d6e822597244c8c44fa523b7caf1e1b2cbcc457f3cdc67a",
+          "bodies": "6e866acc0914cb45cba9b23edf34901993363b67a4df85d54269853dc8fddc9e",
+          "features": "e8a05f98754c0e54e5d8f2955beb274eca6cb50288f2e66bfba2b9bde174903d"
+        },
+        "input_sha256": "2cc22005a95f2a80cad14d19c911ed8fa9d822dd77ff20f8be3d4609d505267f",
+        "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+        "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+        "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+      },
+      "record_sha256": "62b5cdc893915aa9deba6802c970e919bd55f3dced0f4937152314309a4abc9a"
+    },
+    {
+      "mode": "log-bodies",
+      "repetition": 1,
+      "excluded_warmup": false,
+      "record": {
+        "size": 256,
+        "tile_size": 64,
+        "cells": 16,
+        "capture_ms": 0.0541,
+        "detection_wall_ms": 21.3641,
+        "worker_ms": 21.3438,
+        "algorithm": "qpx.log-watershed-bodies/1",
+        "estimated_work_bytes": 87975936,
+        "retained_bytes": 586952,
+        "process_peak_after_setup_bytes": 44900352,
+        "process_peak_after_detection_bytes": 46878720,
+        "process_peak_after_checks_bytes": 55767040,
+        "label_and_feature_sha256": {
+          "nuclei": "03326a8d169e71c93d6e822597244c8c44fa523b7caf1e1b2cbcc457f3cdc67a",
+          "bodies": "6e866acc0914cb45cba9b23edf34901993363b67a4df85d54269853dc8fddc9e",
+          "features": "e8a05f98754c0e54e5d8f2955beb274eca6cb50288f2e66bfba2b9bde174903d"
+        },
+        "input_sha256": "8e11a327099b89b4d0d1c59d703327a8a44c44a2c97a45e356ed4eaf58818912",
+        "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+        "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+        "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+      },
+      "record_sha256": "bc6a84ac7571ddae79997128485322d6061c1ebad5058fffa68b2682de60a987"
+    },
+    {
+      "mode": "log-bodies",
+      "repetition": 2,
+      "excluded_warmup": false,
+      "record": {
+        "size": 256,
+        "tile_size": 256,
+        "cells": 16,
+        "capture_ms": 0.0643,
+        "detection_wall_ms": 17.6797,
+        "worker_ms": 17.6562,
+        "algorithm": "qpx.log-watershed-bodies/1",
+        "estimated_work_bytes": 88958976,
+        "retained_bytes": 586952,
+        "process_peak_after_setup_bytes": 44994560,
+        "process_peak_after_detection_bytes": 46862336,
+        "process_peak_after_checks_bytes": 55967744,
+        "label_and_feature_sha256": {
+          "nuclei": "03326a8d169e71c93d6e822597244c8c44fa523b7caf1e1b2cbcc457f3cdc67a",
+          "bodies": "6e866acc0914cb45cba9b23edf34901993363b67a4df85d54269853dc8fddc9e",
+          "features": "e8a05f98754c0e54e5d8f2955beb274eca6cb50288f2e66bfba2b9bde174903d"
+        },
+        "input_sha256": "2cc22005a95f2a80cad14d19c911ed8fa9d822dd77ff20f8be3d4609d505267f",
+        "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+        "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+        "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+      },
+      "record_sha256": "b906f4d816ca6696441b9dc604869d564bbe124d29ef26b08b94b2a19fca4b58"
+    },
+    {
+      "mode": "log-bodies",
+      "repetition": 2,
+      "excluded_warmup": false,
+      "record": {
+        "size": 256,
+        "tile_size": 64,
+        "cells": 16,
+        "capture_ms": 0.0496,
+        "detection_wall_ms": 16.7701,
+        "worker_ms": 16.7038,
+        "algorithm": "qpx.log-watershed-bodies/1",
+        "estimated_work_bytes": 87975936,
+        "retained_bytes": 586952,
+        "process_peak_after_setup_bytes": 45027328,
+        "process_peak_after_detection_bytes": 47022080,
+        "process_peak_after_checks_bytes": 55955456,
+        "label_and_feature_sha256": {
+          "nuclei": "03326a8d169e71c93d6e822597244c8c44fa523b7caf1e1b2cbcc457f3cdc67a",
+          "bodies": "6e866acc0914cb45cba9b23edf34901993363b67a4df85d54269853dc8fddc9e",
+          "features": "e8a05f98754c0e54e5d8f2955beb274eca6cb50288f2e66bfba2b9bde174903d"
+        },
+        "input_sha256": "8e11a327099b89b4d0d1c59d703327a8a44c44a2c97a45e356ed4eaf58818912",
+        "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+        "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+        "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+      },
+      "record_sha256": "bea6c8c2ce7f24ce02c63648ddb99fc167908bc395ff79aa97dd9c6dd52e0d94"
+    },
+    {
+      "mode": "log-bodies",
+      "repetition": 3,
+      "excluded_warmup": false,
+      "record": {
+        "size": 256,
+        "tile_size": 256,
+        "cells": 16,
+        "capture_ms": 0.057,
+        "detection_wall_ms": 21.0358,
+        "worker_ms": 21.0099,
+        "algorithm": "qpx.log-watershed-bodies/1",
+        "estimated_work_bytes": 88958976,
+        "retained_bytes": 586952,
+        "process_peak_after_setup_bytes": 44826624,
+        "process_peak_after_detection_bytes": 46854144,
+        "process_peak_after_checks_bytes": 55934976,
+        "label_and_feature_sha256": {
+          "nuclei": "03326a8d169e71c93d6e822597244c8c44fa523b7caf1e1b2cbcc457f3cdc67a",
+          "bodies": "6e866acc0914cb45cba9b23edf34901993363b67a4df85d54269853dc8fddc9e",
+          "features": "e8a05f98754c0e54e5d8f2955beb274eca6cb50288f2e66bfba2b9bde174903d"
+        },
+        "input_sha256": "2cc22005a95f2a80cad14d19c911ed8fa9d822dd77ff20f8be3d4609d505267f",
+        "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+        "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+        "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+      },
+      "record_sha256": "48bb75096b0a8b499c7e81cadf61ccc02744e9ed315ed5b1b406b95bd512355b"
+    },
+    {
+      "mode": "log-bodies",
+      "repetition": 3,
+      "excluded_warmup": false,
+      "record": {
+        "size": 256,
+        "tile_size": 64,
+        "cells": 16,
+        "capture_ms": 0.0909,
+        "detection_wall_ms": 18.0421,
+        "worker_ms": 18.0074,
+        "algorithm": "qpx.log-watershed-bodies/1",
+        "estimated_work_bytes": 87975936,
+        "retained_bytes": 586952,
+        "process_peak_after_setup_bytes": 44957696,
+        "process_peak_after_detection_bytes": 47202304,
+        "process_peak_after_checks_bytes": 56025088,
+        "label_and_feature_sha256": {
+          "nuclei": "03326a8d169e71c93d6e822597244c8c44fa523b7caf1e1b2cbcc457f3cdc67a",
+          "bodies": "6e866acc0914cb45cba9b23edf34901993363b67a4df85d54269853dc8fddc9e",
+          "features": "e8a05f98754c0e54e5d8f2955beb274eca6cb50288f2e66bfba2b9bde174903d"
+        },
+        "input_sha256": "8e11a327099b89b4d0d1c59d703327a8a44c44a2c97a45e356ed4eaf58818912",
+        "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+        "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+        "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+      },
+      "record_sha256": "b0061ade2c8c82e2818685b6d5c02cca51bb8e0b5d1020055b663e090fd43fff"
+    },
+    {
+      "mode": "log-bodies",
+      "repetition": 0,
+      "excluded_warmup": true,
+      "record": {
+        "size": 512,
+        "tile_size": 256,
+        "cells": 64,
+        "capture_ms": 0.0722,
+        "detection_wall_ms": 71.7613,
+        "worker_ms": 71.7161,
+        "algorithm": "qpx.log-watershed-bodies/1",
+        "estimated_work_bytes": 120426496,
+        "retained_bytes": 2336960,
+        "process_peak_after_setup_bytes": 53264384,
+        "process_peak_after_detection_bytes": 60604416,
+        "process_peak_after_checks_bytes": 65028096,
+        "label_and_feature_sha256": {
+          "nuclei": "8ff907ad85882f1bf1cb756152adf85cd7678ddea26a3f87bf068717b40ead9b",
+          "bodies": "d0ee12097f99896a11abcec0154ac81ee0220951a67ebc592dad2bd0784e7739",
+          "features": "18fa105de252f8ad61a126d7b443ecadb33e0ff205927b1be4f5a60ec13cfe3c"
+        },
+        "input_sha256": "1c070eaa2c3846ce56df828c8d8ca8866c8d4ff496faf013fb4c22d41854a63d",
+        "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+        "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+        "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+      },
+      "record_sha256": "e62565c3e680ed65bc8b631632020f830b8242c98649cfc48579d6cca230d103"
+    },
+    {
+      "mode": "log-bodies",
+      "repetition": 0,
+      "excluded_warmup": true,
+      "record": {
+        "size": 512,
+        "tile_size": 64,
+        "cells": 64,
+        "capture_ms": 0.1258,
+        "detection_wall_ms": 69.597,
+        "worker_ms": 69.5439,
+        "algorithm": "qpx.log-watershed-bodies/1",
+        "estimated_work_bytes": 119443456,
+        "retained_bytes": 2336960,
+        "process_peak_after_setup_bytes": 53096448,
+        "process_peak_after_detection_bytes": 59715584,
+        "process_peak_after_checks_bytes": 64802816,
+        "label_and_feature_sha256": {
+          "nuclei": "8ff907ad85882f1bf1cb756152adf85cd7678ddea26a3f87bf068717b40ead9b",
+          "bodies": "d0ee12097f99896a11abcec0154ac81ee0220951a67ebc592dad2bd0784e7739",
+          "features": "18fa105de252f8ad61a126d7b443ecadb33e0ff205927b1be4f5a60ec13cfe3c"
+        },
+        "input_sha256": "a48bcc08dfa1ddd06650ecd18acd793dd27ad6dfd65b6e6c603ebe50fdeb9b4f",
+        "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+        "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+        "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+      },
+      "record_sha256": "676c60f1e74cba3cc84089db133ef12a286892b42172b18e42036f78cfe47ce8"
+    },
+    {
+      "mode": "log-bodies",
+      "repetition": 1,
+      "excluded_warmup": false,
+      "record": {
+        "size": 512,
+        "tile_size": 256,
+        "cells": 64,
+        "capture_ms": 0.0599,
+        "detection_wall_ms": 72.955,
+        "worker_ms": 72.9306,
+        "algorithm": "qpx.log-watershed-bodies/1",
+        "estimated_work_bytes": 120426496,
+        "retained_bytes": 2336960,
+        "process_peak_after_setup_bytes": 53321728,
+        "process_peak_after_detection_bytes": 60579840,
+        "process_peak_after_checks_bytes": 65044480,
+        "label_and_feature_sha256": {
+          "nuclei": "8ff907ad85882f1bf1cb756152adf85cd7678ddea26a3f87bf068717b40ead9b",
+          "bodies": "d0ee12097f99896a11abcec0154ac81ee0220951a67ebc592dad2bd0784e7739",
+          "features": "18fa105de252f8ad61a126d7b443ecadb33e0ff205927b1be4f5a60ec13cfe3c"
+        },
+        "input_sha256": "1c070eaa2c3846ce56df828c8d8ca8866c8d4ff496faf013fb4c22d41854a63d",
+        "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+        "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+        "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+      },
+      "record_sha256": "c310b8ef22e03c4929710ef281b278795fc039e5055b278a14a9a19bd8754df7"
+    },
+    {
+      "mode": "log-bodies",
+      "repetition": 1,
+      "excluded_warmup": false,
+      "record": {
+        "size": 512,
+        "tile_size": 64,
+        "cells": 64,
+        "capture_ms": 0.0666,
+        "detection_wall_ms": 70.069,
+        "worker_ms": 70.0414,
+        "algorithm": "qpx.log-watershed-bodies/1",
+        "estimated_work_bytes": 119443456,
+        "retained_bytes": 2336960,
+        "process_peak_after_setup_bytes": 53186560,
+        "process_peak_after_detection_bytes": 59654144,
+        "process_peak_after_checks_bytes": 64933888,
+        "label_and_feature_sha256": {
+          "nuclei": "8ff907ad85882f1bf1cb756152adf85cd7678ddea26a3f87bf068717b40ead9b",
+          "bodies": "d0ee12097f99896a11abcec0154ac81ee0220951a67ebc592dad2bd0784e7739",
+          "features": "18fa105de252f8ad61a126d7b443ecadb33e0ff205927b1be4f5a60ec13cfe3c"
+        },
+        "input_sha256": "a48bcc08dfa1ddd06650ecd18acd793dd27ad6dfd65b6e6c603ebe50fdeb9b4f",
+        "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+        "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+        "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+      },
+      "record_sha256": "0617bdcb8486cccaed0b8c4dc13797defae9edf135e15cde91053008356b6e0c"
+    },
+    {
+      "mode": "log-bodies",
+      "repetition": 2,
+      "excluded_warmup": false,
+      "record": {
+        "size": 512,
+        "tile_size": 256,
+        "cells": 64,
+        "capture_ms": 0.0661,
+        "detection_wall_ms": 70.09,
+        "worker_ms": 70.0675,
+        "algorithm": "qpx.log-watershed-bodies/1",
+        "estimated_work_bytes": 120426496,
+        "retained_bytes": 2336960,
+        "process_peak_after_setup_bytes": 53284864,
+        "process_peak_after_detection_bytes": 60559360,
+        "process_peak_after_checks_bytes": 64892928,
+        "label_and_feature_sha256": {
+          "nuclei": "8ff907ad85882f1bf1cb756152adf85cd7678ddea26a3f87bf068717b40ead9b",
+          "bodies": "d0ee12097f99896a11abcec0154ac81ee0220951a67ebc592dad2bd0784e7739",
+          "features": "18fa105de252f8ad61a126d7b443ecadb33e0ff205927b1be4f5a60ec13cfe3c"
+        },
+        "input_sha256": "1c070eaa2c3846ce56df828c8d8ca8866c8d4ff496faf013fb4c22d41854a63d",
+        "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+        "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+        "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+      },
+      "record_sha256": "2f3b0c912ed1a6aeb8d04a308dec07518bc7030446da648ed5ebb13fd9c30c1d"
+    },
+    {
+      "mode": "log-bodies",
+      "repetition": 2,
+      "excluded_warmup": false,
+      "record": {
+        "size": 512,
+        "tile_size": 64,
+        "cells": 64,
+        "capture_ms": 0.0449,
+        "detection_wall_ms": 70.6967,
+        "worker_ms": 70.6758,
+        "algorithm": "qpx.log-watershed-bodies/1",
+        "estimated_work_bytes": 119443456,
+        "retained_bytes": 2336960,
+        "process_peak_after_setup_bytes": 53338112,
+        "process_peak_after_detection_bytes": 59727872,
+        "process_peak_after_checks_bytes": 64970752,
+        "label_and_feature_sha256": {
+          "nuclei": "8ff907ad85882f1bf1cb756152adf85cd7678ddea26a3f87bf068717b40ead9b",
+          "bodies": "d0ee12097f99896a11abcec0154ac81ee0220951a67ebc592dad2bd0784e7739",
+          "features": "18fa105de252f8ad61a126d7b443ecadb33e0ff205927b1be4f5a60ec13cfe3c"
+        },
+        "input_sha256": "a48bcc08dfa1ddd06650ecd18acd793dd27ad6dfd65b6e6c603ebe50fdeb9b4f",
+        "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+        "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+        "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+      },
+      "record_sha256": "4ddfd82c34c4dafccee37a23ea078c27f676889f5f073772dcc7a5b193b73131"
+    },
+    {
+      "mode": "log-bodies",
+      "repetition": 3,
+      "excluded_warmup": false,
+      "record": {
+        "size": 512,
+        "tile_size": 256,
+        "cells": 64,
+        "capture_ms": 0.1699,
+        "detection_wall_ms": 72.0585,
+        "worker_ms": 72.0325,
+        "algorithm": "qpx.log-watershed-bodies/1",
+        "estimated_work_bytes": 120426496,
+        "retained_bytes": 2336960,
+        "process_peak_after_setup_bytes": 53149696,
+        "process_peak_after_detection_bytes": 59707392,
+        "process_peak_after_checks_bytes": 64819200,
+        "label_and_feature_sha256": {
+          "nuclei": "8ff907ad85882f1bf1cb756152adf85cd7678ddea26a3f87bf068717b40ead9b",
+          "bodies": "d0ee12097f99896a11abcec0154ac81ee0220951a67ebc592dad2bd0784e7739",
+          "features": "18fa105de252f8ad61a126d7b443ecadb33e0ff205927b1be4f5a60ec13cfe3c"
+        },
+        "input_sha256": "1c070eaa2c3846ce56df828c8d8ca8866c8d4ff496faf013fb4c22d41854a63d",
+        "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+        "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+        "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+      },
+      "record_sha256": "603d16876ea1e4a2bdcd2afd4727527c4707a13111feaa2e78a7c898b4978ff3"
+    },
+    {
+      "mode": "log-bodies",
+      "repetition": 3,
+      "excluded_warmup": false,
+      "record": {
+        "size": 512,
+        "tile_size": 64,
+        "cells": 64,
+        "capture_ms": 0.071,
+        "detection_wall_ms": 75.4896,
+        "worker_ms": 75.4647,
+        "algorithm": "qpx.log-watershed-bodies/1",
+        "estimated_work_bytes": 119443456,
+        "retained_bytes": 2336960,
+        "process_peak_after_setup_bytes": 53477376,
+        "process_peak_after_detection_bytes": 60690432,
+        "process_peak_after_checks_bytes": 64987136,
+        "label_and_feature_sha256": {
+          "nuclei": "8ff907ad85882f1bf1cb756152adf85cd7678ddea26a3f87bf068717b40ead9b",
+          "bodies": "d0ee12097f99896a11abcec0154ac81ee0220951a67ebc592dad2bd0784e7739",
+          "features": "18fa105de252f8ad61a126d7b443ecadb33e0ff205927b1be4f5a60ec13cfe3c"
+        },
+        "input_sha256": "a48bcc08dfa1ddd06650ecd18acd793dd27ad6dfd65b6e6c603ebe50fdeb9b4f",
+        "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+        "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+        "build_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "script_sha256": "d04ab2874f831dfb5fb013d71e458cf0643a57940f8651a6c0336633f36cb985",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]"
+      },
+      "record_sha256": "5db84cb4763c6c259f904320d6a2ea6dd118bd2cbffe051415b47eae5d72140c"
+    }
+  ],
+  "scope": "Synthetic disks at256/512/1024 with16/64/256 cells. Independent count/compartment RGB checks and complete label/feature hashes. Timers exclude source setup and output checks. Process peaks include Python/NumPy/imports/input/native allocations and are separate from logical native work budgets. Shared uncontrolled workstation; source2afd broad science/M0-M7/release and formal hardware gates remain separate."
+}

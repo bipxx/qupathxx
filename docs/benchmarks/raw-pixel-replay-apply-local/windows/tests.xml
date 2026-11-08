@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="4"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="1"
+	timestamp="2026-10-26T03:16:48"
+	>
+	<testcase name="pixel_workflows" classname="pixel_workflows" time="0.437052" status="run">
+		<properties/>
+		<system-out>Owner-captured raw training/prediction: deterministic labels, rational axes, document calibration, bounded IO, cancellation, stale compound sources and owner-thread publication passed
+Raw pixel replay: real TIFF reopened training/prediction records verify through fresh owner jobs without promoting historical authority passed
+Raw pixel archives: real TIFF retention, project save/reopen, snapshot save, stale-file refusal and historical-only decode passed
+Raw pixel archives: sampling/prediction semantic round trips, rational axes, authority refusal, tamper/cancel and atomic replacement passed
+Raw pixel contours: rational axes/context, raster membership/area, bounded conversion, cancel, atomic apply/undo/redo and stale authority passed
+Raw pixel replay: pre-IO capture, source-bit comparison, historical/cross-document refusal, recipe/calibration/annotation checks and owner-job verification passed
+Annotation sampling, overlap/balance, portable resolution, tiled source prediction and stale jobs passed
+</system-out>
+	</testcase>
+	<testcase name="source_identity" classname="source_identity" time="0.0557938" status="run">
+		<properties/>
+		<system-out>Compound source bounds, primary-only fingerprint identity, QPV3 round trip and downgrade refusal passed
+Reader generations, observations, association, codecs and native jobs passed
+</system-out>
+	</testcase>
+	<testcase name="tissue_contours" classname="tissue_contours" time="0.257438" status="run">
+		<properties/>
+		<system-out>Native explicit-grid raster eligibility, per-axis metadata, precision and legacy isolation passed
+GEOS explicit-grid edges, ROI holes and anisotropic areas passed
+tissue contour topology, publication and lifecycle passed
+</system-out>
+	</testcase>
+	<testcase name="document_edits" classname="document_edits" time="0.265091" status="run">
+		<properties/>
+		<system-out>Atomic edits, subtree restore, calibration and bounded undo passed
+</system-out>
+	</testcase>
+</testsuite>

@@ -1,0 +1,15 @@
+{
+  "source": "19371b74e0fabb3a91bd77ffe67ded04f46a5220",
+  "observed_at_utc": "2026-10-25T23:29:49.551274+00:00",
+  "passed": 373,
+  "scientific_source_contract_files": 512,
+  "axis_source_contract_files": 35,
+  "dearray_source_contract_files": 60,
+  "compiler_inputs": 317,
+  "fresh_checkout_fingerprint": "68af206c6851e53bef5c30b62e6ea02266221054c3339c25ff0e31512dc36b7a",
+  "local_module_source": "4b0e1313fad77d5bc5c4bccf495e9e120df488ac",
+  "local_module_fingerprint": "6eb238703a073afce7247f89cd63c324969c990ca6db2a26c15d5fd3f0cc69f6",
+  "canonical_compiler_git_blobs_match_local": true,
+  "scope": "Frozen clean-checkout auditor controls and source proofs, not platform acceptance",
+  "release_ready": false
+}

@@ -1,0 +1,300 @@
+{
+  "schema": "qpx.local-installed-workflow-observation/1",
+  "runtime_source": "54147fd2ff89901b5cab07a69a59344a4df38738",
+  "binding_source": "b6bb50e5c0481c440975ee76be9f5102330d7b38",
+  "consumer_observer_source": "47ae2cbfdb1bb095f478f53721ea2a31bdc5fb1f",
+  "source_fingerprint": "e1ceb989d99ffb5f0f736b4fb4dc43ee20b7ba52044e8cb7702a59f7fc27bd3e",
+  "scope": "Windows cp312 installed streamed contour Python API and inherited GUI/CLI/batch/viewer compatibility. New streamed CLI/batch/GUI/viewer and historical reopen workflows remain open.",
+  "wheel_artifacts": {
+    "development": {
+      "name": "qupathxx-0.1.0-cp312-cp312-win_amd64.whl",
+      "bytes": 10663661,
+      "sha256": "da221a6a81379f9393825ac8ae1dd4803b44a43b39e729badeb301f84c8d3705"
+    },
+    "final": {
+      "name": "qupathxx-0.1.0-cp312-cp312-win_amd64.whl",
+      "bytes": 11509491,
+      "sha256": "00e5315a875222f416488655705f9a97a2a2f75993a563667593b9c72758caec"
+    }
+  },
+  "native_passed": 9,
+  "python": {
+    "unique_cases": 219,
+    "passed": 216,
+    "declared_skips": 3,
+    "new_streamed_cases": 7,
+    "actual_gui_compatibility_cases": 48,
+    "collection": "First observation gives 168 passes/51 skips without GUI opt-in. Replace only the same 48 skipped identities with explicit opt-in passing observations; raw XMLs retained. No product rebuild for this correction."
+  },
+  "typing": {
+    "positive_files": 5,
+    "positive_errors": 0,
+    "negative_files": 4,
+    "intended_errors": 15,
+    "new_intended_errors": 3,
+    "initial_empty_analysis_accepted": false,
+    "correction": "Pyright ignores absolute include entries. Initial log analyzed zero files and is retained, not accepted. Relative include paths analyze all five/four files; require exact intended errors."
+  },
+  "shutdown": {
+    "cancel": {
+      "mode": "cancel",
+      "observed_busy": true,
+      "observed_state": "running",
+      "produced_windows": 0,
+      "total_windows": 2240,
+      "runtime_source": "54147fd2ff89901b5cab07a69a59344a4df38738",
+      "shutdown_completed": true
+    },
+    "close": {
+      "mode": "close",
+      "observed_busy": true,
+      "observed_state": "running",
+      "produced_windows": 0,
+      "total_windows": 2240,
+      "runtime_source": "54147fd2ff89901b5cab07a69a59344a4df38738",
+      "shutdown_completed": true
+    }
+  },
+  "new_exports": [
+    "RawPixelStreamContourOptions",
+    "RawPixelStreamContours",
+    "RawPixelStreamContourJob",
+    "trace_raw_pixel_stream",
+    "publish_raw_pixel_stream_contours"
+  ],
+  "package_identity": "All final installed wheel members match exact bytes, capabilities and compiled source/fingerprint; GEOS DLLs load from installed package and match retained open-source SDK; required notices present. Final app/region/batch executables were built explicitly. Development wheel only qualified its binding consumer, not its unrefreshed GUI executable.",
+  "environment": "Separate installed cp312 consumer; test dependencies reused via .pth. Not clean-machine or release acceptance.",
+  "remaining": [
+    "Shared CLI/project batch/ImGui/managed viewer streamed contour consumers",
+    "Retained-file geometry/reopen/replay with fresh live authority",
+    "Frozen platform qualification, science/hardware/resource/release gates"
+  ],
+  "complete_campaign_accepted": false,
+  "payloads": [
+    {
+      "path": "development/compiler-inputs.json",
+      "bytes": 42389,
+      "sha256": "ab5515b9da99bb56071bfd4c743e3eda1945fdc0f328dd7d63ab99accbfecd41"
+    },
+    {
+      "path": "development/previous-products.json",
+      "bytes": 363,
+      "sha256": "880fbaf2f770dd3bfbe66bd7389975be3fe65fffda65c75b284071a332b72aeb"
+    },
+    {
+      "path": "development/development-wheel-build.log",
+      "bytes": 11131,
+      "sha256": "db94f66d64b2800cc6a315b5af8f4237e89c9f87374908a66dadca64f484093c"
+    },
+    {
+      "path": "development/development-wheel-command.json",
+      "bytes": 244,
+      "sha256": "bd01aa825b19607879cbf0bd2e1af94298c67bddbd0a11d907200a70952533a5"
+    },
+    {
+      "path": "development/development-installed-proof.json",
+      "bytes": 715,
+      "sha256": "be082b17559873013c0b1365e21b3426d115dba4044bf1a8cded3387b9295c0c"
+    },
+    {
+      "path": "development/development-tests.xml",
+      "bytes": 910,
+      "sha256": "a479e66fdedcfc2d94905a5213e1138fa3768ed365c7e16a46fe9a0c3f611552"
+    },
+    {
+      "path": "development/development-tests.log",
+      "bytes": 100,
+      "sha256": "4da252514279d6c33c09caf5f762047c86009245231d9a33285f057c844c81f0"
+    },
+    {
+      "path": "development/development-tests-command.json",
+      "bytes": 436,
+      "sha256": "61a5e24ea142e620ae129099fbee7ab78553fde3df659b08fecb0ea94cb30c71"
+    },
+    {
+      "path": "final/compiler-inputs.json",
+      "bytes": 42389,
+      "sha256": "23e391c9cb94fa68b3a0e19e0f93f22a0015f8ea04e81a132777242d7c07e199"
+    },
+    {
+      "path": "final/previous-products.json",
+      "bytes": 2811,
+      "sha256": "fa8eb5955fe170be9f40e7a31232d36c9f95cb2ea0b62b1298523a1fbb5f34f7"
+    },
+    {
+      "path": "final/products.json",
+      "bytes": 2683,
+      "sha256": "7ba679bcd7704f0016b9fe9471fc3983684020c0cd9ac1ef69bddb4ccdcace8f"
+    },
+    {
+      "path": "final/wheel-build.log",
+      "bytes": 20126,
+      "sha256": "46c7e06bd74182eeb99f3fe947cc4c8501cd1ded728823d702fa45208b0155c9"
+    },
+    {
+      "path": "final/wheel-command.json",
+      "bytes": 250,
+      "sha256": "fe402d84cb7e3520f23478a327fa6864453870182ac112bc9f72f8f1af7d346c"
+    },
+    {
+      "path": "final/install.log",
+      "bytes": 518,
+      "sha256": "042a7036f5755372a6d1e6a27e632a7910c3a4cd64965bb211384ef988ccf8d5"
+    },
+    {
+      "path": "final/install-command.json",
+      "bytes": 492,
+      "sha256": "09d8313f8eca60060fd155a966a8cd61d1b71ff3afd01a01897face14a65290d"
+    },
+    {
+      "path": "final/installed-proof.json",
+      "bytes": 9467,
+      "sha256": "ba52833c6c1426dcc437a71b887ac3361f61138ba1b2409e9adc73a3b74c50c9"
+    },
+    {
+      "path": "final/installed-proof.log",
+      "bytes": 113,
+      "sha256": "47518c2dd072c849e03fb5121259f83a01ecbeff6cbdbef762421c8b05010a97"
+    },
+    {
+      "path": "final/native-tests.xml",
+      "bytes": 11678,
+      "sha256": "29a1eac3a7b77d51293ca9678335e45b241c185fa061807aa8b924b4c8117f54"
+    },
+    {
+      "path": "final/native-tests.log",
+      "bytes": 1024,
+      "sha256": "4151ed6a6299296005be77103714d73df98bc5f14f0f138a352e3803c7781ea7"
+    },
+    {
+      "path": "final/python-tests-without-gui-opt-in.xml",
+      "bytes": 41277,
+      "sha256": "8fb64cd93df6a41858686f34112e875d05a54f402b2d350996c02ec1e81bf912"
+    },
+    {
+      "path": "final/python-tests-without-gui-opt-in.log",
+      "bytes": 358,
+      "sha256": "70481f28ac5b8b8ab910708f46d9853b4ab8bc5861a3cb728b1a10881128b353"
+    },
+    {
+      "path": "final/gui-regressions.xml",
+      "bytes": 6593,
+      "sha256": "05b02b08e1feec5825b68fa389c22d491ce612f9d1c45e7955822c5e749258e4"
+    },
+    {
+      "path": "final/gui-regressions.log",
+      "bytes": 102,
+      "sha256": "38aa1ee0abc43b5853a0da77878b0a7448a14891f3901484bbbcbd0a6d31b0ff"
+    },
+    {
+      "path": "final/stubs-check.log",
+      "bytes": 48,
+      "sha256": "f5323cb57dde65ca62cc7b523f2183b1f4ad026dafb74e41bd25dac05ebb2130"
+    },
+    {
+      "path": "final/typing-valid.log",
+      "bytes": 251,
+      "sha256": "f336ca02d747c36ec0c606458d3c771cb31503ae72431dd6ed6c1df0d51afab8"
+    },
+    {
+      "path": "final/typing-invalid.log",
+      "bytes": 11693,
+      "sha256": "f4f75f312ab3bb12322a8894ac0b1fb6259f407c297333f88274cf52cec252fe"
+    },
+    {
+      "path": "final/typing-valid-initial-empty.log",
+      "bytes": 1038,
+      "sha256": "66e3b47d18cdc780934e16ff3385a97957335cc4a94e5c9b49a32f8062224577"
+    },
+    {
+      "path": "final/pyright-valid.json",
+      "bytes": 570,
+      "sha256": "e91bbb8947953d4edc119b684d7206248c4aca2907d0af28a20b8926ef67ed7e"
+    },
+    {
+      "path": "final/pyright-invalid.json",
+      "bytes": 505,
+      "sha256": "5d1a033853f37fbd637f45b620980deb874c73aa167f22f5c5672e957e335a8b"
+    },
+    {
+      "path": "final/pyright-valid-initial-empty.json",
+      "bytes": 774,
+      "sha256": "cb9a44dac4ab87c09ccf480f9aa8ad011c4fb14607364b89ba99fc874d725573"
+    },
+    {
+      "path": "final/verification-commands.json",
+      "bytes": 3507,
+      "sha256": "f1b4039c160d0dd9f9e6e931679e34124f5984201248c1c7ec818440fbc8496d"
+    },
+    {
+      "path": "final/verification-recovery-commands.json",
+      "bytes": 9692,
+      "sha256": "cfe8c7d53c8c17fc3f3f46500d841435f415058f1f6b244fa1039a939cefba10"
+    },
+    {
+      "path": "final/consumer-observer.json",
+      "bytes": 764,
+      "sha256": "b65a96a1e6193dd3668779d9c93d83b3a6cacdc1f20acf0ff2cbf2876a7d1697"
+    },
+    {
+      "path": "final/active-shutdown/cancel-command.json",
+      "bytes": 523,
+      "sha256": "37c653388fcc4e64521b3e0095d16efc035c3f1864c5502e1bf4e612465fec67"
+    },
+    {
+      "path": "final/active-shutdown/cancel-stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "final/active-shutdown/cancel-stdout.log",
+      "bytes": 208,
+      "sha256": "b732cd3c9f5a399a1709fae8b260248145825e72ae7d8fe3c9366d898cab1c9c"
+    },
+    {
+      "path": "final/active-shutdown/close-command.json",
+      "bytes": 522,
+      "sha256": "1e836850106c1ac68e59867fdf6611b85d934e609f82a2de7f51b9ff1d2d16c8"
+    },
+    {
+      "path": "final/active-shutdown/close-stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "final/active-shutdown/close-stdout.log",
+      "bytes": 207,
+      "sha256": "fa3f4efecc80ad5c24481553d052fb905a44b713124d7ad096981824bbc7f4f1"
+    },
+    {
+      "path": "tools/raw_stream_contour_244_backend.py",
+      "bytes": 1006,
+      "sha256": "a94ac9f22e779f447729d5d40d69550b2ff3ee83a31e42d802824c67f7a0aa5e"
+    },
+    {
+      "path": "tools/raw_stream_contour_244_final_backend.py",
+      "bytes": 1294,
+      "sha256": "74ccf6b88e113c2aa71442c725464f12fdb0b69b31509af2d9f9856ffc7054cd"
+    },
+    {
+      "path": "tools/raw_stream_contour_244_final_proof.py",
+      "bytes": 4013,
+      "sha256": "758db14b89e32e41924a06c906e6b5104837d09c92e547ed15298ef88aea68d7"
+    },
+    {
+      "path": "tools/verify_raw_stream_contour_244.py",
+      "bytes": 4514,
+      "sha256": "d34c337e428bc477dc7cd59de41bf05386d0c67151fd478177fcc1a1810fe6e5"
+    },
+    {
+      "path": "final/geos-sdk-files.json",
+      "bytes": 65762,
+      "sha256": "b33300fe0fda396f9bb0c156a6da4470c37fcf7c0f318bd8b0e61062d2c84244"
+    },
+    {
+      "path": "final/opencv-sdk-files.json",
+      "bytes": 22441,
+      "sha256": "7156e582c52b3b263496ddf120f53ab0989274f1e76d37c04ea70e66251a5ac6"
+    }
+  ]
+}

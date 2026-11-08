@@ -1,0 +1,233 @@
+Manylinux build Python 3.11	Build qualify and recheck	﻿2026-10-25T06:15:12.3867874Z ##[group]Run export PATH="$PYBIN:$PATH"
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:15:12.3868263Z [36;1mexport PATH="$PYBIN:$PATH"[0m
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:15:12.3868753Z [36;1m"$PYBIN/python" -I tools/ci/run_manylinux.py --work build/ci/portable $EXTENDED_READERS[0m
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:15:12.3869383Z shell: bash --noprofile --norc -e -o pipefail {0}
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:15:12.3869681Z env:
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:15:12.3869890Z   PYBIN: /opt/python/cp311-cp311/bin
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:15:12.3870175Z   EXTENDED_READERS: --extended-readers
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:15:12.3870439Z ##[endgroup]
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:15:15.2584232Z + /opt/python/cp311-cp311/bin/python -I /__w/qupathxx/qupathxx/tools/fetch_reader_fixtures.py --extended
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:16:05.4742289Z + /opt/python/cp311-cp311/bin/python -I /__w/qupathxx/qupathxx/tools/build_geos_sdk.py --jobs 2
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:19:38.7585269Z + /opt/python/cp311-cp311/bin/python -I /__w/qupathxx/qupathxx/tools/build_opencv_sdk.py --jobs 2
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:21:23.6910394Z + /opt/python/cp311-cp311/bin/python -m pip wheel . --no-deps --no-build-isolation --wheel-dir /__w/qupathxx/qupathxx/build/ci/portable/wheels --config-settings build-dir=/__w/qupathxx/qupathxx/build/ci/portable/native-build --config-settings cmake.define.QUPATHXX_BUILD_TESTS=ON --config-settings cmake.define.QUPATHXX_BUILD_GUI=OFF --config-settings cmake.define.QUPATHXX_BUILD_PYTHON=ON --config-settings cmake.define.QUPATHXX_BUILD_GEOS=ON --config-settings cmake.define.QUPATHXX_BUILD_INTERCHANGE=ON --config-settings cmake.define.QUPATHXX_BUILD_PROJECT=ON --config-settings cmake.define.QUPATHXX_BUILD_CLASSIFIER_TRAINING=ON --config-settings cmake.define.QUPATHXX_BUILD_TIFF=ON --config-settings cmake.define.QUPATHXX_BUILD_OPENSLIDE=ON --config-settings cmake.define.GEOS_ROOT=/__w/qupathxx/qupathxx/build/deps/geos-sdk --config-settings cmake.define.QUPATHXX_BUNDLE_GEOS=ON --config-settings cmake.define.OpenCV_DIR=/__w/qupathxx/qupathxx/build/deps/opencv-sdk/lib64/cmake/opencv4 --config-settings cmake.define.QUPATHXX_OPENCV_NOTICES=/__w/qupathxx/qupathxx/build/deps/opencv-sdk/share/licenses/opencv --config-settings cmake.define.OpenSlide_ROOT=/__w/qupathxx/qupathxx/build/ci/deps/openslide-linux/openslide-bin-4.0.1.2-linux-x86_64 --config-settings cmake.define.QUPATHXX_BUNDLE_OPENSLIDE=ON
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:25:08.1983708Z + ctest --test-dir /__w/qupathxx/qupathxx/build/ci/portable/native-build -C Release --output-on-failure --output-junit /__w/qupathxx/qupathxx/build/ci/portable/native-tests.xml
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:25:10.9188056Z + /opt/python/cp311-cp311/bin/python -m venv /__w/qupathxx/qupathxx/build/ci/portable/install
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:25:14.6914079Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -m pip install -r /__w/qupathxx/qupathxx/tools/ci/requirements.txt /__w/qupathxx/qupathxx/build/ci/portable/wheels/qupathxx-0.1.0-cp311-cp311-linux_x86_64.whl
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:25:29.8919710Z + /opt/python/cp311-cp311/bin/python -I /__w/qupathxx/qupathxx/tools/ci/linux_runtime_manifest.py --wheel /__w/qupathxx/qupathxx/build/ci/portable/wheels/qupathxx-0.1.0-cp311-cp311-linux_x86_64.whl --output /__w/qupathxx/qupathxx/build/ci/portable/linux-wheel-runtime-manifest.json
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:25:30.1568765Z + /opt/python/cp311-cp311/bin/python -I /__w/qupathxx/qupathxx/tools/ci/linux_runtime_manifest.py --wheel /__w/qupathxx/qupathxx/build/ci/portable/wheels/qupathxx-0.1.0-cp311-cp311-linux_x86_64.whl --verify /__w/qupathxx/qupathxx/build/ci/portable/linux-wheel-runtime-manifest.json
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:25:30.4217978Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I /__w/qupathxx/qupathxx/tools/ci/check_linux_runtime.py --wheel /__w/qupathxx/qupathxx/build/ci/portable/wheels/qupathxx-0.1.0-cp311-cp311-linux_x86_64.whl --geos-sdk /__w/qupathxx/qupathxx/build/deps/geos-sdk --openslide-sdk /__w/qupathxx/qupathxx/build/ci/deps/openslide-linux/openslide-bin-4.0.1.2-linux-x86_64 --output /__w/qupathxx/qupathxx/build/ci/portable/linux-runtime.json
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:25:30.7914188Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I /__w/qupathxx/qupathxx/tools/ci/check_install.py --wheel /__w/qupathxx/qupathxx/build/ci/portable/wheels/qupathxx-0.1.0-cp311-cp311-linux_x86_64.whl --output /__w/qupathxx/qupathxx/build/ci/portable/installed-workflow.json --standalone-project /__w/qupathxx/qupathxx/build/ci/portable/standalone-input.qpxproj --openslide-version 4.0.1 --openslide-runtime-sha256 552b5b77901bc9c7e7cc6e02a0b4f2861ffa85572b036a063db4f19ed2f357df
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:25:31.2062385Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I -m pytest tests -q -o faulthandler_timeout=60 --junitxml=/__w/qupathxx/qupathxx/build/ci/portable/python-tests.xml
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0687567Z Traceback (most recent call last):
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0688563Z   File "/__w/qupathxx/qupathxx/tools/ci/run.py", line 360, in <module>
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0689769Z ........................................................................ [  2%]
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0690397Z ........................................................................ [  4%]
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0691017Z .............................ss......................................... [  6%]
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0691632Z ........................................................................ [  9%]
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0692214Z ........................................................................ [ 11%]
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0693105Z ........................................................................ [ 13%]
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0693806Z ....sss...................................................ssssssssssssss [ 16%]
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0694379Z ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss [ 18%]
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0695075Z ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss [ 20%]
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0695755Z ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss [ 23%]
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0696398Z ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss [ 25%]
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0697038Z ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss [ 27%]
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0697546Z ss...................................................................... [ 30%]
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0697909Z ........................................................................ [ 32%]
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0698273Z .................................................s..........ss.......... [ 34%]
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0698646Z .....................s......s..........s................................ [ 37%]
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0699033Z ........................................................................ [ 39%]
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0699403Z ........................................................................ [ 41%]
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0700136Z ......................................F................................. [ 44%]
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0700529Z .................ssss.s.........................s....................... [ 46%]
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0700909Z ..................................s.s................................... [ 48%]
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0701271Z ........................................................................ [ 51%]
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0701647Z ........................................................................ [ 53%]
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0702005Z ........................................................................ [ 55%]
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0702356Z ........................................................................ [ 58%]
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0703106Z ..................................s..................s.................. [ 60%]
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0703487Z ...........................s.........s................................s. [ 62%]
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0703857Z ........................................................................ [ 65%]
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0704210Z ........................................................................ [ 67%]
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0704577Z .........xxx.......................................sss.................. [ 69%]
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0704946Z ...............................................s........................ [ 72%]
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0705505Z .......................................s.......s...................s...s [ 74%]
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0705874Z .s...s...........s...................................................... [ 76%]
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0706245Z ........................................................................ [ 79%]
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0706614Z ........s..........ss.................................s.....ss.......... [ 81%]
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0706982Z ......................................ss................................ [ 83%]
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0707343Z ....s.....................................s............................. [ 86%]
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0707705Z ........................................................................ [ 88%]
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0708062Z ........................................................................ [ 90%]
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0708417Z ......................s................................................. [ 93%]
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0708779Z .........s.............................................................. [ 95%]
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0709141Z ........................................................................ [ 97%]
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0709504Z .........................................ss.........sssssssss.s..        [100%]
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0709866Z =================================== FAILURES ===================================
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0710305Z ___ test_complete_synthetic_cohort_binds_both_abis_but_never_accepts_release ___
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0710624Z 
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0710863Z tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_complete_synthetic_cohort0')
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0711205Z 
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0711450Z     def test_complete_synthetic_cohort_binds_both_abis_but_never_accepts_release(tmp_path):
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0711944Z         for version in ['3.11','3.12']:cohort(tmp_path,version)
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0712309Z >       report=module.audit(tmp_path,run(),COMMIT)
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0712954Z                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0713290Z 
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0713478Z tests/test_manylinux_acceptance.py:87: 
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0713991Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0714361Z tools/ci/accept_manylinux.py:175: in audit
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0714810Z     versions=[audit_version(Path(folder),version,commit,assets) for version in ['3.11','3.12']]
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0715292Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0715833Z tools/ci/accept_manylinux.py:175: in <listcomp>
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0716311Z     versions=[audit_version(Path(folder),version,commit,assets) for version in ['3.11','3.12']]
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0716764Z               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0717075Z tools/ci/accept_manylinux.py:156: in audit_version
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0717580Z     require('Success: no issues found in 4 source files' in (build/'typing.log').read_text(encoding='utf-8'),
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0718106Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0718345Z 
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0718440Z     main()
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0718708Z   File "/__w/qupathxx/qupathxx/tools/ci/run.py", line 202, in main
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0719255Z     run([test_python, '-I', '-m', 'pytest', 'tests', '-q', '-o', 'faulthandler_timeout=60',
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0719744Z   File "/__w/qupathxx/qupathxx/tools/ci/run.py", line 26, in run
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0720181Z     raise RuntimeError(f'command failed ({result.returncode}); log: {log}')
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0720730Z RuntimeError: command failed (1); log: /__w/qupathxx/qupathxx/build/ci/portable/python-tests.log
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0721252Z condition = False, message = 'positive typing check missing'
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0721498Z 
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0721606Z     def require(condition, message):
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0721879Z         if not condition:
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0722234Z >           raise ValueError(message)
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0722522Z E           ValueError: positive typing check missing
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0723800Z 
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0723926Z tools/ci/accept_manylinux.py:30: ValueError
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0724270Z =========================== short test summary info ============================
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0728642Z FAILED tests/test_manylinux_acceptance.py::test_complete_synthetic_cohort_binds_both_abis_but_never_accepts_release - ValueError: positive typing check missing
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0729442Z 1 failed, 2650 passed, 435 skipped, 3 xfailed in 91.40s (0:01:31)
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0729714Z 
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0797188Z Traceback (most recent call last):
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0798302Z   File "/__w/qupathxx/qupathxx/tools/ci/run_manylinux.py", line 49, in <module>
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0799049Z     if __name__=='__main__':main()
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0799542Z                             ^^^^^^
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0800175Z   File "/__w/qupathxx/qupathxx/tools/ci/run_manylinux.py", line 23, in main
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0800928Z     subprocess.run(command,cwd=root,check=True)
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0801426Z   File "/opt/python/cp311-cp311/lib/python3.11/subprocess.py", line 571, in run
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0801885Z     raise CalledProcessError(retcode, process.args,
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0803165Z subprocess.CalledProcessError: Command '['/opt/python/cp311-cp311/bin/python', '-I', '/__w/qupathxx/qupathxx/tools/ci/run.py', '--mode', 'headless', '--work', '/__w/qupathxx/qupathxx/build/ci/portable', '--extended-readers']' returned non-zero exit status 1.
+Manylinux build Python 3.11	Build qualify and recheck	2026-10-25T06:27:03.0977526Z ##[error]Process completed with exit code 1.
+Manylinux build Python 3.12	Build qualify and recheck	﻿2026-10-25T06:16:39.2878120Z ##[group]Run export PATH="$PYBIN:$PATH"
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:16:39.2878399Z [36;1mexport PATH="$PYBIN:$PATH"[0m
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:16:39.2878763Z [36;1m"$PYBIN/python" -I tools/ci/run_manylinux.py --work build/ci/portable $EXTENDED_READERS[0m
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:16:39.2879246Z shell: bash --noprofile --norc -e -o pipefail {0}
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:16:39.2879483Z env:
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:16:39.2879680Z   PYBIN: /opt/python/cp312-cp312/bin
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:16:39.2879909Z   EXTENDED_READERS: --extended-readers
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:16:39.2880119Z ##[endgroup]
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:16:42.1985375Z + /opt/python/cp312-cp312/bin/python -I /__w/qupathxx/qupathxx/tools/fetch_reader_fixtures.py --extended
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:19:39.5075222Z + /opt/python/cp312-cp312/bin/python -I /__w/qupathxx/qupathxx/tools/build_geos_sdk.py --jobs 2
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:22:18.6518092Z + /opt/python/cp312-cp312/bin/python -I /__w/qupathxx/qupathxx/tools/build_opencv_sdk.py --jobs 2
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:23:40.3470165Z + /opt/python/cp312-cp312/bin/python -m pip wheel . --no-deps --no-build-isolation --wheel-dir /__w/qupathxx/qupathxx/build/ci/portable/wheels --config-settings build-dir=/__w/qupathxx/qupathxx/build/ci/portable/native-build --config-settings cmake.define.QUPATHXX_BUILD_TESTS=ON --config-settings cmake.define.QUPATHXX_BUILD_GUI=OFF --config-settings cmake.define.QUPATHXX_BUILD_PYTHON=ON --config-settings cmake.define.QUPATHXX_BUILD_GEOS=ON --config-settings cmake.define.QUPATHXX_BUILD_INTERCHANGE=ON --config-settings cmake.define.QUPATHXX_BUILD_PROJECT=ON --config-settings cmake.define.QUPATHXX_BUILD_CLASSIFIER_TRAINING=ON --config-settings cmake.define.QUPATHXX_BUILD_TIFF=ON --config-settings cmake.define.QUPATHXX_BUILD_OPENSLIDE=ON --config-settings cmake.define.GEOS_ROOT=/__w/qupathxx/qupathxx/build/deps/geos-sdk --config-settings cmake.define.QUPATHXX_BUNDLE_GEOS=ON --config-settings cmake.define.OpenCV_DIR=/__w/qupathxx/qupathxx/build/deps/opencv-sdk/lib64/cmake/opencv4 --config-settings cmake.define.QUPATHXX_OPENCV_NOTICES=/__w/qupathxx/qupathxx/build/deps/opencv-sdk/share/licenses/opencv --config-settings cmake.define.OpenSlide_ROOT=/__w/qupathxx/qupathxx/build/ci/deps/openslide-linux/openslide-bin-4.0.1.2-linux-x86_64 --config-settings cmake.define.QUPATHXX_BUNDLE_OPENSLIDE=ON
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:26:34.8253996Z + ctest --test-dir /__w/qupathxx/qupathxx/build/ci/portable/native-build -C Release --output-on-failure --output-junit /__w/qupathxx/qupathxx/build/ci/portable/native-tests.xml
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:26:36.9941810Z + /opt/python/cp312-cp312/bin/python -m venv /__w/qupathxx/qupathxx/build/ci/portable/install
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:26:38.9619644Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -m pip install -r /__w/qupathxx/qupathxx/tools/ci/requirements.txt /__w/qupathxx/qupathxx/build/ci/portable/wheels/qupathxx-0.1.0-cp312-cp312-linux_x86_64.whl
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:26:50.7505296Z + /opt/python/cp312-cp312/bin/python -I /__w/qupathxx/qupathxx/tools/ci/linux_runtime_manifest.py --wheel /__w/qupathxx/qupathxx/build/ci/portable/wheels/qupathxx-0.1.0-cp312-cp312-linux_x86_64.whl --output /__w/qupathxx/qupathxx/build/ci/portable/linux-wheel-runtime-manifest.json
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:26:51.0151176Z + /opt/python/cp312-cp312/bin/python -I /__w/qupathxx/qupathxx/tools/ci/linux_runtime_manifest.py --wheel /__w/qupathxx/qupathxx/build/ci/portable/wheels/qupathxx-0.1.0-cp312-cp312-linux_x86_64.whl --verify /__w/qupathxx/qupathxx/build/ci/portable/linux-wheel-runtime-manifest.json
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:26:51.2798461Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I /__w/qupathxx/qupathxx/tools/ci/check_linux_runtime.py --wheel /__w/qupathxx/qupathxx/build/ci/portable/wheels/qupathxx-0.1.0-cp312-cp312-linux_x86_64.whl --geos-sdk /__w/qupathxx/qupathxx/build/deps/geos-sdk --openslide-sdk /__w/qupathxx/qupathxx/build/ci/deps/openslide-linux/openslide-bin-4.0.1.2-linux-x86_64 --output /__w/qupathxx/qupathxx/build/ci/portable/linux-runtime.json
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:26:51.5985417Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I /__w/qupathxx/qupathxx/tools/ci/check_install.py --wheel /__w/qupathxx/qupathxx/build/ci/portable/wheels/qupathxx-0.1.0-cp312-cp312-linux_x86_64.whl --output /__w/qupathxx/qupathxx/build/ci/portable/installed-workflow.json --standalone-project /__w/qupathxx/qupathxx/build/ci/portable/standalone-input.qpxproj --openslide-version 4.0.1 --openslide-runtime-sha256 552b5b77901bc9c7e7cc6e02a0b4f2861ffa85572b036a063db4f19ed2f357df
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:26:51.9636584Z + /__w/qupathxx/qupathxx/build/ci/portable/install/bin/python -I -m pytest tests -q -o faulthandler_timeout=60 --junitxml=/__w/qupathxx/qupathxx/build/ci/portable/python-tests.xml
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5882047Z Traceback (most recent call last):
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5882593Z ........................................................................ [  2%]
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5883101Z ........................................................................ [  4%]
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5883548Z .............................ss......................................... [  6%]
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5883990Z ........................................................................ [  9%]
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5884492Z ........................................................................ [ 11%]
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5884932Z ........................................................................ [ 13%]
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5885379Z ....sss...................................................ssssssssssssss [ 16%]
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5886183Z ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss [ 18%]
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5886952Z ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss [ 20%]
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5887704Z ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss [ 23%]
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5888473Z ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss [ 25%]
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5889229Z ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss [ 27%]
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5889821Z ss...................................................................... [ 30%]
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5890256Z ........................................................................ [ 32%]
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5890684Z .................................................s..........ss.......... [ 34%]
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5891206Z   File "/__w/qupathxx/qupathxx/tools/ci/run.py", line 360, in <module>
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5891691Z .....................s......s..........s................................ [ 37%]
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5892450Z ........................................................................ [ 39%]
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5892862Z ........................................................................ [ 41%]
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5893250Z ......................................F................................. [ 44%]
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5893675Z .................ssss.s.........................s....................... [ 46%]
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5894092Z ..................................s.s................................... [ 48%]
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5894503Z ........................................................................ [ 51%]
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5894918Z ........................................................................ [ 53%]
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5895308Z ........................................................................ [ 55%]
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5895700Z ........................................................................ [ 58%]
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5896249Z ..................................s..................s.................. [ 60%]
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5896695Z ...........................s.........s................................s. [ 62%]
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5897097Z ........................................................................ [ 65%]
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5897490Z ........................................................................ [ 67%]
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5897898Z .........xxx.......................................sss.................. [ 69%]
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5898325Z ...............................................s........................ [ 72%]
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5898915Z .......................................s.......s...................s...s [ 74%]
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5899317Z .s...s...........s...................................................... [ 76%]
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5899731Z ........................................................................ [ 79%]
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5900149Z ........s..........ss.................................s.....ss.......... [ 81%]
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5900570Z ......................................ss................................ [ 83%]
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5900987Z ....s.....................................s............................. [ 86%]
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5901379Z ........................................................................ [ 88%]
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5901787Z ........................................................................ [ 90%]
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5902197Z ......................s................................................. [ 93%]
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5902607Z .........s.............................................................. [ 95%]
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5903028Z ........................................................................ [ 97%]
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5903513Z .........................................ss.........sssssssss.s..        [100%]
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5903981Z =================================== FAILURES ===================================
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5904552Z ___ test_complete_synthetic_cohort_binds_both_abis_but_never_accepts_release ___
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5904964Z 
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5905271Z tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_complete_synthetic_cohort0')
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5905703Z 
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5906266Z     def test_complete_synthetic_cohort_binds_both_abis_but_never_accepts_release(tmp_path):
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5906909Z         for version in ['3.11','3.12']:cohort(tmp_path,version)
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5907362Z >       report=module.audit(tmp_path,run(),COMMIT)
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5907741Z                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5907985Z 
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5908119Z tests/test_manylinux_acceptance.py:87: 
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5908539Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5908983Z tools/ci/accept_manylinux.py:175: in audit
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5909525Z     versions=[audit_version(Path(folder),version,commit,assets) for version in ['3.11','3.12']]
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5910255Z               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5910641Z tools/ci/accept_manylinux.py:156: in audit_version
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5911255Z     require('Success: no issues found in 4 source files' in (build/'typing.log').read_text(encoding='utf-8'),
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5911884Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5912143Z 
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5912311Z condition = False, message = 'positive typing check missing'
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5912578Z 
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5912685Z     def require(condition, message):
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5912980Z         if not condition:
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5913266Z >           raise ValueError(message)
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5913603Z E           ValueError: positive typing check missing
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5913936Z 
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5914069Z tools/ci/accept_manylinux.py:30: ValueError
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5914499Z =============================== warnings summary ===============================
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5920104Z tests/test_macos_native_inventory.py::test_changed_archive_layout_modes_and_binaries_fail[duplicate]
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5921225Z   /__w/qupathxx/qupathxx/tools/ci/macos_native_inventory.py:57: UserWarning: Overlapped entries: 'native/qupathxx_batch' (possible zip bomb)
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5922202Z     with archive.open(entry) as content:data=content.read(256*1024*1024+1)
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5922587Z 
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5922856Z -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5923609Z =========================== short test summary info ============================
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5924476Z FAILED tests/test_manylinux_acceptance.py::test_complete_synthetic_cohort_binds_both_abis_but_never_accepts_release - ValueError: positive typing check missing
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5925438Z 1 failed, 2650 passed, 435 skipped, 3 xfailed, 1 warning in 75.23s (0:01:15)
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5926010Z 
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5926125Z     main()
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5926494Z   File "/__w/qupathxx/qupathxx/tools/ci/run.py", line 202, in main
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5927063Z     run([test_python, '-I', '-m', 'pytest', 'tests', '-q', '-o', 'faulthandler_timeout=60',
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5927648Z   File "/__w/qupathxx/qupathxx/tools/ci/run.py", line 26, in run
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5928221Z     raise RuntimeError(f'command failed ({result.returncode}); log: {log}')
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5928946Z RuntimeError: command failed (1); log: /__w/qupathxx/qupathxx/build/ci/portable/python-tests.log
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5985447Z Traceback (most recent call last):
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5986159Z   File "/__w/qupathxx/qupathxx/tools/ci/run_manylinux.py", line 49, in <module>
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5986896Z     if __name__=='__main__':main()
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5987603Z                             ^^^^^^
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5988141Z   File "/__w/qupathxx/qupathxx/tools/ci/run_manylinux.py", line 23, in main
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5988682Z     subprocess.run(command,cwd=root,check=True)
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5989162Z   File "/opt/python/cp312-cp312/lib/python3.12/subprocess.py", line 571, in run
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5989730Z     raise CalledProcessError(retcode, process.args,
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.5990948Z subprocess.CalledProcessError: Command '['/opt/python/cp312-cp312/bin/python', '-I', '/__w/qupathxx/qupathxx/tools/ci/run.py', '--mode', 'headless', '--work', '/__w/qupathxx/qupathxx/build/ci/portable', '--extended-readers']' returned non-zero exit status 1.
+Manylinux build Python 3.12	Build qualify and recheck	2026-10-25T06:28:07.6085074Z ##[error]Process completed with exit code 1.

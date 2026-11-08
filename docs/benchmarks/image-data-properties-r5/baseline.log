@@ -1,0 +1,20 @@
+.F                                                                       [100%]
+================================== FAILURES ===================================
+_____ test_captured_typed_arrays_maps_and_shared_values_roundtrip_exactly _____
+
+tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4909/test_captured_typed_arrays_map0')
+
+    @pytest.mark.skipif(not q.has_project or not q.has_interchange or not q.has_tiff,reason='native import')
+    def test_captured_typed_arrays_maps_and_shared_values_roundtrip_exactly(tmp_path):
+        source=foreign(tmp_path,'portable-values');before={p:p.read_bytes() for p in source.parent.rglob('*') if p.is_file()}
+>       preview=q.preview_qupath_project(str(source));assert preview.issues==[]
+                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       assert [<qupathxx._n...022BC5E78990>] == []
+E         
+E         Left contains one more item: <qupathxx._native.InterchangeIssue object at 0x0000022BC5E78990>
+E         Use -v to get more diff
+
+tests\test_image_data_properties.py:65: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_image_data_properties.py::test_captured_typed_arrays_maps_and_shared_values_roundtrip_exactly
+1 failed, 1 passed in 0.24s

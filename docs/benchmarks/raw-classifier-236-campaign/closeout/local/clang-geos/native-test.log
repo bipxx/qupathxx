@@ -1,0 +1,8 @@
+Internal ctest changing into directory: /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/rawt5-236-clang-minimal
+Test project /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/rawt5-236-clang-minimal
+    Start 1: pixel_workflows
+1/1 Test #1: pixel_workflows ..................   Passed    0.72 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =   0.74 sec

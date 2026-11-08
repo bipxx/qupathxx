@@ -1,0 +1,62 @@
+{
+  "upstream": {
+    "tag": "v0.7.0",
+    "revision": "04ccfa4fb7d43e9b566393e08e83690b72248d44",
+    "version": "0.7.0",
+    "bundle_url": "https://github.com/qupath/qupath/releases/download/v0.7.0/QuPath-v0.7.0-Windows.zip",
+    "bundle_filename": "QuPath-v0.7.0-Windows.zip",
+    "bundle_bytes": 282594398,
+    "bundle_sha256": "5839743281d11eca1ac55c87ddcf92c89a30cba7ba2060f162036b0514b1e30c",
+    "runtime_tree_sha256": "117c0cb3074c7e3d2f4814d731bf0703d38373051d5580462a90d94036314788",
+    "runtime_files": 496,
+    "executable": "QuPath-0.7.0 (console).exe",
+    "license": "GPL-3.0-or-later",
+    "license_source": "https://github.com/qupath/qupath/blob/04ccfa4fb7d43e9b566393e08e83690b72248d44/LICENSE"
+  },
+  "parent": {
+    "fixture": "qupath-root-facts-0.7.0",
+    "manifest_sha256": "fda25f3c97c0f5c0b3f5ee9642a141162fb163301a1a4ddfe78794c9fbc1fe25",
+    "project": "project/project.qpproj",
+    "project_sha256": "edb035b6561d5524b78e30e8d9e075fad5329564d9023c4cef313ba2762d17bc",
+    "source": "source.ome.tif",
+    "source_sha256": "d314094e3b2f29ca7698a8a4d58982bda0e808e3233db2ca4c7c42a2b3fb17cc"
+  },
+  "probes": {
+    "tools/upstream/qupath_class_reference.groovy": "a824a541087308d931680dfe58f1d2523dbe6004ee2d5a32074a6bbaf47971fd",
+    "tools/upstream/qupath_class_readback.groovy": "ffa20d750fa35fa9a32be93fccc25abd11e5b9f2bac6a7ffb1bdfe8da4d98cc7",
+    "tools/upstream/qupath_class_colors_reference.groovy": "a4d174d3cd37b4ca79cd8db703305a37f08761213a09cf08c893fa7f30b7a0d8"
+  },
+  "files": {
+    "color-conflict/classifiers/classes.json": "ea8f15f8b6ee1fc2d40e5c6928d7a07d65c1b98ea954027b36bbc05e7fffd90a",
+    "color-conflict/data/1/data.qpdata": "e0ccd454e3f78f9a01da6e3b012fa91eb35586b83a24400582808e5c1f17ef61",
+    "color-conflict/data/1/server.json": "f5332379792783f60869b699c5a3e9cb66577bbe87c81954582e33f01198cfc6",
+    "color-conflict/data/metadata.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "color-conflict/objects.geojson": "e72a81a84ebf5ef4f70be81ddee42251da0b684db8641a6fc28ce736c48b9b03",
+    "color-conflict/project.qpproj": "96fec4bf81f4bbff738ab8783e00df191a4fc09e0749dda4c50c040bea483675",
+    "empty/classifiers/classes.json": "7686269568a58a96f72a901b55381e017f8252ce9108414c0e0a679623ee8d16",
+    "empty/data/metadata.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "empty/project.qpproj": "30b60afa5325349f66c24956c8fcaf93c7a1b54f6a530c9d76883821096baf02",
+    "null-color/classifiers/classes.json": "59ee50f994b36b2e2541ba878103725df8d44b69e046987220393b3e9b2d199e",
+    "null-color/data/1/data.qpdata": "aa149cba38c841010075f827c2d870e0ece33b0380bf7f17e55611d8d6987231",
+    "null-color/data/1/server.json": "f5332379792783f60869b699c5a3e9cb66577bbe87c81954582e33f01198cfc6",
+    "null-color/data/metadata.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "null-color/objects.geojson": "32d30a2424fbdf8a089481d98173e0a766510eccaff6b4701d4f6e22b7ceeaff",
+    "null-color/project.qpproj": "4b52fceda78b875e12b329aa262cea2fa3e600f73288e75586215acdd843515d",
+    "producer-reference.json": "9c26ca1cd7b0ff0ca853b9c908d9f5e486ce65067c9ee5cd5dc958de6cd6a1d0",
+    "reference.json": "6223c2e10fe342371114385edb503c6522d8cf53a94f2ff108329365eccad281",
+    "rgb/classifiers/classes.json": "7686269568a58a96f72a901b55381e017f8252ce9108414c0e0a679623ee8d16",
+    "rgb/data/1/data.qpdata": "19fa46330dbf20554ad343f49d6908b2b258a273d3eabd56a77e6c3840fd792c",
+    "rgb/data/1/server.json": "f5332379792783f60869b699c5a3e9cb66577bbe87c81954582e33f01198cfc6",
+    "rgb/data/metadata.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "rgb/objects.geojson": "ab44d743b1bbcde07cdb23d6cf5d953157bdfddf50d0290a2b38bf5030a3969d",
+    "rgb/project.qpproj": "5b176fbda8241045fd051f698600c28b0dc876e292636e51d04712c19922105c",
+    "rgba/classifiers/classes.json": "bfe163e701515cac25a8f5fdbcc807131d9a24f5b7bbbf3801465baab3983834",
+    "rgba/data/1/data.qpdata": "3519080621e56f4fca56442ccd4d8b920691ae6ba2e1c2e26f8a04643801601d",
+    "rgba/data/1/server.json": "f5332379792783f60869b699c5a3e9cb66577bbe87c81954582e33f01198cfc6",
+    "rgba/data/metadata.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "rgba/objects.geojson": "9aeb16a8a423ea46f6e58ef3e8d624f79f2dc4c88e2f9c4241b5b20006402bb4",
+    "rgba/project.qpproj": "2f6327ec7a39366c9e92177d0ee41fa708bb656078ce140265b2445cfaf28061",
+    "default-colors.json": "81331916287a2c9ff0c9e2dae9cdfdeb8b71d00c1d5bc12894b5e3c458073f0a"
+  },
+  "scope": "Class-only mutation of retained ROI/builder through lazy PathIO; no new source image, pixels or numerical oracle. Separate fresh process witnesses global class cache/precedence and colorless GeoJSON failure."
+}

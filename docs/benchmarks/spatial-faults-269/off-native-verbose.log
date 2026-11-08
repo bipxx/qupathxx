@@ -1,0 +1,114 @@
+Start testing: Oct 28 06:50 Eastern Daylight Time
+----------------------------------------------------------
+10/54 Testing: viewer_session
+10/54 Test: viewer_session
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/rawtraining218-windows/Release/qupathxx_viewer_session_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/rawtraining218-windows
+"viewer_session" start time: Oct 28 06:50 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Raw contour frontend: fresh bounded rational-grid trace, atomic apply/undo/redo, stale/cancel/budget/oversize refusal passed; GEOS=0
+Raw managed contours: historical preview, fresh revision-guarded apply, atomic undo/redo, active cancellation and pre-commit result admission passed; GEOS=0
+Raw streamed frontend/viewer: cropped direct parity, preview, fresh revision/apply, retained payload/ID admission, atomic undo/redo and stale/cancel/refusal passed; GEOS=0
+Raw pixel viewer: owner training/checkpoint resume, bounded prediction, verified file retention, historical isolation, actual-source-version rejection, stale/queued-and-running-cancel/retry/removal and active shutdown join passed; training=0
+TMA viewer axis commands: copied bounds, revision, cancellation, atomic result and edit admission passed
+Grid viewer producer copies, owner calibration capture, retention, cancellation and stale delivery passed
+Raw grid viewer copied counts/options, owner calibration, retention/replay, cancellation and stale delivery passed
+Spatial managed viewer: shared controller, retained payload admission before keep, history/verify/export, cancellation, expected revisions and stale delivery passed
+Viewer queue, owner dispatch, jobs, lifetime, limits, staleness and shutdown passed
+<end of output>
+Test time =   0.76 sec
+----------------------------------------------------------
+Test Passed.
+"viewer_session" end time: Oct 28 06:50 Eastern Daylight Time
+"viewer_session" time elapsed: 00:00:00
+----------------------------------------------------------
+
+44/54 Testing: spatial
+44/54 Test: spatial
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/rawtraining218-windows/Release/qupathxx_spatial_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/rawtraining218-windows
+"spatial" start time: Oct 28 06:50 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Nearest-point spatial queries: 400 reordered and 200 concurrent exhaustive oracles, 100000-point scenes, anisotropy, ties, identity exclusion, cancellation and numeric limits passed
+Spatial queries, delta updates, picking and undo passed
+<end of output>
+Test time =   0.16 sec
+----------------------------------------------------------
+Test Passed.
+"spatial" end time: Oct 28 06:50 Eastern Daylight Time
+"spatial" time elapsed: 00:00:00
+----------------------------------------------------------
+
+45/54 Testing: spatial_frontend
+45/54 Test: spatial_frontend
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/rawtraining218-windows/Release/qupathxx_spatial_frontend_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/rawtraining218-windows
+"spatial_frontend" start time: Oct 28 06:50 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Spatial shared frontend: capture/keep/history/verify, clone and revision guards, cancellation/retry, atomic protected export, budgets, removed-record ownership and shutdown passed
+<end of output>
+Test time =   0.32 sec
+----------------------------------------------------------
+Test Passed.
+"spatial_frontend" end time: Oct 28 06:50 Eastern Daylight Time
+"spatial_frontend" time elapsed: 00:00:00
+----------------------------------------------------------
+
+46/54 Testing: spatial_cli
+46/54 Test: spatial_cli
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/rawtraining218-windows/Release/qupathxx_spatial_cli_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/rawtraining218-windows
+"spatial_cli" start time: Oct 28 06:50 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Spatial CLI: native measure/save/reopen, historical streamed export, fresh verification, missing-source zero-IO, guarded inputs, no-overwrite, budgets, cancellation and argument refusal passed
+<end of output>
+Test time =   0.55 sec
+----------------------------------------------------------
+Test Passed.
+"spatial_cli" end time: Oct 28 06:50 Eastern Daylight Time
+"spatial_cli" time elapsed: 00:00:00
+----------------------------------------------------------
+
+47/54 Testing: spatial_records
+47/54 Test: spatial_records
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/rawtraining218-windows/Release/qupathxx_spatial_record_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/rawtraining218-windows
+"spatial_records" start time: Oct 28 06:50 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Spatial retained records: exact capture authority, explicit cohorts, clone/replay, calibration/object staleness, closed source and historical ownership passed
+Spatial QSD1 archives: deterministic roundtrip, provenance/input/result identity, nullable rows, corruption/truncation/semantic refusal and cancellation passed
+Spatial CSV: float64 units/identity, absent versus zero, streaming atomic no-overwrite/replacement, limits/cancellation and temporary cleanup passed
+Spatial projects: schema14 save/reopen, immutable async save, history/reverification, snapshot budget, missing linked-image zero-IO replay and corrupt/orphan refusal passed
+Spatial migrations: all13 legacy schemas open without modification and transactionally upgrade with retained distance rows passed
+<end of output>
+Test time =   2.06 sec
+----------------------------------------------------------
+Test Passed.
+"spatial_records" end time: Oct 28 06:50 Eastern Daylight Time
+"spatial_records" time elapsed: 00:00:02
+----------------------------------------------------------
+
+48/54 Testing: spatial_analysis
+48/54 Test: spatial_analysis
+Command: "C:/Users/HEQ/Projects/qupathxx/build/ci/rawtraining218-windows/Release/qupathxx_spatial_analysis_tests.exe"
+Directory: C:/Users/HEQ/Projects/qupathxx/build/ci/rawtraining218-windows
+"spatial_analysis" start time: Oct 28 06:50 Eastern Daylight Time
+Output:
+----------------------------------------------------------
+Spatial captured results: deterministic identity, nucleus/body fallback, anisotropic units, absent targets, limits, clone/stale/thread guards and zero pixel IO passed
+Spatial owner jobs: direct parity, cancellation/retry, running/ready staleness, payload/compute admission, shutdown join and reader-free detached execution passed
+Spatial pinned QuPath reference: geometry=16 explicit_storage_conversion=4 unsupported_planes=4 unavailable_polygons=2; fixed tolerances and translated single-plane geometry passed
+<end of output>
+Test time =   0.11 sec
+----------------------------------------------------------
+Test Passed.
+"spatial_analysis" end time: Oct 28 06:50 Eastern Daylight Time
+"spatial_analysis" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Oct 28 06:50 Eastern Daylight Time

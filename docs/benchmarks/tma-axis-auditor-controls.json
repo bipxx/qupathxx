@@ -1,0 +1,93 @@
+{
+  "schema": "qpx.tma-axis-auditor-controls/1",
+  "observed_at_utc": "2026-10-25T20:45:29.398279+00:00",
+  "harness_source": "b61f7baf133d1b44a791b41c235e5bf8a9d20348",
+  "compiled_module_source": "96172f3702ef910593880a9d5412a0b66601a5bf",
+  "compiler_fingerprint": "12de03f213d3084399c8afa7cdcf1090b73c01226e6a8e12065fc0fc06e4fde4",
+  "compiler_input_files": 312,
+  "compiler_inputs_unchanged": true,
+  "native_rebuilt": false,
+  "preflight_passed": 329,
+  "axis_source_files": 35,
+  "inherited_scientific_source_files": 506,
+  "shared_byte_checker": "One length-framed git cat-file --batch process per source proof; fixtures/captures retain raw-byte rules. Missing, wrong-kind, truncated and trailing output rejects.",
+  "required_axis_cohorts": {
+    "native_suites_with_semantic_markers": 2,
+    "installed_cases": 15,
+    "gui_cases": 24,
+    "headless_declared_gui_skips": 24,
+    "negative_typing_errors": 3
+  },
+  "old_source191_axis_claim_rejected": true,
+  "actual_retained_source961_evidence_accepted": true,
+  "producer_and_auditors": [
+    "tools/ci/run.py",
+    "tools/ci/accept_unified_engine.py",
+    "tools/ci/accept_macos_native.py",
+    "tools/ci/accept_manylinux.py"
+  ],
+  "scope": "Auditor/producer and negative-control engineering checks, plus explicit compatible local evidence reuse. No new platform campaign or binary-source relabeling.",
+  "remaining": "Freeze completed TMA source only after original source191 campaign and promotion work; run the complete required engine/Mac/portable gates at that new source.",
+  "platform_accepted": false,
+  "biological_accepted": false,
+  "release_ready": false,
+  "overall_project_complete": false,
+  "files": {
+    "actual-artifact-probe.json": {
+      "bytes": 903,
+      "sha256": "801b5fbe1d26c4dc631b3eebcf2390e7aff0a369b18ba3df1e7e695c1bc9cdd1"
+    },
+    "axis-source-proof.json": {
+      "bytes": 8098,
+      "sha256": "8746ac0da2dd3588e4808ab88e32e64ec2cee97309bd22b76280da2b9385cfe2"
+    },
+    "changed-harness-source-proof.json": {
+      "bytes": 2891,
+      "sha256": "d429584db2b7f1783693719114b832414f0e2dd5fd7ddf5cceedbeeb7e961aeb"
+    },
+    "compiler-reuse-proof.json": {
+      "bytes": 32942,
+      "sha256": "f4b47040f2f491159bb61ef55123fe66b3268d6732b5cc5a99b6fdb263f8f2b8"
+    },
+    "complete-preflight-command.json": {
+      "bytes": 1936,
+      "sha256": "26cc38e8d122c1e783cee5ef7a543d0a1967bd8ef6b3487697af042255e0afd7"
+    },
+    "complete-preflight.log": {
+      "bytes": 427,
+      "sha256": "cff6ba1500d28ee2b00fbceed30ccc95a17d4d1c9063fc61b559c70c9e5521d5"
+    },
+    "complete-preflight.xml": {
+      "bytes": 50143,
+      "sha256": "588e6fb36ea37be0825b9ec33c55b868338686feedaa5dda541d7ce3d1ac66d3"
+    },
+    "headless-desktop-command.json": {
+      "bytes": 369,
+      "sha256": "ae4fc99f30ae81a537b073e6dcd21cdbd15bfc0ec09a00d88966e405cbd63ffe"
+    },
+    "headless-desktop.log": {
+      "bytes": 102,
+      "sha256": "042b5b3977a94ddd16bb1b0bfcce39019c81103e14073d18b136e231634fcfa4"
+    },
+    "headless-desktop.xml": {
+      "bytes": 7358,
+      "sha256": "c36377da7b8e3e7406fa648863fd3f6af59ee71451b9ad18cb6f0306475d4545"
+    },
+    "hierarchy-source-proof.json": {
+      "bytes": 13456,
+      "sha256": "db256a8eb5ce0d1e9122ef27d03945272cd2c12ae9619380530bbc725292dd9a"
+    },
+    "qptma-source-proof.json": {
+      "bytes": 9830,
+      "sha256": "e093d305f73a53b9cfcab5e115ffa08f742df7eb681cb983869b534b0652f91a"
+    },
+    "scientific-source-proof.json": {
+      "bytes": 122960,
+      "sha256": "9deeb872dbcbf686b46ab4124f37a1fa0c638a125d68755e3a171e23082ef4d1"
+    },
+    "source-summary.json": {
+      "bytes": 773,
+      "sha256": "6d6b95e8783cd42487c4d840de0ac3aa68b3723cb02df5bc6243c5ecb0c16661"
+    }
+  }
+}

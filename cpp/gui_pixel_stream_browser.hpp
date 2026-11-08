@@ -8,16 +8,31 @@
 #include <functional>
 namespace qpx::detail {
 class GuiPixelStreamBrowser {
+    inline static constexpr auto input_targets=std::array{
+        GuiInputTarget::OpenPixelStreamFile,
+        GuiInputTarget::ReadPixelStreamBlock,
+        GuiInputTarget::PreviousPixelStreamBlock,
+        GuiInputTarget::NextPixelStreamBlock,
+        GuiInputTarget::VerifyPixelStreamFile,
+        GuiInputTarget::CancelPixelStreamRead,
+        GuiInputTarget::ClosePixelStreamFile,
+        GuiInputTarget::KeepPixelStreamLink,
+        GuiInputTarget::OpenPixelStreamRecord,
+        GuiInputTarget::RelinkPixelStreamRecord,
+        GuiInputTarget::RemovePixelStreamRecord};
     PixelStreamReadJob job_;PixelStreamReadStats stats_;GuiPixelPreview preview_;
     std::shared_ptr<const PixelPredictionResult> palette_source_;
     std::vector<std::uint32_t> palette_;std::array<char,4096> path_{};
-    std::array<Rect,11> targets_{};Rect image_bounds_{0,0,0,0};
+    std::array<Rect,input_targets.size()> targets_{};Rect image_bounds_{0,0,0,0};
     std::uint64_t index_=0,max_bytes_=1ULL<<40;bool open_=false,visible_=false;std::string error_;
     using Records=std::map<std::uint64_t,std::shared_ptr<const PixelStreamRecord>>;
     std::shared_ptr<const char> identity_;std::uint64_t revision_=0,selected_=0,kept_=0;
     Records::const_iterator cursor_;std::vector<std::shared_ptr<const PixelStreamRecord>> records_;
     bool complete_=false;std::size_t max_step_=0;
-    static std::size_t index(GuiInputTarget t) {return static_cast<std::size_t>(t)-static_cast<std::size_t>(GuiInputTarget::OpenPixelStreamFile);}
+    static constexpr std::size_t index(GuiInputTarget t) {
+        for(std::size_t i=0;i<input_targets.size();++i) if(input_targets[i]==t) return i;
+        return input_targets.size();
+    }
     template<class Work> void run(Work work) {try {work();error_.clear();update();}catch(const std::exception& e) {error_=e.what();}}
 public:
     explicit GuiPixelStreamBrowser(const GuiOptions& o):index_(o.pixel_stream_read_index),max_bytes_(o.pixel_stream_read_max_bytes),open_(o.pixel_stream_browser_open) {
@@ -38,6 +53,7 @@ public:
     const PixelStreamReadStats& stats() const {return stats_;}
     const GuiPixelPreview& preview() const {return preview_;}
     const Rect& preview_bounds() const {return image_bounds_;}
+    static constexpr bool handles(GuiInputTarget target) {return index(target)<input_targets.size();}
     Rect bounds(GuiInputTarget t) const {return targets_.at(index(t));}
     std::string error() const {return !error_.empty()?error_:!stats_.error.empty()?stats_.error:preview_.error();}
     void update() {

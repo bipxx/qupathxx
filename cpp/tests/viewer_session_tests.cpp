@@ -1,5 +1,10 @@
 #include "../viewer_bridge.hpp"
+#include "../raw_pixel_frontend.hpp"
 #include "qupathxx/source_identity.hpp"
+#include "qupathxx/tma.hpp"
+#include "qupathxx/raw_pixel_frontend.hpp"
+#include "quantitative_tiff_fixture.hpp"
+#include "object_forest_fixture.hpp"
 #include <chrono>
 #include <filesystem>
 #include <iostream>
@@ -21,10 +26,191 @@ struct Harness {
     void step(detail::ViewerOwner& owner) {++context.frame;context.active_image=project->active_image();owner.pump(context);}
     ViewerEvent until(detail::ViewerOwner& owner,ViewerSession& session,std::uint64_t ticket) {const auto end=std::chrono::steady_clock::now()+std::chrono::seconds(20);for(;;) {step(owner);const auto event=session.poll(ticket);if(event.state!="queued" && event.state!="running") return event;if(std::chrono::steady_clock::now()>end) throw std::runtime_error("viewer test timeout");std::this_thread::sleep_for(std::chrono::milliseconds(1));}}
 };
+
+void spatial_session_contracts(const std::filesystem::path& root) {
+    Harness h;auto doc=std::make_shared<Document>(Image::demo());const auto a=doc->add_detection(Roi::points({{32,32}})),b=doc->add_detection(Roi::points({{35,36}}));
+    const auto image=h.project->add_document(doc);h.images=h.project->images();ViewerSession session("spatial.qpxproj");detail::ViewerOwner owner(session);
+    const auto ticket=session.spatial_distances(image,{a},{b},{},true,doc->revision());const auto result=h.until(owner,session,ticket);
+    check(result.state=="succeeded" && result.committed && result.record_id && result.spatial && result.spatial->rows()[0].distance==5);const auto record=result.record_id;
+    auto retained=result.spatial;session.take(ticket);check(session.stats().retained_bytes==0);
+    auto next=session.inspect_spatial(image,record);auto view=h.until(owner,session,next);check(view.state=="succeeded" && view.spatial->sha256()==retained->sha256());session.take(next);
+    next=session.verify_spatial(image,record);view=h.until(owner,session,next);check(view.state=="succeeded" && view.verified && !view.committed);session.take(next);
+    const auto csv=(root/"spatial.csv").u8string();next=session.export_spatial(image,record,csv);view=h.until(owner,session,next);check(view.state=="succeeded" && view.committed && view.path==csv);session.take(next);
+    next=session.export_spatial(image,record,csv);view=h.until(owner,session,next);check(view.state=="failed" && !view.committed);session.take(next);
+    const auto detached=(root/"spatial-detached.csv").u8string();next=session.export_spatial(image,record,detached);h.step(owner);
+    const auto deadline=std::chrono::steady_clock::now()+std::chrono::seconds(5);
+    while(!std::filesystem::exists(detached) && std::chrono::steady_clock::now()<deadline)std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    check(std::filesystem::exists(detached));Document replacement=*doc;*doc=replacement;
+    view=h.until(owner,session,next);check(view.state=="detached" && view.committed && view.rows==1);session.take(next);
+    const auto before=doc->spatial_record_count();next=session.spatial_distances(image,{a},{b},{},true);session.cancel(next);view=h.until(owner,session,next);check(view.state=="cancelled" && doc->spatial_record_count()==before);session.take(next);
+    next=session.spatial_distances(image,{a},{b},{},true,doc->revision());doc->rename_annotation(a,"stale before capture");view=h.until(owner,session,next);check(view.state=="stale" && doc->spatial_record_count()==before);session.take(next);
+    next=session.spatial_distances(image,{a},{b},{},true);h.step(owner);doc->rename_annotation(b,"stale before delivery");view=h.until(owner,session,next);check(view.state=="stale" && doc->spatial_record_count()==before);session.take(next);
+    ViewerLimits limits;limits.result_bytes=65536;ViewerSession bounded("spatial-limited.qpxproj",limits);detail::ViewerOwner bound_owner(bounded);
+    std::vector<Annotation> objects;for(std::uint64_t i=0;i<1000;++i)objects.push_back({1000+i,"Point",Roi::points({{double(i%100),double(i/100)}})});
+    auto ids=doc->append_objects(objects,{});next=bounded.spatial_distances(image,ids,ids,{},true);view=h.until(bound_owner,bounded,next);check(view.state=="failed" && doc->spatial_record_count()==before);bounded.take(next);bound_owner.finish(h.context);
+    owner.finish(h.context);check(retained->rows()[0].distance==5);
+    std::cout<<"Spatial managed viewer: shared controller, retained payload admission before keep, history/verify/export, cancellation, expected revisions and stale delivery passed\n";
+}
+
+void raw_pixel_session_contracts(const std::filesystem::path& root) {
+    if(!has_project() || !has_tiff()) {std::cout<<"Raw pixel viewer unavailable: TIFF/project OFF\n";return;}
+    Harness h;const auto path=root/"raw-viewer.tif";qpx_test::raw_pixel_tiff_fixture(path);auto server=open_tiff(path.u8string());auto doc=std::make_shared<Document>(server);
+    const auto a=doc->add_detection(Roi::rectangle({0,0,3,6}),"A",0,"A"),b=doc->add_detection(Roi::rectangle({4,0,4,6}),"B",0,"B");const auto target=doc->add_rectangle({0,0,8,6});const auto image=h.project->add_document(doc);h.images=h.project->images();
+    ScientificRawLattice lattice(8,6,{0,8,7,2},{0,6,5,2});ScientificRawOptions selection;selection.channels=2;RawPixelFeatureOptions features;features.offsets={0,0};features.scales={1,1};
+    RawPixelRecipe recipe(*server->raw_metadata(),lattice,selection,features);std::vector<std::pair<std::string,std::string>> schema;for(const auto& f:recipe.feature_schema()) schema.emplace_back(f.name,f.unit);
+    const RawPixelClassifier model(ForestModel::from_bytes(qpx_test::object_forest_fixture(schema)),recipe);ViewerSession session((root/"raw-owner.qpxproj").u8string());detail::ViewerOwner owner(session);
+    {
+        detail::RawPixelFrontend frontend;const ScientificGrid grid(8,6,lattice.x(),lattice.y(),16u*1024*1024);const auto original=doc->object_count();
+        if(has_geos()) {
+            frontend.trace(*doc,model,grid,{},target);frontend.wait(*doc);auto traced=frontend.report();check(traced.state=="contours_ready" && traced.contours && !traced.contours_published);
+            RawPixelPredictionRequest reference(*doc,model,grid,target,0,16u*1024*1024);const auto expected=trace_raw_pixel_prediction(reference,predict_raw_pixel_region(reference));
+            const auto& components=traced.contours->contours()->components();check(!components.empty() && components.size()==expected->contours()->components().size());
+            for(std::size_t i=0;i<components.size();++i) check(components[i].geometry.equals(expected->contours()->components()[i].geometry));
+            doc->clear_history();const auto ids=frontend.publish(*doc);check(!ids.empty() && doc->object_count()==original+ids.size() && frontend.report().contours_published);rejects([&]{frontend.publish(*doc);});
+            check(doc->undo() && doc->object_count()==original);check(doc->redo() && doc->object_count()==original+ids.size());check(doc->undo() && doc->object_count()==original);
+            frontend.trace(*doc,model,grid,{},target);frontend.wait(*doc);doc->rename_annotation(target,"edited before contour apply");frontend.poll(*doc);check(!frontend.report().contours);rejects([&]{frontend.publish(*doc);});check(doc->object_count()==original);
+            frontend.trace(*doc,model,grid,{},target);frontend.cancel();frontend.wait(*doc);check(!frontend.report().contours && frontend.report().state=="cancelled");check(doc->object_count()==original);
+            TissueContourOptions tiny;tiny.work_bytes=1;frontend.trace(*doc,model,grid,tiny,target);frontend.wait(*doc);check(frontend.report().state=="failed" && !frontend.report().contours && doc->object_count()==original);
+        }else rejects([&]{frontend.trace(*doc,model,grid,{},target);});
+        const auto before=*server->tiff_read_stats();rejects([&]{frontend.trace(*doc,model,ScientificGrid(8,6,{0,8,1000000},{0,6,1000000},16u*1024*1024),{},target);});const auto after=*server->tiff_read_stats();check(before.decoded_blocks==after.decoded_blocks && before.cache_hits==after.cache_hits);
+        std::cout<<"Raw contour frontend: fresh bounded rational-grid trace, atomic apply/undo/redo, stale/cancel/budget/oversize refusal passed; GEOS="<<has_geos()<<'\n';
+    }
+    {
+        const ScientificGrid grid(8,6,lattice.x(),lattice.y(),16u*1024*1024);const auto original=doc->object_count();
+        auto preview=session.contour_raw_pixels(image,model,grid,{},target);auto result=h.until(owner,session,preview);
+        if(has_geos()) {
+            check(result.state=="succeeded" && result.raw_pixel_contours && !result.committed && result.object_ids.empty() && result.bytes>=result.raw_pixel_contours->payload_bytes());const auto historical=result.raw_pixel_contours;const auto captured=doc->revision();session.take(preview);check(!session.stats().retained_bytes);
+            doc->rename_annotation(target,"edited after contour preview");auto apply=session.contour_raw_pixels(image,model,grid,{},target,true,0,16u*1024*1024,"Raw pixel",captured);check(h.until(owner,session,apply).state=="stale");session.take(apply);check(doc->object_count()==original);
+            doc->clear_history();apply=session.contour_raw_pixels(image,model,grid,{},target,true);result=h.until(owner,session,apply);check(result.state=="succeeded" && result.committed && result.raw_pixel_contours && !result.object_ids.empty() && doc->object_count()==original+result.object_ids.size());session.take(apply);check(doc->undo() && doc->object_count()==original);check(doc->redo());check(doc->undo() && doc->object_count()==original && historical->contours()->vertex_count()>0);
+            auto cancelled=session.contour_raw_pixels(image,model,grid,{},target,true);h.step(owner);check(session.poll(cancelled).state=="running" && session.cancel(cancelled));check(h.until(owner,session,cancelled).state=="cancelled");session.take(cancelled);check(doc->object_count()==original);
+            ViewerLimits limits;limits.result_bytes=65536;ViewerSession limited((root/"raw-contour-quota.qpxproj").u8string(),limits);detail::ViewerOwner limited_owner(limited);h.step(limited_owner);
+            const auto refused=limited.contour_raw_pixels(image,model,grid,{},target,true);const auto refusal=h.until(limited_owner,limited,refused);check(refusal.state=="failed" && refusal.error.find("result budget")!=std::string::npos && !refusal.committed && doc->object_count()==original);limited.take(refused);limited_owner.finish(h.context);
+        }else {check(result.state=="failed" && !result.committed && doc->object_count()==original);session.take(preview);}
+        std::cout<<"Raw managed contours: historical preview, fresh revision-guarded apply, atomic undo/redo, active cancellation and pre-commit result admission passed; GEOS="<<has_geos()<<'\n';
+    }
+    {
+        const auto original=doc->object_count();RawPixelStreamOptions stream;stream.tile_width=stream.tile_height=2;stream.work_bytes=16u*1024*1024;
+        RawPixelStreamContourOptions options;options.boundary_work_bytes=2u*1024*1024;options.contours.work_bytes=2u*1024*1024;options.work_bytes=32u*1024*1024;
+        detail::RawPixelFrontend frontend;
+        if(has_geos()) {
+            frontend.trace_stream(*doc,model,lattice,stream,options,RawPixelStreamRegion{1,1,3,2},target);frontend.wait(*doc);
+            const auto report=frontend.report();check(report.state=="contours_ready" && report.stream_contours && !report.contours && report.stream_contours->completed_samples()==6);
+            const auto reference=trace_raw_pixel_stream(RawPixelTiledPredictionRequest(*doc,model,lattice,stream,RawPixelStreamRegion{1,1,3,2},target),options);
+            check(report.stream_contours->prediction_sha256()==reference->prediction_sha256());
+            const auto ids=frontend.publish(*doc);check(!ids.empty() && doc->object_count()==original+ids.size() && frontend.report().contours_published);rejects([&]{frontend.publish(*doc);});check(doc->undo() && doc->object_count()==original && doc->redo() && doc->undo());
+            frontend.trace_stream(*doc,model,lattice,stream,options,{},target);frontend.wait(*doc);doc->rename_annotation(target,"retire streamed preview");frontend.poll(*doc);check(!frontend.report().stream_contours);rejects([&]{frontend.publish(*doc);});
+            frontend.trace_stream(*doc,model,lattice,stream,options,{},target);frontend.cancel();frontend.wait(*doc);check(frontend.report().state=="cancelled" && !frontend.report().stream_contours);
+        } else rejects([&]{frontend.trace_stream(*doc,model,lattice,stream,options,{},target);});
+        auto preview=session.contour_raw_pixel_stream(image,model,lattice,stream,options,RawPixelStreamRegion{1,1,3,2},target);auto event=h.until(owner,session,preview);
+        if(has_geos()) {
+            check(event.state=="succeeded" && event.raw_pixel_stream_contours && !event.raw_pixel_contours && !event.committed && event.object_ids.empty() && event.bytes>=event.raw_pixel_stream_contours->payload_bytes());
+            const auto retained=event.raw_pixel_stream_contours;const auto revision=doc->revision();session.take(preview);check(!session.stats().retained_bytes);
+            doc->rename_annotation(target,"edit after streamed preview");auto apply=session.contour_raw_pixel_stream(image,model,lattice,stream,options,{},target,true,"Streamed",revision);check(h.until(owner,session,apply).state=="stale");session.take(apply);check(doc->object_count()==original);
+            apply=session.contour_raw_pixel_stream(image,model,lattice,stream,options,RawPixelStreamRegion{1,1,3,2},target,true);event=h.until(owner,session,apply);check(event.state=="succeeded" && event.committed && event.raw_pixel_stream_contours && !event.object_ids.empty() && doc->object_count()==original+event.object_ids.size());session.take(apply);check(doc->undo() && doc->object_count()==original && doc->redo() && doc->undo());check(retained->completed_samples()==6);
+            auto cancelled=session.contour_raw_pixel_stream(image,model,lattice,stream,options,{},target,true);h.step(owner);check(session.poll(cancelled).state=="running" && session.cancel(cancelled));check(h.until(owner,session,cancelled).state=="cancelled");session.take(cancelled);check(doc->object_count()==original);
+            ViewerLimits limits;limits.result_bytes=65536;ViewerSession limited((root/"streamed-contour-quota.qpxproj").u8string(),limits);detail::ViewerOwner limited_owner(limited);h.step(limited_owner);
+            const auto refused=limited.contour_raw_pixel_stream(image,model,lattice,stream,options,{},target,true);const auto refusal=h.until(limited_owner,limited,refused);check(refusal.state=="failed" && refusal.error.find("result budget")!=std::string::npos && !refusal.committed && doc->object_count()==original);limited.take(refused);limited_owner.finish(h.context);
+        } else {check(event.state=="failed" && !event.committed);session.take(preview);}
+        std::cout<<"Raw streamed frontend/viewer: cropped direct parity, preview, fresh revision/apply, retained payload/ID admission, atomic undo/redo and stale/cancel/refusal passed; GEOS="<<has_geos()<<'\n';
+    }
+    auto ticket=session.predict_raw_pixels(image,model,lattice.window(1,1,2,2),target);auto result=h.until(owner,session,ticket);
+    auto expected=predict_raw_pixel_window(RawPixelWindowPredictionRequest(*doc,model,lattice.window(1,1,2,2),target));check(result.state=="succeeded" && result.raw_pixel_prediction && result.raw_pixel_prediction->labels()==expected->labels() && result.raw_pixel_prediction->vote_fractions()==expected->vote_fractions() && !result.committed);session.take(ticket);check(session.stats().retained_bytes==0);
+    ticket=session.predict_raw_pixels(image,model,lattice.window(0,0,2,2),target);h.step(owner);doc->rename_annotation(target,"edited during preview");check(h.until(owner,session,ticket).state=="stale");session.take(ticket);
+    RawPixelStreamOptions stream;stream.tile_width=stream.tile_height=2;stream.work_bytes=16u*1024*1024;RawPixelStreamSaveOptions save;save.max_new_windows=1;const auto output=root/"viewer-prediction.qws";
+    ticket=session.export_raw_pixels(image,model,lattice,output.u8string(),stream,save,target,false);result=h.until(owner,session,ticket);check(result.state=="partial" && result.committed && result.raw_pixel_link && !result.raw_pixel_link->summary().complete);session.take(ticket);
+    save.resume_path=output.u8string();save.replace_existing=true;save.max_new_windows=UINT64_MAX;ticket=session.export_raw_pixels(image,model,lattice,output.u8string(),stream,save,target,true);result=h.until(owner,session,ticket);check(result.state=="succeeded" && result.committed && result.record_id && result.raw_pixel_link->summary().complete);const auto record=result.record_id;session.take(ticket);
+    const auto revision=doc->revision();ticket=session.read_raw_pixel_stream(image,"",0,{},record);result=h.until(owner,session,ticket);check(result.state=="succeeded" && result.verified && result.raw_pixel_prediction && doc->revision()==revision && !result.committed);const auto retained=result.raw_pixel_prediction;session.take(ticket);
+    ticket=session.read_raw_pixel_stream(image,"",0,{},record);h.step(owner);++h.context.epoch;check(h.until(owner,session,ticket).state=="stale");session.take(ticket);
+    RawPixelTrainingSettings settings;settings.lattice=lattice;settings.selection=selection;settings.features=features;settings.tiles.width=settings.tiles.height=2;settings.forest.trees=5;settings.forest.max_depth=3;settings.forest.work_bytes=2u*1024*1024;
+    if(has_classifier_training()) {
+        // The table API reuses a real live capture without another TIFF read.
+        RawPixelTiledTrainingRequest capture(*doc,{a,b},lattice,selection,features,settings.sampling,settings.tiles);auto table=sample_raw_pixel_tiled_training(capture);const auto before=*server->tiff_read_stats();RawPixelTiledTrainingJob fit;check(fit.train_table(capture,table,settings.forest) && fit.wait(*doc).state=="ready" && fit.table()==table);const auto after=*server->tiff_read_stats();check(before.decoded_blocks==after.decoded_blocks && before.cache_hits==after.cache_hits);
+        const auto archive=archive_raw_pixel_tiled_training(table);const auto historical=RawPixelArchive::from_bytes(archive->bytes());rejects([&]{fit.train_table(capture,historical->tiled_table(),settings.forest);});RawPixelTiledTrainingRequest other(*doc,{a,b},lattice,selection,features,settings.sampling,settings.tiles);rejects([&]{fit.train_table(other,table,settings.forest);});
+        settings.checkpoint_path=(root/"viewer-training.qtc").u8string();settings.checkpoint.max_new_windows=1;ticket=session.train_raw_pixels(image,{a,b},settings,true);result=h.until(owner,session,ticket);check(result.state=="partial" && result.raw_pixel_checkpoint && !result.raw_pixel_training && !result.record_id);session.take(ticket);
+        settings.checkpoint.resume_path=settings.checkpoint_path;settings.checkpoint.replace_existing=true;settings.checkpoint.max_new_windows=UINT64_MAX;ticket=session.train_raw_pixels(image,{a,b},settings,true);result=h.until(owner,session,ticket);check(result.state=="succeeded" && result.raw_pixel_training && result.raw_pixel_training->model() && result.record_id && result.committed);session.take(ticket);
+    } else {ticket=session.train_raw_pixels(image,{a,b},settings);check(h.until(owner,session,ticket).state=="failed");session.take(ticket);}
+    ticket=session.predict_raw_pixels(image,model,lattice.window(0,0,2,2),target);check(session.cancel(ticket) && session.take(ticket).state=="cancelled");
+    // Cancel after owner dispatch, even when the worker completed before the
+    // next pump: no ready result or record may escape cancellation.
+    ticket=session.predict_raw_pixels(image,model,lattice.window(0,0,2,2),target);h.step(owner);check(session.poll(ticket).state=="running");check(session.cancel(ticket));check(h.until(owner,session,ticket).state=="cancelled");check(!session.take(ticket).raw_pixel_prediction && session.stats().retained_bytes==0);
+    ticket=session.predict_raw_pixels(image,model,lattice.window(0,0,2,2),target);check(h.until(owner,session,ticket).state=="succeeded");session.take(ticket);
+    {
+        ViewerSession closing((root/"raw-closing.qpxproj").u8string());detail::ViewerOwner closing_owner(closing);h.step(closing_owner); // adopt the current workspace epoch before submitting
+        const auto pending=closing.predict_raw_pixels(image,model,lattice.window(0,0,2,2),target);h.step(closing_owner);check(closing.poll(pending).state=="running");
+        closing_owner.finish(h.context);const auto cancelled=closing.take(pending);check(cancelled.state=="cancelled" && !cancelled.raw_pixel_prediction && closing.stats().retained_bytes==0);
+        check(!retained->labels().empty());
+    }
+    ticket=session.predict_raw_pixels(image,model,lattice.window(0,0,2,2),target);h.step(owner);h.project->remove_image(image);check(h.until(owner,session,ticket).state=="stale");session.take(ticket);owner.finish(h.context);check(!retained->labels().empty());
+    {
+        // Actual source-file replacement/version changes must be checked at
+        // delivery, not just against the reader's retained opening metadata.
+        detail::RawPixelFrontend frontend;frontend.predict(*doc,model,lattice.window(0,0,2,2),target,0,16u*1024*1024);frontend.wait(*doc);check(frontend.report().prediction && frontend.report().state=="predicted");
+        frontend.predict(*doc,model,lattice.window(0,0,2,2),target,0,16u*1024*1024);
+        const auto stamp=std::filesystem::last_write_time(path);std::filesystem::last_write_time(path,stamp+std::chrono::seconds(2));frontend.wait(*doc);
+        const auto rejected=frontend.report();check(!rejected.prediction && (rejected.state=="stale" || (rejected.state=="failed" && !rejected.error.empty())));
+        std::filesystem::last_write_time(path,stamp);check(!retained->labels().empty());
+    }
+    server->close();
+    std::cout<<"Raw pixel viewer: owner training/checkpoint resume, bounded prediction, verified file retention, historical isolation, actual-source-version rejection, stale/queued-and-running-cancel/retry/removal and active shutdown join passed; training="<<has_classifier_training()<<'\n';
+}
+
+void axis_session_contracts(const std::filesystem::path& root) {
+    Harness h;auto doc=h.project->document(1);TmaGridOptions o;o.rows=2;o.columns=2;o.origin={8,7};o.row_step={0,8};o.column_step={9,0};o.width=4;o.height=4;doc->create_tma_grid(o);
+    ViewerSession session((root/"axis").u8string());detail::ViewerOwner owner(session);
+    std::vector<Rect> bounds{{4,5,4,4},{13,5,4,4}};
+    auto ticket=session.insert_tma_row(1,1,"inserted",bounds,true,doc->revision());bounds[0].x=25;
+    auto event=h.until(owner,session,ticket);check(event.state=="succeeded" && event.committed && event.object_ids.size()==2);
+    check(doc->annotation(event.object_ids[0]).bounds().x==4 && doc->annotation(event.object_ids[0]).tma_core->missing());session.take(ticket);
+    const auto revision=doc->revision();ticket=session.remove_tma_row(1,1,revision-1);
+    check(h.until(owner,session,ticket).state=="stale" && doc->revision()==revision);session.take(ticket);
+    ticket=session.remove_tma_column(1,0);check(session.cancel(ticket));check(session.take(ticket).state=="cancelled" && doc->revision()==revision);
+    ticket=session.remove_tma_row(1,1,revision);event=h.until(owner,session,ticket);
+    check(event.state=="succeeded" && event.committed && event.object_ids.empty() && doc->tma_core_count()==4);session.take(ticket);
+    ticket=session.insert_tma_column(1,1,"vacant",std::vector<Rect>{});check(h.until(owner,session,ticket).state=="succeeded" && doc->tma_grid()->info()->columns()==3);session.take(ticket);
+    owner.finish(h.context);
+    ViewerLimits limits;limits.max_edits=2;ViewerSession bounded((root/"axis-bounded").u8string(),limits);detail::ViewerOwner controller(bounded);
+    const auto before=doc->revision();ticket=bounded.remove_tma_column(1,0);
+    check(h.until(controller,bounded,ticket).state=="failed" && doc->revision()==before);bounded.take(ticket);controller.finish(h.context);
+    std::cout<<"TMA viewer axis commands: copied bounds, revision, cancellation, atomic result and edit admission passed\n";
+}
+
+void nominal_cell_session_contracts(const std::filesystem::path& root) {
+    Harness h;std::ifstream input(std::filesystem::path(QPX_NOMINAL_VIEWER_FIXTURE)/"source.rgb",std::ios::binary);check(bool(input));
+    const std::vector<std::uint8_t> rgb{std::istreambuf_iterator<char>(input),std::istreambuf_iterator<char>()};check(rgb.size()==256*192*3);
+    auto doc=std::make_shared<Document>(Image(256,192,rgb));doc->set_calibration(.5,.5);
+    const auto object=doc->add_rectangle({0,0,256,192}),image=h.project->add_document(doc,"nominal cells");
+    const StainTransform transform({{.65,.7,.29},{.07,.99,.11}});
+    ViewerSession endpoint((root/"nominal.qpxproj").u8string());detail::ViewerOwner owner(endpoint);
+    NominalCellRoiSampling sampling;sampling.context_x=sampling.context_y=0;
+    GridCellParameters p;p.threshold=.4;p.sigma=1;p.cell_expansion=5;p.min_nucleus_area=16;p.max_nucleus_area=512;p.contours.work_bytes=1024*1024;
+    auto invalid=sampling;invalid.downsample=0;rejects([&]{endpoint.nominal_cells(image,object,transform,invalid,p,true);});
+    check(endpoint.stats().tickets==0 && endpoint.stats().queued_bytes==0);
+    const auto first=endpoint.nominal_cells(image,object,transform,sampling,p,true);sampling.downsample=3;p.min_nucleus_area=10000;
+    auto result=h.until(owner,endpoint,first);
+    check(result.state=="succeeded" && result.committed && result.record_id && result.cells);
+    auto retained=result.cells;check(retained->features().size()==3 && retained->nuclei()->foreground_pixels()==379 && retained->cells()->foreground_pixels()==825);
+    check(retained->nuclei()->nominal_sampling()->source_request().downsample==1.5 && retained->grid_parameters()->min_nucleus_area==16);
+    endpoint.take(first);check(endpoint.stats().retained_bytes==0);
+    sampling.downsample=1.5;p.min_nucleus_area=16;p.units=GridCellUnits::Micrometres;
+    auto ticket=endpoint.nominal_cells(image,object,transform,sampling,p,true);doc->set_calibration(.8,.4);
+    result=h.until(owner,endpoint,ticket);check(result.state=="succeeded" && result.committed);
+    check(std::abs(result.cells->resolved_grid_parameters()->step_x-1.2)<1e-14 && std::abs(result.cells->resolved_grid_parameters()->step_y-.6)<1e-14);endpoint.take(ticket);
+    const auto records=doc->cell_record_count();ticket=endpoint.nominal_cells(image,object,transform,sampling,p,true);
+    h.step(owner);doc->set_calibration(.5,.5);result=h.until(owner,endpoint,ticket);
+    check(result.state=="stale" && !result.committed && doc->cell_record_count()==records);endpoint.take(ticket);
+    ticket=endpoint.nominal_cells(image,object,transform,sampling,p,true);check(endpoint.cancel(ticket));
+    check(endpoint.take(ticket).state=="cancelled" && doc->cell_record_count()==records);
+    auto unknown=std::make_shared<Document>(Image(256,192,rgb));const auto roi=unknown->add_rectangle({0,0,256,192}),other=h.project->add_document(unknown);
+    ticket=endpoint.nominal_cells(other,roi,transform,sampling,p,true);result=h.until(owner,endpoint,ticket);
+    check(result.state=="failed" && !result.committed && result.error.find("calibration")!=std::string::npos);endpoint.take(ticket);
+    owner.finish(h.context);doc->server()->close();check(retained->nuclei()->nominal_sampling()->core_width()==171 && retained->features().size()==3);
+    std::cout<<"Nominal viewer copied options, captured ROI/calibration, pinned masks, retention, cancellation and stale delivery passed\n";
+}
+
 int main() {
     namespace fs=std::filesystem;const auto root=fs::current_path()/("viewer-test-"+std::to_string(std::random_device{}()));
     try {
-        fs::create_directory(root);ViewerLimits limits;limits.validate();limits.tickets=0;rejects([&]{limits.validate();});
+        fs::create_directory(root);raw_pixel_session_contracts(root);axis_session_contracts(root);ViewerLimits limits;limits.validate();limits.tickets=0;rejects([&]{limits.validate();});
         Harness h;ViewerSession session((root/"source.qpxproj").u8string());detail::ViewerOwner owner(session);rejects([&]{detail::ViewerOwner second(session);});
         auto id=session.catalog();auto e=h.until(owner,session,id);check(e.state=="succeeded" && e.images.size()==2);session.take(id);rejects([&]{session.poll(id);});
         id=session.inspect(1,1);e=h.until(owner,session,id);check(e.object && e.metadata && e.metadata->width==32);const auto revision=e.document_revision;session.take(id);
@@ -108,6 +294,36 @@ int main() {
             controller.finish(test.context);doc->server()->close();
             check(retained_cells->calibrated_feature(1).nucleus_sample_area_um2==11.25);
         }
+        {
+            Harness test;std::vector<std::uint8_t> rgb(6*9*3,255);
+            for(int y=3;y<6;++y) for(int x=2;x<4;++x) for(int c=0;c<3;++c) rgb[(y*6+x)*3+c]=32;
+            auto doc=std::make_shared<Document>(Image(6,9,std::move(rgb)));doc->set_calibration(.5,.25);
+            const auto object=doc->add_rectangle({0,0,6,9}),image=test.project->add_document(doc,"grid cells");
+            ViewerSession endpoint((root/"grid.qpxproj").u8string());detail::ViewerOwner controller(endpoint);
+            GridCellSampling sampling{3,3,1,1};GridCellParameters p;p.units=GridCellUnits::Micrometres;
+            p.sigma=0;p.log_prominence=.2;p.min_nucleus_area=.75;p.cell_expansion=.9;p.contours.work_bytes=1024*1024;
+            auto invalid=sampling;invalid.samples_x=0;rejects([&]{endpoint.grid_cells(image,object,transform,invalid,p,true);});
+            check(endpoint.stats().tickets==0 && endpoint.stats().queued_bytes==0);
+            auto ticket=endpoint.grid_cells(image,object,transform,sampling,p,true);
+            sampling.samples_x=1;p.min_nucleus_area=10000;
+            auto result=test.until(controller,endpoint,ticket);
+            check(result.state=="succeeded" && result.committed && result.record_id && result.cells && result.cells->features().size()==1);
+            check(result.cells->nuclei()->scientific_grid()->x().samples()==3 && result.cells->features()[0].cell_pixels==3);
+            check(result.cells->resolved_grid_parameters()->step_x==1. && result.cells->resolved_grid_parameters()->step_y==.75);
+            const auto retained_cells=result.cells;endpoint.take(ticket);check(endpoint.stats().retained_bytes==0);
+            sampling.samples_x=3;p.min_nucleus_area=.75;
+            ticket=endpoint.grid_cells(image,object,transform,sampling,p,true);doc->set_calibration(1,1);
+            result=test.until(controller,endpoint,ticket);
+            check(result.state=="succeeded" && result.cells && result.cells->features()[0].cell_pixels==1);
+            check(result.cells->resolved_grid_parameters()->step_x==2. && result.cells->resolved_grid_parameters()->step_y==3.);endpoint.take(ticket);
+            const auto records=doc->cell_record_count();ticket=endpoint.grid_cells(image,object,transform,sampling,p,true);
+            test.step(controller);doc->set_calibration(.5,.25);
+            check(test.until(controller,endpoint,ticket).state=="stale" && doc->cell_record_count()==records);endpoint.take(ticket);
+            ticket=endpoint.grid_cells(image,object,transform,sampling,p,true);check(endpoint.cancel(ticket));
+            check(endpoint.take(ticket).state=="cancelled" && doc->cell_record_count()==records);
+            controller.finish(test.context);doc->server()->close();check(retained_cells->calibrated_feature(1).cell_sample_area_um2==2.25);
+            std::cout<<"Grid viewer producer copies, owner calibration capture, retention, cancellation and stale delivery passed\n";
+        }
         if(has_tiff()) {
             // Independent little-endian TIFF fixture; no reader encoder shares its implementation.
             const auto input=root/"quantitative.tif";std::vector<unsigned char> bytes={'I','I',42,0,8,0,0,0};
@@ -137,10 +353,53 @@ int main() {
             check(test.until(controller,endpoint,ticket).state=="stale" && doc->raw_analysis_record_count()==1);endpoint.take(ticket);
             ticket=endpoint.verify_raw_analysis(image,record);check(test.until(controller,endpoint,ticket).state=="failed");endpoint.take(ticket);
             ticket=endpoint.export_raw_measurements(image,(root/"stale.csv").u8string(),true);check(test.until(controller,endpoint,ticket).state=="failed" && !fs::exists(root/"stale.csv"));endpoint.take(ticket);
+            {
+                RawGridSampling sampling{1,1,1,1};ScientificRawOptions options;
+                const auto previous_records=doc->raw_analysis_record_count();
+                auto invalid=sampling;invalid.samples_x=0;
+                rejects([&]{endpoint.analyze_raw_grid(image,object,invalid,options);});
+                rejects([&]{endpoint.analyze_raw_grid(image,0,sampling,options);});
+                check(endpoint.stats().tickets==0 && endpoint.stats().queued_bytes==0);
+                ticket=endpoint.analyze_raw_grid(image,object,sampling,options,false,true);
+                sampling.samples_x=2;options.channels=0;doc->set_calibration(2.,3.);
+                result=test.until(controller,endpoint,ticket);
+                check(result.state=="succeeded" && result.committed && result.record_id && result.raw_analysis && result.samples==1);
+                check(result.raw_analysis->grid() && result.raw_analysis->grid()->grid.x().samples()==1);
+                check(result.raw_analysis->grid()->grid.x().context()==1 && result.raw_analysis->statistics().means[0]==26448.);
+                check(result.raw_analysis->pixel_width_um()==2. && result.raw_analysis->pixel_height_um()==3.);
+                const auto grid_record=result.record_id;auto retained_grid=result.raw_analysis;endpoint.take(ticket);
+                check(endpoint.stats().retained_bytes==0 && doc->raw_analysis_record_count()==previous_records+1);
+                ticket=endpoint.verify_raw_analysis(image,grid_record);result=test.until(controller,endpoint,ticket);
+                check(result.state=="succeeded" && result.verified && !result.committed);endpoint.take(ticket);
+                sampling.samples_x=1;options.channels=1;
+                ticket=endpoint.analyze_raw_grid(image,object,sampling,options,false,true);test.step(controller);
+                doc->set_calibration(3.,4.);
+                check(test.until(controller,endpoint,ticket).state=="stale" && doc->raw_analysis_record_count()==previous_records+1);endpoint.take(ticket);
+                ticket=endpoint.analyze_raw_grid(image,object,sampling,options,false,true);test.step(controller);check(endpoint.cancel(ticket));
+                check(test.until(controller,endpoint,ticket).state=="cancelled" && doc->raw_analysis_record_count()==previous_records+1);endpoint.take(ticket);
+                options.work_bytes=1;ticket=endpoint.analyze_raw_grid(image,object,sampling,options,false,true);
+                check(test.until(controller,endpoint,ticket).state=="failed" && doc->raw_analysis_record_count()==previous_records+1);endpoint.take(ticket);
+                check(endpoint.stats().retained_bytes==0 && retained_grid->statistics().means[0]==26448.);
+                std::cout<<"Raw grid viewer copied counts/options, owner calibration, retention/replay, cancellation and stale delivery passed\n";
+            }
             doc->server()->close();fs::remove(input);
             ticket=endpoint.export_raw_measurements(image,(root/"historical.csv").u8string());result=test.until(controller,endpoint,ticket);check(result.state=="succeeded" && result.committed);endpoint.take(ticket);
             check(retained_raw->statistics().means[0]==26448. && retained_raw->source()->primary);
             controller.finish(test.context);
+        }
+        nominal_cell_session_contracts(root);
+        spatial_session_contracts(root);
+        {
+            Harness h;auto doc=h.project->document(1);const auto a=doc->add_roi(Roi::points({{1,1}})),b=doc->add_roi(Roi::points({{2,2}}));
+            ViewerSession session("merge.qpxproj");detail::ViewerOwner owner(session);const auto revision=doc->revision();
+            auto ticket=session.merge_annotations(1,{a,b},false,revision-1);auto event=h.until(owner,session,ticket);
+            check(event.state=="stale" && !event.committed && doc->revision()==revision);session.take(ticket);
+            ticket=session.merge_annotations(1,{a,b},false,revision);event=h.until(owner,session,ticket);
+            check(event.state=="succeeded" && event.action=="merge_annotations" && event.committed && event.object_ids.size()==1);
+            check(h.selected==event.object_ids && doc->annotation(event.object_id).geometry.paths().front().size()==2);session.take(ticket);
+            ticket=session.merge_annotations(1,{event.object_id,999});event=h.until(owner,session,ticket);
+            check(event.state=="failed" && !event.committed);session.take(ticket);owner.finish(h.context);
+            std::cout<<"Managed annotation merge, result identity, selection and stale rejection passed\n";
         }
         fs::remove_all(root);std::cout<<"Viewer queue, owner dispatch, jobs, lifetime, limits, staleness and shutdown passed\n";
     }catch(const std::exception& e) {std::cerr<<e.what()<<'\n';return 1;}

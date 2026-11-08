@@ -1,0 +1,56 @@
+{
+  "passed": 142,
+  "declared_skips": 1,
+  "groups": [
+    {
+      "module": "test_raw_pixel_python",
+      "passed": 12,
+      "declared_skips": 0
+    },
+    {
+      "module": "test_raw_pixel_cli",
+      "passed": 14,
+      "declared_skips": 1
+    },
+    {
+      "module": "test_raw_pixel_batch",
+      "passed": 14,
+      "declared_skips": 0
+    },
+    {
+      "module": "test_gui_raw_pixel",
+      "passed": 17,
+      "declared_skips": 0
+    },
+    {
+      "module": "test_raw_stream_contour_python",
+      "passed": 7,
+      "declared_skips": 0
+    },
+    {
+      "module": "test_raw_contour_seams",
+      "passed": 12,
+      "declared_skips": 0
+    },
+    {
+      "module": "test_gui_raw_stream_contours",
+      "passed": 6,
+      "declared_skips": 0
+    },
+    {
+      "module": "test_raw_stream_contour_cli",
+      "passed": 18,
+      "declared_skips": 0
+    },
+    {
+      "module": "test_raw_stream_contour_batch",
+      "passed": 16,
+      "declared_skips": 0
+    },
+    {
+      "module": "test_raw_file_contours",
+      "passed": 26,
+      "declared_skips": 0
+    }
+  ]
+}

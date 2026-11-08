@@ -1,0 +1,576 @@
+{
+  "schema": "qpx.qupath-cells-contract/1",
+  "upstream_contract": "../qupath-0.7.0/contract.json",
+  "width": 256,
+  "height": 192,
+  "white": [
+    255,
+    255,
+    255
+  ],
+  "vectors": [
+    [
+      0.65,
+      0.7,
+      0.29
+    ],
+    [
+      0.07,
+      0.99,
+      0.11
+    ]
+  ],
+  "native": {
+    "threshold": 0.4,
+    "sigma": 1.0,
+    "min_peak_radius": 1.0,
+    "min_seed_distance": 4.0,
+    "cell_expansion": 5.0,
+    "min_nucleus_pixels": 16,
+    "max_nucleus_pixels": 512,
+    "connectivity": 8,
+    "level": 0
+  },
+  "tile_sizes": [
+    16,
+    64,
+    256
+  ],
+  "comparison": {
+    "match_min_iou": 0.1,
+    "relation_min_pixels": 2,
+    "relation_min_fraction": 0.1,
+    "isolated_nucleus_iou_min": 0.85,
+    "isolated_centroid_error_max_px": 1.0,
+    "feature_absolute": 1e-06,
+    "feature_relative": 1e-06,
+    "sampling_count_error": 0
+  },
+  "cases": [
+    {
+      "name": "slide-edge-1.0",
+      "pixel_size_um": [
+        0.5,
+        0.5
+      ],
+      "nuclei": [
+        [
+          0,
+          40,
+          12,
+          9
+        ],
+        [
+          255,
+          145,
+          14,
+          12
+        ],
+        [
+          100,
+          0,
+          11,
+          10
+        ],
+        [
+          180,
+          191,
+          14,
+          11
+        ],
+        [
+          128,
+          96,
+          10,
+          10
+        ]
+      ],
+      "requested_pixel_size_um": 0.5
+    },
+    {
+      "name": "slide-edge-1.25",
+      "pixel_size_um": [
+        0.5,
+        0.5
+      ],
+      "nuclei": [
+        [
+          0,
+          40,
+          12,
+          9
+        ],
+        [
+          255,
+          145,
+          14,
+          12
+        ],
+        [
+          100,
+          0,
+          11,
+          10
+        ],
+        [
+          180,
+          191,
+          14,
+          11
+        ],
+        [
+          128,
+          96,
+          10,
+          10
+        ]
+      ],
+      "requested_pixel_size_um": 0.625
+    },
+    {
+      "name": "slide-edge-1.5",
+      "pixel_size_um": [
+        0.5,
+        0.5
+      ],
+      "nuclei": [
+        [
+          0,
+          40,
+          12,
+          9
+        ],
+        [
+          255,
+          145,
+          14,
+          12
+        ],
+        [
+          100,
+          0,
+          11,
+          10
+        ],
+        [
+          180,
+          191,
+          14,
+          11
+        ],
+        [
+          128,
+          96,
+          10,
+          10
+        ]
+      ],
+      "requested_pixel_size_um": 0.75
+    },
+    {
+      "name": "slide-edge-2.3",
+      "pixel_size_um": [
+        0.5,
+        0.5
+      ],
+      "nuclei": [
+        [
+          0,
+          40,
+          12,
+          9
+        ],
+        [
+          255,
+          145,
+          14,
+          12
+        ],
+        [
+          100,
+          0,
+          11,
+          10
+        ],
+        [
+          180,
+          191,
+          14,
+          11
+        ],
+        [
+          128,
+          96,
+          10,
+          10
+        ]
+      ],
+      "requested_pixel_size_um": 1.15
+    },
+    {
+      "name": "odd-crop-1.0",
+      "pixel_size_um": [
+        0.5,
+        0.5
+      ],
+      "nuclei": [
+        [
+          7,
+          50,
+          12,
+          9
+        ],
+        [
+          244,
+          145,
+          10,
+          10
+        ],
+        [
+          120,
+          11,
+          12,
+          12
+        ],
+        [
+          160,
+          175,
+          14,
+          14
+        ],
+        [
+          100,
+          95,
+          9,
+          9
+        ]
+      ],
+      "requested_pixel_size_um": 0.5,
+      "roi": [
+        7,
+        11,
+        241,
+        173
+      ]
+    },
+    {
+      "name": "odd-crop-1.25",
+      "pixel_size_um": [
+        0.5,
+        0.5
+      ],
+      "nuclei": [
+        [
+          7,
+          50,
+          12,
+          9
+        ],
+        [
+          244,
+          145,
+          10,
+          10
+        ],
+        [
+          120,
+          11,
+          12,
+          12
+        ],
+        [
+          160,
+          175,
+          14,
+          14
+        ],
+        [
+          100,
+          95,
+          9,
+          9
+        ]
+      ],
+      "requested_pixel_size_um": 0.625,
+      "roi": [
+        7,
+        11,
+        241,
+        173
+      ]
+    },
+    {
+      "name": "odd-crop-1.5",
+      "pixel_size_um": [
+        0.5,
+        0.5
+      ],
+      "nuclei": [
+        [
+          7,
+          50,
+          12,
+          9
+        ],
+        [
+          244,
+          145,
+          10,
+          10
+        ],
+        [
+          120,
+          11,
+          12,
+          12
+        ],
+        [
+          160,
+          175,
+          14,
+          14
+        ],
+        [
+          100,
+          95,
+          9,
+          9
+        ]
+      ],
+      "requested_pixel_size_um": 0.75,
+      "roi": [
+        7,
+        11,
+        241,
+        173
+      ]
+    },
+    {
+      "name": "odd-crop-2.3",
+      "pixel_size_um": [
+        0.5,
+        0.5
+      ],
+      "nuclei": [
+        [
+          7,
+          50,
+          12,
+          9
+        ],
+        [
+          244,
+          145,
+          10,
+          10
+        ],
+        [
+          120,
+          11,
+          12,
+          12
+        ],
+        [
+          160,
+          175,
+          14,
+          14
+        ],
+        [
+          100,
+          95,
+          9,
+          9
+        ]
+      ],
+      "requested_pixel_size_um": 1.15,
+      "roi": [
+        7,
+        11,
+        241,
+        173
+      ]
+    },
+    {
+      "name": "odd-hole-1.5",
+      "pixel_size_um": [
+        0.5,
+        0.5
+      ],
+      "nuclei": [
+        [
+          7,
+          50,
+          12,
+          9
+        ],
+        [
+          244,
+          145,
+          10,
+          10
+        ],
+        [
+          120,
+          11,
+          12,
+          12
+        ],
+        [
+          160,
+          175,
+          14,
+          14
+        ],
+        [
+          100,
+          95,
+          9,
+          9
+        ]
+      ],
+      "roi": [
+        7,
+        11,
+        241,
+        173
+      ],
+      "hole": [
+        90,
+        85,
+        20,
+        20
+      ],
+      "requested_pixel_size_um": 0.75
+    },
+    {
+      "name": "sigma-0.0",
+      "pixel_size_um": [
+        0.5,
+        0.5
+      ],
+      "nuclei": [
+        [
+          54,
+          60,
+          23,
+          20
+        ],
+        [
+          170,
+          118,
+          26,
+          22
+        ]
+      ],
+      "native": {
+        "threshold": 0.4,
+        "sigma": 0.0,
+        "min_peak_radius": 1.0,
+        "min_seed_distance": 4.0,
+        "cell_expansion": 5.0,
+        "min_nucleus_pixels": 16,
+        "max_nucleus_pixels": 4096,
+        "connectivity": 8,
+        "level": 0
+      }
+    },
+    {
+      "name": "sigma-8.5",
+      "pixel_size_um": [
+        0.5,
+        0.5
+      ],
+      "nuclei": [
+        [
+          54,
+          60,
+          23,
+          20
+        ],
+        [
+          170,
+          118,
+          26,
+          22
+        ]
+      ],
+      "native": {
+        "threshold": 0.4,
+        "sigma": 8.5,
+        "min_peak_radius": 1.0,
+        "min_seed_distance": 4.0,
+        "cell_expansion": 5.0,
+        "min_nucleus_pixels": 16,
+        "max_nucleus_pixels": 4096,
+        "connectivity": 8,
+        "level": 0
+      }
+    },
+    {
+      "name": "sigma-8.500001",
+      "pixel_size_um": [
+        0.5,
+        0.5
+      ],
+      "nuclei": [
+        [
+          54,
+          60,
+          23,
+          20
+        ],
+        [
+          170,
+          118,
+          26,
+          22
+        ]
+      ],
+      "native": {
+        "threshold": 0.4,
+        "sigma": 8.500001,
+        "min_peak_radius": 1.0,
+        "min_seed_distance": 4.0,
+        "cell_expansion": 5.0,
+        "min_nucleus_pixels": 16,
+        "max_nucleus_pixels": 4096,
+        "connectivity": 8,
+        "level": 0
+      }
+    },
+    {
+      "name": "sigma-16.0",
+      "pixel_size_um": [
+        0.5,
+        0.5
+      ],
+      "nuclei": [
+        [
+          54,
+          60,
+          23,
+          20
+        ],
+        [
+          170,
+          118,
+          26,
+          22
+        ]
+      ],
+      "native": {
+        "threshold": 0.4,
+        "sigma": 16.0,
+        "min_peak_radius": 1.0,
+        "min_seed_distance": 4.0,
+        "cell_expansion": 5.0,
+        "min_nucleus_pixels": 16,
+        "max_nucleus_pixels": 4096,
+        "connectivity": 8,
+        "level": 0
+      }
+    }
+  ],
+  "intent": "Held-out synthetic edge/lattice/kernel characterization; no biological or general segmentation acceptance"
+}

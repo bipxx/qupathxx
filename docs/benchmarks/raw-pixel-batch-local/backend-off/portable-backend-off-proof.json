@@ -1,0 +1,36 @@
+{
+  "source": "c2c0fa03cd0c6915a2c9134da15e48dda87d8249",
+  "fingerprint": "91702cc594c5f224f5de336eb76302201c27ab1ce05d22ee6bfb91da02d9ec56",
+  "flags": {
+    "QUPATHXX_BUILD_CLASSIFIER_TRAINING": "OFF",
+    "QUPATHXX_BUILD_GEOS": "ON",
+    "QUPATHXX_BUILD_GUI": "ON",
+    "QUPATHXX_BUILD_INTERCHANGE": "OFF",
+    "QUPATHXX_BUILD_OPENSLIDE": "OFF",
+    "QUPATHXX_BUILD_PROJECT": "ON",
+    "QUPATHXX_BUILD_PYTHON": "ON",
+    "QUPATHXX_BUILD_TESTS": "ON",
+    "QUPATHXX_BUILD_TIFF": "ON"
+  },
+  "command": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package\\Release\\qupathxx_batch.exe",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawbatch231-backend-off\\fixture\\input.qpx",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawbatch231-backend-off\\fixture\\out",
+    "--kind",
+    "raw-pixels",
+    "--raw-pixel-model",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawbatch231-backend-off\\fixture\\model.qrm",
+    "--raw-pixel-tile-width",
+    "2",
+    "--raw-pixel-tile-height",
+    "2",
+    "--raw-pixel-work-bytes",
+    "16777216"
+  ],
+  "saved": 2,
+  "reused": 2,
+  "verified_numeric_blocks": 27,
+  "model_sha256": "9aaa1a31f9adf5c6f00a09f2331a7c9ae2a8b806d7a3ac3501636b6004521724",
+  "source_project_unchanged": true,
+  "executable_sha256": "55f6a008ebbdb5282c9d1de8bba9c30c28964b9a56293a291155663e02754ac5"
+}

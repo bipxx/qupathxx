@@ -1,0 +1,12 @@
+{
+  "command": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-stream-history-248-final-env\\Scripts\\python.exe",
+    "-I",
+    "-m",
+    "pytest",
+    "tests",
+    "--collect-only",
+    "-q"
+  ],
+  "returncode": 0
+}

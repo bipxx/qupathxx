@@ -1,0 +1,15 @@
+{
+  "source_revision": "618b0dd0a6f39cc062941c6ea524ac22cb863bc5",
+  "source_tree_sha256": "b30bafcb4c982c55d7069276e4c82b9119d731ef7a69d519e50a19599dcbcd95",
+  "installed_package": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\neighborhood-workflow\\installed\\Lib\\site-packages\\qupathxx",
+  "immutable_wheel_members_verified": 67,
+  "record_handling": "Installer updates RECORD; all67 immutable shipping members match byte-for-byte",
+  "mapped_reader_dlls": {
+    "geos.dll": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\neighborhood-workflow\\installed\\Lib\\site-packages\\qupathxx\\geos.dll",
+    "geos_c.dll": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\neighborhood-workflow\\installed\\Lib\\site-packages\\qupathxx\\geos_c.dll",
+    "libopenslide-1.dll": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\neighborhood-workflow\\installed\\Lib\\site-packages\\qupathxx\\libopenslide-1.dll"
+  },
+  "installed_workflow": "506 imported cells; Python/CLI/ImGui CSV, keep/verify/save/reopen and standalone pass",
+  "reused_native_tree": "b30bafcb4c982c55d7069276e4c82b9119d731ef7a69d519e50a19599dcbcd95",
+  "support": "Local Windows x64 engineering candidate; no new fresh-host, platform, biological or speed claim"
+}

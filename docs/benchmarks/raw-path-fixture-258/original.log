@@ -1,0 +1,47 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+_ test_batch_contour_moved_output_and_changed_model_use_exact_checkpoint_scope _
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/q258-original-pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp/test_batch_contour_moved_outpu0')
+
+    def test_batch_contour_moved_output_and_changed_model_use_exact_checkpoint_scope(tmp_path):
+        import shutil
+        p,docs,model=scene(tmp_path,(8,))
+        try:
+            output=tmp_path/"out";capture=request(p,model,options(model));first=success(q.run_project_batch(capture,str(output)))
+>           relative=Path(first.images[0].path).relative_to(output);moved=tmp_path/"moved";shutil.move(str(output),str(moved))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_raw_stream_contour_batch.py:193: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('//?/C:/Users/HEQ/Projects/qupathxx/build/q258-original-pppppppppppppppppppppppppppppppppppppppppppppppppp...83f9d228ef2599c8e58c8c2152d521f49915ca0b3f35/c036b3f7eac9a5aa5254b4e054a78cd113d630de558e95377a2fb1e2ac4bf428.qpxproj')
+other = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/q258-original-pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp/test_batch_contour_moved_outpu0/out')
+walk_up = False, _deprecated = ()
+
+    def relative_to(self, other, /, *_deprecated, walk_up=False):
+        """Return the relative path to another path identified by the passed
+        arguments.  If the operation is not possible (because this is not
+        related to the other path), raise ValueError.
+    
+        The *walk_up* parameter controls whether `..` may be used to resolve
+        the path.
+        """
+        if _deprecated:
+            msg = ("support for supplying more than one positional argument "
+                   "to pathlib.PurePath.relative_to() is deprecated and "
+                   "scheduled for removal in Python {remove}")
+            warnings._deprecated("pathlib.PurePath.relative_to(*args)", msg,
+                                 remove=(3, 14))
+        other = self.with_segments(other, *_deprecated)
+        for step, path in enumerate([other] + list(other.parents)):
+            if self.is_relative_to(path):
+                break
+            elif not walk_up:
+>               raise ValueError(f"{str(self)!r} is not in the subpath of {str(other)!r}")
+E               ValueError: '\\\\?\\C:\\Users\\HEQ\\Projects\\qupathxx\\build\\q258-original-pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp\\test_batch_contour_moved_outpu0\\out\\image-1-e4cc3c49d31abc7b284983f9d228ef2599c8e58c8c2152d521f49915ca0b3f35\\c036b3f7eac9a5aa5254b4e054a78cd113d630de558e95377a2fb1e2ac4bf428.qpxproj' is not in the subpath of 'C:\\Users\\HEQ\\Projects\\qupathxx\\build\\q258-original-pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp\\test_batch_contour_moved_outpu0\\out'
+
+C:\Users\HEQ\AppData\Roaming\uv\python\cpython-3.12.8-windows-x86_64-none\Lib\pathlib.py:682: ValueError
+=========================== short test summary info ===========================
+FAILED tests/test_raw_stream_contour_batch.py::test_batch_contour_moved_output_and_changed_model_use_exact_checkpoint_scope
+1 failed in 1.15s

@@ -1,0 +1,13 @@
+{
+  "args": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-stream-batch-247-development-env\\Scripts\\python.exe",
+    "-I",
+    "-m",
+    "pytest",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_raw_stream_contour_batch.py",
+    "-q",
+    "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw-stream-batch-247\\development\\new-python-corrected.xml"
+  ],
+  "exit": 0,
+  "seconds": 6.107307400088757
+}

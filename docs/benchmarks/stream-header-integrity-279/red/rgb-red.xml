@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="3" time="0.401" timestamp="2026-10-28T11:54:03.318362-04:00" hostname="HEQPC"><testcase classname="tests.test_pixel_stream_file" name="test_same_stamp_header_changes_refuse_cached_model_use[read_first]" time="0.038" /><testcase classname="tests.test_pixel_stream_file" name="test_same_stamp_header_changes_refuse_cached_model_use[read_later]" time="0.033"><failure message="Failed: DID NOT RAISE any of (RuntimeError, ValueError)">tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/raw-header-integrity-279-second/rgb-red-temp/test_same_stamp_header_changes1')
+operation = 'read_later'
+
+    @pytest.mark.parametrize('operation',['read_first','read_later','verify'])
+    def test_same_stamp_header_changes_refuse_cached_model_use(tmp_path,operation):
+        *_,path,summary=saved(tmp_path);assert summary.blocks&gt;1
+        reader=q.PixelStreamFile(str(path));reader.verify();assert reader.verified
+        # The QPS header archive starts after the fixed 68-byte grid prefix.
+        mutate_header(path,150)
+        action={'read_first':lambda:reader.read_block(0),
+                'read_later':lambda:reader.read_block(1),'verify':reader.verify}[operation]
+&gt;       with pytest.raises((RuntimeError,ValueError)):action()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE any of (RuntimeError, ValueError)
+
+tests\test_pixel_stream_file.py:37: Failed</failure></testcase><testcase classname="tests.test_pixel_stream_file" name="test_same_stamp_header_changes_refuse_cached_model_use[verify]" time="0.033" /></testsuite></testsuites>

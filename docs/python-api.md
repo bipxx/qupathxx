@@ -21,6 +21,24 @@ read-only property, the wrong request type submitted to a job and direct
 construction of a native result object. Live endpoint checks additionally reject
 a Project passed in place of a filename and an Image submitted as an edit.
 
+## Job threads and waits
+
+The [analysis job ownership guide](analysis-jobs.md#python-wait-and-controller-ownership)
+covers the nine older document-taking controllers and five older fingerprint,
+table-export, thumbnail and saved-pixel-reader controllers. Create and drive a controller
+on one thread; cancel may come from another. Python wait holds the GIL for live
+Document checks and delivery, releasing it only for native readiness. Results are
+rechecked after reacquiring. Destruction releases the GIL while joining work.
+Use the managed ViewerSession queue when controlling a running viewer. This
+scoped repair does not declare every Python/reader/job interface thread-safe.
+
+## Delivery map
+
+See [API/workflow delivery paths](api-delivery-plan.md) for existing entry points,
+reuse-first implementation routes, remaining requirements and acceptance per
+API family. These routes preserve the native authority and typed binding
+boundary described here; proposed workflows are not new released API promises.
+
 ## Regeneration
 
 Build and install the current wheel into the interpreter used below, with NumPy,
@@ -70,10 +88,111 @@ gates remain unfinished.
 
 [Pixel recipes and masks](pixel-classifiers.md) expose typed feature options,
 context windows, immutable models/results and uint32/float32/uint8 NumPy views.
-The [pixel example](../examples/pixel_classifier.py) trains, saves, reopens and
-predicts a synthetic grid; physical sampling and source authority remain with
-the caller.
+The [pixel prediction control](../examples/pixel_classifier.py) consumes a native
+model and explicit project ROI. The [training control](../examples/pixel_workflow.py)
+consumes explicit labelled ROI IDs and saves/reopens the native model. Synthetic
+input/oracle examples live in tools; native requests own eligibility, sampling,
+calibration and source compatibility.
 
 The public `GuiReport` includes typed pixel-worker/controller results and the
 logical `canvas_content_bounds` used for image-to-framebuffer mapping. See the
 [F5 pixel desktop contract](pixel-classifier-ui.md).
+
+
+## Typed quantitative grid sampling
+
+The native Python interface supports bounded raw TIFF sampling independently of
+RGB display conversion. This example reads channel/Z/time zero over a bounded
+level-zero window; grid sample counts may differ from source pixel counts.
+
+```python
+import qupathxx as q
+
+server = q.open_tiff("quantitative.tif")
+metadata = server.raw_metadata
+assert metadata is not None
+grid = q.ScientificGrid(
+    metadata.width, metadata.height,
+    q.ScientificGridAxis(0, min(metadata.width, 256), 32),
+    q.ScientificGridAxis(0, min(metadata.height, 256), 32),
+)
+sampled = q.read_scientific_raw(server, grid)
+values = sampled.numpy()          # readonly HWC float64; retains its native owner
+reasons = sampled.reasons_numpy() # HWC uint8; ScientificRawReason codes
+assert q.digest_scientific_raw(server, grid).input_sha256 == sampled.input_sha256
+
+document = q.Document(server)
+request = q.RawAnalysisRequest(document, grid)
+result = q.analyze_raw(request)
+assert result.grid is not None
+record_id = document.keep_raw_analysis(request, result)
+csv = q.raw_analysis_csv(q.RawTableRequest(document, [record_id], True))
+```
+
+Use `ScientificRawOptions` for explicit channel/Z/T selection and work limits.
+A grid result's descriptor separates original dtype/calibration from derived
+binary64 statistics. Natural results have `grid is None`; natural `region`
+access rejects for grid results. Save/reopen keeps historical QRA2 records;
+`RawAnalysisRequest.replay` plus fresh analysis/verification restores current
+status only after validation. Array views and descriptor snapshots survive
+reader close and parent-variable deletion; writable copies use `copy=True`.
+
+This interface has local Windows isolated-candidate checks. Complete wheel,
+platform and grid CLI/batch/ImGui producer qualification remain pending.
+
+## Spatial distances
+
+The [spatial workflow](spatial-analysis.md#installed-python-surface) now has locally
+verified nanobind requests, immutable results, owner jobs, retained project records
+and CSV export. Use bounded rows(start,limit) pages or row(index), and retain None
+for absent targets/distances. Native-only constructions and optional job publication
+are enforced by generated stubs and strict positive/negative typing fixtures.
+[Receipt266](benchmarks/spatial-python-266/receipt.json) records the Windows
+CPython3.12 installed/GIL/lifetime/schema tests. CLI and application controls remain.
+
+## Original-document nominal RGB cells
+
+`NominalCellSampling` wraps a readonly `RgbNominalRequest`, per-axis context and
+owned lattice geometry. Pass it to the additive CellRequest constructor for an
+explicit crop, or use `CellRequest.for_nominal_roi(document, object_id, transform,
+downsample, context_x=32, context_y=32, parameters=GridCellParameters(),
+sampling=RgbNominalSampling.INTEGER_ORIGIN)` to resolve
+bounds in native code. The ROI itself stays unchanged.
+
+Requests, cell results, mask results and classifier feature sources expose owned
+optional `nominal_sampling` descriptors. Existing natural/area recipes return
+`None`. Use `grid_parameters` and `resolved_grid_parameters` for the typed recipe;
+legacy scalar guards remain explicit. Detection, jobs, project storage, replay,
+publication and CSV all reuse their existing native implementations.
+
+See the [workflow](qupath-rgb-resampling.md#native-original-document-cell-recipe),
+[strict typed example](../tests/typing/nominal_cells_valid.py) and
+[installed checks](../tests/test_nominal_cell_python.py). The new binding supports
+original-slide workflows; it does not turn the separate RGB preview document into
+authority for its original image. CLI/batch and GUI/managed creation commands
+reuse this native path. The explicit `RgbNominalSampling.AFFINE_INVERSE` and
+`CellProcessingPolicy.QUPATH_070` choices are documented in the
+[original-source recipe guide](original-source-cell-integration.md), with
+[installed evidence](benchmarks/original-source-cells-305/receipt.json).
+
+
+## Native nominal RGB preview documents
+
+`make_rgb_nominal_preview(document, request)` captures the native source and
+calibration under the GIL, then releases it while native sampling/RGB conversion
+and new-document construction run. The [SDK service](../cpp/include/qupathxx/rgb_preview.hpp)
+owns pixel extraction and calibration scaling. Both known X/Y scales are multiplied
+by the requested nominal downsample; incomplete calibration stays unknown.
+Nonpositive/nonfinite scales or an overflowing scaled calibration refuse before
+pixel I/O. The new document owns the exact opaque RGB pixels, survives source
+closure, and has its own source identity; original-source replay authority is not
+transferred. Underlying synchronous reader calls cannot be interrupted mid-call.
+
+`open_rgb_nominal_source(path, reader="auto")` is the preview consumer's native
+reader selector: auto uses PPM for `.ppm`, the native TIFF reader for `.tif`/`.tiff`,
+and OpenSlide otherwise (case-insensitive suffixes). Explicit `ppm`, `tiff` and
+`openslide` selections are supported. Unknown selections refuse; an unavailable
+native reader does not fall back to Python. This preserves the preview's existing
+all-TIFF policy; the project's separate OME-aware auto policy remains unchanged.
+The [preview control](../examples/rgb_nominal_preview.py) only parses options,
+calls these native factories, displays the report and launches ImGui.

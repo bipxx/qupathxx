@@ -87,6 +87,8 @@ public:
     bool train(const PixelTrainingRequest&,ForestParameters=pixel_forest_parameters());
     bool busy() const;void cancel();
     PixelTrainingStats poll(const Document&);PixelTrainingStats wait(const Document&);
+    // Native readiness only: no Document access, delivery or captured-owner release.
+    void await_completion();
     std::shared_ptr<const PixelTrainingTable> table() const;
     std::shared_ptr<const PixelClassifier> model() const;
 private:

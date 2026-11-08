@@ -176,7 +176,8 @@ AnalysisStats StainEstimateJob::poll(const Document& document,std::uint64_t sele
     if(!busy() && !impl_->result) impl_->request.reset();
     return impl_->stats;
 }
+void StainEstimateJob::await_completion() {if(impl_->future.valid()) impl_->future.wait();}
 AnalysisStats StainEstimateJob::wait(const Document& document,std::uint64_t selected_id) {
-    poll(document,selected_id); if(busy()) impl_->future.wait(); return poll(document,selected_id);
+    poll(document,selected_id); await_completion(); return poll(document,selected_id);
 }
 }

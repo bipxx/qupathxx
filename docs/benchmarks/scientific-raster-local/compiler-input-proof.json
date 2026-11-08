@@ -1,0 +1,1723 @@
+{
+  "source": "ff3f0a6e6cd9312be5b562e23116ae1b00bd99de",
+  "compiler_inputs": 286,
+  "source_tree_sha256": "2892d84ff4bf1d0c85da05b410022ae8f3272c1c619eb3b7997d870a56f43c0b",
+  "files": [
+    {
+      "path": "CMakeLists.txt",
+      "checkout_sha256": "c143eb13e6d9c81d7f5460f5470c645bd1007479eff68bf901f7eb1ce352df3c",
+      "git_blob_sha256": "9cefc20c1dcd32ccfce17c88a42a14c5b5192d02af08bfeba417d8d6d60cf2c4",
+      "line_endings_only": true
+    },
+    {
+      "path": "cmake/FindOpenSlide.cmake",
+      "checkout_sha256": "a481fb18736572e96b609d09de7aa15e9fda6494a368f7fd7240dcc1c3b98c8f",
+      "git_blob_sha256": "c19484ffb05988de7564970766a55d1a2d279dcfc524b76aef32ae0204e30b48",
+      "line_endings_only": true
+    },
+    {
+      "path": "cmake/GeosRuntime.cmake",
+      "checkout_sha256": "01ed85db910ccb94234c4a2c43c7a26416af45d4ff7a729758171d758d45fb47",
+      "git_blob_sha256": "47d03366c7983016a20e23e8559bf30c80d1eed9afdf6d3dfaa4746a6aef5536",
+      "line_endings_only": true
+    },
+    {
+      "path": "cmake/ThirdPartyNotices.cmake",
+      "checkout_sha256": "407289b5bffbd67728d9b684e3c85ba9227f095124e5f6cf2f51af5eb3f88848",
+      "git_blob_sha256": "bb609f36d0aa94d68dfcc3a2766f6e2c4e98b1cfee7c894fd3b974a8d50aa22c",
+      "line_endings_only": true
+    },
+    {
+      "path": "cmake/TiffReader.cmake",
+      "checkout_sha256": "b5a3ad65feb891a587f70e8d2c6c59ed89d7e27da2147dcf8b25b368f9bc6fb1",
+      "git_blob_sha256": "2f3d5f0b7167b597c612a046e1b44f55fd76035633b529db30eb049ed006e7df",
+      "line_endings_only": true
+    },
+    {
+      "path": "cmake/build_manifest.hpp.in",
+      "checkout_sha256": "89659796f389f06955f096380d10b165fb8cab683ffc9210f9a8ae3124204896",
+      "git_blob_sha256": "3e2c97fa0b05e85cc3decae088818a2c76e2e0f6241c44c185ca06a65345f6ec",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/analysis.cpp",
+      "checkout_sha256": "0e70d7c448009aab4d14e37b99b031a5f5da60716c1633fb82010018713d7b6f",
+      "git_blob_sha256": "4d4989d9ff4c9ab1d8bb3117b8056cbde9cdcadb0640489857dac69e1e6d8705",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/analysis_bindings.cpp",
+      "checkout_sha256": "2ff937e8e4a8815aa4c78625fcc4b15922a6264f1c253dc405678ceac416193c",
+      "git_blob_sha256": "757916e6a8a31f8efd402218560af26eded4ff05e5ef5dd23e9cdb9ad2254a54",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/analysis_records.cpp",
+      "checkout_sha256": "1ff6d91905db799a59f7f8f1469b97c9048330e16a57c31a6bbb28fbc07a28e2",
+      "git_blob_sha256": "b321a42a75721fb3f940359cc64b66b81d3bbb7104c31b6404d6d0db980fa6db",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/array_bindings.cpp",
+      "checkout_sha256": "328b33fc366af2e44da75e132060dd9b422c5cb204fc0458f5dc8c2015f6cc64",
+      "git_blob_sha256": "b173665823573ca17ac6275b537d1d128153b235654cff9daf4dff41bd4a6e04",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/atomic_export.hpp",
+      "checkout_sha256": "7c079cd9ac8f0e400d8f71eaf1dddddd94144c0e0d04c1e819ece2660fe597b3",
+      "git_blob_sha256": "812545745a90f7ddd892f7723ff8aa149bb4c1911e619e071039835a7ef78e1a",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/batch_checkpoint.cpp",
+      "checkout_sha256": "1a3f10800d709f56fdf9b56ebc79c4f0a7d5269183939bd001b41e79ac26f141",
+      "git_blob_sha256": "df0f34c9cbbc9715095db0d1a36c8b8175603b66e96833b431882e95b3128d4d",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/batch_checkpoint.hpp",
+      "checkout_sha256": "078b4b22357023c85f9135d90106b352bcb7e4b00070b583a81b2480cdf5c1ef",
+      "git_blob_sha256": "dd6df107c2317bdc8889aa9c1641d5a1676ddfe5396e39000e9d76c5d863490a",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/batch_main.cpp",
+      "checkout_sha256": "7c3a13c8287b2fbc32d6eb2fe36ee74d6c25f4335af7bf52be1fc40698b01326",
+      "git_blob_sha256": "dc54673fce16bfc23a023374e178fdf0d23db8b70cd741b4a2670e2d706f4a60",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/bindings.cpp",
+      "checkout_sha256": "3fb6f1cb6e38a2eec1210d2aeea3aa31e4843b2db1021f14571463a423e8bc10",
+      "git_blob_sha256": "893b512db3d42e4b57c0cb8d33e9c3c96d08940bc06aaa8542774642b68fe6e0",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/calibrated_cell_numeric.hpp",
+      "checkout_sha256": "2c0c87b53e9fb133548a10af6341b3706debbd757999a955aea3c7af6eb3d3ef",
+      "git_blob_sha256": "259a453a3346c0d0a38850b15a848cb7f7bd8b706fb88c670896cb89e971ffdb",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/cell_archive.cpp",
+      "checkout_sha256": "cda39889d43f74edd52eed9ee495ae3b3e3c9dd04a08f7dcf851895a41c970d3",
+      "git_blob_sha256": "834bf3b8cd61d7c8a070729c698ceeda5c4919e0197816d7a2e40c60ac90997a",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/cell_archive.hpp",
+      "checkout_sha256": "14da2399be9e4e71f560147116e636ac4528433898c68a5cba0be6090fa9e59f",
+      "git_blob_sha256": "0213966159a3045d1fe1c4c3094d5a6a4e1acf4eda2d4474247ea0216e70d494",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/cell_bindings.cpp",
+      "checkout_sha256": "ae54c9e9e84584ae16f6e09b736175dca7f2da498fe4bca7bb691558d7e3a411",
+      "git_blob_sha256": "44a69a3aa7c1210daeb798faceb866e40762c99e51cc200c4e4601037fbe8242",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/cell_contours.hpp",
+      "checkout_sha256": "b0320c7fb134f465821e45a872a5671ea5fc4d7473b167de3bf9474a4b8be704",
+      "git_blob_sha256": "796fc8702430ff234de706bddcab03cf4bc0fe268699c2e4af0ce97b8fb0c557",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/cell_expansion.hpp",
+      "checkout_sha256": "3e133216eba4e630fb2bfdc181ffc49a7fd9be61bc62f8b5db8e2257cd0da134",
+      "git_blob_sha256": "dec5f63699eed5adc25e4935a5c3e4d750e58877255edaf464389cb25a4937f1",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/cell_numeric.hpp",
+      "checkout_sha256": "5efc64c1875c7289fb1aa68efa90a70e9f5e3ba03a74c75875ac20472c5412b9",
+      "git_blob_sha256": "dc32dfb7076602785f5f4fef5e42ed1d7a8d74395f5214bb97fb534be0b066e6",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/cell_object_status.hpp",
+      "checkout_sha256": "a5cf0fc100c0ba710e46c0a7030e8b7643c4c0661d0068a69278ad3ba6e280a3",
+      "git_blob_sha256": "6e10ff5f79231fd3fe0bf9608af56f51d8c85f5c2fdeebffa6244ac3224fa207",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/cell_recipe.hpp",
+      "checkout_sha256": "7d8d5fcb46d65b33d8d6a488383f2ed0d8cf2a63bcedfb5a181c15ab0ce4e227",
+      "git_blob_sha256": "011e3887dd7665c28ffc1e7a5f2138ad3b3068a7e6a8b57bde03985a3b9d8c5f",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/cell_records.cpp",
+      "checkout_sha256": "a73870a4b66d629c39bdfbba6d0dafd976925a85f500c6ec9089e158b955110f",
+      "git_blob_sha256": "f5dfe3de4813404a4da479bc485b9a96d5da07819beb45454bf651ba90ef0337",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/cell_table_bindings.cpp",
+      "checkout_sha256": "2f3c158a5ad965080be3eb6388a9a3d9636209293db2a7df00efec098ada7f11",
+      "git_blob_sha256": "25545ebc4ba8351ff4f2327a28bb79a27ea65583ca7eada6eb3427f86468d7b9",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/cell_table_cli.cpp",
+      "checkout_sha256": "4f1b40b17b647b08655f047ff8193c5786332a6e7d6a6c1b6dc424558d081d76",
+      "git_blob_sha256": "6173aaa94733deb8bdfce56d9f77691d52f72ebbb8483eef4f4f130c6ff53e45",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/cell_table_cli.hpp",
+      "checkout_sha256": "9e480e6c6c85939164318e63fdb46732e0aeac18a350d110e31e81901adb0c5a",
+      "git_blob_sha256": "dd7ef72d319a299706526efddc60d71c062f12505be8940eedb869816ff1ec6c",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/cell_tables.cpp",
+      "checkout_sha256": "dfb2d93b9d5d0d39eac266214b40e2e00a63fe20fd2f5aca22e1d7f96e4fd11d",
+      "git_blob_sha256": "2f5528a6c1ca74aa06d5d47fe64ee539706d1d7ba0eac0758f7ca8b7aeff8dde",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/cells.cpp",
+      "checkout_sha256": "5a294f74eed7aba1bc4b518ee7cba246208ec4cf6f17c210ebedb70b0d322618",
+      "git_blob_sha256": "d8cee561e4638371739f618b2b367519f7e0b95ee3f94b5bdc4e62a948d3092b",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/classification_edit.hpp",
+      "checkout_sha256": "3e1d340e128a0133d05613139d69aeacc57c3eaa58619d19f31456be3c244112",
+      "git_blob_sha256": "deaafedbe67dfb6b5f374eaf139217816a5fdda72d3a454ee9aca895bbe07feb",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/classifier.cpp",
+      "checkout_sha256": "71c018e6e19be241f530317b005f94e6f58b2c53aa428850cae27ce859108373",
+      "git_blob_sha256": "4a821cc1603ba1463ec85f11c8d3a82138d003d974967296044e086a2dc4d818",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/classifier_bindings.cpp",
+      "checkout_sha256": "60e811e1e2edb49506352f7e98961018af0a7e24f007da77fb558a6cc55ed3a5",
+      "git_blob_sha256": "ba46b64f143dcf90cb026726a638bc6e7f4c6fb894b58c1138eb20ccdc4a9a3f",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/classifier_io.cpp",
+      "checkout_sha256": "c7633d3a68942bdf1da2e8bbae3d0194148aa58f30ded6bf280a2654c4d8b7a5",
+      "git_blob_sha256": "126709d9afb1b861fdef3a39ff25b44c1991de4be5b635cd8fb6a807abfbc6f0",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/core.cpp",
+      "checkout_sha256": "ef08bc75be756e94c1b1876aba0c75bd1ca80329aa03637f8446f5ae3efb9d72",
+      "git_blob_sha256": "3351a49b1dc08e1036d8eeade08fa69f7507fcc24af74d9e60a820319f56c060",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/decimal_quantity.hpp",
+      "checkout_sha256": "9ca76e59be585160ad8660ab5023784879a5a1bc3e2d49b6c0df7987e216d34e",
+      "git_blob_sha256": "fd9646bd7cdd5979ff8bc37643862a351b298b2e7739220ae861f9fb63491489",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/display.cpp",
+      "checkout_sha256": "c170b0706fc228b8d5cec8ccefbf4e0e2a1cb9ac48f74fd594e451e8476fa54c",
+      "git_blob_sha256": "d64b947aa227a5046ad0c731d1fa7a18b843a608c33033b5c3e266ee121584bd",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/document_classifications.cpp",
+      "checkout_sha256": "8e1ae8466fc2fcadc94f3b6a98f52adcae3d2a73af498298547a055412a85231",
+      "git_blob_sha256": "5c14a77b26b78d2e7c2506f8a55684078f26e58246da2fca1309f21172678f72",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/document_edits.cpp",
+      "checkout_sha256": "16f25b405e5c427772d5f8fab8da950a48e0b35612d177f30a97f14a6e89ddbd",
+      "git_blob_sha256": "a944e2c3e38074413d9af0115c4067e11d4c408011c9b04d405db3f75dd8a2a4",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/file_fingerprint.cpp",
+      "checkout_sha256": "d52824a5c07c86af5997049ec4375c748ee76facb5aa0705ff52309c7369ce17",
+      "git_blob_sha256": "c629ddeec53f7ea2c2bc42271b65b6d923c8d25f4b5a573b918e3e8fe11429f4",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/file_fingerprint_bindings.cpp",
+      "checkout_sha256": "e93e6d3c9c116db7581635db236157bb0c907b90429d61729bd1e19a433f4cc1",
+      "git_blob_sha256": "c18d0820469856658b7c9eea83a4f6cf5218a77ae8bc86d95cdf1631fa072f0b",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/file_identity_contract.hpp",
+      "checkout_sha256": "96e8604a0c80cdf8dbc4b3715ca6e2d0b844066de2001ae88bc5770a9698cc7b",
+      "git_blob_sha256": "02e87060404ca0844f6b3cff51bb1b3fac14ed094ee07affffabace0d935095e",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/filesystem_access.hpp",
+      "checkout_sha256": "cd265f9a274eabd00180d821671d35ea68d9fc357805b4159e2f3e81375e121a",
+      "git_blob_sha256": "3031bb4a9ac7858a8599143d5b4d4c96074e6be143f013eb1006ee570c9438d8",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/geometry.cpp",
+      "checkout_sha256": "b703cc94e13d45cde99e15763536509833a5ec61a2960830d1eb7331c9833be4",
+      "git_blob_sha256": "6b0041ab9f7fc02b0c4aaef0030fa7c2bd110ae80cd874f4658e379999c8beea",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/geometry_archive.cpp",
+      "checkout_sha256": "e34483065b9a6c56512c6818fe89b66b7635d170b2b1b76f29e6a1428b2fc3d0",
+      "git_blob_sha256": "3da5de6556813a0834a5d7dfaaf67ee50365dd5157f2b7588d04369030565593",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/geometry_archive.hpp",
+      "checkout_sha256": "1df0080562bc22f4d1516fdc16fd1ea53127026f455168d159fc70eb1a42c6df",
+      "git_blob_sha256": "35fef45cb7353b85f838e5c4503d639f1dfb4f43f21ab1b378565f1eb36b76a5",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/gui.cpp",
+      "checkout_sha256": "212756dc2085b8c9fc312abdaa8228bd00df10c6ac0b1ffab4ca1dbd47d7864e",
+      "git_blob_sha256": "3d55051370f3cdbd370242b98d1f1ec8460b0d61c07bcffd97a40bbd48e53b67",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/gui_batch.hpp",
+      "checkout_sha256": "d7663a54cecbc42e0f12f93566e04349a39e8827c82ee0d1942852c1ed5bbb8c",
+      "git_blob_sha256": "2e131e447640e2be2bdebabe3145ceddec8f95533313e2a8bbf46d5126fd8389",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/gui_layout.hpp",
+      "checkout_sha256": "e5146850e792085d12943a12d49a1bf01d3a80528284e3bb94c45210e6a9b87d",
+      "git_blob_sha256": "aef9b56fdfaeabf8fb0ce4c4418ec5d364c606ad81378f18c9859b0cca91986a",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/gui_object_classifier.hpp",
+      "checkout_sha256": "bba418b27e1fc0b41b96226ac20ec3e93654f0674484925f127a0c82b2cc7c57",
+      "git_blob_sha256": "096b78d192ee768061cfefd38e2ba2c5b345e6d7e01bdfd378921c4a2fb4a777",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/gui_overlay.hpp",
+      "checkout_sha256": "fe6033751f21de0616abd62fe876d468d589c18952d92c751d933f97f9bf9df2",
+      "git_blob_sha256": "0a62451ad1aa1eadcd78e520cf32f199b57fd571810ce4316b1b8eabf107b487",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/gui_pixel_archives.hpp",
+      "checkout_sha256": "c5d644028dcd22c6cd1167fbbf3eaccc27b793186d0f2bd73a0c42b5e2b7e1c0",
+      "git_blob_sha256": "bba534673adec037d8517ed7b00a8f37ca062d78b40d2b50dc750d412b8fe994",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/gui_pixel_classifier.hpp",
+      "checkout_sha256": "048339ad00411c1593f1c83dc1e8036eeedad86c17c397395fa022bfcdda719e",
+      "git_blob_sha256": "af9b69a060dcf75539b7863137f64407a2908349f9743e57cf5e5c31b2125ea3",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/gui_pixel_preview.hpp",
+      "checkout_sha256": "60d1a6eaf6ce04288bb0557df6fb4e8aa015d71523212aac535afd080b66d743",
+      "git_blob_sha256": "866c41b911f444023e19bcfc70a3f9012bc2637c191b139d07071cf58917b6b1",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/gui_pixel_stream_browser.hpp",
+      "checkout_sha256": "eeda8b3b0173fcb4aa6fddc235fdb52f156292da581ad742c0af1f196a1cc94a",
+      "git_blob_sha256": "528af163b56b8b419fb021060201bb763d724c17b3c2ecf29be99a20253c6bbb",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/gui_profile.hpp",
+      "checkout_sha256": "529ed445c73aed3aaf9a7424c1360eda65bb2a795b99586fad12d922f6d746fd",
+      "git_blob_sha256": "e33e6749729eeb1f4ed08d21e5a1e79007aaa796d801bb2d861842f876e1ebdd",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/gui_raw.hpp",
+      "checkout_sha256": "c122062159c5931db5462c690f8720799b8b713964397db9792f99d7a972eb18",
+      "git_blob_sha256": "a7dab9529d7b956595866778d9a6a25153132653a52809de1d6b09221bf02e08",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/gui_replay.hpp",
+      "checkout_sha256": "7c9b3e0242edef83ca2fe79eada279fbf166accffbf510a8d5ce39501c47f03f",
+      "git_blob_sha256": "967b5bf43624b826cc3f8913521dad83205ffb6ee69fd9f1f7ba6e62bca3060d",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/gui_scale.hpp",
+      "checkout_sha256": "cb886b318456ba33183f0c910433ab1eeb8c0546b500b993cf5f8a8378a35e84",
+      "git_blob_sha256": "bf9666b3558d005a0fce159c17c7eb9fbaff3cb3176e05e2535ea9b761faba79",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/gui_text_buffers.hpp",
+      "checkout_sha256": "9efc0c13824a68a7047f7ae4a09de8aa262f99f7a9dcc270bfb956e7faf91a80",
+      "git_blob_sha256": "a7433d6a2f86b5210fc014f12a3b483eab1e9ff58ea94ca3ded01587b3cc463e",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/gui_thumbnail.hpp",
+      "checkout_sha256": "b8ddd478d6ae43c740ecaa371cbb1681dcb30f42b45afc8ec8fb12fd0297514e",
+      "git_blob_sha256": "68d89c7999b552287a4fd36c8e87288987fd9c4a53babc50ab6ce699179f848a",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/gui_tiles.hpp",
+      "checkout_sha256": "786ab8b81858e572d2552e01c8534e6b282b75b354235d79efa3c37faabc25c7",
+      "git_blob_sha256": "24363c878d55994c4c6cb2cd31f8b9abcd1531caf4e63d190723560b9855239a",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/gui_tissue.hpp",
+      "checkout_sha256": "c218954df47924ea360544b328f93e1f890c4f148e85beaad4f00577962d827c",
+      "git_blob_sha256": "913d40a886f3a0f932b92d5f79606daa6094387dbc29a021c74f4112fc0eb002",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/gui_tma.hpp",
+      "checkout_sha256": "d6e9713aba94170a68af0c7ab4262e6061a7d45f55b86fb459268530b6c2d0a8",
+      "git_blob_sha256": "89e960908df0553aec1cc956aeb2a321961a1db50ab4a09ad68cfcae946fc36c",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/gui_workspace.hpp",
+      "checkout_sha256": "c358aa35fccfd3ff74406b78c839deaef21a48c08efcc0b8a30375b6fdddc57f",
+      "git_blob_sha256": "a60e76f99b4f2873ed6bde32205c2cfed34c86190fdfb1af8c62256bc04aeba6",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/image_server.cpp",
+      "checkout_sha256": "f4ae564b556435289580e10ccfff731a90460bcf60c3f3772278b023ddadde94",
+      "git_blob_sha256": "640e426fda28595f011db6329aa4071378088c20958588ac620f372df83cda60",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/include/qupathxx/analysis.hpp",
+      "checkout_sha256": "50d1e2d555754a7375a3404aaf7de5e0152d6d8a07a119d3810c5c4c33034e29",
+      "git_blob_sha256": "e7fbffdd1b707cabc56d9284091faa4e2a80eadbf4d479311f69570ee228e3aa",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/include/qupathxx/analysis_types.hpp",
+      "checkout_sha256": "6ca1fb4b739c553a1e2bbfafdfd587cc8dfdd6dce65b808a6959768edd75839f",
+      "git_blob_sha256": "98bc36a8d4f4e19c747f49d029499d283130ef7bed5459f6271f1298e7971202",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/include/qupathxx/cell_tables.hpp",
+      "checkout_sha256": "3097e8e6964e46a85a5db50d09a781166bf4093232b3bfbc88d715b06b3e0ce6",
+      "git_blob_sha256": "0c36a5cedc81fee0a6aa5e0f514b2c6f6671286a0f35d1c4b6faefa0e48e842a",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/include/qupathxx/cells.hpp",
+      "checkout_sha256": "4b11e19826b76d98bab3646081dec65beec3359c96c97d9a1747a9c611603e20",
+      "git_blob_sha256": "ddc6d109b1326279a72c666e16af11b5cc52000e90e62b1e4cfa83286d6ded4c",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/include/qupathxx/classifier.hpp",
+      "checkout_sha256": "69d126d81bddc447b1edc0b414cfa046eed912dab7a5c24ddc90479111553cd5",
+      "git_blob_sha256": "706add08b3584c759f9dda8f725f999702313bb164d09d212728b48f10c1cc38",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/include/qupathxx/core.hpp",
+      "checkout_sha256": "d84785f40e69da2b7d21df66aab292b9f3fad69ebb0a57cd0b7406c8b835b5c0",
+      "git_blob_sha256": "c8b5681876156a9352d715aad66788edf836b4972b220c5b1719bc74de7a09cc",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/include/qupathxx/display.hpp",
+      "checkout_sha256": "2ca057dd4ad985f82b054b4caa6b30e574f94f2b415e2e53d78cc3f799080f8e",
+      "git_blob_sha256": "bd3766961c37f3e3766bb0439556331638039be861cb9503a65fbd35140b9da8",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/include/qupathxx/file_fingerprint.hpp",
+      "checkout_sha256": "ce2fb4f6569703c987de54a2e0c2ba0b268c9b17bbb7c9f64ba2312bfcf58baa",
+      "git_blob_sha256": "0839c942dec60a2c68825b76e40aa75f3597be7963078d745d70ce3bf5ce642b",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/include/qupathxx/geometry.hpp",
+      "checkout_sha256": "00617ccb8a2474e1cefbeb59be274521caf27bfb0b0e374d610f31ceaa5a6bcb",
+      "git_blob_sha256": "adea469437448dfeef0f138e8b6e71a6749a1c069304ecd7db1acf4e8d8b0da6",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/include/qupathxx/image_server.hpp",
+      "checkout_sha256": "e41fa436492fdb939138bf98fac2280eef8b38ae7921a0a05d7f690908ab0bee",
+      "git_blob_sha256": "c9e8ebbca5c9dbd2419493f5a9b3fd772f4e9fddd6d5f1c3666c5b33806fabe3",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/include/qupathxx/input_digest.hpp",
+      "checkout_sha256": "61709d2fad025de6a6cb892e0aac9022f34074472d87d05d4d39ad54d6de63d4",
+      "git_blob_sha256": "708cd420053b86a009e96730253210b735e9e5b95c9ca580827867a24e0edfb0",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/include/qupathxx/interchange.hpp",
+      "checkout_sha256": "0bd712d535afd2b82af768b69bc3e77c6bc5537725c8d4f0636709afae9b5027",
+      "git_blob_sha256": "193a54878203c51ac09cced0b148a831f90aa841cc6612f058187c651801db61",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/include/qupathxx/measurement_tables.hpp",
+      "checkout_sha256": "f026dc4a1bdedabe7d46879d04225b1a53a6253b0f16492c1d82a8937b9f753e",
+      "git_blob_sha256": "2739e13206ae348a9cb3489570b76a3b138ad2dc0f1809ea420dd5e9452a0ea4",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/include/qupathxx/object_classifier.hpp",
+      "checkout_sha256": "73b34d6c999aaf108a1493b20c3ce8e30ccdc64f651b3f9b31043e2901602242",
+      "git_blob_sha256": "e402a13e51b7ab2b384db635f808110ff49740f02d2ab254802ae01061c1e8e8",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/include/qupathxx/object_classifier_archive.hpp",
+      "checkout_sha256": "8a5ddeb9e8f0766184ed230923b5948c552ee87356ee39a0c01d4d9597dd0b6b",
+      "git_blob_sha256": "23c9668fd083129267f23561d9e97aea193069711c6b5ccef5a0ee142e05c37e",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/include/qupathxx/pixel_classifier.hpp",
+      "checkout_sha256": "fd47c55970b568bd52a351713b463b61b06fccf17ddce892dc842a03edbd2cd5",
+      "git_blob_sha256": "d2d814876e70ea2c5ee25f2a5ceacd412dc20b327c34dc51979d384ed3ee409f",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/include/qupathxx/pixel_classifier_archive.hpp",
+      "checkout_sha256": "1793a158b8f918cadb436c771af2e34c66c2b71a26df40e9103d95a2f7546356",
+      "git_blob_sha256": "39c89d10a778427610aaea6d308b07228e257bd09309326f37dff9f343400064",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/include/qupathxx/pixel_contours.hpp",
+      "checkout_sha256": "6dcaae944343689b65538def2bc1cc892463b0b3b6be56d822e23955f769bb2e",
+      "git_blob_sha256": "214e9bb915103448aebe8257c0d35ac789102279f6cf71707d87edf5a24fd0c2",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/include/qupathxx/pixel_features.hpp",
+      "checkout_sha256": "72f01a5410a3efc31bb2abe38dff3082beb0131bc2e55b580e2b3c6f51d1ec5c",
+      "git_blob_sha256": "027e938f2dbefffb069a1e713971b4d59783972a3a8e9ad3480d8cd3699b3d3a",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/include/qupathxx/pixel_prediction.hpp",
+      "checkout_sha256": "bd3feb7d296ad80ebb25e2618926cd5b9447e6bf32fe7980b83af15a8ca57da3",
+      "git_blob_sha256": "fd6d16edcc5666f593dbb827126e833186aa063281cbb159a588775c5c89b5a9",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/include/qupathxx/pixel_stream.hpp",
+      "checkout_sha256": "a886ff226a92e71678e80b174e4cf1cfbf93c664b7aa7b229f19c54e33334dff",
+      "git_blob_sha256": "420482f6b2b9759334fdb0c4fa75274db619a516dd717189440a1661db421f80",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/include/qupathxx/pixel_stream_file.hpp",
+      "checkout_sha256": "5c2850c8623328ddbedb8ce0e1d521bbbb566c06ed778c576100628f299f5840",
+      "git_blob_sha256": "16e2927f1475d8c2405989b2a871abbedfa70ac405208430a851a27a3f0c645f",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/include/qupathxx/pixel_training.hpp",
+      "checkout_sha256": "7df221d67fbb4f0b9b02a348c09afe0655d7509b9982793b0378a06ac7a5f377",
+      "git_blob_sha256": "2f7f5b5b1556730070b7528506ea8dbf56eacfbd956cec6a1fe0fa8f01767916",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/include/qupathxx/project.hpp",
+      "checkout_sha256": "41f59ac9a135e39efd2eb896556cbadfe58ad25eb10c510ad41985f05613d43f",
+      "git_blob_sha256": "7936ed1c3c8a4eea50b0fce35370e69dcbc943fe6ecdc7164646ac4c8f3765e0",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/include/qupathxx/project_batch.hpp",
+      "checkout_sha256": "36abf989b33c050c706e3b57f2f32e069adc8899c591118f67c442333ca485a2",
+      "git_blob_sha256": "09f0e87f5d45fb5bb8b3eb03179ce614b992fa25f0933f8c15f0a73574032239",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/include/qupathxx/project_recovery.hpp",
+      "checkout_sha256": "161d19a6b2b56d9d5c62188b4683ed4359effa000ad3ce8ac007122f86a6a543",
+      "git_blob_sha256": "4689f4c5f8e570ed369c37ed77da39dd88cef889cdd2a0de2b4465250cf78a18",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/include/qupathxx/project_save.hpp",
+      "checkout_sha256": "c94396685eceb7015d6a3aeb785f5e01fff4f3680a00f46b06ce070a719b4301",
+      "git_blob_sha256": "f8d5e33e2b91dc4ec158c6042d2625713f9ed1df6a19b9ebca221a1502fb8ddc",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/include/qupathxx/provenance.hpp",
+      "checkout_sha256": "470740cee3448d8f84ccef2d82650231bf9eb4dab068847e097eb782dca64210",
+      "git_blob_sha256": "0570559c105dc8b74749956a9d3d56ea1ab54468fb39382f20aa98aff6d5d6bb",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/include/qupathxx/qptma.hpp",
+      "checkout_sha256": "fdca0f55ea2bf3a8442e5497809d0eec8bab2a3c9373bdd1228d151bde82c6c7",
+      "git_blob_sha256": "5172403012333dfadc6e57679cc06848103482d77b31e69bc7771b751198bd55",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/include/qupathxx/raw_analysis.hpp",
+      "checkout_sha256": "311a31c3df1085642436f5f638d4706573e1c501a18e4d2e0ef709a31cf0aac7",
+      "git_blob_sha256": "ede79ee94befe3199c5666b78fe187fcc177852745e5442356f6713e815da82a",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/include/qupathxx/raw_image.hpp",
+      "checkout_sha256": "7da5a6ac9709d3854c36aab571fdd5747efebce87ba49328da3d57fbf314207d",
+      "git_blob_sha256": "39776adde7410d19d15e335e79f337c1dd2dfddb3c832c38c439ca6aac1d5f6a",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/include/qupathxx/raw_tables.hpp",
+      "checkout_sha256": "3a031ac1571897c2b227202b6cfcdbf0f41e5298f289d5860601c2770c38e9af",
+      "git_blob_sha256": "d88ac802ac84c2247f324b9c9b0480fc0f4383db7b4e0d9a1505eb2b84b5499b",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/include/qupathxx/resampling.hpp",
+      "checkout_sha256": "f5436e240bc35d1de60f9386d5ac26247e78ba16726899de7085a2a3d1cbde75",
+      "git_blob_sha256": "5e00606f0d1df1a60a160db7fb2d323c02672159c64bda10747b2071790713b8",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/include/qupathxx/scientific_channels.hpp",
+      "checkout_sha256": "fc995a86f8204249a4957410870cf580be6829dea6e05349c053d0180661e0ef",
+      "git_blob_sha256": "fc995a86f8204249a4957410870cf580be6829dea6e05349c053d0180661e0ef",
+      "line_endings_only": false
+    },
+    {
+      "path": "cpp/include/qupathxx/scientific_grid.hpp",
+      "checkout_sha256": "78a0a62c474e6cc54ae617f317d1674f2053ae1a623f6d7206cdb82d2c9c596d",
+      "git_blob_sha256": "78a0a62c474e6cc54ae617f317d1674f2053ae1a623f6d7206cdb82d2c9c596d",
+      "line_endings_only": false
+    },
+    {
+      "path": "cpp/include/qupathxx/scientific_sampling.hpp",
+      "checkout_sha256": "b708c00473f97cf865b821448d9296b52f558ab9d7293e708391d388d556c65e",
+      "git_blob_sha256": "b708c00473f97cf865b821448d9296b52f558ab9d7293e708391d388d556c65e",
+      "line_endings_only": false
+    },
+    {
+      "path": "cpp/include/qupathxx/source_identity.hpp",
+      "checkout_sha256": "44c2a2c37cd2a5df7badef5d2b6ed76e718ab992b3e23934e08c4953ce91e8a7",
+      "git_blob_sha256": "189abed21d4926dafefd9e6d971176aff407825f7a08c19a9eedef461358b390",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/include/qupathxx/spatial_index.hpp",
+      "checkout_sha256": "a7b87d068780328456adb710b355c55cfa1e51f948db6a8677711fb44e12f94f",
+      "git_blob_sha256": "a834d6f4bc37dfb85ee1789c47e336afaa614ea0f12827edcc0b07ee22babd8b",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/include/qupathxx/stain_estimation.hpp",
+      "checkout_sha256": "c10e37e2af10e90cea2c9409a4bc50504d7a2bf4092f33ebc40acc3a1e6967b1",
+      "git_blob_sha256": "b38b8a59f7f07788dbecddc03333d9f53a60b82aea847ec0cebdb62e2e0e6ad3",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/include/qupathxx/stains.hpp",
+      "checkout_sha256": "08840141952dd8b169befe5134e5f0560247e97d9c7a543bf6e4ab91ad83fa6e",
+      "git_blob_sha256": "b48207b34ba8c6f96111f6ef8f7d2d58d4563ba93a8f88f193bdfd75b3c02cc5",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/include/qupathxx/thumbnail.hpp",
+      "checkout_sha256": "acd81727539f748ca2d58c898e676fff04437e54982e24dab518015cde32a0cf",
+      "git_blob_sha256": "6b080f62b3b286e0a01fa1a9659e74d2cc7397d2a1b95805918547671bca2fd6",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/include/qupathxx/tile_scheduler.hpp",
+      "checkout_sha256": "5b3a919fd0ad48f96ba0e4d571f6105ad1f3864421163319efb1b0bc2239f89a",
+      "git_blob_sha256": "e4b8b5998410658e36354d10371f760f74c45eef3078d2238afc22909f7acaf1",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/include/qupathxx/tissue.hpp",
+      "checkout_sha256": "4667c53ba93e67650dd73cb28578eceefadb2060cd9595d7ee7c9b96c964a777",
+      "git_blob_sha256": "2b4a9e5d9f3dfcc559dd62c6f70514aed1340c05dc070b72c277a070d26f02eb",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/include/qupathxx/tma.hpp",
+      "checkout_sha256": "080f4b6d3a645b9536682c14ba78fda2af86f9ab36d05cae540fd632d2ab7604",
+      "git_blob_sha256": "fdc97b88ac04b2b4f1a5866902e447f3aba5fd5c558d14cfd367953bcc0f97c9",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/include/qupathxx/view_tiles.hpp",
+      "checkout_sha256": "7e764b589106745fe2188827bc73f7c97c2e47cb7d69f40b37374faddc13f301",
+      "git_blob_sha256": "2f10e4ac851eebe7355fd3b3c3b461ed9d12cd13ff8fc4df26e3a2b16deafec8",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/include/qupathxx/viewer_session.hpp",
+      "checkout_sha256": "eaec7690cf967d039dd915b65e3ffef5af12efb39c71f14c5fa2eaf5e77b68e2",
+      "git_blob_sha256": "2602ee8cb883bd8f6a2ead4951d39858ec4f55385e869f98c95745587e131545",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/input_digest.cpp",
+      "checkout_sha256": "3feb53365825d7cc5e609cc8d6e50a8d5fefbfe15e2067b3ed1e3d3ad007c5ae",
+      "git_blob_sha256": "779640b2b54fb26e406de51675c028d8d7327aacc5e31db98ece7444e16060c1",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/interchange.cpp",
+      "checkout_sha256": "94840e989be661c9a1de83739a26521e71202ffa2f3b853b461816aa136bb9e5",
+      "git_blob_sha256": "9cc751ba4b5d2b1610dfb2cdadb6b87fc6a39d73632a9df14f61fb444f517b43",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/log_response_regions.hpp",
+      "checkout_sha256": "e5be759eaa752809dabcf33ca0bcfefd2519f0c99049c318cda21fe682406c9c",
+      "git_blob_sha256": "9ba24498380f54456fff4c6b55ea332576be34cddd253eb4fdc83c98b3c9552a",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/log_sampled_nuclei.hpp",
+      "checkout_sha256": "54aac88c924fbc471052b36510410f1618e3180401ded0890b46322e3bb130f4",
+      "git_blob_sha256": "bb6436b4368b105a0fed4be7f134f60de8ece52a706873ac59e6185bdaac4152",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/log_watershed.hpp",
+      "checkout_sha256": "f18caaae768eea22e705a0567d1d64197910e5df8dd8b6ca70a3026cbf1d50cb",
+      "git_blob_sha256": "72e31e05e03089156fbb35126794ab16597e1b02c03386ee1d5623eb1485a020",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/main.cpp",
+      "checkout_sha256": "642fe59f3b7e0535315b1dfcf7368a25ec41835e237da2765843ce041733c726",
+      "git_blob_sha256": "0f1c39aa029d2460275d996d6b3a5aaaaea8ae34e62862338c51ba255f47f167",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/masked_gaussian.hpp",
+      "checkout_sha256": "8e519ea337b13d9029733576424fbcf8ead3b4a8c223becbafb1626ac47100ce",
+      "git_blob_sha256": "765e58ab4b44c480c4ab5806022df50f28d7cfc555e0c946c6118496480687af",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/measurement_table_bindings.cpp",
+      "checkout_sha256": "4322887fc41060e89cda7a14a8580ff53d3f8c1af20de9bd253348b5935c7978",
+      "git_blob_sha256": "08b119d0b4f8298f44bb487bb4483256cd0c229c2cb9b5ac01e20250032b872b",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/measurement_tables.cpp",
+      "checkout_sha256": "c887552bf502da999f65bfffc3ec338f2a8175ed76c4c48e7cf7ba3e8f86e4fe",
+      "git_blob_sha256": "566ba1cb3fb08f743178b029422207e9fe87cab537ccba03d0d8750de8f2a8ad",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/object_classifier.cpp",
+      "checkout_sha256": "1cafb858981f73b3fc636690a58c03b688127b1a8284242772c3700f9571610d",
+      "git_blob_sha256": "fcc1ad46cde4d2aa6a5492b4894806a464f48a4fda8286ef2d7f1308a6706c2f",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/object_classifier_archive.cpp",
+      "checkout_sha256": "5821e1819657eacc37e1dd7dedc629c0825ddd4350580add313eec8e0c5dc5fc",
+      "git_blob_sha256": "a07b825dadd945f26f49a53e4e82f8b9b007999e2eae14de859e90463027d6cb",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/object_classifier_archive.hpp",
+      "checkout_sha256": "179968d25ff2658dce362bf843cff3a355f70b69eef712910f9453fcc6922704",
+      "git_blob_sha256": "2f7b01f288ee4cf59ef7cbc5792e2435d498942447cb8ad023ee8ef604386346",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/object_classifier_archive_bindings.cpp",
+      "checkout_sha256": "fd27f0742604d286c0b0c07428ac6578f03d9633429ac5b8a2bff13725097306",
+      "git_blob_sha256": "74af99619ea7e319feb11f9f25dd4d7a5a366a91d7e9d68c412ec94f984e085b",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/object_classifier_bindings.cpp",
+      "checkout_sha256": "71359e72093f8ca008fcff015d183d7b5a800d5a87c6b099f4cf49a9e0a92014",
+      "git_blob_sha256": "3c675c0e685e4266d8beeca5a26e47983b9c60acf668fdbb9d9730e1b829bbf3",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/object_classifier_records.cpp",
+      "checkout_sha256": "821dfde14154aefdba0a3bc489fc6e8ef41f0a440ac8b225b53b55ce415bacb7",
+      "git_blob_sha256": "766ff5dbf9a51da28e34d46065911e5e30112fc5dfb3b11f17193cbc9134b9b9",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/object_feature_snapshot.hpp",
+      "checkout_sha256": "bb0ade843958d132fc25aff1e476583c65c79af0b7e4a0d95a875146b988797d",
+      "git_blob_sha256": "7f33e9b550bf2228778b328fbfdcf820334ec78aa711f0a1108ed558e71a8981",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/object_snapshot.hpp",
+      "checkout_sha256": "0ba75c848a0b97c1a2718913af948f032ed52713975f9efa9f0ce1464201dfb3",
+      "git_blob_sha256": "635b779fb7013702cd300f8fa8ff2fe6e1f5f4fb09d3d0a25ebcae144303ced1",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/openslide_server.cpp",
+      "checkout_sha256": "bd095e571c73b0832bf5d1753cbae145a60c31f4cdbd8f585ae8a450983f2648",
+      "git_blob_sha256": "792789b6932495718c61f6e705fe194b8ab8cdaa0bef5eec59d6d7dca717d63e",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/pixel_classifier.cpp",
+      "checkout_sha256": "68a833b5f4f5bdef0c56a2a488297aec628c82d729846c37bee61b377d36c2bc",
+      "git_blob_sha256": "1c8108bb4e4b6015597002600194c1a291ae4032661b194abdaf784e70d7c973",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/pixel_classifier_archive.cpp",
+      "checkout_sha256": "a7c35b335a9aa2f1112ce90d3d9f21373f4604abe3e55478f325a9bcae23826f",
+      "git_blob_sha256": "8d835facf3e58517dde72047a236e847e9a3e2901d358bb8577b11c79742c86e",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/pixel_classifier_archive.hpp",
+      "checkout_sha256": "1f9d14d4cc9457bb8583cf50b4810ce316a3647921a610224bb049d46f541a1c",
+      "git_blob_sha256": "1aa2e644f5dd49b6a25205ca6228815c89a99c0461778e0517745dd06a249183",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/pixel_classifier_archive_bindings.cpp",
+      "checkout_sha256": "16ea202f75925f2d0ed8a578ecacae7d2f39e39fd90ce7bcef52a8960bb1c4b3",
+      "git_blob_sha256": "4ef266f3832f615dde056144966dff6032a77c8c8328c9609fd563d076a820a3",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/pixel_classifier_records.cpp",
+      "checkout_sha256": "fd5f522b1536e1d4d0c86e7e5ce579203920ba6a48c0785854f3b582ff35a739",
+      "git_blob_sha256": "6a53608e184591a47ae067556174d5b706310d15298a4a72d3a62cc3a4b08809",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/pixel_contour_job.cpp",
+      "checkout_sha256": "4299cb6144b5d7f8cf1bd1683f2481932f6ea94a2668b7ed2c4e2b5ca3990439",
+      "git_blob_sha256": "626f2cfed0931bd12e437d37ce91c52c42baf7052e877093f14a8c8076d05374",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/pixel_feature_bindings.cpp",
+      "checkout_sha256": "05312aadf31f3c199023cb716e478fcc3ff70db55c841193371daeb4f4ffbc34",
+      "git_blob_sha256": "e1d37ab5e1869ffbf443d4ceb045f10308568b8ea7e229687110505162f4db34",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/pixel_features.cpp",
+      "checkout_sha256": "6fc699c3b9bee08b217ac80d1423852fe4635663be29c99e39fa6372c270bd85",
+      "git_blob_sha256": "ffc3fe03c7c6dbecf341c7959a775685c7e42b808255235d0e3b0728ee5a73ef",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/pixel_prediction.cpp",
+      "checkout_sha256": "2dc27742c91b5c35805cef646eaae0d4c9c9fc174a79a02a1d0d072a57614c08",
+      "git_blob_sha256": "02a92cd0427a9c2ef8727c315959e0c594937ff9e589b3e47c654d3f04019deb",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/pixel_prediction_grid.hpp",
+      "checkout_sha256": "6ab148826d021072f70d9f46632b4df55f810a5ba87e2b90d361053daa7407e0",
+      "git_blob_sha256": "834639fc16dd36267f5e5aec9eeed8a2f191aecfdf966d399eb0688e182487d5",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/pixel_stream.cpp",
+      "checkout_sha256": "0c76f8a7d178fb2f0e240d34e2c118e695325348bc10d0938315ff56c31dc98d",
+      "git_blob_sha256": "506ca6547327a170626f2cbfeeeddb6592eee77ef71b3806082d1e029ef76111",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/pixel_stream_cli.cpp",
+      "checkout_sha256": "871eddcf5b028f85e4fe29e2a9598c8f40145c6eb951b0850ad1e572fe275d4d",
+      "git_blob_sha256": "e192f9b2a8dc2b9c296690ea3b17fd2cdb104abb905dd79056fed1ed79ca441a",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/pixel_stream_cli.hpp",
+      "checkout_sha256": "89c8372bc09a61bdb6a1b71fff9a0df24c547836f0d942b9705d25e039de54b9",
+      "git_blob_sha256": "16dbe666bc784f86c4eecca9460dcbe0b9039c8bb9868014064ee5a2d5b720ff",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/pixel_stream_digest.hpp",
+      "checkout_sha256": "5231cf03b1b49d31caf6aca62f7ec932cdce92e2f75efc57a06afef176ba2763",
+      "git_blob_sha256": "f3a8dd906575335c2cfae8cce960391b2210ac4f292e64cbb31ff28fa4f41b45",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/pixel_stream_export_job.cpp",
+      "checkout_sha256": "99247e6783571787420c8a5a05475a69e3ffe9b194cdb65c7972ecee085285c2",
+      "git_blob_sha256": "d77f3a53efd9e9b180e936dd356cb8659d048d5b2fd996e420d53b91073e837d",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/pixel_stream_file.cpp",
+      "checkout_sha256": "da7572ef90b8f43811275d99a93e424f01b6bf2ef57ecac2b78c72a15ef52407",
+      "git_blob_sha256": "a43b9b2e05b286c29c051508468b3fc5ad05e3a3821d9370f36ee1ecb2a8c3fa",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/pixel_stream_read_job.cpp",
+      "checkout_sha256": "dee0024eb094f446fb1e3830154845e80aa67f90311ac3b5ca36d03a0c23b81d",
+      "git_blob_sha256": "136fe9aa84433a294218cca1d5cdb203e015eda50e9bb3c5b992d3e47699a3b3",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/pixel_stream_record.hpp",
+      "checkout_sha256": "9b23b18bb015f748141db813a5d7e2ad4c611d3d53eab10b1968b4e528aeba04",
+      "git_blob_sha256": "99c63736a7225e2595f78891fe60901b04ee67e3884d1af4f02c9ffe7cac58dd",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/pixel_stream_records.cpp",
+      "checkout_sha256": "21333555b588fca6ebf66c461bcbdfb9ef82f8b5e6b80360667704488a4db51d",
+      "git_blob_sha256": "9b9c143abd75c082f3b0dba8d440ff65896f26e6bd405fed0b83a21fbf4d5687",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/pixel_training.cpp",
+      "checkout_sha256": "93e903134afa0eb8328cc0500d123c4e349691110ba80a6e57d36ddae09fb1eb",
+      "git_blob_sha256": "1d6ab24cb421fe49f74ac2e39781b9cc239ee47dd6df31ccac9cde20438d8f99",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/pixel_workflow_bindings.cpp",
+      "checkout_sha256": "7dbde3b6389e254effba11b57ae4d5d727b3f0187589639637c4849e5f84dbfc",
+      "git_blob_sha256": "9591277d0f69e326150e2253158326ed0c5690d22fe550b9107e09f456ae4e4a",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/pixel_workflow_snapshot.hpp",
+      "checkout_sha256": "78268b9895b1f2c86319624dcb951293646cbc792cff2e29ade8d86fc8507919",
+      "git_blob_sha256": "db3409bbbd5fb68a69bbddc63c57e3415994884661007b81c975f802f327beb8",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/project.cpp",
+      "checkout_sha256": "ef552040e5482c52efcd5f4781756d7811353d27cf795b25a480ed19be276f73",
+      "git_blob_sha256": "05f516f55e39a849404d26f8493507d0cc0e7c49b5daf17b2704c00b5ecca27c",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/project_batch.cpp",
+      "checkout_sha256": "f55ff5c14a805b697012e996694d78155cd88070e8772de7fc92322620c5d7d8",
+      "git_blob_sha256": "9470c934d4a6dca7d23bc50ad2d21c726cf15d3a8862328fb5b1067ba5da2b75",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/project_batch_bindings.cpp",
+      "checkout_sha256": "a379215b099c6d5bf75bfe0ad7c435d9cd1fd8cec20adb05c59898b3d2dff6e4",
+      "git_blob_sha256": "0131bd2c6d27b326626c40ccd15503bb2d0419ab937b599daadf08d73c4d8e84",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/project_recovery.cpp",
+      "checkout_sha256": "568a141204de53fd32abb6d4f40e2c7ecc94f08d227a7bd46a5a27dd39630a2f",
+      "git_blob_sha256": "e8a6882b47c11d1db78a0b1ed4f74a4592fa1b2067fcbd94a434f716f08ea3ea",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/project_save.cpp",
+      "checkout_sha256": "e8eeb9e52959ef19719e0391ab51bdb182fd3d80e060e62801a02904df3b59c2",
+      "git_blob_sha256": "e9a833a28ca0360fef5c34aa209bac6d65b8fb3afdd8bf03565f46dd65c963fe",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/project_schema.hpp",
+      "checkout_sha256": "070d0fbbac609a4ff1ae34cde8dc8194b1157dd39c27ec0a470eb57f0facc198",
+      "git_blob_sha256": "edf6e534cd97d33a908e1afc8029ee7d1e94cc173ce36df6764b7583382bed0b",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/provenance.cpp",
+      "checkout_sha256": "fd98a77485c82a26ce202e78c737a1016034f9ac18d77c1213e23c3b0838b0d0",
+      "git_blob_sha256": "0d7efa4d131c465a9922b2b6c344f95ad9f3abdd7dcf84d5bc258c7f73b74947",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/provenance_bindings.cpp",
+      "checkout_sha256": "bee2b7f1473f4aabf086dfd83ea0fd480ed1519f3d54a86a54e9a594c064e4dd",
+      "git_blob_sha256": "b07ac10762681c2030366a84440e609967a692a3d8319d9935ace8fd61cc4de1",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/provenance_codec.cpp",
+      "checkout_sha256": "795b45cf55eb2fb8e1f2686b8c1f267e0710c2bc892c452fce86c66f7fa63cef",
+      "git_blob_sha256": "825c8e2eae00a9edd64f1d0fad6bc47bfa9598c1bc1a3ec8b26d45c7cc203c84",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/provenance_codec.hpp",
+      "checkout_sha256": "07e2f95a0903b594f353f798294d68aa96d14a9253a0f7b8d4ccced50945e767",
+      "git_blob_sha256": "0bc8d68f1a3dfaeb2154223abffc0a01914ff5aa81e2087ca672f15cbe12ab8f",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/qptma.cpp",
+      "checkout_sha256": "593b4a0418784f59d71b9fb24cc6bd9f836eae4e42124cd53c132b31e0f59c69",
+      "git_blob_sha256": "ede2b82887e7f7f0e7ac83204da51aed4a8ec3733e8dc7238308a5a587ee2321",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/qptma_project_cli.cpp",
+      "checkout_sha256": "208dd58620f23869aac76e7fa913ad1e08730fb8065f012d16f89dd5a2740c82",
+      "git_blob_sha256": "4654570fcb35bd50ef50b6723ac88c53240cc14679c5c1630eed0c8cc0386ab1",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/qptma_project_cli.hpp",
+      "checkout_sha256": "c736b4ccad7e350c1afca00218df98c6d8686c0680b0e8e484e781462dfd5590",
+      "git_blob_sha256": "273fab3b44eb8b479ece2f3dc309fb13acf68b32daf97c7c6bb7ea03072cb6e5",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/qupath_precision.hpp",
+      "checkout_sha256": "bbb56dff25c07d85950628a168f730dae72a9c10ca75a8e2e5aafcb9822d646a",
+      "git_blob_sha256": "7bdd6e248ea7a809514301222b995d9429f92f72b5423c9b1503ca4200e11478",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/raw_analysis.cpp",
+      "checkout_sha256": "d5b41601aead34b605c17caa09ba7af73202b78320bff2e0c76a3078fc113721",
+      "git_blob_sha256": "17e115326366743110771432d0295e57336957feba68cb7b125d2527909edec6",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/raw_analysis_archive.cpp",
+      "checkout_sha256": "b6aa399ad75ed04b6270f40c0f57a09742b638395ff620b8b8913a5527efd583",
+      "git_blob_sha256": "27699dbf4502b651c54d4d1cb745f6efbfc4b1e7fdb2a8741946dbfb28340890",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/raw_analysis_bindings.cpp",
+      "checkout_sha256": "a1e4002e9692f0e3d66360d68da1bd5f992b5a0cd39714c452e5913b7716c5b4",
+      "git_blob_sha256": "1e53f030579cc5b2b98b0949eebb7cc1f98d242dc7c11672723d94f9b9da3923",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/raw_analysis_internal.hpp",
+      "checkout_sha256": "4e9c160e026f8439e6962547dd1731db0d524b763cc9fc2c05d59a649e4534ef",
+      "git_blob_sha256": "7cd88bdf133ea2951e3f6f4052f94a9f700acf2455a70e22f0ef6c22bcba78f9",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/raw_analysis_records.cpp",
+      "checkout_sha256": "f18a8db5b6993e16fb755c15dc1f5347efcc49463a26c31a653ac3a82b954344",
+      "git_blob_sha256": "e2042496c5d8e76853682f0011250ad5c4f858276273f8550b43dc6f595b27e9",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/raw_cli.cpp",
+      "checkout_sha256": "4753e93e9efc6f46afa695297804b115f878f86e62ad3e61d817509ca271ed78",
+      "git_blob_sha256": "a9d54ce6d0cdf03fbf4aeb8778d415aeeee40593ed5a403c6b6ce65d48bc4fdd",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/raw_cli.hpp",
+      "checkout_sha256": "ef61bffd4e8c370cc5d40f903b4a6db076a3b7a9cfed36299db4a598b1d08e85",
+      "git_blob_sha256": "2530c3df1856e555fb6848412c89b96eae7f0185f50d6703adbabcfd600924e6",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/raw_image.cpp",
+      "checkout_sha256": "2c30ee94d9de9624a07058c9e111a208f4e74072d7176060536ea8bc3d3965e3",
+      "git_blob_sha256": "c83ffb16310e26ca732befdca337f475b8ddbe75e266a81d47239ccaf19df96f",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/raw_image_bindings.cpp",
+      "checkout_sha256": "800a844555452e2348af15b31618299d361dea687a8511d0a4dfba6a42249c05",
+      "git_blob_sha256": "88a3231346b30a97ebdf24e5b88dffe4dc89756df4cb76d5d236559ca5b90d3c",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/raw_statistics_internal.hpp",
+      "checkout_sha256": "f4131a2f2380004c8ff557331883ef010508faf59d013712597dc99d5d7bb338",
+      "git_blob_sha256": "dc1bd7cf49f1423fd10be3e7e3ca29feaa6809279edcf35a66636d259d7f33a8",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/raw_tables.cpp",
+      "checkout_sha256": "242d5b1e3b7cd46c4df31b8ab884b7571889fe5a167a0ab146cfab60a1454818",
+      "git_blob_sha256": "f66c6e965cc1c55bd15c85a6708aa9a6c9e809913048ac1cc7715cbb41751d95",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/reader_file_guard.hpp",
+      "checkout_sha256": "98d0e6b386daf9e9f0f282be908ea4a0369bcab7d18762def68b5d284396f2bb",
+      "git_blob_sha256": "127321ae70bd62e0b0853e4ec8aa5d582a7cf22a5942fc0b15e6cd2259c63bed",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/reader_provenance.hpp",
+      "checkout_sha256": "002a2c739efaf733f1bf2b34416c238ab699f3fb127ef30d48219039556a6997",
+      "git_blob_sha256": "0b2c8f51dd0738acba675cc53b0c0c5830128065f37ff46c09a7fe76b1d72233",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/region_main.cpp",
+      "checkout_sha256": "b0e5d46c283a9194ac4460fb3fa0dec47cd3b043bb3d8e3ece1afbf9c82f025d",
+      "git_blob_sha256": "17b8d3ec56d22ec98ab40a42e31cd7372e5fd49ff54a1a2ca610409149a2dd5e",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/resampling.cpp",
+      "checkout_sha256": "fe9fe6d82324af395cb34e1a41d6b732ae5530a721fcfc78164db204886dfa4d",
+      "git_blob_sha256": "cb08260ee2c441dd9ac32744dc12b89f5ac5a731ffc8d99fff5e072523be6a71",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/scheduler_bindings.cpp",
+      "checkout_sha256": "253d9e4ba5a96bc8cca08553edce5cfddc67cf3c9361d688dab61f3b26ed1f67",
+      "git_blob_sha256": "c3bcc6c007e3ae4d21b2b4f060dd41752798c70ef0e7ca13fc63294496d8838d",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/scientific_cell_numeric.hpp",
+      "checkout_sha256": "53b3353c79588b7c23739653ee0972e5cbe5eb92e827eedd21bc5a1aa738c8ab",
+      "git_blob_sha256": "4714e00438a9660dae19a8e6fa2f24b8fb915979e8e7eebde55136d05e36310d",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/scientific_channels.cpp",
+      "checkout_sha256": "4c8629b7471a3a27bb3beeb54abe4b772f8ff90b08264063f363bf3855fd9155",
+      "git_blob_sha256": "4c8629b7471a3a27bb3beeb54abe4b772f8ff90b08264063f363bf3855fd9155",
+      "line_endings_only": false
+    },
+    {
+      "path": "cpp/scientific_grid_bindings.cpp",
+      "checkout_sha256": "ef2fb8885625c0c3549049adaa4630dc46aeb970fc70e6dd52bafdf95fce6ed4",
+      "git_blob_sha256": "ef2fb8885625c0c3549049adaa4630dc46aeb970fc70e6dd52bafdf95fce6ed4",
+      "line_endings_only": false
+    },
+    {
+      "path": "cpp/scientific_raster.cpp",
+      "checkout_sha256": "02121d2a5ab8e052cf1f51ace578216670f4aaed5869b64142d939e8bbce13bd",
+      "git_blob_sha256": "02121d2a5ab8e052cf1f51ace578216670f4aaed5869b64142d939e8bbce13bd",
+      "line_endings_only": false
+    },
+    {
+      "path": "cpp/scientific_raster.hpp",
+      "checkout_sha256": "bacb7a6991de2cdaab6e91e90c5b2d4341a8ee803c322c3348f066698a22a264",
+      "git_blob_sha256": "bacb7a6991de2cdaab6e91e90c5b2d4341a8ee803c322c3348f066698a22a264",
+      "line_endings_only": false
+    },
+    {
+      "path": "cpp/scientific_sampling.cpp",
+      "checkout_sha256": "38407b75311992f91f47e9851cda9b081416a6b0da4b9f3eeee4832125ae071e",
+      "git_blob_sha256": "38407b75311992f91f47e9851cda9b081416a6b0da4b9f3eeee4832125ae071e",
+      "line_endings_only": false
+    },
+    {
+      "path": "cpp/selection.cpp",
+      "checkout_sha256": "cf65c7efb87462db4a90f7fcff481a375910780aac98d8cc13c2165eebe07df9",
+      "git_blob_sha256": "ee8572704a76f40aacc59d02abc7b93597478e1c9ef841a45e0f38c7a5f42a69",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/sha256.cpp",
+      "checkout_sha256": "80e279546fffb48d6302b6355b6c6dc60ceb10ced5f2c4a3c2180ec7406455dc",
+      "git_blob_sha256": "d1971f7d36916e0dcc62e800969a9a76607bd7c941b6ecea9a41f3dce5a74841",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/sha256.hpp",
+      "checkout_sha256": "d0f2a650f650b7f554e932ebe27b5e699588fedb4bcb454975dd804401520475",
+      "git_blob_sha256": "9affc3daeb32c3d810a2a669a4a506ac6be0877e7c5fd056dfe8adcbd5c0b618",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/shape_watershed.hpp",
+      "checkout_sha256": "da4acd4f710c222d6dffa6a88845aadd1d5d6f1aa7bb8e4b54f5fd7800ef07e8",
+      "git_blob_sha256": "e52c5dab6b66b76ec715bf4f768ae14a9df04f278dd9b6da07d7697a2fddb733",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/source_identity.cpp",
+      "checkout_sha256": "cf236a30099a04fd34a446099089c8a8c9cbd315d033769d77e409f52dd0a5de",
+      "git_blob_sha256": "7448bb3d67a6b2b51f174e6e038cf22661165322ee83ecd5b864e771a91bb2ba",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/spatial_index.cpp",
+      "checkout_sha256": "6db4d2abab9fd8c199746978643aa2decd1ee128edb913667652156db491d6c4",
+      "git_blob_sha256": "610f3fd18db0cab19a676fc53e8f6af10c4fe3c0c86632fdf24ac125472b4828",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/stain_estimation.cpp",
+      "checkout_sha256": "4a38425feac1d18d9a97d45328dc0bfcbbf899b2aa018393cd570b2d0fabe31e",
+      "git_blob_sha256": "1630c5356c243aaca6854c744865c483899767c2dd895d99442122e57d59e6d0",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/stain_estimation_bindings.cpp",
+      "checkout_sha256": "e1855d16a3154fa5a47b1052cbdc4ff5adcc69069c1fb592ca6cb2a52a07d4d4",
+      "git_blob_sha256": "089b10690f76adaf3d6626d34a414cece84f44d2ce3387f291fd7ba461ca902d",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/stain_matrix.hpp",
+      "checkout_sha256": "8f87ee69761983b114d97c7d440435a7a4f042f14700059c5961017f4d7bb9ae",
+      "git_blob_sha256": "8f87ee69761983b114d97c7d440435a7a4f042f14700059c5961017f4d7bb9ae",
+      "line_endings_only": false
+    },
+    {
+      "path": "cpp/stains.cpp",
+      "checkout_sha256": "4b331981cc875f9d4bd04e5cf2631d12f18289e88aa9e5630583b63e5652f3df",
+      "git_blob_sha256": "a03460f6193c9323de18f8f075adcad78714b6df6fe22928eb06e768c00b6b55",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/analysis_tests.cpp",
+      "checkout_sha256": "c236779f802cbf1c70cc2e9810a99e26863d5d52c9cd4da19660e7bc76babce1",
+      "git_blob_sha256": "7aab7ce5e9ddd630dd91fd0f6ac1cff705184062049ee949b7dfdcdd3812e96b",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/cell_calibration_tests.cpp",
+      "checkout_sha256": "28ea539d658a7b064a02fa091f0dfa286cb5803bb5a926fa3fa3c1f692ea4251",
+      "git_blob_sha256": "89fa06a8e246ec2bc23f006940b55dbd2b81e1fad536c3cb1159feffe61c3605",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/cell_expansion_tests.cpp",
+      "checkout_sha256": "9091c5629ad8ce28d4e1c6666543fa9e70d850911597a4ee36733d8ffc898740",
+      "git_blob_sha256": "536fab8a3ec9a57335bb12ed353605511e65507fcb1eb2205e69b13a95fadcf0",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/cell_record_tests.cpp",
+      "checkout_sha256": "cad84ce5df73a5db5c82797e175c8cc81c66faef9b0a44b1da38a9b4e3483900",
+      "git_blob_sha256": "8d2219a5e221f4e9b9237ecd4de95f357c7f816a98e9467d48c432cfdf0fa797",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/cell_table_tests.cpp",
+      "checkout_sha256": "e3884ac7a73c0dd585880daed55b3229fe256aecc1e2bd31722707f61de04aae",
+      "git_blob_sha256": "95ebdf107d2e4a761cb4a4791ce2d0aba509ce8d25a31f40560e09976f4c742d",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/cell_tests.cpp",
+      "checkout_sha256": "89ab4844aa0fe81f5e3245b2501dc48098ac142c768fc6f9748b684182ea2a69",
+      "git_blob_sha256": "adb34ac900900f3bcc3b81574ab97f95ca86288bd616a0d88e91ef5410b5543d",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/classes_tests.cpp",
+      "checkout_sha256": "67509a64dd435cb0ed3f693d361b229e6ba6e7a8143da3eeed9e03e89e904b8a",
+      "git_blob_sha256": "79da29b42f3ca2b825d7b7bcdd810fa68f65d370a8146379cdac3462d39a3dcd",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/classifier_io_tests.cpp",
+      "checkout_sha256": "ee96e49b963965e4d3834c66cbcdaac69d9dbb6567c09fcc9e06ef87334e2226",
+      "git_blob_sha256": "fd9a4cdc93140b7a20f915f38d08cd3444ef84e419251d034ab20d1aadd88bca",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/classifier_tests.cpp",
+      "checkout_sha256": "c7312c1acad3c4a8efe40f793e5a5bb32472332e2ecb9622a347e998b3a27fef",
+      "git_blob_sha256": "37b3975665f60e4d9ba7bd70d35b3cc997448a9bee8eeb0d0d069e31c956bc2c",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/core_tests.cpp",
+      "checkout_sha256": "c87a3c6b300cd35e7ae73c84729841010f20578f9cc028bc7b2e76bf244496ef",
+      "git_blob_sha256": "d3146abf17bd4e42fac5cd2f92b0f359e30f6b1cf36e7508898a101806fdeb72",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/decimal_quantity_tests.cpp",
+      "checkout_sha256": "d46037fd460088336aec2801fb7d2d0671dd426bf1e107a10406b88a3a2deffc",
+      "git_blob_sha256": "56e91c4a5bc3ab652ecd7573029fedff820c1888fef0517c53897d67b5381095",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/document_edits_tests.cpp",
+      "checkout_sha256": "e154b9816be0a82a02859bf1b26ccc33ddb370483676a6ab28634a77a696618c",
+      "git_blob_sha256": "b06a2568e34079a26bf08bcfec3ddebcd2bdc803132ee8e9b9f853b3480b4307",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/file_fingerprint_tests.cpp",
+      "checkout_sha256": "780a21c1431dd17dd93b29181df5c1b3bbfe91529dfc693185b0d4c57bc8a06a",
+      "git_blob_sha256": "ff277490d928bc556a2fc6918ded45e6b41f39cd20ca1beab4998c0e59d19e51",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/forest_fixture.hpp",
+      "checkout_sha256": "f150fbde7deaeda042dddbe9c39f128f8f232b6c3d1a07f586ac50126f11f51d",
+      "git_blob_sha256": "6ed267b632c57cb7b072ca3d064a2e36ed1b1f324ff3b83c0765afca1f137b6b",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/geometry_edits_tests.cpp",
+      "checkout_sha256": "38d912aa6d294dc1a278597cfd007664fc82ed6f560de3b2b8f77ed85267d921",
+      "git_blob_sha256": "b377f474eb21dfc7e06d76df2ae639eb28a1b4160b68f9a588c30b45aba097ad",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/geometry_tests.cpp",
+      "checkout_sha256": "9e4a8178e1cdbae1c4315a77443a9ed4f800186954807100931bdb8c3b732886",
+      "git_blob_sha256": "9858987c5edd553c465a3610d167b233946d352db1db8ecb268a390e56e90f88",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/gui_replay_tests.cpp",
+      "checkout_sha256": "045f7f36c5cfc712b434fd5f6323a82869451ca4b7e756f28f627197f63bd1d5",
+      "git_blob_sha256": "e6ab1e43d2257ed6ab699417c990de88796ba79f675ff914636e6f8f392c4d0d",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/image_server_tests.cpp",
+      "checkout_sha256": "2f31baaf33d4e0a6de48c1c371baf84d7885107938f3d27dbcecd8b3627a2ed1",
+      "git_blob_sha256": "6e312297529cbaf683131e416fa9872e565ace1b8de0a947e832d717c153d779",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/interchange_tests.cpp",
+      "checkout_sha256": "5afa28944efcb12fb3755b8a426a84ed6fdda73ae3f9938bccf9af405a86c94f",
+      "git_blob_sha256": "ef746c5f0f14c5d3347883a5870c69bd66b7e7a4cff6a189f9b7fb973c41187b",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/log_cell_recipe_tests.cpp",
+      "checkout_sha256": "1a748fa5529b3f7a72535ff8582a06cf251e5a92585cba242574e1d461b5a038",
+      "git_blob_sha256": "9f6b084b7f3bf335a91cb277836e28930638d74ddf62c3a5b6c1976e3bb6a962",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/log_watershed_tests.cpp",
+      "checkout_sha256": "bcaae26756d0eda07d3585a9056f5473f95dcc5d2adbf57d1b045c9f057ef641",
+      "git_blob_sha256": "d8c4fd2eb749d4b47f801ed67af869c303eae29d6c25eed74d72632fed569af1",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/masked_gaussian_tests.cpp",
+      "checkout_sha256": "9b64db49afcc2691889c19e57fa14d6de81fa6e4eefab201daf43b37003407e1",
+      "git_blob_sha256": "a7eda8eb91706128c99ae46c05eb4983964f8983b520594b62a204e2e4c4f369",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/measurement_table_tests.cpp",
+      "checkout_sha256": "2a8fa1ced714c48220dc9cb787ad90565f3e5fb9b2c3644d8c9fd48842ca2046",
+      "git_blob_sha256": "b7bc4f3e0bb2648567658e322b103a3e76567de900b9fe93475c3e1fd8b95d5f",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/object_classifier_tests.cpp",
+      "checkout_sha256": "4aadd3fadf49b7b3b723fbf2bb63eea5ba655a8810cf8044574296147e870d58",
+      "git_blob_sha256": "869906ae9d69d88b8576c9ea79f9b6e977af60c1e2b27c2eda9115b0df568737",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/object_forest_fixture.hpp",
+      "checkout_sha256": "4fc3c87fd3a56d102b4d73764d9a2aee4ece71c5b54e3a9ac0f037b3f65b7c36",
+      "git_blob_sha256": "1e545bdd62cdd969d84d00e9aaf411416cdf1ace593c213cd5fe229643270c5b",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/object_snapshot_tests.cpp",
+      "checkout_sha256": "1298b1cb0205ccfc2d3732cbb3f8263dc06a25d14885734226d1dddd9073e08c",
+      "git_blob_sha256": "b3a4bddfb118096c87dae82a365bf67e2d4a2cfc7907a51aad8bdc7997c71874",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/overlay_tests.cpp",
+      "checkout_sha256": "a187fb851fb2cd2c152b582cfaf9f29b2b1e556dcf547acaadd463e9013352f5",
+      "git_blob_sha256": "029165a475f64061d1606b6fb3bb48a9d95944bdf8bc01cefb6485350039a4bf",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/pixel_feature_tests.cpp",
+      "checkout_sha256": "966ac7e5090196d1e3cca46e53e86816cf1e8c77957312d145a25d53b94a7fc4",
+      "git_blob_sha256": "af7187818ec5e067f5fa7ebf7318febec609fc6a369bd3e29cc53984b677423e",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/pixel_workflow_tests.cpp",
+      "checkout_sha256": "72cf5cacc27607ee64310f5df12adc52e6aa09165d724f1ce657f4aa10031b71",
+      "git_blob_sha256": "6ed86f2a61dc9c7f9fb36834cedee2895b7567600c3d47b29cfc5ba563cca40e",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/project_batch_tests.cpp",
+      "checkout_sha256": "7d5bead4f8af024ff657d048266e504cfae1d2cc9639a9eea382b5564e77a9ad",
+      "git_blob_sha256": "259ad71194d93ba4d147e1f7e00d9af6e4d64185a0c080c23d6e68dccf66b40f",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/project_tests.cpp",
+      "checkout_sha256": "9c7baa253743d43a00105d8c750b09e0d66ac8608eb4b4a3dd996aec962d3a27",
+      "git_blob_sha256": "aa2707cba83f9e85aa0f6e99c840622ad239c7ebf2548b49e58fbbc4e337d6cf",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/provenance_tests.cpp",
+      "checkout_sha256": "e2a172f813edf086b49043be1b5c5880b8c0de6214e52af11c3e5fb580c53e11",
+      "git_blob_sha256": "1ce199f76e3e0f81362099577a1dfcb7b6d887695dd9e45969a3cb3786bde0ad",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/qptma_project_tests.cpp",
+      "checkout_sha256": "0bd81806f99d91995c4fd32cb9df7a036c12b29825210d570b99531de285333e",
+      "git_blob_sha256": "9e5fbdae23904b244ced82ca15135d63f4645d54b5a645e646f7f506133d3c78",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/qptma_tests.cpp",
+      "checkout_sha256": "2a8ede8e8ac949855b03ee786e258ee2d4f6855559b655878b5ddbb1a847c795",
+      "git_blob_sha256": "7c71592e0c10fc8e4fea151ab3db7b719938bf87812bb2fb57ab3572ba581e7e",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/raw_image_tests.cpp",
+      "checkout_sha256": "96f3a2eb8e45bef47928e598140545d64503a719d54c6d4cb9643a28f524ef96",
+      "git_blob_sha256": "3640d36b064c9d449d59002aeed3f1612d54849fbf431291bb8eacc0a382e3f9",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/recovery_tests.cpp",
+      "checkout_sha256": "ae7a3f2b8da531756aeae9950fdc6061442bc843e66716686bc2dc998e535469",
+      "git_blob_sha256": "f074c957ed2e408ce6775f50852edebe7f71dd7e4933e181a247c8eb334c1131",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/resampling_tests.cpp",
+      "checkout_sha256": "e852fb4579d93e84bec9af0973044ea57843f0c91ce2b47bb418930804bf9958",
+      "git_blob_sha256": "5031bff3659aa0c5971c8dd18fcdbedbc4ac00539e73e329084f74a8a5cdb9ce",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/save_tests.cpp",
+      "checkout_sha256": "16021f68f0b298b077a1ebac3b625c8fe722b2adb93200ab256a4c6a2f349b25",
+      "git_blob_sha256": "d4570c914f1abca58fe4066fdf64fecdbf16eccd2d534dddcbfde52a9a3294d3",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/scientific_cell_numeric_tests.cpp",
+      "checkout_sha256": "af1c633faa06e7b345ce6a386d6058aff1a8965baf33a1061259a5b2ad1e4651",
+      "git_blob_sha256": "af1c633faa06e7b345ce6a386d6058aff1a8965baf33a1061259a5b2ad1e4651",
+      "line_endings_only": false
+    },
+    {
+      "path": "cpp/tests/scientific_cell_reference.hpp",
+      "checkout_sha256": "0ca525289848119a4a29f59ca7a73f6a23831d23bc431bc97109f63cee4885a8",
+      "git_blob_sha256": "0ca525289848119a4a29f59ca7a73f6a23831d23bc431bc97109f63cee4885a8",
+      "line_endings_only": false
+    },
+    {
+      "path": "cpp/tests/scientific_channel_reference.hpp",
+      "checkout_sha256": "f276a63bf902b4b1d8732648d7a427c222b0a6b9f0dce3b318e9641f2a1835ab",
+      "git_blob_sha256": "f276a63bf902b4b1d8732648d7a427c222b0a6b9f0dce3b318e9641f2a1835ab",
+      "line_endings_only": false
+    },
+    {
+      "path": "cpp/tests/scientific_channel_tests.cpp",
+      "checkout_sha256": "adf7df6ac067c227705c1fb7586e13edfa3d385e7d0bb4d5dd463a36d66a89a2",
+      "git_blob_sha256": "adf7df6ac067c227705c1fb7586e13edfa3d385e7d0bb4d5dd463a36d66a89a2",
+      "line_endings_only": false
+    },
+    {
+      "path": "cpp/tests/scientific_grid_geometry_tests.cpp",
+      "checkout_sha256": "83f84139d40a43cee85dc5d7b65484dc21157e5cee17e698b83bb5a0a6c5a946",
+      "git_blob_sha256": "83f84139d40a43cee85dc5d7b65484dc21157e5cee17e698b83bb5a0a6c5a946",
+      "line_endings_only": false
+    },
+    {
+      "path": "cpp/tests/scientific_grid_reference.hpp",
+      "checkout_sha256": "89b75603c5a7a6072c18ae754b9aac3f31117ff51625652b7266c517501fdec8",
+      "git_blob_sha256": "89b75603c5a7a6072c18ae754b9aac3f31117ff51625652b7266c517501fdec8",
+      "line_endings_only": false
+    },
+    {
+      "path": "cpp/tests/scientific_raster_tests.cpp",
+      "checkout_sha256": "47b9b704feaa7a9062b0bd5824add1e53a09dc4348abc13c704d3caf63038a37",
+      "git_blob_sha256": "47b9b704feaa7a9062b0bd5824add1e53a09dc4348abc13c704d3caf63038a37",
+      "line_endings_only": false
+    },
+    {
+      "path": "cpp/tests/scientific_sampling_tests.cpp",
+      "checkout_sha256": "6f26ab0abea0c8afef1b9505ab9fd4a4fdbd7cad750903122a69286e3a7f5a4b",
+      "git_blob_sha256": "6f26ab0abea0c8afef1b9505ab9fd4a4fdbd7cad750903122a69286e3a7f5a4b",
+      "line_endings_only": false
+    },
+    {
+      "path": "cpp/tests/selection_tests.cpp",
+      "checkout_sha256": "3a17b98f06155973a7983c307a1b01700b0339fa00e4039cd90955addf017e57",
+      "git_blob_sha256": "f3f3f338b327a708352522ecea6a2e791cb0d2b13c6025bba6f427498c3736d9",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/sha256_tests.cpp",
+      "checkout_sha256": "a61eb1ddaeb8e1a8f73a70dd468ce94ed00f5bcc902a6e754b0869554ca965a6",
+      "git_blob_sha256": "93a7fc6f0cc4980d476d7f09232dc4df83806348810090582a5a6deda849a88b",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/source_identity_tests.cpp",
+      "checkout_sha256": "47bbfdaf5ca413cbfc3f7f5b48679c8cd6f8a95c262bbc4d8eb3b91663c05f06",
+      "git_blob_sha256": "0d20d3a44a42ea0c3c82eae577ca2e0324f68d23f2df47892bb6d5e85b5a0cdd",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/spatial_tests.cpp",
+      "checkout_sha256": "1b7797856209b3a3450098818f6d8b96c698a92a5b65f2413bb71f6cd4f9f21d",
+      "git_blob_sha256": "4d6bdb4116d75fae3eee6db4651aeb9cbc60852d8d291a7aff8e3af34409e48b",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/stain_estimation_tests.cpp",
+      "checkout_sha256": "958aca877c7f0c9b68b70cc636020b506f2e787aafac1be7e14e5fe0a1aa3f04",
+      "git_blob_sha256": "befbf0f26319657a2e1dbe651d024fe6d7991453b087f7e025b34f1ed3cc79f1",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/stains_tests.cpp",
+      "checkout_sha256": "e4c63c9067fc8306f81129780c006161f28b551c00dbc08c5544bbe07f5f4a93",
+      "git_blob_sha256": "c28bf3dc0b5016fb8395104162b457ff5dfe7a079f70d8bf39fa50a3f7625dca",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/thumbnail_tests.cpp",
+      "checkout_sha256": "22ed071b5883a56be5ee92a959a2a8ddbf3a64b2ce9e7a18be34e2390c4f2189",
+      "git_blob_sha256": "66f33d3e701c3a398699a7592c2d7e4c2e7280eb938209fea6cc7e4c6d0ca472",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/tile_scheduler_tests.cpp",
+      "checkout_sha256": "646422aeeac7737417d0f8dce60c048521ea37116850a5d2226094be34e38a22",
+      "git_blob_sha256": "737dd6c83b6084c8ab247d2a15f7f6ff49747f0463fa08744124907482602626",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/tissue_contour_tests.cpp",
+      "checkout_sha256": "09009e09051ae5cf2e38b848c2d1de5528abfaee71269c0536fe13dfa35cb4cf",
+      "git_blob_sha256": "339e2593e232565b1735276c3724c15b88c466cae68d49b461528cf8339afc99",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/tissue_record_tests.cpp",
+      "checkout_sha256": "c698539de5fb070bae44883bf6b283732d4c5dfa456583d2899f6dd6f7159c01",
+      "git_blob_sha256": "1225df78c9e07d0e7c63f552a3a92dda88efe75cbc31b480ec3858c9e16a0833",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/tissue_tests.cpp",
+      "checkout_sha256": "88f22670766b729425e902b58e99033add098c670d134e9cfbdd3a6f8a769d7c",
+      "git_blob_sha256": "b299bf612a7fe49bfeeb99776e45ec6707cc9280d3974a4e9982d7cf08052c18",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/tma_tests.cpp",
+      "checkout_sha256": "784fe1c7176cd1addfa28df2f9ff9a7c7656cc86983f9c47a2362f64dca4e6dc",
+      "git_blob_sha256": "a1174e2160f09f180474f6bbfd3e705ea306299965ec1e5dc3c2772a1b4d4c75",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/view_tiles_tests.cpp",
+      "checkout_sha256": "ab3b4d00915ed1a770e7dc3de40b1083c73e4d9d32194068883e498c2a9cf955",
+      "git_blob_sha256": "baf2f9990058f3160acf91853054285bbf3d12bde7f5a00e23350ccc5dc8fe25",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tests/viewer_session_tests.cpp",
+      "checkout_sha256": "aa065990c2bae71060170a1cc362bd3b129bde0102f54209879286aa58e55338",
+      "git_blob_sha256": "6b89e6cea142621fab00913cc91506340c356e40ed6e3379e007c5d27fae0315",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/thumbnail.cpp",
+      "checkout_sha256": "47da8089c0f42fde103d26e70558898e6a5ca430ccb58445ffa1862bd6f3878e",
+      "git_blob_sha256": "71ff501a57e119f7032c980fe12ffb9504027363521707cfb2d8b7119b5e7301",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/thumbnail_bindings.cpp",
+      "checkout_sha256": "547c373b1230e854c07531216f547f1c2e6334718c656faea39b8098017e69a2",
+      "git_blob_sha256": "93b9435f1cbe7b0cdf0759f42a14f03c292f69ccd353fd7cb6710059362fe09b",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tiff_server.cpp",
+      "checkout_sha256": "e94eb5ac4e21475dfc7305c9338af5defae6eaebdecb1131ed528f2986208fa2",
+      "git_blob_sha256": "a175ae5e5087fd325f151aa1c87dafc5a7b1368130d7c584e30b218768e6fa39",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tile_scheduler.cpp",
+      "checkout_sha256": "7ffc389f91bc4f755cb57f9bb3713349a5c639b04ac1156ec34386bbfb45dd70",
+      "git_blob_sha256": "3893275a227bb22a6d9c8acee512f08eac72f66c9039b41c6d14e1986563125d",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tissue.cpp",
+      "checkout_sha256": "e46cd4b7c21392a0facbdd06dc226728ac1efccf6fb071f1d4a5b4259e5e396f",
+      "git_blob_sha256": "b91ed924f075853b28b452485bb28a6d7e1aad32bb76591f5febaf801a2a5b96",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tissue_archive.cpp",
+      "checkout_sha256": "3d834244a5d6cdd5b07bac0a11eca457dbb1fa6f45093c87b5c5b9753b4b6e5e",
+      "git_blob_sha256": "f0041cb50647e917765eaeace6aad1fdf43ef19649afa8da82f30cb4ebfd2aba",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tissue_archive.hpp",
+      "checkout_sha256": "e4b95fc061b2d1b6e0b51964d0b90500f0e825ffa71a4d06c6df648f455e9c0f",
+      "git_blob_sha256": "7e003448a2ab43bb07ee7deaab62a695bed6e8bd45c618a6eec874fc192259a6",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tissue_bindings.cpp",
+      "checkout_sha256": "3c4e90bffd0d0366430e52cd9a43ff75b7dc1f0f437773082d8b4012f6dc0f70",
+      "git_blob_sha256": "108d060ee5eb72a2c08cfc2ec65195b3221451a07f6ae9db9b052311228dbea9",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tissue_cleanup.hpp",
+      "checkout_sha256": "2a40a1925d4621c4315646193552d22fd0bee9e0f7f5caaaefaec87a3e676508",
+      "git_blob_sha256": "0c9b6bd9b73607f77aaa4c370dd7e14c27a4e5ce8ed26f63e37a7eeaa71a85cb",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tissue_contours.cpp",
+      "checkout_sha256": "e9970da22b73c86198d38e0bc9f9f45051a58bceb4e4cfdeb3943c4bb6e22a4b",
+      "git_blob_sha256": "d9826af4bebd7781dd84d8ca28bf0a403c02e201793180790991d7db6a705cf3",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tissue_records.cpp",
+      "checkout_sha256": "a182014e7a055f5d8cf0df41ffa06f5c055f0a60bd317f79045de2c2140cdccb",
+      "git_blob_sha256": "9c46224d7da7185990c4ea69a75666bb12a49254130ea1d587d7716af51eaa16",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tma.cpp",
+      "checkout_sha256": "be3c105f19c441fecdafaa7aae89f1a3a5225f4c8c84256c686dad61dbc8217a",
+      "git_blob_sha256": "7306958041fa77ecb768461c9348e24a669487176e136c7a53dbb934898d43ca",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tma_bindings.cpp",
+      "checkout_sha256": "5e310e93d9a8ed9532ffac1ab18c4201e4fc1bcaab4646784ea68fc9ba862b71",
+      "git_blob_sha256": "6565aeee2d7dbd26395f562da40c1e4ab384a8d5f47e49dfec26a6ed46c84636",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tma_case_cli.cpp",
+      "checkout_sha256": "7b84fc7962d4e058ba87bd167d341385be681df42011c27635efb055774211a1",
+      "git_blob_sha256": "0708fc215fddffb59c56682369702ae4f239a1b3afaa6cdc2b5546a4bc7d0e53",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tma_case_cli.hpp",
+      "checkout_sha256": "eb17b4aa671bcfb5fc597e2d062b3c64eb8ef7921c9c171467768510c5c5858d",
+      "git_blob_sha256": "a2cf1a93148d15cfcc4fe5426ff5f91f3454667171a640510868493b9d5d0add",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tma_case_export.cpp",
+      "checkout_sha256": "f03f34d46e8769fffec268f63c1dc4a064ba6f9517dd0010589b62f2c5abae0e",
+      "git_blob_sha256": "796036ee5651b1c667c5e87dd9195c4d914f21bce57f030568e85b433e7fd7fb",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tma_case_export.hpp",
+      "checkout_sha256": "18e9a9069c47f6d0afb578fd94ff3e9c0503d8217fca374530d617a27f9b83d0",
+      "git_blob_sha256": "d84bc109298e85897ed9ca9c6df4a5a400008162868db9c11317b31261088b7a",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tma_internal.hpp",
+      "checkout_sha256": "ea6a9a88bc4a72c0ec2228a9b566f75901762e64bbffd1021cd7d27ae842aae2",
+      "git_blob_sha256": "7141fa002fdd4cf5701fd539c795dadf9f07c0106b0bd89d27dde18e3669fd3d",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/tma_tables.cpp",
+      "checkout_sha256": "89913df6d4f8b60f4fe6cfe6242cd10fd5691b0c5699b109d66c14f727ae614e",
+      "git_blob_sha256": "c316058a8494ab3dbf45f7971c69f3f9ab208dc02771104ed198c8a7d62ac42a",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/utf8_text.hpp",
+      "checkout_sha256": "d26b8c624ebfdb07cab5170a88ce640c8462d505b3c3899b28c1cb7dc9929aff",
+      "git_blob_sha256": "5ad461bfd870aa041e18a0fe9943e7cf0df461968bd2ed4b1fef079329911749",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/view_tiles.cpp",
+      "checkout_sha256": "5fc71f32e1743da9e490691d46f0007334b6c8685fb7633ed5712f1a13c15284",
+      "git_blob_sha256": "1c0bd54f3a3fc6e2e8821647afabe1a243982c26e4fd57c689659cf35090e60b",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/viewer_bindings.cpp",
+      "checkout_sha256": "fb9e2ec432bbea2593826d1991006f36a1c7c60b587a6d01b4b2221f57d338ac",
+      "git_blob_sha256": "150fc084d10b8dba6eb27c16c954e2469d194f919b8ba63f8aa0fa98afa72e13",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/viewer_bridge.hpp",
+      "checkout_sha256": "90bc85e675a6d9e69edf162958a618c6ab1502b791117b456825c1789363889b",
+      "git_blob_sha256": "bca9c0401c3a74d2774afb60708e6a82d6dd6feff43ed6c1928a4cc97cfda373",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/viewer_session.cpp",
+      "checkout_sha256": "bf4fe6d640df94973feb980751516de10aa109cfb0006ea1d04771ddb0c13ceb",
+      "git_blob_sha256": "1ce7002b6173f75b9b5d7a58ebd93db7da128e488fd9a1f2c6a20676197460a9",
+      "line_endings_only": true
+    },
+    {
+      "path": "cpp/workspace_preferences.cpp",
+      "checkout_sha256": "e951296c0220e6251ba179dd3087bc9ed82f57b6e68bcac8d0faf90fc701cab9",
+      "git_blob_sha256": "613775411a9955a3f6e05b37fd1f436fe08deb3a58b270dcd4949503b3dae4cc",
+      "line_endings_only": true
+    },
+    {
+      "path": "pyproject.toml",
+      "checkout_sha256": "599255f63494e67690ac448023b002958b981770433315d7cdfa1583c1b6922a",
+      "git_blob_sha256": "c5ff8099bf06aacd15eba014e9994e6ff8e9b42dd9fd0dab1adf75644f693050",
+      "line_endings_only": true
+    },
+    {
+      "path": "src/qupathxx/__init__.py",
+      "checkout_sha256": "5b3c8867bcfd9fb08491ec6b8b7170af54a62d6e3f5b3b673ef0d8dc9f5de734",
+      "git_blob_sha256": "3fa85750bb42ee0ea06aaccada006ee609e5f0ef1cd327139296a92746b7d30f",
+      "line_endings_only": true
+    },
+    {
+      "path": "src/qupathxx/__main__.py",
+      "checkout_sha256": "91d7eca53fc7a88257ef05e28bd31efacbf521bd789c165839fb42fdca4f8e41",
+      "git_blob_sha256": "17acdb2724c4483b0ea16c61616a816d9808dec04b4c0d8efc31b4d774608247",
+      "line_endings_only": true
+    }
+  ]
+}

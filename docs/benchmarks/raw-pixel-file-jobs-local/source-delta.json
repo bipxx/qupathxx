@@ -1,0 +1,11 @@
+{
+  "initial_source": "447d3aeb234547444ac9f0cbf1753eb6482d8160",
+  "final_source": "404f506e76097e52e126f54bc1923bb857924248",
+  "changed_inputs": [
+    "cpp/raw_pixel_file_jobs.cpp"
+  ],
+  "reason": "After all 19 initial suites passed, require full saved-prefix verification in the prediction export worker before exposing its summary; final source changes only the file-job implementation",
+  "initial_workflow_suites_failed": 0,
+  "initial_suites_passed": 19,
+  "unchanged_regressions_passed": 16
+}

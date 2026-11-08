@@ -1,0 +1,35 @@
+{
+  "schema": "qpx.raw-replay-macos-diagnostic/1",
+  "source": "4a72fd84b7726927285bf58120d288513c65eb4e",
+  "ref": "feature/raw-replay-macos-diagnostic-240",
+  "purpose": "Separate historical/foreign refusal calls, record exception type, and preserve the actual failing test before CTest; not a runtime repair or full T5 qualification.",
+  "semantic_inputs": {
+    "macos_native": true,
+    "portable_linux": false,
+    "live_reference": false,
+    "extended_readers": false
+  },
+  "wire_inputs": {
+    "macos_native": "true",
+    "portable_linux": "false",
+    "live_reference": "false",
+    "extended_readers": "false"
+  },
+  "preflight_controls": 166,
+  "source_proof_sha256": "9eda2c11f5bbf1b69ea4298162ed28b016c99fe279cbd1e94a1e0b8d3d7bd12b",
+  "state": "run_identified",
+  "attempted_at_utc": "2026-10-26T19:12:54.719541+00:00",
+  "known_runs_before": [],
+  "complete_campaign_accepted": false,
+  "release_ready": false,
+  "returncode": 0,
+  "stdout": "",
+  "stderr": "",
+  "run": {
+    "conclusion": "",
+    "databaseId": 40384720525,
+    "headSha": "4a72fd84b7726927285bf58120d288513c65eb4e",
+    "status": "queued",
+    "url": "https://github.com/bipxx/qupathxx/actions/runs/40384720525"
+  }
+}

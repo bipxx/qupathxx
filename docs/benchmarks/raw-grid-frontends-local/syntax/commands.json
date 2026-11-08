@@ -1,0 +1,25 @@
+{
+  "command": [
+    "wsl.exe",
+    "-d",
+    "Ubuntu",
+    "--",
+    "g++",
+    "-std=c++17",
+    "-fsyntax-only",
+    "-I",
+    "/usr/include/python3.12",
+    "-I",
+    "/mnt/c/Users/HEQ/Projects/qupathxx/.venv/Lib/site-packages/nanobind/include",
+    "-I",
+    "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/include",
+    "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/scientific_raw_bindings.cpp",
+    "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_analysis_bindings.cpp",
+    "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/project_batch_bindings.cpp",
+    "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/viewer_bindings.cpp",
+    "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/viewer_session.cpp",
+    "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tests/viewer_session_tests.cpp"
+  ],
+  "exit": 0,
+  "elapsed_seconds": 25.433223900035955
+}

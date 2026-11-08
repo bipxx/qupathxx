@@ -1,0 +1,34 @@
+CMake is re-running because C:/Users/HEQ/Projects/qupathxx/build/ci/rgb-nominal-287-native/CMakeFiles/generate.stamp is out-of-date.
+  the file 'C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/bindings.cpp'
+  is newer than 'C:/Users/HEQ/Projects/qupathxx/build/ci/rgb-nominal-287-native/CMakeFiles/generate.stamp.depend'
+  result='-1'
+-- Selecting Windows SDK version 10.0.22621.0 to target Windows 10.0.26200.
+-- Configuring done (0.2s)
+-- Generating done (1.5s)
+-- Build files have been written to: C:/Users/HEQ/Projects/qupathxx/build/ci/rgb-nominal-287-native
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+
+  Checking File Globs
+  1>Checking Build System
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  resampling.cpp
+  rgb_nominal.cpp
+  thumbnail.cpp
+  tma_dearray.cpp
+  Generating Code...
+  provenance.cpp
+  qupathxx_core.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\rgb-nominal-287-native\Release\qupathxx_core.lib
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  resampling_tests.cpp
+  rgb_nominal_checks.cpp
+  Generating Code...
+  qupathxx_resampling_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\rgb-nominal-287-native\Release\qupathxx_resampling_tests.exe
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+
+  Checking File Globs
+  qupathxx_core.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\rgb-nominal-287-native\Release\qupathxx_core.lib
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  region_main.cpp
+  raw_cli.cpp
+  Generating Code...
+  qupathxx_region.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\rgb-nominal-287-native\Release\qupathxx_region.exe

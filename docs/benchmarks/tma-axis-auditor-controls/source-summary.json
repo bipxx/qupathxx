@@ -1,0 +1,26 @@
+{
+  "harness_source": "b61f7baf133d1b44a791b41c235e5bf8a9d20348",
+  "compiled_module_source": "96172f3702ef910593880a9d5412a0b66601a5bf",
+  "compiler_fingerprint": "12de03f213d3084399c8afa7cdcf1090b73c01226e6a8e12065fc0fc06e4fde4",
+  "compiler_inputs": 312,
+  "compiler_bytes_unchanged": true,
+  "proofs": {
+    "axis": {
+      "files": 35,
+      "elapsed_seconds": 0.12672369997017086
+    },
+    "scientific": {
+      "files": 506,
+      "elapsed_seconds": 0.567572999978438
+    },
+    "qptma": {
+      "files": 42,
+      "elapsed_seconds": 0.08213319990318269
+    },
+    "hierarchy": {
+      "files": 55,
+      "elapsed_seconds": 0.10728670004755259
+    }
+  },
+  "scope": "Actual source-byte checks, not a controlled performance comparison or new platform acceptance."
+}

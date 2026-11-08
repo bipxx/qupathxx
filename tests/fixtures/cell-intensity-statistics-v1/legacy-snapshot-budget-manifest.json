@@ -1,0 +1,13 @@
+{
+  "source": "faa71c1fa6eb9e5bb6eab1ce11cb8389497d47d7",
+  "file": "legacy-snapshot-budget.qpxproj.zip",
+  "archive_sha256": "329e08e9e59537df682f7092dfe4b5d2a454e4fc2dda4610b6def5b3fefee9f8",
+  "project": "legacy-snapshot-budget.qpxproj",
+  "project_sha256": "c27512802afcb977d86da22de7d0529e8a440dd72e6c194d8d2923471175cd2f",
+  "image_id": 1,
+  "classifier_id": 193,
+  "snapshot_bytes": 1126273,
+  "rows": 368,
+  "table_sha256": "724438c64c33147375e867b24bacbf5bd947efaca4dd05d702db1af6c48881de",
+  "provenance": "Old faa71c1f exact allowed snapshot quota;368 published copies of the same retained two-cell result, no repeated detection or new pixels. Old capture/archive/save/reopen succeeds; initial76ad0a2d reopen fails at snapshot budget. Compressed to avoid duplicate raw artifact storage."
+}

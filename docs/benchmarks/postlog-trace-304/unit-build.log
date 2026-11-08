@@ -1,0 +1,9 @@
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+
+  Checking File Globs
+  1>Checking Build System
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupath_response_tests.cpp
+  imagej_gaussian.cpp
+  Generating Code...
+  qupathxx_qupath_response_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\qupath-response304-msvc\Release\qupathxx_qupath_response_tests.exe

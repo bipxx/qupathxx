@@ -1,0 +1,20 @@
+.F                                                                       [100%]
+================================== FAILURES ===================================
+__________ test_global_file_stale_guard_and_all_unavailable_refusal ___________
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/project-metadata-r5/staged-repair-temp/test_global_file_stale_guard_a0')
+
+    def test_global_file_stale_guard_and_all_unavailable_refusal(tmp_path):
+        path=foreign(tmp_path);preview=q.preview_qupath_project(str(path));(path.parent/'data/metadata.json').write_text('{}',encoding='utf-8')
+        with pytest.raises(RuntimeError,match='changed'):preview.import_new(str(tmp_path/'changed.qpxproj'))
+        assert not preview.consumed
+        data=json.loads(path.read_bytes());data['images'][0]['serverBuilder']['uri']=(path.parent/'absent.ome.tif').as_uri();path.write_text(json.dumps(data),encoding='utf-8')
+>       preview=q.preview_qupath_project(str(path));assert any(i.code=='unavailable_image' for i in preview.issues)
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       assert False
+E        +  where False = any(<generator object test_global_file_stale_guard_and_all_unavailable_refusal.<locals>.<genexpr> at 0x000001D7231D93C0>)
+
+tests\test_project_metadata.py:146: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_project_metadata.py::test_global_file_stale_guard_and_all_unavailable_refusal
+1 failed, 1 passed in 0.28s

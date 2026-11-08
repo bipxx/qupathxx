@@ -1,0 +1,15 @@
+{
+  "schema": "qpx.portable-body-auditor-probes/1",
+  "state": "auditor-only-validated",
+  "unit_tests_passed": 25,
+  "junit_sha256": "c17595e76061674b1d7d9be74cfa59162b4e8a4681d1f6e69d50aeda0918b29f",
+  "unit_log_sha256": "874517a53cb3d19a7740a9e35b87cfc4d74f5c5f417263a6164ffea892c22018",
+  "old_portable_source": "1b900756a1a8ee7e8b6f453aada7755a4caa6955",
+  "old_portable_run": 40061659942,
+  "old_engine_rejected": true,
+  "negative_log_sha256": "cb1fa3624520d889ba636349b1cf1d7e88de6c0b679191a0a3183580525c2c86",
+  "new_portable_source": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+  "new_portable_run": 40073724906,
+  "portable_engine_accepted": false,
+  "release_ready": false
+}

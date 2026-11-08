@@ -1,0 +1,25 @@
+{
+  "source": "8722d96d788a550945e15b7aa3e32e29423b9a54",
+  "replay_complete": true,
+  "frames": 90,
+  "images": 0,
+  "defaults": [
+    "Parent",
+    "Parent: Positive",
+    "Parent",
+    "Parent: Positive"
+  ],
+  "classes": {
+    "Parent": [
+      "",
+      2148676694,
+      1193046
+    ],
+    "Parent: Positive": [
+      "Parent",
+      null,
+      862016
+    ]
+  },
+  "purpose": "Installed mouse selection, append duplicate default, reorder, Ctrl+S and reopen; exact palette and raw class state verified"
+}

@@ -1,0 +1,105 @@
+{
+  "total_count": 5,
+  "artifacts": [
+    {
+      "id": 12844140185,
+      "node_id": "MDg6QXJ0aWZhY3QxMjg0NDE0MDE4NQ==",
+      "name": "Windows-gui-py3.12",
+      "size_in_bytes": 43222408,
+      "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12844140185",
+      "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12844140185/zip",
+      "expired": false,
+      "digest": "sha256:ebf8ee63bf0176d9567cc8bd62120efc294686a087dc0d191cc44fa3dcd6ecd7",
+      "created_at": "2026-10-28T19:00:32Z",
+      "updated_at": "2026-10-28T19:00:32Z",
+      "expires_at": "2026-11-11T19:00:28Z",
+      "workflow_run": {
+        "id": 40743832312,
+        "repository_id": 1427753981,
+        "head_repository_id": 1427753981,
+        "head_branch": "feature/gui-font-qualification-285",
+        "head_sha": "1f71eb59e13fba272113c1119ee2b608fa26d01a"
+      }
+    },
+    {
+      "id": 12842820319,
+      "node_id": "MDg6QXJ0aWZhY3QxMjg0MjgyMDMxOQ==",
+      "name": "Windows-headless-py3.11",
+      "size_in_bytes": 11974398,
+      "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12842820319",
+      "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12842820319/zip",
+      "expired": false,
+      "digest": "sha256:62c61734f4de562391b7559ac1d3a5701df06f9f7bf79b59d8e926f6dc14d63d",
+      "created_at": "2026-10-28T18:38:20Z",
+      "updated_at": "2026-10-28T18:38:20Z",
+      "expires_at": "2026-11-11T18:38:17Z",
+      "workflow_run": {
+        "id": 40743832312,
+        "repository_id": 1427753981,
+        "head_repository_id": 1427753981,
+        "head_branch": "feature/gui-font-qualification-285",
+        "head_sha": "1f71eb59e13fba272113c1119ee2b608fa26d01a"
+      }
+    },
+    {
+      "id": 12841461609,
+      "node_id": "MDg6QXJ0aWZhY3QxMjg0MTQ2MTYwOQ==",
+      "name": "Linux-headless-py3.12",
+      "size_in_bytes": 14958665,
+      "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12841461609",
+      "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12841461609/zip",
+      "expired": false,
+      "digest": "sha256:4c9eb187ddc09aacb7a63def044ddd1642f4c77520b6ffe2ff00e14738c3d172",
+      "created_at": "2026-10-28T18:31:11Z",
+      "updated_at": "2026-10-28T18:31:11Z",
+      "expires_at": "2026-11-11T18:31:09Z",
+      "workflow_run": {
+        "id": 40743832312,
+        "repository_id": 1427753981,
+        "head_repository_id": 1427753981,
+        "head_branch": "feature/gui-font-qualification-285",
+        "head_sha": "1f71eb59e13fba272113c1119ee2b608fa26d01a"
+      }
+    },
+    {
+      "id": 12840214855,
+      "node_id": "MDg6QXJ0aWZhY3QxMjg0MDIxNDg1NQ==",
+      "name": "Linux-sanitize-py3.12",
+      "size_in_bytes": 61284,
+      "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12840214855",
+      "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12840214855/zip",
+      "expired": false,
+      "digest": "sha256:dea89c76aac661a7fa005c72017d70a60e68874da33582701b2383b6ca92e04a",
+      "created_at": "2026-10-28T18:30:11Z",
+      "updated_at": "2026-10-28T18:30:11Z",
+      "expires_at": "2026-11-11T18:30:10Z",
+      "workflow_run": {
+        "id": 40743832312,
+        "repository_id": 1427753981,
+        "head_repository_id": 1427753981,
+        "head_branch": "feature/gui-font-qualification-285",
+        "head_sha": "1f71eb59e13fba272113c1119ee2b608fa26d01a"
+      }
+    },
+    {
+      "id": 12839904388,
+      "node_id": "MDg6QXJ0aWZhY3QxMjgzOTkwNDM4OA==",
+      "name": "Linux-minimal-py3.12",
+      "size_in_bytes": 53627,
+      "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12839904388",
+      "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12839904388/zip",
+      "expired": false,
+      "digest": "sha256:96747353c6648881a42b797b48862b095581eb5088a2ec8542252adc975e8814",
+      "created_at": "2026-10-28T18:21:32Z",
+      "updated_at": "2026-10-28T18:21:32Z",
+      "expires_at": "2026-11-11T18:21:32Z",
+      "workflow_run": {
+        "id": 40743832312,
+        "repository_id": 1427753981,
+        "head_repository_id": 1427753981,
+        "head_branch": "feature/gui-font-qualification-285",
+        "head_sha": "1f71eb59e13fba272113c1119ee2b608fa26d01a"
+      }
+    }
+  ]
+}

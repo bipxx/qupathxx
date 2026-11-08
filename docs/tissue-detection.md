@@ -2,11 +2,15 @@
 
 The first tissue workflow shares one native C++ implementation between Python
 and ImGui. It thresholds an area ROI at a native pyramid level, then labels connected
-components across every decoded tile boundary. Algorithm identity is
+components across every decoded tile boundary. With Gaussian and median disabled, algorithm identity is
 `qpx.threshold-components/1` at level zero and `/2` at nonzero levels when
-cleanup is disabled. Enabling cleanup uses `qpx.threshold-components/3`.
-Native pyramid sampling supports large image regions within a bounded raster;
-arbitrary resampling, contour creation and saved masks remain open.
+cleanup is disabled. Enabling morphology/hole cleanup uses `qpx.threshold-components/3`.
+Optional [Gaussian smoothing](tissue-smoothing.md) uses algorithm /4 or winding-4
+and runs on the scalar feature before thresholding. Optional
+[binary median cleanup](tissue-median.md) then uses algorithm /5 or winding-5. Native pyramid sampling
+supports bounded rasters; [contours](tissue-contours.md), [saved masks](tissue-archive.md)
+and [physical filters](tissue-area-limits.md) extend this base workflow.
+Arbitrary-grid/context semantics remain in the remaining-work queue.
 
 ## Numerical contract
 
@@ -31,7 +35,7 @@ components receive compact labels in first-seed row-major order.
 ## Morphology and hole filling
 
 Optional cleanup runs after thresholding and before labeling/size filtering, in
-this fixed order: opening, closing, then hole filling. Both radius parameters
+this fixed order: optional binary median, opening, closing, then hole filling. Both radius parameters
 default to zero (disabled) and accept 0 through 256 sampled pixels. Each enabled
 operation uses a centered, full square of side `2*radius+1`, with constant-zero
 padding outside the cropped grid. Opening is erosion followed by dilation;
@@ -45,7 +49,9 @@ excluded pixels as background and never paints them. A rectangular crop touching
 tissue can lose edge pixels during closing because the padding is zero; this
 border rule is intentional and tested. Radii count sampled pixels and therefore
 cover larger level-zero distances at coarser levels. Arbitrary kernels,
-physical radii, Gaussian smoothing and median filtering remain open.
+physical radii and broader named filter workflows remain open; fixed
+[binary median cleanup](tissue-median.md) is delivered. Gaussian smoothing uses the
+[separate support/units contract](tissue-smoothing.md).
 
 `fill_holes=True` fills eligible background components that touch neither the
 crop boundary nor an excluded-domain pixel. Background connectivity is the

@@ -1,5 +1,6 @@
 #include "qupathxx/tma.hpp"
 #include "viewer_bridge.hpp"
+#include "raw_pixel_frontend.hpp"
 #include "atomic_export.hpp"
 #include "utf8_text.hpp"
 #include "calibrated_cell_numeric.hpp"
@@ -15,20 +16,40 @@
 namespace qpx {
 namespace {
 using Clock=std::chrono::steady_clock;
-enum class Action {Catalog,Inspect,Execute,Select,Activate,Region,Analyze,Tissue,Cells,Measurements,CellTable,Save,Close,RawMetadata,RawRegion,TiffView,RawAnalyze,RawVerify,RawTable};
-const char* name(Action a) {static const char* values[]={"catalog","inspect","execute","select","activate","region","analyze","tissue","cells","measurements","cell_table","save","close","raw_metadata","raw_region","tiff_view","raw_analyze","raw_verify","raw_table"};return values[static_cast<int>(a)];}
+enum class Action {Catalog,Inspect,Execute,Select,Activate,Region,Analyze,Tissue,Cells,Measurements,CellTable,Save,Close,RawMetadata,RawRegion,TiffView,RawAnalyze,RawVerify,RawTable,TmaAxis,TmaDearray,RawPixelTrain,RawPixelPredict,RawPixelExport,RawPixelRead,RawPixelContours,RawPixelStreamContours,RawPixelFileContours,SpatialMeasure,SpatialInspect,SpatialVerify,SpatialExport,MergeAnnotations};
+const char* name(Action a) {static const char* values[]={"catalog","inspect","execute","select","activate","region","analyze","tissue","cells","measurements","cell_table","save","close","raw_metadata","raw_region","tiff_view","raw_analyze","raw_verify","raw_table","tma_axis","tma_dearray","raw_pixel_train","raw_pixel_predict","raw_pixel_export","raw_pixel_read","raw_pixel_contours","raw_pixel_stream_contours","raw_pixel_file_contours","spatial_measure","spatial_inspect","spatial_verify","spatial_export","merge_annotations"};return values[static_cast<int>(a)];}
 bool terminal(const std::string& state) {return state!="queued" && state!="running";}
 std::string error_text(const std::exception& e) {std::string text=e.what();try {detail::bounded_utf8(text,8192);}catch(...) {return "viewer operation failed (invalid or oversized error text)";}return text;}
+struct TmaAxisCommand {bool column=false,remove=false,missing=false;std::size_t index=0;std::optional<std::vector<Rect>> bounds;};
 struct Command {
     Action action;std::uint64_t image=0,object=0,after=0;std::optional<std::uint64_t> revision;std::size_t limit=64;
-    bool flag=false,nucleus=false;std::string text;std::vector<ObjectEdit> edits;std::vector<std::uint64_t> ids;
+    bool flag=false,nucleus=false,file_replay=false;std::string text,raw_file_path;std::vector<ObjectEdit> edits;std::vector<std::uint64_t> ids,targets;
+    SpatialDistanceOptions spatial;
     RegionRequest region{0,0,0,1,1};std::shared_ptr<const StainTransform> transform;
-    RawRegionRequest raw_region;TiffView tiff_view;
+    RawRegionRequest raw_region;TiffView tiff_view;std::optional<TmaAxisCommand> tma_axis;
+    std::optional<TmaDearrayOptions> tma_dearray;
+    std::optional<RawGridSampling> raw_grid;ScientificRawOptions raw_grid_options;
+    std::optional<RawPixelTrainingSettings> raw_pixel_settings;
+    std::optional<RawPixelClassifier> raw_pixel_model;
+    std::optional<ScientificRawLattice> raw_pixel_lattice;
+    std::optional<ScientificRawWindow> raw_pixel_window;
+    std::optional<ScientificGrid> raw_pixel_grid;TissueContourOptions raw_pixel_contours;
+    RawPixelStreamContourOptions raw_stream_contours;std::optional<RawPixelStreamRegion> raw_contour_region;
+    RawPixelStreamOptions raw_pixel_stream;RawPixelStreamSaveOptions raw_pixel_save;
+    RawPixelStreamFileLimits raw_pixel_limits;double raw_pixel_vote=0;std::size_t raw_pixel_work=16u*1024*1024;std::uint64_t raw_pixel_index=0;
     RoiSamplingPolicy sampling_policy=RoiSamplingPolicy::GeometryCoverage;
+    bool analysis_intensity_statistics=false;
     AnalysisKind analysis=AnalysisKind::OpticalDensityMeans;MeasurementTableKind table=MeasurementTableKind::Roi;
-    TissueParameters tissue;CellParameters cells;std::optional<double> cell_min_area,cell_max_area;
+    TissueParameters tissue;CellParameters cells;std::optional<double> cell_min_area,cell_max_area,tissue_min_area,tissue_max_area;
+    std::optional<TissueGridSampling> tissue_grid;std::optional<ScientificGrid> tissue_exact_grid;
+    std::optional<GridCellSampling> cell_grid;std::optional<NominalCellRoiSampling> cell_nominal;GridCellParameters grid_cells;
     explicit Command(Action a):action(a) {}
-    std::size_t bytes() const {std::size_t n=sizeof(Command)+text.capacity()+edits.capacity()*sizeof(ObjectEdit)+ids.capacity()*8+(transform?sizeof(StainTransform)+128:0);
+    std::size_t bytes() const {std::size_t n=sizeof(Command)+text.capacity()+raw_file_path.capacity()+edits.capacity()*sizeof(ObjectEdit)+(ids.capacity()+targets.capacity())*8+(transform?sizeof(StainTransform)+128:0);
+        if(raw_pixel_settings) n+=raw_pixel_settings->payload_bytes();
+        if(raw_pixel_model) n+=4ULL*raw_pixel_model->bytes().size()+64ULL*raw_pixel_model->forest().node_count()+65536;
+        n+=raw_pixel_save.resume_path.capacity();
+        if(tma_axis && tma_axis->bounds) n+=tma_axis->bounds->capacity()*sizeof(Rect);
+        if(tma_dearray)n+=tma_dearray->name.capacity();
         std::set<const TmaGridInfo*> grids;
         for(const auto& e:edits) {n+=e.value.name.capacity()+e.value.class_name.capacity();if(e.kind==ObjectEditKind::Create || e.kind==ObjectEditKind::Replace) n+=e.value.geometry.payload_bytes()+(e.value.nucleus?e.value.nucleus->payload_bytes():0);if(e.value.tma_core) {n+=e.value.tma_core->payload_bytes();if(grids.insert(e.value.tma_core->grid_info().get()).second) n+=e.value.tma_core->grid_info()->payload_bytes();}}return n;}
 };
@@ -38,9 +59,18 @@ std::size_t payload(const ViewerEvent& e) {
     if(e.object) n+=sizeof(Annotation)+e.object->name.capacity()+e.object->class_name.capacity()+e.object->geometry.payload_bytes()+(e.object->nucleus?e.object->nucleus->payload_bytes():0);
     if(e.object && e.object->tma_core) n+=e.object->tma_core->payload_bytes()+e.object->tma_core->grid_info()->payload_bytes();
     if(e.metadata) n+=sizeof(ImageMetadata)+e.metadata->vendor.capacity()+e.metadata->levels.capacity()*sizeof(ImageLevel);
-    if(e.analysis) n+=sizeof(AnalysisResult)+(e.analysis->provenance?e.analysis->provenance->payload_bytes():0);
+    if(e.analysis) n+=sizeof(AnalysisResult)+detail::analysis_statistics_bytes(*e.analysis)+(e.analysis->provenance?e.analysis->provenance->payload_bytes():0);
     if(e.tissue) n+=e.tissue->retained_bytes();if(e.cells) n+=e.cells->retained_bytes();if(e.pixels) n+=sizeof(PixelBuffer)+e.pixels->bytes().capacity();
+    if(e.raw_pixel_training) n+=e.raw_pixel_training->payload_bytes();
+    if(e.raw_pixel_checkpoint) n+=sizeof(RawPixelTrainingCheckpoint)+e.raw_pixel_checkpoint->bytes().capacity();
+    if(e.raw_pixel_prediction) n+=sizeof(RawPixelWindowClassification)+e.raw_pixel_prediction->labels().capacity()*4+e.raw_pixel_prediction->vote_fractions().capacity()*4+e.raw_pixel_prediction->valid().capacity()+e.raw_pixel_prediction->class_counts().capacity()*8+512;
+    if(e.raw_pixel_link) n+=e.raw_pixel_link->payload_bytes();
+    if(e.raw_pixel_contours) n+=e.raw_pixel_contours->payload_bytes();
+    if(e.raw_pixel_stream_contours) n+=e.raw_pixel_stream_contours->payload_bytes();
+    if(e.raw_pixel_file_contours) n+=e.raw_pixel_file_contours->payload_bytes();
     if(e.raw_analysis) n+=e.raw_analysis->payload_bytes();
+    if(e.tma_dearray)n+=e.tma_dearray->payload_bytes();
+    if(e.spatial)n+=e.spatial->payload_bytes();
     if(e.raw_pixels) n+=sizeof(RawPixelBuffer)+64+e.raw_pixels->payload_bytes();if(e.raw_metadata) n+=e.raw_metadata->payload_bytes();return n;
 }
 }
@@ -83,23 +113,88 @@ bool ViewerSession::cancel(std::uint64_t id) {
 }
 std::uint64_t ViewerSession::catalog(std::uint64_t after,std::size_t limit) {if(!limit || limit>256) throw std::invalid_argument("catalog page limit must be 1..256");Command c(Action::Catalog);c.after=after;c.limit=limit;return impl_->submit(std::move(c));}
 std::uint64_t ViewerSession::inspect(std::uint64_t image,std::uint64_t object) {Command c(Action::Inspect);c.image=image;c.object=object;return impl_->submit(std::move(c));}
+std::uint64_t ViewerSession::spatial_distances(std::uint64_t image,const std::vector<std::uint64_t>& sources,const std::vector<std::uint64_t>& targets,SpatialDistanceOptions options,bool keep,std::optional<std::uint64_t> revision) {
+    options.validate();if(options.snapshot_bytes>impl_->limits.snapshot_bytes)throw std::length_error("spatial capture exceeds viewer snapshot limit");if(sources.empty() || sources.size()>100000 || targets.size()>100000) throw std::invalid_argument("spatial viewer cohort count exceeds its limit");
+    Command c(Action::SpatialMeasure);c.image=image;c.ids=sources;c.targets=targets;c.spatial=options;c.flag=keep;c.revision=revision;return impl_->submit(std::move(c));
+}
+std::uint64_t ViewerSession::inspect_spatial(std::uint64_t image,std::uint64_t record) {
+    if(!record) throw std::invalid_argument("spatial inspection requires a record");Command c(Action::SpatialInspect);c.image=image;c.after=record;return impl_->submit(std::move(c));
+}
+std::uint64_t ViewerSession::verify_spatial(std::uint64_t image,std::uint64_t record) {
+    if(!record) throw std::invalid_argument("spatial verification requires a record");Command c(Action::SpatialVerify);c.image=image;c.after=record;return impl_->submit(std::move(c));
+}
+std::uint64_t ViewerSession::export_spatial(std::uint64_t image,std::uint64_t record,const std::string& path,std::size_t limit) {
+    if(!record || !limit || limit>1024u*1024*1024) throw std::invalid_argument("invalid spatial export record/limit");Command c(Action::SpatialExport);c.image=image;c.after=record;c.text=detail::export_path(path);c.limit=limit;return impl_->submit(std::move(c));
+}
+std::uint64_t ViewerSession::detect_tma_grid(std::uint64_t image,TmaDearrayOptions options,std::optional<std::uint64_t> revision) {
+    if(!image)throw std::invalid_argument("TMA detection requires an image ID");
+    options.validate();
+    Command c(Action::TmaDearray);c.image=image;c.tma_dearray=std::move(options);c.revision=revision;return impl_->submit(std::move(c));
+}
 std::uint64_t ViewerSession::execute(std::uint64_t image,const std::vector<ObjectEdit>& edits,std::string label,std::optional<std::uint64_t> revision) {
     if(!image || edits.empty() || edits.size()>impl_->limits.max_edits) throw std::invalid_argument("invalid viewer edit count or image ID");detail::bounded_utf8(label,4096);Command c(Action::Execute);c.image=image;c.revision=revision;c.edits=edits;c.text=std::move(label);return impl_->submit(std::move(c));
 }
+std::uint64_t ViewerSession::merge_annotations(std::uint64_t image,const std::vector<std::uint64_t>& ids,bool discard_points,std::optional<std::uint64_t> revision) {
+    if(!image || ids.empty() || ids.size()>impl_->limits.max_edits) throw std::invalid_argument("invalid viewer merge count or image ID");
+    Command c(Action::MergeAnnotations);c.image=image;c.ids=ids;c.flag=discard_points;c.revision=revision;return impl_->submit(std::move(c));
+}
+namespace {
+Command axis_command(std::uint64_t image,std::size_t index,bool column,bool remove,std::string label,std::optional<std::vector<Rect>> bounds,bool missing,std::optional<std::uint64_t> revision) {
+    if(!image || index>512) throw std::invalid_argument("invalid TMA axis image or index");detail::bounded_utf8(label,128);
+    if(bounds) {if(bounds->size()>512) throw std::length_error("TMA bounds exceed 512 slots");for(const auto& value:*bounds) Roi::ellipse(value);}
+    Command c(Action::TmaAxis);c.image=image;c.revision=revision;c.text=std::move(label);c.tma_axis=TmaAxisCommand{column,remove,missing,index,std::move(bounds)};return c;
+}
+}
+std::uint64_t ViewerSession::insert_tma_row(std::uint64_t image,std::size_t index,std::string label,std::optional<std::vector<Rect>> bounds,bool missing,std::optional<std::uint64_t> revision) {return impl_->submit(axis_command(image,index,false,false,std::move(label),std::move(bounds),missing,revision));}
+std::uint64_t ViewerSession::insert_tma_column(std::uint64_t image,std::size_t index,std::string label,std::optional<std::vector<Rect>> bounds,bool missing,std::optional<std::uint64_t> revision) {return impl_->submit(axis_command(image,index,true,false,std::move(label),std::move(bounds),missing,revision));}
+std::uint64_t ViewerSession::remove_tma_row(std::uint64_t image,std::size_t index,std::optional<std::uint64_t> revision) {return impl_->submit(axis_command(image,index,false,true,"",{},false,revision));}
+std::uint64_t ViewerSession::remove_tma_column(std::uint64_t image,std::size_t index,std::optional<std::uint64_t> revision) {return impl_->submit(axis_command(image,index,true,true,"",{},false,revision));}
 std::uint64_t ViewerSession::select(std::uint64_t image,const std::vector<std::uint64_t>& ids) {if(!image || ids.size()>impl_->limits.max_edits) throw std::invalid_argument("invalid viewer selection");Command c(Action::Select);c.image=image;c.ids=ids;return impl_->submit(std::move(c));}
 std::uint64_t ViewerSession::activate(std::uint64_t image) {if(!image) throw std::invalid_argument("viewer activation requires an image ID");Command c(Action::Activate);c.image=image;return impl_->submit(std::move(c));}
 std::uint64_t ViewerSession::read_region(std::uint64_t image,RegionRequest region) {if(region_byte_count(region.width,region.height)>impl_->limits.region_bytes) throw std::length_error("viewer region exceeds byte limit");Command c(Action::Region);c.image=image;c.region=region;return impl_->submit(std::move(c));}
 std::uint64_t ViewerSession::inspect_raw(std::uint64_t image) {Command c(Action::RawMetadata);c.image=image;return impl_->submit(std::move(c));}
 std::uint64_t ViewerSession::read_raw(std::uint64_t image,RawRegionRequest r) {
-    const auto unit=std::uint64_t(r.channels)+1,limit=impl_->limits.region_bytes;
+    const auto unit=std::uint64_t(r.channels)+1;
+    const auto limit=impl_->limits.region_bytes;
     if(!r.channels || r.channels>65536 || r.region.width<=0 || r.region.height<=0 || r.region.level<0 || std::uint64_t(r.region.width)>limit/unit || std::uint64_t(r.region.height)>limit/(unit*std::uint64_t(r.region.width))) throw std::length_error("viewer raw region exceeds byte limit");
     Command c(Action::RawRegion);c.image=image;c.raw_region=r;return impl_->submit(std::move(c));
 }
 std::uint64_t ViewerSession::set_tiff_view(std::uint64_t image,TiffView view) {view.validate();Command c(Action::TiffView);c.image=image;c.tiff_view=view;return impl_->submit(std::move(c));}
 std::uint64_t ViewerSession::analyze(std::uint64_t image,std::uint64_t object,const StainTransform& transform,AnalysisKind kind,bool nucleus) {return analyze_with_sampling_policy(image,object,transform,RoiSamplingPolicy::GeometryCoverage,kind,nucleus);}
 std::uint64_t ViewerSession::analyze_with_sampling_policy(std::uint64_t image,std::uint64_t object,const StainTransform& transform,RoiSamplingPolicy policy,AnalysisKind kind,bool nucleus) {validate_sampling_policy(policy);Command c(Action::Analyze);c.sampling_policy=policy;c.image=image;c.object=object;c.transform=std::make_shared<const StainTransform>(transform);c.analysis=kind;c.flag=nucleus;return impl_->submit(std::move(c));}
-std::uint64_t ViewerSession::tissue(std::uint64_t image,std::uint64_t object,const StainTransform& transform,TissueParameters p,bool retain) {p.validate();Command c(Action::Tissue);c.image=image;c.object=object;c.transform=std::make_shared<const StainTransform>(transform);c.tissue=p;c.flag=retain;return impl_->submit(std::move(c));}
+std::uint64_t ViewerSession::analyze_with_intensity_statistics(std::uint64_t image,std::uint64_t object,const StainTransform& transform,RoiSamplingPolicy policy,AnalysisKind kind,bool nucleus) {
+    validate_sampling_policy(policy);Command c(Action::Analyze);c.sampling_policy=policy;c.image=image;c.object=object;
+    c.transform=std::make_shared<const StainTransform>(transform);c.analysis=kind;c.flag=nucleus;c.analysis_intensity_statistics=true;
+    return impl_->submit(std::move(c));
+}
+std::uint64_t ViewerSession::tissue(std::uint64_t image,std::uint64_t object,const StainTransform& transform,TissueParameters p,bool retain) {return tissue_with_component_area_limits(image,object,transform,{},{},p,retain);}
+std::uint64_t ViewerSession::tissue_with_component_area_limits(std::uint64_t image,std::uint64_t object,const StainTransform& transform,
+    std::optional<double> minimum,std::optional<double> maximum,TissueParameters p,bool retain) {
+    p.validate();detail::validate_tissue_area_limits(minimum,maximum);
+    Command c(Action::Tissue);c.image=image;c.object=object;c.transform=std::make_shared<const StainTransform>(transform);
+    c.tissue=p;c.flag=retain;c.tissue_min_area=minimum;c.tissue_max_area=maximum;return impl_->submit(std::move(c));
+}
 std::uint64_t ViewerSession::cells(std::uint64_t image,std::uint64_t object,const StainTransform& transform,CellParameters p,bool retain) {return cells_with_nucleus_area_limits(image,object,transform,{},{},p,retain);}
+std::uint64_t ViewerSession::grid_tissue(std::uint64_t image,std::uint64_t object,const StainTransform& transform,TissueGridSampling sampling,TissueParameters p,
+    std::optional<double> minimum,std::optional<double> maximum,bool retain) {
+    sampling.validate();p.validate();detail::validate_tissue_area_limits(minimum,maximum);
+    Command c(Action::Tissue);c.image=image;c.object=object;c.transform=std::make_shared<const StainTransform>(transform);
+    c.tissue_grid=sampling;c.tissue=p;c.flag=retain;c.tissue_min_area=minimum;c.tissue_max_area=maximum;return impl_->submit(std::move(c));
+}
+std::uint64_t ViewerSession::tissue_on_grid(std::uint64_t image,std::uint64_t object,const StainTransform& transform,ScientificGrid grid,TissueParameters p,
+    std::optional<double> minimum,std::optional<double> maximum,bool retain) {
+    p.validate();detail::validate_tissue_area_limits(minimum,maximum);
+    Command c(Action::Tissue);c.image=image;c.object=object;c.transform=std::make_shared<const StainTransform>(transform);
+    c.tissue_exact_grid=std::move(grid);c.tissue=p;c.flag=retain;c.tissue_min_area=minimum;c.tissue_max_area=maximum;return impl_->submit(std::move(c));
+}
+std::uint64_t ViewerSession::grid_cells(std::uint64_t image,std::uint64_t object,const StainTransform& transform,GridCellSampling sampling,GridCellParameters p,bool retain) {
+    sampling.validate();p.validate();Command c(Action::Cells);c.image=image;c.object=object;c.transform=std::make_shared<const StainTransform>(transform);
+    c.cell_grid=sampling;c.grid_cells=p;c.flag=retain;return impl_->submit(std::move(c));
+}
+std::uint64_t ViewerSession::nominal_cells(std::uint64_t image,std::uint64_t object,const StainTransform& transform,NominalCellRoiSampling sampling,GridCellParameters p,bool retain) {
+    sampling.validate();p.validate();Command c(Action::Cells);c.image=image;c.object=object;c.transform=std::make_shared<const StainTransform>(transform);
+    c.cell_nominal=sampling;c.grid_cells=p;c.flag=retain;return impl_->submit(std::move(c));
+}
 std::uint64_t ViewerSession::cells_with_nucleus_area_limits(std::uint64_t image,std::uint64_t object,const StainTransform& transform,
     std::optional<double> minimum,std::optional<double> maximum,CellParameters p,bool retain) {
     p.validate();detail::validate_cell_area_limits(minimum,maximum);
@@ -111,11 +206,44 @@ std::uint64_t ViewerSession::export_cells(std::uint64_t image,const std::string&
 std::uint64_t ViewerSession::analyze_raw(std::uint64_t image,RawRegionRequest region,std::uint64_t object,bool nucleus,bool retain) {
     Command c(Action::RawAnalyze);c.image=image;c.object=object;c.raw_region=region;c.nucleus=nucleus;c.flag=retain;return impl_->submit(std::move(c));
 }
+std::uint64_t ViewerSession::analyze_raw_grid(std::uint64_t image,std::uint64_t object,RawGridSampling sampling,ScientificRawOptions options,bool nucleus,bool retain) {
+    sampling.validate();options.validate();
+    if(!object) throw std::invalid_argument("raw grid measurement requires an area object ID");
+    Command c(Action::RawAnalyze);c.image=image;c.object=object;c.raw_grid=sampling;c.raw_grid_options=options;c.nucleus=nucleus;c.flag=retain;
+    return impl_->submit(std::move(c));
+}
 std::uint64_t ViewerSession::verify_raw_analysis(std::uint64_t image,std::uint64_t record) {
     if(!record) throw std::invalid_argument("raw verification requires a record ID");Command c(Action::RawVerify);c.image=image;c.after=record;return impl_->submit(std::move(c));
 }
 std::uint64_t ViewerSession::export_raw_measurements(std::uint64_t image,const std::string& path,bool current,const std::vector<std::uint64_t>& ids) {
     if(ids.size()>10000) throw std::invalid_argument("raw selection exceeds 10000 records");Command c(Action::RawTable);c.image=image;c.ids=ids;c.text=detail::export_path(path);c.flag=current;return impl_->submit(std::move(c));
+}
+std::uint64_t ViewerSession::train_raw_pixels(std::uint64_t image,const std::vector<std::uint64_t>& ids,RawPixelTrainingSettings settings,bool retain) {
+    if(ids.empty() || ids.size()>4096) throw std::invalid_argument("Select 1..4096 labelled raw training areas");settings.validate();Command c(Action::RawPixelTrain);c.image=image;c.ids=ids;c.raw_pixel_settings=std::move(settings);c.flag=retain;return impl_->submit(std::move(c));
+}
+std::uint64_t ViewerSession::predict_raw_pixels(std::uint64_t image,const RawPixelClassifier& model,ScientificRawWindow window,std::uint64_t object,double vote,std::size_t work) {
+    if(!std::isfinite(vote) || vote<0 || vote>1 || work<1024*1024 || work>1024u*1024*1024) throw std::invalid_argument("invalid raw preview options");
+    if(std::uint64_t(window.core_width())*window.core_height()>impl_->limits.result_bytes/9) throw std::length_error("raw preview exceeds viewer result budget");
+    Command c(Action::RawPixelPredict);c.image=image;c.object=object;c.raw_pixel_model=model;c.raw_pixel_window=std::move(window);c.raw_pixel_vote=vote;c.raw_pixel_work=work;return impl_->submit(std::move(c));
+}
+std::uint64_t ViewerSession::export_raw_pixels(std::uint64_t image,const RawPixelClassifier& model,ScientificRawLattice lattice,const std::string& path,RawPixelStreamOptions options,RawPixelStreamSaveOptions save,std::uint64_t object,bool retain) {
+    options.validate();save.limits.validate();Command c(Action::RawPixelExport);c.image=image;c.object=object;c.raw_pixel_model=model;c.raw_pixel_lattice=std::move(lattice);c.text=detail::export_path(path);c.raw_pixel_stream=options;c.raw_pixel_save=std::move(save);c.flag=retain;return impl_->submit(std::move(c));
+}
+std::uint64_t ViewerSession::contour_raw_pixels(std::uint64_t image,const RawPixelClassifier& model,ScientificGrid grid,TissueContourOptions options,std::uint64_t object,bool apply,double vote,std::size_t work,const std::string& prefix,std::optional<std::uint64_t> revision) {
+    options.validate();detail::bounded_utf8(prefix,256);if(prefix.empty() || !std::isfinite(vote) || vote<0 || vote>1 || work<1024*1024 || work>1024ULL*1024*1024) throw std::invalid_argument("invalid raw contour options");
+    Command c(Action::RawPixelContours);c.image=image;c.object=object;c.raw_pixel_model=model;c.raw_pixel_grid=std::move(grid);c.raw_pixel_contours=options;c.flag=apply;c.raw_pixel_vote=vote;c.raw_pixel_work=work;c.text=prefix;c.revision=revision;return impl_->submit(std::move(c));
+}
+std::uint64_t ViewerSession::contour_raw_pixel_file(std::uint64_t image,const std::string& path,RawPixelStreamFileLimits limits,RawPixelStreamContourOptions options,std::uint64_t record,bool replay,bool apply,const std::string& prefix,std::optional<std::uint64_t> revision) {
+    limits.validate();options.validate();detail::bounded_utf8(prefix,256);if(prefix.empty() || (apply && !replay) || (record && !path.empty()) || (!record && path.empty())) throw std::invalid_argument("choose historical inspection or fresh replay/apply and one file path or record");
+    Command c(Action::RawPixelFileContours);c.image=image;c.after=record;c.raw_file_path=path.empty()?path:detail::export_path(path);c.raw_pixel_limits=limits;c.raw_stream_contours=options;c.file_replay=replay;c.flag=apply;c.text=prefix;c.revision=revision;return impl_->submit(std::move(c));
+}
+std::uint64_t ViewerSession::contour_raw_pixel_stream(std::uint64_t image,const RawPixelClassifier& model,ScientificRawLattice lattice,RawPixelStreamOptions stream,RawPixelStreamContourOptions options,std::optional<RawPixelStreamRegion> region,std::uint64_t object,bool apply,const std::string& prefix,std::optional<std::uint64_t> revision) {
+    stream.validate();options.validate();detail::bounded_utf8(prefix,256);if(prefix.empty()) throw std::invalid_argument("raw streamed contour prefix is empty");
+    Command c(Action::RawPixelStreamContours);c.image=image;c.object=object;c.raw_pixel_model=model;c.raw_pixel_lattice=std::move(lattice);c.raw_pixel_stream=stream;c.raw_stream_contours=options;c.raw_contour_region=region;c.flag=apply;c.text=prefix;c.revision=revision;return impl_->submit(std::move(c));
+}
+std::uint64_t ViewerSession::read_raw_pixel_stream(std::uint64_t image,const std::string& path,std::uint64_t index,RawPixelStreamFileLimits limits,std::uint64_t record,bool retain) {
+    limits.validate();if(record && !path.empty()) throw std::invalid_argument("Choose a raw file path or retained record, not both");if(!record && path.empty()) throw std::invalid_argument("raw stream path or record is required");
+    Command c(Action::RawPixelRead);c.image=image;c.text=path.empty()?path:detail::export_path(path);c.after=record;c.raw_pixel_index=index;c.raw_pixel_limits=limits;c.flag=retain;return impl_->submit(std::move(c));
 }
 std::uint64_t ViewerSession::save(const std::string& path) {Command c(Action::Save);c.text=detail::export_path(path);return impl_->submit(std::move(c));}
 std::uint64_t ViewerSession::close(bool discard) {Command c(Action::Close);c.flag=discard;return impl_->submit(std::move(c));}
@@ -128,6 +256,9 @@ struct ViewerOwner::Impl {
         std::optional<RawAnalysisRequest> raw;std::optional<RawTableRequest> raw_table;
         std::optional<MeasurementTableRequest> table;std::optional<CellTableRequest> cell_table;
         std::shared_ptr<ImageServer> reader,replacement;std::future<ViewerEvent> future;std::size_t region_limit=0;
+        std::unique_ptr<RawPixelFrontend> raw_pixel;std::shared_ptr<Document> raw_pixel_document;
+        std::shared_ptr<const char> tma_identity;
+        std::unique_ptr<SpatialFrontend> spatial;std::shared_ptr<Document> spatial_document;
     };
     std::shared_ptr<ViewerSession::Impl> state;std::unique_ptr<Work> work;bool ended=false;
     std::uint64_t cycle=0;
@@ -162,6 +293,50 @@ struct ViewerOwner::Impl {
             else if(!c.blocked && cycle-w.cycle>2) {failure(w.ticket,"image activation failed or was superseded");work.reset();}return;
         }
         if(stale || c.closing) w.ticket->cancelled.store(true);
+        if(w.raw_pixel) {
+            if(w.ticket->cancelled.load()) w.raw_pixel->cancel();
+            std::shared_ptr<Document> doc;try {doc=c.project->document(w.seed.image_id);}catch(const std::exception&) {w.raw_pixel->cancel();w.raw_pixel->poll(*w.raw_pixel_document);if(w.raw_pixel->busy()) return;failure(w.ticket,"source image removed","stale");work.reset();return;}
+            w.raw_pixel->poll(*doc);if(w.raw_pixel->busy()) return;
+            if(stale || c.closing || w.ticket->cancelled.load()) {failure(w.ticket,stale?"workspace replaced; committed files may remain":"raw operation cancelled; committed files may remain",stale?"stale":"cancelled");work.reset();return;}
+            if(c.blocked) return;
+            try {
+                const auto report=w.raw_pixel->report();auto e=w.seed;e.error=report.error;e.path=command.text;
+                if(report.state=="failed" || report.state=="cancelled" || report.state=="stale") {e.state=report.state;complete(w.ticket,std::move(e));work.reset();return;}
+                if(command.action==Action::RawPixelTrain) {e.raw_pixel_training=report.training;e.raw_pixel_checkpoint=report.checkpoint;e.rows=report.training?report.training->tiled_table()->row_count():0;e.path=command.raw_pixel_settings->checkpoint_path;e.committed=bool(report.checkpoint);}
+                else if(command.action==Action::RawPixelPredict) e.raw_pixel_prediction=report.prediction;
+                else if(command.action==Action::RawPixelContours || command.action==Action::RawPixelStreamContours || command.action==Action::RawPixelFileContours) {
+                    const auto geometry=command.action==Action::RawPixelFileContours?(report.historical_contours?report.historical_contours->contours():report.stream_contours?report.stream_contours->contours():nullptr):command.action==Action::RawPixelStreamContours?(report.stream_contours?report.stream_contours->contours():nullptr):(report.contours?report.contours->contours():nullptr);
+                    if(!geometry) throw std::runtime_error("Raw contours completed without geometry");
+                    e.path=command.action==Action::RawPixelFileContours?command.raw_file_path:"";e.raw_pixel_file_contours=report.historical_contours;e.raw_pixel_link=report.link;e.verified=bool(report.link);e.raw_pixel_contours=report.contours;e.raw_pixel_stream_contours=report.stream_contours;e.components=geometry->components().size();
+                    if(command.flag) {if(e.components>state->limits.max_edits) throw std::length_error("raw contour apply exceeds viewer edit limit");e.object_ids.resize(e.components);}
+                }
+                else {e.raw_pixel_link=report.link;e.raw_pixel_prediction=report.historical;e.verified=bool(report.link);e.committed=command.action==Action::RawPixelExport && bool(report.link);}
+                e.state=report.state=="partial"?"partial":"succeeded";reserve(w.ticket,e);
+                if((command.action==Action::RawPixelContours || command.action==Action::RawPixelStreamContours || command.action==Action::RawPixelFileContours) && command.flag) {const auto& ids=w.raw_pixel->publish(*doc,command.text);std::copy(ids.begin(),ids.end(),e.object_ids.begin());e.committed=true;}
+                else if(command.flag) {if(command.action==Action::RawPixelTrain && report.training) e.record_id=w.raw_pixel->keep_training(*doc);else if(report.link) e.record_id=w.raw_pixel->keep_link(*doc);}
+                e.committed=e.committed || bool(e.record_id);e.document_revision=doc->revision();e.elapsed_ms=std::chrono::duration<double,std::milli>(Clock::now()-w.started).count();complete(w.ticket,std::move(e));
+            }catch(const std::exception& error) {failure(w.ticket,error_text(error));}work.reset();return;
+        }
+        if(w.spatial) {
+            const bool exporting=command.action==Action::SpatialExport;
+            bool replaced=stale || c.closing;std::shared_ptr<Document> document;
+            try {document=c.project->document(command.image);if(document!=w.spatial_document)replaced=true;}catch(const std::out_of_range&) {replaced=true;}
+            if(replaced || w.ticket->cancelled.load()) w.spatial->cancel();
+            w.spatial->poll(document?*document:*w.spatial_document);auto report=w.spatial->report();if(report.busy) return;
+            if(!exporting && c.blocked && !replaced && !w.ticket->cancelled.load()) return;
+            try {
+                auto e=w.seed;e.elapsed_ms=std::chrono::duration<double,std::milli>(Clock::now()-w.started).count();
+                if(exporting) {e.path=report.path;e.committed=report.export_committed;e.rows=report.export_committed?report.export_rows:0;e.bytes=report.export_bytes;e.error=report.export_error;e.state=e.committed?(replaced || report.export_state=="detached"?"detached":"succeeded"):report.export_state;}
+                else if(replaced || w.ticket->cancelled.load()) {e.state=stale?"stale":"cancelled";e.error="spatial viewer work cancelled or replaced";}
+                else if(report.state!="ready" && report.state!="historical" && report.state!="verified") {e.state=report.state=="stale"?"stale":report.state=="cancelled"?"cancelled":"failed";e.error=report.error;}
+                else {
+                    e.spatial=report.result;e.rows=report.rows;e.record_id=report.record_id;e.verified=report.state=="verified";reserve(w.ticket,e);
+                    if(command.action==Action::SpatialMeasure && command.flag) {e.record_id=w.spatial->keep(*document);e.committed=true;}
+                    e.document_revision=document->revision();e.state="succeeded";
+                }
+                complete(w.ticket,std::move(e));
+            }catch(const std::exception& error) {failure(w.ticket,error_text(error));}work.reset();return;
+        }
         if(w.future.wait_for(std::chrono::seconds(0))!=std::future_status::ready) return;
         const bool export_job=command.action==Action::Measurements || command.action==Action::CellTable || command.action==Action::RawTable;
         if(c.blocked && !stale && !c.closing && !w.ticket->cancelled.load() && !export_job) return;
@@ -171,6 +346,7 @@ struct ViewerOwner::Impl {
             if(export_job) {if(stale && e.committed) e.state="detached";complete(w.ticket,std::move(e));work.reset();return;}
             std::shared_ptr<Document> doc;try {doc=c.project->document(e.image_id);}catch(const std::out_of_range&) {failure(w.ticket,"source image removed","stale");work.reset();return;}bool matches=true;
             if(w.analysis) matches=w.analysis->matches(*doc,e.object_id);if(w.tissue) matches=w.tissue->matches(*doc,e.object_id);if(w.cells) matches=w.cells->matches(*doc,e.object_id);if(w.raw) matches=w.raw->matches(*doc);if(w.reader) matches=doc->server()==w.reader;
+            if(command.action==Action::TmaDearray)matches=matches && doc->analysis_identity_.token==w.tma_identity && doc->revision()==w.seed.document_revision;
             if(!matches) {failure(w.ticket,"source changed before publication","stale");work.reset();return;}
             if(e.state=="failed" || e.state=="cancelled") {complete(w.ticket,std::move(e));work.reset();return;}
             auto tissue=e.tissue;auto cells=e.cells;if(!command.flag) {e.tissue.reset();e.cells.reset();}reserve(w.ticket,e);
@@ -201,26 +377,81 @@ struct ViewerOwner::Impl {
             if(command->revision && *command->revision!=doc->revision()) {failure(ticket,"document revision changed","stale");return;}
             e.object_ids.reserve(command->edits.size());reserve(ticket,e);const auto ids=doc->execute(command->edits,command->text);e.object_ids.assign(ids.begin(),ids.end());e.committed=true;done();return;
         }
+        if(command->action==Action::MergeAnnotations) {
+            if(command->revision && *command->revision!=doc->revision()) {failure(ticket,"document revision changed","stale");return;}
+            e.object_ids.reserve(1);reserve(ticket,e);
+            const auto id=doc->merge_annotations(command->ids,command->flag);
+            e.object_ids.push_back(id);e.object_id=id;e.committed=true;
+            if(e.image_id==c.active_image && doc->object_visible(id)) c.select(e.object_ids);
+            done();return;
+        }
+        if(command->action==Action::TmaAxis) {
+            if(command->revision && *command->revision!=doc->revision()) {failure(ticket,"document revision changed","stale");return;}
+            const auto& axis=*command->tma_axis;
+            auto edits=axis.remove?doc->tma_remove_axis_edits(axis.column,axis.index,state->limits.max_edits):
+                doc->tma_insert_axis_edits(axis.column,axis.index,command->text,axis.bounds,axis.missing,state->limits.max_edits);
+            Command captured(Action::Execute);captured.edits=std::move(edits);
+            if(captured.bytes()>state->limits.command_bytes) throw std::length_error("TMA axis edits exceed viewer command budget");
+            const auto created=std::count_if(captured.edits.begin(),captured.edits.end(),[](const auto& edit){return edit.kind==ObjectEditKind::Create;});
+            e.object_ids.reserve(std::size_t(created));reserve(ticket,e);
+            if(ticket->cancelled.load()) {failure(ticket,"viewer command cancelled","cancelled");return;}
+            const auto ids=doc->execute(captured.edits,axis.remove?(axis.column?"Remove TMA column":"Remove TMA row"):(axis.column?"Insert TMA column":"Insert TMA row"));
+            e.object_ids.assign(ids.begin(),ids.end());e.committed=true;done();return;
+        }
         if(command->action==Action::Select) {if(e.image_id!=c.active_image) throw std::invalid_argument("activate the target image before selecting objects");c.select(command->ids);done();return;}
         if(work) throw std::runtime_error("a viewer script job is already running; wait for its ticket");
         auto pending=std::make_unique<Work>();pending->ticket=ticket;pending->command=std::move(command);pending->seed=e;pending->started=started;pending->cycle=cycle;auto& cmd=*pending->command;
         if(cmd.action==Action::Save) {if(!c.save(cmd.text)) throw std::runtime_error("a GUI save is already running");work=std::move(pending);return;}
         if(cmd.action==Action::Activate) {c.activate(e.image_id);work=std::move(pending);return;}
-        if(cmd.action==Action::Region) {validate_region(doc->metadata(),cmd.region);pending->reader=doc->server();}
+        if(cmd.action==Action::SpatialMeasure || cmd.action==Action::SpatialInspect || cmd.action==Action::SpatialVerify || cmd.action==Action::SpatialExport) {
+            if(cmd.revision && *cmd.revision!=doc->revision()) {failure(ticket,"document revision changed","stale");return;}
+            pending->spatial=std::make_unique<SpatialFrontend>();pending->spatial_document=doc;
+            if(cmd.action==Action::SpatialMeasure) pending->spatial->measure(*doc,cmd.ids,cmd.targets,cmd.spatial);
+            else if(cmd.action==Action::SpatialVerify) pending->spatial->verify(*doc,cmd.after);
+            else {pending->spatial->inspect(*doc,cmd.after);if(cmd.action==Action::SpatialExport)pending->spatial->export_csv(*doc,cmd.text,cmd.limit,spatial_project_paths(c.project.get(),c.catalog,state->limits.snapshot_bytes),state->limits.snapshot_bytes);}
+            work=std::move(pending);return;
+        }
+        if(cmd.action==Action::RawPixelTrain || cmd.action==Action::RawPixelPredict || cmd.action==Action::RawPixelExport || cmd.action==Action::RawPixelRead || cmd.action==Action::RawPixelContours || cmd.action==Action::RawPixelStreamContours || cmd.action==Action::RawPixelFileContours) {
+            if(cmd.revision && *cmd.revision!=doc->revision()) {failure(ticket,"document revision changed","stale");return;}
+            pending->raw_pixel=std::make_unique<RawPixelFrontend>();pending->raw_pixel_document=doc;
+            if(cmd.action==Action::RawPixelTrain) {if(!cmd.raw_pixel_settings->checkpoint_path.empty()) guard_raw_pixel_frontend_output(c.project.get(),cmd.raw_pixel_settings->checkpoint_path);pending->raw_pixel->train(*doc,cmd.ids,*cmd.raw_pixel_settings);}
+            else if(cmd.action==Action::RawPixelFileContours) pending->raw_pixel->trace_file(*doc,cmd.raw_file_path,cmd.raw_pixel_limits,cmd.raw_stream_contours,cmd.file_replay,cmd.after?doc->raw_pixel_stream_record(cmd.after)->link:nullptr);
+            else if(cmd.action==Action::RawPixelStreamContours) pending->raw_pixel->trace_stream(*doc,*cmd.raw_pixel_model,*cmd.raw_pixel_lattice,cmd.raw_pixel_stream,cmd.raw_stream_contours,cmd.raw_contour_region,cmd.object);
+            else if(cmd.action==Action::RawPixelContours) pending->raw_pixel->trace(*doc,*cmd.raw_pixel_model,*cmd.raw_pixel_grid,cmd.raw_pixel_contours,cmd.object,cmd.raw_pixel_vote,cmd.raw_pixel_work);
+            else if(cmd.action==Action::RawPixelPredict) pending->raw_pixel->predict(*doc,*cmd.raw_pixel_model,*cmd.raw_pixel_window,cmd.object,cmd.raw_pixel_vote,cmd.raw_pixel_work);
+            else if(cmd.action==Action::RawPixelExport) {guard_raw_pixel_frontend_output(c.project.get(),cmd.text);pending->raw_pixel->save(*doc,*cmd.raw_pixel_model,*cmd.raw_pixel_lattice,cmd.text,cmd.raw_pixel_stream,cmd.raw_pixel_save,cmd.object);}
+            else {auto limits=cmd.raw_pixel_limits;limits.work_bytes=std::min(limits.work_bytes,state->limits.result_bytes);limits.validate();pending->raw_pixel->open(cmd.text,limits,cmd.raw_pixel_index,cmd.after?doc->raw_pixel_stream_record(cmd.after)->link:nullptr);}
+            work=std::move(pending);return;
+        }
+        if(cmd.action==Action::TmaDearray) {
+            if(cmd.revision && *cmd.revision!=doc->revision()) {failure(ticket,"document revision changed","stale");return;}
+            if(doc->tma_core_count())throw std::invalid_argument("Clear the existing TMA grid before detecting another grid");
+            cmd.tma_dearray=tma_dearray_options_for_document(*doc,*cmd.tma_dearray);
+            pending->reader=doc->server();pending->tma_identity=doc->analysis_identity_.token;
+        }
+        else if(cmd.action==Action::Region) {validate_region(doc->metadata(),cmd.region);pending->reader=doc->server();}
         else if(cmd.action==Action::RawRegion || cmd.action==Action::RawMetadata || cmd.action==Action::TiffView) {
             pending->reader=doc->server();pending->region_limit=state->limits.region_bytes;
             if(cmd.action==Action::TiffView) {const auto previous=pending->reader->tiff_view();if(!previous || previous->series!=cmd.tiff_view.series) throw std::invalid_argument("viewer TIFF changes require the same series; open other series as separate images");}
         }
-        else if(cmd.action==Action::RawAnalyze) pending->raw.emplace(*doc,cmd.raw_region,cmd.object,cmd.nucleus);
+        else if(cmd.action==Action::RawAnalyze) pending->raw.emplace(cmd.raw_grid?
+            RawAnalysisRequest::for_grid_roi(*doc,cmd.object,*cmd.raw_grid,cmd.raw_grid_options,cmd.nucleus):
+            RawAnalysisRequest(*doc,cmd.raw_region,cmd.object,cmd.nucleus));
         else if(cmd.action==Action::RawVerify) pending->raw.emplace(RawAnalysisRequest::replay(*doc,cmd.after));
         else if(cmd.action==Action::RawTable) {
             pending->region_limit=state->limits.result_bytes;std::vector<std::string> paths{state->path};
             if(!c.project->path().empty()) paths.push_back(c.project->path());if(!c.project->recovery_source().empty()) paths.push_back(c.project->recovery_source());
             pending->raw_table.emplace(*doc,cmd.ids,cmd.flag,state->limits.snapshot_bytes,paths);
         }
-        else if(cmd.action==Action::Analyze) pending->analysis.emplace(*doc,e.object_id,*cmd.transform,cmd.analysis,cmd.flag,256,cmd.sampling_policy);
-        else if(cmd.action==Action::Tissue) pending->tissue.emplace(*doc,e.object_id,*cmd.transform,cmd.tissue);
-        else if(cmd.action==Action::Cells) pending->cells.emplace(CellRequest::with_nucleus_area_limits(*doc,e.object_id,*cmd.transform,cmd.cell_min_area,cmd.cell_max_area,cmd.cells));
+        else if(cmd.action==Action::Analyze) pending->analysis.emplace(cmd.analysis_intensity_statistics?
+            AnalysisRequest::with_intensity_statistics(*doc,e.object_id,*cmd.transform,cmd.analysis,cmd.flag,256,cmd.sampling_policy):
+            AnalysisRequest(*doc,e.object_id,*cmd.transform,cmd.analysis,cmd.flag,256,cmd.sampling_policy));
+        else if(cmd.action==Action::Tissue) pending->tissue.emplace(cmd.tissue_exact_grid?
+            TissueRequest::with_grid_component_area_limits(*doc,e.object_id,*cmd.transform,*cmd.tissue_exact_grid,cmd.tissue_min_area,cmd.tissue_max_area,cmd.tissue):cmd.tissue_grid?
+            TissueRequest::for_grid_roi(*doc,e.object_id,*cmd.transform,*cmd.tissue_grid,cmd.tissue,false,cmd.tissue_min_area,cmd.tissue_max_area):
+            TissueRequest::with_component_area_limits(*doc,e.object_id,*cmd.transform,cmd.tissue_min_area,cmd.tissue_max_area,cmd.tissue));
+        else if(cmd.action==Action::Cells) pending->cells.emplace(cmd.cell_nominal?CellRequest::for_nominal_roi(*doc,e.object_id,*cmd.transform,cmd.cell_nominal->downsample,cmd.cell_nominal->context_x,cmd.cell_nominal->context_y,cmd.grid_cells,cmd.cell_nominal->sampling):cmd.cell_grid?CellRequest::for_grid_roi(*doc,e.object_id,*cmd.transform,*cmd.cell_grid,cmd.grid_cells):
+            CellRequest::with_nucleus_area_limits(*doc,e.object_id,*cmd.transform,cmd.cell_min_area,cmd.cell_max_area,cmd.cells));
         else if(cmd.action==Action::Measurements) {MeasurementTableOptions o;o.byte_limit=state->limits.result_bytes;o.snapshot_budget=state->limits.snapshot_bytes;o.require_current=cmd.flag;if(doc) pending->table.emplace(*doc,cmd.table,cmd.ids,o);else pending->table.emplace(*c.project,cmd.table,std::vector<std::uint64_t>{},o);}
         else if(cmd.action==Action::CellTable) {CellTableOptions o;o.byte_limit=state->limits.result_bytes;o.snapshot_budget=state->limits.snapshot_bytes;o.require_current=cmd.flag;if(doc) pending->cell_table.emplace(*doc,cmd.ids,o);else pending->cell_table.emplace(*c.project,std::vector<std::uint64_t>{},o);}
         if(pending->raw) pending->seed.object_id=pending->raw->object_id();
@@ -230,7 +461,8 @@ struct ViewerOwner::Impl {
                 export_checkpoint(cancel);
                 if(w.reader) {
                     const auto action=w.command->action;
-                    if(action==Action::TiffView) {w.replacement=w.reader->with_tiff_view(w.command->tiff_view,cancel);e.raw_metadata=w.replacement->raw_metadata();e.tiff_view=*w.replacement->tiff_view();e.metadata=w.replacement->metadata();}
+                    if(action==Action::TmaDearray) {e.tma_dearray=qpx::detect_tma_grid(*w.reader,*w.command->tma_dearray,cancel);e.components=e.tma_dearray->candidates;e.rows=e.tma_dearray->grid.rows;}
+                    else if(action==Action::TiffView) {w.replacement=w.reader->with_tiff_view(w.command->tiff_view,cancel);e.raw_metadata=w.replacement->raw_metadata();e.tiff_view=*w.replacement->tiff_view();e.metadata=w.replacement->metadata();}
                     else if(action==Action::RawMetadata || action==Action::RawRegion) {
                         e.raw_metadata=w.reader->raw_metadata(cancel);if(!e.raw_metadata) throw std::invalid_argument("image has no raw quantitative samples");if(auto view=w.reader->tiff_view()) e.tiff_view=*view;
                         if(action==Action::RawRegion) {const auto& r=w.command->raw_region;r.validate(*e.raw_metadata);const auto bytes=std::uint64_t(r.region.width)*r.region.height*(std::uint64_t(r.channels)*sample_bytes(e.raw_metadata->sample_type)+1);if(bytes>w.region_limit) throw std::length_error("viewer raw region exceeds byte limit");e.raw_pixels=std::make_shared<const RawPixelBuffer>(w.reader->read_raw(r,cancel));}
@@ -262,7 +494,7 @@ void ViewerOwner::pump(const ViewerContext& context) {
 }
 void ViewerOwner::finish(const ViewerContext& context) {
     if(impl_->ended) return;
-    if(impl_->work) {auto& w=*impl_->work;w.ticket->cancelled.store(true);if(w.command->action==Action::Save) {if(context.cancel_save) context.cancel_save();impl_->poll(context);}else if(w.future.valid()) {w.future.wait();auto closing=context;closing.closing=true;impl_->poll(closing);}if(impl_->work) {impl_->failure(w.ticket,"viewer closed before completion","cancelled");impl_->work.reset();}}
+    if(impl_->work) {auto& w=*impl_->work;w.ticket->cancelled.store(true);if(w.command->action==Action::Save) {if(context.cancel_save) context.cancel_save();impl_->poll(context);}else if(w.spatial) {w.spatial->finish(*w.spatial_document,false);auto closing=context;closing.closing=true;impl_->poll(closing);}else if(w.future.valid()) {w.future.wait();auto closing=context;closing.closing=true;impl_->poll(closing);}if(impl_->work) {impl_->failure(w.ticket,"viewer closed before completion","cancelled");impl_->work.reset();}}
     fail("");
 }
 ViewerStats ViewerOwner::stats() const {std::lock_guard<std::mutex> lock(impl_->state->mutex);return impl_->state->stats;}

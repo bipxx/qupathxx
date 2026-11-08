@@ -1,0 +1,1426 @@
+{
+  "schema": "qpx.spatial-centroid-contract/1",
+  "upstream_revision": "04ccfa4fb7d43e9b566393e08e83690b72248d44",
+  "workflow": "SPAT1: captured centroid distances from selected objects to selected targets",
+  "tolerance": {
+    "absolute": 1e-09,
+    "relative": 1e-12
+  },
+  "semantics": {
+    "metric": "2D Euclidean after per-axis scaling",
+    "centroid": "nucleus preferred for cells, body otherwise; true geometry centroid",
+    "self_policy": "explicit identity-based exclusion before calling the upstream function; upstream itself includes self",
+    "no_target": "missing measurement, represented as null; never a zero distance",
+    "planes": "only same z and time; native current single-plane document does not imply multiplane support",
+    "ties": "scalar minimum; upstream does not identify a unique tied target"
+  },
+  "scope": "Synthetic upstream reference preparation only; no native implementation, biological or platform acceptance.",
+  "cases": [
+    {
+      "name": "pixel_3_4_5",
+      "objects": [
+        {
+          "id": "s",
+          "body": {
+            "kind": "points",
+            "points": [
+              [
+                0,
+                0
+              ]
+            ]
+          }
+        },
+        {
+          "id": "t",
+          "body": {
+            "kind": "points",
+            "points": [
+              [
+                3,
+                4
+              ]
+            ]
+          }
+        }
+      ],
+      "source": "s",
+      "targets": [
+        "t"
+      ],
+      "scale": [
+        1,
+        1
+      ],
+      "exclude_self": false,
+      "expected": {
+        "source_centroid": [
+          0,
+          0
+        ],
+        "target_centroids": [
+          [
+            3,
+            4
+          ]
+        ],
+        "distance": 5
+      }
+    },
+    {
+      "name": "anisotropic_scale",
+      "objects": [
+        {
+          "id": "s",
+          "body": {
+            "kind": "points",
+            "points": [
+              [
+                0,
+                0
+              ]
+            ]
+          }
+        },
+        {
+          "id": "t",
+          "body": {
+            "kind": "points",
+            "points": [
+              [
+                3,
+                4
+              ]
+            ]
+          }
+        }
+      ],
+      "source": "s",
+      "targets": [
+        "t"
+      ],
+      "scale": [
+        2,
+        0.5
+      ],
+      "exclude_self": false,
+      "expected": {
+        "source_centroid": [
+          0,
+          0
+        ],
+        "target_centroids": [
+          [
+            3,
+            4
+          ]
+        ],
+        "distance": 6.324555320336759
+      }
+    },
+    {
+      "name": "small_physical_scale",
+      "objects": [
+        {
+          "id": "s",
+          "body": {
+            "kind": "points",
+            "points": [
+              [
+                0,
+                0
+              ]
+            ]
+          }
+        },
+        {
+          "id": "t",
+          "body": {
+            "kind": "points",
+            "points": [
+              [
+                3,
+                4
+              ]
+            ]
+          }
+        }
+      ],
+      "source": "s",
+      "targets": [
+        "t"
+      ],
+      "scale": [
+        0.5,
+        0.25
+      ],
+      "exclude_self": false,
+      "expected": {
+        "source_centroid": [
+          0,
+          0
+        ],
+        "target_centroids": [
+          [
+            3,
+            4
+          ]
+        ],
+        "distance": 1.8027756377319946
+      }
+    },
+    {
+      "name": "include_self",
+      "objects": [
+        {
+          "id": "s",
+          "body": {
+            "kind": "points",
+            "points": [
+              [
+                0,
+                0
+              ]
+            ]
+          }
+        },
+        {
+          "id": "t",
+          "body": {
+            "kind": "points",
+            "points": [
+              [
+                3,
+                4
+              ]
+            ]
+          }
+        }
+      ],
+      "source": "s",
+      "targets": [
+        "s",
+        "t"
+      ],
+      "scale": [
+        1,
+        1
+      ],
+      "exclude_self": false,
+      "expected": {
+        "source_centroid": [
+          0,
+          0
+        ],
+        "target_centroids": [
+          [
+            0,
+            0
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        "distance": 0
+      }
+    },
+    {
+      "name": "exclude_self",
+      "objects": [
+        {
+          "id": "s",
+          "body": {
+            "kind": "points",
+            "points": [
+              [
+                0,
+                0
+              ]
+            ]
+          }
+        },
+        {
+          "id": "t",
+          "body": {
+            "kind": "points",
+            "points": [
+              [
+                3,
+                4
+              ]
+            ]
+          }
+        }
+      ],
+      "source": "s",
+      "targets": [
+        "s",
+        "t"
+      ],
+      "scale": [
+        1,
+        1
+      ],
+      "exclude_self": true,
+      "expected": {
+        "source_centroid": [
+          0,
+          0
+        ],
+        "target_centroids": [
+          [
+            3,
+            4
+          ]
+        ],
+        "distance": 5
+      }
+    },
+    {
+      "name": "coincident_other_survives_self_exclusion",
+      "objects": [
+        {
+          "id": "s",
+          "body": {
+            "kind": "points",
+            "points": [
+              [
+                0,
+                0
+              ]
+            ]
+          }
+        },
+        {
+          "id": "other",
+          "body": {
+            "kind": "points",
+            "points": [
+              [
+                0,
+                0
+              ]
+            ]
+          }
+        }
+      ],
+      "source": "s",
+      "targets": [
+        "s",
+        "other"
+      ],
+      "scale": [
+        1,
+        1
+      ],
+      "exclude_self": true,
+      "expected": {
+        "source_centroid": [
+          0,
+          0
+        ],
+        "target_centroids": [
+          [
+            0,
+            0
+          ]
+        ],
+        "distance": 0
+      }
+    },
+    {
+      "name": "tie_scalar",
+      "objects": [
+        {
+          "id": "s",
+          "body": {
+            "kind": "points",
+            "points": [
+              [
+                0,
+                0
+              ]
+            ]
+          }
+        },
+        {
+          "id": "t",
+          "body": {
+            "kind": "points",
+            "points": [
+              [
+                3,
+                4
+              ]
+            ]
+          }
+        },
+        {
+          "id": "other",
+          "body": {
+            "kind": "points",
+            "points": [
+              [
+                -3,
+                -4
+              ]
+            ]
+          }
+        }
+      ],
+      "source": "s",
+      "targets": [
+        "t",
+        "other"
+      ],
+      "scale": [
+        1,
+        1
+      ],
+      "exclude_self": false,
+      "expected": {
+        "source_centroid": [
+          0,
+          0
+        ],
+        "target_centroids": [
+          [
+            3,
+            4
+          ],
+          [
+            -3,
+            -4
+          ]
+        ],
+        "distance": 5
+      }
+    },
+    {
+      "name": "empty_targets",
+      "objects": [
+        {
+          "id": "s",
+          "body": {
+            "kind": "points",
+            "points": [
+              [
+                0,
+                0
+              ]
+            ]
+          }
+        }
+      ],
+      "source": "s",
+      "targets": [],
+      "scale": [
+        1,
+        1
+      ],
+      "exclude_self": false,
+      "expected": {
+        "source_centroid": [
+          0,
+          0
+        ],
+        "target_centroids": [],
+        "distance": null
+      }
+    },
+    {
+      "name": "self_only_excluded",
+      "objects": [
+        {
+          "id": "s",
+          "body": {
+            "kind": "points",
+            "points": [
+              [
+                0,
+                0
+              ]
+            ]
+          }
+        }
+      ],
+      "source": "s",
+      "targets": [
+        "s"
+      ],
+      "scale": [
+        1,
+        1
+      ],
+      "exclude_self": true,
+      "expected": {
+        "source_centroid": [
+          0,
+          0
+        ],
+        "target_centroids": [],
+        "distance": null
+      }
+    },
+    {
+      "name": "different_z",
+      "objects": [
+        {
+          "id": "s",
+          "body": {
+            "kind": "points",
+            "points": [
+              [
+                0,
+                0
+              ]
+            ]
+          }
+        },
+        {
+          "id": "t",
+          "body": {
+            "kind": "points",
+            "points": [
+              [
+                3,
+                4
+              ]
+            ]
+          },
+          "z": 1
+        }
+      ],
+      "source": "s",
+      "targets": [
+        "t"
+      ],
+      "scale": [
+        1,
+        1
+      ],
+      "exclude_self": false,
+      "expected": {
+        "source_centroid": [
+          0,
+          0
+        ],
+        "target_centroids": [
+          [
+            3,
+            4
+          ]
+        ],
+        "distance": null
+      }
+    },
+    {
+      "name": "different_time",
+      "objects": [
+        {
+          "id": "s",
+          "body": {
+            "kind": "points",
+            "points": [
+              [
+                0,
+                0
+              ]
+            ]
+          }
+        },
+        {
+          "id": "t",
+          "body": {
+            "kind": "points",
+            "points": [
+              [
+                3,
+                4
+              ]
+            ]
+          },
+          "t": 1
+        }
+      ],
+      "source": "s",
+      "targets": [
+        "t"
+      ],
+      "scale": [
+        1,
+        1
+      ],
+      "exclude_self": false,
+      "expected": {
+        "source_centroid": [
+          0,
+          0
+        ],
+        "target_centroids": [
+          [
+            3,
+            4
+          ]
+        ],
+        "distance": null
+      }
+    },
+    {
+      "name": "matching_nonzero_plane",
+      "objects": [
+        {
+          "id": "s",
+          "body": {
+            "kind": "points",
+            "points": [
+              [
+                0,
+                0
+              ]
+            ]
+          },
+          "z": 2,
+          "t": 3
+        },
+        {
+          "id": "t",
+          "body": {
+            "kind": "points",
+            "points": [
+              [
+                3,
+                4
+              ]
+            ]
+          },
+          "z": 2,
+          "t": 3
+        }
+      ],
+      "source": "s",
+      "targets": [
+        "t"
+      ],
+      "scale": [
+        1,
+        1
+      ],
+      "exclude_self": false,
+      "expected": {
+        "source_centroid": [
+          0,
+          0
+        ],
+        "target_centroids": [
+          [
+            3,
+            4
+          ]
+        ],
+        "distance": 5
+      }
+    },
+    {
+      "name": "mixed_planes",
+      "objects": [
+        {
+          "id": "s",
+          "body": {
+            "kind": "points",
+            "points": [
+              [
+                0,
+                0
+              ]
+            ]
+          }
+        },
+        {
+          "id": "wrong",
+          "body": {
+            "kind": "points",
+            "points": [
+              [
+                0,
+                0
+              ]
+            ]
+          },
+          "z": 1
+        },
+        {
+          "id": "t",
+          "body": {
+            "kind": "points",
+            "points": [
+              [
+                3,
+                4
+              ]
+            ]
+          }
+        }
+      ],
+      "source": "s",
+      "targets": [
+        "wrong",
+        "t"
+      ],
+      "scale": [
+        1,
+        1
+      ],
+      "exclude_self": false,
+      "expected": {
+        "source_centroid": [
+          0,
+          0
+        ],
+        "target_centroids": [
+          [
+            0,
+            0
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        "distance": 5
+      }
+    },
+    {
+      "name": "source_nucleus_preferred",
+      "objects": [
+        {
+          "id": "s",
+          "body": {
+            "kind": "rectangle",
+            "bounds": [
+              0,
+              0,
+              100,
+              100
+            ]
+          },
+          "nucleus": {
+            "kind": "rectangle",
+            "bounds": [
+              1,
+              1,
+              2,
+              2
+            ]
+          }
+        },
+        {
+          "id": "t",
+          "body": {
+            "kind": "points",
+            "points": [
+              [
+                5,
+                6
+              ]
+            ]
+          }
+        }
+      ],
+      "source": "s",
+      "targets": [
+        "t"
+      ],
+      "scale": [
+        1,
+        1
+      ],
+      "exclude_self": false,
+      "expected": {
+        "source_centroid": [
+          2,
+          2
+        ],
+        "target_centroids": [
+          [
+            5,
+            6
+          ]
+        ],
+        "distance": 5
+      }
+    },
+    {
+      "name": "target_nucleus_preferred",
+      "objects": [
+        {
+          "id": "s",
+          "body": {
+            "kind": "points",
+            "points": [
+              [
+                2,
+                2
+              ]
+            ]
+          }
+        },
+        {
+          "id": "t",
+          "body": {
+            "kind": "rectangle",
+            "bounds": [
+              0,
+              0,
+              100,
+              100
+            ]
+          },
+          "nucleus": {
+            "kind": "rectangle",
+            "bounds": [
+              4,
+              5,
+              2,
+              2
+            ]
+          }
+        }
+      ],
+      "source": "s",
+      "targets": [
+        "t"
+      ],
+      "scale": [
+        1,
+        1
+      ],
+      "exclude_self": false,
+      "expected": {
+        "source_centroid": [
+          2,
+          2
+        ],
+        "target_centroids": [
+          [
+            5,
+            6
+          ]
+        ],
+        "distance": 5
+      }
+    },
+    {
+      "name": "cell_without_nucleus_uses_body",
+      "objects": [
+        {
+          "id": "s",
+          "body": {
+            "kind": "rectangle",
+            "bounds": [
+              0,
+              0,
+              4,
+              4
+            ]
+          },
+          "object_type": "cell"
+        },
+        {
+          "id": "t",
+          "body": {
+            "kind": "points",
+            "points": [
+              [
+                5,
+                6
+              ]
+            ]
+          }
+        }
+      ],
+      "source": "s",
+      "targets": [
+        "t"
+      ],
+      "scale": [
+        1,
+        1
+      ],
+      "exclude_self": false,
+      "expected": {
+        "source_centroid": [
+          2,
+          2
+        ],
+        "target_centroids": [
+          [
+            5,
+            6
+          ]
+        ],
+        "distance": 5
+      }
+    },
+    {
+      "name": "source_triangle_area_centroid",
+      "objects": [
+        {
+          "id": "triangle",
+          "body": {
+            "kind": "polygon",
+            "points": [
+              [
+                0,
+                0
+              ],
+              [
+                6,
+                0
+              ],
+              [
+                0,
+                6
+              ]
+            ]
+          }
+        },
+        {
+          "id": "t",
+          "body": {
+            "kind": "points",
+            "points": [
+              [
+                5,
+                6
+              ]
+            ]
+          }
+        }
+      ],
+      "source": "triangle",
+      "targets": [
+        "t"
+      ],
+      "scale": [
+        1,
+        1
+      ],
+      "exclude_self": false,
+      "expected": {
+        "source_centroid": [
+          2,
+          2
+        ],
+        "target_centroids": [
+          [
+            5,
+            6
+          ]
+        ],
+        "distance": 5
+      }
+    },
+    {
+      "name": "target_triangle_area_centroid",
+      "objects": [
+        {
+          "id": "s",
+          "body": {
+            "kind": "points",
+            "points": [
+              [
+                5,
+                6
+              ]
+            ]
+          }
+        },
+        {
+          "id": "triangle",
+          "body": {
+            "kind": "polygon",
+            "points": [
+              [
+                0,
+                0
+              ],
+              [
+                6,
+                0
+              ],
+              [
+                0,
+                6
+              ]
+            ]
+          }
+        }
+      ],
+      "source": "s",
+      "targets": [
+        "triangle"
+      ],
+      "scale": [
+        1,
+        1
+      ],
+      "exclude_self": false,
+      "expected": {
+        "source_centroid": [
+          5,
+          6
+        ],
+        "target_centroids": [
+          [
+            2,
+            2
+          ]
+        ],
+        "distance": 5
+      }
+    },
+    {
+      "name": "multipoint_mean_centroid",
+      "objects": [
+        {
+          "id": "multi",
+          "body": {
+            "kind": "points",
+            "points": [
+              [
+                0,
+                0
+              ],
+              [
+                6,
+                0
+              ],
+              [
+                0,
+                3
+              ]
+            ]
+          }
+        },
+        {
+          "id": "t",
+          "body": {
+            "kind": "points",
+            "points": [
+              [
+                5,
+                5
+              ]
+            ]
+          }
+        }
+      ],
+      "source": "multi",
+      "targets": [
+        "t"
+      ],
+      "scale": [
+        1,
+        1
+      ],
+      "exclude_self": false,
+      "expected": {
+        "source_centroid": [
+          2,
+          1
+        ],
+        "target_centroids": [
+          [
+            5,
+            5
+          ]
+        ],
+        "distance": 5
+      }
+    },
+    {
+      "name": "polyline_length_centroid",
+      "objects": [
+        {
+          "id": "line",
+          "body": {
+            "kind": "polyline",
+            "points": [
+              [
+                0,
+                0
+              ],
+              [
+                6,
+                0
+              ],
+              [
+                6,
+                2
+              ]
+            ]
+          }
+        },
+        {
+          "id": "t",
+          "body": {
+            "kind": "points",
+            "points": [
+              [
+                6.75,
+                4.25
+              ]
+            ]
+          }
+        }
+      ],
+      "source": "line",
+      "targets": [
+        "t"
+      ],
+      "scale": [
+        1,
+        1
+      ],
+      "exclude_self": false,
+      "expected": {
+        "source_centroid": [
+          3.75,
+          0.25
+        ],
+        "target_centroids": [
+          [
+            6.75,
+            4.25
+          ]
+        ],
+        "distance": 5
+      }
+    },
+    {
+      "name": "ellipse_center",
+      "objects": [
+        {
+          "id": "s",
+          "body": {
+            "kind": "ellipse",
+            "bounds": [
+              0,
+              0,
+              4,
+              2
+            ]
+          }
+        },
+        {
+          "id": "t",
+          "body": {
+            "kind": "points",
+            "points": [
+              [
+                5,
+                5
+              ]
+            ]
+          }
+        }
+      ],
+      "source": "s",
+      "targets": [
+        "t"
+      ],
+      "scale": [
+        1,
+        1
+      ],
+      "exclude_self": false,
+      "expected": {
+        "source_centroid": [
+          2,
+          1
+        ],
+        "target_centroids": [
+          [
+            5,
+            5
+          ]
+        ],
+        "distance": 5
+      }
+    },
+    {
+      "name": "indexed_target_branch",
+      "objects": [
+        {
+          "id": "s",
+          "body": {
+            "kind": "points",
+            "points": [
+              [
+                0,
+                0
+              ]
+            ]
+          }
+        },
+        {
+          "id": "t",
+          "body": {
+            "kind": "points",
+            "points": [
+              [
+                3,
+                4
+              ]
+            ]
+          }
+        }
+      ],
+      "source": "s",
+      "targets": [
+        "t"
+      ],
+      "scale": [
+        1,
+        1
+      ],
+      "exclude_self": false,
+      "expected": {
+        "source_centroid": [
+          0,
+          0
+        ],
+        "target_centroids": [
+          [
+            3,
+            4
+          ]
+        ],
+        "distance": 5
+      },
+      "generated_targets": {
+        "count": 1001,
+        "prefix": "far",
+        "start": [
+          100,
+          100
+        ],
+        "step": [
+          1,
+          0
+        ]
+      }
+    },
+    {
+      "name": "default_float_anisotropic_scale",
+      "objects": [
+        {
+          "id": "s",
+          "body": {
+            "kind": "points",
+            "points": [
+              [
+                0,
+                0
+              ]
+            ]
+          },
+          "default_float": true
+        },
+        {
+          "id": "t",
+          "body": {
+            "kind": "points",
+            "points": [
+              [
+                3,
+                4
+              ]
+            ]
+          }
+        }
+      ],
+      "source": "s",
+      "targets": [
+        "t"
+      ],
+      "scale": [
+        2,
+        0.5
+      ],
+      "exclude_self": false,
+      "expected": {
+        "source_centroid": [
+          0,
+          0
+        ],
+        "target_centroids": [
+          [
+            3,
+            4
+          ]
+        ],
+        "distance": 6.324555397033691
+      }
+    },
+    {
+      "name": "default_float_small_physical_scale",
+      "objects": [
+        {
+          "id": "s",
+          "body": {
+            "kind": "points",
+            "points": [
+              [
+                0,
+                0
+              ]
+            ]
+          },
+          "default_float": true
+        },
+        {
+          "id": "t",
+          "body": {
+            "kind": "points",
+            "points": [
+              [
+                3,
+                4
+              ]
+            ]
+          }
+        }
+      ],
+      "source": "s",
+      "targets": [
+        "t"
+      ],
+      "scale": [
+        0.5,
+        0.25
+      ],
+      "exclude_self": false,
+      "expected": {
+        "source_centroid": [
+          0,
+          0
+        ],
+        "target_centroids": [
+          [
+            3,
+            4
+          ]
+        ],
+        "distance": 1.8027756214141846
+      }
+    },
+    {
+      "name": "explicit_double_anisotropic_scale",
+      "objects": [
+        {
+          "id": "s",
+          "body": {
+            "kind": "points",
+            "points": [
+              [
+                0,
+                0
+              ]
+            ]
+          },
+          "storage": "DOUBLE"
+        },
+        {
+          "id": "t",
+          "body": {
+            "kind": "points",
+            "points": [
+              [
+                3,
+                4
+              ]
+            ]
+          }
+        }
+      ],
+      "source": "s",
+      "targets": [
+        "t"
+      ],
+      "scale": [
+        2,
+        0.5
+      ],
+      "exclude_self": false,
+      "expected": {
+        "source_centroid": [
+          0,
+          0
+        ],
+        "target_centroids": [
+          [
+            3,
+            4
+          ]
+        ],
+        "distance": 6.324555397033691
+      }
+    },
+    {
+      "name": "explicit_double_small_physical_scale",
+      "objects": [
+        {
+          "id": "s",
+          "body": {
+            "kind": "points",
+            "points": [
+              [
+                0,
+                0
+              ]
+            ]
+          },
+          "storage": "DOUBLE"
+        },
+        {
+          "id": "t",
+          "body": {
+            "kind": "points",
+            "points": [
+              [
+                3,
+                4
+              ]
+            ]
+          }
+        }
+      ],
+      "source": "s",
+      "targets": [
+        "t"
+      ],
+      "scale": [
+        0.5,
+        0.25
+      ],
+      "exclude_self": false,
+      "expected": {
+        "source_centroid": [
+          0,
+          0
+        ],
+        "target_centroids": [
+          [
+            3,
+            4
+          ]
+        ],
+        "distance": 1.8027756214141846
+      }
+    }
+  ],
+  "upstream_measurement_storage": "GENERAL supplied for geometry cases; default FLOAT and explicit DOUBLE cases separately require exact float32 rounding observed in pinned NumericMeasurementList.setValue. Geometry tolerance remains fixed."
+}

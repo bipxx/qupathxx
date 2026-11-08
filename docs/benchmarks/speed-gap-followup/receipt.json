@@ -1,0 +1,17 @@
+{
+  "parent_commit": "4a7000f9063d298cf5b0396f9bfc4f73e89d2b56",
+  "source_tree": "d9f6b3c2348f473367358ec726515b07756f8af20eb8050f4d64d96646acfdbe",
+  "compiler_inputs": 523,
+  "runtime": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\speed-gap-followup\\runtime-delivery",
+  "runtime_scope": "Development Python module and required runtime files, no app/wheel publication",
+  "runtime_manifest_sha256": "8c5ce4007a50816906fab727f8b56857c7ba4196958a01b88eb99f8282b83682",
+  "script_hashes": {
+    "native.py": "9fda300a1f9174afa3bb33ec372120f5d4cd8b37150335c573a392195981bbab",
+    "qupath.groovy": "037ca9fa52c40c296c19cabc3f30453f03931d6186a49d366aaf37842156cd6d",
+    "measure.py": "24b1340e0f297fac146897659b77df5c8337ec49a0e156e65c9cfbccab0ba6b2"
+  },
+  "published_candidate5_changed": false,
+  "test_stack_failure_exit": -1073741571,
+  "test_stack_failure_hex": "0xC00000FD",
+  "strict_speed_parity": false
+}

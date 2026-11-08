@@ -1,0 +1,32 @@
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tma_dearray.cpp: In function ‘std::vector<qpx::{anonymous}::Candidate> qpx::{anonymous}::components(const std::vector<unsigned char>&, const std::vector<unsigned char>&, int64_t, int64_t, double, double, const qpx::TmaDearrayOptions&, const std::atomic<bool>*)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tma_dearray.cpp:78:17: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   78 |                 if(!dx && !dy) continue;const auto xx=x+dx,yy=y+dy;
+      |                 ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tma_dearray.cpp:78:41: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   78 |                 if(!dx && !dy) continue;const auto xx=x+dx,yy=y+dy;
+      |                                         ^~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tma_dearray.cpp: In function ‘std::shared_ptr<qpx::TmaDearrayResult> qpx::detect_preview(const PixelBuffer&, int64_t, int64_t, const TmaDearrayOptions&, const std::atomic<bool>*)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tma_dearray.cpp:236:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  236 |         if((i&4095)==0) checkpoint(stop);if(rgba[i*4+3]!=255) continue;valid[i]=1;
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tma_dearray.cpp:236:42: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  236 |         if((i&4095)==0) checkpoint(stop);if(rgba[i*4+3]!=255) continue;valid[i]=1;
+      |                                          ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tma_dearray.cpp:238:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  238 |         if(o.polarity==TmaPolarity::DarkOnLight) value=255-value;gray[i]=static_cast<std::uint8_t>(value);++histogram[value];
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tma_dearray.cpp:238:66: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  238 |         if(o.polarity==TmaPolarity::DarkOnLight) value=255-value;gray[i]=static_cast<std::uint8_t>(value);++histogram[value];
+      |                                                                  ^~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tma_dearray.cpp:260:13: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  260 |             if((visited++&4095)==0) checkpoint(stop);const auto dx=(double(x)+.5-center.x)/(cw/2),dy=(double(y)+.5-center.y)/(ch/2);
+      |             ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tma_dearray.cpp:260:54: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  260 |             if((visited++&4095)==0) checkpoint(stop);const auto dx=(double(x)+.5-center.x)/(cw/2),dy=(double(y)+.5-center.y)/(ch/2);
+      |                                                      ^~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tma_dearray.cpp:261:13: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  261 |             if(dx*dx+dy*dy>1) continue;++total;const auto i=static_cast<std::size_t>(y*w+x);supported+=valid[i]!=0;foreground+=mask[i]!=0;
+      |             ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tma_dearray.cpp:261:40: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  261 |             if(dx*dx+dy*dy>1) continue;++total;const auto i=static_cast<std::size_t>(y*w+x);supported+=valid[i]!=0;foreground+=mask[i]!=0;
+      |                                        ^~

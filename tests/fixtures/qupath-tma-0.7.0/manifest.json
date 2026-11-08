@@ -1,0 +1,39 @@
+{
+  "schema": "qpx.qupath-tma-fixtures/1",
+  "upstream_revision": "04ccfa4fb7d43e9b566393e08e83690b72248d44",
+  "qupath_version": "0.7.0",
+  "rows": 2,
+  "columns": 3,
+  "image_size": [
+    256,
+    192
+  ],
+  "synthetic": true,
+  "external_slide_data": false,
+  "generator": "tools/upstream/qupath_tma_reference.groovy",
+  "generator_sha256": "e710a48db64bf99b094ac92a3fa30e5eb58f6b6899f13f1402aeade92e5785d1",
+  "runtime_distribution_sha256": "5839743281d11eca1ac55c87ddcf92c89a30cba7ba2060f162036b0514b1e30c",
+  "runtime_tree_sha256": "117c0cb3074c7e3d2f4814d731bf0703d38373051d5580462a90d94036314788",
+  "runtime_files": 496,
+  "runtime_identity_rechecked_after_capture": true,
+  "source_path_header": "Ephemeral WrappedBufferedImageServer identifier; informational only; never open as an image path",
+  "files": {
+    "qupath-export.qptma": {
+      "sha256": "ac2b4725fb97e4f74a88c27630a29ac34dd09f182626a3189b2a38cf2ea2ff47",
+      "bytes": 343
+    },
+    "fractional-import.qptma": {
+      "sha256": "ca38fb51e34b0f160cf0f152258a053b956ab8781b2309eeaa4dfcd4d5ffdcc2",
+      "bytes": 394
+    },
+    "reference.json": {
+      "sha256": "c86a526e61b735a6512ae3cb98284ade445813cb73a4ad859789e5fd0a1c865b",
+      "bytes": 3915
+    },
+    "capture.log": {
+      "sha256": "d9de5de6f5973d9cd82cd4748a18e00d440d7ef25e3cea82c2e30e920cdaf543",
+      "bytes": 1099
+    }
+  },
+  "scope": "Actual pinned QuPath export/import on six synthetic cores. Reference preparation only; no native .qptma codec, desktop workflow or upstream parity acceptance yet."
+}

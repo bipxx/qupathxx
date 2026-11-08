@@ -1,0 +1,77 @@
+{
+  "schema": "qpx.scientific-grid-169-progress/1",
+  "source": "3fc3bcb460ce590d9f1a0c48d97ca8a6dc400062",
+  "observed_at_utc": "2026-10-25T11:54:59.494077+00:00",
+  "controller_source": "1d2124e461b27314f98c2e4af12e4cc8baeaab0a",
+  "native_mac_accepted": true,
+  "native_mac_scope": "Both architectures, native tests, binary/notice inventories, relocated native runtime probes only; excludes Python/GUI/OpenSlide on Mac.",
+  "linux_only_engine_accepted": true,
+  "full_engine_accepted": false,
+  "portable_full_scope_accepted": false,
+  "baseline_portable_run": 40188598144,
+  "baseline_portable_missing_scope": [
+    {
+      "python": "3.11",
+      "native_ndpi_project_marker": false,
+      "ndpi_reader_cases": 24,
+      "ndpi_reader_skips": 24
+    },
+    {
+      "python": "3.12",
+      "native_ndpi_project_marker": false,
+      "ndpi_reader_cases": 24,
+      "ndpi_reader_skips": 24
+    }
+  ],
+  "required_portable_run": 40190126665,
+  "campaign_profile_tests_passed": 15,
+  "scope": "Progress snapshot, not complete platform acceptance. The first portable request omitted extended_readers. Repeating only portable at the same frozen source supplies the missing native NDPI and builder reader coverage; the original green run is retained with its limited scope.",
+  "scientific_detector_accepted": false,
+  "release_ready": false,
+  "evidence": {
+    "baseline-3.11-fixtures.log": {
+      "bytes": 61,
+      "sha256": "49d9277592abc78503608f29d12d2315ee7951d7768b195b3cf4b1e9dbcd1261"
+    },
+    "baseline-3.12-fixtures.log": {
+      "bytes": 61,
+      "sha256": "49d9277592abc78503608f29d12d2315ee7951d7768b195b3cf4b1e9dbcd1261"
+    },
+    "campaign-attempts.json": {
+      "bytes": 68618,
+      "sha256": "dd1ff7f30d5d898cfac11ac3c4bc527869b77eb39bb3c0548ab07fc8c7c1a8ff"
+    },
+    "campaign-input-tests.xml": {
+      "bytes": 2154,
+      "sha256": "a3703326d9117b2d60e3299887746ce205dccedd1d9526a0408b05410a643bcc"
+    },
+    "dispatch_portable_extended.py": {
+      "bytes": 2289,
+      "sha256": "70258e3762406ea5d04f798875c1cfe1c0be431efdff56c9bbb7d0d7de35093f"
+    },
+    "engine-run.json": {
+      "bytes": 24827,
+      "sha256": "431ff4d0db985a9784bd17458c377b2591f7c08925210b0dba100495431e3043"
+    },
+    "linux-only-audit.json": {
+      "bytes": 283425,
+      "sha256": "a5c3af867b4cd75f54389010a034aeef6825b51440941c68d7af17986f3ad85c"
+    },
+    "macos-native-audit.json": {
+      "bytes": 156668,
+      "sha256": "e376f0cde616e3f67e72f253a2e00b0baa3c69728390f1c8809eb2b07441c0bb"
+    },
+    "macos-run.json": {
+      "bytes": 7026,
+      "sha256": "84888dc630620d4615320267e3a6221c7b317e6c079ba600d03a737126df68da"
+    },
+    "portable-run.json": {
+      "bytes": 16287,
+      "sha256": "e3fcb2c2b1eb5100c13c8ccc14e0bc0d0c3a3c7995c2b99654cdcbbe9bc6fe54"
+    },
+    "portable_extended-run.json": {
+      "bytes": 9054,
+      "sha256": "8fa1e45c6c868bf534630656f5e38d94a95d4995af24b6384d8da1e88ea689b3"
+    }
+  }
+}

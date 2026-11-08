@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.139" timestamp="2026-11-04T15:22:45.493652-05:00" hostname="HEQPC"><testcase classname="tests.test_object_edit_state" name="test_plain_classification_keeps_the_existing_compact_history_budget" time="0.005"><failure message="ValueError: edit exceeds history payload budget; raise limits or explicitly disable recording">def test_plain_classification_keeps_the_existing_compact_history_budget():
+        doc=q.Document(q.Image.demo());doc.set_history_limits(0,0)
+        ids=doc.execute([q.ObjectEdit.create(q.Rect(1,1,2,2)) for i in range(1000)])
+        doc.set_history_limits(128,64*1024)
+        # Existing class-only transactions fit this declared payload budget.
+        # Objects without editing state must not pay a property-owner cost per row.
+&gt;       doc.apply_classifications([(id,'Tumor') for id in ids])
+E       ValueError: edit exceeds history payload budget; raise limits or explicitly disable recording
+
+tests\test_object_edit_state.py:205: ValueError</failure></testcase></testsuite></testsuites>

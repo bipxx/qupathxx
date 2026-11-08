@@ -1,0 +1,87 @@
+{
+  "schema": "qpx.reader-locale-portable-role/1",
+  "state": "original-complete-portable-role-accepted",
+  "source": "9fbc9315e8c2417c35492cf505a8f676ecdfcf75",
+  "run": 40792343129,
+  "authenticated_portable_archives": 4,
+  "total_collected_archives": 8,
+  "complete_original_auditor": true,
+  "windows_headless_reader_regressions_passed": 4,
+  "engine_accepted": false,
+  "macos_accepted": false,
+  "combined_accepted": false,
+  "main_promoted": false,
+  "release_ready": false,
+  "files": [
+    {
+      "path": "portable-run-terminal.json",
+      "bytes": 16287,
+      "sha256": "fe0ae6f28461426856b8806ec56c792ebf793ad9d4980c5c92d5a373c85344fe"
+    },
+    {
+      "path": "portable-complete-audit.log",
+      "bytes": 126,
+      "sha256": "91c668a87884b7753a27c58495e42d8dbc4982cc732528517f810883c454cce1"
+    },
+    {
+      "path": "portable-audit-exit.json",
+      "bytes": 900,
+      "sha256": "7927e8269da00e4f238b4aff6407e2535e721e8540ccb679ad38398586bb01dd"
+    },
+    {
+      "path": "portable-acceptance.json",
+      "bytes": 590452,
+      "sha256": "12976ea92f7ac8de32a8feff131dcd4ab7b9facc3493791c71178aa23ddc1f56"
+    },
+    {
+      "path": "portable-run.json",
+      "bytes": 16287,
+      "sha256": "fe0ae6f28461426856b8806ec56c792ebf793ad9d4980c5c92d5a373c85344fe"
+    },
+    {
+      "path": "portable-artifacts.json",
+      "bytes": 3625,
+      "sha256": "33bbe5a27380d062c1e3643150d55bc4bce97826b02f21eec9936a8fe76a5a4a"
+    },
+    {
+      "path": "verified.json",
+      "bytes": 1978,
+      "sha256": "cd1613c923bb8cae416058ccc59419a9935673eeb1079db0740fa0734c86d027"
+    },
+    {
+      "path": "manylinux-3.11-artifact.json",
+      "bytes": 810,
+      "sha256": "5fb0685a7035f3b490001613fc330eeb092cccd08dee83be255f240f661b1f6c"
+    },
+    {
+      "path": "manylinux-3.12-artifact.json",
+      "bytes": 810,
+      "sha256": "955689800880bb984321f6f243570e86843c5c280c9674f852786f0cca80c4a1"
+    },
+    {
+      "path": "manylinux-consumer-3.11-artifact.json",
+      "bytes": 816,
+      "sha256": "c6021fb3503ba6a272b9c30adb50949f3fe4a8c8584ec4d7c6e51aed8e26039c"
+    },
+    {
+      "path": "manylinux-consumer-3.12-artifact.json",
+      "bytes": 816,
+      "sha256": "a32a5e657173dbb14f86e981923987814efeff9e309edabe28e9925d39baec8f"
+    },
+    {
+      "path": "Windows-headless-py3.11-artifact.json",
+      "bytes": 819,
+      "sha256": "a3a04fcf220d56fcd0515e04dba039fcd4a44b92c8319525d07c811289813863"
+    },
+    {
+      "path": "observers/audit_portable298_terminal300.py",
+      "bytes": 1117,
+      "sha256": "58b5b12288c7e3f0eb610a1db6ee78c6fae1b5623f7ddb9068f7f25c509dce68"
+    },
+    {
+      "path": "frozen298-windows-reader-checks.json",
+      "bytes": 504,
+      "sha256": "e39fee98d642d65667fc9ff41d46b82ee5c2fcdf74a3fe71874bd304bf5f0242"
+    }
+  ]
+}

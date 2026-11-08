@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\image-data-properties-r5-env\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-c",
+    "import qupathxx as q;from pathlib import Path;assert q.build_environment().git_revision=='cb693c5a20e32e40c25a71246613a6955036ae5c';assert Path(q.__file__).resolve().is_relative_to(Path('C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\ci\\\\image-data-properties-r5-env'));import pytest;raise SystemExit(pytest.main(['tests/test_image_data_properties.py::test_captured_typed_arrays_maps_and_shared_values_roundtrip_exactly', '-q', '--junitxml=C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\image-data-properties-r5\\\\installed.xml', '--basetemp', 'C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\image-data-properties-r5\\\\installed-temp']))"
+  ],
+  "returncode": 0,
+  "elapsed_seconds": 0.854867700021714
+}

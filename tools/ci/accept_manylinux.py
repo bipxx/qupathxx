@@ -7,11 +7,32 @@ This audits a trusted CI run's evidence, not signatures or untrusted artifacts.
 import argparse
 from collections import Counter
 import hashlib
+import importlib.util
 import json
 from pathlib import Path, PurePosixPath
 import re
+import subprocess
 import xml.etree.ElementTree as ET
 import zipfile
+
+resampling_spec=importlib.util.spec_from_file_location('qpx_resampling_evidence',Path(__file__).with_name('resampling_evidence.py'))
+resampling=importlib.util.module_from_spec(resampling_spec);exec(compile(Path(resampling_spec.origin).read_bytes(),resampling_spec.origin,"exec",dont_inherit=True),resampling.__dict__)
+qptma_spec=importlib.util.spec_from_file_location('qpx_qptma_evidence',Path(__file__).with_name('qptma_evidence.py'))
+qptma=importlib.util.module_from_spec(qptma_spec);exec(compile(Path(qptma_spec.origin).read_bytes(),qptma_spec.origin,"exec",dont_inherit=True),qptma.__dict__)
+hierarchy_spec=importlib.util.spec_from_file_location('qpx_hierarchy_evidence',Path(__file__).with_name('hierarchy_evidence.py'))
+hierarchy=importlib.util.module_from_spec(hierarchy_spec);exec(compile(Path(hierarchy_spec.origin).read_bytes(),hierarchy_spec.origin,"exec",dont_inherit=True),hierarchy.__dict__)
+scientific_spec=importlib.util.spec_from_file_location('qpx_scientific_grid_evidence',Path(__file__).with_name('scientific_grid_evidence.py'))
+scientific=importlib.util.module_from_spec(scientific_spec);exec(compile(Path(scientific_spec.origin).read_bytes(),scientific_spec.origin,"exec",dont_inherit=True),scientific.__dict__)
+axis_spec=importlib.util.spec_from_file_location('qpx_tma_axis_evidence',Path(__file__).with_name('tma_axis_evidence.py'))
+axis=importlib.util.module_from_spec(axis_spec);exec(compile(Path(axis_spec.origin).read_bytes(),axis_spec.origin,"exec",dont_inherit=True),axis.__dict__)
+dearray_spec=importlib.util.spec_from_file_location("qpx_tma_dearray_evidence",Path(__file__).with_name("tma_dearray_evidence.py"))
+dearray=importlib.util.module_from_spec(dearray_spec);exec(compile(Path(dearray_spec.origin).read_bytes(),dearray_spec.origin,"exec",dont_inherit=True),dearray.__dict__)
+multifile_spec=importlib.util.spec_from_file_location("qpx_multifile_ome_evidence",Path(__file__).with_name("multifile_ome_evidence.py"))
+multifile=importlib.util.module_from_spec(multifile_spec);exec(compile(Path(multifile_spec.origin).read_bytes(),multifile_spec.origin,"exec",dont_inherit=True),multifile.__dict__)
+raw_spec=importlib.util.spec_from_file_location('qpx_raw_classifier_evidence',Path(__file__).with_name('raw_classifier_evidence.py'))
+raw_classifier=importlib.util.module_from_spec(raw_spec);exec(compile(Path(raw_spec.origin).read_bytes(),raw_spec.origin,'exec',dont_inherit=True),raw_classifier.__dict__)
+
+
 
 ASSETS = Path(__file__).with_name('manylinux-assets.json')
 
@@ -144,8 +165,7 @@ def audit_version(folder, version, commit, assets):
     fixture=next(f for f in fixtures['downloads'] if f['filename']=='CMU-1-Small-Region.svs')
     require(probe['slide_sha256']==fixture['sha256'],'consumer fixture hash differs')
     require('Public stubs match' in (build/'stubs.log').read_text(encoding='utf-8'),'stub check missing')
-    require('Success: no issues found in 3 source files' in (build/'typing.log').read_text(encoding='utf-8'),
-            'positive typing check missing')
+    scientific.positive_typing(build/'typing.log')
     negative=(build/'typing-negative.log').read_text(encoding='utf-8')
     require(sorted(map(int,re.findall(r'invalid_api.py:(\d+): error:',negative)))==[6,7,8,9,11,13,14],
             'negative typing checks differ')
@@ -172,14 +192,259 @@ def audit(folder, run, commit):
         scope='Declared headless CPython ABI and fresh Debian consumer workflows only. Project license, supported release, GUI/macOS, scientific and hardware acceptance remain separate gates.')
 
 
+def unified_cohorts(folder):
+    """Require the LoG/parser/cache cohorts in builders and fresh consumers."""
+    report=[]
+    desktop={'test_log_gui_and_copied_recipe','test_log_managed_viewer_captures_detector_recipe','test_log_gui_batch_captures_recipe_and_checkpoint'}
+    contract=read(Path(__file__).resolve().parents[2]/'tests/fixtures/qupath-cells-0.7.0/contract.json')
+    reference={f"test_log_installed_nucleus_reference[{tile}-{case['name']}]" for tile in contract['tile_sizes'] for case in contract['cases']}
+    for version in ['3.11','3.12']:
+        build=Path(folder)/('manylinux-'+version)
+        native=ET.parse(build/'native-tests.xml').getroot().findall('.//testcase')
+        require({'decimal_quantities','log_watershed','log_cell_recipe','geometry'}<={t.get('name') for t in native},'unified native suites missing')
+        for cohort,path in [('builder',build/'python-tests.xml'),('consumer',Path(folder)/('manylinux-consumer-'+version)/'consumer-tests.xml')]:
+            cases=ET.parse(path).getroot().findall('.//testcase')
+            log=[t for t in cases if t.get('classname','').endswith('test_log_cells')]
+            require(len(log)==50,'unified LoG cohort must contain 50 cases')
+            require(reference<={t.get('name') for t in log},'pinned LoG reference/tile cases missing')
+            require(all(t.find('failure') is None and t.find('error') is None for t in log),'LoG case failed')
+            skipped=[t for t in log if t.find('skipped') is not None]
+            require({t.get('name') for t in skipped}==desktop,'unexpected skipped LoG cases')
+            require(all(t.find('skipped').get('type')!='pytest.xfail' for t in skipped),'LoG case expected to fail')
+            cache=[t for t in cases if t.get('classname','').endswith('test_sampling_acceleration')]
+            decimals=[t for t in cases if t.get('classname','').endswith('test_tiff_reader') and t.get('name','').startswith('test_ome_decimal_quantity_contract[')]
+            require(len(cache)==9 and len(decimals)==12,'unified cache/decimal cases missing')
+            require(all(all(t.find(k) is None for k in ['failure','error','skipped']) for t in cache+decimals),'cache/decimal case did not pass')
+            report.append(dict(python=version,cohort=cohort,log_passed=47,log_desktop_skipped=3,
+                log_cases=[t.get('name') for t in log],cache_cases=[t.get('name') for t in cache],decimal_cases=[t.get('name') for t in decimals],junit_sha256=sha(path)))
+    return report
+
+
+def ndpi_cohorts(folder):
+    """Real NDPI runs in builders; fresh consumers exercise native link capture."""
+    report=[]
+    expected={'test_ndpi_metadata_and_anisotropic_calibration','test_ndpi_complete_overview_and_source_budget',
+        'test_ndpi_scheduler_cache_and_pending_close','test_ndpi_log_detection_tile_invariance_and_saved_replay',
+        'test_ndpi_truncated_container_rejects','test_ndpi_desktop_pyramid_settles'}
+    expected.update(f'test_ndpi_all_levels_padding_and_owned_pixels[{i}]' for i in range(9))
+    expected.update(f'test_ndpi_installed_region_cli[{i}]' for i in range(9))
+    for version in ['3.11','3.12']:
+        build=Path(folder)/('manylinux-'+version)
+        native=ET.parse(build/'native-tests.xml').getroot().findall('.//testcase')
+        project=[t for t in native if t.get('name')=='project']
+        require(len(project)==1 and 'Native NDPI inferred link, LoG archive replay and calibration passed' in project[0].findtext('system-out',''),'native NDPI project replay was not exercised')
+        for cohort,path in [('builder',build/'python-tests.xml'),('consumer',Path(folder)/('manylinux-consumer-'+version)/'consumer-tests.xml')]:
+            cases=ET.parse(path).getroot().findall('.//testcase')
+            readers=[t for t in cases if t.get('classname','').endswith('test_ndpi_reader')]
+            require(len(readers)==24 and {t.get('name') for t in readers}==expected,'NDPI cohort differs')
+            require(all(t.find('failure') is None and t.find('error') is None for t in readers),'NDPI case failed')
+            skips=[t for t in readers if t.find('skipped') is not None]
+            require({t.get('name') for t in skips}==({'test_ndpi_desktop_pyramid_settles'} if cohort=='builder' else expected),'NDPI fixture/desktop scope differs')
+            require(all(t.find('skipped').get('type')!='pytest.xfail' for t in skips),'NDPI case expected to fail')
+            links=[t for t in cases if t.get('name') in {'test_opened_slide_document_defaults_to_its_native_link','test_opened_tiff_document_defaults_to_native_link_and_current_view'}]
+            require(len(links)==2 and all(all(t.find(k) is None for k in ['failure','error','skipped']) for t in links),'default native-link regressions missing')
+            report.append(dict(python=version,cohort=cohort,ndpi_passed=24-len(skips),ndpi_skipped=len(skips),
+                default_link_passed=2,ndpi_cases=[dict(name=t.get('name'),skipped=t.find('skipped') is not None) for t in readers],junit_sha256=sha(path)))
+    return report
+
+
+def watershed_body_cohorts(folder):
+    """Require all captured body recipes in builders and fresh consumers."""
+    contract=read(Path(__file__).resolve().parents[2]/'tests/fixtures/qupath-cells-0.7.0/contract.json')
+    desktop={'test_body_gui_captured_recipe_and_published_pixels',
+             'test_body_managed_viewer_copies_recipe_and_reopens_retained_result',
+             'test_body_gui_batch_keeps_distinct_recipe'}
+    expected={f"test_production_body_mode_pinned_labels_and_measurements[{tile}-{case['name']}]"
+              for tile in contract['tile_sizes'] for case in contract['cases']}
+    expected.update(f'test_body_worker_rejects_stale_authority_and_cancellation[{change}]'
+                    for change in ['selection','rename','close','authority','cancel'])
+    expected.update(f'test_body_mode_natural_level_identity_and_work_admission[{level}]' for level in range(3))
+    expected.update(desktop|{'test_body_archive_replay_classifier_and_legacy_records',
+                            'test_body_batch_mode_has_distinct_resume_and_cli_recipe',
+                            'test_body_candidate_limit_failure_keeps_document_and_worker_reusable',
+                            'test_body_expansion_respects_transparent_source_domain'})
+    report=[]
+    for version in ['3.11','3.12']:
+        build=Path(folder)/('manylinux-'+version)
+        native=list(ET.parse(build/'native-tests.xml').getroot().iter('testcase'))
+        expansion=[t for t in native if t.get('name')=='cell_expansion']
+        require(len(expansion)==1 and all(expansion[0].find(k) is None for k in ['failure','error','skipped']),
+                'native cell expansion suite missing or did not pass')
+        for cohort,path in [('builder',build/'python-tests.xml'),
+                            ('consumer',Path(folder)/('manylinux-consumer-'+version)/'consumer-tests.xml')]:
+            cases=[t for t in ET.parse(path).getroot().iter('testcase')
+                   if t.get('classname','').endswith('test_log_body_cells')]
+            require(len(cases)==42 and {t.get('name') for t in cases}==expected,
+                    'production watershed-body cohort differs')
+            require(all(t.find('failure') is None and t.find('error') is None for t in cases),
+                    'production watershed-body case failed')
+            skipped=[t for t in cases if t.find('skipped') is not None]
+            require({t.get('name') for t in skipped}==desktop and
+                    all(t.find('skipped').get('type')!='pytest.xfail' for t in skipped),
+                    'unexpected skipped or expected-failing watershed-body cases')
+            report.append(dict(python=version,cohort=cohort,passed=39,desktop_skipped=3,
+                               cases=[t.get('name') for t in cases],junit_sha256=sha(path)))
+    return report
+
+
+def sampled_cell_cohorts(folder, commit):
+    root=Path(__file__).resolve().parents[2]
+    contract='tests/fixtures/imagej-shape-1.54p/sampled-cell-workflows.json'
+    require((root/contract).read_bytes()==subprocess.check_output(['git','-C',str(root),'show',commit+':'+contract]),
+            'sampled workflow contract differs from dispatched source')
+    expected=read(root/contract)
+    require(len(expected['cases'])==53 and len(expected['desktop_cases'])==3,'invalid sampled workflow contract')
+    desktop=set(expected['desktop_cases'])
+    real={name for name in expected['cases'] if name.startswith('test_sampled_real_slide_keeps_characterization_and_exact_saved_replay[')}
+    require(len(real)==2,'missing real-slide sampled contexts')
+    report=[]
+    for version in ['3.11','3.12']:
+        build=Path(folder)/('manylinux-'+version)
+        native=list(ET.parse(build/'native-tests.xml').getroot().iter('testcase'))
+        for name,marker in [('log_watershed','Sampled shape 26 frozen masks and maxima passed'),
+                            ('log_cell_recipe','Sampled LoG QCL4, explicit seed preset, typed recipe identities, replay and QCL1/2/3 preservation passed'),
+                            ('log_cell_recipe','Sampled clipped components without in-ROI markers retain measurements and replay labels')]:
+            selected=[t for t in native if t.get('name')==name]
+            require(len(selected)==1 and marker in selected[0].findtext('system-out',''),'sampled native recipe/conformance marker missing')
+        for cohort,path in [('builder',build/'python-tests.xml'),
+                            ('consumer',Path(folder)/('manylinux-consumer-'+version)/'consumer-tests.xml')]:
+            cases=[t for t in ET.parse(path).getroot().iter('testcase')
+                   if t.get('classname','').rsplit('.',1)[-1]==expected['classname']]
+            require(sorted(t.get('name') for t in cases)==expected['cases'],'sampled production workflow cohort differs')
+            require(all(t.find('failure') is None and t.find('error') is None for t in cases),'sampled production workflow failed')
+            skipped=[t for t in cases if t.find('skipped') is not None]
+            require({t.get('name') for t in skipped}==(desktop if cohort=='builder' else desktop|real),
+                    'sampled fixture/desktop skip scope differs')
+            require(all(t.find('skipped').get('type')!='pytest.xfail' for t in skipped),'sampled production case expected to fail')
+            report.append(dict(python=version,cohort=cohort,passed=53-len(skipped),
+                               desktop_skipped=3,real_slide_skipped=0 if cohort=='builder' else 2,
+                               cases=[dict(name=t.get('name'),skipped=t.find('skipped') is not None) for t in cases],
+                               cohort_contract_sha256=sha(root/contract),junit_sha256=sha(path)))
+    return report
+
+
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--artifacts',type=Path,required=True)
     parser.add_argument('--run-json',type=Path,required=True)
     parser.add_argument('--commit',required=True)
     parser.add_argument('--output',type=Path,required=True)
+    parser.add_argument('--unified-engine',action='store_true',help='Also require the explicit LoG, decimal parser and cache cohorts in all four Python runs')
+    parser.add_argument('--ndpi-readers',action='store_true',help='Also require NDPI builder and default native-link cases; consumers retain their small-fixture scope')
+    parser.add_argument('--watershed-bodies',action='store_true',help='Also require all production body recipes and native expansion in both builders/consumers')
+    parser.add_argument('--sampled-cells',action='store_true',help='Require frozen shape/QCL4 native and sampled production builder/consumer cohorts; implies earlier engine/body/NDPI gates')
+    parser.add_argument('--small-frontier',action='store_true',help='Require native queue equivalence and all eight unit-radius cases in builders and consumers; implies sampled cells')
+    parser.add_argument('--tma-cases',action='store_true',help='Require exact native and Python TMA case aggregation in both builders/consumers; implies small frontier')
+    parser.add_argument('--tma-file-export',action='store_true',help='Require atomic case-file and standalone CLI cohorts in builders/consumers; implies tma cases')
+    parser.add_argument('--tma-cohorts',action='store_true',help='Require captured multi-grid native and installed cohort cases; implies file export')
+    parser.add_argument('--linux-runtime-manifest',action='store_true',help='Require exact-source qualified builder and fresh-consumer static ELF manifests; implies TMA cohorts')
     args=parser.parse_args()
+    args.tma_cohorts=args.tma_cohorts or args.linux_runtime_manifest
+    args.tma_file_export=args.tma_file_export or args.tma_cohorts
+    args.tma_cases=args.tma_cases or args.tma_file_export
+    args.small_frontier=args.small_frontier or args.tma_cases
+    args.sampled_cells=args.sampled_cells or args.small_frontier
+    if args.sampled_cells:
+        args.unified_engine=args.ndpi_readers=args.watershed_bodies=True
     report=audit(args.artifacts,read(args.run_json),args.commit)
+    report['multifile_ome_sources']=multifile.source_contract(Path(__file__).resolve().parents[2],args.commit)
+    report['raw_classifier_sources']=raw_classifier.source_contract(Path(__file__).resolve().parents[2],args.commit)
+    report['raw_classifier_cohorts']=[]
+    report['multifile_ome_cohorts']=[]
+    report['tma_axis_sources']=axis.source_contract(Path(__file__).resolve().parents[2],args.commit)
+    report['tma_dearray_sources']=dearray.source_contract(Path(__file__).resolve().parents[2],args.commit)
+    report['tma_dearray_cohorts']=[]
+    report['tma_axis_cohorts']=[]
+    report['resampling_sources']=resampling.source_contract(Path(__file__).resolve().parents[2],args.commit)
+    report['qptma_sources']=qptma.source_contract(Path(__file__).resolve().parents[2],args.commit)
+    report['hierarchy_sources']=hierarchy.source_contract(Path(__file__).resolve().parents[2],args.commit)
+    report['scientific_grid_sources']=scientific.source_contract(Path(__file__).resolve().parents[2],args.commit)
+    report['scientific_grid_cohorts']=[]
+    report['hierarchy_cohorts']=[]
+    report['qptma_cohorts']=[]
+    report['resampling_cohorts']=[]
+    for version in ['3.11','3.12']:
+        folder=args.artifacts/('manylinux-'+version)
+        native=resampling.native(list(ET.parse(folder/'native-tests.xml').getroot().iter('testcase')))
+        qptma_native=qptma.native(list(ET.parse(folder/'native-tests.xml').getroot().iter('testcase')))
+        qptma_project=qptma.project_native(list(ET.parse(folder/'native-tests.xml').getroot().iter('testcase')))
+        qptma_typing=qptma.typing_errors(folder/'qptma-typing-negative.log')
+        hierarchy_native=hierarchy.native(list(ET.parse(folder/'native-tests.xml').getroot().iter('testcase')))
+        hierarchy_typing=hierarchy.typing_errors(folder/'hierarchy-typing-negative.log')
+        scientific_native=scientific.native(list(ET.parse(folder/'native-tests.xml').getroot().iter('testcase')))
+        scientific_typing=scientific.typing(folder)
+        axis_native=axis.native(list(ET.parse(folder/'native-tests.xml').getroot().iter('testcase')))
+        axis_typing=axis.typing(folder/axis.TYPING_LOG)
+        dearray_native=dearray.native(list(ET.parse(folder/'native-tests.xml').getroot().iter('testcase')))
+        dearray_typing=dearray.typing(folder)
+        multifile_native=multifile.native(list(ET.parse(folder/'native-tests.xml').getroot().iter('testcase')))
+        multifile_typing=multifile.typing(folder)
+        raw_native=raw_classifier.native(list(ET.parse(folder/'native-tests.xml').getroot().iter('testcase')))
+        raw_typing=raw_classifier.typing(folder)
+        for cohort,path in [('builder',folder/'python-tests.xml'),('consumer',args.artifacts/('manylinux-consumer-'+version)/'consumer-tests.xml')]:
+            axis_cases=list(ET.parse(path).getroot().iter('testcase'))
+            report['raw_classifier_cohorts'].append(dict(python=version,cohort=cohort,native=raw_native,builder_typing=raw_typing,installed=raw_classifier.python(axis_cases)))
+            report['multifile_ome_cohorts'].append(dict(python=version,cohort=cohort,native=multifile_native,builder_typing=multifile_typing,installed=multifile.python(axis_cases),desktop=multifile.desktop(axis_cases)))
+            report['tma_dearray_cohorts'].append(dict(python=version,cohort=cohort,native=dearray_native,builder_typing=dearray_typing,installed=dearray.python(axis_cases),desktop=dearray.desktop(axis_cases)))
+            report['tma_axis_cohorts'].append(dict(python=version,cohort=cohort,native=axis_native,builder_typing=axis_typing,installed=axis.python(axis_cases),desktop=axis.desktop(axis_cases)))
+            report['scientific_grid_cohorts'].append(dict(python=version,cohort=cohort,native=scientific_native,builder_typing=scientific_typing,installed=scientific.python(list(ET.parse(path).getroot().iter('testcase')))))
+            report['hierarchy_cohorts'].append(dict(python=version,cohort=cohort,native=hierarchy_native,builder_typing=hierarchy_typing,installed=hierarchy.python(list(ET.parse(path).getroot().iter('testcase')))))
+            report['qptma_cohorts'].append(dict(python=version,cohort=cohort,native=qptma_native,project_native=qptma_project,builder_typing=qptma_typing,installed=qptma.python(list(ET.parse(path).getroot().iter('testcase')))))
+            report['resampling_cohorts'].append(dict(python=version,cohort=cohort,native=native,
+                installed=resampling.python(list(ET.parse(path).getroot().iter('testcase')))))
+    if args.unified_engine or args.ndpi_readers or args.watershed_bodies:
+        report['unified_engine_cohorts']=unified_cohorts(args.artifacts)
+    if args.ndpi_readers:
+        report['ndpi_reader_cohorts']=ndpi_cohorts(args.artifacts)
+    if args.watershed_bodies:
+        report['watershed_body_cohorts']=watershed_body_cohorts(args.artifacts)
+    if args.sampled_cells:
+        report['sampled_cell_cohorts']=sampled_cell_cohorts(args.artifacts,args.commit)
+    if args.small_frontier:
+        spec=importlib.util.spec_from_file_location('qpx_frontier_evidence',Path(__file__).with_name('frontier_evidence.py'))
+        frontier=importlib.util.module_from_spec(spec);exec(compile(Path(spec.origin).read_bytes(),spec.origin,"exec",dont_inherit=True),frontier.__dict__)
+        report['frontier_helper_sha256']=sha(Path(__file__).with_name('frontier_evidence.py'))
+        report['small_frontier_cohorts']=[]
+        root=Path(__file__).resolve().parents[2]
+        for version in ['3.11','3.12']:
+            folder=args.artifacts/('manylinux-'+version)
+            native=frontier.native(list(ET.parse(folder/'native-tests.xml').getroot().iter('testcase')))
+            for cohort,path in [('builder',folder/'python-tests.xml'),
+                                ('consumer',args.artifacts/('manylinux-consumer-'+version)/'consumer-tests.xml')]:
+                result=frontier.python(list(ET.parse(path).getroot().iter('testcase')),root,args.commit)
+                report['small_frontier_cohorts'].append(dict(python=version,cohort=cohort,native=native,**result))
+    if args.tma_cases:
+        spec=importlib.util.spec_from_file_location('qpx_tma_case_evidence',Path(__file__).with_name('tma_case_evidence.py'))
+        tma=importlib.util.module_from_spec(spec);exec(compile(Path(spec.origin).read_bytes(),spec.origin,"exec",dont_inherit=True),tma.__dict__)
+        report['tma_case_helper_sha256']=sha(Path(__file__).with_name('tma_case_evidence.py'))
+        report['tma_case_cohorts']=[]
+        root=Path(__file__).resolve().parents[2]
+        for version in ['3.11','3.12']:
+            folder=args.artifacts/('manylinux-'+version)
+            native=tma.native(list(ET.parse(folder/'native-tests.xml').getroot().iter('testcase')),file_export=args.tma_file_export,cohort=args.tma_cohorts)
+            for cohort,path in [('builder',folder/'python-tests.xml'),
+                                ('consumer',args.artifacts/('manylinux-consumer-'+version)/'consumer-tests.xml')]:
+                result=tma.python(list(ET.parse(path).getroot().iter('testcase')),root,args.commit,file_export=args.tma_file_export,cohort=args.tma_cohorts)
+                report['tma_case_cohorts'].append(dict(python=version,cohort=cohort,native=native,**result))
+    report['tma_cohorts_required']=args.tma_cohorts
+    report['tma_file_export_required']=args.tma_file_export
+    report['linux_runtime_manifest_required']=args.linux_runtime_manifest
+    if args.linux_runtime_manifest:
+        spec=importlib.util.spec_from_file_location('qpx_linux_manifest_evidence',Path(__file__).with_name('linux_runtime_manifest_evidence.py'))
+        manifests=importlib.util.module_from_spec(spec);exec(compile(Path(spec.origin).read_bytes(),spec.origin,"exec",dont_inherit=True),manifests.__dict__)
+        root=Path(__file__).resolve().parents[2]
+        report['linux_runtime_manifests']=[]
+        for version in ['3.11','3.12']:
+            folder=args.artifacts/('manylinux-'+version)
+            wheels=list((folder/'qualified').glob('*.whl'))
+            require(len(wheels)==1,'qualified manifest requires one exact wheel')
+            builder=manifests.audit(folder,wheels[0],root,args.commit,'qualified-linux-runtime-manifest.json')
+            consumer=manifests.audit(args.artifacts/('manylinux-consumer-'+version),wheels[0],root,args.commit,'consumer-linux-runtime-manifest.json')
+            require(builder['manifest_sha256']==consumer['manifest_sha256'],'builder/consumer static manifests differ')
+            builder['python_cohort']=manifests.python_cohort(folder/'python-tests.xml',root,args.commit)
+            consumer['python_cohort']=manifests.python_cohort(args.artifacts/('manylinux-consumer-'+version)/'consumer-tests.xml',root,args.commit)
+            report['linux_runtime_manifests'].append(dict(python=version,builder=builder,consumer=consumer))
+    qptma.verify_source_snapshot(Path(__file__).resolve().parents[2],report['qptma_sources'],report['resampling_sources'],report['raw_classifier_sources'])
     args.output.parent.mkdir(parents=True,exist_ok=True)
     args.output.write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
     print(json.dumps(dict(state=report['state'],commit=report['commit'],release_ready=False)))

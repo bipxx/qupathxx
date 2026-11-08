@@ -1,0 +1,14 @@
+{
+  "source": "2892db74738d1820be620d8fd78308203095190d",
+  "source_tree_sha256": "430b8fda59ba043770181ec90b3fdb3928435a64c9d67ff1a25a9bc4e4b69452",
+  "provenance": "Reuse existing nominal-cells-v1/source.rgb and its pinned provenance; no new pixels or numerical recapture. Retained QCL6 enables mixed legacy/corrected classifier-origin roundtrip.",
+  "source_rgb_sha256": "1d0be4f9c8d057876b650371b021cb93e7f3d8be63d90befb66037f1d4960443",
+  "file": "patterned-legacy.qpxproj",
+  "sha256": "6ad4f16522f84dba0d668f395e3caeab13a3f386edaf66921b6b90264b696237",
+  "image_id": 1,
+  "object_id": 1,
+  "record_id": 3,
+  "input_format": "qpx.nominal-cell-rgb/1",
+  "input_sha256": "38d2feedfa90124e06b20e77b3206b2fa5cee532a5b3641975744121cd7ea89e",
+  "cell_count": 3
+}

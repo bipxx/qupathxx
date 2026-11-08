@@ -1,0 +1,44 @@
+[
+  {
+    "name": "native-tests",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\ctest.exe",
+      "--test-dir",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package",
+      "-C",
+      "Release",
+      "-R",
+      "^(pixel_features|pixel_workflows|classifier|viewer_session|project_batch|gui_replay|overlay_surface)$",
+      "--output-on-failure",
+      "--test-output-size-passed",
+      "1048576",
+      "--no-tests=error",
+      "--output-junit",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawgui232-development-b\\native-tests.xml"
+    ],
+    "exit": 0
+  },
+  {
+    "name": "runtime-proof",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawgui232-dev312-env\\Scripts\\python.exe",
+      "-I",
+      "-c",
+      "import qupathxx as q,json; assert q.has_gui and q.has_geos and q.has_classifier_training; print(q.build_environment().git_revision); print(q.build_environment().source_tree_sha256); print(q.RawPixelTrainingSettings())"
+    ],
+    "exit": 0
+  },
+  {
+    "name": "gui-tests",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawgui232-dev312-env\\Scripts\\python.exe",
+      "-I",
+      "-m",
+      "pytest",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_gui_raw_pixel.py",
+      "-q",
+      "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawgui232-development-b\\gui-tests.xml"
+    ],
+    "exit": 1
+  }
+]

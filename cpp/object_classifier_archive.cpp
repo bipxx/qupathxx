@@ -1,15 +1,20 @@
 #include "object_classifier_archive.hpp"
+#include "cell_statistics_codec.hpp"
 #include "object_feature_snapshot.hpp"
 #include "geometry_archive.hpp"
 #include "provenance_codec.hpp"
 #include "sha256.hpp"
 #include "utf8_text.hpp"
 #include <algorithm>
+#include "cell_recipe.hpp"
+#include "scientific_cells.hpp"
+#include "grid_cell_descriptor.hpp"
 #include <cmath>
 #include <cstring>
 #include <limits>
 #include <iterator>
 #include <map>
+#include <tuple>
 #include <stdexcept>
 namespace qpx {
 namespace {
@@ -68,20 +73,64 @@ void schema(const ObjectFeatureOptions& options,bool physical,const ForestModel&
     const auto expected=ObjectFeatureOptions::from_model(model);
     if(expected.calibrated!=physical || expected.nucleus_shape!=options.nucleus_shape || expected.cell_rgb!=options.cell_rgb || expected.cytoplasm_rgb!=options.cytoplasm_rgb) throw std::invalid_argument("classifier archive feature preset mismatch");
 }
-void source_write(Writer& w,const ObjectCellFeatureSource& s) {
+void source_write(Writer& w,const ObjectCellFeatureSource& s,bool extended) {
+    if(s.scientific_grid || s.nominal_sampling || s.grid_parameters || s.nominal_exact_support) throw std::invalid_argument("grid classifier sources require QCA5 typed metadata");
+    s.parameters.validate();if(s.algorithm!=cell_detail::algorithm_id(s.parameters.algorithm)) throw std::invalid_argument("classifier cell algorithm/recipe mismatch");
     detail::bounded_utf8(s.producer,256);detail::bounded_utf8(s.algorithm,256);detail::bounded_utf8(s.input_sha256,64);
     w.integer(s.record_id);w.integer(s.object_id);w.integer(s.object_revision);w.integer(s.document_revision);w.integer(s.cell_count);w.text(s.producer);w.text(s.algorithm);w.text(s.input_sha256);w.blob(GeometryArchiveCodec::encode(s.roi));w.integer(s.level);w.real(s.downsample);
     const auto& p=s.parameters;w.integer(static_cast<std::uint64_t>(p.feature));for(auto v:{p.threshold,p.sigma,p.min_peak_radius,p.min_seed_distance,p.cell_expansion}) w.real(v);
     for(auto v:{p.min_nucleus_pixels,p.max_nucleus_pixels,std::uint64_t(p.connectivity),std::uint64_t(p.level+1),std::uint64_t(p.tile_size),std::uint64_t(p.max_cells),std::uint64_t(p.work_bytes),std::uint64_t(p.contours.clip_to_roi),std::uint64_t(p.contours.max_components),std::uint64_t(p.contours.max_edges),std::uint64_t(p.contours.max_vertices),std::uint64_t(p.contours.work_bytes)}) w.integer(v);
+    if(extended) {w.integer(static_cast<std::uint64_t>(p.algorithm));w.real(p.log_prominence);w.integer(p.context_padding);}
     for(auto v:s.white) w.real(v);for(const auto& stain:s.stains) for(auto v:stain) w.real(v);w.integer(bool(s.provenance));if(s.provenance) w.blob(ProvenanceCodec::encode(*s.provenance));
 }
-std::shared_ptr<const ObjectCellFeatureSource> source_read(Reader& r,const ImageMetadata& m) {
+std::shared_ptr<const ObjectCellFeatureSource> source_read(Reader& r,const ImageMetadata& m,unsigned version) {
     auto s=std::make_shared<ObjectCellFeatureSource>();s->record_id=r.integer();s->object_id=r.integer();s->object_revision=r.integer();s->document_revision=r.integer();s->cell_count=r.integer(1000000);s->producer=r.text(256);s->algorithm=r.text(256);s->input_sha256=r.text(64);s->roi=r.roi();s->level=static_cast<std::int32_t>(r.integer(65535));s->downsample=r.real();
     auto& p=s->parameters;p.feature=static_cast<TissueFeature>(r.integer(3));p.threshold=r.real();p.sigma=r.real();p.min_peak_radius=r.real();p.min_seed_distance=r.real();p.cell_expansion=r.real();p.min_nucleus_pixels=r.integer();p.max_nucleus_pixels=r.integer();p.connectivity=static_cast<int>(r.integer(8));p.level=static_cast<std::int32_t>(r.integer(65536))-1;p.tile_size=r.integer();p.max_cells=r.integer();p.work_bytes=r.integer();p.contours.clip_to_roi=r.integer(1)!=0;p.contours.max_components=r.integer();p.contours.max_edges=r.integer();p.contours.max_vertices=r.integer();p.contours.work_bytes=r.integer();p.validate();
+    if(version>=2) {p.algorithm=static_cast<CellAlgorithm>(r.integer(version-1));p.log_prominence=r.real();p.context_padding=static_cast<std::uint32_t>(r.integer(4096));p.validate();}
     for(auto& v:s->white) v=r.real();for(auto& stain:s->stains) for(auto& v:stain) v=r.real();StainTransform::validate_normalized(s->stains,s->white);
     if(r.integer(1)) {const auto v=r.view(4u*1024*1024);s->provenance=ProvenanceCodec::decode(v.first,v.second);}
-    if(!s->record_id || !s->object_id || !s->object_revision || s->object_revision>s->document_revision || s->document_revision>=s->record_id || !s->cell_count || s->cell_count>s->parameters.max_cells || s->producer.empty() || s->algorithm!="qpx.distance-watershed/1" || s->input_sha256.size()!=64 || s->input_sha256.find_first_not_of("0123456789abcdef")!=std::string::npos || std::size_t(s->level)>=m.levels.size() || s->downsample!=m.levels[s->level].downsample) throw std::invalid_argument("invalid classifier cell source manifest");
+    if(!s->record_id || !s->object_id || !s->object_revision || s->object_revision>s->document_revision || s->document_revision>=s->record_id || !s->cell_count || s->cell_count>s->parameters.max_cells || s->producer.empty() || s->algorithm!=cell_detail::algorithm_id(s->parameters.algorithm) || s->input_sha256.size()!=64 || s->input_sha256.find_first_not_of("0123456789abcdef")!=std::string::npos || std::size_t(s->level)>=m.levels.size() || s->downsample!=m.levels[s->level].downsample) throw std::invalid_argument("invalid classifier cell source manifest");
     geometry(s->roi,m);if(s->provenance) {const auto& a=*s->provenance;if(a.object_id!=s->object_id || a.object_revision!=s->object_revision || a.document_revision!=s->document_revision || a.source.width!=m.width || a.source.height!=m.height) throw std::invalid_argument("classifier cell source provenance mismatch");}return s;
+}
+auto resolved(const ResolvedGridCellParameters& p) {return std::make_tuple(p.step_x,p.step_y,p.sigma_x,p.sigma_y,p.min_nucleus_samples,p.max_nucleus_samples);}
+void grid_source_validate(const ObjectCellFeatureSource& s,const ImageMetadata& m,const std::atomic<bool>* cancelled) {
+    if((s.nominal_exact_support && !s.nominal_sampling) || bool(s.scientific_grid)==bool(s.nominal_sampling) || !s.grid_parameters || !s.provenance || s.level!=0 || !std::isnan(s.downsample) || s.parameters.algorithm!=CellAlgorithm::GridLogWatershedBodies)
+        throw std::invalid_argument("classifier grid source is missing typed metadata");
+    const CellSamplingGrid g=s.nominal_sampling?CellSamplingGrid(m.width,m.height,*s.nominal_sampling,s.nominal_exact_support):CellSamplingGrid(*s.scientific_grid);const auto& p=*s.grid_parameters;const auto& a=*s.provenance;p.validate();a.validate();
+    detail::bounded_utf8(s.producer,256);detail::bounded_utf8(s.algorithm,256);detail::bounded_utf8(s.input_sha256,64);
+    if(!s.record_id || !s.object_id || !s.object_revision || s.object_revision>s.document_revision || s.document_revision>=s.record_id || !s.cell_count ||
+       s.cell_count>p.max_cells || s.producer.empty() || s.algorithm!=g.algorithm(p.processing) || s.input_sha256.size()!=64 || s.input_sha256.find_first_not_of("0123456789abcdef")!=std::string::npos ||
+       a.object_id!=s.object_id || a.object_revision!=s.object_revision || a.document_revision!=s.document_revision || a.nucleus ||
+       g.image_width()!=m.width || g.image_height()!=m.height || a.source.width!=m.width || a.source.height!=m.height)
+        throw std::invalid_argument("invalid classifier grid source identity");
+    geometry(s.roi,m);StainTransform::validate_normalized(s.stains,s.white);
+    const auto q=resolve_grid_cell_parameters(g,p,a);
+    if(resolved(q)!=resolved(s.resolved_grid_parameters) || s.cell_count>g.core_samples()/q.min_nucleus_samples)
+        throw std::invalid_argument("classifier grid source has inconsistent resolved parameters or cell count");
+    grid_cell_work_bytes(g,p,q,s.roi,a,a.source,cancelled);
+}
+bool extended_source(const ObjectCellFeatureSource& s) {
+    return (s.nominal_sampling && s.nominal_sampling->source_request().sampling!=RgbNominalSampling::IntegerOrigin) ||
+        (s.grid_parameters && cell_detail::qupath_processing(s.grid_parameters->processing));
+}
+void grid_source_write(Writer& w,const ObjectCellFeatureSource& s,const std::atomic<bool>* cancelled,bool sampling=false) {
+    if(!s.provenance) throw std::invalid_argument("classifier grid source has no provenance");grid_source_validate(s,s.provenance->source,cancelled);
+    w.integer(s.record_id);w.integer(s.object_id);w.integer(s.object_revision);w.integer(s.document_revision);w.integer(s.cell_count);
+    w.text(s.producer);w.text(s.algorithm);w.text(s.input_sha256);w.blob(GeometryArchiveCodec::encode(s.roi));
+    cell_detail::grid_parameters_write(w,*s.grid_parameters,sampling || s.grid_parameters->processing!=CellProcessingPolicy::Quantitative);
+    const CellSamplingGrid g=s.nominal_sampling?CellSamplingGrid(s.provenance->source.width,s.provenance->source.height,*s.nominal_sampling,s.nominal_exact_support):CellSamplingGrid(*s.scientific_grid);
+    cell_grid_write(w,g,sampling);
+    w.blob(ProvenanceCodec::encode(*s.provenance));for(auto v:s.white) w.real(v);for(const auto& row:s.stains) for(auto v:row) w.real(v);
+    const auto& q=s.resolved_grid_parameters;for(auto v:{q.step_x,q.step_y,q.sigma_x,q.sigma_y}) w.real(v);w.integer(q.min_nucleus_samples);w.integer(q.max_nucleus_samples);
+}
+std::shared_ptr<const ObjectCellFeatureSource> grid_source_read(Reader& r,const ImageMetadata& m,const std::atomic<bool>* cancelled,bool nominal=false,bool processing=false,bool sampling=false,bool exact_support=false) {
+    auto s=std::make_shared<ObjectCellFeatureSource>();s->record_id=r.integer();s->object_id=r.integer();s->object_revision=r.integer();s->document_revision=r.integer();s->cell_count=r.integer(1000000);
+    s->producer=r.text(256);s->algorithm=r.text(256);s->input_sha256=r.text(64);s->roi=r.roi();s->grid_parameters=cell_detail::grid_parameters_read(r,processing,sampling);
+    const auto grid=cell_grid_read(r,nominal,s->grid_parameters->work_bytes,sampling,exact_support);s->scientific_grid=grid.area;s->nominal_sampling=grid.nominal;s->nominal_exact_support=exact_support;
+    const auto provenance=r.view(4u*1024*1024);s->provenance=ProvenanceCodec::decode(provenance.first,provenance.second);
+    for(auto& v:s->white) v=r.real();for(auto& row:s->stains) for(auto& v:row) v=r.real();
+    auto& q=s->resolved_grid_parameters;q.step_x=r.real();q.step_y=r.real();q.sigma_x=r.real();q.sigma_y=r.real();q.min_nucleus_samples=r.integer();q.max_nucleus_samples=r.integer();
+    s->parameters.algorithm=CellAlgorithm::GridLogWatershedBodies;s->downsample=std::numeric_limits<double>::quiet_NaN();grid_source_validate(*s,m,cancelled);return s;
 }
 void cell_write(Writer& w,const CellFeature& c) {
     w.integer(c.nucleus_pixels);w.integer(c.cell_pixels);for(const auto& vector:{c.cell_rgb,c.nucleus_rgb,c.cell_channels,c.nucleus_channels}) for(auto v:vector) w.real(v);
@@ -114,13 +163,22 @@ std::shared_ptr<const ObjectClassifierArchive> ObjectClassifierArchiveCodec::pre
     for(std::size_t i=0;i<model.features().size();++i) if(table->features()[i].name!=model.features()[i].name || table->features()[i].unit!=model.features()[i].unit) throw std::invalid_argument("classifier archive model schema mismatch");
     if(result) {if(result->table()!=table || result->model_sha256()!=model.sha256()) throw std::invalid_argument("prediction archive result/model mismatch");}
     else training_identity(*table,model);
-    Writer w("QCA\1");w.integer(bool(result));w.blob(model.bytes());w.blob(ProvenanceCodec::encode(*data.anchor));
+    const bool statistics=!data.statistics.empty();
+    const bool exact_support=std::any_of(data.origins.begin(),data.origins.end(),[](const auto& origin) {return origin.source->nominal_exact_support;});
+    const bool sampling=std::any_of(data.origins.begin(),data.origins.end(),[](const auto& origin) {return extended_source(*origin.source);});
+    const bool processing=std::any_of(data.origins.begin(),data.origins.end(),[](const auto& origin) {return origin.source->grid_parameters && origin.source->grid_parameters->processing!=CellProcessingPolicy::Quantitative;});
+    const bool nominal=std::any_of(data.origins.begin(),data.origins.end(),[](const auto& origin) {return bool(origin.source->nominal_sampling);});
+    const bool grid=nominal || std::any_of(data.origins.begin(),data.origins.end(),[](const auto& origin) {return bool(origin.source->scientific_grid);});
+    const bool extended=std::any_of(data.origins.begin(),data.origins.end(),[](const auto& origin) {return origin.source->parameters.algorithm!=CellAlgorithm::DistanceWatershed;});
+    const bool bodies=std::any_of(data.origins.begin(),data.origins.end(),[](const auto& origin) {return origin.source->parameters.algorithm==CellAlgorithm::LogWatershedBodies;});
+    const bool sampled=std::any_of(data.origins.begin(),data.origins.end(),[](const auto& origin) {return origin.source->parameters.algorithm==CellAlgorithm::SampledLogWatershedBodies;});
+    Writer w(statistics?"QCA\12":exact_support?"QCA\11":sampling?"QCA\10":processing?"QCA\7":nominal?"QCA\6":grid?"QCA\5":(sampled?"QCA\4":(bodies?"QCA\3":(extended?"QCA\2":"QCA\1"))));w.integer(bool(result));w.blob(model.bytes());w.blob(ProvenanceCodec::encode(*data.anchor));
     w.integer(std::uint64_t(data.options.calibrated) | (std::uint64_t(data.options.nucleus_shape)<<1) | (std::uint64_t(data.options.cell_rgb)<<2) | (std::uint64_t(data.options.cytoplasm_rgb)<<3));w.integer(data.options.snapshot_bytes);w.integer(data.physical);w.real(data.sx);w.real(data.sy);w.integer(data.revision);w.integer(data.next_id);
-    w.integer(data.rows.size());
+    w.integer(data.rows.size());auto statistics_it=data.statistics.begin();
     for(std::size_t i=0;i<data.rows.size();++i) {stopped(cancelled);const auto& row=data.rows[i];w.integer(row.id);w.integer(row.revision);w.integer(static_cast<std::uint64_t>(row.kind));w.text(row.label);w.blob(GeometryArchiveCodec::encode(row.body));w.integer(bool(row.nucleus));if(row.nucleus) w.blob(GeometryArchiveCodec::encode(*row.nucleus));
-        if(data.options.cell_rgb) {cell_write(w,data.cells[i]);w.integer(data.origins[i].record_id);w.integer(data.origins[i].label);}}
+        if(data.options.cell_rgb) {cell_write(w,data.cells[i]);if(statistics) {const bool known=statistics_it!=data.statistics.end() && statistics_it->first==i;w.integer(known);if(known) {cell_detail::write_cell_statistics(w,statistics_it->second,data.cells[i]);++statistics_it;}}w.integer(data.origins[i].record_id);w.integer(data.origins[i].label);}}
     std::map<std::uint64_t,std::shared_ptr<const ObjectCellFeatureSource>> origins;for(const auto& o:data.origins) origins.emplace(o.record_id,o.source);
-    w.integer(origins.size());for(const auto& [id,p]:origins) {stopped(cancelled);source_write(w,*p);}
+    w.integer(origins.size());for(const auto& [id,p]:origins) {stopped(cancelled);if(grid || statistics) w.integer(p->nominal_exact_support?5:extended_source(*p)?4:p->grid_parameters && p->grid_parameters->processing!=CellProcessingPolicy::Quantitative?3:p->nominal_sampling?2:bool(p->scientific_grid));if(p->scientific_grid || p->nominal_sampling) grid_source_write(w,*p,cancelled,p->nominal_exact_support || extended_source(*p));else source_write(w,*p,extended || statistics);}
     w.text(table->sha256());w.integer(table->values().size());for(std::size_t i=0;i<table->values().size();++i) {if((i&511)==0) stopped(cancelled);w.integer(bits(table->values()[i]));}
     if(result) w.real(result->elapsed_ms());w.finish();if(w.b.size()>artifact_limit) throw std::length_error("classifier artifact exceeds 128 MiB");stopped(cancelled);
     auto out=std::shared_ptr<ObjectClassifierArchive>(new ObjectClassifierArchive());out->table_=std::move(table);out->model_=std::make_shared<const ForestModel>(model);out->result_=std::move(result);out->bytes_=std::move(w.b);out->sha256_=digest(out->bytes_.data(),out->bytes_.size());
@@ -128,14 +186,14 @@ std::shared_ptr<const ObjectClassifierArchive> ObjectClassifierArchiveCodec::pre
     if(out->result_) for(const auto& prediction:out->result_->predictions()) out->payload_bytes_+=sizeof(ClassifierPrediction)+prediction.votes.capacity()*sizeof(std::uint32_t);
     if(out->payload_bytes_>256u*1024*1024) throw std::length_error("classifier archive exceeds 256 MiB retained payload");return out;
 }
-std::size_t ObjectCellFeatureSource::payload_bytes() const {return sizeof(ObjectCellFeatureSource)+128+producer.capacity()+algorithm.capacity()+input_sha256.capacity()+roi.payload_bytes()+(provenance?provenance->payload_bytes():0);}
+std::size_t ObjectCellFeatureSource::payload_bytes() const {return sizeof(ObjectCellFeatureSource)+128+producer.capacity()+algorithm.capacity()+input_sha256.capacity()+roi.payload_bytes()+(provenance?provenance->payload_bytes():0)+(nominal_sampling?sizeof(NominalCellSampling):0);}
 std::size_t ObjectClassifierRecord::payload_bytes() const {if(!archive) throw std::invalid_argument("classifier record has no archive");return sizeof(ObjectClassifierRecord)+128+name.capacity()+changed_objects.capacity()*sizeof(std::uint64_t)+archive->payload_bytes();}
 std::vector<std::uint8_t> ObjectClassifierArchiveCodec::encode(const ObjectClassifierRecord& record,const std::atomic<bool>* cancelled) {
     stopped(cancelled);record_metadata(record);Writer w("QCR\1");w.integer(record.id);w.text(record.name);w.integer(record.applied);w.real(record.minimum_vote_fraction);w.integer(record.changed_objects.size());for(auto id:record.changed_objects) w.integer(id);w.blob(record.archive->bytes_);w.finish();stopped(cancelled);return std::move(w.b);
 }
 std::shared_ptr<const ObjectClassifierRecord> ObjectClassifierArchiveCodec::decode(const std::uint8_t* bytes,std::size_t size,const ImageMetadata& metadata,const std::atomic<bool>* cancelled) {
     stopped(cancelled);Reader record_reader(bytes,size,"QCR\1");auto record=std::make_shared<ObjectClassifierRecord>();record->id=record_reader.integer();record->name=record_reader.text(256);record->applied=record_reader.integer(1)!=0;record->minimum_vote_fraction=record_reader.real();const auto changed=record_reader.integer(100000);if(changed>record_reader.left/8) throw std::invalid_argument("truncated changed classifier IDs");record->changed_objects.reserve(changed);for(std::size_t i=0;i<changed;++i) record->changed_objects.push_back(record_reader.integer());
-    const auto artifact_view=record_reader.view(artifact_limit);record_reader.finish();Reader r(artifact_view.first,artifact_view.second,"QCA\1");const bool prediction=r.integer(1)!=0;auto model=ForestModel::from_bytes(r.blob(64u*1024*1024));auto data=std::make_shared<ObjectFeatureRequest::Data>();
+    const auto artifact_view=record_reader.view(artifact_limit);record_reader.finish();if(artifact_view.second<4) throw std::invalid_argument("truncated classifier artifact");const auto version=artifact_view.first[3];if(version<1 || version>10) throw std::invalid_argument("unsupported classifier archive version");Reader r(artifact_view.first,artifact_view.second,version==10?"QCA\12":version==9?"QCA\11":version==8?"QCA\10":version==7?"QCA\7":version==6?"QCA\6":version==5?"QCA\5":(version==4?"QCA\4":(version==3?"QCA\3":(version==2?"QCA\2":"QCA\1"))));const bool prediction=r.integer(1)!=0;auto model=ForestModel::from_bytes(r.blob(64u*1024*1024));auto data=std::make_shared<ObjectFeatureRequest::Data>();
     const auto anchor=r.view(4u*1024*1024);data->anchor=ProvenanceCodec::decode(anchor.first,anchor.second);
     if(data->anchor->source.width!=metadata.width || data->anchor->source.height!=metadata.height) throw std::invalid_argument("classifier archive source dimensions mismatch");
     const auto flags=r.integer(15);data->options.calibrated=flags&1;data->options.nucleus_shape=flags&2;data->options.cell_rgb=flags&4;data->options.cytoplasm_rgb=flags&8;data->options.snapshot_bytes=static_cast<std::size_t>(r.integer(256u*1024*1024));data->options.validate();data->physical=r.integer(1)!=0;data->sx=r.real();data->sy=r.real();data->revision=r.integer();data->next_id=r.integer();if(!data->next_id) throw std::invalid_argument("invalid classifier source ID namespace");schema(data->options,data->physical,model);
@@ -143,16 +201,25 @@ std::shared_ptr<const ObjectClassifierRecord> ObjectClassifierArchiveCodec::deco
     if(data->revision!=p.document_revision || data->physical!=physical || data->sx!=(physical?*p.effective_pixel_width_um:1) || data->sy!=(physical?*p.effective_pixel_height_um:1)) throw std::invalid_argument("classifier archive calibration/revision mismatch");
     const auto count=r.integer(100000);if(!count || count>r.left/64) throw std::invalid_argument("invalid classifier archive row count");
     auto charge=[&](std::size_t n) {if(n>data->options.snapshot_bytes-data->bytes) throw std::length_error("classifier feature archive exceeds snapshot budget");data->bytes+=n;};
-    charge(sizeof(ObjectFeatureRequest::Data)+count*sizeof(ObjectFeatureRequest::Data::Row)+data->anchor->payload_bytes());data->rows.reserve(count);if(data->options.cell_rgb) {charge(count*(sizeof(CellFeature)+sizeof(ObjectFeatureRequest::Data::Origin)));data->cells.reserve(count);data->origins.reserve(count);}
+    // QCA1-9 recorded quotas predate the empty statistics-vector header.
+    // Preserve that frozen bookkeeping charge; they never allocate statistics.
+    // Version10 and every known statistics allocation retain full admission.
+    charge(sizeof(ObjectFeatureRequest::Data)-(version<10?sizeof(data->statistics):0)+count*sizeof(ObjectFeatureRequest::Data::Row)+data->anchor->payload_bytes());data->rows.reserve(count);if(data->options.cell_rgb) {charge(count*(sizeof(CellFeature)+sizeof(ObjectFeatureRequest::Data::Origin)));data->cells.reserve(count);data->origins.reserve(count);}
     for(std::size_t i=0;i<count;++i) {stopped(cancelled);const auto id=r.integer(),revision=r.integer();const auto kind=static_cast<ObjectKind>(r.integer(2));auto label=r.text(256);auto body=r.roi();std::optional<Roi> nucleus;if(r.integer(1)) nucleus=r.roi();
         if(!id || id>=data->next_id || !revision || revision>data->revision || (!data->rows.empty() && id<=data->rows.back().id) || ((data->options.nucleus_shape || data->options.cell_rgb) && !nucleus) || (!data->options.nucleus_shape && !data->options.cell_rgb && nucleus)) throw std::invalid_argument("invalid classifier archive row identity");geometry(body,metadata);if(nucleus) geometry(*nucleus,metadata);charge(label.size()+body.payload_bytes()+(nucleus?nucleus->payload_bytes():0));data->rows.push_back({id,revision,std::move(label),std::move(body),std::move(nucleus),kind});
-        if(data->options.cell_rgb) {if(kind!=ObjectKind::Cell) throw std::invalid_argument("RGB archive requires cell rows");auto cell=cell_read(r,data->options.cytoplasm_rgb);const auto record_id=r.integer();cell.label=static_cast<std::uint32_t>(r.integer(1000000));if(!record_id || record_id>=revision || !cell.label) throw std::invalid_argument("invalid classifier cell feature origin");data->origins.push_back({record_id,cell.label,{}});data->cells.push_back(std::move(cell));}}
+        if(data->options.cell_rgb) {if(kind!=ObjectKind::Cell) throw std::invalid_argument("RGB archive requires cell rows");auto cell=cell_read(r,data->options.cytoplasm_rgb);if(version>=10 && r.integer(1)) data->store_statistics(i,cell_detail::read_cell_statistics(r,cell));const auto record_id=r.integer();cell.label=static_cast<std::uint32_t>(r.integer(1000000));if(!record_id || record_id>=revision || !cell.label) throw std::invalid_argument("invalid classifier cell feature origin");data->origins.push_back({record_id,cell.label,{}});data->cells.push_back(std::move(cell));}}
     if(data->rows.front().id!=p.object_id || data->rows.front().revision!=p.object_revision || p.nucleus) throw std::invalid_argument("classifier source anchor does not identify its first row");
     std::map<std::uint64_t,std::shared_ptr<const ObjectCellFeatureSource>> origins;const auto origin_count=r.integer(count);
-    for(std::size_t i=0;i<origin_count;++i) {stopped(cancelled);auto source=source_read(r,metadata);const auto id=source->record_id;if(source->object_id>=data->next_id) throw std::invalid_argument("classifier cell source exceeds captured ID namespace");charge(source->payload_bytes());if(!origins.emplace(id,std::move(source)).second) throw std::invalid_argument("duplicate classifier feature source manifest");}
+    for(std::size_t i=0;i<origin_count;++i) {stopped(cancelled);const auto kind=version>=5?r.integer(version>=9?5:version>=8?4:version>=7?3:version>=6?2:1):0;auto source=kind?grid_source_read(r,metadata,cancelled,kind>=2,kind>=3,kind>=4,kind==5):source_read(r,metadata,std::min<unsigned>(version,4));const auto id=source->record_id;if(source->object_id>=data->next_id) throw std::invalid_argument("classifier cell source exceeds captured ID namespace");charge(source->payload_bytes());if(!origins.emplace(id,std::move(source)).second) throw std::invalid_argument("duplicate classifier feature source manifest");}
     std::map<std::uint64_t,bool> used;for(std::size_t row=0;row<data->origins.size();++row) {auto& origin=data->origins[row];const auto found=origins.find(origin.record_id);if(found==origins.end()) throw std::invalid_argument("missing classifier feature source manifest");origin.source=found->second;if(origin.label>origin.source->cell_count) throw std::invalid_argument("classifier cell label exceeds source run");
-        const auto& level=metadata.levels.at(origin.source->level);const auto width=static_cast<std::uint64_t>(level.width),height=static_cast<std::uint64_t>(level.height);
-        if(width<=std::numeric_limits<std::uint64_t>::max()/height && data->cells[row].cell_pixels>width*height) throw std::invalid_argument("classifier cell pixel count exceeds source level");
+        if(origin.source->scientific_grid || origin.source->nominal_sampling) {
+            const CellSamplingGrid g=origin.source->nominal_sampling?CellSamplingGrid(metadata.width,metadata.height,*origin.source->nominal_sampling,origin.source->nominal_exact_support):CellSamplingGrid(*origin.source->scientific_grid);const auto& q=origin.source->resolved_grid_parameters;const auto& f=data->cells[row];
+            if(f.cell_pixels>g.core_samples() || f.nucleus_pixels<q.min_nucleus_samples || (q.max_nucleus_samples && f.nucleus_pixels>q.max_nucleus_samples))
+                throw std::invalid_argument("classifier cell counts exceed their scientific grid or area cutoffs");
+        } else {
+            const auto& level=metadata.levels.at(origin.source->level);const auto width=static_cast<std::uint64_t>(level.width),height=static_cast<std::uint64_t>(level.height);
+            if(width<=std::numeric_limits<std::uint64_t>::max()/height && data->cells[row].cell_pixels>width*height) throw std::invalid_argument("classifier cell pixel count exceeds source level");
+        }
         used.emplace(origin.record_id,true);}if(used.size()!=origins.size()) throw std::invalid_argument("orphaned classifier feature source manifest");
     auto table=std::shared_ptr<ObjectFeatureTable>(new ObjectFeatureTable());table->snapshot_=data;table->anchor_=data->anchor;table->features_=model.features();const auto expected_digest=r.text(64);const auto values=r.integer(100000*128);if(values!=count*model.features().size() || values>r.left/8) throw std::invalid_argument("invalid classifier feature matrix dimensions");table->values_.reserve(values);
     for(std::size_t i=0;i<values;++i) {if((i&511)==0) stopped(cancelled);const auto value_bits=static_cast<std::uint32_t>(r.integer(std::numeric_limits<std::uint32_t>::max()));float value;std::memcpy(&value,&value_bits,4);if(!std::isfinite(value) || std::abs(value)>std::numeric_limits<float>::max()/4) throw std::invalid_argument("invalid archived classifier feature");table->values_.push_back(value);}

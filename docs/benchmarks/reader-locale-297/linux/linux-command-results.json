@@ -1,0 +1,95 @@
+[
+  {
+    "label": "linux-clone",
+    "argv": [
+      "git",
+      "clone",
+      "--shared",
+      "--no-checkout",
+      "/mnt/c/Users/HEQ/Projects/qupathxx",
+      "/tmp/qupathxx-reader297-source"
+    ],
+    "cwd": "/mnt/c/Users/HEQ/Projects/qupathxx",
+    "returncode": 0
+  },
+  {
+    "label": "linux-autocrlf",
+    "argv": [
+      "git",
+      "config",
+      "core.autocrlf",
+      "false"
+    ],
+    "cwd": "/tmp/qupathxx-reader297-source",
+    "returncode": 0
+  },
+  {
+    "label": "linux-checkout",
+    "argv": [
+      "git",
+      "checkout",
+      "--detach",
+      "28c33573ef732905e52fe49aa193bd8e5e067206"
+    ],
+    "cwd": "/tmp/qupathxx-reader297-source",
+    "returncode": 0
+  },
+  {
+    "label": "linux-configure",
+    "argv": [
+      "cmake",
+      "-S",
+      "/tmp/qupathxx-reader297-source",
+      "-B",
+      "/tmp/qupathxx-reader297-build",
+      "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
+      "-DCMAKE_CXX_FLAGS=-fsanitize=address,undefined -fno-omit-frame-pointer -fno-sanitize-recover=all",
+      "-DCMAKE_CXX_FLAGS_RELWITHDEBINFO=-O1 -g1 -DNDEBUG",
+      "-DQUPATHXX_BUILD_PYTHON=OFF",
+      "-DQUPATHXX_BUILD_GUI=OFF",
+      "-DQUPATHXX_BUILD_OPENSLIDE=OFF",
+      "-DQUPATHXX_BUILD_TIFF=OFF",
+      "-DQUPATHXX_BUILD_GEOS=OFF",
+      "-DQUPATHXX_BUILD_PROJECT=OFF",
+      "-DQUPATHXX_BUILD_INTERCHANGE=OFF",
+      "-DQUPATHXX_BUILD_CLASSIFIER_TRAINING=OFF",
+      "-DQUPATHXX_BUILD_TESTS=ON"
+    ],
+    "cwd": "/mnt/c/Users/HEQ/Projects/qupathxx",
+    "returncode": 0
+  },
+  {
+    "label": "linux-build",
+    "argv": [
+      "cmake",
+      "--build",
+      "/tmp/qupathxx-reader297-build",
+      "--target",
+      "qupathxx_raw_image_tests",
+      "qupathxx_region",
+      "--parallel",
+      "2"
+    ],
+    "cwd": "/mnt/c/Users/HEQ/Projects/qupathxx",
+    "returncode": 0
+  },
+  {
+    "label": "linux-native",
+    "argv": [
+      "ctest",
+      "--test-dir",
+      "/tmp/qupathxx-reader297-build",
+      "-R",
+      "^raw_image$",
+      "--output-on-failure",
+      "--test-output-size-passed",
+      "10000000",
+      "--test-output-size-failed",
+      "10000000",
+      "--output-junit",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/reader-locale-297/linux/linux-native.xml"
+    ],
+    "cwd": "/mnt/c/Users/HEQ/Projects/qupathxx",
+    "returncode": 0
+  }
+]

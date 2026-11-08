@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="18" skipped="0" tests="18" time="0.351" timestamp="2026-10-28T07:34:38.444998-04:00" hostname="HEQPC"><testcase classname="tests.test_document_job_waits" name="test_live_document_job_rejects_foreign_controller_use[busy-AnalysisJob]" time="0.005"><failure message="Failed: DID NOT RAISE RuntimeError">kind = 'AnalysisJob', operation = 'busy'
+
+    @pytest.mark.parametrize('kind',KINDS)
+    @pytest.mark.parametrize('operation',('busy','poll','wait'))
+    def test_live_document_job_rejects_foreign_controller_use(kind,operation):
+        doc,obj,job=idle(kind)
+        def foreign():
+            if operation=='busy':return job.busy
+            return call(job,kind,operation,doc,obj)
+        with concurrent.futures.ThreadPoolExecutor(max_workers=1) as pool:
+&gt;           with pytest.raises(RuntimeError,match='owner thread'):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE RuntimeError
+
+build\ci\scientific-grid-159\tests\test_document_job_waits.py:34: Failed</failure></testcase><testcase classname="tests.test_document_job_waits" name="test_live_document_job_rejects_foreign_controller_use[busy-TissueJob]" time="0.001"><failure message="Failed: DID NOT RAISE RuntimeError">kind = 'TissueJob', operation = 'busy'
+
+    @pytest.mark.parametrize('kind',KINDS)
+    @pytest.mark.parametrize('operation',('busy','poll','wait'))
+    def test_live_document_job_rejects_foreign_controller_use(kind,operation):
+        doc,obj,job=idle(kind)
+        def foreign():
+            if operation=='busy':return job.busy
+            return call(job,kind,operation,doc,obj)
+        with concurrent.futures.ThreadPoolExecutor(max_workers=1) as pool:
+&gt;           with pytest.raises(RuntimeError,match='owner thread'):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE RuntimeError
+
+build\ci\scientific-grid-159\tests\test_document_job_waits.py:34: Failed</failure></testcase><testcase classname="tests.test_document_job_waits" name="test_live_document_job_rejects_foreign_controller_use[busy-CellJob]" time="0.001"><failure message="Failed: DID NOT RAISE RuntimeError">kind = 'CellJob', operation = 'busy'
+
+    @pytest.mark.parametrize('kind',KINDS)
+    @pytest.mark.parametrize('operation',('busy','poll','wait'))
+    def test_live_document_job_rejects_foreign_controller_use(kind,operation):
+        doc,obj,job=idle(kind)
+        def foreign():
+            if operation=='busy':return job.busy
+            return call(job,kind,operation,doc,obj)
+        with concurrent.futures.ThreadPoolExecutor(max_workers=1) as pool:
+&gt;           with pytest.raises(RuntimeError,match='owner thread'):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE RuntimeError
+
+build\ci\scientific-grid-159\tests\test_document_job_waits.py:34: Failed</failure></testcase><testcase classname="tests.test_document_job_waits" name="test_live_document_job_rejects_foreign_controller_use[busy-StainEstimateJob]" time="0.001"><failure message="Failed: DID NOT RAISE RuntimeError">kind = 'StainEstimateJob', operation = 'busy'
+
+    @pytest.mark.parametrize('kind',KINDS)
+    @pytest.mark.parametrize('operation',('busy','poll','wait'))
+    def test_live_document_job_rejects_foreign_controller_use(kind,operation):
+        doc,obj,job=idle(kind)
+        def foreign():
+            if operation=='busy':return job.busy
+            return call(job,kind,operation,doc,obj)
+        with concurrent.futures.ThreadPoolExecutor(max_workers=1) as pool:
+&gt;           with pytest.raises(RuntimeError,match='owner thread'):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE RuntimeError
+
+build\ci\scientific-grid-159\tests\test_document_job_waits.py:34: Failed</failure></testcase><testcase classname="tests.test_document_job_waits" name="test_live_document_job_rejects_foreign_controller_use[busy-ObjectClassifierJob]" time="0.001"><failure message="Failed: DID NOT RAISE RuntimeError">kind = 'ObjectClassifierJob', operation = 'busy'
+
+    @pytest.mark.parametrize('kind',KINDS)
+    @pytest.mark.parametrize('operation',('busy','poll','wait'))
+    def test_live_document_job_rejects_foreign_controller_use(kind,operation):
+        doc,obj,job=idle(kind)
+        def foreign():
+            if operation=='busy':return job.busy
+            return call(job,kind,operation,doc,obj)
+        with concurrent.futures.ThreadPoolExecutor(max_workers=1) as pool:
+&gt;           with pytest.raises(RuntimeError,match='owner thread'):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE RuntimeError
+
+build\ci\scientific-grid-159\tests\test_document_job_waits.py:34: Failed</failure></testcase><testcase classname="tests.test_document_job_waits" name="test_live_document_job_rejects_foreign_controller_use[busy-PixelStreamExportJob]" time="0.001"><failure message="Failed: DID NOT RAISE RuntimeError">kind = 'PixelStreamExportJob', operation = 'busy'
+
+    @pytest.mark.parametrize('kind',KINDS)
+    @pytest.mark.parametrize('operation',('busy','poll','wait'))
+    def test_live_document_job_rejects_foreign_controller_use(kind,operation):
+        doc,obj,job=idle(kind)
+        def foreign():
+            if operation=='busy':return job.busy
+            return call(job,kind,operation,doc,obj)
+        with concurrent.futures.ThreadPoolExecutor(max_workers=1) as pool:
+&gt;           with pytest.raises(RuntimeError,match='owner thread'):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE RuntimeError
+
+build\ci\scientific-grid-159\tests\test_document_job_waits.py:34: Failed</failure></testcase><testcase classname="tests.test_document_job_waits" name="test_live_document_job_rejects_foreign_controller_use[poll-AnalysisJob]" time="0.001"><failure message="Failed: DID NOT RAISE RuntimeError">kind = 'AnalysisJob', operation = 'poll'
+
+    @pytest.mark.parametrize('kind',KINDS)
+    @pytest.mark.parametrize('operation',('busy','poll','wait'))
+    def test_live_document_job_rejects_foreign_controller_use(kind,operation):
+        doc,obj,job=idle(kind)
+        def foreign():
+            if operation=='busy':return job.busy
+            return call(job,kind,operation,doc,obj)
+        with concurrent.futures.ThreadPoolExecutor(max_workers=1) as pool:
+&gt;           with pytest.raises(RuntimeError,match='owner thread'):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE RuntimeError
+
+build\ci\scientific-grid-159\tests\test_document_job_waits.py:34: Failed</failure></testcase><testcase classname="tests.test_document_job_waits" name="test_live_document_job_rejects_foreign_controller_use[poll-TissueJob]" time="0.001"><failure message="Failed: DID NOT RAISE RuntimeError">kind = 'TissueJob', operation = 'poll'
+
+    @pytest.mark.parametrize('kind',KINDS)
+    @pytest.mark.parametrize('operation',('busy','poll','wait'))
+    def test_live_document_job_rejects_foreign_controller_use(kind,operation):
+        doc,obj,job=idle(kind)
+        def foreign():
+            if operation=='busy':return job.busy
+            return call(job,kind,operation,doc,obj)
+        with concurrent.futures.ThreadPoolExecutor(max_workers=1) as pool:
+&gt;           with pytest.raises(RuntimeError,match='owner thread'):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE RuntimeError
+
+build\ci\scientific-grid-159\tests\test_document_job_waits.py:34: Failed</failure></testcase><testcase classname="tests.test_document_job_waits" name="test_live_document_job_rejects_foreign_controller_use[poll-CellJob]" time="0.001"><failure message="Failed: DID NOT RAISE RuntimeError">kind = 'CellJob', operation = 'poll'
+
+    @pytest.mark.parametrize('kind',KINDS)
+    @pytest.mark.parametrize('operation',('busy','poll','wait'))
+    def test_live_document_job_rejects_foreign_controller_use(kind,operation):
+        doc,obj,job=idle(kind)
+        def foreign():
+            if operation=='busy':return job.busy
+            return call(job,kind,operation,doc,obj)
+        with concurrent.futures.ThreadPoolExecutor(max_workers=1) as pool:
+&gt;           with pytest.raises(RuntimeError,match='owner thread'):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE RuntimeError
+
+build\ci\scientific-grid-159\tests\test_document_job_waits.py:34: Failed</failure></testcase><testcase classname="tests.test_document_job_waits" name="test_live_document_job_rejects_foreign_controller_use[poll-StainEstimateJob]" time="0.001"><failure message="Failed: DID NOT RAISE RuntimeError">kind = 'StainEstimateJob', operation = 'poll'
+
+    @pytest.mark.parametrize('kind',KINDS)
+    @pytest.mark.parametrize('operation',('busy','poll','wait'))
+    def test_live_document_job_rejects_foreign_controller_use(kind,operation):
+        doc,obj,job=idle(kind)
+        def foreign():
+            if operation=='busy':return job.busy
+            return call(job,kind,operation,doc,obj)
+        with concurrent.futures.ThreadPoolExecutor(max_workers=1) as pool:
+&gt;           with pytest.raises(RuntimeError,match='owner thread'):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE RuntimeError
+
+build\ci\scientific-grid-159\tests\test_document_job_waits.py:34: Failed</failure></testcase><testcase classname="tests.test_document_job_waits" name="test_live_document_job_rejects_foreign_controller_use[poll-ObjectClassifierJob]" time="0.001"><failure message="Failed: DID NOT RAISE RuntimeError">kind = 'ObjectClassifierJob', operation = 'poll'
+
+    @pytest.mark.parametrize('kind',KINDS)
+    @pytest.mark.parametrize('operation',('busy','poll','wait'))
+    def test_live_document_job_rejects_foreign_controller_use(kind,operation):
+        doc,obj,job=idle(kind)
+        def foreign():
+            if operation=='busy':return job.busy
+            return call(job,kind,operation,doc,obj)
+        with concurrent.futures.ThreadPoolExecutor(max_workers=1) as pool:
+&gt;           with pytest.raises(RuntimeError,match='owner thread'):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE RuntimeError
+
+build\ci\scientific-grid-159\tests\test_document_job_waits.py:34: Failed</failure></testcase><testcase classname="tests.test_document_job_waits" name="test_live_document_job_rejects_foreign_controller_use[poll-PixelStreamExportJob]" time="0.001"><failure message="Failed: DID NOT RAISE RuntimeError">kind = 'PixelStreamExportJob', operation = 'poll'
+
+    @pytest.mark.parametrize('kind',KINDS)
+    @pytest.mark.parametrize('operation',('busy','poll','wait'))
+    def test_live_document_job_rejects_foreign_controller_use(kind,operation):
+        doc,obj,job=idle(kind)
+        def foreign():
+            if operation=='busy':return job.busy
+            return call(job,kind,operation,doc,obj)
+        with concurrent.futures.ThreadPoolExecutor(max_workers=1) as pool:
+&gt;           with pytest.raises(RuntimeError,match='owner thread'):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE RuntimeError
+
+build\ci\scientific-grid-159\tests\test_document_job_waits.py:34: Failed</failure></testcase><testcase classname="tests.test_document_job_waits" name="test_live_document_job_rejects_foreign_controller_use[wait-AnalysisJob]" time="0.001"><failure message="Failed: DID NOT RAISE RuntimeError">kind = 'AnalysisJob', operation = 'wait'
+
+    @pytest.mark.parametrize('kind',KINDS)
+    @pytest.mark.parametrize('operation',('busy','poll','wait'))
+    def test_live_document_job_rejects_foreign_controller_use(kind,operation):
+        doc,obj,job=idle(kind)
+        def foreign():
+            if operation=='busy':return job.busy
+            return call(job,kind,operation,doc,obj)
+        with concurrent.futures.ThreadPoolExecutor(max_workers=1) as pool:
+&gt;           with pytest.raises(RuntimeError,match='owner thread'):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE RuntimeError
+
+build\ci\scientific-grid-159\tests\test_document_job_waits.py:34: Failed</failure></testcase><testcase classname="tests.test_document_job_waits" name="test_live_document_job_rejects_foreign_controller_use[wait-TissueJob]" time="0.002"><failure message="Failed: DID NOT RAISE RuntimeError">kind = 'TissueJob', operation = 'wait'
+
+    @pytest.mark.parametrize('kind',KINDS)
+    @pytest.mark.parametrize('operation',('busy','poll','wait'))
+    def test_live_document_job_rejects_foreign_controller_use(kind,operation):
+        doc,obj,job=idle(kind)
+        def foreign():
+            if operation=='busy':return job.busy
+            return call(job,kind,operation,doc,obj)
+        with concurrent.futures.ThreadPoolExecutor(max_workers=1) as pool:
+&gt;           with pytest.raises(RuntimeError,match='owner thread'):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE RuntimeError
+
+build\ci\scientific-grid-159\tests\test_document_job_waits.py:34: Failed</failure></testcase><testcase classname="tests.test_document_job_waits" name="test_live_document_job_rejects_foreign_controller_use[wait-CellJob]" time="0.002"><failure message="Failed: DID NOT RAISE RuntimeError">kind = 'CellJob', operation = 'wait'
+
+    @pytest.mark.parametrize('kind',KINDS)
+    @pytest.mark.parametrize('operation',('busy','poll','wait'))
+    def test_live_document_job_rejects_foreign_controller_use(kind,operation):
+        doc,obj,job=idle(kind)
+        def foreign():
+            if operation=='busy':return job.busy
+            return call(job,kind,operation,doc,obj)
+        with concurrent.futures.ThreadPoolExecutor(max_workers=1) as pool:
+&gt;           with pytest.raises(RuntimeError,match='owner thread'):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE RuntimeError
+
+build\ci\scientific-grid-159\tests\test_document_job_waits.py:34: Failed</failure></testcase><testcase classname="tests.test_document_job_waits" name="test_live_document_job_rejects_foreign_controller_use[wait-StainEstimateJob]" time="0.001"><failure message="Failed: DID NOT RAISE RuntimeError">kind = 'StainEstimateJob', operation = 'wait'
+
+    @pytest.mark.parametrize('kind',KINDS)
+    @pytest.mark.parametrize('operation',('busy','poll','wait'))
+    def test_live_document_job_rejects_foreign_controller_use(kind,operation):
+        doc,obj,job=idle(kind)
+        def foreign():
+            if operation=='busy':return job.busy
+            return call(job,kind,operation,doc,obj)
+        with concurrent.futures.ThreadPoolExecutor(max_workers=1) as pool:
+&gt;           with pytest.raises(RuntimeError,match='owner thread'):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE RuntimeError
+
+build\ci\scientific-grid-159\tests\test_document_job_waits.py:34: Failed</failure></testcase><testcase classname="tests.test_document_job_waits" name="test_live_document_job_rejects_foreign_controller_use[wait-ObjectClassifierJob]" time="0.001"><failure message="Failed: DID NOT RAISE RuntimeError">kind = 'ObjectClassifierJob', operation = 'wait'
+
+    @pytest.mark.parametrize('kind',KINDS)
+    @pytest.mark.parametrize('operation',('busy','poll','wait'))
+    def test_live_document_job_rejects_foreign_controller_use(kind,operation):
+        doc,obj,job=idle(kind)
+        def foreign():
+            if operation=='busy':return job.busy
+            return call(job,kind,operation,doc,obj)
+        with concurrent.futures.ThreadPoolExecutor(max_workers=1) as pool:
+&gt;           with pytest.raises(RuntimeError,match='owner thread'):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE RuntimeError
+
+build\ci\scientific-grid-159\tests\test_document_job_waits.py:34: Failed</failure></testcase><testcase classname="tests.test_document_job_waits" name="test_live_document_job_rejects_foreign_controller_use[wait-PixelStreamExportJob]" time="0.001"><failure message="Failed: DID NOT RAISE RuntimeError">kind = 'PixelStreamExportJob', operation = 'wait'
+
+    @pytest.mark.parametrize('kind',KINDS)
+    @pytest.mark.parametrize('operation',('busy','poll','wait'))
+    def test_live_document_job_rejects_foreign_controller_use(kind,operation):
+        doc,obj,job=idle(kind)
+        def foreign():
+            if operation=='busy':return job.busy
+            return call(job,kind,operation,doc,obj)
+        with concurrent.futures.ThreadPoolExecutor(max_workers=1) as pool:
+&gt;           with pytest.raises(RuntimeError,match='owner thread'):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE RuntimeError
+
+build\ci\scientific-grid-159\tests\test_document_job_waits.py:34: Failed</failure></testcase></testsuite></testsuites>

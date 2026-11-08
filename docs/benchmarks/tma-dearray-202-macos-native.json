@@ -1,0 +1,40 @@
+{
+  "schema": "qpx.tma-dearray-macos-native/1",
+  "validation_source": "19371b74e0fabb3a91bd77ffe67ded04f46a5220",
+  "source_files": {
+    "tools/ci/accept_macos_native.py": "67296317e09610dff6a4721134c6979053fb4ad4e0cb2b4e65566fe0b2a072ee",
+    "tools/ci/tma_dearray_evidence.py": "b70f22b1135f9553c0c6cb7a7845d9b2c28179ecdd70b903a5c3b7bab11df24b",
+    "tools/ci/tma_axis_evidence.py": "ee179d8a912678ba61ca7f716db28f52a5bb4f508b9269e08dc6e9e3595aa590"
+  },
+  "source_files_representation": "git_blob_sha256",
+  "run": "https://github.com/bipxx/qupathxx/actions/runs/40245165671",
+  "native_engineering_accepted": true,
+  "architectures": [
+    "arm64",
+    "x86_64"
+  ],
+  "native_suites_per_architecture": 50,
+  "scope": "Strict native, dearray/calibration/project semantics, Mach-O inventory, relocation and native probes only. No macOS Python/GUI/OpenSlide or biological/performance/release acceptance. Complete campaign remains unaccepted.",
+  "payloads": {
+    "docs/benchmarks/tma-dearray-202-macos-native/audit.json": {
+      "bytes": 221190,
+      "sha256": "a54191f2471bb3625e1876d4ce64ab1c9cc6e6051e670a737fb29eaf8a20ffed"
+    },
+    "docs/benchmarks/tma-dearray-202-macos-native/audit.log": {
+      "bytes": 161,
+      "sha256": "b1272cd506d7819aff97c2d96af07731e5b52a820b146bb20deaddddbe7cfe0a"
+    },
+    "docs/benchmarks/tma-dearray-202-macos-native/run.json": {
+      "bytes": 4859,
+      "sha256": "908e73571dc31f41568fa8b80d053035eacf0972fd3ff02fea3faf979590b56e"
+    },
+    "docs/benchmarks/tma-dearray-202-macos-native/arm64-artifact.json": {
+      "bytes": 738,
+      "sha256": "49abfcddd9018b790c82b4d614d28b507ade248b5eeee21b4ff24abef91dac19"
+    },
+    "docs/benchmarks/tma-dearray-202-macos-native/x86_64-artifact.json": {
+      "bytes": 739,
+      "sha256": "e120318a04507fe3a7be399e2b64ba2795c9165acb17a87288076c59112ded8d"
+    }
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "schema": "qpx.macos-relocated-runtime-local-validation/1",
+  "tooling_source": "330d43330ae02b60c8a472f4af65b41ad2edde96",
+  "unit_passed": 358,
+  "unit_junit_sha256": "9df5bbb3c4322afe57611f901ec3f4b9c3c3969f00bfcac45089acf6d2cdfd9e",
+  "python_cohort": {
+    "groups": [
+      {
+        "classname": "test_runtime_manifest",
+        "passed": 55
+      },
+      {
+        "classname": "test_elf_dependencies",
+        "passed": 75
+      },
+      {
+        "classname": "test_linux_runtime_manifest",
+        "passed": 50
+      },
+      {
+        "classname": "test_macho_dependencies",
+        "passed": 66
+      },
+      {
+        "classname": "test_macos_native_inventory",
+        "passed": 22
+      },
+      {
+        "classname": "test_macos_relocation_plan",
+        "passed": 34
+      },
+      {
+        "classname": "test_macos_relocate",
+        "passed": 11
+      },
+      {
+        "classname": "test_macos_relocated_runtime",
+        "passed": 31
+      },
+      {
+        "classname": "test_macos_relocation_evidence",
+        "passed": 14
+      }
+    ],
+    "passed": 358,
+    "case_contract_sha256": "114231a1392a5620c09849951820cc8820614d05d162969f0d701fbe58768fad",
+    "junit_sha256": "9df5bbb3c4322afe57611f901ec3f4b9c3c3969f00bfcac45089acf6d2cdfd9e"
+  },
+  "runtime_cases": 31,
+  "command_audit_cases": 14,
+  "inherited_cases": 313,
+  "native_compiler_inputs_unchanged": true,
+  "actual_apple_tools_executed_locally": false,
+  "actual_mac_native_runtime_executed_locally": false,
+  "full_runtime_unit_orchestration_simulated": true,
+  "retained_failure": {
+    "file": "build/macruntime152-workflow-tests.xml",
+    "passed": 30,
+    "failed": 1,
+    "reason": "Geometry child and command ledger both used geometry.json. Child now uses geometry-child.json; final full suite passes."
+  },
+  "prior_accepted_windows_native_pilot": {
+    "compiled_engine_source": "5f5a610ac56f56830cfb2917b3b70412b5028e32",
+    "new_engine_build": false,
+    "fixture": {
+      "identity": "c75c6b9f10de06bcb03787f54a3f2ea9",
+      "sha256": "bb79fc7a8e47896bc8793e10ed99efed9e9ffb7887a1b8a110cbdd003547a82b"
+    },
+    "checkpoint_sha256": "a03e8da35ef39af938107c611cbe17bdd902c9e99c33f267a4e33ff6b2ded825",
+    "csv_sha256": "3bef39a44625eb8453051121b4efe32a85c925ed57de0005aa2b1eca2299e2c5",
+    "checked_csv": {
+      "rows": 1,
+      "samples": 4,
+      "roi_area_px2": 4,
+      "roi_area_um2": 0.5,
+      "roi_length_um": 3,
+      "means": [
+        0.9294189214706421,
+        0.6283889412879944,
+        0.4522976577281952
+      ],
+      "absolute_tolerance": 2e-07,
+      "source_tree_sha256": "b049714c6df940554184ff573583a3d606f89231abac81d7a64057882a5ee361"
+    }
+  },
+  "hosted_mac_relocation_validation": "pending",
+  "release_ready": false,
+  "full_plan_complete": false,
+  "scope": "Local standard-library runtime/audit contracts, simulated Apple/native flow and older Windows native CSV pilot. Actual exact-source Mac Apple edits, relocated binaries/image mappings and host workflows need hosted qualification."
+}

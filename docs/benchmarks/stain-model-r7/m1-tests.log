@@ -1,0 +1,13 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+    Start 15: stain_models
+1/4 Test #15: stain_models .....................   Passed    0.08 sec
+    Start 16: stain_models_disabled
+2/4 Test #16: stain_models_disabled ............   Passed    0.05 sec
+    Start 17: stain_estimation
+3/4 Test #17: stain_estimation .................   Passed    0.06 sec
+    Start 45: stains
+4/4 Test #45: stains ...........................   Passed    0.07 sec
+
+100% tests passed out of 4
+
+Total Test time (real) =   0.38 sec

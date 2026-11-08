@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\project-relink-r5-env\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-m",
+    "pytest",
+    "tests/test_gui_project.py::test_relink_missing_image_rebinds_tile_reader",
+    "tests/test_gui_project.py::test_failed_relink_keeps_source_and_view",
+    "-q",
+    "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\project-relink-r5\\desktop.xml",
+    "--basetemp",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\project-relink-r5\\desktop-temp"
+  ],
+  "returncode": 0
+}

@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\upstream\\qupath\\runtime\\QuPath-0.7.0 (console).exe",
+    "script",
+    "--args",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\root-facts-r5\\capture",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tools\\upstream\\qupath_root_facts_reference.groovy"
+  ],
+  "returncode": 0,
+  "seconds": 12.16912219999358,
+  "serialization_sources": {
+    "PathObject.java": "76101c67b67c920e2a371ab2b255821a557fad941e57048ba78ed5d1e146a925",
+    "PathRootObject.java": "d37861d9051f3726d642669c8e84dd3ebc74c10a4069700aeb1421180225e9d3"
+  }
+}

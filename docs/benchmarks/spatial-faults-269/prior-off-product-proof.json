@@ -1,0 +1,132 @@
+[
+  {
+    "path": "_deps/qpx_tiff-build/libtiff/Release/tiff.lib",
+    "sha256": "d598bbdc83b8385e8a9411be34a5d0b5c0b98878b5211835745ccd806e9e069e",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\rawtraining218-windows\\_deps\\qpx_tiff-build\\libtiff\\Release\\tiff.lib"
+  },
+  {
+    "path": "_deps/qpx_zlib-build/Release/zs.lib",
+    "sha256": "5af2e40d952c4ac4d2e47c475e1d58397d970ae952229379381a6d01478854ae",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\rawtraining218-windows\\_deps\\qpx_zlib-build\\Release\\zs.lib"
+  },
+  {
+    "path": "Release/_native.cp312-win_amd64.pyd",
+    "sha256": "cfffab7249795cb100a2b3444a7bea0ec2f3a7d7e62fee4e95c663ab20833021",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\rawtraining218-windows\\Release\\_native.cp312-win_amd64.pyd"
+  },
+  {
+    "path": "Release/_native.lib",
+    "sha256": "aec03fce70ee7a57cd11cb13931ef106fe760e7116224389265e5def60c8bd9f",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\rawtraining218-windows\\Release\\_native.lib"
+  },
+  {
+    "path": "Release/nanobind-static.lib",
+    "sha256": "c9a267c162e4619090c31dad6feb8d80dc5320f3f8d33763b77e75fce8f5147f",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\rawtraining218-windows\\Release\\nanobind-static.lib"
+  },
+  {
+    "path": "Release/qupathxx_batch.exe",
+    "sha256": "76588a2e6e7e6d655db8d0a4c5e1a8ad9beee1cf50172ecaa5a883a10526ad6c",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\rawtraining218-windows\\Release\\qupathxx_batch.exe"
+  },
+  {
+    "path": "Release/qupathxx_cell_record_tests.exe",
+    "sha256": "33a068792d492799f209c79fc2fb387cc076e968cd11412de71e602484705ea9",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\rawtraining218-windows\\Release\\qupathxx_cell_record_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_classifier_io_tests.exe",
+    "sha256": "a816623a182f801515026d4b09c5e1b6616164624675b50a47811d9cc92546c6",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\rawtraining218-windows\\Release\\qupathxx_classifier_io_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_classifier_tests.exe",
+    "sha256": "a7adee13b3299661bc7bf2cf0725984595f220766270eefe41f9e3a678ab18e4",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\rawtraining218-windows\\Release\\qupathxx_classifier_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_core.lib",
+    "sha256": "27a442c84a7f5415dbd51d2b1d499e3aa23dd5e29b2381e6ae32259d1f7739db",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\rawtraining218-windows\\Release\\qupathxx_core.lib"
+  },
+  {
+    "path": "Release/qupathxx_geometry_edits_tests.exe",
+    "sha256": "f7809c819464c7fc22fa001c91803ab9740f6d86e65faf826c692c78d1e2c4f6",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\rawtraining218-windows\\Release\\qupathxx_geometry_edits_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_geometry_tests.exe",
+    "sha256": "fcc57c9a8a114de484814c82ee7bb9ee3017a500d5f1ffb8306539cb8ccccec2",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\rawtraining218-windows\\Release\\qupathxx_geometry_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_pixel_feature_tests.exe",
+    "sha256": "bcb680043746eee3b01713e652a4f2fd9130f37d0247640ee0b91c4c58e53e1c",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\rawtraining218-windows\\Release\\qupathxx_pixel_feature_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_pixel_workflow_tests.exe",
+    "sha256": "9e9e5dbc523e3e631f50d552f680c489a706b60706605cc986666bff8b8d1a1e",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\rawtraining218-windows\\Release\\qupathxx_pixel_workflow_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_project_batch_tests.exe",
+    "sha256": "2b8e64282e455f8a5061f7dfe4696c46247cdaabf5526491c394c3283fb16288",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\rawtraining218-windows\\Release\\qupathxx_project_batch_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_project_tests.exe",
+    "sha256": "b9f3c63cc433579a90d67d3a5f0a50bfad504508eb20116ced095506864814cd",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\rawtraining218-windows\\Release\\qupathxx_project_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_qptma_project_tests.exe",
+    "sha256": "53c55693f6b7b6755c839c96622ee1fb3377843cd7cea47cd91a92cf4ed6ca72",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\rawtraining218-windows\\Release\\qupathxx_qptma_project_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_region.exe",
+    "sha256": "d7b07c7d21e645cade58f5518a0527d4f29662cc3b39c39a13f17e215ac7ed6a",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\rawtraining218-windows\\Release\\qupathxx_region.exe"
+  },
+  {
+    "path": "Release/qupathxx_spatial_analysis_tests.exe",
+    "sha256": "1cd10a42f649d43d13d157109f4022f5cb139f3635a4ef1e173cc2fa95e2c17f",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\rawtraining218-windows\\Release\\qupathxx_spatial_analysis_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_spatial_cli_tests.exe",
+    "sha256": "91618d91b6b628e40a7dee4e9524f1506f117254887b37225866b2942301647b",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\rawtraining218-windows\\Release\\qupathxx_spatial_cli_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_spatial_record_tests.exe",
+    "sha256": "4eea9fba226917a7e4ab5b7c9c41bb91dbf7c880a23a6f6dfb3088ca7c2806d3",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\rawtraining218-windows\\Release\\qupathxx_spatial_record_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_spatial_tests.exe",
+    "sha256": "4d54f5e25261a242797b1f414660f4bd6e916ec88800c08597b682cac771b6a7",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\rawtraining218-windows\\Release\\qupathxx_spatial_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_sqlite.lib",
+    "sha256": "c8190a9ba682e195cdee178464748ba322dde20ce783c2b693ed8c04170e75a6",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\rawtraining218-windows\\Release\\qupathxx_sqlite.lib"
+  },
+  {
+    "path": "Release/qupathxx_tiff_xml.lib",
+    "sha256": "851f4733eccd1a3796f1591be9bcbe1c9842ed5d98813fa05f77b37899c5c0d8",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\rawtraining218-windows\\Release\\qupathxx_tiff_xml.lib"
+  },
+  {
+    "path": "Release/qupathxx_tissue_record_tests.exe",
+    "sha256": "bc28fb304f43055e079870aa613dc55b7a7daff24ac21bc59122858fcce27892",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\rawtraining218-windows\\Release\\qupathxx_tissue_record_tests.exe"
+  },
+  {
+    "path": "Release/qupathxx_viewer_session_tests.exe",
+    "sha256": "81bbf4568479ef66e15acfd6967ff0659c65d3751f0b1b2a573d1198804a2ec2",
+    "retained": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-frontends-268\\prior-products\\rawtraining218-windows\\Release\\qupathxx_viewer_session_tests.exe"
+  }
+]

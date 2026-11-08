@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\object-edit-state-r5-env\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-c",
+    "import sys;sys.path.insert(0,'C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\object-planes-r5\\\\first-probe-stage');import qupathxx as q;assert q.build_environment().git_revision=='4265ff1563f59e962af844c9e22103782f9ca1e1';import pytest;sys.exit(pytest.main(['tests/test_object_planes.py::test_import_view_mask_analysis_restart_and_export_use_exact_plane', 'tests/test_object_planes.py::test_saved_data_plane_uses_a_valid_replacement_source_not_the_invalid_original', 'tests/test_object_planes.py::test_raw_contour_publication_uses_recipe_plane_while_another_plane_is_displayed[True]', 'tests/test_raw_batch.py::test_batch_captures_axes_and_context_and_reuses_without_statistics', '-q', '--junitxml=C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\object-planes-r5\\\\first-probe-harness.xml', '--basetemp=C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\object-planes-r5\\\\first-probe-harness-temp']))"
+  ],
+  "returncode": 1,
+  "scope": "Only four changed probe inputs; retained first product, no native rebuild or installation."
+}

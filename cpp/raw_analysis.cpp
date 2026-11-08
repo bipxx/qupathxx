@@ -1,7 +1,12 @@
 #include "qupathxx/raw_analysis.hpp"
 #include "qupathxx/source_identity.hpp"
+#include "reader_file_guard.hpp"
 #include "qupathxx/tma.hpp"
 #include "raw_statistics_internal.hpp"
+#include "raw_analysis_internal.hpp"
+#include "scientific_raster.hpp"
+#include "exact_weighted_mean.hpp"
+#include "roi_scientific_grid.hpp"
 #include "geometry_archive.hpp"
 #include "atomic_export.hpp"
 #include <algorithm>
@@ -16,10 +21,6 @@
 
 namespace qpx {
 namespace {
-bool same_file(const FileVersion& a,const FileVersion& b) {
-    return a.identity_scheme==b.identity_scheme && a.identity==b.identity && a.bytes==b.bytes &&
-        a.stamp_scheme==b.stamp_scheme && a.modified_token==b.modified_token && a.change_token==b.change_token;
-}
 void text(Sha256& hash,const std::string& value) {hash.integer(value.size());hash.update(value.data(),value.size());}
 void number(Sha256& hash,std::optional<double> value) {
     hash.integer(value.has_value());if(value) {std::uint64_t bits;static_assert(sizeof(bits)==sizeof(*value));std::memcpy(&bits,&*value,sizeof(bits));hash.integer(bits);}
@@ -29,20 +30,72 @@ std::int64_t coordinate(long double value) {
     return static_cast<std::int64_t>(value);
 }
 }
+detail::ScientificRawReserve raw_grid_analysis_reserve(const ScientificGrid& grid,ScientificRawOptions options,bool collect,const std::optional<Roi>& mask,const RawObjectContext& context,const ReaderSource* source,std::uint32_t series) {
+    options.validate();
+    std::uint64_t fixed=65536+sizeof(RawAnalysisRequest)+sizeof(RawAnalysisResult);
+    auto charge=[&](std::uint64_t bytes,std::uint64_t copies=1) {
+        if(fixed>options.work_bytes || bytes>(options.work_bytes-fixed)/copies)
+            throw std::length_error("raw analysis captured workspace exceeds work budget");
+        fixed+=bytes*copies;
+    };
+    charge(context.payload_bytes(),2);if(source) charge(source->payload_bytes(),2);
+    // Geometry hashing materializes polygon parts and a geometrically growing
+    // byte vector. This bound includes captured geometry and those temporaries.
+    if(mask) charge(mask->payload_bytes(),8);
+    if(collect) {charge(std::uint64_t(grid.width())*grid.height());charge(options.channels,64);}
+    return {std::size_t(fixed),3,series};
+}
+// Compatibility check for retained QRA2 recipes, not the new execution ledger.
+ScientificRawOptions raw_grid_analysis_sampling_options(const RawImageMetadata& metadata,const ScientificGrid& grid,ScientificRawOptions options,bool collect) {
+    const auto extra=8192ULL+2*metadata.payload_bytes()+64ULL*options.channels+(collect?std::uint64_t(grid.width())*grid.height():0);
+    if(extra>=options.work_bytes) throw std::length_error("raw grid statistics exceed work budget");
+    options.work_bytes-=std::size_t(extra);return options;
+}
+std::string raw_grid_analysis_hash(const std::string& sampling,std::optional<double> width,std::optional<double> height,const std::optional<Roi>& mask) {
+    Sha256 hash;text(hash,"qpx.raw-grid-statistics-input/1");text(hash,sampling);
+    number(hash,width);number(hash,height);hash.integer(mask.has_value());
+    if(mask) {const auto bytes=GeometryArchiveCodec::encode(*mask);hash.integer(bytes.size());hash.update(bytes.data(),bytes.size());}
+    return hash.finish();
+}
+void RawGridSampling::validate() const {
+    if(!samples_x || !samples_y || samples_x>1000000 || samples_y>1000000 || context_x>4096 || context_y>4096)
+        throw std::invalid_argument("raw grid requires 1..1000000 samples and 0..4096 context per axis");
+}
+RawAnalysisRequest RawAnalysisRequest::for_grid_roi(const Document& document,std::uint64_t id,RawGridSampling sampling,ScientificRawOptions options,bool nucleus,std::uint64_t maximum) {
+    sampling.validate();options.validate();
+    const auto object=document.annotation(id);
+    if(nucleus && !object.nucleus) throw std::invalid_argument("selected raw grid object has no nucleus");
+    const auto& roi=nucleus?*object.nucleus:object.geometry;
+    auto grid=detail::roi_scientific_grid(document.metadata(),roi,sampling.samples_x,sampling.samples_y,sampling.context_x,sampling.context_y,options.work_bytes);
+    return RawAnalysisRequest(document,std::move(grid),options,id,nucleus,maximum);
+}
 RawAnalysisRequest::RawAnalysisRequest(const Document& doc,RawRegionRequest region,std::uint64_t object,bool nucleus,std::size_t tile,std::uint64_t maximum):
-    identity_(doc.analysis_identity_.token),source_(doc.server()),region_(region),object_id_(object),document_revision_(doc.revision()),max_pixels_(maximum),nucleus_(nucleus),tile_size_(tile),
+    RawAnalysisRequest(doc,region,object,nucleus,tile,maximum,std::nullopt,{}) {}
+RawAnalysisRequest::RawAnalysisRequest(const Document& doc,ScientificGrid grid,ScientificRawOptions options,std::uint64_t object,bool nucleus,std::uint64_t maximum):
+    RawAnalysisRequest(doc,{{0,0,0,1,1},options.first_channel,options.channels,options.z,options.t},object,nucleus,0,maximum,std::move(grid),options) {}
+RawAnalysisRequest::RawAnalysisRequest(const Document& doc,RawRegionRequest region,std::uint64_t object,bool nucleus,std::size_t tile,std::uint64_t maximum,std::optional<ScientificGrid> grid,ScientificRawOptions options):
+    grid_(std::move(grid)),grid_options_(options),identity_(doc.analysis_identity_.token),source_(doc.server()),region_(region),object_id_(object),document_revision_(doc.revision()),max_pixels_(maximum),nucleus_(nucleus),tile_size_(tile),
     pixel_width_um_(doc.pixel_width_um()),pixel_height_um_(doc.pixel_height_um()) {
     if(!source_ || source_->closed()) throw std::invalid_argument("raw analysis requires an open source");
     const auto view=source_->tiff_view();if(!view) throw std::invalid_argument("raw analysis requires a quantitative TIFF source");series_=view->series;
-    if(tile<16 || tile>1024 || !maximum || maximum>1000000000000ULL) throw std::invalid_argument("invalid raw analysis tile/pixel limit");
+    if((!grid_ && (tile<16 || tile>1024)) || !maximum || maximum>1000000000000ULL) throw std::invalid_argument("invalid raw analysis tile/pixel limit");
     if(!region_.channels || region_.channels>65536 || region_.first_channel>=65536 || region_.channels>65536-region_.first_channel || region_.z>=65536 || region_.t>=65536)
         throw std::out_of_range("raw analysis channel/Z/time selection exceeds limits");
     const auto& metadata=doc.metadata();const auto level=region_.region.level;
     if(level<0 || std::size_t(level)>=metadata.levels.size()) throw std::out_of_range("invalid raw analysis level");
     const auto& selected=metadata.levels[level];const auto scale=selected.downsample;
     if(!std::isfinite(scale) || scale<1 || scale!=std::floor(scale) || static_cast<long double>(scale)>=static_cast<long double>(std::numeric_limits<std::int64_t>::max())) throw std::invalid_argument("raw analysis requires an integer natural pyramid scale");
+    if(grid_) {
+        grid_options_.validate();
+        if(grid_->image_width()!=metadata.width || grid_->image_height()!=metadata.height)
+            throw std::invalid_argument("raw analysis grid/image dimensions differ");
+        validate_scientific_raster_geometry(*grid_);
+        if(std::uint64_t(grid_->width())>maximum/std::uint64_t(grid_->height()))
+            throw std::length_error("raw grid analysis exceeds pixel limit");
+    }
     if(object) {
         const auto annotation=doc.annotation(object);object_revision_=annotation.revision;
+        doc.require_object_raw_plane(object,region_.first_channel,region_.channels,region_.z,region_.t);
         context_.name=annotation.name;context_.class_name=annotation.class_name;context_.parent_id=annotation.parent_id;context_.kind=annotation.kind;
         auto ancestor=annotation;std::size_t depth=0;
         for(;;) {
@@ -51,6 +104,7 @@ RawAnalysisRequest::RawAnalysisRequest(const Document& doc,RawRegionRequest regi
         }
         if(nucleus && !annotation.nucleus) throw std::invalid_argument("selected raw analysis object has no nucleus");
         mask_=nucleus?*annotation.nucleus:annotation.geometry;if(!mask_->is_area()) throw std::invalid_argument("raw analysis requires an area ROI");
+        if(!grid_) {
         const auto bounds=mask_->bounds();const auto d=static_cast<long double>(scale);
         const auto x0=std::max<long double>(0,std::floor(bounds.x/scale));
         const auto y0=std::max<long double>(0,std::floor(bounds.y/scale));
@@ -58,6 +112,7 @@ RawAnalysisRequest::RawAnalysisRequest(const Document& doc,RawRegionRequest regi
         const auto y1=std::min<long double>(static_cast<long double>(selected.height),std::ceil((bounds.y+bounds.height)/scale));
         if(x1<=x0 || y1<=y0) throw std::invalid_argument("raw analysis ROI does not intersect the image");
         region_.region=RegionRequest(coordinate(x0*d),coordinate(y0*d),level,coordinate(x1-x0),coordinate(y1-y0));
+        }
     }else if(nucleus) throw std::invalid_argument("nucleus analysis requires an object");
     if(region_.region.width<=0 || region_.region.height<=0 || std::uint64_t(region_.region.width)>maximum/std::uint64_t(region_.region.height)) throw std::length_error("raw analysis exceeds pixel limit");
 }
@@ -77,7 +132,7 @@ bool RawAnalysisRequest::matches(const Document& doc) const {
     if(!view || view->series!=series_ || current->source_locator()!=(source_?source_->source_locator():observed_?observed_->locator:std::string{})) return false;
     if(current!=source_) {
         const auto before=observed_?observed_:source_?source_->reader_source():nullptr,after=current->reader_source();
-        if(!before || !after || !before->primary || !after->primary || !same_file(*before->primary,*after->primary)) return false;
+        if(!before || !after || !detail::same_reader_files(*before,*after)) return false;
     }
     if(object_id_) {
         try {const auto object=doc.annotation(object_id_);if(object.revision!=object_revision_) return false;
@@ -100,12 +155,77 @@ std::size_t RawAnalysisMetadata::payload_bytes() const {
     auto bytes=sizeof(*this)+channel_names.capacity()*sizeof(std::string);for(const auto& name:channel_names) bytes+=name.capacity()+1;return bytes;
 }
 std::size_t RawAnalysisResult::payload_bytes() const {
-    return sizeof(*this)+metadata_.payload_bytes()+context_.payload_bytes()+statistics_.finite_samples.capacity()*sizeof(std::uint64_t)+statistics_.nonfinite_samples.capacity()*sizeof(std::uint64_t)+
+    return (grid_?grid_->source_metadata.payload_bytes()+grid_->decoded_source_sha256.capacity()+grid_->sampling_input_sha256.capacity()+grid_->reader.capacity():0)+sizeof(*this)+metadata_.payload_bytes()+context_.payload_bytes()+statistics_.finite_samples.capacity()*sizeof(std::uint64_t)+statistics_.nonfinite_samples.capacity()*sizeof(std::uint64_t)+
         (statistics_.means.capacity()+statistics_.minima.capacity()+statistics_.maxima.capacity())*sizeof(std::optional<double>)+input_sha256_.capacity()+algorithm_.capacity()+(source_?source_->payload_bytes():0)+256;
 }
 struct RawAnalysisKernel {
+    static std::shared_ptr<const RawAnalysisResult> run_grid(const RawAnalysisRequest& request,const std::atomic<bool>* cancelled,
+        std::atomic<std::uint64_t>* completed,std::atomic<std::uint64_t>* total,bool collect) {
+        const auto start=std::chrono::steady_clock::now();detail::export_checkpoint(cancelled);
+        const auto& grid=*request.grid_;validate_scientific_raster_geometry(grid,cancelled);
+        auto output=std::shared_ptr<RawAnalysisResult>(new RawAnalysisResult());
+        const auto channels=request.grid_options_.channels;
+        const auto options=request.grid_options_;
+        auto reserve=raw_grid_analysis_reserve(grid,options,collect,request.mask_,request.context_,nullptr,request.series_);
+        reserve.observed_source=&output->source_;reserve.source_copies=2;
+        const auto bounds=grid.clipped_read_bounds();const std::uint64_t tiles=bounds.width && bounds.height?1:0;
+        if(total) total->store(tiles,std::memory_order_relaxed);
+        std::optional<ScientificRawGrid> samples;ScientificRawDigest digest;
+        if(collect) {
+            samples.emplace(detail::read_scientific_raw_reserved(*request.source_,grid,options,reserve,cancelled));
+            digest.metadata=samples->metadata();digest.reader=samples->reader();
+            digest.decoded_source_sha256=samples->decoded_source_sha256();digest.input_sha256=samples->input_sha256();
+        } else digest=detail::digest_scientific_raw_reserved(*request.source_,grid,options,reserve,cancelled);
+        if(digest.metadata.series!=request.series_) throw std::invalid_argument("raw grid source series changed");
+        if(completed) completed->store(tiles,std::memory_order_relaxed);
+        const auto& metadata=digest.metadata;
+        if(metadata.channel_names.size()!=metadata.channels) throw std::invalid_argument("raw analysis channel metadata is incomplete");
+        output->grid_.emplace(RawAnalysisGrid{grid,request.grid_options_,metadata,digest.decoded_source_sha256,digest.input_sha256,digest.reader});
+        output->capture_=request.capture_;output->object_id_=request.object_id_;output->object_revision_=request.object_revision_;
+        output->document_revision_=request.document_revision_;output->nucleus_=request.nucleus_;output->context_=request.context_;
+        output->pixel_width_um_=request.pixel_width_um_;output->pixel_height_um_=request.pixel_height_um_;
+        output->region_=request.region_;output->algorithm_="qpx.raw-grid-statistics/1";output->tile_size_=0;output->tiles_=tiles;
+        auto& m=output->metadata_;m.width=metadata.width;m.height=metadata.height;m.level_width=grid.width();m.level_height=grid.height();
+        m.channels=metadata.channels;m.z_planes=metadata.z_planes;m.timepoints=metadata.timepoints;m.series=metadata.series;m.sample_type=metadata.sample_type;
+        m.downsample=std::numeric_limits<double>::quiet_NaN();m.z_spacing_um=metadata.z_spacing_um;m.time_interval_seconds=metadata.time_interval_seconds;
+        m.channel_names.assign(metadata.channel_names.begin()+options.first_channel,metadata.channel_names.begin()+options.first_channel+channels);
+        output->input_sha256_=raw_grid_analysis_hash(digest.input_sha256,request.pixel_width_um_,request.pixel_height_um_,request.mask_);
+        if(collect) {
+            std::vector<std::uint8_t> eligible(std::size_t(grid.width()*grid.height()),0);
+            auto& stats=output->statistics_;stats.finite_samples.resize(channels);stats.nonfinite_samples.resize(channels);
+            stats.means.resize(channels);stats.minima.resize(channels);stats.maxima.resize(channels);
+            for(std::int64_t y=0;y<grid.height();++y) for(std::int64_t x=0;x<grid.width();++x) {
+                const auto pixel=std::size_t(y*grid.width()+x);if((pixel&4095)==0) detail::export_checkpoint(cancelled);
+                const auto i=x+grid.x().first_index(),j=y+grid.y().first_index();
+                if(i<0 || j<0 || i>=grid.x().samples() || j>=grid.y().samples()) continue;
+                if(request.mask_ && !scientific_core_roi_contains(*request.mask_,grid,RoiSamplingPolicy::GeometryCoverage,std::size_t(x),std::size_t(y))) continue;
+                eligible[pixel]=1;++stats.pixels;
+                const auto reason=ScientificRawReason(samples->reasons()[pixel*channels]);
+                if(reason==ScientificRawReason::Valid || reason==ScientificRawReason::NonfiniteChannel) ++stats.valid_pixels;
+            }
+            // One bounded accumulator at a time; exact reduction of derived binary64 samples.
+            for(std::uint32_t c=0;c<channels;++c) {
+                detail::ExactWeightedMean mean;
+                for(std::size_t pixel=0;pixel<eligible.size();++pixel) {
+                    if((pixel&4095)==0) detail::export_checkpoint(cancelled);
+                    if(!eligible[pixel]) continue;
+                    const auto at=pixel*channels+c;const auto reason=ScientificRawReason(samples->reasons()[at]);
+                    if(reason==ScientificRawReason::NonfiniteChannel) {++stats.nonfinite_samples[c];continue;}
+                    if(reason!=ScientificRawReason::Valid) continue;
+                    const auto value=samples->values()[at];mean.add(value,1);++stats.finite_samples[c];
+                    if(!stats.minima[c] || value<*stats.minima[c]) stats.minima[c]=value;
+                    if(!stats.maxima[c] || value>*stats.maxima[c]) stats.maxima[c]=value;
+                }
+                if(stats.finite_samples[c]) stats.means[c]=mean.mean();
+            }
+        }
+        detail::export_checkpoint(cancelled);
+        if(collect) output->validated_grid_eligible_=output->statistics_.pixels;
+        output->elapsed_ms_=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-start).count();return output;
+    }
     static std::shared_ptr<const RawAnalysisResult> run(const RawAnalysisRequest& request,const std::atomic<bool>* cancelled,
         std::atomic<std::uint64_t>* completed=nullptr,std::atomic<std::uint64_t>* total=nullptr,bool collect_statistics=true) {
+        if(request.grid_) return run_grid(request,cancelled,completed,total,collect_statistics);
         const auto start=std::chrono::steady_clock::now();detail::export_checkpoint(cancelled);
         const auto metadata=request.source_->raw_metadata(cancelled);if(!metadata || metadata->series!=request.series_) throw std::invalid_argument("raw analysis source axes changed");
         RawStatisticsKernel::validate_coordinates(*metadata,request.region_);
@@ -138,7 +258,12 @@ struct RawAnalysisKernel {
 };
 std::shared_ptr<const RawAnalysisResult> analyze_raw(const RawAnalysisRequest& request,const std::atomic<bool>* cancelled) {return RawAnalysisKernel::run(request,cancelled);}
 RawInputDigest raw_analysis_input_digest(const RawAnalysisRequest& request,const std::atomic<bool>* cancelled) {
-    const auto result=RawAnalysisKernel::run(request,cancelled,nullptr,nullptr,false);const auto& region=result->region();
+    const auto result=RawAnalysisKernel::run(request,cancelled,nullptr,nullptr,false);
+    if(result->grid()) {
+        const auto& g=*result->grid();const auto bounds=g.grid.clipped_read_bounds();
+        return {result->input_sha256(),result->tiles(),std::uint64_t(bounds.width)*bounds.height*(std::uint64_t(g.options.channels)*sample_bytes(g.source_metadata.sample_type)+1)};
+    }
+    const auto& region=result->region();
     return {result->input_sha256(),result->tiles(),std::uint64_t(region.region.width)*region.region.height*(std::uint64_t(region.channels)*sample_bytes(result->metadata().sample_type)+1)};
 }
 

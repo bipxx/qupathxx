@@ -1,0 +1,17 @@
+[
+  {
+    "label": "affine-build",
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\cmake.exe",
+      "--build",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\qupath-response304-msvc",
+      "--config",
+      "Release",
+      "--target",
+      "qupathxx_resampling_tests",
+      "--parallel",
+      "4"
+    ],
+    "returncode": 1
+  }
+]

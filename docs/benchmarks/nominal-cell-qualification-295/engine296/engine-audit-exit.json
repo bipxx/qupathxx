@@ -1,0 +1,31 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Scripts\\python.exe",
+    "-X",
+    "utf8",
+    "tools/ci/accept_unified_engine.py",
+    "40782637825",
+    "a7eb78de75387bce2da7b3d59b7f0a2ab6126cee",
+    "--artifacts",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\q295-all",
+    "--output",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\nominal-cell-qualification-295\\engine-acceptance.json",
+    "--ndpi-readers",
+    "--rendered-loop",
+    "--gui-stack",
+    "--watershed-bodies",
+    "--sampled-shape",
+    "--sampled-cells",
+    "--small-frontier",
+    "--tma-cases",
+    "--tma-file-export",
+    "--tma-cohorts",
+    "--windows-runtime-manifest",
+    "--linux-runtime-manifest"
+  ],
+  "cwd": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\nominal-cell-qualification-295-audit",
+  "returncode": 1,
+  "expected_rejection": true,
+  "source": "a7eb78de75387bce2da7b3d59b7f0a2ab6126cee",
+  "run": 40782637825
+}

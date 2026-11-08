@@ -1,0 +1,31 @@
+[
+  {
+    "id": "1",
+    "name": "null-description",
+    "description": null,
+    "tags": []
+  },
+  {
+    "id": "2",
+    "name": "empty-description",
+    "description": "",
+    "tags": [
+      "z-last",
+      "a-first",
+      "",
+      "µ",
+      "α"
+    ]
+  },
+  {
+    "id": "3",
+    "name": "unicode-description",
+    "description": "Description α 🚀\nSecond line\t\"quoted\"",
+    "tags": [
+      "Tumor",
+      "tumor",
+      "é",
+      "é"
+    ]
+  }
+]

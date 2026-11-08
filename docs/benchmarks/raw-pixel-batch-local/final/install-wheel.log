@@ -1,0 +1,5 @@
+Using CPython 3.12.8 interpreter at: build\ci\rawbatch231-wheel312-env\Scripts\python.exe
+Resolved 1 package in 14ms
+Prepared 1 package in 44ms
+Installed 1 package in 91ms
+ + qupathxx==0.1.0 (from file:///C:/Users/HEQ/Projects/qupathxx/build/rawbatch231-final/wheel/qupathxx-0.1.0-cp312-cp312-win_amd64.whl)

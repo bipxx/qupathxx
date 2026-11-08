@@ -1,0 +1,30 @@
+[
+  {
+    "name": "configure",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\cmake.exe",
+      "-S",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159",
+      "-B",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawtraining218-windows"
+    ],
+    "exit": 0,
+    "seconds": 8.465120099950582
+  },
+  {
+    "name": "build",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\cmake.exe",
+      "--build",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawtraining218-windows",
+      "--config",
+      "Release",
+      "--target",
+      "qupathxx_batch",
+      "--parallel",
+      "2"
+    ],
+    "exit": 0,
+    "seconds": 10.328610999975353
+  }
+]

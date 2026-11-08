@@ -1,0 +1,15 @@
+{
+  "cache_sha256": "e8450aba7f724b3949d581686ff8c25ce79d7e78b2cdaa37ba51bd6bc50fe158",
+  "flags": {
+    "QUPATHXX_BUILD_CLASSIFIER_TRAINING": "ON",
+    "QUPATHXX_BUILD_GEOS": "OFF",
+    "QUPATHXX_BUILD_GUI": "OFF",
+    "QUPATHXX_BUILD_INTERCHANGE": "ON",
+    "QUPATHXX_BUILD_OPENSLIDE": "OFF",
+    "QUPATHXX_BUILD_PROJECT": "ON",
+    "QUPATHXX_BUILD_PYTHON": "ON",
+    "QUPATHXX_BUILD_TESTS": "ON",
+    "QUPATHXX_BUILD_TIFF": "ON"
+  },
+  "package_isolation": "Fresh CPython 3.12 wheel target; test dependencies reused through a recorded workspace .pth, not a clean-machine claim"
+}

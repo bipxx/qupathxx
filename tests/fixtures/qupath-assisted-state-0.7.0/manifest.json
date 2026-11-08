@@ -1,0 +1,227 @@
+{
+  "parents": {
+    "facts": {
+      "fixture": "qupath-root-facts-0.7.0",
+      "manifest_sha256": "fda25f3c97c0f5c0b3f5ee9642a141162fb163301a1a4ddfe78794c9fbc1fe25",
+      "selected_names": [
+        "root facts"
+      ],
+      "producer_header_override": null
+    },
+    "settings": {
+      "fixture": "qupath-image-settings-0.7.0",
+      "manifest_sha256": "5f883c3a0ab9ac9857b5390c2e9062175de783b1ae788cd54d1009a2c8d1653c",
+      "selected_names": [
+        "BRIGHTFIELD_H_DAB",
+        "BRIGHTFIELD_H_E",
+        "BRIGHTFIELD_OTHER",
+        "FLUORESCENCE",
+        "OTHER",
+        "UNSET",
+        "custom-three",
+        "wide-white"
+      ],
+      "producer_header_override": null
+    },
+    "properties": {
+      "fixture": "qupath-image-data-properties-0.7.0",
+      "manifest_sha256": "89403b2b3e674abc6244c4f0bf925f9450e5b0f3f56143edad2f13a2b0f6ece4",
+      "selected_names": [
+        "portable-values",
+        "unsupported-values"
+      ],
+      "producer_header_override": null
+    },
+    "tma": {
+      "fixture": "qupath-saved-tma-0.7.0",
+      "manifest_sha256": "80d3d94ab94d2b71dc0357f0265ed3ad96c4b5f2b2440d99db98c83d243d85eb",
+      "selected_names": [
+        "grid",
+        "legacy-case"
+      ],
+      "producer_header_override": null
+    },
+    "geojson": {
+      "fixture": "qupath-project-0.7.0",
+      "manifest_sha256": "8d7d26b7990c11a0226747e32dd8737bdcba64a777add47571af6e31453875c8",
+      "selected_names": [
+        "Slide α",
+        "Gray specimen"
+      ],
+      "producer_header_override": null
+    },
+    "mixed": {
+      "fixture": "qupath-project-0.7.0",
+      "manifest_sha256": "8d7d26b7990c11a0226747e32dd8737bdcba64a777add47571af6e31453875c8",
+      "selected_names": [
+        "Slide α",
+        "Gray specimen"
+      ],
+      "producer_header_override": {
+        "entry_id": "2",
+        "from": "0.7.0",
+        "to": "0.6.0"
+      }
+    }
+  },
+  "producer": {
+    "path": "tools/upstream/export_qupath_project_state.groovy",
+    "sha256": "90c6b08c83da2831338ba0aa461aab827e8205837964a14372dc2ec591b6fe76"
+  },
+  "captures": [
+    {
+      "label": "facts",
+      "argv": [
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\upstream\\qupath\\runtime\\QuPath-0.7.0 (console).exe",
+        "script",
+        "--args",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\assisted-state-r5\\capture\\facts\\project\\project.qpproj",
+        "--args",
+        "auto",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tools\\upstream\\export_qupath_project_state.groovy"
+      ],
+      "returncode": 0,
+      "seconds": 2.9056122000329196,
+      "input_files": {
+        "source.ome.tif": "d314094e3b2f29ca7698a8a4d58982bda0e808e3233db2ca4c7c42a2b3fb17cc",
+        "project/project.qpproj": "8d908292006cc8cdcfe4199f5cf8d7a7b3d9bb1f8e1551a3c17a770be451036c",
+        "project/data/metadata.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "project/data/1/data.qpdata": "a7111c5d7715530b6de5a29a7e91e7481f1b362d27f2d1a3d28c31e40e656e47"
+      }
+    },
+    {
+      "label": "settings",
+      "argv": [
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\upstream\\qupath\\runtime\\QuPath-0.7.0 (console).exe",
+        "script",
+        "--args",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\assisted-state-r5\\capture\\settings\\project\\project.qpproj",
+        "--args",
+        "auto",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tools\\upstream\\export_qupath_project_state.groovy"
+      ],
+      "returncode": 0,
+      "seconds": 2.8166344999335706,
+      "input_files": {
+        "source.ome.tif": "d314094e3b2f29ca7698a8a4d58982bda0e808e3233db2ca4c7c42a2b3fb17cc",
+        "project/project.qpproj": "a47c992b418f4bd1e1a1b10867fc6dcc2964c47e73360a9cfb232640b8966540",
+        "project/data/metadata.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "project/data/1/data.qpdata": "712c1612fa265ca1d64c2741334f073f263f81b7abf358206bb378a327e94261",
+        "project/data/2/data.qpdata": "3022d7aeb7efc391625e5f64364380997517e3046238978d1eea8a321b996a65",
+        "project/data/3/data.qpdata": "cb1bcbc95ac4e3e49cd62a7c4c5f8bbeeaa2e2a72e7da3c7831a9a5d87dca1db",
+        "project/data/4/data.qpdata": "d11b062169e4401d14bff76f2e625aa09e1237b6d482a1bad95b678b6788eb58",
+        "project/data/5/data.qpdata": "b2195dbd51f6cc416206c9df7ffccf91dcec7943522b64f8837954bb373df645",
+        "project/data/6/data.qpdata": "91249ffd458c759f020cc09f56551753d5fe5bb37caa49991ebe03bad1f0de0b",
+        "project/data/7/data.qpdata": "7dcc3a7d000a8cda8f0cce901435defd3dd04c2bb9249f433c88cc084b293663",
+        "project/data/8/data.qpdata": "779f5dd9144849950e08839d62d5bf4887d1b4b8de47e84182f3df81cc99e053"
+      }
+    },
+    {
+      "label": "properties",
+      "argv": [
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\upstream\\qupath\\runtime\\QuPath-0.7.0 (console).exe",
+        "script",
+        "--args",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\assisted-state-r5\\capture\\properties\\project\\project.qpproj",
+        "--args",
+        "auto",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tools\\upstream\\export_qupath_project_state.groovy"
+      ],
+      "returncode": 0,
+      "seconds": 2.889939600136131,
+      "input_files": {
+        "source.ome.tif": "d314094e3b2f29ca7698a8a4d58982bda0e808e3233db2ca4c7c42a2b3fb17cc",
+        "project/project.qpproj": "89d172f0653296fe2a4112737dfea5239183c4490a38733dfd03cc586afbf197",
+        "project/data/metadata.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "project/data/1/data.qpdata": "757f2082b1588264b2ff83675403b76e8f59bfc233a293ae37cb5d454e6d438b",
+        "project/data/2/data.qpdata": "985aa04ddd4c95a710c97bef461a2a17556ca2bb355b954c36c86eaf3207e793"
+      }
+    },
+    {
+      "label": "tma",
+      "argv": [
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\upstream\\qupath\\runtime\\QuPath-0.7.0 (console).exe",
+        "script",
+        "--args",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\assisted-state-r5\\capture\\tma\\project\\project.qpproj",
+        "--args",
+        "auto",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tools\\upstream\\export_qupath_project_state.groovy"
+      ],
+      "returncode": 0,
+      "seconds": 2.9571706999558955,
+      "input_files": {
+        "source.ome.tif": "d314094e3b2f29ca7698a8a4d58982bda0e808e3233db2ca4c7c42a2b3fb17cc",
+        "project/project.qpproj": "b3ef0da06aa0218069c0ac94c00590d80f2966715da82844f19871ac971a2276",
+        "project/classifiers/classes.json": "d7cde3d5ba8e34ac4fee65731ee243dd7bddca97e29598cff8272635493da136",
+        "project/data/metadata.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "project/data/1/data.qpdata": "490612277dd8a297892983595aae2ebccdee419fb63ec722e9825905d5b174c5",
+        "project/data/2/data.qpdata": "f3cb92cbb0c77ad9f73b297766f1125b8b668b30cee6e827e37fe4083fab692e"
+      }
+    },
+    {
+      "label": "geojson",
+      "argv": [
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\upstream\\qupath\\runtime\\QuPath-0.7.0 (console).exe",
+        "script",
+        "--args",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\assisted-state-r5\\capture\\geojson\\project\\project.qpproj",
+        "--args",
+        "geojson",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tools\\upstream\\export_qupath_project_state.groovy"
+      ],
+      "returncode": 0,
+      "seconds": 2.984599200077355,
+      "input_files": {
+        "project/project.qpproj": "7ccdc1e90bfa94ace69ff4d5ed8a93a73a76c8d5d6bdad11ebf9aab1784080d3",
+        "sources/gray.ome.tif": "9218cddecace0cd805137babc5c94dceb1a5d769d216d58bbf379fd5e9f5876b",
+        "sources/slide α.ome.tif": "d314094e3b2f29ca7698a8a4d58982bda0e808e3233db2ca4c7c42a2b3fb17cc",
+        "project/classifiers/classes.json": "d7cde3d5ba8e34ac4fee65731ee243dd7bddca97e29598cff8272635493da136",
+        "project/data/metadata.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "project/data/1/data.qpdata": "68fd318143de13d25836e14b37ac39ffa2ffe524d78aa4d6201424d78cd00829",
+        "project/data/2/data.qpdata": "11fa2d1157b9953ab018985522d5de86b34dbf9831cb929e51c974b9189975ab"
+      }
+    },
+    {
+      "label": "mixed",
+      "argv": [
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\upstream\\qupath\\runtime\\QuPath-0.7.0 (console).exe",
+        "script",
+        "--args",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\assisted-state-r5\\capture\\mixed\\project\\project.qpproj",
+        "--args",
+        "auto",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tools\\upstream\\export_qupath_project_state.groovy"
+      ],
+      "returncode": 0,
+      "seconds": 2.944045800017193,
+      "input_files": {
+        "project/project.qpproj": "4cdd58ee8d72265254a5bb115c5c2e551f04a236c31359a11fb16715d0e9060f",
+        "sources/gray.ome.tif": "9218cddecace0cd805137babc5c94dceb1a5d769d216d58bbf379fd5e9f5876b",
+        "sources/slide α.ome.tif": "d314094e3b2f29ca7698a8a4d58982bda0e808e3233db2ca4c7c42a2b3fb17cc",
+        "project/classifiers/classes.json": "d7cde3d5ba8e34ac4fee65731ee243dd7bddca97e29598cff8272635493da136",
+        "project/data/metadata.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "project/data/1/data.qpdata": "68fd318143de13d25836e14b37ac39ffa2ffe524d78aa4d6201424d78cd00829",
+        "project/data/2/data.qpdata": "bd5be53111ee9559c2fbe328714849bcb681779207051619b8a0ca65a9e2c6c9"
+      }
+    }
+  ],
+  "derivation": "Selected entries and relocated URI manifests; mixed entry2 has one equal-length producer header replacement 0.7.0 -> 0.6.0. Native binary/TIFF inputs are reused from pinned parents, not recaptured. Captured project and exchange bytes below are exact outputs. Tests rebind only relocated project URI hashes.",
+  "files": {
+    "facts/project/project.qpproj": "8d908292006cc8cdcfe4199f5cf8d7a7b3d9bb1f8e1551a3c17a770be451036c",
+    "facts/project/qupathxx-exchange/index.json": "608afe06d158a8502e23dbfe4479adeef9c9bf4ac87641acb60c00aa3d325558",
+    "geojson/project/project.qpproj": "7ccdc1e90bfa94ace69ff4d5ed8a93a73a76c8d5d6bdad11ebf9aab1784080d3",
+    "geojson/project/qupathxx-exchange/1.geojson": "aff27183b9c4e0eeb54eba01369707a5f5fe12bbfa42bebc2fd816d81e0cfa38",
+    "geojson/project/qupathxx-exchange/2.geojson": "477ad80ef989fe8f99984c1069a47ad297c1a082cd45c943f37e006d6ddf06b5",
+    "geojson/project/qupathxx-exchange/index.json": "459dca5a06f0fbc070c5e7b88473455caeea7974a214c7dab005f06808ee77a4",
+    "mixed/project/project.qpproj": "4cdd58ee8d72265254a5bb115c5c2e551f04a236c31359a11fb16715d0e9060f",
+    "mixed/project/qupathxx-exchange/2.geojson": "477ad80ef989fe8f99984c1069a47ad297c1a082cd45c943f37e006d6ddf06b5",
+    "mixed/project/qupathxx-exchange/index.json": "4baabd2b2063e59789adff7156a30936510e7630b254bbf3ae965f34c63cc946",
+    "properties/project/project.qpproj": "89d172f0653296fe2a4112737dfea5239183c4490a38733dfd03cc586afbf197",
+    "properties/project/qupathxx-exchange/index.json": "ce265be61ba1a9c257c7d5d43a7bb8f57d84e84b1f5c215374e86bee5e6efa0e",
+    "settings/project/project.qpproj": "a47c992b418f4bd1e1a1b10867fc6dcc2964c47e73360a9cfb232640b8966540",
+    "settings/project/qupathxx-exchange/index.json": "c6fbaddd020cd4cd201a9599fe1b69fc4e727a22ffebed199a3087cee4a4796a",
+    "tma/project/project.qpproj": "b3ef0da06aa0218069c0ac94c00590d80f2966715da82844f19871ac971a2276",
+    "tma/project/qupathxx-exchange/index.json": "efa06aa91a2f6985498d104be532a91ba78c8a6172a4c05dc5c1e9448cb16e72"
+  }
+}

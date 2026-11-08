@@ -1,0 +1,317 @@
+[
+  {
+    "profile": "Windows-gui-py3.12",
+    "cohorts": [
+      {
+        "module": "test_pixel_archives",
+        "required": 51,
+        "actual": 51
+      },
+      {
+        "module": "test_pixel_archive_portable",
+        "required": 4,
+        "actual": 4
+      },
+      {
+        "module": "test_pixel_prediction_windows",
+        "required": 22,
+        "actual": 22
+      },
+      {
+        "module": "test_pixel_stream",
+        "required": 24,
+        "actual": 24
+      },
+      {
+        "module": "test_pixel_stream_file",
+        "required": 38,
+        "actual": 38
+      },
+      {
+        "module": "test_pixel_stream_file_portable",
+        "required": 2,
+        "actual": 2
+      },
+      {
+        "module": "test_pixel_stream_export_job",
+        "required": 14,
+        "actual": 14
+      },
+      {
+        "module": "test_pixel_stream_read_job",
+        "required": 21,
+        "actual": 21
+      },
+      {
+        "module": "test_pixel_stream_cli",
+        "required": 46,
+        "actual": 46
+      },
+      {
+        "module": "test_pixel_stream_records",
+        "required": 34,
+        "actual": 35
+      },
+      {
+        "module": "test_pixel_input_digest",
+        "required": 25,
+        "actual": 25
+      },
+      {
+        "module": "test_project_pixel_batch",
+        "required": 25,
+        "actual": 25
+      },
+      {
+        "module": "test_tma",
+        "required": 23,
+        "actual": 23
+      },
+      {
+        "module": "test_tiff_reader",
+        "required": 63,
+        "actual": 63
+      },
+      {
+        "module": "test_tiff_project",
+        "required": 7,
+        "actual": 7
+      },
+      {
+        "module": "test_tiff_cli",
+        "required": 10,
+        "actual": 10
+      },
+      {
+        "module": "test_raw_analysis",
+        "required": 21,
+        "actual": 21
+      },
+      {
+        "module": "test_raw_records",
+        "required": 12,
+        "actual": 12
+      },
+      {
+        "module": "test_raw_tables",
+        "required": 3,
+        "actual": 3
+      },
+      {
+        "module": "test_raw_batch",
+        "required": 4,
+        "actual": 4
+      }
+    ]
+  },
+  {
+    "profile": "Windows-headless-py3.11",
+    "cohorts": [
+      {
+        "module": "test_pixel_archives",
+        "required": 51,
+        "actual": 51
+      },
+      {
+        "module": "test_pixel_archive_portable",
+        "required": 4,
+        "actual": 4
+      },
+      {
+        "module": "test_pixel_prediction_windows",
+        "required": 22,
+        "actual": 22
+      },
+      {
+        "module": "test_pixel_stream",
+        "required": 24,
+        "actual": 24
+      },
+      {
+        "module": "test_pixel_stream_file",
+        "required": 38,
+        "actual": 38
+      },
+      {
+        "module": "test_pixel_stream_file_portable",
+        "required": 2,
+        "actual": 2
+      },
+      {
+        "module": "test_pixel_stream_export_job",
+        "required": 14,
+        "actual": 14
+      },
+      {
+        "module": "test_pixel_stream_read_job",
+        "required": 21,
+        "actual": 21
+      },
+      {
+        "module": "test_pixel_stream_cli",
+        "required": 46,
+        "actual": 46
+      },
+      {
+        "module": "test_pixel_stream_records",
+        "required": 34,
+        "actual": 35
+      },
+      {
+        "module": "test_pixel_input_digest",
+        "required": 25,
+        "actual": 25
+      },
+      {
+        "module": "test_project_pixel_batch",
+        "required": 25,
+        "actual": 25
+      },
+      {
+        "module": "test_tma",
+        "required": 23,
+        "actual": 23
+      },
+      {
+        "module": "test_tiff_reader",
+        "required": 63,
+        "actual": 63
+      },
+      {
+        "module": "test_tiff_project",
+        "required": 7,
+        "actual": 7
+      },
+      {
+        "module": "test_tiff_cli",
+        "required": 10,
+        "actual": 10
+      },
+      {
+        "module": "test_raw_analysis",
+        "required": 21,
+        "actual": 21
+      },
+      {
+        "module": "test_raw_records",
+        "required": 12,
+        "actual": 12
+      },
+      {
+        "module": "test_raw_tables",
+        "required": 3,
+        "actual": 3
+      },
+      {
+        "module": "test_raw_batch",
+        "required": 4,
+        "actual": 4
+      }
+    ]
+  },
+  {
+    "profile": "Linux-headless-py3.12",
+    "cohorts": [
+      {
+        "module": "test_pixel_archives",
+        "required": 51,
+        "actual": 51
+      },
+      {
+        "module": "test_pixel_archive_portable",
+        "required": 4,
+        "actual": 4
+      },
+      {
+        "module": "test_pixel_prediction_windows",
+        "required": 22,
+        "actual": 22
+      },
+      {
+        "module": "test_pixel_stream",
+        "required": 24,
+        "actual": 24
+      },
+      {
+        "module": "test_pixel_stream_file",
+        "required": 38,
+        "actual": 38
+      },
+      {
+        "module": "test_pixel_stream_file_portable",
+        "required": 2,
+        "actual": 2
+      },
+      {
+        "module": "test_pixel_stream_export_job",
+        "required": 14,
+        "actual": 14
+      },
+      {
+        "module": "test_pixel_stream_read_job",
+        "required": 21,
+        "actual": 21
+      },
+      {
+        "module": "test_pixel_stream_cli",
+        "required": 46,
+        "actual": 46
+      },
+      {
+        "module": "test_pixel_stream_records",
+        "required": 34,
+        "actual": 35
+      },
+      {
+        "module": "test_pixel_input_digest",
+        "required": 25,
+        "actual": 25
+      },
+      {
+        "module": "test_project_pixel_batch",
+        "required": 25,
+        "actual": 25
+      },
+      {
+        "module": "test_tma",
+        "required": 23,
+        "actual": 23
+      },
+      {
+        "module": "test_tiff_reader",
+        "required": 63,
+        "actual": 63
+      },
+      {
+        "module": "test_tiff_project",
+        "required": 7,
+        "actual": 7
+      },
+      {
+        "module": "test_tiff_cli",
+        "required": 10,
+        "actual": 10
+      },
+      {
+        "module": "test_raw_analysis",
+        "required": 21,
+        "actual": 21
+      },
+      {
+        "module": "test_raw_records",
+        "required": 12,
+        "actual": 12
+      },
+      {
+        "module": "test_raw_tables",
+        "required": 3,
+        "actual": 3
+      },
+      {
+        "module": "test_raw_batch",
+        "required": 4,
+        "actual": 4
+      }
+    ]
+  }
+]

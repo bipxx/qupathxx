@@ -1,0 +1,48 @@
+{
+  "schema": "qpx.macos-native-inventory-local-validation/1",
+  "tooling_source": "43ff8335880a4ebb65251b1a480cac44044ee5bb",
+  "unit_passed": 268,
+  "unit_junit_sha256": "e502c26446fcf670d994e893ba89f137fa7d84917f3faa03c5edf11599e64654",
+  "inventory_cases": 22,
+  "macho_reader_cases": 66,
+  "inherited_manifest_cases": 180,
+  "controls_rejected": 25,
+  "synthetic_auditor_positive": {
+    "source": "43ff8335880a4ebb65251b1a480cac44044ee5bb",
+    "architecture": "arm64",
+    "tooling_sha256": {
+      "tools/ci/macos_native_inventory.py": "f565de3a2f555aafabd7312ff05dc04cc1712d4d0f41b5bd626d6a19a57dc74a",
+      "tools/ci/macho_dependencies.py": "0b675070250682afae9e71f0c348ea719232471b060b8f6fe982fd7f625a45c3",
+      "tools/ci/runtime_manifest.py": "2013ad073943f4c200e6a44f8db2de13b094d05aa35d691c0e367d80a4734c28",
+      "tools/ci/pe_dependencies.py": "164689ef5c582628170500ae6d145026b546b2c1c41553b54afe1b95cd0e5efb",
+      "tools/ci/run_macos_native.py": "1a35405cec3f5817c28abbe07aa968514919d2db5879a11e08d221fdafb397f0",
+      "tools/ci/macos_inventory_evidence.py": "667dc35fe680175c55991a823389420421c644181d8697b1c104fbd827948c12",
+      ".github/workflows/ci.yml": "9bb5bbdb7d1c95e01f363b011caf259b1b43a78ea387d62e6b62d9dd86eec6ff"
+    },
+    "files": 6,
+    "binaries": 4,
+    "archive_sha256": "3119d1a0169d69b3887d38eeb677d80e178d4ec1844b84bcd81f2dbfd2c927e3",
+    "manifest_sha256": "1e1077ec254eace9db56ab65d94a9b0dd45b4c21dfab40ef1970b1c218ca5958",
+    "otool_probe_sha256": "7739baa1f7a7ec01ef3360c916fce584decb5fd514b31b7889514d7369f27360",
+    "native_snapshot_accepted": true,
+    "sdk_paths_may_be_embedded": true,
+    "runtime_resolution_complete": false,
+    "relocated_package_validated": false,
+    "external_runtime_availability_verified": false,
+    "signing_verified": false,
+    "release_ready": false,
+    "scope": "Uploaded native CLI and selected SDK runtime/notice bytes reinspected at exact source; independent otool names/versions agree. Static SDK archives remain build-input ledger only. No install-name resolution, relocation, Python/GUI/OpenSlide, ABI, signing or supported release."
+  },
+  "actual_otool_executed": false,
+  "actual_qupathxx_native_binaries": false,
+  "native_compiler_inputs_unchanged": true,
+  "hosted_validation": "pending",
+  "initial_result": {
+    "passed": 13,
+    "failed": 9,
+    "reason": "Windows fsync on a read-only archive descriptor raised EBADF. Writable temporary handle fixes publication; all final cases pass."
+  },
+  "release_ready": false,
+  "full_plan_complete": false,
+  "scope": "Local snapshot and source-bound audit implementation with labelled synthetic binary/text fixtures. Real Mac execution, native file bytes, otool, relocation/runtime availability and supported-release acceptance remain pending."
+}

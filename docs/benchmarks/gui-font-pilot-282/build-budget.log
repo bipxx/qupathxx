@@ -1,0 +1,36 @@
+CMake is re-running because C:/Users/HEQ/Projects/qupathxx/build/gui-fonts-282/build/CMakeFiles/generate.stamp is out-of-date.
+  the file 'C:/Users/HEQ/Projects/qupathxx/build/gui-fonts-282/CMakeLists.txt'
+  is newer than 'C:/Users/HEQ/Projects/qupathxx/build/gui-fonts-282/build/CMakeFiles/generate.stamp.depend'
+  result='-1'
+-- Selecting Windows SDK version 10.0.22621.0 to target Windows 10.0.26200.
+-- Configuring done (0.0s)
+-- Generating done (0.1s)
+-- Build files have been written to: C:/Users/HEQ/Projects/qupathxx/build/gui-fonts-282/build
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+
+  1>Checking Build System
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/gui-fonts-282/CMakeLists.txt
+cl : command line  warning D9025: overriding '/DNDEBUG' with '/UNDEBUG' [C:\Users\HEQ\Projects\qupathxx\build\gui-fonts-282\build\assert_common.vcxproj]
+  imgui.cpp
+  imgui_widgets.cpp
+  imgui_tables.cpp
+  Generating Code...
+  assert_common.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\gui-fonts-282\build\assert_common.dir\Release\assert_common.lib
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/gui-fonts-282/CMakeLists.txt
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/gui-fonts-282/CMakeLists.txt
+cl : command line  warning D9025: overriding '/DNDEBUG' with '/UNDEBUG' [C:\Users\HEQ\Projects\qupathxx\build\gui-fonts-282\build\dynamic_assert_probe.vcxproj]
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/gui-fonts-282/CMakeLists.txt
+  dynamic_probe.cpp
+  legacy_probe.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\gui-fonts-282\build\Release\legacy_probe.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/gui-fonts-282/CMakeLists.txt
+  dynamic_probe.cpp
+cl : command line  warning D9025: overriding '/DNDEBUG' with '/UNDEBUG' [C:\Users\HEQ\Projects\qupathxx\build\gui-fonts-282\build\dynamic_budget_probe.vcxproj]
+  dynamic_probe.cpp
+  imgui_draw.cpp
+  Generating Code...
+  imgui_draw_budget.cpp
+  Generating Code...
+  dynamic_probe.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\gui-fonts-282\build\Release\dynamic_probe.exe
+  dynamic_assert_probe.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\gui-fonts-282\build\Release\dynamic_assert_probe.exe
+  dynamic_budget_probe.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\gui-fonts-282\build\Release\dynamic_budget_probe.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/gui-fonts-282/CMakeLists.txt

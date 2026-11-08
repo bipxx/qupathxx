@@ -1,0 +1,927 @@
+# Scientific sampled-grid contract, proposal 1
+
+This is the preparation contract for queue item 5. Native geometry, level-zero
+float64 RGB/channel sampling, a new C++ explicit-grid cell request/detector and
+QCL5 project retention/replay are implemented on the integration branch.
+QCA5 classifier-source archives and CSV schema 5/6 are also implemented in native
+code. Required frontend exposure and scientific acceptance remain pending.
+Installed nanobind validation
+of the earlier sampler/channel stage does not qualify subsequent public-layout
+changes. All M0–M7 criteria remain in scope.
+
+The current cell path selects natural levels in `cells.cpp::choose`, pads a
+natural-index rectangle in `cell_recipe.hpp::processing_grid`, rounds each read
+origin with `round(index * downsample)`, and evaluates ROI membership at ideal
+level-zero centers. `input_digest.cpp` independently repeats the origin logic
+and includes tile size in the old digest. These are historical semantics; an
+arbitrary grid must not silently replace them under an existing algorithm ID.
+Physical nucleus-area limits already exist in `with_nucleus_area_limits`; reuse
+their inclusive-bound and calibration checks rather than implementing them twice.
+
+## Grid and reader coordinates
+
+Represent a base **integer level-zero extent** `(x0, y0, width, height)` and
+explicit output counts `(nx, ny)`. The actual axis spacings are the exact rational
+values `width/nx` and `height/ny`. A sample `(i,j)` covers half-open footprints
+`[x0+i*width/nx, x0+(i+1)*width/nx)` and the corresponding Y interval. Its center
+is the midpoint. Source pixels occupy integer unit squares. This retains the
+accepted resampler's extent-driven definition and admits anisotropic output.
+
+An optional requested physical spacing is a planning target, not permission to
+mislabel the result: compute counts explicitly and retain both the request and
+actual spacings. Multiplying actual spacings by each captured calibration axis
+gives actual micrometres per sample. Never replace two axes with their mean.
+Zero/unknown calibration is not a physical value; reject physical-parameter
+requests without both finite positive axes. Pixel-unit requests can remain valid.
+
+The first new reader adapter uses explicit **level zero**, with a bounded decoded
+source window. This is an implementation step, not completion of pyramid support.
+It must reject an inadmissible source window before decoding, rather than silently
+coarsen the requested grid. A later natural-level adapter must capture source
+level, decoder/input identity and read-origin phase, and prove its tiling rules.
+Fractional natural downsample plus rounded level-zero read origins is not an
+exact global source grid. Do not claim level-zero numerical equivalence from a
+pyramid's coordinate alignment; differently encoded levels contain different data.
+
+## Context, masks and numeric data
+
+Context `(cx,cy)` extends sample indices to `[-cx,nx+cx)` and `[-cy,ny+cy)` on
+the **same** grid. Conservative read bounds use mathematical floor/ceiling of
+those rational endpoints, including negative values. Clip IO to image bounds;
+retain missing support explicitly. Cropping a source window and resizing it to
+the context size would shift the grid and is forbidden.
+
+Context supplies algorithm input outside the selected ROI. Publication eligibility
+requires a core-grid index, membership of the original ROI at the captured center,
+and valid source support. Capture `RoiSamplingPolicy`; start with the existing
+GeometryCoverage predicate and separately enforce half-open ROI bounding limits.
+Do not infer polygon/hole boundary behavior from rectangle fixtures.
+
+The proposed RGB reader adapter averages opaque RGB8 source footprints with exact
+area weights, yielding **unrounded float64 RGB**, then applies OD/stain transforms.
+Any contributing nonopaque or missing source pixel invalidates that sample; do
+not renormalize around missing support. Record this policy in the recipe. This
+differs from display RGBA8 resampling and must not pass through `PixelBuffer` byte
+rounding. Typed quantitative channels require a distinct dtype-preserving adapter;
+they must never be routed through display RGB or have their validity inferred
+from display alpha. Both adapters share grid geometry, not an implicit data type.
+
+The native `read_scientific_rgb(server, grid)` path reads one bounded, clipped
+level-zero window. Captured image dimensions must match a unit-scale RGBA8 level
+zero. Invalid samples contain canonical zero RGB with validity zero; callers
+must use validity rather than treating zero intensity as missing. Validity alone
+does not encode ROI membership or core-grid eligibility. The output includes
+context at array origin `(-cx,-cy)` and retains its immutable grid.
+
+`ScientificRgbGrid.numpy()` exposes an owning-lifetime, read-only float64 HWC
+view; `valid_numpy()` exposes uint8 HW validity. Explicit `copy=True` creates
+independent mutable arrays outside the sampler's retained-memory budget. The
+sampler does not round to RGBA8 or apply OD/stain transforms itself. The exact
+overlap cap bounds the integer channel numerator to `255 * 2^28`, allowing one
+correctly rounded binary64 division after exact accumulation. Decoder errors,
+wrong-sized/short buffers, closed or mismatched readers and cancellation reject.
+
+Convert exact sample centers to binary64 at the geometry boundary using correctly
+rounded rational values. Avoid platform-dependent `long double` arithmetic and
+rounding a large integer product before division. The oracle retains rational
+coordinates and binary64 hex values, including large origins and half-pixel ties.
+
+## Filters, limits and reproducibility
+
+Physical smoothing/expansion must use actual X/Y sample spacings. Unequal physical
+axes require explicitly anisotropic kernels/metrics; a scalar pixel radius or a
+geometric mean is not an implementation. Capture per-axis resolved parameters
+alongside physical requests. Existing scalar pixel parameters keep their defaults.
+Gaussian support, IO halo and detector context are distinct. A finite Gaussian
+halo does not make global watershed/connectivity computations independently
+tileable. First materialize one bounded processing grid; tile IO only, then use
+the existing whole-grid kernels where their metric contract is correct.
+
+Preflight coordinates, sample counts, context, source support, exact overlap work,
+all live buffers, contour work and cancellation before IO/allocation. Reuse the
+existing 256 MiB reader-buffer and `2^28` area-overlap ceilings; keep the existing
+cell request's total work budget authoritative. The new peak ledger must include
+float64 sampling buffers in addition to detector arrays. Proposed geometric
+admission: integer extents/coordinates within `10^12`, axis sample counts at most
+`10^6`, context at most 4096; reject arithmetic overflow and label-index overflow.
+These caps are not a substitute for the stricter byte/work admission.
+
+The geometry consumer admits a sampling budget (256 MiB default, at most 1 GiB)
+covering one clipped RGBA8 source window plus 24 RGB float64 bytes and one
+validity byte per context sample. The source window separately remains at most
+256 MiB. This is a sampler budget, not a claim to include detector/kernel/contour
+arrays; the future request must admit those additional live allocations.
+
+For a window of indices `[a,b)`, exact 1D overlap visits equal the number of source
+unit cells touched plus the number of noninteger internal sample boundaries.
+For an unpadded extent this reduces to `extent + samples - gcd(extent,samples)`.
+The 2D count is the product of the two axis counts. Validate a native efficient
+formula against the oracle's enumerated rational intersections, including halo.
+
+The new native detector is additive (`GridLogWatershedBodies`, appended enum value;
+`qpx.grid-log-watershed-bodies/1`), with explicit new input-digest and archive
+versions. QCL5 cell runs and QCA5 classifier provenance are implemented.
+The new digest captures grid,
+context, ROI/membership, transform/calibration, validity, source-level/reader
+identity and decoded input in a canonical order independent of IO tile size.
+Old input formats intentionally include tile size and must remain replayable.
+QCL5 and the QCA5 classifier container are additive to QCL1–4/QCA1–4.
+Unknown versions reject; no silent conversion of old provenance or historical masks.
+
+## Implementation and exit evidence
+
+1. Implement one native extent/grid-window planner against the independent
+   [rational oracle](../tests/fixtures/scientific-grid-v1/reference.json). Bind
+   owning immutable values thinly with nanobind. Geometry alone is not a detector.
+2. Add the level-zero float sampler and calibrated/unknown-unit admission, with
+   opaque/partial/missing support and tile-size invariance checks. Reuse exact
+   overlap arithmetic, not the display filter's byte output.
+3. Add one cell request/recipe through native kernels, digest, immutable result,
+   archive/reopen/replay, Python, CLI and ImGui. Implement anisotropic filters
+   before accepting unequal physical axes; preserve every old recipe byte contract.
+4. Validate independent masks/features/split–merge metrics under predeclared
+   tolerances. Keep legacy strict xfails and the 503/478-vs-506 NDPI observations.
+   Synthetic grid arithmetic is not biological or QuPath segmentation acceptance.
+5. Reuse the validated contract for tissue and classifier requests, then add
+   proven natural-level/typed-raw adapters and remaining batch/release coverage.
+
+Research review of physical interpretation and biological tolerance/labels remains
+an M0 prerequisite for scientific acceptance. The oracle fixes exact mathematical
+expectations; it does not select a biological tolerance after seeing native output.
+
+## Geometry implementation evidence
+
+`ScientificGridAxis`, `GridFraction` and `ScientificGrid` are owning C++ values
+in `qupathxx/scientific_grid.hpp`. They compute exact rational edges/centers,
+positive source overlaps, clipped read windows, overlap visits and buffer admission.
+Rational conversion uses integer long division with one nearest-even rounding,
+avoiding both large-product rounding and negative near-zero cancellation.
+
+The independent Python Fraction oracle generates JSON and the C++ expectations;
+the manifest binds their bytes, generator and this contract. Native checks cover
+14 geometry scenarios, eight large-origin counterexamples, 521 exact conversion
+probes and invalid/budget boundary controls. They run within the existing native
+resampling suite. The native RGB suite additionally compares exact float64 means
+and validity against all 14 cases, including partial alpha, missing context and
+large-origin reader windows. It verifies malformed readers and cancellation.
+Installed Python checks cover immutable geometry, exact means and view/copy
+lifetimes; this still does not establish a new detector recipe or biological
+acceptance.
+
+For a bounded selected level-zero extent, the Python path is:
+
+```python
+import qupathxx as q
+
+def sample_extent(server, x, y, width, height, nx, ny, context=0):
+    metadata = server.metadata
+    grid = q.ScientificGrid(
+        metadata.width, metadata.height,
+        q.ScientificGridAxis(x, width, nx, context),
+        q.ScientificGridAxis(y, height, ny, context),
+    )
+    result = q.read_scientific_rgb(server, grid)
+    return result.numpy(), result.valid_numpy()
+```
+
+Planning rejects source/output/work limits before reading; it does not silently
+choose a coarser level for a whole slide. Returned views retain their result
+without retaining a reader. ROI eligibility and physical kernel parameters belong
+to the next detector/request integration step.
+
+## Internal physical kernel preparation
+
+`scientific_cell_numeric.hpp` prepares the additive recipe; existing cell recipes
+do not call it. `PhysicalGridMetric::capture` requires both finite positive
+calibration axes and resolves each exact grid step to binary64 before multiplying
+by that axis calibration. Those resolved spacings must be captured by the future
+request/recipe. Sigma in micrometres resolves separately as `sigma_um / spacing`.
+Unrepresentable results reject rather than becoming zero or an averaged spacing.
+
+The weighted squared-distance transform uses `dx^2 * sx^2 + dy^2 * sy^2`, in
+square micrometres, with geometric distances to zero-valued sites and positive
+infinity for absent sites. Nearest sites are compared exactly using the captured binary64 squared axis
+weights; ties prefer lower row then column. Returned squared distances use
+ordinary binary64 products and sums. A portable pair of uint64 limbs compares
+weighted integer differences without long double or compiler-specific integer
+extensions. Integer first-winning boundaries use bounded binary searches, with
+a conservative O(N log(height)) traversal preflight.
+Optional outside background lies one sample beyond the outermost sample centers;
+that scalar-radius mode does not return nearest-site indices. This is a Euclidean
+metric, not a path distance through ROI obstacles. The existing isotropic shape
+watershed's unit-step ridge corrections have not been generalized by this change.
+
+The new Gaussian is a finite, validity-normalized convolution, X then Y, with
+float64 intermediates and radius `ceil(3 * sigma_axis)` on each axis. Support is
+clipped at the array edge; invalid input values do not contribute, and invalid
+output centers remain canonical zero. This differs from the old LoG nearest-edge
+and float32 policy and must receive its own recipe identity. Kernel radius is at
+most 4096 and total nonempty convolution visits at most `2^28`; stage admission
+includes the value/validity arrays, temporary arrays and coefficients. The whole
+detector must separately admit all simultaneously live buffers and contours.
+Nonfinite valid inputs, arithmetic overflow and cancellation reject.
+
+An independent oracle uses exhaustive Fraction distances (36 scenarios) and
+direct 2D Decimal Gaussian sums at 60 digits (nine scenarios). Distance fixtures
+use exactly representable binary axis spacings and require exact results and
+nearest-site ties, including extreme aspect ratios where rounded total costs
+are indistinguishable. Another 517 exact integer-product comparisons validate
+the portable arithmetic, and 1,024 native exhaustive-site trials exercise small
+binary metrics. Gaussian agreement requires absolute plus relative error
+`2e-12 + 2e-12 * abs(reference)`, declared before native comparison. This is a
+numeric kernel tolerance, not a segmentation or biological tolerance. Byte-bound
+JSON and generated C++ expectations retain both references. No physical cell
+request, per-axis result metadata, LoG/shape/expansion integration or new archive
+version is delivered by these kernel checks alone.
+
+## Float64 channel stage
+
+`scientific_optical_densities` and `scientific_deconvolve` consume
+`ScientificRgbGrid` directly. They apply the established white/minimum-intensity
+OD convention to the float64 area mean, followed by signed stain separation in
+float64. Averaging OD first, rounding the RGB mean to bytes, or returning the
+legacy float32 buffer changes the operation and is not this recipe. The existing
+byte/float32 APIs retain their arithmetic order and invalid-NaN policy.
+
+`ScientificChannels` owns float64 HWC values, uint8 validity, the complete grid,
+mode, algorithm identity, white and normalized basis. Invalid output is canonical
+zero with validity zero. Negative stain channels are retained. NumPy views are
+read-only and retain the output independently of its reader/input/transform;
+explicit copies are mutable and independent.
+
+`scientific_channel_work_bytes(grid)` preflights without reading; the RGB-input
+overload returns the same charge. The stage admits input and output arrays
+(`50 * context_sample_count` bytes), the supplied transform's storage and a
+4096-byte fixed allowance, within a caller budget at most 1 GiB. The reader's
+separate peak and all other simultaneously retained buffers must be included in
+the future whole-detector admission. A budget failure or cancellation produces
+no published result.
+
+An independent 60-digit Decimal reference applies logarithms to the rounded
+float64 RGB means and solves the stain matrix by pivoted Gaussian elimination.
+It includes 44 grid/basis cases, custom white, signed residuals, subunit intensity,
+partial/transparent support, context and a mean-before-OD counterexample. The
+declared numeric tolerance is `2e-12 + 2e-12 * abs(reference)`. Native compatibility
+controls also preserve the pre-refactor byte/float32 operation order over 262,144
+RGB probes. These tests do not provide a new cell result/archive or biological
+acceptance. Per-axis `TissueResult` geometry and detector integration remain next;
+the legacy scalar raster contract has not been relabelled as anisotropic.
+
+## Shared explicit-grid raster integration
+
+`TissueResult` now has an optional owning scientific grid, per-axis steps and exact
+integer edge accessors. The internal `ScientificRasterKernel` builds that shared
+result from captured analysis input and immutable sampled RGB, with dense labels,
+core/ROI/support eligibility and component world bounds. Context is retained in
+the array while labelled samples must belong to the eligible core. Bounding-box
+maxima are half-open. Component centroids use float64 interpolation anchored to
+an exact converted sample center; individual edges/centers retain the grid's
+rational conversion rule. The source calibration and transform remain snapshots.
+
+Explicit-grid results reject `downsample()` and `level_bounds()` rather than
+pretending to be natural-level rasters. Natural-level results retain their prior
+accessors and arithmetic. The contour mapper converts integer raster vertices
+through the exact grid edges on each axis; the legacy affine mapper remains the
+path for ordinary tissue and pixel-classifier results. The planner/factory reject
+collapsed edges or centers that have no representable interior world coordinate.
+The planner helper is available before IO; the factory repeats the check before
+constructing a result. New cell-request admission must invoke it up front.
+
+The sampler captures a `qpx.level-zero-rgba-window/1` SHA-256 while its decoded
+window is still owned: format bytes, uint64 little-endian image dimensions and
+clipped `(x,y,width,height)`, then actual contiguous RGBA bytes. No reread is
+needed by downstream input identity. `qpx.grid-opaque-rgb-area/1` then binds the
+snapshot digest, stable reader ID/level zero, image/grid/extent/count/context,
+analysis kind and sampling policy, the existing QRO1 geometry encoding, white,
+normalized basis, optional captured calibration and actual row-major eligibility
+bits (least-significant bit first). Strings/geometry are length-prefixed uint64;
+double values use their binary64 bits in little-endian order. The digest excludes
+IO tile size, object revisions, timestamps and file paths. Its input identity is
+separate from the eventual detector parameters/recipe identity. An optional
+expected digest in the factory specification must match the computed snapshot.
+
+Native integration checks run reader → float64 channels → explicit-grid mask →
+GEOS contours, including anisotropic areas, ROI holes, half-open clipping, large
+origins and canonical hash vectors independently built with Python hashlib/struct.
+Changed decoded pixels with an unchanged sampled mean still change input identity.
+Factory admission covers RGB/mask/component scratch, captured source metadata,
+geometry serialization and a fixed allowance; the full cell request separately
+admits simultaneous detector buffers before IO.
+
+The internal mask kinds/format identify this new grid family. QTM1/2 encoding and
+ordinary tissue retention reject it; cell archives and the cell request/recipe
+are separate integrations described below. These native raster checks do not establish
+Python/GUI availability, whole-workflow performance or scientific acceptance.
+
+## Native explicit-grid cell recipe
+
+The C++ `CellRequest(document, object_id, transform, grid, GridCellParameters)`
+constructor captures the original area ROI, owner/source identities, transform,
+calibration and grid directly. It does not allocate or preflight the full natural
+ROI raster. Its internal source snapshot cannot be passed to the ordinary
+natural-grid analysis/digest consumer. A scientific center in a subpixel ROI is
+valid even if the ROI contains no native pixel center. Changes to either captured
+calibration axis invalidate the request, including pixel-unit requests whose
+features retain physical calibration.
+
+`GridCellUnits::LevelZeroPixels` resolves each metric step from the exact grid
+extent/count. `Micrometres` multiplies each by its captured calibration axis;
+both axes must be known, positive and finite. Sigma, prominence, minimum radius,
+seed spacing and body expansion use the selected distance unit. Nucleus area
+bounds use its square; zero minimum is allowed and an optional maximum is
+inclusive. Invalid ranges reject. Sample-count cutoffs use a monotone search of
+the calibrated multi-factor product, retaining the existing inclusive area
+contract instead of rounding a combined sample area first. Both contextual
+nuclei and their clipped core/ROI fragments must pass the area bounds.
+
+The new recipe reads one bounded decoded source window, computes float64 channel
+values, then uses the following fixed operations:
+
+1. Validity-normalized Gaussian smoothing, X then Y, with float64 intermediates
+   and per-axis sigma/support. Context supplies filter input outside the ROI.
+2. Negative discrete Laplacian: independent X and Y second differences divided
+   by their metric step squared. Missing neighbours use the current center;
+   invalid centers cannot be positive. No float32 conversion occurs.
+3. Four-connected positive-response components, raw-channel mean thresholding
+   and bounded component/hole filling. Filled samples are restricted to valid
+   source support before shape processing. Background filling is eight-connected.
+4. Weighted Euclidean distance to background, including outside-array
+   background, followed by h-maxima and the shared deterministic shape flood.
+   Peak radii, seed-spacing suppression and h-maxima comparison tolerance use
+   the captured metric; a fixed one-unit tolerance floor would break small-unit
+   requests. Context
+   labels are clipped to the actual eligible core/ROI domain and re-filtered.
+5. Body expansion uses weighted squared distance to nuclei, a strict radius
+   cutoff, float64 priorities and stable FIFO ties. Four-neighbour collisions
+   retain watershed boundaries. Source/ROI holes cannot be crossed by the flood.
+   Sampled-integer buckets and the old one-sampled-pixel shortcut are not used.
+6. Compartment features use the original float64 RGB means and channel values,
+   with compensated sums. Cytoplasm is accumulated directly. Shared per-axis
+   raster construction and exact GEOS edge mapping produce the final masks and
+   contours; calibrated area uses both sample steps and captured calibration.
+
+The request checks reader metadata, representable world centers/edges and metric,
+Gaussian support/visits, EDT traversal limits and its complete conservative byte
+ledger before IO. That ledger charges 256 bytes per context sample, 1,024 per
+possible peak (bounded by sample count and max cells), line/kernel workspace,
+the decoded RGBA window, both contour budgets, captured provenance/ROI storage
+and fixed overhead. Runtime component/edge/vertex limits and cancellation still
+reject; admission cannot predict the biological foreground or contour complexity.
+
+QCL5 now retains the full grid, units, resolved parameters, calibration and
+historical eligibility. It does not reuse QCL1–4/QCA1–4 encodings. Scalar-only
+request/result parameter and grid accessors reject rather than return misleading
+sampled parameters. The existing `CellJob` executes and reconciles this request;
+record retention/publication and replay use its existing owner-authority checks.
+Python/CLI/ImGui detector exposure and batch integration remain unfinished.
+Existing recipe IDs, sampled defaults and archive formats retain
+their original behavior.
+
+The new [exact reference](../tests/fixtures/grid-cells-v1/reference.json) uses
+Fraction arithmetic for 32 zero-sigma metric LoG signs and exhaustive nearest-site
+distances for 128 expansion cases. Hand-calculated native workflow checks include
+anisotropic impulse masks, units/areas, seed spacing, fractional means, captured
+calibration, context/ROI clipping, tiny ROIs, large source dimensions, budget
+boundaries, cancellation and one-read detection. These are engineering checks;
+independent biological labels, split/merge tolerances, upstream comparisons and
+the full scientific/platform/release acceptance remain required.
+
+## QCL5 cell records and replay
+
+`CellArchiveCodec` dispatches explicit-grid results to `QCL\x05`. QCL1–4 bytes and
+their scalar contracts are unchanged. QCL5 is a cell-run format; QCA stores
+classifier feature provenance and needs a separate version for these sources.
+
+All integers are little-endian uint64 unless stated otherwise. Signed grid
+origins use their two's-complement bits; finite binary64 numbers use their IEEE
+bits. The order is fixed:
+
+1. Magic, algorithm enum 4, units, feature and ROI sampling policy; threshold,
+   sigma, prominence, radius, spacing, expansion and minimum area; optional
+   maximum-area flag/value; max cells, detector work limit and contour options.
+2. Image dimensions, X/Y origins, extents, sample counts and context counts.
+3. A length-prefixed, complete QPV2 capture, then white/basis values, resolved
+   X/Y steps and sigmas, and inclusive minimum/maximum sample cutoffs.
+4. Eligible samples, threshold pixels, raw peaks, marker count, feature count,
+   elapsed time and the 64-byte lowercase input SHA256. Each marker is three
+   uint32 values (label, retained label, local pixel index) and a double radius.
+5. Per-label nucleus/body counts and RGB/channel means, plus cytoplasm means
+   exactly when its sample count is positive. Each label raster uses either raw
+   uint32 labels or uint32 run-length/label pairs, preceded by encoding/entry
+   counts. RLE is canonical only when strictly smaller than raw encoding.
+6. A length-prefixed eligibility bitstream, full-context row-major and least
+   significant bit first, with zero padding. Finally, 64 lowercase SHA256 bytes
+   cover `u64(length(QRO1 ROI)) || QRO1 ROI || preceding QCL5 bytes`.
+
+The embedded capture is authoritative for historical calibration and source
+identity. Its QPV checksum, identity, dimensions and unit-scale level zero must
+validate. Requested units/areas must reproduce the serialized resolved values.
+Project storage also writes its existing external provenance row; attaching it
+requires exact agreement with the embedded capture, including calibration and
+environment. It cannot silently replace that capture with today's metadata.
+
+Decode requires matching external image dimensions and a valid source ROI, but
+never reads image pixels. It bounds peaks by the full grid and components by
+markers and eligible samples before allocation; validates label density,
+compartment counts/means, source-supported core/ROI eligibility and padding;
+and reconstructs bodies from the historical nuclei/domain using the captured
+metric recipe. A mask with plausible counts but different watershed geometry
+rejects. Exact canonical re-encoding rejects alternate field/RLE encodings.
+Checksums establish integrity, not authorship or proof that an input SHA belongs
+to actual pixels. Replay verification supplies that fresh input comparison.
+
+Encoded records are limited to 256 MiB. Archive work has a separate fixed 512 MiB
+cap, charging 128 bytes per context sample, 1,024 per retained component, marker
+storage, duplicate provenance/geometry, both contour budgets and four encoded
+buffer allowances for checksum/canonicalization. Encoding applies a conservative
+raw-size bound before allocation; decoding applies the actual encoded size.
+The captured detector work limit still admits the metric/expansion kernels.
+Document record retention separately remains limited to 10,000 records/256 MiB.
+
+Loaded numeric records have no live request ticket and start unverified.
+`CellRequest::replay` recaptures the saved grid and typed parameters, requires the
+same object revision/ROI and calibration, and rechecks resolved geometry before
+IO. A fresh detector result can verify the saved masks, domain, features, markers
+and input hash. Changed source pixels fail verification; changed calibration
+reports `calibration_changed` for a live verified record and rejects replay.
+Publication reuses the existing atomic cell/nucleus commands and feature links.
+
+The [independent QCL5 vector](../tests/fixtures/grid-cell-archive-v1/synthetic-single-cell.json)
+is packed solely with Python struct/hashlib and consumed by native decoding and
+canonical re-encoding. It is an explicitly synthetic historical snapshot with a
+placeholder input hash, not an image/segmentation reference. Native project checks
+cover save, reopen, provenance attachment, fresh replay/verification, second save,
+authority rejection, calibration changes and re-signed malformed records. Python
+bindings, GUI and complete scientific/platform acceptance remain open.
+
+## QCA5 classifier sources and CSV schema 5/6
+
+Object feature capture still requires current verified published measurements.
+For a grid-cell origin it retains an immutable `ObjectCellFeatureSource` with the
+full grid, typed requested/resolved parameters, white/basis, ROI, input SHA and
+capture-time QPV. It does not duplicate the complete run masks. The legacy
+`parameters` and `downsample` fields only describe natural grids; grid sources
+set the algorithm discriminator and a NaN scalar sentinel. Native callers use
+the typed optionals. Python scalar properties reject grid sources; binding the
+typed fields and installed validation remain part of frontend integration.
+
+The QCR1 record envelope is unchanged. Its nested artifact uses QCA5 when any
+source is an explicit grid. Each source manifest has a uint64 kind tag: 0 holds
+the existing extended natural-grid manifest, 1 holds common identity/producer/
+algorithm/input-hash/ROI fields followed by the QCL5 requested-parameter prefix,
+ten grid fields, QPV blob, white/basis and resolved fields. Mixed source cohorts
+retain both representations. No-grid cohorts retain their existing QCA1–4
+selection and bytes. QCA5 with no grid source is noncanonical and rejects.
+
+Decode validates source identity, calibration and resolved values with the same
+native request planner, checks selected nucleus areas and core-grid sample
+limits, and preserves canonical re-encoding. Upsampled cell sample counts can
+exceed the native image pixel count; they are bounded by the captured grid,
+not by a fabricated scalar level. The existing forest/model/table checks and
+snapshot/artifact quotas remain in force. Reopening recomputes model predictions
+from the captured table, not from today's images or cell records.
+
+CSV output containing a grid run uses schema 5, or 6 when capture-calibrated
+feature columns are requested. The same versions apply to document/project and
+published-object tables. Existing no-grid requests retain schema 1–4 and their
+existing columns. A mixed export upgrades the whole table and identifies each
+row's sampling mode. New grid rows leave legacy scalar downsample, sampled
+sigma/radius/spacing/expansion, native requested level/tile and single context
+fields blank; threshold, resolved area-count cutoffs and common contour limits
+remain populated. The detector mode is `grid-log-bodies`.
+
+The additional columns carry sampling mode, separate level-zero sample steps,
+all ten grid fields, selected parameter units (`um` or `level_zero_px`), requested
+sigma/prominence/radius/spacing/expansion/area bounds, resolved metric steps and
+sample sigmas, ROI policy, captured calibration and input format. The maximum
+area is blank when unbounded and zero when explicitly zero. Grid calibration is
+retained even when optional capture-calibrated feature output is disabled.
+Natural rows retain their scalar legacy fields and both equal sample-step values;
+their grid-only columns are blank. Manual or unresolved published rows leave the
+entire descriptor blank. Current object/export calibration and historical source
+calibration keep their distinct columns. Captures remain immutable across edits,
+and existing atomic/cancellable file/job export paths use the same row writer.
+
+The [independent QCA5 vector](../tests/fixtures/grid-cell-consumers-v1/synthetic-classifier.json)
+uses Python struct/hashlib, the independent QCL5 descriptor and a hand-authored
+portable forest. Native code must decode and reproduce the complete QCR1/QCA5
+bytes. It is protocol evidence, not a trained-model or research acceptance claim.
+Native workflow checks cover mixed natural/grid/upsampled origins, malformed
+typed manifests, quoted manual rows, schema/column alignment, captured units and
+calibration, and classifier/CSV project save/reopen. GUI, installed Python,
+complete CLI/batch integration and all wider M0–M7 criteria remain open.
+
+## Typed raw sampling: active contract and exact means
+
+The next workflow consumes `RawRegionRequest`/`RawPixelBuffer` directly through
+the existing raw analysis ownership boundary. Display RGB and TIFF display
+channel/range mapping are not quantitative input. Preserve all ten exposed
+sample types, selected series/Z/T/channel indices and names, source calibration
+(including unknown values), raw bits and validity. The first reader adapter uses
+the existing explicit level-zero grid and one bounded clipped raw window;
+vendor/natural-level/tiled admission remains required subsequent work.
+
+Footprint support is strict. A footprint touching outside the source is invalid;
+an invalid source pixel invalidates that footprint in all channels. Otherwise,
+NaN/Inf invalidates only its own channel. Do not omit a nonfinite value and
+average the remaining values. Invalid outputs are canonical zero with explicit
+per-channel validity/reason information, so they remain distinct from measured
+zeros. Reason precedence is outside support, invalid source pixel, then
+nonfinite channel. ROI/core eligibility is a separate captured center predicate.
+
+Every valid channel mean is the exact weighted sum divided by the exact total
+integer area weight, rounded once to nearest-even IEEE binary64. Never cast
+UInt64/Int64 samples to double before accumulation. Avoid intermediate floating
+overflow when the mathematical mean is finite. Exact cancellation is canonical
++0; a nonzero negative result that underflows to zero retains its sign. Float32
+source values convert exactly to binary64, while all integer bits and binary64
+exponents participate in the exact sum. Source bits, including signed zero and
+nonfinite payloads, remain part of the source identity independently of output.
+
+The private `ExactWeightedMean` dependency is implemented. Separate positive
+and negative 2176-bit accumulators use portable uint32 limbs; under the current
+total-weight bound 2^28, even the largest finite double needs at most 2126 bits.
+Integer sources enter at the correct binary position without floating conversion.
+Integer division plus guard/sticky/remainder tests performs the single final
+rounding. Empty means, nonpositive/over-budget weights and nonfinite inputs
+reject; rejected additions leave an existing accumulator unchanged. This is
+not a new public sampler or a change to legacy raw statistics.
+
+The [independent Fraction oracle](../tests/fixtures/raw-scientific-means-v1/reference.json)
+contains 2,891 cases across all ten dtypes, including 64-bit extrema, normal and
+subnormal ties, cancellation and overflow-resistant finite means. Native tests
+check every result bit in forward and reverse order. Flat constant C++ tables
+retain the oracle values without thousands of dynamic vector initializers.
+The numeric checks now run inside the Windows and Linux native resampling
+targets described below. The standalone compiler/sanitizer results establish
+the numeric dependency; full application/installed qualification remains open.
+
+Before pixel IO, the raw adapter must validate channel/plane/series selection,
+source/grid dimensions, complete source/output/metadata scratch budgets and
+traversal cost. The RGB planner's fixed three-channel/RGBA byte allowance is
+insufficient for arbitrary raw dtype/channel counts. Hash original raw window
+bits and validity, not merely rounded means. Bind grid, selected axes, source
+dtype/names, calibration and the finite/support policy into a new recipe.
+Keep `qpx.raw-roi-statistics/1` and existing records/replay behavior unchanged.
+
+Completion requires the raw-grid reader, immutable analysis request/result,
+job cancellation/stale delivery, retained versioned records, save/reopen/replay,
+CSV, resumed batch and Python/CLI/ImGui consumers. The exact-mean primitive does
+not complete that workflow or any M0–M7 milestone. Add independent raw/TIFF
+sampling fixtures before qualifying the integrated installed application.
+
+### Native raw grid reader
+
+`read_scientific_raw(server, grid, ScientificRawOptions)` is now implemented in
+the native library. Its [Windows/Linux native resampling checks](benchmarks/raw-scientific-sampling-local-windows-linux.json)
+pass at source `c4a9a21`, including the independent cases below.
+Options capture contiguous channel selection and explicit Z/T indices; the
+server's selected series is retained in raw metadata. `scientific_raw_work_bytes`
+validates matching unit-scale raw level zero, valid series and selections, raw
+buffer limits, output HWC arrays, metadata copies and fixed scratch. The numeric
+quota charges source/channel visits and exact-division passes. The existing
+`ScientificGrid` geometry budget remains a conservative prerequisite; this
+bounded window implementation does not admit arbitrary whole-slide regions.
+
+`ScientificRawGrid` owns its grid, raw metadata snapshot, options, HWC float64
+means, validity and reasons. Validity uses 1 for a valid channel; reason tags are
+0=valid, 1=outside source footprint, 2=invalid source pixel and 3=nonfinite
+channel. Source support is independent of ROI/core eligibility. The result
+survives reader close, and metadata/calibration snapshots do not track later
+reader changes. Reader-owned decode/cache resources remain independently bounded.
+
+`decoded_source_sha256` uses `qpx.raw-level-zero-window/1`, followed by fixed-width
+little-endian uint64 metadata/window/selection fields, selected raw HWC sample
+bits in their original 1/2/4/8-byte little-endian widths, then byte validity.
+Original NaN payloads and signed zero are hashed even if they do not produce a
+valid mean. `input_sha256` uses `qpx.grid-raw-area-exact/1`, length-framed decoded
+hash and reader ID, ten grid fields, dimension order, natural-level metadata,
+channel names and presence-tagged calibration/time values. Work quota is not a
+numerical input. File/Document request authority will be supplied by the existing
+raw analysis capture, not inferred from this sampler's data hash.
+
+The independent sampling oracle uses all-source rational overlap intersections
+and Python hashlib. Its 94 cases specify 3,732 output channel bits/reasons and
+both hashes, across all ten dtypes, selected channels/Z/T, fractional reduction,
+upsampling, context/outside/partial support and nonfinite payloads. Native tests
+also reject malformed reader buffers, bad selections, insufficient work, failed
+decodes and cancellation, and distinguish raw bit changes hidden by equal rounded
+means. The old RGB sampler and old raw analysis recipes remain unchanged.
+
+These are selected native-target checks with fake quantitative readers, not a
+new full native/installed/platform campaign or an actual TIFF-backed scientific
+analysis workflow. The new sampler/tests and mean tests also pass selective
+ASan/UBSan instrumentation linked to inherited unsanitized core. The installed
+module remains the retained source169 engine until the new request/record and
+frontend changes are integrated and packaged.
+
+
+### Raw hash-only capture
+
+`digest_scientific_raw` shares selection validation, bounded raw capture and
+canonical hashing with `read_scientific_raw`. It reads and validates the selected
+source window but allocates no output HWC values/validity/reasons and performs
+no area means. It retains the same numeric geometry admission limits so a digest
+does not imply admission of an otherwise unsupported analysis request. Its work
+estimate excludes the output arrays; budget is not part of input identity.
+Metadata is copied before pixel IO in both paths. Hashes describe that captured
+epoch even if a reader callback subsequently changes its exposed metadata.
+The digest is input evidence, not document publication or replay authority.
+
+
+### Explicit-grid raw analysis (native integration)
+
+`RawAnalysisRequest(document, grid, options, object_id, nucleus, max_pixels)`
+captures the existing object/nucleus/TMA context, effective document calibration,
+reader and publication ticket without decoding pixels. The natural-level
+constructor and `qpx.raw-roi-statistics/1` remain unchanged. Grid requests/results
+expose a typed grid descriptor; their natural `region()` accessor rejects.
+Grid metadata retains source dtype and axes, with no scalar downsample (NaN in
+the legacy metadata field); derived samples are binary64.
+
+`qpx.raw-grid-statistics/1` counts eligible core centers in `pixels`, independently
+of source support. Context samples never contribute to statistics. With an ROI,
+core centers use geometry coverage and the existing half-open bounds test.
+`valid_pixels` counts full source support, including nonfinite channel values.
+Each channel partitions supported samples into finite/nonfinite counts; missing
+or outside support contributes to neither. Finite statistics summarize rounded
+binary64 area samples: their mean uses an exact reduction with one final rounding.
+This two-stage mean is not a pooled mean of all original source pixels.
+
+The analysis input hash frames the sampling input identity, effective document
+pixel calibration and optional canonical ROI geometry. Digest scanning shares
+that hash but performs no ROI containment or statistics. Numeric geometry and
+work admission precede pixel IO. Jobs reuse cancellation, owner-thread polling
+and stale-delivery checks. Grid record retention, QRA2, project replay and CSV
+remain pending; the native analysis result does not imply those consumers work.
+
+
+### QRA2 grid records and typed raw CSV
+
+Grid analysis records use QRA2; natural records keep QRA1 unchanged. QRA2 prefixes
+the legacy common record body with ten signed grid integers (image dimensions,
+origins, extents, sample counts, contexts), work budget, reader identity, decoded
+and sampling hashes, original raw dimensions/axes/series-count/dtype, dimension
+order, all source levels and channel names, and original calibration/spacing.
+Integers are uint64 little endian (signed values use two's complement), strings
+are uint64 byte-length framed UTF-8, and optional doubles use a uint64 presence
+flag followed by binary64 bits. The common body remains in QRA1 field order;
+grid-only internal region coordinates are canonical 0,0,1,1 at level zero, with
+selection from the captured options. They have no public natural-region meaning.
+The grid scale sentinel is canonical binary64 0x7ff8000000000000. Both versions
+end with the ASCII lowercase SHA-256 of the preceding bytes and retain the
+16 MiB encoding limit. Unknown versions, alternate grid sentinels and trailing
+bytes reject. Independent Python struct/hashlib vectors pin both versions.
+
+Validation checks source/derived metadata, geometry and full-analysis admission,
+selected channel names, both provenance hash relationships, ROI-eligible core
+counts and per-channel support partitions. Historical records retain no request
+publication ticket. Explicit replay captures a new request and verifies current
+object/context/calibration/series and recomputed pixels before restoring current
+status; save/reopen alone leaves records unverified. Existing project blob
+storage carries either version without a SQL schema migration.
+
+Natural-only CSV stays schema 1 byte compatible. Grid or mixed tables use schema
+2 with sampling kind, derived sample type, explicit core origin/extent/counts,
+contexts and decoded/sampling hashes. Grid rows leave natural level, scalar
+scale and natural region origin fields blank. Output dimensions include context;
+statistics count eligible core centers only. Source dtype remains separate from
+derived binary64 statistics. Native retention/replay/CSV are additional delivery
+steps; Python, CLI/batch, ImGui and complete installed/platform validation remain
+required before declaring the whole workflow accepted.
+
+Grid replay compares finite statistic bits, including zero signs; natural recipes
+retain their existing numeric comparison policy. Native evidence runners retain
+up to 1 MiB of successful-test output so required semantic markers remain in
+JUnit; a green run whose output was truncated is not accepted as marker proof.
+
+
+### Python typed raw interface
+
+`ScientificRawOptions` selects channel range, Z/T and sampling work budget.
+`read_scientific_raw` returns an owned `ScientificRawGrid`; `numpy()`,
+`valid_numpy()` and `reasons_numpy()` expose readonly HWC float64/uint8/uint8
+views retaining the native result. `copy=True` returns independent writable
+arrays. Metadata and options getters return snapshots. `digest_scientific_raw`
+returns the same sampling input/source hashes without sampled output arrays.
+
+The explicit-grid `RawAnalysisRequest` overload, request grid/options, and
+optional result `RawAnalysisGrid` descriptor expose original source metadata,
+derived sample dtype and source/sampling hashes. The descriptor retains its
+parent result. Natural results have `grid is None`; generated annotations retain
+that optionality. Existing synchronous/jobs/retention/replay/CSV APIs share the
+native implementation. Blocking native readers release the GIL using the same
+native ownership path as the existing scientific RGB interface.
+
+Binding registration puts grid/raw-option types before overload defaults.
+Generated NumPy annotations use a private module alias to avoid shadowing by
+methods named `numpy`. Strict positive/negative typing and installed export/
+member guards accompany runtime checks. The current Windows isolated candidate
+has TIFF enabled; a packaged wheel, broader platforms and raw CLI/batch/ImGui
+producer delivery remain separate acceptance gates.
+
+
+### Raw ROI grid planning and batch recipe
+
+`RawGridSampling` declares per-axis core sample counts (1..1000000) and context
+(0..4096). `RawAnalysisRequest.for_grid_roi` rounds the selected body/nucleus ROI
+bounds outward to integer level-zero edges and uses the shared count planner.
+Construction does not read pixels or raw metadata. Document annotations and both
+cell/raw convenience planners require ROI bounds inside the image. Context may
+extend outside the image; explicit-grid requests also support outside core
+bounds. Eligible centers remain separate from strict source support.
+
+A raw batch may set `raw_grid` and `raw_grid_work_bytes`; source selection and
+follow-display Z/T reuse the existing raw fields. Natural raw batches keep their
+parameter grammar; grid batches add an explicit raw-grid recipe, count/context/
+work fields and `qpx.raw-grid-statistics-input/1` identity. Compute uses the grid
+request/result/retention path, and resume uses the hash-only digest without mean
+or ROI-containment work. Per-image calibrated inputs, QRA2 records and typed CSV
+remain captured by the existing checkpoint publication path.
+
+The batch CLI selects this recipe with `--raw-grid-samples NX,NY`, optionally
+`--raw-grid-context CX,CY` and `--raw-grid-work-bytes N`. Context/work flags require
+explicit sample counts; grid mode rejects natural level/tile flags. Quantitative
+channel/Z/time flags and Unicode project/checkpoint paths retain their meaning.
+New producer option bindings require the next grouped module/stub candidate;
+older isolated Python artifacts keep their own source identity and API surface.
+
+
+### Raw grid desktop and managed producers
+
+The quantitative channels Data tab offers explicit raw-grid sampling for a
+selected area ROI. Core counts and per-axis context use the same ROI planner as
+batch/Python requests. Channel selection and explicit/follow-display Z/time use
+the existing controls. Measurement uses `RawAnalysisJob`; Results keep the
+immutable QRA2 record and Records replay/export it. Original-sample NumPy export
+remains in natural sampling mode. The project batch launcher exposes the same
+grid counts/context/work recipe and preserves hash-only checkpoint reuse.
+
+`GuiOptions.raw_grid` is an optional copied `RawGridSampling` value;
+`raw_grid_work_bytes` bounds sampler work. `ViewerSession.analyze_raw_grid`
+copies counts and `ScientificRawOptions` when queued. The owner resolves the
+current ROI/calibration/source when it starts, then uses the existing worker and
+publication checks. `retain_result=True` publishes through Document retention;
+`verify_raw_analysis` replays grid records through the retained descriptor.
+Cancelled or stale tickets do not publish records. Taking a ticket releases its
+endpoint result accounting, while returned immutable results may remain owned
+by the caller. These controls do not constitute acceptance of a full ROI/context
+workspace ledger or owner-thread performance budget.
+
+The [local frontend receipt](benchmarks/raw-grid-frontends-local-windows-linux.json)
+records Windows installed runtime, regenerated stubs, strict typing and desktop
+interaction/rendering checks at compiled8ece80e/delivery283a197. Selected Windows
+and TIFF/project Linux native checks pass. Complete workspace/owner-thread budgets,
+wheels and full platform qualification remain separate requirements. Earlier
+receipts retain their exact source scope.
+
+
+### Raw-grid captured workspace and validation authority
+
+New raw-grid executions admit the captured request/result payload together with
+the sampler before decoder IO. The sampler's single metadata snapshot supplies
+both the sampling calculation and the analysis reservation, including an expected
+series check. Beyond the sampler's existing source/output/metadata/hash scratch,
+the reservation includes 64 KiB fixed slack, request/result objects, two copies
+of captured object/TMA context and ReaderSource payload, eight ROI payloads for
+captured geometry and geometry-encoding temporaries, and three additional raw
+metadata payloads. Materialized statistics also reserve one eligibility byte per
+full grid sample (including context) and 64 bytes per selected channel. Hash-only
+capture omits sampled outputs, eligibility and statistics arrays. These are
+conservative payload bounds; reader decode/cache, allocator/runtime overhead and
+separately retained caller results require their own budgets.
+
+The worker records its already-computed eligible count in a private immutable
+result field. A full archive decode establishes that field only after semantic
+validation. Repeated record validation still checks metadata, source, numeric
+statistics and the input hash binding the exact grid/calibration/mask, but reuses
+this count and geometry precision authority. A changed public record mask cannot
+reuse the proof, and recomputing an envelope checksum cannot bypass the initial
+semantic count check. The authority is never encoded into QRA1/QRA2 bytes.
+Cancellation is checked during an uncached eligibility validation scan.
+
+Retained QRA2 uses its original work-admission grammar so a formerly valid low
+budget does not make historical data unreadable. A new execution/replay must
+satisfy the complete captured-workspace admission; an insufficient historical
+budget may require a new capture with a larger budget. Natural QRA1 behavior,
+canonical archive bytes and original input hashes remain unchanged.
+
+Geometry precision admission uses a conservative representable-gap bound when
+half a sample step must remain distinct from either edge after nearest-even
+rounding. Ambiguous cases retain the original per-sample validation. The test
+oracle checks the actual binary64 center/edge ordering over 1,092 signed,
+large-coordinate, context and precision-boundary grids. These changes do not
+accept full application RSS, hardware latency or the remaining M0-M7 budgets.
+
+
+### Frozen fixture contract provenance
+
+The six RGB/scientific geometry, channel, physical-kernel, cell and cell-archive
+fixture manifests bind the exact qualified source169 contract snapshot at
+`tests/fixtures/scientific-grid-v1/contract.md`, SHA-256
+`d74f202495ca3bd6df88fe543dce5c597778c65ece006326d3097e2f49e77bbd`.
+It is byte-identical to `3fc3bcb:docs/scientific-grid-contract.md`; manifests retain
+that source and original path. The live document adds later recipes and budgets.
+Future additions must not silently rewrite an old fixture's frozen contract or
+weaken its generator/native-header/data checks. A changed numerical contract
+requires explicit fixture versioning and renewed native/reference evidence.
+
+
+## Quantitative TIFF storage-layout integration
+
+The installed `test_scientific_raw_tiff_layouts` cohort adds 30 required synthetic
+reader/sampler cases. An independent Python Fraction overlap and weighted-mean
+oracle compares every binary64 output bit, reason and channel-validity byte.
+It covers compressed strips, tiles, big-endian tiles and separate-plane tiles;
+UInt64 values above 2^63, signed cancellation and Float64 nonfinite channels;
+fractional footprints crossing blocks and outside-image context. Equivalent
+storage layouts retain decoded/input digests while file provenance stays separate.
+
+Deliberately different coarse SubIFD pixels verify explicit scientific sampling
+uses level zero. Tiled one-file OME cases exercise selected channels/Z/time and
+anisotropic calibration; another case selects a nondefault plain-TIFF series.
+Zero decoder-cache retention must preserve results. Exact workspace admission
+rejects one byte below the requirement before block decoding; changed sources
+reject digest replay. These checks do not establish vendor-format support,
+multi-file OME, arbitrary pyramid policies, whole-slide streaming, biological
+acceptance, decoder/process RSS limits or UI/hardware performance.
+
+
+## Bounded hash-only raw capture
+
+`digest_scientific_raw` keeps the existing canonical HWC sample bytes followed
+by window validity bytes, with unchanged source/input recipe domains. Large
+hash-only captures retain one validity byte per clipped source pixel and one
+bounded decoded chunk, rather than the complete typed source window. The
+chunk target is 64 KiB including validity; one complete selected HWC pixel is
+the minimum if its channels exceed that target. Full-width row groups or
+horizontal one-row splits preserve row-major order without a second IO pass.
+Small captures retain their existing single-read path and admission values.
+
+Admission includes chunk and retained validity payloads, metadata/captured
+context and the existing fixed scratch allowance before decoding. Every chunk
+checks shape/type/storage/capacity and support bits; cancellation and later
+reader failures reject the entire digest. One initial metadata epoch supplies
+all hash metadata. Decoder/cache allocations, process RSS and caller-held results
+remain separate budgets. Materialized numeric results, legacy digest bytes, QRA1/QRA2 encoding,
+recipe identities and statistics stay unchanged; the bounded materialization
+policy below extends resource admission separately. ScientificGrid's existing
+geometry/source/traversal limits still apply; this does not complete whole-slide
+streaming or vendor/multi-file reader support.
+
+
+## Bounded coarse-grid materialization
+
+Large coarse typed grids can materialize output without retaining the full raw
+source window. Planning is independent of the caller's budget: it selects this
+path only when the chunk/mask/commitment/accumulator ledger is smaller and the
+conservative source/chunk traversal bound fits. Otherwise the existing full
+window remains selected, preserving dense-grid admission and avoiding excessive
+chunk rereads. Small windows retain their original path. Querying work bytes and
+executing with exactly that budget agree; one byte below rejects before IO.
+
+The first pass preserves the canonical decoded/input hashes and pins the exact
+value bits, validity, location, dtype and axes of every chunk. Coarse output
+footprints reread only intersecting canonical chunks and verify those commitments
+before using values. Per-channel exact weighted accumulators round once, with
+outside/invalid/nonfinite precedence unchanged. Cancellation or a changed chunk
+rejects the whole result. No partial samples are published. The ledger includes
+retained validity, chunk commitments, per-channel accumulators/flags and output
+arrays plus existing captured payloads and scratch. All output, keep/replay,
+CLI/batch and ImGui/viewer paths share this native authority.
+
+QRA1/QRA2 layouts and golden encodings are unchanged. Old records remain readable;
+new lower-budget recipes may require a reader implementing the new resource
+admission policy. This is not a change to numerical sampling or recipe identity.
+The strategy deliberately trades bounded repeated IO/hashing for lower captured
+memory. It does not promise a speedup, constant memory, decoder/process RSS,
+whole-slide coverage or removal of existing geometry/traversal limits.
+
+
+### QuPath 0.7 body-boundary revision
+
+`CellProcessingPolicy::QuPath070V2` (Python `QUPATH_070_V2`, CLI
+`--cell-processing qupath070-v2`) opts into the captured QuPath initial
+watershed frontier at the outer processing-grid boundary. The 256 by 256
+public CMU-1 NDPI reference crop has 506 nuclei; the V1 body mask differs
+at eight boundary pixels. V2 admits those boundary pixels into the initial
+frontier using the captured FloatProcessor outside-boundary semantics.
+The nucleus kernel and its `/1` identity remain unchanged. The body and
+cell-recipe identities use `/2`; the processing key is `qupath070/2`.
+
+The enum appends value 3 after the existing values 0 through 2. Quantitative
+remains the default and `QUPATH_070` retains its original frontier and `/1`
+identities. Saved recipes select their captured revision during replay.
+QCL8 and QCA8 retain their existing layout, with their processing enum domain
+extended to 3; older readers reject this unknown enum value. No existing
+value or record is reinterpreted. This follows the additive compatibility
+rule used for the other processing and sampling choices.
+
+The native fixture is decoded from the existing public capture without
+running expansion or changing label identities. Native tests require V2
+exactness and the eight retained V1 differences for both frontier queues.
+Installed real-source tests separately require exact input RGB, all 506
+nucleus/body masks and the declared feature arithmetic. These are engineering
+checks for this crop and recipe, not biological validation or a speed claim.
+The existing isotropic-grid, opaque-input, calibration, memory, cancellation
+and source-ownership admission rules still apply.

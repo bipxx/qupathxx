@@ -1,0 +1,16 @@
+Internal ctest changing into directory: /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native
+Test project /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native
+    Start  6: qptma_project
+1/5 Test  #6: qptma_project ....................   Passed    0.90 sec
+    Start  7: qptma
+2/5 Test  #7: qptma ............................   Passed    0.11 sec
+    Start 10: viewer_session
+3/5 Test #10: viewer_session ...................   Passed    0.43 sec
+    Start 11: tma
+4/5 Test #11: tma ..............................   Passed    1.03 sec
+    Start 12: tma_dearray
+5/5 Test #12: tma_dearray ......................   Passed    1.77 sec
+
+100% tests passed, 0 tests failed out of 5
+
+Total Test time (real) =   4.37 sec

@@ -1,0 +1,150 @@
+WARNING: Unknown module: javafx.graphics specified to --add-opens
+WARNING: Unknown module: javafx.base specified to --add-opens
+WARNING: Unknown module: javafx.web specified to --enable-native-access
+WARNING: Unknown module: javafx.graphics specified to --enable-native-access
+WARNING: Unknown module: javafx.media specified to --enable-native-access
+21:30:49.816 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting default Locale to en_US
+21:30:49.820 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting Locale for FORMAT to en_US
+21:30:49.820 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting Locale for DISPLAY to en_US
+21:30:49.845 [main] [INFO ] qupath.lib.common.ThreadTools - Setting parallelism to 19
+21:30:49.858 [main] [INFO ] qupath.ScriptCommand - Setting tile cache size to 16352.00 MB (25.0% max memory)
+21:30:49.972 [main] [INFO ] qupath.lib.scripting.QP - Initializing type adapters
+21:30:51.148 [main] [ERROR] qupath.ScriptCommand - startup failed:
+qupath_axis_calibration_reference.groovy: 54: Unexpected input: '{\r\r\n    def server=ImageServerProvider.buildServer(output.resolve('source.ome.tif').toString(),BufferedImage.class)\r\r\n    def entry=project.addImage(server.getBuilder());entry.setImageName(spec.name)\r\r\n    def data=new ImageData(server)\r\r\n    if(!reuse) {\r\n    data.updateServerMetadata(new ImageServerMetadata.Builder(server.getMetadata()).zSpacingMicrons(spec.z)\r\r\n        .timepoints(spec.unit,spec.times.collect{it as double} as double[]).build())\r\r\n    def roi=PathObjects.createAnnotationObject(ROIs.createRectangleROI(1,2,8,9,ImagePlane.getPlane(2,3)))\r\r\n    roi.setName('Last plane');data.getHierarchy().getRootObject().addChildObject(roi)\r\r\n    entry.saveImageData(data)\r\r\n    def restored=entry.readImageData();def metadata=restored.getServerMetadata();def cal=metadata.getPixelCalibration()\r\r\n    def secondsPerUnit=[NANOSECONDS:1e-9,MICROSECONDS:1e-6,MILLISECONDS:1e-3,SECONDS:1.0,MINUTES:60.0,HOURS:3600.0,DAYS:86400.0][cal.getTimeUnit().name()]\r\r\n    rows.add([reused:reuse,name:spec.name,z_spacing_um:Double.toHexString(cal.getZSpacingMicrons()),time_unit:cal.getTimeUnit().name(),\r\r\n        times:(0..<cal.nTimepoints()).collect{Double.toHexString(cal.getTimepoint(it))},\r\r\n        seconds:(0..<cal.nTimepoints()).collect{Double.toHexString(cal.getTimepoint(it)*secondsPerUnit)},\r\r\n        z_planes:metadata.getSizeZ(),timepoints:metadata.getSizeT(),plane:[2,3]])\r\r\n    restored.getServer().close();server.close()\r\n    project.syncChanges()\r\n    Files.writeString(output.resolve('reference.json'),GsonTools.getInstance(true).newBuilder().serializeNulls().create().toJson(rows)+'\n')\r\r\n}\r\r\nproject.syncChanges()\r\r\nFiles.writeString(output.resolve('reference.json'),GsonTools.getInstance(true).newBuilder().serializeNulls().create().toJson(rows)+'\n')\r\r\n' @ line 53, column 1.
+       [name:'nonmonotonic',unit:TimeUnit.SECONDS,times:[5,3,3,-1],z:4.5],
+   ^
+
+1 error
+ in qupath_axis_calibration_reference.groovy at line number 53
+javax.script.ScriptException: startup failed:
+qupath_axis_calibration_reference.groovy: 54: Unexpected input: '{\r\r\n    def server=ImageServerProvider.buildServer(output.resolve('source.ome.tif').toString(),BufferedImage.class)\r\r\n    def entry=project.addImage(server.getBuilder());entry.setImageName(spec.name)\r\r\n    def data=new ImageData(server)\r\r\n    if(!reuse) {\r\n    data.updateServerMetadata(new ImageServerMetadata.Builder(server.getMetadata()).zSpacingMicrons(spec.z)\r\r\n        .timepoints(spec.unit,spec.times.collect{it as double} as double[]).build())\r\r\n    def roi=PathObjects.createAnnotationObject(ROIs.createRectangleROI(1,2,8,9,ImagePlane.getPlane(2,3)))\r\r\n    roi.setName('Last plane');data.getHierarchy().getRootObject().addChildObject(roi)\r\r\n    entry.saveImageData(data)\r\r\n    def restored=entry.readImageData();def metadata=restored.getServerMetadata();def cal=metadata.getPixelCalibration()\r\r\n    def secondsPerUnit=[NANOSECONDS:1e-9,MICROSECONDS:1e-6,MILLISECONDS:1e-3,SECONDS:1.0,MINUTES:60.0,HOURS:3600.0,DAYS:86400.0][cal.getTimeUnit().name()]\r\r\n    rows.add([reused:reuse,name:spec.name,z_spacing_um:Double.toHexString(cal.getZSpacingMicrons()),time_unit:cal.getTimeUnit().name(),\r\r\n        times:(0..<cal.nTimepoints()).collect{Double.toHexString(cal.getTimepoint(it))},\r\r\n        seconds:(0..<cal.nTimepoints()).collect{Double.toHexString(cal.getTimepoint(it)*secondsPerUnit)},\r\r\n        z_planes:metadata.getSizeZ(),timepoints:metadata.getSizeT(),plane:[2,3]])\r\r\n    restored.getServer().close();server.close()\r\n    project.syncChanges()\r\n    Files.writeString(output.resolve('reference.json'),GsonTools.getInstance(true).newBuilder().serializeNulls().create().toJson(rows)+'\n')\r\r\n}\r\r\nproject.syncChanges()\r\r\nFiles.writeString(output.resolve('reference.json'),GsonTools.getInstance(true).newBuilder().serializeNulls().create().toJson(rows)+'\n')\r\r\n' @ line 53, column 1.
+       [name:'nonmonotonic',unit:TimeUnit.SECONDS,times:[5,3,3,-1],z:4.5],
+   ^
+
+1 error
+ in qupath_axis_calibration_reference.groovy at line number 53
+	at qupath.lib.gui.scripting.languages.DefaultScriptLanguage.execute(DefaultScriptLanguage.java:309)
+	at qupath.ScriptCommand.runBatchScript(QuPath.java:524)
+	at qupath.ScriptCommand.runSingleScript(QuPath.java:475)
+	at qupath.ScriptCommand.run(QuPath.java:418)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2045)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2469)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2423)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2277)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2425)
+	at picocli.CommandLine.execute(CommandLine.java:2174)
+	at qupath.QuPath.main(QuPath.java:208)
+Caused by: org.codehaus.groovy.control.MultipleCompilationErrorsException: startup failed:
+qupath_axis_calibration_reference.groovy: 54: Unexpected input: '{\r\r\n    def server=ImageServerProvider.buildServer(output.resolve('source.ome.tif').toString(),BufferedImage.class)\r\r\n    def entry=project.addImage(server.getBuilder());entry.setImageName(spec.name)\r\r\n    def data=new ImageData(server)\r\r\n    if(!reuse) {\r\n    data.updateServerMetadata(new ImageServerMetadata.Builder(server.getMetadata()).zSpacingMicrons(spec.z)\r\r\n        .timepoints(spec.unit,spec.times.collect{it as double} as double[]).build())\r\r\n    def roi=PathObjects.createAnnotationObject(ROIs.createRectangleROI(1,2,8,9,ImagePlane.getPlane(2,3)))\r\r\n    roi.setName('Last plane');data.getHierarchy().getRootObject().addChildObject(roi)\r\r\n    entry.saveImageData(data)\r\r\n    def restored=entry.readImageData();def metadata=restored.getServerMetadata();def cal=metadata.getPixelCalibration()\r\r\n    def secondsPerUnit=[NANOSECONDS:1e-9,MICROSECONDS:1e-6,MILLISECONDS:1e-3,SECONDS:1.0,MINUTES:60.0,HOURS:3600.0,DAYS:86400.0][cal.getTimeUnit().name()]\r\r\n    rows.add([reused:reuse,name:spec.name,z_spacing_um:Double.toHexString(cal.getZSpacingMicrons()),time_unit:cal.getTimeUnit().name(),\r\r\n        times:(0..<cal.nTimepoints()).collect{Double.toHexString(cal.getTimepoint(it))},\r\r\n        seconds:(0..<cal.nTimepoints()).collect{Double.toHexString(cal.getTimepoint(it)*secondsPerUnit)},\r\r\n        z_planes:metadata.getSizeZ(),timepoints:metadata.getSizeT(),plane:[2,3]])\r\r\n    restored.getServer().close();server.close()\r\n    project.syncChanges()\r\n    Files.writeString(output.resolve('reference.json'),GsonTools.getInstance(true).newBuilder().serializeNulls().create().toJson(rows)+'\n')\r\r\n}\r\r\nproject.syncChanges()\r\r\nFiles.writeString(output.resolve('reference.json'),GsonTools.getInstance(true).newBuilder().serializeNulls().create().toJson(rows)+'\n')\r\r\n' @ line 54, column 1.
+       [name:'nonmonotonic',unit:TimeUnit.SECONDS,times:[5,3,3,-1],z:4.5],
+   ^
+
+1 error
+
+	at org.codehaus.groovy.control.ErrorCollector.failIfErrors(ErrorCollector.java:292)
+	at org.codehaus.groovy.control.ErrorCollector.addFatalError(ErrorCollector.java:148)
+	at org.apache.groovy.parser.antlr4.AstBuilder.collectSyntaxError(AstBuilder.java:4714)
+	at org.apache.groovy.parser.antlr4.AstBuilder$3.syntaxError(AstBuilder.java:4725)
+	at groovyjarjarantlr4.v4.runtime.ProxyErrorListener.syntaxError(ProxyErrorListener.java:44)
+	at groovyjarjarantlr4.v4.runtime.Parser.notifyErrorListeners(Parser.java:543)
+	at groovyjarjarantlr4.v4.runtime.DefaultErrorStrategy.notifyErrorListeners(DefaultErrorStrategy.java:154)
+	at org.apache.groovy.parser.antlr4.internal.DescriptiveErrorStrategy.reportNoViableAlternative(DescriptiveErrorStrategy.java:92)
+	at groovyjarjarantlr4.v4.runtime.DefaultErrorStrategy.reportError(DefaultErrorStrategy.java:139)
+	at org.apache.groovy.parser.antlr4.GroovyParser.statement(GroovyParser.java:6953)
+	at org.apache.groovy.parser.antlr4.GroovyParser.loopStatement(GroovyParser.java:6234)
+	at org.apache.groovy.parser.antlr4.GroovyParser.statement(GroovyParser.java:6824)
+	at org.apache.groovy.parser.antlr4.GroovyParser.scriptStatement(GroovyParser.java:515)
+	at org.apache.groovy.parser.antlr4.GroovyParser.scriptStatements(GroovyParser.java:425)
+	at org.apache.groovy.parser.antlr4.GroovyParser.compilationUnit(GroovyParser.java:361)
+	at org.apache.groovy.parser.antlr4.AstBuilder.buildCST(AstBuilder.java:250)
+	at org.apache.groovy.parser.antlr4.AstBuilder.buildCST(AstBuilder.java:228)
+	at org.apache.groovy.parser.antlr4.AstBuilder.buildAST(AstBuilder.java:269)
+	at org.apache.groovy.parser.antlr4.Antlr4ParserPlugin.buildAST(Antlr4ParserPlugin.java:58)
+	at org.codehaus.groovy.control.SourceUnit.buildAST(SourceUnit.java:256)
+	at java.base/java.util.Iterator.forEachRemaining(Unknown Source)
+	at java.base/java.util.Spliterators$IteratorSpliterator.forEachRemaining(Unknown Source)
+	at java.base/java.util.stream.ReferencePipeline$Head.forEach(Unknown Source)
+	at org.codehaus.groovy.control.CompilationUnit.compile(CompilationUnit.java:639)
+	at groovy.lang.GroovyClassLoader.doParseClass(GroovyClassLoader.java:399)
+	at groovy.lang.GroovyClassLoader.lambda$parseClass$5(GroovyClassLoader.java:345)
+	at org.codehaus.groovy.runtime.memoize.ConcurrentCommonCache.getAndPut(ConcurrentCommonCache.java:138)
+	at groovy.lang.GroovyClassLoader.parseClass(GroovyClassLoader.java:345)
+	at groovy.lang.GroovyClassLoader.parseClass(GroovyClassLoader.java:329)
+	at groovy.lang.GroovyClassLoader.parseClass(GroovyClassLoader.java:303)
+	at org.codehaus.groovy.jsr223.GroovyScriptEngineImpl.getScriptClass(GroovyScriptEngineImpl.java:350)
+	at org.codehaus.groovy.jsr223.GroovyScriptEngineImpl.eval(GroovyScriptEngineImpl.java:159)
+	at qupath.lib.gui.scripting.languages.DefaultScriptLanguage.execute(DefaultScriptLanguage.java:231)
+	... 12 common frames omitted
+java.lang.RuntimeException: javax.script.ScriptException: startup failed:
+qupath_axis_calibration_reference.groovy: 54: Unexpected input: '{\r\r\n    def server=ImageServerProvider.buildServer(output.resolve('source.ome.tif').toString(),BufferedImage.class)\r\r\n    def entry=project.addImage(server.getBuilder());entry.setImageName(spec.name)\r\r\n    def data=new ImageData(server)\r\r\n    if(!reuse) {\r\n    data.updateServerMetadata(new ImageServerMetadata.Builder(server.getMetadata()).zSpacingMicrons(spec.z)\r\r\n        .timepoints(spec.unit,spec.times.collect{it as double} as double[]).build())\r\r\n    def roi=PathObjects.createAnnotationObject(ROIs.createRectangleROI(1,2,8,9,ImagePlane.getPlane(2,3)))\r\r\n    roi.setName('Last plane');data.getHierarchy().getRootObject().addChildObject(roi)\r\r\n    entry.saveImageData(data)\r\r\n    def restored=entry.readImageData();def metadata=restored.getServerMetadata();def cal=metadata.getPixelCalibration()\r\r\n    def secondsPerUnit=[NANOSECONDS:1e-9,MICROSECONDS:1e-6,MILLISECONDS:1e-3,SECONDS:1.0,MINUTES:60.0,HOURS:3600.0,DAYS:86400.0][cal.getTimeUnit().name()]\r\r\n    rows.add([reused:reuse,name:spec.name,z_spacing_um:Double.toHexString(cal.getZSpacingMicrons()),time_unit:cal.getTimeUnit().name(),\r\r\n        times:(0..<cal.nTimepoints()).collect{Double.toHexString(cal.getTimepoint(it))},\r\r\n        seconds:(0..<cal.nTimepoints()).collect{Double.toHexString(cal.getTimepoint(it)*secondsPerUnit)},\r\r\n        z_planes:metadata.getSizeZ(),timepoints:metadata.getSizeT(),plane:[2,3]])\r\r\n    restored.getServer().close();server.close()\r\n    project.syncChanges()\r\n    Files.writeString(output.resolve('reference.json'),GsonTools.getInstance(true).newBuilder().serializeNulls().create().toJson(rows)+'\n')\r\r\n}\r\r\nproject.syncChanges()\r\r\nFiles.writeString(output.resolve('reference.json'),GsonTools.getInstance(true).newBuilder().serializeNulls().create().toJson(rows)+'\n')\r\r\n' @ line 53, column 1.
+       [name:'nonmonotonic',unit:TimeUnit.SECONDS,times:[5,3,3,-1],z:4.5],
+   ^
+
+1 error
+ in qupath_axis_calibration_reference.groovy at line number 53
+	at qupath.ScriptCommand.run(QuPath.java:424)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2045)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2469)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2423)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2277)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2425)
+	at picocli.CommandLine.execute(CommandLine.java:2174)
+	at qupath.QuPath.main(QuPath.java:208)
+Caused by: javax.script.ScriptException: startup failed:
+qupath_axis_calibration_reference.groovy: 54: Unexpected input: '{\r\r\n    def server=ImageServerProvider.buildServer(output.resolve('source.ome.tif').toString(),BufferedImage.class)\r\r\n    def entry=project.addImage(server.getBuilder());entry.setImageName(spec.name)\r\r\n    def data=new ImageData(server)\r\r\n    if(!reuse) {\r\n    data.updateServerMetadata(new ImageServerMetadata.Builder(server.getMetadata()).zSpacingMicrons(spec.z)\r\r\n        .timepoints(spec.unit,spec.times.collect{it as double} as double[]).build())\r\r\n    def roi=PathObjects.createAnnotationObject(ROIs.createRectangleROI(1,2,8,9,ImagePlane.getPlane(2,3)))\r\r\n    roi.setName('Last plane');data.getHierarchy().getRootObject().addChildObject(roi)\r\r\n    entry.saveImageData(data)\r\r\n    def restored=entry.readImageData();def metadata=restored.getServerMetadata();def cal=metadata.getPixelCalibration()\r\r\n    def secondsPerUnit=[NANOSECONDS:1e-9,MICROSECONDS:1e-6,MILLISECONDS:1e-3,SECONDS:1.0,MINUTES:60.0,HOURS:3600.0,DAYS:86400.0][cal.getTimeUnit().name()]\r\r\n    rows.add([reused:reuse,name:spec.name,z_spacing_um:Double.toHexString(cal.getZSpacingMicrons()),time_unit:cal.getTimeUnit().name(),\r\r\n        times:(0..<cal.nTimepoints()).collect{Double.toHexString(cal.getTimepoint(it))},\r\r\n        seconds:(0..<cal.nTimepoints()).collect{Double.toHexString(cal.getTimepoint(it)*secondsPerUnit)},\r\r\n        z_planes:metadata.getSizeZ(),timepoints:metadata.getSizeT(),plane:[2,3]])\r\r\n    restored.getServer().close();server.close()\r\n    project.syncChanges()\r\n    Files.writeString(output.resolve('reference.json'),GsonTools.getInstance(true).newBuilder().serializeNulls().create().toJson(rows)+'\n')\r\r\n}\r\r\nproject.syncChanges()\r\r\nFiles.writeString(output.resolve('reference.json'),GsonTools.getInstance(true).newBuilder().serializeNulls().create().toJson(rows)+'\n')\r\r\n' @ line 53, column 1.
+       [name:'nonmonotonic',unit:TimeUnit.SECONDS,times:[5,3,3,-1],z:4.5],
+   ^
+
+1 error
+ in qupath_axis_calibration_reference.groovy at line number 53
+	at qupath.lib.gui.scripting.languages.DefaultScriptLanguage.execute(DefaultScriptLanguage.java:309)
+	at qupath.ScriptCommand.runBatchScript(QuPath.java:524)
+	at qupath.ScriptCommand.runSingleScript(QuPath.java:475)
+	at qupath.ScriptCommand.run(QuPath.java:418)
+	... 9 more
+Caused by: org.codehaus.groovy.control.MultipleCompilationErrorsException: startup failed:
+qupath_axis_calibration_reference.groovy: 54: Unexpected input: '{\r\r\n    def server=ImageServerProvider.buildServer(output.resolve('source.ome.tif').toString(),BufferedImage.class)\r\r\n    def entry=project.addImage(server.getBuilder());entry.setImageName(spec.name)\r\r\n    def data=new ImageData(server)\r\r\n    if(!reuse) {\r\n    data.updateServerMetadata(new ImageServerMetadata.Builder(server.getMetadata()).zSpacingMicrons(spec.z)\r\r\n        .timepoints(spec.unit,spec.times.collect{it as double} as double[]).build())\r\r\n    def roi=PathObjects.createAnnotationObject(ROIs.createRectangleROI(1,2,8,9,ImagePlane.getPlane(2,3)))\r\r\n    roi.setName('Last plane');data.getHierarchy().getRootObject().addChildObject(roi)\r\r\n    entry.saveImageData(data)\r\r\n    def restored=entry.readImageData();def metadata=restored.getServerMetadata();def cal=metadata.getPixelCalibration()\r\r\n    def secondsPerUnit=[NANOSECONDS:1e-9,MICROSECONDS:1e-6,MILLISECONDS:1e-3,SECONDS:1.0,MINUTES:60.0,HOURS:3600.0,DAYS:86400.0][cal.getTimeUnit().name()]\r\r\n    rows.add([reused:reuse,name:spec.name,z_spacing_um:Double.toHexString(cal.getZSpacingMicrons()),time_unit:cal.getTimeUnit().name(),\r\r\n        times:(0..<cal.nTimepoints()).collect{Double.toHexString(cal.getTimepoint(it))},\r\r\n        seconds:(0..<cal.nTimepoints()).collect{Double.toHexString(cal.getTimepoint(it)*secondsPerUnit)},\r\r\n        z_planes:metadata.getSizeZ(),timepoints:metadata.getSizeT(),plane:[2,3]])\r\r\n    restored.getServer().close();server.close()\r\n    project.syncChanges()\r\n    Files.writeString(output.resolve('reference.json'),GsonTools.getInstance(true).newBuilder().serializeNulls().create().toJson(rows)+'\n')\r\r\n}\r\r\nproject.syncChanges()\r\r\nFiles.writeString(output.resolve('reference.json'),GsonTools.getInstance(true).newBuilder().serializeNulls().create().toJson(rows)+'\n')\r\r\n' @ line 54, column 1.
+       [name:'nonmonotonic',unit:TimeUnit.SECONDS,times:[5,3,3,-1],z:4.5],
+   ^
+
+1 error
+
+	at org.codehaus.groovy.control.ErrorCollector.failIfErrors(ErrorCollector.java:292)
+	at org.codehaus.groovy.control.ErrorCollector.addFatalError(ErrorCollector.java:148)
+	at org.apache.groovy.parser.antlr4.AstBuilder.collectSyntaxError(AstBuilder.java:4714)
+	at org.apache.groovy.parser.antlr4.AstBuilder$3.syntaxError(AstBuilder.java:4725)
+	at groovyjarjarantlr4.v4.runtime.ProxyErrorListener.syntaxError(ProxyErrorListener.java:44)
+	at groovyjarjarantlr4.v4.runtime.Parser.notifyErrorListeners(Parser.java:543)
+	at groovyjarjarantlr4.v4.runtime.DefaultErrorStrategy.notifyErrorListeners(DefaultErrorStrategy.java:154)
+	at org.apache.groovy.parser.antlr4.internal.DescriptiveErrorStrategy.reportNoViableAlternative(DescriptiveErrorStrategy.java:92)
+	at groovyjarjarantlr4.v4.runtime.DefaultErrorStrategy.reportError(DefaultErrorStrategy.java:139)
+	at org.apache.groovy.parser.antlr4.GroovyParser.statement(GroovyParser.java:6953)
+	at org.apache.groovy.parser.antlr4.GroovyParser.loopStatement(GroovyParser.java:6234)
+	at org.apache.groovy.parser.antlr4.GroovyParser.statement(GroovyParser.java:6824)
+	at org.apache.groovy.parser.antlr4.GroovyParser.scriptStatement(GroovyParser.java:515)
+	at org.apache.groovy.parser.antlr4.GroovyParser.scriptStatements(GroovyParser.java:425)
+	at org.apache.groovy.parser.antlr4.GroovyParser.compilationUnit(GroovyParser.java:361)
+	at org.apache.groovy.parser.antlr4.AstBuilder.buildCST(AstBuilder.java:250)
+	at org.apache.groovy.parser.antlr4.AstBuilder.buildCST(AstBuilder.java:228)
+	at org.apache.groovy.parser.antlr4.AstBuilder.buildAST(AstBuilder.java:269)
+	at org.apache.groovy.parser.antlr4.Antlr4ParserPlugin.buildAST(Antlr4ParserPlugin.java:58)
+	at org.codehaus.groovy.control.SourceUnit.buildAST(SourceUnit.java:256)
+	at java.base/java.util.Iterator.forEachRemaining(Unknown Source)
+	at java.base/java.util.Spliterators$IteratorSpliterator.forEachRemaining(Unknown Source)
+	at java.base/java.util.stream.ReferencePipeline$Head.forEach(Unknown Source)
+	at org.codehaus.groovy.control.CompilationUnit.compile(CompilationUnit.java:639)
+	at groovy.lang.GroovyClassLoader.doParseClass(GroovyClassLoader.java:399)
+	at groovy.lang.GroovyClassLoader.lambda$parseClass$5(GroovyClassLoader.java:345)
+	at org.codehaus.groovy.runtime.memoize.ConcurrentCommonCache.getAndPut(ConcurrentCommonCache.java:138)
+	at groovy.lang.GroovyClassLoader.parseClass(GroovyClassLoader.java:345)
+	at groovy.lang.GroovyClassLoader.parseClass(GroovyClassLoader.java:329)
+	at groovy.lang.GroovyClassLoader.parseClass(GroovyClassLoader.java:303)
+	at org.codehaus.groovy.jsr223.GroovyScriptEngineImpl.getScriptClass(GroovyScriptEngineImpl.java:350)
+	at org.codehaus.groovy.jsr223.GroovyScriptEngineImpl.eval(GroovyScriptEngineImpl.java:159)
+	at qupath.lib.gui.scripting.languages.DefaultScriptLanguage.execute(DefaultScriptLanguage.java:231)
+	... 12 more
+21:30:51.153 [main] [WARN ] qupath.QuPath - Calling System.exit with exit code 1

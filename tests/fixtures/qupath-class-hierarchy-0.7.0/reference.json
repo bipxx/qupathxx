@@ -1,0 +1,511 @@
+[
+  {
+    "name": "rgb",
+    "palette": [
+      {
+        "path": [
+          "Tumor α",
+          "Positive",
+          "High"
+        ],
+        "name": "High",
+        "parent": [
+          "Tumor α",
+          "Positive"
+        ],
+        "argb": 7833753,
+        "display": "Tumor α: Positive: High"
+      },
+      {
+        "path": [
+          "Tumor α"
+        ],
+        "name": "Tumor α",
+        "parent": null,
+        "argb": 1127253,
+        "display": "Tumor α"
+      },
+      {
+        "path": [
+          "Tumor α",
+          "Negative"
+        ],
+        "name": "Negative",
+        "parent": [
+          "Tumor α"
+        ],
+        "argb": 4487082,
+        "display": "Tumor α: Negative"
+      },
+      {
+        "path": [
+          "Tumor α",
+          "Positive"
+        ],
+        "name": "Positive",
+        "parent": [
+          "Tumor α"
+        ],
+        "argb": 11149841,
+        "display": "Tumor α: Positive"
+      },
+      {
+        "path": [
+          "Cell µ 🚀"
+        ],
+        "name": "Cell µ 🚀",
+        "parent": null,
+        "argb": 11259375,
+        "display": "Cell µ 🚀"
+      },
+      {
+        "path": [
+          "Marker / label #1"
+        ],
+        "name": "Marker / label #1",
+        "parent": null,
+        "argb": 1193046,
+        "display": "Marker / label #1"
+      },
+      {
+        "path": [
+          "Tumor α",
+          "Positive",
+          "High"
+        ],
+        "name": "High",
+        "parent": [
+          "Tumor α",
+          "Positive"
+        ],
+        "argb": 7833753,
+        "display": "Tumor α: Positive: High"
+      }
+    ],
+    "native": [
+      {
+        "id": "0e3b8548-53b9-4548-85a7-95778b0cbac0",
+        "name": "rgb 0",
+        "classification": {
+          "path": [
+            "Tumor α"
+          ],
+          "name": "Tumor α",
+          "parent": null,
+          "argb": 1127253,
+          "display": "Tumor α"
+        },
+        "area": 120.0
+      },
+      {
+        "id": "b13ca569-1f6b-4b74-a89c-576e600daafc",
+        "name": "rgb 1",
+        "classification": {
+          "path": [
+            "Tumor α",
+            "Positive"
+          ],
+          "name": "Positive",
+          "parent": [
+            "Tumor α"
+          ],
+          "argb": 11149841,
+          "display": "Tumor α: Positive"
+        },
+        "area": 120.0
+      },
+      {
+        "id": "011b59d0-f2dc-4590-a0c2-66829139e197",
+        "name": "rgb 2",
+        "classification": {
+          "path": [
+            "Tumor α",
+            "Negative"
+          ],
+          "name": "Negative",
+          "parent": [
+            "Tumor α"
+          ],
+          "argb": 4487082,
+          "display": "Tumor α: Negative"
+        },
+        "area": 120.0
+      },
+      {
+        "id": "08031a24-2a03-4523-9f33-0bdff167ed28",
+        "name": "rgb 3",
+        "classification": {
+          "path": [
+            "Tumor α",
+            "Positive",
+            "High"
+          ],
+          "name": "High",
+          "parent": [
+            "Tumor α",
+            "Positive"
+          ],
+          "argb": 7833753,
+          "display": "Tumor α: Positive: High"
+        },
+        "area": 120.0
+      },
+      {
+        "id": "70cebd12-cb60-4bc8-9789-6724ce9dbae8",
+        "name": "rgb 4",
+        "classification": {
+          "path": [
+            "Cell µ 🚀"
+          ],
+          "name": "Cell µ 🚀",
+          "parent": null,
+          "argb": 11259375,
+          "display": "Cell µ 🚀"
+        },
+        "area": 120.0
+      },
+      {
+        "id": "e1897995-f104-419c-bde4-0d494e2e591c",
+        "name": "rgb 5",
+        "classification": {
+          "path": [
+            "Marker / label #1"
+          ],
+          "name": "Marker / label #1",
+          "parent": null,
+          "argb": 1193046,
+          "display": "Marker / label #1"
+        },
+        "area": 120.0
+      }
+    ],
+    "geojson": [
+      {
+        "id": "0e3b8548-53b9-4548-85a7-95778b0cbac0",
+        "name": "rgb 0",
+        "classification": {
+          "path": [
+            "Tumor α"
+          ],
+          "name": "Tumor α",
+          "parent": null,
+          "argb": 1127253,
+          "display": "Tumor α"
+        },
+        "area": 120.0
+      },
+      {
+        "id": "b13ca569-1f6b-4b74-a89c-576e600daafc",
+        "name": "rgb 1",
+        "classification": {
+          "path": [
+            "Tumor α",
+            "Positive"
+          ],
+          "name": "Positive",
+          "parent": [
+            "Tumor α"
+          ],
+          "argb": 11149841,
+          "display": "Tumor α: Positive"
+        },
+        "area": 120.0
+      },
+      {
+        "id": "011b59d0-f2dc-4590-a0c2-66829139e197",
+        "name": "rgb 2",
+        "classification": {
+          "path": [
+            "Tumor α",
+            "Negative"
+          ],
+          "name": "Negative",
+          "parent": [
+            "Tumor α"
+          ],
+          "argb": 4487082,
+          "display": "Tumor α: Negative"
+        },
+        "area": 120.0
+      },
+      {
+        "id": "08031a24-2a03-4523-9f33-0bdff167ed28",
+        "name": "rgb 3",
+        "classification": {
+          "path": [
+            "Tumor α",
+            "Positive",
+            "High"
+          ],
+          "name": "High",
+          "parent": [
+            "Tumor α",
+            "Positive"
+          ],
+          "argb": 7833753,
+          "display": "Tumor α: Positive: High"
+        },
+        "area": 120.0
+      },
+      {
+        "id": "70cebd12-cb60-4bc8-9789-6724ce9dbae8",
+        "name": "rgb 4",
+        "classification": {
+          "path": [
+            "Cell µ 🚀"
+          ],
+          "name": "Cell µ 🚀",
+          "parent": null,
+          "argb": 11259375,
+          "display": "Cell µ 🚀"
+        },
+        "area": 120.0
+      },
+      {
+        "id": "e1897995-f104-419c-bde4-0d494e2e591c",
+        "name": "rgb 5",
+        "classification": {
+          "path": [
+            "Marker / label #1"
+          ],
+          "name": "Marker / label #1",
+          "parent": null,
+          "argb": 1193046,
+          "display": "Marker / label #1"
+        },
+        "area": 120.0
+      }
+    ]
+  },
+  {
+    "name": "empty",
+    "palette": [
+      {
+        "path": [
+          "Tumor α",
+          "Positive",
+          "High"
+        ],
+        "name": "High",
+        "parent": [
+          "Tumor α",
+          "Positive"
+        ],
+        "argb": 7833753,
+        "display": "Tumor α: Positive: High"
+      },
+      {
+        "path": [
+          "Tumor α"
+        ],
+        "name": "Tumor α",
+        "parent": null,
+        "argb": 1127253,
+        "display": "Tumor α"
+      },
+      {
+        "path": [
+          "Tumor α",
+          "Negative"
+        ],
+        "name": "Negative",
+        "parent": [
+          "Tumor α"
+        ],
+        "argb": 4487082,
+        "display": "Tumor α: Negative"
+      },
+      {
+        "path": [
+          "Tumor α",
+          "Positive"
+        ],
+        "name": "Positive",
+        "parent": [
+          "Tumor α"
+        ],
+        "argb": 11149841,
+        "display": "Tumor α: Positive"
+      },
+      {
+        "path": [
+          "Cell µ 🚀"
+        ],
+        "name": "Cell µ 🚀",
+        "parent": null,
+        "argb": 11259375,
+        "display": "Cell µ 🚀"
+      },
+      {
+        "path": [
+          "Marker / label #1"
+        ],
+        "name": "Marker / label #1",
+        "parent": null,
+        "argb": 1193046,
+        "display": "Marker / label #1"
+      },
+      {
+        "path": [
+          "Tumor α",
+          "Positive",
+          "High"
+        ],
+        "name": "High",
+        "parent": [
+          "Tumor α",
+          "Positive"
+        ],
+        "argb": 7833753,
+        "display": "Tumor α: Positive: High"
+      }
+    ],
+    "native": [],
+    "geojson": []
+  },
+  {
+    "name": "rgba",
+    "palette": [
+      {
+        "path": [
+          "Tumor α"
+        ],
+        "name": "Tumor α",
+        "parent": null,
+        "argb": 1127253,
+        "display": "Tumor α"
+      },
+      {
+        "path": [
+          "Tumor α",
+          "Alpha"
+        ],
+        "name": "Alpha",
+        "parent": [
+          "Tumor α"
+        ],
+        "argb": -2146290602,
+        "display": "Tumor α: Alpha"
+      }
+    ],
+    "native": [
+      {
+        "id": "112d1e93-7b73-4318-b2d8-47dac3e13efd",
+        "name": "rgba 0",
+        "classification": {
+          "path": [
+            "Tumor α",
+            "Alpha"
+          ],
+          "name": "Alpha",
+          "parent": [
+            "Tumor α"
+          ],
+          "argb": -2146290602,
+          "display": "Tumor α: Alpha"
+        },
+        "area": 120.0
+      }
+    ],
+    "geojson": [
+      {
+        "id": "112d1e93-7b73-4318-b2d8-47dac3e13efd",
+        "name": "rgba 0",
+        "classification": {
+          "path": [
+            "Tumor α",
+            "Alpha"
+          ],
+          "name": "Alpha",
+          "parent": [
+            "Tumor α"
+          ],
+          "argb": -2146290602,
+          "display": "Tumor α: Alpha"
+        },
+        "area": 120.0
+      }
+    ]
+  },
+  {
+    "name": "null-color",
+    "palette": [
+      {
+        "path": [
+          "Cleared color"
+        ],
+        "name": "Cleared color",
+        "parent": null,
+        "argb": -3664025,
+        "display": "Cleared color"
+      }
+    ],
+    "native": [
+      {
+        "id": "f9f06424-b0ab-4166-99bc-ff2cac92e203",
+        "name": "null-color 0",
+        "classification": {
+          "path": [
+            "Cleared color"
+          ],
+          "name": "Cleared color",
+          "parent": null,
+          "argb": -3664025,
+          "display": "Cleared color"
+        },
+        "area": 120.0
+      }
+    ],
+    "geojson": [],
+    "geojson_error": {
+      "type": "com.google.gson.JsonParseException",
+      "message": "Unable to parse PathClass from JsonTreeReader at path $"
+    }
+  },
+  {
+    "name": "color-conflict",
+    "palette": [
+      {
+        "path": [
+          "Conflict class"
+        ],
+        "name": "Conflict class",
+        "parent": null,
+        "argb": 10531008,
+        "display": "Conflict class"
+      }
+    ],
+    "native": [
+      {
+        "id": "0325d96a-a7c4-49e7-83b3-6706390f86ca",
+        "name": "color-conflict 0",
+        "classification": {
+          "path": [
+            "Conflict class"
+          ],
+          "name": "Conflict class",
+          "parent": null,
+          "argb": 10531008,
+          "display": "Conflict class"
+        },
+        "area": 120.0
+      }
+    ],
+    "geojson": [
+      {
+        "id": "0325d96a-a7c4-49e7-83b3-6706390f86ca",
+        "name": "color-conflict 0",
+        "classification": {
+          "path": [
+            "Conflict class"
+          ],
+          "name": "Conflict class",
+          "parent": null,
+          "argb": 10531008,
+          "display": "Conflict class"
+        },
+        "area": 120.0
+      }
+    ]
+  }
+]

@@ -1,0 +1,27 @@
+[
+  {
+    "name": "Linux ASan UBSan native",
+    "native": 54,
+    "python": null
+  },
+  {
+    "name": "Linux headless Python 3.12 NumPy 2",
+    "native": 54,
+    "python": 4219
+  },
+  {
+    "name": "Linux minimal native",
+    "native": 54,
+    "python": null
+  },
+  {
+    "name": "Windows GUI Python 3.12 software GL",
+    "native": 55,
+    "python": 4724
+  },
+  {
+    "name": "Windows headless Python 3.11 NumPy 1",
+    "native": 54,
+    "python": 4225
+  }
+]

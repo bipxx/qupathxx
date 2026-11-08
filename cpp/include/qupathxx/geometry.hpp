@@ -43,6 +43,8 @@ public:
     static Roi points(Ring points);
     RoiKind kind() const;
     Rect bounds() const;
+    // Area/length/point-weighted centroid of the represented geometry.
+    Point centroid() const;
     double area() const;
     double perimeter() const;
     double scaled_length(double x_scale,double y_scale) const;

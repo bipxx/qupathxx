@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\tools\profile_raw_stream_contours.py", line 226, in <module>
+    main()
+  File "C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\tools\profile_raw_stream_contours.py", line 204, in main
+    case = prepare(q, work, size, c)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\tools\profile_raw_stream_contours.py", line 72, in prepare
+    features.offsets, features.scales, features.sigmas = [0], [1], [[0, 0]]
+                                       ^^^^^^^^^^^^^^^
+TypeError: (): incompatible function arguments. The following argument types are supported:
+    1. (self, arg: collections.abc.Sequence[qupathxx._native.RawPixelFeatureScale], /) -> None
+
+Invoked with types: qupathxx._native.RawPixelFeatureOptions, list

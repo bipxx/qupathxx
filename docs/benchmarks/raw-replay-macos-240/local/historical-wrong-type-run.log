@@ -1,0 +1,2 @@
+Raw replay refusal [historical]: type=St13runtime_error message=injected wrong exception type
+Raw replay stage [historical capture refusal]: type=St13runtime_error message=injected wrong exception type

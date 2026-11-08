@@ -1,0 +1,12 @@
+{
+  "observation": "20261028T072013Z",
+  "returncode": 1,
+  "stage": "Read original Mac run artifact metadata",
+  "reason": "GitHub API TLS handshake timeout",
+  "reason_source": "Captured terminal tool output",
+  "original_run": 40646201004,
+  "source": "e2282b8c782bfcc38fddc8aee86e28d833663dc3",
+  "product_failure": false,
+  "redispatched": false,
+  "partial_observation_preserved": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\q262-all\\20261028T072013Z"
+}

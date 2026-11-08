@@ -1,0 +1,49 @@
+native source 25b342fc1346e4220398c2966b18a6325aed54b4
+......................F..s....................ss...........s............ [ 87%]
+.........s                                                               [100%]
+================================== FAILURES ===================================
+_ test_reviewed_native_bundle_changes_preserve_destination_and_preview[classifiers/classes.json] _
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/assisted-state-r5/staged-temp/test_reviewed_native_bundle_ch3')
+member = 'classifiers/classes.json'
+
+    @pytest.mark.parametrize('member',['project.qpproj','qupathxx-exchange/index.json','data/1/data.qpdata','classifiers/classes.json','../source.ome.tif'])
+    def test_reviewed_native_bundle_changes_preserve_destination_and_preview(tmp_path,member):
+        path,index=foreign(tmp_path,'facts');preview=q.preview_qupath_project(str(path))
+>       changed=path.parent/member;changed.write_bytes(changed.read_bytes()+b' ')
+                                                       ^^^^^^^^^^^^^^^^^^^^
+
+tests\test_qupath_assisted_state.py:122: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\HEQ\AppData\Roaming\uv\python\cpython-3.12.8-windows-x86_64-none\Lib\pathlib.py:1019: in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/assisted-state-r5/staged-temp/test_reviewed_native_bundle_ch3/facts/project/classifiers/classes.json')
+mode = 'rb', buffering = -1, encoding = None, errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\HEQ\\Projects\\qupathxx\\build\\assisted-state-r5\\staged-temp\\test_reviewed_native_bundle_ch3\\facts\\project\\classifiers\\classes.json'
+
+C:\Users\HEQ\AppData\Roaming\uv\python\cpython-3.12.8-windows-x86_64-none\Lib\pathlib.py:1013: FileNotFoundError
+============================== warnings summary ===============================
+tests/test_qupath_project.py::test_project_import_preserves_sources_objects_classes_calibration_and_pixels
+tests/test_qupath_project.py::test_project_import_preserves_sources_objects_classes_calibration_and_pixels
+  C:\Users\HEQ\Projects\qupathxx\.venv\Lib\site-packages\tifffile\tifffile.py:4594: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.
+  As an alternative, you can create a new view using np.reshape (with copy=False if needed).
+    result.shape = shape
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/test_qupath_assisted_state.py::test_reviewed_native_bundle_changes_preserve_destination_and_preview[classifiers/classes.json]
+1 failed, 76 passed, 5 skipped, 2 warnings in 4.79s

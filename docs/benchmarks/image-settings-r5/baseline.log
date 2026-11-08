@@ -1,0 +1,20 @@
+.F                                                                       [100%]
+================================== FAILURES ===================================
+_ test_pinned_types_stains_names_white_and_residual_are_retained[custom-three] _
+
+tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4906/test_pinned_types_stains_names0')
+row = {'name': 'custom-three', 'image_type': 'BRIGHTFIELD_OTHER', 'stains': {'name': 'Custom α', 'names': ['red', 'green', 'blue'], 'basis': [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]], 'white': [240.0, 245.0, 250.0], ...}}
+
+    @pytest.mark.skipif(not q.has_project or not q.has_tiff or not q.has_interchange,reason='native saved defaults')
+    @pytest.mark.parametrize('row',REFERENCE,ids=[r['name'] for r in REFERENCE])
+    def test_pinned_types_stains_names_white_and_residual_are_retained(tmp_path,row):
+        source=foreign(tmp_path,row['name']);before={p:p.read_bytes() for p in source.parent.rglob('*') if p.is_file()}
+>       preview=q.preview_qupath_project(str(source));assert not any(i.code=='image_settings_dropped' for i in preview.issues)
+                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       assert not True
+E        +  where True = any(<generator object test_pinned_types_stains_names_white_and_residual_are_retained.<locals>.<genexpr> at 0x00000224FFE0E810>)
+
+tests\test_image_analysis_settings.py:48: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_image_analysis_settings.py::test_pinned_types_stains_names_white_and_residual_are_retained[custom-three]
+1 failed, 1 passed in 0.46s

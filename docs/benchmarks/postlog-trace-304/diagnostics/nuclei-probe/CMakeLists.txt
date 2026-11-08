@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.20)
+project(nuclei304 LANGUAGES CXX)
+add_executable(nuclei304 main.cpp "C:/Users/HEQ/Projects/qupathxx/build/imagej-gaussian-kernel-300/windows-products/imagej_gaussian.obj")
+target_compile_features(nuclei304 PRIVATE cxx_std_17)
+target_compile_options(nuclei304 PRIVATE /fp:strict)
+target_include_directories(nuclei304 PRIVATE "C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp")

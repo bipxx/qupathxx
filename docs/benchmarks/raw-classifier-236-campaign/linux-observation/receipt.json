@@ -1,0 +1,52 @@
+{
+  "schema": "qpx.raw-classifier-236-linux-observation/1",
+  "source": "530c6bb1fd01176c7aecbcae75c065ca004f6236",
+  "linux_only_accepted": true,
+  "profiles": 3,
+  "native_suites_each": 50,
+  "headless_python_passed": 3747,
+  "full_matrix_accepted": false,
+  "scope": "Exact-source native/ASan-UBSan/minimal and Linux installed engineering scope only; Windows, Mac, portable consumers and full T5 remain pending.",
+  "raw_payloads": {
+    "linux-only-audit.json": {
+      "bytes": 498037,
+      "sha256": "7bc28d14ed4a99ee507f8934c74dbb83eb136357c1c301ee97dd3187194519bb"
+    },
+    "linux-only-audit.log": {
+      "bytes": 283,
+      "sha256": "959da713dc992702398f171af04f98c51d52b802b4c3b07f4ce7b0538d29d906"
+    },
+    "linux-only-audit-command.json": {
+      "bytes": 794,
+      "sha256": "dc0e97c699edead518e2adab7f541a2cde823deaf4bdfc0e41b693b0b7662391"
+    },
+    "engine-run.json": {
+      "bytes": 24513,
+      "sha256": "d87f0e17eb31373e11822139c6cc6af7377cc9bf57bbe0befb33278ef89b34c6"
+    },
+    "macos-run.json": {
+      "bytes": 2006,
+      "sha256": "bca8845a719b6fb2becd5e7e19e30f74782fb27c4f44850469eea29b74ae80e3"
+    },
+    "portable-run.json": {
+      "bytes": 9332,
+      "sha256": "2a363a960e5b28b8eb525aeb3861ea4747701df0dd09aec824caeac4c498f6c5"
+    },
+    "verified.json": {
+      "bytes": 1037,
+      "sha256": "fcf8a089b7bbf2f242e2db0a49ed09437453418e9de45d1038ee7c53f09899e5"
+    },
+    "Linux-minimal-py3.12-artifact.json": {
+      "bytes": 814,
+      "sha256": "89e5f1b6fface680da767136023e80bcaa696b55ceb1ac77f237a94ef1ac3312"
+    },
+    "Linux-sanitize-py3.12-artifact.json": {
+      "bytes": 815,
+      "sha256": "bd49ca0e41220d5f7adaf003dd00cdb8bc4e33b831f717b925187725eea21462"
+    },
+    "Linux-headless-py3.12-artifact.json": {
+      "bytes": 818,
+      "sha256": "d73e61cb5cc8d057e25168079d357fa2da0e54660fc66266d4f5c0480c3979fe"
+    }
+  }
+}

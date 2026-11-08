@@ -1,0 +1,694 @@
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+
+  Checking File Globs
+  1>Checking Build System
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_tiff_xml.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_tiff_xml.lib
+  zlibstatic.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\qpx_zlib-build\Release\zs.lib
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  tiff.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\qpx_tiff-build\libtiff\Release\tiff.lib
+  qupathxx_sqlite.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_sqlite.lib
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  raw_pixel_classifier.cpp
+  raw_pixel_workflows.cpp
+  pixel_training.cpp
+  Generating Code...
+  provenance.cpp
+  qupathxx_core.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_core.lib
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  qupathxx_source_identity_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_source_identity_tests.exe
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+
+  Checking File Globs
+  qupathxx_sqlite.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_sqlite.lib
+  qupathxx_tiff_xml.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_tiff_xml.lib
+  zlibstatic.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\qpx_zlib-build\Release\zs.lib
+  tiff.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\qpx_tiff-build\libtiff\Release\tiff.lib
+  qupathxx_core.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_core.lib
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  pixel_feature_tests.cpp
+  qupathxx_pixel_feature_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_pixel_feature_tests.exe
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+
+  Checking File Globs
+  qupathxx_sqlite.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_sqlite.lib
+  qupathxx_tiff_xml.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_tiff_xml.lib
+  zlibstatic.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\qpx_zlib-build\Release\zs.lib
+  tiff.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\qpx_tiff-build\libtiff\Release\tiff.lib
+  qupathxx_core.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_core.lib
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  pixel_workflow_tests.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_classifier_checks.hpp(69,40): error C2653: 'PixelClassifier': is not a class or namespace name [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_classifier_checks.hpp(69,57): error C3861: 'from_bytes': identifier not found [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(44,53): error C2079: 'doc' uses undefined class 'qpx::Document' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(44,101): error C2027: use of undefined type 'qpx::Roi' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_image.hpp(74,7):
+      see declaration of 'qpx::Roi'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(44,101): error C3861: 'rectangle': identifier not found [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(44,76): error C2737: 'a': const object must be initialized [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(44,158): error C2027: use of undefined type 'qpx::Roi' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_image.hpp(74,7):
+      see declaration of 'qpx::Roi'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(44,158): error C3861: 'rectangle': identifier not found [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(44,133): error C2737: 'b': const object must be initialized [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(44,223): error C2027: use of undefined type 'qpx::Roi' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_image.hpp(74,7):
+      see declaration of 'qpx::Roi'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(44,223): error C3861: 'rectangle': identifier not found [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(44,190): error C2737: 'duplicate': const object must be initialized [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(46,95): error C3536: 'b': cannot be used before it is initialized [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(46,97): error C3536: 'duplicate': cannot be used before it is initialized [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(46,107): error C3536: 'a': cannot be used before it is initialized [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(46,89): error C2665: 'qpx::RawPixelTrainingRequest::RawPixelTrainingRequest': no overloaded function could convert all the argument types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(17,5):
+      could be 'qpx::RawPixelTrainingRequest::RawPixelTrainingRequest(const qpx::Document &,const std::vector<uint64_t,std::allocator<uint64_t>> &,qpx::ScientificGrid,qpx::ScientificRawOptions,qpx::RawPixelFeatureOptions,qpx::RawPixelTrainingOptions,bool)'
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(46,89):
+          'qpx::RawPixelTrainingRequest::RawPixelTrainingRequest(const qpx::Document &,const std::vector<uint64_t,std::allocator<uint64_t>> &,qpx::ScientificGrid,qpx::ScientificRawOptions,qpx::RawPixelFeatureOptions,qpx::RawPixelTrainingOptions,bool)': cannot convert argument 1 from '<error type>' to 'const qpx::Document &'
+              C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(46,90):
+              Reason: cannot convert from '<error type>' to 'const qpx::Document'
+              C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(46,90):
+              use of undefined type 'qpx::Document'
+              C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(5,7):
+              see declaration of 'qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(46,89):
+      while trying to match the argument list '(<error type>, initializer list, const qpx::ScientificGrid, qpx::ScientificRawOptions, qpx::RawPixelFeatureOptions, qpx::RawPixelTrainingOptions)'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(47,19): error C2664: 'bool qpx::RawPixelTrainingRequest::matches(const qpx::Document &) const': cannot convert argument 1 from '<error type>' to 'const qpx::Document &' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(47,27):
+      Reason: cannot convert from '<error type>' to 'const qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(47,27):
+      use of undefined type 'qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(5,7):
+      see declaration of 'qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(19,10):
+      see declaration of 'qpx::RawPixelTrainingRequest::matches'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(47,19):
+      while trying to match the argument list '(<error type>)'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(50,60): error C2440: '<function-style-cast>': cannot convert from 'initializer list' to 'qpx::RawPixelTrainingRequest' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(50,60):
+      'qpx::RawPixelTrainingRequest::RawPixelTrainingRequest': no overloaded function could convert all the argument types
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(17,5):
+          could be 'qpx::RawPixelTrainingRequest::RawPixelTrainingRequest(const qpx::Document &,const std::vector<uint64_t,std::allocator<uint64_t>> &,qpx::ScientificGrid,qpx::ScientificRawOptions,qpx::RawPixelFeatureOptions,qpx::RawPixelTrainingOptions,bool)'
+              C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(50,60):
+              'qpx::RawPixelTrainingRequest::RawPixelTrainingRequest(const qpx::Document &,const std::vector<uint64_t,std::allocator<uint64_t>> &,qpx::ScientificGrid,qpx::ScientificRawOptions,qpx::RawPixelFeatureOptions,qpx::RawPixelTrainingOptions,bool)': cannot convert argument 1 from '<error type>' to 'const qpx::Document &'
+                  C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(50,61):
+                  Reason: cannot convert from '<error type>' to 'const qpx::Document'
+                  C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(50,61):
+                  use of undefined type 'qpx::Document'
+                  C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(5,7):
+                  see declaration of 'qpx::Document'
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(50,60):
+          while trying to match the argument list '(<error type>, initializer list, const qpx::ScientificGrid, qpx::ScientificRawOptions, qpx::RawPixelFeatureOptions, qpx::RawPixelTrainingOptions)'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(51,14): error C2079: 'copied' uses undefined class 'qpx::Document' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(51,40): error C2664: 'bool qpx::RawPixelTrainingRequest::matches(const qpx::Document &) const': cannot convert argument 1 from '<error type>' to 'const qpx::Document &' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(51,48):
+      Reason: cannot convert from '<error type>' to 'const qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(51,48):
+      use of undefined type 'qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(5,7):
+      see declaration of 'qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(19,10):
+      see declaration of 'qpx::RawPixelTrainingRequest::matches'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(51,40):
+      while trying to match the argument list '(<error type>)'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(51,202): error C2665: 'qpx::RawPixelTrainingRequest::RawPixelTrainingRequest': no overloaded function could convert all the argument types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(17,5):
+      could be 'qpx::RawPixelTrainingRequest::RawPixelTrainingRequest(const qpx::Document &,const std::vector<uint64_t,std::allocator<uint64_t>> &,qpx::ScientificGrid,qpx::ScientificRawOptions,qpx::RawPixelFeatureOptions,qpx::RawPixelTrainingOptions,bool)'
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(51,202):
+          'qpx::RawPixelTrainingRequest::RawPixelTrainingRequest(const qpx::Document &,const std::vector<uint64_t,std::allocator<uint64_t>> &,qpx::ScientificGrid,qpx::ScientificRawOptions,qpx::RawPixelFeatureOptions,qpx::RawPixelTrainingOptions,bool)': cannot convert argument 1 from '<error type>' to 'const qpx::Document &'
+              C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(51,203):
+              Reason: cannot convert from '<error type>' to 'const qpx::Document'
+              C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(51,203):
+              use of undefined type 'qpx::Document'
+              C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(5,7):
+              see declaration of 'qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(51,202):
+      while trying to match the argument list '(<error type>, initializer list, const qpx::ScientificGrid, qpx::ScientificRawOptions, qpx::RawPixelFeatureOptions, qpx::RawPixelTrainingOptions)'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(52,103): error C2665: 'qpx::RawPixelTrainingRequest::RawPixelTrainingRequest': no overloaded function could convert all the argument types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(17,5):
+      could be 'qpx::RawPixelTrainingRequest::RawPixelTrainingRequest(const qpx::Document &,const std::vector<uint64_t,std::allocator<uint64_t>> &,qpx::ScientificGrid,qpx::ScientificRawOptions,qpx::RawPixelFeatureOptions,qpx::RawPixelTrainingOptions,bool)'
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(52,103):
+          'qpx::RawPixelTrainingRequest::RawPixelTrainingRequest(const qpx::Document &,const std::vector<uint64_t,std::allocator<uint64_t>> &,qpx::ScientificGrid,qpx::ScientificRawOptions,qpx::RawPixelFeatureOptions,qpx::RawPixelTrainingOptions,bool)': cannot convert argument 1 from '<error type>' to 'const qpx::Document &'
+              C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(52,104):
+              Reason: cannot convert from '<error type>' to 'const qpx::Document'
+              C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(52,104):
+              use of undefined type 'qpx::Document'
+              C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(5,7):
+              see declaration of 'qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(52,103):
+      while trying to match the argument list '(<error type>, initializer list, const qpx::ScientificGrid, qpx::ScientificRawOptions, qpx::RawPixelFeatureOptions, qpx::RawPixelTrainingOptions)'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(52,208): error C2665: 'qpx::RawPixelTrainingRequest::RawPixelTrainingRequest': no overloaded function could convert all the argument types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(17,5):
+      could be 'qpx::RawPixelTrainingRequest::RawPixelTrainingRequest(const qpx::Document &,const std::vector<uint64_t,std::allocator<uint64_t>> &,qpx::ScientificGrid,qpx::ScientificRawOptions,qpx::RawPixelFeatureOptions,qpx::RawPixelTrainingOptions,bool)'
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(52,208):
+          'qpx::RawPixelTrainingRequest::RawPixelTrainingRequest(const qpx::Document &,const std::vector<uint64_t,std::allocator<uint64_t>> &,qpx::ScientificGrid,qpx::ScientificRawOptions,qpx::RawPixelFeatureOptions,qpx::RawPixelTrainingOptions,bool)': cannot convert argument 1 from '<error type>' to 'const qpx::Document &'
+              C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(52,209):
+              Reason: cannot convert from '<error type>' to 'const qpx::Document'
+              C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(52,209):
+              use of undefined type 'qpx::Document'
+              C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(5,7):
+              see declaration of 'qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(52,208):
+      while trying to match the argument list '(<error type>, initializer list, const qpx::ScientificGrid, qpx::ScientificRawOptions, qpx::RawPixelFeatureOptions, qpx::RawPixelTrainingOptions)'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(54,48): error C2027: use of undefined type 'qpx::Roi' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_image.hpp(74,7):
+      see declaration of 'qpx::Roi'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(54,48): error C3861: 'rectangle': identifier not found [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(54,16): error C2737: 'conflict': const object must be initialized [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(54,169): error C3536: 'conflict': cannot be used before it is initialized [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(54,159): error C2440: '<function-style-cast>': cannot convert from 'initializer list' to 'qpx::RawPixelTrainingRequest' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(54,159):
+      'qpx::RawPixelTrainingRequest::RawPixelTrainingRequest': no overloaded function could convert all the argument types
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(17,5):
+          could be 'qpx::RawPixelTrainingRequest::RawPixelTrainingRequest(const qpx::Document &,const std::vector<uint64_t,std::allocator<uint64_t>> &,qpx::ScientificGrid,qpx::ScientificRawOptions,qpx::RawPixelFeatureOptions,qpx::RawPixelTrainingOptions,bool)'
+              C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(54,159):
+              'qpx::RawPixelTrainingRequest::RawPixelTrainingRequest(const qpx::Document &,const std::vector<uint64_t,std::allocator<uint64_t>> &,qpx::ScientificGrid,qpx::ScientificRawOptions,qpx::RawPixelFeatureOptions,qpx::RawPixelTrainingOptions,bool)': cannot convert argument 1 from '<error type>' to 'const qpx::Document &'
+                  C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(54,160):
+                  Reason: cannot convert from '<error type>' to 'const qpx::Document'
+                  C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(54,160):
+                  use of undefined type 'qpx::Document'
+                  C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(5,7):
+                  see declaration of 'qpx::Document'
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(54,159):
+          while trying to match the argument list '(<error type>, initializer list, const qpx::ScientificGrid, qpx::ScientificRawOptions, qpx::RawPixelFeatureOptions, qpx::RawPixelTrainingOptions)'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(54,100): error C2737: 'conflicts': const object must be initialized [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(54,219): error C3536: 'conflicts': cannot be used before it is initialized [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(56,106): error C2665: 'qpx::RawPixelTrainingRequest::RawPixelTrainingRequest': no overloaded function could convert all the argument types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(17,5):
+      could be 'qpx::RawPixelTrainingRequest::RawPixelTrainingRequest(const qpx::Document &,const std::vector<uint64_t,std::allocator<uint64_t>> &,qpx::ScientificGrid,qpx::ScientificRawOptions,qpx::RawPixelFeatureOptions,qpx::RawPixelTrainingOptions,bool)'
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(56,106):
+          'qpx::RawPixelTrainingRequest::RawPixelTrainingRequest(const qpx::Document &,const std::vector<uint64_t,std::allocator<uint64_t>> &,qpx::ScientificGrid,qpx::ScientificRawOptions,qpx::RawPixelFeatureOptions,qpx::RawPixelTrainingOptions,bool)': cannot convert argument 1 from '<error type>' to 'const qpx::Document &'
+              C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(56,107):
+              Reason: cannot convert from '<error type>' to 'const qpx::Document'
+              C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(56,107):
+              use of undefined type 'qpx::Document'
+              C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(5,7):
+              see declaration of 'qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(56,106):
+      while trying to match the argument list '(<error type>, initializer list, const qpx::ScientificGrid, qpx::ScientificRawOptions, qpx::RawPixelFeatureOptions, qpx::RawPixelTrainingOptions)'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(59,61): error C2440: '<function-style-cast>': cannot convert from 'initializer list' to 'qpx::RawPixelPredictionRequest' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(59,61):
+      'qpx::RawPixelPredictionRequest::RawPixelPredictionRequest': no overloaded function could convert all the argument types
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(68,5):
+          could be 'qpx::RawPixelPredictionRequest::RawPixelPredictionRequest(const qpx::Document &,const qpx::RawPixelClassifier &,qpx::ScientificGrid,uint64_t,double,size_t)'
+              C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(59,61):
+              'qpx::RawPixelPredictionRequest::RawPixelPredictionRequest(const qpx::Document &,const qpx::RawPixelClassifier &,qpx::ScientificGrid,uint64_t,double,size_t)': cannot convert argument 1 from '<error type>' to 'const qpx::Document &'
+                  C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(59,62):
+                  Reason: cannot convert from '<error type>' to 'const qpx::Document'
+                  C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(59,62):
+                  use of undefined type 'qpx::Document'
+                  C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(5,7):
+                  see declaration of 'qpx::Document'
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(59,61):
+          while trying to match the argument list '(<error type>, const qpx::RawPixelClassifier, const qpx::ScientificGrid)'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(60,37): error C2027: use of undefined type 'qpx::Roi' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_image.hpp(74,7):
+      see declaration of 'qpx::Roi'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(60,37): error C3861: 'rectangle': identifier not found [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(60,16): error C2737: 'roi': const object must be initialized [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(61,63): error C3536: 'roi': cannot be used before it is initialized [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(63,16): error C2737: 'revision': const object must be initialized [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(63,114): error C2440: '<function-style-cast>': cannot convert from 'initializer list' to 'qpx::RawPixelTrainingRequest' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(63,114):
+      'qpx::RawPixelTrainingRequest::RawPixelTrainingRequest': no overloaded function could convert all the argument types
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(17,5):
+          could be 'qpx::RawPixelTrainingRequest::RawPixelTrainingRequest(const qpx::Document &,const std::vector<uint64_t,std::allocator<uint64_t>> &,qpx::ScientificGrid,qpx::ScientificRawOptions,qpx::RawPixelFeatureOptions,qpx::RawPixelTrainingOptions,bool)'
+              C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(63,114):
+              'qpx::RawPixelTrainingRequest::RawPixelTrainingRequest(const qpx::Document &,const std::vector<uint64_t,std::allocator<uint64_t>> &,qpx::ScientificGrid,qpx::ScientificRawOptions,qpx::RawPixelFeatureOptions,qpx::RawPixelTrainingOptions,bool)': cannot convert argument 1 from '<error type>' to 'const qpx::Document &'
+                  C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(63,115):
+                  Reason: cannot convert from '<error type>' to 'const qpx::Document'
+                  C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(63,115):
+                  use of undefined type 'qpx::Document'
+                  C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(5,7):
+                  see declaration of 'qpx::Document'
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(63,114):
+          while trying to match the argument list '(<error type>, initializer list, const qpx::ScientificGrid, qpx::ScientificRawOptions, qpx::RawPixelFeatureOptions, qpx::RawPixelTrainingOptions)'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(63,175): error C2664: 'qpx::RawPixelJobStats qpx::RawPixelTrainingJob::wait(const qpx::Document &)': cannot convert argument 1 from '<error type>' to 'const qpx::Document &' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(63,180):
+      Reason: cannot convert from '<error type>' to 'const qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(63,180):
+      use of undefined type 'qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(5,7):
+      see declaration of 'qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(95,61):
+      see declaration of 'qpx::RawPixelTrainingJob::wait'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(63,175):
+      while trying to match the argument list '(<error type>)'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(64,123): error C2440: '<function-style-cast>': cannot convert from 'initializer list' to 'qpx::RawPixelTrainingRequest' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(64,123):
+      'qpx::RawPixelTrainingRequest::RawPixelTrainingRequest': no overloaded function could convert all the argument types
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(17,5):
+          could be 'qpx::RawPixelTrainingRequest::RawPixelTrainingRequest(const qpx::Document &,const std::vector<uint64_t,std::allocator<uint64_t>> &,qpx::ScientificGrid,qpx::ScientificRawOptions,qpx::RawPixelFeatureOptions,qpx::RawPixelTrainingOptions,bool)'
+              C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(64,123):
+              'qpx::RawPixelTrainingRequest::RawPixelTrainingRequest(const qpx::Document &,const std::vector<uint64_t,std::allocator<uint64_t>> &,qpx::ScientificGrid,qpx::ScientificRawOptions,qpx::RawPixelFeatureOptions,qpx::RawPixelTrainingOptions,bool)': cannot convert argument 1 from '<error type>' to 'const qpx::Document &'
+                  C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(64,124):
+                  Reason: cannot convert from '<error type>' to 'const qpx::Document'
+                  C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(64,124):
+                  use of undefined type 'qpx::Document'
+                  C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(5,7):
+                  see declaration of 'qpx::Document'
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(64,123):
+          while trying to match the argument list '(<error type>, initializer list, const qpx::ScientificGrid, qpx::ScientificRawOptions, qpx::RawPixelFeatureOptions, qpx::RawPixelTrainingOptions)'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(64,186): error C2664: 'qpx::RawPixelJobStats qpx::RawPixelTrainingJob::wait(const qpx::Document &)': cannot convert argument 1 from '<error type>' to 'const qpx::Document &' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(64,191):
+      Reason: cannot convert from '<error type>' to 'const qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(64,191):
+      use of undefined type 'qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(5,7):
+      see declaration of 'qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(95,61):
+      see declaration of 'qpx::RawPixelTrainingJob::wait'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(64,186):
+      while trying to match the argument list '(<error type>)'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(65,119): error C2440: '<function-style-cast>': cannot convert from 'initializer list' to 'qpx::RawPixelTrainingRequest' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(65,119):
+      'qpx::RawPixelTrainingRequest::RawPixelTrainingRequest': no overloaded function could convert all the argument types
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(17,5):
+          could be 'qpx::RawPixelTrainingRequest::RawPixelTrainingRequest(const qpx::Document &,const std::vector<uint64_t,std::allocator<uint64_t>> &,qpx::ScientificGrid,qpx::ScientificRawOptions,qpx::RawPixelFeatureOptions,qpx::RawPixelTrainingOptions,bool)'
+              C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(65,119):
+              'qpx::RawPixelTrainingRequest::RawPixelTrainingRequest(const qpx::Document &,const std::vector<uint64_t,std::allocator<uint64_t>> &,qpx::ScientificGrid,qpx::ScientificRawOptions,qpx::RawPixelFeatureOptions,qpx::RawPixelTrainingOptions,bool)': cannot convert argument 1 from '<error type>' to 'const qpx::Document &'
+                  C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(65,120):
+                  Reason: cannot convert from '<error type>' to 'const qpx::Document'
+                  C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(65,120):
+                  use of undefined type 'qpx::Document'
+                  C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(5,7):
+                  see declaration of 'qpx::Document'
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(65,119):
+          while trying to match the argument list '(<error type>, initializer list, const qpx::ScientificGrid, qpx::ScientificRawOptions, qpx::RawPixelFeatureOptions, qpx::RawPixelTrainingOptions)'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(66,72): error C2664: 'qpx::RawPixelJobStats qpx::RawPixelPredictionJob::wait(const qpx::Document &)': cannot convert argument 1 from '<error type>' to 'const qpx::Document &' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(66,77):
+      Reason: cannot convert from '<error type>' to 'const qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(66,77):
+      use of undefined type 'qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(5,7):
+      see declaration of 'qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(107,61):
+      see declaration of 'qpx::RawPixelPredictionJob::wait'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(66,72):
+      while trying to match the argument list '(<error type>)'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(66,160): error C3536: 'revision': cannot be used before it is initialized [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(68,160): error C2664: 'qpx::RawPixelJobStats qpx::RawPixelPredictionJob::wait(const qpx::Document &)': cannot convert argument 1 from '<error type>' to 'const qpx::Document &' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(68,165):
+      Reason: cannot convert from '<error type>' to 'const qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(68,165):
+      use of undefined type 'qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(5,7):
+      see declaration of 'qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(107,61):
+      see declaration of 'qpx::RawPixelPredictionJob::wait'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(68,160):
+      while trying to match the argument list '(<error type>)'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(69,118): error C2664: 'qpx::RawPixelJobStats qpx::RawPixelPredictionJob::poll(const qpx::Document &)': cannot convert argument 1 from '<error type>' to 'const qpx::Document &' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(69,123):
+      Reason: cannot convert from '<error type>' to 'const qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(69,123):
+      use of undefined type 'qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(5,7):
+      see declaration of 'qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(107,22):
+      see declaration of 'qpx::RawPixelPredictionJob::poll'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(69,118):
+      while trying to match the argument list '(<error type>)'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(70,50): error C2440: '<function-style-cast>': cannot convert from 'initializer list' to 'qpx::RawPixelTrainingRequest' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(70,50):
+      'qpx::RawPixelTrainingRequest::RawPixelTrainingRequest': no overloaded function could convert all the argument types
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(17,5):
+          could be 'qpx::RawPixelTrainingRequest::RawPixelTrainingRequest(const qpx::Document &,const std::vector<uint64_t,std::allocator<uint64_t>> &,qpx::ScientificGrid,qpx::ScientificRawOptions,qpx::RawPixelFeatureOptions,qpx::RawPixelTrainingOptions,bool)'
+              C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(70,50):
+              'qpx::RawPixelTrainingRequest::RawPixelTrainingRequest(const qpx::Document &,const std::vector<uint64_t,std::allocator<uint64_t>> &,qpx::ScientificGrid,qpx::ScientificRawOptions,qpx::RawPixelFeatureOptions,qpx::RawPixelTrainingOptions,bool)': cannot convert argument 1 from '<error type>' to 'const qpx::Document &'
+                  C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(70,51):
+                  Reason: cannot convert from '<error type>' to 'const qpx::Document'
+                  C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(70,51):
+                  use of undefined type 'qpx::Document'
+                  C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(5,7):
+                  see declaration of 'qpx::Document'
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(70,50):
+          while trying to match the argument list '(<error type>, initializer list, const qpx::ScientificGrid, qpx::ScientificRawOptions, qpx::RawPixelFeatureOptions, qpx::RawPixelTrainingOptions)'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(70,157): error C2664: 'qpx::RawPixelJobStats qpx::RawPixelTrainingJob::poll(const qpx::Document &)': cannot convert argument 1 from '<error type>' to 'const qpx::Document &' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(70,162):
+      Reason: cannot convert from '<error type>' to 'const qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(70,162):
+      use of undefined type 'qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(5,7):
+      see declaration of 'qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(95,22):
+      see declaration of 'qpx::RawPixelTrainingJob::poll'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(70,157):
+      while trying to match the argument list '(<error type>)'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(71,74): error C2664: 'qpx::RawPixelJobStats qpx::RawPixelPredictionJob::wait(const qpx::Document &)': cannot convert argument 1 from '<error type>' to 'const qpx::Document &' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(71,79):
+      Reason: cannot convert from '<error type>' to 'const qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(71,79):
+      use of undefined type 'qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(5,7):
+      see declaration of 'qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(107,61):
+      see declaration of 'qpx::RawPixelPredictionJob::wait'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(71,74):
+      while trying to match the argument list '(<error type>)'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(71,188): error C2664: 'qpx::RawPixelJobStats qpx::RawPixelPredictionJob::wait(const qpx::Document &)': cannot convert argument 1 from '<error type>' to 'const qpx::Document &' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(71,193):
+      Reason: cannot convert from '<error type>' to 'const qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(71,193):
+      use of undefined type 'qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(5,7):
+      see declaration of 'qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(107,61):
+      see declaration of 'qpx::RawPixelPredictionJob::wait'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(71,188):
+      while trying to match the argument list '(<error type>)'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(73,83): error C2027: use of undefined type 'qpx::Roi' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_image.hpp(74,7):
+      see declaration of 'qpx::Roi'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(73,83): error C3861: 'rectangle': identifier not found [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(73,115): error C2664: 'qpx::RawPixelJobStats qpx::RawPixelPredictionJob::poll(const qpx::Document &)': cannot convert argument 1 from '<error type>' to 'const qpx::Document &' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(73,120):
+      Reason: cannot convert from '<error type>' to 'const qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(73,120):
+      use of undefined type 'qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(5,7):
+      see declaration of 'qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(107,22):
+      see declaration of 'qpx::RawPixelPredictionJob::poll'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(73,115):
+      while trying to match the argument list '(<error type>)'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(74,50): error C2440: '<function-style-cast>': cannot convert from 'initializer list' to 'qpx::RawPixelTrainingRequest' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(74,50):
+      'qpx::RawPixelTrainingRequest::RawPixelTrainingRequest': no overloaded function could convert all the argument types
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(17,5):
+          could be 'qpx::RawPixelTrainingRequest::RawPixelTrainingRequest(const qpx::Document &,const std::vector<uint64_t,std::allocator<uint64_t>> &,qpx::ScientificGrid,qpx::ScientificRawOptions,qpx::RawPixelFeatureOptions,qpx::RawPixelTrainingOptions,bool)'
+              C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(74,50):
+              'qpx::RawPixelTrainingRequest::RawPixelTrainingRequest(const qpx::Document &,const std::vector<uint64_t,std::allocator<uint64_t>> &,qpx::ScientificGrid,qpx::ScientificRawOptions,qpx::RawPixelFeatureOptions,qpx::RawPixelTrainingOptions,bool)': cannot convert argument 1 from '<error type>' to 'const qpx::Document &'
+                  C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(74,51):
+                  Reason: cannot convert from '<error type>' to 'const qpx::Document'
+                  C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(74,51):
+                  use of undefined type 'qpx::Document'
+                  C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(5,7):
+                  see declaration of 'qpx::Document'
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(74,50):
+          while trying to match the argument list '(<error type>, initializer list, const qpx::ScientificGrid, qpx::ScientificRawOptions, qpx::RawPixelFeatureOptions, qpx::RawPixelTrainingOptions)'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(74,176): error C2664: 'qpx::RawPixelJobStats qpx::RawPixelTrainingJob::poll(const qpx::Document &)': cannot convert argument 1 from '<error type>' to 'const qpx::Document &' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(74,181):
+      Reason: cannot convert from '<error type>' to 'const qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(74,181):
+      use of undefined type 'qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(5,7):
+      see declaration of 'qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(95,22):
+      see declaration of 'qpx::RawPixelTrainingJob::poll'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(74,176):
+      while trying to match the argument list '(<error type>)'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(75,166): error C2664: 'qpx::RawPixelJobStats qpx::RawPixelPredictionJob::poll(const qpx::Document &)': cannot convert argument 1 from '<error type>' to 'const qpx::Document &' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(75,171):
+      Reason: cannot convert from '<error type>' to 'const qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(75,171):
+      use of undefined type 'qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(5,7):
+      see declaration of 'qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(107,22):
+      see declaration of 'qpx::RawPixelPredictionJob::poll'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(75,166):
+      while trying to match the argument list '(<error type>)'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(76,200): error C2665: 'qpx::RawPixelTrainingRequest::RawPixelTrainingRequest': no overloaded function could convert all the argument types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(17,5):
+      could be 'qpx::RawPixelTrainingRequest::RawPixelTrainingRequest(const qpx::Document &,const std::vector<uint64_t,std::allocator<uint64_t>> &,qpx::ScientificGrid,qpx::ScientificRawOptions,qpx::RawPixelFeatureOptions,qpx::RawPixelTrainingOptions,bool)'
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(76,200):
+          'qpx::RawPixelTrainingRequest::RawPixelTrainingRequest(const qpx::Document &,const std::vector<uint64_t,std::allocator<uint64_t>> &,qpx::ScientificGrid,qpx::ScientificRawOptions,qpx::RawPixelFeatureOptions,qpx::RawPixelTrainingOptions,bool)': cannot convert argument 1 from '<error type>' to 'const qpx::Document &'
+              C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(76,201):
+              Reason: cannot convert from '<error type>' to 'const qpx::Document'
+              C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(76,201):
+              use of undefined type 'qpx::Document'
+              C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(5,7):
+              see declaration of 'qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(76,200):
+      while trying to match the argument list '(<error type>, initializer list, const qpx::ScientificGrid, qpx::ScientificRawOptions, qpx::RawPixelFeatureOptions, qpx::RawPixelTrainingOptions, bool)'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(78,172): error C2440: '<function-style-cast>': cannot convert from 'initializer list' to 'qpx::RawPixelPredictionRequest' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(78,172):
+      'qpx::RawPixelPredictionRequest::RawPixelPredictionRequest': no overloaded function could convert all the argument types
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(68,5):
+          could be 'qpx::RawPixelPredictionRequest::RawPixelPredictionRequest(const qpx::Document &,const qpx::RawPixelClassifier &,qpx::ScientificGrid,uint64_t,double,size_t)'
+              C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(78,172):
+              'qpx::RawPixelPredictionRequest::RawPixelPredictionRequest(const qpx::Document &,const qpx::RawPixelClassifier &,qpx::ScientificGrid,uint64_t,double,size_t)': cannot convert argument 1 from '<error type>' to 'const qpx::Document &'
+                  C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(78,173):
+                  Reason: cannot convert from '<error type>' to 'const qpx::Document'
+                  C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(78,173):
+                  use of undefined type 'qpx::Document'
+                  C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(5,7):
+                  see declaration of 'qpx::Document'
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(78,172):
+          while trying to match the argument list '(<error type>, const qpx::RawPixelClassifier, const qpx::ScientificGrid)'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(78,213): error C2664: 'qpx::RawPixelJobStats qpx::RawPixelPredictionJob::wait(const qpx::Document &)': cannot convert argument 1 from '<error type>' to 'const qpx::Document &' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(78,218):
+      Reason: cannot convert from '<error type>' to 'const qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(78,218):
+      use of undefined type 'qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(5,7):
+      see declaration of 'qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(107,61):
+      see declaration of 'qpx::RawPixelPredictionJob::wait'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(78,213):
+      while trying to match the argument list '(<error type>)'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(79,48): error C2440: '<function-style-cast>': cannot convert from 'initializer list' to 'qpx::RawPixelPredictionRequest' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(79,48):
+      'qpx::RawPixelPredictionRequest::RawPixelPredictionRequest': no overloaded function could convert all the argument types
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(68,5):
+          could be 'qpx::RawPixelPredictionRequest::RawPixelPredictionRequest(const qpx::Document &,const qpx::RawPixelClassifier &,qpx::ScientificGrid,uint64_t,double,size_t)'
+              C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(79,48):
+              'qpx::RawPixelPredictionRequest::RawPixelPredictionRequest(const qpx::Document &,const qpx::RawPixelClassifier &,qpx::ScientificGrid,uint64_t,double,size_t)': cannot convert argument 1 from '<error type>' to 'const qpx::Document &'
+                  C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(79,49):
+                  Reason: cannot convert from '<error type>' to 'const qpx::Document'
+                  C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(79,49):
+                  use of undefined type 'qpx::Document'
+                  C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(5,7):
+                  see declaration of 'qpx::Document'
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(79,48):
+          while trying to match the argument list '(<error type>, const qpx::RawPixelClassifier, const qpx::ScientificGrid)'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(79,140): error C2664: 'qpx::RawPixelJobStats qpx::RawPixelPredictionJob::poll(const qpx::Document &)': cannot convert argument 1 from '<error type>' to 'const qpx::Document &' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(79,145):
+      Reason: cannot convert from '<error type>' to 'const qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(79,145):
+      use of undefined type 'qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(5,7):
+      see declaration of 'qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(107,22):
+      see declaration of 'qpx::RawPixelPredictionJob::poll'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(79,140):
+      while trying to match the argument list '(<error type>)'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(80,83): error C2665: 'qpx::RawPixelPredictionRequest::RawPixelPredictionRequest': no overloaded function could convert all the argument types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(68,5):
+      could be 'qpx::RawPixelPredictionRequest::RawPixelPredictionRequest(const qpx::Document &,const qpx::RawPixelClassifier &,qpx::ScientificGrid,uint64_t,double,size_t)'
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(80,83):
+          'qpx::RawPixelPredictionRequest::RawPixelPredictionRequest(const qpx::Document &,const qpx::RawPixelClassifier &,qpx::ScientificGrid,uint64_t,double,size_t)': cannot convert argument 1 from '<error type>' to 'const qpx::Document &'
+              C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(80,84):
+              Reason: cannot convert from '<error type>' to 'const qpx::Document'
+              C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(80,84):
+              use of undefined type 'qpx::Document'
+              C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(5,7):
+              see declaration of 'qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(80,83):
+      while trying to match the argument list '(<error type>, const qpx::RawPixelClassifier, const qpx::ScientificGrid)'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(81,61): error C2079: 'unknown' uses undefined class 'qpx::Document' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(81,126): error C2027: use of undefined type 'qpx::Roi' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_image.hpp(74,7):
+      see declaration of 'qpx::Roi'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(81,126): error C3861: 'rectangle': identifier not found [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(81,96): error C2737: 'ua': const object must be initialized [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(81,188): error C2027: use of undefined type 'qpx::Roi' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_image.hpp(74,7):
+      see declaration of 'qpx::Roi'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(81,188): error C3861: 'rectangle': identifier not found [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(81,158): error C2737: 'ub': const object must be initialized [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(81,298): error C2665: 'qpx::RawPixelTrainingRequest::RawPixelTrainingRequest': no overloaded function could convert all the argument types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(17,5):
+      could be 'qpx::RawPixelTrainingRequest::RawPixelTrainingRequest(const qpx::Document &,const std::vector<uint64_t,std::allocator<uint64_t>> &,qpx::ScientificGrid,qpx::ScientificRawOptions,qpx::RawPixelFeatureOptions,qpx::RawPixelTrainingOptions,bool)'
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(81,298):
+          'qpx::RawPixelTrainingRequest::RawPixelTrainingRequest(const qpx::Document &,const std::vector<uint64_t,std::allocator<uint64_t>> &,qpx::ScientificGrid,qpx::ScientificRawOptions,qpx::RawPixelFeatureOptions,qpx::RawPixelTrainingOptions,bool)': cannot convert argument 1 from '<error type>' to 'const qpx::Document &'
+              C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(81,299):
+              Reason: cannot convert from '<error type>' to 'const qpx::Document'
+              C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(81,299):
+              use of undefined type 'qpx::Document'
+              C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(5,7):
+              see declaration of 'qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(81,298):
+      while trying to match the argument list '(<error type>, initializer list, const qpx::ScientificGrid, qpx::ScientificRawOptions, qpx::RawPixelFeatureOptions, qpx::RawPixelTrainingOptions, bool)'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(81,365): error C3536: 'ua': cannot be used before it is initialized [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(81,365): error C3536: 'ub': cannot be used before it is initialized [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(87,112): error C2079: 'file_doc' uses undefined class 'qpx::Document' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(87,175): error C2665: 'qpx::RawPixelPredictionRequest::RawPixelPredictionRequest': no overloaded function could convert all the argument types [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(68,5):
+      could be 'qpx::RawPixelPredictionRequest::RawPixelPredictionRequest(const qpx::Document &,const qpx::RawPixelClassifier &,qpx::ScientificGrid,uint64_t,double,size_t)'
+          C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(87,175):
+          'qpx::RawPixelPredictionRequest::RawPixelPredictionRequest(const qpx::Document &,const qpx::RawPixelClassifier &,qpx::ScientificGrid,uint64_t,double,size_t)': cannot convert argument 1 from '<error type>' to 'const qpx::Document &'
+              C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(87,176):
+              Reason: cannot convert from '<error type>' to 'const qpx::Document'
+              C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(87,176):
+              use of undefined type 'qpx::Document'
+              C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(5,7):
+              see declaration of 'qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(87,175):
+      while trying to match the argument list '(<error type>, const qpx::RawPixelClassifier, const qpx::ScientificGrid)'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(87,395): error C2664: 'qpx::RawPixelJobStats qpx::RawPixelPredictionJob::poll(const qpx::Document &)': cannot convert argument 1 from '<error type>' to 'const qpx::Document &' [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/pixel_workflow_tests.cpp')
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(87,400):
+      Reason: cannot convert from '<error type>' to 'const qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(87,400):
+      use of undefined type 'qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(5,7):
+      see declaration of 'qpx::Document'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\include\qupathxx\raw_pixel_workflows.hpp(107,22):
+      see declaration of 'qpx::RawPixelPredictionJob::poll'
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\raw_pixel_workflow_checks.hpp(87,395):
+      while trying to match the argument list '(<error type>)'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\pixel_workflow_tests.cpp(71,425): warning C4805: '==': unsafe mix of type 'const _Ty' and type 'const bool' in operation [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\pixel_workflow_tests.cpp(71,425): warning C4805:         with [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\pixel_workflow_tests.cpp(71,425): warning C4805:         [ [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\pixel_workflow_tests.cpp(71,425): warning C4805:             _Ty=uint8_t [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\pixel_workflow_tests.cpp(71,425): warning C4805:         ] [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]

@@ -1,0 +1,9 @@
+{
+  "wheel_sha256": "a2bfa379bbfa38eb0324665222fd68abacce622188b902c58521e4a73d7a0f9f",
+  "members_verified": 42,
+  "package_root": "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/nominal-cell-comparison296-linux-env/lib/python3.12/site-packages/qupathxx",
+  "previous_tmp_environment_missing": true,
+  "shared_test_dependencies": true,
+  "clean_machine": false,
+  "native_detection_rerun": false
+}

@@ -1,0 +1,321 @@
+{
+  "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+  "scope": "Authenticated builder-only observation; producer qualification report and wheel/payload integrity plus raw semantic checks. Full portable auditor and fresh Debian consumers remain required.",
+  "portable_accepted": false,
+  "versions": [
+    {
+      "python": "3.11",
+      "wheel": "qupathxx-0.1.0-cp311-cp311-manylinux_2_28_x86_64.whl",
+      "wheel_sha256": "47354fcef36bbf57515b6c6314e12ba10147fcc623428808d04ff7e690700e80",
+      "runtime_members": 42,
+      "producer_qualified": true,
+      "producer_abi_errors": {},
+      "native": {
+        "tests": 50,
+        "passed": 50,
+        "skipped": 0,
+        "expected_scientific_failures": 0,
+        "sha256": "95666b06ff76e0f24c7a1e4f8ba0918e52bff61a3e96bf9a7e89b13ce54a06a7",
+        "skip_reasons": {}
+      },
+      "builder": {
+        "tests": 4442,
+        "passed": 3942,
+        "skipped": 497,
+        "expected_scientific_failures": 3,
+        "sha256": "6ba0f84bcae8510cc9be00ad7de730089a593e05b21a5ca265bddb85744e08c7",
+        "skip_reasons": {
+          "desktop cell publication": 2,
+          "desktop replay": 11,
+          "requires geometry desktop": 1,
+          "requires managed project desktop": 1,
+          "opt-in native desktop replay": 8,
+          "opt-in desktop batch workflow": 13,
+          "opt-in desktop area limits": 3,
+          "opt-in project desktop replay": 6,
+          "opt-in desktop replay": 38,
+          "opt-in geometry desktop replay": 6,
+          "opt-in native docking": 12,
+          "opt-in project/GEOS/GeoJSON desktop migration": 4,
+          "opt-in responsive GUI": 10,
+          "requires GUI/project build and QUPATHXX_TEST_GUI=1": 96,
+          "requires GUI build and QUPATHXX_TEST_GUI=1": 34,
+          "requires GUI/training and QUPATHXX_TEST_GUI=1": 38,
+          "opt-in desktop pixel batch workflow": 6,
+          "requires GUI and QUPATHXX_TEST_GUI=1": 9,
+          "requires GUI/project and opt-in replay": 6,
+          "opt-in project desktop": 4,
+          "opt-in QPTMA desktop": 9,
+          "opt-in raw desktop": 7,
+          "opt-in GUI, TIFF/project and actual classifier training": 17,
+          "opt-in raw records desktop": 5,
+          "opt-in actual GUI and typed TIFF/training/GEOS": 6,
+          "opt-in native DPI scaling": 14,
+          "Windows native executable stack contract": 1,
+          "opt-in native GUI": 14,
+          "opt-in GEOS desktop replay": 2,
+          "opt-in TMA desktop": 24,
+          "opt-in TMA dearray desktop": 13,
+          "Windows GUI wheel-message regression": 1,
+          "opt-in native window lifecycle": 15,
+          "opt-in desktop": 3,
+          "managed desktop": 3,
+          "desktop batch": 2,
+          "desktop batch LoG recipe": 1,
+          "opt-in compound TIFF desktop": 2,
+          "opt-in NDPI desktop": 1,
+          "requires generated large pyramid fixture": 1,
+          "opt-in GUI": 11,
+          "Windows read-only replacement failure": 1,
+          "requires real desktop GUI": 1,
+          "Windows read-only file attribute check": 1,
+          "Frozen isolated-cell QuPath acceptance gates remain unresolved": 3,
+          "GEOS-disabled configuration": 1,
+          "opt-in ImGui import replay": 2,
+          "opt-in pinned Windows QuPath runtime": 1,
+          "requires quantitative project desktop": 5,
+          "backend-OFF profile only": 1,
+          "actual Windows CLI preflight": 1,
+          "Windows file sharing check": 1,
+          "Windows file delete sharing": 1,
+          "requires desktop GUI": 2,
+          "Windows case insensitive anchor path": 1,
+          "Windows read-only marker write protection": 1,
+          "Windows delete-sharing failure": 1,
+          "opt-in managed viewer": 15,
+          "requires generated OpenSlide pyramid": 1
+        }
+      },
+      "raw_native": {
+        "full": true,
+        "portable_owner_jobs": true,
+        "raw_file_training_contour_consumers": true
+      },
+      "raw_installed": {
+        "passed": 111,
+        "declared_skips": 32,
+        "groups": [
+          {
+            "module": "test_raw_pixel_python",
+            "passed": 12,
+            "declared_skips": 0
+          },
+          {
+            "module": "test_raw_pixel_cli",
+            "passed": 14,
+            "declared_skips": 1
+          },
+          {
+            "module": "test_raw_pixel_batch",
+            "passed": 14,
+            "declared_skips": 0
+          },
+          {
+            "module": "test_gui_raw_pixel",
+            "passed": 0,
+            "declared_skips": 17
+          },
+          {
+            "module": "test_raw_stream_contour_python",
+            "passed": 7,
+            "declared_skips": 0
+          },
+          {
+            "module": "test_raw_contour_seams",
+            "passed": 12,
+            "declared_skips": 0
+          },
+          {
+            "module": "test_gui_raw_stream_contours",
+            "passed": 0,
+            "declared_skips": 6
+          },
+          {
+            "module": "test_raw_stream_contour_cli",
+            "passed": 18,
+            "declared_skips": 0
+          },
+          {
+            "module": "test_raw_stream_contour_batch",
+            "passed": 15,
+            "declared_skips": 1
+          },
+          {
+            "module": "test_raw_file_contours",
+            "passed": 19,
+            "declared_skips": 7
+          }
+        ]
+      },
+      "raw_typing": {
+        "positive_files": 5,
+        "negative_files": 4,
+        "expected_errors": 20,
+        "hashes": {
+          "raw-classifier-typing.log": "e317872697c2cbfdefa321527a6efe73290dff3a390b0fa8723b87092eccba6a",
+          "raw-classifier-raw_pixel_invalid.log": "9782ef3b8d957850e8798c5f76b00ea7d87efde0899c3382d19a4e447754e3c3",
+          "raw-classifier-raw_batch_invalid.log": "ec99042b609fa2d436d18ee21a8adcfcc12207eda34c011d9d4aa11587b56b75",
+          "raw-classifier-raw_frontend_invalid.log": "a5c5390687f5fce8cd98cae060e975fc171146030c7121be4ff19828ac13504d",
+          "raw-classifier-raw_stream_contour_invalid.log": "741040568a8bece961fe36054dbca157b0b101a4b2ff3b46484eff173470706c"
+        }
+      }
+    },
+    {
+      "python": "3.12",
+      "wheel": "qupathxx-0.1.0-cp312-cp312-manylinux_2_28_x86_64.whl",
+      "wheel_sha256": "96cdbe6d276ba83543ae3f9bc6a626fb26bbbc3c0660e14e84942a876dda405e",
+      "runtime_members": 42,
+      "producer_qualified": true,
+      "producer_abi_errors": {},
+      "native": {
+        "tests": 50,
+        "passed": 50,
+        "skipped": 0,
+        "expected_scientific_failures": 0,
+        "sha256": "4f607139d238dd73367253673ec45c71082953885ece87f65b24a4ada28f8a5e",
+        "skip_reasons": {}
+      },
+      "builder": {
+        "tests": 4442,
+        "passed": 3942,
+        "skipped": 497,
+        "expected_scientific_failures": 3,
+        "sha256": "87c9076dd0f9010eb77a9d9c34aa5a8bd8944f1180f427c864da676d5e5a5267",
+        "skip_reasons": {
+          "desktop cell publication": 2,
+          "desktop replay": 11,
+          "requires geometry desktop": 1,
+          "requires managed project desktop": 1,
+          "opt-in native desktop replay": 8,
+          "opt-in desktop batch workflow": 13,
+          "opt-in desktop area limits": 3,
+          "opt-in project desktop replay": 6,
+          "opt-in desktop replay": 38,
+          "opt-in geometry desktop replay": 6,
+          "opt-in native docking": 12,
+          "opt-in project/GEOS/GeoJSON desktop migration": 4,
+          "opt-in responsive GUI": 10,
+          "requires GUI/project build and QUPATHXX_TEST_GUI=1": 96,
+          "requires GUI build and QUPATHXX_TEST_GUI=1": 34,
+          "requires GUI/training and QUPATHXX_TEST_GUI=1": 38,
+          "opt-in desktop pixel batch workflow": 6,
+          "requires GUI and QUPATHXX_TEST_GUI=1": 9,
+          "requires GUI/project and opt-in replay": 6,
+          "opt-in project desktop": 4,
+          "opt-in QPTMA desktop": 9,
+          "opt-in raw desktop": 7,
+          "opt-in GUI, TIFF/project and actual classifier training": 17,
+          "opt-in raw records desktop": 5,
+          "opt-in actual GUI and typed TIFF/training/GEOS": 6,
+          "opt-in native DPI scaling": 14,
+          "Windows native executable stack contract": 1,
+          "opt-in native GUI": 14,
+          "opt-in GEOS desktop replay": 2,
+          "opt-in TMA desktop": 24,
+          "opt-in TMA dearray desktop": 13,
+          "Windows GUI wheel-message regression": 1,
+          "opt-in native window lifecycle": 15,
+          "opt-in desktop": 3,
+          "managed desktop": 3,
+          "desktop batch": 2,
+          "desktop batch LoG recipe": 1,
+          "opt-in compound TIFF desktop": 2,
+          "opt-in NDPI desktop": 1,
+          "requires generated large pyramid fixture": 1,
+          "opt-in GUI": 11,
+          "Windows read-only replacement failure": 1,
+          "requires real desktop GUI": 1,
+          "Windows read-only file attribute check": 1,
+          "Frozen isolated-cell QuPath acceptance gates remain unresolved": 3,
+          "GEOS-disabled configuration": 1,
+          "opt-in ImGui import replay": 2,
+          "opt-in pinned Windows QuPath runtime": 1,
+          "requires quantitative project desktop": 5,
+          "backend-OFF profile only": 1,
+          "actual Windows CLI preflight": 1,
+          "Windows file sharing check": 1,
+          "Windows file delete sharing": 1,
+          "requires desktop GUI": 2,
+          "Windows case insensitive anchor path": 1,
+          "Windows read-only marker write protection": 1,
+          "Windows delete-sharing failure": 1,
+          "opt-in managed viewer": 15,
+          "requires generated OpenSlide pyramid": 1
+        }
+      },
+      "raw_native": {
+        "full": true,
+        "portable_owner_jobs": true,
+        "raw_file_training_contour_consumers": true
+      },
+      "raw_installed": {
+        "passed": 111,
+        "declared_skips": 32,
+        "groups": [
+          {
+            "module": "test_raw_pixel_python",
+            "passed": 12,
+            "declared_skips": 0
+          },
+          {
+            "module": "test_raw_pixel_cli",
+            "passed": 14,
+            "declared_skips": 1
+          },
+          {
+            "module": "test_raw_pixel_batch",
+            "passed": 14,
+            "declared_skips": 0
+          },
+          {
+            "module": "test_gui_raw_pixel",
+            "passed": 0,
+            "declared_skips": 17
+          },
+          {
+            "module": "test_raw_stream_contour_python",
+            "passed": 7,
+            "declared_skips": 0
+          },
+          {
+            "module": "test_raw_contour_seams",
+            "passed": 12,
+            "declared_skips": 0
+          },
+          {
+            "module": "test_gui_raw_stream_contours",
+            "passed": 0,
+            "declared_skips": 6
+          },
+          {
+            "module": "test_raw_stream_contour_cli",
+            "passed": 18,
+            "declared_skips": 0
+          },
+          {
+            "module": "test_raw_stream_contour_batch",
+            "passed": 15,
+            "declared_skips": 1
+          },
+          {
+            "module": "test_raw_file_contours",
+            "passed": 19,
+            "declared_skips": 7
+          }
+        ]
+      },
+      "raw_typing": {
+        "positive_files": 5,
+        "negative_files": 4,
+        "expected_errors": 20,
+        "hashes": {
+          "raw-classifier-typing.log": "e317872697c2cbfdefa321527a6efe73290dff3a390b0fa8723b87092eccba6a",
+          "raw-classifier-raw_pixel_invalid.log": "1a76a35865f954cf7822fc6ca762005f32969e818f72a4f07b1b99f35d3ee520",
+          "raw-classifier-raw_batch_invalid.log": "ec99042b609fa2d436d18ee21a8adcfcc12207eda34c011d9d4aa11587b56b75",
+          "raw-classifier-raw_frontend_invalid.log": "a5c5390687f5fce8cd98cae060e975fc171146030c7121be4ff19828ac13504d",
+          "raw-classifier-raw_stream_contour_invalid.log": "741040568a8bece961fe36054dbca157b0b101a4b2ff3b46484eff173470706c"
+        }
+      }
+    }
+  ]
+}

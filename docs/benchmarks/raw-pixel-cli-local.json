@@ -1,0 +1,376 @@
+{
+  "schema": "qpx.raw-pixel-cli-local/1",
+  "observed_at_utc": "2026-10-26T13:11:17.540637+00:00",
+  "source": "f4631104a8120921afe13b58b0d79a17d40fb78b",
+  "compiled_fingerprint": "6543badb58a42c6cb04bbb16f85345cb2d69c9df9d8312b1fcde260bd282a8bd",
+  "compiler_inputs": 376,
+  "status": "windows_cp312_installed_raw_cli_locally_verified",
+  "installed_python_passes": 104,
+  "installed_skips": [
+    {
+      "classname": "tests.test_raw_pixel_cli",
+      "name": "test_cli_training_backend_off_refuses_before_output",
+      "reason": "backend-OFF profile only"
+    }
+  ],
+  "cohorts": {
+    "tests.test_raw_pixel_cli": 15,
+    "tests.test_raw_pixel_python": 10,
+    "tests.test_pixel_stream_cli": 46,
+    "tests.test_project_pixel_batch": 25,
+    "tests.test_raw_batch": 4,
+    "tests.test_public_stubs": 5
+  },
+  "new_raw_cli_cases": [
+    "test_cli_train_resume_predict_retain_and_verify",
+    "test_cli_arguments_reject_before_output[extra0]",
+    "test_cli_arguments_reject_before_output[extra1]",
+    "test_cli_arguments_reject_before_output[extra2]",
+    "test_cli_arguments_reject_before_output[extra3]",
+    "test_cli_arguments_reject_before_output[extra4]",
+    "test_cli_arguments_reject_before_output[extra5]",
+    "test_cli_training_refuses_source_and_product_aliases[project]",
+    "test_cli_training_refuses_source_and_product_aliases[pixels]",
+    "test_cli_training_refuses_source_and_product_aliases[hardlink]",
+    "test_cli_training_refuses_source_and_product_aliases[same-products]",
+    "test_cli_model_lattice_mismatch_refuses_prediction_output",
+    "test_cli_cancellation_joins_before_reader_release",
+    "test_cli_prediction_refuses_aliases_and_changed_resume_request"
+  ],
+  "native_suites": 3,
+  "backend_off_witness": {
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package\\Release\\qupathxx_batch.exe",
+      "--train-raw-pixels",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawcli230-backend-off\\fixture\\input.qpx",
+      "1",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawcli230-backend-off\\fixture\\model.qrm",
+      "--checkpoint",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawcli230-backend-off\\fixture\\training.qtc",
+      "--archive",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawcli230-backend-off\\fixture\\rows.qtt"
+    ],
+    "exit": 1,
+    "result": {
+      "schema": "qpx.raw-pixel-train/1",
+      "state": "failed",
+      "path": "",
+      "error": "raw training requires the optional OpenCV backend",
+      "source_tree_sha256": "6543badb58a42c6cb04bbb16f85345cb2d69c9df9d8312b1fcde260bd282a8bd",
+      "total_windows": 0,
+      "completed_windows": 0
+    },
+    "flags": {
+      "QUPATHXX_BUILD_CLASSIFIER_TRAINING": "OFF",
+      "QUPATHXX_BUILD_GEOS": "ON",
+      "QUPATHXX_BUILD_GUI": "ON",
+      "QUPATHXX_BUILD_INTERCHANGE": "OFF",
+      "QUPATHXX_BUILD_OPENSLIDE": "OFF",
+      "QUPATHXX_BUILD_PROJECT": "ON",
+      "QUPATHXX_BUILD_PYTHON": "ON",
+      "QUPATHXX_BUILD_TESTS": "ON",
+      "QUPATHXX_BUILD_TIFF": "ON"
+    },
+    "source_project_unchanged": true,
+    "no_outputs": true,
+    "executable_sha256": "7de5559fc7d2fe3b8a27b9f5c4afbabe9693ff3b51698ddb5874fe872f211ae0",
+    "consumer": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawcli230-wheel312-env\\Scripts\\python.exe"
+  },
+  "wheel": {
+    "bytes": 6050227,
+    "sha256": "5c56900108b87a9165766ab63ab09cba74125882eb936380ca7dd1127c470e7b",
+    "members": 20
+  },
+  "scope": [
+    "Official native --train-raw-pixels, --export-raw-pixels and --verify-raw-pixels reuse tiled requests, training checkpoints, actual forest backend, owner file jobs and native archives/project retention",
+    "Installed Unicode TIFF train/predict/checkpoint/resume workflows preserve input project bytes; recorded model bytes and training rows match independent installed Python APIs",
+    "Prediction labels/support/votes, input/result chains and exact retained header/block prefix match; independent fresh-process provenance clocks/generations may differ",
+    "Source/project/model/hardlink/product aliases, model-lattice mismatch, changed resume request, tampering, argument bounds and process cancellation/refusal are distinguishing controls",
+    "Backend-OFF native executable rejects valid project training before producing files; original source project is preserved",
+    "Independent producer, checkpoint metadata, file metadata and forest budgets avoid rejecting valid small producer requests",
+    "Installed wheel/package/runtime source and native test products bind the same compiler fingerprint; 195 pinned OpenCV SDK files verify"
+  ],
+  "development": [
+    "Initial build succeeded; first test collection failed because the fixture was imported as a nonexistent tests package",
+    "Initial CLI coupled work and checkpoint metadata limits; two positive workflows correctly refused, and budgets were separated",
+    "Fresh-export test first used the wrong argument index, then incorrectly compared independent provenance bytes; corrected to exact committed-prefix preservation plus numeric/input/result equality without changing product formats",
+    "All original failed logs/XML retain their own compiler input/source snapshots"
+  ],
+  "limitations": [
+    "Windows CPython 3.12 training/TIFF/project ON, GUI/GEOS/OpenSlide OFF installed profile only; separate training-OFF native witness is not an installed OFF package qualification",
+    "Consumer uses a fresh wheel package with workspace test dependencies through .pth; no clean-machine claim",
+    "Optional prediction project retention currently performs another bounded full-file verification after the save job; no IO/performance improvement is claimed",
+    "Multi-image raw-classifier batches, ImGui/managed viewer, bounded contour frontend apply, broader installed profiles and T5 integrated qualification remain open",
+    "Cross-tile contours, automatic maintenance, abrupt-process/power-loss and scientific/resource/hardware/release gates remain open"
+  ],
+  "raw_payloads": [
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/final/compiler-inputs.json",
+      "bytes": 40115,
+      "sha256": "232b05cb98772a4656befbe526d81144e11f774067f738ffeff14becf98b6221"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/final/install-wheel.log",
+      "bytes": 305,
+      "sha256": "bba3ed1fee0600e4d2ad11987f3f517b3bc11ce110a8cb07af04800fef0fbb3f"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/final/installed-proof.json",
+      "bytes": 6786,
+      "sha256": "b9e489f73a9ca4d0d94c1a385cf8b5ed9fe1918add6807a4527e58e3e4994abc"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/final/installed-proof.log",
+      "bytes": 86,
+      "sha256": "f54eef54eecba7355f7ef0f87f5e5776a36e667c77740bb630a070eaf170e11c"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/final/native-tests.log",
+      "bytes": 429,
+      "sha256": "8d2c17c0d3cd1e8cd75de09507b187ed0723d865f7d7065db96c664ae3cbe245"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/final/native-tests.xml",
+      "bytes": 5855,
+      "sha256": "23f0c33a8d586d39a15bc8146e304b900d2d546d0b3ac74bc001a62c2114254f"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/final/python-tests.log",
+      "bytes": 195,
+      "sha256": "a1e7c92e250a798446208453f760139ee452bd450d93de99c051bad712dfe9c6"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/final/python-tests.xml",
+      "bytes": 14378,
+      "sha256": "23ca72b3db1536692ce7709c358d54fb289e5f67ffb9f07e33845ae4be89809b"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/final/stubs-check.log",
+      "bytes": 48,
+      "sha256": "f5323cb57dde65ca62cc7b523f2183b1f4ad026dafb74e41bd25dac05ebb2130"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/final/verification-commands.json",
+      "bytes": 2975,
+      "sha256": "59dd4c063fa7f6eacab338de495db18b6d7e45b620376421a72cd788ec114aa5"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/final/wheel-build.log",
+      "bytes": 11734,
+      "sha256": "b69a227b7d979f9cfab47053beedd714d835e3fc75bdab9dc4bd0e3e2b8263c3"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/final/wheel-command.json",
+      "bytes": 232,
+      "sha256": "f78efcc75760834a49116dee649ecdf7cde80e954be2231004290bfa6c119fda"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/backend-off/backend-off-proof.json",
+      "bytes": 1499,
+      "sha256": "b2639bd20c673d69af1d8a58a13e71a270915022ad0aaffe91f12a29667986f8"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/backend-off/backend-off.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/backend-off/backend-off.stdout",
+      "bytes": 251,
+      "sha256": "35af6a9d23876cec26450f25bbba733e3ae2bda99b0bdfb05eb3a4b5b52e78ba"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/backend-off/build.log",
+      "bytes": 1474,
+      "sha256": "85deddc27223b71cf9eae3137dcbf3b1d2a019e0cc57a33e2bb8cb0775657268"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/backend-off/commands.json",
+      "bytes": 798,
+      "sha256": "2f370c9847c44605f8a11c59ab652b1fc7f08cd0759e04c342364a0e22e2baaa"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/backend-off/compiler-inputs.json",
+      "bytes": 39733,
+      "sha256": "9ec0ae6c3e9a9884314112a3411f7f7cba3c56fc1f0ed452216af6904d1f851b"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/backend-off/configure.log",
+      "bytes": 3579,
+      "sha256": "2c78d9d0ca359095e404a417fbdd46d17584ecb86e7cee509fa16725fb940c0a"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/development/build.log",
+      "bytes": 1316,
+      "sha256": "7a0a73ee744068f6c3cce6cf35cad6b42a8fd7ceefa8c67b587a296f373fee48"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/development/cli-tests-b.log",
+      "bytes": 3860,
+      "sha256": "6f1fc97bc1064cf1afbe33f33a6563f665e21afe0a6a4778a0e30f879794e87e"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/development/cli-tests-b.xml",
+      "bytes": 6423,
+      "sha256": "e6905ea836b5b2c2902b4b7564e71e6f6d33f213109b59dbea043a88dada7508"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/development/cli-tests.log",
+      "bytes": 989,
+      "sha256": "d378bfd67b329614a7525dbbf78ed250fb604927efcb7a15ca3531e4942d0dc9"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/development/cli-tests.xml",
+      "bytes": 978,
+      "sha256": "b9f0a15d12f0d1b8b5f9ba7d00f46dc0450e1e225f220082b9636ee0efd96eab"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/development/commands.json",
+      "bytes": 793,
+      "sha256": "c7f64c6ffc10c0c154679e53cab125382a8e658dc3a0673ea3e60fb53d92955b"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/development/compiler-inputs.json",
+      "bytes": 39733,
+      "sha256": "c621bc579301f0424dbdc2f9c4c560818b13bff4712d9c0b3106d3d838e890bc"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/development/configure.log",
+      "bytes": 3754,
+      "sha256": "14581d1e86c953298b84c6b1228ac9aee19317d5a3f426aca1a20f245977ee17"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/development-b/build.log",
+      "bytes": 893,
+      "sha256": "ec77653194eaa0d114dee391104bc10366e9de540d2c9f2cd5b20fcfb28e3d94"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/development-b/cli-tests-c.log",
+      "bytes": 5703,
+      "sha256": "41e037ebb6dd1fcd525e12472747e407abccdbda6f0550f8fdd41ff6a30d6112"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/development-b/cli-tests-c.xml",
+      "bytes": 7593,
+      "sha256": "139818b712cc0ae77700301c874c191567d3994bf7dabef1fd4d76d82cfe05e5"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/development-b/cli-tests-d.log",
+      "bytes": 112,
+      "sha256": "6afb8c3ef9ce0dada92c527fb30d28685e67285b35ebfb4cc887198723f51c16"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/development-b/cli-tests-d.xml",
+      "bytes": 2157,
+      "sha256": "5126867c740bae2484b4ca18c20634d56631ccc0fd1afa72cd34383e0820b486"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/development-b/cli-tests.log",
+      "bytes": 6479,
+      "sha256": "3b4a661c97a5fc8bf60ba03b2c1266d59143d7841bb4c51244fe25afc1044e9e"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/development-b/cli-tests.xml",
+      "bytes": 8739,
+      "sha256": "e1fcd03419076ce4ff9db9a58c3e50ad77e90d2d0bbbf7b62939d3fdc48385ba"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/development-b/commands.json",
+      "bytes": 793,
+      "sha256": "e12a3a33bebeb0d8f7c01569c80964a54d25b9dd68bcd93af28b8343f74d3a18"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/development-b/compiler-inputs.json",
+      "bytes": 39733,
+      "sha256": "b1df9d864397b0a9f09742872e02d7295f4e5075fc5f11c182eccc9d0f2c4bf4"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/development-b/configure.log",
+      "bytes": 3754,
+      "sha256": "d02752d6fb24e5bf97716b5ecb86362c1b2e8cd31694cdb575bb366644203ee1"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/training-on/build_manifest.hpp",
+      "bytes": 706,
+      "sha256": "888e8312f1fa196057a1cca3462edfe91099140f075fef5b03de0b5a6742ae3b"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/training-on/configuration.json",
+      "bytes": 438,
+      "sha256": "3f66e416795a9af12475f99812f0e3258827db7c8f3bc3f868f960c74dc07fd8"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/training-off/build_manifest.hpp",
+      "bytes": 706,
+      "sha256": "51b9ea8302d8cafc267d95f91d885b4714111e943d8b6acef87964d645d0739d"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/training-off/configuration.json",
+      "bytes": 438,
+      "sha256": "1fdb05fd0a59139fc78658467c36bfad64008f2d672600bae623a8ffd733f958"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/opencv-sdk-manifest.json",
+      "bytes": 24157,
+      "sha256": "81963b86ef1233d5c71508d06f0a96a35c5ae8211838294f47b376f8c9800615"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/source-proof.json",
+      "bytes": 130618,
+      "sha256": "8b468a5176254f7581ca6c003ef85a808f1c268e3c34db7ca66d42a0cc666289"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/retained-products.json",
+      "bytes": 2902,
+      "sha256": "bb69372581346471ff80497708e7b303171f394baf73d59527e503488557032b"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/producers/build_rawcli230.py",
+      "bytes": 2379,
+      "sha256": "5bb927f4dd7836e79118a1cf23814474af355db51fba25b6bfe1de01f5465a20"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/producers/build_rawcli230_b.py",
+      "bytes": 2381,
+      "sha256": "cf69deb39d1584cc1623c70a2c89e9bffb0cb6c5cd024c8b8d40f204562d2972"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/producers/build_rawcli230_off.py",
+      "bytes": 2381,
+      "sha256": "680cbd33db63c9d7ac222d892aa65a56a1cb55388b063f4e5410678d8af1646b"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/producers/rawcli230_backend.py",
+      "bytes": 858,
+      "sha256": "34f67b61cde2b889a87e052b722c6a469f8e673c022e8e77715969db93da7bba"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/producers/build_rawcli230_wheel.py",
+      "bytes": 2245,
+      "sha256": "f8e0dbf3ea44e162d29df7e921cab35c54694c1ab8f4a1610e829db81a4308e1"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/producers/verify_rawcli230_final.py",
+      "bytes": 3033,
+      "sha256": "b75086b41818e7da11ccdc51d82a00a171caf953017fe456ccadb3356cb86ea3"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/producers/rawcli230_installed_proof.py",
+      "bytes": 1685,
+      "sha256": "2f6d6a3820bd7f8a6e1e4d032dda3fdc301bd463ceda31837be600137dc6abef"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/producers/rawcli230_backend_off_proof.py",
+      "bytes": 1897,
+      "sha256": "6f1db0f09a00a3f6e9f89e3ff82ed14b53b76129dae3de2f190b6476b95af434"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-cli-local/producers/receipt_rawcli230.py",
+      "bytes": 9696,
+      "sha256": "2192b2f8e861aee5a17dfd19b48c35bfaa4c565f14c75190917c0f045a0b31e8"
+    }
+  ],
+  "retained_artifacts": "build/rawcli230-retained-binaries",
+  "main_changed": false,
+  "milestones": "M0-M7 Partial"
+}

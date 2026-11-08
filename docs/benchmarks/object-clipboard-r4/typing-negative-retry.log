@@ -1,0 +1,5 @@
+tests\typing\object_clipboard_invalid.py:5: error: Missing positional argument "ids" in call to "copy_objects"  [call-arg]
+tests\typing\object_clipboard_invalid.py:6: error: List item 0 has incompatible type "str"; expected "int"  [list-item]
+tests\typing\object_clipboard_invalid.py:7: error: Argument 2 to "paste_objects" has incompatible type "int"; expected "str"  [arg-type]
+tests\typing\object_clipboard_invalid.py:8: error: Argument "plane" to "paste_objects" has incompatible type "int"; expected "ObjectPlane | None"  [arg-type]
+Found 4 errors in 1 file (checked 1 source file)

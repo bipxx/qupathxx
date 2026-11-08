@@ -1,0 +1,559 @@
+{
+  "schema": "qpx.ci-diagnostic-command-contract/1",
+  "source": "9e7d0be94c59c2c5e363f7dfa60384f9c9c2d7d6",
+  "scope": "Independent pre-refactor producer command inventory; preserve arguments, deadlines, expected exits and fail-fast installation prefix.",
+  "commands": [
+    {
+      "args": [
+        "[test_python, '-I', '-m', 'pytest', 'tests', '-q', '-o', 'faulthandler_timeout=60', f'--junitxml={work}/python-tests.xml']",
+        "work / 'python-tests.log'",
+        "env",
+        "2400"
+      ],
+      "keywords": []
+    },
+    {
+      "args": [
+        "[test_python, '-I', ROOT / 'tools/compare_qupath_cells.py', '--cell-algorithm', 'log-bodies', '--report', work / 'qupath-cells-body-comparison.json']",
+        "work / 'qupath-cells-body-comparison.log'",
+        "env",
+        "120"
+      ],
+      "keywords": []
+    },
+    {
+      "args": [
+        "[test_python, '-I', ROOT / 'tools/compare_qupath_cells.py', '--cell-algorithm', 'log-sampled', '--report', work / 'qupath-cells-sampled-comparison.json']",
+        "work / 'qupath-cells-sampled-comparison.log'",
+        "env",
+        "120"
+      ],
+      "keywords": []
+    },
+    {
+      "args": [
+        "[test_python, '-I', ROOT / 'tools/benchmark_classifier.py', '--output', work / 'classifier-benchmark.json']",
+        "work / 'classifier-benchmark.log'",
+        "env",
+        "120"
+      ],
+      "keywords": []
+    },
+    {
+      "args": [
+        "[test_python, '-I', ROOT / 'tools/benchmark_object_classifier.py', '--rows', '10000', '--output', work / 'object-classifier-benchmark.json']",
+        "work / 'object-classifier-benchmark.log'",
+        "env",
+        "120"
+      ],
+      "keywords": []
+    },
+    {
+      "args": [
+        "[test_python, '-I', ROOT / 'tools/benchmark_classifier_archives.py', '--rows', '10000', '--output', work / 'classifier-archive-benchmark.json']",
+        "work / 'classifier-archive-benchmark.log'",
+        "env",
+        "120"
+      ],
+      "keywords": []
+    },
+    {
+      "args": [
+        "[test_python, '-I', ROOT / 'tools/benchmark_pixel_classifier.py', '--output', work / 'pixel-classifier-benchmark.json']",
+        "work / 'pixel-classifier-benchmark.log'",
+        "env",
+        "120"
+      ],
+      "keywords": []
+    },
+    {
+      "args": [
+        "[test_python, '-I', ROOT / 'tools/benchmark_pixel_workflow.py', '--output', work / 'pixel-workflow-benchmark.json']",
+        "work / 'pixel-workflow-benchmark.log'",
+        "env",
+        "120"
+      ],
+      "keywords": []
+    },
+    {
+      "args": [
+        "[test_python, '-I', ROOT / 'tools/benchmark_pixel_stream.py', '--output', work / 'pixel-stream-benchmark.json']",
+        "work / 'pixel-stream-benchmark.log'",
+        "env",
+        "120"
+      ],
+      "keywords": []
+    },
+    {
+      "args": [
+        "[test_python, '-I', ROOT / 'tools/benchmark_pixel_stream_file.py', '--file', work / 'pixel-stream-file.qps', '--output', work / 'pixel-stream-file-benchmark.json']",
+        "work / 'pixel-stream-file-benchmark.log'",
+        "env",
+        "120"
+      ],
+      "keywords": []
+    },
+    {
+      "args": [
+        "[test_python, '-I', ROOT / 'tools/benchmark_pixel_stream_read.py', '--file', work / 'pixel-stream-file.qps', '--output', work / 'pixel-stream-read-benchmark.json']",
+        "work / 'pixel-stream-read-benchmark.log'",
+        "env",
+        "120"
+      ],
+      "keywords": []
+    },
+    {
+      "args": [
+        "[test_python, '-I', ROOT / 'tools/benchmark_pixel_input_digest.py', '--output', work / 'pixel-input-digest-benchmark.json']",
+        "work / 'pixel-input-digest-benchmark.log'",
+        "env",
+        "120"
+      ],
+      "keywords": []
+    },
+    {
+      "args": [
+        "[test_python, '-I', ROOT / 'tools/benchmark_project_pixel_batch.py', '--work', work / 'project-pixel-batch', '--output', work / 'project-pixel-batch-benchmark.json']",
+        "work / 'project-pixel-batch-benchmark.log'",
+        "env",
+        "180"
+      ],
+      "keywords": []
+    },
+    {
+      "args": [
+        "[test_python, '-I', ROOT / 'tools/probe_project_pixel_batch_cancel.py', '--work', work / 'pixel-batch-interrupt', '--output', work / 'pixel-batch-interrupt.json']",
+        "work / 'pixel-batch-interrupt.log'",
+        "env",
+        "90"
+      ],
+      "keywords": []
+    },
+    {
+      "args": [
+        "[test_python, '-I', ROOT / 'tools/benchmark_tiff_reader.py', '--output', work / 'tiff-reader-benchmark.json']",
+        "work / 'tiff-reader-benchmark.log'",
+        "env",
+        "120"
+      ],
+      "keywords": []
+    },
+    {
+      "args": [
+        "[test_python, '-I', ROOT / 'tools/benchmark_raw_records.py', '--output', work / 'raw-records-benchmark.json']",
+        "work / 'raw-records-benchmark.log'",
+        "env",
+        "180"
+      ],
+      "keywords": []
+    },
+    {
+      "args": [
+        "[test_python, '-I', ROOT / 'tools/benchmark_tma.py', '--output', work / 'tma-benchmark.json']",
+        "work / 'tma-benchmark.log'",
+        "env",
+        "120"
+      ],
+      "keywords": []
+    },
+    {
+      "args": [
+        "[test_python, '-I', ROOT / 'tools/benchmark_pixel_stream_cli.py', '--work', work / 'pixel-stream-cli', '--output', work / 'pixel-stream-cli-benchmark.json']",
+        "work / 'pixel-stream-cli-benchmark.log'",
+        "env",
+        "120"
+      ],
+      "keywords": []
+    },
+    {
+      "args": [
+        "[test_python, '-I', ROOT / 'tools/benchmark_pixel_stream_records.py', '--file', work / 'pixel-stream-file.qps', '--project', work / 'pixel-stream-links.qpxproj', '--output', work / 'pixel-stream-record-benchmark.json']",
+        "work / 'pixel-stream-record-benchmark.log'",
+        "env",
+        "120"
+      ],
+      "keywords": []
+    },
+    {
+      "args": [
+        "[test_python, '-I', ROOT / 'tools/benchmark_pixel_stream_file.py', '--job', '--file', work / 'pixel-stream-job.qps', '--output', work / 'pixel-stream-job-benchmark.json']",
+        "work / 'pixel-stream-job-benchmark.log'",
+        "env",
+        "120"
+      ],
+      "keywords": []
+    },
+    {
+      "args": [
+        "[test_python, '-I', ROOT / 'tools/benchmark_pixel_archives.py', '--output', work / 'pixel-archive-benchmark.json']",
+        "work / 'pixel-archive-benchmark.log'",
+        "env",
+        "120"
+      ],
+      "keywords": []
+    },
+    {
+      "args": [
+        "[test_python, '-I', ROOT / 'tools/generate_stubs.py', '--check']",
+        "work / 'stubs.log'",
+        "env"
+      ],
+      "keywords": []
+    },
+    {
+      "args": [
+        "[test_python, '-I', '-m', 'mypy', '--strict', '--no-incremental', *scientific.POSITIVE]",
+        "work / 'typing.log'",
+        "env"
+      ],
+      "keywords": []
+    },
+    {
+      "args": [
+        "[test_python, '-I', '-m', 'mypy', '--strict', '--no-incremental', 'tests/typing/tma_axes_invalid.py']",
+        "work / axis.TYPING_LOG",
+        "env"
+      ],
+      "keywords": [
+        [
+          "expected",
+          "1"
+        ]
+      ]
+    },
+    {
+      "args": [
+        "[test_python, '-I', '-m', 'mypy', '--strict', '--no-incremental', 'tests/typing/tma_dearray_valid.py']",
+        "work / dearray.CONTRACT['typing_positive_log']",
+        "env"
+      ],
+      "keywords": []
+    },
+    {
+      "args": [
+        "[test_python, '-I', '-m', 'mypy', '--strict', '--no-incremental', 'tests/typing/source_companions_valid.py']",
+        "work / multifile.CONTRACT['typing_positive_log']",
+        "env"
+      ],
+      "keywords": []
+    },
+    {
+      "args": [
+        "[test_python, '-I', '-m', 'mypy', '--strict', '--no-incremental', 'tests/typing/invalid_api.py']",
+        "negative_log",
+        "env"
+      ],
+      "keywords": [
+        [
+          "expected",
+          "1"
+        ]
+      ]
+    },
+    {
+      "args": [
+        "[test_python, '-I', '-m', 'mypy', '--strict', '--no-incremental', 'tests/typing/qptma_invalid.py']",
+        "qptma_negative_log",
+        "env"
+      ],
+      "keywords": [
+        [
+          "expected",
+          "1"
+        ]
+      ]
+    },
+    {
+      "args": [
+        "[test_python, '-I', '-m', 'mypy', '--strict', '--no-incremental', 'tests/typing/hierarchy_invalid.py']",
+        "hierarchy_negative_log",
+        "env"
+      ],
+      "keywords": [
+        [
+          "expected",
+          "1"
+        ]
+      ]
+    },
+    {
+      "args": [
+        "[test_python, '-I', ROOT / 'tools/benchmark_vendor_reader.py', '--slide', env['QUPATHXX_APERIO_MULTILEVEL_FIXTURE'], '--output', work / 'vendor-reader-benchmark.json']",
+        "work / 'vendor-reader-benchmark.log'",
+        "env",
+        "120"
+      ],
+      "keywords": []
+    },
+    {
+      "args": [
+        "[test_python, '-I', ROOT / 'tools/benchmark_vendor_reader.py', '--slide', env['QUPATHXX_HAMAMATSU_FIXTURE'], '--output', work / 'ndpi-reader-benchmark.json']",
+        "work / 'ndpi-reader-benchmark.log'",
+        "env",
+        "120"
+      ],
+      "keywords": []
+    },
+    {
+      "args": [
+        "[test_python, '-I', ROOT / 'tools/benchmark_tiff_reader.py', '--gui', '--output', work / 'gui-tiff-reader-benchmark.json', '--capture', work / 'gui-tiff-reader.ppm']",
+        "work / 'gui-tiff-reader-benchmark.log'",
+        "env",
+        "120"
+      ],
+      "keywords": []
+    },
+    {
+      "args": [
+        "[test_python, '-I', ROOT / 'tools/benchmark_tma.py', '--gui', '--output', work / 'gui-tma-benchmark.json', '--capture', work / 'gui-tma.ppm']",
+        "work / 'gui-tma-benchmark.log'",
+        "env",
+        "120"
+      ],
+      "keywords": []
+    },
+    {
+      "args": [
+        "[test_python, '-I', ROOT / 'tools/benchmark_pixel_stream_records.py', '--gui', '--file', work / 'pixel-stream-file.qps', '--project', work / 'gui-pixel-stream-links.qpxproj', '--output', work / 'gui-pixel-stream-record-benchmark.json']",
+        "work / 'gui-pixel-stream-record-benchmark.log'",
+        "env",
+        "120"
+      ],
+      "keywords": []
+    },
+    {
+      "args": [
+        "[test_python, '-I', ROOT / 'tools/benchmark_gui_pixel_stream_read.py', '--file', work / 'pixel-stream-file.qps', '--output', work / 'gui-pixel-stream-read-benchmark.json', '--capture', work / 'gui-pixel-stream-read.ppm']",
+        "work / 'gui-pixel-stream-read-benchmark.log'",
+        "env",
+        "120"
+      ],
+      "keywords": []
+    },
+    {
+      "args": [
+        "[test_python, '-I', ROOT / 'tools/benchmark_gui_pixel_stream.py', '--file', work / 'gui-pixel-stream.qps', '--output', work / 'gui-pixel-stream-benchmark.json']",
+        "work / 'gui-pixel-stream-benchmark.log'",
+        "env",
+        "120"
+      ],
+      "keywords": []
+    },
+    {
+      "args": [
+        "[test_python, '-I', ROOT / 'tools/benchmark_gui_pixel.py', '--output', work / 'gui-pixel-benchmark.json']",
+        "work / 'gui-pixel-benchmark.log'",
+        "env",
+        "120"
+      ],
+      "keywords": []
+    },
+    {
+      "args": [
+        "[test_python, '-I', ROOT / 'tools/benchmark_gui_pixel_contours.py', '--output', work / 'gui-pixel-contour-benchmark.json']",
+        "work / 'gui-pixel-contour-benchmark.log'",
+        "env",
+        "120"
+      ],
+      "keywords": []
+    },
+    {
+      "args": [
+        "[test_python, '-I', ROOT / 'tools/benchmark_gui_pixel_archives.py', '--output', work / 'gui-pixel-archive-benchmark.json']",
+        "work / 'gui-pixel-archive-benchmark.log'",
+        "env",
+        "120"
+      ],
+      "keywords": []
+    },
+    {
+      "args": [
+        "[test_python, '-I', ROOT / 'tools/benchmark_gui_pixel_archives.py', '--viewport', '--output', work / 'gui-pixel-window-benchmark.json']",
+        "work / 'gui-pixel-window-benchmark.log'",
+        "env",
+        "120"
+      ],
+      "keywords": []
+    },
+    {
+      "args": [
+        "[test_python, '-I', '-m', 'mypy', '--strict', '--no-incremental', 'tests/typing/' + filename]",
+        "work / log",
+        "env"
+      ],
+      "keywords": [
+        [
+          "expected",
+          "1"
+        ]
+      ]
+    },
+    {
+      "args": [
+        "[test_python, '-I', '-m', 'mypy', '--strict', '--no-incremental', 'tests/typing/' + filename]",
+        "work / contract['log']",
+        "env"
+      ],
+      "keywords": [
+        [
+          "expected",
+          "1"
+        ]
+      ]
+    },
+    {
+      "args": [
+        "[test_python, '-I', '-m', 'mypy', '--strict', '--no-incremental', 'tests/typing/' + filename]",
+        "work / contract['log']",
+        "env"
+      ],
+      "keywords": [
+        [
+          "expected",
+          "1"
+        ]
+      ]
+    },
+    {
+      "args": [
+        "inspect + ['--output', work / 'windows-native-runtime-manifest.json']",
+        "work / 'windows-native-runtime-manifest.log'",
+        "env",
+        "120"
+      ],
+      "keywords": []
+    },
+    {
+      "args": [
+        "inspect + ['--verify', work / 'windows-native-runtime-manifest.json']",
+        "work / 'windows-native-runtime-verify.log'",
+        "env",
+        "120"
+      ],
+      "keywords": []
+    },
+    {
+      "args": [
+        "[native_test / 'qupathxx_app.exe', '--project', work / 'standalone-input.qpxproj', '--layout', layout, '--smoke']",
+        "work / 'standalone-gui.log'",
+        "clean",
+        "120"
+      ],
+      "keywords": []
+    },
+    {
+      "args": [
+        "[native_test / 'qupathxx_app.exe', '--project', work / 'standalone-input.qpxproj', '--layout', layout, '--smoke']",
+        "work / 'standalone-layout-reload.log'",
+        "clean",
+        "120"
+      ],
+      "keywords": []
+    },
+    {
+      "args": [
+        "[native_test / 'qupathxx_batch.exe', work / 'standalone-input.qpxproj', work / 'standalone-batch', '--kind', 'stains']",
+        "work / 'standalone-batch.log'",
+        "clean",
+        "120"
+      ],
+      "keywords": []
+    },
+    {
+      "args": [
+        "[native_test / 'qupathxx_region.exe', ppm, '0', '0', '0', '2', '2', pam]",
+        "work / 'standalone-region.log'",
+        "clean",
+        "60"
+      ],
+      "keywords": []
+    },
+    {
+      "args": [
+        "[native_test / 'qupathxx_region.exe', '--thumbnail', ppm, '1', '1', thumb]",
+        "work / 'standalone-thumbnail.log'",
+        "clean",
+        "60"
+      ],
+      "keywords": []
+    },
+    {
+      "args": [
+        "[test_python, '-I', '-c', \"import sys,numpy as np,tifffile; tifffile.imwrite(sys.argv[1],np.full((32,48,3),[40,80,160],dtype=np.uint8),photometric='rgb',tile=(16,16),compression='deflate',metadata=None)\", tiff]",
+        "work / 'standalone-thumbnail-fixture.log'",
+        "env",
+        "60"
+      ],
+      "keywords": []
+    },
+    {
+      "args": [
+        "[native_test / 'qupathxx_region.exe', '--thumbnail', tiff, '31', '23', tiff_thumb]",
+        "work / 'standalone-tiff-thumbnail.log'",
+        "clean",
+        "60"
+      ],
+      "keywords": []
+    },
+    {
+      "args": [
+        "[native_test / 'qupathxx_app.exe', slide, '--smoke']",
+        "work / 'standalone-slide-gui.log'",
+        "clean",
+        "120"
+      ],
+      "keywords": []
+    },
+    {
+      "args": [
+        "[native_test / 'qupathxx_region.exe', slide, '0', '0', '0', '32', '24', slide_region]",
+        "work / 'standalone-slide-region.log'",
+        "clean",
+        "60"
+      ],
+      "keywords": []
+    },
+    {
+      "args": [
+        "[install / 'Lib/site-packages/qupathxx/qupathxx_region.exe', slide, '0', '0', '0', '32', '24', reference]",
+        "work / 'installed-slide-region.log'",
+        "env",
+        "60"
+      ],
+      "keywords": []
+    },
+    {
+      "args": [
+        "[native_test / 'qupathxx_region.exe', '--thumbnail', slide, '250', '150', slide_thumb]",
+        "work / 'standalone-slide-thumbnail.log'",
+        "clean",
+        "60"
+      ],
+      "keywords": [
+        [
+          "expected",
+          "1"
+        ]
+      ]
+    },
+    {
+      "args": [
+        "[test_python, '-I', ROOT / 'tools/compare_qupath_ndpi_cells.py', '--image', env['QUPATHXX_HAMAMATSU_FIXTURE'], '--reference', ROOT / 'tests/fixtures/qupath-ndpi-cells-0.7.0/capture', '--include-sampled', '--context-padding', str(padding), '--report', work / f'qupath-ndpi-sampled-context{padding}.json']",
+        "work / f'qupath-ndpi-sampled-context{padding}.log'",
+        "env",
+        "120"
+      ],
+      "keywords": []
+    },
+    {
+      "args": [
+        "[test_python, '-I', ROOT / 'tools/benchmark_gui_overview.py', '--slide', env['QUPATHXX_APERIO_MULTILEVEL_FIXTURE'], '--output', work / 'gui-overview-benchmark.json', '--capture', work / 'gui-overview.png']",
+        "work / 'gui-overview-benchmark.log'",
+        "env",
+        "120"
+      ],
+      "keywords": []
+    }
+  ],
+  "preparation_source": "parser = argparse.ArgumentParser()\nparser.add_argument('--mode', choices=['minimal', 'native', 'sanitize', 'headless', 'gui'], required=True)\nparser.add_argument('--work', type=Path, required=True)\nparser.add_argument('--live-reference', action='store_true')\nparser.add_argument('--extended-readers', action='store_true')\nargs = parser.parse_args()\nenv = qualification_environment(os.environ)\nwork = args.work.resolve()\nwork.mkdir(parents=True, exist_ok=False)\n(work / 'pytest-environment.json').write_text(json.dumps({'schema': 'qpx.pytest-environment/1', 'PYTEST_ADDOPTS': env.get('PYTEST_ADDOPTS', ''), 'PYTEST_PLUGINS': env.get('PYTEST_PLUGINS', ''), 'PYTEST_DISABLE_PLUGIN_AUTOLOAD': env.get('PYTEST_DISABLE_PLUGIN_AUTOLOAD')}, indent=2) + '\\n', encoding='utf-8')\nenv.pop('PYTHONHOME', None)\nenv.pop('PYTHONPATH', None)\nenv['CMAKE_BUILD_PARALLEL_LEVEL'] = '2'\nfull = args.mode != 'minimal'\nmesa = assets.mesa(ROOT / 'build/ci/deps') if args.mode == 'gui' and os.name == 'nt' else None\nopenslide = assets.openslide(ROOT / 'build/ci/deps') if full and args.mode != 'sanitize' else None\nif args.mode in ['headless', 'gui']:\n    run([sys.executable, '-I', ROOT / 'tools/fetch_reader_fixtures.py'] + (['--extended'] if args.extended_readers else []), work / 'fixtures.log', env)\n    env['QUPATHXX_APERIO_FIXTURE'] = str(ROOT / 'build/fixtures/CMU-1-Small-Region.svs')\n    if args.extended_readers:\n        env['QUPATHXX_APERIO_MULTILEVEL_FIXTURE'] = str(ROOT / 'build/fixtures/CMU-1.svs')\n        env['QUPATHXX_HAMAMATSU_FIXTURE'] = str(ROOT / 'build/fixtures/CMU-1.ndpi')\ngeos = ensure_geos(work) if full else None\nopencv = ensure_opencv(work) if full else None\nif geos:\n    env['LD_LIBRARY_PATH'] = os.pathsep.join([str(geos / 'lib'), str(geos / 'lib64'), env.get('LD_LIBRARY_PATH', '')])\n    if os.name != 'nt':\n        env['QUPATHXX_GEOS_SDK'] = str(geos)\nflags = dict(QUPATHXX_BUILD_TESTS='ON', QUPATHXX_BUILD_GUI='ON' if args.mode == 'gui' else 'OFF', QUPATHXX_BUILD_PYTHON='ON' if args.mode in ['headless', 'gui'] else 'OFF', QUPATHXX_BUILD_GEOS='ON' if full else 'OFF', QUPATHXX_BUILD_INTERCHANGE='ON' if full else 'OFF', QUPATHXX_BUILD_PROJECT='ON' if full else 'OFF', QUPATHXX_BUILD_CLASSIFIER_TRAINING='ON' if full else 'OFF', QUPATHXX_BUILD_TIFF='ON' if full else 'OFF', QUPATHXX_BUILD_OPENSLIDE='ON' if full and args.mode != 'sanitize' else 'OFF')\nif geos:\n    flags['GEOS_ROOT'] = str(geos)\n    if os.name != 'nt' and args.mode == 'headless':\n        flags['QUPATHXX_BUNDLE_GEOS'] = 'ON'\nif opencv:\n    flags['OpenCV_DIR'] = str(build_opencv_sdk.cmake_config_directory(opencv))\n    flags['QUPATHXX_OPENCV_NOTICES'] = str(opencv / 'share/licenses/opencv')\nif openslide:\n    flags['OpenSlide_ROOT'] = str(openslide)\n    if os.name != 'nt':\n        flags['QUPATHXX_BUNDLE_OPENSLIDE'] = 'ON'\nif args.mode == 'sanitize':\n    sanitizer = '-fsanitize=address,undefined -fno-omit-frame-pointer'\n    flags.update(CMAKE_CXX_FLAGS=sanitizer, CMAKE_C_FLAGS=sanitizer, CMAKE_EXE_LINKER_FLAGS=sanitizer, CMAKE_BUILD_TYPE='Debug')\n    env['ASAN_OPTIONS'] = 'detect_leaks=1:halt_on_error=1'\n    env['UBSAN_OPTIONS'] = 'halt_on_error=1:print_stacktrace=1'\nbuild = work / 'native-build'\nif args.mode in ['headless', 'gui']:\n    wheel_dir = work / 'wheels'\n    command = [sys.executable, '-m', 'pip', 'wheel', '.', '--no-deps', '--no-build-isolation', '--wheel-dir', wheel_dir, '--config-settings', f'build-dir={build}']\n    for name, value in flags.items():\n        command += ['--config-settings', f'cmake.define.{name}={value}']\n    run(command, work / 'wheel-build.log', env)\nelse:\n    command = ['cmake', '-S', ROOT, '-B', build]\n    command += [f'-D{name}={value}' for name, value in flags.items()]\n    run(command, work / 'configure.log', env)\n    run(['cmake', '--build', build, '--config', 'Debug' if args.mode == 'sanitize' else 'Release', '--parallel', '2'], work / 'build.log', env)\nrun(['ctest', '--test-dir', build, '-C', 'Debug' if args.mode == 'sanitize' else 'Release', '--output-on-failure', '--test-output-size-passed', '1048576', '--output-junit', work / 'native-tests.xml'], work / 'native-tests.log', env, 900)\nmultifile.native(list(ET.parse(work / 'native-tests.xml').getroot().iter('testcase')), tiff=full)\nif args.mode not in ['headless', 'gui']:\n    return\nwheel = next((work / 'wheels').glob('qupathxx-*.whl'))\nif os.name == 'nt':\n    manifest = work / 'windows-wheel-runtime-manifest.json'\n    inspect = [sys.executable, '-I', ROOT / 'tools/ci/runtime_manifest.py', '--wheel', wheel]\n    if args.mode == 'gui':\n        inspect += ['--gui']\n    run(inspect + ['--output', manifest], work / 'windows-wheel-runtime-manifest.log', env, 120)\n    run(inspect + ['--verify', manifest], work / 'windows-wheel-runtime-verify.log', env, 120)\n    run([sys.executable, '-I', ROOT / 'tools/ci/probe_pe_forwarders.py', '--work', work / 'native-forwarder-probe', '--output', work / 'pe-forwarder-native.json'], work / 'pe-forwarder-native.log', env, 180)\ninstall = work / 'install'\nrun([sys.executable, '-m', 'venv', install], work / 'venv.log')\npython = install / ('Scripts/python.exe' if os.name == 'nt' else 'bin/python')\nrun([python, '-m', 'pip', 'install', '-r', ROOT / 'tools/ci/requirements.txt', wheel], work / 'install.log', env)\ntest_python = python\nif os.name != 'nt':\n    inspect = [sys.executable, '-I', ROOT / 'tools/ci/linux_runtime_manifest.py', '--wheel', wheel]\n    run(inspect + ['--output', work / 'linux-wheel-runtime-manifest.json'], work / 'linux-wheel-runtime-manifest.log', env, 120)\n    run(inspect + ['--verify', work / 'linux-wheel-runtime-manifest.json'], work / 'linux-wheel-runtime-verify.log', env, 120)\n    env.pop('LD_LIBRARY_PATH', None)\n    run([python, '-I', ROOT / 'tools/ci/check_linux_runtime.py', '--wheel', wheel, '--geos-sdk', geos, '--openslide-sdk', openslide, '--output', work / 'linux-runtime.json'], work / 'linux-runtime.log', env, 120)\nif args.mode == 'gui' and os.name == 'nt':\n    run([python, '-I', ROOT / 'tools/ci/assets.py', '--software-python', work / 'software-python', '--mesa-root', mesa], work / 'software-python.log')\n    test_python = work / 'software-python/python.exe'\n    package = install / 'Lib/site-packages/qupathxx'\n    for name in ['opengl32.dll', 'libgallium_wgl.dll']:\n        shutil.copy2(mesa / name, package / name)\n    env['GALLIUM_DRIVER'] = 'llvmpipe'\n    env['LIBGL_ALWAYS_SOFTWARE'] = '1'\nenv['QUPATHXX_TEST_GUI'] = '1' if args.mode == 'gui' else '0'\nif args.live_reference:\n    env['QUPATHXX_COMPARE_QUPATH'] = '1'\ncommand = [test_python, '-I', ROOT / 'tools/ci/check_install.py', '--wheel', wheel, '--output', work / 'installed-workflow.json', '--standalone-project', work / 'standalone-input.qpxproj', '--openslide-version', '4.0.1']\nif os.name != 'nt':\n    command += ['--openslide-runtime-sha256', assets.sha(openslide / 'lib/libopenslide.so.1')]\nif args.mode == 'gui':\n    command += ['--gui', '--software-gl']\nrun(command, work / 'installed-workflow.log', env)"
+}

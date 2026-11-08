@@ -1,0 +1,10 @@
+{
+  "engine_pid": 100052,
+  "launcher_pid": 71812,
+  "process_wall_ms": 2906.777999829501,
+  "peak_working_set_bytes": 227520512,
+  "peak_pagefile_bytes": 855035904,
+  "memory_samples": 111,
+  "exit_code": 0,
+  "memory_scope": "One full workflow plus engine startup, no mask oracles; OS peak counter sampled25ms"
+}

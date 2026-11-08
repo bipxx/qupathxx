@@ -1,0 +1,26 @@
+{
+  "native_source": "c949826ceac5ca357a9eadabef218b30461e5686",
+  "scope": "Owner-only fixture verification on retained270, no concurrent collection",
+  "cases": [
+    {
+      "kind": "FileFingerprintJob",
+      "state": "succeeded"
+    },
+    {
+      "kind": "CellTableExportJob",
+      "state": "succeeded"
+    },
+    {
+      "kind": "MeasurementTableExportJob",
+      "state": "succeeded"
+    },
+    {
+      "kind": "ThumbnailJob",
+      "state": "succeeded"
+    },
+    {
+      "kind": "PixelStreamReadJob",
+      "state": "ready"
+    }
+  ]
+}

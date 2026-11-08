@@ -1,0 +1,16 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\object-edit-state-r5-env\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-c",
+    "import sys;sys.path.insert(0,'C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\object-planes-r5\\\\compat-probe-stage');import qupathxx as q;assert q.build_environment().git_revision=='695158a80e9cc7ebb6d16d35437d7ab7156d2869';import pytest;sys.exit(pytest.main(['tests/test_interchange.py::test_invalid_geometry_and_json_preserve_existing_document[{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[1,2],\"plane\":{\"z\":4294967296}}}]', '-q', '--junitxml=C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\object-planes-r5\\\\compat-probe.xml', '--basetemp=C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\object-planes-r5\\\\compat-probe-temp']))"
+  ],
+  "returncode": 0,
+  "native_source": "695158a80e9cc7ebb6d16d35437d7ab7156d2869",
+  "changed_native_inputs": [
+    "cpp/interchange.cpp"
+  ],
+  "product_installed": false
+}

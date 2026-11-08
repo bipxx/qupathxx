@@ -1,6 +1,7 @@
 """UI scaling exercises real font textures, cached overlays and routed input."""
 import os
 from pathlib import Path
+import shutil
 import subprocess
 import sys
 
@@ -10,6 +11,93 @@ from test_gui_docking import config, workspace
 from test_gui_tiles import replay
 
 pytestmark = pytest.mark.skipif(not q.has_gui or os.environ.get('QUPATHXX_TEST_GUI') != '1', reason='opt-in native DPI scaling')
+
+
+def unicode_document(label):
+    doc=q.Document(q.Image(256,160,[35,60,90]*256*160))
+    doc.add_rectangle(q.Rect(40,40,160,80),label)
+    return doc
+
+
+def unicode_options(budget=64*1024*1024):
+    options=q.GuiOptions();options.width,options.height=900,700
+    options.docked_workspace=False;options.settle_tiles=True;options.autosave_interval_seconds=0
+    options.overlay_cache_budget=budget;options.replay_timeout_seconds=15
+    options.inputs=[replay(3,q.GuiInputKind.SELECT_ALL_KEY)]
+    return options
+
+
+def test_unicode_labels_render_actual_glyphs_instead_of_question_marks(tmp_path):
+    frames=[]
+    for index,label in enumerate(['A_\u96ea\U0002000b\U0001f52c','A_???']):
+        doc=unicode_document(label);capture=tmp_path/f'name-{index}.ppm'
+        report=q.show(doc,frame_limit=16,capture_path=str(capture),options=unicode_options())
+        assert report.tiles_settled and report.canvas_visible and report.primary_selection==1
+        assert doc.annotation(1).name==label
+        frames.append(capture.read_bytes())
+    assert frames[0]!=frames[1], 'Unicode labels still render as fallback question marks'
+
+
+def test_unicode_dynamic_fonts_preserve_cached_pixels_across_scale_changes(tmp_path):
+    frames=[];reports=[]
+    for budget in [0,64*1024*1024]:
+        doc=unicode_document('A_\u03b1\u539f\u59cb\u96ea_\U0002000b\U0001f52c\U0001f469')
+        options=unicode_options(budget)
+        options.inputs += [replay(6,q.GuiInputKind.SET_UI_SCALE,2),replay(11,q.GuiInputKind.SET_UI_SCALE,1.25)]
+        capture=tmp_path/f'cached-{budget}.ppm'
+        report=q.show(doc,frame_limit=24,capture_path=str(capture),options=options)
+        assert report.replay_complete and report.tiles_settled and report.font_rebuilds==3
+        frames.append(capture.read_bytes());reports.append(report)
+    assert frames[0]==frames[1]
+    assert reports[1].overlay_cache_hits>0 and reports[1].overlay_cache_builds>=3
+
+
+def test_packaged_fonts_are_independent_of_working_directory(tmp_path):
+    decoy=tmp_path/'fonts';decoy.mkdir()
+    for name in ['NotoSansCJKsc-Regular.otf','NotoEmoji.ttf']:(decoy/name).write_bytes(b'not a font')
+    code="""import qupathxx as q
+doc=q.Document(q.Image.demo());doc.add_rectangle(q.Rect(1,1,20,20),'A_\u96ea\U0002000b\U0001f52c')
+options=q.GuiOptions();options.width,options.height=640,480;options.docked_workspace=False;options.settle_tiles=True
+report=q.show(doc,frame_limit=8,options=options)
+assert report.tiles_settled and report.canvas_visible
+print('module-relative fonts verified')
+"""
+    result=subprocess.run([sys.executable,'-I','-X','utf8','-c',code],cwd=tmp_path,capture_output=True,text=True,encoding='utf-8',timeout=45)
+    assert result.returncode==0 and 'module-relative fonts verified' in result.stdout,result.stdout+result.stderr
+
+
+@pytest.mark.parametrize('fault',['missing','corrupt'])
+def test_packaged_fonts_reject_corrupt_assets_and_recover(tmp_path,fault):
+    source=Path(q.__file__).parent;package=tmp_path/'isolated'/'qupathxx';package.mkdir(parents=True)
+    for path in source.iterdir():
+        if path.is_file() and (path.suffix in {'.py','.pyd','.dll'} or '.so' in path.name):shutil.copy2(path,package/path.name)
+    shutil.copytree(source/'fonts',package/'fonts')
+    target=package/'fonts'/'NotoSansCJKsc-Regular.otf'
+    if fault=='missing':target.unlink()
+    else:
+        with target.open('r+b') as stream:
+            first=stream.read(1);stream.seek(0);stream.write(bytes([first[0]^64]))
+    code="""import sys,shutil
+from pathlib import Path
+assert 'qupathxx' not in sys.modules
+sys.path.insert(0,sys.argv[1])
+import qupathxx as q
+assert Path(q.__file__).parent==Path(sys.argv[1])/'qupathxx'
+doc=q.Document(q.Image.demo());obj=doc.add_rectangle(q.Rect(1,1,20,20),'Preserved_\u96ea')
+revision=doc.revision;options=q.GuiOptions();options.width,options.height=640,480;options.docked_workspace=False;options.settle_tiles=True
+try:q.show(doc,frame_limit=8,options=options)
+except RuntimeError as error:
+    assert ('Missing GUI font asset' if sys.argv[3]=='missing' else 'GUI font asset checksum mismatch') in str(error),str(error)
+else:raise AssertionError('invalid packaged font was accepted')
+assert doc.revision==revision and doc.annotation(obj).name=='Preserved_\u96ea'
+shutil.copy2(sys.argv[2],Path(q.__file__).parent/'fonts'/'NotoSansCJKsc-Regular.otf')
+assert q.show(doc,frame_limit=8,options=options).tiles_settled
+assert doc.revision==revision and doc.annotation(obj).name=='Preserved_\u96ea'
+print('packaged font rejected and recovered')
+"""
+    result=subprocess.run([sys.executable,'-I','-X','utf8','-c',code,str(package.parent),str(source/'fonts'/'NotoSansCJKsc-Regular.otf'),fault],
+        cwd=tmp_path,capture_output=True,text=True,encoding='utf-8',timeout=45)
+    assert result.returncode==0 and 'packaged font rejected and recovered' in result.stdout,result.stdout+result.stderr
 
 
 @pytest.mark.parametrize('multiplier', [.75, 1., 1.5, 2.])
@@ -32,6 +120,7 @@ def test_scaled_workspace_keeps_camera_and_routes_image_input(tmp_path, multipli
 
 
 def test_live_scale_changes_invalidate_cache_without_camera_drift(tmp_path):
+    from PIL import Image
     project, _ = workspace(tmp_path)
     generation = project.generation
     captures, reports = [], []
@@ -49,7 +138,12 @@ def test_live_scale_changes_invalidate_cache_without_camera_drift(tmp_path):
         assert report.final_center.x == pytest.approx(440) and report.final_center.y == pytest.approx(330)
         assert report.final_zoom == 1.5 and report.tiles_settled and report.replay_complete
         reports.append(report)
-        captures.append(capture.read_bytes())
+        # The overlay cache owns the viewer. Fractional-DPI glyph rasterization
+        # in unrelated menu/inspector chrome is not a cache-correctness oracle.
+        canvas = report.canvas_bounds
+        with Image.open(capture) as frame:
+            captures.append(frame.crop((int(canvas.x), int(canvas.y),
+                                        int(canvas.x+canvas.width), int(canvas.y+canvas.height))).tobytes())
     assert captures[0] == captures[1]
     assert reports[1].overlay_cache_hits > 0 and reports[1].overlay_cache_builds >= 4
     assert project.generation == generation and not project.dirty

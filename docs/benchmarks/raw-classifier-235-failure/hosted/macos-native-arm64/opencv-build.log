@@ -1,0 +1,714 @@
+CMake Warning (deprecated) at CMakeLists.txt:25 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+This warning is for project developers.  Use -Wno-author or -Wno-deprecated
+to suppress it.
+
+CMake Warning (deprecated) at CMakeLists.txt:88 (cmake_policy):
+  The OLD behavior for policy CMP0146 will be removed from a future version
+  of CMake.
+
+  The cmake-policies(7) manual explains that the OLD behaviors of all
+  policies are deprecated and that a policy should be set to OLD only under
+  specific short-term circumstances.  Projects should be ported to the NEW
+  behavior and not rely on setting a policy to OLD.
+This warning is for project developers.  Use -Wno-author or -Wno-deprecated
+to suppress it.
+
+CMake Warning (deprecated) at CMakeLists.txt:92 (cmake_policy):
+  The OLD behavior for policy CMP0148 will be removed from a future version
+  of CMake.
+
+  The cmake-policies(7) manual explains that the OLD behaviors of all
+  policies are deprecated and that a policy should be set to OLD only under
+  specific short-term circumstances.  Projects should be ported to the NEW
+  behavior and not rely on setting a policy to OLD.
+This warning is for project developers.  Use -Wno-author or -Wno-deprecated
+to suppress it.
+
+-- The CXX compiler identification is AppleClang 17.0.0.17000013
+-- The C compiler identification is AppleClang 17.0.0.17000013
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detected processor: arm64
+-- Found PythonInterp: /Users/runner/hostedtoolcache/Python/3.12.10/arm64/bin/python3 (found suitable version "3.12.10", minimum required is "3.2")
+-- Found PythonLibs: /Library/Frameworks/Python.framework/Versions/3.12/lib/libpython3.12.dylib (found suitable exact version "3.12.10")
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+ModuleNotFoundError: No module named 'numpy'
+-- Looking for ccache - not found
+-- Performing Test HAVE_CXX_FSIGNED_CHAR
+-- Performing Test HAVE_CXX_FSIGNED_CHAR - Success
+-- Performing Test HAVE_C_FSIGNED_CHAR
+-- Performing Test HAVE_C_FSIGNED_CHAR - Success
+-- Performing Test HAVE_CXX_W
+-- Performing Test HAVE_CXX_W - Success
+-- Performing Test HAVE_C_W
+-- Performing Test HAVE_C_W - Success
+-- Performing Test HAVE_CXX_WALL
+-- Performing Test HAVE_CXX_WALL - Success
+-- Performing Test HAVE_C_WALL
+-- Performing Test HAVE_C_WALL - Success
+-- Performing Test HAVE_CXX_WRETURN_TYPE
+-- Performing Test HAVE_CXX_WRETURN_TYPE - Success
+-- Performing Test HAVE_C_WRETURN_TYPE
+-- Performing Test HAVE_C_WRETURN_TYPE - Success
+-- Performing Test HAVE_CXX_WNON_VIRTUAL_DTOR
+-- Performing Test HAVE_CXX_WNON_VIRTUAL_DTOR - Success
+-- Performing Test HAVE_C_WNON_VIRTUAL_DTOR
+-- Performing Test HAVE_C_WNON_VIRTUAL_DTOR - Success
+-- Performing Test HAVE_CXX_WADDRESS
+-- Performing Test HAVE_CXX_WADDRESS - Success
+-- Performing Test HAVE_C_WADDRESS
+-- Performing Test HAVE_C_WADDRESS - Success
+-- Performing Test HAVE_CXX_WSEQUENCE_POINT
+-- Performing Test HAVE_CXX_WSEQUENCE_POINT - Success
+-- Performing Test HAVE_C_WSEQUENCE_POINT
+-- Performing Test HAVE_C_WSEQUENCE_POINT - Success
+-- Performing Test HAVE_CXX_WFORMAT
+-- Performing Test HAVE_CXX_WFORMAT - Success
+-- Performing Test HAVE_C_WFORMAT
+-- Performing Test HAVE_C_WFORMAT - Success
+-- Performing Test HAVE_CXX_WFORMAT_SECURITY
+-- Performing Test HAVE_CXX_WFORMAT_SECURITY - Success
+-- Performing Test HAVE_C_WFORMAT_SECURITY
+-- Performing Test HAVE_C_WFORMAT_SECURITY - Success
+-- Performing Test HAVE_CXX_WMISSING_DECLARATIONS
+-- Performing Test HAVE_CXX_WMISSING_DECLARATIONS - Success
+-- Performing Test HAVE_C_WMISSING_DECLARATIONS
+-- Performing Test HAVE_C_WMISSING_DECLARATIONS - Success
+-- Performing Test HAVE_CXX_WMISSING_PROTOTYPES
+-- Performing Test HAVE_CXX_WMISSING_PROTOTYPES - Success
+-- Performing Test HAVE_C_WMISSING_PROTOTYPES
+-- Performing Test HAVE_C_WMISSING_PROTOTYPES - Success
+-- Performing Test HAVE_CXX_WSTRICT_PROTOTYPES
+-- Performing Test HAVE_CXX_WSTRICT_PROTOTYPES - Success
+-- Performing Test HAVE_C_WSTRICT_PROTOTYPES
+-- Performing Test HAVE_C_WSTRICT_PROTOTYPES - Success
+-- Performing Test HAVE_CXX_WUNDEF
+-- Performing Test HAVE_CXX_WUNDEF - Success
+-- Performing Test HAVE_C_WUNDEF
+-- Performing Test HAVE_C_WUNDEF - Success
+-- Performing Test HAVE_CXX_WINIT_SELF
+-- Performing Test HAVE_CXX_WINIT_SELF - Success
+-- Performing Test HAVE_C_WINIT_SELF
+-- Performing Test HAVE_C_WINIT_SELF - Success
+-- Performing Test HAVE_CXX_WPOINTER_ARITH
+-- Performing Test HAVE_CXX_WPOINTER_ARITH - Success
+-- Performing Test HAVE_C_WPOINTER_ARITH
+-- Performing Test HAVE_C_WPOINTER_ARITH - Success
+-- Performing Test HAVE_CXX_WSHADOW
+-- Performing Test HAVE_CXX_WSHADOW - Success
+-- Performing Test HAVE_C_WSHADOW
+-- Performing Test HAVE_C_WSHADOW - Success
+-- Performing Test HAVE_CXX_WSIGN_PROMO
+-- Performing Test HAVE_CXX_WSIGN_PROMO - Success
+-- Performing Test HAVE_C_WSIGN_PROMO
+-- Performing Test HAVE_C_WSIGN_PROMO - Success
+-- Performing Test HAVE_CXX_WUNINITIALIZED
+-- Performing Test HAVE_CXX_WUNINITIALIZED - Success
+-- Performing Test HAVE_C_WUNINITIALIZED
+-- Performing Test HAVE_C_WUNINITIALIZED - Success
+-- Performing Test HAVE_CXX_WNO_DELETE_NON_VIRTUAL_DTOR
+-- Performing Test HAVE_CXX_WNO_DELETE_NON_VIRTUAL_DTOR - Success
+-- Performing Test HAVE_C_WNO_DELETE_NON_VIRTUAL_DTOR
+-- Performing Test HAVE_C_WNO_DELETE_NON_VIRTUAL_DTOR - Success
+-- Performing Test HAVE_CXX_WNO_UNNAMED_TYPE_TEMPLATE_ARGS
+-- Performing Test HAVE_CXX_WNO_UNNAMED_TYPE_TEMPLATE_ARGS - Success
+-- Performing Test HAVE_C_WNO_UNNAMED_TYPE_TEMPLATE_ARGS
+-- Performing Test HAVE_C_WNO_UNNAMED_TYPE_TEMPLATE_ARGS - Success
+-- Performing Test HAVE_CXX_WNO_COMMENT
+-- Performing Test HAVE_CXX_WNO_COMMENT - Success
+-- Performing Test HAVE_C_WNO_COMMENT
+-- Performing Test HAVE_C_WNO_COMMENT - Success
+-- Performing Test HAVE_CXX_FDIAGNOSTICS_SHOW_OPTION
+-- Performing Test HAVE_CXX_FDIAGNOSTICS_SHOW_OPTION - Success
+-- Performing Test HAVE_C_FDIAGNOSTICS_SHOW_OPTION
+-- Performing Test HAVE_C_FDIAGNOSTICS_SHOW_OPTION - Success
+-- Performing Test HAVE_CXX_QUNUSED_ARGUMENTS
+-- Performing Test HAVE_CXX_QUNUSED_ARGUMENTS - Success
+-- Performing Test HAVE_C_QUNUSED_ARGUMENTS
+-- Performing Test HAVE_C_QUNUSED_ARGUMENTS - Success
+-- Performing Test HAVE_CXX_WNO_SEMICOLON_BEFORE_METHOD_BODY
+-- Performing Test HAVE_CXX_WNO_SEMICOLON_BEFORE_METHOD_BODY - Success
+-- Performing Test HAVE_C_WNO_SEMICOLON_BEFORE_METHOD_BODY
+-- Performing Test HAVE_C_WNO_SEMICOLON_BEFORE_METHOD_BODY - Success
+-- Performing Test HAVE_CXX_FFUNCTION_SECTIONS
+-- Performing Test HAVE_CXX_FFUNCTION_SECTIONS - Success
+-- Performing Test HAVE_C_FFUNCTION_SECTIONS
+-- Performing Test HAVE_C_FFUNCTION_SECTIONS - Success
+-- Performing Test HAVE_CXX_FDATA_SECTIONS
+-- Performing Test HAVE_CXX_FDATA_SECTIONS - Success
+-- Performing Test HAVE_C_FDATA_SECTIONS
+-- Performing Test HAVE_C_FDATA_SECTIONS - Success
+-- Performing Test HAVE_CPU_NEON_SUPPORT (check file: cmake/checks/cpu_neon.cpp)
+-- Performing Test HAVE_CPU_NEON_SUPPORT - Success
+-- Performing Test HAVE_CPU_FP16_SUPPORT (check file: cmake/checks/cpu_fp16.cpp)
+-- Performing Test HAVE_CPU_FP16_SUPPORT - Success
+-- Performing Test HAVE_CPU_NEON_DOTPROD_SUPPORT (check file: cmake/checks/cpu_neon_dotprod.cpp)
+-- Performing Test HAVE_CPU_NEON_DOTPROD_SUPPORT - Success
+-- Performing Test HAVE_CPU_NEON_FP16_SUPPORT (check file: cmake/checks/cpu_neon_fp16.cpp)
+-- Performing Test HAVE_CPU_NEON_FP16_SUPPORT - Success
+-- Performing Test HAVE_CPU_NEON_BF16_SUPPORT (check file: cmake/checks/cpu_neon_bf16.cpp)
+-- Performing Test HAVE_CPU_NEON_BF16_SUPPORT - Failed
+-- Performing Test HAVE_CXX_MARCH_ARMV8_2_A+BF16 (check file: cmake/checks/cpu_neon_bf16.cpp)
+-- Performing Test HAVE_CXX_MARCH_ARMV8_2_A+BF16 - Success
+-- Performing Test HAVE_CPU_BASELINE_FLAGS
+-- Performing Test HAVE_CPU_BASELINE_FLAGS - Success
+-- Performing Test HAVE_CXX_FVISIBILITY_HIDDEN
+-- Performing Test HAVE_CXX_FVISIBILITY_HIDDEN - Success
+-- Performing Test HAVE_C_FVISIBILITY_HIDDEN
+-- Performing Test HAVE_C_FVISIBILITY_HIDDEN - Success
+-- Performing Test HAVE_CXX_FVISIBILITY_INLINES_HIDDEN
+-- Performing Test HAVE_CXX_FVISIBILITY_INLINES_HIDDEN - Success
+-- Performing Test HAVE_C_FVISIBILITY_INLINES_HIDDEN
+-- Performing Test HAVE_C_FVISIBILITY_INLINES_HIDDEN - Success
+-- Performing Test HAVE_LINK_AS_NEEDED
+-- Performing Test HAVE_LINK_AS_NEEDED - Failed
+-- Performing Test HAVE_LINK_NO_UNDEFINED
+-- Performing Test HAVE_LINK_NO_UNDEFINED - Failed
+-- Looking for posix_memalign
+-- Looking for posix_memalign - found
+-- Looking for malloc.h
+-- Looking for malloc.h - not found
+-- Looking for fseeko
+-- Looking for fseeko - found
+-- Looking for unistd.h
+-- Looking for unistd.h - found
+-- Looking for sys/types.h
+-- Looking for sys/types.h - found
+-- Looking for stdint.h
+-- Looking for stdint.h - found
+-- Looking for stddef.h
+-- Looking for stddef.h - found
+-- Check size of off64_t
+-- Check size of off64_t - failed
+-- Performing Test HAVE_C_WNO_SHORTEN_64_TO_32
+-- Performing Test HAVE_C_WNO_SHORTEN_64_TO_32 - Success
+-- Performing Test HAVE_C_WNO_ATTRIBUTES
+-- Performing Test HAVE_C_WNO_ATTRIBUTES - Success
+-- Performing Test HAVE_C_WNO_STRICT_PROTOTYPES
+-- Performing Test HAVE_C_WNO_STRICT_PROTOTYPES - Success
+-- Performing Test HAVE_C_WNO_MISSING_PROTOTYPES
+-- Performing Test HAVE_C_WNO_MISSING_PROTOTYPES - Success
+-- Performing Test HAVE_C_WNO_MISSING_DECLARATIONS
+-- Performing Test HAVE_C_WNO_MISSING_DECLARATIONS - Success
+-- Performing Test HAVE_C_WNO_SHIFT_NEGATIVE_VALUE
+-- Performing Test HAVE_C_WNO_SHIFT_NEGATIVE_VALUE - Success
+-- Performing Test HAVE_C_WNO_UNDEF
+-- Performing Test HAVE_C_WNO_UNDEF - Success
+-- Performing Test HAVE_C_WNO_IMPLICIT_FALLTHROUGH
+-- Performing Test HAVE_C_WNO_IMPLICIT_FALLTHROUGH - Success
+-- VTK is not found. Please set -DVTK_DIR in CMake to VTK build directory, or to VTK install subdirectory with VTKConfig.cmake file
+CMake Warning (deprecated) at 3rdparty/carotene/hal/CMakeLists.txt:1 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+This warning is for project developers.  Use -Wno-author or -Wno-deprecated
+to suppress it.
+
+-- Performing Test HAVE_CXX_WNO_UNUSED_FUNCTION
+-- Performing Test HAVE_CXX_WNO_UNUSED_FUNCTION - Success
+CMake Warning (deprecated) at 3rdparty/carotene/CMakeLists.txt:1 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+This warning is for project developers.  Use -Wno-author or -Wno-deprecated
+to suppress it.
+
+-- Checking for module 'gstreamer-base-1.0'
+--   Package 'gstreamer-base-1.0' not found
+-- Checking for module 'gstreamer-app-1.0'
+--   Package 'gstreamer-app-1.0' not found
+-- Checking for module 'gstreamer-riff-1.0'
+--   Package 'gstreamer-riff-1.0' not found
+-- Checking for module 'gstreamer-pbutils-1.0'
+--   Package 'gstreamer-pbutils-1.0' not found
+-- Checking for module 'gstreamer-video-1.0'
+--   Package 'gstreamer-video-1.0' not found
+-- Checking for module 'gstreamer-audio-1.0'
+--   Package 'gstreamer-audio-1.0' not found
+-- Looking for linux/videodev2.h
+-- Looking for linux/videodev2.h - not found
+-- Using whitelist: opencv_core;opencv_ml
+-- Module opencv_calib3d disabled by whitelist
+-- Module opencv_dnn disabled by whitelist
+-- Module opencv_features2d disabled by whitelist
+-- Module opencv_flann disabled by whitelist
+-- Module opencv_highgui disabled by whitelist
+-- Module opencv_imgcodecs disabled by whitelist
+-- Module opencv_imgproc disabled by whitelist
+-- Module opencv_java_bindings_generator disabled by whitelist
+-- Module opencv_js_bindings_generator disabled by whitelist
+-- Module opencv_objc_bindings_generator disabled by whitelist
+-- Module opencv_objdetect disabled by whitelist
+-- Module opencv_photo disabled by whitelist
+-- Module opencv_python_bindings_generator disabled by whitelist
+-- Module opencv_python_tests disabled by whitelist
+-- Module opencv_stitching disabled by whitelist
+-- Module opencv_video disabled by whitelist
+-- Module opencv_videoio disabled by whitelist
+-- Allocator metrics storage type: 'int'
+-- 
+-- General configuration for OpenCV 4.11.0 =====================================
+--   Version control:               176ec42
+-- 
+--   Platform:
+--     Timestamp:                   2026-10-26T16:59:45Z
+--     Host:                        Darwin 24.6.0 arm64
+--     CMake:                       4.4.4
+--     CMake generator:             Ninja
+--     CMake build tool:            /Users/runner/hostedtoolcache/Python/3.12.10/arm64/bin/ninja
+--     Configuration:               Release
+--     Algorithm Hint:              ALGO_HINT_ACCURATE
+-- 
+--   CPU/HW features:
+--     Baseline:                    NEON FP16 NEON_DOTPROD NEON_FP16
+--       requested:                 DETECT
+-- 
+--   C/C++:
+--     Built as dynamic libs?:      NO
+--     C++ standard:                11
+--     C++ Compiler:                /usr/bin/c++  (ver 17.0.0.17000013)
+--     C++ flags (Release):         -fsigned-char -W -Wall -Wreturn-type -Wnon-virtual-dtor -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wsign-promo -Wuninitialized -Wno-delete-non-virtual-dtor -Wno-unnamed-type-template-args -Wno-comment -fdiagnostics-show-option -Qunused-arguments -Wno-semicolon-before-method-body -ffunction-sections -fdata-sections  -fvisibility=hidden -fvisibility-inlines-hidden -O3 -DNDEBUG  -DNDEBUG
+--     C++ flags (Debug):           -fsigned-char -W -Wall -Wreturn-type -Wnon-virtual-dtor -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wsign-promo -Wuninitialized -Wno-delete-non-virtual-dtor -Wno-unnamed-type-template-args -Wno-comment -fdiagnostics-show-option -Qunused-arguments -Wno-semicolon-before-method-body -ffunction-sections -fdata-sections  -fvisibility=hidden -fvisibility-inlines-hidden -g  -O0 -DDEBUG -D_DEBUG
+--     C Compiler:                  /usr/bin/cc
+--     C flags (Release):           -fsigned-char -W -Wall -Wreturn-type -Wnon-virtual-dtor -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wsign-promo -Wuninitialized -Wno-delete-non-virtual-dtor -Wno-unnamed-type-template-args -Wno-comment -fdiagnostics-show-option -Qunused-arguments -Wno-semicolon-before-method-body -ffunction-sections -fdata-sections  -fvisibility=hidden -fvisibility-inlines-hidden -O3 -DNDEBUG  -DNDEBUG
+--     C flags (Debug):             -fsigned-char -W -Wall -Wreturn-type -Wnon-virtual-dtor -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wsign-promo -Wuninitialized -Wno-delete-non-virtual-dtor -Wno-unnamed-type-template-args -Wno-comment -fdiagnostics-show-option -Qunused-arguments -Wno-semicolon-before-method-body -ffunction-sections -fdata-sections  -fvisibility=hidden -fvisibility-inlines-hidden -g  -O0 -DDEBUG -D_DEBUG
+--     Linker flags (Release):      -Wl,-dead_strip  
+--     Linker flags (Debug):        -Wl,-dead_strip  
+--     ccache:                      NO
+--     Precompiled headers:         NO
+--     Extra dependencies:
+--     3rdparty dependencies:       zlib tegra_hal
+-- 
+--   OpenCV modules:
+--     To be built:                 core ml
+--     Disabled:                    world
+--     Disabled by dependency:      calib3d dnn features2d flann highgui imgcodecs imgproc java_bindings_generator js_bindings_generator objc_bindings_generator objdetect photo python_bindings_generator python_tests stitching video videoio
+--     Unavailable:                 gapi java python2 python3 ts
+--     Applications:                -
+--     Documentation:               NO
+--     Non-free algorithms:         NO
+-- 
+--   GUI: 
+--     Cocoa:                       YES
+--     VTK support:                 NO
+-- 
+--   Media I/O: 
+--     ZLib:                        build (ver 1.3.1)
+--     GIF:                         NO
+--     HDR:                         YES
+--     SUNRASTER:                   YES
+--     PXM:                         YES
+--     PFM:                         YES
+-- 
+--   Video I/O:
+--     GStreamer:                   NO
+--     AVFoundation:                YES
+-- 
+--   Parallel framework:            GCD
+-- 
+--   Trace:                         YES (built-in)
+-- 
+--   Other third-party libraries:
+--     Custom HAL:                  YES (carotene (ver 0.0.1))
+-- 
+--   Python (for build):            /Users/runner/hostedtoolcache/Python/3.12.10/arm64/bin/python3
+-- 
+--   Install to:                    /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk
+-- -----------------------------------------------------------------
+-- 
+CMake Warning (policy) at cmake/OpenCVUtils.cmake:32 (get_property):
+  Policy CMP0218 is not set: The CMAKE_WARN_DEPRECATED and
+  CMAKE_ERROR_DEPRECATED variables are ignored.  Run "cmake --help-policy
+  CMP0218" for policy details.  Use the cmake_policy command to set the
+  policy and suppress this warning.
+Call Stack (most recent call first):
+  CMakeLists.txt:1998 (ocv_cmake_dump_vars)
+This warning is for project developers.  Use -Wno-author or -Wno-policy to
+suppress it.
+
+CMake Warning (policy) at cmake/OpenCVUtils.cmake:32 (get_property):
+  Policy CMP0218 is not set: The CMAKE_WARN_DEPRECATED and
+  CMAKE_ERROR_DEPRECATED variables are ignored.  Run "cmake --help-policy
+  CMP0218" for policy details.  Use the cmake_policy command to set the
+  policy and suppress this warning.
+Call Stack (most recent call first):
+  CMakeLists.txt:1998 (ocv_cmake_dump_vars)
+This warning is for project developers.  Use -Wno-author or -Wno-policy to
+suppress it.
+
+-- Configuring done (19.5s)
+-- Generating done (0.1s)
+-- Build files have been written to: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-build
+[1/177] Building C object 3rdparty/zlib/CMakeFiles/zlib.dir/compress.c.o
+[2/177] Building C object 3rdparty/zlib/CMakeFiles/zlib.dir/adler32.c.o
+[3/177] Building C object 3rdparty/zlib/CMakeFiles/zlib.dir/crc32.c.o
+[4/177] Building C object 3rdparty/zlib/CMakeFiles/zlib.dir/gzclose.c.o
+[5/177] Building C object 3rdparty/zlib/CMakeFiles/zlib.dir/gzlib.c.o
+[6/177] Building C object 3rdparty/zlib/CMakeFiles/zlib.dir/deflate.c.o
+[7/177] Building C object 3rdparty/zlib/CMakeFiles/zlib.dir/gzread.c.o
+[8/177] Building C object 3rdparty/zlib/CMakeFiles/zlib.dir/gzwrite.c.o
+[9/177] Building C object 3rdparty/zlib/CMakeFiles/zlib.dir/infback.c.o
+[10/177] Building C object 3rdparty/zlib/CMakeFiles/zlib.dir/inftrees.c.o
+[11/177] Building C object 3rdparty/zlib/CMakeFiles/zlib.dir/inflate.c.o
+[12/177] Building C object 3rdparty/zlib/CMakeFiles/zlib.dir/inffast.c.o
+[13/177] Building C object 3rdparty/zlib/CMakeFiles/zlib.dir/uncompr.c.o
+[14/177] Building C object 3rdparty/zlib/CMakeFiles/zlib.dir/trees.c.o
+[15/177] Building CXX object 3rdparty/carotene/hal/CMakeFiles/tegra_hal.dir/dummy.cpp.o
+[16/177] Building C object 3rdparty/zlib/CMakeFiles/zlib.dir/zutil.c.o
+[17/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/absdiff.cpp.o
+[18/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/accumulate.cpp.o
+[19/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/add_weighted.cpp.o
+[20/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/add.cpp.o
+[21/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/bitwise.cpp.o
+[22/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/blur.cpp.o
+[23/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/canny.cpp.o
+[24/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/channel_extract.cpp.o
+[25/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/channels_combine.cpp.o
+[26/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/colorconvert.cpp.o
+[27/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/cmp.cpp.o
+[28/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/common.cpp.o
+[29/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/convert.cpp.o
+[30/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/convert_depth.cpp.o
+[31/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/convert_scale.cpp.o
+[32/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/convolution.cpp.o
+[33/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/count_nonzero.cpp.o
+[34/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/dot_product.cpp.o
+[35/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/dummy.cpp.o
+[36/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/div.cpp.o
+[37/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/fill_minmaxloc.cpp.o
+[38/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/fast.cpp.o
+[39/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/flip.cpp.o
+[40/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/in_range.cpp.o
+[41/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/gaussian_blur.cpp.o
+[42/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/integral.cpp.o
+[43/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/laplacian.cpp.o
+[44/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/magnitude.cpp.o
+[45/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/meanstddev.cpp.o
+[46/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/median_filter.cpp.o
+[47/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/minmaxloc.cpp.o
+[48/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/min_max.cpp.o
+[49/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/morph.cpp.o
+[50/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/norm.cpp.o
+[51/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/opticalflow.cpp.o
+[52/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/phase.cpp.o
+[53/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/pyramid.cpp.o
+[54/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/mul.cpp.o
+[55/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/reduce.cpp.o
+[56/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/remap.cpp.o
+[57/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/scharr.cpp.o
+[58/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/resize.cpp.o
+[59/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/sobel.cpp.o
+[60/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/separable_filter.cpp.o
+[61/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/sum.cpp.o
+[62/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/sub.cpp.o
+[63/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/template_matching.cpp.o
+[64/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/warp_affine.cpp.o
+[65/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/threshold.cpp.o
+[66/177] Building CXX object 3rdparty/carotene/hal/carotene/CMakeFiles/carotene_objs.dir/src/warp_perspective.cpp.o
+[67/177] Linking C static library 3rdparty/lib/libzlib.a
+[68/177] Linking CXX static library 3rdparty/lib/libtegra_hal.a
+[69/177] Processing OpenCL kernels (core)
+[70/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/alloc.cpp.o
+[71/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/algorithm.cpp.o
+[72/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/arithm.cpp.o
+[73/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/array.cpp.o
+[74/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/async.cpp.o
+[75/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/arithm.dispatch.cpp.o
+[76/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/batch_distance.cpp.o
+[77/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/buffer_area.cpp.o
+[78/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/bindings_utils.cpp.o
+[79/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/channels.cpp.o
+[80/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/check.cpp.o
+[81/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/conjugate_gradient.cpp.o
+[82/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/command_line_parser.cpp.o
+[83/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/convert_c.cpp.o
+[84/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/convert.dispatch.cpp.o
+[85/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/copy.cpp.o
+[86/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/convert_scale.dispatch.cpp.o
+[87/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/count_non_zero.dispatch.cpp.o
+[88/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/cuda_gpu_mat.cpp.o
+[89/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/cuda_gpu_mat_nd.cpp.o
+[90/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/cuda_host_mem.cpp.o
+[91/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/cuda_info.cpp.o
+[92/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/cuda_stream.cpp.o
+[93/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/directx.cpp.o
+[94/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/datastructs.cpp.o
+[95/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/downhill_simplex.cpp.o
+[96/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/gl_core_3_1.cpp.o
+[97/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/dxt.cpp.o
+[98/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/glob.cpp.o
+[99/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/hal_internal.cpp.o
+[100/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/has_non_zero.dispatch.cpp.o
+[101/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/kmeans.cpp.o
+[102/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/lapack.cpp.o
+[103/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/lda.cpp.o
+[104/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/logger.cpp.o
+[105/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/lpsolver.cpp.o
+[106/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/lut.cpp.o
+[107/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/mathfuncs.cpp.o
+[108/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/mathfuncs_core.dispatch.cpp.o
+[109/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/matrix.cpp.o
+[110/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/matrix_c.cpp.o
+[111/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/matrix_decomp.cpp.o
+[112/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/matmul.dispatch.cpp.o
+[113/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/matrix_expressions.cpp.o
+[114/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/matrix_iterator.cpp.o
+[115/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/matrix_sparse.cpp.o
+[116/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/matrix_transform.cpp.o
+[117/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/matrix_operations.cpp.o
+[118/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/mean.dispatch.cpp.o
+[119/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/matrix_wrap.cpp.o
+[120/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/merge.dispatch.cpp.o
+[121/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/minmax.cpp.o
+[122/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/ocl.cpp.o
+[123/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/norm.cpp.o
+[124/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/opencl/runtime/opencl_clblas.cpp.o
+[125/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/opencl/runtime/opencl_clfft.cpp.o
+[126/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/opencl/runtime/opencl_core.cpp.o
+[127/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/opengl.cpp.o
+[128/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/out.cpp.o
+[129/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/ovx.cpp.o
+[130/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/parallel.cpp.o
+[131/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/parallel/parallel.cpp.o
+[132/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/parallel/parallel_openmp.cpp.o
+[133/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/parallel/parallel_tbb.cpp.o
+[134/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/parallel_impl.cpp.o
+[135/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/pca.cpp.o
+[136/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/persistence_base64_encoding.cpp.o
+[137/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/persistence.cpp.o
+[138/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/persistence_json.cpp.o
+[139/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/persistence_types.cpp.o
+[140/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/persistence_xml.cpp.o
+[141/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/persistence_yml.cpp.o
+[142/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/rand.cpp.o
+[143/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/softfloat.cpp.o
+[144/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/split.dispatch.cpp.o
+[145/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/stat.dispatch.cpp.o
+[146/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/stat_c.cpp.o
+[147/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/stl.cpp.o
+[148/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/sum.dispatch.cpp.o
+[149/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/system.cpp.o
+[150/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/tables.cpp.o
+[151/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/types.cpp.o
+[152/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/trace.cpp.o
+[153/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/umatrix.cpp.o
+[154/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/utils/datafile.cpp.o
+[155/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/utils/filesystem.cpp.o
+[156/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/utils/logtagconfigparser.cpp.o
+[157/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/utils/samples.cpp.o
+[158/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/utils/logtagmanager.cpp.o
+[159/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/opencl_kernels_core.cpp.o
+[160/177] Building CXX object modules/core/CMakeFiles/opencv_core.dir/src/va_intel.cpp.o
+[161/177] Linking CXX static library lib/libopencv_core.a
+[162/177] Building CXX object modules/ml/CMakeFiles/opencv_ml.dir/src/boost.cpp.o
+[163/177] Building CXX object modules/ml/CMakeFiles/opencv_ml.dir/src/ann_mlp.cpp.o
+[164/177] Building CXX object modules/ml/CMakeFiles/opencv_ml.dir/src/em.cpp.o
+[165/177] Building CXX object modules/ml/CMakeFiles/opencv_ml.dir/src/data.cpp.o
+[166/177] Building CXX object modules/ml/CMakeFiles/opencv_ml.dir/src/gbt.cpp.o
+[167/177] Building CXX object modules/ml/CMakeFiles/opencv_ml.dir/src/inner_functions.cpp.o
+[168/177] Building CXX object modules/ml/CMakeFiles/opencv_ml.dir/src/kdtree.cpp.o
+[169/177] Building CXX object modules/ml/CMakeFiles/opencv_ml.dir/src/knearest.cpp.o
+[170/177] Building CXX object modules/ml/CMakeFiles/opencv_ml.dir/src/lr.cpp.o
+[171/177] Building CXX object modules/ml/CMakeFiles/opencv_ml.dir/src/nbayes.cpp.o
+[172/177] Building CXX object modules/ml/CMakeFiles/opencv_ml.dir/src/rtrees.cpp.o
+[173/177] Building CXX object modules/ml/CMakeFiles/opencv_ml.dir/src/svmsgd.cpp.o
+[174/177] Building CXX object modules/ml/CMakeFiles/opencv_ml.dir/src/svm.cpp.o
+[175/177] Building CXX object modules/ml/CMakeFiles/opencv_ml.dir/src/testset.cpp.o
+[176/177] Building CXX object modules/ml/CMakeFiles/opencv_ml.dir/src/tree.cpp.o
+[177/177] Linking CXX static library lib/libopencv_ml.a
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/cvconfig.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/opencv_modules.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/lib/cmake/opencv4/OpenCVModules.cmake
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/lib/cmake/opencv4/OpenCVModules-release.cmake
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/lib/cmake/opencv4/OpenCVConfig-version.cmake
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/lib/cmake/opencv4/OpenCVConfig.cmake
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/bin/setup_vars_opencv4.sh
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/share/opencv4/valgrind.supp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/share/opencv4/valgrind_3rdparty.supp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/lib/opencv4/3rdparty/libzlib.a
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/share/licenses/opencv4/zlib-LICENSE
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/lib/opencv4/3rdparty/libtegra_hal.a
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/opencv.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/lib/libopencv_core.a
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/affine.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/async.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/base.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/bindings_utils.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/bufferpool.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/check.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/core.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/core_c.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/cuda.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/cuda.inl.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/cuda/block.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/cuda/border_interpolate.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/cuda/color.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/cuda/common.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/cuda/datamov_utils.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/cuda/detail/color_detail.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/cuda/detail/reduce.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/cuda/detail/reduce_key_val.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/cuda/detail/transform_detail.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/cuda/detail/type_traits_detail.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/cuda/detail/vec_distance_detail.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/cuda/dynamic_smem.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/cuda/emulation.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/cuda/filters.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/cuda/funcattrib.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/cuda/functional.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/cuda/limits.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/cuda/reduce.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/cuda/saturate_cast.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/cuda/scan.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/cuda/simd_functions.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/cuda/transform.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/cuda/type_traits.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/cuda/utility.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/cuda/vec_distance.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/cuda/vec_math.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/cuda/vec_traits.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/cuda/warp.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/cuda/warp_reduce.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/cuda/warp_shuffle.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/cuda_stream_accessor.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/cuda_types.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/cv_cpu_dispatch.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/cv_cpu_helper.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/cvdef.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/cvstd.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/cvstd.inl.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/cvstd_wrapper.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/detail/async_promise.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/detail/dispatch_helper.impl.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/detail/exception_ptr.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/directx.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/dualquaternion.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/dualquaternion.inl.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/eigen.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/fast_math.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/hal/hal.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/hal/interface.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/hal/intrin.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/hal/intrin_avx.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/hal/intrin_avx512.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/hal/intrin_cpp.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/hal/intrin_forward.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/hal/intrin_lasx.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/hal/intrin_lsx.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/hal/intrin_math.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/hal/intrin_msa.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/hal/intrin_neon.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/hal/intrin_rvv071.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/hal/intrin_rvv_scalable.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/hal/intrin_sse.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/hal/intrin_sse_em.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/hal/intrin_vsx.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/hal/intrin_wasm.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/hal/msa_macros.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/hal/simd_utils.impl.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/mat.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/mat.inl.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/matx.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/matx.inl.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/neon_utils.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/ocl.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/ocl_genbase.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/opencl/ocl_defs.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/opencl/opencl_info.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/opencl/opencl_svm.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/opencl/runtime/autogenerated/opencl_clblas.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/opencl/runtime/autogenerated/opencl_clfft.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/opencl/runtime/autogenerated/opencl_core.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/opencl/runtime/autogenerated/opencl_core_wrappers.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/opencl/runtime/autogenerated/opencl_gl.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/opencl/runtime/autogenerated/opencl_gl_wrappers.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/opencl/runtime/opencl_clblas.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/opencl/runtime/opencl_clfft.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/opencl/runtime/opencl_core.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/opencl/runtime/opencl_core_wrappers.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/opencl/runtime/opencl_gl.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/opencl/runtime/opencl_gl_wrappers.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/opencl/runtime/opencl_svm_20.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/opencl/runtime/opencl_svm_definitions.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/opencl/runtime/opencl_svm_hsa_extension.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/opengl.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/operations.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/optim.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/ovx.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/parallel/backend/parallel_for.openmp.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/parallel/backend/parallel_for.tbb.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/parallel/parallel_backend.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/persistence.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/quaternion.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/quaternion.inl.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/saturate.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/simd_intrinsics.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/softfloat.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/sse_utils.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/traits.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/types.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/types_c.h
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/utility.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/utils/allocator_stats.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/utils/allocator_stats.impl.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/utils/filesystem.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/utils/fp_control_utils.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/utils/instrumentation.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/utils/logger.defines.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/utils/logger.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/utils/logtag.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/utils/tls.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/utils/trace.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/va_intel.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/version.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/core/vsx_utils.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/share/licenses/opencv4/SoftFloat-COPYING.txt
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/lib/libopencv_ml.a
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/ml.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/ml/ml.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4/opencv2/ml/ml.inl.hpp
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/share/opencv4/haarcascades/haarcascade_eye.xml
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/share/opencv4/haarcascades/haarcascade_eye_tree_eyeglasses.xml
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/share/opencv4/haarcascades/haarcascade_frontalcatface.xml
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/share/opencv4/haarcascades/haarcascade_frontalcatface_extended.xml
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/share/opencv4/haarcascades/haarcascade_frontalface_alt.xml
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/share/opencv4/haarcascades/haarcascade_frontalface_alt2.xml
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/share/opencv4/haarcascades/haarcascade_frontalface_alt_tree.xml
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/share/opencv4/haarcascades/haarcascade_frontalface_default.xml
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/share/opencv4/haarcascades/haarcascade_fullbody.xml
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/share/opencv4/haarcascades/haarcascade_lefteye_2splits.xml
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/share/opencv4/haarcascades/haarcascade_license_plate_rus_16stages.xml
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/share/opencv4/haarcascades/haarcascade_lowerbody.xml
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/share/opencv4/haarcascades/haarcascade_profileface.xml
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/share/opencv4/haarcascades/haarcascade_righteye_2splits.xml
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/share/opencv4/haarcascades/haarcascade_russian_plate_number.xml
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/share/opencv4/haarcascades/haarcascade_smile.xml
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/share/opencv4/haarcascades/haarcascade_upperbody.xml
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/share/opencv4/lbpcascades/lbpcascade_frontalcatface.xml
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/share/opencv4/lbpcascades/lbpcascade_frontalface.xml
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/share/opencv4/lbpcascades/lbpcascade_frontalface_improved.xml
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/share/opencv4/lbpcascades/lbpcascade_profileface.xml
+-- Installing: /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/share/opencv4/lbpcascades/lbpcascade_silverware.xml
+OpenCV_DIR=/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/lib/cmake/opencv4

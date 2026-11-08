@@ -1,0 +1,16 @@
+{
+  "command": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\tma192-python-env\\Scripts\\python.exe",
+    "-I",
+    "-m",
+    "pytest",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_gui_tma.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_gui_qptma.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_viewer_session.py",
+    "-q",
+    "--tb=short",
+    "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\tma192-desktop\\tests.xml",
+    "--basetemp=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\tma192-desktop\\tmp"
+  ],
+  "exit": 0
+}

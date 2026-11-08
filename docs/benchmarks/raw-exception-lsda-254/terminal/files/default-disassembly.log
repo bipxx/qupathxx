@@ -1,0 +1,995 @@
+/Users/runner/work/qupathxx/qupathxx/build/exception-lsda-254/default:
+(__TEXT,__text) section
+_main:
+100000620:	ff 83 01 d1	sub	sp, sp, #0x60
+100000624:	f8 5f 02 a9	stp	x24, x23, [sp, #0x20]
+100000628:	f6 57 03 a9	stp	x22, x21, [sp, #0x30]
+10000062c:	f4 4f 04 a9	stp	x20, x19, [sp, #0x40]
+100000630:	fd 7b 05 a9	stp	x29, x30, [sp, #0x50]
+100000634:	fd 43 01 91	add	x29, sp, #0x50
+100000638:	55 00 00 90	adrp	x21, 8 ; 0x100008000
+10000063c:	b5 02 00 91	add	x21, x21, #0x0
+100000640:	bf 02 00 b9	str	wzr, [x21]
+100000644:	26 01 00 94	bl	__Z7rejectsISt16invalid_argumentZ4mainE3$_0EvT0_
+100000648:	20 00 00 90	adrp	x0, 4 ; 0x100004000
+10000064c:	00 30 40 f9	ldr	x0, [x0, #0x60] ; literal pool symbol address: __ZNSt3__14coutE
+100000650:	01 00 00 b0	adrp	x1, 1 ; 0x100001000
+100000654:	21 10 22 91	add	x1, x1, #0x884 ; literal pool for: "invalid=expected\n"
+100000658:	22 02 80 52	mov	w2, #0x11
+10000065c:	4d 02 00 94	bl	__ZNSt3__124__put_character_sequenceB8ne190102IcNS_11char_traitsIcEEEERNS_13basic_ostreamIT_T0_EES7_PKS4_m
+100000660:	16 00 80 52	mov	w22, #0x0
+100000664:	28 00 80 52	mov	w8, #0x1
+100000668:	a8 02 00 b9	str	w8, [x21]
+10000066c:	4c 01 00 94	bl	__Z7rejectsISt12length_errorZ4mainE3$_1EvT0_
+100000670:	20 00 00 90	adrp	x0, 4 ; 0x100004000
+100000674:	00 30 40 f9	ldr	x0, [x0, #0x60] ; literal pool symbol address: __ZNSt3__14coutE
+100000678:	01 00 00 b0	adrp	x1, 1 ; 0x100001000
+10000067c:	21 9c 22 91	add	x1, x1, #0x8a7 ; literal pool for: "length=expected\n"
+100000680:	02 02 80 52	mov	w2, #0x10
+100000684:	43 02 00 94	bl	__ZNSt3__124__put_character_sequenceB8ne190102IcNS_11char_traitsIcEEEERNS_13basic_ostreamIT_T0_EES7_PKS4_m
+100000688:	48 00 80 52	mov	w8, #0x2
+10000068c:	a8 02 00 b9	str	w8, [x21]
+100000690:	6f 01 00 94	bl	__Z7rejectsISt13runtime_errorZ4mainE3$_2EvT0_
+100000694:	20 00 00 90	adrp	x0, 4 ; 0x100004000
+100000698:	00 30 40 f9	ldr	x0, [x0, #0x60] ; literal pool symbol address: __ZNSt3__14coutE
+10000069c:	01 00 00 b0	adrp	x1, 1 ; 0x100001000
+1000006a0:	21 20 23 91	add	x1, x1, #0x8c8 ; literal pool for: "runtime=expected\n"
+1000006a4:	22 02 80 52	mov	w2, #0x11
+1000006a8:	3a 02 00 94	bl	__ZNSt3__124__put_character_sequenceB8ne190102IcNS_11char_traitsIcEEEERNS_13basic_ostreamIT_T0_EES7_PKS4_m
+1000006ac:	94 01 00 94	bl	__Z7rejectsISt16invalid_argumentZ4mainE3$_3EvT0_
+1000006b0:	20 00 00 90	adrp	x0, 4 ; 0x100004000
+1000006b4:	00 30 40 f9	ldr	x0, [x0, #0x60] ; literal pool symbol address: __ZNSt3__14coutE
+1000006b8:	01 00 00 b0	adrp	x1, 1 ; 0x100001000
+1000006bc:	21 ac 23 91	add	x1, x1, #0x8eb ; literal pool for: "wrong_type=accepted\n"
+1000006c0:	82 02 80 52	mov	w2, #0x14
+1000006c4:	33 02 00 94	bl	__ZNSt3__124__put_character_sequenceB8ne190102IcNS_11char_traitsIcEEEERNS_13basic_ostreamIT_T0_EES7_PKS4_m
+1000006c8:	40 00 80 52	mov	w0, #0x2
+1000006cc:	fd 7b 45 a9	ldp	x29, x30, [sp, #0x50]
+1000006d0:	f4 4f 44 a9	ldp	x20, x19, [sp, #0x40]
+1000006d4:	f6 57 43 a9	ldp	x22, x21, [sp, #0x30]
+1000006d8:	f8 5f 42 a9	ldp	x24, x23, [sp, #0x20]
+1000006dc:	ff 83 01 91	add	sp, sp, #0x60
+1000006e0:	c0 03 5f d6	ret
+1000006e4:	f4 03 01 aa	mov	x20, x1
+1000006e8:	f3 03 00 aa	mov	x19, x0
+1000006ec:	9f 0a 00 71	cmp	w20, #0x2
+1000006f0:	01 1f 00 54	b.ne	0x100000ad0
+1000006f4:	e0 03 13 aa	mov	x0, x19
+1000006f8:	c4 03 00 94	bl	0x100001608 ; symbol stub for: ___cxa_begin_catch
+1000006fc:	08 00 40 f9	ldr	x8, [x0]
+100000700:	08 09 40 f9	ldr	x8, [x8, #0x10]
+100000704:	00 01 3f d6	blr	x8
+100000708:	e1 03 00 aa	mov	x1, x0
+10000070c:	e0 23 00 91	add	x0, sp, #0x8
+100000710:	ca 01 00 94	bl	__ZNSt3__112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEC1B8ne190102ILi0EEEPKc
+100000714:	01 00 00 b0	adrp	x1, 1 ; 0x100001000
+100000718:	21 00 24 91	add	x1, x1, #0x900 ; literal pool for: "runtime marker"
+10000071c:	e0 23 00 91	add	x0, sp, #0x8
+100000720:	a3 01 00 94	bl	__ZNSt3__1neB8ne190102IcNS_11char_traitsIcEENS_9allocatorIcEEEEbRKNS_12basic_stringIT_T0_T1_EEPKS6_
+100000724:	f3 03 00 aa	mov	x19, x0
+100000728:	e8 7f c0 39	ldrsb	w8, [sp, #0x1f]
+10000072c:	68 00 f8 36	tbz	w8, #0x1f, 0x100000738
+100000730:	e0 07 40 f9	ldr	x0, [sp, #0x8]
+100000734:	ac 03 00 94	bl	0x1000015e4 ; symbol stub for: __ZdlPv
+100000738:	33 01 00 34	cbz	w19, 0x10000075c
+10000073c:	b6 03 00 94	bl	0x100001614 ; symbol stub for: ___cxa_end_catch
+100000740:	60 00 80 52	mov	w0, #0x3
+100000744:	fd 7b 45 a9	ldp	x29, x30, [sp, #0x50]
+100000748:	f4 4f 44 a9	ldp	x20, x19, [sp, #0x40]
+10000074c:	f6 57 43 a9	ldp	x22, x21, [sp, #0x30]
+100000750:	f8 5f 42 a9	ldp	x24, x23, [sp, #0x20]
+100000754:	ff 83 01 91	add	sp, sp, #0x60
+100000758:	c0 03 5f d6	ret
+10000075c:	20 00 00 90	adrp	x0, 4 ; 0x100004000
+100000760:	00 30 40 f9	ldr	x0, [x0, #0x60] ; literal pool symbol address: __ZNSt3__14coutE
+100000764:	01 00 00 b0	adrp	x1, 1 ; 0x100001000
+100000768:	21 3c 24 91	add	x1, x1, #0x90f ; literal pool for: "wrong_type=escaped\n"
+10000076c:	62 02 80 52	mov	w2, #0x13
+100000770:	08 02 00 94	bl	__ZNSt3__124__put_character_sequenceB8ne190102IcNS_11char_traitsIcEEEERNS_13basic_ostreamIT_T0_EES7_PKS4_m
+100000774:	a8 03 00 94	bl	0x100001614 ; symbol stub for: ___cxa_end_catch
+100000778:	68 00 80 52	mov	w8, #0x3
+10000077c:	a8 02 00 b9	str	w8, [x21]
+100000780:	d8 01 00 94	bl	__Z7rejectsISt16invalid_argumentZ4mainE3$_4EvT0_
+100000784:	20 00 00 90	adrp	x0, 4 ; 0x100004000
+100000788:	00 30 40 f9	ldr	x0, [x0, #0x60] ; literal pool symbol address: __ZNSt3__14coutE
+10000078c:	01 00 00 b0	adrp	x1, 1 ; 0x100001000
+100000790:	21 8c 24 91	add	x1, x1, #0x923 ; literal pool for: "missing=accepted\n"
+100000794:	22 02 80 52	mov	w2, #0x11
+100000798:	fe 01 00 94	bl	__ZNSt3__124__put_character_sequenceB8ne190102IcNS_11char_traitsIcEEEERNS_13basic_ostreamIT_T0_EES7_PKS4_m
+10000079c:	80 00 80 52	mov	w0, #0x4
+1000007a0:	fd 7b 45 a9	ldp	x29, x30, [sp, #0x50]
+1000007a4:	f4 4f 44 a9	ldp	x20, x19, [sp, #0x40]
+1000007a8:	f6 57 43 a9	ldp	x22, x21, [sp, #0x30]
+1000007ac:	f8 5f 42 a9	ldp	x24, x23, [sp, #0x20]
+1000007b0:	ff 83 01 91	add	sp, sp, #0x60
+1000007b4:	c0 03 5f d6	ret
+1000007b8:	31 00 00 14	b	0x10000087c
+1000007bc:	f3 03 00 aa	mov	x19, x0
+1000007c0:	3f 00 14 6b	cmp	w1, w20
+1000007c4:	61 18 00 54	b.ne	0x100000ad0
+1000007c8:	e0 03 13 aa	mov	x0, x19
+1000007cc:	8f 03 00 94	bl	0x100001608 ; symbol stub for: ___cxa_begin_catch
+1000007d0:	08 00 40 f9	ldr	x8, [x0]
+1000007d4:	08 09 40 f9	ldr	x8, [x8, #0x10]
+1000007d8:	00 01 3f d6	blr	x8
+1000007dc:	e1 03 00 aa	mov	x1, x0
+1000007e0:	e0 23 00 91	add	x0, sp, #0x8
+1000007e4:	95 01 00 94	bl	__ZNSt3__112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEC1B8ne190102ILi0EEEPKc
+1000007e8:	01 00 00 b0	adrp	x1, 1 ; 0x100001000
+1000007ec:	21 d4 24 91	add	x1, x1, #0x935 ; literal pool for: "missing rejection"
+1000007f0:	e0 23 00 91	add	x0, sp, #0x8
+1000007f4:	6e 01 00 94	bl	__ZNSt3__1neB8ne190102IcNS_11char_traitsIcEENS_9allocatorIcEEEEbRKNS_12basic_stringIT_T0_T1_EEPKS6_
+1000007f8:	f3 03 00 aa	mov	x19, x0
+1000007fc:	e8 7f c0 39	ldrsb	w8, [sp, #0x1f]
+100000800:	68 00 f8 36	tbz	w8, #0x1f, 0x10000080c
+100000804:	e0 07 40 f9	ldr	x0, [sp, #0x8]
+100000808:	77 03 00 94	bl	0x1000015e4 ; symbol stub for: __ZdlPv
+10000080c:	33 01 00 34	cbz	w19, 0x100000830
+100000810:	81 03 00 94	bl	0x100001614 ; symbol stub for: ___cxa_end_catch
+100000814:	a0 00 80 52	mov	w0, #0x5
+100000818:	fd 7b 45 a9	ldp	x29, x30, [sp, #0x50]
+10000081c:	f4 4f 44 a9	ldp	x20, x19, [sp, #0x40]
+100000820:	f6 57 43 a9	ldp	x22, x21, [sp, #0x30]
+100000824:	f8 5f 42 a9	ldp	x24, x23, [sp, #0x20]
+100000828:	ff 83 01 91	add	sp, sp, #0x60
+10000082c:	c0 03 5f d6	ret
+100000830:	20 00 00 90	adrp	x0, 4 ; 0x100004000
+100000834:	00 30 40 f9	ldr	x0, [x0, #0x60] ; literal pool symbol address: __ZNSt3__14coutE
+100000838:	01 00 00 b0	adrp	x1, 1 ; 0x100001000
+10000083c:	21 1c 25 91	add	x1, x1, #0x947 ; literal pool for: "missing=refused\n"
+100000840:	02 02 80 52	mov	w2, #0x10
+100000844:	d3 01 00 94	bl	__ZNSt3__124__put_character_sequenceB8ne190102IcNS_11char_traitsIcEEEERNS_13basic_ostreamIT_T0_EES7_PKS4_m
+100000848:	73 03 00 94	bl	0x100001614 ; symbol stub for: ___cxa_end_catch
+10000084c:	df 02 00 71	cmp	w22, #0x0
+100000850:	e0 07 9f 1a	cset	w0, ne
+100000854:	fd 7b 45 a9	ldp	x29, x30, [sp, #0x50]
+100000858:	f4 4f 44 a9	ldp	x20, x19, [sp, #0x40]
+10000085c:	f6 57 43 a9	ldp	x22, x21, [sp, #0x30]
+100000860:	f8 5f 42 a9	ldp	x24, x23, [sp, #0x20]
+100000864:	ff 83 01 91	add	sp, sp, #0x60
+100000868:	c0 03 5f d6	ret
+10000086c:	01 00 00 14	b	0x100000870
+100000870:	f3 03 00 aa	mov	x19, x0
+100000874:	68 03 00 94	bl	0x100001614 ; symbol stub for: ___cxa_end_catch
+100000878:	96 00 00 14	b	0x100000ad0
+10000087c:	f3 03 00 aa	mov	x19, x0
+100000880:	65 03 00 94	bl	0x100001614 ; symbol stub for: ___cxa_end_catch
+100000884:	93 00 00 14	b	0x100000ad0
+100000888:	f3 03 00 aa	mov	x19, x0
+10000088c:	3f 04 00 71	cmp	w1, #0x1
+100000890:	01 12 00 54	b.ne	0x100000ad0
+100000894:	e0 03 13 aa	mov	x0, x19
+100000898:	5c 03 00 94	bl	0x100001608 ; symbol stub for: ___cxa_begin_catch
+10000089c:	f3 03 00 aa	mov	x19, x0
+1000008a0:	20 00 00 90	adrp	x0, 4 ; 0x100004000
+1000008a4:	00 30 40 f9	ldr	x0, [x0, #0x60] ; literal pool symbol address: __ZNSt3__14coutE
+1000008a8:	01 00 00 b0	adrp	x1, 1 ; 0x100001000
+1000008ac:	21 68 23 91	add	x1, x1, #0x8da ; literal pool for: "runtime=escaped:"
+1000008b0:	02 02 80 52	mov	w2, #0x10
+1000008b4:	b7 01 00 94	bl	__ZNSt3__124__put_character_sequenceB8ne190102IcNS_11char_traitsIcEEEERNS_13basic_ostreamIT_T0_EES7_PKS4_m
+1000008b8:	f4 03 00 aa	mov	x20, x0
+1000008bc:	68 02 40 f9	ldr	x8, [x19]
+1000008c0:	08 81 5f f8	ldur	x8, [x8, #-0x8]
+1000008c4:	16 05 40 f9	ldr	x22, [x8, #0x8]
+1000008c8:	c0 fa 40 92	and	x0, x22, #0x7fffffffffffffff
+1000008cc:	64 03 00 94	bl	0x10000165c ; symbol stub for: _strlen
+1000008d0:	e2 03 00 aa	mov	x2, x0
+1000008d4:	c1 fa 40 92	and	x1, x22, #0x7fffffffffffffff
+1000008d8:	e0 03 14 aa	mov	x0, x20
+1000008dc:	ad 01 00 94	bl	__ZNSt3__124__put_character_sequenceB8ne190102IcNS_11char_traitsIcEEEERNS_13basic_ostreamIT_T0_EES7_PKS4_m
+1000008e0:	48 07 80 52	mov	w8, #0x3a
+1000008e4:	e8 23 00 39	strb	w8, [sp, #0x8]
+1000008e8:	e1 23 00 91	add	x1, sp, #0x8
+1000008ec:	22 00 80 52	mov	w2, #0x1
+1000008f0:	a8 01 00 94	bl	__ZNSt3__124__put_character_sequenceB8ne190102IcNS_11char_traitsIcEEEERNS_13basic_ostreamIT_T0_EES7_PKS4_m
+1000008f4:	f4 03 00 aa	mov	x20, x0
+1000008f8:	68 02 40 f9	ldr	x8, [x19]
+1000008fc:	08 09 40 f9	ldr	x8, [x8, #0x10]
+100000900:	e0 03 13 aa	mov	x0, x19
+100000904:	00 01 3f d6	blr	x8
+100000908:	f3 03 00 aa	mov	x19, x0
+10000090c:	54 03 00 94	bl	0x10000165c ; symbol stub for: _strlen
+100000910:	e2 03 00 aa	mov	x2, x0
+100000914:	e0 03 14 aa	mov	x0, x20
+100000918:	e1 03 13 aa	mov	x1, x19
+10000091c:	9d 01 00 94	bl	__ZNSt3__124__put_character_sequenceB8ne190102IcNS_11char_traitsIcEEEERNS_13basic_ostreamIT_T0_EES7_PKS4_m
+100000920:	48 01 80 52	mov	w8, #0xa
+100000924:	e8 23 00 39	strb	w8, [sp, #0x8]
+100000928:	e1 23 00 91	add	x1, sp, #0x8
+10000092c:	22 00 80 52	mov	w2, #0x1
+100000930:	98 01 00 94	bl	__ZNSt3__124__put_character_sequenceB8ne190102IcNS_11char_traitsIcEEEERNS_13basic_ostreamIT_T0_EES7_PKS4_m
+100000934:	38 03 00 94	bl	0x100001614 ; symbol stub for: ___cxa_end_catch
+100000938:	36 00 80 52	mov	w22, #0x1
+10000093c:	5c ff ff 17	b	0x1000006ac
+100000940:	f3 03 00 aa	mov	x19, x0
+100000944:	34 03 00 94	bl	0x100001614 ; symbol stub for: ___cxa_end_catch
+100000948:	62 00 00 14	b	0x100000ad0
+10000094c:	f3 03 00 aa	mov	x19, x0
+100000950:	3f 04 00 71	cmp	w1, #0x1
+100000954:	e1 0b 00 54	b.ne	0x100000ad0
+100000958:	e0 03 13 aa	mov	x0, x19
+10000095c:	2b 03 00 94	bl	0x100001608 ; symbol stub for: ___cxa_begin_catch
+100000960:	f3 03 00 aa	mov	x19, x0
+100000964:	20 00 00 90	adrp	x0, 4 ; 0x100004000
+100000968:	00 30 40 f9	ldr	x0, [x0, #0x60] ; literal pool symbol address: __ZNSt3__14coutE
+10000096c:	01 00 00 b0	adrp	x1, 1 ; 0x100001000
+100000970:	21 e0 22 91	add	x1, x1, #0x8b8 ; literal pool for: "length=escaped:"
+100000974:	e2 01 80 52	mov	w2, #0xf
+100000978:	86 01 00 94	bl	__ZNSt3__124__put_character_sequenceB8ne190102IcNS_11char_traitsIcEEEERNS_13basic_ostreamIT_T0_EES7_PKS4_m
+10000097c:	f4 03 00 aa	mov	x20, x0
+100000980:	68 02 40 f9	ldr	x8, [x19]
+100000984:	08 81 5f f8	ldur	x8, [x8, #-0x8]
+100000988:	17 05 40 f9	ldr	x23, [x8, #0x8]
+10000098c:	e0 fa 40 92	and	x0, x23, #0x7fffffffffffffff
+100000990:	33 03 00 94	bl	0x10000165c ; symbol stub for: _strlen
+100000994:	e2 03 00 aa	mov	x2, x0
+100000998:	e1 fa 40 92	and	x1, x23, #0x7fffffffffffffff
+10000099c:	e0 03 14 aa	mov	x0, x20
+1000009a0:	7c 01 00 94	bl	__ZNSt3__124__put_character_sequenceB8ne190102IcNS_11char_traitsIcEEEERNS_13basic_ostreamIT_T0_EES7_PKS4_m
+1000009a4:	48 07 80 52	mov	w8, #0x3a
+1000009a8:	e8 23 00 39	strb	w8, [sp, #0x8]
+1000009ac:	e1 23 00 91	add	x1, sp, #0x8
+1000009b0:	22 00 80 52	mov	w2, #0x1
+1000009b4:	77 01 00 94	bl	__ZNSt3__124__put_character_sequenceB8ne190102IcNS_11char_traitsIcEEEERNS_13basic_ostreamIT_T0_EES7_PKS4_m
+1000009b8:	f4 03 00 aa	mov	x20, x0
+1000009bc:	68 02 40 f9	ldr	x8, [x19]
+1000009c0:	08 09 40 f9	ldr	x8, [x8, #0x10]
+1000009c4:	e0 03 13 aa	mov	x0, x19
+1000009c8:	00 01 3f d6	blr	x8
+1000009cc:	f3 03 00 aa	mov	x19, x0
+1000009d0:	23 03 00 94	bl	0x10000165c ; symbol stub for: _strlen
+1000009d4:	e2 03 00 aa	mov	x2, x0
+1000009d8:	e0 03 14 aa	mov	x0, x20
+1000009dc:	e1 03 13 aa	mov	x1, x19
+1000009e0:	6c 01 00 94	bl	__ZNSt3__124__put_character_sequenceB8ne190102IcNS_11char_traitsIcEEEERNS_13basic_ostreamIT_T0_EES7_PKS4_m
+1000009e4:	48 01 80 52	mov	w8, #0xa
+1000009e8:	e8 23 00 39	strb	w8, [sp, #0x8]
+1000009ec:	e1 23 00 91	add	x1, sp, #0x8
+1000009f0:	22 00 80 52	mov	w2, #0x1
+1000009f4:	67 01 00 94	bl	__ZNSt3__124__put_character_sequenceB8ne190102IcNS_11char_traitsIcEEEERNS_13basic_ostreamIT_T0_EES7_PKS4_m
+1000009f8:	d6 06 00 11	add	w22, w22, #0x1
+1000009fc:	06 03 00 94	bl	0x100001614 ; symbol stub for: ___cxa_end_catch
+100000a00:	22 ff ff 17	b	0x100000688
+100000a04:	f3 03 00 aa	mov	x19, x0
+100000a08:	03 03 00 94	bl	0x100001614 ; symbol stub for: ___cxa_end_catch
+100000a0c:	31 00 00 14	b	0x100000ad0
+100000a10:	f3 03 00 aa	mov	x19, x0
+100000a14:	3f 04 00 71	cmp	w1, #0x1
+100000a18:	c1 05 00 54	b.ne	0x100000ad0
+100000a1c:	e0 03 13 aa	mov	x0, x19
+100000a20:	fa 02 00 94	bl	0x100001608 ; symbol stub for: ___cxa_begin_catch
+100000a24:	f3 03 00 aa	mov	x19, x0
+100000a28:	20 00 00 90	adrp	x0, 4 ; 0x100004000
+100000a2c:	00 30 40 f9	ldr	x0, [x0, #0x60] ; literal pool symbol address: __ZNSt3__14coutE
+100000a30:	01 00 00 b0	adrp	x1, 1 ; 0x100001000
+100000a34:	21 58 22 91	add	x1, x1, #0x896 ; literal pool for: "invalid=escaped:"
+100000a38:	02 02 80 52	mov	w2, #0x10
+100000a3c:	55 01 00 94	bl	__ZNSt3__124__put_character_sequenceB8ne190102IcNS_11char_traitsIcEEEERNS_13basic_ostreamIT_T0_EES7_PKS4_m
+100000a40:	f4 03 00 aa	mov	x20, x0
+100000a44:	68 02 40 f9	ldr	x8, [x19]
+100000a48:	08 81 5f f8	ldur	x8, [x8, #-0x8]
+100000a4c:	16 05 40 f9	ldr	x22, [x8, #0x8]
+100000a50:	c0 fa 40 92	and	x0, x22, #0x7fffffffffffffff
+100000a54:	02 03 00 94	bl	0x10000165c ; symbol stub for: _strlen
+100000a58:	e2 03 00 aa	mov	x2, x0
+100000a5c:	c1 fa 40 92	and	x1, x22, #0x7fffffffffffffff
+100000a60:	e0 03 14 aa	mov	x0, x20
+100000a64:	4b 01 00 94	bl	__ZNSt3__124__put_character_sequenceB8ne190102IcNS_11char_traitsIcEEEERNS_13basic_ostreamIT_T0_EES7_PKS4_m
+100000a68:	48 07 80 52	mov	w8, #0x3a
+100000a6c:	e8 23 00 39	strb	w8, [sp, #0x8]
+100000a70:	e1 23 00 91	add	x1, sp, #0x8
+100000a74:	22 00 80 52	mov	w2, #0x1
+100000a78:	46 01 00 94	bl	__ZNSt3__124__put_character_sequenceB8ne190102IcNS_11char_traitsIcEEEERNS_13basic_ostreamIT_T0_EES7_PKS4_m
+100000a7c:	f4 03 00 aa	mov	x20, x0
+100000a80:	68 02 40 f9	ldr	x8, [x19]
+100000a84:	08 09 40 f9	ldr	x8, [x8, #0x10]
+100000a88:	e0 03 13 aa	mov	x0, x19
+100000a8c:	00 01 3f d6	blr	x8
+100000a90:	f3 03 00 aa	mov	x19, x0
+100000a94:	f2 02 00 94	bl	0x10000165c ; symbol stub for: _strlen
+100000a98:	e2 03 00 aa	mov	x2, x0
+100000a9c:	e0 03 14 aa	mov	x0, x20
+100000aa0:	e1 03 13 aa	mov	x1, x19
+100000aa4:	3b 01 00 94	bl	__ZNSt3__124__put_character_sequenceB8ne190102IcNS_11char_traitsIcEEEERNS_13basic_ostreamIT_T0_EES7_PKS4_m
+100000aa8:	48 01 80 52	mov	w8, #0xa
+100000aac:	e8 23 00 39	strb	w8, [sp, #0x8]
+100000ab0:	e1 23 00 91	add	x1, sp, #0x8
+100000ab4:	22 00 80 52	mov	w2, #0x1
+100000ab8:	36 01 00 94	bl	__ZNSt3__124__put_character_sequenceB8ne190102IcNS_11char_traitsIcEEEERNS_13basic_ostreamIT_T0_EES7_PKS4_m
+100000abc:	d6 02 00 94	bl	0x100001614 ; symbol stub for: ___cxa_end_catch
+100000ac0:	36 00 80 52	mov	w22, #0x1
+100000ac4:	e8 fe ff 17	b	0x100000664
+100000ac8:	f3 03 00 aa	mov	x19, x0
+100000acc:	d2 02 00 94	bl	0x100001614 ; symbol stub for: ___cxa_end_catch
+100000ad0:	e0 03 13 aa	mov	x0, x19
+100000ad4:	9d 02 00 94	bl	0x100001548 ; symbol stub for: __Unwind_Resume
+100000ad8:	2d 00 00 94	bl	___clang_call_terminate
+__Z7rejectsISt16invalid_argumentZ4mainE3$_0EvT0_:
+100000adc:	ff c3 00 d1	sub	sp, sp, #0x30
+100000ae0:	f4 4f 01 a9	stp	x20, x19, [sp, #0x10]
+100000ae4:	fd 7b 02 a9	stp	x29, x30, [sp, #0x20]
+100000ae8:	fd 83 00 91	add	x29, sp, #0x20
+100000aec:	e8 03 00 91	mov	x8, sp
+100000af0:	2f 02 00 94	bl	__Z12throwing_apiv
+100000af4:	f3 07 40 f9	ldr	x19, [sp, #0x8]
+100000af8:	73 01 00 b4	cbz	x19, 0x100000b24
+100000afc:	68 22 00 91	add	x8, x19, #0x8
+100000b00:	09 00 80 92	mov	x9, #-0x1
+100000b04:		.long	0xf8e90108
+100000b08:	e8 00 00 b5	cbnz	x8, 0x100000b24
+100000b0c:	68 02 40 f9	ldr	x8, [x19]
+100000b10:	08 09 40 f9	ldr	x8, [x8, #0x10]
+100000b14:	e0 03 13 aa	mov	x0, x19
+100000b18:	00 01 3f d6	blr	x8
+100000b1c:	e0 03 13 aa	mov	x0, x19
+100000b20:	9f 02 00 94	bl	0x10000159c ; symbol stub for: __ZNSt3__119__shared_weak_count14__release_weakEv
+100000b24:	00 02 80 52	mov	w0, #0x10
+100000b28:	b5 02 00 94	bl	0x1000015fc ; symbol stub for: ___cxa_allocate_exception
+100000b2c:	f3 03 00 aa	mov	x19, x0
+100000b30:	01 00 00 b0	adrp	x1, 1 ; 0x100001000
+100000b34:	21 d4 24 91	add	x1, x1, #0x935 ; literal pool for: "missing rejection"
+100000b38:	90 02 00 94	bl	0x100001578 ; symbol stub for: __ZNSt13runtime_errorC1EPKc
+100000b3c:	21 00 00 90	adrp	x1, 4 ; 0x100004000
+100000b40:	21 48 40 f9	ldr	x1, [x1, #0x90] ; literal pool symbol address: __ZTISt13runtime_error
+100000b44:	22 00 00 90	adrp	x2, 4 ; 0x100004000
+100000b48:	42 18 40 f9	ldr	x2, [x2, #0x30] ; literal pool symbol address: __ZNSt13runtime_errorD1Ev
+100000b4c:	e0 03 13 aa	mov	x0, x19
+100000b50:	b7 02 00 94	bl	0x10000162c ; symbol stub for: ___cxa_throw
+100000b54:	f4 03 00 aa	mov	x20, x0
+100000b58:	e0 03 13 aa	mov	x0, x19
+100000b5c:	b1 02 00 94	bl	0x100001620 ; symbol stub for: ___cxa_free_exception
+100000b60:	e0 03 14 aa	mov	x0, x20
+100000b64:	79 02 00 94	bl	0x100001548 ; symbol stub for: __Unwind_Resume
+100000b68:	3f 04 00 71	cmp	w1, #0x1
+100000b6c:	e1 00 00 54	b.ne	0x100000b88
+100000b70:	a6 02 00 94	bl	0x100001608 ; symbol stub for: ___cxa_begin_catch
+100000b74:	a8 02 00 94	bl	0x100001614 ; symbol stub for: ___cxa_end_catch
+100000b78:	fd 7b 42 a9	ldp	x29, x30, [sp, #0x20]
+100000b7c:	f4 4f 41 a9	ldp	x20, x19, [sp, #0x10]
+100000b80:	ff c3 00 91	add	sp, sp, #0x30
+100000b84:	c0 03 5f d6	ret
+100000b88:	70 02 00 94	bl	0x100001548 ; symbol stub for: __Unwind_Resume
+___clang_call_terminate:
+100000b8c:	fd 7b bf a9	stp	x29, x30, [sp, #-0x10]!
+100000b90:	fd 03 00 91	mov	x29, sp
+100000b94:	9d 02 00 94	bl	0x100001608 ; symbol stub for: ___cxa_begin_catch
+100000b98:	90 02 00 94	bl	0x1000015d8 ; symbol stub for: __ZSt9terminatev
+__Z7rejectsISt12length_errorZ4mainE3$_1EvT0_:
+100000b9c:	ff c3 00 d1	sub	sp, sp, #0x30
+100000ba0:	f4 4f 01 a9	stp	x20, x19, [sp, #0x10]
+100000ba4:	fd 7b 02 a9	stp	x29, x30, [sp, #0x20]
+100000ba8:	fd 83 00 91	add	x29, sp, #0x20
+100000bac:	e8 03 00 91	mov	x8, sp
+100000bb0:	ff 01 00 94	bl	__Z12throwing_apiv
+100000bb4:	f3 07 40 f9	ldr	x19, [sp, #0x8]
+100000bb8:	73 01 00 b4	cbz	x19, 0x100000be4
+100000bbc:	68 22 00 91	add	x8, x19, #0x8
+100000bc0:	09 00 80 92	mov	x9, #-0x1
+100000bc4:		.long	0xf8e90108
+100000bc8:	e8 00 00 b5	cbnz	x8, 0x100000be4
+100000bcc:	68 02 40 f9	ldr	x8, [x19]
+100000bd0:	08 09 40 f9	ldr	x8, [x8, #0x10]
+100000bd4:	e0 03 13 aa	mov	x0, x19
+100000bd8:	00 01 3f d6	blr	x8
+100000bdc:	e0 03 13 aa	mov	x0, x19
+100000be0:	6f 02 00 94	bl	0x10000159c ; symbol stub for: __ZNSt3__119__shared_weak_count14__release_weakEv
+100000be4:	00 02 80 52	mov	w0, #0x10
+100000be8:	85 02 00 94	bl	0x1000015fc ; symbol stub for: ___cxa_allocate_exception
+100000bec:	f3 03 00 aa	mov	x19, x0
+100000bf0:	01 00 00 b0	adrp	x1, 1 ; 0x100001000
+100000bf4:	21 d4 24 91	add	x1, x1, #0x935 ; literal pool for: "missing rejection"
+100000bf8:	60 02 00 94	bl	0x100001578 ; symbol stub for: __ZNSt13runtime_errorC1EPKc
+100000bfc:	21 00 00 90	adrp	x1, 4 ; 0x100004000
+100000c00:	21 48 40 f9	ldr	x1, [x1, #0x90] ; literal pool symbol address: __ZTISt13runtime_error
+100000c04:	22 00 00 90	adrp	x2, 4 ; 0x100004000
+100000c08:	42 18 40 f9	ldr	x2, [x2, #0x30] ; literal pool symbol address: __ZNSt13runtime_errorD1Ev
+100000c0c:	e0 03 13 aa	mov	x0, x19
+100000c10:	87 02 00 94	bl	0x10000162c ; symbol stub for: ___cxa_throw
+100000c14:	f4 03 00 aa	mov	x20, x0
+100000c18:	e0 03 13 aa	mov	x0, x19
+100000c1c:	81 02 00 94	bl	0x100001620 ; symbol stub for: ___cxa_free_exception
+100000c20:	e0 03 14 aa	mov	x0, x20
+100000c24:	49 02 00 94	bl	0x100001548 ; symbol stub for: __Unwind_Resume
+100000c28:	3f 04 00 71	cmp	w1, #0x1
+100000c2c:	e1 00 00 54	b.ne	0x100000c48
+100000c30:	76 02 00 94	bl	0x100001608 ; symbol stub for: ___cxa_begin_catch
+100000c34:	78 02 00 94	bl	0x100001614 ; symbol stub for: ___cxa_end_catch
+100000c38:	fd 7b 42 a9	ldp	x29, x30, [sp, #0x20]
+100000c3c:	f4 4f 41 a9	ldp	x20, x19, [sp, #0x10]
+100000c40:	ff c3 00 91	add	sp, sp, #0x30
+100000c44:	c0 03 5f d6	ret
+100000c48:	40 02 00 94	bl	0x100001548 ; symbol stub for: __Unwind_Resume
+__Z7rejectsISt13runtime_errorZ4mainE3$_2EvT0_:
+100000c4c:	ff c3 00 d1	sub	sp, sp, #0x30
+100000c50:	f4 4f 01 a9	stp	x20, x19, [sp, #0x10]
+100000c54:	fd 7b 02 a9	stp	x29, x30, [sp, #0x20]
+100000c58:	fd 83 00 91	add	x29, sp, #0x20
+100000c5c:	e8 03 00 91	mov	x8, sp
+100000c60:	d3 01 00 94	bl	__Z12throwing_apiv
+100000c64:	f3 07 40 f9	ldr	x19, [sp, #0x8]
+100000c68:	73 01 00 b4	cbz	x19, 0x100000c94
+100000c6c:	68 22 00 91	add	x8, x19, #0x8
+100000c70:	09 00 80 92	mov	x9, #-0x1
+100000c74:		.long	0xf8e90108
+100000c78:	e8 00 00 b5	cbnz	x8, 0x100000c94
+100000c7c:	68 02 40 f9	ldr	x8, [x19]
+100000c80:	08 09 40 f9	ldr	x8, [x8, #0x10]
+100000c84:	e0 03 13 aa	mov	x0, x19
+100000c88:	00 01 3f d6	blr	x8
+100000c8c:	e0 03 13 aa	mov	x0, x19
+100000c90:	43 02 00 94	bl	0x10000159c ; symbol stub for: __ZNSt3__119__shared_weak_count14__release_weakEv
+100000c94:	00 02 80 52	mov	w0, #0x10
+100000c98:	59 02 00 94	bl	0x1000015fc ; symbol stub for: ___cxa_allocate_exception
+100000c9c:	f3 03 00 aa	mov	x19, x0
+100000ca0:	01 00 00 b0	adrp	x1, 1 ; 0x100001000
+100000ca4:	21 d4 24 91	add	x1, x1, #0x935 ; literal pool for: "missing rejection"
+100000ca8:	34 02 00 94	bl	0x100001578 ; symbol stub for: __ZNSt13runtime_errorC1EPKc
+100000cac:	21 00 00 90	adrp	x1, 4 ; 0x100004000
+100000cb0:	21 48 40 f9	ldr	x1, [x1, #0x90] ; literal pool symbol address: __ZTISt13runtime_error
+100000cb4:	22 00 00 90	adrp	x2, 4 ; 0x100004000
+100000cb8:	42 18 40 f9	ldr	x2, [x2, #0x30] ; literal pool symbol address: __ZNSt13runtime_errorD1Ev
+100000cbc:	e0 03 13 aa	mov	x0, x19
+100000cc0:	5b 02 00 94	bl	0x10000162c ; symbol stub for: ___cxa_throw
+100000cc4:	f4 03 00 aa	mov	x20, x0
+100000cc8:	e0 03 13 aa	mov	x0, x19
+100000ccc:	55 02 00 94	bl	0x100001620 ; symbol stub for: ___cxa_free_exception
+100000cd0:	e0 03 14 aa	mov	x0, x20
+100000cd4:	1d 02 00 94	bl	0x100001548 ; symbol stub for: __Unwind_Resume
+100000cd8:	3f 04 00 71	cmp	w1, #0x1
+100000cdc:	e1 00 00 54	b.ne	0x100000cf8
+100000ce0:	4a 02 00 94	bl	0x100001608 ; symbol stub for: ___cxa_begin_catch
+100000ce4:	4c 02 00 94	bl	0x100001614 ; symbol stub for: ___cxa_end_catch
+100000ce8:	fd 7b 42 a9	ldp	x29, x30, [sp, #0x20]
+100000cec:	f4 4f 41 a9	ldp	x20, x19, [sp, #0x10]
+100000cf0:	ff c3 00 91	add	sp, sp, #0x30
+100000cf4:	c0 03 5f d6	ret
+100000cf8:	14 02 00 94	bl	0x100001548 ; symbol stub for: __Unwind_Resume
+__Z7rejectsISt16invalid_argumentZ4mainE3$_3EvT0_:
+100000cfc:	ff c3 00 d1	sub	sp, sp, #0x30
+100000d00:	f4 4f 01 a9	stp	x20, x19, [sp, #0x10]
+100000d04:	fd 7b 02 a9	stp	x29, x30, [sp, #0x20]
+100000d08:	fd 83 00 91	add	x29, sp, #0x20
+100000d0c:	e8 03 00 91	mov	x8, sp
+100000d10:	a7 01 00 94	bl	__Z12throwing_apiv
+100000d14:	f3 07 40 f9	ldr	x19, [sp, #0x8]
+100000d18:	73 01 00 b4	cbz	x19, 0x100000d44
+100000d1c:	68 22 00 91	add	x8, x19, #0x8
+100000d20:	09 00 80 92	mov	x9, #-0x1
+100000d24:		.long	0xf8e90108
+100000d28:	e8 00 00 b5	cbnz	x8, 0x100000d44
+100000d2c:	68 02 40 f9	ldr	x8, [x19]
+100000d30:	08 09 40 f9	ldr	x8, [x8, #0x10]
+100000d34:	e0 03 13 aa	mov	x0, x19
+100000d38:	00 01 3f d6	blr	x8
+100000d3c:	e0 03 13 aa	mov	x0, x19
+100000d40:	17 02 00 94	bl	0x10000159c ; symbol stub for: __ZNSt3__119__shared_weak_count14__release_weakEv
+100000d44:	00 02 80 52	mov	w0, #0x10
+100000d48:	2d 02 00 94	bl	0x1000015fc ; symbol stub for: ___cxa_allocate_exception
+100000d4c:	f3 03 00 aa	mov	x19, x0
+100000d50:	01 00 00 b0	adrp	x1, 1 ; 0x100001000
+100000d54:	21 d4 24 91	add	x1, x1, #0x935 ; literal pool for: "missing rejection"
+100000d58:	08 02 00 94	bl	0x100001578 ; symbol stub for: __ZNSt13runtime_errorC1EPKc
+100000d5c:	21 00 00 90	adrp	x1, 4 ; 0x100004000
+100000d60:	21 48 40 f9	ldr	x1, [x1, #0x90] ; literal pool symbol address: __ZTISt13runtime_error
+100000d64:	22 00 00 90	adrp	x2, 4 ; 0x100004000
+100000d68:	42 18 40 f9	ldr	x2, [x2, #0x30] ; literal pool symbol address: __ZNSt13runtime_errorD1Ev
+100000d6c:	e0 03 13 aa	mov	x0, x19
+100000d70:	2f 02 00 94	bl	0x10000162c ; symbol stub for: ___cxa_throw
+100000d74:	f4 03 00 aa	mov	x20, x0
+100000d78:	e0 03 13 aa	mov	x0, x19
+100000d7c:	29 02 00 94	bl	0x100001620 ; symbol stub for: ___cxa_free_exception
+100000d80:	e0 03 14 aa	mov	x0, x20
+100000d84:	f1 01 00 94	bl	0x100001548 ; symbol stub for: __Unwind_Resume
+100000d88:	3f 04 00 71	cmp	w1, #0x1
+100000d8c:	e1 00 00 54	b.ne	0x100000da8
+100000d90:	1e 02 00 94	bl	0x100001608 ; symbol stub for: ___cxa_begin_catch
+100000d94:	20 02 00 94	bl	0x100001614 ; symbol stub for: ___cxa_end_catch
+100000d98:	fd 7b 42 a9	ldp	x29, x30, [sp, #0x20]
+100000d9c:	f4 4f 41 a9	ldp	x20, x19, [sp, #0x10]
+100000da0:	ff c3 00 91	add	sp, sp, #0x30
+100000da4:	c0 03 5f d6	ret
+100000da8:	e8 01 00 94	bl	0x100001548 ; symbol stub for: __Unwind_Resume
+__ZNSt3__1neB8ne190102IcNS_11char_traitsIcEENS_9allocatorIcEEEEbRKNS_12basic_stringIT_T0_T1_EEPKS6_:
+100000dac:	f4 4f be a9	stp	x20, x19, [sp, #-0x20]!
+100000db0:	fd 7b 01 a9	stp	x29, x30, [sp, #0x10]
+100000db4:	fd 43 00 91	add	x29, sp, #0x10
+100000db8:	f3 03 01 aa	mov	x19, x1
+100000dbc:	f4 03 00 aa	mov	x20, x0
+100000dc0:	e0 03 01 aa	mov	x0, x1
+100000dc4:	26 02 00 94	bl	0x10000165c ; symbol stub for: _strlen
+100000dc8:	e2 03 00 aa	mov	x2, x0
+100000dcc:	88 5e 80 39	ldrsb	x8, [x20, #0x17]
+100000dd0:	88 00 f8 b7	tbnz	x8, #0x3f, 0x100000de0
+100000dd4:	5f 00 08 eb	cmp	x2, x8
+100000dd8:	00 01 00 54	b.eq	0x100000df8
+100000ddc:	0f 00 00 14	b	0x100000e18
+100000de0:	88 06 40 f9	ldr	x8, [x20, #0x8]
+100000de4:	5f 00 08 eb	cmp	x2, x8
+100000de8:	81 01 00 54	b.ne	0x100000e18
+100000dec:	5f 04 00 b1	cmn	x2, #0x1
+100000df0:	c0 01 00 54	b.eq	0x100000e28
+100000df4:	94 02 40 f9	ldr	x20, [x20]
+100000df8:	e0 03 14 aa	mov	x0, x20
+100000dfc:	e1 03 13 aa	mov	x1, x19
+100000e00:	0e 02 00 94	bl	0x100001638 ; symbol stub for: _memcmp
+100000e04:	1f 00 00 71	cmp	w0, #0x0
+100000e08:	e0 07 9f 1a	cset	w0, ne
+100000e0c:	fd 7b 41 a9	ldp	x29, x30, [sp, #0x10]
+100000e10:	f4 4f c2 a8	ldp	x20, x19, [sp], #0x20
+100000e14:	c0 03 5f d6	ret
+100000e18:	20 00 80 52	mov	w0, #0x1
+100000e1c:	fd 7b 41 a9	ldp	x29, x30, [sp, #0x10]
+100000e20:	f4 4f c2 a8	ldp	x20, x19, [sp], #0x20
+100000e24:	c0 03 5f d6	ret
+100000e28:	e0 03 14 aa	mov	x0, x20
+100000e2c:	3e 01 00 94	bl	__ZNKSt3__112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE20__throw_out_of_rangeB8ne190102Ev
+100000e30:	20 00 20 d4	brk	#0x1
+100000e34:	56 ff ff 97	bl	___clang_call_terminate
+__ZNSt3__112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEC1B8ne190102ILi0EEEPKc:
+100000e38:	f8 5f bc a9	stp	x24, x23, [sp, #-0x40]!
+100000e3c:	f6 57 01 a9	stp	x22, x21, [sp, #0x10]
+100000e40:	f4 4f 02 a9	stp	x20, x19, [sp, #0x20]
+100000e44:	fd 7b 03 a9	stp	x29, x30, [sp, #0x30]
+100000e48:	fd c3 00 91	add	x29, sp, #0x30
+100000e4c:	f5 03 01 aa	mov	x21, x1
+100000e50:	f3 03 00 aa	mov	x19, x0
+100000e54:	e0 03 01 aa	mov	x0, x1
+100000e58:	01 02 00 94	bl	0x10000165c ; symbol stub for: _strlen
+100000e5c:	e8 ef 7d b2	mov	x8, #0x7ffffffffffffff8
+100000e60:	1f 00 08 eb	cmp	x0, x8
+100000e64:	a2 03 00 54	b.hs	0x100000ed8
+100000e68:	f4 03 00 aa	mov	x20, x0
+100000e6c:	1f 5c 00 f1	cmp	x0, #0x17
+100000e70:	a2 00 00 54	b.hs	0x100000e84
+100000e74:	74 5e 00 39	strb	w20, [x19, #0x17]
+100000e78:	f6 03 13 aa	mov	x22, x19
+100000e7c:	94 01 00 b5	cbnz	x20, 0x100000eac
+100000e80:	0f 00 00 14	b	0x100000ebc
+100000e84:	88 0a 40 b2	orr	x8, x20, #0x7
+100000e88:	1f 5d 00 f1	cmp	x8, #0x17
+100000e8c:	29 03 80 52	mov	w9, #0x19
+100000e90:	37 05 88 9a	csinc	x23, x9, x8, eq
+100000e94:	e0 03 17 aa	mov	x0, x23
+100000e98:	d6 01 00 94	bl	0x1000015f0 ; symbol stub for: __Znwm
+100000e9c:	f6 03 00 aa	mov	x22, x0
+100000ea0:	e8 02 41 b2	orr	x8, x23, #0x8000000000000000
+100000ea4:	74 a2 00 a9	stp	x20, x8, [x19, #0x8]
+100000ea8:	60 02 00 f9	str	x0, [x19]
+100000eac:	e0 03 16 aa	mov	x0, x22
+100000eb0:	e1 03 15 aa	mov	x1, x21
+100000eb4:	e2 03 14 aa	mov	x2, x20
+100000eb8:	e3 01 00 94	bl	0x100001644 ; symbol stub for: _memmove
+100000ebc:	df 6a 34 38	strb	wzr, [x22, x20]
+100000ec0:	e0 03 13 aa	mov	x0, x19
+100000ec4:	fd 7b 43 a9	ldp	x29, x30, [sp, #0x30]
+100000ec8:	f4 4f 42 a9	ldp	x20, x19, [sp, #0x20]
+100000ecc:	f6 57 41 a9	ldp	x22, x21, [sp, #0x10]
+100000ed0:	f8 5f c4 a8	ldp	x24, x23, [sp], #0x40
+100000ed4:	c0 03 5f d6	ret
+100000ed8:	e0 03 13 aa	mov	x0, x19
+100000edc:	f0 00 00 94	bl	__ZNKSt3__112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE20__throw_length_errorB8ne190102Ev
+__Z7rejectsISt16invalid_argumentZ4mainE3$_4EvT0_:
+100000ee0:	ff c3 00 d1	sub	sp, sp, #0x30
+100000ee4:	f4 4f 01 a9	stp	x20, x19, [sp, #0x10]
+100000ee8:	fd 7b 02 a9	stp	x29, x30, [sp, #0x20]
+100000eec:	fd 83 00 91	add	x29, sp, #0x20
+100000ef0:	e8 03 00 91	mov	x8, sp
+100000ef4:	2e 01 00 94	bl	__Z12throwing_apiv
+100000ef8:	f3 07 40 f9	ldr	x19, [sp, #0x8]
+100000efc:	73 01 00 b4	cbz	x19, 0x100000f28
+100000f00:	68 22 00 91	add	x8, x19, #0x8
+100000f04:	09 00 80 92	mov	x9, #-0x1
+100000f08:		.long	0xf8e90108
+100000f0c:	e8 00 00 b5	cbnz	x8, 0x100000f28
+100000f10:	68 02 40 f9	ldr	x8, [x19]
+100000f14:	08 09 40 f9	ldr	x8, [x8, #0x10]
+100000f18:	e0 03 13 aa	mov	x0, x19
+100000f1c:	00 01 3f d6	blr	x8
+100000f20:	e0 03 13 aa	mov	x0, x19
+100000f24:	9e 01 00 94	bl	0x10000159c ; symbol stub for: __ZNSt3__119__shared_weak_count14__release_weakEv
+100000f28:	00 02 80 52	mov	w0, #0x10
+100000f2c:	b4 01 00 94	bl	0x1000015fc ; symbol stub for: ___cxa_allocate_exception
+100000f30:	f3 03 00 aa	mov	x19, x0
+100000f34:	01 00 00 b0	adrp	x1, 1 ; 0x100001000
+100000f38:	21 d4 24 91	add	x1, x1, #0x935 ; literal pool for: "missing rejection"
+100000f3c:	8f 01 00 94	bl	0x100001578 ; symbol stub for: __ZNSt13runtime_errorC1EPKc
+100000f40:	21 00 00 90	adrp	x1, 4 ; 0x100004000
+100000f44:	21 48 40 f9	ldr	x1, [x1, #0x90] ; literal pool symbol address: __ZTISt13runtime_error
+100000f48:	22 00 00 90	adrp	x2, 4 ; 0x100004000
+100000f4c:	42 18 40 f9	ldr	x2, [x2, #0x30] ; literal pool symbol address: __ZNSt13runtime_errorD1Ev
+100000f50:	e0 03 13 aa	mov	x0, x19
+100000f54:	b6 01 00 94	bl	0x10000162c ; symbol stub for: ___cxa_throw
+100000f58:	f4 03 00 aa	mov	x20, x0
+100000f5c:	e0 03 13 aa	mov	x0, x19
+100000f60:	b0 01 00 94	bl	0x100001620 ; symbol stub for: ___cxa_free_exception
+100000f64:	e0 03 14 aa	mov	x0, x20
+100000f68:	78 01 00 94	bl	0x100001548 ; symbol stub for: __Unwind_Resume
+100000f6c:	3f 04 00 71	cmp	w1, #0x1
+100000f70:	e1 00 00 54	b.ne	0x100000f8c
+100000f74:	a5 01 00 94	bl	0x100001608 ; symbol stub for: ___cxa_begin_catch
+100000f78:	a7 01 00 94	bl	0x100001614 ; symbol stub for: ___cxa_end_catch
+100000f7c:	fd 7b 42 a9	ldp	x29, x30, [sp, #0x20]
+100000f80:	f4 4f 41 a9	ldp	x20, x19, [sp, #0x10]
+100000f84:	ff c3 00 91	add	sp, sp, #0x30
+100000f88:	c0 03 5f d6	ret
+100000f8c:	6f 01 00 94	bl	0x100001548 ; symbol stub for: __Unwind_Resume
+__ZNSt3__124__put_character_sequenceB8ne190102IcNS_11char_traitsIcEEEERNS_13basic_ostreamIT_T0_EES7_PKS4_m:
+100000f90:	ff c3 01 d1	sub	sp, sp, #0x70
+100000f94:	fa 67 02 a9	stp	x26, x25, [sp, #0x20]
+100000f98:	f8 5f 03 a9	stp	x24, x23, [sp, #0x30]
+100000f9c:	f6 57 04 a9	stp	x22, x21, [sp, #0x40]
+100000fa0:	f4 4f 05 a9	stp	x20, x19, [sp, #0x50]
+100000fa4:	fd 7b 06 a9	stp	x29, x30, [sp, #0x60]
+100000fa8:	fd 83 01 91	add	x29, sp, #0x60
+100000fac:	f5 03 02 aa	mov	x21, x2
+100000fb0:	f4 03 01 aa	mov	x20, x1
+100000fb4:	f3 03 00 aa	mov	x19, x0
+100000fb8:	e0 23 00 91	add	x0, sp, #0x8
+100000fbc:	e1 03 13 aa	mov	x1, x19
+100000fc0:	71 01 00 94	bl	0x100001584 ; symbol stub for: __ZNSt3__113basic_ostreamIcNS_11char_traitsIcEEE6sentryC1ERS3_
+100000fc4:	e8 23 40 39	ldrb	w8, [sp, #0x8]
+100000fc8:	1f 05 00 71	cmp	w8, #0x1
+100000fcc:	61 05 00 54	b.ne	0x100001078
+100000fd0:	68 02 40 f9	ldr	x8, [x19]
+100000fd4:	08 81 5e f8	ldur	x8, [x8, #-0x18]
+100000fd8:	64 02 08 8b	add	x4, x19, x8
+100000fdc:	96 14 40 f9	ldr	x22, [x4, #0x28]
+100000fe0:	98 08 40 b9	ldr	w24, [x4, #0x8]
+100000fe4:	97 90 40 b9	ldr	w23, [x4, #0x90]
+100000fe8:	ff 06 00 31	cmn	w23, #0x1
+100000fec:	41 02 00 54	b.ne	0x100001034
+100000ff0:	e8 63 00 91	add	x8, sp, #0x18
+100000ff4:	f9 03 04 aa	mov	x25, x4
+100000ff8:	e0 03 04 aa	mov	x0, x4
+100000ffc:	59 01 00 94	bl	0x100001560 ; symbol stub for: __ZNKSt3__18ios_base6getlocEv
+100001000:	01 00 00 f0	adrp	x1, 3 ; 0x100004000
+100001004:	21 34 40 f9	ldr	x1, [x1, #0x68] ; literal pool symbol address: __ZNSt3__15ctypeIcE2idE
+100001008:	e0 63 00 91	add	x0, sp, #0x18
+10000100c:	52 01 00 94	bl	0x100001554 ; symbol stub for: __ZNKSt3__16locale9use_facetERNS0_2idE
+100001010:	08 00 40 f9	ldr	x8, [x0]
+100001014:	08 1d 40 f9	ldr	x8, [x8, #0x38]
+100001018:	01 04 80 52	mov	w1, #0x20
+10000101c:	00 01 3f d6	blr	x8
+100001020:	f7 03 00 aa	mov	x23, x0
+100001024:	e0 63 00 91	add	x0, sp, #0x18
+100001028:	63 01 00 94	bl	0x1000015b4 ; symbol stub for: __ZNSt3__16localeD1Ev
+10000102c:	e4 03 19 aa	mov	x4, x25
+100001030:	37 93 00 b9	str	w23, [x25, #0x90]
+100001034:	08 16 80 52	mov	w8, #0xb0
+100001038:	08 03 08 0a	and	w8, w24, w8
+10000103c:	83 02 15 8b	add	x3, x20, x21
+100001040:	1f 81 00 71	cmp	w8, #0x20
+100001044:	62 00 94 9a	csel	x2, x3, x20, eq
+100001048:	e5 1e 00 13	sxtb	w5, w23
+10000104c:	e0 03 16 aa	mov	x0, x22
+100001050:	e1 03 14 aa	mov	x1, x20
+100001054:	2a 00 00 94	bl	__ZNSt3__116__pad_and_outputB8ne190102IcNS_11char_traitsIcEEEENS_19ostreambuf_iteratorIT_T0_EES6_PKS4_S8_S8_RNS_8ios_baseES4_
+100001058:	00 01 00 b5	cbnz	x0, 0x100001078
+10000105c:	68 02 40 f9	ldr	x8, [x19]
+100001060:	08 81 5e f8	ldur	x8, [x8, #-0x18]
+100001064:	60 02 08 8b	add	x0, x19, x8
+100001068:	08 20 40 b9	ldr	w8, [x0, #0x20]
+10000106c:	a9 00 80 52	mov	w9, #0x5
+100001070:	01 01 09 2a	orr	w1, w8, w9
+100001074:	56 01 00 94	bl	0x1000015cc ; symbol stub for: __ZNSt3__18ios_base5clearEj
+100001078:	e0 23 00 91	add	x0, sp, #0x8
+10000107c:	45 01 00 94	bl	0x100001590 ; symbol stub for: __ZNSt3__113basic_ostreamIcNS_11char_traitsIcEEE6sentryD1Ev
+100001080:	e0 03 13 aa	mov	x0, x19
+100001084:	fd 7b 46 a9	ldp	x29, x30, [sp, #0x60]
+100001088:	f4 4f 45 a9	ldp	x20, x19, [sp, #0x50]
+10000108c:	f6 57 44 a9	ldp	x22, x21, [sp, #0x40]
+100001090:	f8 5f 43 a9	ldp	x24, x23, [sp, #0x30]
+100001094:	fa 67 42 a9	ldp	x26, x25, [sp, #0x20]
+100001098:	ff c3 01 91	add	sp, sp, #0x70
+10000109c:	c0 03 5f d6	ret
+1000010a0:	05 00 00 14	b	0x1000010b4
+1000010a4:	f4 03 00 aa	mov	x20, x0
+1000010a8:	e0 63 00 91	add	x0, sp, #0x18
+1000010ac:	42 01 00 94	bl	0x1000015b4 ; symbol stub for: __ZNSt3__16localeD1Ev
+1000010b0:	02 00 00 14	b	0x1000010b8
+1000010b4:	f4 03 00 aa	mov	x20, x0
+1000010b8:	e0 23 00 91	add	x0, sp, #0x8
+1000010bc:	35 01 00 94	bl	0x100001590 ; symbol stub for: __ZNSt3__113basic_ostreamIcNS_11char_traitsIcEEE6sentryD1Ev
+1000010c0:	02 00 00 14	b	0x1000010c8
+1000010c4:	f4 03 00 aa	mov	x20, x0
+1000010c8:	e0 03 14 aa	mov	x0, x20
+1000010cc:	4f 01 00 94	bl	0x100001608 ; symbol stub for: ___cxa_begin_catch
+1000010d0:	68 02 40 f9	ldr	x8, [x19]
+1000010d4:	08 81 5e f8	ldur	x8, [x8, #-0x18]
+1000010d8:	60 02 08 8b	add	x0, x19, x8
+1000010dc:	39 01 00 94	bl	0x1000015c0 ; symbol stub for: __ZNSt3__18ios_base33__set_badbit_and_consider_rethrowEv
+1000010e0:	4d 01 00 94	bl	0x100001614 ; symbol stub for: ___cxa_end_catch
+1000010e4:	e7 ff ff 17	b	0x100001080
+1000010e8:	f3 03 00 aa	mov	x19, x0
+1000010ec:	4a 01 00 94	bl	0x100001614 ; symbol stub for: ___cxa_end_catch
+1000010f0:	e0 03 13 aa	mov	x0, x19
+1000010f4:	15 01 00 94	bl	0x100001548 ; symbol stub for: __Unwind_Resume
+1000010f8:	a5 fe ff 97	bl	___clang_call_terminate
+__ZNSt3__116__pad_and_outputB8ne190102IcNS_11char_traitsIcEEEENS_19ostreambuf_iteratorIT_T0_EES6_PKS4_S8_S8_RNS_8ios_baseES4_:
+1000010fc:	ff c3 01 d1	sub	sp, sp, #0x70
+100001100:	fa 67 02 a9	stp	x26, x25, [sp, #0x20]
+100001104:	f8 5f 03 a9	stp	x24, x23, [sp, #0x30]
+100001108:	f6 57 04 a9	stp	x22, x21, [sp, #0x40]
+10000110c:	f4 4f 05 a9	stp	x20, x19, [sp, #0x50]
+100001110:	fd 7b 06 a9	stp	x29, x30, [sp, #0x60]
+100001114:	fd 83 01 91	add	x29, sp, #0x60
+100001118:	f3 03 00 aa	mov	x19, x0
+10000111c:	e0 09 00 b4	cbz	x0, 0x100001258
+100001120:	f8 03 05 aa	mov	x24, x5
+100001124:	f4 03 04 aa	mov	x20, x4
+100001128:	f6 03 03 aa	mov	x22, x3
+10000112c:	f5 03 02 aa	mov	x21, x2
+100001130:	88 0c 40 f9	ldr	x8, [x4, #0x18]
+100001134:	69 00 01 cb	sub	x9, x3, x1
+100001138:	08 01 09 eb	subs	x8, x8, x9
+10000113c:	17 c1 9f 9a	csel	x23, x8, xzr, gt
+100001140:	59 00 01 cb	sub	x25, x2, x1
+100001144:	3f 07 00 f1	cmp	x25, #0x1
+100001148:	0b 01 00 54	b.lt	0x100001168
+10000114c:	68 02 40 f9	ldr	x8, [x19]
+100001150:	08 31 40 f9	ldr	x8, [x8, #0x60]
+100001154:	e0 03 13 aa	mov	x0, x19
+100001158:	e2 03 19 aa	mov	x2, x25
+10000115c:	00 01 3f d6	blr	x8
+100001160:	1f 00 19 eb	cmp	x0, x25
+100001164:	81 07 00 54	b.ne	0x100001254
+100001168:	ff 06 00 f1	cmp	x23, #0x1
+10000116c:	ab 05 00 54	b.lt	0x100001220
+100001170:	e8 ef 7d b2	mov	x8, #0x7ffffffffffffff8
+100001174:	ff 02 08 eb	cmp	x23, x8
+100001178:	02 08 00 54	b.hs	0x100001278
+10000117c:	ff 5e 00 f1	cmp	x23, #0x17
+100001180:	82 00 00 54	b.hs	0x100001190
+100001184:	f7 7f 00 39	strb	w23, [sp, #0x1f]
+100001188:	f9 23 00 91	add	x25, sp, #0x8
+10000118c:	0b 00 00 14	b	0x1000011b8
+100001190:	e8 0a 40 b2	orr	x8, x23, #0x7
+100001194:	1f 5d 00 f1	cmp	x8, #0x17
+100001198:	29 03 80 52	mov	w9, #0x19
+10000119c:	3a 05 88 9a	csinc	x26, x9, x8, eq
+1000011a0:	e0 03 1a aa	mov	x0, x26
+1000011a4:	13 01 00 94	bl	0x1000015f0 ; symbol stub for: __Znwm
+1000011a8:	f9 03 00 aa	mov	x25, x0
+1000011ac:	48 03 41 b2	orr	x8, x26, #0x8000000000000000
+1000011b0:	f7 23 01 a9	stp	x23, x8, [sp, #0x10]
+1000011b4:	e0 07 00 f9	str	x0, [sp, #0x8]
+1000011b8:	e0 03 19 aa	mov	x0, x25
+1000011bc:	e1 03 18 aa	mov	x1, x24
+1000011c0:	e2 03 17 aa	mov	x2, x23
+1000011c4:	23 01 00 94	bl	0x100001650 ; symbol stub for: _memset
+1000011c8:	3f 6b 37 38	strb	wzr, [x25, x23]
+1000011cc:	e8 7f c0 39	ldrsb	w8, [sp, #0x1f]
+1000011d0:	e9 07 40 f9	ldr	x9, [sp, #0x8]
+1000011d4:	1f 01 00 71	cmp	w8, #0x0
+1000011d8:	e8 23 00 91	add	x8, sp, #0x8
+1000011dc:	21 b1 88 9a	csel	x1, x9, x8, lt
+1000011e0:	68 02 40 f9	ldr	x8, [x19]
+1000011e4:	08 31 40 f9	ldr	x8, [x8, #0x60]
+1000011e8:	e0 03 13 aa	mov	x0, x19
+1000011ec:	e2 03 17 aa	mov	x2, x23
+1000011f0:	00 01 3f d6	blr	x8
+1000011f4:	e8 7f c0 39	ldrsb	w8, [sp, #0x1f]
+1000011f8:	88 00 f8 37	tbnz	w8, #0x1f, 0x100001208
+1000011fc:	1f 00 17 eb	cmp	x0, x23
+100001200:	a1 02 00 54	b.ne	0x100001254
+100001204:	07 00 00 14	b	0x100001220
+100001208:	e8 07 40 f9	ldr	x8, [sp, #0x8]
+10000120c:	f8 03 00 aa	mov	x24, x0
+100001210:	e0 03 08 aa	mov	x0, x8
+100001214:	f4 00 00 94	bl	0x1000015e4 ; symbol stub for: __ZdlPv
+100001218:	1f 03 17 eb	cmp	x24, x23
+10000121c:	c1 01 00 54	b.ne	0x100001254
+100001220:	d6 02 15 cb	sub	x22, x22, x21
+100001224:	df 06 00 f1	cmp	x22, #0x1
+100001228:	2b 01 00 54	b.lt	0x10000124c
+10000122c:	68 02 40 f9	ldr	x8, [x19]
+100001230:	08 31 40 f9	ldr	x8, [x8, #0x60]
+100001234:	e0 03 13 aa	mov	x0, x19
+100001238:	e1 03 15 aa	mov	x1, x21
+10000123c:	e2 03 16 aa	mov	x2, x22
+100001240:	00 01 3f d6	blr	x8
+100001244:	1f 00 16 eb	cmp	x0, x22
+100001248:	61 00 00 54	b.ne	0x100001254
+10000124c:	9f 0e 00 f9	str	xzr, [x20, #0x18]
+100001250:	02 00 00 14	b	0x100001258
+100001254:	13 00 80 d2	mov	x19, #0x0
+100001258:	e0 03 13 aa	mov	x0, x19
+10000125c:	fd 7b 46 a9	ldp	x29, x30, [sp, #0x60]
+100001260:	f4 4f 45 a9	ldp	x20, x19, [sp, #0x50]
+100001264:	f6 57 44 a9	ldp	x22, x21, [sp, #0x40]
+100001268:	f8 5f 43 a9	ldp	x24, x23, [sp, #0x30]
+10000126c:	fa 67 42 a9	ldp	x26, x25, [sp, #0x20]
+100001270:	ff c3 01 91	add	sp, sp, #0x70
+100001274:	c0 03 5f d6	ret
+100001278:	e0 23 00 91	add	x0, sp, #0x8
+10000127c:	08 00 00 94	bl	__ZNKSt3__112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE20__throw_length_errorB8ne190102Ev
+100001280:	f3 03 00 aa	mov	x19, x0
+100001284:	e8 7f c0 39	ldrsb	w8, [sp, #0x1f]
+100001288:	68 00 f8 36	tbz	w8, #0x1f, 0x100001294
+10000128c:	e0 07 40 f9	ldr	x0, [sp, #0x8]
+100001290:	d5 00 00 94	bl	0x1000015e4 ; symbol stub for: __ZdlPv
+100001294:	e0 03 13 aa	mov	x0, x19
+100001298:	ac 00 00 94	bl	0x100001548 ; symbol stub for: __Unwind_Resume
+__ZNKSt3__112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE20__throw_length_errorB8ne190102Ev:
+10000129c:	fd 7b bf a9	stp	x29, x30, [sp, #-0x10]!
+1000012a0:	fd 03 00 91	mov	x29, sp
+1000012a4:	00 00 00 90	adrp	x0, 0 ; 0x100001000
+1000012a8:	00 60 25 91	add	x0, x0, #0x958 ; literal pool for: "basic_string"
+1000012ac:	01 00 00 94	bl	__ZNSt3__120__throw_length_errorB8ne190102EPKc
+__ZNSt3__120__throw_length_errorB8ne190102EPKc:
+1000012b0:	f4 4f be a9	stp	x20, x19, [sp, #-0x20]!
+1000012b4:	fd 7b 01 a9	stp	x29, x30, [sp, #0x10]
+1000012b8:	fd 43 00 91	add	x29, sp, #0x10
+1000012bc:	f4 03 00 aa	mov	x20, x0
+1000012c0:	00 02 80 52	mov	w0, #0x10
+1000012c4:	ce 00 00 94	bl	0x1000015fc ; symbol stub for: ___cxa_allocate_exception
+1000012c8:	f3 03 00 aa	mov	x19, x0
+1000012cc:	e1 03 14 aa	mov	x1, x20
+1000012d0:	0c 00 00 94	bl	__ZNSt12length_errorC1B8ne190102EPKc
+1000012d4:	01 00 00 f0	adrp	x1, 3 ; 0x100004000
+1000012d8:	21 88 40 f9	ldr	x1, [x1, #0x110] ; literal pool symbol address: __ZTISt12length_error
+1000012dc:	02 00 00 f0	adrp	x2, 3 ; 0x100004000
+1000012e0:	42 0c 40 f9	ldr	x2, [x2, #0x18] ; literal pool symbol address: __ZNSt12length_errorD1Ev
+1000012e4:	e0 03 13 aa	mov	x0, x19
+1000012e8:	d1 00 00 94	bl	0x10000162c ; symbol stub for: ___cxa_throw
+1000012ec:	f4 03 00 aa	mov	x20, x0
+1000012f0:	e0 03 13 aa	mov	x0, x19
+1000012f4:	cb 00 00 94	bl	0x100001620 ; symbol stub for: ___cxa_free_exception
+1000012f8:	e0 03 14 aa	mov	x0, x20
+1000012fc:	93 00 00 94	bl	0x100001548 ; symbol stub for: __Unwind_Resume
+__ZNSt12length_errorC1B8ne190102EPKc:
+100001300:	fd 7b bf a9	stp	x29, x30, [sp, #-0x10]!
+100001304:	fd 03 00 91	mov	x29, sp
+100001308:	99 00 00 94	bl	0x10000156c ; symbol stub for: __ZNSt11logic_errorC2EPKc
+10000130c:	08 00 00 f0	adrp	x8, 3 ; 0x100004000
+100001310:	08 51 40 f9	ldr	x8, [x8, #0xa0] ; literal pool symbol address: __ZTVSt12length_error
+100001314:	08 41 00 91	add	x8, x8, #0x10
+100001318:	08 00 00 f9	str	x8, [x0]
+10000131c:	fd 7b c1 a8	ldp	x29, x30, [sp], #0x10
+100001320:	c0 03 5f d6	ret
+__ZNKSt3__112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE20__throw_out_of_rangeB8ne190102Ev:
+100001324:	fd 7b bf a9	stp	x29, x30, [sp, #-0x10]!
+100001328:	fd 03 00 91	mov	x29, sp
+10000132c:	00 00 00 90	adrp	x0, 0 ; 0x100001000
+100001330:	00 60 25 91	add	x0, x0, #0x958 ; literal pool for: "basic_string"
+100001334:	01 00 00 94	bl	__ZNSt3__120__throw_out_of_rangeB8ne190102EPKc
+__ZNSt3__120__throw_out_of_rangeB8ne190102EPKc:
+100001338:	f4 4f be a9	stp	x20, x19, [sp, #-0x20]!
+10000133c:	fd 7b 01 a9	stp	x29, x30, [sp, #0x10]
+100001340:	fd 43 00 91	add	x29, sp, #0x10
+100001344:	f4 03 00 aa	mov	x20, x0
+100001348:	00 02 80 52	mov	w0, #0x10
+10000134c:	ac 00 00 94	bl	0x1000015fc ; symbol stub for: ___cxa_allocate_exception
+100001350:	f3 03 00 aa	mov	x19, x0
+100001354:	e1 03 14 aa	mov	x1, x20
+100001358:	0c 00 00 94	bl	__ZNSt12out_of_rangeC1B8ne190102EPKc
+10000135c:	01 00 00 f0	adrp	x1, 3 ; 0x100004000
+100001360:	21 8c 40 f9	ldr	x1, [x1, #0x118] ; literal pool symbol address: __ZTISt12out_of_range
+100001364:	02 00 00 f0	adrp	x2, 3 ; 0x100004000
+100001368:	42 10 40 f9	ldr	x2, [x2, #0x20] ; literal pool symbol address: __ZNSt12out_of_rangeD1Ev
+10000136c:	e0 03 13 aa	mov	x0, x19
+100001370:	af 00 00 94	bl	0x10000162c ; symbol stub for: ___cxa_throw
+100001374:	f4 03 00 aa	mov	x20, x0
+100001378:	e0 03 13 aa	mov	x0, x19
+10000137c:	a9 00 00 94	bl	0x100001620 ; symbol stub for: ___cxa_free_exception
+100001380:	e0 03 14 aa	mov	x0, x20
+100001384:	71 00 00 94	bl	0x100001548 ; symbol stub for: __Unwind_Resume
+__ZNSt12out_of_rangeC1B8ne190102EPKc:
+100001388:	fd 7b bf a9	stp	x29, x30, [sp, #-0x10]!
+10000138c:	fd 03 00 91	mov	x29, sp
+100001390:	77 00 00 94	bl	0x10000156c ; symbol stub for: __ZNSt11logic_errorC2EPKc
+100001394:	08 00 00 f0	adrp	x8, 3 ; 0x100004000
+100001398:	08 55 40 f9	ldr	x8, [x8, #0xa8] ; literal pool symbol address: __ZTVSt12out_of_range
+10000139c:	08 41 00 91	add	x8, x8, #0x10
+1000013a0:	08 00 00 f9	str	x8, [x0]
+1000013a4:	fd 7b c1 a8	ldp	x29, x30, [sp], #0x10
+1000013a8:	c0 03 5f d6	ret
+__Z12throwing_apiv:
+1000013ac:	f4 4f be a9	stp	x20, x19, [sp, #-0x20]!
+1000013b0:	fd 7b 01 a9	stp	x29, x30, [sp, #0x10]
+1000013b4:	fd 43 00 91	add	x29, sp, #0x10
+1000013b8:	f3 03 08 aa	mov	x19, x8
+1000013bc:	28 00 00 f0	adrp	x8, 7 ; 0x100008000
+1000013c0:	09 01 40 b9	ldr	w9, [x8]
+1000013c4:	a9 02 00 34	cbz	w9, 0x100001418
+1000013c8:	09 01 40 b9	ldr	w9, [x8]
+1000013cc:	3f 05 00 71	cmp	w9, #0x1
+1000013d0:	c0 03 00 54	b.eq	0x100001448
+1000013d4:	08 01 40 b9	ldr	w8, [x8]
+1000013d8:	1f 09 00 71	cmp	w8, #0x2
+1000013dc:	e0 04 00 54	b.eq	0x100001478
+1000013e0:	00 04 80 52	mov	w0, #0x20
+1000013e4:	83 00 00 94	bl	0x1000015f0 ; symbol stub for: __Znwm
+1000013e8:	1f 08 00 f9	str	xzr, [x0, #0x10]
+1000013ec:	08 00 00 f0	adrp	x8, 3 ; 0x100004000
+1000013f0:	08 e1 04 91	add	x8, x8, #0x138
+1000013f4:	08 41 00 91	add	x8, x8, #0x10
+1000013f8:	08 7c 00 a9	stp	x8, xzr, [x0]
+1000013fc:	e8 00 80 52	mov	w8, #0x7
+100001400:	60 06 00 f9	str	x0, [x19, #0x8]
+100001404:	08 8c 01 b8	str	w8, [x0, #0x18]!
+100001408:	60 02 00 f9	str	x0, [x19]
+10000140c:	fd 7b 41 a9	ldp	x29, x30, [sp, #0x10]
+100001410:	f4 4f c2 a8	ldp	x20, x19, [sp], #0x20
+100001414:	c0 03 5f d6	ret
+100001418:	00 02 80 52	mov	w0, #0x10
+10000141c:	78 00 00 94	bl	0x1000015fc ; symbol stub for: ___cxa_allocate_exception
+100001420:	f3 03 00 aa	mov	x19, x0
+100001424:	01 00 00 90	adrp	x1, 0 ; 0x100001000
+100001428:	21 94 25 91	add	x1, x1, #0x965 ; literal pool for: "invalid marker"
+10000142c:	2e 00 00 94	bl	__ZNSt16invalid_argumentC1B8ne190102EPKc
+100001430:	01 00 00 f0	adrp	x1, 3 ; 0x100004000
+100001434:	21 90 40 f9	ldr	x1, [x1, #0x120] ; literal pool symbol address: __ZTISt16invalid_argument
+100001438:	02 00 00 f0	adrp	x2, 3 ; 0x100004000
+10000143c:	42 1c 40 f9	ldr	x2, [x2, #0x38] ; literal pool symbol address: __ZNSt16invalid_argumentD1Ev
+100001440:	e0 03 13 aa	mov	x0, x19
+100001444:	7a 00 00 94	bl	0x10000162c ; symbol stub for: ___cxa_throw
+100001448:	00 02 80 52	mov	w0, #0x10
+10000144c:	6c 00 00 94	bl	0x1000015fc ; symbol stub for: ___cxa_allocate_exception
+100001450:	f3 03 00 aa	mov	x19, x0
+100001454:	01 00 00 90	adrp	x1, 0 ; 0x100001000
+100001458:	21 d0 25 91	add	x1, x1, #0x974 ; literal pool for: "length marker"
+10000145c:	a9 ff ff 97	bl	__ZNSt12length_errorC1B8ne190102EPKc
+100001460:	01 00 00 f0	adrp	x1, 3 ; 0x100004000
+100001464:	21 88 40 f9	ldr	x1, [x1, #0x110] ; literal pool symbol address: __ZTISt12length_error
+100001468:	02 00 00 f0	adrp	x2, 3 ; 0x100004000
+10000146c:	42 0c 40 f9	ldr	x2, [x2, #0x18] ; literal pool symbol address: __ZNSt12length_errorD1Ev
+100001470:	e0 03 13 aa	mov	x0, x19
+100001474:	6e 00 00 94	bl	0x10000162c ; symbol stub for: ___cxa_throw
+100001478:	00 02 80 52	mov	w0, #0x10
+10000147c:	60 00 00 94	bl	0x1000015fc ; symbol stub for: ___cxa_allocate_exception
+100001480:	f3 03 00 aa	mov	x19, x0
+100001484:	01 00 00 90	adrp	x1, 0 ; 0x100001000
+100001488:	21 00 24 91	add	x1, x1, #0x900 ; literal pool for: "runtime marker"
+10000148c:	3b 00 00 94	bl	0x100001578 ; symbol stub for: __ZNSt13runtime_errorC1EPKc
+100001490:	01 00 00 f0	adrp	x1, 3 ; 0x100004000
+100001494:	21 48 40 f9	ldr	x1, [x1, #0x90] ; literal pool symbol address: __ZTISt13runtime_error
+100001498:	02 00 00 f0	adrp	x2, 3 ; 0x100004000
+10000149c:	42 18 40 f9	ldr	x2, [x2, #0x30] ; literal pool symbol address: __ZNSt13runtime_errorD1Ev
+1000014a0:	e0 03 13 aa	mov	x0, x19
+1000014a4:	62 00 00 94	bl	0x10000162c ; symbol stub for: ___cxa_throw
+1000014a8:	f4 03 00 aa	mov	x20, x0
+1000014ac:	e0 03 13 aa	mov	x0, x19
+1000014b0:	5c 00 00 94	bl	0x100001620 ; symbol stub for: ___cxa_free_exception
+1000014b4:	e0 03 14 aa	mov	x0, x20
+1000014b8:	24 00 00 94	bl	0x100001548 ; symbol stub for: __Unwind_Resume
+1000014bc:	f4 03 00 aa	mov	x20, x0
+1000014c0:	e0 03 13 aa	mov	x0, x19
+1000014c4:	57 00 00 94	bl	0x100001620 ; symbol stub for: ___cxa_free_exception
+1000014c8:	e0 03 14 aa	mov	x0, x20
+1000014cc:	1f 00 00 94	bl	0x100001548 ; symbol stub for: __Unwind_Resume
+1000014d0:	f4 03 00 aa	mov	x20, x0
+1000014d4:	e0 03 13 aa	mov	x0, x19
+1000014d8:	52 00 00 94	bl	0x100001620 ; symbol stub for: ___cxa_free_exception
+1000014dc:	e0 03 14 aa	mov	x0, x20
+1000014e0:	1a 00 00 94	bl	0x100001548 ; symbol stub for: __Unwind_Resume
+__ZNSt16invalid_argumentC1B8ne190102EPKc:
+1000014e4:	fd 7b bf a9	stp	x29, x30, [sp, #-0x10]!
+1000014e8:	fd 03 00 91	mov	x29, sp
+1000014ec:	20 00 00 94	bl	0x10000156c ; symbol stub for: __ZNSt11logic_errorC2EPKc
+1000014f0:	08 00 00 f0	adrp	x8, 3 ; 0x100004000
+1000014f4:	08 59 40 f9	ldr	x8, [x8, #0xb0] ; literal pool symbol address: __ZTVSt16invalid_argument
+1000014f8:	08 41 00 91	add	x8, x8, #0x10
+1000014fc:	08 00 00 f9	str	x8, [x0]
+100001500:	fd 7b c1 a8	ldp	x29, x30, [sp], #0x10
+100001504:	c0 03 5f d6	ret
+__ZNSt3__120__shared_ptr_emplaceIKiNS_9allocatorIiEEED1Ev:
+100001508:	08 00 00 f0	adrp	x8, 3 ; 0x100004000
+10000150c:	08 e1 04 91	add	x8, x8, #0x138
+100001510:	08 41 00 91	add	x8, x8, #0x10
+100001514:	08 00 00 f9	str	x8, [x0]
+100001518:	24 00 00 14	b	0x1000015a8 ; symbol stub for: __ZNSt3__119__shared_weak_countD2Ev
+__ZNSt3__120__shared_ptr_emplaceIKiNS_9allocatorIiEEED0Ev:
+10000151c:	fd 7b bf a9	stp	x29, x30, [sp, #-0x10]!
+100001520:	fd 03 00 91	mov	x29, sp
+100001524:	08 00 00 f0	adrp	x8, 3 ; 0x100004000
+100001528:	08 e1 04 91	add	x8, x8, #0x138
+10000152c:	08 41 00 91	add	x8, x8, #0x10
+100001530:	08 00 00 f9	str	x8, [x0]
+100001534:	1d 00 00 94	bl	0x1000015a8 ; symbol stub for: __ZNSt3__119__shared_weak_countD2Ev
+100001538:	fd 7b c1 a8	ldp	x29, x30, [sp], #0x10
+10000153c:	2a 00 00 14	b	0x1000015e4 ; symbol stub for: __ZdlPv
+__ZNSt3__120__shared_ptr_emplaceIKiNS_9allocatorIiEEE16__on_zero_sharedEv:
+100001540:	c0 03 5f d6	ret
+__ZNSt3__120__shared_ptr_emplaceIKiNS_9allocatorIiEEE21__on_zero_shared_weakEv:
+100001544:	28 00 00 14	b	0x1000015e4 ; symbol stub for: __ZdlPv

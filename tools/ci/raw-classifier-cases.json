@@ -1,0 +1,686 @@
+{
+  "schema": "qpx.raw-classifier-evidence/2",
+  "installed": {
+    "test_raw_pixel_python": [
+      "test_actual_model_full_tiled_window_prediction_and_bytes",
+      "test_archive_owner_replay_and_project_history",
+      "test_checkpoint_jobs_native_array_and_late_cancel_delivery",
+      "test_installed_project_to_project_example",
+      "test_job_shutdown_releases_python_owned_files_on_other_threads",
+      "test_native_stream_releases_gil_and_accepts_cross_thread_cancel",
+      "test_raw_classifier_example_resumes_and_retains[normal]",
+      "test_raw_classifier_example_resumes_and_retains[optimized]",
+      "test_stream_files_resume_and_verified_external_link_jobs",
+      "test_stream_owner_backpressure_and_cross_thread_refusal",
+      "test_tables_preserve_numeric_rows_dtype_and_array_ownership",
+      "test_window_geometry_and_hwc_views"
+    ],
+    "test_raw_pixel_cli": [
+      "test_cli_arguments_reject_before_output[extra0]",
+      "test_cli_arguments_reject_before_output[extra1]",
+      "test_cli_arguments_reject_before_output[extra2]",
+      "test_cli_arguments_reject_before_output[extra3]",
+      "test_cli_arguments_reject_before_output[extra4]",
+      "test_cli_arguments_reject_before_output[extra5]",
+      "test_cli_cancellation_joins_before_reader_release",
+      "test_cli_model_lattice_mismatch_refuses_prediction_output",
+      "test_cli_prediction_refuses_aliases_and_changed_resume_request",
+      "test_cli_train_resume_predict_retain_and_verify",
+      "test_cli_training_backend_off_refuses_before_output",
+      "test_cli_training_refuses_source_and_product_aliases[hardlink]",
+      "test_cli_training_refuses_source_and_product_aliases[pixels]",
+      "test_cli_training_refuses_source_and_product_aliases[project]",
+      "test_cli_training_refuses_source_and_product_aliases[same-products]"
+    ],
+    "test_raw_pixel_batch": [
+      "test_raw_batch_cli_moved_bundle_and_unchanged_source_project",
+      "test_raw_batch_explicit_fraction_mismatch_is_per_image_failure",
+      "test_raw_batch_fractional_axes_actual_training_and_async_snapshot",
+      "test_raw_batch_mixed_rgb_raw_links_and_both_typed_reuse_paths",
+      "test_raw_batch_numeric_csv_reopen_and_exact_hash_only_reuse",
+      "test_raw_batch_quotas_cleanup_only_owned_work[materialize_budget-1]",
+      "test_raw_batch_quotas_cleanup_only_owned_work[pixel_total_limit-4096]",
+      "test_raw_batch_quotas_cleanup_only_owned_work[result_budget-1]",
+      "test_raw_batch_reopened_changed_source_is_hashed_and_recomputed",
+      "test_raw_batch_stop_continue_with_incompatible_reader[ProjectBatchFailure.CONTINUE]",
+      "test_raw_batch_stop_continue_with_incompatible_reader[ProjectBatchFailure.STOP]",
+      "test_raw_batch_tampered_outputs_refuse_reuse_and_no_resume_preserves_them[block]",
+      "test_raw_batch_tampered_outputs_refuse_reuse_and_no_resume_preserves_them[checkpoint]",
+      "test_raw_batch_tampered_outputs_refuse_reuse_and_no_resume_preserves_them[missing]"
+    ],
+    "test_gui_raw_pixel": [
+      "test_desktop_checkpoint_resume_without_duplicate_sampling",
+      "test_desktop_contour_edit_discards_geometry_preview",
+      "test_desktop_contour_limits_preserve_document[preview]",
+      "test_desktop_contour_limits_preserve_document[work]",
+      "test_desktop_edit_retires_ready_raw_prediction_and_gpu_preview",
+      "test_desktop_historical_file_does_not_enable_live_contour_apply",
+      "test_desktop_historical_open_keep_remove_preserves_external_file",
+      "test_desktop_image_switch_retires_raw_prediction_and_gpu_preview",
+      "test_desktop_invalid_model_preserves_current_model_and_can_predict",
+      "test_desktop_prediction_prefix_resume_preserves_committed_bytes",
+      "test_desktop_raw_contour_preview_apply_is_one_undoable_edit[False-False]",
+      "test_desktop_raw_contour_preview_apply_is_one_undoable_edit[True-False]",
+      "test_desktop_raw_contour_preview_apply_is_one_undoable_edit[True-True]",
+      "test_desktop_train_keep_preview_save_and_export_retained_file",
+      "test_managed_raw_contour_preview_fresh_apply_and_persistence",
+      "test_managed_raw_training_prediction_resume_read_and_saved_project",
+      "test_raw_overlay_toggle_invalidates_cached_canvas_at_fractional_edges"
+    ],
+    "test_raw_stream_contour_python": [
+      "test_active_worker_shutdown_releases_gil_and_reader[cancel]",
+      "test_active_worker_shutdown_releases_gil_and_reader[close]",
+      "test_admission_and_document_stale_refusal",
+      "test_complete_stream_commitments_geometry_and_readonly_snapshots",
+      "test_cropped_global_phase_and_late_file_refusal",
+      "test_exact_capture_budget_atomic_apply_undo_redo",
+      "test_job_optional_result_owner_cancel_and_retained_lifetime"
+    ],
+    "test_raw_contour_seams": [
+      "test_crop_phase_cannot_be_replaced_by_local_tile_coordinates",
+      "test_existing_full_tracer_and_stream_match_independent_seam_oracle[cropped_anisotropic]",
+      "test_existing_full_tracer_and_stream_match_independent_seam_oracle[diagonal_contacts]",
+      "test_existing_full_tracer_and_stream_match_independent_seam_oracle[nested_holes]",
+      "test_existing_full_tracer_and_stream_match_independent_seam_oracle[three_class_junction]",
+      "test_reference_is_byte_reproducible_and_existing_capture_is_preserved",
+      "test_reference_matches_hand_counted_geometry_and_exposes_false_seams[cropped_anisotropic-expected3]",
+      "test_reference_matches_hand_counted_geometry_and_exposes_false_seams[diagonal_contacts-expected1]",
+      "test_reference_matches_hand_counted_geometry_and_exposes_false_seams[nested_holes-expected0]",
+      "test_reference_matches_hand_counted_geometry_and_exposes_false_seams[three_class_junction-expected2]",
+      "test_reference_preflights_both_destinations_before_creating_either[header]",
+      "test_reference_preflights_both_destinations_before_creating_either[json]"
+    ],
+    "test_gui_raw_stream_contours": [
+      "test_desktop_edit_retires_streamed_preview",
+      "test_desktop_streamed_preview_apply_undo_redo[False-False]",
+      "test_desktop_streamed_preview_apply_undo_redo[True-False]",
+      "test_desktop_streamed_preview_apply_undo_redo[True-True]",
+      "test_managed_cropped_streamed_preview_apply_save_reopen",
+      "test_managed_streamed_result_budget_refuses_before_commit"
+    ],
+    "test_raw_stream_contour_cli": [
+      "test_cli_no_clip_preserves_center_mask_but_omits_roi_intersection",
+      "test_cli_streamed_contours_interrupt_joins_and_does_not_publish",
+      "test_cli_streamed_contours_quota_failure_leaves_no_project[--project-bytes]",
+      "test_cli_streamed_contours_quota_failure_leaves_no_project[--publication-work-bytes]",
+      "test_cli_streamed_contours_quota_failure_leaves_no_project[--snapshot-bytes]",
+      "test_cli_streamed_contours_quota_failure_leaves_no_project[--total-work-bytes]",
+      "test_cli_streamed_contours_refuse_collisions[existing]",
+      "test_cli_streamed_contours_refuse_collisions[model]",
+      "test_cli_streamed_contours_refuse_collisions[pixels]",
+      "test_cli_streamed_contours_refuse_collisions[project]",
+      "test_cli_streamed_contours_refuse_collisions[sidecar]",
+      "test_cli_streamed_contours_reject_inapplicable_flags[extra0]",
+      "test_cli_streamed_contours_reject_inapplicable_flags[extra1]",
+      "test_cli_streamed_contours_reject_inapplicable_flags[extra2]",
+      "test_cli_streamed_contours_reject_inapplicable_flags[extra3]",
+      "test_cli_streamed_contours_reject_inapplicable_flags[extra4]",
+      "test_cli_streamed_geometry_saves_new_project_without_mutating_inputs[False]",
+      "test_cli_streamed_geometry_saves_new_project_without_mutating_inputs[True]"
+    ],
+    "test_raw_stream_contour_batch": [
+      "test_batch_contour_active_cancellation_discards_image_and_releases_reader",
+      "test_batch_contour_cli_and_option_manifest",
+      "test_batch_contour_cli_interrupt_preserves_committed_image_then_resumes",
+      "test_batch_contour_modified_checkpoint_refuses_reuse",
+      "test_batch_contour_moved_output_and_changed_model_use_exact_checkpoint_scope",
+      "test_batch_contour_multiple_source_rois_keep_resume_digest",
+      "test_batch_contour_quotas_publish_no_partial_project[csv]",
+      "test_batch_contour_quotas_publish_no_partial_project[publication]",
+      "test_batch_contour_quotas_publish_no_partial_project[result]",
+      "test_batch_contour_quotas_publish_no_partial_project[work]",
+      "test_batch_contour_source_change_recomputes_and_settings_change_separates_output",
+      "test_batch_streamed_contours_mixed_images_failure_policy[ProjectBatchFailure.CONTINUE-partial-2]",
+      "test_batch_streamed_contours_mixed_images_failure_policy[ProjectBatchFailure.STOP-failed-1]",
+      "test_batch_streamed_geometry_csv_snapshot_and_hash_only_reuse[False]",
+      "test_batch_streamed_geometry_csv_snapshot_and_hash_only_reuse[True]",
+      "test_gui_streamed_contour_batch_saves_and_reuses"
+    ],
+    "test_raw_file_contours": [
+      "test_changed_header_is_refused_at_every_reader_boundary[check_unchanged-dimensions]",
+      "test_changed_header_is_refused_at_every_reader_boundary[check_unchanged-last_body_byte]",
+      "test_changed_header_is_refused_at_every_reader_boundary[check_unchanged-model]",
+      "test_changed_header_is_refused_at_every_reader_boundary[check_unchanged-options]",
+      "test_changed_header_is_refused_at_every_reader_boundary[link-dimensions]",
+      "test_changed_header_is_refused_at_every_reader_boundary[link-last_body_byte]",
+      "test_changed_header_is_refused_at_every_reader_boundary[link-model]",
+      "test_changed_header_is_refused_at_every_reader_boundary[link-options]",
+      "test_changed_header_is_refused_at_every_reader_boundary[read_block-dimensions]",
+      "test_changed_header_is_refused_at_every_reader_boundary[read_block-last_body_byte]",
+      "test_changed_header_is_refused_at_every_reader_boundary[read_block-model]",
+      "test_changed_header_is_refused_at_every_reader_boundary[read_block-options]",
+      "test_changed_header_is_refused_at_every_reader_boundary[trace-dimensions]",
+      "test_changed_header_is_refused_at_every_reader_boundary[trace-last_body_byte]",
+      "test_changed_header_is_refused_at_every_reader_boundary[trace-model]",
+      "test_changed_header_is_refused_at_every_reader_boundary[trace-options]",
+      "test_changed_header_is_refused_at_every_reader_boundary[verify-dimensions]",
+      "test_changed_header_is_refused_at_every_reader_boundary[verify-last_body_byte]",
+      "test_changed_header_is_refused_at_every_reader_boundary[verify-model]",
+      "test_changed_header_is_refused_at_every_reader_boundary[verify-options]",
+      "test_cli_historical_wkt_without_source_and_bounded_json",
+      "test_cli_replay_saves_new_project_and_rejects_sampling_overrides",
+      "test_desktop_historical_preview_and_fresh_reverified_apply[False-False]",
+      "test_desktop_historical_preview_and_fresh_reverified_apply[False-True]",
+      "test_desktop_historical_preview_and_fresh_reverified_apply[True-False]",
+      "test_desktop_historical_preview_and_fresh_reverified_apply[True-True]",
+      "test_historical_and_replay_active_shutdown_in_child[history-cancel]",
+      "test_historical_and_replay_active_shutdown_in_child[history-close]",
+      "test_historical_and_replay_active_shutdown_in_child[replay-cancel]",
+      "test_historical_and_replay_active_shutdown_in_child[replay-close]",
+      "test_historical_geometry_preserves_axes_clipping_and_needs_no_source[False]",
+      "test_historical_geometry_preserves_axes_clipping_and_needs_no_source[True]",
+      "test_historical_reader_job_uses_distinct_transfer_and_owner",
+      "test_historical_work_limits_and_partial_prefix_refusal[boundary]",
+      "test_historical_work_limits_and_partial_prefix_refusal[total]",
+      "test_large_header_checks_every_chunk_with_bounded_work[last_body_byte]",
+      "test_large_header_checks_every_chunk_with_bounded_work[second_chunk]",
+      "test_managed_history_preview_fresh_replay_apply_and_saved_geometry[False]",
+      "test_managed_history_preview_fresh_replay_apply_and_saved_geometry[True]",
+      "test_managed_history_quota_and_unverified_apply_refuse",
+      "test_moved_history_opens_and_corrupt_or_missing_history_refuses",
+      "test_replay_changed_model_is_refused_before_job_start",
+      "test_replay_changed_source_pixels_refuse_but_historical_geometry_remains",
+      "test_replay_job_retires_late_history_changes_before_publication",
+      "test_replay_ready_result_rejects_later_document_revision",
+      "test_replay_rejects_changed_owner_parameters[calibration]",
+      "test_replay_rejects_changed_owner_parameters[roi]",
+      "test_replay_requires_verification_and_fresh_exact_capture_then_undo"
+    ],
+    "test_spatial_python": [
+      "test_admission_calibration_stale_and_owner_guards",
+      "test_closed_source_is_valid_for_geometry_only_requests",
+      "test_job_cancel_retry_and_budget_failure",
+      "test_readonly_values_pages_and_snapshot_lifetimes",
+      "test_retained_project_history_missing_source_and_atomic_csv",
+      "test_scalar_rows_match_independent_nearest_formula[all-False-False-False]",
+      "test_scalar_rows_match_independent_nearest_formula[all-False-False-True]",
+      "test_scalar_rows_match_independent_nearest_formula[all-False-True-False]",
+      "test_scalar_rows_match_independent_nearest_formula[all-False-True-True]",
+      "test_scalar_rows_match_independent_nearest_formula[all-True-False-False]",
+      "test_scalar_rows_match_independent_nearest_formula[all-True-False-True]",
+      "test_scalar_rows_match_independent_nearest_formula[all-True-True-False]",
+      "test_scalar_rows_match_independent_nearest_formula[all-True-True-True]",
+      "test_scalar_rows_match_independent_nearest_formula[coincident-False-False-False]",
+      "test_scalar_rows_match_independent_nearest_formula[coincident-False-False-True]",
+      "test_scalar_rows_match_independent_nearest_formula[coincident-False-True-False]",
+      "test_scalar_rows_match_independent_nearest_formula[coincident-False-True-True]",
+      "test_scalar_rows_match_independent_nearest_formula[coincident-True-False-False]",
+      "test_scalar_rows_match_independent_nearest_formula[coincident-True-False-True]",
+      "test_scalar_rows_match_independent_nearest_formula[coincident-True-True-False]",
+      "test_scalar_rows_match_independent_nearest_formula[coincident-True-True-True]",
+      "test_scalar_rows_match_independent_nearest_formula[empty-False-False-False]",
+      "test_scalar_rows_match_independent_nearest_formula[empty-False-False-True]",
+      "test_scalar_rows_match_independent_nearest_formula[empty-False-True-False]",
+      "test_scalar_rows_match_independent_nearest_formula[empty-False-True-True]",
+      "test_scalar_rows_match_independent_nearest_formula[empty-True-False-False]",
+      "test_scalar_rows_match_independent_nearest_formula[empty-True-False-True]",
+      "test_scalar_rows_match_independent_nearest_formula[empty-True-True-False]",
+      "test_scalar_rows_match_independent_nearest_formula[empty-True-True-True]",
+      "test_scalar_rows_match_independent_nearest_formula[self-False-False-False]",
+      "test_scalar_rows_match_independent_nearest_formula[self-False-False-True]",
+      "test_scalar_rows_match_independent_nearest_formula[self-False-True-False]",
+      "test_scalar_rows_match_independent_nearest_formula[self-False-True-True]",
+      "test_scalar_rows_match_independent_nearest_formula[self-True-False-False]",
+      "test_scalar_rows_match_independent_nearest_formula[self-True-False-True]",
+      "test_scalar_rows_match_independent_nearest_formula[self-True-True-False]",
+      "test_scalar_rows_match_independent_nearest_formula[self-True-True-True]",
+      "test_wait_releases_gil_and_checks_document_only_after_reacquiring[cancel]",
+      "test_wait_releases_gil_and_checks_document_only_after_reacquiring[edit]",
+      "test_worker_shutdown_releases_python_owner_before_native_join"
+    ],
+    "test_spatial_cli": [
+      "test_id_file_count_limit_and_empty_target_file",
+      "test_id_file_refusals_are_bounded_and_non_destructive[+1]",
+      "test_id_file_refusals_are_bounded_and_non_destructive[-1]",
+      "test_id_file_refusals_are_bounded_and_non_destructive[0]",
+      "test_id_file_refusals_are_bounded_and_non_destructive[1,2]",
+      "test_id_file_refusals_are_bounded_and_non_destructive[18446744073709551616]",
+      "test_id_file_refusals_are_bounded_and_non_destructive[1\\n1]",
+      "test_id_file_refusals_are_bounded_and_non_destructive[1\\x00]",
+      "test_id_file_refusals_are_bounded_and_non_destructive[]",
+      "test_id_files_bypass_command_line_limits_and_preserve_cohort_identity",
+      "test_native_measure_export_verify_and_reopen[False-False-px]",
+      "test_native_measure_export_verify_and_reopen[False-False-um]",
+      "test_native_measure_export_verify_and_reopen[False-True-px]",
+      "test_native_measure_export_verify_and_reopen[False-True-um]",
+      "test_native_measure_export_verify_and_reopen[True-False-px]",
+      "test_native_measure_export_verify_and_reopen[True-False-um]",
+      "test_native_measure_export_verify_and_reopen[True-True-px]",
+      "test_native_measure_export_verify_and_reopen[True-True-um]",
+      "test_parser_refuses_invalid_options_before_opening_any_project[extra0]",
+      "test_parser_refuses_invalid_options_before_opening_any_project[extra1]",
+      "test_parser_refuses_invalid_options_before_opening_any_project[extra2]",
+      "test_parser_refuses_invalid_options_before_opening_any_project[extra3]",
+      "test_parser_refuses_invalid_options_before_opening_any_project[extra4]",
+      "test_parser_refuses_invalid_options_before_opening_any_project[extra5]",
+      "test_parser_refuses_invalid_options_before_opening_any_project[extra6]",
+      "test_parser_refuses_invalid_options_before_opening_any_project[extra7]",
+      "test_parser_refuses_invalid_options_before_opening_any_project[extra8]",
+      "test_parser_refuses_invalid_options_before_opening_any_project[extra9]",
+      "test_source_aliases_limits_and_stale_history_are_non_destructive",
+      "test_unknown_calibration_and_image_record_selection"
+    ],
+    "test_spatial_frontends": [
+      "test_actual_window_close_cancels_and_joins_spatial_worker",
+      "test_desktop_active_cancel_and_retry_without_publication",
+      "test_desktop_failed_analysis_never_exposes_partial_rows",
+      "test_desktop_history_survives_removal_or_failed_fresh_replay[changed]",
+      "test_desktop_history_survives_removal_or_failed_fresh_replay[removed]",
+      "test_desktop_image_switch_retires_spatial_authority[ready]",
+      "test_desktop_image_switch_retires_spatial_authority[round-trip]",
+      "test_desktop_image_switch_retires_spatial_authority[running]",
+      "test_desktop_spatial_export_refusal_preserves_inputs[byte-limit]",
+      "test_desktop_spatial_export_refusal_preserves_inputs[existing]",
+      "test_desktop_spatial_export_refusal_preserves_inputs[linked-image]",
+      "test_desktop_spatial_export_refusal_preserves_inputs[project]",
+      "test_desktop_spatial_run_keep_export_verify_reopen",
+      "test_managed_running_spatial_cancel_or_edit_then_retry[cancel]",
+      "test_managed_running_spatial_cancel_or_edit_then_retry[edit]",
+      "test_managed_spatial_keep_history_verify_export_save",
+      "test_spatial_config_rejects_invalid_values[csv_bytes-0]",
+      "test_spatial_config_rejects_invalid_values[csv_bytes-1073741825]",
+      "test_spatial_config_rejects_invalid_values[csv_path-bad\\x00path]",
+      "test_spatial_config_rejects_invalid_values[run-True]",
+      "test_spatial_options_and_queue_without_renderer"
+    ],
+    "test_document_job_waits": [
+      "test_live_document_job_allows_foreign_cancellation[AnalysisJob]",
+      "test_live_document_job_allows_foreign_cancellation[CellJob]",
+      "test_live_document_job_allows_foreign_cancellation[ObjectClassifierJob]",
+      "test_live_document_job_allows_foreign_cancellation[PixelContourJob]",
+      "test_live_document_job_allows_foreign_cancellation[PixelPredictionJob]",
+      "test_live_document_job_allows_foreign_cancellation[PixelStreamExportJob]",
+      "test_live_document_job_allows_foreign_cancellation[PixelTrainingJob]",
+      "test_live_document_job_allows_foreign_cancellation[StainEstimateJob]",
+      "test_live_document_job_allows_foreign_cancellation[TissueJob]",
+      "test_live_document_job_rejects_foreign_controller_use[busy-AnalysisJob]",
+      "test_live_document_job_rejects_foreign_controller_use[busy-CellJob]",
+      "test_live_document_job_rejects_foreign_controller_use[busy-ObjectClassifierJob]",
+      "test_live_document_job_rejects_foreign_controller_use[busy-PixelContourJob]",
+      "test_live_document_job_rejects_foreign_controller_use[busy-PixelPredictionJob]",
+      "test_live_document_job_rejects_foreign_controller_use[busy-PixelStreamExportJob]",
+      "test_live_document_job_rejects_foreign_controller_use[busy-PixelTrainingJob]",
+      "test_live_document_job_rejects_foreign_controller_use[busy-StainEstimateJob]",
+      "test_live_document_job_rejects_foreign_controller_use[busy-TissueJob]",
+      "test_live_document_job_rejects_foreign_controller_use[poll-AnalysisJob]",
+      "test_live_document_job_rejects_foreign_controller_use[poll-CellJob]",
+      "test_live_document_job_rejects_foreign_controller_use[poll-ObjectClassifierJob]",
+      "test_live_document_job_rejects_foreign_controller_use[poll-PixelContourJob]",
+      "test_live_document_job_rejects_foreign_controller_use[poll-PixelPredictionJob]",
+      "test_live_document_job_rejects_foreign_controller_use[poll-PixelStreamExportJob]",
+      "test_live_document_job_rejects_foreign_controller_use[poll-PixelTrainingJob]",
+      "test_live_document_job_rejects_foreign_controller_use[poll-StainEstimateJob]",
+      "test_live_document_job_rejects_foreign_controller_use[poll-TissueJob]",
+      "test_live_document_job_rejects_foreign_controller_use[wait-AnalysisJob]",
+      "test_live_document_job_rejects_foreign_controller_use[wait-CellJob]",
+      "test_live_document_job_rejects_foreign_controller_use[wait-ObjectClassifierJob]",
+      "test_live_document_job_rejects_foreign_controller_use[wait-PixelContourJob]",
+      "test_live_document_job_rejects_foreign_controller_use[wait-PixelPredictionJob]",
+      "test_live_document_job_rejects_foreign_controller_use[wait-PixelStreamExportJob]",
+      "test_live_document_job_rejects_foreign_controller_use[wait-PixelTrainingJob]",
+      "test_live_document_job_rejects_foreign_controller_use[wait-StainEstimateJob]",
+      "test_live_document_job_rejects_foreign_controller_use[wait-TissueJob]",
+      "test_live_document_job_shutdown_releases_gil_and_joins[AnalysisJob]",
+      "test_live_document_job_shutdown_releases_gil_and_joins[CellJob]",
+      "test_live_document_job_shutdown_releases_gil_and_joins[ObjectClassifierJob]",
+      "test_live_document_job_shutdown_releases_gil_and_joins[PixelContourJob]",
+      "test_live_document_job_shutdown_releases_gil_and_joins[PixelPredictionJob]",
+      "test_live_document_job_shutdown_releases_gil_and_joins[PixelStreamExportJob]",
+      "test_live_document_job_shutdown_releases_gil_and_joins[PixelTrainingJob]",
+      "test_live_document_job_shutdown_releases_gil_and_joins[StainEstimateJob]",
+      "test_live_document_job_shutdown_releases_gil_and_joins[TissueJob]",
+      "test_live_document_request_is_owner_only[AnalysisJob]",
+      "test_live_document_request_is_owner_only[CellJob]",
+      "test_live_document_request_is_owner_only[ObjectClassifierJob]",
+      "test_live_document_request_is_owner_only[PixelContourJob]",
+      "test_live_document_request_is_owner_only[PixelPredictionJob]",
+      "test_live_document_request_is_owner_only[PixelStreamExportJob]",
+      "test_live_document_request_is_owner_only[PixelTrainingJob]",
+      "test_live_document_request_is_owner_only[StainEstimateJob]",
+      "test_live_document_request_is_owner_only[TissueJob]",
+      "test_live_document_wait_releases_gil_and_rechecks_before_delivery[cancel-AnalysisJob]",
+      "test_live_document_wait_releases_gil_and_rechecks_before_delivery[cancel-CellJob]",
+      "test_live_document_wait_releases_gil_and_rechecks_before_delivery[cancel-ObjectClassifierJob]",
+      "test_live_document_wait_releases_gil_and_rechecks_before_delivery[cancel-PixelContourJob]",
+      "test_live_document_wait_releases_gil_and_rechecks_before_delivery[cancel-PixelPredictionJob]",
+      "test_live_document_wait_releases_gil_and_rechecks_before_delivery[cancel-PixelStreamExportJob]",
+      "test_live_document_wait_releases_gil_and_rechecks_before_delivery[cancel-PixelTrainingJob]",
+      "test_live_document_wait_releases_gil_and_rechecks_before_delivery[cancel-StainEstimateJob]",
+      "test_live_document_wait_releases_gil_and_rechecks_before_delivery[cancel-TissueJob]",
+      "test_live_document_wait_releases_gil_and_rechecks_before_delivery[completed_cancel-AnalysisJob]",
+      "test_live_document_wait_releases_gil_and_rechecks_before_delivery[completed_cancel-CellJob]",
+      "test_live_document_wait_releases_gil_and_rechecks_before_delivery[completed_cancel-ObjectClassifierJob]",
+      "test_live_document_wait_releases_gil_and_rechecks_before_delivery[completed_cancel-PixelContourJob]",
+      "test_live_document_wait_releases_gil_and_rechecks_before_delivery[completed_cancel-PixelPredictionJob]",
+      "test_live_document_wait_releases_gil_and_rechecks_before_delivery[completed_cancel-PixelStreamExportJob]",
+      "test_live_document_wait_releases_gil_and_rechecks_before_delivery[completed_cancel-PixelTrainingJob]",
+      "test_live_document_wait_releases_gil_and_rechecks_before_delivery[completed_cancel-StainEstimateJob]",
+      "test_live_document_wait_releases_gil_and_rechecks_before_delivery[completed_cancel-TissueJob]",
+      "test_live_document_wait_releases_gil_and_rechecks_before_delivery[completed_edit-AnalysisJob]",
+      "test_live_document_wait_releases_gil_and_rechecks_before_delivery[completed_edit-CellJob]",
+      "test_live_document_wait_releases_gil_and_rechecks_before_delivery[completed_edit-ObjectClassifierJob]",
+      "test_live_document_wait_releases_gil_and_rechecks_before_delivery[completed_edit-PixelContourJob]",
+      "test_live_document_wait_releases_gil_and_rechecks_before_delivery[completed_edit-PixelPredictionJob]",
+      "test_live_document_wait_releases_gil_and_rechecks_before_delivery[completed_edit-PixelStreamExportJob]",
+      "test_live_document_wait_releases_gil_and_rechecks_before_delivery[completed_edit-PixelTrainingJob]",
+      "test_live_document_wait_releases_gil_and_rechecks_before_delivery[completed_edit-StainEstimateJob]",
+      "test_live_document_wait_releases_gil_and_rechecks_before_delivery[completed_edit-TissueJob]",
+      "test_live_document_wait_releases_gil_and_rechecks_before_delivery[edit-AnalysisJob]",
+      "test_live_document_wait_releases_gil_and_rechecks_before_delivery[edit-CellJob]",
+      "test_live_document_wait_releases_gil_and_rechecks_before_delivery[edit-ObjectClassifierJob]",
+      "test_live_document_wait_releases_gil_and_rechecks_before_delivery[edit-PixelContourJob]",
+      "test_live_document_wait_releases_gil_and_rechecks_before_delivery[edit-PixelPredictionJob]",
+      "test_live_document_wait_releases_gil_and_rechecks_before_delivery[edit-PixelStreamExportJob]",
+      "test_live_document_wait_releases_gil_and_rechecks_before_delivery[edit-PixelTrainingJob]",
+      "test_live_document_wait_releases_gil_and_rechecks_before_delivery[edit-StainEstimateJob]",
+      "test_live_document_wait_releases_gil_and_rechecks_before_delivery[edit-TissueJob]"
+    ],
+    "test_pixel_stream_record_benchmark": [
+      "test_pixel_stream_record_benchmark_accepts_current_project_schema[1]",
+      "test_pixel_stream_record_benchmark_accepts_current_project_schema[7]"
+    ],
+    "test_snapshot_job_waits": [
+      "test_snapshot_controller_allows_foreign_cancel[CellTableExportJob]",
+      "test_snapshot_controller_allows_foreign_cancel[FileFingerprintJob]",
+      "test_snapshot_controller_allows_foreign_cancel[MeasurementTableExportJob]",
+      "test_snapshot_controller_allows_foreign_cancel[PixelStreamReadJob]",
+      "test_snapshot_controller_allows_foreign_cancel[ThumbnailJob]",
+      "test_snapshot_controller_rejects_foreign_collection[busy-CellTableExportJob]",
+      "test_snapshot_controller_rejects_foreign_collection[busy-FileFingerprintJob]",
+      "test_snapshot_controller_rejects_foreign_collection[busy-MeasurementTableExportJob]",
+      "test_snapshot_controller_rejects_foreign_collection[busy-PixelStreamReadJob]",
+      "test_snapshot_controller_rejects_foreign_collection[busy-ThumbnailJob]",
+      "test_snapshot_controller_rejects_foreign_collection[poll-CellTableExportJob]",
+      "test_snapshot_controller_rejects_foreign_collection[poll-FileFingerprintJob]",
+      "test_snapshot_controller_rejects_foreign_collection[poll-MeasurementTableExportJob]",
+      "test_snapshot_controller_rejects_foreign_collection[poll-PixelStreamReadJob]",
+      "test_snapshot_controller_rejects_foreign_collection[poll-ThumbnailJob]",
+      "test_snapshot_controller_rejects_foreign_collection[wait-CellTableExportJob]",
+      "test_snapshot_controller_rejects_foreign_collection[wait-FileFingerprintJob]",
+      "test_snapshot_controller_rejects_foreign_collection[wait-MeasurementTableExportJob]",
+      "test_snapshot_controller_rejects_foreign_collection[wait-PixelStreamReadJob]",
+      "test_snapshot_controller_rejects_foreign_collection[wait-ThumbnailJob]",
+      "test_snapshot_job_foreign_final_reference_joins[CellTableExportJob]",
+      "test_snapshot_job_foreign_final_reference_joins[FileFingerprintJob]",
+      "test_snapshot_job_foreign_final_reference_joins[MeasurementTableExportJob]",
+      "test_snapshot_job_foreign_final_reference_joins[PixelStreamReadJob]",
+      "test_snapshot_job_foreign_final_reference_joins[ThumbnailJob]",
+      "test_snapshot_remaining_entry_points_are_owner_only[FileFingerprintJob-association]",
+      "test_snapshot_remaining_entry_points_are_owner_only[FileFingerprintJob-request_source]",
+      "test_snapshot_remaining_entry_points_are_owner_only[FileFingerprintJob-result]",
+      "test_snapshot_remaining_entry_points_are_owner_only[PixelStreamReadJob-close]",
+      "test_snapshot_remaining_entry_points_are_owner_only[PixelStreamReadJob-open_link]",
+      "test_snapshot_remaining_entry_points_are_owner_only[PixelStreamReadJob-read]",
+      "test_snapshot_remaining_entry_points_are_owner_only[PixelStreamReadJob-verify]",
+      "test_snapshot_remaining_entry_points_are_owner_only[ThumbnailJob-result]",
+      "test_snapshot_request_is_owner_only[CellTableExportJob]",
+      "test_snapshot_request_is_owner_only[FileFingerprintJob]",
+      "test_snapshot_request_is_owner_only[MeasurementTableExportJob]",
+      "test_snapshot_request_is_owner_only[PixelStreamReadJob]",
+      "test_snapshot_request_is_owner_only[ThumbnailJob]",
+      "test_snapshot_wait_serializes_collection_and_allows_cancel[cancel-CellTableExportJob]",
+      "test_snapshot_wait_serializes_collection_and_allows_cancel[cancel-FileFingerprintJob]",
+      "test_snapshot_wait_serializes_collection_and_allows_cancel[cancel-MeasurementTableExportJob]",
+      "test_snapshot_wait_serializes_collection_and_allows_cancel[cancel-PixelStreamReadJob]",
+      "test_snapshot_wait_serializes_collection_and_allows_cancel[cancel-ThumbnailJob]",
+      "test_snapshot_wait_serializes_collection_and_allows_cancel[poll-CellTableExportJob]",
+      "test_snapshot_wait_serializes_collection_and_allows_cancel[poll-FileFingerprintJob]",
+      "test_snapshot_wait_serializes_collection_and_allows_cancel[poll-MeasurementTableExportJob]",
+      "test_snapshot_wait_serializes_collection_and_allows_cancel[poll-PixelStreamReadJob]",
+      "test_snapshot_wait_serializes_collection_and_allows_cancel[poll-ThumbnailJob]"
+    ]
+  },
+  "training_off_skip": {
+    "module": "test_raw_pixel_cli",
+    "name": "test_cli_training_backend_off_refuses_before_output",
+    "attributes": {
+      "type": "pytest.skip",
+      "message": "backend-OFF profile only"
+    }
+  },
+  "native_base": {
+    "pixel_workflows": [
+      "Owner-captured raw training/prediction: deterministic labels, rational axes, document calibration, bounded IO, cancellation, stale compound sources and owner-thread publication passed",
+      "Raw boundary face lookup: independent cells across 16 layouts, query order/duplicate/half-open/global crop, incomplete/invalid/cancel/work refusal and sparse 2000000-cell network passed",
+      "Raw stream boundaries: independent class seams/holes/corners/global phase, strict block/cancel/quota refusal and 2000000 samples with 7 peak runs passed",
+      "Raw window classifier: portable recipe/model identity, 42 full/window label-vote seams, huge indexed ROI, physical calibration, pre-IO quotas/series, cancellation/stale/copy/thread and compound-source checks passed",
+      "Raw tiled training: full/tiled global reservoir rows, filtered seams, sparse trillion-cell lattice, quotas, owner lifecycle, calibration and compound-source controls passed",
+      "Raw prediction stream: fractional filtered full-context seams, unique/cropped global cores, bounded trillion-cell traversal, owned blocks, one-slot backpressure, digests, quotas, cancel/stale/retry and owner delivery passed",
+      "Raw stream file: QWS1 independent framing, historical blocks, exact interrupted/resumed bytes, hash-only prefix validation, model/source/ROI/calibration refusal, atomic cancellation, tamper and resource/alias controls passed",
+      "Raw tiled archive: independent QTT1 geometry/rows, balanced/unbalanced and huge-lattice round trips, semantic tamper, all-selected record bounds, authority/replay and atomic files passed",
+      "Raw training checkpoint: independent QTC1 bounds, balanced/unbalanced multistage replay, exact rows/hashes/bytes, input tamper, limits, cancellation and concurrent-writer refusal passed",
+      "Raw file jobs: owner export/checkpoint transfer, one-slot historical reads, cancellation/staleness/output guards, annotation resume refusal, thread/lifetime and retry controls passed",
+      "Raw stream links: verified prefix/complete retention, independent QWL1 bounds, global geometry, historical authority refusal, exact-content relink and external lifetime controls passed"
+    ],
+    "spatial": [
+      "Nearest-point spatial queries: 400 reordered and 200 concurrent exhaustive oracles, 100000-point scenes, anisotropy, ties, identity exclusion, cancellation and numeric limits passed",
+      "Spatial queries, delta updates, picking and undo passed"
+    ],
+    "spatial_analysis": [
+      "Spatial captured results: deterministic identity, nucleus/body fallback, anisotropic units, absent targets, limits, clone/stale/thread guards and zero pixel IO passed",
+      "Spatial owner jobs: direct parity, cancellation/retry, running/ready staleness, payload/compute admission, shutdown join and reader-free detached execution passed"
+    ],
+    "spatial_records": [
+      "Spatial retained records: exact capture authority, explicit cohorts, clone/replay, calibration/object staleness, closed source and historical ownership passed",
+      "Spatial QSD1 archives: deterministic roundtrip, provenance/input/result identity, nullable rows, corruption/truncation/semantic refusal and cancellation passed",
+      "Spatial CSV: float64 units/identity, absent versus zero, streaming atomic no-overwrite/replacement, limits/cancellation and temporary cleanup passed"
+    ],
+    "spatial_frontend": [
+      "Spatial shared frontend: capture/keep/history/verify, clone and revision guards, cancellation/retry, atomic protected export, budgets, removed-record ownership and shutdown passed"
+    ],
+    "viewer_session": [
+      "Spatial managed viewer: shared controller, retained payload admission before keep, history/verify/export, cancellation, expected revisions and stale delivery passed"
+    ]
+  },
+  "native_full": {
+    "pixel_workflows": [
+      "Raw pixel backend training: real TIFF deterministic direct/job training, historical retraining, trained archives/model files and portable prediction votes passed",
+      "Raw pixel archives: real TIFF retention, project save/reopen, snapshot save, stale-file refusal and historical-only decode passed",
+      "Raw pixel contours: rational axes/context, raster membership/area, bounded conversion, cancel, atomic apply/undo/redo and stale authority passed",
+      "Raw streamed geometry: 16 independent edge/area/perimeter/part/hole layouts, both-axis crop phase, ROI/image clipping, strict limits/cancel/precision/count refusal and 2000000 samples under 192 KiB passed",
+      "Raw historical contour workflow: verified one-pass geometry, typed authority separation, fresh replay/apply/undo, late file refusal and partial-prefix rejection passed",
+      "Raw streamed contour workflow: real TIFF cropped direct/job parity, atomic apply/undo/redo and late-file refusal passed",
+      "Raw streamed contour workflow: completed producer commitments, rational full/cropped geometry, direct/job progress, pre-IO/retained/edit/ID quotas, cancel/failure/stale/copy/thread, exact capture and atomic apply/undo/redo passed"
+    ],
+    "viewer_session": [
+      "Raw contour frontend: fresh bounded rational-grid trace, atomic apply/undo/redo, stale/cancel/budget/oversize refusal passed; GEOS=1",
+      "Raw managed contours: historical preview, fresh revision-guarded apply, atomic undo/redo, active cancellation and pre-commit result admission passed; GEOS=1",
+      "Raw pixel viewer: owner training/checkpoint resume, bounded prediction, verified file retention, historical isolation, actual-source-version rejection, stale/queued-and-running-cancel/retry/removal and active shutdown join passed; training=1",
+      "Raw streamed frontend/viewer: cropped direct parity, preview, fresh revision/apply, retained payload/ID admission, atomic undo/redo and stale/cancel/refusal passed; GEOS=1"
+    ],
+    "project_batch": [
+      "Raw pixel batch: portable model, exact input reuse, QWL1 verification, interruption and owned cleanup passed",
+      "Raw contour batch: streamed geometry, sealed project reopen, hash-only reuse, multiple targets and quota rollback passed"
+    ],
+    "spatial": [],
+    "spatial_frontend": [],
+    "spatial_analysis": [
+      "Spatial pinned QuPath reference: geometry=18 explicit_storage_conversion=4 unsupported_planes=4 unavailable_polygons=0; fixed tolerances and translated single-plane geometry passed"
+    ],
+    "spatial_records": [
+      "Spatial projects: schema18 save/reopen, immutable async save, history/reverification, snapshot budget, missing linked-image zero-IO replay and corrupt/orphan refusal passed",
+      "Spatial migrations: all17 legacy schemas open without modification and transactionally upgrade with retained distance rows passed"
+    ],
+    "spatial_cli": [
+      "Spatial CLI: native measure/save/reopen, historical streamed export, fresh verification, missing-source zero-IO, guarded inputs, no-overwrite, budgets, cancellation and argument refusal passed"
+    ]
+  },
+  "native_disabled": {
+    "viewer_session": [
+      "Raw pixel viewer unavailable: TIFF/project OFF"
+    ],
+    "pixel_workflows": [
+      "Raw streamed geometry: GEOS-unavailable refusal passed",
+      "Raw streamed contour workflow: GEOS-unavailable direct/job pre-IO refusal passed"
+    ],
+    "spatial_analysis": [
+      "Spatial pinned QuPath reference unavailable: INTERCHANGE OFF"
+    ],
+    "spatial_records": [
+      "Spatial project archive capability unavailable in this build"
+    ],
+    "spatial_cli": [
+      "Spatial CLI project capability unavailable"
+    ]
+  },
+  "typing_positive": [
+    "tests/typing/raw_pixel_valid.py",
+    "tests/typing/raw_batch_valid.py",
+    "tests/typing/raw_frontend_valid.py",
+    "examples/raw_classifier_workflow.py",
+    "tests/typing/raw_stream_contour_valid.py",
+    "tests/typing/spatial_valid.py",
+    "tests/typing/document_job_waits_valid.py"
+  ],
+  "typing_positive_log": "raw-classifier-typing.log",
+  "typing_negative": {
+    "raw_pixel_invalid.py": {
+      "log": "raw-classifier-raw_pixel_invalid.log",
+      "lines": [
+        9,
+        10,
+        11,
+        12
+      ]
+    },
+    "raw_batch_invalid.py": {
+      "log": "raw-classifier-raw_batch_invalid.log",
+      "lines": [
+        6,
+        7,
+        8
+      ]
+    },
+    "raw_frontend_invalid.py": {
+      "log": "raw-classifier-raw_frontend_invalid.log",
+      "lines": [
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    "raw_stream_contour_invalid.py": {
+      "log": "raw-classifier-raw_stream_contour_invalid.log",
+      "lines": [
+        3,
+        5,
+        8,
+        12,
+        13,
+        16,
+        18,
+        22
+      ]
+    },
+    "spatial_invalid.py": {
+      "log": "spatial-typing-negative.log",
+      "lines": [
+        3,
+        5,
+        5,
+        8,
+        8,
+        11,
+        12,
+        13
+      ]
+    }
+  },
+  "gui_only": {
+    "test_gui_raw_pixel": {
+      "names": [
+        "test_desktop_checkpoint_resume_without_duplicate_sampling",
+        "test_desktop_contour_edit_discards_geometry_preview",
+        "test_desktop_contour_limits_preserve_document[preview]",
+        "test_desktop_contour_limits_preserve_document[work]",
+        "test_desktop_edit_retires_ready_raw_prediction_and_gpu_preview",
+        "test_desktop_historical_file_does_not_enable_live_contour_apply",
+        "test_desktop_historical_open_keep_remove_preserves_external_file",
+        "test_desktop_image_switch_retires_raw_prediction_and_gpu_preview",
+        "test_desktop_invalid_model_preserves_current_model_and_can_predict",
+        "test_desktop_prediction_prefix_resume_preserves_committed_bytes",
+        "test_desktop_raw_contour_preview_apply_is_one_undoable_edit[False-False]",
+        "test_desktop_raw_contour_preview_apply_is_one_undoable_edit[True-False]",
+        "test_desktop_raw_contour_preview_apply_is_one_undoable_edit[True-True]",
+        "test_desktop_train_keep_preview_save_and_export_retained_file",
+        "test_managed_raw_contour_preview_fresh_apply_and_persistence",
+        "test_managed_raw_training_prediction_resume_read_and_saved_project",
+        "test_raw_overlay_toggle_invalidates_cached_canvas_at_fractional_edges"
+      ],
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in GUI, TIFF/project and actual classifier training"
+      }
+    },
+    "test_gui_raw_stream_contours": {
+      "names": [
+        "test_desktop_edit_retires_streamed_preview",
+        "test_desktop_streamed_preview_apply_undo_redo[False-False]",
+        "test_desktop_streamed_preview_apply_undo_redo[True-False]",
+        "test_desktop_streamed_preview_apply_undo_redo[True-True]",
+        "test_managed_cropped_streamed_preview_apply_save_reopen",
+        "test_managed_streamed_result_budget_refuses_before_commit"
+      ],
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in actual GUI and typed TIFF/training/GEOS"
+      }
+    },
+    "test_raw_stream_contour_batch": {
+      "names": [
+        "test_gui_streamed_contour_batch_saves_and_reuses"
+      ],
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in GUI"
+      }
+    },
+    "test_raw_file_contours": {
+      "names": [
+        "test_desktop_historical_preview_and_fresh_reverified_apply[False-False]",
+        "test_desktop_historical_preview_and_fresh_reverified_apply[False-True]",
+        "test_desktop_historical_preview_and_fresh_reverified_apply[True-False]",
+        "test_desktop_historical_preview_and_fresh_reverified_apply[True-True]",
+        "test_managed_history_preview_fresh_replay_apply_and_saved_geometry[False]",
+        "test_managed_history_preview_fresh_replay_apply_and_saved_geometry[True]",
+        "test_managed_history_quota_and_unverified_apply_refuse"
+      ],
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in GUI"
+      }
+    },
+    "test_spatial_frontends": {
+      "names": [
+        "test_actual_window_close_cancels_and_joins_spatial_worker",
+        "test_desktop_active_cancel_and_retry_without_publication",
+        "test_desktop_failed_analysis_never_exposes_partial_rows",
+        "test_desktop_history_survives_removal_or_failed_fresh_replay[changed]",
+        "test_desktop_history_survives_removal_or_failed_fresh_replay[removed]",
+        "test_desktop_image_switch_retires_spatial_authority[ready]",
+        "test_desktop_image_switch_retires_spatial_authority[round-trip]",
+        "test_desktop_image_switch_retires_spatial_authority[running]",
+        "test_desktop_spatial_export_refusal_preserves_inputs[byte-limit]",
+        "test_desktop_spatial_export_refusal_preserves_inputs[existing]",
+        "test_desktop_spatial_export_refusal_preserves_inputs[linked-image]",
+        "test_desktop_spatial_export_refusal_preserves_inputs[project]",
+        "test_desktop_spatial_run_keep_export_verify_reopen",
+        "test_managed_running_spatial_cancel_or_edit_then_retry[cancel]",
+        "test_managed_running_spatial_cancel_or_edit_then_retry[edit]",
+        "test_managed_spatial_keep_history_verify_export_save"
+      ],
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in actual spatial desktop/managed viewer"
+      }
+    }
+  },
+  "spatial_added_native_suites": [
+    "spatial_analysis",
+    "spatial_records",
+    "spatial_cli",
+    "spatial_frontend"
+  ]
+}

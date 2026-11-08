@@ -1,0 +1,20 @@
+{
+  "id": 12705439922,
+  "node_id": "MDg6QXJ0aWZhY3QxMjcwNTQzOTkyMg==",
+  "name": "manylinux-3.11",
+  "size_in_bytes": 15145887,
+  "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12705439922",
+  "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12705439922/zip",
+  "expired": false,
+  "digest": "sha256:204adf0d9cb943f898172894f45070fbe603ba245fb0b12576d51581f209e893",
+  "created_at": "2026-10-27T03:00:16Z",
+  "updated_at": "2026-10-27T03:00:16Z",
+  "expires_at": "2026-11-10T03:00:15Z",
+  "workflow_run": {
+    "id": 40440044976,
+    "repository_id": 1427753981,
+    "head_repository_id": 1427753981,
+    "head_branch": "feature/raw-path-qualification-258",
+    "head_sha": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027"
+  }
+}

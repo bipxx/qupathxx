@@ -1,0 +1,7 @@
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+
+  1>Checking Build System
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/cell-policy-edges-303/kernel-probe/CMakeLists.txt
+  probe.cpp
+  gaussian303.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\cell-policy-edges-303\kernel-probe\build\Release\gaussian303.exe
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/cell-policy-edges-303/kernel-probe/CMakeLists.txt

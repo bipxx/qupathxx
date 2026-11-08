@@ -1,0 +1,61 @@
+{
+  "source_revision": "cbf4102f2cffe6ed8f71549087ae5bf74cdcd8e2",
+  "source_tree_sha256": "5a98347c5447c5b8f414d299a3411e9554c72188f92e1ca3ecd7c8c69aeee96e",
+  "source_project": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\neighborhood-workflow\\staged-workflow\\input.qpxproj",
+  "source_project_sha256": "ce18eeb4a72abb57ed46a5673486b67dcd45ac624dd79a295da16f0e7510616d",
+  "imported_cells": 506,
+  "windows": [
+    507,
+    508,
+    509,
+    510
+  ],
+  "tissue": [
+    511,
+    512
+  ],
+  "excluded": [
+    513,
+    514
+  ],
+  "expected_area_count": [
+    [
+      40576,
+      289
+    ],
+    [
+      17536,
+      121
+    ],
+    [
+      23040,
+      168
+    ],
+    [
+      0,
+      0
+    ]
+  ],
+  "input_sha256": "6738014aabd35e51062c3f6500d2274e17c9c48f4f70e469f3f557eb6f6dc72d",
+  "result_sha256": "9e70a76c57e101632d8012ffb77842a7541027f847c51fef840f730d00ac0ba0",
+  "cli_verified": true,
+  "sdk_reopened_verified": true,
+  "pixel_size_um": [
+    0.45641259698767683,
+    0.4550625711035267
+  ],
+  "oracle": "Independent axis-aligned coordinate arrangement and closed centroid predicates; native captured centroid authority reused",
+  "scope": "Existing imported NDPI reference ROIs/crop; declared synthetic tissue/exclusions; no segmentation, speed-superiority or biological acceptance",
+  "gui": {
+    "replay_complete": true,
+    "state": "verified",
+    "error": "",
+    "record_status": "current",
+    "rows": 4,
+    "export_state": "saved",
+    "export_error": "",
+    "project_error": "",
+    "ui_overflow_items": 0
+  },
+  "standalone_reopen": true
+}

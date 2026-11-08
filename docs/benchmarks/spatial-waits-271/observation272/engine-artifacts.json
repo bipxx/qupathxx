@@ -1,0 +1,85 @@
+{
+  "total_count": 4,
+  "artifacts": [
+    {
+      "id": 12817955918,
+      "node_id": "MDg6QXJ0aWZhY3QxMjgxNzk1NTkxOA==",
+      "name": "Windows-headless-py3.11",
+      "size_in_bytes": 11970698,
+      "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12817955918",
+      "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12817955918/zip",
+      "expired": false,
+      "digest": "sha256:5797e5713d7beec59eaa95a27664a447840044f1e3edcb57f4a5c906c9107167",
+      "created_at": "2026-10-28T12:56:17Z",
+      "updated_at": "2026-10-28T12:56:17Z",
+      "expires_at": "2026-11-11T12:56:15Z",
+      "workflow_run": {
+        "id": 40688686191,
+        "repository_id": 1427753981,
+        "head_repository_id": 1427753981,
+        "head_branch": "feature/spatial-waits-qualification-271",
+        "head_sha": "ee19be5743cc131b297bfdbccad393f99b67b7c7"
+      }
+    },
+    {
+      "id": 12817660112,
+      "node_id": "MDg6QXJ0aWZhY3QxMjgxNzY2MDExMg==",
+      "name": "Linux-headless-py3.12",
+      "size_in_bytes": 14951390,
+      "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12817660112",
+      "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12817660112/zip",
+      "expired": false,
+      "digest": "sha256:ee2d3112b71fe1b3e018d45c88528eecda57b4dfeb6a34a2e343d8c022fea0a5",
+      "created_at": "2026-10-28T12:45:03Z",
+      "updated_at": "2026-10-28T12:45:03Z",
+      "expires_at": "2026-11-11T12:45:02Z",
+      "workflow_run": {
+        "id": 40688686191,
+        "repository_id": 1427753981,
+        "head_repository_id": 1427753981,
+        "head_branch": "feature/spatial-waits-qualification-271",
+        "head_sha": "ee19be5743cc131b297bfdbccad393f99b67b7c7"
+      }
+    },
+    {
+      "id": 12815888970,
+      "node_id": "MDg6QXJ0aWZhY3QxMjgxNTg4ODk3MA==",
+      "name": "Linux-minimal-py3.12",
+      "size_in_bytes": 53418,
+      "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12815888970",
+      "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12815888970/zip",
+      "expired": false,
+      "digest": "sha256:06f172832bb7e0a9d6c593074177e59aa1f78e83f25902509d811586ea43c14c",
+      "created_at": "2026-10-28T12:35:52Z",
+      "updated_at": "2026-10-28T12:35:52Z",
+      "expires_at": "2026-11-11T12:35:51Z",
+      "workflow_run": {
+        "id": 40688686191,
+        "repository_id": 1427753981,
+        "head_repository_id": 1427753981,
+        "head_branch": "feature/spatial-waits-qualification-271",
+        "head_sha": "ee19be5743cc131b297bfdbccad393f99b67b7c7"
+      }
+    },
+    {
+      "id": 12815879386,
+      "node_id": "MDg6QXJ0aWZhY3QxMjgxNTg3OTM4Ng==",
+      "name": "Linux-sanitize-py3.12",
+      "size_in_bytes": 61207,
+      "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12815879386",
+      "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12815879386/zip",
+      "expired": false,
+      "digest": "sha256:96a37665a0df63a4f6d4444380776e52eff65e7f2a75e16a78138db30bf18b0b",
+      "created_at": "2026-10-28T12:38:35Z",
+      "updated_at": "2026-10-28T12:38:35Z",
+      "expires_at": "2026-11-11T12:38:34Z",
+      "workflow_run": {
+        "id": 40688686191,
+        "repository_id": 1427753981,
+        "head_repository_id": 1427753981,
+        "head_branch": "feature/spatial-waits-qualification-271",
+        "head_sha": "ee19be5743cc131b297bfdbccad393f99b67b7c7"
+      }
+    }
+  ]
+}

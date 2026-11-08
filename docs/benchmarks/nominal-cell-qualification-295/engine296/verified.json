@@ -1,0 +1,69 @@
+{
+  "source": "a7eb78de75387bce2da7b3d59b7f0a2ab6126cee",
+  "files": [
+    {
+      "name": "Windows-gui-py3.12",
+      "artifact_id": 12859254264,
+      "run_id": 40782637825,
+      "bytes": 58154503,
+      "digest": "sha256:d985d81a4a19bf195f8f7d10df54d37262ef0c4cb696e3cf460e31e34c695e36"
+    },
+    {
+      "name": "Linux-headless-py3.12",
+      "artifact_id": 12858402459,
+      "run_id": 40782637825,
+      "bytes": 15034400,
+      "digest": "sha256:28bb69a8b79f0319c6adb4ca96b3645b18101760b7e7d08dd0f1d25e597f7504"
+    },
+    {
+      "name": "Windows-headless-py3.11",
+      "artifact_id": 12858268246,
+      "run_id": 40782637825,
+      "bytes": 12027836,
+      "digest": "sha256:1db12147f3cfdf3b1423efc7b12783b36e0c986b7ed8deee3ce5a265f71c46fb"
+    },
+    {
+      "name": "Linux-sanitize-py3.12",
+      "artifact_id": 12858081960,
+      "run_id": 40782637825,
+      "bytes": 63874,
+      "digest": "sha256:d23a90adeb10c2c72a3c399fb4ecc99b2c792314193c7a1a0c4af9a18590d75d"
+    },
+    {
+      "name": "Linux-minimal-py3.12",
+      "artifact_id": 12857014728,
+      "run_id": 40782637825,
+      "bytes": 56331,
+      "digest": "sha256:ccfa832479bfc5a92b34876d365a143d5a4a6c11a6442fa2bf9c9c1c1527211a"
+    },
+    {
+      "name": "manylinux-consumer-3.11",
+      "artifact_id": 12859761280,
+      "run_id": 40782658569,
+      "bytes": 90685,
+      "digest": "sha256:4c5c6551fd94272de1d229be17c367a1e5610e8588b388d9db5b7ca327e0e83a"
+    },
+    {
+      "name": "manylinux-consumer-3.12",
+      "artifact_id": 12859332603,
+      "run_id": 40782658569,
+      "bytes": 91220,
+      "digest": "sha256:1253e5ebf7c102214aa6b543c2582d0cdf8bfa1e3b6e1c96afea797cbc5b632c"
+    },
+    {
+      "name": "manylinux-3.11",
+      "artifact_id": 12858967558,
+      "run_id": 40782658569,
+      "bytes": 15431707,
+      "digest": "sha256:f17aeeb50afdff46f479471cc223f2eaf537348bde22d9e1439db22963da70be"
+    },
+    {
+      "name": "manylinux-3.12",
+      "artifact_id": 12858414086,
+      "run_id": 40782658569,
+      "bytes": 15429917,
+      "digest": "sha256:88ccd1863e41e4033bd4479a20017fec22dcfd5c8380f0faf87e11ca5fdc711b"
+    }
+  ],
+  "accepted": false
+}

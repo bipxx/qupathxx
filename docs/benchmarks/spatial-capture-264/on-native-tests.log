@@ -1,0 +1,13 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+    Start 43: geometry
+1/4 Test #43: geometry .........................   Passed    0.05 sec
+    Start 44: geometry_edits
+2/4 Test #44: geometry_edits ...................   Passed    0.03 sec
+    Start 45: spatial
+3/4 Test #45: spatial ..........................   Passed    0.06 sec
+    Start 46: spatial_analysis
+4/4 Test #46: spatial_analysis .................   Passed    0.10 sec
+
+100% tests passed out of 4
+
+Total Test time (real) =   0.36 sec

@@ -1,0 +1,28 @@
+{
+  "native_revision": "cbf4102f2cffe6ed8f71549087ae5bf74cdcd8e2",
+  "native_tree_sha256": "5a98347c5447c5b8f414d299a3411e9554c72188f92e1ca3ecd7c8c69aeee96e",
+  "runner_sha256": "8087f57a59ca5b706fc9c83a14f9f481d221fd76e6b01c980dc3dcab6c18f65f",
+  "original_reference_sha256": "44140293364df069e9f8d0179117e0cc2d00394973ee185664df5c13a733c928",
+  "project_sha256": "74ce7d04eb1ff9558506041a610d8c3bddb030600f962054fc3f045b58bb4fcb",
+  "images": 2,
+  "cells_per_image": 506,
+  "rows": 8,
+  "computed_first_run": 2,
+  "reused_second_run": 2,
+  "resumed_project_copies": 0,
+  "source_unchanged": true,
+  "expected_counts_per_image": [
+    289,
+    121,
+    168,
+    0
+  ],
+  "expected_area_pixels_per_image": [
+    40576,
+    17536,
+    23040,
+    0
+  ],
+  "checkpoints_reopened": true,
+  "scope": "Same existing reference crop duplicated to test image identity/orchestration, not independent specimens; candidate4 numeric oracles reused. No native build, new wheel/install, segmentation or UI campaign."
+}

@@ -1,3 +1,6 @@
+#include "qupathxx/raw_image.hpp"
+#include "object_edit_state.hpp"
+#include "class_registry.hpp"
 #include "tma_internal.hpp"
 #include "object_snapshot.hpp"
 #include "qupathxx/core.hpp"
@@ -7,32 +10,55 @@
 #include <cmath>
 #include <limits>
 #include <stdexcept>
+#include <type_traits>
+#include "qupathxx/image_data_properties.hpp"
 
 namespace qpx {
 namespace {
 bool same_object(const std::optional<Annotation>& a,const std::optional<Annotation>& b) {
     if (a.has_value()!=b.has_value()) return false;
     if (!a) return true;
-    return a->id==b->id && a->name==b->name && a->class_name==b->class_name && a->parent_id==b->parent_id &&
+    return a->plane==b->plane && a->id==b->id && a->name==b->name && a->class_name==b->class_name && a->parent_id==b->parent_id &&
         a->geometry.equals(b->geometry) && a->kind==b->kind &&
+        (a->properties==b->properties || (a->properties && b->properties && a->properties->equals(*b->properties))) &&
         a->nucleus.has_value()==b->nucleus.has_value() && (!a->nucleus || a->nucleus->equals(*b->nucleus)) && a->cell_feature_link==b->cell_feature_link && bool(a->tma_core)==bool(b->tma_core) && (!a->tma_core || a->tma_core->same_metadata(*b->tma_core));
 }
 void text(const std::string& value) {
     if (value.size()>4096 || value.find('\0')!=std::string::npos) throw std::invalid_argument("object text must be at most 4096 bytes and contain no NUL");
 }
 }
-ObjectEdit ObjectEdit::create(Rect roi,std::string name,std::uint64_t parent,std::string classification) {
-    return create_geometry(Roi::rectangle(roi),std::move(name),parent,std::move(classification));
+ObjectEdit ObjectEdit::create(Rect roi,std::string name,std::uint64_t parent,std::string classification,std::optional<ObjectPlane> plane) {
+    return create_geometry(Roi::rectangle(roi),std::move(name),parent,std::move(classification),ObjectKind::Annotation,std::nullopt,plane);
 }
 ObjectEdit ObjectEdit::replace(std::uint64_t id,Rect roi,std::string name,std::uint64_t parent,std::string classification) {
     return replace_geometry(id,Roi::rectangle(roi),std::move(name),parent,std::move(classification));
 }
 ObjectEdit ObjectEdit::remove(std::uint64_t id) { return {ObjectEditKind::Remove,{id,"",{},0,"",0}}; }
+ObjectEdit ObjectEdit::plane(std::uint64_t id,ObjectPlane plane) {
+    ObjectEdit out{ObjectEditKind::Plane,{id,"",{},0,"",0}};out.value.plane=plane;return out;
+}
+void Document::set_object_plane(std::uint64_t id,ObjectPlane plane) {
+    execute({ObjectEdit::plane(id,plane)},"Set object plane");
+}
+ObjectEdit ObjectEdit::properties(std::uint64_t id,std::shared_ptr<const ObjectProperties> properties) {
+    ObjectEdit out{ObjectEditKind::Properties,{id,"",{},0,"",0}};out.value.properties=std::move(properties);return out;
+}
+bool Annotation::locked() const {return properties && properties->locked();}
+std::optional<std::uint32_t> Annotation::color_rgb() const {return properties?properties->color_rgb():std::nullopt;}
+std::optional<double> Annotation::class_probability() const {return properties?properties->class_probability():std::nullopt;}
+void Document::set_object_edit_state(std::uint64_t id,bool locked,std::optional<std::uint32_t> color,std::optional<double> probability) {
+    const auto& value=find(id);if(!value.properties && !locked && !color && (!probability || std::isnan(*probability)))return;
+    auto properties=value.properties?value.properties->with_edit_state(locked,color,probability):std::make_shared<const ObjectProperties>(std::map<std::string,std::string>{},std::map<std::string,double>{},locked,color,probability);
+    set_object_properties(id,std::move(properties));
+}
+void Document::set_object_properties(std::uint64_t id,std::shared_ptr<const ObjectProperties> properties) {
+    execute({ObjectEdit::properties(id,std::move(properties))},"Set object properties");
+}
 ObjectEdit ObjectEdit::tma_metadata(std::uint64_t id,std::shared_ptr<const TmaCoreInfo> info) {
     ObjectEdit out{ObjectEditKind::TmaMetadata,{id,"",{},0,"",0}};out.value.tma_core=std::move(info);return out;
 }
-ObjectEdit ObjectEdit::create_geometry(Roi geometry,std::string name,std::uint64_t parent,std::string classification,ObjectKind kind,std::optional<Roi> nucleus) {
-    return {ObjectEditKind::Create,{0,std::move(name),std::move(geometry),parent,std::move(classification),0,kind,std::move(nucleus)}};
+ObjectEdit ObjectEdit::create_geometry(Roi geometry,std::string name,std::uint64_t parent,std::string classification,ObjectKind kind,std::optional<Roi> nucleus,std::optional<ObjectPlane> plane) {
+    return {ObjectEditKind::Create,{0,std::move(name),std::move(geometry),parent,std::move(classification),0,kind,std::move(nucleus)},plane};
 }
 ObjectEdit ObjectEdit::replace_geometry(std::uint64_t id,Roi geometry,std::string name,std::uint64_t parent,std::string classification,ObjectKind kind,std::optional<Roi> nucleus) {
     return {ObjectEditKind::Replace,{id,std::move(name),std::move(geometry),parent,std::move(classification),0,kind,std::move(nucleus)}};
@@ -42,6 +68,10 @@ struct Document::Staging {
     Document& document;
     ObjectPatch before,after;
     ClassPatch before_classes,after_classes;
+    std::optional<std::shared_ptr<const ObjectProperties>> image_properties;
+    std::optional<std::optional<ImageAnalysisSettings>> image_settings;
+    std::optional<std::optional<ImageAxisCalibration>> axis_calibration;
+    std::optional<std::shared_ptr<const ImageDataProperties>> data_properties;
     std::map<std::string,std::size_t> counts;
     std::map<std::uint64_t,std::set<std::uint64_t>> child_sets;
     explicit Staging(Document& d) : document(d) {}
@@ -49,6 +79,11 @@ struct Document::Staging {
         auto changed=after_classes.find(name); if(changed!=after_classes.end()) return changed->second;
         auto existing=document.classes_.find(name);
         return existing==document.classes_.end()?std::nullopt:std::optional<ObjectClass>(existing->second);
+    }
+    const ObjectClass* class_definition(const std::string& name) const {
+        const auto changed=after_classes.find(name);
+        if(changed!=after_classes.end())return changed->second?&*changed->second:nullptr;
+        const auto live=document.classes_.find(name);return live==document.classes_.end()?nullptr:&live->second;
     }
     bool has_class(const std::string& name) const {
         auto changed=after_classes.find(name);
@@ -111,14 +146,30 @@ struct Document::Staging {
         // silently recreated and fail validation if still referenced.
         for(const auto& [id,a]:after) if(a && !a->class_name.empty() && !has_class(a->class_name) && !after_classes.count(a->class_name))
             write_class(a->class_name,ObjectClass{a->class_name});
+        if(!after_classes.empty()) {
+            auto lookup=[&](const std::string& name){return class_definition(name);};
+            for(const auto& [name,value]:after_classes)if(value)detail::validate_class_definition(*value);
+            for(auto& [name,value]:after_classes)if(value)*value=detail::resolve_class_definition(*value,lookup,true);
+            // Only absent-color definitions depend on ancestor colors. Preserve
+            // sparse history by journaling their changed resolved views alone.
+            for(const auto& [name,value]:document.classes_)if(!value.color_present && !after_classes.count(name)) {
+                auto resolved=detail::resolve_class_definition(value,lookup,true);
+                if(!(resolved==value))write_class(name,std::move(resolved));
+            }
+            bool removed=false;for(const auto& [name,value]:after_classes)if(!value){removed=true;break;}
+            if(removed)for(const auto& [name,value]:document.classes_) {
+                const auto* current=class_definition(name);
+                if(current && !current->parent.empty() && !has_class(current->parent))throw std::invalid_argument("cannot remove a class with surviving children");
+            }
+        }
         for(auto it=after_classes.begin();it!=after_classes.end();) {
             const auto& old=before_classes.at(it->first); const auto& current=it->second;
-            if(old.has_value()==current.has_value() && (!old || (old->name==current->name && old->color==current->color))) {
+            if(old.has_value()==current.has_value() && (!old || (*old==*current))) {
                 before_classes.erase(it->first); it=after_classes.erase(it);
             } else ++it;
         }
     }
-    void validate_object(const Annotation& a) const {
+    void validate_object(const Annotation& a,bool check_source_plane=true) const {
         text(a.name); text(a.class_name);
         if(!a.class_name.empty() && !has_class(a.class_name)) throw std::invalid_argument("object class is not registered");
         if(a.kind!=ObjectKind::Annotation && a.kind!=ObjectKind::Detection && a.kind!=ObjectKind::Cell)
@@ -133,6 +184,12 @@ struct Document::Staging {
             const auto run=document.cells_.find(a.cell_feature_link->record_id);
             if(run!=document.cells_.end() && a.cell_feature_link->label>run->second.value->result->features().size()) throw std::invalid_argument("invalid cell feature label");
         }
+        if(check_source_plane) {
+            const auto existing=document.objects_.find(a.id);
+            if(existing==document.objects_.end() || existing->second.plane!=a.plane)document.validate_object_plane(a.plane);
+            else a.plane.validate();
+        }
+        else {a.plane.validate();if(a.plane!=ObjectPlane{} && !document.server_->tiff_view())throw std::invalid_argument("persisted object plane requires a quantitative TIFF source");}
         const auto roi=a.bounds();
         const auto limit=static_cast<double>(std::numeric_limits<std::int64_t>::max());
         if (!a.id || roi.x<0 || roi.y<0 || roi.x+roi.width>=limit || roi.y+roi.height>=limit ||
@@ -142,6 +199,7 @@ struct Document::Staging {
         if (a.parent_id) {
             auto parent=get(a.parent_id);
             if (!parent) throw std::invalid_argument("parent annotation does not exist");
+            if (!parent->plane.covers(a.plane)) throw std::invalid_argument("parent plane must contain its child plane");
             if (!parent->geometry.covers(a.geometry)) throw std::invalid_argument("parent ROI must contain its child");
         }
     }
@@ -167,7 +225,7 @@ struct Document::Staging {
             const auto& previous=before.at(id);
             // Geometry edits validate unchanged immediate children; names/classes
             // do not require an O(number of children) containment traversal.
-            if (!previous || !previous->geometry.equals(value->geometry)) for (auto child:children(id)) {
+            if (!previous || previous->plane!=value->plane || !previous->geometry.equals(value->geometry)) for (auto child:children(id)) {
                 auto child_value=get(child);
                 if (child_value) validate_object(*child_value);
             }
@@ -189,23 +247,21 @@ std::vector<Annotation> Document::annotations() const {
     return result;
 }
 std::size_t Document::object_payload(const Annotation& a) {
-    return sizeof(Annotation)+64+a.name.size()+a.class_name.size()+a.geometry.payload_bytes()+(a.nucleus?a.nucleus->payload_bytes():0)+(a.tma_core?a.tma_core->payload_bytes():0);
+    return sizeof(Annotation)+64+a.name.size()+a.class_name.size()+a.geometry.payload_bytes()+(a.nucleus?a.nucleus->payload_bytes():0)+(a.tma_core?a.tma_core->payload_bytes():0)+(a.properties?a.properties->payload_bytes():0);
 }
 std::shared_ptr<Document> Document::restore(std::shared_ptr<ImageServer> server,
     const std::vector<Annotation>& objects,const std::vector<ObjectClass>& classes,
-    std::optional<double> x,std::optional<double> y,std::uint64_t next_id,std::uint64_t revision) {
+    std::optional<double> x,std::optional<double> y,std::uint64_t next_id,std::uint64_t revision,std::shared_ptr<const ObjectProperties> image_properties,std::optional<ImageAnalysisSettings> image_settings,std::shared_ptr<const ImageDataProperties> data_properties,std::optional<ImageAxisCalibration> axis_calibration) {
     if(!next_id || (x && (!std::isfinite(*x) || *x<=0)) || (y && (!std::isfinite(*y) || *y<=0)))
         throw std::invalid_argument("invalid persisted calibration or next object ID");
     // The candidate is private until all validation succeeds. Build canonical
     // nodes once instead of allocating before/after edit patches and committing
     // a synthetic edit just to reconstruct an unpublished document.
-    auto result=std::make_shared<Document>(std::move(server));result->revision_=revision;
-    for(const auto& c:classes) {
-        text(c.name);
-        if(c.name.empty()) throw std::invalid_argument("class name must not be empty");
-        if(c.color>0xffffff) throw std::invalid_argument("class color must be a 24-bit RGB value");
-        if(!result->classes_.emplace(c.name,c).second) throw std::invalid_argument("duplicate persisted class");
-    }
+    auto result=std::make_shared<Document>(std::move(server));result->revision_=revision;result->image_properties_=normalize_image_properties(std::move(image_properties));if(image_settings && !image_settings->empty())result->image_analysis_settings_=std::move(image_settings);
+    if(data_properties && !data_properties->empty())result->image_data_properties_=std::move(data_properties);
+    result->image_axis_calibration_=std::move(axis_calibration);
+    result->classes_=detail::normalized_class_registry(classes);
+    for(const auto& value:classes)if(result->classes_.at(value.name).color!=value.color)throw std::invalid_argument("persisted class RGB view disagrees with its definition");
     for(const auto& a:objects) {
         if(!a.id || a.id>=next_id || !a.revision || a.revision>revision || (a.cell_feature_link && a.cell_feature_link->record_id>revision) || !result->objects_.emplace(a.id,a).second)
             throw std::invalid_argument("invalid persisted object identity or revision");
@@ -227,7 +283,7 @@ std::shared_ptr<Document> Document::restore(std::shared_ptr<ImageServer> server,
     std::map<std::uint64_t,std::size_t> depths;
     for(const auto& [id,a]:result->objects_) {
         // Share object/class/ROI/parent containment rules with live edits.
-        validator.validate_object(a);
+        validator.validate_object(a,false);
         if(!a.class_name.empty()) ++result->class_counts_[a.class_name];
         if(!a.parent_id) continue;
         result->children_[a.parent_id].insert(id);
@@ -260,27 +316,34 @@ ObjectClass Document::object_class(const std::string& name) const {
 std::size_t Document::class_count(const std::string& name) const {
     auto found=class_counts_.find(name); return found==class_counts_.end()?0:found->second;
 }
+ObjectClass ObjectClass::definition(std::string name,std::optional<std::uint32_t> argb,std::string parent) {
+    ObjectClass value{std::move(name),argb?(*argb&0xffffff):0x41e1be,std::move(parent),std::uint8_t(argb?(*argb>>24):0),argb.has_value()};
+    detail::validate_class_definition(value);
+    if(!argb && value.parent.empty())value.color=detail::qupath_class_default_argb({value.name})&0xffffff;
+    return value;
+}
+std::vector<std::string> Document::class_path(const std::string& name) const {return detail::class_path(classes_,name);}
 void Document::set_class(std::string name,std::uint32_t color) {
-    Staging staged(*this); staged.write_class(name,ObjectClass{name,color});
+    auto value=classes_.count(name)?object_class(name):ObjectClass{name};value.color=color;value.color_present=true;
+    set_class_definition(std::move(value));
+}
+void Document::set_class_definition(ObjectClass value) {
+    Staging staged(*this);const auto key=value.name;staged.write_class(key,std::move(value));
     save_edit(staged,{pixel_width_um_,pixel_height_um_},"Set class");
+}
+void Document::replace_class_registry(const std::vector<ObjectClass>& definitions,std::string label) {
+    const auto candidate=detail::normalized_class_registry(definitions);Staging staged(*this);
+    for(const auto& [name,value]:classes_)if(!candidate.count(name))staged.write_class(name,std::nullopt);
+    for(const auto& [name,value]:candidate)staged.write_class(name,value);
+    save_edit(staged,{pixel_width_um_,pixel_height_um_},std::move(label));
 }
 void Document::remove_class(const std::string& name) {
     object_class(name); Staging staged(*this); staged.write_class(name,std::nullopt);
     save_edit(staged,{pixel_width_um_,pixel_height_um_},"Remove class");
 }
-void Document::rename_class(const std::string& old_name,std::string new_name) {
-    auto current=object_class(old_name); if(old_name==new_name) return;
-    if(classes_.count(new_name)) throw std::invalid_argument("class name already exists");
-    Staging staged(*this); current.name=new_name;
-    staged.write_class(new_name,current); staged.write_class(old_name,std::nullopt);
-    for(const auto& [id,a]:objects_) if(a.class_name==old_name) {
-        auto value=a; value.class_name=new_name; staged.write(id,std::move(value));
-    }
-    save_edit(staged,{pixel_width_um_,pixel_height_um_},"Rename class");
-}
 void Document::classify_objects(const std::vector<std::uint64_t>& ids,std::string classification) {
     text(classification); Staging staged(*this);
-    for(auto id:ids) { auto value=find(id); value.class_name=classification; staged.write(id,std::move(value)); }
+    for(auto id:ids) { auto value=find(id); value.class_name=classification;value.properties=detail::reclassified_properties(value.properties,!classification.empty()); staged.write(id,std::move(value)); }
     save_edit(staged,{pixel_width_um_,pixel_height_um_},"Classify objects");
 }
 std::vector<std::uint64_t> Document::children(std::uint64_t parent) const {
@@ -293,12 +356,14 @@ std::vector<std::uint64_t> Document::children(std::uint64_t parent) const {
     return it==children_.end()?std::vector<std::uint64_t>{}:std::vector<std::uint64_t>(it->second.begin(),it->second.end());
 }
 void Document::commit(Staging& staged,Calibration calibration) {
+    const bool render_changed=!staged.after.empty() || !staged.after_classes.empty() || pixel_width_um_!=calibration.x || pixel_height_um_!=calibration.y;
     staged.validate();const auto tma=prepare_tma(staged.before,staged.after);
     if (revision_==std::numeric_limits<std::uint64_t>::max()) throw std::overflow_error("document revision exhausted");
     std::optional<std::map<std::uint64_t,std::optional<Rect>>> spatial_delta;
     bool spatial_reset=false;
-    bool membership_changed=false,tma_changed=false;
+    bool membership_changed=false,tma_changed=false,plane_changed=false;
     for(const auto& [id,value]:staged.after) {
+        plane_changed |= value && staged.before.at(id) && value->plane!=staged.before.at(id)->plane;
         membership_changed |= staged.before.at(id).has_value()!=value.has_value();
         tma_changed |= bool(value && value->tma_core) || bool(staged.before.at(id) && staged.before.at(id)->tma_core);
     }
@@ -372,9 +437,16 @@ void Document::commit(Staging& staged,Calibration calibration) {
     if(spatial_reset) { spatial_.reset(); spatial_dirty_.clear(); spatial_rebuild_=true; }
     else if(spatial_delta) spatial_dirty_.swap(*spatial_delta);
     if(pixel_width_um_!=calibration.x || pixel_height_um_!=calibration.y) calibration_revision_=revision_+1;
-    pixel_width_um_=calibration.x; pixel_height_um_=calibration.y; ++revision_;render_revision_=revision_;
+    if(staged.image_properties)image_properties_=*staged.image_properties;
+    static_assert(std::is_nothrow_move_assignable_v<std::optional<ImageAnalysisSettings>>);
+    if(staged.image_settings)image_analysis_settings_=std::move(*staged.image_settings);
+    static_assert(std::is_nothrow_move_assignable_v<std::optional<ImageAxisCalibration>>);
+    if(staged.axis_calibration)image_axis_calibration_=std::move(*staged.axis_calibration);
+    if(staged.data_properties)image_data_properties_=*staged.data_properties;
+    pixel_width_um_=calibration.x; pixel_height_um_=calibration.y; ++revision_;if(render_changed)render_revision_=revision_;
     if(tma_changed) tma_revision_=revision_;
     if(membership_changed) structure_revision_=revision_;
+    if(plane_changed)object_plane_revision_=revision_;
 }
 void Document::trim_history() {
     while (undo_.size()+redo_.size()>history_steps_ || history_bytes_>history_budget_) {
@@ -390,21 +462,29 @@ void Document::set_history_limits(std::size_t steps,std::size_t bytes) {
 }
 void Document::save_edit(Staging& staged,Calibration calibration,std::string label) {
     text(label); staged.normalize();
-    if (staged.after.empty() && staged.after_classes.empty() && calibration.x==pixel_width_um_ && calibration.y==pixel_height_um_) return;
+    if (!staged.axis_calibration && !staged.data_properties && !staged.image_settings && !staged.image_properties && staged.after.empty() && staged.after_classes.empty() && calibration.x==pixel_width_um_ && calibration.y==pixel_height_um_) return;
     std::size_t bytes=sizeof(EditRecord)+label.size();
+    if(staged.axis_calibration)bytes+=sizeof(ImageAxisHistory)+(image_axis_calibration_?image_axis_calibration_->timepoints_seconds().size()*sizeof(double):0)+(*staged.axis_calibration?(*staged.axis_calibration)->timepoints_seconds().size()*sizeof(double):0);
+    if(staged.data_properties)bytes+=sizeof(ImageDataPropertiesHistory)+(image_data_properties_?image_data_properties_->payload_bytes():0)+(*staged.data_properties?(*staged.data_properties)->payload_bytes():0);
+    if(staged.image_settings)bytes+=sizeof(ImageSettingsHistory)+(image_analysis_settings_?image_analysis_settings_->payload_bytes()-sizeof(ImageAnalysisSettings):0)+(*staged.image_settings?(*staged.image_settings)->payload_bytes()-sizeof(ImageAnalysisSettings):0);
+    if(staged.image_properties)bytes+=sizeof(ImagePropertiesHistory)+(image_properties_?image_properties_->payload_bytes():0)+(*staged.image_properties?(*staged.image_properties)->payload_bytes():0);
     std::set<const TmaGridInfo*> tma_layouts;
     for (auto* patch:{&staged.before,&staged.after}) for (const auto& [id,a]:*patch) {
-        bytes+=sizeof(std::uint64_t)+sizeof(std::optional<Annotation>)+(a?a->name.size()+a->class_name.size()+a->geometry.payload_bytes()+(a->nucleus?a->nucleus->payload_bytes():0)+(a->tma_core?a->tma_core->payload_bytes():0):0);
+        bytes+=sizeof(std::uint64_t)+sizeof(std::optional<Annotation>)+(a?a->name.size()+a->class_name.size()+a->geometry.payload_bytes()+(a->nucleus?a->nucleus->payload_bytes():0)+(a->tma_core?a->tma_core->payload_bytes():0)+(a->properties?a->properties->payload_bytes():0):0);
         if(a && a->tma_core && tma_layouts.insert(a->tma_core->grid_info().get()).second) bytes+=a->tma_core->grid_info()->payload_bytes();
     }
     for(auto* patch:{&staged.before_classes,&staged.after_classes}) for(const auto& [name,value]:*patch)
-        bytes+=sizeof(std::string)+name.size()+sizeof(std::optional<ObjectClass>)+(value?value->name.size():0);
+        bytes+=sizeof(std::string)+name.size()+sizeof(std::optional<ObjectClass>)+(value?value->name.size()+value->parent.size():0);
     const bool recording=history_steps_ && history_budget_;
     if (recording && bytes>history_budget_) throw std::length_error("edit exceeds history payload budget; raise limits or explicitly disable recording");
     EditRecord record;
     if (recording) {
         record={staged.before,staged.after,{pixel_width_um_,pixel_height_um_},calibration,
             staged.before_classes,staged.after_classes,std::move(label),bytes};
+        if(staged.image_properties)record.image_properties=std::make_shared<const ImagePropertiesHistory>(ImagePropertiesHistory{image_properties_,*staged.image_properties});
+        if(staged.data_properties)record.data_properties=std::make_shared<const ImageDataPropertiesHistory>(ImageDataPropertiesHistory{image_data_properties_,*staged.data_properties});
+        if(staged.image_settings)record.image_settings=std::make_shared<const ImageSettingsHistory>(ImageSettingsHistory{image_analysis_settings_,*staged.image_settings});
+        if(staged.axis_calibration)record.axis_calibration=std::make_shared<const ImageAxisHistory>(ImageAxisHistory{image_axis_calibration_,*staged.axis_calibration});
         undo_.reserve(undo_.size()+1);
     }
     commit(staged,calibration);
@@ -418,13 +498,22 @@ std::vector<std::uint64_t> Document::execute(const std::vector<ObjectEdit>& edit
     for (const auto& edit:edits) {
         if (edit.kind==ObjectEditKind::Create) {
             if (next==std::numeric_limits<std::uint64_t>::max()) throw std::overflow_error("object identity exhausted");
-            auto value=edit.value; value.id=next++; value.revision=0; staged.write(value.id,value); created.push_back(value.id);
+            auto value=edit.value;value.plane=active_plane();
+            if(edit.creation_plane)value.plane=*edit.creation_plane;
+            else if(value.parent_id) {const auto parent=staged.get(value.parent_id);if(parent)value.plane=parent->plane;}
+            value.id=next++; value.revision=0; staged.write(value.id,value); created.push_back(value.id);
         } else if (edit.kind==ObjectEditKind::Replace) {
             const auto previous=staged.get(edit.value.id);if (!previous) throw std::out_of_range("annotation does not exist");
-            auto value=edit.value;
+            auto value=edit.value;value.plane=previous->plane;
             if(!value.tma_core) value.tma_core=previous->tma_core;
+            if(!value.properties) value.properties=previous->properties;
+            if(value.class_name!=previous->class_name)value.properties=detail::reclassified_properties(value.properties,!value.class_name.empty());
             if(value.kind==ObjectKind::Cell && !value.cell_feature_link) value.cell_feature_link=previous->cell_feature_link;
             staged.write(value.id,std::move(value));
+        } else if(edit.kind==ObjectEditKind::Plane) {
+            auto value=staged.get(edit.value.id);if(!value)throw std::out_of_range("annotation does not exist");value->plane=edit.value.plane;staged.write(value->id,std::move(value));
+        } else if(edit.kind==ObjectEditKind::Properties) {
+            auto value=staged.get(edit.value.id);if(!value)throw std::out_of_range("annotation does not exist");value->properties=edit.value.properties;staged.write(value->id,std::move(value));
         } else if(edit.kind==ObjectEditKind::TmaMetadata) {
             auto value=staged.get(edit.value.id);if(!value) throw std::out_of_range("annotation does not exist");value->tma_core=edit.value.tma_core;staged.write(value->id,std::move(value));
         } else if (edit.kind==ObjectEditKind::Remove) staged.remove_subtree(edit.value.id);
@@ -436,6 +525,9 @@ std::vector<std::uint64_t> Document::execute(const std::vector<ObjectEdit>& edit
     return created;
 }
 std::vector<std::uint64_t> Document::append_objects(const std::vector<Annotation>& objects,const std::vector<ObjectClass>& classes) {
+    return append_objects(objects,classes,"Import annotations");
+}
+std::vector<std::uint64_t> Document::append_objects(const std::vector<Annotation>& objects,const std::vector<ObjectClass>& classes,const std::string& history_label) {
     Staging staged(*this); auto next=next_id_;
     std::map<std::uint64_t,std::uint64_t> mapping; std::vector<std::uint64_t> created;
     for(const auto& a:objects) {
@@ -445,7 +537,7 @@ std::vector<std::uint64_t> Document::append_objects(const std::vector<Annotation
     }
     for(const auto& c:classes) {
         auto existing=staged.get_class(c.name);
-        if(existing && existing->color!=c.color) throw std::invalid_argument("import class color conflicts with existing definition");
+        if(existing && !(*existing==c)) throw std::invalid_argument("import class conflicts with existing definition");
         if(!existing) staged.write_class(c.name,c);
     }
     for(const auto& a:objects) {
@@ -457,7 +549,7 @@ std::vector<std::uint64_t> Document::append_objects(const std::vector<Annotation
         }
         staged.write(value.id,std::move(value));
     }
-    save_edit(staged,{pixel_width_um_,pixel_height_um_},"Import annotations");
+    save_edit(staged,{pixel_width_um_,pixel_height_um_},history_label);
     if(!objects.empty()) next_id_=next;
     return created;
 }
@@ -522,6 +614,7 @@ void Document::apply_boolean(std::uint64_t target,const std::vector<std::uint64_
     // Resolve every input before computation. Ordered operands define the fold;
     // repeats and the target itself are rejected instead of silently subtracted.
     for(auto id:operands) {
+        if(find(id).plane!=find(target).plane) throw std::invalid_argument("Boolean operands must share an image plane");
         if(!find(id).geometry.is_area()) throw std::invalid_argument("Boolean operations require area ROIs");
         if(id==target || !unique.insert(id).second) throw std::invalid_argument("Boolean operands must be distinct from each other and target");
     }
@@ -532,14 +625,97 @@ void Document::apply_boolean(std::uint64_t target,const std::vector<std::uint64_
     if(!geometry) throw std::invalid_argument("Boolean result has no area; remove the object explicitly");
     publish_roi(target,std::move(*geometry),"Boolean ROI edit");
 }
+std::uint64_t Document::merge_annotations(const std::vector<std::uint64_t>& ids,bool discard_points) {
+    if(ids.empty()) throw std::invalid_argument("annotation merge requires objects");
+    std::set<std::uint64_t> selected;std::set<std::string> classes;
+    bool areas=false,points=false;
+    for(auto id:ids) {
+        const auto& a=find(id);
+        if(a.plane!=find(ids.front()).plane)throw std::invalid_argument("merged objects must share an image plane");
+        if(!selected.insert(id).second) throw std::invalid_argument("annotation merge IDs must be distinct");
+        if(a.properties && (!a.properties->metadata().empty() || !a.properties->measurements().empty() || a.locked() || a.color_rgb() || a.class_probability()))
+            throw std::invalid_argument("merge cannot combine historical object properties; clear them explicitly before merging");
+        if(a.kind!=ObjectKind::Annotation || a.tma_core || (!a.geometry.is_area() && a.geometry.kind()!=RoiKind::Points))
+            throw std::invalid_argument("annotation merge requires area or point annotations, excluding TMA cores");
+        areas|=a.geometry.is_area();points|=a.geometry.kind()==RoiKind::Points;
+        if(!a.class_name.empty()) classes.insert(a.class_name);
+    }
+    if(areas && points && !discard_points) throw std::invalid_argument("mixed area/point merge requires discard_points=True");
+    if(next_id_==std::numeric_limits<std::uint64_t>::max()) throw std::overflow_error("object identity exhausted");
+    std::optional<Roi> geometry;
+    if(areas) {
+        for(auto id:selected) if(find(id).geometry.is_area()) {
+            const auto& shape=find(id).geometry;
+            geometry=geometry?geometry->boolean_operation(shape,BooleanOp::Union):std::optional<Roi>(shape);
+            if(!geometry) throw std::invalid_argument("annotation merge has no area");
+        }
+    } else {
+        std::set<std::pair<double,double>> unique;
+        for(auto id:selected) for(const auto& path:find(id).geometry.paths()) for(auto p:path) {
+            unique.emplace(p.x,p.y);
+            if(unique.size()>1000000) throw std::length_error("merged point ROI exceeds vertex limit");
+        }
+        Ring merged;merged.reserve(unique.size());for(auto p:unique) merged.push_back({p.first,p.second});
+        geometry=Roi::points(std::move(merged));
+    }
+    Staging staged(*this);
+    for(auto id:selected) {
+        for(auto child:children(id)) if(!selected.count(child)) {
+            auto value=find(child);value.parent_id=0;staged.write(child,std::move(value));
+        }
+        staged.write(id,std::nullopt);
+    }
+    const auto result=next_id_;
+    Annotation merged{result,"Annotation",std::move(*geometry),0,classes.size()==1?*classes.begin():"",0};merged.plane=find(ids.front()).plane;
+    staged.write(result,std::move(merged));
+    save_edit(staged,{pixel_width_um_,pixel_height_um_},"Merge annotations");
+    ++next_id_;return result;
+}
 void Document::rename_annotation(std::uint64_t id,std::string name) {
     auto a=find(id); execute({ObjectEdit::replace_geometry(id,a.geometry,std::move(name),a.parent_id,a.class_name,a.kind,a.nucleus)},"Rename annotation");
 }
 void Document::classify_annotation(std::uint64_t id,std::string classification) {
-    auto a=find(id); execute({ObjectEdit::replace_geometry(id,a.geometry,a.name,a.parent_id,std::move(classification),a.kind,a.nucleus)},"Classify annotation");
+    auto value=find(id);value.class_name=std::move(classification);value.properties=detail::reclassified_properties(value.properties,!value.class_name.empty());
+    Staging staged(*this);staged.write(id,std::move(value));save_edit(staged,{pixel_width_um_,pixel_height_um_},"Classify annotation");
 }
 void Document::reparent_annotation(std::uint64_t id,std::uint64_t parent) {
     auto a=find(id); execute({ObjectEdit::replace_geometry(id,a.geometry,a.name,parent,a.class_name,a.kind,a.nucleus)},"Reparent annotation");
+}
+std::shared_ptr<const ObjectProperties> Document::normalize_image_properties(std::shared_ptr<const ObjectProperties> value) {
+    if(!value)return {};
+    if(value->locked() || value->color_rgb() || value->class_probability())throw std::invalid_argument("image properties cannot contain ROI lock, color or class probability");
+    return value->metadata().empty() && value->measurements().empty()?std::shared_ptr<const ObjectProperties>{}:std::move(value);
+}
+void Document::set_image_properties(std::shared_ptr<const ObjectProperties> value) {
+    value=normalize_image_properties(std::move(value));
+    if(value==image_properties_ || (value && image_properties_ && value->equals(*image_properties_)))return;
+    Staging staged(*this);staged.image_properties=std::move(value);
+    save_edit(staged,{pixel_width_um_,pixel_height_um_},"Set image properties");
+}
+void Document::set_image_data_properties(std::shared_ptr<const ImageDataProperties> value) {
+    if(value && value->empty())value.reset();
+    if(value==image_data_properties_ || (value && image_data_properties_ && value->equals(*image_data_properties_)))return;
+    Staging staged(*this);staged.data_properties=std::move(value);save_edit(staged,{pixel_width_um_,pixel_height_um_},"Set ImageData properties");
+}
+void Document::set_image_axis_calibration(std::optional<ImageAxisCalibration> value) {
+    if(bool(value)==bool(image_axis_calibration_) && (!value || value->equals(*image_axis_calibration_)))return;
+    if(value && !value->timepoints_seconds().empty()) {
+        const auto raw=server_->raw_metadata();
+        if(value->timepoints_seconds().size()>(raw?raw->timepoints:1))throw std::invalid_argument("saved timestamps exceed source time domain");
+    }
+    Staging staged(*this);staged.axis_calibration=std::move(value);save_edit(staged,{pixel_width_um_,pixel_height_um_},"Set image axis calibration");
+}
+void Document::validate_axis_source(const ImageServer& candidate) const {
+    std::size_t required=image_axis_calibration_?image_axis_calibration_->timepoints_seconds().size():0;
+    for(const auto* history:{&undo_,&redo_})for(const auto& record:*history)if(record.axis_calibration) {
+        for(const auto* value:{&record.axis_calibration->before,&record.axis_calibration->after})if(*value)required=std::max(required,(*value)->timepoints_seconds().size());
+    }
+    if(required) {const auto raw=candidate.raw_metadata();if(required>(raw?raw->timepoints:1))throw std::invalid_argument("replacement source cannot represent retained calibration timestamps");}
+}
+void Document::set_image_analysis_settings(std::optional<ImageAnalysisSettings> value) {
+    if(value && value->empty())value.reset();
+    if(bool(value)==bool(image_analysis_settings_) && (!value || value->equals(*image_analysis_settings_)))return;
+    Staging staged(*this);staged.image_settings=std::move(value);save_edit(staged,{pixel_width_um_,pixel_height_um_},"Set image analysis defaults");
 }
 void Document::set_calibration(double x,double y) {
     if (!std::isfinite(x) || !std::isfinite(y) || x<=0 || y<=0) throw std::invalid_argument("calibration must be finite and positive");
@@ -549,6 +725,10 @@ void Document::clear_calibration() { Staging staged(*this); save_edit(staged,{},
 void Document::apply_record(const EditRecord& record,bool forward) {
     if(record.classifications.value) {toggle_classifications(*record.classifications.value);return;}
     Staging staged(*this); const auto& patch=forward?record.after:record.before;
+    if(record.axis_calibration)staged.axis_calibration=forward?record.axis_calibration->after:record.axis_calibration->before;
+    if(record.image_properties)staged.image_properties=forward?record.image_properties->after:record.image_properties->before;
+    if(record.data_properties)staged.data_properties=forward?record.data_properties->after:record.data_properties->before;
+    if(record.image_settings)staged.image_settings=forward?record.image_settings->after:record.image_settings->before;
     for (const auto& [id,value]:patch) staged.write(id,value);
     for(const auto& [name,value]:(forward?record.after_classes:record.before_classes)) staged.write_class(name,value);
     commit(staged,forward?record.after_calibration:record.before_calibration);

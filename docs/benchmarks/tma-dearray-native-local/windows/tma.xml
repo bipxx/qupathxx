@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="1"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="0"
+	timestamp="2026-10-25T17:54:07"
+	>
+	<testcase name="tma" classname="tma" time="0.278099" status="run">
+		<properties/>
+		<system-out>TMA axis insertion/removal: skewed geometry, vacant/explicit slots, metadata, nested protection, atomic history and rejection passed
+TMA case file cancellation precedes output path access
+TMA compensated signed sums and nonzero mean underflow checks passed
+TMA case aggregation, weighted arithmetic, missing/unassigned cores, stale revisions and cancellation passed
+TMA cohort raw-row pooling, image/core namespaces, isolated unassigned cores, source manifests, stale revisions and cancellation passed
+TMA cohort atomic files preserve captured CSV bytes, existing files and input aliases; capture validation and cancellation precede I/O
+Oversized CSV read-transfer bytes: 0
+Oversized CSV file budget and output protection passed
+TMA case file exports preserve captured CSV bytes and existing files
+TMA grid commands, missing cores, case IDs, snapshots, history and persistence passed
+</system-out>
+	</testcase>
+</testsuite>

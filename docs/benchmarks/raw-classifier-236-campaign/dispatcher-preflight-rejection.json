@@ -1,0 +1,6 @@
+{
+  "phase": "before dispatch state creation or network mutation",
+  "reason": "copied dispatcher retained prior ref; exact remote SHA check rejected it",
+  "dispatch_attempted": false,
+  "correction": "use the new qualification236 ref"
+}

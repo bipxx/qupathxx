@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="1" tests="14" time="1.608" timestamp="2026-10-26T09:05:15.020889-04:00" hostname="HEQPC"><testcase classname="tests.test_raw_pixel_cli" name="test_cli_train_resume_predict_retain_and_verify" time="0.400"><failure message="AssertionError: assert b'QWS\x01a\x0...c9939555e37ee' == b'QWS\x01a\x0...cb5213e03217c'&#10;  &#10;  At index 1740 diff: b'\x00' != b'\x81'&#10;  Use -v to get more diff">source = (WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4106/test_cli_train_resume_predict_0/项目.qpx'), 1, &lt;...1, 2], WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4106/test_cli_train_resume_predict_0/输入.tif'))
+tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4106/test_cli_train_resume_predict_0')
+
+    def test_cli_train_resume_predict_retain_and_verify(source, tmp_path):
+        require_training()
+        path, image, doc, ids, _ = source
+        before = path.read_bytes()
+        args = arguments(source, tmp_path)
+        partial = final(run(*args, "--max-new-windows", 1), 1)
+        assert partial["state"] == "partial" and partial["model_sha256"] is None
+        assert not (tmp_path / "模型.qrm").exists() and not (tmp_path / "训练.qtt").exists()
+        trained = final(run(*args, "--resume", tmp_path / "采样.qtc", "--replace-existing",
+                            "--output-project", tmp_path / "trained.qpx"))
+        assert trained["state"] == "trained" and trained["replayed_windows"] == 1
+        lattice = q.ScientificRawLattice(8, 6, q.ScientificGridAxis(0, 8, 7, 2),
+                                        q.ScientificGridAxis(0, 6, 5, 2))
+        selection, features = q.ScientificRawOptions(), q.RawPixelFeatureOptions()
+        selection.channels = 2
+        selection.work_bytes = features.work_bytes = 16 * 1024**2
+        features.offsets, features.scales = [0, 0], [1, 1]
+        options, tiles = q.RawPixelTrainingOptions(), q.RawPixelTileOptions()
+        options.max_samples, options.max_samples_per_class, options.work_bytes = 12, 6, 16 * 1024**2
+        tiles.width = tiles.height = 2
+        request = q.RawPixelTiledTrainingRequest(doc, ids, lattice, selection, features, options, tiles)
+        table = q.sample_raw_pixel_tiled_training(request)
+        parameters = q.ForestParameters()
+        parameters.trees, parameters.max_depth, parameters.work_bytes = 5, 3, 2 * 1024**2
+        reference = q.train_raw_pixel_tiled_classifier(table, parameters)
+        model = q.load_raw_pixel_classifier(str(tmp_path / "模型.qrm"))
+        assert model.to_bytes() == reference.to_bytes()
+        assert trained["rows"] == table.row_count and trained["table_sha256"] == table.sha256
+        archive = q.load_raw_pixel_archive(str(tmp_path / "训练.qtt"))
+        np.testing.assert_array_equal(archive.tiled_table.values_numpy(), table.values_numpy())
+        saved = q.Project.open(str(tmp_path / "trained.qpx"))
+        assert saved.document(image).raw_pixel_record_count == 1
+        saved.document(image).server.close()
+        output = tmp_path / "输出.qws"
+        export = ["--export-raw-pixels", path, image, tmp_path / "模型.qrm", output,
+                  "--x-axis", "0,8,7,2", "--y-axis", "0,6,5,2", "--tile-width", 2,
+                  "--tile-height", 2, "--work-bytes", 16 * 1024**2]
+        prefix = final(run(*export, "--max-new-windows", 1), 1)
+        assert prefix["state"] == "partial" and prefix["summary"]["completed_windows"] == 1
+        result = final(run(*export, "--resume", output, "--replace-existing",
+                           "--output-project", tmp_path / "prediction.qpx"))
+        assert result["state"] == "saved" and result["summary"]["complete"]
+        assert result["summary"]["reused_windows"] == 1
+        stream_options = q.RawPixelStreamOptions()
+        stream_options.tile_width = stream_options.tile_height = 2
+        stream_options.work_bytes = 16 * 1024**2
+        prediction = q.RawPixelTiledPredictionRequest(doc, model, lattice, stream_options)
+        stream = q.RawPixelPredictionStream(prediction)
+        file = q.RawPixelStreamFile(str(output))
+        file.verify()
+        for i in range(file.declared_summary.completed_windows):
+            actual, expected = file.read_block(i), stream.next()
+            np.testing.assert_array_equal(actual.labels_numpy(), expected.labels_numpy())
+            np.testing.assert_array_equal(actual.vote_fractions_numpy(), expected.vote_fractions_numpy())
+            np.testing.assert_array_equal(actual.valid_numpy(), expected.valid_numpy())
+        assert stream.next() is None
+        verified = final(run("--verify-raw-pixels", output))
+        assert verified["state"] == "verified" and verified["summary"]["sha256"] == result["summary"]["sha256"]
+        reopened = q.Project.open(str(tmp_path / "prediction.qpx"))
+        assert reopened.document(image).raw_pixel_stream_record_count == 1
+        reopened.document(image).server.close()
+        assert path.read_bytes() == before
+        # A complete fresh export and a replayed export have identical persisted bytes.
+        other = tmp_path / "fresh.qws"
+        fresh = export.copy()
+        fresh[4] = other
+        assert final(run(*fresh))["summary"]["reused_windows"] == 0
+&gt;       assert output.read_bytes() == other.read_bytes()
+E       AssertionError: assert b'QWS\x01a\x0...c9939555e37ee' == b'QWS\x01a\x0...cb5213e03217c'
+E         
+E         At index 1740 diff: b'\x00' != b'\x81'
+E         Use -v to get more diff
+
+tests\test_raw_pixel_cli.py:126: AssertionError</failure></testcase><testcase classname="tests.test_raw_pixel_cli" name="test_cli_arguments_reject_before_output[extra0]" time="0.030" /><testcase classname="tests.test_raw_pixel_cli" name="test_cli_arguments_reject_before_output[extra1]" time="0.031" /><testcase classname="tests.test_raw_pixel_cli" name="test_cli_arguments_reject_before_output[extra2]" time="0.029" /><testcase classname="tests.test_raw_pixel_cli" name="test_cli_arguments_reject_before_output[extra3]" time="0.030" /><testcase classname="tests.test_raw_pixel_cli" name="test_cli_arguments_reject_before_output[extra4]" time="0.032" /><testcase classname="tests.test_raw_pixel_cli" name="test_cli_arguments_reject_before_output[extra5]" time="0.038" /><testcase classname="tests.test_raw_pixel_cli" name="test_cli_training_refuses_source_and_product_aliases[project]" time="0.038" /><testcase classname="tests.test_raw_pixel_cli" name="test_cli_training_refuses_source_and_product_aliases[pixels]" time="0.040" /><testcase classname="tests.test_raw_pixel_cli" name="test_cli_training_refuses_source_and_product_aliases[hardlink]" time="0.048" /><testcase classname="tests.test_raw_pixel_cli" name="test_cli_training_refuses_source_and_product_aliases[same-products]" time="0.037" /><testcase classname="tests.test_raw_pixel_cli" name="test_cli_model_lattice_mismatch_refuses_prediction_output" time="0.268" /><testcase classname="tests.test_raw_pixel_cli" name="test_cli_cancellation_joins_before_reader_release" time="0.248" /><testcase classname="tests.test_raw_pixel_cli" name="test_cli_training_backend_off_refuses_before_output" time="0.019"><skipped type="pytest.skip" message="backend-OFF profile only">C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\tests\test_raw_pixel_cli.py:212: backend-OFF profile only</skipped></testcase></testsuite></testsuites>

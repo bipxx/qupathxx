@@ -1,0 +1,145 @@
+[
+  {
+    "label": "venv",
+    "argv": [
+      "python3",
+      "-m",
+      "venv",
+      "/tmp/qupathxx-nominal-comparison296-env"
+    ],
+    "cwd": "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159",
+    "returncode": 1
+  },
+  {
+    "label": "venv-without-pip",
+    "argv": [
+      "python3",
+      "-m",
+      "venv",
+      "--without-pip",
+      "/tmp/qupathxx-nominal-comparison296-env"
+    ],
+    "cwd": "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159",
+    "returncode": 0
+  },
+  {
+    "label": "install",
+    "argv": [
+      "/tmp/qupathxx-nominal-comparison296-env/bin/python",
+      "-I",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/nominal-cell-frontends-294-env/Lib/site-packages/pip/__main__.py",
+      "install",
+      "--no-index",
+      "--disable-pip-version-check",
+      "--no-deps",
+      "--ignore-installed",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/q295-all/Linux-headless-py3.12/wheels/qupathxx-0.1.0-cp312-cp312-linux_x86_64.whl"
+    ],
+    "cwd": "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159",
+    "returncode": 1
+  },
+  {
+    "label": "install-shared-pip",
+    "argv": [
+      "/tmp/qupathxx-nominal-comparison296-env/bin/python",
+      "-I",
+      "-c",
+      "import sys,runpy;sys.path.insert(0,'/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/nominal-cell-frontends-294-env/Lib/site-packages');runpy.run_module(\"pip\",run_name=\"__main__\")",
+      "install",
+      "--no-index",
+      "--disable-pip-version-check",
+      "--no-deps",
+      "--ignore-installed",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/q295-all/Linux-headless-py3.12/wheels/qupathxx-0.1.0-cp312-cp312-linux_x86_64.whl"
+    ],
+    "cwd": "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159",
+    "returncode": 0
+  },
+  {
+    "label": "identity",
+    "argv": [
+      "/tmp/qupathxx-nominal-comparison296-env/bin/python",
+      "-I",
+      "-c",
+      "import json,platform,sys,numpy,scipy,PIL,pytest,qupathxx as q\nassert q.build_environment().git_revision=='a7eb78de75387bce2da7b3d59b7f0a2ab6126cee'\nassert q.__file__.startswith('/tmp/qupathxx-nominal-comparison296-env/')\nprint(json.dumps(dict(native_source=q.build_environment().git_revision,fingerprint=q.build_environment().source_tree_sha256,package=q.__file__,platform=platform.platform(),python=sys.version,numpy=numpy.__version__,scipy=scipy.__version__,pillow=PIL.__version__,pytest=pytest.__version__,geos=q.has_geos,gui=q.has_gui,openslide=q.has_openslide,shared_test_dependencies=True,clean_machine=False)))\n"
+    ],
+    "cwd": "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159",
+    "returncode": 0
+  },
+  {
+    "label": "api",
+    "argv": [
+      "/tmp/qupathxx-nominal-comparison296-env/bin/python",
+      "-I",
+      "-m",
+      "pytest",
+      "tests/test_qupath_nominal_cells_reference.py",
+      "-q",
+      "--junitxml=/mnt/c/Users/HEQ/Projects/qupathxx/build/nominal-cell-comparison-296/linux/api.xml",
+      "--basetemp",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/nominal-cell-comparison-296/linux/api-temp"
+    ],
+    "cwd": "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159",
+    "returncode": 0
+  },
+  {
+    "label": "roi-context0",
+    "argv": [
+      "/tmp/qupathxx-nominal-comparison296-env/bin/python",
+      "-I",
+      "tools/compare_qupath_nominal_cells.py",
+      "--context",
+      "0",
+      "--report",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/nominal-cell-comparison-296/linux/roi-context0.json"
+    ],
+    "cwd": "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159",
+    "returncode": 0
+  },
+  {
+    "label": "roi-context32",
+    "argv": [
+      "/tmp/qupathxx-nominal-comparison296-env/bin/python",
+      "-I",
+      "tools/compare_qupath_nominal_cells.py",
+      "--context",
+      "32",
+      "--report",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/nominal-cell-comparison-296/linux/roi-context32.json"
+    ],
+    "cwd": "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159",
+    "returncode": 0
+  },
+  {
+    "label": "full-context0",
+    "argv": [
+      "/tmp/qupathxx-nominal-comparison296-env/bin/python",
+      "-I",
+      "tools/compare_qupath_nominal_cells.py",
+      "--context",
+      "0",
+      "--grid-scope",
+      "full-image",
+      "--report",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/nominal-cell-comparison-296/linux/full-context0.json"
+    ],
+    "cwd": "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159",
+    "returncode": 0
+  },
+  {
+    "label": "physical-context32",
+    "argv": [
+      "/tmp/qupathxx-nominal-comparison296-env/bin/python",
+      "-I",
+      "tools/compare_qupath_nominal_cells.py",
+      "--context",
+      "32",
+      "--units",
+      "micrometres",
+      "--report",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/nominal-cell-comparison-296/linux/physical-context32.json"
+    ],
+    "cwd": "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159",
+    "returncode": 0
+  }
+]

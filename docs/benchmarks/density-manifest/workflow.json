@@ -1,0 +1,30 @@
+{
+  "native_revision": "cbf4102f2cffe6ed8f71549087ae5bf74cdcd8e2",
+  "native_tree_sha256": "5a98347c5447c5b8f414d299a3411e9554c72188f92e1ca3ecd7c8c69aeee96e",
+  "generator_sha256": "c8da5671e294dfb0b982d973e807b94566cd497caadec273c3752efea5f7c821",
+  "runner_sha256": "8087f57a59ca5b706fc9c83a14f9f481d221fd76e6b01c980dc3dcab6c18f65f",
+  "source_project_sha256": "74ce7d04eb1ff9558506041a610d8c3bddb030600f962054fc3f045b58bb4fcb",
+  "selected_images": 2,
+  "counts_per_image": {
+    "windows": 4,
+    "tissue": 2,
+    "excluded": 2,
+    "cells": 506
+  },
+  "rows": 8,
+  "expected_cell_counts_per_image": [
+    289,
+    121,
+    168,
+    0
+  ],
+  "expected_area_pixels_per_image": [
+    40576,
+    17536,
+    23040,
+    0
+  ],
+  "preview_read_only": true,
+  "source_unchanged": true,
+  "scope": "Same preserved reference crop twice; selection/CLI integration only. Candidate4 and batch runner unchanged; no native build, wheel, segmentation, new dataset or speed claim."
+}

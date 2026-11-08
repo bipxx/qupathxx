@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.148" timestamp="2026-10-26T22:31:10.987939-04:00" hostname="HEQPC"><testcase classname="tests.test_file_fingerprint" name="test_long_windows_input_preserves_logical_path_and_digest" time="0.008"><failure message="RuntimeError: file fingerprint input is missing or not a regular file">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4256/test_long_windows_input_preser0')
+
+    @pytest.mark.skipif(os.name!="nt",reason="Windows extended-path file input")
+    def test_long_windows_input_preserves_logical_path_and_digest(tmp_path):
+        logical=tmp_path/("input-"+"a"*100)/("nested-"+"b"*100)/"\u96ea.bin"
+        text=str(logical.absolute())
+        physical=Path("\\\\?\\UNC\\"+text[2:] if text.startswith("\\\\") else "\\\\?\\"+text)
+        physical.parent.mkdir(parents=True)
+        data=b"long-path fingerprint\x00"*4096;physical.write_bytes(data)
+&gt;       value=q.fingerprint_file(text)
+              ^^^^^^^^^^^^^^^^^^^^^^^^
+E       RuntimeError: file fingerprint input is missing or not a regular file
+
+tests\test_file_fingerprint.py:23: RuntimeError</failure></testcase></testsuite></testsuites>

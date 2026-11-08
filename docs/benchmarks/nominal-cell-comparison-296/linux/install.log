@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/nominal-cell-frontends-294-env/Lib/site-packages/pip/__main__.py", line 22, in <module>
+    from pip._internal.cli.main import main as _main
+ModuleNotFoundError: No module named 'pip'

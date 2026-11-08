@@ -1,0 +1,12 @@
+WARNING: Unknown module: javafx.graphics specified to --add-opens
+WARNING: Unknown module: javafx.base specified to --add-opens
+WARNING: Unknown module: javafx.web specified to --enable-native-access
+WARNING: Unknown module: javafx.graphics specified to --enable-native-access
+WARNING: Unknown module: javafx.media specified to --enable-native-access
+22:55:16.590 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting default Locale to en_US
+22:55:16.594 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting Locale for FORMAT to en_US
+22:55:16.594 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting Locale for DISPLAY to en_US
+22:55:16.616 [main] [INFO ] qupath.lib.common.ThreadTools - Setting parallelism to 19
+22:55:16.627 [main] [INFO ] qupath.ScriptCommand - Setting tile cache size to 16352.00 MB (25.0% max memory)
+22:55:16.736 [main] [INFO ] qupath.lib.scripting.QP - Initializing type adapters
+22:55:19.033 [main] [INFO ] qupath.ScriptCommand - Script result: C:\Users\HEQ\Projects\qupathxx\build\postlog-trace-304\basin-capture1\runtime.json

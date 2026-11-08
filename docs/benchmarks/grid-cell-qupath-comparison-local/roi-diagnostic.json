@@ -1,0 +1,137 @@
+{
+  "native_only_yx": [
+    [
+      69,
+      32
+    ],
+    [
+      69,
+      33
+    ],
+    [
+      70,
+      32
+    ],
+    [
+      70,
+      33
+    ],
+    [
+      71,
+      32
+    ],
+    [
+      71,
+      33
+    ],
+    [
+      72,
+      32
+    ],
+    [
+      72,
+      33
+    ],
+    [
+      73,
+      32
+    ],
+    [
+      73,
+      33
+    ],
+    [
+      74,
+      32
+    ],
+    [
+      74,
+      33
+    ],
+    [
+      75,
+      32
+    ],
+    [
+      75,
+      33
+    ],
+    [
+      76,
+      32
+    ],
+    [
+      76,
+      33
+    ],
+    [
+      77,
+      32
+    ],
+    [
+      77,
+      33
+    ],
+    [
+      78,
+      32
+    ],
+    [
+      78,
+      33
+    ],
+    [
+      79,
+      32
+    ],
+    [
+      79,
+      33
+    ],
+    [
+      80,
+      32
+    ],
+    [
+      80,
+      33
+    ]
+  ],
+  "reference_only_yx": [],
+  "metrics": {
+    "reference_count": 3,
+    "native_count": 3,
+    "matches": [
+      {
+        "reference_label": 1,
+        "native_label": 1,
+        "iou": 0.8928571428571429,
+        "centroid_error_px": 0.48749999999999716,
+        "reference_pixels": 200,
+        "native_pixels": 224
+      },
+      {
+        "reference_label": 2,
+        "native_label": 2,
+        "iou": 1.0,
+        "centroid_error_px": 0.0,
+        "reference_pixels": 316,
+        "native_pixels": 316
+      },
+      {
+        "reference_label": 3,
+        "native_label": 3,
+        "iou": 1.0,
+        "centroid_error_px": 0.0,
+        "reference_pixels": 256,
+        "native_pixels": 256
+      }
+    ],
+    "unmatched_reference": 0,
+    "unmatched_native": 0,
+    "split_reference_labels": [],
+    "merged_native_labels": [],
+    "foreground_iou": 0.9698492462311558,
+    "foreground_dice": 0.9846938775510204
+  }
+}

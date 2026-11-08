@@ -1,0 +1,260 @@
+{
+  "schema": "qpx.spatial-native-persistence/1",
+  "source": "17380221e01eab3f5a7698d6b56e55927a60553d",
+  "fingerprint": "300aa2c86f192dcee0a11f31ee730f8cc13fbd140d8510425256603f903fc39d",
+  "compiler_inputs": 400,
+  "changed_compiler_inputs": [
+    "CMakeLists.txt",
+    "cpp/include/qupathxx/core.hpp",
+    "cpp/include/qupathxx/spatial_analysis.hpp",
+    "cpp/project.cpp",
+    "cpp/project_schema.hpp",
+    "cpp/spatial_analysis.cpp",
+    "cpp/spatial_archive.cpp",
+    "cpp/spatial_archive.hpp",
+    "cpp/spatial_export.cpp",
+    "cpp/spatial_snapshot.hpp",
+    "cpp/tests/spatial_record_tests.cpp"
+  ],
+  "raw_source_paths": 503,
+  "native_suites_per_profile": 10,
+  "profiles": [
+    "Windows MSVC GEOS ON",
+    "Windows MSVC GEOS OFF"
+  ],
+  "final_tooling_controls_passed": 902,
+  "archive": "QSD1",
+  "project_schema": 14,
+  "legacy_schema_upgrades": 13,
+  "migration_rollback_preserves_original_bytes": true,
+  "retained_record_limit_tested": 10000,
+  "retained_current_products_per_profile": 11,
+  "intermediate_source": "f3d1359412bb24812c019ab4b46da2033414c6e9",
+  "intermediate_products_preserved": 11,
+  "sdks_unchanged": true,
+  "native_persistence_export_implemented": true,
+  "python_schema_expectations_updated_runtime_pending": true,
+  "python_cli_ui_delivery_implemented": false,
+  "new_wheel_built": false,
+  "platform_engineering_accepted": false,
+  "performance_accepted": false,
+  "release_ready": false,
+  "overall_project_complete": false,
+  "evidence": [
+    {
+      "path": "compiler-inputs.json",
+      "bytes": 42724,
+      "sha256": "2e4e30fe12afb8389fdf03e9da9a7a7ab025b9ceb92b2ed44ccfceb2b8b583cf"
+    },
+    {
+      "path": "compilexx-note-prefix-proof.json",
+      "bytes": 368,
+      "sha256": "df985fe8c79a7cfe2ea626c71fe00805f3b47e24d4f613acf6e81fff152dc283"
+    },
+    {
+      "path": "geos-sdk-files.json",
+      "bytes": 65762,
+      "sha256": "f79947043d949bc3ef73047c1e5bf4aa73815ecf4a10d6954f05a9cde3d9ede1"
+    },
+    {
+      "path": "initial-compiler-inputs.json",
+      "bytes": 42724,
+      "sha256": "80f83fd2ff00e27671061073c34ab79e844926cc4b3b8068c11942af0565944a"
+    },
+    {
+      "path": "initial-native-source-proof.json",
+      "bytes": 120352,
+      "sha256": "58e87946b079311ec7d74d175e0f4e6ba319d2648d5cf65e77815c7805503ef5"
+    },
+    {
+      "path": "intermediate-compiler-inputs.json",
+      "bytes": 42724,
+      "sha256": "311ae4b73850ca5cc821a647518c3ba362c3f2ed490ab8261e3d28ba0f4029e1"
+    },
+    {
+      "path": "intermediate-native-source-proof.json",
+      "bytes": 120352,
+      "sha256": "9cbc2f68dd47cfbe6cb4b07c41811e65208f7804b4ba38e0f5b7328f7966a86f"
+    },
+    {
+      "path": "interpretation.md",
+      "bytes": 3204,
+      "sha256": "846edc3ef00b5e7b3b5d41257c4908924107502b2492759ce4f8ca32c20df6a9"
+    },
+    {
+      "path": "native-source-proof.json",
+      "bytes": 120352,
+      "sha256": "4ccb517a93f7e8286ea50ac0f8d7e87fd8623a3ac3caad3ee6020f74717313ec"
+    },
+    {
+      "path": "off-build_manifest.hpp",
+      "bytes": 706,
+      "sha256": "4f6945828ee60c650480c96320cbcb7336262001678db23ef17178a9799dcbb4"
+    },
+    {
+      "path": "off-CMakeCache.txt",
+      "bytes": 41519,
+      "sha256": "25fc43b177953dede8db2c37bec9c37090c278b71366e9e1ff7595257e7dbd39"
+    },
+    {
+      "path": "off-final-build-command.json",
+      "bytes": 762,
+      "sha256": "2ac57425e2d1c06b9f8266e24ee3029882ff5276d7c0364c89f76ec9c0558ab5"
+    },
+    {
+      "path": "off-final-build.log",
+      "bytes": 35153,
+      "sha256": "016f0ff7c01cf92d8c9299dc108db1d46537a1fd2a17eb2e097073f6f3009f59"
+    },
+    {
+      "path": "off-final-native-tests-command.json",
+      "bytes": 709,
+      "sha256": "56d3155270fc4e5b7a3bf7c3b6f46e66ced2c6913c64cabd87c56a684a3499ae"
+    },
+    {
+      "path": "off-final-native-tests.log",
+      "bytes": 1151,
+      "sha256": "0f8dda24578b12f7a0fa4eff2400a99d187a611f42ee51d65b827616033edc6d"
+    },
+    {
+      "path": "off-final-native-tests.xml",
+      "bytes": 5361,
+      "sha256": "d069494d86bab264c662a28226da0b694a37d0266e6b1acd038084c0024d937a"
+    },
+    {
+      "path": "off-previous-products.json",
+      "bytes": 1020,
+      "sha256": "48190b340edf90b356af8f5102afeb1546571dbd5c16ee95b15345e48b114242"
+    },
+    {
+      "path": "off-products.json",
+      "bytes": 2296,
+      "sha256": "12e6e5d05ac343d2d79051cae6925b89047588eb127abda2771dd8597cd394ce"
+    },
+    {
+      "path": "on-build-command.json",
+      "bytes": 763,
+      "sha256": "19209f5e118eb24d2424edfbda0d7b9aea77e111a17b53d652adad174d3d9aea"
+    },
+    {
+      "path": "on-build.log",
+      "bytes": 60445,
+      "sha256": "080fb1b1261dc431ea1e0342fc0717f4fa1b2e6d66c604ef4d94afcb8ea6fe52"
+    },
+    {
+      "path": "on-build_manifest.hpp",
+      "bytes": 706,
+      "sha256": "a4d98a0bfc50873bb663c3e56d59834bf8948bc3b53ecbac39d37e8c54b65123"
+    },
+    {
+      "path": "on-CMakeCache.txt",
+      "bytes": 43624,
+      "sha256": "3cef50a49d9fce3686cb48441838e3e8c0580fb19fac7985c2fb30d33a6bf945"
+    },
+    {
+      "path": "on-corrected-build-command.json",
+      "bytes": 764,
+      "sha256": "60f393baf61635561e6b2ad2afddc51c3f1e52ddd33c4d3c252d8dc84ec7c090"
+    },
+    {
+      "path": "on-corrected-build.log",
+      "bytes": 22610,
+      "sha256": "6557b05505b7ee6b06d8efb4b4ed8bee53ff8a91621ea791d3f7894dd7a8d42c"
+    },
+    {
+      "path": "on-final-build-command.json",
+      "bytes": 764,
+      "sha256": "fa9e6b3a9e93b45c343fc5d2dde34ba3555405de9112d1ba31dcf787575d4392"
+    },
+    {
+      "path": "on-final-build.log",
+      "bytes": 12808,
+      "sha256": "4fe3be0f2f1bdc29fbb7d1cb4c5f0292668ef95559efd5102667347a66be6a58"
+    },
+    {
+      "path": "on-final-native-tests-command.json",
+      "bytes": 709,
+      "sha256": "d4f62c22db7950cca6ea4e3bbb43eb53919f958c5f346aaea49e217c8da2236c"
+    },
+    {
+      "path": "on-final-native-tests.log",
+      "bytes": 1153,
+      "sha256": "97b6ff154d013f16b7ce58004a5bb8589b2f7c0da6d1ff7571e25c2fbb501fc5"
+    },
+    {
+      "path": "on-final-native-tests.xml",
+      "bytes": 5419,
+      "sha256": "37370f4c0fdeadd23317ae6fec81b945a953793de0d70fe8081f37c09a3fec3f"
+    },
+    {
+      "path": "on-intermediate-build_manifest.hpp",
+      "bytes": 706,
+      "sha256": "4329ed82595d9dd8761ee9addb3fd8ffe4033af71c04c9673bec6bf7825837a0"
+    },
+    {
+      "path": "on-intermediate-products.json",
+      "bytes": 2296,
+      "sha256": "2ad4fec96478ae2d70994c7858c23a6f175e1e98d2bcb25d48c0def517e24ebe"
+    },
+    {
+      "path": "on-native-tests-command.json",
+      "bytes": 702,
+      "sha256": "7581acccf0b1055b572ed2e95fc2fa9e9a9a8f1b4008642556cfd4af26af9127"
+    },
+    {
+      "path": "on-native-tests.log",
+      "bytes": 1153,
+      "sha256": "9018d37d5d3c82073983d1317d4cfdd1d71699ea89bc7d15e4331e8e8dbb6b6f"
+    },
+    {
+      "path": "on-native-tests.xml",
+      "bytes": 5420,
+      "sha256": "7c32efca05fd1c29edf0a95ad64dd46a4b8cca77753d4338446fc5915057c2dc"
+    },
+    {
+      "path": "on-previous-products.json",
+      "bytes": 1022,
+      "sha256": "f88abcb56d67def645dfd931e8c9a52d840871bcb8bbc788a70b88b4c3db400a"
+    },
+    {
+      "path": "on-products.json",
+      "bytes": 2296,
+      "sha256": "1e289bc7f68eb2a37edf379cc33a2b5b23e81da7ed330a95536c795f8c8ac583"
+    },
+    {
+      "path": "opencv-sdk-files.json",
+      "bytes": 22441,
+      "sha256": "2b74faaadcf24a73e3c32aa6da59f9989879b3fc6821e889df172159ce8fb4be"
+    },
+    {
+      "path": "preflight-final-tests-command.json",
+      "bytes": 1528,
+      "sha256": "8755c6069237be34a7258ee3536c2622990793f0bddf89a6abd2087d21f76e16"
+    },
+    {
+      "path": "preflight-final-tests.log",
+      "bytes": 1075,
+      "sha256": "1216c2385f74c744a6c4cc4a9065c2e84aa3384cd465f03d7eda6c385bf453b1"
+    },
+    {
+      "path": "preflight-final.xml",
+      "bytes": 142850,
+      "sha256": "73e5e31504f5b0b855396f2571d9daf3116b6c3e4d742095450aa54ae9cf16fd"
+    },
+    {
+      "path": "preflight-tests-command.json",
+      "bytes": 1516,
+      "sha256": "415c9047207544446b9dec93be9e26c4b43d0d90fc54b0cf3ffe4011cbf9d153"
+    },
+    {
+      "path": "preflight-tests.log",
+      "bytes": 1075,
+      "sha256": "f7dee40425ac3b8e3f05281422b4ac69c261b37b031ebaf5acd09afd871cb66b"
+    },
+    {
+      "path": "preflight.xml",
+      "bytes": 142850,
+      "sha256": "d05f8f1d8374ccddceabf1573fc7b1bac09e61e016df9926c612b42fb312dbed"
+    }
+  ]
+}

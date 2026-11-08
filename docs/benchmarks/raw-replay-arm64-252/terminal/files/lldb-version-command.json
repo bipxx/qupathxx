@@ -1,0 +1,11 @@
+{
+  "args": [
+    "xcrun",
+    "lldb",
+    "--version"
+  ],
+  "cwd": "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/native-build",
+  "returncode": 0,
+  "timed_out": false,
+  "seconds": 3.2436101250000036
+}

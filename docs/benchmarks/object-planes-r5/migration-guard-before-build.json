@@ -1,0 +1,13 @@
+{
+  "command": [
+    "build/ci/object-edit-state-r5-env/Scripts/python.exe",
+    "-X",
+    "utf8",
+    "-m",
+    "pytest",
+    "tests/test_engine_successor_audit.py",
+    "-q"
+  ],
+  "result": "60 passed in 2.04s",
+  "scope": "tool-only schema18 migration gate controls; no new native/runtime claim"
+}

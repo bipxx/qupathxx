@@ -1,0 +1,13 @@
+{
+  "frozen_source": "701fa672db3745aebc7fc5d71108b2c8780cbb6e",
+  "source_paths": 1428,
+  "canonical_compiler_inputs": 434,
+  "controls_passed": 1106,
+  "shared_test_dependencies": true,
+  "compiled_runtime_source": "26cae2af9f8d1ee54b1b5871079e67646a9faf07",
+  "source_unchanged": true,
+  "required_added_native_suites": [
+    "imagej_gaussian",
+    "qupath_response"
+  ]
+}

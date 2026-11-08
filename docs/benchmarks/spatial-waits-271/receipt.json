@@ -1,0 +1,76 @@
+{
+  "schema": "qpx.spatial-waits-qualification-status/1",
+  "source": "ee19be5743cc131b297bfdbccad393f99b67b7c7",
+  "ref": "feature/spatial-waits-qualification-271",
+  "state": "in_progress",
+  "roles": {
+    "engine": {
+      "run": 40688686191,
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40688686191",
+      "state": "running_or_queued"
+    },
+    "macos": {
+      "run": 40688699973,
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40688699973",
+      "state": "running_or_queued"
+    },
+    "portable": {
+      "run": 40688712236,
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40688712236",
+      "state": "running_or_queued"
+    }
+  },
+  "local_native_source": "c949826ceac5ca357a9eadabef218b30461e5686",
+  "local_observer_source": "f068594",
+  "compiler_input_git_blobs_equivalent": 410,
+  "local_products_not_relabelled": true,
+  "engineering_accepted": false,
+  "required_archives": 11,
+  "artifact_authentication_complete": false,
+  "all_applicable_auditors_accepted": false,
+  "release_ready": false,
+  "overall_project_complete": false,
+  "next_action": "Observe the same three runs, retain terminal failures/successes and all source-bound archives, then execute complete applicable auditors without reduced inputs",
+  "evidence": [
+    {
+      "path": "campaign.json",
+      "bytes": 3556,
+      "sha256": "8adbcbb293f96a241e52b649b3a6e6671e07cef114d7f91acc5c00999cda166e"
+    },
+    {
+      "path": "compilexx-prefix-proof.json",
+      "bytes": 262,
+      "sha256": "ce688b10151063f3a3d6dbb0b9ded0aa902051fda30b6fe912506c66a27b694a"
+    },
+    {
+      "path": "engine-run-initial.json",
+      "bytes": 21959,
+      "sha256": "ee6dffb6566f4e2a3a1abc2d90312a752ff308da42741a2ac1155a2e7df26f0c"
+    },
+    {
+      "path": "frozen-source-proof.json",
+      "bytes": 127505,
+      "sha256": "0e4dd24607625bb299341945c49553d771bbd651565ea63af7da5e79342b29f3"
+    },
+    {
+      "path": "initial-live-observation.json",
+      "bytes": 2931,
+      "sha256": "25a812551a216689b9b2ca472be093d238c6d439c566e2d31ef5e2e66371fe92"
+    },
+    {
+      "path": "macos-run-initial.json",
+      "bytes": 2006,
+      "sha256": "ff61ee483a24219323f3b148420e47134e2e0d95ac1190c0e0fbd362795ac107"
+    },
+    {
+      "path": "observers/dispatch_spatial_waits_271.py",
+      "bytes": 3812,
+      "sha256": "387a1191cf025aeb51816bbf2c742c0ed8aac8e79788d36ab4ccd0276e939bef"
+    },
+    {
+      "path": "portable-run-initial.json",
+      "bytes": 7406,
+      "sha256": "d4247e2d07c811e177cffb89e3f14c917c8b427ad95409553067617ad52aca8f"
+    }
+  ]
+}

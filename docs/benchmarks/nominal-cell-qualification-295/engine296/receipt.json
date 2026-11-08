@@ -1,0 +1,142 @@
+{
+  "schema": "qpx.nominal-cell-qualification-engine/1",
+  "state": "original-complete-engine-audit-rejected",
+  "source": "a7eb78de75387bce2da7b3d59b7f0a2ab6126cee",
+  "run": 40782637825,
+  "authenticated_engine_archives": 5,
+  "all_required_engine_jobs_successful": false,
+  "original_complete_auditor_returncode": 1,
+  "windows_tests": {
+    "Windows-headless-py3.11": {
+      "passed": 4782,
+      "failed": 1,
+      "skipped": 521,
+      "xfail": 3,
+      "result_json_present": false
+    },
+    "Windows-gui-py3.12": {
+      "passed": 5292,
+      "failed": 1,
+      "skipped": 11,
+      "xfail": 3,
+      "result_json_present": false
+    }
+  },
+  "failure": "Both Windows profiles fail auto-reader opening of a Chinese PPM path under a Western code page. Local old native reproduces at LC_CTYPE1252; direct PPM reading and explicit reader pass. Locale-sensitive byte case conversion in format detection is under repair.",
+  "portable_independently_accepted": true,
+  "macos_pending": true,
+  "combined_accepted": false,
+  "release_ready": false,
+  "files": [
+    {
+      "path": "engine-run-terminal.json",
+      "bytes": 25146,
+      "sha256": "a0da6d4c3a0dcc9e08d6e7341d7bfac7baf2f50e16414189c40d0636af113e6e"
+    },
+    {
+      "path": "engine-complete-audit.log",
+      "bytes": 340,
+      "sha256": "5b455d75ff450e3f9ec29bd4826c7c6ce5d86e3b0095bfb30da9ac11cfd9f0a6"
+    },
+    {
+      "path": "engine-audit-exit.json",
+      "bytes": 963,
+      "sha256": "cba2f0b0e0eed881b1d829af40e37aa885829f62ed82c446e9c8b4b01ea4f85c"
+    },
+    {
+      "path": "engine-run.json",
+      "bytes": 25146,
+      "sha256": "a0da6d4c3a0dcc9e08d6e7341d7bfac7baf2f50e16414189c40d0636af113e6e"
+    },
+    {
+      "path": "engine-artifacts.json",
+      "bytes": 4526,
+      "sha256": "063925b6b749c3ba94cbdf8679cbd0e62380bd3187308581e4196ffdb0e4bd3b"
+    },
+    {
+      "path": "verified.json",
+      "bytes": 2212,
+      "sha256": "39b2b9617ca794f0620fd7e727f603a9bf2d54bb2beffbbbf9460d29ed1a1c9c"
+    },
+    {
+      "path": "Windows-headless-py3.11/python-tests.log",
+      "bytes": 7207,
+      "sha256": "5830463b69a07c51ffdbe28f7eb7791523c9bd53459d9dedb04a229b7d1660c6"
+    },
+    {
+      "path": "Windows-headless-py3.11/python-tests.xml",
+      "bytes": 856227,
+      "sha256": "37a96af847068fef1836ffb38105a956f566dc92dc53f8522f2732dc646b8b8e"
+    },
+    {
+      "path": "Windows-headless-py3.11/native-tests.xml",
+      "bytes": 32099,
+      "sha256": "69da40eb501b7fb1a6e9d4d786e3adb9329c181e916bbea2a1852180e6255059"
+    },
+    {
+      "path": "Windows-headless-py3.11/diagnostic-stages.json",
+      "bytes": 35701,
+      "sha256": "19e523a970beef519682ca7826865a09891d2db7ef27caab5840cbe0d208503c"
+    },
+    {
+      "path": "Windows-headless-py3.11-artifact.json",
+      "bytes": 818,
+      "sha256": "ebbda487d88e8809673986c2512914275d1edfe1819c942f716e16f3f82837de"
+    },
+    {
+      "path": "Windows-gui-py3.12/python-tests.log",
+      "bytes": 13047,
+      "sha256": "7458450a1863953064dbefd6cdf7b057b54572c07b512547ea863493ed189d78"
+    },
+    {
+      "path": "Windows-gui-py3.12/python-tests.xml",
+      "bytes": 763935,
+      "sha256": "45c70544a94164504abe2a99c12c232e4af59dcc5d2af2593ddc3f07437387db"
+    },
+    {
+      "path": "Windows-gui-py3.12/native-tests.xml",
+      "bytes": 32346,
+      "sha256": "ed1f049fbfff2cd406b095d0f0a3306cc875ae9a01fe28e0a25d843cdc135ca6"
+    },
+    {
+      "path": "Windows-gui-py3.12/diagnostic-stages.json",
+      "bytes": 46284,
+      "sha256": "99b8849b10602762583bf8a361e91cab37951b5cb699a7b8bf5ca3e81795d69f"
+    },
+    {
+      "path": "Windows-gui-py3.12-artifact.json",
+      "bytes": 813,
+      "sha256": "fc73775f51b33dd4fd23bb4819868ad4ddbea150b18229c720dde10eaf56cbc6"
+    },
+    {
+      "path": "Linux-headless-py3.12-artifact.json",
+      "bytes": 816,
+      "sha256": "34d5436bc7486d5b42bf2a897c226df0567b78408e103712b8c46234da7521d9"
+    },
+    {
+      "path": "Linux-minimal-py3.12-artifact.json",
+      "bytes": 812,
+      "sha256": "587d4c7ca3449cf1859567c06682f2c46fb71c5712fae499b3a7933e996cf787"
+    },
+    {
+      "path": "Linux-sanitize-py3.12-artifact.json",
+      "bytes": 813,
+      "sha256": "f1fd219ded8e0dc7ecc19d2745637e4d48ad80e4f3539d0d13687a539e54ad04"
+    },
+    {
+      "path": "123147897094-failed-job.log",
+      "bytes": 55969,
+      "sha256": "157e5d0ea1f4e64f9d27a038a1168fa9f7c52de679fa03a1782a8df3a57d9e68"
+    },
+    {
+      "path": "123147897478-failed-job.log",
+      "bytes": 75323,
+      "sha256": "27ef4a196485f311abcb0a4aef3ed2a3e9d3a7b18c8bcb7a8d47fc5e6470005e"
+    },
+    {
+      "path": "local-original-locale-probe.json",
+      "bytes": 1315,
+      "sha256": "98e6c545a3c93f0ab941bfae299fa6aee4937d2baa25b8479ce92c3ff61f82ce"
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+[
+  {
+    "label": "roi-context0",
+    "source": "66c1ba37a7e721720f1ae0bcee866b4f4969d892",
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\nominal-cell-frontends-294-env\\Scripts\\python.exe",
+      "-I",
+      "-X",
+      "utf8",
+      "tools/compare_qupath_nominal_cells.py",
+      "--context",
+      "0",
+      "--report",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\nominal-cell-comparison-296\\roi-context0.json"
+    ],
+    "returncode": 0
+  },
+  {
+    "label": "roi-context32",
+    "source": "66c1ba37a7e721720f1ae0bcee866b4f4969d892",
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\nominal-cell-frontends-294-env\\Scripts\\python.exe",
+      "-I",
+      "-X",
+      "utf8",
+      "tools/compare_qupath_nominal_cells.py",
+      "--context",
+      "32",
+      "--report",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\nominal-cell-comparison-296\\roi-context32.json"
+    ],
+    "returncode": 0
+  },
+  {
+    "label": "full-context0",
+    "source": "66c1ba37a7e721720f1ae0bcee866b4f4969d892",
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\nominal-cell-frontends-294-env\\Scripts\\python.exe",
+      "-I",
+      "-X",
+      "utf8",
+      "tools/compare_qupath_nominal_cells.py",
+      "--context",
+      "0",
+      "--grid-scope",
+      "full-image",
+      "--report",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\nominal-cell-comparison-296\\full-context0.json"
+    ],
+    "returncode": 0
+  },
+  {
+    "label": "physical-context32",
+    "source": "66c1ba37a7e721720f1ae0bcee866b4f4969d892",
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\nominal-cell-frontends-294-env\\Scripts\\python.exe",
+      "-I",
+      "-X",
+      "utf8",
+      "tools/compare_qupath_nominal_cells.py",
+      "--context",
+      "32",
+      "--units",
+      "micrometres",
+      "--report",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\nominal-cell-comparison-296\\physical-context32.json"
+    ],
+    "returncode": 0
+  }
+]

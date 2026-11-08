@@ -1,0 +1,34 @@
+{
+  "native_windows": {
+    "suites": 2,
+    "axis_edits_and_owner_commands": true
+  },
+  "native_linux": {
+    "suites": 2,
+    "axis_edits_and_owner_commands": true
+  },
+  "installed": {
+    "passed": 15,
+    "groups": [
+      {
+        "classname": "test_tma_axes",
+        "passed": 15
+      }
+    ]
+  },
+  "desktop": {
+    "passed": 24,
+    "declared_desktop_skips": 0
+  },
+  "headless_desktop": {
+    "passed": 0,
+    "declared_desktop_skips": 24
+  },
+  "typing": {
+    "expected_errors": 3,
+    "sha256": "8f487521e49b74e55567b7a0c30ea7219414bebeb1c8019f60765c900c351c2b"
+  },
+  "scope": "New domain auditor applied to explicitly retained source961 local evidence. Not a platform campaign or a relabeled binary.",
+  "old191_native_rejected": "TMA axis native semantics missing/duplicate: tma",
+  "old191_installed_rejected": "TMA axis installed cohort missing/duplicate/changed: test_tma_axes"
+}

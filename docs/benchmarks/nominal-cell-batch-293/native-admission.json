@@ -1,0 +1,7 @@
+{
+  "suites": 10,
+  "project": true,
+  "geos": true,
+  "tiff": true,
+  "scientific_acceptance": false
+}

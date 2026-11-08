@@ -1,3 +1,4 @@
+#include "job_binding_utils.hpp"
 #include "qupathxx/input_digest.hpp"
 #include "qupathxx/pixel_contours.hpp"
 #include "qupathxx/pixel_stream.hpp"
@@ -39,9 +40,10 @@ void bind_pixel_workflows(nb::module_& m) {
     nb::class_<PixelTrainingStats>(m,"PixelTrainingStats").def_prop_ro("state",[](const PixelTrainingStats& s){return s.state;}).def_prop_ro("phase",[](const PixelTrainingStats& s){return s.phase;})
         .def_prop_ro("error",[](const PixelTrainingStats& s){return s.error;}).def_prop_ro("generation",[](const PixelTrainingStats& s){return s.generation;})
         .def_prop_ro("completed_tiles",[](const PixelTrainingStats& s){return s.completed_tiles;}).def_prop_ro("total_tiles",[](const PixelTrainingStats& s){return s.total_tiles;}).def_prop_ro("elapsed_ms",[](const PixelTrainingStats& s){return s.elapsed_ms;});
-    nb::class_<PixelTrainingJob>(m,"PixelTrainingJob").def(nb::init<>()).def("train",&PixelTrainingJob::train,"request"_a,"parameters"_a=pixel_forest_parameters())
-        .def_prop_ro("busy",&PixelTrainingJob::busy).def("cancel",&PixelTrainingJob::cancel).def("poll",&PixelTrainingJob::poll)
-        .def("wait",&PixelTrainingJob::wait,nb::call_guard<nb::gil_scoped_release>()).def_prop_ro("table",&PixelTrainingJob::table).def_prop_ro("model",&PixelTrainingJob::model);
+    using PythonPixelTrainingJob=qpx::bindings::OwnerJobHolder<PixelTrainingJob>;
+    nb::class_<PythonPixelTrainingJob>(m,"PixelTrainingJob").def(nb::init<>()).def("train",qpx::bindings::owner_job_method<&PixelTrainingJob::train>(),"request"_a,"parameters"_a=pixel_forest_parameters())
+        .def_prop_ro("busy",qpx::bindings::owner_job_method<&PixelTrainingJob::busy>()).def("cancel",qpx::bindings::owner_job_method<&PixelTrainingJob::cancel,false>()).def("poll",qpx::bindings::owner_job_method<&PixelTrainingJob::poll>())
+        .def("wait",[](PythonPixelTrainingJob& job,const Document& doc){return qpx::bindings::wait(job,doc);},"document"_a).def_prop_ro("table",qpx::bindings::owner_job_method<&PixelTrainingJob::table>()).def_prop_ro("model",qpx::bindings::owner_job_method<&PixelTrainingJob::model>());
     m.def("pixel_forest_parameters",&pixel_forest_parameters);
     m.def("sample_pixel_training",[](const PixelTrainingRequest& r){return sample_pixel_training(r);},"request"_a,nb::call_guard<nb::gil_scoped_release>());
     m.def("train_pixel_classifier",[](const PixelTrainingTable& t,ForestParameters p){return train_pixel_classifier(t,p);},"table"_a,"parameters"_a=pixel_forest_parameters(),nb::call_guard<nb::gil_scoped_release>());
@@ -65,14 +67,16 @@ void bind_pixel_workflows(nb::module_& m) {
         .def("valid_numpy",[](nb::object self,bool copy){const auto& r=nb::cast<const PixelPredictionResult&>(self);return array(r.valid(),{std::size_t(r.height()),std::size_t(r.width())},self,copy);},"copy"_a=false)
         .def("vote_fractions_numpy",[](nb::object self,bool copy){const auto& r=nb::cast<const PixelPredictionResult&>(self);return array(r.vote_fractions(),{std::size_t(r.height()),std::size_t(r.width())},self,copy);},"copy"_a=false);
     m.def("predict_pixel_region",[](const PixelPredictionRequest& r){return predict_pixel_region(r);},"request"_a,nb::call_guard<nb::gil_scoped_release>());
-    nb::class_<PixelContourJob>(m,"PixelContourJob").def(nb::init<>()).def("request",&PixelContourJob::request,"request"_a,"result"_a,"options"_a=TissueContourOptions{})
-        .def_prop_ro("busy",&PixelContourJob::busy).def("cancel",&PixelContourJob::cancel).def("poll",&PixelContourJob::poll)
-        .def("wait",&PixelContourJob::wait,nb::call_guard<nb::gil_scoped_release>()).def_prop_ro("result",&PixelContourJob::result);
+    using PythonPixelContourJob=qpx::bindings::OwnerJobHolder<PixelContourJob>;
+    nb::class_<PythonPixelContourJob>(m,"PixelContourJob").def(nb::init<>()).def("request",qpx::bindings::owner_job_method<&PixelContourJob::request>(),"request"_a,"result"_a,"options"_a=TissueContourOptions{})
+        .def_prop_ro("busy",qpx::bindings::owner_job_method<&PixelContourJob::busy>()).def("cancel",qpx::bindings::owner_job_method<&PixelContourJob::cancel,false>()).def("poll",qpx::bindings::owner_job_method<&PixelContourJob::poll>())
+        .def("wait",[](PythonPixelContourJob& job,const Document& doc){return qpx::bindings::wait(job,doc);},"document"_a).def_prop_ro("result",qpx::bindings::owner_job_method<&PixelContourJob::result>());
     nb::class_<PixelContours>(m,"PixelContours").def_prop_ro("contours",&PixelContours::contours).def_prop_ro("prediction_sha256",&PixelContours::prediction_sha256);
     m.def("trace_pixel_prediction",[](std::shared_ptr<const PixelPredictionResult> result,TissueContourOptions options){return trace_pixel_prediction(std::move(result),options);},"result"_a,"options"_a=TissueContourOptions{},nb::call_guard<nb::gil_scoped_release>());
     m.def("publish_pixel_contours",&publish_pixel_contours,"document"_a,"request"_a,"contours"_a,"name_prefix"_a="Pixel");
-    nb::class_<PixelPredictionJob>(m,"PixelPredictionJob").def(nb::init<>()).def("request",&PixelPredictionJob::request).def_prop_ro("busy",&PixelPredictionJob::busy).def("cancel",&PixelPredictionJob::cancel)
-        .def("poll",&PixelPredictionJob::poll).def("wait",&PixelPredictionJob::wait,nb::call_guard<nb::gil_scoped_release>()).def_prop_ro("result",&PixelPredictionJob::result);
+    using PythonPixelPredictionJob=qpx::bindings::OwnerJobHolder<PixelPredictionJob>;
+    nb::class_<PythonPixelPredictionJob>(m,"PixelPredictionJob").def(nb::init<>()).def("request",qpx::bindings::owner_job_method<&PixelPredictionJob::request>()).def_prop_ro("busy",qpx::bindings::owner_job_method<&PixelPredictionJob::busy>()).def("cancel",qpx::bindings::owner_job_method<&PixelPredictionJob::cancel,false>())
+        .def("poll",qpx::bindings::owner_job_method<&PixelPredictionJob::poll>()).def("wait",[](PythonPixelPredictionJob& job,const Document& doc){return qpx::bindings::wait(job,doc);},"document"_a).def_prop_ro("result",qpx::bindings::owner_job_method<&PixelPredictionJob::result>());
     nb::class_<PixelStreamOptions>(m,"PixelStreamOptions").def(nb::init<>()).def_rw("prediction",&PixelStreamOptions::prediction).def_rw("block_size",&PixelStreamOptions::block_size)
         .def_rw("max_pixels",&PixelStreamOptions::max_pixels).def_rw("max_blocks",&PixelStreamOptions::max_blocks).def("validate",&PixelStreamOptions::validate);
     nb::class_<PixelPredictionStream>(m,"PixelPredictionStream")
@@ -120,23 +124,24 @@ void bind_pixel_workflows(nb::module_& m) {
         .def_ro("valid_pixels",&PixelStreamExportStats::valid_pixels).def_ro("classified_pixels",&PixelStreamExportStats::classified_pixels)
         .def_ro("estimated_work_bytes",&PixelStreamExportStats::estimated_work_bytes).def_ro("elapsed_ms",&PixelStreamExportStats::elapsed_ms)
         .def_ro("current",&PixelStreamExportStats::current).def_ro("summary",&PixelStreamExportStats::summary);
-    nb::class_<PixelStreamExportJob>(m,"PixelStreamExportJob").def(nb::init<>())
-        .def("request",&PixelStreamExportJob::request,"document"_a,"object_id"_a,"model"_a,"path"_a,"options"_a=PixelStreamOptions{},"window"_a=nb::none(),"replace_existing"_a=false,"max_bytes"_a=1ULL<<40)
-        .def_prop_ro("busy",&PixelStreamExportJob::busy).def("cancel",&PixelStreamExportJob::cancel)
-        .def("poll",&PixelStreamExportJob::poll,"document"_a)
-        .def("wait",&PixelStreamExportJob::wait,"document"_a,nb::call_guard<nb::gil_scoped_release>());
+    using PythonPixelStreamExportJob=qpx::bindings::OwnerJobHolder<PixelStreamExportJob>;
+    nb::class_<PythonPixelStreamExportJob>(m,"PixelStreamExportJob").def(nb::init<>())
+        .def("request",qpx::bindings::owner_job_method<&PixelStreamExportJob::request>(),"document"_a,"object_id"_a,"model"_a,"path"_a,"options"_a=PixelStreamOptions{},"window"_a=nb::none(),"replace_existing"_a=false,"max_bytes"_a=1ULL<<40)
+        .def_prop_ro("busy",qpx::bindings::owner_job_method<&PixelStreamExportJob::busy>()).def("cancel",qpx::bindings::owner_job_method<&PixelStreamExportJob::cancel,false>())
+        .def("poll",qpx::bindings::owner_job_method<&PixelStreamExportJob::poll>(),"document"_a)
+        .def("wait",[](PythonPixelStreamExportJob& job,const Document& doc){return qpx::bindings::wait(job,doc);},"document"_a);
     nb::class_<PixelStreamReadStats>(m,"PixelStreamReadStats")
         .def_ro("state",&PixelStreamReadStats::state).def_ro("error",&PixelStreamReadStats::error).def_ro("generation",&PixelStreamReadStats::generation)
         .def_ro("block_index",&PixelStreamReadStats::block_index).def_ro("elapsed_ms",&PixelStreamReadStats::elapsed_ms)
         .def_ro("verified",&PixelStreamReadStats::verified).def_ro("windowed",&PixelStreamReadStats::windowed)
         .def_ro("block_size",&PixelStreamReadStats::block_size).def_ro("level_bounds",&PixelStreamReadStats::level_bounds)
         .def_ro("declared_summary",&PixelStreamReadStats::declared_summary).def_ro("block",&PixelStreamReadStats::block).def_ro("link",&PixelStreamReadStats::link);
-    nb::class_<PixelStreamReadJob>(m,"PixelStreamReadJob").def(nb::init<>())
-        .def("open",&PixelStreamReadJob::open,"path"_a,"index"_a=0,"max_bytes"_a=1ULL<<40)
-        .def("open_link",&PixelStreamReadJob::open_link,"link"_a,"index"_a=0,"max_bytes"_a=1ULL<<40)
-        .def("read",&PixelStreamReadJob::read,"index"_a).def("verify",&PixelStreamReadJob::verify)
-        .def("close",&PixelStreamReadJob::close).def("cancel",&PixelStreamReadJob::cancel).def_prop_ro("busy",&PixelStreamReadJob::busy)
-        .def("poll",&PixelStreamReadJob::poll).def("wait",&PixelStreamReadJob::wait,nb::call_guard<nb::gil_scoped_release>());
+    nb::class_<qpx::bindings::OwnerJobHolder<PixelStreamReadJob>>(m,"PixelStreamReadJob").def(nb::init<>())
+        .def("open",qpx::bindings::owner_job_method<&PixelStreamReadJob::open>(),"path"_a,"index"_a=0,"max_bytes"_a=1ULL<<40)
+        .def("open_link",qpx::bindings::owner_job_method<&PixelStreamReadJob::open_link>(),"link"_a,"index"_a=0,"max_bytes"_a=1ULL<<40)
+        .def("read",qpx::bindings::owner_job_method<&PixelStreamReadJob::read>(),"index"_a).def("verify",qpx::bindings::owner_job_method<&PixelStreamReadJob::verify>())
+        .def("close",qpx::bindings::owner_job_method<&PixelStreamReadJob::close>()).def("cancel",qpx::bindings::owner_job_method<&PixelStreamReadJob::cancel,false>()).def_prop_ro("busy",qpx::bindings::owner_job_method<&PixelStreamReadJob::busy>())
+        .def("poll",qpx::bindings::owner_job_method<&PixelStreamReadJob::poll>()).def("wait",[](qpx::bindings::OwnerJobHolder<PixelStreamReadJob>& job){return qpx::bindings::wait(job);});
     nb::borrow<nb::class_<GuiOptions>>(m.attr("GuiOptions"))
         .def_rw("pixel_stream_browser_open",&GuiOptions::pixel_stream_browser_open).def_rw("pixel_stream_read_path",&GuiOptions::pixel_stream_read_path)
         .def_rw("pixel_stream_read_index",&GuiOptions::pixel_stream_read_index).def_rw("pixel_stream_read_max_bytes",&GuiOptions::pixel_stream_read_max_bytes)

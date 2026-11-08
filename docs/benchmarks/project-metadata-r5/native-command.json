@@ -1,0 +1,16 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\ctest.exe",
+    "--test-dir",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package",
+    "-C",
+    "Release",
+    "-R",
+    "^(project|project_save|qupath_project|spatial_records|gui_replay)$",
+    "--output-on-failure",
+    "--output-junit",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\project-metadata-r5\\native.xml"
+  ],
+  "returncode": 0,
+  "elapsed_seconds": 5.535538099939004
+}

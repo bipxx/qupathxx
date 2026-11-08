@@ -1,0 +1,12 @@
+{
+  "command": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\owner-delivery-race-262-env\\Scripts\\python.exe",
+    "-I",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tools\\generate_stubs.py",
+    "--check"
+  ],
+  "returncode": 0,
+  "seconds": 0.45165130007080734,
+  "gui_opt_in": false,
+  "runtime_source": "e2282b8c782bfcc38fddc8aee86e28d833663dc3"
+}

@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\upstream\\qupath\\runtime\\QuPath-0.7.0 (console).exe",
+    "script",
+    "--args",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\fixtures\\qupath-root-facts-0.7.0\\project\\project.qpproj",
+    "--args",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\class-hierarchy-r4",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tools\\upstream\\qupath_class_reference.groovy"
+  ],
+  "returncode": 0,
+  "seconds": 2.372060399968177,
+  "probe_sha256": "a824a541087308d931680dfe58f1d2523dbe6004ee2d5a32074a6bbaf47971fd",
+  "parent_project_sha256": "edb035b6561d5524b78e30e8d9e075fad5329564d9023c4cef313ba2762d17bc"
+}

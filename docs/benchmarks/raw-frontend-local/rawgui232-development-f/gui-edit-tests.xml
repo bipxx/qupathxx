@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="0" skipped="0" tests="1" time="1.623" timestamp="2026-10-26T10:58:27.124279-04:00" hostname="HEQPC"><testcase classname="tests.test_gui_raw_pixel" name="test_desktop_edit_retires_ready_raw_prediction_and_gpu_preview" time="1.417" /></testsuite></testsuites>

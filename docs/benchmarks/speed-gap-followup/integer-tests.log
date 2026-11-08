@@ -1,0 +1,22 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+    Start 24: cell_records
+1/6 Test #24: cell_records .....................   Passed    0.71 sec
+    Start 26: cells
+2/6 Test #26: cells ............................***Exception: SegFault  3.96 sec
+
+    Start 37: tissue_contours
+3/6 Test #37: tissue_contours ..................   Passed    0.20 sec
+    Start 52: geometry
+4/6 Test #52: geometry .........................   Passed    0.06 sec
+    Start 54: geometry_edits
+5/6 Test #54: geometry_edits ...................   Passed    0.05 sec
+    Start 72: project_save
+6/6 Test #72: project_save .....................   Passed    0.15 sec
+
+83% tests passed, 1 tests failed out of 6
+
+Total Test time (real) =   5.36 sec
+
+The following tests FAILED:
+	 26 - cells (SEGFAULT)
+Errors while running CTest

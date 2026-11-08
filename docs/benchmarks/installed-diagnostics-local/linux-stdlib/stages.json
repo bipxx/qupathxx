@@ -1,0 +1,72 @@
+{
+  "schema": "qpx.installed-diagnostics/1",
+  "prerequisite": "verified installation",
+  "state": "failed",
+  "stages": [
+    {
+      "name": "failed",
+      "requires": [],
+      "state": "failed",
+      "command": [
+        "/usr/bin/python3",
+        "-I",
+        "-c",
+        "raise SystemExit(1)"
+      ],
+      "log": "/mnt/c/Users/HEQ/Projects/qupathxx/build/diagnostics212/linux-stdlib/failed.log",
+      "timeout": 2400,
+      "expected_returncode": 0,
+      "error_type": "RuntimeError",
+      "error": "command failed (1); log: /mnt/c/Users/HEQ/Projects/qupathxx/build/diagnostics212/linux-stdlib/failed.log",
+      "seconds": 0.02513054700000339
+    },
+    {
+      "name": "blocked",
+      "requires": [
+        "failed"
+      ],
+      "state": "not_run",
+      "command": [
+        "must-not-start"
+      ],
+      "log": "/mnt/c/Users/HEQ/Projects/qupathxx/build/diagnostics212/linux-stdlib/blocked.log",
+      "timeout": 2400,
+      "expected_returncode": 0,
+      "blocked_by": [
+        "failed"
+      ]
+    },
+    {
+      "name": "timeout",
+      "requires": [],
+      "state": "timed_out",
+      "command": [
+        "/usr/bin/python3",
+        "-I",
+        "-c",
+        "import time;time.sleep(5)"
+      ],
+      "log": "/mnt/c/Users/HEQ/Projects/qupathxx/build/diagnostics212/linux-stdlib/timeout.log",
+      "timeout": 0.05,
+      "expected_returncode": 0,
+      "error_type": "TimeoutExpired",
+      "error": "Command '['/usr/bin/python3', '-I', '-c', 'import time;time.sleep(5)']' timed out after 0.049985011000003965 seconds",
+      "seconds": 0.057222240000001534
+    },
+    {
+      "name": "independent",
+      "requires": [],
+      "state": "passed",
+      "command": [
+        "/usr/bin/python3",
+        "-I",
+        "-c",
+        "print(\"independent\")"
+      ],
+      "log": "/mnt/c/Users/HEQ/Projects/qupathxx/build/diagnostics212/linux-stdlib/independent.log",
+      "timeout": 2400,
+      "expected_returncode": 0,
+      "seconds": 0.022630737000000067
+    }
+  ]
+}

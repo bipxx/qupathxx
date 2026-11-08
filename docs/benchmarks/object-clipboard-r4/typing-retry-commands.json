@@ -1,0 +1,30 @@
+{
+  "typing": {
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\object-clipboard-r4-env\\Scripts\\python.exe",
+      "-I",
+      "-m",
+      "mypy",
+      "--no-incremental",
+      "--follow-imports=silent",
+      "--strict",
+      "tests/typing/object_clipboard_valid.py"
+    ],
+    "returncode": 0,
+    "elapsed_seconds": 2.6710703000426292
+  },
+  "typing-negative": {
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\object-clipboard-r4-env\\Scripts\\python.exe",
+      "-I",
+      "-m",
+      "mypy",
+      "--no-incremental",
+      "--follow-imports=silent",
+      "--strict",
+      "tests/typing/object_clipboard_invalid.py"
+    ],
+    "returncode": 1,
+    "elapsed_seconds": 2.4907628998626024
+  }
+}

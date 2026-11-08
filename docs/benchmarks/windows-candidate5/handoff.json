@@ -1,0 +1,22 @@
+{
+  "source_revision": "3155df804a778daf2d470b3ea60363630e735c98",
+  "source_tree_sha256": "2ddb06c5da4de69aaf040253e30958cdd105f1a0e7e51aba82388eff4125fa13",
+  "wheel_sha256": "879c40c59bc4b469d403f2de9f47aea1b44aadadbb789fc68dfa197e0a285a25",
+  "install_run_verified": true,
+  "native_zip_project_reopen": true,
+  "uninstall_verified": true,
+  "protected_output_sha256": {
+    "run\\cli.csv": "5cb2d44663ce4215a7f65a73530fa80e0a09833d50cab49d48e0c8552d44b309",
+    "run\\cli.qpxproj": "0da88bde9e65dfb1ceea7acdfa29d191f6adff3c8fb3be56f7e7bb8a1e1669e9",
+    "run\\desktop-report.json": "28fb6bee107714f456bab6e548600776592c6d335c69671a753f5be7dee67d33",
+    "run\\legacy.json": "5500aaa9bc4b521abf192ecd7e3b1fd6f6ee0bfcdcf8458bc2ccd517462c727a",
+    "run\\legacy.qpxproj": "3b4065167ebb9e1cafee0d6684b87a0db173cd4ed02179aace307ff7a3b72025",
+    "run\\python.csv": "5cb2d44663ce4215a7f65a73530fa80e0a09833d50cab49d48e0c8552d44b309",
+    "run\\signed.qpxproj": "9f2c87f098ea66fd42083cbfb7e3c78eb178b8dea31991184e44d335d288a75f",
+    "run\\source-inputs.sha256": "2ddb06c5da4de69aaf040253e30958cdd105f1a0e7e51aba82388eff4125fa13",
+    "run\\source.qpxproj": "81e0442b389ffbe880a141e39c21ed6fd35040273ef3ab84cb1c67c8a1ce49d3",
+    "run\\workflow.json": "14bedebb0599c2803ea685bce314070aa6a2a0901273c50b7eb6c34c8f3400f7"
+  },
+  "engine_changes": false,
+  "support": "Local isolated Windows x64 CPython3.12 install/run/removal; no fresh-host or additional-platform qualification"
+}

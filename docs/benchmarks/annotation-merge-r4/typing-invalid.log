@@ -1,0 +1,5 @@
+tests\typing\annotation_merge_invalid.py:4: error: List item 0 has incompatible type "str"; expected "int"  [list-item]
+tests\typing\annotation_merge_invalid.py:4: error: List item 1 has incompatible type "str"; expected "int"  [list-item]
+tests\typing\annotation_merge_invalid.py:5: error: Argument "discard_points" to "merge_annotations" of "Document" has incompatible type "str"; expected "bool"  [arg-type]
+tests\typing\annotation_merge_invalid.py:6: error: Argument "expected_revision" to "merge_annotations" of "ViewerSession" has incompatible type "str"; expected "int | None"  [arg-type]
+Found 4 errors in 1 file (checked 1 source file)

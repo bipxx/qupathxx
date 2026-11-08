@@ -1,0 +1,145 @@
+{
+  "schema": "qpx.scientific-grid-campaign/2",
+  "source": "530c6bb1fd01176c7aecbcae75c065ca004f6236",
+  "ref": "feature/raw-classifier-qualification-236",
+  "frozen_checkout": "build/ci/raw-classifier-236",
+  "profiles_sha256": "b0f907cfdcb706cf0301150577f27db7084a86ad8ea1ff0c2fb88a8fe3c8c4d1",
+  "preflight": "docs/benchmarks/raw-classifier-235-failure/reconciliation/receipt.json",
+  "preflight_controls": 807,
+  "frozen_source_proofs_sha256": "4c44c151a5c6e38e396b5e29d60a076094f1c82417bb97689e7511cf6301994c",
+  "attempts": [
+    {
+      "role": "engine",
+      "semantic_inputs": {
+        "macos_native": false,
+        "portable_linux": false,
+        "live_reference": true,
+        "extended_readers": true
+      },
+      "wire_inputs": {
+        "macos_native": "false",
+        "portable_linux": "false",
+        "live_reference": "true",
+        "extended_readers": "true"
+      },
+      "attempted_at_utc": "2026-10-26T17:24:05.629842+00:00",
+      "state": "run_identified",
+      "known_runs_before": [],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "",
+      "run": {
+        "conclusion": "",
+        "createdAt": "2026-10-26T17:24:08Z",
+        "databaseId": 40368263565,
+        "headSha": "530c6bb1fd01176c7aecbcae75c065ca004f6236",
+        "status": "queued",
+        "url": "https://github.com/bipxx/qupathxx/actions/runs/40368263565"
+      }
+    },
+    {
+      "role": "macos",
+      "semantic_inputs": {
+        "macos_native": true,
+        "portable_linux": false,
+        "live_reference": false,
+        "extended_readers": false
+      },
+      "wire_inputs": {
+        "macos_native": "true",
+        "portable_linux": "false",
+        "live_reference": "false",
+        "extended_readers": "false"
+      },
+      "attempted_at_utc": "2026-10-26T17:24:11.375089+00:00",
+      "state": "run_identified",
+      "known_runs_before": [
+        40368263565
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "",
+      "run": {
+        "conclusion": "",
+        "createdAt": "2026-10-26T17:24:13Z",
+        "databaseId": 40368276721,
+        "headSha": "530c6bb1fd01176c7aecbcae75c065ca004f6236",
+        "status": "queued",
+        "url": "https://github.com/bipxx/qupathxx/actions/runs/40368276721"
+      }
+    },
+    {
+      "role": "portable",
+      "semantic_inputs": {
+        "macos_native": false,
+        "portable_linux": true,
+        "live_reference": false,
+        "extended_readers": true
+      },
+      "wire_inputs": {
+        "macos_native": "false",
+        "portable_linux": "true",
+        "live_reference": "false",
+        "extended_readers": "true"
+      },
+      "attempted_at_utc": "2026-10-26T17:24:16.257310+00:00",
+      "state": "run_identified",
+      "known_runs_before": [
+        40368263565,
+        40368276721
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "",
+      "run": {
+        "conclusion": "",
+        "createdAt": "2026-10-26T17:24:18Z",
+        "databaseId": 40368289302,
+        "headSha": "530c6bb1fd01176c7aecbcae75c065ca004f6236",
+        "status": "queued",
+        "url": "https://github.com/bipxx/qupathxx/actions/runs/40368289302"
+      }
+    }
+  ],
+  "platform_campaign_accepted": false,
+  "release_ready": false,
+  "overall_project_complete": false,
+  "previous_campaign": "raw-classifier-235-campaign.json",
+  "previous_engine_scope": "raw-classifier-235-failure/reconciliation/final-engine/receipt.json",
+  "corrections": [
+    "b8a465e Darwin declaration portability",
+    "c24f011 scientific public-stub cohort",
+    "8e09571 runtime-consumer Git fixture capability"
+  ],
+  "preflight_input_proof": "All718frozen Git inputs equal source8e09571 used for807controls; local native correction evidence remains bound to b8a465e.",
+  "raw_payloads": {
+    "dispatch.py": {
+      "bytes": 4776,
+      "sha256": "c05a009caad6e7fdfc077e603b8e9826e3a5fa5f63c77c815bd103d6eca6ab2e"
+    },
+    "collect.py": {
+      "bytes": 4797,
+      "sha256": "67b3171c9438158c63b1273f1136b4cd54bbad13ea4c0a28862c960d84c295c0"
+    },
+    "dispatch-state.json": {
+      "bytes": 3286,
+      "sha256": "77537823d74bb3cc36456732e413ad753e1400e685711d23bc91a428118b2af7"
+    },
+    "frozen-source-proofs.json": {
+      "bytes": 328007,
+      "sha256": "4c44c151a5c6e38e396b5e29d60a076094f1c82417bb97689e7511cf6301994c"
+    },
+    "dispatcher-preflight-rejection.json": {
+      "bytes": 245,
+      "sha256": "e733899d75f5fd6678e6cd491078a01850e3240caddec37a54f942ae531a7ea1"
+    },
+    "dispatcher-preflight-old-ref.py": {
+      "bytes": 4776,
+      "sha256": "a9bf2b107246bbacfaa4132283663a1c4c2dd94daf85b88767fb2e84554bcaf5"
+    },
+    "initial-observation.json": {
+      "bytes": 36742,
+      "sha256": "405cc56e68b71f333eaad1be3354218be39963c9627548447c061e2baf1c54e4"
+    }
+  }
+}

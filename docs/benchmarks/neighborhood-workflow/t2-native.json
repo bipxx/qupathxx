@@ -1,0 +1,22 @@
+{
+  "initial_new_kernel_and_records": {
+    "source_tree_sha256": "a9aeb6bccac2c22cf5b506e51a753cf05e15604e87b669d07103d665bec8442d",
+    "source_revision_at_build": "17714f2a5d43c66e0f51bc2e3f20dac1a016ee49+dirty"
+  },
+  "legacy_generator_repair": {
+    "source_tree_sha256": "13c41b31a54d6ce14ed3a804568c079c8600205fa3d99b561e923ef7551bf928",
+    "source_revision_at_build": "17714f2a5d43c66e0f51bc2e3f20dac1a016ee49+dirty"
+  },
+  "result": "Four initial suites passed; existing spatial_records passed after correcting the test-only historical schema generator. Kernel/format code unchanged by repair.",
+  "checks": [
+    "QSN1/CSV exact roundtrip",
+    "invalid/truncated/corrupt payload rejection",
+    "retained clone/history/explicit-cohort replay",
+    "running-progress cancellation",
+    "transactional project rollback",
+    "schema27 to28 upgrade",
+    "all27 historical schemas upgrade through existing nearest regression",
+    "mixed QSD1/QSN1 project roundtrip",
+    "exact legacy snapshot admission and minus-one rejection"
+  ]
+}

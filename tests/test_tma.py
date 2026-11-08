@@ -1,4 +1,5 @@
 """Native TMA ownership, editing, persistence and bounded table contracts."""
+from project_schema_contract import CURRENT_SCHEMA_VERSION, drop_newer_project_tables
 import csv
 import gc
 import io
@@ -116,19 +117,19 @@ def test_project_roundtrip_and_schema10_upgrade(tmp_path):
     assert restored.tma_core_ids() == doc.tma_core_ids()
     assert restored.annotation(ids[0]).tma_core.case_id == 'patient'
     with sqlite3.connect(path) as db:
-        assert db.execute('PRAGMA user_version').fetchone()[0] == 13
+        assert db.execute('PRAGMA user_version').fetchone()[0] == CURRENT_SCHEMA_VERSION
     # A real schema-10 file has neither TMA table nor TMA annotations.
     doc.clear_tma_grid()
     project.save(str(path))
     with sqlite3.connect(path) as db:
-        db.execute('DROP TABLE raw_analysis_records');db.execute('DROP TABLE tiff_views');db.execute('DROP TABLE tma_cores')
+        drop_newer_project_tables(db, 26); db.execute('DROP TABLE IF EXISTS class_semantics');db.execute('DROP TABLE IF EXISTS project_class_defaults');db.execute('DROP TABLE IF EXISTS project_classes');db.execute('DROP TABLE IF EXISTS project_metadata');db.execute("DROP TABLE IF EXISTS image_tags");db.execute("DROP TABLE IF EXISTS image_details");db.execute("DROP TABLE IF EXISTS image_metadata");db.execute("DROP TABLE IF EXISTS image_axis_calibration");db.execute("DROP TABLE IF EXISTS image_data_properties");db.execute("DROP TABLE IF EXISTS image_analysis_settings");db.execute("DROP TABLE IF EXISTS image_properties");db.execute('DROP TABLE object_planes');db.execute('DROP TABLE object_properties');db.execute('DROP TABLE source_verifications');db.execute('DROP TABLE spatial_distance_records');db.execute('DROP TABLE raw_analysis_records');db.execute('DROP TABLE tiff_views');db.execute('DROP TABLE tma_cores')
         db.execute('DROP TABLE tma_grids')
         db.execute('PRAGMA user_version=10')
     legacy = q.Project.open(str(path))
     assert legacy.document(image).tma_grid() is None
     legacy.save(str(path))
     with sqlite3.connect(path) as db:
-        assert db.execute('PRAGMA user_version').fetchone()[0] == 13
+        assert db.execute('PRAGMA user_version').fetchone()[0] == CURRENT_SCHEMA_VERSION
 
 
 @pytest.mark.skipif(not q.has_project, reason='project storage')

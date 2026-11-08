@@ -4,6 +4,9 @@
 #include "qupathxx/measurement_tables.hpp"
 #include "qupathxx/cell_tables.hpp"
 #include "qupathxx/raw_tables.hpp"
+#include "qupathxx/raw_pixel_frontend.hpp"
+#include "qupathxx/tma_dearray.hpp"
+#include "qupathxx/spatial_frontend.hpp"
 namespace qpx {
 namespace detail {class ViewerOwner;}
 struct ViewerLimits {
@@ -23,10 +26,19 @@ struct ViewerEvent {
     std::optional<AnalysisResult> analysis;
     std::shared_ptr<const TissueResult> tissue;
     std::shared_ptr<const CellResult> cells;
+    std::shared_ptr<const TmaDearrayResult> tma_dearray;
+    std::shared_ptr<const SpatialDistanceResult> spatial;
     std::shared_ptr<const PixelBuffer> pixels;
     std::shared_ptr<const RawAnalysisResult> raw_analysis;
     std::shared_ptr<const RawPixelBuffer> raw_pixels;
     std::shared_ptr<const RawImageMetadata> raw_metadata;
+    std::shared_ptr<const RawPixelArchive> raw_pixel_training;
+    std::shared_ptr<const RawPixelTrainingCheckpoint> raw_pixel_checkpoint;
+    std::shared_ptr<const RawPixelWindowClassification> raw_pixel_prediction;
+    std::shared_ptr<const RawPixelStreamLink> raw_pixel_link;
+    std::shared_ptr<const RawPixelContours> raw_pixel_contours;
+    std::shared_ptr<const RawPixelStreamContours> raw_pixel_stream_contours;
+    std::shared_ptr<const RawPixelFileContours> raw_pixel_file_contours;
     std::optional<TiffView> tiff_view;
     std::uint64_t samples=0,components=0,rows=0;
     std::size_t bytes=0;
@@ -51,25 +63,59 @@ public:
     std::uint64_t catalog(std::uint64_t after_id=0,std::size_t limit=64);
     std::uint64_t inspect(std::uint64_t image_id,std::uint64_t object_id=0);
     std::uint64_t execute(std::uint64_t image_id,const std::vector<ObjectEdit>&,std::string label="Python edits",std::optional<std::uint64_t> expected_revision={});
+    std::uint64_t merge_annotations(std::uint64_t image_id,const std::vector<std::uint64_t>& object_ids,bool discard_points=false,std::optional<std::uint64_t> expected_revision={});
+    std::uint64_t insert_tma_row(std::uint64_t image_id,std::size_t index,std::string label="",std::optional<std::vector<Rect>> bounds={},bool missing=false,std::optional<std::uint64_t> expected_revision={});
+    std::uint64_t insert_tma_column(std::uint64_t image_id,std::size_t index,std::string label="",std::optional<std::vector<Rect>> bounds={},bool missing=false,std::optional<std::uint64_t> expected_revision={});
+    std::uint64_t remove_tma_row(std::uint64_t image_id,std::size_t index,std::optional<std::uint64_t> expected_revision={});
+    std::uint64_t remove_tma_column(std::uint64_t image_id,std::size_t index,std::optional<std::uint64_t> expected_revision={});
+    // Preview only; use execute(qptma_grid_edits(result.grid), expected_revision)
+    // for a separately authorized, bounded and atomic owner-side apply.
+    std::uint64_t detect_tma_grid(std::uint64_t image_id,TmaDearrayOptions={},std::optional<std::uint64_t> expected_revision={});
+    std::uint64_t spatial_distances(std::uint64_t image,const std::vector<std::uint64_t>& sources,const std::vector<std::uint64_t>& targets,SpatialDistanceOptions={},bool keep=false,std::optional<std::uint64_t> expected_revision={});
+    std::uint64_t inspect_spatial(std::uint64_t image,std::uint64_t record);
+    std::uint64_t verify_spatial(std::uint64_t image,std::uint64_t record);
+    std::uint64_t export_spatial(std::uint64_t image,std::uint64_t record,const std::string& path,std::size_t byte_limit=64u*1024*1024);
     std::uint64_t select(std::uint64_t image_id,const std::vector<std::uint64_t>&);
     std::uint64_t activate(std::uint64_t image_id);
     std::uint64_t read_region(std::uint64_t image_id,RegionRequest);
     std::uint64_t inspect_raw(std::uint64_t image_id);
     std::uint64_t read_raw(std::uint64_t image_id,RawRegionRequest);
     std::uint64_t set_tiff_view(std::uint64_t image_id,TiffView);
+    std::uint64_t analyze_with_intensity_statistics(std::uint64_t image_id,std::uint64_t object_id,const StainTransform&,
+        RoiSamplingPolicy=RoiSamplingPolicy::GeometryCoverage,AnalysisKind=AnalysisKind::StainMeans,bool nucleus=false);
     std::uint64_t analyze_with_sampling_policy(std::uint64_t image_id,std::uint64_t object_id,const StainTransform&,RoiSamplingPolicy,AnalysisKind=AnalysisKind::OpticalDensityMeans,bool nucleus=false);
     std::uint64_t analyze(std::uint64_t image_id,std::uint64_t object_id,const StainTransform&,AnalysisKind=AnalysisKind::OpticalDensityMeans,bool nucleus=false);
     std::uint64_t tissue(std::uint64_t image_id,std::uint64_t object_id,const StainTransform&,TissueParameters={},bool retain_result=false);
     std::uint64_t cells(std::uint64_t image_id,std::uint64_t object_id,const StainTransform&,CellParameters={},bool retain_result=false);
+    std::uint64_t grid_tissue(std::uint64_t image_id,std::uint64_t object_id,const StainTransform&,TissueGridSampling={},TissueParameters={},
+        std::optional<double> minimum_um2={},std::optional<double> maximum_um2={},bool retain_result=false);
+    std::uint64_t tissue_on_grid(std::uint64_t image_id,std::uint64_t object_id,const StainTransform&,ScientificGrid,TissueParameters={},
+        std::optional<double> minimum_um2={},std::optional<double> maximum_um2={},bool retain_result=false);
+    std::uint64_t grid_cells(std::uint64_t image_id,std::uint64_t object_id,const StainTransform&,GridCellSampling={},GridCellParameters={},bool retain_result=false);
+    std::uint64_t nominal_cells(std::uint64_t image_id,std::uint64_t object_id,const StainTransform&,NominalCellRoiSampling={},GridCellParameters={},bool retain_result=false);
     // Bounds and parameters are copied at submission. The owner resolves units
     // against the live image/ROI when this queued command begins execution.
+    std::uint64_t tissue_with_component_area_limits(std::uint64_t image_id,std::uint64_t object_id,const StainTransform&,
+        std::optional<double> minimum_um2={},std::optional<double> maximum_um2={},TissueParameters={},bool retain_result=false);
     std::uint64_t cells_with_nucleus_area_limits(std::uint64_t image_id,std::uint64_t object_id,const StainTransform&,
         std::optional<double> minimum_um2={},std::optional<double> maximum_um2={},CellParameters={},bool retain_result=false);
     std::uint64_t export_measurements(std::uint64_t image_id,MeasurementTableKind,const std::string&,bool require_current=false,const std::vector<std::uint64_t>& record_ids={});
     std::uint64_t export_cells(std::uint64_t image_id,const std::string&,bool require_current=false,const std::vector<std::uint64_t>& record_ids={});
     std::uint64_t analyze_raw(std::uint64_t image_id,RawRegionRequest,std::uint64_t object_id=0,bool nucleus=false,bool retain_result=false);
+    std::uint64_t analyze_raw_grid(std::uint64_t image_id,std::uint64_t object_id,RawGridSampling={},ScientificRawOptions={},bool nucleus=false,bool retain_result=false);
     std::uint64_t verify_raw_analysis(std::uint64_t image_id,std::uint64_t record_id);
     std::uint64_t export_raw_measurements(std::uint64_t image_id,const std::string&,bool require_current=false,const std::vector<std::uint64_t>& record_ids={});
+    std::uint64_t train_raw_pixels(std::uint64_t image_id,const std::vector<std::uint64_t>& ids,RawPixelTrainingSettings={},bool retain_result=true);
+    std::uint64_t predict_raw_pixels(std::uint64_t image_id,const RawPixelClassifier&,ScientificRawWindow,std::uint64_t object_id=0,double min_vote_fraction=0,std::size_t work_bytes=16u*1024*1024);
+    std::uint64_t export_raw_pixels(std::uint64_t image_id,const RawPixelClassifier&,ScientificRawLattice,const std::string&,RawPixelStreamOptions={},RawPixelStreamSaveOptions={},std::uint64_t object_id=0,bool retain_result=true);
+    // Historical file/record verification and one bounded indexed block. This
+    // never restores live prediction/apply authority. Empty prefixes are valid.
+    std::uint64_t read_raw_pixel_stream(std::uint64_t image_id,const std::string& path,std::uint64_t index=0,RawPixelStreamFileLimits={},std::uint64_t record_id=0,bool retain_result=false);
+    // Preview returns historical geometry. Apply always recomputes a fresh
+    // owner capture; retained-result admission precedes the atomic document edit.
+    std::uint64_t contour_raw_pixels(std::uint64_t image_id,const RawPixelClassifier&,ScientificGrid,TissueContourOptions={},std::uint64_t object_id=0,bool apply=false,double min_vote_fraction=0,std::size_t work_bytes=16u*1024*1024,const std::string& name_prefix="Raw pixel",std::optional<std::uint64_t> expected_revision={});
+    std::uint64_t contour_raw_pixel_file(std::uint64_t image_id,const std::string& path,RawPixelStreamFileLimits={},RawPixelStreamContourOptions={},std::uint64_t record_id=0,bool replay=false,bool apply=false,const std::string& name_prefix="Raw pixel",std::optional<std::uint64_t> expected_revision={});
+    std::uint64_t contour_raw_pixel_stream(std::uint64_t image_id,const RawPixelClassifier&,ScientificRawLattice,RawPixelStreamOptions={},RawPixelStreamContourOptions={},std::optional<RawPixelStreamRegion> region={},std::uint64_t object_id=0,bool apply=false,const std::string& name_prefix="Raw pixel",std::optional<std::uint64_t> expected_revision={});
     std::uint64_t save(const std::string&);
     std::uint64_t close(bool discard_changes=false);
 private:

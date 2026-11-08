@@ -1,0 +1,13 @@
+{
+  "positive_files": 7,
+  "negative_files": 5,
+  "expected_errors": 28,
+  "hashes": {
+    "raw-classifier-typing.log": "e2702f9afc4c0f80ff1e8624f77af7a7d2689ca184512114aae5967a76229ba8",
+    "raw-classifier-raw_pixel_invalid.log": "353e4190c202b5b72f52717b4c50488a2b0f7dfc266ade52f05eb876d09dfb13",
+    "raw-classifier-raw_batch_invalid.log": "cf6fdf995c7e68ad1e7d935a9d54dd3ca617855271d5ebdeb0f0836b237b3794",
+    "raw-classifier-raw_frontend_invalid.log": "9e586d09049e81ed26131f448e0a4a6d537cb4d4b9258a221d95678e72c8ad6e",
+    "raw-classifier-raw_stream_contour_invalid.log": "94ad0ff3a2e81ef675c9389c556ba4d369a7424884290e1f1498ee21364ae32d",
+    "spatial-typing-negative.log": "014657be69d8b50bc2d8edfdac12d3077252434d8f924379324a16c9eb141aa4"
+  }
+}

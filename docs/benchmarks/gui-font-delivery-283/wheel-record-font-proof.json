@@ -1,0 +1,13 @@
+{
+  "entries": 43,
+  "package_members": 39,
+  "font_assets_and_notices": {
+    "fonts/NotoSansCJKsc-Regular.otf": "2c76254f6fc379fddfce0a7e84fb5385bb135d3e399294f6eeb6680d0365b74b",
+    "fonts/NotoEmoji.ttf": "de6c18832938afc99caf132b39d6a30a19bac7f2e812e28db2535b4608d27551",
+    "licenses/noto-cjk/OFL.txt": "6a73f9541c2de74158c0e7cf6b0a58ef774f5a780bf191f2d7ec9cc53efe2bf2",
+    "licenses/noto-cjk/NOTICE.md": "aa229a2136c426e3deca957c305727e02415198116138d8c1721222b12e22131",
+    "licenses/noto-emoji/OFL.txt": "500bb1ccf43df7bbb522112f9133a52b16e1c35e809632f5d8609b179152de5b",
+    "licenses/imgui/ProggyForever-LICENSE.txt": "47d329848d81b5ad777bf5eca73509a4d1b730d6e2ca917f03e72010b2f59576"
+  },
+  "wheel_sha256": "2d0746d2740d93da35050b69aa99636135d932caba75b1080c23814ae11a84ca"
+}

@@ -1,0 +1,13 @@
+{
+  "compiler_inputs_equal": 495,
+  "staged_public_dependency_members_equal": 58,
+  "metadata_refreshed_products": [
+    "_native.cp312-win_amd64.pyd",
+    "qupathxx_app.exe",
+    "qupathxx_batch.exe",
+    "qupathxx_region.exe"
+  ],
+  "stub_generations": 1,
+  "wheel_builds": 1,
+  "installs": 1
+}

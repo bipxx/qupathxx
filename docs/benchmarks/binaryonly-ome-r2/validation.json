@@ -1,0 +1,80 @@
+{
+  "native_source": "4e7b6e8dc0907c1c3e1603ef5beee34f3759fa98",
+  "observer_source": "51b5172570ad503b4236ec899846f1e47c7c9f1c",
+  "source_fingerprint": "0a9f74a2cb861d81c8feca129835dc14bc599ca8c499b46487b413a19ae0e6a6",
+  "changed_compiler_inputs": [
+    "cpp/tiff_server.cpp"
+  ],
+  "installed_members": 59,
+  "native_sha256": "ca453f86e25c8e58fbe489ac429d8d034a45b8ab15fe42c84e725d2da79fcda2",
+  "wheel_sha256": "ec2ad01200309eca600ab943cb1e82eeaaa1a9dc7135bbd0679bb6759cda099d",
+  "combined_unique_passes": 355,
+  "binaryonly_cases": 51,
+  "domain_admission": {
+    "installed": {
+      "passed": 184,
+      "groups": [
+        {
+          "classname": "test_multifile_tiff_reader",
+          "passed": 37
+        },
+        {
+          "classname": "test_multifile_ome_fixture",
+          "passed": 4
+        },
+        {
+          "classname": "test_source_companions",
+          "passed": 3
+        },
+        {
+          "classname": "test_multifile_tiff_failures",
+          "passed": 10
+        },
+        {
+          "classname": "test_ome_calibration_units",
+          "passed": 83
+        },
+        {
+          "classname": "test_binaryonly_ome",
+          "passed": 47
+        }
+      ]
+    },
+    "desktop": {
+      "passed": 6,
+      "declared_desktop_skips": 0
+    }
+  },
+  "native_suites": 2,
+  "one_selected_target_build": true,
+  "stubs_unchanged": true,
+  "public_api_unchanged": true,
+  "full_platform_campaign": false,
+  "initial_test_expectation_corrections": 2,
+  "products": [
+    {
+      "path": "products\\_native.cp312-win_amd64.pyd",
+      "sha256": "ca453f86e25c8e58fbe489ac429d8d034a45b8ab15fe42c84e725d2da79fcda2"
+    },
+    {
+      "path": "products\\qupathxx_raw_image_tests.exe",
+      "sha256": "3509507b97e85b63343cef1f8590f071faee5d291b5c51669d8b61538e5d327f"
+    },
+    {
+      "path": "products\\qupathxx_source_identity_tests.exe",
+      "sha256": "505c4dd4222d61d4c8d7708cfd50a707ebb82edde78efb6e149330c9d629e6cf"
+    },
+    {
+      "path": "products\\tiff_server.obj",
+      "sha256": "e69b7e57573e159c0d1e7ad5c4490908fec65b93383f1548e84dac82e3085520"
+    },
+    {
+      "path": "products\\provenance.obj",
+      "sha256": "4c70bca2507ab6b5e8ce82e7ba4903a45de74e3ba840f7bed0b929353fecc0c5"
+    }
+  ],
+  "headless_desktop_declarations": {
+    "passed": 0,
+    "declared_desktop_skips": 6
+  }
+}

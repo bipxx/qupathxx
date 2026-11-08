@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\image-data-properties-r5-probe-env\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-c",
+    "import qupathxx as q;assert q.build_environment().git_revision=='cb693c5a20e32e40c25a71246613a6955036ae5c';assert q.has_project and q.has_interchange and q.has_tiff;print('native source',q.build_environment().git_revision,flush=True);import pytest;raise SystemExit(pytest.main(['tests/test_image_data_properties.py', '-q', '--junitxml=C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\image-data-properties-r5\\\\staged-overflow.xml', '--basetemp', 'C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\image-data-properties-r5\\\\staged-overflow-temp']))"
+  ],
+  "returncode": 0,
+  "source": "cb693c5a20e32e40c25a71246613a6955036ae5c",
+  "product_installed": false,
+  "elapsed_seconds": 2.0563272999133915
+}

@@ -1,0 +1,104 @@
+{
+  "source": "92edba87c50a44172e5b745ac838bbda939469a2",
+  "binaries": [
+    {
+      "host": "windows",
+      "suite": "document_edits",
+      "source": "92edba87c50a44172e5b745ac838bbda939469a2",
+      "fingerprint": "55d6aa43446fc66668f563a76af960dd999453b9381633a32cb93bc57b64b1dc",
+      "path": "build/rawreplay219c-retained-binaries/windows/qupathxx_document_edits_tests.exe",
+      "bytes": 324096,
+      "sha256": "fde0030afe11b4b9cc42f03f2bfca4ea23d2f64a1026e40934d449c422b83542"
+    },
+    {
+      "host": "windows",
+      "suite": "pixel_workflows",
+      "source": "92edba87c50a44172e5b745ac838bbda939469a2",
+      "fingerprint": "55d6aa43446fc66668f563a76af960dd999453b9381633a32cb93bc57b64b1dc",
+      "path": "build/rawreplay219c-retained-binaries/windows/qupathxx_pixel_workflow_tests.exe",
+      "bytes": 3453440,
+      "sha256": "15681593e3cd624edaf69bdcb149d2bbdf9a6afd62eb08fd614f20bfbd19bb11"
+    },
+    {
+      "host": "windows",
+      "suite": "source_identity",
+      "source": "92edba87c50a44172e5b745ac838bbda939469a2",
+      "fingerprint": "55d6aa43446fc66668f563a76af960dd999453b9381633a32cb93bc57b64b1dc",
+      "path": "build/rawreplay219c-retained-binaries/windows/qupathxx_source_identity_tests.exe",
+      "bytes": 1511936,
+      "sha256": "9272dd8420a706813c23a15e1cf767ff4a10c87f5d11e503bd19c3f92edf7de9"
+    },
+    {
+      "host": "windows",
+      "suite": "tissue_contours",
+      "source": "92edba87c50a44172e5b745ac838bbda939469a2",
+      "fingerprint": "55d6aa43446fc66668f563a76af960dd999453b9381633a32cb93bc57b64b1dc",
+      "path": "build/rawreplay219c-retained-binaries/windows/qupathxx_tissue_contour_tests.exe",
+      "bytes": 1541120,
+      "sha256": "cd34e6759539e076c319b93fa3dfdcfbb665a7319f74f14bf9c81ff6ee83ef2e"
+    },
+    {
+      "host": "linux",
+      "suite": "document_edits",
+      "source": "92edba87c50a44172e5b745ac838bbda939469a2",
+      "fingerprint": "55d6aa43446fc66668f563a76af960dd999453b9381633a32cb93bc57b64b1dc",
+      "path": "build/rawreplay219c-retained-binaries/linux/qupathxx_document_edits_tests",
+      "bytes": 867080,
+      "sha256": "5b2a0732ec328fd0d837c2e36030832a3b0a0dc863e2cf66df47240390667858"
+    },
+    {
+      "host": "linux",
+      "suite": "pixel_workflows",
+      "source": "92edba87c50a44172e5b745ac838bbda939469a2",
+      "fingerprint": "55d6aa43446fc66668f563a76af960dd999453b9381633a32cb93bc57b64b1dc",
+      "path": "build/rawreplay219c-retained-binaries/linux/qupathxx_pixel_workflow_tests",
+      "bytes": 6598424,
+      "sha256": "6e71580874cb7b641a70d26bf247740d989c8337a6b77d1eee5b82bd3af9498c"
+    },
+    {
+      "host": "linux",
+      "suite": "source_identity",
+      "source": "92edba87c50a44172e5b745ac838bbda939469a2",
+      "fingerprint": "55d6aa43446fc66668f563a76af960dd999453b9381633a32cb93bc57b64b1dc",
+      "path": "build/rawreplay219c-retained-binaries/linux/qupathxx_source_identity_tests",
+      "bytes": 2567480,
+      "sha256": "b2f332b3322eff43be59745b101f49c86dcd99a83f49bf349d080ab2253b257e"
+    },
+    {
+      "host": "linux",
+      "suite": "tissue_contours",
+      "source": "92edba87c50a44172e5b745ac838bbda939469a2",
+      "fingerprint": "55d6aa43446fc66668f563a76af960dd999453b9381633a32cb93bc57b64b1dc",
+      "path": "build/rawreplay219c-retained-binaries/linux/qupathxx_tissue_contour_tests",
+      "bytes": 4376856,
+      "sha256": "8270aac013c42edbb464a1d69bd7777ea587180092dcd5724679b3f6bbd90bc2"
+    },
+    {
+      "host": "training",
+      "suite": "classifier",
+      "source": "92edba87c50a44172e5b745ac838bbda939469a2",
+      "fingerprint": "55d6aa43446fc66668f563a76af960dd999453b9381633a32cb93bc57b64b1dc",
+      "path": "build/rawreplay219c-retained-binaries/training/qupathxx_classifier_tests.exe",
+      "bytes": 1389568,
+      "sha256": "39229c21e6f8fd9d0d345318510b30657599f64b8b65708bd2cdd82bb2c19f4e"
+    },
+    {
+      "host": "training",
+      "suite": "classifier_io",
+      "source": "92edba87c50a44172e5b745ac838bbda939469a2",
+      "fingerprint": "55d6aa43446fc66668f563a76af960dd999453b9381633a32cb93bc57b64b1dc",
+      "path": "build/rawreplay219c-retained-binaries/training/qupathxx_classifier_io_tests.exe",
+      "bytes": 1080320,
+      "sha256": "a816623a182f801515026d4b09c5e1b6616164624675b50a47811d9cc92546c6"
+    },
+    {
+      "host": "training",
+      "suite": "pixel_workflows",
+      "source": "92edba87c50a44172e5b745ac838bbda939469a2",
+      "fingerprint": "55d6aa43446fc66668f563a76af960dd999453b9381633a32cb93bc57b64b1dc",
+      "path": "build/rawreplay219c-retained-binaries/training/qupathxx_pixel_workflow_tests.exe",
+      "bytes": 4656128,
+      "sha256": "3b7d32370bda9fae6d7483f1fd419d4ab946db5b08f6ac8d917c432b7a74ffba"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="4" time="0.708" timestamp="2026-11-04T16:10:08.820568-05:00" hostname="HEQPC"><testcase classname="tests.test_object_planes" name="test_import_view_mask_analysis_restart_and_export_use_exact_plane" time="0.173" /><testcase classname="tests.test_object_planes" name="test_saved_data_plane_uses_a_valid_replacement_source_not_the_invalid_original" time="0.079" /><testcase classname="tests.test_object_planes" name="test_raw_contour_publication_uses_recipe_plane_while_another_plane_is_displayed[True]" time="0.029"><failure message="assert False&#10; +  where False = all(&lt;generator object test_raw_contour_publication_uses_recipe_plane_while_another_plane_is_displayed.&lt;locals&gt;.&lt;genexpr&gt; at 0x0000019975ECD5D0&gt;)">tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/object-planes-r5/first-probe-harness-temp/test_raw_contour_publication_u0')
+streamed = True
+
+    @pytest.mark.skipif(not q.has_classifier_training or not q.has_geos,reason='actual forest backend and GEOS')
+    @pytest.mark.parametrize('streamed',[False,True])
+    def test_raw_contour_publication_uses_recipe_plane_while_another_plane_is_displayed(tmp_path,streamed):
+        from test_raw_pixel_python import trained
+        doc,_,_=scene(tmp_path)
+        ids=[doc.add_detection(q.Roi.rectangle(q.Rect(0,0,10,16)),class_name='A'),doc.add_detection(q.Roi.rectangle(q.Rect(14,0,10,16)),class_name='B')]
+        for obj in ids:doc.set_object_plane(obj,q.ObjectPlane(-1,1,1))
+        grid=q.ScientificGrid(24,16,q.ScientificGridAxis(0,24,24),q.ScientificGridAxis(0,16,16))
+        selection=q.ScientificRawOptions();selection.z=1;selection.t=1;selection.channels=2
+        features=q.RawPixelFeatureOptions();features.offsets=[0,0];features.scales=[1,1]
+        options=q.RawPixelTrainingOptions();options.max_samples=32;options.max_samples_per_class=16;options.work_bytes=16*1024**2
+        capture=q.RawPixelTrainingRequest(doc,ids,grid,selection,features,options);model=trained(q.sample_raw_pixel_training(capture))
+        if streamed:
+            stream=q.RawPixelStreamOptions();stream.tile_width=stream.tile_height=8;stream.work_bytes=16*1024**2
+            request=q.RawPixelTiledPredictionRequest(doc,model,q.ScientificRawLattice(grid),stream)
+            contour=q.RawPixelStreamContourOptions();contour.work_bytes=32*1024**2;contour.boundary_work_bytes=2*1024**2
+            geometry=contour.contours;geometry.work_bytes=2*1024**2;contour.contours=geometry
+            result=q.trace_raw_pixel_stream(request,contour);published=q.publish_raw_pixel_stream_contours(doc,request,result)
+        else:
+            request=q.RawPixelPredictionRequest(doc,model,grid);result=q.trace_raw_pixel_prediction(request,q.predict_raw_pixel_region(request))
+            published=q.publish_raw_pixel_contours(doc,request,result)
+        assert published and plane_tuple(doc.active_plane)==(-1,0,0)
+&gt;       assert all(plane_tuple(doc.annotation(obj).plane)==(-1,1,1) and not doc.object_visible(obj) for obj in published)
+E       assert False
+E        +  where False = all(&lt;generator object test_raw_contour_publication_uses_recipe_plane_while_another_plane_is_displayed.&lt;locals&gt;.&lt;genexpr&gt; at 0x0000019975ECD5D0&gt;)
+
+tests\test_object_planes.py:215: AssertionError</failure></testcase><testcase classname="tests.test_raw_batch" name="test_batch_captures_axes_and_context_and_reuses_without_statistics" time="0.087" /></testsuite></testsuites>

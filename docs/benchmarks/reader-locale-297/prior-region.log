@@ -1,0 +1,12 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+________ test_installed_region_dispatch_accepts_unicode_uppercase_ppm _________
+build\ci\scientific-grid-159\tests\test_reader_locale.py:64: in test_installed_region_dispatch_accepts_unicode_uppercase_ppm
+    assert result.returncode == 0, result.stdout + result.stderr
+E   AssertionError: rebuild with QUPATHXX_BUILD_OPENSLIDE=ON and OpenSlide_ROOT pointing to an SDK
+E     
+E   assert 1 == 0
+E    +  where 1 = CompletedProcess(args=['C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\nominal-cell-frontends-294-env\\Lib\\site-packa...'], returncode=1, stdout='', stderr='rebuild with QUPATHXX_BUILD_OPENSLIDE=ON and OpenSlide_ROOT pointing to an SDK\n').returncode
+=========================== short test summary info ===========================
+FAILED build\ci\scientific-grid-159\tests\test_reader_locale.py::test_installed_region_dispatch_accepts_unicode_uppercase_ppm
+1 failed in 0.24s

@@ -1,0 +1,87 @@
+{
+  "compiled_source": "8ece80e52f1b93bd62e19f0c4cc5215d6357fd68",
+  "fingerprint": "5297728aecff15fb76489a9dc9ab450eeb98d1378b37b36e4281979cabf2f951",
+  "scope": "Shared unreserved workstation observation; no hardware/UI budget acceptance",
+  "rows": [
+    {
+      "samples": [
+        64,
+        64
+      ],
+      "capture_ns": [
+        43200,
+        26700,
+        24800,
+        24400,
+        24300,
+        24100,
+        23900
+      ],
+      "median_capture_ns": 24400
+    },
+    {
+      "samples": [
+        256,
+        256
+      ],
+      "capture_ns": [
+        103700,
+        102600,
+        102000,
+        101900,
+        101700,
+        101400,
+        101400
+      ],
+      "median_capture_ns": 101900
+    },
+    {
+      "samples": [
+        512,
+        512
+      ],
+      "capture_ns": [
+        211800,
+        211500,
+        223100,
+        212300,
+        211400,
+        211300,
+        210900
+      ],
+      "median_capture_ns": 211500
+    },
+    {
+      "samples": [
+        65536,
+        1
+      ],
+      "capture_ns": [
+        16590700,
+        16600800,
+        16575000,
+        16250600,
+        16025000,
+        15878300,
+        16511100
+      ],
+      "median_capture_ns": 16511100
+    },
+    {
+      "samples": [
+        1000000,
+        1
+      ],
+      "capture_ns": [
+        324346100,
+        327284900,
+        326035900,
+        328588000,
+        328301400,
+        324782100,
+        325083400
+      ],
+      "median_capture_ns": 326035900
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+staged source eb3c8f0d8a7557733d73681e0bf1fe321dd86881 native sha256 8b135ff446e84422c394c3d42e9ac19f3ae39177962b4f2dc4dbba8fa80c613d
+F                                                                        [100%]
+================================== FAILURES ===================================
+_____ test_plain_classification_keeps_the_existing_compact_history_budget _____
+
+    def test_plain_classification_keeps_the_existing_compact_history_budget():
+        doc=q.Document(q.Image.demo());doc.set_history_limits(0,0)
+        ids=doc.execute([q.ObjectEdit.create(q.Rect(1,1,2,2)) for i in range(1000)])
+        doc.set_history_limits(128,64*1024)
+        # Existing class-only transactions fit this declared payload budget.
+        # Objects without editing state must not pay a property-owner cost per row.
+>       doc.apply_classifications([(id,'Tumor') for id in ids])
+E       ValueError: edit exceeds history payload budget; raise limits or explicitly disable recording
+
+tests\test_object_edit_state.py:205: ValueError
+=========================== short test summary info ===========================
+FAILED tests/test_object_edit_state.py::test_plain_classification_keeps_the_existing_compact_history_budget
+1 failed in 0.22s

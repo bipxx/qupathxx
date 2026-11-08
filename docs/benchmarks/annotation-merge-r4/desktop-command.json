@@ -1,0 +1,18 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\annotation-merge-r4-env\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-m",
+    "pytest",
+    "tests/test_annotation_merge.py::test_imgui_merge_keyboard_undo_redo_and_selection",
+    "tests/test_annotation_merge.py::test_managed_merge_staleness_identity_and_saved_result",
+    "tests/test_gui_tiles.py::test_hole_drawing_and_boolean_gui_commands",
+    "-q",
+    "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\annotation-merge-r4\\desktop.xml",
+    "--basetemp",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\annotation-merge-r4\\desktop-temp"
+  ],
+  "returncode": 0
+}

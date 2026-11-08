@@ -1,0 +1,20 @@
+{
+  "source": "ef23a5ded44e4c2ac8cdb07ddeef1240f738a1fb",
+  "files": {
+    "tests/test_raw_stream_contour_python.py": "a3057a5a6d9c8885d1793c1633b20a815fe426188cf76c5d71e69733b9ca22e4",
+    "tests/raw_stream_contour_shutdown_child.py": "d4ca24c567608aee04352e36379f0676a8cde8f1376a51f5be6621a3308e4dc9",
+    "tests/typing/raw_stream_contour_valid.py": "bd85c9f64e423ffa1cbaf0ae726ee017f84e341da75101d87cf372d8eb2d7b1a",
+    "tests/typing/raw_stream_contour_invalid.py": "e62863966fb1ddfdbe098aa8836d97cfbb85b22dcda394bfe48261759c88ef62",
+    "tools/generate_stubs.py": "298ed4ec87dfad243fd16a2f5966f095af510764099250c98c8b8fa5e2c62533",
+    "tests/test_gui_raw_stream_contours.py": "5a248a9a2d43f69c214f79abde1b18ef42e4bd652ba945c26c3a8756acaa8476",
+    "tests/test_raw_stream_contour_cli.py": "76a7d780213bce7b60c8401467b6315ffa354b48585d726abef2fae7af95a6c2",
+    "tests/test_raw_pixel_cli.py": "23b0b471c78959350d5fcc3b1f1acb6d55972adeaac0a93fcc551ac2f263691a",
+    "tests/test_raw_stream_contour_batch.py": "6779b0deed44e5ca0edf699fa42f3a0e290ec2f3b3193c281e83f0e8bb46228a",
+    "tests/test_gui_batch.py": "3dcc1a1614d36450f3b948440231ab52d5271442691c1e0e22d082a21d3e8b32",
+    "tests/test_gui_pixel_batch.py": "d3a106b1ed64c6e1e39d8676336626000a773f1b9955249c34d8a2edbb802a17",
+    "tests/test_raw_file_contours.py": "d548d2bb58966c560313ac50e36064d6372aa660919f0749e92ed9c743962abc",
+    "tests/raw_file_contour_shutdown_child.py": "84bd8b485f5c196cf4515ae8a1f953f27d4e3efe75551794254516abc5845b1b"
+  },
+  "compiled_runtime_source": "ef23a5ded44e4c2ac8cdb07ddeef1240f738a1fb",
+  "compiler_inputs_unchanged": true
+}

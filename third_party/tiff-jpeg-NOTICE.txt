@@ -1,0 +1,3 @@
+The quantitative TIFF reader uses libjpeg-turbo 3.1.3 through libtiff.
+This software is based in part on the work of the Independent JPEG Group.
+The accompanying LICENSE.md and README.ijg retain the upstream terms.

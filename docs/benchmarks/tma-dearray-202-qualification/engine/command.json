@@ -1,0 +1,23 @@
+{
+  "command": [
+    "C:\\Users\\HEQ\\AppData\\Local\\Microsoft\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\python.exe",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tools\\ci\\accept_unified_engine.py",
+    "40245160107",
+    "19371b74e0fabb3a91bd77ffe67ded04f46a5220",
+    "--artifacts",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\tmaci202-hosted\\artifacts",
+    "--output",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\audit207-reaudit-current\\engine-audit.json",
+    "--ndpi-readers",
+    "--rendered-loop",
+    "--gui-stack",
+    "--small-frontier",
+    "--windows-runtime-manifest",
+    "--linux-runtime-manifest",
+    "--source-root",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\tma-dearray-workflow-202"
+  ],
+  "exit": 0,
+  "seconds": 11.134637499926612,
+  "auditor_source": "cc2f5247e58a5522ee016adc107c9e2a136e458b"
+}

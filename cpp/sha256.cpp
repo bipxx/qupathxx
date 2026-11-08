@@ -64,12 +64,23 @@ void Sha256::update(const void* data,std::size_t size) {
     if(s.finished) throw std::logic_error("SHA-256 is finalized");
     if(size>std::numeric_limits<std::uint64_t>::max()/8-s.count) throw std::overflow_error("SHA-256 input too long");
     s.count+=size; const auto* p=static_cast<const std::uint8_t*>(data);
+    if(!size) return;
 #ifdef _WIN32
     if(s.hash) {
-        while(size) {const auto n=static_cast<ULONG>(std::min<std::size_t>(size,1u<<30));
+        // Reuse the portable block for short provider updates; the canonical
+        // stream and object allocation stay identical across both backends.
+        if(s.used) {
+            const auto n=std::min(size,s.block.size()-s.used);
+            std::memcpy(s.block.data()+s.used,p,n);s.used+=n;p+=n;size-=n;
+            if(s.used<s.block.size()) return;
+            if(BCryptHashData(s.hash,s.block.data(),static_cast<ULONG>(s.used),0)<0) throw std::runtime_error("SHA-256 update failed");
+            s.used=0;
+        }
+        while(size>=s.block.size()) {const auto n=static_cast<ULONG>(std::min<std::size_t>(size,1u<<30));
             if(BCryptHashData(s.hash,const_cast<PUCHAR>(p),n,0)<0) throw std::runtime_error("SHA-256 update failed");
             p+=n;size-=n;
         }
+        if(size) {std::memcpy(s.block.data(),p,size);s.used=size;}
         return;
     }
 #endif
@@ -84,7 +95,10 @@ std::string Sha256::finish() {
     auto& s=*impl_;if(s.finished) throw std::logic_error("SHA-256 is finalized");s.finished=true;
     std::array<std::uint8_t,32> digest{};
 #ifdef _WIN32
-    if(s.hash) {if(BCryptFinishHash(s.hash,digest.data(),32,0)<0) throw std::runtime_error("SHA-256 finalization failed");}
+    if(s.hash) {
+        if(s.used && BCryptHashData(s.hash,s.block.data(),static_cast<ULONG>(s.used),0)<0) throw std::runtime_error("SHA-256 update failed");
+        if(BCryptFinishHash(s.hash,digest.data(),32,0)<0) throw std::runtime_error("SHA-256 finalization failed");
+    }
     else
 #endif
     {

@@ -1,0 +1,9 @@
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+
+  Checking File Globs
+  1>Checking Build System
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/CMakeLists.txt
+  imagej_gaussian.cpp
+  imagej_gaussian_tests.cpp
+  Generating Code...
+  qupathxx_imagej_gaussian_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\imagej-gaussian-300-msvc\Release\qupathxx_imagej_gaussian_tests.exe

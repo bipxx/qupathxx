@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\tools\profile_raw_stream_contours.py", line 227, in <module>
+    main()
+  File "C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\tools\profile_raw_stream_contours.py", line 217, in main
+    check(c, report['rows'])
+  File "C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\tools\profile_raw_stream_contours.py", line 162, in check
+    require(row['exact_rectangles'] and sorted(row['geometry'], key=lambda v: v['label']) ==
+  File "C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\tools\profile_raw_stream_contours.py", line 20, in require
+    raise ValueError(message)
+ValueError: wrong geometry

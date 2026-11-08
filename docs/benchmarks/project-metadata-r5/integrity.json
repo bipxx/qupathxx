@@ -1,0 +1,12 @@
+{
+  "source": "408f383e78e7f235ec2d444c3a7d2488a81c5d64",
+  "compiler_inputs_unchanged": 467,
+  "installed_hashed_members_matching_wheel_and_record": 65,
+  "wheel_sha256": "a822f45d478d75bc7dd652de11de132c290d76e4612df0743e3fbcd80872cfb3",
+  "native_members_unchanged_by_stub_repackage": true,
+  "observer_sha256": "328237dcc083cbe61a813d8b327af6381ba627d1690ef58c82b9ce189ce09d82",
+  "sdk_sha256": {
+    "_native.pyi": "67265bdac5aabe6ef04581df6b2533b3899d8c65c5b9024289e703f076e52f25",
+    "__init__.pyi": "4e7bf05a33fdbee13ffd2468f5c7fb5446ba4fcbe35578a9c0ef0c523f25a1c0"
+  }
+}

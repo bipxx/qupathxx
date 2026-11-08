@@ -1,0 +1,20 @@
+{
+  "id": 12671436008,
+  "node_id": "MDg6QXJ0aWZhY3QxMjY3MTQzNjAwOA==",
+  "name": "Windows-gui-py3.12",
+  "size_in_bytes": 27651057,
+  "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12671436008",
+  "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12671436008/zip",
+  "expired": false,
+  "digest": "sha256:cd3d850da5280bde64d8f7840de46242e4a643fd14c34346bad2df1e09bd76be",
+  "created_at": "2026-10-26T17:20:07Z",
+  "updated_at": "2026-10-26T17:20:07Z",
+  "expires_at": "2026-11-09T17:20:05Z",
+  "workflow_run": {
+    "id": 40363168207,
+    "repository_id": 1427753981,
+    "head_repository_id": 1427753981,
+    "head_branch": "feature/raw-classifier-qualification-235",
+    "head_sha": "176ec42b274bb12429cef603b59ce704e12c6e96"
+  }
+}

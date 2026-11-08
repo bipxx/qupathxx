@@ -1,0 +1,17 @@
+{
+  "schema": "qpx.tma-case-arm64-observation/1",
+  "source": "914b7e2cd02a49c87907d578ea0b736a8cefb71d",
+  "run": 40096768265,
+  "architecture": "arm64",
+  "native_passed": 46,
+  "cohort": {
+    "case_aggregation_checked": true,
+    "compensated_signed_sums_checked": true,
+    "mean_underflow_checked": true,
+    "cancellation_checked": true,
+    "signed_decimal_locale_checked": true
+  },
+  "junit_sha256": "af4dc45e09f52ca8704c56d30d7c671dca106d17a9c149b433a1664acd57ce82",
+  "full_macos_matrix_accepted": false,
+  "release_ready": false
+}

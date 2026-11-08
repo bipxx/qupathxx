@@ -1,0 +1,31 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\spatial-python-266-env\\Scripts\\python.exe",
+    "-I",
+    "-m",
+    "pytest",
+    "tests\\test_analysis_records.py",
+    "tests\\test_cell_feature_links.py",
+    "tests\\test_cell_records.py",
+    "tests\\test_object_classifier_archives.py",
+    "tests\\test_pixel_archives.py",
+    "tests\\test_pixel_stream_records.py",
+    "tests\\test_project.py",
+    "tests\\test_project_save.py",
+    "tests\\test_project_views.py",
+    "tests\\test_provenance.py",
+    "tests\\test_raw_records.py",
+    "tests\\test_recovery_association.py",
+    "tests\\test_tiff_project.py",
+    "tests\\test_tissue_records.py",
+    "tests\\test_tma.py",
+    "-q",
+    "--tb=short",
+    "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-python-266\\schema-regressions.xml",
+    "--basetemp",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\q266-schema-regressions"
+  ],
+  "cwd": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159",
+  "returncode": 0,
+  "seconds": 14.525634899968281
+}

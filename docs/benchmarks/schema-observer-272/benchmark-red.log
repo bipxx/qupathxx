@@ -1,0 +1,58 @@
+FF                                                                       [100%]
+================================== FAILURES ===================================
+____ test_pixel_stream_record_benchmark_accepts_current_project_schema[1] _____
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/schema-observer-272/benchmark-red-temp/test_pixel_stream_record_bench0')
+records = 1
+
+    @pytest.mark.parametrize('records',[1,7])
+    def test_pixel_stream_record_benchmark_accepts_current_project_schema(tmp_path,records):
+        _,_,_,stream,summary=saved(tmp_path)
+        original=hashlib.sha256(stream.read_bytes()).hexdigest()
+        project=tmp_path/'links.qpxproj';output=tmp_path/'report.json'
+        script=Path(__file__).resolve().parents[1]/'tools/benchmark_pixel_stream_records.py'
+        child=subprocess.run([sys.executable,'-I','-X','utf8',str(script),'--file',str(stream),'--records',str(records),'--project',str(project),'--output',str(output)],capture_output=True,text=True,encoding='utf-8',timeout=30)
+>       assert child.returncode==0,child.stdout+child.stderr
+E       AssertionError: Traceback (most recent call last):
+E           File "C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\tools\benchmark_pixel_stream_records.py", line 64, in <module>
+E             if __name__=='__main__':main()
+E                                     ^^^^^^
+E           File "C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\tools\benchmark_pixel_stream_records.py", line 36, in main
+E             assert version==13 and count==args.records and total<args.records*4096 and maximum<4096
+E                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E         AssertionError
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\document-waits-270-env\\Scripts\\python.exe', '...m<4096\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n').returncode
+
+build\ci\scientific-grid-159\tests\test_pixel_stream_record_benchmark.py:23: AssertionError
+____ test_pixel_stream_record_benchmark_accepts_current_project_schema[7] _____
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/schema-observer-272/benchmark-red-temp/test_pixel_stream_record_bench1')
+records = 7
+
+    @pytest.mark.parametrize('records',[1,7])
+    def test_pixel_stream_record_benchmark_accepts_current_project_schema(tmp_path,records):
+        _,_,_,stream,summary=saved(tmp_path)
+        original=hashlib.sha256(stream.read_bytes()).hexdigest()
+        project=tmp_path/'links.qpxproj';output=tmp_path/'report.json'
+        script=Path(__file__).resolve().parents[1]/'tools/benchmark_pixel_stream_records.py'
+        child=subprocess.run([sys.executable,'-I','-X','utf8',str(script),'--file',str(stream),'--records',str(records),'--project',str(project),'--output',str(output)],capture_output=True,text=True,encoding='utf-8',timeout=30)
+>       assert child.returncode==0,child.stdout+child.stderr
+E       AssertionError: Traceback (most recent call last):
+E           File "C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\tools\benchmark_pixel_stream_records.py", line 64, in <module>
+E             if __name__=='__main__':main()
+E                                     ^^^^^^
+E           File "C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\tools\benchmark_pixel_stream_records.py", line 36, in main
+E             assert version==13 and count==args.records and total<args.records*4096 and maximum<4096
+E                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E         AssertionError
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\document-waits-270-env\\Scripts\\python.exe', '...m<4096\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n').returncode
+
+build\ci\scientific-grid-159\tests\test_pixel_stream_record_benchmark.py:23: AssertionError
+=========================== short test summary info ===========================
+FAILED build\ci\scientific-grid-159\tests\test_pixel_stream_record_benchmark.py::test_pixel_stream_record_benchmark_accepts_current_project_schema[1]
+FAILED build\ci\scientific-grid-159\tests\test_pixel_stream_record_benchmark.py::test_pixel_stream_record_benchmark_accepts_current_project_schema[7]
+2 failed in 1.84s

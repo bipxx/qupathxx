@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\project-metadata-r5-probe-env\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-c",
+    "import qupathxx as q;assert q.build_environment().git_revision=='408f383e78e7f235ec2d444c3a7d2488a81c5d64';import pytest;raise SystemExit(pytest.main(['tests/test_project_metadata.py::test_global_file_stale_guard_and_all_unavailable_refusal', '-q', '--junitxml=C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\project-metadata-r5\\\\staged-repair2.xml', '--basetemp', 'C:\\\\Users\\\\HEQ\\\\Projects\\\\qupathxx\\\\build\\\\project-metadata-r5\\\\staged-repair2-temp']))"
+  ],
+  "source": "408f383e78e7f235ec2d444c3a7d2488a81c5d64",
+  "returncode": 0,
+  "seconds": 0.6623728000558913
+}

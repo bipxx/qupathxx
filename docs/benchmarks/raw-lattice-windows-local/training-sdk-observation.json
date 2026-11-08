@@ -1,0 +1,6 @@
+{
+  "version": "4.11.0",
+  "verified_files": 195,
+  "observed": "post-run; actual training regression uses the retained SDK configuration",
+  "manifest_sha256": "81963b86ef1233d5c71508d06f0a96a35c5ae8211838294f47b376f8c9800615"
+}

@@ -45,9 +45,21 @@ Archived analyses retain their original generations, including after rechecking.
 Scopes are explicit:
 
 - `memory`: dense in-memory pixels, no file observation or locator.
-- `single_file`: the native PPM decoder's complete source-file observation.
+- `single_file`: the native PPM or single-file TIFF decoder's source observation.
 - `primary_file`: the supplied OpenSlide file, with no complete dependency claim.
 - `unopened`: a project link with cached metadata that has not opened its reader.
+- `compound_files`: a primary observation plus 1..63 additional observed files,
+  ordered by absolute path. The total descriptor payload is limited to 128 KiB;
+  duplicate paths/file identities, invalid observations and wrong-scope lists
+  reject. The native factory owns the companion values. Python's `companions`
+  property returns a copied list of read-only `FileVersion` values.
+
+The compound descriptor/codecs have [local Windows/Linux verification](benchmarks/compound-source-local.json).
+The native TIFF opener still rejects multi-file OME; this descriptor foundation
+does not claim that reader workflow is implemented. See the
+[multi-file slice](multifile-ome-tiff.md) for the remaining file-dispatch and
+installed workflow gates. Memory/legacy sources expose an empty companion list;
+their existing JSON schema/fields remain unchanged.
 
 External reader implementations default to no descriptor (`None`). Existing
 custom C++ readers can override `reader_source()` with a validated native snapshot.
@@ -65,7 +77,10 @@ For native readers, getting the cached descriptor and capturing a request perfor
 inspection or full-file hashing. Lazy project opening does not eagerly decode
 slides to populate provenance. A first request can therefore capture `unopened`;
 that historical snapshot stays unknown even if its worker subsequently opens the
-reader. Later snapshots publish the observed decoder descriptor under the same
+reader. Explicit project relink retains the reader it verified and publishes its
+observation immediately under the new wrapper generation; it no longer discards
+that reader and reopens the path on first use. This remains a metadata observation,
+not whole-file identity proof. Later snapshots publish the observed decoder descriptor under the same
 wrapper generation. This distinction avoids retroactively inventing an opening
 observation. Missing files can still be inspected and their archived records read.
 
@@ -76,6 +91,7 @@ observation. Missing files can still be inspected and their archived records rea
 | Status | Meaning |
 | --- | --- |
 | `matching_metadata` | Identity, byte count, write stamp and change stamp agree. |
+| `matching_primary_metadata` | The primary file agrees for a compound descriptor; companions were not fingerprinted. |
 | `version_changed` | Same filesystem identity, different size or stamps. |
 | `different_file` | Different filesystem identity, even at the same pathname. |
 | `incompatible_scheme` | Identity/stamp schemes cannot be compared. |
@@ -98,6 +114,10 @@ Complete dependency manifests and decoder-read continuity remain open plan work.
 `request_source` hashes the captured descriptor's locator on the existing native
 worker and exposes the immutable `association` alongside `result`. A mismatch is
 a successful observation, not an I/O failure; inspect the comparison status.
+For compound descriptors it hashes only the primary file and uses the explicit
+primary-only status. Association output cannot replace any recorded companion,
+including through an alias. A metadata observation never becomes a whole-fileset
+content commitment.
 Generic `request(path)` retains its original fingerprint-only JSON and returns
 no association. Accepted new work clears previous result/association pointers.
 Previously returned values remain independently valid.
@@ -178,3 +198,67 @@ GPU tiles. This is one warm synthetic workload on one Windows PC, with no vendor
 network filesystem or cross-platform latency claim. Exact native binary SHA-256:
 `bb8defd0e0f051aa83aabb52ad0a1975513feb4873ac7bc295353683e8896708`; source tree SHA-256:
 `8bcef293323426e0ba37c5f315adb9609e66db904aaa450afba27377de14c327`.
+
+
+## Project verification and reviewed replacement
+
+The SOURCE1 API adds a private native `ProjectSourceReview` candidate. It does not
+change the live project until apply. `Project.review_source_verification(image_id,
+fingerprint)` consumes an immutable result from the existing FileFingerprintJob,
+opens a structurally compatible native candidate, and reports its comparison with
+the saved baseline. `apply_source_review(review, accept_changed=False)` rechecks
+source versions and workspace/entry freshness before publishing the candidate.
+A changed checksum requires explicit acceptance; compound dependency metadata
+changes are a distinct acceptance case. Primary-only coverage never means all
+companion bytes were checked.
+
+`source_verification(image_id)` returns the immutable saved association;
+`clear_source_verification(image_id)` explicitly removes that baseline. Unverified
+images retain structural relink behavior. Verified entries require the reviewed
+replacement route, so F9 cannot silently discard their expected checksum. Matching
+byte relinks retain historical baseline facts; accepted changed content starts a
+new baseline without rewriting old analysis provenance. Reopening never hashes
+slides or rewrites historical paths/identities. Schema15 stores a bounded,
+checksummed QSV1 association and migrates earlier schemas in the normal transaction.
+
+SDK contract review uses the compatibility and freshness principles of AIP-180
+and AIP-154 for this local native API. Existing signatures/defaults and enum
+ordinals remain intact; new behavior is opt-in through saved verification state.
+Resources/ownership, methods, fields, compatibility, SDK exposure and errors are
+reviewed in the native header/binder and workflow tests. HTTP/auth/retry policies
+are not applicable to this in-process API. Current validation and completion status
+are recorded in [SOURCE1 local evidence](benchmarks/source-verification-r5/README.md).
+Broader compound byte coverage, recovery and release support remain open.
+
+```python
+job = q.FileFingerprintJob()
+assert job.request(candidate_path)
+assert job.wait().state == "succeeded"
+review = project.review_source_verification(image_id, job.result)
+# Show review.path, comparison and coverage before offering acceptance.
+if not review.requires_acceptance:
+    project.apply_source_review(review)
+# After the user explicitly accepts a changed source:
+# project.apply_source_review(review, accept_changed=True)
+project.save("study.qpxproj")
+```
+
+Comparisons are `unverified` (no historical baseline), `matching_bytes`,
+`changed_bytes`, `changed_dependencies` and `changed_observed_source` (a changed
+known live observation without a saved baseline). The last three require explicit
+acceptance. `coverage` is the reader scope, or `compound_primary_only` for a
+compound graph. Missing/unreadable candidates fail review without project mutation;
+there is no fabricated checksum for a missing source.
+
+The review owns its private compatible native candidate or a stable reused live
+reader. Apply rejects a consumed token, another workspace, changed entry path,
+reader generation or baseline; it rechecks guarded source/dependency versions
+before mutation. File guards cover that operation, not the entire slide lifetime.
+A matching current-reader recheck consumes the token without dirtying the project
+or changing its generation. Source changes after a review require a fresh review.
+
+In ImGui, use the existing checksum worker, then source review (Ctrl+Alt+F).
+A changed-source checkbox authorizes Apply; Ctrl+S persists the result. Rejecting
+or closing review leaves source/baseline unchanged; ordinary viewer camera changes
+may independently dirty the project. Python bindings delegate to native authority;
+no second checksum or replacement policy lives in a frontend.

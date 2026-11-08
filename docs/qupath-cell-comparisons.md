@@ -20,9 +20,10 @@ anisotropic calibration and a requested resampling grid.
 For calibrated QuPath input, pixel-space sigma, expansion and size limits are
 converted with the averaged pixel size and its square. That mapping follows
 the pinned plugin's parameter units; it does not make the algorithms equivalent.
-Native detection currently uses sampled-pixel parameters on natural image grids.
-The resampling case requests 0.75 micrometers on a 0.5 micrometer source. It is
-explicitly marked as a grid mismatch; native arbitrary resampling remains open.
+The original legacy comparison uses sampled-pixel parameters on natural image
+grids. Its resampling case requests 0.75 micrometers on a 0.5 micrometer source
+and retains that recipe's grid mismatch. The original-source nominal recipe has
+a separate comparison below; these historical results retain their identities.
 
 Each capture retains the PNG, cell/nucleus GeoJSON, all plugin measurements,
 independent pixel-center RGB/OD/stain means and original/decoded label maps.
@@ -120,6 +121,297 @@ the explicit sampling engineering scope. The [Windows comparison](benchmarks/qup
 retains every case and both sampling policies.
 
 ## Reproduction and limits
+
+### Original-source nominal production recipe
+
+`tools/compare_qupath_nominal_cells.py` runs the existing nominal cell request on
+each original image in the immutable nine-case capture. The default processing
+rectangle is the shared ROI factory's integer enclosure. `--grid-scope full-image`
+uses an explicit full-image nominal descriptor while retaining the target ROI.
+Both routes use the same native detector. Threshold, sigma, expansion and area
+limits come from the capture; the typed LoG recipe keeps its existing zero
+peak-radius/spacing defaults. The legacy distance recipe and its strict expected
+failures remain unchanged.
+
+The [two-host receipt](benchmarks/nominal-cell-comparison-296/receipt.json) records
+35 new installed checks on Windows and Linux. Eight cases have exact level-zero
+nucleus/body raster masks, counts, one-to-one matches, pixel centroids and
+split/merge relations. They include the original-source downsample1.5 case.
+Every body mask matches across all nine cases. Cross-host mask hashes, metrics,
+processing arithmetic decisions and boundary diagnostics agree exactly.
+
+| Scope | Nucleus foreground IoU | Body foreground IoU |
+| --- | ---: | ---: |
+| Seven natural-grid cases without a clipped ROI | 1 | 1 |
+| Resampled reference at nominal step1.5 | 1 | 1 |
+| Clipped ROI, context0 | 0.99481865 | 1 |
+| Clipped ROI, context32 | 0.96984925 | 1 |
+
+The ROI differences retain the earlier four reference-only pixels at context0
+and24 native-only pixels at context32, with exact coordinates in the reports.
+Matching the processing extent does not change the normalized-Gaussian recipe
+into the plugin's arithmetic. The report remains `characterized-partial` with
+`segmentation_parity_accepted: false`; no epsilon, cropping rule or tolerance
+change is introduced to force agreement.
+
+Nominal features use processing-grid pixels. At step1, their RGB/OD means also
+match the independent level-zero region means under the original1e-6 tolerances.
+At step1.5, the six level-zero region-mean comparisons differ. Independent
+captured processing RGB, label counts, RGB/OD means and calibrated sample areas
+pass the same tolerances. The reports retain both domains and every difference.
+Descriptor/count/shape/context checks precede exact rational projection; hidden
+context labels and uncovered level-zero centers reject.
+
+Pixel-unit comparisons include the anisotropic source. Isotropic micrometre
+requests reproduce the pixel recipes. The physical comparison explicitly omits
+the anisotropic conversion because the plugin's averaged calibration and the
+native per-axis metric define different requests; this does not close M5's
+anisotropic physical requirements. Request-recipe sidecars record requested and
+resolved parameters, ROI/hole, source calibration and sampling per case.
+
+The Windows runtime remains native bb190eb7; Linux uses an authenticated CI295
+wheel at a7eb78de. All424 compiler inputs and the retained Windows product/package
+bytes are unchanged. No native rebuild follows this harness-only change.
+Comparison observer0c874848 has its own source proof and does not inherit
+frozen295's complete qualification. The corpus is synthetic; broader biological,
+vendor, scale, nondyadic and resource/hardware requirements remain open.
+
+```text
+python -I tools/compare_qupath_nominal_cells.py --context 0 --report build/nominal-roi-context0.json
+python -I tools/compare_qupath_nominal_cells.py --context 32 --units micrometres --report build/nominal-physical.json
+python -I -m pytest tests/test_qupath_nominal_cells_reference.py -q
+```
+
+### Explicit-grid production recipe
+
+`tools/compare_qupath_grid_cells.py` compares the existing explicit-grid RGB
+detector with the same immutable QuPath capture. It uses a full-image unit
+grid, captured threshold/sigma/expansion/area limits, and the grid recipe's
+existing zero peak-radius/spacing defaults. It never substitutes the legacy
+distance-watershed recipe or changes its three strict expected failures.
+Those failures describe that older recipe; existing LoG tests already pass the
+isolated-cell thresholds. They are not evidence that every detector mode fails.
+
+The new installed regression requires exact nucleus/body masks, counts,
+centroids and split/merge relations on the seven natural-grid cases without a
+clipped ROI. Matched RGB/OD features use the original 1e-6 absolute/relative
+tolerances. Independent source-pixel arithmetic checks the actual native
+feature counts and means on all nine cases, including differing masks. Context
+0 and 32 must yield identical core masks and features, while their captured
+input identities remain distinct. Invalid grid projections and labels outside
+the core reject, so cropping cannot hide output differences.
+
+Isotropic micrometre parameters are derived from the captured calibration and
+must reproduce the pixel recipe. The anisotropic case is explicitly excluded
+from that conversion comparison: QuPath's averaged calibration and the native
+per-axis physical metric describe different recipes. Its pixel-unit comparison
+remains included. This does not exclude anisotropic physical work from M5.
+
+The clipped ROI retains a nucleus-mask difference; no fitted tolerance is added
+to call it equivalent. The requested 0.75-micrometre case retains its existing
+grid mismatch and both compartment comparisons. The report states
+`characterized-partial`, `segmentation_parity_accepted: false` and
+`biological_validation: false`. Matching seven synthetic cases does not establish
+general segmentation or biological acceptance. Cross-platform qualification of
+this new comparison harness is still required; source169 qualification predates it.
+The [local source-bound receipt](benchmarks/grid-cell-qupath-comparison-local-windows.json)
+retains both complete reports, installed tests, source proof and ROI diagnostic.
+The latter identifies 24 native-only nucleus pixels at x=32/33, y=69..80,
+immediately inside the ROI's left edge, and no reference-only pixels. A plugin
+stage/processing-boundary comparison is needed to determine the cause. These
+coordinates are a diagnosis, not a clipping rule or an adjusted acceptance limit.
+
+```powershell
+python -I tools/compare_qupath_grid_cells.py --units pixels --report build/grid-cells-pixels.json
+python -I tools/compare_qupath_grid_cells.py --units micrometres --report build/grid-cells-um.json
+python -I -m pytest tests/test_qupath_grid_cells_reference.py -q
+```
+
+### Clipped processing domain and public debug stages
+
+The [ROI debug fixture](../tests/fixtures/qupath-cells-roi-debug-0.7.0/manifest.json)
+captures the pinned plugin's public five-slice debug stack for `roi_cut_hole`.
+Its 192×128 extent equals the ROI bounding box, rather than the 256×192 full
+image used by the initial native comparison. Debug mode reproduces all ordinary
+nucleus/body and decoded label arrays, reference measurements and source input.
+Its final debug labels independently reproduce all 772 ordinary nucleus pixels.
+Two live captures have identical bytes for all twelve non-log payloads; the
+timestamped runtime logs remain separate. The manifest binds the original
+capture, pinned runtime, selected recipe and both public-API scripts. The only
+ordinary-generator change enables its debug flag. No upstream kernel is copied.
+
+The grid comparison now accepts `--grid-scope reference-roi --context 0` to use
+that processing rectangle explicitly. Projection verifies the declared origin,
+extent, unit spacing, dimensions and empty context labels before constructing
+the full comparison canvas. This is a comparison choice, not a change to the
+production detector or its default context. On this crop, the nucleus difference
+changes from 24 native-only pixels to four reference-only pixels; bodies remain
+exact. Padding this ROI by 32 samples reproduces the original full-image masks.
+
+The four missing pixels are (32,68), (33,68), (32,81), (33,81). The captured
+QuPath LoG responses there are approximately 2.74e-6 and 1.17e-5, both positive.
+A standalone GCC probe of the unchanged native C++ kernel, fed float64 OD values
+exported by the installed native sampler, gives zero or -2.22e-16 and a false
+positive-mask bit at those points. This probe is scoped numerical evidence,
+not a new platform qualification. The grid recipe's validity-normalized
+float64 Gaussian and zero-flux Laplacian are distinct from the plugin's captured
+processing. No epsilon, column trimming or new acceptance tolerance is introduced
+to force agreement. Broader arithmetic equivalence remains unproved.
+The [Windows/Linux stage and domain receipt](benchmarks/grid-cell-roi-debug-local-windows-linux.json)
+retains 275 passing checks per platform, two declared desktop skips per platform,
+both domain reports, the repeated debug payload, native numerical probe and
+source/artifact identities. The new 32 comparison and 14 capture checks all run
+without skips. The Linux native bytes match the qualified source169 wheel;
+the application compiler inputs are unchanged. This local extension of the
+comparison evidence does not transfer source169's full hosted qualification to
+the newer harness or establish biological accuracy.
+
+```powershell
+python -I tools/compare_qupath_grid_cells.py --grid-scope reference-roi --context 0 --report build/grid-cells-cropped.json
+python -I tools/qupath_roi_cell_debug.py --report build/roi-debug-verification.json
+# Windows: new directory required; verifies the existing pinned runtime cache
+python -I tools/qupath_roi_cell_debug.py --capture build/new-roi-debug --runtime-cache build/upstream/qupath --report build/new-roi-debug-verification.json
+```
+
+### Gaussian stage characterization
+
+The [37-case ImageJ capture](../tests/fixtures/qupath-gaussian-1.54p/manifest.json)
+isolates the remaining smoothing difference without changing a native recipe.
+It uses the pinned QuPath runtime's public ImageJ1.54p FloatProcessor operations.
+Inputs include the original clipped-ROI float32 OD stage, constant/ramp/impulse
+images, single rows/columns and sigma values on both sides of8.5. Two original
+executions reproduce150 payloads exactly; the final generator's numeric/input
+payloads match those executions and additionally record runtime versions.
+
+An independent neighbor-difference Laplacian reconstructs every captured LoG
+array byte-for-byte from its captured blur. The ROI result also exactly matches
+the earlier plugin debug stack. This localizes the observed difference to the
+blur/input stage rather than requiring a new Laplacian threshold.
+
+At sigma1 the captured requested-sigma kernel has nonzero weights through five
+pixels, while the native physical Gaussian stops at three. The native Gaussian
+also normalizes clipped valid support, whereas ImageJ documents nearest-edge
+extension. Its larger-sigma route can downsample before convolution and upsample
+afterward; the separately exported requested-sigma kernel is diagnostic and
+does not describe that entire route. See the pinned
+[ImageJ implementation](https://github.com/imagej/ImageJ/blob/v1.54p/ij/plugin/filter/GaussianBlur.java).
+
+Float64 diagnostic models with support extended from three to five make all
+four disputed ROI responses positive. They still differ elsewhere and do not
+reproduce ImageJ's complete arithmetic. An unchanged native-header GCC probe
+fed the captured float32 OD promoted to float64 keeps the four nonpositive
+responses. That input is distinct from production float64 OD, and the probe is
+numerical characterization rather than platform qualification.
+
+The [private C++ kernel300](benchmarks/imagej-gaussian-kernel-300/receipt.json)
+now reproduces all74 captured blur/LoG arrays on MSVC and GCC ASan/UBSan. Its
+standalone target tests cancellation, admission, overflow and borrowed-input
+ownership. It retains float32 arithmetic, X/Y order, edge tails, finite-kernel
+smoothing and the reduction/reconstruction route. The application still uses
+its existing kernels. Production RGB-to-float32-OD staging, additional held-out
+grids/scales and the versioned opt-in request/archive/replay/consumer policy
+remain. Preserve quantitative/default recipes, strict xfails and scientific
+tolerances; private stage matches do not establish complete cell or biological
+equivalence.
+
+```text
+python -I tools/qupath_gaussian.py --report build/gaussian-verification.json
+python -I -m pytest tests/test_qupath_gaussian.py -q
+```
+
+A new Windows capture uses `--capture build/new-gaussian-capture` and the existing
+`--runtime-cache build/upstream/qupath`; the output directory must not exist.
+
+### Exact OD and stain input stages
+
+The [input301 receipt](benchmarks/qupath-input-stages-301/receipt.json) binds
+11 public QuPath input captures: a65536-color palette covering every pair of
+byte channels, six white-reference settings, identity/two-/three-vector/signed
+stain bases and the original clipped-ROI and nominal1.5 RGB inputs. Two successful
+captures reproduce92 numeric/model/input/recipe payloads exactly. The original
+plugin debug input arrays are also reproduced exactly.
+
+Existing `StainTransform.optical_densities` and `deconvolve` reproduce all77
+captured arrays on Windows and Linux. Captured normalized vectors add33 exact
+stain checks per host. Reuse these methods for the compatible input route.
+OD-sum requires float32 channel values followed by two float32 additions; summing
+double OD first and casting once changes pixels in10 nontrivial cases. RGB stain
+separation instead mixes double OD and casts the final stain value. These are
+distinct arithmetic paths. Positive zero is explicit when clipping OD: the
+NumPy diagnostic must account for its different tie behavior at negative zero.
+
+The captures cover opaque RGB and the declared models, not every possible stain,
+alpha/edge policy or biological specimen. Combine the reused input path and the
+private Gaussian through an explicit request/recipe policy before claiming a
+compatible production detector; retain existing quantitative/default behavior.
+
+```text
+python -I tools/qupath_cell_inputs.py --native --report build/cell-inputs.json
+python -I -m pytest tests/test_qupath_cell_inputs.py -q
+```
+
+For a new Windows capture, use `--capture build/new-cell-inputs` and the existing
+`--runtime-cache build/upstream/qupath`. The output directory must not exist.
+
+### Requested resampling: pixels and nominal geometry
+
+The [resampled processing fixture](../tests/fixtures/qupath-cells-resampled-debug-0.7.0/manifest.json)
+adds a public `ImageServer.readRegion` request to the existing public debug
+capture. At requested downsample 1.5, QuPath returns a 171x128 RGB image for the
+256x192 source. Its optical densities reproduce the debug input at the unchanged
+1e-6 tolerance. The ordinary reference values, source and decoded label arrays,
+and exported geometry remain identical to the original capture. A second live
+capture reproduces all fourteen non-log payloads byte-for-byte.
+
+The output geometry uses the nominal step **1.5**, not the realized width ratio
+256/171. Inverting that nominal transform puts every exported vertex on the
+integer processing lattice. Independent rectilinear polygon-center rasterization
+reconstructs 379 nucleus and 825 body processing pixels. Exact rational inverse
+mapping to level-zero centers reproduces both ordinary label canvases. The wrong
+realized ratio can happen to reproduce the same coarse nucleus raster here;
+the geometry-lattice and input-pixel controls reject it independently.
+
+A diagnostic center-bilinear model using nominal spacing and half-up byte
+rounding reproduces this captured RGB array exactly. Realized-width spacing
+changes 654 channel components; ties-to-even rounding changes 32. This is a
+model characterization on one synthetic input, not a general Java resize or
+native compatibility implementation. No production sampler changes are made.
+The native float64 area sampler at the same 171x128 shape differs in 951 channel
+components, by up to 48.1328125. Shape agreement does not imply input equivalence.
+
+Running the existing explicit-grid detector on the captured processing RGB,
+with the original distances/areas converted to processing pixels and 0.75-um
+calibration, reproduces all three nucleus/body masks, counts, centroids and
+split/merge relations exactly. Independent captured-geometry RGB/OD means pass
+the original tolerances; sample counts and calibrated sample areas agree.
+This document and result belong to the captured processed image. They do not
+acquire request/replay authority for the original source image. The tool retains
+`sampler_equivalence_accepted: false`, `segmentation_parity_accepted: false` and
+`biological_validation: false` even when this detector comparison is exact.
+The [Windows/Linux resampled processing receipt](benchmarks/grid-cell-resampled-processing-local-windows-linux.json)
+records 305 passing checks and two declared desktop skips on each platform,
+including all 26 new resampled checks. Both report the same exact masks/features
+and distinct original-source sampler inputs. Its 462-file proof and retained
+native hashes bind this local scope; no production native rebuild or new full
+platform campaign was required.
+
+```powershell
+python -I tools/qupath_resampled_cell_debug.py --compare-native --report build/resampled-processing.json
+python -I -m pytest tests/test_qupath_resampled_cell_debug.py -q
+# Windows: verified runtime, new capture directory
+python -I tools/qupath_resampled_cell_debug.py --capture build/new-resampled-debug --runtime-cache build/upstream/qupath --compare-native --report build/new-resampled-processing.json
+```
+
+The [expanded RGB resampling corpus](qupath-rgb-resampling.md) adds36 public
+reads across four synthetic inputs. It preserves the original1.5 match while
+showing nearest-center enlargement, black odd-sized reduction edges and remaining
+nondyadic one-byte discrepancies. A single matching cell image cannot establish
+a general compatibility sampler. Native quantitative sampling is unchanged.
+
+These comparisons now identify the processing-domain, pixel recipe and geometry
+differences explicitly. Preserve them and the legacy recipe while extending
+typed quantitative and vendor/pyramid/tiled scientific workflows. Broader
+scientific and biological acceptance remain separate requirements.
 
 From an installed package environment with the CI scientific dependencies:
 

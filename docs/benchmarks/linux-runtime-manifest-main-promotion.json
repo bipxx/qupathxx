@@ -1,0 +1,70 @@
+{
+  "schema": "qpx.source-promotion/1",
+  "before": "d943e9cd505252300e94c8d7e11e5623b43735a6",
+  "after": "82e159f5232aa755b1f8f0472ff05dd32938cbb4",
+  "fast_forward": true,
+  "local_root_head_preserved": "c86d3237f6f679f5651948d95c17e2d617684c46",
+  "receipts": {
+    "engine": {
+      "raw_file": "linux148-engine-acceptance.json",
+      "raw_sha256": "4724c859ac5540ad496dbab17a7e96a44c3ec959b2bb6147b3edda302584d387",
+      "published_file": "linux-runtime-manifest-engine.json",
+      "published_lf_sha256": "4724c859ac5540ad496dbab17a7e96a44c3ec959b2bb6147b3edda302584d387"
+    },
+    "macos": {
+      "raw_file": "linux148-macos-acceptance.json",
+      "raw_sha256": "3e20b0689121b06cc5ecc62ecbf6c06622bd5cb568f2316c419779a78b537eef",
+      "published_file": "linux-runtime-manifest-macos.json",
+      "published_lf_sha256": "3e20b0689121b06cc5ecc62ecbf6c06622bd5cb568f2316c419779a78b537eef"
+    },
+    "portable": {
+      "raw_file": "linux148-portable-acceptance.json",
+      "raw_sha256": "e3a5069310cd064f905640c753e123b07c889bf17d8e0c56245ac7f9331c1f45",
+      "published_file": "linux-runtime-manifest-portable.json",
+      "published_lf_sha256": "ee578cf97f9c29e5f2647abf76f9c73e2777940180552e59abff4a7d92fec5df"
+    }
+  },
+  "manifest_python_cohorts": [
+    {
+      "path": "build\\ci\\linux148-hosted-final\\Linux-headless-py3.12\\python-tests.xml",
+      "passed": 180,
+      "junit_sha256": "04cd105196b82a59f654e67ab94fdd20dea7264f4c17a3f955ee0787f27c09d7"
+    },
+    {
+      "path": "build\\ci\\linux148-hosted-final\\Windows-gui-py3.12\\python-tests.xml",
+      "passed": 180,
+      "junit_sha256": "0a49dd5555caee7af319aa1da3a0c190ef775232153196f545d7beee23d1af7a"
+    },
+    {
+      "path": "build\\ci\\linux148-hosted-final\\Windows-headless-py3.11\\python-tests.xml",
+      "passed": 180,
+      "junit_sha256": "1cef8b1feef2e53f71f627417f087dad2ed9fdc5aef77d62bac94929f1677ad8"
+    },
+    {
+      "path": "build\\ci\\linux148-portable-hosted\\manylinux-3.11\\python-tests.xml",
+      "passed": 180,
+      "junit_sha256": "e446f0ab20f2703203197c057a3a9b39c9168ae7f93fdf0e26bc77b2d172b87d"
+    },
+    {
+      "path": "build\\ci\\linux148-portable-hosted\\manylinux-3.12\\python-tests.xml",
+      "passed": 180,
+      "junit_sha256": "5117edab6d1c470ad874ca69c14fc440dbc4af699d9f2b0e5985b0dc23086811"
+    },
+    {
+      "path": "build\\ci\\linux148-portable-hosted\\manylinux-consumer-3.11\\consumer-tests.xml",
+      "passed": 180,
+      "junit_sha256": "a828f544e6b2dd2393532e18d4f884909af5d7e2a41f1e5f462df1bcf116b5a7"
+    },
+    {
+      "path": "build\\ci\\linux148-portable-hosted\\manylinux-consumer-3.12\\consumer-tests.xml",
+      "passed": 180,
+      "junit_sha256": "2fbcce7872cfd926a82a19ebb246e5694cafd7a8c5c74c24a49eed2402a25d54"
+    }
+  ],
+  "native_compiler_inputs_unchanged": true,
+  "indexed_closure_tool_identical_to_profiled_source": "cbb16c08c05e8392f0b5de4e82b26f1589355567",
+  "indexed_closure_tool_sha256": "2013ad073943f4c200e6a44f8db2de13b094d05aa35d691c0e367d80a4734c28",
+  "release_ready": false,
+  "full_plan_complete": false,
+  "scope": "Exact-source Windows/Linux static file/dependency manifest and inherited engineering gates accepted. Component traversal profile transfers by identical tooling bytes; no whole-package, hardware or process-memory acceptance. Later Mach-O/snapshot/relocation candidates remain separate; runtime availability, biology, license and supported release remain open."
+}

@@ -1,0 +1,83 @@
+{
+  "source": "530c6bb1fd01176c7aecbcae75c065ca004f6236",
+  "files": [
+    {
+      "name": "Windows-gui-py3.12",
+      "artifact_id": 12674395953,
+      "run_id": 40368263565,
+      "bytes": 27651435,
+      "digest": "sha256:b41aaa0df3bceaee64f227fef3fb6b9ac23767fd63c9b78bf1cdd0730afc93ad"
+    },
+    {
+      "name": "Windows-headless-py3.11",
+      "artifact_id": 12672842893,
+      "run_id": 40368263565,
+      "bytes": 11744521,
+      "digest": "sha256:07b4c502ccb7a6dbe3759197f454f142b86d768e87c2daff4f4112571ff96e39"
+    },
+    {
+      "name": "Linux-headless-py3.12",
+      "artifact_id": 12671587748,
+      "run_id": 40368263565,
+      "bytes": 14635746,
+      "digest": "sha256:015cceb34fb25ef392a47bd7640d5b31918ee0881661075ccc2b4911a29b59a7"
+    },
+    {
+      "name": "Linux-sanitize-py3.12",
+      "artifact_id": 12670663798,
+      "run_id": 40368263565,
+      "bytes": 56695,
+      "digest": "sha256:05ea178ec390d867fec4f6ebc17c709a344157fef5ae379e53bf197616f1e693"
+    },
+    {
+      "name": "Linux-minimal-py3.12",
+      "artifact_id": 12670379433,
+      "run_id": 40368263565,
+      "bytes": 49783,
+      "digest": "sha256:fb6495dcaae0f61b245a67884a131c4e7cda927182d00e7e0bc9138604b5c2b9"
+    },
+    {
+      "name": "macos-native-arm64",
+      "artifact_id": 12673656042,
+      "run_id": 40368276721,
+      "bytes": 31696,
+      "digest": "sha256:99bdae8436f4ac965c4d376913c08007ab70675d0cfda14654d141768e094f17"
+    },
+    {
+      "name": "macos-native-x86_64",
+      "artifact_id": 12673374231,
+      "run_id": 40368276721,
+      "bytes": 12282188,
+      "digest": "sha256:41f33053d2c6d31f588f85795c3d3ad85fd752b0e88d774d4a61191ea882b30d"
+    },
+    {
+      "name": "manylinux-3.11",
+      "artifact_id": 12673335369,
+      "run_id": 40368289302,
+      "bytes": 15019191,
+      "digest": "sha256:031a690428ac0a07599bb6ab21f4c33a08475c016a2411406bde9111c7b22c5a"
+    },
+    {
+      "name": "manylinux-consumer-3.12",
+      "artifact_id": 12672768132,
+      "run_id": 40368289302,
+      "bytes": 77612,
+      "digest": "sha256:4eabb8e580c27e433ccb6be7608ee7afa0b80e59588f8b4efc8786eafc06860e"
+    },
+    {
+      "name": "manylinux-consumer-3.11",
+      "artifact_id": 12671624137,
+      "run_id": 40368289302,
+      "bytes": 77118,
+      "digest": "sha256:b9e9cb6314da7e539b07c21ffe659925b6dc564b1dd65012006f25ef5fd9477b"
+    },
+    {
+      "name": "manylinux-3.12",
+      "artifact_id": 12671598097,
+      "run_id": 40368289302,
+      "bytes": 15015480,
+      "digest": "sha256:93f9e83eb0a1b76aa4c374748d57b646f411da778c1826fff9eebbfefbaed91b"
+    }
+  ],
+  "accepted": false
+}

@@ -1,0 +1,46 @@
+{
+  "schema": "qpx.tma-case-main-promotion/1",
+  "previous_main": "691c0f386d958d4ef630869bd025acf8019245ec",
+  "promoted_source": "914b7e2cd02a49c87907d578ea0b736a8cefb71d",
+  "observed_remote_main": "914b7e2cd02a49c87907d578ea0b736a8cefb71d",
+  "fast_forward_only": true,
+  "forced": false,
+  "root_local_main": "c86d3237f6f679f5651948d95c17e2d617684c46",
+  "root_local_main_unchanged": true,
+  "engineering_audits": [
+    {
+      "file": "cases141-parser-hosted-acceptance.json",
+      "sha256": "75d9719c493d6133d3e142765178140a837dd631d044487f54caec4990a6173b"
+    },
+    {
+      "file": "cases141-parser-macos-acceptance.json",
+      "sha256": "3dd7d8495125c5d18d8b6e0fdc8f8c6c12abc1eecb32ba77a8d216696b047023"
+    },
+    {
+      "file": "cases141-parser-portable-acceptance.json",
+      "sha256": "2f819bc8926391de5e2efb234f58e43f9669f7c27ec11cae007a9689c15a3452"
+    }
+  ],
+  "hosted_engine_run": 40097009704,
+  "hosted_macos_run": 40096768265,
+  "hosted_portable_run": 40097012304,
+  "performance_accepted": false,
+  "release_ready": false,
+  "overall_project_complete": false,
+  "scope": "Single-grid case inventory and weighted summaries, native/Python/ImGui export and portable decimal parsing after exact-source engineering audits. The shared file API/standalone CLI in candidate 083da0c is separate and remains in validation. No biological parity, hardware, project license or supported release acceptance.",
+  "published_evidence": [
+    {
+      "path": "docs/benchmarks/tma-case-windows-linux.json",
+      "sha256": "75d9719c493d6133d3e142765178140a837dd631d044487f54caec4990a6173b"
+    },
+    {
+      "path": "docs/benchmarks/tma-case-macos.json",
+      "sha256": "3dd7d8495125c5d18d8b6e0fdc8f8c6c12abc1eecb32ba77a8d216696b047023"
+    },
+    {
+      "path": "docs/benchmarks/tma-case-portable.json",
+      "sha256": "4f74ca74efa3d16a178b0d93a6df274111f2bfa69e8c9e0459f9c3d7c1f6d0eb"
+    }
+  ],
+  "audit_receipt_format_note": "engineering_audits records exact original local files; published_evidence records equivalent public JSON normalized to LF."
+}

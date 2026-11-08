@@ -1,0 +1,27 @@
+{
+  "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+  "files": [
+    {
+      "name": "Linux-headless-py3.12",
+      "artifact_id": 12703777506,
+      "run_id": 40434741797,
+      "bytes": 14760772,
+      "digest": "sha256:f181e44194ac897c587e39249af8dca8912364599d6d5b2533e4cd66ac13bc2a"
+    },
+    {
+      "name": "Linux-minimal-py3.12",
+      "artifact_id": 12703711655,
+      "run_id": 40434741797,
+      "bytes": 51188,
+      "digest": "sha256:ea256e6be078b40d5157988f11301fb8b23f70d45df115a00381dfd0deb91815"
+    },
+    {
+      "name": "Linux-sanitize-py3.12",
+      "artifact_id": 12703409496,
+      "run_id": 40434741797,
+      "bytes": 58753,
+      "digest": "sha256:993eca6062a2149478bb651d9eedf74cc9f08b688204edd95f06ddf9b5fb4f1b"
+    }
+  ],
+  "accepted": false
+}

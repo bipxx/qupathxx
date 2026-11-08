@@ -1,0 +1,29 @@
+{
+  "repository": "https://github.com/notofonts/noto-cjk",
+  "commit": "f8d157532fbfaeda587e826d4cd5b21a49186f7c",
+  "license": "SIL Open Font License1.1",
+  "files": [
+    {
+      "path": "NotoSansCJKsc-Regular.otf",
+      "url": "https://raw.githubusercontent.com/notofonts/noto-cjk/f8d157532fbfaeda587e826d4cd5b21a49186f7c/Sans/OTF/SimplifiedChinese/NotoSansCJKsc-Regular.otf",
+      "bytes": 16437364,
+      "git_blob": "dc15562470b4f842321894787a0d066879ccff8b",
+      "sha256": "2c76254f6fc379fddfce0a7e84fb5385bb135d3e399294f6eeb6680d0365b74b"
+    },
+    {
+      "path": "LICENSE",
+      "url": "https://raw.githubusercontent.com/notofonts/noto-cjk/f8d157532fbfaeda587e826d4cd5b21a49186f7c/Sans/LICENSE",
+      "bytes": 4301,
+      "git_blob": "d952d62c065f3f35fb83a173496e90b21525aef3",
+      "sha256": "6a73f9541c2de74158c0e7cf6b0a58ef774f5a780bf191f2d7ec9cc53efe2bf2"
+    },
+    {
+      "path": "README-third_party.md",
+      "url": "https://raw.githubusercontent.com/notofonts/noto-cjk/f8d157532fbfaeda587e826d4cd5b21a49186f7c/Sans/README-third_party.md",
+      "bytes": 888,
+      "git_blob": "ac5f87aaf99744c427c536d58e9064c55d3560af",
+      "sha256": "aa229a2136c426e3deca957c305727e02415198116138d8c1721222b12e22131"
+    }
+  ],
+  "scope": "Local atlas experiment inputs; no application dependency changed"
+}

@@ -1,0 +1,432 @@
+{
+  "schema": "qpx.macos-native-both/1",
+  "source": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+  "run": "https://github.com/bipxx/qupathxx/actions/runs/40073489057",
+  "macos_both_architectures_native_engineering_accepted": true,
+  "jobs": [
+    {
+      "architecture": "arm64",
+      "job": {
+        "completedAt": "2026-10-24T08:03:36Z",
+        "conclusion": "success",
+        "databaseId": 120811776636,
+        "name": "macOS native arm64",
+        "startedAt": "2026-10-24T07:57:16Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-10-24T07:57:17Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-10-24T07:57:16Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-24T07:57:20Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8",
+            "number": 2,
+            "startedAt": "2026-10-24T07:57:17Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-24T07:57:20Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c",
+            "number": 3,
+            "startedAt": "2026-10-24T07:57:20Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-24T07:57:23Z",
+            "conclusion": "success",
+            "name": "Pinned build frontend",
+            "number": 4,
+            "startedAt": "2026-10-24T07:57:20Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-24T08:03:31Z",
+            "conclusion": "success",
+            "name": "Build and validate native engine",
+            "number": 5,
+            "startedAt": "2026-10-24T07:57:23Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-24T08:03:33Z",
+            "conclusion": "success",
+            "name": "Native evidence",
+            "number": 6,
+            "startedAt": "2026-10-24T08:03:31Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-24T08:03:33Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c",
+            "number": 11,
+            "startedAt": "2026-10-24T08:03:33Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-24T08:03:33Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8",
+            "number": 12,
+            "startedAt": "2026-10-24T08:03:33Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-24T08:03:34Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 13,
+            "startedAt": "2026-10-24T08:03:33Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/bipxx/qupathxx/actions/runs/40073489057/job/120811776636"
+      },
+      "source_specific_report": {
+        "schema": "qpx.macos-native-validation/1",
+        "commit": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "platform": "macOS-15.7.9-arm64-arm-64bit",
+        "architecture": "arm64",
+        "python": "3.12.10 (v3.12.10:0cc81280367, Apr  8 2025, 08:46:59) [Clang 13.0.0 (clang-1300.0.29.30)]",
+        "compiler": "Apple clang version 17.0.0 (clang-1700.0.13.5)",
+        "cmake": "cmake version 4.4.4",
+        "ninja": "1.13.0.git.kitware.jobserver-pipe-1",
+        "runner_image": {
+          "os": "macos15",
+          "version": "20260907.0337.1"
+        },
+        "flags": {
+          "CMAKE_BUILD_TYPE": "Release",
+          "CMAKE_OSX_ARCHITECTURES": "arm64",
+          "QUPATHXX_BUILD_TESTS": "ON",
+          "QUPATHXX_BUILD_PYTHON": "OFF",
+          "QUPATHXX_BUILD_GUI": "OFF",
+          "QUPATHXX_BUILD_GEOS": "ON",
+          "QUPATHXX_BUNDLE_GEOS": "OFF",
+          "GEOS_ROOT": "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk",
+          "QUPATHXX_BUILD_OPENSLIDE": "OFF",
+          "QUPATHXX_BUNDLE_OPENSLIDE": "OFF",
+          "QUPATHXX_BUILD_TIFF": "ON",
+          "QUPATHXX_BUILD_PROJECT": "ON",
+          "QUPATHXX_BUILD_INTERCHANGE": "ON",
+          "QUPATHXX_BUILD_CLASSIFIER_TRAINING": "ON",
+          "OpenCV_DIR": "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/lib/cmake/opencv4",
+          "QUPATHXX_OPENCV_NOTICES": "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/share/licenses/opencv"
+        },
+        "tests": {
+          "passed": 46,
+          "names": [
+            "analysis",
+            "cell_calibration",
+            "cell_expansion",
+            "cell_records",
+            "cell_tables",
+            "cells",
+            "classes",
+            "classifier",
+            "classifier_io",
+            "core",
+            "decimal_quantities",
+            "document_edits",
+            "file_fingerprint",
+            "geometry",
+            "geometry_edits",
+            "gui_replay",
+            "image_server",
+            "interchange",
+            "log_cell_recipe",
+            "log_watershed",
+            "masked_gaussian",
+            "measurement_tables",
+            "object_classifier",
+            "object_snapshots",
+            "pixel_features",
+            "pixel_workflows",
+            "project",
+            "project_batch",
+            "project_save",
+            "provenance",
+            "raw_image",
+            "recovery",
+            "selection",
+            "sha256",
+            "source_identity",
+            "spatial",
+            "stain_estimation",
+            "stains",
+            "thumbnail",
+            "tile_scheduler",
+            "tissue",
+            "tissue_contours",
+            "tissue_records",
+            "tma",
+            "view_tiles",
+            "viewer_session"
+          ],
+          "junit_sha256": "2d070ab9d612b85d81e16d70720dbd4ebfea41d960599398f61b210e373de966"
+        },
+        "dependencies": {
+          "geos": {
+            "lib/libgeos.3.15.0.dylib": "ca9fcf9cb6c44142fe04fa8a017952486db72199b5c189c6d19093b0b63b8368",
+            "lib/libgeos.dylib": "ca9fcf9cb6c44142fe04fa8a017952486db72199b5c189c6d19093b0b63b8368",
+            "lib/libgeos_c.1.21.0.dylib": "a847347ca183d79bc2268166ad9b13fd6adeb4233137dd8c3ed4faa1c2725223",
+            "lib/libgeos_c.1.dylib": "a847347ca183d79bc2268166ad9b13fd6adeb4233137dd8c3ed4faa1c2725223",
+            "lib/libgeos_c.dylib": "a847347ca183d79bc2268166ad9b13fd6adeb4233137dd8c3ed4faa1c2725223",
+            "share/licenses/geos/COPYING": "dc626520dcd53a22f727af3ee42c770e56c97a64fe3adb063799d8ab032fe551"
+          },
+          "opencv": {
+            "lib/libopencv_core.a": "e8eda1f07cc57fc90667c65e36a97af44e5ebea8cf058fa1b68f10d7eb3dc665",
+            "lib/libopencv_ml.a": "feb6fcaa73ee9059cf43d86b18ca23de9dbe185417c4e3e18437e60f2893da83",
+            "lib/opencv4/3rdparty/libtegra_hal.a": "5f2f5aa047f90157b8a687d120f258aca8854a9a237e8388c55f04e310d9d667",
+            "lib/opencv4/3rdparty/libzlib.a": "de076bf0ab155e1aa281af8c6b815fd6e7524d1688fab667254d58fe69052772",
+            "share/licenses/opencv/LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+            "share/licenses/opencv/SOURCE-NOTICES.txt": "3d02753ef4679f163387971bf7c7cab9d308fbb73668eadf8a1fea6b61851d64",
+            "share/licenses/opencv/softfloat-notice.txt": "27adefc3d001216b8be5af628e3583575fedc22ea6f41917e3008c8ed8cb8ce2",
+            "share/licenses/opencv/zlib-notice.txt": "4506def87bbb9339b9884dd15b5790478915210571a6547b633a569a2c78cad5",
+            "share/licenses/opencv4/SoftFloat-COPYING.txt": "0c5b08365136da52639d777f1ebfc03988b0169d80655c90c59f1b3fa3e526a2",
+            "share/licenses/opencv4/zlib-LICENSE": "845efc77857d485d91fb3e0b884aaa929368c717ae8186b66fe1ed2495753243"
+          }
+        },
+        "native_batch_sha256": "a2af6b5ebfdb68d37967f2a0e89f021c3ddd2d317cdfd8a25e3f2076c3d6d7b5",
+        "region_cli_exact": true,
+        "loader_overrides_used": false,
+        "python_gui_openslide_validated": false,
+        "release_ready": false,
+        "scope": "Native engine/geometry/TIFF/project/interchange/classifier validation on the build host. SDK paths may be embedded. No relocated macOS wheel, OpenSlide, GUI, installer, signing or supported release acceptance."
+      },
+      "artifact_sha256": {
+        "batch-runtime-links.log": "4afc2e4a4a2cd6c7b7c850b6e7eda2ac5c686404e65e27a0d9664e0d35f65fe1",
+        "binary-architecture.log": "ace2cebdca953c0e043c2b1b7acb18d24e37032627e7740c2a39caa70a73b49f",
+        "build.log": "986851fc762c113ac2979c968fab515d1ab7ddb889fbf4130faffec1e0662b2a",
+        "configure.log": "c3de544bfa12820490b9057443576ab21aafcbe8702998cbcf9c398c69d05d3f",
+        "geos-build.log": "6ee7ae07fde1fac9e2c4bb5cb15e247595c04d77adf349543ad6da83a638117d",
+        "native-tests.log": "d8813a75d947066110af8e4484812d64528f0b2e60339757fe58f8fc8e881ef9",
+        "native-tests.xml": "2d070ab9d612b85d81e16d70720dbd4ebfea41d960599398f61b210e373de966",
+        "opencv-build.log": "50fa5ab0a08c4d8bb87f35e52b3e441b35d6812a3d27fa890846b8eaf871cfd7",
+        "region-cli.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "result.json": "962662eedec2649598e614be12af1d3b50dbfe2f45e713cbdbbc73fd5e534447"
+      }
+    },
+    {
+      "architecture": "x86_64",
+      "job": {
+        "completedAt": "2026-10-24T08:37:15Z",
+        "conclusion": "success",
+        "databaseId": 120811777410,
+        "name": "macOS native x86_64",
+        "startedAt": "2026-10-24T08:21:42Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-10-24T08:21:45Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-10-24T08:21:43Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-24T08:21:49Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8",
+            "number": 2,
+            "startedAt": "2026-10-24T08:21:45Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-24T08:21:49Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c",
+            "number": 3,
+            "startedAt": "2026-10-24T08:21:49Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-24T08:21:59Z",
+            "conclusion": "success",
+            "name": "Pinned build frontend",
+            "number": 4,
+            "startedAt": "2026-10-24T08:21:49Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-24T08:37:10Z",
+            "conclusion": "success",
+            "name": "Build and validate native engine",
+            "number": 5,
+            "startedAt": "2026-10-24T08:21:59Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-24T08:37:12Z",
+            "conclusion": "success",
+            "name": "Native evidence",
+            "number": 6,
+            "startedAt": "2026-10-24T08:37:10Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-24T08:37:12Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c",
+            "number": 11,
+            "startedAt": "2026-10-24T08:37:12Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-24T08:37:12Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8",
+            "number": 12,
+            "startedAt": "2026-10-24T08:37:12Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-24T08:37:13Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 13,
+            "startedAt": "2026-10-24T08:37:12Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/bipxx/qupathxx/actions/runs/40073489057/job/120811777410"
+      },
+      "source_specific_report": {
+        "schema": "qpx.macos-native-validation/1",
+        "commit": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+        "platform": "macOS-15.7.9-x86_64-i386-64bit",
+        "architecture": "x86_64",
+        "python": "3.12.10 (v3.12.10:0cc81280367, Apr  8 2025, 08:47:00) [Clang 13.0.0 (clang-1300.0.29.30)]",
+        "compiler": "Apple clang version 17.0.0 (clang-1700.0.13.5)",
+        "cmake": "cmake version 4.4.4",
+        "ninja": "1.13.0.git.kitware.jobserver-pipe-1",
+        "runner_image": {
+          "os": "macos15",
+          "version": "20260824.0482.1"
+        },
+        "flags": {
+          "CMAKE_BUILD_TYPE": "Release",
+          "CMAKE_OSX_ARCHITECTURES": "x86_64",
+          "QUPATHXX_BUILD_TESTS": "ON",
+          "QUPATHXX_BUILD_PYTHON": "OFF",
+          "QUPATHXX_BUILD_GUI": "OFF",
+          "QUPATHXX_BUILD_GEOS": "ON",
+          "QUPATHXX_BUNDLE_GEOS": "OFF",
+          "GEOS_ROOT": "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk",
+          "QUPATHXX_BUILD_OPENSLIDE": "OFF",
+          "QUPATHXX_BUNDLE_OPENSLIDE": "OFF",
+          "QUPATHXX_BUILD_TIFF": "ON",
+          "QUPATHXX_BUILD_PROJECT": "ON",
+          "QUPATHXX_BUILD_INTERCHANGE": "ON",
+          "QUPATHXX_BUILD_CLASSIFIER_TRAINING": "ON",
+          "OpenCV_DIR": "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/lib/cmake/opencv4",
+          "QUPATHXX_OPENCV_NOTICES": "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/share/licenses/opencv"
+        },
+        "tests": {
+          "passed": 46,
+          "names": [
+            "analysis",
+            "cell_calibration",
+            "cell_expansion",
+            "cell_records",
+            "cell_tables",
+            "cells",
+            "classes",
+            "classifier",
+            "classifier_io",
+            "core",
+            "decimal_quantities",
+            "document_edits",
+            "file_fingerprint",
+            "geometry",
+            "geometry_edits",
+            "gui_replay",
+            "image_server",
+            "interchange",
+            "log_cell_recipe",
+            "log_watershed",
+            "masked_gaussian",
+            "measurement_tables",
+            "object_classifier",
+            "object_snapshots",
+            "pixel_features",
+            "pixel_workflows",
+            "project",
+            "project_batch",
+            "project_save",
+            "provenance",
+            "raw_image",
+            "recovery",
+            "selection",
+            "sha256",
+            "source_identity",
+            "spatial",
+            "stain_estimation",
+            "stains",
+            "thumbnail",
+            "tile_scheduler",
+            "tissue",
+            "tissue_contours",
+            "tissue_records",
+            "tma",
+            "view_tiles",
+            "viewer_session"
+          ],
+          "junit_sha256": "65c48e23b1a5cfc9df604583fcacbbc19e781e2bae9e62da81f79bcb6eefc3da"
+        },
+        "dependencies": {
+          "geos": {
+            "lib/libgeos.3.15.0.dylib": "74ac496cf73535c8f7d78398abcc2279b2ca2698752e79c1abff5ba25f118fd5",
+            "lib/libgeos.dylib": "74ac496cf73535c8f7d78398abcc2279b2ca2698752e79c1abff5ba25f118fd5",
+            "lib/libgeos_c.1.21.0.dylib": "6b0d93e2e5c4f1aadc3f0e976eced7f95703565e8558f4e919c480ae7e2fab33",
+            "lib/libgeos_c.1.dylib": "6b0d93e2e5c4f1aadc3f0e976eced7f95703565e8558f4e919c480ae7e2fab33",
+            "lib/libgeos_c.dylib": "6b0d93e2e5c4f1aadc3f0e976eced7f95703565e8558f4e919c480ae7e2fab33",
+            "share/licenses/geos/COPYING": "dc626520dcd53a22f727af3ee42c770e56c97a64fe3adb063799d8ab032fe551"
+          },
+          "opencv": {
+            "lib/libopencv_core.a": "b8a36e3c0b9fa1d23c671fce0a0a6fae06c4fef54f68d1d47bba9ec75bf6c55d",
+            "lib/libopencv_ml.a": "50e29668ce705fdac2577b04e1f6055e4370f9eab4357eaf8fc57adde68ac6e6",
+            "lib/opencv4/3rdparty/libzlib.a": "3b3bd68fd802bd1d628f3cea97ae939659a95a91925f1dd5972f64f5ab077fb0",
+            "share/licenses/opencv/LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+            "share/licenses/opencv/SOURCE-NOTICES.txt": "3d02753ef4679f163387971bf7c7cab9d308fbb73668eadf8a1fea6b61851d64",
+            "share/licenses/opencv/softfloat-notice.txt": "27adefc3d001216b8be5af628e3583575fedc22ea6f41917e3008c8ed8cb8ce2",
+            "share/licenses/opencv/zlib-notice.txt": "4506def87bbb9339b9884dd15b5790478915210571a6547b633a569a2c78cad5",
+            "share/licenses/opencv4/SoftFloat-COPYING.txt": "0c5b08365136da52639d777f1ebfc03988b0169d80655c90c59f1b3fa3e526a2",
+            "share/licenses/opencv4/zlib-LICENSE": "845efc77857d485d91fb3e0b884aaa929368c717ae8186b66fe1ed2495753243"
+          }
+        },
+        "native_batch_sha256": "5552c653a235f9ee28f425e4317e2e529ac968566ff8e25539dd6b70a9b5591b",
+        "region_cli_exact": true,
+        "loader_overrides_used": false,
+        "python_gui_openslide_validated": false,
+        "release_ready": false,
+        "scope": "Native engine/geometry/TIFF/project/interchange/classifier validation on the build host. SDK paths may be embedded. No relocated macOS wheel, OpenSlide, GUI, installer, signing or supported release acceptance."
+      },
+      "artifact_sha256": {
+        "batch-runtime-links.log": "4afc2e4a4a2cd6c7b7c850b6e7eda2ac5c686404e65e27a0d9664e0d35f65fe1",
+        "binary-architecture.log": "54ade753244e0ad7770febf1e587ffdc259f1875a14f0cc7b17857be21b50190",
+        "build.log": "0f7341b03ca2639e6c93b2d8230396cb4019d5abc1976db00307dd35fe6f13d0",
+        "configure.log": "e5ac46cb11ee4399b15f5d247e67327bc266450ecf7892e9f6bc637ba4a02a4f",
+        "geos-build.log": "760122a6db40c2a0e9fcb629715ffcc883cbea89ec60ffb48137d1ec2fd605bb",
+        "native-tests.log": "38cbdbb4e903d37e26e16136aadbe39d06488b00faa3ee1c1560ff0f29d8552e",
+        "native-tests.xml": "65c48e23b1a5cfc9df604583fcacbbc19e781e2bae9e62da81f79bcb6eefc3da",
+        "opencv-build.log": "e7687aea9959c367f672dd270404d951004fb520a7414480b432ccede28c8630",
+        "region-cli.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "result.json": "2c8cca7914f4eb3016b12eddbf32b8df0bf78d305ade283055070eea217dc1ea"
+      }
+    }
+  ],
+  "python_gui_openslide_accepted": false,
+  "relocated_packages_accepted": false,
+  "performance_accepted": false,
+  "release_ready": false,
+  "scope": "Trusted exact-source CI engine/GEOS/TIFF/project/interchange/classifier/expansion tests: 46 native suites per architecture. JUnit/report/architecture/runtime evidence cross-checked. SDK/executable bytes not uploaded; dependency/native hashes and exact region CLI are CI-generated evidence. No Mac Python, GUI, OpenSlide, relocation, signing or supported-release acceptance."
+}

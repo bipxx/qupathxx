@@ -1,0 +1,23 @@
+........................................................................ [ 82%]
+..F............                                                          [100%]
+================================== FAILURES ===================================
+___ test_native_stub_covers_public_classes_members_functions_and_constants ____
+
+    def test_native_stub_covers_public_classes_members_functions_and_constants():
+        tree=ast.parse(Path(_native.__file__).with_name('_native.pyi').read_text(encoding='utf8'))
+        top={n.name:n for n in tree.body if isinstance(n,(ast.ClassDef,ast.FunctionDef))}
+        top.update({n.target.id:n for n in tree.body if isinstance(n,ast.AnnAssign) and isinstance(n.target,ast.Name)})
+        for name,value in vars(_native).items():
+            if name.startswith('_'):continue
+            assert name in top,name
+            if isinstance(value,type) and value.__module__=='qupathxx._native':
+>               node=top[name];assert isinstance(node,ast.ClassDef)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               AssertionError: assert False
+E                +  where False = isinstance(<ast.AnnAssign object at 0x000002665AF9EBD0>, <class 'ast.ClassDef'>)
+E                +    where <class 'ast.ClassDef'> = ast.ClassDef
+
+tests\test_public_stubs.py:25: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_public_stubs.py::test_native_stub_covers_public_classes_members_functions_and_constants
+1 failed, 86 passed in 6.55s

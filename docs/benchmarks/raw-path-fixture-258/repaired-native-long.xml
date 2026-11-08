@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.247" timestamp="2026-10-26T22:29:18.356385-04:00" hostname="HEQPC"><testcase classname="tests.test_raw_stream_contour_batch" name="test_batch_contour_moved_output_and_changed_model_use_exact_checkpoint_scope" time="0.035"><failure message="AssertionError: file fingerprint input is missing or not a regular file[('failed', 'file fingerprint input is missing or not a regular file')]&#10;assert 'failed' == 'succeeded'&#10;  &#10;  - succeeded&#10;  + failed">tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/q258-native-pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp/test_batch_contour_moved_outpu0')
+
+    def test_batch_contour_moved_output_and_changed_model_use_exact_checkpoint_scope(tmp_path):
+        import shutil
+        p,docs,model=scene(tmp_path,(8,))
+        try:
+&gt;           output=tmp_path/"out";capture=request(p,model,options(model));first=success(q.run_project_batch(capture,str(output)))
+                                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_raw_stream_contour_batch.py:192: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+result = &lt;qupathxx._native.ProjectBatchReport object at 0x0000022F4CF97220&gt;
+
+    def success(result):
+&gt;       assert result.state == "succeeded", result.error + repr([(v.state, v.error) for v in result.images])
+E       AssertionError: file fingerprint input is missing or not a regular file[('failed', 'file fingerprint input is missing or not a regular file')]
+E       assert 'failed' == 'succeeded'
+E         
+E         - succeeded
+E         + failed
+
+tests\test_raw_pixel_batch.py:63: AssertionError</failure></testcase></testsuite></testsuites>

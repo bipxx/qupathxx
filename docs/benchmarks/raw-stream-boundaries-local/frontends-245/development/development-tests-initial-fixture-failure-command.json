@@ -1,0 +1,14 @@
+{
+  "command": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-stream-frontends-245-env\\Scripts\\python.exe",
+    "-I",
+    "-m",
+    "pytest",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_gui_raw_stream_contours.py",
+    "-q",
+    "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw-stream-frontends-245\\development-tests.xml"
+  ],
+  "exit": 1,
+  "seconds": 2.1404871998820454,
+  "QUPATHXX_TEST_GUI": "1"
+}

@@ -1,0 +1,177 @@
+{
+  "schema": "qpx.raw-path-qualification/1",
+  "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+  "ref": "feature/raw-path-qualification-258",
+  "observed_at_utc": "2026-10-27T03:27:24.356040+00:00",
+  "engineering_accepted": true,
+  "roles": {
+    "engine": {
+      "run": 40440028126,
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40440028126",
+      "state": "accepted"
+    },
+    "macos": {
+      "run": 40440036308,
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40440036308",
+      "state": "accepted"
+    },
+    "portable": {
+      "run": 40440044976,
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40440044976",
+      "state": "accepted"
+    }
+  },
+  "artifacts": [
+    {
+      "role": "engine",
+      "name": "Windows-gui-py3.12",
+      "artifact_id": 12707223248,
+      "run_id": 40440028126,
+      "bytes": 27919462,
+      "sha256": "65626e2fe8fc7369424f81cc9fc96388d31213cb32f7755b9394cfb5f55c9994"
+    },
+    {
+      "role": "engine",
+      "name": "Windows-headless-py3.11",
+      "artifact_id": 12706511923,
+      "run_id": 40440028126,
+      "bytes": 11859843,
+      "sha256": "fa6b080633ea9cb748aadec74a2d7727e6d3f8f903f77091c2bb81dbfcec99ca"
+    },
+    {
+      "role": "engine",
+      "name": "Linux-sanitize-py3.12",
+      "artifact_id": 12706028101,
+      "run_id": 40440028126,
+      "bytes": 59040,
+      "sha256": "a2df47309c1ed911b7af9d88895def4c84dc748684d35277f50593ef766422fd"
+    },
+    {
+      "role": "engine",
+      "name": "Linux-minimal-py3.12",
+      "artifact_id": 12705962576,
+      "run_id": 40440028126,
+      "bytes": 51395,
+      "sha256": "7ed742a1e6e5f53ecd72a79b43cd59c3c4abcc1644a6df4ae44725d0a315364a"
+    },
+    {
+      "role": "engine",
+      "name": "Linux-headless-py3.12",
+      "artifact_id": 12705489195,
+      "run_id": 40440028126,
+      "bytes": 14762615,
+      "sha256": "3680e4af494349cb9906f912933c3ff1e7e8d2598cc402b6ed9b396d38069763"
+    },
+    {
+      "role": "macos",
+      "name": "macos-native-x86_64",
+      "artifact_id": 12707177145,
+      "run_id": 40440036308,
+      "bytes": 16192926,
+      "sha256": "6d59eed17bb69572eac3a703c1df5733648eb803ca6281adb305f9a4b0294a5c"
+    },
+    {
+      "role": "macos",
+      "name": "macos-native-arm64",
+      "artifact_id": 12706597768,
+      "run_id": 40440036308,
+      "bytes": 15111556,
+      "sha256": "82c22d71048f8944cd8c80320a230e0ee4b639293332213648ea6bbec04092d9"
+    },
+    {
+      "role": "portable",
+      "name": "manylinux-consumer-3.12",
+      "artifact_id": 12707425323,
+      "run_id": 40440044976,
+      "bytes": 82368,
+      "sha256": "f4ee18b8e4df87d7e2b4ab4242d771a8848a1f32de5c3cb05002b93bb6c4e6de"
+    },
+    {
+      "role": "portable",
+      "name": "manylinux-consumer-3.11",
+      "artifact_id": 12706970936,
+      "run_id": 40440044976,
+      "bytes": 81158,
+      "sha256": "5c5d055abb426391bba4a2b226aa6cdedfcf124863d6a74327c65016a9637402"
+    },
+    {
+      "role": "portable",
+      "name": "manylinux-3.12",
+      "artifact_id": 12706084921,
+      "run_id": 40440044976,
+      "bytes": 15143065,
+      "sha256": "0d0353710f1a4fb847e960e5b517356ceeb84ce033c14d82d34a372227e15dba"
+    },
+    {
+      "role": "portable",
+      "name": "manylinux-3.11",
+      "artifact_id": 12705439922,
+      "run_id": 40440044976,
+      "bytes": 15145887,
+      "sha256": "204adf0d9cb943f898172894f45070fbe603ba245fb0b12576d51581f209e893"
+    }
+  ],
+  "audits": {
+    "engine": {
+      "path": "../engine-terminal/engine-acceptance.json",
+      "sha256": "8193b7760548b29dab607e4af29cc620e55e352359e8d95ce094a7fd0628d79b"
+    },
+    "macos": {
+      "path": "../macos-terminal/macos-acceptance.json",
+      "sha256": "873a90bb8caa4729e4231ceb8cd0f6b9b5dc93eff861d3fb70017f2260eab86e"
+    },
+    "portable": {
+      "path": "../portable-terminal/portable-acceptance.json",
+      "sha256": "ea46087ca536a461ef81c1875f20c53e24cbc5bd745ef81a0f6033d26d0c415c"
+    }
+  },
+  "windows_linux_profiles": [
+    {
+      "name": "Windows GUI Python 3.12 software GL",
+      "native": 51,
+      "python": 4429
+    },
+    {
+      "name": "Linux minimal native",
+      "native": 50,
+      "python": null
+    },
+    {
+      "name": "Linux ASan UBSan native",
+      "native": 50,
+      "python": null
+    },
+    {
+      "name": "Windows headless Python 3.11 NumPy 1",
+      "native": 50,
+      "python": 3946
+    },
+    {
+      "name": "Linux headless Python 3.12 NumPy 2",
+      "native": 50,
+      "python": 3942
+    }
+  ],
+  "mac_native_suites_per_architecture": 50,
+  "portable_policy": "manylinux_2_28_x86_64",
+  "visual_review": {
+    "file": "../engine-terminal/gui-overview.png",
+    "sha256": "6c082c6b790acd33332eddc0dc59098eb460c1ae1234551bfda197e7e3fb7207",
+    "inspected": true,
+    "scope": "Completed 1440x900 whole-slide overview, toolbar/sidebar and overview image; not full UI parity"
+  },
+  "original257_engine_accepted": false,
+  "performance_accepted": false,
+  "biological_validation": false,
+  "mac_python_gui_openslide_validated": false,
+  "release_ready": false,
+  "main_promoted": false,
+  "overall_project_complete": false,
+  "remaining": [
+    "All M0-M7 remain Partial",
+    "Explicit extended-output-root alias reuse: witness259 isolates images.source locator representation",
+    "Unicode glyph coverage, broader UI delivery, scientific/upstream/biological comparisons and three strict scientific xfails",
+    "Corpus rights/labels/tolerances, representative process/hardware budgets, remaining eligible-reader/interchange/spatial/automation workflows",
+    "Clean-machine support, project-license/distribution/signing and release decisions"
+  ]
+}

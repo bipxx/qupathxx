@@ -1,0 +1,14 @@
+TRACE L39 cancelled=0
+TRACE L44 cancelled=0
+TRACE L44 threw raw pixel contours require the matching live prediction capture
+TRACE L44 cancelled=0
+TRACE L44 threw raw pixel contours require the matching live prediction capture
+TRACE L45 cancelled=1
+TRACE L45 threw tissue contour conversion cancelled
+TRACE L45 cancelled=0
+TRACE L45 threw tissue contour work budget exceeded
+PUBLISH L49
+PUBLISH L50
+PUBLISH L52
+Raw pixel contours: rational axes/context, raster membership/area, bounded conversion, cancel, atomic apply/undo/redo and stale authority passed
+Raw pixel replay: pre-IO capture, source-bit comparison, historical/cross-document refusal, recipe/calibration/annotation checks and owner-job verification passed

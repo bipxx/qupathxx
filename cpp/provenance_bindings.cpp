@@ -4,6 +4,7 @@
 #include <nanobind/stl/string.h>
 #include <nanobind/stl/optional.h>
 #include <nanobind/stl/shared_ptr.h>
+#include <nanobind/stl/vector.h>
 namespace nb=nanobind;using namespace nb::literals;
 void bind_provenance(nb::module_& m) {
     using namespace qpx;
@@ -11,7 +12,7 @@ void bind_provenance(nb::module_& m) {
         .def_ro("identity_scheme",&FileVersion::identity_scheme).def_ro("identity",&FileVersion::identity).def_ro("stamp_scheme",&FileVersion::stamp_scheme)
         .def_ro("modified_token",&FileVersion::modified_token).def_ro("change_token",&FileVersion::change_token).def_ro("observed_unix_ms",&FileVersion::observed_unix_ms);
     nb::class_<ReaderSource>(m,"ReaderSource").def_ro("generation",&ReaderSource::generation).def_ro("reader",&ReaderSource::reader).def_ro("locator",&ReaderSource::locator)
-        .def_ro("scope",&ReaderSource::scope).def_ro("primary",&ReaderSource::primary).def_prop_ro("payload_bytes",&ReaderSource::payload_bytes);
+        .def_ro("scope",&ReaderSource::scope).def_ro("primary",&ReaderSource::primary).def_ro("companions",&ReaderSource::companions).def_prop_ro("payload_bytes",&ReaderSource::payload_bytes);
     nb::class_<SourceFileAssociation>(m,"SourceFileAssociation").def_ro("source",&SourceFileAssociation::source).def_ro("fingerprint",&SourceFileAssociation::fingerprint).def_ro("status",&SourceFileAssociation::status);
     m.def("associate_source_file",&associate_source_file,"source"_a,"fingerprint"_a);
     m.def("reader_source_json",&reader_source_json,"source"_a);
@@ -24,6 +25,7 @@ void bind_provenance(nb::module_& m) {
         .def_ro("geos_version",&BuildEnvironment::geos_version).def_ro("openslide_version",&BuildEnvironment::openslide_version).def_ro("sqlite_version",&BuildEnvironment::sqlite_version)
         .def_ro("gui",&BuildEnvironment::gui).def_ro("python",&BuildEnvironment::python).def_ro("interchange",&BuildEnvironment::interchange);
     nb::class_<AnalysisProvenance>(m,"AnalysisProvenance").def_ro("object_id",&AnalysisProvenance::object_id).def_ro("object_revision",&AnalysisProvenance::object_revision)
+        .def_ro("source_only",&AnalysisProvenance::source_only)
         .def_ro("document_revision",&AnalysisProvenance::document_revision).def_ro("captured_unix_ms",&AnalysisProvenance::captured_unix_ms).def_ro("nucleus",&AnalysisProvenance::nucleus)
         .def_prop_ro("source",[](const AnalysisProvenance& p){return p.source;}).def_ro("reader",&AnalysisProvenance::reader).def_ro("locator",&AnalysisProvenance::locator)
         .def_ro("effective_pixel_width_um",&AnalysisProvenance::effective_pixel_width_um).def_ro("effective_pixel_height_um",&AnalysisProvenance::effective_pixel_height_um)

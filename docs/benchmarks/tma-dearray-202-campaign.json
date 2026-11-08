@@ -1,0 +1,115 @@
+{
+  "schema": "qpx.tma-dearray-campaign-dispatch/1",
+  "source": "19371b74e0fabb3a91bd77ffe67ded04f46a5220",
+  "ref": "feature/tma-dearray-workflow-202",
+  "runs": {
+    "engine": {
+      "conclusion": "",
+      "createdAt": "2026-10-25T23:31:31Z",
+      "databaseId": 40245160107,
+      "headSha": "19371b74e0fabb3a91bd77ffe67ded04f46a5220",
+      "status": "queued",
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40245160107"
+    },
+    "macos": {
+      "conclusion": "",
+      "createdAt": "2026-10-25T23:31:36Z",
+      "databaseId": 40245165671,
+      "headSha": "19371b74e0fabb3a91bd77ffe67ded04f46a5220",
+      "status": "queued",
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40245165671"
+    },
+    "portable": {
+      "conclusion": "",
+      "createdAt": "2026-10-25T23:31:41Z",
+      "databaseId": 40245171698,
+      "headSha": "19371b74e0fabb3a91bd77ffe67ded04f46a5220",
+      "status": "queued",
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40245171698"
+    }
+  },
+  "preflight_passed": 373,
+  "source_proofs": {
+    "scientific": 512,
+    "axis": 35,
+    "dearray": 60
+  },
+  "compiler_inputs": 317,
+  "fresh_checkout_fingerprint": "68af206c6851e53bef5c30b62e6ea02266221054c3339c25ff0e31512dc36b7a",
+  "local_compiled_source": "4b0e1313fad77d5bc5c4bccf495e9e120df488ac",
+  "local_compiled_fingerprint": "6eb238703a073afce7247f89cd63c324969c990ca6db2a26c15d5fd3f0cc69f6",
+  "canonical_compiler_git_blobs_match_local": true,
+  "required_new_cohort": {
+    "installed": 51,
+    "desktop": 13,
+    "negative_typing_errors": 6,
+    "native_physical_and_enabled_disabled_project_markers": true
+  },
+  "all_original_gates_preserved": true,
+  "attempts_per_role": 1,
+  "platform_campaign_accepted": false,
+  "release_ready": false,
+  "overall_project_complete": false,
+  "payloads": {
+    "docs/benchmarks/tma-dearray-202-campaign/driver-dispatch_tmaci202.py": {
+      "bytes": 3510,
+      "sha256": "a83fd3df2c8efa74f54431becbaf788fa9ea13deb12861ee547f9c1b25270193"
+    },
+    "docs/benchmarks/tma-dearray-202-campaign/driver-download_tma202_artifacts.py": {
+      "bytes": 1921,
+      "sha256": "cea932e5ccd78ac67160379ec9d03bcf10ee2f8deb23a7c043c5d14ed88bd0f4"
+    },
+    "docs/benchmarks/tma-dearray-202-campaign/driver-poll_tmaci202.py": {
+      "bytes": 1518,
+      "sha256": "8c2b1ec69c7d9ad757e8055379948feef5e8f3f9845dda599083b2a6e025843e"
+    },
+    "docs/benchmarks/tma-dearray-202-campaign/driver-preflight_tma202.py": {
+      "bytes": 3750,
+      "sha256": "226cb8f125023aec857e8c476c4e900f970da8dab32e7e9befccbf4b2a6193a7"
+    },
+    "docs/benchmarks/tma-dearray-202-campaign/preflight-axis-source-proof.json": {
+      "bytes": 8243,
+      "sha256": "8c0791532c5b2890446dfe97221a6bd781580ccdcceec097aaedeff183648c0d"
+    },
+    "docs/benchmarks/tma-dearray-202-campaign/preflight-command.json": {
+      "bytes": 2260,
+      "sha256": "9795c30c14b9d5af1b8153a7ebc39dce4843d01fb1f30e139ce371a516780cf9"
+    },
+    "docs/benchmarks/tma-dearray-202-campaign/preflight-compiler-inputs.json": {
+      "bytes": 33460,
+      "sha256": "ef57fd4f77587fcbedd90e9d547f6036069966a501d6fd2347cc14991b552165"
+    },
+    "docs/benchmarks/tma-dearray-202-campaign/preflight-dearray-source-proof.json": {
+      "bytes": 14447,
+      "sha256": "95593e313385f4d47e3baf7194ac8aa42b1feee97c3bf918f1eec353e77f6cb4"
+    },
+    "docs/benchmarks/tma-dearray-202-campaign/preflight-report.json": {
+      "bytes": 733,
+      "sha256": "5da7aa8f0fd2684bddb1f74be8e11f244852717274e5f0ff0189ef1d36f9accd"
+    },
+    "docs/benchmarks/tma-dearray-202-campaign/preflight-scientific-source-proof.json": {
+      "bytes": 126405,
+      "sha256": "5cd32480e46a0d16cfbd286412b01307fccd0e0876578c2ff3df3ab1482b649b"
+    },
+    "docs/benchmarks/tma-dearray-202-campaign/preflight-tests.log": {
+      "bytes": 508,
+      "sha256": "87bb42d7fb5641452847390bd848362fa6fe7ebbee584da23deb8a091b8c6953"
+    },
+    "docs/benchmarks/tma-dearray-202-campaign/preflight-tests.xml": {
+      "bytes": 55741,
+      "sha256": "3bf29029cf79fde42ad0b3bec8c8fada7c306a933c6059fe3b22654c611e4038"
+    },
+    "docs/benchmarks/tma-dearray-202-campaign/tmaci202-audit-plan.json": {
+      "bytes": 3169,
+      "sha256": "0f84d74aeef18b0782df02f159b666b0679cce0422cdc53eec954a7866c7c9fc"
+    },
+    "docs/benchmarks/tma-dearray-202-campaign/tmaci202-campaign.json": {
+      "bytes": 5914,
+      "sha256": "16156b1ed4ecdbe37cf968719b208489a4cf76690112454b0ec6027aa5d5f0f1"
+    },
+    "docs/benchmarks/tma-dearray-202-campaign/tmaci202-progress.json": {
+      "bytes": 1131,
+      "sha256": "e50e08fa0ebdd2aafe391b1dc65a6ebc0189755278870e70605a964130dbe2e1"
+    }
+  }
+}

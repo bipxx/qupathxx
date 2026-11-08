@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="5" skipped="0" tests="5" time="0.232" timestamp="2026-10-25T01:13:23.091624-04:00" hostname="HEQPC"><testcase classname="tests.test_recovery_long_paths" name="test_public_checkpoint_survives_long_private_work_and_snapshot_paths" time="0.020"><failure message="AssertionError: create_directory: The system cannot find the path specified.: &quot;C:\Users\HEQ\Projects\qupathxx\build\ci\hierarchy158-recovery-red3-captures\test_public_checkpoint_survive0\nested\rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr.qpxrecover.work-e34cd6bd3a475c7c11cd1ee39c4e612c&quot;&#10;assert 'error' == 'ready'&#10;  &#10;  - ready&#10;  + error">tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/ci/hierarchy158-recovery-red3-captures/test_public_checkpoint_survive0')
+
+    def test_public_checkpoint_survives_long_private_work_and_snapshot_paths(tmp_path):
+&gt;       project, image, obj, primary, target = scene(tmp_path)
+                                               ^^^^^^^^^^^^^^^
+
+build\ci\annotation-migration-158\tests\test_recovery_long_paths.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/ci/hierarchy158-recovery-red3-captures/test_public_checkpoint_survive0')
+
+    def scene(tmp_path):
+        project = q.Project()
+        image = project.add_document(q.Document(q.Image(8, 8, [42] * 8 * 8 * 3)))
+        obj = project.document(image).add_rectangle(q.Rect(1, 1, 3, 3), 'Before save')
+        target = target_path(tmp_path)
+        primary = target.parent / 'primary.qpxproj'
+        project.save(str(primary))
+        project.document(image).rename_annotation(obj, 'Captured')
+        writer = q.ProjectAutosave()
+        assert writer.request(project, str(target))
+        result = writer.wait()
+&gt;       assert result.state == 'ready', result.error
+E       AssertionError: create_directory: The system cannot find the path specified.: "C:\Users\HEQ\Projects\qupathxx\build\ci\hierarchy158-recovery-red3-captures\test_public_checkpoint_survive0\nested\rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr.qpxrecover.work-e34cd6bd3a475c7c11cd1ee39c4e612c"
+E       assert 'error' == 'ready'
+E         
+E         - ready
+E         + error
+
+build\ci\annotation-migration-158\tests\test_recovery_long_paths.py:42: AssertionError</failure></testcase><testcase classname="tests.test_recovery_long_paths" name="test_long_abandoned_work_rescues_committed_snapshot_without_overwrite" time="0.021"><failure message="AssertionError: create_directory: The system cannot find the path specified.: &quot;C:\Users\HEQ\Projects\qupathxx\build\ci\hierarchy158-recovery-red3-captures\test_long_abandoned_work_rescu0\nested\rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr.qpxrecover.work-9880e3a31ca43dbf9c228014d35d26b4&quot;&#10;assert 'error' == 'ready'&#10;  &#10;  - ready&#10;  + error">tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/ci/hierarchy158-recovery-red3-captures/test_long_abandoned_work_rescu0')
+
+    def test_long_abandoned_work_rescues_committed_snapshot_without_overwrite(tmp_path):
+&gt;       project, image, obj, primary, target = scene(tmp_path)
+                                               ^^^^^^^^^^^^^^^
+
+build\ci\annotation-migration-158\tests\test_recovery_long_paths.py:68: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/ci/hierarchy158-recovery-red3-captures/test_long_abandoned_work_rescu0')
+
+    def scene(tmp_path):
+        project = q.Project()
+        image = project.add_document(q.Document(q.Image(8, 8, [42] * 8 * 8 * 3)))
+        obj = project.document(image).add_rectangle(q.Rect(1, 1, 3, 3), 'Before save')
+        target = target_path(tmp_path)
+        primary = target.parent / 'primary.qpxproj'
+        project.save(str(primary))
+        project.document(image).rename_annotation(obj, 'Captured')
+        writer = q.ProjectAutosave()
+        assert writer.request(project, str(target))
+        result = writer.wait()
+&gt;       assert result.state == 'ready', result.error
+E       AssertionError: create_directory: The system cannot find the path specified.: "C:\Users\HEQ\Projects\qupathxx\build\ci\hierarchy158-recovery-red3-captures\test_long_abandoned_work_rescu0\nested\rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr.qpxrecover.work-9880e3a31ca43dbf9c228014d35d26b4"
+E       assert 'error' == 'ready'
+E         
+E         - ready
+E         + error
+
+build\ci\annotation-migration-158\tests\test_recovery_long_paths.py:42: AssertionError</failure></testcase><testcase classname="tests.test_recovery_long_paths" name="test_long_work_preserves_collisions_and_unrecognized_inventory[collision]" time="0.019"><failure message="AssertionError: create_directory: The system cannot find the path specified.: &quot;C:\Users\HEQ\Projects\qupathxx\build\ci\hierarchy158-recovery-red3-captures\test_long_work_preserves_colli0\nested\rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr.qpxrecover.work-94cc2358d4e762ce960a593bcbd840e0&quot;&#10;assert 'error' == 'ready'&#10;  &#10;  - ready&#10;  + error">tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/ci/hierarchy158-recovery-red3-captures/test_long_work_preserves_colli0')
+kind = 'collision'
+
+    @pytest.mark.parametrize('kind', ['collision', 'extra_file', 'wrong_owner'])
+    def test_long_work_preserves_collisions_and_unrecognized_inventory(tmp_path, kind):
+&gt;       project, image, obj, primary, target = scene(tmp_path)
+                                               ^^^^^^^^^^^^^^^
+
+build\ci\annotation-migration-158\tests\test_recovery_long_paths.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/ci/hierarchy158-recovery-red3-captures/test_long_work_preserves_colli0')
+
+    def scene(tmp_path):
+        project = q.Project()
+        image = project.add_document(q.Document(q.Image(8, 8, [42] * 8 * 8 * 3)))
+        obj = project.document(image).add_rectangle(q.Rect(1, 1, 3, 3), 'Before save')
+        target = target_path(tmp_path)
+        primary = target.parent / 'primary.qpxproj'
+        project.save(str(primary))
+        project.document(image).rename_annotation(obj, 'Captured')
+        writer = q.ProjectAutosave()
+        assert writer.request(project, str(target))
+        result = writer.wait()
+&gt;       assert result.state == 'ready', result.error
+E       AssertionError: create_directory: The system cannot find the path specified.: "C:\Users\HEQ\Projects\qupathxx\build\ci\hierarchy158-recovery-red3-captures\test_long_work_preserves_colli0\nested\rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr.qpxrecover.work-94cc2358d4e762ce960a593bcbd840e0"
+E       assert 'error' == 'ready'
+E         
+E         - ready
+E         + error
+
+build\ci\annotation-migration-158\tests\test_recovery_long_paths.py:42: AssertionError</failure></testcase><testcase classname="tests.test_recovery_long_paths" name="test_long_work_preserves_collisions_and_unrecognized_inventory[extra_file]" time="0.023"><failure message="AssertionError: create_directory: The system cannot find the path specified.: &quot;C:\Users\HEQ\Projects\qupathxx\build\ci\hierarchy158-recovery-red3-captures\test_long_work_preserves_colli1\nested\rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr.qpxrecover.work-e33fbc9f792c4f3cb9c98fe4d8e34839&quot;&#10;assert 'error' == 'ready'&#10;  &#10;  - ready&#10;  + error">tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/ci/hierarchy158-recovery-red3-captures/test_long_work_preserves_colli1')
+kind = 'extra_file'
+
+    @pytest.mark.parametrize('kind', ['collision', 'extra_file', 'wrong_owner'])
+    def test_long_work_preserves_collisions_and_unrecognized_inventory(tmp_path, kind):
+&gt;       project, image, obj, primary, target = scene(tmp_path)
+                                               ^^^^^^^^^^^^^^^
+
+build\ci\annotation-migration-158\tests\test_recovery_long_paths.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/ci/hierarchy158-recovery-red3-captures/test_long_work_preserves_colli1')
+
+    def scene(tmp_path):
+        project = q.Project()
+        image = project.add_document(q.Document(q.Image(8, 8, [42] * 8 * 8 * 3)))
+        obj = project.document(image).add_rectangle(q.Rect(1, 1, 3, 3), 'Before save')
+        target = target_path(tmp_path)
+        primary = target.parent / 'primary.qpxproj'
+        project.save(str(primary))
+        project.document(image).rename_annotation(obj, 'Captured')
+        writer = q.ProjectAutosave()
+        assert writer.request(project, str(target))
+        result = writer.wait()
+&gt;       assert result.state == 'ready', result.error
+E       AssertionError: create_directory: The system cannot find the path specified.: "C:\Users\HEQ\Projects\qupathxx\build\ci\hierarchy158-recovery-red3-captures\test_long_work_preserves_colli1\nested\rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr.qpxrecover.work-e33fbc9f792c4f3cb9c98fe4d8e34839"
+E       assert 'error' == 'ready'
+E         
+E         - ready
+E         + error
+
+build\ci\annotation-migration-158\tests\test_recovery_long_paths.py:42: AssertionError</failure></testcase><testcase classname="tests.test_recovery_long_paths" name="test_long_work_preserves_collisions_and_unrecognized_inventory[wrong_owner]" time="0.018"><failure message="AssertionError: create_directory: The system cannot find the path specified.: &quot;C:\Users\HEQ\Projects\qupathxx\build\ci\hierarchy158-recovery-red3-captures\test_long_work_preserves_colli2\nested\rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr.qpxrecover.work-e53701c9c1987f0a8cc27a630b1cd881&quot;&#10;assert 'error' == 'ready'&#10;  &#10;  - ready&#10;  + error">tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/ci/hierarchy158-recovery-red3-captures/test_long_work_preserves_colli2')
+kind = 'wrong_owner'
+
+    @pytest.mark.parametrize('kind', ['collision', 'extra_file', 'wrong_owner'])
+    def test_long_work_preserves_collisions_and_unrecognized_inventory(tmp_path, kind):
+&gt;       project, image, obj, primary, target = scene(tmp_path)
+                                               ^^^^^^^^^^^^^^^
+
+build\ci\annotation-migration-158\tests\test_recovery_long_paths.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/ci/hierarchy158-recovery-red3-captures/test_long_work_preserves_colli2')
+
+    def scene(tmp_path):
+        project = q.Project()
+        image = project.add_document(q.Document(q.Image(8, 8, [42] * 8 * 8 * 3)))
+        obj = project.document(image).add_rectangle(q.Rect(1, 1, 3, 3), 'Before save')
+        target = target_path(tmp_path)
+        primary = target.parent / 'primary.qpxproj'
+        project.save(str(primary))
+        project.document(image).rename_annotation(obj, 'Captured')
+        writer = q.ProjectAutosave()
+        assert writer.request(project, str(target))
+        result = writer.wait()
+&gt;       assert result.state == 'ready', result.error
+E       AssertionError: create_directory: The system cannot find the path specified.: "C:\Users\HEQ\Projects\qupathxx\build\ci\hierarchy158-recovery-red3-captures\test_long_work_preserves_colli2\nested\rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr.qpxrecover.work-e53701c9c1987f0a8cc27a630b1cd881"
+E       assert 'error' == 'ready'
+E         
+E         - ready
+E         + error
+
+build\ci\annotation-migration-158\tests\test_recovery_long_paths.py:42: AssertionError</failure></testcase></testsuite></testsuites>

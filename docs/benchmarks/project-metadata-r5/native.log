@@ -1,0 +1,15 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+    Start 35: gui_replay
+1/5 Test #35: gui_replay .......................   Passed    0.20 sec
+    Start 46: qupath_project
+2/5 Test #46: qupath_project ...................   Passed    0.10 sec
+    Start 51: spatial_records
+3/5 Test #51: spatial_records ..................   Passed    4.69 sec
+    Start 55: project
+4/5 Test #55: project ..........................   Passed    0.21 sec
+    Start 58: project_save
+5/5 Test #58: project_save .....................   Passed    0.15 sec
+
+100% tests passed out of 5
+
+Total Test time (real) =   5.50 sec

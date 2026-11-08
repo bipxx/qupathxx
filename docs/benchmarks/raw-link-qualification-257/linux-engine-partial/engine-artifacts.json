@@ -1,0 +1,65 @@
+{
+  "total_count": 3,
+  "artifacts": [
+    {
+      "id": 12703777506,
+      "node_id": "MDg6QXJ0aWZhY3QxMjcwMzc3NzUwNg==",
+      "name": "Linux-headless-py3.12",
+      "size_in_bytes": 14760772,
+      "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12703777506",
+      "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12703777506/zip",
+      "expired": false,
+      "digest": "sha256:f181e44194ac897c587e39249af8dca8912364599d6d5b2533e4cd66ac13bc2a",
+      "created_at": "2026-10-27T02:03:20Z",
+      "updated_at": "2026-10-27T02:03:20Z",
+      "expires_at": "2026-11-10T02:03:18Z",
+      "workflow_run": {
+        "id": 40434741797,
+        "repository_id": 1427753981,
+        "head_repository_id": 1427753981,
+        "head_branch": "feature/raw-link-qualification-257",
+        "head_sha": "d57df0166888eb335d989d404bdae4d1b63c66a4"
+      }
+    },
+    {
+      "id": 12703711655,
+      "node_id": "MDg6QXJ0aWZhY3QxMjcwMzcxMTY1NQ==",
+      "name": "Linux-minimal-py3.12",
+      "size_in_bytes": 51188,
+      "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12703711655",
+      "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12703711655/zip",
+      "expired": false,
+      "digest": "sha256:ea256e6be078b40d5157988f11301fb8b23f70d45df115a00381dfd0deb91815",
+      "created_at": "2026-10-27T01:55:43Z",
+      "updated_at": "2026-10-27T01:55:43Z",
+      "expires_at": "2026-11-10T01:55:42Z",
+      "workflow_run": {
+        "id": 40434741797,
+        "repository_id": 1427753981,
+        "head_repository_id": 1427753981,
+        "head_branch": "feature/raw-link-qualification-257",
+        "head_sha": "d57df0166888eb335d989d404bdae4d1b63c66a4"
+      }
+    },
+    {
+      "id": 12703409496,
+      "node_id": "MDg6QXJ0aWZhY3QxMjcwMzQwOTQ5Ng==",
+      "name": "Linux-sanitize-py3.12",
+      "size_in_bytes": 58753,
+      "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12703409496",
+      "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12703409496/zip",
+      "expired": false,
+      "digest": "sha256:993eca6062a2149478bb651d9eedf74cc9f08b688204edd95f06ddf9b5fb4f1b",
+      "created_at": "2026-10-27T02:00:17Z",
+      "updated_at": "2026-10-27T02:00:17Z",
+      "expires_at": "2026-11-10T02:00:16Z",
+      "workflow_run": {
+        "id": 40434741797,
+        "repository_id": 1427753981,
+        "head_repository_id": 1427753981,
+        "head_branch": "feature/raw-link-qualification-257",
+        "head_sha": "d57df0166888eb335d989d404bdae4d1b63c66a4"
+      }
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+CMake is re-running because C:/Users/HEQ/Projects/qupathxx/build/ci/raster163-native/CMakeFiles/generate.stamp is out-of-date.
+  the file 'C:/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tissue_records.cpp'
+  is newer than 'C:/Users/HEQ/Projects/qupathxx/build/ci/raster163-native/CMakeFiles/generate.stamp.depend'
+  result='-1'
+-- Selecting Windows SDK version 10.0.22621.0 to target Windows 10.0.26200.
+-- Configuring done (0.2s)
+-- Generating done (1.8s)
+-- Build files have been written to: C:/Users/HEQ/Projects/qupathxx/build/ci/raster163-native
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+
+  Checking File Globs
+  cell_expansion_tests.cpp
+  tissue_records.cpp
+  qupathxx_decimal_quantity_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_decimal_quantity_tests.exe
+  log_watershed_tests.cpp
+  qupathxx_cell_expansion_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_cell_expansion_tests.exe
+  qupathxx_masked_gaussian_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_masked_gaussian_tests.exe
+  provenance.cpp
+  qupathxx_log_watershed_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_log_watershed_tests.exe
+  qupathxx_core.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_core.lib
+  qupathxx_analysis_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_analysis_tests.exe
+  qupathxx_cell_table_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_cell_table_tests.exe
+  qupathxx_view_tiles_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_view_tiles_tests.exe
+  qupathxx_log_cell_recipe_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_log_cell_recipe_tests.exe
+  qupathxx_tissue_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_tissue_tests.exe
+  qupathxx_viewer_session_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_viewer_session_tests.exe
+  qupathxx_tissue_contour_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_tissue_contour_tests.exe
+  qupathxx_stains_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_stains_tests.exe
+  qupathxx_tma_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_tma_tests.exe
+  qupathxx_spatial_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_spatial_tests.exe
+  qupathxx_tissue_record_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_tissue_record_tests.exe
+  qupathxx_sha256_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_sha256_tests.exe
+  qupathxx_thumbnail_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_thumbnail_tests.exe
+  qupathxx_selection_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_selection_tests.exe
+  qupathxx_stain_estimation_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_stain_estimation_tests.exe
+  qupathxx_save_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_save_tests.exe
+  qupathxx_source_identity_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_source_identity_tests.exe
+  qupathxx_resampling_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_resampling_tests.exe
+  qupathxx_server_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_server_tests.exe
+  qupathxx_region.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_region.exe
+  qupathxx_scheduler_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_scheduler_tests.exe
+  qupathxx_recovery_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_recovery_tests.exe
+  qupathxx_project_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_project_tests.exe
+  qupathxx_raw_image_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_raw_image_tests.exe
+  qupathxx_project_batch_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_project_batch_tests.exe
+  qupathxx_qptma_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_qptma_tests.exe
+  qupathxx_qptma_project_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_qptma_project_tests.exe
+  qupathxx_pixel_workflow_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_pixel_workflow_tests.exe
+  qupathxx_pixel_feature_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_pixel_feature_tests.exe
+  qupathxx_provenance_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_provenance_tests.exe
+  qupathxx_object_snapshot_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_object_snapshot_tests.exe
+  qupathxx_interchange_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_interchange_tests.exe
+  qupathxx_object_classifier_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_object_classifier_tests.exe
+  qupathxx_geometry_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_geometry_tests.exe
+  qupathxx_measurement_table_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_measurement_table_tests.exe
+  qupathxx_file_fingerprint_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_file_fingerprint_tests.exe
+  qupathxx_gui_replay_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_gui_replay_tests.exe
+  qupathxx_classifier_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_classifier_tests.exe
+  qupathxx_geometry_edits_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_geometry_edits_tests.exe
+  qupathxx_classifier_io_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_classifier_io_tests.exe
+  qupathxx_classes_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_classes_tests.exe
+  qupathxx_document_edits_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_document_edits_tests.exe
+  qupathxx_core_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_core_tests.exe
+  qupathxx_cell_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_cell_tests.exe
+  qupathxx_cell_record_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_cell_record_tests.exe
+  qupathxx_cell_calibration_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_cell_calibration_tests.exe
+  qupathxx_batch.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\raster163-native\Release\qupathxx_batch.exe

@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\object-planes-r5-env\\Scripts\\python.exe",
+    "-I",
+    "-m",
+    "mypy",
+    "--strict",
+    "--no-incremental",
+    "tests/typing/object_planes_invalid.py",
+    "tests/typing/object_edit_state_invalid.py",
+    "tests/typing/object_properties_invalid.py"
+  ],
+  "returncode": 1,
+  "elapsed_seconds": 2.5911210000049323
+}
