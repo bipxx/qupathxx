@@ -781,3 +781,49 @@ This is the F03 source/kernel slice, not completion: retained recipe/reopen,
 CLI/desktop controls and explicitly derived analysis remain. Overall9/22 stays
 unchanged. The source SHA identifies observed inputs/recipe, not stored output
 pixels. No original-sample result is relabeled as corrected or vice versa.
+
+
+## F03 continuation: retained correction recipes and CLI
+
+Native DarkFlatRequest captures a TIFF signal document and explicit field readers,
+source/series/version identities and exact options. Worker block reads use owned
+immutable native sources; owner controls reuse RawAnalysisRequest identity without
+public Document/friend/layout changes. Typed image properties store one versioned
+recipe, not copied corrected pixels or modified original-channel observations.
+Keep/Remove use existing metadata Undo and preserve unrelated values. Source,
+recipe-record and evaluated-block identities have distinct meanings. Initial
+saved-source reopening supports native TIFF only; block IO remains generic.
+
+The first native build/test passes1/1 (f03-workflow-ctest.log,0.28s). Review
+strengthens the changed-field Keep test so it removes the existing record before
+attempting Keep; it now requires WorkflowInputChanged rather than accidentally
+accepting a duplicate-record refusal. The final suite passes1/1 in0.21s
+(f03-workflow-ctest-r2.log). Independent constant dark/flat TIFF fields establish
+signed/zero corrected values and exact counts. Checks include worker reads,
+owner-only controls, bounded work/cancel, typed negative-zero/identity integrity,
+Keep/Remove Undo, actual project save/reopen source/recipe/block replay,
+same-address replacement and actual changed/missing fields.
+
+Native CLI Keep/list/verify/preview shares those authorities. Its tests establish
+new-project save, exact native/CLI block identity and counts, original/field and
+missing SQLite journal/WAL/SHM path protection, no replacement, input-byte
+preservation and no output on cancellation/save-budget failure. Invalid duplicate
+options refuse. No frontend correction or per-sample Python logic is introduced.
+
+The actual batch executable also passes Keep/list/verify/two independent Preview
+commands from System32 with Windows-only PATH. Both previews yield exact block
+SHA261840f53fa38f34fa461b773f49ccaf56cb56894e387e688d91d9f3329566db,
+48 valid pixels and48 finite/0 nonfinite samples per selected channel. Before/
+after project/signal/field hashes are unchanged. Commands, stdout and executable
+identity are in workspace-root build/feature-expansion/f03-cli-actual/results.json.
+These are independently authored synthetic TIFFs, not biological acceptance data.
+The copied flat retains the fixture's harmless trailing mutation byte; it is
+admitted as a new observed source, never substituted into the old saved recipe.
+
+One active cache builds only affected core/test/batch inputs. Concurrent UI header
+changes trigger extra CMake regeneration, preserved in logs; a later live compiler
+belongs to napachan and is not a lock on this cache. Existing CRT linker warning
+remains recorded. No GUI/binding/package build, dependency/data download or broad
+segmentation rerun. Native-only CI includes the new suite; hosted execution is
+not claimed. F03 stays open for desktop controls and explicitly derived analysis;
+overall9/22 complete,13 pending.

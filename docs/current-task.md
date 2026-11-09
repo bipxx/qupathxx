@@ -2381,3 +2381,53 @@ The new capability is additive, preserving legacy TIFF hashes and avoiding a
 premature broad workflow migration. Next retain exact correction recipes/source
 associations for save/reopen, then thin CLI/desktop and derived-domain analysis.
 F03 remains unchecked; overall9/22 complete,13 pending.
+
+### F03 continuation: retained recipes and native CLI
+
+Changed inputs: immutable native correction request/recipe and owned corrected
+block report, typed image-property persistence and batch Keep/list/verify/preview.
+Capture exact source locators/reader/series/version SHA and options, with a distinct
+corrected domain/source identity. Initial automatic reopen explicitly supports
+native TIFF, without changing the reader-independent block capability. Reuse
+RawAnalysisRequest for owner/document/calibration authority, existing image
+properties/Undo and guarded new-project save; no Document layout/friend change.
+Workers hold only native immutable sources, not Document or Python callbacks.
+
+Decisive tests: independent constant dark/flat TIFF oracle, signed values/counts,
+worker reading versus owner-only controls, work/cancel bounds, one Keep/Remove
+Undo, typed signed-zero/schema/identity integrity, exact project/source/block
+save/reopen replay, same-address replacement and changed/missing field refusal.
+Actual CLI Keep/list/verify/preview must match native results, refuse original/
+field/SQLite sidecar paths, preserve input bytes and leave no output on bounded
+save/cancel failure. Settle APIs, then one cached core/test/batch build; no GUI,
+bindings, new dependency/data or original F01 science rerun. F03 stays open for
+desktop controls and explicitly derived analysis consumption.
+
+First build and dark_flat_workflow test pass1/1 (0.28s). The actual batch binary
+also passes Keep/list/verify/preview from System32 with Windows-only PATH; repeated
+block identity is exact and all original project/signal/field hashes remain
+unchanged (f03-cli-actual/results.json). Native CLI and direct C++ reports agree.
+
+Review finds that a changed-field Keep assertion can hit the existing duplicate
+record check before its source guard. Remove the record before that attempt and
+require WorkflowInputChanged, then Undo the removal and verify stale replay too.
+This strengthens the named trust-boundary check without a product/recipe change.
+One affected test rebuild is sufficient. Inspect build command lines: the remaining
+compiler belongs to sibling napachan, not this cache, so it is not a cache lock.
+
+Final strengthened workflow suite passes1/1 (0.21s), including actual changed-field
+Keep refusal before metadata mutation and exact project/source/block replay.
+Actual Windows-only-PATH batch Keep/list/verify/two previews agree exactly and
+preserve input hashes (f03-cli-actual/results.json). Typed recipe storage and CLI
+are delivered; F03 remains open for desktop and explicitly derived analysis use.
+
+Waste review: one shared source/kernel/request and typed property codec; no
+frontend numeric pipeline or per-object copies. Reuse native owner identity,
+metadata Undo and atomic new-project save. Perform source validation at actual
+capture/read/publication boundaries; avoid a second signal recapture during replay.
+One test-only rebuild strengthens a masked guard case. Extra CMake regeneration
+comes from concurrent UI header changes; command-line-scoped cache checks avoid
+waiting on an unrelated sibling compiler. No GUI/bindings/package/science campaign
+or new material. Next add the correction desktop panel and an explicit corrected-
+domain analysis route over these native services, preserving original F01/F02
+identities and concurrent desktop work. Overall9/22 remains unchanged.

@@ -381,8 +381,12 @@ report the missing real-data acceptance rather than borrowing an NC fixture.
   original/corrected domains; no legacy TIFF/F01 identity code changed. Initial
   correction subset is level zero with identical spatial/C/Z/T axes, channel names
   and calibration, explicit positive per-channel normalization and no broadcasting.
-  Persisted recipes, CLI/desktop controls and explicitly derived analysis use
-  remain; keep F03 unchecked. Reuse these native services for those consumers.
+  Typed retained recipes/source associations, owner capture and native block reports
+  now support Keep/Remove Undo and exact project/source/block save/reopen replay.
+  Native CLI Keep/list/verify/preview pass source-byte, protected-path, cancellation
+  and save-budget checks. Initial saved-source reopening is native TIFF only;
+  missing/changed fields refuse, with no implicit relink. Desktop controls and
+  explicitly derived analysis consumption remain; keep F03 unchecked.
 - [ ] **F04 — linear compensation/spectral unmixing.** Consume an explicitly
   supplied, labeled finite mixing matrix and native channel blocks. Start with
   small full-rank linear systems and residual reporting; reuse the existing

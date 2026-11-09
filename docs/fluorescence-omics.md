@@ -581,3 +581,52 @@ This foundation has analytical and synthetic-TIFF native tests. Retained recipe
 serialization/reopen, CLI/desktop controls and integration into explicitly derived
 analysis remain F03 work. Existing original-sample fluorescence measurements and
 marker rules continue to use their declared original domain.
+
+
+## Retained dark/flat recipes and CLI (F03 in progress)
+
+`qupathxx/dark_flat_workflow.hpp` adds an immutable `DarkFlatRequest` over a
+native signal document and explicit dark/flat readers. Its source can be read on
+a worker without reading Document. Owner controls check document/source/series/
+calibration identity; Keep rechecks actual source versions at publication.
+`read_dark_flat_block` returns owned corrected samples, region, source identity,
+exact block digest and finite/nonfinite counts. It does not publish cell objects
+or replace any original-sample measurements.
+
+Keep stores a typed `qpx.dark-flat-recipe/1` once in image properties, preserving
+source locators, reader/series, observed source-version identities and exact options.
+Keep and Remove each use one normal metadata Undo command and retain unrelated
+properties. Save the project to persist them. The record identity differs from
+its corrected-source identity; a block identity also includes selected region,
+channels, plane, validity and actual corrected double values.
+
+Initial automatic replay supports native TIFF sources. It opens the selected
+field series and refuses changed/missing sources or mismatched derived identities;
+there is no implicit relink, fallback decoder or recalibration. The source/kernel
+capability itself remains reader-independent. Correction compares intrinsic raw
+source calibration across fields; document calibration is an owner capture guard.
+Source identities describe observed versions, not full-file content fingerprints.
+
+```text
+qupathxx_batch --keep-dark-flat input.qpx corrected.qpx --image 1 --dark dark.tif --flat flat.tif --scales 100,200
+qupathxx_batch --list-dark-flat corrected.qpx --image 1
+qupathxx_batch --verify-dark-flat corrected.qpx --image 1 --record RECORD_SHA256
+qupathxx_batch --preview-dark-flat corrected.qpx --image 1 --record RECORD_SHA256 --width 256 --height 256 --channels 2
+```
+
+Scales above are illustrative source-sample normalization values, not estimated
+from a tile. Keep accepts `--minimum-denominator`, explicit `--dark-series` and
+`--flat-series`, and save budgets `--save-snapshot-bytes`/`--project-bytes`.
+The signal series comes from the selected project image. Preview requires width
+and height; X/Y, first channel, Z/time default0, channels default1. Select them
+with `--x`, `--y`, `--first-channel`, `--channels`, `--z`, `--time`; bound work with
+`--work-bytes`. It reports native block identity and counts, not a second frontend
+calculation or an exported image. Verify checks the saved recipe/source association;
+it does not scan a whole image or claim biological accuracy.
+
+Keep saves a new project only, protecting original project, image/field and
+SQLite journal/WAL/SHM paths. Preview/list/verify do not modify project or source
+bytes. Native cancellation returns130; runtime/data errors1, invalid options2,
+success0. Correction recipes do not automatically select a derived domain for
+existing fluorescence tools or marker rules. Desktop controls and explicitly
+derived analysis integration remain F03 work.

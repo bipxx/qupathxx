@@ -8,6 +8,7 @@
 #include "spatial_cli.hpp"
 #include "fluorescence_cli.hpp"
 #include "marker_cli.hpp"
+#include "dark_flat_cli.hpp"
 #include "native_workflow_cli.hpp"
 #include "tma_case_cli.hpp"
 #include "qptma_project_cli.hpp"
@@ -57,6 +58,12 @@ int execute(const std::vector<std::string>& args) {
             "       qupathxx_batch --apply-markers PROJECT NEW_PROJECT --image ID (--rule-file RULE.json | --rule SHA256) (--all-cells | --cell ID ...)\n"
             "         --work-bytes N --save-snapshot-bytes N --project-bytes N (new output only)\n"
             "       qupathxx_batch --list-marker-rules PROJECT --image ID\n"
+            "       qupathxx_batch --keep-dark-flat PROJECT NEW_PROJECT --image ID --dark FIELD.tif --flat FIELD.tif --scales N,N,...\n"
+            "         [--minimum-denominator N --dark-series N --flat-series N --save-snapshot-bytes N --project-bytes N]\n"
+            "       qupathxx_batch --list-dark-flat PROJECT --image ID\n"
+            "       qupathxx_batch --verify-dark-flat PROJECT --image ID --record SHA256\n"
+            "       qupathxx_batch --preview-dark-flat PROJECT --image ID --record SHA256 --width N --height N\n"
+            "         [--x N --y N --first-channel N --channels N --z N --time N --work-bytes N]\n"
             "       qupathxx_batch --list-fluorescence PROJECT --image ID\n"
             "       qupathxx_batch --verify-fluorescence PROJECT --image ID --record SHA256\n"
             "Spatial cohorts: --source-ids FILE --target-ids FILE (whitespace-separated IDs; one mode per cohort)\n"
@@ -149,6 +156,7 @@ int execute(const std::vector<std::string>& args) {
         if(const auto result=detail::spatial_cli(args,cancelled)) return *result;
         if(const auto result=detail::fluorescence_cli(args,cancelled)) return *result;
         if(const auto result=detail::marker_cli(args,cancelled)) return *result;
+        if(const auto result=detail::dark_flat_cli(args,cancelled)) return *result;
         if(const auto result=detail::cell_table_cli(args,cancelled)) return *result;
         if(const auto result=detail::tma_case_cli(args,cancelled)) return *result;
         if(const auto result=detail::qptma_project_cli(args,cancelled)) return *result;
