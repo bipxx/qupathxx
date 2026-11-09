@@ -594,5 +594,21 @@
       },
       "source": "build/feature-expansion/o01-real/mouse-brain-counts.h5ad"
     }
-  ]
+  ],
+  "ome_zarr_native": {
+    "filename": "ome-zarr/manifest.json",
+    "source": "tools/make_ome_zarr_fixtures.py",
+    "bytes": 26709,
+    "sha256": "56d705ab72b1de7f4abe83e428a2917b2e9344fb6901bada62ff7e26303cf6de",
+    "purpose": "Exact169-file authored NGFF0.4/Zarr2 fixture inventory; scalar extremes/nonfinite, C/F/LE/BE/CZT/multiscales/fill and raw/zlib/gzip; no biology",
+    "material": {
+      "id": "qupathxx-authored-ome-zarr",
+      "category": "admitted_open",
+      "kind": "evaluation_data",
+      "license_id": "AGPL-3.0-only",
+      "license_evidence": "LICENSE",
+      "attribution": "qupathxx contributors; independent synthetic byte fixtures",
+      "source_ids": []
+    }
+  }
 }

@@ -1112,3 +1112,42 @@ This does not establish legacy upstream H5AD compatibility or biological validit
 See the [closure receipt](benchmarks/feature-expansion/README.md#o01-desktop-and-real-count-closure).
 Only the declared AnnData/dense/CSR/CSC/string encoding subset is supported. Unselected metadata is excluded as disclosed by the
 reader; this is not an AnnData annotation round trip or a released SDK/package.
+
+
+Native OME-Zarr source (O02, implementation in progress)
+-------------------------------------------------------
+
+The optional `QUPATHXX_BUILD_OME_ZARR=ON` builds the native local source declared
+in `qupathxx/ome_zarr.hpp`. It implements the selected [NGFF0.4](https://ngff.openmicroscopy.org/0.4/)
+and [Zarr2](https://zarr-specs.readthedocs.io/en/latest/v2/v2.0.html) subset over the
+existing `ChannelSource` quantitative-block contract. No Python reader is used.
+Declared axes are YX with optional Z/C/T; rank2..5, selected C/Z/T, scalar signed/
+unsigned8/16/32/64-bit and float32/64, little/big endian and C/F order are handled.
+Codecs are null, zlib and gzip through the already pinned prefixed zlib. Filters,
+complex/object/string dtypes, Blosc, remote stores and Zarr3 refuse explicitly.
+
+`OmeZarrSource(directory)` exposes raw metadata, original ordered axes/units and
+effective per-level scale/translation. Raw region reads use level-zero X/Y and
+preserve typed values, nonfinite samples and valid masks. Supported pyramids have
+integral isotropic XY downsample with unchanged C/Z/T axes; physical XY pitch may
+be anisotropic. Relative level translations map explicitly through the physical
+transforms. Source origins remain available rather than being folded silently
+into pixel coordinates. Missing chunks use a declared valid fill; null fill is
+undefined and refuses missing reads. Truncated/unreadable/deleted/corrupt chunks
+are errors, never synthetic zeros.
+
+`sha256()` identifies an observed local file-version inventory, not a pixel-content
+fingerprint. `read` guards metadata and selected chunks; `require_current` checks
+whole-store file versions/membership at operation boundaries. Inventory, metadata,
+encoded/decoded chunks and output have explicit bounds; links/reparse points
+refuse. Reads are chunk-oriented, not a decode per output pixel. `read_work_bytes`
+reserves snapshot/output/encoded/decoded/codec scratch; allocator/process RSS is
+outside that accounting. The complete-store observation check may use a second
+bounded inventory while comparing versions.
+
+This first source slice does not close O02. Directory provenance/persistence and
+native ImageServer/viewer controls still need integration and source-scoped checks.
+A complete admitted real store with viewport/raw measurements remains required;
+the retained CC-BY4 OME Consortium tubhiswt-2D two-channel512x512 originals are an
+eligible full-image derivative candidate. Do not substitute a cropped convenience
+ROI, unreviewed remote data, or a Python product reader for those exits.

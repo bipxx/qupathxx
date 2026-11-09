@@ -583,6 +583,14 @@ and classify actual release inputs under L01. See the existing
   is never a zero-filled chunk. Exit: chunk/seam/axes tests plus viewport/raw
   measurements on one complete open store. Zarr3, remote stores and unsupported
   anisotropic geometry remain explicit later extensions, not guessed support.
+  Progress: first native ChannelSource implementation covers bounded local metadata/
+  inventory and typed chunk decoding;169 independently authored fixture files
+  cover scalar extremes, C/F/LE/BE, C/Z/T, transforms, fill and raw/zlib/gzip.
+  Native OME-Zarr and existing ChannelSource suites pass1.69s; Windows-only PATH
+  execution exits0. See the [decoder receipt](benchmarks/feature-expansion/README.md#o02-native-local-source-first-slice).
+  ImageServer/viewer, directory provenance/persistence
+  and complete admitted real-store viewport/raw measurements still remain; keep
+  O02 unchecked until all exits have source-scoped evidence.
 
 ## Checklist: molecular methods
 

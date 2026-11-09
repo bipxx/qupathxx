@@ -3805,3 +3805,68 @@ staging after existing group-level inventory fails byte-staging schema. Native
 real import performed once; no h5py app fallback, raw MTX reindex, binding/SDK/
 wheel/package or broad campaign. Plan/guide/receipt and durable compilexx notes
 updated. O01 closes; O02 next, remaining L01/O02/A01-A04/P01/P02 stay open.
+
+### O02 — local OME-Zarr native source
+
+Previous goal turn is progress: O01 closes in8a2d0901 (14/22;8 pending).
+Selected next outcome remains the full O02 contract, not a smaller format claim.
+First implementation slice: local NGFF0.4/Zarr2 bounded metadata/chunk decoding,
+explicit axes/transforms/units, scalar LE/BE C/F data and null/zlib/gzip codecs,
+missing-chunk fill distinct from IO/corruption, cancellation and observed directory
+inventory. Use the existing ChannelSource capability; native ImageServer/viewer/
+persistence and complete admitted real store remain required before O02 closes.
+No Python runtime, TIFF contract change, new codec dependency or package build.
+Primary references inspected: ngff.openmicroscopy.org/0.4 and Zarr v2 storage spec.
+63-companion ReaderSource cannot represent a chunked directory; do not truncate
+its file set or label a metadata fingerprint as whole-store identity. Implement
+private bounded store observation and selected-chunk guards first; settle the
+proper descriptor/persistence extension before frontend wiring. Keep the existing
+UI dirty state and passing O01 products/evidence. One native-only affected cached
+build after interfaces settle; no GUI relink for this first decoder slice.
+
+First O02 build stopped deliberately after observed broad core recompilation.
+Direct zlib target linkage propagated a new include directory to every core file.
+Scope its header include and feature define to ome_zarr.cpp, keep link-only codec
+dependency, then rebuild affected inputs in the same cache. Preserve build.log/
+partial objects; no second cache, dependency rebuild or GUI/binding/package run.
+
+Scoped retry retains no new global codec include/feature flags, but MSBuild tracking
+was already invalidated by the interrupted broad command, so remaining core
+objects are recompiling. Preserve that actual cost; do not claim this retry was
+only three compile units. TIFF/HDF5/zlib dependencies remain reused. After this
+single cache completes, run only new OME-Zarr and the existing ChannelSource check;
+repair only a diagnosed compile/test failure. O02 stays open for ImageServer/
+directory provenance/persistence and full open real-store acceptance. Candidate
+real data is the complete retained CC-BY4 OME tubhiswt-2D pair,512x512x2; preserve
+both originals/all samples, not a convenient ROI or uncertain external download.
+
+Scoped build compiles native store/metadata/decoder and links core; test compile
+finds ADL ambiguity between local copy helper and std::filesystem::copy for literal
+arguments. Rename fixture helper only. Review also finds large-origin cancellation
+risk in physical-to-pixel mapping: cancel common origins first and retain integer
+quotients/fractional offsets; add a1e20-origin regression. Require exact admitted
+integral XY pyramid scale instead of silently tolerating anisotropy, and account
+actual metadata vector capacities. One affected decoder/metadata/test rebuild;
+reuse the now-complete core objects. No test assertion relaxation.
+
+First focused native/ChannelSource run passes1.91s; Windows-only PATH decoder
+run also exits0. Final file-guard review tightens absent-chunk checks: inspect
+existing parent links and symlink_status so a newly dangling link is not mistaken
+for declared fill. Rebuild only store/native tests and rerun those two focused
+suites/native runtime; keep earlier passing receipts scoped to their source.
+
+Final first-source slice passes: hole-guard-build.log exit0; OME-Zarr and existing
+ChannelSource suites pass1.69s. Native Windows-only PATH check exits0, executable
+SHA35ceae16344d906f2750c11991ee3d644336d9f33327cacda502b006e22f2849. Frozen169
+fixture files/21669 bytes still match their manifest. Local source receipt retains
+exact owned source/binary identities; earlier native logs remain diagnostic only.
+No O02 checkbox closure:14/22,8 pending. Existing O01 GUI runtime remains frozen.
+
+Next implementation: versioned directory provenance/descriptor (do not pretend
+63-companion list or one metadata fingerprint covers the store), native ImageServer
+view adapter and saved/reopened selected view/store identity. Keep the reader as
+the sole decoder; preserve legacy TIFF identity/archive formats. Then complete
+retained CC-BY4 tubhiswt-2D full512x512x2 lossless Zarr derivative, independent native
+comparison of ALL samples and viewport/raw measurements. No new download/ROI
+substitute, repeated H5AD campaign or packaging. Notes/guide/plan/reader admission
+updated; broad first recompile cost and each concrete correction retained above.

@@ -2031,3 +2031,65 @@ independent desktop changes are disclosed and preserved. Native real/decoder
 scope precedes the frontend-only layout change. No binding, SDK, wheel or package
 rebuild; those remain P01/P02. No all-AnnData/legacy encoding, biology, full parity
 or speed superiority claim. O01 closes14/22;8 pending. Next O02 local OME-Zarr.
+
+
+### O02 native local source: first slice
+
+O02 remains open:14/22 complete,8 pending. Optional QUPATHXX_BUILD_OME_ZARR adds
+OmeZarrSource over the existing ChannelSource contract, implemented natively in
+ome_zarr.cpp, ome_zarr_metadata.cpp and ome_zarr_store.cpp. Original scalar values
+stay typed, including uint64/int64 beyond2^53 and nonfinite float samples. It reads
+selected C/Z/T across bounded local chunks, C/F layout and LE/BE types, preserving
+explicit NGFF axes/units and composed scale/origin. Integral isotropic XY pyramids
+retain level transforms; physical XY pitch may differ. Mapping cancels common
+origins and retains integer quotients before applying offsets, so a1e20 origin
+does not erase small pixel coordinates. Unsupported geometry/precision refuses.
+
+Read guards selected metadata/chunks before/after consumption. Whole-store
+require_current compares a bounded full file-version/membership observation at
+operation boundaries. This is an observed-version identity, not a pixel-content
+fingerprint. Readonly local stores reject links/reparse paths; missing chunks
+use only a declared fill, null is undefined, and file loss/corrupt compressed
+bytes cannot silently become zeros. Final absent-chunk checks also inspect
+parent links and symlink_status so a dangling link is not mistaken for fill.
+No new code/codec dependency: use already pinned nlohmann-json and prefixed zlib
+with null/zlib/gzip only. Blosc/filters/remote/Zarr3 remain explicit refusals.
+
+Independent development-only standard-library author tools/make_ome_zarr_fixtures.py
+freezes169 files /21669 bytes under tests/fixtures/ome-zarr, exact per-file hashes
+in its manifest; the parent manifest itself is admitted in tests/fixtures/manifest.json
+under AGPL-3.0-only. These are synthetic values with no biological claim. Tests
+cover multichannel C/Z/T axes, edge chunks/whole-versus-tile seams, C/F and endian
+combinations, raw/zlib/gzip, scalar extrema and nonfinite samples, scale/origin,
+padding versus valid fill, undefined fill, malformed metadata/unsupported codec/
+filter/dtype/geometry, limits, pre-cancel, corruption, deleted/changed files and
+new file membership. This is not yet all reader/persistence/frontend acceptance.
+
+build/feature-expansion/o02-native/hole-guard-build.log exits0; final
+hole-guard-ctest.log passes OME-Zarr and existing ChannelSource1.69s. Native-only
+System32/Windows PATH run exits0 (native-only-final.log/host.json), executable SHA
+35ceae16344d906f2750c11991ee3d644336d9f33327cacda502b006e22f2849 on HEQPC.
+Earlier ctest/native logs are diagnostic intermediate results, not qualification
+transferred to the final hole-guard source. Final source-receipt.json retains the
+base/owned source delta and exact new-file/binary identities. The unchanged O01
+app/runtime stays separate; no GUI/binding/SDK/wheel/package rebuild is claimed.
+
+Waste/corrections: direct zlib target usage initially propagated a global include
+and triggered broad core recompilation. Stop the identified build tree, retain
+build.log/partial objects, scope headers/feature macro to the Zarr unit and use
+link-only codec linkage. MSBuild tracking was already invalidated, so the scoped
+retry still pays a core recompile; dependencies/GUI were reused. Native core then
+builds, but test helper copy conflicts through filesystem ADL; rename helper,
+retain failure log and rebuild affected units only. Review fixes common-origin
+cancellation, exact XY pyramid scale admission, metadata capacity accounting and
+absent-chunk path handling. Final retry compiles only store/provenance and relinks
+native checks. No broad corpus, repeated scientific campaign or new build cache.
+
+Next: integrate the directory descriptor and versioned native provenance without
+truncating it into the existing63-companion contract. Add an ImageServer/view
+adapter and save/reopen identity checks over this same decoder; preserve legacy
+TIFF/codec bytes and independent UI edits. Complete-store real fixture candidate
+is the admitted CC-BY4 OME Consortium tubhiswt-2D512x512x2 pair, preserving BOTH
+original channels/all samples and attribution. Native viewport/raw measurements
+on that full disclosed derivative remain required. Do not close O02 or claim a
+released/general OME-Zarr reader before those exits.
