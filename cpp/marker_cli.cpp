@@ -40,7 +40,7 @@ std::optional<int> marker_cli(const std::vector<std::string>& args,const std::at
             if(const auto files=doc->server()->reader_source()){if(files->primary)protect_spatial_path(files->primary->path,files->primary->identity,output);for(const auto& file:files->companions)protect_spatial_path(file.path,file.identity,output);}
         };
         protect();if(list){const auto rules=marker_rule_ids(*doc);protect();std::cout<<"{\"schema\":\"qpx.marker-cli/1\",\"state\":\"rules\",\"rules\":[";for(std::size_t i=0;i<rules.size();++i){if(i)std::cout<<',';std::cout<<json_string(rules[i]);}std::cout<<"]}\n";return 0;}
-        if(!rule)rule=load_marker_rule(*doc,rule_id);if(all)ids=marker_cell_ids_for_domain(*doc,rule->domain,&cancelled);const MarkerRuleRequest request(*doc,ids,*rule,work,&cancelled);result=preview_marker_rule(request,&cancelled);std::size_t changed=0;
+        if(!rule)rule=load_marker_rule(*doc,rule_id);if(all)ids=marker_cell_ids_for_rule(*doc,*rule,&cancelled,work);const MarkerRuleRequest request(*doc,ids,*rule,work,&cancelled);result=preview_marker_rule(request,&cancelled);std::size_t changed=0;
         if(apply){const auto existing=marker_rule_ids(*doc);const auto id=rule->sha256();if(std::find(existing.begin(),existing.end(),id)==existing.end())keep_marker_rule(*doc,*rule);changed=apply_marker_rule(*doc,request,*result,&cancelled).size();published=true;project->save_new(output,save_bytes,file_bytes,&cancelled,protect);}else protect();
         std::cout<<"{\"schema\":\"qpx.marker-cli/1\",\"state\":"<<json_string(apply?"saved":"preview")<<",\"changed_cells\":"<<changed<<",\"result\":"<<marker_result_json(request,*result)<<"}\n";return 0;
     }catch(const std::exception& e){std::cerr<<e.what()<<'\n';return cancelled.load()?130:1;}

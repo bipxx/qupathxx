@@ -55,7 +55,7 @@ int execute(const std::vector<std::string>& args) {
             "         --first-channel N --channels N --segmentation-channel N (relative to block) --z N --time N\n"
             "         --method explicit|otsu --threshold N --sigma N --prominence N --min-area N --max-area N --expansion N --units px|um\n"
             "         --context N --max-cells N --work-bytes N --record-only --save-snapshot-bytes N --project-bytes N\n"
-            "         --correction SHA256 (explicit retained dark/flat recipe; default original samples)\n"
+            "         --correction SHA256 | --unmix SHA256 (explicit retained derived recipe; default original samples)\n"
             "       qupathxx_batch --preview-markers PROJECT --image ID (--rule-file RULE.json | --rule SHA256) (--all-cells | --cell ID ...)\n"
             "       qupathxx_batch --apply-markers PROJECT NEW_PROJECT --image ID (--rule-file RULE.json | --rule SHA256) (--all-cells | --cell ID ...)\n"
             "         --work-bytes N --save-snapshot-bytes N --project-bytes N (new output only)\n"

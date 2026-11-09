@@ -1,6 +1,7 @@
 #include "qupathxx/fluorescence_cell_workflow.hpp"
 #include "qupathxx/raw_analysis.hpp"
 #include "qupathxx/dark_flat_workflow.hpp"
+#include "qupathxx/linear_unmixing_workflow.hpp"
 #include "qupathxx/image_data_properties.hpp"
 #include "qupathxx/workflow.hpp"
 #include "fluorescence_cell_internal.hpp"
@@ -18,6 +19,9 @@ void number(Sha256& sha,double value){std::uint64_t bits;std::memcpy(&bits,&valu
 void optional(Sha256& sha,std::optional<double> value){sha.integer(bool(value));if(value)number(sha,*value);}
 void region_hash(Sha256& sha,const RawRegionRequest& r){for(auto v:{std::uint64_t(r.region.x),std::uint64_t(r.region.y),std::uint64_t(r.region.width),std::uint64_t(r.region.height),std::uint64_t(r.region.level),std::uint64_t(r.first_channel),std::uint64_t(r.channels),std::uint64_t(r.z),std::uint64_t(r.t)})sha.integer(v);}
 std::optional<std::array<double,2>> calibration(const RawPixelSourceSnapshot& source){if(source.calibration.x && source.calibration.y)return std::array<double,2>{*source.calibration.x,*source.calibration.y};return {};}
+RawRegionRequest authority_selection(const Document& doc,RawRegionRequest r,std::uint64_t object,const LinearUnmixRequest* unmix){
+    if(unmix){if(object && doc.annotation(object).plane.c!=-1)throw std::invalid_argument("Unmixing cell analysis requires a channel-independent ROI plane");r.first_channel=unmix->recipe().matrix.inputs.front().channel;r.channels=1;}return r;
+}
 std::string run_hash(const FluorescenceCellResult& raster,const std::string& input,const std::atomic<bool>* cancelled) {
     Sha256 sha;text(sha,"qpx.fluorescence-cell-run/1");text(sha,input);text(sha,raster.recipe_sha256);number(sha,raster.resolved_threshold);
     for(auto n:{raster.segmentation_finite_pixels,raster.segmentation_nonfinite_pixels,raster.invalid_pixels})sha.integer(n);
@@ -38,12 +42,17 @@ struct FluorescenceCellRequest::Data {
     std::optional<ScientificRawLattice> lattice;
     RawPixelSourceSnapshot snapshot;
     std::optional<DarkFlatRequest> correction;
-    const RawImageMetadata& analysis_metadata() const {return correction?correction->source()->metadata():snapshot.metadata;}
+    std::optional<LinearUnmixRequest> unmix;
+    const ChannelSource* derived_source() const {return unmix?unmix->source().get():correction?correction->source().get():nullptr;}
+    const RawImageMetadata& analysis_metadata() const {return derived_source()?derived_source()->metadata():snapshot.metadata;}
+    std::string unmix_id;
+    mutable std::shared_ptr<const ImageDataProperties> unmix_properties;
     std::string correction_id;
     mutable std::shared_ptr<const ImageDataProperties> correction_properties;
     std::size_t fixed=0,work=0;
-    Data(const Document& doc,RawRegionRequest selection,std::uint64_t object,FluorescenceCellOptions p,std::array<std::uint32_t,2> c,const DarkFlatRequest* derived=nullptr):
-        authority(doc,selection,object),source(doc.server()),core(authority.region()),region(core),options(p),context(c) {
+    Data(const Document& doc,RawRegionRequest selection,std::uint64_t object,FluorescenceCellOptions p,std::array<std::uint32_t,2> c,const DarkFlatRequest* derived=nullptr,const LinearUnmixRequest* mixed=nullptr):
+        authority(doc,authority_selection(doc,selection,object,mixed),object),source(doc.server()),core(authority.region()),region(core),options(p),context(c) {
+        if(mixed){core.first_channel=selection.first_channel;core.channels=selection.channels;region=core;}
         const auto& m=doc.metadata();const auto& r=core.region;
         if(r.level!=0 || r.x<0 || r.y<0 || r.x>=m.width || r.y>=m.height || r.width>m.width-r.x || r.height>m.height-r.y)throw std::invalid_argument("Fluorescence core crop must lie inside level zero");
         const auto x=std::max<std::int64_t>(0,r.x-context[0]),y=std::max<std::int64_t>(0,r.y-context[1]);
@@ -59,7 +68,8 @@ struct FluorescenceCellRequest::Data {
             if(load_dark_flat_recipe(doc,correction_id).sha256()!=correction_id)throw WorkflowInputChanged("Correction recipe is not retained in this image");
             correction=*derived;correction_properties=doc.image_data_properties();
         }
-        region.validate(snapshot.metadata);if(options.segmentation_channel>=region.channels)throw std::out_of_range("Fluorescence segmentation channel is outside selected block");
+        if(mixed){mixed->require_current(doc);unmix_id=mixed->recipe().sha256();if(load_linear_unmix_recipe(doc,unmix_id).sha256()!=unmix_id)throw WorkflowInputChanged("Unmixing recipe is not retained in this image");unmix=*mixed;unmix_properties=doc.image_data_properties();}
+        region.validate(analysis_metadata());if(options.segmentation_channel>=region.channels)throw std::out_of_range("Fluorescence segmentation channel is outside selected block");
         auto spacing=std::array<double,2>{1,1};if(options.units==FluorescenceCellUnits::Micrometres){const auto scale=calibration(snapshot);if(!scale)throw std::invalid_argument("Physical fluorescence cells require both calibration axes");spacing=*scale;}
         const auto sigmas=cell_detail::PhysicalGridMetric(spacing[0],spacing[1]).sigma_pixels(options.sigma);
         const auto rx=cell_detail::scientific_gaussian_radius(sigmas.first),ry=cell_detail::scientific_gaussian_radius(sigmas.second);
@@ -68,8 +78,9 @@ struct FluorescenceCellRequest::Data {
         fixed=sizeof(Data)+2*raw_pixel_source_snapshot_bytes(snapshot)+2*authority.object_context().payload_bytes()+32768;
         if(authority.mask())fixed+=3*authority.mask()->payload_bytes();
         if(correction)fixed+=correction->recipe().payload_bytes()+correction->source()->payload_bytes()+65536;
+        if(unmix)fixed+=unmix->recipe().payload_bytes()+unmix->source()->payload_bytes()+65536;
         work=detail::fluorescence_cell_work_bytes(region.region.width,region.region.height,region.channels,analysis_metadata().sample_type,options,calibration(snapshot),0,0,fixed);
-        if(correction){auto read_peak=fixed;workflow_capture_charge(read_peak,correction->source()->read_work_bytes(region),options.work_bytes);work=std::max(work,read_peak);}
+        if(derived_source()){auto read_peak=fixed;workflow_capture_charge(read_peak,derived_source()->read_work_bytes(region),options.work_bytes);work=std::max(work,read_peak);}
     }
 };
 FluorescenceCellRequest::FluorescenceCellRequest(const Document& doc,RawRegionRequest region,std::uint64_t object,FluorescenceCellOptions p,std::array<std::uint32_t,2> context) {
@@ -80,6 +91,10 @@ FluorescenceCellRequest::FluorescenceCellRequest(const Document& doc,const DarkF
     p.validate();if(region.region.level!=0 || context[0]>4096 || context[1]>4096)throw std::invalid_argument("Fluorescence cells require level zero and context<=4096");
     data_=std::make_shared<const Data>(doc,region,object,p,context,&correction);if(!matches(doc))throw WorkflowInputChanged("Corrected fluorescence input changed during capture");
 }
+FluorescenceCellRequest::FluorescenceCellRequest(const Document& doc,const LinearUnmixRequest& unmix,RawRegionRequest region,std::uint64_t object,FluorescenceCellOptions p,std::array<std::uint32_t,2> context){
+    p.validate();if(region.region.level!=0 || context[0]>4096 || context[1]>4096)throw std::invalid_argument("Fluorescence cells require level zero and context<=4096");
+    data_=std::make_shared<const Data>(doc,region,object,p,context,nullptr,&unmix);if(!matches(doc))throw WorkflowInputChanged("Unmixed fluorescence input changed during capture");
+}
 bool FluorescenceCellRequest::matches(const Document& doc) const {
     workflow_require_owner(data_->owner);if(!data_->authority.matches(doc) || !raw_pixel_source_matches(*doc.server(),data_->snapshot))return false;
     if(data_->correction){if(!data_->correction->matches(doc))return false;
@@ -87,11 +102,17 @@ bool FluorescenceCellRequest::matches(const Document& doc) const {
             try{if(load_dark_flat_recipe(doc,data_->correction_id).sha256()!=data_->correction_id)return false;data_->correction_properties=doc.image_data_properties();}
             catch(const std::invalid_argument&){return false;}catch(const std::out_of_range&){return false;}
         }
+    }
+    if(data_->unmix){if(!data_->unmix->matches(doc))return false;
+        if(data_->unmix_properties!=doc.image_data_properties()){
+            try{if(load_linear_unmix_recipe(doc,data_->unmix_id).sha256()!=data_->unmix_id)return false;data_->unmix_properties=doc.image_data_properties();}
+            catch(const std::invalid_argument&){return false;}catch(const std::out_of_range&){return false;}
+        }
     }return true;
 }
 bool FluorescenceCellRequest::publication_matches(const Document& doc) const {
     if(!matches(doc) || !raw_pixel_publication_lattice_source_matches(*doc.server(),data_->snapshot,*data_->lattice))return false;
-    if(data_->correction){try{data_->correction->source()->require_current();}catch(const std::runtime_error&){return false;}catch(const std::invalid_argument&){return false;}}return true;
+    if(data_->derived_source()){try{data_->derived_source()->require_current();}catch(const std::runtime_error&){return false;}catch(const std::invalid_argument&){return false;}}return true;
 }
 const RawRegionRequest& FluorescenceCellRequest::region() const{return data_->region;}
 const RawRegionRequest& FluorescenceCellRequest::core_region() const{return data_->core;}
@@ -108,7 +129,7 @@ struct FluorescenceCellRun::Data {
     std::optional<Roi> roi;
     std::shared_ptr<const AnalysisProvenance> provenance;
     std::shared_ptr<const char> capture;
-    std::string input,sha,correction_id;
+    std::string input,sha,correction_id,unmix_id;
     double elapsed=0;
     std::array<std::uint32_t,2> context{};
 };
@@ -121,12 +142,13 @@ const std::optional<Roi>& FluorescenceCellRun::roi() const{return data_->roi;}
 const std::shared_ptr<const AnalysisProvenance>& FluorescenceCellRun::provenance() const{return data_->provenance;}
 const std::string& FluorescenceCellRun::input_sha256() const{return data_->input;}
 const std::string& FluorescenceCellRun::sha256() const{return data_->sha;}
-const std::string& FluorescenceCellRun::measurement_domain() const {static const std::string original="original-channel-samples",corrected="qpx.dark-flat-corrected-samples/1";return data_->correction_id.empty()?original:corrected;}
+const std::string& FluorescenceCellRun::measurement_domain() const {static const std::string original="original-channel-samples",corrected="qpx.dark-flat-corrected-samples/1",unmixed="qpx.linear-unmixed-samples/1";return !data_->unmix_id.empty()?unmixed:data_->correction_id.empty()?original:corrected;}
 const std::string& FluorescenceCellRun::correction_record() const{return data_->correction_id;}
+const std::string& FluorescenceCellRun::unmix_record() const{return data_->unmix_id;}
 double FluorescenceCellRun::elapsed_ms() const{return data_->elapsed;}
 std::array<std::uint32_t,2> FluorescenceCellRun::context() const{return data_->context;}
 std::size_t FluorescenceCellRun::payload_bytes() const {
-    const auto& r=data_->raster;std::size_t bytes=sizeof(*this)+sizeof(Data)+data_->metadata.payload_bytes()+data_->input.capacity()+data_->sha.capacity()+data_->correction_id.capacity()+
+    const auto& r=data_->raster;std::size_t bytes=sizeof(*this)+sizeof(Data)+data_->metadata.payload_bytes()+data_->input.capacity()+data_->sha.capacity()+data_->correction_id.capacity()+data_->unmix_id.capacity()+
         r.input_sha256.capacity()+r.recipe_sha256.capacity()+(r.nuclei.capacity()+r.bodies.capacity())*sizeof(std::uint32_t)+
         r.measurements.capacity()*sizeof(RawCellMeasurements)+r.boundaries.capacity()*sizeof(FluorescenceCellBoundary)+1024;
     if(data_->roi)bytes+=data_->roi->payload_bytes();if(data_->provenance)bytes+=data_->provenance->payload_bytes();
@@ -142,7 +164,7 @@ struct FluorescenceCellKernel {
         const auto began=std::chrono::steady_clock::now();workflow_checkpoint(cancelled);const auto& c=*request.data_;
         if(!raw_pixel_publication_lattice_source_matches(*c.source,c.snapshot,*c.lattice))throw WorkflowInputChanged("Fluorescence source changed before reading");
         if(phase)phase->store(int(FluorescenceCellPhase::Reading));
-        auto raw=c.correction?c.correction->source()->read(c.region,c.options.work_bytes-c.fixed,cancelled):c.source->read_raw(c.region,cancelled);workflow_checkpoint(cancelled);
+        auto raw=c.derived_source()?c.derived_source()->read(c.region,c.options.work_bytes-c.fixed,cancelled):c.source->read_raw(c.region,cancelled);workflow_checkpoint(cancelled);
         if(raw.width()!=c.region.region.width || raw.height()!=c.region.region.height || raw.channels()!=c.region.channels || raw.sample_type()!=c.analysis_metadata().sample_type)throw WorkflowInputChanged("Fluorescence decoder returned another sample lattice");
         if(!raw_pixel_publication_lattice_source_matches(*c.source,c.snapshot,*c.lattice))throw WorkflowInputChanged("Fluorescence source/metadata changed during reading");
         const auto n=std::size_t(raw.width())*std::size_t(raw.height());std::vector<std::uint8_t> domain(n);
@@ -152,13 +174,13 @@ struct FluorescenceCellKernel {
                 (!c.authority.mask() || c.authority.mask()->contains_sample({double(px)+.5,double(py)+.5},RoiSamplingPolicy::GeometryCoverage));}}
         if(phase)phase->store(int(FluorescenceCellPhase::Segmenting));
         auto output=std::make_shared<FluorescenceCellRun::Data>();output->raster=detail::segment_fluorescence_cells_reserved(raw,domain,c.options,calibration(c.snapshot),c.fixed,cancelled);
-        output->region=c.region;output->core=c.core;output->roi=c.authority.mask();output->metadata=c.analysis_metadata();output->correction_id=c.correction_id;output->provenance=c.snapshot.provenance;output->capture=c.capture;output->context=c.context;
-        Sha256 input;text(input,c.correction?"qpx.fluorescence-cell-source-input/2":"qpx.fluorescence-cell-source-input/1");text(input,c.snapshot.epoch);if(c.correction){text(input,c.correction_id);text(input,c.correction->source()->sha256());}text(input,output->raster.input_sha256);region_hash(input,c.region);region_hash(input,c.core);
+        output->region=c.region;output->core=c.core;output->roi=c.authority.mask();output->metadata=c.analysis_metadata();output->correction_id=c.correction_id;output->unmix_id=c.unmix_id;output->provenance=c.snapshot.provenance;output->capture=c.capture;output->context=c.context;
+        Sha256 input;text(input,c.unmix?"qpx.fluorescence-cell-source-input/3":c.correction?"qpx.fluorescence-cell-source-input/2":"qpx.fluorescence-cell-source-input/1");text(input,c.snapshot.epoch);if(c.unmix){text(input,c.unmix_id);text(input,c.unmix->source()->sha256());}else if(c.correction){text(input,c.correction_id);text(input,c.correction->source()->sha256());}text(input,output->raster.input_sha256);region_hash(input,c.region);region_hash(input,c.core);
         optional(input,c.snapshot.calibration.x);optional(input,c.snapshot.calibration.y);input.integer(bool(output->roi));
         if(output->roi){const auto bytes=GeometryArchiveCodec::encode(*output->roi);input.integer(bytes.size());input.update(bytes.data(),bytes.size());}
         output->input=input.finish();output->sha=run_hash(output->raster,output->input,cancelled);
         if(!raw_pixel_publication_lattice_source_matches(*c.source,c.snapshot,*c.lattice))throw WorkflowInputChanged("Fluorescence source changed during segmentation");
-        if(c.correction)c.correction->source()->require_current(cancelled);
+        if(c.derived_source())c.derived_source()->require_current(cancelled);
         workflow_checkpoint(cancelled);output->elapsed=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-began).count();
         if(phase)phase->store(int(FluorescenceCellPhase::Ready));return std::shared_ptr<const FluorescenceCellRun>(new FluorescenceCellRun(std::move(output)));
     }

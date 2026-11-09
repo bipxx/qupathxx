@@ -35,6 +35,8 @@ struct MarkerRule {
     std::vector<MarkerGate> gates;
     // Topological DAG; the last node is the root. All nodes/gates must be used.
     std::vector<MarkerNode> nodes;
+    // Required only for the unmixed domain, fixing component order/meaning.
+    std::string unmix_record;
     void validate() const;
     std::string sha256() const;
 };
@@ -94,10 +96,14 @@ std::vector<std::uint64_t> marker_cell_ids(const Document&,const std::atomic<boo
 // Explicit domain cohorts keep original and corrected observations separate.
 std::vector<std::uint64_t> marker_cell_ids_for_domain(const Document&,const std::string& domain,
     const std::atomic<bool>* cancelled=nullptr);
+// Unmixed rules select one recipe; malformed publications remain for refusal.
+std::vector<std::uint64_t> marker_cell_ids_for_rule(const Document&,const MarkerRule&,const std::atomic<bool>* cancelled=nullptr,
+    std::size_t work_bytes=64u*1024*1024);
 // Exact typed rule storage uses existing image properties. Keep/remove are
 // separate undoable actions and do not change observed cells or class labels.
 std::string keep_marker_rule(Document&,const MarkerRule&);
 std::vector<std::string> marker_rule_ids(const Document&);
 MarkerRule load_marker_rule(const Document&,const std::string&);
 void remove_marker_rule(Document&,const std::string&);
+bool marker_rules_reference_unmix(const Document&,const std::string&);
 }

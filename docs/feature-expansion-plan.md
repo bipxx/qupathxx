@@ -471,9 +471,14 @@ and classify actual release inputs under L01. See the existing
   recipes now pass exact project/operator replay, Undo, correction-parent reference
   protection and stale/cancel checks. Bounded strict native matrix JSON/file IO
   and CLI Keep/list/verify now pass, including standalone original/corrected replay
-  and new-project save with input hashes unchanged. F04 remains open for derived
-  analysis/marker integration and desktop controls; native retention/CLI evidence
-  does not imply full completion.
+  and new-project save with input hashes unchanged. Native cell/marker integration
+  now passes output-axis capture, signed compartment values, version3 cell/run
+  references, exact project replay and recipe-scoped version2 marker rules. Other
+  matrices/orders cannot silently share component indices. Native/CLI detection,
+  verification and phenotype application agree; retained real F01 identity and118
+  cells are unchanged. F04 remains open for desktop matrix authoring/preview,
+  explicit source selection and recipe-scoped marker controls; native/CLI evidence
+  does not imply desktop completion.
 
 ## Checklist: storage, scale and open readers
 

@@ -8,6 +8,7 @@ struct Annotation;
 bool fluorescence_cell_observations_intact(const Annotation&);
 // Native reference check; prevents deleting correction provenance still in use.
 bool fluorescence_cells_reference_correction(const Document&,const std::string&);
+bool fluorescence_cells_reference_unmix(const Document&,const std::string&);
 class FluorescenceCellContours {
 public:
     const std::shared_ptr<const FluorescenceCellRun>& run() const {return run_;}

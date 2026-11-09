@@ -5,6 +5,7 @@
 namespace qpx {
 class Document;
 class DarkFlatRequest;
+class LinearUnmixRequest;
 class FluorescenceCellRun;
 class FluorescenceCellRequest {
 public:
@@ -16,6 +17,10 @@ public:
     // Explicit derived analysis. The correction recipe must already be retained
     // in this document; cells/runs reference it once instead of copying fields.
     FluorescenceCellRequest(const Document&,const DarkFlatRequest&,RawRegionRequest,
+        std::uint64_t object_id=0,FluorescenceCellOptions={},std::array<std::uint32_t,2> context={32,32});
+    // Output selection uses component/residual indices, not measured indices.
+    // Requires a retained recipe and a channel-independent ROI plane (c=-1).
+    FluorescenceCellRequest(const Document&,const LinearUnmixRequest&,RawRegionRequest,
         std::uint64_t object_id=0,FluorescenceCellOptions={},std::array<std::uint32_t,2> context={32,32});
     bool matches(const Document&) const;
     // Actual file versions and metadata are rechecked at this trust boundary;
@@ -47,6 +52,7 @@ public:
     const std::string& sha256() const;
     const std::string& measurement_domain() const;
     const std::string& correction_record() const;
+    const std::string& unmix_record() const;
     double elapsed_ms() const;
     std::array<std::uint32_t,2> context() const;
     std::size_t payload_bytes() const;

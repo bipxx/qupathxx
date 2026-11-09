@@ -1,6 +1,7 @@
 #include "qupathxx/fluorescence_cell_objects.hpp"
 #include "qupathxx/core.hpp"
 #include "qupathxx/dark_flat_workflow.hpp"
+#include "qupathxx/linear_unmixing_workflow.hpp"
 #include "qupathxx/object_properties.hpp"
 #include "qupathxx/image_data_properties.hpp"
 #include "qupathxx/workflow.hpp"
@@ -15,7 +16,7 @@
 
 namespace qpx {
 namespace {
-constexpr const char* profile="qpx.fluorescence-cell-publication/1",*corrected_profile="qpx.fluorescence-cell-publication/2";
+constexpr const char* profile="qpx.fluorescence-cell-publication/1",*corrected_profile="qpx.fluorescence-cell-publication/2",*unmixed_profile="qpx.fluorescence-cell-publication/3";
 bool digest(const std::string&);
 void text(Sha256& s,const std::string& x){s.integer(x.size());s.update(x.data(),x.size());}
 void real(Sha256& s,double x){std::uint64_t bits;std::memcpy(&bits,&x,8);s.integer(bits);}
@@ -23,22 +24,23 @@ std::string integer(std::uint64_t value,int base=10){char out[32];const auto r=s
 std::string bits(double value){std::uint64_t b;std::memcpy(&b,&value,8);return integer(b,16);}
 std::string optional(std::optional<double> x){return x?bits(*x):"-";}
 std::string recipe(const FluorescenceCellRun& run) {
-    std::string out=run.correction_record().empty()?"qpx.fluorescence-cell-recipe/1":"qpx.fluorescence-cell-recipe/2";const auto u=[&](std::uint64_t x){out+='\t';out+=integer(x);};
+    std::string out=!run.unmix_record().empty()?"qpx.fluorescence-cell-recipe/3":run.correction_record().empty()?"qpx.fluorescence-cell-recipe/1":"qpx.fluorescence-cell-recipe/2";const auto u=[&](std::uint64_t x){out+='\t';out+=integer(x);};
     const auto s=[&](const std::string& x){out+='\t';out+=x;};const auto& m=run.source_metadata();const auto& r=run.core_region();const auto& p=run.raster().options;
     for(auto x:{run.provenance()->object_id,std::uint64_t(m.series),std::uint64_t(m.series_count),std::uint64_t(m.width),std::uint64_t(m.height),std::uint64_t(m.channels),std::uint64_t(m.z_planes),std::uint64_t(m.timepoints),std::uint64_t(m.sample_type),
         std::uint64_t(r.region.x),std::uint64_t(r.region.y),std::uint64_t(r.region.width),std::uint64_t(r.region.height),std::uint64_t(r.first_channel),std::uint64_t(r.channels),std::uint64_t(r.z),std::uint64_t(r.t),
         std::uint64_t(run.context()[0]),std::uint64_t(run.context()[1]),std::uint64_t(p.segmentation_channel),std::uint64_t(p.threshold_method),std::uint64_t(p.units),std::uint64_t(p.max_cells),std::uint64_t(p.work_bytes)})u(x);
     for(auto x:{p.threshold,p.sigma,p.peak_prominence,p.min_nucleus_area,p.cell_expansion})s(bits(x));s(optional(p.max_nucleus_area));
-    s(optional(run.provenance()->effective_pixel_width_um));s(optional(run.provenance()->effective_pixel_height_um));if(!run.correction_record().empty())s(run.correction_record());return out;
+    s(optional(run.provenance()->effective_pixel_width_um));s(optional(run.provenance()->effective_pixel_height_um));if(!run.correction_record().empty())s(run.correction_record());if(!run.unmix_record().empty())s(run.unmix_record());return out;
 }
 struct Recipe {
     std::uint64_t object=0;std::array<std::uint64_t,8> source{};RawRegionRequest core;FluorescenceCellOptions options;std::array<std::uint32_t,2> context{};
-    std::optional<double> x,y;std::string correction;
+    std::optional<double> x,y;std::string correction,unmix;
     explicit Recipe(const std::string& encoded) {
         std::vector<std::string> tokens;std::size_t first=0;
         for(std::size_t i=0;i<=encoded.size();++i)if(i==encoded.size() || encoded[i]=='\t'){tokens.push_back(encoded.substr(first,i-first));first=i+1;}
         const bool derived=tokens.size()==34 && tokens[0]=="qpx.fluorescence-cell-recipe/2";
-        if(!derived && (tokens.size()!=33 || tokens[0]!="qpx.fluorescence-cell-recipe/1"))throw std::invalid_argument("Unsupported fluorescence cell recipe");std::size_t at=1;
+        const bool unmixed=tokens.size()==34 && tokens[0]=="qpx.fluorescence-cell-recipe/3";
+        if(!derived && !unmixed && (tokens.size()!=33 || tokens[0]!="qpx.fluorescence-cell-recipe/1"))throw std::invalid_argument("Unsupported fluorescence cell recipe");std::size_t at=1;
         const auto u=[&](std::uint64_t maximum=UINT64_MAX,int base=10){const auto& t=tokens.at(at++);std::uint64_t value=0;const auto r=std::from_chars(t.data(),t.data()+t.size(),value,base);if(t.empty() || r.ec!=std::errc{} || r.ptr!=t.data()+t.size() || value>maximum)throw std::invalid_argument("Invalid fluorescence recipe integer");return value;};
         const auto floating=[&](){const auto b=u(UINT64_MAX,16);double x;std::memcpy(&x,&b,8);if(!std::isfinite(x))throw std::invalid_argument("Nonfinite fluorescence recipe value");return x;};
         const auto nullable=[&]()->std::optional<double>{if(tokens.at(at)=="-"){++at;return {};}return floating();};
@@ -48,11 +50,12 @@ struct Recipe {
         context[0]=std::uint32_t(u(4096));context[1]=std::uint32_t(u(4096));options.segmentation_channel=std::uint32_t(u(65535));options.threshold_method=static_cast<FluorescenceThreshold>(u(1));options.units=static_cast<FluorescenceCellUnits>(u(1));options.max_cells=std::size_t(u(1000000));options.work_bytes=std::size_t(u(1024ULL*1024*1024));
         options.threshold=floating();options.sigma=floating();options.peak_prominence=floating();options.min_nucleus_area=floating();options.cell_expansion=floating();options.max_nucleus_area=nullable();x=nullable();y=nullable();options.validate();
         if(derived){correction=tokens.at(at++);if(!digest(correction))throw std::invalid_argument("Invalid corrected fluorescence recipe reference");}
+        if(unmixed){unmix=tokens.at(at++);if(!digest(unmix))throw std::invalid_argument("Invalid unmixed fluorescence recipe reference");}
         if((x && *x<=0) || (y && *y<=0))throw std::invalid_argument("Invalid fluorescence recipe calibration");
     }
 };
 FluorescenceCellRequest replay_recipe(const Document& doc,const std::string& encoded) {
-    const Recipe saved(encoded);FluorescenceCellRequest request=saved.correction.empty()?FluorescenceCellRequest(doc,saved.core,saved.object,saved.options,saved.context):FluorescenceCellRequest(doc,replay_dark_flat_recipe(doc,saved.correction),saved.core,saved.object,saved.options,saved.context);const auto& m=request.source_metadata();const std::array<std::uint64_t,8> current{m.series,m.series_count,std::uint64_t(m.width),std::uint64_t(m.height),m.channels,m.z_planes,m.timepoints,std::uint64_t(m.sample_type)};
+    const Recipe saved(encoded);FluorescenceCellRequest request=!saved.unmix.empty()?FluorescenceCellRequest(doc,replay_linear_unmix_recipe(doc,saved.unmix),saved.core,saved.object,saved.options,saved.context):saved.correction.empty()?FluorescenceCellRequest(doc,saved.core,saved.object,saved.options,saved.context):FluorescenceCellRequest(doc,replay_dark_flat_recipe(doc,saved.correction),saved.core,saved.object,saved.options,saved.context);const auto& m=request.source_metadata();const std::array<std::uint64_t,8> current{m.series,m.series_count,std::uint64_t(m.width),std::uint64_t(m.height),m.channels,m.z_planes,m.timepoints,std::uint64_t(m.sample_type)};
     const auto& a=request.core_region();const auto& b=saved.core;
     if(current!=saved.source || doc.pixel_width_um()!=saved.x || doc.pixel_height_um()!=saved.y || a.region.x!=b.region.x || a.region.y!=b.region.y || a.region.width!=b.region.width || a.region.height!=b.region.height)throw WorkflowInputChanged("Fluorescence replay source/calibration/ROI changed");return request;
 }
@@ -68,16 +71,18 @@ bool intact(const Annotation& cell){
     const auto p=m.find("fluorescence.profile"),h=m.find("fluorescence.object_sha256");const auto domain=m.find("fluorescence.measurement_domain"),correction=m.find("fluorescence.correction_record");
     const bool original=p!=m.end() && p->second==profile && domain!=m.end() && domain->second=="original-channel-samples";
     const bool derived=p!=m.end() && p->second==corrected_profile && domain!=m.end() && domain->second=="qpx.dark-flat-corrected-samples/1" && correction!=m.end() && digest(correction->second);
-    return (original || derived) && h!=m.end() && h->second==object_hash(cell);
+    const auto unmix=m.find("fluorescence.unmix_record");const bool unmixed=p!=m.end() && p->second==unmixed_profile && domain!=m.end() && domain->second=="qpx.linear-unmixed-samples/1" && unmix!=m.end() && digest(unmix->second);
+    return (original || derived || unmixed) && h!=m.end() && h->second==object_hash(cell);
 }
 bool matches_run(const Annotation& cell,const FluorescenceCellRun& run){return intact(cell) && member(cell,"fluorescence.recipe")==recipe(run) && member(cell,"fluorescence.run_sha256")==run.sha256() && member(cell,"fluorescence.input_sha256")==run.input_sha256() && member(cell,"fluorescence.recipe_sha256")==run.raster().recipe_sha256;}
 std::shared_ptr<const ObjectProperties> properties(const FluorescenceCellRun& run,std::size_t index) {
     const auto& cell=run.raster().measurements.at(index);const auto& selection=run.region();std::map<std::string,std::string> meta{
-        {"fluorescence.profile",run.correction_record().empty()?profile:corrected_profile},{"fluorescence.recipe",recipe(run)},{"fluorescence.run_sha256",run.sha256()},{"fluorescence.input_sha256",run.input_sha256()},
+        {"fluorescence.profile",!run.unmix_record().empty()?unmixed_profile:run.correction_record().empty()?profile:corrected_profile},{"fluorescence.recipe",recipe(run)},{"fluorescence.run_sha256",run.sha256()},{"fluorescence.input_sha256",run.input_sha256()},
         {"fluorescence.recipe_sha256",run.raster().recipe_sha256},{"fluorescence.label",integer(cell.label)},{"fluorescence.measurement_domain",run.measurement_domain()},
         {"fluorescence.coordinate_frame","image-level-zero-pixels"},{"fluorescence.nucleus_boundary",run.raster().boundaries[index].nucleus?"true":"false"},{"fluorescence.cell_boundary",run.raster().boundaries[index].cell?"true":"false"},
         {"fluorescence.cytoplasm",cell.cytoplasm?"present":"absent"}};
     if(!run.correction_record().empty())meta["fluorescence.correction_record"]=run.correction_record();
+    if(!run.unmix_record().empty())meta["fluorescence.unmix_record"]=run.unmix_record();
     for(std::uint32_t c=0;c<selection.channels;++c)meta["fluorescence.C"+integer(selection.first_channel+c)+".name"]=run.source_metadata().channel_names.at(selection.first_channel+c);
     std::map<std::string,double> values;
     const auto compartment=[&](const char* name,const RawCellCompartment& c){const std::string prefix=std::string("fluorescence.")+name+".";values[prefix+"pixels"]=double(c.pixels);values[prefix+"valid_pixels"]=double(c.valid_pixels);
@@ -161,6 +166,10 @@ bool verify_fluorescence_cell_record(const Document& doc,const std::string& id,c
 bool fluorescence_cells_reference_correction(const Document& doc,const std::string& id){
     for(const auto& [object,cell]:doc.objects()){if(!cell.properties)continue;const auto& meta=cell.properties->metadata();const auto ref=meta.find("fluorescence.correction_record");if(ref!=meta.end() && ref->second==id)return true;}
     for(const auto& [key,value]:records(doc)){const auto saved=record(key,value);if(Recipe(saved.recipe).correction==id)return true;}return false;
+}
+bool fluorescence_cells_reference_unmix(const Document& doc,const std::string& id){
+    for(const auto& [object,cell]:doc.objects()){if(!cell.properties)continue;const auto& meta=cell.properties->metadata();const auto ref=meta.find("fluorescence.unmix_record");if(ref!=meta.end() && ref->second==id)return true;}
+    for(const auto& [key,value]:records(doc)){const auto saved=record(key,value);if(Recipe(saved.recipe).unmix==id)return true;}return false;
 }
 void remove_fluorescence_cell_record(Document& doc,const std::string& id){auto all=records(doc);const auto p=all.find(id);if(p==all.end())throw std::out_of_range("Fluorescence record not found");record(id,p->second);all.erase(p);auto values=doc.image_data_properties()->values();if(all.empty())values.erase(records_key);else values[records_key]=V{std::move(all)};doc.set_image_data_properties(std::make_shared<const ImageDataProperties>(std::move(values)));}
 }

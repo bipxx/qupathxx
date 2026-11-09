@@ -1048,3 +1048,68 @@ build. A redundant read-only corrected verification in the actual runner was
 unnecessary; future callers can reuse its returned parent ID. F04 remains open
 for native derived cell/marker integration and desktop authoring/preview/selection.
 Overall stays10/22 complete,12 pending.
+
+
+## F04 native unmixed cells, recipe-scoped markers and CLI
+
+Cell requests now consume explicitly retained `LinearUnmixRequest` sources while
+using original measured-channel authority for source/ROI capture. Component and
+residual output selection is validated against derived axes, including outputs
+beyond the measured channel count. A channel-specific ROI plane refuses rather
+than being interpreted as a component plane. Existing segmentation, compartments,
+contours, native jobs and atomic publication are reused. Version3 input/cell/run
+records identify the unmix recipe; original/corrected versions1/2 keep their
+existing paths. Publications preserve output names and signed measurements.
+
+The independent15x9 synthetic two-channel TIFF has measured values i and i+100.
+Explicit matrix rows [1,-0],[2,1] recover DNA=i and Marker=100-i. Within the
+selected ROI, threshold100.5 gives14 nucleus/27 body pixels, DNA nucleus sum1541,
+Marker nucleus sum-141, body mean-2 and cytoplasm sum87/mean87/13. Explicit dark/
+flat fields produce DNA=i-10 with threshold90.5 and nucleus sum1401; Marker and
+geometry remain the same. These thresholds have a margin from integer samples
+so tiny SVD rounding at an exact decision boundary is not confused with measurement
+correctness. Numeric oracles use1e-11 relative tolerance with absolute floor1.
+Residuals, component reorder/subsets and exact saved same-backend run replay pass.
+
+Unmixed marker rules require `unmix_record`, binding component meanings to one
+retained recipe. Version2 typed/JSON rules add the scope; legacy original/corrected
+rules remain version1. Native cohorts omit intact other recipes but retain
+corrupt/unknown matching-domain facts so capture refuses them. Wrong domain/order/
+recipe refuses; absent scalars remain Unknown. Keep/Apply/Undo and exact project
+rule/result replay pass. A retained marker rule also prevents unmix recipe removal;
+cell/run references protect it independently, and its parent correction stays
+protected. Capture/verify check stored associations without rereading pixels.
+
+Additional checks cover missing associations, stale native-job owner delivery,
+record/geometry/fact integrity, empty records, one-command Undo/Redo, work and
+cancellation, explicit output axes, and changed correction fields. Both routes
+are established current before intentionally mutating a field, isolating the
+stale guard. Scalar capture caches immutable scope properties; default marker
+requests skip that optional snapshot. Other-recipe integrity hashing is charged
+to the cohort work budget before allocation.
+
+The first affected build and8 native/CLI suites pass in1.92s
+(`f04-native/cells-build.log`, `cells-ctest.log`). Review then identified the
+cohort integrity temporary-work charge and added job-delivery coverage. The
+changed marker/unmixed consumers and actual batch build pass, with2 affected
+suites in0.58s (`cells-scope-build.log`, `cells-scope-ctest.log`). Reuse the first
+unchanged segmentation/object/corrected/recipe checks; no repeated pilot or full
+qualification. No product build/test failure or assertion relaxation occurred.
+
+A native handoff driver leaves valid synthetic projects/fields before intentional
+stale mutations. Full CTest retains all guards. The driver and actual batch
+verify, recipe-scoped marker preview, unmixed detect/save/replay and marker Apply
+all pass from System32 with Windows-only PATH. Reported run and marker identities
+match native expectations; project/TIFF/JSON inputs are byte-unchanged. One actual
+CLI replay of the retained real F01 project still produces118 cells and exact
+run4deb4bb86e9bb65fe6aae3ead3a83ab89878a7edee488ab53e1f92dbf95bb67a.
+Commands, executable hashes, results and unchanged input hashes are in workspace-
+root `build/feature-expansion/f04-cells-handoff/results.json`; valid saved results
+remain there. This is engineering/native consumer evidence, not new biological
+accuracy, superiority or universal speed acceptance.
+
+No new dependency/data/model, GUI/bindings build or package. F04 remains open for
+desktop matrix authoring/loading/preview, explicit unmix/original/corrected source
+selection and marker recipe-scope controls. Settle those private controller/test
+interfaces before a combined GUI build, preserving independent layout work and
+the default source routes. Overall stays10/22 complete,12 pending.

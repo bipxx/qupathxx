@@ -2727,3 +2727,75 @@ domains. Reuse existing segmentation, compartments, jobs and publication, with
 independent signed component moments and exact project replay. Do not relabel
 components as original channels or start a second algorithm. F04 stays unchecked,
 10/22 complete,12 pending.
+
+### F04 native unmixed cells and recipe-scoped marker rules
+
+Changed inputs: source-bound cell capture now accepts retained native unmix
+requests, selecting component/residual axes independently of measured-channel
+source authority. Require channel-independent ROI planes; reuse segmentation,
+compartments, contours/jobs and publication. Add distinct unmix references and
+version3 run/cell provenance while preserving original/corrected hash/recipe
+paths. Refuse unmix deletion while cells, run records or retained marker rules
+reference it; parent correction protection remains transitive.
+
+Unmixed marker rules require a recipe identity because C1 can mean different
+components for different matrices/orders. Version2 typed/JSON rules add that
+scope; legacy rules remain version1 with unchanged encoding. Cohorts exclude
+intact other recipes, but preserve corrupt/unknown matching-domain publications
+for explicit refusal. Native capture/verification checks scoped metadata without
+rereading pixels; cache unchanged immutable properties and skip the new optional
+metadata path on default requests. CLI detection adds explicit --unmix, mutually
+exclusive with --correction, and protects parent field outputs. Marker CLI uses
+the shared rule-scoped cohort helper. No second scientific algorithm or Python
+implementation. An edit guard caught pointer-style selector spelling before a
+CLI edit; inspect the actual source and apply the remaining edit, no build retry.
+
+Decisive check: independent14 nucleus/27 body geometry, DNA sum1541(original)
+and1401(corrected), signed Marker nucleus sum-141/body mean-2/cytoplasm sum87,
+residuals and reordered/output-only axes; exact record/cell/project/marker replay,
+Unknown samples, wrong recipe/order, orphan/corrupt/reference/Undo, work/cancel
+and stale-field guards. Native/CLI equal-result and output protection checks plus
+one retained real F01 digest protect legacy identity. Settle these interfaces
+before one cached affected native build; defer GUI qualification to the combined
+F04 desktop controls. No bindings/package/new data or repeated biological pilot.
+
+First affected build and all8 native/CLI suites pass in1.92s, including legacy
+original/corrected routes. Review found a concrete work-accounting edge: excluding
+other unmix recipes hashes their geometry to ensure corrupt publications are not
+hidden, so admit that temporary workspace before integrity checks and pass the
+CLI work budget to the cohort helper. Add native job stale-association delivery
+and establish both routes current before the deliberate field-mutation check.
+Rebuild only affected marker/unmixed consumers and actual CLI; rerun their tests,
+reusing the already passing unchanged segmentation/recipe regression suites.
+No failed build/test, relaxed assertion or repeat biological campaign.
+
+Final native/CLI checks pass: first8 suites1.92s; after cohort work accounting and
+job-stale coverage, changed2 suites0.58s. Native handoff driver and actual batch
+verify/scoped marker preview/unmixed detect-save-replay/marker Apply all exit0
+from System32 with Windows-only PATH. Run/marker identities match native
+expectations and input hashes stay unchanged. One retained real F01 replay keeps
+exact run4deb4bb86e9bb65fe6aae3ead3a83ab89878a7edee488ab53e1f92dbf95bb67a
+and118 cells. Receipt: f04-cells-handoff/results.json; valid synthetic projects
+and fields remain reviewable. No new scientific/performance claim.
+
+Waste review: reuse existing kernels/jobs/publication, store one source reference,
+leave legacy identity paths unchanged and bind marker meaning to a recipe rather
+than inferring component meaning from C indices. Cache optional scope metadata;
+only hash other recipes when needed to exclude intact publications and admit
+that temporary work first. Reuse passing native/regression evidence after the
+small scope-helper change. No build/test failure, bindings, package, new external
+material or repeated biological campaign. Update help alongside consumer edits
+before the build; the late help-line fix was included by the final batch target.
+
+Next F04 desktop: settle private matrix tool and fluorescence/marker controller
+test interfaces before a combined GUI build. Use bounded native JSON/file IO and
+prepared model/source services, preserve explicit matrix orientation/channel
+labels/domain/condition, signed component/residual preview, retained-source Load/
+Keep/Remove/Undo and exact saved replay. Select original/corrected/unmixed sources
+explicitly; preserve the existing correction/default action semantics. Marker
+controls need all three domains and retained unmix recipe scope, using the native
+rule cohort helper. Open fields/read previews asynchronously and keep owner
+Document capture separate; do not factor/hash/parse recipes per frame. Preserve
+public GUI Pimpl layouts and independent UI edits. Existing wheels/SDK remain
+frozen; changed native interfaces get matching optional bindings/SDK at their
+settled P01 batch. F04 remains unchecked:10/22 complete,12 pending.

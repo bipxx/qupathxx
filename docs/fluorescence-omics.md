@@ -755,9 +755,9 @@ coefficient bits and condition once per model. Source identity is now explicitly
 `qpx.linear-unmixed-samples/1`. Historical foundation receipts using source schema1
 precede retained project support. Original TIFF/F03 identities remain unchanged.
 
-Derived cell/marker integration and desktop controls remain pending under F04.
-No estimated spectra, pretrained model, new external material or nonlinear
-unmixing is included.
+Native derived cell/marker integration is described below; desktop unmixing
+controls remain pending under F04. No estimated spectra, pretrained model, new
+external material or nonlinear unmixing is included.
 
 
 ## Retaining and verifying unmixing with the native CLI
@@ -807,3 +807,52 @@ JSON reports include record, matrix/operator/source identities, algorithm, domai
 and parent reference. The matrix is retained by value, so later replay does not
 require the authoring JSON file. Missing/changed source fields, incompatible domains
 and stale identities refuse. Cancellation returns130.
+
+
+## Native unmixed cell measurements and marker rules
+
+Pass an explicitly retained `LinearUnmixRequest` to `FluorescenceCellRequest`.
+The selected first channel/count and segmentation channel refer to the derived
+component/residual axes. The segmentation index is relative to that output block;
+published C indices are absolute derived output indices. Component names are
+stored alongside measurements. Source authority remains bound to the original
+measured image and the retained unmixing recipe. ROI planes must use c=-1 because
+a measured-channel-specific ROI has no automatic component meaning. Z/T, geometry,
+calibration, context, work limits and source/currentness guards remain explicit.
+
+Signed Float64 output flows through the same segmentation, compartment reduction,
+contours, native jobs and atomic publication as original/corrected sources. No
+component is relabeled as an original-channel value. Version3 cell/run recipes
+retain `unmix_record`; the measurement domain is `qpx.linear-unmixed-samples/1`
+and published profile is `qpx.fluorescence-cell-publication/3`. Missing/changed
+recipes refuse replay and stale pending results cannot publish. Cell/run records
+and retained marker rules prevent deleting their unmix recipe; that recipe in
+turn protects a referenced correction. Original/corrected recipes remain versions1/2.
+
+```text
+qupathxx_batch --detect-fluorescence input.qpx cells.qpx --image 1 --roi 1 --unmix UNMIX_SHA256 --channels 2 --threshold 100.5
+qupathxx_batch --verify-fluorescence cells.qpx --image 1 --record RUN_RECORD_SHA256
+```
+
+`--unmix` and `--correction` are mutually exclusive. A retained unmix recipe may
+already include a correction; do not select it twice. Thresholds use the selected
+component units. Native matrix/SVD arithmetic can differ slightly at a threshold
+exactly on a sample value; choose scientifically intended thresholds rather than
+assuming mathematically equivalent transforms make boundary decisions identical.
+
+An unmixed `MarkerRule` uses domain `qpx.linear-unmixed-samples/1` and requires
+`unmix_record` to select exactly one retained recipe. Version2 typed/JSON rules
+add that field; legacy original/corrected rules retain version1 encoding and hashes.
+Gate C indices refer to that recipe's derived outputs. `marker_cell_ids_for_rule`
+selects its cohort, using the caller's4..512MiB work budget for temporary integrity
+checks. Intact other recipes are excluded; corrupt/unknown matching-domain facts
+remain for explicit capture refusal. Missing scalar observations stay Unknown.
+Marker capture verifies stored facts and associations without rereading pixels.
+
+Set the JSON schema to `qpx.marker-rule/2`, domain as above and add
+`"unmix_record": "UNMIX_SHA256"` to the existing marker-rule fields. Native marker
+CLI `--all-cells` uses the recipe-scoped cohort. Marker Preview/Apply/Undo and
+retained rule replay use the existing scalar evaluator/classification commands.
+A matching index from another matrix/order is never accepted as the same component.
+Desktop matrix/selection and marker-scope controls are the remaining F04 consumer
+work; native services/CLI do not establish their completion.
