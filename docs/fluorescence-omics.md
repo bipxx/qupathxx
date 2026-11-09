@@ -900,3 +900,28 @@ F04 covers explicit full-column-rank linear systems, signed components/residuals
 and the documented native-TIFF saved-source subset. Automatic spectrum fitting,
 nonlinear/learned unmixing and model downloads are outside this contract. The
 feature-expansion receipt records the source-scoped numerical and desktop checks.
+
+
+## Native disk-backed expression foundation
+
+`qupathxx/expression_matrix.hpp` provides import_expression_matrix and
+open_expression_matrix in native project/SQLite builds. Import preserves exact
+uint64 counts, stable unique IDs and explicit zeros in a new-only indexed sidecar.
+Choose Qpx headered single-column axes or the explicit Tenx headerless features/
+barcodes profile. Positions require a separate association, never an inferred
+join by catalogue order. Duplicate coordinates refuse rather than sum.
+
+Retain the immutable ExpressionMatrixSource after opening, supplying an expected
+file digest when known. Page catalogues, resolve exact IDs and read explicit
+feature indices with an optional sorted observation cohort. Null cohort means all;
+empty cohort returns no values. Sparse offsets group requested features in order,
+using global observation indices; absent entries are measured zeros. Counts never
+pass through double. Reads verify selected gene chunks, not other genes or the
+original text. Set work/file/store bounds and native cancellation. Changed files
+and SQLite writer sidecars refuse queries. Exact relocation retains identity.
+
+The full retained mouse-brain source passes native import/query/reopen and exact
+independent six-gene checks; see the feature-expansion receipt. This is a native
+foundation: project-owned/relative associations, relink, backed import UI and gene
+display remain pending D01. Old selected-gene projects require no migration.
+Python exposure waits for the settled API batch. No proprietary/NC material added.

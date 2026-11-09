@@ -3,6 +3,7 @@
 #include "qupathxx/object_plane.hpp"
 #include "qupathxx/workflow.hpp"
 #include "sha256.hpp"
+#include "spatial_count_text.hpp"
 #include "utf8_text.hpp"
 #include <algorithm>
 #include <charconv>
@@ -20,20 +21,8 @@ struct Budget {
     std::size_t used=0,limit;
     void charge(std::size_t bytes) {workflow_capture_charge(used,bytes,limit);}
 };
-std::string identifier(std::string_view text) {
-    std::string value(text);
-    detail::bounded_utf8(value,256);
-    if(value.empty() || value.find_first_of("\t\r\n")!=std::string::npos)
-        throw std::invalid_argument("Empty or invalid spatial-count identifier");
-    return value;
-}
-std::uint64_t integer(std::string_view text) {
-    std::uint64_t value=0;
-    const auto p=std::from_chars(text.data(),text.data()+text.size(),value);
-    if(text.empty() || p.ec!=std::errc{} || p.ptr!=text.data()+text.size())
-        throw std::invalid_argument("Expected unsigned spatial-count integer");
-    return value;
-}
+std::string identifier(std::string_view text) {return detail::spatial_identifier(text);}
+std::uint64_t integer(std::string_view text) {return detail::spatial_unsigned(text);}
 double coordinate(std::string_view text) {
     double value=0;
     const auto p=std::from_chars(text.data(),text.data()+text.size(),value);

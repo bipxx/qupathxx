@@ -1169,3 +1169,72 @@ saved-native-TIFF source contract. No new dependency/data/model, bindings, packa
 biological campaign or speed claim. Overall11/22 complete,11 pending. Next D01:
 bounded disk-backed expression queries using the existing full sparse source and
 native import services. Final L01 membership and SDK/release remain open.
+
+
+## D01 native indexed expression foundation
+
+Native ExpressionMatrixSource and streaming Matrix Market/axis import reuse
+pinned SQLite3.54.1. STRICT sparse tables index (feature, observation); counts use
+uint64 eight-byte blobs, never doubles or signed SQLite counts. IDs are unique;
+display symbols may repeat. Qpx headered single-column axes and explicit Tenx
+headerless ID/name/type plus barcode profiles remain separate. Existing selected-
+gene parser contracts and identities are preserved.
+
+Inputs stream once in64KiB blocks with bounded lines. Private staging commits
+before bounded sequential atomic-export copy publishes a new-only sidecar.
+Failure/cancellation cannot advertise incomplete output. Source identity binds
+input/profile manifest and exact store bytes; per-gene integrity covers canonical
+entries and axes. Opening fingerprints the store and compares any supplied
+expected digest. Queries guard versions and verify full selected gene chunks
+before cohort filtering; they scan no other gene and never revisit original text.
+Catalogues are paged; immutable sources use separate per-query connections.
+Accounted work includes buffers/cache reservations, not process RSS.
+
+Workspace-root build/feature-expansion/d01-native/build-r3.log completes the native
+build. ctest-r3.log passes expression_matrix in0.42s; earlier ctest.log retains
+passing existing expression and spatial_counts suites. New coverage includes
+unsorted sparse/cohort/explicit and implicit zeros,2^53+1 and uint64-max, IDs/pages,
+work/store bounds, malformed/duplicate/truncated data, cancellation, atomic output,
+corruption, WAL refusal, changed versions and exact relocation/reopen with text
+inputs offline. No failed assertion was dropped. ctest.log/ctest-r2.log preserve
+two observer failures: cached pages hid staged-file growth, then Windows sharing
+blocked the attempted write. The repaired watcher proves it fired. Explicitly
+denied writes must preserve input and yield a complete stable snapshot; actual
+changes and cancellation refuse publication. Linux CI includes this suite; no
+local Linux pass is claimed.
+
+The retained CC BY4.0 10x V1_Adult_Mouse_Brain source from
+[the existing demo receipt](../real-data-demo/README.md) was reused, without new
+downloads or restricted material. Workspace-root build/feature-expansion/d01-real/
+contains real.json, results.json, stdout/stderr and mouse-brain.qmx. Native execution
+from System32 with Windows-only PATH exits0. Orchestration only captures native
+reports and hashes inputs; before/after matrix/features/barcodes hashes agree.
+An environment-key casing setup error occurred before native launch; its corrected
+run is the sole full import.
+
+| Observation | Actual result |
+| --- | --- |
+| Matrix source bytes |197229475 |
+| Features / observations / entries |32285 /2702 /16031101 |
+| Store bytes |354279424 |
+| Import elapsed, this host/run |40426.1ms |
+| Peak accounted work,256MiB request |139078440 bytes |
+| Independent six-gene comparison |All2702x6 counts exact;14550 nonzeros |
+| Additional gene |ENSMUSG00000051951; exact result after reopen |
+
+Store SHA256:
+`79f407bf9b0810f417410961dd79db6a6ce1ff8999e085d1ef8f7865eaca7401`.
+Public source SHA256:
+`77b62ca7dbeb474a6df7a0cc1af9884c3a72069f15e677d145455e66ef2cf044`.
+Additional gene block SHA256:
+`740e8ed8202c8a188533f687a486925a2570570347e5c998a9ff27685b9872b6`.
+results.json binds executable and all three input hashes. The store is a lossless
+index derived from those admitted counts/axes; retain CC BY4.0 attribution and
+source lineage for any later distribution. This is local evidence, not a newly
+bundled fixture; final actual staging membership remains L01/P02.
+
+No QuPath speed, biological, process-RSS, GUI, installed SDK or binding acceptance
+is claimed. D01 stays unchecked for project-relative/owned associations, verified
+project relink and backed import/gene consumers:11/22 complete,11 pending. No GUI,
+binding/package build or repeated fluorescence campaign. Next settle project and
+gene-view request contracts before the affected consumer build.

@@ -2880,3 +2880,109 @@ contracts before thin consumers; prove unprojected gene reads/reopen without
 rescanning or densifying the source. Settle native/consumer/test interfaces before
 an affected cached build. Preserve independent UI edits and restricted-material
 separation; final L01/P01/P02 remain open.
+
+### D01 foundation: native streaming indexed expression storage
+
+Changed inputs: bounded ExpressionMatrixSource API, native Matrix Market/axis
+stream importer, SQLite gene-oriented store and paged catalogue/sparse cohort
+reads. Reuse existing pinned SQLite, native file guards/hash/atomic export and
+shared integer/identifier lexical checks; preserve selected-gene parser limits
+and identities. Qpx headered one-column axes and explicit Tenx ID/name/type plus
+barcode TSV are separate declared profiles. Stable IDs need not have unique
+display symbols. No guessed coordinates or new reader/dependency/material.
+
+Stream each original input once with64KiB buffers and bounded4096-byte lines.
+Keep uint64 counts as eight-byte blobs; reject duplicate coordinates rather than
+summing or converting through double. Private staging may discard on any error;
+only a completed, flushed new-only sidecar is published using existing atomic
+export. Its source identity binds input/profile manifest and exact sidecar bytes;
+per-gene hashes cover sorted original entries/axis identity. Full source metadata
+is paged, not loaded eagerly. Cohort reads verify each selected sparse gene before
+filtering, never scanning other genes or allocating a full dense matrix. Query
+file versions and refuse SQLite sidecars; hash a store once on open/verified
+relink, then retain an immutable source for indexed reads without original text.
+
+Decisive checks: independent unsorted sparse/cohort/zero values,2^53+1/uint64-max
+precision, stable repeated-symbol IDs, bounds/type/chunk/digest corruption,
+input-offline reopen and exact relocated identity; malformed/truncated/duplicate
+inputs, cancellation/stale input during staging, byte/work limits and no partial
+publication/leaked private staging. Affected existing spatial/expression tests
+protect lexical/default compatibility. Then one native real197229475-byte,
+32285-feature/2702-observation/16031101-entry import: every retained six-gene count
+must match the independent prior projection, plus an unprojected gene read/reopen.
+Actual real source and admitted SQLite already exist; C/D have ample verified
+free space, so do not redownload. Record bounded-work/store/import observations
+without a universal speed/RSS claim. No GUI/bindings/package or science sweep.
+
+D01 stays open for project-relative/owned associations, verified relink and
+backed import/gene-view consumers after this native contract settles. Current
+canonical count remains11/22 complete. Next build affected native targets once
+in the shared cache after checking live owners; preserve independent UI edits.
+
+First native build succeeds. Existing spatial/expression suites pass; the new
+suite reaches its source-change interruption case but the observer never mutates
+the input (failed fixture has unchanged final bytes). Waiting for staged SQLite
+file growth misses the short final commit/copy window because pages stay cached.
+Preserve ctest.log and expression-matrix-2243487946275800. Start the watcher
+before import, observe private staging creation instead, verify its write and
+assert it fired. Assertions remain strict: actual cancellation/source change must
+refuse and leave no published store. Rebuild only the test and rerun its suite;
+reuse the unchanged passing spatial/expression results. No product repair indicated.
+
+The corrected observer fires, but its write is denied by the actual Windows
+ReaderFileGuard (FILE_SHARE_READ only). This is a protected unchanged input, not
+a stale import; preserve ctest-r2.log. Use a native append attempt and distinguish
+ERROR_SHARING_VIOLATION from a successful mutation. A blocked write must preserve
+input bytes and publish an exact complete snapshot; actual changes/cancellation
+must refuse with no output. Verify the action fired in both cases. POSIX still
+exercises actual mutation. Translate ReaderFileGuard version failures into the
+workflow's typed stale error. No weakened invariant, sleep-based workaround or
+platform-wide rerun; rebuild affected new source/test only.
+
+
+### Planning refresh: remaining features and material separation
+
+Owner requests a plan covering the outstanding features while keeping proprietary
+and NC material separate. The canonical feature-expansion plan retains22 items,
+11 complete/11 pending, and its ordered remaining-item/API/acceptance breakdown.
+Replace obsolete delivered F01/F02 execution instructions with D01's actual next
+slices: inspect current build evidence, affected native acceptance, one retained
+full-source proof, project association/relink, then backed import/gene consumers.
+The uncommitted native foundation alone does not close D01. Preserve concurrent
+UI edits and completed science evidence.
+
+Proprietary, NC/research-only and unreviewed references retain distinct registers
+and external pools. No restricted downloads, adapters, build paths, training,
+fixtures or open-release acceptance are authorized; derivatives retain source
+lineage. Incremental admission belongs to each consuming packet, final staged
+membership to L01/P02. No new pool, dependency or runtime licensing gate.
+
+Waste review: removed stale delivered execution instructions instead of adding a
+second checklist. Documentation-only change: diff/link/count checks, no build,
+package or repeated scientific campaign. Next implementation remains D01 under
+its existing native current card; this planning refresh claims no new test pass.
+
+
+### D01 native foundation acceptance and next association slice
+
+Third native build completes; expression_matrix passes0.42s (ctest-r3.log).
+Reuse unchanged passing expression/spatial suites. One full native run exits0
+from System32 with Windows-only PATH:32285 genes,2702 observations,16031101 entries;
+all2702x6 prior counts equal,14550 nonzeros, and an unprojected gene reopens exactly.
+Store354279424 bytes; import40426.1ms; peak accounted139078440 bytes under256MiB.
+Input hashes before/after agree. d01-real/real.json and results.json plus the
+shared feature-expansion receipt hold evidence. No speed/RSS or GUI claim.
+
+Waste review: observer proves action and distinguishes Windows-denied writes
+from mutations. Full-run orchestration first failed on copied environment-key
+casing before native launch; corrected run imports once. A documentation script
+needed explicit UTF-8 for Windows; retry preserved the already changed header.
+Preserve failures and reuse fixtures/passing tests; no GUI/bindings/package or
+restricted inputs. Header now distinguishes fingerprinting from expected-hash
+comparison. No further product rebuild for this documentation change.
+
+D01 stays unchecked;11/22 complete. Next settle typed project-relative/owned
+expression associations and verified relink through existing project commands,
+stable axis IDs and explicit optional coordinate joins. Then connect backed import
+and gene selection with paged reads and existing jobs. Preserve old selected-gene
+projects and independent UI edits; settle contracts before one affected build.

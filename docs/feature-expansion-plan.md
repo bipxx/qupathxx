@@ -135,74 +135,43 @@ No calendar or speed-superiority estimate is asserted before measured work.
 
 ## Next execution slices and shared API boundaries
 
-F01 closeout steps below now have source-scoped evidence. The original pilot
-failed object F1; the separately train-selected sigma2px/prominence0.5px recipe
-passes unchanged gates, and every selected real cell survives publication and
-save/reopen. Preserve both reports and disclose validation reuse. F02 now consumes
-these native measurements; do not reopen the completed segmentation,
-GUI or persistence mechanisms. The following records the delivered F01 route:
+D01 is the next outcome. Its native importer/source foundation exists in the
+working tree; it is not yet a completed project workflow. Do not recreate it or
+count implementation alone as acceptance. Execute these slices in order:
 
-1. Freeze the native request/run/contour/publication and record APIs already
-   implemented. Reuse their capture/currentness checks, one-command publication,
-   zero-cell record retention and cohort verification. Keep the existing explicit
-   GEOS capability error; no Python geometry fallback.
-2. Add a native CLI recipe route over those APIs: select source/series, original
-   channel block, Z/T, core/ROI, threshold policy, calibrated expansion and work
-   budget; report counts, boundary flags and output identities. Save results only
-   through existing project commands. CLI code maps arguments and reports errors.
-3. Add the corresponding desktop tool over the same native job: choose channels
-   and plane, preview, run/cancel, inspect compartments, keep cells or a zero-cell
-   record, and replay. Refuse stale results before Keep. Batch verification must
-   not repeat source/file checks for each cell. Keep this within the current
-   workflow navigation instead of creating another application shell.
-4. Before evaluating the admitted BBBC039 panel, document annotation-channel and
-   border conventions, matching/overlap rules, split/merge measures and acceptable
-   tolerances. Decode the existing RGBA annotation explicitly; do not relax the
-   unrelated NuCLS decoder. Preserve first results and parameters; an unmet target
-   remains visible rather than being hidden by post-hoc tolerance changes.
-5. Check raw-domain measurements, ROI/context boundaries, consumer cancellation,
-   atomic keep/undo and exact save/reopen replay with affected tests. Reuse passing
-   kernel/geometry evidence. Close F01 only after its declared acceptance passes;
-   whole-slide tile/resume acceptance remains D02, not a duplicate F01 campaign.
+1. **Finish the storage trust boundary.** Inspect the existing build/session result,
+   then run the affected matrix suite after the diagnosed Windows watcher repair.
+   Reuse passing unchanged expression/spatial tests. Prove exact uint64 values,
+   sparse selection, bounded work, corruption refusal, cancellation and atomic
+   publication. A Windows-denied mutation must leave unchanged input and a valid
+   snapshot; a permitted mutation must refuse publication.
+2. **Prove the full retained source.** Use the already admitted197MB mouse-brain
+   matrix once. Compare every count in the independent six-gene projection and
+   query an additional gene, then reopen with original text unavailable. Record
+   store size, accounted work, import time and source/store identities. Accounted
+   work is not process RSS; this is not a QuPath speed comparison. Preserve failed
+   attempts and diagnose them before retrying; do not redownload or densify.
+3. **Finish project ownership and relink.** Add typed project associations for the
+   sidecar, axis IDs and any explicitly joined coordinates/frame. Support relative
+   external paths and owned copies through existing project commands. Verify exact
+   bytes before relink, refuse incompatible stores and missing sources, and retain
+   old selected-gene projects without forced migration. Keep count storage usable
+   without spatial coordinates; never invent a positional join.
+4. **Connect the existing consumers.** Extend the import preview and gene-view
+   controllers to use paged catalogues and indexed native reads. Cache the opened
+   immutable source, cancel/coalesce obsolete gene requests and refuse stale owner
+   delivery. UI/CLI choose IDs and report native values; no second parser or query
+   implementation. Check import, previously unprojected gene switching, legend,
+   save/reopen/relink and undo where project associations change. Reuse native
+   numerical evidence rather than repeating it through each frontend.
+5. **Close only D01.** Link the complete native/project/consumer result in the
+   existing receipt and tick its canonical checkbox. Until then the total remains
+   11/22. Record waste and the next D02 slice in current-task; no binding/package
+   build for this intermediate foundation. Preserve independent UI work.
 
-Then follow the remaining packet table: D01 → D02 → O01/O02 →
-A01/A02 → A03/A04 → P01/P02. This is a dependency order, not permission to run
-several implementations concurrently. Complete each reader separately. If A04's
-open replicated fixture is unavailable, retain that explicit gap and progress
-independent SDK work; P02 cannot claim A04 acceptance while it remains open.
-Complete L01 incrementally at each actual dependency/fixture addition, with final
-source/package membership checked once at P02.
-
-### Delivered packet: F02 desktop integration
-
-1. Add a private compiled marker-rule panel reachable from the fluorescence tool.
-   Reuse native rule, JSON IO, cohort and publication services; avoid public
-   Document/GuiOptions layout changes or another application shell. Settle the
-   panel/test interface before the affected cached build.
-2. Provide gate editing, rule-file loading and saved-rule selection, explicit
-   all-fluorescence-cell versus selected-cell scope, preview counts/cohorts and
-   proposed classes. Preserve loaded nested AND/OR graphs; do not silently flatten
-   them when editing a gate. Rebuilding the combination must be explicit.
-3. Execute previews on owned native snapshots. Keep pending owner-thread delivery
-   busy until consumed; cancel/invalidate on input changes. Apply through the
-   existing compound classification command and expose Undo. Saving a recipe and
-   applying classes retain their existing, distinct undo semantics.
-4. After Apply, retain the displayed result using the native publication check,
-   rather than the intentionally stale pre-Apply revisions. Recheck expensive
-   observation integrity on relevant document changes, not on every frame.
-   Historical results do not authorize Apply to a replacement document.
-5. Run one focused native ImGui workflow check covering load/edit, Unknown counts,
-   preview/Apply/Undo, stale refusal and saved-rule replay. Reuse backend/CLI
-   numeric evidence; use the admitted118-cell project for the desktop handoff.
-   Confirm source bytes remain unchanged and the standalone route needs no Python.
-6. Completion is linked in the existing receipt: native panel actions, exact
-   saved replay and the admitted118-cell desktop workflow pass. F03 and F04 are
-   also delivered under their own contracts. Continue D01 using the remaining
-   packet table; retain failures/corrections and waste notes in the current card.
-
-No binding rebuild, new dataset/model download, broad segmentation rerun or
-release package is required for this desktop packet. Subsequent packets use the
-native-first boundaries below and their individual completion checks above.
+Delivered F01-F04 instructions are retained through their checklist progress and
+source-scoped receipt; they are not execution steps to repeat. The remaining
+11-item breakdown below owns subsequent order and completion boundaries.
 
 Use these API boundaries for every remaining packet:
 
@@ -218,11 +187,6 @@ Expose optional nanobind controls in one settled API batch before P01/P02;
 standalone native UI/CLI remain usable before that batch. No external credential,
 cloud account or API key is required for these local workflows. Reader subset and
 statistical method limits remain those explicitly listed below.
-
-After each slice, update the existing item progress, single receipt and current
-card with the result, actual waste and next action. Do not add another checklist
-or rebuild/package merely to refresh a status report. This planning revision
-requires document/link checks only.
 
 ## Separation acceptance throughout implementation
 
@@ -496,6 +460,13 @@ and classify actual release inputs under L01. See the existing
   Do not force old selected-gene projects through a migration. Exit: import the
   real197MB source directly, query unprojected genes and reopen without full
   matrix densification; interruption never advertises an incomplete store as valid.
+  Progress: native streaming SQLite import, paged stable-ID catalogues, exact
+  uint64 sparse/cohort reads and source/gene integrity checks pass focused tests.
+  The retained full source imports32285 genes /2702 observations /16031101 entries;
+  all six-gene reference counts agree and an additional gene reopens exactly.
+  Original text can be offline in native fixtures. Foundation only: project
+  associations/owned copies, verified project relink and backed import/gene-view
+  consumers remain open. See the shared receipt.
 - [ ] **D02 — bounded interactive and whole-slide processing.** Reuse tile/cache,
   spatial index, native jobs and generation-based publication. Page/filter metadata,
   bound value/color/decoded-tile caches and coalesce rapid viewport requests.
