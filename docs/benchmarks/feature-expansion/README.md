@@ -661,3 +661,47 @@ material/model download, binding/GUI rebuild or package qualification occurred.
 F02 remains open for thin native CLI/desktop consumers and their selected workflow
 acceptance. Overall completion remains8/22; next wire those consumers, not another
 rule evaluator or observation store.
+
+### F02 native rule IO and CLI continuation
+
+Shared native IO now parses/exports human qpx.marker-rule/1 JSON, loads verified
+files, saves new files and formats typed result counts/cohorts. The existing
+project/JSON capability remains optional; no Python parser or new dependency is
+introduced. Parsing rejects duplicate/unknown keys, unsupported enums/types,
+noninteger indices, invalid graphs and excessive1MiB/depth16 input. Exact logical
+recipe/threshold bit identity survives JSON/file/project round trips.
+
+Native cohort selection includes stamped fluorescence cells across the selected
+image's planes and excludes unrelated cell types; corrupt matching publications
+are retained for capture refusal. Preview/apply/list batch commands use the shared
+marker evaluator. Apply saves a new project with original/rule/image/companion/
+SQLite-sidecar path protection. The owner commit guard checks expected class
+labels and exact unchanged saved observations, permitting revisions changed by
+its own class transaction. Capture and post-publication verification share the
+same input-hash stream. One final verification occurs at the new-project commit
+boundary; no second scalar table or pixel analysis is constructed.
+
+Affected `marker_rules` and `marker_cli` CTest pass2/2 (0.45s total), workspace-root
+`build/feature-expansion/f02-cli-ctest.log`. Tests cover native post-Apply/class-
+change/Undo/rename verification; exact Unicode/negative-zero JSON/file roundtrip;
+strict schema/enum/units/key/index/graph refusal; no file replacement; guard/cancel;
+native all/explicit cohorts; Unknown rather than Negative; actual preview/apply/
+new-project save/reopen/saved-rule replay; protected missing journal/WAL/SHM paths;
+input-byte preservation and bounded-save failure without output. Enabled local
+GEOS exercises source/class integration; without it CI runs IO/list checks only.
+The added target is registered in native-only CI; hosted execution is not claimed.
+
+The actual batch executable passes help/preview/apply/list/saved-rule replay on
+the admitted118-cell native project. A declared illustrative OR rule uses a DNA
+mean threshold1000 and an unmeasured C1:1 Positive,117 Unknown,0 Negative; all118
+class labels are saved and exact replay agrees. These are literal rule outcomes,
+not validated biological phenotypes. Source project, original TIFF and rule-file
+SHA256s are unchanged. Commands/output and identities remain under
+`build/feature-expansion/f02-cli-real/results.json`, with the demonstration rule.
+
+Initial compile stopped at three new test assertions lacking diagnostic strings;
+`f02-cli-build.log` is preserved, with repaired build `f02-cli-build-r2.log`. No
+schema/scientific assertion was weakened. Only affected native core/tests and
+batch built; no binding/GUI/package build or new material download. F02 remains
+unchecked for desktop rule editing/preview/publication/replay controls and their
+selected workflow acceptance. Overall completion remains8/22.

@@ -321,7 +321,9 @@ report the missing real-data acceptance rather than borrowing an NC fixture.
   snapshots, flat gate states/counts/cohorts, exact typed rule storage and existing
   compound classification publication pass focused checks. Unknown stays distinct
   from Negative; no pixels are read. Geometry/raw facts remain intact and saved
-  rules/observations replay exactly after project reopen. CLI/desktop consumers
+  rules/observations replay exactly after project reopen. Strict native JSON
+  IO/reporting, native cohort selection and CLI preview/apply/list now pass,
+  including exact saved replay on the admitted118-cell project. Desktop controls
   and full selected workflow acceptance remain; keep F02 unchecked.
 - [ ] **F03 — dark/flat-field correction.** Add an immutable native derived-channel
   recipe using explicit dark/flat sources and declared normalization. Reuse typed

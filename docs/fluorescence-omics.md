@@ -383,7 +383,7 @@ the actual CLI gives the same run digest. This is one reused validation panel,
 with both original failure and training selection disclosed. It is not an unseen
 held-out study or a guarantee for other markers, tissues or acquisition settings.
 
-## Native marker rules (F02 backend; consumers pending)
+## Native marker rules (desktop controls pending)
 
 [marker_rules.hpp](../cpp/include/qupathxx/marker_rules.hpp) evaluates versioned
 marker gates over intact saved F01 cell observations. It does not reread image
@@ -454,5 +454,73 @@ They preserve unrelated metadata and double bit patterns; malformed schema/units
 graphs or changed stored identities refuse. Keep/remove have their own Undo actions;
 keeping a rule does not invalidate unchanged observation previews. Load the saved
 rule and create a fresh request to replay. Classifications and rules survive
-normal native project Save/reopen. CLI/desktop rule editing/preview controls are
-still pending; F02 remains unchecked in the expansion plan.
+normal native project Save/reopen. The native CLI is available below; desktop
+rule editing/preview controls remain pending, so F02 stays unchecked.
+
+### Marker rule files and native CLI
+
+[marker_rule_io.hpp](../cpp/include/qupathxx/marker_rule_io.hpp) supplies native
+JSON parsing/formatting, stable file load/new-file save and result reporting.
+It uses the existing optional project/JSON capability (`has_marker_rule_io()`),
+without Python. JSON is a human representation of the typed rule; use these
+functions to export it rather than treating raw project metadata as the file
+format. Duplicate/unknown keys, wrong enum names/types, invalid graphs and
+nonfinite thresholds refuse. Input is limited to1MiB and nesting depth16.
+
+A complete single-marker file looks like:
+
+```json
+{
+  "schema": "qpx.marker-rule/1",
+  "name": "DNA example",
+  "domain": "original-channel-samples",
+  "positive_class": "Example high",
+  "negative_class": "Example low",
+  "unknown_class": "Example unknown",
+  "gates": [{
+    "name": "DNA", "channel": 0, "compartment": "nucleus",
+    "statistic": "mean", "comparison": "gt", "units": "source-sample",
+    "threshold": 1000.0, "minimum_finite_samples": 1
+  }],
+  "nodes": [{"operation": "gate", "gate": 0}]
+}
+```
+
+This is a threshold-construction example, not a biological cutoff. Compartments
+are `nucleus`, `cell`, `cytoplasm`; statistics `mean`, `sum`, `min`, `max`,
+`sample_sd`; comparisons `gt`, `ge`, `lt`, `le`. Sums require
+`source-sample-sum`; other statistics require `source-sample`. AND/OR nodes use
+`{"operation":"and","inputs":[0,1]}` or `or`, referencing earlier nodes.
+The last node is the root. All rule/output/gate fields are explicit.
+
+```text
+qupathxx_batch --preview-markers cells.qpx --image 1 --rule-file rule.json --all-cells
+qupathxx_batch --apply-markers cells.qpx classified.qpx --image 1 --rule-file rule.json --all-cells
+qupathxx_batch --list-marker-rules classified.qpx --image 1
+qupathxx_batch --preview-markers classified.qpx --image 1 --rule RULE_SHA256 --all-cells
+```
+
+Choose exactly one `--rule-file` or saved `--rule`, and exactly one `--all-cells`
+or repeated `--cell ID`. `--all-cells` uses `marker_cell_ids` to select stamped
+native fluorescence cells across **all planes in that image**, excluding unrelated
+cell types. Corrupt matching publications stay selected so capture reports the
+problem instead of silently dropping them. Preview reads saved observations and
+writes nothing. JSONL reports input/rule/result identities, root/gate counts,
+positive/negative/unknown cohorts and output class names.
+
+Apply retains the exact rule once and writes a **new** native project; it never
+overwrites the original, rule file, image/companion or protected journal path.
+The owner commit guard uses `verify_marker_rule_publication`: expected class
+labels and unchanged observation content must match, while revisions changed by
+Apply itself are allowed. This historical check does not authorize applying an
+old preview to edited data. Normal preview/apply stale checks still require the
+exact current request/result capture. No duplicate scalar table or pixel re-read
+is needed for the final publication check.
+
+`--work-bytes` controls the marker request; apply additionally accepts
+`--save-snapshot-bytes` and `--project-bytes`. Ctrl+C uses native cancellation;
+exit codes are0 success,1 runtime/data failure,2 command-line errors,130 cancelled.
+Normal project opening retains its own reader work; marker evaluation does not
+remeasure pixels. Saved-rule preview creates fresh authority and reproduces the
+scientific result for the same observations/cohort. Desktop rule controls remain
+pending, so F02 is still open.

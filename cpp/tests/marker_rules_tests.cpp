@@ -72,11 +72,16 @@ void workflow(){
     const auto stored=keep_marker_rule(doc,rule);check(request.matches(doc),"Keeping a rule does not invalidate unchanged observation capture");
     MarkerRuleRequest another(doc,ids,rule);check(another.input_sha256()==request.input_sha256(),"Scientific identity differs from private capture authority");rejects<WorkflowInputChanged>([&]{apply_marker_rule(doc,another,*result);});
     std::atomic<bool> cancelled{true};rejects<WorkflowCancelled>([&]{MarkerRuleRequest stopped(doc,ids,rule,64u*1024*1024,&cancelled);});rejects<WorkflowCancelled>([&]{preview_marker_rule(request,&cancelled);});rejects<WorkflowCancelled>([&]{apply_marker_rule(doc,request,*result,&cancelled);});
+    check(!verify_marker_rule_publication(doc,*result),"Unapplied classes are not a verified publication");
+    check(marker_cell_ids(doc)==ids,"Native all-cell cohort selection");
     check(apply_marker_rule(doc,request,*result)==ids,"Native compound classification reports changed IDs");
+    check(verify_marker_rule_publication(doc,*result),"Post-Apply verification permits own revision changes");
     const auto a=doc.annotation(ids[0]);check(a.class_name==rule.negative_class && a.geometry.equals(geometry) && fluorescence_cell_observations_intact(a) && a.properties->measurements()==raw->measurements() && a.properties->metadata()==raw->metadata(),"Publication preserves geometry and original observations");
     check(a.locked() && !a.color_rgb() && !a.class_probability(),"Existing class policy preserves lock and clears explicit color/probability");doc.undo();check(doc.annotation(ids[0]).class_name.empty() && doc.annotation(ids[1]).class_name.empty() && doc.annotation(ids[0]).properties->equals(*raw),"One undo restores class/edit state for entire cohort");doc.redo();
     const MarkerRuleRequest replay(doc,ids,load_marker_rule(doc,stored));const auto fresh=preview_marker_rule(replay);check(fresh->sha256()==result->sha256() && apply_marker_rule(doc,replay,*fresh).empty(),"Saved exact rule replay is scientific-identical and already-applied classes are a no-op");
+    doc.classify_objects({ids[0]},"Manual override");check(!verify_marker_rule_publication(doc,*result),"Changed class rejects historical publication verification");doc.undo();check(verify_marker_rule_publication(doc,*result),"Undo restores expected class/fact publication");
     doc.rename_annotation(ids[0],"Display name");check(!replay.matches(doc),"Selected edit makes old preview stale");rejects<WorkflowInputChanged>([&]{apply_marker_rule(doc,replay,*fresh);});
+    check(verify_marker_rule_publication(doc,*result),"Cosmetic rename preserves observed publication verification");
     MarkerRuleRequest current(doc,ids,rule);check(preview_marker_rule(current)->sha256()==result->sha256(),"Cosmetic rename does not change observed scientific identity");
     auto changed=doc.annotation(ids[0]).properties->metadata();changed["fluorescence.measurement_domain"]="rgb-preview";doc.set_object_properties(ids[0],std::make_shared<ObjectProperties>(changed,raw->measurements()));rejects<std::invalid_argument>([&]{MarkerRuleRequest bad(doc,ids,rule);});doc.undo();
     doc.update_roi(ids[0],Roi::rectangle({0,0,15,9}));rejects<std::invalid_argument>([&]{MarkerRuleRequest edited(doc,ids,rule);});doc.undo();

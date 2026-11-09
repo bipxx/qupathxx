@@ -7,6 +7,7 @@
 #include "cell_table_cli.hpp"
 #include "spatial_cli.hpp"
 #include "fluorescence_cli.hpp"
+#include "marker_cli.hpp"
 #include "native_workflow_cli.hpp"
 #include "tma_case_cli.hpp"
 #include "qptma_project_cli.hpp"
@@ -52,6 +53,10 @@ int execute(const std::vector<std::string>& args) {
             "         --first-channel N --channels N --segmentation-channel N (relative to block) --z N --time N\n"
             "         --method explicit|otsu --threshold N --sigma N --prominence N --min-area N --max-area N --expansion N --units px|um\n"
             "         --context N --max-cells N --work-bytes N --record-only --save-snapshot-bytes N --project-bytes N\n"
+            "       qupathxx_batch --preview-markers PROJECT --image ID (--rule-file RULE.json | --rule SHA256) (--all-cells | --cell ID ...)\n"
+            "       qupathxx_batch --apply-markers PROJECT NEW_PROJECT --image ID (--rule-file RULE.json | --rule SHA256) (--all-cells | --cell ID ...)\n"
+            "         --work-bytes N --save-snapshot-bytes N --project-bytes N (new output only)\n"
+            "       qupathxx_batch --list-marker-rules PROJECT --image ID\n"
             "       qupathxx_batch --list-fluorescence PROJECT --image ID\n"
             "       qupathxx_batch --verify-fluorescence PROJECT --image ID --record SHA256\n"
             "Spatial cohorts: --source-ids FILE --target-ids FILE (whitespace-separated IDs; one mode per cohort)\n"
@@ -143,6 +148,7 @@ int execute(const std::vector<std::string>& args) {
         if(const auto result=detail::pixel_stream_cli(args,cancelled)) return *result;
         if(const auto result=detail::spatial_cli(args,cancelled)) return *result;
         if(const auto result=detail::fluorescence_cli(args,cancelled)) return *result;
+        if(const auto result=detail::marker_cli(args,cancelled)) return *result;
         if(const auto result=detail::cell_table_cli(args,cancelled)) return *result;
         if(const auto result=detail::tma_case_cli(args,cancelled)) return *result;
         if(const auto result=detail::qptma_project_cli(args,cancelled)) return *result;

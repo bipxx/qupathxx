@@ -85,6 +85,12 @@ std::shared_ptr<const MarkerRuleResult> preview_marker_rule(const MarkerRuleRequ
 // class probabilities/explicit object colors cleared by existing class policy.
 // Requires the exact live request and result ticket.
 std::vector<std::uint64_t> apply_marker_rule(Document&,const MarkerRuleRequest&,const MarkerRuleResult&,const std::atomic<bool>* cancelled=nullptr);
+// Historical publication check: unchanged saved observations and expected class
+// labels, permitting the revisions changed by Apply. Does not authorize Apply.
+bool verify_marker_rule_publication(const Document&,const MarkerRuleResult&,const std::atomic<bool>* cancelled=nullptr);
+// Select all native fluorescence cells in this document, across planes. Corrupt
+// matching publications remain in the cohort so capture refuses, not hides them.
+std::vector<std::uint64_t> marker_cell_ids(const Document&,const std::atomic<bool>* cancelled=nullptr);
 // Exact typed rule storage uses existing image properties. Keep/remove are
 // separate undoable actions and do not change observed cells or class labels.
 std::string keep_marker_rule(Document&,const MarkerRule&);

@@ -2235,3 +2235,50 @@ only one test-only rebuild added two concrete trust-boundary checks. No new
 forest/framework, binding/GUI/package build or dependency/data download. Next add
 thin native marker rule CLI/desktop controls over this same service, with native
 cohort selection and exact saved-rule replay. Preserve concurrent UI edits.
+
+### F02 continuation: native rule files and CLI
+
+Changed inputs: shared native human JSON IO/report formatting (existing optional
+project/JSON capability, no dependency fetch), native cohort selection and
+post-classification publication check, plus batch preview/apply/list commands.
+Recipes explicitly declare all channels/compartments/statistics/units/thresholds
+and topological nodes. Reject duplicate/unknown keys, ambiguous enums, noninteger
+indices, bad graphs and excessive size/depth; exact native recipe identity must
+survive JSON/file/project round trips. No Python data interpretation.
+
+Preview is read-only. Apply keeps a rule once, uses the existing class transaction
+and saves a new project with protected input/rule/image/companion/journal paths.
+At final commit, verify expected class labels and exact saved observations while
+allowing revisions changed by Apply itself; do not reauthorize old previews or
+capture a duplicate scalar table. One shared input-hash stream implementation is
+used by capture and verification. No post-Apply duplicate verification before
+staging; final owner guard is the decisive publication check.
+
+Decisive tests: strict JSON and negative-zero roundtrip, file guard/cancel/no
+replace, native all/explicit cohorts, Unknown output, actual apply/new-project
+save/reopen/replay, original bytes, protected missing sidecars, budgets and native
+post-Apply verification/change refusal. Settle interfaces, then one cached build
+of affected core/backend/CLI tests and batch; no GUI/binding/package build. F02
+remains open for desktop workflow integration and selected end-to-end acceptance.
+
+The first build compiles shared IO/publication and the backend target, then
+catches three CLI test assertions missing their required diagnostic argument.
+Add those messages and emit captured native stderr if an assertion unwinds.
+No product/schema/threshold change. Rebuild only CLI test and pending batch; run
+these and the already-built affected backend checks after the repair.
+
+Affected native backend/CLI tests pass2/2 (0.45s total). Actual batch executable
+help/preview/apply/list/saved-rule replay passes on the admitted118-cell project;
+the fixed illustrative OR rule yields1 Positive/117 Unknown/0 Negative, all118
+classes save and the result digest replays exactly. Original project/TIFF/rule
+hashes are unchanged; this is rule workflow evidence, not biological phenotyping.
+Logs/commands remain f02-cli-ctest.log and f02-cli-real/results.json.
+
+Waste review: shared native JSON interpretation/reporting and cohort selection;
+no frontend rule evaluator, duplicate scalar snapshot or per-cell stored recipe.
+Use content/class verification after Apply, not its intentionally stale pre-Apply
+row revisions. Stream the same input hash implementation and verify once at final
+project commit. Three missing test diagnostics needed one targeted repair, with
+native stderr now retained on failure. No new dependency/data, binding/GUI/package
+build or broad science rerun. Next wire the desktop controls to these services;
+F02 stays unchecked and plan remains8/22. Preserve concurrent UI edits.
