@@ -1458,3 +1458,21 @@ UI styling edits and their receipts; these local GUI results include that workin
 UI state and are not a new frozen package. Next D02: bounded metadata/value/color
 retention and named-host sparse interaction, then deterministic tiled raw-cell
 context/seams/checkpoint-resume. Do not replay accepted import/fluorescence science.
+
+D02 selected-value reuse (partial, not D02 closure)
+------------------------------------------------
+
+Native GeneViewSession now reuses its one immutable selected projection for
+presentation changes when spatial identity and selected feature order match.
+Binding a new spatial/runtime source clears that projection. Current source
+checks run before reuse and before owner publication; cancellation/generation
+publication is unchanged. No multi-entry value history or new scheduler.
+
+Local evidence: build/feature-expansion/d02-values/build.log and ctest.log. One
+cached build of qupathxx_gene_view_tests/qupathxx_expression_matrix_spatial_tests
+succeeds; both suites pass0.28s total. New checks keep the old result alive and
+prove count-buffer ownership is shared while transform/colors change, preserve
+9007199254740993 exactly, and refuse a mutated source after values are cached.
+Existing gene-switch/coalescing/relink checks remain passing. This is correctness
+and avoided-read evidence, not a measured latency/RSS or whole-slide scale claim.
+D02 sparse scale, remaining cache bounds and tiled seam/resume are still pending.

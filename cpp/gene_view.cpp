@@ -129,15 +129,24 @@ void GeneViewSession::poll() {
         try {
             data_->future=std::async(std::launch::async,[this,dataset=data_->dataset,spatial=data_->spatial,options=data_->options]() mutable {
                 if(spatial) {
-                    const auto& source=spatial->source();std::vector<std::uint64_t> features;
+                    const auto& source=spatial->source();source->require_current(&data_->cancelled);
+                    std::vector<std::string> selected;
                     for(unsigned i=0;i<(options.compare?2u:1u);++i) {
                         workflow_checkpoint(&data_->cancelled);
                         if(options.genes[i].empty())options.genes[i]=source->feature_page(std::min<std::uint64_t>(i,source->metadata().features-1),1,data_->work,&data_->cancelled).at(0).id;
-                        const auto index=source->feature_index(options.genes[i],&data_->cancelled);
-                        if(!index)throw std::invalid_argument("Selected gene ID is absent from backed expression matrix");
-                        if(std::find(features.begin(),features.end(),*index)==features.end())features.push_back(*index);
+                        if(std::find(selected.begin(),selected.end(),options.genes[i])==selected.end())selected.push_back(options.genes[i]);
                     }
-                    dataset=spatial->dataset(features,data_->work,&data_->cancelled);
+                    // bind() discards the projection when either the spatial scope or
+                    // runtime source changes. Retain only this exact selected cohort.
+                    if(!dataset || dataset->source_id()!=spatial->sha256() || dataset->features()!=selected) {
+                        std::vector<std::uint64_t> features;
+                        for(const auto& id:selected) {
+                            const auto index=source->feature_index(id,&data_->cancelled);
+                            if(!index)throw std::invalid_argument("Selected gene ID is absent from backed expression matrix");
+                            features.push_back(*index);
+                        }
+                        dataset=spatial->dataset(features,data_->work,&data_->cancelled);
+                    }
                 }
                 const auto result=gene_display_pair(*dataset,options.genes,options.display,options.compare,options.shared_range,data_->work,&data_->cancelled);
                 if(spatial)spatial->source()->require_current(&data_->cancelled);

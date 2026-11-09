@@ -144,6 +144,11 @@ is D02; these steps refine its existing checkbox, without creating another ledge
 1. Inspect existing value/color/tile caches and generation-driven controllers.
    Reuse the opened matrix and current selected-value snapshot for display-only
    changes; bound retained pages/values/colors and coalesce obsolete viewport work.
+   Selected-value reuse is implemented and verified: palette/opacity/transform
+   edits share the immutable exact-count buffer; changed selected genes or spatial/
+   runtime sources invalidate it. Source currentness remains checked before work
+   and publication. Continue with scale/accounting and remaining color/tile work;
+   this focused check does not close D02.
 2. Generate one native100000-observation/30000-feature/5000000-entry sparse fixture
    covering the intended axes. Declare256MiB accounted work before running it;
    qualify indexed reads, cache invalidation and cancellation on a named host.

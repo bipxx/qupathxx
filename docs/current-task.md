@@ -3214,3 +3214,24 @@ value/color/tile caches and display-only reuse; qualify100k observations/30k gen
 5M entries under256MiB accounted work, then extend existing tiled cell jobs with
 fixed global parameters, seam ownership/global IDs and checkpoint/resume. Use
 existing authorities and an admitted ROI, no new scheduler or F01 biology replay.
+
+### D02 — selected-value reuse
+
+The native gene session rereads counts for palette/opacity/transform edits even
+when its immutable selected projection is unchanged. Reuse only the exact selected
+feature order and spatial identity; source rebinding still discards the projection.
+Check source currentness before reuse and before publication. One selected snapshot
+is retained; no additional value-cache history or scheduler is introduced.
+Changed-input check: build the existing gene-view and spatial-matrix native targets
+in the shared cache, then run only those two suites. The spatial test verifies
+shared count-buffer ownership, changed presentation, exact uint64 values, gene
+switch invalidation and refusal after a populated backing store changes. No GUI,
+raw real-matrix import, bindings, package or broad science campaign is required.
+
+D02 selected-value slice passes: cached build succeeds; spatial-matrix and gene-view
+suites both pass (0.28s total). Tests prove shared immutable count-buffer reuse,
+changed rendered colors/transform, exact >2^53 counts and changed-source refusal
+after cache population. Waste review: one affected build/test batch, no failures,
+new dependencies, raw indexing, GUI/bindings or packages. Keep12/22 complete.
+Next: native100k/30k/5M scale fixture under256MiB accounted work, remaining cache
+accounting/coalescing, then bounded tiled cell seam ownership and resume.

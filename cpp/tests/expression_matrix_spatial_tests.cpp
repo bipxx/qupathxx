@@ -55,6 +55,14 @@ void exercise(const fs::path& root) {
     check(view.result()->fields[0]->dataset.counts()[1]==9007199254740993ull,"Presentation retains exact raw tooltip counts above double integer precision");
     options.compare=true;options.shared_range=true;view.configure(options);view.wait();
     check(view.result() && view.result()->shared_range && view.result()->fields[1]->feature=="B" && view.dataset()->features().size()==2,"Backed comparison uses existing shared legend service");
+    const auto retained=view.result();const auto* selected_counts=retained->fields[0]->dataset.counts().data();
+    options.display.palette=GeneDisplayPalette::Gray;options.display.opacity=.375;
+    options.display.transform=GeneDisplayTransform::Log1p;view.configure(options);view.wait();
+    check(view.result() && view.result()->fields[0]->dataset.counts().data()==selected_counts &&
+        view.result()->fields[1]->dataset.counts().data()==selected_counts,"Display-only changes reuse the immutable selected counts instead of rereading/reallocating them");
+    check(view.result()->fields[0]->legend.transform==GeneDisplayTransform::Log1p &&
+        view.result()->fields[0]->colors!=retained->fields[0]->colors &&
+        view.dataset()->counts()[2]==9007199254740993ull,"Reused counts retain exact integers while presentation changes");
     for(int i=0;i<12;++i){options.compare=false;options.genes[0]=i%2?"B":"A";view.configure(options);view.poll();}
     view.wait();check(view.result() && view.result()->fields[0]->feature=="B" && view.dataset()->features()==std::vector<std::string>{"B"},"Latest generation wins repeated backed gene changes");
     options.genes[0]="unknown";view.configure(options);view.wait();check(!view.result() && !view.error().empty(),"Absent backed gene yields a visible native error");
@@ -94,7 +102,9 @@ void exercise(const fs::path& root) {
     check(again.sha256()==captured.sha256() && again.dataset({0,1}).sha256()==expected,"Point/frame/source/selected-count identities survive project reopen");
     doc->remove_objects(created);remove_expression_matrix(project,1,id);doc->undo();doc->undo();
     check(expression_matrix_points_reference(*doc,id) && expression_matrix_ids(project,1)==std::vector<std::string>{id},"Observation removal and association removal Undo retain reference integrity");
-    view.bind(rows);options.genes={"A","B"};view.configure(options);
+    view.bind(rows);options.genes={"A","B"};view.configure(options);view.wait();
+    check(bool(view.result()),"Populate selected values before changing their backing source");
+    options.display.opacity=.625;view.configure(options);
     {std::ofstream changed(root/"source.qmx",std::ios::binary|std::ios::app);changed.put('x');changed.close();check(bool(changed),"Actually mutate the backed file before the pending query");}
     view.wait();check(!view.result() && !view.error().empty(),"Changed backed file cannot publish a stale gene result");
 }
