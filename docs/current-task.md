@@ -2562,3 +2562,83 @@ Next F04: inspect the exact admitted native algebra configuration, then explicit
 labeled finite linear mixing matrices, reusable factorization, signed derived
 components/residuals, rank/condition refusal and source/recipe replay over the
 shared channel source. Keep Python optional and restricted material excluded.
+
+### F04 foundation: prepared native linear unmixing and channel source
+
+Changed inputs: typed labeled mixing matrix, once-per-model thin SVD and shared
+component/residual block evaluator; native source binding/grouping over existing
+ChannelSource. Convention is measured = matrix*components, dimensionless matrix,
+1..64 measured channels/components with full column rank, explicit condition
+limit and signed output. Components precede labeled signed residual channels.
+Nonfinite required inputs remain unknown; no fitted spectra or clamping. Resolve
+sample dispatch once and reuse per-block scalar workspaces, not per-pixel solves
+or allocations. Direct contiguous reads avoid a gather copy; sparse input groups
+read no channel gaps. Only requested outputs allocate raster buffers.
+
+Reuse installed/pinned OpenCV4.11.0 commit31b0eeea0b44b370fd0712312df4214d4ae1b158,
+source SHA bb15d5c85bab38c1377c0c7dd7ff201b078bcdb41cc4ff9f85ac61aa56b5f631.
+Selected static core library and four notices match the retained SDK manifest;
+IPP/nonfree/Python and other optional runtimes are disabled (f04-native/backend.json).
+No dependency/data download. Separate core-only algebra option from optional ML
+training; reuse core when training already enables it. Keep its capability macro
+source-local to avoid invalidating every native object. Shared exact integer
+sample admission is extracted for F03/F04 without changing correction math.
+
+Decisive checks: independent square/overdetermined mixtures and residual signs,
+negative/zero/padding/nonfinite/overflow, rank and condition refusal, scaling,
+row/column permutations, exact output subsets and tiled equality, sparse versus
+direct reads, original/corrected source domains, work admission before pixels,
+integer precision, cancel and source guards. Settle this native API before one
+cached affected kernel/source build. No GUI/bindings/package or broad science
+campaign. F04 remains open for source/recipe persistence, CLI/desktop and selected
+consumer acceptance; GUI builds wait until those interfaces settle.
+
+
+### Owner planning update: complete the remaining expansion contracts
+
+Expanded the existing feature-expansion plan into ordered native/persistence/
+consumer steps for all12 remaining items, preserving10 completed items and the
+22-item canonical checklist. F04 foundation is in progress, not a completed
+workflow. Sequence is F04, sparse storage/scale, open adapters, molecular methods,
+SDK and final admission/release. A04 cannot use spots as substitute replicates;
+unresolved data admission may defer its completion while independent SDK work
+continues. Proprietary, NC and unreviewed materials stay distinct excluded
+metadata/external pools, with derivative lineage checked at packet admission and
+final staging. No restricted download, adapter or artifact move is authorized.
+
+Validation: documentation diff and local link-target checks only; no product
+build is warranted by this plan update. Waste review: reused the existing plan,
+checklist and register rather than duplicating progress ledgers or reopening
+delivered work. Existing native/UI changes remain untouched. Next implementation
+action remains finish F04 native foundation and typed persistence/consumer path;
+only its affected checks apply.
+
+
+### F04 typed matrix record: exact native persistence boundary
+
+Changed inputs: strict versioned ImageDataValue matrix encode/decode, shared by
+future retained source recipes and consumers. Preserve binary64 coefficient bits,
+channel indices/names/order, component names, input domain, explicit orientation
+and condition policy without requiring numerical capability. Admit shape and
+label limits before copying; refuse unknown fields/schema, wrong scalar types,
+nonfinite coefficients and invalid indices. Decisive check: exact signed-zero
+round trip through immutable native properties, maximum64x64 matrix admission,
+and malformed-record cases, plus existing numerical/source and shared F03 tests.
+One cached build of affected native tests only; no GUI, bindings or packaging.
+
+
+F04 foundation evidence verified: initial native suites2/2 in0.35s and standalone
+System32/Windows-only-PATH executable exit0; exact backend/library/notice receipt
+exists. Typed-record extension builds successfully and affected suites pass2/2
+in0.23s (f04-native/records-build.log and records-ctest.log). No product retry
+or assertion relaxation. Current standalone receipt precedes this record extension.
+
+Waste review: factor once, read actual selected channel groups, reuse workspaces
+and allocate requested outputs only. Strict typed records reuse native properties
+rather than introducing a second serializer/state store. Source-local optional
+capability preserves core objects. One documentation script failed before writes
+because Windows defaulted to GBK; explicit UTF-8 corrected it, without rebuilding
+products. No GUI/bindings/package or new external material. Preserve unrelated UI
+changes. F04 stays unchecked and10/22 complete. Next add retained source recipes,
+owner capture/replay and parent-correction reference protection over these types,
+then thin CLI and desktop integration after settling consumer interfaces.

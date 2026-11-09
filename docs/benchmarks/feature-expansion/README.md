@@ -938,3 +938,51 @@ new dependency/data/model or repeated F01 accuracy campaign. Existing native
 source/legacy identity receipts remain valid under their own stated scope.
 F03 closes locally under the declared TIFF/level-zero/matching-field contract:
 10/22 complete,12 pending. F04 linear compensation/unmixing is next.
+
+
+## F04 native unmixing foundation and typed matrix record
+
+F04 is still open. Native `LinearMixingMatrix`, `LinearUnmixModel`, block
+evaluation and `linear_unmix_channel_source` are implemented, including strict
+versioned ImageDataValue matrix records. Numerical convention is measured =
+matrix * components; signed residuals are measured minus reconstructed. The
+prepared thin SVD is reused, with full-column-rank/condition admission and no
+clamping or automatic spectrum estimation.
+
+The existing OpenCV4.11.0 SDK is reused, source commit
+31b0eeea0b44b370fd0712312df4214d4ae1b158 and archive SHA256
+bb15d5c85bab38c1377c0c7dd7ff201b078bcdb41cc4ff9f85ac61aa56b5f631.
+The selected static core library and four notices match its retained manifest;
+IPP/nonfree/Python and other optional runtimes are disabled. Local receipt
+workspace-root `build/feature-expansion/f04-native/backend.json` records the
+checks. A separate core-only CMake algebra option avoids requiring ML training.
+The capability definition stays source-local rather than rebuilding all core
+objects. No new dependency, dataset or model was downloaded.
+
+Independent native oracles establish square signed mixtures, noisy rectangular
+least squares and residual signs, row/column permutations,1e-150/1e150 scaling,
+rank/condition refusal, nonfinite/overflow and validity behavior. Source checks
+prove exact tiled/subset equality, direct contiguous versus sparse input groups,
+no gap reads, corrected-source composition, pre-read work refusal, integer
+precision refusal, cancellation and source/file/metadata guards. Shared raw
+sample dispatch preserves F03 behavior without per-pixel variant dispatch.
+
+Typed record checks preserve exact signed-zero coefficient/hash identity through
+immutable native properties, admit a64x64 matrix within existing property limits,
+and refuse unknown/missing fields, schema/orientation/domain changes, malformed
+dimensions, wrong scalar types, bad indices, oversized labels and nonfinites.
+These tests run before optional-backend dispatch; parsing does not factorize.
+
+Initial affected native tests pass2/2 in0.35s. After adding the typed record, the
+affected cached build and tests pass2/2 in0.23s (`records-build.log`,
+`records-ctest.log` in that receipt directory). The initial foundation executable
+also passed from System32 with Windows-only PATH (`standalone.json`, exact
+executable digest); that receipt precedes the typed-record addition and does not
+claim its standalone qualification. No product build/test failure or retry.
+
+Work is bounded to requested outputs and actual selected input groups, using
+one block workspace rather than per-pixel allocations/solves. No GUI, bindings,
+packaging, F01 biological campaign or speed comparison was rerun. Pending F04
+scope: retained source associations, exact project replay, derived analysis and
+marker domains, matrix file IO and CLI/desktop controls. Overall remains
+10/22 complete,12 pending.

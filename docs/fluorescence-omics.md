@@ -710,3 +710,38 @@ Field opening/preview do not publish measurements, and action controls disable
 while their owner is blocked. Python is optional and supplies no correction logic.
 The selected F03 desktop workflow is delivered under the documented TIFF/level-zero
 subset; its evidence is in the feature-expansion receipt.
+
+
+## Native linear unmixing foundation (F04 in progress)
+
+`LinearMixingMatrix` declares ordered measured channel indices/names, ordered
+component names, row-major dimensionless coefficients and the input domain. The
+orientation is **measured = matrix * components**. The initial contract permits
+1..64 components, at most64 measured channels, and full column rank. A native
+`LinearUnmixModel` prepares one thin SVD and refuses deficient or excessively
+conditioned matrices under the explicit policy (default maximum condition1e8).
+Enable `QUPATHXX_BUILD_LINEAR_ALGEBRA` with the admitted pinned OpenCV core SDK;
+the existing classifier-training option also enables that available core. Python
+and classifier training are not required by the algebra option.
+
+`linear_unmix_channel_source` consumes original or explicitly dark/flat-corrected
+samples with exact channel-name/index binding. Its Float64 output contains the
+components first, then signed `residual:<input name>` channels in matrix-row order,
+with residual = measured - reconstructed. Nothing is clamped to zero. Invalid
+pixels stay invalid; a nonfinite required input makes the coupled outputs unknown.
+Unrepresentable component values are NaN, with unknown residuals. Integer values
+beyond exact binary64 admission refuse conversion. Level-zero geometry, Z/T and
+calibration are retained; output domain is `qpx.linear-unmixed-samples/1`.
+
+Capture a prepared model once, reuse it across native block reads, and choose the
+output channel subset explicitly. Contiguous input groups avoid a gather copy;
+sparse groups read no channel gaps. Source work admission includes input, output,
+model and scratch storage before pixel reads. Cancellation and upstream source
+guards apply. `LinearMixingMatrix::to_value/from_value` supplies strict versioned
+native typed records, preserving coefficient bits (including signed zero), order,
+labels and condition policy without requiring the numerical backend.
+
+This foundation is not yet an authorable retained project workflow. Source-recipe
+retention/replay, derived cell/marker integration, matrix file IO and CLI/desktop
+controls remain pending under F04. No estimated spectra, pretrained model, new
+external material or nonlinear unmixing is included.

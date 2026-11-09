@@ -312,6 +312,61 @@ report the missing real-data acceptance rather than borrowing an NC fixture.
   and actual GUI checks pass, including a controlled shift of all2,702 real spots.
   [Evidence](benchmarks/feature-expansion/README.md).
 
+## Execution breakdown for the remaining 12 items
+
+This breakdown refines the existing checklist; it adds no new completion count.
+Use the smallest end-to-end native slice first, then extend it to the declared
+contract. Do not restart the ten completed items. No calendar or speed estimate
+is promised before measuring the affected workload.
+
+| Item | Ordered implementation steps | Deliverable and boundary |
+| --- | --- | --- |
+| F04 | 1. Finish the prepared native matrix/model and block-source foundation already in progress. 2. Add typed matrix/source recipes, exact identity, retention and reopen guards. 3. Route explicit derived channels through native analysis and domain-aware marker capture. 4. Add CLI matrix import/report/replay, then desktop matrix editing/selection and signed component/residual preview. | One reusable factorization per model, bounded channel reads and requested outputs; signed components/residuals with explicit names. Native foundation alone does not close F04. Complete analytical, persistence and affected consumer checks before checking it off. |
+| D01 | 1. Define bounded sparse read and value-domain contracts without changing old selected-gene identities. 2. Stream Matrix Market into a transactional SQLite sidecar with stable observation/feature IDs and gene-oriented indices. 3. Implement indexed queries, cancellation, source verification and verified relink. 4. Connect import/gene selection to the backed source. | Read unprojected genes from the existing full source without rescanning or densifying it; incomplete sidecars are never published. |
+| D02 | 1. Page metadata and bound decoded/value/color caches. 2. Coalesce viewport work using existing jobs/generations. 3. Add tiled cell requests with fixed global parameters, sufficient halo and deterministic seam ownership. 4. Persist checkpoints and resume only matching inputs/options. | Keep interactive matrix and tiled-image checks separate. Prove work limits and seam/resume equality; report unresolved boundary objects. No new scheduler. |
+| O01 | 1. Admit one exact HDF5 configuration and notices. 2. Implement bounded encoding/shape/string/sparse validation. 3. Adapt dense/CSR/CSC reads to D01 with an explicit counts or continuous domain. 4. Expose the declared subset through existing import controls. | Native H5AD subset, unsupported metadata report and exact independent/real-fixture comparison. No Python reader or automatic filter-plugin loading. |
+| O02 | 1. Admit the chosen complete open store and only required codecs. 2. Parse declared NGFF0.4/Zarr2 axes/transforms/dtypes/chunk metadata. 3. Implement bounded chunk decoding behind the existing raw-source interface. 4. Connect viewport and quantitative reads. | Local declared subset only; distinguish valid fill/missing chunks from IO/decode failures. Preserve TIFF identities and exclude unsupported geometry rather than guessing. |
+| A01 | 1. Stream totals/detected features over the full declared feature universe. 2. Add immutable library-normalized and log1p sources with explicit zero/missing semantics. 3. Persist parameters/source identity. 4. Let display/export select the named domain. | Raw counts remain exact and unchanged; analytical values and native replay establish completion. |
+| A02 | 1. Capture ROI cohorts with explicit coordinate frame and overlap policy. 2. Reduce sparse blocks with checked totals/counts. 3. Add explicit sample/replicate groups and raw pseudobulk aggregation. 4. Save/export/replay cohort and result associations. | Exact regional and replicate totals, including empty/overlapping cohorts; registration changes membership only when explicitly selected. |
+| A03 | 1. Implement bounded block products and recorded feature means. 2. Add fixed-seed truncated PCA with implicit centering. 3. Add bounded explicit-k k-means with job-local randomness. 4. Persist embedding, preprocessing, seed and cluster associations; connect one result view. | Independently checked numerical results and repeatable named-fixture replay. Record tolerance and component sign/subspace convention; do not require bit identity across unspecified backends. |
+| A04 | 1. Admit a replicated open fixture and exact native distribution dependency. 2. Validate independent replicate groups. 3. Aggregate raw counts, normalize/log replicate libraries, then compute the named Welch/effect/BH outputs. 4. Save/export method, groups and correction universe. | Do not substitute spots for biological replicates. If fixture admission is unresolved, keep A04 open while completing independent SDK work. |
+| P01 | 1. Audit actual public targets and transitive requirements. 2. Export/install component targets, headers, feature/version metadata and notices. 3. Remove build-tree paths. 4. Relocate the install and build/run a tiny external C++ consumer. | Python-free SDK on the stated compiler/CRT/ABI; optional nanobind interfaces use the same services and are batched after APIs settle. No extra engine cache. |
+| L01 | At each packet, admit only its actual inputs and derivative lineage in existing inventories. Before release, enumerate all staged source/binary/data/model/generated assets, connect the offline guard and resolve every unmatched member. | Incremental prerequisite for new inputs; final closure requires actual complete stage membership. An allowlist of license names alone is insufficient. |
+| P02 | 1. Freeze completed source/features and close final L01 membership. 2. Stage matching app/CLI/SDK and selected optional Python artifacts once. 3. Verify hashes, sources/notices and clean install/use/uninstall. 4. Publish the exact qualified platform/support statement. | One engineering release handoff after P01 and feature acceptance; preserve user data and old receipts. No implied signing, stable status or untested platform support. |
+
+Execution order remains F04 → D01 → D02 → O01/O02 → A01/A02 → A03/A04 →
+P01 → final L01 → P02. O01 and O02 are independent adapters once their respective
+source contracts are ready; implement them serially in the shared cache. If A04
+awaits admissible replicate data, advance P01 without claiming A04 or releasing
+an incomplete all-items milestone.
+
+For every item: record changed inputs and the decisive check in current-task,
+settle native types and persistence before consumer edits, run affected checks
+once, then update this checkbox and the shared evidence receipt. Review actual
+waste in the same card: repeated reads/solves, per-frame parsing, copies, cache
+invalidation, duplicated frontend logic and unnecessary build scope. Fix concrete
+waste at its owning boundary; do not open another audit campaign or repeat passing
+biological/whole-platform validation without a changed risk.
+
+### Material handling at each implementation step
+
+Before a packet consumes a new dependency, format, codec, dataset or model, record
+its exact identity, evidence of terms, intended use, notices and parent/derivative
+IDs. Reuse admitted inputs where possible. Keep the three excluded categories
+physically distinct if later authorized external copies exist:
+
+- Proprietary: metadata in the proprietary register; external proprietary pool.
+- NC/research-only: metadata in the NC register; external noncommercial pool.
+- Unknown terms: metadata in the unreviewed register; external unreviewed pool.
+
+None of these pools enters build search paths, automatic downloads, fixtures,
+training, open-product performance/accuracy acceptance, screenshots or packages.
+Derived crops/conversions/weights retain their parents' restrictions. Rejection
+checks use synthetic records, not restricted downloads. Do not create external
+pools or move private/historical assets merely to satisfy this plan; preserve them
+and classify actual release inputs under L01. See the existing
+[separation register](licensing/restricted-materials.md) for handling details.
+
 ## Checklist: fluorescence analysis
 
 - [x] **F01 — raw-channel nucleus/cell workflow.** Use selected original channel,
@@ -408,6 +463,13 @@ report the missing real-data acceptance rather than borrowing an NC fixture.
   an explicit rule says otherwise, and never silently clamp. Save matrix/order/
   domain/algorithm provenance. Exit: analytical mixtures, noisy residuals, axis
   permutations and stale/cancel cases pass. Nonlinear/learned unmixing is separate.
+  Native foundation: explicit matrix/model and component/residual ChannelSource
+  are implemented. A prepared thin SVD is reused across blocks; adjacent inputs
+  read directly and sparse groups skip gaps. Requested outputs alone allocate
+  rasters. Strict typed matrix records preserve exact coefficients/order/domain
+  and refuse malformed schema/types. F04 remains open for retained source recipes,
+  project replay, derived analysis/marker integration and CLI/desktop controls;
+  foundation evidence does not imply workflow completion.
 
 ## Checklist: storage, scale and open readers
 

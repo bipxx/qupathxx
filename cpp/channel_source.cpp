@@ -3,6 +3,7 @@
 #include "qupathxx/workflow.hpp"
 #include "reader_file_guard.hpp"
 #include "sha256.hpp"
+#include "raw_sample_view.hpp"
 #include "utf8_text.hpp"
 #include <algorithm>
 #include <cstring>
@@ -61,12 +62,7 @@ public:
         budget(read_work_bytes(r),work);require_current(cancelled);auto block=server_->read_raw(r,cancelled);shape(block,r,metadata_.sample_type);budget(sum({payload_bytes(),block.payload_bytes()}),work);require_current(cancelled);return block;
     }
 };
-struct Samples {
-    const void* data;double (*at)(const void*,std::size_t);
-    explicit Samples(const RawPixelBuffer& p){std::visit([&](const auto& v){using T=typename std::decay_t<decltype(v)>::value_type;data=v.data();at=[](const void* ptr,std::size_t i){const auto value=static_cast<const T*>(ptr)[i];
-        if constexpr(std::is_integral_v<T> && sizeof(T)==8){constexpr std::uint64_t limit=std::uint64_t(1)<<53;bool loss=false;if constexpr(std::is_signed_v<T>)loss=value>std::int64_t(limit) || value< -std::int64_t(limit);else loss=value>limit;if(loss)throw std::overflow_error("Channel correction refuses integer precision loss beyond2^53");}
-        return double(value);};},p.storage());}
-};
+using Samples=detail::RawSampleView;
 void same_axes(const RawImageMetadata& a,const RawImageMetadata& b){if(a.width!=b.width || a.height!=b.height || a.channels!=b.channels || a.channel_names!=b.channel_names || a.z_planes!=b.z_planes || a.timepoints!=b.timepoints || a.pixel_width_um!=b.pixel_width_um || a.pixel_height_um!=b.pixel_height_um || a.z_spacing_um!=b.z_spacing_um || a.time_interval_seconds!=b.time_interval_seconds)throw std::invalid_argument("Dark/flat fields require identical spatial/channel/Z/time axes and calibration");}
 class Corrected final:public ChannelSource {
     std::shared_ptr<const ChannelSource> signal_,dark_,flat_;DarkFlatOptions options_;RawImageMetadata metadata_;std::string id_;
