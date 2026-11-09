@@ -1,5 +1,6 @@
 #include "qupathxx/fluorescence_cell_workflow.hpp"
 #include "qupathxx/fluorescence_tiled_workflow.hpp"
+#include "qupathxx/fluorescence_tiled_checkpoint.hpp"
 #include "qupathxx/raw_analysis.hpp"
 #include "qupathxx/dark_flat_workflow.hpp"
 #include "qupathxx/linear_unmixing_workflow.hpp"
@@ -219,12 +220,15 @@ bool FluorescenceCellJob::request(const FluorescenceCellRequest& request) {
     const auto generation=impl_->stats.generation+1;impl_->stats={};impl_->stats.generation=generation;impl_->stats.state="running";return true;
 }
 bool FluorescenceCellJob::request(const FluorescenceTiledRequest& request) {
+    return this->request(request,"",{});
+}
+bool FluorescenceCellJob::request(const FluorescenceTiledRequest& request,const std::string& directory,const FluorescenceCheckpointOptions& options) {
     workflow_require_owner(impl_->owner);request.require_owner();if(busy())return false;
     if(impl_->stats.generation==UINT64_MAX)throw std::overflow_error("Fluorescence job generation exhausted");
     const auto old_cancelled=impl_->cancelled.load();const auto old_phase=impl_->phase.load();impl_->cancelled.store(false);impl_->phase.store(0);
     std::future<std::shared_ptr<const FluorescenceTiledReport>> future;
-    try{future=std::async(std::launch::async,[state=impl_.get(),request]{state->phase.store(int(FluorescenceCellPhase::Segmenting));
-        auto report=std::make_shared<const FluorescenceTiledReport>(detect_tiled_fluorescence_cells(request,{},&state->cancelled));state->phase.store(int(FluorescenceCellPhase::Ready));return report;});}
+    try{future=std::async(std::launch::async,[state=impl_.get(),request,directory,options]{state->phase.store(int(FluorescenceCellPhase::Segmenting));
+        auto report=std::make_shared<const FluorescenceTiledReport>(directory.empty()?detect_tiled_fluorescence_cells(request,{},&state->cancelled):checkpoint_tiled_fluorescence_cells(request,directory,options,{},&state->cancelled));state->phase.store(int(FluorescenceCellPhase::Ready));return report;});}
     catch(...){impl_->cancelled.store(old_cancelled);impl_->phase.store(old_phase);throw;}
     impl_->future={};impl_->request.reset();impl_->result.reset();impl_->tiled_result.reset();impl_->tiled_request=request;
     impl_->tiled_future=std::move(future);impl_->started=std::chrono::steady_clock::now();

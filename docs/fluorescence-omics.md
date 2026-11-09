@@ -997,3 +997,29 @@ ENSMUSG00000070880 has577 zeros; both have0 missing values. These are checks of
 literal data/display behavior, not biological accuracy or speed superiority.
 D01 closes with the source-scoped feature-expansion receipt; optional bindings,
 SDK and release remain P01/P02.
+
+Native tiled checkpoints (D02, local source scope)
+------------------------------------------------
+
+Include qupathxx/fluorescence_tiled_workflow.hpp and
+qupathxx/fluorescence_tiled_checkpoint.hpp for a captured native
+FluorescenceTiledRequest. checkpoint_tiled_fluorescence_cells streams one tile at
+a time to a native sink and writes a dedicated checkpoint directory. Calling it
+again with matching source/ROI/options verifies current raw bytes and reuses the
+saved global threshold and complete tile geometry/moments. The existing
+FluorescenceCellJob accepts the same request, directory and typed checkpoint
+limits; tiled_result() reports reused_tiles versus segmented_tiles and ready
+versus unresolved status. No Python runtime is needed.
+
+Records are atomic/new-only, with default4MiB per record and2GiB total limits;
+codec buffers also count toward native work admission. Startup counts retained
+atomic staging toward quota and preserves it. Choose a dedicated directory:
+unrecognized members, changed source/options, corrupt records or insufficient
+storage refuse. A failed/cancelled run keeps committed tiles and publishes no
+successful completion. Increasing storage quota can resume the same science;
+changing scientific/source/layout options requires a new directory. Directory
+or completion-file presence alone does not prove current source validity.
+
+This native route currently processes original raw channels. Corrected/unmixed
+adapters, desktop controls and the admitted real-ROI delivery check remain D02
+work. It is not a released SDK/package or a claim of whole-slide frame rate.

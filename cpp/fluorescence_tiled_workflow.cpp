@@ -1,4 +1,5 @@
 #include "qupathxx/fluorescence_tiled_workflow.hpp"
+#include "fluorescence_tiled_checkpoint_internal.hpp"
 #include "qupathxx/raw_analysis.hpp"
 #include "qupathxx/workflow.hpp"
 #include "raw_pixel_workflow_snapshot.hpp"
@@ -59,11 +60,11 @@ struct FluorescenceTiledRequest::Data {
         fixed=sizeof(Data)+2*raw_pixel_source_snapshot_bytes(snapshot)+2*authority.object_context().payload_bytes()+65536;
         if(authority.mask())workflow_capture_charge(fixed,3*authority.mask()->payload_bytes(),p.work_bytes);
         workflow_capture_charge(fixed,count*(sizeof(std::string)+128),p.work_bytes);
-        Sha256 source_hash;text(source_hash,"qpx.tiled-fluorescence-source/1");text(source_hash,snapshot.epoch);text(source_hash,snapshot.reader);
+        Sha256 source_hash;text(source_hash,"qpx.tiled-fluorescence-source/2");text(source_hash,snapshot.epoch);text(source_hash,snapshot.reader);
         if(!snapshot.observed)throw std::invalid_argument("Tiled fluorescence requires observable source identity");
-        const auto& observed=*snapshot.observed;text(source_hash,observed.reader);text(source_hash,observed.scope);source_hash.integer(bool(observed.primary));
+        const auto& observed=*snapshot.observed;text(source_hash,observed.scope);source_hash.integer(bool(observed.primary));
         if(observed.primary){file(source_hash,*observed.primary);for(const auto& f:observed.companions)file(source_hash,f);}
-        else{text(source_hash,observed.generation);text(source_hash,observed.locator);}
+        else{text(source_hash,observed.reader);text(source_hash,observed.generation);text(source_hash,observed.locator);}
         for(auto v:{snapshot.calibration.x,snapshot.calibration.y}){source_hash.integer(bool(v));if(v)real(source_hash,*v);}source_sha=source_hash.finish();
         Sha256 h;text(h,"qpx.tiled-fluorescence-request/1");text(h,source_sha);region(h,analysis);parameters(h,p);
         for(auto v:{std::uint64_t(t.width),std::uint64_t(t.height),std::uint64_t(t.halo),std::uint64_t(t.max_tiles)})h.integer(v);
@@ -104,17 +105,25 @@ std::size_t FluorescenceTiledRequest::tile_count()const{return data_->count;}
 const std::string& FluorescenceTiledRequest::sha256()const{return data_->sha;}
 const std::string& FluorescenceTiledRequest::source_sha256()const{return data_->source_sha;}
 struct FluorescenceTiledKernel {
-    static FluorescenceTiledReport run(const FluorescenceTiledRequest& request,const std::function<void(std::size_t,const FluorescenceTileResult&)>& sink,const std::atomic<bool>* cancelled) {
+    static FluorescenceTiledReport run(const FluorescenceTiledRequest& request,const std::function<void(std::size_t,const FluorescenceTileResult&)>& sink,const std::atomic<bool>* cancelled,
+        const std::string& directory="",FluorescenceCheckpointOptions options={}) {
         const auto began=std::chrono::steady_clock::now();const auto& d=*request.data_;workflow_checkpoint(cancelled);
+        if(!raw_pixel_publication_lattice_source_matches(*d.source,d.snapshot,d.lattice))throw WorkflowInputChanged("Tiled fluorescence source changed before execution");
+        std::unique_ptr<detail::FluorescenceCheckpointStore> store;std::size_t fixed=d.fixed;
+        if(!directory.empty()){store=std::make_unique<detail::FluorescenceCheckpointStore>(directory,d.sha,d.source_sha,d.count,d.options.threshold_method==FluorescenceThreshold::Otsu256,options,d.options.work_bytes,cancelled);workflow_capture_charge(fixed,store->reserved_bytes(),d.options.work_bytes);}
         FluorescenceTiledReport report;report.request_sha256=d.sha;report.source_sha256=d.source_sha;report.resolved_threshold=d.options.threshold;
+        report.accounted_work_bytes=fixed;if(store)report.checkpoint_path=store->path();
         std::vector<std::string> hashes(d.count);double lo=0,hi=0;std::uint64_t count=0;
-        if(d.options.threshold_method==FluorescenceThreshold::Otsu256) {
+        auto saved=store?store->global():std::optional<detail::FluorescenceThresholdCheckpoint>{};
+        if(saved){report.resolved_threshold=saved->threshold;hashes=std::move(saved->inputs);
+            if(d.options.threshold_method==FluorescenceThreshold::Explicit && report.resolved_threshold!=d.options.threshold)throw WorkflowInputChanged("Saved explicit fluorescence threshold differs");}
+        if(!saved && d.options.threshold_method==FluorescenceThreshold::Otsu256) {
             std::array<std::uint64_t,256> bins{};
             for(unsigned pass=0;pass<2;++pass) {
                 for(std::size_t i=0;i<d.count;++i) {
                     auto w=d.read(i,cancelled);const auto digest=detail::fluorescence_input_sha256(w.pixels,w.domain,cancelled);
                     if(!pass)hashes[i]=digest;else if(hashes[i]!=digest)throw WorkflowInputChanged("Raw fluorescence changed during global threshold resolution");
-                    const auto scores=detail::fluorescence_scores(w.pixels,w.domain,d.options,d.calibration,d.fixed,cancelled);
+                    const auto scores=detail::fluorescence_scores(w.pixels,w.domain,d.options,d.calibration,fixed,cancelled);
                     for(std::size_t at=0;at<scores.values.size();++at) {
                         if(!(at&4095))workflow_checkpoint(cancelled);
                         if(!scores.eligible[at])continue;
@@ -129,12 +138,22 @@ struct FluorescenceTiledKernel {
             }
             report.resolved_threshold=detail::fluorescence_otsu_threshold(lo,hi,count,bins);
         }
+        if(store && !saved)store->global(report.resolved_threshold,hashes);
         auto p=d.options;p.threshold_method=FluorescenceThreshold::Explicit;p.threshold=report.resolved_threshold;
+        const auto recipe=detail::fluorescence_recipe_sha256(p,d.calibration);
         Sha256 input;text(input,"qpx.tiled-fluorescence-input/1");text(input,d.sha);
+        Sha256 output;text(output,"qpx.tiled-fluorescence-output/1");text(output,d.sha);
         for(std::size_t i=0;i<d.count;++i) {
             auto w=d.read(i,cancelled);
-            const auto tile=detail::segment_fluorescence_tile_reserved(w.pixels,w.domain,w.request,w.core,d.analysis.region,d.source_sha,p,d.calibration,d.fixed,cancelled);
+            FluorescenceTileResult tile;const bool reused=store && store->has_tile(i);
+            if(reused){
+                const auto estimate=detail::fluorescence_cell_work_bytes(w.pixels.width(),w.pixels.height(),w.pixels.channels(),w.pixels.sample_type(),p,d.calibration,w.pixels.payload_bytes(),w.domain.capacity(),fixed);
+                tile=store->load(i,report.resolved_threshold,recipe,w.request,w.core,d.analysis.region,w.pixels.sample_type());
+                if(tile.input_sha256!=detail::fluorescence_input_sha256(w.pixels,w.domain,cancelled))throw WorkflowInputChanged("Current tile pixels differ from checkpoint");
+                tile.accounted_work_bytes=estimate;++report.reused_tiles;
+            }else{tile=detail::segment_fluorescence_tile_reserved(w.pixels,w.domain,w.request,w.core,d.analysis.region,d.source_sha,p,d.calibration,fixed,cancelled);++report.segmented_tiles;}
             if(!hashes[i].empty() && tile.input_sha256!=hashes[i])throw WorkflowInputChanged("Raw fluorescence changed after global threshold resolution");
+            if(store && tile.complete()){if(!reused)store->save(i,report.resolved_threshold,tile);text(output,store->tile_digest(i));}
             report.accounted_work_bytes=std::max(report.accounted_work_bytes,tile.accounted_work_bytes);report.finite_pixels+=tile.finite_segmentation_pixels_in_core;
             report.cells+=tile.cells.size();report.unresolved_tiles+=!tile.complete();++report.tiles;text(input,tile.input_sha256);
             if(sink)sink(i,tile);workflow_checkpoint(cancelled);
@@ -142,10 +161,16 @@ struct FluorescenceTiledKernel {
         if(!report.finite_pixels)throw std::invalid_argument("No finite fluorescence segmentation pixels in ROI");
         if(!raw_pixel_publication_lattice_source_matches(*d.source,d.snapshot,d.lattice))throw WorkflowInputChanged("Tiled fluorescence source changed before delivery");
         report.input_sha256=input.finish();report.state=report.unresolved_tiles?"unresolved":"ready";
+        if(store && !report.unresolved_tiles){report.output_sha256=output.finish();store->finish(report);}
         report.elapsed_ms=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-began).count();return report;
     }
 };
 FluorescenceTiledReport detect_tiled_fluorescence_cells(const FluorescenceTiledRequest& request,const std::function<void(std::size_t,const FluorescenceTileResult&)>& sink,const std::atomic<bool>* cancelled) {
     return FluorescenceTiledKernel::run(request,sink,cancelled);
+}
+FluorescenceTiledReport checkpoint_tiled_fluorescence_cells(const FluorescenceTiledRequest& request,const std::string& directory,FluorescenceCheckpointOptions options,
+    const std::function<void(std::size_t,const FluorescenceTileResult&)>& sink,const std::atomic<bool>* cancelled) {
+    if(directory.empty())throw std::invalid_argument("Tiled checkpoint directory is empty");
+    try{return FluorescenceTiledKernel::run(request,sink,cancelled,directory,options);}catch(...){workflow_checkpoint(cancelled);throw;}
 }
 }

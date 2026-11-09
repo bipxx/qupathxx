@@ -154,6 +154,10 @@ std::size_t detail::fluorescence_cell_work_bytes(std::int64_t width,std::int64_t
     workflow_capture_charge(bytes,measurement_bytes(std::min(n,p.max_cells),channels),p.work_bytes);return bytes;
 }
 std::string detail::fluorescence_input_sha256(const RawPixelBuffer& pixels,const std::vector<std::uint8_t>& domain,const std::atomic<bool>* cancelled){return input_hash(pixels,domain,cancelled);}
+std::string detail::fluorescence_recipe_sha256(FluorescenceCellOptions p,std::optional<std::array<double,2>> calibration) {
+    p.validate();if(p.units==FluorescenceCellUnits::Micrometres && !calibration)throw std::invalid_argument("Missing fluorescence recipe calibration");
+    return recipe_hash(p,p.units==FluorescenceCellUnits::Pixels?std::array<double,2>{1,1}:*calibration);
+}
 detail::FluorescenceScores detail::fluorescence_scores(const RawPixelBuffer& pixels,const std::vector<std::uint8_t>& domain,FluorescenceCellOptions p,
     std::optional<std::array<double,2>> calibration,std::size_t fixed,const std::atomic<bool>* cancelled) {
     workflow_checkpoint(cancelled);p.validate();const auto n=lattice(pixels);const auto width=std::size_t(pixels.width()),height=std::size_t(pixels.height());

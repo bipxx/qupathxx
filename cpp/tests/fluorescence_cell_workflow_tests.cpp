@@ -1,5 +1,6 @@
 #include "qupathxx/fluorescence_cell_workflow.hpp"
 #include "qupathxx/fluorescence_tiled_workflow.hpp"
+#include "qupathxx/fluorescence_tiled_checkpoint.hpp"
 #include "qupathxx/core.hpp"
 #include "qupathxx/source_identity.hpp"
 #include "qupathxx/workflow.hpp"
@@ -151,9 +152,60 @@ void files(const fs::path& root) {
     check(run->raster().measurements.size()==1 && run->raster().measurements[0].nucleus.pixels==2,"Original uint16 OME axes/channel values");near(*run->raster().measurements[0].nucleus.channels[0].mean,26100);near(*run->raster().measurements[0].nucleus.channels[2].mean,412.5);
     auto display=*doc.server()->tiff_view();display.channels={2,0,-1};display.lower={0,0,0};display.upper={1,1,1};doc.set_tiff_view(display);
     require_current_fluorescence_cells(doc,request,*run);check(detect_fluorescence_cells(FluorescenceCellRequest(doc,r,id,p,{0,0}))->sha256()==run->sha256(),"Presentation does not change raw result identity");
+    auto empty_parameters=p;empty_parameters.threshold=1000000000;empty_parameters.cell_expansion=0;empty_parameters.sigma=0;
+    const FluorescenceTiledRequest persisted(doc,r,0,empty_parameters);
+    const auto checkpoint=checkpoint_tiled_fluorescence_cells(persisted,(root/"file-checkpoint").u8string());
+    Document fresh(open_tiff(path.u8string(),opening));const FluorescenceTiledRequest reopened(fresh,r,0,empty_parameters);
+    check(reopened.source_sha256()==persisted.source_sha256() && reopened.sha256()==persisted.sha256(),"File-backed checkpoint identity survives a fresh reader generation");
+    const auto resumed=checkpoint_tiled_fluorescence_cells(reopened,(root/"file-checkpoint").u8string());
+    check(resumed.state=="ready" && resumed.reused_tiles==1 && !resumed.segmented_tiles && resumed.output_sha256==checkpoint.output_sha256,"Fresh file-backed source reuses exact saved zero-cell geometry");
     std::ofstream changed(path,std::ios::binary|std::ios::app);changed.put('x');changed.close();check(bool(changed),"Mutate only the independently authored local fixture");
     check(!request.publication_matches(doc),"Publication rechecks actual files, not retained decoder/cache observations");
     rejects<WorkflowInputChanged>([&]{require_current_fluorescence_cells(doc,request,*run);});rejects<WorkflowInputChanged>([&]{detect_fluorescence_cells(request);});
+    rejects<WorkflowInputChanged>([&]{checkpoint_tiled_fluorescence_cells(reopened,(root/"file-checkpoint").u8string());});
+}
+std::string checkpoint_bytes(const fs::path& file){std::ifstream in(file,std::ios::binary);return {std::istreambuf_iterator<char>(in),{}};}
+void checkpoints(const fs::path& root) {
+    auto reader=std::make_shared<Reader>();reader->raw->width=80;reader->raw->height=52;reader->raw->levels={{80,52,1}};
+    reader->display.width=80;reader->display.height=52;reader->display.levels={{80,52,1}};reader->dna_x=37;reader->dna_y=20;
+    Document doc(reader);auto region=selected();region.region={0,0,0,80,52};auto p=parameters();p.sigma=.7;p.threshold_method=FluorescenceThreshold::Otsu256;p.max_cells=1000;
+    FluorescenceTileOptions tiles;tiles.width=20;tiles.height=26;tiles.halo=12;const FluorescenceTiledRequest request(doc,region,0,p,tiles);
+    const auto baseline=checkpoint_tiled_fluorescence_cells(request,(root/"full").u8string());
+    check(baseline.state=="ready" && baseline.cells==1 && baseline.segmented_tiles==8 && !baseline.reused_tiles && baseline.output_sha256.size()==64,"Uninterrupted checkpoint publishes complete scientific output identity");
+    std::atomic<bool> cancelled{false};std::size_t delivered=0;
+    rejects<WorkflowCancelled>([&]{checkpoint_tiled_fluorescence_cells(request,(root/"partial").u8string(),{},[&](std::size_t,const FluorescenceTileResult&){if(++delivered==3)cancelled.store(true);},&cancelled);});
+    check(delivered==3 && fs::exists(root/"partial"/"tile-2.qft") && !fs::exists(root/"partial"/"tile-3.qft") && !fs::exists(root/"partial"/"complete.qft"),"Interruption retains exactly committed tiles and advertises no complete workflow");
+    const auto reads=reader->reads.load();std::uint64_t cells=0;
+    const auto resumed=checkpoint_tiled_fluorescence_cells(request,(root/"partial").u8string(),{},[&](std::size_t,const FluorescenceTileResult& tile){cells+=tile.cells.size();});
+    check(resumed.state=="ready" && resumed.reused_tiles==3 && resumed.segmented_tiles==5 && cells==1 && reader->reads.load()-reads==8,"Resume reuses threshold and completed segmentation with one raw verification read per tile");
+    check(resumed.input_sha256==baseline.input_sha256 && resumed.output_sha256==baseline.output_sha256 && resumed.resolved_threshold==baseline.resolved_threshold,"Interrupted/resumed scientific input/output and threshold equal uninterrupted run");
+    for(const auto& entry:fs::directory_iterator(root/"full"))check(checkpoint_bytes(entry.path())==checkpoint_bytes(root/"partial"/entry.path().filename()),"All serialized masks, IDs, moments and completion facts are byte-identical after resume");
+    FluorescenceCellJob job;check(job.request(request,(root/"partial").u8string(),{}),"Existing native job resumes a checkpoint directory");
+    check(job.wait(doc).state=="ready" && job.tiled_result()->reused_tiles==8 && !job.tiled_result()->segmented_tiles,"Fully completed job verifies/reuses rather than resegments");
+    tiles.width=40;const FluorescenceTiledRequest changed(doc,region,0,p,tiles);const auto before=reader->reads.load();
+    rejects<std::invalid_argument>([&]{checkpoint_tiled_fluorescence_cells(changed,(root/"partial").u8string());});check(reader->reads.load()==before,"Changed layout/options refuse before raw reads");
+    reader->uniform=true;rejects<WorkflowInputChanged>([&]{checkpoint_tiled_fluorescence_cells(request,(root/"partial").u8string());});reader->uniform=false;
+    fs::copy(root/"full",root/"corrupt",fs::copy_options::recursive);
+    {std::fstream file(root/"corrupt"/"tile-1.qft",std::ios::binary|std::ios::in|std::ios::out);file.seekp(40);file.put('x');check(bool(file),"Actually corrupt one retained checkpoint record");}
+    rejects<std::invalid_argument>([&]{checkpoint_tiled_fluorescence_cells(request,(root/"corrupt").u8string());});
+    std::uint64_t total=0;for(const auto& entry:fs::directory_iterator(root/"full"))total+=fs::file_size(entry.path());
+    check(total>4096,"Storage fixture covers a finite quota");FluorescenceCheckpointOptions limited;limited.record_bytes=4096;limited.total_bytes=total-1;
+    rejects<WorkflowCaptureLimit>([&]{checkpoint_tiled_fluorescence_cells(request,(root/"limited").u8string(),limited);});
+    check(!fs::exists(root/"limited"/"complete.qft"),"Exceeded quota never publishes complete status");
+    const auto restored=checkpoint_tiled_fluorescence_cells(request,(root/"limited").u8string());
+    check(restored.reused_tiles==8 && !restored.segmented_tiles && restored.output_sha256==baseline.output_sha256,"Raised storage quota reuses committed geometry without changing scientific output");
+    const auto staging=root/"limited"/("tile-0.qft.qpx-tmp-"+std::string(24,'a'));
+    {std::ofstream file(staging,std::ios::binary);file<<std::string(4096,'s');check(bool(file),"Retain an authored orphan staging fixture");}
+    limited.total_bytes=total;const auto before_staging=reader->reads.load();
+    rejects<std::invalid_argument>([&]{checkpoint_tiled_fluorescence_cells(request,(root/"limited").u8string(),limited);});
+    check(reader->reads.load()==before_staging && fs::file_size(staging)==4096,"Orphan staging counts toward quota before raw work and is preserved");
+    fs::create_directory(root/"foreign");{std::ofstream file(root/"foreign"/"keep.bin");file<<"keep";}
+    rejects<std::invalid_argument>([&]{checkpoint_tiled_fluorescence_cells(request,(root/"foreign").u8string());});
+    check(checkpoint_bytes(root/"foreign"/"keep.bin")=="keep","Unowned directory content is refused and preserved");
+    reader->uniform=true;p.threshold_method=FluorescenceThreshold::Explicit;p.threshold=50;p.sigma=0;tiles.width=20;
+    const FluorescenceTiledRequest cut(doc,region,0,p,tiles);const auto unresolved=checkpoint_tiled_fluorescence_cells(cut,(root/"unresolved").u8string());
+    check(unresolved.state=="unresolved" && unresolved.unresolved_tiles==8 && !fs::exists(root/"unresolved"/"complete.qft"),"Cut foreground never advertises complete checkpoint status");
+    for(std::size_t i=0;i<8;++i)check(!fs::exists(root/"unresolved"/("tile-"+std::to_string(i)+".qft")),"Unresolved tile is not stored as a complete reusable result");
 }
 void tiled_workflow() {
     auto reader=std::make_shared<Reader>();reader->raw->width=80;reader->raw->height=52;reader->raw->levels={{80,52,1}};
@@ -200,7 +252,7 @@ void tiled_workflow() {
 }
 int main(int argc,char** argv){try {
     tiled_workflow();
-    source_contract();finite_boundaries();jobs();const auto root=fs::current_path()/("fluorescence-source-"+std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()));check(fs::create_directory(root),"Create unique native fixture directory");files(root);
+    source_contract();finite_boundaries();jobs();const auto root=fs::current_path()/("fluorescence-source-"+std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()));check(fs::create_directory(root),"Create unique native fixture directory");checkpoints(root);files(root);
     if(argc>1){Document real(open_tiff(argv[1]));const auto m=real.server()->raw_metadata();RawRegionRequest r;r.region={0,0,0,m->width,m->height};r.channels=m->channels;FluorescenceCellOptions p;p.threshold_method=FluorescenceThreshold::Otsu256;p.min_nucleus_area=5;p.cell_expansion=3;
         const FluorescenceCellRequest request(real,r,0,p,{0,0});FluorescenceCellJob job;check(job.request(request),"Real native job starts");check(job.wait(real).state=="ready" && job.result(),"Real source job completes");require_current_fluorescence_cells(real,request,*job.result());std::cout<<"Real source-bound job: "<<job.result()->raster().measurements.size()<<" candidates; annotation acceptance remains pending\n";}
     std::cout<<"Fluorescence source: one raw read, axes/calibration/ROI/context, stable identity, capture authority, stale/cancel/jobs and actual file guards passed\n";

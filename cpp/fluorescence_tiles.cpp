@@ -19,6 +19,11 @@ void charge(std::size_t& value,std::size_t n,std::size_t each,std::size_t work) 
 }
 void text(Sha256& sha,const std::string& s){sha.integer(s.size());sha.update(s.data(),s.size());}
 }
+std::string detail::fluorescence_global_cell_id(const std::string& source,const std::string& recipe,
+    const RawRegionRequest& samples,SampleType type,std::int64_t x,std::int64_t y) {
+    Sha256 id;text(id,"qpx.tiled-fluorescence-cell/1");text(id,source);text(id,recipe);
+    id.integer(samples.first_channel);id.integer(samples.channels);id.integer(samples.z);id.integer(samples.t);id.integer(std::uint64_t(type));id.integer(std::uint64_t(x));id.integer(std::uint64_t(y));return id.finish();
+}
 FluorescenceTileResult detail::segment_fluorescence_tile_reserved(const RawPixelBuffer& pixels,const std::vector<std::uint8_t>& domain,
     const RawRegionRequest& samples,RegionRequest core,RegionRequest bounds,const std::string& source,
     FluorescenceCellOptions p,std::optional<std::array<double,2>> calibration,std::size_t external,const std::atomic<bool>* cancelled) {
@@ -85,8 +90,7 @@ FluorescenceTileResult detail::segment_fluorescence_tile_reserved(const RawPixel
         FluorescenceOwnedCell cell;cell.anchor_x=x;cell.anchor_y=y;cell.measurements=raster.measurements[i];
         // Local labels are deliberately omitted from persistent cell identity.
         cell.measurements.label=0;
-        Sha256 id;text(id,"qpx.tiled-fluorescence-cell/1");text(id,source);text(id,raster.recipe_sha256);
-        id.integer(samples.first_channel);id.integer(samples.channels);id.integer(samples.z);id.integer(samples.t);id.integer(std::uint64_t(pixels.sample_type()));id.integer(std::uint64_t(x));id.integer(std::uint64_t(y));cell.id=id.finish();
+        cell.id=detail::fluorescence_global_cell_id(source,raster.recipe_sha256,samples,pixels.sample_type(),x,y);
         result.cells.push_back(std::move(cell));
     }
     std::vector<std::size_t> selected(count,std::numeric_limits<std::size_t>::max());

@@ -9,6 +9,7 @@ class LinearUnmixRequest;
 class FluorescenceCellRun;
 class FluorescenceTiledRequest;
 struct FluorescenceTiledReport;
+struct FluorescenceCheckpointOptions;
 class FluorescenceCellRequest {
 public:
     // Explicit level-zero channel block/Z/T. An object selects its native area
@@ -84,6 +85,7 @@ public:
     FluorescenceCellJob(const FluorescenceCellJob&)=delete;
     bool request(const FluorescenceCellRequest&);
     bool request(const FluorescenceTiledRequest&);
+    bool request(const FluorescenceTiledRequest&,const std::string& checkpoint_directory,const FluorescenceCheckpointOptions&);
     bool busy() const;
     void cancel();void await_completion();
     FluorescenceCellStats poll(const Document&);

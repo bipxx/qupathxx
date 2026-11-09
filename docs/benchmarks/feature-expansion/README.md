@@ -1650,3 +1650,51 @@ constant Otsu pass. Existing F01 pure/source/publication/replay checks pass. No
 biological accuracy, real-ROI completion, universal speed/RSS or release claim.
 D02 still requires checkpoint/resume, derived-source adapters, admitted real ROI
 and thin desktop consumer checks. No new dependency/data/reader/model inputs.
+
+D02 source-bound checkpoint/resume (derived sources/real ROI/desktop pending)
+-------------------------------------------------------------------------
+
+`checkpoint_tiled_fluorescence_cells` and the existing cell-job checkpoint overload
+write a dedicated directory with threshold.qft, tile-N.qft and complete.qft.
+Use existing bounded binary checksum codec/regular-file guards and new-only
+atomic flushed export. Each complete tile stores exact global IDs/RLE masks/raw
+moments; unresolved tiles cannot be reused as complete. Completion is published
+only after all tiles and final source checks. Resume validates source/request,
+threshold, checksums, bounds/ownership/IDs, canonical masks, compartment geometry/
+validity and moment missingness, then verifies each current raw tile hash before
+skipping its segmentation. Both reused/new tiles stream to the same native sink.
+Canonical output identity excludes path, timing and runtime allocation counters.
+
+Default per-record4MiB and total2GiB caps are typed options, with codec/manifest
+buffers reserved within the native work budget. Directory startup scans existing
+members once rather than statting every possible tile; recognized orphan atomic
+staging contributes to storage quota and is preserved. Foreign/symlink members
+refuse. No existing record/input is overwritten, and failure retains committed
+progress. The completion marker alone is not current scientific acceptance;
+resume still validates source/raw bytes/records before returning ready.
+
+Evidence in `build/feature-expansion/d02-checkpoint/`: initial build.log succeeds;
+ctest.log preserves passing pure-cell/tile/published-replay suites and a real
+file-backed reopen failure. TIFF observed.reader includes an encoded display view;
+source profile/2 now binds actual raw reader_id, raw metadata/series/calibration,
+file-version set/scope, while excluding that presentation descriptor. Non-file
+sources retain reader/generation binding. Old source-profile hashes refuse rather
+than aliasing new identities; untiled recipes are unchanged. build-r2/ctest-r2
+pass the source suite0.43s; scan/quota refinement build-r3/ctest-r3 passes0.45s
+(0.51s total). Assertions/tolerances remain intact.
+
+Authored80x52 fixture: interruption after3 of8 committed tiles leaves no completion
+record. Resume reuses3/segments5 with8 verification reads; all serialized output,
+including masks/IDs/raw moments/completion, equals uninterrupted bytes. Fully
+completed job reuses8/segments0. Changed layout rejects before raw reads; changed
+raw bytes/corrupt records refuse. A completion-quota failure retains all tiles,
+and raised quota reuses8 with identical output identity. Unresolved foreground
+stores no complete tile/summary. Orphan staging exceeds a constrained quota before
+raw reads without deletion; unrelated content is preserved/refused. An actual
+independently authored OME-TIFF reopens through a fresh reader after display-
+channel changes and reuses its exact zero-cell record; actual file mutation
+refuses. No real biological acceptance, full D02 or frozen-package claim.
+
+Next: corrected/unmixed source adapters, admitted real-ROI seam/interruption
+checks and thin desktop control over this same native authority. Optional Python/
+SDK/release remain P01/P02; no new reader/data/dependency/model/license input.

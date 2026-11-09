@@ -3429,3 +3429,73 @@ callbacks must consume/write one tile rather than accumulate whole-slide rasters
 Next: source/request-bound checkpoint/resume around this native stream, explicit
 correction/unmixing adapters, admitted real-ROI seam/interruption checks and thin
 desktop controls.12/22 remain complete; D02 is not closed by native source tests.
+
+### D02 — bounded source/options-bound tile checkpoints and resume
+
+Checkpoint the existing tiled stream using the existing bounded binary checksum
+codec and atomic new-only export helper. Persist one global threshold/raw-input
+manifest, complete tile masks/IDs/raw moments and a final completion record only
+when all tiles are complete. Validate checksum/shape/ownership/identity/geometry/
+moment missingness at load. Resume pins the source/request/global threshold,
+verifies current raw bytes once per tile and skips completed segmentation; stream
+both reused/new scientific results. Reuse the existing cell job overload, not a
+second scheduler. Distinct replay/segmentation counters and canonical output hash
+exclude timings/path/runtime allocation metadata. Reserve codec/manifest buffers
+inside existing work admission, enforce per-record/total storage ceilings and
+preserve all existing/new files on failure. No overwrite of records or inputs.
+
+Decisive check: one affected native build/test batch. Compare uninterrupted and
+3-tile-interrupted/resumed records byte-for-byte including geometry/moments and
+output identity, prove1 verification read/tile and completed job reuse; reject
+changed options/raw bytes/corrupt record, enforce storage quota and resume with
+raised quota, refuse to persist unresolved candidates as complete, and reopen an
+actual authored OME-TIFF with a fresh reader generation. No real-data download,
+GUI/bindings/package or repeated expression/science campaigns. Derived sources,
+admitted real-ROI and thin desktop controls remain after this checkpoint slice.
+
+Initial checkpoint build succeeds. Pure cells/tiles/published replay pass. Source
+suite passes interrupted/resumed byte equality, reuse/read counts, old-job reuse,
+options/raw/corrupt rejection, quota completion/resume and unresolved-record
+refusal, then exposes a real file-reopen identity bug: TIFF ReaderSource.reader
+contains its encoded display view. Including that opaque descriptor in the raw
+source SHA makes channel/range presentation invalidate a fresh raw reader.
+Fix source profile toqpx.tiled-fluorescence-source/2: retain actual reader_id,
+raw metadata/series/calibration, scope and file-version set, exclude display-only
+observed.reader for file-backed sources. Memory sources still bind reader/generation.
+No assertion/tolerance weakened; no existing untiled recipe identity change.
+Retain failed ctest.log, rebuild/rerun only source workflow for this source-key
+change; reuse other3 passed suites. Old local tiled source-profile checkpoints
+refuse via changed SHA rather than aliasing the revised identity contract.
+
+Source-profile repair passes ctest-r2.log0.43s: actual OME-TIFF fresh-reader resume
+now succeeds after display-channel changes; byte-identical resumed geometry and
+source mutation guards remain passing. Before handoff, source inspection found
+resume did one exists/stat per POSSIBLE tile (up to100k even for a short prefix)
+and omitted orphan atomic staging from total storage. Replace with one streaming
+scan of existing dedicated checkpoint members; count recognized staging bytes,
+refuse unrelated/symlink members, preserve all files. Add quota-before-raw-work
+and unowned-content preservation checks. This concrete cost/quota correction
+justifies one checkpoint-source/test rebuild and source-suite run; no broad rerun,
+cleanup deletion or new scheduler. Retain prior passing/failure logs.
+
+Checkpoint slice passes final ctest-r3.log0.45s (0.51s total). Initial build/pure-
+cell/tile/published-replay passes are retained; source-key fix and scan/quota fix
+have their own targeted passing source runs. Interrupted3/8-tile resume reuses3,
+segments5 and reads raw8 times rather than repeating threshold/segmentation passes;
+all records including masks/IDs/moments/completion are byte-identical to full run.
+Fully completed job reuses8/segments0. Options mismatch rejects before raw reads;
+raw mismatch/corruption reject. Quota failure advertises no complete record and
+raised quota reuses all8. Unresolved tiles create no reusable complete records.
+Actual OME-TIFF fresh-reader reopen succeeds after presentation changes, then
+actual source mutation refuses. Orphan staging counts toward quota before raw
+work and remains preserved; unowned directory content is refused/preserved.
+
+Waste review: one combined affected-native build/test batch, one diagnosed real
+source-profile repair and one concrete checkpoint metadata/quota refinement; only
+source suite rerun for those changes, no broad science or GUI/bindings/package
+campaign. Reuse atomic export/binary codec/job and saved threshold/segmentation;
+no new scheduler, source download, matrix reindex or deletion. Canonical output
+hash excludes path/timing/runtime accounting, retaining exact persisted science.
+Next D02: correction/unmixing adapters over this same source/job/checkpoint path,
+then admitted real ROI independent seam/interruption checks and thin desktop
+controls.12/22 complete; this native persistence slice does not close D02.

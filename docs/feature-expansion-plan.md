@@ -189,8 +189,13 @@ is D02; these steps refine its existing checkbox, without creating another ledge
    256-bin/lowest-tie semantics with unique-core counting and per-tile raw hash
    agreement across passes; constants skip the histogram pass. Native tests match
    untiled threshold/geometry/moments across two layouts and cover mutation/cancel/
-   stale/constant behavior. Next checkpoint/resume, corrected/unmixed source
-   adapters, desktop controls and admitted real-ROI acceptance; D02 remains open.
+   stale/constant behavior. Native checkpoint/resume is delivered: atomic bounded
+   threshold/tile/completion records, exact source/options/raw-input verification,
+   skipped completed segmentation and byte-identical interrupted/resumed masks/
+   IDs/raw moments. Quotas include orphan staging; startup scans existing members
+   once. Raw source profile/2 excludes TIFF display-view descriptors and survives
+   fresh-reader reopen. Next corrected/unmixed source adapters, desktop controls
+   and admitted real-ROI acceptance; D02 remains open.
 4. Reuse an admitted whole-slide ROI, compare seam results independently and prove
    interruption/resume equality. Add thin UI controls over the same authority;
    no alternate scheduler or repeated F01 biological-accuracy campaign.

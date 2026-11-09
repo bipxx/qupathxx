@@ -26,9 +26,11 @@ private:
 };
 struct FluorescenceTiledReport {
     std::string state,request_sha256,source_sha256,input_sha256;
+    std::string checkpoint_path,output_sha256;
     double resolved_threshold=0,elapsed_ms=0;
     std::uint64_t finite_pixels=0,cells=0;
     std::size_t tiles=0,unresolved_tiles=0,accounted_work_bytes=0;
+    std::size_t reused_tiles=0,segmented_tiles=0;
 };
 // Streams one immutable tile result at a time. The native sink may write bounded
 // records; it must not reference a live Document/UI or retain unbounded results.
