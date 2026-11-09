@@ -1277,3 +1277,50 @@ native batch passed. No binding/package/GUI build or repeat full197MB import.
 D01 remains open for explicit spatial associations and backed import/gene-view
 consumers;11/22 complete. This is native persistence evidence, not SDK/release or
 new biological/speed qualification.
+
+
+### D01 explicit spatial join and native gene-view integration
+
+ExpressionMatrixSource now batches observation-ID lookups through one connection/
+prepared statement. ExpressionMatrixSpatialSnapshot joins explicit barcodes to
+axis indices, preserving caller row/object/coordinate order; no positional guess.
+Duplicate barcodes/object IDs, absent IDs, invalid coordinates and over-budget
+work refuse. Snapshot identity binds the sealed matrix, coordinates, cohort,
+frame/units and plane. Selected ExpressionDatasets use that joined lineage as
+their source identity; dataset_frame() supplies the matching existing native
+registration contract. Thus changing units/provenance with identical numeric
+coordinates cannot reuse a scientific identity.
+
+Point detections use qpx.expression-matrix-points/1 metadata with count source,
+barcode and explicit image-frame digest. No sample values are copied into double
+measurements. Owner capture validates point shape, frame/calibration and plane;
+project matrix removal refuses referenced observations. Existing native object
+and image-data persistence/Undo retains point/frame/source associations. Selected
+projection uses indexed sparse reads and allocates only requested feature columns,
+not the full source. Implicit zeros remain measured; raw uint64 values stay exact.
+
+The existing GeneViewSession accepts immutable spatial snapshots. Its existing
+worker resolves selected stable feature IDs, obtains their values and uses the
+same legend/transform/color service. Generation coalescing, cancellation, clear/
+replacement and current-source checks govern backed work; no new scheduler or
+Python path. Source file fingerprinting is retained across gene changes. The
+legacy selected-dataset bind route remains supported. Actual desktop catalogue
+and backed import controls are still pending.
+
+Workspace-root build/feature-expansion/d01-native/spatial-build.log succeeds;
+spatial-ctest.log passes all5 affected suites in1.16s: new spatial matrix, matrix
+project, matrix storage, expression and gene_view. New cases cover deliberately
+scrambled observation/object/feature order, exact2^53+1 counts, measured zeros,
+original text offline, empty cohort, malformed/duplicate/unknown IDs, work/cancel,
+rapid latest-generation changes, comparison legends, absent gene errors, pending
+clear, legacy rebinding, source mutation, point/frame save/reopen, calibration
+Undo and referenced removal/Undo.
+
+Boundary review found the need to bind typed frame semantics rather than just
+frame-name text; no failing assertion was removed. spatial-build-r2.log succeeds,
+and spatial-ctest-r2.log passes the changed suite0.13s with same-numbers/different-
+units identity and existing registration-field reuse checks. Other passing tests
+cover unchanged paths and were not repeated. No full real-matrix import, GUI,
+bindings/package build, dependency or material download. D01 stays unchecked,
+11/22 complete. Next extend the existing import preview/controller to the indexed
+source and reuse the native gene session behind an actual paged desktop catalogue.

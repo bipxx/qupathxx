@@ -942,3 +942,21 @@ before committing the project. Existing different bytes are never overwritten.
 Remove/Undo affects associations only, preserving shared files; orphan cleanup
 requires a separate verified retention decision. All reopened sources compare
 exact file/source identity. Spatial joins and backed import/gene UI remain pending.
+
+
+For native spatial reads, ExpressionMatrixSpatialSnapshot joins explicit
+ExpressionObservation IDs/coordinates to a matrix and typed CoordinateFrame.
+Only requested genes are projected into the existing ExpressionDataset/display
+services. Their source identity binds the complete spatial association, including
+units; dataset_frame() provides its matching registration frame. The original
+matrix and count values remain unchanged. Missing IDs refuse; rows are never
+matched by order. Batched lookup avoids one database connection per observation.
+
+expression_matrix_point_properties() creates the count-free metadata for explicit
+level-zero image point detections. Capture validates their saved image frame,
+calibration and plane. Keep the matrix association while points reference it;
+remove points first if the association must be removed. Both support existing
+native Undo/save/reopen. GeneViewSession can bind this immutable snapshot, switch
+selected genes on its existing worker and produce the usual legends/comparison
+while discarding cancelled/stale generations. This native route is delivered;
+backed import and the actual desktop full-catalogue controls are still pending.

@@ -152,9 +152,12 @@ complete before its spatial/consumer route is usable.
    need no migration. Ownership copies use the existing atomic writer and precede
    project commit; removal never deletes shared bytes. Keep the canonical managed
    child directory beside the project when relocating a bundle.
-4. **Next: explicit spatial join and existing consumers.** Associate observation
-   IDs with explicit coordinates/frame/plane, never catalogue order or guessed
-   positions. Extend import preview and gene-view controllers with paged catalogue
+4. **Native spatial join delivered; finish import and desktop consumers.** Exact
+   observation-ID batches join immutable coordinate/frame/plane snapshots, and the
+   existing native gene-view session reads only selected features with its current
+   coalescing/cancel mechanism. Typed units/provenance participate in result identity;
+   point objects contain no duplicated counts. Extend import preview and desktop
+   gene-view controllers with paged catalogue
    selection and native indexed reads. Retain opened immutable sources; cancel/
    coalesce obsolete gene requests and refuse stale delivery. UI/CLI choose IDs and
    display native results; no second parser/query or frontend numerical campaign.
@@ -465,8 +468,10 @@ and classify actual release inputs under L01. See the existing
   associations, owned copies and verified project relink now pass native
   Keep/remove/Undo, relative tree relocation, Save As and async snapshot checks.
   Project copy conflicts and changed source identities refuse publication. D01
-  remains open for explicit spatial joins and backed import/gene-view consumers.
-  See the shared receipt.
+  now has explicit ID/frame/plane spatial snapshots and selected-gene native
+  GeneViewSession integration, including exact counts, persisted point associations
+  and stale/coalesced result checks. D01 remains open for backed import and actual
+  desktop catalogue/gene selection. See the shared receipt.
 - [ ] **D02 — bounded interactive and whole-slide processing.** Reuse tile/cache,
   spatial index, native jobs and generation-based publication. Page/filter metadata,
   bound value/color/decoded-tile caches and coalesce rapid viewport requests.

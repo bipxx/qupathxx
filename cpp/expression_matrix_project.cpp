@@ -1,4 +1,5 @@
 #include "qupathxx/expression_matrix_project.hpp"
+#include "qupathxx/expression_matrix_spatial.hpp"
 #include "qupathxx/project.hpp"
 #include "qupathxx/workflow.hpp"
 #include "expression_matrix_project_internal.hpp"
@@ -182,7 +183,9 @@ void relink_expression_matrix(Project& project,std::uint64_t image,const std::st
 void remove_expression_matrix(Project& project,std::uint64_t image,const std::string& id) {
     auto doc=project.document(image);auto all=records(doc->image_data_properties());
     const auto it=all.find(id);if(it==all.end())throw std::out_of_range("Expression association not found");
-    decode(id,it->second);all.erase(it);publish(*doc,std::move(all));
+    decode(id,it->second);
+    if(expression_matrix_points_reference(*doc,id))throw std::invalid_argument("Expression matrix is referenced by spatial observations");
+    all.erase(it);publish(*doc,std::move(all));
 }
 
 namespace detail {

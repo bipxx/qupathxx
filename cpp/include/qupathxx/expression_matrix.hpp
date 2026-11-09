@@ -61,6 +61,10 @@ public:
         std::size_t work_bytes=64u*1024*1024,const std::atomic<bool>* cancelled=nullptr) const=0;
     virtual std::optional<std::uint64_t> feature_index(const std::string& id,const std::atomic<bool>* cancelled=nullptr) const=0;
     virtual std::optional<std::uint64_t> observation_index(const std::string& id,const std::atomic<bool>* cancelled=nullptr) const=0;
+    // Exact ID join in requested order using one connection/prepared lookup.
+    // Missing IDs refuse; repeated lookup IDs are allowed. No positional inference.
+    virtual std::vector<std::uint64_t> observation_indices(const std::vector<std::string>& ids,
+        std::size_t work_bytes=64u*1024*1024,const std::atomic<bool>* cancelled=nullptr) const=0;
     virtual ExpressionSparseBlock read(const ExpressionMatrixSelection&,
         std::size_t work_bytes=64u*1024*1024,const std::atomic<bool>* cancelled=nullptr) const=0;
 };

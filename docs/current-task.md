@@ -3026,3 +3026,53 @@ and reuse independently verified existing bytes. Keep/remove/Undo never deletes
 shared content-addressed files. Final D01 count stays11/22. Next implement explicit
 observation-ID/coordinate association and selected-gene snapshots over the matrix,
 then use existing import/gene controllers; no full matrix import repeat.
+
+### D01 spatial ID join and backed native gene-view session
+
+Changed inputs: batched native observation-ID lookup, immutable explicit spatial
+row/frame snapshot, bounded selected-gene projection and the existing GeneViewSession
+worker. One connection/prepared statement joins ID batches, avoiding per-point
+open/hash/lookup overhead. Count data remain solely in the matrix; materialized
+point properties store source/barcode/frame identity. Capture checks image frame,
+calibration and plane. Project matrix removal refuses referenced observations.
+The native gene session uses its existing generation/coalescing/cancel mechanism
+for indexed reads and existing legends; no new scheduler or Python logic.
+
+Decisive checks: deliberately scrambled observation/object/feature order, exact
+2^53+1 counts and measured sparse zeros, missing/duplicate IDs and invalid frame,
+empty cohort/work bounds/cancel, changed store, point/source/frame save/reopen,
+reference removal/Undo and backed gene switching/comparison/replacement. Reuse the
+full real matrix import receipt; do not repeat import or new material downloads.
+Build affected matrix-spatial/project/matrix, gene-view and expression suites once
+in the shared cache after live-owner gate; no GUI/binding/package. Native consumers
+are a foundation; backed import and actual desktop catalogue remain D01 work.
+
+
+First spatial batch and all5 affected suites pass in1.16s. Boundary review then
+found that a projected ExpressionDataset must bind the full typed coordinate
+frame/units, not only a frame-name string plus matrix digest. Bind its source
+lineage to the spatial snapshot digest and expose dataset_frame() for existing
+RegistrationRequest's source/frame consistency contract. Add an independent same-
+numbers/different-units identity check and a registration-field reuse check.
+Rebuild only changed core/new test, rerun the new suite; unchanged passing matrix,
+project, legacy expression/gene-view evidence remains reusable. No gate relaxed.
+
+
+D01 spatial slice passes: one initial affected cached batch/all5 suites1.16s,
+then changed spatial identity/registration checks pass0.13s after a targeted rebuild.
+Spatial matrix, matrix project/storage, legacy expression and gene_view results
+are retained in d01-native/spatial-ctest*.log. Exact scrambled joins, >2^53 raw
+counts, sparse zeros, native comparisons/coalescing/replacement, offline text,
+point/source/frame project replay and reference protection pass. Typed units and
+coordinate provenance now bind the projected lineage; dataset_frame() matches
+existing registration's source identity. No scientific/count contract was relaxed.
+
+Waste review: batch ID joins use one connection/prepared lookup, and selected
+projections share immutable coordinates/source and existing display jobs. Count
+values are not duplicated into point facts; selected-gene switches do not fingerprint
+or parse the original matrix again. A post-build boundary review justified one
+small identity repair/rebuild; unchanged passing suites were reused. No full real
+import, GUI/bindings/package, new data/model/dependency or restricted input.
+Next finish backed import preview/publication and actual desktop paged catalogue/
+gene controls. Reuse this native authority and the retained full real store;
+D01 remains open and the canonical total stays11/22 complete.

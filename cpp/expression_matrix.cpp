@@ -27,6 +27,24 @@ public:
     }
     std::optional<std::uint64_t> feature_index(const std::string& id,const std::atomic<bool>* c)const override{auto i=index("SELECT idx FROM features WHERE id=?",id,c);if(i && *i>=metadata_.features)throw std::invalid_argument("Expression feature lookup exceeds dimensions");return i;}
     std::optional<std::uint64_t> observation_index(const std::string& id,const std::atomic<bool>* c)const override{auto i=index("SELECT idx FROM observations WHERE id=?",id,c);if(i && *i>=metadata_.observations)throw std::invalid_argument("Expression observation lookup exceeds dimensions");return i;}
+    std::vector<std::uint64_t> observation_indices(const std::vector<std::string>& ids,std::size_t work,const std::atomic<bool>* c)const override {
+        work_limit(work);workflow_checkpoint(c);
+        if(ids.size()>1000000)throw WorkflowCaptureLimit("Expression ID join exceeds one million observations");
+        std::size_t fixed=payload_bytes();workflow_capture_charge(fixed,ids.capacity()*sizeof(std::string),work);
+        workflow_capture_charge(fixed,ids.size()*sizeof(std::uint64_t),work);
+        for(const auto& id:ids){detail::spatial_identifier(id);workflow_capture_charge(fixed,id.capacity(),work);}
+        require_current(c);Database db(path_,false,work,c);db.admit(fixed);
+        std::vector<std::uint64_t> result;result.reserve(ids.size());
+        Statement query(db,"SELECT idx FROM observations WHERE id=?");
+        for(const auto& id:ids) {
+            workflow_checkpoint(c);query.text(1,id);
+            if(!query.step())throw std::invalid_argument("Expression observation ID absent from matrix: "+id);
+            const auto value=query.number(0);
+            if(value>=metadata_.observations || query.step())throw std::invalid_argument("Expression observation ID index differs");
+            result.push_back(value);query.reset();
+        }
+        db.admit(fixed);require_current(c);return result;
+    }
     ExpressionSparseBlock read(const ExpressionMatrixSelection& selection,std::size_t work,const std::atomic<bool>* c)const override{
         work_limit(work);workflow_checkpoint(c);if(selection.features.empty() || selection.features.size()>4096)throw std::invalid_argument("Expression read requires1..4096 explicit features");
         std::size_t fixed=payload_bytes()+sizeof(ExpressionSparseBlock)+65536;workflow_capture_charge(fixed,selection.features.capacity()*sizeof(std::uint64_t),work);if(selection.observations)workflow_capture_charge(fixed,selection.observations->capacity()*sizeof(std::uint64_t),work);
