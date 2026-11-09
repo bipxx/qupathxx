@@ -393,3 +393,57 @@ These observations do not establish annotated accuracy or speed superiority.
 The added native-only CI target is registered; hosted execution is not claimed.
 Next F01: desktop integration and the admitted annotated comparison. F01 remains
 unchecked; no source/SDK/package release qualification was performed.
+
+F01 desktop continuation: compiled private `GuiFluorescence` reuses the native
+request/job/run, tracing, atomic publication and compact record services. Analyze
+and Workflow/Tools expose the tool. Controls select original channel block/local
+segmentation channel, explicit Z/T, selected ROI or crop, units, threshold,
+context and work limits. Nucleus/body preview is a separate bounded presentation
+texture (maximum1024 samples per axis); masks/measurements remain original-lattice.
+Preview is placed in level-zero source coordinates after the existing canvas cache
+and hidden for a different display Z/T. Boundary counts and textures cache by
+immutable run rather than scanning/reuploading every frame.
+
+Keep traces contours off the UI thread. Owner delivery defers while edit/save/load
+is blocked, rechecks capture/source currentness and publishes one undoable cohort.
+The tool retains/removes compact run records and replays their exact identity;
+missing cytoplasm remains absent. Record verification does not silently certify
+later edits to published cells. No public Document/GuiOptions layout or binding
+object changed. No new dependency or restricted material was introduced.
+
+Final affected `gui_fluorescence` CTest passes1/1 (0.53s total), retained at
+workspace-root `build/feature-expansion/f01-gui-final-ctest.log`; final build log is
+`f01-gui-final-build.log`. Actual ImGui clicks cover Run, registered raw preview,
+independent nucleus sum1541/body mean102, blocked trigger and ready-contour
+delivery, atomic Keep/Undo, exact record replay/save/reopen, duplicate-publication
+error/recovery, changed ROI, same-address Document replacement, image switching,
+zero-cell Keep and cancellation without publication. A framebuffer pixel at an
+independently known level-zero nucleus center verifies overlay registration.
+
+The same actual tool runs the admitted CC0 BBBC039 TIFF:130 candidates are traced,
+published, retained and exactly replayed; original TIFF SHA256 is unchanged.
+`build/feature-expansion/f01-gui-real/real.log` records the run and preview captures
+remain alongside it. Standalone `qupathxx_app --project ... --smoke` exits0 from
+System32 with Windows-only PATH, leaving the admitted OME demo project unchanged
+(`app-smoke.json`). Captures were inspected for readable controls and native mask
+placement. These are consumer/geometry/persistence checks, not annotation accuracy.
+
+This is working-tree evidence with concurrent desktop edits preserved, not a
+frozen release identity. `f01-gui-real/source.json` and its small source snapshot
+record the exact main GUI, panel, test, layout/catalog and CMake inputs; no matching
+wheel/SDK/package claim is made. Added CMake GUI target is exercised locally;
+hosted GUI execution is not claimed. Prior failed logs remain `f01-gui-ctest.log`,
+`f01-gui-diagnostic-ctest.log`, `f01-gui-input-ctest.log` and
+`f01-gui-delivery-ctest.log`, plus their corresponding build logs.
+
+Corrections: avoid new private Document access; use native request authority for
+staleness, including same-address replacement. Poll early with publication
+blocked until the frame knows its actual edit/save/load state. Include pending
+owner delivery in frontend busy, since worker completion alone can precede result
+consumption; this was the intermittent missing-result root cause. Synthetic
+hidden-window input uses explicit hover/event delivery. The stale-ROI test now
+enlarges a parent instead of violating already-published child containment.
+Terminal contour failures/cancellation no longer remain labelled tracing. No
+assertion was weakened. Next F01: freeze annotation conventions/tolerances before
+comparison and complete declared context/boundary acceptance. F01 stays unchecked;
+overall completion remains7/22.

@@ -38,6 +38,7 @@
 #include "gui_genes.hpp"
 #include "gui_spatial_import.hpp"
 #include "gui_registration.hpp"
+#include "gui_fluorescence.hpp"
 #include "gui_project_density.hpp"
 #include "gui_raw.hpp"
 #include "gui_raw_pixel.hpp"
@@ -292,6 +293,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     detail::GuiGeneDisplay genes;genes.load_preference(workspace.gene_preference);
     auto spatial_import=std::make_unique<detail::GuiSpatialImporter>();
     detail::GuiLandmarkRegistration landmark_registration;
+    detail::GuiFluorescence fluorescence;
     using Task=ui::WorkflowTask;
     bool focus_add_image=false,focus_open_project=false;
     Task last_workflow_task=workspace.workflow_task();
@@ -869,6 +871,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         analysis.poll(document,selected);stain_estimate.poll(document,selected);
         classifier.update(document,*selection);pixel_classifier.update(document,*selection);raw_pixel.update(document);
         cell_table_job.poll();measurement_job.poll();
+        fluorescence.poll(document,true);
         cell_job.poll(document,selected);if(!cell_job.result()) cell_preview.clear();
         if(verifying_cells && !cell_job.busy()) {
             try {if(cell_job.poll(document,selected).state=="ready") cell_job.verify_record(document,verifying_cells);} catch(const std::exception& e) {error=e.what();}
@@ -1351,6 +1354,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 if(ui::MenuItem("Object classifiers...","F4")) classifier.open();
                 if(ui::MenuItem("Pixel classifiers...","F5")) pixel_classifier.open();
                 if(ui::MenuItem("Raw pixel classifier")) raw_pixel.open();
+                if(ui::MenuItem("Fluorescence cells...",nullptr,false,has_image)) fluorescence.open();
                 if(ui::MenuItem("Gene expression...",nullptr,false,has_image)) genes.open();
                 if(ui::MenuItem("Landmark registration...",nullptr,false,has_image)) landmark_registration.open();
                 if(ui::MenuItem("Import spatial expression...")) spatial_import->open(options.project.get());
@@ -2514,6 +2518,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             if(ui::Button("Object classifiers (F4)")) classifier.open();
             if(ui::Button("Pixel classifiers (F5)")) pixel_classifier.open();
             if(ui::Button("Raw pixel classifier")) raw_pixel.open();
+            if(ui::Button("Fluorescence cells...")) fluorescence.open();
             if(ui::Button("Spatial...")) spatial.open();
             if(ui::Button("Gene expression...")) genes.open();
             if(ui::Button("Landmark registration...")) landmark_registration.open();
@@ -2866,6 +2871,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         }
         tma.draw_qptma_preview(document,draw,viewport,offset,size);
         genes.draw_overlay(draw,viewport,offset,size);
+        fluorescence.draw_preview(draw,viewport,offset,size);
         if(tool==6 && vertex_id) {
             for(std::size_t path=0;path<vertex_paths.size();++path) {
                 const auto& ring=vertex_paths[path];
@@ -3085,6 +3091,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         ImGui::End();
         spatial.draw(document,*selection,options.project.get(),&project_images,editing_blocked,has_image,mark_target);
         genes.draw(display);
+        if(has_image)fluorescence.draw(document,selection->primary(),editing_blocked || save_job.busy() || project_load.valid());
         if(has_image)landmark_registration.draw(document,options.project?options.project->identity()+":"+std::to_string(active_image):"current-image",display,editing_blocked || save_job.busy() || project_load.valid());
         if(const auto imported=spatial_import->draw(!options.project || editing_blocked || project_load.valid() || save_job.busy() || maintenance_job.valid());!imported.empty()) {
             project_load_cancelled=false;loading_recovery=false;project_error.clear();copy_recovery_path(project_open_path,imported);

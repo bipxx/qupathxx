@@ -2016,3 +2016,80 @@ source, and leave F01 unchecked until its remaining acceptance is demonstrated.
 Selective current-card hunk staging refused mixed line endings; stage the native
 tail against the exact HEAD document instead, preserving the unrelated UI top
 section unstaged. No source or evidence changed during that correction.
+
+### F01 continuation: fluorescence desktop tool
+
+Changed inputs: compiled private fluorescence tool and additive menu/tool/overlay
+hooks, preserving concurrent desktop edits and public Document/GuiOptions/binding
+layouts. Use existing immutable detection job, publication and run-record APIs;
+trace contours on an owned cancellable worker before one owner-thread publication.
+Defer publication during save/load/edit blocking. Draw a bounded sampled label
+preview after the existing canvas cache, never changing masks or source samples;
+hide it for a different display Z/T. Expose channel/block/plane/ROI/crop controls,
+measurements with absent cytoplasm, keep/remove/replay and native error messages.
+
+Decisive checks: actual native ImGui action clicks on an analytical TIFF, preview
+registration, original compartment values, blocked Keep, atomic publication/undo,
+run retention/replay/save/reopen, stale ROI and switched-document refusal, empty
+outcomes and cancellation. Build only the compiled panel test and standalone app
+in the existing cache after interfaces settle; no bindings or package rebuild.
+
+Initial desktop compile caught private analysis_identity_ access and a poll hook
+before editing_blocked is defined. Use the document/source observation plus the
+existing request.matches authority (which still detects a replaced Document at
+the same address); no friend/API/layout change. Early poll always defers contour
+publication; actual draw delivers only after edit/save/load blocking is known.
+Retry only affected native GUI/test/app targets after these diagnosed repairs.
+
+The repaired build passes, but the first native ImGui click test does not produce
+a ready result. Preserve f01-gui-ctest.log; add native error/busy/result diagnostics
+and a failure framebuffer capture before changing product logic or assertions.
+Rebuild only the changed test to distinguish UI input delivery from job failure.
+
+Diagnostic retry reaches native Keep and fails later at Replay, while Run and
+raw preview registration pass; the first Run failure is input-timing dependent.
+For the hidden GLFW test, disable ImGui event trickling and add a hover frame
+before button-down so queued backend cursor-loss events cannot shift synthetic
+clicks across frames. Preserve all assertions, add Replay failure capture/details,
+and rebuild only this consumer test. No product behavior is changed by this fix.
+
+The next replay failure isolates the real race: native job.busy() becomes false
+when its future is ready, before the panel has delivered it. The test can finish
+its wait with pending delivery and no result, at different steps depending on
+scheduling. Include pending owner delivery in the panel busy state; do not change
+native job semantics or weaken result assertions. Retain hidden-input hover/
+queue control for deterministic synthetic interaction. Add a ready-contour/save-
+blocked delivery assertion and same-address Document replacement case. Cache
+boundary count once per immutable run and use centered sampling for reduced
+preview pixels. Retry the affected panel/test/app targets; main gui.cpp is settled.
+
+With pending delivery included in busy, Run/Keep and save/reopen Replay pass.
+The next failure is the test shrinking a parent ROI beneath already-published
+child cells, correctly refused by Document. Enlarge the ROI within the source
+instead: it still changes captured geometry but preserves child containment.
+Rebuild only the test; retain the product parent/child invariant unchanged.
+
+Desktop checks pass1/1 (0.60s total), including deferred publication, exact
+reopened replay, stale ROI, zero cells and same-address Document replacement.
+Final error-path review finds contour/publication exceptions leave the caption
+tracing after the worker is terminal. Set failed/cancelled terminal captions and
+add duplicate async Keep/refusal/replay recovery. Rebuild the affected panel/test
+and relink the standalone app; no main GUI source or binding changes.
+
+Final desktop CTest passes1/1 (0.53s total); actual ImGui Run/Keep/record/replay on
+the admitted CC0 TIFF delivers all130 labels with unchanged original bytes. The
+standalone app smoke passes from System32 with Windows-only PATH; admitted OME
+project bytes are unchanged. Source-scoped working-tree snapshot/hashes and logs
+are in f01-gui-real; preserve concurrent UI edits, not a frozen-release claim.
+
+Waste review: reused native jobs/publication/records and isolated the panel in a
+compiled module. Private-token and early-block-scope mistakes caused one compile
+repair. Worker-ready vs owner-delivered caused intermittent missing UI results;
+count pending delivery in busy instead of rerunning or weakening assertions.
+A stale-ROI test violated parent containment; enlarge it, keeping that invariant.
+Late private header diagnostics required another large gui.cpp compile; freeze
+that interface before future cached builds and keep extra diagnostics in the
+implementation. Only affected targets/app smoke ran; no bindings/package build.
+The single receipt/plan now mark desktop and CLI consumers implemented. F01 remains
+open: next freeze annotation semantics/matching/tolerances before evaluating the
+admitted RGBA panel, then finish its declared context/boundary acceptance.

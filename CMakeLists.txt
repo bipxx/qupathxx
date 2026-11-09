@@ -262,7 +262,7 @@ if(QUPATHXX_BUILD_GUI)
   install(FILES third_party/ProggyClean-LICENSE.txt third_party/ProggyForever-LICENSE.txt third_party/Khronos-LICENSE.txt DESTINATION qupathxx/licenses/imgui)
   find_package(OpenGL REQUIRED)
   qupathxx_enable_density_workflow()
-  add_library(qupathxx_gui STATIC cpp/gui.cpp cpp/gui_fonts.cpp cpp/gui_shell.cpp cpp/gui_registration.cpp
+  add_library(qupathxx_gui STATIC cpp/gui.cpp cpp/gui_fonts.cpp cpp/gui_shell.cpp cpp/gui_registration.cpp cpp/gui_fluorescence.cpp
     ${qpx_rmlui_SOURCE_DIR}/Backends/RmlUi_Renderer_GL3.cpp
     ${qpx_rmlui_SOURCE_DIR}/Backends/RmlUi_Platform_GLFW.cpp
     ${imgui_SOURCE_DIR}/imgui.cpp ${QPX_IMGUI_DRAW_SOURCE}
@@ -681,6 +681,16 @@ if(QUPATHXX_BUILD_TESTS)
     qupathxx_copy_runtime(qupathxx_gui_registration_tests)
     add_test(NAME gui_registration COMMAND qupathxx_gui_registration_tests)
     set_tests_properties(gui_registration PROPERTIES TIMEOUT 60)
+    add_executable(qupathxx_gui_fluorescence_tests cpp/tests/gui_fluorescence_tests.cpp)
+    target_include_directories(qupathxx_gui_fluorescence_tests PRIVATE ${imgui_SOURCE_DIR})
+    target_compile_definitions(qupathxx_gui_fluorescence_tests PRIVATE ${QPX_IMGUI_UNICODE_DEFINITION})
+    if(MSVC)
+      target_compile_options(qupathxx_gui_fluorescence_tests PRIVATE /utf-8)
+    endif()
+    target_link_libraries(qupathxx_gui_fluorescence_tests PRIVATE qupathxx_gui glfw)
+    qupathxx_copy_runtime(qupathxx_gui_fluorescence_tests)
+    add_test(NAME gui_fluorescence COMMAND qupathxx_gui_fluorescence_tests)
+    set_tests_properties(gui_fluorescence PROPERTIES TIMEOUT 60)
     add_executable(qupathxx_gui_organization_tests cpp/tests/gui_organization_tests.cpp)
     target_include_directories(qupathxx_gui_organization_tests PRIVATE ${imgui_SOURCE_DIR})
     target_compile_definitions(qupathxx_gui_organization_tests PRIVATE ${QPX_IMGUI_UNICODE_DEFINITION})

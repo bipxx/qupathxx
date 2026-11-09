@@ -320,3 +320,34 @@ newly published counts, and boundary count. Exit codes:0 success,1 runtime failu
 2 invalid arguments,130 cancellation. No biological accuracy follows from merely
 saving or replaying a run. Desktop integration and annotated F01 acceptance remain
 pending.
+
+## Fluorescence desktop tool
+
+Open **Analyze → Fluorescence cells...** or **Workflow → Tools → Fluorescence
+cells...** with a quantitative TIFF image active. Expand **Fluorescence settings**
+to choose original channel block, segmentation channel within that block, Z/time,
+ROI or explicit crop, threshold, units, expansion and bounded work/context.
+The current TIFF series remains the source association; use the existing raw
+channel tool to choose/open another series. Without a selected area, turn off
+**Use selected ROI** and choose a crop or the whole image.
+
+**Run fluorescence** starts the shared native job; **Cancel fluorescence** cancels
+analysis or contour tracing. A ready run supplies nucleus/body preview, detected
+and boundary counts, the resolved threshold and **Inspect compartment measurements**.
+The preview uses level-zero source coordinates and is hidden if displayed Z/time
+is different. At most1024 samples per axis are uploaded for a large preview;
+small objects can disappear in that presentation sampling, while analysis masks
+and published measurements retain the original lattice.
+
+**Keep fluorescence cells** traces off the UI thread and publishes one native
+undoable cohort when the captured source/ROI is still current. It requires GEOS.
+Publication waits during project save/load or edit blocking. **Keep fluorescence
+run** retains the compact recipe/result identity, also for zero cells and without
+GEOS. Preview and analysis alone do not create objects or persist a run.
+
+Choose a saved record to replay/verify or remove it. Removal is undoable. Existing
+project Save stores the retained records and published cells. Reopening a project
+and replaying uses a fresh native capture against the original associated source;
+missing/relinked/changed inputs can refuse rather than silently substitute data.
+These controls do not establish annotated accuracy; F01 acceptance remains open
+until the admitted annotation comparison and remaining boundary checks pass.

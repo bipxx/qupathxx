@@ -5,7 +5,8 @@ noncommercial (NC) material separate. This document owns the new implementation
 checklist: **22 work items: 7 complete, 15 pending**. It does not reopen completed
 FO00–FO05. S01/V01/V02/I01/I02/R01/R02 are delivered locally. F01 has tested
 native segmentation, jobs, cell publication and compact replay records; its
-consumer integration and annotated acceptance are next. See the
+native CLI and desktop consumers now pass focused checks; annotated acceptance
+is next. See the
 [source-scoped progress receipt](benchmarks/feature-expansion/README.md).
 Preserve independent desktop work recorded in [current-task.md](current-task.md).
 
@@ -125,7 +126,8 @@ No calendar or speed-superiority estimate is asserted before measured work.
 
 ## Next execution slices and shared API boundaries
 
-Start with F01 closeout, not another segmentation implementation. Its tested
+Continue F01 closeout, not another segmentation implementation. CLI and desktop
+steps2/3 below now have source-scoped evidence; steps4/5 remain. Its tested
 backend is partial completion, not a new completed checklist item:
 
 1. Freeze the native request/run/contour/publication and record APIs already
@@ -288,8 +290,10 @@ report the missing real-data acceptance rather than borrowing an NC fixture.
   refuse stale inputs and test finite Gaussian context agreement. Native typed
   contours, atomic cell/fact publication and exact recipe/result-identity records
   (including zero-cell outcomes) now pass undo, replay and project save/reopen.
-  Native CLI detect/list/record replay is implemented; desktop integration,
-  annotated comparison and complete context/seam acceptance remain.
+  Native CLI and desktop run/preview/compartment inspection, cell/record keep,
+  remove and exact replay are implemented and pass focused consumer checks.
+  The real CC0 panel delivers/publishes/replays130 labels through the UI.
+  Annotated comparison and complete context/seam acceptance remain.
   One preselected BBBC039v1 image/mask/partition is CC0-admitted with exact
   hashes; annotation decoding, frozen tolerances and comparison are still pending.
   Keep this item unchecked until that complete workflow is evidenced; reuse the
