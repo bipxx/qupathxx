@@ -1,8 +1,8 @@
 # Native feature-expansion progress — 2026-11-08
 
 The [22-item roadmap](../../feature-expansion-plan.md) remains the completion
-authority. This receipt covers S01/V01/V02/I01/I02/R01/R02 locally, plus an incomplete L01
-guard foundation. GUI claims cover only the named gene workflows below; no new
+authority. This receipt covers S01/V01/V02/I01/I02/R01/R02 locally, plus incomplete
+L01 admission and F01 native foundations. GUI claims cover only the named gene workflows below; no new
 release, speed or biological-accuracy claim.
 
 S01 adds an immutable native ExpressionDataset over the existing imported point
@@ -278,3 +278,66 @@ explicit context/boundary/seam behavior. Do not route raw masks through an RGB
 ScientificRasterKernel by fabricating RGB provenance. Reuse its contour machinery
 through an appropriate typed raw-raster adapter. F01 remains unchecked; overall
 completion stays7/22. L01 final package membership also remains open.
+
+F01 source-bound continuation:
+[fluorescence_cell_workflow.hpp](../../../cpp/include/qupathxx/fluorescence_cell_workflow.hpp)
+adds immutable native request/run types and an owner-thread job over the tested
+raw service. RawAnalysisRequest supplies existing document/ROI/calibration
+authority; the existing raw lattice source snapshot and file/metadata guards
+supply actual source currentness. Object-scoped runs capture object-specific
+provenance; ID0 retains explicit source-only provenance. No RGB raster/projection,
+Python or second scientific implementation is introduced.
+
+The request freezes original channel block, series/Z/T, level-zero core/crop,
+ROI and effective calibration, expands a bounded source context and reserves
+snapshot/raster/measurement work before decoding. Available context must cover
+the Gaussian radius per axis; source edges clip it explicitly. One original raw
+region is read, with finite ROI centers selected on the owner-captured geometry.
+Immutable output retains region/core and a native local-to-global pixel-center
+mapping, typed raw metadata, provenance, masks, measurements and exact source/
+recipe/output hashes. These content hashes do not authorize publication: a
+private capture ticket binds the run to its request, and live currentness is
+rechecked before later publication.
+
+The job owns a single native worker and joins cancellation/destruction before
+releasing captured owners. Workers never read a live Document. Owner delivery
+rejects stale ROI/calibration/source/metadata; ordinary subsequent progress polls
+use cheap document/source observations. The explicit publication guard rechecks
+actual file versions and metadata without rescanning raw pixels. Completed
+duration is captured on future delivery, including time after the last running
+poll, and stays frozen afterward. No general scheduler or extra cache was added.
+
+Native pure-raster and source-workflow CTest pass2 cases (0.25s). Final additional
+source-workflow check after the terminal-duration correction passes (0.26s total).
+Analytical synthetic source counters prove capture does no pixel IO, execution
+reads raw once and no RGB fallback occurs. Cases cover original channel/Z/T
+values, ROI/core/world centers, anisotropic document calibration, finite Gaussian
+context agreement across crops, insufficient context, pre-IO work refusal,
+independent document/capture authority, decoder-shape/errors, closed source,
+metadata/ROI/calibration refusal and deterministic native read barriers for stale,
+cancelled, ready and destructor-join paths. An independently authored uint16 OME
+file proves raw values and display-independent result identity; appending to that
+local fixture proves publication rejects actual file changes despite decoder
+observations/cache. Original admitted fixtures are never modified.
+
+The source-bound native job also runs the admitted CC0 BBBC039 TIFF and returns130
+candidates. It checks native currentness but is still no annotation comparison.
+Passing logs: workspace-root build/feature-expansion/f01-source-final and
+f01-source-timing-final. Initial failures remain f01-source/f01-source-failure
+and f01-source-r2. Native-only CI includes both affected targets; hosted execution
+is not claimed. No new library, binding build, GUI/package or restricted material.
+
+Corrections: the lattice helper's honest source-only provenance needed an explicit
+object-specific capture for ROI runs. A later test reused an old request after
+ROI Undo; native Undo advances object revisions, so recapture for the next job
+instead of weakening currentness. The metadata oracle now starts from a proven
+current capture, isolating metadata refusal from ROI staleness. Final review also
+fixed terminal duration retaining the last running poll's value; a controlled
+barrier proves elapsed time advances before terminal delivery.
+
+Next F01: adapt the existing typed label contour machinery to these immutable
+raw masks, publish/store native objects and exact recipes, wire GUI/CLI and perform
+the admitted annotated comparison with declared tolerances. The pinned mask is
+RGBA8; preserve its explicit annotation-channel semantics rather than silently
+relaxing the existing NuCLS RGB8 decoder. No F01 checkbox or full tile/biological
+acceptance is claimed from this source-job delivery.

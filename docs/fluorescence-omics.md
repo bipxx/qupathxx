@@ -182,3 +182,47 @@ a1e-12 relative rank threshold; transforms retain the coordinate API's finite,
 invertible, condition-bounded contract. No Python runtime or new dependency is
 required by this service. Nonlinear/automatic registration remains outside this
 landmark workflow.
+
+## Fluorescence cell API under implementation
+
+The raw detector/reducer and its source-bound native job are implemented; the
+desktop/CLI workflow, object publication and saved cell recipes are still F01 work.
+This is distinct from the delivered raw measurement and import workflows above.
+
+[fluorescence_cell_workflow.hpp](../cpp/include/qupathxx/fluorescence_cell_workflow.hpp)
+is the C++ entry point. Construct `FluorescenceCellRequest` on the document owner,
+with a level-zero `RawRegionRequest` selecting a contiguous original channel
+block and explicit Z/T. An object ID uses that object's area ROI; ID0 uses the
+explicit core crop inside the image, with honest source-only provenance. The
+segmentation channel is an index within the selected block. TIFF series comes
+from the opened native source and is retained in the captured metadata.
+
+`FluorescenceCellOptions` selects strict threshold or Otsu, Gaussian sigma,
+distance-peak prominence, nucleus area limits and optional cell expansion in
+pixels or micrometres. Physical units require both effective document calibration
+axes. Context is requested separately per axis (default32 pixels), clipped at the
+source edge and required to cover available Gaussian support. Context may smooth
+the ROI but does not expand its eligible object domain. Boundary flags remain
+explicit; this is not a whole-slide tile ownership/resume contract.
+
+Call `detect_fluorescence_cells` synchronously for a native recipe, or submit to
+`FluorescenceCellJob`: `poll(document)` for UI control and `wait(document)` for a
+blocking native consumer. The worker owns immutable native snapshots and performs
+one original raw-region read; it never reads a live Document or an RGB projection.
+Results retain global region/core geometry, source axes/names, ROI/provenance,
+immutable masks/measurements and exact input/result identities. `pixel_center`
+maps a local sample index to its level-zero image center.
+
+Owner delivery rejects stale ROI/calibration/source/metadata; cancellation and
+destruction join the worker before releasing captured owners. `matches` checks
+live document state cheaply; `publication_matches` rechecks actual file versions
+and metadata. `require_current_fluorescence_cells` checks both the capture ticket
+and publication currentness before a later consumer writes results. Identical
+content hashes do not transfer publication authority between requests/documents.
+An ROI Undo advances its revision: capture a fresh request for the restored ROI.
+Display windows/colors do not change raw scientific result identity.
+
+The accounted work limit covers request snapshots and raw/raster/measurement
+buffers, with admission before pixel IO. Reader-owned decode/cache memory and
+process/GPU memory are separate; bound TIFF decode/cache through its existing
+open options. No Python runtime or binding is needed for these native APIs.

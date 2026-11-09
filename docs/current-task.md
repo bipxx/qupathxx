@@ -1836,3 +1836,68 @@ new native files avoided stale shared-header consumers. A reviewed binary-mask
 handoff removed the reused splitter's second intensity gate. No bindings, new
 library, full qualification, GUI build or release. Next continue the source-bound
 native workflow using this tested service and the existing raw currentness guard.
+
+### F01 continuation: source-bound request/run/job
+
+Changed inputs: additive native fluorescence_cell_workflow header/service/job,
+shared reserved raster preflight and one source-workflow test target. Reuse native
+RawAnalysisRequest ROI/calibration/document authority and existing raw source
+snapshot/metadata/file guards. Workers capture no live Document, decode the
+selected raw region once, and preserve original samples. Context must cover the
+Gaussian radius (or available image edge); source-only crops stay explicit.
+Content/result identity is separate from capture-bound publication authority.
+
+Decisive checks before this affected build: independent raw-read counter and
+analytical channel/Z/T/ROI results, calibrated expansion, same-core context
+agreement, metadata/ROI/calibration/files/capture mismatch refusal, budget before
+pixel IO, no display fallback, and deterministic read barriers proving native
+cancel/join/stale delivery. Also rerun the existing pure raster case because its
+admission now reserves request overhead. Native-only CI includes the new case;
+no binding/frontend/package target. Preserve concurrent desktop edits. F01 remains
+open for native contour/object publication, persistence, consumers and annotated
+comparison; this source job is not completion of that full contract.
+
+The first pure-raster case passes. Source-workflow checks caught source-only
+provenance on an object-scoped ROI: the reused lattice capture helper intentionally
+captures source-only provenance for classifier lattices. Retain the existing
+object-specific capture_provenance for ROI requests using the RawAnalysisRequest
+revision/context, while preserving source-only crops. Correct the new request
+only; do not alter existing classifier helpers or their source identities.
+Retry the affected native source/test, preserving the first failed CTest log.
+
+The ROI provenance repair passes. The next source test correctly delivers stale
+for a reused request after ROI Undo: native Undo restores geometry while advancing
+its object revision. Recapture after Undo for subsequent generations. Make the
+metadata-change oracle start from a demonstrably current fresh capture too, so
+its refusal proves metadata currentness rather than an already-stale ROI.
+No production revision check is weakened. Rebuild only the changed source test.
+
+Source/pure tests now pass2 cases (0.25s), and the admitted real TIFF completes the
+source-bound native job. Final review caught terminal duration freezing at the
+last running poll if that poll had already filled elapsed_ms. Update duration
+when consuming the future and freeze it afterward; add a read-barrier test proving
+terminal elapsed advances after a running poll. Retry source-workflow only; reuse
+passing pure-kernel evidence. No scientific parameter or assertion is relaxed.
+The pinned annotation is RGBA8, so future comparison must use its declared channel
+semantics; do not weaken the existing NuCLS RGB8 decoder to ingest it implicitly.
+
+F01 source-bound request/run/job is implemented and verified. Pure/source native
+checks pass2 cases (0.25s); the final source-only timing check passes (0.26s total).
+The admitted real TIFF runs through the native job (130 candidates, not annotation
+acceptance). Native read counters, original axes/values, context agreement, actual
+file guards, capture/currentness and deterministic stale/cancel/join checks pass.
+See the single feature-expansion receipt and fluorescence-omics native API guide.
+
+F01 remains unchecked; total remains7/22. Next native contour/object publication,
+recipe persistence, consumers and annotated comparison. Reuse the existing typed
+label contour adapter rather than fabricating RGB CellResult/TissueResult input.
+Waste review: reused raw source/ROI/file/moment authorities and one reserved work
+admission. Corrected source-only ROI provenance, one stale test capture after Undo,
+and terminal duration. Only affected cached native targets compiled; no bindings,
+new dependency/data download, frontend/package or broad replay. Preserve all failed
+logs and the independent desktop edits.
+
+Moved the one known standalone native fixture directory from the source root to
+f01-source-final evidence after verifying paths and terminal test use. Nothing
+was deleted. Run later standalone file-producing checks from the evidence/cache
+working directory to keep generated fixtures out of the integration source root.

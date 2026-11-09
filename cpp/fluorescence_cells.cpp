@@ -1,4 +1,5 @@
 #include "qupathxx/fluorescence_cells.hpp"
+#include "fluorescence_cell_internal.hpp"
 #include "qupathxx/workflow.hpp"
 #include "intensity_moments.hpp"
 #include "scientific_cell_recipe.hpp"
@@ -106,17 +107,30 @@ void FluorescenceCellOptions::validate() const {
         (max_nucleus_area && (!std::isfinite(*max_nucleus_area) || *max_nucleus_area<min_nucleus_area)) || !max_cells || max_cells>1000000)
         throw std::invalid_argument("Invalid fluorescence cell parameters");
 }
-FluorescenceCellResult segment_fluorescence_cells(const RawPixelBuffer& pixels,const std::vector<std::uint8_t>& domain,FluorescenceCellOptions p,
-    std::optional<std::array<double,2>> calibration,const std::atomic<bool>* cancelled) {
+std::size_t detail::fluorescence_cell_work_bytes(std::int64_t width,std::int64_t height,std::uint32_t channels,SampleType type,
+    const FluorescenceCellOptions& p,std::optional<std::array<double,2>> calibration,std::size_t raw_bytes,std::size_t domain_bytes,std::size_t fixed) {
+    p.validate();if(width<=0 || height<=0 || !channels || channels>65536)throw std::invalid_argument("Invalid fluorescence raster dimensions");
+    const auto unit=std::uint64_t(channels)*sample_bytes(type)+1;
+    if(std::uint64_t(width)>256ULL*1024*1024/unit || std::uint64_t(height)>256ULL*1024*1024/(std::uint64_t(width)*unit))throw WorkflowCaptureLimit("Fluorescence raw raster exceeds buffer admission");
+    const auto n=std::size_t(width)*std::size_t(height);
+    if(p.units==FluorescenceCellUnits::Micrometres && !calibration)throw std::invalid_argument("Physical fluorescence cells require both calibration axes");
+    const auto spacing=p.units==FluorescenceCellUnits::Pixels?std::array<double,2>{1,1}:*calibration;
+    const cell_detail::PhysicalGridMetric metric(spacing[0],spacing[1]);const auto sigmas=metric.sigma_pixels(p.sigma);
+    const auto rx=cell_detail::scientific_gaussian_radius(sigmas.first),ry=cell_detail::scientific_gaussian_radius(sigmas.second);
+    std::size_t bytes=65536;workflow_capture_charge(bytes,fixed,p.work_bytes);
+    workflow_capture_charge(bytes,raw_bytes?raw_bytes:std::size_t(n*unit),p.work_bytes);
+    workflow_capture_charge(bytes,domain_bytes?domain_bytes:n,p.work_bytes);
+    workflow_capture_charge(bytes,256ULL*n+40ULL*std::max(width,height)+8ULL*(2*rx+2*ry+2),p.work_bytes);
+    workflow_capture_charge(bytes,measurement_bytes(std::min(n,p.max_cells),channels),p.work_bytes);return bytes;
+}
+FluorescenceCellResult detail::segment_fluorescence_cells_reserved(const RawPixelBuffer& pixels,const std::vector<std::uint8_t>& domain,FluorescenceCellOptions p,
+    std::optional<std::array<double,2>> calibration,std::size_t fixed,const std::atomic<bool>* cancelled) {
     workflow_checkpoint(cancelled);p.validate();const auto n=lattice(pixels);const auto width=std::size_t(pixels.width()),height=std::size_t(pixels.height());
     if(domain.size()!=n || p.segmentation_channel>=pixels.channels())throw std::invalid_argument("Invalid fluorescence segmentation domain/channel");
     FluorescenceCellResult result;result.width=pixels.width();result.height=pixels.height();result.options=p;
     if(p.units==FluorescenceCellUnits::Micrometres) {if(!calibration)throw std::invalid_argument("Physical fluorescence cells require both calibration axes");result.metric=*calibration;}
     const cell_detail::PhysicalGridMetric metric(result.metric[0],result.metric[1]);
-    const auto sigmas=metric.sigma_pixels(p.sigma);const auto rx=cell_detail::scientific_gaussian_radius(sigmas.first),ry=cell_detail::scientific_gaussian_radius(sigmas.second);
-    std::size_t bytes=65536;workflow_capture_charge(bytes,pixels.payload_bytes(),p.work_bytes);workflow_capture_charge(bytes,domain.capacity(),p.work_bytes);
-    workflow_capture_charge(bytes,256ULL*n+40ULL*std::max(width,height)+8ULL*(2*rx+2*ry+2),p.work_bytes);
-    workflow_capture_charge(bytes,measurement_bytes(std::min(n,p.max_cells),pixels.channels()),p.work_bytes);
+    fluorescence_cell_work_bytes(pixels.width(),pixels.height(),pixels.channels(),pixels.sample_type(),p,calibration,pixels.payload_bytes(),domain.capacity(),fixed);
     std::vector<double> score(n);std::vector<std::uint8_t> valid(n),eligible(n),foreground(n);
     std::visit([&](const auto& samples) {for(std::size_t i=0;i<n;++i) {if((i&4095)==0)workflow_checkpoint(cancelled);
         if(domain[i]>1 || pixels.valid()[i]>1)throw std::invalid_argument("Fluorescence domain/validity must be binary");
@@ -149,5 +163,9 @@ FluorescenceCellResult segment_fluorescence_cells(const RawPixelBuffer& pixels,c
         cell_detail::expansion_neighbors(i,width,height,[&](std::size_t j){edge=edge || !eligible[j];});
         if(edge) {result.boundaries[result.bodies[i]-1].cell=true;if(result.nuclei[i])result.boundaries[result.nuclei[i]-1].nucleus=true;}}
     result.input_sha256=input_hash(pixels,domain,cancelled);result.recipe_sha256=recipe_hash(p,result.metric);workflow_checkpoint(cancelled);return result;
+}
+FluorescenceCellResult segment_fluorescence_cells(const RawPixelBuffer& pixels,const std::vector<std::uint8_t>& domain,FluorescenceCellOptions p,
+    std::optional<std::array<double,2>> calibration,const std::atomic<bool>* cancelled) {
+    return detail::segment_fluorescence_cells_reserved(pixels,domain,p,calibration,0,cancelled);
 }
 }
