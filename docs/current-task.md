@@ -3877,3 +3877,75 @@ Add an exact-byte .gitattributes rule and renormalize only this fixture director
 Verify every staged blob against frozen working bytes/manifest in one batch;
 no pixel/source/runtime change, so no product rebuild or numerical rerun. Preserve
 0ef1896b as the earlier local source state and commit this admission correction.
+
+O02 continuation: previous goal turn is progress (0ef1896b/c08eacaa),14/22;
+first finish directory provenance needed by native ImageServer/save/reopen. Add
+an explicit bounded directory-inventory token, not extra companion entries or
+whole-store byte-fingerprint claims. Version new provenance/source-verification
+encodings while preserving legacy bytes. Metadata-file fingerprints must remain
+primary-only; verification must check the native full directory inventory.
+Settle the descriptor/codec interfaces and affected tests before one cached build;
+common source-identity header changes legitimately rebuild its consumers. Native
+image adapter, generic raw view, project/GUI and real full-store exits stay open.
+
+Settled native slice now includes ImageServer RGB/raw adapter and generic raw_view/
+with_raw_view/require_raw_current capability, with legacy TIFF default delegation.
+Document raw-plane/view changes use it; TIFF view identity/serialization stays
+unchanged. New QPV5/object and6/source-only directory records retain inventory;
+old1..4 remain unchanged. QSV2 and JSON3 retain the same distinction. Metadata
+fingerprints stay primary-only; native verification reconstructs/checks the full
+observed directory. Report output cannot modify the input tree, including Windows
+case aliases. Expose immutable decoder-owned descriptors and share the decoder
+across independently closed display projections. RGB and decoder share work cap.
+Decisive batch: new native Zarr server (RGB windows/padding, raw means, generic
+planes/view mutation, QPV5/6/QSV2, primary-only fingerprints, stale whole-store
+checks), decoder, existing source identity/channel/TIFF/project regressions.
+Common SourceIdentity/ImageServer/Document headers changed, so one legitimate
+native-consumer rebuild is expected; dependencies and old GUI products retained.
+Project link/save/reopen and actual GUI/real-store acceptance remain next; do not
+claim O02 closure from this adapter batch or package before P01/P02.
+
+Wait verified against live desktop CMake PID115076/MSBuild192952 (references
+disabled); no competing build started. That desktop build predates the native
+ABI rebuild and must be relinked afterward before reuse; old GUI-only acceptance
+cannot transfer to the new common interfaces. The processes are now terminal;
+start the settled native batch. Reader/view metadata and whole-inventory check
+reservations now compose with RGB/decoder work, including the final current check.
+
+Native batch builds successfully. Five legacy/decoder suites pass; new server test
+refuses tile_size2 because existing raw-statistics minimum is16. Correct the test
+request to16, preserve the validator/assertions and failure log. Add the settled
+opt-in full real-store comparison to that same test driver (no automatic data
+fetch): full524288 samples/validity/axes/calibration/raw statistics and explicit
+RGB equality with retained native TIFF, preserving original hashes. The independent
+full37-file Zarr derivative is prepared and passes the unchanged staging guard.
+Rebuild only this changed native consumer and rerun affected checks; no core
+algorithm change, binding or package campaign.
+
+Final native suites pass2.78s; full real-store native Windows-only PATH check
+exits0: all524288 samples/validity/axes/calibration/raw summaries and explicit
+RGB pixels match native TIFF. Source SHA hashes unchanged;37 input files pass
+staging. Native rendered RGB inspected. UI library is dated07:29:38; all changed
+common headers predate its07:23 build start (07:15/07:17), so relink only the app
+against settled native core with references disabled. This is ABI integration,
+not a transferred GUI/scientific acceptance claim. Preserve all live windows.
+
+Adapter/provenance slice delivered locally: app-relink.log and two GUI consumer
+relinks exit0; gui-abi-ctest.log passes shell/organization0.34s. No GUI source
+implementation edits or binding object compile/relink. Existing Python binaries
+stay with their original ABI; retained old binding objects cannot relink this
+new core until P01. Native real-test executable SHA5469c4aa51cabee2d0d7d34e6e85a8f50a5aa722d6b22049adecd24e96065744.
+Source/dirty-overlay receipts preserve the independent UI state; no acceptance
+transfer from an older mixed native product. Full real derivative remains external
+build evidence with all37 files and parents admitted in the canonical inventory.
+
+Next: project reader name/factory and link/save/reopen must retain Zarr view,
+options and expected directory identity. Reuse current entry/link machinery and
+preserve TIFF payload bytes. Source review must compare directory tokens even
+when .zattrs bytes match; primary-only hashes cannot imply matching whole-store
+bytes. Then actual desktop open/raw channel/plane controls and saved real-store
+acceptance. Public generic view/descriptor interfaces are now settled; keep next
+edits private to avoid another common-header rebuild. O02 remains open14/22,
+8 pending. Notes/guide/plan/receipt updated. Waste: verified cache wait, one test
+request repair to the existing tile16 minimum, changed-consumer rebuild and
+required ABI relinks; no weakened assertions or repeated science campaign.

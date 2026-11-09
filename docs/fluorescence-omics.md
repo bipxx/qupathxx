@@ -1145,9 +1145,25 @@ reserves snapshot/output/encoded/decoded/codec scratch; allocator/process RSS is
 outside that accounting. The complete-store observation check may use a second
 bounded inventory while comparing versions.
 
-This first source slice does not close O02. Directory provenance/persistence and
-native ImageServer/viewer controls still need integration and source-scoped checks.
-A complete admitted real store with viewport/raw measurements remains required;
-the retained CC-BY4 OME Consortium tubhiswt-2D two-channel512x512 originals are an
-eligible full-image derivative candidate. Do not substitute a cropped convenience
-ROI, unreviewed remote data, or a Python product reader for those exits.
+`open_ome_zarr(directory, OmeZarrOpenOptions)` exposes the same decoder through a
+native ImageServer. Its view uses the existing projection value type with explicit
+channels/windows/Z/T; raw_view, with_raw_view and Document.set_raw_view are generic
+capabilities. TIFF retains its existing APIs and encoded view identity. Zarr has
+its own versioned view recipe and independent projection close state. Native raw
+statistics consume original typed samples, never RGB. Decoder, view metadata,
+output and whole-inventory checks share the work reservation.
+
+ReaderSource directory_store keeps the observed inventory digest and primary
+metadata descriptor without truncating companions. QPV5/object, QPV6/source-only,
+QSV2 verification and JSON3 retain the token; old branches remain unchanged.
+A .zattrs fingerprint stays matching_primary_metadata. Native verification checks
+the full observed directory; report output cannot mutate the input store.
+
+Six affected suites pass2.78s. A complete CC-BY4 OME tubhiswt-2D512x512x2 derivative
+preserves all524288 samples, validity, axes and unknown calibration. Raw summaries
+and explicit RGB pixels match TIFF; original hashes remain unchanged. Native-only
+Windows PATH works. See the [adapter receipt](benchmarks/feature-expansion/README.md#o02-native-image-adapter-and-complete-real-store).
+O02 still needs project linking/save/reopen and desktop source/channel/plane
+integration. Frozen Python binaries stay with their original ABI until P01;
+retained binding objects must not link against changed native interfaces.
+No biological, general throughput or released-format support claim.

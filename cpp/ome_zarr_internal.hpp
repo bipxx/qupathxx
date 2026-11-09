@@ -23,6 +23,7 @@ public:
     std::vector<std::uint8_t> read(const std::string&,std::size_t,bool missing_allowed=false)const;
     bool contains(const std::string&)const;
     void verify(const std::string&)const;
+    std::shared_ptr<const FileVersion> metadata_version()const{return std::make_shared<const FileVersion>(files_.at(".zattrs"));}
 };
 struct ZarrArray {
     OmeZarrLevel level;

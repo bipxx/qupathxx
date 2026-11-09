@@ -610,5 +610,807 @@
       "attribution": "qupathxx contributors; independent synthetic byte fixtures",
       "source_ids": []
     }
-  }
+  },
+  "ome_zarr_real": [
+    {
+      "filename": "build/real-data-demo/fluorescence/tubhiswt_C0.ome.tif",
+      "source": "build/real-data-demo/fluorescence/tubhiswt_C0.ome.tif",
+      "bytes": 269568,
+      "sha256": "a1d99f0651baad26a6b5004c115a9c3f4e33d3d6e0b279b34cabbbe88d813ef2",
+      "material": {
+        "id": "ome-tubhiswt-original-0",
+        "category": "admitted_open",
+        "kind": "evaluation_data",
+        "license_id": "CC-BY-4.0",
+        "license_evidence": "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/tubhiswt-2D/readme.txt",
+        "attribution": "OME Consortium tubhiswt-2D; derivative prepared by qupathxx contributors",
+        "source_ids": []
+      }
+    },
+    {
+      "filename": "build/real-data-demo/fluorescence/tubhiswt_C1.ome.tif",
+      "source": "build/real-data-demo/fluorescence/tubhiswt_C1.ome.tif",
+      "bytes": 269568,
+      "sha256": "c17cb626103d9a8b3f77b0d49fbff67ced2a6da83f6b2ae8beae183fb1a2a51f",
+      "material": {
+        "id": "ome-tubhiswt-original-1",
+        "category": "admitted_open",
+        "kind": "evaluation_data",
+        "license_id": "CC-BY-4.0",
+        "license_evidence": "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/tubhiswt-2D/readme.txt",
+        "attribution": "OME Consortium tubhiswt-2D; derivative prepared by qupathxx contributors",
+        "source_ids": []
+      }
+    },
+    {
+      "filename": "build/real-data-demo/fluorescence/readme.txt",
+      "source": "build/real-data-demo/fluorescence/readme.txt",
+      "bytes": 267,
+      "sha256": "a333fca9b675dee18bce962a1167eded09215d9f13429dd9794a466f01439004",
+      "material": {
+        "id": "ome-tubhiswt-original-2",
+        "category": "admitted_open",
+        "kind": "notice",
+        "license_id": "CC-BY-4.0",
+        "license_evidence": "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/tubhiswt-2D/readme.txt",
+        "attribution": "OME Consortium tubhiswt-2D; derivative prepared by qupathxx contributors",
+        "source_ids": []
+      }
+    },
+    {
+      "filename": "build/real-data-demo/fluorescence/COPYING",
+      "source": "build/real-data-demo/fluorescence/COPYING",
+      "bytes": 18652,
+      "sha256": "cce5d01fa4a83b794271bd2c28cffdf99afd43c803e6ddefddae39b591ea7448",
+      "material": {
+        "id": "ome-tubhiswt-original-3",
+        "category": "admitted_open",
+        "kind": "notice",
+        "license_id": "CC-BY-4.0",
+        "license_evidence": "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/tubhiswt-2D/readme.txt",
+        "attribution": "OME Consortium tubhiswt-2D; derivative prepared by qupathxx contributors",
+        "source_ids": []
+      }
+    },
+    {
+      "filename": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/.zattrs",
+      "source": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/.zattrs",
+      "bytes": 1143,
+      "sha256": "928fdda4c5a5de2ff17153a0e6ecd551b1d536357461d9d4800d17b1bd21b82d",
+      "material": {
+        "id": "ome-tubhiswt-zarr-0",
+        "category": "admitted_open",
+        "kind": "evaluation_data",
+        "license_id": "CC-BY-4.0",
+        "license_evidence": "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/tubhiswt-2D/readme.txt",
+        "attribution": "OME Consortium tubhiswt-2D; derivative prepared by qupathxx contributors",
+        "source_ids": [
+          "ome-tubhiswt-original-0",
+          "ome-tubhiswt-original-1",
+          "ome-tubhiswt-original-2",
+          "ome-tubhiswt-original-3"
+        ]
+      }
+    },
+    {
+      "filename": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/.zgroup",
+      "source": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/.zgroup",
+      "bytes": 23,
+      "sha256": "e1e1914ae531ecb50e1ead685ef01895a5452faf5f25f35cd78f1f5de1367470",
+      "material": {
+        "id": "ome-tubhiswt-zarr-1",
+        "category": "admitted_open",
+        "kind": "evaluation_data",
+        "license_id": "CC-BY-4.0",
+        "license_evidence": "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/tubhiswt-2D/readme.txt",
+        "attribution": "OME Consortium tubhiswt-2D; derivative prepared by qupathxx contributors",
+        "source_ids": [
+          "ome-tubhiswt-original-0",
+          "ome-tubhiswt-original-1",
+          "ome-tubhiswt-original-2",
+          "ome-tubhiswt-original-3"
+        ]
+      }
+    },
+    {
+      "filename": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/.zarray",
+      "source": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/.zarray",
+      "bytes": 294,
+      "sha256": "1299ef7f6df500e1a5b5944763914ffc65bb608e382a0fa0e13f80d12ce0eb1f",
+      "material": {
+        "id": "ome-tubhiswt-zarr-2",
+        "category": "admitted_open",
+        "kind": "evaluation_data",
+        "license_id": "CC-BY-4.0",
+        "license_evidence": "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/tubhiswt-2D/readme.txt",
+        "attribution": "OME Consortium tubhiswt-2D; derivative prepared by qupathxx contributors",
+        "source_ids": [
+          "ome-tubhiswt-original-0",
+          "ome-tubhiswt-original-1",
+          "ome-tubhiswt-original-2",
+          "ome-tubhiswt-original-3"
+        ]
+      }
+    },
+    {
+      "filename": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.0.0.0.0",
+      "source": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.0.0.0.0",
+      "bytes": 5194,
+      "sha256": "ff5dfa514eb3d17ad040093e7ed63769e6d06f80000b20bb14b748cf20585f59",
+      "material": {
+        "id": "ome-tubhiswt-zarr-3",
+        "category": "admitted_open",
+        "kind": "evaluation_data",
+        "license_id": "CC-BY-4.0",
+        "license_evidence": "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/tubhiswt-2D/readme.txt",
+        "attribution": "OME Consortium tubhiswt-2D; derivative prepared by qupathxx contributors",
+        "source_ids": [
+          "ome-tubhiswt-original-0",
+          "ome-tubhiswt-original-1",
+          "ome-tubhiswt-original-2",
+          "ome-tubhiswt-original-3"
+        ]
+      }
+    },
+    {
+      "filename": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.0.0.0.1",
+      "source": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.0.0.0.1",
+      "bytes": 6178,
+      "sha256": "9bd468203d2ffbff6d56a8c5efb3bfa06c2b8334ba9938ef635a2d0352d7dc93",
+      "material": {
+        "id": "ome-tubhiswt-zarr-4",
+        "category": "admitted_open",
+        "kind": "evaluation_data",
+        "license_id": "CC-BY-4.0",
+        "license_evidence": "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/tubhiswt-2D/readme.txt",
+        "attribution": "OME Consortium tubhiswt-2D; derivative prepared by qupathxx contributors",
+        "source_ids": [
+          "ome-tubhiswt-original-0",
+          "ome-tubhiswt-original-1",
+          "ome-tubhiswt-original-2",
+          "ome-tubhiswt-original-3"
+        ]
+      }
+    },
+    {
+      "filename": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.0.0.0.2",
+      "source": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.0.0.0.2",
+      "bytes": 5078,
+      "sha256": "865af5c0c4a8d1397418dc9efda49b1f9ca039fd2b6a45605dfcb4848f83284e",
+      "material": {
+        "id": "ome-tubhiswt-zarr-5",
+        "category": "admitted_open",
+        "kind": "evaluation_data",
+        "license_id": "CC-BY-4.0",
+        "license_evidence": "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/tubhiswt-2D/readme.txt",
+        "attribution": "OME Consortium tubhiswt-2D; derivative prepared by qupathxx contributors",
+        "source_ids": [
+          "ome-tubhiswt-original-0",
+          "ome-tubhiswt-original-1",
+          "ome-tubhiswt-original-2",
+          "ome-tubhiswt-original-3"
+        ]
+      }
+    },
+    {
+      "filename": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.0.0.0.3",
+      "source": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.0.0.0.3",
+      "bytes": 4515,
+      "sha256": "17bc77a9537e99bd26fc73dec4b45756be2899a8b70ee5e36cd55a67fcbf44bf",
+      "material": {
+        "id": "ome-tubhiswt-zarr-6",
+        "category": "admitted_open",
+        "kind": "evaluation_data",
+        "license_id": "CC-BY-4.0",
+        "license_evidence": "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/tubhiswt-2D/readme.txt",
+        "attribution": "OME Consortium tubhiswt-2D; derivative prepared by qupathxx contributors",
+        "source_ids": [
+          "ome-tubhiswt-original-0",
+          "ome-tubhiswt-original-1",
+          "ome-tubhiswt-original-2",
+          "ome-tubhiswt-original-3"
+        ]
+      }
+    },
+    {
+      "filename": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.0.0.1.0",
+      "source": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.0.0.1.0",
+      "bytes": 6876,
+      "sha256": "d8348335a2a85d33e52e5c473e3de04aa44360b43c4043993d8d4eac26d8b1ba",
+      "material": {
+        "id": "ome-tubhiswt-zarr-7",
+        "category": "admitted_open",
+        "kind": "evaluation_data",
+        "license_id": "CC-BY-4.0",
+        "license_evidence": "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/tubhiswt-2D/readme.txt",
+        "attribution": "OME Consortium tubhiswt-2D; derivative prepared by qupathxx contributors",
+        "source_ids": [
+          "ome-tubhiswt-original-0",
+          "ome-tubhiswt-original-1",
+          "ome-tubhiswt-original-2",
+          "ome-tubhiswt-original-3"
+        ]
+      }
+    },
+    {
+      "filename": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.0.0.1.1",
+      "source": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.0.0.1.1",
+      "bytes": 7598,
+      "sha256": "345d16d76e3907629a019e4d9d6ecbf74a95e02f287fabd18cb0885deb86981d",
+      "material": {
+        "id": "ome-tubhiswt-zarr-8",
+        "category": "admitted_open",
+        "kind": "evaluation_data",
+        "license_id": "CC-BY-4.0",
+        "license_evidence": "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/tubhiswt-2D/readme.txt",
+        "attribution": "OME Consortium tubhiswt-2D; derivative prepared by qupathxx contributors",
+        "source_ids": [
+          "ome-tubhiswt-original-0",
+          "ome-tubhiswt-original-1",
+          "ome-tubhiswt-original-2",
+          "ome-tubhiswt-original-3"
+        ]
+      }
+    },
+    {
+      "filename": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.0.0.1.2",
+      "source": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.0.0.1.2",
+      "bytes": 7300,
+      "sha256": "f702e13f644d23b4fdd3b1c5c7e9403061398bc70801b85f71d9f83b9165bfce",
+      "material": {
+        "id": "ome-tubhiswt-zarr-9",
+        "category": "admitted_open",
+        "kind": "evaluation_data",
+        "license_id": "CC-BY-4.0",
+        "license_evidence": "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/tubhiswt-2D/readme.txt",
+        "attribution": "OME Consortium tubhiswt-2D; derivative prepared by qupathxx contributors",
+        "source_ids": [
+          "ome-tubhiswt-original-0",
+          "ome-tubhiswt-original-1",
+          "ome-tubhiswt-original-2",
+          "ome-tubhiswt-original-3"
+        ]
+      }
+    },
+    {
+      "filename": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.0.0.1.3",
+      "source": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.0.0.1.3",
+      "bytes": 4655,
+      "sha256": "1a74d131ec6de833c234ce64d4f61d66f108066e767934fb82ef5c9d0f56a2b2",
+      "material": {
+        "id": "ome-tubhiswt-zarr-10",
+        "category": "admitted_open",
+        "kind": "evaluation_data",
+        "license_id": "CC-BY-4.0",
+        "license_evidence": "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/tubhiswt-2D/readme.txt",
+        "attribution": "OME Consortium tubhiswt-2D; derivative prepared by qupathxx contributors",
+        "source_ids": [
+          "ome-tubhiswt-original-0",
+          "ome-tubhiswt-original-1",
+          "ome-tubhiswt-original-2",
+          "ome-tubhiswt-original-3"
+        ]
+      }
+    },
+    {
+      "filename": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.0.0.2.0",
+      "source": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.0.0.2.0",
+      "bytes": 5248,
+      "sha256": "5b8bbca2eba2341c70633bc4ba2a1347aa8ab4b1cfc352c3ca4f8ef0ba33c6fd",
+      "material": {
+        "id": "ome-tubhiswt-zarr-11",
+        "category": "admitted_open",
+        "kind": "evaluation_data",
+        "license_id": "CC-BY-4.0",
+        "license_evidence": "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/tubhiswt-2D/readme.txt",
+        "attribution": "OME Consortium tubhiswt-2D; derivative prepared by qupathxx contributors",
+        "source_ids": [
+          "ome-tubhiswt-original-0",
+          "ome-tubhiswt-original-1",
+          "ome-tubhiswt-original-2",
+          "ome-tubhiswt-original-3"
+        ]
+      }
+    },
+    {
+      "filename": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.0.0.2.1",
+      "source": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.0.0.2.1",
+      "bytes": 7369,
+      "sha256": "c252df3ed3566048f49e8092267a0fec7b105bccbf2f633e05159d4e38f75996",
+      "material": {
+        "id": "ome-tubhiswt-zarr-12",
+        "category": "admitted_open",
+        "kind": "evaluation_data",
+        "license_id": "CC-BY-4.0",
+        "license_evidence": "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/tubhiswt-2D/readme.txt",
+        "attribution": "OME Consortium tubhiswt-2D; derivative prepared by qupathxx contributors",
+        "source_ids": [
+          "ome-tubhiswt-original-0",
+          "ome-tubhiswt-original-1",
+          "ome-tubhiswt-original-2",
+          "ome-tubhiswt-original-3"
+        ]
+      }
+    },
+    {
+      "filename": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.0.0.2.2",
+      "source": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.0.0.2.2",
+      "bytes": 7205,
+      "sha256": "b646528380c9eb4373be7c7ce1db07dbbacd47c83fc0a89631293604d2f86e62",
+      "material": {
+        "id": "ome-tubhiswt-zarr-13",
+        "category": "admitted_open",
+        "kind": "evaluation_data",
+        "license_id": "CC-BY-4.0",
+        "license_evidence": "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/tubhiswt-2D/readme.txt",
+        "attribution": "OME Consortium tubhiswt-2D; derivative prepared by qupathxx contributors",
+        "source_ids": [
+          "ome-tubhiswt-original-0",
+          "ome-tubhiswt-original-1",
+          "ome-tubhiswt-original-2",
+          "ome-tubhiswt-original-3"
+        ]
+      }
+    },
+    {
+      "filename": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.0.0.2.3",
+      "source": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.0.0.2.3",
+      "bytes": 5103,
+      "sha256": "48c462ad72861847cf80b7ee0619905a8da4f000de0fe57d9f57d38972342495",
+      "material": {
+        "id": "ome-tubhiswt-zarr-14",
+        "category": "admitted_open",
+        "kind": "evaluation_data",
+        "license_id": "CC-BY-4.0",
+        "license_evidence": "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/tubhiswt-2D/readme.txt",
+        "attribution": "OME Consortium tubhiswt-2D; derivative prepared by qupathxx contributors",
+        "source_ids": [
+          "ome-tubhiswt-original-0",
+          "ome-tubhiswt-original-1",
+          "ome-tubhiswt-original-2",
+          "ome-tubhiswt-original-3"
+        ]
+      }
+    },
+    {
+      "filename": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.0.0.3.0",
+      "source": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.0.0.3.0",
+      "bytes": 4579,
+      "sha256": "998e16947343cdb6f5d1860dd42f59ec5c37a0b11f553f84282855b60f5fe1d9",
+      "material": {
+        "id": "ome-tubhiswt-zarr-15",
+        "category": "admitted_open",
+        "kind": "evaluation_data",
+        "license_id": "CC-BY-4.0",
+        "license_evidence": "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/tubhiswt-2D/readme.txt",
+        "attribution": "OME Consortium tubhiswt-2D; derivative prepared by qupathxx contributors",
+        "source_ids": [
+          "ome-tubhiswt-original-0",
+          "ome-tubhiswt-original-1",
+          "ome-tubhiswt-original-2",
+          "ome-tubhiswt-original-3"
+        ]
+      }
+    },
+    {
+      "filename": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.0.0.3.1",
+      "source": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.0.0.3.1",
+      "bytes": 4459,
+      "sha256": "0b1b731f66d3e6daf6cd6d86fef606488e8651df5cd90a63020e192987f5898f",
+      "material": {
+        "id": "ome-tubhiswt-zarr-16",
+        "category": "admitted_open",
+        "kind": "evaluation_data",
+        "license_id": "CC-BY-4.0",
+        "license_evidence": "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/tubhiswt-2D/readme.txt",
+        "attribution": "OME Consortium tubhiswt-2D; derivative prepared by qupathxx contributors",
+        "source_ids": [
+          "ome-tubhiswt-original-0",
+          "ome-tubhiswt-original-1",
+          "ome-tubhiswt-original-2",
+          "ome-tubhiswt-original-3"
+        ]
+      }
+    },
+    {
+      "filename": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.0.0.3.2",
+      "source": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.0.0.3.2",
+      "bytes": 4903,
+      "sha256": "c2a65c8cb0d0e13a2ebe4d51611300cdacd3e9481272df1e17d68e66420b41cc",
+      "material": {
+        "id": "ome-tubhiswt-zarr-17",
+        "category": "admitted_open",
+        "kind": "evaluation_data",
+        "license_id": "CC-BY-4.0",
+        "license_evidence": "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/tubhiswt-2D/readme.txt",
+        "attribution": "OME Consortium tubhiswt-2D; derivative prepared by qupathxx contributors",
+        "source_ids": [
+          "ome-tubhiswt-original-0",
+          "ome-tubhiswt-original-1",
+          "ome-tubhiswt-original-2",
+          "ome-tubhiswt-original-3"
+        ]
+      }
+    },
+    {
+      "filename": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.0.0.3.3",
+      "source": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.0.0.3.3",
+      "bytes": 4569,
+      "sha256": "a3567721e8ceec6f9f07fe9faadf53114e83bda00be4ff255978467a3295dca4",
+      "material": {
+        "id": "ome-tubhiswt-zarr-18",
+        "category": "admitted_open",
+        "kind": "evaluation_data",
+        "license_id": "CC-BY-4.0",
+        "license_evidence": "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/tubhiswt-2D/readme.txt",
+        "attribution": "OME Consortium tubhiswt-2D; derivative prepared by qupathxx contributors",
+        "source_ids": [
+          "ome-tubhiswt-original-0",
+          "ome-tubhiswt-original-1",
+          "ome-tubhiswt-original-2",
+          "ome-tubhiswt-original-3"
+        ]
+      }
+    },
+    {
+      "filename": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.1.0.0.0",
+      "source": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.1.0.0.0",
+      "bytes": 8720,
+      "sha256": "cb9062db8fc47d6f197e31522da236c3439573ba78d6356a7f6ebceb7195b827",
+      "material": {
+        "id": "ome-tubhiswt-zarr-19",
+        "category": "admitted_open",
+        "kind": "evaluation_data",
+        "license_id": "CC-BY-4.0",
+        "license_evidence": "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/tubhiswt-2D/readme.txt",
+        "attribution": "OME Consortium tubhiswt-2D; derivative prepared by qupathxx contributors",
+        "source_ids": [
+          "ome-tubhiswt-original-0",
+          "ome-tubhiswt-original-1",
+          "ome-tubhiswt-original-2",
+          "ome-tubhiswt-original-3"
+        ]
+      }
+    },
+    {
+      "filename": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.1.0.0.1",
+      "source": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.1.0.0.1",
+      "bytes": 9392,
+      "sha256": "8d2c831a32557dda925ca039f435e832005681da0d1d03bfa6a568f8a377d6c7",
+      "material": {
+        "id": "ome-tubhiswt-zarr-20",
+        "category": "admitted_open",
+        "kind": "evaluation_data",
+        "license_id": "CC-BY-4.0",
+        "license_evidence": "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/tubhiswt-2D/readme.txt",
+        "attribution": "OME Consortium tubhiswt-2D; derivative prepared by qupathxx contributors",
+        "source_ids": [
+          "ome-tubhiswt-original-0",
+          "ome-tubhiswt-original-1",
+          "ome-tubhiswt-original-2",
+          "ome-tubhiswt-original-3"
+        ]
+      }
+    },
+    {
+      "filename": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.1.0.0.2",
+      "source": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.1.0.0.2",
+      "bytes": 8096,
+      "sha256": "a5ec966d73890f82aa75f45bf88489bb92adfc1778910cb4a349476fa5902371",
+      "material": {
+        "id": "ome-tubhiswt-zarr-21",
+        "category": "admitted_open",
+        "kind": "evaluation_data",
+        "license_id": "CC-BY-4.0",
+        "license_evidence": "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/tubhiswt-2D/readme.txt",
+        "attribution": "OME Consortium tubhiswt-2D; derivative prepared by qupathxx contributors",
+        "source_ids": [
+          "ome-tubhiswt-original-0",
+          "ome-tubhiswt-original-1",
+          "ome-tubhiswt-original-2",
+          "ome-tubhiswt-original-3"
+        ]
+      }
+    },
+    {
+      "filename": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.1.0.0.3",
+      "source": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.1.0.0.3",
+      "bytes": 7609,
+      "sha256": "b5acfbd5ba2fdb06cc3ee757fa5b2c548b362f0154b656bacb9adb856e3b1de3",
+      "material": {
+        "id": "ome-tubhiswt-zarr-22",
+        "category": "admitted_open",
+        "kind": "evaluation_data",
+        "license_id": "CC-BY-4.0",
+        "license_evidence": "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/tubhiswt-2D/readme.txt",
+        "attribution": "OME Consortium tubhiswt-2D; derivative prepared by qupathxx contributors",
+        "source_ids": [
+          "ome-tubhiswt-original-0",
+          "ome-tubhiswt-original-1",
+          "ome-tubhiswt-original-2",
+          "ome-tubhiswt-original-3"
+        ]
+      }
+    },
+    {
+      "filename": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.1.0.1.0",
+      "source": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.1.0.1.0",
+      "bytes": 10103,
+      "sha256": "533fcb972daceb03905b79ab879b6bd24b506f5d196ab998bc3b9a8c8fb056c0",
+      "material": {
+        "id": "ome-tubhiswt-zarr-23",
+        "category": "admitted_open",
+        "kind": "evaluation_data",
+        "license_id": "CC-BY-4.0",
+        "license_evidence": "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/tubhiswt-2D/readme.txt",
+        "attribution": "OME Consortium tubhiswt-2D; derivative prepared by qupathxx contributors",
+        "source_ids": [
+          "ome-tubhiswt-original-0",
+          "ome-tubhiswt-original-1",
+          "ome-tubhiswt-original-2",
+          "ome-tubhiswt-original-3"
+        ]
+      }
+    },
+    {
+      "filename": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.1.0.1.1",
+      "source": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.1.0.1.1",
+      "bytes": 11224,
+      "sha256": "994520548e93e7da023be899fc0229df4c575a36a9965bc6e9aa70ff9eb0f564",
+      "material": {
+        "id": "ome-tubhiswt-zarr-24",
+        "category": "admitted_open",
+        "kind": "evaluation_data",
+        "license_id": "CC-BY-4.0",
+        "license_evidence": "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/tubhiswt-2D/readme.txt",
+        "attribution": "OME Consortium tubhiswt-2D; derivative prepared by qupathxx contributors",
+        "source_ids": [
+          "ome-tubhiswt-original-0",
+          "ome-tubhiswt-original-1",
+          "ome-tubhiswt-original-2",
+          "ome-tubhiswt-original-3"
+        ]
+      }
+    },
+    {
+      "filename": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.1.0.1.2",
+      "source": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.1.0.1.2",
+      "bytes": 11879,
+      "sha256": "eacaeb47f0c1cce1f68585f32538b97a5008571c9193f9c3e4d48b0836fa57c8",
+      "material": {
+        "id": "ome-tubhiswt-zarr-25",
+        "category": "admitted_open",
+        "kind": "evaluation_data",
+        "license_id": "CC-BY-4.0",
+        "license_evidence": "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/tubhiswt-2D/readme.txt",
+        "attribution": "OME Consortium tubhiswt-2D; derivative prepared by qupathxx contributors",
+        "source_ids": [
+          "ome-tubhiswt-original-0",
+          "ome-tubhiswt-original-1",
+          "ome-tubhiswt-original-2",
+          "ome-tubhiswt-original-3"
+        ]
+      }
+    },
+    {
+      "filename": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.1.0.1.3",
+      "source": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.1.0.1.3",
+      "bytes": 7695,
+      "sha256": "f04d3baa1bbac5481960e84cecebdd4821786394d68f8b154f11567035b27c8f",
+      "material": {
+        "id": "ome-tubhiswt-zarr-26",
+        "category": "admitted_open",
+        "kind": "evaluation_data",
+        "license_id": "CC-BY-4.0",
+        "license_evidence": "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/tubhiswt-2D/readme.txt",
+        "attribution": "OME Consortium tubhiswt-2D; derivative prepared by qupathxx contributors",
+        "source_ids": [
+          "ome-tubhiswt-original-0",
+          "ome-tubhiswt-original-1",
+          "ome-tubhiswt-original-2",
+          "ome-tubhiswt-original-3"
+        ]
+      }
+    },
+    {
+      "filename": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.1.0.2.0",
+      "source": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.1.0.2.0",
+      "bytes": 7878,
+      "sha256": "1be8bcb8d3dc09962dfa82b5c954a10720cc8dfce0b19cffda5624ffa50a19eb",
+      "material": {
+        "id": "ome-tubhiswt-zarr-27",
+        "category": "admitted_open",
+        "kind": "evaluation_data",
+        "license_id": "CC-BY-4.0",
+        "license_evidence": "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/tubhiswt-2D/readme.txt",
+        "attribution": "OME Consortium tubhiswt-2D; derivative prepared by qupathxx contributors",
+        "source_ids": [
+          "ome-tubhiswt-original-0",
+          "ome-tubhiswt-original-1",
+          "ome-tubhiswt-original-2",
+          "ome-tubhiswt-original-3"
+        ]
+      }
+    },
+    {
+      "filename": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.1.0.2.1",
+      "source": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.1.0.2.1",
+      "bytes": 10540,
+      "sha256": "0226ef1471ca5167c29a86df3e17cdc12fb08728c1164baf691e5a751147c1a0",
+      "material": {
+        "id": "ome-tubhiswt-zarr-28",
+        "category": "admitted_open",
+        "kind": "evaluation_data",
+        "license_id": "CC-BY-4.0",
+        "license_evidence": "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/tubhiswt-2D/readme.txt",
+        "attribution": "OME Consortium tubhiswt-2D; derivative prepared by qupathxx contributors",
+        "source_ids": [
+          "ome-tubhiswt-original-0",
+          "ome-tubhiswt-original-1",
+          "ome-tubhiswt-original-2",
+          "ome-tubhiswt-original-3"
+        ]
+      }
+    },
+    {
+      "filename": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.1.0.2.2",
+      "source": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.1.0.2.2",
+      "bytes": 12729,
+      "sha256": "d5d718810ba760b0d454eaed0173b6555a4a96b3b1c1715c1b219e125d8ad83d",
+      "material": {
+        "id": "ome-tubhiswt-zarr-29",
+        "category": "admitted_open",
+        "kind": "evaluation_data",
+        "license_id": "CC-BY-4.0",
+        "license_evidence": "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/tubhiswt-2D/readme.txt",
+        "attribution": "OME Consortium tubhiswt-2D; derivative prepared by qupathxx contributors",
+        "source_ids": [
+          "ome-tubhiswt-original-0",
+          "ome-tubhiswt-original-1",
+          "ome-tubhiswt-original-2",
+          "ome-tubhiswt-original-3"
+        ]
+      }
+    },
+    {
+      "filename": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.1.0.2.3",
+      "source": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.1.0.2.3",
+      "bytes": 8055,
+      "sha256": "767e40f4718a458fbfe381b2a5e4521446ca70350ca20734dc48e352bc4d423a",
+      "material": {
+        "id": "ome-tubhiswt-zarr-30",
+        "category": "admitted_open",
+        "kind": "evaluation_data",
+        "license_id": "CC-BY-4.0",
+        "license_evidence": "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/tubhiswt-2D/readme.txt",
+        "attribution": "OME Consortium tubhiswt-2D; derivative prepared by qupathxx contributors",
+        "source_ids": [
+          "ome-tubhiswt-original-0",
+          "ome-tubhiswt-original-1",
+          "ome-tubhiswt-original-2",
+          "ome-tubhiswt-original-3"
+        ]
+      }
+    },
+    {
+      "filename": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.1.0.3.0",
+      "source": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.1.0.3.0",
+      "bytes": 7486,
+      "sha256": "81a1e38e9f171a395123242dff118f5579f87282d10d5aed38b37a5bc738bf6f",
+      "material": {
+        "id": "ome-tubhiswt-zarr-31",
+        "category": "admitted_open",
+        "kind": "evaluation_data",
+        "license_id": "CC-BY-4.0",
+        "license_evidence": "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/tubhiswt-2D/readme.txt",
+        "attribution": "OME Consortium tubhiswt-2D; derivative prepared by qupathxx contributors",
+        "source_ids": [
+          "ome-tubhiswt-original-0",
+          "ome-tubhiswt-original-1",
+          "ome-tubhiswt-original-2",
+          "ome-tubhiswt-original-3"
+        ]
+      }
+    },
+    {
+      "filename": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.1.0.3.1",
+      "source": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.1.0.3.1",
+      "bytes": 7676,
+      "sha256": "0684d0d03a6d725c4a75b47434d5990d115d6baa04ffad8f5ec57263cfe5ca38",
+      "material": {
+        "id": "ome-tubhiswt-zarr-32",
+        "category": "admitted_open",
+        "kind": "evaluation_data",
+        "license_id": "CC-BY-4.0",
+        "license_evidence": "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/tubhiswt-2D/readme.txt",
+        "attribution": "OME Consortium tubhiswt-2D; derivative prepared by qupathxx contributors",
+        "source_ids": [
+          "ome-tubhiswt-original-0",
+          "ome-tubhiswt-original-1",
+          "ome-tubhiswt-original-2",
+          "ome-tubhiswt-original-3"
+        ]
+      }
+    },
+    {
+      "filename": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.1.0.3.2",
+      "source": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.1.0.3.2",
+      "bytes": 7894,
+      "sha256": "d2e4910d8e74014039c80d8fe6df4d70ba602287c12fc9e8debd4d9056f78550",
+      "material": {
+        "id": "ome-tubhiswt-zarr-33",
+        "category": "admitted_open",
+        "kind": "evaluation_data",
+        "license_id": "CC-BY-4.0",
+        "license_evidence": "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/tubhiswt-2D/readme.txt",
+        "attribution": "OME Consortium tubhiswt-2D; derivative prepared by qupathxx contributors",
+        "source_ids": [
+          "ome-tubhiswt-original-0",
+          "ome-tubhiswt-original-1",
+          "ome-tubhiswt-original-2",
+          "ome-tubhiswt-original-3"
+        ]
+      }
+    },
+    {
+      "filename": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.1.0.3.3",
+      "source": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/0/0.1.0.3.3",
+      "bytes": 7421,
+      "sha256": "7275d7c808e53ef2bdc052f6730661070a919bc356ba508e124026108298640b",
+      "material": {
+        "id": "ome-tubhiswt-zarr-34",
+        "category": "admitted_open",
+        "kind": "evaluation_data",
+        "license_id": "CC-BY-4.0",
+        "license_evidence": "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/tubhiswt-2D/readme.txt",
+        "attribution": "OME Consortium tubhiswt-2D; derivative prepared by qupathxx contributors",
+        "source_ids": [
+          "ome-tubhiswt-original-0",
+          "ome-tubhiswt-original-1",
+          "ome-tubhiswt-original-2",
+          "ome-tubhiswt-original-3"
+        ]
+      }
+    },
+    {
+      "filename": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/COPYING",
+      "source": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/COPYING",
+      "bytes": 18652,
+      "sha256": "cce5d01fa4a83b794271bd2c28cffdf99afd43c803e6ddefddae39b591ea7448",
+      "material": {
+        "id": "ome-tubhiswt-zarr-35",
+        "category": "admitted_open",
+        "kind": "notice",
+        "license_id": "CC-BY-4.0",
+        "license_evidence": "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/tubhiswt-2D/readme.txt",
+        "attribution": "OME Consortium tubhiswt-2D; derivative prepared by qupathxx contributors",
+        "source_ids": [
+          "ome-tubhiswt-original-0",
+          "ome-tubhiswt-original-1",
+          "ome-tubhiswt-original-2",
+          "ome-tubhiswt-original-3"
+        ]
+      }
+    },
+    {
+      "filename": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/readme.txt",
+      "source": "build/feature-expansion/o02-real/tubhiswt.ome.zarr/readme.txt",
+      "bytes": 267,
+      "sha256": "a333fca9b675dee18bce962a1167eded09215d9f13429dd9794a466f01439004",
+      "material": {
+        "id": "ome-tubhiswt-zarr-36",
+        "category": "admitted_open",
+        "kind": "notice",
+        "license_id": "CC-BY-4.0",
+        "license_evidence": "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/tubhiswt-2D/readme.txt",
+        "attribution": "OME Consortium tubhiswt-2D; derivative prepared by qupathxx contributors",
+        "source_ids": [
+          "ome-tubhiswt-original-0",
+          "ome-tubhiswt-original-1",
+          "ome-tubhiswt-original-2",
+          "ome-tubhiswt-original-3"
+        ]
+      }
+    }
+  ]
 }

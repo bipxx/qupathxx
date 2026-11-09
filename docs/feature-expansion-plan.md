@@ -586,11 +586,14 @@ and classify actual release inputs under L01. See the existing
   Progress: first native ChannelSource implementation covers bounded local metadata/
   inventory and typed chunk decoding;169 independently authored fixture files
   cover scalar extremes, C/F/LE/BE, C/Z/T, transforms, fill and raw/zlib/gzip.
-  Native OME-Zarr and existing ChannelSource suites pass1.69s; Windows-only PATH
-  execution exits0. See the [decoder receipt](benchmarks/feature-expansion/README.md#o02-native-local-source-first-slice).
-  ImageServer/viewer, directory provenance/persistence
-  and complete admitted real-store viewport/raw measurements still remain; keep
-  O02 unchecked until all exits have source-scoped evidence.
+  Native decoder/ImageServer, generic raw view/planes and versioned directory
+  provenance pass six affected suites2.78s. Full CC-BY4 tubhiswt-2D512x512x2
+  derivative matches all524288 samples/validity, axes/calibration, native raw
+  statistics and explicit RGB pixels against TIFF; Windows-only PATH works.
+  See the [adapter receipt](benchmarks/feature-expansion/README.md#o02-native-image-adapter-and-complete-real-store).
+  Project linking/save/reopen with expected directory/view identity and actual
+  desktop source/plane controls remain. Keep O02 unchecked; no transferred GUI,
+  biological, release or performance claim.
 
 ## Checklist: molecular methods
 

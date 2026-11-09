@@ -33,14 +33,15 @@ std::vector<std::uint8_t> ProvenanceCodec::encode(const AnalysisProvenance& p,bo
         const auto& source=*p.reader_source;for(const auto* text:{&source.generation,&source.reader,&source.locator,&source.scope}) w.string(*text);
         w.integer(bool(source.primary));if(source.primary) w.file(*source.primary);
         if(p.source_only || !source.companions.empty()) {if(!p.source_only) w.data[3]=3;w.integer(source.companions.size());for(const auto& file:source.companions) w.file(file);}
+        if(source.scope=="directory_store") {w.data[3]=p.source_only?6:5;if(!p.source_only)w.integer(0);w.string(source.directory_sha256);}
     }
     Sha256 digest;digest.update(w.data.data(),w.data.size());const auto hex=digest.finish();w.data.insert(w.data.end(),hex.begin(),hex.end());
     if(w.data.size()>4u*1024u*1024u) throw std::length_error("encoded provenance exceeds 4 MiB");return w.data;
 }
 std::shared_ptr<const AnalysisProvenance> ProvenanceCodec::decode(const std::uint8_t* data,std::size_t size,bool allow_source_only) {
-    if(!data || size<68 || size>4u*1024u*1024u || std::memcmp(data,"QPV",3) || data[3]<1 || data[3]>4 || (data[3]==4 && !allow_source_only)) throw std::invalid_argument("invalid provenance encoding");
+    if(!data || size<68 || size>4u*1024u*1024u || std::memcmp(data,"QPV",3) || data[3]<1 || data[3]>6 || ((data[3]==4 || data[3]==6) && !allow_source_only)) throw std::invalid_argument("invalid provenance encoding");
     Sha256 digest;digest.update(data,size-64);if(digest.finish()!=std::string(reinterpret_cast<const char*>(data+size-64),64)) throw std::invalid_argument("provenance checksum mismatch");
-    Reader r{data+4,size-68};auto p=std::make_shared<AnalysisProvenance>();p->source_only=data[3]==4;p->object_id=r.integer();p->object_revision=r.integer();p->document_revision=r.integer();p->captured_unix_ms=r.integer(std::numeric_limits<std::int64_t>::max());p->nucleus=r.integer(1)!=0;
+    Reader r{data+4,size-68};auto p=std::make_shared<AnalysisProvenance>();p->source_only=data[3]==4 || data[3]==6;p->object_id=r.integer();p->object_revision=r.integer();p->document_revision=r.integer();p->captured_unix_ms=r.integer(std::numeric_limits<std::int64_t>::max());p->nucleus=r.integer(1)!=0;
     p->source.width=static_cast<std::int64_t>(r.integer(std::numeric_limits<std::int64_t>::max()));p->source.height=static_cast<std::int64_t>(r.integer(std::numeric_limits<std::int64_t>::max()));
     p->reader=r.string();p->locator=r.string();p->source.vendor=r.string();p->source.pixel_width_um=r.optional();p->source.pixel_height_um=r.optional();p->effective_pixel_width_um=r.optional();p->effective_pixel_height_um=r.optional();
     const auto n=r.integer(65536);if(n>r.left/24) throw std::invalid_argument("truncated provenance levels");p->source.levels.reserve(static_cast<std::size_t>(n));
@@ -51,9 +52,11 @@ std::shared_ptr<const AnalysisProvenance> ProvenanceCodec::decode(const std::uin
         auto source=std::make_shared<ReaderSource>();for(auto* text:{&source->generation,&source->reader,&source->locator,&source->scope}) *text=r.string();
         if(r.integer(1)) source->primary=std::make_shared<const FileVersion>(r.file());
         if(data[3]>=3) {const auto count=r.integer(63);if(data[3]==3 && !count) throw std::invalid_argument("empty compound provenance source");source->companions.reserve(std::size_t(count));for(std::uint64_t i=0;i<count;++i) source->companions.push_back(r.file());}
+        if(data[3]>=5){source->directory_sha256=r.string();if(source->scope!="directory_store")throw std::invalid_argument("Directory provenance requires a directory source");}
         source->validate();p->reader_source=std::move(source);
     }
     if(data[3]==3 && !p->reader_source) throw std::invalid_argument("compound provenance requires a source");
+    if(data[3]>=5 && !p->reader_source)throw std::invalid_argument("Directory provenance requires a source");
     if(r.left) throw std::invalid_argument("trailing provenance bytes");p->environment=std::move(e);p->validate();return p;
 }
 void ProvenanceCodec::attach(const std::shared_ptr<const TissueResult>& result,std::shared_ptr<const AnalysisProvenance> p) {

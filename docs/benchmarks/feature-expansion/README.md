@@ -2093,3 +2093,67 @@ is the admitted CC-BY4 OME Consortium tubhiswt-2D512x512x2 pair, preserving BOTH
 original channels/all samples and attribution. Native viewport/raw measurements
 on that full disclosed derivative remain required. Do not close O02 or claim a
 released/general OME-Zarr reader before those exits.
+
+### O02 native image adapter and complete real store
+
+open_ome_zarr wraps the SAME immutable decoder through native ImageServer RGB/raw
+reads, explicit channels/windows/Z/T and independent projection close state.
+Generic raw_view/with_raw_view/require_raw_current preserve old TIFF APIs through
+default delegation. Document planes/set_raw_view use quantitative capability;
+Zarr has its own versioned/checksummed view codec. Typed values never come from
+RGB. View metadata, output, decoder and full-inventory checks compose work limits.
+
+ReaderSource.directory_store retains whole-directory observed membership/file-
+version SHA plus primary metadata, not a truncated63-file set. QPV5/object and
+QPV6/source-only, QSV2 verification and JSON3 retain it. Legacy QPV1..4/QSV1 and
+TIFF view branches remain unchanged. New raw-source identity binds the token only
+for the new scope. A changed chunk fails directory verification even when .zattrs
+fingerprint still matches. FileFingerprintJob hashes that primary file and returns
+matching_primary_metadata. Reports cannot write into the source tree, including
+Windows physical/case aliases. This is neither whole-store byte hashing nor an
+atomic filesystem transaction.
+
+o02-server/build.log builds the batch. Initial ctest.log has five passes and a new
+server-test refusal: tile2 is below the EXISTING raw-statistics minimum16. Correct
+only the request; retain validator/expected results and add the settled opt-in
+full-data route to the same driver. real-build.log exits0; final-ctest.log passes
+six suites2.78s: ome_zarr, ome_zarr_server, source_identity, channel_source,
+raw_image and project. Covers RGB/padding, raw means, generic planes/immutable
+view changes, codecs, primary-only hashes/exports, bad descriptors and stale
+whole-directory refusal. Existing TIFF/project/source regressions pass.
+
+The full real fixture is a disclosed development-only Pillow/stdlib lossless
+Zarr2 derivative of BOTH retained OME tubhiswt-2D512x512 uint8 images. OME Consortium
+attribution and the [CC-BY4 statement](https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/tubhiswt-2D/readme.txt)
+remain with COPYING in the store. Original XML has no physical pixel calibration
+or channel names: preserve unknown units and numeric label placeholders. All524288
+samples remain, without crop, quantization, normalization or biological inference.
+One level, TCZYX1x2x1x512x512, chunks1x1x1x128x128, zlib4. Complete37-file store:
+255605 bytes, exact lineage/hashes in o02-real/fixture.json/admission.json and main
+fixture inventory. The unchanged staging guard passes all37 files. External
+build fixture/preparer are not package inputs or automatic CI data.
+
+o02-real/native.log/host.json records a System32/Windows-only PATH run. EVERY raw
+sample/valid mask, C/Z/T/spatial axis, sample type and calibration matches existing
+native TIFF, followed by raw means/min/max/finite/nonfinite counts over262144
+pixels. Explicit C0=7..48, C1=0..255, disabled blue yields exact whole-image RGBA
+equality. Inspected real-zarr.png for meaningful channel/geometry interpretation;
+this is native read_region output, not a desktop interaction claim. Original TIFF
+SHAs a1d99f06...813ef2 and c17cb626...f1a2a51f remain unchanged. No full-slide speed,
+biology or general NGFF compatibility claim.
+
+A live independent GUI build (CMake115076/MSBuild192952, references disabled)
+occupied the shared cache. Wait for verified terminal state while preparing the
+fixture independently. Common SourceIdentity/ImageServer/Document ABI changes
+legitimately rebuild native consumers once. GUI objects were compiled after those
+headers; app and two GUI tests then relink against new core with references
+disabled (app-relink.log/gui-abi-relink.log). gui-abi-ctest.log passes shell/
+organization0.34s. This fixes ABI integration and does not transfer older desktop
+acceptance to a Zarr workflow. No binding objects, SDK, wheel or package rebuilt.
+Frozen Python binaries retain their original ABI; old objects cannot relink this
+new core until the settled P01 rebuild.
+
+O02 remains open:14/22 complete,8 pending. Next project reader/link/save/reopen must
+retain expected directory/view identity and compare directory changes even if
+primary bytes match. Then actual desktop source/channel/plane controls and saved
+real-store acceptance. Direct backend/rendering proof cannot close those exits.

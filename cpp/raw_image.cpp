@@ -6,6 +6,7 @@
 #include "ascii_case.hpp"
 #include "sha256.hpp"
 #include "raw_statistics_internal.hpp"
+#include "reader_file_guard.hpp"
 #include <algorithm>
 #include <cctype>
 #include <filesystem>
@@ -61,17 +62,17 @@ std::size_t RawPixelBuffer::payload_bytes() const {return valid_.capacity()+std:
 RawPixelBuffer ImageServer::read_raw(const RawRegionRequest&,const std::atomic<bool>*) const {throw std::runtime_error("image reader does not expose raw quantitative samples");}
 std::shared_ptr<ImageServer> ImageServer::with_tiff_view(const TiffView&,const std::atomic<bool>*) const {throw std::runtime_error("image reader does not expose TIFF display views");}
 ObjectPlane Document::active_plane() const {
-    const auto view=server_->tiff_view();return view?ObjectPlane{-1,view->z,view->t}:ObjectPlane{};
+    const auto view=server_->raw_view();return view?ObjectPlane{-1,view->z,view->t}:ObjectPlane{};
 }
 void Document::validate_object_plane(const ObjectPlane& plane) const {
     plane.validate();if(plane==ObjectPlane{})return;
-    if(!server_->tiff_view())throw std::invalid_argument("object plane requires a quantitative TIFF source");
+    if(!server_->raw_view())throw std::invalid_argument("object plane requires a quantitative source");
     const auto raw=server_->raw_metadata();
     if(!raw || plane.z>=raw->z_planes || plane.t>=raw->timepoints || (plane.c>=0 && std::uint32_t(plane.c)>=raw->channels))
         throw std::invalid_argument("object plane is unavailable in the source series");
 }
 bool Document::object_visible(std::uint64_t id) const {
-    const auto& plane=find(id).plane;const auto view=server_->tiff_view();
+    const auto& plane=find(id).plane;const auto view=server_->raw_view();
     if(!view)return plane==ObjectPlane{};
     return plane.z==view->z && plane.t==view->t && (plane.c==-1 || std::find(view->channels.begin(),view->channels.end(),plane.c)!=view->channels.end());
 }
@@ -83,7 +84,7 @@ void Document::require_object_raw_plane(std::uint64_t id,std::uint32_t first,std
 void Document::require_object_display_plane(std::uint64_t id) const {
     if(!object_visible(id))throw std::invalid_argument("object is not on the displayed image plane");
     const auto& plane=find(id).plane;if(plane.c==-1)return;
-    const auto view=server_->tiff_view();
+    const auto view=server_->raw_view();
     // RGB/stain kernels consume the displayed composite. Channel-specific masks
     // must not silently measure another channel mixed into that composite.
     if(!view || std::any_of(view->channels.begin(),view->channels.end(),[&](auto c){return c>=0 && c!=plane.c;}))
@@ -108,6 +109,19 @@ void Document::adopt_tiff_source(std::shared_ptr<ImageServer> next) {
 void Document::set_tiff_view(const TiffView& view) {
     if(!server_->tiff_view()) throw std::invalid_argument("document does not use the TIFF quantitative reader");
     adopt_tiff_source(server_->with_tiff_view(view));
+}
+void Document::set_raw_view(const TiffView& view) {
+    if(server_->reader_id()=="tiff"){set_tiff_view(view);return;}
+    if(server_->reader_id()!="ome-zarr" || !server_->raw_view())throw std::invalid_argument("Document has no supported quantitative view");
+    auto next=server_->with_raw_view(view);const auto old_source=server_->reader_source(),new_source=next->reader_source();
+    if(next->reader_id()!=server_->reader_id() || next->source_locator()!=server_->source_locator() || !old_source || !new_source || !detail::same_reader_files(*old_source,*new_source))throw std::runtime_error("Raw source changed; reopen explicitly");
+    const auto& a=metadata();const auto& b=next->metadata();if(a.width!=b.width || a.height!=b.height || a.levels.size()!=b.levels.size())throw std::invalid_argument("Raw view lattice changed");
+    for(std::size_t i=0;i<a.levels.size();++i)if(a.levels[i].width!=b.levels[i].width || a.levels[i].height!=b.levels[i].height || a.levels[i].downsample!=b.levels[i].downsample)throw std::invalid_argument("Raw view pyramid changed");
+    const auto old=server_->raw_view(),fresh=next->raw_view();
+    if(old->channels==fresh->channels && old->lower==fresh->lower && old->upper==fresh->upper && old->z==fresh->z && old->t==fresh->t)return;
+    validate_axis_source(*next);if(revision_==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Document revision exhausted");
+    const bool planes=old->channels!=fresh->channels || old->z!=fresh->z || old->t!=fresh->t;
+    server_=std::move(next);++revision_;render_revision_=revision_;if(planes)object_plane_revision_=revision_;
 }
 void TiffView::validate(bool resolved) const {
     if(series>=65536 || z>=65536 || t>=65536) throw std::out_of_range("TIFF series/Z/time index exceeds limits");

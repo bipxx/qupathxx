@@ -1,5 +1,6 @@
 #pragma once
 #include "qupathxx/channel_source.hpp"
+#include "qupathxx/source_identity.hpp"
 namespace qpx {
 struct OmeZarrOptions {
     std::size_t metadata_bytes=1024*1024,chunk_bytes=16u*1024*1024,encoded_bytes=32u*1024*1024;
@@ -27,8 +28,18 @@ public:
     const std::vector<std::string>& units()const;
     const std::vector<OmeZarrLevel>& levels()const;
     const std::string& directory()const;
+    std::shared_ptr<const ReaderSource> reader_source()const;
 private:
     struct Data;std::shared_ptr<const Data> data_;
 };
 bool has_ome_zarr();
+struct OmeZarrOpenOptions {
+    OmeZarrOptions source;
+    TiffView view;
+    std::size_t work_bytes=256u*1024*1024;
+    void validate()const;
+};
+std::shared_ptr<ImageServer> open_ome_zarr(const std::string&,OmeZarrOpenOptions={},const std::atomic<bool>* =nullptr);
+std::string ome_zarr_view_encode(const TiffView&);
+TiffView ome_zarr_view_decode(const std::string&);
 }

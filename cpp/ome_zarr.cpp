@@ -42,11 +42,12 @@ std::vector<std::uint8_t> decode(std::vector<std::uint8_t> bytes,const ZarrArray
 std::size_t output_bytes(const RawRegionRequest& r,SampleType type){return std::size_t(r.region.width)*std::size_t(r.region.height)*(std::size_t(r.channels)*sample_bytes(type)+1);}
 }
 struct OmeZarrSource::Data {
-    detail::ZarrStore store;detail::ZarrMetadata metadata;std::string root,id;
+    detail::ZarrStore store;detail::ZarrMetadata metadata;std::string root,id;std::shared_ptr<const ReaderSource> observed;
     Data(const std::string& path,OmeZarrOptions options,const std::atomic<bool>* c):store(path,options,c),metadata(detail::zarr_metadata(store,c)),root(store.root.u8string()),id(store.id){
         // Validate fill scalars even when all chunks happen to be populated.
         for(const auto& a:metadata.arrays){RawPixelBuffer scalar(1,1,1,a.type);std::visit([&](const auto& values){using T=typename std::decay_t<decltype(values)>::value_type;(void)fill<T>(a.fill);},scalar.storage());}
         store.require_current(c);
+        observed=make_directory_reader_source("ome-zarr",root,store.metadata_version(),id);
     }
 };
 OmeZarrSource::OmeZarrSource(const std::string& path,OmeZarrOptions options,const std::atomic<bool>* c):data_(std::make_shared<Data>(path,options,c)){}
@@ -54,10 +55,11 @@ const RawImageMetadata& OmeZarrSource::metadata()const{return data_->metadata.ra
 const std::string& OmeZarrSource::domain()const{static const std::string value="original-channel-samples";return value;}
 const std::string& OmeZarrSource::sha256()const{return data_->id;}
 const std::string& OmeZarrSource::directory()const{return data_->root;}
+std::shared_ptr<const ReaderSource> OmeZarrSource::reader_source()const{return data_->observed;}
 const std::vector<std::string>& OmeZarrSource::axes()const{return data_->metadata.axes;}
 const std::vector<std::string>& OmeZarrSource::units()const{return data_->metadata.units;}
 const std::vector<OmeZarrLevel>& OmeZarrSource::levels()const{return data_->metadata.levels;}
-std::size_t OmeZarrSource::payload_bytes()const{return sizeof(Data)+data_->store.payload_bytes()+data_->metadata.payload+data_->root.capacity()+128;}
+std::size_t OmeZarrSource::payload_bytes()const{return sizeof(Data)+data_->store.payload_bytes()+data_->metadata.payload+data_->root.capacity()+data_->observed->payload_bytes()+128;}
 void OmeZarrSource::require_current(const std::atomic<bool>* c)const{data_->store.require_current(c);}
 std::size_t OmeZarrSource::read_work_bytes(const RawRegionRequest& r)const{
     r.validate(metadata());const auto& d=*data_;const auto& a=d.metadata.arrays[std::size_t(r.region.level)];
@@ -112,6 +114,7 @@ const RawImageMetadata& OmeZarrSource::metadata()const{unavailable();}
 const std::string& OmeZarrSource::domain()const{unavailable();}
 const std::string& OmeZarrSource::sha256()const{unavailable();}
 const std::string& OmeZarrSource::directory()const{unavailable();}
+std::shared_ptr<const ReaderSource> OmeZarrSource::reader_source()const{unavailable();}
 const std::vector<std::string>& OmeZarrSource::axes()const{unavailable();}
 const std::vector<std::string>& OmeZarrSource::units()const{unavailable();}
 const std::vector<OmeZarrLevel>& OmeZarrSource::levels()const{unavailable();}

@@ -31,7 +31,7 @@ std::string metadata_sha(const RawImageMetadata& m){
     detail::bounded_utf8(m.dimension_order,4096);text(h,m.dimension_order);h.integer(m.channel_names.size());for(const auto& name:m.channel_names){detail::bounded_utf8(name,4096);text(h,name);}return h.finish();
 }
 void version(Sha256& h,const FileVersion& f){for(const auto* s:{&f.path,&f.identity_scheme,&f.identity,&f.stamp_scheme,&f.modified_token,&f.change_token})text(h,*s);h.integer(f.bytes);}
-std::string observed_sha(const ReaderSource& s){Sha256 h;text(h,"qpx.channel-source-observation/1");text(h,s.reader);text(h,s.locator);text(h,s.scope);h.integer(bool(s.primary));if(s.primary){version(h,*s.primary);h.integer(s.companions.size());for(const auto& f:s.companions)version(h,f);}else text(h,s.generation);return h.finish();}
+std::string observed_sha(const ReaderSource& s){Sha256 h;text(h,"qpx.channel-source-observation/1");text(h,s.reader);text(h,s.locator);text(h,s.scope);h.integer(bool(s.primary));if(s.primary){version(h,*s.primary);h.integer(s.companions.size());for(const auto& f:s.companions)version(h,f);}else text(h,s.generation);if(s.scope=="directory_store")text(h,s.directory_sha256);return h.finish();}
 bool same_observation(const ReaderSource& a,const ReaderSource& b){return a.primary || b.primary?detail::same_reader_files(a,b):a.generation==b.generation && a.reader==b.reader && a.locator==b.locator && a.scope==b.scope;}
 void shape(const RawPixelBuffer& p,const RawRegionRequest& r,SampleType type){if(p.width()!=r.region.width || p.height()!=r.region.height || p.channels()!=r.channels || p.sample_type()!=type || p.storage().index()!=std::size_t(type) || p.valid().size()!=std::size_t(p.width())*std::size_t(p.height()) || std::visit([](const auto& v){return v.size();},p.storage())!=p.valid().size()*p.channels())throw WorkflowInputChanged("Channel decoder returned a different block lattice");}
 class Original final:public ChannelSource {
@@ -51,6 +51,7 @@ public:
     std::size_t read_work_bytes(const RawRegionRequest& r)const override{r.validate(metadata_);return sum({payload_bytes(),bytes(r,metadata_.sample_type)});}
     void require_current(const std::atomic<bool>* cancelled)const override{
         workflow_checkpoint(cancelled);if(server_->closed() || server_->reader_id()!=reader_ || server_->source_locator()!=locator_)throw WorkflowInputChanged("Channel reader changed/closed");
+        server_->require_raw_current(cancelled);
         auto now=server_->reader_source();auto m=server_->raw_metadata(cancelled);if(!now || !m || !same_observation(observed_,*now) || metadata_sha(*m)!=metadata_id_)throw WorkflowInputChanged("Channel source identity/metadata changed");
         if(observed_.primary){auto current=observed_;std::vector<std::unique_ptr<detail::ReaderFileGuard>> guards;
             guards.emplace_back(std::make_unique<detail::ReaderFileGuard>(observed_.primary->path));current.primary=guards.back()->version();
