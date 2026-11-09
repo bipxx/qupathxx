@@ -1238,3 +1238,42 @@ is claimed. D01 stays unchecked for project-relative/owned associations, verifie
 project relink and backed import/gene consumers:11/22 complete,11 pending. No GUI,
 binding/package build or repeated fluorescence campaign. Next settle project and
 gene-view request contracts before the affected consumer build.
+
+
+### D01 project association persistence
+
+Typed expression_matrix_project.hpp APIs retain native sources in existing
+ImageDataProperties with one undoable command, preserving unrelated metadata.
+Scientific identity is the sealed source digest; location/ownership changes do
+not substitute new counts or axes. External locators are absolute live and
+relative on disk where representable; missing external files remain identifiable
+and savable but refuse opening. Exact reopened sources validate dimensions/domain
+and both file/source digests. Relink accepts exact content only.
+
+Owned retention requires an already saved project and creates a new-only exact
+copy in .qpx-expression/<file-sha256>.qmx beside it. Relative owned locators remain
+stable when the bundle moves. Save As and snapshot saves ensure the destination
+copy exists before the project commits; conflicting existing bytes refuse without
+overwrite. Normal same-location saves do not rehash/copy the full matrix. Keep,
+Remove and Undo never delete shared sidecars. A failed project commit may leave a
+complete unreferenced owned copy; it cannot advertise an incomplete matrix.
+Serialization hooks validate typed locators and preserve old projects with no new
+association. Project save refuses overwriting associated matrices or hardlinks.
+No observation objects, inferred coordinates or sample values are added by Keep.
+
+Workspace-root build/feature-expansion/d01-native/project-build.log succeeds.
+project-ctest.log passes expression_matrix_project0.24s, expression_matrix0.41s and
+existing project0.43s, total1.22s. New native tests exercise exact2^53+1 values,
+external/owned relocation, explicit verified relink/Undo, original-source offline,
+owned new-file Save As, native async snapshot save, preserved notes, missing
+external metadata, conflicting copies, malformed stored paths, cancellation,
+changed-count refusal and source/alias protection. Owned data in a destination
+project opens without the original file or original project folder. Tests retain
+fixtures under the shared cache expression-project-*; no copy temporaries leak.
+
+The initial shared-cache gate found live GUI build handles; no competing build
+was launched. After those handles disappeared and a fresh full gate cleared, one
+native batch passed. No binding/package/GUI build or repeat full197MB import.
+D01 remains open for explicit spatial associations and backed import/gene-view
+consumers;11/22 complete. This is native persistence evidence, not SDK/release or
+new biological/speed qualification.

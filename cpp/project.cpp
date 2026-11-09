@@ -4,6 +4,7 @@
 #include "image_axis_calibration_codec.hpp"
 #include "image_analysis_settings_codec.hpp"
 #include "image_data_properties_codec.hpp"
+#include "expression_matrix_project_internal.hpp"
 #include "object_properties_codec.hpp"
 #include "reader_file_guard.hpp"
 #include "project_source_internal.hpp"
@@ -790,7 +791,10 @@ void Project::save_new(const std::string& path,std::size_t budget,std::uint64_t 
     std::map<std::uint64_t,std::uint64_t> revisions;for(const auto& [id,e]:entries_)revisions.emplace(id,e.document->revision());
     const auto protected_images=images();
     auto protect=[&] {if(!source_path.empty())detail::guard_file_output(source_path,"",destination);
-        for(const auto& image:protected_images)if(!image.embedded && !image.source_path.empty())detail::guard_file_output(image.source_path,"",destination);};
+        for(const auto& image:protected_images) {
+            if(!image.embedded && !image.source_path.empty())detail::guard_file_output(image.source_path,"",destination);
+            detail::guard_expression_project_output(document(image.id)->image_data_properties(),fs::u8path(source_path).parent_path(),destination);
+        }};
     protect();std::size_t captured=0;auto snapshot=snapshot_for_save(budget,captured);
     struct Stage {
         fs::path directory,file;
@@ -822,6 +826,8 @@ void Project::save_new(const std::string& path,std::size_t budget,std::uint64_t 
 
 void Project::save_impl(const std::string& path,const std::string& link_directory,const std::atomic<bool>* cancelled,const RecoveryInfo* recovery,const detail::BatchCheckpoint* batch,std::uint64_t file_bytes) {
     auto destination=absolute(path);
+    for(const auto& [id,e]:entries_)
+        detail::guard_expression_project_output(e.document->image_data_properties(),fs::u8path(path_).parent_path(),destination);
     std::map<std::uint64_t,std::uint64_t> revisions;
     for(const auto& [id,e]:entries_) revisions.emplace(id,e.document->revision());
     Database db(destination,true);
@@ -946,7 +952,10 @@ void Project::save_impl(const std::string& path,const std::string& link_director
             for(std::size_t i=0;i<e.info.tags.size();++i) {tag_row.string(1,key);tag_row.integer(2,static_cast<std::int64_t>(i));tag_row.string(3,e.info.tags[i]);tag_row.done();}
         }
         if(doc.image_axis_calibration_) {const auto bytes=detail::encode_image_axis_calibration(*doc.image_axis_calibration_);axis_row.string(1,key);axis_row.blob(2,bytes);axis_row.done();}
-        if(doc.image_data_properties_) {const auto bytes=detail::encode_image_data_properties(*doc.image_data_properties_);data_properties_row.string(1,key);data_properties_row.blob(2,bytes);data_properties_row.done();}
+        if(doc.image_data_properties_) {
+            const auto properties=detail::expression_properties_for_save(doc.image_data_properties_,fs::u8path(path_).parent_path(),directory,cancelled);
+            const auto bytes=detail::encode_image_data_properties(*properties);data_properties_row.string(1,key);data_properties_row.blob(2,bytes);data_properties_row.done();
+        }
         if(doc.image_analysis_settings_) {const auto bytes=detail::encode_image_analysis_settings(*doc.image_analysis_settings_);image_settings_row.string(1,key);image_settings_row.blob(2,bytes);image_settings_row.done();}
         if(doc.image_properties_) {const auto bytes=detail::encode_object_properties(*doc.image_properties_);image_properties_row.string(1,key);image_properties_row.blob(2,bytes);image_properties_row.done();}
         if(const auto found=source_verifications_.find(id);found!=source_verifications_.end()) {
@@ -1266,6 +1275,7 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
             Statement row(db,"SELECT payload FROM image_data_properties WHERE image_id=?");row.string(1,key);
             if(row.row()) {const auto n=sqlite3_column_bytes(row.stmt,0);if(row.type(0)!=SQLITE_BLOB || n<0 || n>2*ImageDataProperties::max_payload)throw std::invalid_argument("invalid ImageData properties payload");data_properties=detail::decode_image_data_properties(sqlite3_column_blob(row.stmt,0),std::size_t(n));if(row.row())throw std::invalid_argument("duplicate ImageData properties");}
         }
+        data_properties=detail::expression_properties_after_open(std::move(data_properties),fs::u8path(source).parent_path());
         if(version>=23) {
             Statement row(db,"SELECT metadata_key,metadata_value FROM image_metadata WHERE image_id=? ORDER BY metadata_key");row.string(1,key);
             std::size_t bytes=sizeof(info.metadata);

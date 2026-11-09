@@ -925,3 +925,20 @@ independent six-gene checks; see the feature-expansion receipt. This is a native
 foundation: project-owned/relative associations, relink, backed import UI and gene
 display remain pending D01. Old selected-gene projects require no migration.
 Python exposure waits for the settled API batch. No proprietary/NC material added.
+
+
+Native expression project associations are now available through
+`qupathxx/expression_matrix_project.hpp`. Keep an external verified source, list/
+load/reopen its association, or relink to exact matching content. Changes use one
+image-data Undo command and preserve unrelated metadata. External paths serialize
+relative to the project where possible; missing sources stay listed and refuse
+reading. Keep does not create observations or assume coordinate alignment.
+
+To retain an owned copy, save the project first and select owned mode when keeping
+the source. The native service copies exact bytes into the adjacent content-
+addressed .qpx-expression folder. Keep that folder with the project when moving a
+bundle. Save As and async native saving copy owned matrices to the destination
+before committing the project. Existing different bytes are never overwritten.
+Remove/Undo affects associations only, preserving shared files; orphan cleanup
+requires a separate verified retention decision. All reopened sources compare
+exact file/source identity. Spatial joins and backed import/gene UI remain pending.

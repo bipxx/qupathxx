@@ -2986,3 +2986,43 @@ expression associations and verified relink through existing project commands,
 stable axis IDs and explicit optional coordinate joins. Then connect backed import
 and gene selection with paged reads and existing jobs. Preserve old selected-gene
 projects and independent UI edits; settle contracts before one affected build.
+
+### D01 project associations: relative/owned paths and verified relink
+
+Changed inputs: typed native association storage in existing ImageDataProperties,
+project serialization/open hooks and shared native Keep/load/reopen/relink/remove.
+Stable source identity excludes locator/ownership. External paths are absolute
+live and relative on disk where possible; owned records use the canonical child
+.qpx-expression/<file digest>.qmx. Owned retention requires a saved project.
+Copy owned data once before destination project commit, including Save As and
+snapshot save, reusing exact existing copies and refusing conflicts. Ordinary
+same-location saves preserve bytes without rehashing entire stores. Remove/Undo
+never deletes shared sidecars; a failed project commit may leave a complete
+unreferenced copy, never an advertised incomplete store. No coordinates guessed.
+
+Decisive checks: exact >2^53 counts through external/owned project persistence,
+relocated directory trees, exact relink/Undo, missing-source preservation/refusal,
+owned copy/Save As/async snapshot independence from originals, corrupt destination
+and cancellation refusal, malformed path and source/alias output protection.
+Existing project and matrix suites protect serializer/default compatibility.
+Settle these contracts, then one affected cached native build after live-owner
+gate; no GUI/binding/package/full real-matrix import repeat. D01 remains open for
+spatial joins and backed import/gene consumers; preserve independent UI edits.
+
+
+D01 project slice passes: cached native build succeeds; expression_matrix_project,
+expression_matrix and existing project suites all pass in1.22s (project-ctest.log).
+Exact uint64 values survive external/owned relocation and native async Save As;
+relink/Undo, missing external sources, conflicting copies, changed identity,
+malformed owned locators and source/hardlink-output protection pass. Current native
+APIs are in expression_matrix_project.hpp. No coordinate association, GUI/import
+integration, installed SDK or optional binding completion is implied.
+
+Waste review: live shared GUI build195752/MSBuild174784 initially blocked our
+cache gate; no competing build started. Their handles disappeared, then the full
+gate cleared and one affected cached batch passed without repair/retry. Ordinary
+owned saves skip whole-file rehash/copy; new destination copies hash while streaming
+and reuse independently verified existing bytes. Keep/remove/Undo never deletes
+shared content-addressed files. Final D01 count stays11/22. Next implement explicit
+observation-ID/coordinate association and selected-gene snapshots over the matrix,
+then use existing import/gene controllers; no full matrix import repeat.

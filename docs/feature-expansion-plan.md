@@ -135,39 +135,36 @@ No calendar or speed-superiority estimate is asserted before measured work.
 
 ## Next execution slices and shared API boundaries
 
-D01 is the next outcome. Its native importer/source foundation exists in the
-working tree; it is not yet a completed project workflow. Do not recreate it or
-count implementation alone as acceptance. Execute these slices in order:
+D01 is the next outcome. Native storage and project association foundations now
+pass their focused checks and the full retained source comparison. Reuse those
+results; do not recreate the importer, repeat the full import or count the feature
+complete before its spatial/consumer route is usable.
 
-1. **Finish the storage trust boundary.** Inspect the existing build/session result,
-   then run the affected matrix suite after the diagnosed Windows watcher repair.
-   Reuse passing unchanged expression/spatial tests. Prove exact uint64 values,
-   sparse selection, bounded work, corruption refusal, cancellation and atomic
-   publication. A Windows-denied mutation must leave unchanged input and a valid
-   snapshot; a permitted mutation must refuse publication.
-2. **Prove the full retained source.** Use the already admitted197MB mouse-brain
-   matrix once. Compare every count in the independent six-gene projection and
-   query an additional gene, then reopen with original text unavailable. Record
-   store size, accounted work, import time and source/store identities. Accounted
-   work is not process RSS; this is not a QuPath speed comparison. Preserve failed
-   attempts and diagnose them before retrying; do not redownload or densify.
-3. **Finish project ownership and relink.** Add typed project associations for the
-   sidecar, axis IDs and any explicitly joined coordinates/frame. Support relative
-   external paths and owned copies through existing project commands. Verify exact
-   bytes before relink, refuse incompatible stores and missing sources, and retain
-   old selected-gene projects without forced migration. Keep count storage usable
-   without spatial coordinates; never invent a positional join.
-4. **Connect the existing consumers.** Extend the import preview and gene-view
-   controllers to use paged catalogues and indexed native reads. Cache the opened
-   immutable source, cancel/coalesce obsolete gene requests and refuse stale owner
-   delivery. UI/CLI choose IDs and report native values; no second parser or query
-   implementation. Check import, previously unprojected gene switching, legend,
-   save/reopen/relink and undo where project associations change. Reuse native
-   numerical evidence rather than repeating it through each frontend.
-5. **Close only D01.** Link the complete native/project/consumer result in the
-   existing receipt and tick its canonical checkbox. Until then the total remains
-   11/22. Record waste and the next D02 slice in current-task; no binding/package
-   build for this intermediate foundation. Preserve independent UI work.
+1. **Delivered storage boundary.** Exact uint64 sparse/cohort reads, paged IDs,
+   bounded work, corruption/stale/cancellation refusal and atomic publication pass.
+   Preserve the diagnosed observer failures and platform-specific write protection.
+2. **Delivered full-source proof.** The admitted197MB mouse-brain matrix imports
+   all32285 genes /2702 observations /16031101 entries. All independent six-gene
+   counts agree; an unprojected gene reopens exactly. Source hashes stay unchanged.
+   The receipt records one host/run, not a QuPath speed or process-RSS claim.
+3. **Delivered project references.** External relative locators, owned exact copies,
+   verified relink, Undo and native Save As/async persistence pass. Old projects
+   need no migration. Ownership copies use the existing atomic writer and precede
+   project commit; removal never deletes shared bytes. Keep the canonical managed
+   child directory beside the project when relocating a bundle.
+4. **Next: explicit spatial join and existing consumers.** Associate observation
+   IDs with explicit coordinates/frame/plane, never catalogue order or guessed
+   positions. Extend import preview and gene-view controllers with paged catalogue
+   selection and native indexed reads. Retain opened immutable sources; cancel/
+   coalesce obsolete gene requests and refuse stale delivery. UI/CLI choose IDs and
+   display native results; no second parser/query or frontend numerical campaign.
+   Check import, unprojected gene switching, legend, save/reopen/relink and Undo
+   when project/spatial associations change. Keep count storage usable without
+   spatial coordinates. Preserve old selected-gene projects and independent UI work.
+5. **Close only D01 after that workflow passes.** Link native/project/consumer
+   evidence in the existing receipt and tick its canonical checkbox. Until then
+   the total remains11/22. Record waste and next D02 slice in current-task; defer
+   optional bindings/SDK/package to the settled P01/P02 batch.
 
 Delivered F01-F04 instructions are retained through their checklist progress and
 source-scoped receipt; they are not execution steps to repeat. The remaining
@@ -465,8 +462,11 @@ and classify actual release inputs under L01. See the existing
   The retained full source imports32285 genes /2702 observations /16031101 entries;
   all six-gene reference counts agree and an additional gene reopens exactly.
   Original text can be offline in native fixtures. Foundation only: project
-  associations/owned copies, verified project relink and backed import/gene-view
-  consumers remain open. See the shared receipt.
+  associations, owned copies and verified project relink now pass native
+  Keep/remove/Undo, relative tree relocation, Save As and async snapshot checks.
+  Project copy conflicts and changed source identities refuse publication. D01
+  remains open for explicit spatial joins and backed import/gene-view consumers.
+  See the shared receipt.
 - [ ] **D02 — bounded interactive and whole-slide processing.** Reuse tile/cache,
   spatial index, native jobs and generation-based publication. Page/filter metadata,
   bound value/color/decoded-tile caches and coalesce rapid viewport requests.
