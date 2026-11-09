@@ -4,6 +4,7 @@
 #include "qupathxx/provenance.hpp"
 namespace qpx {
 class Document;
+class DarkFlatRequest;
 class FluorescenceCellRun;
 class FluorescenceCellRequest {
 public:
@@ -12,6 +13,10 @@ public:
     // is clipped to the source and must cover the Gaussian radius on each axis.
     FluorescenceCellRequest(const Document&,RawRegionRequest,std::uint64_t object_id=0,
         FluorescenceCellOptions={},std::array<std::uint32_t,2> context={32,32});
+    // Explicit derived analysis. The correction recipe must already be retained
+    // in this document; cells/runs reference it once instead of copying fields.
+    FluorescenceCellRequest(const Document&,const DarkFlatRequest&,RawRegionRequest,
+        std::uint64_t object_id=0,FluorescenceCellOptions={},std::array<std::uint32_t,2> context={32,32});
     bool matches(const Document&) const;
     // Actual file versions and metadata are rechecked at this trust boundary;
     // ordinary matches/polls do not rescan pixel data.
@@ -40,6 +45,8 @@ public:
     const std::shared_ptr<const AnalysisProvenance>& provenance() const;
     const std::string& input_sha256() const;
     const std::string& sha256() const;
+    const std::string& measurement_domain() const;
+    const std::string& correction_record() const;
     double elapsed_ms() const;
     std::array<std::uint32_t,2> context() const;
     std::size_t payload_bytes() const;

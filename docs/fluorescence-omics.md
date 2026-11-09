@@ -383,14 +383,16 @@ the actual CLI gives the same run digest. This is one reused validation panel,
 with both original failure and training selection disclosed. It is not an unseen
 held-out study or a guarantee for other markers, tissues or acquisition settings.
 
-## Native marker rules (desktop controls pending)
+## Native marker rules
 
 [marker_rules.hpp](../cpp/include/qupathxx/marker_rules.hpp) evaluates versioned
 marker gates over intact saved F01 cell observations. It does not reread image
 pixels or recompute intensities after geometry edits. Initial capture uses the
 existing open quantitative-source authority; closed/unsupported sources refuse.
-The current domain is exactly `original-channel-samples`. RGB display/optical-
-density or corrected/normalized values are not silently interpreted in this domain.
+Rules explicitly select `original-channel-samples` (the default) or
+`qpx.dark-flat-corrected-samples/1`. RGB display/optical-density or corrected values
+are never silently interpreted as original samples. Thresholds refer to the named
+value domain; normalization does not transfer a biological cutoff automatically.
 
 A gate identifies an original channel, nucleus/cell/cytoplasm compartment,
 mean/sum/minimum/maximum/sample-SD statistic, strict/inclusive comparison, finite
@@ -502,8 +504,8 @@ qupathxx_batch --preview-markers classified.qpx --image 1 --rule RULE_SHA256 --a
 
 Choose exactly one `--rule-file` or saved `--rule`, and exactly one `--all-cells`
 or repeated `--cell ID`. `--all-cells` uses `marker_cell_ids` to select stamped
-native fluorescence cells across **all planes in that image**, excluding unrelated
-cell types. Corrupt matching publications stay selected so capture reports the
+native fluorescence cells in the rule's explicit domain across **all planes in
+that image**, excluding unrelated cell types and known opposite-domain cells. Corrupt matching publications stay selected so capture reports the
 problem instead of silently dropping them. Preview reads saved observations and
 writes nothing. JSONL reports input/rule/result identities, root/gate counts,
 positive/negative/unknown cohorts and output class names.
@@ -525,7 +527,8 @@ remeasure pixels. Saved-rule preview creates fresh authority and reproduces the
 scientific result for the same observations/cohort.
 
 Desktop marker controls are reached through **Fluorescence cells → Marker rules**.
-Choose all native fluorescence cells (across image planes) or the selected cell,
+Choose all native fluorescence cells in the loaded rule's domain (across image
+planes) or the selected cell,
 then Preview markers. Counts distinguish Positive, Negative and Unknown; expand
 Assignments and cohorts to inspect object IDs and proposed classes. Apply marker
 classes uses the native compound class command; normal project Undo restores the
@@ -577,10 +580,10 @@ afterward. Source and correction identities include exact normalization, source
 versions and algorithm domain. They are recipe/source identities, not a promise
 of an evaluated result archive. Cancellation throws without publishing a result.
 
-This foundation has analytical and synthetic-TIFF native tests. Retained recipe
-serialization/reopen, CLI/desktop controls and integration into explicitly derived
-analysis remain F03 work. Existing original-sample fluorescence measurements and
-marker rules continue to use their declared original domain.
+This foundation has analytical and synthetic-TIFF native tests. Retained recipe,
+CLI and explicit corrected cell analysis routes are described below. Correction
+desktop controls remain F03 work. Existing original-sample measurements and rules
+keep their original domain unless explicitly changed.
 
 
 ## Retained dark/flat recipes and CLI (F03 in progress)
@@ -596,7 +599,8 @@ or replace any original-sample measurements.
 Keep stores a typed `qpx.dark-flat-recipe/1` once in image properties, preserving
 source locators, reader/series, observed source-version identities and exact options.
 Keep and Remove each use one normal metadata Undo command and retain unrelated
-properties. Save the project to persist them. The record identity differs from
+properties. Remove refuses while cells or retained fluorescence run records still
+reference a correction recipe. Save the project to persist them. The record identity differs from
 its corrected-source identity; a block identity also includes selected region,
 channels, plane, validity and actual corrected double values.
 
@@ -628,5 +632,46 @@ Keep saves a new project only, protecting original project, image/field and
 SQLite journal/WAL/SHM paths. Preview/list/verify do not modify project or source
 bytes. Native cancellation returns130; runtime/data errors1, invalid options2,
 success0. Correction recipes do not automatically select a derived domain for
-existing fluorescence tools or marker rules. Desktop controls and explicitly
-derived analysis integration remain F03 work.
+existing fluorescence tools or marker rules. Correction desktop controls remain F03 work; explicit native/CLI derived analysis
+is described below.
+
+
+## Explicit corrected fluorescence analysis
+
+The additive `FluorescenceCellRequest(document, correction, region, ...)` overload
+consumes a `DarkFlatRequest`. Keep its correction recipe first; a cell/run stores
+its reference once, with the field associations retained in image properties.
+The existing segmentation, compartment reducer, contours, jobs, publication and
+Undo services operate on corrected Float64 samples. The default constructor
+continues to use original samples. Choose thresholds in the selected domain.
+
+Corrected runs expose `measurement_domain()` and `correction_record()`. Their
+source-input and serialized cell recipe use version2, and published cells use
+`qpx.fluorescence-cell-publication/2` with an explicit corrected domain/reference.
+Original run hashes, version1 recipes and publication metadata stay unchanged.
+Geometry/observations remain integrity-checked, without adding an RGB feature link.
+The existing retained-run APIs also preserve zero-cell corrected outcomes.
+
+```text
+qupathxx_batch --detect-fluorescence corrected.qpx cells.qpx --image 1 --correction CORRECTION_SHA256 --channels 2 --method explicit --threshold 90 --context 0 --expansion 1.5
+qupathxx_batch --list-fluorescence cells.qpx --image 1
+qupathxx_batch --verify-fluorescence cells.qpx --image 1 --record FLUORESCENCE_RECORD_SHA256
+```
+
+These numbers illustrate the synthetic field test, not a marker-independent
+biological threshold. Detection requires a new output project. The CLI reports
+measurement domain and correction reference; its output guard also protects field
+paths. Saved corrected cell/run replay reopens the retained correction association
+and refuses changed/missing sources or a removed/corrupt reference.
+
+Marker rules use the same saved observation authority in either named domain.
+`marker_cell_ids` retains its original-domain default;
+`marker_cell_ids_for_domain` explicitly selects corrected observations. The CLI's
+`--all-cells` uses the rule's domain. The desktop displays the loaded rule's actual
+domain and uses the same native cohort helper. An explicit wrong-domain cell
+refuses capture. Historical marker evaluation does not reread correction fields
+or remeasure pixels. No automatic threshold conversion is performed.
+
+Correction desktop authoring/preview controls remain open under F03. The native
+and CLI routes are delivered; this does not change the default fluorescence UI
+into corrected analysis or claim a new release or biological validation.

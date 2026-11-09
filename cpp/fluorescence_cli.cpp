@@ -1,5 +1,6 @@
 #include "fluorescence_cli.hpp"
 #include "qupathxx/fluorescence_cell_objects.hpp"
+#include "qupathxx/dark_flat_workflow.hpp"
 #include "qupathxx/core.hpp"
 #include "qupathxx/project.hpp"
 #include "qupathxx/provenance.hpp"
@@ -28,17 +29,17 @@ std::optional<int> fluorescence_cli(const std::vector<std::string>& args,const s
     const std::size_t positional=detect?4:3;
     if(args.size()<positional)throw std::invalid_argument("Fluorescence commands need PROJECT, and detection needs a new OUTPUT project; see --help");
     std::uint64_t image=0,roi=0;RawRegionRequest region;FluorescenceCellOptions options;
-    std::array<std::uint32_t,2> context{32,32};std::set<std::string> seen;std::string record;
+    std::array<std::uint32_t,2> context{32,32};std::set<std::string> seen;std::string record,correction;
     bool record_only=false;std::size_t save_bytes=512ull*1024*1024;std::uint64_t project_bytes=1024ull*1024*1024;
     for(std::size_t i=positional;i<args.size();++i) {
         const auto flag=args[i];if(!seen.insert(flag).second)throw std::invalid_argument("Duplicate fluorescence option: "+flag);
         if(detect && flag=="--record-only"){record_only=true;continue;}
-        const bool common=flag=="--image" || (verify && flag=="--record");
+        const bool common=flag=="--image" || (verify && flag=="--record") || (detect && flag=="--correction");
         const bool numeric=flag=="--threshold" || flag=="--sigma" || flag=="--prominence" || flag=="--min-area" || flag=="--max-area" || flag=="--expansion";
         const bool index=flag=="--roi" || flag=="--first-channel" || flag=="--channels" || flag=="--segmentation-channel" || flag=="--z" || flag=="--time" || flag=="--x" || flag=="--y" || flag=="--width" || flag=="--height" || flag=="--context" || flag=="--max-cells" || flag=="--work-bytes" || flag=="--save-snapshot-bytes" || flag=="--project-bytes";
         if(!common && !(detect && (numeric || index || flag=="--method" || flag=="--units")))throw std::invalid_argument("Unknown fluorescence option: "+flag);
         if(++i==args.size())throw std::invalid_argument("Missing fluorescence option value: "+flag);const auto& v=args[i];
-        if(flag=="--record"){record=v;continue;}
+        if(flag=="--record"){record=v;continue;}if(flag=="--correction"){correction=v;continue;}
         if(flag=="--image"){image=unsigned_value(v,UINT64_MAX);continue;}
         if(flag=="--method"){if(v=="otsu")options.threshold_method=FluorescenceThreshold::Otsu256;else if(v=="explicit")options.threshold_method=FluorescenceThreshold::Explicit;else throw std::invalid_argument("Fluorescence method must be explicit or otsu");continue;}
         if(flag=="--units"){if(v=="px")options.units=FluorescenceCellUnits::Pixels;else if(v=="um")options.units=FluorescenceCellUnits::Micrometres;else throw std::invalid_argument("Fluorescence units must be px or um");continue;}
@@ -69,6 +70,7 @@ std::optional<int> fluorescence_cli(const std::vector<std::string>& args,const s
             protect_spatial_path(source,guard.version()->identity,output);
             for(const auto* suffix:{"-journal","-wal","-shm"})protect_spatial_path(source+suffix,"",output);
             for(const auto& entry:images)if(!entry.embedded && !entry.source_path.empty())protect_spatial_path(export_path(entry.source_path),"",output);
+            if(run && !run->correction_record().empty())for(const auto& field:load_dark_flat_recipe(*doc,run->correction_record()).sources)protect_spatial_path(export_path(field.path),"",output);
             if(run && run->provenance()->reader_source){const auto& files=*run->provenance()->reader_source;
                 if(files.primary)protect_spatial_path(files.primary->path,files.primary->identity,output);
                 for(const auto& file:files.companions)protect_spatial_path(file.path,file.identity,output);}
@@ -83,13 +85,14 @@ std::optional<int> fluorescence_cli(const std::vector<std::string>& args,const s
         else {
             if(!roi){const auto m=doc->server()->raw_metadata(&cancelled);if(!m)throw std::runtime_error("Fluorescence source has no raw capability");
                 if(!seen.count("--width"))region.region.width=m->width-region.region.x;if(!seen.count("--height"))region.region.height=m->height-region.region.y;}
-            captured=std::make_unique<FluorescenceCellRequest>(*doc,region,roi,options,context);const auto& request=*captured;run=detect_fluorescence_cells(request,&cancelled);protect();
+            if(correction.empty())captured=std::make_unique<FluorescenceCellRequest>(*doc,region,roi,options,context);
+            else captured=std::make_unique<FluorescenceCellRequest>(*doc,replay_dark_flat_recipe(*doc,correction,&cancelled),region,roi,options,context);const auto& request=*captured;run=detect_fluorescence_cells(request,&cancelled);protect();
             if(!record_only && !run->raster().measurements.empty()){TissueContourOptions contours;contours.work_bytes=options.work_bytes;
                 const auto traced=trace_fluorescence_cells(run,contours,&cancelled);cells=publish_fluorescence_cells(*doc,request,*traced,"Fluorescence cell",options.work_bytes,&cancelled);}
             record=keep_fluorescence_cell_run(*doc,request,*run,&cancelled);protect();project->save_new(output,save_bytes,project_bytes,&cancelled,protect);
         }
         std::size_t boundary=0;for(const auto& b:run->raster().boundaries)if(b.nucleus || b.cell)++boundary;
-        std::cout<<"{\"schema\":\"qpx.fluorescence-cli/1\",\"state\":"<<json_string(verify?"verified":"saved")<<",\"record\":"<<json_string(record)<<",\"cells\":"<<run->raster().measurements.size()<<",\"published_cells\":"<<cells.size()<<",\"boundary_cells\":"<<boundary<<",\"run_sha256\":"<<json_string(run->sha256())<<"}\n";return 0;
+        std::cout<<"{\"schema\":\"qpx.fluorescence-cli/1\",\"state\":"<<json_string(verify?"verified":"saved")<<",\"record\":"<<json_string(record)<<",\"cells\":"<<run->raster().measurements.size()<<",\"published_cells\":"<<cells.size()<<",\"boundary_cells\":"<<boundary<<",\"run_sha256\":"<<json_string(run->sha256())<<",\"measurement_domain\":"<<json_string(run->measurement_domain())<<",\"correction_record\":"<<json_string(run->correction_record())<<"}\n";return 0;
     }catch(const std::exception& e){std::cerr<<e.what()<<'\n';return cancelled.load()?130:1;}
 }
 }

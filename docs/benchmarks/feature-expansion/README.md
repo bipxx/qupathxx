@@ -827,3 +827,60 @@ remains recorded. No GUI/binding/package build, dependency/data download or broa
 segmentation rerun. Native-only CI includes the new suite; hosted execution is
 not claimed. F03 stays open for desktop controls and explicitly derived analysis;
 overall9/22 complete,13 pending.
+
+
+## F03 continuation: corrected cell analysis and marker domains
+
+An additive fluorescence request overload consumes a retained DarkFlatRequest.
+It reuses the existing segmentation/reducer, jobs, ROI/context, contours and
+atomic publication, not a second analysis pipeline. Original constructors keep
+their exact input/recipe/hash path. Corrected runs expose a distinct measurement
+domain and correction reference; source input, serialized recipe and publication
+profile use explicit version2 interpretation. Field associations remain once in
+image properties. Native deletion refuses references from cells or run records;
+pending capture refuses a missing/changed correction association. Polls cache
+unchanged immutable properties pointers, without per-frame recipe parsing/IO.
+
+Marker rules support explicitly named original/corrected domains. Native cohort
+selection excludes known opposite-domain cells and retains malformed/unknown
+matching publications for refusal. Explicit wrong-domain IDs refuse. The marker
+CLI/private panel use the same native helper and the panel labels the actual
+loaded domain. Historical scalar classification does not remeasure fields.
+Fluorescence CLI detection opts in with a retained --correction; its saved output
+reports domain/reference and protects correction field paths.
+
+One affected cached build succeeds (f03-cells-build.log), and all8 affected tests
+pass in2.96s (f03-cells-ctest.log): original source workflow/object/CLI, correction
+recipe workflow, native marker/CLI, corrected fluorescence and existing marker
+GUI. The early corrected end-to-end check also passes. The GUI result establishes
+default-route compatibility, not correction desktop authoring acceptance. The
+new native test is included in native-only CI; hosted execution is not claimed.
+
+Independent15x9 TIFF signal and constant fields yield the same14-pixel nucleus /
+27-pixel body geometry as the raw route at the explicitly adjusted cutoff. The
+corrected nuclear C0 sum is1401 versus original1541; body C0 mean92 and cytoplasm
+C1 mean2513/13-20 agree with the analytical oracle. Tests establish distinct
+identities/profiles, finite signed samples, empty outcomes, work/cancel limits,
+shared-reference retention/stale refusal, one Undo publication, source/cell/run/
+project replay and corrected marker persistence. At cutoff105, the original cell
+is Positive and corrected cell Negative; explicit cohorts keep them separate.
+Both native and CLI paths preserve input bytes. Changed fields refuse corrected
+publication while the default original route remains independent.
+
+The actual batch executable verifies the retained real F01 project:118 cells and
+exact original run SHA4deb4bb86e9bb65fe6aae3ead3a83ab89878a7edee488ab53e1f92dbf95bb67a.
+It also detects/publishes/reopens one corrected cell from the existing synthetic
+8x6 recipe example, verifies its exact run replay and previews the explicitly
+corrected marker cohort. Windows-only PATH/System32 execution succeeds; all
+project/image/field/rule SHA256s remain unchanged. Commands, stdout and executable
+identity are in workspace-root build/feature-expansion/f03-cells-actual/results.json.
+This is source-scoped compatibility and synthetic analysis evidence, not a new
+biological-accuracy study, throughput claim, release or binding qualification.
+
+Waste: shared native algorithms and existing storage/publication; no field recipe
+copies on every cell, raw metadata copy on the default capture, new scheduler,
+Python science, dependency/data download or binding/package campaign. Public API/
+recipe changes justify affected original-route checks and one retained real
+identity verification; no pilot/training sweep repeats. No failed build/test or
+retry. Concurrent UI source is preserved. Next finish correction desktop controls
+on these settled APIs; F03 remains unchecked, overall9/22 complete,13 pending.

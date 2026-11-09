@@ -51,7 +51,7 @@ MarkerRuleRequest::MarkerRuleRequest(const Document& doc,const std::vector<std::
     const auto fields=fields_for(data->rule);
     for(const auto id:selected){workflow_checkpoint(cancelled);const auto at=doc.objects().find(id);if(at==doc.objects().end())throw std::out_of_range("Marker cohort object not found");const auto& cell=at->second;
         auto temporary=charged;workflow_capture_charge(temporary,2*(cell.geometry.payload_bytes()+(cell.nucleus?cell.nucleus->payload_bytes():0))+4096,work);
-        if(!fluorescence_cell_observations_intact(cell) || cell.properties->metadata().at("fluorescence.measurement_domain")!=data->rule.domain)throw std::invalid_argument("Marker rules require intact original-sample fluorescence cell observations");
+        if(!fluorescence_cell_observations_intact(cell) || cell.properties->metadata().at("fluorescence.measurement_domain")!=data->rule.domain)throw std::invalid_argument("Marker rules require intact fluorescence observations in the selected domain");
         data->rows.push_back({id,cell.revision});input.integer(id);text(input,cell.properties->metadata().at("fluorescence.object_sha256"));
         for(const auto& field:fields){auto value=observation(*cell.properties,field);data->values.push_back(value);hash_observation(input,value);}
     }
@@ -99,9 +99,16 @@ struct MarkerRuleKernel {
     }
 };
 bool verify_marker_rule_publication(const Document& doc,const MarkerRuleResult& result,const std::atomic<bool>* cancelled){return MarkerRuleKernel::verify(doc,result,cancelled);}
-std::vector<std::uint64_t> marker_cell_ids(const Document& doc,const std::atomic<bool>* cancelled){std::vector<std::uint64_t> ids;
+std::vector<std::uint64_t> marker_cell_ids(const Document& doc,const std::atomic<bool>* cancelled){return marker_cell_ids_for_domain(doc,"original-channel-samples",cancelled);}
+std::vector<std::uint64_t> marker_cell_ids_for_domain(const Document& doc,const std::string& domain,const std::atomic<bool>* cancelled){
+    if(domain!="original-channel-samples" && domain!="qpx.dark-flat-corrected-samples/1")throw std::invalid_argument("Unsupported marker cohort domain");std::vector<std::uint64_t> ids;
     for(const auto& [id,cell]:doc.objects()){workflow_checkpoint(cancelled);if(cell.kind!=ObjectKind::Cell || !cell.properties)continue;const auto& meta=cell.properties->metadata();const auto p=meta.find("fluorescence.profile");
         if((p==meta.end() || p->second.rfind("qpx.fluorescence-cell-publication/",0)!=0) && !meta.count("fluorescence.object_sha256"))continue;
+        const auto value=meta.find("fluorescence.measurement_domain");
+        if(p!=meta.end() && value!=meta.end()){
+            const bool known=(p->second=="qpx.fluorescence-cell-publication/1" && value->second=="original-channel-samples") || (p->second=="qpx.fluorescence-cell-publication/2" && value->second=="qpx.dark-flat-corrected-samples/1");
+            if(known && value->second!=domain)continue;
+        }
         if(ids.size()==100000)throw std::length_error("Marker cohort exceeds100000 cells");ids.push_back(id);
     }return ids;
 }

@@ -32,7 +32,7 @@ MarkerRule stored_rule(const std::string& id,const V& v){auto p=detail::decode_m
 void MarkerRule::validate() const {
     valid_text(name,128);valid_text(positive_class,128);valid_text(negative_class,128);valid_text(unknown_class,128);
     if(positive_class==negative_class || positive_class==unknown_class || negative_class==unknown_class)throw std::invalid_argument("Marker positive, negative and unknown classes must be distinct");
-    if(domain!="original-channel-samples" || gates.empty() || gates.size()>64 || nodes.empty() || nodes.size()>256)throw std::invalid_argument("Marker rule domain/shape unsupported");
+    if((domain!="original-channel-samples" && domain!="qpx.dark-flat-corrected-samples/1") || gates.empty() || gates.size()>64 || nodes.empty() || nodes.size()>256)throw std::invalid_argument("Marker rule domain/shape unsupported");
     std::set<std::string> names;for(const auto& g:gates){gate_valid(g);if(!names.insert(g.name).second)throw std::invalid_argument("Duplicate marker name");}
     std::size_t edges=0;std::vector<bool> used_gates(gates.size()),used_nodes(nodes.size());
     for(std::size_t i=0;i<nodes.size();++i){const auto& n=nodes[i];if(!enumeration(n.operation,2))throw std::invalid_argument("Unknown marker operation");

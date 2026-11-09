@@ -385,8 +385,13 @@ report the missing real-data acceptance rather than borrowing an NC fixture.
   now support Keep/Remove Undo and exact project/source/block save/reopen replay.
   Native CLI Keep/list/verify/preview pass source-byte, protected-path, cancellation
   and save-budget checks. Initial saved-source reopening is native TIFF only;
-  missing/changed fields refuse, with no implicit relink. Desktop controls and
-  explicitly derived analysis consumption remain; keep F03 unchecked.
+  missing/changed fields refuse, with no implicit relink. Explicit corrected cell
+  analysis now reuses the fluorescence kernel, contours, jobs and atomic publication;
+  version2 recipes/profiles identify corrected values and reference retained field
+  associations. Native/CLI saved replay and domain-specific marker rules pass.
+  Referenced correction recipes cannot be removed. Original F01 real run retains
+  its exact digest and118 cells. Correction desktop controls remain; keep F03
+  unchecked until that selected consumer workflow passes.
 - [ ] **F04 — linear compensation/spectral unmixing.** Consume an explicitly
   supplied, labeled finite mixing matrix and native channel blocks. Start with
   small full-rank linear systems and residual reporting; reuse the existing

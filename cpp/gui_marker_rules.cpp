@@ -49,7 +49,7 @@ struct GuiMarkerRules::Impl {
         }
     }
     void preview(Document& doc,std::uint64_t selected){
-        auto ids=selected_only?std::vector<std::uint64_t>{selected}:marker_cell_ids(doc);
+        auto ids=selected_only?std::vector<std::uint64_t>{selected}:marker_cell_ids_for_domain(doc,rule.domain);
         if(selected_only && !selected)throw std::invalid_argument("Select a native fluorescence cell");
         MarkerRuleRequest candidate(doc,ids,rule);
         RawRegionRequest region;region.region={0,0,0,1,1};region.channels=1;
@@ -68,7 +68,7 @@ struct GuiMarkerRules::Impl {
         changed=edit_text("Positive class",rule.positive_class)||changed;
         changed=edit_text("Negative class",rule.negative_class)||changed;
         changed=edit_text("Unknown class",rule.unknown_class)||changed;
-        ui::TextWrapped("Domain: original-channel-samples. Thresholds use original channel indices and source sample units.");
+        ui::TextWrapped("Domain: %s. Thresholds use original channel indices and source sample units.",rule.domain.c_str());
         if(ui::Button("Combine all gates with AND")){combine(MarkerOperation::And);changed=true;}
         if(ui::Button("Combine all gates with OR")){combine(MarkerOperation::Or);changed=true;}
         ui::TextWrapped("Loaded nested graphs are preserved. Add/remove explicitly rebuilds an all-gates AND rule.");

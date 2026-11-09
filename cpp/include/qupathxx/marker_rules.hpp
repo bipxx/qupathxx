@@ -88,9 +88,12 @@ std::vector<std::uint64_t> apply_marker_rule(Document&,const MarkerRuleRequest&,
 // Historical publication check: unchanged saved observations and expected class
 // labels, permitting the revisions changed by Apply. Does not authorize Apply.
 bool verify_marker_rule_publication(const Document&,const MarkerRuleResult&,const std::atomic<bool>* cancelled=nullptr);
-// Select all native fluorescence cells in this document, across planes. Corrupt
+// Select original-domain native fluorescence cells across planes. Corrupt
 // matching publications remain in the cohort so capture refuses, not hides them.
 std::vector<std::uint64_t> marker_cell_ids(const Document&,const std::atomic<bool>* cancelled=nullptr);
+// Explicit domain cohorts keep original and corrected observations separate.
+std::vector<std::uint64_t> marker_cell_ids_for_domain(const Document&,const std::string& domain,
+    const std::atomic<bool>* cancelled=nullptr);
 // Exact typed rule storage uses existing image properties. Keep/remove are
 // separate undoable actions and do not change observed cells or class labels.
 std::string keep_marker_rule(Document&,const MarkerRule&);

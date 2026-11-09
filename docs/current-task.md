@@ -2431,3 +2431,55 @@ waiting on an unrelated sibling compiler. No GUI/bindings/package/science campai
 or new material. Next add the correction desktop panel and an explicit corrected-
 domain analysis route over these native services, preserving original F01/F02
 identities and concurrent desktop work. Overall9/22 remains unchanged.
+
+### F03 continuation: explicitly corrected cell analysis
+
+Changed inputs: additive corrected-source FluorescenceCellRequest overload and
+run domain/reference accessors, reusing the current kernel/contours/publication.
+Corrected input/recipe/publication interpretation is explicitly versioned; default
+raw hashes/recipe/metadata stay unchanged. Correction recipes must already be
+retained, and one reference per run/cell avoids copying field associations.
+Deletion refuses while referenced by cells or run records. Pending captures
+invalidate on lost associations; cache unchanged immutable image-properties
+pointers rather than reparsing a correction recipe every frame.
+
+Marker rules/cohorts explicitly select original or corrected observations. Default
+cohorts stay original, known opposite-domain cells are excluded, and corrupt or
+unknown publications still refuse capture rather than disappearing. CLI detection
+opts into a retained correction; output guards protect its field paths. The marker
+CLI/private panel use the native domain cohort helper and display the actual
+domain. No corrected scalar is relabeled as an original observation.
+
+Decisive check: independent corrected nucleus/body/cytoplasm values, equal known
+geometry with distinct identity, empty results, work/cancel limits, retained
+reference protection and stale refusal, one publication Undo, exact corrected
+run/cell/project and marker replay, wrong-domain refusal and native CLI equality.
+Reuse completed kernel/field evidence. Because shared F01 APIs/recipe parsing and
+marker capture change, build affected native workflow/object/CLI/marker tests and
+the existing marker desktop test in one cache batch, without bindings. Check the
+retained real F01 run once against its stored digest for the concrete backward-
+identity risk; no training/pilot sweep or broad science campaign. The marker GUI
+check establishes default-route compatibility, not F03 desktop completion. New
+correction controls remain the next packet; preserve concurrent UI source edits.
+
+Affected cached build succeeds; all8 tests pass in2.96s, including existing
+source/object/CLI/marker routes and default marker desktop compatibility. The new
+corrected test independently proves14 nucleus/27 body pixels, nuclear C0 sum1401
+versus original1541, body mean92, cytoplasm C1 mean2513/13-20, exact native/CLI
+publication and source/run/cell/project/marker replay. Reference removal/stale
+checks, work/cancel and one Undo pass. No build/test failure or retry occurred.
+
+Actual batch preserves the real F01 stored digest4deb4bb86e9bb65fe6aae3ead3a83ab89878a7edee488ab53e1f92dbf95bb67a
+and118 cells. It saves/replays one corrected synthetic cell with an explicit
+marker-domain cohort; all input hashes remain unchanged. Windows-only PATH/
+System32 receipt: f03-cells-actual/results.json. No new biological or speed claim.
+
+Waste review: reuse kernel/contours/publication and metadata Undo; store correction
+associations once and reference them. Default capture avoids a new metadata copy;
+corrected work admits read and segmentation peaks before reading. Cache unchanged
+immutable properties for owner polls; do not reopen fields or parse recipes each
+frame. Changed public APIs/recipe parsing justify affected consumer checks and a
+single retained real F01 digest check, not broader qualification. Preserve the
+concurrent UI changes. No bindings, package, new dependency/data, new scheduler or
+repeated pilot. Next correction desktop authoring/preview/selection, using these
+settled APIs; F03 remains open and overall9/22 complete,13 pending.
