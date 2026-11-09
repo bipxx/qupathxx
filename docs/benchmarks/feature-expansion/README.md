@@ -1569,3 +1569,40 @@ its own byte/entry eviction; no new history cache or scheduler was introduced.
 D02 now proceeds to tiled-cell halo/ownership/global identity/resume work. The
 existing F01 context covers smoothing, not complete halo segmentation; dependency
 on cut foreground components must be detected before watershed filtering.
+
+D02 bounded tile kernel and seam ownership (workflow/resume pending)
+------------------------------------------------------------------
+
+New native `segment_fluorescence_tile` reuses the existing segmentation/measurement
+kernels over one expanded segmentation domain. Its explicit global sample/core/
+analysis rectangles validate level-zero containment and Gaussian+2*expansion halo.
+A complete cell belongs to the half-open core containing its first global
+row-major nucleus pixel. Global IDs bind source, recipe, channel block/Z/T,
+sample type and anchor; local watershed labels are omitted. Output carries global
+nucleus/body RLE geometry and original raw compartment moments. Work admission
+reserves cut-component traversal, per-label state and worst-case output/vector
+growth alongside the existing raw/kernel workspace; no slide-sized raster.
+
+An optional internal hook marks connected thresholded foreground that touches
+cut/invalid/ROI/smoothing support before watershed and area filtering. Interior
+children inherit their cut parent's dependency. Output reports unresolved
+foreground in core even if all candidate labels are filtered, plus unresolved
+owned labels; these cannot be published as a complete tile. Per-tile Otsu refuses:
+the following orchestrator must supply one globally resolved explicit threshold.
+Untiled calls leave the hook absent and retain their output/recipe contract.
+
+Evidence `build/feature-expansion/d02-tiles/{build.log,ctest.log}`: affected native
+build succeeds, all4 suites pass0.79s (fluorescence_cells, fluorescence_tiles,
+fluorescence_cell_workflow, fluorescence_cell_objects). New analytical four-nucleus
+raw fixture, independently segmented through the untiled ROI service, matches all
+returned nucleus/body pixels and compartment raw moments exactly across3 tile
+layouts/reversed order. Global IDs/one-owner coverage agree. A connected cut
+parent's interior child and area-filtered cut foreground both remain unresolved;
+halo/work/cancel/per-tile-Otsu guards pass. Existing source currentness and native
+published-cell/recipe replay remain passing. No new data/license/dependency input,
+GUI/bindings/package build, scale indexing or biological-accuracy claim.
+
+D02 remains open: source/job orchestration, one global Otsu/normalization contract,
+source/options-bound checkpoint/resume and independent admitted real-ROI seam/
+interruption equality, then thin desktop controls. This pure bounded primitive is
+not a completed whole-slide processing workflow or frozen release.

@@ -72,6 +72,29 @@ double otsu(const std::vector<double>& values,const std::vector<std::uint8_t>& d
         if(variance>best){best=variance;split=i;}}
     const double fraction=double(split+1)/256;return lo*(1-fraction)+hi*fraction;
 }
+void cut_components(const std::vector<std::uint8_t>& foreground,const std::vector<std::uint8_t>& eligible,
+    std::size_t width,std::size_t height,std::size_t rx,std::size_t ry,std::vector<std::uint8_t>& cut,const std::atomic<bool>* cancelled) {
+    cut.assign(foreground.size(),0);std::vector<std::size_t> queue;queue.reserve(foreground.size());
+    for(std::size_t start=0;start<foreground.size();++start) {
+        if(!(start&4095))workflow_checkpoint(cancelled);
+        if(!foreground[start] || cut[start])continue;
+        queue.clear();queue.push_back(start);cut[start]=1;bool open=false;
+        for(std::size_t at=0;at<queue.size();++at) {
+            if(!(at&4095))workflow_checkpoint(cancelled);
+            const auto i=queue[at],x=i%width,y=i/width;
+            open=open || x<rx || y<ry || width-1-x<rx || height-1-y<ry || !x || !y || x+1==width || y+1==height;
+            for(int dy=-1;dy<=1;++dy)for(int dx=-1;dx<=1;++dx) {
+                if(!dx && !dy)continue;
+                if((dx<0 && !x)||(dy<0 && !y)||(dx>0 && x+1==width)||(dy>0 && y+1==height)){open=true;continue;}
+                const auto j=std::size_t(std::int64_t(y)+dy)*width+std::size_t(std::int64_t(x)+dx);
+                if(!eligible[j])open=true;
+                if(foreground[j] && !cut[j]){cut[j]=1;queue.push_back(j);}
+            }
+        }
+        if(open)for(auto i:queue)cut[i]=2;
+    }
+    for(auto& value:cut)value=value==2?1:0;
+}
 }
 std::vector<RawCellMeasurements> measure_raw_cell_compartments(const RawPixelBuffer& pixels,const std::vector<std::uint32_t>& nuclei,
     const std::vector<std::uint32_t>& bodies,std::size_t cells,std::size_t work,const std::atomic<bool>* cancelled) {
@@ -124,7 +147,7 @@ std::size_t detail::fluorescence_cell_work_bytes(std::int64_t width,std::int64_t
     workflow_capture_charge(bytes,measurement_bytes(std::min(n,p.max_cells),channels),p.work_bytes);return bytes;
 }
 FluorescenceCellResult detail::segment_fluorescence_cells_reserved(const RawPixelBuffer& pixels,const std::vector<std::uint8_t>& domain,FluorescenceCellOptions p,
-    std::optional<std::array<double,2>> calibration,std::size_t fixed,const std::atomic<bool>* cancelled) {
+    std::optional<std::array<double,2>> calibration,std::size_t fixed,const std::atomic<bool>* cancelled,std::vector<std::uint8_t>* cut_foreground) {
     workflow_checkpoint(cancelled);p.validate();const auto n=lattice(pixels);const auto width=std::size_t(pixels.width()),height=std::size_t(pixels.height());
     if(domain.size()!=n || p.segmentation_channel>=pixels.channels())throw std::invalid_argument("Invalid fluorescence segmentation domain/channel");
     FluorescenceCellResult result;result.width=pixels.width();result.height=pixels.height();result.options=p;
@@ -144,6 +167,10 @@ FluorescenceCellResult detail::segment_fluorescence_cells_reserved(const RawPixe
         result.resolved_threshold=p.threshold_method==FluorescenceThreshold::Explicit?p.threshold:otsu(score,eligible,cancelled);
         std::vector<double> distance(n);
         for(std::size_t i=0;i<n;++i) {if((i&4095)==0)workflow_checkpoint(cancelled);foreground[i]=eligible[i] && score[i]>result.resolved_threshold;distance[i]=foreground[i]?std::numeric_limits<double>::infinity():0;}
+        if(cut_foreground) {
+            const auto sigmas=metric.sigma_pixels(p.sigma);
+            cut_components(foreground,eligible,width,height,cell_detail::scientific_gaussian_radius(sigmas.first),cell_detail::scientific_gaussian_radius(sigmas.second),*cut_foreground,cancelled);
+        }
         cell_detail::physical_distance(distance,width,height,metric,true,nullptr,p.work_bytes,cancelled);
         for(auto& v:distance)v=std::sqrt(v);
         const auto first=[&](auto predicate) {std::uint64_t lo=1,hi=n+1;while(lo<hi) {const auto mid=lo+(hi-lo)/2;const auto area=detail::calibrated_cell_product({double(mid),result.metric[0],result.metric[1]},true);if(predicate(area))hi=mid;else lo=mid+1;}return lo;};

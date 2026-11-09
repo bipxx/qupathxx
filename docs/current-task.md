@@ -3339,3 +3339,43 @@ without touching the halo itself. Capture global Otsu once over the whole ROI,
 keep untiled recipe/run identities stable, then source-bound resumable tile records
 and independent admitted-ROI seam/interruption equality. No whole-slide raster,
 new scheduler or repeated F01 biology campaign. D02 remains open;12/22 complete.
+
+### D02 — bounded native tiled cell geometry and dependency detection
+
+Implement the tile kernel over existing fluorescence segmentation/measurement.
+A tile carries global raw sample geometry, full analysis bounds and half-open
+ownership core. Segmented halo covers Gaussian support and2*expansion; complete
+cells are owned by first global row-major nucleus pixel. IDs bind source/recipe/
+channel block/Z/T/global anchor, not local watershed label or tile layout/order.
+Global nucleus/body RLE and exact raw compartment moments are returned; no whole
+slide raster. Reserve cut-component traversal and worst-case output capacities
+in the existing work estimator before allocation. Parent dependency is detected
+on thresholded foreground before watershed/area filtering; unresolved foreground
+or owned labels block complete status. Existing untiled calls pass no diagnostic
+hook and keep output/run identity semantics.
+
+This is the bounded kernel foundation, not D02 closure. Per-tile Otsu explicitly
+refuses until the orchestrator captures/resolves the global ROI threshold. Next
+is existing source/job orchestration plus source-bound checkpoints/resume and
+admitted-ROI consumer evidence. Decisive current check: one cached affected native
+build/tests: new tile seams against whole-ROI masks/moments across3 layouts/order,
+cut-parent and filtered-foreground cases, halo/work/cancel guards; existing pure
+cells, source-bound workflow and published-cell replay suites. No GUI/bindings,
+raw matrix/indexing, data/dependency download or biological campaign.
+
+Bounded tile foundation passes: cached affected native build succeeds; all4 suites
+pass0.79s (pure cells, new tiles, source workflow, published-cell/recipe replay).
+Three layouts plus reversed tile order preserve exact whole-ROI nucleus/body
+pixels, complete raw compartment moments, ownership and global IDs. Cut parent
+marks its interior watershed child unresolved; area filtering cannot hide cut
+foreground. Insufficient halo, small work budget, cancelled work and per-tile
+Otsu refuse explicitly. Existing untiled source/publication/replay suites pass.
+Waste review: one affected native build/test batch, no failed retry, new dependency,
+data download, GUI/binding/package rebuild or repeated biology/scale campaign.
+The optional internal diagnostic hook leaves ordinary untiled output unchanged.
+
+Next: native source-bound orchestration must resolve any global Otsu/normalization
+once, read finite halo tiles on the existing job and persist complete tile records
+with exact input/options/source identity. Add interrupt/resume equality and an
+admitted real ROI; thin desktop controls afterward. Primitive coverage is not a
+whole-slide workflow or D02 completion.12/22 remain complete.

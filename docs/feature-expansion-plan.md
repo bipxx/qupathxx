@@ -178,6 +178,15 @@ is D02; these steps refine its existing checkbox, without creating another ledge
    filtering so an interior child of a cut component cannot be silently accepted.
    Keep the existing untiled run identity/recipe contract intact. Resolve global
    Otsu from the declared whole ROI rather than recomputing thresholds per tile.
+   Bounded native tile kernel is delivered: expanded-domain segmentation, half-
+   open anchor ownership, source/plane/recipe-bound global IDs, global nucleus/body
+   RLE and exact raw moments. Cut-parent dependence is propagated before watershed/
+   area filtering; unresolved pixels/owned labels prevent complete status. Three
+   synthetic layouts/reversed order match untiled geometry/moments exactly; all
+   four affected native suites pass. Next integrate source capture/read and global
+   threshold resolution with the existing cell job, then checkpoint/resume. The
+   primitive requires an explicit globally resolved threshold; it does not close
+   global Otsu, persistence, desktop controls or admitted real-ROI acceptance.
 4. Reuse an admitted whole-slide ROI, compare seam results independently and prove
    interruption/resume equality. Add thin UI controls over the same authority;
    no alternate scheduler or repeated F01 biological-accuracy campaign.
