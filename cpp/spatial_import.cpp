@@ -202,13 +202,19 @@ SpatialImportBaseCatalogue spatial_import_base_catalogue(const std::string& path
 struct SpatialImportJob::Data {
     struct Outcome {std::shared_ptr<const SpatialImportPreview> preview;std::string report;
         std::shared_ptr<const SpatialFeatureCatalogue> catalogue;std::shared_ptr<const SpatialImportBaseCatalogue> base;
-        std::shared_ptr<const BackedSpatialImportPreview> backed;};
+        std::shared_ptr<const BackedSpatialImportPreview> backed;
+        std::shared_ptr<const ExpressionMatrixSource> matrix;
+        std::shared_ptr<const ExpressionMatrixImportResult> indexed;
+        std::shared_ptr<const ExpressionFeaturePage> matrix_page;};
     std::thread::id owner=std::this_thread::get_id();std::atomic<bool> cancelled{false};
     std::atomic<SpatialImportPhase> phase{SpatialImportPhase::Idle};std::future<Outcome> future;
     std::shared_ptr<const SpatialImportPreview> preview;std::string report,error;std::exception_ptr failure;
     std::shared_ptr<const SpatialFeatureCatalogue> catalogue;std::shared_ptr<const SpatialImportBaseCatalogue> base;
     std::shared_ptr<const BackedSpatialImportPreview> backed;
-    void reset(SpatialImportPhase next) {cancelled.store(false);phase.store(next);preview.reset();backed.reset();catalogue.reset();base.reset();report.clear();error.clear();failure=nullptr;}
+    std::shared_ptr<const ExpressionMatrixSource> matrix;
+    std::shared_ptr<const ExpressionMatrixImportResult> indexed;
+    std::shared_ptr<const ExpressionFeaturePage> matrix_page;
+    void reset(SpatialImportPhase next) {cancelled.store(false);phase.store(next);preview.reset();backed.reset();catalogue.reset();base.reset();matrix.reset();indexed.reset();matrix_page.reset();report.clear();error.clear();failure=nullptr;}
 };
 SpatialImportJob::SpatialImportJob():data_(std::make_unique<Data>()) {}
 SpatialImportJob::~SpatialImportJob(){cancel();if(data_->future.valid())data_->future.wait();}
@@ -226,9 +232,12 @@ bool SpatialImportJob::publish(std::shared_ptr<const SpatialImportPreview> previ
     });return true;
 }
 bool SpatialImportJob::preview(BackedSpatialImportRequest request) {
+    return preview(std::move(request),std::shared_ptr<const ExpressionMatrixSource>{});
+}
+bool SpatialImportJob::preview(BackedSpatialImportRequest request,std::shared_ptr<const ExpressionMatrixSource> source) {
     workflow_require_owner(data_->owner);poll();if(busy())return false;request.validate();data_->reset(SpatialImportPhase::Reading);
-    data_->future=std::async(std::launch::async,[this,request=std::move(request)] {
-        Data::Outcome outcome;outcome.backed=preview_backed_spatial_import(request,&data_->cancelled);return outcome;
+    data_->future=std::async(std::launch::async,[this,request=std::move(request),source=std::move(source)] {
+        Data::Outcome outcome;outcome.backed=preview_backed_spatial_import(request,source,&data_->cancelled);return outcome;
     });return true;
 }
 bool SpatialImportJob::publish(std::shared_ptr<const BackedSpatialImportPreview> preview) {
@@ -251,13 +260,41 @@ bool SpatialImportJob::base_catalogue(const std::string& path) {
         auto base=std::make_shared<const SpatialImportBaseCatalogue>(spatial_import_base_catalogue(path,&data_->cancelled));return Data::Outcome{{},{},{},std::move(base)};
     });return true;
 }
+bool SpatialImportJob::open_matrix(const std::string& path,const std::string& expected,std::size_t work) {
+    workflow_require_owner(data_->owner);poll();if(busy())return false;workflow_path_argument(path);digest_argument(expected);data_->reset(SpatialImportPhase::MatrixOpening);
+    data_->future=std::async(std::launch::async,[this,path,expected,work] {
+        Data::Outcome result;result.matrix=open_expression_matrix(path,expected,work,2ull*1024*1024*1024,&data_->cancelled);return result;
+    });return true;
+}
+bool SpatialImportJob::index_matrix(const std::string& matrix,const std::string& features,const std::string& observations,
+    const std::string& store,ExpressionMatrixImportOptions options) {
+    workflow_require_owner(data_->owner);poll();if(busy())return false;options.validate();data_->reset(SpatialImportPhase::MatrixIndexing);
+    data_->future=std::async(std::launch::async,[this,matrix,features,observations,store,options] {
+        Data::Outcome result;result.indexed=std::make_shared<const ExpressionMatrixImportResult>(import_expression_matrix(matrix,features,observations,store,options,&data_->cancelled));
+        result.matrix=open_expression_matrix(result.indexed->path,result.indexed->file_sha256,options.work_bytes,options.store_bytes,&data_->cancelled);return result;
+    });return true;
+}
+bool SpatialImportJob::open_matrix(ExpressionMatrixOpenRequest request,std::size_t work) {
+    workflow_require_owner(data_->owner);poll();if(busy())return false;request.association.validate();data_->reset(SpatialImportPhase::MatrixOpening);
+    data_->future=std::async(std::launch::async,[this,request=std::move(request),work] {
+        Data::Outcome result;result.matrix=request.open(work,&data_->cancelled);return result;
+    });return true;
+}
+bool SpatialImportJob::matrix_catalogue(std::shared_ptr<const ExpressionMatrixSource> source,std::string query,
+    std::uint64_t offset,std::size_t count,std::size_t work) {
+    workflow_require_owner(data_->owner);poll();if(busy())return false;if(!source)throw std::invalid_argument("Catalogue needs an opened matrix");data_->reset(SpatialImportPhase::MatrixCatalogueReading);
+    data_->future=std::async(std::launch::async,[this,source=std::move(source),query=std::move(query),offset,count,work] {
+        Data::Outcome result;result.matrix_page=std::make_shared<const ExpressionFeaturePage>(source->search_features(query,offset,count,work,&data_->cancelled));result.matrix=source;return result;
+    });return true;
+}
 void SpatialImportJob::poll() {
     workflow_require_owner(data_->owner);
     if(!data_->future.valid() || data_->future.wait_for(std::chrono::seconds(0))!=std::future_status::ready)return;
     try {auto result=data_->future.get();data_->preview=std::move(result.preview);data_->report=std::move(result.report);
         data_->catalogue=std::move(result.catalogue);data_->base=std::move(result.base);
         data_->backed=std::move(result.backed);
-        data_->phase.store(data_->catalogue?SpatialImportPhase::CatalogueReady:data_->base?SpatialImportPhase::BaseReady:data_->report.empty()?SpatialImportPhase::Ready:SpatialImportPhase::Complete);
+        data_->matrix=std::move(result.matrix);data_->indexed=std::move(result.indexed);data_->matrix_page=std::move(result.matrix_page);
+        data_->phase.store(data_->matrix_page?SpatialImportPhase::MatrixCatalogueReady:data_->matrix?SpatialImportPhase::MatrixReady:data_->catalogue?SpatialImportPhase::CatalogueReady:data_->base?SpatialImportPhase::BaseReady:data_->report.empty()?SpatialImportPhase::Ready:SpatialImportPhase::Complete);
     }catch(const WorkflowCancelled&) {data_->failure=std::current_exception();data_->error=workflow_failure_message(data_->failure);data_->phase.store(SpatialImportPhase::Cancelled);}
     catch(...) {data_->failure=std::current_exception();data_->error=workflow_failure_message(data_->failure);data_->phase.store(SpatialImportPhase::Failed);}
 }
@@ -267,6 +304,9 @@ bool SpatialImportJob::busy() const {workflow_require_owner(data_->owner);return
 SpatialImportPhase SpatialImportJob::phase() const {workflow_require_owner(data_->owner);return data_->phase.load();}
 std::shared_ptr<const SpatialImportPreview> SpatialImportJob::result() const {workflow_require_owner(data_->owner);return data_->preview;}
 std::shared_ptr<const BackedSpatialImportPreview> SpatialImportJob::backed_result() const {workflow_require_owner(data_->owner);return data_->backed;}
+std::shared_ptr<const ExpressionMatrixSource> SpatialImportJob::matrix_source() const {workflow_require_owner(data_->owner);return data_->matrix;}
+std::shared_ptr<const ExpressionMatrixImportResult> SpatialImportJob::matrix_index_result() const {workflow_require_owner(data_->owner);return data_->indexed;}
+std::shared_ptr<const ExpressionFeaturePage> SpatialImportJob::matrix_catalogue_result() const {workflow_require_owner(data_->owner);return data_->matrix_page;}
 std::shared_ptr<const SpatialFeatureCatalogue> SpatialImportJob::catalogue_result() const {workflow_require_owner(data_->owner);return data_->catalogue;}
 std::shared_ptr<const SpatialImportBaseCatalogue> SpatialImportJob::base_result() const {workflow_require_owner(data_->owner);return data_->base;}
 const std::string& SpatialImportJob::report() const {workflow_require_owner(data_->owner);return data_->report;}

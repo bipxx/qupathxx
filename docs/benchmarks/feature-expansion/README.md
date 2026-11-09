@@ -1390,3 +1390,71 @@ controls, an installed SDK/package, biology, RSS or speed superiority. D01 remai
 unchecked at11/22 complete. Next connect the existing desktop wizard and gene
 panel to these services with asynchronous indexed catalogue search/selection;
 reuse real owned project and numerical evidence instead of another import campaign.
+
+
+### D01 desktop completion: full indexed import and paged gene maps
+
+Desktop wizard now chooses selected/project counts or a full indexed source. It
+opens a store or indexes raw Matrix Market plus explicit Qpx/Tenx axes through
+existing SpatialImportJob operations. Its prepared preview reuses the opened
+source pointer, joins barcodes/coordinates and publishes/opens through existing
+controls. Header/reader/scientific interpretation stays native. Bounded literal
+ID/symbol searches read metadata only; stable IDs disambiguate repeated symbols.
+Source scopes and immutable project-open requests keep live Document off workers.
+
+The gene panel caches opened sources, coalesces metadata queries to latest input
+and shares equal query pages. The native gene worker fetches selected features
+and reuses existing colors/legends/comparison. Exact scientific identity does not
+freeze a runtime locator: same-identity bind now refreshes a different source
+handle, and live owned Save As follows its newly verified file. Point/reference
+identity, exact raw counts and stale-source refusal stay intact. Matrix relink/
+Undo is verified through the native API; no separate GUI relink browser is claimed.
+
+Workspace-root build/feature-expansion/d01-gui/build.log succeeds. ctest.log passes
+all4 affected suites in3.78s: native backed import, native spatial matrix, legacy
+GUI gene/registration and GUI spatial import. New cases actually index all40 genes,
+click Import/Open, page a16-item catalogue, choose unprojected Idx32 and get exact
+[0,19,0] values, follow owned Save As with old locator offline, and refuse a changed
+store. Native checks cover literal/case/offset bounds, explicit scope listing,
+immutable worker opening and same-scientific-ID/new-runtime-source binding.
+Legacy selected data, colors, meaningful registration and workspace routes pass.
+No failing invariant or tolerance was weakened.
+
+The settled handoff driver adds the existing real indexed scope to the full-app
+capture route; handoff-build.log succeeds. Final controller cleanup compares query
+text rather than unused buffer tails and avoids copying project path per frame.
+No failed build/test in this GUI packet. Existing numerical science is reused.
+
+Workspace-root build/feature-expansion/d01-gui-real/results.json records3 exit0
+runs from System32 with Windows-only PATH: actual import driver, actual full-app
+comparison driver and standalone qupathxx_app --project/--layout/--smoke. Real
+import uses the previously owned store, never reindexes the197MB raw matrix, and
+retains32285 features /2702 coordinate observations. Project SHA256 is
+`a31dcd399f65c47a8b51acdd48333c47f11abff621fc4f15c94004358cb9bd7e`,
+14368768 bytes, with a verified relative external matrix association. Native real
+owned import/count/coordinate equality remains covered by the prior receipt.
+
+Source store, original base and coordinate input hashes before/after agree; all38
+retained binding-object hashes match the prior baseline. No binding, wheel, SDK,
+package or new data/model/dependency download. Drivers also retain their passing
+synthetic action/legacy checks. genes/real-indexed-result.json proves the expected
+2702-point scope, settled tiles, comparison and unchanged project; workspace keeps
+gene/source choices separately. Scope SHA is
+`704ef0059ee49c4aa8eafba91455dacd0e6c266871663f2a9681439028fb17bb`.
+
+Inspected import/real-indexed-preview.png shows2702 mapped tissue spots, all32285
+features, readable output and Import action. Inspected genes/real-indexed-comparison.png
+shows aligned matching positions, clear gene IDs and a shared0..4.45435
+log1p(counts) scale:2451/577 zeros and0 missing in each respective map. The first
+ID is unprojected ENSMUSG00000051951; the second is Gad1/ENSMUSG00000070880.
+captures.json binds PNG/PPM hashes and verifies lossless identical RGB conversion.
+Reuse admitted CC BY4.0 dataset attribution/lineage for these local derivatives.
+No cosmetic QuPath-parity, population/biological, RAM or speed-superiority claim.
+
+D01 closes under the local indexed uint64/Qpx-or-Tenx TSV, explicit image-coordinate
+subset. Twelve of22 items are complete;10 remain. Matching optional bindings/SDK
+and frozen release are P01/P02, final material membership L01. Preserve independent
+UI styling edits and their receipts; these local GUI results include that working
+UI state and are not a new frozen package. Next D02: bounded metadata/value/color
+retention and named-host sparse interaction, then deterministic tiled raw-cell
+context/seams/checkpoint-resume. Do not replay accepted import/fluorescence science.

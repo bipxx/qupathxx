@@ -56,6 +56,10 @@ const std::string& BackedSpatialImportPreview::json()const{return data_->json;}
 std::shared_ptr<ImageServer> BackedSpatialImportPreview::image_server()const{return data_->image;}
 std::shared_ptr<const BackedSpatialImportPreview> preview_backed_spatial_import(
     const BackedSpatialImportRequest& request,const std::atomic<bool>* cancelled) {
+    return preview_backed_spatial_import(request,std::shared_ptr<const ExpressionMatrixSource>{},cancelled);
+}
+std::shared_ptr<const BackedSpatialImportPreview> preview_backed_spatial_import(
+    const BackedSpatialImportRequest& request,std::shared_ptr<const ExpressionMatrixSource> source,const std::atomic<bool>* cancelled) {
     request.validate();workflow_checkpoint(cancelled);new_output(request.base.output_project);
     auto d=std::make_shared<BackedSpatialImportPreview::Data>();d->request=request;
     d->base=std::make_shared<detail::WorkflowInput>(request.base.input_project.empty()?request.base.image_path:request.base.input_project,
@@ -64,7 +68,13 @@ std::shared_ptr<const BackedSpatialImportPreview> preview_backed_spatial_import(
     if(request.base.input_project.empty())d->request.base.image_path=d->base->path();else d->request.base.input_project=d->base->path();
     d->request.base.output_project=detail::export_path(request.base.output_project);
     const auto work=request.position_options.work_bytes;
-    auto source=open_expression_matrix(request.store,request.expected_store_sha256,work/2,request.store_bytes,cancelled);
+    if(source) {
+        source->require_current(cancelled);
+        if(source->path()!=detail::export_path(request.store) ||
+           (!request.expected_store_sha256.empty() && source->file_sha256()!=request.expected_store_sha256))
+            throw WorkflowInputChanged("Prepared matrix differs from selected import source");
+        if(std::filesystem::file_size(std::filesystem::u8path(source->path()))>request.store_bytes)throw WorkflowCaptureLimit("Prepared matrix exceeds import file budget");
+    } else source=open_expression_matrix(request.store,request.expected_store_sha256,work/2,request.store_bytes,cancelled);
     d->request.store=source->path();d->request.expected_store_sha256=source->file_sha256();
     d->positions=std::make_shared<detail::WorkflowInput>(request.positions,request.position_options.file_bytes,false,cancelled);
     d->request.positions=d->positions->path();

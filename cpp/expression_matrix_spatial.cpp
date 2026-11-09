@@ -8,6 +8,7 @@
 #include <cmath>
 #include <cstring>
 #include <numeric>
+#include <map>
 
 namespace qpx {
 namespace {
@@ -171,5 +172,27 @@ std::shared_ptr<const ObjectProperties> expression_matrix_point_properties(const
 bool expression_matrix_points_reference(const Document& doc,const std::string& source) {
     for(const auto& [id,object]:doc.objects())if(eligible(object,source))return true;
     return false;
+}
+std::string ExpressionMatrixSpatialScope::sha256()const {
+    digest(matrix_source_sha256);plane.validate();
+    CoordinateFrame frame;frame.id=frame_id;frame.source_id=matrix_source_sha256;frame.plane=plane;frame.validate();
+    Sha256 h;text(h,"qpx.expression-spatial-scope/1");text(h,frame.sha256());return h.finish();
+}
+std::vector<ExpressionMatrixSpatialScope> expression_matrix_spatial_scopes(const Document& doc,ObjectPlane plane,
+    std::size_t work,const std::atomic<bool>* cancelled) {
+    budget(work);plane.validate();std::size_t bytes=0;std::map<std::pair<std::string,std::string>,ExpressionMatrixSpatialScope> scopes;
+    for(const auto& [id,object]:doc.objects()) {
+        workflow_checkpoint(cancelled);if(object.plane!=plane || !object.properties)continue;
+        const auto& m=object.properties->metadata();const auto p=m.find("omics.profile");if(p==m.end() || p->second!=profile)continue;
+        const auto& source=fact(*object.properties,"omics.matrix_source_sha256");const auto& frame=fact(*object.properties,"omics.coordinate_frame_id");
+        digest(source);if(frame.size()>4096)throw std::invalid_argument("Expression spatial frame ID exceeds limit");
+        const auto key=std::make_pair(source,frame);auto it=scopes.find(key);
+        if(it==scopes.end()) {
+            workflow_capture_charge(bytes,1024+4*(source.size()+frame.size()),work);
+            ExpressionMatrixSpatialScope scope{source,frame,plane,0};scope.sha256();it=scopes.emplace(key,std::move(scope)).first;
+        }
+        ++it->second.observations;
+    }
+    std::vector<ExpressionMatrixSpatialScope> result;result.reserve(scopes.size());for(auto& [key,scope]:scopes)result.push_back(std::move(scope));return result;
 }
 }

@@ -4,6 +4,7 @@
 #include "qupathxx/core.hpp"
 #include "gui_layout.hpp"
 #include "gui_tiles.hpp"
+#include "gui_backed_genes.hpp"
 #include <cstring>
 #include <limits>
 #include <cmath>
@@ -11,6 +12,9 @@
 namespace qpx::detail {
 class GuiGeneDisplay {
     GeneViewSession session_;
+    GuiBackedGenes backed_;
+    std::map<std::string,ExpressionMatrixSpatialScope> backed_sources_;
+    std::string project_path_;std::uint64_t project_image_=0;
     std::optional<RegistrationField> registered_;
     bool open_=false;
     const Document* document_=nullptr;
@@ -26,6 +30,7 @@ class GuiGeneDisplay {
     ImVec2 comparison_size_{};
     static ImU32 color(const std::array<std::uint8_t,4>& c) {return IM_COL32(c[0],c[1],c[2],c[3]);}
     void choose(unsigned index,GeneViewOptions& options,bool& changed) {
+        if(backed_sources_.count(source_)){backed_.choose(index,options,changed);return;}
         ImGui::PushID(int(index));
         ui::TextWrapped("%s: %s",index?"Gene B":"Gene A",options.genes[index].c_str());
         if(ui::InputTextWithHint("Search IDs / symbols","e.g. Gad1 or ENSMUSG",query_[index].data(),query_[index].size()))page_[index]=0;
@@ -123,23 +128,36 @@ public:
     }
     std::string preference() const {return gene_workspace_preference(session_.options(),source_);}
     const GeneViewSession& session() const {return session_;}
-    bool settled() const {return !session_.busy() && (!comparison_tiles_ || !comparison_tiles_->pending());}
-    void update(Document& document,bool has_image) {
-        session_.poll();if(!has_image) {if(document_)session_.clear();registered_.reset();document_=nullptr;server_.reset();comparison_tiles_.reset();return;}
-        if(!open_ && !session_.options().enabled)return;
-        if(document_==&document && server_==document.server() && revision_==document.revision() && plane_==document.active_plane())return;
+    std::shared_ptr<const ExpressionFeaturePage> backed_catalogue(unsigned index)const{return backed_.catalogue(index);}
+    Rect catalogue_next_bounds(unsigned index)const{return backed_.next_bounds(index);}
+    Rect catalogue_feature_bounds(unsigned index,std::uint64_t feature)const{return backed_.feature_bounds(index,feature);}
+    bool settled() const {return !session_.busy() && !backed_.busy() && (!comparison_tiles_ || !comparison_tiles_->pending());}
+    void update(Document& document,bool has_image,const Project* project=nullptr,std::uint64_t image=0) {
+        session_.poll();if(!has_image) {if(document_)session_.clear();backed_.clear();backed_.poll(document,session_);registered_.reset();document_=nullptr;server_.reset();comparison_tiles_.reset();return;}
+        if(!open_ && !session_.options().enabled){backed_.poll(document,session_);return;}
+        static const std::string empty_path;
+        const auto& project_path=project?project->path():empty_path;
+        if(document_==&document && server_==document.server() && revision_==document.revision() && plane_==document.active_plane() && project_path_==project_path && project_image_==image){backed_.poll(document,session_);return;}
         const bool new_image=document_!=&document || server_!=document.server();
         if(new_image) {comparison_tiles_.reset();comparison_size_={};page_={};}
-        document_=&document;server_=document.server();revision_=document.revision();plane_=document.active_plane();
+        document_=&document;server_=document.server();revision_=document.revision();plane_=document.active_plane();project_path_=project_path;project_image_=image;
         registered_.reset();try {
             sources_=ExpressionDataset::sources(document,plane_);
+            backed_sources_.clear();
+            for(auto scope:expression_matrix_spatial_scopes(document,plane_)){const auto id=scope.sha256();sources_.push_back(id);backed_sources_.emplace(id,std::move(scope));}
             if(std::find(sources_.begin(),sources_.end(),source_)==sources_.end())source_.clear();
             if(source_.empty() && sources_.size()==1)source_=sources_[0];
-            if(source_.empty()) {session_.clear();error_=sources_.empty()?"No imported spatial expression points on this plane.":"Choose an expression source.";return;}
+            if(source_.empty()) {session_.clear();backed_.clear();error_=sources_.empty()?"No imported spatial expression points on this plane.":"Choose an expression source.";backed_.poll(document,session_);return;}
+            if(const auto scope=backed_sources_.find(source_);scope!=backed_sources_.end()) {
+                if(!project || !image)throw std::invalid_argument("Open the containing project to read indexed expression");
+                backed_.bind(*project,image,scope->second,document,session_);backed_.poll(document,session_);error_.clear();return;
+            }
+            backed_.clear();
             ExpressionCaptureOptions options;options.coordinate_frame="image-level-zero-px";options.plane=plane_;options.source_id=source_;
             auto dataset=ExpressionDataset::capture(document,options);registered_=active_registration_field(document,dataset);
             session_.bind(std::move(dataset));session_.poll();error_.clear();
-        }catch(const std::exception& e){session_.clear();error_=e.what();}
+        }catch(const std::exception& e){session_.clear();backed_.clear();error_=e.what();}
+        backed_.poll(document,session_);
     }
     void draw_overlay(ImDrawList* draw,const Viewport& view,ImVec2 offset,ImVec2 size) const {
         const auto pair=session_.result();if(!session_.options().enabled || !pair)return;
@@ -150,12 +168,13 @@ public:
             ui::SetNextToolWindow("Gene expression",{440,730});if(ImGui::Begin("Gene expression",&open_)) {
                 ui::TextWrapped("Spot centers; glyph size is display only. Source counts are unchanged.");
                 if(registered_)ui::TextWrapped("Accepted registration places expression glyphs. Source object geometry is unchanged.");
-                if(sources_.size()>1 && ui::BeginCombo("Expression source",source_.empty()?"Choose source":source_.c_str())) {
-                    for(const auto& source:sources_)if(ImGui::Selectable(source.c_str(),source_==source)) {source_=source;revision_=std::numeric_limits<std::uint64_t>::max();session_.clear();}
+                const auto source_label=[&](const std::string& id){const auto at=backed_sources_.find(id);return at==backed_sources_.end()?id:"Indexed map "+std::to_string(std::distance(backed_sources_.begin(),at)+1)+" ("+std::to_string(at->second.observations)+" spots)";};
+                if(sources_.size()>1 && ui::BeginCombo("Expression source",source_.empty()?"Choose source":source_label(source_).c_str())) {
+                    for(const auto& source:sources_)if(ImGui::Selectable(source_label(source).c_str(),source_==source)) {source_=source;revision_=std::numeric_limits<std::uint64_t>::max();session_.clear();backed_.clear();}
                     ImGui::EndCombo();
                 }
                 auto options=session_.options();bool changed=ui::Checkbox("Show expression overlay",&options.enabled);
-                if(session_.dataset()) {
+                if(session_.dataset() || backed_.ready()) {
                     choose(0,options,changed);changed=ui::Checkbox("Compare two genes",&options.compare)||changed;
                     if(options.compare) {choose(1,options,changed);changed=ui::Checkbox("Shared range",&options.shared_range)||changed;}
                     int transform=int(options.display.transform),range=int(options.display.range),palette=int(options.display.palette);
@@ -167,9 +186,10 @@ public:
                     changed=ui::InputDouble("Opacity",&options.display.opacity)||changed;changed=ui::InputDouble("Glyph radius (screen px)",&options.radius)||changed;
                 }
                 if(changed)try {session_.configure(std::move(options));if(session_.dataset())error_.clear();}catch(const std::exception& e){error_=e.what();}
-                if(ui::Button("Refresh expression")) {revision_=std::numeric_limits<std::uint64_t>::max();session_.refresh();}
-                if(session_.busy()) {ImGui::SameLine();if(ui::Button("Cancel display"))session_.cancel();ui::TextDisabled("Updating expression...");}
+                if(ui::Button("Refresh expression")) {revision_=std::numeric_limits<std::uint64_t>::max();backed_.refresh();session_.refresh();}
+                if(session_.busy() || backed_.busy()) {ImGui::SameLine();if(ui::Button("Cancel display")){session_.cancel();backed_.cancel();}ui::TextDisabled("Updating expression...");}
                 if(!error_.empty())ui::TextWrapped("%s",error_.c_str());if(!session_.error().empty())ui::TextWrapped("%s",session_.error().c_str());
+                if(!backed_.error().empty())ui::TextWrapped("%s",backed_.error().c_str());
                 if(const auto pair=session_.result())for(unsigned i=0;i<(session_.options().compare?2u:1u);++i) {ImGui::PushID(int(i));legend(*pair->fields[i]);ImGui::PopID();}
             }ImGui::End();
         }

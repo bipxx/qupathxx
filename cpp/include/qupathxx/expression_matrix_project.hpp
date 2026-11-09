@@ -12,6 +12,15 @@ struct ExpressionMatrixAssociation {
     void validate() const;
     void require_source(const ExpressionMatrixSource&) const;
 };
+struct ExpressionMatrixOpenRequest {
+    ExpressionMatrixAssociation association;
+    std::string path;
+    std::shared_ptr<const ExpressionMatrixSource> open(std::size_t work_bytes=64u*1024*1024,
+        const std::atomic<bool>* cancelled=nullptr) const;
+};
+// Owner capture of locator/identity only; no matrix IO. The immutable request may
+// open on a worker without retaining any live Project or Document reference.
+ExpressionMatrixOpenRequest expression_matrix_open_request(const Project&,std::uint64_t image,const std::string& id);
 // One undoable image-data command. Owned mode copies exact bytes beside a saved
 // project, or defers the copy until an unsaved project's first atomic save.
 // No original inputs, observation objects or coordinates are inferred.

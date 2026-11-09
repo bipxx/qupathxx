@@ -1,6 +1,8 @@
 #pragma once
 #include "qupathxx/spatial_counts.hpp"
 #include "qupathxx/registration.hpp"
+#include "qupathxx/expression_matrix.hpp"
+#include "qupathxx/expression_matrix_project.hpp"
 #include <memory>
 
 namespace qpx {
@@ -49,20 +51,31 @@ struct SpatialImportImageInfo {std::uint64_t id;std::string name;std::int64_t wi
 struct SpatialImportBaseCatalogue {std::vector<SpatialImportImageInfo> images;std::string source_sha256;};
 SpatialImportBaseCatalogue spatial_import_base_catalogue(const std::string& project,
     const std::atomic<bool>* cancelled=nullptr);
-enum class SpatialImportPhase { Idle, Reading, Ready, Publishing, Complete, Cancelled, Failed, CatalogueReading, CatalogueReady, BaseReading, BaseReady };
+enum class SpatialImportPhase { Idle, Reading, Ready, Publishing, Complete, Cancelled, Failed, CatalogueReading, CatalogueReady, BaseReading, BaseReady,
+    MatrixOpening,MatrixIndexing,MatrixReady,MatrixCatalogueReading,MatrixCatalogueReady };
 class SpatialImportJob {
 public:
     SpatialImportJob();~SpatialImportJob();SpatialImportJob(const SpatialImportJob&)=delete;
     bool preview(SpatialImportRequest);
     bool publish(std::shared_ptr<const SpatialImportPreview>);
     bool preview(BackedSpatialImportRequest);
+    bool preview(BackedSpatialImportRequest,std::shared_ptr<const ExpressionMatrixSource>);
     bool publish(std::shared_ptr<const BackedSpatialImportPreview>);
     bool catalogue(const std::string& features,const SpatialCountsOptions& limits={});
     bool base_catalogue(const std::string& project);
+    bool open_matrix(const std::string&,const std::string& expected_sha256={},std::size_t work_bytes=64u*1024*1024);
+    bool open_matrix(ExpressionMatrixOpenRequest,std::size_t work_bytes=64u*1024*1024);
+    bool index_matrix(const std::string& matrix,const std::string& features,const std::string& observations,
+        const std::string& store,ExpressionMatrixImportOptions={});
+    bool matrix_catalogue(std::shared_ptr<const ExpressionMatrixSource>,std::string query,
+        std::uint64_t offset=0,std::size_t count=32,std::size_t work_bytes=64u*1024*1024);
     void poll();void wait();void cancel();bool busy() const;
     SpatialImportPhase phase() const;
     std::shared_ptr<const SpatialImportPreview> result() const;
     std::shared_ptr<const BackedSpatialImportPreview> backed_result() const;
+    std::shared_ptr<const ExpressionMatrixSource> matrix_source() const;
+    std::shared_ptr<const ExpressionMatrixImportResult> matrix_index_result() const;
+    std::shared_ptr<const ExpressionFeaturePage> matrix_catalogue_result() const;
     std::shared_ptr<const SpatialFeatureCatalogue> catalogue_result() const;
     std::shared_ptr<const SpatialImportBaseCatalogue> base_result() const;
     const std::string& report() const;

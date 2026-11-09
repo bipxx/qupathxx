@@ -25,6 +25,28 @@ public:
     std::vector<std::string> observation_page(std::uint64_t first,std::size_t count,std::size_t work,const std::atomic<bool>* c)const override{
         work_limit(work);range(first,count,metadata_.observations);require_current(c);Database db(path_,false,work,c);db.admit(payload_bytes()+count*(sizeof(std::string)+512));std::vector<std::string> result;result.reserve(count);Statement query(db,"SELECT idx,id FROM observations WHERE idx>=? AND idx<? ORDER BY idx");query.number(1,first);query.number(2,first+count);while(query.step()){workflow_checkpoint(c);if(query.number(0)!=first+result.size() || result.size()==count)throw std::invalid_argument("Expression observation page index differs");result.push_back(detail::spatial_identifier(query.text(1)));}if(result.size()!=count)throw std::invalid_argument("Expression observation catalogue truncated");db.admit(payload_bytes()+count*(sizeof(std::string)+512));require_current(c);return result;
     }
+    ExpressionFeaturePage search_features(const std::string& term,std::uint64_t offset,std::size_t count,
+        std::size_t work,const std::atomic<bool>* c)const override {
+        work_limit(work);detail::bounded_utf8(term,256);
+        if(!count || count>256 || offset>metadata_.features)throw std::invalid_argument("Invalid expression catalogue search page");
+        require_current(c);Database db(path_,false,work,c);
+        const auto fixed=payload_bytes()+sizeof(ExpressionFeaturePage)+term.capacity()+count*(sizeof(ExpressionFeature)+1024);
+        db.admit(fixed);ExpressionFeaturePage result;result.offset=offset;
+        Statement total(db,"SELECT count(*) FROM features WHERE instr(lower(id),lower(?))>0 OR instr(lower(name),lower(?))>0");
+        total.text(1,term);total.text(2,term);
+        if(!total.step())throw std::invalid_argument("Expression catalogue count unavailable");result.matches=total.number(0);
+        if(result.matches>metadata_.features || (term.empty() && result.matches!=metadata_.features))throw std::invalid_argument("Expression catalogue search differs from source axis");
+        Statement query(db,"SELECT idx,id,name,type,sha256 FROM features WHERE instr(lower(id),lower(?))>0 OR instr(lower(name),lower(?))>0 ORDER BY idx LIMIT ? OFFSET ?");
+        query.text(1,term);query.text(2,term);query.number(3,count);query.number(4,offset);result.features.reserve(count);
+        while(query.step()) {
+            workflow_checkpoint(c);if(result.features.size()==count)throw std::invalid_argument("Expression catalogue page exceeds request");
+            auto item=feature(query);
+            if(item.index>=metadata_.features || (!result.features.empty() && item.index<=result.features.back().index))throw std::invalid_argument("Expression catalogue search index differs");
+            result.features.push_back(std::move(item));
+        }
+        if(result.features.size()!=std::min<std::uint64_t>(count,offset<result.matches?result.matches-offset:0))throw std::invalid_argument("Expression catalogue search page incomplete");
+        db.admit(fixed);require_current(c);return result;
+    }
     std::optional<std::uint64_t> feature_index(const std::string& id,const std::atomic<bool>* c)const override{auto i=index("SELECT idx FROM features WHERE id=?",id,c);if(i && *i>=metadata_.features)throw std::invalid_argument("Expression feature lookup exceeds dimensions");return i;}
     std::optional<std::uint64_t> observation_index(const std::string& id,const std::atomic<bool>* c)const override{auto i=index("SELECT idx FROM observations WHERE id=?",id,c);if(i && *i>=metadata_.observations)throw std::invalid_argument("Expression observation lookup exceeds dimensions");return i;}
     std::vector<std::uint64_t> observation_indices(const std::vector<std::string>& ids,std::size_t work,const std::atomic<bool>* c)const override {

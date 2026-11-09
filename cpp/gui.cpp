@@ -884,7 +884,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         }
         if(!tissue.result()) tissue_preview.clear();
         const bool has_image=!options.project || active_image!=0;
-        genes.update(document,has_image);
+        genes.update(document,has_image,options.project.get(),active_image);
         const auto& image=document.metadata();
         if(options.project && project_catalog_dirty) {
             project_images=options.project->images(); project_catalog_dirty=false; project_filter_dirty=true;

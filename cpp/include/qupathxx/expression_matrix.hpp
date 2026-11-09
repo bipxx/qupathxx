@@ -30,6 +30,10 @@ struct ExpressionFeature {
     std::uint64_t index=0;
     std::string id,name,type,sha256;
 };
+struct ExpressionFeaturePage {
+    std::vector<ExpressionFeature> features;
+    std::uint64_t matches=0,offset=0;
+};
 struct ExpressionMatrixSelection {
     // Explicit unique feature indices, in requested order;1..4096 per read.
     std::vector<std::uint64_t> features;
@@ -57,6 +61,11 @@ public:
     virtual void require_current(const std::atomic<bool>* cancelled=nullptr) const=0;
     virtual std::vector<ExpressionFeature> feature_page(std::uint64_t first,std::size_t count,
         std::size_t work_bytes=64u*1024*1024,const std::atomic<bool>* cancelled=nullptr) const=0;
+    // Literal substring search over stable IDs and display names, ASCII case-
+    // insensitive, with bounded results in source-axis order. No count rows read.
+    virtual ExpressionFeaturePage search_features(const std::string& query,std::uint64_t offset,
+        std::size_t count=32,std::size_t work_bytes=64u*1024*1024,
+        const std::atomic<bool>* cancelled=nullptr) const=0;
     virtual std::vector<std::string> observation_page(std::uint64_t first,std::size_t count,
         std::size_t work_bytes=64u*1024*1024,const std::atomic<bool>* cancelled=nullptr) const=0;
     virtual std::optional<std::uint64_t> feature_index(const std::string& id,const std::atomic<bool>* cancelled=nullptr) const=0;

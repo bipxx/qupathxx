@@ -3,6 +3,13 @@
 #include "qupathxx/registration.hpp"
 namespace qpx {
 inline constexpr const char* expression_matrix_point_profile="qpx.expression-matrix-points/1";
+struct ExpressionMatrixSpatialScope {
+    std::string matrix_source_sha256,frame_id;
+    ObjectPlane plane;std::size_t observations=0;
+    std::string sha256() const;
+};
+std::vector<ExpressionMatrixSpatialScope> expression_matrix_spatial_scopes(const Document&,
+    ObjectPlane={},std::size_t work_bytes=64u*1024*1024,const std::atomic<bool>* cancelled=nullptr);
 class ObjectProperties;
 // Immutable, explicit coordinate/ID join. No counts are stored in point objects.
 class ExpressionMatrixSpatialSnapshot {

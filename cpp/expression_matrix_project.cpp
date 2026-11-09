@@ -174,9 +174,15 @@ ExpressionMatrixAssociation load_expression_matrix_association(const Project& pr
 }
 std::shared_ptr<const ExpressionMatrixSource> reopen_expression_matrix(const Project& project,
     std::uint64_t image,const std::string& id,std::size_t work,const std::atomic<bool>* cancelled) {
+    return expression_matrix_open_request(project,image,id).open(work,cancelled);
+}
+ExpressionMatrixOpenRequest expression_matrix_open_request(const Project& project,std::uint64_t image,const std::string& id) {
     const auto a=load_expression_matrix_association(project,image,id);
-    auto source=open_expression_matrix(resolve(a,a.owned && !project.path().empty()?directory(project):fs::path{}),a.file_sha256,work,maximum_store,cancelled);
-    matches(a,*source);return source;
+    return {a,resolve(a,a.owned && !project.path().empty()?directory(project):fs::path{})};
+}
+std::shared_ptr<const ExpressionMatrixSource> ExpressionMatrixOpenRequest::open(std::size_t work,const std::atomic<bool>* cancelled)const {
+    association.validate();auto source=open_expression_matrix(path,association.file_sha256,work,maximum_store,cancelled);
+    association.require_source(*source);return source;
 }
 void relink_expression_matrix(Project& project,std::uint64_t image,const std::string& id,
     std::shared_ptr<const ExpressionMatrixSource> source,const std::atomic<bool>* cancelled) {

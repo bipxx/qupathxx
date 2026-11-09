@@ -31,12 +31,17 @@ private:
     explicit BackedSpatialImportPreview(std::shared_ptr<const Data>);
     std::shared_ptr<const Data> data_;
     friend std::shared_ptr<const BackedSpatialImportPreview> preview_backed_spatial_import(const BackedSpatialImportRequest&,const std::atomic<bool>*);
+    friend std::shared_ptr<const BackedSpatialImportPreview> preview_backed_spatial_import(const BackedSpatialImportRequest&,std::shared_ptr<const ExpressionMatrixSource>,const std::atomic<bool>*);
     friend std::string publish_backed_spatial_import(const BackedSpatialImportPreview&,const std::atomic<bool>*);
 };
 // No output publication during preview. Barcode joins, coordinate conversion,
 // bounds and matrix identity are native; all count values stay in the sidecar.
 std::shared_ptr<const BackedSpatialImportPreview> preview_backed_spatial_import(
     const BackedSpatialImportRequest&,const std::atomic<bool>* cancelled=nullptr);
+// Reuse an already opened immutable source; exact locator/digest/version checks
+// prevent stale preview without fingerprinting the same file again.
+std::shared_ptr<const BackedSpatialImportPreview> preview_backed_spatial_import(
+    const BackedSpatialImportRequest&,std::shared_ptr<const ExpressionMatrixSource>,const std::atomic<bool>* cancelled=nullptr);
 // Reuses the prepared join; source/version/output checks precede atomic new-file
 // publication. Owned sidecars are copied before the final project commit.
 std::string publish_backed_spatial_import(const BackedSpatialImportPreview&,

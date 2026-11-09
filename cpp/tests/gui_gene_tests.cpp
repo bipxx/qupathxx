@@ -108,10 +108,24 @@ int main(int argc,char** argv) {try {
     }
     check(ExpressionDataset::capture(*doc,capture).sha256()==dataset.sha256() && bytes(file)==original,"Registered display preserves raw source and original project file");
     if(argc>2) {
-        auto real=Project::open_without_journal_recovery(argv[2]);auto real_doc=real->document(1);auto real_capture=capture;real_capture.source_id.clear();const auto actual=ExpressionDataset::capture(*real_doc,real_capture);
+        auto real=Project::open_without_journal_recovery(argv[2]);auto real_doc=real->document(1);
+        const auto scopes=expression_matrix_spatial_scopes(*real_doc);
+        if(!scopes.empty()) {
+            check(scopes.size()==1 && scopes[0].observations==2702,"Real indexed scope contains admitted observation cohort");
+            const auto original_project=bytes(fs::u8path(argv[2]));
+            view.genes={"ENSMUSG00000051951","ENSMUSG00000070880"};view.radius=3;view.compare=true;view.display.transform=GeneDisplayTransform::Log1p;
+            options.layout_path=(root/"real-indexed.ini").u8string();preference(fs::u8path(options.layout_path),view,scopes[0].sha256());
+            const auto shown=run_project_gui(real,60,(root/"real-indexed-comparison.ppm").u8string(),options);
+            check(shown.tiles_settled && shown.uploaded_tiles && !shown.pending_tiles,"Full app indexed maps, asynchronous source/catalogue/value jobs and tiles settle");
+            check(bytes(fs::u8path(argv[2]))==original_project && expression_matrix_spatial_scopes(*real_doc)[0].sha256()==scopes[0].sha256(),"Real indexed display preserves project and coordinate scope");
+            check(bytes(fs::u8path(options.layout_path)).find(gene_workspace_preference(view,scopes[0].sha256()))!=std::string::npos,"Real indexed gene/source choices persist only in workspace");
+            write(root/"real-indexed-result.json","{\"tiles_settled\":true,\"observations\":2702,\"scope_sha256\":\""+scopes[0].sha256()+"\",\"comparison\":true,\"project_unchanged\":true}\n");
+        } else {
+        auto real_capture=capture;real_capture.source_id.clear();const auto actual=ExpressionDataset::capture(*real_doc,real_capture);
         view.genes={actual.features()[0],actual.features()[1]};view.radius=3;options.layout_path=(root/"real-genes.ini").u8string();preference(fs::u8path(options.layout_path),view,actual.source_id());
         run_project_gui(real,30,(root/"real-comparison.ppm").u8string(),options);
         check(ExpressionDataset::capture(*real_doc,real_capture).sha256()==actual.sha256(),"Real six-marker navigation preserves counts/coordinates");
+        }
     }
     std::cout<<"Gene GUI: native colors at exact point positions, zero/missing legends, comparison, workspace persistence and unchanged project/counts passed\n";
 }catch(const std::exception& error){std::cerr<<error.what()<<'\n';return 1;}}

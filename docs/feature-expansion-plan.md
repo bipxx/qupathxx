@@ -2,18 +2,19 @@
 
 Owner request: plan all eight remaining areas, keeping proprietary and
 noncommercial (NC) material separate. This document owns the new implementation
-checklist: **22 work items: 11 complete, 11 pending**. It does not reopen completed
-FO00–FO05. S01/V01/V02/I01/I02/R01/R02/F01/F02/F03/F04 are delivered locally under their
+checklist: **22 work items: 12 complete, 10 pending**. It does not reopen completed
+FO00–FO05. S01/V01/V02/I01/I02/R01/R02/F01/F02/F03/F04/D01 are delivered locally under their
 stated contracts. F01's train-selected recipe passes unchanged pilot gates and
 native publication/replay; the failed original pilot is retained and validation
 reuse is disclosed. F02 marker rules, F03 correction and F04 explicit linear
-unmixing are delivered. D01 disk-backed expression storage is next. See the
+unmixing and D01 indexed expression storage/import/view are delivered. D02 scale
+and tiled processing is next. See the
 [source-scoped progress receipt](benchmarks/feature-expansion/README.md).
 Preserve independent desktop work recorded in [current-task.md](current-task.md).
 
 Planning update: retain this single checklist for all eight requested areas;
-do not restart delivered items. Next is D01 full sparse expression storage over
-the existing native counts/import services.
+do not restart delivered items. Next is D02 bounded interaction/value caches and
+tiled raw-cell processing over the delivered native sources/jobs.
 F02/F03/F04 native, CLI and desktop completion are recorded below. Proprietary and NC
 material remain
 separate excluded references, not optional product backends.
@@ -99,7 +100,7 @@ ledger. Checkboxes below remain authoritative. Finish one packet before starting
 the next, except that admission of a new input belongs to the packet consuming it.
 Preserve concurrent desktop edits. R02 is delivered with native fit, actual UI,
 registered-gene rendering and persistence checks. F01 is delivered under its
-selected pilot contract; F02/F03/F04 consumers are delivered and D01 is next.
+selected pilot contract; F02/F03/F04/D01 consumers are delivered and D02 is next.
 
 | Packet | Prerequisites | Easiest implementation path and consumer integration | Decisive completion check |
 | --- | --- | --- | --- |
@@ -109,7 +110,7 @@ selected pilot contract; F02/F03/F04 consumers are delivered and D01 is next.
 | F02: marker rules, delivered | F01 measurements | Add typed gates and a small AND/OR evaluator over immutable measurement snapshots. Reuse classification preview/publication and stored recipes rather than a new classifier framework. | Threshold edges, Unknown values, multichannel rules, stale refusal and exact saved-rule replay. |
 | F03: correction and typed raw-source capability, delivered | Existing TIFF raw IO | Extract the minimum source capability needed for original/derived channel blocks; keep legacy TIFF identity unchanged. Implement explicit dark/flat correction as a separate derived source and recipe, shared by later readers. | Known correction fields, zero/invalid denominators, tiles/seams, cancellation and source/recipe persistence. |
 | F04: linear unmixing, delivered | F03 blocks; admitted existing linear algebra backend | Feed labeled channel blocks to a small native solve; emit signed derived channels and residuals. UI selects an explicit matrix and channel order; no estimated spectra or model download. | Known mixtures, rank/conditioning refusal, residuals, channel permutations, stale/cancel and saved provenance. |
-| D01: indexed sparse storage | Delivered S01/I01 | Add an ExpressionMatrixSource adapter and stream Matrix Market into a transactional SQLite sidecar with a gene-oriented sparse index. Extend the existing import wizard with backed storage after the native path works. | Import the existing full197MB source, switch to previously unprojected genes without rescanning/densifying, reopen/relink and refuse incomplete sidecars. |
+| D01: indexed sparse storage, delivered | Delivered S01/I01 | Add an ExpressionMatrixSource adapter and stream Matrix Market into a transactional SQLite sidecar with a gene-oriented sparse index. Extend the existing import wizard with backed storage after the native path works. | Import the existing full197MB source, switch to previously unprojected genes without rescanning/densifying, reopen/relink and refuse incomplete sidecars. |
 | D02: bounded interaction and tiling | D01; F01/F03; existing jobs/cache | Page gene metadata and bound value/color caches first. Then schedule existing raw-cell processing by tile with fixed global parameters, halo, deterministic ownership and resumable records. Do not introduce another scheduler. | Declared sparse fixture/work bound plus a named-host cancellation/responsiveness check; independent seam comparison and interrupted/resumed tiled ROI equality. |
 | O01: H5AD subset | D01/S01; exact HDF5 dependency admitted | Implement one native adapter over the HDF5 C API and feed the existing matrix source/import UI. Start with dense/CSR/CSC X or selected layer and explicit value domain; report unsupported encodings. | Independent dense/CSR/CSC malformed and valid fixtures plus one open real dataset with exact IDs/counts/axes; native-only runtime. |
 | O02: local OME-Zarr subset | F03 capability; D02; exact codecs admitted | Implement declared NGFF0.4/Zarr2 metadata/chunk reads behind the existing image-source interface. Start uncompressed/zlib; add another codec only for a selected admitted fixture. | Chunk boundaries, axes, transforms, missing/failing IO and raw values; one complete open real store in viewport and measurement routes. |
@@ -135,41 +136,27 @@ No calendar or speed-superiority estimate is asserted before measured work.
 
 ## Next execution slices and shared API boundaries
 
-D01 is the next outcome. Native storage and project association foundations now
-pass their focused checks and the full retained source comparison. Reuse those
-results; do not recreate the importer, repeat the full import or count the feature
-complete before its spatial/consumer route is usable.
+D01 is delivered: bounded indexed storage, native project references/relink/owned
+copies, explicit spatial joins and actual desktop index/import/paged gene display.
+Reuse its source-scoped real-data and legacy-route evidence. The remaining outcome
+is D02; these steps refine its existing checkbox, without creating another ledger.
 
-1. **Delivered storage boundary.** Exact uint64 sparse/cohort reads, paged IDs,
-   bounded work, corruption/stale/cancellation refusal and atomic publication pass.
-   Preserve the diagnosed observer failures and platform-specific write protection.
-2. **Delivered full-source proof.** The admitted197MB mouse-brain matrix imports
-   all32285 genes /2702 observations /16031101 entries. All independent six-gene
-   counts agree; an unprojected gene reopens exactly. Source hashes stay unchanged.
-   The receipt records one host/run, not a QuPath speed or process-RSS claim.
-3. **Delivered project references.** External relative locators, owned exact copies,
-   verified relink, Undo and native Save As/async persistence pass. Old projects
-   need no migration. Ownership copies use the existing atomic writer and precede
-   project commit; removal never deletes shared bytes. Keep the canonical managed
-   child directory beside the project when relocating a bundle.
-4. **Native spatial/import route delivered; finish desktop consumers.** Exact
-   observation-ID batches join immutable coordinate/frame/plane snapshots, and the
-   existing native gene-view session reads only selected features with its current
-   coalescing/cancel mechanism. Typed units/provenance participate in result identity;
-   point objects contain no duplicated counts. The existing import job now accepts
-   an indexed preview/publication path, including owned first save and explicit
-   coordinate scopes. The real owned project preserves every reference coordinate
-   and six-gene count. Connect these services to actual desktop import controls and
-   paged gene catalogue/selection. Retain opened immutable sources; cancel/
-   coalesce obsolete gene requests and refuse stale delivery. UI/CLI choose IDs and
-   display native results; no second parser/query or frontend numerical campaign.
-   Check import, unprojected gene switching, legend, save/reopen/relink and Undo
-   when project/spatial associations change. Keep count storage usable without
-   spatial coordinates. Preserve old selected-gene projects and independent UI work.
-5. **Close only D01 after that workflow passes.** Link native/project/consumer
-   evidence in the existing receipt and tick its canonical checkbox. Until then
-   the total remains11/22. Record waste and next D02 slice in current-task; defer
-   optional bindings/SDK/package to the settled P01/P02 batch.
+1. Inspect existing value/color/tile caches and generation-driven controllers.
+   Reuse the opened matrix and current selected-value snapshot for display-only
+   changes; bound retained pages/values/colors and coalesce obsolete viewport work.
+2. Generate one native100000-observation/30000-feature/5000000-entry sparse fixture
+   covering the intended axes. Declare256MiB accounted work before running it;
+   qualify indexed reads, cache invalidation and cancellation on a named host.
+   Keep allocator/process/GPU observations separate from accounted work.
+3. Extend existing raw-cell jobs with bounded tiles, one captured global threshold/
+   normalization, declared halo, deterministic seam ownership/global IDs and source-
+   bound checkpoint/resume. Detect unresolved boundary objects explicitly.
+4. Reuse an admitted whole-slide ROI, compare seam results independently and prove
+   interruption/resume equality. Add thin UI controls over the same authority;
+   no alternate scheduler or repeated F01 biological-accuracy campaign.
+5. Close D02 only with that scale/tiling evidence, then follow O01/O02 and the
+   remaining methods/SDK/release packets. Current count is12/22 complete. Optional
+   bindings and installable SDK remain the settled P01 batch, packaging P02.
 
 Delivered F01-F04 instructions are retained through their checklist progress and
 source-scoped receipt; they are not execution steps to repeat. The remaining
@@ -278,16 +265,15 @@ report the missing real-data acceptance rather than borrowing an NC fixture.
   and actual GUI checks pass, including a controlled shift of all2,702 real spots.
   [Evidence](benchmarks/feature-expansion/README.md).
 
-## Execution breakdown for the remaining 11 items
+## Execution breakdown for the remaining 10 items
 
 This breakdown refines the existing checklist; it adds no new completion count.
 Use the smallest end-to-end native slice first, then extend it to the declared
-contract. Do not restart the eleven completed items. No calendar or speed estimate
+contract. Do not restart the twelve completed items. No calendar or speed estimate
 is promised before measuring the affected workload.
 
 | Item | Ordered implementation steps | Deliverable and boundary |
 | --- | --- | --- |
-| D01 | 1. Define bounded sparse read and value-domain contracts without changing old selected-gene identities. 2. Stream Matrix Market into a transactional SQLite sidecar with stable observation/feature IDs and gene-oriented indices. 3. Implement indexed queries, cancellation, source verification and verified relink. 4. Connect import/gene selection to the backed source. | Read unprojected genes from the existing full source without rescanning or densifying it; incomplete sidecars are never published. |
 | D02 | 1. Page metadata and bound decoded/value/color caches. 2. Coalesce viewport work using existing jobs/generations. 3. Add tiled cell requests with fixed global parameters, sufficient halo and deterministic seam ownership. 4. Persist checkpoints and resume only matching inputs/options. | Keep interactive matrix and tiled-image checks separate. Prove work limits and seam/resume equality; report unresolved boundary objects. No new scheduler. |
 | O01 | 1. Admit one exact HDF5 configuration and notices. 2. Implement bounded encoding/shape/string/sparse validation. 3. Adapt dense/CSR/CSC reads to D01 with an explicit counts or continuous domain. 4. Expose the declared subset through existing import controls. | Native H5AD subset, unsupported metadata report and exact independent/real-fixture comparison. No Python reader or automatic filter-plugin loading. |
 | O02 | 1. Admit the chosen complete open store and only required codecs. 2. Parse declared NGFF0.4/Zarr2 axes/transforms/dtypes/chunk metadata. 3. Implement bounded chunk decoding behind the existing raw-source interface. 4. Connect viewport and quantitative reads. | Local declared subset only; distinguish valid fill/missing chunks from IO/decode failures. Preserve TIFF identities and exclude unsupported geometry rather than guessing. |
@@ -299,7 +285,7 @@ is promised before measuring the affected workload.
 | L01 | At each packet, admit only its actual inputs and derivative lineage in existing inventories. Before release, enumerate all staged source/binary/data/model/generated assets, connect the offline guard and resolve every unmatched member. | Incremental prerequisite for new inputs; final closure requires actual complete stage membership. An allowlist of license names alone is insufficient. |
 | P02 | 1. Freeze completed source/features and close final L01 membership. 2. Stage matching app/CLI/SDK and selected optional Python artifacts once. 3. Verify hashes, sources/notices and clean install/use/uninstall. 4. Publish the exact qualified platform/support statement. | One engineering release handoff after P01 and feature acceptance; preserve user data and old receipts. No implied signing, stable status or untested platform support. |
 
-Execution order is now D01 → D02 → O01/O02 → A01/A02 → A03/A04 →
+Execution order is now D02 → O01/O02 → A01/A02 → A03/A04 →
 P01 → final L01 → P02. O01 and O02 are independent adapters once their respective
 source contracts are ready; implement them serially in the shared cache. If A04
 awaits admissible replicate data, advance P01 without claiming A04 or releasing
@@ -453,7 +439,7 @@ and classify actual release inputs under L01. See the existing
 
 ## Checklist: storage, scale and open readers
 
-- [ ] **D01 — disk-backed expression matrices.** Implement `ExpressionMatrixSource`
+- [x] **D01 — disk-backed expression matrices.** Implement `ExpressionMatrixSource`
   with bounded gene/cohort reads. Stream large Matrix Market files once into an
   optional indexed sparse sidecar using the existing SQLite stack; keep raw counts
   uint64, stable IDs and content/chunk identities. Prefer a gene-oriented index
@@ -475,8 +461,16 @@ and classify actual release inputs under L01. See the existing
   and stale/coalesced result checks. Native backed preview/publication reuses the
   import job, image-base rules and position parser. First-save owned copies and
   unsaved recovery pass; the real owned project retains all32285 genes and2702
-  exact coordinates/counts. D01 remains open for actual desktop indexed-import
-  controls and paged catalogue/gene selection. See the shared receipt.
+  exact coordinates/counts. Desktop full/selected storage choice, existing-store
+  opening or native raw indexing, prepared-source preview, actual Import/Open,
+  bounded ID/symbol pages and gene selection now pass. The gene panel keeps opened
+  sources, coalesces catalogue requests and follows exact owned Save As after the
+  old locator goes offline. Changed backing data refuse instead of showing stale
+  values. Actual real import/comparison and standalone Windows-only-PATH handoff
+  pass, with inspected aligned maps/shared legends and unchanged inputs/bindings.
+  Native API provides exact matrix relink/Undo; optional bindings/SDK wait for P01.
+  D01 closes under local indexed uint64 counts/declared TSV profiles and explicit
+  level-zero coordinate imports. See the shared receipt.
 - [ ] **D02 — bounded interactive and whole-slide processing.** Reuse tile/cache,
   spatial index, native jobs and generation-based publication. Page/filter metadata,
   bound value/color/decoded-tile caches and coalesce rapid viewport requests.
@@ -605,6 +599,6 @@ run until P02 or a named correctness/platform risk requires it. Cleanup only
 verified disposable outputs after preserving fixtures/failures/source. Completion
 means these22 finite contracts are met; it does not imply all statistical methods,
 nonlinear registration, deep pretrained models, distributed execution or100% QuPath
-parity. Next deliver D01 bounded disk-backed expression queries over the full sparse source;
+parity. Next deliver D02 bounded interaction and deterministic tiled raw-cell resume;
 finish L01 membership admission as actual release inputs settle. Preserve the
 independent desktop layout work and its source-scoped evidence.

@@ -20,6 +20,10 @@ void exercise(const fs::path& root) {
     write(root/"features.tsv","feature_id\nA\nB\n");write(root/"observations.tsv","observation_id\nX\nY\nZ\n");
     const auto imported=import_expression_matrix((root/"matrix.mtx").u8string(),(root/"features.tsv").u8string(),(root/"observations.tsv").u8string(),(root/"source.qmx").u8string());
     auto source=open_expression_matrix(imported.path,imported.file_sha256);
+    const auto search=source->search_features("a",0,1);
+    check(search.matches==1 && search.features.at(0).id=="A" && source->search_features("",1,1).features.at(0).id=="B","Bounded native feature search/page preserves IDs and source order");
+    check(source->search_features("%",0).matches==0,"Feature search is literal, not SQL wildcard matching");
+    rejects<std::invalid_argument>([&]{source->search_features("",0,0);});
     check(source->observation_indices({"Z","X","Y","X"})==std::vector<std::uint64_t>{2,0,1,0},"Batched exact ID lookup preserves order and repeated lookups");
     rejects<std::invalid_argument>([&]{source->observation_indices({"absent"});});
     CoordinateFrame frame;frame.id="declared-coordinates";frame.source_id="explicit-coordinate-fixture";
@@ -57,6 +61,13 @@ void exercise(const fs::path& root) {
     options.genes[0]="A";view.configure(options);view.poll();view.clear();view.wait();
     check(!view.result() && !view.dataset() && !view.spatial_snapshot(),"Cleared/replaced owner cannot receive pending backed results");
     view.bind(projected);view.wait();check(view.result() && !view.spatial_snapshot(),"Legacy selected snapshots still bind after backed mode");
+    fs::copy_file(root/"source.qmx",root/"copy-a.qmx");fs::copy_file(root/"source.qmx",root/"copy-b.qmx");
+    const auto copy_a=ExpressionMatrixSpatialSnapshot::create(open_expression_matrix((root/"copy-a.qmx").u8string(),imported.file_sha256),observations,frame);
+    const auto copy_b=ExpressionMatrixSpatialSnapshot::create(open_expression_matrix((root/"copy-b.qmx").u8string(),imported.file_sha256),observations,frame);
+    check(copy_a.sha256()==copy_b.sha256(),"Exact source relocation preserves spatial scientific identity");
+    view.bind(copy_a);view.wait();view.bind(copy_b);fs::rename(root/"copy-a.qmx",root/"copy-a-offline.qmx");
+    options.genes[0]="B";view.configure(options);view.wait();
+    check(view.result() && view.error().empty() && view.spatial_snapshot()->source()->path()==(root/"copy-b.qmx").u8string(),"Same scientific identity refreshes the runtime source after exact relink");
     Project project;auto doc=std::make_shared<Document>(Image(2,2,std::vector<std::uint8_t>(12,25)));project.add_document(doc);
     const auto id=keep_expression_matrix(project,1,source);const std::string frame_id=project.identity()+":1";
     const auto image_frame=image_coordinate_frame(*doc,frame_id);std::vector<Annotation> points;
@@ -67,6 +78,10 @@ void exercise(const fs::path& root) {
         check(point.properties->measurements().empty(),"Backed point stores no duplicated/raw-double counts");points.push_back(std::move(point));
     }
     const auto created=doc->append_objects(points,{},"Import backed observations");
+    const auto scopes=expression_matrix_spatial_scopes(*doc);
+    check(scopes.size()==1 && scopes[0].frame_id==frame_id && scopes[0].observations==3 && scopes[0].sha256().size()==64,"Native spatial scope catalogue is explicit and bounded");
+    const auto open_request=expression_matrix_open_request(project,1,id);
+    check(std::async(std::launch::async,[open_request]{return open_request.open()->metadata().features;}).get()==2,"Owner captures immutable source request for worker opening");
     auto captured=ExpressionMatrixSpatialSnapshot::capture(*doc,source,frame_id);
     const auto expected=captured.dataset({0,1}).sha256();
     check(captured.observations()[0].id=="Z" && captured.dataset({0}).counts()[0]==5,"Owner capture joins point barcode instead of object/axis order");

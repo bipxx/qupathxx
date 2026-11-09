@@ -1,4 +1,5 @@
 #include "../gui_spatial_import.hpp"
+#include "../gui_genes.hpp"
 #include "qupathxx/object_properties.hpp"
 #include <backends/imgui_impl_glfw.h>
 #include <backends/imgui_impl_opengl3.h>
@@ -53,7 +54,66 @@ int main(int argc,char** argv) {try {
         check(imported->object_count()==3 && imported->annotation(1).properties->measurements().at("omics.count:G1")==5 && imported->annotation(2).properties->measurements().at("omics.count:G2")==0,"GUI import retains independent expected counts");
         check(imported->annotation(2).geometry.centroid().y==4.5 && imported->annotation(1).properties->metadata().at("omics.original_x")=="1.5","GUI import retains mapped and original coordinates");
         check(bytes(root/"base.qpx")==original && !doc->object_count(),"Import leaves current project/file intact");
-        if(argc>2) {
+        write(root/"indexed-counts.mtx","%%MatrixMarket matrix coordinate integer general\n40 3 3\n1 1 5\n33 2 19\n40 3 9\n");
+        std::string indexed_features="feature_id\n";
+        for(int i=0;i<40;++i)indexed_features+="Idx"+std::string(i<10?"0":"")+std::to_string(i)+"\n";
+        write(root/"indexed-features.tsv",indexed_features);write(root/"indexed-observations.tsv","observation_id\nA\nB\nZero\n");
+        BackedSpatialImportRequest indexed_request;indexed_request.base.input_project=request.input_project;indexed_request.base.output_project=(root/"indexed.qpx").u8string();indexed_request.base.image_id=1;
+        indexed_request.store=(root/"indexed.qmx").u8string();indexed_request.positions=request.positions;
+        wizard->set_request(indexed_request);wizard->set_index_inputs((root/"indexed-counts.mtx").u8string(),(root/"indexed-features.tsv").u8string(),(root/"indexed-observations.tsv").u8string(),indexed_request.store);
+        wizard->read_images();wizard->wait();wizard->read_genes();wizard->wait();
+        check(wizard->indexed_source() && wizard->indexed_source()->metadata().features==40,"Desktop indexes the entire matrix through native worker");
+        wizard->preview();wizard->wait();
+        check(wizard->backed_result() && wizard->backed_result()->spatial().source()==wizard->indexed_source(),"Desktop preview reuses its opened source without a second fingerprint");
+        for(int i=0;i<3000 && !wizard->preview_ready();++i){frame();glfwSwapBuffers(window);std::this_thread::sleep_for(std::chrono::milliseconds(2));}
+        check(wizard->preview_ready(),"Indexed preview image and spots settle");frame();capture(root/"indexed-preview.ppm",window);glfwSwapBuffers(window);
+        frame(0);glfwSwapBuffers(window);frame(1);glfwSwapBuffers(window);wizard->wait();
+        check(wizard->phase()==SpatialImportPhase::Complete && wizard->error().empty(),"Actual desktop import button publishes full indexed project");
+        frame();glfwSwapBuffers(window);frame(0,detail::GuiSpatialImporter::Action::Open);glfwSwapBuffers(window);
+        check(frame(1,detail::GuiSpatialImporter::Action::Open)==indexed_request.base.output_project,"Indexed Open returns exact project to app loader");glfwSwapBuffers(window);
+        auto indexed_project=Project::open(indexed_request.base.output_project);auto indexed_doc=indexed_project->document(1);
+        const auto scopes=expression_matrix_spatial_scopes(*indexed_doc);check(scopes.size()==1 && indexed_doc->annotation(1).properties->measurements().empty(),"Desktop persists native count-free scoped observations");
+        auto genes=std::make_unique<detail::GuiGeneDisplay>();GeneViewOptions gene_options;gene_options.enabled=true;gene_options.genes={"Idx39","Idx00"};
+        genes->load_preference(gene_workspace_preference(gene_options,scopes[0].sha256()));wizard->close();
+        const auto gene_frame=[&](int click=-1,Rect action=Rect{}) {
+            glfwPollEvents();ImGui_ImplOpenGL3_NewFrame();ImGui_ImplGlfw_NewFrame();
+            if(click>=0){check(action.width>0,"Indexed gene action has usable bounds");ImGui::GetIO().AddMousePosEvent(float(action.x+action.width/2),float(action.y+action.height/2));ImGui::GetIO().AddMouseButtonEvent(0,click==0);}
+            ImGui::NewFrame();genes->update(*indexed_doc,true,indexed_project.get(),1);genes->draw(DisplaySettings{});ImGui::Render();
+            int w,h;glfwGetFramebufferSize(window,&w,&h);glViewport(0,0,w,h);glClear(GL_COLOR_BUFFER_BIT);ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+        };
+        const auto settle_genes=[&] {
+            for(int i=0;i<3000;++i){gene_frame();glfwSwapBuffers(window);if(genes->settled())return;std::this_thread::sleep_for(std::chrono::milliseconds(2));}
+            throw std::runtime_error("Indexed gene controller did not settle");
+        };
+        settle_genes();check(genes->session().result() && genes->session().result()->fields[0]->feature=="Idx39","Actual gene panel loads previously unprojected feature");
+        check(genes->backed_catalogue(0) && genes->backed_catalogue(0)->features.size()==16 && genes->backed_catalogue(0)->matches==40,"Gene catalogue is bounded to one native page");
+        for(unsigned page=1;page<=2;++page) {
+            const auto next=genes->catalogue_next_bounds(0);gene_frame(0,next);glfwSwapBuffers(window);gene_frame(1,next);glfwSwapBuffers(window);settle_genes();
+            check(genes->backed_catalogue(0) && genes->backed_catalogue(0)->offset==page*16,"Actual Next action advances native catalogue page");
+        }
+        const auto pick=genes->catalogue_feature_bounds(0,32);gene_frame(0,pick);glfwSwapBuffers(window);gene_frame(1,pick);glfwSwapBuffers(window);settle_genes();
+        check(genes->session().result() && genes->session().result()->fields[0]->feature=="Idx32" && genes->session().dataset()->counts()==std::vector<std::uint64_t>{0,19,0},"Actual paged gene selection produces exact native values");
+        gene_frame();capture(root/"indexed-gene-panel.ppm",window);glfwSwapBuffers(window);
+        const auto old_owned=load_expression_matrix_association(*indexed_project,1,scopes[0].matrix_source_sha256);
+        const auto moved_folder=root/"moved-indexed";fs::create_directory(moved_folder);indexed_project->save_new((moved_folder/"study.qpx").u8string());
+        fs::rename(root/fs::u8path(old_owned.path),root/"old-owned-offline.qmx");settle_genes();
+        check(genes->session().result() && fs::u8path(genes->session().spatial_snapshot()->source()->path()).parent_path()==moved_folder/".qpx-expression","Live desktop follows exact owned Save As and retires old locator");
+        const auto changed_store=genes->session().spatial_snapshot()->source()->path();
+        {std::ofstream changed(fs::u8path(changed_store),std::ios::binary|std::ios::app);changed.put('x');changed.close();check(bool(changed),"Actually mutate synthetic backing store");}
+        gene_options.genes[0]="Idx00";genes->load_preference(gene_workspace_preference(gene_options,scopes[0].sha256()));settle_genes();
+        check(!genes->session().result() && !genes->session().error().empty(),"Changed backing store produces visible error instead of stale values");
+        genes.reset();
+        if(argc>3) {
+            const auto demo=fs::u8path(argv[2]);BackedSpatialImportRequest real;
+            real.base.input_project=(demo/"base.qpx").u8string();real.base.output_project=(root/"real-indexed.qpx").u8string();real.base.image_id=1;
+            real.store=argv[3];real.positions=(demo/"positions.tsv").u8string();real.owned=false;
+            wizard->set_request(real);wizard->read_images();wizard->wait();wizard->read_genes();wizard->wait();wizard->preview();wizard->wait();
+            check(wizard->backed_result() && wizard->indexed_source()->metadata().features==32285 && wizard->backed_result()->mapped_positions().size()==2702,"Real desktop preview retains full source and all spots");
+            for(int i=0;i<3000 && !wizard->preview_ready();++i){frame();glfwSwapBuffers(window);std::this_thread::sleep_for(std::chrono::milliseconds(2));}
+            check(wizard->preview_ready(),"Real indexed image/coordinate preview settles");frame();capture(root/"real-indexed-preview.ppm",window);glfwSwapBuffers(window);
+            frame(0);glfwSwapBuffers(window);frame(1);glfwSwapBuffers(window);wizard->wait();
+            check(wizard->phase()==SpatialImportPhase::Complete && Project::open(real.base.output_project)->document(1)->object_count()==2702,"Real full-matrix import completes through actual desktop action");
+        } else if(argc>2) {
             const auto demo=fs::u8path(argv[2]);request.input_project=(demo/"base.qpx").u8string();request.output_project=(root/"real-imported.qpx").u8string();request.matrix=(demo/"counts.mtx").u8string();request.features=(demo/"features.tsv").u8string();request.positions=(demo/"positions.tsv").u8string();
             request.options.features=read_spatial_feature_catalogue(request.features).features;wizard->set_request(request);wizard->read_images();wizard->wait();wizard->read_genes();wizard->wait();wizard->preview();wizard->wait();
             check(wizard->result() && wizard->result()->projection().observations.size()==2702,"Real preview covers all spots");

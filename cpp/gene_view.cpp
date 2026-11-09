@@ -98,7 +98,7 @@ void GeneViewSession::bind(ExpressionDataset dataset) {
 }
 void GeneViewSession::bind(ExpressionMatrixSpatialSnapshot spatial) {
     workflow_require_owner(data_->owner);
-    if(data_->spatial && data_->spatial->sha256()==spatial.sha256())return;
+    if(data_->spatial && data_->spatial->sha256()==spatial.sha256() && data_->spatial->source()==spatial.source())return;
     data_->spatial=std::move(spatial);data_->dataset.reset();data_->changed();
 }
 void GeneViewSession::clear() {workflow_require_owner(data_->owner);data_->spatial.reset();data_->dataset.reset();data_->changed();}

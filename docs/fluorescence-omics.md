@@ -960,7 +960,36 @@ preview/publication routes with its current phases, polling and cancellation.
 The retained full32285-gene mouse-brain store now imports2702 exact coordinates
 into an owned native project. Every independent six-gene count matches after
 reopen; the native worker compares an unprojected gene with a marker. Source input
-hashes remain unchanged. See the feature-expansion receipt. These are delivered
-native APIs; actual desktop indexed-import and full-catalogue controls remain D01
-work. Existing selected-gene projects need no migration. Optional Python exposure
+hashes remain unchanged. See the feature-expansion receipt. These native APIs and the desktop indexed-import/full-catalogue route are
+delivered locally. Existing selected-gene projects need no migration. Optional Python exposure
 waits for the settled P01 API batch. No proprietary/NC material is introduced.
+
+
+In **Import spatial expression**, choose **Full indexed matrix**. Open an existing
+.qmx file, or select **Index Matrix Market files** with explicit feature and
+observation-axis TSVs and the Qpx/Tenx profile. The full matrix is indexed on the
+native worker; the coordinate table joins observation IDs rather than row order.
+Read the saved project's image catalogue when using an existing project. Map
+coordinate headers/units, alignment and plane, then review the image/spot preview.
+**Import new project** publishes through the shared native service; **Open imported
+project** uses the app's normal loader. Copy-with-project retains owned data;
+linked mode preserves an external reference. The indexed-mode per-file setting
+currently applies to the coordinate table; raw indexing uses its native import
+bounds. Larger-scale qualification remains D02.
+
+The gene panel discovers explicit indexed coordinate maps and opens their matrix
+on a worker. Search IDs or symbols and page through bounded results; selection
+stores stable IDs even when symbols repeat. Only selected genes are fetched for
+the ordinary legends/comparison; changing genes does not reopen/hash the full
+store. Queries coalesce and stale/cancelled generations cannot replace current
+results. Native exact relink is available through expression_matrix_project.hpp;
+owned Save As is followed automatically by the live panel. Source/frame errors
+remain visible instead of becoming zeros or stale values. Display log1p changes
+presentation only; QC/library normalization remains the separate A01 work.
+
+The standalone real comparison has two aligned2702-spot maps on one0..4.45435
+log1p(counts) scale. Unprojected ENSMUSG00000051951 has2451 zeros and Gad1 /
+ENSMUSG00000070880 has577 zeros; both have0 missing values. These are checks of
+literal data/display behavior, not biological accuracy or speed superiority.
+D01 closes with the source-scoped feature-expansion receipt; optional bindings,
+SDK and release remain P01/P02.

@@ -3142,3 +3142,75 @@ Unchanged passing suites were reused; failure logs remain. Actual desktop import
 and paged gene catalogue are now the remaining D01 work. Preserve independent UI
 edits, settle native catalogue/control boundaries, then one affected GUI/app/test
 batch. Reuse this owned real project for desktop proof;11/22 stays canonical.
+
+### D01 desktop indexed import and gene catalogue
+
+Changed inputs: bounded native ID/symbol search pages, immutable project source-
+open capture and scope enumeration, existing import-worker open/index/catalogue
+operations, prepared-source preview reuse, and private desktop controllers.
+The wizard chooses selected versus full indexed storage, opens an existing store
+or indexes Matrix Market/explicit axis files on its native worker, previews exact
+ID joins, then publishes/opens through existing controls. Keep legacy request/
+preview/GUI public layouts; preserve independent styling edits in shared files.
+
+Gene display captures only locator/identity on owner, opens on worker, keeps the
+immutable matrix across gene changes, and uses the existing native gene session.
+Catalogue pages/search coalesce to latest input; two equal queries share a page.
+Scope selection stays explicit; saved typed frame/plane/calibration checks remain.
+Exact Save As/relink must refresh runtime source handles even when scientific
+snapshot identity is unchanged; otherwise later reads may target the old locator.
+No full catalogue materialization, per-frame source fingerprint or Python logic.
+
+Decisive checks: native literal/case/page bounds, immutable worker open and explicit
+scope listing, same-identity/new-locator gene reads; actual wizard raw indexing,
+prepared preview reuse, Import/Open buttons and full-source persistence; actual
+gene catalogue paging/selection, exact values, live owned Save As and stale-store
+refusal. Existing selected-gene GUI/registration/default routes stay covered.
+Use retained real owned store/project for a native desktop handoff and inspected
+scientific legend/coordinate rendering. No raw197MB matrix re-import, new material,
+binding/package or broad biology campaign. Settle all consumer/test interfaces,
+then one affected cached core/GUI/app/test batch after live-owner gate. Retain
+failures and update this card with actual waste/results before D01 closure.
+
+
+Initial combined cached build succeeds. All4 affected native/GUI suites pass3.78s:
+backed import, spatial matrix, legacy gene GUI and actual indexed wizard/gene panel.
+Checks click Import/Open, page through40 genes and choose an unprojected feature,
+verify exact native values, follow owned Save As with old locator offline, and
+show changed-store error. Source preview reuses the opened pointer. No assertions
+or scientific tolerances changed. Native source requests/caches remain immutable.
+
+For the real desktop handoff, extend the existing gene GUI driver to select the
+native indexed scope and known unprojected/marker IDs, capture actual comparison
+and workspace persistence without repeating count oracles. A final small controller
+cleanup compares query text rather than unused input-buffer tails when sharing a
+page, and avoids copying the project path every frame. Build affected GUI drivers/
+app together, retain initial passing evidence and run the real paths once from
+System32 with Windows-only PATH. Reuse the owned real project/store and inspect
+one scientific capture; no raw-matrix indexing repeat, bindings or packaging.
+
+
+D01 desktop handoff passes: final cached GUI/app build succeeds; real import driver,
+full-app comparison driver and standalone app all exit0 from System32 with Windows-
+only PATH. Retained real store/base/positions hashes are unchanged; all38 binding
+objects match baseline. d01-gui-real/results.json binds commands/executables/project;
+real-indexed-result.json binds the2702-observation scope, comparison and unchanged
+project. Inspected preview shows2702 mapped spots/all32285 features. Comparison
+shows aligned unprojected/marker maps on shared0..4.45435 log1p(counts),2451/577
+zeros and0 missing. PNG conversion preserves exact PPM RGB. No raw reindex,
+download, binding/package or broad science campaign. No biology/speed/RSS claim.
+
+D01 is complete under its declared local indexed-count/explicit-coordinate scope:
+12/22 complete,10 pending. Native relink/Undo is delivered; desktop index/import,
+paged gene selection, Save As and error handling are delivered. Optional bindings/
+SDK/release remain P01/P02 and final licensing membership L01. Independent UI edits
+stay preserved; this is local source-scoped evidence, not a frozen release.
+
+Waste review: one settled core/GUI/app batch passed; one handoff-driver/controller
+cleanup batch added real capture and removed redundant query/path work. Reuse native
+science/real store instead of repeating197MB indexing. Scope-preserving staging
+keeps concurrent styling outside this feature commit. Next D02: inspect bounded
+value/color/tile caches and display-only reuse; qualify100k observations/30k genes/
+5M entries under256MiB accounted work, then extend existing tiled cell jobs with
+fixed global parameters, seam ownership/global IDs and checkpoint/resume. Use
+existing authorities and an admitted ROI, no new scheduler or F01 biology replay.
