@@ -565,3 +565,51 @@ training report hash/input identities, and keeps every v1 acceptance threshold.
 The original v1 protocol/failure remain unchanged. Follow-up validation has not
 run at this freeze checkpoint; its reused panel cannot be called unseen held-out
 evidence. No product default, new model or scientific kernel was changed.
+
+### F01 selected pilot and workflow delivered
+
+Freeze728aae2a precedes exactly one recipe follow-up on the original validation
+panel, after training-only selection. First v2 report/command/manifest remain
+`build/feature-expansion/f01-evaluation-v2`; no gate, matching/border convention or
+panel was changed. V1 failure remains independently retained.
+
+| Result | V1 untuned | V2 train-selected |
+| --- | --- | --- |
+| Sigma / prominence (pixels) | 0 /0.5 | 2 /0.5 |
+| Predicted instances | 130 | 118 |
+| TP / FP / FN | 82 /48 /28 | 82 /36 /28 |
+| Object F1 (gate>=0.70) | 0.6833333333333333, fail | 0.7192982456140351, pass |
+| Foreground Dice (gate>=0.75) | 0.935545504754228 | 0.922521339461589 |
+| Split / merge rate (each<=0.20) | 21/110 /5/130 | 17/110 /4/118 |
+| Median matched mean relative error (<=0.35) | 0.021731382210805245 | 0.03056354885393146 |
+| Original-sample numeric oracle | Pass | Pass |
+
+V2 mean matched IoU=0.8570614643734306, precision=0.6949152542372882 and
+recall=0.7454545454545455. It retains all23 reference border instances and16
+prediction border instances. Fewer false positives improve F1; recall does not
+improve and foreground Dice decreases. Report those tradeoffs rather than calling
+every output superior. This is a finite engineering pilot on reused validation,
+not unseen-held-out or population accuracy, SOTA or QuPath equivalence.
+
+The final affected evaluator self-test passes1/1 (0.12s total),
+`f01-selected-evaluator-ctest.log`. Existing native object tests plus selected-real
+extension pass in `build/feature-expansion/f01-selected-integration/native.log`.
+All118 selected labels trace, publish and batch-verify; their exact native record,
+geometry/facts and cohort survive project save/reopen and fresh replay. The real
+extension accepts a test-only sigma; no product API/default/kernel changed.
+The actual existing batch executable detects/publishes118 cells from a preserved
+seed project, saves and verifies exact run SHA256
+`4deb4bb86e9bb65fe6aae3ead3a83ab89878a7edee488ab53e1f92dbf95bb67a`, matching v2.
+`results.json` records commands/results and confirms original TIFF/seed hashes
+unchanged. GUI job/options/preview/Keep reuse their earlier scoped passing checks;
+no repeat GUI/binding build or package qualification was needed.
+
+F01 closes its declared bounded native workflow: analytical/raw-type/missing/
+calibration checks, finite core/ROI/source boundaries, native job/cancel/stale
+ownership, contours/atomic publication, records/undo/replay/save/reopen, CLI and
+desktop consumers, and the selected admitted annotated pilot with fixed gates.
+D02 whole-slide seam ownership/resume remains open, as do F02–F04 and the other
+listed packets. Completion is8/22 with14 pending. Next deliver F02 typed marker
+positivity/phenotype rules over immutable observed native measurements. L01 still
+needs final source/package membership; proprietary, NC and unreviewed pools remain
+excluded and distinct. No public release or broad-platform acceptance is claimed.

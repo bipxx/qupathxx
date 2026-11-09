@@ -2,11 +2,11 @@
 
 Owner request: plan all eight remaining areas, keeping proprietary and
 noncommercial (NC) material separate. This document owns the new implementation
-checklist: **22 work items: 7 complete, 15 pending**. It does not reopen completed
-FO00–FO05. S01/V01/V02/I01/I02/R01/R02 are delivered locally. F01 has tested
-native segmentation, jobs, cell publication and compact replay records; its
-native CLI and desktop consumers pass focused checks. The first frozen annotated
-pilot fails its object-F1 gate; improve a recipe on separate training data next. See the
+checklist: **22 work items: 8 complete, 14 pending**. It does not reopen completed
+FO00–FO05. S01/V01/V02/I01/I02/R01/R02/F01 are delivered locally under their
+stated contracts. F01's train-selected recipe passes unchanged pilot gates and
+native publication/replay; the failed original pilot is retained and validation
+reuse is disclosed. F02 marker rules are next. See the
 [source-scoped progress receipt](benchmarks/feature-expansion/README.md).
 Preserve independent desktop work recorded in [current-task.md](current-task.md).
 
@@ -90,7 +90,8 @@ This table makes the existing checklist executable; it is not another progress
 ledger. Checkboxes below remain authoritative. Finish one packet before starting
 the next, except that admission of a new input belongs to the packet consuming it.
 Preserve concurrent desktop edits. R02 is delivered with native fit, actual UI,
-registered-gene rendering and persistence checks; F01 is the next feature packet.
+registered-gene rendering and persistence checks. F01 is delivered under its
+selected pilot contract; F02 is the next feature packet.
 
 | Packet | Prerequisites | Easiest implementation path and consumer integration | Decisive completion check |
 | --- | --- | --- | --- |
@@ -126,13 +127,12 @@ No calendar or speed-superiority estimate is asserted before measured work.
 
 ## Next execution slices and shared API boundaries
 
-Continue F01 closeout, not another segmentation implementation. CLI and desktop
-steps2/3 have source-scoped evidence. Steps4/5 have a frozen comparison and
-passing finite boundary checks, but the pilot object-F1 gate fails. Select the
-predeclared small recipe grid on the separate first training panel, freeze its
-choice, then rerun the original validation panel with unchanged gates. Retain and
-disclose the original failure and validation reuse. Its tested
-backend is partial completion, not a new completed checklist item:
+F01 closeout steps below now have source-scoped evidence. The original pilot
+failed object F1; the separately train-selected sigma2px/prominence0.5px recipe
+passes unchanged gates, and every selected real cell survives publication and
+save/reopen. Preserve both reports and disclose validation reuse. Next execute
+F02 over these native measurements; do not reopen the completed segmentation,
+GUI or persistence mechanisms. The following records the delivered F01 route:
 
 1. Freeze the native request/run/contour/publication and record APIs already
    implemented. Reuse their capture/currentness checks, one-command publication,
@@ -275,7 +275,7 @@ report the missing real-data acceptance rather than borrowing an NC fixture.
 
 ## Checklist: fluorescence analysis
 
-- [ ] **F01 — raw-channel nucleus/cell workflow.** Use selected original channel,
+- [x] **F01 — raw-channel nucleus/cell workflow.** Use selected original channel,
   series/Z/T and ROI. Reuse existing native Gaussian/mask/morphology/distance/
   watershed/contour kernels where their contracts apply; do not route fluorescence
   through RGB optical density. Start with explicit threshold or native Otsu,
@@ -299,13 +299,18 @@ report the missing real-data acceptance rather than borrowing an NC fixture.
   The real CC0 panel delivers/publishes/replays130 labels through the UI.
   Finite same-core context/ROI/source-edge checks now preserve body/nucleus masks,
   moments, boundary flags and absent cytoplasm. Whole-slide seam/resume remains D02.
-  The predeclared BBBC039 pilot reports Dice0.936 and object F1=0.683, below its
-  unchanged0.70 gate; raw reducers, split/merge and matched-mean gates pass.
-  Original report/protocol are retained. The first official training pair is
-  separately CC0-admitted; choose a recipe there before another validation run.
-  F01 annotated acceptance remains open; no post-hoc tolerance relaxation.
-  Keep this item unchecked until that complete workflow is evidenced; reuse the
-  [single receipt](benchmarks/feature-expansion/README.md).
+  The original predeclared BBBC039 pilot fails F1=0.683; retain that report.
+  A separately preselected CC0 training panel and frozen nine-recipe selection
+  choose sigma2px/prominence0.5px, keeping Otsu/min-area5/expansion3/pixel units.
+  Freeze728aae2a precedes follow-up validation: F1=0.7193, Dice0.9225, split17/110,
+  merge4/118 and matched mean relative-error median0.03056 pass unchanged gates;
+  every original-sample moment passes the independent1e-12 oracle. This is reused
+  single-panel pilot evidence, not unseen-held-out or population accuracy.
+  All118 selected cells trace/publish/batch-verify and survive native record/
+  object save/reopen. The actual CLI gives the exact selected run hash and replay.
+  Desktop generic option/job/Keep behavior reuses its passing source-scoped checks.
+  No default, gate, scientific kernel, NC/proprietary material or model changed.
+  [Evidence and limitations](benchmarks/feature-expansion/README.md).
 - [ ] **F02 — marker positivity and phenotype rules.** Reuse per-compartment raw
   measurements and native classification publication. Versioned per-marker gates
   and AND/OR rules include channel/compartment, threshold, units and measurement
@@ -470,6 +475,6 @@ run until P02 or a named correctness/platform risk requires it. Cleanup only
 verified disposable outputs after preserving fixtures/failures/source. Completion
 means these22 finite contracts are met; it does not imply all statistical methods,
 nonlinear registration, deep pretrained models, distributed execution or100% QuPath
-parity. Next deliver F01 raw-channel nucleus/cell analysis;
+parity. Next deliver F02 marker positivity and phenotype rules;
 finish L01 membership admission as actual release inputs settle. Preserve the
 independent desktop layout work and its source-scoped evidence.

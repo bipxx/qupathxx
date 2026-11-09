@@ -183,11 +183,12 @@ invertible, condition-bounded contract. No Python runtime or new dependency is
 required by this service. Nonlinear/automatic registration remains outside this
 landmark workflow.
 
-## Fluorescence cell API under implementation
+## Fluorescence cell API
 
-The raw detector/reducer, source-bound job, native object publication and saved
-recipe/result-identity records and native CLI are implemented; desktop integration and the
-annotated comparison are still F01 work.
+The raw detector/reducer, source-bound job, native object publication, saved
+recipe/result-identity records, CLI and desktop tool are implemented. F01 passes
+its selected pilot contract with the explicit recipe below; this is not universal
+fluorescence or biological accuracy.
 This is distinct from the delivered raw measurement and import workflows above.
 
 [fluorescence_cell_workflow.hpp](../cpp/include/qupathxx/fluorescence_cell_workflow.hpp)
@@ -318,8 +319,8 @@ analysis/publication and new-project staging. Ctrl+C cancels through the existin
 batch cancellation flag. JSONL stdout reports the record, run digest, detected and
 newly published counts, and boundary count. Exit codes:0 success,1 runtime failure,
 2 invalid arguments,130 cancellation. No biological accuracy follows from merely
-saving or replaying a run. Desktop integration and annotated F01 acceptance remain
-pending.
+saving or replaying a run. The selected annotated pilot and native consumer
+evidence are scoped in the feature-expansion receipt.
 
 ## Fluorescence desktop tool
 
@@ -349,10 +350,35 @@ Choose a saved record to replay/verify or remove it. Removal is undoable. Existi
 project Save stores the retained records and published cells. Reopening a project
 and replaying uses a fresh native capture against the original associated source;
 missing/relinked/changed inputs can refuse rather than silently substitute data.
-These controls do not establish annotated accuracy; F01 acceptance remains open
-until the admitted annotation comparison and remaining boundary checks pass.
+These controls alone do not establish annotated accuracy. The separate selected
+pilot and finite boundary checks pass under their declared contracts; whole-slide
+tile ownership/resume remains D02.
 
 The first predeclared annotated BBBC039 pilot passes raw-moment and foreground
-checks but fails its object-F1 target (0.683 versus0.70). F01 remains under
-validation;130 published/replayed detections do not establish correct instance
-segmentation. See the [first annotated result and next training step](benchmarks/feature-expansion/README.md#f01-first-annotated-panel-result-fails-object-f1).
+checks but fails its object-F1 target (0.683 versus0.70). That failure remains
+recorded;130 published/replayed detections alone do not establish correct instance
+segmentation. The train-selected follow-up below passes the unchanged gates. See the [first annotated result and next training step](benchmarks/feature-expansion/README.md#f01-first-annotated-panel-result-fails-object-f1).
+
+### Selected F01 pilot recipe
+
+On the admitted BBBC039 DNA panel, a recipe selected from the separately
+preselected open training panel uses **Otsu256, sigma2px, prominence0.5px,
+minimum nucleus area5px² and cell expansion3px**. The existing native options
+express it directly; no product default or hidden model was changed:
+
+```text
+qupathxx_batch --detect-fluorescence study.qpx selected-cells.qpx --image 1 --method otsu --sigma 2 --prominence 0.5 --min-area 5 --expansion 3 --units px
+```
+
+Use an explicit original channel block/Z/time/ROI for your data. In the desktop
+tool, expand Fluorescence settings and enter the same values. Keep sufficient
+Gaussian context for a cropped/selected ROI (the default32px covers this sigma);
+the full-image pilot needs no outside-source context. Measurements always use
+original samples, independent of smoothing/display colors.
+
+The frozen follow-up has118 predictions:82TP/36FP/28FN, F1=0.7193 and Dice=0.9225.
+It passes all unchanged pilot gates, including raw moments and split/merge/mean
+checks. Native publication and exact saved replay pass for every selected cell;
+the actual CLI gives the same run digest. This is one reused validation panel,
+with both original failure and training selection disclosed. It is not an unseen
+held-out study or a guarantee for other markers, tissues or acquisition settings.

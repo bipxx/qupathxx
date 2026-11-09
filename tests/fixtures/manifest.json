@@ -249,7 +249,7 @@
     "dataset": "BBBC039v1",
     "acquisition": "Opt-in archive members only; not ordinary reader fixture downloads. Each URL fragment names its member, whose extracted bytes/hash are pinned. Acquisition recipe and range receipts retained locally under build/feature-expansion/bbbc039-inputs.",
     "selection": "First filename in official metadata/validation.txt, chosen before examining pixels/results",
-    "state": "Frozen v1 panel evaluated: native moments and boundary checks pass; object F1 0.6833333333333333 fails 0.70 pilot target; F01 remains open",
+    "state": "F01 bounded native workflow delivered: original v1 F1 fails; separately train-selected frozen v2 passes unchanged pilot gates and exact publication/replay; validation reuse disclosed, no population accuracy claim",
     "files": [
       {
         "filename": "IXMtest_A02_s1_w1051DAA7C-7042-435F-99F0-1E847D9B42CB.tif",
@@ -259,7 +259,7 @@
         "url": "https://data.broadinstitute.org/bbbc/BBBC039/images.zip#images/IXMtest_A02_s1_w1051DAA7C-7042-435F-99F0-1E847D9B42CB.tif",
         "license": "CC0-1.0",
         "license_source": "https://bbbc.broadinstitute.org/BBBC039",
-        "purpose": "F01 single preselected validation panel; source/annotation decoding and tolerances remain to be qualified",
+        "purpose": "F01 preselected validation panel; exact original failure and train-selected follow-up reports retained",
         "material": {
           "id": "bbbc039v1-validation-raw",
           "category": "admitted_open",
@@ -278,7 +278,7 @@
         "url": "https://data.broadinstitute.org/bbbc/BBBC039/masks.zip#masks/IXMtest_A02_s1_w1051DAA7C-7042-435F-99F0-1E847D9B42CB.png",
         "license": "CC0-1.0",
         "license_source": "https://bbbc.broadinstitute.org/BBBC039",
-        "purpose": "F01 single preselected validation panel; source/annotation decoding and tolerances remain to be qualified",
+        "purpose": "F01 preselected validation panel; exact original failure and train-selected follow-up reports retained",
         "material": {
           "id": "bbbc039v1-validation-annotation",
           "category": "admitted_open",

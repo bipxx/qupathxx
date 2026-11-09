@@ -78,8 +78,16 @@ void planes(const fs::path& root) {
 int main(int argc,char** argv){try {
     if(!has_tiff()){std::cout<<"Fluorescence object tests: TIFF capability disabled\n";return 0;}
     const auto root=fs::current_path()/("fluorescence-objects-"+std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()));check(fs::create_directory(root),"Unique test directory");exercise(root);planes(root);empty_records(root);
-    if(argc>1 && has_geos()){Document doc(open_tiff(argv[1]));const auto m=doc.server()->raw_metadata();RawRegionRequest r;r.region={0,0,0,m->width,m->height};r.channels=m->channels;FluorescenceCellOptions p;p.threshold_method=FluorescenceThreshold::Otsu256;p.min_nucleus_area=5;p.cell_expansion=3;
+    if(argc>1 && has_geos()){auto real=std::make_shared<Document>(open_tiff(argv[1]));auto& doc=*real;const auto m=doc.server()->raw_metadata();RawRegionRequest r;r.region={0,0,0,m->width,m->height};r.channels=m->channels;FluorescenceCellOptions p;p.threshold_method=FluorescenceThreshold::Otsu256;p.min_nucleus_area=5;p.cell_expansion=3;
+        if(argc>2)p.sigma=std::stod(argv[2]);
+        Project project;if(has_project()){project.add_document(real);project.save_new((root/"real-input.qpx").u8string());}
         const FluorescenceCellRequest request(doc,r,0,p,{0,0});const auto run=detect_fluorescence_cells(request);const auto traced=trace_fluorescence_cells(run);const auto ids=publish_fluorescence_cells(doc,request,*traced);
-        check(ids.size()==run->raster().measurements.size() && verify_fluorescence_cell_publications(doc,ids,request,*run),"Every admitted real raw label publishes and verifies with one shared currentness check");std::cout<<"Real native cell publication: "<<ids.size()<<" labels; annotation acceptance remains pending\n";}
+        check(ids.size()==run->raster().measurements.size() && verify_fluorescence_cell_publications(doc,ids,request,*run),"Every admitted real raw label publishes and verifies with one shared currentness check");
+        const auto record=keep_fluorescence_cell_run(doc,request,*run);
+        if(has_project()){const auto file=root/"real-published.qpx";project.save_new(file.u8string());const auto restored=Project::open_without_journal_recovery(file.u8string())->document(1);
+            const auto replay=replay_fluorescence_cell_record(*restored,record);const auto result=detect_fluorescence_cells(replay);
+            check(result->sha256()==run->sha256() && verify_fluorescence_cell_record(*restored,record,replay,*result) && verify_fluorescence_cell_publications(*restored,ids,replay,*result),"Every real cell and retained recipe verifies after native save/reopen replay");}
+        std::cout<<"Real native cell publication/save/reopen: "<<ids.size()<<" labels; scientific accuracy is evaluated separately\n";
+    }
     std::cout<<"Fluorescence objects: typed contours, raw facts/recipe, atomic publication/undo, native replay/save/reopen and stale/cancel/budget checks passed\n";
 }catch(const std::exception& e){std::cerr<<e.what()<<'\n';return 1;}}

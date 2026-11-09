@@ -2142,3 +2142,55 @@ Use already-built evaluator evidence while only the pending boundary target
 rebuilds. Raw measurements are independently reduced, not inferred from contour
 publication or high foreground Dice. Preserve scientific failure rather than
 weakening the predeclared object-F1 gate or launching a broad corpus campaign.
+
+### F01 continuation: train-selected recipe and fixed-gate follow-up
+
+Changed inputs: native evaluator prepares admitted data/annotation/raw oracle once,
+then runs only the nine previously declared sigma/prominence candidates. Native
+selection excludes failed non-F1 gates, maximizes training F1 and applies fixed
+ties (Dice, lower sigma, lower prominence). Admission explicitly separates the
+training versus validation file lists. Add independent selection/no-candidate/tie
+oracles; follow-up mode reads a separately frozen protocol with unchanged gates.
+No scientific kernel, default/preset, UI/binding or package changes. Decisive
+check: evaluator self-test, one complete training grid, freeze its selected recipe,
+then one original validation comparison disclosing panel reuse. Preserve v1 failure.
+Build only evaluator target in the existing cache; no new fixture download.
+
+Native training selection/self-tests pass1/1 (0.13s). Exactly nine declared
+candidates evaluated; index6 (sigma2px/prominence0.5px) wins training F1=0.85333
+with all other gates/raw moments passing. Preserve complete training report and
+manifest. Freeze followup_protocol/2 with unchanged v1 gates and report hash before
+the next validation invocation. No validation search, default/kernel change or
+new data download occurred; one annotation/raw oracle is reused across candidates.
+
+Freeze728aae2a precedes the follow-up call. The selected recipe passes unchanged
+validation gates:118 predictions,82TP/36FP/28FN, F1=0.7192982456140351, Dice0.92252,
+split17/110, merge4/118, matched mean relative error median0.03056 and independent
+raw moments passing. Preserve v1 failure and v2 first report; explicitly reused
+validation, no unseen-data claim. Before closing F01, check contour publication/
+all-cell save/reopen plus actual CLI sigma mapping against this selected run.
+Extend the existing native objects test to accept a test-only sigma and preserve
+seed/published real projects. Build evaluator (removing duplicate final file-hash
+verification in its training wrapper) and this changed native object target once;
+reuse existing batch executable for the consumer check. No GUI/bindings/package.
+
+Selected real integration passes: all118 cells trace/publish/batch-verify, keep
+native records and exactly replay their geometry/facts after project save/reopen.
+The actual existing batch executable gives v2's exact run digest, publishes118 and
+verifies saved replay; original TIFF and seed hashes remain unchanged. Final
+evaluator self-test passes1/1 (0.12s). Logs/commands are in f01-selected-integration;
+original v1 failure, training grid and v2 first report remain separate.
+
+F01 is complete under its bounded declared contract, not general biological,
+unseen-held-out or whole-slide tile acceptance. Plan is8/22 complete,14 pending.
+Next F02: typed marker gates/AND-OR rules over original-domain compartment facts,
+Unknown for missing values, native preview/publication and exact stored replay.
+
+Waste review: native training selection prepares image/annotation/raw oracle once
+for nine fixed candidates and follows the predeclared rule. No validation search,
+gate relaxation, new default/model/kernel or new material download. Removed a
+duplicate final file-hash verification from the training wrapper, retaining the
+single owner-boundary check. Reused the passing frontend job/UI evidence and
+existing batch binary; only evaluator/native object tests rebuilt for the missing
+selected-shape persistence/CLI mapping check. Preserve all prior receipts and
+concurrent desktop edits; no bindings, GUI rebuild or packaging campaign.
