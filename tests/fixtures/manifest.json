@@ -6,6 +6,43 @@
   },
   "downloads": [
     {
+      "filename": "LuCa-7color_Scan1.ome.tiff",
+      "bytes": 2085508976,
+      "url": "https://downloads.openmicroscopy.org/images/OME-TIFF/2016-06/sub-resolutions/Fluorescence/LuCa-7color_Scan1.ome.tiff",
+      "sha256": "50cc938e259673c4e62385ceb49c8707cead252566932bf47ed20f2afc5614f0",
+      "license": "CC-BY-4.0",
+      "license_source": "https://ome-model.readthedocs.io/en/stable/ome-tiff/data.html",
+      "tier": "extended",
+      "purpose": "Opt-in actual whole-slide fluorescence ROI/tiled seam and checkpoint evidence; external build fixture, not bundled or automatic CI",
+      "format": "OME-TIFF; BigTIFF, tiled512x512, LZW via existing admitted libtiff",
+      "dimensions": [
+        [
+          24960,
+          34560
+        ]
+      ],
+      "channels": [
+        "DAPI",
+        "FITC",
+        "CY3",
+        "Texas Red",
+        "CY5"
+      ],
+      "pixel_size_um": [
+        0.49799447890790055,
+        0.49799447890790055
+      ],
+      "material": {
+        "id": "ome-luca-7color-scan1",
+        "category": "admitted_open",
+        "kind": "evaluation_data",
+        "license_id": "CC-BY-4.0",
+        "license_evidence": "https://ome-model.readthedocs.io/en/stable/ome-tiff/data.html",
+        "attribution": "PerkinElmer, via Open Microscopy Environment sample data",
+        "source_ids": []
+      }
+    },
+    {
       "filename": "CMU-1-Small-Region.svs",
       "bytes": 1938955,
       "url": "https://openslide.cs.cmu.edu/download/openslide-testdata/Aperio/CMU-1-Small-Region.svs",

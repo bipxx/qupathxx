@@ -3623,3 +3623,67 @@ for its whole-slide ROI exit. Official OME docs identify CC-BY4 LuCa5-channel
 whole-slide OME-TIFF24960x34560, HEAD2085508976 bytes; metadata only checked so far.
 Next acquire/admit that exact open sample and validate one bounded nonzero-origin
 ROI with existing native services.12/22 complete; do not mark D02 closed yet.
+
+### D02 — admitted whole-slide nonzero-origin ROI
+
+Acquire the exact official OME LuCa fluorescence WSI (2085508976 bytes,
+CC-BY-4.0, PerkinElmer via OME; license evidence on OME sample-data page).
+Keep one external build fixture and acquisition receipt, not bundled source/CI.
+Verify length/SHA and native open-codec metadata before admission. Adapt the
+existing explicit real driver for one bounded nonzero-origin ROI, retaining
+independent whole-ROI masks/moments/complete-candidate oracle, alternative seams,
+interruption/resume and256MiB limit. Inspect channel axes before selecting the
+ROI. No full-slide raster, new reader, broad campaign or packaging. Existing
+BBBC/GUI evidence stays valid. Download once; poll the original session.
+
+Native ROI driver builds successfully with explicit bounded case metadata and
+global-to-reference coordinate mapping. Existing BBBC defaults remain supported;
+new WSI route will measure all5 channels, segment DAPI0 and require a nonempty
+certified reference set. Candidate ROI is level0(12000,16000,768,512), not a
+full-slide raster. Single-stream transfer measured ~0.6MB/s; deliberately stop
+that identified curl process, preserve385069056-byte prefix, fetch eight disjoint
+remaining ranges into the same part file with ETag/Content-Range checks. Keep the
+initial terminated session61132 and acquisition receipt; no blind restart or
+second image copy. Active ranged acquisition session43599; poll it. Shared-cache
+build session62172 completed0; no broader tests or binding rebuild required for
+this explicit-driver-only change. Next admit exact hash and run this WSI case once.
+
+Acquisition completes2085508976 bytes, SHA50cc938e259673c4e62385ceb49c8707cead252566932bf47ed20f2afc5614f0;
+range checks pass, no duplicate image. Header/OME XML confirms BigTIFF/LZW,
+24960x34560x5, DAPI/FITC/CY3/Texas Red/CY5,0.49799447890790055um pixels.
+Initial native WSI run from clean PATH fails at the explicit1000 peak/candidate
+limit before output (real.log/host.json preserved). Dense unsmoothed real ROI
+requires a larger declared bound; make case max_cells explicit10000, preserving
+all scientific parameters,256MiB admission and exact complete-set oracle. Build
+only changed manual driver, run into wsi-roi-v2 and preserve initial evidence.
+
+Second WSI attempt reaches tiled scientific comparison but rejects a returned
+candidate (real-v2/host-v2 preserved). Diagnose the reference policy: its4px
+sample-support guard used local ROI edges from the old full-source BBBC case.
+For an interior WSI ROI, tiles have real samples beyond those edges; the guard
+must use global physical source edges. Keep explicit domain-cut component and
+ROI-touching nucleus/body boundary refusal unchanged. Correct only independent
+oracle coordinate policy (BBBC at source origin unchanged) and add anchor/label
+failure diagnostics; preserve exact masks/moments/entire certified-set checks.
+No product-kernel change or tolerance relaxation. Build manual driver only.
+
+D02 WSI slice passes (real-v3/host-v3 exit0, HEQPC/System32-only PATH). Admitted
+native BigTIFF/LZW24960x34560x5; explicit ROI(12000,16000,768,512), DAPI0 and
+all5 measured channels. All1374 certified cells of1527 whole-reference labels
+match exact masks/all moments/IDs across24/20-tile layouts.153 boundary-dependent
+candidates stay uncertified; native states remain unresolved, with all certified
+output retained and no completion marker. Resume4 reused/20 segmented, every
+complete/partial record byte-identical and same output SHA119cc343...c4c3b9e3.
+Peak accounted work240760252 <268435456; cancellation at committed tile boundary
+unwinds0.4172ms. Input SHA unchanged; no full-slide/biology/speed/RSS claim.
+
+Waste review: preserve one2.085GB source; a measured transfer change reuses prefix,
+not a redownload. Two actual refusals diagnosed (dense-data peak admission and
+reference crop-vs-physical-edge policy); preserve both failed receipts. Three
+manual-driver-only builds and one successful WSI execution, no product algorithm,
+new reader/dependency, tolerance relaxation, broad suite, GUI, binding or package
+campaign. JSON/diff/checklist checks suffice for the remaining documentation/
+inventory edits. Durable lessons appended to compilexx. D02 closes13/22;9 pending.
+Next selected outcome O01 native H5AD subset using the existing matrix source,
+exact HDF5 admission and one native adapter/import route. Read its plan packet
+before implementation; do not repeat D02 or package before settled P01/P02.

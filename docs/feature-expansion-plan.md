@@ -2,19 +2,19 @@
 
 Owner request: plan all eight remaining areas, keeping proprietary and
 noncommercial (NC) material separate. This document owns the new implementation
-checklist: **22 work items: 12 complete, 10 pending**. It does not reopen completed
-FO00–FO05. S01/V01/V02/I01/I02/R01/R02/F01/F02/F03/F04/D01 are delivered locally under their
+checklist: **22 work items: 13 complete, 9 pending**. It does not reopen completed
+FO00–FO05. S01/V01/V02/I01/I02/R01/R02/F01/F02/F03/F04/D01/D02 are delivered locally under their
 stated contracts. F01's train-selected recipe passes unchanged pilot gates and
 native publication/replay; the failed original pilot is retained and validation
 reuse is disclosed. F02 marker rules, F03 correction and F04 explicit linear
-unmixing and D01 indexed expression storage/import/view are delivered. D02 scale
-and tiled processing is next. See the
+unmixing, D01 indexed expression storage/import/view and D02 bounded interaction/
+tiled processing are delivered. O01 native H5AD is next. See the
 [source-scoped progress receipt](benchmarks/feature-expansion/README.md).
 Preserve independent desktop work recorded in [current-task.md](current-task.md).
 
 Planning update: retain this single checklist for all eight requested areas;
-do not restart delivered items. Next is D02 bounded interaction/value caches and
-tiled raw-cell processing over the delivered native sources/jobs.
+do not restart delivered items. Next is O01 native H5AD over the delivered matrix
+source/import services, then O02 local OME-Zarr.
 F02/F03/F04 native, CLI and desktop completion are recorded below. Proprietary and NC
 material remain
 separate excluded references, not optional product backends.
@@ -100,7 +100,7 @@ ledger. Checkboxes below remain authoritative. Finish one packet before starting
 the next, except that admission of a new input belongs to the packet consuming it.
 Preserve concurrent desktop edits. R02 is delivered with native fit, actual UI,
 registered-gene rendering and persistence checks. F01 is delivered under its
-selected pilot contract; F02/F03/F04/D01 consumers are delivered and D02 is next.
+selected pilot contract; F02/F03/F04/D01/D02 consumers are delivered and O01 is next.
 
 | Packet | Prerequisites | Easiest implementation path and consumer integration | Decisive completion check |
 | --- | --- | --- | --- |
@@ -111,7 +111,7 @@ selected pilot contract; F02/F03/F04/D01 consumers are delivered and D02 is next
 | F03: correction and typed raw-source capability, delivered | Existing TIFF raw IO | Extract the minimum source capability needed for original/derived channel blocks; keep legacy TIFF identity unchanged. Implement explicit dark/flat correction as a separate derived source and recipe, shared by later readers. | Known correction fields, zero/invalid denominators, tiles/seams, cancellation and source/recipe persistence. |
 | F04: linear unmixing, delivered | F03 blocks; admitted existing linear algebra backend | Feed labeled channel blocks to a small native solve; emit signed derived channels and residuals. UI selects an explicit matrix and channel order; no estimated spectra or model download. | Known mixtures, rank/conditioning refusal, residuals, channel permutations, stale/cancel and saved provenance. |
 | D01: indexed sparse storage, delivered | Delivered S01/I01 | Add an ExpressionMatrixSource adapter and stream Matrix Market into a transactional SQLite sidecar with a gene-oriented sparse index. Extend the existing import wizard with backed storage after the native path works. | Import the existing full197MB source, switch to previously unprojected genes without rescanning/densifying, reopen/relink and refuse incomplete sidecars. |
-| D02: bounded interaction and tiling | D01; F01/F03; existing jobs/cache | Page gene metadata and bound value/color caches first. Then schedule existing raw-cell processing by tile with fixed global parameters, halo, deterministic ownership and resumable records. Do not introduce another scheduler. | Declared sparse fixture/work bound plus a named-host cancellation/responsiveness check; independent seam comparison and interrupted/resumed tiled ROI equality. |
+| D02: bounded interaction and tiling, delivered | D01; F01/F03; existing jobs/cache | Page gene metadata and bound value/color caches first. Then schedule existing raw-cell processing by tile with fixed global parameters, halo, deterministic ownership and resumable records. Do not introduce another scheduler. | Declared sparse fixture/work bound plus a named-host cancellation/responsiveness check; independent seam comparison and interrupted/resumed tiled ROI equality. |
 | O01: H5AD subset | D01/S01; exact HDF5 dependency admitted | Implement one native adapter over the HDF5 C API and feed the existing matrix source/import UI. Start with dense/CSR/CSC X or selected layer and explicit value domain; report unsupported encodings. | Independent dense/CSR/CSC malformed and valid fixtures plus one open real dataset with exact IDs/counts/axes; native-only runtime. |
 | O02: local OME-Zarr subset | F03 capability; D02; exact codecs admitted | Implement declared NGFF0.4/Zarr2 metadata/chunk reads behind the existing image-source interface. Start uncompressed/zlib; add another codec only for a selected admitted fixture. | Chunk boundaries, axes, transforms, missing/failing IO and raw values; one complete open real store in viewport and measurement routes. |
 | A01: QC and normalization | D01 full intended feature universe | Add streaming native totals/detection and an immutable normalized/log1p result source. Let gene display choose raw or explicitly named derived values; never replace the raw matrix. | Hand-calculated sparse values, zero libraries/missing data, exact raw preservation and persisted source/parameter identity. |
@@ -138,8 +138,8 @@ No calendar or speed-superiority estimate is asserted before measured work.
 
 D01 is delivered: bounded indexed storage, native project references/relink/owned
 copies, explicit spatial joins and actual desktop index/import/paged gene display.
-Reuse its source-scoped real-data and legacy-route evidence. The remaining outcome
-is D02; these steps refine its existing checkbox, without creating another ledger.
+Reuse its source-scoped real-data and legacy-route evidence. D02 is now delivered under the checks below. These retained steps explain its
+source-scoped evidence; next execution is O01, without replaying D02.
 
 1. Inspect existing value/color/tile caches and generation-driven controllers.
    Reuse the opened matrix and current selected-value snapshot for display-only
@@ -207,20 +207,23 @@ is D02; these steps refine its existing checkbox, without creating another ledge
    boundary/dependency-uncertified. Complete and explicitly partial tile records
    preserve all certified output; partial records are reprocessed, never reused as
    complete. Same-layout persisted records/digest agree byte-for-byte. This is a
-   696x520 field, not the required whole-slide ROI. D02 remains open for that exit;
-   official OME LuCa-7color_Scan1.ome.tiff is a CC-BY4 candidate (24960x34560x5,
-   2085508976 bytes per HEAD), using the existing open OME-TIFF reader. Admit exact
-   acquired bytes/codec and test one bounded nonzero-origin ROI before closing D02.
-4. Reuse an admitted whole-slide ROI, compare seam results independently and prove
-   interruption/resume equality. Add thin UI controls over the same authority;
-   no alternate scheduler or repeated F01 biological-accuracy campaign.
-5. Close D02 only with that scale/tiling evidence, then follow O01/O02 and the
-   remaining methods/SDK/release packets. Current count is12/22 complete. Optional
-   bindings and installable SDK remain the settled P01 batch, packaging P02.
+   696x520 field; the separate actual whole-slide ROI exit below now passes.
+4. Admitted CC-BY4 OME LuCa-7color_Scan1.ome.tiff (24960x34560x5,
+   2085508976 bytes) uses existing native BigTIFF/LZW. Level-zero ROI
+   (12000,16000,768,512), DAPI segmentation/all5-channel measurement, has1374
+   certified cells of1527 reference labels;153 boundary-dependent labels remain
+   explicitly uncertified. All certified masks/moments/IDs match the independent
+   untiled reference across24/20-tile layouts; interrupted/resumed complete and
+   partial records match byte-for-byte,4 reused/20 segmented. Maximum accounted
+   work240760252 bytes <256MiB; tile-boundary cancellation unwinds0.4172ms on
+   HEQPC. Preserve scope: no full-slide throughput, RSS/GPU or biology claim.
+5. D02 closes with this WSI/scale evidence and delivered thin desktop controls.
+   Follow O01/O02 and remaining methods/SDK/release packets:13/22 complete.
+   Optional bindings/installable SDK remain P01; package once at P02.
 
 Delivered F01-F04 instructions are retained through their checklist progress and
 source-scoped receipt; they are not execution steps to repeat. The remaining
-11-item breakdown below owns subsequent order and completion boundaries.
+remaining-item breakdown below owns subsequent order and completion boundaries.
 
 Use these API boundaries for every remaining packet:
 
@@ -345,7 +348,7 @@ is promised before measuring the affected workload.
 | L01 | At each packet, admit only its actual inputs and derivative lineage in existing inventories. Before release, enumerate all staged source/binary/data/model/generated assets, connect the offline guard and resolve every unmatched member. | Incremental prerequisite for new inputs; final closure requires actual complete stage membership. An allowlist of license names alone is insufficient. |
 | P02 | 1. Freeze completed source/features and close final L01 membership. 2. Stage matching app/CLI/SDK and selected optional Python artifacts once. 3. Verify hashes, sources/notices and clean install/use/uninstall. 4. Publish the exact qualified platform/support statement. | One engineering release handoff after P01 and feature acceptance; preserve user data and old receipts. No implied signing, stable status or untested platform support. |
 
-Execution order is now D02 → O01/O02 → A01/A02 → A03/A04 →
+Remaining execution order is O01/O02 → A01/A02 → A03/A04 →
 P01 → final L01 → P02. O01 and O02 are independent adapters once their respective
 source contracts are ready; implement them serially in the shared cache. If A04
 awaits admissible replicate data, advance P01 without claiming A04 or releasing
@@ -531,7 +534,7 @@ and classify actual release inputs under L01. See the existing
   Native API provides exact matrix relink/Undo; optional bindings/SDK wait for P01.
   D01 closes under local indexed uint64 counts/declared TSV profiles and explicit
   level-zero coordinate imports. See the shared receipt.
-- [ ] **D02 — bounded interactive and whole-slide processing.** Reuse tile/cache,
+- [x] **D02 — bounded interactive and whole-slide processing.** Reuse tile/cache,
   spatial index, native jobs and generation-based publication. Page/filter metadata,
   bound value/color/decoded-tile caches and coalesce rapid viewport requests.
   Add tiled raw-cell processing with declared context, deterministic seam ownership,
@@ -542,7 +545,9 @@ and classify actual release inputs under L01. See the existing
   declared256MiB accounted work budget, plus one admitted whole-slide ROI/tiled
   cell workflow with independent seam checks. Record process/GPU observations
   separately and qualify responsiveness/cancellation on a named host; no universal
-  frame-rate or hardware promise.
+  frame-rate or hardware promise. Delivered native scale/cache/worker, actual
+  desktop controls and admitted LuCa nonzero-origin ROI seam/resume checks are
+  recorded in the shared receipt; unresolved candidates retain explicit status.
 - [ ] **O01 — native H5AD adapter.** Use the pinned HDF5 C API behind an optional
   CMake feature; feed D01/S01 without importing Python/anndata/h5py at runtime.
   Initial subset: AnnData0.1.0; CSR/CSC0.1.0; dataframe/array/string encodings0.2.0;
@@ -659,6 +664,6 @@ run until P02 or a named correctness/platform risk requires it. Cleanup only
 verified disposable outputs after preserving fixtures/failures/source. Completion
 means these22 finite contracts are met; it does not imply all statistical methods,
 nonlinear registration, deep pretrained models, distributed execution or100% QuPath
-parity. Next deliver D02 bounded interaction and deterministic tiled raw-cell resume;
+parity. Next deliver O01 native H5AD, then O02 local OME-Zarr;
 finish L01 membership admission as actual release inputs settle. Preserve the
 independent desktop layout work and its source-scoped evidence.

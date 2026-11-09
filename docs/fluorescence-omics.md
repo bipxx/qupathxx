@@ -1039,5 +1039,8 @@ reused/segmented tiles, unresolved boundaries, threshold, measurement domain and
 saved artifact path. Changed source/settings require a new folder; matching runs
 verify and resume. Unresolved status remains visible while certified results are
 preserved. This source-scoped desktop route and retained real-field check are
-delivered; actual whole-slide ROI acceptance remains D02 work. This is not a
-released SDK/package or a claim of whole-slide frame rate.
+delivered. D02 now also passes an admitted LuCa whole-slide nonzero-origin ROI:
+1374 certified cells match exact masks/moments across layouts/resume under256MiB;
+153 boundary-dependent candidates remain explicitly uncertified. See the
+[shared receipt](benchmarks/feature-expansion/README.md). This is not a released
+SDK/package or a claim of full-slide throughput or frame rate.

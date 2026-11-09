@@ -1,8 +1,8 @@
-# Native feature-expansion progress — 2026-11-08
+# Native feature-expansion progress — 2026-11-09
 
 The [22-item roadmap](../../feature-expansion-plan.md) remains the completion
 authority. This receipt covers delivered S01/V01/V02/I01/I02/R01/R02/F01/F02
-locally and incomplete L01 admission. GUI claims cover only the named workflows
+plus F03/F04/D01/D02 locally and incomplete L01 admission. GUI claims cover only the named workflows
 below; no new release, speed superiority or biological phenotype accuracy claim.
 
 S01 adds an immutable native ExpressionDataset over the existing imported point
@@ -1792,3 +1792,52 @@ has been checked here. Next acquire/admit exact bytes/codecs and run one bounded
 nonzero-origin ROI using existing open TIFF services. No WSI acceptance or new
 fixture admission is claimed from metadata alone. No new dependencies/bindings/
 package, reader, model, restricted data or cleanup deletion.
+
+### D02 actual whole-slide ROI closure — 2026-11-09
+
+Official OME sample-data documentation admits LuCa-7color_Scan1.ome.tiff as
+CC-BY-4.0, PerkinElmer via OME:
+https://ome-model.readthedocs.io/en/stable/ome-tiff/data.html . Exact source URL,
+license/attribution,2085508976-byte length and observed SHA are now in the existing
+fixture inventory, opt-in extended only; the2.085GB image is external build data,
+not bundled source/package or automatic CI. Existing open libtiff reads its tiled
+512x512 LZW BigTIFF/OME metadata and all5 uint8 channels, no new reader/dependency.
+Source SHA50cc938e259673c4e62385ceb49c8707cead252566932bf47ed20f2afc5614f0.
+
+Evidence: build/feature-expansion/luca-inputs/acquisition.json and source-ome.xml;
+d02-wsi/build.log, limit-build.log, origin-build.log, case-v2.json,
+real-v3.log, host-v3.json and wsi-roi-v3/real.json. Acquisition preserved the
+385069056-byte single-stream prefix and fetched only disjoint remaining ranges
+with matching ETag/Content-Range, retaining one image. Initial real.log/host.json
+candidate-limit refusal and real-v2.log/host-v2.json oracle failure are preserved.
+Dense unsmoothed input exceeded the declared1000 peak cap; the case now declares
+10000 while keeping256MiB, threshold and all exact assertions. The old independent
+reference's4px support guard was local to the small full-source fixture; it now
+uses global physical source edges for interior crops. ROI-cut-component and
+boundary-touching refusal stay unchanged; no product algorithm/tolerance changed.
+
+On HEQPC, native-only System32/Windows PATH, final exit0: source24960x34560x5,
+level0 ROI(12000,16000,768,512), DAPI0 segmentation and all5 measured channels.
+Physical sampling0.49799447890790055um in both axes. Whole reference1527 labels,
+1374 certified and153 boundary/dependency-uncertified; not annotation accuracy.
+All1374 certified nuclei/bodies/raw compartment moments match bitwise and all
+IDs agree across24-tile128x128 and20-tile160x128 layouts, halo256. Global Otsu
+32.00390625 agrees with the independent whole-ROI run. Interrupted/resumed run
+reuses4/segments20; every saved complete/partial record is byte-identical to
+baseline, with the same status/input/output identities and unchanged source.
+Same-layout output SHA119cc343ee027d842705ac1f846c583981e1278d501a77304eaf5a12c4c3b9e3.
+Maximum accounted native work240760252 bytes <268435456; baseline232240796.
+Local elapsed baseline8035.3657ms, alternate6841.1351ms, resume5259.639ms.
+Cancellation requested at a committed tile boundary unwinds0.4172ms; this is
+not a measured mid-kernel cancellation latency. Both layouts remain honestly
+unresolved (16/14 tiles), persist all certified output and create no complete
+marker. No full-slide throughput, universal speed, biology, RSS/GPU or100k GUI
+FPS claim. Existing scale/active-read cancellation/dispatch, bounded cache and
+actual desktop evidence above remain in scope without repeating those campaigns.
+
+D02's declared native interaction and actual WSI ROI seam/resume exit is closed.
+13/22 complete,9 pending; next O01 native H5AD, then O02 local OME-Zarr. Optional
+bindings/SDK and release remain P01/P02. Waste: one diagnosed transfer adjustment,
+one candidate-cap refusal and one reference-coordinate correction, then one
+successful WSI run; only affected explicit-driver builds, no broad suite rerun,
+new scientific kernel/backend, GUI requalification, matrix reindex or packaging.
