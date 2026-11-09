@@ -3870,3 +3870,10 @@ retained CC-BY4 tubhiswt-2D full512x512x2 lossless Zarr derivative, independent 
 comparison of ALL samples and viewport/raw measurements. No new download/ROI
 substitute, repeated H5AD campaign or packaging. Notes/guide/plan/reader admission
 updated; broad first recompile cost and each concrete correction retained above.
+
+Final source-byte audit finds Git text normalization changed committed fixture
+JSON/inventory bytes even though Windows working-byte/native checks passed.
+Add an exact-byte .gitattributes rule and renormalize only this fixture directory.
+Verify every staged blob against frozen working bytes/manifest in one batch;
+no pixel/source/runtime change, so no product rebuild or numerical rerun. Preserve
+0ef1896b as the earlier local source state and commit this admission correction.
