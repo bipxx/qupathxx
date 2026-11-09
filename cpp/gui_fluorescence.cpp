@@ -1,4 +1,5 @@
 #include "gui_fluorescence.hpp"
+#include "gui_marker_rules.hpp"
 #include "gui_layout.hpp"
 #include "qupathxx/image_data_properties.hpp"
 #include <GLFW/glfw3.h>
@@ -7,6 +8,7 @@
 #include <algorithm>
 namespace qpx::detail {
 struct GuiFluorescence::Impl {
+    GuiMarkerRules markers;
     bool open=false,use_selected=true,use_crop=false,shown=true,body=false,pending=false,verify=false,published=false;
     RawRegionRequest region;FluorescenceCellOptions options;std::array<std::uint32_t,2> context{32,32};
     int method=0,units=0,row=0,channel=0;
@@ -45,7 +47,7 @@ struct GuiFluorescence::Impl {
         region=candidate.core_region();options=candidate.options();context=candidate.context();use_selected=candidate.object_id()!=0;use_crop=!use_selected;
         method=int(options.threshold_method);units=int(options.units);request=std::move(candidate);run.reset();clear_texture();pending=true;verify=true;kept=record;published=false;count=0;state="running";
     }
-    void poll(Document& doc,bool blocked){refresh(doc);if(const auto view=doc.server()->tiff_view()){display_z=view->z;display_t=view->t;}stats=job.poll(doc);
+    void poll(Document& doc,bool blocked){markers.poll(doc);refresh(doc);if(const auto view=doc.server()->tiff_view()){display_z=view->z;display_t=view->t;}stats=job.poll(doc);
         if(pending && stats.state!="running"){
             pending=false;state=stats.state;
             if(stats.state=="ready" && request){run=job.result();boundary_count=0;for(const auto& b:run->raster().boundaries)if(b.nucleus || b.cell)++boundary_count;if(verify){attempt([&]{if(!verify_fluorescence_cell_record(doc,kept,*request,*run))throw std::runtime_error("Saved fluorescence result differs from replay");state="verified";});verify=false;}}
@@ -75,6 +77,7 @@ struct GuiFluorescence::Impl {
         texture_run=run;texture_body=body;
     }
     void controls(Document& doc,std::uint64_t selected,bool blocked){
+        if(ui::Button("Marker rules..."))markers.open();
         ui::TextWrapped("Original-channel analysis. RGB display colors do not select measurement channels.");
         if(const auto view=doc.server()->tiff_view())ui::Text("Source series: %u",view->series);
         ImGui::BeginDisabled(busy() || blocked);const bool can_run=doc.server()->reader_id()=="tiff" && (!use_selected || selected);
@@ -137,7 +140,7 @@ GuiFluorescence::GuiFluorescence():impl_(std::make_unique<Impl>()){}
 GuiFluorescence::~GuiFluorescence()=default;
 void GuiFluorescence::open(){impl_->open=true;}
 void GuiFluorescence::poll(Document& doc,bool blocked){impl_->poll(doc,blocked);}
-void GuiFluorescence::draw(Document& doc,std::uint64_t selected,bool blocked){auto& s=*impl_;s.poll(doc,blocked);s.bounds={};if(!s.open)return;
+void GuiFluorescence::draw(Document& doc,std::uint64_t selected,bool blocked){auto& s=*impl_;s.poll(doc,blocked);s.markers.draw(doc,selected,blocked);s.bounds={};if(!s.open)return;
     ui::SetNextToolWindow("Fluorescence cells",{520,780});if(ImGui::Begin("Fluorescence cells",&s.open)){s.controls(doc,selected,blocked);}ImGui::End();}
 void GuiFluorescence::draw_preview(ImDrawList* draw,const Viewport& view,ImVec2 offset,ImVec2 size){auto& s=*impl_;if(!s.shown || !s.run || s.run->region().z!=s.display_z || s.run->region().t!=s.display_t)return;s.build_texture();if(!s.texture)return;
     const auto& r=s.run->region().region;const auto a=view.image_to_screen({double(r.x),double(r.y)}),b=view.image_to_screen({double(r.x+r.width),double(r.y+r.height)});

@@ -2282,3 +2282,67 @@ project commit. Three missing test diagnostics needed one targeted repair, with
 native stderr now retained on failure. No new dependency/data, binding/GUI/package
 build or broad science rerun. Next wire the desktop controls to these services;
 F02 stays unchecked and plan remains8/22. Preserve concurrent UI edits.
+
+### Planning refresh: all eight areas and separate restricted material
+
+Updated the existing22-item expansion plan rather than creating a second ledger.
+The next packet is F02 desktop integration over the delivered native backend/CLI:
+rule editing/loading, explicit cohorts, preview, Apply/Undo and saved replay.
+Added ordered implementation and acceptance steps, with source-bound invalidation
+and change-triggered integrity checks instead of per-frame observation hashing.
+Proprietary, NC and unreviewed materials remain distinct metadata/external pools;
+added per-packet handling and final source/binary staging responsibilities.
+
+Validation is document diff, local-link and checklist-count checks only. No code,
+dependency download, build, bindings, fixture or package changed. Progress remains
+8/22 complete,14 pending. Waste: two patch attempts matched wrapped prose
+incorrectly and made no changes; narrower anchors applied the intended edits.
+Next implement the F02 desktop packet, preserving concurrent UI changes.
+
+### F02 desktop implementation: native panel
+
+Changed inputs: private compiled marker panel and fluorescence-tool hook, plus
+one native ImGui test target. Reuse typed rules/JSON, scalar snapshots, cohorts,
+classification commands and persistence. Pending future delivery remains busy;
+post-Apply observation verification runs on document changes, not every frame.
+Loaded graphs remain intact unless explicitly rebuilt. Keep and Apply are
+separate native Undo actions. No public Document/GuiOptions or binding changes.
+
+Decisive check: actual native panel preview/Unknown, Keep, blocked Apply,
+Apply/Undo, selected cohort, cancel, image replacement and exact saved replay;
+then the same desktop route on the admitted118-cell project. Build affected GUI
+and marker test once after interfaces settle, preserving the one cache and
+concurrent main-GUI edits. No package/bindings or segmentation accuracy rerun.
+
+Initial desktop tests pass2/2 (2.46s), including the existing fluorescence panel.
+Review adds direct rule-file/malformed-load and saved-rule Load button checks,
+plus desktop-applied class save/reopen verification and a readable-panel capture.
+Only the private panel/test change: expose its existing file section initially,
+and avoid scanning every captured row when the native source guard and document
+revision are unchanged. Rebuild those affected inputs plus the standalone app;
+retain initial logs. The first build included pending main-GUI changes, so its
+larger translation-unit compile is recorded rather than starting a second cache.
+
+The added malformed-load recovery check exposes stale test click coordinates:
+the newly visible error moves the file button on the next layout frame. Settle
+one frame before reading its current bounds; this changes only input automation,
+not parser/error/UI behavior or assertions. Preserve f02-gui-ctest.log as the
+failed run; retry the changed marker test only after rebuilding that test.
+
+Final marker GUI suite passes1/1 (1.64s); the unchanged fluorescence suite passes
+in the preceding run. Actual118-cell desktop file/saved loading, Unknown counts,
+Apply/Undo, selected cohort and exact class/rule save/reopen pass. Source project
+and TIFF hashes are unchanged. Standalone app opens that saved project from
+System32 with Windows-only PATH, exit0. f02-gui-real/results.json and readable
+marker-panel.png record the handoff. F02 is closed:9/22 complete,13 pending.
+
+Waste review: reused native scalar evaluation and class/rule persistence; no
+per-object/per-frame scientific recomputation. One targeted test repair settles
+layout before reading button coordinates after an error. Preserve its failure.
+The initial build consumed pending main-GUI changes; subsequent builds reuse its
+object and compile only private helper/test and glob-triggered provenance inputs.
+No bindings, package, new material or full science rerun. Next F03: settle the
+minimal typed original/derived block source contract, preserve legacy TIFF
+identity, then explicit immutable dark/flat recipes with analytical field/seam,
+invalid denominator, cancellation and source/persistence checks. Keep proprietary,
+NC and unreviewed inputs excluded; preserve unrelated desktop edits.

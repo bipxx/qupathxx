@@ -522,5 +522,25 @@ is needed for the final publication check.
 exit codes are0 success,1 runtime/data failure,2 command-line errors,130 cancelled.
 Normal project opening retains its own reader work; marker evaluation does not
 remeasure pixels. Saved-rule preview creates fresh authority and reproduces the
-scientific result for the same observations/cohort. Desktop rule controls remain
-pending, so F02 is still open.
+scientific result for the same observations/cohort.
+
+Desktop marker controls are reached through **Fluorescence cells → Marker rules**.
+Choose all native fluorescence cells (across image planes) or the selected cell,
+then Preview markers. Counts distinguish Positive, Negative and Unknown; expand
+Assignments and cohorts to inspect object IDs and proposed classes. Apply marker
+classes uses the native compound class command; normal project Undo restores the
+previous classes. Keep marker rule is a separate undoable action; Apply alone
+does not retain a recipe. Save the project to persist retained rules and classes.
+
+Expand Load and retain rules to load native rule JSON or a retained rule. To
+replay after reopening, load the saved rule, select the same cohort and Preview.
+Expand Edit marker rule for original channel, compartment, statistic, comparator,
+threshold, finite-sample minimum and output classes. Loaded nested graphs survive
+individual gate edits. Combine-all or add/remove explicitly replaces the topology
+with the labeled AND/OR combination; inspect Rule graph before using custom rules.
+These are literal threshold assignments, not validated biological phenotypes.
+
+Preview evaluates saved observations without remeasuring pixels. Input changes
+discard stale authority, and publication disables while editing is blocked.
+Applied results remain visible while observations/classes are unchanged; Undo or
+an incompatible edit invalidates them. Cancellation never publishes classes.

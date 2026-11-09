@@ -56,6 +56,24 @@ are not proprietary/NC merely because an institution or commercial vendor owns t
 
 ## Offline staging admission
 
+Implementation handling for each future packet:
+
+- Before introducing a resource, classify its code, format, codecs, data, weights
+  and derivatives independently in the existing inventories. Record exact source,
+  digest, terms evidence and parent IDs; unresolved entries stay unreviewed.
+- Keep proprietary, NC and unreviewed references in their distinct sections above.
+  Do not put their artifacts in the open fixture tree, build cache, dependency
+  downloads, screenshots, training runs or release acceptance inputs. Separate
+  external pools do not authorize downloading or integrating their contents.
+- Use synthetic metadata/bytes to test rejection, including restricted ancestors
+  and attempted pool inclusion. No restricted dataset is required for these tests.
+- At L01/P02, run the existing guard on frozen source-kit and binary staging,
+  including notices and generated assets. A failed admission stays a visible
+  release blocker; it cannot be bypassed by conversion or a different wrapper.
+
+This updates handling requirements only; it does not assert a completed audit of
+historical assets or admit any new dependency, dataset, codec or model.
+
 [check_material_staging.py](../../tools/ci/check_material_staging.py) reads
 `material` annotations in the existing fixture/font/dependency inventories; it
 does not download data or classify unknown licenses automatically. Each record

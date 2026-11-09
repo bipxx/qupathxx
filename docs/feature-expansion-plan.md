@@ -2,13 +2,18 @@
 
 Owner request: plan all eight remaining areas, keeping proprietary and
 noncommercial (NC) material separate. This document owns the new implementation
-checklist: **22 work items: 8 complete, 14 pending**. It does not reopen completed
-FO00–FO05. S01/V01/V02/I01/I02/R01/R02/F01 are delivered locally under their
+checklist: **22 work items: 9 complete, 13 pending**. It does not reopen completed
+FO00–FO05. S01/V01/V02/I01/I02/R01/R02/F01/F02 are delivered locally under their
 stated contracts. F01's train-selected recipe passes unchanged pilot gates and
 native publication/replay; the failed original pilot is retained and validation
-reuse is disclosed. F02 marker rules are next. See the
+reuse is disclosed. F02 marker rules are delivered; F03 correction is next. See the
 [source-scoped progress receipt](benchmarks/feature-expansion/README.md).
 Preserve independent desktop work recorded in [current-task.md](current-task.md).
+
+Planning update: retain this single checklist for all eight requested areas;
+do not restart delivered items. The next implementation is F03 correction over a typed raw-source capability.
+F02 backend, CLI and desktop completion are recorded below. Proprietary and NC material remain
+separate excluded references, not optional product backends.
 
 All application/scientific interpretation, transforms, statistics, storage and
 export remain C++. Python is optional control only. RmlUi/ImGui present owned
@@ -91,14 +96,14 @@ ledger. Checkboxes below remain authoritative. Finish one packet before starting
 the next, except that admission of a new input belongs to the packet consuming it.
 Preserve concurrent desktop edits. R02 is delivered with native fit, actual UI,
 registered-gene rendering and persistence checks. F01 is delivered under its
-selected pilot contract; F02 is the next feature packet.
+selected pilot contract; F02 consumers are delivered and F03 is next.
 
 | Packet | Prerequisites | Easiest implementation path and consumer integration | Decisive completion check |
 | --- | --- | --- | --- |
 | L01: admission, completed incrementally before P02 | Existing inventories/guard | Annotate actual enabled dependencies, fixtures and derivatives in their current inventories; connect the offline guard to source-kit and package staging. Use metadata-only negative fixtures, without restricted downloads. Review license compatibility and notices as well as open status. | Every actual staged file has admitted provenance; proprietary, NC, unreviewed and restricted-ancestor records refuse staging. Final membership coverage closes L01. |
 | R02: interactive alignment, delivered | Delivered R01/I02/V02 | Native landmark fit/report and atomic registration command; compiled private canvas controller using existing viewport/tile/undo services. Preview draft coordinates, accept one command, and consume the accepted transform in gene display. Retain source coordinates/counts and exact stored coefficients. | Analytical translation/similarity/affine and degenerate cases; drag, preview, accept, undo, save/reopen and stale refusal; real open demo with known landmark displacement. |
 | F01: raw-channel segmentation | Existing fluorescence source and segmentation kernels | Capture channel/plane/ROI once; add only the raw-domain pipeline and missing compartment reducer. Reuse object publication and recipe jobs; expose a small tool panel/CLI recipe over that service. | Independent masks/intensities, invalid/empty compartments and a licensed annotated example with declared tolerances; no RGB-preview measurement. |
-| F02: marker rules | F01 measurements | Add typed gates and a small AND/OR evaluator over immutable measurement snapshots. Reuse classification preview/publication and stored recipes rather than a new classifier framework. | Threshold edges, Unknown values, multichannel rules, stale refusal and exact saved-rule replay. |
+| F02: marker rules, delivered | F01 measurements | Add typed gates and a small AND/OR evaluator over immutable measurement snapshots. Reuse classification preview/publication and stored recipes rather than a new classifier framework. | Threshold edges, Unknown values, multichannel rules, stale refusal and exact saved-rule replay. |
 | F03: correction and typed raw-source capability | Existing TIFF raw IO | Extract the minimum source capability needed for original/derived channel blocks; keep legacy TIFF identity unchanged. Implement explicit dark/flat correction as a separate derived source and recipe, shared by later readers. | Known correction fields, zero/invalid denominators, tiles/seams, cancellation and source/recipe persistence. |
 | F04: linear unmixing | F03 blocks; admitted existing linear algebra backend | Feed labeled channel blocks to a small native solve; emit signed derived channels and residuals. UI selects an explicit matrix and channel order; no estimated spectra or model download. | Known mixtures, rank/conditioning refusal, residuals, channel permutations, stale/cancel and saved provenance. |
 | D01: indexed sparse storage | Delivered S01/I01 | Add an ExpressionMatrixSource adapter and stream Matrix Market into a transactional SQLite sidecar with a gene-oriented sparse index. Extend the existing import wizard with backed storage after the native path works. | Import the existing full197MB source, switch to previously unprojected genes without rescanning/densifying, reopen/relink and refuse incomplete sidecars. |
@@ -130,8 +135,8 @@ No calendar or speed-superiority estimate is asserted before measured work.
 F01 closeout steps below now have source-scoped evidence. The original pilot
 failed object F1; the separately train-selected sigma2px/prominence0.5px recipe
 passes unchanged gates, and every selected real cell survives publication and
-save/reopen. Preserve both reports and disclose validation reuse. Next execute
-F02 over these native measurements; do not reopen the completed segmentation,
+save/reopen. Preserve both reports and disclose validation reuse. F02 now consumes
+these native measurements; do not reopen the completed segmentation,
 GUI or persistence mechanisms. The following records the delivered F01 route:
 
 1. Freeze the native request/run/contour/publication and record APIs already
@@ -157,13 +162,44 @@ GUI or persistence mechanisms. The following records the delivered F01 route:
    kernel/geometry evidence. Close F01 only after its declared acceptance passes;
    whole-slide tile/resume acceptance remains D02, not a duplicate F01 campaign.
 
-Then follow the packet table: F02 → F03 → F04 → D01 → D02 → O01/O02 →
+Then follow the remaining packet table: F03 → F04 → D01 → D02 → O01/O02 →
 A01/A02 → A03/A04 → P01/P02. This is a dependency order, not permission to run
 several implementations concurrently. Complete each reader separately. If A04's
 open replicated fixture is unavailable, retain that explicit gap and progress
 independent SDK work; P02 cannot claim A04 acceptance while it remains open.
 Complete L01 incrementally at each actual dependency/fixture addition, with final
 source/package membership checked once at P02.
+
+### Delivered packet: F02 desktop integration
+
+1. Add a private compiled marker-rule panel reachable from the fluorescence tool.
+   Reuse native rule, JSON IO, cohort and publication services; avoid public
+   Document/GuiOptions layout changes or another application shell. Settle the
+   panel/test interface before the affected cached build.
+2. Provide gate editing, rule-file loading and saved-rule selection, explicit
+   all-fluorescence-cell versus selected-cell scope, preview counts/cohorts and
+   proposed classes. Preserve loaded nested AND/OR graphs; do not silently flatten
+   them when editing a gate. Rebuilding the combination must be explicit.
+3. Execute previews on owned native snapshots. Keep pending owner-thread delivery
+   busy until consumed; cancel/invalidate on input changes. Apply through the
+   existing compound classification command and expose Undo. Saving a recipe and
+   applying classes retain their existing, distinct undo semantics.
+4. After Apply, retain the displayed result using the native publication check,
+   rather than the intentionally stale pre-Apply revisions. Recheck expensive
+   observation integrity on relevant document changes, not on every frame.
+   Historical results do not authorize Apply to a replacement document.
+5. Run one focused native ImGui workflow check covering load/edit, Unknown counts,
+   preview/Apply/Undo, stale refusal and saved-rule replay. Reuse backend/CLI
+   numeric evidence; use the admitted118-cell project for the desktop handoff.
+   Confirm source bytes remain unchanged and the standalone route needs no Python.
+6. Completion is linked in the existing receipt: native panel actions, exact
+   saved replay and the admitted118-cell desktop workflow pass. Progress is
+   9/22 complete,13 pending. Next implement F03; retain the failure/correction
+   and waste record in the existing current card.
+
+No binding rebuild, new dataset/model download, broad segmentation rerun or
+release package is required for this desktop packet. Subsequent packets use the
+native-first boundaries below and their individual completion checks above.
 
 Use these API boundaries for every remaining packet:
 
@@ -311,7 +347,7 @@ report the missing real-data acceptance rather than borrowing an NC fixture.
   Desktop generic option/job/Keep behavior reuses its passing source-scoped checks.
   No default, gate, scientific kernel, NC/proprietary material or model changed.
   [Evidence and limitations](benchmarks/feature-expansion/README.md).
-- [ ] **F02 — marker positivity and phenotype rules.** Reuse per-compartment raw
+- [x] **F02 — marker positivity and phenotype rules.** Reuse per-compartment raw
   measurements and native classification publication. Versioned per-marker gates
   and AND/OR rules include channel/compartment, threshold, units and measurement
   domain. Missing values are Unknown, not Negative. Show counts/cohorts, preview
@@ -323,8 +359,12 @@ report the missing real-data acceptance rather than borrowing an NC fixture.
   from Negative; no pixels are read. Geometry/raw facts remain intact and saved
   rules/observations replay exactly after project reopen. Strict native JSON
   IO/reporting, native cohort selection and CLI preview/apply/list now pass,
-  including exact saved replay on the admitted118-cell project. Desktop controls
-  and full selected workflow acceptance remain; keep F02 unchecked.
+  including exact saved replay on the admitted118-cell project. Private native
+  desktop controls now load/edit rules, preview root/gate counts and assignments,
+  apply/Undo, retain/load recipes and refuse stale captures. Focused native GUI
+  checks and real118-cell save/reopen replay pass, with original inputs unchanged.
+  Standalone Windows-only-PATH smoke passes; Python remains optional. This proves
+  literal rule workflow behavior, not biological phenotype accuracy.
 - [ ] **F03 — dark/flat-field correction.** Add an immutable native derived-channel
   recipe using explicit dark/flat sources and declared normalization. Reuse typed
   tile IO and masks; first put TIFF-specific raw-source checks behind a shared
@@ -483,6 +523,6 @@ run until P02 or a named correctness/platform risk requires it. Cleanup only
 verified disposable outputs after preserving fixtures/failures/source. Completion
 means these22 finite contracts are met; it does not imply all statistical methods,
 nonlinear registration, deep pretrained models, distributed execution or100% QuPath
-parity. Next deliver F02 marker positivity and phenotype rules;
+parity. Next deliver F03 dark/flat correction and its shared typed raw-source capability;
 finish L01 membership admission as actual release inputs settle. Preserve the
 independent desktop layout work and its source-scoped evidence.

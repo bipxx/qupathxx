@@ -1,9 +1,9 @@
 # Native feature-expansion progress — 2026-11-08
 
 The [22-item roadmap](../../feature-expansion-plan.md) remains the completion
-authority. This receipt covers S01/V01/V02/I01/I02/R01/R02 locally, plus incomplete
-L01 admission and F01 native foundations. GUI claims cover only the named gene workflows below; no new
-release, speed or biological-accuracy claim.
+authority. This receipt covers delivered S01/V01/V02/I01/I02/R01/R02/F01/F02
+locally and incomplete L01 admission. GUI claims cover only the named workflows
+below; no new release, speed superiority or biological phenotype accuracy claim.
 
 S01 adds an immutable native ExpressionDataset over the existing imported point
 projection, with stable IDs/positions/frame/plane/source identity, exact uint64
@@ -705,3 +705,44 @@ schema/scientific assertion was weakened. Only affected native core/tests and
 batch built; no binding/GUI/package build or new material download. F02 remains
 unchecked for desktop rule editing/preview/publication/replay controls and their
 selected workflow acceptance. Overall completion remains8/22.
+
+
+## F02 completed: native desktop rules
+
+A private compiled marker panel is reached through the existing fluorescence
+tool, with no public Document/GuiOptions or binding layout change. It calls the
+same native rule IO, cohort capture, scalar preview, class publication and rule
+storage as the CLI. Gate edits preserve loaded graphs; explicit combine/add/remove
+rebuilds the labeled topology. Counts distinguish Unknown and assignments are
+virtualized. Keep recipe and Apply classes remain separate undoable actions.
+Owned preview futures stay busy through owner delivery; source/document identity
+is checked cheaply each poll, with row/content verification on document changes.
+No per-frame full observation hashing or Python scientific logic is introduced.
+
+Initial affected GUI tests pass2/2 (f02-gui-ctest-initial.log,2.46s). Extended
+checks add actual malformed/valid JSON Load and saved-rule Load, then exact
+class/project save/reopen verification. The first extended run exposes stale
+button coordinates after an error changes layout; retain f02-gui-ctest.log.
+Settling layout before reading bounds fixes test input only. The final changed
+marker suite passes1/1 in1.64s (f02-gui-ctest-r3.log); the unchanged fluorescence
+suite also passed in that preceding run. No scientific assertion was weakened.
+
+The actual native ImGui test also passes on all118 admitted F01 cells. Its
+illustrative DNA>-1 AND absent-channel999 rule yields118 Unknown, with gate
+counts118 Positive and118 Unknown respectively. Actual Keep, file/saved Load,
+blocked Apply, Apply/Undo, selected-cell scope, cancel-without-publication,
+document replacement and exact saved replay pass. Desktop-applied classes and
+unchanged observations verify after project reopen. Original project and TIFF
+hashes are unchanged. Commands, exit codes and before/after hashes are under
+workspace-root build/feature-expansion/f02-gui-real/results.json; the readable
+panel capture is marker-panel.png. No biological phenotype accuracy is claimed.
+
+The standalone app opens the desktop-saved classified project from System32 with
+Windows-only PATH, exit0; the result receipt records executable SHA256. This is
+local Windows/native evidence, not a new package or hosted platform qualification.
+Builds use the single cache; the first GUI build also consumes pending unrelated
+main-GUI changes, preserved unstaged. Later changes compile only affected private
+panel/test/provenance inputs. Existing linker CRT warning remains in logs; native
+execution passes. No new material, dependency, bindings or release package.
+F02 closes under its selected rule workflow contract:9/22 complete,13 pending.
+F03 dark/flat correction is next; L01 final staged membership remains open.
