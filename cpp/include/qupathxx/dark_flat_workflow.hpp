@@ -34,6 +34,11 @@ std::vector<std::string> dark_flat_recipe_ids(const Document&);
 DarkFlatRecipe load_dark_flat_recipe(const Document&,const std::string&);
 void remove_dark_flat_recipe(Document&,const std::string&);
 DarkFlatRequest replay_dark_flat_recipe(const Document&,const std::string&,const std::atomic<bool>* cancelled=nullptr);
+// Restore after fields were opened on a worker. The owner captures Document;
+// the same native identity check is used by automatic replay and desktop load.
+DarkFlatRequest restore_dark_flat_recipe(const Document&,const DarkFlatRecipe&,
+    std::shared_ptr<ImageServer> dark,std::shared_ptr<ImageServer> flat,
+    const std::atomic<bool>* cancelled=nullptr);
 class DarkFlatBlock {
 public:
     const RawPixelBuffer& samples() const{return samples_;}

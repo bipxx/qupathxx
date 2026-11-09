@@ -1,5 +1,6 @@
 #include "gui_fluorescence.hpp"
 #include "gui_marker_rules.hpp"
+#include "gui_dark_flat.hpp"
 #include "gui_layout.hpp"
 #include "qupathxx/image_data_properties.hpp"
 #include <GLFW/glfw3.h>
@@ -8,8 +9,8 @@
 #include <algorithm>
 namespace qpx::detail {
 struct GuiFluorescence::Impl {
-    GuiMarkerRules markers;
-    bool open=false,use_selected=true,use_crop=false,shown=true,body=false,pending=false,verify=false,published=false;
+    GuiMarkerRules markers;GuiDarkFlat correction;std::optional<DarkFlatRequest> chosen_correction;std::string chosen_correction_id;bool use_correction=false;
+    bool open=false,use_selected=true,use_crop=false,shown=true,body=false,pending=false,verify=false,published=false,records_dirty=true;
     RawRegionRequest region;FluorescenceCellOptions options;std::array<std::uint32_t,2> context{32,32};
     int method=0,units=0,row=0,channel=0;
     FluorescenceCellJob job;FluorescenceCellStats stats;
@@ -19,45 +20,50 @@ struct GuiFluorescence::Impl {
     std::atomic<bool> cancel{false};bool discard_contours=false;
     const Document* owner=nullptr;std::weak_ptr<ImageServer> source;
     std::shared_ptr<const ImageDataProperties> record_properties;
-    std::vector<std::string> records;std::string record,kept,error,state="idle";
-    std::size_t count=0,boundary_count=0;std::array<Rect,6> bounds{};
+    std::vector<std::string> records;std::string record,kept,last_kept,error,state="idle";
+    std::size_t count=0,boundary_count=0;std::vector<std::uint64_t> published_ids;std::uint64_t published_structure=0;std::array<Rect,8> bounds{};
     GLuint texture=0;std::shared_ptr<const FluorescenceCellRun> texture_run;bool texture_body=false;
     int texture_width=0,texture_height=0;bool sampled=false;std::uint32_t display_z=0,display_t=0;
     ~Impl(){job.cancel();cancel.store(true);if(contours.valid())contours.wait();clear_texture();}
     bool busy() const{return pending || job.busy() || contours.valid();}
     void clear_texture(){if(texture)glDeleteTextures(1,&texture);texture=0;texture_run.reset();}
-    void invalidate(){job.cancel();cancel.store(true);discard_contours=true;pending=false;verify=false;request.reset();run.reset();kept.clear();published=false;count=0;row=channel=0;clear_texture();}
+    void invalidate(){job.cancel();cancel.store(true);discard_contours=true;pending=false;verify=false;request.reset();run.reset();kept.clear();last_kept.clear();published=false;count=0;published_ids.clear();row=channel=0;clear_texture();}
     void refresh(Document& doc){if(owner==&doc && source.lock()==doc.server())return;
-        invalidate();owner=&doc;source=doc.server();record_properties.reset();records.clear();record.clear();error.clear();state="idle";}
-    void refresh_records(Document& doc){if(record_properties==doc.image_data_properties())return;
+        const bool retain=chosen_correction && chosen_correction->matches(doc);invalidate();if(!retain){chosen_correction.reset();chosen_correction_id.clear();use_correction=false;}owner=&doc;source=doc.server();record_properties.reset();records_dirty=true;records.clear();record.clear();error.clear();state="idle";}
+    void refresh_records(Document& doc){if(!records_dirty && record_properties==doc.image_data_properties())return;records_dirty=false;
         record_properties=doc.image_data_properties();records=fluorescence_cell_record_ids(doc);
-        if(std::find(records.begin(),records.end(),record)==records.end())record=records.empty()?std::string{}:records.back();}
+        if(std::find(records.begin(),records.end(),record)==records.end())record=records.empty()?std::string{}:records.back();
+        kept=!last_kept.empty() && std::find(records.begin(),records.end(),last_kept)!=records.end()?last_kept:std::string{};}
     template<class F>void attempt(F f){try{f();error.clear();}catch(const std::exception& e){error=e.what();}}
     void mark(Action a){const auto p=ImGui::GetItemRectMin(),q=ImGui::GetItemRectMax();bounds[std::size_t(a)]={p.x,p.y,q.x-p.x,q.y-p.y};}
     void start(Document& doc,std::uint64_t selected){
         auto selection=region;const auto object=use_selected?selected:0;
         if(use_selected && !object)throw std::invalid_argument("Select an area annotation or turn off Use selected ROI");
         if(!object && !use_crop){selection.region={0,0,0,doc.metadata().width,doc.metadata().height};}
-        auto candidate=FluorescenceCellRequest(doc,selection,object,options,context);
+        if(use_correction && !chosen_correction)throw std::invalid_argument("Load and select a retained correction first");
+        auto candidate=use_correction?FluorescenceCellRequest(doc,*chosen_correction,selection,object,options,context):FluorescenceCellRequest(doc,selection,object,options,context);
         if(!job.request(candidate))throw std::runtime_error("Fluorescence job is still running");
-        request=std::move(candidate);run.reset();clear_texture();pending=true;verify=false;published=false;kept.clear();count=0;state="running";row=channel=0;
+        request=std::move(candidate);run.reset();clear_texture();pending=true;verify=false;published=false;published_ids.clear();kept.clear();last_kept.clear();count=0;state="running";row=channel=0;
     }
     void replay(Document& doc){auto candidate=replay_fluorescence_cell_record(doc,record);
         if(!job.request(candidate))throw std::runtime_error("Fluorescence job is still running");
         region=candidate.core_region();options=candidate.options();context=candidate.context();use_selected=candidate.object_id()!=0;use_crop=!use_selected;
-        method=int(options.threshold_method);units=int(options.units);request=std::move(candidate);run.reset();clear_texture();pending=true;verify=true;kept=record;published=false;count=0;state="running";
+        method=int(options.threshold_method);units=int(options.units);request=std::move(candidate);run.reset();clear_texture();pending=true;verify=true;kept=record;last_kept=record;published=false;published_ids.clear();count=0;state="running";
     }
-    void poll(Document& doc,bool blocked){markers.poll(doc);refresh(doc);if(const auto view=doc.server()->tiff_view()){display_z=view->z;display_t=view->t;}stats=job.poll(doc);
+    void poll(Document& doc,bool blocked){correction.poll(doc,blocked || busy());markers.poll(doc);refresh(doc);if(chosen_correction && !chosen_correction->matches(doc)){chosen_correction.reset();chosen_correction_id.clear();use_correction=false;}if(const auto view=doc.server()->tiff_view()){display_z=view->z;display_t=view->t;}stats=job.poll(doc);
         if(pending && stats.state!="running"){
             pending=false;state=stats.state;
-            if(stats.state=="ready" && request){run=job.result();boundary_count=0;for(const auto& b:run->raster().boundaries)if(b.nucleus || b.cell)++boundary_count;if(verify){attempt([&]{if(!verify_fluorescence_cell_record(doc,kept,*request,*run))throw std::runtime_error("Saved fluorescence result differs from replay");state="verified";});verify=false;}}
+            if(stats.state=="ready" && request){run=job.result();use_correction=!run->correction_record().empty();boundary_count=0;for(const auto& b:run->raster().boundaries)if(b.nucleus || b.cell)++boundary_count;if(verify){attempt([&]{if(!verify_fluorescence_cell_record(doc,kept,*request,*run))throw std::runtime_error("Saved fluorescence result differs from replay");state="verified";});verify=false;}}
             else {run.reset();if(!stats.error.empty())error=stats.error;}
         }
         if(run && request && !request->matches(doc)){run.reset();request.reset();kept.clear();published=false;count=0;state="stale";clear_texture();cancel.store(true);discard_contours=true;}
         if(contours.valid() && (!blocked || discard_contours) && contours.wait_for(std::chrono::milliseconds(0))==std::future_status::ready){
-            try{auto traced=contours.get();if(!discard_contours && run && request){count=publish_fluorescence_cells(doc,*request,*traced,"Fluorescence cell",options.work_bytes,&cancel).size();published=true;state="published";error.clear();}}
+            try{auto traced=contours.get();if(!discard_contours && run && request){published_ids=publish_fluorescence_cells(doc,*request,*traced,"Fluorescence cell",options.work_bytes,&cancel);count=published_ids.size();published_structure=doc.structure_revision();published=true;state="published";error.clear();}}
             catch(const std::exception& e){if(!discard_contours){state="failed";error=e.what();}}
             if(discard_contours && state=="cancelling")state="cancelled";
+        }
+        if(!published_ids.empty() && published_structure!=doc.structure_revision()){
+            count=std::count_if(published_ids.begin(),published_ids.end(),[&](auto id){return doc.objects().count(id)!=0;});published=count!=0;published_structure=doc.structure_revision();
         }
         attempt_records(doc);
     }
@@ -78,13 +84,18 @@ struct GuiFluorescence::Impl {
     }
     void controls(Document& doc,std::uint64_t selected,bool blocked){
         if(ui::Button("Marker rules..."))markers.open();
-        ui::TextWrapped("Original-channel analysis. RGB display colors do not select measurement channels.");
+        if(ui::Button("Dark/flat correction..."))correction.open();mark(Action::Correction);
+        ImGui::BeginDisabled(blocked || busy());if(ui::Checkbox("Use selected dark/flat correction",&use_correction))invalidate();mark(Action::Domain);ImGui::EndDisabled();
+        ui::TextWrapped(use_correction?"Corrected-domain analysis. Set thresholds in corrected sample units.":"Original-channel analysis. RGB display colors do not select measurement channels.");
+        if(use_correction && chosen_correction)ui::TextWrapped("Selected correction: %s",chosen_correction_id.c_str());
+        if(use_correction && !chosen_correction)ui::TextWrapped("Load and select a retained correction to start a new run. Saved-run Replay remains available.");
+        if(run)ui::TextWrapped("Measured domain: %s",run->measurement_domain().c_str());
         if(const auto view=doc.server()->tiff_view())ui::Text("Source series: %u",view->series);
-        ImGui::BeginDisabled(busy() || blocked);const bool can_run=doc.server()->reader_id()=="tiff" && (!use_selected || selected);
+        ImGui::BeginDisabled(busy() || blocked || correction.busy());const bool can_run=doc.server()->reader_id()=="tiff" && (!use_selected || selected) && (!use_correction || chosen_correction);
         ImGui::BeginDisabled(!can_run);if(ui::Button("Run fluorescence"))attempt([&]{start(doc,selected);});mark(Action::Run);ImGui::EndDisabled();ImGui::EndDisabled();
         ImGui::BeginDisabled(!busy());if(ui::Button("Cancel fluorescence")){job.cancel();cancel.store(true);discard_contours=true;state="cancelling";}mark(Action::Cancel);ImGui::EndDisabled();
         ui::Text("Fluorescence state: %s",state.c_str());
-        if(run){ui::Text("Detected raw cells: %zu",run->raster().measurements.size());
+        if(run){ui::Text("Detected cells: %zu",run->raster().measurements.size());
             ui::Text("Boundary cells: %zu",boundary_count);ui::Text("Resolved threshold: %.8g",run->raster().resolved_threshold);ui::Checkbox("Show fluorescence preview",&shown);ui::Checkbox("Preview cell bodies",&body);
             if(run->region().z!=display_z || run->region().t!=display_t)ui::TextWrapped("Preview hidden: display Z/time differs from the analysis plane.");
             if(sampled)ui::TextWrapped("Preview is sampled to at most1024 pixels per axis; analysis retains the original lattice.");
@@ -92,14 +103,14 @@ struct GuiFluorescence::Impl {
         ImGui::BeginDisabled(blocked || busy() || !run || published || !has_geos() || (run && run->raster().measurements.empty()));
         if(ui::Button("Keep fluorescence cells"))attempt([&]{require_current_fluorescence_cells(doc,*request,*run);cancel.store(false);discard_contours=false;const auto snapshot=run;TissueContourOptions limit;limit.work_bytes=options.work_bytes;
             contours=std::async(std::launch::async,[this,snapshot,limit]{return trace_fluorescence_cells(snapshot,limit,&cancel);});state="tracing";});mark(Action::KeepCells);ImGui::EndDisabled();
-        if(published)ui::Text("Published raw cells: %zu (Undo available)",count);
+        if(published)ui::Text("Published cell objects: %zu (Undo available)",count);
         if(!has_geos())ui::TextWrapped("Cell objects require GEOS. Run records remain available.");
-        ImGui::BeginDisabled(blocked || busy() || !run || !kept.empty());if(ui::Button("Keep fluorescence run"))attempt([&]{kept=keep_fluorescence_cell_run(doc,*request,*run);record=kept;});mark(Action::KeepRecord);ImGui::EndDisabled();
+        ImGui::BeginDisabled(blocked || busy() || !run || !kept.empty());if(ui::Button("Keep fluorescence run"))attempt([&]{kept=keep_fluorescence_cell_run(doc,*request,*run);last_kept=kept;record=kept;records_dirty=true;});mark(Action::KeepRecord);ImGui::EndDisabled();
         if(!kept.empty())ui::TextWrapped("Retained record: %s",kept.c_str());
         if(run && !run->raster().measurements.empty() && ui::CollapsingHeader("Inspect compartment measurements"))measurements();
         ImGui::BeginDisabled(busy() || blocked);if(ui::BeginCombo("Saved fluorescence record",record.empty()?"None":record.c_str())){for(const auto& id:records)if(ImGui::Selectable(id.c_str(),id==record))record=id;ui::EndCombo();}
         ImGui::BeginDisabled(record.empty());if(ui::Button("Replay fluorescence record"))attempt([&]{replay(doc);});mark(Action::Replay);
-        if(ui::Button("Remove fluorescence record"))attempt([&]{const auto removing=record;remove_fluorescence_cell_record(doc,removing);if(kept==removing)kept.clear();});mark(Action::Remove);ImGui::EndDisabled();ImGui::EndDisabled();
+        if(ui::Button("Remove fluorescence record"))attempt([&]{const auto removing=record;remove_fluorescence_cell_record(doc,removing);if(kept==removing)kept.clear();records_dirty=true;});mark(Action::Remove);ImGui::EndDisabled();ImGui::EndDisabled();
         ui::TextWrapped("Replay verifies retained analysis identity. Later edits to published cells do not recompute observed intensities.");
         if(!error.empty())ui::TextWrapped("Fluorescence: %s",error.c_str());
         if(ui::CollapsingHeader("Fluorescence settings"))settings(blocked,selected);
@@ -127,7 +138,7 @@ struct GuiFluorescence::Impl {
         if(changed){invalidate();state="idle";}
         ImGui::EndDisabled();
     }
-    void measurements(){const auto& all=run->raster().measurements;ui::InputInt("Inspect raw cell",&row);row=std::clamp(row,0,int(all.size()-1));const auto& m=all[std::size_t(row)];
+    void measurements(){const auto& all=run->raster().measurements;ui::InputInt("Inspect cell",&row);row=std::clamp(row,0,int(all.size()-1));const auto& m=all[std::size_t(row)];
         ui::InputInt("Inspect channel in block",&channel);channel=std::clamp(channel,0,int(m.nucleus.channels.size()-1));const auto original=run->region().first_channel+std::uint32_t(channel);
         const auto& names=run->source_metadata().channel_names;ui::Text("Original channel: %u / %s",original,original<names.size()?names[original].c_str():"unnamed");
         const auto compartment=[&](const char* title,const RawCellCompartment& c){ui::Text("%s: %llu pixels / %llu valid",title,(unsigned long long)c.pixels,(unsigned long long)c.valid_pixels);
@@ -140,12 +151,16 @@ GuiFluorescence::GuiFluorescence():impl_(std::make_unique<Impl>()){}
 GuiFluorescence::~GuiFluorescence()=default;
 void GuiFluorescence::open(){impl_->open=true;}
 void GuiFluorescence::poll(Document& doc,bool blocked){impl_->poll(doc,blocked);}
-void GuiFluorescence::draw(Document& doc,std::uint64_t selected,bool blocked){auto& s=*impl_;s.poll(doc,blocked);s.markers.draw(doc,selected,blocked);s.bounds={};if(!s.open)return;
+void GuiFluorescence::draw(Document& doc,std::uint64_t selected,bool blocked){auto& s=*impl_;s.poll(doc,blocked);s.correction.draw(doc,blocked || s.busy());if(auto chosen=s.correction.take_selection()){try{set_correction(*chosen);s.open=true;}catch(const std::exception& e){s.error=e.what();}}s.markers.draw(doc,selected,blocked);s.bounds={};if(!s.open)return;
     ui::SetNextToolWindow("Fluorescence cells",{520,780});if(ImGui::Begin("Fluorescence cells",&s.open)){s.controls(doc,selected,blocked);}ImGui::End();}
 void GuiFluorescence::draw_preview(ImDrawList* draw,const Viewport& view,ImVec2 offset,ImVec2 size){auto& s=*impl_;if(!s.shown || !s.run || s.run->region().z!=s.display_z || s.run->region().t!=s.display_t)return;s.build_texture();if(!s.texture)return;
     const auto& r=s.run->region().region;const auto a=view.image_to_screen({double(r.x),double(r.y)}),b=view.image_to_screen({double(r.x+r.width),double(r.y+r.height)});
     draw->PushClipRect(offset,{offset.x+size.x,offset.y+size.y},true);draw->AddImage(ImTextureID(s.texture),{offset.x+float(a.x),offset.y+float(a.y)},{offset.x+float(b.x),offset.y+float(b.y)});draw->PopClipRect();}
 void GuiFluorescence::set_request(RawRegionRequest r,FluorescenceCellOptions o,std::array<std::uint32_t,2> c,bool selected){auto& s=*impl_;if(s.busy())throw std::runtime_error("Fluorescence is busy");o.validate();s.invalidate();s.region=r;s.options=o;s.context=c;s.use_selected=selected;s.use_crop=!selected;s.method=int(o.threshold_method);s.units=int(o.units);}
+void GuiFluorescence::set_correction(const DarkFlatRequest& request){auto& s=*impl_;if(s.busy())throw std::runtime_error("Fluorescence is busy");s.invalidate();s.chosen_correction=request;s.chosen_correction_id=request.recipe().sha256();s.use_correction=true;}
+void GuiFluorescence::use_original(){auto& s=*impl_;if(s.busy())throw std::runtime_error("Fluorescence is busy");s.invalidate();s.use_correction=false;}
+bool GuiFluorescence::uses_correction() const{return impl_->use_correction;}
+GuiDarkFlat& GuiFluorescence::correction_tool(){return impl_->correction;}
 Rect GuiFluorescence::bounds(Action a) const{return impl_->bounds[std::size_t(a)];}
 std::shared_ptr<const FluorescenceCellRun> GuiFluorescence::result() const{return impl_->run;}
 const std::string& GuiFluorescence::error() const{return impl_->error;}

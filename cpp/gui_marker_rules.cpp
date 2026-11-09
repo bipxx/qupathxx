@@ -2,6 +2,7 @@
 #include "gui_layout.hpp"
 #include "qupathxx/marker_rule_io.hpp"
 #include "qupathxx/raw_analysis.hpp"
+#include "qupathxx/image_data_properties.hpp"
 #include <algorithm>
 #include <array>
 #include <chrono>
@@ -18,9 +19,10 @@ const char* truth_name(MarkerTruth truth){return truth==MarkerTruth::Positive?"P
 void counts(const char* title,const MarkerCounts& value){ui::Text("%s: %zu Positive / %zu Negative / %zu Unknown",title,value.positive,value.negative,value.unknown);}
 }
 struct GuiMarkerRules::Impl {
-    bool open=false,selected_only=false,discard=false,applied=false;
+    bool open=false,selected_only=false,discard=false,applied=false,rules_dirty=true;
     MarkerRule rule;int gate=0;
     std::string file,saved,error,state="idle";
+    std::shared_ptr<const ImageDataProperties> rule_properties;std::vector<std::string> saved_rules;
     std::array<Rect,7> bounds{};
     std::optional<MarkerRuleRequest> request;
     std::optional<RawAnalysisRequest> source;
@@ -68,6 +70,8 @@ struct GuiMarkerRules::Impl {
         changed=edit_text("Positive class",rule.positive_class)||changed;
         changed=edit_text("Negative class",rule.negative_class)||changed;
         changed=edit_text("Unknown class",rule.unknown_class)||changed;
+        int domain=rule.domain=="original-channel-samples"?0:1;
+        if(ui::Combo("Measurement domain",&domain,"Original samples\0Dark/flat corrected samples\0")){rule.domain=domain?"qpx.dark-flat-corrected-samples/1":"original-channel-samples";changed=true;}
         ui::TextWrapped("Domain: %s. Thresholds use original channel indices and source sample units.",rule.domain.c_str());
         if(ui::Button("Combine all gates with AND")){combine(MarkerOperation::And);changed=true;}
         if(ui::Button("Combine all gates with OR")){combine(MarkerOperation::Or);changed=true;}
@@ -92,6 +96,7 @@ struct GuiMarkerRules::Impl {
     }
     void draw(Document& doc,std::uint64_t selected,bool blocked){
         poll(doc);bounds={};if(!open)return;
+        if(rules_dirty || rule_properties!=doc.image_data_properties()){rules_dirty=false;rule_properties=doc.image_data_properties();try{saved_rules=marker_rule_ids(doc);if(std::find(saved_rules.begin(),saved_rules.end(),saved)==saved_rules.end())saved=saved_rules.empty()?std::string{}:saved_rules.back();}catch(const std::exception& e){error=e.what();saved_rules.clear();saved.clear();}}
         if(selected_only && request && selected!=selected_id)invalidate("stale");
         ui::SetNextToolWindow("Marker rules",{640,800});
         if(ImGui::Begin("Marker rules",&open)){
@@ -100,7 +105,7 @@ struct GuiMarkerRules::Impl {
             if(ui::Button("Preview markers"))attempt([&]{preview(doc,selected);});mark(Action::Preview);
             ImGui::BeginDisabled(!result || applied);
             if(ui::Button("Apply marker classes"))attempt([&]{apply_marker_rule(doc,*request,*result);applied=true;revision=doc.revision();state="applied";});mark(Action::Apply);ImGui::EndDisabled();
-            if(ui::Button("Keep marker rule"))attempt([&]{saved=keep_marker_rule(doc,rule);});mark(Action::Keep);
+            if(ui::Button("Keep marker rule"))attempt([&]{saved=keep_marker_rule(doc,rule);rules_dirty=true;});mark(Action::Keep);
             if(ui::Checkbox("Selected fluorescence cell only",&selected_only))invalidate();
             ImGui::EndDisabled();
             ImGui::BeginDisabled(!busy());if(ui::Button("Cancel marker preview")){invalidate("cancelling");}mark(Action::Cancel);ImGui::EndDisabled();
@@ -115,9 +120,9 @@ struct GuiMarkerRules::Impl {
             ImGui::BeginDisabled(busy() || blocked);
             if(ui::CollapsingHeader("Load and retain rules",ImGuiTreeNodeFlags_DefaultOpen)){
                 edit_text("Rule JSON path",file);if(ui::Button("Load rule JSON"))attempt([&]{auto loaded=load_marker_rule_file(file);invalidate();rule=std::move(loaded);gate=0;});mark(Action::LoadFile);
-                try{auto ids=marker_rule_ids(doc);if(ui::BeginCombo("Saved marker rule",saved.empty()?"None":saved.c_str())){for(const auto& id:ids)if(ImGui::Selectable(id.c_str(),id==saved))saved=id;ui::EndCombo();}}catch(const std::exception& e){error=e.what();}
+                if(ui::BeginCombo("Saved marker rule",saved.empty()?"None":saved.c_str())){for(const auto& id:saved_rules)if(ImGui::Selectable(id.c_str(),id==saved))saved=id;ui::EndCombo();}
                 ImGui::BeginDisabled(saved.empty());if(ui::Button("Load saved marker rule"))attempt([&]{auto loaded=load_marker_rule(doc,saved);invalidate();rule=std::move(loaded);gate=0;});mark(Action::LoadSaved);
-                if(ui::Button("Remove saved marker rule"))attempt([&]{remove_marker_rule(doc,saved);saved.clear();});mark(Action::Remove);ImGui::EndDisabled();
+                if(ui::Button("Remove saved marker rule"))attempt([&]{remove_marker_rule(doc,saved);saved.clear();rules_dirty=true;});mark(Action::Remove);ImGui::EndDisabled();
             }
             if(ui::CollapsingHeader("Edit marker rule"))editor();
             ImGui::EndDisabled();

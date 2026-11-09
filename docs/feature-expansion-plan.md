@@ -2,17 +2,20 @@
 
 Owner request: plan all eight remaining areas, keeping proprietary and
 noncommercial (NC) material separate. This document owns the new implementation
-checklist: **22 work items: 9 complete, 13 pending**. It does not reopen completed
-FO00–FO05. S01/V01/V02/I01/I02/R01/R02/F01/F02 are delivered locally under their
+checklist: **22 work items: 10 complete, 12 pending**. It does not reopen completed
+FO00–FO05. S01/V01/V02/I01/I02/R01/R02/F01/F02/F03 are delivered locally under their
 stated contracts. F01's train-selected recipe passes unchanged pilot gates and
 native publication/replay; the failed original pilot is retained and validation
-reuse is disclosed. F02 marker rules are delivered; F03 correction is next. See the
+reuse is disclosed. F02 marker rules and F03 correction are delivered; F04 linear
+unmixing is next. See the
 [source-scoped progress receipt](benchmarks/feature-expansion/README.md).
 Preserve independent desktop work recorded in [current-task.md](current-task.md).
 
 Planning update: retain this single checklist for all eight requested areas;
-do not restart delivered items. The next implementation is F03 correction over a typed raw-source capability.
-F02 backend, CLI and desktop completion are recorded below. Proprietary and NC material remain
+do not restart delivered items. Next is F04 linear unmixing over the delivered
+typed source capability.
+F02/F03 native, CLI and desktop completion are recorded below. Proprietary and NC
+material remain
 separate excluded references, not optional product backends.
 
 All application/scientific interpretation, transforms, statistics, storage and
@@ -96,7 +99,7 @@ ledger. Checkboxes below remain authoritative. Finish one packet before starting
 the next, except that admission of a new input belongs to the packet consuming it.
 Preserve concurrent desktop edits. R02 is delivered with native fit, actual UI,
 registered-gene rendering and persistence checks. F01 is delivered under its
-selected pilot contract; F02 consumers are delivered and F03 is next.
+selected pilot contract; F02/F03 consumers are delivered and F04 is next.
 
 | Packet | Prerequisites | Easiest implementation path and consumer integration | Decisive completion check |
 | --- | --- | --- | --- |
@@ -104,7 +107,7 @@ selected pilot contract; F02 consumers are delivered and F03 is next.
 | R02: interactive alignment, delivered | Delivered R01/I02/V02 | Native landmark fit/report and atomic registration command; compiled private canvas controller using existing viewport/tile/undo services. Preview draft coordinates, accept one command, and consume the accepted transform in gene display. Retain source coordinates/counts and exact stored coefficients. | Analytical translation/similarity/affine and degenerate cases; drag, preview, accept, undo, save/reopen and stale refusal; real open demo with known landmark displacement. |
 | F01: raw-channel segmentation | Existing fluorescence source and segmentation kernels | Capture channel/plane/ROI once; add only the raw-domain pipeline and missing compartment reducer. Reuse object publication and recipe jobs; expose a small tool panel/CLI recipe over that service. | Independent masks/intensities, invalid/empty compartments and a licensed annotated example with declared tolerances; no RGB-preview measurement. |
 | F02: marker rules, delivered | F01 measurements | Add typed gates and a small AND/OR evaluator over immutable measurement snapshots. Reuse classification preview/publication and stored recipes rather than a new classifier framework. | Threshold edges, Unknown values, multichannel rules, stale refusal and exact saved-rule replay. |
-| F03: correction and typed raw-source capability | Existing TIFF raw IO | Extract the minimum source capability needed for original/derived channel blocks; keep legacy TIFF identity unchanged. Implement explicit dark/flat correction as a separate derived source and recipe, shared by later readers. | Known correction fields, zero/invalid denominators, tiles/seams, cancellation and source/recipe persistence. |
+| F03: correction and typed raw-source capability, delivered | Existing TIFF raw IO | Extract the minimum source capability needed for original/derived channel blocks; keep legacy TIFF identity unchanged. Implement explicit dark/flat correction as a separate derived source and recipe, shared by later readers. | Known correction fields, zero/invalid denominators, tiles/seams, cancellation and source/recipe persistence. |
 | F04: linear unmixing | F03 blocks; admitted existing linear algebra backend | Feed labeled channel blocks to a small native solve; emit signed derived channels and residuals. UI selects an explicit matrix and channel order; no estimated spectra or model download. | Known mixtures, rank/conditioning refusal, residuals, channel permutations, stale/cancel and saved provenance. |
 | D01: indexed sparse storage | Delivered S01/I01 | Add an ExpressionMatrixSource adapter and stream Matrix Market into a transactional SQLite sidecar with a gene-oriented sparse index. Extend the existing import wizard with backed storage after the native path works. | Import the existing full197MB source, switch to previously unprojected genes without rescanning/densifying, reopen/relink and refuse incomplete sidecars. |
 | D02: bounded interaction and tiling | D01; F01/F03; existing jobs/cache | Page gene metadata and bound value/color caches first. Then schedule existing raw-cell processing by tile with fixed global parameters, halo, deterministic ownership and resumable records. Do not introduce another scheduler. | Declared sparse fixture/work bound plus a named-host cancellation/responsiveness check; independent seam comparison and interrupted/resumed tiled ROI equality. |
@@ -162,7 +165,7 @@ GUI or persistence mechanisms. The following records the delivered F01 route:
    kernel/geometry evidence. Close F01 only after its declared acceptance passes;
    whole-slide tile/resume acceptance remains D02, not a duplicate F01 campaign.
 
-Then follow the remaining packet table: F03 → F04 → D01 → D02 → O01/O02 →
+Then follow the remaining packet table: F04 → D01 → D02 → O01/O02 →
 A01/A02 → A03/A04 → P01/P02. This is a dependency order, not permission to run
 several implementations concurrently. Complete each reader separately. If A04's
 open replicated fixture is unavailable, retain that explicit gap and progress
@@ -194,8 +197,8 @@ source/package membership checked once at P02.
    Confirm source bytes remain unchanged and the standalone route needs no Python.
 6. Completion is linked in the existing receipt: native panel actions, exact
    saved replay and the admitted118-cell desktop workflow pass. Progress is
-   9/22 complete,13 pending. Next implement F03; retain the failure/correction
-   and waste record in the existing current card.
+   F02 and F03 are now complete:10/22 complete,12 pending. Next implement F04;
+   retain the failure/correction and waste record in the existing current card.
 
 No binding rebuild, new dataset/model download, broad segmentation rerun or
 release package is required for this desktop packet. Subsequent packets use the
@@ -365,7 +368,7 @@ report the missing real-data acceptance rather than borrowing an NC fixture.
   checks and real118-cell save/reopen replay pass, with original inputs unchanged.
   Standalone Windows-only-PATH smoke passes; Python remains optional. This proves
   literal rule workflow behavior, not biological phenotype accuracy.
-- [ ] **F03 — dark/flat-field correction.** Add an immutable native derived-channel
+- [x] **F03 — dark/flat-field correction.** Add an immutable native derived-channel
   recipe using explicit dark/flat sources and declared normalization. Reuse typed
   tile IO and masks; first put TIFF-specific raw-source checks behind a shared
   typed capability reused later by O02, preserving existing TIFF identities.
@@ -390,8 +393,12 @@ report the missing real-data acceptance rather than borrowing an NC fixture.
   version2 recipes/profiles identify corrected values and reference retained field
   associations. Native/CLI saved replay and domain-specific marker rules pass.
   Referenced correction recipes cannot be removed. Original F01 real run retains
-  its exact digest and118 cells. Correction desktop controls remain; keep F03
-  unchecked until that selected consumer workflow passes.
+  its exact digest and118 cells. Desktop field load/preview, recipe Undo/Redo and
+  saved load, explicit corrected/original selection, negative cell measurements,
+  publication Undo/Redo, exact project replay and corrected marker actions pass.
+  Native opening/reading is asynchronous and cancelled/stale/replaced inputs refuse.
+  Standalone Windows-only-PATH handoff preserves project/source hashes. F03 closes
+  under this declared subset; no automatic field estimation or biological claim.
 - [ ] **F04 — linear compensation/spectral unmixing.** Consume an explicitly
   supplied, labeled finite mixing matrix and native channel blocks. Start with
   small full-rank linear systems and residual reporting; reuse the existing
@@ -541,6 +548,6 @@ run until P02 or a named correctness/platform risk requires it. Cleanup only
 verified disposable outputs after preserving fixtures/failures/source. Completion
 means these22 finite contracts are met; it does not imply all statistical methods,
 nonlinear registration, deep pretrained models, distributed execution or100% QuPath
-parity. Next deliver F03 dark/flat correction and its shared typed raw-source capability;
+parity. Next deliver F04 explicit linear compensation/unmixing over the shared native source;
 finish L01 membership admission as actual release inputs settle. Preserve the
 independent desktop layout work and its source-scoped evidence.

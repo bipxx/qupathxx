@@ -884,3 +884,57 @@ recipe changes justify affected original-route checks and one retained real
 identity verification; no pilot/training sweep repeats. No failed build/test or
 retry. Concurrent UI source is preserved. Next finish correction desktop controls
 on these settled APIs; F03 remains unchecked, overall9/22 complete,13 pending.
+
+
+## F03 completed: native correction desktop workflow
+
+A private compiled tool, reached from Fluorescence cells, opens fields on native
+workers and captures Document on its owner. Saved load and CLI replay share the
+same native restore identity check; preview reads the delivered owned block API.
+Explicit Keep/Use selects a retained correction for the existing fluorescence job.
+Default runs stay original. Marker editing now offers the explicit measurement
+domain. Preview shows crop/channel/Z/T, validity/finite counts and actual signed
+pixel values, with separately labeled presentation range and bounded grayscale
+texture. No frontend correction/reduction or Python science is introduced.
+
+Affected native restore/corrected suites pass2/2 in0.81s
+(f03-gui-native-ctest.log). Final affected GUI suites pass3/3 in5.96s
+(f03-gui-ctest-r3.log): correction, existing fluorescence and marker controls.
+The correction case proves missing-field errors, worker/blocked owner delivery,
+negative C1 preview (-184 at the named crop origin), recipe Keep/Undo/Redo/saved
+load, actual Use and corrected Run/Keep, cell Undo/Redo counts, exact project
+reopen/replay, original-domain switch, corrected marker Preview/Apply/Undo,
+referenced-remove refusal, stale fields, cancellation and replacement.
+Corrected C0 nuclear sum1401 and C1 nuclear sum-1259, plus cytoplasm C1 mean
+2513/13-300, agree with the independent field oracle. Counts and retained run
+labels reconcile after Undo/Redo without per-frame fact hashing.
+
+The initial GUI run catches a real metadata view cache issue: Keep followed by
+Undo can return to the cached pointer before the UI observes the intermediate
+state. Own metadata commands now force list reconciliation; loaded/last-kept IDs
+restore truthful labels. The next failure frame shows a test-only focus error
+when two hidden windows reappear: parent covers child. Reopen through the actual
+parent button, without changing assertions or product behavior. Preserve
+f03-gui-early-ctest.log, f03-gui-ctest-r2.log and their fixture/frame evidence.
+Failure diagnostics now retain states/errors and a screenshot. No science gate,
+threshold, tolerance or assertion was relaxed.
+
+A handoff run repeats the actual native UI course but stops before deliberate
+fixture mutation. The resulting source/project remains reviewable and replayable
+under workspace-root build/feature-expansion/f03-gui-handoff. Both its native UI
+driver and standalone app pass from System32 with Windows-only PATH. Native
+project, signal, dark and flat hashes stay unchanged; commands, exits and executable
+identities are in results.json. The inspected signed-correction-preview.png shows
+readable negative value, domain, channel, counts, crop/plane and display range.
+The full CTest route still executes all source/cancel/replacement guards.
+
+Builds use one cache and preserve concurrent UI changes. Wait for confirmed cache
+owner process195808 to finish rather than starting another build. Cache immutable
+recipe lists and selected IDs, discover unused-tool defaults lazily, and refresh
+publication counts only on structure changes. Repairs rebuild private controllers
+or the test and relink affected consumers, retaining compatible expensive objects.
+Native restore checks were reused after UI-only repairs. No binding/wheel/package,
+new dependency/data/model or repeated F01 accuracy campaign. Existing native
+source/legacy identity receipts remain valid under their own stated scope.
+F03 closes locally under the declared TIFF/level-zero/matching-field contract:
+10/22 complete,12 pending. F04 linear compensation/unmixing is next.

@@ -549,7 +549,7 @@ Applied results remain visible while observations/classes are unchanged; Undo or
 an incompatible edit invalidates them. Cancellation never publishes classes.
 
 
-## Native dark/flat foundation (F03 in progress)
+## Native dark/flat foundation
 
 `qupathxx/channel_source.hpp` defines `ChannelSource`: immutable quantitative
 metadata, a value domain and observed-source-version identity, bounded block IO
@@ -581,12 +581,11 @@ versions and algorithm domain. They are recipe/source identities, not a promise
 of an evaluated result archive. Cancellation throws without publishing a result.
 
 This foundation has analytical and synthetic-TIFF native tests. Retained recipe,
-CLI and explicit corrected cell analysis routes are described below. Correction
-desktop controls remain F03 work. Existing original-sample measurements and rules
+CLI and explicit corrected cell analysis routes are described below. Correction desktop controls are described below. Existing original-sample measurements and rules
 keep their original domain unless explicitly changed.
 
 
-## Retained dark/flat recipes and CLI (F03 in progress)
+## Retained dark/flat recipes and CLI
 
 `qupathxx/dark_flat_workflow.hpp` adds an immutable `DarkFlatRequest` over a
 native signal document and explicit dark/flat readers. Its source can be read on
@@ -632,8 +631,7 @@ Keep saves a new project only, protecting original project, image/field and
 SQLite journal/WAL/SHM paths. Preview/list/verify do not modify project or source
 bytes. Native cancellation returns130; runtime/data errors1, invalid options2,
 success0. Correction recipes do not automatically select a derived domain for
-existing fluorescence tools or marker rules. Correction desktop controls remain F03 work; explicit native/CLI derived analysis
-is described below.
+existing fluorescence tools or marker rules. Correction desktop controls and explicit native/CLI derived analysis are described below.
 
 
 ## Explicit corrected fluorescence analysis
@@ -672,6 +670,43 @@ domain and uses the same native cohort helper. An explicit wrong-domain cell
 refuses capture. Historical marker evaluation does not reread correction fields
 or remeasure pixels. No automatic threshold conversion is performed.
 
-Correction desktop authoring/preview controls remain open under F03. The native
-and CLI routes are delivered; this does not change the default fluorescence UI
-into corrected analysis or claim a new release or biological validation.
+The desktop workflow below makes corrected analysis an explicit choice; original
+samples remain the default. This is local engineering delivery, not a new release
+or biological validation.
+
+
+## Dark/flat desktop workflow
+
+1. Open **Fluorescence cells → Dark/flat correction**. Expand Correction fields
+   and normalization; enter dark/flat TIFF paths and explicit series selections.
+   Fields must match the signal's declared spatial/channel/Z/T axes and intrinsic
+   calibration. No broadcasting, channel guessing or resizing occurs.
+2. Choose each original channel index and its positive source-sample scale, and
+   the minimum denominator. Initial scales are1. Reset normalization to source
+   channels explicitly resets all scales to1; no field mean is estimated.
+3. Load correction fields. Opening runs on a native worker; owner capture waits
+   while editing is blocked. Set a preview crop/channel block/Z/T, then Preview
+   corrected samples. Inspect the actual domain, coordinates, validity/finite
+   counts and pixel values, including negatives. The optional grayscale preview
+   samples at most320 pixels per axis; its range changes presentation only.
+   Nonfinite channels are magenta and absent source pixels transparent.
+4. Keep correction recipe, then Use for fluorescence. The fluorescence tool
+   names the selected correction and enables its explicit corrected-source mode.
+   Set thresholds in corrected units; Run, inspect compartments, Keep cells or a
+   run record and save the project. Original samples and older observations are
+   unchanged. Cell and metadata Undo/Redo update their displayed counts/labels.
+5. To reopen, select the saved fluorescence record and Replay for exact analysis
+   verification. To author a changed corrected run, load the saved correction in
+   its tool and Use it first. A referenced correction cannot be removed. Missing
+   or changed fields produce errors; they do not silently become original data.
+6. Marker rule editing offers Original samples or Dark/flat corrected samples.
+   Preview/Apply uses only the rule's native domain cohort. Disable Use selected
+   dark/flat correction in the fluorescence tool to return to original samples;
+   choose an appropriate original-domain threshold explicitly.
+
+Keep/Remove and cell/class publication use the existing native Undo authorities.
+Cancel discards pending worker delivery; replacement invalidates captured identity.
+Field opening/preview do not publish measurements, and action controls disable
+while their owner is blocked. Python is optional and supplies no correction logic.
+The selected F03 desktop workflow is delivered under the documented TIFF/level-zero
+subset; its evidence is in the feature-expansion receipt.

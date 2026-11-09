@@ -2483,3 +2483,82 @@ single retained real F01 digest check, not broader qualification. Preserve the
 concurrent UI changes. No bindings, package, new dependency/data, new scheduler or
 repeated pilot. Next correction desktop authoring/preview/selection, using these
 settled APIs; F03 remains open and overall9/22 complete,13 pending.
+
+### F03 desktop completion: correction authoring and explicit selection
+
+Changed inputs: private compiled correction panel, fluorescence-tool source
+selection and marker-domain controls over the delivered native services. Open
+fields on a native worker, capture Document on its owner using a shared native
+restore helper, and read owned preview blocks asynchronously. Keep/Remove use
+existing native metadata commands; explicit Use hands a retained request to the
+existing fluorescence job. Default runs remain original. Saved recipe load and
+cell/run replay must retain exact identity; signed values remain visible with
+explicit channel/crop/Z/T, counts and presentation-only range/preview sampling.
+
+Settle controller/test APIs before one cached build. Ordinary polls do not open
+fields or hash recipes: cache correction identity and immutable saved-rule
+properties, with lazy unused-tool defaults. Publication counts track created IDs
+on structural revisions so Undo/Redo stays truthful without per-frame fact hashes.
+No public Document/GuiOptions or binding layout changes; preserve concurrent UI.
+
+Decisive checks: actual hidden native ImGui field Load/failure, blocked owner
+capture, negative C1 preview, recipe Undo/Redo/saved load, explicit Use and corrected
+Run/Keep, negative compartments, cell Undo/Redo counts, exact project reopen/replay,
+original-domain switch, corrected marker Preview/Apply/Undo, referenced-remove
+refusal, stale fields, cancellation and replacement. Inspect one readable preview
+capture and run the standalone app on the saved result with Windows-only PATH.
+Recheck only changed native restore/corrected routes and affected GUI panels; no
+binding/package/new data/dependency or segmentation qualification campaign.
+
+First native checks pass2/2 (0.81s). The GUI suite catches a real metadata view
+cache issue: Keep followed by immediate Undo can return to the cached pointer
+before the UI observes the intermediate state, leaving the retained label stale.
+Mark own metadata commands dirty and reconcile the loaded recipe's ID against
+the current immutable list. Apply the same small fix to run/marker recipe lists;
+retain last run ID for truthful Undo/Redo labels. Add explicit run-label Undo/Redo
+assertions and failure state/frame diagnostics. No scientific/API/threshold change
+or assertion relaxation. Preserve f03-gui-early-ctest.log; rebuild affected private
+controllers/test and relink dependent GUI tests/app in the same cache.
+
+After the cache repair, original fluorescence and marker GUI suites pass. The
+correction test reaches reopened replay, original switch and marker Undo, then
+its direct test-only open reintroduces both previously hidden windows in reverse
+focus order. The retained failure frame shows the parent covering the child,
+so clicks never reach saved-load/remove. Exercise the actual parent Dark/flat
+correction button to open it, as the user does; assertions/product behavior stay
+unchanged. Preserve f03-gui-ctest-r2.log and failure frame. Rebuild only the test;
+passing native/default-panel checks and the unchanged app do not need repeating.
+
+Cache owner process195808 is now terminal/missing; inspect confirms no active
+build in this checkout/cache. Add a handoff mode to the native GUI driver that
+stops before intentionally mutating fixtures, so its saved project remains
+reviewable/replayable for standalone smoke. Normal CTest still executes all stale,
+cancel and replacement guards. The concurrent build refreshed shared GUI source;
+relink the affected default-panel tests with that library before final GUI checks.
+
+Final GUI suites pass3/3 (5.96s), with affected native restore/corrected suites
+already passing2/2 (0.81s). The native desktop course verifies negative preview
+(-184), corrected C0/C1 nuclear sums1401/-1259, cytoplasm C1 mean2513/13-300,
+Keep/Undo/Redo, exact reopened run replay, explicit original switch, corrected
+marker Apply/Undo, stale/missing/refused-reference/cancel/replacement behavior.
+Inspected signed preview is readable and correctly labels channel/domain/range.
+
+Native handoff driver and standalone app both pass from System32 with Windows-
+only PATH. Handoff skips deliberate fixture corruption so project/fields remain
+reviewable/replayable; full CTest retains all guard cases. Input project/signal/
+dark/flat hashes are unchanged (f03-gui-handoff/results.json). F03 is complete
+under its declared subset:10/22 complete,12 pending. No biological/speed claim.
+
+Waste review: immutable-pointer caches also need reconciliation after own writes
+when immediate Undo returns to an earlier pointer. Retain loaded/last-kept IDs;
+never reparse/hash all recipes per frame. Use actual parent commands in UI tests
+when reopening tool windows; diagnostics caught the focus miss without weakening
+assertions. Waited on verified process195808 instead of competing for the cache.
+Preserve both failures; targeted repairs reuse native evidence. No bindings,
+package, new material or broad campaign. For F04, settle native and private
+consumer/test interfaces before a combined build; intermediate backend checks
+must stay cheap, deferring GUI qualification until consumer interfaces settle.
+Next F04: inspect the exact admitted native algebra configuration, then explicit
+labeled finite linear mixing matrices, reusable factorization, signed derived
+components/residuals, rank/condition refusal and source/recipe replay over the
+shared channel source. Keep Python optional and restricted material excluded.
