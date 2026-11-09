@@ -986,3 +986,65 @@ packaging, F01 biological campaign or speed comparison was rerun. Pending F04
 scope: retained source associations, exact project replay, derived analysis and
 marker domains, matrix file IO and CLI/desktop controls. Overall remains
 10/22 complete,12 pending.
+
+
+## F04 native retention, exact operator replay and CLI
+
+Native `LinearUnmixRecipe`/`LinearUnmixRequest` now retain typed matrix, signal
+locator/series/source identity, optional retained correction reference, algorithm,
+prepared operator and input/derived source identities. Prepared model identity
+includes matrix, pinned OpenCV4.11.0 thin-SVD algorithm, inverse coefficient bits
+and condition, computed once. Derived source identity explicitly uses
+`qpx.linear-unmixed-source/2`; output domain stays `qpx.linear-unmixed-samples/1`.
+Earlier foundation source-schema1 receipts precede retained project support.
+No accepted retained project identity was silently reused; TIFF/F03 identities
+and numerical kernels are unchanged.
+
+Keep/Remove use existing image-properties Undo. Corrected capture requires its
+parent to be retained, and referenced correction removal refuses. Cheap owner
+polls cache immutable parent properties rather than parsing/hashing each frame.
+Workers read owned sources without Document access; final publication verifies
+live document/calibration/source/parent. Replay compares exact stored recipe and
+operator identity, not only numeric closeness, and refuses orphan/corrupt sources.
+Initial automatic source reopening remains native TIFF.
+
+Native tests independently recover original components (6*i-200)/7 and
+(4*i+800)/7, and corrected components (6*i-240)/7 and (4*i+680)/7 for48
+synthetic TIFF pixels; signed residuals are zero within the declared1e-11
+relative/absolute floor. Same-backend project replay compares sample bytes exactly,
+including retained signed-zero coefficients. Owner/worker, Undo/Redo, parent
+reference removal/orphan/corruption/domain, calibration/document replacement,
+source/field changes and cancellation cases pass. Pure recipe schema checks run
+before optional numerical dispatch.
+
+Affected native suites pass4/4 in0.78s (`f04-native/workflow-ctest.log`). The first
+build compiled the service but found a test-only metadata shared-pointer access
+error; preserve `workflow-build.log`. Correct pointer access and rebuild in the
+same cache (`workflow-build-r2.log`); no assertion/contract relaxation.
+
+Bounded native JSON/file IO adapts the same typed matrix schema, with duplicate,
+unknown/malformed fields, depth/node/byte bounds, exact signed-zero round trips
+and unsafe integer conversion refusal. Thin CLI Keep/list/verify use the same
+requests/retention/replay and existing guarded native project save. Tests prove
+original/corrected routes, retained replay after authoring JSON is moved, exact
+native recipe equality, protected project/source/field/matrix/sidecar outputs,
+existing-output refusal, save budgets and cancellation. The updated workflow/CLI
+suite passes1/1 in0.47s (`f04-native/cli-ctest.log`); reuse prior unchanged kernel/
+correction checks instead of rerunning them after consumer-only changes.
+
+The handoff driver leaves valid sources/projects before deliberate stale-fixture
+mutation; full CTest still executes those guards. From System32 with Windows-only
+PATH, that driver and actual batch list, original/corrected verification, Keep and
+new-project verification all exit0. Exact native source/operator identities match
+and input project/TIFF/JSON hashes are unchanged. Commands, executable hashes,
+outputs and input hashes are in workspace-root
+`build/feature-expansion/f04-cli-handoff/results.json`; valid projects/fields remain
+there. This proves native CLI mapping/runtime, not a new science/performance claim.
+
+No GUI/bindings/package, new dependency/data/model or biological campaign. One
+verified live GUI build (process145116) temporarily owned the shared cache; no
+competing build was started, and the handle was confirmed missing before the CLI
+build. A redundant read-only corrected verification in the actual runner was
+unnecessary; future callers can reuse its returned parent ID. F04 remains open
+for native derived cell/marker integration and desktop authoring/preview/selection.
+Overall stays10/22 complete,12 pending.

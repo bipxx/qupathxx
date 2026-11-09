@@ -2642,3 +2642,88 @@ products. No GUI/bindings/package or new external material. Preserve unrelated U
 changes. F04 stays unchecked and10/22 complete. Next add retained source recipes,
 owner capture/replay and parent-correction reference protection over these types,
 then thin CLI and desktop integration after settling consumer interfaces.
+
+### F04 retained native unmixing recipes and exact operator replay
+
+Changed inputs: owner-captured native request, typed recipe retention/load/remove,
+exact source/operator replay and correction-parent reference protection. Store
+signal locator/series/identity, explicit matrix/domain, algorithm version, prepared
+operator identity, input/derived source identities and optional retained correction
+ID. A corrected request must reference a retained parent; removing that parent
+refuses while an unmixing recipe uses it. Matches caches immutable properties so
+ordinary polling does not reparse/hash parent recipes. Workers read owned sources
+without Document access; owner publication checks live document/source/calibration
+and parent again. Keep/Remove reuse metadata Undo. No new persistence store.
+
+Add exact prepared operator identity (matrix, pinned backend/algorithm, inverse
+coefficient bits and condition) once per model. Source identity moves explicitly
+to qpx.linear-unmixed-source/2 and includes that operator; prior F04 foundation
+receipts describe the prior source schema, with no accepted retained project to
+migrate. Original TIFF/F03 identities and math remain unchanged. Replay refuses
+changed operator identity rather than accepting numeric closeness.
+
+Decisive checks: analytical original/corrected TIFF mixtures on a native worker;
+exact typed/project signed-zero/source/operator/sample replay; single Undo/Redo;
+parent removal/orphan/corruption/domain refusal; calibration/document replacement,
+source/field changes, owner and cancellation guards. Run strict recipe schema
+checks even without optional numerical support. Build affected unmixing,
+correction and corrected-analysis native tests once in the existing cache after
+interfaces settle; no GUI/bindings/package or repeated biological campaign.
+
+First build compiles the native service, then fails in the new test: raw_metadata
+returns a shared pointer, but the fixture used value member access. Correct only
+the test to dereference metadata; preserve workflow-build.log. Rebuild affected
+targets in the same cache. No contract/assertion change or broad rerun.
+
+Native retained workflow and affected regression suites pass4/4 in0.78s after the
+test-only pointer correction. Reuse that service evidence. Extend the same packet
+with strict bounded native JSON/file IO over the typed matrix schema and thin
+CLI Keep/list/verify commands, including explicit retained correction selection.
+Keep copies coefficients into the recipe; replay does not depend on the authoring
+JSON remaining present. Guard matrix/project/field inputs and SQLite sidecar
+output paths, cancellation and native save budgets. No Python parser or second
+recipe authority. JSON schema/duplicate/depth/size/type and exact signed-zero
+round-trip checks run before optional numerical support; full CLI tests require
+the enabled native backend and project support. Build changed workflow/CLI tests
+and actual batch executable only, then check those routes; prior correction and
+kernel suites need no repeat after IO/consumer-only additions.
+
+The test driver also supports a handoff mode that stops before deliberate fixture
+mutation, preserving a reviewable source/project for the actual batch executable.
+Normal CTest retains every stale/source guard. Check actual CLI list and original/
+corrected verification from System32 with Windows-only PATH against handoff
+identities; input hashes must stay unchanged. This is consumer mapping/runtime
+evidence, not a new science campaign or GUI/package qualification.
+
+The CLI build gate found live shared-cache GUI build process145116 (MSBuild190900,
+CMake regeneration174240). No competing build started. Finish documentation and
+inspect that same live handle before starting the planned native CLI targets.
+
+CLI build starts only after process145116 is confirmed missing and the cache gate
+is clear. Matrix IO/CLI suite passes1/1 in0.47s; prior native service/regressions
+remain4/4 in0.78s. Actual System32/Windows-only-PATH handoff driver and batch
+list/original/corrected verify/Keep/new-project verify all exit0. Native source/
+operator identities match and input hashes stay unchanged
+(f04-cli-handoff/results.json). Valid synthetic projects/sources remain reviewable;
+normal CTest retains intentional mutation guards. No bindings/GUI/package/new
+material or new scientific/performance claim.
+
+Waste review: factor/hash prepared operators once; use typed recipe authority
+under JSON/CLI, retain coefficients by value and reference correction metadata
+once. Reuse source/Undo/project-save services and prior kernel/regression evidence.
+One redundant read-only corrected CLI verification was used to fetch a parent ID;
+reuse its earlier report next time. The test pointer compile error cost one cached
+repair; preserve evidence and inspect API return types before writing fixture
+access. No competing cache or broad validation was introduced.
+
+Next F04 packet: native fluorescence/marker integration for unmix outputs, then
+desktop matrix authoring/preview/selection in one settled consumer build. Capture
+source authority against an original measured channel while selecting component
+outputs against derived metadata; reject ambiguous channel-specific ROI planes.
+Add a distinct retained unmix reference, domain and versioned run/cell recipe;
+protect its removal while cells/runs use it and preserve original/corrected
+recipe identities. Marker cohorts/rules must explicitly distinguish all three
+domains. Reuse existing segmentation, compartments, jobs and publication, with
+independent signed component moments and exact project replay. Do not relabel
+components as original channels or start a second algorithm. F04 stays unchecked,
+10/22 complete,12 pending.

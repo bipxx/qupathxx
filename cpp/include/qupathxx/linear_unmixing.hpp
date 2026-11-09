@@ -28,6 +28,7 @@ public:
     explicit LinearUnmixModel(LinearMixingMatrix,const std::atomic<bool>* cancelled=nullptr);
     const LinearMixingMatrix& matrix() const;
     double condition() const;
+    const std::string& sha256() const;
     std::size_t payload_bytes() const;
 private:
     struct Data;std::shared_ptr<const Data> data_;

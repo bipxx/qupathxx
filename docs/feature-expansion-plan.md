@@ -467,9 +467,13 @@ and classify actual release inputs under L01. See the existing
   are implemented. A prepared thin SVD is reused across blocks; adjacent inputs
   read directly and sparse groups skip gaps. Requested outputs alone allocate
   rasters. Strict typed matrix records preserve exact coefficients/order/domain
-  and refuse malformed schema/types. F04 remains open for retained source recipes,
-  project replay, derived analysis/marker integration and CLI/desktop controls;
-  foundation evidence does not imply workflow completion.
+  and refuse malformed schema/types. Native retained original/corrected source
+  recipes now pass exact project/operator replay, Undo, correction-parent reference
+  protection and stale/cancel checks. Bounded strict native matrix JSON/file IO
+  and CLI Keep/list/verify now pass, including standalone original/corrected replay
+  and new-project save with input hashes unchanged. F04 remains open for derived
+  analysis/marker integration and desktop controls; native retention/CLI evidence
+  does not imply full completion.
 
 ## Checklist: storage, scale and open readers
 

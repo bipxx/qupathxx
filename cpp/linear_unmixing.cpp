@@ -68,7 +68,7 @@ bool has_linear_unmixing(){
     return false;
 #endif
 }
-struct LinearUnmixModel::Data {LinearMixingMatrix matrix;std::vector<double> inverse;double condition=0;};
+struct LinearUnmixModel::Data {LinearMixingMatrix matrix;std::vector<double> inverse;double condition=0;std::string sha;};
 LinearUnmixModel::LinearUnmixModel(LinearMixingMatrix matrix,const std::atomic<bool>* cancelled){
     workflow_checkpoint(cancelled);matrix.validate();
 #ifdef QUPATHXX_HAS_LINEAR_ALGEBRA
@@ -80,6 +80,7 @@ LinearUnmixModel::LinearUnmixModel(LinearMixingMatrix matrix,const std::atomic<b
     data->condition=largest/smallest;if(!std::isfinite(data->condition) || data->condition>p.maximum_condition)throw std::invalid_argument("Unmixing matrix exceeds its condition limit");
     data->inverse.resize(std::size_t(rows)*cols);
     for(int j=0;j<cols;++j)for(int i=0;i<rows;++i){double value=0;for(int k=0;k<cols;++k)value+=svd.vt.at<double>(k,j)*(svd.u.at<double>(i,k)/svd.w.at<double>(k));const auto scaled=value/scale;if(!std::isfinite(scaled) || (value!=0 && scaled==0))throw std::invalid_argument("Unmixing inverse is not representable");data->inverse[std::size_t(j)*rows+i]=scaled;}
+    Sha256 identity;text(identity,"qpx.linear-unmixing-svd/1");text(identity,"opencv-core-4.11.0-thin-svd");text(identity,p.sha256());for(auto value:data->inverse)real(identity,value);real(identity,data->condition);data->sha=identity.finish();
     workflow_checkpoint(cancelled);data_=std::move(data);
 #else
     throw std::runtime_error("Linear unmixing requires the optional native OpenCV core capability");
@@ -87,7 +88,8 @@ LinearUnmixModel::LinearUnmixModel(LinearMixingMatrix matrix,const std::atomic<b
 }
 const LinearMixingMatrix& LinearUnmixModel::matrix() const{return data_->matrix;}
 double LinearUnmixModel::condition() const{return data_->condition;}
-std::size_t LinearUnmixModel::payload_bytes() const{return sizeof(*this)+sizeof(Data)+data_->matrix.payload_bytes()+data_->inverse.capacity()*sizeof(double);}
+const std::string& LinearUnmixModel::sha256() const{return data_->sha;}
+std::size_t LinearUnmixModel::payload_bytes() const{return sizeof(*this)+sizeof(Data)+data_->matrix.payload_bytes()+data_->inverse.capacity()*sizeof(double)+data_->sha.capacity();}
 struct LinearUnmixKernel {
     static RawPixelBuffer evaluate(const LinearUnmixModel& model,const RawPixelBuffer& input,const std::vector<std::uint32_t>& offsets,std::uint32_t first,std::uint32_t count,std::size_t work,const std::atomic<bool>* cancelled){
         workflow_checkpoint(cancelled);const auto& d=*model.data_;const auto& p=d.matrix;const auto rows=p.inputs.size(),cols=p.components.size(),outputs=rows+cols;
@@ -119,7 +121,7 @@ public:
         for(const auto& item:sorted){if(groups_.empty() || groups_.back().first+groups_.back().rows.size()!=item.first)groups_.push_back({item.first,{}});groups_.back().rows.push_back(item.second);}
         offsets_.resize(p.inputs.size());if(groups_.size()==1){for(std::size_t i=0;i<p.inputs.size();++i)offsets_[i]=p.inputs[i].channel-groups_[0].first;}else std::iota(offsets_.begin(),offsets_.end(),0);
         metadata_=m;metadata_.sample_type=SampleType::Float64;metadata_.channels=std::uint32_t(p.inputs.size()+p.components.size());metadata_.channel_names=p.output_names();if(metadata_.levels.empty())throw std::invalid_argument("Unmixing source has no levels");metadata_.levels.resize(1);
-        Sha256 h;text(h,"qpx.linear-unmixed-source/1");text(h,input_->sha256());text(h,p.sha256());id_=h.finish();input_->require_current(cancelled);
+        Sha256 h;text(h,"qpx.linear-unmixed-source/2");text(h,input_->sha256());text(h,model_.sha256());id_=h.finish();input_->require_current(cancelled);
     }
     const RawImageMetadata& metadata()const override{return metadata_;}
     const std::string& domain()const override{static const std::string value="qpx.linear-unmixed-samples/1";return value;}

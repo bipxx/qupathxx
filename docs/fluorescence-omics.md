@@ -741,7 +741,69 @@ guards apply. `LinearMixingMatrix::to_value/from_value` supplies strict versione
 native typed records, preserving coefficient bits (including signed zero), order,
 labels and condition policy without requiring the numerical backend.
 
-This foundation is not yet an authorable retained project workflow. Source-recipe
-retention/replay, derived cell/marker integration, matrix file IO and CLI/desktop
-controls remain pending under F04. No estimated spectra, pretrained model, new
-external material or nonlinear unmixing is included.
+`LinearUnmixRequest` captures the document and either its original source or an
+explicit, already retained `DarkFlatRequest`. Keep/Remove use one metadata Undo
+command. Typed recipes retain signal path/series/source identity, matrix, input
+and derived source identities, algorithm and prepared operator identity. Corrected
+recipes reference their parent correction, which cannot be removed while used.
+Replay requires the exact stored operator/source identities; changed inputs do
+not fall back to original samples. Initial automatic reopening is native TIFF.
+
+The prepared operator identity records matrix, pinned backend/algorithm, inverse
+coefficient bits and condition once per model. Source identity is now explicitly
+`qpx.linear-unmixed-source/2`; the output measurement domain stays
+`qpx.linear-unmixed-samples/1`. Historical foundation receipts using source schema1
+precede retained project support. Original TIFF/F03 identities remain unchanged.
+
+Derived cell/marker integration and desktop controls remain pending under F04.
+No estimated spectra, pretrained model, new external material or nonlinear
+unmixing is included.
+
+
+## Retaining and verifying unmixing with the native CLI
+
+Matrix files use the same strict `qpx.linear-mixing-matrix/1` schema as native
+typed records. For a two-channel image whose actual channel names are C0/C1:
+
+```json
+{
+  "schema": "qpx.linear-mixing-matrix/1",
+  "orientation": "measured=matrix*components",
+  "input_domain": "original-channel-samples",
+  "inputs": [{"channel": 0, "name": "C0"}, {"channel": 1, "name": "C1"}],
+  "components": ["A", "B"],
+  "coefficients": [1.0, 0.25, 0.5, 1.0],
+  "maximum_condition": 100000000.0
+}
+```
+
+Use the image's exact names and zero-based indices; no name guessing occurs.
+Coefficients are flattened by measured-channel row. Native JSON IO bounds bytes,
+nesting/nodes and dimensions, refuses duplicate/unknown fields and nonfinite or
+invalid values, and preserves binary64/signed-zero round trips. Small integer
+coefficients convert exactly; integer literals beyond2^53 refuse rather than
+silently rounding. Supply an explicit floating representation for that intended
+binary64 value. `load/save_linear_mixing_matrix_file` use guarded native IO and
+new-file-only atomic export; no Python parser or numerical runtime is involved.
+
+```text
+qupathxx_batch --keep-unmix input.qpx unmixed.qpx --image 1 --matrix mixing.json
+qupathxx_batch --list-unmix unmixed.qpx --image 1
+qupathxx_batch --verify-unmix unmixed.qpx --image 1 --record RECIPE_SHA256
+```
+
+For corrected input, use matrix input_domain
+`qpx.dark-flat-corrected-samples/1` and add `--correction-record CORRECTION_SHA256`
+to Keep. The correction must already be retained in the input project. Both the
+parent selection and matrix domain are explicit; neither is inferred or rewritten.
+Keep saves a new project, preserving the input and its existing records. Optional
+`--save-snapshot-bytes` and `--project-bytes` bound save resources. Output guards
+protect the project and its SQLite sidecars, linked images, selected correction
+fields and matrix input. Existing outputs are never overwritten.
+
+Verify restores the saved source associations and prepares/verifies the exact
+operator; it does not claim a new biological evaluation or read every source pixel.
+JSON reports include record, matrix/operator/source identities, algorithm, domain
+and parent reference. The matrix is retained by value, so later replay does not
+require the authoring JSON file. Missing/changed source fields, incompatible domains
+and stale identities refuse. Cancellation returns130.
