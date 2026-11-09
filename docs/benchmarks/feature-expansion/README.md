@@ -1541,3 +1541,31 @@ request, below268435456. These are native dispatch/accounting observations; full
 100k desktop frame responsiveness, process/GPU memory and speed comparison are
 not inferred. Remaining cache accounting/coalescing and tiled-cell seam/resume
 still keep D02 open. No reindex/data download/bindings/package campaign.
+
+D02 display duplication removed; existing cache services reused
+--------------------------------------------------------------
+
+`build/feature-expansion/d02-display/build.log` succeeds for affected native/GUI
+suites and app; ctest.log records all5 passing3.50s (expression, native gene view,
+spatial matrix, legacy gene GUI and indexed import/gene GUI). Shared automatic
+comparisons now prepare each transformed field once, resolve one pooled range
+and paint once, keeping final manual-field request identities, colors, validity,
+clipping and requested comparison range policy. Per-field percentile sorts are
+skipped for pooled ranges; manual/minmax fields allocate no percentile scratch.
+Implicit full-row cohorts come from known iota and need no uniqueness tree;
+explicit caller cohorts retain duplicate/out-of-range validation. Radius-only
+edits retain ready result/generation and queue no native work. Added checks compare
+pooled output with explicit known-limit manual fields and assert radius reuse.
+Existing exact counts, cancellation, bounded cache eviction and GUI checks pass.
+No new timing/speed claim or repeated100k matrix import.
+
+Existing service bounds reused by source inspection: each GuiTiles has64MiB GPU
+LRU; each TileScheduler has64MiB decoded cache,64MiB active reservation,256 maximum
+requests/1024 cached entries; viewport planning caps192 tiles. Duplicate requests
+coalesce and changed desired viewport generations reject stale delivery. These
+are per-service bounds, not a combined process/GPU memory ceiling. Gene session
+retains one selected projection/current pair, and serial GeneDisplayCache has
+its own byte/entry eviction; no new history cache or scheduler was introduced.
+D02 now proceeds to tiled-cell halo/ownership/global identity/resume work. The
+existing F01 context covers smoothing, not complete halo segmentation; dependency
+on cut foreground components must be detected before watershed filtering.

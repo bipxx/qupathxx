@@ -3300,3 +3300,42 @@ Next D02: settle viewport/color-cache accounting/coalescing, then existing raw-c
 kernels/jobs → fixed threshold/normalization, halo/seam ownership/global IDs and
 source-bound checkpoint/resume with independent admitted ROI checks.12/22 remain
 complete; D02 is still open. Do not replay F01 biology or full-matrix indexing.
+
+### D02 — finish bounded display work without duplicating tile services
+
+Source inspection: GuiTiles already has64MiB GPU LRU, TileScheduler64MiB decoded
+LRU/64MiB active reservation,256 pending-request ceiling/1024 cache-entry ceiling,
+192 planned viewport tile ceiling, duplicate coalescing and generation rejection.
+Keep existing cache/scheduler behavior/evidence; no replacement implementation.
+Gene session retains one selected projection/two fields; independent serial
+GeneDisplayCache has byte/entry eviction. Actual duplication: shared automatic
+range computes each transform/color twice and sorts unused per-gene percentiles.
+Prepare transformed fields once, pool range once and paint once; skip duplicate
+validation of known iota rows (still validate every explicit cohort). Radius-only
+changes use existing colors without a generation/job. Preserve final manual-field
+identity, raw values, pooled percentile policy, clipping/colors and cancellation.
+Decisive checks: one cached native/GUI/app build; expression/gene/spatial and GUI
+suites, using existing bounded-cache/cohort assertions plus explicit shared-field
+identity equivalence/radius no-job checks. No scale fixture reimport, binding or
+package work. Existing scale/accounting evidence remains source-scoped; do not
+rerun its whole pipeline merely for a timing refresh.
+
+Display/cache slice passes: one cached build, all5 affected suites pass3.50s.
+Pooled percentile/minmax, missing/constant cases, final manual request identity,
+colors/transform/clipping, explicit cohort validation, byte/entry eviction and
+legacy/indexed GUI routes remain correct. Radius-only changes keep result identity
+and generation without queuing work. The new shared path prepares/transforms and
+paints once per field; only pooled percentile sorting remains. No scale indexing,
+binding, download, package, source snapshot or UI style work.
+Waste review: source inspection reused bounded tile services instead of replacing
+or replaying them; one build/test batch, no failure/retry. All remaining D02 work
+now belongs to tiled cells and its scientific/persistence/consumer evidence.
+
+Tiling constraint found: F01 context is smoothing-only. Use an expanded segmented
+halo and deterministic core ownership, not core-only segmentation with smoothing
+context. Detect boundary dependence on thresholded components BEFORE watershed/
+area filtering; an interior watershed child can otherwise depend on a cut parent
+without touching the halo itself. Capture global Otsu once over the whole ROI,
+keep untiled recipe/run identities stable, then source-bound resumable tile records
+and independent admitted-ROI seam/interruption equality. No whole-slide raster,
+new scheduler or repeated F01 biology campaign. D02 remains open;12/22 complete.

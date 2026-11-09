@@ -147,8 +147,12 @@ is D02; these steps refine its existing checkbox, without creating another ledge
    Selected-value reuse is implemented and verified: palette/opacity/transform
    edits share the immutable exact-count buffer; changed selected genes or spatial/
    runtime sources invalidate it. Source currentness remains checked before work
-   and publication. Continue with scale/accounting and remaining color/tile work;
-   this focused check does not close D02.
+   and publication. Shared comparisons now prepare each transformed field once,
+   resolve the pooled range once and paint once; no unused per-gene percentile
+   sort. Radius-only changes reuse colors without a native job. Five affected
+   suites pass with final-field identity/color/clipping equivalence. Existing
+   per-viewer tile services already cap decoded/GPU caches, active work, requests
+   and viewport plans and coalesce/reject obsolete generations; reuse them.
 2. Generate one native100000-observation/30000-feature/5000000-entry sparse fixture
    covering the intended axes. Declare256MiB accounted work before running it;
    qualify indexed reads, cache invalidation and cancellation on a named host.
@@ -163,10 +167,17 @@ is D02; these steps refine its existing checkbox, without creating another ledge
    6.926ms immutable request creation,0.083ms dispatch,2025ms worker join/comparison
    and202073662-byte conservative retention. All five affected native/GUI suites
    pass. Native dispatch timing does not prove full100k desktop frame responsiveness.
-   Continue remaining viewport/color-cache accounting/coalescing and tiled-cell work.
+   Continue tiled-cell work. This qualifies the declared native interaction route
+   and bounded services, not total process/GPU memory or100k desktop FPS.
 3. Extend existing raw-cell jobs with bounded tiles, one captured global threshold/
    normalization, declared halo, deterministic seam ownership/global IDs and source-
    bound checkpoint/resume. Detect unresolved boundary objects explicitly.
+   Existing fluorescence context is smoothing-only: process an expanded
+   segmentation domain, then assign complete cells to tile cores. Propagate
+   boundary dependence from thresholded connected components before watershed
+   filtering so an interior child of a cut component cannot be silently accepted.
+   Keep the existing untiled run identity/recipe contract intact. Resolve global
+   Otsu from the declared whole ROI rather than recomputing thresholds per tile.
 4. Reuse an admitted whole-slide ROI, compare seam results independently and prove
    interruption/resume equality. Add thin UI controls over the same authority;
    no alternate scheduler or repeated F01 biological-accuracy campaign.

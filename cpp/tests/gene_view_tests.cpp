@@ -19,6 +19,14 @@ void pair_tests() {
     const auto percentile=gene_display_pair(dataset,genes,options,true,true);
     check(percentile.fields[0]->legend.lower==6 && percentile.fields[0]->legend.upper==250 && percentile.fields[1]->legend.lower==6,"Pooled percentile oracle [0,2,10,100,200,300,400]");
     check(percentile.range_policy==GeneDisplayRange::Percentile && percentile.shared_range,"Comparison retains requested shared range policy");
+    auto manual=options;manual.range=GeneDisplayRange::Manual;manual.lower=6;manual.upper=250;
+    for(unsigned i=0;i<2;++i) {
+        const auto reference=gene_display_field(GeneDisplayRequest(dataset,genes[i],manual));
+        check(percentile.fields[i]->request_sha256==reference->request_sha256 && percentile.fields[i]->colors==reference->colors &&
+            percentile.fields[i]->transformed_values==reference->transformed_values && percentile.fields[i]->valid==reference->valid &&
+            percentile.fields[i]->legend.clipped_lower==reference->legend.clipped_lower && percentile.fields[i]->legend.clipped_upper==reference->legend.clipped_upper,
+            "Pooled fields retain final manual-range identity, colors, transformed values, missingness and clipping");
+    }
     const auto separate=gene_display_pair(dataset,genes,{},true,false);
     check(separate.fields[0]->legend.upper==10 && separate.fields[1]->legend.lower==100,"Independent scales remain explicit");
     const auto single=gene_display_pair(dataset,genes,{},false,true);check(single.fields[0] && !single.fields[1] && !single.shared_range,"Single-gene view does not compute another gene");
@@ -40,6 +48,8 @@ void session_tests() {
     const auto ready=session.result();check(ready && ready->fields[0]->feature==dataset.features()[1] && session.error().empty(),"Only latest coalesced request publishes");
     check(ready->fields[0]->legend.transform==GeneDisplayTransform::Linear,"Superseded log request cannot publish");
     const auto generation=session.generation();session.bind(dataset);session.configure(options);check(session.generation()==generation,"Unchanged snapshot/options do not rerun work");
+    options.radius=7;session.configure(options);
+    check(session.generation()==generation && session.result()==ready && !session.busy() && session.options().radius==7,"Glyph radius changes reuse ready colors without restarting native work");
     auto changed=input();changed.counts[0]=99;const auto updated=ExpressionDataset::create(changed);session.bind(updated);
     check(!session.result(),"Edited dataset invalidates ready colors");session.wait();check(session.result()->fields[0]->dataset.sha256()==updated.sha256(),"Dataset identity retained in new display");
     check(ready->fields[0]->dataset.sha256()==dataset.sha256(),"Old result ownership survives replacement");

@@ -114,6 +114,8 @@ void GeneViewSession::configure(GeneViewOptions options) {
     if(data_->dataset && !data_->spatial && !data_->spatial_request)for(auto& feature:options.genes)if(!feature.empty())data_->dataset->feature_index(feature);
     if(data_->dataset && !data_->spatial && !data_->spatial_request)for(std::size_t i=0;i<2;++i)if(options.genes[i].empty())options.genes[i]=data_->dataset->features()[std::min(i,data_->dataset->features().size()-1)];
     if(gene_view_preference(options)==gene_view_preference(data_->options))return;
+    auto previous=data_->options;previous.radius=options.radius;
+    if(gene_view_preference(options)==gene_view_preference(previous)){data_->options=std::move(options);return;}
     data_->options=std::move(options);data_->changed();
 }
 void GeneViewSession::refresh(){workflow_require_owner(data_->owner);data_->changed();}
