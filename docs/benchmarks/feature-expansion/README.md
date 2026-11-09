@@ -341,3 +341,55 @@ the admitted annotated comparison with declared tolerances. The pinned mask is
 RGBA8; preserve its explicit annotation-channel semantics rather than silently
 relaxing the existing NuCLS RGB8 decoder. No F01 checkbox or full tile/biological
 acceptance is claimed from this source-job delivery.
+
+F01 native contour/publication continuation: the typed raw-mask adapter reuses
+the existing contour engine and exact cell-body containment normalization.
+Native cell/fact publication is one undoable command; compact recipe/result
+records also retain zero-cell runs through existing image properties. These
+records regenerate results from the original source, rather than embedding masks
+or claiming a complete provenance archive. Save/reopen replay checks exact saved
+source/recipe/result identity. Full-cohort verification performs one shared
+source-currentness check instead of repeating file checks per cell.
+
+Affected native `fluorescence_cell_objects`, `fluorescence_cell_workflow` and
+legacy `cells` CTest cases pass3/3 in1.96s; logs are retained under workspace-root
+`build/feature-expansion/f01-objects-final`. The admitted real TIFF traces,
+publishes and verifies all130 candidates (`real.log`), which is geometry and
+persistence evidence, not annotation or biological acceptance. Tests cover
+fractional ROI containment, original-channel moments, Z/T, absent cytoplasm,
+atomic undo/redo, stale/cancel/budget refusal and zero-cell record replay. The
+initial fractional-boundary failure remains under `f01-objects`; reuse the
+existing zero-area normalization without weakening final containment predicates.
+Local geometry checks use enabled GEOS; native-only CI additionally registers the
+target and tests explicit refusal when GEOS is unavailable. Hosted execution of
+that added target is not claimed here.
+
+Next: wire native CLI and desktop consumers, then perform the admitted annotated
+comparison under documented conventions and tolerances. F01 remains unchecked;
+the plan remains7/22 complete,15 pending. No bindings/package rebuild, restricted
+material admission or speed/accuracy superiority follows from these checks.
+
+F01 native CLI continuation: `qupathxx_batch` now dispatches detection into a new
+project, record listing and exact retained-run replay. The command layer reuses
+native request/run/contour/publication/record authorities; it does not parse or
+measure pixels. New-output publication protects original project, image,
+companion and journal paths, and rechecks source currentness at commit. Record-
+only mode and zero-cell outcomes need no GEOS contour tracing. Verification here
+checks saved recipe/result identity, not later edits to observed cell properties.
+
+Final affected `fluorescence_cli` CTest passes1/1 (0.30s total), including nonzero
+original-channel/local-segmentation mapping and explicit crop with independent
+nucleus sum2941, saved raw facts, list/replay, zero-cell retention, argument errors,
+protected inputs/no overwrite, cancelled work and bounded-save failure. Logs:
+workspace-root `build/feature-expansion/f01-cli-final-ctest.log` and build logs
+`f01-cli-build.log`/`f01-cli-mapping-build.log`. The follow-up build added missing
+channel/crop consumer coverage; no numerical kernel change or binding build.
+
+The actual native batch executable runs help/detect/list/verify on the admitted
+CC BY4.0 OME tubhiswt two-channel demo:832 candidates published,26 boundary flags,
+exact replay digest, original project SHA256 unchanged. Machine-readable command
+results are retained at `build/feature-expansion/f01-cli-real/results.json`.
+These observations do not establish annotated accuracy or speed superiority.
+The added native-only CI target is registered; hosted execution is not claimed.
+Next F01: desktop integration and the admitted annotated comparison. F01 remains
+unchecked; no source/SDK/package release qualification was performed.

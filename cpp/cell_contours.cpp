@@ -10,6 +10,17 @@ namespace {
 using cell_detail::checkpoint;
 }
 struct CellContourKernel {
+    static void normalize_body(TissueContours& contours,std::size_t index,const Roi& nucleus,const Roi& source,const TissueContourOptions& p,const std::atomic<bool>* cancelled) {
+        checkpoint(cancelled);const auto& body=contours.components_.at(index).geometry;
+        if(body.covers(nucleus))return;
+        if(nucleus.boolean_operation(body,BooleanOp::Difference))throw std::runtime_error("cell nucleus extends outside its body contour");
+        auto united=body.boolean_operation(nucleus,BooleanOp::Union);checkpoint(cancelled);
+        if(!united || !united->covers(body) || !united->covers(nucleus) || !source.covers(*united))throw std::runtime_error("cell contour boundary normalization failed");
+        std::size_t before=0,after=0;for(const auto& path:body.paths())before+=path.size();for(const auto& path:united->paths())after+=path.size();
+        const auto vertices=contours.vertices_-before+after,retained=contours.retained_-body.payload_bytes()+united->payload_bytes();
+        if(vertices>p.max_vertices || retained>p.work_bytes)throw std::length_error("cell contour normalization exceeds geometry budget");
+        contours.components_[index].geometry=std::move(*united);contours.vertices_=vertices;contours.retained_=retained;
+    }
     static void run(CellResult& result,const std::atomic<bool>* cancelled) {
         const auto& p=result.parameters_;const auto count=result.features_.size();
         if(has_geos()) {
@@ -48,21 +59,15 @@ struct CellContourKernel {
                 auto checks=std::async(std::launch::async,[&]{inspect(0,count/2);});
                 inspect(count/2,count);checks.get();
             } else inspect(0,count);
-            for(std::size_t i=0;i<count;++i) {checkpoint(cancelled);const auto& body=result.cell_contours_->components()[i];const auto& nucleus=result.nucleus_contours_->components()[i];
+            for(std::size_t i=0;i<count;++i) {checkpoint(cancelled);const auto& nucleus=result.nucleus_contours_->components()[i];
                 if(!covered[i]) {
                     // Independent ROI intersections can leave zero-area boundary
                     // remnants that fail GEOS Covers. Normalize this fresh body
                     // before publication, without relaxing containment predicates.
-                    if(nucleus.geometry.boolean_operation(body.geometry,BooleanOp::Difference)) throw std::runtime_error("cell nucleus extends outside its body contour");
-                    auto united=body.geometry.boolean_operation(nucleus.geometry,BooleanOp::Union);checkpoint(cancelled);
-                    if(!united || !united->covers(body.geometry) || !united->covers(nucleus.geometry) || !result.nuclei_->roi().covers(*united)) throw std::runtime_error("cell contour boundary normalization failed");
-                    std::size_t before=0,after=0;for(const auto& path:body.geometry.paths()) before+=path.size();for(const auto& path:united->paths()) after+=path.size();
                     // trace_tissue allocated mutable native storage; this result
                     // has not escaped the worker or acquired any external owner.
                     auto repaired=std::const_pointer_cast<TissueContours>(result.cell_contours_);
-                    const auto vertices=repaired->vertices_-before+after,retained=repaired->retained_-body.geometry.payload_bytes()+united->payload_bytes();
-                    if(vertices>p.contours.max_vertices || retained>p.contours.work_bytes) throw std::length_error("cell contour normalization exceeds geometry budget");
-                    repaired->components_[i].geometry=std::move(*united);repaired->vertices_=vertices;repaired->retained_=retained;
+                    normalize_body(*repaired,i,nucleus.geometry,result.nuclei_->roi(),p.contours,cancelled);
                 }
             }
         }
@@ -76,6 +81,9 @@ struct CellContourKernel {
         checkpoint(cancelled);
     }
 };
+void normalize_cell_body_contour(TissueContours& contours,std::size_t index,const Roi& nucleus,const Roi& source,const TissueContourOptions& p,const std::atomic<bool>* cancelled) {
+    CellContourKernel::normalize_body(contours,index,nucleus,source,p,cancelled);
+}
 bool verify_integer_cell_containment(const TissueResult& nuclei,const TissueContours& nucleus_geometry,
     const TissueResult& bodies,const TissueContours& body_geometry,const std::atomic<bool>* cancelled) {
     checkpoint(cancelled);

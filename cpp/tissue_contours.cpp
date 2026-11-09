@@ -5,6 +5,7 @@
 #include "raster_boundary_runs.hpp"
 #include "raw_stream_boundaries.hpp"
 #include "raw_pixel_workflow_snapshot.hpp"
+#include "fluorescence_cell_contour_internal.hpp"
 #include "utf8_text.hpp"
 #include <algorithm>
 #include <array>
@@ -452,4 +453,25 @@ std::vector<std::uint64_t> publish_raw_pixel_contours(Document& document,const R
     return document.execute(edits,"Add raw pixel classifier annotations");
 }
 std::shared_ptr<const TissueContours> trace_tissue(const TissueResult& result,TissueContourOptions options,const std::atomic<bool>* cancelled) {return TissueContourKernel::run(result,options,cancelled);}
+namespace {
+struct FluorescenceRaster {
+    const FluorescenceCellRun& run;bool body;ScientificGrid grid;Roi clip;
+    struct Component {std::uint32_t label;std::uint64_t pixels;};std::vector<Component> entries;
+    FluorescenceRaster(const FluorescenceCellRun& r,bool b):run(r),body(b),
+        grid(r.source_metadata().width,r.source_metadata().height,{r.region().region.x,r.raster().width,r.raster().width},{r.region().region.y,r.raster().height,r.raster().height},1024ULL*1024*1024),
+        clip(r.roi()?*r.roi():Roi::rectangle({double(r.core_region().region.x),double(r.core_region().region.y),double(r.core_region().region.width),double(r.core_region().region.height)})) {
+        entries.reserve(r.raster().measurements.size());for(const auto& c:r.raster().measurements)entries.push_back({c.label,b?c.cell.pixels:c.nucleus.pixels});
+    }
+    const auto& components() const{return entries;}const auto& labels() const{return body?run.raster().bodies:run.raster().nuclei;}
+    auto width() const{return grid.width();}auto height() const{return grid.height();}
+    std::uint64_t foreground_pixels() const{std::uint64_t n=0;for(const auto& c:entries)n+=c.pixels;return n;}
+    const Roi& roi() const{return clip;}Rect bounds() const{return {double(run.region().region.x),double(run.region().region.y),double(width()),double(height())};}
+    double downsample() const{return 1;}const ScientificGrid* scientific_grid() const{return &grid;}
+    Rect image_bounds() const{return {0,0,double(run.source_metadata().width),double(run.source_metadata().height)};}
+    const auto& input_sha256() const{return run.sha256();}auto object_id() const{return run.provenance()->object_id;}
+};
+}
+std::shared_ptr<const TissueContours> detail::trace_fluorescence_label_mask(const FluorescenceCellRun& run,bool body,TissueContourOptions options,const std::atomic<bool>* cancelled) {
+    return TissueContourKernel::run(FluorescenceRaster(run,body),options,cancelled);
+}
 }

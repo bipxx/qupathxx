@@ -6,6 +6,7 @@
 #include "raw_pixel_cli.hpp"
 #include "cell_table_cli.hpp"
 #include "spatial_cli.hpp"
+#include "fluorescence_cli.hpp"
 #include "native_workflow_cli.hpp"
 #include "tma_case_cli.hpp"
 #include "qptma_project_cli.hpp"
@@ -47,6 +48,12 @@ int execute(const std::vector<std::string>& args) {
             "       spatial options: --operation nearest-distance|signed-boundary|radius-count|tissue-density; radius-count measure requires --radius R (uses --units px|um)\n"
             "       qupathxx_batch --export-spatial PROJECT NEW_TABLE.csv --image ID --record ID [--csv-bytes N]\n"
             "       qupathxx_batch --verify-spatial PROJECT --image ID --record ID\n"
+            "       qupathxx_batch --detect-fluorescence PROJECT NEW_PROJECT --image ID [--roi ID | --x N --y N --width N --height N]\n"
+            "         --first-channel N --channels N --segmentation-channel N (relative to block) --z N --time N\n"
+            "         --method explicit|otsu --threshold N --sigma N --prominence N --min-area N --max-area N --expansion N --units px|um\n"
+            "         --context N --max-cells N --work-bytes N --record-only --save-snapshot-bytes N --project-bytes N\n"
+            "       qupathxx_batch --list-fluorescence PROJECT --image ID\n"
+            "       qupathxx_batch --verify-fluorescence PROJECT --image ID --record SHA256\n"
             "Spatial cohorts: --source-ids FILE --target-ids FILE (whitespace-separated IDs; one mode per cohort)\n"
             "                 --ids-bytes N (per file, max 4 MiB; at most 100000 IDs)\n"
             "Spatial measure: --units px|um --body --include-self --name TEXT (no targets means absent distances)\n"
@@ -135,6 +142,7 @@ int execute(const std::vector<std::string>& args) {
         if(const auto result=detail::raw_pixel_cli(args,cancelled)) return *result;
         if(const auto result=detail::pixel_stream_cli(args,cancelled)) return *result;
         if(const auto result=detail::spatial_cli(args,cancelled)) return *result;
+        if(const auto result=detail::fluorescence_cli(args,cancelled)) return *result;
         if(const auto result=detail::cell_table_cli(args,cancelled)) return *result;
         if(const auto result=detail::tma_case_cli(args,cancelled)) return *result;
         if(const auto result=detail::qptma_project_cli(args,cancelled)) return *result;

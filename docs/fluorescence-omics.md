@@ -185,8 +185,9 @@ landmark workflow.
 
 ## Fluorescence cell API under implementation
 
-The raw detector/reducer and its source-bound native job are implemented; the
-desktop/CLI workflow, object publication and saved cell recipes are still F01 work.
+The raw detector/reducer, source-bound job, native object publication and saved
+recipe/result-identity records and native CLI are implemented; desktop integration and the
+annotated comparison are still F01 work.
 This is distinct from the delivered raw measurement and import workflows above.
 
 [fluorescence_cell_workflow.hpp](../cpp/include/qupathxx/fluorescence_cell_workflow.hpp)
@@ -226,3 +227,96 @@ The accounted work limit covers request snapshots and raw/raster/measurement
 buffers, with admission before pixel IO. Reader-owned decode/cache memory and
 process/GPU memory are separate; bound TIFF decode/cache through its existing
 open options. No Python runtime or binding is needed for these native APIs.
+
+[fluorescence_cell_objects.hpp](../cpp/include/qupathxx/fluorescence_cell_objects.hpp)
+adds the native persistence/publication path. `keep_fluorescence_cell_run` retains
+the exact options, original selection/context, source-shape/calibration contract,
+input/result identities and cell count in existing typed image properties. It
+also retains zero-cell outcomes without inventing objects. List, replay, verify
+and remove through `fluorescence_cell_record_ids`, `replay_fluorescence_cell_record`,
+`verify_fluorescence_cell_record` and `remove_fluorescence_cell_record`. Keep/remove
+use native Undo/Redo and preserve unrelated image metadata. Duplicate records
+refuse. These compact records store recipes/digests; replay regenerates masks from
+the original source rather than embedding another source image or result raster.
+
+`trace_fluorescence_cells` uses the existing optional GEOS contour capability,
+typed raw labels and level-zero coordinates. It preserves every label, clips to
+the selected ROI/crop and requires each body to cover its nucleus. The shared
+cell normalization handles zero-area clipping remnants with exact geometric
+predicates; positive-area escape refuses. Its contour budget includes retained
+run and prior contour buffers. Detection/recipe retention can be used without
+GEOS; native contour publication requires `QUPATHXX_BUILD_GEOS=ON`.
+
+`publish_fluorescence_cells` creates all Cell objects, nucleus geometry and tagged
+raw observations in one native undo command. Prepare/currentness/budget errors
+leave the study unchanged. Publication supports at most128 selected channels and
+the existing per-object property limits. Repeated publication of the same run
+under its source parent refuses instead of silently duplicating cells. Z/T and
+parent planes come from the capture; the current display plane does not choose
+them. No RGB CellFeatureLink is attached to these raw observations.
+
+Saved property names use original channel indices: for example
+`fluorescence.nucleus.C0.mean`, `fluorescence.cell.C0.sum` and
+`fluorescence.cytoplasm.C1.finite_samples`. Counts are sampled pixels, distinct
+from a fractional ROI-clipped geometric area. Undefined intensities and empty
+cytoplasm omit their measurement keys; `fluorescence.cytoplasm` records present/
+absent and boundary flags remain explicit. Source names, exact recipe and hashes
+are retained in the `fluorescence.*` metadata. These are observed capture values;
+editing geometry does not silently recompute them.
+
+After save/reopen, `replay_fluorescence_cell` creates a fresh request from an intact
+published cell. Detect and verify with `verify_fluorescence_cell_publication`, or
+verify a complete cohort through `verify_fluorescence_cell_publications`. The
+cohort method checks source currentness once and requires every label exactly
+once. It detects incomplete/duplicate groups and changed observations. Cosmetic
+names/classes are independent of scientific observation identity. A stored record
+or published value is not automatically a current analysis of changed source data.
+
+## Native fluorescence cell commands
+
+The batch executable operates on the image association already saved in a native
+project. Its TIFF series comes from that association; create/select the intended
+series in the project before detection. Z/T and channel selection are explicit
+analysis inputs. These commands require no Python runtime:
+
+```text
+qupathxx_batch --detect-fluorescence study.qpx cells.qpx --image 1 --channels 2 --method otsu --min-area 5 --expansion 3
+qupathxx_batch --list-fluorescence cells.qpx --image 1
+qupathxx_batch --verify-fluorescence cells.qpx --image 1 --record RECORD_SHA256
+```
+
+Detection writes a **new** project and refuses existing outputs or aliases of
+protected project/image/companion/journal inputs. The source project is unchanged.
+Omit an ROI/crop to use the full level-zero image; use `--roi ID` for a saved area
+object, or `--x N --y N --width N --height N` for a crop. Do not combine these two
+selection modes. Large full-image requests can exceed the declared native work
+budget; this command does not yet implement tiled whole-slide processing.
+
+`--first-channel` and `--channels` select an original contiguous channel block;
+`--segmentation-channel` is zero-based **within that block**. For example, original
+channel3 alone uses `--first-channel 3 --channels 1 --segmentation-channel 0`.
+Original indices still identify saved measurements. `--z` and `--time` default to0.
+Default selection is one channel starting at0, with local segmentation channel0.
+
+Choose `--method explicit --threshold N` (strict greater-than) or `--method otsu`;
+an explicit threshold with Otsu refuses. `--sigma`, `--prominence`, `--min-area`,
+`--max-area`, `--expansion` and `--units px|um` map directly to native options.
+Physical units require both calibration axes. `--context N` supplies per-side raw
+smoothing context (default32, native maximum4096), clipped only at source edges;
+insufficient Gaussian support refuses. Boundary-touching cells remain flagged.
+
+By default nonempty results publish native cells and observed compartment facts
+using GEOS, then retain a compact run record. `--record-only` keeps the recipe and
+result digest without cells or contour tracing, including with GEOS disabled.
+Zero-cell runs retain a record without fabricated objects. Record replay verifies
+the regenerated raster/measurement digest; it does not audit subsequent edits to
+published cell geometry/properties. Use the native publication-verification APIs
+for that separate question.
+
+`--work-bytes`, `--max-cells`, `--save-snapshot-bytes` and `--project-bytes` bound
+analysis/publication and new-project staging. Ctrl+C cancels through the existing
+batch cancellation flag. JSONL stdout reports the record, run digest, detected and
+newly published counts, and boundary count. Exit codes:0 success,1 runtime failure,
+2 invalid arguments,130 cancellation. No biological accuracy follows from merely
+saving or replaying a run. Desktop integration and annotated F01 acceptance remain
+pending.

@@ -41,6 +41,8 @@ public:
     const std::string& input_sha256() const;
     const std::string& sha256() const;
     double elapsed_ms() const;
+    std::array<std::uint32_t,2> context() const;
+    std::size_t payload_bytes() const;
     bool matches(const FluorescenceCellRequest&) const;
     Point pixel_center(std::int64_t x,std::int64_t y) const;
 private:

@@ -82,6 +82,7 @@ struct FluorescenceCellRun::Data {
     std::shared_ptr<const char> capture;
     std::string input,sha;
     double elapsed=0;
+    std::array<std::uint32_t,2> context{};
 };
 FluorescenceCellRun::FluorescenceCellRun(std::shared_ptr<const Data> data):data_(std::move(data)){}
 const FluorescenceCellResult& FluorescenceCellRun::raster() const{return data_->raster;}
@@ -93,6 +94,14 @@ const std::shared_ptr<const AnalysisProvenance>& FluorescenceCellRun::provenance
 const std::string& FluorescenceCellRun::input_sha256() const{return data_->input;}
 const std::string& FluorescenceCellRun::sha256() const{return data_->sha;}
 double FluorescenceCellRun::elapsed_ms() const{return data_->elapsed;}
+std::array<std::uint32_t,2> FluorescenceCellRun::context() const{return data_->context;}
+std::size_t FluorescenceCellRun::payload_bytes() const {
+    const auto& r=data_->raster;std::size_t bytes=sizeof(*this)+sizeof(Data)+data_->metadata.payload_bytes()+data_->input.capacity()+data_->sha.capacity()+
+        r.input_sha256.capacity()+r.recipe_sha256.capacity()+(r.nuclei.capacity()+r.bodies.capacity())*sizeof(std::uint32_t)+
+        r.measurements.capacity()*sizeof(RawCellMeasurements)+r.boundaries.capacity()*sizeof(FluorescenceCellBoundary)+1024;
+    if(data_->roi)bytes+=data_->roi->payload_bytes();if(data_->provenance)bytes+=data_->provenance->payload_bytes();
+    for(const auto& c:r.measurements){bytes+=(c.nucleus.channels.capacity()+c.cell.channels.capacity())*sizeof(RawChannelIntensity);if(c.cytoplasm)bytes+=c.cytoplasm->channels.capacity()*sizeof(RawChannelIntensity);}return bytes;
+}
 bool FluorescenceCellRun::matches(const FluorescenceCellRequest& request) const{return data_->capture==request.data_->capture;}
 Point FluorescenceCellRun::pixel_center(std::int64_t x,std::int64_t y) const {
     if(x<0 || y<0 || x>=data_->raster.width || y>=data_->raster.height)throw std::out_of_range("Fluorescence sample index outside result");
@@ -113,7 +122,7 @@ struct FluorescenceCellKernel {
                 (!c.authority.mask() || c.authority.mask()->contains_sample({double(px)+.5,double(py)+.5},RoiSamplingPolicy::GeometryCoverage));}}
         if(phase)phase->store(int(FluorescenceCellPhase::Segmenting));
         auto output=std::make_shared<FluorescenceCellRun::Data>();output->raster=detail::segment_fluorescence_cells_reserved(raw,domain,c.options,calibration(c.snapshot),c.fixed,cancelled);
-        output->region=c.region;output->core=c.core;output->roi=c.authority.mask();output->metadata=c.snapshot.metadata;output->provenance=c.snapshot.provenance;output->capture=c.capture;
+        output->region=c.region;output->core=c.core;output->roi=c.authority.mask();output->metadata=c.snapshot.metadata;output->provenance=c.snapshot.provenance;output->capture=c.capture;output->context=c.context;
         Sha256 input;text(input,"qpx.fluorescence-cell-source-input/1");text(input,c.snapshot.epoch);text(input,output->raster.input_sha256);region_hash(input,c.region);region_hash(input,c.core);
         optional(input,c.snapshot.calibration.x);optional(input,c.snapshot.calibration.y);input.integer(bool(output->roi));
         if(output->roi){const auto bytes=GeometryArchiveCodec::encode(*output->roi);input.integer(bytes.size());input.update(bytes.data(),bytes.size());}

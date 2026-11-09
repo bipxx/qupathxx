@@ -3,9 +3,11 @@
 Owner request: plan all eight remaining areas, keeping proprietary and
 noncommercial (NC) material separate. This document owns the new implementation
 checklist: **22 work items: 7 complete, 15 pending**. It does not reopen completed
-FO00–FO05. S01/V01/V02/I01/I02/R01/R02 are delivered locally. Raw-channel
-segmentation is next. See the [source-scoped progress receipt](benchmarks/feature-expansion/README.md). Current desktop-layout work in
-[current-task.md](current-task.md) continues; this plan queues subsequent work.
+FO00–FO05. S01/V01/V02/I01/I02/R01/R02 are delivered locally. F01 has tested
+native segmentation, jobs, cell publication and compact replay records; its
+consumer integration and annotated acceptance are next. See the
+[source-scoped progress receipt](benchmarks/feature-expansion/README.md).
+Preserve independent desktop work recorded in [current-task.md](current-task.md).
 
 All application/scientific interpretation, transforms, statistics, storage and
 export remain C++. Python is optional control only. RmlUi/ImGui present owned
@@ -121,6 +123,62 @@ Use affected cached builds/tests; defer packaging and broad qualification to P02
 An unavailable external fixture blocks its acceptance claim, not unrelated work.
 No calendar or speed-superiority estimate is asserted before measured work.
 
+## Next execution slices and shared API boundaries
+
+Start with F01 closeout, not another segmentation implementation. Its tested
+backend is partial completion, not a new completed checklist item:
+
+1. Freeze the native request/run/contour/publication and record APIs already
+   implemented. Reuse their capture/currentness checks, one-command publication,
+   zero-cell record retention and cohort verification. Keep the existing explicit
+   GEOS capability error; no Python geometry fallback.
+2. Add a native CLI recipe route over those APIs: select source/series, original
+   channel block, Z/T, core/ROI, threshold policy, calibrated expansion and work
+   budget; report counts, boundary flags and output identities. Save results only
+   through existing project commands. CLI code maps arguments and reports errors.
+3. Add the corresponding desktop tool over the same native job: choose channels
+   and plane, preview, run/cancel, inspect compartments, keep cells or a zero-cell
+   record, and replay. Refuse stale results before Keep. Batch verification must
+   not repeat source/file checks for each cell. Keep this within the current
+   workflow navigation instead of creating another application shell.
+4. Before evaluating the admitted BBBC039 panel, document annotation-channel and
+   border conventions, matching/overlap rules, split/merge measures and acceptable
+   tolerances. Decode the existing RGBA annotation explicitly; do not relax the
+   unrelated NuCLS decoder. Preserve first results and parameters; an unmet target
+   remains visible rather than being hidden by post-hoc tolerance changes.
+5. Check raw-domain measurements, ROI/context boundaries, consumer cancellation,
+   atomic keep/undo and exact save/reopen replay with affected tests. Reuse passing
+   kernel/geometry evidence. Close F01 only after its declared acceptance passes;
+   whole-slide tile/resume acceptance remains D02, not a duplicate F01 campaign.
+
+Then follow the packet table: F02 → F03 → F04 → D01 → D02 → O01/O02 →
+A01/A02 → A03/A04 → P01/P02. This is a dependency order, not permission to run
+several implementations concurrently. Complete each reader separately. If A04's
+open replicated fixture is unavailable, retain that explicit gap and progress
+independent SDK work; P02 cannot claim A04 acceptance while it remains open.
+Complete L01 incrementally at each actual dependency/fixture addition, with final
+source/package membership checked once at P02.
+
+Use these API boundaries for every remaining packet:
+
+| Boundary | Minimal shared responsibility | Thin consumer responsibility |
+| --- | --- | --- |
+| Request/capture | Validate typed options, domains, IDs, source/calibration and work limits; freeze inputs before work | CLI/UI/nanobind construct options and show native validation errors |
+| Execution/job | Native algorithm, owned buffers, progress, cancellation and bounded work; reuse existing jobs | Submit, poll, cancel and render reports; no per-pixel/per-object Python loops |
+| Result/preview | Immutable values, validity, units, associations and result/source identity | Present the native values and meaningful legends without recomputing science |
+| Publication | One native authority checks currentness and atomically publishes or refuses | Invoke Keep/Accept and expose Undo; never create partial result objects in a frontend loop |
+| Persistence/replay/export | Version interpretation; retain recipe/source IDs and exact result identity; use existing project/store/writers | Select destination or saved record; display missing-source/relink errors |
+
+Expose optional nanobind controls in one settled API batch before P01/P02;
+standalone native UI/CLI remain usable before that batch. No external credential,
+cloud account or API key is required for these local workflows. Reader subset and
+statistical method limits remain those explicitly listed below.
+
+After each slice, update the existing item progress, single receipt and current
+card with the result, actual waste and next action. Do not add another checklist
+or rebuild/package merely to refresh a status report. This planning revision
+requires document/link checks only.
+
 ## Separation acceptance throughout implementation
 
 The existing proprietary, NC and unreviewed register sections remain distinct
@@ -227,9 +285,12 @@ report the missing real-data acceptance rather than borrowing an NC fixture.
   reducer pass independent threshold/watershed/expansion/moment tests, including
   physical units and boundary flags. Source-bound requests/runs/jobs now capture
   explicit channel/Z/T/ROI/calibration, reserve work before decoding, read once,
-  refuse stale inputs and test finite Gaussian context agreement. Native contour/
-  object publication, recipe persistence, UI/CLI and full context/seam acceptance
-  remain. One preselected BBBC039v1 image/mask/partition is CC0-admitted with exact
+  refuse stale inputs and test finite Gaussian context agreement. Native typed
+  contours, atomic cell/fact publication and exact recipe/result-identity records
+  (including zero-cell outcomes) now pass undo, replay and project save/reopen.
+  Native CLI detect/list/record replay is implemented; desktop integration,
+  annotated comparison and complete context/seam acceptance remain.
+  One preselected BBBC039v1 image/mask/partition is CC0-admitted with exact
   hashes; annotation decoding, frozen tolerances and comparison are still pending.
   Keep this item unchecked until that complete workflow is evidenced; reuse the
   [single receipt](benchmarks/feature-expansion/README.md).

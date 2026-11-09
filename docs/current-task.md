@@ -1901,3 +1901,118 @@ Moved the one known standalone native fixture directory from the source root to
 f01-source-final evidence after verifying paths and terminal test use. Nothing
 was deleted. Run later standalone file-producing checks from the evidence/cache
 working directory to keep generated fixtures out of the integration source root.
+
+### F01 continuation: typed contours and native cell observations
+
+Changed inputs: raw fluorescence mask adapter in the existing contour engine,
+additive contour/publication/replay service and test target, and run context/
+retained-size accessors. No Document/GUI/binding layout change. Preserve all
+concurrent desktop edits. Reuse native GEOS tracing, ObjectEdit creation and
+ObjectProperties persistence; no RGB mask/source construction or new store.
+
+Decisive checks: analytical raw nucleus/body areas and original channel sums;
+label/containment and fractional ROI clipping; single-command cell/properties
+publication, duplicate refusal, undo/redo, exact recipe/source replay after
+save/reopen, real Z/T/source-only planes and absent cytoplasm. Capture/file/
+calibration/geometry and budget/cancel errors must leave objects intact. Run the
+admitted real TIFF through tracing/publication as a geometry/identity check, not
+annotation acceptance. Rebuild affected native publication/source targets once
+interfaces settle. Native-only CI without GEOS checks explicit capability refusal;
+this local existing cache tests the enabled geometry path. F01 remains open for
+UI/CLI, annotation comparison and complete workflow acceptance.
+
+The first compile caught a test calling nonexistent Document::add_ellipse; use the
+existing add_roi(Roi::ellipse(...)) API. No product API shim is needed. Final API
+review adds complete-cohort verification so a consumer checks source/file metadata
+once for all cells rather than repeating it per object; also require every label
+exactly once. Preserve raw scalar inspection for individual cells. Missing/cleared
+publication facts return false without dereferencing absent properties. Retry only
+the new objects/source native targets after these settled inputs; no GUI/bindings.
+
+The fractional-ROI test reproduces GEOS zero-area boundary remnants already
+handled by RGB cell contours. Extract that existing Difference/Union/Covers
+normalization into the private shared cell-contour helper and reuse it for raw
+contours. Positive-area escape still refuses and final Covers remains exact.
+Include the affected existing cells test because this is shared native code.
+
+Also complete compact recipe/result-identity retention through existing typed
+image properties, including zero-cell outcomes, with native list/replay/verify/
+remove and undo. No fake cell or duplicate source raster is stored. Add empty/
+nonempty keep/save/reopen, malformed record and unrelated-metadata checks.
+Read-only record lookup uses the immutable map by reference; mutations copy it
+once. Build affected objects/source/cells targets after this combined correction.
+
+Native objects/source/legacy cells tests pass3 cases (1.96s). The admitted real
+TIFF traces, publishes and batch-verifies all130 labels with one source-currentness
+check. Atomic native cells/properties, exact recipe replay and save/reopen,
+fractional ROI containment, captured Z/T, zero-cell record keep/remove/undo and
+unrelated metadata preservation pass. No annotation/biological acceptance claim.
+F01 remains open for UI/CLI, annotated comparison and final workflow acceptance.
+
+Waste review: reused typed contour tracing and extracted the existing RGB boundary
+normalization only after the fractional-ROI failure demonstrated that need; exact
+Covers/Difference checks remain. A test used a nonexistent convenience method;
+replaced it with existing add_roi. Added batch verification to remove per-cell
+file checks, and retained compact zero-cell recipe records without fake objects
+or duplicate rasters. Only affected native targets and the shared cells check ran;
+no bindings/frontend/package build or new dependency/data download. Real standalone
+fixture output stayed under f01-objects-final evidence, outside source. Preserve
+failed logs and concurrent desktop edits. Next wire these shared services into
+native UI/CLI, then qualify the admitted RGBA annotation panel with declared metrics.
+
+### Planning update: finish the eight feature areas
+
+Owner requested implementation planning with proprietary and NC material kept
+separate. Refined the existing22-item plan rather than creating another backlog.
+F01 next steps now name the native CLI, desktop job integration, predeclared
+annotation comparison and affected acceptance checks; tested native backend work
+is explicitly partial. Shared request/job/publication/replay boundaries keep
+frontends thin. Remaining packets retain prerequisites and one decisive exit.
+Proprietary, NC and unreviewed references/pools remain distinct and excluded from
+open staging; no restricted downloads or adapters are selected.
+
+Waste review: reused existing checkboxes, source-scoped tests and licensing
+registers; no new engine, duplicate numerical campaign or build/package work for
+a planning edit. Next implementation is F01 consumer integration.
+
+### F01 continuation: native project CLI
+
+Changed inputs: additive fluorescence CLI dispatcher, batch command/help, focused
+native consumer target and CI registration. Commands detect into a new project,
+list retained records and verify exact native recipe replay. Record-only runs
+need no geometry; publishing cells requires existing GEOS. The project retains
+source series; channel block/Z/T/crop or ROI are explicit recipe inputs. Reuse
+native detection/publication/records and project save_new with input/companion/
+journal alias protection and source-currentness at final commit. No Python or
+desktop layout changes. Decisive checks: exact synthetic raw facts after saved
+CLI run, zero-cell outcome, list/verify, no overwrite/protected paths, argument
+refusal, cancelled work and bounded-save failure without output. Build only batch
+and the new consumer test in the existing cache after settling these inputs.
+
+Initial CLI test passes (0.38s total), and the actual batch executable detects/
+saves832 candidates from the admitted two-channel OME demo, lists its record and
+replays the exact run digest; original project SHA256 unchanged. This is consumer
+evidence, not biological accuracy. Before closing this slice, add the missing
+nonzero-first-channel plus explicit-crop mapping case: original channel1 is local
+segmentation channel0, with independently known nucleus sum2941. Also assert
+explicit zero dimensions/channel count refuse before opening. Rebuild only the
+changed CLI test; scientific/backend source and passing batch executable stay.
+
+Final native CLI test passes1/1 (0.30s total), including the added independent
+channel1/local-channel0 crop oracle. Real executable help/detect/list/verify passes
+on the admitted OME demo:832 cells,26 flagged at boundaries, exact run replay and
+unchanged input project bytes. See the single feature-expansion receipt for logs.
+F01 still needs desktop integration and the frozen annotated comparison.
+
+Waste review: reused native authorities and existing project atomic-save/path
+protection rather than adding a second workflow/store; source currentness is
+rechecked at commit. The first passing consumer check lacked nonzero-channel/crop
+coverage; one affected test rebuild closes that explicit risk. No bindings, wheel,
+GUI build, new download or broad scientific rerun. A multi-file documentation
+patch used an incorrect heading and was rejected without changes; exact text
+replacement corrected it. Preserve existing linker warnings and concurrent UI
+source, and leave F01 unchecked until its remaining acceptance is demonstrated.
+
+Selective current-card hunk staging refused mixed line endings; stage the native
+tail against the exact HEAD document instead, preserving the unrelated UI top
+section unstaged. No source or evidence changed during that correction.
