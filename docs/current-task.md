@@ -3687,3 +3687,54 @@ inventory edits. Durable lessons appended to compilexx. D02 closes13/22;9 pendin
 Next selected outcome O01 native H5AD subset using the existing matrix source,
 exact HDF5 admission and one native adapter/import route. Read its plan packet
 before implementation; do not repeat D02 or package before settled P01/P02.
+
+### O01 — native H5AD decoding and indexed import
+
+Native decoder slice delivered; O01 remains open,13/22 complete. Optional pinned
+HDF52.2.0 C/native local IO, source SHA5b8d75125ae7b4fef55d3b39e8d3dbfd238cdf63b6518afd67fa69ac80f06542,
+BSD-3-Clause/full notices. Reuse one admitted prefixed zlib/header/notice setup;
+plugins/SZIP/network/high-level/C++/Java/Fortran/tools excluded. No Python product
+runtime or new store/scheduler. Preserve independent desktop work above.
+
+H5adReader captures declared counts/continuous domain, matrix/layer, explicit
+CoordinateFrame, ordered UTF8 ID axes, Nx2 positions and file/options identity.
+Streams dense/unsorted CSR/CSC exact values; validates pointers/indices/duplicates,
+numeric precision/finite values, schema, file/axis/chunk/string limits and source
+changes. External/soft selected links, external/virtual storage and unreviewed
+filters refuse. Metadata exclusions are disclosed, not an AnnData round trip.
+stream_work_bytes exposes the decoder reservation for a shared writer budget.
+Native sinks must stage output until successful return.
+
+Decisive evidence: build/feature-expansion/o01-native/context-build.log exit0,
+context-ctest.log H5AD pass0.16s (0.22s wall);29 independently authored fixtures,
+516561 bytes, exact hashes verified. Covers uint64>2^53, negative/fractional
+continuous values, big-endian IO, selected layer, all IDs/axes/frame identity,
+malformed/storage refusal, active and queued cancellation, input mutation.
+Existing matrix/raw_image pass0.47/0.45s in ctest.log after shared-codec extraction;
+not repeated for decoder-only fixes. HEQPC/System32+Windows-only PATH run exits0
+(native-only.log/native-only-host.json), executable SHA
+2ba6e83ad9d1faf2fea004b73362aa3e4156588f04d3c5a0d21be01756c42ae3.
+One final cached configure verifies both HDF5 and shared zlib notice install rules;
+no package/extra compilation. This is native decoder evidence, not a GUI handoff.
+
+Failures/waste: retain unsupported Windows threadsafe-static configure, missing
+export_path include compile, absent native VL-to-fixed conversion and first VOL
+call's missing-context crash. Each retry changed the diagnosed cause and kept
+exact assertions/all passed evidence. Use a cancellation-aware native library gate
+rather than unsupported build flags/DLL; test waiting cancellation while another
+stream actually holds it. Scalar VL attributes use a private allocator through
+public native VOL attr-read, with paired library-context RAII. No HDF5 patch,
+mutated defaults, external connector, unbounded fallback or h5py converter. First
+activation rebuilt HDF5/core once; affected retries retained those objects.
+Upstream UTF8-comment/baseline linker warnings retained; no cosmetic full rebuild.
+Dev fixture authoring uses h5py3.15.1 installed once through existing uv (no pip);
+product/CTest never imports it. No GUI/bindings/wheel/SDK or large reindex campaign.
+Durable lessons appended to compilexx; full source-scoped receipt records details.
+
+Next: feed reader.stream directly into shared transactional indexed storage,
+including explicit continuous-domain persistence and composed decoder/writer work.
+Then existing import job/UI and one admitted real H5AD count/ID/axis comparison;
+no temporary Matrix Market/TSV conversion or alternate import state machine.
+Figshare13604177 candidate metadata (CC-BY4/Giovanni Palla, original10x citation,
+94259482-byte H5AD/MD5) is retained in o01-admission; no payload or encoding
+acceptance yet. Keep O01 unchecked until these remaining exits pass.

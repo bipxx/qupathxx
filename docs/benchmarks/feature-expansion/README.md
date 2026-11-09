@@ -1841,3 +1841,67 @@ bindings/SDK and release remain P01/P02. Waste: one diagnosed transfer adjustmen
 one candidate-cap refusal and one reference-coordinate correction, then one
 successful WSI run; only affected explicit-driver builds, no broad suite rerun,
 new scientific kernel/backend, GUI requalification, matrix reindex or packaging.
+
+### O01 first native decoder slice — 2026-11-09 (item remains open)
+
+Pinned HDF52.2.0 source archive SHA
+5b8d75125ae7b4fef55d3b39e8d3dbfd238cdf63b6518afd67fa69ac80f06542,
+BSD-3-Clause/full LICENSE notices, optional QUPATHXX_BUILD_H5AD (default OFF).
+Static C, native local connector; shared admitted prefixed zlib1.3.2 plus
+shuffle/Fletcher32. No plugins, SZIP, network, high-level/C++/Fortran/Java/tools.
+cmake/PinnedZlib.cmake now owns that one archive/header/notice setup for both
+readers, preserving the existing tiff-zlib notice location even for H5AD-only.
+No new Python/anndata/h5py product/runtime dependency; h5py3.15.1 is development-
+only independent fixture authoring, never imported by CTest or product code.
+
+Native H5adReader requires explicit count/continuous domain and a declared
+CoordinateFrame, matrix X or named layer, and an Nx2 obsm coordinate field. It
+captures exact file/options/frame identity and ordered UTF8 observation/feature
+IDs; streams exact uint64 or declared finite continuous values in bounded numeric
+blocks. It accepts unsorted CSR/CSC while refusing duplicate/out-of-range indices,
+invalid pointer axes/order/end, unsupported dtype/version, fractional/negative
+counts, nonfinite values, duplicate IDs and oversized file/axis/chunk/string input.
+A scope-exclusion summary discloses unselected AnnData metadata; no full AnnData
+validation/round-trip claim. Sparse absence is measured zero, not missing data.
+External/soft selected links, external dataset storage, virtual datasets and
+unreviewed filters refuse before payload read. File-version guards reject changes.
+stream_work_bytes reserves decoder/catalogue/cache/chunk/index work for composing
+with the future indexed writer; it is not total allocator/process RSS.
+
+HDF5 forbids Windows threadsafe static builds. Private handles are therefore
+serialized under one native cancellation-aware gate, with actual queued-call
+cancellation tested while another stream holds the gate. Attribute allocation
+needs special care: H5Aread has no DXPL and unmodified HDF5 has no VL-to-fixed
+string converter (h5py registers its own). Public native VOL attr-read supplies a
+private allocator, with paired H5VLopen_lib_context/H5VLclose_lib_context. Scalar
+VL attributes and ID strings refuse allocations beyond257 bytes; fixed attributes
+read their bounded exact dtype. No global-default mutation, external connector,
+internal HDF5 header/source patch, unbounded attribute fallback or Python callback.
+
+Evidence: build/feature-expansion/o01-native/{configure.log,configure-v2.log,
+build-v2.log,build-v3.log,ctest.log,attribute-build.log,attribute-ctest.log,
+vlen-build.log,vlen-ctest.log,context-build.log,context-ctest.log,
+native-only.log,native-only-host.json}. Retain the unsupported static/threadsafe
+configure, missing-include compile, failed fixed conversion and missing VOL API-
+context crash; each next action changes the diagnosed cause, not the assertions.
+Final H5AD test passes0.16s, ctest0.22s;29 independent authored fixtures516561
+bytes with individual hashes in tests/fixtures/h5ad/manifest.json. Hand-calculated
+references cover exact9007199254740993 counts, negative/fractional continuous
+values, big-endian IO, unsorted CSR/CSC, all IDs/axes and explicit frame identity,
+selected layer, all refusal cases, active/queued cancellation and source mutation.
+Existing matrix/raw_image suites pass0.47/0.45s after the shared-codec extraction;
+they are not rerun for H5AD-only fixes. Native System32/Windows-only PATH execution
+on HEQPC exits0; executable SHA
+2ba6e83ad9d1faf2fea004b73362aa3e4156588f04d3c5a0d21be01756c42ae3.
+
+O01 remains open: feed this stream into the existing transactional indexed store
+(count/continuous interpretation), then existing import job/UI, plus one admitted
+real H5AD comparison. Figshare article13604177 metadata reports CC-BY4/Giovanni
+Palla, original10x citation and94,259,482-byte visium_hne_crop.h5ad candidate;
+metadata only retained in o01-admission, no payload/acquired-encoding acceptance.
+13/22 complete,9 pending. No GUI/binding/wheel/SDK/release work or large-fixture
+reindex was repeated. First activation built HDF5/core once; affected retries
+preserved those objects. Existing C4819 upstream UTF8-comment and baseline linker
+warnings are retained, not a warning-free-build claim. No full rebuild for warning
+cosmetics. Next compose reader/writer budgets and reuse matrix persistence rather
+than introduce another store, generic workflow engine or file-conversion pipeline.

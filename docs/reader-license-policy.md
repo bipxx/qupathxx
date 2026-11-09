@@ -63,14 +63,15 @@ does not exclude it. Fixture redistribution rights remain a separate check.
 | --- | --- | --- |
 | OpenSlide native reader | [Upstream licensing](https://openslide.org/) and [LGPL 2.1 text](https://github.com/openslide/openslide/blob/v4.0.1/COPYING.LESSER); current CI requests OpenSlide 4.0.1 | Retain. Inventory the matching SDK's complete dependency licenses and notices for each distributed artifact |
 | Quantitative TIFF/OME reader: libtiff 4.7.1 | [Pinned license](https://github.com/libsdl-org/libtiff/blob/v4.7.1/LICENSE.md); `cmake/TiffReader.cmake` pins the archive and installs its license | Retain; preserve the additional bundled-code notices in that license file |
-| TIFF Deflate: zlib 1.3.2 | [Upstream license](https://zlib.net/zlib_license.html); pinned archive and installed license in `cmake/TiffReader.cmake` | Retain |
+| TIFF Deflate: zlib 1.3.2 | [Upstream license](https://zlib.net/zlib_license.html); pinned archive and installed license in `cmake/PinnedZlib.cmake` (shared by TIFF/H5AD) | Retain |
 | TIFF JPEG: libjpeg-turbo 3.1.3 | [Pinned upstream terms](https://github.com/libjpeg-turbo/libjpeg-turbo/blob/3.1.3/LICENSE.md), README.ijg and attribution are installed byte-for-byte; cmake/TiffJpeg.cmake pins archive SHA256 3a13a5ba767dc8264bc40b185e41368a80d5d5f945944d1dbaa4b2fb0099f4e5 | Retain. Static/PIC libjpeg API only; separate upstream CMake build, no TurboJPEG/Java/tools runtime or closed dependency. [Local admission](benchmarks/tiff-jpeg-r2/README.md) records exact notices and coexistence |
-| OME XML: tinyxml2 11.0.0 | [Pinned license](https://github.com/leethomason/tinyxml2/blob/11.0.0/LICENSE.txt); pinned archive and installed license in `cmake/TiffReader.cmake` | Retain |
+| OME XML: tinyxml2 11.0.0 | [Pinned license](https://github.com/leethomason/tinyxml2/blob/11.0.0/LICENSE.txt); pinned archive and installed license in `cmake/PinnedZlib.cmake` (shared by TIFF/H5AD) | Retain |
+| AnnData/H5AD: optional HDF5 C2.2.0 | [Exact full license](https://github.com/HDFGroup/hdf5/blob/2.2.0/LICENSE), BSD-3-Clause plus retained notices; cmake/H5adReader.cmake pins source SHA5b8d75125ae7b4fef55d3b39e8d3dbfd238cdf63b6518afd67fa69ac80f06542 and installs LICENSE | O01 native decoding in progress. Static C/local native connector, shared admitted prefixed zlib, shuffle/Fletcher32 only. Plugins, SZIP, network, high-level/C++/Java/Fortran/tools excluded. Windows static calls serialize through the native cancellation-aware gate; no unsupported threadsafe-static flag. This dependency admission is not full O01 delivery. |
 | Dense/PPM reader | Repository-native implementation; no separate proprietary reader SDK | Retain; repository license decision remains open |
 | Future Bio-Formats adapters | [Upstream GPL license](https://github.com/ome/bioformats/blob/v8.5.0/LICENSE.txt); BSD/GPL components and their complete transitive dependencies must be checked individually | Open-source components remain candidates; no Java runtime adapter is added by this policy, and the existing first-release Java deferral remains |
 | Any closed vendor reader/codec SDK | Ineligible even when optional, free to download or invoked through another process | Excluded from implementation and required parity targets |
 
-The inventory checks the configured reader families and pinned TIFF components;
+The inventory checks the configured reader families and pinned TIFF/HDF5 components;
 it is not a certification of every binary in every SDK. Existing artifact
 notice/runtime inventories remain required. No proprietary reader adapter was
 identified in the current CMake reader configuration, so no implemented reader

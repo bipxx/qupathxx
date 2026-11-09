@@ -4,6 +4,20 @@
     "tag": "v0.7.0",
     "revision": "04ccfa4fb7d43e9b566393e08e83690b72248d44"
   },
+  "h5ad_native": {
+    "manifest": "h5ad/manifest.json",
+    "generator": "tools/make_h5ad_fixtures.py",
+    "purpose": "Independent authored dense/CSR/CSC, uint64/continuous, spatial axes and malformed HDF5 input; no biological claims",
+    "material": {
+      "id": "qupathxx-authored-h5ad",
+      "category": "admitted_open",
+      "kind": "evaluation_data",
+      "license_id": "AGPL-3.0-only",
+      "license_evidence": "LICENSE",
+      "attribution": "qupathxx contributors; authored fixture values and native-format development checks",
+      "source_ids": []
+    }
+  },
   "downloads": [
     {
       "filename": "LuCa-7color_Scan1.ome.tiff",

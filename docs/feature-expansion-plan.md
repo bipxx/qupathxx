@@ -558,6 +558,15 @@ and classify actual release inputs under L01. See the existing
   refuse external/virtual storage until supported. Report ignored metadata rather
   than pretending a complete AnnData round trip. Exit: independent CSR/CSC/dense
   fixtures and one small openly licensed real dataset with count/ID/axis equality.
+  Progress: optional pinned HDF52.2 native decoder passes independent authored
+  dense/unsorted CSR/CSC count/continuous, exact uint64/ID/spatial axes, selected
+  layer, bounded allocation/storage and native queued/active cancellation checks.
+  Matrix/TIFF regressions stay passing. Public native VOL attribute reads use a
+  private allocator and paired library context; no Python fallback or HDF5 patch.
+  Shared indexed import/continuous storage, existing import-job/UI integration and
+  admitted real H5AD count/ID/axis evidence remain before O01 can close. Stream
+  directly into the existing transactional store with decoder+writer reservations
+  composed into one work budget; no temporary Matrix Market/TSV conversion.
 - [ ] **O02 — native OME-Zarr image adapter.** Initial declared target is local
   NGFF0.4/Zarr2 image stores, selected C/Z/T, scalar numeric dtypes and supported
   isotropic multiscales. Use JSON + existing native tile scheduling; admit only
