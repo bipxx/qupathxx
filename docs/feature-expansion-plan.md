@@ -608,6 +608,15 @@ and classify actual release inputs under L01. See the existing
   Preserve raw integers, zero-library and missing-value semantics; never normalize
   an already-normalized H5AD layer implicitly. Exit: analytical sparse examples
   and independent expected values, source/parameter identity and native replay.
+  Native foundation delivered locally: full-source exact uint64 QC/group totals,
+  detected features, lazy library-size/log1p source, checked overflow and
+  versioned project recipe/replay. Four native suites pass1.50s; complete real
+  32285-feature/2702-observation QC matches independent original-MTX totals,
+  detection and explicit groups for every observation. Different256/64MiB
+  replay batches retain exact QC/recipe/value identity. See the
+  [native QC receipt](benchmarks/feature-expansion/README.md#a01-native-full-universe-qc-and-normalization).
+  Keep A01 open for actual desktop raw/normalized/log selection, QC presentation
+  and recipe keep/reopen integration; SDK/optional Python remain P01.
 - [ ] **A02 — regional summaries and pseudobulk.** Reuse ROI/spatial-index cohorts
   and D01 block reads. Report per-gene sums/means, observation counts, group IDs and
   normalization domain; distinguish spot-center membership from cell/spot area.

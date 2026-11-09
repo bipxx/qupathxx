@@ -1180,3 +1180,65 @@ the [closure receipt](benchmarks/feature-expansion/README.md#o02-project-and-des
 Frozen Python binaries stay with their original ABI until P01;
 retained binding objects must not link against changed native interfaces.
 No biological, general throughput or released-format support claim.
+
+
+Native molecular QC and normalization (A01, consumer integration pending)
+------------------------------------------------------------------------
+
+`qupathxx/expression_normalization.hpp` adds a native QC pass over every feature
+and observation of an `ExpressionMatrixSource` with explicit raw-count domain.
+It does not accept a selected-gene `ExpressionDataset`. Counts/totals remain
+uint64, including values beyond2^53; overflow refuses instead of rounding or
+wrapping. Detected features count strictly positive values. Explicit stored zeros
+and implicit sparse absence are measured zeros. This sparse interface has no
+missing-value encoding; unknown feature/observation IDs still follow the parent
+lookup/refusal contract. Continuous/normalized H5AD inputs cannot be silently
+normalized again.
+
+```cpp
+auto raw = qpx::open_expression_matrix("matrix.qmx", expected_file_sha256);
+qpx::ExpressionQcOptions qc_options;
+// Optional explicit ascending unique source indices; groups may overlap.
+qc_options.groups = {{"selected control genes", {0, 3, 7}}};
+auto qc = qpx::expression_qc(raw, qc_options);
+auto derived = qpx::normalize_expression(raw, qc, {10000, true});
+auto block = derived.source()->read({{3}, {}});
+```
+
+The denominator is each observation's total across ALL source features. Derived
+double values are `(double(count)/double(total))*target_sum`, optionally native
+`log1p`; target1..1e12 is explicit. Raw integers stay unchanged. Zero libraries
+produce valid zeros, while group fractions for zero totals are undefined
+(`nullopt`). Up to16 explicitly named groups with65536 combined memberships
+are supported; no inferred mitochondrial prefixes or biological annotations.
+
+QC uses bounded sparse batches (up to128 features), not a dense full matrix or
+one new connection per gene. Retain QC for parameter/view changes: creating
+linear/log/target variants does not repeat the QC pass. Caller work limits cover
+retained state and bounded read reservations; `peak_work_bytes` is a conservative
+reservation, not measured process RSS. Matrix lookup APIs keep their existing
+budgets. Downstream native spatial snapshots/gene display accept derived sparse
+values; no Python product computation is used.
+
+First retain the raw source with `keep_expression_matrix(project, image, raw)`,
+then retain the derived recipe with `keep_expression_normalization(project,
+image, derived)`. The virtual derived source has no raw-sidecar path/file digest:
+passing it to `keep_expression_matrix` refuses. Versioned recipe metadata binds
+exact parent file/source, full feature universe, group definitions, QC identity
+and target/log parameters. ASCII recipe chunks respect the existing4096-byte
+metadata scalar bound without embedding QC vectors or copying a normalized
+matrix. Keep/remove are undoable native metadata operations.
+
+After project reopen, capture `expression_normalization_open_request(project,
+image, id)` on the owner and call its `open()` on a worker. It opens the existing
+parent association, recomputes QC once, verifies exact saved identity, then returns
+a source to retain for repeated reads. Work/batch settings do not change science
+identity. Missing/changed parents and altered/noncanonical recipes refuse.
+
+Complete real32285-feature/2702-observation QC matches an independent original-
+Matrix-Market oracle for all totals, detected features and a declared group; saved
+replay at a different work limit preserves QC and derived block identity. See
+the [native QC receipt](benchmarks/feature-expansion/README.md#a01-native-full-universe-qc-and-normalization).
+A01 remains open for actual desktop QC/normalization selection and recipe controls.
+This API is not yet an installed SDK/Python exposure, biological QC recommendation
+or a comparative speed claim.

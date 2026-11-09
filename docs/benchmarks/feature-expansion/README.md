@@ -2208,3 +2208,65 @@ used incorrect bit equality for floating means. Logs preserve each failed
 attempt. Test-only repairs reuse settled core/GUI objects with references disabled;
 source-receipt.json distinguishes final owned source from the independent dirty
 UI overlay compiled into this runtime. No SDK/wheel/binding/package rebuild.
+
+
+### A01 native full-universe QC and normalization
+
+A01 native foundation is delivered; the checkbox remains open for actual desktop
+QC/raw/normalized/log selection and recipe keep/reopen. Progress remains15/22
+complete,7 pending. New standalone native header/services do not change existing
+common ABI or rebuild bindings. Keep the independent UI overlay separate.
+
+Expression QC reads all source features/observations in conservative bounded
+batches, not the current display projection. Exact uint64 observation/group sums
+and nonzero detection preserve2^53+1 and reject overflow. Explicit zeros and
+sparse absence remain measured zeros. Zero-library normalized values are valid
+zero; group fractions are undefined. Only explicit raw-count matrices qualify;
+continuous/already-normalized sources refuse. Optional named source-index groups
+may overlap. No biological feature-group inference or silent missing-value fill.
+
+One retained QC result feeds lazy continuous library-size/log1p matrix sources.
+Only requested gene blocks are transformed. Parameters and full parent/QC/group
+identity enter versioned recipe/source/feature/block identities. Derived sources
+have empty raw locators/digests so raw-sidecar association cannot mislabel them.
+Existing spatial snapshots and gene display consume their continuous values.
+Project metadata stores a checksummed canonical ASCII recipe in bounded scalar
+chunks, not dense/QC arrays or a copied matrix. A captured native open request
+reopens the existing raw association and recomputes/verifies QC once at replay;
+retain it afterward. Keep/remove are native undoable metadata commands.
+
+Workspace-root build/feature-expansion/a01-native/build.log exits0. ctest.log
+passes expression_normalization, expression_matrix, expression_matrix_project
+and expression_matrix_spatial1.50s. Covers analytical sparse values, explicit/
+implicit zeros, all-feature denominators, zero libraries, overlapping groups,
+exact large counts/overflow, parameter/source identities, budget/cancel/stale,
+Unicode/chunked project persistence/replay, accidental raw-association refusal
+and downstream native gene projection. Post-review correction additionally
+reserves the caller's group definitions while the QC result copy is live.
+real-build.log exits0; real-native.log executes all those assertions again on
+the corrected source before the full-data route and exits0.
+
+The dev-only independent real-oracle.py reads every one of16,031,101 original
+retained 10x MTX entries using Python integer sums/detection, never as a product
+fallback. Source SHA0e216380...45fd26 matches D01 admission; expected TSV SHA
+393677ce...13084. All32285 features/2702 observations are included, total counts
+85825294, no zero libraries. Explicit group is source features0 and32284, without
+biological labeling. No new download or reimport: native code reads retained
+d01-real/mouse-brain.qmx, exact SHA79f407bf...a7401. Existing CC-BY4 lineage applies
+to the derivative oracle. real-oracle.json preserves exact identities.
+
+System32/Windows-only PATH native run matches EVERY observation total, detected
+feature count and group total against that independent oracle, then checks
+selected derived values and saves/reopens the native project.256MiB QC uses253
+batches;64MiB saved replay uses385 and preserves exact QC, recipe and derived
+block identity. Full feature universe and sparse geometry remain intact.
+real-run/real.json records QC4289.23ms on HEQPC; this is a cached host-local
+observation, not QuPath comparison, throughput acceptance or RSS qualification.
+
+Waste: first combined build/tests passed. One focused follow-up rebuilt only the
+new kernel/consumer after the input-capacity reservation correction and opt-in
+real driver; existing native objects were retained. No broad campaign, repeated
+import, normalized-store duplication, GUI/binding/SDK/package rebuild. Next wire
+existing native workers/controllers to retained QC/derived sources and saved
+recipes, explicitly rebinding spatial coordinates from their raw parent. Avoid
+per-frame QC, a second frontend algorithm and applying a display log twice.

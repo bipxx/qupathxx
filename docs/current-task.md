@@ -3996,3 +3996,61 @@ Next bounded task is A01: full-universe native QC and versioned library-size/log
 derived values with raw integer preservation, explicit zero/missing/continuous
 domain handling, identity and persistence/replay. Start with D01's existing native
 block/source services, settle the request/result/store contract before consumers.
+
+
+### A01 — native full-universe QC and normalization
+
+Previous goal turn is progress c6c5745d: O02 delivered,15/22 complete,7 pending.
+Selected outcome: native full-source observation totals/detected features/explicit
+groups, lazy library-size/log1p source and versioned persisted recipe/replay.
+Use every feature in the declared matrix, never a display projection. Implicit
+sparse absence is measured zero; zero libraries produce valid zero normalized
+values and undefined group fractions. Continuous/already-normalized input refuses.
+Retain exact uint64 totals with checked overflow and unchanged parent counts.
+
+Reuse bounded ExpressionMatrixSource reads with automatic conservative feature
+batches, avoiding one connection per gene and avoiding a dense whole matrix.
+One retained immutable QC pass feeds multiple derived views. Recipe-only project
+metadata (chunked within existing scalar bounds) refers to the existing parent
+association; reopening/replay recomputes QC once on a worker and verifies identity.
+No QC vectors in document metadata, no second normalized matrix copy, no per-frame
+IO or new generic job scheduler. Derived virtual sources must refuse accidental
+raw-sidecar association. Settle new standalone API/types before one cached core/
+test build; preserve independent UI work and existing bindings/packages.
+
+Decisive checks: hand-calculated sparse/explicit zero/zero-library/group examples,
+uint64 beyond2^53 unchanged and overflow refusal, normalization/log values with
+declared tolerances, batch/work/cancel/stale bounds, source/parameter/recipe
+identity, project save/reopen/native replay and downstream native gene projection.
+Real full-universe QC may reuse the retained32285-feature/2702-observation matrix;
+no reimport/download or six-gene substitute. Keep A01 open until consumer exits
+are proved. No broad platform/GUI/package campaign for this core slice.
+
+First settled native batch builds without errors; expression_normalization and
+existing indexed matrix/project/spatial suites all pass1.50s. Covers exact QC/
+groups/zero semantics, large uint64/overflow, lazy values/identity, existing gene
+projection, Unicode/chunked project recipes/replay and real batch cancellation.
+Review additionally charges the caller's group definitions while their result
+copy is live. Add an opt-in complete real-source check to this same driver:
+independent dev-only integer sums/detection over all16,031,101 retained MTX
+entries, then native QC of the existing .qmx and saved replay at a different
+work/batch size. No source import, download, GUI/binding/package campaign.
+
+Native A01 slice passes on final source: real-build.log exit0 and Windows-only
+PATH real-native.log exit0, including all analytical/persistence/cancel/stale
+assertions plus complete real32285-feature/2702-observation QC. EVERY total,
+detected-feature count and explicit group equals the independent original-MTX
+oracle across all16,031,101 entries;85825294 counts. Saved project replay at
+256/64MiB uses253/385 batches with exact QC/recipe/derived-block identity.
+QC4289.23ms is a cached named-host observation, not a comparison/RSS claim.
+
+Keep A01 unchecked:15/22 complete,7 pending. Next actual desktop integration:
+retain the raw matrix/spatial capture; compute QC/derived source on the existing
+worker, explicitly rebind those coordinates to the derived source, then reuse
+GeneViewSession. Present raw/normalized/log domains and QC summary without
+per-frame scans or double display log. Keep/reopen recipes through the native
+metadata/open-request services. SDK/thin optional Python remain P01.
+Waste: first build/tests passed; one affected follow-up for group-input capacity
+reservation plus real driver. No new public common-header ABI, source reimport,
+normalized-store copy or GUI/binding/package rebuild. Reuse this native math/
+identity evidence for the consumer mapping checks instead of another oracle run.
