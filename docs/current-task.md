@@ -3267,3 +3267,36 @@ on the desktop owner and GUI gene session uses64MiB. Factor owner capture into a
 immutable request and submit its join using existing SpatialImportJob; expose/use
 the declared bounded desktop budget, then test stale scope/cancel/large interaction.
 D02 stays open; tiled cells/halo/seam/global IDs/checkpoint-resume remain afterward.
+
+### D02 — asynchronous spatial joins and desktop budget
+
+Scale evidence justifies moving the coordinate join off owner. Simpler route than
+adding a SpatialImportJob operation: capture an immutable native spatial request
+and let the existing GeneViewSession worker resolve it before selected values.
+No new scheduler/thread; existing latest-generation cancellation/publication also
+covers joins. Bound request retention and use the smaller request/session budget.
+Desktop capture copies only document geometry/provenance; desktop gene session
+uses the already-declared256MiB. Native snapshot capture remains synchronous for
+existing explicit callers. Build native spatial/gene/import tests, scale driver,
+affected GUI drivers and app together; run affected suites once and --reopen the
+retained scale store to measure owner dispatch and worker join without reindexing.
+
+The asynchronous-join batch passes: one cached combined build of three affected
+native suites, scale driver, two GUI drivers and app. Five affected suites all
+pass3.75s, including actual indexed selection/Save As, legacy viewing, immutable
+capture surviving later document edits, identical request reuse, cleared join
+rejection and changed-source refusal. No tolerances/assertions weakened.
+
+Reopen the original114733056-byte scale store once (no regeneration/index/copy):
+request construction6.926ms, owner dispatch0.083ms, worker join+comparison2025ms,
+recolor55.868ms, active read cancellation0.594ms. Conservative retained accounting
+202073662 bytes including request, below256MiB. Host/commands/executable/baseline
+receipt hashes in d02-join/host.json; reopened values/block/source identities agree
+with original scale evidence. This proves native dispatch, not full100k GUI FPS.
+Waste review: reuse GeneViewSession rather than extending another job; one build,
+five passing targeted suites and one retained-store reopen, no failure/retry,
+new dependency, download, binding or package. Preserve concurrent UI changes.
+Next D02: settle viewport/color-cache accounting/coalescing, then existing raw-cell
+kernels/jobs → fixed threshold/normalization, halo/seam ownership/global IDs and
+source-bound checkpoint/resume with independent admitted ROI checks.12/22 remain
+complete; D02 is still open. Do not replay F01 biology or full-matrix indexing.

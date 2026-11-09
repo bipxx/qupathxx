@@ -1509,3 +1509,35 @@ and GUI sessions still use64MiB defaults. Move immutable joins onto the existing
 worker and admit the bounded desktop budget before claiming large interactive
 support. Preserve this fixture instead of regenerating/reindexing. D02 remains
 open for desktop responsiveness and deterministic tiled-cell seam/resume evidence.
+
+D02 asynchronous joins and bounded desktop session
+------------------------------------------------
+
+Spatial requests now capture only native document facts/provenance on owner.
+ExpressionMatrixSpatialRequest::resolve joins axis IDs on the existing native
+GeneViewSession worker before projecting selected genes. Existing generation and
+cancellation delivery cover the join; no scheduler or extra worker. Request and
+session work ceilings both apply, retained request storage is reserved before
+join/projection, and desktop backed capture/gene session use256MiB. Synchronous
+snapshot capture remains available to explicit native callers. Count reuse and
+source-version checks remain intact.
+
+`build/feature-expansion/d02-join/build.log` succeeds for affected native suites,
+scale driver, GUI drivers and app. `ctest.log`: all5 suites pass3.75s (backed import,
+spatial matrix, native gene view, legacy GUI gene and actual indexed import/gene
+controller). New native checks capture facts, edit the original document, resolve
+on worker and verify the captured identity; unchanged requests do not rerun;
+cleared active joins cannot publish. Existing source mutation, coalescing and
+actual desktop Save As/relink tests remain passing. No screenshot-style assertion
+or scientific tolerance change.
+
+Host/executable/baseline receipt in d02-join/host.json, values in
+`build/feature-expansion/d02-scale/reopen.json`, output in d02-join/scale-reopen.log.
+One --reopen reuses the existing store and agrees on selected-block/source/file
+identities. HEQPC single-run ms: immutable request6.9255, owner dispatch0.0825,
+worker join+comparison2024.6858, recolor55.8682, cancel/latest108.0944, active-read
+cancellation0.5943. Conservative retained accounting202073662 bytes including the
+request, below268435456. These are native dispatch/accounting observations; full
+100k desktop frame responsiveness, process/GPU memory and speed comparison are
+not inferred. Remaining cache accounting/coalescing and tiled-cell seam/resume
+still keep D02 open. No reindex/data download/bindings/package campaign.

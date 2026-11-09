@@ -11,7 +11,7 @@
 
 namespace qpx::detail {
 class GuiGeneDisplay {
-    GeneViewSession session_;
+    GeneViewSession session_{256u*1024*1024};
     GuiBackedGenes backed_;
     std::map<std::string,ExpressionMatrixSpatialScope> backed_sources_;
     std::string project_path_;std::uint64_t project_image_=0;

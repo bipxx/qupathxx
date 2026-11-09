@@ -91,6 +91,15 @@ void exercise(const fs::path& root) {
     const auto open_request=expression_matrix_open_request(project,1,id);
     check(std::async(std::launch::async,[open_request]{return open_request.open()->metadata().features;}).get()==2,"Owner captures immutable source request for worker opening");
     auto captured=ExpressionMatrixSpatialSnapshot::capture(*doc,source,frame_id);
+    const auto request=ExpressionMatrixSpatialRequest::capture(*doc,source,frame_id);
+    doc->remove_objects(created);
+    view.bind(request);view.wait();
+    check(view.result() && view.spatial_snapshot()->sha256()==captured.sha256(),"Worker resolves captured facts without reading a later-edited live document");
+    const auto request_generation=view.generation();view.bind(request);
+    check(view.generation()==request_generation,"Identical immutable request does not repeat its join");
+    doc->undo();
+    view.bind(request);view.refresh();view.poll();view.clear();view.wait();
+    check(!view.result() && !view.spatial_snapshot(),"Clearing an active join rejects its owner delivery");
     const auto expected=captured.dataset({0,1}).sha256();
     check(captured.observations()[0].id=="Z" && captured.dataset({0}).counts()[0]==5,"Owner capture joins point barcode instead of object/axis order");
     rejects<std::invalid_argument>([&]{remove_expression_matrix(project,1,id);});
@@ -102,7 +111,7 @@ void exercise(const fs::path& root) {
     check(again.sha256()==captured.sha256() && again.dataset({0,1}).sha256()==expected,"Point/frame/source/selected-count identities survive project reopen");
     doc->remove_objects(created);remove_expression_matrix(project,1,id);doc->undo();doc->undo();
     check(expression_matrix_points_reference(*doc,id) && expression_matrix_ids(project,1)==std::vector<std::string>{id},"Observation removal and association removal Undo retain reference integrity");
-    view.bind(rows);options.genes={"A","B"};view.configure(options);view.wait();
+    view.bind(ExpressionMatrixSpatialRequest(source,observations,frame));options.genes={"A","B"};view.configure(options);view.wait();
     check(bool(view.result()),"Populate selected values before changing their backing source");
     options.display.opacity=.625;view.configure(options);
     {std::ofstream changed(root/"source.qmx",std::ios::binary|std::ios::app);changed.put('x');changed.close();check(bool(changed),"Actually mutate the backed file before the pending query");}

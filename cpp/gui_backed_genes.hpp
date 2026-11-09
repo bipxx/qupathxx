@@ -25,7 +25,7 @@ class GuiBackedGenes {
     unsigned slot_=0;bool opening_=false;
     static std::string key(const ExpressionMatrixOpenRequest& r){return r.path+"\n"+r.association.file_sha256+"\n"+r.association.source_sha256;}
     void capture(const Document& document,GeneViewSession& session) {
-        session.bind(ExpressionMatrixSpatialSnapshot::capture(document,matrix_,scope_->frame_id,scope_->plane));
+        session.bind(ExpressionMatrixSpatialRequest::capture(document,matrix_,scope_->frame_id,scope_->plane,256u*1024*1024));
     }
     void dispatch() {
         if(job_.busy())return;

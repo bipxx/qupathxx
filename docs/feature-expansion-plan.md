@@ -157,9 +157,13 @@ is D02; these steps refine its existing checkbox, without creating another ledge
    194971982-byte conservative retained display bound; exact selected counts,
    recolor reuse and active-read/latest-generation cancellation pass. Reuse
    build/feature-expansion/d02-scale/counts.qmx rather than regenerate. The measured
-   1855ms coordinate join still runs on the desktop owner, whose default gene-view
-   budget is64MiB: next move the immutable join to the existing worker and provide
-   the declared bounded desktop budget. Native timing does not prove GUI responsiveness.
+   1855ms coordinate join exposed a desktop-owner stall. It now resolves immutable
+   spatial requests in the existing GeneViewSession worker; desktop budget is256MiB
+   with retained request storage reserved. Reopen of the same fixture passes with
+   6.926ms immutable request creation,0.083ms dispatch,2025ms worker join/comparison
+   and202073662-byte conservative retention. All five affected native/GUI suites
+   pass. Native dispatch timing does not prove full100k desktop frame responsiveness.
+   Continue remaining viewport/color-cache accounting/coalescing and tiled-cell work.
 3. Extend existing raw-cell jobs with bounded tiles, one captured global threshold/
    normalization, declared halo, deterministic seam ownership/global IDs and source-
    bound checkpoint/resume. Detect unresolved boundary objects explicitly.

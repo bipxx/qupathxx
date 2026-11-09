@@ -77,16 +77,18 @@ int main(int argc,char** argv) {
         std::vector<ExpressionObservation> rows;rows.reserve(observations);
         for(std::uint64_t o=0;o<observations;++o)rows.push_back({o+1,"O"+std::to_string(o),{double(o%1000),double(o/1000)}});
         CoordinateFrame frame;frame.id="scale-level-zero-px";frame.source_id="generated-open-scale-fixture";
-        begin=Clock::now();const auto spatial=ExpressionMatrixSpatialSnapshot::create(source,std::move(rows),frame,work);
-        report["spatial_capture_ms"]=milliseconds(begin);
-        GeneViewSession session(work);session.bind(spatial);GeneViewOptions options;options.enabled=true;options.compare=true;options.genes={"G0","G29999"};
-        begin=Clock::now();session.configure(options);session.wait();require(bool(session.result()),session.error().c_str());
-        report["comparison_ms"]=milliseconds(begin);
+        begin=Clock::now();const ExpressionMatrixSpatialRequest spatial_request(source,std::move(rows),frame,work);
+        report["immutable_request_ms"]=milliseconds(begin);
+        GeneViewSession session(work);session.bind(spatial_request);GeneViewOptions options;options.enabled=true;options.compare=true;options.genes={"G0","G29999"};
+        begin=Clock::now();session.configure(options);session.poll();report["owner_dispatch_ms"]=milliseconds(begin);
+        session.wait();require(bool(session.result()),session.error().c_str());
+        report["comparison_including_worker_join_ms"]=milliseconds(begin);
+        const auto& spatial=*session.spatial_snapshot();
         auto before=session.result();const auto* buffer=before->fields[0]->dataset.counts().data();
         require(before->fields[0]->dataset.observations().size()==observations,"All scale observations are displayed");
         for(std::uint64_t o=0;o<observations;++o)for(unsigned f=0;f<2;++f)
             require(before->fields[0]->dataset.counts()[2*o+f]==expected(o,f?29999:0),"Full spatial projection agrees with independent row oracle");
-        const auto retained=spatial.payload_bytes()+before->fields[0]->dataset.payload_bytes()+before->fields[0]->payload_bytes+before->fields[1]->payload_bytes;
+        const auto retained=spatial_request.payload_bytes()+spatial.payload_bytes()+before->fields[0]->dataset.payload_bytes()+before->fields[0]->payload_bytes+before->fields[1]->payload_bytes;
         require(retained<=work,"Retained spatial/value/color buffers exceed declared bound");report["retained_accounted_bytes"]=retained;
         before.reset();begin=Clock::now();options.display.opacity=.375;options.display.palette=GeneDisplayPalette::Gray;
         session.configure(options);session.wait();require(bool(session.result()),session.error().c_str());

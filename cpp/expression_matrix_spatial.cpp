@@ -87,7 +87,39 @@ ExpressionMatrixSpatialSnapshot ExpressionMatrixSpatialSnapshot::create(
     d->indices=std::move(indices);d->order=std::move(order);d->sha=h.finish();d->bytes=retained;
     return ExpressionMatrixSpatialSnapshot(std::move(d));
 }
-ExpressionMatrixSpatialSnapshot ExpressionMatrixSpatialSnapshot::capture(const Document& doc,
+struct ExpressionMatrixSpatialRequest::Data {
+    std::shared_ptr<const ExpressionMatrixSource> source;
+    std::vector<ExpressionObservation> rows;CoordinateFrame frame;
+    std::size_t work=0,bytes=0;std::string sha;
+};
+ExpressionMatrixSpatialRequest::ExpressionMatrixSpatialRequest(std::shared_ptr<const ExpressionMatrixSource> source,
+    std::vector<ExpressionObservation> rows,CoordinateFrame frame,std::size_t work) {
+    budget(work);frame.validate();if(!source)throw std::invalid_argument("Spatial request requires a matrix source");
+    digest(source->metadata().source_sha256);
+    std::size_t bytes=sizeof(Data)+source->payload_bytes()+frame.id.capacity()+frame.source_id.capacity()+128;
+    charge(bytes,rows.capacity(),sizeof(ExpressionObservation),work);
+    Sha256 h;text(h,"qpx.expression-spatial-request/1");text(h,source->metadata().source_sha256);text(h,frame.sha256());h.integer(rows.size());
+    for(const auto& row:rows) {
+        detail::spatial_identifier(row.id);workflow_capture_charge(bytes,row.id.capacity(),work);
+        if(!std::isfinite(row.position.x) || !std::isfinite(row.position.y))throw std::invalid_argument("Nonfinite spatial request position");
+        h.integer(row.object_id);text(h,row.id);real(h,row.position.x);real(h,row.position.y);
+    }
+    auto data=std::make_shared<Data>();data->source=std::move(source);data->rows=std::move(rows);data->frame=std::move(frame);
+    data->work=work;data->bytes=bytes;data->sha=h.finish();data_=std::move(data);
+}
+ExpressionMatrixSpatialSnapshot ExpressionMatrixSpatialRequest::resolve(const std::atomic<bool>* cancelled)const {
+    return resolve(data_->work,cancelled);
+}
+ExpressionMatrixSpatialSnapshot ExpressionMatrixSpatialRequest::resolve(std::size_t work,const std::atomic<bool>* cancelled)const {
+    workflow_checkpoint(cancelled);
+    budget(work);work=std::min(work,data_->work);
+    if(data_->bytes>=work || work-data_->bytes<4u*1024*1024)throw WorkflowCaptureLimit("Spatial request leaves no join workspace");
+    return ExpressionMatrixSpatialSnapshot::create(data_->source,data_->rows,data_->frame,work-data_->bytes,cancelled);
+}
+const std::shared_ptr<const ExpressionMatrixSource>& ExpressionMatrixSpatialRequest::source()const{return data_->source;}
+const std::string& ExpressionMatrixSpatialRequest::sha256()const{return data_->sha;}
+std::size_t ExpressionMatrixSpatialRequest::payload_bytes()const{return data_->bytes;}
+ExpressionMatrixSpatialRequest ExpressionMatrixSpatialRequest::capture(const Document& doc,
     std::shared_ptr<const ExpressionMatrixSource> source,const std::string& frame_id,ObjectPlane plane,
     std::size_t work,const std::atomic<bool>* cancelled) {
     budget(work);if(!source)throw std::invalid_argument("Spatial capture requires a matrix source");
@@ -110,7 +142,12 @@ ExpressionMatrixSpatialSnapshot ExpressionMatrixSpatialSnapshot::capture(const D
         rows.push_back({id,row_id,paths[0][0]});
     }
     if(rows.empty())throw std::invalid_argument("No backed expression observations match the source/frame/plane");
-    return create(std::move(source),std::move(rows),std::move(frame),work,cancelled);
+    return ExpressionMatrixSpatialRequest(std::move(source),std::move(rows),std::move(frame),work);
+}
+ExpressionMatrixSpatialSnapshot ExpressionMatrixSpatialSnapshot::capture(const Document& doc,
+    std::shared_ptr<const ExpressionMatrixSource> source,const std::string& frame_id,ObjectPlane plane,
+    std::size_t work,const std::atomic<bool>* cancelled) {
+    return ExpressionMatrixSpatialRequest::capture(doc,std::move(source),frame_id,plane,work,cancelled).resolve(cancelled);
 }
 const std::shared_ptr<const ExpressionMatrixSource>& ExpressionMatrixSpatialSnapshot::source()const{return data_->source;}
 const std::vector<ExpressionObservation>& ExpressionMatrixSpatialSnapshot::observations()const{return data_->observations;}

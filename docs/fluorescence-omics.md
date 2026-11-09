@@ -986,6 +986,10 @@ results. Native exact relink is available through expression_matrix_project.hpp;
 owned Save As is followed automatically by the live panel. Source/frame errors
 remain visible instead of becoming zeros or stale values. Display log1p changes
 presentation only; QC/library normalization remains the separate A01 work.
+Coordinate/ID joins also run on the native gene worker after capturing document
+facts; the desktop gene session admits256MiB of accounted work. Palette, opacity
+and transform edits reuse the current selected counts. This budget does not
+describe total application memory or guarantee a frame rate for a given machine.
 
 The standalone real comparison has two aligned2702-spot maps on one0..4.45435
 log1p(counts) scale. Unprojected ENSMUSG00000051951 has2451 zeros and Gad1 /

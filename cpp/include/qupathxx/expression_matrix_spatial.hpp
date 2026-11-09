@@ -11,6 +11,7 @@ struct ExpressionMatrixSpatialScope {
 std::vector<ExpressionMatrixSpatialScope> expression_matrix_spatial_scopes(const Document&,
     ObjectPlane={},std::size_t work_bytes=64u*1024*1024,const std::atomic<bool>* cancelled=nullptr);
 class ObjectProperties;
+class ExpressionMatrixSpatialRequest;
 // Immutable, explicit coordinate/ID join. No counts are stored in point objects.
 class ExpressionMatrixSpatialSnapshot {
 public:
@@ -38,6 +39,23 @@ private:
     struct Data;
     explicit ExpressionMatrixSpatialSnapshot(std::shared_ptr<const Data>);
     std::shared_ptr<const Data> data_;
+};
+// Owner capture copies only document facts. Axis joins/file IO run in resolve()
+// on an existing native worker; no live Document survives this request.
+class ExpressionMatrixSpatialRequest {
+public:
+    ExpressionMatrixSpatialRequest(std::shared_ptr<const ExpressionMatrixSource>,
+        std::vector<ExpressionObservation>,CoordinateFrame,std::size_t work_bytes=64u*1024*1024);
+    static ExpressionMatrixSpatialRequest capture(const Document&,
+        std::shared_ptr<const ExpressionMatrixSource>,const std::string& frame_id,
+        ObjectPlane={},std::size_t work_bytes=64u*1024*1024,const std::atomic<bool>* cancelled=nullptr);
+    ExpressionMatrixSpatialSnapshot resolve(const std::atomic<bool>* cancelled=nullptr) const;
+    ExpressionMatrixSpatialSnapshot resolve(std::size_t work_bytes,const std::atomic<bool>* cancelled) const;
+    std::size_t payload_bytes() const;
+    const std::shared_ptr<const ExpressionMatrixSource>& source() const;
+    const std::string& sha256() const;
+private:
+    struct Data;std::shared_ptr<const Data> data_;
 };
 // Native point-import vocabulary: identity and explicit level-zero image frame,
 // not sample values. Coordinates are supplied separately to existing Roi/commands.

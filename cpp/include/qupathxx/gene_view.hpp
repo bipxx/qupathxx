@@ -31,6 +31,7 @@ public:
     // Native worker resolves selected IDs and projects only their sparse values.
     // Existing generation/cancellation coalescing applies to backed sources too.
     void bind(ExpressionMatrixSpatialSnapshot);
+    void bind(ExpressionMatrixSpatialRequest);
     void clear();
     void configure(GeneViewOptions);
     void refresh();void cancel();void poll();void wait();
