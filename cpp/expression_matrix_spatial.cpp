@@ -46,8 +46,8 @@ ExpressionMatrixSpatialSnapshot ExpressionMatrixSpatialSnapshot::create(
     std::shared_ptr<const ExpressionMatrixSource> source,std::vector<ExpressionObservation> observations,
     CoordinateFrame frame,std::size_t work,const std::atomic<bool>* cancelled) {
     budget(work);workflow_checkpoint(cancelled);frame.validate();
-    if(!source || source->metadata().domain!=ExpressionValueDomain::Counts)
-        throw std::invalid_argument("Spatial matrix snapshot requires an explicit native count source");
+    if(!source || (source->metadata().domain!=ExpressionValueDomain::Counts && source->metadata().domain!=ExpressionValueDomain::Continuous))
+        throw std::invalid_argument("Spatial matrix snapshot requires an explicit native value domain");
     if(!source->metadata().features || source->metadata().features>1000000 ||
        !source->metadata().observations || source->metadata().observations>1000000)
         throw std::invalid_argument("Spatial matrix source dimensions exceed contract");
@@ -174,23 +174,24 @@ ExpressionDataset ExpressionMatrixSpatialSnapshot::dataset(const std::vector<std
     // snapshot and planned dense selected-feature result, never the whole matrix.
     const auto block=data_->source->read(query,work-reserved,cancelled);
     if(block.features!=features || block.offsets.size()!=features.size()+1 || block.offsets.front()!=0 ||
-       block.offsets.back()!=block.counts.size() || block.counts.size()!=block.observation_indices.size() ||
-       block.domain!=ExpressionValueDomain::Counts || !block.continuous.empty() || block.source_sha256!=data_->source->metadata().source_sha256)
+       block.offsets.back()!=block.observation_indices.size() ||
+       (block.domain==ExpressionValueDomain::Counts?(block.counts.size()!=block.observation_indices.size() || !block.continuous.empty()):(block.continuous.size()!=block.observation_indices.size() || !block.counts.empty())) ||
+       block.domain!=data_->source->metadata().domain || block.source_sha256!=data_->source->metadata().source_sha256)
         throw std::invalid_argument("Spatial sparse block differs from its declared source/shape");
     const auto sparse_bytes=block_bytes(block);
     auto auxiliary=reserved;workflow_capture_charge(auxiliary,sparse_bytes,work);
     if(work-auxiliary<4u*1024*1024)throw WorkflowCaptureLimit("Spatial projection leaves no catalogue read budget");
-    ExpressionDatasetInput input;input.source_id=data_->sha;
+    ExpressionDatasetInput input;input.domain=block.domain;input.source_id=data_->sha;
     input.coordinate_frame=data_->frame.id;input.plane=data_->frame.plane;input.observations=data_->observations;
     input.features.reserve(features.size());
     for(auto feature:features){workflow_checkpoint(cancelled);input.features.push_back(data_->source->feature_page(feature,1,work-auxiliary,cancelled).at(0).id);}
-    input.counts.assign(slots,0);
+    if(input.domain==ExpressionValueDomain::Counts)input.counts.assign(slots,0);else input.continuous.assign(slots,0);
     for(std::size_t f=0;f<features.size();++f) {
-        if(block.offsets[f]>block.offsets[f+1] || block.offsets[f+1]>block.counts.size())throw std::invalid_argument("Spatial sparse offsets differ");
+        if(block.offsets[f]>block.offsets[f+1] || block.offsets[f+1]>block.observation_indices.size())throw std::invalid_argument("Spatial sparse offsets differ");
         auto at=block.offsets[f];
         for(auto row:data_->order) {
             workflow_checkpoint(cancelled);
-            if(at<block.offsets[f+1] && block.observation_indices[at]==data_->indices[row])input.counts[row*features.size()+f]=block.counts[at++];
+            if(at<block.offsets[f+1] && block.observation_indices[at]==data_->indices[row]){const auto slot=row*features.size()+f;if(input.domain==ExpressionValueDomain::Counts)input.counts[slot]=block.counts[at];else input.continuous[slot]=block.continuous[at];++at;}
         }
         if(at!=block.offsets[f+1])throw std::invalid_argument("Spatial sparse block contains an unrequested/duplicate row");
     }

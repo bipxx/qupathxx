@@ -4,6 +4,25 @@
     "tag": "v0.7.0",
     "revision": "04ccfa4fb7d43e9b566393e08e83690b72248d44"
   },
+  "h5ad_schema2": {
+    "filename": "h5ad/schema2.qmx",
+    "bytes": 32768,
+    "sha256": "0d23001c2383856f3acd5c544bafca5aa7d7d269f3ece326361a46b93db867fe",
+    "purpose": "Frozen native schema2 counts/coordinates reader compatibility; selection keys were not stored in this intermediate format",
+    "source_revision": "dc2df39852549244053281dfef5eda4264131796",
+    "source_patch_sha256": "41e4993fb907c6080a96a8db174deaa942887addfe7337df1390faceb682951d",
+    "material": {
+      "id": "qupathxx-h5ad-schema2",
+      "category": "admitted_open",
+      "kind": "evaluation_data",
+      "license_id": "AGPL-3.0-only",
+      "license_evidence": "LICENSE",
+      "attribution": "qupathxx contributors; native sidecar of authored H5AD fixture",
+      "source_ids": [
+        "qupathxx-authored-h5ad"
+      ]
+    }
+  },
   "h5ad_native": {
     "manifest": "h5ad/manifest.json",
     "generator": "tools/make_h5ad_fixtures.py",

@@ -1,5 +1,7 @@
 #pragma once
 #include "qupathxx/expression_dataset.hpp"
+#include "qupathxx/registration.hpp"
+#include <stdexcept>
 #include <array>
 #include <optional>
 namespace qpx {
@@ -17,7 +19,11 @@ struct ExpressionMatrixMetadata {
     std::uint64_t features=0,observations=0,entries=0;
     ExpressionValueDomain domain=ExpressionValueDomain::Counts;
     std::string value_domain="raw-counts",input_profile="qpx-tsv",source_sha256;
-    std::array<std::string,3> input_sha256; // matrix, features, observations
+    std::array<std::string,3> input_sha256; // matrix, features/selection, observations
+    std::optional<CoordinateFrame> spatial_frame;
+    std::string spatial_sha256;
+    // H5AD dataset keys; empty in legacy schema1/2 stores.
+    std::string input_matrix,input_spatial;
 };
 struct ExpressionMatrixImportResult {
     ExpressionMatrixMetadata metadata;
@@ -68,6 +74,12 @@ public:
         const std::atomic<bool>* cancelled=nullptr) const=0;
     virtual std::vector<std::string> observation_page(std::uint64_t first,std::size_t count,
         std::size_t work_bytes=64u*1024*1024,const std::atomic<bool>* cancelled=nullptr) const=0;
+    // Embedded source coordinates in observation-axis order, if spatial_frame
+    // is present. They remain in the declared source frame, never auto-registered.
+    virtual std::vector<ExpressionObservation> spatial_page(std::uint64_t,std::size_t,
+        std::size_t=64u*1024*1024,const std::atomic<bool>* =nullptr) const {
+        throw std::invalid_argument("Expression source has no embedded spatial coordinates");
+    }
     virtual std::optional<std::uint64_t> feature_index(const std::string& id,const std::atomic<bool>* cancelled=nullptr) const=0;
     virtual std::optional<std::uint64_t> observation_index(const std::string& id,const std::atomic<bool>* cancelled=nullptr) const=0;
     // Exact ID join in requested order using one connection/prepared lookup.

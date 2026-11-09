@@ -1,4 +1,5 @@
 #include "qupathxx/h5ad.hpp"
+#include "h5ad_identity.hpp"
 #include "qupathxx/file_fingerprint.hpp"
 #include "qupathxx/workflow.hpp"
 #include "reader_file_guard.hpp"
@@ -141,7 +142,6 @@ std::vector<std::string> catalogue(hid_t file,const char* name,const H5adOptions
     std::size_t check=used;charge(check,out.size()*sizeof(std::string_view),p.work_bytes);std::vector<std::string_view> sorted;sorted.reserve(out.size());for(const auto& id:out)sorted.push_back(id);std::sort(sorted.begin(),sorted.end());require(std::adjacent_find(sorted.begin(),sorted.end())==sorted.end(),"duplicate observation/feature IDs");return out;
 }
 std::array<std::uint64_t,2> sparse_shape(hid_t group){Handle a(H5Aopen(group,"shape",H5P_DEFAULT)),s(H5Aget_space(a)),type(H5Aget_type(a));require(dimensions(s)==std::vector<hsize_t>{2} && H5Tget_class(type)==H5T_INTEGER && H5Tget_size(type)<=8,"sparse shape must contain two integers");std::array<std::uint64_t,2> result;if(H5Tget_sign(type)==H5T_SGN_2){std::int64_t v[2];status(H5Aread(a,H5T_NATIVE_INT64,v),"read shape");require(v[0]>0 && v[1]>0,"negative/empty sparse shape");result={std::uint64_t(v[0]),std::uint64_t(v[1])};}else status(H5Aread(a,H5T_NATIVE_UINT64,result.data()),"read shape");return result;}
-void hash_text(Sha256& h,const std::string& s){h.integer(s.size());h.update(s.data(),s.size());}
 }
 struct H5adReader::Data {
     std::string path;H5adOptions options;H5adMetadata meta;std::shared_ptr<const FileVersion> version;
@@ -161,7 +161,7 @@ struct H5adReader::Data {
         for(std::size_t first=0;first<meta.positions.size();first+=32768){workflow_checkpoint(c);const auto n=std::min<std::size_t>(32768,meta.positions.size()-first);numbers(spatial,{first,0},{n,2},[&](std::size_t i,const Number& v){auto& point=meta.positions[first+i/2];(i%2?point.y:point.x)=real(v);});}
         meta.ignored_metadata={"obs columns except index","var columns except index","unselected layers/obsm entries","uns/obsp/varm/varp/raw and other unselected metadata"};
         FileFingerprintOptions fp;fp.byte_limit=options.file_bytes;const auto fingerprint=fingerprint_file(path,fp,c);meta.input_sha256=fingerprint->sha256;
-        Sha256 h;hash_text(h,"qpx.h5ad-input/1");hash_text(h,meta.input_sha256);hash_text(h,options.matrix);hash_text(h,options.spatial);hash_text(h,options.value_domain);hash_text(h,options.frame.sha256());h.integer(std::uint64_t(*options.domain));meta.source_sha256=h.finish();meta.payload_bytes=used;guard.verify();version=guard.version();
+        meta.source_sha256=detail::h5ad_input_identity(meta.input_sha256,options);meta.payload_bytes=used;guard.verify();version=guard.version();
     }
 };
 H5adReader::H5adReader(const std::string& path,H5adOptions options,const std::atomic<bool>* c):data_(std::make_shared<Data>(path,std::move(options),c)){}

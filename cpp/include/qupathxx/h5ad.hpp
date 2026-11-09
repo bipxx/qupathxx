@@ -41,4 +41,8 @@ private:
     struct Data;std::shared_ptr<const Data> data_;
 };
 bool has_h5ad();
+// One new-only transactional sidecar; decoder and writer share limits.work_bytes.
+// Embedded coordinates/frame survive removing the original H5AD input.
+ExpressionMatrixImportResult import_h5ad_matrix(const std::string& input,const std::string& store,
+    H5adOptions,const ExpressionMatrixImportOptions& limits={},const std::atomic<bool>* cancelled=nullptr);
 }

@@ -558,15 +558,17 @@ and classify actual release inputs under L01. See the existing
   refuse external/virtual storage until supported. Report ignored metadata rather
   than pretending a complete AnnData round trip. Exit: independent CSR/CSC/dense
   fixtures and one small openly licensed real dataset with count/ID/axis equality.
-  Progress: optional pinned HDF52.2 native decoder passes independent authored
-  dense/unsorted CSR/CSC count/continuous, exact uint64/ID/spatial axes, selected
-  layer, bounded allocation/storage and native queued/active cancellation checks.
-  Matrix/TIFF regressions stay passing. Public native VOL attribute reads use a
-  private allocator and paired library context; no Python fallback or HDF5 patch.
-  Shared indexed import/continuous storage, existing import-job/UI integration and
-  admitted real H5AD count/ID/axis evidence remain before O01 can close. Stream
-  directly into the existing transactional store with decoder+writer reservations
-  composed into one work budget; no temporary Matrix Market/TSV conversion.
+  Progress: pinned native decoding and shared indexed import now pass dense/CSR/
+  CSC count/continuous, exact uint64/ID/spatial axes, cohorts, source-offline reopen,
+  composed work limits and existing import-job/owned-project publication checks.
+  Schema3 retains explicit value domain, coordinates/frame and selected H5AD
+  matrix/spatial keys; reopen verifies the saved recipe. Schema1 output bytes stay
+  frozen and a frozen schema2 fixture remains readable. Native physical-coordinate
+  alignment and continuous gene projections survive owned project reopen without
+  the original H5AD/store. Six affected suites pass; native Windows-only PATH works.
+  Actual desktop wiring and admitted real H5AD count/ID/axis evidence remain before
+  O01 can close. Reuse SpatialImportJob.index_h5ad and embedded-coordinate backed
+  preview/publication; no temporary Matrix Market/TSV or alternate state machine.
 - [ ] **O02 — native OME-Zarr image adapter.** Initial declared target is local
   NGFF0.4/Zarr2 image stores, selected C/Z/T, scalar numeric dtypes and supported
   isotropic multiscales. Use JSON + existing native tile scheduling; admit only

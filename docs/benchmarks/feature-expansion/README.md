@@ -1905,3 +1905,67 @@ preserved those objects. Existing C4819 upstream UTF8-comment and baseline linke
 warnings are retained, not a warning-free-build claim. No full rebuild for warning
 cosmetics. Next compose reader/writer budgets and reuse matrix persistence rather
 than introduce another store, generic workflow engine or file-conversion pipeline.
+
+### O01 shared indexed native import and offline project route — 2026-11-09
+
+`import_h5ad_matrix` now streams the delivered H5adReader into the existing matrix
+persistence authority. Matrix Market and H5AD share `detail::matrix::Writer` for
+SQLite schema creation, exact scalar blobs, per-gene identities, quotas/private
+staging, guard verification and atomic new-only publication. No temporary Matrix
+Market/TSV conversion, H5AD-only store, new worker/scheduler, Python application
+logic or new dependency. Decoder catalogue/cache/chunk/index reservations are
+subtracted before the writer's SQLite allowance; native tests use64MiB total and
+require reported accounted peak within it. This does not assert allocator/RSS.
+
+Native sparse reads/project associations/spatial projections now retain explicit
+Counts versus Continuous interpretation. Continuous signed/fractional values stay
+finite doubles; counts retain uint64 beyond2^53. Embedded coordinate pages carry
+their own frame, exact raw doubles and row/aggregate identities. Source-coordinate
+hash preparation happens once per writer/page, not for every row. Physical frame
+conversion/alignment remains the existing native authority. An empty backed-import
+position path selects these embedded rows; an explicit TSV retains its guarded
+legacy behavior. The existing SpatialImportJob owns H5AD indexing and the same
+preview/publication path. Owned projects preserve sidecar bytes and reopen after
+the original H5AD and external store disappear; point metadata contains references,
+not copied floating counts. Unicode frame IDs, planes, calibration and extents
+round trip through native metadata.
+
+Schema3 also retains the exact `X`/layer and spatial keys. Reopen recomputes the
+pure native H5AD recipe identity from original input SHA, keys, value domain and
+frame; a changed selector refuses even without the original file. The reader and
+sidecar verifier share that identity function, callable without the HDF5 backend.
+Legacy schema1 source/block contracts remain unchanged. The frozen native tiny
+import still produces SHA174b4ea68d6022fbab3a488b0a070d0a550853e42e410880707e6f5d8b0b6018.
+The old test's final one-byte stale marker was excluded when capturing that
+canonical reference; its original retained file was not changed (legacy-reference.json).
+
+Evidence: workspace build/feature-expansion/o01-index/{build.log,build-v2.log,
+ctest.log,recipe-build.log,recipe-ctest.log,native-only-v2.log,
+native-only-v2-host.json}. Initial compilation missed the namespace qualification
+on the coordinate identifier helper; retain the failed log and unaffected objects.
+The first repaired batch passes all6 native suites1.99s. Review then identifies
+opaque selection SHA without reconstructable keys. Preserve that passing draft as
+passing-schema2.patch (base dc2df39852549244053281dfef5eda4264131796,
+SHA41e4993fb907c6080a96a8db174deaa942887addfe7337df1390faceb682951d) and its
+source receipt. Schema3 fixes the named provenance gap rather than changing old
+interpretation silently. The frozen32KiB schema2 fixture is admitted in the main
+fixture inventory, SHA0d23001c2383856f3acd5c544bafca5aa7d7d269f3ece326361a46b93db867fe;
+its exact values/coordinates remain readable, without inventing unknown old keys.
+
+Final recipe build succeeds; all6 suites pass2.28s: new H5AD matrix integration,
+standalone H5AD decoder, legacy backed import, spatial matrix, project matrix and
+legacy indexed matrix. Covers dense/CSR/CSC in both domains, cohorts/catalogues,
+all source IDs/axes/values, embedded-coordinate/source-offline reopen, exact frame
+codec, saved nondefault layer replay, quota/composed-budget/pre-cancel refusal,
+malformed-input cleanup, corruption (including outside selected cohort), native
+index/preview/publication and owned continuous project reopen with calibrated
+micrometre-to-pixel alignment. Original fixture bytes remain unchanged. Existing
+legacy suite still exercises active cancellation and changed-file read guards
+through the shared writer. No biological or universal performance qualification.
+
+HEQPC native-only run with System32/Windows PATH exits0; executable SHA
+d37bf96326e8643801a1457a9ab58caba969659d708843ed6183c7ed624183d4.
+Earlier passing draft native receipt remains separately identified, not transferred.
+No full D01 real reindex, broad corpus, GUI, binding, wheel, SDK or package campaign.
+O01 remains open for actual desktop selection/import and admitted real H5AD
+count/ID/coordinate evidence.13/22 complete,9 pending; preserve independent UI work.

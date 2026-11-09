@@ -274,6 +274,12 @@ bool SpatialImportJob::index_matrix(const std::string& matrix,const std::string&
         result.matrix=open_expression_matrix(result.indexed->path,result.indexed->file_sha256,options.work_bytes,options.store_bytes,&data_->cancelled);return result;
     });return true;
 }
+bool SpatialImportJob::index_h5ad(const std::string& input,const std::string& store,H5adOptions options,ExpressionMatrixImportOptions limits){
+    workflow_require_owner(data_->owner);poll();if(busy())return false;options.validate();limits.validate();data_->reset(SpatialImportPhase::MatrixIndexing);
+    data_->future=std::async(std::launch::async,[this,input,store,options=std::move(options),limits]{Data::Outcome result;
+        result.indexed=std::make_shared<const ExpressionMatrixImportResult>(import_h5ad_matrix(input,store,options,limits,&data_->cancelled));
+        result.matrix=open_expression_matrix(result.indexed->path,result.indexed->file_sha256,limits.work_bytes,limits.store_bytes,&data_->cancelled);return result;});return true;
+}
 bool SpatialImportJob::open_matrix(ExpressionMatrixOpenRequest request,std::size_t work) {
     workflow_require_owner(data_->owner);poll();if(busy())return false;request.association.validate();data_->reset(SpatialImportPhase::MatrixOpening);
     data_->future=std::async(std::launch::async,[this,request=std::move(request),work] {

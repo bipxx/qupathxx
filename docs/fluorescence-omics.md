@@ -1044,3 +1044,59 @@ delivered. D02 now also passes an admitted LuCa whole-slide nonzero-origin ROI:
 153 boundary-dependent candidates remain explicitly uncertified. See the
 [shared receipt](benchmarks/feature-expansion/README.md). This is not a released
 SDK/package or a claim of full-slide throughput or frame rate.
+
+Native H5AD indexing (O01, local engineering slice)
+-------------------------------------------------
+
+Enable `QUPATHXX_BUILD_H5AD=ON` for the optional native HDF5 reader. Python is not
+needed. `qupathxx/h5ad.hpp` exposes `H5adReader` and `import_h5ad_matrix`; the latter
+streams directly into the same transactional indexed store used by Matrix Market.
+Declare whether the selected `X` or `layers/<name>` contains counts or continuous
+values. A name such as `raw` does not establish that values are raw counts.
+
+For a file documented to contain raw counts and pixel coordinates, the native
+setup is:
+
+```cpp
+qpx::H5adOptions input;
+input.matrix = "X";
+input.spatial = "obsm/spatial";
+input.domain = qpx::ExpressionValueDomain::Counts;
+input.value_domain = "raw-counts";
+input.frame.id = "documented-pixel-positions";
+input.frame.source_id = "my-capture";
+input.frame.unit = qpx::CoordinateUnit::Pixel;
+qpx::ExpressionMatrixImportOptions limits;
+limits.work_bytes = 256u * 1024 * 1024;
+auto indexed = qpx::import_h5ad_matrix("input.h5ad", "new.qmx", input, limits);
+auto source = qpx::open_expression_matrix(indexed.path, indexed.file_sha256);
+```
+
+Set the frame/unit from the dataset's documented coordinate system. Continuous
+input requires `ExpressionValueDomain::Continuous` and an explicit value-domain
+label; values remain finite doubles, including negative values. Counts retain
+exact uint64 values. Input and import limits combine conservatively; the decoder
+reservation is deducted before the indexed writer receives its remaining budget.
+Existing output files refuse. Failures/cancellation preserve no partial public
+sidecar, and changed/corrupt source data refuse.
+
+The sidecar stores original coordinates and their frame separately from image
+registration. `metadata().spatial_frame`, `spatial_page`, `input_matrix` and
+`input_spatial` remain available after the original H5AD is removed. New schema3
+stores verify the saved selection/domain/frame identity on reopen; older schema1
+and schema2 files remain readable. Schema2 predates retained selection keys, so
+its immutable values/coordinates remain usable without implying those keys are
+known. No automatic migration occurs.
+
+`SpatialImportJob::index_h5ad` uses the existing background index job. For backed
+preview/publication, an empty `BackedSpatialImportRequest::positions` selects the
+store's embedded coordinates and declared source unit/plane. An explicit TSV
+still selects the existing TSV route. Physical conversion requires image pixel
+calibration, and alignment stays explicit. Counts/continuous values remain backed
+in the sidecar; imported points do not receive lossy double count copies. Owned
+projects reopen without either the original H5AD or external source sidecar.
+
+This native path is verified locally; desktop H5AD selection and licensed real-
+H5AD validation still remain in O01. Only the declared AnnData/dense/CSR/CSC/string
+encoding subset is supported. Unselected metadata is excluded as disclosed by the
+reader; this is not an AnnData annotation round trip or a released SDK/package.

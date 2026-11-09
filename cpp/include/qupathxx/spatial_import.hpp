@@ -2,6 +2,7 @@
 #include "qupathxx/spatial_counts.hpp"
 #include "qupathxx/registration.hpp"
 #include "qupathxx/expression_matrix.hpp"
+#include "qupathxx/h5ad.hpp"
 #include "qupathxx/expression_matrix_project.hpp"
 #include <memory>
 
@@ -67,6 +68,7 @@ public:
     bool open_matrix(ExpressionMatrixOpenRequest,std::size_t work_bytes=64u*1024*1024);
     bool index_matrix(const std::string& matrix,const std::string& features,const std::string& observations,
         const std::string& store,ExpressionMatrixImportOptions={});
+    bool index_h5ad(const std::string& input,const std::string& store,H5adOptions,ExpressionMatrixImportOptions={});
     bool matrix_catalogue(std::shared_ptr<const ExpressionMatrixSource>,std::string query,
         std::uint64_t offset=0,std::size_t count=32,std::size_t work_bytes=64u*1024*1024);
     void poll();void wait();void cancel();bool busy() const;

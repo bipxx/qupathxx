@@ -85,8 +85,9 @@ void matches(const ExpressionMatrixAssociation& a,const ExpressionMatrixSource& 
     const auto& m=source.metadata();
     if(a.file_sha256!=source.file_sha256() || a.source_sha256!=m.source_sha256 ||
        a.features!=m.features || a.observations!=m.observations || a.entries!=m.entries ||
-       m.domain!=ExpressionValueDomain::Counts || m.value_domain!="raw-counts")
-        throw WorkflowInputChanged("Expression association source/axes/counts differ");
+       (m.domain!=ExpressionValueDomain::Counts && m.domain!=ExpressionValueDomain::Continuous) ||
+       (m.domain==ExpressionValueDomain::Counts?m.value_domain!="raw-counts":m.value_domain.empty() || m.value_domain=="raw-counts"))
+        throw WorkflowInputChanged("Expression association source/axes/domain differ");
 }
 void not_linked(const fs::path& path) {
     std::error_code error;const auto status=fs::symlink_status(path,error);

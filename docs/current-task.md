@@ -3690,51 +3690,56 @@ before implementation; do not repeat D02 or package before settled P01/P02.
 
 ### O01 — native H5AD decoding and indexed import
 
-Native decoder slice delivered; O01 remains open,13/22 complete. Optional pinned
-HDF52.2.0 C/native local IO, source SHA5b8d75125ae7b4fef55d3b39e8d3dbfd238cdf63b6518afd67fa69ac80f06542,
-BSD-3-Clause/full notices. Reuse one admitted prefixed zlib/header/notice setup;
-plugins/SZIP/network/high-level/C++/Java/Fortran/tools excluded. No Python product
-runtime or new store/scheduler. Preserve independent desktop work above.
+Native decoder, shared indexed import and existing native project/job route are
+now delivered locally. O01 stays open for actual desktop wiring and admitted real
+H5AD count/ID/axis evidence:13/22 complete,9 pending. Preserve independent UI work.
+Dependency/decoder source scope is dc2df398; reuse its29 independent fixtures and
+HDF52.2 source/filter admission, native allocation/context and cancellation checks.
+No Python application logic/runtime, temporary Matrix Market/TSV or extra store.
 
-H5adReader captures declared counts/continuous domain, matrix/layer, explicit
-CoordinateFrame, ordered UTF8 ID axes, Nx2 positions and file/options identity.
-Streams dense/unsorted CSR/CSC exact values; validates pointers/indices/duplicates,
-numeric precision/finite values, schema, file/axis/chunk/string limits and source
-changes. External/soft selected links, external/virtual storage and unreviewed
-filters refuse. Metadata exclusions are disclosed, not an AnnData round trip.
-stream_work_bytes exposes the decoder reservation for a shared writer budget.
-Native sinks must stage output until successful return.
+One shared transactional Writer owns SQLite staging, exact scalar blobs, gene
+hashes, quota checks, input guards and atomic publication for both parsers. H5AD
+reserves decoder work before SQLite receives the remaining allowance. Counts stay
+uint64; continuous values stay finite doubles. Schema3 retains embedded raw source
+coordinates/frame and exact matrix/layer/spatial keys, verifying their native
+recipe identity on reopen. Original H5AD can go offline. Legacy schema1 bytes/
+source/block contracts remain frozen; schema2 values/coordinates stay readable
+without guessing its missing keys. No automatic migration. Source coordinate
+frame hashes are prepared once per page/writer, not once per row.
 
-Decisive evidence: build/feature-expansion/o01-native/context-build.log exit0,
-context-ctest.log H5AD pass0.16s (0.22s wall);29 independently authored fixtures,
-516561 bytes, exact hashes verified. Covers uint64>2^53, negative/fractional
-continuous values, big-endian IO, selected layer, all IDs/axes/frame identity,
-malformed/storage refusal, active and queued cancellation, input mutation.
-Existing matrix/raw_image pass0.47/0.45s in ctest.log after shared-codec extraction;
-not repeated for decoder-only fixes. HEQPC/System32+Windows-only PATH run exits0
-(native-only.log/native-only-host.json), executable SHA
-2ba6e83ad9d1faf2fea004b73362aa3e4156588f04d3c5a0d21be01756c42ae3.
-One final cached configure verifies both HDF5 and shared zlib notice install rules;
-no package/extra compilation. This is native decoder evidence, not a GUI handoff.
+SpatialImportJob.index_h5ad uses the existing indexing future. Existing backed
+preview/publication selects embedded coordinates when no TSV is supplied, retaining
+declared source plane/unit and explicit calibrated conversion/alignment. Guarded
+TSV behavior remains intact. Count/continuous spatial projections and owned
+project reopen use the same native source; no copied double counts on points.
 
-Failures/waste: retain unsupported Windows threadsafe-static configure, missing
-export_path include compile, absent native VL-to-fixed conversion and first VOL
-call's missing-context crash. Each retry changed the diagnosed cause and kept
-exact assertions/all passed evidence. Use a cancellation-aware native library gate
-rather than unsupported build flags/DLL; test waiting cancellation while another
-stream actually holds it. Scalar VL attributes use a private allocator through
-public native VOL attr-read, with paired library-context RAII. No HDF5 patch,
-mutated defaults, external connector, unbounded fallback or h5py converter. First
-activation rebuilt HDF5/core once; affected retries retained those objects.
-Upstream UTF8-comment/baseline linker warnings retained; no cosmetic full rebuild.
-Dev fixture authoring uses h5py3.15.1 installed once through existing uv (no pip);
-product/CTest never imports it. No GUI/bindings/wheel/SDK or large reindex campaign.
-Durable lessons appended to compilexx; full source-scoped receipt records details.
+Decisive evidence: build/feature-expansion/o01-index/recipe-build.log exit0,
+recipe-ctest.log all6 suites pass2.28s (new H5AD matrix, decoder, legacy backed
+import, spatial matrix, project matrix, legacy matrix). Covers dense/CSR/CSC in
+both domains; exact values/IDs/axes/cohorts; source-offline coordinates; Unicode/
+plane/calibration/extent codec; nondefault layer replay; malformed/quota/composed-
+budget/pre-cancel refusal; corruption including outside selected cohort; native
+index/preview/publication and owned continuous project reopen after calibrated
+physical mapping, without original H5AD or external store. Original fixtures
+unchanged. Frozen schema1 tiny file SHA174b4ea6...b0b6018 still matches. Final
+HEQPC Windows-only PATH execution exits0 (native-only-v2.log/host.json), executable
+SHAd37bf96326e8643801a1457a9ab58caba969659d708843ed6183c7ed624183d4.
 
-Next: feed reader.stream directly into shared transactional indexed storage,
-including explicit continuous-domain persistence and composed decoder/writer work.
-Then existing import job/UI and one admitted real H5AD count/ID/axis comparison;
-no temporary Matrix Market/TSV conversion or alternate import state machine.
-Figshare13604177 candidate metadata (CC-BY4/Giovanni Palla, original10x citation,
-94259482-byte H5AD/MD5) is retained in o01-admission; no payload or encoding
-acceptance yet. Keep O01 unchecked until these remaining exits pass.
+Waste review: one namespace qualification compile repair; preserve all unaffected
+objects and the failed build.log. First batch passes1.99s, then concrete provenance
+review finds hash-without-selection-keys gap. Preserve that passing source delta
+(passing-schema2.patch/base/SHA receipt) and admit a32KiB authored schema2 fixture.
+Version new writes as3, share pure native identity code, and rerun only the six
+affected suites; legacy fields/data assertions remain unchanged. HDF5 not rebuilt,
+no full D01 real reindex, broad corpus, GUI, binding, SDK, wheel/package campaign.
+Retain earlier receipts under their own source; do not transfer them to later code.
+Detailed receipt and durable compilexx lessons updated; no duplicate cost ledger.
+
+Next: wire the existing desktop import controller to native H5AD indexing and
+embedded-coordinate preview. User must select counts versus continuous and an
+explicit source coordinate frame/unit; never infer X/raw/layer semantics. Display
+scope exclusions and saved domain/keys. Then admit one real H5AD comparison with
+exact source counts/IDs/coordinates. Figshare13604177 metadata is retained only;
+no payload or encoding acceptance yet. Reuse admitted open inputs/lineage where
+possible; a normalized X cannot stand in for raw-count validation. Keep O01 open
+until those exits pass. Bindings/SDK settle in P01; package once in P02.

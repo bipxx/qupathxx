@@ -6,6 +6,7 @@ namespace qpx {
 class ImageServer;
 struct BackedSpatialImportRequest {
     SpatialImportBaseRequest base;
+    // Empty positions selects the store's embedded coordinates and declared frame.
     std::string store,positions,expected_base_sha256,expected_store_sha256;
     SpatialPositionOptions position_options;
     CoordinateUnit position_unit=CoordinateUnit::Pixel;
