@@ -544,3 +544,24 @@ no accepted candidate. Freeze that choice before another original validation
 comparison; retain v1 and disclose validation reuse rather than calling it unseen
 held-out accuracy. Training bytes are admitted, but no training metrics/search
 have run in this slice. F01 remains unchecked, total7/22 complete.
+
+### F01 training selection frozen before validation follow-up
+
+Native selection evaluated exactly the nine previously declared candidates on the
+separately selected first official training panel. The first complete report and
+exact input inventory are retained under workspace-root
+`build/feature-expansion/f01-training-v1`; no validation candidate search was run.
+One decoded annotation/raw reference is reused across the grid, with independent
+original-sample verification for each result. Native selection/tie/no-candidate
+self-tests pass1/1 (0.13s total), `f01-training-ctest.log`.
+
+The declared rule selects index6: sigma2px/prominence0.5px, unchanged Otsu/min-area5/
+expansion3/pixel units. Training F1=0.8533333333333334 and Dice=0.9528470709989004;
+all non-F1 gates and original-sample moments pass. Candidate0 (old baseline) fails
+its training split-rate gate and is excluded despite F1=0.805. No other candidate
+is selected based on subsequent validation. `followup_protocol` in the existing
+manifest freezes the selected recipe as qpx.bbbc039-pilot/2, links the complete
+training report hash/input identities, and keeps every v1 acceptance threshold.
+The original v1 protocol/failure remain unchanged. Follow-up validation has not
+run at this freeze checkpoint; its reused panel cannot be called unseen held-out
+evidence. No product default, new model or scientific kernel was changed.
