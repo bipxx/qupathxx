@@ -12,9 +12,9 @@
 namespace qpx::detail {
 class GuiSpatialImporter {
 public:
-    enum class Action { Preview, Publish, Cancel, Open };
+    enum class Action { Preview, Publish, Cancel, Open, Next };
 private:
-    std::array<Rect,4> bounds_{};
+    std::array<Rect,5> bounds_{};
     void mark(Action action) {const auto lo=ImGui::GetItemRectMin(),hi=ImGui::GetItemRectMax();bounds_[std::size_t(action)]={lo.x,lo.y,hi.x-lo.x,hi.y-lo.y};}
     enum Path {Base,Image,Matrix,Features,Positions,Output};
     std::array<std::array<char,32769>,6> paths_{};
@@ -36,7 +36,7 @@ private:
     std::weak_ptr<const SpatialImportPreview> seen_preview_;
     std::unique_ptr<GuiTiles> tiles_;
     Viewport view_;ImVec2 preview_size_{};
-    std::string error_;bool open_=false,use_project_=true;int step_=0;std::size_t page_=0;
+    std::string error_;bool open_=false,use_project_=true,embedded_=false;int step_=0;std::size_t page_=0;
     void copy(Path field,const std::string& value) {
         if(value.size()>=paths_[field].size())throw std::invalid_argument("Import path exceeds32768 UTF-8 bytes");
         std::memcpy(paths_[field].data(),value.c_str(),value.size()+1);
@@ -46,7 +46,7 @@ private:
     BackedSpatialImportRequest backed_request() {
         BackedSpatialImportRequest result;
         result.base={request_.input_project,request_.output_project,request_.image_path,request_.image_reader,request_.image_id,request_.image_series,ObjectPlane(-1,request_.options.z,request_.options.t)};
-        result.store=indexed().store();result.positions=request_.positions;result.expected_base_sha256=request_.expected_base_sha256;
+        result.store=indexed().store();result.positions=embedded_?"":request_.positions;result.expected_base_sha256=request_.expected_base_sha256;
         result.position_options={request_.options.position_columns,request_.options.file_bytes,request_.options.work_bytes,request_.options.max_observations};
         result.position_unit=request_.position_unit;result.alignment=request_.alignment;result.owned=owned_;
         if(const auto source=indexed().source())result.expected_store_sha256=source->file_sha256();return result;
@@ -90,7 +90,7 @@ public:
         if(job_.busy())throw std::logic_error("Import is busy");indexed_mode_=false;request_=std::move(request);use_project_=!request_.input_project.empty();
         copy(Base,request_.input_project);copy(Image,request_.image_path);copy(Matrix,request_.matrix);copy(Features,request_.features);copy(Positions,request_.positions);copy(Output,request_.output_project);
         for(unsigned i=0;i<3;++i) {if(request_.options.position_columns[i].size()>256)throw std::invalid_argument("Coordinate column name too long");std::strcpy(columns_[i].data(),request_.options.position_columns[i].c_str());}
-        invalidate();catalogue_.reset();bases_.reset();open_=true;
+        embedded_=false;step_=0;invalidate();catalogue_.reset();bases_.reset();open_=true;
     }
     void set_request(const BackedSpatialImportRequest& request) {
         SpatialImportRequest common;common.input_project=request.base.input_project;common.output_project=request.base.output_project;
@@ -98,10 +98,13 @@ public:
         common.positions=request.positions;common.options.position_columns=request.position_options.columns;common.options.file_bytes=request.position_options.file_bytes;
         common.options.work_bytes=request.position_options.work_bytes;common.options.max_observations=request.position_options.max_observations;
         common.options.z=request.base.plane.z;common.options.t=request.base.plane.t;common.position_unit=request.position_unit;common.alignment=request.alignment;
-        common.expected_base_sha256=request.expected_base_sha256;set_request(std::move(common));indexed_mode_=true;owned_=request.owned;indexed().set_store(request.store,request.expected_store_sha256);
+        common.expected_base_sha256=request.expected_base_sha256;set_request(std::move(common));indexed_mode_=true;owned_=request.owned;embedded_=request.positions.empty();indexed().set_store(request.store,request.expected_store_sha256);
     }
     void set_index_inputs(const std::string& matrix,const std::string& features,const std::string& observations,const std::string& store,ExpressionMatrixImportOptions options={}) {
         if(job_.busy())throw std::logic_error("Import is busy");indexed_mode_=true;indexed().set_index(matrix,features,observations,store,options);invalidate();
+    }
+    void set_h5ad_inputs(const std::string& input,const std::string& store,const H5adOptions& options) {
+        if(job_.busy())throw std::logic_error("Import is busy");indexed().set_h5ad(input,store,options);indexed_mode_=true;embedded_=true;invalidate();
     }
     void open(const Project* current=nullptr) {
         open_=true;if(request_.input_project.empty() && request_.image_path.empty() && current && !current->path().empty()) {
@@ -147,7 +150,7 @@ public:
             if(step_==0) {
                 int storage=indexed_mode_?1:0;
                 if(ui::Combo("Expression storage",&storage,"Selected genes in project\0Full indexed matrix\0")){indexed_mode_=storage==1;invalidate();}
-                ui::TextWrapped("%s",indexed_mode_?"Position rows join exact observation IDs. Full gene counts remain indexed on disk.":"Position rows must follow matrix-column order; feature rows must follow matrix-row order. Use Matrix Market integer counts and TSV tables.");
+                ui::TextWrapped("%s",indexed_mode_?"Coordinates join exact observation IDs. Full gene values remain indexed on disk.":"Position rows must follow matrix-column order; feature rows must follow matrix-row order. Use Matrix Market integer counts and TSV tables.");
                 int source=use_project_?0:1;
                 if(ui::Combo("Image source",&source,"Saved project\0PPM / TIFF image\0")) {use_project_=source==0;request_.expected_base_sha256.clear();bases_.reset();request_.image_id=1;invalidate();}
                 if(use_project_) {
@@ -160,11 +163,15 @@ public:
                 } else path(Image,"Image file",{".ppm",".tif",".tiff"});
                 if(indexed_mode_){if(indexed().draw_files())invalidate();if(ui::Checkbox("Copy indexed matrix with project",&owned_))invalidate();}
                 else{path(Matrix,"Counts (.mtx)",{".mtx"});path(Features,"Feature IDs (.tsv)",{".tsv"});}
-                path(Positions,"Positions (.tsv)",{".tsv"});path(Output,"New project",{".qpx"},true);
+                if(indexed_mode_ && ui::Checkbox("Use embedded source coordinates",&embedded_))invalidate();
+                if(!indexed_mode_ || !embedded_)path(Positions,"Positions (.tsv)",{".tsv"});path(Output,"New project",{".qpx"},true);
             } else if(step_==1) {
+                if(indexed_mode_ && indexed().draw_interpretation())invalidate();
+                if(indexed_mode_ && embedded_)indexed().draw_frame();else{
                 ui::TextWrapped("Map the three position-table headers exactly. X is image column; Y is image row. No axes or units are guessed.");
                 for(unsigned i=0;i<3;++i)if(ui::InputText(i==0?"Observation ID column":i==1?"X column":"Y column",columns_[i].data(),columns_[i].size()))invalidate();
                 int unit=int(request_.position_unit);if(ui::Combo("Source coordinate units",&unit,"Pixels\0Micrometres\0")) {request_.position_unit=static_cast<CoordinateUnit>(unit);invalidate();}
+                }
                 ui::TextWrapped("Micrometres require known image calibration. Scaling and offsets below apply after conversion to image pixels.");
                 for(const auto entry:{std::pair{0,"X scale"},std::pair{4,"Y scale"},std::pair{2,"X offset (px)"},std::pair{5,"Y offset (px)"}})
                     if(ui::InputDouble(entry.second,&request_.alignment.matrix[entry.first]))invalidate();
@@ -197,13 +204,13 @@ public:
                 if(preview_ || backed_) {
                     if(backed_)ui::Text("%zu spots; all %llu matrix features",backed_->mapped_positions().size(),static_cast<unsigned long long>(backed_->spatial().source()->metadata().features));
                     else ui::Text("%zu spots; %zu selected / %u matrix features",preview_->projection().observations.size(),preview_->projection().features.size(),preview_->projection().matrix_features);
-                    ui::TextWrapped("Counts are exact integers. Coordinates below are mapped image pixels; original coordinates and the explicit recipe are retained.");
+                    ui::TextWrapped("%s Coordinates below are mapped image pixels; original coordinates and the explicit recipe are retained.",backed_ && backed_->spatial().source()->metadata().domain==ExpressionValueDomain::Continuous?"Values are finite continuous doubles.":"Counts are exact integers.");
                     overlay();ui::TextWrapped("Output: %s",backed_?backed_->request().base.output_project.c_str():preview_->request().output_project.c_str());
                     if(job_.phase()!=SpatialImportPhase::Complete) {ImGui::BeginDisabled(!preview_ready());const auto clicked=ui::Button("Import new project");mark(Action::Publish);if(clicked)invoke([&]{publish();});ImGui::EndDisabled();}
                     if(job_.phase()==SpatialImportPhase::Complete) {ui::TextUnformatted("New project saved.");ImGui::BeginDisabled(blocked);const auto clicked=ui::Button("Open imported project");mark(Action::Open);if(clicked)open_path=backed_?backed_->request().base.output_project:preview_->request().output_project;ImGui::EndDisabled();}
                 }
             }
-            if(step_>0 && ui::Button("Back"))--step_;if(step_<3) {if(step_>0)ImGui::SameLine();if(ui::Button("Next")) {++step_;if(step_==2 && (indexed_mode_?!indexed().source():!catalogue_))invoke([&]{read_genes();});if(step_==3)invoke([&]{preview();});}}
+            if(step_>0 && ui::Button("Back"))--step_;if(step_<3) {if(step_>0)ImGui::SameLine();const auto next=ui::Button("Next");mark(Action::Next);if(next) {++step_;if(step_==2 && (indexed_mode_?!indexed().source():!catalogue_))invoke([&]{read_genes();});if(step_==3)invoke([&]{preview();});}}
             ImGui::EndDisabled();
             if(!error().empty())ui::TextWrapped("%s",error().c_str());
             if(const auto selected=picker_.draw()) {invoke([&]{copy(picking_,*selected);invalidate();if(picking_==Features) {catalogue_.reset();request_.expected_feature_sha256.clear();}if(picking_==Base) {bases_.reset();request_.expected_base_sha256.clear();request_.image_id=1;}});}

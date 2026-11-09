@@ -71,7 +71,9 @@ struct Errors {
 Handle open_file(const std::string& path){
     status(H5PLset_loading_state(0),"disable external plugins");Handle fapl(H5Pcreate(H5P_FILE_ACCESS));
     status(H5Pset_vol(fapl,H5VL_NATIVE,H5P_DEFAULT),"select native local connector");status(H5Pset_fapl_sec2(fapl),"select local file driver");
-    status(H5Pset_cache(fapl,0,521,65536,.75),"bound chunk cache");
+    // Retain ordinary compressed chunks across adjacent sparse columns. At most
+    // three numeric datasets coexist;3MiB plus4MiB metadata fits the8MiB reserve.
+    status(H5Pset_cache(fapl,0,521,1024*1024,.75),"bound chunk cache");
     H5AC_cache_config_t cache{};cache.version=H5AC__CURR_CACHE_CONFIG_VERSION;status(H5Pget_mdc_config(fapl,&cache),"get metadata cache");
     cache.set_initial_size=true;cache.initial_size=1024*1024;cache.min_size=1024*1024;cache.max_size=4u*1024*1024;status(H5Pset_mdc_config(fapl,&cache),"bound metadata cache");
     return Handle(H5Fopen(path.c_str(),H5F_ACC_RDONLY,fapl));

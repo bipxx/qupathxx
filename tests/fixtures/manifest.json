@@ -532,5 +532,67 @@
         "foreground_dice": 0.9528470709989004
       }
     }
-  }
+  },
+  "h5ad_real": [
+    {
+      "filename": "build/feature-expansion/d01-real/mouse-brain.qmx",
+      "bytes": 354279424,
+      "sha256": "79f407bf9b0810f417410961dd79db6a6ce1ff8999e085d1ef8f7865eaca7401",
+      "license": "CC-BY-4.0",
+      "license_source": "https://www.10xgenomics.com/datasets/mouse-brain-section-coronal-1-standard-1-1-0",
+      "purpose": "Retained full native derivative of V1_Adult_Mouse_Brain raw counts; source SHA77b62ca7dbeb474a6df7a0cc1af9884c3a72069f15e677d145455e66ef2cf044, D01 receipt; not bundled",
+      "tier": "extended",
+      "material": {
+        "id": "10x-full-count-store",
+        "category": "admitted_open",
+        "kind": "evaluation_data",
+        "license_id": "CC-BY-4.0",
+        "license_evidence": "https://www.10xgenomics.com/datasets/mouse-brain-section-coronal-1-standard-1-1-0",
+        "attribution": "10x Genomics V1_Adult_Mouse_Brain (2020-06-23); lossless H5AD derivative prepared by qupathxx contributors",
+        "source_ids": []
+      },
+      "source": "build/feature-expansion/d01-real/mouse-brain.qmx"
+    },
+    {
+      "filename": "build/real-data-demo/mouse-brain/positions.tsv",
+      "bytes": 152249,
+      "sha256": "dd313edd021d0f3fa95b7beed61e6e7ed495c9a3b50b24d5582ab6aeef5f9b4c",
+      "license": "CC-BY-4.0",
+      "license_source": "https://www.10xgenomics.com/datasets/mouse-brain-section-coronal-1-standard-1-1-0",
+      "purpose": "Retained exact ID coordinates; original fullres column/row times published hires scale0.17011142; real-data-demo receipt; not bundled",
+      "tier": "extended",
+      "material": {
+        "id": "10x-hires-positions",
+        "category": "admitted_open",
+        "kind": "evaluation_data",
+        "license_id": "CC-BY-4.0",
+        "license_evidence": "https://www.10xgenomics.com/datasets/mouse-brain-section-coronal-1-standard-1-1-0",
+        "attribution": "10x Genomics V1_Adult_Mouse_Brain (2020-06-23); lossless H5AD derivative prepared by qupathxx contributors",
+        "source_ids": []
+      },
+      "source": "build/real-data-demo/mouse-brain/positions.tsv"
+    },
+    {
+      "filename": "build/feature-expansion/o01-real/mouse-brain-counts.h5ad",
+      "bytes": 35492060,
+      "sha256": "ca8515e12ad0b35d4603ee8c13e2ea66d23a983bed1df2091acbdb6ef3d91317",
+      "license": "CC-BY-4.0",
+      "license_source": "https://www.10xgenomics.com/datasets/mouse-brain-section-coronal-1-standard-1-1-0",
+      "purpose": "Disclosed lossless AnnData0.1.0 CSC current-profile derivative: all32285 genes,2702 observations,16031101 entries and original hires coordinates; optional full-data format check, not an upstream legacy H5AD or biology acceptance claim; not bundled/automatic CI",
+      "tier": "extended",
+      "material": {
+        "id": "10x-full-counts-h5ad",
+        "category": "admitted_open",
+        "kind": "evaluation_data",
+        "license_id": "CC-BY-4.0",
+        "license_evidence": "https://www.10xgenomics.com/datasets/mouse-brain-section-coronal-1-standard-1-1-0",
+        "attribution": "10x Genomics V1_Adult_Mouse_Brain (2020-06-23); lossless H5AD derivative prepared by qupathxx contributors",
+        "source_ids": [
+          "10x-full-count-store",
+          "10x-hires-positions"
+        ]
+      },
+      "source": "build/feature-expansion/o01-real/mouse-brain-counts.h5ad"
+    }
+  ]
 }

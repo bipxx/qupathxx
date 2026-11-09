@@ -54,6 +54,22 @@ int main(int argc,char** argv) {try {
         check(imported->object_count()==3 && imported->annotation(1).properties->measurements().at("omics.count:G1")==5 && imported->annotation(2).properties->measurements().at("omics.count:G2")==0,"GUI import retains independent expected counts");
         check(imported->annotation(2).geometry.centroid().y==4.5 && imported->annotation(1).properties->metadata().at("omics.original_x")=="1.5","GUI import retains mapped and original coordinates");
         check(bytes(root/"base.qpx")==original && !doc->object_count(),"Import leaves current project/file intact");
+        if(has_h5ad()) {
+            BackedSpatialImportRequest h5;h5.base.input_project=request.input_project;h5.base.output_project=(root/"continuous.qpx").u8string();h5.base.image_id=1;h5.store=(root/"continuous.qmx").u8string();h5.alignment.matrix={.01,0,2,0,.01,2};
+            H5adOptions interpretation;interpretation.domain=ExpressionValueDomain::Continuous;interpretation.value_domain="processed-X";interpretation.frame.id="authored-pixels";interpretation.frame.source_id="authored-h5ad";interpretation.frame.unit=CoordinateUnit::Pixel;
+            wizard->set_request(h5);wizard->set_h5ad_inputs((fs::path(QPX_H5AD_FIXTURES)/"csc_matrix-continuous.h5ad").u8string(),h5.store,interpretation);wizard->read_images();wizard->wait();
+            const auto click=[&](detail::GuiSpatialImporter::Action action){frame();glfwSwapBuffers(window);frame(0,action);glfwSwapBuffers(window);frame(1,action);glfwSwapBuffers(window);wizard->wait();};
+            click(detail::GuiSpatialImporter::Action::Next);click(detail::GuiSpatialImporter::Action::Next);
+            check(wizard->indexed_source() && wizard->indexed_source()->metadata().domain==ExpressionValueDomain::Continuous,"Actual wizard navigation indexes H5AD through native worker");
+            click(detail::GuiSpatialImporter::Action::Next);
+            check(wizard->backed_result() && wizard->backed_result()->mapped_positions()[0].x==3.0025 && wizard->backed_result()->spatial().dataset({1}).continuous()[0]==-1.25,"Desktop H5AD preview preserves continuous values and embedded coordinates");
+            for(int i=0;i<3000 && !wizard->preview_ready();++i){frame();glfwSwapBuffers(window);std::this_thread::sleep_for(std::chrono::milliseconds(2));}
+            check(wizard->preview_ready(),"H5AD overlay settles");frame();capture(root/"h5ad-preview.ppm",window);glfwSwapBuffers(window);click(detail::GuiSpatialImporter::Action::Publish);
+            check(wizard->phase()==SpatialImportPhase::Complete && Project::open(h5.base.output_project)->document(1)->object_count()==3,"Actual desktop H5AD import publishes native project");
+            frame();glfwSwapBuffers(window);frame(0,detail::GuiSpatialImporter::Action::Open);glfwSwapBuffers(window);check(frame(1,detail::GuiSpatialImporter::Action::Open)==h5.base.output_project,"H5AD Open returns saved native project");glfwSwapBuffers(window);
+            wizard->set_h5ad_inputs((fs::path(QPX_H5AD_FIXTURES)/"csc_matrix.h5ad").u8string(),(root/"changed.qmx").u8string(),interpretation);
+            check(!wizard->indexed_source() && !wizard->backed_result(),"Changed H5AD selection invalidates stale source and preview");
+        }
         write(root/"indexed-counts.mtx","%%MatrixMarket matrix coordinate integer general\n40 3 3\n1 1 5\n33 2 19\n40 3 9\n");
         std::string indexed_features="feature_id\n";
         for(int i=0;i<40;++i)indexed_features+="Idx"+std::string(i<10?"0":"")+std::to_string(i)+"\n";

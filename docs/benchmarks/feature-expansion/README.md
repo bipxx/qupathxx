@@ -1969,3 +1969,65 @@ Earlier passing draft native receipt remains separately identified, not transfer
 No full D01 real reindex, broad corpus, GUI, binding, wheel, SDK or package campaign.
 O01 remains open for actual desktop selection/import and admitted real H5AD
 count/ID/coordinate evidence.13/22 complete,9 pending; preserve independent UI work.
+
+
+### O01 desktop and real-count closure
+
+Local O01 closure adds the existing desktop import controller, with a third H5AD
+input kind and a Coordinates step for explicit keys/value domain/source frame/
+units/plane. Counts and continuous values remain distinct; embedded coordinates
+need no TSV. Saved native metadata is inspectable, omitted AnnData metadata is
+disclosed, and input edits invalidate opened source/preview. No Python runtime.
+The app and import GUI targets build (o01-desktop/layout-build.log). Two affected
+native suites pass0.63s (native-ctest.log); the six earlier indexed integration
+suites retain their original source scope. The cache-only decoder change keeps
+all numeric/scientific identity unchanged:1MiB per dataset avoids a64KiB cache
+smaller than the admitted256/128KiB chunks. Three numeric caches +4MiB metadata
+fit the existing8MiB fixed reservation; no before/after speed claim is made.
+
+Real fixture: full CC-BY4 10x V1_Adult_Mouse_Brain, attributed to10x Genomics,
+2020-06-23 ([official dataset/license](https://www.10xgenomics.com/datasets/mouse-brain-section-coronal-1-standard-1-1-0)).
+This is a disclosed development-only h5py3.15.1 lossless current-profile H5AD
+construction from the admitted native full raw-count store and retained native
+hires positions, not a downloaded upstream legacy H5AD. All32285 genes,2702
+observations and16031101 entries are retained, without normalization/subsetting.
+Gene names/types are extra unselected metadata; var index IDs are the imported IDs.
+Coordinates retain published fullres column/row times0.17011142, in the retained
+1921x2000 hires pixel frame. No guessed registration/calibration. Fixture/preparer
+and their receipts remain external build evidence, not bundled/automatic CI.
+
+Exact identities in tests/fixtures/manifest.json and o01-real/fixture.json:
+
+- original full .qmx SHA79f407bf9b0810f417410961dd79db6a6ce1ff8999e085d1ef8f7865eaca7401;
+- position TSV SHAdd313edd021d0f3fa95b7beed61e6e7ed495c9a3b50b24d5582ab6aeef5f9b4c;
+- H5AD35492060 bytes, SHAca8515e12ad0b35d4603ee8c13e2ea66d23a983bed1df2091acbdb6ef3d91317;
+- new .qmx352706560 bytes, SHA13a7990d6b96e83b7c43bf184ce7878ae236f513793e7074ffccfdfa0cba0d8c.
+
+Opt-in native qupathxx_h5ad_real_check imports once and compares EVERY sparse
+entry/offset/observation index in batched32-gene reads, all feature/observation
+IDs/order and all exact independently ID-joined TSV coordinates. Original file
+hashes remain unchanged. o01-real/native.log exits0: import16252.5628ms,
+153567784 peak accounted work bytes under256MiB; full comparison26803.2883ms.
+These are local observations under concurrent build load, not process RSS,
+QuPath timing/throughput comparisons or biological acceptance. Exact three-record
+admission.json passes the unchanged material-staging guard (admission.log); full
+historical group-level fixture inventory is not a per-byte staged membership list.
+That wider release-membership task remains L01.
+
+Actual GUI run o01-desktop/gui-absolute.log exits0: independent continuous H5AD
+is indexed via Next actions, preview preserves raw embedded positions/negative
+values, actual publish/open works, changed selection invalidates stale results.
+Existing selected/indexed/paged-gene and refusal checks pass in that same run.
+Real desktop publication reuses the once-imported full H5AD sidecar and explicit
+retained TSV, renders2702 registered spots and publishes2702 objects. Inspected
+h5ad-preview.png and real-indexed-preview.png for readable domain/actions and
+meaningful overlay registration. It does not reindex the real source or duplicate
+native count validation. First gui.log reaches publication but fails a relative
+root vs absolute Open assertion; preserved gui/ is diagnostic. The same binary
+passes with an absolute evidence root, without assertion/product changes.
+
+source-receipt.json retains host, executable and source/dirty-overlay identities;
+independent desktop changes are disclosed and preserved. Native real/decoder
+scope precedes the frontend-only layout change. No binding, SDK, wheel or package
+rebuild; those remain P01/P02. No all-AnnData/legacy encoding, biology, full parity
+or speed superiority claim. O01 closes14/22;8 pending. Next O02 local OME-Zarr.

@@ -1096,7 +1096,19 @@ calibration, and alignment stays explicit. Counts/continuous values remain backe
 in the sidecar; imported points do not receive lossy double count copies. Owned
 projects reopen without either the original H5AD or external source sidecar.
 
-This native path is verified locally; desktop H5AD selection and licensed real-
-H5AD validation still remain in O01. Only the declared AnnData/dense/CSR/CSC/string
-encoding subset is supported. Unselected metadata is excluded as disclosed by the
+The desktop route is verified locally. In Import spatial expression, choose Full
+indexed matrix, then Index H5AD; supply the H5AD path and a new sidecar path. Choose
+Use embedded source coordinates to avoid a separate TSV. On Coordinates, declare
+matrix/spatial keys, counts or continuous values, a value-domain label (exactly
+raw-counts for counts), source frame ID/identity, units and source Z/T. Provide
+explicit alignment and target image plane; no normalization or registration is
+guessed. Next indexes through the native worker and shows a paged full catalogue.
+Preview, Import new project and Open imported project use the existing native
+workflow. Saved frame/domain/keys can be inspected on Coordinates after indexing.
+
+The admitted real-data check compares every count/ID/coordinate of the full 10x
+mouse-brain source through a disclosed lossless current-profile H5AD derivative.
+This does not establish legacy upstream H5AD compatibility or biological validity.
+See the [closure receipt](benchmarks/feature-expansion/README.md#o01-desktop-and-real-count-closure).
+Only the declared AnnData/dense/CSR/CSC/string encoding subset is supported. Unselected metadata is excluded as disclosed by the
 reader; this is not an AnnData annotation round trip or a released SDK/package.

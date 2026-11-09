@@ -3690,9 +3690,11 @@ before implementation; do not repeat D02 or package before settled P01/P02.
 
 ### O01 — native H5AD decoding and indexed import
 
-Native decoder, shared indexed import and existing native project/job route are
-now delivered locally. O01 stays open for actual desktop wiring and admitted real
-H5AD count/ID/axis evidence:13/22 complete,9 pending. Preserve independent UI work.
+O01 is now delivered locally, including native decoding/indexed/project/job route,
+actual desktop import and admitted real count/ID/axis evidence:14/22 complete,
+8 pending. Preserve independent UI work. Next selected implementation is O02 local
+NGFF0.4/Zarr2 over the existing native source capability; read its plan packet.
+Do not repeat O01/D02 or package before P01/P02.
 Dependency/decoder source scope is dc2df398; reuse its29 independent fixtures and
 HDF52.2 source/filter admission, native allocation/context and cancellation checks.
 No Python application logic/runtime, temporary Matrix Market/TSV or extra store.
@@ -3743,3 +3745,63 @@ exact source counts/IDs/coordinates. Figshare13604177 metadata is retained only;
 no payload or encoding acceptance yet. Reuse admitted open inputs/lineage where
 possible; a normalized X cannot stand in for raw-count validation. Keep O01 open
 until those exits pass. Bindings/SDK settle in P01; package once in P02.
+
+O01 desktop/real-data slice: add an H5AD choice to the existing indexed input
+controller and keep preview/publication native. Explicit value domain and source
+coordinate units/frame, saved dataset keys, embedded-coordinate choice and scope
+exclusions must be visible; no per-row frontend logic. Preserve the independent
+ui::Checkbox change in gui_spatial_import.hpp. Extend actual GUI action checks
+for indexing, preview/publish/open and stale input edits; build app/import GUI
+and only affected native checks once after interfaces settle.
+
+For real raw-count equality, reuse the already admitted CC-BY4 10x full32285-gene/
+2702-observation/16031101-entry source and declared hires pixel coordinates.
+Author a disclosed current-profile H5AD fixture losslessly from the frozen native
+store using development-only h5py; app/runtime never uses that preparer. Preserve
+ALL original IDs/counts/coordinates, not a conveniently smaller gene/spot subset.
+Verify original store SHA79f407bf...aca7401 before/after, explicit coordinate TSV
+provenance and derivative lineage. One native H5AD import plus every sparse entry/
+ID/coordinate comparison against the retained original store/TSV establishes the
+new format, not a repeated Matrix Market qualification. No new biological data
+download, unreviewed/NC input or hidden normalized-X-as-counts substitution. The
+Figshare candidate stays metadata only. Keep one H5AD fixture, source/evidence in
+build/feature-expansion/o01-real, not bundled source/package. Inspect actual chunk
+shape before choosing a cache optimization; preserve result identity/composed work.
+
+Desktop/real first batch: cached native/app/GUI build exits0. Full real H5AD
+comparison passes: all16031101 sparse entries,32285 feature IDs/order,2702
+observation IDs/order and2702 exact ID-joined coordinates; input hashes unchanged.
+Import16252.6ms,153567784 accounted bytes under256MiB (not RSS/speed comparison).
+Actual data chunks256/128KiB exceed old64KiB cache:1MiB per dataset now fits three
+numeric datasets +4MiB metadata within the existing8MiB reservation. No before/
+after speed claim. Fixture lineage/admission is explicit CC-BY4, not upstream
+legacy H5AD. Scoped staging guard passes; the entire historical fixture inventory
+is not a byte staging inventory (authored fixture-group records lack per-file
+hashes), so use the exact three real records, without weakening that guard.
+Before GUI execution, move scientific interpretation fields to Coordinates step
+so Image/files remains readable; then cached frontend-only rebuild/check. No
+repeated real index or biological campaign; preserve its completed sidecar/receipt.
+
+First GUI run reaches native H5AD publication, then fails Open-path assertion:
+the test was invoked with a relative output root while its indexed Open assertions
+expect an absolute saved path. Preserve gui/ and gui.log; rerun the same binary
+with an explicit absolute new evidence root (no product/assertion change or rebuild).
+
+Closure: layout-build.log exits0; native-ctest.log passes h5ad/h5ad_matrix0.63s.
+Unchanged GUI binary passes gui-absolute.log after correcting only invocation root.
+Actual Next controls index independent continuous H5AD; exact embedded-coordinate
+preview, publish/open and changed-selection invalidation pass. Legacy selected/
+indexed routes and gene paging remain checked. Real32285-gene/2702-spot desktop
+preview/publication passes on the new H5AD sidecar with retained explicit TSV;
+independent real native check already verifies all embedded coordinates. Inspected
+h5ad-preview.png and real-indexed-preview.png: values/domain and actions readable,
+registered overlay correct; no cosmetic parity campaign. Source/binary identities
+and full dirty UI patch are retained in o01-desktop/source-receipt.json. GUI work
+is not claimed to be a pristine commit while independent UI edits are in use.
+
+Waste: one bounded relink for moving interpretation fields off crowded Files;
+one invocation-only GUI retry, no assertion weakening/rebuild; scoped fixture
+staging after existing group-level inventory fails byte-staging schema. Native
+real import performed once; no h5py app fallback, raw MTX reindex, binding/SDK/
+wheel/package or broad campaign. Plan/guide/receipt and durable compilexx notes
+updated. O01 closes; O02 next, remaining L01/O02/A01-A04/P01/P02 stay open.
