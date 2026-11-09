@@ -544,3 +544,40 @@ Preview evaluates saved observations without remeasuring pixels. Input changes
 discard stale authority, and publication disables while editing is blocked.
 Applied results remain visible while observations/classes are unchanged; Undo or
 an incompatible edit invalidates them. Cancellation never publishes classes.
+
+
+## Native dark/flat foundation (F03 in progress)
+
+`qupathxx/channel_source.hpp` defines `ChannelSource`: immutable quantitative
+metadata, a value domain and observed-source-version identity, bounded block IO
+and explicit currentness checks. `original_channel_source(server)` adapts native
+raw IO without requiring a TIFF display view. This additive identity does not
+replace legacy TIFF/F01 hashes. File identities record observed versions, not
+full-file pixel fingerprints; in-memory source identities are process-local.
+
+`dark_flat_channel_source(signal, dark, flat, DarkFlatOptions{scales, minimum})`
+creates an immutable Float64 source in `qpx.dark-flat-corrected-samples/1`.
+The three inputs must be original-sample sources with identical spatial/C/Z/T
+axes, channel names and calibration. Scales explicitly name one positive finite
+normalization value per original channel. Initial correction reads level-zero
+blocks; no implicit field broadcasting, channel matching or tile-local statistics.
+
+For each valid channel, evaluation is `(signal-dark)/(flat-dark)*scale`, with
+division before multiplication. Denominators must be finite and strictly greater
+than the nonnegative minimum. Nonfinite inputs, invalid denominators and overflow
+produce NaN for the affected channel. Input validity masks are intersected for
+missing pixels; a valid zero remains a measured zero and signed outputs survive.
+Integer inputs outside +/-2^53 refuse double conversion. Original samples are
+never rewritten. The pure `correct_dark_flat` function uses the same kernel.
+
+`read_work_bytes` reports the accounted native snapshot/buffer peak, excluding
+existing reader/OS caches. `read` rejects insufficient work before pixel decoding,
+reads bounded owned blocks, and checks source metadata/file versions before and
+afterward. Source and correction identities include exact normalization, source
+versions and algorithm domain. They are recipe/source identities, not a promise
+of an evaluated result archive. Cancellation throws without publishing a result.
+
+This foundation has analytical and synthetic-TIFF native tests. Retained recipe
+serialization/reopen, CLI/desktop controls and integration into explicitly derived
+analysis remain F03 work. Existing original-sample fluorescence measurements and
+marker rules continue to use their declared original domain.

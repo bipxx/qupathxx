@@ -2346,3 +2346,38 @@ minimal typed original/derived block source contract, preserve legacy TIFF
 identity, then explicit immutable dark/flat recipes with analytical field/seam,
 invalid denominator, cancellation and source/persistence checks. Keep proprietary,
 NC and unreviewed inputs excluded; preserve unrelated desktop edits.
+
+### F03 foundation: typed quantitative sources and dark/flat blocks
+
+Changed inputs: additive ChannelSource capability over existing raw metadata/IO,
+original-source version capture and an immutable dark/flat derived source/kernel.
+No TIFF display-view prerequisite or legacy TIFF/F01 identity rewrite. Original
+sources and explicit per-channel scales determine a versioned corrected domain.
+Identical axes/channel order/calibration are required; no implicit broadcasting,
+tile-local normalization or signed-value clamp. Padding uses validity intersection;
+nonfinite/invalid denominators become per-channel NaN. Reject integer precision
+loss beyond2^53 and bound simultaneous buffers before any decoder read.
+
+Decisive checks: hand-calculated multi-channel values, signs/zero/invalid samples,
+threshold edges/nonfinites/precision, exact whole-versus-tiled seams and selected
+channel/Z/T, native source metadata/file/cancellation guards, malformed block
+refusal and exact-limit work admission before reads. Use synthetic native readers
+without TIFF views plus existing admitted quantitative TIFF fixtures. Settle this
+API/test contract before one affected cached core/test build; no GUI/bindings or
+new dependency/data. F03 stays open for persisted recipes and CLI/desktop/derived
+analysis integration; do not label corrected measurements as original samples.
+
+First cached foundation build succeeds; channel_source native CTest passes1/1
+(0.12s), including its actual TIFF byte/version branch. No retries, bindings,
+GUI build, dependency/data download or segmentation rerun. Existing core/UI
+products and unrelated desktop edits are preserved. The new target is included
+in native-only CI; local execution is the current evidence, not hosted execution.
+
+Waste review: reused existing native raw IO, masks and file-version guards;
+normalization is explicit so tiles do not rescan a global field or drift at seams.
+Selected blocks retain bounded original buffers and one Float64 output; type
+dispatch is resolved once per input block, with no Python callbacks.
+The new capability is additive, preserving legacy TIFF hashes and avoiding a
+premature broad workflow migration. Next retain exact correction recipes/source
+associations for save/reopen, then thin CLI/desktop and derived-domain analysis.
+F03 remains unchecked; overall9/22 complete,13 pending.

@@ -746,3 +746,38 @@ panel/test/provenance inputs. Existing linker CRT warning remains in logs; nativ
 execution passes. No new material, dependency, bindings or release package.
 F02 closes under its selected rule workflow contract:9/22 complete,13 pending.
 F03 dark/flat correction is next; L01 final staged membership remains open.
+
+
+## F03 foundation: quantitative sources and dark/flat blocks
+
+Native ChannelSource abstracts immutable quantitative metadata, original/derived
+value domain, observed source-version SHA, work admission and currentness/read.
+The adapter uses existing native raw IO and file guards, with no TIFF display
+view prerequisite. It leaves all legacy TIFF/F01 code and identities unchanged.
+A dark/flat source retains three original-source associations and exact options;
+it emits Float64 blocks with per-channel explicit scales and denominator policy.
+No data/model/dependency was downloaded and no Python path supplies values.
+
+The first affected cached build succeeds (f03-source-build.log) and native
+`channel_source` CTest passes1/1 in0.12s (f03-source-ctest.log). Independent
+analytical readers have no TIFF view and forbid RGB reads. Checks cover negative
+and true-zero output, validity intersection, channel-specific NaN/nonfinites,
+strict denominator threshold, exact selected-channel mapping and Z/T values,
+whole-region versus tiled seam equality, normalization/source identity and
+refusal of recursive correction or mismatched field calibration. Exact-limit
+work succeeds; one byte less refuses before any decoder pixel read. Invalid
+storage/shape, decoder failure, cancelled reads and metadata/generation/closed
+source changes refuse. Uint64 2^53 passes;2^53+1 refuses before precision loss.
+
+The enabled synthetic TIFF branch proves adapter bytes/validity match existing
+raw IO exactly, identity survives decoder reopen, and actual file mutation refuses
+reading. The native-only CI target includes these tests; hosted execution is not
+claimed. Read work covers captured native metadata and simultaneous buffers,
+not process RSS, preexisting decoder caches or a throughput superiority claim.
+Initial subset is level-zero correction with identical spatial/C/Z/T axes,
+channel names/calibration, explicit normalization and no implicit broadcasting.
+
+This is the F03 source/kernel slice, not completion: retained recipe/reopen,
+CLI/desktop controls and explicitly derived analysis remain. Overall9/22 stays
+unchanged. The source SHA identifies observed inputs/recipe, not stored output
+pixels. No original-sample result is relabeled as corrected or vice versa.

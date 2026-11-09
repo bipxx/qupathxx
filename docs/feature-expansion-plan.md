@@ -374,6 +374,15 @@ report the missing real-data acceptance rather than borrowing an NC fixture.
   original samples or reusing a raw record's identity. Raw measurements remain the
   default unless a derived domain is explicitly selected. Test known fields,
   seams, cancellation and persistence of recipe/source associations.
+  Progress: additive native ChannelSource adapter and immutable dark/flat block
+  source/kernel pass analytical values, signed/zero/missing/nonfinite semantics,
+  original channel/Z/T selection, exact tiled seams, pre-read work admission,
+  integer precision refusal and file/metadata/cancel guards. Sources have distinct
+  original/corrected domains; no legacy TIFF/F01 identity code changed. Initial
+  correction subset is level zero with identical spatial/C/Z/T axes, channel names
+  and calibration, explicit positive per-channel normalization and no broadcasting.
+  Persisted recipes, CLI/desktop controls and explicitly derived analysis use
+  remain; keep F03 unchecked. Reuse these native services for those consumers.
 - [ ] **F04 — linear compensation/spectral unmixing.** Consume an explicitly
   supplied, labeled finite mixing matrix and native channel blocks. Start with
   small full-rank linear systems and residual reporting; reuse the existing
