@@ -447,3 +447,44 @@ Terminal contour failures/cancellation no longer remain labelled tracing. No
 assertion was weakened. Next F01: freeze annotation conventions/tolerances before
 comparison and complete declared context/boundary acceptance. F01 stays unchecked;
 overall completion remains7/22.
+
+### F01 predeclared annotated-panel protocol (v1)
+
+Frozen before reading annotation pixel values or computing comparison metrics;
+canonical machine-readable policy is `fluorescence_evaluation.protocol` in the
+existing fixture manifest. Keep the first official validation filename already
+selected and the previous untuned Otsu256/sigma0/prominence0.5/min-area5/expansion3
+pixel-unit recipe. No parameter search or validation-mask tuning belongs to this
+pilot. If these criteria fail, retain the failure and select a separate open
+training input before method changes; do not loosen the thresholds after seeing
+results or substitute an easier validation panel.
+
+The [official dataset page](https://bbbc.broadinstitute.org/BBBC039) supplies the
+CC0 declaration and links its [decoding example](https://gist.github.com/jccaicedo/15e811722fca51e3ae90e8b43057f075).
+Implement independently: strict RGBA8 PNG, take first channel, split nonzero
+**equal values** into8-connected regions. Other color/alpha channels do not
+choose labels. Keep all image-edge instances in evaluation and report their
+counts; no border-object exclusion. Do not import the example code or relax the
+existing RGB8 NuCLS profile.
+
+Match nuclei at IoU>=0.50 with deterministic maximum-cardinality one-to-one
+matching over sparse overlap pairs. Report TP/FP/FN, precision, recall, F1,
+foreground Dice and matched mean IoU. A ground-truth split overlaps at least two
+predictions, each covering>=10% of that ground-truth area; a merge overlaps at
+least two ground-truth labels, each covering>=10% of the prediction area. Divide
+split/merge counts by total ground-truth/prediction counts respectively. These
+rates supplement matching; they do not hide unmatched instances.
+
+Pilot gates: foreground Dice>=0.75, object F1>=0.70, split and merge rates<=0.20,
+and median absolute matched nuclear-mean difference divided by annotation nuclear
+mean<=0.35. Measure both masks on original uint16 DNA samples. Independently
+recompute every predicted nucleus/body/cytoplasm sample count, sum, mean and
+sample SD; native values must agree within1e-12*max(1,abs(reference)). Zero mean
+with nonzero difference is unavailable/failing, never an invented finite relative
+error. No matches fails the mean gate. Empty analytical metric cases have explicit
+conventions and are tested separately.
+
+This checks one useful pilot, not held-out population accuracy or body/cytoplasm
+annotation (the annotations label nuclei only). Keep annotation-mask differences
+separate from numeric reducer correctness. Full-image tile ownership/resume
+remains D02; F01 still needs its own finite ROI/context/boundary contract checks.
