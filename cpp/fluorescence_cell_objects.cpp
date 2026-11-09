@@ -54,8 +54,8 @@ struct Recipe {
         if((x && *x<=0) || (y && *y<=0))throw std::invalid_argument("Invalid fluorescence recipe calibration");
     }
 };
-FluorescenceCellRequest replay_recipe(const Document& doc,const std::string& encoded) {
-    const Recipe saved(encoded);FluorescenceCellRequest request=!saved.unmix.empty()?FluorescenceCellRequest(doc,replay_linear_unmix_recipe(doc,saved.unmix),saved.core,saved.object,saved.options,saved.context):saved.correction.empty()?FluorescenceCellRequest(doc,saved.core,saved.object,saved.options,saved.context):FluorescenceCellRequest(doc,replay_dark_flat_recipe(doc,saved.correction),saved.core,saved.object,saved.options,saved.context);const auto& m=request.source_metadata();const std::array<std::uint64_t,8> current{m.series,m.series_count,std::uint64_t(m.width),std::uint64_t(m.height),m.channels,m.z_planes,m.timepoints,std::uint64_t(m.sample_type)};
+FluorescenceCellRequest replay_recipe(const Document& doc,const std::string& encoded,const LinearUnmixRequest* prepared=nullptr) {
+    const Recipe saved(encoded);if(prepared && (saved.unmix.empty() || prepared->recipe().sha256()!=saved.unmix))throw WorkflowInputChanged("Prepared fluorescence replay unmixing recipe differs");FluorescenceCellRequest request=prepared?FluorescenceCellRequest(doc,*prepared,saved.core,saved.object,saved.options,saved.context):!saved.unmix.empty()?FluorescenceCellRequest(doc,replay_linear_unmix_recipe(doc,saved.unmix),saved.core,saved.object,saved.options,saved.context):saved.correction.empty()?FluorescenceCellRequest(doc,saved.core,saved.object,saved.options,saved.context):FluorescenceCellRequest(doc,replay_dark_flat_recipe(doc,saved.correction),saved.core,saved.object,saved.options,saved.context);const auto& m=request.source_metadata();const std::array<std::uint64_t,8> current{m.series,m.series_count,std::uint64_t(m.width),std::uint64_t(m.height),m.channels,m.z_planes,m.timepoints,std::uint64_t(m.sample_type)};
     const auto& a=request.core_region();const auto& b=saved.core;
     if(current!=saved.source || doc.pixel_width_um()!=saved.x || doc.pixel_height_um()!=saved.y || a.region.x!=b.region.x || a.region.y!=b.region.y || a.region.width!=b.region.width || a.region.height!=b.region.height)throw WorkflowInputChanged("Fluorescence replay source/calibration/ROI changed");return request;
 }
@@ -162,6 +162,8 @@ std::string keep_fluorescence_cell_run(Document& doc,const FluorescenceCellReque
 }
 std::vector<std::string> fluorescence_cell_record_ids(const Document& doc){std::vector<std::string> result;for(const auto& [id,v]:records(doc)){record(id,v);result.push_back(id);}return result;}
 FluorescenceCellRequest replay_fluorescence_cell_record(const Document& doc,const std::string& id){return replay_recipe(doc,stored(doc,id).recipe);}
+std::string fluorescence_cell_record_unmix(const Document& doc,const std::string& id){return Recipe(stored(doc,id).recipe).unmix;}
+FluorescenceCellRequest replay_fluorescence_cell_record(const Document& doc,const std::string& id,const LinearUnmixRequest& prepared){return replay_recipe(doc,stored(doc,id).recipe,&prepared);}
 bool verify_fluorescence_cell_record(const Document& doc,const std::string& id,const FluorescenceCellRequest& request,const FluorescenceCellRun& run,const std::atomic<bool>* cancelled){require_current_fluorescence_cells(doc,request,run,cancelled);const auto r=stored(doc,id);return r.recipe==recipe(run) && r.input==run.input_sha256() && r.run==run.sha256() && r.raster_recipe==run.raster().recipe_sha256 && std::size_t(r.cells)==run.raster().measurements.size();}
 bool fluorescence_cells_reference_correction(const Document& doc,const std::string& id){
     for(const auto& [object,cell]:doc.objects()){if(!cell.properties)continue;const auto& meta=cell.properties->metadata();const auto ref=meta.find("fluorescence.correction_record");if(ref!=meta.end() && ref->second==id)return true;}

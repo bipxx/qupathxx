@@ -712,7 +712,7 @@ The selected F03 desktop workflow is delivered under the documented TIFF/level-z
 subset; its evidence is in the feature-expansion receipt.
 
 
-## Native linear unmixing foundation (F04 in progress)
+## Native linear unmixing (F04 delivered)
 
 `LinearMixingMatrix` declares ordered measured channel indices/names, ordered
 component names, row-major dimensionless coefficients and the input domain. The
@@ -755,8 +755,7 @@ coefficient bits and condition once per model. Source identity is now explicitly
 `qpx.linear-unmixed-samples/1`. Historical foundation receipts using source schema1
 precede retained project support. Original TIFF/F03 identities remain unchanged.
 
-Native derived cell/marker integration is described below; desktop unmixing
-controls remain pending under F04. No estimated spectra, pretrained model, new
+Native derived cell/marker integration and desktop controls are described below. No estimated spectra, pretrained model, new
 external material or nonlinear unmixing is included.
 
 
@@ -854,5 +853,50 @@ Set the JSON schema to `qpx.marker-rule/2`, domain as above and add
 CLI `--all-cells` uses the recipe-scoped cohort. Marker Preview/Apply/Undo and
 retained rule replay use the existing scalar evaluator/classification commands.
 A matching index from another matrix/order is never accepted as the same component.
-Desktop matrix/selection and marker-scope controls are the remaining F04 consumer
-work; native services/CLI do not establish their completion.
+Desktop matrix/selection and marker-scope controls use these same native services;
+the selected F04 consumer workflow is delivered under the declared subset.
+
+
+## Desktop linear unmixing
+
+1. Open **Fluorescence cells → Linear unmixing**. Load an explicit mixing-matrix
+   JSON file, or expand **Edit explicit mixing matrix**, choose row/component
+   dimensions and create a zero draft. Enter the known coefficients, exact measured
+   channel names/indices, component names, input domain and condition limit. A zero
+   or deficient matrix refuses Apply; the tool estimates no spectra.
+2. For a corrected matrix domain, explicitly choose a retained input correction.
+   Original-domain matrices use None/original input. Apply the draft after edits.
+   JSON parsing, matrix factorization and correction field opening run on a native
+   worker; document capture waits for its owner to be unblocked. Matrix coefficients
+   and the prepared operator are reused by preview, analysis and saved replay.
+3. Expand **Preview crop and outputs** to choose level-zero crop, output subset
+   and Z/T. Preview unmixed samples, select a component/residual and inspect signed
+   values, validity and finite/nonfinite counts. Derived output indices are distinct
+   from measured channel indices. Display lower/upper affect the preview only;
+   nonfinite values are magenta and absent pixels transparent.
+4. Keep the unmixing recipe, then Use unmixing for fluorescence. Set the cell tool's
+   output block, segmentation channel and threshold in component units. Run, inspect
+   compartments, Keep cells/run and save the project. Cell and metadata Undo/Redo
+   update displayed counts and retained labels. Select original or corrected mode
+   explicitly to return to those sources; original samples stay the default.
+5. After reopen, Replay the saved fluorescence record. Unmixed replay opens and
+   prepares the retained source asynchronously before native owner capture and
+   the usual cell job. It verifies exact saved identity and does not silently
+   select original data if a field or recipe is missing or changed. Cancel and
+   document replacement discard pending owner delivery.
+6. Marker editing offers Original, Dark/flat corrected and Unmixed domains. The
+   unmixed domain requires a retained unmixing recipe scope; select it before
+   setting derived output gate indices. Native Preview/Apply uses only the scoped
+   cohort. Changing domains clears the recipe scope. Missing observations remain
+   Unknown and wrong component recipes refuse capture.
+
+Load saved unmixing reuses its retained coefficients and source associations.
+Remove/Keep and marker/cell publication use existing native Undo commands. A
+referenced unmix recipe or parent correction cannot be removed. Ordinary drawing
+does not hash/parse all recipes or refactor matrices; immutable-property caches
+refresh on changes and reconcile own writes/Undo. Python is optional.
+
+F04 covers explicit full-column-rank linear systems, signed components/residuals
+and the documented native-TIFF saved-source subset. Automatic spectrum fitting,
+nonlinear/learned unmixing and model downloads are outside this contract. The
+feature-expansion receipt records the source-scoped numerical and desktop checks.

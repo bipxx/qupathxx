@@ -2,19 +2,19 @@
 
 Owner request: plan all eight remaining areas, keeping proprietary and
 noncommercial (NC) material separate. This document owns the new implementation
-checklist: **22 work items: 10 complete, 12 pending**. It does not reopen completed
-FO00–FO05. S01/V01/V02/I01/I02/R01/R02/F01/F02/F03 are delivered locally under their
+checklist: **22 work items: 11 complete, 11 pending**. It does not reopen completed
+FO00–FO05. S01/V01/V02/I01/I02/R01/R02/F01/F02/F03/F04 are delivered locally under their
 stated contracts. F01's train-selected recipe passes unchanged pilot gates and
 native publication/replay; the failed original pilot is retained and validation
-reuse is disclosed. F02 marker rules and F03 correction are delivered; F04 linear
-unmixing is next. See the
+reuse is disclosed. F02 marker rules, F03 correction and F04 explicit linear
+unmixing are delivered. D01 disk-backed expression storage is next. See the
 [source-scoped progress receipt](benchmarks/feature-expansion/README.md).
 Preserve independent desktop work recorded in [current-task.md](current-task.md).
 
 Planning update: retain this single checklist for all eight requested areas;
-do not restart delivered items. Next is F04 linear unmixing over the delivered
-typed source capability.
-F02/F03 native, CLI and desktop completion are recorded below. Proprietary and NC
+do not restart delivered items. Next is D01 full sparse expression storage over
+the existing native counts/import services.
+F02/F03/F04 native, CLI and desktop completion are recorded below. Proprietary and NC
 material remain
 separate excluded references, not optional product backends.
 
@@ -99,7 +99,7 @@ ledger. Checkboxes below remain authoritative. Finish one packet before starting
 the next, except that admission of a new input belongs to the packet consuming it.
 Preserve concurrent desktop edits. R02 is delivered with native fit, actual UI,
 registered-gene rendering and persistence checks. F01 is delivered under its
-selected pilot contract; F02/F03 consumers are delivered and F04 is next.
+selected pilot contract; F02/F03/F04 consumers are delivered and D01 is next.
 
 | Packet | Prerequisites | Easiest implementation path and consumer integration | Decisive completion check |
 | --- | --- | --- | --- |
@@ -108,7 +108,7 @@ selected pilot contract; F02/F03 consumers are delivered and F04 is next.
 | F01: raw-channel segmentation | Existing fluorescence source and segmentation kernels | Capture channel/plane/ROI once; add only the raw-domain pipeline and missing compartment reducer. Reuse object publication and recipe jobs; expose a small tool panel/CLI recipe over that service. | Independent masks/intensities, invalid/empty compartments and a licensed annotated example with declared tolerances; no RGB-preview measurement. |
 | F02: marker rules, delivered | F01 measurements | Add typed gates and a small AND/OR evaluator over immutable measurement snapshots. Reuse classification preview/publication and stored recipes rather than a new classifier framework. | Threshold edges, Unknown values, multichannel rules, stale refusal and exact saved-rule replay. |
 | F03: correction and typed raw-source capability, delivered | Existing TIFF raw IO | Extract the minimum source capability needed for original/derived channel blocks; keep legacy TIFF identity unchanged. Implement explicit dark/flat correction as a separate derived source and recipe, shared by later readers. | Known correction fields, zero/invalid denominators, tiles/seams, cancellation and source/recipe persistence. |
-| F04: linear unmixing | F03 blocks; admitted existing linear algebra backend | Feed labeled channel blocks to a small native solve; emit signed derived channels and residuals. UI selects an explicit matrix and channel order; no estimated spectra or model download. | Known mixtures, rank/conditioning refusal, residuals, channel permutations, stale/cancel and saved provenance. |
+| F04: linear unmixing, delivered | F03 blocks; admitted existing linear algebra backend | Feed labeled channel blocks to a small native solve; emit signed derived channels and residuals. UI selects an explicit matrix and channel order; no estimated spectra or model download. | Known mixtures, rank/conditioning refusal, residuals, channel permutations, stale/cancel and saved provenance. |
 | D01: indexed sparse storage | Delivered S01/I01 | Add an ExpressionMatrixSource adapter and stream Matrix Market into a transactional SQLite sidecar with a gene-oriented sparse index. Extend the existing import wizard with backed storage after the native path works. | Import the existing full197MB source, switch to previously unprojected genes without rescanning/densifying, reopen/relink and refuse incomplete sidecars. |
 | D02: bounded interaction and tiling | D01; F01/F03; existing jobs/cache | Page gene metadata and bound value/color caches first. Then schedule existing raw-cell processing by tile with fixed global parameters, halo, deterministic ownership and resumable records. Do not introduce another scheduler. | Declared sparse fixture/work bound plus a named-host cancellation/responsiveness check; independent seam comparison and interrupted/resumed tiled ROI equality. |
 | O01: H5AD subset | D01/S01; exact HDF5 dependency admitted | Implement one native adapter over the HDF5 C API and feed the existing matrix source/import UI. Start with dense/CSR/CSC X or selected layer and explicit value domain; report unsupported encodings. | Independent dense/CSR/CSC malformed and valid fixtures plus one open real dataset with exact IDs/counts/axes; native-only runtime. |
@@ -165,7 +165,7 @@ GUI or persistence mechanisms. The following records the delivered F01 route:
    kernel/geometry evidence. Close F01 only after its declared acceptance passes;
    whole-slide tile/resume acceptance remains D02, not a duplicate F01 campaign.
 
-Then follow the remaining packet table: F04 → D01 → D02 → O01/O02 →
+Then follow the remaining packet table: D01 → D02 → O01/O02 →
 A01/A02 → A03/A04 → P01/P02. This is a dependency order, not permission to run
 several implementations concurrently. Complete each reader separately. If A04's
 open replicated fixture is unavailable, retain that explicit gap and progress
@@ -196,9 +196,9 @@ source/package membership checked once at P02.
    numeric evidence; use the admitted118-cell project for the desktop handoff.
    Confirm source bytes remain unchanged and the standalone route needs no Python.
 6. Completion is linked in the existing receipt: native panel actions, exact
-   saved replay and the admitted118-cell desktop workflow pass. Progress is
-   F02 and F03 are now complete:10/22 complete,12 pending. Next implement F04;
-   retain the failure/correction and waste record in the existing current card.
+   saved replay and the admitted118-cell desktop workflow pass. F03 and F04 are
+   also delivered under their own contracts. Continue D01 using the remaining
+   packet table; retain failures/corrections and waste notes in the current card.
 
 No binding rebuild, new dataset/model download, broad segmentation rerun or
 release package is required for this desktop packet. Subsequent packets use the
@@ -312,16 +312,15 @@ report the missing real-data acceptance rather than borrowing an NC fixture.
   and actual GUI checks pass, including a controlled shift of all2,702 real spots.
   [Evidence](benchmarks/feature-expansion/README.md).
 
-## Execution breakdown for the remaining 12 items
+## Execution breakdown for the remaining 11 items
 
 This breakdown refines the existing checklist; it adds no new completion count.
 Use the smallest end-to-end native slice first, then extend it to the declared
-contract. Do not restart the ten completed items. No calendar or speed estimate
+contract. Do not restart the eleven completed items. No calendar or speed estimate
 is promised before measuring the affected workload.
 
 | Item | Ordered implementation steps | Deliverable and boundary |
 | --- | --- | --- |
-| F04 | 1. Finish the prepared native matrix/model and block-source foundation already in progress. 2. Add typed matrix/source recipes, exact identity, retention and reopen guards. 3. Route explicit derived channels through native analysis and domain-aware marker capture. 4. Add CLI matrix import/report/replay, then desktop matrix editing/selection and signed component/residual preview. | One reusable factorization per model, bounded channel reads and requested outputs; signed components/residuals with explicit names. Native foundation alone does not close F04. Complete analytical, persistence and affected consumer checks before checking it off. |
 | D01 | 1. Define bounded sparse read and value-domain contracts without changing old selected-gene identities. 2. Stream Matrix Market into a transactional SQLite sidecar with stable observation/feature IDs and gene-oriented indices. 3. Implement indexed queries, cancellation, source verification and verified relink. 4. Connect import/gene selection to the backed source. | Read unprojected genes from the existing full source without rescanning or densifying it; incomplete sidecars are never published. |
 | D02 | 1. Page metadata and bound decoded/value/color caches. 2. Coalesce viewport work using existing jobs/generations. 3. Add tiled cell requests with fixed global parameters, sufficient halo and deterministic seam ownership. 4. Persist checkpoints and resume only matching inputs/options. | Keep interactive matrix and tiled-image checks separate. Prove work limits and seam/resume equality; report unresolved boundary objects. No new scheduler. |
 | O01 | 1. Admit one exact HDF5 configuration and notices. 2. Implement bounded encoding/shape/string/sparse validation. 3. Adapt dense/CSR/CSC reads to D01 with an explicit counts or continuous domain. 4. Expose the declared subset through existing import controls. | Native H5AD subset, unsupported metadata report and exact independent/real-fixture comparison. No Python reader or automatic filter-plugin loading. |
@@ -334,7 +333,7 @@ is promised before measuring the affected workload.
 | L01 | At each packet, admit only its actual inputs and derivative lineage in existing inventories. Before release, enumerate all staged source/binary/data/model/generated assets, connect the offline guard and resolve every unmatched member. | Incremental prerequisite for new inputs; final closure requires actual complete stage membership. An allowlist of license names alone is insufficient. |
 | P02 | 1. Freeze completed source/features and close final L01 membership. 2. Stage matching app/CLI/SDK and selected optional Python artifacts once. 3. Verify hashes, sources/notices and clean install/use/uninstall. 4. Publish the exact qualified platform/support statement. | One engineering release handoff after P01 and feature acceptance; preserve user data and old receipts. No implied signing, stable status or untested platform support. |
 
-Execution order remains F04 → D01 → D02 → O01/O02 → A01/A02 → A03/A04 →
+Execution order is now D01 → D02 → O01/O02 → A01/A02 → A03/A04 →
 P01 → final L01 → P02. O01 and O02 are independent adapters once their respective
 source contracts are ready; implement them serially in the shared cache. If A04
 awaits admissible replicate data, advance P01 without claiming A04 or releasing
@@ -454,7 +453,7 @@ and classify actual release inputs under L01. See the existing
   Native opening/reading is asynchronous and cancelled/stale/replaced inputs refuse.
   Standalone Windows-only-PATH handoff preserves project/source hashes. F03 closes
   under this declared subset; no automatic field estimation or biological claim.
-- [ ] **F04 — linear compensation/spectral unmixing.** Consume an explicitly
+- [x] **F04 — linear compensation/spectral unmixing.** Consume an explicitly
   supplied, labeled finite mixing matrix and native channel blocks. Start with
   small full-rank linear systems and residual reporting; reuse the existing
   OpenCV core SVD/solve backend behind a native optional processing capability.
@@ -476,9 +475,15 @@ and classify actual release inputs under L01. See the existing
   references, exact project replay and recipe-scoped version2 marker rules. Other
   matrices/orders cannot silently share component indices. Native/CLI detection,
   verification and phenotype application agree; retained real F01 identity and118
-  cells are unchanged. F04 remains open for desktop matrix authoring/preview,
-  explicit source selection and recipe-scoped marker controls; native/CLI evidence
-  does not imply desktop completion.
+  cells are unchanged. Desktop matrix JSON load/typed coefficient edit/Apply,
+  worker preparation and field opening, signed component/residual preview,
+  Keep/Remove/Undo/load, explicit original/corrected/unmixed selection and native
+  cell/marker actions now pass. Saved unmixed Replay opens its source asynchronously
+  and reuses one prepared operator. Wrong scope, referenced deletion, changed
+  fields, cancellation and replacement refuse. Standalone app/CLI handoff preserves
+  source/project hashes; inspected signed preview is readable. F04 closes under
+  the declared full-column-rank, level-zero, saved-native-TIFF source subset.
+  [Evidence and limits](benchmarks/feature-expansion/README.md).
 
 ## Checklist: storage, scale and open readers
 
@@ -619,6 +624,6 @@ run until P02 or a named correctness/platform risk requires it. Cleanup only
 verified disposable outputs after preserving fixtures/failures/source. Completion
 means these22 finite contracts are met; it does not imply all statistical methods,
 nonlinear registration, deep pretrained models, distributed execution or100% QuPath
-parity. Next deliver F04 explicit linear compensation/unmixing over the shared native source;
+parity. Next deliver D01 bounded disk-backed expression queries over the full sparse source;
 finish L01 membership admission as actual release inputs settle. Preserve the
 independent desktop layout work and its source-scoped evidence.

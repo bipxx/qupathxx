@@ -19,6 +19,9 @@ class LinearUnmixRequest {
 public:
     LinearUnmixRequest(const Document&,LinearMixingMatrix,const std::atomic<bool>* cancelled=nullptr);
     LinearUnmixRequest(const Document&,const DarkFlatRequest&,LinearMixingMatrix,const std::atomic<bool>* cancelled=nullptr);
+    // Reuse a model prepared on a native worker; owner capture does no SVD.
+    LinearUnmixRequest(const Document&,LinearUnmixModel,const std::atomic<bool>* cancelled=nullptr);
+    LinearUnmixRequest(const Document&,const DarkFlatRequest&,LinearUnmixModel,const std::atomic<bool>* cancelled=nullptr);
     bool matches(const Document&) const;
     void require_current(const Document&,const std::atomic<bool>* cancelled=nullptr) const;
     const LinearUnmixRecipe& recipe() const;
@@ -34,6 +37,8 @@ void remove_linear_unmix_recipe(Document&,const std::string&);
 LinearUnmixRequest replay_linear_unmix_recipe(const Document&,const std::string&,const std::atomic<bool>* cancelled=nullptr);
 // Reuse an already restored correction instead of opening its fields again.
 LinearUnmixRequest restore_linear_unmix_recipe(const Document&,const LinearUnmixRecipe&,
+    const std::optional<DarkFlatRequest>& correction={},const std::atomic<bool>* cancelled=nullptr);
+LinearUnmixRequest restore_linear_unmix_recipe(const Document&,const LinearUnmixRecipe&,LinearUnmixModel,
     const std::optional<DarkFlatRequest>& correction={},const std::atomic<bool>* cancelled=nullptr);
 bool linear_unmix_recipes_reference_correction(const Document&,const std::string&);
 }

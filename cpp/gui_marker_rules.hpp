@@ -5,7 +5,7 @@
 namespace qpx::detail {
 class GuiMarkerRules {
 public:
-    enum class Action {Preview,Cancel,Apply,Keep,LoadFile,LoadSaved,Remove};
+    enum class Action {Preview,Cancel,Apply,Keep,LoadFile,LoadSaved,Remove,Editor,Domain,Scope};
     GuiMarkerRules();
     ~GuiMarkerRules();
     void open();
@@ -15,6 +15,8 @@ public:
     void set_file(std::string);
     void set_selected_only(bool);
     Rect bounds(Action) const;
+    Rect recipe_bounds(const std::string&) const;
+    const MarkerRule& rule() const;
     bool busy() const;
     const std::string& error() const;
     const std::string& state() const;

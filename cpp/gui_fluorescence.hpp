@@ -2,12 +2,12 @@
 #include "qupathxx/fluorescence_cell_objects.hpp"
 #include "qupathxx/core.hpp"
 #include <imgui.h>
-namespace qpx {class DarkFlatRequest;}
+namespace qpx {class DarkFlatRequest;class LinearUnmixRequest;}
 namespace qpx::detail {
-class GuiDarkFlat;
+class GuiDarkFlat;class GuiLinearUnmixing;
 class GuiFluorescence {
 public:
-    enum class Action {Run,Cancel,KeepCells,KeepRecord,Replay,Remove,Correction,Domain};
+    enum class Action {Run,Cancel,KeepCells,KeepRecord,Replay,Remove,Correction,Domain,Unmixing,UnmixDomain};
     GuiFluorescence();~GuiFluorescence();
     void open();
     void poll(Document&,bool blocked=false);
@@ -15,6 +15,9 @@ public:
     void draw_preview(ImDrawList*,const Viewport&,ImVec2 offset,ImVec2 size);
     void set_request(RawRegionRequest,FluorescenceCellOptions={},std::array<std::uint32_t,2> context={32,32},bool use_selected=true);
     void set_correction(const DarkFlatRequest&);
+    void set_unmixing(const LinearUnmixRequest&);
+    bool uses_unmixing() const;
+    GuiLinearUnmixing& unmixing_tool();
     void use_original();
     bool uses_correction() const;
     GuiDarkFlat& correction_tool();

@@ -47,6 +47,10 @@ bool verify_fluorescence_cell_publications(const Document&,const std::vector<std
 std::string keep_fluorescence_cell_run(Document&,const FluorescenceCellRequest&,const FluorescenceCellRun&,const std::atomic<bool>* cancelled=nullptr);
 std::vector<std::string> fluorescence_cell_record_ids(const Document&);
 FluorescenceCellRequest replay_fluorescence_cell_record(const Document&,const std::string& record_id);
+// Pure metadata inspection, then owner replay using a worker-restored source.
+std::string fluorescence_cell_record_unmix(const Document&,const std::string& record_id);
+FluorescenceCellRequest replay_fluorescence_cell_record(const Document&,const std::string& record_id,const LinearUnmixRequest&);
+
 bool verify_fluorescence_cell_record(const Document&,const std::string& record_id,const FluorescenceCellRequest&,const FluorescenceCellRun&,const std::atomic<bool>* cancelled=nullptr);
 void remove_fluorescence_cell_record(Document&,const std::string& record_id);
 }

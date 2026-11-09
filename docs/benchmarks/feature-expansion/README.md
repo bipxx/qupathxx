@@ -1113,3 +1113,59 @@ desktop matrix authoring/loading/preview, explicit unmix/original/corrected sour
 selection and marker recipe-scope controls. Settle those private controller/test
 interfaces before a combined GUI build, preserving independent layout work and
 the default source routes. Overall stays10/22 complete,12 pending.
+
+
+## F04 desktop completion: explicit matrix, signed preview and shared replay
+
+The compiled private unmixing controller loads native matrix JSON or edits typed
+drafts with explicit measured names/indices, component labels, domain, coefficients
+and condition. New zero drafts require full-rank coefficients. Native workers
+prepare one SVD and open correction fields; owner capture reuses that immutable
+model through new prepared-request/restore overloads. Saved unmixed fluorescence
+replay also opens/prepares asynchronously and calls native preloaded-source replay,
+with exact recipe/operator identity checks and no repeated field opening/solve.
+Native originals/correction/default identity paths remain unchanged.
+
+Preview reads bounded owned channel sources asynchronously. It shows signed
+component/residual values, explicit crop/output/Z/T, validity and finite counts,
+with a separate display range and bounded320px presentation. Keep/Remove/load and
+Undo use native metadata authorities. Source controls explicitly choose original,
+corrected or unmixed; derived measurement labels use output indices/names. Marker
+editing exposes all three domains and an explicit retained unmix scope, calling
+the same native rule cohort helper. GUI Pimpl layouts remain intact; concurrent
+layout source edits are preserved. No per-frame recipe parsing/hash/factorization.
+
+The actual native ImGui course verifies malformed JSON and singular drafts, a
+real coefficient edit from2 to1 and Apply, blocked owner delivery, preview value90
+changing to-15, exact retained coefficient/signed-zero replay, Keep/Remove/Undo/Redo
+labels, explicit Use/Run, signed nucleus/body/cytoplasm values, cell/run Undo/Redo
+and exact reopened asynchronous Replay. Original-domain switch, marker scope combo
+and Preview/Apply/Undo, referenced deletion refusal, changed fields, cancellation
+and same-address replacement pass. Inspected signed-unmixing-preview.png is
+readable: Marker output1 near-15, corrected input/unmixed output domains, crop
+10,7 /3x1 /Z0T0,3 valid/finite and0 nonfinite, range-32..128.
+
+All6 affected native/GUI suites pass in10.20s (`f04-native/gui-ctest.log`):
+prepared model/source retention, unmixed cells, new desktop course and existing
+fluorescence/marker/correction desktop routes. The initial build compiled core
+but failed linking a native test with LNK1181 while another cache build was live.
+Preserve gui-build.log. After confirming prior live handles terminal/missing and
+core library present, the cached retry succeeds (`gui-build-r2.log`) without
+contract/assertion changes. This is observed transient shared-cache availability;
+no blanket scientific failure or successful concurrent-build policy is claimed.
+
+Handoff mode stops before deliberate fixture mutation; full CTest retains the
+guards. That driver, standalone app, and native CLI list/verify all exit0 from
+System32 with Windows-only PATH. Saved run SHA is
+d86425f01c748565438c171ff1095b1aec03c9800230e0d933e3c43082db76a0, with one
+unmixed cell. Project, TIFF fields and authoring JSON hashes remain unchanged.
+Commands, executable hashes and input hashes are in workspace-root
+`build/feature-expansion/f04-gui-handoff/results.json`; its valid project/fields
+and inspected signed-unmixing-preview.png remain available. PNG conversion is
+lossless against the original captured PPM pixels.
+
+F04 closes locally under its declared small full-column-rank linear, level-zero,
+saved-native-TIFF source contract. No new dependency/data/model, bindings, package,
+biological campaign or speed claim. Overall11/22 complete,11 pending. Next D01:
+bounded disk-backed expression queries using the existing full sparse source and
+native import services. Final L01 membership and SDK/release remain open.

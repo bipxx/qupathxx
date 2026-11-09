@@ -2799,3 +2799,84 @@ Document capture separate; do not factor/hash/parse recipes per frame. Preserve
 public GUI Pimpl layouts and independent UI edits. Existing wheels/SDK remain
 frozen; changed native interfaces get matching optional bindings/SDK at their
 settled P01 batch. F04 remains unchecked:10/22 complete,12 pending.
+
+### F04 desktop completion: prepared matrix tool and explicit derived sources
+
+Changed inputs: private compiled matrix tool, fluorescence source selection/
+replay and marker scope controls. Worker loads bounded matrix JSON, prepares one
+SVD and opens selected correction fields; owner captures Document when unblocked
+using a prepared-model native request/restore overload. Native preloaded cell-
+record replay reuses that source without reopening fields or solving again.
+Keep public GUI Pimpl layouts and independent UI source edits intact.
+
+Matrix drafts expose explicit measured index/name, component label, coefficient,
+input domain and condition policy. New drafts are zero matrices requiring explicit
+full-rank coefficients, not estimated spectra. Applying invalidates previous
+preview; no parsing/hashing/factorization each frame. Preview reads owned sources
+asynchronously, shows signed components/residuals, crop/Z/T, validity/finite counts
+and presentation-only display range. Keep/Remove/Undo/load use existing native
+recipes. Cached immutable record lists reconcile own writes and immediate Undo.
+
+Fluorescence chooses original/corrected/unmixed explicitly, preserves old correction
+actions, labels derived indices honestly and uses the same cell pipeline. Saved
+unmixed Replay opens/prepares its source asynchronously before native owner
+replay and the existing job. Marker UI adds three domains and explicit retained
+unmix scope, using the native rule cohort helper; switching domains clears scope.
+No Python/binding/package/new material or alternate scientific authority.
+
+Decisive checks: actual native ImGui malformed/singular Load, coefficient edit and
+Apply, blocked owner delivery, signed preview90 to-15, matrix/source recipe Undo/
+Redo/load/remove, explicit Use/Run and signed compartments, cell/run Undo/Redo,
+exact reopened asynchronous Replay, original switch, marker scope combo and
+Preview/Apply/Undo, referenced removal refusal, field change, cancel and same-
+address replacement. Preserve failure frame/state diagnostics. Inspect one signed
+preview capture and run standalone app/native CLI against the valid saved project
+with Windows-only PATH. Native prepared-operator/recipe mismatch and existing
+F04 cell/source tests protect the changed trust boundaries; existing fluorescence/
+correction/marker GUI suites protect default routes. Settle these interfaces,
+then one affected cached build, no bindings or repeated F01 science campaign.
+
+Build gate first found live GUI cache owner177624, then MSBuild196288. Both
+handles are now missing; inspect the full cache gate before starting our batch.
+No competing cache/build was started. Prepared interfaces and failure diagnostics
+are settled; reuse any compatible GUI objects produced by the other build.
+
+The first batch compiled core, then native workflow test linking failed with
+LNK1181 opening Release/qupathxx_core.lib. A competing GUI cache build195472 was
+live during failure; the core library now exists (196447966 bytes). Preserve
+gui-build.log and inspect live processes/file state before retrying. No source
+contract or assertion change is indicated by this link/cache failure.
+
+Cached retry succeeds after core library is present and competing handles are
+missing. All6 affected native/GUI suites pass in10.20s (gui-ctest.log), including
+prepared model identity/mismatch, unmixed cells, actual new desktop course and
+legacy fluorescence/marker/correction GUI routes. No source/test repair needed.
+Inspected signed preview is readable and correctly names Marker output1 near-15,
+input/output domains, crop10,7 /3x1 /Z0T0,3 finite/valid and display range-32..128.
+
+Native handoff driver, standalone app and CLI list/verify all exit0 from System32
+with Windows-only PATH. Saved project replays one cell with exact run SHA
+d86425f01c748565438c171ff1095b1aec03c9800230e0d933e3c43082db76a0; input project,
+fields and authoring JSON hashes are unchanged (f04-gui-handoff/results.json).
+Handoff skips deliberate field corruption; full CTest retains those guards.
+F04 is complete under the declared subset:11/22 complete,11 pending.
+
+Waste review: reuse a worker-prepared model during owner capture and saved replay
+instead of reopening fields or factoring twice. Reconcile cached retained IDs
+after own metadata writes/Undo; keep source choice/marker scope explicit. No
+per-frame parsing/hashing, bindings/package/new material or repeat biology check.
+The transient cache link failure cost one retry; a process check is an observation,
+not atomic ownership across independent conversations. Preserve failure/state
+evidence and serialize the full compile-through-link window through one build
+owner when coordinating authorized tasks. No second cache or lock framework.
+
+Next D01: inspect current native expression/count/import persistence interfaces;
+add a bounded ExpressionMatrixSource and transactional SQLite sparse sidecar with
+gene-oriented queries, stable IDs, exact uint64 counts and source/chunk identity.
+Reuse admitted full197MB Matrix Market data, native parsers/SQLite and existing
+import/gene-view controllers. Keep old selected-gene projects readable without
+forced migration. Finish native indexed read/import/interruption/source/relink
+contracts before thin consumers; prove unprojected gene reads/reopen without
+rescanning or densifying the source. Settle native/consumer/test interfaces before
+an affected cached build. Preserve independent UI edits and restricted-material
+separation; final L01/P01/P02 remain open.
