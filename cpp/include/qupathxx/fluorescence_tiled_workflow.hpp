@@ -3,6 +3,8 @@
 #include <functional>
 namespace qpx {
 class Document;
+class DarkFlatRequest;
+class LinearUnmixRequest;
 struct FluorescenceTileOptions {
     std::uint32_t width=256,height=256,halo=64;
     std::size_t max_tiles=100000;
@@ -12,6 +14,11 @@ class FluorescenceTiledRequest {
 public:
     // Captures source/ROI/calibration on owner; no raw pixels are read.
     FluorescenceTiledRequest(const Document&,RawRegionRequest,std::uint64_t object_id=0,
+        FluorescenceCellOptions={},FluorescenceTileOptions={});
+    FluorescenceTiledRequest(const Document&,const DarkFlatRequest&,RawRegionRequest,std::uint64_t object_id=0,
+        FluorescenceCellOptions={},FluorescenceTileOptions={});
+    // Selection addresses component/residual outputs; ROI plane must be C=-1.
+    FluorescenceTiledRequest(const Document&,const LinearUnmixRequest&,RawRegionRequest,std::uint64_t object_id=0,
         FluorescenceCellOptions={},FluorescenceTileOptions={});
     bool matches(const Document&) const;
     bool publication_matches(const Document&) const;
@@ -27,6 +34,7 @@ private:
 struct FluorescenceTiledReport {
     std::string state,request_sha256,source_sha256,input_sha256;
     std::string checkpoint_path,output_sha256;
+    std::string measurement_domain="original-channel-samples",correction_record,unmix_record;
     double resolved_threshold=0,elapsed_ms=0;
     std::uint64_t finite_pixels=0,cells=0;
     std::size_t tiles=0,unresolved_tiles=0,accounted_work_bytes=0;

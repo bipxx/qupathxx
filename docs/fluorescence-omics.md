@@ -1020,6 +1020,12 @@ successful completion. Increasing storage quota can resume the same science;
 changing scientific/source/layout options requires a new directory. Directory
 or completion-file presence alone does not prove current source validity.
 
-This native route currently processes original raw channels. Corrected/unmixed
-adapters, desktop controls and the admitted real-ROI delivery check remain D02
-work. It is not a released SDK/package or a claim of whole-slide frame rate.
+The native route accepts original raw channels, a retained DarkFlatRequest or a
+retained LinearUnmixRequest (including a correction parent). Normalization scales
+and the prepared mixing operator stay fixed across tiles; output selection for
+unmixing addresses components/residuals. Reports retain the measurement domain
+and parent recipe IDs; removed/changed recipes or fields invalidate capture/
+resume. The same job/checkpoint API applies to every domain. These routes preserve
+existing F03/F04 recipe/source identity rules. Desktop controls and the admitted
+real-ROI delivery check remain D02 work. This is not a released SDK/package or a
+claim of whole-slide frame rate.

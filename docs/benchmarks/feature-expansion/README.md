@@ -1698,3 +1698,42 @@ refuses. No real biological acceptance, full D02 or frozen-package claim.
 Next: corrected/unmixed source adapters, admitted real-ROI seam/interruption
 checks and thin desktop control over this same native authority. Optional Python/
 SDK/release remain P01/P02; no new reader/data/dependency/model/license input.
+
+D02 corrected/unmixed tiled source adapters
+-----------------------------------------
+
+FluorescenceTiledRequest now accepts retained DarkFlatRequest and
+LinearUnmixRequest captures, including corrected unmixing. Source snapshots reuse
+existing ChannelSource metadata/read/currentness and fixed normalization/model,
+without per-tile normalization/factorization or rewritten original channels.
+Unmixed selections address component/residual outputs; ROI C must be independent.
+Derived source identity pins measurement domain, source and correction/unmixing
+records. Owner checks invalidate removed recipes; read/final-delivery checks cover
+actual signal/field versions. Existing F03/F04 recipe identities/rules are reused,
+not migrated. Raw source-profile/2 stays unchanged for original requests.
+
+Admission reserves derived snapshot/recipe payloads and read_work_bytes together
+with checkpoint buffers; peak read accounting is included alongside segmentation
+rather than assuming component output dimensions bound measured-input work.
+Reports carry measurement_domain/correction_record/unmix_record. Native sinks,
+cell-job delivery, global Otsu and checkpoint/resume remain the same authority.
+
+Evidence `build/feature-expansion/d02-derived/{build.log,ctest.log}`: cached build
+succeeds and all5 affected native suites pass1.86s. New independently authored
+80x52 uint16 TIFF signal/dark/flat fields exercise fixed subtraction and diagonal
+mixing with component and residual selection. Corrected, original-unmixed and
+corrected-unmixed whole-ROI/tiled masks, global Otsu and every raw compartment
+moment agree exactly; sums also match independent equations and residual sums0.
+Interrupted2/8-tile resume reuses2/segments6 with byte-identical persisted science.
+Fresh native field/operator replay reuses8/segments0. Host Release compiles the
+linear algebra backend and actual unmixed/combined completion directories exist;
+coverage is not inferred from an optional-backend skip. Removed/unretained or
+renormalized recipes refuse, Undo restores job delivery, all input bytes remain
+unchanged before deliberate authored flat-field corruption, and actual changed
+field version invalidates publication/resume. Existing pure/tile/original-source/
+checkpoint/published-replay suites remain passing. No tolerances/identities relaxed.
+
+One build/test batch, no failures/retries/new data/dependencies/models/readers,
+GUI/binding/package or repeated matrix import/biological campaign. This closes
+native derived-source integration, not D02: admitted real-ROI seam/interruption
+and desktop consumer delivery remain. No whole-slide performance/release claim.

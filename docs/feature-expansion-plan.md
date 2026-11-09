@@ -194,8 +194,14 @@ is D02; these steps refine its existing checkbox, without creating another ledge
    skipped completed segmentation and byte-identical interrupted/resumed masks/
    IDs/raw moments. Quotas include orphan staging; startup scans existing members
    once. Raw source profile/2 excludes TIFF display-view descriptors and survives
-   fresh-reader reopen. Next corrected/unmixed source adapters, desktop controls
-   and admitted real-ROI acceptance; D02 remains open.
+   fresh-reader reopen. Corrected/unmixed adapters now use retained native channel
+   sources, fixed normalization/model and explicit measurement/parent identities;
+   derived-read peaks include checkpoint reservations. Corrected, unmixed and
+   corrected-unmixed tests match untiled masks/Otsu/all raw moments and independent
+   subtraction/diagonal-mixing equations; interrupted/resumed records are byte-
+   identical and fresh recipe replay reuses checkpoints. All five affected native
+   suites pass. Next desktop controls and admitted real-ROI acceptance; D02 remains
+   open, with no real whole-slide responsiveness or release claim from these fixtures.
 4. Reuse an admitted whole-slide ROI, compare seam results independently and prove
    interruption/resume equality. Add thin UI controls over the same authority;
    no alternate scheduler or repeated F01 biological-accuracy campaign.

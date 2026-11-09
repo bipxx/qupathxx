@@ -3499,3 +3499,45 @@ hash excludes path/timing/runtime accounting, retaining exact persisted science.
 Next D02: correction/unmixing adapters over this same source/job/checkpoint path,
 then admitted real ROI independent seam/interruption checks and thin desktop
 controls.12/22 complete; this native persistence slice does not close D02.
+
+### D02 — corrected/unmixed sources through the same tiled authority
+
+Add typed retained DarkFlatRequest/LinearUnmixRequest capture to the existing
+tiled request. Reuse their immutable ChannelSource/read_work_bytes/read/currentness
+and native fixed normalization/model; no per-tile normalization or factorization.
+Unmixed selections address component/residual outputs with independent ROI C=-1;
+raw owner authority selects the measured input channel. Bind domain/parent records/
+source identity, invalidate missing recipes, and account derived-read chain peaks
+alongside checkpoint/segmentation buffers. Preserve raw source-profile/2 and all
+existing untiled recipe/identity contracts. Reports name the measurement domain
+and correction/unmixing lineage. Same job and checkpoint mechanism, no scheduler.
+
+Decisive batch: new authored native TIFF/field test uses fixed subtraction and
+power-of-two mixing with independently calculable component/residual moments;
+compare all whole-ROI masks/moments/Otsu with tiled corrected, unmixed and corrected-
+unmixed routes, byte-identical interrupted/resumed persistence, fresh native
+field/model replay, missing/changed recipes and actual field mutation. Build/run
+new derived suite and affected pure/tile/source/published suites once in shared
+cache. No real-data download, expression reindex, GUI/bindings/package or new
+library. Existing F03/F04 source identity rules stay unchanged; admitted real ROI
+and desktop delivery remain after this native adapter slice.
+
+Derived slice passes first batch: cached native build succeeds and all5 suites
+pass1.86s (pure cells, tile kernel, new derived tiles, original source/checkpoint,
+published replay). New native TIFF/field fixture covers corrected, original-
+unmixed and corrected-unmixed output/component/residual domains. Every returned
+mask and raw moment plus global Otsu matches its untiled reference; subtraction/
+diagonal-mixing sums match independent equations, residual sums remain0. All
+interrupted/resumed records are byte-identical; fresh native field/operator replay
+reuses8/segments0. Removed/renormalized recipes and actual changed flat-field
+bytes refuse; recipe Undo restores native job delivery. Inputs stay unchanged
+until the deliberate authored-field corruption case. Unmix backend is compiled
+for Release and actual combined/unmixed completion records exist, not a skip.
+
+Waste review: one affected native build/test batch, no failure/retry/download,
+source fixture duplication, new backend, GUI/binding/package or matrix campaign.
+Reuse F03/F04 sources/operators and the same job/checkpoint sink; reserve derived
+chain read peak together with checkpoint buffers and report its upper bound.
+Raw source-profile/2 and existing untiled/F03/F04 identities remain intact. Next
+D02: admitted real-ROI seam/interruption evidence and thin desktop delivery; do
+not infer whole-slide performance from authored small fields.12/22 complete.
