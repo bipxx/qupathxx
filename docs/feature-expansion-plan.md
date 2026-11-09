@@ -153,6 +153,13 @@ is D02; these steps refine its existing checkbox, without creating another ledge
    covering the intended axes. Declare256MiB accounted work before running it;
    qualify indexed reads, cache invalidation and cancellation on a named host.
    Keep allocator/process/GPU observations separate from accounted work.
+   Native fixture now passes on HEQPC:135276000-byte accounted import peak and
+   194971982-byte conservative retained display bound; exact selected counts,
+   recolor reuse and active-read/latest-generation cancellation pass. Reuse
+   build/feature-expansion/d02-scale/counts.qmx rather than regenerate. The measured
+   1855ms coordinate join still runs on the desktop owner, whose default gene-view
+   budget is64MiB: next move the immutable join to the existing worker and provide
+   the declared bounded desktop budget. Native timing does not prove GUI responsiveness.
 3. Extend existing raw-cell jobs with bounded tiles, one captured global threshold/
    normalization, declared halo, deterministic seam ownership/global IDs and source-
    bound checkpoint/resume. Detect unresolved boundary objects explicitly.

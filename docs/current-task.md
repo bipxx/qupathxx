@@ -3235,3 +3235,35 @@ after cache population. Waste review: one affected build/test batch, no failures
 new dependencies, raw indexing, GUI/bindings or packages. Keep12/22 complete.
 Next: native100k/30k/5M scale fixture under256MiB accounted work, remaining cache
 accounting/coalescing, then bounded tiled cell seam ownership and resume.
+
+### D02 — native sparse scale qualification
+
+Previous slice is committed as7d9a1279. Add one explicitly invoked native scale
+executable (not a default ctest fixture campaign): generate100000 observations,
+30000 features and5000000 distinct sparse pairs spanning every observation/feature.
+Declare256MiB for import/open/read/projection/view calls before execution. Compare
+all selected counts/implicit zeros against an independent50-feature row formula;
+exercise high-axis metadata, selected-value reuse, latest-generation cancellation
+and active indexed-read cancellation. Report accounted import/retention separately
+from timing; no allocator/RSS or universal speed claim. Reopen mode reuses the
+fingerprinted store and cannot overwrite accepted receipts. Build only this target
+in the existing cache, then generate/run once; preserve failures if any. No new
+reader/data/dependency, Python product logic, binding or package work.
+
+Scale slice succeeds on HEQPC from System32/Windows-only PATH. New native driver
+build and one generated run pass:100000 rows,30000 features,5000000 entries,
+135276000-byte accounted import peak;194971982-byte conservative retained view
+accounting, both below268435456. Exact formula oracle covers all300000 selected
+sparse values/zeros and200000 projected counts. Recolor reuses counts; latest
+request wins after cancel, active read observes cancellation0.475ms this run.
+Import6168ms, comparison106ms, recolor52ms are local observations, not guarantees.
+Waste review: one build/one generated run; no failures/downloads/repeated real
+import. Fixture uses~188MB total including indexed store; preserve/reopen it.
+Default ctest never regenerates it. Guard the optional scale target with project
+storage so disabled-storage builds acquire no JSON dependency through this test.
+
+Next blocker found by scale evidence: native coordinate join1855ms is still done
+on the desktop owner and GUI gene session uses64MiB. Factor owner capture into an
+immutable request and submit its join using existing SpatialImportJob; expose/use
+the declared bounded desktop budget, then test stale scope/cancel/large interaction.
+D02 stays open; tiled cells/halo/seam/global IDs/checkpoint-resume remain afterward.

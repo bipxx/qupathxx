@@ -1476,3 +1476,36 @@ prove count-buffer ownership is shared while transform/colors change, preserve
 Existing gene-switch/coalescing/relink checks remain passing. This is correctness
 and avoided-read evidence, not a measured latency/RSS or whole-slide scale claim.
 D02 sparse scale, remaining cache bounds and tiled seam/resume are still pending.
+
+D02 native sparse scale slice (desktop responsiveness still open)
+---------------------------------------------------------------
+
+`qupathxx_expression_scale_tests --generate DIRECTORY` is an explicit native
+qualification target, excluded from default ctest. `--reopen DIRECTORY` reuses a
+fingerprinted store and writes a distinct receipt. New generated inputs/results
+never overwrite an existing fixture/receipt. Synthetic mathematical values/IDs
+introduce no external data or licensing requirement.
+
+HEQPC, System32, Windows-only PATH: one generation/import/run exits0. Evidence
+`build/feature-expansion/d02-scale/{build.log,run.log,scale.json,host.json}` binds
+executable SHA f35f52d731f3e86864f23edb9ba5a2fbcdfffa65ea3b9d12dee94e3e524d249f,
+input/store hashes and options. Shape100000 observations/30000 features/5000000
+unique entries, covering every axis member. Independent per-observation50-feature
+formula checks every selected sparse count/implicit zero and all200000 two-gene
+projection counts. High-axis catalogue page, exact-count reuse on recolor,
+latest-generation delivery after cancellation and active indexed-read cancellation
+pass. Source store SHA71d646ebba28ab6d37198f285b70c5685411d127a2f0fc45dd3d5175c4f8eb61.
+
+Declared256MiB per native operation. Import peak accounted work135276000 bytes;
+conservative retained spatial/dataset/two-field sum194971982 bytes (shared dataset
+counted repeatedly, an upper bound). Matrix text72129046 bytes, store114733056.
+Local single-run ms: import6167.604, open75.004, metadata9.973, sparse read/oracle
+10.235, coordinate join1854.777, comparison106.345, recolor51.842, cancel/latest
+105.133, active-read cancellation after signal0.475. These are native host/run
+observations, not process RSS/GPU/QuPath speed or interactive-frame guarantees.
+
+Scale exposed an actual desktop gap: coordinate joins are on the owner thread,
+and GUI sessions still use64MiB defaults. Move immutable joins onto the existing
+worker and admit the bounded desktop budget before claiming large interactive
+support. Preserve this fixture instead of regenerating/reindexing. D02 remains
+open for desktop responsiveness and deterministic tiled-cell seam/resume evidence.
