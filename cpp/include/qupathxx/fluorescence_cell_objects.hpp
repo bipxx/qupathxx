@@ -2,6 +2,10 @@
 #include "qupathxx/fluorescence_cell_workflow.hpp"
 #include "qupathxx/tissue.hpp"
 namespace qpx {
+struct Annotation;
+// Verifies saved geometry/raw-fact integrity; does not remeasure or assert that
+// the original image is current. Cosmetic class/name/edit state is excluded.
+bool fluorescence_cell_observations_intact(const Annotation&);
 class FluorescenceCellContours {
 public:
     const std::shared_ptr<const FluorescenceCellRun>& run() const {return run_;}

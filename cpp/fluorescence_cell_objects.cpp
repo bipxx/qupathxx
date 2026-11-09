@@ -80,6 +80,7 @@ std::shared_ptr<const ObjectProperties> properties(const FluorescenceCellRun& ru
 }
 }
 std::size_t FluorescenceCellContours::payload_bytes() const{return sizeof(*this)+run_->payload_bytes()+nuclei_->retained_bytes()+cells_->retained_bytes();}
+bool fluorescence_cell_observations_intact(const Annotation& cell){return intact(cell);}
 std::shared_ptr<const FluorescenceCellContours> trace_fluorescence_cells(std::shared_ptr<const FluorescenceCellRun> run,TissueContourOptions options,const std::atomic<bool>* cancelled) {
     workflow_checkpoint(cancelled);options.validate();if(!run || !options.clip_to_roi)throw std::invalid_argument("Fluorescence contours require a run and ROI clipping");
     const auto count=run->raster().measurements.size();std::size_t reserved=sizeof(FluorescenceCellContours)+run->payload_bytes()+4096+64*count;

@@ -2194,3 +2194,44 @@ single owner-boundary check. Reused the passing frontend job/UI evidence and
 existing batch binary; only evaluator/native object tests rebuilt for the missing
 selected-shape persistence/CLI mapping check. Preserve all prior receipts and
 concurrent desktop edits; no bindings, GUI rebuild or packaging campaign.
+
+### F02 continuation: native marker rules and saved observations
+
+Changed inputs: additive typed marker rule/DAG/value evaluator, scalar-only
+request/result snapshot, rule persistence through existing image properties,
+and one native test target. Reuse the F01 observation-integrity hash and raw
+capture identity, without private Document access/layout changes or pixel reads.
+AND/OR use full three-state logic; missing/empty/nonfinite/insufficient samples
+remain Unknown. Statistic/units/domain are explicit, graph and recipe bounded,
+and result gate states are flat batched buffers. Native class publication is
+one existing apply_classifications command, with its normal probability/color
+policy and Undo; no geometry/raw-fact rewrite or per-object recipe duplication.
+
+Decisive checks: complete analytical truth tables/threshold edges and malformed
+DAG/units/schema; original multi-channel blob statistics and NaN/empty/unmeasured
+Unknown states; exact cohorts/saved rules, owner/capture/stale/cancel guards,
+no pixel reads, one Undo, and save/reopen replay. Include maximal declared graph
+and native work limits. One cached core/new-test build after interfaces settle;
+no bindings, GUI, package or new dependency/material download. F02 remains open
+for consumer integration and full workflow acceptance after this backend slice.
+
+Initial native marker build/test passes1/1 (0.22s total). Final review adds two
+missing named trust-boundary cases: changed body geometry must refuse capture
+of historical raw facts, and a valid-size100000-ID/64-gate request must hit its
+4MiB work bound before allocating the observation table or looking up rows.
+Rebuild only the changed native test; no API/kernel/GUI/binding changes.
+
+Final native marker test passes1/1 (0.20s), including edited-geometry refusal and
+preallocation work admission. Actual cache fixtures classified.qpx/rules.qpx prove
+the enabled save/reopen branches ran. Root/gate counts/cohorts, exact native rule
+replay, complete three-state logic, one class Undo and zero added pixel reads pass.
+Plan remains8/22 with F02 unchecked until CLI/desktop workflow integration.
+
+Waste review: reused existing observation hash, raw identity guard, typed image
+properties and compound class command. Workers use scalar snapshots, one node
+workspace and flat gate states; schema validation/recipe storage do not repeat
+per object. All native/consumer interfaces settled before the first core build;
+only one test-only rebuild added two concrete trust-boundary checks. No new
+forest/framework, binding/GUI/package build or dependency/data download. Next add
+thin native marker rule CLI/desktop controls over this same service, with native
+cohort selection and exact saved-rule replay. Preserve concurrent UI edits.

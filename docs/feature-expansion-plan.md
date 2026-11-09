@@ -317,6 +317,12 @@ report the missing real-data acceptance rather than borrowing an NC fixture.
   domain. Missing values are Unknown, not Negative. Show counts/cohorts, preview
   assignments and retain/replay the exact rule. Exit: threshold-boundary,
   multi-marker, missing-data, stale-input and save/reopen cases pass.
+  Progress: native typed gates and bounded topological AND/OR rules, scalar-only
+  snapshots, flat gate states/counts/cohorts, exact typed rule storage and existing
+  compound classification publication pass focused checks. Unknown stays distinct
+  from Negative; no pixels are read. Geometry/raw facts remain intact and saved
+  rules/observations replay exactly after project reopen. CLI/desktop consumers
+  and full selected workflow acceptance remain; keep F02 unchecked.
 - [ ] **F03 — dark/flat-field correction.** Add an immutable native derived-channel
   recipe using explicit dark/flat sources and declared normalization. Reuse typed
   tile IO and masks; first put TIFF-specific raw-source checks behind a shared

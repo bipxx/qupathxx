@@ -382,3 +382,77 @@ checks. Native publication and exact saved replay pass for every selected cell;
 the actual CLI gives the same run digest. This is one reused validation panel,
 with both original failure and training selection disclosed. It is not an unseen
 held-out study or a guarantee for other markers, tissues or acquisition settings.
+
+## Native marker rules (F02 backend; consumers pending)
+
+[marker_rules.hpp](../cpp/include/qupathxx/marker_rules.hpp) evaluates versioned
+marker gates over intact saved F01 cell observations. It does not reread image
+pixels or recompute intensities after geometry edits. Initial capture uses the
+existing open quantitative-source authority; closed/unsupported sources refuse.
+The current domain is exactly `original-channel-samples`. RGB display/optical-
+density or corrected/normalized values are not silently interpreted in this domain.
+
+A gate identifies an original channel, nucleus/cell/cytoplasm compartment,
+mean/sum/minimum/maximum/sample-SD statistic, strict/inclusive comparison, finite
+threshold and minimum finite sample count. Units are `SourceSample` for intensity
+statistics or `SourceSampleSum` for sums; incompatible units refuse. These are
+original sample values, without a hidden micrometre/area normalization or a
+universal biological positivity threshold.
+
+Absent/nonfinite values, an unmeasured channel, insufficient finite samples and
+empty cytoplasm are **Unknown**. Sample SD requires at least two finite samples.
+Actual finite zero remains a measured value. AND is Negative if any input is
+Negative, otherwise Unknown if any input is Unknown; OR is Positive if any input
+is Positive, otherwise Unknown if any input is Unknown. Every rule has distinct
+positive/negative/unknown output class names.
+
+For example, a native two-marker phenotype can be constructed without a forest
+or Python:
+
+```cpp
+qpx::MarkerRule rule;
+rule.name = "A and B";
+qpx::MarkerGate a; a.name = "A"; a.channel = 1; a.threshold = 250;
+qpx::MarkerGate b; b.name = "B"; b.channel = 2; b.threshold = 400;
+rule.gates = {a, b};
+rule.nodes = {{qpx::MarkerOperation::Gate, 0, {}},
+              {qpx::MarkerOperation::Gate, 1, {}},
+              {qpx::MarkerOperation::And, 0, {0, 1}}};
+auto saved = qpx::keep_marker_rule(document, rule);
+qpx::MarkerRuleRequest request(document, cell_ids, rule);
+auto preview = qpx::preview_marker_rule(request);
+auto unknown_ids = preview->cohort(qpx::MarkerTruth::Unknown);
+qpx::apply_marker_rule(document, request, *preview);
+```
+
+Thresholds in this example illustrate construction, not calibrated biological
+cutoffs. Nodes form a topological DAG with the last node as root; all nodes/gates
+must be used. Limits are64 gates,256 nodes,1024 edges and100000 selected cells.
+Capture/evaluation/publication work is bounded by a declared4..512MiB budget
+(default64MiB), separate from existing reader caches and document history.
+Geometry-integrity hashing also checks its transient workspace before allocation.
+
+Requests capture only selected scalar observations, stable IDs/revisions and
+native identity. Workers never read a live Document. Results own row IDs/root
+states, flat row-major gate states, per-gate/root counts, cohorts and exact input/
+result hashes; there are no Python callbacks or per-object binding loops. Capture,
+preview and publication accept cancellation. Publication requires the exact live
+request/result capture ticket; an equivalent hash from another capture is not
+permission to apply it.
+
+`apply_marker_rule` reuses the native compound class edit: one Undo restores the
+cohort, geometry/raw observations remain unchanged, and existing class policy
+clears explicit object colors/probabilities while retaining lock state. Selected
+object edits invalidate old previews. Cosmetic labels/classes are excluded from
+the scientific observation digest, so a fresh replay can reproduce the same
+analysis identity after classification or rename. These are classifications of
+saved observations, not a claim that the original image has been remeasured.
+
+`keep_marker_rule`, `marker_rule_ids`, `load_marker_rule` and `remove_marker_rule`
+store the exact typed `qpx.marker-rule/1` recipe once in native image properties.
+They preserve unrelated metadata and double bit patterns; malformed schema/units/
+graphs or changed stored identities refuse. Keep/remove have their own Undo actions;
+keeping a rule does not invalidate unchanged observation previews. Load the saved
+rule and create a fresh request to replay. Classifications and rules survive
+normal native project Save/reopen. CLI/desktop rule editing/preview controls are
+still pending; F02 remains unchecked in the expansion plan.

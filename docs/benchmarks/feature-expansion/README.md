@@ -613,3 +613,51 @@ listed packets. Completion is8/22 with14 pending. Next deliver F02 typed marker
 positivity/phenotype rules over immutable observed native measurements. L01 still
 needs final source/package membership; proprietary, NC and unreviewed pools remain
 excluded and distinct. No public release or broad-platform acceptance is claimed.
+
+### F02 native marker-rule backend
+
+The additive native rule API now supplies original-channel/compartment/statistic/
+units/threshold gates, bounded topological AND/OR expressions and explicit
+Positive/Negative/Unknown. Scalar snapshots bind intact F01 geometry/raw facts to
+native source/document authority and selected-object revisions. Only relevant
+measurements are retained, with flat gate-state buffers and reusable node scratch;
+no feature forest, new workflow engine, pixel read, per-object recipe duplication
+or Python scientific authority is added. F01's saved observation-integrity helper
+is shared directly, not reimplemented or converted into current-image acceptance.
+
+Publication uses existing apply_classifications, with its one-Undo/color/probability
+policy and immutable geometry/raw facts. Exact qpx.marker-rule/1 recipes live once
+in existing typed image properties; Keep/remove preserve unrelated metadata and
+remain separate undoable commands. Rule metadata changes do not invalidate
+unchanged observation captures. Input/result digests exclude cosmetic class/name
+state but cannot replace private request/result authority.
+
+Final affected `marker_rules` CTest passes1/1 (0.20s total), workspace-root
+`build/feature-expansion/f02-native-final-ctest.log`; build logs are
+`f02-native-build.log` and `f02-native-final-build.log`. Coverage includes the full
+nine-entry AND and OR three-state tables, strict/inclusive/signed/zero thresholds,
+NaN/Inf/absent/insufficient samples, all five native statistics, empty cytoplasm,
+unmeasured channels, original-domain/units validation, DAG reachability/cycles/
+limits, exact threshold-bit preservation, malformed/tampered records and the
+maximal declared64-gate/256-node codec graph.
+
+Enabled local GEOS integration captures independent two-blob/three-channel native
+observations, including an all-NaN measured marker. It checks exact root/gate
+cohorts, saved-rule replay, one compound class Undo/Redo, unchanged geometry/raw
+facts, native color/probability policy, cancellation, stale/capture/owner refusal,
+same-address Document replacement, empty-cohort no-op and **zero additional pixel
+reads**. A real independently authored quantitative TIFF and native project prove
+saved rule/class/raw-fact associations replay exactly after reopen. The actual
+`classified.qpx`, `rules.qpx` and source fixture are retained under the latest
+`marker-rules-*` directory in the integration cache.
+
+The final test-only follow-up closes two named boundary gaps: edited body geometry
+refuses capture of stale raw facts, and a valid-size100000-ID/64-gate request hits
+its4MiB work limit before allocating its observation table/looking up IDs. No
+scientific behavior changed after the initial pass. The native-only CI registers
+the new target; without GEOS it explicitly runs pure logic/codec checks only.
+Hosted execution and missing GUI/CLI behavior are not claimed. No new dependency,
+material/model download, binding/GUI rebuild or package qualification occurred.
+F02 remains open for thin native CLI/desktop consumers and their selected workflow
+acceptance. Overall completion remains8/22; next wire those consumers, not another
+rule evaluator or observation store.
