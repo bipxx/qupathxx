@@ -1,4 +1,5 @@
 #include "qupathxx/fluorescence_cell_workflow.hpp"
+#include "qupathxx/fluorescence_tiled_workflow.hpp"
 #include "qupathxx/core.hpp"
 #include "qupathxx/source_identity.hpp"
 #include "qupathxx/workflow.hpp"
@@ -7,6 +8,7 @@
 #include <future>
 #include <iostream>
 #include <thread>
+#include <map>
 using namespace qpx;
 namespace fs=std::filesystem;
 void check(bool value,const char* message){if(!value)throw std::runtime_error(message);}
@@ -19,9 +21,11 @@ public:
     std::shared_ptr<const ReaderSource> observed=make_reader_source("fluorescence-reference","","memory");
     ImageMetadata display;
     mutable std::atomic<unsigned> reads{0},display_reads{0};
+    mutable std::atomic<std::uint64_t> max_read_pixels{0};
     mutable std::atomic<bool> entered{false},finished{false};
     std::atomic<bool> block{false},release{false},is_closed{false};
     bool wrong_shape=false,decoder_failure=false,uniform=false;
+    int dna_x=3,dna_y=3;unsigned switch_uniform_after=0;
     Reader(){raw->width=15;raw->height=9;raw->channels=3;raw->z_planes=2;raw->timepoints=2;raw->sample_type=SampleType::Float64;
         raw->levels={{15,9,1}};raw->channel_names={"Unused","DNA","Marker"};raw->dimension_order="XYZCT";raw->pixel_width_um=.5;raw->pixel_height_um=1;
         display.width=15;display.height=9;display.levels={{15,9,1}};display.pixel_width_um=.5;display.pixel_height_um=1;view->z=1;view->t=1;}
@@ -32,7 +36,7 @@ public:
     std::shared_ptr<const RawImageMetadata> raw_metadata(const std::atomic<bool>*) const override{return raw;}
     PixelBuffer read_region(const RegionRequest&) const override{++display_reads;throw std::runtime_error("RGB display reads forbidden");}
     RawPixelBuffer read_raw(const RawRegionRequest& r,const std::atomic<bool>* cancelled) const override {
-        ++reads;entered.store(true);
+        const auto read_number=++reads;max_read_pixels.store(std::max(max_read_pixels.load(),std::uint64_t(r.region.width*r.region.height)));entered.store(true);
         struct Finished {std::atomic<bool>& flag;~Finished(){flag.store(true);}} finished_scope{finished};
         while(block.load() && !release.load()){workflow_checkpoint(cancelled);std::this_thread::sleep_for(std::chrono::milliseconds(1));}
         workflow_checkpoint(cancelled);if(decoder_failure)throw std::runtime_error("Independent decoder failure");
@@ -40,7 +44,7 @@ public:
         auto& values=std::get<std::vector<double>>(out.writable_storage());std::fill(out.writable_valid().begin(),out.writable_valid().end(),1);
         for(std::int64_t y=0;y<r.region.height;++y)for(std::int64_t x=0;x<r.region.width;++x){const auto px=x+r.region.x,py=y+r.region.y;
             for(std::uint32_t c=0;c<r.channels;++c){const auto channel=r.first_channel+c;
-                values[(std::size_t(y)*std::size_t(out.width())+std::size_t(x))*r.channels+c]=channel==0?1000+px:channel==1?(uniform || (px>=3 && px<=5 && py>=3 && py<=5)?100:0):double(px+10*py+1000*r.z+10000*r.t);}}
+                values[(std::size_t(y)*std::size_t(out.width())+std::size_t(x))*r.channels+c]=channel==0?1000+px:channel==1?(uniform || (switch_uniform_after && read_number>switch_uniform_after) || (px>=dna_x && px<=dna_x+2 && py>=dna_y && py<=dna_y+2)?100:0):double(px+10*py+1000*r.z+10000*r.t);}}
         return out;
     }
     void close() override{is_closed.store(true);}
@@ -151,7 +155,51 @@ void files(const fs::path& root) {
     check(!request.publication_matches(doc),"Publication rechecks actual files, not retained decoder/cache observations");
     rejects<WorkflowInputChanged>([&]{require_current_fluorescence_cells(doc,request,*run);});rejects<WorkflowInputChanged>([&]{detect_fluorescence_cells(request);});
 }
+void tiled_workflow() {
+    auto reader=std::make_shared<Reader>();reader->raw->width=80;reader->raw->height=52;reader->raw->levels={{80,52,1}};
+    reader->display.width=80;reader->display.height=52;reader->display.levels={{80,52,1}};reader->dna_x=37;reader->dna_y=20;
+    Document doc(reader);auto region=selected();region.region={0,0,0,80,52};
+    auto p=parameters();p.sigma=.7;p.threshold_method=FluorescenceThreshold::Otsu256;p.max_cells=1000;
+    const auto whole=detect_fluorescence_cells(FluorescenceCellRequest(doc,region,0,p,{3,3}));
+    check(whole->raster().measurements.size()==1,"Global Otsu reference has one synthetic nucleus");
+    FluorescenceTileOptions tiles;tiles.width=20;tiles.height=26;tiles.halo=12;
+    const FluorescenceTiledRequest request(doc,region,0,p,tiles);const auto before=reader->reads.load();
+    check(request.matches(doc) && before==1 && request.tile_count()==8,"Tiled capture reads no pixels and declares finite cores");
+    reader->max_read_pixels.store(0);std::map<std::string,std::vector<std::size_t>> outputs;
+    const auto result=detect_tiled_fluorescence_cells(request,[&](std::size_t,const FluorescenceTileResult& tile){
+        for(const auto& cell:tile.cells) {
+            std::vector<std::size_t> actual,expected;
+            for(const auto& span:cell.cell)for(std::int64_t x=span.x;x<span.x+span.width;++x)actual.push_back(std::size_t(span.y*80+x));
+            for(std::size_t i=0;i<whole->raster().bodies.size();++i)if(whole->raster().bodies[i])expected.push_back(i);
+            check(actual==expected,"Source-backed tiled Otsu body equals untiled whole-ROI geometry");
+            check(cell.measurements.cell.channels[1].sum==whole->raster().measurements[0].cell.channels[1].sum &&
+                cell.measurements.cell.channels[1].sample_standard_deviation==whole->raster().measurements[0].cell.channels[1].sample_standard_deviation,"Source-backed tile retains exact raw marker moments");
+            check(outputs.emplace(cell.id,std::move(actual)).second,"Source workflow publishes one global cell identity");
+        }
+    });
+    check(result.state=="ready" && result.tiles==8 && result.cells==1 && result.finite_pixels==80*52 && result.accounted_work_bytes<=p.work_bytes,"Bounded source-backed tiled report covers each ROI pixel once");
+    check(result.resolved_threshold==whole->raster().resolved_threshold && reader->reads.load()-before==3*request.tile_count() && reader->max_read_pixels.load()<80*52,"Global threshold equals untiled Otsu through three bounded passes, never a full-slide read");
+    tiles.width=40;const FluorescenceTiledRequest alternate(doc,region,0,p,tiles);
+    check(alternate.sha256()!=request.sha256() && alternate.source_sha256()==request.source_sha256(),"Resume request binds tile layout; scientific source identity does not");
+    std::map<std::string,std::vector<std::size_t>> moved;
+    const auto other=detect_tiled_fluorescence_cells(alternate,[&](std::size_t,const FluorescenceTileResult& tile){for(const auto& c:tile.cells){std::vector<std::size_t> body;for(const auto& s:c.cell)for(std::int64_t x=s.x;x<s.x+s.width;++x)body.push_back(std::size_t(s.y*80+x));moved.emplace(c.id,std::move(body));}});
+    check(other.resolved_threshold==result.resolved_threshold && moved==outputs,"Global Otsu values/IDs/geometry are independent of tile layout");
+    reader->reads.store(0);reader->switch_uniform_after=unsigned(request.tile_count());
+    rejects<WorkflowInputChanged>([&]{detect_tiled_fluorescence_cells(request);});reader->switch_uniform_after=0;
+    reader->block.store(true);reader->release.store(false);reader->entered.store(false);
+    FluorescenceCellJob job;check(job.request(request),"Existing cell job accepts tiled request");await_read(*reader,job);
+    check(!job.request(alternate),"Tiled and untiled work share one job execution slot");job.cancel();
+    check(job.wait(doc).state=="cancelled" && !job.tiled_result() && !job.result(),"Tiled read cancellation discards delivery");
+    reader->entered.store(false);check(job.request(request),"Next tiled generation starts");await_read(*reader,job);doc.set_calibration(.75,1);reader->release.store(true);
+    check(job.wait(doc).state=="stale" && !job.tiled_result(),"Owner calibration mutation prevents tiled result delivery");doc.undo();
+    reader->block.store(false);const FluorescenceTiledRequest fresh(doc,region,0,p,tiles);check(job.request(fresh),"Fresh tiled request starts");
+    check(job.wait(doc).state=="ready" && job.tiled_result() && !job.result(),"Existing native job delivers the typed tiled report");
+    reader->uniform=true;p.sigma=0;const FluorescenceTiledRequest constant_request(doc,region,0,p,tiles);
+    const auto constant=detect_tiled_fluorescence_cells(constant_request);
+    check(constant.state=="ready" && constant.resolved_threshold==100 && !constant.cells,"Global constant Otsu resolves once and returns a valid zero-cell result");
+}
 int main(int argc,char** argv){try {
+    tiled_workflow();
     source_contract();finite_boundaries();jobs();const auto root=fs::current_path()/("fluorescence-source-"+std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()));check(fs::create_directory(root),"Create unique native fixture directory");files(root);
     if(argc>1){Document real(open_tiff(argv[1]));const auto m=real.server()->raw_metadata();RawRegionRequest r;r.region={0,0,0,m->width,m->height};r.channels=m->channels;FluorescenceCellOptions p;p.threshold_method=FluorescenceThreshold::Otsu256;p.min_nucleus_area=5;p.cell_expansion=3;
         const FluorescenceCellRequest request(real,r,0,p,{0,0});FluorescenceCellJob job;check(job.request(request),"Real native job starts");check(job.wait(real).state=="ready" && job.result(),"Real source job completes");require_current_fluorescence_cells(real,request,*job.result());std::cout<<"Real source-bound job: "<<job.result()->raster().measurements.size()<<" candidates; annotation acceptance remains pending\n";}

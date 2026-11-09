@@ -1606,3 +1606,47 @@ D02 remains open: source/job orchestration, one global Otsu/normalization contra
 source/options-bound checkpoint/resume and independent admitted real-ROI seam/
 interruption equality, then thin desktop controls. This pure bounded primitive is
 not a completed whole-slide processing workflow or frozen release.
+
+D02 source-backed tiled processing and one global Otsu (resume pending)
+--------------------------------------------------------------------
+
+FluorescenceTiledRequest captures native source/ROI/calibration and layout/options
+on the owner without raw reads. A lazy window iterator reads bounded original-
+channel halo regions and streams immutable tile results rather than building a
+whole-slide raster. Source identity binds observed files/metadata/calibration
+(excludes ephemeral observation timestamps/file-reader generation for file-backed
+sources); request identity additionally binds ROI, channels/Z/T, options and tile
+layout. Non-file sources require an observable reader generation. Currentness is
+checked around reads and final delivery. The existing FluorescenceCellJob shares
+one execution slot between untiled/tiled requests and retains native cancel/stale
+owner delivery; typed tiled reports distinguish ready from unresolved.
+
+Global Otsu shares the untiled Gaussian score preparation and256-bin/lowest-tie
+threshold implementation. Only unique core pixels within the full ROI contribute:
+range pass, histogram pass, then explicit-threshold segmentation. Constant scores
+skip the histogram reread. Raw input hashes must agree between passes. Explicit
+thresholds use one segmentation pass. ROI-empty/nonfinite halo tiles can stream
+empty results, while a wholly nonfinite ROI cannot claim successful completion.
+Input/summary manifests and caller-owned streaming sinks remain bounded by the
+native work contract; correction/unmixing adapters and persistence are not yet
+included in this original-channel route.
+
+Evidence `build/feature-expansion/d02-source/`: build.log succeeds. Initial
+ctest.log retains passing pure-cell/tile/published-replay suites and one failed
+new constant oracle. The oracle assumed constant100 stays bitwise constant after
+binary64 Gaussian normalization; repaired only that exact-constant test to sigma0.
+The sigma.7 whole-ROI/tiled equality remains unchanged. build-r2.log succeeds and
+ctest-r2.log passes the source suite0.22s (0.29s total); no scientific tolerance or
+product behavior weakened. Tool observation delay did not indicate a hung test;
+initial ctest elapsed1.19s.
+
+Source tests use an authored80x52 raw fixture, comparing global Otsu threshold,
+complete body geometry and raw marker moments exactly with untiled ROI processing.
+Two layouts keep threshold/geometry/global IDs equal while changing request ID;
+all4160 finite pixels are counted once,3 bounded passes occur and no read covers
+the whole source. Mutation between threshold passes refuses. Native job read-
+barrier cancellation/calibration-stale/ready delivery and exact100/zero-cell
+constant Otsu pass. Existing F01 pure/source/publication/replay checks pass. No
+biological accuracy, real-ROI completion, universal speed/RSS or release claim.
+D02 still requires checkpoint/resume, derived-source adapters, admitted real ROI
+and thin desktop consumer checks. No new dependency/data/reader/model inputs.

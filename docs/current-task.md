@@ -3379,3 +3379,53 @@ once, read finite halo tiles on the existing job and persist complete tile recor
 with exact input/options/source identity. Add interrupt/resume equality and an
 admitted real ROI; thin desktop controls afterward. Primitive coverage is not a
 whole-slide workflow or D02 completion.12/22 remain complete.
+
+### D02 — source-backed tiled job and global threshold resolution
+
+Add immutable source/ROI/calibration capture and lazy finite halo reads, then
+stream tile outputs through the bounded primitive. Global Otsu reuses untiled
+Gaussian score preparation and256-bin/lowest-tie resolution: whole-ROI min/max
+pass, histogram pass, then explicit-threshold segmentation. Count only each core's
+ROI pixels; raw tile hashes must agree across passes. Constant Otsu skips the
+histogram reread. Explicit thresholds require one segmentation pass. Keep source
+identity separate from layout/options-bound request identity; no whole-slide
+raster. Use the existing FluorescenceCellJob slot/cancel/stale delivery for typed
+tiled reports, not another scheduler. Native streaming sinks receive immutable
+tiles and must write bounded records rather than hold the entire slide in memory.
+
+Decisive check: one affected native build/test batch, retaining pure/untiled/tile/
+source/publication suites. New source checks compare global Otsu, masks and marker
+moments with the untiled ROI; verify two layouts, bounded read dimensions/three
+passes, raw mutation between passes, cancel/read barrier, calibration-stale and
+constant-zero-cell delivery. This does not close resume persistence, correction/
+unmixing adapters, admitted real-ROI or desktop controls. No download, matrix
+index, bindings, GUI or package build.
+
+Initial source build succeeds. Pure cells, bounded tiles and published replay
+suites pass. Source workflow reaches its final constant-case assertion after
+whole-ROI/tiled smoothed Otsu/mask/moment equality, bounded reads, raw-mutation,
+job cancellation/stale/ready checks pass. Failed oracle assumed raw100 remains
+exactly100 after binary64 Gaussian normalization; a constant input can have tiny
+filter-rounding variation. Test the exact lo==hi Otsu branch with sigma0 instead;
+keep the existing sigma.7 whole/tiled equality unchanged. No product behavior or
+scientific tolerance changes. Retain first ctest.log and rerun only the changed
+source suite after rebuilding its one target; do not repeat the3 passed suites.
+Observed tool-output delay was not a live hung test: terminal ctest reports1.19s.
+
+Source-backed slice passes after the constant-fixture repair: initial native build
+succeeds; pure cells/tiles/published replay pass in initial ctest.log. Rebuilt only
+the changed source suite; ctest-r2.log passes0.22s (0.29s total). No product/tolerance
+change for the failed oracle. New tests prove global smoothed Otsu/masks/marker
+moments equal untiled ROI across2 layouts, count4160 pixels once, perform bounded
+3-pass reads, keep source IDs layout-independent/request IDs layout-bound, reject
+raw mutation between passes, and use existing job cancellation/stale/ready state.
+Exact sigma0 constant resolves100/zero cells. Existing source/replay checks pass.
+
+Waste review: reuse the existing score preparation/Otsu rule and cell-job slot;
+no new scheduler. One initial build/test batch plus one diagnosed test-only rebuild
+and source-suite rerun; preserve failed evidence and all other passing evidence.
+No matrix indexing, GUI/binding/package or data/dependency download. Streaming
+callbacks must consume/write one tile rather than accumulate whole-slide rasters.
+Next: source/request-bound checkpoint/resume around this native stream, explicit
+correction/unmixing adapters, admitted real-ROI seam/interruption checks and thin
+desktop controls.12/22 remain complete; D02 is not closed by native source tests.

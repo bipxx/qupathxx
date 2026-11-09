@@ -19,9 +19,9 @@ void charge(std::size_t& value,std::size_t n,std::size_t each,std::size_t work) 
 }
 void text(Sha256& sha,const std::string& s){sha.integer(s.size());sha.update(s.data(),s.size());}
 }
-FluorescenceTileResult segment_fluorescence_tile(const RawPixelBuffer& pixels,const std::vector<std::uint8_t>& domain,
+FluorescenceTileResult detail::segment_fluorescence_tile_reserved(const RawPixelBuffer& pixels,const std::vector<std::uint8_t>& domain,
     const RawRegionRequest& samples,RegionRequest core,RegionRequest bounds,const std::string& source,
-    FluorescenceCellOptions p,std::optional<std::array<double,2>> calibration,const std::atomic<bool>* cancelled) {
+    FluorescenceCellOptions p,std::optional<std::array<double,2>> calibration,std::size_t external,const std::atomic<bool>* cancelled) {
     workflow_checkpoint(cancelled);p.validate();rectangle(samples.region);rectangle(core);rectangle(bounds);
     if(p.threshold_method!=FluorescenceThreshold::Explicit)throw std::invalid_argument("Resolve a global fluorescence threshold before tiling");
     if(source.size()!=64 || source.find_first_not_of("0123456789abcdef")!=std::string::npos)throw std::invalid_argument("Invalid tiled fluorescence source identity");
@@ -49,7 +49,7 @@ FluorescenceTileResult segment_fluorescence_tile(const RawPixelBuffer& pixels,co
     if(domain.size()!=n)throw std::invalid_argument("Fluorescence tile domain differs from sample lattice");
     // Reserve cut-component traversal, per-label state and worst-case output
     // runs while the raw raster/result still exist. No slide-sized allocation.
-    std::size_t fixed=sizeof(FluorescenceTileResult)+4096;
+    std::size_t fixed=external;workflow_capture_charge(fixed,sizeof(FluorescenceTileResult)+4096,p.work_bytes);
     charge(fixed,n,9+6*sizeof(FluorescencePixelSpan),p.work_bytes);
     charge(fixed,std::min(n,p.max_cells),sizeof(FluorescenceOwnedCell)+160+3*std::size_t(pixels.channels())*sizeof(RawChannelIntensity),p.work_bytes);
     for(std::int64_t y=0;y<pixels.height();++y)for(std::int64_t x=0;x<pixels.width();++x) {
@@ -61,6 +61,11 @@ FluorescenceTileResult segment_fluorescence_tile(const RawPixelBuffer& pixels,co
     result.accounted_work_bytes=detail::fluorescence_cell_work_bytes(pixels.width(),pixels.height(),pixels.channels(),pixels.sample_type(),p,calibration,pixels.payload_bytes(),domain.capacity(),fixed);
     std::vector<std::uint8_t> cut;
     const auto raster=detail::segment_fluorescence_cells_reserved(pixels,domain,p,calibration,fixed,cancelled,&cut);
+    std::visit([&](const auto& values){for(std::size_t i=0;i<n;++i) {
+        if(!(i&4095))workflow_checkpoint(cancelled);
+        const auto x=r.x+std::int64_t(i%std::size_t(pixels.width())),y=r.y+std::int64_t(i/std::size_t(pixels.width()));
+        if(domain[i] && pixels.valid()[i] && inside(x,y,core) && std::isfinite(double(values[i*pixels.channels()+p.segmentation_channel])))++result.finite_segmentation_pixels_in_core;
+    }},pixels.storage());
     result.input_sha256=raster.input_sha256;result.recipe_sha256=raster.recipe_sha256;
     const auto count=raster.measurements.size();std::vector<std::size_t> anchor(count,n);
     std::vector<std::uint8_t> dependent(count,0);
@@ -99,5 +104,10 @@ FluorescenceTileResult segment_fluorescence_tile(const RawPixelBuffer& pixels,co
         }
     };
     runs(raster.nuclei,true);runs(raster.bodies,false);return result;
+}
+FluorescenceTileResult segment_fluorescence_tile(const RawPixelBuffer& pixels,const std::vector<std::uint8_t>& domain,
+    const RawRegionRequest& samples,RegionRequest core,RegionRequest bounds,const std::string& source,
+    FluorescenceCellOptions p,std::optional<std::array<double,2>> calibration,const std::atomic<bool>* cancelled) {
+    return detail::segment_fluorescence_tile_reserved(pixels,domain,samples,core,bounds,source,p,calibration,0,cancelled);
 }
 }

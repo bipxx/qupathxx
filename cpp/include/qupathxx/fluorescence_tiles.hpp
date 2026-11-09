@@ -16,6 +16,7 @@ struct FluorescenceTileResult {
     std::vector<FluorescenceOwnedCell> cells;
     // Includes cut foreground before area filtering, even if no label survives.
     std::uint64_t unresolved_foreground_pixels_in_core=0;
+    std::uint64_t finite_segmentation_pixels_in_core=0;
     std::vector<std::uint32_t> unresolved_labels;
     std::string input_sha256,recipe_sha256;
     std::size_t accounted_work_bytes=0;

@@ -65,6 +65,12 @@ double otsu(const std::vector<double>& values,const std::vector<std::uint8_t>& d
     const auto scale=std::max(std::abs(lo),std::abs(hi)),lower=lo/scale,range=hi/scale-lower;
     std::array<std::uint64_t,256> bins{};
     for(std::size_t i=0;i<values.size();++i) {if((i&4095)==0)workflow_checkpoint(cancelled);if(domain[i])++bins[std::size_t(std::clamp((values[i]/scale-lower)/range*256,0.,255.))];}
+    return detail::fluorescence_otsu_threshold(lo,hi,count,bins);
+}
+}
+double detail::fluorescence_otsu_threshold(double lo,double hi,std::uint64_t count,const std::array<std::uint64_t,256>& bins) {
+    if(!count)throw std::invalid_argument("No finite fluorescence segmentation pixels in ROI");
+    if(lo==hi)return lo;
     double total=0;for(unsigned i=0;i<256;++i)total+=i*double(bins[i]);
     double sum=0,best=-1;std::uint64_t before=0;unsigned split=0;
     for(unsigned i=0;i<255;++i) {before+=bins[i];sum+=i*double(bins[i]);if(!before || before==count)continue;
@@ -72,6 +78,7 @@ double otsu(const std::vector<double>& values,const std::vector<std::uint8_t>& d
         if(variance>best){best=variance;split=i;}}
     const double fraction=double(split+1)/256;return lo*(1-fraction)+hi*fraction;
 }
+namespace {
 void cut_components(const std::vector<std::uint8_t>& foreground,const std::vector<std::uint8_t>& eligible,
     std::size_t width,std::size_t height,std::size_t rx,std::size_t ry,std::vector<std::uint8_t>& cut,const std::atomic<bool>* cancelled) {
     cut.assign(foreground.size(),0);std::vector<std::size_t> queue;queue.reserve(foreground.size());
@@ -146,24 +153,40 @@ std::size_t detail::fluorescence_cell_work_bytes(std::int64_t width,std::int64_t
     workflow_capture_charge(bytes,256ULL*n+40ULL*std::max(width,height)+8ULL*(2*rx+2*ry+2),p.work_bytes);
     workflow_capture_charge(bytes,measurement_bytes(std::min(n,p.max_cells),channels),p.work_bytes);return bytes;
 }
-FluorescenceCellResult detail::segment_fluorescence_cells_reserved(const RawPixelBuffer& pixels,const std::vector<std::uint8_t>& domain,FluorescenceCellOptions p,
-    std::optional<std::array<double,2>> calibration,std::size_t fixed,const std::atomic<bool>* cancelled,std::vector<std::uint8_t>* cut_foreground) {
+std::string detail::fluorescence_input_sha256(const RawPixelBuffer& pixels,const std::vector<std::uint8_t>& domain,const std::atomic<bool>* cancelled){return input_hash(pixels,domain,cancelled);}
+detail::FluorescenceScores detail::fluorescence_scores(const RawPixelBuffer& pixels,const std::vector<std::uint8_t>& domain,FluorescenceCellOptions p,
+    std::optional<std::array<double,2>> calibration,std::size_t fixed,const std::atomic<bool>* cancelled) {
     workflow_checkpoint(cancelled);p.validate();const auto n=lattice(pixels);const auto width=std::size_t(pixels.width()),height=std::size_t(pixels.height());
     if(domain.size()!=n || p.segmentation_channel>=pixels.channels())throw std::invalid_argument("Invalid fluorescence segmentation domain/channel");
-    FluorescenceCellResult result;result.width=pixels.width();result.height=pixels.height();result.options=p;
-    if(p.units==FluorescenceCellUnits::Micrometres) {if(!calibration)throw std::invalid_argument("Physical fluorescence cells require both calibration axes");result.metric=*calibration;}
-    const cell_detail::PhysicalGridMetric metric(result.metric[0],result.metric[1]);
+    auto spacing=std::array<double,2>{1,1};
+    if(p.units==FluorescenceCellUnits::Micrometres) {if(!calibration)throw std::invalid_argument("Physical fluorescence cells require both calibration axes");spacing=*calibration;}
+    const cell_detail::PhysicalGridMetric metric(spacing[0],spacing[1]);
     fluorescence_cell_work_bytes(pixels.width(),pixels.height(),pixels.channels(),pixels.sample_type(),p,calibration,pixels.payload_bytes(),domain.capacity(),fixed);
-    std::vector<double> score(n);std::vector<std::uint8_t> valid(n),eligible(n),foreground(n);
+    FluorescenceScores result;result.values.resize(n);result.eligible.resize(n);std::vector<std::uint8_t> valid(n);
     std::visit([&](const auto& samples) {for(std::size_t i=0;i<n;++i) {if((i&4095)==0)workflow_checkpoint(cancelled);
         if(domain[i]>1 || pixels.valid()[i]>1)throw std::invalid_argument("Fluorescence domain/validity must be binary");
-        if(!pixels.valid()[i]){result.invalid_pixels+=domain[i];continue;}const auto v=value(samples[i*pixels.channels()+p.segmentation_channel]);
-        valid[i]=std::isfinite(v);score[i]=valid[i]?v:0;eligible[i]=domain[i] && valid[i];
-        result.segmentation_finite_pixels+=eligible[i];result.segmentation_nonfinite_pixels+=domain[i] && !valid[i];}
+        if(!pixels.valid()[i]){result.invalid+=domain[i];continue;}const auto v=value(samples[i*pixels.channels()+p.segmentation_channel]);
+        valid[i]=std::isfinite(v);result.values[i]=valid[i]?v:0;result.eligible[i]=domain[i] && valid[i];
+        result.finite+=result.eligible[i];result.nonfinite+=domain[i] && !valid[i];}
     },pixels.storage());
-    if(!result.segmentation_finite_pixels)throw std::invalid_argument("No finite fluorescence segmentation pixels in ROI");
+    if(result.finite)cell_detail::physical_gaussian(result.values,valid,width,height,metric,p.sigma,p.work_bytes,cancelled);
+    return result;
+}
+FluorescenceCellResult detail::segment_fluorescence_cells_reserved(const RawPixelBuffer& pixels,const std::vector<std::uint8_t>& domain,FluorescenceCellOptions p,
+    std::optional<std::array<double,2>> calibration,std::size_t fixed,const std::atomic<bool>* cancelled,std::vector<std::uint8_t>* cut_foreground) {
+    auto prepared=fluorescence_scores(pixels,domain,p,calibration,fixed,cancelled);
+    const auto n=prepared.values.size(),width=std::size_t(pixels.width()),height=std::size_t(pixels.height());
+    auto& score=prepared.values;auto& eligible=prepared.eligible;std::vector<std::uint8_t> foreground(n);
+    FluorescenceCellResult result;result.width=pixels.width();result.height=pixels.height();result.options=p;
+    if(p.units==FluorescenceCellUnits::Micrometres)result.metric=*calibration;
+    const cell_detail::PhysicalGridMetric metric(result.metric[0],result.metric[1]);
+    result.segmentation_finite_pixels=prepared.finite;result.segmentation_nonfinite_pixels=prepared.nonfinite;result.invalid_pixels=prepared.invalid;
+    if(!result.segmentation_finite_pixels) {
+        if(!cut_foreground || p.threshold_method!=FluorescenceThreshold::Explicit)throw std::invalid_argument("No finite fluorescence segmentation pixels in ROI");
+        result.nuclei.assign(n,0);result.bodies.assign(n,0);cut_foreground->assign(n,0);result.resolved_threshold=p.threshold;
+        result.input_sha256=input_hash(pixels,domain,cancelled);result.recipe_sha256=recipe_hash(p,result.metric);return result;
+    }
     try {
-        cell_detail::physical_gaussian(score,valid,width,height,metric,p.sigma,p.work_bytes,cancelled);
         result.resolved_threshold=p.threshold_method==FluorescenceThreshold::Explicit?p.threshold:otsu(score,eligible,cancelled);
         std::vector<double> distance(n);
         for(std::size_t i=0;i<n;++i) {if((i&4095)==0)workflow_checkpoint(cancelled);foreground[i]=eligible[i] && score[i]>result.resolved_threshold;distance[i]=foreground[i]?std::numeric_limits<double>::infinity():0;}

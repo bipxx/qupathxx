@@ -1,4 +1,5 @@
 #include "qupathxx/fluorescence_cell_workflow.hpp"
+#include "qupathxx/fluorescence_tiled_workflow.hpp"
 #include "qupathxx/raw_analysis.hpp"
 #include "qupathxx/dark_flat_workflow.hpp"
 #include "qupathxx/linear_unmixing_workflow.hpp"
@@ -192,6 +193,9 @@ void require_current_fluorescence_cells(const Document& doc,const FluorescenceCe
 struct FluorescenceCellJob::Impl {
     const std::thread::id owner=std::this_thread::get_id();
     std::future<std::shared_ptr<const FluorescenceCellRun>> future;
+    std::future<std::shared_ptr<const FluorescenceTiledReport>> tiled_future;
+    std::optional<FluorescenceTiledRequest> tiled_request;
+    std::shared_ptr<const FluorescenceTiledReport> tiled_result;
     std::optional<FluorescenceCellRequest> request;
     std::shared_ptr<const FluorescenceCellRun> result;
     std::atomic<bool> cancelled{false};std::atomic<int> phase{0};
@@ -199,10 +203,10 @@ struct FluorescenceCellJob::Impl {
     std::chrono::steady_clock::time_point started;
 };
 FluorescenceCellJob::FluorescenceCellJob():impl_(std::make_unique<Impl>()){}
-FluorescenceCellJob::~FluorescenceCellJob(){impl_->cancelled.store(true);if(impl_->future.valid())impl_->future.wait();}
-bool FluorescenceCellJob::busy() const {workflow_require_owner(impl_->owner);return impl_->future.valid() && impl_->future.wait_for(std::chrono::seconds(0))!=std::future_status::ready;}
+FluorescenceCellJob::~FluorescenceCellJob(){impl_->cancelled.store(true);if(impl_->future.valid())impl_->future.wait();if(impl_->tiled_future.valid())impl_->tiled_future.wait();}
+bool FluorescenceCellJob::busy() const {workflow_require_owner(impl_->owner);return (impl_->future.valid() && impl_->future.wait_for(std::chrono::seconds(0))!=std::future_status::ready) || (impl_->tiled_future.valid() && impl_->tiled_future.wait_for(std::chrono::seconds(0))!=std::future_status::ready);}
 void FluorescenceCellJob::cancel(){impl_->cancelled.store(true);}
-void FluorescenceCellJob::await_completion(){workflow_require_owner(impl_->owner);if(impl_->future.valid())impl_->future.wait();}
+void FluorescenceCellJob::await_completion(){workflow_require_owner(impl_->owner);if(impl_->future.valid())impl_->future.wait();if(impl_->tiled_future.valid())impl_->tiled_future.wait();}
 bool FluorescenceCellJob::request(const FluorescenceCellRequest& request) {
     workflow_require_owner(impl_->owner);workflow_require_owner(request.data_->owner);if(busy())return false;
     if(impl_->stats.generation==UINT64_MAX)throw std::overflow_error("Fluorescence job generation exhausted");
@@ -210,11 +214,35 @@ bool FluorescenceCellJob::request(const FluorescenceCellRequest& request) {
     std::future<std::shared_ptr<const FluorescenceCellRun>> future;
     try {future=std::async(std::launch::async,[state=impl_.get(),request]{return FluorescenceCellKernel::run(request,&state->cancelled,&state->phase);});}
     catch(...){impl_->cancelled.store(old_cancelled);impl_->phase.store(old_phase);throw;}
+    impl_->tiled_future={};impl_->tiled_request.reset();impl_->tiled_result.reset();
     impl_->future=std::move(future);impl_->request=request;impl_->result.reset();impl_->started=std::chrono::steady_clock::now();
+    const auto generation=impl_->stats.generation+1;impl_->stats={};impl_->stats.generation=generation;impl_->stats.state="running";return true;
+}
+bool FluorescenceCellJob::request(const FluorescenceTiledRequest& request) {
+    workflow_require_owner(impl_->owner);request.require_owner();if(busy())return false;
+    if(impl_->stats.generation==UINT64_MAX)throw std::overflow_error("Fluorescence job generation exhausted");
+    const auto old_cancelled=impl_->cancelled.load();const auto old_phase=impl_->phase.load();impl_->cancelled.store(false);impl_->phase.store(0);
+    std::future<std::shared_ptr<const FluorescenceTiledReport>> future;
+    try{future=std::async(std::launch::async,[state=impl_.get(),request]{state->phase.store(int(FluorescenceCellPhase::Segmenting));
+        auto report=std::make_shared<const FluorescenceTiledReport>(detect_tiled_fluorescence_cells(request,{},&state->cancelled));state->phase.store(int(FluorescenceCellPhase::Ready));return report;});}
+    catch(...){impl_->cancelled.store(old_cancelled);impl_->phase.store(old_phase);throw;}
+    impl_->future={};impl_->request.reset();impl_->result.reset();impl_->tiled_result.reset();impl_->tiled_request=request;
+    impl_->tiled_future=std::move(future);impl_->started=std::chrono::steady_clock::now();
     const auto generation=impl_->stats.generation+1;impl_->stats={};impl_->stats.generation=generation;impl_->stats.state="running";return true;
 }
 FluorescenceCellStats FluorescenceCellJob::poll(const Document& doc) {
     workflow_require_owner(impl_->owner);auto& stats=impl_->stats;
+    if(impl_->tiled_future.valid() && impl_->tiled_future.wait_for(std::chrono::seconds(0))==std::future_status::ready) {
+        try{auto result=impl_->tiled_future.get();
+            if(impl_->cancelled.load())stats.state="cancelled";
+            else if(!impl_->tiled_request->publication_matches(doc))stats.state="stale";
+            else{stats.state=result->state;impl_->tiled_result=std::move(result);}}
+        catch(const WorkflowInputChanged& e){stats.state=impl_->cancelled.load()?"cancelled":"stale";stats.error=e.what();}
+        catch(...){stats.state=impl_->cancelled.load()?"cancelled":"failed";stats.error=workflow_failure_message(std::current_exception());}
+        if(stats.state!="ready" && stats.state!="unresolved"){impl_->tiled_request.reset();impl_->tiled_result.reset();}
+        stats.elapsed_ms=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-impl_->started).count();
+    }
+    if(impl_->tiled_result && !impl_->tiled_request->matches(doc)){stats.state="stale";impl_->tiled_request.reset();impl_->tiled_result.reset();}
     if(impl_->future.valid() && impl_->future.wait_for(std::chrono::seconds(0))==std::future_status::ready){
         try {auto result=impl_->future.get();
             if(impl_->cancelled.load())stats.state="cancelled";
@@ -226,9 +254,10 @@ FluorescenceCellStats FluorescenceCellJob::poll(const Document& doc) {
         stats.elapsed_ms=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-impl_->started).count();
     }
     if(stats.state=="ready" && impl_->request && !impl_->request->matches(doc)){stats.state="stale";impl_->request.reset();impl_->result.reset();}
-    if(impl_->future.valid())stats.elapsed_ms=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-impl_->started).count();
+    if(impl_->future.valid() || impl_->tiled_future.valid())stats.elapsed_ms=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-impl_->started).count();
     stats.phase=static_cast<FluorescenceCellPhase>(impl_->phase.load());return stats;
 }
 FluorescenceCellStats FluorescenceCellJob::wait(const Document& doc){await_completion();return poll(doc);}
 std::shared_ptr<const FluorescenceCellRun> FluorescenceCellJob::result() const {workflow_require_owner(impl_->owner);return impl_->result;}
+std::shared_ptr<const FluorescenceTiledReport> FluorescenceCellJob::tiled_result() const {workflow_require_owner(impl_->owner);return impl_->tiled_result;}
 }

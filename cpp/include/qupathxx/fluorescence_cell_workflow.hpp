@@ -7,6 +7,8 @@ class Document;
 class DarkFlatRequest;
 class LinearUnmixRequest;
 class FluorescenceCellRun;
+class FluorescenceTiledRequest;
+struct FluorescenceTiledReport;
 class FluorescenceCellRequest {
 public:
     // Explicit level-zero channel block/Z/T. An object selects its native area
@@ -81,11 +83,13 @@ public:
     FluorescenceCellJob();~FluorescenceCellJob();
     FluorescenceCellJob(const FluorescenceCellJob&)=delete;
     bool request(const FluorescenceCellRequest&);
+    bool request(const FluorescenceTiledRequest&);
     bool busy() const;
     void cancel();void await_completion();
     FluorescenceCellStats poll(const Document&);
     FluorescenceCellStats wait(const Document&);
     std::shared_ptr<const FluorescenceCellRun> result() const;
+    std::shared_ptr<const FluorescenceTiledReport> tiled_result() const;
 private:
     struct Impl;std::unique_ptr<Impl> impl_;
 };

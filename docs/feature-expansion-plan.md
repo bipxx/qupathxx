@@ -183,10 +183,14 @@ is D02; these steps refine its existing checkbox, without creating another ledge
    RLE and exact raw moments. Cut-parent dependence is propagated before watershed/
    area filtering; unresolved pixels/owned labels prevent complete status. Three
    synthetic layouts/reversed order match untiled geometry/moments exactly; all
-   four affected native suites pass. Next integrate source capture/read and global
-   threshold resolution with the existing cell job, then checkpoint/resume. The
-   primitive requires an explicit globally resolved threshold; it does not close
-   global Otsu, persistence, desktop controls or admitted real-ROI acceptance.
+   four affected native suites pass. Source-backed original-channel orchestration
+   now captures source/ROI/calibration once, lazily reads halos and streams bounded
+   tile results through the existing cell job. Global Otsu reuses untiled smoothing/
+   256-bin/lowest-tie semantics with unique-core counting and per-tile raw hash
+   agreement across passes; constants skip the histogram pass. Native tests match
+   untiled threshold/geometry/moments across two layouts and cover mutation/cancel/
+   stale/constant behavior. Next checkpoint/resume, corrected/unmixed source
+   adapters, desktop controls and admitted real-ROI acceptance; D02 remains open.
 4. Reuse an admitted whole-slide ROI, compare seam results independently and prove
    interruption/resume equality. Add thin UI controls over the same authority;
    no alternate scheduler or repeated F01 biological-accuracy campaign.
