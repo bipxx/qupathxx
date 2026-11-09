@@ -1019,6 +1019,10 @@ storage refuse. A failed/cancelled run keeps committed tiles and publishes no
 successful completion. Increasing storage quota can resume the same science;
 changing scientific/source/layout options requires a new directory. Directory
 or completion-file presence alone does not prove current source validity.
+Complete tile records use `.qft`. Unresolved tiles use explicitly partial `.qfu`
+records retaining certified cells' masks/moments and boundary-status facts. Those
+partial records are reprocessed and byte-verified on resume; they never become a
+complete workflow marker merely because certified candidates were saved.
 
 The native route accepts original raw channels, a retained DarkFlatRequest or a
 retained LinearUnmixRequest (including a correction parent). Normalization scales
@@ -1026,6 +1030,14 @@ and the prepared mixing operator stay fixed across tiles; output selection for
 unmixing addresses components/residuals. Reports retain the measurement domain
 and parent recipe IDs; removed/changed recipes or fields invalidate capture/
 resume. The same job/checkpoint API applies to every domain. These routes preserve
-existing F03/F04 recipe/source identity rules. Desktop controls and the admitted
-real-ROI delivery check remain D02 work. This is not a released SDK/package or a
-claim of whole-slide frame rate.
+existing F03/F04 recipe/source identity rules.
+
+In **Fluorescence cells**, select **Process by tiles**, choose a dedicated **Tiled
+results folder**, and use **Run / resume tiles**. Tile dimensions, segmentation
+halo and disk limit are in Fluorescence settings. The panel shows certified cells,
+reused/segmented tiles, unresolved boundaries, threshold, measurement domain and
+saved artifact path. Changed source/settings require a new folder; matching runs
+verify and resume. Unresolved status remains visible while certified results are
+preserved. This source-scoped desktop route and retained real-field check are
+delivered; actual whole-slide ROI acceptance remains D02 work. This is not a
+released SDK/package or a claim of whole-slide frame rate.

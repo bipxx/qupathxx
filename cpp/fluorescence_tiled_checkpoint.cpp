@@ -23,9 +23,12 @@ std::optional<std::size_t> tile_index(const std::string& name,std::size_t count)
     if(result.ec!=std::errc{} || result.ptr!=name.data()+name.size()-4 || value>=count || name!="tile-"+std::to_string(value)+".qft")return {};
     return value;
 }
+std::optional<std::size_t> partial_index(std::string name,std::size_t count) {
+    if(name.size()<4 || name.compare(name.size()-4,4,".qfu"))return {};name.back()='t';return tile_index(name,count);
+}
 bool temporary(const std::string& name,std::size_t count) {
     const auto at=name.rfind(".qpx-tmp-");if(at==std::string::npos || name.size()!=at+9+24 || name.find_first_not_of("0123456789abcdef",at+9)!=std::string::npos)return false;
-    const auto base=name.substr(0,at);return base=="threshold.qft" || base=="complete.qft" || bool(tile_index(base,count));
+    const auto base=name.substr(0,at);return base=="threshold.qft" || base=="complete.qft" || bool(tile_index(base,count)) || bool(partial_index(base,count));
 }
 std::string hash(Reader& r){auto value=r.text(64);raw_archive::hash_check(value);return value;}
 void header(Writer& w,const std::string& request,const std::string& source){w.text(request);w.text(source);}
@@ -59,7 +62,7 @@ std::uint64_t spans(Reader& r,std::vector<FluorescencePixelSpan>& out,const Regi
 }
 FluorescenceCheckpointStore::FluorescenceCheckpointStore(const std::string& directory,const std::string& request,const std::string& source,
     std::size_t count,bool otsu,FluorescenceCheckpointOptions options,std::size_t work,const std::atomic<bool>* c):
-    root_(std::filesystem::u8path(export_path(directory))),options_(options),request_(request),source_(source),count_(count),otsu_(otsu),present_(count,false),cancelled_(c) {
+    root_(std::filesystem::u8path(export_path(directory))),options_(options),request_(request),source_(source),count_(count),otsu_(otsu),present_(count,false),partial_(count,false),cancelled_(c) {
     options.validate(work);workflow_checkpoint(c);require(count && count<=100000,"Invalid checkpoint tile count");
     manifest_limit_=1024+72*count;reserved_=3*manifest_limit_+4*options.record_bytes+4096;
     require(reserved_<work,"Checkpoint buffers exceed work budget");
@@ -92,12 +95,13 @@ std::optional<FluorescenceThresholdCheckpoint> FluorescenceCheckpointStore::glob
     bytes_=bytes.size();require(bytes_<=options_.total_bytes,"Existing threshold checkpoint exceeds storage limit");
     for(const auto& item:std::filesystem::directory_iterator(root_)) {
         workflow_checkpoint(cancelled_);const auto name=item.path().filename().u8string();if(name=="threshold.qft" || name=="complete.qft")continue;
-        const auto index=tile_index(name,count_);const bool staging=temporary(name,count_);
-        require(index || staging,"Checkpoint directory contains an unrecognized member");const auto status=item.symlink_status();
+        const auto index=tile_index(name,count_);const auto partial=partial_index(name,count_);const bool staging=temporary(name,count_);
+        require(index || partial || staging,"Checkpoint directory contains an unrecognized member");const auto status=item.symlink_status();
         require(std::filesystem::is_regular_file(status) && !std::filesystem::is_symlink(status),"Invalid checkpoint tile/staging file");const auto n=item.file_size();
         const auto limit=staging?std::max<std::size_t>(manifest_limit_,options_.record_bytes):options_.record_bytes;
-        require(n<=limit && bytes_<=options_.total_bytes && n<=options_.total_bytes-bytes_,"Existing checkpoint/staging files exceed storage limits");bytes_+=n;if(index)present_[*index]=true;
+        require(n<=limit && bytes_<=options_.total_bytes && n<=options_.total_bytes-bytes_,"Existing checkpoint/staging files exceed storage limits");bytes_+=n;if(index)present_[*index]=true;if(partial)partial_[*partial]=true;
     }
+    for(std::size_t i=0;i<count_;++i)require(!present_[i] || !partial_[i],"Checkpoint contains conflicting complete/partial tile records");
     if(std::filesystem::exists(root_/"complete.qft")){
         const auto completed=read(root_/"complete.qft",2048);Reader done(completed.data(),completed.size(),"QFC\1",cancelled_,2048);header(done,request_,source_);
         require(done.real()==result.threshold,"Completed checkpoint threshold differs");hash(done);hash(done);require(done.integer(count_)==count_,"Completed checkpoint tile count differs");done.integer();done.integer();done.finish();
@@ -128,9 +132,18 @@ FluorescenceTileResult FluorescenceCheckpointStore::load(std::size_t i,double th
     }r.finish();last_index_=i;last_digest_=std::string(reinterpret_cast<const char*>(bytes.data()+bytes.size()-64),64);return tile;
 }
 std::string FluorescenceCheckpointStore::save(std::size_t i,double threshold,const FluorescenceTileResult& tile) {
-    require(tile.complete(),"Unresolved tile cannot be checkpointed as complete");Writer w("QFT\1",cancelled_,options_.record_bytes);header(w,request_,source_);w.integer(i);w.real(threshold);w.text(tile.input_sha256);w.text(tile.recipe_sha256);w.integer(tile.finite_segmentation_pixels_in_core);w.integer(tile.cells.size());
+    require(tile.complete(),"Unresolved tile cannot be checkpointed as complete");return save_record(i,threshold,tile,true);
+}
+std::string FluorescenceCheckpointStore::save_partial(std::size_t i,double threshold,const FluorescenceTileResult& tile) {
+    require(!tile.complete(),"Complete tile is not a partial checkpoint");return save_record(i,threshold,tile,false);
+}
+std::string FluorescenceCheckpointStore::save_record(std::size_t i,double threshold,const FluorescenceTileResult& tile,bool complete) {
+    Writer w(complete?"QFT\1":"QFU\1",cancelled_,options_.record_bytes);header(w,request_,source_);w.integer(i);w.real(threshold);w.text(tile.input_sha256);w.text(tile.recipe_sha256);w.integer(tile.finite_segmentation_pixels_in_core);
+    if(!complete){w.integer(tile.unresolved_foreground_pixels_in_core);w.integer(tile.unresolved_labels.size());for(auto label:tile.unresolved_labels)w.u32(label);}w.integer(tile.cells.size());
     for(const auto& cell:tile.cells){w.text(cell.id);w.signed_integer(cell.anchor_x);w.signed_integer(cell.anchor_y);compartment(w,cell.measurements.nucleus);compartment(w,cell.measurements.cell);w.integer(bool(cell.measurements.cytoplasm));if(cell.measurements.cytoplasm)compartment(w,*cell.measurements.cytoplasm);spans(w,cell.nucleus);spans(w,cell.cell);}w.finish();
-    write(tile_path(i),w.bytes);present_.at(i)=true;last_index_=i;last_digest_=std::string(reinterpret_cast<const char*>(w.bytes.data()+w.bytes.size()-64),64);return last_digest_;
+    require(complete?!partial_.at(i):!present_.at(i),"Checkpoint tile status changed unexpectedly");auto path=tile_path(i);if(!complete)path.replace_extension(".qfu");
+    if(!complete && std::filesystem::exists(path))require(read(path,options_.record_bytes)==w.bytes,"Reprocessed partial checkpoint differs from retained scientific output");else write(path,w.bytes);
+    if(complete)present_.at(i)=true;else partial_.at(i)=true;last_index_=i;last_digest_=std::string(reinterpret_cast<const char*>(w.bytes.data()+w.bytes.size()-64),64);return last_digest_;
 }
 std::string FluorescenceCheckpointStore::tile_digest(std::size_t i)const{if(last_index_!=i)throw std::logic_error("Checkpoint tile digest requested out of order");return last_digest_;}
 void FluorescenceCheckpointStore::finish(const FluorescenceTiledReport& report) {

@@ -190,7 +190,7 @@ struct FluorescenceTiledKernel {
                 tile.accounted_work_bytes=estimate;++report.reused_tiles;
             }else{tile=detail::segment_fluorescence_tile_reserved(w.pixels,w.domain,w.request,w.core,d.analysis.region,d.source_sha,p,d.calibration,fixed,cancelled);++report.segmented_tiles;}
             if(!hashes[i].empty() && tile.input_sha256!=hashes[i])throw WorkflowInputChanged("Raw fluorescence changed after global threshold resolution");
-            if(store && tile.complete()){if(!reused)store->save(i,report.resolved_threshold,tile);text(output,store->tile_digest(i));}
+            if(store){if(tile.complete()){if(!reused)store->save(i,report.resolved_threshold,tile);}else store->save_partial(i,report.resolved_threshold,tile);text(output,store->tile_digest(i));}
             report.accounted_work_bytes=std::max(report.accounted_work_bytes,tile.accounted_work_bytes);report.finite_pixels+=tile.finite_segmentation_pixels_in_core;
             report.cells+=tile.cells.size();report.unresolved_tiles+=!tile.complete();++report.tiles;text(input,tile.input_sha256);
             if(sink)sink(i,tile);workflow_checkpoint(cancelled);
@@ -199,7 +199,7 @@ struct FluorescenceTiledKernel {
         if(!raw_pixel_publication_lattice_source_matches(*d.source,d.snapshot,d.lattice))throw WorkflowInputChanged("Tiled fluorescence source changed before delivery");
         if(d.derived_source())d.derived_source()->require_current(cancelled);
         report.input_sha256=input.finish();report.state=report.unresolved_tiles?"unresolved":"ready";
-        if(store && !report.unresolved_tiles){report.output_sha256=output.finish();store->finish(report);}
+        if(store){report.output_sha256=output.finish();if(!report.unresolved_tiles)store->finish(report);}
         report.elapsed_ms=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-began).count();return report;
     }
 };

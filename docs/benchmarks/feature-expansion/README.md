@@ -1737,3 +1737,58 @@ One build/test batch, no failures/retries/new data/dependencies/models/readers,
 GUI/binding/package or repeated matrix import/biological campaign. This closes
 native derived-source integration, not D02: admitted real-ROI seam/interruption
 and desktop consumer delivery remain. No whole-slide performance/release claim.
+
+D02 desktop tiled control and admitted real-field seams/resume
+------------------------------------------------------------
+
+The existing fluorescence panel now submits native tiled requests/checkpoints for
+original/corrected/unmixed domains. Run/resume folder, tile/halo/storage controls,
+state, certified-cell/reused/segmented/unresolved counts, threshold/domain and
+artifact location use the same native authorities. Single-region preview/object
+publication keeps its typed authority. Owner/option changes clear stale results;
+save/edit blocking and native errors remain visible. App and affected GUI drivers
+build together; no Python science or second scheduler.
+
+`build/feature-expansion/d02-desktop/build.log` succeeds; ctest.log records4 passing
+suites2.73s (native source/checkpoint, fluorescence GUI, correction GUI, unmix GUI).
+Actual tiled Run processes6 tiles, rerun reuses6/segments0, blocked Run does not
+start, calibration changes clear ready results, option mismatch shows native error,
+and the actual mode toggle returns to untiled behavior. Inspected tiled-results.png
+shows readable ready/0-cell/6-tile/threshold10000/domain/path; capture.json verifies
+lossless same RGB as original1280x1000 PPM. This is a legitimate zero-cell control
+fixture, not a real-data overlay or cosmetic QuPath comparison.
+
+An explicit opt-in native real driver (not default ctest) pins the retained CC0
+BBBC039 TIFF SHA9eacee0e5a4c29af70307af4d310320632e31ed84b4d8b5fd4fce42930f780ec.
+No annotation/biology campaign is replayed. It independently traces raw thresholded
+full-field connected components before watershed filtering and applies the declared
+4px support guard; old per-label edge flags alone are insufficient. Every certified
+candidate must match whole-ROI nucleus/body pixels and all moment bits, not only
+approximate counts. Global Otsu, alternate layout and interruption/resume are exact.
+
+First real.log/real-host.json succeeds but review identifies that certified cells
+in an unresolved tile were streamed but not persisted. Partial QFU records now
+save those candidates with unresolved foreground/label facts. They are reprocessed
+and byte-verified, never reused as complete. Complete/partial status and every
+candidate contribute to output identity; no completion marker while unresolved.
+partial-build.log succeeds and partial-ctest.log passes only the2 affected suites
+1.12s; earlier correction/unmix GUI results are retained, not repeated.
+
+Final real-v2.log, real-v2-host.json and real-field-v2/real.json: HEQPC/System32/
+Windows-only PATH, exit0.696x520 field,130 whole-reference candidates;104 certified
+candidates and26 boundary/dependency-uncertified. All104 masks/moments/global IDs
+match across128/160-wide layouts (30/25 tiles). Threshold399.4921875,14/13 unresolved
+tiles remain explicit. Resume reuses8/segments22 and all complete/partial records
+match baseline bytes; input and output identities agree. Same-layout output SHA
+70e5d36d1045a794c353d3d018497ecdf76d64dc00259bcff6ecc21a320d4ab0. Maximum
+reported accounted work155830828 bytes, below256MiB; allocator/process/GPU memory
+is not inferred. Input hash before/after agrees. No SOTA, biology or speed claim.
+
+D02 remains open for an actual admitted whole-slide ROI; this real field does not
+prove that exit or whole-slide responsiveness. Official OME sample docs provide a
+CC-BY4 candidate, LuCa-7color_Scan1.ome.tiff (24960x34560x5,2085508976 bytes via
+HEAD): https://ome-model.readthedocs.io/en/stable/ome-tiff/data.html . Only metadata
+has been checked here. Next acquire/admit exact bytes/codecs and run one bounded
+nonzero-origin ROI using existing open TIFF services. No WSI acceptance or new
+fixture admission is claimed from metadata alone. No new dependencies/bindings/
+package, reader, model, restricted data or cleanup deletion.

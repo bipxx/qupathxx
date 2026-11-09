@@ -3541,3 +3541,85 @@ chain read peak together with checkpoint buffers and report its upper bound.
 Raw source-profile/2 and existing untiled/F03/F04 identities remain intact. Next
 D02: admitted real-ROI seam/interruption evidence and thin desktop delivery; do
 not infer whole-slide performance from authored small fields.12/22 complete.
+
+### D02 — actual desktop tiled controls and admitted real-field evidence
+
+Wire the existing fluorescence panel to typed tiled requests/job checkpoints,
+using selected ROI/crop, retained correction/unmixing and the same native limits.
+Expose tiled results folder, tile/halo/disk controls, ready/unresolved status,
+reused/segmented counts, threshold/domain and artifact location. Keep single-region
+preview/publication authority separate via typed results; toggle/replay/new owner
+must clear stale tiled delivery. Actual button checks cover blocked Run, Run/
+resume, stale calibration, changed-option refusal and return to untiled mode.
+
+Add an explicitly invoked native real-field driver (not automatic ctest) pinned
+to the already admitted CC0 BBBC039 TIFF SHA. Use256MiB work,128x128 cores/256 halo,
+compare every certified complete cell's masks/moments bitwise against the untiled
+whole-field reference, report genuine boundary candidates as unresolved, compare
+an alternate layout and interrupted/resumed cell identities/geometry/status.
+Never turn unresolved boundaries into complete records or relax comparisons.
+This is real fluorescence-field/ROI evidence, not large whole-slide throughput;
+retain that limitation against the D02 whole-slide exit requirement. No download,
+new material, label accuracy campaign, bindings or package work.
+
+One shared cached GUI/app/native-real target build, then affected fluorescence GUI
+and native source suites once, plus one real-driver run from System32/Windows-only
+PATH with unchanged input hash. Preserve independent UI edits. Inspect one actual
+scientifically meaningful controller capture; no cosmetic QuPath equivalence.
+
+Initial combined GUI/app/real-driver build succeeds;4 affected suites pass2.73s:
+source/checkpoint, actual fluorescence panel, dark/flat GUI and unmix GUI. Tiled
+Run/resume reuses6, blocks while saving/editing, invalidates calibration, shows
+changed-options error and toggles back to legacy Run. Before real execution,
+refine the independent whole-field completeness oracle: old per-label edge flags
+do not encode cut-parent dependence. Independently trace raw thresholded8-connected
+components before filtered watershed labels and apply the declared4px expansion
+support guard; keep exact masks/moments and all-complete-candidate assertions.
+Build only changed explicit real driver; do not repeat passed desktop suites.
+
+Real-field first run passes (real.log/real-host.json, preserved):104 certified
+candidates match whole-field geometry/moments bitwise,26 reference candidates
+remain boundary/dependency-uncertified, two layouts and interrupted/resumed values
+agree under256MiB. Review of this genuine unresolved case exposes a persistence
+hole: certified cells from an unresolved tile reached the sink but were omitted
+from saved artifacts, making desktop saved-results wording too broad.
+
+Persist explicit partial QFU records with certified masks/IDs/moments plus
+unresolved foreground/label status. Never reuse them as complete; reprocess and
+byte-verify on resume, retain no completion marker while unresolved. Include all
+complete/partial record digests in output identity. The real oracle will verify
+persisted counts/status for EVERY tile and byte equality across baseline/resume.
+This closes lost-data semantics without weakening boundary classification or
+counts. Build only affected checkpoint/source, GUI fluorescence, explicit real
+driver and app; reuse already passed dark/flat/unmixing GUI evidence. Rerun source/
+fluorescence GUI and the real case into a fresh v2 folder; preserve first receipt.
+
+Desktop/real-field slice passes. Initial combined build succeeds;4 affected native/
+GUI suites pass2.73s. Actual tiled actions cover blocked Run, new6-tile processing,
+resume reuses6/segments0, calibration-stale, changed-option error and switching to
+legacy run. Inspected1280x1000 actual capture shows readable status/counts,
+threshold/domain/path and disabled inapplicable publication buttons; lossless
+PPM→PNG RGB equality/hashes recorded in capture.json. No pixel-parity requirement.
+
+One real execution established104 complete-reference candidates (of130),26
+boundary/dependency-uncertified, unchanged admitted CC0 input, but exposed saved
+candidate loss in mixed unresolved tiles. Partial QFU records now retain certified
+masks/IDs/moments plus unresolved status, are reprocessed/byte-verified on resume,
+and contribute to output hash without creating a completion marker. Partial
+native/GUI/app build succeeds; only affected source/fluorescence GUI rerun, both
+pass1.12s. Final real-v2 run exits0 from System32/Windows-only PATH on HEQPC:
+104 exact candidates across30/25-tile layouts, threshold399.4921875,8 reused/22
+segmented on resume; all complete/partial records/status/counts byte-identical.
+Output SHA70e5d36d1045a794c353d3d018497ecdf76d64dc00259bcff6ecc21a320d4ab0.
+Maximum reported accounted work155830828 bytes <268435456. No biology/speed/RSS/
+WSI-throughput claim; this input is696x520. Input SHA unchanged9eacee...f780ec.
+
+Waste review: one combined build/test, one real-oracle contract refinement before
+execution, then one concrete partial-output fix/build with only affected reruns;
+retain both real receipts. Reuse admitted bytes, atomic/binary/job services and
+legacy GUI evidence. No data download, bindings/package, broad biology or cleanup
+deletion in this slice. D02 remains open because field evidence cannot stand in
+for its whole-slide ROI exit. Official OME docs identify CC-BY4 LuCa5-channel
+whole-slide OME-TIFF24960x34560, HEAD2085508976 bytes; metadata only checked so far.
+Next acquire/admit that exact open sample and validate one bounded nonzero-origin
+ROI with existing native services.12/22 complete; do not mark D02 closed yet.

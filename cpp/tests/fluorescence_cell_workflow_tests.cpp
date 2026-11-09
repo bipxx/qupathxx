@@ -206,6 +206,9 @@ void checkpoints(const fs::path& root) {
     const FluorescenceTiledRequest cut(doc,region,0,p,tiles);const auto unresolved=checkpoint_tiled_fluorescence_cells(cut,(root/"unresolved").u8string());
     check(unresolved.state=="unresolved" && unresolved.unresolved_tiles==8 && !fs::exists(root/"unresolved"/"complete.qft"),"Cut foreground never advertises complete checkpoint status");
     for(std::size_t i=0;i<8;++i)check(!fs::exists(root/"unresolved"/("tile-"+std::to_string(i)+".qft")),"Unresolved tile is not stored as a complete reusable result");
+    for(std::size_t i=0;i<8;++i)check(fs::exists(root/"unresolved"/("tile-"+std::to_string(i)+".qfu")),"Unresolved status is retained in an explicitly partial record");
+    const auto retried=checkpoint_tiled_fluorescence_cells(cut,(root/"unresolved").u8string());
+    check(!retried.reused_tiles && retried.segmented_tiles==8 && retried.output_sha256==unresolved.output_sha256,"Partial records are reprocessed and verified, never reused as complete");
 }
 void tiled_workflow() {
     auto reader=std::make_shared<Reader>();reader->raw->width=80;reader->raw->height=52;reader->raw->levels={{80,52,1}};

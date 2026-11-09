@@ -200,8 +200,17 @@ is D02; these steps refine its existing checkbox, without creating another ledge
    corrected-unmixed tests match untiled masks/Otsu/all raw moments and independent
    subtraction/diagonal-mixing equations; interrupted/resumed records are byte-
    identical and fresh recipe replay reuses checkpoints. All five affected native
-   suites pass. Next desktop controls and admitted real-ROI acceptance; D02 remains
-   open, with no real whole-slide responsiveness or release claim from these fixtures.
+   suites pass. Desktop tiled Run/resume, folder/halo/storage controls and visible
+   native statuses now pass actual actions; correction/unmix GUI routes stay passing.
+   Real CC0 BBBC039 field:104 certified candidates match independent whole-field
+   geometry/moments across two layouts and interruption/resume;26 candidates stay
+   boundary/dependency-uncertified. Complete and explicitly partial tile records
+   preserve all certified output; partial records are reprocessed, never reused as
+   complete. Same-layout persisted records/digest agree byte-for-byte. This is a
+   696x520 field, not the required whole-slide ROI. D02 remains open for that exit;
+   official OME LuCa-7color_Scan1.ome.tiff is a CC-BY4 candidate (24960x34560x5,
+   2085508976 bytes per HEAD), using the existing open OME-TIFF reader. Admit exact
+   acquired bytes/codec and test one bounded nonzero-origin ROI before closing D02.
 4. Reuse an admitted whole-slide ROI, compare seam results independently and prove
    interruption/resume equality. Add thin UI controls over the same authority;
    no alternate scheduler or repeated F01 biological-accuracy campaign.

@@ -49,6 +49,17 @@ void exercise(const fs::path& root,GLFWwindow* window,const std::string& real){
     click(detail::GuiFluorescence::Action::Run);click(detail::GuiFluorescence::Action::Cancel);settled();check(doc->object_count()==before,"Cancellation never publishes objects");
     *doc=Document(doc->server());frame();glfwSwapBuffers(window);check(!panel.result() && panel.kept_record().empty(),"Same-address Document replacement still invalidates native capture authority");
     doc=std::make_shared<Document>(open_tiff(file.u8string()));frame();glfwSwapBuffers(window);check(!panel.result() && panel.kept_record().empty(),"Switching images discards prior result/record selection");
+    request.region={0,0,0,15,9};options.threshold=10000;panel.set_request(request,options,{0,0},false);
+    FluorescenceTileOptions tiled;tiled.width=6;tiled.height=5;tiled.halo=8;panel.set_tiling(true,tiled,(root/"tiled-results").u8string());
+    frame();glfwSwapBuffers(window);click(detail::GuiFluorescence::Action::Run,true);settled();check(!panel.tiled_result(),"Blocked editing/save state prevents tiled run");
+    click(detail::GuiFluorescence::Action::Run);settled();check(panel.error().empty() && panel.tiled_result() && panel.tiled_result()->state=="ready" && panel.tiled_result()->segmented_tiles==6 && !panel.result(),"Actual tiled Run uses native checkpoints and typed summary");
+    const auto tiled_identity=panel.tiled_result()->output_sha256;frame();capture(root/"tiled-results.ppm",window);glfwSwapBuffers(window);
+    click(detail::GuiFluorescence::Action::Run);settled();check(panel.tiled_result() && panel.tiled_result()->reused_tiles==6 && !panel.tiled_result()->segmented_tiles && panel.tiled_result()->output_sha256==tiled_identity,"Actual Run/resume reuses native masks/moments without resegmentation");
+    doc->set_calibration(.5,.5);frame();glfwSwapBuffers(window);check(!panel.tiled_result(),"Ready tiled report invalidates on owner calibration change");doc->undo();
+    options.threshold=10001;panel.set_request(request,options,{0,0},false);frame();glfwSwapBuffers(window);click(detail::GuiFluorescence::Action::Run);settled();
+    check(!panel.error().empty() && panel.state()=="failed" && !panel.tiled_result(),"Changed tiled options show native checkpoint mismatch instead of stale results");
+    frame();glfwSwapBuffers(window);click(detail::GuiFluorescence::Action::Tiling);options.threshold=10000;panel.set_request(request,options,{0,0},false);
+    frame();glfwSwapBuffers(window);click(detail::GuiFluorescence::Action::Run);settled();check(panel.result() && !panel.tiled_result() && panel.error().empty(),"Actual mode toggle returns to the existing native single-region workflow");
     if(!real.empty()){doc=std::make_shared<Document>(open_tiff(real));selected=0;frame();glfwSwapBuffers(window);RawRegionRequest r;r.region={0,0,0,doc->metadata().width,doc->metadata().height};r.channels=doc->server()->raw_metadata()->channels;
         FluorescenceCellOptions p;p.threshold_method=FluorescenceThreshold::Otsu256;p.min_nucleus_area=5;p.cell_expansion=3;panel.set_request(r,p,{0,0},false);frame();glfwSwapBuffers(window);click(detail::GuiFluorescence::Action::Run);settled();
         check(panel.error().empty() && panel.result(),"Actual UI native detection on admitted real TIFF");frame();capture(root/"real-raw-preview.ppm",window);glfwSwapBuffers(window);

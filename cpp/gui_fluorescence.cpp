@@ -18,19 +18,23 @@ struct GuiFluorescence::Impl {
     int method=0,units=0,row=0,channel=0;
     FluorescenceCellJob job;FluorescenceCellStats stats;
     std::optional<FluorescenceCellRequest> request;
+    bool tiling=false;FluorescenceTileOptions tiles;FluorescenceCheckpointOptions checkpoint;
+    std::array<char,4096> tile_directory{};std::uint64_t checkpoint_mib=2048;
+    std::optional<FluorescenceTiledRequest> tiled_request;
+    std::shared_ptr<const FluorescenceTiledReport> tiled_report;
     std::shared_ptr<const FluorescenceCellRun> run;
     std::future<std::shared_ptr<const FluorescenceCellContours>> contours;
     std::atomic<bool> cancel{false};bool discard_contours=false;
     const Document* owner=nullptr;std::weak_ptr<ImageServer> source;
     std::shared_ptr<const ImageDataProperties> record_properties;
     std::vector<std::string> records;std::string record,kept,last_kept,error,state="idle",pending_replay,pending_unmix;
-    std::size_t count=0,boundary_count=0;std::vector<std::uint64_t> published_ids;std::uint64_t published_structure=0;std::array<Rect,10> bounds{};
+    std::size_t count=0,boundary_count=0;std::vector<std::uint64_t> published_ids;std::uint64_t published_structure=0;std::array<Rect,11> bounds{};
     GLuint texture=0;std::shared_ptr<const FluorescenceCellRun> texture_run;bool texture_body=false;
     int texture_width=0,texture_height=0;bool sampled=false;std::uint32_t display_z=0,display_t=0;
     ~Impl(){job.cancel();cancel.store(true);if(contours.valid())contours.wait();clear_texture();}
     bool busy() const{return pending || job.busy() || contours.valid() || !pending_replay.empty();}
     void clear_texture(){if(texture)glDeleteTextures(1,&texture);texture=0;texture_run.reset();}
-    void invalidate(){if(!pending_replay.empty())unmixing.cancel();pending_replay.clear();pending_unmix.clear();job.cancel();cancel.store(true);discard_contours=true;pending=false;verify=false;request.reset();run.reset();kept.clear();last_kept.clear();published=false;count=0;published_ids.clear();row=channel=0;clear_texture();}
+    void invalidate(){if(!pending_replay.empty())unmixing.cancel();pending_replay.clear();pending_unmix.clear();job.cancel();cancel.store(true);discard_contours=true;pending=false;verify=false;request.reset();tiled_request.reset();tiled_report.reset();run.reset();kept.clear();last_kept.clear();published=false;count=0;published_ids.clear();row=channel=0;clear_texture();}
     void refresh(Document& doc){if(owner==&doc && source.lock()==doc.server())return;
         const bool retain=chosen_correction && chosen_correction->matches(doc);const bool retain_unmix=chosen_unmixing && chosen_unmixing->matches(doc);invalidate();if(!retain_unmix){chosen_unmixing.reset();chosen_unmixing_id.clear();use_unmixing=false;}if(!retain){chosen_correction.reset();chosen_correction_id.clear();use_correction=false;}owner=&doc;source=doc.server();record_properties.reset();records_dirty=true;records.clear();record.clear();error.clear();state="idle";}
     void refresh_records(Document& doc){if(!records_dirty && record_properties==doc.image_data_properties())return;records_dirty=false;
@@ -45,13 +49,21 @@ struct GuiFluorescence::Impl {
         if(!object && !use_crop){selection.region={0,0,0,doc.metadata().width,doc.metadata().height};}
         if(use_correction && !chosen_correction)throw std::invalid_argument("Load and select a retained correction first");
         if(use_unmixing && !chosen_unmixing)throw std::invalid_argument("Load and select a retained unmixing recipe first");
-        auto candidate=use_unmixing?FluorescenceCellRequest(doc,*chosen_unmixing,selection,object,options,context):use_correction?FluorescenceCellRequest(doc,*chosen_correction,selection,object,options,context):FluorescenceCellRequest(doc,selection,object,options,context);
-        if(!job.request(candidate))throw std::runtime_error("Fluorescence job is still running");
-        request=std::move(candidate);run.reset();clear_texture();pending=true;verify=false;published=false;published_ids.clear();kept.clear();last_kept.clear();count=0;state="running";row=channel=0;
+        if(tiling){
+            if(!tile_directory[0])throw std::invalid_argument("Choose a dedicated tiled results folder");
+            if(checkpoint_mib>65536)throw std::invalid_argument("Checkpoint disk limit must be at most65536 MiB");checkpoint.total_bytes=checkpoint_mib*1024*1024;
+            auto candidate=use_unmixing?FluorescenceTiledRequest(doc,*chosen_unmixing,selection,object,options,tiles):use_correction?FluorescenceTiledRequest(doc,*chosen_correction,selection,object,options,tiles):FluorescenceTiledRequest(doc,selection,object,options,tiles);
+            if(!job.request(candidate,tile_directory.data(),checkpoint))throw std::runtime_error("Fluorescence job is still running");
+            tiled_request=std::move(candidate);request.reset();
+        }else{
+            auto candidate=use_unmixing?FluorescenceCellRequest(doc,*chosen_unmixing,selection,object,options,context):use_correction?FluorescenceCellRequest(doc,*chosen_correction,selection,object,options,context):FluorescenceCellRequest(doc,selection,object,options,context);
+            if(!job.request(candidate))throw std::runtime_error("Fluorescence job is still running");request=std::move(candidate);tiled_request.reset();
+        }
+        tiled_report.reset();run.reset();clear_texture();pending=true;verify=false;published=false;published_ids.clear();kept.clear();last_kept.clear();count=0;state="running";row=channel=0;
     }
     void submit_replay(FluorescenceCellRequest candidate,const std::string& id){
         if(!job.request(candidate))throw std::runtime_error("Fluorescence job is still running");
-        region=candidate.core_region();options=candidate.options();context=candidate.context();use_selected=candidate.object_id()!=0;use_crop=!use_selected;
+        tiling=false;tiled_request.reset();tiled_report.reset();region=candidate.core_region();options=candidate.options();context=candidate.context();use_selected=candidate.object_id()!=0;use_crop=!use_selected;
         method=int(options.threshold_method);units=int(options.units);request=std::move(candidate);run.reset();clear_texture();pending=true;verify=true;kept=id;last_kept=id;published=false;published_ids.clear();count=0;state="running";
     }
     void replay(Document& doc){const auto id=fluorescence_cell_record_unmix(doc,record);if(id.empty()){submit_replay(replay_fluorescence_cell_record(doc,record),record);return;}
@@ -64,10 +76,12 @@ struct GuiFluorescence::Impl {
         }
         if(pending && stats.state!="running"){
             pending=false;state=stats.state;
-            if(stats.state=="ready" && request){run=job.result();use_unmixing=!run->unmix_record().empty();use_correction=!run->correction_record().empty();boundary_count=0;for(const auto& b:run->raster().boundaries)if(b.nucleus || b.cell)++boundary_count;if(verify){attempt([&]{if(!verify_fluorescence_cell_record(doc,kept,*request,*run))throw std::runtime_error("Saved fluorescence result differs from replay");state="verified";});verify=false;}}
+            if(tiled_request && (stats.state=="ready" || stats.state=="unresolved")){tiled_report=job.tiled_result();run.reset();}
+            else if(stats.state=="ready" && request){run=job.result();use_unmixing=!run->unmix_record().empty();use_correction=!run->correction_record().empty();boundary_count=0;for(const auto& b:run->raster().boundaries)if(b.nucleus || b.cell)++boundary_count;if(verify){attempt([&]{if(!verify_fluorescence_cell_record(doc,kept,*request,*run))throw std::runtime_error("Saved fluorescence result differs from replay");state="verified";});verify=false;}}
             else {run.reset();if(!stats.error.empty())error=stats.error;}
         }
         if(run && request && !request->matches(doc)){run.reset();request.reset();kept.clear();published=false;count=0;state="stale";clear_texture();cancel.store(true);discard_contours=true;}
+        if(tiled_report && tiled_request && !tiled_request->matches(doc)){tiled_report.reset();tiled_request.reset();state="stale";}
         if(contours.valid() && (!blocked || discard_contours) && contours.wait_for(std::chrono::milliseconds(0))==std::future_status::ready){
             try{auto traced=contours.get();if(!discard_contours && run && request){published_ids=publish_fluorescence_cells(doc,*request,*traced,"Fluorescence cell",options.work_bytes,&cancel);count=published_ids.size();published_structure=doc.structure_revision();published=true;state="published";error.clear();}}
             catch(const std::exception& e){if(!discard_contours){state="failed";error=e.what();}}
@@ -105,10 +119,18 @@ struct GuiFluorescence::Impl {
         if(use_correction && !chosen_correction)ui::TextWrapped("Load and select a retained correction to start a new run. Saved-run Replay remains available.");
         if(run)ui::TextWrapped("Measured domain: %s",run->measurement_domain().c_str());
         if(const auto view=doc.server()->tiff_view())ui::Text("Source series: %u",view->series);
+        ImGui::BeginDisabled(busy() || blocked);if(ui::Checkbox("Process by tiles",&tiling)){invalidate();state="idle";}mark(Action::Tiling);
+        if(tiling){if(ui::InputText("Tiled results folder",tile_directory.data(),tile_directory.size())){invalidate();state="idle";}ui::TextWrapped("Run again with matching inputs to verify and resume saved tiles.");}ImGui::EndDisabled();
         ImGui::BeginDisabled(busy() || blocked || correction.busy() || unmixing.busy());const bool can_run=doc.server()->reader_id()=="tiff" && (!use_selected || selected) && (!use_correction || chosen_correction) && (!use_unmixing || chosen_unmixing);
-        ImGui::BeginDisabled(!can_run);if(ui::Button("Run fluorescence"))attempt([&]{start(doc,selected);});mark(Action::Run);ImGui::EndDisabled();ImGui::EndDisabled();
+        ImGui::BeginDisabled(!can_run);if(ui::Button(tiling?"Run / resume tiles":"Run fluorescence"))attempt([&]{start(doc,selected);});mark(Action::Run);ImGui::EndDisabled();ImGui::EndDisabled();
         ImGui::BeginDisabled(!busy());if(ui::Button("Cancel fluorescence")){job.cancel();cancel.store(true);discard_contours=true;if(!pending_replay.empty()){unmixing.cancel();pending_replay.clear();pending_unmix.clear();}state="cancelling";}mark(Action::Cancel);ImGui::EndDisabled();
         ui::Text("Fluorescence state: %s",state.c_str());
+        if(tiled_report){const auto& report=*tiled_report;
+            ui::Text("Complete cells: %llu / tiles: %zu",(unsigned long long)report.cells,report.tiles);ui::Text("Reused tiles: %zu / segmented: %zu",report.reused_tiles,report.segmented_tiles);
+            ui::Text("Unresolved boundary tiles: %zu",report.unresolved_tiles);ui::Text("Resolved threshold: %.8g",report.resolved_threshold);
+            ui::TextWrapped("Measured domain: %s",report.measurement_domain.c_str());ui::TextWrapped("Masks and raw measurements: %s",report.checkpoint_path.c_str());
+            if(report.unresolved_tiles)ui::TextWrapped("Boundary-dependent tiles remain unresolved. Review the halo and run changed settings into a new results folder.");
+        }
         if(run){ui::Text("Detected cells: %zu",run->raster().measurements.size());
             ui::Text("Boundary cells: %zu",boundary_count);ui::Text("Resolved threshold: %.8g",run->raster().resolved_threshold);ui::Checkbox("Show fluorescence preview",&shown);ui::Checkbox("Preview cell bodies",&body);
             if(run->region().z!=display_z || run->region().t!=display_t)ui::TextWrapped("Preview hidden: display Z/time differs from the analysis plane.");
@@ -147,6 +169,8 @@ struct GuiFluorescence::Impl {
         bool max=bool(options.max_nucleus_area);if(ui::Checkbox("Limit nucleus area",&max)){options.max_nucleus_area=max?std::optional<double>(1000):std::nullopt;changed=true;}
         if(max)changed=ui::InputDouble("Maximum nucleus area",&*options.max_nucleus_area,0,0,"%.5g")||changed;
         changed=ui::InputDouble("Raw cell expansion",&options.cell_expansion,0,0,"%.5g")||changed;
+        if(tiling){changed=ui::InputScalar("Tile width",ImGuiDataType_U32,&tiles.width)||changed;changed=ui::InputScalar("Tile height",ImGuiDataType_U32,&tiles.height)||changed;
+            changed=ui::InputScalar("Segmentation halo",ImGuiDataType_U32,&tiles.halo)||changed;changed=ui::InputScalar("Checkpoint disk limit (MiB)",ImGuiDataType_U64,&checkpoint_mib)||changed;}
         changed=ui::InputScalar("Context X",ImGuiDataType_U32,&context[0])||changed;changed=ui::InputScalar("Context Y",ImGuiDataType_U32,&context[1])||changed;
         changed=ui::InputScalar("Maximum cells",ImGuiDataType_U64,&options.max_cells)||changed;changed=ui::InputScalar("Work bytes",ImGuiDataType_U64,&options.work_bytes)||changed;
         if(changed){invalidate();state="idle";}
@@ -171,6 +195,7 @@ void GuiFluorescence::draw_preview(ImDrawList* draw,const Viewport& view,ImVec2 
     const auto& r=s.run->region().region;const auto a=view.image_to_screen({double(r.x),double(r.y)}),b=view.image_to_screen({double(r.x+r.width),double(r.y+r.height)});
     draw->PushClipRect(offset,{offset.x+size.x,offset.y+size.y},true);draw->AddImage(ImTextureID(s.texture),{offset.x+float(a.x),offset.y+float(a.y)},{offset.x+float(b.x),offset.y+float(b.y)});draw->PopClipRect();}
 void GuiFluorescence::set_request(RawRegionRequest r,FluorescenceCellOptions o,std::array<std::uint32_t,2> c,bool selected){auto& s=*impl_;if(s.busy())throw std::runtime_error("Fluorescence is busy");o.validate();s.invalidate();s.region=r;s.options=o;s.context=c;s.use_selected=selected;s.use_crop=!selected;s.method=int(o.threshold_method);s.units=int(o.units);}
+void GuiFluorescence::set_tiling(bool enabled,FluorescenceTileOptions options,const std::string& directory){auto& s=*impl_;if(s.busy())throw std::runtime_error("Fluorescence is busy");options.validate();if(directory.size()>=s.tile_directory.size())throw std::invalid_argument("Tiled results folder path is too long");s.invalidate();s.tiling=enabled;s.tiles=options;s.tile_directory={};std::copy(directory.begin(),directory.end(),s.tile_directory.begin());}
 void GuiFluorescence::set_correction(const DarkFlatRequest& request){auto& s=*impl_;if(s.busy())throw std::runtime_error("Fluorescence is busy");s.invalidate();s.chosen_correction=request;s.chosen_correction_id=request.recipe().sha256();s.use_correction=true;s.use_unmixing=false;}
 void GuiFluorescence::set_unmixing(const LinearUnmixRequest& request){auto& s=*impl_;if(s.busy())throw std::runtime_error("Fluorescence is busy");s.invalidate();s.chosen_unmixing=request;s.chosen_unmixing_id=request.recipe().sha256();s.use_unmixing=true;s.use_correction=false;}
 bool GuiFluorescence::uses_unmixing()const{return impl_->use_unmixing;}
@@ -180,6 +205,7 @@ bool GuiFluorescence::uses_correction() const{return impl_->use_correction;}
 GuiDarkFlat& GuiFluorescence::correction_tool(){return impl_->correction;}
 Rect GuiFluorescence::bounds(Action a) const{return impl_->bounds[std::size_t(a)];}
 std::shared_ptr<const FluorescenceCellRun> GuiFluorescence::result() const{return impl_->run;}
+std::shared_ptr<const FluorescenceTiledReport> GuiFluorescence::tiled_result() const{return impl_->tiled_report;}
 const std::string& GuiFluorescence::error() const{return impl_->error;}
 const std::string& GuiFluorescence::state() const{return impl_->state;}
 const std::string& GuiFluorescence::kept_record() const{return impl_->kept;}
