@@ -1,5 +1,7 @@
 #pragma once
 #include "qupathxx/raw_image.hpp"
+#include "qupathxx/ome_zarr.hpp"
+#include "ascii_case.hpp"
 #include "qupathxx/raw_analysis.hpp"
 #include "qupathxx/raw_tables.hpp"
 #include "qupathxx/project.hpp"
@@ -54,8 +56,8 @@ class GuiRaw {
             if(!initial_record_) selected_=0;cursor_=0;previous_.clear();if(!raw_pending_) task_="idle";
         }
         source_=doc.server();identity_=doc.analysis_identity_.token;metadata_.reset();
-        state_=source_->reader_id()=="tiff"?"waiting":"unsupported";
-        if(source_->reader_id()=="tiff") initial_record_=false;
+        state_=(source_->reader_id()=="tiff" || source_->reader_id()=="ome-zarr")?"waiting":"unsupported";
+        if((source_->reader_id()=="tiff" || source_->reader_id()=="ome-zarr")) initial_record_=false;
         if(!raw_pending_ && !csv_pending_) error_.clear();
     }
     void metadata_job(Document& doc) {
@@ -63,7 +65,7 @@ class GuiRaw {
         const auto source=source_;const auto identity=doc.analysis_identity_.token;
         future_=std::async(std::launch::async,[this,source,identity] {
             Result result{Kind::Metadata};result.source=source;result.identity=identity;
-            try {result.metadata=source->raw_metadata(&cancel_);export_checkpoint(&cancel_);if(!result.metadata || !source->tiff_view()) throw std::invalid_argument("image has no quantitative TIFF channels");}
+            try {result.metadata=source->raw_metadata(&cancel_);export_checkpoint(&cancel_);if(!result.metadata || !source->raw_view()) throw std::invalid_argument("image has no quantitative channels");}
             catch(const std::exception& error) {result.state=cancel_.load()?"cancelled":"failed";try {result.error=error.what();bounded_utf8(result.error,8192);}catch(...) {result.error="Channel metadata opening failed";}}
             return result;
         });
@@ -76,6 +78,8 @@ class GuiRaw {
         future_=std::async(std::launch::async,[this,source,options,identity,kind] {
             Result result{kind};result.source=source;result.identity=identity;
             try {const auto previous=source->tiff_options();
+                if(source->reader_id()=="ome-zarr") {if(kind==Kind::Series)throw std::invalid_argument("Zarr group has one image series");result.candidate=source->with_raw_view(options.view,&cancel_);}
+                else
                 if(kind==Kind::View && previous && previous->cache_bytes==options.cache_bytes && previous->decode_bytes==options.decode_bytes) result.candidate=source->with_tiff_view(options.view,&cancel_);
                 else result.candidate=open_tiff(source->source_locator(),options,&cancel_);
                 export_checkpoint(&cancel_);result.metadata=result.candidate->raw_metadata();
@@ -85,7 +89,7 @@ class GuiRaw {
     }
     void data_job(Document& doc,ObjectSelection& selection,const Project* project,bool save) {
         if(!metadata_ || busy()) return;auto request=request_;std::uint64_t object=0;
-        if(follow_display_) {const auto view=source_->tiff_view();request.z=view->z;request.t=view->t;}
+        if(follow_display_) {const auto view=source_->raw_view();request.z=view->z;request.t=view->t;}
         if(use_selected_ && selection.primary()) object=selection.primary();
         if(!save) {
             if(grid_ && !object) throw std::invalid_argument("select an area ROI for a grid measurement");
@@ -187,16 +191,16 @@ public:
         ScientificRawOptions sampling;sampling.work_bytes=grid_work_;sampling.validate();
         follow_display_=!initial_request_;options_.validate();bounded_utf8(options.raw_numpy_path,32768);bounded_utf8(options.raw_csv_path,32768);
         std::copy(options.raw_numpy_path.begin(),options.raw_numpy_path.end(),path_.begin());std::copy(options.raw_csv_path.begin(),options.raw_csv_path.end(),csv_path_.begin());
-        if(options.image_reader!="auto" && options.image_reader!="ppm" && options.image_reader!="openslide" && options.image_reader!="tiff") throw std::invalid_argument("invalid image reader selection");
+        if(options.image_reader!="auto" && options.image_reader!="ppm" && options.image_reader!="openslide" && options.image_reader!="tiff" && options.image_reader!="ome-zarr") throw std::invalid_argument("invalid image reader selection");
     }
     ~GuiRaw() {try {finish(nullptr,false);}catch(...) {}}
     void open() {open_=true;if(state_=="cancelled" || state_=="failed") state_="waiting";}
-    void open_image(Project& project,const std::string& path,TiffOpenOptions options) {
+    void open_image(Project& project,const std::string& path,TiffOpenOptions options,bool zarr=false) {
         if(busy()) throw std::runtime_error("finish or cancel the current raw task before adding an image");
         options.validate();cancel_.store(false);running_=Kind::Image;state_="changing";const auto instance=project.instance_identity_;
-        future_=std::async(std::launch::async,[this,path,options,instance] {
+        future_=std::async(std::launch::async,[this,path,options,instance,zarr] {
             Result result{Kind::Image};result.project_instance=instance;
-            try {result.candidate=open_tiff(path,options,&cancel_);export_checkpoint(&cancel_);}
+            try {auto extension=std::filesystem::u8path(path).extension().u8string();ascii_lower_in_place(extension);if(zarr || extension==".zarr"){OmeZarrOpenOptions zarr_options;zarr_options.view=options.view;result.candidate=open_ome_zarr(path,zarr_options,&cancel_);}else result.candidate=open_tiff(path,options,&cancel_);export_checkpoint(&cancel_);}
             catch(const std::exception& error) {result.state=cancel_.load()?"cancelled":"failed";try {result.error=error.what();bounded_utf8(result.error,8192);}catch(...) {result.error="TIFF image opening failed";}}return result;
         });
     }
@@ -223,9 +227,9 @@ public:
         try {
             if(result.kind==Kind::Image) {
                 if(!allow_apply || !project) {state_="cancelled";return changed;}
-                applied_=result.candidate;changed.image=project->add_tiff_source(std::move(result.candidate));++changes_;state_="ready";error_.clear();
+                applied_=result.candidate;if(result.candidate->reader_id()=="ome-zarr")changed.image=project->add_document(std::make_shared<Document>(std::move(result.candidate)));else changed.image=project->add_tiff_source(std::move(result.candidate));++changes_;state_="ready";error_.clear();
             }else if(result.kind==Kind::Metadata) {
-                metadata_=std::move(result.metadata);const auto current_view=*source_->tiff_view();
+                metadata_=std::move(result.metadata);const auto current_view=*source_->raw_view();
                 if(!initial_options_) {if(auto current=source_->tiff_options()) options_=*current;options_.view=current_view;}
                 else {for(std::size_t i=0;i<3;++i) {if(options_.view.channels[i]==-2) options_.view.channels[i]=current_view.channels[i];if(std::isnan(options_.view.lower[i])) {options_.view.lower[i]=current_view.lower[i];options_.view.upper[i]=current_view.upper[i];}}initial_options_=false;}
                 if(reset_request_ && !initial_request_) {request_={};request_.region=RegionRequest(0,0,0,std::min<std::int64_t>(512,metadata_->width),std::min<std::int64_t>(512,metadata_->height));request_.z=current_view.z;request_.t=current_view.t;}
@@ -257,7 +261,7 @@ public:
         auto tab=[&](const char* title,int number,GuiInputTarget target) {const auto shown=ImGui::BeginTabItem(title,nullptr,activate_tab_ && number==initial_tab_?ImGuiTabItemFlags_SetSelected:0);remember(target,false);return shown;};
         auto perform=[&](auto&& action) {try {action();error_.clear();}catch(const std::exception& error) {failure(error);task_="failed";}};
         if(metadata_) ImGui::TextWrapped("%s / %u channels / %u Z planes / %u timepoints",sample_name(metadata_->sample_type).c_str(),metadata_->channels,metadata_->z_planes,metadata_->timepoints);
-        else {ImGui::TextWrapped("Channels: %s",state_.c_str());if(state_=="unsupported") ImGui::TextWrapped("Open a TIFF/OME-TIFF with the quantitative TIFF reader.");else if((state_=="failed" || state_=="cancelled") && ui::IconButton("Retry channel metadata",ui::Icon::Refresh)) state_="waiting";}
+        else {ImGui::TextWrapped("Channels: %s",state_.c_str());if(state_=="unsupported") ImGui::TextWrapped("Open a quantitative OME-TIFF or local OME-Zarr image.");else if((state_=="failed" || state_=="cancelled") && ui::IconButton("Retry channel metadata",ui::Icon::Refresh)) state_="waiting";}
         if(metadata_) {
             try {
                 const auto z=doc.z_position_um(options_.view.z),t=doc.timepoint_seconds(options_.view.t);
@@ -274,7 +278,7 @@ public:
                     ImGui::BeginDisabled(disabled);number("Series",options_.view.series,metadata_->series_count);number("Z plane",options_.view.z,metadata_->z_planes);number("Timepoint",options_.view.t,metadata_->timepoints);
                     const char* colors[]={"Red","Green","Blue"};for(std::size_t i=0;i<3;++i) {ImGui::PushID(int(i));int channel=options_.view.channels[i];ui::InputInt(colors[i],&channel);options_.view.channels[i]=std::clamp(channel,-1,int(metadata_->channels)-1);ui::InputDouble("Raw lower",&options_.view.lower[i],0,0,"%.10g");ui::InputDouble("Raw upper",&options_.view.upper[i],0,0,"%.10g");ImGui::PopID();}ImGui::EndDisabled();
                     if(button("Apply display channels / Z / time",GuiInputTarget::ApplyTiffView,disabled || options_.view.series!=metadata_->series)) perform([&]{view_job(doc,false);});
-                    if(button("Open series as a new image",GuiInputTarget::AddTiffSeries,disabled || !project)) perform([&]{view_job(doc,true);});
+                    if(button("Open series as a new image",GuiInputTarget::AddTiffSeries,disabled || !project || source_->reader_id()=="ome-zarr")) perform([&]{view_job(doc,true);});
                     ImGui::TextWrapped("Display conversion leaves stored raw samples and saved raw measurements unchanged.");
                 }else ImGui::TextWrapped("Channel metadata is not ready.");
                 ImGui::EndTabItem();
@@ -291,7 +295,7 @@ public:
                     int level=request_.region.level;if(ui::InputInt("Pyramid level",&level)) request_.region.level=std::clamp(level,0,int(metadata_->levels.size())-1);
                     }
                     number("First channel",request_.first_channel,metadata_->channels);int count=int(request_.channels);if(ui::InputInt("Channel count",&count)) request_.channels=std::uint32_t(std::clamp(count,1,int(metadata_->channels-request_.first_channel)));
-                    ui::Checkbox("Follow displayed Z / time",&follow_display_);if(follow_display_) {const auto view=source_->tiff_view();request_.z=view->z;request_.t=view->t;}
+                    ui::Checkbox("Follow displayed Z / time",&follow_display_);if(follow_display_) {const auto view=source_->raw_view();request_.z=view->z;request_.t=view->t;}
                     ImGui::BeginDisabled(follow_display_);number("Data Z",request_.z,metadata_->z_planes);number("Data time",request_.t,metadata_->timepoints);ImGui::EndDisabled();ImGui::EndDisabled();
                     if(button("Measure raw channels",GuiInputTarget::MeasureRawRegion,disabled)) perform([&]{data_job(doc,selection,project,false);});
                     ui::InputTextWithHint("##raw NumPy path","New NumPy file (.npy)",path_.data(),path_.size());

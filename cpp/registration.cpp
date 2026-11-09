@@ -139,7 +139,8 @@ CoordinateFrame image_coordinate_frame(const Document& document,std::string id,O
     if(source->primary) {
         file_identity(digest,*source->primary,cancelled);digest.integer(source->companions.size());
         for(const auto& file:source->companions)file_identity(digest,file,cancelled);
-        const auto view=server->tiff_view();digest.integer(bool(view));if(view)digest.integer(view->series);
+        if(source->scope=="directory_store"){server->require_raw_current(cancelled);hash_text(digest,source->directory_sha256);}
+        const auto view=server->raw_view();digest.integer(bool(view));if(view)digest.integer(view->series);
     } else {
         // External mutable readers without stable file versions are deliberately
         // refused; memory-backed native RGB is immutable and can be hashed once.

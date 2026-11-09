@@ -3949,3 +3949,50 @@ edits private to avoid another common-header rebuild. O02 remains open14/22,
 8 pending. Notes/guide/plan/receipt updated. Waste: verified cache wait, one test
 request repair to the existing tile16 minimum, changed-consumer rebuild and
 required ABI relinks; no weakened assertions or repeated science campaign.
+
+O02 project/UI slice: previous goal turn is progress ec8e4618. Add a private typed
+Zarr link payload to existing quantitative-view storage, retaining exact view,
+resource options and expected directory identity. Preserve old TIFF payloads and
+legacy record branches. Offline open/save must retain recorded facts without
+filesystem scans on the owner; lazy reads enforce expected inventory. Native
+source review compares directory tokens when metadata bytes match. Raw analysis
+uses generic view and QRA5/6, preserving directory identity in natural/grid records.
+Actual desktop image chooser and channel/plane/measure/keep controls delegate to
+the existing native worker, adopting its prepared candidate without repeated IO
+on the owner thread. Whole-directory checks belong at worker boundaries, not
+frame polling. Shared output guard protects directory subtrees; registration
+image identity now binds directory inventory. No new public headers or bindings.
+Decisive combined cached batch: new project/offline/replay/change-review/corruption
+and actual GUI channel/measure/keep/save controls, plus affected legacy raw/project/
+save/registration/output-guard checks. Use the retained complete37-file open real
+store for saved-project acceptance; no repeated decoder/whole TIFF comparison.
+Preserve independent UI layout edits, especially FirstUseEver in gui_raw.hpp.
+
+The combined build compiled the changed core successfully, then the new test failed on an unused private JSON helper include (the core deliberately keeps JSON private). Remove that unused include; do not widen dependency visibility. Resume the affected targets using the completed core objects and retain the original build failure log.
+The next test compile exposed its missing public project_source.hpp definition (project.hpp forward-declares the review). Include the actual contract header; no core/API change. Both corrections are test-include ownership mistakes, preserved in build/rebuild logs. Resume the same target batch without rebuilding settled core.
+Native ome_zarr_project passes0.87s: view/options/RGB, QRA5/6 replay, offline inspect/save, stale directory refusal, metadata-only changed-dependency review, registration identity and protected outputs. Optional real GUI driver will display the saved full tubhiswt project, channel metadata and retained record and capture the native framebuffer; existing independent full TIFF comparison is reused.
+Affected native/project/save/application-entry checks pass. New GUI test fails before issuing a click because a required action is not visible/enabled; preserve frontend-ctest.log. Add action/state diagnostics to identify the real tab/layout boundary, then repair the driver or actual UI according to evidence. Do not drop the click assertion or replace it with a direct API call.
+Diagnostic identifies Apply succeeded and Measure remained absent after the Data-tab click. The driver omitted ConfigInputTrickleEventQueue=false used by the existing native fluorescence/marker/unmixing click drivers; queued backend pointer events delayed the tab action. Match that established deterministic event setup and hide only the isolated control-test window. Keep actual clicks and all source/result assertions; the real full-app framebuffer route remains separate.
+Event-setting-only correction did not fix the Data-tab transition (gui-event-test.log); that hypothesis was insufficient. Match the existing proven hover-frame -> press -> release helper as well, and capture the framebuffer on any missing action so a remaining visibility failure is directly inspectable. Product logic has not changed during these driver repairs; existing native results remain valid.
+Hover-frame fix reaches the actual Measure action. The measurement result fails the expected all-channel means assertion; retain gui-hover-test.log. Add the actual captured rectangle/C/Z/T and means to the test diagnostic before changing product logic or expectations; do not guess the mismatched contract.
+Measured request is exactly0,0 7x5 C0+3 Z0/T0; displayed means23/1023/2023. Independent replay of the existing Welford update gives errors0,-1.1368683772161603e-13,+4.547473508864641e-13. The new test incorrectly required floating mean bit equality to mathematical integers. Check mean error below1e-12 with exact region/axes/valid/finite/nonfinite counts and min/max. No raw values, identity/archive comparisons or implementation tolerances changed. Keep diagnostics and prior failure evidence.
+
+Final O02 project/desktop slice delivered locally: consumer-build.log exits0; five
+affected native suites pass1.60s, application_entry/project_save pass, and
+gui-final-test.log passes actual C/Z/T/window/measure/keep/save/reopen0.69s.
+real-project.log preserves full512x512x2 saved history/RGB with Windows-only PATH;
+both native app source/project startups exit0. real-gui.log passes and inspected
+real-desktop.png shows native real tiles, channel metadata, unknown calibration
+and saved record. Reuse the earlier exact ALL524288-sample TIFF comparison.
+O02 checkbox closes:15/22 complete,7 pending (L01,A01–A04,P01/P02).
+
+Waste: two include ownership mistakes, then new GUI driver setup/hover and mean
+bit-equality mistakes caused avoidable consumer retries. Match existing native
+click helpers and numerical contracts before compiling a new driver. Test-only
+repairs reused settled libraries/references-disabled builds. Keep all failures;
+no science/identity weakening, packaging or repeated broad campaign. Independent
+UI layout changes remain unstaged and are disclosed in source/runtime evidence.
+Next bounded task is A01: full-universe native QC and versioned library-size/log1p
+derived values with raw integer preservation, explicit zero/missing/continuous
+domain handling, identity and persistence/replay. Start with D01's existing native
+block/source services, settle the request/result/store contract before consumers.

@@ -474,8 +474,9 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     auto& project_image_path=text_buffers->project_image_path;
     auto& project_image_name=text_buffers->project_image_name;
     auto& project_filter=text_buffers->project_filter;
-    const char* reader_names[]={"auto","ppm","openslide","tiff"};int image_reader=0;
-    for(int i=0;i<4;++i) if(options.image_reader==reader_names[i]) image_reader=i;
+    const char* reader_names[]={"auto","ppm","openslide","tiff","ome-zarr"};int image_reader=0;
+    for(int i=0;i<5;++i) if(options.image_reader==reader_names[i]) image_reader=i;
+    const auto zarr_path=[](const std::string& path){auto suffix=std::filesystem::u8path(path).extension().u8string();detail::ascii_lower_in_place(suffix);return suffix==".zarr";};
     if(options.project_image_path.size()>32768 || options.project_image_path.find('\0')!=std::string::npos)
         throw std::invalid_argument("invalid project image path");
     std::memcpy(project_image_path,options.project_image_path.c_str(),options.project_image_path.size()+1);
@@ -1606,7 +1607,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 ui::SeparatorText("Add images");
                 if(focus_add_image) {ImGui::SetKeyboardFocusHere();focus_add_image=false;}
                 ui::SetNextItemWidth(240); ui::InputTextWithHint("##Image source","Image file to add or relink",project_image_path,sizeof(project_image_path));
-                ui::Combo("Reader",&image_reader,"Auto\0PPM\0OpenSlide\0TIFF quantitative\0");
+                ui::Combo("Reader",&image_reader,"Auto\0PPM\0OpenSlide\0TIFF quantitative\0OME-Zarr\0");
                 if(ui::IconButton("Add image (F8)",ui::Icon::Plus)) add_image=true;
                 ImGui::SameLine();
                 ImGui::BeginDisabled(!has_image || project_load.valid());
@@ -1683,7 +1684,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 drawing=marquee=vertex_dragging=false; active_vertex.reset(); draft_points.clear(); tool=previous_tool=0;
             }
             if(add_image) {
-                try {if(image_reader==3 || (image_reader==0 && has_tiff() && is_ome_tiff_path(project_image_path))) raw.open_image(*options.project,project_image_path,options.tiff_options?*options.tiff_options:TiffOpenOptions{});else pending_image=options.project->add_image(project_image_path,reader_names[image_reader]);project_catalog_dirty=true; project_error.clear(); }
+                try {if(image_reader==3 || image_reader==4 || (image_reader==0 && ((has_tiff() && is_ome_tiff_path(project_image_path)) || zarr_path(project_image_path)))) raw.open_image(*options.project,project_image_path,options.tiff_options?*options.tiff_options:TiffOpenOptions{},image_reader==4);else pending_image=options.project->add_image(project_image_path,reader_names[image_reader]);project_catalog_dirty=true; project_error.clear(); }
                 catch(const std::exception& e) { project_error=e.what(); }
             }
             if(relink_image) {

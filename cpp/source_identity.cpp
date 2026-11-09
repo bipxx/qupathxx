@@ -126,15 +126,7 @@ void save_source_association(const SourceFileAssociation& value,const std::strin
     const auto json=source_file_association_json(value);
     auto guard=[&] {
         guard_file_output(value.fingerprint.path,value.fingerprint.identity,path);
-        if(value.source.scope=="directory_store") {
-            namespace fs=std::filesystem;const auto root=fs::weakly_canonical(fs::u8path(value.source.locator)),destination=fs::weakly_canonical(fs::u8path(path));const auto relative=destination.lexically_relative(root);
-            bool inside=!relative.empty() && *relative.begin()!=".." && !relative.has_root_path();
-#ifdef _WIN32
-            auto r=root.native();const auto d=destination.native();const auto separator=[](wchar_t c){return c==L'/' || c==L'\\';};while(r.size()>root.root_path().native().size() && separator(r.back()))r.pop_back();
-            if(d.size()>=r.size() && CompareStringOrdinal(r.c_str(),int(r.size()),d.c_str(),int(r.size()),TRUE)==CSTR_EQUAL && (d.size()==r.size() || separator(r.back()) || separator(d[r.size()])))inside=true;
-#endif
-            if(inside)throw std::invalid_argument("Association output must be outside its directory store");
-        }else if(!value.source.locator.empty()) {
+        if(value.source.scope=="directory_store") {guard_file_output(value.source.locator,"",path);}else if(!value.source.locator.empty()) {
             const auto& primary=value.source.primary;
             const auto identity=primary && primary->identity_scheme==value.fingerprint.identity_scheme?primary->identity:std::string{};
             guard_file_output(value.source.locator,identity,path);

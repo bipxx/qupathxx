@@ -22,7 +22,7 @@ struct Writer {
 struct Reader {
     const std::uint8_t* data;std::size_t size,at=4;
     Reader(const std::uint8_t* input,std::size_t count):data(input),size(count) {
-        if(!input || count<68 || count>limit || std::memcmp(input,"QRA",3) || input[3]<1 || input[3]>4) throw std::invalid_argument("invalid raw analysis record encoding");
+        if(!input || count<68 || count>limit || std::memcmp(input,"QRA",3) || input[3]<1 || input[3]>6) throw std::invalid_argument("invalid raw analysis record encoding");
         Sha256 hash;hash.update(input,count-64);if(hash.finish()!=std::string(reinterpret_cast<const char*>(input+count-64),64)) throw std::invalid_argument("raw analysis record checksum mismatch");size-=64;
     }
     std::uint64_t integer() {if(at>size || size-at<8) throw std::invalid_argument("truncated raw analysis record");std::uint64_t value=0;for(int i=0;i<8;++i) value|=std::uint64_t(data[at++])<<(8*i);return value;}
@@ -69,11 +69,12 @@ std::vector<std::uint8_t> RawAnalysisCodec::encode(const RawAnalysisRecord& reco
             out.integer(companion.bytes);out.integer(companion.observed_unix_ms);
         }
     }
+    if(source.scope=="directory_store"){out.bytes[3]=result.grid_?6:5;out.text(source.directory_sha256);}
     if(out.bytes.size()>limit-64) throw std::length_error("raw analysis record exceeds byte limit");Sha256 hash;hash.update(out.bytes.data(),out.bytes.size());const auto sum=hash.finish();out.bytes.insert(out.bytes.end(),sum.begin(),sum.end());detail::export_checkpoint(cancelled);return std::move(out.bytes);
 }
 std::shared_ptr<const RawAnalysisRecord> RawAnalysisCodec::decode(const std::uint8_t* data,std::size_t size,const ImageMetadata& image,const std::atomic<bool>* cancelled) {
     detail::export_checkpoint(cancelled);Reader in(data,size);auto record=std::make_shared<RawAnalysisRecord>();auto result=std::shared_ptr<RawAnalysisResult>(new RawAnalysisResult());record->result=result;
-    if(data[3]==2 || data[3]==4) {
+    if(data[3]==2 || data[3]==4 || data[3]==6) {
         // Read in explicit sequence: function argument evaluation order is not
         // a portable stream order in C++17.
         const auto iw=in.signed_integer(),ih=in.signed_integer(),x=in.signed_integer(),y=in.signed_integer();
@@ -104,13 +105,14 @@ std::shared_ptr<const RawAnalysisRecord> RawAnalysisCodec::decode(const std::uin
     if(in.bounded(1)) {const auto bytes=in.blob(limit);record->mask=GeometryArchiveCodec::decode(bytes.first,bytes.second);}
     auto source=std::make_shared<ReaderSource>();auto file=std::make_shared<FileVersion>();source->generation=in.text(128);source->reader=in.text(256);source->locator=in.text(32768);source->scope=in.text(32);
     file->path=in.text(32768);file->identity_scheme=in.text(128);file->identity=in.text(256);file->stamp_scheme=in.text(128);file->modified_token=in.text(256);file->change_token=in.text(256);file->bytes=in.integer();file->observed_unix_ms=in.integer();source->primary=file;result->source_=source;
-    if(data[3]>=3) {
+    if(data[3]==3 || data[3]==4) {
         const auto count=in.bounded(63);if(!count) throw std::invalid_argument("empty compound raw source");source->companions.reserve(std::size_t(count));
         for(std::uint64_t i=0;i<count;++i) {
             detail::export_checkpoint(cancelled);FileVersion companion;
             companion.path=in.text(32768);companion.identity_scheme=in.text(128);companion.identity=in.text(256);companion.stamp_scheme=in.text(128);companion.modified_token=in.text(256);companion.change_token=in.text(256);companion.bytes=in.integer();companion.observed_unix_ms=in.integer();source->companions.push_back(std::move(companion));
         }
     }
+    if(data[3]>=5){source->directory_sha256=in.text(64);if(source->scope!="directory_store")throw std::invalid_argument("Directory raw record requires directory scope");}
     if(result->grid_) {
         auto& options=result->grid_->options;options.first_channel=region.first_channel;options.channels=region.channels;options.z=region.z;options.t=region.t;
         if(region.region.x!=0 || region.region.y!=0 || region.region.width!=1 || region.region.height!=1 || region.region.level!=0)

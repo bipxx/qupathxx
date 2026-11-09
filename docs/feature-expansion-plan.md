@@ -2,18 +2,18 @@
 
 Owner request: plan all eight remaining areas, keeping proprietary and
 noncommercial (NC) material separate. This document owns the new implementation
-checklist: **22 work items: 14 complete, 8 pending**. It does not reopen completed
-FO00–FO05. S01/V01/V02/I01/I02/R01/R02/F01/F02/F03/F04/D01/D02/O01 are delivered locally under their
+checklist: **22 work items: 15 complete, 7 pending**. It does not reopen completed
+FO00–FO05. S01/V01/V02/I01/I02/R01/R02/F01/F02/F03/F04/D01/D02/O01/O02 are delivered locally under their
 stated contracts. F01's train-selected recipe passes unchanged pilot gates and
 native publication/replay; the failed original pilot is retained and validation
 reuse is disclosed. F02 marker rules, F03 correction and F04 explicit linear
 unmixing, D01 indexed expression storage/import/view and D02 bounded interaction/
-tiled processing are delivered. O01 native H5AD is delivered; O02 local OME-Zarr is next. See the
+tiled processing are delivered. O01 native H5AD and O02 local OME-Zarr are delivered; A01 QC/normalization is next. See the
 [source-scoped progress receipt](benchmarks/feature-expansion/README.md).
 Preserve independent desktop work recorded in [current-task.md](current-task.md).
 
 Planning update: retain this single checklist for all eight requested areas;
-do not restart delivered items. Next is O02 local OME-Zarr over the existing native source capability.
+do not restart delivered items. Next is A01 QC/normalization over the existing full native expression source.
 F02/F03/F04 native, CLI and desktop completion are recorded below. Proprietary and NC
 material remain
 separate excluded references, not optional product backends.
@@ -99,7 +99,7 @@ ledger. Checkboxes below remain authoritative. Finish one packet before starting
 the next, except that admission of a new input belongs to the packet consuming it.
 Preserve concurrent desktop edits. R02 is delivered with native fit, actual UI,
 registered-gene rendering and persistence checks. F01 is delivered under its
-selected pilot contract; F02/F03/F04/D01/D02/O01 consumers are delivered and O02 is next.
+selected pilot contract; F02/F03/F04/D01/D02/O01/O02 consumers are delivered and A01 is next.
 
 | Packet | Prerequisites | Easiest implementation path and consumer integration | Decisive completion check |
 | --- | --- | --- | --- |
@@ -112,7 +112,7 @@ selected pilot contract; F02/F03/F04/D01/D02/O01 consumers are delivered and O02
 | D01: indexed sparse storage, delivered | Delivered S01/I01 | Add an ExpressionMatrixSource adapter and stream Matrix Market into a transactional SQLite sidecar with a gene-oriented sparse index. Extend the existing import wizard with backed storage after the native path works. | Import the existing full197MB source, switch to previously unprojected genes without rescanning/densifying, reopen/relink and refuse incomplete sidecars. |
 | D02: bounded interaction and tiling, delivered | D01; F01/F03; existing jobs/cache | Page gene metadata and bound value/color caches first. Then schedule existing raw-cell processing by tile with fixed global parameters, halo, deterministic ownership and resumable records. Do not introduce another scheduler. | Declared sparse fixture/work bound plus a named-host cancellation/responsiveness check; independent seam comparison and interrupted/resumed tiled ROI equality. |
 | O01: H5AD subset, delivered | D01/S01; exact HDF5 dependency admitted | Implement one native adapter over the HDF5 C API and feed the existing matrix source/import UI. Start with dense/CSR/CSC X or selected layer and explicit value domain; report unsupported encodings. | Independent dense/CSR/CSC malformed and valid fixtures plus one open real dataset with exact IDs/counts/axes; native-only runtime. |
-| O02: local OME-Zarr subset | F03 capability; D02; exact codecs admitted | Implement declared NGFF0.4/Zarr2 metadata/chunk reads behind the existing image-source interface. Start uncompressed/zlib; add another codec only for a selected admitted fixture. | Chunk boundaries, axes, transforms, missing/failing IO and raw values; one complete open real store in viewport and measurement routes. |
+| O02: local OME-Zarr subset, delivered | F03 capability; D02; exact codecs admitted | Implement declared NGFF0.4/Zarr2 metadata/chunk reads behind the existing image-source interface. Start uncompressed/zlib; add another codec only for a selected admitted fixture. | Chunk boundaries, axes, transforms, missing/failing IO and raw values; one complete open real store in viewport and measurement routes. |
 | A01: QC and normalization | D01 full intended feature universe | Add streaming native totals/detection and an immutable normalized/log1p result source. Let gene display choose raw or explicitly named derived values; never replace the raw matrix. | Hand-calculated sparse values, zero libraries/missing data, exact raw preservation and persisted source/parameter identity. |
 | A02: regions and pseudobulk | D01; R01/R02 when transformed coordinates selected | Reuse ROI cohorts and block reductions; add explicit coordinate-domain choice, overlap policy and sample/replicate metadata. Export exact sums and associations through existing native writers. | Analytical empty/overlapping cohorts, overflow, registered membership and exact totals/save/replay. |
 | A03: PCA and clustering | A01; admitted native algebra backend | Add bounded block products and fixed-seed truncated PCA, then explicit-k k-means. Persist preprocessing/means/features/seed with owned result arrays; add one results view. | Independent small numeric oracle, deterministic seeded replay, work/cancel bounds and stored embedding/cluster association. |
@@ -138,7 +138,7 @@ No calendar or speed-superiority estimate is asserted before measured work.
 D01 is delivered: bounded indexed storage, native project references/relink/owned
 copies, explicit spatial joins and actual desktop index/import/paged gene display.
 Reuse its source-scoped real-data and legacy-route evidence. D02 is now delivered under the checks below. These retained steps explain its
-source-scoped evidence; next execution is O02, without replaying D02/O01.
+source-scoped evidence; next execution is A01, without replaying D02/O01/O02.
 
 1. Inspect existing value/color/tile caches and generation-driven controllers.
    Reuse the opened matrix and current selected-value snapshot for display-only
@@ -217,7 +217,7 @@ source-scoped evidence; next execution is O02, without replaying D02/O01.
    work240760252 bytes <256MiB; tile-boundary cancellation unwinds0.4172ms on
    HEQPC. Preserve scope: no full-slide throughput, RSS/GPU or biology claim.
 5. D02 closes with this WSI/scale evidence and delivered thin desktop controls.
-   Follow O01/O02 and remaining methods/SDK/release packets:14/22 complete.
+   O01/O02 are also delivered. Follow remaining methods/SDK/release packets:15/22 complete.
    Optional bindings/installable SDK remain P01; package once at P02.
 
 Delivered F01-F04 instructions are retained through their checklist progress and
@@ -347,9 +347,8 @@ is promised before measuring the affected workload.
 | L01 | At each packet, admit only its actual inputs and derivative lineage in existing inventories. Before release, enumerate all staged source/binary/data/model/generated assets, connect the offline guard and resolve every unmatched member. | Incremental prerequisite for new inputs; final closure requires actual complete stage membership. An allowlist of license names alone is insufficient. |
 | P02 | 1. Freeze completed source/features and close final L01 membership. 2. Stage matching app/CLI/SDK and selected optional Python artifacts once. 3. Verify hashes, sources/notices and clean install/use/uninstall. 4. Publish the exact qualified platform/support statement. | One engineering release handoff after P01 and feature acceptance; preserve user data and old receipts. No implied signing, stable status or untested platform support. |
 
-Remaining execution order is O01/O02 → A01/A02 → A03/A04 →
-P01 → final L01 → P02. O01 and O02 are independent adapters once their respective
-source contracts are ready; implement them serially in the shared cache. If A04
+Remaining execution order is A01/A02 → A03/A04 → P01 → final L01 → P02.
+Reuse the delivered O01/O02 adapters and their source-scoped evidence. If A04
 awaits admissible replicate data, advance P01 without claiming A04 or releasing
 an incomplete all-items milestone.
 
@@ -572,7 +571,7 @@ and classify actual release inputs under L01. See the existing
   preview/publication also passes using that sidecar and the retained explicit TSV.
   See the [source-scoped receipt](benchmarks/feature-expansion/README.md#o01-desktop-and-real-count-closure).
   No legacy AnnData/all-metadata, biological, speed or released-package claim.
-- [ ] **O02 — native OME-Zarr image adapter.** Initial declared target is local
+- [x] **O02 — native OME-Zarr image adapter.** Initial declared target is local
   NGFF0.4/Zarr2 image stores, selected C/Z/T, scalar numeric dtypes and supported
   isotropic multiscales. Use JSON + existing native tile scheduling; admit only
   the exact native compression libraries needed by the selected real fixture
@@ -591,9 +590,14 @@ and classify actual release inputs under L01. See the existing
   derivative matches all524288 samples/validity, axes/calibration, native raw
   statistics and explicit RGB pixels against TIFF; Windows-only PATH works.
   See the [adapter receipt](benchmarks/feature-expansion/README.md#o02-native-image-adapter-and-complete-real-store).
-  Project linking/save/reopen with expected directory/view identity and actual
-  desktop source/plane controls remain. Keep O02 unchecked; no transferred GUI,
-  biological, release or performance claim.
+  Project links now retain view, limits and expected directory identity, including
+  offline inspect/save and native QRA5/6 measurement replay. Source review detects
+  changed chunks with unchanged metadata. Actual native GUI channel/plane/measure/
+  keep/save/reopen controls pass; the complete real saved project displays native
+  tiles, channel metadata and its retained record. App source/project startup
+  succeeds with Windows-only PATH. See the
+  [project/desktop closure receipt](benchmarks/feature-expansion/README.md#o02-project-and-desktop-closure).
+  No biological, release, general NGFF or performance claim.
 
 ## Checklist: molecular methods
 
@@ -689,6 +693,6 @@ run until P02 or a named correctness/platform risk requires it. Cleanup only
 verified disposable outputs after preserving fixtures/failures/source. Completion
 means these22 finite contracts are met; it does not imply all statistical methods,
 nonlinear registration, deep pretrained models, distributed execution or100% QuPath
-parity. O01 is delivered locally; next deliver O02 local OME-Zarr;
+parity. O01/O02 are delivered locally; next deliver A01 QC/normalization;
 finish L01 membership admission as actual release inputs settle. Preserve the
 independent desktop layout work and its source-scoped evidence.

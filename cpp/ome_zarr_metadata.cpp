@@ -58,6 +58,7 @@ ZarrMetadata zarr_metadata(const ZarrStore& store,const std::atomic<bool>* cance
         result.levels.push_back(l);result.arrays.push_back(std::move(a));
     }
     if(attrs.contains("omero") && attrs["omero"].contains("channels")){const auto& channels=attrs["omero"]["channels"];zarr_require(channels.is_array() && channels.size()==result.raw.channels,"channel labels differ from axis");for(const auto& channel:channels){auto label=channel.value("label",std::string{});zarr_require(label.size()<=4096,"channel label exceeds limit");result.raw.channel_names.push_back(std::move(label));}}
+    if(result.raw.channel_names.empty())for(std::uint32_t i=0;i<result.raw.channels;++i)result.raw.channel_names.push_back("Channel "+std::to_string(i));
     const auto level_bytes=[](const OmeZarrLevel& l){return l.path.capacity()+(l.shape.capacity()+l.chunks.capacity())*sizeof(std::uint64_t)+(l.scale.capacity()+l.translation.capacity())*sizeof(double);};
     result.payload=sizeof(result)+result.raw.payload_bytes()+result.arrays.capacity()*sizeof(ZarrArray)+result.levels.capacity()*sizeof(OmeZarrLevel)+(result.axes.capacity()+result.units.capacity())*sizeof(std::string);
     for(std::size_t i=0;i<result.axes.size();++i)result.payload+=result.axes[i].capacity()+result.units[i].capacity();

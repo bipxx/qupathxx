@@ -1114,7 +1114,7 @@ Only the declared AnnData/dense/CSR/CSC/string encoding subset is supported. Uns
 reader; this is not an AnnData annotation round trip or a released SDK/package.
 
 
-Native OME-Zarr source (O02, implementation in progress)
+Native OME-Zarr source (O02, delivered locally)
 -------------------------------------------------------
 
 The optional `QUPATHXX_BUILD_OME_ZARR=ON` builds the native local source declared
@@ -1163,7 +1163,20 @@ Six affected suites pass2.78s. A complete CC-BY4 OME tubhiswt-2D512x512x2 deriva
 preserves all524288 samples, validity, axes and unknown calibration. Raw summaries
 and explicit RGB pixels match TIFF; original hashes remain unchanged. Native-only
 Windows PATH works. See the [adapter receipt](benchmarks/feature-expansion/README.md#o02-native-image-adapter-and-complete-real-store).
-O02 still needs project linking/save/reopen and desktop source/channel/plane
-integration. Frozen Python binaries stay with their original ABI until P01;
+Project.add_image(path, "ome-zarr") or auto for a .zarr directory uses the native
+reader; attach a native Document(open_ome_zarr(...)) to retain custom view/limits.
+Saved projects retain the expected directory identity, selected view and bounds;
+offline open/save preserves records without touching the unavailable store. Lazy
+reads reject changed inventories until explicit compatible relink/source review.
+Natural/grid records use QRA5/6 and native replay; old TIFF encodings remain intact.
+Primary .zattrs SHA does not establish whole-store byte equality. Source review
+compares the directory token and requires acceptance for changed dependencies.
+
+The app accepts --reader ome-zarr and .zarr auto-detection. Quantitative channels
+uses the same native channel/window/Z/time, Measure and Keep services; Zarr image
+groups have one series. Actual panel clicks and full real saved-project display
+pass, including native app directory/project startup with Windows-only PATH. See
+the [closure receipt](benchmarks/feature-expansion/README.md#o02-project-and-desktop-closure).
+Frozen Python binaries stay with their original ABI until P01;
 retained binding objects must not link against changed native interfaces.
 No biological, general throughput or released-format support claim.

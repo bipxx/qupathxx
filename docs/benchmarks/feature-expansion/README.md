@@ -2,7 +2,7 @@
 
 The [22-item roadmap](../../feature-expansion-plan.md) remains the completion
 authority. This receipt covers delivered S01/V01/V02/I01/I02/R01/R02/F01/F02
-plus F03/F04/D01/D02 locally and incomplete L01 admission. GUI claims cover only the named workflows
+plus F03/F04/D01/D02/O01/O02 locally and incomplete L01 admission. GUI claims cover only the named workflows
 below; no new release, speed superiority or biological phenotype accuracy claim.
 
 S01 adds an immutable native ExpressionDataset over the existing imported point
@@ -2153,7 +2153,58 @@ acceptance to a Zarr workflow. No binding objects, SDK, wheel or package rebuilt
 Frozen Python binaries retain their original ABI; old objects cannot relink this
 new core until the settled P01 rebuild.
 
-O02 remains open:14/22 complete,8 pending. Next project reader/link/save/reopen must
+At this adapter checkpoint O02 remained open:14/22 complete,8 pending. Project reader/link/save/reopen still had to
 retain expected directory/view identity and compare directory changes even if
 primary bytes match. Then actual desktop source/channel/plane controls and saved
 real-store acceptance. Direct backend/rendering proof cannot close those exits.
+
+
+### O02 project and desktop closure
+
+O02 closes locally:15/22 complete,7 pending (L01, A01–A04, P01/P02). Next A01
+QC/normalization over the full intended expression universe, preserving exact raw
+counts and explicit zero/missing/continuous-domain semantics. Do not replay O01/O02
+or rebuild bindings/packages until their planned integration checkpoint.
+
+Project native reader/factory supports ome-zarr and .zarr auto-detection. A private
+checksummed versioned link payload reuses existing quantitative-view storage with
+an explicit reader discriminator. It retains selected view, resource limits and
+expected directory token. Offline open/save retains view/history without opening
+the store; lazy reads enforce that token. TIFF payload branches stay unchanged.
+Raw measurement capture/replay uses the generic capability; QRA5/natural and
+QRA6/grid retain directory identity, leaving legacy1..4 unchanged. Source review
+compares directory inventory even when primary .zattrs bytes match; its coverage
+is directory_primary_only, never matching whole-store byte hashes. Registration
+identity binds the token; shared export guards protect input directory subtrees.
+
+Actual Quantitative channels controls change C/Z/T/windows through the native
+worker, then adopt its already prepared candidate. No second decode on the owner
+and no full-directory scans during frame polling. App/chooser reader selection
+adds OME-Zarr; one image group has one series. No Python product logic was added.
+
+Local evidence is build/feature-expansion/o02-project (external build evidence,
+not packaged data). consumer-build.log exits0; native-ctest.log passes five affected
+suites1.60s. frontend-ctest.log also passes application_entry/project_save, while
+retaining the initial new-driver failure. gui-final-test.log passes actual GUI
+channel/plane/measure/keep/save/reopen controls0.69s. Exact rectangle/axes/valid/
+finite/nonfinite counts and min/max accompany mean tolerance1e-12. The existing
+Welford update gives errors0,-1.1369e-13,+4.5475e-13 on this small integer example;
+mathematical-integer bit equality was an incorrect new-test assumption. No product
+raw value, archive/source identity or stored replay assertion was relaxed.
+
+real-project.log exits0 on the complete retained37-file tubhiswt store under
+System32/Windows-only PATH: all512x512x2 are measured, saved, reopened with their
+record and identical RGB. Reuse the earlier ALL524288-sample independent TIFF
+comparison; no decoder campaign repeated. real-app-project.log and
+real-app-source.log exit0 for saved project and explicit source startup.
+real-gui.log passes; inspected real-desktop.png shows native real red/green tiles,
+uint8/two-channel metadata, explicit unknown physical calibration and the saved
+record. This qualifies the selected local workflow, not general NGFF, biology,
+throughput or a release.
+
+Waste retained: two test-only include ownership fixes; isolated GUI driver lacked
+the established deterministic event setup AND hover-before-press frame, then
+used incorrect bit equality for floating means. Logs preserve each failed
+attempt. Test-only repairs reuse settled core/GUI objects with references disabled;
+source-receipt.json distinguishes final owned source from the independent dirty
+UI overlay compiled into this runtime. No SDK/wheel/binding/package rebuild.

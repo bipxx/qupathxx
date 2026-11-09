@@ -96,6 +96,16 @@ public:
     }
 };
 void output_guard(const std::string& observed_path,const std::string& observed_identity,const std::string& path) {
+    namespace fs=std::filesystem;
+    if(fs::is_directory(fs::u8path(observed_path))){
+        const auto root=fs::weakly_canonical(fs::u8path(observed_path)),destination=fs::weakly_canonical(fs::u8path(path));const auto relative=destination.lexically_relative(root);
+        bool inside=!relative.empty() && *relative.begin()!=".." && !relative.has_root_path();
+#ifdef _WIN32
+        auto r=root.native();const auto d=destination.native();const auto sep=[](wchar_t c){return c==L'/' || c==L'\\';};while(r.size()>root.root_path().native().size() && sep(r.back()))r.pop_back();
+        if(d.size()>=r.size() && CompareStringOrdinal(r.c_str(),int(r.size()),d.c_str(),int(r.size()),TRUE)==CSTR_EQUAL && (d.size()==r.size() || sep(r.back()) || sep(d[r.size()])))inside=true;
+#endif
+        if(inside)throw std::invalid_argument("Output must be outside the protected input directory");return;
+    }
     if(observed_path==path) throw std::invalid_argument("fingerprint output must not replace its input");
     std::error_code error;
     if(std::filesystem::equivalent(std::filesystem::u8path(observed_path),std::filesystem::u8path(path),error)) throw std::invalid_argument("fingerprint output aliases its input");
