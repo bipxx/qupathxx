@@ -54,6 +54,8 @@ ExpressionMatrixAssociation decode(const std::string& id,const V& v,bool disk=fa
     };
     a.features=number("features");a.observations=number("observations");a.entries=number("entries");
     if(a.source_sha256!=id)throw std::invalid_argument("Expression association identity differs");
+    if(disk && a.owned && a.path!=owned_locator(a.file_sha256))
+        throw std::invalid_argument("Stored owned expression locator must be a canonical project child");
     // Only serialization may use an external relative locator; normalize before
     // exposing a live association. Owned locators are always the canonical child.
     if(disk && !a.owned) {
@@ -74,7 +76,10 @@ fs::path directory(const Project& project) {
     return fs::u8path(project.path()).parent_path();
 }
 std::string resolve(const ExpressionMatrixAssociation& a,const fs::path& base) {
-    return a.owned?(base/fs::u8path(a.path)).lexically_normal().u8string():a.path;
+    if(!a.owned)return a.path;
+    if(!base.empty())return (base/fs::u8path(owned_locator(a.file_sha256))).lexically_normal().u8string();
+    if(fs::u8path(a.path).is_absolute())return a.path;
+    throw std::invalid_argument("Owned expression locator needs its project directory");
 }
 void matches(const ExpressionMatrixAssociation& a,const ExpressionMatrixSource& source) {
     const auto& m=source.metadata();
@@ -137,15 +142,16 @@ void ExpressionMatrixAssociation::validate()const {
     digest(file_sha256);digest(source_sha256);detail::bounded_utf8(path,32768);workflow_path_argument(path);
     if(!features || features>1000000 || !observations || observations>1000000 || entries>1000000000)
         throw std::invalid_argument("Expression association dimensions exceed contract");
-    if(owned?path!=owned_locator(file_sha256):!fs::u8path(path).is_absolute())
+    if(owned?(path!=owned_locator(file_sha256) && !fs::u8path(path).is_absolute()):!fs::u8path(path).is_absolute())
         throw std::invalid_argument("Invalid expression association locator");
 }
+void ExpressionMatrixAssociation::require_source(const ExpressionMatrixSource& source)const{validate();matches(*this,source);}
 std::string keep_expression_matrix(Project& project,std::uint64_t image,
     std::shared_ptr<const ExpressionMatrixSource> source,bool owned,const std::atomic<bool>* cancelled) {
     if(!source)throw std::invalid_argument("Expression association requires a source");
     workflow_checkpoint(cancelled);auto doc=project.document(image);
     const auto& m=source->metadata();ExpressionMatrixAssociation a{source->path(),source->file_sha256(),m.source_sha256,m.features,m.observations,m.entries,owned};
-    if(owned)a.path=owned_locator(a.file_sha256);a.validate();matches(a,*source);
+    if(owned && !project.path().empty())a.path=owned_locator(a.file_sha256);a.validate();matches(a,*source);
     auto all=records(doc->image_data_properties());
     if(all.count(a.source_sha256))throw WorkflowOutputExists("Expression source already retained");
     all.emplace(a.source_sha256,encode(a));
@@ -153,7 +159,7 @@ std::string keep_expression_matrix(Project& project,std::uint64_t image,
     auto values=doc->image_data_properties()?doc->image_data_properties()->values():V::Map{};
     values[property]=V{all};auto prepared=std::make_shared<const ImageDataProperties>(std::move(values));
     source->require_current(cancelled);
-    if(owned)copy_owned(a,source->path(),directory(project),cancelled);
+    if(owned && !project.path().empty())copy_owned(a,source->path(),directory(project),cancelled);
     source->require_current(cancelled);doc->set_image_data_properties(std::move(prepared));return a.source_sha256;
 }
 std::vector<std::string> expression_matrix_ids(const Project& project,std::uint64_t image) {
@@ -169,14 +175,14 @@ ExpressionMatrixAssociation load_expression_matrix_association(const Project& pr
 std::shared_ptr<const ExpressionMatrixSource> reopen_expression_matrix(const Project& project,
     std::uint64_t image,const std::string& id,std::size_t work,const std::atomic<bool>* cancelled) {
     const auto a=load_expression_matrix_association(project,image,id);
-    auto source=open_expression_matrix(resolve(a,a.owned?directory(project):fs::path{}),a.file_sha256,work,maximum_store,cancelled);
+    auto source=open_expression_matrix(resolve(a,a.owned && !project.path().empty()?directory(project):fs::path{}),a.file_sha256,work,maximum_store,cancelled);
     matches(a,*source);return source;
 }
 void relink_expression_matrix(Project& project,std::uint64_t image,const std::string& id,
     std::shared_ptr<const ExpressionMatrixSource> source,const std::atomic<bool>* cancelled) {
     if(!source)throw std::invalid_argument("Expression relink requires a verified source");
     auto a=load_expression_matrix_association(project,image,id);matches(a,*source);source->require_current(cancelled);
-    if(a.owned)copy_owned(a,source->path(),directory(project),cancelled);else a.path=source->path();
+    if(a.owned && !project.path().empty())copy_owned(a,source->path(),directory(project),cancelled);else a.path=source->path();
     auto doc=project.document(image);auto all=records(doc->image_data_properties());all.at(id)=encode(a);
     source->require_current(cancelled);publish(*doc,std::move(all));
 }
@@ -187,6 +193,17 @@ void remove_expression_matrix(Project& project,std::uint64_t image,const std::st
     if(expression_matrix_points_reference(*doc,id))throw std::invalid_argument("Expression matrix is referenced by spatial observations");
     all.erase(it);publish(*doc,std::move(all));
 }
+void own_expression_matrix(Project& project,std::uint64_t image,const std::string& id,
+    std::shared_ptr<const ExpressionMatrixSource> source,const std::atomic<bool>* cancelled) {
+    if(!source)throw std::invalid_argument("Expression ownership requires a verified source");
+    auto a=load_expression_matrix_association(project,image,id);matches(a,*source);source->require_current(cancelled);
+    a.owned=true;a.path=project.path().empty()?source->path():owned_locator(a.file_sha256);
+    auto doc=project.document(image);auto all=records(doc->image_data_properties());all.at(id)=encode(a);
+    auto values=doc->image_data_properties()->values();values[property]=V{std::move(all)};
+    auto prepared=std::make_shared<const ImageDataProperties>(std::move(values));
+    if(!project.path().empty())copy_owned(a,source->path(),directory(project),cancelled);
+    source->require_current(cancelled);doc->set_image_data_properties(std::move(prepared));
+}
 
 namespace detail {
 std::shared_ptr<const ImageDataProperties> expression_properties_for_save(
@@ -196,7 +213,10 @@ std::shared_ptr<const ImageDataProperties> expression_properties_for_save(
     auto transformed=all;
     for(auto& [id,value]:transformed) {
         workflow_checkpoint(cancelled);auto a=decode(id,value);
-        if(a.owned)copy_owned(a,resolve(a,from),to,cancelled);
+        if(a.owned) {
+            copy_owned(a,resolve(a,from),to,cancelled);
+            std::get<V::Map>(value.value).at("path")=V{owned_locator(a.file_sha256)};
+        }
         else {
             const auto relative=relative_locator(fs::u8path(a.path),to);
             if(!relative.empty())std::get<V::Map>(value.value).at("path")=V{relative.generic_u8string()};
@@ -206,12 +226,13 @@ std::shared_ptr<const ImageDataProperties> expression_properties_for_save(
     return std::make_shared<const ImageDataProperties>(std::move(values));
 }
 std::shared_ptr<const ImageDataProperties> expression_properties_after_open(
-    std::shared_ptr<const ImageDataProperties> props,const fs::path& base) {
+    std::shared_ptr<const ImageDataProperties> props,const fs::path& base,bool unsaved_recovery) {
     const auto& all=records(props);if(all.empty())return props;
     auto transformed=all;
     for(auto& [id,value]:transformed) {
         auto a=decode(id,value,true);
         if(!a.owned && fs::u8path(a.path).is_relative())a.path=(base/fs::u8path(a.path)).lexically_normal().u8string();
+        if(a.owned && unsaved_recovery)a.path=(base/fs::u8path(a.path)).lexically_normal().u8string();
         value=encode(a);
     }
     auto values=props->values();values[property]=V{std::move(transformed)};

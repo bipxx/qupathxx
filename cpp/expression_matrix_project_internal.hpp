@@ -8,7 +8,7 @@ std::shared_ptr<const ImageDataProperties> expression_properties_for_save(
     std::shared_ptr<const ImageDataProperties>,const std::filesystem::path& source_directory,
     const std::filesystem::path& destination_directory,const std::atomic<bool>*);
 std::shared_ptr<const ImageDataProperties> expression_properties_after_open(
-    std::shared_ptr<const ImageDataProperties>,const std::filesystem::path& directory);
+    std::shared_ptr<const ImageDataProperties>,const std::filesystem::path& directory,bool unsaved_recovery=false);
 // Prevent a project save from overwriting any associated matrix, including aliases.
 void guard_expression_project_output(std::shared_ptr<const ImageDataProperties>,
     const std::filesystem::path& directory,const std::string& destination);

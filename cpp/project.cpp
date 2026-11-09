@@ -1275,7 +1275,8 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
             Statement row(db,"SELECT payload FROM image_data_properties WHERE image_id=?");row.string(1,key);
             if(row.row()) {const auto n=sqlite3_column_bytes(row.stmt,0);if(row.type(0)!=SQLITE_BLOB || n<0 || n>2*ImageDataProperties::max_payload)throw std::invalid_argument("invalid ImageData properties payload");data_properties=detail::decode_image_data_properties(sqlite3_column_blob(row.stmt,0),std::size_t(n));if(row.row())throw std::invalid_argument("duplicate ImageData properties");}
         }
-        data_properties=detail::expression_properties_after_open(std::move(data_properties),fs::u8path(source).parent_path());
+        data_properties=detail::expression_properties_after_open(std::move(data_properties),fs::u8path(source).parent_path(),
+            recovery_info && recovery_info->base_path.empty());
         if(version>=23) {
             Statement row(db,"SELECT metadata_key,metadata_value FROM image_metadata WHERE image_id=? ORDER BY metadata_key");row.string(1,key);
             std::size_t bytes=sizeof(info.metadata);

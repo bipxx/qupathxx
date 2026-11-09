@@ -152,13 +152,15 @@ complete before its spatial/consumer route is usable.
    need no migration. Ownership copies use the existing atomic writer and precede
    project commit; removal never deletes shared bytes. Keep the canonical managed
    child directory beside the project when relocating a bundle.
-4. **Native spatial join delivered; finish import and desktop consumers.** Exact
+4. **Native spatial/import route delivered; finish desktop consumers.** Exact
    observation-ID batches join immutable coordinate/frame/plane snapshots, and the
    existing native gene-view session reads only selected features with its current
    coalescing/cancel mechanism. Typed units/provenance participate in result identity;
-   point objects contain no duplicated counts. Extend import preview and desktop
-   gene-view controllers with paged catalogue
-   selection and native indexed reads. Retain opened immutable sources; cancel/
+   point objects contain no duplicated counts. The existing import job now accepts
+   an indexed preview/publication path, including owned first save and explicit
+   coordinate scopes. The real owned project preserves every reference coordinate
+   and six-gene count. Connect these services to actual desktop import controls and
+   paged gene catalogue/selection. Retain opened immutable sources; cancel/
    coalesce obsolete gene requests and refuse stale delivery. UI/CLI choose IDs and
    display native results; no second parser/query or frontend numerical campaign.
    Check import, unprojected gene switching, legend, save/reopen/relink and Undo
@@ -470,8 +472,11 @@ and classify actual release inputs under L01. See the existing
   Project copy conflicts and changed source identities refuse publication. D01
   now has explicit ID/frame/plane spatial snapshots and selected-gene native
   GeneViewSession integration, including exact counts, persisted point associations
-  and stale/coalesced result checks. D01 remains open for backed import and actual
-  desktop catalogue/gene selection. See the shared receipt.
+  and stale/coalesced result checks. Native backed preview/publication reuses the
+  import job, image-base rules and position parser. First-save owned copies and
+  unsaved recovery pass; the real owned project retains all32285 genes and2702
+  exact coordinates/counts. D01 remains open for actual desktop indexed-import
+  controls and paged catalogue/gene selection. See the shared receipt.
 - [ ] **D02 — bounded interactive and whole-slide processing.** Reuse tile/cache,
   spatial index, native jobs and generation-based publication. Page/filter metadata,
   bound value/color/decoded-tile caches and coalesce rapid viewport requests.

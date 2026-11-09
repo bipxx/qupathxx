@@ -10,6 +10,7 @@
 #include <cmath>
 #include <filesystem>
 #include <fstream>
+#include <optional>
 #include <set>
 #include <string_view>
 #include <unordered_set>
@@ -96,6 +97,45 @@ std::vector<std::string> feature_table(const std::string& text,std::uint32_t max
     }
     if(result.empty())throw std::invalid_argument("Empty feature table");return result;
 }
+std::vector<SpatialObservation> position_table(const std::string& text,const std::array<std::string,3>& columns,
+    std::uint32_t maximum,std::optional<std::size_t> required,Budget& budget,const std::atomic<bool>* cancelled) {
+    Lines positions{text};std::string_view line;
+    if(!positions.next(line))throw std::invalid_argument("Missing position TSV header");
+    const auto headers=words(line,true);if(headers.size()!=3)throw std::invalid_argument("Position TSV requires three explicitly mapped columns");
+    std::array<std::size_t,3> mapping{};
+    for(std::size_t i=0;i<3;++i) {
+        const auto at=std::find(headers.begin(),headers.end(),columns[i]);
+        if(at==headers.end() || std::count(headers.begin(),headers.end(),columns[i])!=1)throw std::invalid_argument("Position column missing or ambiguous");
+        mapping[i]=static_cast<std::size_t>(at-headers.begin());
+    }
+    std::vector<SpatialObservation> result;std::unordered_set<std::string> ids;
+    if(required){budget.charge(*required*sizeof(SpatialObservation));result.reserve(*required);}
+    while((!required || result.size()<*required) && positions.next(line)) {
+        workflow_checkpoint(cancelled);
+        if(result.size()==maximum)throw WorkflowCaptureLimit("Position table exceeds observation limit");
+        const auto fields=words(line,true);
+        if(fields.size()!=3)throw std::invalid_argument("Expected observation ID and two coordinates");
+        budget.charge(512+fields[mapping[0]].size());
+        if(!required)budget.charge(2*sizeof(SpatialObservation));
+        auto id=identifier(fields[mapping[0]]);if(!ids.insert(id).second)throw std::invalid_argument("Duplicate observation ID");
+        result.push_back({std::move(id),{coordinate(fields[mapping[1]]),coordinate(fields[mapping[2]])}});
+    }
+    if(required && result.size()!=*required)throw std::invalid_argument("Truncated position table");
+    if(required && positions.next(line))throw std::invalid_argument("Extra position records");
+    if(result.empty())throw std::invalid_argument("Empty position table");return result;
+}
+}
+void SpatialPositionOptions::validate()const {
+    std::set<std::string> unique;
+    for(const auto& column:columns)if(!unique.insert(identifier(column)).second)throw std::invalid_argument("Coordinate column mappings must be distinct");
+    if(!file_bytes || file_bytes>1024ull*1024*1024 || !work_bytes || work_bytes>1024ull*1024*1024 || !max_observations || max_observations>1000000)
+        throw std::invalid_argument("Invalid position table resource limits");
+}
+SpatialPositionTable read_spatial_positions(const std::string& path,const SpatialPositionOptions& options,const std::atomic<bool>* cancelled) {
+    options.validate();workflow_checkpoint(cancelled);SpatialPositionTable result;SpatialCountsOptions limits;
+    limits.file_bytes=options.file_bytes;Budget budget{0,options.work_bytes};
+    const auto text=snapshot(path,limits,budget,result.source_sha256,cancelled);
+    result.observations=position_table(text,options.columns,options.max_observations,std::nullopt,budget,cancelled);return result;
 }
 SpatialFeatureCatalogue read_spatial_feature_catalogue(const std::string& path,std::size_t file,std::size_t work,std::uint32_t maximum,const std::atomic<bool>* cancelled) {
     workflow_checkpoint(cancelled);
@@ -144,29 +184,8 @@ SpatialCountsProjection read_spatial_counts(const std::string& matrix_path,
         if(match!=options.features.end()) {selected[row]=static_cast<std::int32_t>(match-options.features.begin());++found;}
     }
     if(found!=options.features.size())throw std::invalid_argument("Selected feature ID absent");
-    std::unordered_set<std::string> ids;
     const auto position_text=snapshot(position_path,options,budget,result.source_sha256[2],cancelled);
-    Lines positions{position_text};
-    if(!positions.next(line))throw std::invalid_argument("Missing position TSV header");
-    const auto headers=words(line,true);if(headers.size()!=3)throw std::invalid_argument("Position TSV requires three explicitly mapped columns");
-    std::array<std::size_t,3> mapping{};
-    for(std::size_t i=0;i<3;++i) {
-        const auto at=std::find(headers.begin(),headers.end(),options.position_columns[i]);
-        if(at==headers.end() || std::count(headers.begin(),headers.end(),options.position_columns[i])!=1)throw std::invalid_argument("Position column missing or ambiguous");
-        mapping[i]=static_cast<std::size_t>(at-headers.begin());
-    }
-    budget.charge(static_cast<std::size_t>(columns)*sizeof(SpatialObservation));
-    result.observations.reserve(static_cast<std::size_t>(columns));
-    for(std::size_t column=0;column<columns;++column) {
-        workflow_checkpoint(cancelled);
-        if(!positions.next(line))throw std::invalid_argument("Truncated position table");
-        const auto fields=words(line,true);
-        if(fields.size()!=3)throw std::invalid_argument("Expected observation ID and two pixel coordinates");
-        budget.charge(512+fields[mapping[0]].size());auto id=identifier(fields[mapping[0]]);
-        if(!ids.insert(id).second)throw std::invalid_argument("Duplicate observation ID");
-        result.observations.push_back({std::move(id),{coordinate(fields[mapping[1]]),coordinate(fields[mapping[2]])}});
-    }
-    if(positions.next(line))throw std::invalid_argument("Extra position records");
+    result.observations=position_table(position_text,options.position_columns,options.max_observations,static_cast<std::size_t>(columns),budget,cancelled);
     const auto count=static_cast<std::size_t>(columns)*result.features.size();
     budget.charge(count*sizeof(std::uint64_t));result.counts.resize(count,0);
     // Includes conservative node/bucket storage for duplicate detection; never

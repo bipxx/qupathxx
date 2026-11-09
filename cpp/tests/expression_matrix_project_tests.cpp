@@ -24,8 +24,9 @@ void exercise(const fs::path& root) {
     const ExpressionMatrixSelection selection{{0,1},std::nullopt};const auto block=source->read(selection);
     auto project=std::make_shared<Project>();auto doc=std::make_shared<Document>(Image(2,2,std::vector<std::uint8_t>(12,20)));
     project->add_document(doc);doc->set_image_data_properties(std::make_shared<ImageDataProperties>(V::Map{{"note",V{std::string("preserve")}}}));
-    rejects<std::invalid_argument>([&]{keep_expression_matrix(*project,1,source,true);});
-    check(expression_matrix_ids(*project,1).empty(),"Unsaved owned refusal leaves metadata untouched");
+    const auto pending_id=keep_expression_matrix(*project,1,source,true);
+    check(load_expression_matrix_association(*project,1,pending_id).owned && !fs::exists(bundle/".qpx-expression"),"Unsaved owned retention defers copying until atomic save");
+    doc->undo();check(expression_matrix_ids(*project,1).empty(),"Pending ownership is undoable without creating files");
     const auto id=keep_expression_matrix(*project,1,source);
     check(id==imported.metadata.source_sha256 && expression_matrix_ids(*project,1)==std::vector<std::string>{id},"Keep uses content identity");
     rejects<WorkflowOutputExists>([&]{keep_expression_matrix(*project,1,source);});

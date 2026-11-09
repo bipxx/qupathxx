@@ -11,7 +11,7 @@
 
 namespace qpx {
 namespace {
-constexpr const char* profile="qpx.expression-matrix-points/1";
+constexpr const char* profile=expression_matrix_point_profile;
 void budget(std::size_t n){if(n<4u*1024*1024 || n>1024ull*1024*1024)throw std::invalid_argument("Spatial matrix work must be4..1024MiB");}
 void charge(std::size_t& n,std::size_t count,std::size_t width,std::size_t limit) {
     if(count>limit/width)throw WorkflowCaptureLimit("Spatial matrix allocation exceeds work budget");
@@ -94,6 +94,8 @@ ExpressionMatrixSpatialSnapshot ExpressionMatrixSpatialSnapshot::capture(const D
     std::size_t bytes=0;std::vector<ExpressionObservation> rows;
     for(const auto& [id,object]:doc.objects()) {
         workflow_checkpoint(cancelled);if(object.plane!=plane || !eligible(object,source->metadata().source_sha256))continue;
+        const auto declared=object.properties->metadata().find("omics.coordinate_frame_id");
+        if(declared!=object.properties->metadata().end() && declared->second!=frame_id)continue;
         if(fact(*object.properties,"omics.coordinate_frame_sha256")!=frame_hash)
             throw WorkflowInputChanged("Backed expression point image frame/calibration changed");
         if(object.kind!=ObjectKind::Detection || object.geometry.kind()!=RoiKind::Points)
@@ -163,7 +165,8 @@ std::shared_ptr<const ObjectProperties> expression_matrix_point_properties(const
     digest(source);detail::spatial_identifier(id);frame.validate();
     if(!frame.image_level_zero || frame.unit!=CoordinateUnit::Pixel)throw std::invalid_argument("Backed points require an explicit level-zero image pixel frame");
     return std::make_shared<const ObjectProperties>(std::map<std::string,std::string>{{"omics.profile",profile},
-        {"omics.matrix_source_sha256",source},{"omics.observation_id",id},{"omics.coordinate_frame_sha256",frame.sha256()}});
+        {"omics.matrix_source_sha256",source},{"omics.observation_id",id},
+        {"omics.coordinate_frame_id",frame.id},{"omics.coordinate_frame_sha256",frame.sha256()}});
 }
 bool expression_matrix_points_reference(const Document& doc,const std::string& source) {
     for(const auto& [id,object]:doc.objects())if(eligible(object,source))return true;

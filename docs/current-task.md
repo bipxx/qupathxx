@@ -3076,3 +3076,69 @@ import, GUI/bindings/package, new data/model/dependency or restricted input.
 Next finish backed import preview/publication and actual desktop paged catalogue/
 gene controls. Reuse this native authority and the retained full real store;
 D01 remains open and the canonical total stays11/22 complete.
+
+### D01 native indexed import: shared base/parser/job and first-save ownership
+
+Changed inputs: shared native image/project base selection and position TSV parser,
+indexed preview/publication and overloads on the existing SpatialImportJob. Retain
+old selected-count request/preview layouts and behavior. Preview validates the full
+indexed source, joins explicit barcodes/frame/units/plane and creates no files;
+publication creates count-free point facts and a single atomically new project.
+Separate coordinate scopes keep overlapping barcodes distinct. Reuse one count
+association, upgrading ownership only by exact content when explicitly selected.
+
+Owned imports from a new image now keep a deferred absolute origin in unpublished
+native state. The first save copies/verifies a canonical project child before
+project commit and serializes only the relative child. This avoids a preliminary
+project save or second publication. Unsaved recovery resolves its captured owned
+origin and first primary save moves ownership to the selected destination. Saved
+projects retain the existing relative/owned semantics. Original data are preserved.
+
+Decisive checks: scrambled >2^53 values, preview without files, first-save owned
+copy/reopen with original store offline, shared parser/default compatibility,
+explicit calibrated transform, existing project/async import, distinct overlapping
+coordinate scopes, ownership upgrade, stale/malformed/unknown coordinates, bad
+expected hashes, plane/bounds/budget/cancel/output/copy conflict refusal and unsaved
+owned recovery to first save. Then one native real backed import over the retained
+full store/base/positions: every prior six-gene count and coordinate exact plus
+unprojected native gene comparison. No repeat raw-matrix import or download.
+Settle these interfaces and test driver before one affected cached native build.
+No GUI/binding/package; actual desktop catalogue/import controls remain D01 next.
+
+
+The first import batch compiles core successfully but the new test cannot find
+nlohmann/json.hpp because that dependency is intentionally private to core.
+Preserve import-build.log. Link the test explicitly to the existing pinned JSON
+target, and keep backed import source/test under the same native project feature
+as the existing spatial importer. This prevents a new JSON/base-service requirement
+in project-disabled builds. Reuse compiled core; retry the pending affected targets
+only. No source validation/assertion or license/dependency version change.
+
+
+Corrected import build succeeds. All4 affected existing/parser/project/spatial
+suites pass1.52s (import-regression-ctest.log). Pre-test review found that an
+already-published output must refuse before checking an original input later taken
+offline, matching the old import route and avoiding needless input work. Reorder
+that cheap collision check; rebuild only the backed target and run its focused
+suite. This is an output-error ordering repair, not relaxed source verification.
+
+
+Backed import passes0.30s (import-ctest.log); the4 affected legacy/parser/project
+suites pass1.52s. The actual real handoff exits0 from System32 with Windows-only
+PATH using the retained full store/base/positions: all32285 genes preserved,
+2702 coordinates/barcodes and every prior six-gene value exact, unprojected native
+gene comparison/reopen works. All5 input hashes remain unchanged. d01-import-real/
+real.json and results.json bind source/spatial/result/executable and output project
+identities. One owned data copy is retained with this reviewable real project.
+No repeat197MB raw import, new download/dependency, GUI/bindings/package or biology
+campaign. No process-RSS/speed claim follows from this native handoff.
+
+Waste review: reuse the same parser/base/job/publication authorities; defer first
+owned copy to atomic save instead of a preliminary project save. Prepare shared
+point frame facts once, keep values in the matrix, and separate coordinate scopes
+rather than duplicating matrices. The missing test-private JSON edge cost one
+cached retry; a pre-test collision ordering repair cost one targeted rebuild.
+Unchanged passing suites were reused; failure logs remain. Actual desktop import
+and paged gene catalogue are now the remaining D01 work. Preserve independent UI
+edits, settle native catalogue/control boundaries, then one affected GUI/app/test
+batch. Reuse this owned real project for desktop proof;11/22 stays canonical.

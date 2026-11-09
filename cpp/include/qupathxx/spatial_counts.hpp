@@ -19,6 +19,17 @@ struct SpatialCountsOptions {
     void validate() const;
 };
 struct SpatialObservation {std::string id;Point position;};
+struct SpatialPositionOptions {
+    std::array<std::string,3> columns{"observation_id","x_px","y_px"};
+    std::size_t file_bytes=32u*1024*1024,work_bytes=128u*1024*1024;
+    std::uint32_t max_observations=100000;
+    void validate() const;
+};
+struct SpatialPositionTable {std::vector<SpatialObservation> observations;std::string source_sha256;};
+// Explicit three-column TSV, finite nonnegative source coordinates and unique IDs.
+// Coordinate units/alignment belong to the importing workflow, never inferred here.
+SpatialPositionTable read_spatial_positions(const std::string&,const SpatialPositionOptions& = {},
+    const std::atomic<bool>* cancelled=nullptr);
 struct SpatialFeatureCatalogue {std::vector<std::string> features;std::string source_sha256;};
 SpatialFeatureCatalogue read_spatial_feature_catalogue(const std::string& path,
     std::size_t file_bytes=32u*1024*1024,std::size_t work_bytes=128u*1024*1024,

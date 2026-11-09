@@ -2,6 +2,7 @@
 #include "qupathxx/expression_matrix.hpp"
 #include "qupathxx/registration.hpp"
 namespace qpx {
+inline constexpr const char* expression_matrix_point_profile="qpx.expression-matrix-points/1";
 class ObjectProperties;
 // Immutable, explicit coordinate/ID join. No counts are stored in point objects.
 class ExpressionMatrixSpatialSnapshot {

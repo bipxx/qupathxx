@@ -5,6 +5,8 @@
 
 namespace qpx {
 class ImageServer;
+struct BackedSpatialImportRequest;
+class BackedSpatialImportPreview;
 struct SpatialImportRequest {
     std::string input_project,output_project,matrix,features,positions;
     std::uint64_t image_id=0;
@@ -53,11 +55,14 @@ public:
     SpatialImportJob();~SpatialImportJob();SpatialImportJob(const SpatialImportJob&)=delete;
     bool preview(SpatialImportRequest);
     bool publish(std::shared_ptr<const SpatialImportPreview>);
+    bool preview(BackedSpatialImportRequest);
+    bool publish(std::shared_ptr<const BackedSpatialImportPreview>);
     bool catalogue(const std::string& features,const SpatialCountsOptions& limits={});
     bool base_catalogue(const std::string& project);
     void poll();void wait();void cancel();bool busy() const;
     SpatialImportPhase phase() const;
     std::shared_ptr<const SpatialImportPreview> result() const;
+    std::shared_ptr<const BackedSpatialImportPreview> backed_result() const;
     std::shared_ptr<const SpatialFeatureCatalogue> catalogue_result() const;
     std::shared_ptr<const SpatialImportBaseCatalogue> base_result() const;
     const std::string& report() const;

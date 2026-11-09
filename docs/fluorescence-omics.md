@@ -902,61 +902,65 @@ nonlinear/learned unmixing and model downloads are outside this contract. The
 feature-expansion receipt records the source-scoped numerical and desktop checks.
 
 
-## Native disk-backed expression foundation
+## Native disk-backed expression
 
-`qupathxx/expression_matrix.hpp` provides import_expression_matrix and
-open_expression_matrix in native project/SQLite builds. Import preserves exact
-uint64 counts, stable unique IDs and explicit zeros in a new-only indexed sidecar.
-Choose Qpx headered single-column axes or the explicit Tenx headerless features/
-barcodes profile. Positions require a separate association, never an inferred
-join by catalogue order. Duplicate coordinates refuse rather than sum.
+`qupathxx/expression_matrix.hpp` provides streaming import_expression_matrix and
+open_expression_matrix in native project/SQLite builds. Import preserves uint64
+counts, stable unique IDs and explicit zeros in a new-only indexed sidecar. Choose
+Qpx headered single-column axes or explicit Tenx headerless features/barcodes.
+Duplicate coordinates refuse rather than sum. The full matrix stays sparse;
+only selected feature columns are projected for display.
 
 Retain the immutable ExpressionMatrixSource after opening, supplying an expected
-file digest when known. Page catalogues, resolve exact IDs and read explicit
+file digest when known. Page catalogues, resolve exact IDs and read selected
 feature indices with an optional sorted observation cohort. Null cohort means all;
-empty cohort returns no values. Sparse offsets group requested features in order,
-using global observation indices; absent entries are measured zeros. Counts never
-pass through double. Reads verify selected gene chunks, not other genes or the
-original text. Set work/file/store bounds and native cancellation. Changed files
-and SQLite writer sidecars refuse queries. Exact relocation retains identity.
+empty means no values. Offsets group features in requested order, using global
+observation indices. Absent entries are measured zeros. Reads verify selected
+gene chunks and source versions without scanning other genes or original text.
+Set work/file/store bounds and native cancellation. Changed files or SQLite writer
+sidecars refuse reads. Counts never pass through double; display transforms alone
+may use floating values.
 
-The full retained mouse-brain source passes native import/query/reopen and exact
-independent six-gene checks; see the feature-expansion receipt. This is a native
-foundation: project-owned/relative associations, relink, backed import UI and gene
-display remain pending D01. Old selected-gene projects require no migration.
-Python exposure waits for the settled API batch. No proprietary/NC material added.
+`qupathxx/expression_matrix_project.hpp` retains external or owned associations,
+with exact verified relink, native Undo and preserved unrelated metadata. External
+paths serialize relative to the project where representable. Owned mode copies
+exact bytes into the adjacent .qpx-expression/<file-digest>.qmx directory; keep
+that directory with the project. An unsaved project defers copying until its first
+atomic save, so no preliminary project save is needed. Save As and async saves
+ensure owned data precede project commit. Unsaved recovery retains its captured
+owned origin and transfers ownership at the first primary save. Conflicting bytes
+are never overwritten. Remove/Undo does not delete shared files; removal refuses
+when spatial observations reference the association. Missing sources remain
+identifiable and refuse reading. own_expression_matrix upgrades an existing exact
+external association without breaking point references.
 
+ExpressionMatrixSpatialSnapshot joins explicit ExpressionObservation IDs and
+coordinates to a matrix and typed CoordinateFrame. Missing/duplicate IDs refuse;
+rows are never matched by order. Batched lookup uses one connection/prepared query.
+Snapshot and projected lineage identities bind units, frame, plane and cohort;
+dataset_frame() supplies the matching existing native registration contract.
+expression_matrix_point_properties() creates count-free point metadata. Capture
+validates the retained image frame/calibration and plane; explicit frame IDs keep
+different coordinate imports of overlapping barcodes separate. GeneViewSession
+binds this immutable snapshot and uses its existing worker, coalescing/cancellation,
+legends and comparison service for selected-gene reads.
 
-Native expression project associations are now available through
-`qupathxx/expression_matrix_project.hpp`. Keep an external verified source, list/
-load/reopen its association, or relink to exact matching content. Changes use one
-image-data Undo command and preserve unrelated metadata. External paths serialize
-relative to the project where possible; missing sources stay listed and refuse
-reading. Keep does not create observations or assume coordinate alignment.
+`qupathxx/backed_spatial_import.hpp` adds BackedSpatialImportRequest/Preview and
+native preview_backed_spatial_import / publish_backed_spatial_import. Choose one
+saved native project or admitted PPM/TIFF image, an indexed store, explicit
+three-column position TSV/header mapping, coordinate units, alignment, plane and
+linked/owned storage. Preview validates barcode membership and image bounds,
+without publishing files. Native unit conversion precedes the explicit alignment;
+unknown calibration refuses physical conversion. Publication reuses the prepared
+join, creates count-free observations and atomically saves a NEW project, preserving
+the original. Identical coordinate scopes refuse duplicate import; distinct scopes
+reuse one matrix association. The existing SpatialImportJob supports both typed
+preview/publication routes with its current phases, polling and cancellation.
 
-To retain an owned copy, save the project first and select owned mode when keeping
-the source. The native service copies exact bytes into the adjacent content-
-addressed .qpx-expression folder. Keep that folder with the project when moving a
-bundle. Save As and async native saving copy owned matrices to the destination
-before committing the project. Existing different bytes are never overwritten.
-Remove/Undo affects associations only, preserving shared files; orphan cleanup
-requires a separate verified retention decision. All reopened sources compare
-exact file/source identity. Spatial joins and backed import/gene UI remain pending.
-
-
-For native spatial reads, ExpressionMatrixSpatialSnapshot joins explicit
-ExpressionObservation IDs/coordinates to a matrix and typed CoordinateFrame.
-Only requested genes are projected into the existing ExpressionDataset/display
-services. Their source identity binds the complete spatial association, including
-units; dataset_frame() provides its matching registration frame. The original
-matrix and count values remain unchanged. Missing IDs refuse; rows are never
-matched by order. Batched lookup avoids one database connection per observation.
-
-expression_matrix_point_properties() creates the count-free metadata for explicit
-level-zero image point detections. Capture validates their saved image frame,
-calibration and plane. Keep the matrix association while points reference it;
-remove points first if the association must be removed. Both support existing
-native Undo/save/reopen. GeneViewSession can bind this immutable snapshot, switch
-selected genes on its existing worker and produce the usual legends/comparison
-while discarding cancelled/stale generations. This native route is delivered;
-backed import and the actual desktop full-catalogue controls are still pending.
+The retained full32285-gene mouse-brain store now imports2702 exact coordinates
+into an owned native project. Every independent six-gene count matches after
+reopen; the native worker compares an unprojected gene with a marker. Source input
+hashes remain unchanged. See the feature-expansion receipt. These are delivered
+native APIs; actual desktop indexed-import and full-catalogue controls remain D01
+work. Existing selected-gene projects need no migration. Optional Python exposure
+waits for the settled P01 API batch. No proprietary/NC material is introduced.

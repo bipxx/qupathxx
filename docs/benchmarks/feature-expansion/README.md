@@ -1324,3 +1324,69 @@ cover unchanged paths and were not repeated. No full real-matrix import, GUI,
 bindings/package build, dependency or material download. D01 stays unchecked,
 11/22 complete. Next extend the existing import preview/controller to the indexed
 source and reuse the native gene session behind an actual paged desktop catalogue.
+
+
+### D01 native backed import and first-save ownership
+
+BackedSpatialImportRequest/Preview reuse the native SpatialImportJob, shared base
+image/project selection, unit conversion/alignment, coordinate parser and atomic
+new-project publication. Existing selected-count request/preview layouts remain
+unchanged. Preview opens the indexed source once, verifies exact barcodes and
+explicit frame/plane/image bounds, and publishes no files. Count-free detections
+retain original coordinates/units and recipe provenance. Distinct coordinate-frame
+IDs keep overlapping barcodes in separate scopes; an identical import scope refuses
+duplication. One count association is reused, with exact ownership upgrade when
+requested. Shared parser/default behavior is covered by existing spatial tests.
+
+Owned mode now supports an unsaved project: keep a verified absolute origin only
+in unpublished native state, then copy/hash a canonical owned child before first
+project commit. Persisted owned locators remain relative canonical children;
+absolute stored owned paths refuse. This supersedes the earlier saved-project-
+first prerequisite. Unsaved recovery resolves its captured owned origin, and its
+first primary save creates independent destination ownership. No preliminary
+project save, second publication, sidecar deletion or unsafe copy overwrite.
+Common point frame metadata/hashes are prepared once, not recomputed per object.
+
+Workspace-root build/feature-expansion/d01-native/import-build.log preserves a
+new-test include failure: JSON is intentionally private to core. The test now
+links the existing pinned JSON target; import source/test share the existing
+project feature boundary. import-build-r2.log succeeds. Existing expression-matrix
+project/spatial, spatial_counts and project suites pass1.52s in
+import-regression-ctest.log. Review also moved the cheap output collision check
+before input verification, matching legacy behavior when inputs later go offline;
+import-build-r3.log succeeds and import-ctest.log passes backed_spatial_import0.30s.
+No assertion or source-integrity check was relaxed.
+
+New native tests cover preview without files, scrambled2^53+1 values, full count
+association, first-save owned copy/reopen with original store offline, calibrated
+physical-coordinate conversion followed by alignment, existing annotations and
+async worker publication, scope separation/duplicate refusal, ownership upgrade,
+unknown/duplicate/malformed coordinates, expected hashes, plane/bounds/work/cancel,
+stale coordinates, output/copy conflicts and unsaved owned recovery to first save.
+Failed publication leaves no advertised project or leaked copy temporary; a
+complete unreferenced owned copy may remain if a later project commit fails.
+
+Workspace-root build/feature-expansion/d01-import-real/ contains real.json,
+results.json, logs, mouse-brain-backed.qpx and its canonical .qpx-expression child.
+One native handoff exits0 from System32 with Windows-only PATH. It reuses the
+previous full store and admitted CC BY4.0 base/coordinates/projection; no raw matrix
+re-import or download. The owned project retains32285 genes /2702 observations /
+16031101 entries. All2702 coordinates/barcodes and every2702x6 reference count are
+exact after project/source reopen. The native gene worker compares unprojected
+ENSMUSG00000051951 with a retained marker, both2702 measured values. Before/after
+hashes of the store, base, positions, features and projected counts agree.
+
+Owned count file SHA remains
+`79f407bf9b0810f417410961dd79db6a6ce1ff8999e085d1ef8f7865eaca7401`;
+source SHA remains
+`77b62ca7dbeb474a6df7a0cc1af9884c3a72069f15e677d145455e66ef2cf044`.
+real.json records spatial/selected/request/recipe identities; results.json binds
+the executable, five input hashes and output project bytes/hash. Retain CC BY4.0
+attribution and source lineage for the derived store/project; these are local
+proof artifacts, not newly bundled fixtures. Final staging membership is L01/P02.
+
+This proves native import/ownership/reopen and selected display, not actual desktop
+controls, an installed SDK/package, biology, RSS or speed superiority. D01 remains
+unchecked at11/22 complete. Next connect the existing desktop wizard and gene
+panel to these services with asynchronous indexed catalogue search/selection;
+reuse real owned project and numerical evidence instead of another import campaign.
