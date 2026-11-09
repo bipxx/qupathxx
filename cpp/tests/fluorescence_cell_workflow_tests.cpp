@@ -88,6 +88,39 @@ void source_contract() {
     const auto source_only=detect_fluorescence_cells(FluorescenceCellRequest(doc,selected(),0,parameters(),{0,0}));check(source_only->provenance()->source_only && !source_only->roi(),"Explicit crop retains honest source-only provenance");
     reader->close();check(!request.matches(doc),"Closed source invalidates request");
 }
+void same_core(const FluorescenceCellRun& a,const FluorescenceCellRun& b) {
+    const auto& core=a.core_region().region;const auto& x=a.raster();const auto& y=b.raster();
+    for(std::int64_t py=core.y;py<core.y+core.height;++py)for(std::int64_t px=core.x;px<core.x+core.width;++px){
+        const auto i=std::size_t(py-a.region().region.y)*x.width+std::size_t(px-a.region().region.x),j=std::size_t(py-b.region().region.y)*y.width+std::size_t(px-b.region().region.x);
+        check(x.nuclei[i]==y.nuclei[j] && x.bodies[i]==y.bodies[j],"Finite context changes cannot change core nucleus/body labels");}
+    check(x.measurements.size()==y.measurements.size() && x.boundaries.size()==y.boundaries.size(),"Context preserves compartment/label cohort");
+    const auto compartment=[](const RawCellCompartment& a,const RawCellCompartment& b){
+        check(a.pixels==b.pixels && a.valid_pixels==b.valid_pixels && a.channels.size()==b.channels.size(),"Context preserves sampled compartments");
+        for(std::size_t c=0;c<a.channels.size();++c){const auto& x=a.channels[c];const auto& y=b.channels[c];check(x.finite_samples==y.finite_samples && x.nonfinite_samples==y.nonfinite_samples,"Context preserves finite/missing counts");
+            const auto value=[](const auto& a,const auto& b){check(bool(a)==bool(b),"Context preserves absent observations");if(a)near(*a,*b);};
+            value(x.sum,y.sum);value(x.mean,y.mean);value(x.minimum,y.minimum);value(x.maximum,y.maximum);value(x.sample_standard_deviation,y.sample_standard_deviation);}};
+    for(std::size_t i=0;i<x.measurements.size();++i){check(x.boundaries[i].nucleus==y.boundaries[i].nucleus && x.boundaries[i].cell==y.boundaries[i].cell,"Context preserves boundary interpretation");
+        const auto& a=x.measurements[i];const auto& b=y.measurements[i];check(a.label==b.label && bool(a.cytoplasm)==bool(b.cytoplasm),"Context preserves label/empty cytoplasm identity");compartment(a.nucleus,b.nucleus);compartment(a.cell,b.cell);if(a.cytoplasm)compartment(*a.cytoplasm,*b.cytoplasm);}
+}
+void finite_boundaries() {
+    auto reader=std::make_shared<Reader>();Document doc(reader);auto p=parameters();p.sigma=.5;p.threshold=30;
+    const auto ellipse=doc.add_roi(Roi::ellipse({2.25,1.5,5.5,6}));
+    const auto local=detect_fluorescence_cells(FluorescenceCellRequest(doc,selected(),ellipse,p,{2,2}));
+    const auto large=detect_fluorescence_cells(FluorescenceCellRequest(doc,selected(),ellipse,p,{32,32}));same_core(*local,*large);
+    const auto& r=local->raster();for(std::int64_t y=0;y<r.height;++y)for(std::int64_t x=0;x<r.width;++x)if(!doc.annotation(ellipse).geometry.contains_sample(local->pixel_center(x,y),RoiSamplingPolicy::GeometryCoverage))
+        check(!r.nuclei[std::size_t(y)*r.width+x] && !r.bodies[std::size_t(y)*r.width+x],"Context pixels never publish outside fractional ROI eligibility");
+    reader->uniform=true;p=parameters();p.sigma=.25;p.units=FluorescenceCellUnits::Micrometres;p.cell_expansion=.75;p.peak_prominence=.25;
+    auto crop=selected();crop.region={0,0,0,5,5};
+    const auto edge=detect_fluorescence_cells(FluorescenceCellRequest(doc,crop,0,p,{2,2}));
+    const auto edge_large=detect_fluorescence_cells(FluorescenceCellRequest(doc,crop,0,p,{32,32}));same_core(*edge,*edge_large);
+    check(edge->region().region.x==0 && edge->region().region.y==0 && edge->raster().measurements.size()==1,"Source clips unavailable context explicitly");
+    const auto& m=edge->raster().measurements[0];check(m.nucleus.pixels==25 && m.cell.pixels==25 && !m.cytoplasm && edge->raster().boundaries[0].nucleus && edge->raster().boundaries[0].cell,"Clipped uniform source keeps all boundary samples and absent cytoplasm");
+    near(*m.nucleus.channels[0].mean,100);near(*m.nucleus.channels[1].mean,11022);
+    rejects<std::invalid_argument>([&]{FluorescenceCellRequest bad(doc,crop,0,p,{0,0});});
+    crop.region={0,0,0,15,9};const auto whole=detect_fluorescence_cells(FluorescenceCellRequest(doc,crop,0,p,{0,0}));
+    check(whole->raster().measurements.size()==1 && whole->raster().measurements[0].nucleus.pixels==135 && whole->raster().boundaries[0].nucleus,"Full-image boundary needs no fabricated outside context");
+    near(*whole->raster().measurements[0].nucleus.channels[1].mean,11047);
+}
 void await_read(Reader& reader,FluorescenceCellJob& job) {
     const auto deadline=std::chrono::steady_clock::now()+std::chrono::seconds(3);
     while(!reader.entered.load()){if(std::chrono::steady_clock::now()>deadline){job.cancel();job.await_completion();throw std::runtime_error("Worker did not enter native read barrier");}std::this_thread::sleep_for(std::chrono::milliseconds(1));}
@@ -119,7 +152,7 @@ void files(const fs::path& root) {
     rejects<WorkflowInputChanged>([&]{require_current_fluorescence_cells(doc,request,*run);});rejects<WorkflowInputChanged>([&]{detect_fluorescence_cells(request);});
 }
 int main(int argc,char** argv){try {
-    source_contract();jobs();const auto root=fs::current_path()/("fluorescence-source-"+std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()));check(fs::create_directory(root),"Create unique native fixture directory");files(root);
+    source_contract();finite_boundaries();jobs();const auto root=fs::current_path()/("fluorescence-source-"+std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()));check(fs::create_directory(root),"Create unique native fixture directory");files(root);
     if(argc>1){Document real(open_tiff(argv[1]));const auto m=real.server()->raw_metadata();RawRegionRequest r;r.region={0,0,0,m->width,m->height};r.channels=m->channels;FluorescenceCellOptions p;p.threshold_method=FluorescenceThreshold::Otsu256;p.min_nucleus_area=5;p.cell_expansion=3;
         const FluorescenceCellRequest request(real,r,0,p,{0,0});FluorescenceCellJob job;check(job.request(request),"Real native job starts");check(job.wait(real).state=="ready" && job.result(),"Real source job completes");require_current_fluorescence_cells(real,request,*job.result());std::cout<<"Real source-bound job: "<<job.result()->raster().measurements.size()<<" candidates; annotation acceptance remains pending\n";}
     std::cout<<"Fluorescence source: one raw read, axes/calibration/ROI/context, stable identity, capture authority, stale/cancel/jobs and actual file guards passed\n";

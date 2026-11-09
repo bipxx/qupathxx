@@ -5,8 +5,8 @@ noncommercial (NC) material separate. This document owns the new implementation
 checklist: **22 work items: 7 complete, 15 pending**. It does not reopen completed
 FO00–FO05. S01/V01/V02/I01/I02/R01/R02 are delivered locally. F01 has tested
 native segmentation, jobs, cell publication and compact replay records; its
-native CLI and desktop consumers now pass focused checks; annotated acceptance
-is next. See the
+native CLI and desktop consumers pass focused checks. The first frozen annotated
+pilot fails its object-F1 gate; improve a recipe on separate training data next. See the
 [source-scoped progress receipt](benchmarks/feature-expansion/README.md).
 Preserve independent desktop work recorded in [current-task.md](current-task.md).
 
@@ -127,7 +127,11 @@ No calendar or speed-superiority estimate is asserted before measured work.
 ## Next execution slices and shared API boundaries
 
 Continue F01 closeout, not another segmentation implementation. CLI and desktop
-steps2/3 below now have source-scoped evidence; steps4/5 remain. Its tested
+steps2/3 have source-scoped evidence. Steps4/5 have a frozen comparison and
+passing finite boundary checks, but the pilot object-F1 gate fails. Select the
+predeclared small recipe grid on the separate first training panel, freeze its
+choice, then rerun the original validation panel with unchanged gates. Retain and
+disclose the original failure and validation reuse. Its tested
 backend is partial completion, not a new completed checklist item:
 
 1. Freeze the native request/run/contour/publication and record APIs already
@@ -293,9 +297,13 @@ report the missing real-data acceptance rather than borrowing an NC fixture.
   Native CLI and desktop run/preview/compartment inspection, cell/record keep,
   remove and exact replay are implemented and pass focused consumer checks.
   The real CC0 panel delivers/publishes/replays130 labels through the UI.
-  Annotated comparison and complete context/seam acceptance remain.
-  One preselected BBBC039v1 image/mask/partition is CC0-admitted with exact
-  hashes; annotation decoding, frozen tolerances and comparison are still pending.
+  Finite same-core context/ROI/source-edge checks now preserve body/nucleus masks,
+  moments, boundary flags and absent cytoplasm. Whole-slide seam/resume remains D02.
+  The predeclared BBBC039 pilot reports Dice0.936 and object F1=0.683, below its
+  unchanged0.70 gate; raw reducers, split/merge and matched-mean gates pass.
+  Original report/protocol are retained. The first official training pair is
+  separately CC0-admitted; choose a recipe there before another validation run.
+  F01 annotated acceptance remains open; no post-hoc tolerance relaxation.
   Keep this item unchecked until that complete workflow is evidenced; reuse the
   [single receipt](benchmarks/feature-expansion/README.md).
 - [ ] **F02 — marker positivity and phenotype rules.** Reuse per-compartment raw

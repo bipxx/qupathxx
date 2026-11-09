@@ -2093,3 +2093,52 @@ implementation. Only affected targets/app smoke ran; no bindings/package build.
 The single receipt/plan now mark desktop and CLI consumers implemented. F01 remains
 open: next freeze annotation semantics/matching/tolerances before evaluating the
 admitted RGBA panel, then finish its declared context/boundary acceptance.
+
+### F01 continuation: predeclared annotation and boundaries
+
+Changed inputs: existing fixture manifest protocol, independent native test-only
+RGBA8 annotation decoder/metrics/reducer and affected finite-context checks. No
+new public API, GUI/binding source, package, reader profile relaxation or material
+download. Freeze criteria in the manifest/receipt before annotation pixels/results:
+untuned Otsu recipe, equal-value8-connected first-channel instances, all borders,
+maximum-cardinality IoU0.5 matching, Dice/F1/split/merge and raw mean tolerances.
+Decisive checks: hand-derived metrics/decoder examples, exact admitted input hashes,
+single preselected panel against frozen gates and independent original-sample
+compartment statistics; context/ROI/source boundary checks remain separate from
+D02's whole-slide tiling. Preserve failures; no post-hoc gate relaxation or tuning
+on the annotation. Build only new evaluator and changed source-workflow test.
+
+The evaluator compile catches Windows legacy near macro expansion through the
+existing file-guard header. Rename the local numeric test helper expect_close;
+no Windows macro/API, product code, protocol or numeric tolerance changes. Retry
+the evaluator and still-pending boundary target, not GUI/bindings or broad tests.
+
+Evaluator analytical/decoder tests pass1/1 (0.15s total). The separate boundary
+test compile omitted RoiSamplingPolicy on contains_sample; pass the existing
+GeometryCoverage policy explicitly, matching native request eligibility. The
+evaluator target already built, so reuse it for the first frozen real-panel run
+while rebuilding only the still-unbuilt boundary target. Preserve compile logs.
+
+Native analytical evaluation passes1/1 (0.15s); expanded finite boundary/source
+checks pass1/1 (0.25s). First frozen real pilot fails F1:82TP/48FP/28FN,110 reference
+and130 prediction instances; F1=0.6833333333333333 below0.70. Dice0.93555, raw moment
+oracle, split/merge and matched intensity gates pass. Preserve exit1/full first
+report and exact original manifest in f01-evaluation-v1; F01 remains unchecked.
+
+The first official training filename was selected before reading its pixels or
+results. Its CC0 image/mask/partition are admitted separately (offline guard3/3),
+reusing bounded range extraction and existing metadata;476,499 bytes transferred.
+Existing manifest freezes a9-recipe sigma/prominence grid and training selection
+rule. No training pixels/metrics have been examined or validation tuning run yet.
+Next implement/run that small native selection, freeze its choice, then compare
+on the original validation panel with unchanged gates and disclosed validation
+reuse. Do not replace the failed v1 report or call the reused panel unseen.
+
+Waste review: used one existing decoder/library, fixture inventory and receipt;
+no new product API, raw reader relaxation or binding/GUI/package build. A Windows
+near macro collided with a test helper; rename it. A test omitted the existing
+explicit ROI sample policy; add GeometryCoverage rather than a default API shim.
+Use already-built evaluator evidence while only the pending boundary target
+rebuilds. Raw measurements are independently reduced, not inferred from contour
+publication or high foreground Dice. Preserve scientific failure rather than
+weakening the predeclared object-F1 gate or launching a broad corpus campaign.

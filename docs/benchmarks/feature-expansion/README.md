@@ -488,3 +488,59 @@ This checks one useful pilot, not held-out population accuracy or body/cytoplasm
 annotation (the annotations label nuclei only). Keep annotation-mask differences
 separate from numeric reducer correctness. Full-image tile ownership/resume
 remains D02; F01 still needs its own finite ROI/context/boundary contract checks.
+
+### F01 first annotated-panel result: fails object F1
+
+Protocol was committed as9a048d13 before annotation decoding/evaluation. The
+native evaluator independently decodes equal-value8-connected RGBA-first-channel
+instances, computes sparse maximum-cardinality matching and checks direct raw
+uint16 moments against all predicted nucleus/body/cytoplasm masks. It reuses the
+existing bounded LodePNG dependency without changing the NuCLS RGB8 profile.
+
+| Frozen gate | First result | Outcome |
+| --- | --- | --- |
+| Foreground Dice>=0.75 | 0.935545504754228 | Pass |
+| Object F1>=0.70 at IoU>=0.50 | 0.6833333333333333 | **Fail** |
+| Split rate<=0.20 | 21/110 =0.19090909090909092 | Pass |
+| Merge rate<=0.20 | 5/130 =0.038461538461538464 | Pass |
+| Median matched nuclear-mean relative difference<=0.35 | 0.021731382210805245 | Pass |
+| Native original-sample counts/sum/mean/sample SD | Independent two-pass oracle agrees within1e-12 relative | Pass |
+
+There are110 reference and130 predicted instances:82 TP,48 FP and28 FN.
+Precision=0.6307692307692307, recall=0.7454545454545455, mean matched
+IoU=0.8709824792627062. All edge objects remain:23 reference/15 prediction border
+instances. This discrepancy cannot be erased by excluding borders or relaxing
+matching. No annotation-derived method tuning or extra validation search was run.
+The complete first report, command/exit1 and exact original manifest bytes/hash
+are preserved under workspace-root `build/feature-expansion/f01-evaluation-v1`.
+`first-result.json` retains every matched pair and its raw mean comparison.
+
+Analytical decoder/metric/original-sample oracle CTest passes1/1 (0.15s total),
+`f01-evaluation-oracle-ctest.log`. Expanded finite boundary/source workflow CTest
+passes1/1 (0.25s total), `f01-boundary-ctest.log`. Its new cases compare nucleus and
+body labels, all compartment moments/validity, empty cytoplasm and boundary flags
+for identical cores under sufficient versus larger context, a fractional ellipse,
+calibrated source-edge crops and the full image. Known uniform pixel/marker means
+prove no invented out-of-source context and original-sample counts. Insufficient
+available smoothing support still refuses. These checks do not implement or
+qualify D02 whole-slide tile ownership/resume.
+
+The native-only CI registers the evaluator self-test, not an automatic real-data
+download or hosted accuracy claim. Build failures remain `f01-evaluation-build.log`
+(Windows near macro) and `f01-evaluation-build-r2.log` (missing explicit ROI sample
+policy); both fixes use existing names/contracts without product or gate changes.
+Only evaluator and source-workflow targets were built, not bindings/GUI/packages.
+
+Next selected input is the **first official training filename**, chosen before
+reading training pixels/results, separately recorded under the existing fixture
+manifest's training section. Exact CC0 hashes and license evidence pass offline
+staging3/3. Acquisition reused the bounded HTTP-range reader and existing metadata
+ZIP, transferring476,499 bytes rather than full archives; receipt/script remain
+under `build/feature-expansion/bbbc039-inputs/training` and `capture-training.py`.
+The frozen small native recipe grid is sigma{0,1,2}px × prominence{0.5,1.5,3}px;
+keep other v1 parameters and gates. Choose by training F1 among non-F1-gate-passing
+candidates, breaking ties by Dice then lower sigma/prominence. If none pass, report
+no accepted candidate. Freeze that choice before another original validation
+comparison; retain v1 and disclose validation reuse rather than calling it unseen
+held-out accuracy. Training bytes are admitted, but no training metrics/search
+have run in this slice. F01 remains unchecked, total7/22 complete.

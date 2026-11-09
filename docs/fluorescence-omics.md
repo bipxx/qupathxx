@@ -351,3 +351,8 @@ and replaying uses a fresh native capture against the original associated source
 missing/relinked/changed inputs can refuse rather than silently substitute data.
 These controls do not establish annotated accuracy; F01 acceptance remains open
 until the admitted annotation comparison and remaining boundary checks pass.
+
+The first predeclared annotated BBBC039 pilot passes raw-moment and foreground
+checks but fails its object-F1 target (0.683 versus0.70). F01 remains under
+validation;130 published/replayed detections do not establish correct instance
+segmentation. See the [first annotated result and next training step](benchmarks/feature-expansion/README.md#f01-first-annotated-panel-result-fails-object-f1).

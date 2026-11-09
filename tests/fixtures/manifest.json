@@ -249,7 +249,7 @@
     "dataset": "BBBC039v1",
     "acquisition": "Opt-in archive members only; not ordinary reader fixture downloads. Each URL fragment names its member, whose extracted bytes/hash are pinned. Acquisition recipe and range receipts retained locally under build/feature-expansion/bbbc039-inputs.",
     "selection": "First filename in official metadata/validation.txt, chosen before examining pixels/results",
-    "state": "admitted bytes; segmentation evaluation pending",
+    "state": "Frozen v1 panel evaluated: native moments and boundary checks pass; object F1 0.6833333333333333 fails 0.70 pilot target; F01 remains open",
     "files": [
       {
         "filename": "IXMtest_A02_s1_w1051DAA7C-7042-435F-99F0-1E847D9B42CB.tif",
@@ -340,6 +340,85 @@
         "native_measurement_relative_tolerance": 1e-12
       },
       "scope": "Single preselected validation panel, no tuning on its annotation; not population accuracy, SOTA, QuPath equivalence or body/cytoplasm annotation acceptance"
+    },
+    "training": {
+      "selection": "First filename in official metadata/training.txt, frozen before reading training pixels/results",
+      "state": "Admitted bytes only; no training pixels/metrics examined yet",
+      "files": [
+        {
+          "filename": "IXMtest_A06_s6_w1B9577918-4973-4A87-BA73-A168AA755527.tif",
+          "bytes": 726350,
+          "sha256": "f9a51ae558e53416980ca152c740ad9dced85eedbd105261841139aada16b77d",
+          "archive_member": "images/IXMtest_A06_s6_w1B9577918-4973-4A87-BA73-A168AA755527.tif",
+          "url": "https://data.broadinstitute.org/bbbc/BBBC039/images.zip#images/IXMtest_A06_s6_w1B9577918-4973-4A87-BA73-A168AA755527.tif",
+          "license": "CC0-1.0",
+          "license_source": "https://bbbc.broadinstitute.org/BBBC039",
+          "purpose": "Separate preselected training input; never substitute for the frozen validation panel",
+          "material": {
+            "id": "bbbc039v1-training-raw",
+            "category": "admitted_open",
+            "kind": "training_data",
+            "license_id": "CC0-1.0",
+            "license_evidence": "https://bbbc.broadinstitute.org/BBBC039",
+            "attribution": "BBBC039v1, Caicedo et al. 2018; Broad Bioimage Benchmark Collection (Ljosa et al. 2012)",
+            "source_ids": []
+          }
+        },
+        {
+          "filename": "IXMtest_A06_s6_w1B9577918-4973-4A87-BA73-A168AA755527.png",
+          "bytes": 10002,
+          "sha256": "e0737550efe11dc9969971947d9095ac0971bf77cfd0f448eeb7592cea7969b3",
+          "archive_member": "masks/IXMtest_A06_s6_w1B9577918-4973-4A87-BA73-A168AA755527.png",
+          "url": "https://data.broadinstitute.org/bbbc/BBBC039/masks.zip#masks/IXMtest_A06_s6_w1B9577918-4973-4A87-BA73-A168AA755527.png",
+          "license": "CC0-1.0",
+          "license_source": "https://bbbc.broadinstitute.org/BBBC039",
+          "purpose": "Separate preselected training input; never substitute for the frozen validation panel",
+          "material": {
+            "id": "bbbc039v1-training-annotation",
+            "category": "admitted_open",
+            "kind": "training_data",
+            "license_id": "CC0-1.0",
+            "license_evidence": "https://bbbc.broadinstitute.org/BBBC039",
+            "attribution": "BBBC039v1, Caicedo et al. 2018; Broad Bioimage Benchmark Collection (Ljosa et al. 2012)",
+            "source_ids": []
+          }
+        },
+        {
+          "filename": "training.txt",
+          "bytes": 5800,
+          "sha256": "0e576fbbc420a7435ceeab3d0db6c8af7a5d0b42abf9d376cb29fe027e8d9f74",
+          "archive_member": "metadata/training.txt",
+          "url": "https://data.broadinstitute.org/bbbc/BBBC039/metadata.zip#metadata/training.txt",
+          "license": "CC0-1.0",
+          "license_source": "https://bbbc.broadinstitute.org/BBBC039",
+          "purpose": "Separate preselected training input; never substitute for the frozen validation panel",
+          "material": {
+            "id": "bbbc039v1-training-partition",
+            "category": "admitted_open",
+            "kind": "training_data",
+            "license_id": "CC0-1.0",
+            "license_evidence": "https://bbbc.broadinstitute.org/BBBC039",
+            "attribution": "BBBC039v1, Caicedo et al. 2018; Broad Bioimage Benchmark Collection (Ljosa et al. 2012)",
+            "source_ids": []
+          }
+        }
+      ],
+      "recipe_selection": {
+        "schema": "qpx.bbbc039-training-grid/1",
+        "sigma_pixels": [
+          0,
+          1,
+          2
+        ],
+        "peak_prominence_pixels": [
+          0.5,
+          1.5,
+          3
+        ],
+        "other_parameters": "Frozen v1 segmentation parameters",
+        "selection": "Among candidates satisfying all frozen non-F1 gates, maximize object F1; tie by greater Dice, then lower sigma, then lower prominence. If none qualify, report no accepted candidate. Do not tune against validation.",
+        "followup": "Freeze selected recipe before rerunning the original validation panel with unchanged gates; retain v1 failure and disclose validation reuse"
+      }
     }
   }
 }
