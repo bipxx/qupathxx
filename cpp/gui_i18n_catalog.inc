@@ -254,3 +254,31 @@
 {"Show all objects", {"Mostrar todos los objetos", "Afficher tous les objets", "Alle Objekte anzeigen", "Mostrar todos os objetos", "Mostra tutti gli oggetti", "显示所有对象", "顯示所有物件", "すべてのオブジェクトを表示", "모든 객체 표시", "Показать все объекты", "Tüm nesneleri göster", "Alle objecten tonen", "Pokaż wszystkie obiekty", "Tampilkan semua objek", "Hiện tất cả đối tượng"}},
 
 {"Go to tables", {"Ir a tablas", "Ouvrir les tableaux", "Zu Tabellen", "Ir para tabelas", "Vai alle tabelle", "转到表格", "前往表格", "テーブルへ", "표로 이동", "Открыть таблицы", "Tablolara git", "Naar tabellen", "Przejdź do tabel", "Buka tabel", "Đến bảng"}},
+
+{"Image information", {"Información de la imagen", "Informations sur l’image", "Bildinformationen", "Informações da imagem", "Informazioni immagine", "图像信息", "影像資訊", "画像情報", "이미지 정보", "Информация об изображении", "Görüntü bilgileri", "Afbeeldingsinformatie", "Informacje o obrazie", "Informasi gambar", "Thông tin ảnh"}},
+
+{"Display mode", {"Modo de visualización", "Mode d’affichage", "Anzeigemodus", "Modo de exibição", "Modalità di visualizzazione", "显示模式", "顯示模式", "表示モード", "표시 모드", "Режим отображения", "Görüntüleme modu", "Weergavemodus", "Tryb wyświetlania", "Mode tampilan", "Chế độ hiển thị"}},
+
+{"Edit calibration", {"Editar calibración", "Modifier l’étalonnage", "Kalibrierung bearbeiten", "Editar calibração", "Modifica calibrazione", "编辑校准", "編輯校準", "校正を編集", "보정 편집", "Изменить калибровку", "Kalibrasyonu düzenle", "Kalibratie bewerken", "Edytuj kalibrację", "Edit kalibrasi", "Chỉnh sửa hiệu chuẩn"}},
+
+{"Analysis settings", {"Ajustes de análisis", "Paramètres d’analyse", "Analyseeinstellungen", "Configurações de análise", "Impostazioni analisi", "分析设置", "分析設定", "解析設定", "분석 설정", "Параметры анализа", "Analiz ayarları", "Analyse-instellingen", "Ustawienia analizy", "Pengaturan analisis", "Thiết lập phân tích"}},
+
+{"Imported measurements", {"Mediciones importadas", "Mesures importées", "Importierte Messwerte", "Medições importadas", "Misure importate", "导入的测量值", "匯入的測量值", "インポートした測定値", "가져온 측정값", "Импортированные измерения", "İçe aktarılan ölçümler", "Geïmporteerde metingen", "Importowane pomiary", "Pengukuran impor", "Số đo đã nhập"}},
+
+{"Active inputs", {"Entradas activas", "Paramètres actifs", "Aktive Eingaben", "Entradas ativas", "Parametri attivi", "当前输入", "目前輸入", "現在の入力", "현재 입력", "Активные параметры", "Etkin girdiler", "Actieve invoer", "Aktywne dane", "Input aktif", "Đầu vào đang dùng"}},
+
+{"Object information", {"Información del objeto", "Informations sur l’objet", "Objektinformationen", "Informações do objeto", "Informazioni oggetto", "对象信息", "物件資訊", "オブジェクト情報", "객체 정보", "Информация об объекте", "Nesne bilgileri", "Objectinformatie", "Informacje o obiekcie", "Informasi objek", "Thông tin đối tượng"}},
+
+{"Saved analysis profile", {"Perfil de análisis guardado", "Profil d’analyse enregistré", "Gespeichertes Analyseprofil", "Perfil de análise salvo", "Profilo di analisi salvato", "已保存的分析配置", "已儲存的分析設定", "保存済み解析プロファイル", "저장된 분석 프로필", "Сохранённый профиль анализа", "Kayıtlı analiz profili", "Opgeslagen analyseprofiel", "Zapisany profil analizy", "Profil analisis tersimpan", "Hồ sơ phân tích đã lưu"}},
+
+{"Stain model files", {"Archivos de modelo de tinción", "Fichiers du modèle de coloration", "Färbemodelldateien", "Arquivos de modelo de coloração", "File del modello di colorazione", "染色模型文件", "染色模型檔案", "染色モデルファイル", "염색 모델 파일", "Файлы модели окраски", "Boyama modeli dosyaları", "Kleuringsmodelbestanden", "Pliki modelu barwienia", "Berkas model pewarnaan", "Tệp mô hình nhuộm"}},
+
+{"Grid setup", {"Configuración de cuadrícula", "Configuration de la grille", "Rastereinrichtung", "Configuração da grade", "Configurazione griglia", "网格设置", "網格設定", "グリッド設定", "격자 설정", "Настройка сетки", "Izgara kurulumu", "Rasterinstellingen", "Ustawienia siatki", "Pengaturan kisi", "Thiết lập lưới"}},
+
+{"Cell source", {"Origen de células", "Source des cellules", "Zellquelle", "Origem das células", "Origine delle cellule", "细胞来源", "細胞來源", "細胞の取得元", "세포 소스", "Источник клеток", "Hücre kaynağı", "Celbron", "Źródło komórek", "Sumber sel", "Nguồn tế bào"}},
+
+{"Predict and review", {"Predecir y revisar", "Prédire et examiner", "Vorhersagen und prüfen", "Prever e revisar", "Prevedi e verifica", "预测与检查", "預測與檢查", "予測と確認", "예측 및 검토", "Прогноз и проверка", "Tahmin ve inceleme", "Voorspellen en beoordelen", "Predykcja i przegląd", "Prediksi dan tinjau", "Dự đoán và kiểm tra"}},
+
+{"Save and export", {"Guardar y exportar", "Enregistrer et exporter", "Speichern und exportieren", "Salvar e exportar", "Salva ed esporta", "保存与导出", "儲存與匯出", "保存とエクスポート", "저장 및 내보내기", "Сохранение и экспорт", "Kaydet ve dışa aktar", "Opslaan en exporteren", "Zapis i eksport", "Simpan dan ekspor", "Lưu và xuất"}},
+
+{"Applied only on request", {"Se aplica solo bajo petición", "Appliqué uniquement sur demande", "Nur auf Anforderung angewendet", "Aplicado apenas por solicitação", "Applicato solo su richiesta", "仅在请求时应用", "僅在要求時套用", "要求時のみ適用", "요청 시에만 적용", "Применяется только по запросу", "Yalnızca istek üzerine uygulanır", "Alleen op verzoek toegepast", "Stosowane tylko na żądanie", "Diterapkan hanya saat diminta", "Chỉ áp dụng khi được yêu cầu"}},

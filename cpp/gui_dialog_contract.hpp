@@ -19,7 +19,10 @@ namespace qpx::ui {
     X(SourceVerification,"Source verification",Confirmation,"gui.cpp",Source) \
     X(DeleteCheckpoint,"Delete recovery checkpoint?",Confirmation,"gui.cpp",Recovery) \
     X(ImportFile,"Choose import file",Selector,"gui_import_picker.hpp",Filesystem) \
-    X(ReplaceExport,"Replace existing file?",Confirmation,"gui.cpp",Filesystem)
+    X(ReplaceExport,"Replace existing file?",Confirmation,"gui.cpp",Filesystem) \
+    X(ImageInformation,"Image information",Selector,"gui.cpp",ImageEntry) \
+    X(Calibration,"Edit calibration",Confirmation,"gui_calibration_editor.hpp",ImageEntry) \
+    X(ObjectInformation,"Object information",Selector,"gui.cpp",Object)
 
 enum class DialogKind {
 #define QPX_DIALOG_ENUM(kind,...) kind,
@@ -28,7 +31,7 @@ enum class DialogKind {
     Count
 };
 enum class DialogLayout {Editor,Confirmation,Selector};
-enum class DialogOwnerScope {ImageEntry,Project,Workspace,Session,Source,Recovery,Filesystem};
+enum class DialogOwnerScope {ImageEntry,Project,Workspace,Session,Source,Recovery,Filesystem,Object};
 struct DialogDefinition {DialogKind kind;const char* name;DialogLayout layout;const char* owner;DialogOwnerScope scope;};
 inline constexpr DialogDefinition dialog_definitions[]={
 #define QPX_DIALOG_DEFINITION(kind,name,layout,owner,scope) {DialogKind::kind,name,DialogLayout::layout,owner,DialogOwnerScope::scope},
@@ -95,7 +98,7 @@ inline std::vector<DialogActionDefinition> dialog_actions(DialogKind kind,Dialog
     using A=DialogAction;using R=DialogActionRole;using P=DialogPlacement;using C=DialogCompletion;
     std::vector<DialogActionDefinition> actions;
     const bool metadata=kind==DialogKind::ImageMetadata || kind==DialogKind::ProjectMetadata;
-    actions.push_back({A::Cancel,metadata?"Cancel###Cancel / close":kind==DialogKind::ImportFile?"Cancel###Cancel file choice":kind==DialogKind::Language?"Close":"Cancel",R::Cancel,P::Footer,C::DismissOnSuccess});
+    actions.push_back({A::Cancel,metadata?"Cancel###Cancel / close":kind==DialogKind::ImageInformation || kind==DialogKind::ObjectInformation?"Close":kind==DialogKind::ImportFile?"Cancel###Cancel file choice":kind==DialogKind::Language?"Close":"Cancel",R::Cancel,P::Footer,C::DismissOnSuccess});
     if(metadata) {
         actions.push_back({A::Reload,kind==DialogKind::ProjectMetadata?"Reload current project":"Reload current entry",R::Reload,P::Header,C::KeepOpen});
         actions.push_back(variant==DialogVariant::Details?DialogActionDefinition{A::ApplyDetails,"Apply details###Apply description and tags",R::Primary,P::Footer,C::KeepOpen,"Description and tags"}:DialogActionDefinition{A::ApplyMetadata,"Apply metadata",R::Primary,P::Footer,C::KeepOpen,"Metadata"});
@@ -112,7 +115,10 @@ inline std::vector<DialogActionDefinition> dialog_actions(DialogKind kind,Dialog
     case DialogKind::DeleteCheckpoint:actions.push_back({A::Confirm,"Permanently delete checkpoint",R::Destructive,P::Footer,C::DismissOnSuccess});break;
     case DialogKind::SourceVerification:actions.push_back({A::Confirm,"Use reviewed file",R::Primary,P::Footer,C::DismissOnSuccess});break;
     case DialogKind::ImportFile:actions.push_back({A::Confirm,variant==DialogVariant::Output?"Choose new output":"Choose file",R::Primary,P::Footer,C::DismissOnSuccess});break;
-    case DialogKind::Language:break;
+    case DialogKind::Calibration:
+        actions.push_back({A::Discard,"Clear calibration",R::Destructive,P::Footer,C::DismissOnSuccess});
+        actions.push_back({A::Confirm,"Apply calibration",R::Primary,P::Footer,C::DismissOnSuccess});break;
+    case DialogKind::ObjectInformation:case DialogKind::ImageInformation:case DialogKind::Language:break;
     default:throw std::logic_error("Unregistered dialog actions");
     }
     validate_dialog_actions(actions);return actions;

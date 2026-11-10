@@ -33,6 +33,32 @@ Use these owners instead of adding per-panel colors, font sizes or alternate
 button implementations. Scientific display channels, class colors, annotations,
 mask colors and image pixels remain owned by their existing rendering services.
 
+## Image inspector
+
+Keep the image identity, Display and Calibration sections flat. The literal image
+name and dimensions form a compact summary; pyramid/reader/source details belong
+in Image information. Display reset and Calibration edit use trailing header
+actions. Display adjustments affect viewing only. Calibration shows native values
+or an explicit unknown state. Its registered editor has Cancel, Clear calibration
+and Apply calibration; native validation failures remain visible. Capture the
+document, image, workspace epoch and calibration revision before editing.
+
+Image information opens the registered read-only dialog for searchable imported
+metadata, historical measurements and saved analysis settings. Source/history
+context stays in the relevant imported-data tab, keeping active values visible.
+Saved image/stain settings belong in
+Workflow's Region task and are available without selecting an ROI. Applying saved
+stains remains an explicit action. The Image panel links to those settings and
+labels the profile as saved and applied only on request. Workflow Region, Tissue
+and Cells show cached native active-input facts; Cells never claims a nucleus
+target. Details captures the current transform and its native request mode without
+editing either. RGB optical density shows Red/Green/Blue vectors; stain separation
+shows Stain 1/2/3. Equal matrix values do not imply equal analysis modes. Edit links to
+the existing Region controls and reveals their single input disclosure. No new
+scientific parameter writer or inferred origin flag is introduced.
+Preview source-buffer controls appear only after an
+overview failure, alongside its error and memory-limit explanation.
+
 ## Tokens and components
 
 | Token | Value |
@@ -159,8 +185,9 @@ the existing2/4/8px corner roles respectively.
 
 The toolbar uses compact vector controls to keep localized labels from consuming
 the workspace at 200% scaling. Full command names remain in menus and tooltips.
-Project metadata and density controls are grouped under **Project tools**, keeping
-Save/Open accessible in the main flow. Section titles and collapsible groups use
+Project settings has direct Metadata, Classes/defaults and Recovery categories;
+analysis tools stay in the tool launcher. Save/Open remain accessible in the main
+flow. Section titles and collapsible groups use
 the shared semibold role; field values and user text use the regular role.
 
 Scalar fields use a shared left label column and value alignment. Narrow forms
@@ -349,6 +376,28 @@ stale-result status, progress and cancellation visible outside settings groups.
 Preserve configured values when a group closes. Known image defaults and retained
 object properties can reveal their relevant groups. A failed overview reveals
 repair controls. Disclosures are presentation state and never mutate project data.
+
+Annotations keep editing, Appearance and Object operations as sibling sections.
+Name/geometry Apply preserves an independent appearance draft. Object information
+is read-only, with a literal full name, searchable wrapped historical properties
+and full-precision numeric values. Its owner includes object id/revision as well
+as document and workspace epoch. Read-only facts stay separate from appearance
+drafts and explicit object operations.
+
+Tables uses one kind/scope/destination form. Cells explicitly distinguishes the
+selected annotation's latest saved run from live objects; Project keeps its native
+all-kept-runs scope. Never substitute an all-image-runs export for the selected
+run. Preserve the Cells path and shared ROI/Tissue path, and label that sharing.
+Both jobs' progress, cancellation and errors remain outside kind switches.
+
+TMA's Detect/Import/Manual choice changes only the input form. Shared pending work,
+preview, Apply/Discard and existing-grid export remain accessible across modes;
+switching mode never cancels or discards a preview. Pixel classifier actions use
+always-open Training, Predict/review and Save/export headings. Keep action labels,
+native availability and targets, with errors and cancellation above the groups.
+An explicitly requested classifier replay target reveals its measured row without
+opening a closed tool or changing native work. This decouples replay from scroll
+position while preserving ordinary user scrolling.
 
 The Project browser uses catalog snapshots for search across names, metadata and
 tags. Group only by a metadata key chosen from that catalog, with an Unassigned

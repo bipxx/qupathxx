@@ -23,6 +23,9 @@ frames are not supported. The current registry covers:
 | DeleteCheckpoint | gui.cpp | Reviewed recovery checkpoint |
 | ImportFile | gui_import_picker.hpp | Local filesystem choice |
 | ReplaceExport | gui.cpp | Captured export owner, destination version and protected paths |
+| ImageInformation | gui.cpp | Captured document and workspace epoch |
+| Calibration | gui_calibration_editor.hpp | Captured document, image, workspace epoch and calibration revision |
+| ObjectInformation | gui.cpp | Captured document, workspace epoch, object id and object revision |
 
 Each frame constructs `DialogState(owner_valid, busy, variant)` explicitly.
 Owner and busy snapshots are immutable. Invalid ownership disables publication
@@ -65,6 +68,22 @@ and keeps the editor open; Save project persists it. Cancel discards unapplied
 drafts. The language selector changes preferences immediately and therefore uses
 Close. The file picker returns a validated existing path or unused output path;
 it does not create/write that output or interpret scientific data.
+
+Image information is read-only. It combines imported metadata and historical
+measurements in searchable tabs, labels them as historical rather than live
+results, and exposes only Close/Escape. A changed document or workspace invalidates
+the captured owner; reopening captures the current image. Inspection never edits
+calibration, saved image properties, raw pixels or project files.
+
+Calibration uses the existing Cancel/Discard/Confirm action identities, labelled
+Cancel, Clear calibration and Apply calibration. Only native set/clear handlers
+publish changes; exceptions refuse and retain the draft. No-op Apply retains exact
+values and revision. Cancel/Escape never publishes; stale document/image/epoch or
+calibration revision disables publication. Native Undo remains available afterward.
+
+Object information is Close-only and read-only. Its immutable object snapshot
+shows the literal full name and wrapped metadata/measurements with historical
+context. A changed selected object or object revision invalidates ownership.
 
 GUI exports use create-only atomic publication by default. Existing destinations
 require ReplaceExport with a wrapped full path, scope, Cancel-first focus and
