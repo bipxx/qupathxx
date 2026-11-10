@@ -1,0 +1,68 @@
+{
+  "state": "published",
+  "tag": "v0.1.0-windows-candidate.8",
+  "url": "https://github.com/bipxx/qupathxx/releases/tag/v0.1.0-windows-candidate.8",
+  "release_id": 440524596,
+  "published_at": "2026-11-10T15:18:13Z",
+  "prerelease": true,
+  "release_source_commit": "bffcc606407c68ec59ac96d6a2a3386f78da17bc",
+  "native_source_sha256": "68bf2d43fbbb0bd0bcfac19f598bbca91496e737f3c50d5d223ae1905d000be0",
+  "uploaded_asset_checks": "all seven names/sizes/uploaded states/SHA256 digests equal admitted local files",
+  "anonymous_downloads": {
+    "SHA256SUMS.txt": {
+      "status": 200,
+      "bytes": 642,
+      "sha256": "c7ae3d259b92ba37521ed9576fcf4e53441c9f0a8d9059622ce427cbca7e3b97"
+    },
+    "release-manifest.json": {
+      "status": 200,
+      "bytes": 4845,
+      "sha256": "344ea77b23ea875ca523f85517f92bad23612ce4e25effda38bb7d0033d2ae6f"
+    }
+  },
+  "assets": [
+    {
+      "name": "qupathxx-native-dependency-sources-candidate8.zip",
+      "size": 118600395,
+      "digest": "sha256:a8a69aa64f334dc12d174bbf1d83b40811672fe3360c287dd5797e0ab068cc62",
+      "browser_download_url": "https://github.com/bipxx/qupathxx/releases/download/v0.1.0-windows-candidate.8/qupathxx-native-dependency-sources-candidate8.zip"
+    },
+    {
+      "name": "qupathxx-native-validation-candidate8.zip",
+      "size": 71755,
+      "digest": "sha256:148dffa2d0eeaa3f1f06041d3b8dfa6c77803a0ef842205c3c61be711d15b12a",
+      "browser_download_url": "https://github.com/bipxx/qupathxx/releases/download/v0.1.0-windows-candidate.8/qupathxx-native-validation-candidate8.zip"
+    },
+    {
+      "name": "qupathxx-windows-x64-native-candidate8.zip",
+      "size": 33108325,
+      "digest": "sha256:f3ac1e1366ca41423cf47677900bfaa7371498af24890a0d932a6f733aa117f0",
+      "browser_download_url": "https://github.com/bipxx/qupathxx/releases/download/v0.1.0-windows-candidate.8/qupathxx-windows-x64-native-candidate8.zip"
+    },
+    {
+      "name": "qupathxx-windows-x64-sdk-candidate8.zip",
+      "size": 55245539,
+      "digest": "sha256:f1bdcbf9bd6829b0c1062ccba544b74065745d9c7802d67f50d5169c9c62adf9",
+      "browser_download_url": "https://github.com/bipxx/qupathxx/releases/download/v0.1.0-windows-candidate.8/qupathxx-windows-x64-sdk-candidate8.zip"
+    },
+    {
+      "name": "qupathxx-windows-x64-source-candidate8.zip",
+      "size": 5694792,
+      "digest": "sha256:902c579ee39fbf7837387dc6570e4f8241df846dc7a04cb55ea449a530e86c11",
+      "browser_download_url": "https://github.com/bipxx/qupathxx/releases/download/v0.1.0-windows-candidate.8/qupathxx-windows-x64-source-candidate8.zip"
+    },
+    {
+      "name": "release-manifest.json",
+      "size": 4845,
+      "digest": "sha256:344ea77b23ea875ca523f85517f92bad23612ce4e25effda38bb7d0033d2ae6f",
+      "browser_download_url": "https://github.com/bipxx/qupathxx/releases/download/v0.1.0-windows-candidate.8/release-manifest.json"
+    },
+    {
+      "name": "SHA256SUMS.txt",
+      "size": 642,
+      "digest": "sha256:c7ae3d259b92ba37521ed9576fcf4e53441c9f0a8d9059622ce427cbca7e3b97",
+      "browser_download_url": "https://github.com/bipxx/qupathxx/releases/download/v0.1.0-windows-candidate.8/SHA256SUMS.txt"
+    }
+  ],
+  "scope": "Windows x64 native-only local engineering deployment; P02 complete. No new wheel, kernel/binding build, main merge or extra platform/biological/stable/signing acceptance."
+}

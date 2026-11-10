@@ -3,7 +3,9 @@
 Local install/use/removal passed on Windows x64 at source68bf2d (805 exact
 compiler fingerprint inputs). This is a fresh external per-user prefix on the
 existing workstation, using Windows-only runtime PATH and no Python paths.
-Publication status is recorded by the release manifest and GitHub release.
+Published as [Windows native candidate8](https://github.com/bipxx/qupathxx/releases/tag/v0.1.0-windows-candidate.8).
+[publication.json](publication.json) records the exact tag/commit, seven uploaded
+asset digests and anonymous public checksum/manifest download verification.
 
 - Current SDK configures/builds all120 public/generated headers and the included
   C++ example.471 compiler include records use only the installed SDK and native

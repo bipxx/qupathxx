@@ -2,7 +2,7 @@
 
 The [22-item roadmap](../../feature-expansion-plan.md) remains the completion
 authority. This receipt covers delivered S01/V01/V02/I01/I02/R01/R02/F01/F02
-plus F03/F04/D01/D02/O01/O02/A01/A02/A03/A04/P01/L01 locally. P02 remains open. GUI claims cover only the named workflows
+plus F03/F04/D01/D02/O01/O02/A01/A02/A03/A04/P01/L01 and P02 native candidate8. GUI claims cover only the named workflows
 below; no new release, speed superiority or biological phenotype accuracy claim.
 
 S01 adds an immutable native ExpressionDataset over the existing imported point
@@ -2775,3 +2775,42 @@ Numerical receipts retain their original scope. P02 must check the current SDK
 consumer and final integrated install/use/removal, preserving user data, before
 publication. This closes L01 at21/22 locally; no new platform, biological, speed,
 stable/signing or full-project acceptance is claimed. Stop before P02.
+
+
+## P02 — matching Windows native engineering release
+
+Published2026-11-10 as [candidate8](https://github.com/bipxx/qupathxx/releases/tag/v0.1.0-windows-candidate.8),
+tag/source commit `bffcc606407c68ec59ac96d6a2a3386f78da17bc`. The exact native
+source remains68bf2d/805 inputs, built at39823dee+dirty. The release Git commit
+also contains later validation/docs; its compiled blobs differ from the source
+ZIP only through Git newline normalization. No native rebuild or qualification
+was transferred to a different body. The four L01 archives retain their hashes,
+with candidate8 filenames; validation receipts, release manifest and checksums
+complete seven assets. GitHub uploaded states/sizes/SHA256 digests all match.
+Anonymous checksum/manifest downloads return the exact verified local bytes.
+
+The current SDK is extracted into a new external per-user prefix. Its included
+example/all120 public headers compile with native Visual Studio CMake;471 include
+records use installed SDK/toolchain inputs, no CRT conflict or Python import.
+Native save/reopen retains exact DE/PCA recipes/results. Installed batch verifies
+and exports the same DE CSV bytes, replays seeded PCA and writes its plot; native
+region samples match an authored independent crop. Docked GUI startup opens the
+saved project without mutation. All251 package-owned files are then removed;
+all18 research files and an in-prefix user note stay exact. Three removal tests
+prove refusal of modified/out-of-prefix inputs before deletion and preservation
+of user files on success. No engine/kernel/GUI/binding/wheel build was needed.
+
+The [deployment receipt](../windows-native-candidate8/README.md),
+[publication record](../windows-native-candidate8/publication.json) and
+[support guide](../../windows-native-candidate8.md) define scope. Raw local logs,
+failed Store-Python prefix and incompatible GUI invocation, SDK consumer cache,
+protected outputs and the old rejected P01 TEMP folder remain preserved. The
+controller corrections and Windows module-path capitalization are recorded,
+without treating unrelated failures as passing negative checks. Source/ref
+staging used a separate Git index and release branch; active integration branch,
+user edits and remote main were not reset, merged or force-pushed.
+
+P02 closes the22 selected contracts. Support is local Windows x64/MSVC19.44,
+C++17, Release /MD engineering prerelease, with host VC runtime/OpenGL prerequisites.
+No new Python binary, fresh VM/OS, Linux/macOS package, biological/speed, stable/
+signing or full QuPath acceptance is claimed. Stop; no automatic next feature phase.

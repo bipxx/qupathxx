@@ -5601,7 +5601,7 @@ publication. Roadmap21/22: stop here. Next P02 owns current SDK consumer plus fi
 matching install/use/removal preserving user data, support statement and release.
 
 
-### P02 — matching Windows native engineering release (active)
+### P02 — matching Windows native engineering release (complete)
 
 Owner “sure” selects P02 after L01. Freeze the four admitted L01 artifacts at
 source68bf2d/805 inputs; do not rebuild kernels, GUI, bindings or wheels. Preserve
@@ -5669,3 +5669,17 @@ and the support statement records native Git39823dee+dirty separately. Diff chec
 flags only producer whitespace in archived CMake/MSBuild logs; preserve raw logs
 with the existing evidence-attribute convention, and keep source manifest LF.
 No compiler input or native artifact changed. Publication remains pending.
+
+P02 published: v0.1.0-windows-candidate.8 at source commitbffcc606, release440524596.
+Seven admitted assets upload with exact sizes/states/SHA256 digests. Anonymous
+public checksum/manifest downloads match. Exact native source68bf2d and original
+L01 bytes stay frozen. Source branch uses a separate index/ref; active integration
+branch, dirty work and remote main remain untouched. Deployment receipt and
+publication JSON are under docs/benchmarks/windows-native-candidate8.
+
+Actual final corrections: raw producer-log whitespace retained via evidence
+attributes; read draft release by numeric ID because tag lookup is unavailable
+before publication; decode API UTF-8 explicitly on the GBK-default controller.
+No repeated native build/corpus or new feature phase. Roadmap22/22 contracts
+complete at stated engineering scope. Stop. Keep old cleanup rejection/failed
+prefixes/products and user outputs intact; no additional cleanup selected.

@@ -2,19 +2,19 @@
 
 Owner request: plan all eight remaining areas, keeping proprietary and
 noncommercial (NC) material separate. This document owns the new implementation
-checklist: **22 work items: 21 complete, 1 pending**. It does not reopen completed
-FO00–FO05. S01/V01/V02/I01/I02/R01/R02/F01/F02/F03/F04/D01/D02/O01/O02/A01/A02/A03/A04/P01/L01 are delivered locally under their
+checklist: **22 work items: 22 complete, 0 pending**. It does not reopen completed
+FO00–FO05. S01/V01/V02/I01/I02/R01/R02/F01/F02/F03/F04/D01/D02/O01/O02/A01/A02/A03/A04/P01/L01 are delivered under their
 stated contracts. F01's train-selected recipe passes unchanged pilot gates and
 native publication/replay; the failed original pilot is retained and validation
 reuse is disclosed. F02 marker rules, F03 correction and F04 explicit linear
 unmixing, D01 indexed expression storage/import/view and D02 bounded interaction/
 tiled processing are delivered. O01/O02 adapters and A01 QC/normalization are
-delivered; A02 summaries/pseudobulk, A03 PCA/clustering and A04 replicate DE are delivered through native services/CLI. P01 native SDK and L01 exact material membership are delivered locally. Next is P02. See the
+delivered; A02 summaries/pseudobulk, A03 PCA/clustering and A04 replicate DE are delivered through native services/CLI. P01 SDK/L01 membership and P02 matching native candidate8 publication are delivered. See the
 [source-scoped progress receipt](benchmarks/feature-expansion/README.md).
 Preserve independent desktop work recorded in [current-task.md](current-task.md).
 
 Planning update: retain this single checklist for all eight requested areas;
-do not restart delivered items. A04 closes with admitted independent mice and native Welch/BH. P01 SDK and L01 membership are delivered; P02 owns matching installation/use/removal and publication.
+do not restart delivered items. A04 closes with admitted independent mice and native Welch/BH. P01/L01/P02 close with the matching Windows native engineering release; no further phase is selected.
 F02/F03/F04 native, CLI and desktop completion are recorded below. Proprietary and NC
 material remain
 separate excluded references, not optional product backends.
@@ -277,7 +277,7 @@ report the missing real-data acceptance rather than borrowing an NC fixture.
   the actual native/SDK/source/dependency archives and source configure checks pass.
   [Guide](native-release-materials.md),
   [receipt](benchmarks/feature-expansion/README.md#l01-final-native-material-membership).
-  Historical unknown assets remain excluded; P02 final acceptance/publication is open.
+  Historical unknown assets remain excluded; P02 deployment/publication has its own receipt below.
 - [x] **S01 — expression dataset/value contract.** Add a small native
   `ExpressionDataset`/`FeatureSelection` interface with stable observation/feature
   IDs, count versus continuous-value domain, validity, source identity, plane and
@@ -354,7 +354,7 @@ is promised before measuring the affected workload.
 | L01 | At each packet, admit only its actual inputs and derivative lineage in existing inventories. Before release, enumerate all staged source/binary/data/model/generated assets, connect the offline guard and resolve every unmatched member. | Incremental prerequisite for new inputs; final closure requires actual complete stage membership. An allowlist of license names alone is insufficient. |
 | P02 | 1. Freeze completed source/features and close final L01 membership. 2. Stage matching app/CLI/SDK and selected optional Python artifacts once. 3. Verify hashes, sources/notices and clean install/use/uninstall. 4. Publish the exact qualified platform/support statement. | One engineering release handoff after P01 and feature acceptance; preserve user data and old receipts. No implied signing, stable status or untested platform support. |
 
-Remaining execution order is P02; L01's local exact membership is closed.
+All22 selected contracts are closed. No further execution phase is selected.
 Reuse delivered A01/A02/A03/A04 and the O01/O02 adapters and their source-scoped
 evidence. A04 uses an admitted original-author replicated Kidney dataset; the
 single-mouse spatial demo remains outside DE acceptance.
@@ -703,7 +703,7 @@ and classify actual release inputs under L01. See the existing
   [Guide](native-sdk.md),
   [receipt](benchmarks/feature-expansion/README.md#p01-relocatable-native-sdk).
   Local engineering SDK only; bindings/GUI/release membership remain separate.
-- [ ] **P02 — matching engineering release.** Freeze the completed source and
+- [x] **P02 — matching engineering release.** Freeze the completed source and
   publish matching app/CLI/SDK, optional Python artifacts and source/notices for
   the actual supported platform. Windows x64 GUI/SDK is the first stated target;
   Linux native/headless CI remains distinct until a Linux package is qualified.
@@ -713,6 +713,17 @@ and classify actual release inputs under L01. See the existing
   Perform one frozen install/use/uninstall handoff preserving user data. Existing
   candidate7 and historical evidence remain unchanged; no stable/signing claim
   without those deliverables being implemented.
+  Delivered as [Windows native candidate8](https://github.com/bipxx/qupathxx/releases/tag/v0.1.0-windows-candidate.8):
+  matching app/CLI/SDK/application source/dependency source plus validation receipts,
+  release manifest and checksums. All seven uploaded SHA256 digests match; public
+  checksum/manifest downloads verify. Current installed SDK builds120 headers;
+  native saved replay, exports, pixels and GUI startup pass.251 package members
+  removed with18 user outputs unchanged; removal preflight negative tests pass.
+  [Support/use](windows-native-candidate8.md),
+  [deployment receipt](benchmarks/windows-native-candidate8/README.md).
+  Local fresh-prefix Windows x64/MSVC19.44 Release /MD engineering support only;
+  optional Python artifacts remain frozen. No main merge or new platform,
+  biological, signing/stable acceptance is implied.
 
 ## Source/dependency decisions before implementation
 
@@ -752,6 +763,6 @@ run until P02 or a named correctness/platform risk requires it. Cleanup only
 verified disposable outputs after preserving fixtures/failures/source. Completion
 means these22 finite contracts are met; it does not imply all statistical methods,
 nonlinear registration, deep pretrained models, distributed execution or100% QuPath
-parity. O01/O02/A01/A02/A03/A04/P01/L01 are delivered locally; P02 is the remaining
-matching release handoff. Preserve the
+parity. O01/O02/A01/A02/A03/A04/P01/L01 and the P02 native engineering release are
+delivered under their stated contracts. Stop; preserve the
 independent desktop layout work and its source-scoped evidence.
