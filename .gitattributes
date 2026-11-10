@@ -891,3 +891,7 @@ docs/benchmarks/design-system/** -text -whitespace
 
 # OME-Zarr fixtures and their inventory are addressed by exact byte hashes.
 tests/fixtures/ome-zarr/** -text whitespace=cr-at-eol
+
+# Candidate deployment logs retain producer whitespace; source fingerprint stays LF.
+docs/benchmarks/windows-native-candidate8/*.log -text -whitespace
+docs/benchmarks/windows-native-candidate8/source-inputs.sha256 text eol=lf

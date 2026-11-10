@@ -5661,3 +5661,11 @@ Frozen source805 inputs and four L01 archive hashes remain exact. Next create a
 source-scoped release commit/ref without touching the active branch/index or
 remote main, stage unchanged native/SDK/source assets plus public support/validation
 receipts, then publish candidate8. No more native compilation or qualification.
+
+Prepared isolated release source commit6e9d956; active branch/index remain untouched.
+All805 compiled Git blobs match frozen source semantically;442 differ only by
+normal Git newline normalization. Exact raw source ZIP/manifest stays authoritative
+and the support statement records native Git39823dee+dirty separately. Diff check
+flags only producer whitespace in archived CMake/MSBuild logs; preserve raw logs
+with the existing evidence-attribute convention, and keep source manifest LF.
+No compiler input or native artifact changed. Publication remains pending.
