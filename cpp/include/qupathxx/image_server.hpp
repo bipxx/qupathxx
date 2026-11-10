@@ -9,6 +9,7 @@
 namespace qpx {
 class Image;
 struct ReaderSource;
+struct OmeZarrOpenOptions;
 struct RawImageMetadata;struct RawRegionRequest;class RawPixelBuffer;struct TiffView;struct TiffOpenOptions;struct TiffReadStats;struct RawRegionStatistics;
 enum class PixelType { UInt8 };
 enum class PixelLayout { RGBA };
@@ -60,6 +61,12 @@ public:
     virtual std::shared_ptr<const RawImageMetadata> raw_metadata(const std::atomic<bool>* =nullptr) const {return {};}
     virtual RawPixelBuffer read_raw(const RawRegionRequest&,const std::atomic<bool>* =nullptr) const;
     virtual std::shared_ptr<const TiffView> tiff_view() const {return {};}
+    // Retain the legacy projection value type; quantitative capability is not
+    // restricted to TIFF. Old readers continue through their existing methods.
+    virtual std::shared_ptr<const TiffView> raw_view() const {return tiff_view();}
+    virtual std::shared_ptr<ImageServer> with_raw_view(const TiffView& view,const std::atomic<bool>* c=nullptr) const {return with_tiff_view(view,c);}
+    virtual void require_raw_current(const std::atomic<bool>* =nullptr) const {}
+    virtual std::shared_ptr<const OmeZarrOpenOptions> ome_zarr_options() const {return {};}
     virtual std::shared_ptr<const TiffOpenOptions> tiff_options() const {return {};}
     virtual std::shared_ptr<ImageServer> with_tiff_view(const TiffView&,const std::atomic<bool>* =nullptr) const;
     virtual std::shared_ptr<const TiffReadStats> tiff_read_stats() const {return {};}

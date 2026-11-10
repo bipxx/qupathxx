@@ -77,7 +77,7 @@ RawAnalysisRequest::RawAnalysisRequest(const Document& doc,RawRegionRequest regi
     grid_(std::move(grid)),grid_options_(options),identity_(doc.analysis_identity_.token),source_(doc.server()),region_(region),object_id_(object),document_revision_(doc.revision()),max_pixels_(maximum),nucleus_(nucleus),tile_size_(tile),
     pixel_width_um_(doc.pixel_width_um()),pixel_height_um_(doc.pixel_height_um()) {
     if(!source_ || source_->closed()) throw std::invalid_argument("raw analysis requires an open source");
-    const auto view=source_->tiff_view();if(!view) throw std::invalid_argument("raw analysis requires a quantitative TIFF source");series_=view->series;
+    const auto view=source_->raw_view();if(!view) throw std::invalid_argument("raw analysis requires a quantitative source");series_=view->series;
     if((!grid_ && (tile<16 || tile>1024)) || !maximum || maximum>1000000000000ULL) throw std::invalid_argument("invalid raw analysis tile/pixel limit");
     if(!region_.channels || region_.channels>65536 || region_.first_channel>=65536 || region_.channels>65536-region_.first_channel || region_.z>=65536 || region_.t>=65536)
         throw std::out_of_range("raw analysis channel/Z/time selection exceeds limits");
@@ -128,7 +128,7 @@ bool RawAnalysisRequest::context_matches(const Document& doc,std::uint64_t id,co
 }
 bool RawAnalysisRequest::matches(const Document& doc) const {
     if(identity_!=doc.analysis_identity_.token || doc.pixel_width_um()!=pixel_width_um_ || doc.pixel_height_um()!=pixel_height_um_) return false;
-    const auto current=doc.server();if(!current || current->closed()) return false;const auto view=current->tiff_view();
+    const auto current=doc.server();if(!current || current->closed()) return false;const auto view=current->raw_view();
     if(!view || view->series!=series_ || current->source_locator()!=(source_?source_->source_locator():observed_?observed_->locator:std::string{})) return false;
     if(current!=source_) {
         const auto before=observed_?observed_:source_?source_->reader_source():nullptr,after=current->reader_source();
@@ -225,7 +225,8 @@ struct RawAnalysisKernel {
     }
     static std::shared_ptr<const RawAnalysisResult> run(const RawAnalysisRequest& request,const std::atomic<bool>* cancelled,
         std::atomic<std::uint64_t>* completed=nullptr,std::atomic<std::uint64_t>* total=nullptr,bool collect_statistics=true) {
-        if(request.grid_) return run_grid(request,cancelled,completed,total,collect_statistics);
+        request.source_->require_raw_current(cancelled);
+        if(request.grid_){const auto result=run_grid(request,cancelled,completed,total,collect_statistics);request.source_->require_raw_current(cancelled);return result;}
         const auto start=std::chrono::steady_clock::now();detail::export_checkpoint(cancelled);
         const auto metadata=request.source_->raw_metadata(cancelled);if(!metadata || metadata->series!=request.series_) throw std::invalid_argument("raw analysis source axes changed");
         RawStatisticsKernel::validate_coordinates(*metadata,request.region_);
@@ -253,7 +254,7 @@ struct RawAnalysisKernel {
         digest.integer(request.mask_.has_value());if(request.mask_) {const auto bytes=GeometryArchiveCodec::encode(*request.mask_);digest.integer(bytes.size());digest.update(bytes.data(),bytes.size());}
         output->statistics_=RawStatisticsKernel::run(*request.source_,region,tile,request.mask_?&*request.mask_:nullptr,request.max_pixels_,cancelled,&digest,completed,collect_statistics);
         detail::export_checkpoint(cancelled);output->input_sha256_=digest.finish();output->tiles_=nx*ny;
-        output->elapsed_ms_=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-start).count();return output;
+        output->elapsed_ms_=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-start).count();request.source_->require_raw_current(cancelled);return output;
     }
 };
 std::shared_ptr<const RawAnalysisResult> analyze_raw(const RawAnalysisRequest& request,const std::atomic<bool>* cancelled) {return RawAnalysisKernel::run(request,cancelled);}

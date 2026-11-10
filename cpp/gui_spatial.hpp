@@ -100,8 +100,8 @@ public:
         if(neighborhood()) {ImGui::InputDouble("Radius",&options_.radius,0,0,"%.7g");mark(GuiInputTarget::SpatialRadius,idle,mark_target);ImGui::TextWrapped("Count selected target centroids at distance <= radius. Distinct coincident objects count.");}
         if(density()) {
             ImGui::TextWrapped("Cells/mm2 of valid tissue per ROI. Tissue overlaps count once; explicit exclusions remove their boundaries. Positive X/Y calibration is required. Empty area gives undefined density.");
-            ImGui::Checkbox("Accept 512-segment curved ROI approximation",&options_.density.polygonize_curves);
-            ImGui::Checkbox("Prefer cell nuclei",&options_.density.prefer_nucleus);
+            ui::Checkbox("Accept 512-segment curved ROI approximation",&options_.density.polygonize_curves);
+            ui::Checkbox("Prefer cell nuclei",&options_.density.prefer_nucleus);
         }else {
             if(!neighborhood()) {
                 int metric=int(options_.analysis.metric);
@@ -110,14 +110,14 @@ public:
                 }
                 if(options_.analysis.metric==SpatialDistanceMetric::SignedBoundary) {
                     ImGui::TextWrapped("Sources: Cells. Targets: area Annotations. Negative inside, positive outside, zero on edge. Nearest individual boundary (including holes), not a union; ties use lower target ID.");
-                    ImGui::Checkbox("Accept 512-segment curved boundary approximation",&options_.analysis.polygonize_curves);
+                    ui::Checkbox("Accept 512-segment curved boundary approximation",&options_.analysis.polygonize_curves);
                 }
             }else {options_.analysis.metric=SpatialDistanceMetric::Centroid;options_.analysis.polygonize_curves=false;}
             int units=options_.analysis.units==SpatialDistanceUnits::Pixels?0:1;
             if(ImGui::Combo("Distance units",&units,"Pixels\0Micrometres\0"))options_.analysis.units=units?SpatialDistanceUnits::Micrometres:SpatialDistanceUnits::Pixels;
-            ImGui::Checkbox("Prefer cell nuclei",&options_.analysis.prefer_nucleus);ImGui::SameLine();ImGui::Checkbox("Exclude the same object",&options_.analysis.exclude_self);
+            ui::Checkbox("Prefer cell nuclei",&options_.analysis.prefer_nucleus);ImGui::SameLine();ui::Checkbox("Exclude the same object",&options_.analysis.exclude_self);
         }
-        if(ImGui::CollapsingHeader("Resource limits")) {
+        if(ui::CollapsingHeader("Resource limits")) {
             auto& capture_limit=density()?options_.density.snapshot_bytes:options_.analysis.snapshot_bytes;
             auto& work_limit=density()?options_.density.work_bytes:options_.analysis.work_bytes;
             int snapshot=int(capture_limit/(1024*1024)),work=int(work_limit/(1024*1024));

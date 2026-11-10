@@ -149,6 +149,8 @@ def test_desktop_roi_lock_blocks_drag_until_explicit_unlock_then_save(tmp_path,u
     from test_gui_replay import event
     doc,obj=scene();project=q.Project();image=project.add_document(doc);path=tmp_path/'locked.qpxproj';project.save(str(path))
     options=q.GuiOptions();options.docked_workspace=True;options.height=1400;options.width=1600;options.start_view=q.Viewport();options.autosave_interval_seconds=0;options.settle_tiles=True
+    options.layout_path=str(tmp_path/'annotations.ini')
+    (tmp_path/'annotations.ini').write_text('; qupathxx workspace layout v1\n; qupathxx sidebar=annotations\n',encoding='utf8')
     events=[event(4,q.GuiInputKind.SELECT_ALL_KEY)]
     if unlock:events += [event(6,q.GuiInputKind.LEFT_DOWN,q.GuiInputTarget.TOGGLE_OBJECT_LOCK,q.GuiInputWait.TARGET_READY),event(7,q.GuiInputKind.LEFT_UP,q.GuiInputTarget.TOGGLE_OBJECT_LOCK)]
     events += [event(10,q.GuiInputKind.VERTEX_KEY),replay(12,q.GuiInputKind.LEFT_DOWN,100,100,target=q.GuiInputTarget.IMAGE),replay(14,q.GuiInputKind.MOVE,80,80,target=q.GuiInputTarget.IMAGE),replay(16,q.GuiInputKind.LEFT_UP,80,80,target=q.GuiInputTarget.IMAGE),event(22,q.GuiInputKind.SAVE_KEY)]
@@ -164,6 +166,8 @@ def test_desktop_explicit_clear_then_undo_redo_keeps_the_exact_state(tmp_path):
     from test_gui_replay import event
     doc,obj=scene();project=q.Project();image=project.add_document(doc);path=tmp_path/'clear.qpxproj';project.save(str(path))
     options=q.GuiOptions();options.docked_workspace=True;options.height=1400;options.width=1600;options.autosave_interval_seconds=0;options.settle_tiles=True
+    options.layout_path=str(tmp_path/'annotations.ini')
+    (tmp_path/'annotations.ini').write_text('; qupathxx workspace layout v1\n; qupathxx sidebar=annotations\n',encoding='utf8')
     options.inputs=[event(4,q.GuiInputKind.SELECT_ALL_KEY),event(6,q.GuiInputKind.LEFT_DOWN,q.GuiInputTarget.APPLY_OBJECT_EDIT_STATE,q.GuiInputWait.TARGET_READY),event(7,q.GuiInputKind.LEFT_UP,q.GuiInputTarget.APPLY_OBJECT_EDIT_STATE),event(10,q.GuiInputKind.LEFT_DOWN,q.GuiInputTarget.CLEAR_OBJECT_PROPERTIES,q.GuiInputWait.TARGET_READY),event(11,q.GuiInputKind.LEFT_UP,q.GuiInputTarget.CLEAR_OBJECT_PROPERTIES),event(14,q.GuiInputKind.UNDO_KEY),event(18,q.GuiInputKind.REDO_KEY),event(22,q.GuiInputKind.UNDO_KEY),event(26,q.GuiInputKind.SAVE_KEY)]
     report=q.show(project,frame_limit=40,capture_path=str(tmp_path/'restored-state.ppm'),options=options)
     assert report.replay_complete and not project.dirty

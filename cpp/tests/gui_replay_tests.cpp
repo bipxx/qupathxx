@@ -6,6 +6,7 @@
 #include "gui_font_checks.hpp"
 #include "gui_entry_editor_checks.hpp"
 #include "gui_class_editor_checks.hpp"
+#include "gui_dialog_contract_checks.hpp"
 #endif
 void check(bool value) {if(!value) throw std::runtime_error("replay check failed");}
 template<class Exception,class Function> void rejects(Function action) {try {action();} catch(const Exception&) {return;}throw std::logic_error("missing replay rejection");}
@@ -50,6 +51,7 @@ int main() {
         unicode_text_input();
         entry_editor_checks::run();
         entry_editor_checks::project_metadata();
+        dialog_contract_checks::run();
         class_editor_checks::run();
         gui_font_checks::run();
 #else

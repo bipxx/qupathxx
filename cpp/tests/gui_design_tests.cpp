@@ -21,7 +21,9 @@ int main() {try {
         check(contrast(p.text_secondary,p.bg_tertiary)>=4.5,"secondary text contrast");
         check(contrast(p.bg_void,p.accent)>=7,"primary action contrast");
     }
-    check(ds::metrics.action_height>=32 && ds::metrics.compact_height>=24,"action target sizes");
+    check(ds::metrics.action_height>=28 && ds::metrics.dialog_action_height>=32 && ds::metrics.compact_height>=24,"role-specific action target sizes");
+    check(ds::metrics.activity_width==48 && ds::metrics.activity_row==48 && ds::metrics.activity_indicator==2,"workbench navigation targets");
+    check(ds::metrics.control_height==ds::metrics.icon_size && ds::metrics.checkbox_size>=16,"control and glyph geometry");
     std::cout<<"Design tokens: explicit/system themes, text/action contrast and target sizes pass\n";
     return 0;
 }catch(const std::exception& e){std::cerr<<e.what()<<'\n';return 1;}}

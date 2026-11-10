@@ -11,4 +11,8 @@ void restore_cell_contours(CellResult&,const std::atomic<bool>* cancelled=nullpt
 // Historical numeric-only archives may lack reconstructible geometry. Cancellation
 // still fails the load; other established contour failures clear both contours.
 void restore_archived_cell_contours(CellResult&,const std::atomic<bool>* cancelled=nullptr);
+// Fresh unpublished contours only. Resolve zero-area clipping boundary remnants
+// using exact Difference/Union/Covers predicates; positive-area escape refuses.
+void normalize_cell_body_contour(TissueContours&,std::size_t index,const Roi& nucleus,
+    const Roi& source_roi,const TissueContourOptions&,const std::atomic<bool>* cancelled=nullptr);
 }

@@ -12,26 +12,38 @@
 #include "gui_layout.hpp"
 #include "gui_shell.hpp"
 #include "gui_workflow.hpp"
+#include "gui_project_preferences.hpp"
 
 namespace qpx {
 // All ImGui state belongs to the caller's context. Layout bytes never enter a
 // Project; an empty preference path gives an in-memory workspace.
 class GuiWorkspace {
     static constexpr std::size_t limit=1024*1024;
-    bool enabled_,reset_,loaded_=false,writable_=true,protected_=false;
+    bool enabled_,reset_,loaded_=false,writable_=true,protected_=false,settings_requested_=false;
     std::string path_,error_;
     ImGuiID dock_=0;
     int active_=0;
     ui::WorkflowTask task_=ui::WorkflowTask::Measurements;
     static void prepare_node(ImGuiDockNode* node,ImGuiID active) {
         if(!node) return;
-        node->SetLocalFlags((node->LocalFlags & ~ImGuiDockNodeFlags_HiddenTabBar)|ImGuiDockNodeFlags_NoTabBar|ImGuiDockNodeFlags_NoWindowMenuButton);
+        bool shell_owned=!node->Windows.empty();
+        for(auto* window:node->Windows) {
+            bool primary=window->ID==ImHashStr("Slide");
+            for(const auto* pane:panes)primary=primary || window->ID==ImHashStr(pane);
+            shell_owned=shell_owned && primary;
+        }
+        auto flags=node->LocalFlags & ~(ImGuiDockNodeFlags_HiddenTabBar|ImGuiDockNodeFlags_NoTabBar);
+        flags|=ImGuiDockNodeFlags_NoWindowMenuButton;
+        if(shell_owned)flags|=ImGuiDockNodeFlags_NoTabBar;
+        node->SetLocalFlags(flags);
+        if(shell_owned) {
         ImGuiID preferred=node->SelectedTabId;
         for(auto* window:node->Windows) if(window->ID==active) preferred=ImHashStr("#TAB",0,active);
         for(int i=0;i<node->Windows.Size;++i) if(ImHashStr("#TAB",0,node->Windows[i]->ID)==preferred) {
             if(i) std::swap(node->Windows[0],node->Windows[i]);break;
         }
         if(!node->Windows.empty()) node->SelectedTabId=ImHashStr("#TAB",0,node->Windows[0]->ID);
+        }
         prepare_node(node->ChildNodes[0],active);prepare_node(node->ChildNodes[1],active);
     }
 public:
@@ -43,6 +55,7 @@ public:
     inline static constexpr const char* keys[]={"project","image","annotations","workflow"};
     Rect browser{0,0,1,1},objects{0,0,1,1},display{0,0,1,1},measurements{0,0,1,1},canvas{0,0,1,1};
     std::string gene_preference;
+    ui::ProjectPreferences projects;
     explicit GuiWorkspace(const GuiOptions& options):enabled_(options.docked_workspace),reset_(options.reset_layout),path_(options.layout_path) {
         if(!enabled_ && (!path_.empty() || reset_)) throw std::invalid_argument("layout preferences require a docked workspace");
         if(path_.empty()) return;
@@ -64,6 +77,7 @@ public:
             if(data.rfind("; qupathxx workspace layout v1\n",0)!=0 && data.rfind("; qupathxx workspace layout v1\r\n",0)!=0) {if(reset_) return;throw std::runtime_error("unrecognized workspace layout; reset layout to replace it");}
             ui::i18n::load_preference(data);ui::design::load_preference(data);
             const auto header_end=data.find("[Window]");const auto header=data.substr(0,header_end);
+            projects.load(header);
             for(int i=0;i<4;++i) if(header.find(std::string("; qupathxx sidebar=")+keys[i]+"\n")!=std::string::npos || header.find(std::string("; qupathxx sidebar=")+keys[i]+"\r\n")!=std::string::npos) active_=i;
             for(std::size_t i=0;i<ui::workflow_task_keys.size();++i) {
                 const auto marker=std::string("; qupathxx workflow=")+ui::workflow_task_keys[i];
@@ -90,6 +104,7 @@ public:
         } catch(const std::exception& e) {error_=e.what();writable_=false;}
     }
     bool enabled() const {return enabled_;}
+    bool take_settings_request() {const bool requested=settings_requested_;settings_requested_=false;return requested;}
     bool loaded() const {return loaded_;}
     int active_pane() const {return active_;}
     ui::WorkflowTask workflow_task() const {return task_;}
@@ -121,18 +136,18 @@ public:
             shell->place_rail(origin.x,origin.y,size.y);ImGui::Dummy({rail,size.y});ImGui::SameLine(0,0);
         } else {
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding,ImVec2(0,0));
+        ImGui::PushStyleColor(ImGuiCol_ChildBg,ui::design::color(ui::design::colors().bg_primary));
         ImGui::BeginChild("Activity rail",{rail,size.y},ImGuiChildFlags_None,ImGuiWindowFlags_NoScrollbar|ImGuiWindowFlags_NoScrollWithMouse);
+        ImGui::BeginDisabled(blocked);
         constexpr ui::Icon icons[]={ui::Icon::Project,ui::Icon::Image,ui::Icon::Annotations,ui::Icon::Workflow};
         constexpr const char* shortcuts[]={"Ctrl+1","Ctrl+2","Ctrl+3","Ctrl+4"};
         for(int i=0;i<4;++i) {
-            ImGui::SetCursorPos({(rail-ui::design::metrics.icon_size*scale)/2,(ui::design::spacing.sm+i*ui::design::metrics.activity_row)*scale});
-            if(ui::IconButton(panes[i],icons[i],ui::design::Action::Ghost,shortcuts[i])) select(panes[i]);
-            if(active_==i) {
-                const auto p=ImGui::GetItemRectMin(),s=ImGui::GetItemRectSize();
-                ImGui::GetWindowDrawList()->AddRectFilled({origin.x,p.y},{origin.x+2*scale,p.y+s.y},ImGui::GetColorU32(ui::design::color(ui::design::colors().accent)));
-            }
+            ImGui::SetCursorPos({0,i*ui::design::metrics.activity_row*scale});
+            if(ui::ActivityButton(panes[i],icons[i],active_==i,shortcuts[i])) select(panes[i]);
         }
-        ImGui::EndChild();ImGui::PopStyleVar();ImGui::SameLine(0,0);
+        ImGui::SetCursorPos({0,std::max(4*ui::design::metrics.activity_row*scale,size.y-ui::design::metrics.activity_row*scale)});
+        if(ui::ActivityButton("Workspace settings",ui::Icon::Gear,false)) settings_requested_=true;
+        ImGui::EndDisabled();ImGui::EndChild();ImGui::PopStyleColor();ImGui::PopStyleVar();ImGui::SameLine(0,0);
         }
         size.x=std::max(1.f,size.x-rail);
         if(reset_ || !ImGui::DockBuilderGetNode(dock_)) {
@@ -151,8 +166,12 @@ public:
             ImGui::DockBuilderDockWindow("Slide",center);
             ImGui::DockBuilderFinish(dock_);reset_=false;
         }
-        prepare_node(ImGui::DockBuilderGetNode(dock_),ImHashStr(panes[active_]));
-        ImGui::DockSpace(dock_,size,ImGuiDockNodeFlags_NoTabBar|ImGuiDockNodeFlags_NoWindowMenuButton);
+        // Also migrate detached tool groups saved with the old hidden-tab rule.
+        for(const auto& entry:ImGui::GetCurrentContext()->DockContext.Nodes.Data) {
+            auto* node=static_cast<ImGuiDockNode*>(entry.val_p);
+            if(node && !node->ParentNode)prepare_node(node,ImHashStr(panes[active_]));
+        }
+        ImGui::DockSpace(dock_,size,ImGuiDockNodeFlags_NoWindowMenuButton);
     }
     bool begin(const char* name,Rect& bounds,ImGuiWindowFlags flags=0) {
         const auto localized=ui::i18n::label(name);
@@ -171,7 +190,7 @@ public:
             std::size_t size=0;const char* data=ImGui::SaveIniSettingsToMemory(&size);
             if(gene_preference.size()>16384 || gene_preference.find_first_of("\r\n")!=std::string::npos)throw std::invalid_argument("Invalid gene-view workspace preference");
             const std::string header=std::string("; qupathxx workspace layout v1\n; qupathxx language=")+ui::i18n::preference()+"\n; qupathxx theme="+ui::design::name(ui::design::state.choice)+"\n; qupathxx sidebar="+keys[active_]+"\n; qupathxx workflow="+ui::workflow_task_keys[static_cast<std::size_t>(task_)]+"\n"+
-                (gene_preference.empty()?"":"; qupathxx gene-view="+gene_preference+"\n");
+                (gene_preference.empty()?"":"; qupathxx gene-view="+gene_preference+"\n")+projects.header();
             if(size>limit-header.size()) throw std::length_error("workspace layout exceeds 1 MiB");
             const auto parent=std::filesystem::u8path(path_).parent_path();
             if(!parent.empty()) std::filesystem::create_directories(parent);

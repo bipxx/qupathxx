@@ -1,27 +1,66 @@
-/* Shared compact desktop recipes. Dimensions use density-independent pixels. */
+/* Workbench component recipes. Token references resolve from gui_design_tokens.hpp. */
 body { position: absolute; width: 100%; height: 100%; margin: 0; padding: 0;
-    font-family: IBM Plex Sans; font-size: 14dp; color: #e8e8e8; pointer-events: none; }
-.activity { position: absolute; width: 44dp; padding-top: 4dp;
-    box-sizing: border-box; background-color: #161616; border-right: 1dp #2a2a2a; }
+    font-family: IBM Plex Sans; font-size: ${font-size}dp;
+    color: ${dark.foreground}; pointer-events: none; }
+.activity { position: absolute; display: flex; flex-direction: column;
+    width: ${activity-width}dp; padding: 0; box-sizing: border-box;
+    background-color: ${dark.activity-background}; }
+.activity-views { flex: 1; min-height: 0; overflow-y: auto; }
+.activity-utilities { height: ${activity-row}dp; flex-shrink: 0; }
 .toolbar { position: absolute; display: flex; flex-wrap: wrap; align-content: flex-start;
-    box-sizing: border-box; padding: 4dp 8dp; background-color: #161616; }
-button { display: block; box-sizing: border-box; width: 28dp; height: 28dp; padding: 0; margin: 0;
-    border: 0; border-radius: 4dp; background-color: transparent; color: #a8a8a8;
-    cursor: pointer; pointer-events: auto; tab-index: auto; }
-.activity button { margin: 0 auto 12dp auto; }
-.toolbar button { margin-right: 2dp; margin-bottom: 2dp; flex-shrink: 0; }
-button:hover { background-color: #262626; color: #e8e8e8; }
-button:focus { background-color: #262626; color: #ffffff; border: 1dp #b8b8b8; }
-button.selected { background-color: #262626; color: #e8e8e8; }
-.activity button.selected { border-left: 2dp #b8b8b8; }
-button:disabled { opacity: 0.4; cursor: unavailable; }
+    box-sizing: border-box; padding: ${space-sm}dp ${space-md}dp ${space-xs}dp;
+    background-color: ${dark.panel-background}; }
+button { position: relative; display: block; box-sizing: border-box;
+    width: ${icon-size}dp; height: ${icon-size}dp; padding: 0; margin: 0;
+    border: 0; border-radius: ${button-radius}dp; background-color: transparent;
+    color: ${dark.secondary-foreground}; cursor: pointer; pointer-events: auto; tab-index: auto; }
+.toolbar button { margin-right: ${space-xs}dp; margin-bottom: ${space-xs}dp; flex-shrink: 0; }
+.toolbar-group { position: relative; display: flex; flex-wrap: wrap; align-items: center;
+    max-width: 100%; flex-shrink: 0; box-sizing: border-box;
+    padding-left: ${toolbar-group-inset}dp; }
+.toolbar-group.first { padding-left: 0; }
+.toolbar-group button:last-child { margin-right: 0; }
+.toolbar-divider { position: absolute; left: ${toolbar-group-gap}dp; top: ${toolbar-separator-top}dp;
+    width: ${border}dp; height: ${toolbar-separator-height}dp;
+    background-color: ${dark.toolbar-separator}; pointer-events: none; }
+button:hover { background-color: ${dark.hover-background}; color: ${dark.foreground}; }
+button:active { background-color: ${dark.pressed-background}; color: ${dark.foreground}; }
+button.selected { background-color: ${dark.hover-background}; color: ${dark.foreground}; }
+button:disabled { opacity: ${disabled-opacity}; cursor: unavailable; }
+button:disabled:hover, button:disabled:active { background-color: transparent; color: ${dark.secondary-foreground}; }
 qpx-icon { display: block; width: 100%; height: 100%; pointer-events: none; }
-#tooltip { display: none; position: absolute; padding: 6dp 8dp;
-    background-color: #242424; border: 1dp #3a3a3a; border-radius: 4dp;
-    max-width: 300dp; pointer-events: none; }
-body.light { color: #202322; }
-.light .activity, .light .toolbar { background-color: #fafaf9; border-color: #d4d6d1; }
-.light button { color: #4f5552; }
-.light button:hover, .light button:focus, .light button.selected { background-color: #e3e3e0; color: #202322; }
-.light .activity button.selected { border-color: #343e38; }
-.light #tooltip { background-color: #e8e8e5; border-color: #a1a69f; }
+.toolbar qpx-icon { position: absolute; width: ${icon-canvas}dp; height: ${icon-canvas}dp;
+    left: ${icon-inset}dp; top: ${icon-inset}dp; }
+.activity button { width: 100%; height: ${activity-row}dp; margin: 0; border: 0;
+    border-radius: 0; background-color: transparent; color: ${dark.inactive-foreground}; }
+.activity button:hover, .activity button:focus, .activity button.selected {
+    background-color: transparent; border: 0; color: ${dark.foreground}; }
+.activity qpx-icon { position: absolute; width: ${activity-icon-box}dp; height: ${activity-icon-box}dp;
+    left: ${activity-icon-inset}dp; top: ${activity-icon-inset}dp; }
+.active-indicator { display: none; position: absolute; left: 0; top: 0;
+    width: ${activity-indicator}dp; height: 100%; background-color: ${dark.foreground}; pointer-events: none; }
+.selected .active-indicator { display: block; }
+.focus-ring { display: none; position: absolute; left: ${border}dp; right: ${border}dp;
+    top: ${border}dp; bottom: ${border}dp; border: ${border}dp ${dark.focus-border};
+    border-radius: ${button-radius}dp; pointer-events: none; }
+.toolbar button.selected .focus-ring { display: block; border-color: ${dark.selected-border}; }
+.keyboard-navigation button:focus .focus-ring { display: block; border-color: ${dark.focus-border}; }
+.activity .focus-ring { border-radius: 0; }
+#tooltip { display: none; position: absolute; padding: ${space-sm}dp ${space-md}dp;
+    background-color: ${dark.tooltip-background}; border: ${border}dp ${dark.border};
+    border-radius: ${control-radius}dp; max-width: 300dp; pointer-events: none; }
+body.light { color: ${light.foreground}; }
+.light .activity { background-color: ${light.activity-background}; }
+.light .toolbar { background-color: ${light.panel-background}; }
+.light .toolbar-divider { background-color: ${light.toolbar-separator}; }
+.light button { color: ${light.secondary-foreground}; }
+.light button:hover, .light button.selected { background-color: ${light.hover-background}; color: ${light.foreground}; }
+.light button:active { background-color: ${light.pressed-background}; color: ${light.foreground}; }
+.light button:disabled:hover, .light button:disabled:active { background-color: transparent; color: ${light.secondary-foreground}; }
+.light .activity button { background-color: transparent; color: ${light.inactive-foreground}; }
+.light .activity button:hover, .light .activity button:focus, .light .activity button.selected { background-color: transparent; color: ${light.foreground}; }
+.light .active-indicator { background-color: ${light.foreground}; }
+.light .focus-ring { border-color: ${light.focus-border}; }
+.light .toolbar button.selected .focus-ring { border-color: ${light.selected-border}; }
+.light.keyboard-navigation button:focus .focus-ring { border-color: ${light.focus-border}; }
+.light #tooltip { background-color: ${light.tooltip-background}; border-color: ${light.border}; }

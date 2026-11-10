@@ -1,5 +1,6 @@
 #pragma once
 #include "qupathxx/gene_display.hpp"
+#include "qupathxx/expression_matrix_spatial.hpp"
 
 namespace qpx {
 struct GeneViewOptions {
@@ -18,6 +19,8 @@ GeneWorkspacePreference parse_gene_workspace_preference(const std::string&);
 struct GeneFeaturePage {std::vector<std::size_t> indices;std::size_t matches=0,page=0;};
 GeneFeaturePage gene_feature_page(const ExpressionDataset&,const std::string& query,
     std::size_t page=0,std::size_t page_size=32);
+GeneFeaturePage gene_feature_page(const std::vector<std::string>&,const std::string& query,
+    std::size_t page=0,std::size_t page_size=32);
 // Serial owner-thread controller with one worker and latest-request coalescing.
 // Worker code receives only immutable native snapshots, never a Document/UI.
 class GeneViewSession {
@@ -25,12 +28,17 @@ public:
     explicit GeneViewSession(std::size_t work_bytes=64u*1024*1024);
     ~GeneViewSession();GeneViewSession(const GeneViewSession&)=delete;
     void bind(ExpressionDataset);
+    // Native worker resolves selected IDs and projects only their sparse values.
+    // Existing generation/cancellation coalescing applies to backed sources too.
+    void bind(ExpressionMatrixSpatialSnapshot);
+    void bind(ExpressionMatrixSpatialRequest);
     void clear();
     void configure(GeneViewOptions);
     void refresh();void cancel();void poll();void wait();
     bool busy() const;
     const GeneViewOptions& options() const;
     const std::optional<ExpressionDataset>& dataset() const;
+    const std::optional<ExpressionMatrixSpatialSnapshot>& spatial_snapshot() const;
     std::shared_ptr<const GeneDisplayPair> result() const;
     const std::string& error() const;
     std::uint64_t generation() const;

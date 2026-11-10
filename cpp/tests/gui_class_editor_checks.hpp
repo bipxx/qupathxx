@@ -22,6 +22,7 @@ inline void run() {
     frame();frame();
     auto id=[&](const char* label) {const auto* window=ImGui::FindWindowByName("Class host");require(window!=nullptr,"Class window missing");return ImHashStr(label,0,ImHashStr(project_mode?"Project class editor":"Image class editor",0,window->ID));};
     auto activate=[&](const char* label) {ImGui::ActivateItemByID(id(label));frame();frame();};
+    auto activate_checkbox=[&](const char* label) {ImGui::ActivateItemByID(ImHashStr("##value",0,id(label)));frame();frame();};
     auto text=[&](const char* label,const char* value) {
         ImGui::ActivateItemByID(id(label));GImGui->NavNextActivateFlags=ImGuiActivateFlags_PreferInput;frame();frame();
         require(ImGui::GetActiveID()==id(label),"Class input field inactive");
@@ -33,7 +34,7 @@ inline void run() {
     std::cout<<"Class alpha diagnostic: raw="<<project->classes().at("Parent").color_argb().value_or(0)<<" expected="<<0x8041e1beu<<" active="<<ImGui::GetActiveID()<<"\n";
     require(project->classes().at("Parent").color_argb()==0x8041e1be,"GUI raw alpha was lost");
     activate("Append default");
-    activate("New class");text("Class name","Parent: Positive");text("Parent class","Parent");activate("Color specified");activate("Save class");
+    activate("New class");text("Class name","Parent: Positive");text("Parent class","Parent");activate_checkbox("Color specified");activate("Save class");
     require(project->classes().at("Parent: Positive").parent=="Parent" && !project->classes().at("Parent: Positive").color_argb(),"GUI derived/absent state lost");
     activate("Append default");activate("Append default");
     require(project->class_defaults()==std::vector<std::string>({"Parent","Parent: Positive","Parent: Positive"}),"GUI lost repeated defaults");
@@ -47,7 +48,7 @@ inline void run() {
     require(restored->images().empty() && restored->classes()==project->classes() && restored->class_defaults()==project->class_defaults(),"GUI empty class project failed reopen");
     activate("Save class");require(!project->dirty(),"No-op class save dirtied project");
     // A defaults refresh cannot authorize a stale class draft for another image.
-    active=17;activate("Color specified");activate("Reload defaults");activate("Save class");
+    active=17;activate_checkbox("Color specified");activate("Reload defaults");activate("Save class");
     require(!project->dirty() && !project->classes().at("Parent: Positive").color_argb(),"Stale context wrote through defaults refresh");
     active=project->add_document(doc);activate("Reload class");const auto revision=doc->revision();
     activate("Apply defaults to image");
@@ -62,7 +63,7 @@ inline void run() {
     // Image controls call the same definitions and native rename/history path.
     project_mode=false;frame();frame();
     text("Class name","Root");activate("Save class");
-    activate("New class");text("Class name","Root: Child");text("Parent class","Root");activate("Color specified");activate("Save class");
+    activate("New class");text("Class name","Root: Child");text("Parent class","Root");activate_checkbox("Color specified");activate("Save class");
     const auto object=doc->add_detection(qpx::Roi::rectangle({1,2,3,4}),"Classed",0,"Root: Child");
     text("Class name","Root: Renamed");activate("Rename");
     require(doc->annotation(object).class_name=="Root: Renamed" && doc->class_path("Root: Renamed")==std::vector<std::string>({"Root","Renamed"}),"GUI rename lost explicit class or object association");

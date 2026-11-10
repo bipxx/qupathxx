@@ -3,7 +3,7 @@
 The completed slice below stays frozen. The owner's subsequent
 [eight-gap expansion plan](feature-expansion-plan.md) now schedules the missing
 visualization/import/analysis/storage/readers/SDK capabilities, including bounded
-H5AD/OME-Zarr additions. Those22 tasks are pending, not part of FO00-FO05 completion.
+H5AD/OME-Zarr additions. Their current delivery state is tracked there, separately from FO00-FO05 completion.
 Proprietary and NC material are [kept separately](licensing/restricted-materials.md).
 
 Owner approved a concrete fluorescence workflow first, followed by one spatial-

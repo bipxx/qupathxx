@@ -128,8 +128,8 @@ public:
         if(!io.WantTextInput && !blocked && ImGui::IsKeyPressed(ImGuiKey_F4,false)) open_=!open_;
         if(!open_) return;
         const auto* viewport=ImGui::GetMainViewport();const auto size=viewport->WorkSize;const auto scale=ImGui::GetFontSize()/13.f;
-        ImGui::SetNextWindowSize({std::min(620.f*scale,size.x*.88f),std::min(720.f*scale,size.y*.88f)},ImGuiCond_Appearing);
-        ImGui::SetNextWindowPos({viewport->WorkPos.x+size.x*.5f,viewport->WorkPos.y+size.y*.5f},ImGuiCond_Appearing,{.5f,.5f});
+        ImGui::SetNextWindowSize({std::min(620.f*scale,size.x*.88f),std::min(720.f*scale,size.y*.88f)},ImGuiCond_FirstUseEver);
+        ImGui::SetNextWindowPos({viewport->WorkPos.x+size.x*.5f,viewport->WorkPos.y+size.y*.5f},ImGuiCond_FirstUseEver,{.5f,.5f});
         ImGui::SetNextWindowSizeConstraints({std::min(260.f*scale,size.x),std::min(160.f*scale,size.y)},size);
         if(!ImGui::Begin("Object classifiers",&open_)) {ImGui::End();return;}
         auto button=[&](const char* label,GuiInputTarget target,bool disabled,std::optional<ui::Icon> icon={}) {
@@ -153,7 +153,7 @@ public:
         ImGui::BeginDisabled(!features_.cell_rgb);changed=ui::Checkbox("Include cytoplasm RGB",&features_.cytoplasm_rgb) || changed;ImGui::EndDisabled();
         }
         if(!features_.cell_rgb) features_.cytoplasm_rgb=false;
-        if(ImGui::CollapsingHeader("Training settings")) {
+        if(ui::CollapsingHeader("Training settings")) {
             ui::SetNextItemWidth(120);changed=ui::InputScalar("Trees",ImGuiDataType_U32,&parameters_.trees) || changed;
             ui::SetNextItemWidth(120);changed=ui::InputScalar("Maximum depth",ImGuiDataType_U32,&parameters_.max_depth) || changed;
             ui::SetNextItemWidth(120);changed=ui::InputScalar("Minimum samples",ImGuiDataType_U32,&parameters_.min_samples) || changed;
@@ -175,19 +175,20 @@ public:
         if(button("Apply predictions (one Undo)",GuiInputTarget::ApplyObjectClasses,unavailable() || !predicted())) {
             try {changed_=job_.apply(doc,minimum_).size();record_id_=doc.revision();stats_=job_.poll(doc);applied_=true;error_.clear();}catch(const std::exception& e) {error_=e.what();}
         }
-        if(button("Cancel classifier work",GuiInputTarget::CancelObjectClassifier,!job_.busy() && !io_.valid(),ui::Icon::Close)) {job_.cancel();io_cancelled_.store(true);applied_=false;}
+        if(job_.busy() || io_.valid())
+            if(button("Cancel classifier work",GuiInputTarget::CancelObjectClassifier,false)) {job_.cancel();io_cancelled_.store(true);applied_=false;}
         if(job_.busy()) ImGui::Text("%s: %llu / %llu feature rows",stats_.phase.c_str(),static_cast<unsigned long long>(stats_.completed_rows),static_cast<unsigned long long>(stats_.total_rows));
         if(applied_) ImGui::Text("Changed %zu objects (Undo available)",changed_);
         if(!error().empty()) ImGui::TextWrapped("%s",error().c_str());
         if(model_) {
             ImGui::SeparatorText("Active model");ImGui::Text("%llu training rows / %u trees / %zu features",static_cast<unsigned long long>(model_->training_rows()),model_->tree_count(),model_->features().size());
-            if(ImGui::CollapsingHeader("Model details")) {
+            if(ui::CollapsingHeader("Model details")) {
                 ImGui::TextWrapped("%s",model_->backend().c_str());
                 for(const auto& feature:model_->features()) ImGui::TextWrapped("%s [%s]",feature.name.c_str(),feature.unit.c_str());
                 ImGui::TextWrapped("Training input: %s",model_->training_sha256().c_str());
             }
         }
-        if(doc.classifier_record_count() && ImGui::CollapsingHeader("Project classifier records",!model_?ImGuiTreeNodeFlags_DefaultOpen:0)) {
+        if(doc.classifier_record_count() && ui::CollapsingHeader("Project classifier records",!model_?ImGuiTreeNodeFlags_DefaultOpen:0)) {
         const auto records=doc.classifier_records();std::shared_ptr<const ObjectClassifierRecord> selected;
         for(const auto& r:records) if(r->id==selected_record_) selected=r;
         if(!selected && !records.empty()) {selected=records.back();selected_record_=selected->id;}

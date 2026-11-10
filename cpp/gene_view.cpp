@@ -52,9 +52,12 @@ GeneViewOptions parse_gene_view_preference(const std::string& input) {
     options.validate();return options;
 }
 GeneFeaturePage gene_feature_page(const ExpressionDataset& dataset,const std::string& query,std::size_t page,std::size_t size) {
+    return gene_feature_page(dataset.features(),query,page,size);
+}
+GeneFeaturePage gene_feature_page(const std::vector<std::string>& features,const std::string& query,std::size_t page,std::size_t size) {
     feature_name(query);if(!size || size>256 || page>std::numeric_limits<std::size_t>::max()/size)throw std::invalid_argument("Invalid gene catalogue page");
     const auto needle=folded(query);GeneFeaturePage result;result.page=page;const auto start=page*size;
-    for(std::size_t i=0;i<dataset.features().size();++i)if(folded(dataset.features()[i]).find(needle)!=std::string::npos) {
+    for(std::size_t i=0;i<features.size();++i)if(folded(features[i]).find(needle)!=std::string::npos) {
         if(result.matches>=start && result.indices.size()<size)result.indices.push_back(i);++result.matches;
     }
     return result;
@@ -73,13 +76,16 @@ GeneWorkspacePreference parse_gene_workspace_preference(const std::string& input
     gene_workspace_preference(result.view,result.source_id);return result;
 }
 struct GeneViewSession::Data {
+    struct Ready {GeneDisplayPair pair;std::optional<ExpressionMatrixSpatialSnapshot> spatial;};
     std::thread::id owner=std::this_thread::get_id();std::size_t work;
     GeneViewOptions options;std::optional<ExpressionDataset> dataset;std::uint64_t generation=0,running=0;
-    bool pending=false;std::atomic<bool> cancelled{false};std::future<GeneDisplayPair> future;
+    std::optional<ExpressionMatrixSpatialSnapshot> spatial;
+    std::optional<ExpressionMatrixSpatialRequest> spatial_request;
+    bool pending=false;std::atomic<bool> cancelled{false};std::future<Ready> future;
     std::shared_ptr<const GeneDisplayPair> result;std::string error;
     void changed() {
         if(generation==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Gene-view generation exhausted");
-        ++generation;cancelled.store(true);result.reset();error.clear();pending=options.enabled && bool(dataset);
+        ++generation;cancelled.store(true);result.reset();error.clear();pending=options.enabled && (bool(dataset) || bool(spatial) || bool(spatial_request));
     }
 };
 GeneViewSession::GeneViewSession(std::size_t work):data_(std::make_unique<Data>()) {
@@ -87,17 +93,29 @@ GeneViewSession::GeneViewSession(std::size_t work):data_(std::make_unique<Data>(
 }
 GeneViewSession::~GeneViewSession(){data_->cancelled.store(true);if(data_->future.valid())data_->future.wait();}
 void GeneViewSession::bind(ExpressionDataset dataset) {
-    workflow_require_owner(data_->owner);if(data_->dataset && data_->dataset->sha256()==dataset.sha256())return;
+    workflow_require_owner(data_->owner);if(!data_->spatial && data_->dataset && data_->dataset->sha256()==dataset.sha256())return;
     for(std::size_t i=0;i<2;++i)if(std::find(dataset.features().begin(),dataset.features().end(),data_->options.genes[i])==dataset.features().end())
         data_->options.genes[i]=dataset.features()[std::min(i,dataset.features().size()-1)];
-    data_->dataset=std::move(dataset);data_->changed();
+    data_->spatial_request.reset();data_->spatial.reset();data_->dataset=std::move(dataset);data_->changed();
 }
-void GeneViewSession::clear() {workflow_require_owner(data_->owner);data_->dataset.reset();data_->changed();}
+void GeneViewSession::bind(ExpressionMatrixSpatialSnapshot spatial) {
+    workflow_require_owner(data_->owner);
+    if(data_->spatial && data_->spatial->sha256()==spatial.sha256() && data_->spatial->source()==spatial.source())return;
+    data_->spatial_request.reset();data_->spatial=std::move(spatial);data_->dataset.reset();data_->changed();
+}
+void GeneViewSession::bind(ExpressionMatrixSpatialRequest request) {
+    workflow_require_owner(data_->owner);
+    if(data_->spatial_request && data_->spatial_request->sha256()==request.sha256() && data_->spatial_request->source()==request.source())return;
+    data_->spatial_request=std::move(request);data_->spatial.reset();data_->dataset.reset();data_->changed();
+}
+void GeneViewSession::clear() {workflow_require_owner(data_->owner);data_->spatial_request.reset();data_->spatial.reset();data_->dataset.reset();data_->changed();}
 void GeneViewSession::configure(GeneViewOptions options) {
     workflow_require_owner(data_->owner);options.validate();
-    if(data_->dataset)for(auto& feature:options.genes)if(!feature.empty())data_->dataset->feature_index(feature);
-    if(data_->dataset)for(std::size_t i=0;i<2;++i)if(options.genes[i].empty())options.genes[i]=data_->dataset->features()[std::min(i,data_->dataset->features().size()-1)];
+    if(data_->dataset && !data_->spatial && !data_->spatial_request)for(auto& feature:options.genes)if(!feature.empty())data_->dataset->feature_index(feature);
+    if(data_->dataset && !data_->spatial && !data_->spatial_request)for(std::size_t i=0;i<2;++i)if(options.genes[i].empty())options.genes[i]=data_->dataset->features()[std::min(i,data_->dataset->features().size()-1)];
     if(gene_view_preference(options)==gene_view_preference(data_->options))return;
+    auto previous=data_->options;previous.radius=options.radius;
+    if(gene_view_preference(options)==gene_view_preference(previous)){data_->options=std::move(options);return;}
     data_->options=std::move(options);data_->changed();
 }
 void GeneViewSession::refresh(){workflow_require_owner(data_->owner);data_->changed();}
@@ -105,14 +123,50 @@ void GeneViewSession::cancel(){workflow_require_owner(data_->owner);data_->chang
 void GeneViewSession::poll() {
     workflow_require_owner(data_->owner);
     if(data_->future.valid() && data_->future.wait_for(std::chrono::seconds(0))==std::future_status::ready) {
-        try {auto result=data_->future.get();if(data_->running==data_->generation)data_->result=std::make_shared<const GeneDisplayPair>(std::move(result));}
+        try {auto ready=data_->future.get();if(data_->running==data_->generation) {
+            auto& result=ready.pair;
+            if(ready.spatial) {
+                ready.spatial->source()->require_current();data_->spatial=std::move(ready.spatial);data_->dataset=result.fields[0]->dataset;
+                if(data_->options.genes[0].empty())data_->options.genes[0]=result.fields[0]->feature;
+                if(data_->options.genes[1].empty())data_->options.genes[1]=result.fields[1]?result.fields[1]->feature:result.fields[0]->feature;
+            }
+            data_->result=std::make_shared<const GeneDisplayPair>(std::move(result));
+        }}
         catch(...) {if(data_->running==data_->generation)data_->error=workflow_failure_message(std::current_exception());}
     }
     if(!data_->future.valid() && data_->pending) {
         data_->pending=false;data_->running=data_->generation;data_->cancelled.store(false);
         try {
-            data_->future=std::async(std::launch::async,[this,dataset=*data_->dataset,options=data_->options] {
-                return gene_display_pair(dataset,options.genes,options.display,options.compare,options.shared_range,data_->work,&data_->cancelled);
+            data_->future=std::async(std::launch::async,[this,dataset=data_->dataset,spatial=data_->spatial,request=data_->spatial_request,options=data_->options]() mutable {
+                auto work=data_->work;
+                if(request) {
+                    if(request->payload_bytes()>=work)throw WorkflowCaptureLimit("Spatial request exceeds gene-view budget");
+                    work-=request->payload_bytes();
+                }
+                if(request && !spatial)spatial=request->resolve(data_->work,&data_->cancelled);
+                if(spatial) {
+                    const auto& source=spatial->source();source->require_current(&data_->cancelled);
+                    std::vector<std::string> selected;
+                    for(unsigned i=0;i<(options.compare?2u:1u);++i) {
+                        workflow_checkpoint(&data_->cancelled);
+                        if(options.genes[i].empty())options.genes[i]=source->feature_page(std::min<std::uint64_t>(i,source->metadata().features-1),1,work,&data_->cancelled).at(0).id;
+                        if(std::find(selected.begin(),selected.end(),options.genes[i])==selected.end())selected.push_back(options.genes[i]);
+                    }
+                    // bind() discards the projection when either the spatial scope or
+                    // runtime source changes. Retain only this exact selected cohort.
+                    if(!dataset || dataset->source_id()!=spatial->sha256() || dataset->features()!=selected) {
+                        std::vector<std::uint64_t> features;
+                        for(const auto& id:selected) {
+                            const auto index=source->feature_index(id,&data_->cancelled);
+                            if(!index)throw std::invalid_argument("Selected gene ID is absent from backed expression matrix");
+                            features.push_back(*index);
+                        }
+                        dataset=spatial->dataset(features,work,&data_->cancelled);
+                    }
+                }
+                const auto result=gene_display_pair(*dataset,options.genes,options.display,options.compare,options.shared_range,work,&data_->cancelled);
+                if(spatial)spatial->source()->require_current(&data_->cancelled);
+                return Data::Ready{result,std::move(spatial)};
             });
         }catch(...) {data_->error=workflow_failure_message(std::current_exception());}
     }
@@ -121,6 +175,7 @@ void GeneViewSession::wait(){workflow_require_owner(data_->owner);poll();while(d
 bool GeneViewSession::busy() const {workflow_require_owner(data_->owner);return data_->pending || data_->future.valid();}
 const GeneViewOptions& GeneViewSession::options() const {workflow_require_owner(data_->owner);return data_->options;}
 const std::optional<ExpressionDataset>& GeneViewSession::dataset() const {workflow_require_owner(data_->owner);return data_->dataset;}
+const std::optional<ExpressionMatrixSpatialSnapshot>& GeneViewSession::spatial_snapshot() const {workflow_require_owner(data_->owner);return data_->spatial;}
 std::shared_ptr<const GeneDisplayPair> GeneViewSession::result() const {workflow_require_owner(data_->owner);return data_->result;}
 const std::string& GeneViewSession::error() const {workflow_require_owner(data_->owner);return data_->error;}
 std::uint64_t GeneViewSession::generation() const {workflow_require_owner(data_->owner);return data_->generation;}

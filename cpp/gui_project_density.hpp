@@ -45,6 +45,7 @@ class GuiProjectDensity {
     }
 public:
     void finish(){job_.finish();}
+    void open(){open_=true;}
     void open_button(){if(ui::Button("Project density..."))open_=true;}
     void draw(const Project* project,const std::vector<ProjectImage>& catalog,bool blocked) {
         job_.poll();auto result=job_.result();
@@ -79,13 +80,13 @@ public:
             ImGui::TextWrapped("Exact class names, one per line. No descendant expansion. Every requested class must have objects in every selected image.");
             constexpr const char* labels[]={"Window classes","Tissue classes","Exclusion classes (optional)","Cell classes"};
             for(std::size_t i=0;i<4;++i) {
-                if(i==3){changed=ImGui::Checkbox("All Cell objects (including unclassified)",&all_cells_) || changed;ImGui::BeginDisabled(all_cells_);}
+                if(i==3){changed=ui::Checkbox("All Cell objects (including unclassified)",&all_cells_) || changed;ImGui::BeginDisabled(all_cells_);}
                 ImGui::SetNextItemWidth(-1);ImGui::TextUnformatted(labels[i]);
                 changed=ImGui::InputTextMultiline(("##density-class-"+std::to_string(i)).c_str(),classes_[i].data(),classes_[i].size(),{0,42}) || changed;
                 if(i==3)ImGui::EndDisabled();
             }
-            changed=ImGui::Checkbox("Prefer nucleus centroids",&prefer_nucleus_) || changed;
-            changed=ImGui::Checkbox("Accept 512-segment curve approximation",&curves_) || changed;
+            changed=ui::Checkbox("Prefer nucleus centroids",&prefer_nucleus_) || changed;
+            changed=ui::Checkbox("Accept 512-segment curve approximation",&curves_) || changed;
             if(changed){preview_.reset();error_.clear();}
             ImGui::EndDisabled();
             ImGui::BeginDisabled(!enabled);

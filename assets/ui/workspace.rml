@@ -1,27 +1,40 @@
 <rml>
 <head><title>qupathxx workspace</title></head>
-<body id="workspace" schema="1">
+<body id="workspace" schema="2">
   <div id="activity" class="activity">
-    <button id="project"><qpx-icon name="project" /></button>
-    <button id="image"><qpx-icon name="image" /></button>
-    <button id="annotations"><qpx-icon name="annotations" /></button>
-    <button id="workflow"><qpx-icon name="workflow" /></button>
+    <div class="activity-views">
+      <button id="project"><span class="active-indicator" /><span class="focus-ring" /><qpx-icon name="project" /></button>
+      <button id="image"><span class="active-indicator" /><span class="focus-ring" /><qpx-icon name="image" /></button>
+      <button id="annotations"><span class="active-indicator" /><span class="focus-ring" /><qpx-icon name="annotations" /></button>
+      <button id="workflow"><span class="active-indicator" /><span class="focus-ring" /><qpx-icon name="workflow" /></button>
+    </div>
+    <div class="activity-utilities">
+      <button id="settings"><span class="focus-ring" /><qpx-icon name="settings" /></button>
+    </div>
   </div>
   <div id="toolbar" class="toolbar">
-    <button id="select"><qpx-icon name="select" /></button>
-    <button id="rectangle"><qpx-icon name="rectangle" /></button>
-    <button id="ellipse"><qpx-icon name="ellipse" /></button>
-    <button id="polygon"><qpx-icon name="polygon" /></button>
-    <button id="polyline"><qpx-icon name="polyline" /></button>
-    <button id="points"><qpx-icon name="points" /></button>
-    <button id="vertices"><qpx-icon name="vertices" /></button>
-    <button id="hole"><qpx-icon name="hole" /></button>
-    <button id="fit"><qpx-icon name="fit" /></button>
-    <button id="undo"><qpx-icon name="undo" /></button>
-    <button id="redo"><qpx-icon name="redo" /></button>
-    <button id="spatial"><qpx-icon name="spatial" /></button>
-    <button id="channels"><qpx-icon name="channels" /></button>
-    <button id="reset"><qpx-icon name="reset" /></button>
+    <div class="toolbar-group first" role="group">
+    <button id="select"><span class="focus-ring" /><qpx-icon name="select" /></button>
+    <button id="rectangle"><span class="focus-ring" /><qpx-icon name="rectangle" /></button>
+    <button id="ellipse"><span class="focus-ring" /><qpx-icon name="ellipse" /></button>
+    <button id="polygon"><span class="focus-ring" /><qpx-icon name="polygon" /></button>
+    <button id="polyline"><span class="focus-ring" /><qpx-icon name="polyline" /></button>
+    <button id="points"><span class="focus-ring" /><qpx-icon name="points" /></button>
+    <button id="vertices"><span class="focus-ring" /><qpx-icon name="vertices" /></button>
+    <button id="hole"><span class="focus-ring" /><qpx-icon name="hole" /></button>
+    </div>
+    <div class="toolbar-group" role="group">
+    <span class="toolbar-divider" aria-hidden="true" />
+    <button id="undo"><span class="focus-ring" /><qpx-icon name="undo" /></button>
+    <button id="redo"><span class="focus-ring" /><qpx-icon name="redo" /></button>
+    </div>
+    <div class="toolbar-group" role="group">
+    <span class="toolbar-divider" aria-hidden="true" />
+    <button id="fit"><span class="focus-ring" /><qpx-icon name="fit" /></button>
+    <button id="spatial"><span class="focus-ring" /><qpx-icon name="spatial" /></button>
+    <button id="channels"><span class="focus-ring" /><qpx-icon name="channels" /></button>
+    <button id="reset"><span class="focus-ring" /><qpx-icon name="reset" /></button>
+    </div>
   </div>
   <div id="tooltip" />
 </body>

@@ -888,3 +888,6 @@ cpp/gui_icons.hpp text eol=lf
 cpp/tests/gui_design_tests.cpp text eol=lf
 assets/fonts/*.ttf binary
 docs/benchmarks/design-system/** -text -whitespace
+
+# OME-Zarr fixtures and their inventory are addressed by exact byte hashes.
+tests/fixtures/ome-zarr/** -text whitespace=cr-at-eol

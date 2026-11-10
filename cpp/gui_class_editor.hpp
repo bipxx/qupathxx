@@ -64,7 +64,7 @@ public:
         if(!context || !unchanged)ImGui::TextWrapped("The project, image or class changed. Reload or choose a class before applying this draft.");
         ImGui::InputTextWithHint("Class name","Full key, e.g. Tumor: Positive",name_.data(),name_.size());
         ImGui::InputTextWithHint("Parent class","Empty for a flat/root class",parent_.data(),parent_.size());
-        ImGui::Checkbox("Color specified",&color_present_);
+        ui::Checkbox("Color specified",&color_present_);
         ImGui::BeginDisabled(!color_present_);
         // ImGui193 scalar text otherwise commits on deactivation, after an
         // adjacent Save button can already have consumed the previous value.
@@ -137,7 +137,7 @@ public:
             ImGui::BeginDisabled(!row_valid);
             if(ui::IconButton("Remove default",ui::Icon::Trash))attempt([&]{update(0,true);});ImGui::EndDisabled();
             ImGui::BeginDisabled(!image);
-            if(ImGui::Button("Apply defaults to image"))attempt([&]{project->apply_class_defaults(image);});ImGui::EndDisabled();
+            if(ui::Button("Apply defaults to image"))attempt([&]{project->apply_class_defaults(image);});ImGui::EndDisabled();
             ImGui::EndDisabled();
         }
         if(!error_.empty())ImGui::TextWrapped("%s",error_.c_str());

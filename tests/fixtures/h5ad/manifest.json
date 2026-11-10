@@ -1,0 +1,153 @@
+{
+  "generator": "tools/make_h5ad_fixtures.py",
+  "generator_h5py": "3.15.1",
+  "purpose": "Independent authored format/axis/domain and malformed storage fixtures; no third-party biological input",
+  "license": "AGPL-3.0-only",
+  "files": [
+    {
+      "filename": "array-continuous.h5ad",
+      "bytes": 15654,
+      "sha256": "f8a674adef40f2ec2f349ecba2aac7c02324ecd296f5ce2e68c274a08cc301c3"
+    },
+    {
+      "filename": "array.h5ad",
+      "bytes": 15622,
+      "sha256": "bbf4a9159660ca6ef3cdc88c0ce949a2374c575c5c9c751788f3e1cdbb7e676c"
+    },
+    {
+      "filename": "count-fractional.h5ad",
+      "bytes": 16907,
+      "sha256": "679faafe48eb51363dcc7fc939a466c840487a8da0fd2e189b370ecf2bc6a85d"
+    },
+    {
+      "filename": "count-negative.h5ad",
+      "bytes": 16907,
+      "sha256": "81ae7fe2c3d73d11a2ffc288875d36b2f4b7629be9f22a9d498f80bd7cd974af"
+    },
+    {
+      "filename": "csc_matrix-continuous.h5ad",
+      "bytes": 16867,
+      "sha256": "22c4547f2dd7eab1fa2be15ff8def73af234c7d08bba54e948fc74095366f5d2"
+    },
+    {
+      "filename": "csc_matrix.h5ad",
+      "bytes": 16867,
+      "sha256": "8549bc4ac94d438a5e7e6bf852cef6982c32f10794fa2be482f89286ee144ba8"
+    },
+    {
+      "filename": "csr_matrix-continuous.h5ad",
+      "bytes": 16867,
+      "sha256": "d0ca50bef0cf1c7c5d3f1f2d71b601136b4e238a8acee7f8cfd8e72f91d3ce98"
+    },
+    {
+      "filename": "csr_matrix.h5ad",
+      "bytes": 16867,
+      "sha256": "77721ac9ee157eeaa046d8da71583fb37ac164928aa00b67b5f9feadaee0e601"
+    },
+    {
+      "filename": "duplicate-coordinate.h5ad",
+      "bytes": 16867,
+      "sha256": "cb225329a1aefe00f5861540e84514074eb9ff0448a52047761e6427e8ffa644"
+    },
+    {
+      "filename": "duplicate-feature.h5ad",
+      "bytes": 16867,
+      "sha256": "98de7969f56d99a52ee0c528eb012353483168a78a5724644c827b153e8e3865"
+    },
+    {
+      "filename": "duplicate-observation.h5ad",
+      "bytes": 16867,
+      "sha256": "7c36854dd669dee7f21e0e1bd6d2e3a6330293da8255de38e9eec23094b479b2"
+    },
+    {
+      "filename": "external-link.h5ad",
+      "bytes": 16867,
+      "sha256": "6f2207490a8148e27780545df243b7b6032a5d62f781291ec2f7324aa71d61b4"
+    },
+    {
+      "filename": "external-storage.h5ad",
+      "bytes": 20963,
+      "sha256": "e9bf648ff526c6a18197abcb1f888a72517683e41349d62527748336fb21e09b"
+    },
+    {
+      "filename": "future-version.h5ad",
+      "bytes": 23011,
+      "sha256": "db8075dcb805f0168418a6bcd4191408cf9cabbf1a85adf168b84d4526f94c43"
+    },
+    {
+      "filename": "index-float.h5ad",
+      "bytes": 16907,
+      "sha256": "ca04e0db5f06de36aa4bf259577a28d2f87e2d36a6f2901de06b34bc494af3b1"
+    },
+    {
+      "filename": "index-negative.h5ad",
+      "bytes": 16867,
+      "sha256": "65d89b5d04edeaf9fe4c6a78cb247de1b3307a4cf7f56350dddf13f37ba69933"
+    },
+    {
+      "filename": "index-range.h5ad",
+      "bytes": 16867,
+      "sha256": "e8f65bd1f7f7febb442924d14dc59baf6bb1d6ab1953b96564d4ceb569fff5b4"
+    },
+    {
+      "filename": "long-attribute.h5ad",
+      "bytes": 23011,
+      "sha256": "8bd58066888b7aca5362403ebe8f2d5f209c25d35e6fb95a499dd382322116bc"
+    },
+    {
+      "filename": "long-id.h5ad",
+      "bytes": 16867,
+      "sha256": "01da5dfd4f6ddb88d2e2267b8a6cbfc3393856970cea2b082e4d3f31cbc17585"
+    },
+    {
+      "filename": "matrix-shape.h5ad",
+      "bytes": 16867,
+      "sha256": "537afebf2cdc2bf52cf896a9d511a1a76f1a057ee9f87ea6683aafe4e3d30523"
+    },
+    {
+      "filename": "nonfinite.h5ad",
+      "bytes": 16907,
+      "sha256": "8e14bcd934b249077cbbb2633eec4a4772c643ff8bfbcaa8c5a6c059a0587241"
+    },
+    {
+      "filename": "pointer-end.h5ad",
+      "bytes": 16867,
+      "sha256": "5173db6b618905fd56fd561db55d09ff7ecf9d42dc3e84a4b1ecda41f76d6fed"
+    },
+    {
+      "filename": "pointer-negative.h5ad",
+      "bytes": 16867,
+      "sha256": "96355a0d6b5deaa357419ad370befc1737fbb856c9efc078463ea6eb614e39cb"
+    },
+    {
+      "filename": "pointer-order.h5ad",
+      "bytes": 16867,
+      "sha256": "70d42778720e0c54ccb78c0ec3df936ee71e41d52b70498f6b0cb22aa5d2b67c"
+    },
+    {
+      "filename": "selected-layer.h5ad",
+      "bytes": 21870,
+      "sha256": "7e90b522a0e9061d8eb8382342d8413f2b52171089f1bbc325635d07fbc57605"
+    },
+    {
+      "filename": "soft-link.h5ad",
+      "bytes": 16932,
+      "sha256": "634fa1a16547330ba81b5b7fdafa2a24407bbac44492652d49a8238addcdb7b4"
+    },
+    {
+      "filename": "spatial-shape.h5ad",
+      "bytes": 16939,
+      "sha256": "ac38087bbcb6256af900ca55579ebba678c9cefd58c105a24a170600d3ef8327"
+    },
+    {
+      "filename": "unreviewed-filter.h5ad",
+      "bytes": 20963,
+      "sha256": "bcf33f2e7bc2f3ae6b0304039aba29796e7899d80beaa22d408460a1f647f955"
+    },
+    {
+      "filename": "virtual.h5ad",
+      "bytes": 20963,
+      "sha256": "08011c434dfaccb2ea5f8c92e32d2645ce467d631cba1f2f83b4718b46f6a215"
+    }
+  ]
+}

@@ -259,16 +259,16 @@ public:
         try {refresh(doc);poll_exchange(doc);}catch(const std::exception& e) {failure(e);}
         if(!open_) {if(exchange_.valid() || preview_)cancel_exchange();return false;}
         const auto* viewport=ImGui::GetMainViewport();const auto scale=ImGui::GetFontSize()/13.f;
-        ImGui::SetNextWindowSize({std::min(530.f*scale,viewport->WorkSize.x*.9f),std::min(780.f*scale,viewport->WorkSize.y*.9f)},ImGuiCond_Appearing);
-        ImGui::SetNextWindowPos({viewport->WorkPos.x+viewport->WorkSize.x*.5f,viewport->WorkPos.y+viewport->WorkSize.y*.5f},ImGuiCond_Appearing,{.5f,.5f});
+        ImGui::SetNextWindowSize({std::min(530.f*scale,viewport->WorkSize.x*.9f),std::min(780.f*scale,viewport->WorkSize.y*.9f)},ImGuiCond_FirstUseEver);
+        ImGui::SetNextWindowPos({viewport->WorkPos.x+viewport->WorkSize.x*.5f,viewport->WorkPos.y+viewport->WorkSize.y*.5f},ImGuiCond_FirstUseEver,{.5f,.5f});
         ImGui::SetNextWindowSizeConstraints({std::min(280.f*scale,viewport->WorkSize.x),std::min(180.f*scale,viewport->WorkSize.y)},viewport->WorkSize);
         if(!ImGui::Begin("Tissue microarray",&open_)) {ImGui::End();return false;}
         auto remember=[&](GuiInputTarget target,bool disabled) {const auto a=ImGui::GetItemRectMin(),b=ImGui::GetItemRectMax();targets_[index(target)]={a.x,a.y,b.x-a.x,b.y-a.y};enabled_[index(target)]=!disabled && ImGui::IsItemVisible();mark(target);};
         auto button=[&](const char* text,GuiInputTarget target,bool disabled) {ImGui::BeginDisabled(disabled);const bool clicked=ui::Button(text);remember(target,disabled);ImGui::EndDisabled();return clicked;};
         auto perform=[&](auto&& action) {try {action();error_.clear();refresh(doc);}catch(const std::exception& e) {failure(e);}};
         const bool disabled=blocked || !has_image;bool batch=false;
-        if(ImGui::CollapsingHeader("Grid detection and QuPath exchange",exchange_open_?ImGuiTreeNodeFlags_DefaultOpen:0)) {
-            if(ImGui::CollapsingHeader("Detect cores in this image",dearray_open_?ImGuiTreeNodeFlags_DefaultOpen:0)) {
+        if(ui::CollapsingHeader("Grid detection and QuPath exchange",exchange_open_?ImGuiTreeNodeFlags_DefaultOpen:0)) {
+            if(ui::CollapsingHeader("Detect cores in this image",dearray_open_?ImGuiTreeNodeFlags_DefaultOpen:0)) {
                 ImGui::TextWrapped("Supply the grid dimensions and approximate core size. Review the proposed outlines before applying them. A completely absent row or column cannot be inferred.");
                 ImGui::BeginDisabled(disabled || exchange_.valid() || bool(grid_));
                 int rows=static_cast<int>(dearray_options_.rows),columns=static_cast<int>(dearray_options_.columns);
@@ -400,7 +400,7 @@ public:
                 if(tab("Grid edits",1,GuiInputTarget::TmaGridTab)) {
                     ImGui::BeginDisabled(disabled);ui::InputText("Grid name",name_.data(),name_.size());ui::InputText("Row label",row_label_.data(),row_label_.size());ui::InputText("Column label",column_label_.data(),column_label_.size());ui::Checkbox("Update core names from labels",&rename_names_);ImGui::EndDisabled();
                     if(button("Apply labels",GuiInputTarget::ApplyTmaLabels,disabled)) perform([&]{auto rows=info.row_labels(),columns=info.column_labels();rows[row]=row_label_.data();columns[column]=column_label_.data();doc.set_tma_labels(name_.data(),rows,columns,rename_names_);});
-                    if(ImGui::CollapsingHeader("Rows and columns",ImGuiTreeNodeFlags_DefaultOpen)) {
+                    if(ui::CollapsingHeader("Rows and columns",ImGuiTreeNodeFlags_DefaultOpen)) {
                         ImGui::BeginDisabled(disabled);
                         ui::InputText("New axis label (optional)",insert_label_.data(),insert_label_.size());
                         ui::Checkbox("Fill inserted slots with cores",&insert_cores_);

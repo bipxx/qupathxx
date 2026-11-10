@@ -46,6 +46,12 @@ std::string lineage(const Annotation& object,ObjectPlane plane) {
             throw std::invalid_argument("Expression projection lacks valid source hashes");
         text(digest,at->second);
     }
+    const auto scope=metadata.find("omics.import_scope_sha256");
+    if(scope!=metadata.end()) {
+        if(scope->second.size()!=64 || scope->second.find_first_not_of("0123456789abcdef")!=std::string::npos)
+            throw std::invalid_argument("Invalid expression import scope");
+        text(digest,"qpx.import-scope/1");text(digest,scope->second);
+    }
     return digest.finish();
 }
 }

@@ -31,6 +31,10 @@ inline void run() {
     auto activate=[&](const char* label,const char* tab=nullptr) {
         ImGui::ActivateItemByID(id(label,tab));frame();frame();
     };
+    auto activate_checkbox=[&](const char* label,const char* tab) {
+        // Shared checkboxes scope their stable caption around the value item.
+        ImGui::ActivateItemByID(ImHashStr("##value",0,id(label,tab)));frame();frame();
+    };
     auto text=[&](const char* label,const char* value,const char* tab) {
         ImGui::ActivateItemByID(id(label,tab));GImGui->NavNextActivateFlags=ImGuiActivateFlags_PreferInput;
         frame();frame();require(ImGui::GetActiveID()==id(label,tab),"Text field did not activate");
@@ -54,7 +58,7 @@ inline void run() {
     activate("Remove metadata","Metadata");
     // Activate tab using its actual tab-bar identity, then its controls.
     ImGui::ActivateItemByID(ImHashStr("Description and tags",0,ImHashStr("Entry fields",0,ImGui::FindWindowByName("Edit project entry")->ID)));frame();frame();
-    activate("Description present","Description and tags");text("Description",u8"Description \u03b1\nsecond line","Description and tags");
+    activate_checkbox("Description present","Description and tags");text("Description",u8"Description \u03b1\nsecond line","Description and tags");
     activate("Add tag","Description and tags");text("Tag","z-last","Description and tags");
     activate("Add tag","Description and tags");text("Tag","a-first","Description and tags");
     activate("Add tag","Description and tags"); // Preserve an explicit empty tag.
@@ -76,9 +80,9 @@ inline void run() {
     text("Description","cancel this","Description and tags");activate("Cancel / close");
     require(project->image_description(image)=="newer","Cancel committed draft");
     opening=true;frame();frame();
-    activate("Description present","Description and tags");activate("Clear tags","Description and tags");activate("Apply description and tags","Description and tags");
+    activate_checkbox("Description present","Description and tags");activate("Clear tags","Description and tags");activate("Apply description and tags","Description and tags");
     require(!project->image_description(image) && project->image_tags(image).empty(),"Clear did not preserve absent description");
-    activate("Description present","Description and tags");text("Description","","Description and tags");activate("Apply description and tags","Description and tags");
+    activate_checkbox("Description present","Description and tags");text("Description","","Description and tags");activate("Apply description and tags","Description and tags");
     require(project->image_description(image)=="","Empty description became absent");
     // A different project with the same numeric image ID must not receive the old draft.
     auto original=project;project=std::make_shared<qpx::Project>();

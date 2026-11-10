@@ -15,7 +15,7 @@ int qpx::run_application(const std::vector<std::string>& arguments) {
         qpx::ThumbnailOptions overview;
         for (int i=1;i<argc;++i) {
             auto arg=std::string(argv[i]);
-            if(arg=="--help" || arg=="-h") {std::cout<<"Usage: qupathxx_app [image | --project file | --recover snapshot | --empty] [--reader auto|ppm|openslide|tiff] [--tiff-series N] [--image-id N] [--recovery-base path] [--compact | --layout path] [--reset-layout] [--ui-scale N] [--overview-source-pixels N] [--smoke]\n";return 0;}
+            if(arg=="--help" || arg=="-h") {std::cout<<"Usage: qupathxx_app [image | --project file | --recover snapshot | --empty] [--reader auto|ppm|openslide|tiff|ome-zarr] [--tiff-series N] [--image-id N] [--recovery-base path] [--compact | --layout path] [--reset-layout] [--ui-scale N] [--overview-source-pixels N] [--smoke]\n";return 0;}
             if(arg=="--smoke") smoke=true;
             else if(arg=="--reader" && i+1<argc) reader=argv[++i];
             else if(arg=="--tiff-series" && i+1<argc) {std::string value=argv[++i];std::size_t used=0;const auto n=std::stoul(value,&used);if(value.empty() || value[0]=='-' || used!=value.size() || n>65535) throw std::invalid_argument("invalid TIFF series index");tiff_series=std::uint32_t(n);}
@@ -32,7 +32,7 @@ int qpx::run_application(const std::vector<std::string>& arguments) {
             else if(path.empty() && arg.rfind("--",0)!=0) path=arg;
             else throw std::invalid_argument("Usage: qupathxx_app [image | --project file | --recover snapshot | --empty] [--recovery-base primary] [--image-id id] [--compact | --layout preferences.ini] [--reset-layout] [--ui-scale multiplier] [--overview-source-pixels count] [--smoke]");
         }
-        if(reader!="auto" && reader!="ppm" && reader!="openslide" && reader!="tiff")throw std::invalid_argument("invalid image reader");
+        if(reader!="auto" && reader!="ppm" && reader!="openslide" && reader!="tiff" && reader!="ome-zarr")throw std::invalid_argument("invalid image reader");
         if(!std::isfinite(ui_scale) || ui_scale<.5 || ui_scale>3)throw std::invalid_argument("--ui-scale must be between0.5 and3");
         if(!recovery_base.empty() && recovery_path.empty()) throw std::invalid_argument("--recovery-base requires --recover");
         if(tiff_series && path.empty()) throw std::invalid_argument("--tiff-series requires an image path");

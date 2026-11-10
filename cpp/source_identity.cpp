@@ -1,4 +1,10 @@
 #include "json_string.hpp"
+#ifdef _WIN32
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include <windows.h>
+#endif
 #include "qupathxx/source_identity.hpp"
 #include "reader_file_guard.hpp"
 #include "atomic_export.hpp"
@@ -10,6 +16,7 @@
 #include <random>
 #include <algorithm>
 #include <set>
+#include <filesystem>
 namespace qpx {
 namespace {
 
@@ -34,7 +41,7 @@ std::string status(const ReaderSource& source,const FileFingerprint& fingerprint
     if(v.identity_scheme!=fingerprint.identity_scheme || v.stamp_scheme!=fingerprint.stamp_scheme) return "incompatible_scheme";
     if(v.identity!=fingerprint.identity) return "different_file";
     if(v.bytes!=fingerprint.bytes || v.modified_token!=fingerprint.modified_token || v.change_token!=fingerprint.change_token) return "version_changed";
-    return source.scope=="compound_files"?"matching_primary_metadata":"matching_metadata";
+    return source.scope=="compound_files" || source.scope=="directory_store"?"matching_primary_metadata":"matching_metadata";
 }
 }
 void FileVersion::validate() const {
@@ -46,7 +53,7 @@ void FileVersion::validate() const {
 }
 std::size_t FileVersion::payload_bytes() const {return sizeof(*this)+path.capacity()+identity_scheme.capacity()+identity.capacity()+stamp_scheme.capacity()+modified_token.capacity()+change_token.capacity();}
 std::size_t ReaderSource::payload_bytes() const {
-    std::size_t bytes=sizeof(*this)+generation.capacity()+reader.capacity()+locator.capacity()+scope.capacity()+(primary?primary->payload_bytes():0);
+    std::size_t bytes=sizeof(*this)+generation.capacity()+reader.capacity()+locator.capacity()+scope.capacity()+directory_sha256.capacity()+(primary?primary->payload_bytes():0);
     bytes+=companions.capacity()*sizeof(FileVersion);
     for(const auto& file:companions) bytes+=file.payload_bytes()-sizeof(FileVersion);
     return bytes;
@@ -55,6 +62,7 @@ void ReaderSource::validate() const {
     detail::bounded_utf8(generation,128);detail::bounded_utf8(reader,256);detail::bounded_utf8(locator,32768);
     if(generation.empty() || reader.empty() || companions.size()>63 || payload_bytes()>128*1024) throw std::invalid_argument("invalid reader source identity");
     if(scope!="compound_files" && !companions.empty()) throw std::invalid_argument("companions require compound file scope");
+    if(scope!="directory_store" && !directory_sha256.empty())throw std::invalid_argument("Directory inventory requires directory scope");
     if(scope=="memory") {if(primary || !locator.empty()) throw std::invalid_argument("invalid memory reader source");}
     else if(scope=="unopened") {if(primary || locator.empty()) throw std::invalid_argument("invalid unopened reader source");}
     else if(scope=="single_file" || scope=="primary_file") {if(!primary || locator!=primary->path) throw std::invalid_argument("invalid file reader source");primary->validate();}
@@ -68,6 +76,13 @@ void ReaderSource::validate() const {
                 throw std::invalid_argument("duplicate or unordered compound reader dependency");
             previous=file.path;
         }
+    }
+    else if(scope=="directory_store") {
+        if(!primary || !detail::absolute_source_path(locator) || directory_sha256.size()!=64 || !std::all_of(directory_sha256.begin(),directory_sha256.end(),[](char c){return (c>='0' && c<='9') || (c>='a' && c<='f');}))throw std::invalid_argument("Invalid directory source identity");
+        primary->validate();
+        const auto portable=[](std::string p){std::replace(p.begin(),p.end(),'\\','/');return std::filesystem::u8path(p).lexically_normal().generic_u8string();};
+        auto prefix=portable(locator);if(prefix.back()!='/')prefix+='/';const auto file=portable(primary->path);
+        if(file.size()<=prefix.size() || file.compare(0,prefix.size(),prefix))throw std::invalid_argument("Directory metadata must be inside its store");
     }
     else throw std::invalid_argument("invalid reader dependency scope");
 }
@@ -83,15 +98,19 @@ std::shared_ptr<const ReaderSource> make_compound_reader_source(std::string read
 SourceFileAssociation associate_source_file(const ReaderSource& source,const FileFingerprint& fingerprint) {
     source.validate();fingerprint.validate();return {source,fingerprint,status(source,fingerprint)};
 }
+std::shared_ptr<const ReaderSource> make_directory_reader_source(std::string reader,std::string locator,std::shared_ptr<const FileVersion> primary,std::string inventory) {
+    auto value=std::make_shared<ReaderSource>();value->generation=generation();value->reader=std::move(reader);value->locator=std::move(locator);value->scope="directory_store";value->primary=std::move(primary);value->directory_sha256=std::move(inventory);value->validate();return value;
+}
 std::string reader_source_json(const ReaderSource& source) {
-    source.validate();std::string out="{\"schema\":\"qpx.reader-source/"+std::string(source.companions.empty()?"1":"2")+"\",\"generation\":"+detail::json_string(source.generation)+",\"reader\":"+detail::json_string(source.reader)+",\"locator\":"+detail::json_string(source.locator)+",\"scope\":"+detail::json_string(source.scope)+",\"primary\":"+(source.primary?version_json(*source.primary):"null");
+    source.validate();std::string out="{\"schema\":\"qpx.reader-source/"+std::string(source.scope=="directory_store"?"3":source.companions.empty()?"1":"2")+"\",\"generation\":"+detail::json_string(source.generation)+",\"reader\":"+detail::json_string(source.reader)+",\"locator\":"+detail::json_string(source.locator)+",\"scope\":"+detail::json_string(source.scope)+",\"primary\":"+(source.primary?version_json(*source.primary):"null");
     if(!source.companions.empty()) {out+=",\"companions\":[";bool comma=false;for(const auto& file:source.companions) {if(comma) out+=',';comma=true;out+=version_json(file);}out+=']';}
+    if(source.scope=="directory_store")out+=",\"directory_sha256\":"+detail::json_string(source.directory_sha256);
     return out+"}";
 }
 std::string source_file_association_json(const SourceFileAssociation& a) {
     const auto checked=associate_source_file(a.source,a.fingerprint);if(a.status!=checked.status) throw std::invalid_argument("invalid source association status");
     auto fingerprint=file_fingerprint_json(a.fingerprint);if(!fingerprint.empty() && fingerprint.back()=='\n') fingerprint.pop_back();
-    return "{\"schema\":\"qpx.source-file-association/"+std::string(a.source.companions.empty()?"1":"2")+"\",\"status\":"+detail::json_string(a.status)+",\"source\":"+reader_source_json(a.source)+",\"fingerprint\":"+fingerprint+"}\n";
+    return "{\"schema\":\"qpx.source-file-association/"+std::string(a.source.scope=="directory_store"?"3":a.source.companions.empty()?"1":"2")+"\",\"status\":"+detail::json_string(a.status)+",\"source\":"+reader_source_json(a.source)+",\"fingerprint\":"+fingerprint+"}\n";
 }
 namespace detail {
 bool same_reader_files(const ReaderSource& a,const ReaderSource& b) {
@@ -99,7 +118,7 @@ bool same_reader_files(const ReaderSource& a,const ReaderSource& b) {
         return x.identity_scheme==y.identity_scheme && x.identity==y.identity && x.bytes==y.bytes &&
             x.stamp_scheme==y.stamp_scheme && x.modified_token==y.modified_token && x.change_token==y.change_token;
     };
-    if(a.locator!=b.locator || a.scope!=b.scope || !a.primary || !b.primary || !same(*a.primary,*b.primary) || a.companions.size()!=b.companions.size()) return false;
+    if(a.locator!=b.locator || a.scope!=b.scope || a.directory_sha256!=b.directory_sha256 || !a.primary || !b.primary || !same(*a.primary,*b.primary) || a.companions.size()!=b.companions.size()) return false;
     for(std::size_t i=0;i<a.companions.size();++i) if(a.companions[i].path!=b.companions[i].path || !same(a.companions[i],b.companions[i])) return false;
     return true;
 }
@@ -107,7 +126,7 @@ void save_source_association(const SourceFileAssociation& value,const std::strin
     const auto json=source_file_association_json(value);
     auto guard=[&] {
         guard_file_output(value.fingerprint.path,value.fingerprint.identity,path);
-        if(!value.source.locator.empty()) {
+        if(value.source.scope=="directory_store") {guard_file_output(value.source.locator,"",path);}else if(!value.source.locator.empty()) {
             const auto& primary=value.source.primary;
             const auto identity=primary && primary->identity_scheme==value.fingerprint.identity_scheme?primary->identity:std::string{};
             guard_file_output(value.source.locator,identity,path);

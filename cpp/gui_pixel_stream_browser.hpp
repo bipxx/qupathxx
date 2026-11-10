@@ -69,8 +69,8 @@ public:
     void draw(Document& doc,bool blocked,const std::function<void(GuiInputTarget)>& mark) {
         image_bounds_={0,0,0,0};visible_=false;if(!open_) return;
         const auto* vp=ImGui::GetMainViewport();const auto scale=ImGui::GetFontSize()/13.f;
-        ImGui::SetNextWindowSize({std::min(650.f*scale,vp->WorkSize.x*.88f),std::min(680.f*scale,vp->WorkSize.y*.88f)},ImGuiCond_Appearing);
-        ImGui::SetNextWindowPos({vp->WorkPos.x+vp->WorkSize.x*.55f,vp->WorkPos.y+vp->WorkSize.y*.5f},ImGuiCond_Appearing,{.5f,.5f});
+        ImGui::SetNextWindowSize({std::min(650.f*scale,vp->WorkSize.x*.88f),std::min(680.f*scale,vp->WorkSize.y*.88f)},ImGuiCond_FirstUseEver);
+        ImGui::SetNextWindowPos({vp->WorkPos.x+vp->WorkSize.x*.55f,vp->WorkPos.y+vp->WorkSize.y*.5f},ImGuiCond_FirstUseEver,{.5f,.5f});
         ImGui::SetNextWindowSizeConstraints({std::min(280.f*scale,vp->WorkSize.x),std::min(180.f*scale,vp->WorkSize.y)},vp->WorkSize);
         const bool visible=visible_=ImGui::Begin("Saved pixel stream files",&open_);
         if(!open_) {if(busy()) job_.cancel();else job_.close();update();}
@@ -78,7 +78,7 @@ public:
         auto button=[&](const char* label,GuiInputTarget target,bool is_disabled,std::optional<ui::Icon> icon={}) {ImGui::BeginDisabled(is_disabled);const bool clicked=(icon?ui::IconButton(label,*icon):ui::Button(label));const auto a=ImGui::GetItemRectMin(),b=ImGui::GetItemRectMax();targets_[index(target)]={a.x,a.y,b.x-a.x,b.y-a.y};mark(target);ImGui::EndDisabled();return clicked;};
         auto disabled=[&] {return blocked || busy();};auto loaded=[&] {return bool(stats_.declared_summary) && stats_.state!="cancelled" && stats_.state!="cancelling";};
         ImGui::BeginDisabled(disabled());ui::InputText("Saved stream file",path_.data(),path_.size());ui::InputScalar("Block index (zero based)",ImGuiDataType_U64,&index_);ImGui::EndDisabled();
-        if(ImGui::CollapsingHeader("File size limit")) {ImGui::BeginDisabled(disabled());std::uint64_t gib=max_bytes_/(1ULL<<30);if(ui::InputScalar("Maximum file size (GiB)",ImGuiDataType_U64,&gib)) max_bytes_=std::clamp<std::uint64_t>(gib,1,65536)*(1ULL<<30);ImGui::EndDisabled();}
+        if(ui::CollapsingHeader("File size limit")) {ImGui::BeginDisabled(disabled());std::uint64_t gib=max_bytes_/(1ULL<<30);if(ui::InputScalar("Maximum file size (GiB)",ImGuiDataType_U64,&gib)) max_bytes_=std::clamp<std::uint64_t>(gib,1,65536)*(1ULL<<30);ImGui::EndDisabled();}
         if(button("Open stream file",GuiInputTarget::OpenPixelStreamFile,disabled() || !path_[0])) run([&] {job_.open(path_.data(),index_,max_bytes_);});ImGui::SameLine();
         if(button("Read block",GuiInputTarget::ReadPixelStreamBlock,disabled() || !loaded())) run([&] {job_.read(index_);});
         if(button("Previous block",GuiInputTarget::PreviousPixelStreamBlock,disabled() || !loaded() || !stats_.block_index || stats_.block_index>=stats_.declared_summary->blocks,ui::Icon::Left)) run([&] {index_=stats_.block_index-1;job_.read(index_);});ImGui::SameLine();
@@ -97,7 +97,7 @@ public:
         if(button("Open saved stream",GuiInputTarget::OpenPixelStreamRecord,disabled() || !selected)) run([&] {index_=0;const auto path=selected->link->path();bounded_utf8(path,path_.size()-1);path_.fill(0);std::memcpy(path_.data(),path.data(),path.size());job_.open_link(selected->link,index_,max_bytes_);});ImGui::SameLine();
         if(button("Relink selected stream",GuiInputTarget::RelinkPixelStreamRecord,disabled() || !selected || !stats_.verified || !stats_.link || !selected->link->same_content(*stats_.link))) run([&] {doc.relink_pixel_stream_record(selected_,stats_.link);});ImGui::SameLine();
         if(button("Remove stream link",GuiInputTarget::RemovePixelStreamRecord,disabled() || !selected)) run([&] {doc.remove_pixel_stream_record(selected_);selected_=0;});
-        if(selected && ImGui::CollapsingHeader("Saved stream link details")) {ImGui::TextWrapped("%s",selected->link->path().c_str());ImGui::TextWrapped("Historical content SHA-256: %s",selected->link->summary().sha256.c_str());ImGui::TextWrapped("Project loading checks metadata only. Opening this link verifies the complete external file. Removing a link does not delete its file.");}
+        if(selected && ui::CollapsingHeader("Saved stream link details")) {ImGui::TextWrapped("%s",selected->link->path().c_str());ImGui::TextWrapped("Historical content SHA-256: %s",selected->link->summary().sha256.c_str());ImGui::TextWrapped("Project loading checks metadata only. Opening this link verifies the complete external file. Removing a link does not delete its file.");}
         if(stats_.block) {
             const auto& block=*stats_.block;ImGui::TextWrapped("Historical block %llu: %lld x %lld at level %d",static_cast<unsigned long long>(stats_.block_index),static_cast<long long>(block.width()),static_cast<long long>(block.height()),block.level());
             ImGui::TextWrapped("Labels only. This preview is separate from the current image.");
@@ -105,7 +105,7 @@ public:
             const ImVec2 size{std::max(1.f,ImGui::GetContentRegionAvail().x),std::max(64.f,std::min(240.f*scale,ImGui::GetContentRegionAvail().y-24.f*scale))};const auto at=ImGui::GetCursorScreenPos();
             ImGui::InvisibleButton("Historical block labels",size);auto* draw=ImGui::GetWindowDrawList();draw->AddRectFilled(at,{at.x+size.x,at.y+size.y},IM_COL32(30,32,36,255));preview_.draw_local(draw,at,size);
             const auto zoom=std::min(double(size.x)/block.width(),double(size.y)/block.height());image_bounds_={at.x+(size.x-block.width()*zoom)*.5,at.y+(size.y-block.height()*zoom)*.5,block.width()*zoom,block.height()*zoom};
-            if(ImGui::CollapsingHeader("Original source and class counts")) {
+            if(ui::CollapsingHeader("Original source and class counts")) {
                 const auto& p=*block.provenance();ImGui::TextWrapped("%lld x %lld / %s",static_cast<long long>(p.source.width),static_cast<long long>(p.source.height),p.reader.c_str());
                 ImGui::TextWrapped("%s",p.locator.c_str());ImGui::TextWrapped("Numeric SHA-256: %s",block.sha256().c_str());
                 ImGui::TextWrapped("%llu valid / %llu classified pixels in this block",static_cast<unsigned long long>(block.valid_pixels()),static_cast<unsigned long long>(block.classified_pixels()));

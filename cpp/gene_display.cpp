@@ -37,6 +37,36 @@ double normalized(double value,double lower,double upper) {
     const auto scale=std::max({std::abs(lower),std::abs(upper),1.});
     return std::clamp((value/scale-lower/scale)/(upper/scale-lower/scale),0.,1.);
 }
+std::string display_identity(const ExpressionDataset& dataset,const std::string& feature,
+    const GeneDisplayOptions& options,const std::vector<std::size_t>& rows) {
+    Sha256 digest;text(digest,"qpx.gene-display/1");text(digest,dataset.sha256());text(digest,feature);
+    digest.integer(static_cast<std::uint64_t>(options.transform));digest.integer(static_cast<std::uint64_t>(options.range));digest.integer(static_cast<std::uint64_t>(options.palette));
+    if(options.range==GeneDisplayRange::Manual) {real(digest,options.lower);real(digest,options.upper);}
+    if(options.range==GeneDisplayRange::Percentile) {real(digest,options.lower_percentile);real(digest,options.upper_percentile);}
+    real(digest,options.opacity);
+    for(auto component:options.missing_color)digest.integer(component);
+    for(auto component:options.zero_color)digest.integer(component);
+    digest.integer(rows.size());for(auto row:rows)digest.integer(row);
+    return digest.finish();
+}
+void paint_field(GeneDisplayField& result,const GeneDisplayOptions& options,const std::atomic<bool>* cancelled) {
+    auto& legend=result.legend;legend.range=options.range;
+    legend.clipped_lower=legend.clipped_upper=0;
+    result.request_sha256=display_identity(result.dataset,result.feature,options,result.rows);
+    for(std::size_t i=0;i<result.rows.size();++i) {
+        if(!(i&4095))workflow_checkpoint(cancelled);
+        if(!result.valid[i])result.colors[i]=options.missing_color;
+        else {
+            const auto value=result.transformed_values[i];legend.clipped_lower+=value<legend.lower;legend.clipped_upper+=value>legend.upper;
+            result.colors[i]=value==0?options.zero_color:color(normalized(value,legend.lower,legend.upper),options);
+        }
+        if(!result.valid[i] || result.transformed_values[i]==0)
+            result.colors[i][3]=alpha(result.colors[i][3],options.opacity);
+    }
+    result.payload_bytes=sizeof(GeneDisplayField)+result.dataset.payload_bytes()+result.feature.capacity()+result.request_sha256.capacity()+
+        result.rows.capacity()*sizeof(std::size_t)+result.transformed_values.capacity()*sizeof(double)+result.valid.capacity()+result.colors.capacity()*4;
+    workflow_checkpoint(cancelled);
+}
 }
 void GeneDisplayOptions::validate() const {
     if(transform!=GeneDisplayTransform::Linear && transform!=GeneDisplayTransform::Log1p)throw std::invalid_argument("Invalid gene display transform");
@@ -69,18 +99,12 @@ GeneDisplayRequest::GeneDisplayRequest(ExpressionDataset dataset,std::string fea
     data->column=data->dataset.feature_index(data->feature);data->work=work;
     if(selected)data->rows=std::move(*selected);
     else {data->rows.resize(n);std::iota(data->rows.begin(),data->rows.end(),0);}
-    std::set<std::size_t> unique;
-    for(auto row:data->rows)if(row>=data->dataset.observations().size() || !unique.insert(row).second)
-        throw std::invalid_argument("Gene display cohort has duplicate/out-of-range observation rows");
-    Sha256 digest;text(digest,"qpx.gene-display/1");text(digest,data->dataset.sha256());text(digest,data->feature);
-    digest.integer(static_cast<std::uint64_t>(options.transform));digest.integer(static_cast<std::uint64_t>(options.range));digest.integer(static_cast<std::uint64_t>(options.palette));
-    if(options.range==GeneDisplayRange::Manual) {real(digest,options.lower);real(digest,options.upper);}
-    if(options.range==GeneDisplayRange::Percentile) {real(digest,options.lower_percentile);real(digest,options.upper_percentile);}
-    real(digest,options.opacity);
-    for(auto component:options.missing_color)digest.integer(component);
-    for(auto component:options.zero_color)digest.integer(component);
-    digest.integer(data->rows.size());for(auto row:data->rows)digest.integer(row);
-    data->sha=digest.finish();data_=std::move(data);
+    if(selected) {
+        std::set<std::size_t> unique;
+        for(auto row:data->rows)if(row>=data->dataset.observations().size() || !unique.insert(row).second)
+            throw std::invalid_argument("Gene display cohort has duplicate/out-of-range observation rows");
+    }
+    data->sha=display_identity(data->dataset,data->feature,options,data->rows);data_=std::move(data);
 }
 const ExpressionDataset& GeneDisplayRequest::dataset() const {return data_->dataset;}
 const std::string& GeneDisplayRequest::feature() const {return data_->feature;}
@@ -89,14 +113,18 @@ const std::vector<std::size_t>& GeneDisplayRequest::rows() const {return data_->
 std::size_t GeneDisplayRequest::feature_index() const {return data_->column;}
 std::size_t GeneDisplayRequest::work_bytes() const {return data_->work;}
 const std::string& GeneDisplayRequest::sha256() const {return data_->sha;}
-std::shared_ptr<const GeneDisplayField> gene_display_field(const GeneDisplayRequest& request,const std::atomic<bool>* cancelled) {
+namespace {
+std::shared_ptr<GeneDisplayField> prepare_field(const GeneDisplayRequest& request,bool resolve_range,const std::atomic<bool>* cancelled) {
     workflow_checkpoint(cancelled);const auto& dataset=request.dataset();const auto& options=request.options();
     const auto size=request.rows().size();
     if(size>request.work_bytes()/64)throw WorkflowCaptureLimit("Gene display buffers exceed work budget");
     auto result=std::make_shared<GeneDisplayField>(GeneDisplayField{dataset});result->feature=request.feature();result->request_sha256=request.sha256();
     result->rows=request.rows();result->transformed_values.assign(size,0);result->valid.assign(size,0);result->colors.resize(size);
     auto& legend=result->legend;legend.domain=dataset.domain();legend.transform=options.transform;legend.range=options.range;
-    std::vector<double> samples;samples.reserve(size);
+    std::vector<double> samples;
+    const bool quantiles=resolve_range && options.range==GeneDisplayRange::Percentile;
+    if(quantiles)samples.reserve(size);
+    bool measured=false;double lower=0,upper=0;
     for(std::size_t i=0;i<size;++i) {
         if(!(i&4095))workflow_checkpoint(cancelled);
         const auto at=result->rows[i]*dataset.features().size()+request.feature_index();
@@ -107,28 +135,24 @@ std::shared_ptr<const GeneDisplayField> gene_display_field(const GeneDisplayRequ
             if(value<0)throw std::invalid_argument("Log1p gene display requires nonnegative measured values");
             value=std::log1p(value);
         }
-        result->transformed_values[i]=value;result->valid[i]=1;samples.push_back(value);
+        result->transformed_values[i]=value;result->valid[i]=1;
+        if(!measured){lower=upper=value;measured=true;}else{lower=std::min(lower,value);upper=std::max(upper,value);}
+        if(quantiles)samples.push_back(value);
     }
-    if(options.range==GeneDisplayRange::Manual) {legend.lower=options.lower;legend.upper=options.upper;}
-    else if(!samples.empty()) {
-        if(options.range==GeneDisplayRange::Percentile) {
+    if(resolve_range) {
+        if(options.range==GeneDisplayRange::Manual) {legend.lower=options.lower;legend.upper=options.upper;}
+        else if(measured) {
+          if(quantiles) {
             std::sort(samples.begin(),samples.end());workflow_checkpoint(cancelled);
             legend.lower=percentile(samples,options.lower_percentile);legend.upper=percentile(samples,options.upper_percentile);
-        } else {const auto limits=std::minmax_element(samples.begin(),samples.end());legend.lower=*limits.first;legend.upper=*limits.second;}
-    }
-    for(std::size_t i=0;i<size;++i) {
-        if(!(i&4095))workflow_checkpoint(cancelled);
-        if(!result->valid[i])result->colors[i]=options.missing_color;
-        else {
-            const auto value=result->transformed_values[i];legend.clipped_lower+=value<legend.lower;legend.clipped_upper+=value>legend.upper;
-            result->colors[i]=value==0?options.zero_color:color(normalized(value,legend.lower,legend.upper),options);
+          } else {legend.lower=lower;legend.upper=upper;}
         }
-        if(!result->valid[i] || result->transformed_values[i]==0)
-            result->colors[i][3]=alpha(result->colors[i][3],options.opacity);
     }
-    result->payload_bytes=sizeof(GeneDisplayField)+dataset.payload_bytes()+result->feature.capacity()+result->request_sha256.capacity()+
-        result->rows.capacity()*sizeof(std::size_t)+result->transformed_values.capacity()*sizeof(double)+result->valid.capacity()+result->colors.capacity()*4;
     workflow_checkpoint(cancelled);return result;
+}
+}
+std::shared_ptr<const GeneDisplayField> gene_display_field(const GeneDisplayRequest& request,const std::atomic<bool>* cancelled) {
+    auto result=prepare_field(request,true,cancelled);paint_field(*result,request.options(),cancelled);return result;
 }
 GeneDisplayPair gene_display_pair(ExpressionDataset dataset,const std::array<std::string,2>& features,
     GeneDisplayOptions options,bool compare,bool shared,std::size_t work,const std::atomic<bool>* cancelled) {
@@ -137,11 +161,13 @@ GeneDisplayPair gene_display_pair(ExpressionDataset dataset,const std::array<std
     if(dataset.observations().size()>work/256)throw WorkflowCaptureLimit("Gene comparison buffers exceed work budget");
     GeneDisplayPair pair;pair.range_policy=options.range;pair.shared_range=compare && shared;
     const auto count=compare?2u:1u;
-    for(unsigned i=0;i<count;++i)pair.fields[i]=gene_display_field(GeneDisplayRequest(dataset,features[i],options,std::nullopt,work),cancelled);
-    if(pair.shared_range && options.range!=GeneDisplayRange::Manual) {
+    const bool pooled=pair.shared_range && options.range!=GeneDisplayRange::Manual;
+    std::array<std::shared_ptr<GeneDisplayField>,2> fields;
+    for(unsigned i=0;i<count;++i)fields[i]=prepare_field(GeneDisplayRequest(dataset,features[i],options,std::nullopt,work),!pooled,cancelled);
+    if(pooled) {
         std::vector<double> samples;bool measured=false;double lower=0,upper=0;
         if(options.range==GeneDisplayRange::Percentile)samples.reserve(2*dataset.observations().size());
-        for(const auto& field:pair.fields)for(std::size_t i=0;i<field->valid.size();++i) {
+        for(const auto& field:fields)for(std::size_t i=0;i<field->valid.size();++i) {
             if(!(i&4095))workflow_checkpoint(cancelled);if(!field->valid[i])continue;
             const auto v=field->transformed_values[i];
             if(!measured) {lower=upper=v;measured=true;}else {lower=std::min(lower,v);upper=std::max(upper,v);}
@@ -152,8 +178,9 @@ GeneDisplayPair gene_display_pair(ExpressionDataset dataset,const std::array<std
             lower=percentile(samples,options.lower_percentile);upper=percentile(samples,options.upper_percentile);
         }
         options.range=GeneDisplayRange::Manual;options.lower=lower;options.upper=upper;
-        for(unsigned i=0;i<2;++i)pair.fields[i]=gene_display_field(GeneDisplayRequest(dataset,features[i],options,std::nullopt,work),cancelled);
+        for(auto& field:fields){field->legend.lower=lower;field->legend.upper=upper;}
     }
+    for(unsigned i=0;i<count;++i){paint_field(*fields[i],options,cancelled);pair.fields[i]=std::move(fields[i]);}
     return pair;
 }
 struct GeneDisplayCache::Data {

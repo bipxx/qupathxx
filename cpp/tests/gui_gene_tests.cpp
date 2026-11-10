@@ -1,6 +1,7 @@
 #include "qupathxx/core.hpp"
 #include "qupathxx/project.hpp"
 #include "qupathxx/gene_view.hpp"
+#include "qupathxx/landmark_registration.hpp"
 #include "qupathxx/object_properties.hpp"
 #include <filesystem>
 #include <fstream>
@@ -91,11 +92,40 @@ int main(int argc,char** argv) {try {
         check(std::abs((b.x-a.x)+40*sx)<2 && std::abs(b.y-a.y)<2,"Dragging either comparison canvas moves both gene maps by the same screen displacement");
     }
     check(panned.final_center.x==comparison.final_center.x && panned.final_center.y==comparison.final_center.y && bytes(file)==original,"Comparison drag preserves main camera/project");
+    const auto fit=fit_landmarks({{"shift",{288,48},{248,48}}},{LandmarkModel::Translation});
+    CoordinateFrame source;source.id=dataset.coordinate_frame();source.source_id=dataset.source_id();source.plane=dataset.plane();
+    accept_landmark_registration(*doc,"gene-alignment",RegistrationRequest(dataset,source,image_coordinate_frame(*doc,project->identity()+":1"),fit.transform()),fit);
+    view.compare=false;view.display.transform=GeneDisplayTransform::Linear;view.genes={"G1","G2"};options.inputs.clear();options.layout_path=(root/"registered-genes.ini").u8string();preference(fs::u8path(options.layout_path),view,dataset.source_id());
+    const auto aligned=run_project_gui(project,25,(root/"registered-G1.ppm").u8string(),options);
+    const auto registered_image=Image::read_ppm((root/"registered-G1.ppm").u8string());const Viewport registered_view{aligned.final_origin,aligned.final_zoom};
+    for(std::size_t i=0;i<dataset.observations().size();++i) {
+        const auto p=registered_view.image_to_screen(fit.transform().map(dataset.observations()[i].position));
+        const auto x=int(std::lround((aligned.canvas_content_bounds.x+p.x)*aligned.framebuffer_width/options.width));
+        const auto y=int(std::lround((aligned.canvas_content_bounds.y+p.y)*aligned.framebuffer_height/options.height));
+        check(x>=0 && y>=0 && x<registered_image.width() && y<registered_image.height(),"Registered glyph lies in canvas");
+        const auto at=(std::size_t(y)*registered_image.width()+x)*3;
+        for(unsigned c=0;c<3;++c)check(std::abs(int(registered_image.pixels()[at+c])-int(expected->colors[i][c]))<=1,"Native gene color uses accepted registered position");
+    }
+    check(ExpressionDataset::capture(*doc,capture).sha256()==dataset.sha256() && bytes(file)==original,"Registered display preserves raw source and original project file");
     if(argc>2) {
-        auto real=Project::open_without_journal_recovery(argv[2]);auto real_doc=real->document(1);auto real_capture=capture;real_capture.source_id.clear();const auto actual=ExpressionDataset::capture(*real_doc,real_capture);
+        auto real=Project::open_without_journal_recovery(argv[2]);auto real_doc=real->document(1);
+        const auto scopes=expression_matrix_spatial_scopes(*real_doc);
+        if(!scopes.empty()) {
+            check(scopes.size()==1 && scopes[0].observations==2702,"Real indexed scope contains admitted observation cohort");
+            const auto original_project=bytes(fs::u8path(argv[2]));
+            view.genes={"ENSMUSG00000051951","ENSMUSG00000070880"};view.radius=3;view.compare=true;view.display.transform=GeneDisplayTransform::Log1p;
+            options.layout_path=(root/"real-indexed.ini").u8string();preference(fs::u8path(options.layout_path),view,scopes[0].sha256());
+            const auto shown=run_project_gui(real,60,(root/"real-indexed-comparison.ppm").u8string(),options);
+            check(shown.tiles_settled && shown.uploaded_tiles && !shown.pending_tiles,"Full app indexed maps, asynchronous source/catalogue/value jobs and tiles settle");
+            check(bytes(fs::u8path(argv[2]))==original_project && expression_matrix_spatial_scopes(*real_doc)[0].sha256()==scopes[0].sha256(),"Real indexed display preserves project and coordinate scope");
+            check(bytes(fs::u8path(options.layout_path)).find(gene_workspace_preference(view,scopes[0].sha256()))!=std::string::npos,"Real indexed gene/source choices persist only in workspace");
+            write(root/"real-indexed-result.json","{\"tiles_settled\":true,\"observations\":2702,\"scope_sha256\":\""+scopes[0].sha256()+"\",\"comparison\":true,\"project_unchanged\":true}\n");
+        } else {
+        auto real_capture=capture;real_capture.source_id.clear();const auto actual=ExpressionDataset::capture(*real_doc,real_capture);
         view.genes={actual.features()[0],actual.features()[1]};view.radius=3;options.layout_path=(root/"real-genes.ini").u8string();preference(fs::u8path(options.layout_path),view,actual.source_id());
         run_project_gui(real,30,(root/"real-comparison.ppm").u8string(),options);
         check(ExpressionDataset::capture(*real_doc,real_capture).sha256()==actual.sha256(),"Real six-marker navigation preserves counts/coordinates");
+        }
     }
     std::cout<<"Gene GUI: native colors at exact point positions, zero/missing legends, comparison, workspace persistence and unchanged project/counts passed\n";
 }catch(const std::exception& error){std::cerr<<error.what()<<'\n';return 1;}}

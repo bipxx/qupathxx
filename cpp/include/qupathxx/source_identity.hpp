@@ -14,6 +14,9 @@ struct ReaderSource {
     // Additional files, sorted by absolute path, with no duplicate file identity.
     // At most 63 companions and 128 KiB total source payload. Empty for legacy scopes.
     std::vector<FileVersion> companions;
+    // Observed directory membership/file-version digest, never a byte fingerprint.
+    // Present only for directory_store; primary identifies its metadata file.
+    std::string directory_sha256;
     void validate() const;
     std::size_t payload_bytes() const;
 };
@@ -21,6 +24,8 @@ struct ReaderSource {
 std::shared_ptr<const ReaderSource> make_reader_source(std::string reader,std::string locator,std::string scope,std::shared_ptr<const FileVersion> primary={});
 std::shared_ptr<const ReaderSource> make_compound_reader_source(std::string reader,std::string locator,
     std::shared_ptr<const FileVersion> primary,std::vector<FileVersion> companions);
+std::shared_ptr<const ReaderSource> make_directory_reader_source(std::string reader,std::string locator,
+    std::shared_ptr<const FileVersion> primary,std::string inventory_sha256);
 struct SourceFileAssociation {
     ReaderSource source;
     FileFingerprint fingerprint;

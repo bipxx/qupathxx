@@ -139,7 +139,8 @@ CoordinateFrame image_coordinate_frame(const Document& document,std::string id,O
     if(source->primary) {
         file_identity(digest,*source->primary,cancelled);digest.integer(source->companions.size());
         for(const auto& file:source->companions)file_identity(digest,file,cancelled);
-        const auto view=server->tiff_view();digest.integer(bool(view));if(view)digest.integer(view->series);
+        if(source->scope=="directory_store"){server->require_raw_current(cancelled);hash_text(digest,source->directory_sha256);}
+        const auto view=server->raw_view();digest.integer(bool(view));if(view)digest.integer(view->series);
     } else {
         // External mutable readers without stable file versions are deliberately
         // refused; memory-backed native RGB is immutable and can be hashed once.
@@ -196,8 +197,8 @@ void require_current_registration(const RegistrationDefinition& definition,const
     if(definition.dataset_sha256!=current.sha256() || definition.source.id!=current.coordinate_frame() || definition.source.source_id!=current.source_id() ||
        definition.source.plane!=current.plane() || definition.target.sha256()!=target.sha256())throw WorkflowInputChanged("Registration source/frame changed");
 }
-void accept_registration(Document& document,const std::string& id,const RegistrationRequest& request,const std::atomic<bool>* cancelled) {
-    workflow_checkpoint(cancelled);identifier(id);const auto& definition=request.definition();
+void require_current_registration(const Document& document,const RegistrationRequest& request,const std::atomic<bool>* cancelled) {
+    workflow_checkpoint(cancelled);const auto& definition=request.definition();
     ExpressionCaptureOptions options;options.coordinate_frame=definition.source.id;options.source_id=definition.source.source_id;
     options.plane=definition.source.plane;options.features=request.dataset().features();options.work_bytes=request.work_bytes();
     for(const auto& observation:request.dataset().observations()) {
@@ -208,7 +209,10 @@ void accept_registration(Document& document,const std::string& id,const Registra
     auto current=ExpressionDataset::capture(document,options,cancelled);
     const auto target=image_coordinate_frame(document,definition.target.id,definition.target.plane,cancelled);
     require_current_registration(definition,current,target);workflow_checkpoint(cancelled);
-    document.set_image_data_properties(with_registration(document.image_data_properties(),id,definition));
+}
+void accept_registration(Document& document,const std::string& id,const RegistrationRequest& request,const std::atomic<bool>* cancelled) {
+    identifier(id);require_current_registration(document,request,cancelled);
+    document.set_image_data_properties(with_registration(document.image_data_properties(),id,request.definition()));
 }
 std::shared_ptr<const ImageDataProperties> with_registration(std::shared_ptr<const ImageDataProperties> properties,const std::string& id,const RegistrationDefinition& definition) {
     identifier(id);definition.validate();V::Map values=properties?properties->values():V::Map{};V::Map registrations;

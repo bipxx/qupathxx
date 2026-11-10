@@ -65,6 +65,9 @@ int main(int argc,char** argv) {try {
     auto chained_project=Project::open(chained.output_project);std::size_t recipes=0;
     for(const auto& item:chained_project->image_metadata(1))if(item.first.find("omics.import_recipe:")==0)++recipes;
     check(recipes==2 && chained_project->document(1)->object_count()==7);
+    const auto lineages=ExpressionDataset::sources(*chained_project->document(1));check(lineages.size()==2);
+    for(const auto& source:lineages) {ExpressionCaptureOptions cohort;cohort.coordinate_frame="image-level-zero-px";cohort.source_id=source;
+        check(ExpressionDataset::capture(*chained_project->document(1),cohort).observations().size()==3);}
     rejects<WorkflowOutputExists>([&]{publish_spatial_import(*preview);});
     request.output_project=(root/"stale.qpx").u8string();const auto stale=preview_spatial_import(request);
     write(root/"positions.tsv",positions+"extra\t0\t0\n");rejects<WorkflowInputChanged>([&]{publish_spatial_import(*stale);});check(!fs::exists(root/"stale.qpx"));write(root/"positions.tsv",positions);
@@ -76,6 +79,25 @@ int main(int argc,char** argv) {try {
     write(root/"collision.qpx","keep-me");rejects<WorkflowOutputExists>([&]{publish_spatial_import(*collision);});check(bytes(root/"collision.qpx")=="keep-me");
     request.output_project=(root/"async-preview.qpx").u8string();check(job.preview(request));job.wait();job.rethrow_error();
     check(job.phase()==SpatialImportPhase::Ready && job.result() && !fs::exists(root/"async-preview.qpx"));
+    const auto feature_catalogue=read_spatial_feature_catalogue(request.features);check(feature_catalogue.features==std::vector<std::string>({"G1","G2","G3"}));
+    check(job.catalogue(request.features));job.wait();job.rethrow_error();check(job.phase()==SpatialImportPhase::CatalogueReady && job.catalogue_result()->features==feature_catalogue.features);
+    check(job.base_catalogue(request.input_project));job.wait();job.rethrow_error();check(job.phase()==SpatialImportPhase::BaseReady && job.base_result()->images.size()==1 && job.base_result()->images[0].width==8);
+    request.expected_base_sha256=job.base_result()->source_sha256;request.expected_feature_sha256=feature_catalogue.source_sha256;
+    auto wrong_catalogue=request;wrong_catalogue.expected_feature_sha256=std::string(64,'a');rejects<WorkflowInputChanged>([&]{preview_spatial_import(wrong_catalogue);});
+    auto calibrated=Project::open(request.input_project);calibrated->document(1)->set_calibration(.5,2);calibrated->save_new((root/"calibrated.qpx").u8string());
+    auto mapped=request;mapped.expected_base_sha256.clear();mapped.input_project=(root/"calibrated.qpx").u8string();mapped.output_project=(root/"mapped.qpx").u8string();
+    mapped.options.position_columns={"barcode","source_x","source_y"};mapped.position_unit=CoordinateUnit::Micrometre;mapped.alignment.matrix[2]=mapped.alignment.matrix[5]=.5;
+    write(root/"mapped-positions.tsv","source_y\tbarcode\tsource_x\n2\tA\t1.5\n4.5\tB\t3\n0\tZero\t0\n");mapped.positions=(root/"mapped-positions.tsv").u8string();
+    const auto mapped_preview=preview_spatial_import(mapped);check(mapped_preview->projection().observations[0].position.x==1.5 && mapped_preview->mapped_positions()[0].x==3.5 && mapped_preview->mapped_positions()[0].y==1.5);
+    publish_spatial_import(*mapped_preview);const auto mapped_project=Project::open(mapped.output_project);const auto mapped_doc=mapped_project->document(1);
+    check(mapped_doc->annotation(2).geometry.centroid().x==3.5 && mapped_doc->annotation(3).geometry.centroid().y==2.75);
+    check(mapped_doc->annotation(2).properties->metadata().at("omics.original_x")=="1.5" && mapped_doc->annotation(2).properties->metadata().at("omics.original_coordinate_unit")=="micrometre");
+    check(mapped_doc->annotation(2).properties->measurements().at("omics.count:G1")==5 && mapped_preview->image_server()->metadata().width==8);
+    write(root/"image.ppm","P6\n8 8\n255\n"+std::string(8*8*3,'P'));auto direct=request;direct.input_project.clear();direct.expected_base_sha256.clear();direct.image_path=(root/"image.ppm").u8string();direct.output_project=(root/"direct.qpx").u8string();
+    const auto direct_preview=preview_spatial_import(direct);check(direct_preview->project_sha256().empty() && direct_preview->input_sha256().size()==64);publish_spatial_import(*direct_preview);
+    check(Project::open(direct.output_project)->document(1)->object_count()==3);
+    direct.output_project=(root/"unknown-calibration.qpx").u8string();direct.position_unit=CoordinateUnit::Micrometre;rejects<std::invalid_argument>([&]{preview_spatial_import(direct);});check(!fs::exists(root/"unknown-calibration.qpx"));
+    request.output_project=(root/"async-preview.qpx").u8string();check(job.preview(request));job.wait();job.rethrow_error();
     std::atomic<bool> cancelled{true};rejects<WorkflowCancelled>([&]{read_spatial_counts("missing","missing","missing",options,&cancelled);});
     rejects<WorkflowCancelled>([&]{preview_spatial_import(request,&cancelled);});
     rejects<WorkflowCancelled>([&]{publish_spatial_import(*job.result(),&cancelled);});check(!fs::exists(root/"async-preview.qpx"));

@@ -183,6 +183,7 @@ public:
     const Image& image() const { return dense_image(*server_); }
     std::shared_ptr<ImageServer> server() const { return server_; }
     void set_tiff_view(const TiffView&);
+    void set_raw_view(const TiffView&);
     ObjectPlane active_plane() const;
     void validate_object_plane(const ObjectPlane&) const;
     bool object_visible(std::uint64_t id) const;

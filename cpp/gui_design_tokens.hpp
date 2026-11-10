@@ -2,8 +2,8 @@
 #include <cstdint>
 
 namespace qpx::ui::design {
-// Port of colmap-webview/src/index.css at121bd73a. UI chrome only: scientific
-// channels, object classes, image pixels and viewer overlays have separate owners.
+// Neutral palette from colmap-webview at121bd73a; shared workbench role geometry.
+// UI chrome only: scientific channels, classes, pixels and overlays have separate owners.
 struct Palette {
     std::uint32_t bg_void,bg_primary,bg_secondary,bg_tertiary,bg_hover,bg_input,bg_elevated;
     std::uint32_t text_primary,text_secondary,text_muted,border,border_light,border_subtle;
@@ -22,10 +22,20 @@ inline constexpr Palette light{
 struct Spacing {float xs=2,sm=4,md=8,lg=12,xl=16,xxl=24,xxxl=32;};
 inline constexpr Spacing spacing;
 struct Metrics {
-    float font_size=14,panel_radius=8,control_radius=4,border=1;
-    float action_height=32,compact_height=24,icon_size=28,sidebar_width=336;
+    float font_size=16,panel_radius=8,control_radius=2,border=1;
+    float caption_size=14,heading_size=16,title_size=18;
+    float control_height=28,action_height=28,dialog_action_height=32,compact_height=24,icon_size=28,sidebar_width=336;
+    float icon_canvas=24;
+    float project_row_height=40,project_thumbnail_width=40,project_thumbnail_height=30;
+    float button_radius=4,button_padding_x=8,button_min_width=64,icon_stroke=1.35f;
     float dialog_width=560,overview_width=180,overview_margin=12;
-    float activity_width=44,activity_row=40,panel_inset_x=12,panel_inset_y=8;
+    float dialog_padding=16,dialog_editor_width=760,dialog_editor_height=640,dialog_confirm_height=340,dialog_button_min_width=96;
+    float dialog_min_height=320,dialog_error_max_height=64;
+    float menu_row_height=28;
+    float activity_width=48,activity_row=48,activity_icon_box=32,activity_indicator=2;
+    float section_height=24,label_width=112,field_min_width=96,checkbox_size=18;
+    float disabled_opacity=.5f;
+    float panel_inset_x=8,panel_inset_y=8;
 };
 inline constexpr Metrics metrics;
 enum class Theme {Dark,Light,System};
