@@ -94,5 +94,21 @@ an admitted record; missing/unreviewed/restricted bytes, restricted ancestors,
 unknown/cyclic derivative sources and linked/reparse paths refuse staging. An
 open derivative cannot reference an NC parent. This is development/release tooling,
 not a Python product dependency or a runtime restriction on private user input.
-The guard and initial font/CC0 annotations are tested; complete package/source-kit
-membership and release-pipeline integration remain pending under L01/P02.
+The L01 native profile and its staging/collection entry points are described in
+[native release material admission](../native-release-materials.md). Actual local
+archive coverage is recorded in the feature-expansion receipt; P02 separately
+owns final install/use/removal and publication. Historical products retain their
+original evidence and are not retrospectively qualified by this inventory.
+
+The cached upstream OpenCV carrier at commit
+`31b0eeea0b44b370fd0712312df4214d4ae1b158`, SHA256
+`bb15d5c85bab38c1377c0c7dd7ff201b078bcdb41cc4ff9f85ac61aa56b5f631`,
+contains `samples/data/lena.jpg` and `doc/js_tutorials/js_assets/lena.jpg`.
+The project has no reviewed independent open-image grant for those photographs.
+Classify the mixed carrier as unreviewed for new collection/staging; preserve its
+historical cache/receipts without using it as release membership evidence.
+No new download is authorized by this metadata. Future unresolved material copies
+belong in the external unreviewed pool above. The native OpenCV builder now uses
+only the reviewed vendored core/ML subset; its original archive is never a fallback.
+The exact selection manifest records retained code and excluded assets; an Apache
+code license does not admit those omitted photographs or unrelated model files.

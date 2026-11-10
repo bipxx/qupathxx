@@ -1,0 +1,48 @@
+#include "expression_reduction_internal.hpp"
+#include "qupathxx/project.hpp"
+#include "workflow_input.hpp"
+#include "reader_file_guard.hpp"
+#include <fstream>
+
+namespace qpx {
+namespace {
+using V=ImageDataValue;
+using namespace detail::reduction;
+namespace fs=std::filesystem;
+constexpr const char* property="qupathxx.expression-reductions/1";
+struct Association {std::string path,file,source,parent_file;std::uint64_t features=0,observations=0;bool owned=true;};
+template<class T>const T& typed(const V& v){const auto* p=std::get_if<T>(&v.value);if(!p)throw std::invalid_argument("Invalid reduction association type");return *p;}
+std::string locator(const std::string& file){digest(file);return ".qpx-expression-reductions/"+file+".qpr";}
+const V::Map& records(std::shared_ptr<const ImageDataProperties> properties){static const V::Map empty;if(!properties)return empty;const auto i=properties->values().find(property);return i==properties->values().end()?empty:typed<V::Map>(i->second);}
+void validate(const Association& a,bool external_relative=false){digest(a.file);digest(a.source);digest(a.parent_file);detail::bounded_utf8(a.path,32768);workflow_path_argument(a.path);if(!a.features || a.features>1000000 || a.observations<2 || a.observations>1000000 || (a.owned?(a.path!=locator(a.file) && !fs::u8path(a.path).is_absolute()):(!external_relative && !fs::u8path(a.path).is_absolute())))throw std::invalid_argument("Invalid reduction association locator/dimensions");}
+V encode(const Association& a){validate(a,true);return V{V::Map{{"path",V{a.path}},{"file",V{a.file}},{"source",V{a.source}},{"parent_file",V{a.parent_file}},{"features",V{std::int64_t(a.features)}},{"observations",V{std::int64_t(a.observations)}},{"owned",V{a.owned}}}};}
+Association decode(const std::string& id,const V& value,bool relative=false){digest(id);const auto& m=typed<V::Map>(value);if(m.size()!=7)throw std::invalid_argument("Reduction association fields differ");Association a;a.path=typed<std::string>(m.at("path"));a.file=typed<std::string>(m.at("file"));a.source=typed<std::string>(m.at("source"));a.parent_file=typed<std::string>(m.at("parent_file"));const auto f=typed<std::int64_t>(m.at("features")),n=typed<std::int64_t>(m.at("observations"));if(f<=0 || n<2)throw std::invalid_argument("Invalid reduction association axis length");a.features=std::uint64_t(f);a.observations=std::uint64_t(n);a.owned=typed<bool>(m.at("owned"));validate(a,relative);return a;}
+std::string resolve(const Association& a,const fs::path& directory){const auto p=fs::u8path(a.path);return p.is_absolute()?p.lexically_normal().u8string():(directory/p).lexically_normal().u8string();}
+void not_linked(const fs::path& p){
+    std::error_code error;const auto status=fs::symlink_status(p,error);if(!error && fs::is_symlink(status))throw std::invalid_argument("Managed reduction path is linked");
+#ifdef _WIN32
+    const auto attributes=GetFileAttributesW(p.c_str());if(attributes!=INVALID_FILE_ATTRIBUTES && (attributes&FILE_ATTRIBUTE_REPARSE_POINT))throw std::invalid_argument("Managed reduction path is a reparse point");
+#endif
+}
+void copy_owned(const Association& a,const std::string& source,const fs::path& directory,const std::atomic<bool>* cancelled){
+    workflow_checkpoint(cancelled);const auto target=directory/fs::u8path(locator(a.file)),folder=target.parent_path();not_linked(folder);not_linked(target);
+    if(fs::exists(target)){const detail::WorkflowInput existing(target.u8string(),archive_limit,false,cancelled);if(existing.sha256()!=a.file)throw WorkflowInputChanged("Managed reduction target differs");return;}
+    const detail::ReaderFileGuard guard(source);if(guard.version()->bytes>archive_limit)throw WorkflowCaptureLimit("Managed reduction exceeds256MiB");fs::create_directories(folder);not_linked(folder);std::ifstream input(fs::u8path(source),std::ios::binary);if(!input)throw WorkflowInputChanged("Managed reduction input unavailable");detail::AtomicExportFile output(target.u8string(),archive_limit,cancelled);std::array<char,65536> buffer;Sha256 hash;
+    while(input){workflow_checkpoint(cancelled);input.read(buffer.data(),buffer.size());const auto n=std::size_t(input.gcount());hash.update(buffer.data(),n);output.write(buffer.data(),n);}if(!input.eof() || input.bad() || output.bytes()!=guard.version()->bytes || hash.finish()!=a.file)throw WorkflowInputChanged("Managed reduction copy differs");guard.verify();not_linked(folder);not_linked(target);workflow_checkpoint(cancelled);output.commit(false);
+}
+void publish(Document& d,V::Map all){auto values=d.image_data_properties()?d.image_data_properties()->values():V::Map{};if(all.empty())values.erase(property);else values[property]=V{std::move(all)};d.set_image_data_properties(std::make_shared<const ImageDataProperties>(std::move(values)));}
+}
+std::string keep_expression_reduction(Project& project,std::uint64_t image,const ExpressionReductionResult& result,const std::string& archive,bool owned,std::size_t work,const std::atomic<bool>* cancelled){
+    const auto parent=load_expression_matrix_association(project,image,result.source_sha256());if(parent.file_sha256!=result.file_sha256() || parent.features!=result.source_features() || parent.observations!=result.observation_ids().size())throw WorkflowInputChanged("Reduction project parent differs");
+    const auto bytes=ExpressionReductionCodec::encode(result,work,cancelled);Sha256 h;h.update(bytes.data(),bytes.size());const auto file=h.finish();const detail::WorkflowInput actual(archive,detail::reduction::archive_limit,false,cancelled);if(actual.sha256()!=file)throw WorkflowInputChanged("Reduction archive differs from fitted result");auto doc=project.document(image);auto all=records(doc->image_data_properties());if(all.count(result.id()))throw WorkflowOutputExists("Reduction already retained");Association a{actual.path(),file,result.source_sha256(),result.file_sha256(),result.source_features(),result.observation_ids().size(),owned};all.emplace(result.id(),encode(a));actual.verify(false,cancelled);publish(*doc,std::move(all));return result.id();
+}
+std::vector<std::string> expression_reduction_ids(const Project& project,std::uint64_t image){std::vector<std::string> ids;for(const auto& [id,v]:records(project.document(image)->image_data_properties())){decode(id,v);ids.push_back(id);}return ids;}
+void remove_expression_reduction(Project& project,std::uint64_t image,const std::string& id){auto doc=project.document(image);auto all=records(doc->image_data_properties());const auto i=all.find(id);if(i==all.end())throw std::out_of_range("Reduction record absent");decode(id,i->second);all.erase(i);publish(*doc,std::move(all));}
+ExpressionReductionOpenRequest expression_reduction_open_request(const Project& project,std::uint64_t image,const std::string& id){const auto& all=records(project.document(image)->image_data_properties());const auto i=all.find(id);if(i==all.end())throw std::out_of_range("Reduction record absent");const auto a=decode(id,i->second);auto parent=expression_matrix_open_request(project,image,a.source);if(parent.association.file_sha256!=a.parent_file || parent.association.features!=a.features || parent.association.observations!=a.observations)throw WorkflowInputChanged("Reduction association parent differs");return {std::move(parent),resolve(a,fs::u8path(project.path()).parent_path()),id,a.file};}
+std::shared_ptr<const ExpressionReductionResult> ExpressionReductionOpenRequest::open(std::size_t work,const std::atomic<bool>* cancelled)const{detail::reduction::work_limit(work);detail::reduction::digest(file_sha256);const detail::WorkflowInput file(archive,detail::reduction::archive_limit,false,cancelled);if(file.sha256()!=file_sha256)throw WorkflowInputChanged("Reduction archive file digest differs");const auto result=open_expression_reduction_archive(file.path(),id,work,cancelled);const auto source=parent.open(work,cancelled);detail::reduction::require_parent(*result,*source,work,cancelled);file.verify(false,cancelled);return result;}
+namespace detail::reduction {
+std::shared_ptr<const ImageDataProperties> properties_for_save(std::shared_ptr<const ImageDataProperties> props,const fs::path& from,const fs::path& to,const std::atomic<bool>* cancelled){const auto& all=records(props);if(all.empty())return props;auto transformed=all;for(auto& [id,value]:transformed){workflow_checkpoint(cancelled);auto a=decode(id,value);if(a.owned){copy_owned(a,resolve(a,from),to,cancelled);a.path=locator(a.file);}else{std::error_code error;const auto relative=fs::relative(fs::u8path(a.path),to,error);if(!error && !relative.empty() && !relative.is_absolute())a.path=relative.generic_u8string();}value=encode(a);}auto values=props->values();values[property]=V{std::move(transformed)};return std::make_shared<const ImageDataProperties>(std::move(values));}
+std::shared_ptr<const ImageDataProperties> properties_after_open(std::shared_ptr<const ImageDataProperties> props,const fs::path& base,bool unsaved){const auto& all=records(props);if(all.empty())return props;auto transformed=all;for(auto& [id,value]:transformed){auto a=decode(id,value,true);if((!a.owned && fs::u8path(a.path).is_relative()) || (a.owned && unsaved))a.path=(base/fs::u8path(a.path)).lexically_normal().u8string();value=encode(a);}auto values=props->values();values[property]=V{std::move(transformed)};return std::make_shared<const ImageDataProperties>(std::move(values));}
+void guard_project_output(std::shared_ptr<const ImageDataProperties> props,const fs::path& base,const std::string& destination){for(const auto& [id,value]:records(props)){const auto a=decode(id,value);guard_file_output(resolve(a,base),"",destination);}}
+}
+}

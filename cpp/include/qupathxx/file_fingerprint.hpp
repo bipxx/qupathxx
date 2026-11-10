@@ -1,4 +1,5 @@
 #pragma once
+#include "qupathxx/export_policy.hpp"
 #include <atomic>
 #include <cstdint>
 #include <memory>
@@ -20,6 +21,7 @@ struct FileFingerprint {
 std::shared_ptr<const FileFingerprint> fingerprint_file(const std::string& path,FileFingerprintOptions={},const std::atomic<bool>* cancelled=nullptr);
 std::string file_fingerprint_json(const FileFingerprint&);
 void save_file_fingerprint(const FileFingerprint&,const std::string& path);
+void save_file_fingerprint_with_policy(const FileFingerprint&,const std::string& path,ExportWritePolicy,const std::vector<std::string>& protected_paths={});
 struct FileFingerprintStats {
     std::string state="idle",path,output_path,error;
     std::uint64_t bytes=0,total_bytes=0,completed=0;
@@ -29,13 +31,15 @@ class FileFingerprintJob {
 public:
     FileFingerprintJob();~FileFingerprintJob();FileFingerprintJob(const FileFingerprintJob&)=delete;
     bool request(const std::string& path,const std::string& output_path="",FileFingerprintOptions={});
+    bool request_with_policy(const std::string& path,const std::string& output_path,ExportWritePolicy,FileFingerprintOptions={},std::vector<std::string> protected_paths={});
+    bool request_source_with_policy(const ReaderSource&,const std::string& output_path,ExportWritePolicy,FileFingerprintOptions={},std::vector<std::string> protected_paths={});
     FileFingerprintStats poll();FileFingerprintStats wait();void await_completion();void cancel();bool busy() const;
     std::shared_ptr<const FileFingerprint> result() const;
     // Hashes the primary file only; compound associations report matching_primary_metadata.
     bool request_source(const ReaderSource&,const std::string& output_path="",FileFingerprintOptions={});
     std::shared_ptr<const SourceFileAssociation> association() const;
 private:
-    bool request_impl(const std::string&,const std::string&,FileFingerprintOptions,std::shared_ptr<const ReaderSource>);
+    bool request_impl(const std::string&,const std::string&,FileFingerprintOptions,std::shared_ptr<const ReaderSource>,ExportWritePolicy=ExportWritePolicy::ReplaceExisting,std::vector<std::string> protected_paths={});
     struct Impl;std::unique_ptr<Impl> impl_;
 };
 }

@@ -44,6 +44,8 @@ qupathxx_header_notice("${qpx_rmlui_SOURCE_DIR}/Backends/RmlUi_Include_GL3.h"
   "** Copyright (c) 2008-2018 The Khronos Group Inc." rmlui Khronos-NOTICE.txt)
 install(FILES "${qpx_freetype_SOURCE_DIR}/docs/FTL.TXT" "${qpx_freetype_SOURCE_DIR}/docs/GPLv2.TXT"
   DESTINATION qupathxx/licenses/freetype)
+install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/third_party/freetype-NOTICE.txt"
+  DESTINATION qupathxx/licenses/freetype RENAME NOTICE.txt)
 function(qupathxx_copy_gui_resources target)
   add_custom_target(${target}_ui_resources
     COMMAND "${CMAKE_COMMAND}" -E copy_directory

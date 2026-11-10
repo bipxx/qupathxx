@@ -1,0 +1,38 @@
+{
+  "state": "passed",
+  "scope": "local Windows fresh per-user prefix; native only; no engine build",
+  "source_sha256": "68bf2d43fbbb0bd0bcfac19f598bbca91496e737f3c50d5d223ae1905d000be0",
+  "os": "Windows-11-10.0.26300-SP0",
+  "consumer": {
+    "schema": "qpx.native-sdk-consumer/1",
+    "state": "passed",
+    "source_sha256": "68bf2d43fbbb0bd0bcfac19f598bbca91496e737f3c50d5d223ae1905d000be0",
+    "de_record": "5e9a72c050764965f98180a7624d6ad330067046211b7d164e34adae991ed932",
+    "de_result": "85f1cbeac61e6f6981b9485741397e84feda5d155ea8e6e119e417cf506e098b",
+    "pca_id": "738bf72602ba9116d530f3f6c148c587d9e91b3c75fc7ca2a3559eb2cb51d8e2",
+    "features": 5,
+    "biological_replicates": 6,
+    "saved_replay": true
+  },
+  "compiler_include_records": 471,
+  "engine_builds": 0,
+  "install_run_verified": true,
+  "uninstall_verified": true,
+  "installed_members_removed": 251,
+  "protected_user_files": 18,
+  "header_count": 120,
+  "compiler": "MSVC19.44.35225/v143; Release /MD; C++17",
+  "runtime_environment": "Windows/System32 + Windows only; Python paths removed",
+  "evidence_scope": "Fresh per-user install prefix on existing local host; no fresh VM, Linux/macOS package, biological or speed acceptance.",
+  "removal_boundary_tests": {
+    "passed": 3,
+    "log": "removal-tests-final.log"
+  },
+  "corrections": [
+    "Store Python AppData virtualization: use existing unpackaged CPython controller; preserve redirected failed prefix.",
+    "Remove incompatible --compact from docked --layout GUI invocation; rerun startup only.",
+    "Windows child PowerShell resets uppercase PSMODULEPATH; negative tests require intended refusal diagnostics."
+  ],
+  "frozen_native_build_git_revision": "39823dee425b053daa2ad88a9574e9f09fff4a51+dirty",
+  "git_source_contract": "Exact compiled bytes are in the matching source ZIP and 805-input manifest. The release Git commit also contains later release tooling/docs; repository text checkout normalization can change byte fingerprints."
+}

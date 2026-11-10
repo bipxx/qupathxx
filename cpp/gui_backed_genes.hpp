@@ -47,6 +47,7 @@ public:
     bool busy()const{return job_.busy() || pending_open_ || pending_page_[0] || pending_page_[1];}
     const std::string& error()const{return error_;}
     bool ready()const{return scope_ && matrix_ && cached_==wanted_;}
+    bool raw_counts()const{return ready() && matrix_->metadata().domain==ExpressionValueDomain::Counts && matrix_->metadata().value_domain=="raw-counts";}
     std::shared_ptr<const ExpressionFeaturePage> catalogue(unsigned index)const{return pages_.at(index);}
     Rect next_bounds(unsigned index)const{return next_bounds_.at(index);}
     Rect feature_bounds(unsigned index,std::uint64_t feature)const{for(const auto& item:feature_bounds_.at(index))if(item.first==feature)return item.second;return {};}
@@ -56,7 +57,7 @@ public:
         if(wanted_!=next){job_.cancel();pages_={};page_={};pending_page_={true,true};}
         wanted_=next;
         if(matrix_ && cached_==wanted_){capture(document,session);for(unsigned i=0;i<2;++i)if(!pages_[i])pending_page_[i]=true;}
-        else {session.clear();if(!(job_.busy() && opening_ && running_==wanted_))pending_open_=std::move(request);}
+        else {if(matrix_ && matrix_->metadata().source_sha256==request.association.source_sha256)session.cancel();else session.clear();if(!(job_.busy() && opening_ && running_==wanted_))pending_open_=std::move(request);}
         dispatch();
     }
     void poll(const Document& document,GeneViewSession& session) {

@@ -1,4 +1,5 @@
 #pragma once
+#include "qupathxx/export_policy.hpp"
 #include "qupathxx/tissue.hpp"
 namespace qpx {
 enum class MeasurementTableKind { Roi, Tissue };
@@ -39,6 +40,7 @@ class MeasurementTableExportJob {
 public:
     MeasurementTableExportJob();~MeasurementTableExportJob();MeasurementTableExportJob(const MeasurementTableExportJob&)=delete;
     bool request(const MeasurementTableRequest&,const std::string& path);
+    bool request_with_policy(const MeasurementTableRequest&,const std::string& path,ExportWritePolicy,std::vector<std::string> protected_paths={});
     MeasurementTableExportStats poll();MeasurementTableExportStats wait();void await_completion();void cancel();bool busy() const;
 private:
     struct Impl;std::unique_ptr<Impl> impl_;

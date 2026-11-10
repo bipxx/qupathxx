@@ -1,6 +1,6 @@
 <rml>
 <head><title>qupathxx workspace</title></head>
-<body id="workspace" schema="2">
+<body id="workspace" schema="3">
   <div id="activity" class="activity">
     <div class="activity-views">
       <button id="project"><span class="active-indicator" /><span class="focus-ring" /><qpx-icon name="project" /></button>
@@ -33,6 +33,7 @@
     <button id="fit"><span class="focus-ring" /><qpx-icon name="fit" /></button>
     <button id="spatial"><span class="focus-ring" /><qpx-icon name="spatial" /></button>
     <button id="channels"><span class="focus-ring" /><qpx-icon name="channels" /></button>
+    <button id="objects"><span class="focus-ring" /><qpx-icon name="objects" /></button>
     <button id="reset"><span class="focus-ring" /><qpx-icon name="reset" /></button>
     </div>
   </div>

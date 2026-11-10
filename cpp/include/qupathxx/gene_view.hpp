@@ -1,6 +1,7 @@
 #pragma once
 #include "qupathxx/gene_display.hpp"
 #include "qupathxx/expression_matrix_spatial.hpp"
+#include "qupathxx/expression_normalization.hpp"
 
 namespace qpx {
 struct GeneViewOptions {
@@ -34,6 +35,16 @@ public:
     void bind(ExpressionMatrixSpatialRequest);
     void clear();
     void configure(GeneViewOptions);
+    // Full-source work stays on this session's existing worker. QC survives
+    // display/target changes; projected datasets cannot supply a denominator.
+    void request_qc(ExpressionQcOptions={});
+    void normalize(ExpressionNormalizationOptions={});
+    void raw_values();
+    void restore_normalization(std::string recipe);
+    bool uses_normalized_values() const;
+    const ExpressionNormalizationOptions& normalization_options() const;
+    std::shared_ptr<const ExpressionQcResult> qc_result() const;
+    std::shared_ptr<const ExpressionNormalization> normalization_result() const;
     void refresh();void cancel();void poll();void wait();
     bool busy() const;
     const GeneViewOptions& options() const;

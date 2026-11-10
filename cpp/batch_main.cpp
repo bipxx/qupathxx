@@ -11,6 +11,9 @@
 #include "dark_flat_cli.hpp"
 #include "linear_unmixing_cli.hpp"
 #include "native_workflow_cli.hpp"
+#include "expression_aggregation_cli.hpp"
+#include "expression_reduction_cli.hpp"
+#include "expression_differential_cli.hpp"
 #include "tma_case_cli.hpp"
 #include "qptma_project_cli.hpp"
 #include "tma_dearray_cli.hpp"
@@ -45,6 +48,16 @@ int execute(const std::vector<std::string>& args) {
             "       qupathxx_batch --density-manifest PROJECT --window-class NAME --tissue-class NAME --all-cells [--output NEW_MANIFEST]\n"
             "       qupathxx_batch --import-nucls IMAGES ANNOTATIONS --mpp-x N --mpp-y N --representation outlines|centroids [--output NEW_PROJECT]\n"
             "       qupathxx_batch --export-csv CHECKPOINT OUTPUT.csv\n"
+            "       qupathxx_batch --aggregate-expression PROJECT NEW_PROJECT --image ID --matrix SHA256 --spec SPEC.json [--work-bytes N]\n"
+            "       qupathxx_batch --reduce-expression PROJECT NEW_PROJECT --image ID --matrix SHA256 --spec SPEC.json\n"
+            "       qupathxx_batch --verify-expression-reduction PROJECT --image ID --record SHA256\n"
+            "       qupathxx_batch --replay-expression-reduction PROJECT --image ID --record SHA256\n"
+            "       qupathxx_batch --export-expression-reduction PROJECT NEW_EXPORT --image ID --record SHA256 [--loadings | --plot]\n"
+            "       qupathxx_batch --differential-expression PROJECT NEW_PROJECT --image ID --pseudobulk SHA256 --group-a A --group-b B\n"
+            "       qupathxx_batch --verify-expression-differential PROJECT --image ID --record SHA256\n"
+            "       qupathxx_batch --export-expression-differential PROJECT NEW_CSV --image ID --record SHA256 [--replicates]\n"
+            "       qupathxx_batch --verify-expression-aggregation PROJECT --image ID --record SHA256\n"
+            "       qupathxx_batch --export-expression-aggregation PROJECT NEW.csv --image ID --record SHA256 [--members --csv-bytes N]\n"
             "       qupathxx_batch --measure-spatial PROJECT NEW_PROJECT --image ID --source ID ... [--target ID ...] [options]\n"
             "       density: --source ROI --target CELL --tissue ROI [--exclude ROI]; ID-file variants --source-ids/--target-ids/--tissue-ids/--exclude-ids\n"
             "       density limits: --max-membership-tests N --max-geometry-operations N --max-geometry-vertices N; curves need --polygonize-curves\n"
@@ -156,6 +169,9 @@ int execute(const std::vector<std::string>& args) {
     }
     try {
         if(const auto result=detail::native_workflow_cli(args,cancelled)) return *result;
+        if(const auto result=detail::expression_aggregation_cli(args,cancelled)) return *result;
+        if(const auto result=detail::expression_reduction_cli(args,cancelled)) return *result;
+        if(const auto result=detail::expression_differential_cli(args,cancelled)) return *result;
         if(const auto result=detail::raw_pixel_cli(args,cancelled)) return *result;
         if(const auto result=detail::pixel_stream_cli(args,cancelled)) return *result;
         if(const auto result=detail::spatial_cli(args,cancelled)) return *result;

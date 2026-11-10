@@ -1,5 +1,6 @@
 #include "qupathxx/interchange.hpp"
 #include "../object_properties_codec.hpp"
+#include "export_policy_checks.hpp"
 #include <cmath>
 #include <limits>
 #include <iostream>
@@ -18,6 +19,7 @@ int main() {
         bytes.back()^=1;bool bad_checksum=false;try {detail::decode_object_properties(bytes.data(),bytes.size());}catch(const std::invalid_argument&){bad_checksum=true;}check(bad_checksum);
         Document source(Image::demo());
         auto parent=source.add_rectangle({0,0,100,100},"Parent");
+        export_policy_checks::writer([&](const std::string& path,ExportWritePolicy policy,const std::vector<std::string>& protected_paths) {save_object_measurements_csv_with_policy(source,path,policy,{},false,protected_paths);},measurements_csv(source),"object-csv");
         const auto child=source.add_cell(Roi::rectangle({10,10,20,20}),Roi::rectangle({15,15,3,3}),"Cell",parent,"Tumor");
         check(measurements_csv(source).find("Cell")!=std::string::npos);
         if(!has_interchange()) {
@@ -26,6 +28,7 @@ int main() {
             rejected=false;try {import_geojson(source,"{}",true,true,true);} catch(const std::runtime_error&) {rejected=true;}
             check(rejected); return 0;
         }
+        export_policy_checks::writer([&](const std::string& path,ExportWritePolicy policy,const std::vector<std::string>& protected_paths) {save_geojson_with_policy(source,path,policy,{},false,false,protected_paths);},export_geojson(source).text,"geojson");
         {
             Document hierarchy(Image::demo());
             hierarchy.set_class_definition(ObjectClass::definition("Root",0x80123456));

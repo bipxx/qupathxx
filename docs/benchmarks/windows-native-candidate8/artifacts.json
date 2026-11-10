@@ -1,0 +1,34 @@
+{
+  "schema": "qpx.native-release-assets/1",
+  "native_source_sha256": "68bf2d43fbbb0bd0bcfac19f598bbca91496e737f3c50d5d223ae1905d000be0",
+  "assets": [
+    {
+      "name": "qupathxx-windows-x64-native-candidate8.zip",
+      "kind": "native",
+      "bytes": 33108325,
+      "sha256": "f3ac1e1366ca41423cf47677900bfaa7371498af24890a0d932a6f733aa117f0",
+      "members": 69
+    },
+    {
+      "name": "qupathxx-windows-x64-sdk-candidate8.zip",
+      "kind": "sdk",
+      "bytes": 55245539,
+      "sha256": "f1bdcbf9bd6829b0c1062ccba544b74065745d9c7802d67f50d5169c9c62adf9",
+      "members": 182
+    },
+    {
+      "name": "qupathxx-windows-x64-source-candidate8.zip",
+      "kind": "source",
+      "bytes": 5694792,
+      "sha256": "902c579ee39fbf7837387dc6570e4f8241df846dc7a04cb55ea449a530e86c11",
+      "members": 1041
+    },
+    {
+      "name": "qupathxx-native-dependency-sources-candidate8.zip",
+      "kind": "dependency_sources",
+      "bytes": 118600395,
+      "sha256": "a8a69aa64f334dc12d174bbf1d83b40811672fe3360c287dd5797e0ab068cc62",
+      "members": 17
+    }
+  ]
+}

@@ -7,22 +7,148 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
-## Active UI handoff - merge reviewed changes to main
+## Delivered UI optimization - reviewed five-phase plan
 
-Owner now authorizes committing and merging the reviewed UI work. Stage only
-workbench/project design, native dialog/menu contracts, their tests/resources and
-UI documentation. Carry the already committed integration history forward; keep
-unfinished QC/normalization, aggregation/reduction and A04 work unstaged, including
-mixed CMake, GUI dispatch and task-card edits. Preserve exact dirty source before
-staging. Reuse qualified native UI evidence under build/ui-dialog-contract; verify
-component hashes, source guards and the merged tree rather than rebuilding core,
-bindings or repeating scientific campaigns. No push, release, worktree removal or
-preview shutdown. Next: selective UI commit, local main merge and clean-index /
-ancestry / unrelated-source preservation checks.
+Owner-authorized handoff complete: UI commit 58f5cb8e merged into local main
+at 45b9d282. All 14 source checks pass on the merged tree. Launched the retained
+qualified app (PID 27704) with a copied Design review project and separate layout.
+Main is clean; unrelated analysis/SDK edits and gene dispatch stay in this checkout.
+No rebuild, wheel, push or source cleanup was needed. Merge/startup evidence:
+build/ui-optimization-merge/results.json. The task-card merge conflict retained
+both handoffs; no product conflict occurred. Next: owner reviews the running app.
 
-The staged-tree source check initially omitted assets/ui from its temporary
-fixture (FileNotFoundError, eight checks passed). Export the missing staged
-resources and rerun the focused source checks; no product change is needed.
+Implemented the owner-requested five phases in the existing integration checkout:
+guarded create-only GUI exports with registered replacement and independent import
+paths; cached native sampling facts and honest units; workspace-only Eye visibility
+with safe hidden input; shared native shape measurements/Keep/Table guidance; and
+annotation-first virtualized rows with literal stable IDs and ordered selection.
+Collapsed measurement exports poll independently and expose errors outside the
+section. Existing CLI/API defaults, scientific authorities and bindings stay frozen.
+
+Decisive evidence: build/ui-export-sampling/results.json. Four exporter suites,
+tissue, sampling-only, ordered selection, shell schemas 1/2/3/coverage/locales,
+replay contracts, six actual review flows and 17 export/sampling flows pass. All
+14 source guards pass; 23 matching captures verify readable values and geometry,
+including French/scaled confirmation and calibrated/unknown sampling. Standalone
+starts with system-only PATH, no PYTHONPATH and unchanged project bytes; all
+38 binding objects match. No broader biology/speed or observed-user claim.
+
+Broader cell suite still refuses legacy-tight-grid.qpxproj at its work budget.
+The preserved pre-change desktop reproduces it with identical fixture hashes;
+baseline-only also fails while new sampling-only passes. Keep assertions and
+quotas intact; the existing R6/R12 row tracks this separate issue.
+
+Corrections: CRLF/15-column catalogue anchors and pinned CMake path; one forced
+GUI-unit rebuild after snapshot reuse was finalized; translated capture runner
+environment and legal replay coordinates; explicit resource-copy target because
+references-disabled builds left old schema-2 assets; and non-repeating Delete.
+Preserve failed logs/captures and the passing milestone-1 source/app. Reuse all
+compatible scientific objects/results; no wheel, binding rebuild or new kernel.
+
+No new branch/worktree, commit, merge or source cleanup. Main stays clean at
+d7db4671; unrelated analysis/SDK work is preserved. Next: owner reviews the updated
+standalone app; merge/release, frozen Python consumers and the legacy quota issue
+remain separate scope.
+
+## Plan ready - detailed UI/UX instructions after Claude review
+
+Claude CLI claude-fable-5-2 completed a read-only review with explicit high effort
+and reported matching model identity. All eight findings are integrated in the
+[UI/UX improvement plan](ui-ux-improvement-plan.md), with file ownership, additive
+native policy entry points, protected outputs/owner stamps, registered modal and
+replay migration, sampling cache/unit rules, hidden-input rules and focused tests.
+Phases 1/2 remain the first milestone; later phases do not gate export safety.
+
+Primary corrections include both replay bounds, owned autosave protection, stable
+### widget IDs and production defaults independent of replay inputs. Fingerprint
+JSON is create-only; failed publication keeps existing native failure semantics.
+Existing CLI/API defaults and frozen bindings stay compatible; future consumer
+updates are recorded, with no binding rebuild selected. Review and integration
+evidence: build/claude-ui-plan-review-fable-5-2-high/review.md and validation.json.
+
+Documentation checks cover links, references, review structure and whitespace.
+Correction: the oversized shell write did not update the plan; direct file write
+succeeded and was verified. No product code/build/test campaign, Git ref change,
+new checkout, commit or merge. Main is clean at d7db4671; unrelated analysis/SDK
+edits remain intact. The subsequent owner request authorized implementation of all five phases, delivered above.
+
+## Delivered UI handoff - reviewed changes merged to main
+
+Local main merged as d7db4671, carrying UI commit39823dee and the integration branch's completed
+committed history into local main. The87-file UI commit contains project/browser
+simplification, shared workbench styles, registered dialog/menu contracts and
+their tests/resources/docs. Unfinished QC/normalization, aggregation/reduction and
+A04 analysis edits remain separate in the integration checkout, including mixed
+CMake, molecular GUI dispatch and task-card changes. The staged CMake delta is
+only the organization-test GLFW dependency; the GUI retains its committed gene
+controller signature. No unfinished analysis source was staged.
+
+Nine source contracts pass on the exact staged UI tree. Shared native UI
+components/tests match the qualified source snapshot; reuse the passing native
+replay/workflow,47 captures, standalone startup and38 retained binding hashes in
+build/ui-dialog-contract/results-final.json. The merge introduces no further
+product changes, core/binding build, Python consumer or scientific campaign.
+Source/ancestry/index/preservation checks are recorded in
+build/ui-main-merge-20261109. The pre-merge138-file dirty-source snapshot is
+verified. Concurrent analysis-file changes were observed and left untouched.
+
+Correction: the temporary staged-tree source-test fixture first lacked assets/ui
+(FileNotFoundError); exported the staged resources and all nine checks passed.
+No product fix or repeated native build was needed. Preserve the active checkout,
+cache, fixtures, qualified products and preview sessions. No push, release or
+worktree removal was requested. Next: owner continues review from local main.
+
+Owner-requested cleanup: automatic approval review blocked removal of the
+unused source-test comparison by policy. Moved its73 files (1,164,422 bytes)
+into the existing before/temporary-contract-tests backup instead. All73 archive
+hashes and138 original backup hashes match; the merge working area is clear.
+Main stays clean at d7db4671. Active analysis source, caches, products, fixtures
+and test receipts are preserved; no build or repeated test campaign was needed.
+
+Read-only cleanup audit: 598 generated UI PPM captures have pixel-identical
+PNG counterparts, totaling 1.884GiB of single-link storage;14 possible image
+fixtures were excluded. The archived temporary test tree adds1.11MiB and matches
+71 committed files plus two generated caches. Exact candidates are recorded in
+build/ui-main-merge-20261109/cleanup-candidates.json. Keep active source/cache,
+latest qualified products, original backups, scientific inputs and unique evidence.
+No deletion was attempted during this audit; main remains clean at d7db4671.
+
+Owner-requested Git housekeeping is complete: removed91 unused local branch
+names. Only main and feature/scientific-grid-159 remain, with their two real
+worktrees. Main is clean at d7db4671; the integration checkout retains unfinished
+analysis and SDK changes. No stale worktree registrations need pruning.
+
+Preserved all18 distinct historical tips as lightweight tags under
+archive/retired-branches-20261109, verified again after deletion. Exact original
+refs/tracking metadata and restoration mapping remain in the merge receipt.
+The initial17-tip assumption was caught before mutation; no history was lost.
+No remote changes, product rebuilds, native/science tests or source removal were
+needed. Next: continue owner work in the existing active checkout.
+
+Read-only QuPath UI comparison: reviewed current merged desktop captures and
+QuPath's official stable interface/project/workflow/help documentation. Our shell
+and image browser are simpler; priority UX gaps are selected-object measurements
+without pane changes, interactive result tables before export, and a visible
+analysis-history/reuse flow. Source/file utilities remain too prominent for the
+usual pathology task. These are design judgments, not timed usability results.
+A direct reference-image fetch returned403; used the official web documentation
+rather than repeating it. No implementation, build or new parity phase selected.
+Next: owner prioritizes a concrete UX workflow if further changes are desired.
+
+Claude CLI review completed successfully using claude-fable-5-2 with explicit
+high effort (reported model verified). Structured review and independent source
+checks are in build/claude-ui-review-fable-5-2-high/review.md and validation.json.
+Five findings: high export replacement ambiguity; medium detection-unit clarity,
+object-overlay visibility, and split measurements/Keep/export flow; low flat
+mixed-object list. No registered-dialog contract regression was identified.
+The primary agent confirmed the export replacement code path and corroborated
+sampled-grid sigma/expansion semantics; runtime export consequences remain static
+inferences. Threshold units depend on the selected feature. Prioritize export
+confirmation/destinations and unit disclosure without changing native semantics.
+Reviewer inspected eight captures and source/tests; no commands, builds/tests,
+source edits, nested agents, Git changes or new worktrees. Main remains clean at
+d7db4671 and recorded source hashes match. No implementation is selected by this
+review request. Next: owner chooses which UX finding to address.
 
 ## Delivered UI task - enforce the dialog contract
 
@@ -3493,6 +3619,7 @@ changes. F04 stays unchecked and10/22 complete. Next add retained source recipes
 owner capture/replay and parent-correction reference protection over these types,
 then thin CLI and desktop integration after settling consumer interfaces.
 
+
 ### F04 retained native unmixing recipes and exact operator replay
 
 Changed inputs: owner-captured native request, typed recipe retention/load/remove,
@@ -3578,6 +3705,7 @@ independent signed component moments and exact project replay. Do not relabel
 components as original channels or start a second algorithm. F04 stays unchecked,
 10/22 complete,12 pending.
 
+
 ### F04 native unmixed cells and recipe-scoped marker rules
 
 Changed inputs: source-bound cell capture now accepts retained native unmix
@@ -3649,6 +3777,7 @@ Document capture separate; do not factor/hash/parse recipes per frame. Preserve
 public GUI Pimpl layouts and independent UI edits. Existing wheels/SDK remain
 frozen; changed native interfaces get matching optional bindings/SDK at their
 settled P01 batch. F04 remains unchecked:10/22 complete,12 pending.
+
 
 ### F04 desktop completion: prepared matrix tool and explicit derived sources
 
@@ -3730,6 +3859,7 @@ contracts before thin consumers; prove unprojected gene reads/reopen without
 rescanning or densifying the source. Settle native/consumer/test interfaces before
 an affected cached build. Preserve independent UI edits and restricted-material
 separation; final L01/P01/P02 remain open.
+
 
 ### D01 foundation: native streaming indexed expression storage
 
@@ -3837,6 +3967,7 @@ stable axis IDs and explicit optional coordinate joins. Then connect backed impo
 and gene selection with paged reads and existing jobs. Preserve old selected-gene
 projects and independent UI edits; settle contracts before one affected build.
 
+
 ### D01 project associations: relative/owned paths and verified relink
 
 Changed inputs: typed native association storage in existing ImageDataProperties,
@@ -3876,6 +4007,7 @@ and reuse independently verified existing bytes. Keep/remove/Undo never deletes
 shared content-addressed files. Final D01 count stays11/22. Next implement explicit
 observation-ID/coordinate association and selected-gene snapshots over the matrix,
 then use existing import/gene controllers; no full matrix import repeat.
+
 
 ### D01 spatial ID join and backed native gene-view session
 
@@ -3926,6 +4058,7 @@ import, GUI/bindings/package, new data/model/dependency or restricted input.
 Next finish backed import preview/publication and actual desktop paged catalogue/
 gene controls. Reuse this native authority and the retained full real store;
 D01 remains open and the canonical total stays11/22 complete.
+
 
 ### D01 native indexed import: shared base/parser/job and first-save ownership
 
@@ -3992,6 +4125,7 @@ Unchanged passing suites were reused; failure logs remain. Actual desktop import
 and paged gene catalogue are now the remaining D01 work. Preserve independent UI
 edits, settle native catalogue/control boundaries, then one affected GUI/app/test
 batch. Reuse this owned real project for desktop proof;11/22 stays canonical.
+
 
 ### D01 desktop indexed import and gene catalogue
 
@@ -4904,3 +5038,626 @@ Waste: first build/tests passed; one affected follow-up for group-input capacity
 reservation plus real driver. No new public common-header ABI, source reimport,
 normalized-store copy or GUI/binding/package rebuild. Reuse this native math/
 identity evidence for the consumer mapping checks instead of another oracle run.
+
+A01 desktop continuation: previous goal turn is progress4593b5a8. Reuse the
+existing GeneViewSession worker/coalescing for QC and derived sparse projection,
+rather than adding another GUI future/scheduler or overloading the import job.
+Retain raw spatial capture and exact QC across gene/color/target changes; rebind
+unchanged coordinates explicitly to the derived source. Native controller rejects
+normalization of projected/continuous values and double display-log. Saved recipe
+selection verifies/reuses compatible complete QC or computes it once on worker.
+
+Present full-source QC with exact selected observation totals/detected/group
+values and explicit source-axis index, raw/normalized/log modes, target and native
+recipe Keep/Apply/Remove controls. Parent-filtered record discovery runs only on
+document revision changes. Keep expensive IO off the owner; preserve independent
+UI edits. Settle new controller/header methods before one cached core/GUI/affected
+test batch. Reuse native independent numerical oracle; consumer checks prove
+actual clicks, cache reuse, raw preservation, coordinates and saved recipe reload,
+plus the retained real indexed project. No binding/SDK/package rebuild.
+
+Combined build exits0; native expression_normalization/gene_view suites pass0.56s
+including new worker/cache/late-cancel/coordinate/recipe guards. First new GUI
+driver fails to reach QC after its tab click. Inspected missing-action.png shows
+the driver's independently positioned viewport completely covers the product's
+default centered Gene expression window. This is a test arrangement error, not
+a failed native QC action. Load a test-only saved window position at the left,
+keeping the actual product controls/clicks and assertions. Rebuild only that
+consumer with references disabled; core/GUI libraries are settled.
+
+A01 desktop closure passes: gui-final-ctest.log2.41s, existing gene/import
+regressions5.35s, native controller suites0.56s. Windows-only PATH real-gui.log
+passes actual full32285-feature/2702-observation QC and raw/linear/log/cache/
+coordinate/Keep/save/reopen/Apply/Remove/Undo controls;85825294 total counts.
+Original real project SHA unchanged; inspected reopened-panel.png shows readable
+QC20935/5230 at source row0, explicit derived units/target and aligned native
+image/glyphs. Integrated saved-project app smoke exits0. Reuse the prior full
+independent native QC oracle; no new matrix import/oracle/download.
+
+A01 checkbox closes:16/22 complete,6 pending (L01,A02–A04,P01/P02). Waste: one
+test-only tool-window position repair after an inspected occlusion capture;
+consumer-only rebuild reused settled core/GUI. No bindings/SDK/packages or
+broader qualification. Preserve independent UI edits in source/runtime receipt.
+Next A02: full-source exact regional summaries/pseudobulk using existing native
+cohort/spatial-index/block APIs; explicit coordinate membership, overlap policy,
+sample/replicate metadata, checked integer totals and saved/exported replay.
+
+Final claim review selects one missing ownership check: the changed indexed
+controller retains compatible QC when an owned Save As verifies a new physical
+parent. Make the authored GUI source owned and let its live panel settle after
+save; assert the same QC/mode/recipe before teardown. Also click Keep with the
+existing blocked-edit flag and require no publication. Test-only consumer rebuild;
+no new core/GUI input or repeated numerical oracle. Keep prior passing captures.
+
+Ownership extension passes2.34s: live owned Save As preserves compatible QC/
+mode/recipe, and blocked Keep cannot publish. Final Windows-only consumer run
+real-final-gui.log passes with before/after executable/input identities; use its
+real-final capture in the final source receipt. Only test driver changed after
+the settled library build; no new reference campaign or product algorithm edit.
+
+
+### A02 — regional expression summaries and pseudobulk
+
+Owner selected continuation from recovered A01 into A02. The completed A01
+desktop source is preserved in workspace-root
+`build/feature-expansion/a01-desktop/source-handoff.zip` with verified member
+hashes, ownership classification and final retained evidence hashes in
+`source-handoff.json`. Independent dirty UI files remain intact and uncommitted.
+No A01 build or numerical campaign was repeated for this handoff.
+
+A02 adds shared native sparse aggregation, captured ROI/ID cohorts, exact raw
+uint64 sums/optional means, explicit raw/normalized/log domains and recipe-only
+project replay. Membership uses spot centres with existing Roi/SpatialIndex and
+explicit source/registered frames and independent/reject overlap policy. Raw
+pseudobulk requires the complete feature universe, disjoint memberships and
+explicit sample/replicate/group metadata. Captured cohorts replay their original
+source-axis membership; later ROI edits never silently reselect observations.
+The bounded initial contract is64 cohorts/65536 memberships,768KiB recipes,
+16..1024MiB work. Native CLI is the selected thin consumer; desktop UI and
+optional Python/SDK delivery stay separate.
+
+Changed inputs: new aggregation/cohort/record/export/workflow services, CLI
+dispatch and focused native tests/CMake membership. Decisive checks: analytical
+empty/overlapping/registered cohorts, exact sums above2^53 and overflow refusal,
+explicit replicate metadata, normalized-domain refusal for pseudobulk, bounded
+reads/cancellation/stale-source rejection, exact saved/replayed associations and
+new-only CSV/project outputs; one actual native CLI save/verify/export route.
+Use existing gridfrontends167-package cache, named core/CLI/test targets only;
+no GUI, binding compilation, SDK/wheel/package or full science campaign.
+Preparation corrections: stale guessed file/cache paths were resolved from
+existing headers/build logs before any build. Next: settle native interfaces and
+consumer/tests, then one combined cached build and affected regressions.
+
+A02 build launch correction: this recovered shell lacks cmake on PATH. No
+compilation started;38 retained binding objects were inventoried. Use the
+absolute CMAKE_COMMAND/CTest paths already recorded by the integration cache.
+
+A02 first native build passes; initial aggregation CTest passes0.36s. Before
+closure, add two missing consumer checks: actual ROI/registered specification
+interpretation and chunked5000-member recipes with different bounded read batches.
+Only the native test driver changed after the settled library build. Add one
+opt-in existing real32285-feature/2702-spot regional smoke against the retained
+85825294-count baseline; reuse that admitted source, without reimport/download
+or biological pseudoreplicate labels. Rebuild the test only with references
+disabled, then run the final affected cohort once.
+
+A02 final cohort: four existing matrix/normalization suites pass; the added
+ROI consumer fixture is refused because its negative-x test rectangle is
+outside the document image. Lower-level geometry intentionally allowed that
+rectangle, but document ROI admission does not. Correct only the test fixture
+to the in-image rectangle selecting the same exact observations; retain the
+failed log and native validation. Use whole-image/inside-corner real ROIs too.
+Rebuild the changed test only and rerun A02; reuse the four passing regressions.
+
+A02 closes locally:17/22 complete,5 pending (L01,A03/A04,P01/P02). The final
+aggregation test passes0.67s; four existing matrix/spatial/project/normalization
+suites retain their passing result. Actual standalone batch save/verify/exact
+CSV/membership/no-overwrite passes from System32 with Windows-only PATH and
+PYTHONPATH removed. Full retained real32285-feature/2702-spot regional capture
+has85825294 exact counts and an explicit empty cohort;253/1077-batch saved replay
+matches exact identities/memberships/counts. Input/executable hashes are unchanged.
+The earlier independent A01 MTX baseline is reused; no new import/reference run.
+
+Waste: absent cmake PATH at launch (no compiler work), then one out-of-image ROI
+test fixture repaired without changing native validation/assertions. Follow-ups
+rebuilt only the driver; existing core/CLI and four passing regressions reused.
+Native sources/evidence and the separate A01 handoff are recoverable; concurrent
+UI remains intact. No binding/GUI rebuild, new dependency, SDK/wheel/package,
+merge/release or cleanup. Next planned packet is A03 sparse PCA/deterministic
+clustering; stop after this A02 source/evidence handoff. Desktop controls and
+optional Python/installed SDK remain outside this selected native CLI slice.
+
+
+### A03 — sparse PCA and deterministic clustering
+
+Owner selected continuation into A03 after A02 closure. Reuse the existing
+integration checkout/cache, native expression sources/A01 normalization and the
+admitted OpenCV4.11.0 core backend. A02 source archive hashes are verified and
+its passing native executables preserved before later cache links. Independent
+UI edits and frozen distribution products remain separate.
+
+Selected contract: sparse source-axis passes with implicit centering for PCA;
+explicit uncentered SVD alternative; recorded feature universe/means/value domain
+and A01 recipe; seeded randomized range/power iteration with native two-pass
+orthogonalization and a thin SVD of the small sketch. Only low-rank sketches,
+loadings/embedding and bounded result buffers are dense. Job-local RNG and
+explicit-k bounded Lloyd clustering record seed/centres/assignments/convergence.
+Raw counts stay unchanged; direct raw values above2^53 refuse rather than round
+silently. No inferred feature selection, sample groups or biological clusters.
+
+Persist exact fitted arrays and preprocessing in a checksummed native archive,
+with a small project association and owned Save As hooks at the existing native
+project boundaries. Opening preserves exact stored identity; an explicit replay
+refits and verifies identity on the supported backend. Numerical validation uses
+sign/subspace conventions and declared tolerances, never numeric closeness as
+stored model identity. Native CLI/save/CSV plus a native SVG scatter view are the
+selected consumer; no GUI/binding/SDK/package work.
+
+Changed inputs: new reduction/options/archive/project/workflow/export services,
+CLI dispatch, scoped project save/open/output guards and focused native tests.
+Decisive checks: analytical rank2 singular values/means/projection/cluster inertia,
+independent small SVD oracle, centering versus uncentered/normalized domains,
+seeded repeats, rank/degenerate/iteration limits, bounded sparse reads/operations,
+cancel/stale and malformed archives, exact save/reopen/owned relocation/replay,
+actual native CLI and meaningful plotted coordinates/labels. One existing real
+source check may use an explicitly selected feature universe; no reimport or
+full previous qualification.32..1024MiB accounted work, bounded operations and
+archive bytes; backend remains optional with explicit disabled-fit refusal.
+
+Settle known interfaces/consumers/tests before one cached core/CLI/affected-test
+build with references disabled. Reuse A01/A02 numerical evidence at their scope;
+add only changed kernel/project/consumer checks. Next: implement this native
+contract, then its decisive checks; stop after the A03 source/evidence handoff.
+
+A03 interfaces and native consumers/tests are settled. New authored6x4 fixture
+uses an independent NumPy2.5.4/LAPACK oracle for raw centred/uncentred and explicit
+full-universe normalized/log domains; frozen JSON lets native tests run without
+Python. The existing fixture inventory records its hash/AGPL/source scope.
+The SVG view exposes exact observation/cluster/score tooltips and distinct labels.
+Before build:38 binding objects inventoried; A02 products/archives retained.
+Build named core/batch/reduction and affected project/save/matrix/normalization/
+aggregation tests in the existing cache, with references disabled. No GUI or
+binding target. Check analytical singular values302/6 energy, inertia8 and native
+array identity, then actual consumer/project/plot paths. Preparation lookup-only
+path corrections cost no compilation. Next: one combined cached native build.
+
+A03 first combined build exits0; all7 selected native suites pass3.21s, including
+reduction0.87s and existing matrix/project/save/recovery/normalization/aggregation.
+Final source review finds the SVG formatter could emit XML-illegal C0 characters
+from otherwise admitted native UTF8 IDs. Add explicit refusal at that output
+boundary and regressions for escaped IDs/invalid XML and the declared1-component
+view. Only export.cpp and its test change; numerical/ownership code is settled.
+Rebuild core/CLI/reduction test only, reuse six passing unrelated suites, then
+perform actual process/real checks and inspect the native plot. No binding/GUI
+compilation or new qualification campaign.
+
+A03 final reduction suite passes0.90s; actual Windows-only native CLI create/
+verify/replay/CSV/SVG/budget/no-overwrite all pass with input/output/executable
+hashes unchanged. Real512-of32285-feature/2702-observation normalized PCA uses
+4 components/clusters, seed123, converges in10 iterations and replays exact
+arrays/labels at64MiB. No source import/download or biological assignment.
+
+Native SVG/CSV XML-coordinate checks pass, but rendered inspection exposes
+clipped17-digit vertical tick labels. Increase left scale margin and format
+presentation ticks/energy fractions to6 significant digits; exact CSV/tooltips
+and fitted arrays remain intact. The browser host was unavailable, so an isolated
+MIT resvg_py0.5.0 development renderer reads the unchanged native SVG. A first
+renderer launch found no pip in the project venv; installed uv/target resolved
+that without modifying its environment or product dependencies. Keep original
+clipped plots/failed-launch log as evidence. Rebuild export/core, CLI and link the
+same native test; reuse real fitted archives and re-export rather than refit.
+
+A03 closes locally:18/22 complete,4 pending (L01,A04,P01/P02). Seven selected
+native suites have passing results; latest affected reduction/export test0.95s.
+Independent LAPACK/analytical mean/singular/subspace/inertia and exact seeded
+arrays/owned relocation/replay pass. Actual Windows-only CLI create/verify/
+replay/CSV/SVG/budget/no-overwrite passes with input/output hashes unchanged.
+Real512-of32285-feature/2702-observation4-component/4-cluster seed123 fit converges
+in10 iterations and replays exact identity at64MiB; no biological assignments.
+
+Rendered scales are readable;6/2702 points match exact CSV/ID/cluster geometry.
+Tick/margin-only repair reused saved models, retaining raw data, exact arrays,
+CSV/tooltips and numerical checks. XML boundary/browser/pip corrections and a
+duplicate status-phrase preflight are recorded; no hidden failures or weakened
+assertions. Reused six passing regressions and retained numerical authorities.
+Source/fixture/usage/evidence and notebook updated;38 binding objects preserved.
+No GUI/bindings/SDK/package, merge/release or cleanup. Next A04 requires admitted
+independent biological replicates; stop A03 after verified source/evidence handoff.
+
+Handoff-only correction: default-GBK Python could not read the UTF8 roadmap;
+preflight stopped before archive writes. Repeat source/link/hash checks in UTF8
+mode. No native build, model fit or numerical test is repeated for this correction.
+
+### A04 — independent replicate Welch workflow (delivered)
+
+Continue owner-selected A04 only. Reuse A02 full-universe raw pseudobulk; merge
+disjoint cohorts of the same biological replicate before library normalization.
+Two explicit independent groups, no paired/cross-group subjects. Report mean
+log1p(count/replicate-library*10000), B-minus-A effect (not log2FC), Welch t/df/
+two-sided complemented-tail p and BH over all testable retained features. Flag
+insufficient/zero-variance genes; refuse zero-library or empty replicates rather
+than silently dropping subjects. Version method, groups, normalization, universe,
+dependency and exact replay identity in native project recipes and CSV.
+
+Changed inputs: new native statistics/result/recipe/workflow/export/CLI and focused
+tests, optional pinned standalone Boost.Math headers, admitted real input receipt.
+Decisive checks: analytical and frozen independent statistical oracle; multiple
+cohorts consolidated per replicate; insufficient/degenerate/overflow/cancel/stale/
+budget refusal; exact save/replay and native CLI without Python. Real candidate:
+original-author Tabula Muris FACS figshare5829687v8, explicit CC BY4.0,7 mice;
+inspect tissue/sex metadata before selecting independent mice. Download303,966,623B
+once into the existing evidence area, retain exact hashes/license/metadata. This
+is engineering acceptance, not a biological discovery claim. If independence or
+admission fails, A04 remains open. Pin Boost.Math1.88.0 standalone source/license;
+no full Boost, SciPy/R runtime, bindings, GUI, SDK or release build. Settle all
+interfaces before one combined cached core/CLI/focused-test build.
+
+A04 interfaces, native consumers and focused suite are settled. Exact pinned
+Boost.Math standalone header notices/BSL text and source archive admitted;
+original-author FACS zip/plate metadata plus lossless Kidney MTX/TSV derivative
+hashes recorded in the fixture inventory. No filtering or pseudobulk/statistics
+in the development transcode; native import and A02/A04 remain authoritative.
+23,433 genes/865 cells,4 male and2 female mice, each exactly one biological unit.
+Frozen SciPy1.16.2/NumPy2.5.4 oracle is development-only; native tests read JSON.
+Variance is absent when n<2, and zero-SE genes have absent t/p/q even if group
+constants differ. Numerical tail underflow is flagged. Library target1..1e12.
+38 binding objects inventoried and A03 executables preserved before cache relink.
+Configure the existing cache with statistics ON, then named core/batch/new DE
+test targets only, project references disabled; A02/A03 suites reused unless
+the new metadata path invalidates their evidence. Next decisive check: focused
+native suite then one real import/A02/A04/save/replay/export and independent oracle.
+
+A04 configure passes with standalone Boost only. First combined build finds one
+compile error: new hash construction incorrectly qualifies Sha256 as detail;
+the repository class is qpx::Sha256. Correct that line; completed records/workflow/
+export objects remain cached. Retain build.log; rebuild only the same pending
+core/CLI/DE targets, no dependency/interface or binding changes. Runtime checks
+have not yet run. This is a compile-time authoring correction, not passed evidence.
+
+Corrected build exits0. Source review moves the stale-file mutation to the end of
+the test: native snapshots correctly remain invalid after file-version changes,
+even when bytes are restored. A first ctest0.36s accidentally ran the pre-edit
+test executable and stops at its old invalid snapshot reuse ("Expression matrix
+file changed"); retain ctest.log. Do not relax currentness checks. Rebuild the
+changed test plus provenance/core and relink CLI for coherent current-source
+identity, then rerun only the new DE suite. No library/kernel/interface change.
+
+Build-log/timestamp inspection confirms the stale-check edit overlapped the
+compiler's file read: object completion was later than the edit, so incremental
+MSBuild reused the old body. Its retained fixture has no CLI input project,
+matching the old test ordering. Finish the live build before editing; add the
+missing stale-output nonpublication assertion, then compile that test afresh.
+This avoids diagnosing a source/binary race as a native currentness failure.
+
+Freshly compiled DE suite passes0.42s (ctest-compiled.log): analytical df2 closed
+tail plus independent Welch/BH, raw cohort consolidation, n/variance/underflow
+flags, overflow, malformed/exact replay, owned relocation, cancel/stale and CLI.
+No numerical authority changed after the one Sha256 namespace correction.
+Next: one native real import/A02/A04/save/replay/export from System32 under
+Windows-only PATH, then independent original-CSV SciPy comparison. Full Kidney
+input is23433 genes/865 cells/956991 nonzeros/309205946 exact raw counts, grouped
+into2 female and4 male mice. This adds real input/association risk only; no broad
+regression, GUI/binding, wheel or release campaign is warranted.
+
+Real native route passes7.37s with Windows-only PATH:309205946 counts, six mice,
+17002 testable genes, exact64MiB replay and unchanged input/driver hashes.
+Independent original-CSV SciPy Welch/BH matches all23433 genes; max p error
+2.50e-15, q error4.66e-15. Actual CLI create/verify/gene+replicate export pass;
+no-overwrite, invalid group and output budget refuse without partial output.
+Final source review finds direct keep_expression_differential relied on the app
+guard for currentness; add native require_current before metadata publication
+and a stale direct-retain/nonpublication regression. Only records/test change;
+reuse unchanged numerical/real import/oracle evidence. Rebuild core/CLI/DE test,
+run affected suite and replay/create/export against retained real A02 project.
+
+Admission guard over the entire historical fixture inventory stops on an older
+unhashed qupathxx-authored-h5ad record before reaching A04. Retain this failure;
+do not claim full L01 closure or change unrelated accepted records. Validate the
+finite A04 inventory slice (all original/derivative/backend/notice ancestors and
+exact bytes) through the same guard. Final release membership stays pending.
+One isolated no-Boost/no-Python compilation of the optional-disabled numerical
+translation unit checks the new include boundary without another CMake cache.
+
+
+A04 closes locally at19/22 (remaining P01/L01/P02). Final native direct-retain
+stale/nonpublication regression passes with the full focused suite0.46s; final
+actual CLI create/64MiB exact replay/CSV matches all original result/record IDs.
+No real import or statistical oracle rerun after metadata-only currentness fix.
+Raw/full-universe source, exact saved identity and all numerical assertions stay
+intact. Real admitted Kidney six-mouse check and independent23433-gene Welch/BH
+pass; peak accounted DE work15788817B,17002 testable genes.38 binding objects are
+preserved; no GUI/SDK/wheel/package/merge/release or cleanup.
+
+Selected10-record A04 byte/ancestry admission passes. Global historical missing
+H5AD hash remains a final L01 issue, not hidden acceptance. Disabled-statistics
+TU compiles without Boost/Python includes; initial cmd quoting corrected via an
+explicit script. Final host launch's copied Windows environment key case failed
+before native execution, corrected against the same empty output directory.
+A failed documentation anchor changed no file. Build/test namespace/source-read
+race and these wrapper corrections are retained; no identical expensive retry.
+Guide/checklist/source-scoped receipt and canonical notebook updated. Finish the
+verified owned-source/product handoff, then stop; next owner continuation is P01.
+
+### P01 — relocated native C++ SDK (delivered)
+
+Owner continuation selects P01 only. Current HEAD39823dee adds committed desktop
+work over4593b5a8; preserve it and all dirty UI/scientific changes. Existing A04
+core hash still matches its receipt. SDK export is missing; current static core
+link requirements contain build/source paths. Deliver qupathxx::core plus existing
+density_workflow/nucls_import components, all public headers, feature/version/ABI
+metadata, exact enabled private libraries/runtime/notices and a relocatable CMake
+config. Reuse current native authorities and cached libraries. No new bindings,
+scientific kernel, GUI, wheel, release or platform campaign is selected.
+
+Initial supported SDK: Windows x64 Release, current MSVCv143/19.44, dynamic Release
+CRT and iterator-debug-level0. Guard incompatible consumer ABI; do not hide baseline
+CRT linker diagnostics. Keep native default Python OFF; SDK discovery/build/run
+must need neither Python/nanobind nor source/dependency checkouts or downloads.
+Install only a named NativeSDK component under an explicit opt-in; existing app/
+Python install layouts stay intact. Stage original licensed dependency bytes and
+notices, with no global find_dependency fallback to an unrelated system backend.
+
+Changed inputs: CMake install/export/private dependency mapping, generated ABI/
+feature metadata and one standalone external C++ consumer. Decisive check: one
+cached metadata/component build if needed, install then relocate to a path with
+spaces, configure/build/run the consumer using only installed SDK/toolchain inputs,
+and audit imported/compile/link paths for checkout/cache/old-prefix references.
+The consumer must call real matrix/A02/A03/A04/project services and both available
+component libraries, save/reopen exact results, and check feature flags. Reuse
+scientific numerical receipts; missing consumer/install paths are the risk.
+Also require absent SDK component/incompatible CRT/config refusal and complete
+selected library/runtime/notice hashes. Preserve A04 products/38 binding objects
+before any relink. Settle exports/consumer first; no intermediate package builds.
+
+P01 exports/consumer are settled. The SDK graph maps actual HDF5/TIFF/JPEG/XML,
+OpenCV core/ml/private-zlib, prefixed zlib, SQLite, GEOS C and OpenSlide inputs;
+configure refuses unmapped transitive targets/libraries. Header-only JSON stays
+out of link requirements; all exact selected notices are installed separately.
+Optional Python discovery and GUI installs are outside the NativeSDK component.
+Imported files resolve only under the installed prefix; no system backend search.
+Release /MD/compiler/iterator checks are forced on native consumers. The external
+example calls native QC/normalization, pseudobulk, PCA, DE, owned project save/
+reopen and existing component entry points, and compiles every installed header.
+A04 executables preserved and38 binding objects inventoried. Next: configure the
+existing cache with SDK install ON, build only core/density/NuCLS cached targets,
+then install once and relocate. Numerical sources/tests are unchanged; only
+source-provenance metadata may recompile. No binding/GUI/application relink needed.
+
+First SDK configure/export graph passes. Cached core metadata and components build
+successfully; only provenance plus two stale NuCLS objects compile. Reconfigure
+took162.5s under host load, retained in build.log; no numerical campaign repeated.
+Archive CRT inspection identifies a real SDK ABI blocker behind baseline LNK4098:
+only private libjpeg-turbo uses LIBCMT (/MT); core/all other static inputs use
+MSVCRT (/MD). Upstream WITH_CRT_DLL defaults OFF and overrides the parent's CRT.
+Preserve its exact passing archive (prior-products/jpeg-static-MT.lib), then pass
+WITH_CRT_DLL from the parent's actual CRT selection in TiffJpeg.cmake. No source
+codec edits or numerical backend rebuild. Build the existing JPEG external target
+once, core metadata and affected TIFF test; require JPEG directives /MD and actual
+JPEG/quantitative TIFF values before staging SDK. Source/SDK identity advances;
+old standalone runtime/executables remain preserved. This concrete ABI risk
+justifies this additional cached build; do not suppress linker warnings.
+
+JPEG rebuild completes once with WITH_CRT_DLL=ON; no backend/source codec changes.
+Native raw TIFF target relinks without LNK4098. Before staging, review catches the
+external JPEG observer's RegionRequest argument order (level precedes width/
+height); fix that example after the live build completes. Only source-provenance
+metadata now needs refresh, not another JPEG build. Prepare eight small scalar/
+RGB, strip/tile and shared-table cases with the existing admitted independent
+Pillow generator, because old receipt stores no reusable fixture paths. These are
+focused new-CRT consumer checks, not the old409-case or platform campaign.
+Next: final metadata build/raw TIFF check, one SDK install, relocated consumer.
+
+P01 external boundary passes. Raw TIFF0.42s; JPEG archive now has only MSVCRT/
+OLDNAMES directives. One NativeSDK install contains180 exact source-matched files:
+14 libraries/import libraries,3 DLLs and all public/generated headers/notices.
+Relocated to an external TEMP path with spaces; original install prefix absent.
+Visual Studio's native CMake3.31.6 (outside Python/checkouts) configures/builds the
+copied consumer with Windows-only PATH and package registries/Python paths disabled.
+All installed headers compile;469 include records plus exported/link paths use
+only SDK/toolchain inputs. No LNK4098 or Python PE import. Native component calls,
+QC/normalization/A02/A03/A04 and exact owned saved replay/CSV pass. Eight focused
+independent JPEG sample cases pass. Static CRT, Debug CRT and missing component
+refuse for the expected reasons. SDK/executable hashes remain unchanged.
+
+Finish local SDK archive/manifest, source handoff and docs; no further product
+compilation or numerical campaign. Preserve external consumer/source/results and
+failure logs before retiring its temporary tree, with absolute path/process and
+archive checks. Source-scoped local SDK is20/22; final L01 membership and P02
+matching release remain. No bindings/GUI/wheel build or release publication.
+
+
+Local SDK archive verifies182 members/54,344,153B (180 install members plus
+portable docs/manifest);119 public/generated headers. Exact793-input current
+source manifest equals installed/native source ID. Consumer executable/source/
+outputs/failure metadata preserved in35-file3,495,938B archive. Automatic approval
+review rejected the recursive temporary-tree cleanup command before execution,
+with reason "blocked by policy". Leave that verified test folder inactive/intact;
+do not retry deletion through another tool or introduce an approval ritual.
+No source/cache/runtime was removed. This cleanup restriction does not block P01.
+Finish source/hash/link handoff, then stop with final L01/P02 remaining.
+
+### L01 — final material membership and staging admission (complete locally)
+
+Owner continuation selects final L01. Preserve P01 SDK/source/consumer archives,
+the inactive external test folder after its cleanup rejection, frozen runtimes
+and independent UI work. No cleanup retry, new scientific mechanism, binding/
+wheel rebuild or publication. Current HEAD39823dee;20/22 delivered locally.
+
+Actual gaps: the existing fixture inventory has unhashed aggregate H5AD metadata
+and missing exact-source fields; the offline guard checks opaque archive hashes
+without their member bytes. The old dependency collector is tied to candidate1,
+omits current HDF5/Boost/RmlUi/FreeType inputs and resolves moving GLFW/metadata
+online. Extend existing inventories/guard/collector; do not create a second license
+database or admit all source bytes by a generic open-license label.
+
+Selected outcome: complete explicit source/parent/license/notice records for the
+actual native build/GUI assets, a finite corresponding-source kit and actual
+native package/SDK stages; integrate fail-closed directory/archive membership
+checks into the release tooling. Unknown historical screenshots/datasets/models
+are excluded by explicit staging membership, not relabeled open. Restricted/NC/
+unreviewed records and descendants must refuse with synthetic negative inputs.
+License exceptions/embedded components need their own exact evidence/ancestry.
+
+Decisive checks: focused guard/collector unit cases, complete staged file/member
+hash coverage, source/build identity and required notice/dependency source links.
+Reuse P01 numerical/runtime evidence. Before any product build, settle actual
+pins/contracts, record the changed input and missing native identity. A GLFW tag
+pin may need an immutable commit correction; stage matching source/binaries with
+one cached metadata/CLI/GUI build only if that risk requires it. No broad corpus,
+platform, installed-Python or qualification308 campaign. P02 remains the separate
+final matching install/use/removal/publication handoff after L01 membership.
+
+H5AD aggregate now has the exact existing authored manifest bytes/hash; frozen
+schema2/PCA records have explicit source references. The full active fixture/font
+inventory now loads/admit-checks72 annotated records without weakening validation.
+New archive member checks reject an admitted wrapper containing unknown/restricted
+payload, unsafe/colliding/special members and oversized content. First focused run
+finds Windows ZipInfo silently normalizes backslashes: validate orig_filename and
+construct the negative fixture with its actual raw spelling. Keep guard-tests.log;
+also apply archive root/pool exclusions. No scientific data or product build.
+
+Focused admission/collector tests pass16 with one host symlink-creation skip;
+archive link rejection is tested without creating host symlinks. The source
+collector now reads the reviewed canonical profile, verifies exact cached source
+bytes, defaults offline, and guards its directory and ZIP members. Fifteen native
+dependency archives are already cached; no new source/model/data download needed.
+Existing runtime/notice sources (including mixed OpenSlide/OpenCV components),
+GUI fonts, FTL selection/credit and vendored LodePNG have explicit active records.
+
+Changed product inputs are only immutable GLFW pin (same existing source bytes)
+and FreeType acknowledgement install rule. Stage one native-only release input
+set with Python OFF in the existing cache; no bindings discovered/built,38 objects
+preserved. No running qupathxx process was found. Preserve current app/batch/region
+executables and record unchanged fonts/DLLs first. One cached build: core metadata,
+cheap CLI/region, existing GUI/application, retained components. This establishes
+the actual matched source/binary/SDK membership for L01. P02 still owns final
+fresh install/use/removal and publication. No kernel, API layout, new numerical
+backend, wheel or corpus requalification; do not relabel the P01 frozen product.
+
+L01 guard/stager tests pass23 with one host symlink skip. Code-only OpenCV source
+configure first fails for omitted doc/data CMakeLists; preserve both failed
+archive/selection and log, add only those two unmodified scripts, then configure
+passes with core/ml and unchanged options. No backend rebuild or sample/model
+admission. Curated sources have no raw-carrier download fallback.
+
+The initial native install has source ID6c0f6b, but the independent owner UI work
+has since rebuilt the shared core/GUI at7a8183 (805 inputs, including12 added UI/
+export headers). Thus the earlier “only pin/credit changes” statement is no longer
+the whole integrated candidate. Preserve the initial installed tree; do not pair
+it with newer source or borrow P01 qualification. UI review-ux-build-02 is complete;
+no live compiler/linker found. Reuse that core/GUI, relink only cheap batch/region
+against its current metadata and install into a new final prefix. Freeze exact
+source membership before package checks; a further source change must refuse.
+No kernel/backend/binding build or full numerical campaign. P02 owns final
+integrated consumer/install acceptance. Pre-existing app/batch preserved; region
+was absent before L01 and its attempted preservation was corrected to an explicit
+absence rather than inventing a predecessor hash.
+
+A second freeze preflight correctly refuses: the UI's final non-repeating Delete
+correction changed GUI source during membership preparation (7a8183 ->68bf2d).
+No canonical membership or passing archive was written. UI review-ux-build-03
+now finishes at68bf2d; no live compiler remains. Freeze that exact805-input body
+before one cheap CLI metadata relink, then install into a distinct final68 prefix.
+Preserve both earlier installs as invalidated handoff evidence. This is actual
+shared-cache churn, not a numerical/kernel failure; do not replay science tests.
+
+Actual directory/ZIP admission passes: native69, SDK182, source1041 members;
+15-artifact dependency companion has17 members. All four retain source68bf2d.
+Remaining concrete source-kit risk: the finite source collection may omit a file
+required by full native CMake configuration or the curated ImGui quota patch.
+Configure the actual staged source kit once, Python/tests OFF, all delivered native
+backends/GUI/SDK ON, with existing pinned dependency overrides and verified copied
+font cache. This is a configure-only corresponding-source check, not another
+engine build/cache, SDK consumer, numerical campaign or P02 install acceptance.
+
+The actual staged source kit configures with every selected native backend/GUI/
+SDK and Python OFF. First invocation omitted required existing OpenCV/GEOS notice
+paths; preserve failure, pass explicit flags and configure succeeds1.9s. Curated
+ImGui matches the native quota patch. No engine/dependency compile was needed.
+
+Final packaging review adds exact path-to-material checks to prevent substituting
+one otherwise admitted file under another filename. Also bind source companions
+to the canonical native source ID. Focused negative tests cover these contracts.
+Only six authored packaging/test/guide records change; compiled805-input identity
+and native/SDK bytes remain68bf2d. Preserve first archives; one final guarded
+repack updates those source files/metadata and verifies strict path/hash mappings.
+No further native compilation or numerical qualification.
+
+L01 closes locally:25 tests pass, one host symlink privilege skip (archive link
+refusal covered); all final archives pass exact directory/member path/hash checks.
+Native69, SDK182, source1041 and dependency17 members share source68bf2d/805 inputs.
+Source kit and code-only OpenCV configure checks pass. Six native images have no
+Python imports;38 binding objects and the frozen P01 SDK archive remain exact.
+The staged app equals the independent UI final startup/review product. Receipts:
+build/feature-expansion/l01-admission/source-handoff.json and final admission JSONs;
+see the L01 section in docs/benchmarks/feature-expansion/README.md.
+
+Actual corrections retained: Windows ZIP spelling normalization, two omitted
+OpenCV CMake scripts, GUI source churn invalidating interim installs, explicit
+SDK notice flags and GUI notice producer aliases, then strict archive path binding
+and one source-only metadata repack. No hidden failure, relaxed identity or old
+qualification transfer. No cleanup retry, kernel/binding/wheel rebuild or remote
+publication. Roadmap21/22: stop here. Next P02 owns current SDK consumer plus final
+matching install/use/removal preserving user data, support statement and release.
+
+
+### P02 — matching Windows native engineering release (active)
+
+Owner “sure” selects P02 after L01. Freeze the four admitted L01 artifacts at
+source68bf2d/805 inputs; do not rebuild kernels, GUI, bindings or wheels. Preserve
+old candidates/P01 artifacts, interim failures and the previously rejected TEMP
+cleanup. Current repository HEAD39823dee; remote main has independent later UI/
+documentation commits. Publish a distinct release branch/tag without resetting,
+force-pushing or merging those branches during this frozen handoff.
+
+Missing risk: current integrated SDK consumer and new-prefix native installation,
+use/replay/export and removal preserving research data. One named isolated
+per-user Windows install outside checkout/cache, Windows-only runtime PATH and
+Python paths removed. Build only the included C++ SDK example/all-header check
+with independent native VS CMake; no second engine cache. Exercise exact saved
+DE/PCA through installed SDK and batch, actual region pixels and GUI project
+startup. Remove only unchanged manifest-owned install files and preserve user
+project/CSV/source/results and an in-prefix user sentinel. This is a local fresh
+prefix on this Windows host, not a fresh VM/OS or new platform qualification.
+
+Decisive checks: archive hashes/admitted path identities, header/library source
+and ABI/consumer include inputs, user result identity, GUI open, file-safe removal,
+unchanged artifacts and deploy receipts. Reuse scientific and UI qualifications
+at their original scope. Then commit the selected source/docs/tooling, publish a
+Windows x64/MSVC19.44 Release /MD engineering prerelease with exact native/SDK/
+source/dependency assets and support notes. No optional Python artifact selected.
+
+First SDK configure refuses before compilation: Store Python3.13 virtualizes
+AppData writes into its private LocalCache, so native CMake and PowerShell cannot
+see the logical install prefix. Verified both views and the actual Store cache
+path; preserve that failed prefix/logs. Use the existing unpackaged CPython3.12
+venv as development controller and a new explicit per-user prefix. This changes
+the installer controller, not any native artifact, build input or qualification.
+
+Current installed SDK configures/builds all120 headers and native example, exact
+source68bf2d and saved DE/PCA identities pass. CLI verification/exports equal SDK
+bytes; seeded replay/plot and exact authored region crop pass. GUI invocation
+alone refuses incompatible --layout/--compact flags in the checker. Preserve the
+failure, remove --compact and run only GUI startup; retain the passing consumer
+cache/results and do not repeat installation or compilation.
+
+Corrected installed GUI startup passes; project bytes stay exact. Manifest removal
+passes:251 package-owned files absent and all18 user outputs/sentinel unchanged.
+Removal negative tests first expose inherited PowerShell7 PSModulePath masking
+Windows PowerShell5.1 Get-FileHash. Reset only that child module path, and require
+the intended refusal reason as well as unchanged files; do not count unrelated
+command-not-found exits as successful negative checks. Product bytes unaffected.
+
+P02 local deployment passes: installed current SDK compiles120 headers/471 include
+records using only prefix + VS/Windows toolchain, no CRT conflict or Python import.
+Native SDK/CLI save/reopen, exact DE CSVs, seeded PCA replay/plot, authored region
+pixels and docked GUI startup pass. All251 manifest-owned app/SDK files removed;
+18 user outputs and in-prefix notes remain exact. Removal boundary tests3 pass,
+including modified-member/external-path refusal before any deletion. The first
+child-module reset used mixed-case lookup in an uppercased Windows env copy;
+correct to PSMODULEPATH and prove expected refusal text. Retain all failed logs.
+
+Frozen source805 inputs and four L01 archive hashes remain exact. Next create a
+source-scoped release commit/ref without touching the active branch/index or
+remote main, stage unchanged native/SDK/source assets plus public support/validation
+receipts, then publish candidate8. No more native compilation or qualification.

@@ -1,0 +1,12 @@
+#pragma once
+#if !defined(_MSC_VER) || _MSC_VER != @MSVC_VERSION@ || !defined(_WIN64)
+#error "This qupathxx SDK requires its recorded Windows x64 MSVC compiler series"
+#endif
+#if !defined(_DLL) || defined(_DEBUG)
+#error "This qupathxx SDK requires Release dynamic CRT (/MD), not /MT or debug CRT"
+#endif
+#include <yvals_core.h>
+#if _ITERATOR_DEBUG_LEVEL != 0
+#error "This qupathxx SDK requires _ITERATOR_DEBUG_LEVEL=0"
+#endif
+static_assert(sizeof(void*) == 8, "qupathxx SDK architecture differs");

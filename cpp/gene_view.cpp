@@ -1,6 +1,7 @@
 #include "qupathxx/gene_view.hpp"
 #include "qupathxx/workflow.hpp"
 #include "utf8_text.hpp"
+#include "expression_normalization_internal.hpp"
 #include <algorithm>
 #include <charconv>
 #include <cmath>
@@ -23,6 +24,7 @@ template<class T> T number(std::string_view value) {
     if(value.empty() || parsed.ec!=std::errc{} || parsed.ptr!=value.data()+value.size())throw std::invalid_argument("Invalid gene-view preference number");return result;
 }
 std::string folded(std::string value) {for(auto& c:value)if(c>='A' && c<='Z')c=char(c-'A'+'a');return value;}
+bool same_groups(const std::vector<ExpressionFeatureGroup>& a,const std::vector<ExpressionFeatureGroup>& b){if(a.size()!=b.size())return false;for(std::size_t i=0;i<a.size();++i)if(a[i].name!=b[i].name || a[i].features!=b[i].features)return false;return true;}
 }
 void GeneViewOptions::validate() const {
     for(const auto& gene:genes)feature_name(gene);display.validate();
@@ -76,16 +78,29 @@ GeneWorkspacePreference parse_gene_workspace_preference(const std::string& input
     gene_workspace_preference(result.view,result.source_id);return result;
 }
 struct GeneViewSession::Data {
-    struct Ready {GeneDisplayPair pair;std::optional<ExpressionMatrixSpatialSnapshot> spatial;};
+    struct Ready {GeneDisplayPair pair;std::optional<ExpressionMatrixSpatialSnapshot> spatial,raw;std::shared_ptr<const ExpressionQcResult> qc;std::shared_ptr<const ExpressionNormalization> normalization;};
     std::thread::id owner=std::this_thread::get_id();std::size_t work;
     GeneViewOptions options;std::optional<ExpressionDataset> dataset;std::uint64_t generation=0,running=0;
     std::optional<ExpressionMatrixSpatialSnapshot> spatial;
+    std::optional<ExpressionMatrixSpatialSnapshot> raw_spatial;
     std::optional<ExpressionMatrixSpatialRequest> spatial_request;
+    std::shared_ptr<const ExpressionQcResult> qc;
+    std::shared_ptr<const ExpressionNormalization> normalization;
+    std::shared_ptr<const ExpressionMatrixSource> normalization_parent;
+    ExpressionQcOptions qc_options;ExpressionNormalizationOptions normalization_options;
+    bool want_qc=false,want_normalized=false;
+    std::string science_source,saved_recipe;
     bool pending=false;std::atomic<bool> cancelled{false};std::future<Ready> future;
     std::shared_ptr<const GeneDisplayPair> result;std::string error;
+    std::shared_ptr<const ExpressionMatrixSource> raw_source()const{return raw_spatial?raw_spatial->source():spatial_request?spatial_request->source():nullptr;}
+    void source_changed(std::shared_ptr<const ExpressionMatrixSource> source){
+        const auto next=source?source->metadata().source_sha256:std::string{};
+        if(next!=science_source){qc.reset();normalization.reset();normalization_parent.reset();qc_options={};normalization_options={};want_qc=want_normalized=false;saved_recipe.clear();}
+        science_source=next;
+    }
     void changed() {
         if(generation==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Gene-view generation exhausted");
-        ++generation;cancelled.store(true);result.reset();error.clear();pending=options.enabled && (bool(dataset) || bool(spatial) || bool(spatial_request));
+        ++generation;cancelled.store(true);result.reset();error.clear();pending=(options.enabled || want_qc) && (bool(dataset) || bool(raw_spatial) || bool(spatial_request));
     }
 };
 GeneViewSession::GeneViewSession(std::size_t work):data_(std::make_unique<Data>()) {
@@ -96,21 +111,22 @@ void GeneViewSession::bind(ExpressionDataset dataset) {
     workflow_require_owner(data_->owner);if(!data_->spatial && data_->dataset && data_->dataset->sha256()==dataset.sha256())return;
     for(std::size_t i=0;i<2;++i)if(std::find(dataset.features().begin(),dataset.features().end(),data_->options.genes[i])==dataset.features().end())
         data_->options.genes[i]=dataset.features()[std::min(i,dataset.features().size()-1)];
-    data_->spatial_request.reset();data_->spatial.reset();data_->dataset=std::move(dataset);data_->changed();
+    data_->source_changed({});data_->spatial_request.reset();data_->spatial.reset();data_->raw_spatial.reset();data_->dataset=std::move(dataset);data_->changed();
 }
 void GeneViewSession::bind(ExpressionMatrixSpatialSnapshot spatial) {
     workflow_require_owner(data_->owner);
-    if(data_->spatial && data_->spatial->sha256()==spatial.sha256() && data_->spatial->source()==spatial.source())return;
-    data_->spatial_request.reset();data_->spatial=std::move(spatial);data_->dataset.reset();data_->changed();
+    if(data_->raw_spatial && data_->raw_spatial->sha256()==spatial.sha256() && data_->raw_spatial->source()==spatial.source())return;
+    data_->source_changed(spatial.source());data_->spatial_request.reset();data_->raw_spatial=std::move(spatial);data_->spatial.reset();data_->dataset.reset();data_->changed();
 }
 void GeneViewSession::bind(ExpressionMatrixSpatialRequest request) {
     workflow_require_owner(data_->owner);
     if(data_->spatial_request && data_->spatial_request->sha256()==request.sha256() && data_->spatial_request->source()==request.source())return;
-    data_->spatial_request=std::move(request);data_->spatial.reset();data_->dataset.reset();data_->changed();
+    data_->source_changed(request.source());data_->spatial_request=std::move(request);data_->spatial.reset();data_->raw_spatial.reset();data_->dataset.reset();data_->changed();
 }
-void GeneViewSession::clear() {workflow_require_owner(data_->owner);data_->spatial_request.reset();data_->spatial.reset();data_->dataset.reset();data_->changed();}
+void GeneViewSession::clear() {workflow_require_owner(data_->owner);data_->source_changed({});data_->spatial_request.reset();data_->raw_spatial.reset();data_->spatial.reset();data_->dataset.reset();data_->changed();}
 void GeneViewSession::configure(GeneViewOptions options) {
     workflow_require_owner(data_->owner);options.validate();
+    if(data_->want_normalized && data_->normalization_options.log1p && options.display.transform!=GeneDisplayTransform::Linear)throw std::invalid_argument("Log-normalized values require a linear display transform; do not log twice");
     if(data_->dataset && !data_->spatial && !data_->spatial_request)for(auto& feature:options.genes)if(!feature.empty())data_->dataset->feature_index(feature);
     if(data_->dataset && !data_->spatial && !data_->spatial_request)for(std::size_t i=0;i<2;++i)if(options.genes[i].empty())options.genes[i]=data_->dataset->features()[std::min(i,data_->dataset->features().size()-1)];
     if(gene_view_preference(options)==gene_view_preference(data_->options))return;
@@ -118,6 +134,26 @@ void GeneViewSession::configure(GeneViewOptions options) {
     if(gene_view_preference(options)==gene_view_preference(previous)){data_->options=std::move(options);return;}
     data_->options=std::move(options);data_->changed();
 }
+void GeneViewSession::request_qc(ExpressionQcOptions options){
+    workflow_require_owner(data_->owner);const auto source=data_->raw_source();if(!source)throw std::invalid_argument("Full-source QC requires indexed raw expression, not a gene projection");detail::normalization::raw(*source);options.work_bytes=std::min(options.work_bytes,data_->work);options.validate(source->metadata().features);
+    const bool groups_same=same_groups(options.groups,data_->qc_options.groups);if(data_->want_qc && groups_same && data_->qc)return;
+    if(!groups_same){data_->qc.reset();data_->normalization.reset();data_->spatial.reset();data_->dataset.reset();data_->saved_recipe.clear();}data_->qc_options=std::move(options);data_->want_qc=true;data_->changed();
+}
+void GeneViewSession::normalize(ExpressionNormalizationOptions options){
+    workflow_require_owner(data_->owner);options.validate();const auto source=data_->raw_source();if(!source)throw std::invalid_argument("Normalization requires indexed raw expression, not a gene projection");detail::normalization::raw(*source);
+    if(data_->want_normalized && data_->normalization_options.target_sum==options.target_sum && data_->normalization_options.log1p==options.log1p && data_->saved_recipe.empty())return;
+    data_->normalization_options=options;data_->want_normalized=data_->want_qc=true;data_->saved_recipe.clear();data_->normalization.reset();data_->spatial.reset();data_->dataset.reset();data_->options.display.transform=GeneDisplayTransform::Linear;data_->changed();
+}
+void GeneViewSession::raw_values(){workflow_require_owner(data_->owner);if(!data_->want_normalized)return;data_->want_normalized=false;data_->saved_recipe.clear();data_->spatial.reset();data_->dataset.reset();data_->changed();}
+void GeneViewSession::restore_normalization(std::string recipe){
+    workflow_require_owner(data_->owner);const auto saved=detail::normalization::parse_recipe(recipe);const auto source=data_->raw_source();if(!source || source->metadata().source_sha256!=saved.source || source->file_sha256()!=saved.file)throw std::invalid_argument("Saved normalization belongs to another raw source");
+    if(data_->want_normalized && data_->saved_recipe==recipe)return;if(data_->qc && (!same_groups(data_->qc->groups(),saved.qc_options.groups) || data_->qc->sha256()!=saved.qc))data_->qc.reset();
+    data_->qc_options=saved.qc_options;data_->qc_options.work_bytes=std::min(data_->qc_options.work_bytes,data_->work);data_->normalization_options=saved.options;data_->saved_recipe=std::move(recipe);data_->want_normalized=data_->want_qc=true;data_->normalization.reset();data_->spatial.reset();data_->dataset.reset();data_->options.display.transform=GeneDisplayTransform::Linear;data_->changed();
+}
+bool GeneViewSession::uses_normalized_values()const{workflow_require_owner(data_->owner);return data_->want_normalized;}
+const ExpressionNormalizationOptions& GeneViewSession::normalization_options()const{workflow_require_owner(data_->owner);return data_->normalization_options;}
+std::shared_ptr<const ExpressionQcResult> GeneViewSession::qc_result()const{workflow_require_owner(data_->owner);return data_->qc;}
+std::shared_ptr<const ExpressionNormalization> GeneViewSession::normalization_result()const{workflow_require_owner(data_->owner);return data_->want_normalized?data_->normalization:nullptr;}
 void GeneViewSession::refresh(){workflow_require_owner(data_->owner);data_->changed();}
 void GeneViewSession::cancel(){workflow_require_owner(data_->owner);data_->changed();data_->pending=false;}
 void GeneViewSession::poll() {
@@ -126,24 +162,36 @@ void GeneViewSession::poll() {
         try {auto ready=data_->future.get();if(data_->running==data_->generation) {
             auto& result=ready.pair;
             if(ready.spatial) {
-                ready.spatial->source()->require_current();data_->spatial=std::move(ready.spatial);data_->dataset=result.fields[0]->dataset;
+                ready.spatial->source()->require_current();data_->spatial=std::move(ready.spatial);data_->raw_spatial=std::move(ready.raw);data_->dataset=result.fields[0]->dataset;
+                data_->qc=std::move(ready.qc);data_->normalization=std::move(ready.normalization);if(data_->want_normalized)data_->normalization_parent=data_->raw_spatial->source();
                 if(data_->options.genes[0].empty())data_->options.genes[0]=result.fields[0]->feature;
                 if(data_->options.genes[1].empty())data_->options.genes[1]=result.fields[1]?result.fields[1]->feature:result.fields[0]->feature;
             }
             data_->result=std::make_shared<const GeneDisplayPair>(std::move(result));
         }}
-        catch(...) {if(data_->running==data_->generation)data_->error=workflow_failure_message(std::current_exception());}
+        catch(...) {if(data_->running==data_->generation){data_->error=workflow_failure_message(std::current_exception());data_->qc.reset();data_->normalization.reset();data_->normalization_parent.reset();}}
     }
     if(!data_->future.valid() && data_->pending) {
         data_->pending=false;data_->running=data_->generation;data_->cancelled.store(false);
         try {
-            data_->future=std::async(std::launch::async,[this,dataset=data_->dataset,spatial=data_->spatial,request=data_->spatial_request,options=data_->options]() mutable {
+            data_->future=std::async(std::launch::async,[this,dataset=data_->dataset,spatial=data_->spatial,raw=data_->raw_spatial,request=data_->spatial_request,options=data_->options,qc=data_->qc,normalization=data_->normalization,normalization_parent=data_->normalization_parent,qc_options=data_->qc_options,normalization_options=data_->normalization_options,want_qc=data_->want_qc,want_normalized=data_->want_normalized,saved_recipe=data_->saved_recipe]() mutable {
                 auto work=data_->work;
                 if(request) {
                     if(request->payload_bytes()>=work)throw WorkflowCaptureLimit("Spatial request exceeds gene-view budget");
                     work-=request->payload_bytes();
                 }
-                if(request && !spatial)spatial=request->resolve(data_->work,&data_->cancelled);
+                if(request && !raw)raw=request->resolve(data_->work,&data_->cancelled);
+                if(raw){
+                    const auto& parent=raw->source();parent->require_current(&data_->cancelled);
+                    auto analysis_work=work;if(want_qc || want_normalized){const auto retained=raw->payload_bytes()+(dataset?dataset->payload_bytes():0)+saved_recipe.capacity();if(retained>=analysis_work || analysis_work-retained<8u*1024*1024)throw WorkflowCaptureLimit("QC/derived view leaves no worker workspace");analysis_work-=retained;}
+                    if(want_qc && (!qc || qc->source_sha256()!=parent->metadata().source_sha256 || !same_groups(qc->groups(),qc_options.groups))){qc_options.work_bytes=std::min(qc_options.work_bytes,analysis_work);qc=expression_qc(parent,qc_options,&data_->cancelled);}
+                    if(want_normalized){
+                        if(!normalization || normalization_parent!=parent || normalization->qc()!=qc || normalization->options().target_sum!=normalization_options.target_sum || normalization->options().log1p!=normalization_options.log1p)normalization=std::make_shared<const ExpressionNormalization>(normalize_expression(parent,qc,normalization_options,analysis_work,&data_->cancelled));
+                        if(!saved_recipe.empty() && normalization->recipe()!=saved_recipe)throw std::invalid_argument("Saved normalization QC/recipe identity differs");
+                        if(!spatial || spatial->source()!=normalization->source())spatial=ExpressionMatrixSpatialSnapshot::create(normalization->source(),raw->observations(),raw->frame(),analysis_work,&data_->cancelled);
+                        work=analysis_work;
+                    }else spatial=raw;
+                }
                 if(spatial) {
                     const auto& source=spatial->source();source->require_current(&data_->cancelled);
                     std::vector<std::string> selected;
@@ -166,7 +214,7 @@ void GeneViewSession::poll() {
                 }
                 const auto result=gene_display_pair(*dataset,options.genes,options.display,options.compare,options.shared_range,work,&data_->cancelled);
                 if(spatial)spatial->source()->require_current(&data_->cancelled);
-                return Data::Ready{result,std::move(spatial)};
+                return Data::Ready{result,std::move(spatial),std::move(raw),std::move(qc),std::move(normalization)};
             });
         }catch(...) {data_->error=workflow_failure_message(std::current_exception());}
     }

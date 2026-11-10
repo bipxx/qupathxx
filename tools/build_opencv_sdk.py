@@ -8,12 +8,11 @@ import shutil
 import subprocess
 import sys
 import tarfile
-import urllib.request
 
 VERSION = '4.11.0'
 COMMIT = '31b0eeea0b44b370fd0712312df4214d4ae1b158'
-SHA256 = 'bb15d5c85bab38c1377c0c7dd7ff201b078bcdb41cc4ff9f85ac61aa56b5f631'
-BYTES = 95080706
+SHA256 = '166f9a6d8585110a446cc298e002525e678a33a495b173f399c8d766b3f65066'
+BYTES = 1434572
 OPTIONS = {
     'BUILD_LIST': 'core,ml', 'BUILD_SHARED_LIBS': 'OFF',
     'BUILD_TESTS': 'OFF', 'BUILD_PERF_TESTS': 'OFF', 'BUILD_EXAMPLES': 'OFF',
@@ -60,21 +59,13 @@ def main():
     args = parser.parse_args()
     if not 1 <= args.jobs <= 32:
         parser.error('--jobs must be between 1 and 32')
-    deps = root/'build/deps'
-    deps.mkdir(parents=True, exist_ok=True)
-    archive = deps/f'opencv-{COMMIT}.tar.gz'
-    if not archive.exists():
-        partial = archive.with_suffix('.partial')
-        try:
-            urllib.request.urlretrieve(f'https://github.com/opencv/opencv/archive/{COMMIT}.tar.gz', partial)
-            if partial.stat().st_size != BYTES or sha(partial) != SHA256:
-                raise RuntimeError('OpenCV source checksum mismatch')
-            partial.replace(archive)
-        finally:
-            partial.unlink(missing_ok=True)
+    # The upstream carrier contains sample images with independently unresolved
+    # terms. Build only the reviewed, unmodified core/ml members; never download
+    # or fall back to that carrier. Selection/digests accompany this source kit.
+    archive = root/'third_party/sources/opencv-build-sources.tar.xz'
     if archive.stat().st_size != BYTES or sha(archive) != SHA256:
         raise RuntimeError('OpenCV source checksum mismatch')
-    source_parent = args.source_dir.resolve()
+    source_parent = args.source_dir.resolve()/('opencv-code-only-' + SHA256[:16])
     source_parent.mkdir(parents=True, exist_ok=True)
     source = source_parent/f'opencv-{COMMIT}'
     if not source.exists():

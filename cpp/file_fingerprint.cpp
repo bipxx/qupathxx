@@ -2,7 +2,7 @@
 #include "json_string.hpp"
 #include "qupathxx/file_fingerprint.hpp"
 #include "sha256.hpp"
-#include "atomic_export.hpp"
+#include "export_output.hpp"
 #include "utf8_text.hpp"
 #include "reader_file_guard.hpp"
 #include "file_identity_contract.hpp"
@@ -140,9 +140,10 @@ std::shared_ptr<const FileFingerprint> run(const std::string& path,FileFingerpri
     checkpoint(cancelled);value->sha256=hash.finish();value->finished_unix_ms=unix_ms();value->elapsed_ms=std::chrono::duration<double,std::milli>(Clock::now()-start).count();value->validate();return value;
 }
 
-void save(const FileFingerprint& value,const std::string& path,const std::atomic<bool>* cancelled) {
+void save(const FileFingerprint& value,const std::string& path,const std::atomic<bool>* cancelled,ExportWritePolicy policy=ExportWritePolicy::ReplaceExisting,const std::vector<std::string>& protected_paths={}) {
+    detail::validate_export_policy(policy);detail::guard_export_output(path,protected_paths);
     value.validate();output_guard(value,path);const auto json=file_fingerprint_json(value);detail::AtomicExportFile file(path,1024*1024,cancelled);
-    file.write(json.data(),json.size());checkpoint(cancelled);output_guard(value,path);file.commit();
+    file.write(json.data(),json.size());checkpoint(cancelled);output_guard(value,path);detail::commit_export_output(file,path,policy,protected_paths);
 }
 std::shared_ptr<const FileVersion> file_version(const std::string& path,const Stamp& before) {
     auto v=std::make_shared<FileVersion>();v->path=path;v->bytes=before.bytes;v->identity=before.identity;v->modified_token=before.modified;v->change_token=before.changed;v->observed_unix_ms=unix_ms();
@@ -184,7 +185,8 @@ std::string file_fingerprint_json(const FileFingerprint& value) {
     value.validate();char real[128];auto formatted=std::to_chars(real,real+128,value.elapsed_ms,std::chars_format::general,std::numeric_limits<double>::max_digits10);if(formatted.ec!=std::errc{}) throw std::runtime_error("fingerprint duration formatting failed");
     return "{\"schema\":\"qpx.file-fingerprint/1\",\"path\":"+detail::json_string(value.path)+",\"bytes\":"+std::to_string(value.bytes)+",\"sha256\":"+detail::json_string(value.sha256)+",\"identity_scheme\":"+detail::json_string(value.identity_scheme)+",\"identity\":"+detail::json_string(value.identity)+",\"stamp_scheme\":"+detail::json_string(value.stamp_scheme)+",\"modified_token\":"+detail::json_string(value.modified_token)+",\"change_token\":"+detail::json_string(value.change_token)+",\"started_unix_ms\":"+std::to_string(value.started_unix_ms)+",\"finished_unix_ms\":"+std::to_string(value.finished_unix_ms)+",\"elapsed_ms\":"+std::string(real,formatted.ptr)+"}\n";
 }
-void save_file_fingerprint(const FileFingerprint& value,const std::string& path) {save(value,normalized(path),nullptr);}
+void save_file_fingerprint_with_policy(const FileFingerprint& value,const std::string& path,ExportWritePolicy policy,const std::vector<std::string>& protected_paths) {save(value,normalized(path),nullptr,policy,protected_paths);}
+void save_file_fingerprint(const FileFingerprint& value,const std::string& path) {save_file_fingerprint_with_policy(value,path,ExportWritePolicy::ReplaceExisting);}
 struct FileFingerprintJob::Impl {
     struct Completion {std::shared_ptr<const FileFingerprint> value;std::shared_ptr<const SourceFileAssociation> association;std::string error;bool cancelled=false;double ms=0;};
     std::future<Completion> future;std::shared_ptr<std::atomic<bool>> cancelled;std::atomic<std::uint64_t> bytes{0},total{0};
@@ -196,23 +198,27 @@ bool FileFingerprintJob::busy() const {return impl_->future.valid();}
 void FileFingerprintJob::cancel() {if(impl_->cancelled) impl_->cancelled->store(true);}
 std::shared_ptr<const FileFingerprint> FileFingerprintJob::result() const {return impl_->value;}
 std::shared_ptr<const SourceFileAssociation> FileFingerprintJob::association() const {return impl_->association;}
-bool FileFingerprintJob::request_source(const ReaderSource& source,const std::string& output_path,FileFingerprintOptions options) {
+bool FileFingerprintJob::request_source(const ReaderSource& source,const std::string& output_path,FileFingerprintOptions options) {return request_source_with_policy(source,output_path,ExportWritePolicy::ReplaceExisting,options);}
+bool FileFingerprintJob::request_source_with_policy(const ReaderSource& source,const std::string& output_path,ExportWritePolicy policy,FileFingerprintOptions options,std::vector<std::string> protected_paths) {
     poll();if(busy()) return false;source.validate();if(source.locator.empty()) throw std::invalid_argument("reader has no file locator");
     if(!output_path.empty()) {const auto destination=normalized(output_path);for(const auto& file:source.companions) detail::guard_file_output(file.path,file.identity,destination);}
-    return request_impl(source.scope=="directory_store"?source.primary->path:source.locator,output_path,options,std::make_shared<const ReaderSource>(source));
+    return request_impl(source.scope=="directory_store"?source.primary->path:source.locator,output_path,options,std::make_shared<const ReaderSource>(source),policy,std::move(protected_paths));
 }
 bool FileFingerprintJob::request(const std::string& path,const std::string& output_path,FileFingerprintOptions options) {return request_impl(path,output_path,options,{});}
-bool FileFingerprintJob::request_impl(const std::string& path,const std::string& output_path,FileFingerprintOptions options,std::shared_ptr<const ReaderSource> reader) {
+bool FileFingerprintJob::request_with_policy(const std::string& path,const std::string& output_path,ExportWritePolicy policy,FileFingerprintOptions options,std::vector<std::string> protected_paths) {return request_impl(path,output_path,options,{},policy,std::move(protected_paths));}
+bool FileFingerprintJob::request_impl(const std::string& path,const std::string& output_path,FileFingerprintOptions options,std::shared_ptr<const ReaderSource> reader,ExportWritePolicy policy,std::vector<std::string> protected_paths) {
+    detail::validate_export_policy(policy);
     poll();if(busy()) return false;options.validate();const auto source=normalized(path),destination=output_path.empty()?std::string{}:normalized(output_path);
     if(source==destination) throw std::invalid_argument("fingerprint output must not replace its input");
+    if(!destination.empty()) {detail::guard_export_output(destination,protected_paths);if(policy==ExportWritePolicy::CreateNew) detail::require_new_export(destination);}
     if(impl_->stats.completed==std::numeric_limits<std::uint64_t>::max()) throw std::overflow_error("fingerprint completion counter exhausted");
     auto cancelled=std::make_shared<std::atomic<bool>>(false);impl_->bytes.store(0);impl_->total.store(0);
-    auto future=std::async(std::launch::async,[source,destination,options,cancelled,reader=std::move(reader),state=impl_.get()] {
+    auto future=std::async(std::launch::async,[source,destination,options,cancelled,reader=std::move(reader),policy,protected_paths=std::move(protected_paths),state=impl_.get()] {
         Impl::Completion result;const auto start=Clock::now();
         try {
             auto value=run(source,options,cancelled.get(),&state->bytes,&state->total,destination);
             auto association=reader?std::make_shared<const SourceFileAssociation>(associate_source_file(*reader,*value)):std::shared_ptr<const SourceFileAssociation>{};
-            if(destination.empty()) checkpoint(cancelled.get());else if(association) detail::save_source_association(*association,destination,cancelled.get());else save(*value,destination,cancelled.get());
+            if(destination.empty()) checkpoint(cancelled.get());else if(association) detail::save_source_association(*association,destination,cancelled.get(),policy,protected_paths);else save(*value,destination,cancelled.get(),policy,protected_paths);
             result.value=std::move(value);result.association=std::move(association);
         }
         catch(const std::exception& e) {result.error=e.what();result.cancelled=cancelled->load();}

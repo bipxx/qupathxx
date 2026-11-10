@@ -56,7 +56,9 @@ public:
     Rect browser{0,0,1,1},objects{0,0,1,1},display{0,0,1,1},measurements{0,0,1,1},canvas{0,0,1,1};
     std::string gene_preference;
     ui::ProjectPreferences projects;
+    bool objects_visible=true,annotations_only=false;
     explicit GuiWorkspace(const GuiOptions& options):enabled_(options.docked_workspace),reset_(options.reset_layout),path_(options.layout_path) {
+        annotations_only=enabled_;
         if(!enabled_ && (!path_.empty() || reset_)) throw std::invalid_argument("layout preferences require a docked workspace");
         if(path_.empty()) return;
         if(path_.size()>32768 || path_.find('\0')!=std::string::npos || std::filesystem::u8path(path_).extension()!=std::filesystem::path(".ini"))
@@ -78,6 +80,8 @@ public:
             ui::i18n::load_preference(data);ui::design::load_preference(data);
             const auto header_end=data.find("[Window]");const auto header=data.substr(0,header_end);
             projects.load(header);
+            objects_visible=header.find("; qupathxx objects-visible=0") == std::string::npos;
+            annotations_only=header.find("; qupathxx object-filter=annotations") != std::string::npos;
             for(int i=0;i<4;++i) if(header.find(std::string("; qupathxx sidebar=")+keys[i]+"\n")!=std::string::npos || header.find(std::string("; qupathxx sidebar=")+keys[i]+"\r\n")!=std::string::npos) active_=i;
             for(std::size_t i=0;i<ui::workflow_task_keys.size();++i) {
                 const auto marker=std::string("; qupathxx workflow=")+ui::workflow_task_keys[i];
@@ -106,6 +110,7 @@ public:
     bool enabled() const {return enabled_;}
     bool take_settings_request() {const bool requested=settings_requested_;settings_requested_=false;return requested;}
     bool loaded() const {return loaded_;}
+    const std::string& path() const {return path_;}
     int active_pane() const {return active_;}
     ui::WorkflowTask workflow_task() const {return task_;}
     void select_task(ui::WorkflowTask task) {task_=task;}
@@ -190,7 +195,7 @@ public:
             std::size_t size=0;const char* data=ImGui::SaveIniSettingsToMemory(&size);
             if(gene_preference.size()>16384 || gene_preference.find_first_of("\r\n")!=std::string::npos)throw std::invalid_argument("Invalid gene-view workspace preference");
             const std::string header=std::string("; qupathxx workspace layout v1\n; qupathxx language=")+ui::i18n::preference()+"\n; qupathxx theme="+ui::design::name(ui::design::state.choice)+"\n; qupathxx sidebar="+keys[active_]+"\n; qupathxx workflow="+ui::workflow_task_keys[static_cast<std::size_t>(task_)]+"\n"+
-                (gene_preference.empty()?"":"; qupathxx gene-view="+gene_preference+"\n")+projects.header();
+                (gene_preference.empty()?"":"; qupathxx gene-view="+gene_preference+"\n")+"; qupathxx objects-visible="+(objects_visible?"1":"0")+"\n; qupathxx object-filter="+(annotations_only?"annotations":"all")+"\n"+projects.header();
             if(size>limit-header.size()) throw std::length_error("workspace layout exceeds 1 MiB");
             const auto parent=std::filesystem::u8path(path_).parent_path();
             if(!parent.empty()) std::filesystem::create_directories(parent);

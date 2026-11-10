@@ -134,6 +134,8 @@ int main() {
             GuiInput click;click.kind=GuiInputKind::LeftDown;click.target=target;click.wait_for=GuiInputWait::TargetReady;
             GuiReplay accepted({click},1);
         }
+        for(auto target:{GuiInputTarget::ConfirmReplaceExport,GuiInputTarget::CancelReplaceExport}) {GuiInput click;click.kind=GuiInputKind::LeftDown;click.target=target;click.wait_for=GuiInputWait::TargetReady;GuiReplay accepted({click},1);}
+        {GuiInput invalid;invalid.kind=GuiInputKind::LeftDown;invalid.wait_for=GuiInputWait::TargetReady;invalid.target=static_cast<GuiInputTarget>(detail::gui_input_target_count);rejects<std::invalid_argument>([&]{GuiReplay rejected({invalid},1);});}
         std::cout<<"gui replay passed\n";
     } catch(const std::exception& e) {std::cerr<<e.what()<<'\n';return 1;}
 }
