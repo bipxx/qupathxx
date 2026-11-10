@@ -142,15 +142,15 @@ void check_cell_intensity_results() {
     const std::vector<double> original(bytes.begin(),bytes.end());
     for(auto algorithm:{CellAlgorithm::DistanceWatershed,CellAlgorithm::LogWatershed,CellAlgorithm::LogWatershedBodies,CellAlgorithm::SampledLogWatershedBodies}) {
         CellParameters p(algorithm);p.threshold=.4;p.sigma=1;p.min_nucleus_pixels=16;p.max_nucleus_pixels=512;p.contours.work_bytes=1024*1024;
-        verify(CellRequest(document,object,transform,p),original,true);
+        std::cout<<"Intensity integration natural "<<int(algorithm)<<std::endl;verify(CellRequest(document,object,transform,p),original,true);
     }
     GridCellParameters parameters;parameters.threshold=.4;parameters.sigma=1;parameters.min_nucleus_area=16;parameters.max_nucleus_area=512;parameters.contours.work_bytes=1024*1024;
     const ScientificGrid grid(256,192,{0,256,171,0},{0,192,128,0});
-    verify(CellRequest(document,object,transform,grid,parameters),read_scientific_rgb(*document.server(),grid).values(),false);
+    std::cout<<"Intensity integration explicit grid"<<std::endl;verify(CellRequest(document,object,transform,grid,parameters),read_scientific_rgb(*document.server(),grid).values(),false);
     for(auto coordinates:{RgbNominalSampling::IntegerOrigin,RgbNominalSampling::AffineInverse}) {
         const RgbNominalRequest source(0,0,256,192,1.5,coordinates);const auto processed=read_rgb_nominal_region(*document.server(),source);
         std::vector<double> rgb;for(std::size_t i=0;i<processed.bytes().size();i+=4) for(std::size_t c=0;c<3;++c) rgb.push_back(processed.bytes()[i+c]);
-        verify(CellRequest(document,object,transform,NominalCellSampling(source,0,0),parameters),rgb,false);
+        std::cout<<"Intensity integration nominal "<<int(coordinates)<<std::endl;verify(CellRequest(document,object,transform,NominalCellSampling(source,0,0),parameters),rgb,false);
     }
     const auto old=Project::open((std::filesystem::path(QPX_CELL_STATISTICS_FIXTURE)/"legacy-project.qpxproj").u8string());const auto legacy=old->document(1);
     check(legacy->cell_records().size()==6);
@@ -158,13 +158,13 @@ void check_cell_intensity_results() {
         const auto result=record->result;check(!result->intensity_statistics_format());
         if(!result->features().empty()) check(!result->intensity_statistics(1));
         const auto encoded=CellArchiveCodec::encode(*result);const auto replay=CellRequest::replay(*legacy,record->id);
-        const auto rerun=detect_cells(replay);check(!rerun->intensity_statistics_format());
+        std::cout<<"Intensity integration legacy "<<record->id<<std::endl;const auto rerun=detect_cells(replay);check(!rerun->intensity_statistics_format());
         check(legacy->verify_cells(record->id,replay,*rerun));check(CellArchiveCodec::encode(*result)==encoded);
     }
     const auto tight=Project::open((std::filesystem::path(QPX_CELL_STATISTICS_FIXTURE)/"legacy-tight-grid.qpxproj").u8string());
     const auto tight_doc=tight->document(1);const auto tight_record=tight_doc->cell_records().back();
     const auto tight_request=CellRequest::replay(*tight_doc,tight_record->id);
     check(tight_request.estimated_work_bytes()==tight_record->result->grid_parameters()->work_bytes);
-    check(tight_doc->verify_cells(tight_record->id,tight_request,*detect_cells(tight_request)));
+    std::cout<<"Intensity integration tight legacy budget "<<tight_request.estimated_work_bytes()<<std::endl;check(tight_doc->verify_cells(tight_record->id,tight_request,*detect_cells(tight_request)));
     std::cout<<"Retained intensity statistics: four natural/area/two nominal recipes agree with independent two-pass moments; QCL10/11 canonical replay and six old mean-only recipe replays passed\n";
 }

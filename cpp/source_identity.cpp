@@ -7,7 +7,7 @@
 #endif
 #include "qupathxx/source_identity.hpp"
 #include "reader_file_guard.hpp"
-#include "atomic_export.hpp"
+#include "export_output.hpp"
 #include "utf8_text.hpp"
 #include "file_identity_contract.hpp"
 #include <atomic>
@@ -122,7 +122,8 @@ bool same_reader_files(const ReaderSource& a,const ReaderSource& b) {
     for(std::size_t i=0;i<a.companions.size();++i) if(a.companions[i].path!=b.companions[i].path || !same(a.companions[i],b.companions[i])) return false;
     return true;
 }
-void save_source_association(const SourceFileAssociation& value,const std::string& path,const std::atomic<bool>* cancelled) {
+void save_source_association(const SourceFileAssociation& value,const std::string& path,const std::atomic<bool>* cancelled,ExportWritePolicy policy,const std::vector<std::string>& protected_paths) {
+    validate_export_policy(policy);guard_export_output(path,protected_paths);
     const auto json=source_file_association_json(value);
     auto guard=[&] {
         guard_file_output(value.fingerprint.path,value.fingerprint.identity,path);
@@ -134,7 +135,7 @@ void save_source_association(const SourceFileAssociation& value,const std::strin
         for(const auto& file:value.source.companions) guard_file_output(file.path,file.identity_scheme==value.fingerprint.identity_scheme?file.identity:std::string{},path);
     };
     guard();AtomicExportFile file(path,2*1024*1024,cancelled);
-    file.write(json.data(),json.size());export_checkpoint(cancelled);guard();file.commit();
+    file.write(json.data(),json.size());export_checkpoint(cancelled);guard();commit_export_output(file,path,policy,protected_paths);
 }
 }
 void save_source_file_association(const SourceFileAssociation& value,const std::string& path) {detail::save_source_association(value,detail::export_path(path),nullptr);}

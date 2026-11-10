@@ -1,5 +1,6 @@
 #pragma once
 #include "qupathxx/core.hpp"
+#include "qupathxx/export_policy.hpp"
 
 namespace qpx {
 struct InterchangeIssue {
@@ -22,6 +23,8 @@ InterchangeReport import_geojson(Document&,const std::string& json,bool assume_p
 InterchangeReport copy_objects(const Document&,const std::vector<std::uint64_t>& ids,bool include_descendants=false,bool allow_losses=false,std::size_t max_bytes=16*1024*1024);
 InterchangeReport paste_objects(Document&,const std::string& text,std::optional<ObjectPlane> plane=std::nullopt,bool allow_losses=false,std::size_t max_bytes=16*1024*1024);
 InterchangeReport save_geojson(const Document&,const std::string& path,const std::vector<std::uint64_t>& ids={},bool allow_losses=false,bool nested_hierarchy=false);
+InterchangeReport save_geojson_with_policy(const Document&,const std::string& path,ExportWritePolicy,const std::vector<std::uint64_t>& ids={},bool allow_losses=false,bool nested_hierarchy=false,const std::vector<std::string>& protected_paths={});
+void save_object_measurements_csv_with_policy(const Document&,const std::string& path,ExportWritePolicy,const std::vector<std::uint64_t>& ids={},bool include_intensity=false,const std::vector<std::string>& protected_paths={});
 InterchangeReport load_geojson(Document&,const std::string& path,bool assume_pixels=false,bool allow_losses=false,bool qupath_ellipse_precision=false);
 std::string measurements_csv(const Document&,const std::vector<std::uint64_t>& ids={},bool include_intensity=false);
 void save_measurements_csv(const Document&,const std::string& path,const std::vector<std::uint64_t>& ids={},bool include_intensity=false);

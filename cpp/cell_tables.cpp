@@ -1,7 +1,7 @@
 #include "qupathxx/cell_tables.hpp"
 #include "cell_policy_names.hpp"
 #include "qupathxx/project.hpp"
-#include "atomic_export.hpp"
+#include "export_output.hpp"
 #include "object_snapshot.hpp"
 #include "cell_object_status.hpp"
 #include "qupathxx/provenance.hpp"
@@ -350,7 +350,8 @@ struct CellTableWriter {
         if(done!=request.row_count()) throw std::logic_error("cell table row count mismatch");
         export_checkpoint(cancelled);
     }
-    static void save(const CellTableRequest& request,const std::string& path,const std::atomic<bool>* cancelled,std::atomic<std::uint64_t>* rows=nullptr,std::atomic<std::size_t>* bytes=nullptr) {
+    static void save(const CellTableRequest& request,const std::string& path,const std::atomic<bool>* cancelled,std::atomic<std::uint64_t>* rows=nullptr,std::atomic<std::size_t>* bytes=nullptr,ExportWritePolicy policy=ExportWritePolicy::ReplaceExisting,const std::vector<std::string>& protected_paths={}) {
+        detail::validate_export_policy(policy);detail::guard_export_output(detail::export_path(path),protected_paths);
         detail::AtomicExportFile file(path,request.options().byte_limit,cancelled);
         // Buffer a bounded group of rows instead of issuing a write per cell.
         std::string buffer;buffer.reserve(32768);std::size_t produced=0;
@@ -359,7 +360,7 @@ struct CellTableWriter {
             if(row.size()>request.options().byte_limit-produced) throw std::length_error("cell table exceeds byte limit");
             produced+=row.size();if(buffer.size()+row.size()>32768) flush();buffer+=row;if(bytes) bytes->store(produced,std::memory_order_relaxed);
         },cancelled,rows);
-        flush();file.commit();
+        flush();detail::commit_export_output(file,detail::export_path(path),policy,protected_paths);
     }
 };
 std::string cell_measurements_csv(const CellTableRequest& request,const std::atomic<bool>* cancelled) {
@@ -375,13 +376,15 @@ CellTableExportJob::CellTableExportJob():impl_(std::make_unique<Impl>()) {}
 CellTableExportJob::~CellTableExportJob() {try {wait();} catch(...) {}}
 bool CellTableExportJob::busy() const {return impl_->future.valid();}
 void CellTableExportJob::cancel() {if(impl_->cancelled) impl_->cancelled->store(true);}
-bool CellTableExportJob::request(const CellTableRequest& request,const std::string& path) {
+bool CellTableExportJob::request(const CellTableRequest& request,const std::string& path) {return request_with_policy(request,path,ExportWritePolicy::ReplaceExisting);}
+bool CellTableExportJob::request_with_policy(const CellTableRequest& request,const std::string& path,ExportWritePolicy policy,std::vector<std::string> protected_paths) {
+    detail::validate_export_policy(policy);
     poll();if(busy()) return false;if(impl_->stats.completed==std::numeric_limits<std::uint64_t>::max()) throw std::overflow_error("cell table export counter exhausted");
     auto destination=detail::export_path(path);auto cancelled=std::make_shared<std::atomic<bool>>(false);
     impl_->rows.store(0);impl_->bytes.store(0);
-    auto future=std::async(std::launch::async,[request,destination,cancelled,state=impl_.get()] {
+    auto future=std::async(std::launch::async,[request,destination,cancelled,policy,protected_paths=std::move(protected_paths),state=impl_.get()] {
         Impl::Completion result;const auto start=std::chrono::steady_clock::now();
-        try {CellTableWriter::save(request,destination,cancelled.get(),&state->rows,&state->bytes);result.committed=true;}
+        try {CellTableWriter::save(request,destination,cancelled.get(),&state->rows,&state->bytes,policy,protected_paths);result.committed=true;}
         catch(const std::exception& e) {result.error=e.what();result.cancelled=cancelled->load();}
         result.write_ms=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-start).count();return result;
     });

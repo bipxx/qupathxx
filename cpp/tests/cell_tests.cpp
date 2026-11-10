@@ -1,4 +1,5 @@
 #include "../cell_numeric.hpp"
+#include "sampling_summary_checks.hpp"
 #include "qupathxx/cells.hpp"
 #include <iostream>
 using namespace qpx;
@@ -25,8 +26,10 @@ public:
     void close() override {}
     bool closed() const override {return false;}
 };
-int main() { std::cout.setf(std::ios::unitbuf);
+int main(int argc,char** argv) { std::cout.setf(std::ios::unitbuf);
  try {
+    if(argc>1 && std::string(argv[1])=="--sampling-only") {sampling_checks::run();return 0;}
+    if(!(argc>1 && std::string(argv[1])=="--baseline-only"))sampling_checks::run();
     check_cell_intensity_statistics();
     check_cell_intensity_results();
     check_scientific_cells();

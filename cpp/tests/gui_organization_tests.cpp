@@ -393,10 +393,14 @@ static void close_dialogs(const std::filesystem::path& directory) {
     std::cout<<"Shared close dialog: bounded normal/scaled/narrow, Cancel/blocked Undo, Save, Discard/owned recovery, Keep recovery and failed-save Cancel passed\n";
 }
 #include "gui_dialog_workflow_checks.hpp"
+#include "gui_export_workflow_checks.hpp"
+#include "gui_review_workflow_checks.hpp"
 int main(int argc,char** argv) {
     try {
         geometry();inspector_controls();project_filter_controls();docking_controls();if(!std::getenv("QUPATHXX_TEST_GUI")) {std::cout<<"Native organization replay skipped: opt-in QUPATHXX_TEST_GUI\n";return 0;}
         const auto dir=argc>1?std::filesystem::u8path(argv[1]):std::filesystem::temp_directory_path()/("qpx-ui-organization-"+std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()));std::filesystem::create_directories(dir);
+        if(argc>2 && std::string(argv[2])=="--review-ux") {review_ux_workflows(dir);return 0;}
+        if(argc>2 && std::string(argv[2])=="--export-sampling") {export_sampling_workflows(dir);return 0;}
         navigation(dir);catalog_navigation(dir);overview_failure(dir);shortcuts(dir);relink_missing(dir);project_switcher(dir);close_dialogs(dir);dialog_workflows(dir);if(argc>2)review_catalog(dir,std::filesystem::u8path(argv[2]));dialog_checks::metadata_views(dir);return 0;
     } catch(const std::exception& e) {std::cerr<<e.what()<<'\n';return 1;}
 }

@@ -10,11 +10,12 @@ namespace qpx::ui {
 // image server, job or mutable workflow pointer.
 enum class ShellCommand { Project, Image, Annotations, Workflow, Select, Rectangle,
     Ellipse, Polygon, Polyline, Points, Vertices, Hole, Fit, Undo, Redo, Spatial,
-    Channels, ResetLayout, Settings, Count };
+    Channels, Objects, ResetLayout, Settings, Count };
 inline constexpr std::size_t shell_command_count=static_cast<std::size_t>(ShellCommand::Count);
 struct ShellSnapshot {
     int pane=0,tool=0;
     bool has_image=false,can_undo=false,can_redo=false,raw_channels=false,blocked=false;
+    bool objects_visible=true,gesture_active=false;
     bool enabled(ShellCommand command) const;
 };
 struct ShellRect {float x=0,y=0,width=0,height=0;};

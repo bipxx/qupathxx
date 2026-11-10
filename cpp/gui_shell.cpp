@@ -17,10 +17,10 @@
 namespace qpx::ui {
 namespace {
 constexpr const char* ids[]={"project","image","annotations","workflow","select","rectangle",
-    "ellipse","polygon","polyline","points","vertices","hole","fit","undo","redo","spatial","channels","reset","settings"};
+    "ellipse","polygon","polyline","points","vertices","hole","fit","undo","redo","spatial","channels","objects","reset","settings"};
 constexpr Icon icons[]={Icon::Project,Icon::Image,Icon::Annotations,Icon::Workflow,Icon::Select,
     Icon::Rectangle,Icon::Ellipse,Icon::Polygon,Icon::Polyline,Icon::Points,Icon::Vertices,Icon::Hole,
-    Icon::Fit,Icon::Undo,Icon::Redo,Icon::Spatial,Icon::Channels,Icon::Reset,Icon::Gear};
+    Icon::Fit,Icon::Undo,Icon::Redo,Icon::Spatial,Icon::Channels,Icon::Eye,Icon::Reset,Icon::Gear};
 static_assert(std::size(ids)==shell_command_count);
 std::string read_resource(const std::filesystem::path& path) {
     constexpr std::size_t limit=1024*1024;
@@ -95,6 +95,7 @@ bool ShellSnapshot::enabled(ShellCommand command) const {
     if(blocked || static_cast<int>(command)<0 || command>=ShellCommand::Count) return false;
     if(command<=ShellCommand::Workflow || command==ShellCommand::ResetLayout || command==ShellCommand::Settings) return true;
     if(!has_image) return false;
+    if(command==ShellCommand::Objects) return !gesture_active;
     if(command==ShellCommand::Undo) return can_undo;
     if(command==ShellCommand::Redo) return can_redo;
     if(command==ShellCommand::Channels) return raw_channels;
@@ -141,7 +142,7 @@ struct RmlShell::Impl final : Rml::EventListener {
         if(!styles_applied || applied_light!=light) {document->SetClass("light",light);applied_light=light;}
         for(std::size_t i=0;i<buttons.size();++i) {
             auto* b=buttons[i];if(!b) continue;const auto c=static_cast<ShellCommand>(i);
-            const bool enabled=snapshot.enabled(c),selected=i<4?snapshot.pane==i:(i<12 && snapshot.tool==static_cast<int>(i)-4);
+            const bool enabled=snapshot.enabled(c),selected=i<4?snapshot.pane==i:(i<12 && snapshot.tool==static_cast<int>(i)-4) || (c==ShellCommand::Objects && snapshot.objects_visible);
             if(!styles_applied || applied_selected[i]!=selected) {b->SetClass("selected",selected);applied_selected[i]=selected;}
             if(!styles_applied || applied_enabled[i]!=enabled) {
                 b->SetPseudoClass("disabled",!enabled);
@@ -200,11 +201,12 @@ bool RmlShell::reload() {
         p.system.loading=false;
         if(!candidate || !p.system.diagnostic.empty()) throw std::runtime_error("Invalid UI resources: "+p.system.diagnostic);
         const auto schema=candidate->GetAttribute<Rml::String>("schema","");
-        if(candidate->GetId()!="workspace" || (schema!="1" && schema!="2"))
+        if(candidate->GetId()!="workspace" || (schema!="1" && schema!="2" && schema!="3"))
             throw std::runtime_error("Unsupported workspace resource schema");
         for(std::size_t i=0;i<std::size(ids);++i) {
             const auto* element=candidate->GetElementById(ids[i]);
             if(!element && schema=="1" && static_cast<ShellCommand>(i)==ShellCommand::Settings) continue;
+            if(!element && schema!="3" && static_cast<ShellCommand>(i)==ShellCommand::Objects) continue;
             if(!element || element->GetTagName()!="button") throw std::runtime_error(std::string("Workspace button missing: ")+ids[i]);
         }
         for(const char* id:{"activity","toolbar","tooltip"}) if(!candidate->GetElementById(id)) throw std::runtime_error(std::string("Workspace element missing: ")+id);

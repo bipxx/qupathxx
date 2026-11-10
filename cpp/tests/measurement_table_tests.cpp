@@ -1,5 +1,6 @@
 #include "qupathxx/measurement_tables.hpp"
 #include "qupathxx/project.hpp"
+#include "export_policy_checks.hpp"
 #include <filesystem>
 #include <fstream>
 #include <iostream>
@@ -28,6 +29,7 @@ int main() {
     TissueRequest tissue_source(doc,obj,transform);const auto mask=detect_tissue(tissue_source);doc.keep_tissue(tissue_source,mask);
     MeasurementTableRequest tissue(doc,MeasurementTableKind::Tissue);check(tissue.row_count()==1 && tissue.record_count()==1 && measurements_csv(tissue).find("qpx.tissue-table/1")!=std::string::npos);
     check(doc.remove_analysis(id));check(measurements_csv(captured)==csv);
+    export_policy_checks::writer([&](const std::string& path,ExportWritePolicy policy,const std::vector<std::string>& protected_paths) {MeasurementTableExportJob safe;check(safe.request_with_policy(captured,path,policy,protected_paths));const auto state=safe.wait();if(state.state!="succeeded")throw std::runtime_error(state.error);},csv,"MeasurementTableExportJob");
     const auto path=std::filesystem::current_path()/("measurement-table-"+std::to_string(std::random_device{}())+".csv");
     {std::ofstream f(path);f<<"sentinel";}
     std::atomic<bool> cancelled{true};rejects<std::runtime_error>([&]{save_measurements_csv(captured,path.u8string(),&cancelled);});check(read(path)=="sentinel");

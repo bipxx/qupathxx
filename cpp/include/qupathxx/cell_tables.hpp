@@ -1,4 +1,5 @@
 #pragma once
+#include "qupathxx/export_policy.hpp"
 #include "qupathxx/cells.hpp"
 namespace qpx {
 struct CellTableOptions {
@@ -40,6 +41,7 @@ class CellTableExportJob {
 public:
     CellTableExportJob();~CellTableExportJob();CellTableExportJob(const CellTableExportJob&)=delete;
     bool request(const CellTableRequest&,const std::string& path);
+    bool request_with_policy(const CellTableRequest&,const std::string& path,ExportWritePolicy,std::vector<std::string> protected_paths={});
     CellTableExportStats poll();CellTableExportStats wait();void await_completion();void cancel();bool busy() const;
 private:
     struct Impl;std::unique_ptr<Impl> impl_;

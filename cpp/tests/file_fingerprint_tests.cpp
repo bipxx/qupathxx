@@ -1,4 +1,7 @@
 #include "qupathxx/file_fingerprint.hpp"
+#include "qupathxx/source_identity.hpp"
+#include "export_policy_checks.hpp"
+#include "../workflow_file_version.hpp"
 #include "../filesystem_access.hpp"
 #include <filesystem>
 #include <fstream>
@@ -48,6 +51,16 @@ int main() {try {
     {std::ofstream stream(input,std::ios::binary);stream<<"abc";}
     const auto value=fingerprint_file(input.u8string());check(value->bytes==3 && value->sha256=="ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad");
     check(!value->identity.empty() && file_fingerprint_json(*value).find("qpx.file-fingerprint/1")!=std::string::npos);
+    export_policy_checks::writer([&](const std::string& path,ExportWritePolicy policy,const std::vector<std::string>& protected_paths) {save_file_fingerprint_with_policy(*value,path,policy,protected_paths);},file_fingerprint_json(*value),"fingerprint-json");
+    const auto reader=make_reader_source("ppm",input.u8string(),"single_file",detail::workflow_file_version(input.u8string()));
+    const auto association=associate_source_file(*reader,*value);
+    export_policy_checks::writer([&](const std::string& path,ExportWritePolicy policy,const std::vector<std::string>& protected_paths) {detail::save_source_association(association,path,nullptr,policy,protected_paths);},source_file_association_json(association),"source-json");
+    const auto safe_output=folder/"create-only.json";{std::ofstream f(safe_output);f<<"sentinel";}
+    FileFingerprintJob safe_job;rejects<WorkflowOutputExists>([&]{safe_job.request_with_policy(input.u8string(),safe_output.u8string(),ExportWritePolicy::CreateNew);});
+    rejects<WorkflowOutputExists>([&]{safe_job.request_source_with_policy(*reader,safe_output.u8string(),ExportWritePolicy::CreateNew);});
+    check(!safe_job.busy() && !safe_job.result() && export_policy_checks::read(safe_output)=="sentinel");std::filesystem::remove(safe_output);
+    check(safe_job.request_source_with_policy(*reader,safe_output.u8string(),ExportWritePolicy::CreateNew));check(safe_job.wait().state=="succeeded");
+    check(export_policy_checks::read(safe_output)==source_file_association_json(*safe_job.association()));std::filesystem::remove(safe_output);
     FileFingerprintOptions options;options.byte_limit=2;rejects<std::length_error>([&]{fingerprint_file(input.u8string(),options);});
     options.byte_limit=3;check(fingerprint_file(input.u8string(),options)->sha256==value->sha256);
     std::atomic<bool> cancelled{true};rejects<std::runtime_error>([&]{fingerprint_file(input.u8string(),options,&cancelled);});
