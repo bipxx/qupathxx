@@ -5,6 +5,7 @@
 #include <imgui.h>
 #include "gui_font_checks.hpp"
 #include "gui_entry_editor_checks.hpp"
+#include "gui_calibration_checks.hpp"
 #include "gui_class_editor_checks.hpp"
 #include "gui_dialog_contract_checks.hpp"
 #endif
@@ -49,6 +50,7 @@ int main() {
         using namespace qpx;using Clock=GuiReplayDeadline::Clock;
 #ifdef QPX_GUI_TEXT_INPUT_TESTS
         unicode_text_input();
+        calibration_checks::run();
         entry_editor_checks::run();
         entry_editor_checks::project_metadata();
         dialog_contract_checks::run();

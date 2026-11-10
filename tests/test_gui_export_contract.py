@@ -42,7 +42,8 @@ def test_visibility_is_presentation_only_and_filter_does_not_change_export():
 def test_export_jobs_are_polled_before_rendering_collapsible_panels():
     gui = (ROOT / "cpp/gui.cpp").read_text(encoding="utf8")
     assert gui.index("const auto measurement_export_status=measurement_job.poll();") < gui.index("auto begin_export=")
-    assert "if(measurement_key || export_measurement_image" in gui
+    assert 'ui::Combo("Table",&table_kind' in gui
+    assert gui.index("const auto table_status=cell_table_job.poll();") > gui.index("// Independent jobs remain visible")
     assert "if(!measurement_export_status.error.empty())ui::TextWrapped" in gui
 
 def test_hidden_delete_requires_a_fresh_key_press():

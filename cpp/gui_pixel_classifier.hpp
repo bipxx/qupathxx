@@ -50,6 +50,7 @@ class GuiPixelClassifier {
     PixelTrainingJob training_;PixelPredictionJob prediction_;PixelTrainingStats training_stats_,prediction_stats_;
     std::shared_ptr<const PixelClassifier> model_;GuiPixelPreview preview_;
     bool open_=false,selected_only_=false,replace_=false,show_=true,viewport_only_=false,trained_=false,preview_reset_=false;
+    std::optional<GuiInputTarget> reveal_target_;
     std::uint64_t target_=0,adopted_=0;std::size_t preview_limit_=0;double capture_ms_=0;float opacity_=.45f;
     std::vector<std::array<float,3>> colors_;std::vector<std::uint32_t> palette_;
     std::array<char,4096> path_{};std::array<char,256> scales_{};std::array<Rect,input_targets.size()> targets_{};
@@ -116,6 +117,7 @@ public:
     }
     ~GuiPixelClassifier() {contours_.cancel();io_cancelled_.store(true);if(io_.valid()) io_.wait();}
     void open() {open_=true;}
+    void reveal_target(GuiInputTarget target) {if(open_ && handles(target))reveal_target_=target;}
     void invalidate_training() {if(training_.busy()) cancel_training();}
     void update(Document& doc,const ObjectSelection& selection) {
         browser_.update();browser_.catalog(doc,doc.streams_,doc.analysis_identity_.token);
@@ -174,24 +176,73 @@ public:
         if(!ImGui::GetIO().WantTextInput && !blocked && ui::f5_action(ImGui::GetIO().KeyCtrl,ImGui::GetIO().KeyShift,ImGui::GetIO().KeyAlt)==ui::F5Action::PixelClassifier && ImGui::IsKeyPressed(ImGuiKey_F5,false)) open_=!open_;if(!open_) {browser_.draw(doc,blocked,mark);return;}
         const auto* vp=ImGui::GetMainViewport();const auto scale=ImGui::GetFontSize()/13.f;ImGui::SetNextWindowSize({std::min(620.f*scale,vp->WorkSize.x*.88f),std::min(720.f*scale,vp->WorkSize.y*.88f)},ImGuiCond_FirstUseEver);ImGui::SetNextWindowPos({vp->WorkPos.x+vp->WorkSize.x*.5f,vp->WorkPos.y+vp->WorkSize.y*.5f},ImGuiCond_FirstUseEver,{.5f,.5f});ImGui::SetNextWindowSizeConstraints({std::min(260.f*scale,vp->WorkSize.x),std::min(160.f*scale,vp->WorkSize.y)},vp->WorkSize);
         if(!ImGui::Begin("Pixel classifiers",&open_)) {ImGui::End();browser_.draw(doc,blocked,mark);return;}
-        auto button=[&](const char* label,GuiInputTarget target,bool disabled,std::optional<ui::Icon> icon={}){ImGui::BeginDisabled(disabled);const bool clicked=(icon?ui::IconButton(label,*icon):ui::Button(label));const auto a=ImGui::GetItemRectMin(),b=ImGui::GetItemRectMax();targets_[index(target)]={a.x,a.y,b.x-a.x,b.y-a.y};mark(target);ImGui::EndDisabled();return clicked;};
+        auto button=[&](const char* label,GuiInputTarget target,bool disabled,std::optional<ui::Icon> icon={}){ImGui::BeginDisabled(disabled);const bool clicked=(icon?ui::IconButton(label,*icon):ui::Button(label));const auto a=ImGui::GetItemRectMin(),b=ImGui::GetItemRectMax();targets_[index(target)]={a.x,a.y,b.x-a.x,b.y-a.y};mark(target);
+            if(reveal_target_ && *reveal_target_==target) {if(!ImGui::IsItemVisible())ImGui::SetScrollHereY(.5f);else reveal_target_.reset();}
+            ImGui::EndDisabled();return clicked;};
         const bool busy=stream_.busy() || archives_.busy() || training_.busy() || prediction_.busy() || contours_.busy() || io_.valid();const bool disabled=blocked || !has_image || busy;
-        // Primary actions remain above advanced controls in narrow windows.
-        if(button("Train labelled areas",GuiInputTarget::TrainPixelClassifier,disabled || !has_classifier_training() || (!selected_only_ && !catalog_complete_))) {try {train(doc,selection,transform(options_.features.stains));}catch(const std::exception& e) {error_=e.what();}}
-        ImGui::SameLine();
-        if(button("Predict area",GuiInputTarget::PredictPixelClasses,disabled || !model_)) predict(doc,selection,visible);
-        ImGui::SameLine();if(button("Export pixel stream",GuiInputTarget::ExportPixelStream,disabled || !model_ || !stream_path_[0])) export_stream(doc,selection,visible);
-        ImGui::SameLine();if(button("Saved stream files",GuiInputTarget::OpenPixelStreamBrowser,blocked)) browser_.open();
-        ImGui::BeginDisabled(disabled);if(ui::Checkbox("Predict visible part of area only",&viewport_only_)) cancel_prediction();ImGui::EndDisabled();
-        if(button("Trace pixel contours",GuiInputTarget::TracePixelContours,disabled || !has_geos() || !prediction_.result() || !prediction_request_ || published_)) trace(doc);
-        ImGui::SameLine();
-        if(button("Publish class annotations",GuiInputTarget::PublishPixelContours,disabled || !contours_ready() || published_)) publish(doc);
+        if(training_stats_.state!="idle") ImGui::TextWrapped("Training: %s / %s (%llu/%llu tiles)",training_stats_.state.c_str(),training_stats_.phase.c_str(),static_cast<unsigned long long>(training_stats_.completed_tiles),static_cast<unsigned long long>(training_stats_.total_tiles));
+        if(contour_state()!="idle") ImGui::TextWrapped("Contours: %s%s",contour_state().c_str(),published_?" (use Undo/Redo for this batch)":"");
+        if(prediction_stats_.state!="idle") ImGui::TextWrapped("Prediction: %s (%llu/%llu tiles)",prediction_stats_.state.c_str(),static_cast<unsigned long long>(prediction_stats_.completed_tiles),static_cast<unsigned long long>(prediction_stats_.total_tiles));
+        if(!error().empty()) ImGui::TextWrapped("%s",error().c_str());
+        if(stream_stats_.state!="idle") ImGui::TextWrapped("Stream: %s (%llu/%llu blocks)%s",stream_stats_.state.c_str(),static_cast<unsigned long long>(stream_stats_.completed_blocks),static_cast<unsigned long long>(stream_stats_.total_blocks),stream_stats_.current?"":" / captured historical input");
         if(button("Cancel pixel work",GuiInputTarget::CancelPixelClassifier,blocked || !busy,ui::Icon::Close)) {stream_.cancel();archives_.cancel();cancel_training();cancel_prediction();io_cancelled_.store(true);}
-        ImGui::SameLine();
-        if(button(show_?"Hide pixel overlay":"Show pixel overlay",GuiInputTarget::TogglePixelOverlay,blocked)) show_=!show_;
+        // Model I/O remains accessible without scrolling past feature settings.
+        ImGui::BeginDisabled(blocked || busy);ui::InputText("Pixel model file",path_.data(),path_.size());ui::Checkbox("Replace an existing pixel model",&replace_);ImGui::EndDisabled();
+        if(button("Save pixel model",GuiInputTarget::SavePixelModel,blocked || busy || !model_ || !path_[0],ui::Icon::Save)) file(true);ImGui::SameLine();if(button("Load pixel model",GuiInputTarget::LoadPixelModel,blocked || busy || !path_[0],ui::Icon::Open)) file(false);
+        if(io_state_!="idle") ImGui::Text("Model file: %s",io_state_.c_str());if(!io_error_.empty()) ImGui::TextWrapped("%s",io_error_.c_str());
+        ui::SeparatorText("Training");
+        ImGui::TextWrapped("Label area annotations with at least two classes, then train. Stain/white values come from the image analysis controls.");
+        ImGui::BeginDisabled(disabled);bool changed=ui::Checkbox("Train selected labelled areas only",&selected_only_);if(!catalog_complete_) ImGui::TextWrapped("Indexing annotations: %zu objects inspected",catalog_inspected_);
+        if(ui::CollapsingHeader("Training features and sampling")) {
+            changed=ui::Checkbox("RGB channels",&options_.features.rgb) || changed;changed=ui::Checkbox("Optical density channels",&options_.features.optical_density) || changed;changed=ui::Checkbox("Stain channels",&options_.features.stains) || changed;
+            changed=ui::Checkbox("Gradient magnitude",&options_.features.gradient_magnitude) || changed;changed=ui::Checkbox("Laplacian",&options_.features.laplacian) || changed;changed=ui::InputText("Scales (grid pixels)",scales_.data(),scales_.size()) || changed;
+            changed=ui::Checkbox("Use calibration when available",&options_.calibrated) || changed;changed=ui::Checkbox("Balance classes",&options_.balanced) || changed;changed=ui::InputScalar("Pyramid level",ImGuiDataType_S32,&options_.level) || changed;
+            std::uint64_t samples=options_.max_samples,per_class=options_.max_samples_per_class;if(ui::InputScalar("Total sample cap",ImGuiDataType_U64,&samples)) {options_.max_samples=static_cast<std::size_t>(samples);changed=true;}if(ui::InputScalar("Per-class sample cap",ImGuiDataType_U64,&per_class)) {options_.max_samples_per_class=static_cast<std::size_t>(per_class);changed=true;}
+            changed=ui::InputScalar("Sample seed",ImGuiDataType_U64,&options_.seed) || changed;changed=ui::InputScalar("Maximum scanned pixels",ImGuiDataType_U64,&options_.max_scanned_pixels) || changed;
+        }
+        if(ui::CollapsingHeader("Forest and memory settings")) {changed=ui::InputScalar("Trees",ImGuiDataType_U32,&parameters_.trees) || changed;changed=ui::InputScalar("Maximum depth",ImGuiDataType_U32,&parameters_.max_depth) || changed;changed=ui::InputScalar("Minimum samples",ImGuiDataType_U32,&parameters_.min_samples) || changed;changed=ui::InputScalar("Forest seed",ImGuiDataType_U64,&parameters_.seed) || changed;std::uint64_t mib=options_.work_bytes/(1024*1024);if(ui::InputScalar("Work limit (MiB)",ImGuiDataType_U64,&mib)) {options_.work_bytes=std::clamp<std::uint64_t>(mib,1,1024)*1024*1024;prediction_options_.work_bytes=options_.work_bytes;parameters_.work_bytes=options_.work_bytes;changed=true;}}
+        if(changed) cancel_training();ImGui::EndDisabled();
+        if(button("Train labelled areas",GuiInputTarget::TrainPixelClassifier,disabled || !has_classifier_training() || (!selected_only_ && !catalog_complete_))) {try {train(doc,selection,transform(options_.features.stains));}catch(const std::exception& e) {error_=e.what();}}
+        if(auto table=training_.table();table && ui::CollapsingHeader("Training cohort")) {ImGui::Text("%zu rows; %llu conflicting pixels excluded",table->row_count(),static_cast<unsigned long long>(table->ambiguous_pixels()));if(ImGui::BeginTable("Pixel cohort",3,ImGuiTableFlags_Borders|ImGuiTableFlags_RowBg)) {ImGui::TableSetupColumn("Class");ImGui::TableSetupColumn("Eligible");ImGui::TableSetupColumn("Used");ImGui::TableHeadersRow();for(std::size_t i=0;i<table->classes().size();++i) {ImGui::TableNextRow();ImGui::TableNextColumn();ImGui::TextUnformatted(table->classes()[i].c_str());ImGui::TableNextColumn();ImGui::Text("%llu",static_cast<unsigned long long>(table->eligible_class_pixels()[i]));ImGui::TableNextColumn();ImGui::Text("%llu",static_cast<unsigned long long>(table->sampled_class_counts()[i]));}ImGui::EndTable();}}
         if(button("Keep training cohort",GuiInputTarget::KeepPixelTraining,disabled || !training_request_ || !training_.table() || !training_.model())) archives_.keep(*training_request_,training_.table(),training_.model());
-        ImGui::SameLine();
+        ui::SeparatorText("Predict and review");
+        ImGui::BeginDisabled(disabled);
+        const auto preview=target_?"Area #"+std::to_string(target_):std::string("Current selection");
+        if(ui::BeginCombo("Prediction area",preview.c_str())) {if(ImGui::Selectable("Current selection",target_==0)) {target_=0;cancel_prediction();}ImGuiListClipper clipper;clipper.Begin(static_cast<int>(areas_.size()));while(clipper.Step()) for(int i=clipper.DisplayStart;i<clipper.DisplayEnd;++i) {const auto id=areas_[i];const auto label="Area #"+std::to_string(id);if(ImGui::Selectable(label.c_str(),target_==id)) {target_=id;cancel_prediction();}if(ImGui::IsItemHovered()) ImGui::SetTooltip("%s",doc.annotation(id).name.c_str());}ui::EndCombo();}
+        std::uint64_t preview_mib=preview_limit_/(1024*1024);
+        if(ui::InputScalar("Preview limit (MiB)",ImGuiDataType_U64,&preview_mib)) {preview_limit_=std::clamp<std::uint64_t>(preview_mib,1,128)*1024*1024;preview_reset_=true;}
+        if(ui::InputDouble("Minimum tree vote",&prediction_options_.min_vote_fraction,0,0,"%.3f"))cancel_prediction();ImGui::EndDisabled();
+        ImGui::BeginDisabled(disabled);if(ui::Checkbox("Predict visible part of area only",&viewport_only_)) cancel_prediction();ImGui::EndDisabled();
+        if(model_) {const auto resolution=model_->resolution();ImGui::TextWrapped("Model: %zu classes, %zu features, %u trees",model_->classes().size(),model_->features().size(),model_->forest().tree_count());if(resolution) {if(resolution->physical()) ImGui::TextWrapped("Sampling: %.6g x %.6g um",*resolution->pixel_width_um,*resolution->pixel_height_um);else ImGui::TextWrapped("Sampling: %.6g source pixels",resolution->downsample);}ImGui::TextWrapped("Prediction uses the model's saved feature recipe.");}
+        if(button("Predict area",GuiInputTarget::PredictPixelClasses,disabled || !model_)) predict(doc,selection,visible);
+        if(button("Trace pixel contours",GuiInputTarget::TracePixelContours,disabled || !has_geos() || !prediction_.result() || !prediction_request_ || published_)) trace(doc);
+        if(button("Publish class annotations",GuiInputTarget::PublishPixelContours,disabled || !contours_ready() || published_)) publish(doc);
+        if(ui::CollapsingHeader("Contour settings")) {
+            ImGui::BeginDisabled(disabled);bool contour_changed=ui::Checkbox("Clip contours to prediction area",&contour_options_.clip_to_roi);
+            auto limit=[&](const char* label,std::size_t& value,std::uint64_t maximum) {std::uint64_t v=value;if(ui::InputScalar(label,ImGuiDataType_U64,&v)) {value=static_cast<std::size_t>(std::clamp<std::uint64_t>(v,1,maximum));contour_changed=true;}};
+            limit("Maximum contour classes",contour_options_.max_components,1000000);limit("Maximum contour edges",contour_options_.max_edges,1000000);limit("Maximum contour vertices",contour_options_.max_vertices,1000000);
+            std::uint64_t mib=contour_options_.work_bytes/(1024*1024);if(ui::InputScalar("Contour work limit (MiB)",ImGuiDataType_U64,&mib)) {contour_options_.work_bytes=std::clamp<std::uint64_t>(mib,1,512)*1024*1024;contour_changed=true;}
+            if(contour_changed) clear_contours();ImGui::EndDisabled();
+            ImGui::TextWrapped("One multipolygon annotation per class. Clipped output is parented to the prediction area. Raw footprints are root annotations.");
+        }
+        if(button(show_?"Hide pixel overlay":"Show pixel overlay",GuiInputTarget::TogglePixelOverlay,blocked)) show_=!show_;
+        if(auto geometry=this->traced()) {const auto& c=*geometry->contours();ImGui::TextWrapped("%zu classes / %zu edges / %zu vertices / %.1f ms",c.components().size(),c.edge_count(),c.vertex_count(),c.elapsed_ms());}
+        if(published_) ImGui::TextWrapped("Published %zu class annotations",published_ids_.size());
+        if(model_ && ui::CollapsingHeader("Overlay colors",colors_.size()<=8?ImGuiTreeNodeFlags_DefaultOpen:0)) {bool palette=ui::SliderFloat("Opacity",&opacity_,0,1);for(std::size_t i=0;i<colors_.size();++i) {ImGui::PushID(static_cast<int>(i));const auto label="Class "+std::to_string(i+1)+" / "+model_->classes()[i];palette=ui::ColorEdit3(label.c_str(),colors_[i].data()) || palette;ImGui::PopID();}if(palette) make_palette();}
+        if(auto result=prediction_.result()) {if(result->windowed()) ImGui::TextWrapped("Windowed prediction: captured visible grid; pan and predict again to update.");ImGui::TextWrapped("%lld x %lld / level %d / %.1f ms",static_cast<long long>(result->width()),static_cast<long long>(result->height()),result->level(),result->elapsed_ms());ImGui::TextWrapped("%llu classified pixels; preview %s",static_cast<unsigned long long>(result->classified_pixels()),preview_.ready()?"ready":"preparing");}
         if(button("Keep prediction mask",GuiInputTarget::KeepPixelPrediction,disabled || !prediction_request_ || !prediction_.result())) archives_.keep(*prediction_request_,prediction_.result());
+        ui::SeparatorText("Save and export");
+        ImGui::BeginDisabled(blocked || busy);ui::InputText("Pixel stream file",stream_path_.data(),stream_path_.size());ui::Checkbox("Replace a verified pixel stream file",&stream_replace_);ImGui::EndDisabled();
+        if(ui::CollapsingHeader("Stream resource limits")) {
+            ImGui::BeginDisabled(blocked || busy);
+            std::uint64_t block=stream_options_.block_size;if(ui::InputScalar("Stream block size",ImGuiDataType_U64,&block)) stream_options_.block_size=static_cast<std::size_t>(std::clamp<std::uint64_t>(block,16,512));
+            std::uint64_t mib=stream_options_.prediction.work_bytes/(1024*1024);if(ui::InputScalar("Stream work limit (MiB)",ImGuiDataType_U64,&mib)) stream_options_.prediction.work_bytes=std::clamp<std::uint64_t>(mib,1,1024)*1024*1024;
+            std::uint64_t gib=stream_max_bytes_/(1ULL<<30);if(ui::InputScalar("Stream file limit (GiB)",ImGuiDataType_U64,&gib)) stream_max_bytes_=std::clamp<std::uint64_t>(gib,1,65536)*(1ULL<<30);ImGui::EndDisabled();
+            ImGui::TextWrapped("Export captures the selected area and saved model recipe. Visible-only uses the captured viewport. No full mask is retained; completed files are historical values.");
+            if(stream_stats_.summary) ImGui::TextWrapped("Saved %llu bytes / content SHA-256: %s",static_cast<unsigned long long>(stream_stats_.summary->bytes),stream_stats_.summary->sha256.c_str());
+        }
+        if(button("Export pixel stream",GuiInputTarget::ExportPixelStream,disabled || !model_ || !stream_path_[0])) export_stream(doc,selection,visible);
+        if(button("Saved stream files",GuiInputTarget::OpenPixelStreamBrowser,blocked)) browser_.open();
         std::shared_ptr<const PixelClassifierRecord> record;
         if(archives_.selected()) {const auto found=doc.pixels_.find(archives_.selected());if(found!=doc.pixels_.end()) record=found->second;}
         ImGui::BeginDisabled(blocked || busy);
@@ -216,52 +267,6 @@ public:
             if(archive.table()) ImGui::Text("%zu original training rows",archive.table()->row_count());
             if(archive.result()) {const auto& r=*archive.result();ImGui::Text("%llu original classified pixels",static_cast<unsigned long long>(r.classified_pixels()));ImGui::TextWrapped("%lld x %lld / level %d / %s",static_cast<long long>(r.width()),static_cast<long long>(r.height()),r.level(),r.windowed()?"windowed grid":"full target grid");}
         }
-        if(training_stats_.state!="idle") ImGui::TextWrapped("Training: %s / %s (%llu/%llu tiles)",training_stats_.state.c_str(),training_stats_.phase.c_str(),static_cast<unsigned long long>(training_stats_.completed_tiles),static_cast<unsigned long long>(training_stats_.total_tiles));
-        if(contour_state()!="idle") ImGui::TextWrapped("Contours: %s%s",contour_state().c_str(),published_?" (use Undo/Redo for this batch)":"");
-        if(prediction_stats_.state!="idle") ImGui::TextWrapped("Prediction: %s (%llu/%llu tiles)",prediction_stats_.state.c_str(),static_cast<unsigned long long>(prediction_stats_.completed_tiles),static_cast<unsigned long long>(prediction_stats_.total_tiles));
-        if(!error().empty()) ImGui::TextWrapped("%s",error().c_str());
-        if(stream_stats_.state!="idle") ImGui::TextWrapped("Stream: %s (%llu/%llu blocks)%s",stream_stats_.state.c_str(),static_cast<unsigned long long>(stream_stats_.completed_blocks),static_cast<unsigned long long>(stream_stats_.total_blocks),stream_stats_.current?"":" / captured historical input");
-        // Model I/O remains accessible without scrolling past feature settings.
-        ImGui::BeginDisabled(blocked || busy);ui::InputText("Pixel model file",path_.data(),path_.size());ui::Checkbox("Replace an existing pixel model",&replace_);ImGui::EndDisabled();
-        if(button("Save pixel model",GuiInputTarget::SavePixelModel,blocked || busy || !model_ || !path_[0],ui::Icon::Save)) file(true);ImGui::SameLine();if(button("Load pixel model",GuiInputTarget::LoadPixelModel,blocked || busy || !path_[0],ui::Icon::Open)) file(false);
-        if(io_state_!="idle") ImGui::Text("Model file: %s",io_state_.c_str());if(!io_error_.empty()) ImGui::TextWrapped("%s",io_error_.c_str());
-        if(ui::CollapsingHeader("Stream export settings")) {
-            ImGui::BeginDisabled(blocked || busy);ui::InputText("Pixel stream file",stream_path_.data(),stream_path_.size());ui::Checkbox("Replace a verified pixel stream file",&stream_replace_);
-            std::uint64_t block=stream_options_.block_size;if(ui::InputScalar("Stream block size",ImGuiDataType_U64,&block)) stream_options_.block_size=static_cast<std::size_t>(std::clamp<std::uint64_t>(block,16,512));
-            std::uint64_t mib=stream_options_.prediction.work_bytes/(1024*1024);if(ui::InputScalar("Stream work limit (MiB)",ImGuiDataType_U64,&mib)) stream_options_.prediction.work_bytes=std::clamp<std::uint64_t>(mib,1,1024)*1024*1024;
-            std::uint64_t gib=stream_max_bytes_/(1ULL<<30);if(ui::InputScalar("Stream file limit (GiB)",ImGuiDataType_U64,&gib)) stream_max_bytes_=std::clamp<std::uint64_t>(gib,1,65536)*(1ULL<<30);ImGui::EndDisabled();
-            ImGui::TextWrapped("Export captures the selected area and saved model recipe. Visible-only uses the captured viewport. No full mask is retained; completed files are historical values.");
-            if(stream_stats_.summary) ImGui::TextWrapped("Saved %llu bytes / content SHA-256: %s",static_cast<unsigned long long>(stream_stats_.summary->bytes),stream_stats_.summary->sha256.c_str());
-        }
-        ImGui::TextWrapped("Label area annotations with at least two classes, then train. Stain/white values come from the image analysis controls.");
-        ImGui::BeginDisabled(disabled);bool changed=ui::Checkbox("Train selected labelled areas only",&selected_only_);if(!catalog_complete_) ImGui::TextWrapped("Indexing annotations: %zu objects inspected",catalog_inspected_);
-        const auto preview=target_?"Area #"+std::to_string(target_):std::string("Current selection");
-        if(ui::BeginCombo("Prediction area",preview.c_str())) {if(ImGui::Selectable("Current selection",target_==0)) {target_=0;cancel_prediction();}ImGuiListClipper clipper;clipper.Begin(static_cast<int>(areas_.size()));while(clipper.Step()) for(int i=clipper.DisplayStart;i<clipper.DisplayEnd;++i) {const auto id=areas_[i];const auto label="Area #"+std::to_string(id);if(ImGui::Selectable(label.c_str(),target_==id)) {target_=id;cancel_prediction();}if(ImGui::IsItemHovered()) ImGui::SetTooltip("%s",doc.annotation(id).name.c_str());}ui::EndCombo();}
-        if(ui::CollapsingHeader("Training features and sampling")) {
-            changed=ui::Checkbox("RGB channels",&options_.features.rgb) || changed;changed=ui::Checkbox("Optical density channels",&options_.features.optical_density) || changed;changed=ui::Checkbox("Stain channels",&options_.features.stains) || changed;
-            changed=ui::Checkbox("Gradient magnitude",&options_.features.gradient_magnitude) || changed;changed=ui::Checkbox("Laplacian",&options_.features.laplacian) || changed;changed=ui::InputText("Scales (grid pixels)",scales_.data(),scales_.size()) || changed;
-            changed=ui::Checkbox("Use calibration when available",&options_.calibrated) || changed;changed=ui::Checkbox("Balance classes",&options_.balanced) || changed;changed=ui::InputScalar("Pyramid level",ImGuiDataType_S32,&options_.level) || changed;
-            std::uint64_t samples=options_.max_samples,per_class=options_.max_samples_per_class;if(ui::InputScalar("Total sample cap",ImGuiDataType_U64,&samples)) {options_.max_samples=static_cast<std::size_t>(samples);changed=true;}if(ui::InputScalar("Per-class sample cap",ImGuiDataType_U64,&per_class)) {options_.max_samples_per_class=static_cast<std::size_t>(per_class);changed=true;}
-            changed=ui::InputScalar("Sample seed",ImGuiDataType_U64,&options_.seed) || changed;changed=ui::InputScalar("Maximum scanned pixels",ImGuiDataType_U64,&options_.max_scanned_pixels) || changed;
-        }
-        if(ui::CollapsingHeader("Forest and memory settings")) {changed=ui::InputScalar("Trees",ImGuiDataType_U32,&parameters_.trees) || changed;changed=ui::InputScalar("Maximum depth",ImGuiDataType_U32,&parameters_.max_depth) || changed;changed=ui::InputScalar("Minimum samples",ImGuiDataType_U32,&parameters_.min_samples) || changed;changed=ui::InputScalar("Forest seed",ImGuiDataType_U64,&parameters_.seed) || changed;std::uint64_t mib=options_.work_bytes/(1024*1024);if(ui::InputScalar("Work limit (MiB)",ImGuiDataType_U64,&mib)) {options_.work_bytes=std::clamp<std::uint64_t>(mib,1,1024)*1024*1024;prediction_options_.work_bytes=options_.work_bytes;parameters_.work_bytes=options_.work_bytes;changed=true;}}
-        std::uint64_t preview_mib=preview_limit_/(1024*1024);
-        if(ui::InputScalar("Preview limit (MiB)",ImGuiDataType_U64,&preview_mib)) {preview_limit_=std::clamp<std::uint64_t>(preview_mib,1,128)*1024*1024;preview_reset_=true;}
-        if(changed) cancel_training();if(ui::InputDouble("Minimum tree vote",&prediction_options_.min_vote_fraction,0,0,"%.3f")) cancel_prediction();ImGui::EndDisabled();
-        if(model_) {const auto resolution=model_->resolution();ImGui::TextWrapped("Model: %zu classes, %zu features, %u trees",model_->classes().size(),model_->features().size(),model_->forest().tree_count());if(resolution) {if(resolution->physical()) ImGui::TextWrapped("Sampling: %.6g x %.6g um",*resolution->pixel_width_um,*resolution->pixel_height_um);else ImGui::TextWrapped("Sampling: %.6g source pixels",resolution->downsample);}ImGui::TextWrapped("Prediction uses the model's saved feature recipe.");}
-        if(auto table=training_.table();table && ui::CollapsingHeader("Training cohort")) {ImGui::Text("%zu rows; %llu conflicting pixels excluded",table->row_count(),static_cast<unsigned long long>(table->ambiguous_pixels()));if(ImGui::BeginTable("Pixel cohort",3,ImGuiTableFlags_Borders|ImGuiTableFlags_RowBg)) {ImGui::TableSetupColumn("Class");ImGui::TableSetupColumn("Eligible");ImGui::TableSetupColumn("Used");ImGui::TableHeadersRow();for(std::size_t i=0;i<table->classes().size();++i) {ImGui::TableNextRow();ImGui::TableNextColumn();ImGui::TextUnformatted(table->classes()[i].c_str());ImGui::TableNextColumn();ImGui::Text("%llu",static_cast<unsigned long long>(table->eligible_class_pixels()[i]));ImGui::TableNextColumn();ImGui::Text("%llu",static_cast<unsigned long long>(table->sampled_class_counts()[i]));}ImGui::EndTable();}}
-        if(ui::CollapsingHeader("Contour settings")) {
-            ImGui::BeginDisabled(disabled);bool contour_changed=ui::Checkbox("Clip contours to prediction area",&contour_options_.clip_to_roi);
-            auto limit=[&](const char* label,std::size_t& value,std::uint64_t maximum) {std::uint64_t v=value;if(ui::InputScalar(label,ImGuiDataType_U64,&v)) {value=static_cast<std::size_t>(std::clamp<std::uint64_t>(v,1,maximum));contour_changed=true;}};
-            limit("Maximum contour classes",contour_options_.max_components,1000000);limit("Maximum contour edges",contour_options_.max_edges,1000000);limit("Maximum contour vertices",contour_options_.max_vertices,1000000);
-            std::uint64_t mib=contour_options_.work_bytes/(1024*1024);if(ui::InputScalar("Contour work limit (MiB)",ImGuiDataType_U64,&mib)) {contour_options_.work_bytes=std::clamp<std::uint64_t>(mib,1,512)*1024*1024;contour_changed=true;}
-            if(contour_changed) clear_contours();ImGui::EndDisabled();
-            ImGui::TextWrapped("One multipolygon annotation per class. Clipped output is parented to the prediction area. Raw footprints are root annotations.");
-        }
-        if(auto geometry=this->traced()) {const auto& c=*geometry->contours();ImGui::TextWrapped("%zu classes / %zu edges / %zu vertices / %.1f ms",c.components().size(),c.edge_count(),c.vertex_count(),c.elapsed_ms());}
-        if(published_) ImGui::TextWrapped("Published %zu class annotations",published_ids_.size());
-        if(model_ && ui::CollapsingHeader("Overlay colors",colors_.size()<=8?ImGuiTreeNodeFlags_DefaultOpen:0)) {bool palette=ui::SliderFloat("Opacity",&opacity_,0,1);for(std::size_t i=0;i<colors_.size();++i) {ImGui::PushID(static_cast<int>(i));const auto label="Class "+std::to_string(i+1)+" / "+model_->classes()[i];palette=ui::ColorEdit3(label.c_str(),colors_[i].data()) || palette;ImGui::PopID();}if(palette) make_palette();}
-        if(auto result=prediction_.result()) {if(result->windowed()) ImGui::TextWrapped("Windowed prediction: captured visible grid; pan and predict again to update.");ImGui::TextWrapped("%lld x %lld / level %d / %.1f ms",static_cast<long long>(result->width()),static_cast<long long>(result->height()),result->level(),result->elapsed_ms());ImGui::TextWrapped("%llu classified pixels; preview %s",static_cast<unsigned long long>(result->classified_pixels()),preview_.ready()?"ready":"preparing");}
         ImGui::End();browser_.draw(doc,blocked,mark);
     }
 };

@@ -7,6 +7,34 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
+## Delivered UI - image inspector and workflow simplification
+
+Owner approved real-project review, blocker fixes and a scoped local main merge.
+Flattened the Image inspector; calibration uses a validated native modal with
+Cancel/Apply/Clear/Undo. Read-only image/object information preserves literal
+metadata and truthful RGB OD versus supplied-stain labels. Tables have one
+kind/scope/destination form; saved-cell exports retain exact selected run identity.
+Project settings, TMA and classifier sections expose the active workflow directly.
+Dialog ownership, scrolling and translated primary captions follow the UI contract.
+
+Actual copied-project review passed search/open, ROI draw/name/class, native
+Run/Keep, one-row CSV, Save/reopen and explicit saved-result Recheck with matching
+values. Fixed the observed result-link blocker: ROI/Tissue/Cells Go to tables
+now selects that family and Current image, preserving cell-source preference.
+Evidence: build/ui-workflow-merge; prior compatible receipts are
+build/ui-panel-refinement/results.json and build/ui-analysis-details/results.json.
+Exact scoped source passes 17 source contracts, 44 native workflow runs
+(17 export/sampling and 27 panel/TMA), and actual ROI/Tissue/Cells result-link
+navigation from a different prior table family/project scope. All three open the
+correct table and Current image. The isolated frontend compiled against main's
+native interfaces; frozen core archive hash stayed identical through linking.
+Calibration and remaining unchanged flows reuse the prior source-scoped receipts.
+Initial compiler setup quoting failed before compilation, then was corrected.
+
+Validation uses scoped frontend consumers and the existing native authority;
+no kernel/binding rebuild, science qualification, package or push. Reader, gene,
+SDK and expression work are excluded from this commit. Stop at local merge.
+
 ## Delivered UI optimization - reviewed five-phase plan
 
 Implemented the owner-requested five phases in the existing integration checkout:

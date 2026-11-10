@@ -39,6 +39,8 @@ static void export_sampling_workflows(const std::filesystem::path& directory) {
     for(const std::string kind:{"saved-cells","live-cells","project-cells","image-roi","project-roi"}) {
         const auto project=fixture(directory/(kind+".qpxproj"),64,48);const auto doc=project->document(1);const auto id=doc->add_rectangle({4,4,48,32});
         const StainTransform transform({{1,0,0},{0,1,0}});const CellRequest cell(*doc,id,transform);doc->keep_cells(cell,detect_cells(cell));
+        const CellRequest second_cell(*doc,id,transform);const auto latest_cell=doc->keep_cells(second_cell,detect_cells(second_cell));
+        check(doc->cell_record_count()==2,"Two-run export fixture did not keep distinct native records");
         const AnalysisRequest analysis(*doc,id,transform);doc->keep_analysis(analysis,analyze(analysis));project->save(project->path());
         auto o=options(directory,kind,"project");const auto destination=directory/(kind+".csv");write(destination,"table-sentinel");
         o.cell_table_path=o.measurement_table_path=destination.u8string();o.cell_table_published_objects=kind=="live-cells";
@@ -47,7 +49,8 @@ static void export_sampling_workflows(const std::filesystem::path& directory) {
         const auto r=run_project_gui(project,45,(directory/(kind+".ppm")).u8string(),o);
         check(r.replay_complete && (measurement?r.measurement_table_state:r.cell_table_state)=="succeeded","Table confirmation failed: "+kind);
         if(measurement) {const auto expected=export_key.shift?measurements_csv(MeasurementTableRequest(*project,MeasurementTableKind::Roi)):measurements_csv(MeasurementTableRequest(*doc,MeasurementTableKind::Roi));check(read(destination)==expected,"Measurement GUI/native bytes differ");}
-        else {CellTableOptions table;table.published_objects=o.cell_table_published_objects;const auto expected=export_key.shift?cell_measurements_csv(CellTableRequest(*project,{},table)):cell_measurements_csv(CellTableRequest(*doc,{},table));check(read(destination)==expected,"Cell GUI/native bytes differ");}
+        else {CellTableOptions table;table.published_objects=o.cell_table_published_objects;const auto expected=export_key.shift?cell_measurements_csv(CellTableRequest(*project,{},table)):cell_measurements_csv(CellTableRequest(*doc,table.published_objects?std::vector<std::uint64_t>{}:std::vector<std::uint64_t>{latest_cell},table));check(read(destination)==expected,"Cell GUI/native bytes differ");
+            if(kind=="saved-cells")check(expected!=cell_measurements_csv(CellTableRequest(*doc,{},table)),"Selected latest-run test cannot distinguish all kept runs");}
     }
     for(const bool calibrated:{false,true})for(const char* task:{"tissue","cells"}) {
         const auto name=std::string("sampling-")+task+(calibrated?"-calibrated":"-unknown");const auto project=fixture(directory/(name+".qpxproj"),128,96);
