@@ -1,6 +1,6 @@
 #include "qupathxx/object_properties.hpp"
 #include "qupathxx/interchange.hpp"
-#include "atomic_export.hpp"
+#include "export_output.hpp"
 #include "qupath_precision.hpp"
 #include "class_registry.hpp"
 #include <algorithm>
@@ -41,10 +41,11 @@ const char* roi_kind(RoiKind kind) {
 }
 void bounded(std::ostringstream& out,std::size_t limit=byte_limit) { if(out.tellp()>static_cast<std::streamoff>(limit)) throw std::length_error("export exceeds byte limit"); }
 void clipboard_limit(std::size_t limit) {if(!limit || limit>byte_limit)throw std::invalid_argument("clipboard byte limit must be in 1..256 MiB");}
-void atomic_write(const std::string& path,const std::string& bytes) {
+void atomic_write(const std::string& path,const std::string& bytes,ExportWritePolicy policy,const std::vector<std::string>& protected_paths) {
+    detail::validate_export_policy(policy);const auto destination=detail::export_path(path);detail::guard_export_output(destination,protected_paths);
     valid_text(path,32768); if(path.empty()) throw std::invalid_argument("export path must not be empty");
     if(bytes.size()>byte_limit) throw std::length_error("export exceeds 256 MiB limit");
-    detail::AtomicExportFile file(path,byte_limit);file.write(bytes.data(),bytes.size());file.commit();
+    detail::AtomicExportFile file(destination,byte_limit);file.write(bytes.data(),bytes.size());detail::commit_export_output(file,destination,policy,protected_paths);
 }
 
 std::string read_file(const std::string& path) {
@@ -90,10 +91,12 @@ std::string measurements_csv(const Document& doc,const std::vector<std::uint64_t
     }
     return out.str();
 }
-void save_measurements_csv(const Document& doc,const std::string& path,const std::vector<std::uint64_t>& ids,bool intensity) { atomic_write(path,measurements_csv(doc,ids,intensity)); }
-InterchangeReport save_geojson(const Document& doc,const std::string& path,const std::vector<std::uint64_t>& ids,bool losses,bool nested) {
-    auto report=export_geojson(doc,ids,losses,nested); atomic_write(path,report.text); return report;
+void save_object_measurements_csv_with_policy(const Document& doc,const std::string& path,ExportWritePolicy policy,const std::vector<std::uint64_t>& ids,bool intensity,const std::vector<std::string>& protected_paths) {atomic_write(path,measurements_csv(doc,ids,intensity),policy,protected_paths);}
+void save_measurements_csv(const Document& doc,const std::string& path,const std::vector<std::uint64_t>& ids,bool intensity) {save_object_measurements_csv_with_policy(doc,path,ExportWritePolicy::ReplaceExisting,ids,intensity);}
+InterchangeReport save_geojson_with_policy(const Document& doc,const std::string& path,ExportWritePolicy policy,const std::vector<std::uint64_t>& ids,bool losses,bool nested,const std::vector<std::string>& protected_paths) {
+    auto report=export_geojson(doc,ids,losses,nested);atomic_write(path,report.text,policy,protected_paths);return report;
 }
+InterchangeReport save_geojson(const Document& doc,const std::string& path,const std::vector<std::uint64_t>& ids,bool losses,bool nested) {return save_geojson_with_policy(doc,path,ExportWritePolicy::ReplaceExisting,ids,losses,nested);}
 InterchangeReport load_geojson(Document& doc,const std::string& path,bool pixels,bool losses,bool qupath_precision) { return import_geojson(doc,read_file(path),pixels,losses,qupath_precision); }
 #ifndef QUPATHXX_HAS_INTERCHANGE
 InterchangeReport export_geojson(const Document&,const std::vector<std::uint64_t>&,bool,bool) { throw std::runtime_error("GeoJSON requires QUPATHXX_BUILD_INTERCHANGE=ON"); }

@@ -18,7 +18,8 @@ namespace qpx::ui {
     X(Language,"Choose language",Selector,"gui.cpp",Session) \
     X(SourceVerification,"Source verification",Confirmation,"gui.cpp",Source) \
     X(DeleteCheckpoint,"Delete recovery checkpoint?",Confirmation,"gui.cpp",Recovery) \
-    X(ImportFile,"Choose import file",Selector,"gui_import_picker.hpp",Filesystem)
+    X(ImportFile,"Choose import file",Selector,"gui_import_picker.hpp",Filesystem) \
+    X(ReplaceExport,"Replace existing file?",Confirmation,"gui.cpp",Filesystem)
 
 enum class DialogKind {
 #define QPX_DIALOG_ENUM(kind,...) kind,
@@ -106,6 +107,7 @@ inline std::vector<DialogActionDefinition> dialog_actions(DialogKind kind,Dialog
     case DialogKind::ReplaceWorkspace:
         actions.push_back({A::Discard,variant==DialogVariant::Recovery?"Discard current and recover":"Discard current and open",R::Destructive,P::Footer,C::KeepOpen});
         actions.push_back({A::Save,variant==DialogVariant::Recovery?"Save current and recover":"Save current and open",R::Primary,P::Footer,C::KeepOpen});break;
+    case DialogKind::ReplaceExport:actions.push_back({A::Confirm,"Replace file",R::Destructive,P::Footer,C::DismissOnSuccess});break;
     case DialogKind::RemoveImage:actions.push_back({A::Confirm,"Remove image",R::Destructive,P::Footer,C::DismissOnSuccess});break;
     case DialogKind::DeleteCheckpoint:actions.push_back({A::Confirm,"Permanently delete checkpoint",R::Destructive,P::Footer,C::DismissOnSuccess});break;
     case DialogKind::SourceVerification:actions.push_back({A::Confirm,"Use reviewed file",R::Primary,P::Footer,C::DismissOnSuccess});break;

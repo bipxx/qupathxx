@@ -1,5 +1,6 @@
 #pragma once
 #include "qupathxx/source_identity.hpp"
+#include "qupathxx/export_policy.hpp"
 namespace qpx::detail {
 // Regular-file handle retained across decoder initialization, never across a
 // reader's lifetime. Verification checks both that handle and a fresh path.
@@ -16,5 +17,5 @@ private:
 void guard_file_output(const std::string& observed_path,const std::string& identity,const std::string& absolute_path);
 // Compare observed file sets, not content hashes or process-unique generations.
 bool same_reader_files(const ReaderSource&,const ReaderSource&);
-void save_source_association(const SourceFileAssociation&,const std::string&,const std::atomic<bool>*);
+void save_source_association(const SourceFileAssociation&,const std::string&,const std::atomic<bool>*,ExportWritePolicy=ExportWritePolicy::ReplaceExisting,const std::vector<std::string>& protected_paths={});
 }

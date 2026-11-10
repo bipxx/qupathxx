@@ -1,5 +1,6 @@
 #include "qupathxx/cell_tables.hpp"
 #include "qupathxx/project.hpp"
+#include "export_policy_checks.hpp"
 #include <filesystem>
 #include <fstream>
 #include <iostream>
@@ -33,6 +34,7 @@ int main() {
     auto second=doc.keep_cells(request,result);check(cell_measurements_csv(CellTableRequest(doc,{second,first,second}))==cell_measurements_csv(CellTableRequest(doc,{first,second})));
     check(doc.remove_cells(first) && doc.remove_cells(second));check(cell_measurements_csv(captured)==csv);
     check(CellTableRequest(doc).row_count()==0 && cell_measurements_csv(CellTableRequest(doc)).find("qpx.cell-table/1")==std::string::npos);
+    export_policy_checks::writer([&](const std::string& path,ExportWritePolicy policy,const std::vector<std::string>& protected_paths) {CellTableExportJob safe;check(safe.request_with_policy(captured,path,policy,protected_paths));const auto state=safe.wait();if(state.state!="succeeded")throw std::runtime_error(state.error);},csv,"CellTableExportJob");
     const auto path=std::filesystem::current_path()/("cell-table-"+std::to_string(std::random_device{}())+".csv");
     {std::ofstream file(path,std::ios::binary);file<<"sentinel";}
     std::atomic<bool> cancelled{true};rejects<std::runtime_error>([&]{save_cell_measurements_csv(captured,path.u8string(),&cancelled);});check(read(path)=="sentinel");

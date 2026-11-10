@@ -22,6 +22,7 @@ frames are not supported. The current registry covers:
 | SourceVerification | gui.cpp | Captured project, image, document and native source review |
 | DeleteCheckpoint | gui.cpp | Reviewed recovery checkpoint |
 | ImportFile | gui_import_picker.hpp | Local filesystem choice |
+| ReplaceExport | gui.cpp | Captured export owner, destination version and protected paths |
 
 Each frame constructs `DialogState(owner_valid, busy, variant)` explicitly.
 Owner and busy snapshots are immutable. Invalid ownership disables publication
@@ -64,6 +65,14 @@ and keeps the editor open; Save project persists it. Cancel discards unapplied
 drafts. The language selector changes preferences immediately and therefore uses
 Close. The file picker returns a validated existing path or unused output path;
 it does not create/write that output or interpret scientific data.
+
+GUI exports use create-only atomic publication by default. Existing destinations
+require ReplaceExport with a wrapped full path, scope, Cancel-first focus and
+explicit Replace file. Confirmation revalidates owner, destination version and
+native protected paths; it never overrides source/project/recovery protection.
+A file appearing during create-only publication causes refusal. Cancellation
+before commit preserves bytes; after the atomic rename/link a committed job may
+report success. Version review is not a cross-process compare-and-swap.
 
 ## Popup menus
 

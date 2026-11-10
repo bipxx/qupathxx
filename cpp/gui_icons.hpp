@@ -12,7 +12,7 @@ enum class Icon {
     Fit,Undo,Redo,Spatial,Reset,Save,Open,New,Refresh,Trash,Edit,Link,Copy,Paste,
     Import,Export,Settings,Channels,Check,Close,Plus,Minus,Up,Down,Left,Right,
     SelectAll,Deselect,Select,Rectangle,Ellipse,Polygon,Polyline,Points,Vertices,Hole,
-    Project,Image,Annotations,Workflow,Gear,More,ChevronRight,ChevronDown
+    Project,Image,Annotations,Workflow,Gear,More,ChevronRight,ChevronDown,Eye
 };
 inline void draw_icon_to(ImDrawList* d,Icon icon,ImVec2 lo,ImVec2 hi,ImU32 ink) {
     d->PushDrawFlag(ImDrawFlags_AALineEnds,true);
@@ -28,6 +28,7 @@ inline void draw_icon_to(ImDrawList* d,Icon icon,ImVec2 lo,ImVec2 hi,ImU32 ink) 
     auto circle=[&](float x,float y,float radius){d->AddCircle(at(x,y),radius*k,ink,segments,stroke);};
     auto path=[&](std::initializer_list<ImVec2> points,bool closed=false){d->AddPolyline(points.begin(),static_cast<int>(points.size()),ink,stroke,closed?ImDrawFlags_Closed:0);};
     switch(icon) {
+    case Icon::Eye:d->AddBezierCubic(at(3,16),at(9,3),at(23,3),at(29,16),ink,stroke);d->AddBezierCubic(at(29,16),at(23,29),at(9,29),at(3,16),ink,stroke);circle(16,16,4);break;
     case Icon::More:for(float y:{10.f,16.f,22.f})d->AddCircleFilled(at(16,y),1.4f*k,ink);break;
     case Icon::ChevronRight:line(12,8,20,16);line(20,16,12,24);break;
     case Icon::ChevronDown:line(8,12,16,20);line(16,20,24,12);break;

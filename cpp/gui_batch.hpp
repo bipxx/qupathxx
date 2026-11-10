@@ -18,7 +18,7 @@ inline bool cell_detector_controls(CellParameters& p) {
     }
     if(p.algorithm!=CellAlgorithm::DistanceWatershed) {
         changed=ui::InputDouble("Peak prominence",&p.log_prominence,0,0,"%.3g") || changed;
-        changed=ui::InputScalar("Context (sample px)",ImGuiDataType_U32,&p.context_padding) || changed;
+        changed=ui::InputScalar("Context (sampled px)###Context (sample px)",ImGuiDataType_U32,&p.context_padding) || changed;
     }
     return changed;
 }
@@ -57,16 +57,17 @@ inline bool grid_cell_parameter_controls(GridCellParameters& p) {
     if(ui::Combo("Distance units",&units,"Level-zero pixels\0Micrometres\0")) {p.units=static_cast<GridCellUnits>(units);changed=true;}
     if(ui::Combo("Grid feature",&feature,"OD sum\0Stain 1\0Stain 2\0Stain 3\0")) {p.feature=static_cast<TissueFeature>(feature);changed=true;}
     if(ui::Combo("Grid ROI samples",&policy,"Geometry coverage\0Polygon winding\0")) {p.sampling_policy=static_cast<RoiSamplingPolicy>(policy);changed=true;}
+    auto unit_label=[&](const char* label,bool area=false) {return std::string(ui::i18n::text(label))+" ("+(p.units==GridCellUnits::Micrometres?(area?"um^2":"um"):(area?"level-0 px^2":"level-0 px"))+")###"+label;};
     changed=ui::InputDouble("Grid threshold",&p.threshold,0,0,"%.5g") || changed;
-    changed=ui::InputDouble("Grid sigma",&p.sigma,0,0,"%.5g") || changed;
+    changed=ui::InputDouble(unit_label("Grid sigma",false).c_str(),&p.sigma,0,0,"%.5g") || changed;
     changed=ui::InputDouble("Grid peak prominence",&p.log_prominence,0,0,"%.5g") || changed;
-    changed=ui::InputDouble("Grid peak radius >=",&p.min_peak_radius,0,0,"%.5g") || changed;
-    changed=ui::InputDouble("Grid seed spacing",&p.min_seed_distance,0,0,"%.5g") || changed;
-    changed=ui::InputDouble("Grid body expansion",&p.cell_expansion,0,0,"%.5g") || changed;
-    changed=ui::InputDouble("Grid nucleus area >=",&p.min_nucleus_area,0,0,"%.8g") || changed;
+    changed=ui::InputDouble(unit_label("Grid peak radius >=",false).c_str(),&p.min_peak_radius,0,0,"%.5g") || changed;
+    changed=ui::InputDouble(unit_label("Grid seed spacing",false).c_str(),&p.min_seed_distance,0,0,"%.5g") || changed;
+    changed=ui::InputDouble(unit_label("Grid body expansion",false).c_str(),&p.cell_expansion,0,0,"%.5g") || changed;
+    changed=ui::InputDouble(unit_label("Grid nucleus area >=",true).c_str(),&p.min_nucleus_area,0,0,"%.8g") || changed;
     bool maximum=bool(p.max_nucleus_area);
     if(ui::Checkbox("Limit grid nucleus area",&maximum)) {p.max_nucleus_area=maximum?std::optional<double>(p.min_nucleus_area):std::nullopt;changed=true;}
-    if(p.max_nucleus_area) changed=ui::InputDouble("Grid nucleus area <=",&*p.max_nucleus_area,0,0,"%.8g") || changed;
+    if(p.max_nucleus_area) changed=ui::InputDouble(unit_label("Grid nucleus area <=",true).c_str(),&*p.max_nucleus_area,0,0,"%.8g") || changed;
     int memory=static_cast<int>(p.work_bytes/(1024*1024));
     if(ui::InputInt("Grid memory (MiB)",&memory)) {p.work_bytes=std::size_t(std::clamp(memory,1,512))*1024*1024;changed=true;}
     ImGui::TextWrapped("Distances use the selected units; areas use those units squared. Micrometres require both calibration axes.");
@@ -83,7 +84,7 @@ inline bool grid_cell_controls(GridCellSampling& grid,GridCellParameters& p) {
     return grid_cell_parameter_controls(p) || changed;
 }
 inline bool nominal_cell_controls(NominalCellRoiSampling& sampling,GridCellParameters& p) {
-    bool changed=ui::InputDouble("Nominal downsample",&sampling.downsample,0,0,"%.8g");
+    bool changed=ui::InputDouble("Nominal downsample (level-0 px per sample)###Nominal downsample",&sampling.downsample,0,0,"%.8g");
     int coordinates=static_cast<int>(sampling.sampling);
     if(ui::Combo("RGB sampling",&coordinates,"Integer origin\0Affine inverse\0")) {sampling.sampling=static_cast<RgbNominalSampling>(coordinates);changed=true;}
     int processing=static_cast<int>(p.processing);
@@ -91,7 +92,7 @@ inline bool nominal_cell_controls(NominalCellRoiSampling& sampling,GridCellParam
     auto context=[&](const char* label,std::uint32_t& value) {
         int n=static_cast<int>(value);if(ui::InputInt(label,&n)) {value=static_cast<std::uint32_t>(std::clamp(n,0,4096));changed=true;}
     };
-    context("Nominal context X",sampling.context_x);context("Nominal context Y",sampling.context_y);
+    context("Nominal context X (output samples)###Nominal context X",sampling.context_x);context("Nominal context Y (output samples)###Nominal context Y",sampling.context_y);
     ImGui::TextWrapped("Samples the original image at the requested nominal pixel step. Context is measured in output samples; the original ROI is retained.");
     return grid_cell_parameter_controls(p) || changed;
 }
@@ -246,7 +247,7 @@ public:
                 else {
                 if(options_.kind==ProjectBatchKind::Tissue) {
                     tissue_sampling_controls(options_.tissue_grid);if(options_.tissue_grid) options_.tissue.level=0;
-                    ui::InputDouble("Sigma (px)",&options_.tissue.smoothing_sigma,0,0,"%.5g");
+                    ui::InputDouble("Sigma (sampled px)###Sigma (px)",&options_.tissue.smoothing_sigma,0,0,"%.5g");
                     ui::Checkbox("Median cleanup (3x3)",&options_.tissue.median_cleanup);
                     cell_area_controls(options_.tissue_min_component_area_um2,options_.tissue_max_component_area_um2,true);
                     int sampling=static_cast<int>(options_.tissue.sampling_policy);

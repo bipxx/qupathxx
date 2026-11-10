@@ -7,6 +7,41 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
+## Delivered UI optimization - reviewed five-phase plan
+
+Implemented the owner-requested five phases in the existing integration checkout:
+guarded create-only GUI exports with registered replacement and independent import
+paths; cached native sampling facts and honest units; workspace-only Eye visibility
+with safe hidden input; shared native shape measurements/Keep/Table guidance; and
+annotation-first virtualized rows with literal stable IDs and ordered selection.
+Collapsed measurement exports poll independently and expose errors outside the
+section. Existing CLI/API defaults, scientific authorities and bindings stay frozen.
+
+Decisive evidence: build/ui-export-sampling/results.json. Four exporter suites,
+tissue, sampling-only, ordered selection, shell schemas 1/2/3/coverage/locales,
+replay contracts, six actual review flows and 17 export/sampling flows pass. All
+14 source guards pass; 23 matching captures verify readable values and geometry,
+including French/scaled confirmation and calibrated/unknown sampling. Standalone
+starts with system-only PATH, no PYTHONPATH and unchanged project bytes; all
+38 binding objects match. No broader biology/speed or observed-user claim.
+
+Broader cell suite still refuses legacy-tight-grid.qpxproj at its work budget.
+The preserved pre-change desktop reproduces it with identical fixture hashes;
+baseline-only also fails while new sampling-only passes. Keep assertions and
+quotas intact; the existing R6/R12 row tracks this separate issue.
+
+Corrections: CRLF/15-column catalogue anchors and pinned CMake path; one forced
+GUI-unit rebuild after snapshot reuse was finalized; translated capture runner
+environment and legal replay coordinates; explicit resource-copy target because
+references-disabled builds left old schema-2 assets; and non-repeating Delete.
+Preserve failed logs/captures and the passing milestone-1 source/app. Reuse all
+compatible scientific objects/results; no wheel, binding rebuild or new kernel.
+
+Owner-authorized handoff: merge these UI changes and launch the qualified native
+app. Preserve unrelated analysis/SDK changes. The merge/startup result is recorded
+in build/ui-optimization-merge/results.json; frozen Python consumers and the
+legacy quota issue remain separate scope.
+
 ## Delivered UI handoff - reviewed changes merged to main
 
 This merge carries UI commit39823dee and the integration branch's completed

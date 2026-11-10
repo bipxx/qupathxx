@@ -419,3 +419,25 @@ When updating from the sibling project, review its `docs/design-system.md`,
 `selectionStyles.ts` together. Update the token snapshot deliberately. Keep
 scientific rendering colors separate and inspect both palettes, a translated
 screen and a scaled/narrow screen before handoff.
+
+
+## Review workflow presentation contract
+
+The Show objects eye control is workspace presentation state, outside document
+plane visibility. Toolbar, View menu and bare O share one guarded dispatcher;
+active gestures block the toggle. Hidden canvas picking/marquee do nothing, and
+the first non-repeating Delete restores visibility. Editing tools restore it
+before geometry interaction. The overlay cache and every status-bar branch carry
+the state. RML schema 3 requires the control; schemas 1/2 may omit it.
+
+Annotations and Workflow reuse native shape measurements with explicit primary
+object and calibration units. Keep retains results; Save project persists them.
+Tables displays cheap kept-run counts and native prepared-request row counts.
+Jobs poll independently of collapsed panels and expose errors outside the collapse.
+
+Fresh docked workspaces start with Annotations; legacy layouts and compact API
+viewers retain All objects. Filtering does not change native selection or exports.
+Rows retain literal names and stable ### object IDs, kind and appearance cues.
+Filtered ranges follow displayed order through the shared native helper. Hidden
+selected objects get an explicit Show all action; canvas picks never change the
+user’s filter automatically.

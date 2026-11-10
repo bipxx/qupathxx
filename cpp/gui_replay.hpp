@@ -1,4 +1,5 @@
 #pragma once
+#include "gui_input_targets.hpp"
 #include "qupathxx/core.hpp"
 #include "gui_scale.hpp"
 #include <algorithm>
@@ -38,7 +39,7 @@ public:
                 throw std::invalid_argument("window controls cannot wait for window readiness");
             if(!detail::valid_gui_input_wait(event.wait_for))
                 throw std::invalid_argument("invalid GUI replay readiness condition");
-            if(event.wait_for==GuiInputWait::TargetReady && (event.kind!=GuiInputKind::LeftDown || event.target<GuiInputTarget::DisplayReset || event.target>GuiInputTarget::SpatialExclusions || event.target==GuiInputTarget::Window))
+            if(event.wait_for==GuiInputWait::TargetReady && (event.kind!=GuiInputKind::LeftDown || event.target<GuiInputTarget::DisplayReset || event.target>detail::gui_input_target_max || event.target==GuiInputTarget::Window))
                 throw std::invalid_argument("target readiness requires LeftDown on a named button target");
         }
         std::stable_sort(events_.begin(),events_.end(),[](const auto& a,const auto& b){return a.frame<b.frame;});
