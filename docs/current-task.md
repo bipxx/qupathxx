@@ -7,6 +7,856 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
+## Active UI handoff - merge reviewed changes to main
+
+Owner now authorizes committing and merging the reviewed UI work. Stage only
+workbench/project design, native dialog/menu contracts, their tests/resources and
+UI documentation. Carry the already committed integration history forward; keep
+unfinished QC/normalization, aggregation/reduction and A04 work unstaged, including
+mixed CMake, GUI dispatch and task-card edits. Preserve exact dirty source before
+staging. Reuse qualified native UI evidence under build/ui-dialog-contract; verify
+component hashes, source guards and the merged tree rather than rebuilding core,
+bindings or repeating scientific campaigns. No push, release, worktree removal or
+preview shutdown. Next: selective UI commit, local main merge and clean-index /
+ancestry / unrelated-source preservation checks.
+
+The staged-tree source check initially omitted assets/ui from its temporary
+fixture (FileNotFoundError, eight checks passed). Export the missing staged
+resources and rerun the focused source checks; no product change is needed.
+
+## Delivered UI task - enforce the dialog contract
+
+Owner requests another audit and a proper contract. Findings: layout and drawing
+duplicate action declarations; callers can bypass the frame; Escape ignores an
+open child popup; title/actions and multiple notices can compete for viewport
+space. Replace free-form composition with registered dialog kinds, typed actions,
+one action definition for measurement/style/dispatch, mandatory owner/busy/submit
+state, and one renderer owning header/body/notices/footer and popup lifetime.
+Migrate all nine existing modal surfaces, including language, source review,
+checkpoint deletion and import choice. Keep native handlers and data authorities.
+
+Add enforceable source guards against raw/modal-frame bypass and unregistered
+dialogs, plus native behavior contracts for role/order/identity, owner/busy locks,
+single dispatch, nested Escape, text editing, long errors, resize/DPI and import
+choice. Existing metadata and close save/recovery guards stay unchanged. Settle
+types/callers/tests before one cached GUI/app/organization/replay build with
+references disabled. Reuse unchanged science/rendering evidence; verify scoped
+native flows, source contracts, standalone startup and38 binding objects. No
+core/binding rebuild, Python consumer, wheel, commit or merge. Preserve products,
+fixtures and live sessions.
+
+Interfaces and nine callers are settled. Nine source guards pass. Added actual
+native source review Cancel/Apply/Save-reopen, checkpoint Cancel/checked-delete,
+and metadata blocked-Undo checks. Changed inputs are the contract, renderer,
+controllers, menu wrappers and their focused test headers. Next decisive step:
+one references-disabled cached GUI/app/organization/replay build, then typed
+contract replay and scoped GL/native workflows. Source and38 binding-object
+hashes are frozen under build/ui-dialog-contract before the build.
+
+The first frontend build catches a shared_ptr-versus-observed-pointer comparison
+in the added source ownership guard. Compare the locked pointer's get() to the
+observed active document; native source identity validation is unchanged. The
+checkpoint fixture also needs a real unsaved object because native autosave
+correctly refuses clean projects. Both are corrected before native execution.
+Reuse the compiled unchanged units; resume affected GUI/app/tests with references
+disabled, preserving build.log as the failure receipt.
+
+GUI and application now build. The organization test compile needs the public
+source_identity.hpp definition, rather than its project.hpp forward declaration.
+Add that test-only include and resume organization/replay targets; reuse the
+passing production GUI/app. No source authority or core change is required.
+
+Native contract replay passes, including owner/busy/refusal, nested/text Escape,
+single dispatch, scoped metadata and non-writing file choice. Organization passes
+through close Save/Cancel but fails the existing Discard recovery assertion.
+Preserve native-artifacts-01 and add report details (frames/completed/path/error)
+to isolate the failed term before changing behavior. Rebuild organization only;
+reuse passing replay and production binaries.
+
+Diagnostic receipt native-attempt-02.log shows frames28, completed0, nonempty
+recovery path, no error and no surviving checkpoint. The fixed-frame test raced
+publication: Discard is allowed to cancel the in-flight write. Correct the test
+contract to require completed cleanup for either publication outcome, no error,
+closed workspace and unchanged primary bytes. Add a separate deterministic
+native request/wait/publish/recover/clear/wait check retaining completed==1 and
+exact primary bytes, so published cleanup coverage is strengthened rather than
+lost. No production behavior changes. Rebuild organization only.
+
+Native organization, nine source contracts, standalone startup and38 retained
+objects pass (results-before-contrast.json;49 PPM files includes fixture inputs).
+Visual inspection catches metadata background inheriting the disabled workbench
+alpha, even though controls re-enable. Move ModalInputScope before BeginDialog
+so background and content share modal state; restore it after EndPopup. Add an
+actual GL capture over contrasting blue and an opaque-surface assertion, alongside
+the existing ambient-disabled interaction check. This is a form-readability guard,
+not cosmetic screenshot equivalence. Rebuild the four affected frontend targets
+and rerun their matched checks; retain attempt03 as diagnosed evidence.
+
+Final matched result: build/ui-dialog-contract/results-final.json. Native replay
+and organization pass, with nine source guards,47 actual UI captures (fixture
+source PPMs excluded), standalone System32/Windows-only PATH startup and38
+byte-identical binding objects. All nine modal controllers use one registered
+renderer. Native checks cover stable localized IDs, invalid/busy owners, modal
+input, nested/text Escape, single dispatch, refused/pending commands, scope-safe
+metadata, file choice without writes, blocked Undo, source Cancel/Apply/Save-
+reopen, checkpoint Cancel/checked deletion and close save/discard/recovery/error.
+Reviewed narrow French, long errors, actual file picker and normal/scaled forms;
+actual metadata/workbench and contrasting-blue captures confirm opaque readable
+surfaces. Formal invariants and test mapping: docs/ui-dialog-contract.md.
+
+Corrections were two compile-only integration errors, a diagnosed pre-existing
+publication timing assumption in the Discard test, and the real inherited-alpha
+readability defect caught by visual review. Passing unaffected binaries/evidence
+were reused between corrections. No core/binding build, Python consumer, wheel,
+commit or merge. Frozen review inputs and matched source are retained in this
+receipt's task directory; earlier products and live sessions are preserved.
+Next: owner reviews the updated preview; no further workflow expansion selected.
+
+## Delivered UI task - shared dialog and popup-menu design system
+
+Owner finds close-project and metadata dialogs disorganized. Extend the existing
+native design system with shared bounded dialog surfaces, contextual headers,
+scrollable bodies, labelled full-width fields and measured footer action rows.
+Keep one primary action at the trailing edge, Cancel separate from destructive
+choices, and secondary recovery controls out of the main closing decision.
+Apply the pattern to metadata, close, workspace replacement and image removal.
+Standardize popup menu row spacing through shared menu components.
+
+Keep native save/recovery state machines, draft validation, metadata versus
+description/tag publication scopes, stable command IDs and project/selection
+guards. No core/binding changes or new combined persistence authority. Existing
+metadata text/Unicode/duplicate/stale/cancel/save-reopen checks must still pass.
+Add native close save/discard/cancel/recovery and bounded dialog captures, plus
+metadata/description views at normal/scaled/narrow sizes. Settle inputs before
+one cached GUI/app/organization/replay build with references disabled. Run those
+focused native checks, source contracts, standalone startup and38 retained binding
+object hashes. Reuse unchanged rendering/science evidence; no Python consumer,
+wheel, commit or merge. Preserve live user sessions and frozen review inputs.
+Next: implement the common components and migrate these project dialogs.
+
+Initial cached build and native replay pass, including actual metadata/Unicode/
+duplicate/stale/cancel/save-reopen and class/font checks. Organization interactions
+pass through close Save/Discard/Cancel, then Keep recovery waits because replay
+target marking only accepted the modal root, excluding its new legitimate body
+child. Accept that modal's RootWindow descendants while retaining visibility,
+disabled and underlying-window guards. The close captures also reveal an initial
+header-focus tooltip; default focus to footer Cancel and use the compact shared
+confirmation height. Preserve the initial evidence, rebuild affected frontends
+and rerun the matched native checks/captures with these diagnosed corrections.
+
+Corrected native replay and organization suites pass: close save/discard/cancel/
+recovery, failed-save cancellation, metadata drafts and viewport/footer guards.
+Four source contracts,38 captures, standalone startup and38 retained binding
+hashes pass. German metadata is rendered correctly. Visual review finds that the
+French close fixture still inherits the harness's forced English environment;
+correct only that test's environment override, rebuild organization only and
+repeat its matched checks/captures. Reuse the unchanged passing replay binary/log
+and production GUI/app. Preserve before-i18n evidence under its own names.
+
+Source review also identifies a context edge case: the close dialog shares a
+pending Save As path buffer. If that destination differs from the saved project,
+show its editable value instead of claiming Save targets the current project.
+Add a narrow/high-DPI first-save capture. This changes only Close composition,
+so rebuild GUI/app/organization; reuse the unchanged replay binary/log. No new
+save authority or persistence behavior is introduced.
+
+`build/ui-dialog-system/results-final.json` records passing native replay and
+organization evidence, four source contracts and39 captures. Actual metadata
+input covers Unicode/tab/newline preservation, duplicate/stale refusal, nullable
+description, ordered tags, clear/cancel, project/image ownership and save/reopen.
+Close covers Cancel/blocked Undo, scaled Save, Discard/owned recovery cleanup,
+Keep recovery/publication and failed-save Cancel. Dialog captures prove bounded
+normal/light/narrow layouts, independently scrolling bodies, visible footers,
+first-save destination, real French closing and German metadata. Popup menu
+shortcuts align in their trailing column with stable original command IDs.
+
+All38 binding objects match, and System32 startup with Windows-only PATH/no
+Python path exits0. The first targeting failure and test-language correction are
+preserved with their evidence; final GUI/app/organization cover the destination
+context fix while the unchanged passing replay binary/log is reused. No core or
+binding rebuild, scientific changes, Python consumer, wheel, commit or merge.
+Updated app: `build/ui-dialog-system/qupathxx/qupathxx_ui_dialogs.exe`, opened with
+its own review copy while preserving older live sessions. The shared
+[recipe](design-system.md#dialog-and-popup-recipes), [metadata form](images/dialog-metadata.png)
+and [close dialog](images/dialog-close.png) document the result. Next: owner review.
+
+## Delivered UI task - source repair belongs to image rows
+
+Owner wants Relink in the image list rather than the metadata inspector. Remove
+the inspector's source-action button. Missing linked images retain direct Locate
+file in their row and row/context menu. Available linked images expose Relink in
+that same menu; embedded images have no source action. Keep F9, selected-entry
+targeting, native relinking and source metadata unchanged.
+
+Changed inputs are Project composition and one native linked-row menu capture/
+identity guard. Settle them before the cached GUI/app/organization build with
+references disabled. Run matched organization open/menu/remove/missing-file repair,
+camera/byte guards and normal/light/scaled/narrow captures; inspect the linked row
+menu and absence of an inspector action. Reuse compatible shell/design evidence;
+check source contracts, standalone startup and38 retained binding-object hashes.
+Preserve old products, frozen review inputs and live user state. No core/binding
+rebuild, Python consumer, science campaign, wheel, commit or merge. Next: deliver
+the action in the row menu and keep metadata focused on inspection/editing.
+
+`build/ui-row-source-action/results-final.json` records passing native organization
+interactions, four source contracts and26 captures. The linked-image menu shows
+Rename/Relink/Remove while its inspector has only metadata and Edit. Opening the
+menu preserves active image, generation and saved bytes; missing-row Locate and
+exact-RGB relink still pass alongside selection/camera/project-switch guards.
+All38 binding objects match; Windows-only-PATH/no-Python System32 startup exits0.
+One cached frontend build/check pass, no failed retries, scientific/core/binding
+changes, wheel, commit or merge. Updated app:
+`build/ui-row-source-action/qupathxx/qupathxx_ui_row_actions.exe`, opened separately
+with its own review copy, preserving all old sessions. See the
+[linked row actions](images/project-linked-actions.png). Next action: owner review.
+
+## Delivered UI task - simplify metadata, footer and file checks
+
+Owner finds Source and files redundant, wants the image count in the bottom
+status bar, and requests an audit for similar simplification. Review the Project,
+Image, Annotations and seven Workflow tasks from native captures and source.
+Apply three high-confidence presentation fixes: flatten selected-image source
+details into metadata rows; move filtered/total image count into the global
+status bar; expose the dedicated File checksum task without a second collapsed
+section or idle-status line. Keep missing-source Locate/F9 repair, visible errors,
+calibration semantics, confirmations and native jobs/polling unchanged.
+
+Changed inputs are GUI composition and metadata presentation only. Settle these
+before one cached GUI/app/organization build with references disabled. Use matched
+native organization interactions and normal/light/scaled/narrow captures to check
+footer fit, flat metadata and direct checksum controls; reuse compatible shell/
+design evidence. Check source contracts, standalone startup and all38 retained
+binding-object hashes. No new cosmetic tests, core/binding rebuild, Python
+consumer, science campaign, wheel, commit or merge. Preserve existing live user
+state and frozen qualification inputs. Record other audit findings as a small
+backlog in ui-ux-review.md. Next: implement and validate the three scoped fixes.
+
+Initial native organization suite, four source contracts,25 views, binding hashes
+and standalone startup pass. Visual review finds Source: Embedded RGB / Reader:
+embedded repeats the same fact. Omit that embedded-reader row; also account for
+both separator gaps in the split allocation. Rebuild affected frontends only,
+then rerun the matched native checks/captures under final names. Preserve the
+initial passing evidence; no scientific or binding changes are required.
+
+`build/ui-simplification/results-final.json` records the final passing native
+organization interactions, four source contracts and25 populated native views.
+The metadata inspector has no source disclosure or repeated embedded-reader row;
+filtered/total image counts occupy the bottom status bar, including narrow/scaled
+views; the Files task exposes its controls directly without an idle-status line.
+Existing camera, selected/unopened entry, remove, relink/exact RGB, thumbnail and
+project-switch/cancel guards pass. All38 binding objects match; standalone
+System32 startup with Windows-only PATH/no Python path exits0. Initial passing
+artifacts remain under initial names; the one extra incremental frontend build
+resolved the duplicate observed during visual review. No failed build/test
+retries, scientific/binding changes, wheel, commit or merge. Updated native app:
+`build/ui-simplification/qupathxx/qupathxx_ui_simplified.exe`, opened separately
+with its own review copy; old live sessions and subsequent user state preserved.
+The [audit](ui-ux-review.md#simplification-audit-2026-11-09) records the three fixes,
+bounded coverage and follow-up candidates. Next action: owner review.
+
+## Delivered UI task - selected image metadata in Project
+
+Owner wants the selected image's metadata in the lower Project pane, like an
+editor inspector, with simpler context/More menus. Keep single-click opening and
+active-image highlighting. Add an independently scrolling lower inspector and a
+resizable divider saved only in workspace preferences. Show selected-entry
+metadata, description/tags, dimensions/calibration and secondary source details.
+Use the existing native metadata editor and rename/relink/remove authorities;
+menus retain Rename, missing-file Locate and Remove. Remove the floating details
+window and redundant Open/Edit/Relink menu entries.
+
+Changed inputs are Project composition, shared divider/inspector presentation and
+workspace split preference. Before the cached GUI/app/organization build, settle
+these inputs and native checks for selected versus active entry, inspector edit,
+rename, divider persistence and existing open/relink/remove/camera/byte guards.
+Capture the populated normal/light/scaled/narrow/menu layouts and check standalone
+startup. Reuse compatible shell/design evidence; no binding/core rebuild, Python
+consumer, science campaign, wheel, commit or merge. Preserve source projects,
+previous products and live sessions.
+
+`build/ui-project-inspector/results-final.json` records the passing matched native
+organization suite, four source contracts and25 native views. Selected literal
+metadata/description/tags, replacement of the inspected snapshot, divider drag
+and bounded preference round-trip pass. Inspecting an unopened entry preserves
+the viewed image, camera and project bytes; existing single-click, removal,
+relink, project-switch/cancel and thumbnail guards pass. Normal/light/scaled/
+narrow/context captures show the lower inspector, wrapped values and reduced
+menus. The metadata editor was also observed in the live preview. All38 binding
+objects match; standalone System32 startup with Windows-only PATH/no Python path
+exits0. Native app: `build/ui-project-inspector/qupathxx/qupathxx_ui_inspector.exe`,
+opened separately on the six-image review. Preserve its live session and any
+subsequent user changes; frozen qualification inputs remain separate. See
+[inspector](images/project-metadata.png) and [menu](images/project-metadata-menu.png).
+One cached frontend build/check pass, no failed retries, binding/core rebuild,
+scientific campaign, wheel, commit or merge. Next action: owner review.
+
+## Delivered UI task - shared chrome and spacing refinement
+
+Owner finds the ellipsis and overall UI rough, with uneven padding. Apply one
+shared recipe:24px icon canvases inside28px square targets, compact vertical More
+glyphs, square row actions centered in40px rows,4px row edge insets and8px text
+gaps. Keep full-row active highlighting and contextual action visibility. Unify
+native combo arrow surfaces with fields and use4px popup corners. Balance the
+slide toolbar's top/bottom insets and remove the extra layout gap below it.
+Typography, palettes, native commands, data and project ownership stay scoped
+to their existing authorities.
+
+Inputs settled in shared tokens/components/theme, native/RmlUi glyph placement,
+toolbar layout and Project row composition. Build GUI/app/organization/shell/
+design frontends in the existing cache with references disabled. Run matched
+native interaction/camera/persistence/relink/project-switch checks, actual icon
+coverage at normal/fractional/enlarged DPI and populated light/dark/narrow/menu
+captures. Reuse compatible source evidence; add no cosmetic-constant tests,
+binding/core rebuild, scientific campaign, wheel, commit or merge. Preserve old
+products, source projects and live sessions. An unrelated napachan build was
+observed in its own workspace; it does not own these GUI targets.
+
+`build/ui-chrome-refinement/results-final.json` records passing organization,
+RmlUi shell and design suites, four source contracts and24 populated native views.
+The shell suite checks icon ink and intermediate ellipse edge coverage at100/
+125/150/200% in both themes. Existing menu/open/relink, current-row Enter,
+project-switch/cancel, thumbnail RGB, camera and project-byte guards pass.
+All38 binding objects match. No Python consumer or scientific source was rebuilt.
+System32 startup with Windows-only PATH and no Python path exits0. Final preview:
+`build/ui-chrome-refinement/qupathxx/qupathxx_ui_chrome.exe`, opened separately
+on the six-image review with both sample projects in its selector. Updated
+[catalog](images/project-thumbnails.png) and [menu](images/project-row-actions.png)
+show the shared treatment. No failed build/check retries, commit or merge. Next
+action is owner review of the shared visual hierarchy and spacing.
+
+## Delivered UI task - full-row active image highlight
+
+Owner wants the Viewing text removed and highlight extended through the row's
+More action area. Use the active image as the persistent highlight; opening a
+different entry's menu must keep that active-image indication. The shared catalog
+component paints selection/hover across the full row while retaining independent
+entry/action hit targets and keyboard focus. Keep Missing file status and repair.
+
+Changed inputs are only the catalog recipe and Project composition. Build cached
+GUI/app/organization targets with references disabled, then run the existing
+matched native organization flow and populated normal/scaled/narrow/menu views.
+Inspect continuous background through the action slot. Reuse the previous source
+and runtime qualification; no new tests for cosmetic constants, bindings, core
+changes, scientific campaign, wheel, commit or merge. No active compiler process
+was observed. Preserve previous products, source projects and live sessions;
+open a separate native preview when the focused checks pass.
+
+`build/ui-project-highlight/results-final.json`: matched native organization
+checks, four source contracts and24 native views pass. Dark, light/scaled and
+other-row-menu captures confirm equal active background at the caption gap and
+trailing action slot, distinct from an inactive row. The viewed image retains
+that highlight while another row's menu is open. Review bytes and all38 binding
+objects match their snapshots. Windows-only-PATH/no-Python System32 startup
+exits0. Updated native preview:
+`build/ui-project-highlight/qupathxx/qupathxx_ui_highlight.exe`, opened separately
+with both sample projects in its selector. No new scientific, binding or format
+work, commit or merge. Next action is owner review of the full-row selection.
+
+## Delivered UI task - project switcher, collapsible groups and thumbnails
+
+Owner accepts single-click rows, rejects repeated ellipses, chooses a project
+switcher plus image groups, and requests thumbnails. Use a named project selector
+with eight bounded recent paths in workspace preferences, reusing native loading
+and dirty-project Save/Discard/Cancel. Project administration/grouping moves into
+that selector; row More actions appear on hover, keyboard focus or an open menu.
+Use real metadata groups as collapsible rows with counts. Search reveals matches
+inside folded groups without changing the stored fold choice. No disk moves,
+project merges or simultaneous-project runtime are selected.
+
+Visible image rows use the existing native thumbnail reader/display transform,
+one job at a time, 64 cached 64px textures, and an8M source-pixel bound. Native
+decoder memory is additional; failed/missing previews show an image placeholder,
+never fabricated content. Cache ownership/invalidation follows source/display
+and workspace replacement. UI rows are40px with40x30 thumbnails; constant pitch
+keeps clipping reliable. Recent/group preferences live in the bounded .ini only.
+
+Inputs settled in the GUI projection/components, workspace preferences and a
+small native preview cache. Extend native organization checks for MRU round-trip,
+group collapse/search, real project-selector switching and unsaved cancellation,
+thumbnail RGB/cache replacement, and existing single-click/relink/camera/data
+guards. Include native populated/light/scaled/narrow/grouped/folded/hover/menu
+captures and Windows-only-PATH startup. Build GUI/app/organization once in the
+existing cache with references disabled; no bindings, core edits, scientific
+campaign, wheel, commit or merge. Preserve prior products and analysis sessions.
+
+Reference: current official QuPath projects/structure docs describe a managed
+project folder with image references, per-entry .qpdata/thumbnails, scripts and
+classifiers, plus recent-project reopening and metadata organization. QuPathGUI
+holds one current project. Adapt the UI distinction while retaining native
+.qpxproj storage; no folder-format migration or QuPath parity claim is selected.
+
+Initial native suite, four source contracts,24 views and standalone startup pass.
+Visual/source review calls for disclosure chevrons rather than movement arrows
+on groups, and retaining each tiny raw thumbnail so display adjustments re-upload
+its pixels without decoding the slide again. Apply those two final UI changes,
+rebuild affected frontends only, then rerun the matched native checks/captures.
+The cache is bounded to1MiB raw thumbnails plus1MiB GL textures, with one bounded
+native source read. Preserve the initial passing evidence under its own names.
+
+`build/ui-project-browser/results-final.json` records the passing matched native
+organization suite, four source contracts and24 native views. These exercise
+MRU persistence, real selector switching, unsaved cancellation, thumbnail RGB
+and cache replacement, fold/search behavior, normal/light/scaled/narrow/grouped/
+menu layouts and the retained single-click/Enter/relink/camera/project guards.
+All38 binding objects match; no Python consumer was built or linked. Both review
+source copies are retained, and the six-image project is byte-identical after
+checks. Standalone System32 startup with Windows-only PATH and no Python path
+exits0. Final app: `build/ui-project-browser/qupathxx/qupathxx_ui_browser.exe`.
+The separately opened preview offers Histology design review and NuCLS annotated
+fields in its project selector. See [thumbnails](images/project-thumbnails.png)
+and [collapsible groups](images/project-groups.png). Initial passing artifacts
+and products are retained; no core changes, wheel, commit or merge. Next action
+is owner review of the project selector, grouping and image-preview workflow.
+
+## Delivered UI task - direct image opening and inline entry actions
+
+Owner wants the separate Selected image block simplified into the list entry,
+and confirms a click should open the image. Available row clicks now activate
+through the existing pending-image service; Enter remains available. Keep row
+menus/context actions independent so editing/removing an unopened entry does not
+switch slides. Missing rows have a direct Locate file action. Keep status/actions
+in fixed-height rows, remove the duplicate footer name/source/Open controls and
+160px reservation, and let the virtualized catalog fill the panel above its count.
+
+Inputs settled in Project composition, shared CatalogEntry trailing action space,
+and removal of the unused inspector token. Adapt native navigation checks for
+single-click camera restore and separate row actions; exercise missing-row Locate
+and Enter relink with exact RGB. Use the matched native organization executable
+for normal/scaled/narrow and populated six-image review captures. Existing Python
+test input follows the new click contract, but its runtime ABI refresh remains
+separate. No Python relink/build, binding compilation, core edits, science campaign,
+wheel, commit or merge. Build cached GUI/app/organization targets only with
+references disabled. Only an idle MSBuild worker was observed. Preserve source
+projects, old products and live sessions; launch a separate updated native preview.
+
+Post-build source review found that skipping activation of the already-viewed
+image must still consume Enter in its row, to avoid completing a canvas draft.
+Keep that keyboard route, constrain mouse activation to its hovered row, and add
+a native draft-polygon/current-row Enter regression. Rebuild only gui.cpp and
+the affected native consumer/test, then run the settled checks once.
+
+`build/ui-project-inline/results.json` records the passing matched native
+organization suite and four source contracts. Native checks prove single-click
+opening/saved camera restore, independent row menus and unopened-entry removal,
+focused Enter retaining an unfinished canvas draft, and inline Locate/Enter
+relink with exact RGB. Twenty native views include the existing pane workflows
+and five populated default/light/scaled/narrow/click/menu review states. The
+source review copy is byte-identical after checks; all38 binding-object hashes
+match. No Python consumer was built or linked. Standalone startup from System32
+with Windows-only PATH and no Python path exits0. The fresh native preview is
+`build/ui-project-inline/qupathxx/qupathxx_ui_inline.exe`, opened separately on
+the six-image review project. See the [inline catalog](images/project-inline.png).
+No core changes, wheel, commit or merge. Next action is owner review of the
+single-click Project flow. The earlier Python/native ABI task remains separate.
+
+## Delivered UI task - contextual project organization and missing files
+
+Owner questions the permanent Missing files selector and asks for clearer UX.
+Keep search/catalog in the primary flow. Move optional metadata grouping into
+Project actions; show a removable row only when grouping is active. Show the
+missing-files count/action only when sources are absent, with a close action
+while filtered. A catalog refresh after the last repair restores all images.
+Browsing/filtering must retain the viewed slide, selected entry and project data.
+
+Inputs settled: native ProjectBrowser projection, two small presentation
+components, Project pane composition and translated grouping caption. Extend
+the existing organization suite with actual filter/clear clicks and last-repair
+state; use existing Project navigation/relink and responsive layout checks.
+One cached GUI/app/organization build with references disabled, then link retained
+binding objects only into a fresh UI consumer. Check populated/default/missing/
+grouped states at normal/enlarged size; reopen the existing complex review copy
+in a separate preview. No science campaign, core rebuild, wheel, commit or merge.
+No competing compiler process was observed. Preserve existing products/sessions.
+
+Initial native control harness clicked during ImGui's first auto-fit frame;
+actual desktop replay already filters/clears correctly. Settle the test window
+before input, as in the existing docking harness, then rebuild that test only.
+Retain the failed log. No product-code retry is needed for this harness issue.
+
+The retained Python consumer passes26 GUI cases but fails the source-relink case
+with a directory-scope validation error. Its38 objects predate the Nov9 native
+ReaderSource layout/ImageServer virtual-interface changes; the prior matched
+toolbar consumer passes that same case. Do not qualify or ship this relinked
+Python consumer, rebuild all bindings, or change source validation for a UI task.
+Add the decisive relink/RGB flow to the matched native organization executable
+and run it there; standalone native remains the delivery route. Preserve both
+Python logs and finish with native interaction/standalone evidence.
+
+Delivered standalone preview: `build/ui-project-context/qupathxx/
+qupathxx_ui_context.exe`, opened on a separate six-image/1,093-object review copy.
+`build/ui-project-context/results.json` records the passing matched native
+organization suite, including real filter/group clear clicks, last-source repair,
+navigation/persistence and desktop relink with exact RGB. Four source contracts
+pass. Eight observed UI views cover default/missing/active/cleared/menu states,
+dark/light and enlarged/localized text; three additional captures come from the
+matched native suite. System32 startup with Windows-only PATH and no Python path
+exits0. All38 binding objects and original review-project bytes remain unchanged.
+The unqualified Python consumer is preserved under `consumer-evidence`, outside
+the launch package; its26 passes/one failure are retained without a Python support
+claim. No scientific validators/assertions were weakened and no core source was
+edited. No wheel, commit or merge. Next action is owner review of the calmer
+Project panel; Python/native ABI refresh is a separate runtime-consumer task.
+
+## Delivered UI task - toolbar group separation
+
+Owner wants proper separation in the toolbar. Use three coherent groups:
+drawing/editing, undo/redo, and view/panel controls, with noninteractive vertical
+rules and shared spacing. Groups wrap together; the drawing group can wrap
+internally if the viewport is narrower than that group. Mirror the grouping in
+the compact native toolbar and reserve its actual grouped row height. Preserve
+command IDs, shortcuts, hit targets and the repaired coverage/docking behavior.
+
+Inputs settled in RML/RCSS/token expansion, native toolbar adapter/composition
+and existing shell visibility checks. Those checks now use measured command
+bounds instead of fixed dense-row coordinates and check wrapped targets remain
+inside the toolbar. Build only affected GUI/app/shell/organization frontends in
+the existing cache with references disabled; retain38 binding objects and link
+only a fresh consumer. Run existing shell/organization and affected layout/
+activity/design checks plus normal/scaled/narrow/light/dark captures. No new
+cosmetic-constant tests, science campaign, binding compilation, wheel or merge.
+Only idle MSBuild workers were observed; preserve existing source/products and
+the user's current analysis windows.
+
+Workspace-root `build/ui-toolbar-groups/results.json`: 30 focused UI/source
+cases, two native suites and eight normal/scaled/narrow/light/dark/compact views
+pass. Bounds and actual command clicks cover 220px/700px toolbar widths at both
+DPI scales; measured icon visibility and existing coverage/docking/scientific
+invariants pass. Source-project bytes and camera are retained. All38 binding
+objects match; only the fresh consumer was linked. Standalone startup from
+System32 with Windows-only PATH and no Python path exits0. Matching preview:
+`build/ui-toolbar-groups/qupathxx/qupathxx_ui_toolbar.exe`.
+
+Corrections: put separator spacing inside the group's border-box to prevent
+narrow-width overflow; rebuild only its stylesheet consumer/test afterward.
+MSBuild accepts one project per invocation. The capture helper uses layout_path
+only for docked mode, content bounds for compact geometry and supported replay
+frame2. Retain the first six passing views and rerun only compact captures.
+Concurrent core-reader checks and previous products/live analysis sessions are
+preserved. No binding compilation, wheel, science campaign, commit or merge.
+Next action is owner review of the separately opened grouped-toolbar preview.
+
+Owner follow-up delivered: a separate `build/ui-toolbar-groups/complex-review/
+Histology design review.qpxproj` is open in the tested toolbar product with its
+own layout. It contains six retained density/neighborhood, NuCLS, classifier and
+whole-slide samples with1,093 objects. Native Project APIs copy existing documents
+and preserve their calibration, object IDs/classes and saved result counts across
+save/reopen. Explicit sample labels and provenance distinguish the examples;
+this is not a single research cohort. `complex-review/review.json` records counts,
+source hashes and the passing initial-view check (visible canvas, settled tiles,
+no errors/overflow). Five original project hashes are unchanged. No scientific
+processing, build or product changes. Next action is the owner's interactive
+review of Project, Annotations and Workflow with populated examples.
+
+## Delivered UI repair - icon coverage and docked tool controls
+
+Owner still saw pixelated icons and could not close a docked tool. The RmlUi
+bridge discarded the UV texture coverage used by ImGui1.93 line antialiasing;
+stroke/style changes could not recover it. The bridge now retains UVs and owns
+a compact premultiplied white-alpha strip containing only used atlas rows. It
+invalidates on size/color/atlas replacement, without borrowing the font GPU
+texture or changing scientific image filtering.
+
+Only primary workbench nodes hide tabs. Ordinary, mixed and detached tool groups
+retain title/tab close controls and their selected tab. Six dockable consumers
+use FirstUseEver placement so reopening no longer discards saved docks/sizes.
+Classifier cancellation is labeled while busy, distinct from panel closure.
+The activity rail renders independently when a tool covers Slide; the hidden
+slide toolbar cannot render/intercept input and stays hidden through reload.
+The owner's live Object classifiers panel was dismissed with F4; its analysis
+session remains open. See the [review](ui-ux-review.md#current-renderer-and-docking-repairs)
+and [shared rules](design-system.md#tokens-and-components).
+
+Workspace-root `build/ui-render-docking/results.json`: 73 final GUI/source cases,
+two native suites and 35 checked views pass. Native checks measure intermediate
+ellipse side-edge coverage at 100/125/150/200% in dark/light and exercise legacy
+dock-title close/reopen/undock/redock. Six actual saved Object/Pixel classifier
+views prove dock preservation, title-X close, F4 reopen and rail visibility while
+Slide is covered. Existing RGB, camera/generation, source bytes, real classifier
+train/predict/apply/Undo/save and project persistence remain covered. All 38
+retained binding-object hashes match. Standalone startup from System32 with
+Windows-only PATH and no Python path exits 0. Fresh repaired product:
+`build/ui-render-docking/qupathxx/qupathxx_ui_render_fixed.exe`.
+
+Corrections: use the public read-only atlas Pixels field instead of its non-const
+getter and include the design header in the expanded shell test. Stage the normal
+app executable for the launcher route; the documentation helper explicitly uses
+UTF-8 on Windows. Actual saved-layout/visual checks exposed
+the Appearing placement overrides and rail callback ownership; preserve those
+failure captures/logs and retain their new assertions. Final suites/captures pass
+against the matching product. Earlier products, source projects and the user's
+live session remain. No binding compilation, wheel, science campaign or merge.
+Next action is owner review of the separately opened repaired preview.
+
+## Delivered UI task - type, spacing and lighter icons
+
+Owner rejected the small text/padding balance and heavy, uneven icon strokes.
+Shared text roles now use 16px body/headings, 14px secondary captions and 18px
+modal titles, within the existing 28px controls. Field/checkbox gaps are 4px and
+text-action padding is 8px. Icons use a lighter 1.35-unit stroke with antialiased
+ends; filled nodes/dots match that weight. Font-role scopes preserve the outer
+workspace geometry scale. Navigation targets, command IDs and native authorities
+remain unchanged. See the [review](ui-ux-review.md#current-type-spacing-and-icon-refinement)
+and [shared typography/geometry recipe](design-system.md#tokens-and-components).
+
+Workspace-root `build/ui-type-spacing/results.json`: 47 final GUI/source checks,
+4 native suites and 27 checked views pass. These include Image/Project/Annotations/
+Workflow, normal/125%/150%/200%, dark/light, Chinese/German, confirmation, hover and
+pressed states. The component check proves caption/title scopes retain action
+target sizes and workspace scale. Existing font-atlas, entry/class authoring,
+native RGB, camera/generation, saved project bytes and save/reopen checks pass.
+All 38 retained binding-object hashes match. Standalone startup from System32
+with Windows-only PATH and no Python path exits 0. Fresh app:
+`build/ui-type-spacing/qupathxx/qupathxx_ui_refined.exe`.
+
+Correction: the first scale check showed that ImGui PushFont also mutates
+Style.FontSizeBase, shrinking a caption-scoped action to 24.5px. Retain the outer
+scale for the role scope and keep the new regression assertion. Final consumers,
+installed checks and captures pass with that fix. Earlier products/source data
+and concurrent work are preserved. No binding compilation, wheel, scientific
+campaign or merge. Next action is owner review of the opened refined preview.
+
+## Delivered UI task - shared button polish
+
+Owner found the buttons rough. The shared native/RmlUi action recipes now use
+4px button corners, balanced10px text padding, restrained outlined secondary
+actions and consistent hover/pressed/selected/disabled states. Ghost glyphs
+brighten with interaction; keyboard focus has a separate ring. The vector family
+uses a consistent1.75-unit stroke, smoother curves and cleaner pointer/save/
+slider shapes. Explicit rectangle strokes preserve hollow icon interiors in the
+RmlUi geometry-only bridge at200% scale. Compact28px icon targets, input geometry,
+command IDs, shortcuts and native actions remain. Navigation stays unboxed.
+See the [review and captures](ui-ux-review.md#current-button-polish) and shared
+[button recipe](design-system.md#tokens-and-components).
+
+Workspace-root `build/ui-button-polish/results.json`:47 final GUI/source checks,
+4 native suites (replay/shell/organization/design) and20 checked dark/light,
+normal/200%, Chinese/German and confirmation/hover/pressed views pass. Checks
+retain exact native RGB, camera/generation, project bytes, save/reopen and
+entry/class authoring assertions. All38 retained binding-object hashes match.
+Standalone startup from System32 with Windows-only PATH and no Python path
+exits0. Updated app is open at
+`build/ui-button-polish/qupathxx/qupathxx_ui_buttons.exe`.
+
+Corrections: update older entry/class replay checkbox targets to the existing
+scoped value ID without relaxing assertions. Enlarged captures exposed an
+ImGui rounded-rectangle optimization carrying coverage in UVs; explicit paths
+fix that geometry-bridge mismatch. Concurrent fluorescence edits needed their
+owning workflow.hpp include and a matching core archive for five new symbols.
+After an archive collision left no output, serialize the2s archive-only build
+using retained objects. An early native check locked a not-yet-finished shell
+test link; relink it and run the final suites serially. Failure logs are retained.
+Final GUI checks were repeated against the matching runtime. These are UI checks,
+not scientific acceptance of the concurrent features. Preserve earlier products
+and live windows. No binding compilation, wheel, science campaign or merge.
+Next action is owner review; no additional feature scope is selected.
+
+## Delivered UI task - reference-informed Project explorer
+
+Owner requested comparison with similar/related software and implementation.
+The [reference review](ui-ux-review.md#reference-review-project-explorer-implementation)
+compares official QuPath, OMERO, Cytomine and Adobe Bridge designs, with VS Code/
+Photoshop references. The native Project pane now fills available space with a
+clipped catalog, searches names/metadata/tags, groups only by chosen actual
+metadata, and separates selected entry from viewed image. Enter/double-click/Open
+activate explicitly. Rename/metadata/relink/remove also target unopened entries.
+The bottom inspector identifies selection, source availability, chosen grouping
+value and current viewer. Add/Save/More owns the header; administration/recovery
+and detailed entry editing use bounded windows. No inferred case/review state.
+
+Workspace-root `build/ui-project-explorer/results.json` records66 distinct latest-
+passing GUI/source checks,5 native suites and14 checked normal/scaled/localized
+views plus the project menu capture. Exact project bytes, native RGB, calibration,
+camera/generation, save/recovery and unopened-entry removal remain covered.
+Computer Use typed CONTROL (8/24 tag matches), selected S02 while S01 stayed
+viewed, and grouped by Case; the isolated window closed without saving. Final
+scale/inspector deltas have separate passing replay/capture evidence. Standalone
+startup from System32 with Windows-only PATH and no Python path exits0. All38
+retained binding-object hashes match. Fresh product:
+`build/ui-project-explorer/qupathxx/qupathxx_ui_project_explorer.exe`.
+
+Corrections: an initial nonexistent test filename ran no tests; use discovered
+recovery files. Six scale/layout failures came from sending an already measured
+ImGui width through the logical-size scaling helper; final affected checks all
+pass. Compatible earlier56 GUI passes remain valid. The capture helper now uses
+the retained binding's existing active_image property. Receipt aggregation was
+corrected to match the actual CTest summary text; no native retest was needed.
+Preserve concurrent native work, prior products and source fixtures. No binding
+compilation, science campaign, wheel or merge. Next action is owner review of the
+delivered explorer; thumbnail caching and batch-selection are separate workflows.
+
+## Previous Project explorer design review - proposal
+
+Owner still finds Project rough/confusing and asks for a pathologist/researcher
+perspective with VS Code/Photoshop references. The current eight-row collection,
+immediate selection/open coupling, active-image-only context actions and inline
+administration remain concrete browsing problems. Propose a filling slide list,
+explicit selected versus viewed slide, metadata search/optional grouping, a small
+selected-slide inspector and one project menu for administration. Case/stain
+groups must use explicit metadata; no inferred clinical review status.
+
+Interactive example: active-checkout `build/ux-project-proposal/project-explorer.html`.
+This is a design proposal with example data, not a native implementation. Browser
+checks cover selection/open separation, metadata search, grouping, missing-source
+repair entry, double-click/Enter and narrow layout. Preserve prior UI/native work;
+no native build, binding compilation, wheel or merge belongs to this review.
+All seven interaction checks pass at736px/320px with zero browser errors; results
+are in that proposal directory. Local-file preview was blocked, so browser QA
+rendered the task-owned fragment directly without a background HTTP service.
+Next implementation priority is filling list geometry, separate browser selection
+and viewer activation, and the contextual inspector; grouping requires an explicit
+metadata mapping. This proposal does not mark the native Project pane accepted.
+
+## Delivered UI follow-up - simpler panel workflows
+
+Owner accepts the style direction and asks for simpler, more intuitive panels.
+Fix three evidenced presentation issues: flat everyday/advanced hierarchy,
+selection-insensitive annotation clutter, and the ungrouped wall of tool launchers.
+Keep the four panel owners and existing native actions/IDs. Project retains its
+explorer with contextual image actions; Image leads with display and summarizes
+calibration; Annotations leads with selection identity and folds specialist edits;
+Workflow keeps common inputs/run/results visible and discloses advanced recipes.
+Group specialist tools in one searchable launcher. Preserve scientific settings,
+validation, history, polling/cancellation and all existing shortcut routes.
+
+Implemented those four panel recipes, full-width task/method choices, selection
+context in place of repeated task headings, and result actions shown with their
+results. Unchanged object Apply disables. New captions cover all16 locales.
+Polling, cancellation, validation and saved-result recheck stay outside settings
+disclosures. Compact API inspection keeps its continuous controls. The
+[review](ui-ux-review.md#current-panel-simplification) records the three findings;
+[design rules](design-system.md#panel-workflow-recipes) describe the reusable recipe.
+
+Evidence under workspace-root `build/ui-panel-workflows/results.json`:191 distinct
+latest-passing checks (187 GUI plus4 source contracts),5 native UI suites and42
+distinct captures, including main panes/tasks at1×/2×, empty/selected states,
+Chinese light panels, expanded settings and contextual/scaled tool menus.
+Final affected workflows/captures supersede compatible earlier cases. Custom
+white-reference run/keep, native RGB, calibration, object lock/properties, Undo,
+project bytes and camera checks remain exact. All38 binding object hashes match.
+Standalone final app starts from System32 with Windows-only PATH (exit0), staged
+separately at `build/ui-panel-workflows/qupathxx/qupathxx_ui_panels.exe`.
+
+Corrections: serialize after a concurrent dark-flat build locked gui.obj; retain
+that job/cache. Visual review removed remaining cell sampling/result clutter and
+truncated method values. Two legacy annotation replays now start on Annotations
+before clicking their controls; all value/history assertions remain. Computer Use
+rejected inputs twice because of active user input: leave that live first preview
+alone; manual search typing is not claimed. Actual chooser selection passes replay.
+No binding compilation, science campaign, wheel, architecture migration or merge.
+Prior products/live windows and concurrent native feature work are preserved.
+Next action is owner review of this simpler main-panel flow; specialist dialogs
+retain their existing recipes.
+
+## Delivered UI follow-up - shared workbench style system
+
+Owner asks for a VS Code-like activity bar and consistent styling across the UI.
+The existing split RCSS/native dimensions and bypassed component helpers are the
+concrete gap. Use full48px navigation rows, an outer-edge active indicator,
+unboxed glyphs and bottom workspace settings. Keep toolbar buttons distinct from
+navigation. Export native semantic tokens into RCSS at load/reload, and apply
+shared control, label-column, checkbox and flat-section recipes to native forms.
+Preserve the neutral Save/dirty behavior and contextual Project workflows.
+
+Implemented shared semantic metrics/palettes and RCSS token expansion, schema2
+activity views/footer settings (schema1 stays readable), native label columns,
+full-row vectors, flat headers and consistent28px inline /32px modal actions.
+Eleven native modules route their literal buttons/checkboxes/headers through
+the adapters. Pointer selection stays unboxed; keyboard navigation shows focus.
+See [design rules](design-system.md) and [current review](ui-ux-review.md#current-workbench-style-system).
+
+Evidence: workspace-root `build/ui-style-system/results.json` records163 distinct
+latest-passing GUI/source cases (159 workflows plus4 source contracts),5 native
+suites,26 pane/task/scaled/translated/dialog captures and38 unchanged binding
+object hashes. Final focus-only inputs have their own shell/native pass and
+pointer/settings captures; compatible earlier workflow/capture evidence is
+retained. Exact native RGB, saved bytes, camera and generation checks pass.
+Standalone startup from System32 with Windows-only PATH exits0. Fresh matching
+app/resources live at `build/ui-style-system/qupathxx/qupathxx_app.exe`.
+No binding compilation, science qualification, wheel or merge. Earlier products,
+live windows and concurrent native feature work remain separate and preserved.
+
+Corrections: stage RCSS explicitly when skipping project references; fix grouped
+field cursor offsets; remove disclosure borders and unequal inline heights.
+Refresh links after the concurrent native archive acquired its marker symbol.
+The broad run's one stale physical launcher coordinate now targets the observed
+28px row and passes without weakening workflow/data assertions. A misspelled
+capture-helper enum was corrected without changing the product API. Next action:
+owner visual review; passing checks do not imply design acceptance.
+
+## Previous UI delivery - Project explorer and Save semantics
+
+Owner rejected the standing highlighted Save and the remaining permanent forms.
+The earlier alignment pass had passing checks, not design acceptance. Project
+now leads with its filename and a neutral New/Open/Save command bar, followed by
+the image explorer and Add/Refresh. Save disables for an unchanged saved project;
+a filename asterisk indicates unsaved changes. Open/Save As/Add/Relink reveal one
+contextual form. First Save requests a destination; abandoning Save As restores
+the current native path. Successful save reconciliation adopts the canonical
+path. Native job/review/import authorities and configured shortcuts remain.
+
+Changed inputs: private pane/navigation/save presentation, one16-language Save As
+caption and focused GUI regressions. Reused the integration cache, retained
+dependencies and38 binding objects (all final SHA256s unchanged). No scientific
+API, binding compilation, wheel, science qualification or merge belongs to this
+UI slice; concurrent registration work and earlier desktop products are intact.
+
+Evidence under workspace-root `build/ui-organization/project-explorer`:5/5 native
+UI suites pass (`ctest.log`);54 distinct GUI cases have passing latest results
+across the broad pass and focused Open repair (`gui-results.json`). Coverage
+includes clean/dirty Save, first destination, save/close/concurrent-edit ordering,
+workspace replacement, failed-open Undo, QuPath review/import and scaled/localized
+commands.11 default/scaled/translated/dirty/contextual captures pass without
+source writes or camera/generation changes (`captures/results.json`).
+
+Computer Use exercised Save As cancellation followed by Save, and an actual Save
+As/Enter/reopen on a disposable native project. The cancelled file is absent;
+identity, objects, available image and camera persist; original CMU-1 project
+bytes are unchanged (`interaction-results.json`). These file handlers are
+unchanged by the final focus-only repair. The final standalone app passes from
+System32 with Windows-only PATH (exit0), retained separately as
+`build/ui-organization/python/qupathxx/qupathxx_ui_project.exe` and opened on
+the Project pane. [Current layout](ui-ux-review.md#current-project-pane-explorer-and-contextual-file-actions).
+
+Corrections: the first broad replay found3 failed-open Undo regressions because
+preconfigured Open stole text focus; focus only when requesting a path. The20
+affected Open/organization/QuPath retries pass, preserving all history/value
+assertions. A raw copied interaction fixture lacked relative image references;
+create it through native Save instead. No assertions or identities were relaxed.
+
+## Previous UI pass - consistent sidebar forms
+
+Owner's Project-pane screenshot exposed competing fixed-width fields/icons,
+uneven heights, an unaligned filter and nested collection boxes. Shared
+`ActionRow` now grows the field around fixed trailing commands with equal heights
+and a narrow-row fallback. Save/Open have explicit labels; New belongs to the
+heading; filter/source/rename actions align. Primary image/object lists use the
+pane surface and fit their small row counts. Count/Remove share the list footer.
+[Updated screenshot and component rules](ui-ux-review.md#screenshot-follow-up-sidebar-forms).
+
+Changed inputs: private layout helpers and Project/Annotations presentation, plus
+the existing two-row list click (now targets the second of two fitted rows).
+Path editing, commands/IDs, native validation, project values and scientific RGB
+assertions remain. Reused the integration cache for affected frontend targets;
+replay links the38 retained binding objects only. No binding compilation, wheel,
+new numerical qualification or unrelated native source edits belong to this UI
+slice. Concurrent registration/import work and retained products are preserved.
+
+Decisive results under workspace-root `build/ui-organization/sidebar-polish`:
+5/5 native UI suites (`ctest.log`),34/34 affected GUI cases (`gui.log`, `gui.xml`)
+and7 real/empty pane captures pass (`capture-final.log`, `captures/results.json`).
+Coverage includes scaled/translated Save, second-row switching and exact source
+RGB, add/relink/save/reopen, QuPath review/import, expanded source details,
+annotation selection and1×/1.5×/2× English/Chinese/German views. Exact saved CMU-1
+bytes/generation/camera are unchanged. All38 binding SHA256s match; the retained
+standalone executable runs from System32 with Windows-only PATH (exit0).
+
+Corrections: the first build caught a QuPath refresh snapshot scoped too narrowly;
+fixed its parent scope. Initial captures showed excess single-row space and an
+orphan Remove action; tightened those before final checks. No numeric or stored
+identity assertions were relaxed. The revised native desktop is retained as
+`build/ui-organization/python/qupathxx/qupathxx_ui_polish.exe`, separate from the
+shared link output and prior desktop product, and opened on the Project pane.
+
 ## Delivered UI task - desktop layout and research workflows
 
 Owner requested three independent UI/UX reviews followed by improvements.

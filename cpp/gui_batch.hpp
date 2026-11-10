@@ -190,7 +190,7 @@ public:
                 ui::InputScalar("Raw tile width",ImGuiDataType_S64,&options_.raw_pixels.tile_width);
                 ui::InputScalar("Raw tile height",ImGuiDataType_S64,&options_.raw_pixels.tile_height);
                 ui::InputDouble("Raw minimum vote",&options_.raw_pixels.min_vote_fraction,0,0,"%.5g");
-                if(ImGui::CollapsingHeader("Raw batch limits")) {
+                if(ui::CollapsingHeader("Raw batch limits")) {
                     auto memory=[](const char* label,std::size_t& value,int maximum) {int mib=static_cast<int>(value/(1024*1024));if(ui::InputInt(label,&mib)) value=static_cast<std::size_t>(std::clamp(mib,1,maximum))*1024*1024;};
                     memory("Producer memory (MiB)",options_.raw_pixels.work_bytes,1024);
                     if(options_.kind==ProjectBatchKind::RawPixelContours) {

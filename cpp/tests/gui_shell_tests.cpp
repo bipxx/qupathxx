@@ -1,6 +1,7 @@
 #include "../gui_shell.hpp"
 #include "../gui_fonts.hpp"
 #include "../gui_i18n.hpp"
+#include "../gui_design_system.hpp"
 #include "qupathxx/core.hpp"
 #include "qupathxx/project.hpp"
 #include <GLFW/glfw3.h>
@@ -35,17 +36,34 @@ static void shell_contract(const std::filesystem::path& directory) {
     {
         RmlShell shell(window,resources);ShellSnapshot state{0,0,true,true,true,true,false};
         std::array<std::string,shell_command_count> labels;labels.fill("Command");
-        for(float framebuffer:{1.f,2.f}) for(float scale:{1.f,2.f}) {
+        for(float framebuffer:{1.f,2.f}) for(float scale:{1.f,2.f}) for(float toolbar_width:{700.f,220.f}) {
             shell.update(1100,800,scale,false,state,labels,framebuffer);shell.place_rail(0,24*scale,700);
-            const auto height=shell.place_toolbar(400,24*scale,700);
-            check(std::abs(shell.rail_width()-44*scale)<1,"RML rail DPI geometry");
-            check(height>=28*scale && height<140*scale,"toolbar wrapping/height");
+            const auto height=shell.place_toolbar(400,24*scale,toolbar_width);
+            check(std::abs(shell.rail_width()-48*scale)<1,"RML rail DPI geometry");
+            const auto primary=shell.bounds(ShellCommand::Project),utility=shell.bounds(ShellCommand::Settings);
+            check(std::abs(primary.width-48*scale)<1 && std::abs(primary.height-48*scale)<1,"full-row navigation target");
+            check(std::abs(utility.y+utility.height-(24*scale+700))<1,"settings stays at activity footer");
+            check(height>=28*scale && height<(toolbar_width<700?300:140)*scale,"toolbar wrapping/height");
             for(int i=0;i<static_cast<int>(ShellCommand::Count);++i) {
-                const auto c=static_cast<ShellCommand>(i);click(shell,c);auto commands=shell.take_commands();
+                const auto c=static_cast<ShellCommand>(i);
+                if(c>=ShellCommand::Select && c<=ShellCommand::ResetLayout) {
+                    const auto b=shell.bounds(c);
+                    check(b.x>=399.5f && b.x+b.width<=400+toolbar_width+.5f && b.y>=24*scale-.5f && b.y+b.height<=24*scale+height+.5f,"wrapped toolbar group clipped a command");
+                }
+                click(shell,c);auto commands=shell.take_commands();
                 check(commands.size()==1 && commands.front()==c,"typed click command "+std::to_string(i));
             }
         }
         shell.update(1100,800,1,false,state,labels);shell.place_rail(0,24,700);shell.place_toolbar(400,24,700);
+        // Inspect measured command bounds, independent of group gaps or order.
+        const auto bg=qpx::ui::design::color(qpx::ui::design::dark.bg_secondary);
+        glClearColor(bg.x,bg.y,bg.z,1);glClear(GL_COLOR_BUFFER_BIT);shell.render(1100,800);
+        for(int i=static_cast<int>(ShellCommand::Select);i<=static_cast<int>(ShellCommand::ResetLayout);++i) {
+            const auto b=shell.bounds(static_cast<ShellCommand>(i));const int x=static_cast<int>(b.x+2),y=static_cast<int>(b.y+2),w=static_cast<int>(b.width-4),h=static_cast<int>(b.height-4);
+            std::vector<unsigned char> pixels(std::size_t(w)*h*4);glReadPixels(x,800-y-h,w,h,GL_RGBA,GL_UNSIGNED_BYTE,pixels.data());
+            int ink=0;for(std::size_t p=0;p<pixels.size();p+=4)ink+=std::abs(int(pixels[p])-22)+std::abs(int(pixels[p+1])-22)+std::abs(int(pixels[p+2])-22)>100;
+            check(ink>5,"invisible measured toolbar icon "+std::to_string(i));
+        }
         shell.input({-std::numeric_limits<float>::max(),-std::numeric_limits<float>::max()});
         shell.input({std::numeric_limits<float>::quiet_NaN(),0});check(shell.take_commands().empty(),"off-window pointer sentinel");
         click(shell,ShellCommand::Project);shell.take_commands();check(shell.keyboard_active(),"shell keyboard focus");
@@ -61,6 +79,8 @@ static void shell_contract(const std::filesystem::path& directory) {
         write(resources/"workspace.rml",rml);write(resources/"workspace.rcss",css+"\n button { qupathxx-invalid: 7dp; }\n");
         check(!shell.reload() && shell.generation()==generation,"invalid RCSS must retain live document");
         click(shell,ShellCommand::Undo);check(shell.take_commands()==std::vector<ShellCommand>{ShellCommand::Undo},"failed stylesheet reload retained commands");
+        write(resources/"workspace.rcss",css+"\n button { width: ${missing-role}dp; }\n");
+        check(!shell.reload() && shell.generation()==generation,"unknown style token retains the live document");
         write(resources/"workspace.rml",rml);write(resources/"workspace.rcss",css+"\n.activity { width: 52dp; }\n");
         check(shell.reload() && shell.generation()==generation+1 && shell.error().empty(),"valid resource reload");
         check(std::abs(shell.rail_width()-52)<1,"reload actually changes layout");
@@ -68,13 +88,44 @@ static void shell_contract(const std::filesystem::path& directory) {
         state.blocked=false;state.can_undo=false;state.has_image=false;shell.update(1100,800,1,true,state,labels);
         click(shell,ShellCommand::Rectangle);check(shell.take_commands().empty(),"empty document blocked scientific command");
         click(shell,ShellCommand::ResetLayout);check(shell.take_commands()==std::vector<ShellCommand>{ShellCommand::ResetLayout},"empty document retains layout command");
+        click(shell,ShellCommand::Settings);check(shell.take_commands()==std::vector<ShellCommand>{ShellCommand::Settings},"settings available without an image");
+        auto legacy=rml;const auto version=legacy.find("schema=\"2\"");check(version!=std::string::npos,"current resource schema");legacy.replace(version,10,"schema=\"1\"");
+        const auto settings=legacy.find("<button id=\"settings\"");const auto settings_end=legacy.find("</button>",settings);
+        check(settings!=std::string::npos && settings_end!=std::string::npos,"settings control in schema2");legacy.erase(settings,settings_end+9-settings);
+        write(resources/"workspace.rml",legacy);write(resources/"workspace.rcss",css);
+        check(shell.reload() && shell.bounds(ShellCommand::Settings).width==0,"schema1 resources retain legacy command compatibility");
+        click(shell,ShellCommand::Project);check(shell.take_commands()==std::vector<ShellCommand>{ShellCommand::Project},"legacy document routes native pane command");
+        write(resources/"workspace.rml",rml);check(shell.reload(),"restore current resource schema");
         check(!state.enabled(static_cast<ShellCommand>(-1)) && !state.enabled(ShellCommand::Count),"unknown command refused");
         state.has_image=true;
         shell.update(1100,800,1,true,state,labels);click(shell,ShellCommand::Undo);check(shell.take_commands().empty(),"native undo availability");
         for(const auto& language:qpx::ui::i18n::languages) {
             labels.fill(language.native_name);shell.update(1100,800,1,true,state,labels);click(shell,ShellCommand::Project);shell.take_commands();shell.render(1100,800);
         }
-        std::cout<<"RmlUi commands/DPI16 locales/reload/failure retention passed\n";
+        // A closed ellipse has no endpoint alpha. Its curved side edges must
+        // retain intermediate coverage through the RmlUi bridge, at every DPI.
+        state.has_image=true;state.tool=0;
+        for(bool light:{false,true})for(float scale:{1.f,1.25f,1.5f,2.f}) {
+            shell.update(1100,800,scale,light,state,labels);shell.place_rail(0,28*scale,700);shell.place_toolbar(400,28*scale,700);
+            shell.input({-std::numeric_limits<float>::max(),-std::numeric_limits<float>::max()});
+            const auto& p=qpx::ui::design::palette(light?qpx::ui::design::Theme::Light:qpx::ui::design::Theme::Dark);
+            const auto bg=qpx::ui::design::color(p.bg_secondary);glClearColor(bg.x,bg.y,bg.z,1);glClear(GL_COLOR_BUFFER_BIT);shell.render(1100,800);
+            const auto b=shell.bounds(ShellCommand::Ellipse);const int x=static_cast<int>(b.x+2*scale),y=static_cast<int>(b.y+2*scale);
+            const int w=static_cast<int>(b.width-4*scale),h=static_cast<int>(b.height-4*scale);
+            std::vector<unsigned char> pixels(std::size_t(w)*h*4);glReadPixels(x,800-y-h,w,h,GL_RGBA,GL_UNSIGNED_BYTE,pixels.data());
+            const int a=(p.bg_secondary>>16)&255,z=(p.text_secondary>>16)&255,lo=std::min(a,z)+4,hi=std::max(a,z)-4;
+            int partial=0,levels=0;bool seen[256]{};
+            for(std::size_t i=0;i<pixels.size();i+=4)if(pixels[i]>lo && pixels[i]<hi) {++partial;seen[pixels[i]]=true;}
+            for(bool value:seen)levels+=value;
+            check(partial>8 && levels>=5,"ellipse side-edge coverage lost at scale "+std::to_string(scale));
+        }
+        const auto old_tool=shell.bounds(ShellCommand::Ellipse);
+        shell.set_toolbar_visible(false);
+        check(shell.bounds(ShellCommand::Ellipse).width==0 && !shell.contains(old_tool.x+old_tool.width/2,old_tool.y+old_tool.height/2),"hidden slide toolbar intercepts docked tool input");
+        click(shell,ShellCommand::Project);check(shell.take_commands()==std::vector<ShellCommand>{ShellCommand::Project},"activity navigation lost when slide toolbar is hidden");
+        check(shell.reload() && shell.bounds(ShellCommand::Ellipse).width==0,"reload exposed a hidden toolbar");
+        shell.place_toolbar(400,28,700);check(shell.bounds(ShellCommand::Ellipse).width>0,"slide toolbar did not return");
+        std::cout<<"RmlUi commands/DPI16 locales/reload/coverage/hidden-toolbar navigation passed\n";
     }
     ImGui::EndFrame();ImGui::DestroyContext();glfwDestroyWindow(window);glfwTerminate();
 }
@@ -89,10 +140,11 @@ int main(int argc,char** argv) {
         const auto project_path=directory/"source.qpxproj";project->save_new(project_path.u8string());
         const auto before=read(project_path);const auto generation=project->generation();
         qpx::GuiOptions options;options.width=1100;options.height=800;options.docked_workspace=true;options.settle_tiles=true;options.layout_path=(directory/"workspace.ini").u8string();
-        qpx::GuiInput down;down.frame=4;down.kind=qpx::GuiInputKind::LeftDown;down.target=qpx::GuiInputTarget::Window;down.x=22./1100;down.y=162./800;
+        qpx::GuiInput down;down.frame=4;down.kind=qpx::GuiInputKind::LeftDown;down.target=qpx::GuiInputTarget::Window;down.x=24./1100;down.y=196./800;
         auto up=down;up.frame=5;up.kind=qpx::GuiInputKind::LeftUp;options.inputs={down,up};
         auto report=qpx::run_project_gui(project,16,(directory/"workspace.ppm").u8string(),options);
         check(report.replay_complete && report.canvas_visible && report.tiles_settled,"integrated workspace replay/canvas");
+        check(read(directory/"workspace.ini").find("; qupathxx sidebar=workflow\n")!=std::string::npos,"activity row selects the intended pane");
         check(doc->object_count()==objects && project->generation()==generation,"shell navigation mutated native objects/project generation");
         check(before==read(project_path),"shell navigation rewrote saved project");
         check(std::abs(report.final_center.x-440)<1e-8 && std::abs(report.final_center.y-330)<1e-8 && report.final_zoom==1.5,"shell navigation changed camera");
@@ -103,17 +155,6 @@ int main(int argc,char** argv) {
         const auto canvas=report.canvas_content_bounds;const int x=static_cast<int>(canvas.x+70),y=static_cast<int>(canvas.y+90);
         const auto* rgb=framebuffer.data()+(y*width+x)*3;
         check(rgb[0]==30 && rgb[1]==120 && rgb[2]==210,"RmlUi compositing altered scientific image pixels");
-        const int background_x=static_cast<int>(report.canvas_bounds.x+5),background_y=static_cast<int>(report.canvas_bounds.y+2);
-        const auto* background=framebuffer.data()+(background_y*width+background_x)*3;
-        for(int button=0;button<13;++button) {
-            const int left=static_cast<int>(report.canvas_bounds.x+8+button*30),top=static_cast<int>(report.canvas_bounds.y+4);
-            int ink=0;for(int row=top+2;row<top+26;++row) for(int col=left+2;col<left+26;++col) {
-                const auto* p=framebuffer.data()+(row*width+col)*3;
-                const int contrast=std::abs(int(p[0])-background[0])+std::abs(int(p[1])-background[1])+std::abs(int(p[2])-background[2]);
-                ink+=contrast>100 && int(std::max({p[0],p[1],p[2]}))-std::min({p[0],p[1],p[2]})<20;
-            }
-            check(ink>5,"invisible toolbar icon "+std::to_string(button));
-        }
         check(read(directory/"workspace.ini").find("; qupathxx sidebar=workflow\n")!=std::string::npos,"integrated activity click");
         std::cout<<"Native shell/camera/project identity/exact RGB passed; frame p95 "<<report.cpu_frame_p95_ms<<" ms\n";
         if(argc>2) {

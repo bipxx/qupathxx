@@ -1,5 +1,5 @@
 #pragma once
-#include "gui_layout.hpp"
+#include "gui_dialogs.hpp"
 #include "ascii_case.hpp"
 #include <filesystem>
 #include <array>
@@ -35,15 +35,15 @@ public:
         }catch(const std::exception& e){error_=e.what();entries_.clear();iterator_=end_;}
     }
     std::optional<std::string> draw() {
-        if(requested_) {ImGui::OpenPopup("Choose import file");requested_=false;}
+        if(requested_) {ui::OpenDialog(ui::DialogKind::ImportFile);requested_=false;}
         std::optional<std::string> selected;
-        ImGui::SetNextWindowSize({700*ui::design::scale(),520*ui::design::scale()},ImGuiCond_FirstUseEver);
-        if(ui::BeginPopupModal("Choose import file",nullptr,ImGuiWindowFlags_NoSavedSettings)) {
+        ui::DialogState state(true,false,save_?ui::DialogVariant::Output:ui::DialogVariant::Default);
+        ui::RenderDialog(ui::DialogKind::ImportFile,state,folder_.data(),{&error_},[&](ui::DialogControls&) {
             const auto invoke=[&](auto action){try{action();}catch(const std::exception& e){error_=e.what();}};
-            ui::InputText("Folder",folder_.data(),folder_.size());
+            ui::DialogInput("Folder",folder_.data(),folder_.size());
             if(ui::Button("Read folder"))invoke([&]{directory(std::filesystem::u8path(folder_.data()));});ImGui::SameLine();
             if(ui::Button("Parent folder"))invoke([&]{directory(std::filesystem::u8path(folder_.data()).parent_path());});
-            if(ImGui::BeginChild("files",{0,std::max(80.f,ImGui::GetContentRegionAvail().y-110*ui::design::scale())},ImGuiChildFlags_Borders)) {
+            if(ImGui::BeginChild("files",{0,std::max(80.f,ImGui::GetContentRegionAvail().y-96*ui::design::scale())},ImGuiChildFlags_Borders)) {
                 for(std::size_t i=0;i<entries_.size();++i) {
                     ImGui::PushID(int(i));const auto name=entries_[i].path().filename().u8string();
                     std::error_code status;const bool is_directory=entries_[i].is_directory(status);bool navigated=false;
@@ -56,14 +56,15 @@ public:
                 }
             }ImGui::EndChild();
             ImGui::BeginDisabled(iterator_==end_);if(ui::Button("Next files"))invoke([&]{page();});ImGui::EndDisabled();
-            ui::InputText(save_?"New filename":"Filename",filename_.data(),filename_.size());
-            if(ui::Button(save_?"Choose new output":"Choose file"))invoke([&]{
+            ui::DialogInput(save_?"New filename":"Filename",filename_.data(),filename_.size());
+        },[&](ui::DialogAction action) {
+            if(action==ui::DialogAction::Cancel)return ui::DialogOutcome::Success;
+            try {
                 const auto path=(std::filesystem::u8path(folder_.data())/std::filesystem::u8path(filename_.data())).lexically_normal();
                 if(!filename_[0] || (save_?std::filesystem::exists(path):!std::filesystem::is_regular_file(path)))throw std::invalid_argument(save_?"Choose an unused output filename":"Choose an existing regular file");
-                selected=path.u8string();ImGui::CloseCurrentPopup();
-            });ImGui::SameLine();if(ui::Button("Cancel file choice"))ImGui::CloseCurrentPopup();
-            if(!error_.empty())ui::TextWrapped("%s",error_.c_str());ImGui::EndPopup();
-        }
+                selected=path.u8string();error_.clear();return ui::DialogOutcome::Success;
+            }catch(const std::exception& e){error_=e.what();return ui::DialogOutcome::Refused;}
+        });
         return selected;
     }
 };

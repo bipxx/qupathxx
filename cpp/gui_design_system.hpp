@@ -60,24 +60,26 @@ inline void load_preference(std::string_view text) {
         if(end==std::string_view::npos) break;text.remove_prefix(end+1);
     }
 }
-inline float scale(){return ImGui::GetFontSize()/metrics.font_size;}
+// Text roles may change inside a row; geometry follows the workspace scale.
+inline thread_local std::optional<float> text_role_scale;
+inline float scale(){return text_role_scale.value_or(ImGui::GetStyle().FontSizeBase/metrics.font_size);}
 inline void apply(ImGuiStyle& s,Theme theme) {
     s=ImGuiStyle{};ImGui::StyleColorsDark(&s);const auto& p=palette(theme);auto* c=s.Colors;
-    s.FontSizeBase=metrics.font_size;s.WindowPadding={metrics.panel_inset_x,metrics.panel_inset_y};s.FramePadding={spacing.md,5};
-    s.ItemSpacing={spacing.md,spacing.sm};s.ItemInnerSpacing={spacing.md,spacing.sm};
-    s.WindowRounding=s.PopupRounding=s.ChildRounding=metrics.panel_radius;s.FrameRounding=s.GrabRounding=metrics.control_radius;
+    s.FontSizeBase=metrics.font_size;s.WindowPadding={metrics.panel_inset_x,metrics.panel_inset_y};s.FramePadding={spacing.md,(metrics.control_height-metrics.font_size)/2};
+    s.ItemSpacing={spacing.md,spacing.sm};s.ItemInnerSpacing={spacing.sm,spacing.sm};
+    s.WindowRounding=s.ChildRounding=metrics.panel_radius;s.PopupRounding=metrics.button_radius;s.FrameRounding=s.GrabRounding=metrics.control_radius;
     s.TabRounding=metrics.control_radius;s.ScrollbarRounding=metrics.control_radius;s.ScrollbarSize=12;
     s.WindowBorderSize=s.ChildBorderSize=s.FrameBorderSize=s.PopupBorderSize=metrics.border;
-    s.DockingSeparatorSize=spacing.sm;s.TabBorderSize=0;s.SeparatorTextBorderSize=0;s.SeparatorTextPadding={0,spacing.sm};
+    s.DockingSeparatorSize=spacing.sm;s.TabBorderSize=0;s.SeparatorTextBorderSize=0;s.SeparatorTextPadding={0,(metrics.section_height-metrics.font_size)/2};
     s.WindowMenuButtonPosition=ImGuiDir_None;
-    s.DisabledAlpha=.5f;
+    s.DisabledAlpha=metrics.disabled_opacity;
     c[ImGuiCol_Text]=color(p.text_primary);c[ImGuiCol_TextDisabled]=color(p.text_muted);
     c[ImGuiCol_WindowBg]=color(p.bg_secondary);c[ImGuiCol_ChildBg]=color(p.bg_primary);c[ImGuiCol_PopupBg]=color(p.bg_secondary);
     c[ImGuiCol_Border]=color(p.border);c[ImGuiCol_BorderShadow]={0,0,0,0};
     c[ImGuiCol_FrameBg]=color(p.bg_input);c[ImGuiCol_FrameBgHovered]=color(p.bg_hover);c[ImGuiCol_FrameBgActive]=color(p.bg_elevated);
     c[ImGuiCol_TitleBg]=c[ImGuiCol_TitleBgActive]=c[ImGuiCol_TitleBgCollapsed]=color(p.bg_secondary);
     c[ImGuiCol_MenuBarBg]=color(p.bg_primary);
-    c[ImGuiCol_Button]=color(p.bg_hover);c[ImGuiCol_ButtonHovered]=color(p.bg_elevated);c[ImGuiCol_ButtonActive]=color(p.border_light);
+    c[ImGuiCol_Button]=color(p.bg_input);c[ImGuiCol_ButtonHovered]=color(p.bg_hover);c[ImGuiCol_ButtonActive]=color(p.bg_elevated);
     c[ImGuiCol_Header]=color(p.bg_tertiary);c[ImGuiCol_HeaderHovered]=color(p.bg_hover);c[ImGuiCol_HeaderActive]=color(p.bg_elevated);
     c[ImGuiCol_Tab]=c[ImGuiCol_TabDimmed]=color(p.bg_secondary);c[ImGuiCol_TabHovered]=color(p.bg_hover);
     c[ImGuiCol_TabSelected]=c[ImGuiCol_TabDimmedSelected]=color(p.bg_tertiary);
@@ -97,20 +99,34 @@ inline thread_local bool compact_actions=false;
 struct CompactActions {
     bool previous=compact_actions;CompactActions(){compact_actions=true;}~CompactActions(){compact_actions=previous;}
 };
-struct Heading {
-    Heading(){auto* atlas=ImGui::GetIO().Fonts;ImGui::PushFont(atlas->Fonts.Size>1?atlas->Fonts[1]:ImGui::GetFont(),ImGui::GetFontSize());}
-    ~Heading(){ImGui::PopFont();}
+struct FontRole {
+    std::optional<float> previous_scale=text_role_scale;
+    FontRole(float logical_size,bool semibold) {
+        const float workspace_scale=scale();
+        // PushFont also changes ImGuiStyle::FontSizeBase; retain the outer scale.
+        text_role_scale=workspace_scale;
+        auto* atlas=ImGui::GetIO().Fonts;
+        auto* face=semibold && atlas->Fonts.Size>1?atlas->Fonts[1]:atlas->Fonts.Size?atlas->Fonts[0]:ImGui::GetFont();
+        ImGui::PushFont(face,logical_size*workspace_scale);
+    }
+    ~FontRole(){ImGui::PopFont();text_role_scale=previous_scale;}
+    FontRole(const FontRole&)=delete;FontRole& operator=(const FontRole&)=delete;
 };
+struct Heading:FontRole {explicit Heading(float size=metrics.heading_size):FontRole(size,true){}};
+struct Caption:FontRole {Caption():FontRole(metrics.caption_size,false){}};
 struct ActionStyle {
     explicit ActionStyle(Action action) {
         const auto& p=colors();const auto primary=action==Action::Primary,danger=action==Action::Danger,ghost=action==Action::Ghost;
-        const auto base=primary?p.accent:danger?p.error:p.bg_hover;
+        const auto base=primary?p.accent:danger?p.error:p.bg_tertiary;
         ImGui::PushStyleColor(ImGuiCol_Button,color(base,ghost?0:1));
-        ImGui::PushStyleColor(ImGuiCol_ButtonHovered,color(primary?p.accent_hover:danger?p.error:p.bg_elevated));
-        ImGui::PushStyleColor(ImGuiCol_ButtonActive,color(primary?p.accent_hover:danger?p.error:p.border_light));
+        ImGui::PushStyleColor(ImGuiCol_ButtonHovered,color(primary?p.accent_hover:danger?p.error:p.bg_hover));
+        ImGui::PushStyleColor(ImGuiCol_ButtonActive,color(primary?p.accent:danger?p.error:p.bg_elevated));
         ImGui::PushStyleColor(ImGuiCol_Text,color(primary?p.bg_void:danger?0xffffff:ghost?p.text_secondary:p.text_primary));
-        ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize,0);
+        ImGui::PushStyleColor(ImGuiCol_Border,color(p.border_light));
+        ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize,action==Action::Secondary?metrics.border*scale():0);
+        ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding,metrics.button_radius*scale());
+        ImGui::PushStyleVar(ImGuiStyleVar_FramePadding,ImVec2(metrics.button_padding_x*scale(),ImGui::GetStyle().FramePadding.y));
     }
-    ~ActionStyle(){ImGui::PopStyleVar();ImGui::PopStyleColor(4);}
+    ~ActionStyle(){ImGui::PopStyleVar(3);ImGui::PopStyleColor(5);}
 };
 }

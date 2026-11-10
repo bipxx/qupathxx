@@ -188,7 +188,7 @@ public:
                     const auto page=gene_feature_page(catalogue_->features,search_.data(),page_,24);
                     if(ImGui::BeginChild("features",{0,ui::CollectionHeight(page.indices.size())},ImGuiChildFlags_Borders)) {
                         for(auto row:page.indices) {const auto& gene=catalogue_->features[row];auto at=std::find(request_.options.features.begin(),request_.options.features.end(),gene);bool chosen=at!=request_.options.features.end();
-                            ImGui::PushID(int(row));if(ImGui::Checkbox("##gene",&chosen)) {if(chosen)request_.options.features.push_back(gene);else request_.options.features.erase(at);invalidate();}
+                            ImGui::PushID(int(row));if(ui::Checkbox("##gene",&chosen)) {if(chosen)request_.options.features.push_back(gene);else request_.options.features.erase(at);invalidate();}
                             ImGui::SameLine();ImGui::TextUnformatted(gene.c_str());ImGui::PopID();}
                     }ImGui::EndChild();
                     ImGui::BeginDisabled(page_==0);if(ui::Button("Previous genes"))--page_;ImGui::EndDisabled();ImGui::SameLine();

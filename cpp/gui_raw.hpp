@@ -254,7 +254,7 @@ public:
         if(!ImGui::GetIO().WantTextInput && ImGui::IsKeyPressed(ImGuiKey_F2,false)) {if(open_) open_=false;else open();}
         if(!open_) return changed;if(state_=="waiting" && !busy()) try {metadata_job(doc);}catch(const std::exception& error) {failure(error);state_="failed";}
         const auto* viewport=ImGui::GetMainViewport();const auto scale=ImGui::GetFontSize()/13.f;
-        ImGui::SetNextWindowSize({std::min(540.f*scale,viewport->WorkSize.x*.9f),std::min(750.f*scale,viewport->WorkSize.y*.9f)},ImGuiCond_Appearing);
+        ImGui::SetNextWindowSize({std::min(540.f*scale,viewport->WorkSize.x*.9f),std::min(750.f*scale,viewport->WorkSize.y*.9f)},ImGuiCond_FirstUseEver);
         if(!ImGui::Begin("Quantitative channels",&open_)) {ImGui::End();return changed;}
         auto remember=[&](GuiInputTarget target,bool disabled) {const auto a=ImGui::GetItemRectMin(),b=ImGui::GetItemRectMax();targets_[index(target)]={a.x,a.y,b.x-a.x,b.y-a.y};enabled_[index(target)]=!disabled && ImGui::IsItemVisible();mark(target);};
         auto button=[&](const char* text,GuiInputTarget target,bool disabled) {ImGui::BeginDisabled(disabled);const auto pressed=ui::Button(text);remember(target,disabled);ImGui::EndDisabled();return pressed;};

@@ -1,6 +1,8 @@
 #include "gui_shell.hpp"
 #include "gui_fonts.hpp"
 #include "gui_icons.hpp"
+#include "gui_icon_coverage.hpp"
+#include "gui_stylesheet.hpp"
 #include <imgui_internal.h>
 #include <RmlUi/Core.h>
 #include <RmlUi/Core/Geometry.h>
@@ -15,10 +17,10 @@
 namespace qpx::ui {
 namespace {
 constexpr const char* ids[]={"project","image","annotations","workflow","select","rectangle",
-    "ellipse","polygon","polyline","points","vertices","hole","fit","undo","redo","spatial","channels","reset"};
+    "ellipse","polygon","polyline","points","vertices","hole","fit","undo","redo","spatial","channels","reset","settings"};
 constexpr Icon icons[]={Icon::Project,Icon::Image,Icon::Annotations,Icon::Workflow,Icon::Select,
     Icon::Rectangle,Icon::Ellipse,Icon::Polygon,Icon::Polyline,Icon::Points,Icon::Vertices,Icon::Hole,
-    Icon::Fit,Icon::Undo,Icon::Redo,Icon::Spatial,Icon::Channels,Icon::Reset};
+    Icon::Fit,Icon::Undo,Icon::Redo,Icon::Spatial,Icon::Channels,Icon::Reset,Icon::Gear};
 static_assert(std::size(ids)==shell_command_count);
 std::string read_resource(const std::filesystem::path& path) {
     constexpr std::size_t limit=1024*1024;
@@ -37,10 +39,12 @@ void property(Rml::Element* e,const char* name,float value) {
     if(!old || old->unit!=Rml::Unit::PX || old->value.Get<float>()!=value) e->SetProperty(name,std::to_string(value)+"px");
 }
 // The same vector strokes used by native panels, compiled once per icon size /
-// colour into RmlUi retained geometry. No raster atlas or platform emoji icons.
+// colour into RmlUi retained geometry, with its owned line-coverage strip.
 class IconElement final : public Rml::Element {
     Rml::Geometry geometry_;
+    Rml::CallbackTexture coverage_;
     Rml::Vector2f size_{};
+    int atlas_id_=0,atlas_width_=0,atlas_height_=0;
     Rml::Colourb color_{};
     std::string name_;
 public:
@@ -49,23 +53,31 @@ public:
         const auto size=GetBox().GetSize(Rml::BoxArea::Content);
         const auto color=GetProperty<Rml::Colourb>("color");
         const auto name=GetAttribute<Rml::String>("name","");
-        if(!geometry_ || size!=size_ || color!=color_ || name!=name_) {
-            size_=size;color_=color;name_=name;
+        const auto* atlas=ImGui::GetIO().Fonts->TexData;
+        if(!atlas)throw std::runtime_error("Icon coverage atlas is unavailable");
+        if(!geometry_ || size!=size_ || color!=color_ || name!=name_ || atlas_id_!=atlas->UniqueID || atlas_width_!=atlas->Width || atlas_height_!=atlas->Height) {
+            size_=size;color_=color;name_=name;atlas_id_=atlas->UniqueID;atlas_width_=atlas->Width;atlas_height_=atlas->Height;
             std::size_t index=0;while(index<std::size(ids) && name!=ids[index]) ++index;
             if(index==std::size(ids)) return;
             ImDrawList draw(ImGui::GetDrawListSharedData());draw._ResetForNewFrame();draw._SetPixelDensity(1.f);
             draw.Flags=ImDrawListFlags_AntiAliasedLines|ImDrawListFlags_AntiAliasedFill;
             draw_icon_to(&draw,icons[index],{0,0},{size.x,size.y},IM_COL32(color.red,color.green,color.blue,color.alpha));
+            auto coverage=icon_coverage(draw,*atlas);
             Rml::Mesh mesh;mesh.vertices.reserve(draw.VtxBuffer.Size);mesh.indices.reserve(draw.IdxBuffer.Size);
-            for(const auto& v:draw.VtxBuffer) {
+            for(int i=0;i<draw.VtxBuffer.Size;++i) {
+                const auto& v=draw.VtxBuffer[i];
                 const auto a=static_cast<Rml::byte>((v.col>>IM_COL32_A_SHIFT)&255);
                 auto channel=[&](int shift){return static_cast<Rml::byte>(((v.col>>shift)&255)*a/255);};
-                mesh.vertices.push_back({{v.pos.x,v.pos.y},{channel(IM_COL32_R_SHIFT),channel(IM_COL32_G_SHIFT),channel(IM_COL32_B_SHIFT),a},{0,0}});
+                mesh.vertices.push_back({{v.pos.x,v.pos.y},{channel(IM_COL32_R_SHIFT),channel(IM_COL32_G_SHIFT),channel(IM_COL32_B_SHIFT),a},{coverage.uv[i].x,coverage.uv[i].y}});
             }
             for(auto i:draw.IdxBuffer) mesh.indices.push_back(i);
             geometry_=GetRenderManager()->MakeGeometry(std::move(mesh));
+            const Rml::Vector2i dimensions{coverage.width,coverage.height};
+            coverage_=GetRenderManager()->MakeCallbackTexture([pixels=std::move(coverage.pixels),dimensions](const Rml::CallbackTextureInterface& target) {
+                return target.GenerateTexture({pixels.data(),pixels.size()},dimensions);
+            });
         }
-        geometry_.Render(GetAbsoluteOffset());
+        geometry_.Render(GetAbsoluteOffset(),coverage_);
     }
 };
 class ShellSystem final : public SystemInterface_GLFW {
@@ -81,7 +93,7 @@ public:
 }
 bool ShellSnapshot::enabled(ShellCommand command) const {
     if(blocked || static_cast<int>(command)<0 || command>=ShellCommand::Count) return false;
-    if(command<=ShellCommand::Workflow || command==ShellCommand::ResetLayout) return true;
+    if(command<=ShellCommand::Workflow || command==ShellCommand::ResetLayout || command==ShellCommand::Settings) return true;
     if(!has_image) return false;
     if(command==ShellCommand::Undo) return can_undo;
     if(command==ShellCommand::Redo) return can_redo;
@@ -105,7 +117,7 @@ struct RmlShell::Impl final : Rml::EventListener {
     unsigned generation=0;
     int width=1,height=1,hover=-1;
     float scale=1,pixel_ratio=1;
-    bool light=false,initialized=false,loader=false,focused=false,styles_applied=false,applied_light=false,applied_channels=false;
+    bool light=false,initialized=false,loader=false,focused=false,keyboard_navigation=false,styles_applied=false,applied_light=false,applied_channels=false,toolbar_visible=true;
     ShellRect rail{},toolbar{};
     explicit Impl(GLFWwindow* window):system(window) {}
     ~Impl() {
@@ -128,7 +140,7 @@ struct RmlShell::Impl final : Rml::EventListener {
     void sync() {
         if(!styles_applied || applied_light!=light) {document->SetClass("light",light);applied_light=light;}
         for(std::size_t i=0;i<buttons.size();++i) {
-            auto* b=buttons[i];const auto c=static_cast<ShellCommand>(i);
+            auto* b=buttons[i];if(!b) continue;const auto c=static_cast<ShellCommand>(i);
             const bool enabled=snapshot.enabled(c),selected=i<4?snapshot.pane==i:(i<12 && snapshot.tool==static_cast<int>(i)-4);
             if(!styles_applied || applied_selected[i]!=selected) {b->SetClass("selected",selected);applied_selected[i]=selected;}
             if(!styles_applied || applied_enabled[i]!=enabled) {
@@ -179,7 +191,7 @@ RmlShell::~RmlShell()=default;
 bool RmlShell::reload() {
     auto& p=*impl_;Rml::ElementDocument* candidate=nullptr;
     try {
-        auto rml=read_resource(p.resources/"workspace.rml");const auto css=read_resource(p.resources/"workspace.rcss");
+        auto rml=read_resource(p.resources/"workspace.rml");const auto css=design::resolve_stylesheet(read_resource(p.resources/"workspace.rcss"));
         const auto head=rml.find("</head>");if(head==std::string::npos) throw std::runtime_error("Workspace RML requires a head");
         rml.insert(head,"<style>"+css+"</style>");p.system.diagnostic.clear();p.system.loading=true;
         // RmlUi's URL parser treats Windows drive letters as protocols. Both
@@ -187,17 +199,22 @@ bool RmlShell::reload() {
         candidate=p.context->LoadDocumentFromMemory(rml,"qupathxx/ui/workspace.rml");
         p.system.loading=false;
         if(!candidate || !p.system.diagnostic.empty()) throw std::runtime_error("Invalid UI resources: "+p.system.diagnostic);
-        if(candidate->GetId()!="workspace" || candidate->GetAttribute<Rml::String>("schema","")!="1")
+        const auto schema=candidate->GetAttribute<Rml::String>("schema","");
+        if(candidate->GetId()!="workspace" || (schema!="1" && schema!="2"))
             throw std::runtime_error("Unsupported workspace resource schema");
-        for(const auto* id:ids) if(!candidate->GetElementById(id) || candidate->GetElementById(id)->GetTagName()!="button")
-            throw std::runtime_error(std::string("Workspace button missing: ")+id);
+        for(std::size_t i=0;i<std::size(ids);++i) {
+            const auto* element=candidate->GetElementById(ids[i]);
+            if(!element && schema=="1" && static_cast<ShellCommand>(i)==ShellCommand::Settings) continue;
+            if(!element || element->GetTagName()!="button") throw std::runtime_error(std::string("Workspace button missing: ")+ids[i]);
+        }
         for(const char* id:{"activity","toolbar","tooltip"}) if(!candidate->GetElementById(id)) throw std::runtime_error(std::string("Workspace element missing: ")+id);
         auto* old=p.document;p.document=candidate;
         for(std::size_t i=0;i<p.buttons.size();++i) p.buttons[i]=candidate->GetElementById(ids[i]);
         for(const char* event:{"click","mouseover","mouseout","focus","blur"}) candidate->AddEventListener(event,&p);
-        p.hover=-1;p.focused=false;p.commands.clear();p.styles_applied=false;p.sync();
+        p.hover=-1;p.focused=false;p.keyboard_navigation=false;p.commands.clear();p.styles_applied=false;p.sync();
         p.place(candidate->GetElementById("activity"),p.rail);
         p.place(candidate->GetElementById("toolbar"),p.toolbar);
+        if(!p.toolbar_visible)candidate->GetElementById("toolbar")->SetProperty("display","none");
         candidate->Show(Rml::ModalFlag::None,Rml::FocusFlag::None);p.context->Update();
         if(old) old->Close();p.context->Update();p.error.clear();++p.generation;return true;
     } catch(const std::exception& e) {
@@ -213,13 +230,27 @@ void RmlShell::place_rail(float x,float y,float h) {
     auto& p=*impl_;p.rail={x*p.pixel_ratio,y*p.pixel_ratio,0,h*p.pixel_ratio};p.place(p.document->GetElementById("activity"),p.rail);p.context->Update();
 }
 float RmlShell::place_toolbar(float x,float y,float width) {
+    set_toolbar_visible(true);
     auto& p=*impl_;auto* e=p.document->GetElementById("toolbar");
     p.toolbar={x*p.pixel_ratio,y*p.pixel_ratio,width*p.pixel_ratio,0};p.place(e,p.toolbar);p.context->Update();
     return e->GetBox().GetSize(Rml::BoxArea::Border).y/p.pixel_ratio;
 }
+void RmlShell::set_toolbar_visible(bool visible) {
+    auto& p=*impl_;if(p.toolbar_visible==visible)return;p.toolbar_visible=visible;
+    p.document->GetElementById("toolbar")->SetProperty("display",visible?"flex":"none");
+    if(!visible) {
+        for(std::size_t i=4;i<static_cast<std::size_t>(ShellCommand::Settings);++i)
+            if(p.context->GetFocusElement()==p.buttons[i])p.focused=false;
+        if(p.hover>=4 && p.hover<static_cast<int>(ShellCommand::Settings)) {
+            p.hover=-1;p.document->GetElementById("tooltip")->SetProperty("display","none");
+        }
+    }
+    p.context->Update();
+}
 ShellRect RmlShell::bounds(ShellCommand c) const {
     if(static_cast<int>(c)<0 || c>=ShellCommand::Count) return {};
-    auto* e=impl_->buttons[static_cast<std::size_t>(c)];const auto o=e->GetAbsoluteOffset(Rml::BoxArea::Border),s=e->GetBox().GetSize(Rml::BoxArea::Border);
+    if(!impl_->toolbar_visible && c>=ShellCommand::Select && c<=ShellCommand::ResetLayout)return {};
+    auto* e=impl_->buttons[static_cast<std::size_t>(c)];if(!e) return {};const auto o=e->GetAbsoluteOffset(Rml::BoxArea::Border),s=e->GetBox().GetSize(Rml::BoxArea::Border);
     const auto r=impl_->pixel_ratio;return {o.x/r,o.y/r,s.x/r,s.y/r};
 }
 bool RmlShell::contains(float x,float y) const {
@@ -232,18 +263,23 @@ void RmlShell::input(const ShellInput& i) {
     // that sentinel (or a nonfinite coordinate) to an integer.
     const bool valid=std::isfinite(i.x) && std::isfinite(i.y) && i.x>=0 && i.y>=0 && i.x<=p.width && i.y<=p.height;
     p.context->ProcessMouseMove(valid?static_cast<int>(i.x*p.pixel_ratio):-10000,valid?static_cast<int>(i.y*p.pixel_ratio):-10000,mods);
-    if(i.down) {p.focused=hit;if(hit && !p.snapshot.blocked) p.context->ProcessMouseButtonDown(0,mods);}
+    if(i.down) {p.focused=hit;if(p.keyboard_navigation) {p.keyboard_navigation=false;p.document->SetClass("keyboard-navigation",false);}if(hit && !p.snapshot.blocked) p.context->ProcessMouseButtonDown(0,mods);}
     if(i.up) p.context->ProcessMouseButtonUp(0,mods);
     if(hit && i.wheel!=0) p.context->ProcessMouseWheel(-i.wheel,mods);
     if(p.focused && !p.snapshot.blocked) {
+        if((i.tab || i.enter || i.space) && !p.keyboard_navigation) {p.keyboard_navigation=true;p.document->SetClass("keyboard-navigation",true);}
         auto key=[&](bool pressed,Rml::Input::KeyIdentifier key){if(pressed) {p.context->ProcessKeyDown(key,mods);p.context->ProcessKeyUp(key,mods);}};
         key(i.tab,Rml::Input::KI_TAB);key(i.enter,Rml::Input::KI_RETURN);key(i.space,Rml::Input::KI_SPACE);
     }
     auto* tip=p.document->GetElementById("tooltip");tip->SetProperty("display",p.hover>=0 && !p.snapshot.blocked?"block":"none");
     if(p.hover>=0 && !p.snapshot.blocked) {
         if(tip->GetInnerRML()!=escaped(p.labels[p.hover])) tip->SetInnerRML(escaped(p.labels[p.hover]));p.context->Update();const auto s=tip->GetBox().GetSize();
-        property(tip,"left",std::max(0.f,std::min(i.x*p.pixel_ratio+12*p.scale,p.width*p.pixel_ratio-s.x)));
-        property(tip,"top",std::max(0.f,std::min(i.y*p.pixel_ratio+20*p.scale,p.height*p.pixel_ratio-s.y)));
+        const auto command=static_cast<ShellCommand>(p.hover);const auto anchor=bounds(command);
+        const bool activity=command<=ShellCommand::Workflow || command==ShellCommand::Settings;
+        const float x=activity?(anchor.x+anchor.width)*p.pixel_ratio+design::spacing.md*p.scale:anchor.x*p.pixel_ratio;
+        const float y=activity?(anchor.y+anchor.height/2)*p.pixel_ratio-s.y/2:(anchor.y+anchor.height)*p.pixel_ratio+design::spacing.sm*p.scale;
+        property(tip,"left",std::max(0.f,std::min(x,p.width*p.pixel_ratio-s.x)));
+        property(tip,"top",std::max(0.f,std::min(y,p.height*p.pixel_ratio-s.y)));
     }
     p.context->Update();
 }

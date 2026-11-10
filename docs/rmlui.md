@@ -26,11 +26,25 @@ authenticated IBM Plex Sans / Noto font bytes. Changed selections, permissions,
 labels and appearance update existing elements. No per-frame document rebuild
 or Python interpreter is involved.
 
+Icon meshes retain both vertex alpha and texture coordinates. ImGui1.93 stroke
+edges sample a coverage texture; the adapter repacks only the used atlas rows
+into an owned premultiplied white-alpha strip. Geometry cache invalidation
+includes icon size/color and atlas replacement/dimensions. This preserves edge
+antialiasing without borrowing the font GPU texture, copying its full atlas or
+changing scientific image filtering. Native GL tests inspect intermediate
+ellipse edge coverage at normal/fractional/200% scales in both themes.
+
 The native dock host reserves the rail and toolbar rectangles measured by RmlUi.
 RmlUi draws through an ImGui draw callback before popup windows; the callback
 restores the native render state. Slide textures, camera transforms, raw-channel
 display, overlays and scientific result services retain their existing owners.
 The remaining native host/input bridge can be replaced in a later panel migration.
+
+The rail remains rendered through the workspace draw list if a docked tool covers
+the Slide tab. The slide toolbar hides on that transition, with no hidden hit
+targets; reopening Slide restores it. Visibility changes only on transitions,
+and resource reload retains it. Tool tabs/close controls use ordinary native
+docking chrome; only primary workbench nodes hide tabs.
 
 ## Edit and reload
 
@@ -47,9 +61,19 @@ Each text resource is bounded to 1 MiB. Resource files are trusted local UI code
 they are not a plugin scripting interface.
 
 Use `dp` units for visual sizes. The adapter handles monitor/user scaling and
-framebuffer density separately. Keep required IDs and `schema="1"`; native C++
+framebuffer density separately. Current resources use `schema="2"`, including
+the bottom workspace-settings command; schema1 resources remain readable with
+their original controls. Keep required IDs; native C++
 owns command semantics. Tooltips use the existing sixteen-language catalogue and
 keyboard shortcuts. Light/dark/system appearance uses the existing preference.
+
+RCSS uses semantic token references (for example `${activity-width}` and
+`${light.foreground}`) resolved from `gui_design_tokens.hpp` through
+`gui_stylesheet.hpp`. Native controls consume the same values. Unknown or
+incomplete token references reject reload and retain the current document.
+Literal RCSS remains available for deliberate local overrides. The activity bar
+uses full48px rows and a separate utility group; its settings command opens the
+existing native workspace menu without receiving runtime/scientific pointers.
 
 ## Build and verify
 

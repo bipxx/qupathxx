@@ -52,8 +52,9 @@ def test_switch_restores_view_selection_and_keeps_history_isolated(tmp_path):
 def test_project_list_switch_renders_other_image_pixels(tmp_path):
     from PIL import Image
     project, first, second, a, b, options = workspace()
-    options.inputs = [event(4, q.GuiInputKind.LEFT_DOWN, .4, .3, q.GuiInputTarget.PROJECT_LIST),
-                      event(5, q.GuiInputKind.LEFT_UP, .4, .3, q.GuiInputTarget.PROJECT_LIST)]
+    # One click opens the second catalog row; no separate selection/Open step.
+    options.inputs = [event(4, q.GuiInputKind.LEFT_DOWN, .4, .65, q.GuiInputTarget.PROJECT_LIST),
+                      event(5, q.GuiInputKind.LEFT_UP, .4, .65, q.GuiInputTarget.PROJECT_LIST)]
     capture = tmp_path / "second.ppm"
     report = q.show(first, frame_limit=35, capture_path=str(capture), options=options)
     assert report.active_image == project.active_image == b and report.image_switches == 1

@@ -10,7 +10,7 @@ namespace qpx::ui {
 // image server, job or mutable workflow pointer.
 enum class ShellCommand { Project, Image, Annotations, Workflow, Select, Rectangle,
     Ellipse, Polygon, Polyline, Points, Vertices, Hole, Fit, Undo, Redo, Spatial,
-    Channels, ResetLayout, Count };
+    Channels, ResetLayout, Settings, Count };
 inline constexpr std::size_t shell_command_count=static_cast<std::size_t>(ShellCommand::Count);
 struct ShellSnapshot {
     int pane=0,tool=0;
@@ -38,6 +38,7 @@ public:
     void place_rail(float x,float y,float height);
     // RCSS owns wrapping, spacing and height; the native image starts below it.
     float place_toolbar(float x,float y,float width);
+    void set_toolbar_visible(bool visible);
     ShellRect bounds(ShellCommand) const;
     bool contains(float x,float y) const;
     bool keyboard_active() const;
