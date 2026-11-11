@@ -1,5 +1,6 @@
 #include "qupathxx/analysis.hpp"
 #include "sha256.hpp"
+#include "reader_plugin_link.hpp"
 #include "intensity_moments.hpp"
 #include <algorithm>
 #include <chrono>
@@ -85,6 +86,7 @@ struct AnalysisKernel {
         std::optional<detail::IntensityCompartment> moments;if(request.measure_intensity_) moments.emplace();
         Sha256 digest;
         const std::string format=analysis_input_format(request.sampling_policy_);digest.update(format.data(),format.size());
+        detail::hash_reader_plugin_binding(digest,*request.source_);
         digest.integer(static_cast<std::uint64_t>(request.source_->metadata().width));
         digest.integer(static_cast<std::uint64_t>(request.source_->metadata().height));
         for(auto value:{request.x0_,request.y0_,request.x1_,request.y1_}) digest.integer(static_cast<std::uint64_t>(value));

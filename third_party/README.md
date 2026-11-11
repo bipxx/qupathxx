@@ -1,5 +1,19 @@
 # Third-party notices
 
+- Optional native replicate DE uses only the standalone include tree from
+  [Boost.Math boost-1.88.0](https://github.com/boostorg/math/tree/boost-1.88.0),
+  pinned archive SHA256 `bb753392c3908292da46034a5435107f9e0546fda54da4d47b438aff5e4d9c48`.
+  `cmake/ExpressionStatistics.cmake` forces `BOOST_MATH_STANDALONE` for the single
+  numerical translation unit; no other Boost library, test or documentation
+  project is built. Header copyright notices are retained. The unmodified
+  [root release license](https://github.com/boostorg/boost/blob/boost-1.88.0/LICENSE_1_0.txt)
+  is `boost-math-LICENSE_1_0.txt`, SHA256
+  `c9bff75738922193e67fa726fa225535870d2aa1059f91452c411736284ad566`,
+  installed as `qupathxx/licenses/boost-math/LICENSE_1_0.txt`. BSL-1.0 permits
+  use/modification/distribution and is compatible with this AGPL project;
+  retain source notices and license with corresponding-source distribution.
+  `QUPATHXX_BUILD_STATISTICS=OFF` by default needs no Boost headers or runtime.
+
 These files describe third-party code; they do not select a license for qupathxx.
 
 - `ProggyClean-LICENSE.txt` is the unmodified license from
@@ -38,3 +52,24 @@ the outstanding project license or the release distribution review.
   without ancillary metadata conversion or platform codecs; its license is
   installed alongside the application notices. The vendored sources belong in
   the matching application source archive.
+
+
+The optional NativeSDK install component retains exact enabled native dependency
+notices under `share/qupathxx/licenses`, separately from app/wheel paths. Its
+private link closure copies only actual selected libraries/import libraries and
+required DLLs. Header-only JSON/Boost notices are retained without exposing their
+headers as consumer requirements. SDK contents/byte-origin receipts are local P01
+evidence; L01 corresponding-source/release membership has its own
+[native material profile](../docs/native-release-materials.md).
+The Windows JPEG wrapper follows the parent's CRT through upstream WITH_CRT_DLL;
+this changes build flags, not its admitted source/license or codec behavior.
+
+The native-only L01 build uses ImGui at
+`b916186e66aa3c02b72c6ca17455516512ed8049` and GLFW at immutable commit
+`7b6aead9fb88b3623e3b3725ebb42670cbe4c579` (3.4). The source companions in
+`sources/` retain selected unmodified OpenCV core/ML and ImGui code, licenses and
+embedded notices; their selection manifests record every exact member. They omit
+unused sample images/models, extra font files and legacy prebuilt libraries.
+The OpenCV builder consumes that code-only artifact, with no full-carrier fallback.
+`freetype-NOTICE.txt` supplies the selected FTL acknowledgement; the installed
+FTL/GPL texts preserve the upstream alternative without changing that selection.

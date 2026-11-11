@@ -96,6 +96,9 @@ int main(int argc,char** argv) {try {
     CoordinateFrame source;source.id=dataset.coordinate_frame();source.source_id=dataset.source_id();source.plane=dataset.plane();
     accept_landmark_registration(*doc,"gene-alignment",RegistrationRequest(dataset,source,image_coordinate_frame(*doc,project->identity()+":1"),fit.transform()),fit);
     view.compare=false;view.display.transform=GeneDisplayTransform::Linear;view.genes={"G1","G2"};options.inputs.clear();options.layout_path=(root/"registered-genes.ini").u8string();preference(fs::u8path(options.layout_path),view,dataset.source_id());
+    // The centered floating tool occludes the translated markers. Place it to
+    // the left for this capture so the exact scientific-position checks see pixels.
+    write(fs::u8path(options.layout_path),bytes(fs::u8path(options.layout_path))+"[Window][Gene expression]\nPos=40,60\nSize=440,730\nCollapsed=0\n");
     const auto aligned=run_project_gui(project,25,(root/"registered-G1.ppm").u8string(),options);
     const auto registered_image=Image::read_ppm((root/"registered-G1.ppm").u8string());const Viewport registered_view{aligned.final_origin,aligned.final_zoom};
     for(std::size_t i=0;i<dataset.observations().size();++i) {

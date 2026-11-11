@@ -23,6 +23,15 @@ foreach(variable CMAKE_TOOLCHAIN_FILE CMAKE_SYSROOT CMAKE_OSX_SYSROOT
   endif()
 endforeach()
 if(WIN32)
+  # Upstream otherwise overrides even a forwarded MSVC runtime with /MT.
+  # Follow the parent CRT; CMake's unspecified default is the dynamic CRT.
+  if(MSVC)
+    if(CMAKE_MSVC_RUNTIME_LIBRARY AND NOT CMAKE_MSVC_RUNTIME_LIBRARY MATCHES "DLL")
+      list(APPEND qpx_jpeg_args -DWITH_CRT_DLL=OFF)
+    else()
+      list(APPEND qpx_jpeg_args -DWITH_CRT_DLL=ON)
+    endif()
+  endif()
   set(qpx_jpeg_name jpeg-static.lib)
 else()
   set(qpx_jpeg_name libjpeg.a)

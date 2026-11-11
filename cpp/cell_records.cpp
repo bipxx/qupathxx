@@ -2,6 +2,7 @@
 #include "cell_object_status.hpp"
 #include "scientific_cells.hpp"
 #include "qupathxx/provenance.hpp"
+#include "reader_plugin_link.hpp"
 #include <limits>
 #include <stdexcept>
 #include <tuple>
@@ -114,6 +115,8 @@ bool Document::verify_cells(std::uint64_t id,const CellRequest& request,const Ce
     auto it=cells_.find(id);if(it==cells_.end()) throw std::out_of_range("cell record does not exist");
     auto& stored=it->second;
     if(!same_request(*stored.value->result,result)) throw std::invalid_argument("verification request does not match saved cell parameters");
+    const auto& archived=stored.value->result->nuclei()->provenance();const auto& current=result.nuclei()->provenance();
+    detail::require_same_reader_plugin_binding(archived?archived->reader_source.get():nullptr,current?current->reader_source.get():nullptr);
     stored.identity=analysis_identity_.token;stored.source=server_;
     stored.verified=stored.value->result->domain_bits_==result.domain_bits_ && equivalent(*stored.value->result,result);
     return stored.verified;

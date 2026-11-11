@@ -1,0 +1,78 @@
+{
+  "schema": "qpx.reader-plugin-producer/1",
+  "provider_id": "org.qupathxx.p6",
+  "version": "1.0.0",
+  "contract": "p6-max255-display/1",
+  "abi": 1,
+  "base_table_bytes": 72,
+  "profile": "windows-x64-msvc1944-release-md",
+  "module_sha256": "0cb8eef6aa549ac1fb10b48d27315fb77a435d4bda5da7a396b1936aefebb8e0",
+  "module_bytes": 69120,
+  "module_source_sha256": "02f636a878e6416f7ee185e3be12e2debb9352c958948b4a3b02feee13ed319a",
+  "inputs": [
+    {
+      "path": "kit/include/qupathxx/reader_plugin.h",
+      "sha256": "6b7492fc7e885c5e304389ebaef38bdf3c2fa0b09357c3abc568aa3e4b4559ca",
+      "bytes": 5997
+    },
+    {
+      "path": "kit/share/qupathxx/reader-plugin/profile.cmake",
+      "sha256": "2bd7b70835b86220f6eb5a1db51746a8f493a12d5e4a6814bf60b8fc3a44460d",
+      "bytes": 158
+    },
+    {
+      "path": "kit/share/qupathxx/reader-plugin/LICENSE",
+      "sha256": "0d96a4ff68ad6d4b6f1f30f713b18d5184912ba8dd389f86aa7710db079abcb0",
+      "bytes": 34523
+    },
+    {
+      "path": "generated/reader_plugin_profile.hpp",
+      "sha256": "84cff0342b4cd71db8febe4d74e25f5d0caa67a214d0decb7be46dba14900121",
+      "bytes": 518
+    },
+    {
+      "path": "kit/share/qupathxx/reader-plugin/decoder/ppm_decoder.hpp",
+      "sha256": "fc0a465b46d96c5d10243828fe0d7ee83f64f1e73642280a525b69b14133ffb2",
+      "bytes": 376
+    },
+    {
+      "path": "kit/share/qupathxx/reader-plugin/decoder/ppm_decoder.cpp",
+      "sha256": "0b387536fe2870baf7f13cccf577d94ce18aefc7253c75c67ef78f2a6f868974",
+      "bytes": 2140
+    },
+    {
+      "path": "kit/share/qupathxx/reader-plugin/example/CMakeLists.txt",
+      "sha256": "2de6b880d0f7cb18682ff563b527ce9a53786125906f6ac63a4973a6d0918120",
+      "bytes": 3226
+    },
+    {
+      "path": "kit/share/qupathxx/reader-plugin/example/p6_plugin.cpp",
+      "sha256": "ef6ac76fed4c7449098bff6cdc74d6bbea6ef9191dbd7e358cdae09d1182c1c4",
+      "bytes": 10196
+    },
+    {
+      "path": "kit/share/qupathxx/reader-plugin/example/reader_plugin_profile.hpp.in",
+      "sha256": "638671ca3f61b18b4a7365f3e81a93e2405fbf152825caadf8e4ce79d3a5cf23",
+      "bytes": 539
+    },
+    {
+      "path": "kit/share/qupathxx/reader-plugin/example/README.md",
+      "sha256": "2868d03057c64376f64378e8bfa476d225e4da1063c453f4d5e06f797b7cf509",
+      "bytes": 3614
+    },
+    {
+      "path": "kit/share/qupathxx/reader-plugin/example/write_manifest.cmake",
+      "sha256": "24b0dec3e32f22da3752fce5160bb845d5e2dcabb1b13450cffd96006d996f62",
+      "bytes": 1014
+    }
+  ],
+  "build": {
+    "generator": "Visual Studio 17 2022",
+    "configuration": "Release",
+    "crt": "/MD",
+    "core_library_link": false,
+    "source": "kit/share/qupathxx/reader-plugin/example",
+    "kit_prefix": "kit"
+  },
+  "scope": "Exact phase3 independent P6 producer sources; reused binary, no rebuild. Current host optional file-set extension is a separate source identity."
+}

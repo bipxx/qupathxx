@@ -1,12 +1,9 @@
 #include "qupathxx/rgb_preview.hpp"
 #include "qupathxx/core.hpp"
-#include "qupathxx/raw_image.hpp"
-#include "qupathxx/ome_zarr.hpp"
+#include "reader_registry.hpp"
 #include "utf8_text.hpp"
-#include "ascii_case.hpp"
 #include <algorithm>
 #include <cmath>
-#include <filesystem>
 #include <stdexcept>
 namespace qpx {
 namespace {
@@ -16,16 +13,8 @@ void checkpoint(const std::atomic<bool>* cancelled) {
 }
 std::shared_ptr<ImageServer> open_rgb_nominal_source(const std::string& path,const std::string& requested) {
     detail::bounded_utf8(path,32768);if(path.empty())throw std::invalid_argument("Source path must not be empty");
-    auto reader=requested;
-    if(reader=="auto") {
-        auto suffix=std::filesystem::u8path(path).extension().u8string();detail::ascii_lower_in_place(suffix);
-        reader=suffix==".zarr"?"ome-zarr":suffix==".ppm"?"ppm":suffix==".tif" || suffix==".tiff"?"tiff":"openslide";
-    }
-    if(reader=="ppm")return dense_image_server(Image::read_ppm(path));
-    if(reader=="tiff")return open_tiff(path);
-    if(reader=="ome-zarr")return open_ome_zarr(path);
-    if(reader=="openslide")return open_slide(path);
-    throw std::invalid_argument("Source reader must be auto, ppm, tiff, ome-zarr or openslide");
+    const auto selection=detail::select_reader(path,requested,detail::ReaderPolicy::RgbNominal,detail::reader_features());
+    return detail::open_reader(path,selection,{},nullptr);
 }
 std::shared_ptr<Document> make_rgb_nominal_preview(const std::shared_ptr<ImageServer>& source,
     const RgbNominalRequest& request,std::optional<double> px,std::optional<double> py,const std::atomic<bool>* cancelled) {

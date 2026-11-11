@@ -1,0 +1,708 @@
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+
+  1>Checking Build System
+  Building Custom Rule VALIDATION_ROOT/consumer source/CMakeLists.txt
+  installed_headers.cpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/sdk_abi.hpp
+  Note: including file:  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\yvals_core.h
+  Note: including file:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vcruntime.h
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\sal.h
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\concurrencysal.h
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vadefs.h
+  Note: including file:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xkeycheck.h
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/analysis.hpp
+  Note: including file:  VALIDATION_ROOT/installed/native sdk/include\qupathxx/core.hpp
+  Note: including file:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\cstdint
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\stdint.h
+  Note: including file:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\string
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\__msvc_sanitizer_annotate_container.hpp
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\__msvc_string_view.hpp
+  Note: including file:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\iosfwd
+  Note: including file:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\yvals.h
+  Note: including file:        C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\crtdbg.h
+  Note: including file:         C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt.h
+  Note: including file:         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vcruntime_new_debug.h
+  Note: including file:          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vcruntime_new.h
+  Note: including file:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\crtdefs.h
+  Note: including file:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\use_ansi.h
+  Note: including file:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\cstdio
+  Note: including file:        C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h
+  Note: including file:         C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_wstdio.h
+  Note: including file:          C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_stdio_config.h
+  Note: including file:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\cstring
+  Note: including file:        C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\string.h
+  Note: including file:         C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_memory.h
+  Note: including file:          C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_memcpy_s.h
+  Note: including file:           C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\errno.h
+  Note: including file:           C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vcruntime_string.h
+  Note: including file:         C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_wstring.h
+  Note: including file:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\cwchar
+  Note: including file:        C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\wchar.h
+  Note: including file:         C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_wconio.h
+  Note: including file:         C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_wctype.h
+  Note: including file:         C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_wdirect.h
+  Note: including file:         C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_wio.h
+  Note: including file:          C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_share.h
+  Note: including file:         C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_wprocess.h
+  Note: including file:         C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_wstdlib.h
+  Note: including file:         C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_wtime.h
+  Note: including file:         C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\sys/stat.h
+  Note: including file:          C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\sys/types.h
+  Note: including file:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xtr1common
+  Note: including file:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility
+  Note: including file:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\__msvc_iter_core.hpp
+  Note: including file:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\utility
+  Note: including file:         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\initializer_list
+  Note: including file:          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\cstddef
+  Note: including file:           C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stddef.h
+  Note: including file:         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\type_traits
+  Note: including file:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\climits
+  Note: including file:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\limits.h
+  Note: including file:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\cstdlib
+  Note: including file:        C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\math.h
+  Note: including file:         C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_math.h
+  Note: including file:        C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdlib.h
+  Note: including file:         C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_malloc.h
+  Note: including file:         C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_search.h
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory
+  Note: including file:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\limits
+  Note: including file:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\cfloat
+  Note: including file:        C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\float.h
+  Note: including file:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\intrin0.h
+  Note: including file:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\intrin0.inl.h
+  Note: including file:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\new
+  Note: including file:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\exception
+  Note: including file:        C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\malloc.h
+  Note: including file:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vcruntime_exception.h
+  Note: including file:         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\eh.h
+  Note: including file:          C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_terminate.h
+  Note: including file:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xatomic.h
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xpolymorphic_allocator.h
+  Note: including file:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\tuple
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\cctype
+  Note: including file:     C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\ctype.h
+  Note: including file:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vector
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\__msvc_bit_utils.hpp
+  Note: including file:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\atomic
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xthreads.h
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\__msvc_threads_core.hpp
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xtimec.h
+  Note: including file:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\ctime
+  Note: including file:       C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\time.h
+  Note: including file:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\map
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xtree
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xnode_handle.h
+  Note: including file:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\set
+  Note: including file:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\list
+  Note: including file:   VALIDATION_ROOT/installed/native sdk/include\qupathxx/image_server.hpp
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\memory
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\typeinfo
+  Note: including file:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vcruntime_typeinfo.h
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\optional
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xsmf_control.h
+  Note: including file:   VALIDATION_ROOT/installed/native sdk/include\qupathxx/scientific_grid.hpp
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\algorithm
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\__msvc_heap_algorithms.hpp
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\__msvc_minmax.hpp
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\cmath
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\numeric
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\stdexcept
+  Note: including file:   VALIDATION_ROOT/installed/native sdk/include\qupathxx/display.hpp
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\array
+  Note: including file:   VALIDATION_ROOT/installed/native sdk/include\qupathxx/geometry.hpp
+  Note: including file:   VALIDATION_ROOT/installed/native sdk/include\qupathxx/spatial_index.hpp
+  Note: including file:   VALIDATION_ROOT/installed/native sdk/include\qupathxx/analysis_types.hpp
+  Note: including file:    VALIDATION_ROOT/installed/native sdk/include\qupathxx/provenance.hpp
+  Note: including file:    VALIDATION_ROOT/installed/native sdk/include\qupathxx/stains.hpp
+  Note: including file:    VALIDATION_ROOT/installed/native sdk/include\qupathxx/cell_statistics.hpp
+  Note: including file:   VALIDATION_ROOT/installed/native sdk/include\qupathxx/object_plane.hpp
+  Note: including file:   VALIDATION_ROOT/installed/native sdk/include\qupathxx/image_analysis_settings.hpp
+  Note: including file:   VALIDATION_ROOT/installed/native sdk/include\qupathxx/image_axis_calibration.hpp
+  Note: including file:   VALIDATION_ROOT/installed/native sdk/include\qupathxx/gui_input_wait.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/application.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/backed_spatial_import.hpp
+  Note: including file:  VALIDATION_ROOT/installed/native sdk/include\qupathxx/spatial_import_base.hpp
+  Note: including file:  VALIDATION_ROOT/installed/native sdk/include\qupathxx/spatial_counts.hpp
+  Note: including file:  VALIDATION_ROOT/installed/native sdk/include\qupathxx/expression_matrix_spatial.hpp
+  Note: including file:   VALIDATION_ROOT/installed/native sdk/include\qupathxx/expression_matrix.hpp
+  Note: including file:    VALIDATION_ROOT/installed/native sdk/include\qupathxx/expression_dataset.hpp
+  Note: including file:    VALIDATION_ROOT/installed/native sdk/include\qupathxx/registration.hpp
+  Note: including file:     VALIDATION_ROOT/installed/native sdk/include\qupathxx/image_data_properties.hpp
+  Note: including file:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\variant
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/cell_tables.hpp
+  Note: including file:  VALIDATION_ROOT/installed/native sdk/include\qupathxx/export_policy.hpp
+  Note: including file:  VALIDATION_ROOT/installed/native sdk/include\qupathxx/cells.hpp
+  Note: including file:   VALIDATION_ROOT/installed/native sdk/include\qupathxx/tissue.hpp
+  Note: including file:    VALIDATION_ROOT/installed/native sdk/include\qupathxx/nominal_cell_sampling.hpp
+  Note: including file:     VALIDATION_ROOT\installed\native sdk\include\qupathxx\resampling.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/channel_source.hpp
+  Note: including file:  VALIDATION_ROOT/installed/native sdk/include\qupathxx/raw_image.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/classifier.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/dark_flat_workflow.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/density_workflow.hpp
+  Note: including file:  VALIDATION_ROOT/installed/native sdk/include\qupathxx/spatial_density.hpp
+  Note: including file:   VALIDATION_ROOT/installed/native sdk/include\qupathxx/spatial_analysis.hpp
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\thread
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\__msvc_chrono.hpp
+  Note: including file:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\ratio
+  Note: including file:     C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\process.h
+  Note: including file:      C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_startup.h
+  Note: including file:       C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\math.h
+  Note: including file:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vcruntime_startup.h
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\functional
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\unordered_map
+  Note: including file:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xhash
+  Note: including file:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xbit_ops.h
+  Note: including file:  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\future
+  Note: including file:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\condition_variable
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\mutex
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\system_error
+  Note: including file:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\__msvc_system_error_abi.hpp
+  Note: including file:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\cerrno
+  Note: including file:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xcall_once.h
+  Note: including file:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xerrc.h
+  Note: including file:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\ppltasks.h
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\pplwin.h
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\pplinterface.h
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\ppltaskscheduler.h
+  Note: including file:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\crtdefs.h
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\pplcancellation_token.h
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\intrin.h
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\setjmp.h
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\immintrin.h
+  Note: including file:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\wmmintrin.h
+  Note: including file:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\nmmintrin.h
+  Note: including file:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\smmintrin.h
+  Note: including file:         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\tmmintrin.h
+  Note: including file:          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\pmmintrin.h
+  Note: including file:           C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\emmintrin.h
+  Note: including file:            C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmmintrin.h
+  Note: including file:             C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\mmintrin.h
+  Note: including file:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\zmmintrin.h
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\ammintrin.h
+  Note: including file:  VALIDATION_ROOT/installed/native sdk/include\qupathxx/workflow.hpp
+  Note: including file:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\chrono
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xfilesystem_abi.h
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/expression_aggregation.hpp
+  Note: including file:  VALIDATION_ROOT/installed/native sdk/include\qupathxx/expression_normalization.hpp
+  Note: including file:   VALIDATION_ROOT/installed/native sdk/include\qupathxx/expression_matrix_project.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/expression_aggregation_workflow.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/expression_differential.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/expression_differential_workflow.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/expression_reduction.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/file_fingerprint.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/fluorescence_cell_objects.hpp
+  Note: including file:  VALIDATION_ROOT/installed/native sdk/include\qupathxx/fluorescence_cell_workflow.hpp
+  Note: including file:   VALIDATION_ROOT/installed/native sdk/include\qupathxx/fluorescence_cells.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/fluorescence_tiled_checkpoint.hpp
+  Note: including file:  VALIDATION_ROOT/installed/native sdk/include\qupathxx/fluorescence_tiled_workflow.hpp
+  Note: including file:   VALIDATION_ROOT/installed/native sdk/include\qupathxx/fluorescence_tiles.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/gene_display.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/gene_view.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/h5ad.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/input_digest.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/interchange.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/landmark_registration.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/linear_unmixing.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/linear_unmixing_io.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/linear_unmixing_workflow.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/marker_rule_io.hpp
+  Note: including file:  VALIDATION_ROOT/installed/native sdk/include\qupathxx/marker_rules.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/measurement_tables.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/nucls_import.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/object_classifier.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/object_classifier_archive.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/object_properties.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/ome_zarr.hpp
+  Note: including file:  VALIDATION_ROOT/installed/native sdk/include\qupathxx/source_identity.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/pixel_classifier.hpp
+  Note: including file:  VALIDATION_ROOT/installed/native sdk/include\qupathxx/pixel_features.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/pixel_classifier_archive.hpp
+  Note: including file:  VALIDATION_ROOT/installed/native sdk/include\qupathxx/pixel_prediction.hpp
+  Note: including file:   VALIDATION_ROOT/installed/native sdk/include\qupathxx/pixel_training.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/pixel_contours.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/pixel_stream.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/pixel_stream_file.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/project.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/project_batch.hpp
+  Note: including file:  VALIDATION_ROOT/installed/native sdk/include\qupathxx/raw_tables.hpp
+  Note: including file:   VALIDATION_ROOT/installed/native sdk/include\qupathxx/raw_analysis.hpp
+  Note: including file:    VALIDATION_ROOT/installed/native sdk/include\qupathxx/scientific_raw_sampling.hpp
+  Note: including file:     VALIDATION_ROOT\installed\native sdk\include\qupathxx\scientific_raw_window.hpp
+  Note: including file:  VALIDATION_ROOT/installed/native sdk/include\qupathxx/raw_pixel_stream_file.hpp
+  Note: including file:   VALIDATION_ROOT/installed/native sdk/include\qupathxx/raw_pixel_stream.hpp
+  Note: including file:    VALIDATION_ROOT/installed/native sdk/include\qupathxx/raw_pixel_window_workflows.hpp
+  Note: including file:     VALIDATION_ROOT/installed/native sdk/include\qupathxx/raw_pixel_workflows.hpp
+  Note: including file:      VALIDATION_ROOT/installed/native sdk/include\qupathxx/raw_pixel_classifier.hpp
+  Note: including file:       VALIDATION_ROOT/installed/native sdk/include\qupathxx/raw_pixel_features.hpp
+  Note: including file:  VALIDATION_ROOT/installed/native sdk/include\qupathxx/raw_pixel_stream_contours.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/project_recovery.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/project_save.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/project_source.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/qptma.hpp
+  Note: including file:  VALIDATION_ROOT\installed\native sdk\include\qupathxx\tma.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/qupath_project.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/raw_classifier_workflow.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/raw_pixel_archive.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/raw_pixel_contours.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/raw_pixel_file_jobs.hpp
+  Note: including file:  VALIDATION_ROOT/installed/native sdk/include\qupathxx/raw_pixel_training_checkpoint.hpp
+  Note: including file:   VALIDATION_ROOT/installed/native sdk/include\qupathxx/raw_pixel_tiled_training.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/raw_pixel_frontend.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/rgb_preview.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/scientific_channels.hpp
+  Note: including file:  VALIDATION_ROOT\installed\native sdk\include\qupathxx\scientific_sampling.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/sdk.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/spatial_frontend.hpp
+  Note: including file:  VALIDATION_ROOT/installed/native sdk/include\qupathxx/spatial_neighborhood.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/spatial_import.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/stain_estimation.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/stain_model_io.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/thumbnail.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/tile_scheduler.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/tma_dearray.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/training_cohort.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/view_tiles.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/viewer_session.hpp
+  sdk_headers.vcxproj -> VALIDATION_ROOT\consumer build\sdk_headers.dir\Release\sdk_headers.lib
+  Building Custom Rule VALIDATION_ROOT/consumer source/CMakeLists.txt
+  main.cpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/sdk_abi.hpp
+  Note: including file:  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\yvals_core.h
+  Note: including file:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vcruntime.h
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\sal.h
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\concurrencysal.h
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vadefs.h
+  Note: including file:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xkeycheck.h
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/sdk.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/provenance.hpp
+  Note: including file:  VALIDATION_ROOT/installed/native sdk/include\qupathxx/image_server.hpp
+  Note: including file:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\cstdint
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\stdint.h
+  Note: including file:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\atomic
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\yvals.h
+  Note: including file:     C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\crtdbg.h
+  Note: including file:      C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt.h
+  Note: including file:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vcruntime_new_debug.h
+  Note: including file:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vcruntime_new.h
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\crtdefs.h
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\use_ansi.h
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\cstddef
+  Note: including file:     C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stddef.h
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xtr1common
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\cstring
+  Note: including file:     C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\string.h
+  Note: including file:      C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_memory.h
+  Note: including file:       C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_memcpy_s.h
+  Note: including file:        C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\errno.h
+  Note: including file:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vcruntime_string.h
+  Note: including file:      C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_wstring.h
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xatomic.h
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\type_traits
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\intrin0.h
+  Note: including file:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\intrin0.inl.h
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xthreads.h
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\__msvc_threads_core.hpp
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\climits
+  Note: including file:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\limits.h
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xtimec.h
+  Note: including file:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\ctime
+  Note: including file:       C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\time.h
+  Note: including file:        C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_wtime.h
+  Note: including file:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\memory
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\exception
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\cstdlib
+  Note: including file:      C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\math.h
+  Note: including file:       C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_math.h
+  Note: including file:      C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdlib.h
+  Note: including file:       C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_malloc.h
+  Note: including file:       C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_search.h
+  Note: including file:       C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_wstdlib.h
+  Note: including file:     C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\malloc.h
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vcruntime_exception.h
+  Note: including file:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\eh.h
+  Note: including file:       C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_terminate.h
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\iosfwd
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\cstdio
+  Note: including file:      C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h
+  Note: including file:       C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_wstdio.h
+  Note: including file:        C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_stdio_config.h
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\cwchar
+  Note: including file:      C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\wchar.h
+  Note: including file:       C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_wconio.h
+  Note: including file:       C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_wctype.h
+  Note: including file:       C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_wdirect.h
+  Note: including file:       C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_wio.h
+  Note: including file:        C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_share.h
+  Note: including file:       C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_wprocess.h
+  Note: including file:       C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\sys/stat.h
+  Note: including file:        C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\sys/types.h
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\typeinfo
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vcruntime_typeinfo.h
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmemory
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\limits
+  Note: including file:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\cfloat
+  Note: including file:       C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\float.h
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\new
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility
+  Note: including file:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\__msvc_iter_core.hpp
+  Note: including file:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\utility
+  Note: including file:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\initializer_list
+  Note: including file:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\optional
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xsmf_control.h
+  Note: including file:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\string
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xstring
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\__msvc_sanitizer_annotate_container.hpp
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\__msvc_string_view.hpp
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xpolymorphic_allocator.h
+  Note: including file:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\tuple
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\cctype
+  Note: including file:     C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\ctype.h
+  Note: including file:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vector
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\__msvc_bit_utils.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/project.hpp
+  Note: including file:  VALIDATION_ROOT/installed/native sdk/include\qupathxx/core.hpp
+  Note: including file:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\map
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xtree
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xnode_handle.h
+  Note: including file:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\set
+  Note: including file:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\list
+  Note: including file:   VALIDATION_ROOT/installed/native sdk/include\qupathxx/scientific_grid.hpp
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\algorithm
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\__msvc_heap_algorithms.hpp
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\__msvc_minmax.hpp
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\cmath
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\numeric
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\stdexcept
+  Note: including file:   VALIDATION_ROOT/installed/native sdk/include\qupathxx/display.hpp
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\array
+  Note: including file:   VALIDATION_ROOT/installed/native sdk/include\qupathxx/geometry.hpp
+  Note: including file:   VALIDATION_ROOT/installed/native sdk/include\qupathxx/spatial_index.hpp
+  Note: including file:   VALIDATION_ROOT/installed/native sdk/include\qupathxx/analysis_types.hpp
+  Note: including file:    VALIDATION_ROOT/installed/native sdk/include\qupathxx/stains.hpp
+  Note: including file:    VALIDATION_ROOT/installed/native sdk/include\qupathxx/cell_statistics.hpp
+  Note: including file:   VALIDATION_ROOT/installed/native sdk/include\qupathxx/object_plane.hpp
+  Note: including file:   VALIDATION_ROOT/installed/native sdk/include\qupathxx/image_analysis_settings.hpp
+  Note: including file:   VALIDATION_ROOT/installed/native sdk/include\qupathxx/image_axis_calibration.hpp
+  Note: including file:   VALIDATION_ROOT/installed/native sdk/include\qupathxx/gui_input_wait.hpp
+  Note: including file:  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\functional
+  Note: including file:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\unordered_map
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xhash
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xbit_ops.h
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/expression_normalization.hpp
+  Note: including file:  VALIDATION_ROOT/installed/native sdk/include\qupathxx/expression_matrix_project.hpp
+  Note: including file:   VALIDATION_ROOT/installed/native sdk/include\qupathxx/expression_matrix.hpp
+  Note: including file:    VALIDATION_ROOT/installed/native sdk/include\qupathxx/expression_dataset.hpp
+  Note: including file:    VALIDATION_ROOT/installed/native sdk/include\qupathxx/registration.hpp
+  Note: including file:     VALIDATION_ROOT/installed/native sdk/include\qupathxx/image_data_properties.hpp
+  Note: including file:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\variant
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/expression_reduction.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/expression_differential.hpp
+  Note: including file:  VALIDATION_ROOT/installed/native sdk/include\qupathxx/expression_aggregation.hpp
+  Note: including file:   VALIDATION_ROOT/installed/native sdk/include\qupathxx/expression_matrix_spatial.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/h5ad.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/ome_zarr.hpp
+  Note: including file:  VALIDATION_ROOT/installed/native sdk/include\qupathxx/channel_source.hpp
+  Note: including file:   VALIDATION_ROOT/installed/native sdk/include\qupathxx/raw_image.hpp
+  Note: including file:  VALIDATION_ROOT/installed/native sdk/include\qupathxx/source_identity.hpp
+  Note: including file:   VALIDATION_ROOT/installed/native sdk/include\qupathxx/file_fingerprint.hpp
+  Note: including file:    VALIDATION_ROOT/installed/native sdk/include\qupathxx/export_policy.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/classifier.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/interchange.hpp
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/density_workflow.hpp
+  Note: including file:  VALIDATION_ROOT/installed/native sdk/include\qupathxx/spatial_density.hpp
+  Note: including file:   VALIDATION_ROOT/installed/native sdk/include\qupathxx/spatial_analysis.hpp
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\thread
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\__msvc_chrono.hpp
+  Note: including file:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\ratio
+  Note: including file:     C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\process.h
+  Note: including file:      C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_startup.h
+  Note: including file:       C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\math.h
+  Note: including file:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vcruntime_startup.h
+  Note: including file:  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\future
+  Note: including file:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\condition_variable
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\mutex
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\system_error
+  Note: including file:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\__msvc_system_error_abi.hpp
+  Note: including file:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\cerrno
+  Note: including file:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xcall_once.h
+  Note: including file:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xerrc.h
+  Note: including file:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\ppltasks.h
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\pplwin.h
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\pplinterface.h
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\ppltaskscheduler.h
+  Note: including file:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\crtdefs.h
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\pplcancellation_token.h
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\intrin.h
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\setjmp.h
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\immintrin.h
+  Note: including file:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\wmmintrin.h
+  Note: including file:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\nmmintrin.h
+  Note: including file:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\smmintrin.h
+  Note: including file:         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\tmmintrin.h
+  Note: including file:          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\pmmintrin.h
+  Note: including file:           C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\emmintrin.h
+  Note: including file:            C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmmintrin.h
+  Note: including file:             C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\mmintrin.h
+  Note: including file:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\zmmintrin.h
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\ammintrin.h
+  Note: including file:  VALIDATION_ROOT/installed/native sdk/include\qupathxx/workflow.hpp
+  Note: including file:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\chrono
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xfilesystem_abi.h
+  Note: including file: VALIDATION_ROOT/installed/native sdk/include\qupathxx/nucls_import.hpp
+  Note: including file: C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\filesystem
+  Note: including file:  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\iomanip
+  Note: including file:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\istream
+  Note: including file:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\__msvc_ostream.hpp
+  Note: including file:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\ios
+  Note: including file:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xlocnum
+  Note: including file:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\iterator
+  Note: including file:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\streambuf
+  Note: including file:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xiosbase
+  Note: including file:         C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\share.h
+  Note: including file:         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xlocale
+  Note: including file:          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xfacet
+  Note: including file:          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xlocinfo
+  Note: including file:           C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\__msvc_xlocinfo_types.hpp
+  Note: including file:           C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\clocale
+  Note: including file:            C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\locale.h
+  Note: including file:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xlocmon
+  Note: including file:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xloctime
+  Note: including file:  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\locale
+  Note: including file:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xlocbuf
+  Note: including file:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xlocmes
+  Note: including file: C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\fstream
+  Note: including file:  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\__msvc_filebuf.hpp
+  Note: including file: C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\iostream
+  Note: including file:  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\ostream
+  Note: including file: C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\sstream
+  
+  Searching libraries
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\qupathxx_core.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\qupathxx_density_workflow.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\qupathxx_nucls_import.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-hdf5.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-tiff.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-jpeg.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-xml.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-opencv_ml.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-opencv_core.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-opencv_zlib.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-zlib.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-sqlite.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-geos_c.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-openslide.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\shlwapi.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\bcrypt.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\kernel32.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\user32.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\gdi32.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\winspool.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\shell32.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\ole32.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\oleaut32.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\uuid.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\comdlg32.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\advapi32.lib:
+      Searching C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\lib\x64\msvcprt.lib:
+      Searching C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\lib\x64\MSVCRT.lib:
+      Searching C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\lib\x64\OLDNAMES.lib:
+      Searching C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\lib\x64\concrt.lib:
+      Searching C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\lib\x64\vcruntime.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\ucrt\x64\ucrt.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\qupathxx_core.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\qupathxx_density_workflow.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\qupathxx_nucls_import.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-hdf5.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-tiff.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-jpeg.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-xml.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-opencv_ml.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-opencv_core.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-opencv_zlib.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-zlib.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-sqlite.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-geos_c.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-openslide.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\shlwapi.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\bcrypt.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\kernel32.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\user32.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\gdi32.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\winspool.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\shell32.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\ole32.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\oleaut32.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\uuid.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\comdlg32.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\advapi32.lib:
+      Searching C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\lib\x64\msvcprt.lib:
+      Searching C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\lib\x64\MSVCRT.lib:
+      Searching C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\lib\x64\OLDNAMES.lib:
+      Searching C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\lib\x64\concrt.lib:
+      Searching C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\lib\x64\vcruntime.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\ucrt\x64\ucrt.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\qupathxx_core.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\qupathxx_density_workflow.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\qupathxx_nucls_import.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-hdf5.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-tiff.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-jpeg.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-xml.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-opencv_ml.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-opencv_core.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-opencv_zlib.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-zlib.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-sqlite.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-geos_c.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-openslide.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\shlwapi.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\bcrypt.lib:
+  
+  Finished searching libraries
+  
+  Searching libraries
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\qupathxx_core.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\qupathxx_density_workflow.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\qupathxx_nucls_import.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-hdf5.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-tiff.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-jpeg.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-xml.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-opencv_ml.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-opencv_core.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-opencv_zlib.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-zlib.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-sqlite.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-geos_c.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-openslide.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\shlwapi.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\bcrypt.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\kernel32.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\user32.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\gdi32.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\winspool.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\shell32.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\ole32.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\oleaut32.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\uuid.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\comdlg32.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\advapi32.lib:
+      Searching C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\lib\x64\msvcprt.lib:
+      Searching C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\lib\x64\MSVCRT.lib:
+      Searching C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\lib\x64\OLDNAMES.lib:
+      Searching C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\lib\x64\concrt.lib:
+      Searching C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\lib\x64\vcruntime.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\ucrt\x64\ucrt.lib:
+  
+  Finished searching libraries
+  
+  Searching libraries
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\qupathxx_core.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\qupathxx_density_workflow.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\qupathxx_nucls_import.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-hdf5.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-tiff.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-jpeg.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-xml.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-opencv_ml.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-opencv_core.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-opencv_zlib.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-zlib.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-sqlite.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-geos_c.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-openslide.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\shlwapi.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\bcrypt.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\kernel32.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\user32.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\gdi32.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\winspool.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\shell32.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\ole32.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\oleaut32.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\uuid.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\comdlg32.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\advapi32.lib:
+      Searching C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\lib\x64\msvcprt.lib:
+      Searching C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\lib\x64\MSVCRT.lib:
+      Searching C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\lib\x64\OLDNAMES.lib:
+      Searching C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\lib\x64\concrt.lib:
+      Searching C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\lib\x64\vcruntime.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\ucrt\x64\ucrt.lib:
+  
+  Finished searching libraries
+  
+  Searching libraries
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\qupathxx_core.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\qupathxx_density_workflow.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\qupathxx_nucls_import.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-hdf5.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-tiff.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-jpeg.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-xml.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-opencv_ml.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-opencv_core.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-opencv_zlib.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-zlib.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-sqlite.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-geos_c.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-openslide.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\shlwapi.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\bcrypt.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\kernel32.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\user32.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\gdi32.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\winspool.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\shell32.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\ole32.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\oleaut32.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\uuid.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\comdlg32.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\advapi32.lib:
+      Searching C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\lib\x64\msvcprt.lib:
+      Searching C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\lib\x64\MSVCRT.lib:
+      Searching C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\lib\x64\OLDNAMES.lib:
+      Searching C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\lib\x64\concrt.lib:
+      Searching C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\lib\x64\vcruntime.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\ucrt\x64\ucrt.lib:
+  
+  Finished searching libraries
+  
+  Searching libraries
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\qupathxx_core.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\qupathxx_density_workflow.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\qupathxx_nucls_import.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-hdf5.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-tiff.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-jpeg.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-xml.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-opencv_ml.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-opencv_core.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-opencv_zlib.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-zlib.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-sqlite.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-geos_c.lib:
+      Searching VALIDATION_ROOT\installed\native sdk\lib\qupathxx\deps\qpx-openslide.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\shlwapi.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\bcrypt.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\kernel32.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\user32.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\gdi32.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\winspool.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\shell32.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\ole32.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\oleaut32.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\uuid.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\comdlg32.lib:
+      Searching C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\advapi32.lib:
+      Searching C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\lib\x64\msvcprt.lib:
+      Searching C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\lib\x64\MSVCRT.lib:
+      Searching C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\lib\x64\OLDNAMES.lib:
+      Searching C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\lib\x64\concrt.lib:
+      Searching C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\lib\x64\vcruntime.lib:
+  
+  Finished searching libraries
+  sdk_consumer.vcxproj -> VALIDATION_ROOT\consumer build\Release\sdk_consumer.exe
+  Building Custom Rule VALIDATION_ROOT/consumer source/CMakeLists.txt

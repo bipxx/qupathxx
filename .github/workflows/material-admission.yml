@@ -1,0 +1,19 @@
+name: Native release material admission
+on:
+  pull_request:
+    paths: ['tools/ci/*material*', 'tools/ci/*sources*', 'tools/ci/stage_native_release.py', 'tools/build_opencv_sdk.py', 'tests/*admission*', 'tests/test_material_staging.py', 'tests/fixtures/manifest.json', 'assets/fonts/font-source.json', 'third_party/sources/**', '.github/workflows/material-admission.yml']
+  push:
+    branches: [main]
+    paths: ['tools/ci/**', 'tools/build_opencv_sdk.py', 'tests/*admission*', 'tests/test_material_staging.py', 'tests/fixtures/manifest.json', 'assets/fonts/font-source.json', 'third_party/sources/**', '.github/workflows/material-admission.yml']
+permissions:
+  contents: read
+jobs:
+  admission:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
+        with:
+          python-version: '3.12'
+      - run: python -m pip install pytest==8.3.5
+      - run: python -m pytest -q tests/test_material_staging.py tests/test_candidate_source_admission.py tests/test_native_release_admission.py

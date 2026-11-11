@@ -1182,7 +1182,7 @@ retained binding objects must not link against changed native interfaces.
 No biological, general throughput or released-format support claim.
 
 
-Native molecular QC and normalization (A01, consumer integration pending)
+Native molecular QC and normalization (A01, delivered locally)
 ------------------------------------------------------------------------
 
 `qupathxx/expression_normalization.hpp` adds a native QC pass over every feature
@@ -1239,6 +1239,44 @@ Complete real32285-feature/2702-observation QC matches an independent original-
 Matrix-Market oracle for all totals, detected features and a declared group; saved
 replay at a different work limit preserves QC and derived block identity. See
 the [native QC receipt](benchmarks/feature-expansion/README.md#a01-native-full-universe-qc-and-normalization).
-A01 remains open for actual desktop QC/normalization selection and recipe controls.
+The desktop Gene expression window now has a QC / normalization tab. Use
+Compute full-source QC, inspect the explicit zero-based source observation index
+and its exact library/detected/group values, then choose Use normalized or
+Use log1p normalized with an explicit library target. Use raw counts restores
+original values. QC is retained across modes/targets/genes/colors, and display
+controls cannot add a second log to log-normalized values.
+
+Keep normalization recipe stores one native undoable project record. Save/reopen
+the project, select a saved recipe and use Apply saved normalization. Projects
+start with original values until that explicit choice. Remove saved normalization
+is undoable. Recipes are filtered to the current raw matrix; discovery runs on
+document changes, not every frame. Keep/remove are disabled during blocked edits
+and saves. Optional feature groups can be authored through the native API and
+are shown when their saved recipe is applied; there is no inferred group editor.
+
+GeneViewSession.request_qc/normalize/raw_values/restore_normalization share its
+existing worker, generation and cancellation logic. It retains the raw spatial
+snapshot, rebinds the same coordinates to derived values and reuses compatible
+complete QC during saved-recipe apply. Existing raw-display preferences stay
+compatible; project recipes carry analysis identity. No new GUI worker or
+frontend scientific reducer is introduced. See the
+[desktop closure receipt](benchmarks/feature-expansion/README.md#a01-desktop-qc-and-normalization-closure).
 This API is not yet an installed SDK/Python exposure, biological QC recommendation
 or a comparative speed claim.
+
+## Regional summaries and pseudobulk
+
+The [native A02 guide](expression-aggregation.md) describes ROI/observation
+cohorts, exact raw sums, optional means, explicit normalization domains,
+replicate labels, saved replay and new-only native CLI/CSV routes. Original
+counts and coordinates remain unchanged. The single-mouse demo supplies regional
+engineering evidence; it does not supply independent biological replicates.
+
+## PCA and clustering
+
+The [native A03 guide](expression-reduction.md) covers sparse centred PCA or
+explicit uncentred SVD, seeded explicit-k clustering, exact fitted archives,
+owned project save/reopen/replay, CSVs and an exported native SVG scatter view.
+Feature/value domains and preprocessing remain explicit. The original matrix
+and image coordinates are preserved; exploratory cluster IDs are not cell types
+or biological-replicate assignments.

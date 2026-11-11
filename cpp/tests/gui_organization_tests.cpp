@@ -399,6 +399,7 @@ static void close_dialogs(const std::filesystem::path& directory) {
 #include "gui_panel_refinement_checks.hpp"
 #include "gui_docking_checks.hpp"
 #include "gui_tool_catalog_checks.hpp"
+#include "gui_format_clipboard_checks.hpp"
 #include "gui_header_grouping_checks.hpp"
 #include "gui_simplification_checks.hpp"
 #include "gui_simplification_tools_checks.hpp"
@@ -417,6 +418,7 @@ int main(int argc,char** argv) {
         if(argc>2 && std::string(argv[2])=="--image-inspector") {image_inspector_workflows(dir);return 0;}
         if(argc>2 && std::string(argv[2])=="--review-ux") {review_ux_workflows(dir);return 0;}
         if(argc>2 && std::string(argv[2])=="--export-sampling") {export_sampling_workflows(dir);return 0;}
+        if(argc>2 && std::string(argv[2])=="--format-clipboard") {format_clipboard_checks::run(dir);return 0;}
         if(argc>2 && std::string(argv[2])=="--header-grouping") {header_grouping_checks::workflows(dir);return 0;}
         navigation(dir);catalog_navigation(dir);overview_failure(dir);shortcuts(dir);relink_missing(dir);project_switcher(dir);close_dialogs(dir);dialog_workflows(dir);if(argc>2)review_catalog(dir,std::filesystem::u8path(argv[2]));dialog_checks::metadata_views(dir);return 0;
     } catch(const std::exception& e) {std::cerr<<e.what()<<'\n';return 1;}
