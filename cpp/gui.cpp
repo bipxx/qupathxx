@@ -53,6 +53,8 @@
 #include "gui_raw_pixel.hpp"
 #include "gui_layout.hpp"
 #include "gui_dialogs.hpp"
+#include "gui_header.hpp"
+#include "gui_tool_catalog.hpp"
 #include "gui_theme.hpp"
 #include "gui_object_classifier.hpp"
 #include "gui_pixel_classifier.hpp"
@@ -320,8 +322,24 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     bool focus_add_image=false,focus_open_project=false,focus_save_project=false;
     Task last_workflow_task=workspace.workflow_task();
     int pending_language=-2;bool language_requested=false,language_dialog_active=false;char language_search[128]{};
+    detail::GuiHelpWindow help_window;
     auto pixel_classifier_owner=std::make_unique<detail::GuiPixelClassifier>(options);auto& pixel_classifier=*pixel_classifier_owner;
     auto raw_pixel_owner=std::make_unique<detail::GuiRawPixel>(options);auto& raw_pixel=*raw_pixel_owner;
+    using Tool=ui::ToolId;
+    const ui::ToolLauncher tools({
+        {Tool::ObjectClassifier,[&]{classifier.open();}},
+        {Tool::PixelClassifier,[&]{pixel_classifier.open();}},
+        {Tool::RawPixelClassifier,[&]{raw_pixel.open();}},
+        {Tool::Fluorescence,[&]{fluorescence.open();}},
+        {Tool::Spatial,[&]{spatial.open();}},
+        {Tool::Genes,[&]{genes.open();}},
+        {Tool::Registration,[&]{landmark_registration.open();}},
+        {Tool::SpatialImport,[&]{spatial_import->open(options.project.get());}},
+        {Tool::Batch,[&]{batch.open();}},
+        {Tool::Tma,[&]{tma.open();}},
+        {Tool::Density,[&]{project_density.open();}},
+        {Tool::Channels,[&]{raw.open();}}
+    });
     ui::apply_desktop_theme();
     auto& style = ImGui::GetStyle();
     ImGuiStyle base_style=style;auto applied_theme=ui::design::current();
@@ -1546,95 +1564,62 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         ImGui::Begin("Workspace", nullptr, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoDocking);ImGui::PopStyleVar();
         if(shell)shell_draw_list=ImGui::GetWindowDrawList();
         auto focus_pane=[&](const char* name) {if(workspace.enabled()) workspace.select(name);};
-        auto appearance_menu=[&] {
-            if(ui::BeginMenu("Appearance")) {
-                for(const auto choice:{ui::design::Theme::Dark,ui::design::Theme::Light,ui::design::Theme::System}) {
-                    const auto* caption=choice==ui::design::Theme::Dark?"Dark":choice==ui::design::Theme::Light?"Light":"System";
-                    if(ui::MenuItem(caption,nullptr,ui::design::state.choice==choice)) ui::design::state.choice=choice;
-                }
-                ImGui::EndMenu();
+        const ui::ToolContext tool_context{has_image,bool(options.project),has_image && document.server()->reader_id()=="tiff"};
+        ui::HeaderSnapshot header;
+        header.editing_blocked=editing_blocked;header.image=has_image;header.project=bool(options.project);
+        header.project_dirty=options.project && options.project->dirty();header.save_busy=save_job.busy();
+        header.can_undo=document.can_undo();header.can_redo=document.can_redo();
+        header.can_copy=has_image && has_interchange() && !selection->ids().empty();
+        header.can_paste=has_image && has_interchange();header.objects_visible=objects_visible;
+        header.overlay_gesture=overlay_gesture;header.workspace=workspace.enabled();header.reload_ui=bool(shell);
+        header.ui_size=ui_multiplier;header.theme=ui::design::state.choice;
+        const ui::HeaderDispatch header_dispatch=[&](ui::HeaderCommand command) {
+            using Command=ui::HeaderCommand;
+            switch(command) {
+            case Command::OpenProject:focus_pane(GuiWorkspace::project_pane);focus_open_project=true;break;
+            case Command::AddImages:focus_pane(GuiWorkspace::project_pane);focus_add_image=true;break;
+            case Command::SaveProject:save_project_requested=true;break;
+            case Command::SaveProjectAs:focus_pane(GuiWorkspace::project_pane);select_project_form(ProjectForm::Save);focus_save_project=true;break;
+            case Command::Close:glfwSetWindowShouldClose(session.window,true);break;
+            case Command::Undo:history_action(false);break;
+            case Command::Redo:history_action(true);break;
+            case Command::CopyObjects:copy_selection();break;
+            case Command::PasteObjects:paste_clipboard(false);break;
+            case Command::FitImage:fit=true;break;
+            case Command::ShowObjects:toggle_objects();break;
+            case Command::ProjectPanel:focus_pane(GuiWorkspace::project_pane);break;
+            case Command::ImagePanel:focus_pane(GuiWorkspace::image_pane);break;
+            case Command::AnnotationsPanel:focus_pane(GuiWorkspace::objects_pane);break;
+            case Command::WorkflowPanel:focus_pane(GuiWorkspace::workflow_pane);break;
+            case Command::ResetLayout:workspace.reset();break;
+            case Command::ReloadUi:if(shell)shell->reload();break;
+            case Command::IncreaseUiSize:ui_multiplier=std::min(3.,ui_multiplier+.25);break;
+            case Command::DecreaseUiSize:ui_multiplier=std::max(.5,ui_multiplier-.25);break;
+            case Command::AutomaticUiSize:ui_multiplier=1;break;
+            case Command::ThemeDark:ui::design::state.choice=ui::design::Theme::Dark;break;
+            case Command::ThemeLight:ui::design::state.choice=ui::design::Theme::Light;break;
+            case Command::ThemeSystem:ui::design::state.choice=ui::design::Theme::System;break;
+            case Command::ChooseLanguage:language_requested=true;break;
+            case Command::QuickReference:help_window.request(detail::HelpPage::QuickReference);break;
+            case Command::Documentation:help_window.request(detail::HelpPage::Documentation);break;
+            case Command::About:help_window.request(detail::HelpPage::About);break;
             }
         };
-        if(ImGui::BeginMenuBar()) {
-            ImGui::BeginDisabled(editing_blocked);
-            if(ui::BeginMenu("File")) {
-                if(ui::MenuItem("Open project...")) {focus_pane(GuiWorkspace::project_pane);focus_open_project=true;}
-                if(ui::MenuItem("Add images...")) {focus_pane(GuiWorkspace::project_pane);focus_add_image=true;}
-                if(ui::MenuItem("Save project","Ctrl+S",false,options.project && options.project->dirty() && !save_job.busy())) save_project_requested=true;
-                if(ui::MenuItem("Save project as...",nullptr,false,options.project && !save_job.busy())) {focus_pane(GuiWorkspace::project_pane);select_project_form(ProjectForm::Save);focus_save_project=true;}
-                ImGui::Separator();
-                if(ui::MenuItem("Close")) glfwSetWindowShouldClose(session.window,true);
-                ImGui::EndMenu();
-            }
-            if(ui::BeginMenu("Edit")) {
-                if(ui::MenuItem("Undo","Ctrl+Z",false,has_image && document.can_undo())) history_action(false);
-                if(ui::MenuItem("Redo","Ctrl+Y",false,has_image && document.can_redo())) history_action(true);
-                ImGui::Separator();
-                if(ui::MenuItem("Copy objects","Ctrl+C",false,has_image && has_interchange() && !selection->ids().empty())) copy_selection();
-                if(ui::MenuItem("Paste objects","Ctrl+V",false,has_image && has_interchange())) paste_clipboard(false);
-                ImGui::EndMenu();
-            }
-            if(ui::BeginMenu("View")) {
-                if(ui::MenuItem("Fit image",nullptr,false,has_image)) fit=true;
-                if(ui::MenuItem("Show objects","O",objects_visible,has_image && !overlay_gesture))toggle_objects();
-                ImGui::Separator();
-                if(ui::MenuItem("Project")) focus_pane(GuiWorkspace::project_pane);
-                if(ui::MenuItem("Image / Brightness and contrast")) focus_pane(GuiWorkspace::image_pane);
-                if(ui::MenuItem("Annotations")) focus_pane(GuiWorkspace::objects_pane);
-                if(ui::MenuItem("Workflow / Measurements")) focus_pane(GuiWorkspace::workflow_pane);
-                if(ui::MenuItem("Reset layout",nullptr,false,workspace.enabled())) workspace.reset();
-                if(shell && ui::MenuItem("Reload UI resources","Ctrl+Shift+R")) shell->reload();
-                ImGui::Separator();
-                if(ui::MenuItem("Increase UI size",nullptr,false,ui_multiplier<3)) ui_multiplier=std::min(3.,ui_multiplier+.25);
-                if(ui::MenuItem("Decrease UI size",nullptr,false,ui_multiplier>.5)) ui_multiplier=std::max(.5,ui_multiplier-.25);
-                if(ui::MenuItem("Automatic UI size")) ui_multiplier=1;
-                ImGui::Separator();
-                appearance_menu();
-                ImGui::EndMenu();
-            }
-            if(ui::BeginMenu("Analyze")) {
-                for(std::size_t i=0;i<ui::workflow_task_labels.size();++i)
-                    if(ui::MenuItem(ui::workflow_task_labels[i])) focus_task(static_cast<Task>(i));
-                ImGui::Separator();
-                if(ui::MenuItem("Batch analysis...")) batch.open();
-                if(ui::MenuItem("Object classifiers...","F4")) classifier.open();
-                if(ui::MenuItem("Pixel classifiers...","F5")) pixel_classifier.open();
-                if(ui::MenuItem("Raw pixel classifier")) raw_pixel.open();
-                if(ui::MenuItem("Fluorescence cells...",nullptr,false,has_image)) fluorescence.open();
-                if(ui::MenuItem("Gene expression...",nullptr,false,has_image)) genes.open();
-                if(ui::MenuItem("Landmark registration...",nullptr,false,has_image)) landmark_registration.open();
-                if(ui::MenuItem("Import spatial expression...")) spatial_import->open(options.project.get());
-                ImGui::EndMenu();
-            }
-            if(ui::BeginMenu("TMA",has_image)) {if(ui::MenuItem("Tissue microarray...")) tma.open();ImGui::EndMenu();}
-            if(ui::BeginMenu("Help")) {
-                ui::TextUnformatted("qupathxx / Bioimage analysis");ImGui::Separator();
-                ui::TextUnformatted("Right drag: pan   |   Scroll: zoom\nCtrl+click: toggle selection\nShift+drag: select box   |   Ctrl+A: select all\nR: rectangle   E: ellipse   P: polygon\nL: polyline   T: points   V: vertices   H: hole");
-                ImGui::EndMenu();
-            }
-            if(ui::BeginMenu("Language")) {
-                if(ui::MenuItem("Choose language","Ctrl+Shift+L")) language_requested=true;
-                ImGui::Separator();
-                ImGui::TextUnformatted(ui::i18n::languages[ui::i18n::state.effective].native_name);
-                ImGui::EndMenu();
-            }
-            ImGui::EndDisabled();ImGui::EndMenuBar();
-        }
+        ui::draw_header(header,header_dispatch,[&] {
+            for(std::size_t i=0;i<ui::workflow_task_labels.size();++i)
+                if(ui::MenuItem(ui::workflow_task_labels[i]))focus_task(static_cast<Task>(i));
+            ImGui::Separator();ui::ToolMenus(tools,tool_context);
+        });
         if(settings_requested && !editing_blocked) {
             const float activity=ui::design::metrics.activity_row*ui_scale.logical;
             const auto anchor=shell?shell->bounds(ui::ShellCommand::Settings):ui::ShellRect{0,io.DisplaySize.y-activity,ui::design::metrics.activity_width*ui_scale.logical,activity};
             ImGui::SetNextWindowPos({anchor.x+anchor.width,anchor.y+anchor.height},ImGuiCond_Appearing,{0,1});
             ImGui::OpenPopup("Workspace settings");
         }
-        if(ui::BeginPopupMenu("Workspace settings")) {
-            appearance_menu();
-            if(ui::MenuItem("Choose language","Ctrl+Shift+L")) language_requested=true;
-            ImGui::Separator();
-            if(ui::MenuItem("Reset layout",nullptr,false,workspace.enabled())) workspace.reset();
-            if(shell && ui::MenuItem("Reload UI resources","Ctrl+Shift+R")) shell->reload();
-            ImGui::EndPopup();
-        }
-        if(!editing_blocked && ImGui::Shortcut(ImGuiMod_Ctrl|ImGuiMod_Shift|ImGuiKey_L,ImGuiInputFlags_RouteGlobal)) language_requested=true;
+        if(ui::BeginPopupMenu("Workspace settings")) {ui::draw_header_settings(header,header_dispatch);ImGui::EndPopup();}
+        const auto header_keys=ui::header_shortcuts(editing_blocked);
+        if(header_keys.language)language_requested=true;
+        if(header_keys.help)help_window.request(detail::HelpPage::QuickReference);
         if(startup_active) {
             ++startup_frames;
             const auto phase=startup_progress->phase.load();
@@ -3555,6 +3540,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 if(!found)ui::TextUnformatted("No matching languages");
             }ImGui::EndChild();ui::TextWrapped("Untranslated messages use English.");
         },[&](DialogAction) {language_dialog_active=false;return DialogOutcome::Success;});
+        help_window.draw(*build_environment());
         if(source_popup_requested) {ui::OpenDialog(ui::DialogKind::SourceVerification);source_popup_requested=false;}
         const bool source_owner=source_review && options.project && fingerprint_project.lock()==options.project && active_image && active_image==fingerprint_image && fingerprint_document.lock().get()==active_document;
         ui::DialogState source_state(source_owner,false);source_state.dismiss_requested=!source_review;

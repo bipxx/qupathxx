@@ -397,10 +397,13 @@ static void close_dialogs(const std::filesystem::path& directory) {
 #include "gui_review_workflow_checks.hpp"
 #include "gui_image_inspector_checks.hpp"
 #include "gui_panel_refinement_checks.hpp"
+#include "gui_header_grouping_checks.hpp"
 int main(int argc,char** argv) {
+    std::cout<<std::unitbuf;
     try {
         geometry();inspector_controls();project_filter_controls();docking_controls();if(!std::getenv("QUPATHXX_TEST_GUI")) {std::cout<<"Native organization replay skipped: opt-in QUPATHXX_TEST_GUI\n";return 0;}
         const auto dir=argc>1?std::filesystem::u8path(argv[1]):std::filesystem::temp_directory_path()/("qpx-ui-organization-"+std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()));std::filesystem::create_directories(dir);
+        if(argc>2 && std::string(argv[2])=="--header-grouping") {header_grouping_checks::workflows(dir);return 0;}
         if(argc>2 && std::string(argv[2])=="--analysis-details") {panel_refinement_workflows(dir,true);return 0;}
         if(argc>2 && std::string(argv[2])=="--panel-refinement") {panel_refinement_workflows(dir);return 0;}
         if(argc>2 && std::string(argv[2])=="--image-inspector") {image_inspector_workflows(dir);return 0;}

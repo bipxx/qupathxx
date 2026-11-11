@@ -7,6 +7,25 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
+## Delivered integration - grouped header and Help on main
+
+Owner requests committing the completed header redesign and merging to main.
+The main-based feature/grouped-header-help branch isolates the header/dialog/
+caption/tests from concurrent uncommitted native and workflow changes. Reuse the
+qualified private header and Help implementation plus its shared Analyze menu
+catalog; bind the twelve tools to existing main controllers. Keep main's native
+interchange availability and handlers. No unrelated dock/reader/science changes.
+
+Changed integration inputs: main's gui.cpp and original organization harness,
+shared locale/dialog headers, new private header/Help/menu helpers. Twenty source
+contracts, one frontend-only cached build and the full --header-grouping replay
+pass on this main-based consumer. Eight actual replays plus one placement probe
+retain exact project/calibration/RGB state. All14 native-library and38 binding
+object hashes remain unchanged. No failed build/run or correction in this pass.
+Output: build/ui-header-merge; [receipt](benchmarks/ui-header-grouping/README.md).
+Owner authorizes the scoped commit and local merge. Stop at that outcome; no
+package, push, kernel rebuild or unrelated dirty-source admission is selected.
+
 ## Delivered UI - image inspector and workflow simplification
 
 Owner approved real-project review, blocker fixes and a scoped local main merge.
