@@ -26,6 +26,7 @@ frames are not supported. The current registry covers:
 | ImageInformation | gui.cpp | Captured document and workspace epoch |
 | Calibration | gui_calibration_editor.hpp | Captured document, image, workspace epoch and calibration revision |
 | ObjectInformation | gui.cpp | Captured document, workspace epoch, object id and object revision |
+| Help | gui_header.hpp | Session; read-only reference, documentation and build identity |
 
 Each frame constructs `DialogState(owner_valid, busy, variant)` explicitly.
 Owner and busy snapshots are immutable. Invalid ownership disables publication

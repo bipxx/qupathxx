@@ -229,6 +229,41 @@ Viewer contexts restore their prior theme state on exit, just as language does.
 
 ![Light palette with the same source pixels, calibration and ROI](images/design-system-light-en.png)
 
+## Header and workspace settings
+
+The header uses one menu row: **File**, **Edit**, **View** and **Analyze** on the
+left, with **Help** aligned to the right. These groups retain their existing
+native commands, enablement and shortcuts. Help remains reachable in a narrow
+workspace and with translated captions or a larger UI size. When the translated
+left groups cannot fit beside Help, a **Menu** entry contains those four groups.
+The header keeps one row and Help stays at the right; commands remain reachable
+through their existing group.
+
+The existing gear opens workspace Settings. **General** contains the language
+chooser; **Appearance** contains Dark, Light, System and UI size controls;
+**Advanced** contains Reload UI resources. Language has no separate top-level
+menu. The compact API viewer has no gear, so **Edit > Workspace settings** opens
+the same groups. Ctrl+Shift+L continues to open the same registered chooser, and Escape
+closes it without changing project data. View groups panel visibility under
+**Panels** and docking/reset commands under **Layout**. TMA remains available
+under **Analyze > Project tools**. Reload retains Ctrl+Shift+R where the resource
+host is available.
+
+Help offers **Quick reference** (F1), **Documentation** and **About**. They open
+pages within one registered Help dialog, using the shared modal frame and Close
+action. The quick reference keeps native interaction guidance readable; the
+documentation page provides the project documentation routes; About identifies
+the application and its source-scoped build. Help content is read-only.
+
+Appearance, language, UI size and panel layout are workspace preferences. Reset
+layout restores panel arrangement and visibility while retaining appearance and
+language. These controls do not change datasets, project bytes, calibration,
+source pixels, measurements or stored scientific identities. Focused checks use
+actual native menu and dialog input at normal size, French at 200% and a narrow
+window; they establish reachable actions and readable geometry rather than
+matching screenshots pixel for pixel. The [header validation receipt](benchmarks/ui-header-grouping/README.md)
+records the source and runtime scope.
+
 ## Fonts and language
 
 Regular/semibold static TTFs are derived from the same licensed
