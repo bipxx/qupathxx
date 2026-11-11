@@ -6,6 +6,7 @@
 #include "qupathxx/pixel_stream_file.hpp"
 #include "qupathxx/pixel_contours.hpp"
 #include "gui_layout.hpp"
+#include "gui_workflow_ui.hpp"
 #include "utf8_text.hpp"
 #include <array>
 #include <cmath>
@@ -117,6 +118,7 @@ public:
     }
     ~GuiPixelClassifier() {contours_.cancel();io_cancelled_.store(true);if(io_.valid()) io_.wait();}
     void open() {open_=true;}
+    void open_saved_streams() {browser_.open();}
     void reveal_target(GuiInputTarget target) {if(open_ && handles(target))reveal_target_=target;}
     void invalidate_training() {if(training_.busy()) cancel_training();}
     void update(Document& doc,const ObjectSelection& selection) {
@@ -174,18 +176,41 @@ public:
     void finish(Document& doc,const ObjectSelection& selection,bool finite) {if(!finite) {stream_.cancel();archives_.cancel();training_.cancel();cancel_prediction();io_cancelled_.store(true);}if(training_.busy()) training_.wait(doc);if(prediction_.busy()) prediction_.wait(doc);if(contours_.busy()) contours_.wait(doc);if(io_.valid()) io_.wait();archives_.wait();if(stream_.busy()) stream_.wait(doc);browser_.finish(finite);update(doc,selection);}
     void draw(Document& doc,const ObjectSelection& selection,bool blocked,bool has_image,const std::function<void(GuiInputTarget)>& mark,const std::function<StainTransform(bool)>& transform,Rect visible) {
         if(!ImGui::GetIO().WantTextInput && !blocked && ui::f5_action(ImGui::GetIO().KeyCtrl,ImGui::GetIO().KeyShift,ImGui::GetIO().KeyAlt)==ui::F5Action::PixelClassifier && ImGui::IsKeyPressed(ImGuiKey_F5,false)) open_=!open_;if(!open_) {browser_.draw(doc,blocked,mark);return;}
-        const auto* vp=ImGui::GetMainViewport();const auto scale=ImGui::GetFontSize()/13.f;ImGui::SetNextWindowSize({std::min(620.f*scale,vp->WorkSize.x*.88f),std::min(720.f*scale,vp->WorkSize.y*.88f)},ImGuiCond_FirstUseEver);ImGui::SetNextWindowPos({vp->WorkPos.x+vp->WorkSize.x*.5f,vp->WorkPos.y+vp->WorkSize.y*.5f},ImGuiCond_FirstUseEver,{.5f,.5f});ImGui::SetNextWindowSizeConstraints({std::min(260.f*scale,vp->WorkSize.x),std::min(160.f*scale,vp->WorkSize.y)},vp->WorkSize);
-        if(!ImGui::Begin("Pixel classifiers",&open_)) {ImGui::End();browser_.draw(doc,blocked,mark);return;}
-        auto button=[&](const char* label,GuiInputTarget target,bool disabled,std::optional<ui::Icon> icon={}){ImGui::BeginDisabled(disabled);const bool clicked=(icon?ui::IconButton(label,*icon):ui::Button(label));const auto a=ImGui::GetItemRectMin(),b=ImGui::GetItemRectMax();targets_[index(target)]={a.x,a.y,b.x-a.x,b.y-a.y};mark(target);
+        ui::SetNextToolWindow("Pixel classifiers",{620,720},ui::ToolHeight::Content);
+        if(!ImGui::Begin(ui::i18n::label("Pixel classifiers").c_str(),&open_)) {ImGui::End();browser_.draw(doc,blocked,mark);return;}
+        const bool busy=stream_.busy() || archives_.busy() || training_.busy() || prediction_.busy() || contours_.busy() || io_.valid();const bool disabled=blocked || !has_image || busy;
+        std::optional<GuiInputTarget> primary_action;
+        if(!disabled) {
+            if(contours_ready() && !published_)primary_action=GuiInputTarget::PublishPixelContours;
+            else if(has_geos() && prediction_.result() && prediction_request_ && !published_)primary_action=GuiInputTarget::TracePixelContours;
+            else if(model_)primary_action=GuiInputTarget::PredictPixelClasses;
+            else if(has_classifier_training() && (selected_only_ || catalog_complete_))primary_action=GuiInputTarget::TrainPixelClassifier;
+        }
+        auto button=[&](const char* label,GuiInputTarget target,bool disabled,std::optional<ui::Icon> icon={}){
+            const char* caption=label;const auto action=primary_action==target?ui::design::Action::Primary:ui::design::Action::Secondary;
+            switch(target) {
+            case GuiInputTarget::TrainPixelClassifier:caption="Train classifier";break;
+            case GuiInputTarget::KeepPixelTraining:caption="Keep training data";break;
+            case GuiInputTarget::PredictPixelClasses:caption="Predict area";break;
+            case GuiInputTarget::TracePixelContours:caption="Trace contours";break;
+            case GuiInputTarget::PublishPixelContours:caption="Add annotations";break;
+            case GuiInputTarget::KeepPixelPrediction:caption="Keep result";break;
+            case GuiInputTarget::ExportPixelStream:caption="Export prediction file";break;
+            case GuiInputTarget::UsePixelRecordModel:caption="Use kept model";break;
+            case GuiInputTarget::PreviewPixelRecord:caption="Preview kept mask";break;
+            case GuiInputTarget::RemovePixelRecord:caption="Remove kept result";break;
+            case GuiInputTarget::CancelPixelClassifier:caption="Cancel";break;
+            default:break;
+            }
+            ImGui::BeginDisabled(disabled);const bool clicked=icon?ui::WorkflowIcon(label,caption,*icon):ui::WorkflowAction(label,caption,nullptr,action);const auto a=ImGui::GetItemRectMin(),b=ImGui::GetItemRectMax();targets_[index(target)]={a.x,a.y,b.x-a.x,b.y-a.y};mark(target);
             if(reveal_target_ && *reveal_target_==target) {if(!ImGui::IsItemVisible())ImGui::SetScrollHereY(.5f);else reveal_target_.reset();}
             ImGui::EndDisabled();return clicked;};
-        const bool busy=stream_.busy() || archives_.busy() || training_.busy() || prediction_.busy() || contours_.busy() || io_.valid();const bool disabled=blocked || !has_image || busy;
         if(training_stats_.state!="idle") ImGui::TextWrapped("Training: %s / %s (%llu/%llu tiles)",training_stats_.state.c_str(),training_stats_.phase.c_str(),static_cast<unsigned long long>(training_stats_.completed_tiles),static_cast<unsigned long long>(training_stats_.total_tiles));
         if(contour_state()!="idle") ImGui::TextWrapped("Contours: %s%s",contour_state().c_str(),published_?" (use Undo/Redo for this batch)":"");
         if(prediction_stats_.state!="idle") ImGui::TextWrapped("Prediction: %s (%llu/%llu tiles)",prediction_stats_.state.c_str(),static_cast<unsigned long long>(prediction_stats_.completed_tiles),static_cast<unsigned long long>(prediction_stats_.total_tiles));
         if(!error().empty()) ImGui::TextWrapped("%s",error().c_str());
         if(stream_stats_.state!="idle") ImGui::TextWrapped("Stream: %s (%llu/%llu blocks)%s",stream_stats_.state.c_str(),static_cast<unsigned long long>(stream_stats_.completed_blocks),static_cast<unsigned long long>(stream_stats_.total_blocks),stream_stats_.current?"":" / captured historical input");
-        if(button("Cancel pixel work",GuiInputTarget::CancelPixelClassifier,blocked || !busy,ui::Icon::Close)) {stream_.cancel();archives_.cancel();cancel_training();cancel_prediction();io_cancelled_.store(true);}
+        if(busy && button("Cancel pixel work",GuiInputTarget::CancelPixelClassifier,blocked || !busy,ui::Icon::Stop)) {stream_.cancel();archives_.cancel();cancel_training();cancel_prediction();io_cancelled_.store(true);}
         // Model I/O remains accessible without scrolling past feature settings.
         ImGui::BeginDisabled(blocked || busy);ui::InputText("Pixel model file",path_.data(),path_.size());ui::Checkbox("Replace an existing pixel model",&replace_);ImGui::EndDisabled();
         if(button("Save pixel model",GuiInputTarget::SavePixelModel,blocked || busy || !model_ || !path_[0],ui::Icon::Save)) file(true);ImGui::SameLine();if(button("Load pixel model",GuiInputTarget::LoadPixelModel,blocked || busy || !path_[0],ui::Icon::Open)) file(false);
@@ -203,7 +228,7 @@ public:
         if(ui::CollapsingHeader("Forest and memory settings")) {changed=ui::InputScalar("Trees",ImGuiDataType_U32,&parameters_.trees) || changed;changed=ui::InputScalar("Maximum depth",ImGuiDataType_U32,&parameters_.max_depth) || changed;changed=ui::InputScalar("Minimum samples",ImGuiDataType_U32,&parameters_.min_samples) || changed;changed=ui::InputScalar("Forest seed",ImGuiDataType_U64,&parameters_.seed) || changed;std::uint64_t mib=options_.work_bytes/(1024*1024);if(ui::InputScalar("Work limit (MiB)",ImGuiDataType_U64,&mib)) {options_.work_bytes=std::clamp<std::uint64_t>(mib,1,1024)*1024*1024;prediction_options_.work_bytes=options_.work_bytes;parameters_.work_bytes=options_.work_bytes;changed=true;}}
         if(changed) cancel_training();ImGui::EndDisabled();
         if(button("Train labelled areas",GuiInputTarget::TrainPixelClassifier,disabled || !has_classifier_training() || (!selected_only_ && !catalog_complete_))) {try {train(doc,selection,transform(options_.features.stains));}catch(const std::exception& e) {error_=e.what();}}
-        if(auto table=training_.table();table && ui::CollapsingHeader("Training cohort")) {ImGui::Text("%zu rows; %llu conflicting pixels excluded",table->row_count(),static_cast<unsigned long long>(table->ambiguous_pixels()));if(ImGui::BeginTable("Pixel cohort",3,ImGuiTableFlags_Borders|ImGuiTableFlags_RowBg)) {ImGui::TableSetupColumn("Class");ImGui::TableSetupColumn("Eligible");ImGui::TableSetupColumn("Used");ImGui::TableHeadersRow();for(std::size_t i=0;i<table->classes().size();++i) {ImGui::TableNextRow();ImGui::TableNextColumn();ImGui::TextUnformatted(table->classes()[i].c_str());ImGui::TableNextColumn();ImGui::Text("%llu",static_cast<unsigned long long>(table->eligible_class_pixels()[i]));ImGui::TableNextColumn();ImGui::Text("%llu",static_cast<unsigned long long>(table->sampled_class_counts()[i]));}ImGui::EndTable();}}
+        if(auto table=training_.table();table && ui::CollapsingHeader("Training data###Training cohort")) {ImGui::Text("%zu rows; %llu conflicting pixels excluded",table->row_count(),static_cast<unsigned long long>(table->ambiguous_pixels()));if(ImGui::BeginTable("Pixel cohort",3,ImGuiTableFlags_Borders|ImGuiTableFlags_RowBg)) {ImGui::TableSetupColumn("Class");ImGui::TableSetupColumn("Eligible");ImGui::TableSetupColumn("Used");ImGui::TableHeadersRow();for(std::size_t i=0;i<table->classes().size();++i) {ImGui::TableNextRow();ImGui::TableNextColumn();ImGui::TextUnformatted(table->classes()[i].c_str());ImGui::TableNextColumn();ImGui::Text("%llu",static_cast<unsigned long long>(table->eligible_class_pixels()[i]));ImGui::TableNextColumn();ImGui::Text("%llu",static_cast<unsigned long long>(table->sampled_class_counts()[i]));}ImGui::EndTable();}}
         if(button("Keep training cohort",GuiInputTarget::KeepPixelTraining,disabled || !training_request_ || !training_.table() || !training_.model())) archives_.keep(*training_request_,training_.table(),training_.model());
         ui::SeparatorText("Predict and review");
         ImGui::BeginDisabled(disabled);

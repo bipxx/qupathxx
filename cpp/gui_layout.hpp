@@ -292,13 +292,16 @@ inline bool CatalogEntry(const char* label,bool selected,const char* status=null
     if(status)ImGui::GetWindowDrawList()->AddText({at.x+width-trailing+design::spacing.sm*design::scale(),y},ImGui::GetColorU32(ImGuiCol_TextDisabled),status);
     observe(label);return pressed;
 }
-inline void SetNextToolWindow(const char* name,ImVec2 preferred) {
+enum class ToolHeight {Preferred,Content};
+inline void SetNextToolWindow(const char* name,ImVec2 preferred,ToolHeight height=ToolHeight::Preferred) {
     const auto* vp=ImGui::GetMainViewport();const float scale=design::scale();
     const float margin=std::min(12.f*scale,std::min(vp->WorkSize.x,vp->WorkSize.y)*.05f);
     const ImVec2 origin{vp->WorkPos.x+margin,vp->WorkPos.y+margin};
     const ImVec2 extent{std::max(1.f,vp->WorkSize.x-2*margin),std::max(1.f,vp->WorkSize.y-2*margin)};
     const ImVec2 minimum{std::min(260.f*scale,extent.x),std::min(160.f*scale,extent.y)};
-    ImGui::SetNextWindowSize({std::min(preferred.x*scale,extent.x),std::min(preferred.y*scale,extent.y)},ImGuiCond_FirstUseEver);
+    // Zero height asks ImGui to fit the first two frames; it does not force
+    // auto-resize later or replace persisted/manual/docked dimensions.
+    ImGui::SetNextWindowSize({std::min(preferred.x*scale,extent.x),height==ToolHeight::Content?0:std::min(preferred.y*scale,extent.y)},ImGuiCond_FirstUseEver);
     ImGui::SetNextWindowPos({origin.x+extent.x*.5f,origin.y+extent.y*.5f},ImGuiCond_FirstUseEver,{.5f,.5f});
     ImGui::SetNextWindowSizeConstraints(minimum,extent);
     if(auto* window=ImGui::FindWindowByName(i18n::label(name).c_str());window && !window->DockNode) {
@@ -324,14 +327,15 @@ inline void PaneTitle(const char* label) {
 }
 // A horizontal separator with a generous resize target; fraction owns the
 // lower pane's share. Both panes keep their own scrolling and content padding.
-inline void ResizeDivider(const char* id,float& fraction,float total,float minimum_lower,float minimum_upper) {
+inline bool ResizeDivider(const char* id,float& fraction,float total,float minimum_lower,float minimum_upper) {
     const float height=design::spacing.sm*design::scale();const auto at=ImGui::GetCursorScreenPos();
     ImGui::InvisibleButton(id,{available(),height});
     const bool hovered=ImGui::IsItemHovered(),active=ImGui::IsItemActive();
     if(hovered || active)ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeNS);
-    if(active && total>0)fraction=std::clamp(fraction-ImGui::GetIO().MouseDelta.y/total,std::max(.2f,minimum_lower/total),std::min(.75f,1-minimum_upper/total));
+    if(active && total>0)fraction=std::clamp(fraction-ImGui::GetIO().MouseDelta.y/total,std::max(.2f,minimum_lower/total),std::min(.98f,1-minimum_upper/total));
     const auto color=active?ImGuiCol_SeparatorActive:hovered?ImGuiCol_SeparatorHovered:ImGuiCol_Separator;
     ImGui::GetWindowDrawList()->AddLine({at.x,at.y+height*.5f},{at.x+ImGui::GetItemRectSize().x,at.y+height*.5f},ImGui::GetColorU32(color),design::scale());
+    return active;
 }
 struct PopupMenuRow {
     bool vertical=ImGui::GetCurrentWindow()->DC.LayoutType==ImGuiLayoutType_Vertical;

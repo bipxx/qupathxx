@@ -33,7 +33,43 @@ Use these owners instead of adding per-panel colors, font sizes or alternate
 button implementations. Scientific display channels, class colors, annotations,
 mask colors and image pixels remain owned by their existing rendering services.
 
+## Tool discovery and coverage
+
+The workbench Tools task shows a searchable grouped catalogue directly. Analyze
+uses the same inventory and handlers. Keep conditional entries visible with a
+translated requirement tooltip; preserve model/file browsers without an image.
+One native controller owns each tool; adding a route requires its inventory and
+handler binding. Existing toolbar, TMA and keyboard shortcuts remain available.
+The compact API inspector keeps a compact Tools section. TMA, density and raw
+result collections use bounded content height rather than fixed blank boxes.
+TMA, object/pixel/raw classifiers and quantitative-channel tool frames share
+viewport constraints and first-open content fit. Explicit user sizes and saved
+or docked geometry take precedence after that first fit; advanced controls remain
+scrollable. No continuously forced auto-resize is applied to these tools.
+See [the UI feature coverage map](ui-feature-coverage.md) for parent/child surfaces
+and the boundary between navigation checks and reused scientific evidence.
+
 ## Image inspector
+
+Primary panel headings share a draggable title and a Panel layout icon. The
+shared menu provides Dock on left, Dock on right, Stack on right and Float
+panel. Moving a panel retains its state; the activity rail reveals it in its
+current dock. Dock splitters resize the viewer and inspectors. Ordinary tool
+windows retain native tabs and close controls; primary sidebars keep their
+tab-free headings. A group containing Slide and an inspector retains visible
+tabs, so docking over the viewer cannot make the slide unreachable. Layout
+preferences never enter project data.
+
+At roomy widths, Project/Annotations share the left dock. Compact Image controls
+sit above Workflow to the right of the slide, using space that a full-height
+inspector left empty. Narrow or highly scaled windows start with one sidebar.
+Old single-left defaults gain the right inspector stack; existing custom
+splits remain intact. Reset layout restores the responsive default.
+
+The Project image list ends at its content when short, releasing space to Image
+metadata. Large lists remain bounded and virtualized. An explicitly adjusted
+divider persists and stays fixed while filtering; its first drag starts from
+the divider's displayed position.
 
 Keep the image identity, Display and Calibration sections flat. The literal image
 name and dimensions form a compact summary; pyramid/reader/source details belong
@@ -58,6 +94,38 @@ the existing Region controls and reveals their single input disclosure. No new
 scientific parameter writer or inferred origin flag is introduced.
 Preview source-buffer controls appear only after an
 overview failure, alongside its error and memory-limit explanation.
+
+## Workflow actions and result presentation
+
+Use text verbs for scientific actions and familiar icons for utilities. The
+primary role follows the available workflow stage; secondary operations retain
+normal styling. Keep existing command IDs, replay targets and keyboard handlers
+when shortening visible captions. Shortcut hints belong in tooltips, with their
+accessible action names retained.
+
+Add annotations/Add cells creates document objects. Keep result/Keep training
+data retains a native record. Save project writes project state to disk; Export
+CSV writes an external table. These remain separate operations. Stop/Cancel is
+a busy-state action; the native title/tab X hides the tool independently.
+
+Object edits and color/reported-probability edits are independent drafts. Their
+Apply buttons name the affected properties, are disabled when unchanged, and
+must preserve the other pending draft across Apply and Undo.
+
+Region has one Analysis inputs area: current mode, white reference and target,
+an explicitly applied saved profile, and one Advanced inputs route. Preview and
+kept summaries use each native result's captured kind, units and identity. The
+same-session preview identified by a successful native Keep ID/generation has
+one kept summary; a different preview retains a separate summary. Never infer
+identity from matching numbers. View kept results uses native record availability
+and opens the corresponding family/current-image table, including older records
+whose stale/recheck state remains visible.
+
+Tables use one CSV file field and Export CSV action. Decision-changing errors,
+source protection, currentness and loss acknowledgments stay visible; technical
+background belongs in Details. Measurement rows may combine physical/pixel
+units without changing native values. Compact numeric fields retain full editable
+round-trip precision and leave exact inputs unchanged on focus/blur.
 
 ## Tokens and components
 
@@ -219,7 +287,7 @@ Data colors and scientific rendering remain separate from these chrome rules.
 | Border | `#2a2a2a` | `#d4d6d1` |
 | Accent | `#b8b8b8` | `#343e38` |
 
-Dark is the default, matching COLMAP WebView. **View > Appearance** offers Dark,
+Dark is the default, matching COLMAP WebView. **Settings > Appearance** offers Dark,
 Light and System, with immediate application and a separate workspace `.ini`
 preference. Reset layout retains appearance and language. System follows Windows
 app appearance and macOS appearance; Linux reads `GTK_THEME`, falling back to
@@ -525,3 +593,31 @@ Rows retain literal names and stable ### object IDs, kind and appearance cues.
 Filtered ranges follow displayed order through the shared native helper. Hidden
 selected objects get an explicit Show all action; canvas picks never change the
 user’s filter automatically.
+
+
+## Inspector docking and visibility contract
+
+Image belongs on the left or floats; Workflow defaults to the right when the
+viewport has room. Project/Annotations retain movable side/floating placement.
+The workspace enforces Image placement after commands, native drag/drop and
+preference restoration. Narrow/scaled defaults keep one side to protect the
+viewer. Valid custom splits and normal scientific tool docking remain available.
+
+Every primary pane closes and reopens. Docked headings expose Close and layout;
+floating panes use one native title, X, border, resize and first content fit.
+Later manual/saved dimensions remain stable. The layout menu includes Hide.
+The active left activity button hides the whole left group; clicking again
+reveals that pane. View, keyboard and task routing always reveal their target.
+Right and floating panes are independent. No hidden inspector retains a blank
+viewer slot, active hit targets or a selected activity marker.
+
+Visibility is workspace preference state, never project/scientific data. Keep
+native polling alive when an inspector hides: the current continuous inspector
+bodies use a private noninteractive, unsaved host while their real pane is not
+submitted. Reset restores all primary panes. Preserve the second-line language
+preference, source protection and atomic bounded layout writer.
+
+Named child-tool search displays the parent caption and opens the existing
+controller with the parent's prerequisites. TMA export-only warnings and paths
+belong under Export; import preview commands require a preview and cancellation
+requires a running operation. Errors/status remain visible independently.

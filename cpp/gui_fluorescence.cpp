@@ -3,6 +3,7 @@
 #include "gui_dark_flat.hpp"
 #include "gui_linear_unmixing.hpp"
 #include "gui_layout.hpp"
+#include "gui_workflow_ui.hpp"
 #include "qupathxx/image_data_properties.hpp"
 #include "qupathxx/workflow.hpp"
 #include <GLFW/glfw3.h>
@@ -122,8 +123,9 @@ struct GuiFluorescence::Impl {
         ImGui::BeginDisabled(busy() || blocked);if(ui::Checkbox("Process by tiles",&tiling)){invalidate();state="idle";}mark(Action::Tiling);
         if(tiling){if(ui::InputText("Tiled results folder",tile_directory.data(),tile_directory.size())){invalidate();state="idle";}ui::TextWrapped("Run again with matching inputs to verify and resume saved tiles.");}ImGui::EndDisabled();
         ImGui::BeginDisabled(busy() || blocked || correction.busy() || unmixing.busy());const bool can_run=doc.server()->reader_id()=="tiff" && (!use_selected || selected) && (!use_correction || chosen_correction) && (!use_unmixing || chosen_unmixing);
-        ImGui::BeginDisabled(!can_run);if(ui::Button(tiling?"Run / resume tiles":"Run fluorescence"))attempt([&]{start(doc,selected);});mark(Action::Run);ImGui::EndDisabled();ImGui::EndDisabled();
-        ImGui::BeginDisabled(!busy());if(ui::Button("Cancel fluorescence")){job.cancel();cancel.store(true);discard_contours=true;if(!pending_replay.empty()){unmixing.cancel();pending_replay.clear();pending_unmix.clear();}state="cancelling";}mark(Action::Cancel);ImGui::EndDisabled();
+        ImGui::BeginDisabled(!can_run);if(ui::WorkflowAction(tiling?"Run / resume tiles":"Run fluorescence",tiling?"Run or resume tiles":"Run analysis",nullptr,!run?ui::design::Action::Primary:ui::design::Action::Secondary))attempt([&]{start(doc,selected);});mark(Action::Run);ImGui::EndDisabled();ImGui::EndDisabled();
+        bounds[std::size_t(Action::Cancel)]={};
+        if(busy()) {if(ui::WorkflowIcon("Cancel fluorescence","Cancel",ui::Icon::Stop)){job.cancel();cancel.store(true);discard_contours=true;if(!pending_replay.empty()){unmixing.cancel();pending_replay.clear();pending_unmix.clear();}state="cancelling";}mark(Action::Cancel);}
         ui::Text("Fluorescence state: %s",state.c_str());
         if(tiled_report){const auto& report=*tiled_report;
             ui::Text("Complete cells: %llu / tiles: %zu",(unsigned long long)report.cells,report.tiles);ui::Text("Reused tiles: %zu / segmented: %zu",report.reused_tiles,report.segmented_tiles);
@@ -137,16 +139,16 @@ struct GuiFluorescence::Impl {
             if(sampled)ui::TextWrapped("Preview is sampled to at most1024 pixels per axis; analysis retains the original lattice.");
         }
         ImGui::BeginDisabled(blocked || busy() || !run || published || !has_geos() || (run && run->raster().measurements.empty()));
-        if(ui::Button("Keep fluorescence cells"))attempt([&]{require_current_fluorescence_cells(doc,*request,*run);cancel.store(false);discard_contours=false;const auto snapshot=run;TissueContourOptions limit;limit.work_bytes=options.work_bytes;
+        if(ui::WorkflowAction("Keep fluorescence cells","Add cells",nullptr,run && !published && has_geos() && !run->raster().measurements.empty()?ui::design::Action::Primary:ui::design::Action::Secondary))attempt([&]{require_current_fluorescence_cells(doc,*request,*run);cancel.store(false);discard_contours=false;const auto snapshot=run;TissueContourOptions limit;limit.work_bytes=options.work_bytes;
             contours=std::async(std::launch::async,[this,snapshot,limit]{return trace_fluorescence_cells(snapshot,limit,&cancel);});state="tracing";});mark(Action::KeepCells);ImGui::EndDisabled();
         if(published)ui::Text("Published cell objects: %zu (Undo available)",count);
         if(!has_geos())ui::TextWrapped("Cell objects require GEOS. Run records remain available.");
-        ImGui::BeginDisabled(blocked || busy() || !run || !kept.empty());if(ui::Button("Keep fluorescence run"))attempt([&]{kept=keep_fluorescence_cell_run(doc,*request,*run);last_kept=kept;record=kept;records_dirty=true;});mark(Action::KeepRecord);ImGui::EndDisabled();
+        ImGui::BeginDisabled(blocked || busy() || !run || !kept.empty());if(ui::WorkflowAction("Keep fluorescence run","Keep result",nullptr,run && (published || !has_geos() || run->raster().measurements.empty()) && kept.empty()?ui::design::Action::Primary:ui::design::Action::Secondary))attempt([&]{kept=keep_fluorescence_cell_run(doc,*request,*run);last_kept=kept;record=kept;records_dirty=true;});mark(Action::KeepRecord);ImGui::EndDisabled();
         if(!kept.empty())ui::TextWrapped("Retained record: %s",kept.c_str());
         if(run && !run->raster().measurements.empty() && ui::CollapsingHeader("Inspect compartment measurements"))measurements();
         ImGui::BeginDisabled(busy() || blocked || unmixing.busy() || correction.busy());if(ui::BeginCombo("Saved fluorescence record",record.empty()?"None":record.c_str())){for(const auto& id:records)if(ImGui::Selectable(id.c_str(),id==record))record=id;ui::EndCombo();}
-        ImGui::BeginDisabled(record.empty());if(ui::Button("Replay fluorescence record"))attempt([&]{replay(doc);});mark(Action::Replay);
-        if(ui::Button("Remove fluorescence record"))attempt([&]{const auto removing=record;remove_fluorescence_cell_record(doc,removing);if(kept==removing)kept.clear();records_dirty=true;});mark(Action::Remove);ImGui::EndDisabled();ImGui::EndDisabled();
+        ImGui::BeginDisabled(record.empty());if(ui::WorkflowAction("Replay fluorescence record","Recheck result"))attempt([&]{replay(doc);});mark(Action::Replay);
+        if(ui::WorkflowAction("Remove fluorescence record","Remove result"))attempt([&]{const auto removing=record;remove_fluorescence_cell_record(doc,removing);if(kept==removing)kept.clear();records_dirty=true;});mark(Action::Remove);ImGui::EndDisabled();ImGui::EndDisabled();
         ui::TextWrapped("Replay verifies retained analysis identity. Later edits to published cells do not recompute observed intensities.");
         if(!error.empty())ui::TextWrapped("Fluorescence: %s",error.c_str());
         if(ui::CollapsingHeader("Fluorescence settings"))settings(blocked,selected);
@@ -188,6 +190,7 @@ struct GuiFluorescence::Impl {
 GuiFluorescence::GuiFluorescence():impl_(std::make_unique<Impl>()){}
 GuiFluorescence::~GuiFluorescence()=default;
 void GuiFluorescence::open(){impl_->open=true;}
+void GuiFluorescence::open_marker_rules(){impl_->markers.open();}
 void GuiFluorescence::poll(Document& doc,bool blocked){impl_->poll(doc,blocked);}
 void GuiFluorescence::draw(Document& doc,std::uint64_t selected,bool blocked){auto& s=*impl_;s.poll(doc,blocked);s.correction.draw(doc,blocked || s.busy());if(auto chosen=s.correction.take_selection()){try{set_correction(*chosen);s.open=true;}catch(const std::exception& e){s.error=e.what();}}s.unmixing.draw(doc,blocked || s.busy());if(auto chosen=s.unmixing.take_selection()){try{set_unmixing(*chosen);s.open=true;}catch(const std::exception& e){s.error=e.what();}}s.markers.draw(doc,selected,blocked);s.bounds={};if(!s.open)return;
     ui::SetNextToolWindow("Fluorescence cells",{560,860});if(ImGui::Begin("Fluorescence cells",&s.open)){s.controls(doc,selected,blocked);}ImGui::End();}
