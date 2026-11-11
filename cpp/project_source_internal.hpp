@@ -2,11 +2,13 @@
 #include "qupathxx/project_source.hpp"
 #include <mutex>
 namespace qpx {
+namespace detail {struct ReaderPluginLink;}
 struct ProjectSourceReview::Impl {
     std::uint64_t image=0;
     std::string instance,previous_path,previous_generation,path,comparison,coverage;
     std::shared_ptr<const SourceFileAssociation> baseline,association;
     std::shared_ptr<ImageServer> candidate;
+    std::shared_ptr<const detail::ReaderPluginLink> previous_plugin_link;
     mutable std::mutex mutex;bool consumed=false;
 };
 namespace detail {

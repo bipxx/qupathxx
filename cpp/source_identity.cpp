@@ -7,6 +7,7 @@
 #endif
 #include "qupathxx/source_identity.hpp"
 #include "reader_file_guard.hpp"
+#include "reader_plugin_link.hpp"
 #include "export_output.hpp"
 #include "utf8_text.hpp"
 #include "file_identity_contract.hpp"
@@ -114,6 +115,7 @@ std::string source_file_association_json(const SourceFileAssociation& a) {
 }
 namespace detail {
 bool same_reader_files(const ReaderSource& a,const ReaderSource& b) {
+    if((is_reader_plugin_binding(a.reader) || is_reader_plugin_binding(b.reader)) && a.reader!=b.reader)return false;
     auto same=[](const FileVersion& x,const FileVersion& y) {
         return x.identity_scheme==y.identity_scheme && x.identity==y.identity && x.bytes==y.bytes &&
             x.stamp_scheme==y.stamp_scheme && x.modified_token==y.modified_token && x.change_token==y.change_token;

@@ -7,6 +7,41 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
+## Delivered integration - native workflows, SDK and format catalogs
+
+Owner-selected seven-gap source integration is complete: GeneView QC controls;
+A02 summaries/pseudobulk; A03 PCA/clustering; A04 replicate Welch/BH; native SDK/
+material tooling; image reader plugins/saved sources; matrix/annotation catalogs.
+Retained release/archive authorities join the current main UI without a new
+algorithm, format, Python binding, optional workbench phase or release publication.
+Root integrated; three agents restored/reviewed bounded native/reader/SDK lanes.
+
+Decisive evidence: [integration receipt](benchmarks/native-format-closeout/README.md)
+and workspace build/native-format-closeout/results.json.55 cheap checks pass
+(one existing Windows symlink skip); five molecular suites,20 reader/family
+commands (18loader/13saved-project cases,7H5AD oracles),11GUI routes and two
+plugin startup smokes pass. Copied NuCLS Draw/Run/Keep/View/exact CSV/GUI Save/
+reopen/Recheck preserves original identities/calibration/raw data. A fresh184-file
+relocated SDK compiles119 headers and both consumers; new/historical plugin
+projects and A01-A04 replay/CSV pass. Python-disabled root configure registers all
+19 selected targets. No engine/binding build;14 libraries/38 objects stay exact.
+
+181 core units/430 dependencies match frozen bc8 authorities (243raw exact,
+187EOL-only). Engine identity remains bc8;859-input final consumer context is
+f7f6693c. Native SDK metadata matches its actual engine; root configure metadata
+is separate. Test-only placement/save-observation changes preserve all original
+assertions, tolerances and the100-frame bound. Source/failed/passing evidence is
+retained. Controller corrections covered notices/product/UTF-16/fixture paths and
+Windows temporary-path limits; no scientific assertion was weakened. Optional
+Claude planning timed out; three scoped source reviews and executable checks pass.
+
+The scoped source commit/main merge is recorded in workspace
+build/native-format-closeout/merge.json. Stop at that handoff. Preserve candidate8/
+a10 products, recovery archives and local SDK/runtime. A02-A04 GUI/Python consumers
+and broader platform/biological/parity claims remain separate. The owner's earlier
+main-push authorization applies after the verified source merge; no new artifact
+publication is selected.
+
 ## Delivered integration - workflow simplification on main
 
 Owner requests merging the verified UI milestone. The main-based integration

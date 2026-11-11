@@ -11,6 +11,9 @@
 
 namespace qpx::detail {
 class GuiGeneDisplay {
+public:
+    enum class Action {Qc,Raw,Normalized,LogNormalized,Keep,Apply,Remove,GenesTab,MolecularTab};
+private:
     GeneViewSession session_{256u*1024*1024};
     GuiBackedGenes backed_;
     std::map<std::string,ExpressionMatrixSpatialScope> backed_sources_;
@@ -28,6 +31,36 @@ class GuiGeneDisplay {
     std::unique_ptr<GuiTiles> comparison_tiles_;
     Viewport comparison_view_;
     ImVec2 comparison_size_{};
+    std::array<Rect,9> molecular_bounds_{};std::array<bool,9> molecular_enabled_{};
+    std::vector<std::string> normalization_ids_;int normalization_record_=0,qc_observation_=0;
+    double normalization_target_=10000;
+    void molecular(Project* project,std::uint64_t image,bool blocked){
+        const bool busy=session_.busy() || backed_.busy();const bool raw=backed_.raw_counts();
+        auto button=[&](Action action,const char* label,bool disabled,auto run){ImGui::BeginDisabled(disabled);const bool pressed=ui::Button(label);const auto a=ImGui::GetItemRectMin(),b=ImGui::GetItemRectMax();molecular_bounds_[std::size_t(action)]={a.x,a.y,b.x-a.x,b.y-a.y};molecular_enabled_[std::size_t(action)]=!disabled && ImGui::IsItemVisible();ImGui::EndDisabled();if(pressed)try{run();error_.clear();}catch(const std::exception& e){error_=e.what();}};
+        if(!raw)ui::TextWrapped("QC requires a full indexed raw-count matrix. Projected or continuous values cannot supply a raw library.");
+        button(Action::Qc,"Compute full-source QC",blocked || busy || !raw || bool(session_.qc_result()),[&]{session_.request_qc();});
+        ImGui::BeginDisabled(blocked || busy || !raw);ui::InputDouble("Library target",&normalization_target_,0,0,"%.10g");ImGui::EndDisabled();
+        button(Action::Raw,"Use raw counts",blocked || busy || !raw,[&]{session_.raw_values();});ImGui::SameLine();
+        button(Action::Normalized,"Use normalized",blocked || busy || !raw,[&]{session_.normalize({normalization_target_,false});});
+        button(Action::LogNormalized,"Use log1p normalized",blocked || busy || !raw,[&]{session_.normalize({normalization_target_,true});});
+        if(const auto qc=session_.qc_result()){
+            ui::Text("QC capture: %llu features / %llu observations",static_cast<unsigned long long>(qc->features()),static_cast<unsigned long long>(qc->totals().size()));
+            ui::InputInt("Source observation index (0 based)",&qc_observation_);qc_observation_=std::clamp(qc_observation_,0,int(qc->totals().size()-1));const auto row=std::size_t(qc_observation_);
+            ui::Text("Raw library total: %llu",static_cast<unsigned long long>(qc->totals()[row]));ui::Text("Detected features: %llu",static_cast<unsigned long long>(qc->detected_features()[row]));
+            if(!qc->totals()[row])ui::TextWrapped("Zero library: normalized values are valid zeros; group fractions are undefined.");
+            for(std::size_t g=0;g<qc->groups().size();++g){const auto fraction=qc->group_fraction(g,row);ui::TextWrapped("%s: %llu",qc->groups()[g].name.c_str(),static_cast<unsigned long long>(qc->group_totals()[g*qc->totals().size()+row]));if(fraction)ui::Text("Fraction: %.10g",*fraction);else ui::TextUnformatted("Fraction: undefined");}
+        }
+        const bool context=project && image && project->document(image).get()==document_;
+        button(Action::Keep,"Keep normalization recipe",blocked || busy || !context || !session_.normalization_result(),[&]{keep_expression_normalization(*project,image,*session_.normalization_result());});
+        if(!normalization_ids_.empty()){
+            normalization_record_=std::clamp(normalization_record_,0,int(normalization_ids_.size()-1));const auto& selected=normalization_ids_[normalization_record_];
+            if(ui::BeginCombo("Saved normalization",selected.substr(0,12).c_str())){for(std::size_t i=0;i<normalization_ids_.size();++i)if(ImGui::Selectable(normalization_ids_[i].substr(0,12).c_str(),i==std::size_t(normalization_record_)))normalization_record_=int(i);ImGui::EndCombo();}
+            button(Action::Apply,"Apply saved normalization",blocked || busy || !context || !raw,[&]{session_.restore_normalization(expression_normalization_recipe(*project,image,normalization_ids_[normalization_record_]));normalization_target_=session_.normalization_options().target_sum;});
+            button(Action::Remove,"Remove saved normalization",blocked || busy || !context,[&]{remove_expression_normalization(*project,image,normalization_ids_[normalization_record_]);});
+        }
+        if(session_.uses_normalized_values())ui::TextWrapped("Values: %s library-size normalized; target %.10g. Raw counts are unchanged.",session_.normalization_options().log1p?"log1p":"linear",session_.normalization_options().target_sum);
+        else ui::TextWrapped("Values: original source. Normalization uses all source features, not displayed genes.");
+    }
     static ImU32 color(const std::array<std::uint8_t,4>& c) {return IM_COL32(c[0],c[1],c[2],c[3]);}
     void choose(unsigned index,GeneViewOptions& options,bool& changed) {
         if(backed_sources_.count(source_)){backed_.choose(index,options,changed);return;}
@@ -51,6 +84,7 @@ class GuiGeneDisplay {
     void legend(const GeneDisplayField& field) const {
         ui::TextWrapped("%s",field.feature.c_str());
         const char* units=field.legend.domain==ExpressionValueDomain::Counts?"counts":"continuous expression";
+        if(session_.uses_normalized_values())units=session_.normalization_options().log1p?"log1p library-size normalized":"library-size normalized";
         ui::TextWrapped("%.6g to %.6g %s%s%s",field.legend.lower,field.legend.upper,
             field.legend.transform==GeneDisplayTransform::Log1p?"log1p(":"",units,field.legend.transform==GeneDisplayTransform::Log1p?")":"");
         const auto origin=ImGui::GetCursorScreenPos();const float width=ui::available(),height=10*ui::design::scale();
@@ -128,12 +162,15 @@ public:
     }
     std::string preference() const {return gene_workspace_preference(session_.options(),source_);}
     const GeneViewSession& session() const {return session_;}
+    const std::string& error()const{if(!error_.empty())return error_;if(!backed_.error().empty())return backed_.error();return session_.error();}
+    Rect molecular_bounds(Action action)const{return molecular_bounds_.at(std::size_t(action));}
+    bool molecular_enabled(Action action)const{return molecular_enabled_.at(std::size_t(action));}
     std::shared_ptr<const ExpressionFeaturePage> backed_catalogue(unsigned index)const{return backed_.catalogue(index);}
     Rect catalogue_next_bounds(unsigned index)const{return backed_.next_bounds(index);}
     Rect catalogue_feature_bounds(unsigned index,std::uint64_t feature)const{return backed_.feature_bounds(index,feature);}
     bool settled() const {return !session_.busy() && !backed_.busy() && (!comparison_tiles_ || !comparison_tiles_->pending());}
     void update(Document& document,bool has_image,const Project* project=nullptr,std::uint64_t image=0) {
-        session_.poll();if(!has_image) {if(document_)session_.clear();backed_.clear();backed_.poll(document,session_);registered_.reset();document_=nullptr;server_.reset();comparison_tiles_.reset();return;}
+        session_.poll();if(!has_image) {if(document_)session_.clear();backed_.clear();backed_.poll(document,session_);registered_.reset();document_=nullptr;server_.reset();comparison_tiles_.reset();normalization_ids_.clear();return;}
         if(!open_ && !session_.options().enabled){backed_.poll(document,session_);return;}
         static const std::string empty_path;
         const auto& project_path=project?project->path():empty_path;
@@ -150,9 +187,10 @@ public:
             if(source_.empty()) {session_.clear();backed_.clear();error_=sources_.empty()?"No imported spatial expression points on this plane.":"Choose an expression source.";backed_.poll(document,session_);return;}
             if(const auto scope=backed_sources_.find(source_);scope!=backed_sources_.end()) {
                 if(!project || !image)throw std::invalid_argument("Open the containing project to read indexed expression");
+                normalization_ids_=expression_normalization_ids(*project,image,scope->second.matrix_source_sha256);
                 backed_.bind(*project,image,scope->second,document,session_);backed_.poll(document,session_);error_.clear();return;
             }
-            backed_.clear();
+            backed_.clear();normalization_ids_.clear();
             ExpressionCaptureOptions options;options.coordinate_frame="image-level-zero-px";options.plane=plane_;options.source_id=source_;
             auto dataset=ExpressionDataset::capture(document,options);registered_=active_registration_field(document,dataset);
             session_.bind(std::move(dataset));session_.poll();error_.clear();
@@ -163,7 +201,8 @@ public:
         const auto pair=session_.result();if(!session_.options().enabled || !pair)return;
         points(draw,*pair->fields[0],view,offset,size,ImGui::IsWindowHovered());
     }
-    void draw(const DisplaySettings& display) {
+    void draw(const DisplaySettings& display,Project* project=nullptr,std::uint64_t image=0,bool blocked=false) {
+        molecular_bounds_={};molecular_enabled_={};
         if(open_) {
             ui::SetNextToolWindow("Gene expression",{440,730});if(ImGui::Begin("Gene expression",&open_)) {
                 ui::TextWrapped("Spot centers; glyph size is display only. Source counts are unchanged.");
@@ -173,12 +212,17 @@ public:
                     for(const auto& source:sources_)if(ImGui::Selectable(source_label(source).c_str(),source_==source)) {source_=source;revision_=std::numeric_limits<std::uint64_t>::max();session_.clear();backed_.clear();}
                     ImGui::EndCombo();
                 }
+                if(ImGui::BeginTabBar("Expression views")){
+                auto tab=[&](const char* label,Action action){const bool shown=ImGui::BeginTabItem(label);const auto a=ImGui::GetItemRectMin(),b=ImGui::GetItemRectMax();molecular_bounds_[std::size_t(action)]={a.x,a.y,b.x-a.x,b.y-a.y};molecular_enabled_[std::size_t(action)]=ImGui::IsItemVisible();return shown;};
+                if(tab("Genes",Action::GenesTab)){
                 auto options=session_.options();bool changed=ui::Checkbox("Show expression overlay",&options.enabled);
                 if(session_.dataset() || backed_.ready()) {
-                    choose(0,options,changed);changed=ui::Checkbox("Compare two genes",&options.compare)||changed;
+                    ImGui::BeginDisabled(session_.busy());choose(0,options,changed);changed=ui::Checkbox("Compare two genes",&options.compare)||changed;
                     if(options.compare) {choose(1,options,changed);changed=ui::Checkbox("Shared range",&options.shared_range)||changed;}
+                    ImGui::EndDisabled();
                     int transform=int(options.display.transform),range=int(options.display.range),palette=int(options.display.palette);
-                    if(ui::Combo("Display transform",&transform,"Linear\0Log1p\0")) {options.display.transform=static_cast<GeneDisplayTransform>(transform);changed=true;}
+                    const bool logged=session_.uses_normalized_values() && session_.normalization_options().log1p;ImGui::BeginDisabled(logged);
+                    if(ui::Combo("Display transform",&transform,"Linear\0Log1p\0")) {options.display.transform=static_cast<GeneDisplayTransform>(transform);changed=true;}ImGui::EndDisabled();if(logged)ui::TextDisabled("Values already use log1p; display stays linear.");
                     if(ui::Combo("Display range",&range,"Min / max\0Percentile\0Manual\0")) {options.display.range=static_cast<GeneDisplayRange>(range);changed=true;}
                     if(range==int(GeneDisplayRange::Percentile)) {changed=ui::InputDouble("Lower percentile",&options.display.lower_percentile)||changed;changed=ui::InputDouble("Upper percentile",&options.display.upper_percentile)||changed;}
                     if(range==int(GeneDisplayRange::Manual)) {changed=ui::InputDouble("Lower display value",&options.display.lower)||changed;changed=ui::InputDouble("Upper display value",&options.display.upper)||changed;}
@@ -186,6 +230,9 @@ public:
                     changed=ui::InputDouble("Opacity",&options.display.opacity)||changed;changed=ui::InputDouble("Glyph radius (screen px)",&options.radius)||changed;
                 }
                 if(changed)try {session_.configure(std::move(options));if(session_.dataset())error_.clear();}catch(const std::exception& e){error_=e.what();}
+                ImGui::EndTabItem();}
+                if(tab("QC / normalization",Action::MolecularTab)){molecular(project,image,blocked);ImGui::EndTabItem();}
+                ImGui::EndTabBar();}
                 if(ui::Button("Refresh expression")) {revision_=std::numeric_limits<std::uint64_t>::max();backed_.refresh();session_.refresh();}
                 if(session_.busy() || backed_.busy()) {ImGui::SameLine();if(ui::Button("Cancel display")){session_.cancel();backed_.cancel();}ui::TextDisabled("Updating expression...");}
                 if(!error_.empty())ui::TextWrapped("%s",error_.c_str());if(!session_.error().empty())ui::TextWrapped("%s",session_.error().c_str());

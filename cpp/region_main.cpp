@@ -1,11 +1,12 @@
-#include "reader_provenance.hpp"
+#include "reader_registry.hpp"
+#include "format_family_catalog.hpp"
+#include "reader_plugin.hpp"
 #include "qupathxx/core.hpp"
 #include "qupathxx/thumbnail.hpp"
 #include "qupathxx/resampling.hpp"
 #include "qupathxx/raw_image.hpp"
 #include "raw_cli.hpp"
 #include "decimal_quantity.hpp"
-#include "ascii_case.hpp"
 #include <fstream>
 #include <filesystem>
 #include <iostream>
@@ -20,7 +21,35 @@ std::int64_t number(const char* text) {
     return value;
 }
 static int launch(int argc, char** argv) {
-    if(argc>1 && std::string(argv[1])=="--raw") return raw_region_cli(argc,argv);
+    std::vector<char*> plugin_arguments;
+    if(argc>1 && std::string(argv[1])=="--reader-plugins") {
+        if(argc<4){std::cerr<<"Usage: qupathxx_region --reader-plugins ABS_MANIFEST [--readers | display region arguments]\n";return 2;}
+        try {qpx::detail::configure_reader_plugins(argv[2]);}
+        catch(const std::exception& error){std::cerr<<error.what()<<'\n';return 2;}
+        plugin_arguments.push_back(argv[0]);for(int i=3;i<argc;++i)plugin_arguments.push_back(argv[i]);
+        plugin_arguments.push_back(nullptr);argc-=2;argv=plugin_arguments.data();
+    }
+    if(argc>1 && std::string(argv[1])=="--formats") {
+        if(argc!=2) {std::cerr<<"Usage: qupathxx_region --formats\n";return 2;}
+        std::cout<<qpx::detail::format_family_catalog_json();return 0;
+    }
+    if(argc>1 && std::string(argv[1])=="--readers") {
+        if(argc!=2) {std::cerr<<"Usage: qupathxx_region --readers\n";return 2;}
+        std::cout<<qpx::detail::reader_catalog_json(qpx::detail::reader_features());return 0;
+    }
+    std::string requested_reader="auto";
+    std::vector<char*> display_arguments;
+    const bool explicit_reader=argc>1 && std::string(argv[1])=="--reader";
+    if(explicit_reader) {
+        if(argc<4) {std::cerr<<"Usage: qupathxx_region --reader ID [display region arguments]\n";return 2;}
+        requested_reader=argv[2];display_arguments.push_back(argv[0]);
+        for(int i=3;i<argc;++i)display_arguments.push_back(argv[i]);
+        display_arguments.push_back(nullptr);argc-=2;argv=display_arguments.data();
+    }
+    if(argc>1 && std::string(argv[1])=="--raw") {
+        if(explicit_reader) {std::cerr<<"--reader applies only to display region modes; --raw uses TIFF explicitly\n";return 2;}
+        return raw_region_cli(argc,argv);
+    }
     const bool resample=argc>1 && std::string(argv[1])=="--resample";
     const bool thumbnail=argc>1 && std::string(argv[1])=="--thumbnail";
     const bool nominal=argc>1 && std::string(argv[1])=="--rgb-nominal";
@@ -30,6 +59,10 @@ static int launch(int argc, char** argv) {
                      "       qupathxx_region --thumbnail IMAGE MAX_WIDTH MAX_HEIGHT OUTPUT.pam [--source-pixels PIXELS]\n"
                      "       qupathxx_region --resample IMAGE X Y LEVEL SOURCE_WIDTH SOURCE_HEIGHT WIDTH HEIGHT OUTPUT.pam\n"
                      "       qupathxx_region --rgb-nominal IMAGE X Y SOURCE_WIDTH SOURCE_HEIGHT DOWNSAMPLE OUTPUT.pam [--sampling integer-origin|affine-inverse]\n"
+                     "       qupathxx_region --readers\n"
+                     "       qupathxx_region --formats\n"
+                     "       qupathxx_region --reader ID [any display region mode above]\n"
+                     "       qupathxx_region --reader-plugins ABS_MANIFEST [--readers | display region arguments]\n"
                      "Level-zero X/Y; output WIDTH/HEIGHT at LEVEL. PPM uses dense reader.\n";
         return 2;
     }
@@ -51,10 +84,9 @@ static int launch(int argc, char** argv) {
             }
             nominal_request.emplace(number(argv[3]),number(argv[4]),number(argv[5]),number(argv[6]),*step,sampling);
         }
-        auto extension=std::filesystem::u8path(path).extension().u8string();
-        qpx::detail::ascii_lower_in_place(extension);
-        auto server = extension == ".ppm"
-            ? qpx::ppm_image_server(path) : qpx::has_tiff() && qpx::is_ome_tiff_path(path)?qpx::open_tiff(path):qpx::open_slide(path);
+        const auto selection=qpx::detail::select_reader(path,requested_reader,
+            qpx::detail::ReaderPolicy::RegionCli,qpx::detail::reader_features());
+        auto server=qpx::detail::open_reader(path,selection,{},nullptr);
         std::shared_ptr<const qpx::ThumbnailResult> preview;
         std::optional<qpx::PixelBuffer> explicit_region;
         if(nominal) {

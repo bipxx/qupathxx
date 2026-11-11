@@ -1,15 +1,16 @@
 # QuPath workflow inventory
 
-Selected next phase: [open-format fluorescence and spatial counts](fluorescence-omics-plan.md).
-Native TIFF/raw ROI measurements, explicit-axis batch/CSV/save-replay and the
-new Matrix Market/TSV selected-gene point importer/CLI pass local checks; existing
-viewer/inspector handles their saved projects. [Usage/limits](fluorescence-omics.md).
-Advanced fluorescence and broader omics methods remain outside this finite slice.
+The selected [22-item native expansion](feature-expansion-plan.md) is delivered
+under its declared contracts. Native molecular/SDK and reader/format-catalog
+source integration with the completed desktop UI is recorded in
+[current task](current-task.md). Existing fluorescence/spatial-count usage and
+limits remain in [the guide](fluorescence-omics.md); additional methods and
+consumer surfaces require their own selected workflow.
 
 The current [speed follow-up](benchmarks/speed-gap-followup/README.md) preserves
 exact outputs with a guarded integer-grid proof and a corrected steady timing
 protocol. [Current task](current-task.md) and [coverage](speed-gap-coverage.md)
-retain the open parity target. Historical profiles remain source-scoped; published
+record selected remaining work. Historical profiles remain source-scoped; published
 releases and broader feature/support scope stay frozen.
 
 This is a reference catalogue, not a mandatory parity backlog. Under the owner's
@@ -26,6 +27,10 @@ Reader/display gaps map to R2/R3, annotation/project gaps to R4/R5,
 analysis/classification/spatial/TMA to R6-R10, scripting/batches to R11,
 whole-slide resources/performance to R12 and release/remaining parity to R13-R16.
 Task closeout updates the affected row only when its evidence changes.
+
+The [native format reader plugin plan](format-reader-plugin-plan.md) defines
+shared reader selection followed by optional native modules. It is a new planning
+request; it changes no delivered reader/format coverage or candidate8 acceptance.
 
 R1 reconciliation (2026-11-04): all23 Partial rows below distinguish delivered
 mechanisms from actual remaining work. [Qualification308](benchmarks/qupath-body-boundary-qualification-308/terminal/README.md)

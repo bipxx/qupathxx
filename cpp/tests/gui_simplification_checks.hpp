@@ -652,11 +652,15 @@ inline void complex_review(const std::filesystem::path& directory,const std::fil
     auto up=down;up.frame=6;up.kind=GuiInputKind::LeftUp;up.x=60;up.y=70;
     o.inputs.clear();
     const auto completed=run_project_gui(project,100,(directory/"complex-workflow.ppm").u8string(),o);
+    // The native call drains and reconciles a requested save after its bounded
+    // render loop; observe that same completion condition at the API boundary.
+    if(stage==11 && completed.saves_completed==1 && !project->dirty() && read(copy)!=original)++stage;
     check(completed.replay_complete && !completed.ui_overflow_items && completed.tiles_settled && !completed.pending_tiles && stage==12 &&
         completed.saves_completed==1 && completed.measurement_table_state=="succeeded" && completed.project_error.empty(),
         "complex Draw/Run/Keep/View/Export/Save workflow did not finish: stage="+std::to_string(stage)+" / "+completed.project_error+
         " / analysis="+completed.analysis_state+" / error="+completed.analysis_error+" / samples="+std::to_string(completed.analysis_samples)+
-        " / selection="+std::to_string(completed.primary_selection));
+        " / selection="+std::to_string(completed.primary_selection)+
+        " / dirty="+std::to_string(project->dirty())+" / saves="+std::to_string(completed.saves_completed));
     preserve_existing(*doc);check(read(source)==original,"complex workflow overwrote its original project");
     const auto saved=read(copy);check(saved!=original,"explicit GUI Save did not persist the copied project");
     const auto reopened=Project::open(copy.u8string());const auto restored=reopened->document(chosen->id);preserve_existing(*restored);

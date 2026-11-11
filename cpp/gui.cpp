@@ -5,6 +5,8 @@
 #include "qupathxx/qupath_project.hpp"
 #include "qupathxx/project_source.hpp"
 #include "ascii_case.hpp"
+#include "reader_registry.hpp"
+#include "annotation_format_registry.hpp"
 #include "qupathxx/core.hpp"
 #include "qupathxx/project.hpp"
 #include "qupathxx/project_recovery.hpp"
@@ -197,6 +199,9 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     if (frame_limit < 0) throw std::invalid_argument("frame_limit must be nonnegative");
     if (!capture_path.empty() && !frame_limit) throw std::invalid_argument("capture_path requires a positive frame_limit");
     if(options.settle_tiles && !frame_limit) throw std::invalid_argument("tile settlement requires a positive frame_limit");
+    const auto annotation_formats=detail::annotation_format_catalog();
+    const bool annotation_geojson_available=std::any_of(annotation_formats.begin(),annotation_formats.end(),
+        [](const auto& format){return format.provider_id=="geojson" && format.available;});
     {ThumbnailOptions overview_options;overview_options.source_pixel_limit=options.overview_source_pixel_limit;overview_options.validate();}
     GuiReplay replay(options.inputs,options.replay_timeout_seconds);
     detail::GuiProfiler profiler;
@@ -525,9 +530,15 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     auto& project_image_path=text_buffers->project_image_path;
     auto& project_image_name=text_buffers->project_image_name;
     auto& project_filter=text_buffers->project_filter;
-    const char* reader_names[]={"auto","ppm","openslide","tiff","ome-zarr"};int image_reader=0;
-    for(int i=0;i<5;++i) if(options.image_reader==reader_names[i]) image_reader=i;
-    const auto zarr_path=[](const std::string& path){auto suffix=std::filesystem::u8path(path).extension().u8string();detail::ascii_lower_in_place(suffix);return suffix==".zarr";};
+    std::vector<std::string> reader_names{"auto","ppm","openslide","tiff","ome-zarr"};
+    constexpr char native_reader_labels[]="Auto\0PPM\0OpenSlide\0TIFF quantitative\0OME-Zarr\0";
+    std::string reader_labels(native_reader_labels,sizeof(native_reader_labels)-1);
+    // Preserve the five legacy positions; configured native providers append.
+    for(const auto& reader:detail::reader_catalog())if(!detail::known_reader_id(reader.provider_id)) {
+        reader_names.push_back(reader.provider_id);reader_labels+=reader.display_name;reader_labels+='\0';
+    }
+    reader_labels+='\0';int image_reader=0;
+    for(std::size_t i=0;i<reader_names.size();++i) if(options.image_reader==reader_names[i]) image_reader=int(i);
     if(options.project_image_path.size()>32768 || options.project_image_path.find('\0')!=std::string::npos)
         throw std::invalid_argument("invalid project image path");
     std::memcpy(project_image_path,options.project_image_path.c_str(),options.project_image_path.size()+1);
@@ -1404,13 +1415,20 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             if(std::holds_alternative<std::monostate>(prepared))prepared=prepare_export_request(intent);
             switch(intent.operation) {
             case ExportOp::GeoJson: {
-                const auto report=save_geojson_with_policy(document,intent.path,policy,intent.ids,intent.allow_losses,intent.nested,intent.protected_paths);
+                const detail::AnnotationFileExportRequest request{"geojson",intent.path,
+                    detail::AnnotationGeoJsonExportOptions{std::cref(intent.ids),intent.allow_losses,intent.nested},
+                    policy,std::cref(intent.protected_paths)};
+                const auto report=detail::export_annotations(document,request);
                 interchange_status="Exported "+std::to_string(report.features)+" objects";
                 for(const auto& issue:report.issues)interchange_status+="\n"+issue.message+" ("+std::to_string(issue.count)+")";break;
             }
-            case ExportOp::ObjectCsv:
-                save_object_measurements_csv_with_policy(document,intent.path,policy,intent.ids,intent.intensity,intent.protected_paths);
+            case ExportOp::ObjectCsv: {
+                const detail::AnnotationFileExportRequest request{"measurements-csv",intent.path,
+                    detail::AnnotationMeasurementsCsvOptions{std::cref(intent.ids),intent.intensity},
+                    policy,std::cref(intent.protected_paths)};
+                detail::export_annotations(document,request);
                 interchange_status="Exported measurements";break;
+            }
             case ExportOp::SavedCells:case ExportOp::ImageCells:
                 if(!cell_table_job.request_with_policy(std::get<CellTableRequest>(prepared),intent.path,policy,intent.protected_paths))throw std::runtime_error("Cell export is busy.");
                 cell_table_error.clear();break;
@@ -1463,7 +1481,9 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         auto import_objects=[&] {
             if(pending_export)return;
             try {
-                auto report=load_geojson(document,interchange_import_path,interchange_pixels,interchange_losses,qupath_ellipse_precision);
+                const detail::AnnotationFileImportRequest request{"geojson",interchange_import_path,
+                    {interchange_pixels,interchange_losses,qupath_ellipse_precision}};
+                auto report=detail::import_annotations(document,request);
                 auto visible=report.imported_ids;visible.erase(std::remove_if(visible.begin(),visible.end(),[&](auto id){return !document.object_visible(id);}),visible.end());
                 selection->replace(visible);selected=selection->primary();interchange_status="Imported "+std::to_string(report.features)+" objects";
                 for(const auto& issue:report.issues)interchange_status+="\n"+issue.message+" ("+std::to_string(issue.count)+")";
@@ -1471,8 +1491,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             } catch(const std::exception& e) {interchange_status=e.what();}
         };
         if(!io.WantTextInput && !editing_blocked) {
-            if(has_image && has_interchange() && ImGui::IsKeyPressed(ImGuiKey_F6,false))begin_export(ExportOp::GeoJson);
-            if(has_image && has_interchange() && ImGui::IsKeyPressed(ImGuiKey_F7,false))import_objects();
+            if(has_image && annotation_geojson_available && ImGui::IsKeyPressed(ImGuiKey_F6,false))begin_export(ExportOp::GeoJson);
+            if(has_image && annotation_geojson_available && ImGui::IsKeyPressed(ImGuiKey_F7,false))import_objects();
             if(io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_X,false)) {
                 if(io.KeyAlt && io.KeyShift)cell_table_job.cancel();
                 else if(io.KeyShift)begin_export(ExportOp::ProjectCells);
@@ -1489,7 +1509,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         const bool open_project_key=options.project && !editing_blocked && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_O);
         if(open_project_key) {select_project_form(ProjectForm::Open);focus_open_project=!project_open_path[0];if(workspace.enabled())workspace.select(GuiWorkspace::project_pane);}
         if(!io.WantTextInput && !editing_blocked) {
-            if(has_image && has_interchange() && (ImGui::IsKeyPressed(ImGuiKey_F6,false) || ImGui::IsKeyPressed(ImGuiKey_F7,false)) && workspace.enabled()) workspace.select(GuiWorkspace::objects_pane);
+            if(has_image && annotation_geojson_available && (ImGui::IsKeyPressed(ImGuiKey_F6,false) || ImGui::IsKeyPressed(ImGuiKey_F7,false)) && workspace.enabled()) workspace.select(GuiWorkspace::objects_pane);
             if(ImGui::IsKeyPressed(ImGuiKey_F3) || (io.KeyCtrl && (ImGui::IsKeyPressed(ImGuiKey_M) || ImGui::IsKeyPressed(ImGuiKey_K)))) focus_task(Task::Region);
             if(io.KeyCtrl && (ImGui::IsKeyPressed(ImGuiKey_D) || ImGui::IsKeyPressed(ImGuiKey_J) || ImGui::IsKeyPressed(ImGuiKey_U))) focus_task(Task::Tissue);
             if(io.KeyCtrl && (ImGui::IsKeyPressed(ImGuiKey_G) || ((io.KeyShift || io.KeyAlt) && ImGui::IsKeyPressed(ImGuiKey_C)))) focus_task(Task::Cells);
@@ -1545,7 +1565,9 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         };
         auto copy_selection=[&]() {
             try {
-                auto report=copy_objects(document,selection->ids(),clipboard_descendants,interchange_losses);
+                const auto ids=selection->ids();
+                const detail::AnnotationClipboardExportRequest request{"geojson",std::cref(ids),clipboard_descendants,interchange_losses};
+                auto report=detail::export_annotations(document,request);
                 glfwSetClipboardString(session.window,report.text.c_str());
                 ++clipboard_copies;clipboard_copied_objects+=report.features;clipboard_status(report,"Copied");
             } catch(const std::exception& e) {clipboard_error=e.what();interchange_status=clipboard_error;error=clipboard_error;}
@@ -1557,7 +1579,9 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 constexpr std::size_t limit=16*1024*1024;std::size_t length=0;
                 while(length<=limit && text[length])++length;
                 if(length>limit)throw std::length_error("Clipboard exceeds 16 MiB limit");
-                auto report=paste_objects(document,std::string(text,length),current_plane?std::optional<ObjectPlane>(document.active_plane()):std::nullopt,interchange_losses);
+                const detail::AnnotationClipboardImportRequest request{"geojson",std::string(text,length),
+                    current_plane?std::optional<ObjectPlane>(document.active_plane()):std::nullopt,interchange_losses};
+                auto report=detail::import_annotations(document,request);
                 auto visible=report.imported_ids;
                 visible.erase(std::remove_if(visible.begin(),visible.end(),[&](auto id){return !document.object_visible(id);}),visible.end());
                 selection->replace(visible);selected=selection->primary();
@@ -1566,7 +1590,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 if(visible.size()!=report.imported_ids.size())interchange_status+="\nSwitch Z/time or channels to view objects on other planes.";
             } catch(const std::exception& e) {clipboard_error=e.what();interchange_status=clipboard_error;error=clipboard_error;}
         };
-        if(has_image && has_interchange() && !editing_blocked && !io.WantTextInput && io.KeyCtrl && !io.KeyAlt) {
+        if(has_image && annotation_geojson_available && !editing_blocked && !io.WantTextInput && io.KeyCtrl && !io.KeyAlt) {
             if(!io.KeyShift && ImGui::IsKeyPressed(ImGuiKey_C,false))copy_selection();
             if(ImGui::IsKeyPressed(ImGuiKey_V,false))paste_clipboard(io.KeyShift);
         }
@@ -1580,8 +1604,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         header.editing_blocked=editing_blocked;header.image=has_image;header.project=bool(options.project);
         header.project_dirty=options.project && options.project->dirty();header.save_busy=save_job.busy();
         header.can_undo=document.can_undo();header.can_redo=document.can_redo();
-        header.can_copy=has_image && has_interchange() && !selection->ids().empty();
-        header.can_paste=has_image && has_interchange();header.objects_visible=objects_visible;
+        header.can_copy=has_image && annotation_geojson_available && !selection->ids().empty();
+        header.can_paste=has_image && annotation_geojson_available;header.objects_visible=objects_visible;
         header.overlay_gesture=overlay_gesture;header.workspace=workspace.enabled();header.reload_ui=bool(shell);
         header.ui_size=ui_multiplier;header.theme=ui::design::state.choice;
         const ui::HeaderDispatch header_dispatch=[&](ui::HeaderCommand command) {
@@ -1938,7 +1962,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 if(requested) {if(relinking) relink_image=true;else add_image=true;}
                 ImGui::EndDisabled();
                 }
-                if(!relinking) {ui::SetNextItemWidth(-1);ui::Combo("Reader",&image_reader,"Auto\0PPM\0OpenSlide\0TIFF quantitative\0OME-Zarr\0");}
+                if(!relinking) {ui::SetNextItemWidth(-1);ui::Combo("Reader",&image_reader,reader_labels.c_str());}
                 }
 
             ui::SetNextItemWidth(-1);
@@ -2061,7 +2085,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 drawing=marquee=vertex_dragging=false; active_vertex.reset(); draft_points.clear(); tool=previous_tool=0;
             }
             if(add_image) {
-                try {if(image_reader==3 || image_reader==4 || (image_reader==0 && ((has_tiff() && is_ome_tiff_path(project_image_path)) || zarr_path(project_image_path)))) raw.open_image(*options.project,project_image_path,options.tiff_options?*options.tiff_options:TiffOpenOptions{},image_reader==4);else pending_image=options.project->add_image(project_image_path,reader_names[image_reader]);project_catalog_dirty=true; project_error.clear();select_project_form(ProjectForm::None); }
+                try {const auto route=detail::desktop_add_selection(project_image_path,reader_names[image_reader]);if(route.raw_route)raw.open_image(*options.project,project_image_path,options.tiff_options?*options.tiff_options:TiffOpenOptions{},route.selection);else pending_image=options.project->add_image(project_image_path,route.selection.provider_id);project_catalog_dirty=true; project_error.clear();select_project_form(ProjectForm::None); }
                 catch(const std::exception& e) { project_error=e.what(); }
             }
             if(relink_image) {
@@ -2425,8 +2449,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         }
         if(ui::CollapsingHeader("Classes"))image_class_editor->draw(options.project,&document,active_image);
         const bool exchange_shortcut=!io.WantTextInput && !editing_blocked && (ImGui::IsKeyPressed(ImGuiKey_F6) || ImGui::IsKeyPressed(ImGuiKey_F7));
-        if(has_interchange() && exchange_shortcut) ImGui::SetNextItemOpen(true);
-        if(has_interchange() && ui::CollapsingHeader("Import / export",options.interchange_path.empty()?0:ImGuiTreeNodeFlags_DefaultOpen)) {
+        if(annotation_geojson_available && exchange_shortcut) ImGui::SetNextItemOpen(true);
+        if(annotation_geojson_available && ui::CollapsingHeader("Import / export",options.interchange_path.empty()?0:ImGuiTreeNodeFlags_DefaultOpen)) {
             if(exchange_shortcut) ImGui::SetScrollHereY(0);
             ui::TextUnformatted("Import source");ui::SetNextItemWidth(-1);ui::InputTextWithHint("##Import source","GeoJSON source file",interchange_import_path,sizeof(interchange_import_path));
             ui::TextUnformatted("Export destination");ui::SetNextItemWidth(-1);ui::InputTextWithHint("##Interchange path",".geojson or .csv destination",interchange_path,sizeof(interchange_path));
@@ -3615,7 +3639,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         },[&](DialogAction action) {if(action==DialogAction::Cancel)mark_dialog(GuiInputTarget::CancelClose,cancel_close_offset,cancel_close_size);if(action==DialogAction::Save)mark_dialog(GuiInputTarget::SaveClose,save_close_offset,save_close_size);if(action==DialogAction::Discard)mark_dialog(GuiInputTarget::DiscardClose,discard_close_offset,discard_close_size);if(action==DialogAction::KeepRecovery)mark_dialog(GuiInputTarget::KeepRecoveryClose,keep_close_offset,keep_close_size);});
         ImGui::End();
         spatial.draw(document,*selection,options.project.get(),&project_images,editing_blocked,has_image,mark_target);
-        genes.draw(display);
+        genes.draw(display,options.project.get(),active_image,editing_blocked || save_job.busy() || project_load.valid());
         if(has_image)fluorescence.draw(document,selection->primary(),editing_blocked || save_job.busy() || project_load.valid());
         if(has_image)landmark_registration.draw(document,options.project?options.project->identity()+":"+std::to_string(active_image):"current-image",display,editing_blocked || save_job.busy() || project_load.valid());
         if(const auto imported=spatial_import->draw(!options.project || editing_blocked || project_load.valid() || save_job.busy() || maintenance_job.valid());!imported.empty()) {
@@ -3683,7 +3707,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                     std::shared_ptr<Project> candidate;
                     if(kind=="image") {
                         if(progress->cancelled.load()) throw std::runtime_error("image opening cancelled");
-                        candidate=std::make_shared<Project>();if(reader=="tiff" || (reader=="auto" && has_tiff() && is_ome_tiff_path(path))) candidate->add_tiff_source(open_tiff(path,tiff_options,&progress->cancelled));else candidate->add_image(path,reader);
+                        candidate=std::make_shared<Project>();const auto route=detail::desktop_startup_selection(path,reader);if(route.raw_route){detail::ReaderOpenOptions reader_options;reader_options.tiff=tiff_options;candidate->add_tiff_source(detail::open_reader(path,route.selection,reader_options,&progress->cancelled));}else candidate->add_image(path,route.selection.provider_id);
                         progress->total_images.store(1); progress->images.store(1);
                     } else candidate=Project::open_impl(path,kind=="recovery",base,progress.get());
                     if(progress->cancelled.load()) throw std::runtime_error("opening cancelled");

@@ -1,79 +1,136 @@
-"""Collect pinned dependency source archives for the frozen Windows candidate."""
+"""Collect explicitly admitted, pinned dependency sources; validate before handoff.
+
+Development/release tooling only. No moving tag lookup, license inference,
+restricted material download, product analysis or native build occurs here.
+"""
 import argparse
-from concurrent.futures import ThreadPoolExecutor
 import hashlib
 import json
 from pathlib import Path
-import tarfile
+import re
+import shutil
 import urllib.request
 import zipfile
+import check_material_staging as admission
 
 ROOT = Path(__file__).resolve().parents[2]
 
 
-def fetch_json(url):
-    with urllib.request.urlopen(urllib.request.Request(url, headers={'User-Agent':'qupathxx-source-handoff'}), timeout=30) as stream:
-        return json.load(stream)
+def sha(path):
+    with Path(path).open('rb') as stream:
+        return hashlib.file_digest(stream, 'sha256').hexdigest()
+
+
+def generated_record(path, parents):
+    digest = sha(path)
+    return {'filename': path.name, 'source': 'tools/ci/collect_candidate_sources.py; generated source handoff metadata',
+            'bytes': path.stat().st_size, 'sha256': digest, 'material': {
+                'id': 'source-handoff-metadata-' + digest, 'category': 'admitted_open',
+                'kind': 'derived_asset', 'license_id': 'AGPL-3.0-only',
+                'license_evidence': 'LICENSE', 'attribution': 'qupathxx contributors', 'source_ids': list(parents)}}
+
+
+def collect(output, caches, inventory_paths, profile_name, source_id, allow_download=False):
+    if not re.fullmatch('[0-9a-f]{64}', source_id):
+        raise ValueError('Source handoff requires the exact compiled source SHA256')
+    entries = admission.inventory(inventory_paths)
+    profiles = {}
+    for path in inventory_paths:
+        for name, profile in json.loads(Path(path).read_text(encoding='utf8')).get('release_profiles', {}).items():
+            if name in profiles:
+                raise ValueError('Duplicate release profile: ' + name)
+            profiles[name] = profile
+    profile = profiles[profile_name]
+    if profile.get('compiled_source_sha256', source_id) != source_id:
+        raise ValueError('Dependency companion source identity differs from reviewed profile')
+    selected = profile['sources']
+    if not selected or len(selected) != len(set(selected)):
+        raise ValueError('Source profile needs a finite unique source set')
+    filenames = set()
+    for ident in selected:
+        admission.admitted(ident, entries)
+        record = entries[ident]
+        if record['material']['kind'] != 'source_archive' or not record.get('review'):
+            raise ValueError('Source archive needs an explicit contents/license review: ' + ident)
+        filename = Path(record['filename']).name.casefold()
+        if filename in filenames:
+            raise ValueError('Duplicate/colliding source archive filename: ' + filename)
+        filenames.add(filename)
+    admission.admitted(profile['firstparty_license'], entries)
+    output = Path(output)
+    output.mkdir(parents=True, exist_ok=False)
+    stage = output/'sources'
+    stage.mkdir()
+    sources = []
+    for ident in selected:
+        record = entries[ident]
+        filename = Path(record['filename']).name
+        candidates = [Path(cache)/filename for cache in caches]
+        path = next((p for p in candidates if p.is_file()), None)
+        if path is None:
+            if record.get('member_selection'):
+                raise ValueError('Reviewed code-only source absent; upstream carrier fallback forbidden: ' + filename)
+            if not allow_download:
+                raise ValueError('Reviewed source absent from cache (download disabled): ' + filename)
+            path = candidates[0]
+            path.parent.mkdir(parents=True, exist_ok=True)
+            # Only explicitly admitted URLs reach this branch. An incomplete
+            # transfer stays visible and cannot become a passing cached source.
+            partial = path.with_name(path.name + '.partial')
+            with urllib.request.urlopen(urllib.request.Request(record.get('url', record['source']),
+                    headers={'User-Agent': 'qupathxx-source-handoff'}), timeout=60) as stream, partial.open('xb') as target:
+                shutil.copyfileobj(stream, target, 1024*1024)
+            if sha(partial) != record['sha256'] or partial.stat().st_size != record['bytes']:
+                raise ValueError('Downloaded source identity differs: ' + filename)
+            partial.rename(path)
+        if path.stat().st_size != record['bytes'] or sha(path) != record['sha256']:
+            raise ValueError('Cached source identity differs: ' + filename)
+        shutil.copyfile(path, stage/filename)
+        sources.append({k: record[k] for k in ('component', 'version', 'sha256', 'bytes')})
+        sources[-1].update(filename=filename, url=record.get('url', record['source']), material_id=ident,
+                           license_id=record['material']['license_id'], component_notice_ids=record['material']['source_ids'])
+    (stage/'sources.json').write_text(json.dumps({'source_sha256': source_id, 'profile': profile_name,
+        'sources': sources}, indent=2) + '\n', encoding='utf8')
+    (stage/'README.txt').write_text('Pinned dependency sources for native source ' + source_id + '.\n'
+        'Reviewed source artifact bytes and individual upstream notices are retained.\n'
+        'The application source kit supplies CMake/build recipes and source selection.\n'
+        'Only explicitly reviewed source artifacts are collected; no training data or model download is authorized.\n'
+        'MSVC/Windows/OpenGL driver remain external prerequisites. Optional Python products are separate.\n', encoding='utf8')
+    metadata = [generated_record(stage/name, [profile['firstparty_license']]) for name in ('sources.json', 'README.txt')]
+    for record in metadata:
+        entries[record['material']['id']] = record
+    count = admission.check_stage(stage, entries)
+    archive = output/'qupathxx-dependency-sources.zip'
+    with zipfile.ZipFile(archive, 'x', compression=zipfile.ZIP_STORED) as target:
+        for path in sorted(stage.iterdir()):
+            target.write(path, path.name)
+    expected = {item['filename']:item['material_id'] for item in sources}
+    expected.update({item['filename']:item['material']['id'] for item in metadata})
+    if admission.check_archive(archive, entries, expected=expected) != count:
+        raise ValueError('Source archive membership differs from stage')
+    metadata_path = output/'generated-materials.json'
+    metadata_path.write_text(json.dumps({'records': metadata}, indent=2) + '\n', encoding='utf8')
+    result = {'state': 'passed', 'archive': archive.name, 'sha256': sha(archive),
+              'bytes': archive.stat().st_size, 'source_sha256': source_id, 'sources': sources,
+              'stage_files': count, 'archive_members': count, 'profile': profile_name}
+    (output/'dependency-sources.json').write_text(json.dumps(result, indent=2) + '\n', encoding='utf8')
+    return result
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--cache', type=Path, required=True)
+    parser.add_argument('--extra-cache', type=Path, action='append', default=[])
+    parser.add_argument('--inventory', type=Path, action='append')
+    parser.add_argument('--profile', default='windows-native')
+    parser.add_argument('--source-id', required=True)
+    parser.add_argument('--allow-download', action='store_true')
     args = parser.parse_args()
-    args.output.mkdir(parents=True, exist_ok=True)
-    args.cache.mkdir(parents=True, exist_ok=True)
-    sources = [
-        ('geos','3.15.0','https://download.osgeo.org/geos/geos-3.15.0.tar.bz2','d5e5192a686d065eaed082de14dd26244c5c8e02bff16b2c6cce3265f648e00e','geos-3.15.0.tar.bz2'),
-        ('opencv','31b0eeea0b44b370fd0712312df4214d4ae1b158','https://codeload.github.com/opencv/opencv/tar.gz/31b0eeea0b44b370fd0712312df4214d4ae1b158','bb15d5c85bab38c1377c0c7dd7ff201b078bcdb41cc4ff9f85ac61aa56b5f631','opencv-31b0eeea0b44b370fd0712312df4214d4ae1b158.tar.gz'),
-        ('sqlite','3.54.1','https://www.sqlite.org/2026/sqlite-amalgamation-3540100.zip','0a9c8e34352dad46006aa82836d5383bff9dc6bc9ce5a60553c05aa30e6ad1f9','sqlite-amalgamation-3540100.zip'),
-        ('nlohmann-json','3.12.0','https://github.com/nlohmann/json/releases/download/v3.12.0/json.tar.xz','42f6e95cad6ec532fd372391373363b62a14af6d771056dbfc86160e6dfff7aa','json-3.12.0.tar.xz'),
-        ('openslide-sdk-and-dependencies','4.0.1.2','https://github.com/openslide/openslide-bin/releases/download/v4.0.1.2/openslide-bin-4.0.1.2.tar.gz','83c9a4a598f3a5fe1dea83e123745e48b94ce7eab99833f04902bdf4fa0af1db','openslide-bin-4.0.1.2.tar.gz'),
-        ('zlib','1.3.2','https://github.com/madler/zlib/releases/download/v1.3.2/zlib-1.3.2.tar.gz','bb329a0a2cd0274d05519d61c667c062e06990d72e125ee2dfa8de64f0119d16','zlib-1.3.2.tar.gz'),
-        ('libtiff','4.7.1','https://download.osgeo.org/libtiff/tiff-4.7.1.tar.xz','b92017489bdc1db3a4c97191aa4b75366673cb746de0dce5d7a749d5954681ba','tiff-4.7.1.tar.xz'),
-        ('tinyxml2','11.0.0','https://codeload.github.com/leethomason/tinyxml2/tar.gz/refs/tags/11.0.0','5556deb5081fb246ee92afae73efd943c889cef0cafea92b0b82422d6a18f289','tinyxml2-11.0.0.tar.gz'),
-        ('libjpeg-turbo','3.1.3','https://codeload.github.com/libjpeg-turbo/libjpeg-turbo/tar.gz/refs/tags/3.1.3','3a13a5ba767dc8264bc40b185e41368a80d5d5f945944d1dbaa4b2fb0099f4e5','libjpeg-turbo-3.1.3.tar.gz'),
-        ('imgui','b916186e66aa3c02b72c6ca17455516512ed8049','https://codeload.github.com/ocornut/imgui/tar.gz/b916186e66aa3c02b72c6ca17455516512ed8049',None,'imgui-b916186.tar.gz'),
-    ]
-    glfw = fetch_json('https://api.github.com/repos/glfw/glfw/git/ref/tags/3.4')['object']
-    if glfw['type']=='tag':
-        glfw = fetch_json(glfw['url'])['object']
-    sources.append(('glfw',glfw['sha'],'https://codeload.github.com/glfw/glfw/tar.gz/'+glfw['sha'],None,'glfw-3.4.tar.gz'))
-    nano = fetch_json('https://pypi.org/pypi/nanobind/3.1.0/json')
-    sdist = next(x for x in nano['urls'] if x['packagetype']=='sdist')
-    sources.append(('nanobind-and-robin-map','3.1.0',sdist['url'],sdist['digests']['sha256'],sdist['filename']))
-
-    def obtain(item):
-        name,version,url,expected,filename = item
-        path = args.cache/filename
-        if not path.exists():
-            with urllib.request.urlopen(urllib.request.Request(url,headers={'User-Agent':'qupathxx-source-handoff'}),timeout=60) as stream, path.open('xb') as target:
-                while data:=stream.read(1024*1024): target.write(data)
-        with path.open('rb') as stream: digest=hashlib.file_digest(stream,'sha256').hexdigest()
-        if expected and digest!=expected:
-            raise ValueError('source archive hash mismatch: '+name)
-        return dict(component=name,version=version,url=url,filename=filename,
-                    sha256=digest,bytes=path.stat().st_size,
-                    pin='recorded archive SHA256' if expected else 'resolved immutable upstream commit')
-
-    with ThreadPoolExecutor(max_workers=4) as pool:
-        inventory=list(pool.map(obtain,sources))
-    nano_path=args.cache/sdist['filename']
-    with tarfile.open(nano_path) as tar:
-        assert any(x.name.endswith('/include/tsl/robin_map.h') for x in tar.getmembers()), 'nanobind source omits robin-map'
-    with tarfile.open(args.cache/'openslide-bin-4.0.1.2.tar.gz') as tar:
-        names=[m.name for m in tar.getmembers()]
-        assert any('subprojects' in n for n in names) and any('bintool' in n for n in names)
-    archive=args.output/'qupathxx-dependency-sources.zip'
-    with zipfile.ZipFile(archive,'x',compression=zipfile.ZIP_STORED) as target:
-        for entry in inventory: target.write(args.cache/entry['filename'],entry['filename'])
-        target.writestr('sources.json',json.dumps(inventory,indent=2))
-        target.writestr('README.txt','Dependency sources for native source6219a08f.\nEach original archive retains upstream licenses and build recipes.\nUse qupathxx-source-6219a08f.zip for the application, pinned CMake and SDK build scripts.\nOpenSlide source distribution includes its dependency sources and builder.\nNoto fonts are unmodified supplied font assets; notices/source URLs remain in application source and binaries.\nNumPy is separately installed from PyPI, not bundled in the native candidate.\nMSVC/Windows/OpenGL driver are external prerequisites. Test-only Mesa is not shipped.\n')
-    with archive.open('rb') as stream: digest=hashlib.file_digest(stream,'sha256').hexdigest()
-    result=dict(archive=archive.name,sha256=digest,sources=inventory)
-    (args.output/'dependency-sources.json').write_text(json.dumps(result,indent=2))
-    print(json.dumps(dict(archives=len(inventory),sha256=digest,bytes=archive.stat().st_size),indent=2))
+    result = collect(args.output, [args.cache]+args.extra_cache,
+        args.inventory or [ROOT/'tests/fixtures/manifest.json'], args.profile, args.source_id, args.allow_download)
+    print(json.dumps({k: result[k] for k in ('state','sha256','bytes','stage_files','source_sha256')}, indent=2))
 
 
-if __name__=='__main__':
+if __name__ == '__main__':
     main()

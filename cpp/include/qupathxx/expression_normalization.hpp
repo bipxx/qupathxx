@@ -70,6 +70,8 @@ class Project;
 // Cheap owner publication, using the existing raw-matrix association and undo.
 std::string keep_expression_normalization(Project&,std::uint64_t image,const ExpressionNormalization&);
 std::vector<std::string> expression_normalization_ids(const Project&,std::uint64_t image);
+std::vector<std::string> expression_normalization_ids(const Project&,std::uint64_t image,
+    const std::string& parent_source_sha256);
 std::string expression_normalization_recipe(const Project&,std::uint64_t image,const std::string& id);
 void remove_expression_normalization(Project&,std::uint64_t image,const std::string& id);
 struct ExpressionNormalizationOpenRequest {

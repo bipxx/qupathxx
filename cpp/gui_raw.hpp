@@ -7,6 +7,7 @@
 #include "qupathxx/project.hpp"
 #include "atomic_export.hpp"
 #include "reader_file_guard.hpp"
+#include "reader_registry.hpp"
 #include "gui_layout.hpp"
 #include "gui_raw_grid_controls.hpp"
 #include "utf8_text.hpp"
@@ -65,7 +66,7 @@ class GuiRaw {
         const auto source=source_;const auto identity=doc.analysis_identity_.token;
         future_=std::async(std::launch::async,[this,source,identity] {
             Result result{Kind::Metadata};result.source=source;result.identity=identity;
-            try {result.metadata=source->raw_metadata(&cancel_);export_checkpoint(&cancel_);if(!result.metadata || !source->raw_view()) throw std::invalid_argument("image has no quantitative channels");}
+            try {result.metadata=source->raw_metadata(&cancel_);export_checkpoint(&cancel_);if(!result.metadata)throw std::invalid_argument("image has no quantitative channels");if(!source->raw_view()) throw std::invalid_argument("Raw samples are available; this reader has no editable channel view or retained quantitative workflow");}
             catch(const std::exception& error) {result.state=cancel_.load()?"cancelled":"failed";try {result.error=error.what();bounded_utf8(result.error,8192);}catch(...) {result.error="Channel metadata opening failed";}}
             return result;
         });
@@ -191,16 +192,16 @@ public:
         ScientificRawOptions sampling;sampling.work_bytes=grid_work_;sampling.validate();
         follow_display_=!initial_request_;options_.validate();bounded_utf8(options.raw_numpy_path,32768);bounded_utf8(options.raw_csv_path,32768);
         std::copy(options.raw_numpy_path.begin(),options.raw_numpy_path.end(),path_.begin());std::copy(options.raw_csv_path.begin(),options.raw_csv_path.end(),csv_path_.begin());
-        if(options.image_reader!="auto" && options.image_reader!="ppm" && options.image_reader!="openslide" && options.image_reader!="tiff" && options.image_reader!="ome-zarr") throw std::invalid_argument("invalid image reader selection");
+        if(!valid_reader_request(options.image_reader)) throw std::invalid_argument("invalid image reader selection");
     }
     ~GuiRaw() {try {finish(nullptr,false);}catch(...) {}}
     void open() {open_=true;if(state_=="cancelled" || state_=="failed") state_="waiting";}
-    void open_image(Project& project,const std::string& path,TiffOpenOptions options,bool zarr=false) {
+    void open_image(Project& project,const std::string& path,TiffOpenOptions options,ReaderSelection selection) {
         if(busy()) throw std::runtime_error("finish or cancel the current raw task before adding an image");
         options.validate();cancel_.store(false);running_=Kind::Image;state_="changing";const auto instance=project.instance_identity_;
-        future_=std::async(std::launch::async,[this,path,options,instance,zarr] {
+        future_=std::async(std::launch::async,[this,path,options,instance,selection=std::move(selection)] {
             Result result{Kind::Image};result.project_instance=instance;
-            try {auto extension=std::filesystem::u8path(path).extension().u8string();ascii_lower_in_place(extension);if(zarr || extension==".zarr"){OmeZarrOpenOptions zarr_options;zarr_options.view=options.view;result.candidate=open_ome_zarr(path,zarr_options,&cancel_);}else result.candidate=open_tiff(path,options,&cancel_);export_checkpoint(&cancel_);}
+            try {ReaderOpenOptions reader_options;reader_options.tiff=options;reader_options.zarr.view=options.view;result.candidate=open_reader(path,selection,reader_options,&cancel_);export_checkpoint(&cancel_);}
             catch(const std::exception& error) {result.state=cancel_.load()?"cancelled":"failed";try {result.error=error.what();bounded_utf8(result.error,8192);}catch(...) {result.error="TIFF image opening failed";}}return result;
         });
     }

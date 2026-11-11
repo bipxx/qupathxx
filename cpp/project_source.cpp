@@ -13,7 +13,7 @@ const std::string& ProjectSourceReview::path() const {return impl_->path;}
 const std::string& ProjectSourceReview::comparison() const {return impl_->comparison;}
 const std::string& ProjectSourceReview::coverage() const {return impl_->coverage;}
 std::shared_ptr<const SourceFileAssociation> ProjectSourceReview::association() const {return impl_->association;}
-bool ProjectSourceReview::requires_acceptance() const {return impl_->comparison=="changed_bytes" || impl_->comparison=="changed_dependencies" || impl_->comparison=="changed_observed_source";}
+bool ProjectSourceReview::requires_acceptance() const {return impl_->comparison=="changed_bytes" || impl_->comparison=="changed_dependencies" || impl_->comparison=="changed_observed_source" || impl_->comparison=="changed_implementation";}
 bool ProjectSourceReview::consumed() const {std::lock_guard<std::mutex> lock(impl_->mutex);return impl_->consumed;}
 namespace detail {
 namespace {
@@ -70,7 +70,7 @@ std::vector<std::unique_ptr<ReaderFileGuard>> lock_source_verification_files(con
     std::vector<std::unique_ptr<ReaderFileGuard>> guards;
     guards.push_back(std::make_unique<ReaderFileGuard>(expected.primary->path));
     if(expected.scope=="directory_store") {
-        if(expected.reader.rfind("ome-zarr",0)!=0)throw std::invalid_argument("Unsupported directory verification reader");
+        if(expected.reader!="ome-zarr" && expected.reader.rfind("ome-zarr:",0)!=0)throw std::invalid_argument("Unsupported directory verification reader");
         OmeZarrSource current(expected.locator);if(current.sha256()!=expected.directory_sha256)throw std::runtime_error("Reviewed directory changed; review again");current.require_current();
     }
     auto actual=expected;actual.primary=guards.back()->version();actual.companions.clear();

@@ -3,9 +3,9 @@ name: Native C++ without Python
 on:
   push:
     branches: [main, feature/scientific-grid-159]
-    paths: ['CMakeLists.txt', 'cmake/**', 'cpp/**', 'src/**', 'pyproject.toml', 'examples/native_project.cpp', 'tools/ci/check_native_example.cmake', 'tools/ci/check_spatial_counts.cmake', '.github/workflows/native-only.yml']
+    paths: ['CMakeLists.txt', 'cmake/**', 'cpp/**', 'src/**', 'pyproject.toml', 'examples/native_project.cpp', 'tools/ci/check_native_example.cmake', 'tools/ci/check_spatial_counts.cmake', 'tools/ci/check_reader_routes.cmake', 'tools/ci/check_format_catalog_routes.cmake', '.github/workflows/native-only.yml']
   pull_request:
-    paths: ['CMakeLists.txt', 'cmake/**', 'cpp/**', 'src/**', 'pyproject.toml', 'examples/native_project.cpp', 'tools/ci/check_native_example.cmake', 'tools/ci/check_spatial_counts.cmake', '.github/workflows/native-only.yml']
+    paths: ['CMakeLists.txt', 'cmake/**', 'cpp/**', 'src/**', 'pyproject.toml', 'examples/native_project.cpp', 'tools/ci/check_native_example.cmake', 'tools/ci/check_spatial_counts.cmake', 'tools/ci/check_reader_routes.cmake', 'tools/ci/check_format_catalog_routes.cmake', '.github/workflows/native-only.yml']
   workflow_dispatch:
 
 permissions:
@@ -38,10 +38,10 @@ jobs:
       - name: Build and exercise native APIs
         run: |
           cmake --build build/native-only --parallel 2 --target \
-            qupathxx_project_example qupathxx_application_entry_tests qupathxx_batch qupathxx_region \
+            qupathxx_project_example qupathxx_application_entry_tests qupathxx_reader_registry_tests qupathxx_reader_plugin_c_header_tests qupathxx_reader_plugin_offline_tests qupathxx_matrix_format_registry_tests qupathxx_annotation_format_registry_tests qupathxx_format_family_catalog_tests qupathxx_batch qupathxx_region \
             qupathxx_fluorescence_tests qupathxx_fluorescence_cells_tests qupathxx_fluorescence_cell_workflow_tests qupathxx_fluorescence_cell_objects_tests qupathxx_fluorescence_cli_tests qupathxx_channel_source_tests qupathxx_linear_unmixing_tests qupathxx_linear_unmixing_workflow_tests qupathxx_dark_flat_workflow_tests qupathxx_corrected_fluorescence_tests qupathxx_unmixed_fluorescence_tests qupathxx_marker_rules_tests qupathxx_marker_cli_tests qupathxx_fluorescence_evaluation_tests qupathxx_spatial_counts qupathxx_spatial_counts_tests qupathxx_expression_tests qupathxx_expression_matrix_tests qupathxx_expression_matrix_project_tests qupathxx_expression_matrix_spatial_tests qupathxx_backed_spatial_import_tests qupathxx_registration_tests qupathxx_landmark_registration_tests qupathxx_gene_view_tests
           ctest --test-dir build/native-only --output-on-failure \
-            --no-tests=error -R '^(native_project_example|application_entry|fluorescence_workflow|fluorescence_cells|fluorescence_cell_workflow|fluorescence_cell_objects|fluorescence_cli|channel_source|linear_unmixing|linear_unmixing_workflow|dark_flat_workflow|corrected_fluorescence|unmixed_fluorescence|marker_rules|marker_cli|fluorescence_evaluation|spatial_counts|spatial_counts_cli|expression|expression_matrix|expression_matrix_project|expression_matrix_spatial|backed_spatial_import|registration|landmark_registration|gene_view)$'
+            --no-tests=error -R '^(native_project_example|application_entry|reader_registry|reader_routes_cli|reader_plugin_c_header|reader_plugin_offline|matrix_format_registry|annotation_format_registry|format_family_catalog|format_catalog_routes_cli|fluorescence_workflow|fluorescence_cells|fluorescence_cell_workflow|fluorescence_cell_objects|fluorescence_cli|channel_source|linear_unmixing|linear_unmixing_workflow|dark_flat_workflow|corrected_fluorescence|unmixed_fluorescence|marker_rules|marker_cli|fluorescence_evaluation|spatial_counts|spatial_counts_cli|expression|expression_matrix|expression_matrix_project|expression_matrix_spatial|backed_spatial_import|registration|landmark_registration|gene_view)$'
       - name: Install and exercise the native consumer
         run: |
           cmake --install build/native-only --prefix "$PWD/build/native-only-stage"

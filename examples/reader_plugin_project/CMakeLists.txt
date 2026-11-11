@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.24)
+project(qupathxx_plugin_project_consumer LANGUAGES CXX)
+find_package(qupathxx 0.1.0 CONFIG REQUIRED COMPONENTS core)
+add_executable(plugin_project_consumer main.cpp)
+target_link_libraries(plugin_project_consumer PRIVATE qupathxx::core)
+target_compile_options(plugin_project_consumer PRIVATE /utf-8)
+qupathxx_stage_runtime(plugin_project_consumer)

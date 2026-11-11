@@ -7,6 +7,8 @@
 #include "workflow_input.hpp"
 #include "sha256.hpp"
 #include "qupathxx/raw_image.hpp"
+#include "reader_registry.hpp"
+#include "matrix_format_registry.hpp"
 #include "utf8_text.hpp"
 #include "ascii_case.hpp"
 #include <nlohmann/json.hpp>
@@ -37,14 +39,12 @@ std::shared_ptr<Project> open_base(const SpatialImportBaseRequest& request,const
     workflow_checkpoint(cancelled);std::shared_ptr<Project> project;
     if(!request.input_project.empty())project=Project::open_without_journal_recovery(request.input_project);
     else {
-        auto reader=request.image_reader;
-        if(reader=="auto") {auto extension=std::filesystem::u8path(request.image_path).extension().u8string();detail::ascii_lower_in_place(extension);
-            if(extension!=".ppm" && extension!=".tif" && extension!=".tiff")throw std::invalid_argument("Spatial import image must use the admitted PPM/TIFF profile");
-            reader=extension==".ppm"?"ppm":"tiff";}
+        const auto selection=detail::select_reader(request.image_path,request.image_reader,
+            detail::ReaderPolicy::SpatialImport,detail::reader_features());
         project=std::make_shared<Project>();
-        if(reader=="tiff") {TiffOpenOptions options;options.view.series=request.image_series.value_or(0);options.view.z=request.plane.z;options.view.t=request.plane.t;
-            project->add_tiff_source(open_tiff(request.image_path,options,cancelled));}
-        else project->add_image(request.image_path,"ppm");
+        if(selection.provider_id=="tiff") {detail::ReaderOpenOptions options;options.tiff.view.series=request.image_series.value_or(0);options.tiff.view.z=request.plane.z;options.tiff.view.t=request.plane.t;
+            project->add_tiff_source(detail::open_reader(request.image_path,selection,options,cancelled));}
+        else project->add_image(request.image_path,selection.provider_id);
     }
     const auto document=project->document(request.image_id);const auto reader=document->server()->reader_id();
     if(reader!="qpx.dense-rgb/1" && reader!="ppm" && reader!="tiff")throw std::invalid_argument("Spatial import requires an admitted native RGB/PPM/TIFF image source");
@@ -263,22 +263,27 @@ bool SpatialImportJob::base_catalogue(const std::string& path) {
 bool SpatialImportJob::open_matrix(const std::string& path,const std::string& expected,std::size_t work) {
     workflow_require_owner(data_->owner);poll();if(busy())return false;workflow_path_argument(path);digest_argument(expected);data_->reset(SpatialImportPhase::MatrixOpening);
     data_->future=std::async(std::launch::async,[this,path,expected,work] {
-        Data::Outcome result;result.matrix=open_expression_matrix(path,expected,work,2ull*1024*1024*1024,&data_->cancelled);return result;
+        Data::Outcome result;result.matrix=detail::open_matrix_format(detail::select_matrix_format(detail::MatrixFormat::Qmx),
+            {path,expected,work,2ull*1024*1024*1024},&data_->cancelled);return result;
     });return true;
 }
 bool SpatialImportJob::index_matrix(const std::string& matrix,const std::string& features,const std::string& observations,
     const std::string& store,ExpressionMatrixImportOptions options) {
     workflow_require_owner(data_->owner);poll();if(busy())return false;options.validate();data_->reset(SpatialImportPhase::MatrixIndexing);
     data_->future=std::async(std::launch::async,[this,matrix,features,observations,store,options] {
-        Data::Outcome result;result.indexed=std::make_shared<const ExpressionMatrixImportResult>(import_expression_matrix(matrix,features,observations,store,options,&data_->cancelled));
-        result.matrix=open_expression_matrix(result.indexed->path,result.indexed->file_sha256,options.work_bytes,options.store_bytes,&data_->cancelled);return result;
+        Data::Outcome result;result.indexed=std::make_shared<const ExpressionMatrixImportResult>(detail::import_matrix_format(
+            detail::select_matrix_format(detail::MatrixFormat::MatrixMarket),detail::MatrixMarketImportRequest{matrix,features,observations,store,options},&data_->cancelled));
+        result.matrix=detail::open_matrix_format(detail::select_matrix_format(detail::MatrixFormat::Qmx),
+            {result.indexed->path,result.indexed->file_sha256,options.work_bytes,options.store_bytes},&data_->cancelled);return result;
     });return true;
 }
 bool SpatialImportJob::index_h5ad(const std::string& input,const std::string& store,H5adOptions options,ExpressionMatrixImportOptions limits){
     workflow_require_owner(data_->owner);poll();if(busy())return false;options.validate();limits.validate();data_->reset(SpatialImportPhase::MatrixIndexing);
     data_->future=std::async(std::launch::async,[this,input,store,options=std::move(options),limits]{Data::Outcome result;
-        result.indexed=std::make_shared<const ExpressionMatrixImportResult>(import_h5ad_matrix(input,store,options,limits,&data_->cancelled));
-        result.matrix=open_expression_matrix(result.indexed->path,result.indexed->file_sha256,limits.work_bytes,limits.store_bytes,&data_->cancelled);return result;});return true;
+        result.indexed=std::make_shared<const ExpressionMatrixImportResult>(detail::import_matrix_format(
+            detail::select_matrix_format(detail::MatrixFormat::H5ad),detail::H5adMatrixImportRequest{input,store,options,limits},&data_->cancelled));
+        result.matrix=detail::open_matrix_format(detail::select_matrix_format(detail::MatrixFormat::Qmx),
+            {result.indexed->path,result.indexed->file_sha256,limits.work_bytes,limits.store_bytes},&data_->cancelled);return result;});return true;
 }
 bool SpatialImportJob::open_matrix(ExpressionMatrixOpenRequest request,std::size_t work) {
     workflow_require_owner(data_->owner);poll();if(busy())return false;request.association.validate();data_->reset(SpatialImportPhase::MatrixOpening);

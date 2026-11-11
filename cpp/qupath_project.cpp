@@ -3,6 +3,8 @@
 #include "qupathxx/raw_image.hpp"
 #include "qupathxx/source_identity.hpp"
 #include "reader_file_guard.hpp"
+#include "reader_registry.hpp"
+#include "annotation_format_registry.hpp"
 #include "filesystem_access.hpp"
 #include "utf8_text.hpp"
 #include "ascii_case.hpp"
@@ -204,9 +206,9 @@ std::shared_ptr<const QuPathProjectPreview> preview_qupath_project(const std::st
         if(!state->exists(info.source_path)) {state->issue("missing_image",info.name+": source image is missing");state->images.push_back(info);continue;}
         std::shared_ptr<Document> doc;
         try {
-            auto ext=fs::u8path(info.source_path).extension().u8string();detail::ascii_lower_in_place(ext);
-            if(ext==".tif" || ext==".tiff" || is_ome_tiff_path(info.source_path)) {TiffOpenOptions options;options.view.series=series;info.native_id=state->project->add_tiff_image(info.source_path,options,info.name);info.reader="tiff";}
-            else {if(series) throw std::invalid_argument("non-TIFF series selection unsupported");info.reader=ext==".ppm"?"ppm":"openslide";info.native_id=state->project->add_image(info.source_path,info.reader,info.name);}
+            const auto selection=detail::select_reader(info.source_path,"auto",detail::ReaderPolicy::QuPathImport,detail::reader_features());
+            if(selection.provider_id=="tiff") {TiffOpenOptions options;options.view.series=series;info.native_id=state->project->add_tiff_image(info.source_path,options,info.name);info.reader=selection.provider_id;}
+            else {if(series) throw std::invalid_argument("non-TIFF series selection unsupported");info.reader=selection.provider_id;info.native_id=state->project->add_image(info.source_path,info.reader,info.name);}
             doc=state->project->document(info.native_id);const auto& metadata=doc->metadata();
             if(builder.contains("metadata")) {
                 const auto& expected=builder["metadata"];const auto raw=doc->server()->raw_metadata(cancelled);
@@ -237,7 +239,7 @@ std::shared_ptr<const QuPathProjectPreview> preview_qupath_project(const std::st
                 if(saved.value("sizeZ",1)!=(raw?raw->z_planes:1) || saved.value("sizeT",1)!=(raw?raw->timepoints:1))throw std::invalid_argument("saved image axes differ from source");
                 if(saved.contains("channels") && saved["channels"].size()!=(raw?raw->channels:3))throw std::invalid_argument("saved image channels differ from source");
                 if(saved.contains("pixelType")) {auto type=text(saved["pixelType"]);detail::ascii_lower_in_place(type);if(type!=(raw?sample_name(raw->sample_type):"uint8"))throw std::invalid_argument("saved image sample type differs from source");}
-                const auto imported=detail::import_geojson_class_context(*doc,decoded.geojson,state->project->classes());
+                const auto imported=detail::import_annotations(*doc,detail::AnnotationTextImportRequest{"geojson",std::cref(decoded.geojson),detail::AnnotationQuPathClassContext{std::cref(state->project->classes())}});
                 if(!decoded.tma_cores.empty()) {
                     std::vector<ObjectEdit> edits;edits.reserve(decoded.tma_cores.size());
                     for(std::size_t i=0;i<imported.source_ids.size();++i) {
@@ -266,7 +268,7 @@ std::shared_ptr<const QuPathProjectPreview> preview_qupath_project(const std::st
                 const auto filename=text(item.at("file"));if(filename.empty() || fs::u8path(filename).filename().u8string()!=filename || filename.find_first_of("\\/:")!=std::string::npos || filename=="." || filename=="..") throw std::invalid_argument("exchange filename must be a single component");
                 const auto contents=state->read((index_path.parent_path()/fs::u8path(filename)).u8string(),256ull*1024*1024,cancelled);
                 if(item.at("sha256")!=hash(contents)) throw std::invalid_argument("exchange annotation checksum mismatch");
-                const auto imported=detail::import_geojson_class_context(*doc,contents,state->project->classes());
+                const auto imported=detail::import_annotations(*doc,detail::AnnotationTextImportRequest{"geojson",std::cref(contents),detail::AnnotationQuPathClassContext{std::cref(state->project->classes())}});
                 info.source_object_ids=imported.source_ids;info.imported_object_ids=imported.imported_ids;
                 for(auto issue:imported.issues) {issue.message=info.name+": "+issue.message;state->issues.push_back(std::move(issue));}
                 auto x=physical(item.at("pixel_width_um")),y=physical(item.at("pixel_height_um"));

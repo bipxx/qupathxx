@@ -1,5 +1,6 @@
 #include "qupathxx/tissue.hpp"
 #include "scientific_grid_codec.hpp"
+#include "reader_plugin_link.hpp"
 #include <algorithm>
 #include <limits>
 #include <stdexcept>
@@ -65,6 +66,8 @@ bool Document::verify_tissue(std::uint64_t id,const TissueRequest& request,const
     if(old.object_id()!=result.object_id() || old.object_revision()!=result.object_revision() || old.nucleus()!=result.nucleus() ||
        !old.roi().equals(result.roi()) || parameters(old.parameters())!=parameters(result.parameters()) || old.white()!=result.white() || old.stains()!=result.stains())
         throw std::invalid_argument("verification request does not match saved tissue parameters");
+    const auto& archived=old.provenance();const auto& current=result.provenance();
+    detail::require_same_reader_plugin_binding(archived?archived->reader_source.get():nullptr,current?current->reader_source.get():nullptr);
     stored.identity=analysis_identity_.token;stored.source=server_;stored.verified=equivalent(old,result);return stored.verified;
 }
 std::shared_ptr<const TissueRecord> Document::tissue_record(std::uint64_t id) const {auto it=tissue_.find(id);if(it==tissue_.end()) throw std::out_of_range("tissue record does not exist");return it->second.value;}

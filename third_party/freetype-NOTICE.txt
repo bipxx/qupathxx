@@ -1,0 +1,8 @@
+This software is based in part on the work of the FreeType Team.
+Portions of this software are copyright (c) 1996-2026 The FreeType Project
+(www.freetype.org). All rights reserved.
+
+The exact FreeType source is pinned by cmake/GuiRmlUi.cmake. The FreeType License
+(FTL) is selected for this distribution. FTL.TXT and the upstream alternative
+GPLv2.TXT are supplied alongside this acknowledgement. Upstream source files
+and their individual copyright/license notices are retained unmodified.

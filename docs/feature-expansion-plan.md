@@ -2,18 +2,24 @@
 
 Owner request: plan all eight remaining areas, keeping proprietary and
 noncommercial (NC) material separate. This document owns the new implementation
-checklist: **22 work items: 15 complete, 7 pending**. It does not reopen completed
-FO00–FO05. S01/V01/V02/I01/I02/R01/R02/F01/F02/F03/F04/D01/D02/O01/O02 are delivered locally under their
+checklist: **22 work items: 22 complete, 0 pending**. It does not reopen completed
+FO00–FO05. S01/V01/V02/I01/I02/R01/R02/F01/F02/F03/F04/D01/D02/O01/O02/A01/A02/A03/A04/P01/L01 are delivered under their
 stated contracts. F01's train-selected recipe passes unchanged pilot gates and
 native publication/replay; the failed original pilot is retained and validation
 reuse is disclosed. F02 marker rules, F03 correction and F04 explicit linear
 unmixing, D01 indexed expression storage/import/view and D02 bounded interaction/
-tiled processing are delivered. O01 native H5AD and O02 local OME-Zarr are delivered; A01 QC/normalization is next. See the
+tiled processing are delivered. O01/O02 adapters and A01 QC/normalization are
+delivered; A02 summaries/pseudobulk, A03 PCA/clustering and A04 replicate DE are delivered through native services/CLI. P01 SDK/L01 membership and P02 matching native candidate8 publication are delivered. See the
 [source-scoped progress receipt](benchmarks/feature-expansion/README.md).
 Preserve independent desktop work recorded in [current-task.md](current-task.md).
 
+The retained native, SDK, reader-plugin and format-catalog sources are now selected
+for integration with the completed main UI. This source integration has its own
+consumer evidence; published candidate8 and its original qualification stay
+frozen. The [current task](current-task.md) records the active integration result.
+
 Planning update: retain this single checklist for all eight requested areas;
-do not restart delivered items. Next is A01 QC/normalization over the existing full native expression source.
+do not restart delivered items. A04 closes with admitted independent mice and native Welch/BH. P01/L01/P02 close with the matching Windows native engineering release; no further phase is selected.
 F02/F03/F04 native, CLI and desktop completion are recorded below. Proprietary and NC
 material remain
 separate excluded references, not optional product backends.
@@ -99,7 +105,7 @@ ledger. Checkboxes below remain authoritative. Finish one packet before starting
 the next, except that admission of a new input belongs to the packet consuming it.
 Preserve concurrent desktop edits. R02 is delivered with native fit, actual UI,
 registered-gene rendering and persistence checks. F01 is delivered under its
-selected pilot contract; F02/F03/F04/D01/D02/O01/O02 consumers are delivered and A01 is next.
+selected pilot contract; F02/F03/F04/D01/D02/O01/O02 consumers and A01/A02/A03/A04 and P01 are delivered; final L01 is next.
 
 | Packet | Prerequisites | Easiest implementation path and consumer integration | Decisive completion check |
 | --- | --- | --- | --- |
@@ -113,9 +119,9 @@ selected pilot contract; F02/F03/F04/D01/D02/O01/O02 consumers are delivered and
 | D02: bounded interaction and tiling, delivered | D01; F01/F03; existing jobs/cache | Page gene metadata and bound value/color caches first. Then schedule existing raw-cell processing by tile with fixed global parameters, halo, deterministic ownership and resumable records. Do not introduce another scheduler. | Declared sparse fixture/work bound plus a named-host cancellation/responsiveness check; independent seam comparison and interrupted/resumed tiled ROI equality. |
 | O01: H5AD subset, delivered | D01/S01; exact HDF5 dependency admitted | Implement one native adapter over the HDF5 C API and feed the existing matrix source/import UI. Start with dense/CSR/CSC X or selected layer and explicit value domain; report unsupported encodings. | Independent dense/CSR/CSC malformed and valid fixtures plus one open real dataset with exact IDs/counts/axes; native-only runtime. |
 | O02: local OME-Zarr subset, delivered | F03 capability; D02; exact codecs admitted | Implement declared NGFF0.4/Zarr2 metadata/chunk reads behind the existing image-source interface. Start uncompressed/zlib; add another codec only for a selected admitted fixture. | Chunk boundaries, axes, transforms, missing/failing IO and raw values; one complete open real store in viewport and measurement routes. |
-| A01: QC and normalization | D01 full intended feature universe | Add streaming native totals/detection and an immutable normalized/log1p result source. Let gene display choose raw or explicitly named derived values; never replace the raw matrix. | Hand-calculated sparse values, zero libraries/missing data, exact raw preservation and persisted source/parameter identity. |
-| A02: regions and pseudobulk | D01; R01/R02 when transformed coordinates selected | Reuse ROI cohorts and block reductions; add explicit coordinate-domain choice, overlap policy and sample/replicate metadata. Export exact sums and associations through existing native writers. | Analytical empty/overlapping cohorts, overflow, registered membership and exact totals/save/replay. |
-| A03: PCA and clustering | A01; admitted native algebra backend | Add bounded block products and fixed-seed truncated PCA, then explicit-k k-means. Persist preprocessing/means/features/seed with owned result arrays; add one results view. | Independent small numeric oracle, deterministic seeded replay, work/cancel bounds and stored embedding/cluster association. |
+| A01: QC and normalization, delivered | D01 full intended feature universe | Add streaming native totals/detection and an immutable normalized/log1p result source. Let gene display choose raw or explicitly named derived values; never replace the raw matrix. | Hand-calculated sparse values, zero libraries/missing data, exact raw preservation and persisted source/parameter identity. |
+| A02: regions and pseudobulk, delivered | D01; R01/R02 when transformed coordinates selected | Reuse ROI cohorts and block reductions; add explicit coordinate-domain choice, overlap policy and sample/replicate metadata. Export exact sums and associations through existing native writers. | Analytical empty/overlapping cohorts, overflow, registered membership and exact totals/save/replay. |
+| A03: PCA and clustering, delivered | A01; admitted native algebra backend | Add bounded block products and fixed-seed truncated PCA, then explicit-k k-means. Persist preprocessing/means/features/seed with owned result arrays; add one results view. | Independent small numeric oracle, deterministic seeded replay, work/cancel bounds and stored embedding/cluster association. |
 | A04: replicate-level DE | A01/A02; admitted replicated dataset and numerical distribution dependency | Aggregate raw counts per biological replicate, normalize/log pseudobulk, then native Welch/effect/BH output. Reuse typed result export; single-mouse spots cannot satisfy the replicate contract. | Analytical/independent statistics, insufficient/degenerate groups and one openly licensed replicated dataset. If absent, keep the task open and continue independent work; do not substitute pseudo-replicates. |
 | P01: native SDK | Shared interfaces settled | Export existing native component targets/headers and exact transitive dependencies through relocatable CMake config. Add thin nanobind exposure in one settled batch where needed; retain Python-free app/CLI/SDK routes. | Relocated installation consumed by a separate tiny C++ project with no Python or checkout access, matching headers/libraries/notices. |
 | P02: one release handoff | All feature checks and final L01/P01 | Freeze source, stage matching Windows app/CLI/SDK and optional Python once, apply admission/hash checks and existing install/use/uninstall tools. Publish only actual qualified support. | Frozen source/package identities, no restricted inputs/lineage, clean install/use/removal preserving data, matching native/optional-Python results and notices. |
@@ -138,7 +144,7 @@ No calendar or speed-superiority estimate is asserted before measured work.
 D01 is delivered: bounded indexed storage, native project references/relink/owned
 copies, explicit spatial joins and actual desktop index/import/paged gene display.
 Reuse its source-scoped real-data and legacy-route evidence. D02 is now delivered under the checks below. These retained steps explain its
-source-scoped evidence; next execution is A01, without replaying D02/O01/O02.
+source-scoped evidence; next execution is final L01, without replaying D02/O01/O02/A01/A02/A03/A04/P01.
 
 1. Inspect existing value/color/tile caches and generation-driven controllers.
    Reuse the opened matrix and current selected-value snapshot for display-only
@@ -217,7 +223,7 @@ source-scoped evidence; next execution is A01, without replaying D02/O01/O02.
    work240760252 bytes <256MiB; tile-boundary cancellation unwinds0.4172ms on
    HEQPC. Preserve scope: no full-slide throughput, RSS/GPU or biology claim.
 5. D02 closes with this WSI/scale evidence and delivered thin desktop controls.
-   O01/O02 are also delivered. Follow remaining methods/SDK/release packets:15/22 complete.
+   O01/O02 are also delivered. Follow remaining methods/SDK/release packets:18/22 complete.
    Optional bindings/installable SDK remain P01; package once at P02.
 
 Delivered F01-F04 instructions are retained through their checklist progress and
@@ -262,15 +268,21 @@ report the missing real-data acceptance rather than borrowing an NC fixture.
 
 ## Checklist: shared services and useful visualization
 
-- [ ] **L01 — material inventory and separation guard.** Extend the existing
+- [x] **L01 — material inventory and separation guard.** Extend the existing
   inventories instead of creating another dependency database. Keep proprietary
   and NC records physically distinct. Check source/package asset membership,
   derivative lineage and notices offline. Exit: admitted open examples pass;
   restricted and unreviewed fixture/model records refuse staging. No restricted
   binaries or datasets need downloading to test the guard.
-  Progress: the offline guard and initial existing font/CC0 fixture annotations
-  are implemented/tested. Final dependency/package membership coverage remains
-  open; unknown historical assets still refuse admission.
+  Delivered locally: exact finite native/SDK/source-kit membership, fifteen
+  reviewed dependency source artifacts, separate embedded-component/font notices,
+  strict path/hash archive checks and guarded native staging/source collection.
+  Restricted ancestry, unknown assets, unsafe members, carrier fallback and stale
+  source identities refuse.25 focused tests pass (one host-link privilege skip);
+  the actual native/SDK/source/dependency archives and source configure checks pass.
+  [Guide](native-release-materials.md),
+  [receipt](benchmarks/feature-expansion/README.md#l01-final-native-material-membership).
+  Historical unknown assets remain excluded; P02 deployment/publication has its own receipt below.
 - [x] **S01 — expression dataset/value contract.** Add a small native
   `ExpressionDataset`/`FeatureSelection` interface with stable observation/feature
   IDs, count versus continuous-value domain, validity, source identity, plane and
@@ -347,10 +359,10 @@ is promised before measuring the affected workload.
 | L01 | At each packet, admit only its actual inputs and derivative lineage in existing inventories. Before release, enumerate all staged source/binary/data/model/generated assets, connect the offline guard and resolve every unmatched member. | Incremental prerequisite for new inputs; final closure requires actual complete stage membership. An allowlist of license names alone is insufficient. |
 | P02 | 1. Freeze completed source/features and close final L01 membership. 2. Stage matching app/CLI/SDK and selected optional Python artifacts once. 3. Verify hashes, sources/notices and clean install/use/uninstall. 4. Publish the exact qualified platform/support statement. | One engineering release handoff after P01 and feature acceptance; preserve user data and old receipts. No implied signing, stable status or untested platform support. |
 
-Remaining execution order is A01/A02 → A03/A04 → P01 → final L01 → P02.
-Reuse the delivered O01/O02 adapters and their source-scoped evidence. If A04
-awaits admissible replicate data, advance P01 without claiming A04 or releasing
-an incomplete all-items milestone.
+All22 selected contracts are closed. No further execution phase is selected.
+Reuse delivered A01/A02/A03/A04 and the O01/O02 adapters and their source-scoped
+evidence. A04 uses an admitted original-author replicated Kidney dataset; the
+single-mouse spatial demo remains outside DE acceptance.
 
 For every item: record changed inputs and the decisive check in current-task,
 settle native types and persistence before consumer edits, run affected checks
@@ -601,7 +613,7 @@ and classify actual release inputs under L01. See the existing
 
 ## Checklist: molecular methods
 
-- [ ] **A01 — QC and normalization.** Native requests compute observation totals,
+- [x] **A01 — QC and normalization.** Native requests compute observation totals,
   detected features and optional explicitly defined feature groups, then library-
   size normalization and log1p as versioned derived results. Use the full intended
   feature universe; a six-gene projection is not a whole-transcriptome library.
@@ -615,15 +627,32 @@ and classify actual release inputs under L01. See the existing
   detection and explicit groups for every observation. Different256/64MiB
   replay batches retain exact QC/recipe/value identity. See the
   [native QC receipt](benchmarks/feature-expansion/README.md#a01-native-full-universe-qc-and-normalization).
-  Keep A01 open for actual desktop raw/normalized/log selection, QC presentation
-  and recipe keep/reopen integration; SDK/optional Python remain P01.
-- [ ] **A02 — regional summaries and pseudobulk.** Reuse ROI/spatial-index cohorts
+  Desktop closure delivered through the existing native GeneViewSession worker:
+  actual QC/raw/normalized/log and recipe Keep/Apply/Remove controls pass, with
+  exact raw preservation, coordinate registration, QC/source cache reuse and
+  saved replay on the complete real source. Native controller refuses double
+  display log and clears failed current work. See the
+  [desktop closure receipt](benchmarks/feature-expansion/README.md#a01-desktop-qc-and-normalization-closure).
+  Optional explicit feature-group creation remains native API; desktop presents
+  groups retained in recipes. P01 installs the native APIs; optional Python
+  controls remain separately selected work.
+- [x] **A02 — regional summaries and pseudobulk.** Reuse ROI/spatial-index cohorts
   and D01 block reads. Report per-gene sums/means, observation counts, group IDs and
   normalization domain; distinguish spot-center membership from cell/spot area.
   Handle overlaps explicitly and overflow-check integer totals. Add sample/
   replicate group metadata and pseudobulk matrices for A04. Exit: hand-calculated
   overlapping/empty cohorts, exact totals and exported/save/replayed associations.
-- [ ] **A03 — sparse PCA and deterministic clustering.** Use bounded native block
+  Delivered through shared native services and the thin batch CLI. Exact uint64
+  sums, optional means, explicit source/registered spot-centre membership,
+  independent/reject overlaps and full-universe disjoint raw pseudobulk pass.
+  Captured sample/replicate/group and observation associations persist as chunked
+  recipes; analytical/overflow/cancel/stale/budget, actual native CLI/CSV and
+  full real32285-feature/2702-spot replay checks pass. See the
+  [A02 receipt](benchmarks/feature-expansion/README.md#a02-regional-expression-summaries-and-pseudobulk)
+  and [guide](expression-aggregation.md). P01 subsequently installs the native
+  API. Desktop/Python controls remain separate; this aggregation slice alone
+  makes no DE/biological-replicate claim.
+- [x] **A03 — sparse PCA and deterministic clustering.** Use bounded native block
   matrix products and a fixed-seed truncated PCA/SVD; only the small sketch may
   be dense. Center implicitly using recorded feature means for PCA; distinguish
   it from uncentered SVD. Reuse the admitted native linear algebra backend. Start clustering
@@ -631,7 +660,18 @@ and classify actual release inputs under L01. See the existing
   RNG. Retain embedding/cluster IDs, feature universe, preprocessing and seed.
   Exit: reproducibility on named fixtures, bounded work/cancel, independent
   numerical checks and persistence. Additional graph clustering methods are optional.
-- [ ] **A04 — named differential-expression workflow.** First method: two-group
+  Delivered locally through shared native services/CLI and a native SVG scatter
+  view. Implicit centering, orthogonalized seeded subspace iteration, pinned
+  OpenCV thin SVD and bounded explicit-k clustering retain exact fitted arrays,
+  means/features/preprocessing/seed/axis associations. Independent LAPACK and
+  analytical rank/subspace/inertia, exact seeded replay across work sizes, owned
+  Save As and actual CLI/plot checks pass. Real512-of32285-feature/2702-observation
+  engineering check converges and preserves exact fitted identity; no biological
+  cluster assignment. [Guide](expression-reduction.md),
+  [receipt](benchmarks/feature-expansion/README.md#a03-sparse-pca-and-deterministic-clustering).
+  Result view is native SVG; P01 installs the native API. Desktop/Python controls
+  remain separate.
+- [x] **A04 — named differential-expression workflow.** First method: two-group
   Welch testing on explicitly defined replicate-level log-normalized pseudobulk,
   effect sizes and Benjamini–Hochberg correction. Use a pinned native numerical
   distribution implementation (Boost.Math is an open candidate), never scipy/R at
@@ -642,10 +682,19 @@ and classify actual release inputs under L01. See the existing
   and independent statistical oracles plus one admitted replicated dataset; record
   feature universe, sample groups, normalization, method and correction scope.
   This is not a claim to implement every DE method or DESeq2 compatibility.
+  Delivered through native services/CLI, exact canonical saved-recipe replay and
+  gene/replicate CSV. Same-replicate cohorts merge raw counts before normalization;
+  sample bijection, insufficient/degenerate/underflow flags and stale direct-retain
+  refusal are native. Analytical/frozen independent Welch/BH and original-author
+  CC BY4.0 Tabula Muris Kidney23433-gene/865-cell/six-mouse checks pass.
+  [Guide](expression-differential.md),
+  [receipt](benchmarks/feature-expansion/README.md#a04-replicate-level-differential-expression).
+  P01 subsequently installs the native API. This method slice adds no GUI,
+  Python binding, package publication or biological-discovery claim.
 
 ## Checklist: SDK and release
 
-- [ ] **P01 — installable native SDK.** Export `qupathxx::core` and available
+- [x] **P01 — installable native SDK.** Export `qupathxx::core` and available
   component targets through `find_package(qupathxx CONFIG ...)`. Install public
   headers, version/feature metadata and every required transitive native library/
   runtime/notice; remove build-tree paths. Reuse current static libraries first,
@@ -653,7 +702,17 @@ and classify actual release inputs under L01. See the existing
   consumer must configure/build/run after relocating the installation and without
   Python or the source checkout. That named consumer build is not a second engine
   cache. Do not claim an installed SDK from an in-tree example alone.
-- [ ] **P02 — matching engineering release.** Freeze the completed source and
+  Delivered locally: Windows x64/MSVC19.44 Release /MD SDK exports core, density
+  workflow and NuCLS targets, all public headers/features and pinned native link/
+  runtime/notices.180 installed files match build inputs; relocated external
+  CMake consumer compiles every public header, calls native services and preserves
+  exact saved identities without Python/source/dependency checkout inputs. ABI/
+  component refusal checks pass. Private JPEG CRT mismatch is corrected and eight
+  independent native JPEG cases pass; no warning suppression.
+  [Guide](native-sdk.md),
+  [receipt](benchmarks/feature-expansion/README.md#p01-relocatable-native-sdk).
+  Local engineering SDK only; bindings/GUI/release membership remain separate.
+- [x] **P02 — matching engineering release.** Freeze the completed source and
   publish matching app/CLI/SDK, optional Python artifacts and source/notices for
   the actual supported platform. Windows x64 GUI/SDK is the first stated target;
   Linux native/headless CI remains distinct until a Linux package is qualified.
@@ -663,6 +722,17 @@ and classify actual release inputs under L01. See the existing
   Perform one frozen install/use/uninstall handoff preserving user data. Existing
   candidate7 and historical evidence remain unchanged; no stable/signing claim
   without those deliverables being implemented.
+  Delivered as [Windows native candidate8](https://github.com/bipxx/qupathxx/releases/tag/v0.1.0-windows-candidate.8):
+  matching app/CLI/SDK/application source/dependency source plus validation receipts,
+  release manifest and checksums. All seven uploaded SHA256 digests match; public
+  checksum/manifest downloads verify. Current installed SDK builds120 headers;
+  native saved replay, exports, pixels and GUI startup pass.251 package members
+  removed with18 user outputs unchanged; removal preflight negative tests pass.
+  [Support/use](windows-native-candidate8.md),
+  [deployment receipt](benchmarks/windows-native-candidate8/README.md).
+  Local fresh-prefix Windows x64/MSVC19.44 Release /MD engineering support only;
+  optional Python artifacts remain frozen. No main merge or new platform,
+  biological, signing/stable acceptance is implied.
 
 ## Source/dependency decisions before implementation
 
@@ -702,6 +772,6 @@ run until P02 or a named correctness/platform risk requires it. Cleanup only
 verified disposable outputs after preserving fixtures/failures/source. Completion
 means these22 finite contracts are met; it does not imply all statistical methods,
 nonlinear registration, deep pretrained models, distributed execution or100% QuPath
-parity. O01/O02 are delivered locally; next deliver A01 QC/normalization;
-finish L01 membership admission as actual release inputs settle. Preserve the
+parity. O01/O02/A01/A02/A03/A04/P01/L01 and the P02 native engineering release are
+delivered under their stated contracts. Stop; preserve the
 independent desktop layout work and its source-scoped evidence.

@@ -1,0 +1,28 @@
+#pragma once
+#include "qupathxx/sdk_abi.hpp"
+#cmakedefine01 QUPATHXX_BUILD_PROJECT
+#cmakedefine01 QUPATHXX_BUILD_INTERCHANGE
+#cmakedefine01 QUPATHXX_BUILD_GEOS
+#cmakedefine01 QUPATHXX_BUILD_OPENSLIDE
+#cmakedefine01 QUPATHXX_BUILD_TIFF
+#cmakedefine01 QUPATHXX_BUILD_H5AD
+#cmakedefine01 QUPATHXX_BUILD_OME_ZARR
+#cmakedefine01 QUPATHXX_BUILD_STATISTICS
+#cmakedefine01 QUPATHXX_BUILD_CLASSIFIER_TRAINING
+#cmakedefine01 QUPATHXX_BUILD_LINEAR_ALGEBRA
+#cmakedefine01 QPX_SDK_DENSITY
+#cmakedefine01 QPX_SDK_NUCLS
+namespace qpx::sdk {
+inline constexpr const char* version="@PROJECT_VERSION@";
+inline constexpr const char* source_sha256="@QPX_SOURCE_SHA256@";
+inline constexpr const char* git_revision="@QPX_GIT_REVISION@";
+inline constexpr const char* compiler="@CMAKE_CXX_COMPILER_ID@ @CMAKE_CXX_COMPILER_VERSION@";
+inline constexpr bool project=QUPATHXX_BUILD_PROJECT, geos=QUPATHXX_BUILD_GEOS,
+    interchange=QUPATHXX_BUILD_INTERCHANGE,
+    openslide=QUPATHXX_BUILD_OPENSLIDE, tiff=QUPATHXX_BUILD_TIFF,
+    h5ad=QUPATHXX_BUILD_H5AD, ome_zarr=QUPATHXX_BUILD_OME_ZARR,
+    statistics=QUPATHXX_BUILD_STATISTICS,
+    classifier=QUPATHXX_BUILD_CLASSIFIER_TRAINING,
+    linear_algebra=QUPATHXX_BUILD_LINEAR_ALGEBRA || QUPATHXX_BUILD_CLASSIFIER_TRAINING,
+    density_workflow=QPX_SDK_DENSITY,nucls_import=QPX_SDK_NUCLS;
+}

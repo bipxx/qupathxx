@@ -7,6 +7,7 @@
 #include "workflow_input.hpp"
 #include "sha256.hpp"
 #include "utf8_text.hpp"
+#include "matrix_format_registry.hpp"
 #include <nlohmann/json.hpp>
 #include <algorithm>
 #include <cstring>
@@ -74,7 +75,8 @@ std::shared_ptr<const BackedSpatialImportPreview> preview_backed_spatial_import(
            (!request.expected_store_sha256.empty() && source->file_sha256()!=request.expected_store_sha256))
             throw WorkflowInputChanged("Prepared matrix differs from selected import source");
         if(std::filesystem::file_size(std::filesystem::u8path(source->path()))>request.store_bytes)throw WorkflowCaptureLimit("Prepared matrix exceeds import file budget");
-    } else source=open_expression_matrix(request.store,request.expected_store_sha256,work/2,request.store_bytes,cancelled);
+    } else source=detail::open_matrix_format(detail::select_matrix_format(detail::MatrixFormat::Qmx),
+        {request.store,request.expected_store_sha256,work/2,request.store_bytes},cancelled);
     d->request.store=source->path();d->request.expected_store_sha256=source->file_sha256();
     CoordinateFrame coordinate_source;
     if(request.positions.empty()){

@@ -5,10 +5,14 @@
 #include "image_analysis_settings_codec.hpp"
 #include "image_data_properties_codec.hpp"
 #include "expression_matrix_project_internal.hpp"
+#include "expression_reduction_project_internal.hpp"
 #include "object_properties_codec.hpp"
 #include "reader_file_guard.hpp"
+#include "reader_registry.hpp"
+#include "reader_plugin.hpp"
 #include "project_source_internal.hpp"
 #include "project_zarr.hpp"
+#include "project_plugin.hpp"
 #include "filesystem_access.hpp"
 #include "atomic_export.hpp"
 #include "ascii_case.hpp"
@@ -93,18 +97,17 @@ std::string absolute(const std::string& path) {
     return fs::absolute(fs::u8path(path)).lexically_normal().u8string();
 }
 std::string reader_name(const std::string& path,std::string reader) {
-    if(reader=="auto") {
-        auto ext=fs::u8path(path).extension().u8string();
-        detail::ascii_lower_in_place(ext);
-        const auto ome=is_ome_tiff_path(path);
-        reader=ext==".zarr"?"ome-zarr":ext==".ppm"?"ppm":has_tiff() && ome?"tiff":"openslide";
-    }
-    if(reader!="ppm" && reader!="openslide" && reader!="tiff" && reader!="ome-zarr") throw std::invalid_argument("image reader must be auto, ppm, openslide, tiff or ome-zarr");
-    return reader;
+    return detail::select_reader(path,reader,detail::ReaderPolicy::Project).provider_id;
 }
 std::shared_ptr<ImageServer> read_image(const std::string& path,const std::string& reader,std::shared_ptr<const TiffView> view={},const std::atomic<bool>* cancelled=nullptr,std::shared_ptr<const TiffOpenOptions> budgets={},std::shared_ptr<const detail::ZarrLink> zarr={}) {
-    if(reader=="ome-zarr"){auto options=zarr?zarr->options:OmeZarrOpenOptions{};if(view)options.view=*view;auto server=open_ome_zarr(path,options,cancelled);if(zarr && !zarr->expected.empty() && server->reader_source()->directory_sha256!=zarr->expected)throw std::runtime_error("Zarr directory changed; relink/review explicitly");return server;}
-    if(reader=="tiff") {TiffOpenOptions options;if(budgets) options=*budgets;if(view) options.view=*view;return open_tiff(path,options,cancelled);}return reader=="ppm"?ppm_image_server(path):open_slide(path);
+    detail::ReaderOpenOptions options;
+    if(budgets)options.tiff=*budgets;
+    if(zarr)options.zarr=zarr->options;
+    if(view){options.tiff.view=*view;options.zarr.view=*view;}
+    auto server=detail::open_reader(path,detail::select_reader(path,reader,detail::ReaderPolicy::Project),options,cancelled);
+    if(reader=="ome-zarr" && zarr && !zarr->expected.empty() && server->reader_source()->directory_sha256!=zarr->expected)
+        throw std::runtime_error("Zarr directory changed; relink/review explicitly");
+    return server;
 }
 void validate_metadata(const ImageMetadata& m) {
     if(m.pixel_type!=PixelType::UInt8 || m.layout!=PixelLayout::RGBA || m.width<=0 || m.height<=0 || m.levels.empty() || m.levels.size()>65536 ||
@@ -217,6 +220,7 @@ std::unique_ptr<Project> Project::snapshot_for_save(std::size_t budget,std::size
         if(e.info.description)add(e.info.description->size());
         for(const auto& tag:e.info.tags)add(64+tag.size());
         if(e.info.embedded) add(e.document->image().pixels().size());
+        else if(const auto plugin_bytes=detail::project_plugin_snapshot_bytes(*e.document->server()))add(plugin_bytes);
         else add(sizeof(LinkedServer)+e.document->metadata().levels.size()*sizeof(ImageLevel)+e.document->metadata().vendor.size()+e.info.source_path.size()+e.info.reader.size()+sizeof(ReaderSource)+256+e.info.source_path.size()+e.info.reader.size());
         if(e.document->server()->raw_view()) add(sizeof(TiffView)+1024);if(e.info.reader=="ome-zarr")add(sizeof(detail::ZarrLink)+4096);
         if(const auto v=source_verifications_.find(id);v!=source_verifications_.end()) {
@@ -268,7 +272,8 @@ std::unique_ptr<Project> Project::snapshot_for_save(std::size_t budget,std::size
         auto doc=std::shared_ptr<Document>(new Document());
         // Save-only authority: no mutable indexes, selection or edit history enter
         // the worker. Immutable ROI storage and dense source pixels are shared.
-        doc->server_=e.info.embedded?e.document->server_:std::make_shared<LinkedServer>(e.document->metadata(),e.info.source_path,e.info.reader,e.document->server()->raw_view(),e.document->server()->tiff_options(),nullptr,zarr_link_of(e.document->server()));
+        const auto plugin=detail::plugin_link_of(*e.document->server());
+        doc->server_=e.info.embedded?e.document->server_:plugin?detail::project_plugin_server(e.document->metadata(),e.info.source_path,plugin):std::make_shared<LinkedServer>(e.document->metadata(),e.info.source_path,e.info.reader,e.document->server()->raw_view(),e.document->server()->tiff_options(),nullptr,zarr_link_of(e.document->server()));
         doc->object_snapshot_.reserve(e.document->object_blocks_.size());
         for(const auto& [key,block]:e.document->object_blocks_) doc->object_snapshot_.push_back(block);
         doc->object_snapshot_count_=e.document->objects_.size();doc->object_bytes_=e.document->object_bytes_;doc->tma_index_=e.document->tma_index_;doc->tma_revision_=e.document->tma_revision_;
@@ -348,7 +353,9 @@ std::vector<ProjectImage> Project::images() const {
     std::vector<ProjectImage> result; result.reserve(entries_.size());
     for(const auto& [id,e]:entries_) {
         auto info=e.info; std::error_code error;
-        info.available=info.embedded || fs::is_regular_file(fs::u8path(info.source_path),error); result.push_back(std::move(info));
+        info.available=info.embedded || fs::is_regular_file(fs::u8path(info.source_path),error);
+        if(const auto plugin=detail::plugin_link_of(*e.document->server()))info.available=info.available && detail::reader_plugin_cached_available(*plugin);
+        result.push_back(std::move(info));
     }
     return result;
 }
@@ -368,11 +375,12 @@ std::uint64_t Project::add_tiff_source(std::shared_ptr<ImageServer> server,std::
 void Project::set_tiff_view(std::uint64_t id,const TiffView& view) {document(id)->set_tiff_view(view);}
 std::uint64_t Project::add_document(std::shared_ptr<Document> doc,std::string name,std::string source,std::string reader) {
     if(!doc) throw std::invalid_argument("project requires a document");
+    const auto plugin=detail::plugin_link_of(*doc->server());
     for(const auto& [id,e]:entries_) if(e.document.get()==doc.get()) throw std::invalid_argument("document already belongs to this project");
     if(source.empty()) {
         const auto native_reader=doc->server()->reader_id();
         const auto locator=doc->server()->source_locator();
-        if((native_reader=="openslide" || native_reader=="tiff" || native_reader=="ome-zarr") && !locator.empty()) {
+        if((native_reader=="openslide" || native_reader=="tiff" || native_reader=="ome-zarr" || plugin) && !locator.empty()) {
             if(reader!="auto" && reader!=native_reader) throw std::invalid_argument("reader differs from the attached document's native source");
             source=locator;reader=native_reader;
         }
@@ -384,16 +392,24 @@ std::uint64_t Project::add_document(std::shared_ptr<Document> doc,std::string na
         if(image.pixels().size()>256*1024*1024) throw std::length_error("embedded image exceeds 256 MiB; use a file link");
         reader="embedded";
     } else {
-        source=absolute(source); reader=reader_name(source,std::move(reader));
+        source=absolute(source);
+        if(plugin) {
+            if((reader!="auto" && reader!=plugin->implementation.provider_id) || doc->server()->reader_id()!=plugin->implementation.provider_id || doc->server()->source_locator()!=source)
+                throw std::invalid_argument("plugin reader differs from the attached native source");
+            plugin->validate();reader=plugin->implementation.provider_id;
+        } else {
+            if(detail::valid_reader_plugin_id(reader) || detail::valid_reader_plugin_id(doc->server()->reader_id()))throw std::invalid_argument("attach a native plugin document with its captured source");
+            reader=reader_name(source,std::move(reader));
+        }
         const auto trusted_tiff=reader=="tiff" && doc->server()->reader_id()=="tiff" && doc->server()->source_locator()==source && bool(doc->server()->tiff_view());
         const auto trusted_zarr=reader=="ome-zarr" && doc->server()->reader_id()=="ome-zarr" && doc->server()->source_locator()==source && bool(doc->server()->raw_view());
         if((reader=="tiff" || reader=="ome-zarr") && !trusted_tiff && !trusted_zarr) throw std::invalid_argument("attach a native TIFF document with the same source, or use add_tiff_image");
-        if(fs::exists(fs::u8path(source)) && !trusted_tiff && !trusted_zarr) compatible(doc->metadata(),read_image(source,reader,doc->server()->tiff_view())->metadata());
+        if(!plugin && fs::exists(fs::u8path(source)) && !trusted_tiff && !trusted_zarr) compatible(doc->metadata(),read_image(source,reader,doc->server()->tiff_view())->metadata());
     }
     if(name.empty()) name=embedded?"Image":fs::u8path(source).filename().u8string(); text(name);
     auto id=next_id_;
     entries_.emplace(id,Entry{{id,std::move(name),std::move(source),std::move(reader),doc->metadata().width,doc->metadata().height,embedded,true},std::move(doc)});
-    if(entries_.at(id).info.reader=="ome-zarr")entries_.at(id).native_lifetime=true;
+    if(entries_.at(id).info.reader=="ome-zarr" || plugin)entries_.at(id).native_lifetime=true;
     ++next_id_; ++revision_; if(!active_image_) active_image_=id; return id;
 }
 void Project::remove_image(std::uint64_t id) {
@@ -483,7 +499,11 @@ void Project::set_image_details(std::uint64_t id,std::optional<std::string> desc
 void Project::relink(std::uint64_t id,const std::string& path) {
     if(source_verification(id))throw std::invalid_argument("saved source verification requires reviewed source replacement");
     const auto& old=entry(id); if(old.info.embedded) throw std::invalid_argument("embedded images do not require relinking");
-    auto source=absolute(path); auto server=read_image(source,old.info.reader,old.document->server()->raw_view(),nullptr,old.document->server()->tiff_options(),detail::unbound_zarr_link(zarr_link_of(old.document->server())));
+    const auto plugin=detail::plugin_link_of(*old.document->server());
+    auto source=absolute(path);auto server=plugin?detail::reopen_reader_plugin(source,*plugin,detail::ReaderPluginOpenPolicy::Review):read_image(source,old.info.reader,old.document->server()->raw_view(),nullptr,old.document->server()->tiff_options(),detail::unbound_zarr_link(zarr_link_of(old.document->server())));
+    const auto replacement_plugin=detail::plugin_link_of(*server);
+    if(plugin && (!replacement_plugin || plugin->implementation.sha256()!=replacement_plugin->implementation.sha256()))throw std::invalid_argument("plugin implementation changed; use reviewed source replacement");
+    if(plugin)compatible(old.document->metadata(),server->metadata());
     // Keep recorded source metadata and manual calibration separate from new
     // reader metadata. Existing external server references retain their source.
     // Publish the same verified reader. A lazy replacement would open the path
@@ -491,7 +511,7 @@ void Project::relink(std::uint64_t id,const std::string& path) {
     old.document->validate_axis_source(*server);
     compatible_object_planes(*old.document,*server);
     const auto view=server->raw_view();const auto budgets=server->tiff_options();
-    auto linked=std::make_shared<LinkedServer>(old.document->metadata(),source,old.info.reader,view,budgets,std::move(server));
+    auto linked=plugin?detail::project_plugin_server(server->metadata(),source,replacement_plugin,server):std::make_shared<LinkedServer>(old.document->metadata(),source,old.info.reader,view,budgets,std::move(server));
     advance(revision_);
     entries_.at(id).info.source_path.swap(source); entries_.at(id).document->server_=std::move(linked); ++revision_;
 }
@@ -507,17 +527,19 @@ std::shared_ptr<ProjectSourceReview> Project::review_source_verification(std::ui
     const auto& old=entry(id);if(old.info.embedded)throw std::invalid_argument("embedded images have no source file verification");
     fingerprint.validate();const auto path=old.info.reader=="ome-zarr"?absolute(fs::u8path(fingerprint.path).parent_path().u8string()):absolute(fingerprint.path);
     const auto previous=old.document->server()->reader_source();
+    const auto plugin=detail::plugin_link_of(*old.document->server());
     std::shared_ptr<ImageServer> linked;std::vector<std::unique_ptr<detail::ReaderFileGuard>> guards;
     bool matches_live=false;
     if(previous && previous->primary) {const auto status=associate_source_file(*previous,fingerprint).status;matches_live=status=="matching_metadata" || status=="matching_primary_metadata";}
-    if(old.native_lifetime && !old.document->server()->closed() && path==old.info.source_path && matches_live) {
+    if(old.native_lifetime && !old.document->server()->closed() && path==old.info.source_path && matches_live && (!plugin || detail::reader_plugin_cached_available(*plugin))) {
         try {guards=detail::lock_source_verification_files(associate_source_file(*previous,fingerprint));linked=old.document->server();}
         catch(const std::runtime_error&) { /* Changed/missing native inputs need a fresh candidate; opening errors propagate below. */ }
     }
     if(!linked) {
-        auto candidate=read_image(path,old.info.reader,old.document->server()->raw_view(),nullptr,old.document->server()->tiff_options(),detail::unbound_zarr_link(zarr_link_of(old.document->server())));
+        auto candidate=plugin?detail::reopen_reader_plugin(path,*plugin,detail::ReaderPluginOpenPolicy::Review):read_image(path,old.info.reader,old.document->server()->raw_view(),nullptr,old.document->server()->tiff_options(),detail::unbound_zarr_link(zarr_link_of(old.document->server())));
+        if(plugin)compatible(old.document->metadata(),candidate->metadata());
         const auto view=candidate->raw_view();const auto budgets=candidate->tiff_options();
-        linked=std::make_shared<LinkedServer>(old.document->metadata(),path,old.info.reader,view,budgets,std::move(candidate));
+        linked=plugin?detail::project_plugin_server(candidate->metadata(),path,detail::plugin_link_of(*candidate),candidate):std::make_shared<LinkedServer>(old.document->metadata(),path,old.info.reader,view,budgets,std::move(candidate));
     }
     const auto observed=linked->reader_source();if(!observed || !observed->primary)throw std::invalid_argument("candidate has no observed native source");
     auto association=std::make_shared<const SourceFileAssociation>(associate_source_file(*observed,fingerprint));
@@ -526,7 +548,11 @@ std::shared_ptr<ProjectSourceReview> Project::review_source_verification(std::ui
     auto review=std::make_shared<ProjectSourceReview::Impl>();review->image=id;review->instance=instance_identity_;
     review->previous_path=old.info.source_path;review->previous_generation=previous?previous->generation:std::string{};
     review->baseline=source_verification(id);review->association=std::move(association);review->candidate=std::move(linked);review->path=path;
-    if(!review->baseline)review->comparison=previous && previous->primary && (!matches_live || !detail::same_reader_files(*previous,*observed))?"changed_observed_source":"unverified";
+    review->previous_plugin_link=plugin;
+    const auto candidate_plugin=detail::plugin_link_of(*review->candidate);
+    if(plugin && (!candidate_plugin || plugin->implementation.sha256()!=candidate_plugin->implementation.sha256()))review->comparison="changed_implementation";
+    else if(plugin && !review->baseline && !detail::same_reader_files(plugin->observed,*observed))review->comparison=(plugin->observed.scope=="compound_files" || observed->scope=="compound_files")?"changed_dependencies":"changed_observed_source";
+    else if(!review->baseline)review->comparison=previous && previous->primary && (!matches_live || !detail::same_reader_files(*previous,*observed))?"changed_observed_source":"unverified";
     else if(review->baseline->fingerprint.sha256!=fingerprint.sha256 || review->baseline->fingerprint.bytes!=fingerprint.bytes)review->comparison="changed_bytes";
     else if((review->baseline->source.scope=="compound_files" || observed->scope=="compound_files" || review->baseline->source.scope=="directory_store" || observed->scope=="directory_store") && !detail::same_reader_files(review->baseline->source,*observed))review->comparison="changed_dependencies";
     else review->comparison=observed->scope=="directory_store"?"matching_observed_directory":"matching_bytes";
@@ -538,8 +564,10 @@ void Project::apply_source_review(const std::shared_ptr<ProjectSourceReview>& re
     auto& r=*review->impl_;std::lock_guard<std::mutex> lock(r.mutex);
     if(r.consumed)throw std::invalid_argument("source review already consumed");
     const auto& old=entry(r.image);const auto current=old.document->server()->reader_source();
+    const auto current_plugin=detail::plugin_link_of(*old.document->server());
     if(instance_identity_!=r.instance || old.info.source_path!=r.previous_path || !current || current->generation!=r.previous_generation || source_verification(r.image)!=r.baseline)
         throw std::runtime_error("source review is stale; review the current image again");
+    if(bool(current_plugin)!=bool(r.previous_plugin_link) || (current_plugin && current_plugin->implementation.sha256()!=r.previous_plugin_link->implementation.sha256()))throw std::runtime_error("source review is stale; review the current image again");
     if(review->requires_acceptance() && !accept_changed)throw std::invalid_argument("source or dependency facts changed; explicit accept_changed is required");
     auto path=r.path;const auto guards=detail::lock_source_verification_files(*r.association);
     if((r.comparison=="matching_bytes" || r.comparison=="matching_observed_directory") && old.info.source_path==r.path && old.document->server()==r.candidate) {r.consumed=true;return;}
@@ -650,8 +678,10 @@ struct Statement {
     void real(int i,double v) { check(sqlite3_bind_double(stmt,i,v)); }
     void optional(int i,std::optional<double> v) { if(v) real(i,*v); else check(sqlite3_bind_null(stmt,i)); }
     void blob(int i,const std::vector<std::uint8_t>& v) { check(sqlite3_bind_blob64(stmt,i,v.data(),v.size(),SQLITE_STATIC)); }
+    void blob(int i,const std::string& v) { check(sqlite3_bind_blob64(stmt,i,v.data(),v.size(),SQLITE_STATIC)); }
     // Borrowed bytes must remain alive through done()/reset; reject temporaries.
     void blob(int,const std::vector<std::uint8_t>&&)=delete;
+    void blob(int,const std::string&&)=delete;
     bool row() { auto code=sqlite3_step(stmt); if(code==SQLITE_ROW) return true; if(code==SQLITE_DONE) return false; throw std::runtime_error(sqlite3_errmsg(owner.db)); }
     void done() { if(row()) throw std::runtime_error("unexpected SQLite row"); check(sqlite3_reset(stmt)); check(sqlite3_clear_bindings(stmt)); }
     int type(int i) const { return sqlite3_column_type(stmt,i); }
@@ -764,6 +794,9 @@ void create_source_verifications(Database& db) {
 void create_tiff_views(Database& db) {
     db.exec("CREATE TABLE tiff_views(image_id TEXT PRIMARY KEY NOT NULL REFERENCES images(id),payload BLOB NOT NULL) STRICT; PRAGMA user_version=12;");
 }
+void create_plugin_links(Database& db) {
+    db.exec("CREATE TABLE plugin_links(image_id TEXT PRIMARY KEY NOT NULL REFERENCES images(id),payload BLOB NOT NULL) STRICT; PRAGMA user_version=30;");
+}
 bool recovery_table(Database& db) { return scalar(db,"SELECT count(*) FROM sqlite_schema WHERE type='table' AND name='recovery'")!=0; }
 RecoveryInfo recovery_header(Database& db,const std::string& path) {
     if(scalar(db,"PRAGMA application_id")!=recovery_application_id || schema(db,true)<2 || !recovery_table(db)) throw std::invalid_argument("not a supported recovery snapshot");
@@ -808,7 +841,9 @@ void Project::save_new(const std::string& path,std::size_t budget,std::uint64_t 
     auto protect=[&] {if(!source_path.empty())detail::guard_file_output(source_path,"",destination);
         for(const auto& image:protected_images) {
             if(!image.embedded && !image.source_path.empty())detail::guard_file_output(image.source_path,"",destination);
+            detail::guard_project_plugin_output(*document(image.id)->server(),destination);
             detail::guard_expression_project_output(document(image.id)->image_data_properties(),fs::u8path(source_path).parent_path(),destination);
+            detail::reduction::guard_project_output(document(image.id)->image_data_properties(),fs::u8path(source_path).parent_path(),destination);
         }};
     protect();std::size_t captured=0;auto snapshot=snapshot_for_save(budget,captured);
     struct Stage {
@@ -841,8 +876,11 @@ void Project::save_new(const std::string& path,std::size_t budget,std::uint64_t 
 
 void Project::save_impl(const std::string& path,const std::string& link_directory,const std::atomic<bool>* cancelled,const RecoveryInfo* recovery,const detail::BatchCheckpoint* batch,std::uint64_t file_bytes) {
     auto destination=absolute(path);
+    for(const auto& [id,e]:entries_)detail::guard_project_plugin_output(*e.document->server(),destination);
     for(const auto& [id,e]:entries_)
         detail::guard_expression_project_output(e.document->image_data_properties(),fs::u8path(path_).parent_path(),destination);
+    for(const auto& [id,e]:entries_)
+        detail::reduction::guard_project_output(e.document->image_data_properties(),fs::u8path(path_).parent_path(),destination);
     std::map<std::uint64_t,std::uint64_t> revisions;
     for(const auto& [id,e]:entries_) revisions.emplace(id,e.document->revision());
     Database db(destination,true);
@@ -903,9 +941,10 @@ void Project::save_impl(const std::string& path,const std::string& link_director
         if(version<27)create_analysis_statistics(db);
         if(version<28)create_neighborhoods(db);
         if(version<29)create_densities(db);
+        if(version<30)create_plugin_links(db);
     }
-    if(fresh) {create_analysis(db);create_tissue(db);create_cells(db);create_cell_links(db);create_provenance(db);create_classifiers(db);create_pixel_classifiers(db);create_pixel_streams(db);create_tma(db);create_tiff_views(db);create_raw_analysis(db);create_spatial(db);create_source_verifications(db);create_object_properties(db);create_object_planes(db);create_image_properties(db);create_image_analysis_settings(db);create_image_data_properties(db);create_image_axis_calibration(db);create_image_metadata(db);create_image_details(db);create_project_metadata(db);create_class_registries(db);create_analysis_statistics(db);create_neighborhoods(db);create_densities(db);}
-    db.exec("DELETE FROM analysis_statistics; DELETE FROM class_semantics; DELETE FROM project_class_defaults; DELETE FROM project_classes; DELETE FROM project_metadata; DELETE FROM image_tags; DELETE FROM image_details; DELETE FROM image_metadata; DELETE FROM image_axis_calibration; DELETE FROM image_data_properties; DELETE FROM image_analysis_settings; DELETE FROM image_properties; DELETE FROM object_planes; DELETE FROM object_properties; DELETE FROM source_verifications; DELETE FROM spatial_density_records; DELETE FROM spatial_neighborhood_records; DELETE FROM spatial_distance_records; DELETE FROM raw_analysis_records; DELETE FROM tiff_views; DELETE FROM tma_cores; DELETE FROM tma_grids; DELETE FROM pixel_stream_records; DELETE FROM pixel_classifier_records; DELETE FROM classifier_records; DELETE FROM analysis_provenance; DELETE FROM cell_feature_links; DELETE FROM cell_records; DELETE FROM tissue_records; DELETE FROM analysis_records; DELETE FROM views; DELETE FROM objects; DELETE FROM classes; DELETE FROM levels; DELETE FROM images; DELETE FROM project;");
+    if(fresh) {create_analysis(db);create_tissue(db);create_cells(db);create_cell_links(db);create_provenance(db);create_classifiers(db);create_pixel_classifiers(db);create_pixel_streams(db);create_tma(db);create_tiff_views(db);create_raw_analysis(db);create_spatial(db);create_source_verifications(db);create_object_properties(db);create_object_planes(db);create_image_properties(db);create_image_analysis_settings(db);create_image_data_properties(db);create_image_axis_calibration(db);create_image_metadata(db);create_image_details(db);create_project_metadata(db);create_class_registries(db);create_analysis_statistics(db);create_neighborhoods(db);create_densities(db);create_plugin_links(db);}
+    db.exec("DELETE FROM plugin_links; DELETE FROM analysis_statistics; DELETE FROM class_semantics; DELETE FROM project_class_defaults; DELETE FROM project_classes; DELETE FROM project_metadata; DELETE FROM image_tags; DELETE FROM image_details; DELETE FROM image_metadata; DELETE FROM image_axis_calibration; DELETE FROM image_data_properties; DELETE FROM image_analysis_settings; DELETE FROM image_properties; DELETE FROM object_planes; DELETE FROM object_properties; DELETE FROM source_verifications; DELETE FROM spatial_density_records; DELETE FROM spatial_neighborhood_records; DELETE FROM spatial_distance_records; DELETE FROM raw_analysis_records; DELETE FROM tiff_views; DELETE FROM tma_cores; DELETE FROM tma_grids; DELETE FROM pixel_stream_records; DELETE FROM pixel_classifier_records; DELETE FROM classifier_records; DELETE FROM analysis_provenance; DELETE FROM cell_feature_links; DELETE FROM cell_records; DELETE FROM tissue_records; DELETE FROM analysis_records; DELETE FROM views; DELETE FROM objects; DELETE FROM classes; DELETE FROM levels; DELETE FROM images; DELETE FROM project;");
     Statement meta(db,"INSERT INTO project VALUES(?,?,?,?)");
     meta.string(1,identity_); meta.string(2,std::to_string(next_id_)); meta.string(3,std::to_string(active_image_)); meta.integer(4,static_cast<std::int64_t>(next_generation)); meta.done();
     Statement global_metadata(db,"INSERT INTO project_metadata VALUES(?,?)");
@@ -948,6 +987,7 @@ void Project::save_impl(const std::string& path,const std::string& link_director
     Statement density_records(db,"INSERT INTO spatial_density_records VALUES(?,?,?)");
     Statement neighborhood_records(db,"INSERT INTO spatial_neighborhood_records VALUES(?,?,?)");
     Statement verification(db,"INSERT INTO source_verifications VALUES(?,?)");
+    Statement plugin_link_row(db,"INSERT INTO plugin_links VALUES(?,?)");
     Statement analysis_statistics(db,"INSERT INTO analysis_statistics VALUES(?,?,?)");
     Statement analysis(db,"INSERT INTO analysis_records VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
     auto directory=link_directory.empty()?fs::u8path(destination).parent_path():fs::u8path(link_directory);
@@ -961,6 +1001,12 @@ void Project::save_impl(const std::string& path,const std::string& link_director
         image.optional(11,doc.pixel_width_um_); image.optional(12,doc.pixel_height_um_); image.string(13,std::to_string(doc.next_id_)); image.string(14,std::to_string(doc.revision_));
         if(e.info.embedded) image.blob(15,doc.image().pixels());
         image.done();
+        if(const auto plugin=detail::plugin_link_of(*doc.server())) {
+            if(e.info.embedded || e.info.reader!=plugin->implementation.provider_id || doc.server()->source_locator()!=e.info.source_path)
+                throw std::invalid_argument("Plugin link does not match project reader");
+            const auto encoded=detail::encode_reader_plugin_link(*plugin);
+            plugin_link_row.string(1,key);plugin_link_row.blob(2,encoded);plugin_link_row.done();
+        } else if(detail::valid_reader_plugin_id(e.info.reader))throw std::invalid_argument("Plugin project link is missing its native contract");
         for(const auto& [name,value]:e.info.metadata) {metadata_row.string(1,key);metadata_row.string(2,name);metadata_row.string(3,value);metadata_row.done();}
         if(e.info.description || !e.info.tags.empty()) {
             details_row.string(1,key);if(e.info.description)details_row.string(2,*e.info.description);else details_row.null(2);details_row.done();
@@ -968,7 +1014,8 @@ void Project::save_impl(const std::string& path,const std::string& link_director
         }
         if(doc.image_axis_calibration_) {const auto bytes=detail::encode_image_axis_calibration(*doc.image_axis_calibration_);axis_row.string(1,key);axis_row.blob(2,bytes);axis_row.done();}
         if(doc.image_data_properties_) {
-            const auto properties=detail::expression_properties_for_save(doc.image_data_properties_,fs::u8path(path_).parent_path(),directory,cancelled);
+            auto properties=detail::expression_properties_for_save(doc.image_data_properties_,fs::u8path(path_).parent_path(),directory,cancelled);
+            properties=detail::reduction::properties_for_save(std::move(properties),fs::u8path(path_).parent_path(),directory,cancelled);
             const auto bytes=detail::encode_image_data_properties(*properties);data_properties_row.string(1,key);data_properties_row.blob(2,bytes);data_properties_row.done();
         }
         if(doc.image_analysis_settings_) {const auto bytes=detail::encode_image_analysis_settings(*doc.image_analysis_settings_);image_settings_row.string(1,key);image_settings_row.blob(2,bytes);image_settings_row.done();}
@@ -1191,6 +1238,16 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
         levels.string(1,key); std::int64_t ordinal=0;
         while(levels.row()) { if(levels.integer(0)!=ordinal++ || ordinal>65536) throw std::invalid_argument("invalid pyramid level order"); metadata.levels.push_back({levels.integer(1),levels.integer(2),levels.real(3)}); }
         levels.check(sqlite3_reset(levels.stmt)); levels.check(sqlite3_clear_bindings(levels.stmt)); validate_metadata(metadata);
+        std::shared_ptr<const detail::ReaderPluginLink> plugin;
+        if(version>=30) {
+            Statement row(db,"SELECT payload FROM plugin_links WHERE image_id=?");row.string(1,key);
+            if(row.row()) {
+                const auto size=sqlite3_column_bytes(row.stmt,0);
+                if(row.type(0)!=SQLITE_BLOB || size<=0 || std::size_t(size)>detail::reader_plugin_link_limit)throw std::invalid_argument("invalid project plugin link");
+                plugin=detail::decode_reader_plugin_link(std::string(static_cast<const char*>(sqlite3_column_blob(row.stmt,0)),std::size_t(size)));
+                if(info.embedded || info.reader!=plugin->implementation.provider_id || row.row())throw std::invalid_argument("orphaned, embedded or mismatched project plugin link");
+            }
+        }
         std::shared_ptr<ImageServer> server;
         if(info.embedded) {
             auto bytes=sqlite3_column_bytes(images.stmt,14);
@@ -1202,11 +1259,12 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
             if(metadata.vendor!=server->metadata().vendor || metadata.pixel_width_um!=server->metadata().pixel_width_um || metadata.pixel_height_um!=server->metadata().pixel_height_um)
                 throw std::invalid_argument("embedded source metadata does not match dense pixels");
         } else {
-            if(file.empty() || images.type(14)!=SQLITE_NULL || reader_name(file,info.reader)!=info.reader) throw std::invalid_argument("invalid linked image descriptor");
+            if(file.empty() || images.type(14)!=SQLITE_NULL)throw std::invalid_argument("invalid linked image descriptor");
+            if(!plugin && (!detail::known_reader_id(info.reader) || reader_name(file,info.reader)!=info.reader))throw std::invalid_argument("invalid linked image descriptor");
             text(file,32768); auto location=fs::u8path(file); if(location.is_relative()) location=fs::u8path(source).parent_path()/location;
             std::shared_ptr<const TiffView> selected;std::shared_ptr<const detail::ZarrLink> zarr;
             if(version>=12) {Statement row(db,"SELECT payload FROM tiff_views WHERE image_id=?");row.string(1,key);if(row.row()) {const auto n=sqlite3_column_bytes(row.stmt,0);if(row.type(0)!=SQLITE_BLOB || n<0 || n>4096 || (info.reader!="tiff" && info.reader!="ome-zarr")) throw std::invalid_argument("invalid project TIFF view");const auto payload=std::string(static_cast<const char*>(sqlite3_column_blob(row.stmt,0)),std::size_t(n));if(info.reader=="ome-zarr"){zarr=detail::decode_zarr_link(payload);selected=std::make_shared<const TiffView>(zarr->options.view);}else selected=std::make_shared<const TiffView>(tiff_view_decode(payload));if(row.row()) throw std::invalid_argument("duplicate project TIFF view");}}
-            info.source_path=absolute(location.u8string()); server=std::make_shared<LinkedServer>(metadata,info.source_path,info.reader,std::move(selected),nullptr,nullptr,std::move(zarr));
+            info.source_path=absolute(location.u8string());server=plugin?detail::project_plugin_server(metadata,info.source_path,std::move(plugin)):std::make_shared<LinkedServer>(metadata,info.source_path,info.reader,std::move(selected),nullptr,nullptr,std::move(zarr));
         }
         std::vector<ObjectClass> definitions;
         classes.string(1,key);
@@ -1291,6 +1349,8 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
             if(row.row()) {const auto n=sqlite3_column_bytes(row.stmt,0);if(row.type(0)!=SQLITE_BLOB || n<0 || n>2*ImageDataProperties::max_payload)throw std::invalid_argument("invalid ImageData properties payload");data_properties=detail::decode_image_data_properties(sqlite3_column_blob(row.stmt,0),std::size_t(n));if(row.row())throw std::invalid_argument("duplicate ImageData properties");}
         }
         data_properties=detail::expression_properties_after_open(std::move(data_properties),fs::u8path(source).parent_path(),
+            recovery_info && recovery_info->base_path.empty());
+        data_properties=detail::reduction::properties_after_open(std::move(data_properties),fs::u8path(source).parent_path(),
             recovery_info && recovery_info->base_path.empty());
         if(version>=23) {
             Statement row(db,"SELECT metadata_key,metadata_value FROM image_metadata WHERE image_id=? ORDER BY metadata_key");row.string(1,key);
@@ -1492,6 +1552,7 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
         }
     }
     if(version>=12 && scalar(db,"SELECT count(*) FROM tiff_views t LEFT JOIN images i ON i.id=t.image_id WHERE i.id IS NULL OR i.reader NOT IN ('tiff','ome-zarr') OR i.embedded!=0")) throw std::invalid_argument("orphaned or incompatible TIFF view data");
+    if(version>=30 && scalar(db,"SELECT count(*) FROM plugin_links p LEFT JOIN images i ON i.id=p.image_id WHERE i.id IS NULL OR i.embedded!=0"))throw std::invalid_argument("orphaned or embedded plugin link data");
     if(version>=27 && scalar(db,"SELECT count(*) FROM analysis_statistics s WHERE NOT EXISTS (SELECT 1 FROM analysis_records a WHERE a.image_id=s.image_id AND a.id=s.id)")) throw std::invalid_argument("orphaned region statistics");
     if(version>=26 && scalar(db,"SELECT count(*) FROM class_semantics s WHERE NOT EXISTS (SELECT 1 FROM classes c WHERE c.image_id=s.image_id AND c.name=s.class_name)"))throw std::invalid_argument("orphaned class semantics");
     if(version>=24 && (scalar(db,"SELECT count(*) FROM image_details d WHERE NOT EXISTS (SELECT 1 FROM images i WHERE i.id=d.image_id)") || scalar(db,"SELECT count(*) FROM image_tags t WHERE NOT EXISTS (SELECT 1 FROM image_details d WHERE d.image_id=t.image_id)")))throw std::invalid_argument("orphaned image details or tags");

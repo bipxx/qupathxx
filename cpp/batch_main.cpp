@@ -1,4 +1,6 @@
 #include "json_string.hpp"
+#include "format_family_catalog.hpp"
+#include "qupathxx/reader_plugins.hpp"
 #include "qupathxx/project_batch.hpp"
 #include "qupathxx/stain_model_io.hpp"
 #include "decimal_quantity.hpp"
@@ -11,6 +13,9 @@
 #include "dark_flat_cli.hpp"
 #include "linear_unmixing_cli.hpp"
 #include "native_workflow_cli.hpp"
+#include "expression_aggregation_cli.hpp"
+#include "expression_reduction_cli.hpp"
+#include "expression_differential_cli.hpp"
 #include "tma_case_cli.hpp"
 #include "qptma_project_cli.hpp"
 #include "tma_dearray_cli.hpp"
@@ -37,14 +42,26 @@ double real(const std::string& s) {std::size_t end=0;const auto n=std::stod(s,&e
 std::vector<double> numbers(const std::string& s) {
     std::vector<double> out;std::size_t at=0;do {const auto end=s.find(',',at);out.push_back(real(s.substr(at,end==std::string::npos?end:end-at)));if(out.size()>9) throw std::invalid_argument("too many vector components");if(end==std::string::npos) break;at=end+1;}while(true);return out;
 }
-int execute(const std::vector<std::string>& args) {
+int execute_inner(const std::vector<std::string>& args) {
     using namespace qpx;
+    if(args.size()==2 && args[1]=="--formats") {std::cout<<detail::format_family_catalog_json();return 0;}
     if(args.size()==1 || (args.size()==2 && args[1]=="--help")) {
         std::cout<<"Usage: qupathxx_batch PROJECT OUTPUT_DIRECTORY [options]\n"
+            "       qupathxx_batch --formats\n"
             "       qupathxx_batch --project-density MANIFEST NEW_DIRECTORY [--resume-from DIRECTORY --recompute --stop-on-error]\n"
             "       qupathxx_batch --density-manifest PROJECT --window-class NAME --tissue-class NAME --all-cells [--output NEW_MANIFEST]\n"
             "       qupathxx_batch --import-nucls IMAGES ANNOTATIONS --mpp-x N --mpp-y N --representation outlines|centroids [--output NEW_PROJECT]\n"
             "       qupathxx_batch --export-csv CHECKPOINT OUTPUT.csv\n"
+            "       qupathxx_batch --aggregate-expression PROJECT NEW_PROJECT --image ID --matrix SHA256 --spec SPEC.json [--work-bytes N]\n"
+            "       qupathxx_batch --reduce-expression PROJECT NEW_PROJECT --image ID --matrix SHA256 --spec SPEC.json\n"
+            "       qupathxx_batch --verify-expression-reduction PROJECT --image ID --record SHA256\n"
+            "       qupathxx_batch --replay-expression-reduction PROJECT --image ID --record SHA256\n"
+            "       qupathxx_batch --export-expression-reduction PROJECT NEW_EXPORT --image ID --record SHA256 [--loadings | --plot]\n"
+            "       qupathxx_batch --differential-expression PROJECT NEW_PROJECT --image ID --pseudobulk SHA256 --group-a A --group-b B\n"
+            "       qupathxx_batch --verify-expression-differential PROJECT --image ID --record SHA256\n"
+            "       qupathxx_batch --export-expression-differential PROJECT NEW_CSV --image ID --record SHA256 [--replicates]\n"
+            "       qupathxx_batch --verify-expression-aggregation PROJECT --image ID --record SHA256\n"
+            "       qupathxx_batch --export-expression-aggregation PROJECT NEW.csv --image ID --record SHA256 [--members --csv-bytes N]\n"
             "       qupathxx_batch --measure-spatial PROJECT NEW_PROJECT --image ID --source ID ... [--target ID ...] [options]\n"
             "       density: --source ROI --target CELL --tissue ROI [--exclude ROI]; ID-file variants --source-ids/--target-ids/--tissue-ids/--exclude-ids\n"
             "       density limits: --max-membership-tests N --max-geometry-operations N --max-geometry-vertices N; curves need --polygonize-curves\n"
@@ -156,6 +173,9 @@ int execute(const std::vector<std::string>& args) {
     }
     try {
         if(const auto result=detail::native_workflow_cli(args,cancelled)) return *result;
+        if(const auto result=detail::expression_aggregation_cli(args,cancelled)) return *result;
+        if(const auto result=detail::expression_reduction_cli(args,cancelled)) return *result;
+        if(const auto result=detail::expression_differential_cli(args,cancelled)) return *result;
         if(const auto result=detail::raw_pixel_cli(args,cancelled)) return *result;
         if(const auto result=detail::pixel_stream_cli(args,cancelled)) return *result;
         if(const auto result=detail::spatial_cli(args,cancelled)) return *result;
@@ -339,6 +359,15 @@ int execute(const std::vector<std::string>& args) {
     } catch(const std::exception& e) {
         std::cerr<<"{\"schema\":\"qpx.batch-error/1\",\"error\":"<<qpx::detail::json_string(e.what())<<"}\n";return cancelled.load()?130:2;
     }
+}
+int execute(std::vector<std::string> args) {
+    try {
+        if(args.size()>1 && args[1]=="--reader-plugins") {
+            if(args.size()<4)throw std::invalid_argument("--reader-plugins requires an absolute manifest and a batch command");
+            qpx::configure_reader_plugins(args[2]);args.erase(args.begin()+1,args.begin()+3);
+        }
+        return execute_inner(args);
+    }catch(const std::exception& error){std::cerr<<"{\"schema\":\"qpx.batch-error/1\",\"error\":"<<qpx::detail::json_string(error.what())<<"}\n";return 2;}
 }
 }
 #ifdef _WIN32
