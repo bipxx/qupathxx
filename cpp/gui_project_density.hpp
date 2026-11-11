@@ -2,6 +2,7 @@
 #include "qupathxx/density_workflow.hpp"
 #include "qupathxx/project.hpp"
 #include "gui_layout.hpp"
+#include "gui_workflow_ui.hpp"
 #include <imgui.h>
 #include <array>
 #include <algorithm>
@@ -17,6 +18,7 @@
 #endif
 namespace qpx::detail {
 class GuiProjectDensity {
+    friend struct GuiProjectDensityTestAccess;
     ProjectDensityJob job_;
     bool open_=false,all_cells_=true,prefer_nucleus_=true,curves_=false;
     std::array<std::array<char,4097>,4> classes_{};
@@ -63,26 +65,27 @@ public:
             }
             if(preview_ && preview_->source!=source_)preview_.reset();
             const bool busy=job_.busy(),saved=project && !source_.empty() && !project->dirty(),enabled=saved && !blocked && !busy;
-            ImGui::TextWrapped("Analyse the saved project in the background. Results do not change the open workspace. Save edits before preview or Run.");
-            if(!saved)ImGui::TextWrapped("Save the current project first using Save project (Ctrl+S).");
+            ui::TextWrapped("Uses the saved project. Results are written to a new folder.");
+            if(!saved)ui::TextWrapped("Save project before checking inputs or running.");
             if(!source_.empty())ImGui::TextWrapped("Source: %s",source_.c_str());
             ImGui::BeginDisabled(busy || blocked);
             bool changed=false;
             if(ui::IconButton("All images",ui::Icon::SelectAll)){images_.clear();for(const auto& image:catalog)images_.insert(image.id);changed=true;}ImGui::SameLine();
             if(ui::IconButton("Clear images",ui::Icon::Deselect)){images_.clear();changed=true;}
-            if(ImGui::BeginChild("Density images",{0,110},ImGuiChildFlags_Borders)) {
+            if(ui::BeginCollection("Density images",catalog.size())) {
                 for(const auto& image:catalog) {
                     ImGui::PushID(std::to_string(image.id).c_str());bool selected=images_.count(image.id)!=0;
                     if(ImGui::Checkbox(image.name.c_str(),&selected)){if(selected)images_.insert(image.id);else images_.erase(image.id);changed=true;}
                     ImGui::SameLine();ImGui::TextDisabled("ID %llu",static_cast<unsigned long long>(image.id));ImGui::PopID();
                 }
             }ImGui::EndChild();
-            ImGui::TextWrapped("Exact class names, one per line. No descendant expansion. Every requested class must have objects in every selected image.");
+            ui::TextWrapped("Enter exact class names, one per line. Subclasses are not included. Each class must occur in every selected image.");
             constexpr const char* labels[]={"Window classes","Tissue classes","Exclusion classes (optional)","Cell classes"};
             for(std::size_t i=0;i<4;++i) {
                 if(i==3){changed=ui::Checkbox("All Cell objects (including unclassified)",&all_cells_) || changed;ImGui::BeginDisabled(all_cells_);}
                 ImGui::SetNextItemWidth(-1);ImGui::TextUnformatted(labels[i]);
                 changed=ImGui::InputTextMultiline(("##density-class-"+std::to_string(i)).c_str(),classes_[i].data(),classes_[i].size(),{0,42}) || changed;
+                ui::trace_workflow_action(("density-class-"+std::to_string(i)).c_str(),labels[i]);
                 if(i==3)ImGui::EndDisabled();
             }
             changed=ui::Checkbox("Prefer nucleus centroids",&prefer_nucleus_) || changed;
@@ -90,10 +93,11 @@ public:
             if(changed){preview_.reset();error_.clear();}
             ImGui::EndDisabled();
             ImGui::BeginDisabled(!enabled);
-            if(ui::Button("Preview cohorts and calibration"))attempt([&]{preview_.reset();task_source_=source_;job_.preview(source_,recipe());});
+            if(ui::WorkflowAction("Preview cohorts and calibration","Check inputs",nullptr,preview_ && preview_->valid()?ui::design::Action::Secondary:ui::design::Action::Primary))attempt([&]{preview_.reset();task_source_=source_;job_.preview(source_,recipe());});
             ImGui::EndDisabled();
+            ui::TextDisabled("Checks image classes and calibration.");
             const auto shown=preview_?preview_:(result && result->state!="preview"?result:nullptr);
-            if(shown && ImGui::BeginTable("Density preview",8,ImGuiTableFlags_Borders|ImGuiTableFlags_ScrollY|ImGuiTableFlags_Resizable,{0,125})) {
+            if(shown && ImGui::BeginTable("Density preview",8,ImGuiTableFlags_Borders|ImGuiTableFlags_ScrollY|ImGuiTableFlags_Resizable,{0,ui::CollectionHeight(shown->images.size()+1)})) {
                 for(const auto* label:{"Image ID","Windows","Tissue","Excluded","Cells","um/px X,Y","State","Issue / reuse"})ImGui::TableSetupColumn(label);
                 ImGui::TableHeadersRow();
                 for(const auto& row:shown->images) {
@@ -106,14 +110,15 @@ public:
                 }ImGui::EndTable();
             }
             ImGui::BeginDisabled(busy || blocked);ImGui::SetNextItemWidth(-1);
-            ImGui::InputTextWithHint("##density-previous","Previous GUI run folder (optional)",previous_.data(),previous_.size());
-            ImGui::TextWrapped("Unchanged results reuse their existing checkpoints. Changed or missing results compute; corrupt cache files report errors.");
-            ImGui::SetNextItemWidth(-1);ImGui::InputTextWithHint("##density-output","New output directory",output_.data(),output_.size());ImGui::EndDisabled();
+            ImGui::InputTextWithHint("##density-previous",ui::i18n::text("Previous results folder (optional)"),previous_.data(),previous_.size());
+            ui::trace_workflow_action("density-previous","Previous results folder (optional)");
+            ui::TextWrapped("Completed results can be reused. Changed or missing results are recomputed; cache errors are reported.");
+            ImGui::SetNextItemWidth(-1);ImGui::InputTextWithHint("##density-output",ui::i18n::text("New output folder"),output_.data(),output_.size());ui::trace_workflow_action("density-output","New output folder");ImGui::EndDisabled();
             const bool ready=enabled && preview_ && preview_->valid() && preview_->source==source_ && output_[0];
             ImGui::BeginDisabled(!ready);
-            if(ui::Button("Run project density"))attempt([&]{auto reviewed=*preview_;task_source_=reviewed.source;job_.run(reviewed,output_.data(),previous_.data());preview_.reset();});
-            ImGui::EndDisabled();ImGui::SameLine();ImGui::BeginDisabled(!busy);
-            if(ui::Button("Cancel density"))job_.cancel();ImGui::EndDisabled();
+            if(ui::WorkflowAction("Run project density","Run density",nullptr,preview_ && preview_->valid()?ui::design::Action::Primary:ui::design::Action::Secondary))attempt([&]{auto reviewed=*preview_;task_source_=reviewed.source;job_.run(reviewed,output_.data(),previous_.data());preview_.reset();});
+            ImGui::EndDisabled();
+            if(busy) {ImGui::SameLine();if(ui::WorkflowIcon("Cancel density","Cancel density",ui::Icon::Stop))job_.cancel();}
             if(busy) {
                 ImGui::TextWrapped("Task source: %s",task_source_.c_str());
                 const auto& p=job_.progress();const auto total=p.total.load(),completed=p.completed.load();
@@ -121,7 +126,7 @@ public:
                 constexpr const char* phases[]={"Opening saved project","Previewing","Computing","Saving image result","Publishing CSV/report","Checking saved results"};
                 ImGui::Text("%s; image %llu; %zu/%zu",phases[std::clamp(p.phase.load(),0,5)],static_cast<unsigned long long>(p.image.load()),completed,total);
                 ImGui::Text("Computations started: %zu; reused: %zu",p.kernel_calls.load(),p.reused.load());
-                if(job_.cancelling())ImGui::TextWrapped("Cancellation requested. Native geometry/open/save must reach a cancellation point.");
+                if(job_.cancelling())ui::TextWrapped("Stopping after the current operation. Completed results are kept.");
             }
             if(result && result->state!="preview") {
                 ImGui::TextWrapped("Run source: %s",result->source.c_str());
@@ -132,7 +137,11 @@ public:
             }
             if(!job_.error().empty())ImGui::TextWrapped("%s",job_.error().c_str());
             if(!error_.empty())ImGui::TextWrapped("%s",error_.c_str());
-            ImGui::TextWrapped("Native default analysis quotas apply. New folders only. Reuse requires exact native engine and captured input identity; it is not numerical re-verification. Errors/cancellation retain completed images and receipts.");
+            if(ui::CollapsingHeader("Details###Density details")) {
+                ui::TextWrapped("Default analysis limits apply. Existing output folders are not replaced.");
+                ui::TextWrapped("Reuse requires the same engine and captured inputs. Reused results are not rechecked numerically.");
+                ui::TextWrapped("Completed image results and reports are retained after errors or cancellation.");
+            }
         }catch(const std::exception& e){error_=e.what();}
         ImGui::End();
     }

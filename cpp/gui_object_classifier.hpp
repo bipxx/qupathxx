@@ -1,6 +1,7 @@
 #pragma once
 #include "qupathxx/object_classifier_archive.hpp"
 #include "gui_layout.hpp"
+#include "gui_workflow_ui.hpp"
 #include "utf8_text.hpp"
 #include <imgui.h>
 #include <algorithm>
@@ -127,13 +128,26 @@ public:
         const auto& io=ImGui::GetIO();
         if(!io.WantTextInput && !blocked && ImGui::IsKeyPressed(ImGuiKey_F4,false)) open_=!open_;
         if(!open_) return;
-        const auto* viewport=ImGui::GetMainViewport();const auto size=viewport->WorkSize;const auto scale=ImGui::GetFontSize()/13.f;
-        ImGui::SetNextWindowSize({std::min(620.f*scale,size.x*.88f),std::min(720.f*scale,size.y*.88f)},ImGuiCond_FirstUseEver);
-        ImGui::SetNextWindowPos({viewport->WorkPos.x+size.x*.5f,viewport->WorkPos.y+size.y*.5f},ImGuiCond_FirstUseEver,{.5f,.5f});
-        ImGui::SetNextWindowSizeConstraints({std::min(260.f*scale,size.x),std::min(160.f*scale,size.y)},size);
-        if(!ImGui::Begin("Object classifiers",&open_)) {ImGui::End();return;}
+        ui::SetNextToolWindow("Object classifiers",{620,720},ui::ToolHeight::Content);
+        if(!ImGui::Begin(ui::i18n::label("Object classifiers").c_str(),&open_)) {ImGui::End();return;}
+        std::optional<GuiInputTarget> primary_action;
+        if(!blocked && has_image && !job_.busy() && !io_.valid()) {
+            if(predicted() && !applied_)primary_action=GuiInputTarget::ApplyObjectClasses;
+            else if(model_)primary_action=GuiInputTarget::PredictObjectClasses;
+            else if(has_classifier_training())primary_action=GuiInputTarget::TrainObjectClassifier;
+        }
         auto button=[&](const char* label,GuiInputTarget target,bool disabled,std::optional<ui::Icon> icon={}) {
-            ImGui::BeginDisabled(disabled);const bool clicked=(icon?ui::IconButton(label,*icon):ui::Button(label));
+            const char* caption=label;const auto action=primary_action==target?ui::design::Action::Primary:ui::design::Action::Secondary;
+            switch(target) {
+            case GuiInputTarget::TrainObjectClassifier:caption="Train classifier";break;
+            case GuiInputTarget::KeepClassifierTraining:caption="Keep training data";break;
+            case GuiInputTarget::PredictObjectClasses:caption="Predict classes";break;
+            case GuiInputTarget::ApplyObjectClasses:caption="Apply predictions";break;
+            case GuiInputTarget::UseClassifierRecord:caption="Use kept model";break;
+            case GuiInputTarget::CancelObjectClassifier:caption="Cancel";break;
+            default:break;
+            }
+            ImGui::BeginDisabled(disabled);const bool clicked=icon?ui::WorkflowIcon(label,caption,*icon):ui::WorkflowAction(label,caption,nullptr,action);
             const auto lo=ImGui::GetItemRectMin(),hi=ImGui::GetItemRectMax();targets_[index(target)]={lo.x,lo.y,hi.x-lo.x,hi.y-lo.y};mark(target);ImGui::EndDisabled();return clicked;
         };
         ui::InputText("Model file",path_.data(),path_.size());
@@ -164,11 +178,13 @@ public:
         }
         ImGui::EndDisabled();if(changed) changed_settings();
         auto unavailable=[&]{return blocked || !has_image || job_.busy() || io_.valid();};
+        ui::SeparatorText("Training");
         if(button("Train from labelled objects",GuiInputTarget::TrainObjectClassifier,unavailable() || !has_classifier_training())) begin(doc,selection,true);
         if(stats_.state=="ready" && !job_.result() && button("Keep training record in project",GuiInputTarget::KeepClassifierTraining,unavailable())) {
             try {record_id_=job_.retain_training(doc);selected_record_=record_id_;retained_=true;stats_=job_.poll(doc);error_.clear();}catch(const std::exception& e) {error_=e.what();}
         }
         if(!has_classifier_training()) ImGui::TextWrapped("Training is unavailable in this build. Load a model to predict.");
+        ui::SeparatorText("Predict and review");
         if(button("Predict object classes",GuiInputTarget::PredictObjectClasses,unavailable() || !model_)) begin(doc,selection,false);
         ui::SetNextItemWidth(120);ui::InputDouble("Minimum tree vote fraction",&minimum_,0,0,"%.3f");
         ImGui::TextWrapped("Tree vote fractions are not calibrated probabilities.");
@@ -176,7 +192,7 @@ public:
             try {changed_=job_.apply(doc,minimum_).size();record_id_=doc.revision();stats_=job_.poll(doc);applied_=true;error_.clear();}catch(const std::exception& e) {error_=e.what();}
         }
         if(job_.busy() || io_.valid())
-            if(button("Cancel classifier work",GuiInputTarget::CancelObjectClassifier,false)) {job_.cancel();io_cancelled_.store(true);applied_=false;}
+            if(button("Cancel classifier work",GuiInputTarget::CancelObjectClassifier,false,ui::Icon::Stop)) {job_.cancel();io_cancelled_.store(true);applied_=false;}
         if(job_.busy()) ImGui::Text("%s: %llu / %llu feature rows",stats_.phase.c_str(),static_cast<unsigned long long>(stats_.completed_rows),static_cast<unsigned long long>(stats_.total_rows));
         if(applied_) ImGui::Text("Changed %zu objects (Undo available)",changed_);
         if(!error().empty()) ImGui::TextWrapped("%s",error().c_str());

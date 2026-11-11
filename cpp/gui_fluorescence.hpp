@@ -11,6 +11,7 @@ public:
     enum class Action {Run,Cancel,KeepCells,KeepRecord,Replay,Remove,Correction,Domain,Unmixing,UnmixDomain,Tiling};
     GuiFluorescence();~GuiFluorescence();
     void open();
+    void open_marker_rules();
     void poll(Document&,bool blocked=false);
     void draw(Document&,std::uint64_t selected,bool blocked=false);
     void draw_preview(ImDrawList*,const Viewport&,ImVec2 offset,ImVec2 size);

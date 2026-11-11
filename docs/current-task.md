@@ -7,6 +7,32 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
+## Delivered integration - workflow simplification on main
+
+Owner requests merging the verified UI milestone. The main-based integration
+carries the17 scoped presentation/test changes and UI-only layout/docking/
+content-fit/catalog prerequisites, retaining grouped header/Help and twelve
+parent tools plus existing child routes. Main's reader, annotation exchange,
+clipboard, startup and gene handlers remain intact; unrelated native/SDK and
+format-registry work stay excluded. All12 workflow findings retain their fixes.
+
+Decisive evidence: build/ui-workflow-simplification-merge/results.json.20 source
+contracts, one frontend-only cached build and nine native consumers/replays pass:
+simplification, TMA/density, complex NuCLS Draw/Run/Keep/View/exact CSV/GUI Save/
+reopen/Recheck, catalog, panels, protected exports, header/Help, target membership
+and fluorescence Run/Add/Keep/replay/Undo. The91-input source snapshot owns this
+main-based binary; earlier integration qualification is not relabeled. All14
+cached libraries,38 binding objects and the original project remain exact.
+
+All233 dirty old-integration files, its HEAD and separate index are unchanged.
+One preparation text match was ambiguous for a standalone brace; positional
+matching retained18 exact main native blocks before compilation. No product
+build or test failed. Source and Git handoff are local; no kernel/binding/package
+rebuild, push, interactive launch or optional phase4 expansion. The scoped commit
+and resulting main merge are recorded in build/ui-workflow-simplification-merge/
+merge.json. Stop at that handoff; the separately requested cleanup owns retiring
+the verified old checkout after this task releases it.
+
 ## Delivered integration - grouped header and Help on main
 
 Owner requests committing the completed header redesign and merging to main.

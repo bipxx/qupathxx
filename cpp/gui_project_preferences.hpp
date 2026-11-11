@@ -13,6 +13,16 @@ struct ProjectPreferences {
     std::vector<std::string> recent;
     std::string group;
     float inspector_fraction=.45f;
+    bool inspector_resized=false;
+    static float minimum_list_height(float room,float pitch,std::size_t rows) {return std::min(pitch*float(std::clamp<std::size_t>(rows,1,2)),room*.45f);}
+    // A short list ends after its last row. An intentional divider adjustment
+    // remains stable while filtering, so searching never moves a user's split.
+    float list_height(float room,float pitch,std::size_t rows,float minimum_inspector) const {
+        const float minimum_list=minimum_list_height(room,pitch,rows);
+        const float inspector=std::clamp(room*inspector_fraction,std::min(minimum_inspector,room*.45f),room-minimum_list);
+        const float preferred=std::max(1.f,room-inspector);
+        return inspector_resized?preferred:std::min(preferred,std::max(pitch,float(rows)*pitch));
+    }
     static std::string encode(const std::string& value) {
         constexpr char hex[]="0123456789abcdef";std::string result;result.reserve(value.size()*2);
         for(unsigned char c:value) {result+=hex[c>>4];result+=hex[c&15];}return result;
@@ -37,6 +47,7 @@ struct ProjectPreferences {
         std::size_t at=0;while(at<header.size()) {
             const auto end=header.find_first_of("\r\n",at);const auto line=header.substr(at,end==std::string::npos?end:end-at);
             const std::string recent_prefix="; qupathxx recent-project=",group_prefix="; qupathxx project-group=",split_prefix="; qupathxx project-inspector=";
+            if(line=="; qupathxx project-inspector-resized=1")inspector_resized=true;
             if(line.rfind(recent_prefix,0)==0 && recent.size()<recent_limit) {
                 const auto path=decode(line.substr(recent_prefix.size()));
                 if(!path.empty() && std::filesystem::u8path(path).is_absolute() && std::find(recent.begin(),recent.end(),path)==recent.end())recent.push_back(path);
@@ -44,7 +55,7 @@ struct ProjectPreferences {
             else if(line.rfind(split_prefix,0)==0) {
                 const auto number=line.substr(split_prefix.size());int value=0;
                 const auto parsed=std::from_chars(number.data(),number.data()+number.size(),value);
-                if(parsed.ec==std::errc{} && parsed.ptr==number.data()+number.size() && value>=2000 && value<=7500)inspector_fraction=value/10000.f;
+                if(parsed.ec==std::errc{} && parsed.ptr==number.data()+number.size() && value>=2000 && value<=9800) {inspector_fraction=value/10000.f;if(value!=4500)inspector_resized=true;}
             }
             if(end==std::string::npos)break;at=end+1;
         }
@@ -52,7 +63,8 @@ struct ProjectPreferences {
     std::string header() const {
         std::string value;for(const auto& path:recent)value+="; qupathxx recent-project="+encode(path)+"\n";
         if(!group.empty())value+="; qupathxx project-group="+encode(group)+"\n";
-        value+="; qupathxx project-inspector="+std::to_string(static_cast<int>(std::clamp(inspector_fraction,.2f,.75f)*10000+.5f))+"\n";return value;
+        value+="; qupathxx project-inspector="+std::to_string(static_cast<int>(std::clamp(inspector_fraction,.2f,.98f)*10000+.5f))+"\n";
+        if(inspector_resized)value+="; qupathxx project-inspector-resized=1\n";return value;
     }
 };
 }

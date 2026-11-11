@@ -17,10 +17,13 @@ def test_image_panel_is_flat_and_edits_are_explicit():
 def test_saved_stains_remain_explicit_and_do_not_require_roi():
     gui=(ROOT/"cpp/gui.cpp").read_text(encoding="utf8")
     workflow=gui.index("        workflow_navigation();")
-    saved=gui.index('ui::SeparatorText("Image analysis settings")',workflow)
+    saved=gui.index('ui::TextWrapped("Saved profile: %s"',workflow)
     roi=gui.index("        if (selected) {",saved)
     assert workflow<saved<roi
-    assert 'ui::Button("Use saved stains for analysis")' in gui[saved:roi]
+    assert 'ui::WorkflowAction("Use saved stains for analysis","Use profile")' in gui[saved:roi]
+    # The shortened action retains its original ID, explicit native apply and target.
+    assert 'estimated_basis=settings->basis();estimated_white=settings->white();analysis_kind=1;' in gui[saved:roi]
+    assert 'mark_target(GuiInputTarget::UseImageStains)' in gui[saved:roi]
 
 def test_image_information_is_owned_and_read_only():
     gui=(ROOT/"cpp/gui.cpp").read_text(encoding="utf8")

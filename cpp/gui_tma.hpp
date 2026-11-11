@@ -8,6 +8,7 @@
 #include "reader_file_guard.hpp"
 #include "utf8_text.hpp"
 #include "gui_layout.hpp"
+#include "gui_workflow_ui.hpp"
 #include <imgui.h>
 #include <array>
 #include <algorithm>
@@ -19,6 +20,7 @@
 
 namespace qpx::detail {
 class GuiTma {
+    friend struct GuiTmaTestAccess;
     inline static constexpr auto input_targets=std::array{
         GuiInputTarget::CreateTmaGrid,
         GuiInputTarget::ToggleTmaMissing,
@@ -49,6 +51,7 @@ class GuiTma {
         GuiInputTarget::TmaDetectGrid};
     std::array<Rect,input_targets.size()> targets_{};std::array<bool,input_targets.size()> enabled_{};
     bool open_=false,explicit_options_=false,rename_names_=false,activate_tab_=true;int initial_tab_=0;
+    std::optional<GuiInputTarget> reveal_target_;
     TmaGridOptions options_;
     std::array<char,257> name_{},case_{};
     std::array<char,129> row_label_{},column_label_{},insert_label_{};
@@ -86,6 +89,30 @@ class GuiTma {
     std::weak_ptr<const char> preview_identity_;std::uint64_t preview_revision_=0;
     std::string exchange_state_="idle";std::size_t preview_missing_=0,preview_max_step_=0,exchange_bytes_=0;
     bool exchange_open_=false,losses_acknowledged_=false,exchange_exporting_=false;
+    std::weak_ptr<const char> export_review_identity_;
+    std::uint64_t export_review_revision_=std::numeric_limits<std::uint64_t>::max();
+    std::vector<std::string> export_omissions_;
+    std::string export_review_error_;
+    void review_qptma(const Document& doc) {
+        const auto identity=doc.analysis_identity_.token;
+        if(export_review_identity_.lock()==identity && export_review_revision_==doc.revision())return;
+        export_review_identity_=identity;export_review_revision_=doc.revision();
+        export_omissions_.clear();export_review_error_.clear();losses_acknowledged_=false;
+        try {
+            if(!grid_)throw std::invalid_argument("There is no TMA grid to export.");
+            // Convert only when this document changes, not in the hot draw path.
+            // Membership and refusals remain owned by the native conversion.
+            export_omissions_=qptma_from_grid(*grid_,doc.server()->source_locator(),grid_->info()->name()).omitted_metadata;
+        }catch(const std::exception& e){try {export_review_error_=e.what();bounded_utf8(export_review_error_,8192);}catch(...) {export_review_error_="QuPath grid export failed";}}
+    }
+    static const char* omission_caption(const std::string& key) {
+        if(key=="native_object_ids")return "Object IDs";
+        if(key=="native_grid_name")return "Grid name";
+        if(key=="axis_labels")return "Row and column labels";
+        if(key=="class_assignments")return "Class assignments";
+        if(key=="parent_links")return "Parent links";
+        return key.c_str();
+    }
     void clear_preview() {preview_.reset();preview_index_.reset();dearray_result_.reset();preview_truncated_=false;}
     void cancel_exchange() {
         exchange_cancel_.store(true);clear_preview();preview_missing_=0;exchange_state_="cancelled";
@@ -224,6 +251,10 @@ public:
     explicit GuiTma(const GuiOptions& initial):open_(initial.tma_open),explicit_options_(bool(initial.tma_options)),initial_tab_(initial.tma_tab),options_(initial.tma_options?*initial.tma_options:TmaGridOptions{}),initial_case_(initial.tma_case_id),initial_bounds_(initial.tma_core_bounds),delta_(initial.tma_translation) {if(initial_tab_<0 || initial_tab_>2) throw std::invalid_argument("invalid TMA panel tab");options_.validate();copy(insert_label_,initial.tma_insert_label);insert_cores_=initial.tma_insert_cores;insert_missing_=initial.tma_insert_missing;copy(qptma_input_,initial.qptma_input_path);copy(qptma_output_,initial.qptma_output_path);exchange_open_=qptma_input_[0] || qptma_output_[0] || bool(initial.tma_dearray_options);dearray_open_=bool(initial.tma_dearray_options);if(initial.tma_dearray_options)dearray_options_=*initial.tma_dearray_options;else if(initial.tma_options){dearray_options_.rows=options_.rows;dearray_options_.columns=options_.columns;dearray_options_.core_width=options_.width;dearray_options_.core_height=options_.height;dearray_options_.name=options_.name;}if(initial.tma_dearray_options)dearray_options_.validate();setup_mode_=initial.tma_dearray_options?0:qptma_input_[0]?1:initial.tma_options?2:0;copy(dearray_name_,dearray_options_.name);copy(name_,options_.name);copy(path_,initial.tma_metadata_path);case_summary_=initial.tma_case_summary;case_cohort_=initial.tma_case_cohort;allow_unversioned_=initial.tma_allow_unversioned;copy(measurements_path_,initial.tma_measurements_path);copy(value_column_,initial.tma_value_column);copy(weight_column_,initial.tma_weight_column);bounded_utf8(initial_case_,256);if(initial_bounds_) initial_bounds_->validate();}
     ~GuiTma() {finish(false);}
     void open() {open_=true;}
+    void reveal_target(GuiInputTarget target) {
+        if(!open_)return;
+        if(target==GuiInputTarget::AcknowledgeQptmaLosses || target==GuiInputTarget::ExportQptma || target==GuiInputTarget::ExportTmaMetadata) {initial_tab_=2;activate_tab_=true;reveal_target_=target;}
+    }
     static constexpr bool handles(GuiInputTarget target) {return index(target)<input_targets.size();}
     const std::string& qptma_state() const {return exchange_state_;}
     std::shared_ptr<const TmaDearrayResult> dearray_result() const {return dearray_result_;}
@@ -256,34 +287,53 @@ public:
     bool draw(Document& doc,ObjectSelection& selection,const Project* project,bool blocked,bool has_image,const std::function<void(GuiInputTarget)>& mark) {
         enabled_.fill(false);
         poll();if(!ImGui::GetIO().WantTextInput && ImGui::GetIO().KeyCtrl && ImGui::GetIO().KeyAlt && ImGui::IsKeyPressed(ImGuiKey_T,false)) open_=!open_;
-        try {refresh(doc);poll_exchange(doc);}catch(const std::exception& e) {failure(e);}
-        if(!open_) {if(exchange_.valid() || preview_)cancel_exchange();return false;}
-        const auto* viewport=ImGui::GetMainViewport();const auto scale=ImGui::GetFontSize()/13.f;
-        ImGui::SetNextWindowSize({std::min(530.f*scale,viewport->WorkSize.x*.9f),std::min(780.f*scale,viewport->WorkSize.y*.9f)},ImGuiCond_FirstUseEver);
-        ImGui::SetNextWindowPos({viewport->WorkPos.x+viewport->WorkSize.x*.5f,viewport->WorkPos.y+viewport->WorkSize.y*.5f},ImGuiCond_FirstUseEver,{.5f,.5f});
-        ImGui::SetNextWindowSizeConstraints({std::min(280.f*scale,viewport->WorkSize.x),std::min(180.f*scale,viewport->WorkSize.y)},viewport->WorkSize);
-        if(!ImGui::Begin("Tissue microarray",&open_)) {ImGui::End();return false;}
-        auto remember=[&](GuiInputTarget target,bool disabled) {const auto a=ImGui::GetItemRectMin(),b=ImGui::GetItemRectMax();targets_[index(target)]={a.x,a.y,b.x-a.x,b.y-a.y};enabled_[index(target)]=!disabled && ImGui::IsItemVisible();mark(target);};
-        auto button=[&](const char* text,GuiInputTarget target,bool disabled) {ImGui::BeginDisabled(disabled);const bool clicked=ui::Button(text);remember(target,disabled);ImGui::EndDisabled();return clicked;};
+        try {refresh(doc);poll_exchange(doc);if(open_ && grid_)review_qptma(doc);}catch(const std::exception& e) {failure(e);}
+        if(!open_) {if((exchange_.valid() && !exchange_exporting_) || preview_)cancel_exchange();return false;}
+        ui::SetNextToolWindow("Tissue microarray",{530,780},ui::ToolHeight::Content);
+        if(!ImGui::Begin(ui::i18n::label("Tissue microarray").c_str(),&open_)) {ImGui::End();return false;}
+        auto remember=[&](GuiInputTarget target,bool disabled) {const auto a=ImGui::GetItemRectMin(),b=ImGui::GetItemRectMax();targets_[index(target)]={a.x,a.y,b.x-a.x,b.y-a.y};enabled_[index(target)]=!disabled && ImGui::IsItemVisible();mark(target);
+            if(reveal_target_==target) {if(!ImGui::IsItemVisible())ImGui::SetScrollHereY(.5f);else reveal_target_.reset();}
+        };
+        auto button=[&](const char* text,GuiInputTarget target,bool disabled) {
+            const char* caption=text;auto action=ui::design::Action::Secondary;
+            switch(target) {
+            case GuiInputTarget::TmaDetectGrid:caption="Preview grid";action=ui::design::Action::Primary;break;
+            case GuiInputTarget::LoadQptmaPreview:caption="Load preview";action=ui::design::Action::Primary;break;
+            case GuiInputTarget::CreateTmaGrid:caption="Create grid";action=ui::design::Action::Primary;break;
+            case GuiInputTarget::ApplyQptmaPreview:caption="Add grid";action=ui::design::Action::Primary;break;
+            case GuiInputTarget::DiscardQptmaPreview:caption="Discard preview";break;
+            case GuiInputTarget::ApplyTmaCase:caption="Apply case ID";break;
+            case GuiInputTarget::ApplyTmaGeometry:caption=grid_ && grid_->core(selected_slot_/grid_->info()->columns(),selected_slot_%grid_->info()->columns())?"Apply geometry":"Add core";break;
+            case GuiInputTarget::OpenTmaBatch:caption="Analyze cores...";break;
+            case GuiInputTarget::ExportQptma:caption="Export QPTMA";action=ui::design::Action::Primary;break;
+            case GuiInputTarget::ExportTmaMetadata:caption="Export CSV";action=qptma_output_[0]?ui::design::Action::Secondary:ui::design::Action::Primary;break;
+            default:break;
+            }
+            ImGui::BeginDisabled(disabled);
+            const bool clicked=target==GuiInputTarget::CancelQptma || target==GuiInputTarget::CancelTmaMetadata?
+                ui::WorkflowIcon(text,"Cancel",ui::Icon::Stop):ui::WorkflowAction(text,caption,nullptr,action);
+            remember(target,disabled);ImGui::EndDisabled();return clicked;
+        };
         auto perform=[&](auto&& action) {try {action();error_.clear();refresh(doc);}catch(const std::exception& e) {failure(e);}};
         const bool disabled=blocked || !has_image;bool batch=false;
         if(!grid_) {ui::SetNextItemWidth(-1);ui::Combo("Grid setup",&setup_mode_,"Detect cores\0Import QuPath grid\0Manual grid\0");}
             if(!grid_ && setup_mode_==0) {
-                ImGui::TextWrapped("Supply the grid dimensions and approximate core size. Review the proposed outlines before applying them. A completely absent row or column cannot be inferred.");
+                ui::TextWrapped("Enter the grid dimensions and approximate core size, then preview the outlines. Entirely absent rows or columns cannot be inferred.");
                 ImGui::BeginDisabled(disabled || exchange_.valid() || bool(grid_));
                 int rows=static_cast<int>(dearray_options_.rows),columns=static_cast<int>(dearray_options_.columns);
-                bool changed=ui::InputText("Detected grid name",dearray_name_.data(),dearray_name_.size());
-                if(ui::InputInt("Detected rows",&rows)) {dearray_options_.rows=static_cast<std::size_t>(std::clamp(rows,1,512));changed=true;}
-                if(ui::InputInt("Detected columns",&columns)) {dearray_options_.columns=static_cast<std::size_t>(std::clamp(columns,1,512));changed=true;}
+                bool changed=ui::InputText("Grid name###Detected grid name",dearray_name_.data(),dearray_name_.size());
+                if(ui::InputInt("Rows###Detected rows",&rows)) {dearray_options_.rows=static_cast<std::size_t>(std::clamp(rows,1,512));changed=true;}
+                if(ui::InputInt("Columns###Detected columns",&columns)) {dearray_options_.columns=static_cast<std::size_t>(std::clamp(columns,1,512));changed=true;}
                 bool physical=dearray_options_.core_units==TmaCoreUnits::Micrometers;
                 if(ui::Checkbox("Core size in micrometers",&physical)) {dearray_options_.core_units=physical?TmaCoreUnits::Micrometers:TmaCoreUnits::Pixels;dearray_options_.pixel_width_um.reset();dearray_options_.pixel_height_um.reset();changed=true;}
-                changed|=ui::InputDouble(physical?"Core width (um)":"Core width (image px)",&dearray_options_.core_width);
-                changed|=ui::InputDouble(physical?"Core height (um)":"Core height (image px)",&dearray_options_.core_height);
+                changed|=ui::CompactInputDouble(physical?"Width (um)###Core width (um)":"Width (px)###Core width (image px)",&dearray_options_.core_width);
+                changed|=ui::CompactInputDouble(physical?"Height (um)###Core height (um)":"Height (px)###Core height (image px)",&dearray_options_.core_height);
                 if(physical) {
                     if(doc.pixel_width_um() && doc.pixel_height_um())ImGui::TextWrapped("Image calibration: %.6g x %.6g um per pixel.",*doc.pixel_width_um(),*doc.pixel_height_um());
                     else ImGui::TextWrapped("Set both image calibration axes before detecting in micrometers.");
                 }
-                changed|=ui::InputDouble("Missing tissue fraction",&dearray_options_.missing_density);
+                changed|=ui::CompactInputDouble("Minimum tissue coverage###Missing tissue fraction",&dearray_options_.missing_density);
+                ui::TextDisabled("Cores below this value are marked missing (0–1).");
                 bool dark=dearray_options_.polarity==TmaPolarity::DarkOnLight;
                 if(ui::Checkbox("Dark cores on light background",&dark)) {dearray_options_.polarity=dark?TmaPolarity::DarkOnLight:TmaPolarity::LightOnDark;changed=true;}
                 if(ImGui::TreeNode("Preview limits")) {
@@ -297,13 +347,13 @@ public:
                     ImGui::TreePop();
                 }
                 if(ImGui::TreeNode("Component and fit limits")) {
-                    changed|=ui::InputDouble("Bounds scale",&dearray_options_.bounds_scale);
-                    changed|=ui::InputDouble("Minimum valid fraction",&dearray_options_.min_valid_fraction);
-                    changed|=ui::InputDouble("Minimum core area ratio",&dearray_options_.min_component_area);
-                    changed|=ui::InputDouble("Maximum core area ratio",&dearray_options_.max_component_area);
-                    changed|=ui::InputDouble("Minimum component extent",&dearray_options_.min_component_extent);
-                    changed|=ui::InputDouble("Maximum fit residual",&dearray_options_.max_fit_error);
-                    changed|=ui::InputDouble("Maximum rotation (deg)",&dearray_options_.max_rotation_degrees);
+                    changed|=ui::CompactInputDouble("Bounds scale",&dearray_options_.bounds_scale);
+                    changed|=ui::CompactInputDouble("Minimum valid fraction",&dearray_options_.min_valid_fraction);
+                    changed|=ui::CompactInputDouble("Minimum core area ratio",&dearray_options_.min_component_area);
+                    changed|=ui::CompactInputDouble("Maximum core area ratio",&dearray_options_.max_component_area);
+                    changed|=ui::CompactInputDouble("Minimum component extent",&dearray_options_.min_component_extent);
+                    changed|=ui::CompactInputDouble("Maximum fit residual",&dearray_options_.max_fit_error);
+                    changed|=ui::CompactInputDouble("Maximum rotation (deg)",&dearray_options_.max_rotation_degrees);
                     int candidates=static_cast<int>(dearray_options_.max_candidates);
                     if(ui::InputInt("Candidate limit",&candidates)) {dearray_options_.max_candidates=static_cast<std::size_t>(std::clamp(candidates,1,10000));changed=true;}
                     auto pairs=static_cast<std::int64_t>(dearray_options_.pair_checks);
@@ -317,7 +367,7 @@ public:
                 });
             }
             if(!grid_ && setup_mode_==1) {
-            ImGui::TextWrapped("Import into the selected image as one undoable edit. Image paths in the file are informational only.");
+            ui::TextWrapped("Adds the grid to this image as one undoable edit. File paths in the grid are not used to open images.");
             ImGui::BeginDisabled(disabled || exchange_.valid());
             if(ui::InputTextWithHint("##QPTMA input","QuPath .qptma input",qptma_input_.data(),qptma_input_.size())) {clear_preview();preview_missing_=0;exchange_state_="idle";}ImGui::EndDisabled();
             if(button("Load grid preview",GuiInputTarget::LoadQptmaPreview,disabled || exchange_.valid() || bool(grid_) || !qptma_input_[0]))perform([&]{load_preview(doc);});
@@ -326,14 +376,14 @@ public:
             int rows=static_cast<int>(options_.rows),columns=static_cast<int>(options_.columns);
             ImGui::BeginDisabled(disabled);ui::InputText("Grid name",name_.data(),name_.size());
             if(ui::InputInt("Rows",&rows)) options_.rows=static_cast<std::size_t>(std::clamp(rows,1,512));if(ui::InputInt("Columns",&columns)) options_.columns=static_cast<std::size_t>(std::clamp(columns,1,512));
-            ui::InputDouble("First center X (px)",&options_.origin.x);ui::InputDouble("First center Y (px)",&options_.origin.y);
-            ui::InputDouble("Column step X",&options_.column_step.x);ui::InputDouble("Column step Y",&options_.column_step.y);
-            ui::InputDouble("Row step X",&options_.row_step.x);ui::InputDouble("Row step Y",&options_.row_step.y);
-            ui::InputDouble("Core width (px)",&options_.width);ui::InputDouble("Core height (px)",&options_.height);ImGui::EndDisabled();
+            ui::CompactInputDouble("First center X (px)",&options_.origin.x);ui::CompactInputDouble("First center Y (px)",&options_.origin.y);
+            ui::CompactInputDouble("Column step X",&options_.column_step.x);ui::CompactInputDouble("Column step Y",&options_.column_step.y);
+            ui::CompactInputDouble("Row step X",&options_.row_step.x);ui::CompactInputDouble("Row step Y",&options_.row_step.y);
+            ui::CompactInputDouble("Width (px)###Core width (px)",&options_.width);ui::CompactInputDouble("Height (px)###Core height (px)",&options_.height);ImGui::EndDisabled();
         }
         if(!grid_ && setup_mode_==2 && button("Create core grid",GuiInputTarget::CreateTmaGrid,disabled || bool(grid_))) perform([&]{options_.name=name_.data();created_=doc.create_tma_grid(options_);if(!created_.empty()) selection.replace({created_.front()},created_.front());});
             if(exchange_.valid() || preview_ || exchange_state_!="idle") {
-            if(button("Cancel grid operation",GuiInputTarget::CancelQptma,!exchange_.valid()))cancel_exchange();
+            if(exchange_.valid() && button("Cancel grid operation",GuiInputTarget::CancelQptma,false))cancel_exchange();
             if(exchange_state_!="idle")ImGui::TextWrapped("Grid operation: %s",exchange_state_.c_str());
             if(preview_) {
                 ui::SeparatorText(dearray_result_?"Detected grid preview":"Imported grid preview");
@@ -343,7 +393,7 @@ public:
                 ImGui::TextWrapped("%s",preview_->image_name.c_str());
                 ImGui::TextWrapped("Blue outlines preview present cores; gray outlines preview missing cores. No objects are created until Apply.");
                 if(preview_truncated_)ImGui::TextWrapped("More than 512 cores are visible. Zoom in to review their outlines; the full grid remains available in the list.");
-                if(ImGui::BeginChild("qptma core preview",{0,100.f*scale},ImGuiChildFlags_Borders)) {
+                if(ui::BeginCollection("qptma core preview",preview_->cores.size())) {
                     ImGuiListClipper clip;clip.Begin(static_cast<int>(preview_->cores.size()));std::size_t inspected=0;
                     while(clip.Step())for(int i=clip.DisplayStart;i<clip.DisplayEnd && inspected<512;++i) {
                         ++inspected;const auto& core=preview_->cores[static_cast<std::size_t>(i)];const auto b=core.bounds;
@@ -353,7 +403,6 @@ public:
                     }
                     preview_max_step_=std::max(preview_max_step_,inspected);
                 }ImGui::EndChild();
-            }
             if(button("Apply grid preview",GuiInputTarget::ApplyQptmaPreview,disabled || exchange_.valid() || !preview_ || bool(grid_)))perform([&]{
                 if(preview_identity_.lock()!=doc.analysis_identity_.token || preview_revision_!=doc.revision() || preview_reader_.lock()!=doc.server())throw std::invalid_argument("Grid preview is stale. Load it again.");
                 created_=import_qptma(doc,*preview_);clear_preview();preview_missing_=0;exchange_state_="imported";losses_acknowledged_=false;
@@ -361,12 +410,6 @@ public:
             });
             if(button("Discard grid preview",GuiInputTarget::DiscardQptmaPreview,!preview_)) {clear_preview();preview_missing_=0;exchange_state_="idle";}
             }
-            if(grid_) {
-                ImGui::TextWrapped("Export retains core names, bounds, missing flags and case IDs. Native IDs, grid name and axis labels are omitted; class assignments and parent links, when present, are also omitted. Vacant slots cannot be exported.");
-                ImGui::BeginDisabled(disabled || exchange_.valid());
-                ui::Checkbox("I acknowledge the omitted metadata",&losses_acknowledged_);remember(GuiInputTarget::AcknowledgeQptmaLosses,disabled || exchange_.valid());
-                ui::InputTextWithHint("##QPTMA output","New .qptma output file",qptma_output_.data(),qptma_output_.size());ImGui::EndDisabled();
-            if(button("Export QuPath grid",GuiInputTarget::ExportQptma,disabled || exchange_.valid() || !grid_ || !losses_acknowledged_ || !qptma_output_[0]))perform([&]{write_qptma(doc,project);});
             }
             ImGui::Separator();
         if(grid_) {
@@ -386,7 +429,7 @@ public:
             if(ImGui::BeginTabBar("TMA views")) {
                 if(tab("Cores",0,GuiInputTarget::TmaCoreTab)) {
                     std::size_t inspected=0;
-                    if(ImGui::BeginChild("core catalog",{0,140.f*scale},ImGuiChildFlags_Borders)) {
+                    if(ui::BeginCollection("core catalog",info.rows()*info.columns())) {
                         ImGuiListClipper clip;clip.Begin(static_cast<int>(info.rows()*info.columns()));while(clip.Step()) for(int slot=clip.DisplayStart;slot<clip.DisplayEnd && inspected<512;++slot) {
                             ++inspected;const auto r=std::size_t(slot)/info.columns(),c=std::size_t(slot)%info.columns();const auto core=snapshot->core(r,c);
                             const auto text=(core?core->name:info.row_labels()[r]+"-"+info.column_labels()[c])+(!core?" (vacant)":core->tma_core->missing()?" (missing)":"");ImGui::PushID(slot);
@@ -397,7 +440,7 @@ public:
                     bool missing=selected && selected->tma_core->missing();ImGui::BeginDisabled(disabled || !selected);if(ui::Checkbox("Missing / insufficient tissue",&missing)) perform([&]{doc.set_tma_missing(selected_cores_,missing);});remember(GuiInputTarget::ToggleTmaMissing,disabled || !selected);ImGui::EndDisabled();
                     ImGui::BeginDisabled(disabled);ui::InputText("Case ID",case_.data(),case_.size());ImGui::EndDisabled();
                     if(button("Apply case ID to selected cores",GuiInputTarget::ApplyTmaCase,disabled || selected_cores_.empty())) perform([&]{std::map<std::uint64_t,std::string> values;for(auto id:selected_cores_) values.emplace(id,case_.data());doc.set_tma_case_ids(values);});
-                    ImGui::BeginDisabled(disabled);ui::InputDouble("Core minimum X (px)",&edited_.x);ui::InputDouble("Core minimum Y (px)",&edited_.y);ui::InputDouble("Core width (px)",&edited_.width);ui::InputDouble("Core height (px)",&edited_.height);ImGui::EndDisabled();
+                    ImGui::BeginDisabled(disabled);ui::CompactInputDouble("X (px)###Core minimum X (px)",&edited_.x);ui::CompactInputDouble("Y (px)###Core minimum Y (px)",&edited_.y);ui::CompactInputDouble("Width (px)###Core width (px)",&edited_.width);ui::CompactInputDouble("Height (px)###Core height (px)",&edited_.height);ImGui::EndDisabled();
                     if(button(selected?"Apply core geometry":"Add core in vacant slot",GuiInputTarget::ApplyTmaGeometry,disabled)) perform([&]{if(selected) doc.update_roi(selected->id,Roi::ellipse(edited_));else {const auto id=doc.add_tma_core(row,column,edited_,case_.data());selection.replace({id},id);}});
                     ImGui::EndTabItem();
                 }
@@ -424,12 +467,25 @@ public:
                         if(button("Remove row",GuiInputTarget::TmaRemoveRow,disabled)) perform([&]{doc.remove_tma_row(row);losses_acknowledged_=false;});ImGui::SameLine();
                         if(button("Remove column",GuiInputTarget::TmaRemoveColumn,disabled)) perform([&]{doc.remove_tma_column(column);losses_acknowledged_=false;});
                     }
-                    ImGui::BeginDisabled(disabled);ui::InputDouble("Move X (px)",&delta_.x);ui::InputDouble("Move Y (px)",&delta_.y);ImGui::EndDisabled();
+                    ImGui::BeginDisabled(disabled);ui::CompactInputDouble("Move X (px)",&delta_.x);ui::CompactInputDouble("Move Y (px)",&delta_.y);ImGui::EndDisabled();
                     if(button("Move grid and child objects",GuiInputTarget::TranslateTmaGrid,disabled)) perform([&]{doc.translate_tma_grid(delta_.x,delta_.y);});
                     if(button("Dissolve grid (keep objects)",GuiInputTarget::ClearTmaGrid,disabled)) perform([&]{doc.clear_tma_grid();});
                     ImGui::EndTabItem();
                 }
                 if(tab("Export",2,GuiInputTarget::TmaExportTab)) {
+                    ui::SeparatorText("QuPath grid");
+                    ui::TextWrapped("Core names, bounds, missing flags and case IDs are retained.");
+                    if(!export_omissions_.empty()) {
+                        ui::TextUnformatted("Not included:");
+                        for(const auto& omission:export_omissions_) {ui::TextWrapped("• %s",ui::i18n::text(omission_caption(omission)));ui::trace_workflow_action(("qptma-omission-"+omission).c_str(),omission_caption(omission));}
+                    }
+                    if(!export_review_error_.empty()) {ImGui::TextWrapped("%s",export_review_error_.c_str());ui::trace_workflow_action("qptma-review-error",export_review_error_.c_str());}
+                    ImGui::BeginDisabled(disabled || exchange_.valid() || !export_review_error_.empty());
+                    ui::Checkbox("I acknowledge the omitted metadata",&losses_acknowledged_);remember(GuiInputTarget::AcknowledgeQptmaLosses,disabled || exchange_.valid() || !export_review_error_.empty());ImGui::EndDisabled();
+                    ImGui::BeginDisabled(disabled || exchange_.valid());
+                    ui::InputTextWithHint("##QPTMA output","New .qptma output file",qptma_output_.data(),qptma_output_.size());ImGui::EndDisabled();
+                    if(button("Export QuPath grid",GuiInputTarget::ExportQptma,disabled || exchange_.valid() || !grid_ || !export_review_error_.empty() || !losses_acknowledged_ || !qptma_output_[0]))perform([&]{write_qptma(doc,project);});
+                    ImGui::Separator();
                     ImGui::BeginDisabled(export_.valid());
                     ui::Checkbox("Summarize replicate cores by case",&case_summary_);
                     if(case_summary_) {
@@ -442,10 +498,10 @@ public:
                         ui::InputText("Weight column (optional)",weight_column_.data(),weight_column_.size());
                         ui::Checkbox("Allow input without core revisions",&allow_unversioned_);
                     } else ImGui::TextWrapped("Metadata CSV includes present, missing and vacant slots. It captures the grid when requested and creates a new file.");
-                    ImGui::TextUnformatted("New CSV output");
-                    ui::InputTextWithHint("##TMA metadata path","New CSV output file",path_.data(),path_.size());ImGui::EndDisabled();
+                    ImGui::TextUnformatted("CSV file");
+                    ui::InputTextWithHint("##TMA metadata path","New .csv file",path_.data(),path_.size());ImGui::EndDisabled();
                     if(button(case_summary_?"Export case summary CSV":"Export core metadata CSV",GuiInputTarget::ExportTmaMetadata,disabled || export_.valid() || !path_[0])) perform([&]{write_metadata(doc,project);});
-                    if(button("Cancel CSV export",GuiInputTarget::CancelTmaMetadata,!export_.valid())) cancel_.store(true);
+                    if(export_.valid() && button("Cancel CSV export",GuiInputTarget::CancelTmaMetadata,false)) cancel_.store(true);
                     ImGui::TextWrapped("CSV export: %s",export_state_.c_str());ImGui::EndTabItem();
                 }
                 ImGui::EndTabBar();activate_tab_=false;

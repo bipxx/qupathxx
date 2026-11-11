@@ -1,5 +1,7 @@
 #pragma once
 #include "qupathxx/tma.hpp"
+#include "../gui_workflow_ui.hpp"
+#include "../gui_dialog_contract.hpp"
 static void panel_refinement_workflows(const std::filesystem::path& directory,bool details_only=false) {
     for(const std::string panel:{"region","tissue","cells","annotations","tables","tma-detect","tma-manual","tma-import","pixel","object-information","active-information","active-stain-information","pixel-reveal"})for(const bool scaled:{false,true}) {
         if(details_only && panel!="active-information" && panel!="active-stain-information")continue;
@@ -19,16 +21,39 @@ static void panel_refinement_workflows(const std::filesystem::path& directory,bo
         if(panel=="active-stain-information")o.tissue_feature=1;
         // Identical native basis values: labels must follow the captured mode.
         if(panel=="active-information" || panel=="active-stain-information")o.analysis_vectors={1,0,0,0,1,0};
+        ui::WorkflowTrace information_trace;
+        struct RestoreWorkflowTrace {ui::WorkflowTrace* previous;~RestoreWorkflowTrace(){ui::workflow_trace=previous;}} restore_trace{ui::workflow_trace};
+        ui::workflow_trace=&information_trace;
+        bool information_opened=false;
         if(panel=="object-information" || panel=="active-information" || panel=="active-stain-information") {
             o.ui_scale=1;
+            const auto dialog=panel=="object-information"?ui::DialogKind::ObjectInformation:ui::DialogKind::ImageInformation;
+            information_trace.before_frame=[&,dialog](int) {
+                auto* context=ImGui::GetCurrentContext();
+                if(!context)return;
+                for(const auto& popup:context->OpenPopupStack)
+                    if(popup.Window && popup.Window->ID==ImHashStr(ui::dialog_definition(dialog).name) &&
+                        (popup.Window->Flags&ImGuiWindowFlags_Modal) && !popup.Window->Hidden && popup.Window->LastFrameActive==context->FrameCount)
+                        information_opened=true;
+            };
+            auto probe=o;probe.inputs=panel=="object-information"?std::vector<GuiInput>{key(2,GuiInputKind::SelectAllKey)}:std::vector<GuiInput>{};
+            const auto probe_revision=doc->revision();const auto layout=run_project_gui(project,panel=="object-information"?6:3,{},probe);
+            check(layout.replay_complete && doc->revision()==probe_revision,"Information-action probe changed native data: "+name);
             GuiInput down;down.frame=8;down.kind=GuiInputKind::LeftDown;down.target=GuiInputTarget::Window;
-            down.x=(panel=="object-information"?120.:358.)/o.width;down.y=(panel=="object-information"?440.:132.)/o.height;
+            const auto bounds=layout.measurement_bounds;
+            if(panel=="object-information") {
+                const auto found=information_trace.actions.find("Object information");
+                check(found!=information_trace.actions.end() && found->second.enabled,"Object information has no actual visible native action: "+name);
+                const auto hit=found->second.bounds;down.x=(hit.x+hit.width/2)/o.width;down.y=(hit.y+hit.height/2)/o.height;
+            } else {down.x=(bounds.x+bounds.width-26)/o.width;down.y=(bounds.y+103)/o.height;}
             auto up=down;up.frame=9;up.kind=GuiInputKind::LeftUp;o.inputs.push_back(down);o.inputs.push_back(up);
             if(scaled){auto scale=key(14,GuiInputKind::SetUiScale);scale.x=2;o.inputs.push_back(scale);}
         }
         project->save(project->path());const auto revision=doc->revision();const auto bytes=read(std::filesystem::u8path(project->path()));
         const auto r=run_project_gui(project,20,(directory/(name+".ppm")).u8string(),o);
         check(r.replay_complete && r.ui_overflow_items==0,"Panel refinement bounds/replay: "+name+" / "+r.ui_overflow_label);
+        if(panel=="object-information" || panel=="active-information" || panel=="active-stain-information")
+            check(information_opened,"Information replay did not actually open its registered native dialog: "+name);
         check(doc->revision()==revision && read(std::filesystem::u8path(project->path()))==bytes,"Panel inspection changed native data: "+name);
         check(doc->pixel_width_um()==.5 && doc->pixel_height_um()==.25 && doc->server()->read_region({0,0,0,1,1}).bytes()==std::vector<std::uint8_t>({30,120,210,255}),"Panel inspection changed calibration/RGB");
     }

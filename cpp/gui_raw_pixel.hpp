@@ -3,6 +3,7 @@
 #include "raw_pixel_frontend.hpp"
 #include "gui_pixel_preview.hpp"
 #include "gui_layout.hpp"
+#include "gui_workflow_ui.hpp"
 #include "utf8_text.hpp"
 #include <array>
 #include <charconv>
@@ -85,17 +86,46 @@ public:
     void finish(Document& doc,bool finite) {if(!finite) jobs_.cancel();jobs_.wait(doc);update(doc);}
     void draw(Document& doc,const ObjectSelection& selection,const Project* project,bool blocked,bool has_image,const std::function<void(GuiInputTarget)>& mark) {
         targets_.fill({});enabled_.fill(false);if(!options_.open) return;
-        const auto* viewport=ImGui::GetMainViewport();const auto extent=viewport->WorkSize;const float scale=ui::design::scale();
-        const ImVec2 panel{std::min(480.f*scale,extent.x*.9f),std::min(900.f*scale,extent.y*.9f)};
-        ImGui::SetNextWindowSize(panel,ImGuiCond_FirstUseEver);
-        ImGui::SetNextWindowPos({viewport->WorkPos.x+std::min(60.f*scale,extent.x-panel.x),viewport->WorkPos.y+std::min(60.f*scale,extent.y-panel.y)},ImGuiCond_FirstUseEver);
-        ImGui::SetNextWindowSizeConstraints({std::min(260.f*scale,extent.x),std::min(160.f*scale,extent.y)},extent);
-        if(!ImGui::Begin("Raw pixel classifier",&options_.open)) {ImGui::End();return;}
+        ui::SetNextToolWindow("Raw pixel classifier",{480,900},ui::ToolHeight::Content);
+        if(!ImGui::Begin(ui::i18n::label("Raw pixel classifier").c_str(),&options_.open)) {ImGui::End();return;}
         auto item=[&](GuiInputTarget target,bool on=true) {const auto a=ImGui::GetItemRectMin(),b=ImGui::GetItemRectMax();const auto i=std::size_t(target)-std::size_t(first);targets_[i]={a.x,a.y,b.x-a.x,b.y-a.y};enabled_[i]=on;if(on) mark(target);};
-        auto button=[&](const char* label,GuiInputTarget target,bool disabled=false,std::optional<ui::Icon> icon={}) {ImGui::BeginDisabled(disabled);const bool hit=(icon?ui::IconButton(label,*icon):ui::Button(label));item(target,!disabled);ImGui::EndDisabled();return hit;};
         const auto current=jobs_.report();const bool disabled=blocked || !has_image || jobs_.busy();
+        std::optional<GuiInputTarget> primary_action;
+        if(!disabled) {
+            if(current.file_replay && current.stream_contours && !current.contours_published && contour_ready_)primary_action=GuiInputTarget::RawPixelApplyFile;
+            else if((current.contours || current.stream_contours) && !current.contours_published && contour_ready_)primary_action=GuiInputTarget::RawPixelApply;
+            else if(current.model && current.prediction && has_geos() && !current.contours && !current.stream_contours)primary_action=GuiInputTarget::RawPixelTrace;
+            else if(current.model)primary_action=GuiInputTarget::RawPixelPredict;
+            else if(has_classifier_training())primary_action=GuiInputTarget::RawPixelTrain;
+        }
+        auto button=[&](const char* label,GuiInputTarget target,bool disabled=false,std::optional<ui::Icon> icon={}) {
+            const char* caption=label;const auto action=primary_action==target?ui::design::Action::Primary:ui::design::Action::Secondary;
+            switch(target) {
+            case GuiInputTarget::RawPixelTrain:caption="Train classifier";break;
+            case GuiInputTarget::RawPixelKeepTraining:caption="Keep training data";break;
+            case GuiInputTarget::RawPixelPredict:caption="Predict window";break;
+            case GuiInputTarget::RawPixelTrace:caption="Trace contours";break;
+            case GuiInputTarget::RawPixelApply:caption="Add annotations";break;
+            case GuiInputTarget::RawPixelApplyFile:caption="Add rechecked annotations";break;
+            case GuiInputTarget::RawPixelTraceFile:caption="Inspect contours";break;
+            case GuiInputTarget::RawPixelReplayFile:caption="Recheck before adding";break;
+            case GuiInputTarget::RawPixelKeepLink:caption="Keep file reference";break;
+            case GuiInputTarget::RawPixelOpenFile:caption="Open prediction file";break;
+            case GuiInputTarget::RawPixelOpenRecord:caption="Open kept file";break;
+            case GuiInputTarget::RawPixelRemoveRecord:caption="Remove file reference";break;
+            case GuiInputTarget::RawPixelExport:caption="Export prediction file";break;
+            case GuiInputTarget::RawPixelCancel:caption="Cancel";break;
+            case GuiInputTarget::RawPixelHide:break;
+            default:break;
+            }
+            ImGui::BeginDisabled(disabled);const bool hit=icon?ui::WorkflowIcon(label,caption,*icon):ui::WorkflowAction(label,caption,nullptr,action);item(target,!disabled);ImGui::EndDisabled();return hit;
+        };
         ImGui::TextWrapped("%s",current.state.c_str());const auto shown=report();if(!shown.error.empty()) ImGui::TextWrapped("%s",shown.error.c_str());
-        if(button("Cancel operation",GuiInputTarget::RawPixelCancel,!jobs_.busy(),ui::Icon::Close)) jobs_.cancel();ImGui::SameLine();if(button("Hide panel",GuiInputTarget::RawPixelHide,false,ui::Icon::Close)) options_.open=false;
+        ui::NativeToolCloseTarget("Hide panel",[&](Rect bounds) {
+            const auto i=std::size_t(GuiInputTarget::RawPixelHide)-std::size_t(first);
+            targets_[i]=bounds;enabled_[i]=true;mark(GuiInputTarget::RawPixelHide);
+        });
+        if(jobs_.busy() && button("Cancel operation",GuiInputTarget::RawPixelCancel,false,ui::Icon::Stop)) jobs_.cancel();
         if(ImGui::BeginTabBar("raw-pixel-tabs")) {
             bool tab=ImGui::BeginTabItem("Training");item(GuiInputTarget::RawPixelTrainingTab);if(tab) {
                 ImGui::BeginDisabled(disabled);
