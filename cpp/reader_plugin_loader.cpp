@@ -6,6 +6,7 @@
 #include <windows.h>
 #include <tlhelp32.h>
 #include "reader_plugin.hpp"
+#include "native_plugin_package.hpp"
 #include "sha256.hpp"
 #include "ascii_case.hpp"
 #include "utf8_text.hpp"
@@ -252,4 +253,60 @@ ReaderPluginCatalog load_reader_plugin_catalog(const std::string& path) {
     }catch(const std::exception& error){result.diagnostics.push_back(error.what());}
     return result;
 }
+}
+
+
+// Family providers reuse the same file locks, path/PE/dependency checks and pinned
+// loading authority above. Image-v1 admission and its diagnostics stay unchanged.
+namespace qpx::detail {
+struct NativePluginModule::Impl {
+    std::shared_ptr<Package> package;
+    HMODULE module=nullptr;
+    std::string sha;
+    std::vector<NativePluginDependency> dependencies;
+    std::vector<std::string> admitted_paths;
+};
+NativePluginModule::NativePluginModule(std::unique_ptr<Impl> value):impl_(std::move(value)) {}
+NativePluginModule::~NativePluginModule()=default;
+std::shared_ptr<NativePluginModule> NativePluginModule::admit(const std::string& package_root,
+    const NativePluginFile& module,const std::vector<NativePluginFile>& dependencies) {
+    auto value=std::make_unique<Impl>();value->package=std::make_shared<Package>();
+    const auto root=fs::canonical(fs::u8path(package_root));
+    if(dependencies.size()>63)refuse("dependency count exceeds limit");
+    const auto add=[&](const NativePluginFile& entry) {
+        const auto path=package_path(root,entry.path),name_path=path.filename();
+        const auto name=lower(name_path.u8string());
+        if(value->package->files.count(name))refuse("duplicate module/dependency basename");
+        auto file=std::make_shared<File>(path,entry.sha256,256u*1024*1024-value->package->bytes);
+        value->package->bytes+=file->bytes.size();
+        value->package->images.emplace(name,std::make_shared<Pe>(*file));
+        value->package->files.emplace(name,file);value->admitted_paths.push_back(path_key(path));return name;
+    };
+    const auto module_name=add(module);value->sha=value->package->files.at(module_name)->sha;
+    for(const auto& entry:dependencies) {
+        const auto name=add(entry);value->dependencies.push_back({name,value->package->files.at(name)->sha});
+    }
+    std::sort(value->dependencies.begin(),value->dependencies.end(),[](const auto& a,const auto& b){return a.name<b.name;});
+    value->package->preflight();value->module=value->package->load(module_name);
+    for(const auto& item:value->package->files)
+        if(!value->package->loaded.count(item.first))refuse("declared dependency is not in the module import graph");
+    return std::shared_ptr<NativePluginModule>(new NativePluginModule(std::move(value)));
+}
+const std::string& NativePluginModule::module_sha256() const noexcept{return impl_->sha;}
+const std::vector<NativePluginDependency>& NativePluginModule::dependencies() const noexcept{return impl_->dependencies;}
+void* NativePluginModule::symbol(const char* name) const {
+    const auto function=GetProcAddress(impl_->module,name);
+    if(!function)refuse(std::string("missing versioned ABI entry: ")+name);
+    const auto address=reinterpret_cast<const void*>(function);callback_address(address);
+    return const_cast<void*>(address);
+}
+void NativePluginModule::callback_address(const void* function) const {
+    if(!function)refuse("missing ABI callback");HMODULE owner=nullptr;
+    if(!GetModuleHandleExW(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS|GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
+        reinterpret_cast<LPCWSTR>(function),&owner))refuse("ABI callback has no admitted module");
+    const auto actual=path_key(module_path(owner));
+    if(std::find(impl_->admitted_paths.begin(),impl_->admitted_paths.end(),actual)==impl_->admitted_paths.end())
+        refuse("ABI callback points outside admitted package");
+}
+void NativePluginModule::finish_admission(){impl_->package->images.clear();impl_->package->files.clear();}
 }

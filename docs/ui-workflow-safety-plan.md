@@ -1,12 +1,10 @@
 # UI workflow safety and contracts plan
 
-Status: milestones 1–6 are delivered and uncommitted in this worktree. Milestone 6
-passes 85 source contracts and 166 recorded mapped native invocations, including
-the full 120-case matrix, complex-project walk and translation ratchet probes. The
-[receipt](benchmarks/ui-workflow-safety/README.md#milestone-6--feedback-and-enforcement)
-records individually unconfirmed defaults, coverage limits and extra build cost.
-All work stays uncommitted; native libraries/binding objects remain frozen.
-Only Milestone N awaits an owner decision.
+Status: milestones 1–6 and a follow-up layout/translation pass are delivered,
+committed on feature/ui-workflow-safety and merged into main. The
+[receipt](benchmarks/ui-workflow-safety/README.md) records results, individually
+unconfirmed defaults, coverage limits and extra build cost. Native libraries and
+binding objects were not rebuilt. Only Milestone N awaits an owner decision.
 This plan follows the
 owner-requested UI/UX and contract review of `c0f64039`; every code anchor below
 was re-checked on `main` at `7c981bf9`. The

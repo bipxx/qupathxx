@@ -1,0 +1,14 @@
+// SPDX-License-Identifier: AGPL-3.0-only
+#pragma once
+#if !defined(_MSC_VER) || _MSC_VER != @QUPATHXX_FORMAT_PLUGIN_MSVC_VERSION@ || !defined(_WIN64) || !defined(_M_X64)
+#error "Typed TSV plugins require the FormatPluginKit's Windows x64 MSVC series"
+#endif
+#if !defined(_DLL) || defined(_DEBUG)
+#error "Typed TSV plugins require Release dynamic CRT (/MD)"
+#endif
+#include <yvals_core.h>
+#if _ITERATOR_DEBUG_LEVEL != 0
+#error "Typed TSV plugins require iterator debug level zero"
+#endif
+static_assert(sizeof(void*)==8,"Typed TSV plugin architecture differs");
+#define QPX_FORMAT_PLUGIN_PROFILE_ID "@QUPATHXX_FORMAT_PLUGIN_PROFILE_ID@"

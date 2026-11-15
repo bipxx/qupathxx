@@ -399,6 +399,7 @@ private:
     void adopt_tiff_source(std::shared_ptr<ImageServer>);
     friend class Project;
     friend struct ObjectClassifierKernel;
+    friend struct FormatImportKernel;
     friend class AnalysisRequest;
     friend class RawAnalysisRequest;
     friend class RawPixelWindowPredictionRequest;

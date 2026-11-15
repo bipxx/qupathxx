@@ -1,0 +1,123 @@
+{
+  "schema": "qpx.ics-reference-source/1",
+  "version": "1.7.2",
+  "commit": "c1a1ae6f46ed1167001c0a14d9ef767c37ff4833",
+  "role": "Independent development native oracle only; no shipped module/core/Python dependency",
+  "source_license": "LGPL-2.0-or-later (GNU Library GPL version2 or anylater source grants)",
+  "bundled_license_text": "GNU_LICENSE: GNU Lesser GPL2.1 (the designated successor); retained distinct from per-filegrant",
+  "compress_note": "Unmodified libics_compress.c retains its nested original public-domain provenance; used only by devoracle. Product supports uncompressed inputs only",
+  "compile_sources": [
+    "libics_binary.c",
+    "libics_compress.c",
+    "libics_data.c",
+    "libics_gzip.c",
+    "libics_history.c",
+    "libics_preview.c",
+    "libics_read.c",
+    "libics_sensor.c",
+    "libics_test.c",
+    "libics_top.c",
+    "libics_util.c",
+    "libics_write.c"
+  ],
+  "members": {
+    "libics_binary.c": {
+      "sha256": "6dff02f67894306a2fbb19788c6e35742835f89f1469147f65c86255613df3f3",
+      "bytes": 17300,
+      "url": "https://raw.githubusercontent.com/svi-opensource/libics/c1a1ae6f46ed1167001c0a14d9ef767c37ff4833/libics_binary.c"
+    },
+    "libics_compress.c": {
+      "sha256": "80d2b769395c0181b104fcb2940d286be4e78da975b735caee8430005e6f7875",
+      "bytes": 9423,
+      "url": "https://raw.githubusercontent.com/svi-opensource/libics/c1a1ae6f46ed1167001c0a14d9ef767c37ff4833/libics_compress.c"
+    },
+    "libics_data.c": {
+      "sha256": "9a6b9e9e47e7da6ec0f867446ac355d3a5d8f593381a86a634aa83fb2483954e",
+      "bytes": 6242,
+      "url": "https://raw.githubusercontent.com/svi-opensource/libics/c1a1ae6f46ed1167001c0a14d9ef767c37ff4833/libics_data.c"
+    },
+    "libics_gzip.c": {
+      "sha256": "0105dfe353628ee9afa4758f78b5e145667188169d16088213db9e3435d13054",
+      "bytes": 19683,
+      "url": "https://raw.githubusercontent.com/svi-opensource/libics/c1a1ae6f46ed1167001c0a14d9ef767c37ff4833/libics_gzip.c"
+    },
+    "libics_history.c": {
+      "sha256": "5691e466f450eb363b890f68ce42e319344dd1175adcb0613f004f0935f6595a",
+      "bytes": 16973,
+      "url": "https://raw.githubusercontent.com/svi-opensource/libics/c1a1ae6f46ed1167001c0a14d9ef767c37ff4833/libics_history.c"
+    },
+    "libics_preview.c": {
+      "sha256": "8069528256e718a7357b995d020da00c05d0811afa291718410acf1143c467fd",
+      "bytes": 11913,
+      "url": "https://raw.githubusercontent.com/svi-opensource/libics/c1a1ae6f46ed1167001c0a14d9ef767c37ff4833/libics_preview.c"
+    },
+    "libics_read.c": {
+      "sha256": "6dd8d4a341d5ea6f9019c8bae47f4efda44e2f2ece30c0bf404c2b25c59a8abf",
+      "bytes": 46448,
+      "url": "https://raw.githubusercontent.com/svi-opensource/libics/c1a1ae6f46ed1167001c0a14d9ef767c37ff4833/libics_read.c"
+    },
+    "libics_sensor.c": {
+      "sha256": "451ae7eedabdbbfabac62bd9a2e5928337f981142680aa87a381f1a0ede6266f",
+      "bytes": 39381,
+      "url": "https://raw.githubusercontent.com/svi-opensource/libics/c1a1ae6f46ed1167001c0a14d9ef767c37ff4833/libics_sensor.c"
+    },
+    "libics_test.c": {
+      "sha256": "4f5686c7f83141a186959d793ad81d8cdfb900e29a5373fbcc13bc2fe3f8d63d",
+      "bytes": 5677,
+      "url": "https://raw.githubusercontent.com/svi-opensource/libics/c1a1ae6f46ed1167001c0a14d9ef767c37ff4833/libics_test.c"
+    },
+    "libics_top.c": {
+      "sha256": "d1853aab3a316312339a92581e37152dffb1d350d2455fcc64abb4a7b83300e5",
+      "bytes": 39116,
+      "url": "https://raw.githubusercontent.com/svi-opensource/libics/c1a1ae6f46ed1167001c0a14d9ef767c37ff4833/libics_top.c"
+    },
+    "libics_util.c": {
+      "sha256": "6a26d00f98381a29191a76e7c0167deb1a1beea571ccf8a3a7e07182cd8963fe",
+      "bytes": 18608,
+      "url": "https://raw.githubusercontent.com/svi-opensource/libics/c1a1ae6f46ed1167001c0a14d9ef767c37ff4833/libics_util.c"
+    },
+    "libics_write.c": {
+      "sha256": "f972ff40908e17282db3d1debe068ac8804de59e7500f1f96881b45d9aa780ac",
+      "bytes": 39463,
+      "url": "https://raw.githubusercontent.com/svi-opensource/libics/c1a1ae6f46ed1167001c0a14d9ef767c37ff4833/libics_write.c"
+    },
+    "libics.h": {
+      "sha256": "4e9c3ea690f9b159f0309f70ddbab04634ab55934bdc8355bdc887b90e0068ae",
+      "bytes": 42401,
+      "url": "https://raw.githubusercontent.com/svi-opensource/libics/c1a1ae6f46ed1167001c0a14d9ef767c37ff4833/libics.h"
+    },
+    "libics_intern.h": {
+      "sha256": "19cf58660dd28dd7eddf683008ddba981611d3215003b6b790ca287c2e471968",
+      "bytes": 9338,
+      "url": "https://raw.githubusercontent.com/svi-opensource/libics/c1a1ae6f46ed1167001c0a14d9ef767c37ff4833/libics_intern.h"
+    },
+    "libics_ll.h": {
+      "sha256": "1ebfe8d13d9630a2fa14abd9bda7a3ff3efcfd5d479bbf6e18a6ceff0d1bfed9",
+      "bytes": 4824,
+      "url": "https://raw.githubusercontent.com/svi-opensource/libics/c1a1ae6f46ed1167001c0a14d9ef767c37ff4833/libics_ll.h"
+    },
+    "libics_sensor.h": {
+      "sha256": "8c405b8709969a6c3ca7c643181dd01fd3deabb5f8c196a6624cd84f871bb166",
+      "bytes": 13743,
+      "url": "https://raw.githubusercontent.com/svi-opensource/libics/c1a1ae6f46ed1167001c0a14d9ef767c37ff4833/libics_sensor.h"
+    },
+    "libics_test.h": {
+      "sha256": "b273f4581a48f5028f6c380955009341e7bc1dffa643cf8340fc18ab3724a9bb",
+      "bytes": 1665,
+      "url": "https://raw.githubusercontent.com/svi-opensource/libics/c1a1ae6f46ed1167001c0a14d9ef767c37ff4833/libics_test.h"
+    },
+    "libics_conf.h.in": {
+      "sha256": "5d0baa0c8f31da158ea776e3449cd51ea5ba52c7d6a9f23d60ebc6b856cd623e",
+      "bytes": 4571,
+      "url": "https://raw.githubusercontent.com/svi-opensource/libics/c1a1ae6f46ed1167001c0a14d9ef767c37ff4833/libics_conf.h.in"
+    },
+    "GNU_LICENSE": {
+      "sha256": "a190dc9c8043755d90f8b0a75fa66b9e42d4af4c980bf5ddc633f0124db3cee7",
+      "bytes": 26430,
+      "url": "https://raw.githubusercontent.com/svi-opensource/libics/c1a1ae6f46ed1167001c0a14d9ef767c37ff4833/GNU_LICENSE"
+    }
+  },
+  "upstream_images": false,
+  "archive": false,
+  "zlib": false
+}

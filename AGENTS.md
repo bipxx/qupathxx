@@ -117,6 +117,15 @@ Do not regenerate retired products merely because a historical receipt names the
 Readers and required codecs must be openly licensed. Keep owner scope/license/
 support/publication decisions attached to their actual claims and continue
 independent authorized work; do not invent additional permission gates.
+Owner update2026-11-13: Java/Groovy runtime and QuPath Java-extension
+compatibility are not requirements. Deliver additional format implementations as
+optional native plugins, reusing the existing image-plugin ABI and typed family
+authorities. Record each plugin's own code and dependency licenses, exact source/
+binary identity, notices and applicable source/distribution obligations in the
+existing inventories. Plugin separation does not override those terms. Admit no
+noncommercial/research-only code, codecs, required assets, models, fixtures or
+restricted derivatives; unknown terms remain unreviewed. Follow
+docs/reader-license-policy.md for per-plugin admission.
 For new fluorescence/spatial-omics work, the owner additionally requires open
 formats: use the selected formats in docs/fluorescence-omics-plan.md and the
 format admission policy. An open-source reader alone does not admit a closed

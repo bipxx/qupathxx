@@ -1,0 +1,152 @@
+{
+  "schema": "qpx.png-reader-zlib-sources/1",
+  "version": "1.3.2",
+  "upstream_archive_sha256": "bb329a0a2cd0274d05519d61c667c062e06990d72e125ee2dfa8de64f0119d16",
+  "license_id": "Zlib",
+  "members": {
+    "CMakeLists.txt": {
+      "sha256": "4c3a70936312909462e360ca60b509a71cbad1f651434d100a84e19b4743ccb8",
+      "bytes": 9873
+    },
+    "LICENSE": {
+      "sha256": "e32ff4e00d9d94930537635291da39e7e612703334bf6fde8c7f1686fe8a45a2",
+      "bytes": 1002
+    },
+    "Makefile.in": {
+      "sha256": "33952d61d881fd3b41d087e84f8ef3c3c25a6bc4d6f6e3b115e13004a1d54b2a",
+      "bytes": 14693
+    },
+    "README": {
+      "sha256": "4026d921213bb2e311d8d42b44ef53361c102d5d45ae32f93f8e52eaee8d068f",
+      "bytes": 5291
+    },
+    "adler32.c": {
+      "sha256": "9cd1443a24ff2a3053961695bd432035c58347386a420d3388232376ebabe211",
+      "bytes": 4964
+    },
+    "compress.c": {
+      "sha256": "41f1c7ad886012571cd481a2b1b6a83812e5125e90d995e298fde34d6c015614",
+      "bytes": 3639
+    },
+    "contrib/CMakeLists.txt": {
+      "sha256": "42062d1b65f23d0329be0dbd035b912b7a9ffb966da064f815eaa243c4466e74",
+      "bytes": 2197
+    },
+    "crc32.c": {
+      "sha256": "da37f3483e77c20f64c28cf55d62d7bed9d62af33eb401be906835d84539b9c9",
+      "bytes": 29735
+    },
+    "crc32.h": {
+      "sha256": "9a2223575183ac2ee8a247f20bf3ac066e8bd0140369556bdbdffc777435749e",
+      "bytes": 591749
+    },
+    "deflate.c": {
+      "sha256": "ea9ca4eb51b1a71aaf214b99f4a9fab177253d6268cae8e4c26d44d1812e52c2",
+      "bytes": 83286
+    },
+    "deflate.h": {
+      "sha256": "21f4ea0973dab272fb26e93305ccf8628c8dc07e6c5df09a9861825b1920ba5d",
+      "bytes": 14213
+    },
+    "gzclose.c": {
+      "sha256": "35ea6e991a63095f797d8c4cc25817fac7a7155c2ba7dcdbbf648f7871c7ea40",
+      "bytes": 668
+    },
+    "gzguts.h": {
+      "sha256": "db7690315cda93c0742701365d5218932ff0e2e6b8713c95019553502ada7d2b",
+      "bytes": 7088
+    },
+    "gzlib.c": {
+      "sha256": "c899344d02b22fd0bcb78392cdd2d175a801b3ceb5d3fbfde5ec420591537269",
+      "bytes": 17457
+    },
+    "gzread.c": {
+      "sha256": "ee2b1141f7b78065147e787c8b4adb983c09c409aa5fe5782479e2664676d17c",
+      "bytes": 22817
+    },
+    "gzwrite.c": {
+      "sha256": "2ce783294c688330c716bfe106f43167d3dae5be84994176bc304d205d4f5b04",
+      "bytes": 22721
+    },
+    "infback.c": {
+      "sha256": "bf9788af31e08a4242fc9d36bc0ce1a7a667bbfd9edc51ff26146195ee2e528a",
+      "bytes": 21139
+    },
+    "inffast.c": {
+      "sha256": "f96787a11bb7131ffd2221fb40db27f6a5a1dfb12f59c0bc388807010749c34a",
+      "bytes": 12982
+    },
+    "inffast.h": {
+      "sha256": "05cc5dc9ff1da7b8b52a4bd8bda0d8a5c236a2f39efe84b941516ea13857e6c5",
+      "bytes": 422
+    },
+    "inffixed.h": {
+      "sha256": "fd7c4b1dbdacb283421d0675744aaecda44e840e183b5131448bac94564f6adb",
+      "bytes": 5968
+    },
+    "inflate.c": {
+      "sha256": "90221ea7d762e7044057f6ad5013e969086c6ba3d3051716b7aa786d7a6362ec",
+      "bytes": 52247
+    },
+    "inflate.h": {
+      "sha256": "e6a43bd0e24ab2cf5fa1dca630859e9a2f6a721f033f75faf179f5c0299e4fe2",
+      "bytes": 6683
+    },
+    "inftrees.c": {
+      "sha256": "f7ee9ce5925fc9d1579c76e574feed85f5ca4ccddc446a7795578854bbc65743",
+      "bytes": 16672
+    },
+    "inftrees.h": {
+      "sha256": "d3a7ea301d8ec514823d052a2e42af4636bc81a0cf07052f526030f208068fb8",
+      "bytes": 3003
+    },
+    "trees.c": {
+      "sha256": "a16217d5ea6d8342ff08afe5207b1dab620f05610e121dda55b4f9aae9de4f68",
+      "bytes": 41030
+    },
+    "trees.h": {
+      "sha256": "bb0a9d3ca88ee00c81adb7c636e73b97085f6ef1b52d6d58edbe2b6dc3adeb4d",
+      "bytes": 8472
+    },
+    "uncompr.c": {
+      "sha256": "953f5381650838d507b01499790bd64524433ea6ea29ea9325bf542af10cfe7d",
+      "bytes": 3711
+    },
+    "zconf.h": {
+      "sha256": "cb7c2c84211473b4699223edd363d3207b43b9578e739b5bf638f42204ea6e0f",
+      "bytes": 16955
+    },
+    "zconf.h.in": {
+      "sha256": "cb7c2c84211473b4699223edd363d3207b43b9578e739b5bf638f42204ea6e0f",
+      "bytes": 16955
+    },
+    "zlib.h": {
+      "sha256": "818667d6ab6a37fe7469cb06a7f0cb2c2cb2f2c948a03e5accf1a4a74bf3020a",
+      "bytes": 103848
+    },
+    "zlib.map": {
+      "sha256": "684411bd6fbcd5b377ca5a3e813e4195ac5e7db1976c8f975875b6204d1d6a8e",
+      "bytes": 1662
+    },
+    "zlib.pc.cmakein": {
+      "sha256": "654f0fc5633cac92b031f3afdc9622901e222afaf7801ff3c49430f9f1216c0a",
+      "bytes": 377
+    },
+    "zlib.pc.in": {
+      "sha256": "b40b72f1726380f0575283b6a4a4bec781d4d3d994638b490a10b3156a10f508",
+      "bytes": 268
+    },
+    "zlibConfig.cmake.in": {
+      "sha256": "2be5bbd8a8ca8e616832a2e14a3deff82996ca454249cc7f95e02bf596973f01",
+      "bytes": 741
+    },
+    "zutil.c": {
+      "sha256": "1279908a15580224a2c1f377555ffdd150327fed71801aa77fc35978dcb741c8",
+      "bytes": 7454
+    },
+    "zutil.h": {
+      "sha256": "a12243cc6d338ffad0c8e3500fbc05bc7fdcdc25a469393b1c2f7e5df307fff3",
+      "bytes": 8512
+    }
+  }
+}

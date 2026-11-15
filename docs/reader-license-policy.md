@@ -1,5 +1,33 @@
 # Reader licensing policy
 
+## Format plugins and commercial-use eligibility
+
+Owner update2026-11-13: additional format implementations belong in optional
+native plugins. Reuse the delivered [image-plugin ABI](reader-plugins.md) and
+the separate [matrix/annotation authorities](format-family-catalogs.md);
+these typed families do not become image readers. Existing supported decoders
+and frozen products do not need a rewrite for this scope decision.
+
+Each plugin retains its actual license and those of its required dependencies.
+Use the existing inventories to record exact source revisions and binary hashes,
+license text/evidence, attribution, notices and applicable source/distribution
+obligations for that plugin's selected package. Check integration and distribution
+against those terms; an optional DLL does not waive them or automatically inherit
+the application's license. This policy does not assert that every license
+combination is compatible.
+
+Only implementations and required materials whose terms permit commercial use
+are eligible. Noncommercial/research-only code, codecs, model weights, training/
+evaluation fixtures and their restricted derivatives are excluded from
+implementation, dependencies, builds, training and release acceptance. Unknown
+terms remain unreviewed. A plugin, wrapper, subprocess or converted open container
+does not admit restricted material. The existing open-source and, where applicable,
+open-format requirements below still apply; copyleft is not itself a noncommercial
+restriction. Private user inputs retain the separate treatment below.
+
+Java/Groovy runtime and QuPath Java-extension compatibility are out of scope,
+not unfinished format support.
+
 ## Proprietary and noncommercial material separation
 
 Owner update2026-11-08: [the eight-gap expansion plan](feature-expansion-plan.md)
@@ -24,9 +52,10 @@ as well as openly licensed readers and codecs. The legacy allowance for a vendor
 format through an open implementation is insufficient for this new phase.
 See the selected formats, source evidence and excluded/deferred scope in the
 [fluorescence/omics plan](fluorescence-omics-plan.md#format-admission).
-OME-TIFF and the documented Matrix Market/TSV profile are selected; AnnData/H5AD
-is an open candidate requiring a separate native dependency/encoding admission.
-No existing reader is removed and no new reader is declared implemented here.
+OME-TIFF and the documented Matrix Market/TSV profile were the initial selection.
+The native AnnData/H5AD and OME-Zarr profiles have since been delivered under
+their own source-scoped contracts; see the [format coverage plan](format-plugin-coverage-plan.md).
+Their delivery does not admit additional encodings, codecs or dependency versions.
 
 The format/schema must have published reusable terms; the exact reader, required
 codec/filter stack and fixture rights must also be established. Closed containers,
@@ -66,10 +95,18 @@ does not exclude it. Fixture redistribution rights remain a separate check.
 | TIFF Deflate: zlib 1.3.2 | [Upstream license](https://zlib.net/zlib_license.html); pinned archive and installed license in `cmake/PinnedZlib.cmake` (shared by TIFF/H5AD) | Retain |
 | TIFF JPEG: libjpeg-turbo 3.1.3 | [Pinned upstream terms](https://github.com/libjpeg-turbo/libjpeg-turbo/blob/3.1.3/LICENSE.md), README.ijg and attribution are installed byte-for-byte; cmake/TiffJpeg.cmake pins archive SHA256 3a13a5ba767dc8264bc40b185e41368a80d5d5f945944d1dbaa4b2fb0099f4e5 | Retain. Static/PIC libjpeg API only; separate upstream CMake build, no TurboJPEG/Java/tools runtime or closed dependency. [Local admission](benchmarks/tiff-jpeg-r2/README.md) records exact notices and coexistence |
 | OME XML: tinyxml2 11.0.0 | [Pinned license](https://github.com/leethomason/tinyxml2/blob/11.0.0/LICENSE.txt); pinned archive and installed license in `cmake/PinnedZlib.cmake` (shared by TIFF/H5AD) | Retain |
-| AnnData/H5AD: optional HDF5 C2.2.0 | [Exact full license](https://github.com/HDFGroup/hdf5/blob/2.2.0/LICENSE), BSD-3-Clause plus retained notices; cmake/H5adReader.cmake pins source SHA5b8d75125ae7b4fef55d3b39e8d3dbfd238cdf63b6518afd67fa69ac80f06542 and installs LICENSE | O01 native decoding in progress. Static C/local native connector, shared admitted prefixed zlib, shuffle/Fletcher32 only. Plugins, SZIP, network, high-level/C++/Java/Fortran/tools excluded. Windows static calls serialize through the native cancellation-aware gate; no unsupported threadsafe-static flag. This dependency admission is not full O01 delivery. |
+| AnnData/H5AD: optional HDF5 C2.2.0 | [Exact full license](https://github.com/HDFGroup/hdf5/blob/2.2.0/LICENSE), BSD-3-Clause plus retained notices; cmake/H5adReader.cmake pins source SHA5b8d75125ae7b4fef55d3b39e8d3dbfd238cdf63b6518afd67fa69ac80f06542 and installs LICENSE | O01 native declared profile and catalog route are delivered; [integration evidence](benchmarks/native-format-closeout/README.md). Static C/local native connector, shared admitted prefixed zlib, shuffle/Fletcher32 only. HDF5 external filters/plugins, SZIP, network, high-level/C++/Java/Fortran/tools excluded. Windows static calls serialize through the native cancellation-aware gate; no unsupported threadsafe-static flag. No general HDF5 encoding or filter support is claimed. |
 | OME-Zarr: repository-native local NGFF0.4/Zarr2 | AGPL-3.0-only implementation; existing pinned nlohmann-json3.12.0 (MIT), SHA42f6e95cad6ec532fd372391373363b62a14af6d771056dbfc86160e6dfff7aa; existing shared prefixed zlib1.3.2 (Zlib), SHAbb329a0a2cd0274d05519d61c667c062e06990d72e125ee2dfa8de64f0119d16; CMakeLists.txt / cmake/PinnedZlib.cmake retain exact archives/notices | Optional native O02 declared subset delivered locally, including viewer/raw/project replay and complete admitted open real-store evidence. Null/zlib/gzip chunks; no Blosc, external plugin, remote or Zarr3 fallback. This is not general NGFF or released-package support. |
-| Dense/PPM reader | Repository-native implementation; no separate proprietary reader SDK | Retain; repository license decision remains open |
-| Future Bio-Formats adapters | [Upstream GPL license](https://github.com/ome/bioformats/blob/v8.5.0/LICENSE.txt); BSD/GPL components and their complete transitive dependencies must be checked individually | Open-source components remain candidates; no Java runtime adapter is added by this policy, and the existing first-release Java deferral remains |
+| Dense/PPM reader | Repository-native implementation under the [repository license](../LICENSE); no separate proprietary reader SDK | Retain |
+| Optional native PNG plugin | [Exact libpng1.6.59 member lock](../plugins/png/libpng-source-lock.json), fixed upstream commit and libpng-2.0 license; locked zlib1.3.2 with Zlib terms; adapter AGPL-3.0-only | [Delivered locally](benchmarks/png-reader-plugin/README.md) through the existing C ABI. Per-component source/notices and88 exact package members are admitted in the existing inventory; no host change, NC asset or broader PNG color/animation claim |
+| Optional native JPEG plugin | [Exact libjpeg-turbo3.1.3 member lock](../plugins/jpeg/libjpeg-source-lock.json); applicable IJG/BSD-3-Clause/Zlib notices, unmodified selected code/build members and full LICENSE.md/README.ijg; adapter AGPL-3.0-only | [Delivered locally](benchmarks/jpeg-reader-plugin/README.md) through the existing C ABI.199 exact package members,171 archive-verified upstream source/build/notice members; no upstream images, NC/restricted material, host change or ICC/CMYK/general JPEG claim |
+| Optional native PNM/PAM plugin | Independently authored C++ parser, fixtures and kit retain AGPL-3.0-only; published Netpbm layout references are not assigned that license; no external codec or Netpbm implementation dependency | [Delivered locally](benchmarks/pnm-reader-plugin/README.md),20 admitted exact package/source/notice members; native UInt8/UInt16 and explicit transfer semantics; no additional platform, calibration or recipe claim |
+| Optional native BMP plugin | Independently authored C++ parser, fixtures and kit retain AGPL-3.0-only; Microsoft format definitions are references, with no upstream codec/sample implementation or image dependency | [Delivered locally](benchmarks/bmp-reader-plugin/README.md),20 admitted exact package/source/notice members; selected BI_RGB header/index/RGB/ppm semantics, no broader DIB/compression/alpha claim |
+| Optional native static lossless WebP plugin | [Exact libwebp1.6.0 source lock](../plugins/webp/libwebp-source-lock.json), commit4fa21912; BSD-3-Clause with full PATENTS/AUTHORS retained; adapter/test/control sources AGPL-3.0-only | [Delivered locally](benchmarks/webp-reader-plugin/README.md),90 admitted exact members including63 unmodified upstream sources/notices; no upstream images/tests/encoder/mux/demux or broader WebP claim |
+| Optional native scalar NRRD plugin | Independently authored parser, fixtures and kit retain AGPL-3.0-only; published NRRD layout and MIT pynrrd1.1.3 are references, with no upstream runtime/code/image dependency | [Delivered locally](benchmarks/nrrd-reader-plugin/README.md),20 admitted exact members; attached raw scalar XY/XYZ dtype/endian/Z/window/calibration profile, no general NRRD/world-frame claim |
+| Optional native uncompressed ICS plugin | Independently authored parser/fixtures/kit AGPL-3.0-only; maintainer-declared open ICS layout. Pinned libics1.7.2 is development-only: source grants Library-GPL2-or-later, bundled GNU_LICENSE is Lesser-GPL2.1, retained distinctly | [Delivered locally](benchmarks/ics-reader-plugin/README.md),22 admitted exact members, no upstream runtime/code/image bundled; selected ICS1/IDS or inlineICS2 typed C/Z/window/calibration and guarded companion profile |
+| Optional typed counts/point TSV plugins | Independently authored format definitions, parsers, helpers, C ABI kit and controls retain AGPL-3.0-only; no third-party parser/codec dependency | [Delivered locally](benchmarks/format-family-plugins/README.md),32 admitted exact module/kit/source/notice members; separate matching native host/SDK with existing dependency notices; explicit schema, IDs, counts, pixel planes/classes and native publication, not arbitrary CSV/TSV or geometry inference |
+| Future Bio-Formats-related format implementations | [Upstream GPL license](https://github.com/ome/bioformats/blob/v8.5.0/LICENSE.txt); BSD/GPL components and their complete transitive dependencies must be checked individually | Eligible native plugins are considered per format and exact implementation; Java runtime/extension compatibility is not required. No blanket Bio-Formats format claim follows from upstream licensing |
 | Any closed vendor reader/codec SDK | Ineligible even when optional, free to download or invoked through another process | Excluded from implementation and required parity targets |
 
 The inventory checks the configured reader families and pinned TIFF/HDF5 components;

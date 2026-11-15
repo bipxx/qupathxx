@@ -54,7 +54,12 @@ void FileVersion::validate() const {
 }
 std::size_t FileVersion::payload_bytes() const {return sizeof(*this)+path.capacity()+identity_scheme.capacity()+identity.capacity()+stamp_scheme.capacity()+modified_token.capacity()+change_token.capacity();}
 std::size_t ReaderSource::payload_bytes() const {
-    std::size_t bytes=sizeof(*this)+generation.capacity()+reader.capacity()+locator.capacity()+scope.capacity()+directory_sha256.capacity()+(primary?primary->payload_bytes():0);
+    // Directory provenance is opt-in. Keep the established logical payload of
+    // historical memory/file sources, including archived analysis records whose
+    // quotas predate this otherwise inactive string owner.
+    const bool directory=scope=="directory_store";
+    std::size_t bytes=sizeof(*this)-(directory?0:sizeof(directory_sha256))+generation.capacity()+reader.capacity()+locator.capacity()+scope.capacity()+(primary?primary->payload_bytes():0);
+    if(directory)bytes+=directory_sha256.capacity();
     bytes+=companions.capacity()*sizeof(FileVersion);
     for(const auto& file:companions) bytes+=file.payload_bytes()-sizeof(FileVersion);
     return bytes;

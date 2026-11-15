@@ -14,6 +14,7 @@
 #include <stdexcept>
 #ifdef QPX_DENSITY_SQLITE
 #include <sqlite3.h>
+#include "project_schema.hpp"
 #endif
 using namespace qpx;
 namespace fs=std::filesystem;
@@ -120,6 +121,11 @@ void sql(const fs::path& path,const std::string& command) {
     sqlite3* db=nullptr;check(sqlite3_open(path.u8string().c_str(),&db)==SQLITE_OK);char* error=nullptr;const auto code=sqlite3_exec(db,command.c_str(),nullptr,nullptr,&error);
     const std::string message=error?error:"";sqlite3_free(error);sqlite3_close(db);if(code!=SQLITE_OK) throw std::runtime_error(message);
 }
+std::int64_t sql_number(const fs::path& path,const char* command) {
+    sqlite3* db=nullptr;check(sqlite3_open_v2(path.u8string().c_str(),&db,SQLITE_OPEN_READONLY,nullptr)==SQLITE_OK);
+    sqlite3_stmt* query=nullptr;check(sqlite3_prepare_v2(db,command,-1,&query,nullptr)==SQLITE_OK);check(sqlite3_step(query)==SQLITE_ROW);
+    const auto value=sqlite3_column_int64(query,0);check(sqlite3_step(query)==SQLITE_DONE);sqlite3_finalize(query);sqlite3_close(db);return value;
+}
 void projects(const fs::path& root) {
     Scene s;auto project=std::make_shared<Project>();const auto image=project->add_document(s.doc);
     auto request=s.request();const auto result=measure_spatial_density(request);const auto id=s.doc->keep_density(request,result);
@@ -144,9 +150,17 @@ void projects(const fs::path& root) {
     ProjectSaveJob exact(budget);check(exact.request(legacy,old.u8string()));check(exact.wait().applied && exact.stats().snapshot_bytes==budget);
     ProjectSaveJob short_by_one(budget-1);rejects([&] {short_by_one.request(legacy,old.u8string());});
     check(Project::open(old.u8string())->document(1)->tissue_record_count()==1);
-    auto older=root/"schema28.qpxproj";fs::copy_file(old,older);sql(older,"DROP TABLE spatial_density_records; PRAGMA user_version=28;");
+    // Build version28 from the unchanged historical version27 fixture, adding
+    // only the table introduced in28. A freshly upgraded project also contains
+    // later tables and must not be relabelled as an old schema.
+    auto older=root/"schema28.qpxproj";fs::copy_file(fs::path(QPX_DENSITY_SOURCE_ROOT)/"docs/benchmarks/large-slide-workflow/legacy.qpxproj",older);
+    check(sql_number(older,"PRAGMA user_version")==27);
+    sql(older,"CREATE TABLE spatial_neighborhood_records(image_id TEXT NOT NULL REFERENCES images(id),id TEXT NOT NULL,payload BLOB NOT NULL,PRIMARY KEY(image_id,id)) STRICT; PRAGMA user_version=28;");
+    check(sql_number(older,"SELECT count(*) FROM sqlite_schema WHERE type='table' AND name IN ('spatial_density_records','plugin_links')")==0);
     const auto prior=read(older);auto upgrade=Project::open(older.u8string());check(read(older)==prior);
     upgrade->save(older.u8string());check(Project::open(older.u8string())->document(1)->density_record_count()==0);
+    check(sql_number(older,"PRAGMA user_version")==detail::project_schema_version);
+    check(sql_number(older,"SELECT count(*) FROM sqlite_schema WHERE type='table' AND name IN ('spatial_neighborhood_records','spatial_density_records','plugin_links')")==3);
     auto damaged=root/"bad-record.qpxproj";fs::copy_file(path,damaged);sql(damaged,"UPDATE spatial_density_records SET payload=X'51444E01';");
     rejects([&] {Project::open(damaged.u8string());});
     std::cout<<"Density projects: immutable async snapshot, mixed QSD1/QSN1/QDN1, save rollback, schema28 upgrade and exact inactive legacy snapshot boundary passed\n";

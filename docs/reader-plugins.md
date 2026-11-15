@@ -11,6 +11,62 @@ pilot, including its then-current Project refusal. The
 native tests and local deployment validation for the saved-source implementation.
 It has no new wheel, publication or release qualification claim.
 
+## Additional image readers
+
+The [native PNG plugin](../plugins/png/README.md) adds static PNG through the
+same image ABI, with separate original typed samples and display RGBA8.
+Its [delivery receipt](benchmarks/png-reader-plugin/README.md) covers the exact
+profile, independent source-kit build, saved-source replay and package licenses.
+Configure its manifest and select `org.qupathxx.png` explicitly. This does not
+change automatic reader selection or the existing TIFF/Zarr recipe requirements.
+
+The [native JPEG plugin](../plugins/jpeg/README.md) uses the same ABI for the
+declared8-bit Huffman DCT Gray/RGB/YCbCr profile. Raw samples are canonical decoded
+values from lossy input. EXIF orientation applies to raw/display and calibration
+axes; unsupported color/encoding metadata refuses. Its
+[receipt](benchmarks/jpeg-reader-plugin/README.md) records exact validation,
+saved-source replay, PNG coexistence and the admitted offline source/notice kit.
+Configure its manifest and select `org.qupathxx.jpeg` explicitly.
+
+The [PNM/PAM plugin](../plugins/pnm/README.md) adds the declared P1–P7 source-code
+profile, including original UInt16 samples and PAM alpha. Native explicit transfer
+options affect display without changing raw codes; saved bindings retain those
+options when provider defaults change. Its [receipt](benchmarks/pnm-reader-plugin/README.md)
+records exact tests, offline source build and PNG/JPEG coexistence.
+
+The [BMP plugin](../plugins/bmp/README.md) adds the selected uncompressed
+40-byte-header profile. Raw palette indices/RGB stay exact; canonical rows and
+per-axis pixel density are explicit, and32-bit X is unused rather than alpha.
+Its [receipt](benchmarks/bmp-reader-plugin/README.md) covers native replay,
+four-plugin coexistence and the admitted offline source/package handoff.
+
+The [lossless WebP plugin](../plugins/webp/README.md) adds simple single-VP8L
+images with exact raw/display RGBA, hidden RGB and hint-independent alpha.
+Its private libwebp decoder retains its own BSD/PATENTS/AUTHORS notices alongside
+the AGPL adapter sources. The [receipt](benchmarks/webp-reader-plugin/README.md)
+covers bounded codec scratch, saved-source replay and five-plugin coexistence.
+Lossy/extended/animated/metadata WebP remains outside this initial profile.
+
+The [scalar NRRD plugin](../plugins/nrrd/README.md) adds the selected attached
+raw XY/XYZ scientific profile. Typed values and all Z planes retain exact bits;
+explicit persisted windowing affects Z0 display separately. Its
+[receipt](benchmarks/nrrd-reader-plugin/README.md) covers calibration/refusals,
+native saved-window identity and six-plugin coexistence without a host rebuild.
+
+The [ICS plugin](../plugins/ics/README.md) adds the declared uncompressed scalar/
+channel-first fluorescence profile. ICS1 derives a guarded adjacent IDS companion;
+ICS2 holds inline data. Exact typed C/Z samples, byte permutations and native
+channel/window choices use the existing file-set extension. Its
+[receipt](benchmarks/ics-reader-plugin/README.md) records the independent native
+reference, seven-plugin coexistence and admitted source/package handoff.
+
+The [format roadmap](format-plugin-coverage-plan.md#full-format-roadmap-2026-11-14)
+records future candidates and missing native contracts. The separately delivered
+[matrix/annotation plugins](format-family-plugins.md) use their own typed C ABI,
+native import authority and matching host/SDK candidate. Directory stores, writers
+and remote sources still require their selected contracts; none extends image v1
+merely by appearing in the plan.
+
 ## Build and use the installed kit
 
 `QUPATHXX_BUILD_READER_PLUGINS` defaults to `OFF`. Enable it in an existing native

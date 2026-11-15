@@ -1,15 +1,21 @@
-if(QUPATHXX_BUILD_READER_PLUGINS)
+if(QUPATHXX_BUILD_READER_PLUGINS OR QUPATHXX_BUILD_FORMAT_PLUGINS)
   if(NOT WIN32 OR NOT MSVC OR NOT CMAKE_SIZEOF_VOID_P EQUAL 8 OR NOT CMAKE_CXX_COMPILER_ARCHITECTURE_ID STREQUAL "x64")
-    message(FATAL_ERROR "Reader plugin pilot requires Windows x64 MSVC Release /MD")
+    message(FATAL_ERROR "Native plugins require Windows x64 MSVC Release /MD")
   endif()
   if(CMAKE_MSVC_RUNTIME_LIBRARY AND NOT CMAKE_MSVC_RUNTIME_LIBRARY STREQUAL "MultiThreadedDLL"
       AND NOT CMAKE_MSVC_RUNTIME_LIBRARY STREQUAL "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
-    message(FATAL_ERROR "Reader plugin pilot requires the dynamic CRT (/MD)")
+    message(FATAL_ERROR "Native plugins require the dynamic CRT (/MD)")
   endif()
   qupathxx_enable_json()
-  target_sources(qupathxx_core PRIVATE cpp/reader_plugin_loader.cpp cpp/reader_plugin_bridge.cpp)
-  set_property(SOURCE cpp/reader_plugin_catalog.cpp APPEND PROPERTY COMPILE_DEFINITIONS QUPATHXX_HAS_READER_PLUGINS)
+  # Image and typed-format providers share the guarded package loader. Compile
+  # its implementation once when either independent family is enabled.
+  target_sources(qupathxx_core PRIVATE cpp/reader_plugin_loader.cpp)
   target_link_libraries(qupathxx_core PRIVATE nlohmann_json::nlohmann_json)
+endif()
+
+if(QUPATHXX_BUILD_READER_PLUGINS)
+  target_sources(qupathxx_core PRIVATE cpp/reader_plugin_bridge.cpp)
+  set_property(SOURCE cpp/reader_plugin_catalog.cpp APPEND PROPERTY COMPILE_DEFINITIONS QUPATHXX_HAS_READER_PLUGINS)
 
   # The development kit has no application-library dependency. Install the C
   # header explicitly: the existing SDK's header directory installs *.hpp only.
