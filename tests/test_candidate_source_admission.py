@@ -75,9 +75,10 @@ def test_code_only_source_never_falls_back_to_upstream_carrier(tmp_path, monkeyp
         collector.collect(tmp_path/'blocked',[tmp_path/'absent'],[inventory],'test','a'*64,allow_download=True)
 
 
-def test_source_companion_must_match_reviewed_native_source_id(tmp_path):
+@pytest.mark.parametrize('identity_key', ['compiled_source_sha256', 'source_inputs_sha256'])
+def test_source_companion_must_match_reviewed_native_source_id(tmp_path, identity_key):
     cache,inventory,value=setup(tmp_path)
-    value['release_profiles']['test']['compiled_source_sha256']='b'*64
+    value['release_profiles']['test'][identity_key]='b'*64
     inventory.write_text(json.dumps(value),encoding='utf8')
     with pytest.raises(ValueError,match='source identity differs'):
         collector.collect(tmp_path/'blocked',[cache],[inventory],'test','a'*64)

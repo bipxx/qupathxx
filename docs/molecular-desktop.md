@@ -5,6 +5,9 @@ normalization, regional summaries/pseudobulk, PCA/clustering and replicate-level
 differential expression. Computation, identity, persistence and exports use the
 same C++ services as the CLI and SDK; Python is optional.
 
+The standalone Windows handoff is described in
+[the candidate guide](windows-molecular-desktop-candidate.md).
+
 ## Choose the source and values
 
 Open a project containing an admitted indexed expression matrix. The Genes and

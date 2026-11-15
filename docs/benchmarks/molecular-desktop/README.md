@@ -1,7 +1,8 @@
 # Molecular desktop workflow, end to end
 
-Delivered locally on Windows x64,2026-11-15. Main starts at
-`cee52459b15c9da57117742705a7823cfb59e2ba`; the tested candidate changes are
+Delivered locally on Windows x64,2026-11-15. Frontend source commit
+`bda67ad86bd750eaebedc8f5d96935c2907dfb27` follows
+`cee52459b15c9da57117742705a7823cfb59e2ba`; the tested candidate products are
 identified in `build/gui-aggregation/results.json` and its source snapshot.
 The [user guide](../../molecular-desktop.md) covers the complete selected outcome:
 full-source QC/normalization, ROI summaries/pseudobulk, PCA/clustering and
@@ -97,5 +98,93 @@ publication claim. The owner's follow-up continuation selects the source commit;
 Git history records its identity. Before that handoff, all22 source files matched
 the passing checkpoint, all six executables/corrected native candidate and all71
 protected product hashes were exact. Only these handoff notes then changed; no
-product build was repeated. Push, SDK/wheel repackaging and release remain
-unselected.
+product build was repeated. The owner's subsequent continuation selected push,
+desktop/source packaging and isolated install/use/removal, delivered below.
+SDK/wheel repackaging and release upload remain unselected.
+
+## Windows desktop package handoff
+
+Source commit bda67ad8 is pushed to origin/main. The portable candidate and
+directions are in [the candidate guide](../../windows-molecular-desktop-candidate.md).
+Artifacts are retained under `build/gui-aggregation/molecular-delivery/`:
+
+| Archive | Bytes / members | SHA-256 |
+| --- | --- | --- |
+| `release/qupathxx-windows-x64-molecular-desktop-bda67ad8.zip` | 28,164,289 /67 | `0d236f9814154464681a3084f3016b04eb21382096fd375088181e3eac9eab20` |
+| `release/qupathxx-windows-x64-molecular-source-bda67ad8.zip` | 6,685,815 /1190 | `0c8efa26009967d0df8e970b2c6b46743d667512d1692edbab69a01b233e6940` |
+| `dependency-sources/qupathxx-dependency-sources.zip` | 118,600,406 /17 | `89f4882e9b26b65681fcb11ad63d8048121b743b0ff8b7ed75c480080a6ec0ad` |
+
+The current corresponding-source input SHA-256 is
+`786dc16d203851366e030151cec98255c60f50d71db5d89710735c97e7bf6586`.
+The finite `windows-molecular-desktop` profile records all1186 source inputs/
+support files and66 runtime inputs; four generated source metadata files and
+one runtime RELEASE.json complete those ZIPs. All member hashes and open-license
+lineages pass before and after ZIP creation. The fifteen dependency archives
+retain their original reviewed bytes. Runtime notices/fonts/DLLs retain theirs;
+ImGui's17 retained source members and the UI templates match compiled inputs
+after CRLF/LF normalization. The six changed third-party notice source files are
+EOL-only, with their original license declarations. Existing inventory records,
+profiles and scientific inputs were not reclassified or changed. Validation
+research data and the development probe are excluded from the ZIPs.
+
+`RELEASE.json` records app SHA-256
+`226fcf9b7e7f67b1e6f53b15faa00d857038fe6d6139c62febdf4a4086aca6d3`,
+the retained base/core correction identities above, six correction-source hashes,
+five removed/added library members, frontend/compiler configuration and source
+correspondence. The embedded historical native manifest still describes its
+retained base. No monolithic new SDK or reproducible-binary claim is made.
+
+The installed check used a new external prefix:
+`%LOCALAPPDATA%/qupathxx-validation/molecular-bda67ad8`.
+The public-native development probe compiled/linked once against the retained
+headers, corrected core and dependency closure; no engine/GUI rebuild occurred.
+Its source is `tools/ci/desktop_delivery_probe.cpp`, with response files/logs in
+`build/gui-aggregation/desktop-delivery-probe*` and
+`qupathxx_desktop_delivery_probe-link*`.
+
+The representative retained Tabula Muris kidney project has23,433 genes,865
+cells, six independent declared mice (two female/four male) and17,002 testable
+features. The native probe opens it, saves a relocated owned project, reopens
+and replays the exact stored recipe, then writes gene/replicate CSVs. Record
+`3a56e5983b8bd260428ffe950c57d6ccaa07154109dd6a0f7a4016e8ffb0be17`
+and result
+`41ecfcf7350f3c1c05460b4252958f82d91a0c40249e4147e8acb47b7bfecfd9`
+remain exact. Both CSV hashes match the retained A04 references byte for byte;
+original matrix/project/reference files remain unchanged. This reuses the
+admitted A04 numerical/association evidence, not a new biological claim.
+
+The installed app then opens that relocated project in smoke mode. PATH contains
+only Windows/System32 and Windows; Python environment variables are removed.
+All three native module paths captured by the probe resolve inside the installed
+app directory. Authenticated fonts and UI resources load beside the executable
+through the existing native resource locator, without source-tree fallback.
+The saved project, sidecar and exports remain unchanged by GUI startup.
+
+Manifest-owned removal passes after closing all prefix processes:68 owned files
+(67 desktop members plus the unshipped development probe) are removed, while all7
+protected project/sidecar/CSV/report/preferences/user-note files retain exact
+hashes. It removes individual owned files, not the research directory. The local
+receipts are `release/admission.json`, `dependency-sources/dependency-sources.json`,
+`installed-check/handoff.json`, `installed-check/commands.json` and `completion.json`.
+This is a clean per-user prefix on the existing Windows workstation, not a fresh
+VM or another platform. MSVC runtime, Windows and OpenGL driver are external
+prerequisites; no code signing, stable publication or release upload is claimed.
+
+Development check command (use `-B` to keep the frozen source stage free of caches):
+
+```text
+python -B tools/ci/check_desktop_handoff.py --release RELEASE --dependencies DEPENDENCY_SOURCES --probe NATIVE_DELIVERY_PROBE --reference RETAINED_A04_REAL_DIRECTORY --work NEW_EXTERNAL_PREFIX --report NEW_REPORT_DIRECTORY
+powershell -NoProfile -File tools/ci/remove_native_handoff.ps1 -Receipt NEW_REPORT_DIRECTORY/handoff.json
+python -m pytest -q -rs tests/test_material_staging.py tests/test_candidate_source_admission.py tests/test_native_release_admission.py tests/test_desktop_release_admission.py
+```
+
+Packaging checks:35 pass; one symlink-creation test skips because this Windows
+host cannot create symlinks (the Linux CI retains it). Tests cover changed,
+missing, extra, restricted, source-identity and substantive UI mismatch refusals.
+All71 protected frozen products and all six validated app/test executable hashes
+remain exact. Correction cost was one missing-file diagnostic in the new stager;
+two import-generated bytecode files were removed from the source stage and its
+1190-member admission rechecked, with archive bytes unchanged. No full platform,
+binding, corpus or numerical qualification was repeated. This closes the selected
+desktop delivery; source publication is pushed, assets are local and ready for
+any separately selected release upload.

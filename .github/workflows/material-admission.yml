@@ -1,7 +1,7 @@
 name: Native release material admission
 on:
   pull_request:
-    paths: ['tools/ci/*material*', 'tools/ci/*sources*', 'tools/ci/stage_native_release.py', 'tools/build_opencv_sdk.py', 'tests/*admission*', 'tests/test_material_staging.py', 'tests/fixtures/manifest.json', 'assets/fonts/font-source.json', 'third_party/sources/**', '.github/workflows/material-admission.yml']
+    paths: ['tools/ci/*material*', 'tools/ci/*sources*', 'tools/ci/stage_native_release.py', 'tools/ci/stage_desktop_release.py', 'tools/build_opencv_sdk.py', 'tests/*admission*', 'tests/test_material_staging.py', 'tests/fixtures/manifest.json', 'assets/fonts/font-source.json', 'third_party/sources/**', '.github/workflows/material-admission.yml']
   push:
     branches: [main]
     paths: ['tools/ci/**', 'tools/build_opencv_sdk.py', 'tests/*admission*', 'tests/test_material_staging.py', 'tests/fixtures/manifest.json', 'assets/fonts/font-source.json', 'third_party/sources/**', '.github/workflows/material-admission.yml']
@@ -16,4 +16,4 @@ jobs:
         with:
           python-version: '3.12'
       - run: python -m pip install pytest==8.3.5
-      - run: python -m pytest -q tests/test_material_staging.py tests/test_candidate_source_admission.py tests/test_native_release_admission.py
+      - run: python -m pytest -q tests/test_material_staging.py tests/test_candidate_source_admission.py tests/test_native_release_admission.py tests/test_desktop_release_admission.py

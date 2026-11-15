@@ -41,7 +41,7 @@ def collect(output, caches, inventory_paths, profile_name, source_id, allow_down
                 raise ValueError('Duplicate release profile: ' + name)
             profiles[name] = profile
     profile = profiles[profile_name]
-    if profile.get('compiled_source_sha256', source_id) != source_id:
+    if profile.get('compiled_source_sha256', profile.get('source_inputs_sha256', source_id)) != source_id:
         raise ValueError('Dependency companion source identity differs from reviewed profile')
     selected = profile['sources']
     if not selected or len(selected) != len(set(selected)):
