@@ -2,8 +2,10 @@
 
 A03 fits a low-rank embedding over an existing native expression matrix, then
 clusters the fitted scores with an explicit number of clusters. The delivered
-consumers are the native batch CLI and installed C++ SDK, with CSVs and a native
-SVG scatter view.
+consumers are the native batch CLI, installed C++ SDK and the Genes desktop
+**PCA / clustering** tab, with CSVs and a native SVG scatter view. The
+[desktop guide](molecular-desktop.md#pca-and-clustering) covers explicit source/
+normalization choices, fitted-archive Keep/open, verification and exports.
 Original counts, observation IDs, image coordinates and spatial registration
 are preserved. Cluster numbers are exploratory labels and carry no inferred
 cell-type, sample, replicate or biological meaning.
@@ -140,9 +142,12 @@ SDK/Python exposure remains P01.
 
 `expression_reduction.hpp` exposes typed options, immutable owned results,
 `reduce_expression`, archive save/open, explicit replay, project association and
-native workflow/export services. CLI parsing calls those same services. GUI
-integration should submit the expensive service work to an existing native
-worker and present the returned snapshot.
+native workflow/export services. CLI parsing and the Genes desktop call those
+same services. Desktop fitting, opening, verification and export use owned
+worker inputs; Keep uses the existing bounded native archive validation on the
+owner thread. The desktop candidate also fixes full-UInt64 seed decoding at the
+native archive boundary, with exact old-archive/refit evidence. Frozen earlier
+SDK packages remain unchanged; see the [desktop receipt](benchmarks/molecular-desktop/README.md).
 
 The open native `.qpr` format starts with eight magic/version bytes
 `51 50 58 52 45 44 01 00`, followed by a little-endian uint64 canonical-JSON header

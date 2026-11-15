@@ -8,6 +8,10 @@
 #include "gui_layout.hpp"
 #include "gui_tiles.hpp"
 #include "gui_backed_genes.hpp"
+#include "gui_expression_aggregation.hpp"
+#include "gui_molecular_matrix.hpp"
+#include "gui_expression_reduction.hpp"
+#include "gui_expression_differential.hpp"
 #include <cstring>
 #include <limits>
 #include <cmath>
@@ -15,12 +19,24 @@
 namespace qpx::detail {
 class GuiGeneDisplay {
 public:
-    enum class Action {Qc,Raw,Normalized,LogNormalized,Keep,Apply,Remove,GenesTab,MolecularTab};
+    enum class Action {Qc,Raw,Normalized,LogNormalized,Keep,Apply,Remove,GenesTab,MolecularTab,AggregationTab,ReductionTab,DifferentialTab,Count};
 private:
+    ui::PathField summary_csv_{{"Summary CSV",ui::PathRole::NewFile,{".csv"}}};
+    ui::PathField membership_csv_{{"Membership CSV",ui::PathRole::NewFile,{".csv"}}};
+    ui::PathField fit_archive_{{"Fitted archive",ui::PathRole::NewFile,{".qpr"}}};
+    ui::PathField embedding_csv_{{"Embedding CSV",ui::PathRole::NewFile,{".csv"}}};
+    ui::PathField loadings_csv_{{"Loadings CSV",ui::PathRole::NewFile,{".csv"}}};
+    ui::PathField scatter_svg_{{"Scatter SVG",ui::PathRole::NewFile,{".svg"}}};
+    ui::PathField differential_csv_{{"Differential genes CSV",ui::PathRole::NewFile,{".csv"}}};
+    ui::PathField replicates_csv_{{"Differential replicates CSV",ui::PathRole::NewFile,{".csv"}}};
     struct PlaneState {
         ObjectPlane plane;
         GeneViewSession session{256u*1024*1024};
         GuiBackedGenes backed;
+        GuiExpressionAggregation aggregation;
+        GuiMolecularMatrix analysis_source;
+        GuiExpressionReduction reduction;
+        GuiExpressionDifferential differential;
         std::optional<RegistrationField> registered;
         std::string source;
         bool current=false;
@@ -39,7 +55,7 @@ private:
     std::unique_ptr<GuiTiles> comparison_tiles_;
     Viewport comparison_view_;
     ImVec2 comparison_size_{};
-    std::array<Rect,9> molecular_bounds_{};std::array<bool,9> molecular_enabled_{};
+    std::array<Rect,std::size_t(Action::Count)> molecular_bounds_{};std::array<bool,std::size_t(Action::Count)> molecular_enabled_{};
     std::vector<std::string> normalization_ids_;int normalization_record_=0,qc_observation_=0;
     double normalization_target_=10000;
     ui::Availability availability(std::optional<Action> action,const Project* project,std::uint64_t image,bool blocked) const {
@@ -181,6 +197,7 @@ private:
     }
 public:
     GuiGeneDisplay(){planes_.push_back(std::make_unique<PlaneState>());plane_state_=planes_.back().get();}
+    std::vector<ui::PathField*> paths(){return {&summary_csv_,&membership_csv_,&fit_archive_,&embedding_csv_,&loadings_csv_,&scatter_svg_,&differential_csv_,&replicates_csv_};}
     void open(){open_=true;refresh_=true;}
     void load_preference(const std::string& preference) {
         if(preference.empty())return;
@@ -192,10 +209,14 @@ public:
     const std::string& error()const{if(!error_.empty())return error_;if(!plane_state_->backed.error().empty())return plane_state_->backed.error();return plane_state_->session.error();}
     Rect molecular_bounds(Action action)const{return molecular_bounds_.at(std::size_t(action));}
     bool molecular_enabled(Action action)const{return molecular_enabled_.at(std::size_t(action));}
+    GuiExpressionAggregation& aggregation(){return plane_state_->aggregation;}
+    GuiExpressionReduction& reduction(){return plane_state_->reduction;}
+    GuiExpressionDifferential& differential(){return plane_state_->differential;}
+    GuiMolecularMatrix& analysis_source(){return plane_state_->analysis_source;}
     std::shared_ptr<const ExpressionFeaturePage> backed_catalogue(unsigned index)const{return plane_state_->backed.catalogue(index);}
     Rect catalogue_next_bounds(unsigned index)const{return plane_state_->backed.next_bounds(index);}
     Rect catalogue_feature_bounds(unsigned index,std::uint64_t feature)const{return plane_state_->backed.feature_bounds(index,feature);}
-    bool settled() const {return !plane_state_->session.busy() && !plane_state_->backed.busy() && (!comparison_tiles_ || !comparison_tiles_->pending());}
+    bool settled() const {return !plane_state_->session.busy() && !plane_state_->backed.busy() && !plane_state_->aggregation.busy() && !plane_state_->reduction.busy() && !plane_state_->differential.busy() && !plane_state_->analysis_source.busy() && (!comparison_tiles_ || !comparison_tiles_->pending());}
     void update(Document& document,bool has_image,const Project* project=nullptr,std::uint64_t image=0) {
         const auto change=detail::update(scope_,document,image);has_image_=has_image;
         const bool new_image=change.image || change.source;
@@ -214,7 +235,7 @@ public:
         const bool new_view=server_!=document.server();
         if(new_view || new_image || change.plane)comparison_tiles_.reset();
         server_=document.server();
-        for(auto& state:planes_) {state->session.poll();state->backed.poll(document,state->session);}
+        for(auto& state:planes_) {state->session.poll();state->backed.poll(document,state->session);state->aggregation.poll();state->analysis_source.poll();state->reduction.poll();state->differential.poll();}
         if(!has_image)return;
         if(!open_ && !plane_state_->session.options().enabled){refresh_|=new_image || change.document || change.plane;return;}
         static const std::string empty_path;
@@ -244,7 +265,7 @@ public:
         const auto pair=plane_state_->session.result();if(!plane_state_->session.options().enabled || !pair)return;
         points(draw,*pair->fields[0],view,offset,size,ImGui::IsWindowHovered());
     }
-    void draw(const DisplaySettings& display,Project* project=nullptr,std::uint64_t image=0,bool blocked=false) {
+    void draw(const DisplaySettings& display,Project* project=nullptr,std::uint64_t image=0,bool blocked=false,OutputGate* gate=nullptr,const ui::PathContext& path_context={},const ObjectSelection* selection=nullptr) {
     ui::i18n::SurfaceTrace translation_surface("tool/Genes");
         molecular_bounds_={};molecular_enabled_={};
         if(open_) {
@@ -255,8 +276,10 @@ public:
                 if(sources_.size()>1) if(ui::ComboScope combo{"Expression source",plane_state_->source.empty()?"Choose source":source_label(plane_state_->source).c_str()};combo) {
                     for(const auto& source:sources_)if(ui::Selectable(ui::data_label(source_label(source),std::to_string(&source-sources_.data())).c_str(),plane_state_->source==source)) {plane_state_->source=source;refresh_=true;plane_state_->session.clear();plane_state_->backed.clear();plane_state_->current=false;}
                 }
+                bool display_legend=true;
+                const bool other_work=plane_state_->aggregation.busy() || plane_state_->analysis_source.busy() || plane_state_->reduction.busy() || plane_state_->differential.busy();
                 if(ImGui::BeginTabBar("Expression views")){
-                auto tab=[&](const char* label,Action action){const bool shown=ImGui::BeginTabItem(label);const auto a=ImGui::GetItemRectMin(),b=ImGui::GetItemRectMax();molecular_bounds_[std::size_t(action)]={a.x,a.y,b.x-a.x,b.y-a.y};molecular_enabled_[std::size_t(action)]=ImGui::IsItemVisible();return shown;};
+                auto tab=[&](const char* label,Action action){const bool shown=ImGui::BeginTabItem(ui::i18n::label(label).c_str());const auto a=ImGui::GetItemRectMin(),b=ImGui::GetItemRectMax();molecular_bounds_[std::size_t(action)]={a.x,a.y,b.x-a.x,b.y-a.y};molecular_enabled_[std::size_t(action)]=ImGui::IsItemVisible();return shown;};
                 if(tab("Genes",Action::GenesTab)){
                 auto options=plane_state_->session.options();bool changed=ui::Checkbox("Show expression overlay",&options.enabled);
                 if(plane_state_->session.dataset() || plane_state_->backed.ready()) {
@@ -274,13 +297,33 @@ public:
                 }
                 if(changed)try {plane_state_->session.configure(std::move(options));if(plane_state_->session.dataset())error_.clear();}catch(const std::exception& e){error_=e.what();}
                 ImGui::EndTabItem();}
-                if(tab("QC / normalization",Action::MolecularTab)){molecular(project,image,blocked);ImGui::EndTabItem();}
+                if(tab("QC / normalization",Action::MolecularTab)){molecular(project,image,blocked || other_work);ImGui::EndTabItem();}
+                if(tab("Regional summaries",Action::AggregationTab)) {
+                    const auto at=backed_sources_.find(plane_state_->source);
+                    plane_state_->aggregation.draw(project,image,at==backed_sources_.end()?nullptr:&at->second,plane_state_->backed.matrix(),selection,
+                        blocked || plane_state_->session.busy() || plane_state_->backed.busy() || plane_state_->reduction.busy() || plane_state_->differential.busy() || plane_state_->analysis_source.busy(),gate,summary_csv_,membership_csv_,path_context);
+                    ImGui::EndTabItem();
+                }
+                if(tab("PCA / clustering",Action::ReductionTab)){
+                    display_legend=false;
+                    plane_state_->analysis_source.draw(project,image,plane_state_->backed.matrix(),blocked || plane_state_->aggregation.busy() || plane_state_->reduction.busy() || plane_state_->differential.busy());
+                    plane_state_->reduction.draw(project,image,plane_state_->analysis_source.matrix(),blocked || plane_state_->session.busy() || plane_state_->backed.busy() || plane_state_->aggregation.busy() || plane_state_->differential.busy() || plane_state_->analysis_source.busy(),gate,fit_archive_,embedding_csv_,loadings_csv_,scatter_svg_,path_context);
+                    ImGui::EndTabItem();
+                }
+                if(tab("Differential expression",Action::DifferentialTab)){
+                    display_legend=false;
+                    plane_state_->analysis_source.draw(project,image,plane_state_->backed.matrix(),blocked || plane_state_->aggregation.busy() || plane_state_->reduction.busy() || plane_state_->differential.busy());
+                    plane_state_->differential.draw(project,image,plane_state_->analysis_source.matrix(),blocked || plane_state_->session.busy() || plane_state_->backed.busy() || plane_state_->aggregation.busy() || plane_state_->reduction.busy() || plane_state_->analysis_source.busy(),gate,differential_csv_,replicates_csv_,path_context);
+                    ImGui::EndTabItem();
+                }
                 ImGui::EndTabBar();}
                 if(ui::AvailableButton("Refresh expression",availability(std::nullopt,project,image,blocked))) {refresh_=true;plane_state_->backed.refresh();plane_state_->session.refresh();}
                 if(plane_state_->session.busy() || plane_state_->backed.busy()) {ImGui::SameLine();if(ui::Button("Cancel display")){plane_state_->session.cancel();plane_state_->backed.cancel();}ui::TextDisabled("Updating expression...");}
+                if(display_legend){
                 if(!error_.empty())ui::TextWrapped("%s",error_.c_str());if(!plane_state_->session.error().empty())ui::TextWrapped("%s",plane_state_->session.error().c_str());
                 if(!plane_state_->backed.error().empty())ui::TextWrapped("%s",plane_state_->backed.error().c_str());
                 if(const auto pair=plane_state_->session.result())for(unsigned i=0;i<(plane_state_->session.options().compare?2u:1u);++i) {ImGui::PushID(int(i));legend(*pair->fields[i]);ImGui::PopID();}
+                }
             }ImGui::End();
         }
         if(plane_state_->session.options().enabled && plane_state_->session.options().compare)if(const auto pair=plane_state_->session.result())comparisons(*pair,display);

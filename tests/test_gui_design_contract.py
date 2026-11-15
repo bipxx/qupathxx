@@ -225,6 +225,31 @@ def test_every_path_member_has_one_draw_site():
                     assert len(re.findall(r"paths\.output\([^;\n]+\)\.draw\(", gui)) == 1
                     continue
                 draws += len(re.findall(r"\bpaths\." + member + r"\.draw\s*\(", gui))
+            if path.name == "gui_genes.hpp" and member in {"summary_csv_", "membership_csv_"}:
+                # Persistent picker owners pass their fields to the plane-local
+                # result view. Count that one explicit draw through its alias.
+                assert re.search(r"aggregation\.draw\([^;]+gate,summary_csv_,membership_csv_,path_context\)", source)
+                view = (cpp / "gui_expression_aggregation.hpp").read_text(encoding="utf8")
+                alias = {"summary_csv_": "csv", "membership_csv_": "memberships"}[member]
+                assert f"ui::PathField& {alias}" in view
+                draws += len(re.findall(r"\b" + alias + r"\.draw\s*\(", view))
+            if path.name == "gui_genes.hpp" and member in {"fit_archive_", "embedding_csv_", "loadings_csv_", "scatter_svg_", "differential_csv_", "replicates_csv_"}:
+                if member in {"differential_csv_", "replicates_csv_"}:
+                    assert re.search(r"differential\.draw\([^;]+gate,differential_csv_,replicates_csv_,path_context\)", source)
+                    view = (cpp / "gui_expression_differential.hpp").read_text(encoding="utf8")
+                    alias = {"differential_csv_": "genes", "replicates_csv_": "replicates"}[member]
+                    assert f"ui::PathField& {alias}" in view
+                    draws += len(re.findall(r"\b" + alias + r"\.draw\s*\(", view))
+                else:
+                    assert re.search(r"reduction\.draw\([^;]+gate,fit_archive_,embedding_csv_,loadings_csv_,scatter_svg_,path_context\)", source)
+                    view = (cpp / "gui_expression_reduction.hpp").read_text(encoding="utf8")
+                    alias = {"fit_archive_": "archive", "embedding_csv_": "embedding", "loadings_csv_": "loadings", "scatter_svg_": "plot"}[member]
+                    assert f"ui::PathField& {alias}" in view
+                    if alias == "archive":
+                        draws += len(re.findall(r"\barchive\.draw\s*\(", view))
+                    else:
+                        assert len(re.findall(r"\bfield\.draw\s*\(", view)) == 1
+                        draws += len(re.findall(r"\boutput\(Action::\w+," + alias + r",", view))
             assert draws == 1, (path, member, draws)
 
 

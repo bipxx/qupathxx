@@ -1,5 +1,120 @@
 # Current implementation task
 
+## Complete locally - molecular desktop plan end to end
+
+Delivered the owner-selected remaining Genes workflow through native A03 PCA/
+clustering and A04 replicate differential expression, connected to full-source
+QC/normalization and A02 ROI pseudobulk. Both spatial and nonspatial retained
+matrix routes work. Native scientific/persistence/export authorities remain
+shared; no Python analysis, implicit preprocessing or pseudo-replicates were added.
+
+The complete guide and requirement-by-requirement evidence are in
+[the desktop guide](molecular-desktop.md) and
+[the receipt](benchmarks/molecular-desktop/README.md). The active local candidate
+is build/gui-aggregation/runtime/Release/qupathxx_app.exe; final sources/products
+are identified in build/gui-aggregation/results.json. Prior A02 products and all
+failure evidence are preserved. The owner's continuation selects the source
+commit as this handoff; Git history records its identity. No publication.
+
+Decisive results: four GUI suites, native A03 regressions and58 source contracts
+pass. Actual controls cover QC/log-normalization Keep to normalized PCA, explicit
+SVD, fitted archive/Keep/open/verify/exports, selected-ROI raw pseudobulk to DE,
+analytical effect/p and absent statistics, both saved exact identities, native
+exports/refusals, one-undo metadata, blocked/stale/cancel/image scopes and closing
+Genes after Run. Normal/French200 values and stored-vs-draft settings are readable.
+App startup passes with Python removed from the environment; input bytes and all71
+protected product hashes remain exact.
+
+A demonstrated native correctness blocker required a scoped repair: mixed JSON
+signed/unsigned comparisons rejected an admitted UINT64_MAX seed on archive open.
+Typed native comparisons preserve strict admission and exact old archive/refit
+identity. Five units were rebuilt into a distinct candidate core; frozen SDK,
+cache, binding and published products remain exact. No ABI/schema or numerical
+assertion was weakened. Native boundary and high-seed persistence regressions pass.
+
+Actual correction cost: two combined GUI compilations plus scoped native/test
+repairs/relinks. Cheap compilation caught a Windows macro collision; source lint
+caught vocabulary/caption wiring; the failing saved-open test gained explicit
+result/error checks; oracle mapping stopped naming a retired checkout. A parallel
+relink hit the running test executable's Windows lock and was rerun sequentially.
+Render inspection prompted explicit stored parameters beside next-run drafts.
+All failures/logs remain available; no broad qualification or binding campaign.
+
+Source handoff checks: all22 files match the passing source checkpoint before
+these documentation updates; all six executable hashes, the corrected native
+candidate and71 protected product hashes remain exact. Reuse that evidence and
+check the staged diff/links; no product build is needed for the commit.
+Stop at the completed molecular source handoff. Further features, packages and
+publication remain separate owner selections.
+
+## Complete locally - desktop regional summaries and pseudobulk
+
+Owner selected desktop access to existing molecular services. Deliver one complete
+Genes-tool workflow first: explicitly selected area annotations and cohort labels,
+native regional summaries or raw-count pseudobulk, readable exact results, Keep/
+reopen/remove through existing project services, and protected new-only summary/
+membership CSV exports. Native ROI membership/registration, UInt64/domain rules,
+overlap checks, recipe identity and persistence remain authoritative. PCA/clustering
+and differential-expression desktop consumers remain subsequent selected slices.
+
+Reuse the indexed Genes source worker and native owner-captured spatial requests;
+expensive membership/reduction/replay/export runs on owned worker inputs. Capture
+image/plane/source/document context and refuse stale Keep. Closing only hides the
+tool. Use shared controls/path fields/output gate and all15 caption translations.
+Preserve native core/SDK/binding/runtime products; no scientific kernel, public
+binding or package change. Settle controls/test interfaces before one combined
+frontend-only build. Evidence and dirty-source backup: build/gui-aggregation/.
+
+Decisive checks: real controls over an authored indexed map, literal UInt64 counts,
+ROI memberships/labels/overlap/empty means, cancellation and blocked/stale scopes,
+oneundo Keep/remove, saved exact replay, both native CSVs/new-only/protected-path
+refusals, normal/French200 readability and existing Genes/QC source contracts.
+Reuse A02 numerical evidence; do not run a new broad molecular/platform campaign.
+Delivered the controller/panel,38 complete caption rows and focused actual-widget
+tests. CSV fields live in the persistent Genes owner and central path registry;
+plane eviction cannot leave dangling picker/drop pointers. The new workflow test,
+existing Genes and normalization tests,58 source contracts and app project-startup
+smoke pass. Exact UInt64 results, saved replay, one-undo metadata, new-only and
+protected exports, cancellation/stale/blocked/image scopes and readable normal/
+French200 values are covered. All71 protected product hashes remain exact.
+
+Cost/correction: the cheap test compile caught a missing mutable closure before
+the large GUI unit compiled. One draw-site lint assumed fields always draw in
+their owning file; it now checks the explicit persistent-owner/plane-view wiring
+and still requires exactly one draw per field. One frontend build; no core,
+binding or package rebuild and no broad qualification replay.
+
+The local runnable candidate, source/evidence identity, usage and remaining scope
+are linked in the [desktop receipt](benchmarks/desktop-expression-aggregation/README.md)
+and [guide](expression-aggregation.md). Stop at this handoff. PCA/clustering and DE
+desktop consumers remain separate selected slices; do not automatically begin
+them. Source changes remain uncommitted; no publication was requested.
+
+## Storage cleanup -2026-11-15
+
+Owner requests reclaiming project temporary/build-artifact storage. Inventory and
+cleanup records live in build/storage-cleanup-20261115/. Remove only verified,
+unused compiler intermediates/bytecode outside protected caches and frozen
+products. Preserve scientific inputs/results, source/dirty worktrees, archives,
+failure evidence, installed host/SDK and the single current native cache.
+For retained inactive binary/font build copies, lossless NTFS compression may
+reclaim space while preserving exact bytes and paths. Decisive checks: resolved
+path/reparse/worktree/process boundaries before mutation, manifest-recorded
+deletions, exact hashes for compressed/frozen products and source status.
+Complete:3,219 unused compiler/bytecode files removed and934 retained inactive
+binary/font build files losslessly NTFS-compressed, each with exact SHA-256
+before/after checks. Per-file allocated storage reclaimed3.73GiB; other drive
+activity is excluded from that figure. All71 frozen/current product hashes and
+main HEAD remain exact, source status changes only this card, and no file action
+failed. Scientific data/results, archives, installed products/current native cache
+and the active UI worktree remain intact. No native build or commit.
+
+Correction: the first pass was paused to use actual DirectoryInfo parent traversal
+and avoid repeated process scans. Its receipt is retained; all selected cache
+deletions were reconciled before resume. Final results.json verifies the complete
+manifest and protected bytes. Stop at this storage handoff; no broader deletion
+or new qualification campaign is selected.
+
 The selected native-format workflow is delivered. The owner now requests cleanup,
 simplification and a source commit.100% QuPath parity is not required. Preserve
 scientific inputs, calibration, measurements, exact stored identity and export/

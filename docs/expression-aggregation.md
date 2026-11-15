@@ -6,9 +6,58 @@ cohorts have sum zero and an absent mean (a blank CSV field). Sparse absence and
 explicit stored zero are measured zeros and remain in the observation denominator.
 No original counts, observation coordinates or ROI geometry are changed.
 
-Consumers are the native batch CLI and the installed C++ SDK. Desktop controls
-and optional Python controls remain separate work. No Python process or runtime
-is needed for these commands.
+Consumers are the native batch CLI, installed C++ SDK and the Genes desktop
+tool's **Regional summaries** tab. No Python process or runtime is needed.
+
+## Desktop workflow
+
+Open a project image containing a full indexed expression matrix with spatial
+point associations. Open **Genes**, choose the indexed source when necessary,
+and switch to **Regional summaries**. Select 1–64 area annotations on the current
+plane, then choose **Use selected regions**. Edit the cohort identifiers before
+running. Analysis includes every source feature, regardless of the genes shown
+in the overlay; membership uses observation centres and the native ROI boundary
+policy.
+
+Regional summaries reject overlapping memberships by default. **Allow overlapping
+regions** explicitly permits an observation in multiple summaries. **Use accepted
+registration** explicitly selects the image's accepted registration; leaving it
+unchecked uses source coordinates. Invalid or mismatched registrations fail
+visibly. A retained normalization can be chosen explicitly for regional
+summaries; the result shows its native value domain.
+
+For **Pseudobulk**, enter an explicit sample, replicate and group for every
+region. This mode always uses the complete raw-count source, rejects overlapping
+memberships and does not apply normalization. These labels describe the supplied
+cohorts; the tool does not establish biological independence or perform
+differential-expression testing.
+
+**Run aggregation** computes on a worker; **Stop** cancels it. Closing the Genes
+window hides it while jobs continue to be polled. A failed or cancelled run
+preserves the previous immutable preview. Results show each cohort's observation
+count, exact integer sum (for counts) and mean for the selected feature index.
+Empty regions show an undefined mean. Inputs changed after capture invalidate
+**Keep aggregation**; run again to capture the new inputs.
+
+**Keep aggregation** records the native recipe in the project with one undoable
+change. Save the project normally. **Reopen aggregation** verifies and replays
+the exact saved memberships and identity; later ROI edits do not alter that
+historical cohort. **Remove aggregation** is also undoable. Kept entries are
+numbered within the image; reopening one displays its cohorts and results.
+
+Choose **Summary CSV** and **Membership CSV** paths, then use their export
+buttons. Relative paths follow the shared project/last-folder rules. Both
+exports use the native atomic, new-only writers: existing files and protected
+project/source/recovery destinations are refused visibly. Exporting a historical
+preview exports that captured result, rather than recapturing edited regions.
+Both CSVs carry the same recipe/result association. Desktop requests use a
+256 MiB native work allowance and the bounded contracts below.
+
+The local frontend candidate and focused verification are recorded in the
+[desktop receipt](benchmarks/desktop-expression-aggregation/README.md). This
+delivery adds regional summaries/pseudobulk controls. PCA/clustering and
+differential-expression controls are described in the subsequent
+[complete molecular desktop guide](molecular-desktop.md).
 
 ## Create, reopen and export
 

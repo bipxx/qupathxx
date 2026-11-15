@@ -47,6 +47,7 @@ public:
     bool busy()const{return job_.busy() || pending_open_ || pending_page_[0] || pending_page_[1];}
     const std::string& error()const{return error_;}
     bool ready()const{return scope_ && matrix_ && cached_==wanted_;}
+    std::shared_ptr<const ExpressionMatrixSource> matrix()const{return ready()?matrix_:nullptr;}
     bool raw_counts()const{return ready() && matrix_->metadata().domain==ExpressionValueDomain::Counts && matrix_->metadata().value_domain=="raw-counts";}
     std::shared_ptr<const ExpressionFeaturePage> catalogue(unsigned index)const{return pages_.at(index);}
     Rect next_bounds(unsigned index)const{return next_bounds_.at(index);}

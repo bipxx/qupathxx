@@ -41,7 +41,19 @@ inline void text(const std::string& s,std::size_t n=256,bool required=true){boun
 inline void charge(std::size_t& n,std::size_t count,std::size_t width,std::size_t work){if(count>work/width)throw WorkflowCaptureLimit("Expression reduction allocation exceeds work budget");workflow_capture_charge(n,count*width,work);}
 inline std::uint64_t bits(double v){std::uint64_t b;std::memcpy(&b,&v,8);return b;}
 inline double real(std::uint64_t b){double v;std::memcpy(&v,&b,8);if(!std::isfinite(v))throw std::invalid_argument("Nonfinite expression reduction value");return v;}
-inline std::uint64_t integer(const J& j,std::uint64_t maximum){if(!j.is_number_integer() || j<0 || j>maximum)throw std::invalid_argument("Invalid reduction integer");return j.get<std::uint64_t>();}
+inline std::uint64_t integer(const J& j,std::uint64_t maximum){
+    // Compare typed values: mixed signed/unsigned JSON comparisons can wrap a
+    // valid uint64 seed above INT64_MAX through a signed representation.
+    std::uint64_t value=0;
+    if(j.is_number_unsigned())value=j.get<std::uint64_t>();
+    else if(j.is_number_integer()){
+        const auto signed_value=j.get<std::int64_t>();
+        if(signed_value<0)throw std::invalid_argument("Invalid reduction integer");
+        value=std::uint64_t(signed_value);
+    }else throw std::invalid_argument("Invalid reduction integer");
+    if(value>maximum)throw std::invalid_argument("Invalid reduction integer");
+    return value;
+}
 J parameters(const ExpressionReductionOptions&);
 ExpressionReductionOptions parameters(const J&);
 void require_parent(const ExpressionReductionResult&,const ExpressionMatrixSource&,std::size_t,const std::atomic<bool>*);

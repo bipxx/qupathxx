@@ -1,8 +1,10 @@
 # Replicate-level differential expression
 
 A04 compares two explicit groups with a native, two-sided Welch test on
-log-normalized replicate pseudobulk. The batch CLI and installed C++ SDK use the
-shared native services. They use the retained [A02 pseudobulk](expression-aggregation.md),
+log-normalized replicate pseudobulk. The batch CLI, installed C++ SDK and Genes
+desktop **Differential expression** tab use the shared native services. See the
+[desktop guide](molecular-desktop.md#differential-expression). They use the kept
+[A02 pseudobulk](expression-aggregation.md),
 including its exact raw counts, full source feature universe and captured
 sample/replicate/group/observation associations. No Python or R runtime is used.
 
@@ -23,8 +25,8 @@ Creation supplies the new record ID. Every output is atomic and new-only.
 `--library-target N` defaults to10000 and accepts finite values in1..1e12.
 `--work-bytes` accepts32..1024MiB; output uses `--csv-bytes` (default256MiB,
 maximum1GiB). Work budget does not change the scientific identity. The existing
-project/save-snapshot limits also apply. No desktop or optional Python exposure
-is added by this slice.
+project/save-snapshot limits also apply. The desktop consumer is delivered
+separately over these same native services; Python remains optional.
 
 ## Biological units and statistics
 

@@ -419,6 +419,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     for(auto* field:pixel_classifier.paths())all_paths.push_back(field);
     for(auto* field:raw_pixel.paths())all_paths.push_back(field);
     for(auto* field:fluorescence.paths())all_paths.push_back(field);
+    for(auto* field:genes.paths())all_paths.push_back(field);
     using Tool=ui::ToolId;
     const ui::ToolLauncher tools({
         {Tool::ObjectClassifier,[&]{classifier.open();}},
@@ -3563,7 +3564,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         },[&](DialogAction action) {if(action==DialogAction::Cancel)mark_dialog(GuiInputTarget::CancelClose,cancel_close_offset,cancel_close_size);if(action==DialogAction::Save)mark_dialog(GuiInputTarget::SaveClose,save_close_offset,save_close_size);if(action==DialogAction::Discard)mark_dialog(GuiInputTarget::DiscardClose,discard_close_offset,discard_close_size);if(action==DialogAction::KeepRecovery)mark_dialog(GuiInputTarget::KeepRecoveryClose,keep_close_offset,keep_close_size);});
         ImGui::End();
         spatial.draw(document,*selection,options.project.get(),&project_images,editing_blocked,has_image,mark_target,&record_removal,workspace_epoch,&output_gate,path_context);
-        genes.draw(display,options.project.get(),active_image,editing_blocked || save_job.busy() || project_load.valid());
+        genes.draw(display,options.project.get(),active_image,editing_blocked || save_job.busy() || project_load.valid(),&output_gate,path_context,selection.get());
         fluorescence.draw(document,selection->primary(),editing_blocked || save_job.busy() || project_load.valid(),path_context,has_image);
         if(has_image)landmark_registration.draw(document,options.project?options.project->identity()+":"+std::to_string(active_image):"current-image",display,editing_blocked || save_job.busy() || project_load.valid());
         if(const auto imported=spatial_import->draw(!options.project || editing_blocked || project_load.valid() || save_job.busy() || maintenance_job.valid(),&notifications);!imported.empty()) {
