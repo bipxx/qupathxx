@@ -1,18 +1,25 @@
+#include "gui_tool_catalog.hpp"
+#include "gui_record_list.hpp"
+#include "gui_tool_scope.hpp"
 #include "gui_dark_flat.hpp"
 #include "gui_layout.hpp"
+#include "gui_workflow_ui.hpp"
 #include "qupathxx/raw_analysis.hpp"
 #include "qupathxx/image_data_properties.hpp"
+#include "qupathxx/fluorescence_cell_objects.hpp"
+#include "qupathxx/linear_unmixing_workflow.hpp"
 #include <GLFW/glfw3.h>
 #include <future>
 #include <chrono>
 namespace qpx::detail {
-namespace {
-bool edit(const char* label,std::string& value){std::vector<char> text(std::max<std::size_t>(4096,value.size()+1024),0);std::copy(value.begin(),value.end(),text.begin());if(!ui::InputText(label,text.data(),text.size()))return false;value=text.data();return true;}
-}
 struct GuiDarkFlat::Impl {
+    ui::StringRecordRows record_rows;
+
+    ui::PathField dark{{"Dark TIFF path",ui::PathRole::OpenFile,{".tif",".tiff"}}};
+    ui::PathField flat{{"Flat TIFF path",ui::PathRole::OpenFile,{".tif",".tiff"}}};
     using Fields=std::array<std::shared_ptr<ImageServer>,2>;
     bool open=false,discard=false,select=false,configured=false,preview_configured=false,defaults_attempted=false,records_dirty=true;
-    std::string dark,flat,kept,saved,error,state="idle",display_error,request_id;
+    std::string kept,saved,error,state="idle",display_error,request_id;
     DarkFlatOptions options;std::uint32_t dark_series=0,flat_series=0;
     RawRegionRequest region;int scale_channel=0,pixel=0,channel=0;
     double lower=-256,upper=256;
@@ -24,9 +31,11 @@ struct GuiDarkFlat::Impl {
     std::future<std::shared_ptr<const DarkFlatBlock>> reading;
     std::atomic<bool> cancel{false};
     std::array<Rect,9> bounds{};
-    const Document* owner=nullptr;std::weak_ptr<ImageServer> server;
+    ToolScope scope;int scope_frame=-1;
     std::shared_ptr<const ImageDataProperties> properties;
     std::vector<std::string> records;
+    std::string dependency_record;std::uint64_t dependency_revision=~std::uint64_t(0);bool referenced=false;
+    std::size_t reference_checks=0;
     GLuint texture=0;std::shared_ptr<const DarkFlatBlock> texture_block;
     int texture_channel=-1,width=0,height=0;double texture_lower=0,texture_upper=0;
     ~Impl(){cancel.store(true);if(opening.valid())opening.wait();if(reading.valid())reading.wait();clear_texture();}
@@ -36,8 +45,11 @@ struct GuiDarkFlat::Impl {
     template<class F>void attempt(F f){try{f();error.clear();}catch(const std::exception& e){error=e.what();}}
     void mark(Action a){auto p=ImGui::GetItemRectMin(),q=ImGui::GetItemRectMax();bounds[std::size_t(a)]={p.x,p.y,q.x-p.x,q.y-p.y};}
     void refresh(Document& doc){
-        if(owner!=&doc || server.lock()!=doc.server()){
-            invalidate();owner=&doc;server=doc.server();properties.reset();records.clear();saved.clear();error.clear();defaults_attempted=false;records_dirty=true;
+        ScopeChange change;
+        if(!ImGui::GetCurrentContext() || scope_frame!=ImGui::GetFrameCount()) {scope_frame=ImGui::GetCurrentContext()?ImGui::GetFrameCount():-1;change=detail::update(scope,doc,0);}
+        if(change.document)records_dirty=true;
+        if(change.image || change.source){
+            invalidate();dependency_revision=~std::uint64_t(0);properties.reset();records.clear();saved.clear();error.clear();defaults_attempted=false;records_dirty=true;
 
             if(!preview_configured){region.region={0,0,0,std::min<std::int64_t>(256,doc.metadata().width),std::min<std::int64_t>(256,doc.metadata().height)};region.channels=1;}
         }
@@ -51,12 +63,13 @@ struct GuiDarkFlat::Impl {
                 kept=!request_id.empty() && std::find(records.begin(),records.end(),request_id)!=records.end()?request_id:std::string{};
             }catch(const std::exception& e){error=e.what();records.clear();saved.clear();kept.clear();}
         }
+        if(open && (dependency_record!=saved || dependency_revision!=doc.revision())){++reference_checks;dependency_record=saved;dependency_revision=doc.revision();referenced=!saved.empty() && (fluorescence_cells_reference_correction(doc,saved) || linear_unmix_recipes_reference_correction(doc,saved));}
     }
     void load(Document& doc,bool from_saved){
         std::optional<DarkFlatRecipe> recipe;if(from_saved)recipe=load_dark_flat_recipe(doc,saved);
-        if(recipe){dark=recipe->sources[1].path;flat=recipe->sources[2].path;dark_series=recipe->sources[1].series;flat_series=recipe->sources[2].series;options=recipe->options;configured=true;}
+        if(recipe){dark.set(recipe->sources[1].path);flat.set(recipe->sources[2].path);dark_series=recipe->sources[1].series;flat_series=recipe->sources[2].series;options=recipe->options;configured=true;}
         RawAnalysisRequest captured(doc,RawRegionRequest{});invalidate();cancel.store(false);discard=false;guard=std::move(captured);restoring=std::move(recipe);
-        const auto a=dark,b=flat;TiffOpenOptions d,f;d.view.series=dark_series;f.view.series=flat_series;
+        const auto a=restoring?restoring->sources[1].path:dark.state().resolved,b=restoring?restoring->sources[2].path:flat.state().resolved;TiffOpenOptions d,f;d.view.series=dark_series;f.view.series=flat_series;
         opening=std::async(std::launch::async,[this,a,b,d,f]{auto first=open_tiff(a,d,&cancel);auto second=open_tiff(b,f,&cancel);return Fields{std::move(first),std::move(second)};});state="opening";
     }
     void poll(Document& doc,bool blocked){
@@ -77,7 +90,7 @@ struct GuiDarkFlat::Impl {
         reading=std::async(std::launch::async,[this,captured,selected]{return read_dark_flat_block(captured,selected,256u*1024*1024,&cancel);});state="reading";
     }
     void image(){
-        if(!block)return;const auto& samples=block->samples();channel=std::clamp(channel,0,int(samples.channels()-1));
+        if(!block)return;if(block->region().z!=scope.plane.z || block->region().t!=scope.plane.t){ui::TextWrapped("Preview hidden: it was made for another Z or time point.");return;}const auto& samples=block->samples();channel=std::clamp(channel,0,int(samples.channels()-1));
         if(!std::isfinite(lower) || !std::isfinite(upper) || upper<=lower || !std::isfinite(upper-lower)){display_error="Display range needs finite lower < upper";return;}display_error.clear();
         if(texture_block!=block || texture_channel!=channel || texture_lower!=lower || texture_upper!=upper){
             clear_texture();width=int(std::min<std::int64_t>(320,samples.width()));height=int(std::min<std::int64_t>(320,samples.height()));
@@ -90,24 +103,41 @@ struct GuiDarkFlat::Impl {
         }
         if(texture){const auto scale=std::min(16.f,320.f/std::max(width,height));ImGui::Image(ImTextureID(texture),{width*scale,height*scale});}
     }
-    void draw(Document& doc,bool blocked){
+    ui::Availability availability(Action action,bool blocked,bool has_image) const {
+        if(action==Action::Cancel)return {};
+        if(!has_image)return {false,"Open an image first."};
+        if(blocked)return ui::WorkflowBlocked();
+        if(busy())return {false,"Wait for the current work to finish."};
+        if((action==Action::Preview || action==Action::Keep || action==Action::Use) && !request)return {false,"Load or edit the inputs first."};
+        if(action==Action::Use && kept.empty())return {false,"Select a kept result first."};
+        if(action==Action::Keep && !kept.empty())return {false,"This recipe is already kept."};
+        if((action==Action::LoadSaved || action==Action::Remove) && saved.empty())return {false,"Select a kept result first."};
+        if(action==Action::Remove && referenced)return {false,"This recipe is used by kept results."};
+        return {};
+    }
+    void draw(Document& doc,bool blocked,const ui::PathContext& context,bool has_image){
+    ui::i18n::SurfaceTrace translation_surface("tool/Dark flat");
         poll(doc,blocked);bounds={};if(!open)return;
-        ui::SetNextToolWindow("Dark/flat correction",{620,850});if(ImGui::Begin("Dark/flat correction",&open)){
-            ui::Text("Correction state: %s",state.c_str());ui::TextWrapped("Derived samples: (signal-dark)/(flat-dark)*scale. Original samples stay unchanged.");
-            ImGui::BeginDisabled(blocked || busy());
-            if(ui::Button("Load correction fields"))attempt([&]{load(doc,false);});mark(Action::Load);
-            ImGui::BeginDisabled(!request);if(ui::Button("Preview corrected samples"))attempt([&]{preview();});mark(Action::Preview);
-            if(ui::Button("Keep correction recipe"))attempt([&]{kept=keep_dark_flat_recipe(doc,*request,&cancel);saved=kept;records_dirty=true;});mark(Action::Keep);
-            ImGui::BeginDisabled(kept.empty());if(ui::Button("Use for fluorescence"))attempt([&]{request->require_current(doc);select=true;open=false;});mark(Action::Use);ImGui::EndDisabled();ImGui::EndDisabled();ImGui::EndDisabled();
-            ImGui::BeginDisabled(!busy());if(ui::Button("Cancel correction"))invalidate("cancelling");mark(Action::Cancel);ImGui::EndDisabled();
-            if(!kept.empty())ui::TextWrapped("Retained correction: %s",kept.c_str());
+        const auto button=[&](const char* label,Action action) {
+            const auto available=availability(action,blocked,has_image);
+            const bool hit=ui::AvailableButton(label,available,action==Action::Load?ui::design::Action::Primary:ui::design::Action::Secondary);mark(action);
+            if(action==Action::Load)ui::WorkflowReason(label,available);return hit;
+        };
+        ui::SetNextToolWindow(ui::tool_window_label(ui::ToolChild::DarkFlat),{620,850});if(ImGui::Begin(ui::tool_window_label(ui::ToolChild::DarkFlat),&open)){
+            ui::Text("Correction state: %s",ui::caption(ui::parse_run_state(state),state).c_str());ui::TextWrapped("Derived samples: (signal-dark)/(flat-dark)*scale. Original samples stay unchanged.");
+            if(button("Load correction fields",Action::Load))attempt([&]{load(doc,false);});
+            if(button("Preview corrected samples",Action::Preview))attempt([&]{preview();});
+            if(button("Keep correction recipe",Action::Keep))attempt([&]{kept=keep_dark_flat_recipe(doc,*request,&cancel);saved=kept;records_dirty=true;});
+            if(button("Use for fluorescence",Action::Use))attempt([&]{request->require_current(doc);select=true;open=false;});
+            if(busy() && button("Cancel correction",Action::Cancel))invalidate("cancelling");
+            if(!kept.empty())ui::TextWrapped("Kept correction: %s",ui::short_record_id(kept).c_str());
             if(!error.empty())ui::TextWrapped("Correction: %s",error.c_str());
             ImGui::BeginDisabled(blocked || busy());
-            if(ui::BeginCombo("Saved correction",saved.empty()?"None":saved.c_str())){for(const auto& id:records)if(ImGui::Selectable(id.c_str(),id==saved))saved=id;ui::EndCombo();}
-            ImGui::BeginDisabled(saved.empty());if(ui::Button("Load saved correction"))attempt([&]{load(doc,true);});mark(Action::LoadSaved);
-            if(ui::Button("Remove correction recipe"))attempt([&]{const auto id=saved;remove_dark_flat_recipe(doc,id);if(kept==id)kept.clear();records_dirty=true;});mark(Action::Remove);ImGui::EndDisabled();
+            saved=record_rows.draw("Kept correction###Saved correction",records,saved,doc.image_data_properties().get(),doc.revision(),"Dark/flat correction");
+            ImGui::EndDisabled();if(button("Load kept correction###Load saved correction",Action::LoadSaved))attempt([&]{load(doc,true);});
+            if(button("Remove correction recipe",Action::Remove))attempt([&]{const auto id=saved;remove_dark_flat_recipe(doc,id);if(kept==id)kept.clear();records_dirty=true;});ImGui::BeginDisabled(blocked || busy());
             const bool fields=ui::CollapsingHeader("Correction fields and normalization",ImGuiTreeNodeFlags_DefaultOpen);mark(Action::Fields);if(fields){
-                bool changed=edit("Dark TIFF path",dark);changed=edit("Flat TIFF path",flat)||changed;changed=ui::InputScalar("Dark series",ImGuiDataType_U32,&dark_series)||changed;changed=ui::InputScalar("Flat series",ImGuiDataType_U32,&flat_series)||changed;
+                bool changed=dark.draw(context);changed=flat.draw(context)||changed;changed=ui::InputScalar("Dark series",ImGuiDataType_U32,&dark_series)||changed;changed=ui::InputScalar("Flat series",ImGuiDataType_U32,&flat_series)||changed;
                 if(ui::Button("Reset normalization to source channels"))attempt([&]{const auto m=doc.server()->raw_metadata();if(!m || !m->channels || m->channels>65536)throw std::invalid_argument("Invalid source channel count");options.scales.assign(m->channels,1);configured=true;invalidate();});
                 ui::Text("Explicit normalization channels: %zu",options.scales.size());if(!options.scales.empty()){ui::InputInt("Normalize original channel",&scale_channel);scale_channel=std::clamp(scale_channel,0,int(options.scales.size()-1));changed=ui::InputDouble("Source-sample scale",&options.scales[std::size_t(scale_channel)],0,0,"%.17g")||changed;}
                 changed=ui::InputDouble("Minimum denominator",&options.minimum_denominator,0,0,"%.17g")||changed;
@@ -132,8 +162,8 @@ GuiDarkFlat::~GuiDarkFlat()=default;
 void GuiDarkFlat::open(){impl_->open=true;}
 void GuiDarkFlat::close(){impl_->open=false;}
 void GuiDarkFlat::poll(Document& doc,bool blocked){impl_->poll(doc,blocked);}
-void GuiDarkFlat::draw(Document& doc,bool blocked){impl_->draw(doc,blocked);}
-void GuiDarkFlat::set_fields(std::string dark,std::string flat,DarkFlatOptions options,std::uint32_t ds,std::uint32_t fs){if(impl_->busy())throw std::runtime_error("Correction is busy");options.validate();impl_->invalidate();impl_->dark=std::move(dark);impl_->flat=std::move(flat);impl_->options=std::move(options);impl_->dark_series=ds;impl_->flat_series=fs;impl_->configured=true;}
+void GuiDarkFlat::draw(Document& doc,bool blocked,const ui::PathContext& context,bool has_image){impl_->draw(doc,blocked,context,has_image);}
+void GuiDarkFlat::set_fields(std::string dark,std::string flat,DarkFlatOptions options,std::uint32_t ds,std::uint32_t fs){if(impl_->busy())throw std::runtime_error("Correction is busy");options.validate();impl_->invalidate();impl_->dark.set_option(dark);impl_->flat.set_option(flat);impl_->options=std::move(options);impl_->dark_series=ds;impl_->flat_series=fs;impl_->configured=true;}
 void GuiDarkFlat::set_preview(RawRegionRequest region){if(impl_->busy())throw std::runtime_error("Correction is busy");impl_->region=region;impl_->preview_configured=true;impl_->block.reset();impl_->clear_texture();}
 std::optional<DarkFlatRequest> GuiDarkFlat::take_selection(){if(!impl_->select)return {};impl_->select=false;return impl_->request;}
 std::shared_ptr<const DarkFlatBlock> GuiDarkFlat::result()const{return impl_->block;}
@@ -142,4 +172,6 @@ Rect GuiDarkFlat::bounds(Action a)const{return impl_->bounds[std::size_t(a)];}
 const std::string& GuiDarkFlat::kept_record()const{return impl_->kept;}
 const std::string& GuiDarkFlat::error()const{return impl_->error;}
 const std::string& GuiDarkFlat::state()const{return impl_->state;}
+std::size_t GuiDarkFlat::reference_checks()const{return impl_->reference_checks;}
+std::vector<ui::PathField*> GuiDarkFlat::paths(){return {&impl_->dark,&impl_->flat};}
 }

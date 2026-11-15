@@ -1,0 +1,29 @@
+ACTIONS
+0 | Detect tissue (Ctrl+D) | Detect tissue | enabled | secondary
+1 | Trace contours (Ctrl+J) | Trace contours | enabled | secondary
+2 | Add annotations (Ctrl+Shift+J) | Add annotations | disabled | secondary | reason: Trace contours
+3 | Keep tissue mask (Ctrl+U) | Keep result | enabled | primary
+RESULTS
+LINES
+Feature { OD sum }
+Threshold >= { 0.3 }
+Sigma (sampled px) { 0 }
+Level 0 / 1 x 1 px per sample
+0.5 x 0.25 µm per sample
+Threshold uses the selected feature's units.
+### Advanced settings ###
+[ Detect tissue ]
+Ready
+[x] Show tissue mask
+Level 0 / 1x / 44 x 60
+Size filters count sampled pixels
+Components: 1
+Kept pixels: 2640
+Cleaned: 2640 / filled: 0
+Samples: 2640
+### Details ###
+[ Trace contours ]
+[ Add annotations ]
+Keep adds this result to the project. Save project writes it to disk.
+Keep this result to include it in tables.
+[ Keep result ]

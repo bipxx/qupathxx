@@ -1,0 +1,18 @@
+# kind<TAB>rule or exact visible text<TAB>regex or reason
+R	saved-memory	\bsaved[ -]+(cells|masks?|runs?|records?|results|components)\b
+R	publish	publish|publicat
+R	retain	retain
+R	reverify	reverif
+R	replay	replay
+R	chord	\((Ctrl\+|Alt\+|Shift\+|Super\+)*(F[0-9]+|[A-Z0-9]|Delete|Insert|Home|End|PageUp|PageDown|Left|Right|Up|Down|Enter|Escape|Space|Tab|Backspace)\)$
+R	bare-um	\bum\b|µm|μm
+A	Saved stream files	QPS stream files on disk, not in-memory analysis records.
+A	Saved project checksum:	Checksum of the saved project file on disk.
+A	Saved project checksum: %s	Checksum of the saved project file on disk.
+A	Save model	Writes a model file read by Load model; controller interpretation, owner may revisit.
+A	Load model	Reads the model file written by Save model.
+A	Save pixel model	Writes a model file read by Load pixel model; controller interpretation, owner may revisit.
+A	Load pixel model	Reads the model file written by Save pixel model.
+A	Save raw model	Writes a model file read by Load raw model; controller interpretation, owner may revisit.
+A	Load raw model	Reads the model file written by Save raw model.
+A	Checking saved results	Checks independent image-result checkpoint files on disk.

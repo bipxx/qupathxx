@@ -1,3 +1,4 @@
+#include "gui_translation_trace.hpp"
 #include "../gui_spatial.hpp"
 #include "../gui_tma.hpp"
 #include "../gui_object_classifier.hpp"
@@ -5,7 +6,7 @@
 #include <iostream>
 #include <stdexcept>
 
-int main() {
+int main() {std::cout<<std::unitbuf;std::cerr<<std::unitbuf;
     try {
         using namespace qpx;using namespace qpx::detail;
         auto check=[](bool value) {if(!value) throw std::runtime_error("GUI domain target routing differs");};

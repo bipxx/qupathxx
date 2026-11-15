@@ -28,7 +28,7 @@ assert doc.redo()
 
 The GUI inspector provides feature/threshold, Gaussian sigma, peak radius,
 seed spacing, expansion, nucleus size limits, connectivity and native level.
-Ctrl+G detects, Ctrl+Shift+G adds cells, and Ctrl+Alt+G cancels. Nucleus and body
+Ctrl+G detects, Ctrl+Shift+G adds cells, and the **Cancel** button (stop icon) beside the progress cancels. Nucleus and body
 previews reuse the bounded tissue overlay uploader. White reference and supplied
 stain vectors use the shared stain controls. `GuiOptions.cell_parameters`
 captures a value snapshot. Replay can wait for `CELLS_READY` or `CELLS_PUBLISHED`.

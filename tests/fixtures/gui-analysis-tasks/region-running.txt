@@ -1,0 +1,13 @@
+ACTIONS
+0 | Analyze region (Ctrl+M) | Run analysis | disabled | secondary | reason: Wait for the current work to finish.
+1 | Cancel analysis | Cancel | enabled | secondary
+RESULTS
+LINES
+Features { RGB optical density }
+[ ] Use nucleus
+[ ] Intensity statistics
+### Advanced inputs ###
+[ Run analysis ]
+Wait for the current work to finish.
+Running
+[ Tiles: 0 / 1 ]

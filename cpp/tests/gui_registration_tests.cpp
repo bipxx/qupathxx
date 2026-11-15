@@ -1,5 +1,10 @@
+// The observer must not introduce Windows' near macro into this test oracle.
+#pragma push_macro("near")
+#include "gui_translation_trace.hpp"
+#pragma pop_macro("near")
 #include "../gui_registration.hpp"
 #include "qupathxx/core.hpp"
+#include "qupathxx/ome_zarr.hpp"
 #include "qupathxx/object_properties.hpp"
 #include "qupathxx/project.hpp"
 #include <imgui.h>
@@ -79,7 +84,37 @@ void run(std::shared_ptr<Document> doc,const fs::path& root,GLFWwindow* window,b
     doc=restored;frame();glfwSwapBuffers(window);click(detail::GuiLandmarkRegistration::Action::Load);
     check(panel.error().empty() && panel.fit() && panel.fit()->sha256()==accepted->sha256(),"Reopened project loads saved landmarks through the actual UI with persistent image identity");
 }
-int main(int argc,char** argv){try {
+void display_round_trip(GLFWwindow* window) {
+    const auto source=fs::path(__FILE__).parent_path().parent_path().parent_path()/"tests/fixtures/ome-zarr/plain";
+    auto doc=std::make_shared<Document>(open_ome_zarr(source.u8string()));
+    unsigned n=0;for(Point p:std::vector<Point>{{1,1},{3,2},{5,3}}) {
+        auto id=doc->add_detection(Roi::points({p}));
+        doc->set_object_properties(id,std::make_shared<ObjectProperties>(std::map<std::string,std::string>{{"omics.profile","qpx.spatial-counts/1"},{"omics.matrix_sha256",std::string(64,'a')},{"omics.features_sha256",std::string(64,'b')},{"omics.positions_sha256",std::string(64,'c')},{"omics.observation_id","spot"+std::to_string(n)}},std::map<std::string,double>{{"omics.count:G",double(++n)}}));
+    }
+    detail::GuiLandmarkRegistration panel;panel.open();
+    auto frame=[&](Point cursor={-100,-100},int button=-1) {glfwPollEvents();ImGui_ImplOpenGL3_NewFrame();ImGui_ImplGlfw_NewFrame();auto& io=ImGui::GetIO();io.AddMousePosEvent(float(cursor.x),float(cursor.y));if(button>=0)io.AddMouseButtonEvent(0,button==1);ImGui::NewFrame();panel.draw(*doc,"image",{});ImGui::Render();glfwSwapBuffers(window);};
+    auto press=[&](detail::GuiLandmarkRegistration::Action action){const auto r=panel.bounds(action);Point at{r.x+r.width/2,r.y+r.height/2};frame(at);frame(at,1);frame(at,0);};
+    frame();panel.set_landmarks({{"A",{1,1},{2,2}},{"B",{2,2},{3,3}}},{LandmarkModel::Translation});frame();
+    const auto selected=panel.selected_landmark();const auto expression=panel.expression_source();check(!expression.empty(),"Registration expression fixture missing");
+    press(detail::GuiLandmarkRegistration::Action::Preview);
+    if(!panel.fit())std::cerr<<"Registration fixture preview: "<<panel.error()<<'\n';
+    check(panel.fit()!=nullptr,"Registration display-swap test needs a fit");
+    const auto handle=panel.handle_position(0,true);frame(handle);frame(handle,1);const auto target=panel.landmarks()[0].target;
+    doc->set_calibration(.5,.5);
+    auto view=*doc->server()->raw_view();const auto original=view;const auto old_server=doc->server();view.upper[0]+=10;doc->set_raw_view(view);frame(handle);
+    check(doc->server()!=old_server && panel.landmarks().size()==2 && panel.landmarks()[1].id=="B" && panel.expression_source()==expression && panel.selected_landmark()==selected,"Server swap lost pairs/source/selection");
+    check(panel.fit()!=nullptr,"Coincident document edit/server swap discarded the fit evidence");
+    frame({handle.x+20,handle.y+10});
+    check(panel.landmarks()[0].target.x==target.x && panel.landmarks()[0].target.y==target.y,"Server swap retained an active drag");frame({handle.x+20,handle.y+10},0);
+    press(detail::GuiLandmarkRegistration::Action::Preview);
+    check(panel.fit()!=nullptr && panel.error().empty(),"Server swap did not recapture a usable expression dataset");
+    view.z=1;doc->set_raw_view(view);frame();check(panel.landmarks().empty(),"New registration plane inherited old pairs");
+    panel.set_landmarks({{"Plane1",{1,2},{3,4}}});frame();view.z=original.z;doc->set_raw_view(view);frame();
+    check(panel.landmarks().size()==2 && panel.landmarks()[0].id=="A" && panel.expression_source()==expression && panel.selected_landmark()==selected,"Registration plane return lost draft");
+    view.z=1;doc->set_raw_view(view);frame();check(panel.landmarks().size()==1 && panel.landmarks()[0].id=="Plane1","Second plane draft was not stashed");
+    std::cout<<"Registration server swap and per-plane draft round trip passed\n";
+}
+int main(int argc,char** argv){std::cout<<std::unitbuf;std::cerr<<std::unitbuf;try {
     Project identity;const auto root=argc>1?fs::u8path(argv[1]):fs::current_path()/(identity.identity()+"-registration-gui");fs::create_directories(root);
     check(glfwInit(),"GLFW initialize");glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR,3);glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR,3);
     auto* window=glfwCreateWindow(1280,1000,"Native landmark alignment",nullptr,nullptr);check(window,"GLFW create");glfwMakeContextCurrent(window);
@@ -92,6 +127,7 @@ int main(int argc,char** argv){try {
                 {"omics.matrix_sha256",std::string(64,'a')},{"omics.features_sha256",std::string(64,'b')},{"omics.positions_sha256",std::string(64,'c')},
                 {"omics.observation_id","spot"+std::to_string(n)}},std::map<std::string,double>{{"omics.count:G",double(++n)}}));
         }
+        display_round_trip(window);
         run(doc,root,window,false);
         if(argc>2) {const auto project=Project::open_without_journal_recovery(argv[2]);run(project->document(1),root,window,true);}
     }

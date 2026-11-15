@@ -12,6 +12,7 @@ struct ProjectPreferences {
     static constexpr std::size_t recent_limit=8;
     std::vector<std::string> recent;
     std::string group;
+    std::string last_directory;
     float inspector_fraction=.45f;
     bool inspector_resized=false;
     static float minimum_list_height(float room,float pitch,std::size_t rows) {return std::min(pitch*float(std::clamp<std::size_t>(rows,1,2)),room*.45f);}
@@ -44,9 +45,15 @@ struct ProjectPreferences {
         } catch(...) { /* Invalid preferences never interrupt an open project. */ }
     }
     void load(const std::string& header) {
+        last_directory.clear();
         std::size_t at=0;while(at<header.size()) {
             const auto end=header.find_first_of("\r\n",at);const auto line=header.substr(at,end==std::string::npos?end:end-at);
             const std::string recent_prefix="; qupathxx recent-project=",group_prefix="; qupathxx project-group=",split_prefix="; qupathxx project-inspector=";
+            const std::string folder_prefix="; qupathxx last-folder=";
+            if(line.rfind(folder_prefix,0)==0) {
+                const auto path=decode(line.substr(folder_prefix.size()));
+                last_directory=!path.empty() && std::filesystem::u8path(path).is_absolute()?path:std::string{};
+            }
             if(line=="; qupathxx project-inspector-resized=1")inspector_resized=true;
             if(line.rfind(recent_prefix,0)==0 && recent.size()<recent_limit) {
                 const auto path=decode(line.substr(recent_prefix.size()));
@@ -62,6 +69,8 @@ struct ProjectPreferences {
     }
     std::string header() const {
         std::string value;for(const auto& path:recent)value+="; qupathxx recent-project="+encode(path)+"\n";
+        const auto folder=decode(encode(last_directory));
+        if(!folder.empty() && std::filesystem::u8path(folder).is_absolute())value+="; qupathxx last-folder="+encode(folder)+"\n";
         if(!group.empty())value+="; qupathxx project-group="+encode(group)+"\n";
         value+="; qupathxx project-inspector="+std::to_string(static_cast<int>(std::clamp(inspector_fraction,.2f,.98f)*10000+.5f))+"\n";
         if(inspector_resized)value+="; qupathxx project-inspector-resized=1\n";return value;

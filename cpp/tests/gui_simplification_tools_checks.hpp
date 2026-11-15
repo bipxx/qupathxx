@@ -1,4 +1,5 @@
 #pragma once
+#include "gui_path_field_checks.hpp"
 #include "../gui_project_density.hpp"
 #include "../gui_tma.hpp"
 #include "qupathxx/density_workflow.hpp"
@@ -16,8 +17,17 @@ namespace qpx::detail {
 // barrier solely to make a Cancel click deterministic.
 struct GuiProjectDensityTestAccess {
     static ProjectDensityJob& job(GuiProjectDensity& panel) {return panel.job_;}
+    static auto preview(const GuiProjectDensity& panel) {return panel.preview_;}
 };
 struct GuiTmaTestAccess {
+    static auto preview(const GuiTma& panel){return panel.preview_;}
+    static void hold_preview(GuiTma& panel,std::shared_future<void> gate){auto work=std::move(panel.exchange_);panel.exchange_=std::async(std::launch::async,[work=std::move(work),gate]() mutable {gate.wait();return work.get();});}
+    static void load_preview(GuiTma& panel,Document& doc){panel.load_preview(doc);}
+    static auto& move(GuiTma& panel){return panel.delta_;}
+    static auto& case_draft(GuiTma& panel){return panel.case_draft_;}
+    static auto& core_draft(GuiTma& panel){return panel.core_draft_;}
+    static auto& labels_draft(GuiTma& panel){return panel.labels_draft_;}
+    static bool discarded(const GuiTma& panel){return panel.discarded_;}
     static bool pending(const GuiTma& panel) {return panel.exchange_.valid();}
     static bool cancel_requested(const GuiTma& panel) {return panel.exchange_cancel_.load();}
     static void pending_export(GuiTma& panel,const QptmaData& data,const std::string& path,std::shared_future<void> gate) {
@@ -107,7 +117,10 @@ inline void tma_review(const std::filesystem::path& directory) {
     const auto cores=doc->create_tma_grid(grid);project->save(project->path());const auto saved=read(project->path());
     const auto output=directory/"review.qptma";GuiOptions options;options.tma_open=true;options.tma_tab=2;options.qptma_output_path=output.u8string();
     NativeUi ui;detail::GuiTma panel(options);ObjectSelection selection(*doc);selection.replace({cores.front()},cores.front());
-    auto draw=[&]{panel.draw(*doc,selection,project.get(),false,true,[](GuiInputTarget){});};
+    detail::OutputGate output_gate;
+    auto owner=[&](bool,bool) {detail::ExportOwnerStamp stamp;stamp.project=project.get();stamp.document=doc.get();stamp.server=doc->server().get();stamp.revision=doc->revision();stamp.calibration=doc->calibration_revision();stamp.selection=selection.revision();stamp.project_generation=project->generation();return stamp;};
+    output_gate.bind(owner,[&]{return detail::export_protected_paths(project.get(),*doc,"",{});});
+    auto draw=[&]{panel.draw(*doc,selection,project.get(),output_gate.pending(),true,[](GuiInputTarget){},&output_gate);output_gate.draw([&](const detail::ExportOwnerStamp& stamp){return stamp==owner(false,false);});};
     ui.fit("Tissue microarray",600,1100,draw);
     const auto original=qptma_from_grid(*doc->tma_grid(),doc->server()->source_locator(),doc->tma_grid()->info()->name());
     check(shown_omissions(ui)==std::set<std::string>(original.omitted_metadata.begin(),original.omitted_metadata.end()),"QPTMA review omitted an actual native loss or invented a class/parent loss");
@@ -175,7 +188,8 @@ inline void tma_close_lifecycle(const std::filesystem::path& directory) {
         ui.click("Load grid preview",draw);ui.until(draw,[&]{return panel.qptma_state()=="preview ready";},"real TMA import preview did not load");
         check(panel.qptma_cores()==4 && !doc->tma_core_count(),"import preview was applied before user acceptance");
         ui.toggle_tma(draw);
-        check(panel.qptma_state()=="cancelled" && !panel.qptma_cores() && !doc->tma_core_count() && doc->revision()==revision && read(project->path())==source,"closing TMA failed to discard an unapplied import preview safely");
+        ui.toggle_tma(draw);
+        check(panel.qptma_state()=="preview ready" && panel.qptma_cores()==4 && !doc->tma_core_count() && doc->revision()==revision && read(project->path())==source,"closing and reopening TMA failed to retain an unapplied import preview safely");
     }
 }
 
@@ -217,12 +231,20 @@ inline void density_controls(const std::filesystem::path& directory) {
     ui.fit("Project-wide density",820,1280,draw);
     check(ui.action("Preview cohorts and calibration").caption=="Check inputs" && ui.action("Preview cohorts and calibration").enabled && !ui.action("Run project density").enabled,"density stage captions/availability are incorrect before Check inputs");
     ui.text("density-class-0","Windows",draw);ui.text("density-class-1","Tissue",draw);
-    const auto output=directory/"ui-results";ui.text("density-output",output.u8string(),draw);
+    const auto output=directory/"ui-results";path_field_checks::choose(*panel.paths()[0],std::filesystem::absolute(output).lexically_normal().u8string(),[&]{ui.frame(draw);});
     ui.click("Preview cohorts and calibration",draw);
     ui.until(draw,[&]{return ui.action("Run project density").enabled;},"density Check inputs did not produce a runnable native preview");
     auto& job=detail::GuiProjectDensityTestAccess::job(panel);const auto preview=job.result();
     check(preview && preview->valid() && preview->recipe.images==std::vector<std::uint64_t>({1,2}) && preview->recipe.classes[0]==std::vector<std::string>{"Windows"} && preview->recipe.classes[1]==std::vector<std::string>{"Tissue"},"density text controls did not submit the exact native image/class selection");
-    ui.click("Run project density",draw);ui.until(draw,[&]{return !job.busy() && job.result() && job.result()->state!="preview";},"density Run control did not finish the native job");
+    const auto existing=directory/"existing-output";std::filesystem::create_directory(existing);
+    ui.text("density-output",existing.u8string(),draw);ui.click("Run project density",draw);
+    ui.until(draw,[&]{return !job.busy();},"Density existing-output failure did not settle");
+    check(detail::GuiProjectDensityTestAccess::preview(panel)==preview && !job.error().empty(),"Failed density Run discarded checked cohorts");
+    std::cout<<"Density existing-output failure retained the checked cohorts\n";
+    ui.text("density-output",output.u8string(),draw);
+    ui.click("Run project density",draw);
+    try {ui.until(draw,[&]{return !job.busy() && job.result() && job.result()->state!="preview";},"density Run control did not finish the native job");}
+    catch(...) {std::cerr<<"Density job diagnostic: "<<job.error()<<" / busy="<<job.busy()<<" / state="<<(job.result()?job.result()->state:"no result")<<'\n';throw;}
     const auto result=job.result();check(result && result->state=="completed" && result->computed==2 && result->completed==2 && result->failed==0,"normal density GUI Run failed");
     check(read(result->report)==result->json && read(result->csv)==expected_density_csv(*result),"density GUI CSV/report differ from native archived results");
     check(read(project->path())==saved,"density Check inputs/Run changed source project bytes");

@@ -42,7 +42,7 @@ inline DialogCommand DialogHeader(const char* title,const std::string& context={
         if(reload) {row.next();if(IconButton(reload,Icon::Refresh))command=DialogCommand::Reload;}
         row.next();if(IconButton("Cancel###Dialog close",Icon::Close))command=DialogCommand::Close;
     }
-    DialogContext(context);ImGui::Spacing();ImGui::Separator();ImGui::Spacing();return command;
+    DialogContext(context);ImGui::Spacing();ui::Separator();ImGui::Spacing();return command;
 }
 struct DialogActionLayout {
     std::vector<float> widths,heights;
@@ -167,6 +167,7 @@ DialogResult RenderDialog(DialogKind kind,DialogState& state,const std::string& 
     const auto& definition=dialog_definition(kind);if(!dialog_variant_allowed(kind,state.variant))throw std::logic_error("Invalid dialog state variant");
     dialog_detail::keyboard_history();DialogResult result;
     if(!ImGui::IsPopupOpen(definition.name))return result;
+    i18n::SurfaceTrace translation_surface((std::string("dialog/")+definition.name).c_str());
     const auto preferred=definition.layout==DialogLayout::Editor?ImVec2{design::metrics.dialog_editor_width,design::metrics.dialog_editor_height}:definition.layout==DialogLayout::Selector?ImVec2{700,520}:ImVec2{design::metrics.dialog_width,kind==DialogKind::ReplaceWorkspace?380:design::metrics.dialog_confirm_height};
     // Re-enable before BeginPopupModal draws its background as well as controls.
     // Restore the originating window only after the popup scope has ended.

@@ -105,7 +105,7 @@ The shared **Cell table export** section contains a destination and current-run
 requirement. **Export project cells (Ctrl+Shift+X)** exports all archived runs in
 all project images, without requiring an annotation or active image. Empty
 projects can export a header. **Export cell table (Ctrl+Alt+X)** continues to
-export the selected annotation's latest saved run. **Ctrl+Alt+Shift+X** cancels
+export the selected annotation's latest saved run. The visible **Cancel** control cancels
 an active export. The row/error display and durable finite-run `GuiReport` serve
 both scopes.
 

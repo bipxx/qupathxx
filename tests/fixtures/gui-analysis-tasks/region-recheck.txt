@@ -1,0 +1,33 @@
+ACTIONS
+0 | Analyze region (Ctrl+M) | Run analysis | enabled | secondary
+1 | Go to tables###ROI tables | View kept results | enabled | primary
+2 | Recheck saved (Ctrl+Shift+K) | Recheck result | enabled | secondary
+3 | Remove kept result###Remove region result | Remove kept result | enabled | secondary
+RESULTS
+kept | Kept result | 3 | 0 | 0 | 0.50345021486282349 | 0.50345021486282349 | 0.50345021486282349
+LINES
+Features { RGB optical density }
+[ ] Use nucleus
+[ ] Intensity statistics
+### Advanced inputs ###
+[ Run analysis ]
+Ready
+This run is a recheck of kept result 3.
+[ View kept results ]
+--- Kept result
+Recorded with qupathxx 0.1.0
+Captured calibration: 0.5 / 0.25 µm/px
+Mean OD R: 0.50345
+Mean OD G: 0.50345
+Mean OD B: 0.50345
+Samples: 2640
+Verified for this session
+Optical density / Body
+Result ID: 3
+[ Recheck result ]
+[ Remove kept result ]
+> Kept provenance
+Record: 3
+Algorithm: qpx.roi-channel-means/1
+Input SHA-256: 94904bc3a0401d6ac9e3ddeb2647a5861cd2d7f16bcf69ec250f0956052f05d5
+### Details ###

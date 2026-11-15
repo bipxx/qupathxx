@@ -187,7 +187,7 @@ is enabled. The domain and scratch are released before result publication.
 
 The inspector exposes feature, threshold, native level and size/connectivity filters.
 White/stain vectors and the nucleus toggle are shared with region analysis.
-Ctrl+D starts detection; Ctrl+Shift+D cancels. The mask preview uploads at most
+Ctrl+D starts detection; the **Cancel** button (stop icon) beside the progress cancels. The mask preview uploads at most
 four 256-pixel tiles per frame, with one tile of RGBA scratch. It becomes visible
 only after preparation completes. A separate 32 MiB logical GPU payload budget
 and 4096-position limit bound the preview; background tiles need no texture.

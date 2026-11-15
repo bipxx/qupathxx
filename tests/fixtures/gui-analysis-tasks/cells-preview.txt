@@ -1,0 +1,27 @@
+ACTIONS
+0 | Detect cells (Ctrl+G) | Detect cells | enabled | secondary
+1 | Add cells (Ctrl+Shift+G) | Add cells | enabled | secondary
+2 | Keep cell run (Ctrl+Shift+C) | Keep result | enabled | primary
+RESULTS
+LINES
+Cell feature { OD sum }
+Cell detector { Distance watershed }
+Cell threshold { 1 }
+Blur sigma (sampled px) { 1 }
+Cell expansion (sampled px) { 5 }
+Level 0 / 1 x 1 px per sample
+0.5 x 0.25 µm per sample
+Threshold uses the selected feature's units.
+### Advanced settings ###
+[ Detect cells ]
+Ready
+[x] Show cell preview
+Cell preview { Nuclei }
+Detected cells: 1
+Markers: 1
+### Details ###
+Cell level: 0 / 1x
+[ Add cells ]
+Keep adds this result to the project. Save project writes it to disk.
+Keep this result to include it in tables.
+[ Keep result ]

@@ -1,4 +1,5 @@
 #pragma once
+#include "gui_path_field.hpp"
 #include "qupathxx/dark_flat_workflow.hpp"
 #include "qupathxx/core.hpp"
 namespace qpx::detail {
@@ -8,7 +9,8 @@ public:
     GuiDarkFlat();~GuiDarkFlat();
     void open();void close();
     void poll(Document&,bool blocked=false);
-    void draw(Document&,bool blocked=false);
+    void draw(Document&,bool blocked=false,const ui::PathContext& context={},bool has_image=true);
+    std::vector<ui::PathField*> paths();
     void set_fields(std::string dark,std::string flat,DarkFlatOptions,
         std::uint32_t dark_series=0,std::uint32_t flat_series=0);
     void set_preview(RawRegionRequest);
@@ -19,6 +21,7 @@ public:
     const std::string& kept_record() const;
     const std::string& error() const;
     const std::string& state() const;
+    std::size_t reference_checks() const;
 private:
     struct Impl;std::unique_ptr<Impl> impl_;
 };

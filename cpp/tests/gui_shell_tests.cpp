@@ -1,3 +1,4 @@
+#include "gui_translation_trace.hpp"
 #include "../gui_shell.hpp"
 #include "../gui_fonts.hpp"
 #include "../gui_i18n.hpp"
@@ -133,7 +134,7 @@ static void shell_contract(const std::filesystem::path& directory) {
     }
     ImGui::EndFrame();ImGui::DestroyContext();glfwDestroyWindow(window);glfwTerminate();
 }
-int main(int argc,char** argv) {
+int main(int argc,char** argv) {std::cout<<std::unitbuf;std::cerr<<std::unitbuf;
     if(!std::getenv("QUPATHXX_TEST_GUI")) {std::cout<<"RmlUi GL tests skipped: opt-in QUPATHXX_TEST_GUI\n";return 0;}
     try {
         const auto directory=argc>1?std::filesystem::u8path(argv[1]):std::filesystem::temp_directory_path()/("qpx-rmlui-"+std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()));

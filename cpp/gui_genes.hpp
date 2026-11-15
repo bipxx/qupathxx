@@ -1,4 +1,7 @@
 #pragma once
+#include "gui_tool_catalog.hpp"
+#include "gui_tool_scope.hpp"
+#include "gui_workflow_ui.hpp"
 #include "qupathxx/gene_view.hpp"
 #include "qupathxx/landmark_registration.hpp"
 #include "qupathxx/core.hpp"
@@ -14,18 +17,23 @@ class GuiGeneDisplay {
 public:
     enum class Action {Qc,Raw,Normalized,LogNormalized,Keep,Apply,Remove,GenesTab,MolecularTab};
 private:
-    GeneViewSession session_{256u*1024*1024};
-    GuiBackedGenes backed_;
+    struct PlaneState {
+        ObjectPlane plane;
+        GeneViewSession session{256u*1024*1024};
+        GuiBackedGenes backed;
+        std::optional<RegistrationField> registered;
+        std::string source;
+        bool current=false;
+    };
+    std::vector<std::unique_ptr<PlaneState>> planes_;
+    PlaneState* plane_state_=nullptr;
     std::map<std::string,ExpressionMatrixSpatialScope> backed_sources_;
     std::string project_path_;std::uint64_t project_image_=0;
-    std::optional<RegistrationField> registered_;
     bool open_=false;
-    const Document* document_=nullptr;
+    ToolScope scope_;bool scoped_=false,refresh_=true,has_image_=false;
     std::shared_ptr<ImageServer> server_;
-    std::uint64_t revision_=std::numeric_limits<std::uint64_t>::max();
-    ObjectPlane plane_;
     std::vector<std::string> sources_;
-    std::string source_,error_;
+    std::string error_;
     std::array<std::array<char,256>,2> query_{};
     std::array<std::size_t,2> page_{};
     std::unique_ptr<GuiTiles> comparison_tiles_;
@@ -34,44 +42,60 @@ private:
     std::array<Rect,9> molecular_bounds_{};std::array<bool,9> molecular_enabled_{};
     std::vector<std::string> normalization_ids_;int normalization_record_=0,qc_observation_=0;
     double normalization_target_=10000;
+    ui::Availability availability(std::optional<Action> action,const Project* project,std::uint64_t image,bool blocked) const {
+        if(!action)return {};
+        if(blocked)return ui::WorkflowBlocked();
+        if(plane_state_->session.busy() || plane_state_->backed.busy())return {false,"Wait for the current work to finish."};
+        const bool context=project && image && tool_document_identity(*project->document(image)).lock()==scope_.document_identity.lock();
+        if((*action==Action::Keep || *action==Action::Apply || *action==Action::Remove) && !context)return {false,"Open the containing project first."};
+        if(*action==Action::Keep) {
+            if(!plane_state_->session.normalization_result())return {false,"Run normalization first."};
+            return {};
+        }
+        if(*action==Action::Remove)return {};
+        if(!plane_state_->backed.raw_counts())return {false,"Choose a full indexed raw-count matrix first."};
+        if(*action==Action::Qc && plane_state_->session.qc_result())return {false,"QC is already available."};
+        return {};
+    }
     void molecular(Project* project,std::uint64_t image,bool blocked){
-        const bool busy=session_.busy() || backed_.busy();const bool raw=backed_.raw_counts();
-        auto button=[&](Action action,const char* label,bool disabled,auto run){ImGui::BeginDisabled(disabled);const bool pressed=ui::Button(label);const auto a=ImGui::GetItemRectMin(),b=ImGui::GetItemRectMax();molecular_bounds_[std::size_t(action)]={a.x,a.y,b.x-a.x,b.y-a.y};molecular_enabled_[std::size_t(action)]=!disabled && ImGui::IsItemVisible();ImGui::EndDisabled();if(pressed)try{run();error_.clear();}catch(const std::exception& e){error_=e.what();}};
+        const bool busy=plane_state_->session.busy() || plane_state_->backed.busy();const bool raw=plane_state_->backed.raw_counts();
+        auto button=[&](Action action,const char* label,auto run){const auto available=availability(action,project,image,blocked);const bool pressed=ui::AvailableButton(label,available,action==Action::Qc?ui::design::Action::Primary:ui::design::Action::Secondary);const auto a=ImGui::GetItemRectMin(),b=ImGui::GetItemRectMax();molecular_bounds_[std::size_t(action)]={a.x,a.y,b.x-a.x,b.y-a.y};molecular_enabled_[std::size_t(action)]=available.enabled && ImGui::IsItemVisible();if(action==Action::Qc)ui::WorkflowReason(label,available);if(pressed)try{run();error_.clear();}catch(const std::exception& e){error_=e.what();}};
         if(!raw)ui::TextWrapped("QC requires a full indexed raw-count matrix. Projected or continuous values cannot supply a raw library.");
-        button(Action::Qc,"Compute full-source QC",blocked || busy || !raw || bool(session_.qc_result()),[&]{session_.request_qc();});
+        button(Action::Qc,"Compute full-source QC",[&]{plane_state_->session.request_qc();});
         ImGui::BeginDisabled(blocked || busy || !raw);ui::InputDouble("Library target",&normalization_target_,0,0,"%.10g");ImGui::EndDisabled();
-        button(Action::Raw,"Use raw counts",blocked || busy || !raw,[&]{session_.raw_values();});ImGui::SameLine();
-        button(Action::Normalized,"Use normalized",blocked || busy || !raw,[&]{session_.normalize({normalization_target_,false});});
-        button(Action::LogNormalized,"Use log1p normalized",blocked || busy || !raw,[&]{session_.normalize({normalization_target_,true});});
-        if(const auto qc=session_.qc_result()){
+        button(Action::Raw,"Use raw counts",[&]{plane_state_->session.raw_values();});ImGui::SameLine();
+        button(Action::Normalized,"Use normalized",[&]{plane_state_->session.normalize({normalization_target_,false});});
+        button(Action::LogNormalized,"Use log1p normalized",[&]{plane_state_->session.normalize({normalization_target_,true});});
+        if(const auto qc=plane_state_->session.qc_result()){
             ui::Text("QC capture: %llu features / %llu observations",static_cast<unsigned long long>(qc->features()),static_cast<unsigned long long>(qc->totals().size()));
             ui::InputInt("Source observation index (0 based)",&qc_observation_);qc_observation_=std::clamp(qc_observation_,0,int(qc->totals().size()-1));const auto row=std::size_t(qc_observation_);
             ui::Text("Raw library total: %llu",static_cast<unsigned long long>(qc->totals()[row]));ui::Text("Detected features: %llu",static_cast<unsigned long long>(qc->detected_features()[row]));
             if(!qc->totals()[row])ui::TextWrapped("Zero library: normalized values are valid zeros; group fractions are undefined.");
             for(std::size_t g=0;g<qc->groups().size();++g){const auto fraction=qc->group_fraction(g,row);ui::TextWrapped("%s: %llu",qc->groups()[g].name.c_str(),static_cast<unsigned long long>(qc->group_totals()[g*qc->totals().size()+row]));if(fraction)ui::Text("Fraction: %.10g",*fraction);else ui::TextUnformatted("Fraction: undefined");}
         }
-        const bool context=project && image && project->document(image).get()==document_;
-        button(Action::Keep,"Keep normalization recipe",blocked || busy || !context || !session_.normalization_result(),[&]{keep_expression_normalization(*project,image,*session_.normalization_result());});
+        button(Action::Keep,"Keep normalization recipe",[&]{keep_expression_normalization(*project,image,*plane_state_->session.normalization_result());});
         if(!normalization_ids_.empty()){
             normalization_record_=std::clamp(normalization_record_,0,int(normalization_ids_.size()-1));const auto& selected=normalization_ids_[normalization_record_];
-            if(ui::BeginCombo("Saved normalization",selected.substr(0,12).c_str())){for(std::size_t i=0;i<normalization_ids_.size();++i)if(ImGui::Selectable(normalization_ids_[i].substr(0,12).c_str(),i==std::size_t(normalization_record_)))normalization_record_=int(i);ImGui::EndCombo();}
-            button(Action::Apply,"Apply saved normalization",blocked || busy || !context || !raw,[&]{session_.restore_normalization(expression_normalization_recipe(*project,image,normalization_ids_[normalization_record_]));normalization_target_=session_.normalization_options().target_sum;});
-            button(Action::Remove,"Remove saved normalization",blocked || busy || !context,[&]{remove_expression_normalization(*project,image,normalization_ids_[normalization_record_]);});
+            if(ui::ComboScope combo{"Kept normalization###Saved normalization",selected.substr(0,12).c_str()};combo){for(std::size_t i=0;i<normalization_ids_.size();++i)if(ui::Selectable(ui::data_label(normalization_ids_[i].substr(0,12),std::to_string(i)).c_str(),i==std::size_t(normalization_record_)))normalization_record_=int(i);}
+            button(Action::Apply,"Apply kept normalization###Apply saved normalization",[&]{plane_state_->session.restore_normalization(expression_normalization_recipe(*project,image,normalization_ids_[normalization_record_]));normalization_target_=plane_state_->session.normalization_options().target_sum;});
+            button(Action::Remove,"Remove kept normalization###Remove saved normalization",[&]{remove_expression_normalization(*project,image,normalization_ids_[normalization_record_]);});
         }
-        if(session_.uses_normalized_values())ui::TextWrapped("Values: %s library-size normalized; target %.10g. Raw counts are unchanged.",session_.normalization_options().log1p?"log1p":"linear",session_.normalization_options().target_sum);
+        if(plane_state_->session.uses_normalized_values())ui::TextWrapped("Values: %s library-size normalized; target %.10g. Raw counts are unchanged.",plane_state_->session.normalization_options().log1p?"log1p":"linear",plane_state_->session.normalization_options().target_sum);
         else ui::TextWrapped("Values: original source. Normalization uses all source features, not displayed genes.");
     }
     static ImU32 color(const std::array<std::uint8_t,4>& c) {return IM_COL32(c[0],c[1],c[2],c[3]);}
     void choose(unsigned index,GeneViewOptions& options,bool& changed) {
-        if(backed_sources_.count(source_)){backed_.choose(index,options,changed);return;}
+        if(backed_sources_.count(plane_state_->source)){plane_state_->backed.choose(index,options,changed);return;}
         ImGui::PushID(int(index));
         ui::TextWrapped("%s: %s",index?"Gene B":"Gene A",options.genes[index].c_str());
         if(ui::InputTextWithHint("Search IDs / symbols","e.g. Gad1 or ENSMUSG",query_[index].data(),query_[index].size()))page_[index]=0;
-        const auto& dataset=*session_.dataset();const auto page=gene_feature_page(dataset,query_[index].data(),page_[index],16);
+        const auto& dataset=*plane_state_->session.dataset();const auto page=gene_feature_page(dataset,query_[index].data(),page_[index],16);
+        ui::LayoutRegion gene_region("Gene catalogue");ui::PaneTitle("Gene catalogue");
+        if(page.indices.empty())ui::TextDisabled("No matching genes. Change the search.");
         if(ImGui::BeginListBox("##gene-list",{ui::available(),std::min(ui::CollectionHeight(page.indices.size()),ImGui::GetTextLineHeightWithSpacing()*6)})) {
             for(auto row:page.indices) {
                 ImGui::PushID(int(row));const auto position=ImGui::GetCursorScreenPos();
-                if(ImGui::Selectable("##gene",options.genes[index]==dataset.features()[row])) {options.genes[index]=dataset.features()[row];changed=true;}
+                if(ui::Selectable("##gene",options.genes[index]==dataset.features()[row])) {options.genes[index]=dataset.features()[row];changed=true;}
                 ImGui::SetItemTooltip("%s",dataset.features()[row].c_str());
                 ImGui::GetWindowDrawList()->AddText(position,ImGui::GetColorU32(ImGuiCol_Text),dataset.features()[row].c_str());ImGui::PopID();
             }
@@ -84,11 +108,11 @@ private:
     void legend(const GeneDisplayField& field) const {
         ui::TextWrapped("%s",field.feature.c_str());
         const char* units=field.legend.domain==ExpressionValueDomain::Counts?"counts":"continuous expression";
-        if(session_.uses_normalized_values())units=session_.normalization_options().log1p?"log1p library-size normalized":"library-size normalized";
+        if(plane_state_->session.uses_normalized_values())units=plane_state_->session.normalization_options().log1p?"log1p library-size normalized":"library-size normalized";
         ui::TextWrapped("%.6g to %.6g %s%s%s",field.legend.lower,field.legend.upper,
             field.legend.transform==GeneDisplayTransform::Log1p?"log1p(":"",units,field.legend.transform==GeneDisplayTransform::Log1p?")":"");
         const auto origin=ImGui::GetCursorScreenPos();const float width=ui::available(),height=10*ui::design::scale();
-        auto* draw=ImGui::GetWindowDrawList();auto opaque=session_.options().display;opaque.opacity=1;
+        auto* draw=ImGui::GetWindowDrawList();auto opaque=plane_state_->session.options().display;opaque.opacity=1;
         for(unsigned i=0;i<32;++i)draw->AddRectFilled({origin.x+width*i/32,origin.y},{origin.x+width*(i+1)/32,origin.y+height},color(gene_display_palette_color(i/31.,opaque)));
         ImGui::Dummy({width,height});
         ImGui::ColorButton("##zero",ImGui::ColorConvertU32ToFloat4(color(opaque.zero_color)),ImGuiColorEditFlags_NoTooltip,{12,12});ImGui::SameLine();ui::Text("Zero: %zu",field.legend.zeros);
@@ -96,11 +120,12 @@ private:
         ui::TextDisabled("Clipped low / high: %zu / %zu",field.legend.clipped_lower,field.legend.clipped_upper);
     }
     void points(ImDrawList* draw,const GeneDisplayField& field,const Viewport& view,ImVec2 offset,ImVec2 size,bool hovered) const {
-        const auto radius=float(session_.options().radius*ui::design::scale());
+        if(!has_image_ || !plane_state_->current || field.dataset.plane()!=scope_.plane)return;
+        const auto radius=float(plane_state_->session.options().radius*ui::design::scale());
         std::optional<std::size_t> hit;double closest=double(radius+3)*(radius+3);
         const auto mouse=ImGui::GetIO().MousePos;
         for(std::size_t i=0;i<field.rows.size();++i) {
-            const auto row=field.rows[i];const auto position=registered_ && registered_->dataset.sha256()==field.dataset.sha256()?registered_->positions[row]:field.dataset.observations()[row].position;
+            const auto row=field.rows[i];const auto position=plane_state_->registered && plane_state_->registered->dataset.sha256()==field.dataset.sha256()?plane_state_->registered->positions[row]:field.dataset.observations()[row].position;
             const auto point=view.image_to_screen(position);
             if(!std::isfinite(point.x) || !std::isfinite(point.y) || point.x< -radius || point.y< -radius || point.x>size.x+radius || point.y>size.y+radius)continue;
             const ImVec2 p{offset.x+float(point.x),offset.y+float(point.y)};draw->AddCircleFilled(p,radius,color(field.colors[i]));
@@ -130,7 +155,7 @@ private:
             std::array<ImVec2,2> offsets;std::array<bool,2> hovered{};std::array<ImDrawList*,2> draws{};
             for(unsigned i=0;i<2;++i) {
                 if(i)ImGui::SameLine();ImGui::PushID(int(i));ImGui::BeginChild("compare-pane",{width,0},ImGuiChildFlags_Borders);
-                ImGui::TextUnformatted(pair.fields[i]->feature.c_str());ImGui::SetItemTooltip("%s",pair.fields[i]->feature.c_str());offsets[i]=ImGui::GetCursorScreenPos();
+                ui::DataText(pair.fields[i]->feature.c_str());ImGui::SetItemTooltip("%s",pair.fields[i]->feature.c_str());offsets[i]=ImGui::GetCursorScreenPos();
                 ImGui::InvisibleButton("canvas",size,ImGuiButtonFlags_MouseButtonLeft);hovered[i]=ImGui::IsItemHovered();draws[i]=ImGui::GetWindowDrawList();
                 if(hovered[i] && ImGui::GetIO().MouseWheel)comparison_view_.zoom_at({ImGui::GetIO().MousePos.x-offsets[i].x,ImGui::GetIO().MousePos.y-offsets[i].y},std::pow(1.2,ImGui::GetIO().MouseWheel));
                 if(ImGui::IsItemActive() && ImGui::IsMouseDragging(0)) {comparison_view_.origin.x+=ImGui::GetIO().MouseDelta.x;comparison_view_.origin.y+=ImGui::GetIO().MouseDelta.y;}
@@ -152,76 +177,94 @@ private:
                 points(draw,*pair.fields[i],comparison_view_,offsets[i],size,hovered[i]);draw->PopClipRect();
             }
             if(!comparison_tiles_->error().empty())ui::TextWrapped("%s",comparison_tiles_->error().c_str());
-        }ImGui::End();if(!show) {auto options=session_.options();options.compare=false;session_.configure(std::move(options));}
+        }ImGui::End();if(!show) {auto options=plane_state_->session.options();options.compare=false;plane_state_->session.configure(std::move(options));}
     }
 public:
-    void open(){open_=true;}
+    GuiGeneDisplay(){planes_.push_back(std::make_unique<PlaneState>());plane_state_=planes_.back().get();}
+    void open(){open_=true;refresh_=true;}
     void load_preference(const std::string& preference) {
         if(preference.empty())return;
-        try {const auto restored=parse_gene_workspace_preference(preference);session_.configure(restored.view);source_=restored.source_id;open_=session_.options().enabled;}catch(const std::exception& e){error_=e.what();}
+        try {const auto restored=parse_gene_workspace_preference(preference);plane_state_->session.configure(restored.view);plane_state_->source=restored.source_id;open_=plane_state_->session.options().enabled;}catch(const std::exception& e){error_=e.what();}
     }
-    std::string preference() const {return gene_workspace_preference(session_.options(),source_);}
-    const GeneViewSession& session() const {return session_;}
-    const std::string& error()const{if(!error_.empty())return error_;if(!backed_.error().empty())return backed_.error();return session_.error();}
+    std::string preference() const {return gene_workspace_preference(plane_state_->session.options(),plane_state_->source);}
+    const GeneViewSession& session() const {return plane_state_->session;}
+    std::size_t retained_plane_states() const {return planes_.size();}
+    const std::string& error()const{if(!error_.empty())return error_;if(!plane_state_->backed.error().empty())return plane_state_->backed.error();return plane_state_->session.error();}
     Rect molecular_bounds(Action action)const{return molecular_bounds_.at(std::size_t(action));}
     bool molecular_enabled(Action action)const{return molecular_enabled_.at(std::size_t(action));}
-    std::shared_ptr<const ExpressionFeaturePage> backed_catalogue(unsigned index)const{return backed_.catalogue(index);}
-    Rect catalogue_next_bounds(unsigned index)const{return backed_.next_bounds(index);}
-    Rect catalogue_feature_bounds(unsigned index,std::uint64_t feature)const{return backed_.feature_bounds(index,feature);}
-    bool settled() const {return !session_.busy() && !backed_.busy() && (!comparison_tiles_ || !comparison_tiles_->pending());}
+    std::shared_ptr<const ExpressionFeaturePage> backed_catalogue(unsigned index)const{return plane_state_->backed.catalogue(index);}
+    Rect catalogue_next_bounds(unsigned index)const{return plane_state_->backed.next_bounds(index);}
+    Rect catalogue_feature_bounds(unsigned index,std::uint64_t feature)const{return plane_state_->backed.feature_bounds(index,feature);}
+    bool settled() const {return !plane_state_->session.busy() && !plane_state_->backed.busy() && (!comparison_tiles_ || !comparison_tiles_->pending());}
     void update(Document& document,bool has_image,const Project* project=nullptr,std::uint64_t image=0) {
-        session_.poll();if(!has_image) {if(document_)session_.clear();backed_.clear();backed_.poll(document,session_);registered_.reset();document_=nullptr;server_.reset();comparison_tiles_.reset();normalization_ids_.clear();return;}
-        if(!open_ && !session_.options().enabled){backed_.poll(document,session_);return;}
+        const auto change=detail::update(scope_,document,image);has_image_=has_image;
+        const bool new_image=change.image || change.source;
+        if(new_image && scoped_) {
+            const auto options=plane_state_->session.options();planes_.clear();planes_.push_back(std::make_unique<PlaneState>());plane_state_=planes_.back().get();plane_state_->session.configure(options);
+            sources_.clear();backed_sources_.clear();normalization_ids_.clear();comparison_size_={};page_={};error_.clear();
+        }
+        if(!scoped_ || new_image) {plane_state_->plane=scope_.plane;scoped_=true;}
+        else if(change.plane) {
+            const auto options=plane_state_->session.options();const auto next=std::find_if(planes_.begin(),planes_.end(),[&](const auto& state){return state->plane==scope_.plane;});
+            if(next==planes_.end()) {planes_.push_back(std::make_unique<PlaneState>());plane_state_=planes_.back().get();plane_state_->plane=scope_.plane;plane_state_->session.configure(options);}
+            else {auto recent=std::move(*next);planes_.erase(next);planes_.push_back(std::move(recent));plane_state_=planes_.back().get();}
+            // Keep the current plane and three recent sessions, not a whole stack.
+            if(planes_.size()>4) {auto& retired=*planes_.front();if(retired.session.busy())retired.session.cancel();if(retired.backed.busy())retired.backed.cancel();planes_.erase(planes_.begin());}
+        }
+        const bool new_view=server_!=document.server();
+        if(new_view || new_image || change.plane)comparison_tiles_.reset();
+        server_=document.server();
+        for(auto& state:planes_) {state->session.poll();state->backed.poll(document,state->session);}
+        if(!has_image)return;
+        if(!open_ && !plane_state_->session.options().enabled){refresh_|=new_image || change.document || change.plane;return;}
         static const std::string empty_path;
         const auto& project_path=project?project->path():empty_path;
-        if(document_==&document && server_==document.server() && revision_==document.revision() && plane_==document.active_plane() && project_path_==project_path && project_image_==image){backed_.poll(document,session_);return;}
-        const bool new_image=document_!=&document || server_!=document.server();
-        if(new_image) {comparison_tiles_.reset();comparison_size_={};page_={};}
-        document_=&document;server_=document.server();revision_=document.revision();plane_=document.active_plane();project_path_=project_path;project_image_=image;
-        registered_.reset();try {
-            sources_=ExpressionDataset::sources(document,plane_);
+        if(!new_image && !new_view && !change.document && !change.plane && !refresh_ && project_path_==project_path && project_image_==image)return;
+        refresh_=false;project_path_=project_path;project_image_=image;
+        plane_state_->registered.reset();try {
+            sources_=ExpressionDataset::sources(document,scope_.plane);
             backed_sources_.clear();
-            for(auto scope:expression_matrix_spatial_scopes(document,plane_)){const auto id=scope.sha256();sources_.push_back(id);backed_sources_.emplace(id,std::move(scope));}
-            if(std::find(sources_.begin(),sources_.end(),source_)==sources_.end())source_.clear();
-            if(source_.empty() && sources_.size()==1)source_=sources_[0];
-            if(source_.empty()) {session_.clear();backed_.clear();error_=sources_.empty()?"No imported spatial expression points on this plane.":"Choose an expression source.";backed_.poll(document,session_);return;}
-            if(const auto scope=backed_sources_.find(source_);scope!=backed_sources_.end()) {
+            for(auto scope:expression_matrix_spatial_scopes(document,scope_.plane)){const auto id=scope.sha256();sources_.push_back(id);backed_sources_.emplace(id,std::move(scope));}
+            if(std::find(sources_.begin(),sources_.end(),plane_state_->source)==sources_.end())plane_state_->source.clear();
+            if(plane_state_->source.empty() && sources_.size()==1)plane_state_->source=sources_[0];
+            if(plane_state_->source.empty()) {plane_state_->session.clear();plane_state_->backed.clear();plane_state_->current=false;error_=sources_.empty()?"No imported spatial expression points on this plane.":"Choose an expression source.";return;}
+            if(const auto scope=backed_sources_.find(plane_state_->source);scope!=backed_sources_.end()) {
                 if(!project || !image)throw std::invalid_argument("Open the containing project to read indexed expression");
                 normalization_ids_=expression_normalization_ids(*project,image,scope->second.matrix_source_sha256);
-                backed_.bind(*project,image,scope->second,document,session_);backed_.poll(document,session_);error_.clear();return;
+                plane_state_->backed.bind(*project,image,scope->second,document,plane_state_->session);plane_state_->backed.poll(document,plane_state_->session);plane_state_->current=true;error_.clear();return;
             }
-            backed_.clear();normalization_ids_.clear();
-            ExpressionCaptureOptions options;options.coordinate_frame="image-level-zero-px";options.plane=plane_;options.source_id=source_;
-            auto dataset=ExpressionDataset::capture(document,options);registered_=active_registration_field(document,dataset);
-            session_.bind(std::move(dataset));session_.poll();error_.clear();
-        }catch(const std::exception& e){session_.clear();backed_.clear();error_=e.what();}
-        backed_.poll(document,session_);
+            plane_state_->backed.clear();normalization_ids_.clear();
+            ExpressionCaptureOptions options;options.coordinate_frame="image-level-zero-px";options.plane=scope_.plane;options.source_id=plane_state_->source;
+            auto dataset=ExpressionDataset::capture(document,options);plane_state_->registered=active_registration_field(document,dataset);
+            plane_state_->session.bind(std::move(dataset));plane_state_->session.poll();plane_state_->current=true;error_.clear();
+        }catch(const std::exception& e){plane_state_->session.clear();plane_state_->backed.clear();plane_state_->current=false;error_=e.what();}
+        plane_state_->backed.poll(document,plane_state_->session);
     }
     void draw_overlay(ImDrawList* draw,const Viewport& view,ImVec2 offset,ImVec2 size) const {
-        const auto pair=session_.result();if(!session_.options().enabled || !pair)return;
+        const auto pair=plane_state_->session.result();if(!plane_state_->session.options().enabled || !pair)return;
         points(draw,*pair->fields[0],view,offset,size,ImGui::IsWindowHovered());
     }
     void draw(const DisplaySettings& display,Project* project=nullptr,std::uint64_t image=0,bool blocked=false) {
+    ui::i18n::SurfaceTrace translation_surface("tool/Genes");
         molecular_bounds_={};molecular_enabled_={};
         if(open_) {
-            ui::SetNextToolWindow("Gene expression",{440,730});if(ImGui::Begin("Gene expression",&open_)) {
+            ui::SetNextToolWindow(ui::tool_window_label(ui::ToolId::Genes),{440,730});if(ImGui::Begin(ui::tool_window_label(ui::ToolId::Genes),&open_)) {
                 ui::TextWrapped("Spot centers; glyph size is display only. Source counts are unchanged.");
-                if(registered_)ui::TextWrapped("Accepted registration places expression glyphs. Source object geometry is unchanged.");
+                if(plane_state_->registered)ui::TextWrapped("Accepted registration places expression glyphs. Source object geometry is unchanged.");
                 const auto source_label=[&](const std::string& id){const auto at=backed_sources_.find(id);return at==backed_sources_.end()?id:"Indexed map "+std::to_string(std::distance(backed_sources_.begin(),at)+1)+" ("+std::to_string(at->second.observations)+" spots)";};
-                if(sources_.size()>1 && ui::BeginCombo("Expression source",source_.empty()?"Choose source":source_label(source_).c_str())) {
-                    for(const auto& source:sources_)if(ImGui::Selectable(source_label(source).c_str(),source_==source)) {source_=source;revision_=std::numeric_limits<std::uint64_t>::max();session_.clear();backed_.clear();}
-                    ImGui::EndCombo();
+                if(sources_.size()>1) if(ui::ComboScope combo{"Expression source",plane_state_->source.empty()?"Choose source":source_label(plane_state_->source).c_str()};combo) {
+                    for(const auto& source:sources_)if(ui::Selectable(ui::data_label(source_label(source),std::to_string(&source-sources_.data())).c_str(),plane_state_->source==source)) {plane_state_->source=source;refresh_=true;plane_state_->session.clear();plane_state_->backed.clear();plane_state_->current=false;}
                 }
                 if(ImGui::BeginTabBar("Expression views")){
                 auto tab=[&](const char* label,Action action){const bool shown=ImGui::BeginTabItem(label);const auto a=ImGui::GetItemRectMin(),b=ImGui::GetItemRectMax();molecular_bounds_[std::size_t(action)]={a.x,a.y,b.x-a.x,b.y-a.y};molecular_enabled_[std::size_t(action)]=ImGui::IsItemVisible();return shown;};
                 if(tab("Genes",Action::GenesTab)){
-                auto options=session_.options();bool changed=ui::Checkbox("Show expression overlay",&options.enabled);
-                if(session_.dataset() || backed_.ready()) {
-                    ImGui::BeginDisabled(session_.busy());choose(0,options,changed);changed=ui::Checkbox("Compare two genes",&options.compare)||changed;
+                auto options=plane_state_->session.options();bool changed=ui::Checkbox("Show expression overlay",&options.enabled);
+                if(plane_state_->session.dataset() || plane_state_->backed.ready()) {
+                    ImGui::BeginDisabled(plane_state_->session.busy());choose(0,options,changed);changed=ui::Checkbox("Compare two genes",&options.compare)||changed;
                     if(options.compare) {choose(1,options,changed);changed=ui::Checkbox("Shared range",&options.shared_range)||changed;}
                     ImGui::EndDisabled();
                     int transform=int(options.display.transform),range=int(options.display.range),palette=int(options.display.palette);
-                    const bool logged=session_.uses_normalized_values() && session_.normalization_options().log1p;ImGui::BeginDisabled(logged);
+                    const bool logged=plane_state_->session.uses_normalized_values() && plane_state_->session.normalization_options().log1p;ImGui::BeginDisabled(logged);
                     if(ui::Combo("Display transform",&transform,"Linear\0Log1p\0")) {options.display.transform=static_cast<GeneDisplayTransform>(transform);changed=true;}ImGui::EndDisabled();if(logged)ui::TextDisabled("Values already use log1p; display stays linear.");
                     if(ui::Combo("Display range",&range,"Min / max\0Percentile\0Manual\0")) {options.display.range=static_cast<GeneDisplayRange>(range);changed=true;}
                     if(range==int(GeneDisplayRange::Percentile)) {changed=ui::InputDouble("Lower percentile",&options.display.lower_percentile)||changed;changed=ui::InputDouble("Upper percentile",&options.display.upper_percentile)||changed;}
@@ -229,18 +272,18 @@ public:
                     if(ui::Combo("Palette",&palette,"Blue to yellow\0Gray\0")) {options.display.palette=static_cast<GeneDisplayPalette>(palette);changed=true;}
                     changed=ui::InputDouble("Opacity",&options.display.opacity)||changed;changed=ui::InputDouble("Glyph radius (screen px)",&options.radius)||changed;
                 }
-                if(changed)try {session_.configure(std::move(options));if(session_.dataset())error_.clear();}catch(const std::exception& e){error_=e.what();}
+                if(changed)try {plane_state_->session.configure(std::move(options));if(plane_state_->session.dataset())error_.clear();}catch(const std::exception& e){error_=e.what();}
                 ImGui::EndTabItem();}
                 if(tab("QC / normalization",Action::MolecularTab)){molecular(project,image,blocked);ImGui::EndTabItem();}
                 ImGui::EndTabBar();}
-                if(ui::Button("Refresh expression")) {revision_=std::numeric_limits<std::uint64_t>::max();backed_.refresh();session_.refresh();}
-                if(session_.busy() || backed_.busy()) {ImGui::SameLine();if(ui::Button("Cancel display")){session_.cancel();backed_.cancel();}ui::TextDisabled("Updating expression...");}
-                if(!error_.empty())ui::TextWrapped("%s",error_.c_str());if(!session_.error().empty())ui::TextWrapped("%s",session_.error().c_str());
-                if(!backed_.error().empty())ui::TextWrapped("%s",backed_.error().c_str());
-                if(const auto pair=session_.result())for(unsigned i=0;i<(session_.options().compare?2u:1u);++i) {ImGui::PushID(int(i));legend(*pair->fields[i]);ImGui::PopID();}
+                if(ui::AvailableButton("Refresh expression",availability(std::nullopt,project,image,blocked))) {refresh_=true;plane_state_->backed.refresh();plane_state_->session.refresh();}
+                if(plane_state_->session.busy() || plane_state_->backed.busy()) {ImGui::SameLine();if(ui::Button("Cancel display")){plane_state_->session.cancel();plane_state_->backed.cancel();}ui::TextDisabled("Updating expression...");}
+                if(!error_.empty())ui::TextWrapped("%s",error_.c_str());if(!plane_state_->session.error().empty())ui::TextWrapped("%s",plane_state_->session.error().c_str());
+                if(!plane_state_->backed.error().empty())ui::TextWrapped("%s",plane_state_->backed.error().c_str());
+                if(const auto pair=plane_state_->session.result())for(unsigned i=0;i<(plane_state_->session.options().compare?2u:1u);++i) {ImGui::PushID(int(i));legend(*pair->fields[i]);ImGui::PopID();}
             }ImGui::End();
         }
-        if(session_.options().enabled && session_.options().compare)if(const auto pair=session_.result())comparisons(*pair,display);
+        if(plane_state_->session.options().enabled && plane_state_->session.options().compare)if(const auto pair=plane_state_->session.result())comparisons(*pair,display);
     }
 };
 }

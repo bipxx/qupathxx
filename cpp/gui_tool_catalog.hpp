@@ -1,10 +1,13 @@
 #pragma once
 #include "gui_layout.hpp"
+#include "gui_commands.hpp"
+#include "qupathxx/geometry.hpp"
 #include "ascii_case.hpp"
 #include <array>
 #include <functional>
 #include <initializer_list>
 #include <stdexcept>
+#include <map>
 
 namespace qpx::ui {
 // Presentation routes only. Native controllers retain their jobs, parameters,
@@ -15,21 +18,24 @@ enum class ToolGroup {Classifiers,Spatial,Project};
 enum class ToolRequirement {None,Image,Project,Quantitative};
 struct ToolDefinition {ToolId id;const char* label;ToolGroup group;const char* shortcut;ToolRequirement needs;const char* keywords;};
 inline constexpr std::array tool_groups={"Classifiers","Spatial and fluorescence","Project tools"};
-inline constexpr std::array tool_definitions={
-    ToolDefinition{ToolId::ObjectClassifier,"Object classifiers...",ToolGroup::Classifiers,"F4",ToolRequirement::None,"train predict model objects"},
-    ToolDefinition{ToolId::PixelClassifier,"Pixel classifiers...",ToolGroup::Classifiers,"F5",ToolRequirement::None,"train predict model pixels stream contours"},
-    ToolDefinition{ToolId::RawPixelClassifier,"Raw pixel classifier",ToolGroup::Classifiers,"",ToolRequirement::None,"quantitative train model stream"},
-    ToolDefinition{ToolId::Fluorescence,"Fluorescence cells...",ToolGroup::Spatial,"",ToolRequirement::Image,"multiplex markers correction unmixing"},
-    ToolDefinition{ToolId::Spatial,"Spatial...",ToolGroup::Spatial,"",ToolRequirement::None,"distances neighborhoods density"},
-    ToolDefinition{ToolId::Genes,"Gene expression...",ToolGroup::Spatial,"",ToolRequirement::Image,"expression compare normalization genes"},
-    ToolDefinition{ToolId::Registration,"Landmark registration...",ToolGroup::Spatial,"",ToolRequirement::Image,"align transform landmarks"},
-    ToolDefinition{ToolId::SpatialImport,"Import spatial expression...",ToolGroup::Spatial,"",ToolRequirement::None,"csv h5ad anndata indexed"},
-    ToolDefinition{ToolId::Batch,"Batch analysis...",ToolGroup::Project,"Ctrl+Alt+B",ToolRequirement::None,"project checkpoint resume"},
-    ToolDefinition{ToolId::Tma,"Tissue microarray...",ToolGroup::Project,"",ToolRequirement::Image,"tma qptma core grid"},
-    ToolDefinition{ToolId::Density,"Project density...",ToolGroup::Project,"",ToolRequirement::Project,"cohort windows cells resume"},
-    ToolDefinition{ToolId::Channels,"Raw channels (F2)",ToolGroup::Project,"",ToolRequirement::Quantitative,"quantitative tiff zarr planes"}
+inline const std::array tool_definitions={
+    ToolDefinition{ToolId::ObjectClassifier,command(CommandId::Tool_ObjectClassifier).caption,ToolGroup::Classifiers,command_chord(CommandId::Tool_ObjectClassifier),ToolRequirement::None,"train predict model objects"},
+    ToolDefinition{ToolId::PixelClassifier,command(CommandId::Tool_PixelClassifier).caption,ToolGroup::Classifiers,command_chord(CommandId::Tool_PixelClassifier),ToolRequirement::None,"train predict model pixels stream contours"},
+    ToolDefinition{ToolId::RawPixelClassifier,command(CommandId::Tool_RawPixelClassifier).caption,ToolGroup::Classifiers,command_chord(CommandId::Tool_RawPixelClassifier),ToolRequirement::None,"quantitative train model stream"},
+    ToolDefinition{ToolId::Fluorescence,command(CommandId::Tool_Fluorescence).caption,ToolGroup::Spatial,command_chord(CommandId::Tool_Fluorescence),ToolRequirement::Image,"multiplex markers correction unmixing"},
+    ToolDefinition{ToolId::Spatial,command(CommandId::Tool_Spatial).caption,ToolGroup::Spatial,command_chord(CommandId::Tool_Spatial),ToolRequirement::None,"distances neighborhoods density"},
+    ToolDefinition{ToolId::Genes,command(CommandId::Tool_Genes).caption,ToolGroup::Spatial,command_chord(CommandId::Tool_Genes),ToolRequirement::Image,"expression compare normalization genes"},
+    ToolDefinition{ToolId::Registration,command(CommandId::Tool_Registration).caption,ToolGroup::Spatial,command_chord(CommandId::Tool_Registration),ToolRequirement::Image,"align transform landmarks"},
+    ToolDefinition{ToolId::SpatialImport,command(CommandId::Tool_SpatialImport).caption,ToolGroup::Spatial,command_chord(CommandId::Tool_SpatialImport),ToolRequirement::None,"csv h5ad anndata indexed"},
+    ToolDefinition{ToolId::Batch,command(CommandId::Tool_Batch).caption,ToolGroup::Project,command_chord(CommandId::Tool_Batch),ToolRequirement::None,"project checkpoint resume"},
+    ToolDefinition{ToolId::Tma,command(CommandId::Tool_Tma).caption,ToolGroup::Project,command_chord(CommandId::Tool_Tma),ToolRequirement::Image,"tma qptma core grid"},
+    ToolDefinition{ToolId::Density,command(CommandId::Tool_Density).caption,ToolGroup::Project,command_chord(CommandId::Tool_Density),ToolRequirement::Project,"cohort windows cells resume"},
+    ToolDefinition{ToolId::Channels,command(CommandId::Tool_Channels).caption,ToolGroup::Project,command_chord(CommandId::Tool_Channels),ToolRequirement::Quantitative,"quantitative tiff zarr planes"}
 };
 static_assert(tool_definitions.size()==static_cast<std::size_t>(ToolId::Count));
+inline constexpr std::array tool_commands={CommandId::Tool_ObjectClassifier,CommandId::Tool_PixelClassifier,CommandId::Tool_RawPixelClassifier,CommandId::Tool_Fluorescence,CommandId::Tool_Spatial,CommandId::Tool_Genes,CommandId::Tool_Registration,CommandId::Tool_SpatialImport,CommandId::Tool_Batch,CommandId::Tool_Tma,CommandId::Tool_Density,CommandId::Tool_Channels};
+static_assert(tool_commands.size()==static_cast<std::size_t>(ToolId::Count));
+inline constexpr CommandId command_id(ToolId id) {return tool_commands.at(static_cast<std::size_t>(id));}
 struct ToolContext {bool image=false,project=false,quantitative=false;};
 inline const ToolDefinition& tool_definition(ToolId id) {
     const auto index=static_cast<std::size_t>(id);
@@ -53,12 +59,40 @@ inline bool tool_matches(const ToolDefinition& tool,std::string query) {
 struct ToolBinding {ToolId id;std::function<void()> open;};
 enum class ToolChild {MarkerRules,DarkFlat,Unmixing,SavedStreams,Count};
 struct ToolChildDefinition {ToolChild id;ToolId parent;const char* label;};
-inline constexpr std::array tool_children={
-    ToolChildDefinition{ToolChild::MarkerRules,ToolId::Fluorescence,"Marker rules..."},
-    ToolChildDefinition{ToolChild::DarkFlat,ToolId::Fluorescence,"Dark/flat correction..."},
-    ToolChildDefinition{ToolChild::Unmixing,ToolId::Fluorescence,"Linear unmixing..."},
-    ToolChildDefinition{ToolChild::SavedStreams,ToolId::PixelClassifier,"Saved stream files"}
+inline const std::array tool_children={
+    ToolChildDefinition{ToolChild::MarkerRules,ToolId::Fluorescence,command(CommandId::Child_MarkerRules).caption},
+    ToolChildDefinition{ToolChild::DarkFlat,ToolId::Fluorescence,command(CommandId::Child_DarkFlat).caption},
+    ToolChildDefinition{ToolChild::Unmixing,ToolId::Fluorescence,command(CommandId::Child_Unmixing).caption},
+    ToolChildDefinition{ToolChild::SavedStreams,ToolId::PixelClassifier,command(CommandId::Child_SavedStreams).caption}
 };
+inline constexpr const char* tool_legacy_titles[]={"Object classifiers","Pixel classifiers","Raw pixel classifier","Fluorescence cells","Spatial analysis","Gene expression","Landmark registration","Import spatial expression","Project batch","Tissue microarray","Project-wide density","Quantitative channels","Marker rules","Dark/flat correction","Linear unmixing","Saved pixel stream files"};
+inline const char* tool_window_label(std::size_t index) {
+    static std::array<std::string,16> labels;
+    static int language=-1;
+    if(language!=i18n::state.effective) {
+        // Cache population visits titles that this surface does not draw.
+        struct Pause {
+            i18n::MissTrace* previous=i18n::miss_trace;
+            Pause(){i18n::miss_trace=nullptr;}
+            ~Pause(){i18n::miss_trace=previous;}
+        } pause;
+        for(std::size_t i=0;i<labels.size();++i) {
+            const auto* caption=i<tool_definitions.size()?tool_definitions[i].label:tool_children[i-tool_definitions.size()].label;
+            std::string title=i18n::text(caption);
+            if(title.size()>=3 && title.compare(title.size()-3,3,"...")==0)title.resize(title.size()-3);
+            labels[i]=title+"###"+tool_legacy_titles[i];
+        }
+        language=i18n::state.effective;
+    }
+    // Observe the requested caption even when another draw filled its cache.
+    if(i18n::miss_trace) {
+        const auto* caption=index<tool_definitions.size()?tool_definitions.at(index).label:tool_children.at(index-tool_definitions.size()).label;
+        i18n::text(caption);
+    }
+    return labels.at(index).c_str();
+}
+inline const char* tool_window_label(ToolId id) {return tool_window_label(static_cast<std::size_t>(id));}
+inline const char* tool_window_label(ToolChild id) {return tool_window_label(tool_definitions.size()+static_cast<std::size_t>(id));}
 inline bool tool_child_matches(const ToolChildDefinition& child,std::string query) {
     std::string names=std::string(child.label)+" "+i18n::text(child.label);
     detail::ascii_lower_in_place(query);detail::ascii_lower_in_place(names);
@@ -110,7 +144,9 @@ inline void ToolMenus(const ToolLauncher& launcher,const ToolContext& context) {
         ImGui::EndMenu();
     }
 }
-inline std::size_t ToolCatalog(const ToolLauncher& launcher,const ToolContext& context,char* search,std::size_t capacity) {
+struct ToolCatalogTrace {std::map<CommandId,Rect> rows;};
+inline std::size_t ToolCatalog(const ToolLauncher& launcher,const ToolContext& context,char* search,std::size_t capacity,ToolCatalogTrace* trace=nullptr) {
+    if(trace)trace->rows.clear();
     SetNextItemWidth(-1);InputTextWithHint("##Tool search","Search tools",search,capacity);
     std::size_t matching=0;
     for(std::size_t group=0;group<tool_groups.size();++group) {
@@ -120,6 +156,7 @@ inline std::size_t ToolCatalog(const ToolLauncher& launcher,const ToolContext& c
             ++matching;ImGui::PushID(static_cast<int>(tool.id));
             ImGui::BeginDisabled(tool_requirement(tool,context)!=nullptr);
             if(CatalogEntry(i18n::text(tool.label),false,*tool.shortcut?tool.shortcut:nullptr))launcher.open(tool.id,context);
+            if(trace) {const auto lo=ImGui::GetItemRectMin(),size=ImGui::GetItemRectSize();trace->rows[command_id(tool.id)]={lo.x,lo.y,size.x,size.y};}
             tool_hint(tool,context);ImGui::EndDisabled();ImGui::PopID();
         }
         for(const auto& child:tool_children) {
@@ -129,6 +166,7 @@ inline std::size_t ToolCatalog(const ToolLauncher& launcher,const ToolContext& c
             ++matching;ImGui::PushID(100+static_cast<int>(child.id));
             ImGui::BeginDisabled(tool_requirement(parent,context)!=nullptr);
             if(CatalogEntry(i18n::text(child.label),false))launcher.open(child.id,context);
+            if(trace) {const auto lo=ImGui::GetItemRectMin(),size=ImGui::GetItemRectSize();trace->rows[static_cast<CommandId>(static_cast<int>(CommandId::Child_MarkerRules)+static_cast<int>(child.id))]={lo.x,lo.y,size.x,size.y};}
             tool_hint(parent,context);ImGui::EndDisabled();
             TextDisabled("%s",i18n::text(parent.label));ImGui::PopID();
         }

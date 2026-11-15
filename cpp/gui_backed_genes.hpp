@@ -83,13 +83,15 @@ public:
             page_[index]=0;pages_[index].reset();pending_page_[index]=true;
             if(job_.busy() && !opening_){pending_page_[slot_]=true;job_.cancel();}
         }
+        ui::LayoutRegion gene_region("Gene catalogue");ui::PaneTitle("Gene catalogue");
         if(const auto page=pages_[index]) {
+            if(page->features.empty())ui::TextDisabled("No matching genes. Change the search.");
             if(ImGui::BeginListBox("##gene-list",{ui::available(),std::min(ui::CollectionHeight(page->features.size()),ImGui::GetTextLineHeightWithSpacing()*6)})) {
                 for(const auto& feature:page->features) {
                     ImGui::PushID(int(feature.index));
                     const auto label=feature.name==feature.id?feature.id:feature.name+" | "+feature.id;
                     const auto position=ImGui::GetCursorScreenPos();
-                    if(ImGui::Selectable("##gene",options.genes[index]==feature.id)){options.genes[index]=feature.id;changed=true;}
+                    if(ui::Selectable("##gene",options.genes[index]==feature.id)){options.genes[index]=feature.id;changed=true;}
                     const auto lo=ImGui::GetItemRectMin(),hi=ImGui::GetItemRectMax();feature_bounds_[index].push_back({feature.index,{lo.x,lo.y,hi.x-lo.x,hi.y-lo.y}});
                     ImGui::SetItemTooltip("%s",feature.id.c_str());ImGui::PopID();
                     ImGui::GetWindowDrawList()->AddText(position,ImGui::GetColorU32(ImGuiCol_Text),label.c_str());

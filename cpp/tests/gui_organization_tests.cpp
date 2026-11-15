@@ -3,6 +3,7 @@
 #include "../gui_project_browser.hpp"
 #include "../gui_project_inspector.hpp"
 #include "../gui_workspace.hpp"
+#include "../gui_workflow_ui.hpp"
 #include "gui_dialog_checks.hpp"
 #include "qupathxx/core.hpp"
 #include "qupathxx/project.hpp"
@@ -54,8 +55,6 @@ static void geometry() {
     browser.group_key="Guessed case";browser.rebuild(catalog,"");check(browser.group_key.empty() && browser.rows.size()==1 && catalog[1].metadata.at("Stain")=="CD3","unknown grouping cannot invent case metadata");
     auto repaired=catalog;repaired[1].available=true;browser.rebuild(repaired,"");
     check(browser.missing==0 && !browser.missing_only && browser.matched==3 && browser.selected==2,"repairing the last missing file restores all images without changing selection");
-    check(ui::f5_action(false,false,false)==ui::F5Action::PixelClassifier && ui::f5_action(true,true,false)==ui::F5Action::Recoveries,"distinct F5 intents");
-    check(ui::f5_action(true,false,false)==ui::F5Action::Ignore && ui::f5_action(false,true,false)==ui::F5Action::Ignore && ui::f5_action(true,true,true)==ui::F5Action::Ignore,"unassigned F5 modifiers");
     ImGui::CreateContext();auto& io=ImGui::GetIO();io.IniFilename=nullptr;io.DisplaySize={900,600};io.DeltaTime=1.f/60;
     io.Fonts->AddFontDefault();unsigned char* pixels;int width,height;io.Fonts->GetTexDataAsRGBA32(&pixels,&width,&height);
     ImGui::GetStyle().FontSizeBase=ui::design::metrics.font_size;
@@ -165,6 +164,20 @@ static void docking_controls() {
     check(tool->DockNode && !tool->DockNode->IsNoTabBar() && tool->DockNode->HasCloseButton,"redocked tool lost close controls");
     ImGui::DestroyContext();std::cout<<"Legacy dock migration, title close/reopen and undock/redock passed\n";
 }
+static void region_shortcut(const std::filesystem::path& directory,const std::shared_ptr<Project>& project,const std::shared_ptr<Document>& doc) {
+    auto o=options(directory,"region-shortcut","project");o.analysis_white={201,212,223};
+    o.inputs={key(3,GuiInputKind::SelectAllKey),key(5,GuiInputKind::AnalyzeKey)};
+    ui::CommandTrace commands;auto* prior_commands=ui::command_trace;ui::WorkflowTrace workflow;auto* prior_workflow=ui::workflow_trace;
+    struct Restore {ui::CommandTrace* commands;ui::WorkflowTrace* workflow;~Restore(){ui::command_trace=commands;ui::workflow_trace=workflow;}} restore{prior_commands,prior_workflow};
+    ui::command_trace=&commands;ui::workflow_trace=&workflow;commands.observe_task_jobs=true;bool keep=false;const auto start=std::chrono::steady_clock::now();
+    workflow.before_frame=[&](int){check(std::chrono::steady_clock::now()-start<std::chrono::seconds(15),"Region run/keep native analysis timed out");};
+    commands.replay_input=[&](const auto& emit){if(!keep && commands.task_jobs[0].state=="ready" && !commands.task_jobs[0].busy){emit(key(0,GuiInputKind::KeepAnalysisKey));keep=true;}};
+    commands.after_frame=[&](const auto&,const auto&){if(keep && doc->analysis_record_count()==1)commands.end_session=true;};
+    auto r=run_project_gui(project,100000,"",o);check(r.analysis_state=="ready" && r.analysis_records==1 && r.analysis_samples>0,"region run/keep shortcut through task navigation");
+    const auto saved=doc->latest_analysis(doc->annotations().front().id);
+    check(saved && saved->result.white==std::array<double,3>{201,212,223},"collapsed advanced controls preserve the configured scientific white reference");
+    check(read(std::filesystem::u8path(o.layout_path)).find("; qupathxx workflow=region\n")!=std::string::npos,"analysis shortcut reveals Region");
+}
 static void navigation(const std::filesystem::path& directory) {
     auto project=fixture(directory/"navigation.qpxproj");auto doc=project->document(1);doc->add_rectangle({400,300,80,60});project->save(project->path());
     const auto before=read(directory/"navigation.qpxproj");const auto generation=project->generation();
@@ -182,12 +195,7 @@ static void navigation(const std::filesystem::path& directory) {
         check(project->generation()==generation && doc->object_count()==1 && before==read(directory/"navigation.qpxproj"),"navigation changed project "+name);
         check(read(std::filesystem::u8path(o.layout_path)).find(std::string("; qupathxx workflow=")+c.second+"\n")!=std::string::npos,"task persistence "+name);
     }
-    auto o=options(directory,"region-shortcut","project");o.analysis_white={201,212,223};
-    o.inputs={key(3,GuiInputKind::SelectAllKey),key(5,GuiInputKind::AnalyzeKey),key(9,GuiInputKind::KeepAnalysisKey)};
-    auto r=run_project_gui(project,24,"",o);check(r.analysis_state=="ready" && r.analysis_records==1 && r.analysis_samples>0,"region run/keep shortcut through task navigation");
-    const auto saved=doc->latest_analysis(doc->annotations().front().id);
-    check(saved && saved->result.white==std::array<double,3>{201,212,223},"collapsed advanced controls preserve the configured scientific white reference");
-    check(read(std::filesystem::u8path(o.layout_path)).find("; qupathxx workflow=region\n")!=std::string::npos,"analysis shortcut reveals Region");
+    region_shortcut(directory,project,doc);
     std::cout<<"All pane/task captures, identity/camera and native region run/keep passed\n";
 }
 static void overview_failure(const std::filesystem::path& directory) {
@@ -403,13 +411,90 @@ static void close_dialogs(const std::filesystem::path& directory) {
 #include "gui_header_grouping_checks.hpp"
 #include "gui_simplification_checks.hpp"
 #include "gui_simplification_tools_checks.hpp"
-int main(int argc,char** argv) {
+#include "gui_workflow_safety_checks.hpp"
+#include "gui_path_field_checks.hpp"
+#include "gui_core_path_checks.hpp"
+#include "gui_output_gate_checks.hpp"
+#include "gui_output_gate_fix1_checks.hpp"
+#include "gui_tool_path_checks.hpp"
+#include "gui_tool_path_fix1_checks.hpp"
+#include "gui_result_state_checks.hpp"
+#include "gui_analysis_tasks_checks.hpp"
+#include "gui_record_list_checks.hpp"
+#include "gui_model_safety_checks.hpp"
+#include "gui_milestone3_review_checks.hpp"
+#include "gui_milestone3_review2_checks.hpp"
+#include "gui_command_checks.hpp"
+#include "gui_dispatch_checks.hpp"
+#include "gui_reasons_help_checks.hpp"
+#include "gui_milestone4_review_checks.hpp"
+#include "gui_analysis_inputs_checks.hpp"
+#include "gui_batch_recipe_checks.hpp"
+#include "gui_draft_checks.hpp"
+#include "gui_draft_fix1_checks.hpp"
+#include "gui_tool_scope_checks.hpp"
+#include "gui_tool_scope_fix1_checks.hpp"
+#include "gui_review_fix_pass_checks.hpp"
+#include "gui_notifications_checks.hpp"
+#include "gui_units_checks.hpp"
+#include "gui_contract_enforcement_checks.hpp"
+#include "gui_translation_checks.hpp"
+#include "gui_layout_checks.hpp"
+#include "gui_visual_design_checks.hpp"
+int main(int argc,char** argv) {std::cout<<std::unitbuf;std::cerr<<std::unitbuf;
     std::cout<<std::unitbuf;
     try {
+        if(argc>2 && std::string(argv[2])=="--l3-captures") {layout_checks::translation_round(std::filesystem::u8path(argv[1]));return 0;}
+        if(argc>2 && (std::string(argv[2])=="--glyph-check" || std::string(argv[2])=="--glyph-check-before")) {glyph_checks::run(std::filesystem::u8path(argv[1]),std::string(argv[2])=="--glyph-check-before");return 0;}
+        if(argc>2 && std::string(argv[2])=="--visual-design") {visual_design_checks::run();return 0;}
+        if(argc>2 && std::string(argv[2])=="--layout-scenes") {layout_checks::scenes(std::filesystem::u8path(argv[1]));return 0;}
+        if(argc>2 && std::string(argv[2])=="--layout-probe") {layout_scenes::run(std::filesystem::u8path(argv[1]),true);return 0;}
+        if(argc>2 && std::string(argv[2])=="--layout-lint") {layout_checks::lint_files(std::filesystem::u8path(argv[1]));return 0;}
+        if(argc>2 && std::string(argv[2])=="--layout-ids") {layout_checks::identities();return 0;}
+        if(argc>2 && std::string(argv[2])=="--translation-coverage") {translation_checks::supplemental(std::filesystem::u8path(argv[1]));return 0;}
+        if(argc>2 && std::string(argv[2])=="--contract-enforcement") {contract_enforcement_checks::combo_scope_contracts(std::filesystem::u8path(argv[1]));return 0;}
+        if(argc>2 && std::string(argv[2])=="--units-guidance") {units_checks::guidance(std::filesystem::u8path(argv[1]));return 0;}
+        if(argc>2 && std::string(argv[2])=="--units-vocabulary") {units_checks::run(std::filesystem::u8path(argv[1]));return 0;}
+        if(argc>2 && std::string(argv[2])=="--notifications") {notifications_checks::run(std::filesystem::u8path(argv[1]),argc>3?argv[3]:"all");return 0;}
+        if(argc>2 && std::string(argv[2])=="--review-fix1") {review_fix_pass_checks::run(std::filesystem::u8path(argv[1]));return 0;}
+        if(argc>2 && std::string(argv[2])=="--scope-fix1") {tool_scope_fix1_checks::run(std::filesystem::u8path(argv[1]),argc>3?argv[3]:"all");return 0;}
+        if(argc>2 && std::string(argv[2])=="--tool-scope") {tool_scope_checks::run(std::filesystem::u8path(argv[1]));return 0;}
+        if(argc>2 && std::string(argv[2])=="--draft-fix1") {draft_fix1_checks::run(std::filesystem::u8path(argv[1]),argc>3?argv[3]:"all");return 0;}
+        if(argc>2 && std::string(argv[2])=="--drafts") {draft_checks::run(std::filesystem::u8path(argv[1]));draft_fix1_checks::run(std::filesystem::u8path(argv[1]),"all");return 0;}
+        if(argc>2 && std::string(argv[2])=="--batch-recipe") {batch_recipe_checks::run(std::filesystem::u8path(argv[1]));return 0;}
+        if(argc>2 && std::string(argv[2])=="--analysis-inputs") {analysis_inputs_checks::run(std::filesystem::u8path(argv[1]),argc>3?argv[3]:"all");return 0;}
+        if(argc>2 && std::string(argv[2])=="--result-state") {result_state_checks::run();return 0;}
+        if(argc>2 && std::string(argv[2])=="--analysis-task-paths") {analysis_tasks_checks::source_paths();return 0;}
+        if(argc>3 && std::string(argv[2])=="--analysis-tasks") {analysis_tasks_checks::run(std::filesystem::u8path(argv[1]),argv[3]);return 0;}
         const auto dir=argc>1?std::filesystem::u8path(argv[1]):std::filesystem::temp_directory_path()/("qpx-ui-organization-"+std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()));std::filesystem::create_directories(dir);
-        geometry();inspector_controls();project_filter_controls();docking_controls();right_docking_controls(dir/"docking");tool_catalog_controls();simplification_checks::headless();
+        if(argc>2 && std::string(argv[2])=="--milestone4-review") {milestone4_review_checks::run(dir);return 0;}
+        if(argc>2 && std::string(argv[2])=="--region-shortcut") {auto project=fixture(dir/"navigation.qpxproj");auto doc=project->document(1);doc->add_rectangle({400,300,80,60});project->save(project->path());region_shortcut(dir,project,doc);return 0;}
+        if(argc>2 && std::string(argv[2])=="--reasons-help") {reasons_help_checks::run(dir,argc>3?argv[3]:"all");return 0;}
+        if(argc>2 && std::string(argv[2])=="--command-table") {command_checks::run(dir);return 0;}
+        if(argc>3 && std::string(argv[2])=="--dispatcher") {dispatch_checks::run(dir,argv[3]);return 0;}
+        if(argc>2 && std::string(argv[2])=="--milestone3-review2") {milestone3_review2_checks::run(dir);return 0;}
+        if(argc>2 && std::string(argv[2])=="--milestone3-review") {milestone3_review_checks::run(dir);return 0;}
+        if(argc>2 && std::string(argv[2])=="--model-safety") {model_safety_checks::run(dir);return 0;}
+        if(argc>2 && std::string(argv[2])=="--record-lists") {record_list_checks::run(dir);return 0;}
+        if(argc>2 && std::string(argv[2])=="--output-gate") {
+            if(argc>3 && std::string(argv[3])=="partial-prediction")output_gate_checks::partial_prediction(dir);
+            else if(argc>3 && std::string(argv[3])=="interactive")output_gate_checks::interactive(dir,argc>4?argv[4]:"all");
+            else if(argc>3 && std::string(argv[3])=="core-controls")output_gate_checks::core_controls(dir);
+            else if(argc>3 && std::string(argv[3])=="scripted")output_gate_checks::scripted(dir);
+            else if(argc>3 && std::string(argv[3])=="long-path")output_gate_fix1_checks::long_path(dir);
+            else if(argc>3 && std::string(argv[3])=="guards")output_gate_fix1_checks::guards(dir);
+            else if(argc>3 && std::string(argv[3])!="decisions")output_gate_checks::writer(dir,argv[3]);
+            else {output_gate_checks::decisions(dir);output_gate_fix1_checks::decisions(dir);}
+            return 0;
+        }
+        if(argc>2 && std::string(argv[2])=="--tool-paths") {if(argc>3 && std::string(argv[3])=="batch"){tool_path_checks::batch_operation(dir);return 0;}tool_path_checks::controls(dir);tool_path_fix1_checks::controls(dir);if(argc>3 && std::string(argv[3])=="views")tool_path_checks::windows(dir);return 0;}
+        path_field_checks::headless(dir,argc<=2 || (argc>2 && std::string(argv[2])=="--path-field"));path_field_checks::controls(dir);core_path_checks::controls(dir);
+        geometry();inspector_controls();project_filter_controls();docking_controls();right_docking_controls(dir/"docking");tool_catalog_controls();simplification_checks::headless();workflow_safety_checks::headless();
+        if(argc>2 && std::string(argv[2])=="--path-field") {dialog_checks::metadata_views(dir);return 0;}
         if(argc>2 && std::string(argv[2])=="--simplification-tools") {simplification_tools_checks::headless(dir);return 0;}
         if(!std::getenv("QUPATHXX_TEST_GUI")) {std::cout<<"Native organization replay skipped: opt-in QUPATHXX_TEST_GUI\n";return 0;}
+        if(argc>2 && std::string(argv[2])=="--core-paths") {core_path_checks::workflows(dir,argc>3?argv[3]:"all",argc>4?std::stoi(argv[4]):-1);return 0;}
+        if(argc>2 && std::string(argv[2])=="--workflow-safety") {workflow_safety_checks::workflows(dir);return 0;}
         if(argc>2 && std::string(argv[2])=="--simplification") {simplification_checks::workflows(dir);return 0;}
         if(argc>3 && std::string(argv[2])=="--simplification-complex") {simplification_checks::complex_review(dir,std::filesystem::u8path(argv[3]));return 0;}
         if(argc>2 && std::string(argv[2])=="--tool-catalog") {tool_catalog_workflows(dir);return 0;}

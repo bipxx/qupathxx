@@ -1,0 +1,42 @@
+ACTIONS
+0 | Detect cells (Ctrl+G) | Detect cells | enabled | secondary
+1 | Add cells (Ctrl+Shift+G) | Add cells | enabled | secondary
+2 | Keep cell run (Ctrl+Shift+C) | Keep result | disabled | secondary | reason: Run again for a new result.
+3 | Go to tables###Cell tables | View kept results | enabled | primary
+4 | Recheck cells (Ctrl+Alt+C) | Recheck result | enabled | secondary
+5 | Remove kept result###Remove cell result | Remove kept result | enabled | secondary
+6 | Export cell table (Ctrl+Alt+X) | Export CSV | enabled | secondary
+RESULTS
+LINES
+Cell feature { OD sum }
+Cell detector { Distance watershed }
+Cell threshold { 1 }
+Blur sigma (sampled px) { 1 }
+Cell expansion (sampled px) { 5 }
+Level 0 / 1 x 1 px per sample
+0.5 x 0.25 µm per sample
+Threshold uses the selected feature's units.
+### Advanced settings ###
+[ Detect cells ]
+Ready
+[x] Show cell preview
+Cell preview { Nuclei }
+Detected cells: 1
+Markers: 1
+### Details ###
+Cell level: 0 / 1x
+[ Add cells ]
+Keep adds this result to the project. Save project writes it to disk.
+[ Keep result ]
+[ View kept results ]
+--- Kept result
+Recorded with qupathxx 0.1.0
+Captured calibration: 0.5 / 0.25 µm/px
+Kept cell run: 3
+Kept cells: 1
+Cell record: Verified for this session
+Kept nucleus samples: at least 5
+[ Recheck result ]
+[ Remove kept result ]
+[ Add kept cells ]
+[ Export CSV ]

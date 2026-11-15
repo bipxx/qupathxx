@@ -1,0 +1,40 @@
+ACTIONS
+0 | Detect tissue (Ctrl+D) | Detect tissue | enabled | secondary
+1 | Trace contours (Ctrl+J) | Trace contours | enabled | secondary
+2 | Add annotations (Ctrl+Shift+J) | Add annotations | disabled | secondary | reason: Trace contours
+3 | Keep tissue mask (Ctrl+U) | Keep result | disabled | secondary | reason: Run again for a new result.
+4 | Go to tables###Tissue tables | View kept results | enabled | primary
+5 | Recheck saved mask (Ctrl+Shift+U) | Recheck result | enabled | secondary
+6 | Remove kept result###Remove saved mask | Remove kept result | enabled | secondary
+RESULTS
+LINES
+Feature { OD sum }
+Threshold >= { 0.3 }
+Sigma (sampled px) { 0 }
+Level 0 / 1 x 1 px per sample
+0.5 x 0.25 µm per sample
+Threshold uses the selected feature's units.
+### Advanced settings ###
+[ Detect tissue ]
+Ready
+[x] Show tissue mask
+Level 0 / 1x / 44 x 60
+Size filters count sampled pixels
+Components: 1
+Kept pixels: 2640
+Cleaned: 2640 / filled: 0
+Samples: 2640
+### Details ###
+[ Trace contours ]
+[ Add annotations ]
+This run is a recheck of kept result 3.
+Keep adds this result to the project. Save project writes it to disk.
+[ Keep result ]
+[ View kept results ]
+--- Kept result
+Recorded with qupathxx 0.1.0
+Captured calibration: 0.5 / 0.25 µm/px
+Kept mask: Verified for this session
+Kept components: 1
+[ Recheck result ]
+[ Remove kept result ]

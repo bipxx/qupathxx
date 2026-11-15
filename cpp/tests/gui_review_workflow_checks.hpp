@@ -1,4 +1,5 @@
 #pragma once
+#include "gui_control_replay_checks.hpp"
 static void review_ux_workflows(const std::filesystem::path& directory) {
     GuiOptions fresh;fresh.docked_workspace=true;GuiWorkspace new_workspace(fresh);check(new_workspace.annotations_only && new_workspace.objects_visible,"fresh workbench defaults");
     GuiOptions compact;GuiWorkspace compact_workspace(compact);check(!compact_workspace.annotations_only,"compact viewer retains all objects");
@@ -16,11 +17,13 @@ static void review_ux_workflows(const std::filesystem::path& directory) {
         if(mode=="hidden-pick")image_click(o.inputs,5,25,25);
         if(mode=="hidden-marquee") {GuiInput down;down.frame=5;down.kind=GuiInputKind::LeftDown;down.target=GuiInputTarget::Image;down.x=2;down.y=2;down.shift=true;auto up=down;up.frame=8;up.kind=GuiInputKind::LeftUp;up.x=120;up.y=80;o.inputs={down,up};}
         if(mode=="delete-restores")o.inputs={key(3,GuiInputKind::SelectAllKey),key(8,GuiInputKind::DeleteKey)};
-        if(mode=="eye-toggle") {GuiInput down;down.frame=5;down.kind=GuiInputKind::LeftDown;down.target=GuiInputTarget::Window;down.x=782./o.width;down.y=46./o.height;auto up=down;up.frame=6;up.kind=GuiInputKind::LeftUp;up.wait_for=GuiInputWait::Immediate;o.inputs={down,up};}
+        control_replay_checks::TraceScope control;bool eye_activated=false;int eye_stage=0;
+        if(mode=="eye-toggle")control.trace.before_frame=[&](int frame){if(frame>=5 && !eye_activated)eye_activated=control_replay_checks::eye(control.trace,eye_stage);};
         const auto output=directory/(mode+".geojson");
         if(mode=="filtered-selection") {image_click(o.inputs,4,80,20);o.interchange_path=output.u8string();o.inputs.push_back(key(10,GuiInputKind::ExportKey));}
         if(mode=="measurements")o.inputs={key(4,GuiInputKind::SelectAllKey)};
         const auto result=run_project_gui(project,24,(directory/(mode+".ppm")).u8string(),o);
+        if(mode=="eye-toggle")check(eye_activated,"Eye replay did not find its actual widget");
         check(result.replay_complete && result.ui_overflow_items==0,"review UX replay/overflow: "+mode+" / "+result.ui_overflow_label);
         check(doc->object_count()==3 && doc->revision()==revision && read(std::filesystem::u8path(project->path()))==bytes,"presentation changed document/project: "+mode);
         check(doc->server()->read_region({0,0,0,1,1}).bytes()==std::vector<std::uint8_t>({30,120,210,255}),"presentation changed raw image bytes");

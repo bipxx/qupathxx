@@ -1,5 +1,8 @@
+#include "gui_tool_catalog.hpp"
+#include "gui_record_list.hpp"
 #include "gui_marker_rules.hpp"
 #include "gui_layout.hpp"
+#include "gui_workflow_ui.hpp"
 #include "qupathxx/marker_rule_io.hpp"
 #include "qupathxx/raw_analysis.hpp"
 #include "qupathxx/linear_unmixing_workflow.hpp"
@@ -20,9 +23,12 @@ const char* truth_name(MarkerTruth truth){return truth==MarkerTruth::Positive?"P
 void counts(const char* title,const MarkerCounts& value){ui::Text("%s: %zu Positive / %zu Negative / %zu Unknown",title,value.positive,value.negative,value.unknown);}
 }
 struct GuiMarkerRules::Impl {
+    ui::StringRecordRows record_rows,scope_rows;
+
+    ui::PathField file{{"Rule JSON path",ui::PathRole::OpenFile,{".json"}}};
     bool open=false,selected_only=false,discard=false,applied=false,rules_dirty=true;
     MarkerRule rule;int gate=0;
-    std::string file,saved,error,state="idle";
+    std::string saved,error,state="idle";
     std::shared_ptr<const ImageDataProperties> rule_properties;std::vector<std::string> saved_rules;
     std::array<Rect,10> bounds{};std::vector<std::string> unmix_records;std::map<std::string,Rect> recipe_bounds;
     std::optional<MarkerRuleRequest> request;
@@ -66,15 +72,22 @@ struct GuiMarkerRules::Impl {
         rule.nodes.clear();for(std::size_t i=0;i<rule.gates.size();++i)rule.nodes.push_back({MarkerOperation::Gate,std::uint32_t(i),{}});
         if(rule.gates.size()>1){MarkerNode root;root.operation=op;for(std::size_t i=0;i<rule.gates.size();++i)root.inputs.push_back(std::uint32_t(i));rule.nodes.push_back(std::move(root));}
     }
-    void editor(){
+    void editor(Document& doc){
         bool changed=edit_text("Rule name",rule.name);
         changed=edit_text("Positive class",rule.positive_class)||changed;
         changed=edit_text("Negative class",rule.negative_class)||changed;
         changed=edit_text("Unknown class",rule.unknown_class)||changed;
         int domain=rule.domain=="original-channel-samples"?0:rule.domain=="qpx.dark-flat-corrected-samples/1"?1:2;
         if(ui::Combo("Measurement domain",&domain,"Original samples\0Dark/flat corrected samples\0Unmixed components/residuals\0")){rule.domain=domain==2?"qpx.linear-unmixed-samples/1":domain?"qpx.dark-flat-corrected-samples/1":"original-channel-samples";rule.unmix_record.clear();changed=true;}mark(Action::Domain);
-        if(domain==2){if(ui::BeginCombo("Unmixing recipe scope",rule.unmix_record.empty()?"Choose retained recipe":rule.unmix_record.c_str())){for(const auto& id:unmix_records){if(ImGui::Selectable(id.c_str(),id==rule.unmix_record)){rule.unmix_record=id;changed=true;}const auto a=ImGui::GetItemRectMin(),b=ImGui::GetItemRectMax();recipe_bounds[id]={a.x,a.y,b.x-a.x,b.y-a.y};}ui::EndCombo();}mark(Action::Scope);ui::TextWrapped("Gate indices refer to this recipe's component/residual outputs. Other recipes are excluded; missing observations are Unknown.");}
-        ui::TextWrapped("Domain: %s. Threshold units: %s.",rule.domain.c_str(),domain==2?"selected derived component/residual":"original channel samples");
+        if(domain==2){
+            ui::RecordListActions actions;actions.mark=[&]{mark(Action::Scope);};
+            actions.mark_row=[&](std::uint64_t id){const auto a=ImGui::GetItemRectMin(),b=ImGui::GetItemRectMax();recipe_bounds[unmix_records.at(std::size_t(id-1))]={a.x,a.y,b.x-a.x,b.y-a.y};};
+            const auto selected=scope_rows.draw("Unmixing recipe scope",unmix_records,rule.unmix_record,doc.image_data_properties().get(),doc.revision(),"Linear unmixing",actions);
+            if(selected!=rule.unmix_record){rule.unmix_record=selected;changed=true;}
+            if(rule.unmix_record.empty())ui::TextWrapped("Choose kept recipe");
+            ui::TextWrapped("Gate indices refer to this recipe's component/residual outputs. Other recipes are excluded; missing observations are Unknown.");}
+
+        ui::TextWrapped("Domain: %s. Threshold units: %s.",rule.domain.c_str(),ui::i18n::text(domain==2?"selected derived component/residual":domain==1?"dark/flat-corrected samples":"original channel samples"));
         if(ui::Button("Combine all gates with AND")){combine(MarkerOperation::And);changed=true;}
         if(ui::Button("Combine all gates with OR")){combine(MarkerOperation::Or);changed=true;}
         ui::TextWrapped("Loaded nested graphs are preserved. Add/remove explicitly rebuilds an all-gates AND rule.");
@@ -96,21 +109,34 @@ struct GuiMarkerRules::Impl {
         if(ui::CollapsingHeader("Rule graph")){for(std::size_t i=0;i<rule.nodes.size();++i){const auto& n=rule.nodes[i];if(n.operation==MarkerOperation::Gate)ui::Text("Node %zu: gate %u",i,n.gate);else{ui::Text("Node %zu: %s",i,n.operation==MarkerOperation::And?"AND":"OR");for(auto input:n.inputs){ImGui::SameLine();ui::Text("%u",input);}}}}
         if(changed)invalidate();
     }
-    void draw(Document& doc,std::uint64_t selected,bool blocked){
+    ui::Availability availability(Action action,bool blocked,bool has_image) const {
+        if(action==Action::Cancel)return {};
+        if(!has_image)return {false,"Open an image first."};
+        if(blocked)return ui::WorkflowBlocked();
+        if(busy())return {false,"Wait for the current work to finish."};
+        if(action==Action::Apply && !result)return {false,"Run a preview first."};
+        if(action==Action::Apply && applied)return {false,"Run again for a new result."};
+        if((action==Action::LoadSaved || action==Action::Remove) && saved.empty())return {false,"Select a kept result first."};
+        return {};
+    }
+    void draw(Document& doc,std::uint64_t selected,bool blocked,const ui::PathContext& context,bool has_image){
+    ui::i18n::SurfaceTrace translation_surface("tool/Marker rules");
         poll(doc);bounds={};recipe_bounds.clear();if(!open)return;
         if(rules_dirty || rule_properties!=doc.image_data_properties()){rules_dirty=false;rule_properties=doc.image_data_properties();try{saved_rules=marker_rule_ids(doc);unmix_records=linear_unmix_recipe_ids(doc);if(std::find(saved_rules.begin(),saved_rules.end(),saved)==saved_rules.end())saved=saved_rules.empty()?std::string{}:saved_rules.back();}catch(const std::exception& e){error=e.what();saved_rules.clear();saved.clear();}}
         if(selected_only && request && selected!=selected_id)invalidate("stale");
-        ui::SetNextToolWindow("Marker rules",{640,800});
-        if(ImGui::Begin("Marker rules",&open)){
-            ui::Text("Marker state: %s",state.c_str());
-            ImGui::BeginDisabled(busy() || blocked);
-            if(ui::Button("Preview markers"))attempt([&]{preview(doc,selected);});mark(Action::Preview);
-            ImGui::BeginDisabled(!result || applied);
-            if(ui::Button("Apply marker classes"))attempt([&]{apply_marker_rule(doc,*request,*result);applied=true;revision=doc.revision();state="applied";});mark(Action::Apply);ImGui::EndDisabled();
-            if(ui::Button("Keep marker rule"))attempt([&]{saved=keep_marker_rule(doc,rule);rules_dirty=true;});mark(Action::Keep);
-            if(ui::Checkbox("Selected fluorescence cell only",&selected_only))invalidate();
-            ImGui::EndDisabled();
-            ImGui::BeginDisabled(!busy());if(ui::Button("Cancel marker preview")){invalidate("cancelling");}mark(Action::Cancel);ImGui::EndDisabled();
+        ui::SetNextToolWindow(ui::tool_window_label(ui::ToolChild::MarkerRules),{640,800});
+        if(ImGui::Begin(ui::tool_window_label(ui::ToolChild::MarkerRules),&open)){
+            ui::Text("Marker state: %s",ui::caption(ui::parse_run_state(state),state).c_str());
+            const auto button=[&](const char* label,Action action) {
+                const auto available=availability(action,blocked,has_image);
+                const bool hit=ui::AvailableButton(label,available,action==Action::Preview?ui::design::Action::Primary:ui::design::Action::Secondary);mark(action);
+                if(action==Action::Preview)ui::WorkflowReason(label,available);return hit;
+            };
+            if(button("Preview markers",Action::Preview))attempt([&]{preview(doc,selected);});
+            if(button("Apply marker classes",Action::Apply))attempt([&]{apply_marker_rule(doc,*request,*result);applied=true;revision=doc.revision();state="applied";});
+            if(button("Keep marker rule",Action::Keep))attempt([&]{saved=keep_marker_rule(doc,rule);rules_dirty=true;});
+            ImGui::BeginDisabled(busy() || blocked);if(ui::Checkbox("Selected fluorescence cell only",&selected_only))invalidate();ImGui::EndDisabled();
+            if(busy() && button("Cancel marker preview",Action::Cancel))invalidate("cancelling");
             if(result){counts("Phenotype",result->counts());for(std::size_t i=0;i<result->gate_counts().size();++i)counts(request->rule().gates[i].name.c_str(),result->gate_counts()[i]);
                 ui::TextWrapped("Unknown means missing, nonfinite or insufficient saved observations; no image pixels are remeasured.");
                 if(ui::CollapsingHeader("Assignments and cohorts")){
@@ -120,13 +146,13 @@ struct GuiMarkerRules::Impl {
             }
             if(!error.empty())ui::TextWrapped("Marker rules: %s",error.c_str());
             ImGui::BeginDisabled(busy() || blocked);
-            if(ui::CollapsingHeader("Load and retain rules",ImGuiTreeNodeFlags_DefaultOpen)){
-                edit_text("Rule JSON path",file);if(ui::Button("Load rule JSON"))attempt([&]{auto loaded=load_marker_rule_file(file);invalidate();rule=std::move(loaded);gate=0;});mark(Action::LoadFile);
-                if(ui::BeginCombo("Saved marker rule",saved.empty()?"None":saved.c_str())){for(const auto& id:saved_rules)if(ImGui::Selectable(id.c_str(),id==saved))saved=id;ui::EndCombo();}
-                ImGui::BeginDisabled(saved.empty());if(ui::Button("Load saved marker rule"))attempt([&]{auto loaded=load_marker_rule(doc,saved);invalidate();rule=std::move(loaded);gate=0;});mark(Action::LoadSaved);
-                if(ui::Button("Remove saved marker rule"))attempt([&]{remove_marker_rule(doc,saved);saved.clear();rules_dirty=true;});mark(Action::Remove);ImGui::EndDisabled();
+            if(ui::CollapsingHeader("Load and keep rules###Load and retain rules",ImGuiTreeNodeFlags_DefaultOpen)){
+                file.draw(context);ImGui::EndDisabled();if(button("Load rule JSON",Action::LoadFile))attempt([&]{auto loaded=load_marker_rule_file(file.state().resolved);invalidate();rule=std::move(loaded);gate=0;});ImGui::BeginDisabled(busy() || blocked);
+                saved=record_rows.draw("Kept marker rule###Saved marker rule",saved_rules,saved,doc.image_data_properties().get(),doc.revision(),"Marker rule");
+                ImGui::EndDisabled();if(button("Load kept marker rule###Load saved marker rule",Action::LoadSaved))attempt([&]{auto loaded=load_marker_rule(doc,saved);invalidate();rule=std::move(loaded);gate=0;});
+                if(button("Remove kept marker rule###Remove saved marker rule",Action::Remove))attempt([&]{const auto id=saved;remove_marker_rule(doc,id);saved.clear();rules_dirty=true;});ImGui::BeginDisabled(busy() || blocked);
             }
-            const bool editing=ui::CollapsingHeader("Edit marker rule");mark(Action::Editor);if(editing)editor();
+            const bool editing=ui::CollapsingHeader("Edit marker rule");mark(Action::Editor);if(editing)editor(doc);
             ImGui::EndDisabled();
         }ImGui::End();
     }
@@ -135,9 +161,9 @@ GuiMarkerRules::GuiMarkerRules():impl_(std::make_unique<Impl>()){}
 GuiMarkerRules::~GuiMarkerRules()=default;
 void GuiMarkerRules::open(){impl_->open=true;}
 void GuiMarkerRules::poll(Document& doc){impl_->poll(doc);}
-void GuiMarkerRules::draw(Document& doc,std::uint64_t selected,bool blocked){impl_->draw(doc,selected,blocked);}
+void GuiMarkerRules::draw(Document& doc,std::uint64_t selected,bool blocked,const ui::PathContext& context,bool has_image){impl_->draw(doc,selected,blocked,context,has_image);}
 void GuiMarkerRules::set_rule(MarkerRule rule){rule.validate();impl_->invalidate();impl_->rule=std::move(rule);impl_->gate=0;}
-void GuiMarkerRules::set_file(std::string file){impl_->file=std::move(file);}
+void GuiMarkerRules::set_file(std::string file){impl_->file.set_option(file);}
 void GuiMarkerRules::set_selected_only(bool value){impl_->invalidate();impl_->selected_only=value;}
 Rect GuiMarkerRules::recipe_bounds(const std::string& id)const{const auto it=impl_->recipe_bounds.find(id);return it==impl_->recipe_bounds.end()?Rect{}:it->second;}
 const MarkerRule& GuiMarkerRules::rule()const{return impl_->rule;}
@@ -146,4 +172,5 @@ bool GuiMarkerRules::busy()const{return impl_->busy();}
 const std::string& GuiMarkerRules::error()const{return impl_->error;}
 const std::string& GuiMarkerRules::state()const{return impl_->state;}
 std::shared_ptr<const MarkerRuleResult> GuiMarkerRules::result()const{return impl_->result;}
+std::vector<ui::PathField*> GuiMarkerRules::paths(){return {&impl_->file};}
 }

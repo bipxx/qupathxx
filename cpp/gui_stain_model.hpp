@@ -3,7 +3,8 @@
 #include "qupathxx/stain_model_io.hpp"
 #include "stain_model_io_internal.hpp"
 #include "reader_file_guard.hpp"
-#include "atomic_export.hpp"
+#include "export_output.hpp"
+#include "gui_result_state.hpp"
 #include <chrono>
 #include <future>
 #include <string>
@@ -13,11 +14,16 @@
 namespace qpx::detail {
 // File workers own only strings/native transforms, never a Document or reader.
 class GuiStainModel {
+public:
+    enum class Operation {None,Load,Save};
+private:
     struct Result {std::shared_ptr<const StainTransform> model;std::string error,digest;bool save=false;};
     std::future<Result> future_;
     std::string state_="idle",error_,digest_;
-    template<class F> bool launch(const char* state,F work) {
+    Operation operation_=Operation::None;
+    template<class F> bool launch(const char* state,Operation operation,F work) {
         if(busy()) return false;
+        operation_=operation;
         state_=state;error_.clear();digest_.clear();
         try {future_=std::async(std::launch::async,std::move(work));return true;}
         catch(const std::exception& e) {fail(e.what());return false;}
@@ -28,17 +34,22 @@ public:
     const std::string& state() const {return state_;}
     const std::string& error() const {return error_;}
     const std::string& digest() const {return digest_;}
-    void fail(std::string error,const char* state="failed") {state_=state;error_=std::move(error);digest_.clear();}
+    Operation operation() const {return operation_;}
+    std::string caption() const {
+        const auto& raw=state_;
+        return operation_==Operation::Save?ui::caption(ui::parse_export_state(raw),raw):ui::caption(ui::parse_run_state(raw),raw);
+    }
+    void fail(std::string error,const char* state="failed",Operation operation=Operation::None) {if(operation!=Operation::None)operation_=operation;state_=state;error_=std::move(error);digest_.clear();}
     bool load(std::string path) {
-        return launch("loading",[path=std::move(path)] {
+        return launch("loading",Operation::Load,[path=std::move(path)] {
             Result result;
             try {result.model=std::make_shared<const StainTransform>(load_stain_model(path));result.digest=stain_model_sha256(*result.model);}
             catch(const std::exception& e) {result.error=e.what();}
             return result;
         });
     }
-    bool save(StainTransform model,std::string path,std::vector<std::pair<std::string,std::string>> sources) {
-        return launch("saving",[model=std::move(model),path=std::move(path),sources=std::move(sources)] {
+    bool save(StainTransform model,std::string path,std::vector<std::pair<std::string,std::string>> sources,ExportWritePolicy policy=ExportWritePolicy::ReplaceExisting,std::vector<std::string> protected_paths={}) {
+        return launch("saving",Operation::Save,[model=std::move(model),path=std::move(path),sources=std::move(sources),policy,protected_paths=std::move(protected_paths)] {
             Result result;result.save=true;
             try {
                 const auto output=export_path(path);
@@ -48,7 +59,7 @@ public:
                         catch(const std::invalid_argument&) {throw std::invalid_argument("Choose a different model path; this path aliases an open image or project file.");}
                     }
                 };
-                save_stain_model_guarded(model,output,guard);result.digest=stain_model_sha256(model);
+                const auto text=stain_model_json(model);guard();AtomicExportFile file(output,16*1024*1024);file.write(text.data(),text.size());guard();commit_export_output(file,output,policy,protected_paths);result.digest=stain_model_sha256(model);
             } catch(const std::exception& e) {result.error=e.what();}
             return result;
         });

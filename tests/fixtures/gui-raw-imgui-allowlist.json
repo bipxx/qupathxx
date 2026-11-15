@@ -1,0 +1,139 @@
+{
+  "gui.cpp": {
+    "BeginTabItem": 3,
+    "SetTooltip": 6,
+    "TreeNodeEx": 1
+  },
+  "gui_analysis_inputs.hpp": {},
+  "gui_analysis_tasks.hpp": {
+    "TreeNode": 3
+  },
+  "gui_backed_genes.hpp": {},
+  "gui_batch.hpp": {
+    "CollapsingHeader": 1
+  },
+  "gui_calibration_editor.hpp": {},
+  "gui_cell_record_rows.hpp": {},
+  "gui_class_editor.hpp": {
+    "InputTextWithHint": 2
+  },
+  "gui_class_palette.hpp": {},
+  "gui_commands.hpp": {},
+  "gui_core_paths.hpp": {},
+  "gui_dark_flat.cpp": {},
+  "gui_dark_flat.hpp": {},
+  "gui_design_tokens.hpp": {},
+  "gui_desktop_context.hpp": {},
+  "gui_dialog_contract.hpp": {},
+  "gui_draft.hpp": {},
+  "gui_entry_editor.hpp": {
+    "BeginTabItem": 2
+  },
+  "gui_export.hpp": {},
+  "gui_fluorescence.cpp": {},
+  "gui_fluorescence.hpp": {},
+  "gui_fonts.cpp": {},
+  "gui_fonts.hpp": {},
+  "gui_genes.hpp": {
+    "BeginTabItem": 1
+  },
+  "gui_header.hpp": {},
+  "gui_help.hpp": {
+    "TextLink": 1
+  },
+  "gui_i18n.hpp": {},
+  "gui_icon_coverage.hpp": {},
+  "gui_import_picker.hpp": {},
+  "gui_indexed_import.hpp": {},
+  "gui_input_targets.hpp": {},
+  "gui_kept_counts.hpp": {},
+  "gui_layout_trace.hpp": {},
+  "gui_linear_unmixing.cpp": {},
+  "gui_linear_unmixing.hpp": {},
+  "gui_marker_rules.cpp": {},
+  "gui_marker_rules.hpp": {},
+  "gui_measurements.hpp": {},
+  "gui_notice_message.hpp": {},
+  "gui_notifications.hpp": {},
+  "gui_object_classifier.hpp": {
+    "SetTooltip": 2,
+    "TableSetupColumn": 3
+  },
+  "gui_output_gate.hpp": {},
+  "gui_overlay.hpp": {},
+  "gui_pixel_archives.hpp": {},
+  "gui_pixel_classifier.hpp": {
+    "SetTooltip": 1,
+    "TableSetupColumn": 3
+  },
+  "gui_pixel_preview.hpp": {},
+  "gui_pixel_stream_browser.hpp": {},
+  "gui_profile.hpp": {},
+  "gui_project_browser.hpp": {},
+  "gui_project_density.hpp": {
+    "InputTextMultiline": 1,
+    "SetTooltip": 2,
+    "TableSetupColumn": 3
+  },
+  "gui_project_forms.hpp": {},
+  "gui_project_inspector.hpp": {
+    "TableSetupColumn": 2
+  },
+  "gui_project_preferences.hpp": {},
+  "gui_project_thumbnails.hpp": {
+    "SetTooltip": 1
+  },
+  "gui_raw.hpp": {
+    "BeginTabItem": 1,
+    "TableSetupColumn": 4
+  },
+  "gui_raw_axis.hpp": {},
+  "gui_raw_grid_controls.hpp": {},
+  "gui_raw_pixel.hpp": {
+    "BeginTabItem": 4
+  },
+  "gui_record_list.hpp": {
+    "SetTooltip": 1
+  },
+  "gui_record_removal.hpp": {},
+  "gui_registration.cpp": {},
+  "gui_registration.hpp": {},
+  "gui_replay.hpp": {},
+  "gui_result_panel.hpp": {},
+  "gui_result_state.hpp": {},
+  "gui_sampling.hpp": {},
+  "gui_scale.hpp": {},
+  "gui_shell.cpp": {},
+  "gui_shell.hpp": {},
+  "gui_shell_open.hpp": {},
+  "gui_spatial.hpp": {
+    "Combo": 3,
+    "SetTooltip": 4,
+    "TableSetupColumn": 13
+  },
+  "gui_spatial_import.hpp": {},
+  "gui_stain_model.hpp": {},
+  "gui_stylesheet.hpp": {},
+  "gui_text_buffers.hpp": {},
+  "gui_theme.hpp": {},
+  "gui_thumbnail.hpp": {},
+  "gui_tiles.hpp": {},
+  "gui_tissue.hpp": {},
+  "gui_tma.hpp": {
+    "BeginTabItem": 1,
+    "SetTooltip": 1,
+    "TreeNode": 2
+  },
+  "gui_tool_catalog.hpp": {
+    "SetTooltip": 2
+  },
+  "gui_tool_scope.hpp": {},
+  "gui_units.hpp": {},
+  "gui_workflow.hpp": {},
+  "gui_workflow_ui.hpp": {
+    "SetTooltip": 1
+  },
+  "gui_workspace.hpp": {
+    "SetTooltip": 1
+  }
+}

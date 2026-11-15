@@ -1,4 +1,5 @@
 #pragma once
+#include "gui_path_field.hpp"
 #include "qupathxx/linear_unmixing_workflow.hpp"
 #include "qupathxx/core.hpp"
 namespace qpx::detail {
@@ -15,7 +16,8 @@ public:
     void restore(Document&,std::string record);
     std::optional<LinearUnmixRequest> request() const;
     void poll(Document&,bool blocked=false);
-    void draw(Document&,bool blocked=false);
+    void draw(Document&,bool blocked=false,const ui::PathContext& context={},bool has_image=true);
+    std::vector<ui::PathField*> paths();
     void set_matrix_file(std::string,std::string correction_record={});
     void set_matrix(LinearMixingMatrix,std::string correction_record={});
     void set_saved_record(std::string);
@@ -27,6 +29,7 @@ public:
     const std::string& kept_record() const;
     const std::string& error() const;
     const std::string& state() const;
+    std::size_t reference_checks() const;
 private:
     struct Impl;std::unique_ptr<Impl> impl_;
 };

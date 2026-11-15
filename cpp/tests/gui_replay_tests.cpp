@@ -1,3 +1,4 @@
+#include "gui_translation_trace.hpp"
 #include "../gui_replay.hpp"
 #include <iostream>
 #include <stdexcept>
@@ -45,7 +46,7 @@ void unicode_text_input() {
     std::cout<<"GUI Unicode scalar input and native undo/redo passed\n";
 }
 #endif
-int main() {
+int main() {std::cout<<std::unitbuf;std::cerr<<std::unitbuf;
     try {
         using namespace qpx;using Clock=GuiReplayDeadline::Clock;
 #ifdef QPX_GUI_TEXT_INPUT_TESTS

@@ -1,5 +1,7 @@
 #pragma once
 #include "../gui_dialogs.hpp"
+#include "../gui_record_removal.hpp"
+#include "qupathxx/tissue.hpp"
 #include "../gui_import_picker.hpp"
 #include <chrono>
 #include <filesystem>
@@ -29,6 +31,9 @@ inline void definitions() {
             for(int choice=0;choice<ui::i18n::language_count;++choice){ui::i18n::choose(choice);require(action_id(action,12345)==english,"Dialog command identity changed with language");}
         }
     }
+    for(int index=0;index<static_cast<int>(ui::DialogKind::Count);++index)
+        for(auto variant:{ui::DialogVariant::Folder,ui::DialogVariant::NewFolder})
+            require(ui::dialog_variant_allowed(static_cast<ui::DialogKind>(index),variant)==(static_cast<ui::DialogKind>(index)==ui::DialogKind::ImportFile),"Folder variants escaped ImportFile");
     ui::i18n::state=language;
     refuses([]{ui::dialog_definition(static_cast<ui::DialogKind>(999));});
     refuses([]{ui::dialog_actions(ui::DialogKind::CloseProject,ui::DialogVariant::Details);});
@@ -81,9 +86,46 @@ inline void import_choice() {
     picker.open((root/"absent.txt").u8string(),{".txt"});frame();frame();activate("Choose file");require(!selected,"Invalid file choice published a path");activate("Cancel file choice");
     picker.open(input.u8string(),{".txt"});frame();frame();activate("Choose file");require(selected==input.u8string(),"Existing file choice did not preserve its exact path");selected.reset();
     picker.open(output.u8string(),{".csv"},true);frame();frame();activate("Choose new output");require(selected==output.u8string() && !std::filesystem::exists(output),"Output selection wrote a file");selected.reset();
+    picker.open(input.u8string(),{".txt"},true);frame();frame();activate("Choose new output");require(!selected,"Legacy save picker accepted an existing output");activate("Cancel file choice");
+    picker.open(input.u8string(),{".txt"},qpx::detail::PickerMode::NewFile);frame();frame();activate("Choose new output");require(selected==input.u8string(),"New file mode must defer replacement to its caller");selected.reset();
+    picker.open(root.u8string(),{},qpx::detail::PickerMode::OpenFolder);frame();frame();activate("Choose folder");require(selected==root.u8string(),"Folder mode must select its current folder");selected.reset();
+    picker.open((root/"new-folder").u8string(),{},qpx::detail::PickerMode::NewFolder);frame();frame();activate("Choose output folder");require(selected==(root/"new-folder").u8string() && !std::filesystem::exists(root/"new-folder"),"New folder choice must not create it");selected.reset();
     picker.open(input.u8string(),{".txt"});frame();frame();activate("Cancel file choice");require(!selected,"Picker Cancel selected a file");
     std::ifstream stream(input);std::string bytes{std::istreambuf_iterator<char>(stream),{}};require(bytes=="unchanged input","File choice modified its source");stream.close();std::filesystem::remove(input);std::filesystem::remove(root);
     std::cout<<"Typed import picker: invalid/refused, existing/new choice, cancellation and no filesystem writes passed\n";
 }
-inline void run(){definitions();interactions();import_choice();}
+inline void record_removal() {
+    Fixture f;f.requested=false;f.kind=ui::DialogKind::RemoveKeptResult;
+    qpx::Document doc(qpx::Image(8,8,std::vector<std::uint8_t>(8*8*3,20))),other(qpx::Image(8,8,std::vector<std::uint8_t>(8*8*3,20)));
+    const auto object=doc.add_rectangle({0,0,8,8});qpx::StainTransform transform({{1,0,0},{0,1,0}});
+    qpx::TissueRequest request(doc,object,transform);const auto id=doc.keep_tissue(request,qpx::detect_tissue(request));
+    qpx::detail::RecordRemovalDialog dialog;std::string error;const qpx::Document* active=&doc;std::uint64_t epoch=4;
+    std::string visible;bool replace=false;
+    auto frame=[&] {ImGui::NewFrame();ImGui::Begin("Removal host");ImGui::LogToBuffer();
+        if(replace){ui::OpenDialog(ui::DialogKind::RemoveImage);replace=false;}
+        dialog.draw(*active,epoch,error);visible=GImGui->LogBuffer.c_str();ImGui::LogFinish();ImGui::End();ImGui::Render();};
+    auto warm=[&] {frame();frame();frame();};
+    auto activate=[&](ui::DialogAction command) {
+        const auto* window=ImGui::FindWindowByName(ui::dialog_definition(f.kind).name);require(window!=nullptr,"Removal dialog absent");
+        for(const auto& action:ui::dialog_actions(f.kind,ui::DialogVariant::Default))if(action.id==command)ImGui::ActivateItemByID(action_id(action,window->ID));
+        frame();frame();
+    };
+    auto open=[&] {dialog.request_record(doc,4,"Tissue",id,&qpx::Document::tissue_record,&qpx::Document::remove_tissue);warm();};
+    open();activate(ui::DialogAction::Cancel);require(doc.tissue_record_count()==1 && !dialog.pending(),"Removal Cancel changed records");
+    open();active=&other;warm();require(visible.find("The selected item changed.")!=std::string::npos,"Stale removal owner has no visible notice");activate(ui::DialogAction::Confirm);require(doc.tissue_record_count()==1 && dialog.pending(),"Different document allowed removal");activate(ui::DialogAction::Cancel);
+    active=&doc;open();epoch=5;warm();activate(ui::DialogAction::Confirm);require(doc.tissue_record_count()==1 && dialog.pending(),"Stale epoch allowed removal");activate(ui::DialogAction::Cancel);epoch=4;
+    error="unrelated failure";open();require(visible.find(error)==std::string::npos,"Removal dialog inherited an unrelated error");
+    replace=true;frame();frame();require(!dialog.pending(),"Replaced popup stranded removal owner");
+    // Closing the replacement then requesting removal must work again.
+    ImGui::ClosePopupToLevel(0,true);frame();open();require(dialog.pending(),"Removal could not be requested after popup replacement");
+    activate(ui::DialogAction::Cancel);require(error=="unrelated failure","Removal Cancel cleared unrelated error");
+    open();activate(ui::DialogAction::Confirm);require(error=="unrelated failure","Successful removal cleared unrelated error");require(!doc.tissue_record_count() && !dialog.pending(),"Confirmed removal did not remove exactly one record");
+    open();activate(ui::DialogAction::Confirm);require(!doc.tissue_record_count() && dialog.pending(),"Missing record confirmation was not disabled");activate(ui::DialogAction::Cancel);
+    require(error=="unrelated failure","Unrelated error was lost");error.clear();
+    dialog.request({"Failure fixture",&doc,4,[]{return true;},[]{throw std::runtime_error("remove failed");}});warm();activate(ui::DialogAction::Confirm);
+    require(dialog.pending() && error=="remove failed" && visible.find("remove failed")!=std::string::npos,"Removal failure was not isolated and propagated");activate(ui::DialogAction::Cancel);
+    open();require(visible.find("remove failed")==std::string::npos,"New removal inherited its predecessor error");activate(ui::DialogAction::Cancel);
+    std::cout<<"Record removal: native tissue count, Cancel/Confirm, stale document/epoch/missing record passed\n";
+}
+inline void run(){definitions();interactions();import_choice();record_removal();}
 }

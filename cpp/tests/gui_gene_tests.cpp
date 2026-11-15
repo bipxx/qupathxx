@@ -38,7 +38,7 @@ Point yellow_center(const Image& image,const Rect& window,unsigned pane,double s
     }
     check(count>20,"Comparison native maximum-color marker is visible");return {sum.x/count,sum.y/count};
 }
-int main(int argc,char** argv) {try {
+int main(int argc,char** argv) {std::cout<<std::unitbuf;std::cerr<<std::unitbuf;try {
     Project identity;const auto root=argc>1?fs::u8path(argv[1]):fs::current_path()/(identity.identity()+"-gene-gui");fs::create_directories(root);
     auto project=std::make_shared<Project>();auto doc=std::make_shared<Document>(Image(320,240,std::vector<std::uint8_t>(320*240*3,80)));
     for(unsigned i=0;i<4;++i) {

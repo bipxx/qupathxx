@@ -73,13 +73,13 @@ inline bool project_browser_filters(ProjectBrowser& browser) {
         ActionRow row(1);
         ImGui::AlignTextToFramePadding();ImGui::PushTextWrapPos(ImGui::GetCursorPosX()+row.field_width());
         Text("%s: %s",i18n::text("Group images by"),browser.group_key.c_str());ImGui::PopTextWrapPos();
-        row.next();if(IconButton("No grouping",Icon::Close)) {browser.group_key.clear();changed=true;}
+        row.next();if(IconButton("Clear grouping###No grouping",Icon::Reset)) {browser.group_key.clear();changed=true;}
     }
     if(browser.missing) {
         const bool active=browser.missing_only;ActionRow row(active?1:0);
         const auto caption=std::string(i18n::text("Missing files"))+" ("+std::to_string(browser.missing)+")###Missing files";
-        if(Button(caption.c_str(),{row.field_width(),0},active?design::Action::Secondary:design::Action::Ghost)) {browser.missing_only=!active;changed=true;}
-        if(active) {row.next();if(IconButton("All images",Icon::Close)) {browser.missing_only=false;changed=true;}}
+        if(ToggleButton(caption.c_str(),{row.field_width(),0},active?design::Action::Secondary:design::Action::Ghost)) {browser.missing_only=!active;changed=true;}
+        if(active) {row.next();if(IconButton("Clear missing-file filter###All images",Icon::Reset)) {browser.missing_only=false;changed=true;}}
     }
     ImGui::PopID();return changed;
 }

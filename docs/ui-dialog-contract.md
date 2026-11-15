@@ -17,12 +17,13 @@ frames are not supported. The current registry covers:
 | ProjectMetadata | gui_entry_editor.hpp | Captured project |
 | CloseProject | gui.cpp | Current project |
 | ReplaceWorkspace | gui.cpp | Staged workspace |
+| RemoveKeptResult | gui_record_removal.hpp | Captured document, workspace epoch and native record ID |
 | RemoveImage | gui.cpp | Captured project and image entry |
 | Language | gui.cpp | Session preference |
 | SourceVerification | gui.cpp | Captured project, image, document and native source review |
 | DeleteCheckpoint | gui.cpp | Reviewed recovery checkpoint |
 | ImportFile | gui_import_picker.hpp | Local filesystem choice |
-| ReplaceExport | gui.cpp | Captured export owner, destination version and protected paths |
+| ReplaceExport | gui_output_gate.hpp | One run_gui-owned gate; captured owner, destination version and export_protected_paths |
 | ImageInformation | gui.cpp | Captured document and workspace epoch |
 | Calibration | gui_calibration_editor.hpp | Captured document, image, workspace epoch and calibration revision |
 | ObjectInformation | gui.cpp | Captured document, workspace epoch, object id and object revision |
@@ -67,8 +68,15 @@ handlers must still revalidate at their authority boundary.
 Metadata Apply publishes only the named native metadata or description/tag scope
 and keeps the editor open; Save project persists it. Cancel discards unapplied
 drafts. The language selector changes preferences immediately and therefore uses
-Close. The file picker returns a validated existing path or unused output path;
-it does not create/write that output or interpret scientific data.
+Close. ImportFile alone permits Default (open file), Output (new file), Folder
+(open folder), and NewFolder (output folder). The legacy bool-save picker still
+refuses existing output names. The PickerMode overload permits an existing regular
+file in NewFile mode so the caller can apply the overwrite gate. Folder modes
+return a directory path, including an absent output folder with an existing parent.
+The picker does not create/write outputs or interpret scientific data. Folder
+roles list directories only; file roles can toggle All files. Pages cache up to
+64 matches, scanning at most 16,384 entries per click; Previous restores the exact
+cached page. Each page sorts folders first, then names without ASCII case.
 
 Image information is read-only. It combines imported metadata and historical
 measurements in searchable tabs, labels them as historical rather than live

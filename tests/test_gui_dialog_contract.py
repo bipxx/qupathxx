@@ -1,13 +1,21 @@
 """Enforce the native modal boundary; behavioral invariants live in native tests."""
 from pathlib import Path
 import re
+import json
+from gui_contract_calls import has_call, compact
+from gui_command_inventory import calls
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
 def inventory():
     text = (ROOT / 'cpp/gui_dialog_contract.hpp').read_text(encoding='utf8')
-    return re.findall(r'X\((\w+),"([^"]+)",(\w+),"([^"]+)",(\w+)\)', text)
+    rows=[]
+    for args in calls(text,'X'):
+        assert len(args)==5, ('Malformed dialog row',args)
+        row=[compact(arg) for arg in args]
+        rows.append((row[0],json.loads(row[1]),row[2],json.loads(row[3]),row[4]))
+    return rows
 
 
 def gui_sources():
@@ -36,7 +44,7 @@ def test_all_modals_are_registered_at_their_owning_presenter():
     sources = gui_sources()
     for kind, stable, layout, owner, scope in rows:
         assert owner in sources and f'DialogKind::{kind}' in sources[owner], (kind, owner)
-        assert 'ui::RenderDialog(' in sources[owner] and 'ui::OpenDialog(' in sources[owner]
+        assert has_call(sources[owner],'ui::RenderDialog') and has_call(sources[owner],'ui::OpenDialog')
         for name, text in sources.items():
             if name not in ('gui_dialogs.hpp', 'gui_dialog_contract.hpp', owner):
                 assert f'DialogKind::{kind}' not in text, (kind, name, owner)
@@ -63,3 +71,19 @@ def test_popup_menus_cannot_bypass_shared_spacing_and_bounds():
         if name == 'gui_layout.hpp':
             continue
         assert not re.search(r'ImGui::(?:MenuItem|BeginMenu|BeginPopup|BeginPopupContextItem|BeginPopupContextWindow)\s*\(', text), name
+
+
+def test_record_removal_has_registered_record_ownership():
+    assert ('RemoveKeptResult', 'Remove kept result?', 'Confirmation',
+            'gui_record_removal.hpp', 'Record') in inventory()
+
+
+def test_folder_variants_belong_only_to_the_file_picker():
+    text = (ROOT / 'cpp/gui_dialog_contract.hpp').read_text(encoding='utf8')
+    allowed = text.split('inline bool dialog_variant_allowed', 1)[1].split('inline std::vector<DialogVariant>', 1)[0]
+    picker = allowed.split('case DialogKind::ImportFile:', 1)[1].split('default:', 1)[0]
+    for variant in ('Folder', 'NewFolder'):
+        assert f'variant==DialogVariant::{variant}' in picker
+        assert f'DialogVariant::{variant}' not in allowed.split('case DialogKind::ImportFile:', 1)[0]
+        assert f'DialogVariant::{variant}' in text.split('inline std::vector<DialogVariant>', 1)[1].split('inline void validate_dialog_actions', 1)[0]
+    assert '"Choose folder"' in text and '"Choose output folder"' in text

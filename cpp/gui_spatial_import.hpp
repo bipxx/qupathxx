@@ -1,4 +1,6 @@
 #pragma once
+#include "gui_notifications.hpp"
+#include "gui_tool_catalog.hpp"
 #include "qupathxx/spatial_import.hpp"
 #include "qupathxx/project.hpp"
 #include "qupathxx/gene_view.hpp"
@@ -139,10 +141,14 @@ public:
     std::shared_ptr<const ExpressionMatrixSource> indexed_source() const {return indexed_inputs_?indexed_inputs_->source():nullptr;}
     const std::string& error() const {return error_.empty()?job_.error():error_;}
     Rect bounds(Action action) const {return bounds_[std::size_t(action)];}
-    std::string draw(bool blocked=false) {
-        poll();bounds_={};std::string open_path;if(!open_)return open_path;
-        ui::SetNextToolWindow("Import spatial expression",{780,760});
-        if(ImGui::Begin("Import spatial expression",&open_)) {
+    ui::NoticeJob notice_job_;
+    std::string draw(bool blocked=false,ui::Notifications* notices=nullptr) {
+    ui::i18n::SurfaceTrace translation_surface("tool/Spatial import");
+        poll();bounds_={};std::string open_path;
+        if(notices)notice_job_.observe(*notices,ui::command(ui::CommandId::Tool_SpatialImport).caption,std::to_string(static_cast<int>(phase())),phase()==SpatialImportPhase::Complete,phase()==SpatialImportPhase::Failed,error(),phase()==SpatialImportPhase::Complete?(backed_?backed_->request().base.output_project:preview_?preview_->request().output_project:std::string{}):std::string{});
+        if(!open_)return open_path;
+        ui::SetNextToolWindow(ui::tool_window_label(ui::ToolId::SpatialImport),{780,760});
+        if(ImGui::Begin(ui::tool_window_label(ui::ToolId::SpatialImport),&open_)) {
             const auto invoke=[&](auto action){try{action();}catch(const std::exception& e){error_=e.what();}};
             const char* steps[]={"1. Image and files","2. Coordinates","3. Genes and limits","4. Preview and import"};ui::TextUnformatted(steps[step_]);
             if(job_.busy()) {ui::TextDisabled(job_.phase()==SpatialImportPhase::Publishing?"Writing new project...":job_.phase()==SpatialImportPhase::MatrixIndexing?"Indexing full matrix...":"Reading import inputs...");const auto clicked=ui::Button("Cancel import");mark(Action::Cancel);if(clicked)job_.cancel();}
@@ -155,9 +161,8 @@ public:
                 if(ui::Combo("Image source",&source,"Saved project\0PPM / TIFF image\0")) {use_project_=source==0;request_.expected_base_sha256.clear();bases_.reset();request_.image_id=1;invalidate();}
                 if(use_project_) {
                     path(Base,"Saved project",{".qpx"});if(ui::Button("Read project images"))invoke([&]{read_images();});
-                    if(bases_ && ui::BeginCombo("Image",std::to_string(request_.image_id).c_str())) {
-                        for(const auto& image:bases_->images)if(ImGui::Selectable((std::to_string(image.id)+": "+image.name).c_str(),image.id==request_.image_id)) {request_.image_id=image.id;invalidate();}
-                        ImGui::EndCombo();
+                    if(bases_) if(ui::ComboScope combo{"Image",std::to_string(request_.image_id).c_str()};combo) {
+                        for(const auto& image:bases_->images)if(ui::Selectable(ui::data_label(std::to_string(image.id)+": "+image.name,std::to_string(image.id)).c_str(),image.id==request_.image_id)) {request_.image_id=image.id;invalidate();}
                     }
                     ui::TextWrapped("Saved project state is used. Save any current changes first if you need them in the import.");
                 } else path(Image,"Image file",{".ppm",".tif",".tiff"});
@@ -180,7 +185,7 @@ public:
                 if(ui::InputInt("Time point",&t)) {if(t>=0 && t<65536)request_.options.t=std::uint32_t(t);invalidate();}
                 if(!use_project_ && ui::InputInt("TIFF series",&series)) {if(series>=0 && series<65536)request_.image_series=std::uint32_t(series);invalidate();}
             } else if(step_==2) {
-                if(indexed_mode_){ui::TextWrapped("All genes are retained in the indexed matrix; no selected-gene truncation. This catalogue is paged.");invoke([&]{indexed().draw_catalogue(job_,request_.options.work_bytes);});}
+                if(indexed_mode_){ui::TextWrapped("All genes are kept in the indexed matrix; no selected-gene truncation. This catalogue is paged.");invoke([&]{indexed().draw_catalogue(job_,request_.options.work_bytes);});}
                 else{ui::TextWrapped("Store selected genes in the new project. The original full matrix is not embedded. Choose up to64 IDs.");
                 if(ui::Button("Read feature catalogue"))invoke([&]{read_genes();});
                 if(catalogue_) {
@@ -189,7 +194,7 @@ public:
                     if(ImGui::BeginChild("features",{0,ui::CollectionHeight(page.indices.size())},ImGuiChildFlags_Borders)) {
                         for(auto row:page.indices) {const auto& gene=catalogue_->features[row];auto at=std::find(request_.options.features.begin(),request_.options.features.end(),gene);bool chosen=at!=request_.options.features.end();
                             ImGui::PushID(int(row));if(ui::Checkbox("##gene",&chosen)) {if(chosen)request_.options.features.push_back(gene);else request_.options.features.erase(at);invalidate();}
-                            ImGui::SameLine();ImGui::TextUnformatted(gene.c_str());ImGui::PopID();}
+                            ImGui::SameLine();ui::DataText(gene.c_str());ImGui::PopID();}
                     }ImGui::EndChild();
                     ImGui::BeginDisabled(page_==0);if(ui::Button("Previous genes"))--page_;ImGui::EndDisabled();ImGui::SameLine();
                     ImGui::BeginDisabled((page_+1)*24>=page.matches);if(ui::Button("Next genes"))++page_;ImGui::EndDisabled();
@@ -204,7 +209,7 @@ public:
                 if(preview_ || backed_) {
                     if(backed_)ui::Text("%zu spots; all %llu matrix features",backed_->mapped_positions().size(),static_cast<unsigned long long>(backed_->spatial().source()->metadata().features));
                     else ui::Text("%zu spots; %zu selected / %u matrix features",preview_->projection().observations.size(),preview_->projection().features.size(),preview_->projection().matrix_features);
-                    ui::TextWrapped("%s Coordinates below are mapped image pixels; original coordinates and the explicit recipe are retained.",backed_ && backed_->spatial().source()->metadata().domain==ExpressionValueDomain::Continuous?"Values are finite continuous doubles.":"Counts are exact integers.");
+                    ui::TextWrapped("%s Coordinates below are mapped image pixels; original coordinates and the explicit recipe are kept.",backed_ && backed_->spatial().source()->metadata().domain==ExpressionValueDomain::Continuous?"Values are finite continuous doubles.":"Counts are exact integers.");
                     overlay();ui::TextWrapped("Output: %s",backed_?backed_->request().base.output_project.c_str():preview_->request().output_project.c_str());
                     if(job_.phase()!=SpatialImportPhase::Complete) {ImGui::BeginDisabled(!preview_ready());const auto clicked=ui::Button("Import new project");mark(Action::Publish);if(clicked)invoke([&]{publish();});ImGui::EndDisabled();}
                     if(job_.phase()==SpatialImportPhase::Complete) {ui::TextUnformatted("New project saved.");ImGui::BeginDisabled(blocked);const auto clicked=ui::Button("Open imported project");mark(Action::Open);if(clicked)open_path=backed_?backed_->request().base.output_project:preview_->request().output_project;ImGui::EndDisabled();}

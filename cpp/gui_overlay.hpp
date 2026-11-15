@@ -9,6 +9,11 @@
 #include <tuple>
 
 namespace qpx {
+struct ScaleBarLayout {float label_offset_y,thickness,outline;};
+inline ScaleBarLayout scale_bar_layout(float text_line_height,float ui_scale) {
+    const auto thickness=3.f*ui_scale,outline=ui_scale;
+    return {text_line_height+thickness+2*outline,thickness,outline};
+}
 struct OverlaySurface {
     int x,y,width,height,frame_width,frame_height;
     ImVec2 top_left,bottom_right;

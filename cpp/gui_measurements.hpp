@@ -14,12 +14,12 @@ inline void draw_shape_measurements(const Document& document,std::uint64_t prima
     if(count>1)ui::TextDisabled("Primary object measurements");
     try {
         const auto features=document.shape_measurements(primary);
-        shape_measurement_row("Area",features.roi.area_px2,features.roi.area_um2,"px²","µm²");
-        shape_measurement_row("Length",features.roi.length_px,features.roi.length_um,"px","µm");
+        shape_measurement_row("Area",features.roi.area_px2,features.roi.area_um2,"px²",ui::unit::um2);
+        shape_measurement_row("Length",features.roi.length_px,features.roi.length_um,"px",ui::unit::um);
         if(!features.roi.area_um2)ui::TextDisabled("Set image calibration for physical units.");
         if(features.nucleus) {
-            shape_measurement_row("Nucleus area",features.nucleus->area_px2,features.nucleus->area_um2,"px²","µm²");
-            shape_measurement_row("Nucleus length",features.nucleus->length_px,features.nucleus->length_um,"px","µm");
+            shape_measurement_row("Nucleus area",features.nucleus->area_px2,features.nucleus->area_um2,"px²",ui::unit::um2);
+            shape_measurement_row("Nucleus length",features.nucleus->length_px,features.nucleus->length_um,"px",ui::unit::um);
         }
     } catch(const std::exception& e) {ui::TextWrapped("Measurements: %s",e.what());}
 }

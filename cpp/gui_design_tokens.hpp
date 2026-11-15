@@ -33,11 +33,12 @@ struct Metrics {
     float dialog_min_height=320,dialog_error_max_height=64;
     float menu_row_height=28;
     float activity_width=48,activity_row=48,activity_icon_box=32,activity_indicator=2;
-    float section_height=24,label_width=112,field_min_width=96,checkbox_size=18;
+    float section_height=24,label_width=112,field_min_width=96,checkbox_size=18,number_width=256;
     float disabled_opacity=.5f;
     float panel_inset_x=8,panel_inset_y=8;
 };
 inline constexpr Metrics metrics;
+inline constexpr float group_separator_width=2*spacing.sm+metrics.border;
 enum class Theme {Dark,Light,System};
 enum class Action {Secondary,Primary,Ghost,Danger};
 inline constexpr Theme resolve(Theme theme,bool system_light) {return theme==Theme::System?(system_light?Theme::Light:Theme::Dark):theme;}

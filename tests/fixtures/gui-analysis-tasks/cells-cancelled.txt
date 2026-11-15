@@ -1,0 +1,15 @@
+ACTIONS
+0 | Detect cells (Ctrl+G) | Detect cells | enabled | primary
+RESULTS
+LINES
+Cell feature { OD sum }
+Cell detector { Distance watershed }
+Cell threshold { 1 }
+Blur sigma (sampled px) { 1 }
+Cell expansion (sampled px) { 5 }
+Level 0 / 1 x 1 px per sample
+0.5 x 0.25 µm per sample
+Threshold uses the selected feature's units.
+### Advanced settings ###
+[ Detect cells ]
+Cancelled

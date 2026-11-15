@@ -1,4 +1,5 @@
 #pragma once
+#include "gui_path_field.hpp"
 #include "qupathxx/core.hpp"
 #include "qupathxx/marker_rules.hpp"
 #include <memory>
@@ -10,7 +11,8 @@ public:
     ~GuiMarkerRules();
     void open();
     void poll(Document&);
-    void draw(Document&,std::uint64_t selected,bool blocked=false);
+    void draw(Document&,std::uint64_t selected,bool blocked=false,const ui::PathContext& context={},bool has_image=true);
+    std::vector<ui::PathField*> paths();
     void set_rule(MarkerRule);
     void set_file(std::string);
     void set_selected_only(bool);

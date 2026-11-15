@@ -14,10 +14,9 @@ counts, not a percentage: discovering a total would require another directory sc
 No live document, filesystem traversal or worker-owned string crosses the polling
 boundary. `stats` returns the most recently polled owner-thread values.
 
-After publication, Recovery shows scan/collection counts and **Stop maintenance
-(Ctrl+F10)**. The shortcut works with the section collapsed, subject to the normal
-text-entry/modal guards. It only acts on a busy job whose checkpoint is already
-published. Plain F10 remains a new recovery request; Ctrl+F10 never starts one.
+After publication, Recovery shows scan/collection counts and a visible **Stop maintenance** control.
+It only acts on a busy job whose checkpoint is already published; open Recovery to use it.
+Plain F10 remains a new recovery request.
 Stopping shows a pending status until the worker acknowledges the request, then
 reports that the published recovery is retained. Retention's integer/day inputs
 and status text fit the normal narrow sidebar. `GuiReport.retention_cancelled`
@@ -71,7 +70,7 @@ Cancellation and errors can yield partial stage timings.
 `tests/test_recovery_retention.py` holds real SQLite exclusive locks in a separate
 interpreter while the native controller reports progress, cancels, preserves its
 new checkpoint and every candidate, then retries successfully. Desktop replay
-stops maintenance through Ctrl+F10 while Undo changes the live authority; captured
+stops maintenance through the visible **Stop maintenance** control while Undo changes the live authority; captured
 checkpoint values remain independent. Other regressions check anchor hard links,
 primary hard-link aliases, Windows case folding and active oldest sessions that
 must not starve inactive candidates. The existing liveness, move, legacy, marker,

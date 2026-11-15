@@ -137,7 +137,7 @@ The selected object's inspector contains **Region analysis**, OD/stain selection
 body/nucleus choice, white values and two supplied RGB OD directions. The third
 stain channel is the signed cross-product residual. Example directions are not
 an automatic stain estimate. **Analyze region / Ctrl+M** submits one request;
-**Cancel analysis / Ctrl+Shift+M** cancels busy work. Parameter edits clear the
+the **Cancel** button (stop icon) beside the progress cancels busy work. Parameter edits clear the
 previous result, and source/object/selection changes clear stale results. Three
 channel means appear on separate rows with sample count and worker duration.
 Display transforms do not alter inputs. The UI never automatically recomputes

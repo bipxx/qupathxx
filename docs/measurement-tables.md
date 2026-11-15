@@ -110,7 +110,7 @@ cancelled jobs can be reused.
 Open **ROI and tissue tables**, choose ROI channel means or tissue components,
 enter a CSV destination, and export the active image or whole project. The panel
 shows progress/errors and offers cancellation. Shortcuts: Ctrl+Alt+Q exports the
-image; Ctrl+Shift+Q exports the project; Ctrl+Alt+Shift+Q cancels. GUI options
+image; Ctrl+Shift+Q exports the project; the visible **Cancel** control cancels. GUI options
 `measurement_table_path`, `measurement_table_kind` (0 ROI, 1 tissue),
 `measurement_table_require_current`, `measurement_table_byte_limit` and
 `measurement_table_snapshot_budget` configure the same workflow. Native replay

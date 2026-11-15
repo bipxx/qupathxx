@@ -12,8 +12,8 @@ inline void ImageMetadata(const ProjectImage& image) {
         auto row=[](const std::string& key,const std::string& value) {
             ImGui::TableNextRow();ImGui::TableNextColumn();
             {design::Caption caption;ImGui::PushStyleColor(ImGuiCol_Text,design::color(design::colors().text_secondary));
-                ImGui::PushTextWrapPos(0);ImGui::TextUnformatted(key.empty()?"\xe2\x80\x94":key.c_str());ImGui::PopTextWrapPos();ImGui::PopStyleColor();}
-            ImGui::TableNextColumn();ImGui::PushTextWrapPos(0);ImGui::TextUnformatted(value.empty()?"\xe2\x80\x94":value.c_str());ImGui::PopTextWrapPos();
+                ImGui::PushTextWrapPos(0);ui::DataText(key.empty()?"\xe2\x80\x94":key.c_str());ImGui::PopTextWrapPos();ImGui::PopStyleColor();}
+            ImGui::TableNextColumn();ImGui::PushTextWrapPos(0);ui::DataText(value.empty()?"\xe2\x80\x94":value.c_str());ImGui::PopTextWrapPos();
         };
         for(const auto& [key,value]:image.metadata)row(key,value);
         row(i18n::text("Source"),image.embedded?i18n::text("Embedded RGB"):image.source_path);
@@ -21,11 +21,11 @@ inline void ImageMetadata(const ProjectImage& image) {
         ImGui::EndTable();
     }
     if(image.description && !image.description->empty()) {
-        ImGui::Spacing();TextDisabled("Entry description");ImGui::PushTextWrapPos(0);ImGui::TextUnformatted(image.description->c_str());ImGui::PopTextWrapPos();
+        ImGui::Spacing();TextDisabled("Entry description");ImGui::PushTextWrapPos(0);ui::DataText(image.description->c_str());ImGui::PopTextWrapPos();
     }
     if(!image.tags.empty()) {
         ImGui::Spacing();TextDisabled("Entry tags");
-        for(const auto& tag:image.tags) {ImGui::PushTextWrapPos(0);ImGui::TextUnformatted(tag.c_str());ImGui::PopTextWrapPos();}
+        for(const auto& tag:image.tags) {ImGui::PushTextWrapPos(0);ui::DataText(tag.c_str());ImGui::PopTextWrapPos();}
     }
 }
 }

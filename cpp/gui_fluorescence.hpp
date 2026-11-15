@@ -1,4 +1,5 @@
 #pragma once
+#include "gui_path_field.hpp"
 #include "qupathxx/fluorescence_cell_objects.hpp"
 #include "qupathxx/fluorescence_tiled_checkpoint.hpp"
 #include "qupathxx/core.hpp"
@@ -9,11 +10,14 @@ class GuiDarkFlat;class GuiLinearUnmixing;
 class GuiFluorescence {
 public:
     enum class Action {Run,Cancel,KeepCells,KeepRecord,Replay,Remove,Correction,Domain,Unmixing,UnmixDomain,Tiling};
+    struct Form {RawRegionRequest region;FluorescenceCellOptions options;std::array<std::uint32_t,2> context;
+        bool selected,crop,tiling,correction,unmixing;std::string correction_id,unmixing_id;};
     GuiFluorescence();~GuiFluorescence();
     void open();
     void open_marker_rules();
     void poll(Document&,bool blocked=false);
-    void draw(Document&,std::uint64_t selected,bool blocked=false);
+    void draw(Document&,std::uint64_t selected,bool blocked=false,const ui::PathContext& context={},bool has_image=true);
+    std::vector<ui::PathField*> paths();
     void draw_preview(ImDrawList*,const Viewport&,ImVec2 offset,ImVec2 size);
     void set_request(RawRegionRequest,FluorescenceCellOptions={},std::array<std::uint32_t,2> context={32,32},bool use_selected=true);
     void set_tiling(bool,FluorescenceTileOptions={},const std::string& directory={});
@@ -28,10 +32,13 @@ public:
     std::shared_ptr<const FluorescenceCellRun> result() const;
     std::shared_ptr<const FluorescenceTiledReport> tiled_result() const;
     const std::string& error() const;
+    const char* notification_error_key() const;
     const std::string& state() const;
     const std::string& kept_record() const;
     std::size_t published_cells() const;
     bool busy() const;
+    Form form() const;
+    std::optional<FluorescenceCellRequest> request() const;
 private:
     struct Impl;std::unique_ptr<Impl> impl_;
 };

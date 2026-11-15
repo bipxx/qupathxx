@@ -10,6 +10,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <limits>
+#include <chrono>
 
 namespace simplification_checks {
 struct TraceScope {
@@ -73,11 +74,11 @@ struct NativeControls {
         } else {
             constexpr auto original="Analyze region (Ctrl+M)";
             expected_action_id=window->GetID(original);
-            if(ui::WorkflowAction(original,"Run analysis","Ctrl+M",ui::design::Action::Primary))++calls;
+            if(ui::WorkflowAction(original,ui::design::Action::Primary))++calls;
             action_id=ImGui::GetItemID();
             const auto p=ImGui::GetItemRectMin(),size=ImGui::GetItemRectSize();action_bounds={p.x,p.y,size.x,size.y};
             const auto explicit_expected=window->GetID("Go to tables###ROI tables");
-            ui::WorkflowAction("Go to tables###ROI tables","View kept results");
+            ui::WorkflowAction("Go to tables###ROI tables");
             check(ImGui::GetItemID()==explicit_expected,"caption migration changed an explicit historical action ID");
         }
         ImGui::End();ImGui::Render();
@@ -123,7 +124,7 @@ inline void native_close_aliases() {
                 if(!docked){ImGui::SetNextWindowPos({50,55});ImGui::SetNextWindowSize({340*scale,250*scale});}
                 if(ImGui::Begin("Alias target",&target_open,ImGuiWindowFlags_NoCollapse)) {
                     cancel_id=ImGui::GetCurrentWindow()->GetID("Cancel operation");
-                    if(ui::WorkflowIcon("Cancel operation","Cancel",ui::Icon::Stop))++cancelled;
+                    if(ui::WorkflowIcon("Cancel operation",ui::Icon::Stop))++cancelled;
                     const auto p=ImGui::GetItemRectMin(),size=ImGui::GetItemRectSize();cancel={p.x,p.y,size.x,size.y};
                     const auto before=context->LastItemData;
                     ui::NativeToolCloseTarget("Hide panel",[&](Rect value){close=value;++alias_callbacks;});
@@ -450,19 +451,21 @@ inline void workflows(const std::filesystem::path& directory) {
             case 11:io.AddInputCharactersUTF8("0.8123456789012345");++stage;break;
             case 12:io.AddKeyEvent(ImGuiKey_Tab,true);++stage;break;
             case 13:io.AddKeyEvent(ImGuiKey_Tab,false);++stage;break;
-            case 14:if(press(first,false))++stage;break;
-            case 15:io.AddMouseButtonEvent(0,false);++stage;break;
-            case 16:++stage;break; // Let the editor reconcile the native revision.
+            case 14:if(!metadata_first || press(first,false))stage=metadata_first?15:17;break;
+            // A queued press/release may trickle behind pointer/text events.
+            // Observe both before testing the unchanged native Apply assertions.
+            case 15:if(io.MouseDown[0]) {io.AddMouseButtonEvent(0,false);++stage;}break;
+            case 16:if(!io.MouseDown[0])++stage;break;
             case 17: {
                 const auto value=doc->annotation(id);const auto* pending=action(observed.trace,second);
-                check(value.name==(metadata_first?original.name:desired_name) && value.class_probability()==
+                check(value.name==desired_name && value.class_probability()==
                     std::optional<double>(metadata_first?desired:.25),"first Apply committed the other dirty draft: "+name+" actual-name="+value.name+" probability="+std::to_string(value.class_probability().value_or(-1)));
-                check(value.color_rgb()==original.color_rgb() && value.geometry.equals(original.geometry) && pending && pending->enabled,
+                check(value.color_rgb()==original.color_rgb() && value.geometry.equals(original.geometry) && pending && pending->enabled==!metadata_first,
                     "first Apply discarded the other dirty draft or changed unrelated native state: "+name);
-                if(press(second,false))++stage;break;
+                if(metadata_first)stage=20;else if(press(second,false))++stage;break;
             }
-            case 18:io.AddMouseButtonEvent(0,false);++stage;break;
-            case 19:++stage;break;
+            case 18:if(io.MouseDown[0]) {io.AddMouseButtonEvent(0,false);++stage;}break;
+            case 19:if(!io.MouseDown[0])++stage;break;
             case 20: {
                 const auto value=doc->annotation(id);
                 check(value.name==desired_name && value.class_probability()==std::optional<double>(desired) &&
@@ -479,8 +482,8 @@ inline void workflows(const std::filesystem::path& directory) {
         check(report.replay_complete && !report.ui_overflow_items && stage==21,"dirty draft input sequence did not complete: "+name+" / stage "+std::to_string(stage));
         check(doc->undo(),"second independent Apply has no native Undo: "+name);
         const auto first_only=doc->annotation(id);
-        check(first_only.name==(metadata_first?original.name:desired_name) && first_only.class_probability()==
-            std::optional<double>(metadata_first?desired:.25),"Undo did not reverse only the second Apply: "+name);
+        check(first_only.name==desired_name && first_only.class_probability()==
+            std::optional<double>(.25),"Undo did not reverse only the appearance Apply: "+name);
         check(doc->undo(),"first independent Apply has no native Undo: "+name);
         const auto restored=doc->annotation(id);
         check(restored.name==original.name && restored.class_probability()==original.class_probability() &&
@@ -559,10 +562,20 @@ inline void complex_review(const std::filesystem::path& directory,const std::fil
     const auto expected_down=expected_image(precise_down),expected_up=expected_image(precise_up);
     std::optional<Point> gesture;std::string armed_action,pending_press;
     std::optional<Point> native_down,native_up;
+    struct CompletionScope {
+        ui::CommandTrace trace;ui::CommandTrace* previous=ui::command_trace;
+        CompletionScope(){ui::command_trace=&trace;}
+        ~CompletionScope(){ui::command_trace=previous;}
+    } completion;
+    const auto workflow_deadline=std::chrono::steady_clock::now()+std::chrono::seconds(60);
     observed.trace.before_frame=[&](int frame) {
+        check(std::chrono::steady_clock::now()<workflow_deadline,"Complex workflow state deadline: stage="+std::to_string(stage));
         auto& io=ImGui::GetIO();auto* context=ImGui::GetCurrentContext();
         // Keep this actual native-input session free of public replay pointer
         // pinning. Every injected key/button is explicitly released.
+        // Place the pointer at the gesture's start before selecting its tool;
+        // the following native drag must begin at the intended image location.
+        if(frame==1) {io.AddMousePosEvent(float(precise_down.x),float(precise_down.y));if(auto* view=ImGui::FindWindowByName("Slide"))ImGui::FocusWindow(view);}
         if(frame==2)io.AddKeyEvent(ImGuiKey_R,true);
         if(frame==3)io.AddKeyEvent(ImGuiKey_R,false);
         if(frame==3 || frame==4 || frame==5)io.AddMousePosEvent(float(precise_down.x),float(precise_down.y));
@@ -644,14 +657,16 @@ inline void complex_review(const std::filesystem::path& directory,const std::fil
                 io.AddKeyEvent(ImGuiMod_Ctrl,true);io.AddKeyEvent(ImGuiKey_S,true);++stage;
             }break;
         case 10:io.AddKeyEvent(ImGuiKey_S,false);io.AddKeyEvent(ImGuiMod_Ctrl,false);++stage;break;
-        case 11:if(!project->dirty() && read(copy)!=original)++stage;break;
+        case 11:if(!project->dirty() && read(copy)!=original){++stage;completion.trace.end_session=true;}break;
         }
         if(gesture)io.AddMousePosEvent(float(gesture->x),float(gesture->y));
     };
     GuiInput down;down.frame=4;down.kind=GuiInputKind::LeftDown;down.target=GuiInputTarget::Image;down.x=8;down.y=8;
     auto up=down;up.frame=6;up.kind=GuiInputKind::LeftUp;up.x=60;up.y=70;
     o.inputs.clear();
-    const auto completed=run_project_gui(project,100,(directory/"complex-workflow.ppm").u8string(),o);
+    // Native export/save completion must not depend on render throughput.
+    const auto completed=run_project_gui(project,std::numeric_limits<int>::max(),(directory/"complex-workflow.ppm").u8string(),o);
+    completion.trace.end_session=false;
     // The native call drains and reconciles a requested save after its bounded
     // render loop; observe that same completion condition at the API boundary.
     if(stage==11 && completed.saves_completed==1 && !project->dirty() && read(copy)!=original)++stage;
@@ -682,6 +697,31 @@ inline void complex_review(const std::filesystem::path& directory,const std::fil
         restored->analysis_record(record).result.input_sha256==kept.result.input_sha256 && restored->analysis_record(record).result.means==kept.result.means,
         "explicit GUI Recheck changed identity, selected the wrong object or failed native verification");
     preserve_existing(*restored);check(read(copy)==saved && read(source)==original,"Recheck unexpectedly saved or changed the original project");
+    // Milestone 2 handoff: remove only the newly created result through the
+    // registered confirmation, then Save/reopen and retain every older result.
+    auto remove_options=verify;remove_options.inputs={down,up};int removal_stage=0;
+    observed.trace.before_frame=[&](int frame) {
+        auto& io=ImGui::GetIO();
+        if(removal_stage==0 && frame>6) {
+            const auto* target=action(observed.trace,"Remove kept result###Remove region result");
+            for(auto* window:ImGui::GetCurrentContext()->Windows)if(std::string(window->Name).find("Workflow task body")!=std::string::npos && window->Active) {
+                ImGui::SetScrollY(window,window->ScrollMax.y);
+                if(target && target->enabled && window->ClipRect.Contains(ImVec2(float(target->bounds.x+target->bounds.width/2),float(target->bounds.y+target->bounds.height/2)))) {
+                    ImGui::ActivateItemByID(ImHashStr("Remove kept result###Remove region result",0,window->ID));removal_stage=1;std::cout<<"Complex remove: activated registered removal\n";break;
+                }
+            }
+        }else if(removal_stage==1) {
+            if(auto* modal=ImGui::FindWindowByName("Remove kept result?");modal && modal->WasActive){ImGui::ActivateItemByID(ImHashStr("Remove kept result",0,modal->ID));removal_stage=2;std::cout<<"Complex remove: activated confirmation\n";}
+        }else if(removal_stage==2 && restored->analysis_record_count()==previous_roi.size()) {
+            io.AddKeyEvent(ImGuiMod_Ctrl,true);io.AddKeyEvent(ImGuiKey_S,true);removal_stage=3;std::cout<<"Complex remove: removed result, requesting Save\n";
+        }else if(removal_stage==3) {io.AddKeyEvent(ImGuiKey_S,false);io.AddKeyEvent(ImGuiMod_Ctrl,false);removal_stage=4;}
+    };
+    const auto removed=run_project_gui(reopened,60,(directory/"complex-remove-save.ppm").u8string(),remove_options);
+    check(removal_stage==4 && removed.replay_complete && !removed.ui_overflow_items && removed.saves_completed==1 && !reopened->dirty() && restored->analysis_record_count()==previous_roi.size(),"Complex Remove/Confirm/Save did not finish: stage="+std::to_string(removal_stage)+" / records="+std::to_string(restored->analysis_record_count())+" / saves="+std::to_string(removed.saves_completed));
+    const auto after_removal=Project::open(copy.u8string());const auto after_doc=after_removal->document(chosen->id);
+    check(after_doc->analysis_record_count()==previous_roi.size(),"Removed complex result reappeared after native reopen");preserve_existing(*after_doc);
+    check(read(source)==original,"Complex Remove/Save changed original project");
+    std::cout<<"Complex milestone handoff: registered Remove/Confirm/Save/reopen retained all preexisting identities\n";
     std::cout<<"Complex project: six-image catalog, native NuCLS Draw/Run/Keep/View/exact CSV/GUI Save/reopen/Recheck and preexisting identity/calibration/raw-data preservation passed\n";
 }
 

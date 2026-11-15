@@ -9,20 +9,13 @@ namespace qpx::detail {
 enum class GuiExportOperation {GeoJson,ObjectCsv,SavedCells,ImageCells,ProjectCells,ImageMeasurements,ProjectMeasurements};
 struct ExportOwnerStamp {
     const Project* project=nullptr;const Document* document=nullptr;const ImageServer* server=nullptr;
-    std::uint64_t image=0,revision=0,calibration=0,selection=0,project_generation=0,project_revision=0;
-    std::string source_generation;
+    std::uint64_t image=0,revision=0,calibration=0,selection=0,project_generation=0,project_revision=0,epoch=0;
+    std::string source_generation;bool selected_only=false,project_scope=false;
     std::vector<std::tuple<std::uint64_t,const Document*,std::uint64_t,std::uint64_t,const ImageServer*>> members;
-    auto values() const {return std::tie(project,document,server,image,revision,calibration,selection,project_generation,project_revision,source_generation,members);}
+    auto values() const {return std::tie(project,document,server,image,revision,calibration,selection,project_generation,project_revision,source_generation,members,selected_only,project_scope,epoch);}
+    auto context_values() const {return std::tie(project,document,server,image,revision,calibration,selection,project_generation,project_revision,source_generation,selected_only,project_scope,epoch);}
+    bool same_context(const ExportOwnerStamp& other) const {return context_values()==other.context_values();}
     bool operator==(const ExportOwnerStamp& other) const {return values()==other.values();}
-};
-struct PendingGuiExport {
-    GuiExportOperation operation=GuiExportOperation::GeoJson;std::string path,scope;
-    std::vector<std::uint64_t> ids;std::vector<std::string> protected_paths;
-    CellTableOptions cell_options;MeasurementTableOptions measurement_options;
-    MeasurementTableKind measurement_kind=MeasurementTableKind::Roi;
-    bool selected_only=false,allow_losses=false,nested=false,intensity=false;
-    ExportOwnerStamp owner;std::shared_ptr<const FileVersion> destination;
-    bool project_scope() const {return operation==GuiExportOperation::ProjectCells || operation==GuiExportOperation::ProjectMeasurements;}
 };
 inline bool same_export_destination(const FileVersion& a,const FileVersion& b) {
     return std::tie(a.path,a.identity_scheme,a.identity,a.stamp_scheme,a.bytes,a.modified_token,a.change_token)==std::tie(b.path,b.identity_scheme,b.identity,b.stamp_scheme,b.bytes,b.modified_token,b.change_token);

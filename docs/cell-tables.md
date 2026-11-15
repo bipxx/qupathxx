@@ -33,8 +33,8 @@ GeoJSON, GEOS and project storage disabled when the source run itself is support
 
 The GUI offers a CSV destination and **Export cell table (Ctrl+Alt+X)** below the
 latest saved cell run. It exports that run, shows rows processed and terminal
-status, and can require current verified data. **Cancel table** or
-**Ctrl+Alt+Shift+X** cancels a pending export. `GuiOptions` supplies
+status, and can require current verified data. The visible **Cancel** control
+cancels a pending export. `GuiOptions` supplies
 `cell_table_path`, `cell_table_require_current`, `cell_table_byte_limit` and
 `cell_table_snapshot_budget`. [Project cell tables](project-cell-tables.md) add
 all-image export and the Ctrl+Shift+X shortcut through the same writer. Replay can wait for `CELL_TABLE_SAVED`; finite runs

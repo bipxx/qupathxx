@@ -51,20 +51,22 @@ class EntryEditor {
     }
     static std::string preview(std::string value) {for(auto& c:value)if(c=='\n' || c=='\r' || c=='\t')c=' ';return value;}
     void metadata_fields() {
+        ui::LayoutRegion region("Metadata collection");
+        {ui::CaptionedStrip actions("Metadata",3,0,true);actions.next();
         ImGui::BeginDisabled(metadata_.size()>=4096);
-        if(ui::IconButton("Add metadata",ui::Icon::Plus)) {metadata_.emplace_back();select_metadata(static_cast<int>(metadata_.size()-1));}
-        ImGui::EndDisabled();ImGui::SameLine();ImGui::BeginDisabled(metadata_row_<0);
-        if(ui::IconButton("Remove metadata",ui::Icon::Minus)) {metadata_.erase(metadata_.begin()+metadata_row_);select_metadata(metadata_.empty()?-1:0);}
-        ImGui::EndDisabled();ImGui::SameLine();ImGui::BeginDisabled(metadata_.empty());
-        if(ui::IconButton("Clear metadata",ui::Icon::Trash)) {metadata_.clear();select_metadata(-1);}
-        ImGui::EndDisabled();
+        if(ui::IconButton("Add metadata",ui::Icon::Plus,ui::Availability{metadata_.size()<4096,"The metadata field limit has been reached."})) {metadata_.emplace_back();select_metadata(static_cast<int>(metadata_.size()-1));}
+        ImGui::EndDisabled();actions.destructive();ImGui::BeginDisabled(metadata_row_<0);
+        if(ui::IconButton("Remove selected metadata###Remove metadata",ui::Icon::Trash,ui::Availability{metadata_row_>=0,"Select a metadata field first."})) {metadata_.erase(metadata_.begin()+metadata_row_);select_metadata(metadata_.empty()?-1:0);}
+        ImGui::EndDisabled();actions.next();ImGui::BeginDisabled(metadata_.empty());
+        if(ui::IconButton("Clear metadata",ui::Icon::Trash,ui::Availability{!metadata_.empty(),"There are no metadata fields to clear."})) {metadata_.clear();select_metadata(-1);}
+        ImGui::EndDisabled();}
         if(ImGui::BeginChild("Metadata rows",{0,140*ui::design::scale()},ImGuiChildFlags_Borders)) {
-            if(metadata_.empty())ui::TextDisabled("No metadata fields yet.");
+            if(metadata_.empty())ui::TextDisabled("No metadata fields. Use %s.",ui::i18n::text("Add metadata"));
             ImGuiListClipper clip;clip.Begin(static_cast<int>(metadata_.size()));
             while(clip.Step())for(int row=clip.DisplayStart;row<clip.DisplayEnd;++row) {
                 ImGui::PushID(row);const auto label=preview(metadata_[row].first);
-                if(ImGui::Selectable(label.empty()?"<empty key>":label.c_str(),row==metadata_row_))select_metadata(row);
-                if(ImGui::IsItemHovered()) {ImGui::BeginTooltip();ImGui::TextUnformatted(metadata_[row].first.c_str());ImGui::Separator();ImGui::TextUnformatted(metadata_[row].second.c_str());ImGui::EndTooltip();}
+                if(ui::Selectable(ui::data_label(label.empty()?"<empty key>":label,"metadata").c_str(),row==metadata_row_))select_metadata(row);
+                if(ImGui::IsItemHovered()) {ImGui::BeginTooltip();ui::DataText(metadata_[row].first.c_str());ui::Separator();ui::DataText(metadata_[row].second.c_str());ImGui::EndTooltip();}
                 ImGui::PopID();
             }
         }ImGui::EndChild();
@@ -76,20 +78,21 @@ class EntryEditor {
     void detail_fields() {
         ui::Checkbox("Include description###Description present",&has_description_);
         if(has_description_)ui::DialogInput("Description",description_.data(),description_.size(),{0,112});
-        ImGui::Spacing();ui::TextDisabled("Tags");
+        ui::LayoutRegion region("Tags collection");
+        {ui::CaptionedStrip actions("Tags",3,0,true);actions.next();
         ImGui::BeginDisabled(tags_.size()>=4096);
-        if(ui::IconButton("Add tag",ui::Icon::Plus)) {tags_.emplace_back();select_tag(static_cast<int>(tags_.size()-1));}
-        ImGui::EndDisabled();ImGui::SameLine();ImGui::BeginDisabled(tag_row_<0);
-        if(ui::IconButton("Remove tag",ui::Icon::Minus)) {tags_.erase(tags_.begin()+tag_row_);select_tag(tags_.empty()?-1:0);}
-        ImGui::EndDisabled();ImGui::SameLine();ImGui::BeginDisabled(tags_.empty());
-        if(ui::IconButton("Clear tags",ui::Icon::Trash)) {tags_.clear();select_tag(-1);}
-        ImGui::EndDisabled();
+        if(ui::IconButton("Add tag",ui::Icon::Plus,ui::Availability{tags_.size()<4096,"The tag limit has been reached."})) {tags_.emplace_back();select_tag(static_cast<int>(tags_.size()-1));}
+        ImGui::EndDisabled();actions.destructive();ImGui::BeginDisabled(tag_row_<0);
+        if(ui::IconButton("Remove selected tag###Remove tag",ui::Icon::Trash,ui::Availability{tag_row_>=0,"Select a tag first."})) {tags_.erase(tags_.begin()+tag_row_);select_tag(tags_.empty()?-1:0);}
+        ImGui::EndDisabled();actions.next();ImGui::BeginDisabled(tags_.empty());
+        if(ui::IconButton("Clear tags",ui::Icon::Trash,ui::Availability{!tags_.empty(),"There are no tags to clear."})) {tags_.clear();select_tag(-1);}
+        ImGui::EndDisabled();}
         if(ImGui::BeginChild("Tag rows",{0,100*ui::design::scale()},ImGuiChildFlags_Borders)) {
-            if(tags_.empty())ui::TextDisabled("No tags yet.");
+            if(tags_.empty())ui::TextDisabled("No tags. Use %s.",ui::i18n::text("Add tag"));
             ImGuiListClipper clip;clip.Begin(static_cast<int>(tags_.size()));
             while(clip.Step())for(int row=clip.DisplayStart;row<clip.DisplayEnd;++row) {
                 ImGui::PushID(row);const auto label=preview(tags_[row]);
-                if(ImGui::Selectable(label.empty()?"<empty tag>":label.c_str(),row==tag_row_))select_tag(row);
+                if(ui::Selectable(ui::data_label(label.empty()?"<empty tag>":label,"tag").c_str(),row==tag_row_))select_tag(row);
                 ImGui::PopID();
             }
         }ImGui::EndChild();

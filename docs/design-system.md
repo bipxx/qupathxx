@@ -14,6 +14,26 @@ inspectors use the same role sizes, colors and states.
 
 ![Workbench navigation and components over unchanged CMU-1 data](images/workbench-project.png)
 
+## Translation scope
+
+The selected translated scope includes the shell, header menus, registered dialogs,
+Project, Image, Annotations and Workflow panes, and every Workflow task.
+Specialist tool windows remain outside this scope and may stay in English.
+Project settings are included. In-scope captions now have catalogue rows in all
+15 supported translations; the exact per-surface ratchet holds missing keys at
+zero. Numeric templates with already-localized labels/units remain literal data.
+
+Every new caption needs a catalogue row with all 15 translations and identical
+printf conversions. Localized native draws collect missing keys per surface;
+`tests/fixtures/gui-translation-misses.json` is an exact ratchet. A new missing
+caption fails with "new untranslated caption"; a translated baseline key fails
+with "lower the fixture" until removed from that surface's fixture. Native GUI
+tests enable the observer with `QUPATHXX_I18N_TRACE=<run-output.tsv>`. Run
+`python tests/gui_translation_coverage.py --trace-dir <localized-run-traces>`
+after the localized GL scenes. Specialist windows have reported counts without
+assertions. Names and other data bypass translation and use the literal label
+helper when they need an ImGui identity.
+
 ## Ownership
 
 | Concern | Owner | Use |
@@ -572,6 +592,99 @@ When updating from the sibling project, review its `docs/design-system.md`,
 scientific rendering colors separate and inspect both palettes, a translated
 screen and a scaled/narrow screen before handoff.
 
+
+## Layout and action placement
+
+- **P1. An action sits with what it acts on.** Its scope decides its place:
+  field actions (browse, clear, save to this path) trail the field on its line;
+  row actions trail their item; collection actions (refresh, add) trail the list
+  caption; selection actions (open, remove, recheck) join that caption's strip or
+  sit on the selected row; section actions (run, save now, apply) use the section
+  action row. Example: `PathField::draw` in `cpp/gui_path_field.hpp` keeps Browse
+  beside its path, and Recovery's checkpoint commands belong to its list header.
+- **P2. Icon-only is the house style, but an icon never stands alone.** An icon
+  shares its line with its field, row or caption, or belongs to a captioned
+  toolbar strip or fixed tool palette. Related icons form one strip aligned to
+  the content's right edge, ordered create/add, open/browse, save, refresh, then
+  destructive actions last and separated. Text buttons carry a section's primary
+  action (Run, Apply, Open project) and dialog decisions. Example: the fixed
+  drawing palette in `cpp/gui_theme.hpp` uses compact shape icons.
+- **P3. Every icon-only control has a tooltip with its full caption, shortcut
+  and disabled reason.** A selection caption names its object ("Open selected
+  checkpoint", "Delete selected checkpoint..."); without a selection it is
+  disabled with a reason. Example: `WorkflowIcon` in `cpp/gui_workflow_ui.hpp`
+  uses the command table's caption/chord and `ui::Availability`.
+- **P8. One icon, one meaning.** The same `Icon` means the same kind of action
+  everywhere. Different meanings never share an icon within a section, and one
+  meaning never uses two icons. The table below defines the vocabulary; the
+  exact allowed rendered (icon, command identity) pairs live in
+  [`gui-icon-vocabulary.tsv`](../tests/fixtures/gui-icon-vocabulary.tsv).
+  Example: `PathField::draw` always uses Open for Browse.
+  Glyphs must also have distinct silhouettes at the native 24-pixel canvas and
+  at 200%. The native glyph check rejects different vocabulary icons with
+  foreground-mask IoU >= 0.90 (ink >= 128/255); blank background is excluded.
+  Refresh has two clockwise arrowheads, Reset surrounds a dot, and Undo is hooked.
+- **P9. Visual consistency.** Inputs share one label column width and control
+  width rule within a section; trailing icon strips share one right edge.
+  Vertical group spacing uses design tokens, without ad-hoc Dummy/Spacing
+  stacks. Related controls use a separator or sub-caption. Example:
+  `prepare_field` and `ActionRow` in `cpp/gui_layout.hpp` share token widths.
+  Numeric inputs use the 256-logical-pixel `number_width` token, including adjacent
+  steppers, clamped to available space. It fits a signed 64-bit boundary at 200%
+  with French UI text. `NumberWidth` explicitly opts a longer format into a wider
+  control; text/path inputs retain their full-width rule. Destructive groups use
+  the canvas toolbar's border-light line and `group_separator_width` gap.
+- **P4. One label placement per section.** Sections using left labels
+  (`ui::field`) use them for every input, without mixing stacked captions.
+  Helper text sits directly under its control. Example: Recovery's interval,
+  recovery file, checkpoint file and primary location use the same label column.
+- **P5. Order inside a section:** description → inputs → captioned list with an
+  empty-state line → selection actions → section actions → last-action status.
+  Status and progress sit beneath the action producing them. Selection actions
+  can share the list's caption strip under P1. Example: Recovery maintenance
+  status follows its checkpoint list and path fields in `cpp/gui.cpp`.
+- **P6. A list has a caption and an empty state.** The empty line says so and
+  names the action that fills it. Example: Recovery checkpoints names Find
+  recovery files when there are no candidates.
+- **P7. At most one primary action per section.** Example: `draw_result_panel`
+  in `cpp/gui_result_panel.hpp` promotes Run for a fresh preview, then Keep for
+  the ready result, using the existing result-state authority.
+
+The rendered layout lint checks P2, P6, the alignment part of P9, and P8 against
+the icon fixture. Review checks the other principles and the remaining P9 rules.
+
+| Icon | Meaning |
+| --- | --- |
+| New | Create a new project/document |
+| Plus | Add an item to a collection or increase a numeric limit |
+| Open | Browse or open a file/folder |
+| Save | Write to disk |
+| Refresh | Search, rescan, reload or retry |
+| Trash | Delete from disk or remove an item |
+| Minus | Decrease a numeric limit |
+| Edit | Open an editor or enter rename mode |
+| Link | Locate/relink a missing source |
+| Copy, Paste | Clipboard copy and paste |
+| Import, Export | Import/export data |
+| Check | Apply/confirm an edit, including a rename |
+| Close | Dismiss/cancel a draft or hide a panel |
+| Stop | Cancel running work |
+| Up, Down | Reorder selected items |
+| Left, Right | Previous/next page |
+| Info | Inspect information/details |
+| Eye | Show/hide objects |
+| Deselect, SelectAll | Clear/select the selection |
+| Undo, Redo | Undo/redo an edit |
+| Fit | Fit the image to the view |
+| Reset | Reset display/workspace preferences |
+| Settings | Configure tool parameters |
+| Gear | Workspace preferences |
+| PanelLayout | Panel placement menu |
+| More | Open the item's action menu |
+| Project, Image, Annotations, Workflow | Reveal the named workspace pane |
+| Channels, Spatial | Open the named specialist tool |
+| Select, Rectangle, Ellipse, Polygon, Polyline, Points, Vertices, Hole | Fixed drawing/editing tools |
+| ChevronRight, ChevronDown | Expand/collapse a group |
 
 ## Review workflow presentation contract
 

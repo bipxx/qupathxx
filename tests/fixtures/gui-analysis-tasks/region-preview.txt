@@ -1,0 +1,21 @@
+ACTIONS
+0 | Analyze region (Ctrl+M) | Run analysis | enabled | secondary
+1 | Keep result (Ctrl+K) | Keep result | enabled | primary
+RESULTS
+preview | Preview result | 0 | 0 | 0 | 0.50345021486282349 | 0.50345021486282349 | 0.50345021486282349
+LINES
+Features { RGB optical density }
+[ ] Use nucleus
+[ ] Intensity statistics
+### Advanced inputs ###
+[ Run analysis ]
+Ready
+--- Preview result
+Mean OD R: 0.50345
+Mean OD G: 0.50345
+Mean OD B: 0.50345
+Samples: 2640
+### Details ###
+Keep adds this result to the project. Save project writes it to disk.
+Keep this result to include it in tables.
+[ Keep result ]

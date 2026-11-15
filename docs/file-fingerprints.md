@@ -124,7 +124,7 @@ Open **File checksum**, enter an input or choose **Use image file**, and optiona
 enter a JSON destination. **Hash file (Ctrl+Shift+F)** runs the native worker.
 Progress, terminal errors, the observed path and the full digest are displayed;
 the digest is split into two 32-character lines for the narrow sidebar.
-**Cancel file hash** or **Ctrl+Alt+Shift+F** cancels an active operation.
+The visible **Cancel file hash** control cancels an active operation.
 The selected annotation and project dirty state are not changed by hashing.
 
 `GuiOptions.file_fingerprint_path`, `file_fingerprint_output`,

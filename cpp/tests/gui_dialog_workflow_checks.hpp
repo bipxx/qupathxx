@@ -1,5 +1,6 @@
 #pragma once
 #include "qupathxx/source_identity.hpp"
+#include "gui_control_replay_checks.hpp"
 // Included after the organization fixture helpers; exercises real native handlers.
 static void dialog_workflows(const std::filesystem::path& directory) {
     auto click=[](std::vector<GuiInput>& inputs,int frame,GuiInputTarget target) {
@@ -18,9 +19,14 @@ static void dialog_workflows(const std::filesystem::path& directory) {
         auto project=fixture(directory/"metadata-workbench.qpxproj",128,96);auto doc=project->document(project->active_image());
         const auto object=doc->add_rectangle({10,12,30,24},"Original");project->save(project->path());doc->rename_annotation(object,"Captured");
         const auto saved=read(std::filesystem::u8path(project->path()));auto o=options(directory,"metadata-workbench","project");
-        GuiInput down;down.frame=4;down.kind=GuiInputKind::LeftDown;down.target=GuiInputTarget::Window;down.x=360./o.width;down.y=500./o.height;
-        auto up=down;up.frame=5;up.kind=GuiInputKind::LeftUp;o.inputs={down,up,key(9,GuiInputKind::UndoKey)};
+        o.inputs={key(9,GuiInputKind::UndoKey)};
+        control_replay_checks::TraceScope control;bool metadata_activated=false,modal_owned_undo=false;
+        control.trace.before_frame=[&](int frame){
+            if(frame>=4 && !metadata_activated)metadata_activated=control_replay_checks::metadata();
+            if(frame==9){auto* modal=ImGui::GetTopMostPopupModal();modal_owned_undo=modal && modal->ID==ImHashStr(ui::dialog_definition(ui::DialogKind::ImageMetadata).name) && ui::DialogOwnsInput();}
+        };
         const auto report=run_project_gui(project,20,(directory/"dialog-metadata-workbench.ppm").u8string(),o);
+        check(metadata_activated && modal_owned_undo,"Metadata replay must open the actual modal before sending Undo");
         check(report.replay_complete && report.project_error.empty() && doc->annotation(object).name=="Captured" && read(std::filesystem::u8path(project->path()))==saved,"Metadata modal allowed an underlying Undo or changed saved bytes");
     }
     for(const bool cancel:{true,false}) {

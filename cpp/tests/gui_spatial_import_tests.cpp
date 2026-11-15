@@ -1,3 +1,4 @@
+#include "gui_translation_trace.hpp"
 #include "../gui_spatial_import.hpp"
 #include "../gui_genes.hpp"
 #include "qupathxx/object_properties.hpp"
@@ -18,7 +19,7 @@ void capture(const fs::path& path,GLFWwindow* window) {
     std::ofstream file(path,std::ios::binary);file<<"P6\n"<<w<<' '<<h<<"\n255\n";
     for(int y=h-1;y>=0;--y)file.write(reinterpret_cast<const char*>(pixels.data()+std::size_t(y)*w*3),w*3);
 }
-int main(int argc,char** argv) {try {
+int main(int argc,char** argv) {std::cout<<std::unitbuf;std::cerr<<std::unitbuf;try {
     Project identity;const auto root=argc>1?fs::u8path(argv[1]):fs::current_path()/(identity.identity()+"-import-gui");fs::create_directories(root);
     Project project;auto doc=std::make_shared<Document>(Image(8,8,std::vector<std::uint8_t>(8*8*3,80)));project.add_document(doc);project.save_new((root/"base.qpx").u8string());
     write(root/"counts.mtx","%%MatrixMarket matrix coordinate integer general\n2 3 3\n1 1 5\n2 1 2\n1 2 10\n");
@@ -33,6 +34,7 @@ int main(int argc,char** argv) {try {
     {
         auto wizard=std::make_unique<detail::GuiSpatialImporter>();wizard->set_request(request);wizard->read_images();wizard->wait();check(wizard->error().empty(),"Read images through native job");
         wizard->read_genes();wizard->wait();check(wizard->error().empty(),"Read features through native job");wizard->preview();wizard->wait();
+        if(!wizard->result())std::cerr<<"Preview failure: "<<wizard->error()<<" / output: "<<request.output_project<<"\n";
         check(wizard->result() && !fs::exists(root/"imported.qpx") && bytes(root/"base.qpx")==original && !doc->object_count(),"Preview is owned and read-only");
         const auto frame=[&](int click_stage=-1,detail::GuiSpatialImporter::Action action=detail::GuiSpatialImporter::Action::Publish) {
             glfwPollEvents();ImGui_ImplOpenGL3_NewFrame();ImGui_ImplGlfw_NewFrame();

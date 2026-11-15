@@ -1,3 +1,6 @@
+#include "gui_translation_trace.hpp"
+#include "gui_path_field_checks.hpp"
+#include "../gui_workflow_ui.hpp"
 #include "../gui_fluorescence.hpp"
 #include "../gui_dark_flat.hpp"
 #include "../gui_marker_rules.hpp"
@@ -6,6 +9,7 @@
 #include "qupathxx/marker_rules.hpp"
 #include "quantitative_tiff_fixture.hpp"
 #include <imgui.h>
+#include <imgui_internal.h>
 #include <GLFW/glfw3.h>
 #include <backends/imgui_impl_glfw.h>
 #include <backends/imgui_impl_opengl3.h>
@@ -22,6 +26,7 @@ std::string bytes(const fs::path& p){std::ifstream in(p,std::ios::binary);return
 void field(const fs::path& path,std::uint16_t a,std::uint16_t b){qpx_test::raw_pixel_tiff_fixture(path,15,9);std::fstream out(path,std::ios::binary|std::ios::in|std::ios::out);out.seekp(160);for(int i=0;i<135;++i)for(auto v:{a,b}){out.put(char(v&255));out.put(char(v>>8));}out.close();check(bool(out),"Write independent field fixture");}
 void capture(const fs::path& path,GLFWwindow* window){int w,h;glfwGetFramebufferSize(window,&w,&h);std::vector<unsigned char> rgb(std::size_t(w)*h*3);glReadBuffer(GL_FRONT);glPixelStorei(GL_PACK_ALIGNMENT,1);glReadPixels(0,0,w,h,GL_RGB,GL_UNSIGNED_BYTE,rgb.data());std::ofstream out(path,std::ios::binary);out<<"P6\n"<<w<<' '<<h<<"\n255\n";for(int y=h-1;y>=0;--y)out.write(reinterpret_cast<const char*>(rgb.data()+std::size_t(y)*w*3),w*3);}
 void exercise(const fs::path& root,GLFWwindow* window,bool handoff){
+    ui::WorkflowTrace actions;struct RestoreTrace{ui::WorkflowTrace* old=ui::workflow_trace;~RestoreTrace(){ui::workflow_trace=old;}} restore;ui::workflow_trace=&actions;
     const auto signal=root/"signal.tif",dark=root/"dark.tif",flat=root/"flat.tif";qpx_test::raw_pixel_tiff_fixture(signal,15,9);field(dark,10,300);field(flat,20,320);
     const auto before_signal=bytes(signal),before_dark=bytes(dark),before_flat=bytes(flat);
     auto doc=std::make_shared<Document>(open_tiff(signal.u8string()));const auto roi=doc->add_rectangle({1,1,12,7},"ROI");
@@ -35,7 +40,7 @@ void exercise(const fs::path& root,GLFWwindow* window,bool handoff){
     const auto click_panel=[&](detail::GuiFluorescence::Action action,bool blocked=false){frame({-100,-100},-1,blocked);click_rect(panel.bounds(action),blocked);};
     const auto settle=[&](bool blocked=false){for(int i=0;i<3000;++i){frame({-100,-100},-1,blocked);if(!tool.busy() && !panel.busy())return;std::this_thread::sleep_for(std::chrono::milliseconds(2));}throw std::runtime_error("Correction desktop did not settle");};
     tool.set_fields((root/"missing.tif").u8string(),flat.u8string(),options);frame();click_tool(detail::GuiDarkFlat::Action::Load);settle();check(!tool.error().empty() && tool.state()=="failed","Missing field produces visible native error");
-    tool.set_fields(dark.u8string(),flat.u8string(),options);frame();click_tool(detail::GuiDarkFlat::Action::Load);
+    tool.set_fields("","",options);path_field_checks::choose(*tool.paths()[0],dark.u8string(),[&]{frame();});path_field_checks::choose(*tool.paths()[1],flat.u8string(),[&]{frame();});frame();click_tool(detail::GuiDarkFlat::Action::Load);
     for(int i=0;i<15;++i)frame({-100,-100},-1,true);check(tool.busy() && tool.state()=="opening","Blocked owner defers ready-field delivery");settle();
     if(!tool.error().empty())std::cerr<<tool.error()<<'\n';check(tool.error().empty() && tool.state()=="ready","Actual field Load captures native correction");
     click_tool(detail::GuiDarkFlat::Action::Preview,true);check(!tool.result(),"Blocked preview action is disabled");click_tool(detail::GuiDarkFlat::Action::Preview);settle();
@@ -44,6 +49,7 @@ void exercise(const fs::path& root,GLFWwindow* window,bool handoff){
     click_tool(detail::GuiDarkFlat::Action::Keep);check(tool.error().empty() && !tool.kept_record().empty(),"Actual Keep stores native recipe");const auto correction_id=tool.kept_record();
     doc->undo();frame();check(dark_flat_recipe_ids(*doc).empty() && tool.kept_record().empty(),"Metadata Undo updates correction controls");doc->redo();frame();
     click_tool(detail::GuiDarkFlat::Action::LoadSaved);settle();click_tool(detail::GuiDarkFlat::Action::Preview);settle();check(tool.error().empty() && tool.result(),"Saved correction loads and previews through native restore");
+    click_tool(detail::GuiDarkFlat::Action::Remove);check(tool.error().empty() && dark_flat_recipe_ids(*doc).empty(),"Correction Remove is not immediate");check(!ImGui::IsPopupOpen(nullptr,ImGuiPopupFlags_AnyPopupId),"Correction Remove opened modal");doc->undo();frame();check(dark_flat_recipe_ids(*doc)==std::vector<std::string>{correction_id},"Correction Remove Undo lost exact identity");click_tool(detail::GuiDarkFlat::Action::LoadSaved);settle();
     RawRegionRequest selection;selection.channels=2;FluorescenceCellOptions cells;cells.threshold=90;cells.cell_expansion=1.5;panel.set_request(selection,cells,{0,0});
     click_tool(detail::GuiDarkFlat::Action::Use);check(panel.uses_correction(),"Actual Use command explicitly selects corrected fluorescence");
     click_panel(detail::GuiFluorescence::Action::Run);settle();if(!panel.error().empty())std::cerr<<panel.error()<<'\n';check(panel.result() && panel.error().empty() && panel.result()->measurement_domain()=="qpx.dark-flat-corrected-samples/1","Actual fluorescence Run uses selected corrected source");
@@ -59,14 +65,38 @@ void exercise(const fs::path& root,GLFWwindow* window,bool handoff){
     draw_parent=false;markers=std::make_unique<detail::GuiMarkerRules>();MarkerRule rule;rule.domain="qpx.dark-flat-corrected-samples/1";rule.gates={{"Signed marker",1}};rule.gates[0].threshold=0;rule.nodes={{MarkerOperation::Gate,0,{}}};markers->set_rule(rule);markers->open();frame();
     const auto click_marker=[&](detail::GuiMarkerRules::Action a){frame();click_rect(markers->bounds(a),false);};click_marker(detail::GuiMarkerRules::Action::Preview);for(int i=0;i<3000 && markers->busy();++i){frame();std::this_thread::sleep_for(std::chrono::milliseconds(2));}
     check(markers->result() && markers->result()->counts().negative==1 && markers->result()->counts().positive==0,"Actual marker UI evaluates corrected negative observations");click_marker(detail::GuiMarkerRules::Action::Apply);check(markers->error().empty() && verify_marker_rule_publication(*doc,*markers->result()),"Actual marker Apply retains corrected facts");doc->undo();frame();check(!markers->result(),"Marker Undo invalidates applied preview authority");markers.reset();draw_parent=true;
-    frame();click_panel(detail::GuiFluorescence::Action::Correction);click_tool(detail::GuiDarkFlat::Action::LoadSaved);settle();click_tool(detail::GuiDarkFlat::Action::Remove);check(!tool.error().empty() && load_dark_flat_recipe(*doc,correction_id).sha256()==correction_id,"Referenced correction removal visibly refuses");
+    frame();click_panel(detail::GuiFluorescence::Action::Correction);click_tool(detail::GuiDarkFlat::Action::LoadSaved);settle();click_tool(detail::GuiDarkFlat::Action::Remove);check(!ImGui::IsPopupOpen(nullptr,ImGuiPopupFlags_AnyPopupId),"Undoable removal opened a modal");check(tool.error().empty() && actions.actions.at("Remove correction recipe").disabled && actions.actions.at("Remove correction recipe").reason==ui::i18n::text("This recipe is used by kept results.") && load_dark_flat_recipe(*doc,correction_id).sha256()==correction_id,"Referenced correction removal is disabled with its reason");
+    check(!ImGui::IsPopupOpen(nullptr,ImGuiPopupFlags_AnyPopupId),"Referenced recipe refusal opened a modal");
     check(bytes(signal)==before_signal && bytes(dark)==before_dark && bytes(flat)==before_flat,"Desktop preview/publication/replay preserve source bytes");
     if(handoff){std::cout<<"Desktop correction handoff passes; source fixtures preserved for standalone replay\n";return;}
-    {std::ofstream changed(flat,std::ios::binary|std::ios::app);changed.put('x');}click_tool(detail::GuiDarkFlat::Action::Preview);settle();check(!tool.error().empty() && !tool.result() && tool.state()=="failed","Changed field fails preview without stale values");click_tool(detail::GuiDarkFlat::Action::Use);check(!tool.error().empty() && !panel.uses_correction(),"Stale correction cannot be handed to fluorescence");
+    // Select a valid correction, then invalidate its native source association.
+    click_tool(detail::GuiDarkFlat::Action::Use);check(panel.uses_correction(),"Correction reselected for mismatch check");tool.open();
+    {std::ofstream changed(flat,std::ios::binary|std::ios::app);changed.put('x');}click_tool(detail::GuiDarkFlat::Action::Preview);settle();check(!tool.error().empty() && !tool.result() && tool.state()=="failed","Changed field fails preview without stale values");click_tool(detail::GuiDarkFlat::Action::Use);check(!tool.error().empty() && panel.uses_correction(),"Mismatched correction must keep its checkbox ticked");
+    // matches(doc) tracks the document/source/calibration authority; field bytes
+    // are independently checked by require_current. Invalidate the former here.
+    doc->set_calibration(.5,.5);panel.open();frame();const auto before=doc->object_count();click_panel(detail::GuiFluorescence::Action::Run);settle();
+    check(!panel.result() && doc->object_count()==before && panel.uses_correction(),"Mismatched correction silently ran original samples");
+    ImGui::NewFrame();ImGui::LogToBuffer();panel.draw(*doc,roi,false);const std::string reason=ImGui::GetCurrentContext()->LogBuffer.c_str();ImGui::LogFinish();ImGui::Render();
+    check(reason.find("The selected correction no longer matches this image. Choose it again in Dark/flat correction.")!=std::string::npos,"Missing correction mismatch reason");
     tool.set_fields(dark.u8string(),flat.u8string(),options);frame();click_tool(detail::GuiDarkFlat::Action::Load);click_tool(detail::GuiDarkFlat::Action::Cancel,true);settle(true);check(tool.state()=="cancelled" && !tool.result(),"Cancel consumes pending worker without owner publication");
     click_tool(detail::GuiDarkFlat::Action::Load);*doc=Document(doc->server());settle();check(!tool.result() && tool.kept_record().empty(),"Same-address replacement discards pending field authority");
     std::cout<<"Desktop correction: signed preview, async/blocked delivery, recipe Undo/load, explicit corrected/original run, cell Undo/Redo, exact reopened replay, marker Apply/Undo, source guards and cancel pass\n";
 }
-int main(int argc,char** argv){try{if(!has_project() || !has_tiff() || !has_geos()){std::cout<<"Optional project/TIFF/GEOS unavailable\n";return 0;}const auto root=argc>1?fs::u8path(argv[1]):fs::current_path()/("dark-flat-gui-"+std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()));fs::create_directories(root);
-    check(glfwInit(),"GLFW init");glfwWindowHint(GLFW_VISIBLE,GLFW_FALSE);glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR,3);glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR,3);auto* window=glfwCreateWindow(1280,1100,"Native correction workflow",nullptr,nullptr);check(window,"GLFW window");glfwMakeContextCurrent(window);ImGui::CreateContext();ImGui::GetIO().IniFilename=nullptr;ImGui::GetIO().ConfigInputTrickleEventQueue=false;ImGui::GetIO().Fonts->AddFontDefault();ImGui_ImplGlfw_InitForOpenGL(window,true);ImGui_ImplOpenGL3_Init("#version 330");exercise(root,window,argc>2 && std::string(argv[2])=="--handoff");ImGui_ImplOpenGL3_Shutdown();ImGui_ImplGlfw_Shutdown();ImGui::DestroyContext();glfwDestroyWindow(window);glfwTerminate();
+void stored_spelling(const fs::path& root) {
+    auto doc=std::make_shared<Document>(open_tiff((root/"signal.tif").u8string()));
+    const auto dark=(root/"dark.tif").generic_u8string(),flat=(root/"flat.tif").generic_u8string();
+    check(dark.find('/')!=std::string::npos && dark.find('\\')==std::string::npos,"Forward-slash recipe fixture spelling");
+    const DarkFlatRequest request(*doc,open_tiff(dark),open_tiff(flat),DarkFlatOptions{{10,20},0});
+    const auto id=keep_dark_flat_recipe(*doc,request);const auto stored=load_dark_flat_recipe(*doc,id);
+    std::cout<<"Forward-slash TIFF input locator: "<<dark<<"; frozen reader stored locator: "<<stored.sources[1].path<<'\n';detail::GuiDarkFlat tool;tool.open();
+    auto frame=[&]{glfwPollEvents();ImGui_ImplOpenGL3_NewFrame();ImGui_ImplGlfw_NewFrame();ImGui::NewFrame();tool.draw(*doc);ImGui::Render();};
+    for(int i=0;i<4;++i)frame();const auto r=tool.bounds(detail::GuiDarkFlat::Action::LoadSaved);check(r.width>0 && r.height>0,"Stored recipe action missing");
+    auto& io=ImGui::GetIO();io.AddMousePosEvent(float(r.x+r.width/2),float(r.y+r.height/2));frame();io.AddMouseButtonEvent(0,true);frame();io.AddMouseButtonEvent(0,false);frame();
+    for(int i=0;i<3000 && tool.busy();++i){frame();std::this_thread::sleep_for(std::chrono::milliseconds(1));}frame();
+    check(tool.state()=="ready" && tool.error().empty() && tool.kept_record()==id,("Window restore changed stored path/recipe identity: "+tool.error()).c_str());
+    check(std::string(tool.paths()[0]->text())==stored.sources[1].path && std::string(tool.paths()[1]->text())==stored.sources[2].path,"Restored fields did not show exact stored spelling");
+    std::cout<<"Forward-slash TIFF inputs: actual Load saved restored the exact kept recipe identifier "<<id<<'\n';
+}
+int main(int argc,char** argv){std::cout<<std::unitbuf;std::cerr<<std::unitbuf;try{if(!has_project() || !has_tiff() || !has_geos()){std::cout<<"Optional project/TIFF/GEOS unavailable\n";return 0;}const auto root=argc>1?fs::u8path(argv[1]):fs::current_path()/("dark-flat-gui-"+std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()));fs::create_directories(root);
+    check(glfwInit(),"GLFW init");glfwWindowHint(GLFW_VISIBLE,GLFW_FALSE);glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR,3);glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR,3);auto* window=glfwCreateWindow(1280,1100,"Native correction workflow",nullptr,nullptr);check(window,"GLFW window");glfwMakeContextCurrent(window);ImGui::CreateContext();ImGui::GetIO().IniFilename=nullptr;ImGui::GetIO().ConfigInputTrickleEventQueue=false;ImGui::GetIO().Fonts->AddFontDefault();ImGui_ImplGlfw_InitForOpenGL(window,true);ImGui_ImplOpenGL3_Init("#version 330");if(!(argc>2 && std::string(argv[2])=="--stored-spelling"))exercise(root,window,argc>2 && std::string(argv[2])=="--handoff");stored_spelling(root);ImGui_ImplOpenGL3_Shutdown();ImGui_ImplGlfw_Shutdown();ImGui::DestroyContext();glfwDestroyWindow(window);glfwTerminate();
 }catch(const std::exception& e){std::cerr<<e.what()<<'\n';return 1;}}

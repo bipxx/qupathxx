@@ -103,6 +103,10 @@ public:
     static constexpr const char* objects_pane="Annotations###Annotations";
     static constexpr const char* workflow_pane="Workflow###Measurements and jobs";
     inline static constexpr const char* panes[]={project_pane,image_pane,objects_pane,workflow_pane};
+    static const char* activity_label(int index) {
+        const auto* legacy=std::strstr(panes[index],"###");
+        return ui::presentation_label(ui::shell_commands[index],legacy?legacy+3:panes[index]);
+    }
     inline static constexpr const char* keys[]={"project","image","annotations","workflow"};
     Rect browser{0,0,1,1},objects{0,0,1,1},display{0,0,1,1},measurements{0,0,1,1},canvas{0,0,1,1};
     std::string gene_preference;
@@ -197,7 +201,8 @@ public:
         ImGui::InvisibleButton("##Drag panel",{row.field_width(),height});
         const auto* text=ui::i18n::text(caption);
         const ImVec4 clip{at.x,at.y,at.x+row.field_width(),at.y+height};
-        if(docked)ImGui::GetWindowDrawList()->AddText(ImGui::GetFont(),ImGui::GetFontSize(),{at.x,at.y+(height-ImGui::GetFontSize())*.5f},ImGui::GetColorU32(ImGuiCol_Text),text,nullptr,0,&clip);
+        ImGui::GetWindowDrawList()->AddText(ImGui::GetFont(),ImGui::GetFontSize(),{at.x,at.y+(height-ImGui::GetFontSize())*.5f},ImGui::GetColorU32(ImGuiCol_Text),text,nullptr,0,&clip);
+        ui::trace_layout(ui::LayoutKind::Caption,caption);
         if(docked && !blocked_ && ImGui::IsItemActive() && ImGui::IsMouseDragging(ImGuiMouseButton_Left)) {
             auto* window=ImGui::GetCurrentWindow();auto& context=*ImGui::GetCurrentContext();
             if(window->DockNode)ImGui::DockContextQueueUndockWindow(&context,window);
@@ -205,6 +210,7 @@ public:
         }
         if(ImGui::IsItemHovered(ImGuiHoveredFlags_ForTooltip))ImGui::SetTooltip("%s",ui::i18n::text("Drag panel to dock or float"));
         row.next();ImGui::BeginDisabled(blocked_);
+        ui::IconReason layout_reason(ImGui::GetTopMostPopupModal()?"Finish the current dialog first.":"Wait for the current work to finish.");
         if(ui::IconButton("Panel layout",ui::Icon::PanelLayout))ImGui::OpenPopup("Panel layout");
         if(ui::BeginPopupMenu("Panel layout")) {
             if(ui::MenuItem("Dock on left"))dock_left(name);
@@ -212,7 +218,7 @@ public:
                 if(ui::MenuItem("Dock on right"))dock_right(name);
                 if(ui::MenuItem("Stack on right"))dock_right(name,true);
             }
-            ImGui::Separator();
+            ui::Separator();
             if(ui::MenuItem("Float panel"))float_panel(name);
             if(ui::MenuItem("Hide panel"))hide(name);
             ImGui::EndPopup();
@@ -237,11 +243,10 @@ public:
         blocked_=blocked;
         dock_=ImGui::GetID("Research workspace dockspace");
         auto size=ImGui::GetContentRegionAvail();size.x=std::max(1.f,size.x);
-        const int footer_lines=size.x<60*ImGui::GetFontSize()?2:1;
-        size.y=std::max(1.f,size.y-footer_lines*ImGui::GetTextLineHeightWithSpacing()-2*ui::design::spacing.sm*ui::design::scale());
+        size.y=std::max(1.f,size.y-ImGui::GetFrameHeightWithSpacing()-2*ui::design::spacing.sm*ui::design::scale());
         const float scale=ui::design::scale(),rail=shell?shell->rail_width():ui::design::metrics.activity_width*scale;
         const auto origin=ImGui::GetCursorScreenPos();
-        if(!blocked) for(int i=0;i<4;++i) if(ImGui::Shortcut(ImGuiMod_Ctrl|static_cast<ImGuiKey>(ImGuiKey_1+i),ImGuiInputFlags_RouteGlobal)) select(panes[i]);
+        if(!blocked) for(int i=0;i<4;++i) if(ui::chord_pressed(static_cast<ui::CommandId>(static_cast<int>(ui::CommandId::Header_ProjectPanel)+i),ui::frame_commands())) select(panes[i]);
         if(shell) {
             shell->place_rail(origin.x,origin.y,size.y);ImGui::Dummy({rail,size.y});ImGui::SameLine(0,0);
         } else {
@@ -249,14 +254,17 @@ public:
         ImGui::PushStyleColor(ImGuiCol_ChildBg,ui::design::color(ui::design::colors().bg_primary));
         ImGui::BeginChild("Activity rail",{rail,size.y},ImGuiChildFlags_None,ImGuiWindowFlags_NoScrollbar|ImGuiWindowFlags_NoScrollWithMouse);
         ImGui::BeginDisabled(blocked);
+        ui::IconReason rail_reason(ImGui::GetTopMostPopupModal()?"Finish the current dialog first.":"Wait for the current work to finish.");
         constexpr ui::Icon icons[]={ui::Icon::Project,ui::Icon::Image,ui::Icon::Annotations,ui::Icon::Workflow};
-        constexpr const char* shortcuts[]={"Ctrl+1","Ctrl+2","Ctrl+3","Ctrl+4"};
+
         for(int i=0;i<4;++i) {
             ImGui::SetCursorPos({0,i*ui::design::metrics.activity_row*scale});
-            if(ui::ActivityButton(panes[i],icons[i],active_pane()==i,shortcuts[i])) activate(panes[i]);
+            const bool pressed=ui::ActivityButton(activity_label(i),icons[i],active_pane()==i,ui::command_chord(ui::shell_commands[i]));
+            ui::trace_layout_command(ui::command(ui::shell_commands[i]).legacy_id);if(pressed)activate(panes[i]);
         }
         ImGui::SetCursorPos({0,std::max(4*ui::design::metrics.activity_row*scale,size.y-ui::design::metrics.activity_row*scale)});
-        if(ui::ActivityButton("Workspace settings",ui::Icon::Gear,false)) settings_requested_=true;
+        if(ui::ActivityButton(ui::command(ui::CommandId::Shell_Settings).caption,ui::Icon::Gear,false)) settings_requested_=true;
+        ui::trace_layout_command(ui::command(ui::CommandId::Shell_Settings).legacy_id);
         ImGui::EndDisabled();ImGui::EndChild();ImGui::PopStyleColor();ImGui::PopStyleVar();ImGui::SameLine(0,0);
         }
         size.x=std::max(1.f,size.x-rail);

@@ -1,3 +1,5 @@
+#include "gui_translation_trace.hpp"
+#include "gui_path_field_checks.hpp"
 #include "../gui_marker_rules.hpp"
 #include "qupathxx/fluorescence_cell_objects.hpp"
 #include "qupathxx/marker_rule_io.hpp"
@@ -25,18 +27,22 @@ void exercise(const fs::path& root,GLFWwindow* window,const std::string& real){
     const auto ids=marker_cell_ids(*doc);check(!ids.empty(),"Native fluorescence cohort exists");
     MarkerRule rule;rule.gates={{"DNA",0},{"Absent",999}};rule.gates[0].threshold=-1;rule.nodes={{MarkerOperation::Gate,0,{}},{MarkerOperation::Gate,1,{}},{MarkerOperation::And,0,{0,1}}};
     detail::GuiMarkerRules panel;panel.set_rule(rule);panel.open();
+    std::function<void()> before_draw;
     const auto frame=[&](Point cursor={-100,-100},int button=-1,bool blocked=false){glfwPollEvents();ImGui_ImplOpenGL3_NewFrame();ImGui_ImplGlfw_NewFrame();auto& io=ImGui::GetIO();io.AddMousePosEvent(float(cursor.x),float(cursor.y));if(button>=0)io.AddMouseButtonEvent(0,button==1);
-        ImGui::NewFrame();panel.draw(*doc,ids.front(),blocked);ImGui::Render();int w,h;glfwGetFramebufferSize(window,&w,&h);glViewport(0,0,w,h);glClear(GL_COLOR_BUFFER_BIT);ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());glfwSwapBuffers(window);};
+        ImGui::NewFrame();if(before_draw)before_draw();panel.draw(*doc,ids.front(),blocked);ImGui::Render();int w,h;glfwGetFramebufferSize(window,&w,&h);glViewport(0,0,w,h);glClear(GL_COLOR_BUFFER_BIT);ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());glfwSwapBuffers(window);};
     const auto click=[&](detail::GuiMarkerRules::Action action,bool blocked=false){frame({-100,-100},-1,blocked);auto r=panel.bounds(action);check(r.width>0 && r.height>0,"Action is present");Point p{r.x+r.width/2,r.y+r.height/2};frame(p,-1,blocked);frame(p,1,blocked);frame(p,0,blocked);};
     const auto settle=[&]{for(int i=0;i<3000;++i){frame();if(!panel.busy())return;std::this_thread::sleep_for(std::chrono::milliseconds(2));}throw std::runtime_error("Marker preview did not settle");};
     const auto rule_file=root/"rule.json",bad_file=root/"bad-rule.json";
     save_marker_rule_file(rule,rule_file.u8string());{std::ofstream out(bad_file);out<<"{}";}
     panel.set_file(bad_file.u8string());frame();click(detail::GuiMarkerRules::Action::LoadFile);check(!panel.error().empty() && marker_rule_ids(*doc).empty(),"Malformed UI file load visibly refuses without document mutation");
-    panel.set_file(rule_file.u8string());click(detail::GuiMarkerRules::Action::LoadFile);if(!panel.error().empty())std::cerr<<"Rule load: "<<panel.error()<<"\n";check(panel.error().empty(),"Actual UI JSON load recovers from malformed input");
+    panel.set_file("");path_field_checks::choose(*panel.paths()[0],rule_file.u8string(),[&]{frame();});click(detail::GuiMarkerRules::Action::LoadFile);if(!panel.error().empty())std::cerr<<"Rule load: "<<panel.error()<<"\n";check(panel.error().empty(),"Actual UI JSON load recovers from malformed input");
     click(detail::GuiMarkerRules::Action::Preview);settle();
     if(!panel.error().empty())std::cerr<<panel.error()<<'\n';
     check(panel.result() && panel.result()->counts().unknown==ids.size(),"Actual preview retains missing-channel Unknown");const auto digest=panel.result()->sha256();
     click(detail::GuiMarkerRules::Action::Keep);check(marker_rule_ids(*doc)==std::vector<std::string>{rule.sha256()},"Actual Keep stores exact recipe");
+    click(detail::GuiMarkerRules::Action::Remove);check(marker_rule_ids(*doc).empty(),"Marker Remove is not immediate");
+    check(!ImGui::IsPopupOpen(nullptr,ImGuiPopupFlags_AnyPopupId),"Undoable removal opened a modal");
+    check(panel.error().empty() && marker_rule_ids(*doc).empty(),"Immediate marker rule Remove did not reach native service");doc->undo();frame();check(marker_rule_ids(*doc)==std::vector<std::string>{rule.sha256()},"Marker removal Undo lost exact identity");
     click(detail::GuiMarkerRules::Action::LoadSaved);check(!panel.result() && panel.error().empty(),"Actual saved-rule Load invalidates old preview");
     click(detail::GuiMarkerRules::Action::Preview);settle();check(panel.result() && panel.result()->sha256()==digest,"Saved rule previews identical cohort");
     click(detail::GuiMarkerRules::Action::Apply,true);check(panel.state()=="ready","Blocked publication cannot apply");
@@ -45,7 +51,12 @@ void exercise(const fs::path& root,GLFWwindow* window,const std::string& real){
     doc->undo();frame();check(!panel.result() && panel.state()=="stale","Undo invalidates applied labels");
     click(detail::GuiMarkerRules::Action::Preview);settle();check(panel.result() && panel.result()->sha256()==digest,"Fresh capture after Undo replays exact result");
     panel.set_selected_only(true);frame();click(detail::GuiMarkerRules::Action::Preview);settle();check(panel.result() && panel.result()->rows().size()==1,"Selected-only uses native explicit cohort");
-    panel.set_selected_only(false);frame();click(detail::GuiMarkerRules::Action::Preview);click(detail::GuiMarkerRules::Action::Cancel);settle();check(panel.state()!="applied","Cancel cannot publish classes");
+    panel.set_selected_only(false);frame();
+    const auto preview_bounds=panel.bounds(detail::GuiMarkerRules::Action::Preview);const Point preview_point{preview_bounds.x+preview_bounds.width/2,preview_bounds.y+preview_bounds.height/2};frame(preview_point);frame(preview_point,1);
+    // Submit Preview by mouse release, then activate its real Stop widget before
+    // the next poll can retire a fast completed future and hide that widget.
+    before_draw=[&]{auto* window=ImGui::FindWindowByName("Marker rules");check(window,"Marker window exists");const auto id=window->GetID(ui::i18n::label("Cancel marker preview").c_str());ImGui::FocusWindow(window);auto& context=*ImGui::GetCurrentContext();context.NavActivateId=context.NavActivateDownId=context.NavActivatePressedId=id;};
+    frame(preview_point,0);before_draw={};const auto cancel_bounds=panel.bounds(detail::GuiMarkerRules::Action::Cancel);check(cancel_bounds.width>0 && cancel_bounds.height>0,"Action is present");settle();check(panel.state()!="applied","Cancel cannot publish classes");
     Project project;project.add_document(doc);const auto saved=root/"markers.qpx";project.save_new(saved.u8string());doc=Project::open(saved.u8string())->document(1);frame();check(!panel.result(),"Document replacement clears old authority");
     panel.set_rule(load_marker_rule(*doc,rule.sha256()));frame();click(detail::GuiMarkerRules::Action::Preview);settle();check(panel.result() && panel.result()->sha256()==digest,"Reopened desktop replay retains exact rule and cohort result");
     click(detail::GuiMarkerRules::Action::Apply);check(panel.state()=="applied" && panel.error().empty(),"Reopened desktop Apply");
@@ -56,7 +67,7 @@ void exercise(const fs::path& root,GLFWwindow* window,const std::string& real){
     {std::ofstream out(root/"marker-panel.ppm",std::ios::binary);out<<"P6\n"<<width<<' '<<height<<"\n255\n";for(int y=height-1;y>=0;--y)out.write(reinterpret_cast<const char*>(pixels.data()+std::size_t(y)*width*3),width*3);}
     std::cout<<"Desktop marker workflow: "<<ids.size()<<" cells; Unknown, Keep, blocked Apply, Apply/Undo, selected cohort, cancel and exact reopened replay pass\n";
 }
-int main(int argc,char** argv){try{
+int main(int argc,char** argv){std::cout<<std::unitbuf;std::cerr<<std::unitbuf;try{
     if(!has_project() || !has_tiff() || !has_geos()){std::cout<<"Optional project/TIFF/GEOS unavailable\n";return 0;}
     auto root=argc>1?fs::u8path(argv[1]):fs::current_path()/("marker-gui-"+std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()));fs::create_directories(root);
     check(glfwInit(),"GLFW init");glfwWindowHint(GLFW_VISIBLE,GLFW_FALSE);glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR,3);glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR,3);

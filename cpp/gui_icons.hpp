@@ -51,8 +51,14 @@ inline void draw_icon_to(ImDrawList* d,Icon icon,ImVec2 lo,ImVec2 hi,ImU32 ink) 
     }
     case Icon::Spatial:
         path({at(9,23),at(15,8),at(25,22)},true);for(auto p:{at(9,23),at(15,8),at(25,22)})d->AddCircleFilled(p,2.5f*k,ink);break;
-    case Icon::Reset:case Icon::Refresh:
-        d->PathArcTo(at(16,16),9*k,-2.6f,2.7f);d->PathStroke(ink,stroke);path({at(7,7),at(7,15),at(15,15)});break;
+    case Icon::Reset:
+        d->PathArcTo(at(16,16),10*k,-2.5f,2.4f);d->PathStroke(ink,stroke);
+        path({at(7,17),at(8,24),at(15,22)});d->AddCircleFilled(at(16,16),3*k,ink);break;
+    case Icon::Refresh:
+        d->PathArcTo(at(16,16),9*k,-2.6f,-.15f);d->PathStroke(ink,stroke);
+        path({at(20,10),at(25,15),at(27,8)});
+        d->PathArcTo(at(16,16),9*k,.55f,3.f);d->PathStroke(ink,stroke);
+        path({at(5,24),at(7,17),at(12,22)});break;
     case Icon::Save:
         path({at(6,6),at(22,6),at(26,10),at(26,26),at(6,26)},true);
         path({at(11,6),at(11,13),at(21,13),at(21,6)});

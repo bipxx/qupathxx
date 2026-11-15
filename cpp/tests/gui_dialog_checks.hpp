@@ -48,7 +48,7 @@ inline void metadata_views(const std::filesystem::path& directory) {
             if(frame==0 && !picker_mode) {if(stress)qpx::ui::OpenDialog(qpx::ui::DialogKind::ImageMetadata);else if(global)editor.open_project(project);else editor.open(project,image);}
             if(stress) {
                 qpx::ui::DialogState state(true,false,qpx::ui::DialogVariant::Metadata);
-                qpx::ui::RenderDialog(qpx::ui::DialogKind::ImageMetadata,state,"Long notices stay separate from the footer",{&first_error,&second_error},[](qpx::ui::DialogControls&){for(int row=0;row<60;++row)qpx::ui::Text("Draft row %d",row);},[](qpx::ui::DialogAction){return qpx::ui::DialogOutcome::Refused;});
+                qpx::ui::RenderDialog(qpx::ui::DialogKind::ImageMetadata,state,"Long notices stay separate from the footer",{&first_error,&second_error},[](qpx::ui::DialogControls&){for(int row=0;row<60;++row)ImGui::Text("Draft row %d",row);},[](qpx::ui::DialogAction){return qpx::ui::DialogOutcome::Refused;});
             } else if(picker_mode)require(!picker.draw(),"picker capture selected a path without input");else {ImGui::BeginDisabled(mode=="metadata-disabled");editor.draw(project,image);ImGui::EndDisabled();}
             ImGui::End();ImGui::Render();
             if(frame>=5) {

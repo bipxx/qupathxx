@@ -3,7 +3,10 @@
 #include <algorithm>
 #include <cstdlib>
 #include <cstring>
+#include <cwctype>
 #include <optional>
+#include <set>
+#include <map>
 #include <string>
 #include <string_view>
 #include <unordered_map>
@@ -18,6 +21,56 @@
 #endif
 
 namespace qpx::ui::i18n {
+struct MissTrace {std::set<std::string> keys;};
+inline thread_local MissTrace* miss_trace=nullptr;
+using SurfaceTraces=std::map<std::string,MissTrace>;
+inline thread_local SurfaceTraces* surface_traces=nullptr;
+inline thread_local const char* surface_name="shell";
+inline thread_local bool observe_surface_names=false;
+inline int effective_language();
+// Instrument only an explicitly observed draw; nested surfaces restore ownership.
+class SurfaceTrace {
+    MissTrace* previous_=miss_trace;
+    const char* previous_name_=surface_name;
+    std::string observed_name_;
+public:
+    explicit SurfaceTrace(const char* name) {select(name);}
+    void select(const char* name) {if(observe_surface_names){observed_name_=name;surface_name=observed_name_.c_str();}if(surface_traces && effective_language()!=0)miss_trace=&(*surface_traces)[name];}
+    ~SurfaceTrace(){miss_trace=previous_;surface_name=previous_name_;}
+    SurfaceTrace(const SurfaceTrace&)=delete;
+    SurfaceTrace& operator=(const SurfaceTrace&)=delete;
+};
+inline bool caption_key(std::string_view key) {
+    if(key.empty() || key.front()=='#')return false;
+    bool letter=false;
+    for(std::size_t i=0;i<key.size();++i) {
+        if(key[i]=='%') {
+            if(i+1<key.size() && key[i+1]=='%'){++i;continue;}
+            while(++i<key.size() && !std::strchr("diuoxXfFeEgGaAcspn",key[i])){}
+        } else if((key[i]>='A' && key[i]<='Z') || (key[i]>='a' && key[i]<='z'))letter=true;
+        else if(static_cast<unsigned char>(key[i])>=0xc2) {
+            const auto first=static_cast<unsigned char>(key[i]);
+            const std::size_t count=first<0xe0?2:first<0xf0?3:4;
+            if(i+count>key.size())continue;
+            unsigned int code=first&(count==2?0x1f:count==3?0x0f:0x07);bool valid=true;
+            for(std::size_t n=1;n<count;++n) {
+                const auto next=static_cast<unsigned char>(key[i+n]);
+                if((next&0xc0)!=0x80){valid=false;break;}code=(code<<6)|(next&0x3f);
+            }
+            if(!valid || code>0x10ffff)continue;
+            i+=count-1;
+#ifdef _WIN32
+            wchar_t chars[2];WORD types[2]{};int length=1;
+            if(code>0xffff){code-=0x10000;chars[0]=wchar_t(0xd800+(code>>10));chars[1]=wchar_t(0xdc00+(code&0x3ff));length=2;}
+            else chars[0]=wchar_t(code);
+            if(GetStringTypeW(CT_CTYPE1,chars,length,types) && ((types[0]|types[1])&C1_ALPHA))letter=true;
+#else
+            if(std::iswalpha(static_cast<wint_t>(code)))letter=true;
+#endif
+        }
+    }
+    return letter;
+}
 struct Language {const char* code;const char* native_name;const char* english_name;};
 inline constexpr Language languages[]={
     {"en","English","English"},{"es","Español","Spanish"},
@@ -97,6 +150,7 @@ inline void choose(int choice) {
     state.choice=choice>=0 && choice<language_count?choice:-1;
     state.effective=state.choice<0?system_language():state.choice;
 }
+inline int effective_language(){return state.effective;}
 // The viewer's language belongs to its context. Never change the process locale
 // or leak one viewer's settings into the next Python/native session.
 struct Session {
@@ -123,13 +177,19 @@ inline void load_preference(std::string_view data) {
 }
 inline const char* text(const char* english) {
     if(state.effective==0 || !english || !*english) return english;
+    // Axis/colour notation and registered format names are invariant data, even
+    // when a generic combo or field adapter forwards them through this entry.
+    for(const auto token:{"RGB","X","Y","OME-Zarr","OpenSlide","PPM"})if(std::strcmp(english,token)==0)return english;
     static const auto entries=[] {
         std::unordered_map<std::string_view,const Entry*> result;
         for(const auto& entry:catalogue) result.emplace(entry.english,&entry);
         return result;
     }();
     const auto found=entries.find(english);
-    if(found==entries.end()) return english;
+    if(found==entries.end()) {
+        if(miss_trace && caption_key(english))miss_trace->keys.insert(english);
+        return english;
+    }
     const auto* value=found->second->translated[state.effective-1];
     return value && *value?value:english;
 }

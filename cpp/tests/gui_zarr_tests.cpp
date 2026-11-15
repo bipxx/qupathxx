@@ -1,4 +1,6 @@
+#include "gui_translation_trace.hpp"
 #include "../gui_raw.hpp"
+#include "../gui_tool_catalog.hpp"
 #include <GLFW/glfw3.h>
 #include <backends/imgui_impl_glfw.h>
 #include <backends/imgui_impl_opengl3.h>
@@ -10,9 +12,14 @@
 using namespace qpx;
 namespace fs=std::filesystem;
 void check(bool b,const char* s){if(!b)throw std::runtime_error(s);}
-int main(int argc,char** argv){try{
+int main(int argc,char** argv){std::cout<<std::unitbuf;std::cerr<<std::unitbuf;try{
     const auto root=fs::current_path()/("gui-zarr-"+std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()));fs::create_directory(root);const auto source=root/"source.zarr";fs::copy(fs::path(QPX_ZARR_FIXTURES)/"plain",source,fs::copy_options::recursive);
     OmeZarrOpenOptions input;input.view.z=1;input.view.t=1;Project project;const auto id=project.add_document(std::make_shared<Document>(open_ome_zarr(source.u8string(),input)));auto doc=project.document(id);ObjectSelection selection(*doc);
+    std::vector<ui::ToolBinding> unused;bool channels_opened=false;
+    ui::ToolLauncher tools({{ui::ToolId::ObjectClassifier,[]{}},{ui::ToolId::PixelClassifier,[]{}},{ui::ToolId::RawPixelClassifier,[]{}},{ui::ToolId::Fluorescence,[]{}},{ui::ToolId::Spatial,[]{}},{ui::ToolId::Genes,[]{}},{ui::ToolId::Registration,[]{}},{ui::ToolId::SpatialImport,[]{}},{ui::ToolId::Batch,[]{}},{ui::ToolId::Tma,[]{}},{ui::ToolId::Density,[]{}},{ui::ToolId::Channels,[&]{channels_opened=true;}}});
+    check(tools.open(ui::ToolId::Channels,{true,true,detail::GuiRaw::supports(doc->server()->reader_id())}) && channels_opened,"OME-Zarr Raw channels route is unreachable");
+    check(!detail::GuiRaw::supports("rgb"),"Raw channels admitted unsupported reader");
+    std::cout<<"OME-Zarr ToolLauncher Raw channels route passed\n";
     GuiOptions options;options.raw_open=true;TiffOpenOptions target;target.view.z=0;target.view.t=0;target.view.channels={0,1,2};target.view.lower={0,0,0};target.view.upper={3000,3000,3000};options.tiff_options=std::make_shared<const TiffOpenOptions>(target);RawRegionRequest request;request.region={0,0,0,7,5};request.channels=3;options.raw_request=std::make_shared<const RawRegionRequest>(request);
     check(glfwInit(),"GLFW initialization");glfwWindowHint(GLFW_VISIBLE,GLFW_FALSE);auto* window=glfwCreateWindow(1100,850,"Native Zarr channels",nullptr,nullptr);check(window,"Create test window");glfwMakeContextCurrent(window);ImGui::CreateContext();ImGui::GetIO().IniFilename=nullptr;ImGui::GetIO().ConfigInputTrickleEventQueue=false;ImGui::GetIO().Fonts->AddFontDefault();ImGui_ImplGlfw_InitForOpenGL(window,true);ImGui_ImplOpenGL3_Init("#version 130");
     {

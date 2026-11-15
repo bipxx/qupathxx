@@ -14,12 +14,13 @@ namespace qpx::ui {
     X(ProjectMetadata,"Edit project metadata",Editor,"gui_entry_editor.hpp",Project) \
     X(CloseProject,"Unsaved project",Confirmation,"gui.cpp",Project) \
     X(ReplaceWorkspace,"Replace workspace?",Confirmation,"gui.cpp",Workspace) \
+    X(RemoveKeptResult,"Remove kept result?",Confirmation,"gui_record_removal.hpp",Record) \
     X(RemoveImage,"Remove image?",Confirmation,"gui.cpp",ImageEntry) \
     X(Language,"Choose language",Selector,"gui.cpp",Session) \
     X(SourceVerification,"Source verification",Confirmation,"gui.cpp",Source) \
     X(DeleteCheckpoint,"Delete recovery checkpoint?",Confirmation,"gui.cpp",Recovery) \
     X(ImportFile,"Choose import file",Selector,"gui_import_picker.hpp",Filesystem) \
-    X(ReplaceExport,"Replace existing file?",Confirmation,"gui.cpp",Filesystem) \
+    X(ReplaceExport,"Replace existing file?",Confirmation,"gui_output_gate.hpp",Filesystem) \
     X(ImageInformation,"Image information",Selector,"gui.cpp",ImageEntry) \
     X(Calibration,"Edit calibration",Confirmation,"gui_calibration_editor.hpp",ImageEntry) \
     X(ObjectInformation,"Object information",Selector,"gui.cpp",Object) \
@@ -32,7 +33,7 @@ enum class DialogKind {
     Count
 };
 enum class DialogLayout {Editor,Confirmation,Selector};
-enum class DialogOwnerScope {ImageEntry,Project,Workspace,Session,Source,Recovery,Filesystem,Object};
+enum class DialogOwnerScope {ImageEntry,Project,Workspace,Session,Source,Recovery,Filesystem,Object,Record};
 struct DialogDefinition {DialogKind kind;const char* name;DialogLayout layout;const char* owner;DialogOwnerScope scope;};
 inline constexpr DialogDefinition dialog_definitions[]={
 #define QPX_DIALOG_DEFINITION(kind,name,layout,owner,scope) {DialogKind::kind,name,DialogLayout::layout,owner,DialogOwnerScope::scope},
@@ -45,7 +46,7 @@ inline const DialogDefinition& dialog_definition(DialogKind kind) {
     if(index>=std::size(dialog_definitions))throw std::logic_error("Unregistered dialog kind");
     return dialog_definitions[index];
 }
-enum class DialogVariant {Default,Metadata,Details,Recovery,Output};
+enum class DialogVariant {Default,Metadata,Details,Recovery,Output,Folder,NewFolder};
 enum class DialogAction {None,Cancel,Reload,ApplyMetadata,ApplyDetails,Save,Discard,KeepRecovery,Confirm};
 enum class DialogActionRole {Cancel,Reload,Primary,Destructive,Secondary};
 enum class DialogPlacement {Header,Footer,Body};
@@ -60,13 +61,13 @@ inline bool dialog_variant_allowed(DialogKind kind,DialogVariant variant) {
     case DialogKind::ImageMetadata:return variant==DialogVariant::Metadata || variant==DialogVariant::Details;
     case DialogKind::ProjectMetadata:return variant==DialogVariant::Metadata;
     case DialogKind::ReplaceWorkspace:return variant==DialogVariant::Default || variant==DialogVariant::Recovery;
-    case DialogKind::ImportFile:return variant==DialogVariant::Default || variant==DialogVariant::Output;
+    case DialogKind::ImportFile:return variant==DialogVariant::Default || variant==DialogVariant::Output || variant==DialogVariant::Folder || variant==DialogVariant::NewFolder;
     default:dialog_definition(kind);return variant==DialogVariant::Default;
     }
 }
 inline std::vector<DialogVariant> dialog_variants(DialogKind kind) {
     dialog_definition(kind);std::vector<DialogVariant> values;
-    for(auto value:{DialogVariant::Default,DialogVariant::Metadata,DialogVariant::Details,DialogVariant::Recovery,DialogVariant::Output})if(dialog_variant_allowed(kind,value))values.push_back(value);
+    for(auto value:{DialogVariant::Default,DialogVariant::Metadata,DialogVariant::Details,DialogVariant::Recovery,DialogVariant::Output,DialogVariant::Folder,DialogVariant::NewFolder})if(dialog_variant_allowed(kind,value))values.push_back(value);
     return values;
 }
 inline void validate_dialog_actions(const std::vector<DialogActionDefinition>& actions) {
@@ -112,10 +113,11 @@ inline std::vector<DialogActionDefinition> dialog_actions(DialogKind kind,Dialog
         actions.push_back({A::Discard,variant==DialogVariant::Recovery?"Discard current and recover":"Discard current and open",R::Destructive,P::Footer,C::KeepOpen});
         actions.push_back({A::Save,variant==DialogVariant::Recovery?"Save current and recover":"Save current and open",R::Primary,P::Footer,C::KeepOpen});break;
     case DialogKind::ReplaceExport:actions.push_back({A::Confirm,"Replace file",R::Destructive,P::Footer,C::DismissOnSuccess});break;
+    case DialogKind::RemoveKeptResult:actions.push_back({A::Confirm,"Remove kept result",R::Destructive,P::Footer,C::DismissOnSuccess});break;
     case DialogKind::RemoveImage:actions.push_back({A::Confirm,"Remove image",R::Destructive,P::Footer,C::DismissOnSuccess});break;
     case DialogKind::DeleteCheckpoint:actions.push_back({A::Confirm,"Permanently delete checkpoint",R::Destructive,P::Footer,C::DismissOnSuccess});break;
     case DialogKind::SourceVerification:actions.push_back({A::Confirm,"Use reviewed file",R::Primary,P::Footer,C::DismissOnSuccess});break;
-    case DialogKind::ImportFile:actions.push_back({A::Confirm,variant==DialogVariant::Output?"Choose new output":"Choose file",R::Primary,P::Footer,C::DismissOnSuccess});break;
+    case DialogKind::ImportFile:actions.push_back({A::Confirm,variant==DialogVariant::NewFolder?"Choose output folder":variant==DialogVariant::Folder?"Choose folder":variant==DialogVariant::Output?"Choose new output":"Choose file",R::Primary,P::Footer,C::DismissOnSuccess});break;
     case DialogKind::Calibration:
         actions.push_back({A::Discard,"Clear calibration",R::Destructive,P::Footer,C::DismissOnSuccess});
         actions.push_back({A::Confirm,"Apply calibration",R::Primary,P::Footer,C::DismissOnSuccess});break;

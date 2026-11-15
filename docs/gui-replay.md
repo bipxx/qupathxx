@@ -1,9 +1,17 @@
 # GUI replay readiness
 
-Native replay drives the same ImGui input queue as the GLFW backend. It never
-invokes document commands or modal actions on behalf of a click. Fixed-frame
-events remain the default. Readiness waits are opt-in so asynchronous workflows
-can be verified without guessing when a modal or loaded workspace will appear.
+Pointer and wheel replay enter the same ImGui input queue as the GLFW backend.
+A key input positions and pins the pointer at its target, then requests its command
+through the same gate as a pressed key: dialogs, open menus or lists, and text entry
+block it according to its scope; scripted commands need no pointer or focus on the image.
+Escape and Enter also reach ImGui as bare key presses,
+so dialogs, menus, text fields and focused rows react as they do to the keyboard;
+their canvas request is evaluated only when that press registers and controls retain priority.
+Inputs for commands whose shortcut was retired still work. Scripted Undo, Redo,
+Select all, Copy, Paste, Delete and checkpoint review no longer edit an active text field.
+Clicks never invoke document commands or modal actions directly. Fixed-frame events
+remain the default; readiness waits allow asynchronous workflows to be checked without
+guessing when a modal or loaded workspace will appear.
 
 ## Event conditions and clocks
 

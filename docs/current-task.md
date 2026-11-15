@@ -7,6 +7,81 @@ supersede earlier full-target instructions. Unselected inventory gaps are option
 do not start work simply because a row remains Partial. Scientific correctness,
 calibration, persistence/export/replay and meaningful overlay/display checks stay.
 
+## UI workflow safety — Milestones 1–6 delivered, uncommitted
+
+L3: **DONE_WITH_CONCERNS**. The bounded status summary joins nonempty parts;
+512 native combinations pass. In-scope translation misses are zero: 187 new
+15-language rows, invariant data kept literal and calibration double lookups
+fixed. French/Russian 200% captures, zero layout lint, 86 contracts and 172
+current-hash matrix cases pass. Frozen 14/38, public headers and command ids stay
+exact. Cost: 41 compile attempts, 2 archives, 32 links, 1 diagnosed compile
+failure (mixed auto types); resumed at the failed unit after source checks.
+An extra affected rebuild shortened a clipping new French/Russian combo caption;
+this exceeded the one-build target, with no scientific or geometry change.
+[L3 report](../build/ui-workflow-safety/layout/l3-report.md). Changes uncommitted.
+Next: stop; no specialist-window translation or further feature phase selected.
+
+L2 visual design: **DONE_WITH_CONCERNS**. Refresh/Reset/Undo are distinct;
+numbers use one compact token, destructive groups use the canvas divider/gap,
+and the status summary/controls use content widths. All 48 glyphs, geometry,
+notifications, analysis traces, English/French 200% lint/captures and 170 native
+matrix cases pass. Frozen 14/38, public headers and command/caption identities
+remain exact. Cost: 23 compiles, one archive, 17 links, no build failures;
+one extra test-only coverage compile exceeded the strict one-build target.
+[L2 report](../build/ui-workflow-safety/layout/l2-report.md). Changes uncommitted.
+Next: stop; controller's independent real-path matrix, no further feature phase.
+
+Layout/action placement: **DONE_WITH_CONCERNS**. Recovery and the app-wide icon
+audit use captioned strips, shared fields, explicit selection captions/reasons and
+a native rendered lint. Final matrix: 168 commands; 86 source contracts; English/
+French 200% lint and focused lossless captures pass. Frozen 14/38 remain exact.
+Build cost: 195 compile attempts, 12 archives, 194 links, 4 failures;
+avoidable rebuild/observer/harness corrections exceeded the budget. Broad before
+English-200% tracing was not collected; the report states that evidence gap.
+[L1 report](../build/ui-workflow-safety/layout/l1-report.md). All changes remain
+uncommitted. Next: stop; no further feature or packaging phase is selected.
+
+Milestone 6 review fix delivered: branch-local non-inline request builders and
+notification observation reduce the cell-builder frame 174,544 → 49,784 bytes;
+run_gui is 361,072 and task draw remains 165,232 (three largest locals reported).
+One compile/archive plus 16 relinks; 85 source contracts and all requested mapped
+workflow checks pass with unchanged assertions/protected sources/frozen 14/38.
+[Report](../build/ui-workflow-safety/m6/review-fix1-report.md); no build/check retry.
+Next: controller's whole real-path matrix; no further implementation selected.
+
+Task 6.4 fix round 1: standalone translation coverage passes on the final binary;
+the test frame fell from 325,168 to 60,352 bytes with unchanged assertions/stack
+size. One test compile/link; 85 source contracts and units vocabulary pass.
+Notifications all passes with the retained harness's isolated LOCALAPPDATA.
+Earlier environment/relocated-binary failures and corrections are preserved in
+[the fix report](../build/ui-workflow-safety/m6/t64-fix1-report.md).
+Product GUI and frozen 14/38 stay exact. Status DONE_WITH_CONCERNS for avoidable harness
+cost; all requested checks pass, no controller command or further build remains.
+
+Task 6.4 and the Milestone 6 handoff are complete: 85 source contracts and 166
+recorded mapped native invocations pass, including the full matrix/complex walk
+and both translation ratchet probes. The plan's stated default scope records 158
+untranslated captions plus two translated-label secondary lookups (160 keys,
+203 surface occurrences); missing captions were not translated. Frozen 14 native
+libraries / 38 binding objects remain exact; no runtime Q:\cpp embedding.
+Build/fixture/aggregation corrections exceeded the one-build budget; the actual
+cost and unchanged assertions are in [the report](../build/ui-workflow-safety/m6/t64-report.md).
+The receipt records individually unconfirmed defaults and coverage limits.
+Next action: stop; only Milestone N awaits an owner decision. No controller check remains.
+
+### Previous checkpoint
+
+All seven corrections are complete: deferred closed-window work, invalid gene
+state clearing, editor feedback expiry, TMA comparison/unused field and the all
+runner. The [report](../build/ui-workflow-safety/m5/review-fix1-report.md) records
+24 passing mapped checks and 75 source contracts, with existing assertions intact.
+One affected cached build: 12 compiles, one GUI archive, 16 links, zero failures
+or retry waste. All 25 cached units are current; frozen 14/38 and 120 public
+headers are exact, protected UI files unchanged, and 21 runtime files have no Q:\cpp.
+The receipt has the two requested clarifications. Item 3 is implemented; nothing
+requested remains undone. The controller owns the subsequent real-path matrix.
+Defaults remain individually unconfirmed. Milestone 6 follows; only Milestone N awaits an owner decision.
+
 ## Delivered integration - native workflows, SDK and format catalogs
 
 Owner-selected seven-gap source integration is complete: GeneView QC controls;

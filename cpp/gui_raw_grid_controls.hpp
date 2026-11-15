@@ -11,6 +11,6 @@ inline void raw_grid_controls(RawGridSampling& sampling,std::size_t& work) {
     count("Context samples X",sampling.context_x,0,4096);count("Context samples Y",sampling.context_y,0,4096);
     int mib=int(work/(1024*1024));
     if(ui::InputInt("Sampling memory (MiB)",&mib)) work=std::size_t(std::clamp(mib,1,1024))*1024*1024;
-    ImGui::TextWrapped("Sample counts span each ROI's level-zero bounds. Context supplies input support; only eligible core centers enter the measurement.");
+    ui::DataTextWrapped("Sample counts span each ROI's level-zero bounds. Context supplies input support; only eligible core centers enter the measurement.");
 }
 }

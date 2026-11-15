@@ -22,8 +22,8 @@ public:
         ui::DialogState state(valid,false);state.dismiss_requested=!active_;
         ui::RenderDialog(ui::DialogKind::Calibration,state,{}, {&error_},[&](ui::DialogControls&) {
             ui::TextWrapped("Physical pixel size applies to measurements. Image pixels remain unchanged.");
-            ui::SetNextItemWidth(-1);ui::InputDouble("Pixel width (um)",&width_,0,0,"%.17g");
-            ui::SetNextItemWidth(-1);ui::InputDouble("Pixel height (um)",&height_,0,0,"%.17g");
+            ui::SetNextItemWidth(-1);ui::InputDouble(ui::unit_caption("Pixel width (%s)",ui::unit::um,"Pixel width (um)").c_str(),&width_,0,0,"%.17g",0,true);
+            ui::SetNextItemWidth(-1);ui::InputDouble(ui::unit_caption("Pixel height (%s)",ui::unit::um,"Pixel height (um)").c_str(),&height_,0,0,"%.17g",0,true);
             ui::TextWrapped("Clear removes physical calibration. This edit can be undone.");
         },[&](ui::DialogAction action) {
             if(action==ui::DialogAction::Cancel) {active_=false;return ui::DialogOutcome::Success;}

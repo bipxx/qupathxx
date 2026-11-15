@@ -1,0 +1,13 @@
+ACTIONS
+0 | Detect tissue (Ctrl+D) | Detect tissue | enabled | primary
+RESULTS
+LINES
+Feature { OD sum }
+Threshold >= { 0.3 }
+Sigma (sampled px) { 0 }
+Level 0 / 1 x 1 px per sample
+0.5 x 0.25 µm per sample
+Threshold uses the selected feature's units.
+### Advanced settings ###
+[ Detect tissue ]
+Cancelled

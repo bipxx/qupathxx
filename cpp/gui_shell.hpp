@@ -1,5 +1,7 @@
 #pragma once
 #include <array>
+#include "gui_commands.hpp"
+#include "gui_i18n.hpp"
 #include <filesystem>
 #include <memory>
 #include <string>
@@ -12,6 +14,25 @@ enum class ShellCommand { Project, Image, Annotations, Workflow, Select, Rectang
     Ellipse, Polygon, Polyline, Points, Vertices, Hole, Fit, Undo, Redo, Spatial,
     Channels, Objects, ResetLayout, Settings, Count };
 inline constexpr std::size_t shell_command_count=static_cast<std::size_t>(ShellCommand::Count);
+inline constexpr std::array shell_commands={CommandId::Shell_Project,CommandId::Shell_Image,CommandId::Shell_Annotations,CommandId::Shell_Workflow,CommandId::Shell_Select,CommandId::Shell_Rectangle,CommandId::Shell_Ellipse,CommandId::Shell_Polygon,CommandId::Shell_Polyline,CommandId::Shell_Points,CommandId::Shell_Vertices,CommandId::Shell_Hole,CommandId::Shell_Fit,CommandId::Shell_Undo,CommandId::Shell_Redo,CommandId::Shell_Spatial,CommandId::Shell_Channels,CommandId::Shell_Objects,CommandId::Shell_ResetLayout,CommandId::Shell_Settings};
+static_assert(shell_commands.size()==shell_command_count);
+inline constexpr CommandId command_id(ShellCommand id) {return shell_commands.at(static_cast<std::size_t>(id));}
+inline constexpr auto shell_names=[] {std::array<const char*,shell_command_count> values{};for(std::size_t i=0;i<values.size();++i)values[i]=command(shell_commands[i]).caption;return values;}();
+inline const auto shell_chords=[] {std::array<const char*,shell_command_count> values{};for(std::size_t i=0;i<values.size();++i)values[i]=command_chord(shell_commands[i]);return values;}();
+inline const std::array<std::string,shell_command_count>& shell_labels() {
+    i18n::SurfaceTrace translation_surface("shell");
+    static std::array<std::string,shell_command_count> labels;
+    static int language=-1;
+    if(language!=i18n::state.effective) {
+        for(std::size_t i=0;i<labels.size();++i) {
+            labels[i]=i18n::text(command(shell_commands[i]).caption);
+            const auto* chord=command_chord(shell_commands[i]);
+            if(*chord)labels[i]+=" ("+std::string(chord)+")";
+        }
+        language=i18n::state.effective;
+    }
+    return labels;
+}
 struct ShellSnapshot {
     int pane=0,tool=0;
     bool has_image=false,can_undo=false,can_redo=false,raw_channels=false,blocked=false;

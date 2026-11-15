@@ -105,7 +105,7 @@ public:
             edited=path(Observations,"Observation axis (.tsv)",{".tsv"})||edited;
             edited=ui::Combo("Axis profile",&format_,"Qpx: headered single-column IDs\0Tenx: headerless features / barcodes\0")||edited;
             edited=path(Store,"New indexed matrix (.qmx)",{".qmx"},true)||edited;
-            ui::TextWrapped("Index once; retain all features and exact counts. Observation IDs are a separate axis from the coordinate table.");
+            ui::TextWrapped("Index once; keep all features and exact counts. Observation IDs are a separate axis from the coordinate table.");
         } else edited=path(Store,"Indexed matrix (.qmx)",{".qmx"})||edited;
         if(const auto selected=picker_.draw()){copy(picking_,*selected);edited=true;}
         if(edited)changed();ImGui::PopID();return edited;
@@ -114,7 +114,7 @@ public:
         if(ui::Button("Read / reload indexed matrix"))read(job,work,true);
         if(!source_)return;
         const auto& m=source_->metadata();
-        ui::Text("%llu genes; %llu observations; all genes retained",static_cast<unsigned long long>(m.features),static_cast<unsigned long long>(m.observations));
+        ui::Text("%llu genes; %llu observations; all genes kept",static_cast<unsigned long long>(m.features),static_cast<unsigned long long>(m.observations));
         if(ui::InputText("Search full IDs / symbols",query_.data(),query_.size())){page_=0;read(job,work);}
         if(page_result_) {
             if(ImGui::BeginChild("indexed-catalogue",{0,std::min(ui::CollectionHeight(page_result_->features.size()),200.f*ui::design::scale())},ImGuiChildFlags_Borders))

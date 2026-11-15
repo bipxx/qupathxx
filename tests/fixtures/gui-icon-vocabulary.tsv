@@ -1,0 +1,119 @@
+# Icon ordinal	JSON-quoted command/legacy widget identity	Icon enum name	Meaning
+# Command-table readers record their legacy command id; unregistered widget readers record their exact stable widget id.
+0	"Fit"	Fit	Fit
+1	"Undo"	Undo	Undo
+2	"Redo"	Redo	Redo
+3	"Spatial"	Spatial	Spatial
+4	"All images"	Reset	reset configuration
+4	"No grouping"	Reset	reset configuration
+4	"Reset display"	Reset	reset configuration
+4	"ResetLayout"	Reset	reset configuration
+5	"Autosave"	Save	write to disk
+5	"Save model"	Save	write to disk
+5	"Save pixel model"	Save	write to disk
+5	"Save project"	Save	write to disk
+5	"Save raw model"	Save	write to disk
+5	"Save stain model"	Save	write to disk
+5	"SaveProject"	Save	write to disk
+6	"Browse"	Open	browse/open
+6	"Change destination"	Open	browse/open
+6	"Load model"	Open	browse/open
+6	"Load pixel model"	Open	browse/open
+6	"Load raw model"	Open	browse/open
+6	"Load stain model"	Open	browse/open
+6	"Open project (Ctrl+O)"	Open	browse/open
+6	"Recover"	Open	browse/open
+6	"Recovery location"	Open	browse/open
+8	"FindRecoveries"	Refresh	rescan/reload/retry
+8	"Refresh QuPath review"	Refresh	rescan/reload/retry
+8	"Reload class"	Refresh	rescan/reload/retry
+8	"Reload current entry"	Refresh	rescan/reload/retry
+8	"Reload current project"	Refresh	rescan/reload/retry
+8	"Reload defaults"	Refresh	rescan/reload/retry
+8	"Retry channel metadata"	Refresh	rescan/reload/retry
+9	"Clear metadata"	Trash	remove/delete
+9	"Clear tags"	Trash	remove/delete
+9	"Delete"	Trash	remove/delete
+9	"Remove class"	Trash	remove/delete
+9	"Remove default"	Trash	remove/delete
+9	"Remove metadata"	Trash	remove/delete
+9	"Remove tag"	Trash	remove/delete
+9	"Remove unused class"	Trash	remove/delete
+9	"ReviewCheckpoint"	Trash	remove/delete
+10	"Edit calibration"	Edit	edit/rename
+10	"Edit image metadata"	Edit	edit/rename
+11	"Add image (F8)"	Link	locate/relink
+11	"Locate file..."	Link	locate/relink
+11	"Relink image (F9)"	Link	locate/relink
+12	"CopyObjects"	Copy	Copy
+12	"PasteCurrentPlane"	Copy	Copy
+13	"PasteCurrentPlane"	Paste	Paste
+13	"PasteObjects"	Paste	Paste
+14	"Import reviewed project (Ctrl+O)"	Import	Import
+14	"Review QuPath project (Ctrl+O)"	Import	Import
+17	"Channels"	Channels	Channels
+18	"Rename"	Check	Check
+18	"Rename image"	Check	Check
+19	"Cancel"	Close	dismiss/close
+19	"Close"	Close	dismiss/close
+19	"Close file"	Close	dismiss/close
+19	"Close panel"	Close	dismiss/close
+19	"Dialog close"	Close	dismiss/close
+20	"Add image (F8)"	Plus	add/increase
+20	"Add images..."	Plus	add/increase
+20	"Add metadata"	Plus	add/increase
+20	"Add tag"	Plus	add/increase
+20	"AddImages"	Plus	add/increase
+20	"Append default"	Plus	add/increase
+20	"Increase limit"	Plus	add/increase
+20	"New class"	Plus	add/increase
+20	"Relink image (F9)"	Plus	add/increase
+21	"Decrease limit"	Minus	decrease
+22	"Move default up"	Up	move up
+23	"Move default down"	Down	move down
+24	"Previous block"	Left	previous page
+24	"Previous records"	Left	previous page
+25	"Next block"	Right	next page
+25	"Next records"	Right	next page
+26	"All images"	SelectAll	SelectAll
+27	"Clear images"	Deselect	Deselect
+27	"Clear selection"	Deselect	Deselect
+28	"Select"	Select	Select
+29	"Rectangle"	Rectangle	Rectangle
+30	"Ellipse"	Ellipse	Ellipse
+31	"Polygon"	Polygon	Polygon
+32	"Polyline"	Polyline	Polyline
+33	"Points"	Points	Points
+34	"Vertices"	Vertices	Vertices
+35	"Hole"	Hole	Hole
+36	"Project"	Project	Project
+36	"Project and objects"	Project	Project
+37	"Image"	Image	Image
+37	"Image and display"	Image	Image
+38	"Annotations"	Annotations	Annotations
+39	"Measurements and jobs"	Workflow	Workflow
+39	"Workflow"	Workflow	Workflow
+40	"Settings"	Gear	workspace preferences
+40	"Workspace settings"	Gear	workspace preferences
+41	"Image actions"	More	More
+44	"Objects"	Eye	Eye
+44	"Show objects (O)"	Eye	Eye
+45	"Active input details"	Info	inspect details
+45	"Details###Saved analysis details"	Info	inspect details
+45	"Image information"	Info	inspect details
+45	"Saved analysis details"	Info	inspect details
+46	"Panel layout"	PanelLayout	panel placement
+47	"Cancel CSV export"	Stop	cancel running work
+47	"Cancel analysis"	Stop	cancel running work
+47	"Cancel cells (Ctrl+Alt+G)"	Stop	cancel running work
+47	"Cancel classifier work"	Stop	cancel running work
+47	"Cancel density"	Stop	cancel running work
+47	"Cancel estimate (Ctrl+F3)"	Stop	cancel running work
+47	"Cancel export (Ctrl+Alt+Shift+Q)"	Stop	cancel running work
+47	"Cancel fluorescence"	Stop	cancel running work
+47	"Cancel grid operation"	Stop	cancel running work
+47	"Cancel operation"	Stop	cancel running work
+47	"Cancel pixel work"	Stop	cancel running work
+47	"Cancel reading"	Stop	cancel running work
+47	"Cancel table (Ctrl+Alt+Shift+X)"	Stop	cancel running work
+47	"Cancel tissue"	Stop	cancel running work

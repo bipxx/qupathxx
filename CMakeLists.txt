@@ -330,6 +330,9 @@ if(QUPATHXX_BUILD_GUI)
   target_compile_definitions(qupathxx_gui PRIVATE ${QPX_IMGUI_UNICODE_DEFINITION})
   if(MSVC)
     target_compile_options(qupathxx_gui PRIVATE /utf-8)
+    # The GUI and its component checks own the shared output-gate callbacks;
+    # their section counts exceed the small COFF object limit.
+    set_source_files_properties(cpp/gui.cpp cpp/tests/gui_organization_tests.cpp PROPERTIES COMPILE_OPTIONS /bigobj)
   endif()
   target_link_libraries(qupathxx_gui PUBLIC qupathxx_core PRIVATE glfw OpenGL::GL ${CMAKE_DL_LIBS})
   target_link_libraries(qupathxx_gui PRIVATE qupathxx_density_workflow)

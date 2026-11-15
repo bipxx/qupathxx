@@ -1,0 +1,11 @@
+ACTIONS
+0 | Analyze region (Ctrl+M) | Run analysis | enabled | primary
+RESULTS
+LINES
+Features { RGB optical density }
+[ ] Use nucleus
+[ ] Intensity statistics
+### Advanced inputs ###
+[ Run analysis ]
+Work failed
+Analysis: t32 fixture read failure

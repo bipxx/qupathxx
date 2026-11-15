@@ -153,7 +153,7 @@ region/tissue/cell controls. The exact normalized basis is retained for subseque
 requests, avoiding an extra normalization pass. Existing analysis **Keep result**
 and project save workflows preserve the basis actually used.
 
-**Cancel estimate (Ctrl+F3)** stops publication. Selection/source/object changes
+The visible **Cancel** control stops publication. Selection/source/object changes
 reject stale results; parameter changes cancel the old estimate. Estimation and
 model fitting occur on a native worker, with no expensive per-frame refitting.
 `GuiOptions.stain_estimate_parameters` sets initial parameters. Reports expose

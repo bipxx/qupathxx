@@ -3,6 +3,9 @@
 #include "qupathxx/raw_image.hpp"
 #include "qupathxx/thumbnail.hpp"
 #include "qupathxx/application.hpp"
+#ifdef QUPATHXX_APPLICATION_HAS_GUI
+#include "gui_desktop_context.hpp"
+#endif
 #include "reader_registry.hpp"
 #include "format_family_catalog.hpp"
 #include "qupathxx/reader_plugins.hpp"
@@ -43,6 +46,7 @@ int qpx::run_application(const std::vector<std::string>& arguments) {
         if(!recovery_base.empty() && recovery_path.empty()) throw std::invalid_argument("--recovery-base requires --recover");
         if(tiff_series && path.empty()) throw std::invalid_argument("--tiff-series requires an image path");
 #ifdef QUPATHXX_APPLICATION_HAS_GUI
+        qpx::ui::DesktopApplicationScope desktop_scope;
         auto workspace_options=[&] {
             qpx::GuiOptions options;options.ui_scale=ui_scale;options.docked_workspace=!compact;options.reset_layout=reset_layout;options.overview_source_pixel_limit=overview.source_pixel_limit;
             options.image_reader=reader;if(tiff_series) {qpx::TiffOpenOptions tiff;tiff.view.series=*tiff_series;options.tiff_options=std::make_shared<const qpx::TiffOpenOptions>(tiff);options.image_reader="tiff";}
