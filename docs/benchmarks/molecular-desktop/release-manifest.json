@@ -1,0 +1,954 @@
+{
+  "schema": "qpx.molecular-publication/1",
+  "release_tag": "v0.1.0-windows-candidate.9",
+  "release_url": "https://github.com/bipxx/qupathxx/releases/tag/v0.1.0-windows-candidate.9",
+  "release_source_commit": "a9422a1b8cc6a57b02281b935cee51cc33de63d1",
+  "frontend_commit": "bda67ad86bd750eaebedc8f5d96935c2907dfb27",
+  "source_inputs_sha256": "786dc16d203851366e030151cec98255c60f50d71db5d89710735c97e7bf6586",
+  "composition": {
+    "frontend_commit": "bda67ad86bd750eaebedc8f5d96935c2907dfb27",
+    "app_sha256": "226fcf9b7e7f67b1e6f53b15faa00d857038fe6d6139c62febdf4a4086aca6d3",
+    "native_base_sha256": "4bf957c9ea6e46294c11b9bfb7d9c2496cf4fca607a9c28ba837768d301eb6bb",
+    "native_candidate_sha256": "c6467b5c3580dee5282565af1abd597750eef7d9cb0749235bad2d89efde25b1",
+    "native_base_source_sha256": "fb5289df36ac708fa1ee45b581ad1c2d66daa404c3dc6eed5460480160c78f1c",
+    "native_base_git_revision": "7c981bf96e47e30c3133c5bbe0e2e365a006c9f4+dirty",
+    "native_replacement_sources": {
+      "cpp/expression_reduction_internal.hpp": "a53ba6416d9e66d07cebfd40e333fba9406c8de6c4038b2face61eeea9c49a7a",
+      "cpp/expression_reduction.cpp": "1d89f6164cc14fe83c0cfb25fe24868a0441895a7ce58aeb07686ebee4be1e72",
+      "cpp/expression_reduction_archive.cpp": "49fcbd707c801ee61915ccf03254d3b94439470ac5c5b459eeccb4626c3c853c",
+      "cpp/expression_reduction_project.cpp": "741d540cc96851f7ea68337cffa8195a434849ea9001a79c651904a9c8f1fdc0",
+      "cpp/expression_reduction_workflow.cpp": "133c81e949abf6b22371a833b4b68552cc0ed876e75940de0804d10317127464",
+      "cpp/expression_reduction_export.cpp": "e0ede9a72146b9d806de99516af880bc6f811eb463ff6a3de8d2ac1e797e5ce8"
+    },
+    "native_removed_members": [
+      "CMakeFiles\\qupathxx_core.dir\\cpp\\expression_reduction.cpp.obj",
+      "CMakeFiles\\qupathxx_core.dir\\cpp\\expression_reduction_archive.cpp.obj",
+      "CMakeFiles\\qupathxx_core.dir\\cpp\\expression_reduction_project.cpp.obj",
+      "CMakeFiles\\qupathxx_core.dir\\cpp\\expression_reduction_workflow.cpp.obj",
+      "CMakeFiles\\qupathxx_core.dir\\cpp\\expression_reduction_export.cpp.obj"
+    ],
+    "native_added_members": {
+      "build\\gui-aggregation\\native\\objects\\expression_reduction.cpp.obj": "c24077387efa79f0ad19813a87758c8a907163a880cd9895becc34f83bc718b6",
+      "build\\gui-aggregation\\native\\objects\\expression_reduction_archive.cpp.obj": "06e948153daa43eb7976cd1181b33b9f95d205dceefbfa8b33862d52636e91e2",
+      "build\\gui-aggregation\\native\\objects\\expression_reduction_project.cpp.obj": "7d0092955d27f2b181398ecf34b30fa2c491b1858cd443774d7eab19bc51c066",
+      "build\\gui-aggregation\\native\\objects\\expression_reduction_workflow.cpp.obj": "cd4d5e10c7223ee98d18bca071160cc61a3da71ba44d93bbf0e7f5471061c5c6",
+      "build\\gui-aggregation\\native\\objects\\expression_reduction_export.cpp.obj": "1e7229e98199aa371043155bf2512d188c8a4d5c643f4854e8426a6bfc03d854"
+    },
+    "frontend_configuration": "MSVC19.44.35225.0 Release /MD C++17 UTF-8; ImGui1.93 IMGUI_USE_WCHAR32; retained RmlUi/FreeType/GLFW/native link closure",
+    "imgui_source_correspondence": [
+      {
+        "path": "LICENSE.txt",
+        "source_sha256": "173506a2d6f7fb67990d257fb2507f188690eca39060c39469ae7bef43aae2a3",
+        "compiled_input_sha256": "f20418b409e53c8c9f4e90917ff395554a60320d4dfbf833da89b339cad8628a",
+        "text_equal": true
+      },
+      {
+        "path": "backends/imgui_impl_glfw.cpp",
+        "source_sha256": "bd920f594b9f2c769c37e632f6850ee628951aaeb6bae68d0e2e9fb42e35f6c9",
+        "compiled_input_sha256": "7fb3df2c2fd98a3fb7cdb6d60dc38e5eed5e1b1e5427c00777bfbfa52c18b812",
+        "text_equal": true
+      },
+      {
+        "path": "backends/imgui_impl_glfw.h",
+        "source_sha256": "8a78ac98dc05f8b71ef817118d984537b4ef5cd570a84ab9ad99eed221dfe937",
+        "compiled_input_sha256": "38fe28e770610de5b7dcf36f796bca6321e7e6ef0653fade9a8d517bca1f7335",
+        "text_equal": true
+      },
+      {
+        "path": "backends/imgui_impl_opengl3.cpp",
+        "source_sha256": "edd273c67a72b218b884e4739c5c6786c6a581b02a48a7345cd2838e9382a18a",
+        "compiled_input_sha256": "2a133c958096133ff2bec0fa25e30b6aa726bef4c1a13ce879d13851a25143db",
+        "text_equal": true
+      },
+      {
+        "path": "backends/imgui_impl_opengl3.h",
+        "source_sha256": "2adaa26c1eef1372c28c2d7f54c14781e9affa872e43b3c4631a61eacc8e3e57",
+        "compiled_input_sha256": "00a64f7d85c4ebdac51a06d481ea05dfb196adab930a6935ac3bc1335d48530f",
+        "text_equal": true
+      },
+      {
+        "path": "backends/imgui_impl_opengl3_loader.h",
+        "source_sha256": "e83374501bb912b5216a1b191c620a78a4ff0824af1664061fc42c5d76cc9367",
+        "compiled_input_sha256": "e3f78660cf6323bf580870b2b79e23c76e0680b1c19b5bf4cd279a286c1118c9",
+        "text_equal": true
+      },
+      {
+        "path": "imconfig.h",
+        "source_sha256": "fa91f606da783669ffd485f3f9e0cd0d92cddeac459efce4c2b9327cce7a3233",
+        "compiled_input_sha256": "d9eebb853e534e39692f96c7521146f77017c9096c6945a5635a0737abefe48e",
+        "text_equal": true
+      },
+      {
+        "path": "imgui.cpp",
+        "source_sha256": "07b69e8e6b3276d41308147e302e24e8655af00285a87a0c79aad2ba4d4c1a8e",
+        "compiled_input_sha256": "757e76a76f4b0b3bf328e9c4370ad665bde2552b3a7989db7d905336ddab2fa2",
+        "text_equal": true
+      },
+      {
+        "path": "imgui.h",
+        "source_sha256": "97f3078cf88f63bb4a5797b590e5d2891158a0748356d77a3fff1834656eec69",
+        "compiled_input_sha256": "d13945ef9e98a235064139fb4645bf5a3e4ba1ed1105f96ea3c3a36a4dde1f58",
+        "text_equal": true
+      },
+      {
+        "path": "imgui_demo.cpp",
+        "source_sha256": "8efe9be135bbb526ae06ecf08539af543484927be2f1bc7efb408edbc1b4833b",
+        "compiled_input_sha256": "c9a8bb621707bb76ac0ccab4f43c10c1fde945e0fc29b76ba326c2e21c7146ac",
+        "text_equal": true
+      },
+      {
+        "path": "imgui_draw.cpp",
+        "source_sha256": "9d65a8f6e53adc2baa89eb6ea285601a0c0294bd0e624ddb4926f05dd0a55f3f",
+        "compiled_input_sha256": "274731b467a7111e6320f6c8da5793d30f10f997330c758fe1b6c9fcfc64da23",
+        "text_equal": true
+      },
+      {
+        "path": "imgui_internal.h",
+        "source_sha256": "cf364a74566c807a878c2866d3f16780c18b8151ca3cf8f82a8cd955bd2933c2",
+        "compiled_input_sha256": "409748f53361b234ad6ec5da7a4a75925f19425a22232dd210fecf52877b5ebb",
+        "text_equal": true
+      },
+      {
+        "path": "imgui_tables.cpp",
+        "source_sha256": "36635c1cf2ad1b7c88cdced456cceba3a1d02266d78a63d77e9cce92f4d48d61",
+        "compiled_input_sha256": "b30e1128bbff7f065ef4f05c1d299c02661903d78ddd7904134bc13f8dbcd8bc",
+        "text_equal": true
+      },
+      {
+        "path": "imgui_widgets.cpp",
+        "source_sha256": "786ffd1cb4f1a0519194eac53d66d84a42a07b2094efa66e404dfb6cd2dd0065",
+        "compiled_input_sha256": "05c507159f6b4b43fc3f74f325435ad494a9498a390fcf247c9382cadf40b993",
+        "text_equal": true
+      },
+      {
+        "path": "imstb_rectpack.h",
+        "source_sha256": "889b396795202d1457560a797a7242e96f6f132d4b88ca2d69be58bf05e1771f",
+        "compiled_input_sha256": "7f9bffb8ac5e79d20787fdc20d29d29f7474dca673f64d4a9a8a9f9373e40972",
+        "text_equal": true
+      },
+      {
+        "path": "imstb_textedit.h",
+        "source_sha256": "a985f5fa0ed97353d493b497961e9eef52082edcd045cf6954b69990ec9d0741",
+        "compiled_input_sha256": "24a8db00354af8f4057417841635a1b6dfd8986f1608336fe6f10d6fd9769aaa",
+        "text_equal": true
+      },
+      {
+        "path": "imstb_truetype.h",
+        "source_sha256": "c51a0f7e7ea760f2366bd3752635ec58e21fccfec4a832501639990ba6ce0528",
+        "compiled_input_sha256": "a4131c7a2e324c0625250830af6976adb5732b453f0fc6e8bc5ad70065bc2b79",
+        "text_equal": true
+      }
+    ]
+  },
+  "scope": "Windows x64 standalone molecular desktop engineering prerelease; existing Windows11 workstation/fresh per-user prefix; no SDK/wheel/new platform or biological claim",
+  "archives": [
+    {
+      "kind": "source",
+      "name": "qupathxx-windows-x64-molecular-source-bda67ad8.zip",
+      "sha256": "0c8efa26009967d0df8e970b2c6b46743d667512d1692edbab69a01b233e6940",
+      "bytes": 6685815,
+      "members": 1190
+    },
+    {
+      "kind": "desktop",
+      "name": "qupathxx-windows-x64-molecular-desktop-bda67ad8.zip",
+      "sha256": "0d236f9814154464681a3084f3016b04eb21382096fd375088181e3eac9eab20",
+      "bytes": 28164289,
+      "members": 67
+    },
+    {
+      "kind": "dependency-sources",
+      "name": "qupathxx-dependency-sources.zip",
+      "sha256": "89f4882e9b26b65681fcb11ad63d8048121b743b0ff8b7ed75c480080a6ec0ad",
+      "bytes": 118600406,
+      "members": 17
+    },
+    {
+      "kind": "verification",
+      "name": "qupathxx-molecular-verification-candidate9.zip",
+      "sha256": "3b5bda88776d04d4013bddc3c39c26577f37d33af6a269b7b6d2875caa109ecc",
+      "bytes": 75070,
+      "members": 10,
+      "material_id": "candidate9-publication-3b5bda88776d04d4013bddc3c39c26577f37d33af6a269b7b6d2875caa109ecc"
+    }
+  ],
+  "runtime_inputs": [
+    {
+      "path": "fonts/IBMPlexSans-Regular.ttf",
+      "input": "fonts/IBMPlexSans-Regular.ttf",
+      "material_id": "ibm-plex-sans-IBMPlexSans-Regular.ttf"
+    },
+    {
+      "path": "fonts/IBMPlexSans-Semibold.ttf",
+      "input": "fonts/IBMPlexSans-Semibold.ttf",
+      "material_id": "ibm-plex-sans-IBMPlexSans-Semibold.ttf"
+    },
+    {
+      "path": "fonts/NotoEmoji.ttf",
+      "input": "fonts/NotoEmoji.ttf",
+      "material_id": "gui-NotoEmoji-ttf"
+    },
+    {
+      "path": "fonts/NotoSansCJKsc-Regular.otf",
+      "input": "fonts/NotoSansCJKsc-Regular.otf",
+      "material_id": "gui-NotoSansCJKsc-Regular-otf"
+    },
+    {
+      "path": "geos.dll",
+      "input": "geos.dll",
+      "material_id": "native-output-9bff21e1082b57e9914909a156ad121d508d2203a8c6ab4d8d41eb74cc19fa0e"
+    },
+    {
+      "path": "geos_c.dll",
+      "input": "geos_c.dll",
+      "material_id": "native-output-64c8a686deccd9e3d5ae66f96ba1276c23faf6ab00564feee421ae91f552b7d6"
+    },
+    {
+      "path": "libopenslide-1.dll",
+      "input": "libopenslide-1.dll",
+      "material_id": "native-output-dc8e35ad0ce001c4e878f2bebc23e87fb85d2bdebec5a542af2ecec3cb5cd635"
+    },
+    {
+      "path": "licenses/boost-math/LICENSE_1_0.txt",
+      "input": "licenses/boost-math/LICENSE_1_0.txt",
+      "material_id": "boost-math-license-1.88.0"
+    },
+    {
+      "path": "licenses/freetype/FTL.TXT",
+      "input": "licenses/freetype/FTL.TXT",
+      "material_id": "freetype-notice-FTL-TXT"
+    },
+    {
+      "path": "licenses/freetype/GPLv2.TXT",
+      "input": "licenses/freetype/GPLv2.TXT",
+      "material_id": "freetype-notice-GPLv2-TXT"
+    },
+    {
+      "path": "licenses/freetype/NOTICE.txt",
+      "input": "licenses/freetype/NOTICE.txt",
+      "material_id": "project-notice-freetype-NOTICE-txt"
+    },
+    {
+      "path": "licenses/geos/COPYING",
+      "input": "licenses/geos/COPYING",
+      "material_id": "native-output-dc626520dcd53a22f727af3ee42c770e56c97a64fe3adb063799d8ab032fe551"
+    },
+    {
+      "path": "licenses/glfw/LICENSE.md",
+      "input": "licenses/glfw/LICENSE.md",
+      "material_id": "native-notice-glfw-src-LICENSE-md"
+    },
+    {
+      "path": "licenses/hdf5/LICENSE",
+      "input": "licenses/hdf5/LICENSE",
+      "material_id": "native-notice-qpx_hdf5-src-LICENSE"
+    },
+    {
+      "path": "licenses/ibm-plex-sans/OFL.txt",
+      "input": "licenses/ibm-plex-sans/OFL.txt",
+      "material_id": "ibm-plex-sans-notice"
+    },
+    {
+      "path": "licenses/imagej-shape/NOTICE.txt",
+      "input": "licenses/imagej-shape/NOTICE.txt",
+      "material_id": "project-notice-imagej-shape-NOTICE-txt"
+    },
+    {
+      "path": "licenses/imgui/imgl3w-LICENSE.txt",
+      "input": "licenses/imgui/imgl3w-LICENSE.txt",
+      "material_id": "native-output-565e23a9974c44bf7e5e47c280de542ec758a82e97dcb1da3fb3496660921f88"
+    },
+    {
+      "path": "licenses/imgui/imstb_rectpack.h-LICENSE.txt",
+      "input": "licenses/imgui/imstb_rectpack.h-LICENSE.txt",
+      "material_id": "native-output-06f6b081941f054102bfc696d7f09b8905fee176d1ed08d334e4bad5c1d751c2"
+    },
+    {
+      "path": "licenses/imgui/imstb_textedit.h-LICENSE.txt",
+      "input": "licenses/imgui/imstb_textedit.h-LICENSE.txt",
+      "material_id": "native-output-06f6b081941f054102bfc696d7f09b8905fee176d1ed08d334e4bad5c1d751c2"
+    },
+    {
+      "path": "licenses/imgui/imstb_truetype.h-LICENSE.txt",
+      "input": "licenses/imgui/imstb_truetype.h-LICENSE.txt",
+      "material_id": "native-output-06f6b081941f054102bfc696d7f09b8905fee176d1ed08d334e4bad5c1d751c2"
+    },
+    {
+      "path": "licenses/imgui/Khronos-LICENSE.txt",
+      "input": "licenses/imgui/Khronos-LICENSE.txt",
+      "material_id": "project-notice-Khronos-LICENSE-txt"
+    },
+    {
+      "path": "licenses/imgui/Khronos-NOTICE.txt",
+      "input": "licenses/imgui/Khronos-NOTICE.txt",
+      "material_id": "native-output-f76051f667cfbfbf5cc55c9656cf46ce11579dcd9d9373e95daeb08ef2fc0e93"
+    },
+    {
+      "path": "licenses/imgui/LICENSE.txt",
+      "input": "licenses/imgui/LICENSE.txt",
+      "material_id": "native-notice-imgui-src-LICENSE-txt"
+    },
+    {
+      "path": "licenses/imgui/ProggyClean-LICENSE.txt",
+      "input": "licenses/imgui/ProggyClean-LICENSE.txt",
+      "material_id": "project-notice-ProggyClean-LICENSE-txt"
+    },
+    {
+      "path": "licenses/imgui/ProggyForever-LICENSE.txt",
+      "input": "licenses/imgui/ProggyForever-LICENSE.txt",
+      "material_id": "project-notice-ProggyForever-LICENSE-txt"
+    },
+    {
+      "path": "licenses/libtiff/LICENSE.md",
+      "input": "licenses/libtiff/LICENSE.md",
+      "material_id": "native-notice-qpx_tiff-src-LICENSE-md"
+    },
+    {
+      "path": "licenses/lodepng/LICENSE",
+      "input": "licenses/lodepng/LICENSE",
+      "material_id": "lodepng-LICENSE"
+    },
+    {
+      "path": "licenses/nlohmann-json/LICENSE.MIT",
+      "input": "licenses/nlohmann-json/LICENSE.MIT",
+      "material_id": "native-output-46a65cffd1ea955132d95a8dd921640714a8d6b537d2e4e482d31145ae95b603"
+    },
+    {
+      "path": "licenses/noto-cjk/NOTICE.md",
+      "input": "licenses/noto-cjk/NOTICE.md",
+      "material_id": "gui-cjk-NOTICE-md"
+    },
+    {
+      "path": "licenses/noto-cjk/OFL.txt",
+      "input": "licenses/noto-cjk/OFL.txt",
+      "material_id": "gui-cjk-OFL-txt"
+    },
+    {
+      "path": "licenses/noto-emoji/OFL.txt",
+      "input": "licenses/noto-emoji/OFL.txt",
+      "material_id": "gui-emoji-OFL-txt"
+    },
+    {
+      "path": "licenses/opencv/LICENSE",
+      "input": "licenses/opencv/LICENSE",
+      "material_id": "opencv-notice-LICENSE"
+    },
+    {
+      "path": "licenses/opencv/softfloat-notice.txt",
+      "input": "licenses/opencv/softfloat-notice.txt",
+      "material_id": "opencv-notice-softfloat-notice-txt"
+    },
+    {
+      "path": "licenses/opencv/SOURCE-NOTICES.txt",
+      "input": "licenses/opencv/SOURCE-NOTICES.txt",
+      "material_id": "opencv-notice-SOURCE-NOTICES-txt"
+    },
+    {
+      "path": "licenses/opencv/zlib-notice.txt",
+      "input": "licenses/opencv/zlib-notice.txt",
+      "material_id": "opencv-notice-zlib-notice-txt"
+    },
+    {
+      "path": "licenses/openslide-sdk/cairo/COPYING",
+      "input": "licenses/openslide-sdk/cairo/COPYING",
+      "material_id": "openslide-notice-cairo-COPYING"
+    },
+    {
+      "path": "licenses/openslide-sdk/cairo/COPYING-LGPL-2.1",
+      "input": "licenses/openslide-sdk/cairo/COPYING-LGPL-2.1",
+      "material_id": "openslide-notice-cairo-COPYING-LGPL-2-1"
+    },
+    {
+      "path": "licenses/openslide-sdk/cairo/COPYING-MPL-1.1",
+      "input": "licenses/openslide-sdk/cairo/COPYING-MPL-1.1",
+      "material_id": "openslide-notice-cairo-COPYING-MPL-1-1"
+    },
+    {
+      "path": "licenses/openslide-sdk/glib/COPYING",
+      "input": "licenses/openslide-sdk/glib/COPYING",
+      "material_id": "openslide-notice-glib-COPYING"
+    },
+    {
+      "path": "licenses/openslide-sdk/libdicom/LICENSE",
+      "input": "licenses/openslide-sdk/libdicom/LICENSE",
+      "material_id": "openslide-notice-libdicom-LICENSE"
+    },
+    {
+      "path": "licenses/openslide-sdk/libffi/LICENSE",
+      "input": "licenses/openslide-sdk/libffi/LICENSE",
+      "material_id": "openslide-notice-libffi-LICENSE"
+    },
+    {
+      "path": "licenses/openslide-sdk/libjpeg-turbo/LICENSE.md",
+      "input": "licenses/openslide-sdk/libjpeg-turbo/LICENSE.md",
+      "material_id": "openslide-notice-libjpeg-turbo-LICENSE-md"
+    },
+    {
+      "path": "licenses/openslide-sdk/libjpeg-turbo/README.ijg",
+      "input": "licenses/openslide-sdk/libjpeg-turbo/README.ijg",
+      "material_id": "native-notice-qpx_jpeg-src-README-ijg"
+    },
+    {
+      "path": "licenses/openslide-sdk/libpng/LICENSE",
+      "input": "licenses/openslide-sdk/libpng/LICENSE",
+      "material_id": "openslide-notice-libpng-LICENSE"
+    },
+    {
+      "path": "licenses/openslide-sdk/libtiff/LICENSE.md",
+      "input": "licenses/openslide-sdk/libtiff/LICENSE.md",
+      "material_id": "native-notice-qpx_tiff-src-LICENSE-md"
+    },
+    {
+      "path": "licenses/openslide-sdk/libxml2/Copyright",
+      "input": "licenses/openslide-sdk/libxml2/Copyright",
+      "material_id": "openslide-notice-libxml2-Copyright"
+    },
+    {
+      "path": "licenses/openslide-sdk/OpenJPEG/LICENSE",
+      "input": "licenses/openslide-sdk/OpenJPEG/LICENSE",
+      "material_id": "openslide-notice-openjpeg-LICENSE"
+    },
+    {
+      "path": "licenses/openslide-sdk/OpenSlide/COPYING.LESSER",
+      "input": "licenses/openslide-sdk/OpenSlide/COPYING.LESSER",
+      "material_id": "openslide-notice-openslide-COPYING-LESSER"
+    },
+    {
+      "path": "licenses/openslide-sdk/pixman/COPYING",
+      "input": "licenses/openslide-sdk/pixman/COPYING",
+      "material_id": "openslide-notice-pixman-COPYING"
+    },
+    {
+      "path": "licenses/openslide-sdk/proxy-libintl/COPYING",
+      "input": "licenses/openslide-sdk/proxy-libintl/COPYING",
+      "material_id": "openslide-notice-proxy-libintl-COPYING"
+    },
+    {
+      "path": "licenses/openslide-sdk/SQLite/PUBLIC-DOMAIN.txt",
+      "input": "licenses/openslide-sdk/SQLite/PUBLIC-DOMAIN.txt",
+      "material_id": "openslide-notice-sqlite-PUBLIC-DOMAIN-txt"
+    },
+    {
+      "path": "licenses/openslide-sdk/uthash/LICENSE",
+      "input": "licenses/openslide-sdk/uthash/LICENSE",
+      "material_id": "openslide-notice-uthash-LICENSE"
+    },
+    {
+      "path": "licenses/openslide-sdk/zlib-ng/LICENSE.md",
+      "input": "licenses/openslide-sdk/zlib-ng/LICENSE.md",
+      "material_id": "openslide-notice-zlib-ng-LICENSE-md"
+    },
+    {
+      "path": "licenses/openslide-sdk/Zstandard/LICENSE",
+      "input": "licenses/openslide-sdk/Zstandard/LICENSE",
+      "material_id": "openslide-notice-zstandard-LICENSE"
+    },
+    {
+      "path": "licenses/qupathxx/LICENSE",
+      "input": "licenses/qupathxx/LICENSE",
+      "material_id": "qupathxx-root-license"
+    },
+    {
+      "path": "licenses/rmlui/Khronos-NOTICE.txt",
+      "input": "licenses/rmlui/Khronos-NOTICE.txt",
+      "material_id": "native-output-12f77820c13a7d363adafe34d7474c9e120c221f3eae78f2881c371b30fa97af"
+    },
+    {
+      "path": "licenses/rmlui/LICENSE.txt",
+      "input": "licenses/rmlui/LICENSE.txt",
+      "material_id": "native-output-64c049f65ec810b805457dc1f24745002203f919ea5a16b6fcd7ca5f45ea298e"
+    },
+    {
+      "path": "licenses/sqlite/sqlite-LICENSE.txt",
+      "input": "licenses/sqlite/sqlite-LICENSE.txt",
+      "material_id": "project-notice-sqlite-LICENSE-txt"
+    },
+    {
+      "path": "licenses/tiff-jpeg/LICENSE.md",
+      "input": "licenses/tiff-jpeg/LICENSE.md",
+      "material_id": "native-notice-qpx_jpeg-src-LICENSE-md"
+    },
+    {
+      "path": "licenses/tiff-jpeg/NOTICE.txt",
+      "input": "licenses/tiff-jpeg/NOTICE.txt",
+      "material_id": "project-notice-tiff-jpeg-NOTICE-txt"
+    },
+    {
+      "path": "licenses/tiff-jpeg/README.ijg",
+      "input": "licenses/tiff-jpeg/README.ijg",
+      "material_id": "native-notice-qpx_jpeg-src-README-ijg"
+    },
+    {
+      "path": "licenses/tiff-zlib/LICENSE",
+      "input": "licenses/tiff-zlib/LICENSE",
+      "material_id": "native-notice-qpx_zlib-src-LICENSE"
+    },
+    {
+      "path": "licenses/tinyxml2/LICENSE.txt",
+      "input": "licenses/tinyxml2/LICENSE.txt",
+      "material_id": "native-notice-qpx_xml-src-LICENSE-txt"
+    },
+    {
+      "path": "qupathxx_app.exe",
+      "input": "qupathxx_app.exe",
+      "material_id": "molecular-desktop-derived_asset-226fcf9b7e7f67b1e6f53b15"
+    },
+    {
+      "path": "ui/workspace.rcss",
+      "input": "ui/workspace.rcss",
+      "material_id": "native-source-4c818c374e38aabf3a5a"
+    },
+    {
+      "path": "ui/workspace.rml",
+      "input": "ui/workspace.rml",
+      "material_id": "native-source-437f631a0439b32b984c"
+    }
+  ],
+  "source_profile": "windows-molecular-desktop",
+  "firstparty_license": "AGPL-3.0-only",
+  "dependency_sources": [
+    {
+      "component": "geos",
+      "version": "3.15.0",
+      "sha256": "d5e5192a686d065eaed082de14dd26244c5c8e02bff16b2c6cce3265f648e00e",
+      "bytes": 7120409,
+      "filename": "geos-3.15.0.tar.bz2",
+      "url": "https://download.osgeo.org/geos/geos-3.15.0.tar.bz2",
+      "material_id": "release-src-geos",
+      "license_id": "LGPL-2.1-or-later",
+      "component_notice_ids": []
+    },
+    {
+      "component": "opencv",
+      "version": "31b0eeea0b44b370fd0712312df4214d4ae1b158",
+      "sha256": "166f9a6d8585110a446cc298e002525e678a33a495b173f399c8d766b3f65066",
+      "bytes": 1434572,
+      "filename": "opencv-build-sources.tar.xz",
+      "url": "independently licensed code members selected from https://codeload.github.com/opencv/opencv/tar.gz/31b0eeea0b44b370fd0712312df4214d4ae1b158",
+      "material_id": "release-src-opencv",
+      "license_id": "Apache-2.0",
+      "component_notice_ids": [
+        "opencv-notice-LICENSE",
+        "opencv-notice-softfloat-notice-txt",
+        "opencv-notice-zlib-notice-txt",
+        "opencv-notice-SOURCE-NOTICES-txt"
+      ]
+    },
+    {
+      "component": "sqlite",
+      "version": "3.54.1",
+      "sha256": "0a9c8e34352dad46006aa82836d5383bff9dc6bc9ce5a60553c05aa30e6ad1f9",
+      "bytes": 2990966,
+      "filename": "sqlite-amalgamation-3540100.zip",
+      "url": "https://www.sqlite.org/2026/sqlite-amalgamation-3540100.zip",
+      "material_id": "release-src-sqlite",
+      "license_id": "blessing",
+      "component_notice_ids": []
+    },
+    {
+      "component": "nlohmann-json",
+      "version": "3.12.0",
+      "sha256": "42f6e95cad6ec532fd372391373363b62a14af6d771056dbfc86160e6dfff7aa",
+      "bytes": 114576,
+      "filename": "json-3.12.0.tar.xz",
+      "url": "https://github.com/nlohmann/json/releases/download/v3.12.0/json.tar.xz",
+      "material_id": "release-src-nlohmann-json",
+      "license_id": "MIT",
+      "component_notice_ids": []
+    },
+    {
+      "component": "openslide-sdk-and-dependencies",
+      "version": "4.0.1.2",
+      "sha256": "83c9a4a598f3a5fe1dea83e123745e48b94ce7eab99833f04902bdf4fa0af1db",
+      "bytes": 18591480,
+      "filename": "openslide-bin-4.0.1.2.tar.gz",
+      "url": "https://github.com/openslide/openslide-bin/releases/download/v4.0.1.2/openslide-bin-4.0.1.2.tar.gz",
+      "material_id": "release-src-openslide-sdk-and-dependencies",
+      "license_id": "LGPL-2.1-or-later",
+      "component_notice_ids": [
+        "openslide-notice-cairo-COPYING",
+        "openslide-notice-cairo-COPYING-LGPL-2-1",
+        "openslide-notice-cairo-COPYING-MPL-1-1",
+        "openslide-notice-glib-COPYING",
+        "openslide-notice-libdicom-LICENSE",
+        "openslide-notice-libffi-LICENSE",
+        "openslide-notice-libjpeg-turbo-LICENSE-md",
+        "openslide-notice-libjpeg-turbo-README-ijg",
+        "openslide-notice-libpng-LICENSE",
+        "openslide-notice-libtiff-LICENSE-md",
+        "openslide-notice-libxml2-Copyright",
+        "openslide-notice-openjpeg-LICENSE",
+        "openslide-notice-openslide-COPYING-LESSER",
+        "openslide-notice-pixman-COPYING",
+        "openslide-notice-proxy-libintl-COPYING",
+        "openslide-notice-sqlite-PUBLIC-DOMAIN-txt",
+        "openslide-notice-uthash-LICENSE",
+        "openslide-notice-zlib-ng-LICENSE-md",
+        "openslide-notice-zstandard-LICENSE"
+      ]
+    },
+    {
+      "component": "zlib",
+      "version": "1.3.2",
+      "sha256": "bb329a0a2cd0274d05519d61c667c062e06990d72e125ee2dfa8de64f0119d16",
+      "bytes": 1502830,
+      "filename": "zlib-1.3.2.tar.gz",
+      "url": "https://github.com/madler/zlib/releases/download/v1.3.2/zlib-1.3.2.tar.gz",
+      "material_id": "release-src-zlib",
+      "license_id": "Zlib",
+      "component_notice_ids": []
+    },
+    {
+      "component": "libtiff",
+      "version": "4.7.1",
+      "sha256": "b92017489bdc1db3a4c97191aa4b75366673cb746de0dce5d7a749d5954681ba",
+      "bytes": 2358600,
+      "filename": "tiff-4.7.1.tar.xz",
+      "url": "https://download.osgeo.org/libtiff/tiff-4.7.1.tar.xz",
+      "material_id": "release-src-libtiff",
+      "license_id": "libtiff",
+      "component_notice_ids": []
+    },
+    {
+      "component": "tinyxml2",
+      "version": "11.0.0",
+      "sha256": "5556deb5081fb246ee92afae73efd943c889cef0cafea92b0b82422d6a18f289",
+      "bytes": 642878,
+      "filename": "tinyxml2-11.0.0.tar.gz",
+      "url": "https://codeload.github.com/leethomason/tinyxml2/tar.gz/refs/tags/11.0.0",
+      "material_id": "release-src-tinyxml2",
+      "license_id": "Zlib",
+      "component_notice_ids": []
+    },
+    {
+      "component": "libjpeg-turbo",
+      "version": "3.1.3",
+      "sha256": "3a13a5ba767dc8264bc40b185e41368a80d5d5f945944d1dbaa4b2fb0099f4e5",
+      "bytes": 2516606,
+      "filename": "libjpeg-turbo-3.1.3.tar.gz",
+      "url": "https://codeload.github.com/libjpeg-turbo/libjpeg-turbo/tar.gz/refs/tags/3.1.3",
+      "material_id": "release-src-libjpeg-turbo",
+      "license_id": "BSD-3-Clause AND IJG AND Zlib",
+      "component_notice_ids": []
+    },
+    {
+      "component": "imgui",
+      "version": "b916186e66aa3c02b72c6ca17455516512ed8049",
+      "sha256": "bc86489ad254febd98b6518b1e642b31b5412bc5f9d8a0a7671101d7d4c36826",
+      "bytes": 802988,
+      "filename": "imgui-build-sources.tar.xz",
+      "url": "independently licensed code members selected from https://codeload.github.com/ocornut/imgui/tar.gz/b916186e66aa3c02b72c6ca17455516512ed8049",
+      "material_id": "release-src-imgui",
+      "license_id": "MIT",
+      "component_notice_ids": []
+    },
+    {
+      "component": "glfw",
+      "version": "7b6aead9fb88b3623e3b3725ebb42670cbe4c579",
+      "sha256": "169d49096e339caabbc12e1762273c5cb9130a535a282ba46cf5c14ab6e55694",
+      "bytes": 938351,
+      "filename": "glfw-3.4.tar.gz",
+      "url": "https://codeload.github.com/glfw/glfw/tar.gz/7b6aead9fb88b3623e3b3725ebb42670cbe4c579",
+      "material_id": "release-src-glfw",
+      "license_id": "Zlib",
+      "component_notice_ids": []
+    },
+    {
+      "component": "hdf5",
+      "version": "2.2.0",
+      "sha256": "5b8d75125ae7b4fef55d3b39e8d3dbfd238cdf63b6518afd67fa69ac80f06542",
+      "bytes": 42186897,
+      "filename": "hdf5-2.2.0.tar.gz",
+      "url": "https://codeload.github.com/HDFGroup/hdf5/tar.gz/refs/tags/2.2.0",
+      "material_id": "release-src-hdf5",
+      "license_id": "BSD-3-Clause",
+      "component_notice_ids": []
+    },
+    {
+      "component": "rmlui",
+      "version": "ba95ffe8bfb6370efb2cdcca927eaad4710c5413",
+      "sha256": "ed3162ef67d24b7d91557d710b3734433cfc2a8659c55b4d68a11de38b178487",
+      "bytes": 4609682,
+      "filename": "rmlui.zip",
+      "url": "https://codeload.github.com/mikke89/RmlUi/zip/ba95ffe8bfb6370efb2cdcca927eaad4710c5413",
+      "material_id": "release-src-rmlui",
+      "license_id": "MIT",
+      "component_notice_ids": []
+    },
+    {
+      "component": "freetype",
+      "version": "534ad3456055ee1f65ecde3bcf22a656a31514d1",
+      "sha256": "fa3be35dcd192c98c29531ecea16ad4cbc24b4d24694f52db905c83fcc0e3fa5",
+      "bytes": 2985417,
+      "filename": "freetype.zip",
+      "url": "https://codeload.github.com/freetype/freetype/zip/534ad3456055ee1f65ecde3bcf22a656a31514d1",
+      "material_id": "release-src-freetype",
+      "license_id": "FTL",
+      "component_notice_ids": [
+        "freetype-notice-FTL-TXT",
+        "freetype-notice-GPLv2-TXT"
+      ]
+    },
+    {
+      "component": "boost-math",
+      "version": "1.88.0",
+      "sha256": "bb753392c3908292da46034a5435107f9e0546fda54da4d47b438aff5e4d9c48",
+      "bytes": 29793567,
+      "filename": "boost-math-1.88.0.tar.gz",
+      "url": "https://codeload.github.com/boostorg/math/tar.gz/refs/tags/boost-1.88.0",
+      "material_id": "boost-math-1.88.0",
+      "license_id": "BSL-1.0",
+      "component_notice_ids": []
+    }
+  ],
+  "validation_materials": [
+    {
+      "filename": "completion.json",
+      "source": "Candidate9 finite first-party publication metadata; frozen a9422a1b delivery",
+      "bytes": 1879,
+      "sha256": "bddb7d4d4c3171381c120b6e7206caa934526bbcb7f28f47c294aaf42a1e9803",
+      "material": {
+        "id": "candidate9-publication-bddb7d4d4c3171381c120b6e7206caa934526bbcb7f28f47c294aaf42a1e9803",
+        "category": "admitted_open",
+        "kind": "derived_asset",
+        "license_id": "AGPL-3.0-only",
+        "license_evidence": "LICENSE",
+        "attribution": "qupathxx contributors; individual upstream notices retained",
+        "source_ids": [
+          "qupathxx-root-license",
+          "molecular-desktop-derived_asset-786dc16d203851366e030151"
+        ]
+      }
+    },
+    {
+      "filename": "dependency-generated-materials.json",
+      "source": "Candidate9 finite first-party publication metadata; frozen a9422a1b delivery",
+      "bytes": 1341,
+      "sha256": "3cd0371e1b822dc2568dc6c82cab76c7708bf8d3bd5b9ec710b3723191a336d8",
+      "material": {
+        "id": "candidate9-publication-3cd0371e1b822dc2568dc6c82cab76c7708bf8d3bd5b9ec710b3723191a336d8",
+        "category": "admitted_open",
+        "kind": "derived_asset",
+        "license_id": "AGPL-3.0-only",
+        "license_evidence": "LICENSE",
+        "attribution": "qupathxx contributors; individual upstream notices retained",
+        "source_ids": [
+          "qupathxx-root-license",
+          "molecular-desktop-derived_asset-786dc16d203851366e030151"
+        ]
+      }
+    },
+    {
+      "filename": "dependency-sources.json",
+      "source": "Candidate9 finite first-party publication metadata; frozen a9422a1b delivery",
+      "bytes": 8362,
+      "sha256": "21b3a3a0badff5838db1bed03cbdd727c5f45f062eca2c049a696359c5249302",
+      "material": {
+        "id": "candidate9-publication-21b3a3a0badff5838db1bed03cbdd727c5f45f062eca2c049a696359c5249302",
+        "category": "admitted_open",
+        "kind": "derived_asset",
+        "license_id": "AGPL-3.0-only",
+        "license_evidence": "LICENSE",
+        "attribution": "qupathxx contributors; individual upstream notices retained",
+        "source_ids": [
+          "qupathxx-root-license",
+          "molecular-desktop-derived_asset-786dc16d203851366e030151"
+        ]
+      }
+    },
+    {
+      "filename": "desktop-admission.json",
+      "source": "Candidate9 finite first-party publication metadata; frozen a9422a1b delivery",
+      "bytes": 8260,
+      "sha256": "df67c72fa206e6b88857591174dab2447d03ae099e70856446e5757fec1b999f",
+      "material": {
+        "id": "candidate9-publication-df67c72fa206e6b88857591174dab2447d03ae099e70856446e5757fec1b999f",
+        "category": "admitted_open",
+        "kind": "derived_asset",
+        "license_id": "AGPL-3.0-only",
+        "license_evidence": "LICENSE",
+        "attribution": "qupathxx contributors; individual upstream notices retained",
+        "source_ids": [
+          "qupathxx-root-license",
+          "molecular-desktop-derived_asset-786dc16d203851366e030151"
+        ]
+      }
+    },
+    {
+      "filename": "desktop-generated-materials.json",
+      "source": "Candidate9 finite first-party publication metadata; frozen a9422a1b delivery",
+      "bytes": 3348,
+      "sha256": "4bc89898a91c26b4db945e7733d2eed7302c0afaf8e574cd9278c6e43ab33546",
+      "material": {
+        "id": "candidate9-publication-4bc89898a91c26b4db945e7733d2eed7302c0afaf8e574cd9278c6e43ab33546",
+        "category": "admitted_open",
+        "kind": "derived_asset",
+        "license_id": "AGPL-3.0-only",
+        "license_evidence": "LICENSE",
+        "attribution": "qupathxx contributors; individual upstream notices retained",
+        "source_ids": [
+          "qupathxx-root-license",
+          "molecular-desktop-derived_asset-786dc16d203851366e030151"
+        ]
+      }
+    },
+    {
+      "filename": "install-removal.json",
+      "source": "Candidate9 finite first-party publication metadata; frozen a9422a1b delivery",
+      "bytes": 30028,
+      "sha256": "be0f76ac4dc252acbe2c3f6e4e3e566bf63b5c619682d9204a940e97b29cac65",
+      "material": {
+        "id": "candidate9-publication-be0f76ac4dc252acbe2c3f6e4e3e566bf63b5c619682d9204a940e97b29cac65",
+        "category": "admitted_open",
+        "kind": "derived_asset",
+        "license_id": "AGPL-3.0-only",
+        "license_evidence": "LICENSE",
+        "attribution": "qupathxx contributors; individual upstream notices retained",
+        "source_ids": [
+          "qupathxx-root-license",
+          "molecular-desktop-derived_asset-786dc16d203851366e030151"
+        ]
+      }
+    },
+    {
+      "filename": "LICENSE",
+      "source": "Candidate9 finite first-party publication metadata; frozen a9422a1b delivery",
+      "bytes": 35184,
+      "sha256": "e0eedba615d5cd1b986afb6c5b3a4b1ae33713e7e9dc74d19daec5e3221f9d2e",
+      "material": {
+        "id": "candidate9-publication-e0eedba615d5cd1b986afb6c5b3a4b1ae33713e7e9dc74d19daec5e3221f9d2e",
+        "category": "admitted_open",
+        "kind": "derived_asset",
+        "license_id": "AGPL-3.0-only",
+        "license_evidence": "LICENSE",
+        "attribution": "qupathxx contributors; individual upstream notices retained",
+        "source_ids": [
+          "qupathxx-root-license",
+          "molecular-desktop-derived_asset-786dc16d203851366e030151"
+        ]
+      }
+    },
+    {
+      "filename": "material-admission-ci.json",
+      "source": "Candidate9 finite first-party publication metadata; frozen a9422a1b delivery",
+      "bytes": 375,
+      "sha256": "bebfa099462450199adf4061a3f5349fec3f367c3f73002b266769f94a85378e",
+      "material": {
+        "id": "candidate9-publication-bebfa099462450199adf4061a3f5349fec3f367c3f73002b266769f94a85378e",
+        "category": "admitted_open",
+        "kind": "derived_asset",
+        "license_id": "AGPL-3.0-only",
+        "license_evidence": "LICENSE",
+        "attribution": "qupathxx contributors; individual upstream notices retained",
+        "source_ids": [
+          "qupathxx-root-license",
+          "molecular-desktop-derived_asset-786dc16d203851366e030151"
+        ]
+      }
+    },
+    {
+      "filename": "README.md",
+      "source": "Candidate9 finite first-party publication metadata; frozen a9422a1b delivery",
+      "bytes": 1300,
+      "sha256": "9bc7e966863868b02e5a1985644d5d1ac6f022d1b1f041da95f462c3eadba3b1",
+      "material": {
+        "id": "candidate9-publication-9bc7e966863868b02e5a1985644d5d1ac6f022d1b1f041da95f462c3eadba3b1",
+        "category": "admitted_open",
+        "kind": "derived_asset",
+        "license_id": "AGPL-3.0-only",
+        "license_evidence": "LICENSE",
+        "attribution": "qupathxx contributors; individual upstream notices retained",
+        "source_ids": [
+          "qupathxx-root-license",
+          "molecular-desktop-derived_asset-786dc16d203851366e030151"
+        ]
+      }
+    },
+    {
+      "filename": "source-inputs.sha256",
+      "source": "Candidate9 finite first-party publication metadata; frozen a9422a1b delivery",
+      "bytes": 91567,
+      "sha256": "786dc16d203851366e030151cec98255c60f50d71db5d89710735c97e7bf6586",
+      "material": {
+        "id": "candidate9-publication-786dc16d203851366e030151cec98255c60f50d71db5d89710735c97e7bf6586",
+        "category": "admitted_open",
+        "kind": "derived_asset",
+        "license_id": "AGPL-3.0-only",
+        "license_evidence": "LICENSE",
+        "attribution": "qupathxx contributors; individual upstream notices retained",
+        "source_ids": [
+          "qupathxx-root-license",
+          "molecular-desktop-derived_asset-786dc16d203851366e030151"
+        ]
+      }
+    },
+    {
+      "filename": "qupathxx-molecular-verification-candidate9.zip",
+      "source": "Candidate9 finite first-party publication metadata; frozen a9422a1b delivery",
+      "bytes": 75070,
+      "sha256": "3b5bda88776d04d4013bddc3c39c26577f37d33af6a269b7b6d2875caa109ecc",
+      "material": {
+        "id": "candidate9-publication-3b5bda88776d04d4013bddc3c39c26577f37d33af6a269b7b6d2875caa109ecc",
+        "category": "admitted_open",
+        "kind": "derived_asset",
+        "license_id": "AGPL-3.0-only",
+        "license_evidence": "LICENSE",
+        "attribution": "qupathxx contributors; individual upstream notices retained",
+        "source_ids": [
+          "candidate9-publication-bddb7d4d4c3171381c120b6e7206caa934526bbcb7f28f47c294aaf42a1e9803",
+          "candidate9-publication-3cd0371e1b822dc2568dc6c82cab76c7708bf8d3bd5b9ec710b3723191a336d8",
+          "candidate9-publication-21b3a3a0badff5838db1bed03cbdd727c5f45f062eca2c049a696359c5249302",
+          "candidate9-publication-df67c72fa206e6b88857591174dab2447d03ae099e70856446e5757fec1b999f",
+          "candidate9-publication-4bc89898a91c26b4db945e7733d2eed7302c0afaf8e574cd9278c6e43ab33546",
+          "candidate9-publication-be0f76ac4dc252acbe2c3f6e4e3e566bf63b5c619682d9204a940e97b29cac65",
+          "candidate9-publication-e0eedba615d5cd1b986afb6c5b3a4b1ae33713e7e9dc74d19daec5e3221f9d2e",
+          "candidate9-publication-bebfa099462450199adf4061a3f5349fec3f367c3f73002b266769f94a85378e",
+          "candidate9-publication-9bc7e966863868b02e5a1985644d5d1ac6f022d1b1f041da95f462c3eadba3b1",
+          "candidate9-publication-786dc16d203851366e030151cec98255c60f50d71db5d89710735c97e7bf6586"
+        ]
+      }
+    },
+    {
+      "filename": "RUN.md",
+      "source": "Candidate9 finite first-party publication metadata; frozen a9422a1b delivery",
+      "bytes": 2703,
+      "sha256": "8f64a7fc47f95f98e5b682fe9813aa18e9c167cc5751f42643138586660f6c9e",
+      "material": {
+        "id": "candidate9-publication-8f64a7fc47f95f98e5b682fe9813aa18e9c167cc5751f42643138586660f6c9e",
+        "category": "admitted_open",
+        "kind": "derived_asset",
+        "license_id": "AGPL-3.0-only",
+        "license_evidence": "LICENSE",
+        "attribution": "qupathxx contributors; individual upstream notices retained",
+        "source_ids": [
+          "qupathxx-root-license",
+          "molecular-desktop-derived_asset-786dc16d203851366e030151"
+        ]
+      }
+    }
+  ],
+  "validation_members": {
+    "completion.json": "candidate9-publication-bddb7d4d4c3171381c120b6e7206caa934526bbcb7f28f47c294aaf42a1e9803",
+    "dependency-generated-materials.json": "candidate9-publication-3cd0371e1b822dc2568dc6c82cab76c7708bf8d3bd5b9ec710b3723191a336d8",
+    "dependency-sources.json": "candidate9-publication-21b3a3a0badff5838db1bed03cbdd727c5f45f062eca2c049a696359c5249302",
+    "desktop-admission.json": "candidate9-publication-df67c72fa206e6b88857591174dab2447d03ae099e70856446e5757fec1b999f",
+    "desktop-generated-materials.json": "candidate9-publication-4bc89898a91c26b4db945e7733d2eed7302c0afaf8e574cd9278c6e43ab33546",
+    "install-removal.json": "candidate9-publication-be0f76ac4dc252acbe2c3f6e4e3e566bf63b5c619682d9204a940e97b29cac65",
+    "LICENSE": "candidate9-publication-e0eedba615d5cd1b986afb6c5b3a4b1ae33713e7e9dc74d19daec5e3221f9d2e",
+    "material-admission-ci.json": "candidate9-publication-bebfa099462450199adf4061a3f5349fec3f367c3f73002b266769f94a85378e",
+    "README.md": "candidate9-publication-9bc7e966863868b02e5a1985644d5d1ac6f022d1b1f041da95f462c3eadba3b1",
+    "source-inputs.sha256": "candidate9-publication-786dc16d203851366e030151cec98255c60f50d71db5d89710735c97e7bf6586"
+  },
+  "material_admission_ci": {
+    "run_id": 43749635882,
+    "url": "https://github.com/bipxx/qupathxx/actions/runs/43749635882",
+    "source_commit": "a9422a1b8cc6a57b02281b935cee51cc33de63d1",
+    "workflow": "Native release material admission",
+    "host": "ubuntu-24.04",
+    "conclusion": "success",
+    "tests_passed": 36,
+    "scope": "packaging/material controls, no product/platform qualification"
+  },
+  "source_availability": "Exact application source and15 reviewed dependency source artifacts attached; original package notices retained",
+  "qualification": "Reuse local molecular desktop and installed-route evidence at their recorded identities; no product rebuild for publication"
+}

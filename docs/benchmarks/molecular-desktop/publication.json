@@ -1,0 +1,104 @@
+{
+  "state": "published",
+  "tag": "v0.1.0-windows-candidate.9",
+  "url": "https://github.com/bipxx/qupathxx/releases/tag/v0.1.0-windows-candidate.9",
+  "release_id": 446388532,
+  "published_at": "2026-11-15T21:46:04Z",
+  "prerelease": true,
+  "release_source_commit": "a9422a1b8cc6a57b02281b935cee51cc33de63d1",
+  "frontend_commit": "bda67ad86bd750eaebedc8f5d96935c2907dfb27",
+  "uploaded_asset_checks": "all seven names/sizes/uploaded states/SHA256 digests equal admitted local files",
+  "assets": [
+    {
+      "id": 752446385,
+      "name": "RUN.md",
+      "size": 2703,
+      "digest": "sha256:8f64a7fc47f95f98e5b682fe9813aa18e9c167cc5751f42643138586660f6c9e",
+      "browser_download_url": "https://github.com/bipxx/qupathxx/releases/download/v0.1.0-windows-candidate.9/RUN.md"
+    },
+    {
+      "id": 752446422,
+      "name": "SHA256SUMS.txt",
+      "size": 613,
+      "digest": "sha256:7b0bc7bc855a3b7ce9bf6f88160f2eafe8872dbe628783a6dd41ad49064f8e8b",
+      "browser_download_url": "https://github.com/bipxx/qupathxx/releases/download/v0.1.0-windows-candidate.9/SHA256SUMS.txt"
+    },
+    {
+      "id": 752446383,
+      "name": "qupathxx-dependency-sources.zip",
+      "size": 118600406,
+      "digest": "sha256:89f4882e9b26b65681fcb11ad63d8048121b743b0ff8b7ed75c480080a6ec0ad",
+      "browser_download_url": "https://github.com/bipxx/qupathxx/releases/download/v0.1.0-windows-candidate.9/qupathxx-dependency-sources.zip"
+    },
+    {
+      "id": 752446384,
+      "name": "qupathxx-molecular-verification-candidate9.zip",
+      "size": 75070,
+      "digest": "sha256:3b5bda88776d04d4013bddc3c39c26577f37d33af6a269b7b6d2875caa109ecc",
+      "browser_download_url": "https://github.com/bipxx/qupathxx/releases/download/v0.1.0-windows-candidate.9/qupathxx-molecular-verification-candidate9.zip"
+    },
+    {
+      "id": 752446391,
+      "name": "qupathxx-windows-x64-molecular-desktop-bda67ad8.zip",
+      "size": 28164289,
+      "digest": "sha256:0d236f9814154464681a3084f3016b04eb21382096fd375088181e3eac9eab20",
+      "browser_download_url": "https://github.com/bipxx/qupathxx/releases/download/v0.1.0-windows-candidate.9/qupathxx-windows-x64-molecular-desktop-bda67ad8.zip"
+    },
+    {
+      "id": 752446392,
+      "name": "qupathxx-windows-x64-molecular-source-bda67ad8.zip",
+      "size": 6685815,
+      "digest": "sha256:0c8efa26009967d0df8e970b2c6b46743d667512d1692edbab69a01b233e6940",
+      "browser_download_url": "https://github.com/bipxx/qupathxx/releases/download/v0.1.0-windows-candidate.9/qupathxx-windows-x64-molecular-source-bda67ad8.zip"
+    },
+    {
+      "id": 752446417,
+      "name": "release-manifest.json",
+      "size": 41732,
+      "digest": "sha256:e0a16db559ff3d2c881b3ed53290c0175a73dfc18599b3260667c5111d44ff2d",
+      "browser_download_url": "https://github.com/bipxx/qupathxx/releases/download/v0.1.0-windows-candidate.9/release-manifest.json"
+    }
+  ],
+  "product_rebuilds": 0,
+  "scope": "Windows x64 molecular desktop; retained local scientific/install evidence only; no new SDK/wheel/platform/biological/stable/signing claim",
+  "verified_tag_commit": "a9422a1b8cc6a57b02281b935cee51cc33de63d1",
+  "anonymous_downloads": {
+    "RUN.md": {
+      "status": 200,
+      "bytes": 2703,
+      "sha256": "8f64a7fc47f95f98e5b682fe9813aa18e9c167cc5751f42643138586660f6c9e"
+    },
+    "SHA256SUMS.txt": {
+      "status": 200,
+      "bytes": 613,
+      "sha256": "7b0bc7bc855a3b7ce9bf6f88160f2eafe8872dbe628783a6dd41ad49064f8e8b"
+    },
+    "qupathxx-dependency-sources.zip": {
+      "status": 200,
+      "method": "HEAD",
+      "content_length": "118600406"
+    },
+    "qupathxx-molecular-verification-candidate9.zip": {
+      "status": 200,
+      "method": "HEAD",
+      "content_length": "75070"
+    },
+    "qupathxx-windows-x64-molecular-desktop-bda67ad8.zip": {
+      "status": 200,
+      "method": "HEAD",
+      "content_length": "28164289"
+    },
+    "qupathxx-windows-x64-molecular-source-bda67ad8.zip": {
+      "status": 200,
+      "method": "HEAD",
+      "content_length": "6685815"
+    },
+    "release-manifest.json": {
+      "status": 200,
+      "bytes": 41732,
+      "sha256": "e0a16db559ff3d2c881b3ed53290c0175a73dfc18599b3260667c5111d44ff2d"
+    }
+  },
+  "prior_releases_unchanged": 8,
+  "anonymous_public_release": true
+}

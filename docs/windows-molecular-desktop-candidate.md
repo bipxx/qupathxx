@@ -6,17 +6,21 @@ summaries and raw pseudobulk, PCA/clustering and replicate differential expressi
 It is a portable desktop package; Python, Java, a wheel and an SDK are not needed
 to run it. The earlier published packages keep their own identities and support.
 
-The local handoff is under `build/gui-aggregation/molecular-delivery/`:
+Published as [Windows candidate9](https://github.com/bipxx/qupathxx/releases/tag/v0.1.0-windows-candidate.9).
+Download the three matching archives; local copies remain under
+`build/gui-aggregation/molecular-delivery/`:
 
-- `release/qupathxx-windows-x64-molecular-desktop-bda67ad8.zip`
-- `release/qupathxx-windows-x64-molecular-source-bda67ad8.zip`
-- `dependency-sources/qupathxx-dependency-sources.zip`
+- [Desktop ZIP](https://github.com/bipxx/qupathxx/releases/download/v0.1.0-windows-candidate.9/qupathxx-windows-x64-molecular-desktop-bda67ad8.zip): `release/qupathxx-windows-x64-molecular-desktop-bda67ad8.zip`.
+- [Application source ZIP](https://github.com/bipxx/qupathxx/releases/download/v0.1.0-windows-candidate.9/qupathxx-windows-x64-molecular-source-bda67ad8.zip): `release/qupathxx-windows-x64-molecular-source-bda67ad8.zip`.
+- [Dependency source ZIP](https://github.com/bipxx/qupathxx/releases/download/v0.1.0-windows-candidate.9/qupathxx-dependency-sources.zip): `dependency-sources/qupathxx-dependency-sources.zip`.
 
-Keep the matching `admission.json`, `generated-materials.json`, source inventories
-and dependency receipt with those archives. Archive SHA-256 values and the
-installed-route result are recorded in the
-[workflow receipt](benchmarks/molecular-desktop/README.md). No release upload is
-part of this handoff.
+The release also supplies `RUN.md`, `SHA256SUMS.txt`, `release-manifest.json` and
+`qupathxx-molecular-verification-candidate9.zip`. The verification bundle includes
+the matching admission/generated-material records, dependency receipt, source
+fingerprint and sanitized install/removal evidence. The source ZIP contains the
+source inventories. Keep those records with the archives. Archive hashes,
+installed-route results and public download verification are recorded in the
+[workflow receipt](benchmarks/molecular-desktop/README.md#windows-candidate9-publication).
 
 Extract the desktop ZIP into a new directory that you can write to. Keep the
 executable, three DLLs, `fonts`, `ui` and `licenses` together, then launch
@@ -36,6 +40,10 @@ owned-file receipt to verify this behavior.
 ## Candidate identity and support
 
 The frontend source is commit `bda67ad86bd750eaebedc8f5d96935c2907dfb27`.
+The release tag points to packaging commit
+`a9422a1b8cc6a57b02281b935cee51cc33de63d1`. The three original ZIPs are unchanged;
+their source documentation retains the pre-publication checkpoint. The published
+`RUN.md` and release notes supply this publication update.
 `RELEASE.json` binds the exact executable, retained native base and distinct
 five-unit reduction correction. It also records the current corresponding-source
 input fingerprint and the six correction-source hashes. The embedded historical
@@ -79,3 +87,5 @@ python tools/ci/collect_candidate_sources.py --output NEW_DEPENDENCY_OUTPUT --ca
 inventory. Changed/missing/extra/unadmitted files, a mismatched source companion
 or substantive UI-source changes refuse. Updating a build or dependency requires
 a new review and candidate identity, never relabeling these bytes.
+Run staging from the matching extracted source ZIP; later documentation in the
+working tree does not replace that frozen inventory/source checkpoint.

@@ -1,0 +1,4 @@
+# Published metadata and verification receipts retain their exact producer bytes.
+publication.json -text whitespace=cr-at-eol
+release-manifest.json -text whitespace=cr-at-eol
+SHA256SUMS.txt -text whitespace=cr-at-eol
