@@ -1,0 +1,357 @@
+{
+  "schema": "qpx.webp-reader-sources/1",
+  "version": "1.6.0",
+  "commit": "4fa21912338357f89e4fd51cf2368325b59e9bd9",
+  "tag_url": "https://github.com/webmproject/libwebp/tree/v1.6.0",
+  "license_id": "BSD-3-Clause",
+  "additional_notice": "PATENTS; AUTHORS",
+  "selection": "Unmodified generic decoder/common DSP/common utilities and transitive headers only; no encoder, mux/demux, SIMD, thread support, tools, tests or images",
+  "compile_sources": [
+    "src/dec/alpha_dec.c",
+    "src/dec/buffer_dec.c",
+    "src/dec/frame_dec.c",
+    "src/dec/idec_dec.c",
+    "src/dec/io_dec.c",
+    "src/dec/quant_dec.c",
+    "src/dec/tree_dec.c",
+    "src/dec/vp8_dec.c",
+    "src/dec/vp8l_dec.c",
+    "src/dec/webp_dec.c",
+    "src/dsp/alpha_processing.c",
+    "src/dsp/cpu.c",
+    "src/dsp/dec.c",
+    "src/dsp/dec_clip_tables.c",
+    "src/dsp/filters.c",
+    "src/dsp/lossless.c",
+    "src/dsp/rescaler.c",
+    "src/dsp/upsampling.c",
+    "src/dsp/yuv.c",
+    "src/utils/bit_reader_utils.c",
+    "src/utils/color_cache_utils.c",
+    "src/utils/filters_utils.c",
+    "src/utils/huffman_utils.c",
+    "src/utils/palette.c",
+    "src/utils/quant_levels_dec_utils.c",
+    "src/utils/random_utils.c",
+    "src/utils/rescaler_utils.c",
+    "src/utils/thread_utils.c",
+    "src/utils/utils.c"
+  ],
+  "members": {
+    "AUTHORS": {
+      "sha256": "f251be89fd442bd9d701360730aea163cc8e2076ff03528f59267dc2c4f8b60a",
+      "bytes": 3279,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/AUTHORS"
+    },
+    "COPYING": {
+      "sha256": "5aec868f669e384a22372a4e8a1a6cd7d44c64cd451f960ca69cc170d1e13acf",
+      "bytes": 1496,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/COPYING"
+    },
+    "PATENTS": {
+      "sha256": "cc3273e0694ea5896145e0677699b53471b03ea43021ddc50e7923fbb9f5023c",
+      "bytes": 1436,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/PATENTS"
+    },
+    "src/dec/Makefile.am": {
+      "sha256": "07b6e9d84e080a1f95bac4e357d241d60ebacddbf5792330df9a11a74495106d",
+      "bytes": 1026,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/dec/Makefile.am"
+    },
+    "src/dec/alpha_dec.c": {
+      "sha256": "fdc26ce284c26ad819a7ce7c35f7bb4b146b844cafcabf9c6c421a8178c4101e",
+      "bytes": 8294,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/dec/alpha_dec.c"
+    },
+    "src/dec/alphai_dec.h": {
+      "sha256": "051d1ec0195bb7fd5e44b18dc3f0c8a928f5597c4e28cb36d47de35ef532a41c",
+      "bytes": 1736,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/dec/alphai_dec.h"
+    },
+    "src/dec/buffer_dec.c": {
+      "sha256": "448981ff77aae496fae9ec1c9292011f5239f58704cf3a89899ab153d1072963",
+      "bytes": 10765,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/dec/buffer_dec.c"
+    },
+    "src/dec/common_dec.h": {
+      "sha256": "89eb36f74a027e5e40176ba73d8e1e95e62803cb3de97bd798922079f412a2f6",
+      "bytes": 1794,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/dec/common_dec.h"
+    },
+    "src/dec/frame_dec.c": {
+      "sha256": "0cf084285d0fb94e9f27ba7a4c5381afcff13d3fb0bfa2123a73ce31a6f2be72",
+      "bytes": 28290,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/dec/frame_dec.c"
+    },
+    "src/dec/idec_dec.c": {
+      "sha256": "3665583e435c97f94baf8589e67286bdb390358e0702183f056b3ce6aafd84e1",
+      "bytes": 31958,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/dec/idec_dec.c"
+    },
+    "src/dec/io_dec.c": {
+      "sha256": "5f5c1c75d6440bcf44f7d39a8fc9012f8781c0ac621b918d27b29b3c86723328",
+      "bytes": 24192,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/dec/io_dec.c"
+    },
+    "src/dec/quant_dec.c": {
+      "sha256": "08b20b9b4b8352f4cd46c672730a2687c6e8c9873599460670950de0a81d9ee4",
+      "bytes": 4172,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/dec/quant_dec.c"
+    },
+    "src/dec/tree_dec.c": {
+      "sha256": "d49bcf9ea2e7b2bdee239be9848aaae90f3be83f392500fa9b2f163132f59320",
+      "bytes": 23658,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/dec/tree_dec.c"
+    },
+    "src/dec/vp8_dec.c": {
+      "sha256": "548c31dc8a3eae05b1ec285e2da750aba159079d4fadee4b5f0f73b34fba7856",
+      "bytes": 22777,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/dec/vp8_dec.c"
+    },
+    "src/dec/vp8_dec.h": {
+      "sha256": "2e34adde9a6d4ae4bba16a03d9d604a49b90dfc30dbec7e436b9934a24120e37",
+      "bytes": 7103,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/dec/vp8_dec.h"
+    },
+    "src/dec/vp8i_dec.h": {
+      "sha256": "56422f4c59e25d44b0e7045a8e6c80f196862dcc77a9948054ac0b1e1c093d00",
+      "bytes": 11804,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/dec/vp8i_dec.h"
+    },
+    "src/dec/vp8l_dec.c": {
+      "sha256": "49e4aec24d95d70df3c53e9ae53d5f3bc5646012d9f1d0968a5f88936f310653",
+      "bytes": 62514,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/dec/vp8l_dec.c"
+    },
+    "src/dec/vp8li_dec.h": {
+      "sha256": "4f1bc8d0a4ad64816f5d19ed6ef95533d00fb548b1b51a7ba85b65d88fd6ae14",
+      "bytes": 5508,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/dec/vp8li_dec.h"
+    },
+    "src/dec/webp_dec.c": {
+      "sha256": "76c61ca30205025c758cc215af96296ecc5cde882c1d668ded9e89d7d2bae80c",
+      "bytes": 33243,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/dec/webp_dec.c"
+    },
+    "src/dec/webpi_dec.h": {
+      "sha256": "78a7d476c29c7c2ca41ca88f2d9111e33855b8b7c6eb186f23ab01585f252475",
+      "bytes": 6455,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/dec/webpi_dec.h"
+    },
+    "src/dsp/Makefile.am": {
+      "sha256": "c09e5204bfa0176792737fd3f26b982794f2ec9174dc918fcb035991d5f6f818",
+      "bytes": 8263,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/dsp/Makefile.am"
+    },
+    "src/dsp/alpha_processing.c": {
+      "sha256": "dd3ffe4d16382e4175ab9c9b96ababc4e0363a01d9d98737b20869c51df62444",
+      "bytes": 19532,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/dsp/alpha_processing.c"
+    },
+    "src/dsp/cpu.c": {
+      "sha256": "cd231d22bb17d9ec9a6f17daa3429be2a3e03adb5eb1472807857e43622c684c",
+      "bytes": 7653,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/dsp/cpu.c"
+    },
+    "src/dsp/cpu.h": {
+      "sha256": "272cb2a8aa81d6355afecdea7ea344c90c2df58e6f51e01aa8bc4bf866d0be59",
+      "bytes": 9231,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/dsp/cpu.h"
+    },
+    "src/dsp/dec.c": {
+      "sha256": "ceea12ceb6266d129e97448da20394769b003b1b29a1a0b20f09c9e837b425d3",
+      "bytes": 28153,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/dsp/dec.c"
+    },
+    "src/dsp/dec_clip_tables.c": {
+      "sha256": "4581e8fe4a4a71a1b247adfad0cb84831378d2fe405a2c057c41b0ae0fe17c0e",
+      "bytes": 24009,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/dsp/dec_clip_tables.c"
+    },
+    "src/dsp/dsp.h": {
+      "sha256": "de2cd2249ac7354e303deaff8691a32c6758fb41d9acba922d3b91141709b8d8",
+      "bytes": 23712,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/dsp/dsp.h"
+    },
+    "src/dsp/filters.c": {
+      "sha256": "57ae0d3cac9588febbf8e232232d8e417336dad5bf5e84560a4eaa4cf02b540c",
+      "bytes": 8938,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/dsp/filters.c"
+    },
+    "src/dsp/lossless.c": {
+      "sha256": "bd5a856ad112eb33b3e470b483d48f86c8250728b36dfe1d137f5b36a2c70b76",
+      "bytes": 26406,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/dsp/lossless.c"
+    },
+    "src/dsp/lossless.h": {
+      "sha256": "3c0883abadfd6ca043e60c212a129e35633c9deb7fdaacb214a5680666b1bc8a",
+      "bytes": 12871,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/dsp/lossless.h"
+    },
+    "src/dsp/lossless_common.h": {
+      "sha256": "1e37c5f845073710fd7ccaabbc9b7b8d1a3a1cd17e09e49ffcea9b09f5723258",
+      "bytes": 8435,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/dsp/lossless_common.h"
+    },
+    "src/dsp/rescaler.c": {
+      "sha256": "47e45d83fbb3eec2ede6b02e107f1df83de693282d5441d4a8d41b13c52f236e",
+      "bytes": 8304,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/dsp/rescaler.c"
+    },
+    "src/dsp/upsampling.c": {
+      "sha256": "21b05126aff3fbe902655a7081e3a538f8d1ca6cc9e0907c607e1c4c50ba0a9f",
+      "bytes": 15863,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/dsp/upsampling.c"
+    },
+    "src/dsp/yuv.c": {
+      "sha256": "1d334957aee6eb67862e7c06f60ffd19b7661f3fce831385de1ba408dc426311",
+      "bytes": 9728,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/dsp/yuv.c"
+    },
+    "src/dsp/yuv.h": {
+      "sha256": "5805c01f84a677e50bf0d16cd903b78d25c2a0c46fe17c67ce0e48f11f3d512b",
+      "bytes": 8467,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/dsp/yuv.h"
+    },
+    "src/utils/Makefile.am": {
+      "sha256": "35583668727112e640f5053214ac292dfd8f867bfd9581ab3f31684e1302d798",
+      "bytes": 1575,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/utils/Makefile.am"
+    },
+    "src/utils/bit_reader_inl_utils.h": {
+      "sha256": "2fd9be790a86039e443e5f49f61dc2cc5cb8e8d313cbb40e164362fa4db23241",
+      "bytes": 5930,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/utils/bit_reader_inl_utils.h"
+    },
+    "src/utils/bit_reader_utils.c": {
+      "sha256": "f639602d395ff4a02ea351b04d3b92ae170751889a9d313e1b196ddb883521f3",
+      "bytes": 9097,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/utils/bit_reader_utils.c"
+    },
+    "src/utils/bit_reader_utils.h": {
+      "sha256": "e08a177ee1ae47c945fe0f029673c6edba09c69bd81e2fae8f6e3ed671bd79d5",
+      "bytes": 7708,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/utils/bit_reader_utils.h"
+    },
+    "src/utils/color_cache_utils.c": {
+      "sha256": "c7dd35a6d3cee5ff7f928d900a5bdc02b20cc7018f3a9f7a2f87ae8e87457e8f",
+      "bytes": 1701,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/utils/color_cache_utils.c"
+    },
+    "src/utils/color_cache_utils.h": {
+      "sha256": "82ba22d02e8d03c5785237badb9784d32ad8a0e78b12724ffe744892fd902032",
+      "bytes": 2917,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/utils/color_cache_utils.h"
+    },
+    "src/utils/endian_inl_utils.h": {
+      "sha256": "7bdca5f4b45730eecdb92b2ece48618a664466065886e0e0115b122ecd2fc748",
+      "bytes": 2851,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/utils/endian_inl_utils.h"
+    },
+    "src/utils/filters_utils.c": {
+      "sha256": "dfbd55abe3c7e4684e2b8fe5efe0093b19d55cd3b7b982685cdbf31370eba1ff",
+      "bytes": 2588,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/utils/filters_utils.c"
+    },
+    "src/utils/filters_utils.h": {
+      "sha256": "72c0dbf2ef0a33813030cfa471ffc425ae2c9b716ebff07d73681362b3fe92b3",
+      "bytes": 986,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/utils/filters_utils.h"
+    },
+    "src/utils/huffman_utils.c": {
+      "sha256": "15c1d89d7567c2121bae05ce8dea6deba160945dd398bc6d6b9a88b40ba523eb",
+      "bytes": 10624,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/utils/huffman_utils.c"
+    },
+    "src/utils/huffman_utils.h": {
+      "sha256": "6a4c855766558f22a0ee204089fb86c3dcca548ed0f44a85e8d6cdf0f73cc177",
+      "bytes": 4537,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/utils/huffman_utils.h"
+    },
+    "src/utils/palette.c": {
+      "sha256": "26e90df0dc0b2bc7a251d2dc021f923af7f1529f8dddeeb80ea50b7dd6c31c9a",
+      "bytes": 14146,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/utils/palette.c"
+    },
+    "src/utils/palette.h": {
+      "sha256": "a4a08586739af0748fdb8dcb53501b1ea74b2fa1589f8170c95ad3082283e7f6",
+      "bytes": 2660,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/utils/palette.h"
+    },
+    "src/utils/quant_levels_dec_utils.c": {
+      "sha256": "d453e3595e19123e9af2696201bf55e404477d6ca3628d9324f5830ea3e73417",
+      "bytes": 9072,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/utils/quant_levels_dec_utils.c"
+    },
+    "src/utils/quant_levels_dec_utils.h": {
+      "sha256": "bb046261ae6e07530a0aedbb9f73e8e83924815734119dca8c88afa4e1588350",
+      "bytes": 1254,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/utils/quant_levels_dec_utils.h"
+    },
+    "src/utils/random_utils.c": {
+      "sha256": "b41422c972d1b76ee1f99fbf419d5e026ec2baa0a4fe08bb7939c31d083c7b28",
+      "bytes": 1863,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/utils/random_utils.c"
+    },
+    "src/utils/random_utils.h": {
+      "sha256": "c30dac4531cbb06de6463854175c106d8f1de10e64b00fa47e62f8d12d15f0cb",
+      "bytes": 2111,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/utils/random_utils.h"
+    },
+    "src/utils/rescaler_utils.c": {
+      "sha256": "8a3afac6a5a917a0508c1d8f2c1daf595f0d77bc66b3ed9136c5af9e432c8431",
+      "bytes": 5945,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/utils/rescaler_utils.c"
+    },
+    "src/utils/rescaler_utils.h": {
+      "sha256": "ea2e5cb89d1c6050613f758a91f9a35c53b5e0d9d4dfa9245e837b3e2c4835ae",
+      "bytes": 4111,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/utils/rescaler_utils.h"
+    },
+    "src/utils/thread_utils.c": {
+      "sha256": "474b6d6cc3f8c3197af2d31cb1cdc7d6e88db964db260f2e7d5e9916b2e65594",
+      "bytes": 11145,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/utils/thread_utils.c"
+    },
+    "src/utils/thread_utils.h": {
+      "sha256": "dbac595ac7ea89f43fe6b796ed0e2b6944e3d2326caf35aaeb58f3289b918bf1",
+      "bytes": 3689,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/utils/thread_utils.h"
+    },
+    "src/utils/utils.c": {
+      "sha256": "c8d90b4ccd536136ac710321c2632912a1f6ee2492a423e14ab9deb159490a56",
+      "bytes": 8892,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/utils/utils.c"
+    },
+    "src/utils/utils.h": {
+      "sha256": "9770471e412a9429fef2c1b3b8adb12e5e8716b79ae87ab28a3a220a285b5dd8",
+      "bytes": 7152,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/utils/utils.h"
+    },
+    "src/webp/decode.h": {
+      "sha256": "e554551d085f234e930f36b5879a77ef58bfea34c48ebfd620426e63b224025c",
+      "bytes": 24342,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/webp/decode.h"
+    },
+    "src/webp/encode.h": {
+      "sha256": "928e8d3ed502baa0f47ed10913ee018ed6172afcd4f308e0ea005a126b83f27e",
+      "bytes": 28501,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/webp/encode.h"
+    },
+    "src/webp/format_constants.h": {
+      "sha256": "6f26d54038b770c5f9ddcd8f8e2da05d43c92168cb30f0e7060240f90df5fd7f",
+      "bytes": 4016,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/webp/format_constants.h"
+    },
+    "src/webp/mux_types.h": {
+      "sha256": "ca789c9fe2edc52f759cb3888e9171ee44b5c12f2db21458f96176d578bc897e",
+      "bytes": 3260,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/webp/mux_types.h"
+    },
+    "src/webp/types.h": {
+      "sha256": "992d2ffe864adb6d80cc91b7a062074d167ed96772f28d104a650148eca31794",
+      "bytes": 3177,
+      "url": "https://raw.githubusercontent.com/webmproject/libwebp/4fa21912338357f89e4fd51cf2368325b59e9bd9/src/webp/types.h"
+    }
+  }
+}

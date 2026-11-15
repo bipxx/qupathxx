@@ -1,0 +1,133 @@
+{
+  "schema": "qpx.png-reader-sources/1",
+  "version": "1.6.59",
+  "commit": "cd952f49f95bb27154ae77dbb103032d95f6e580",
+  "license_id": "libpng-2.0",
+  "members": {
+    "AUTHORS": {
+      "sha256": "b55efa9a0bb709187cfb609860e926535b462a28bbf61b4294bc2e724747cb8e",
+      "bytes": 1810,
+      "url": "https://raw.githubusercontent.com/pnggroup/libpng/cd952f49f95bb27154ae77dbb103032d95f6e580/AUTHORS"
+    },
+    "LICENSE": {
+      "sha256": "bdb0a645ea18c60507d0368379b1ac5474b92255fcc2d115e07486a7672ba526",
+      "bytes": 5345,
+      "url": "https://raw.githubusercontent.com/pnggroup/libpng/cd952f49f95bb27154ae77dbb103032d95f6e580/LICENSE"
+    },
+    "README": {
+      "sha256": "b74a298f460282116bc83d8e13afc38b50105d89016f4f7f64fca54c221c2606",
+      "bytes": 9485,
+      "url": "https://raw.githubusercontent.com/pnggroup/libpng/cd952f49f95bb27154ae77dbb103032d95f6e580/README"
+    },
+    "png.c": {
+      "sha256": "741727b68e19a187bea802c64aea509fa64c78b09fecf4f19822a6a31c324159",
+      "bytes": 135428,
+      "url": "https://raw.githubusercontent.com/pnggroup/libpng/cd952f49f95bb27154ae77dbb103032d95f6e580/png.c"
+    },
+    "png.h": {
+      "sha256": "5758258cb691e429bafbf16057210e2d9bfa2c33b6c4636a6db562480f39b273",
+      "bytes": 148529,
+      "url": "https://raw.githubusercontent.com/pnggroup/libpng/cd952f49f95bb27154ae77dbb103032d95f6e580/png.h"
+    },
+    "pngconf.h": {
+      "sha256": "3f1d9e8b05ec5165b65744f99af0ef3d0d10d77d6866551715b80ac884a0bf47",
+      "bytes": 22673,
+      "url": "https://raw.githubusercontent.com/pnggroup/libpng/cd952f49f95bb27154ae77dbb103032d95f6e580/pngconf.h"
+    },
+    "pngdebug.h": {
+      "sha256": "923e849bded3f15a74fa943ed87b423d88ba5699feeed214872fea09997c44fc",
+      "bytes": 5342,
+      "url": "https://raw.githubusercontent.com/pnggroup/libpng/cd952f49f95bb27154ae77dbb103032d95f6e580/pngdebug.h"
+    },
+    "pngerror.c": {
+      "sha256": "6e8f475172d8c1e34982f4fa4130042110d5591dccdf95723345c2a7e5c7f761",
+      "bytes": 26366,
+      "url": "https://raw.githubusercontent.com/pnggroup/libpng/cd952f49f95bb27154ae77dbb103032d95f6e580/pngerror.c"
+    },
+    "pngget.c": {
+      "sha256": "3098a692f096c58b9c0f039fbfd38c29b0a86c464a498a9c775c22698a2bec95",
+      "bytes": 37561,
+      "url": "https://raw.githubusercontent.com/pnggroup/libpng/cd952f49f95bb27154ae77dbb103032d95f6e580/pngget.c"
+    },
+    "pnginfo.h": {
+      "sha256": "95fd19c965b86c6f279e426b9ee42c62e83af41a372b51fe8feb52a3427cb44d",
+      "bytes": 10964,
+      "url": "https://raw.githubusercontent.com/pnggroup/libpng/cd952f49f95bb27154ae77dbb103032d95f6e580/pnginfo.h"
+    },
+    "pngmem.c": {
+      "sha256": "2dcf91e5f7d4aaa11c53cdac246223f405e5cc3e1c7ccccb7a40650c41465b56",
+      "bytes": 8574,
+      "url": "https://raw.githubusercontent.com/pnggroup/libpng/cd952f49f95bb27154ae77dbb103032d95f6e580/pngmem.c"
+    },
+    "pngpread.c": {
+      "sha256": "230e4e01a9748922a33a936d1c4a2f599d61fc6425b49270197949fd3f38443e",
+      "bytes": 28098,
+      "url": "https://raw.githubusercontent.com/pnggroup/libpng/cd952f49f95bb27154ae77dbb103032d95f6e580/pngpread.c"
+    },
+    "pngpriv.h": {
+      "sha256": "44f9ecf9664767ec55632f900bb6d59f81b63d24f0039258813695ef428f7c48",
+      "bytes": 94057,
+      "url": "https://raw.githubusercontent.com/pnggroup/libpng/cd952f49f95bb27154ae77dbb103032d95f6e580/pngpriv.h"
+    },
+    "pngread.c": {
+      "sha256": "8ff4bfc0218fb9f712ab5940baeb546b3bbf64abce4038572944716d5520fec8",
+      "bytes": 143487,
+      "url": "https://raw.githubusercontent.com/pnggroup/libpng/cd952f49f95bb27154ae77dbb103032d95f6e580/pngread.c"
+    },
+    "pngrio.c": {
+      "sha256": "3c710643f274fd2b4aa2bc154c9dc53a512edae773dda1434f205fb005f2e93e",
+      "bytes": 3898,
+      "url": "https://raw.githubusercontent.com/pnggroup/libpng/cd952f49f95bb27154ae77dbb103032d95f6e580/pngrio.c"
+    },
+    "pngrtran.c": {
+      "sha256": "0e3737046eb1523480e74ac1235ac8f2df541ca9e7f43c92431b1f0c8c8379d9",
+      "bytes": 172621,
+      "url": "https://raw.githubusercontent.com/pnggroup/libpng/cd952f49f95bb27154ae77dbb103032d95f6e580/pngrtran.c"
+    },
+    "pngrutil.c": {
+      "sha256": "a1d62bc61c118b225c60549ea8de3065ae84642af56dd3776bf4692fb0f6aa5e",
+      "bytes": 152477,
+      "url": "https://raw.githubusercontent.com/pnggroup/libpng/cd952f49f95bb27154ae77dbb103032d95f6e580/pngrutil.c"
+    },
+    "pngset.c": {
+      "sha256": "36153f08f34be63ca572d51dda7e0dcc534d4eca264f45041ceae6e83138fc9b",
+      "bytes": 60449,
+      "url": "https://raw.githubusercontent.com/pnggroup/libpng/cd952f49f95bb27154ae77dbb103032d95f6e580/pngset.c"
+    },
+    "pngstruct.h": {
+      "sha256": "46b48213ed1691ddb989cfa7844a272e13fe7a7eb67a97037ca96d76b242bac4",
+      "bytes": 19190,
+      "url": "https://raw.githubusercontent.com/pnggroup/libpng/cd952f49f95bb27154ae77dbb103032d95f6e580/pngstruct.h"
+    },
+    "pngtrans.c": {
+      "sha256": "38aa34b51567a06428b15be16c5819e6f2ae0d3bfce4e1f777ae6242f74eb6d4",
+      "bytes": 26220,
+      "url": "https://raw.githubusercontent.com/pnggroup/libpng/cd952f49f95bb27154ae77dbb103032d95f6e580/pngtrans.c"
+    },
+    "pngwio.c": {
+      "sha256": "a25def3351807ed3f2e12a02a7801d4208f0033516185f4ad524d804d2f00ce3",
+      "bytes": 5588,
+      "url": "https://raw.githubusercontent.com/pnggroup/libpng/cd952f49f95bb27154ae77dbb103032d95f6e580/pngwio.c"
+    },
+    "pngwrite.c": {
+      "sha256": "85533196464e11d7ee4602fc19c887bd3923636cff7c44c8c0dab97624a17797",
+      "bytes": 78819,
+      "url": "https://raw.githubusercontent.com/pnggroup/libpng/cd952f49f95bb27154ae77dbb103032d95f6e580/pngwrite.c"
+    },
+    "pngwtran.c": {
+      "sha256": "6355098f20b9058ab607cebd01f3130c61ac858dceb339c3a7d83407c1067b94",
+      "bytes": 15336,
+      "url": "https://raw.githubusercontent.com/pnggroup/libpng/cd952f49f95bb27154ae77dbb103032d95f6e580/pngwtran.c"
+    },
+    "pngwutil.c": {
+      "sha256": "a6e725ce8439edadea1e1f5092c4bcbf101d0a63cff0906271af6aceef89dfd3",
+      "bytes": 80258,
+      "url": "https://raw.githubusercontent.com/pnggroup/libpng/cd952f49f95bb27154ae77dbb103032d95f6e580/pngwutil.c"
+    },
+    "scripts/pnglibconf.h.prebuilt": {
+      "sha256": "4172045bef3f4032089a697f18758e24e02a3873851108409f00dadf6deb2530",
+      "bytes": 8090,
+      "url": "https://raw.githubusercontent.com/pnggroup/libpng/cd952f49f95bb27154ae77dbb103032d95f6e580/scripts/pnglibconf.h.prebuilt"
+    }
+  }
+}

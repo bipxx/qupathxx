@@ -29,8 +29,23 @@ whole-slide resources/performance to R12 and release/remaining parity to R13-R16
 Task closeout updates the affected row only when its evidence changes.
 
 The [native format reader plugin plan](format-reader-plugin-plan.md) defines
-shared reader selection followed by optional native modules. It is a new planning
-request; it changes no delivered reader/format coverage or candidate8 acceptance.
+the delivered shared reader selection and optional native image modules.
+Additional format implementations use native plugins under the
+[per-plugin license policy](reader-license-policy.md#format-plugins-and-commercial-use-eligibility):
+retain each plugin's actual terms and exclude noncommercial/research-only
+implementations and required materials. This scope decision admits no additional
+format and changes no frozen candidate8 acceptance. Java/Groovy compatibility
+is not a parity requirement.
+The [format-plugin coverage plan](format-plugin-coverage-plan.md) records the
+current installed catalogs and candidate-specific next work; an upstream format
+list or plugin mechanism alone does not establish additional format coverage.
+The first additional native format, [PNG](benchmarks/png-reader-plugin/README.md),
+is now delivered under an explicit static-image/raw/display profile through
+`org.qupathxx.png`. This adds selected coverage without closing broader R2/R3 rows.
+The separately selected [JPEG plugin](benchmarks/jpeg-reader-plugin/README.md)
+adds its declared8-bit decoded Gray/RGB, EXIF orientation and calibration profile
+through `org.qupathxx.jpeg`, with separate source/notices and strict refusals.
+Neither delivery claims every encoding, recipe admission or full QuPath parity.
 
 R1 reconciliation (2026-11-04): all23 Partial rows below distinguish delivered
 mechanisms from actual remaining work. [Qualification308](benchmarks/qupath-body-boundary-qualification-308/terminal/README.md)
@@ -77,7 +92,7 @@ claim of upstream parity. Acceptance applies only to the listed fixture scope.
 | Python scripting | New API replacing Groovy workflow surface | bindings | Partial | Thin bindings, owning arrays, public stubs, native jobs and managed/document waits are delivered. R11: remaining lifecycle/backpressure/shutdown and versioned multi-stage replay. R13/R14: supported host/package compatibility. Avoid adding endpoints for workflows already exposed. |
 | Bio-Formats and multiplex data | qupath-extension-bioformats | io | Partial | Openly licensed TIFF/OME typed channels/axes, explicit multi-file mappings and native/Python/CLI/batch/UI records are implemented. Explicit BinaryOnly XML/TIFF master metadata now has local native/Python/CLI/desktop/source-replay evidence. R2: additional eligible vendor/partial-OME/codec capabilities; JPEG scalar/RGB TIFF now has local R2-CODEC1 evidence and non-SI conversions have local R2-UNIT2 evidence; R3: fluorescence/color; R8/R12: missing features and large-window/process budgets. Proprietary readers remain excluded. |
 | External model integrations | Extensions outside the core inventory | bindings/jobs | Deferred | Versioned Cellpose/StarDist results and publication contract |
-| Java extensions and Groovy | qupath-extension-script-editor, qupath-gui-fx | compatibility | Deferred | No Java runtime compatibility promised in first release |
+| Java extensions and Groovy | qupath-extension-script-editor, qupath-gui-fx | compatibility | Out of scope | Owner decision2026-11-13: Java/Groovy runtime and QuPath Java-extension compatibility are not required; do not count them as unfinished parity work |
 
 ## Historical execution observations (source-specific)
 

@@ -11,8 +11,14 @@ passing native, CLI and GUI checks; [current task](current-task.md) owns the
 current outcome. The separately qualified image-plugin
 [phase 4 products](benchmarks/reader-plugin-project/README.md), with native source
 `a10f7146da05180ec8e5daa7fcc972f47f5fd8caca7b55fb65f6d0d743399b88`,
-remain frozen. This work selects no package, wheel, schema change, family plugin
-ABI, additional format or qualification campaign.
+remain frozen. That receipt qualifies the original built-in catalogs and routes.
+
+The [format roadmap](format-plugin-coverage-plan.md#full-format-roadmap-2026-11-14)
+now includes the separately delivered [typed family plugins](format-family-plugins.md):
+counts TSV and point TSV, with their own native host/SDK/source identity and
+[receipt](benchmarks/format-family-plugins/README.md). Their explicit configuration
+adds available external provider records and admission diagnostics. Unconfigured
+built-in catalog bytes and existing dispatch contracts stay unchanged.
 
 ## Providers and native authorities
 
@@ -57,7 +63,8 @@ bootstrap keep their own behavior.
 
 The family tables and request variants remain private C++ implementation details.
 Existing public factories, SDK contracts and optional Python controls continue to
-call the native authorities. No family DLL loader or extension ABI is introduced.
+call the native authorities. External imports use the separate typed C ABI and
+public native import services; built-in request variants are not a DLL interface.
 
 Dispatch uses an explicit provider and operation. An unsupported operation or
 unknown ID refuses. Once a provider is selected, its existing error propagates;

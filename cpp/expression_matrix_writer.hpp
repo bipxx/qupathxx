@@ -1,12 +1,15 @@
 #pragma once
 #include "expression_matrix_internal.hpp"
 #include <functional>
+namespace qpx {struct ExternalMatrixReceipt;}
 #ifdef QUPATHXX_HAS_PROJECT
 namespace qpx::detail::matrix {
 class Writer {
 public:
     Writer(const std::string&,ExpressionMatrixMetadata,ExpressionMatrixImportOptions,
         std::size_t reserved,const std::atomic<bool>*);
+    Writer(const std::string&,ExpressionMatrixMetadata,ExpressionMatrixImportOptions,
+        std::size_t reserved,const std::atomic<bool>*,ExternalMatrixReceipt);
     ~Writer();Writer(const Writer&)=delete;
     void feature_row(std::uint64_t,const std::string& id,const std::string& name,const std::string& type);
     void observation_row(std::uint64_t,const std::string& id,std::optional<Point> = {});

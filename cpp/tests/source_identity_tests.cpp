@@ -29,6 +29,14 @@ int main() {
     const auto hash=fingerprint_file(path.u8string());auto association=associate_source_file(*source,*hash);check(association.status=="matching_metadata");
     auto changed=*hash;changed.bytes+=1;check(associate_source_file(*source,changed).status=="version_changed");changed=*hash;changed.identity+="1";check(associate_source_file(*source,changed).status=="different_file");
     const auto memory=dense_image_server(Image(1,1,{0,0,0}))->reader_source();check(memory->scope=="memory" && associate_source_file(*memory,*hash).status=="unobserved" && memory->generation!=source->generation);
+    auto inactive_directory=*memory;const auto legacy_payload=inactive_directory.payload_bytes();
+    inactive_directory.directory_sha256.reserve(4096);inactive_directory.validate();
+    check(inactive_directory.directory_sha256.empty() && inactive_directory.payload_bytes()==legacy_payload);
+    const auto directory_locator=std::filesystem::u8path(source->primary->path).parent_path().u8string();
+    auto directory=*make_directory_reader_source(source->reader,directory_locator,source->primary,std::string(64,'a'));
+    const auto directory_payload=directory.payload_bytes(),directory_capacity=directory.directory_sha256.capacity();
+    directory.directory_sha256.reserve(4096);directory.validate();
+    check(directory.payload_bytes()==directory_payload+directory.directory_sha256.capacity()-directory_capacity);
     auto second=ppm_image_server(path.u8string());check(second->reader_source()->generation!=source->generation);
     Document doc(server);auto object=doc.add_rectangle({0,0,2,2});AnalysisRequest request(doc,object,StainTransform({{1,0,0},{0,1,0}}));auto p=request.provenance();check(p->reader_source==source);
     auto bytes=ProvenanceCodec::encode(*p);check(bytes[3]==2);auto restored=ProvenanceCodec::decode(bytes.data(),bytes.size());check(reader_source_json(*restored->reader_source)==reader_source_json(*source));

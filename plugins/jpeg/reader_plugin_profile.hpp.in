@@ -1,0 +1,12 @@
+#pragma once
+#if !defined(_MSC_VER) || _MSC_VER != @QUPATHXX_READER_PLUGIN_MSVC_VERSION@ || !defined(_WIN64) || !defined(_M_X64)
+#error "JPEG plugin requires the ReaderPluginKit's Windows x64 MSVC series"
+#endif
+#if !defined(_DLL) || defined(_DEBUG)
+#error "JPEG plugin requires Release dynamic CRT (/MD)"
+#endif
+#include <yvals_core.h>
+#if _ITERATOR_DEBUG_LEVEL != 0
+#error "JPEG plugin requires iterator debug level zero"
+#endif
+static_assert(sizeof(void*) == 8, "JPEG plugin architecture differs");

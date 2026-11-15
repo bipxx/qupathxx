@@ -5,6 +5,27 @@ behavior. Then prove independently installed native image plugins through a
 versioned C ABI. Reuse the decoders, scientific services and project authorities;
 additional formats and other importer families remain separately selected work.
 
+Owner scope update2026-11-13: deliver additional format implementations through
+native plugins, with each plugin's own license and required dependency notices/
+source obligations recorded in the existing inventories. Commercial-use rights
+must be established; noncommercial/research-only implementations and required
+materials are excluded even when packaged as optional plugins. Follow the
+[reader licensing policy](reader-license-policy.md#format-plugins-and-commercial-use-eligibility).
+Java/Groovy and QuPath Java-extension compatibility are not requirements.
+
+The [coverage and next-delivery plan](format-plugin-coverage-plan.md) inventories
+the delivered providers and records the baseline PNG gap and the first selected
+[PNG plugin delivery](benchmarks/png-reader-plugin/README.md), separately from
+formats already routed through OpenSlide. It also
+records candidate license evidence and the distinction between dynamic image
+plugins and the original fixed matrix/annotation catalogs. The separately selected
+[FP04 family plugins](format-family-plugins.md) now add counts/point imports under
+their own typed boundary and source-scoped native host/SDK receipt.
+The separately selected [JPEG plugin](benchmarks/jpeg-reader-plugin/README.md)
+is also delivered through that ABI with canonical decoded-sample/orientation/
+calibration rules and its own component/source admission. It preserves the host,
+PNG module and fixed family catalogs.
+
 Status: reviewed with Claude CLI `fable` at `max` effort. Phases 1–2 are
 implemented and locally validated: 15 focused native/CLI/GUI tests and four
 application startup scenarios pass. See the [source-scoped receipt](benchmarks/reader-registry/README.md).
@@ -155,8 +176,9 @@ deployment checks covered by its source-scoped receipt.
 
 The owner selected phase5 after completion of the image-reader milestone. Its
 [family contract](format-family-catalogs.md) and [current task](current-task.md)
-record implementation and source-scoped validation. A family-specific ABI is
-needed only for a selected independently distributed importer. Preserve exact
+record implementation and source-scoped validation. The independently distributed
+counts/point importers now use the [selected typed ABI](format-family-plugins.md).
+Further family contracts remain selected per workflow. Preserve exact
 counts/domains, IDs, coordinates, loss reports and atomic native publication;
 do not stretch `ImageServer` into a universal data or project-mutation interface.
 
