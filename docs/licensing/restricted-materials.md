@@ -42,6 +42,15 @@ weights or license text copies are needed in this register.
 
 ## Unreviewed material
 
+The web-view source reference `ome/omero-web`, tag `v5.33.0`,
+`omeroweb/webgateway/views.py`, has an NC statement in its file header despite
+the broader project's open-license description. Treat that implementation file
+as unreviewed for reuse pending resolution of its applicable terms. No file,
+algorithm implementation or derived code was copied, built or admitted. The
+independent OMERO client uses the published HTTP API and separately licensed
+CC BY4.0 study data, with existing admitted native PNG/geometry authorities.
+This reference is metadata only and does not change data or protocol admission.
+
 Unknown code, datasets, filters or model weights remain unreviewed, not open or
 proprietary by guess. Record URL, owner, resource kind, exact revision/digest,
 license evidence, derivative sources, intended use and decision. A later authorized

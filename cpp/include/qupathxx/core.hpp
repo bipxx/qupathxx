@@ -167,6 +167,7 @@ private:
 };
 // Coordinates are level-zero image pixels; calibration is micrometers/pixel.
 class Document {
+    friend class LabelAnalysisRequest;
     friend class CellTableRequest;
     friend class MeasurementTableRequest;
     friend class ObjectFeatureRequest;

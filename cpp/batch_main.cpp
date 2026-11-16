@@ -9,6 +9,7 @@
 #include "cell_table_cli.hpp"
 #include "spatial_cli.hpp"
 #include "fluorescence_cli.hpp"
+#include "label_cli.hpp"
 #include "marker_cli.hpp"
 #include "dark_flat_cli.hpp"
 #include "linear_unmixing_cli.hpp"
@@ -68,6 +69,16 @@ int execute_inner(const std::vector<std::string>& args) {
             "       spatial options: --operation nearest-distance|signed-boundary|radius-count|tissue-density; radius-count measure requires --radius R (uses --units px|um)\n"
             "       qupathxx_batch --export-spatial PROJECT NEW_TABLE.csv --image ID --record ID [--csv-bytes N]\n"
             "       qupathxx_batch --verify-spatial PROJECT --image ID --record ID\n"
+            "       qupathxx_batch --slic PROJECT NEW_PROJECT --image ID --roi ID [--region-size N --iterations N --compactness N --color-space srgb-lab|encoded-rgb]\n"
+            "       qupathxx_batch --subcellular PROJECT NEW_PROJECT --image ID --roi ID --cell ID ... [--channels N --first-channel N --channel N --threshold N]\n"
+            "         --z N --time N --sigma-x N --sigma-y N --background-sigma-x N --background-sigma-y N --min-pixels N --max-pixels N --connectivity 4|8\n"
+            "       qupathxx_batch --label-input PROJECT --image ID --roi ID [--first-channel N --channels N --z N --time N]\n"
+            "       qupathxx_batch --import-label-mask PROJECT NEW_PROJECT --image ID --roi ID --mask LABELS.tif --producer NAME --producer-version VERSION\n"
+            "         --model-sha256 SHA256 --input-sha256 SHA256 [--first-channel N --channels N --z N --time N]\n"
+            "         creation: --record-only --max-regions N --work-bytes N --save-snapshot-bytes N --project-bytes N; SLIC: --max-assignment-tests N\n"
+            "       qupathxx_batch --list-labels PROJECT --image ID\n"
+            "       qupathxx_batch --verify-labels PROJECT --image ID --record SHA256 [--work-bytes N]\n"
+            "       qupathxx_batch --export-labels PROJECT NEW_EXPORT --image ID --record SHA256 [--format csv|raster|counts --csv-bytes N --work-bytes N]\n"
             "       qupathxx_batch --detect-fluorescence PROJECT NEW_PROJECT --image ID [--roi ID | --x N --y N --width N --height N]\n"
             "         --first-channel N --channels N --segmentation-channel N (relative to block) --z N --time N\n"
             "         --method explicit|otsu --threshold N --sigma N --prominence N --min-area N --max-area N --expansion N --units px|um\n"
@@ -180,6 +191,7 @@ int execute_inner(const std::vector<std::string>& args) {
         if(const auto result=detail::pixel_stream_cli(args,cancelled)) return *result;
         if(const auto result=detail::spatial_cli(args,cancelled)) return *result;
         if(const auto result=detail::fluorescence_cli(args,cancelled)) return *result;
+        if(const auto result=detail::label_cli(args,cancelled)) return *result;
         if(const auto result=detail::marker_cli(args,cancelled)) return *result;
         if(const auto result=detail::dark_flat_cli(args,cancelled)) return *result;
         if(const auto result=detail::linear_unmixing_cli(args,cancelled)) return *result;

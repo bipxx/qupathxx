@@ -899,3 +899,6 @@ tests/fixtures/expression-differential/reference.json -text -whitespace
 # Candidate deployment logs retain producer whitespace; source fingerprint stays LF.
 docs/benchmarks/windows-native-candidate8/*.log -text -whitespace
 docs/benchmarks/windows-native-candidate8/source-inputs.sha256 text eol=lf
+
+# Preserve copied upstream license text, including its original whitespace.
+plugins/blosc-bytes/THIRD_PARTY_NOTICES.txt -text -whitespace

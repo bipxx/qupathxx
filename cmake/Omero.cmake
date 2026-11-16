@@ -1,0 +1,47 @@
+# OMERO is a service integration, not a new file format or URI extension to the
+# path-only reader ABI. Keep it optional and reuse native codecs/project owners.
+set(_qpx_omero_root "${CMAKE_CURRENT_LIST_DIR}/..")
+add_library(qupathxx_omero_client STATIC
+  "${_qpx_omero_root}/cpp/omero.cpp"
+  "${_qpx_omero_root}/cpp/omero_raw.cpp"
+  "${_qpx_omero_root}/cpp/omero_rois.cpp"
+  "${_qpx_omero_root}/cpp/omero_mask.cpp"
+  "${_qpx_omero_root}/cpp/omero_winhttp.cpp"
+  "${_qpx_omero_root}/cpp/omero_project.cpp")
+target_compile_features(qupathxx_omero_client PUBLIC cxx_std_17)
+target_include_directories(qupathxx_omero_client PUBLIC "$<BUILD_INTERFACE:${_qpx_omero_root}/cpp/include>" "$<INSTALL_INTERFACE:include>" PRIVATE "${_qpx_omero_root}/cpp")
+target_link_libraries(qupathxx_omero_client PUBLIC qupathxx_core PRIVATE nlohmann_json::nlohmann_json)
+if(WIN32)
+  target_link_libraries(qupathxx_omero_client PRIVATE winhttp)
+endif()
+add_library(qupathxx_omero_cli STATIC "${_qpx_omero_root}/cpp/omero_cli.cpp")
+target_link_libraries(qupathxx_omero_cli PUBLIC qupathxx_omero_client PRIVATE nlohmann_json::nlohmann_json)
+add_executable(qupathxx_omero "${_qpx_omero_root}/cpp/omero_main.cpp")
+target_link_libraries(qupathxx_omero PRIVATE qupathxx_omero_cli)
+if(MSVC)
+  foreach(target qupathxx_omero_client qupathxx_omero_cli qupathxx_omero)
+    target_compile_options(${target} PRIVATE /utf-8)
+  endforeach()
+endif()
+qupathxx_copy_runtime(qupathxx_omero)
+install(TARGETS qupathxx_omero RUNTIME DESTINATION qupathxx)
+if(QUPATHXX_BUILD_TESTS)
+  add_executable(qupathxx_omero_tests "${_qpx_omero_root}/cpp/tests/omero_tests.cpp")
+  target_include_directories(qupathxx_omero_tests PRIVATE "${_qpx_omero_root}/cpp")
+  target_link_libraries(qupathxx_omero_tests PRIVATE qupathxx_omero_client nlohmann_json::nlohmann_json)
+  qupathxx_copy_runtime(qupathxx_omero_tests)
+  add_test(NAME omero_protocol COMMAND qupathxx_omero_tests)
+  set_tests_properties(omero_protocol PROPERTIES TIMEOUT 30)
+  add_executable(qupathxx_omero_exchange_tests "${_qpx_omero_root}/cpp/tests/omero_exchange_tests.cpp")
+  target_include_directories(qupathxx_omero_exchange_tests PRIVATE "${_qpx_omero_root}/cpp")
+  target_link_libraries(qupathxx_omero_exchange_tests PRIVATE qupathxx_omero_client nlohmann_json::nlohmann_json)
+  qupathxx_copy_runtime(qupathxx_omero_exchange_tests)
+  add_test(NAME omero_exchange COMMAND qupathxx_omero_exchange_tests)
+  set_tests_properties(omero_exchange PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 60)
+  add_executable(qupathxx_omero_cli_tests "${_qpx_omero_root}/cpp/tests/omero_cli_tests.cpp")
+  target_include_directories(qupathxx_omero_cli_tests PRIVATE "${_qpx_omero_root}/cpp")
+  target_link_libraries(qupathxx_omero_cli_tests PRIVATE qupathxx_omero_cli nlohmann_json::nlohmann_json)
+  qupathxx_copy_runtime(qupathxx_omero_cli_tests)
+  add_test(NAME omero_cli COMMAND qupathxx_omero_cli_tests)
+  set_tests_properties(omero_cli PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 30)
+endif()

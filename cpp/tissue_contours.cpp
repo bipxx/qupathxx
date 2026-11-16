@@ -1,6 +1,8 @@
 #include "qupathxx/tissue.hpp"
 #include "qupathxx/pixel_contours.hpp"
 #include "qupathxx/provenance.hpp"
+#include "qupathxx/label_geometry.hpp"
+#include "qupathxx/workflow.hpp"
 #include "scientific_raster.hpp"
 #include "raster_boundary_runs.hpp"
 #include "raw_stream_boundaries.hpp"
@@ -474,4 +476,56 @@ struct FluorescenceRaster {
 std::shared_ptr<const TissueContours> detail::trace_fluorescence_label_mask(const FluorescenceCellRun& run,bool body,TissueContourOptions options,const std::atomic<bool>* cancelled) {
     return TissueContourKernel::run(FluorescenceRaster(run,body),options,cancelled);
 }
+namespace {
+struct LabelMaskRaster {
+    const LabelRaster& raster;
+    const ScientificGrid& grid;
+    const Roi& clip;
+    const auto& components() const {
+        return raster.regions();
+    }
+    const auto& labels() const {
+        return raster.labels();
+    }
+    auto width() const {
+        return raster.width();
+    }
+    auto height() const {
+        return raster.height();
+    }
+    auto foreground_pixels() const {
+        return raster.foreground_pixels();
+    }
+    const Roi& roi() const {
+        return clip;
+    }
+    Rect bounds() const {
+        return {double(grid.x().origin()), double(grid.y().origin()), double(grid.x().extent()),
+                double(grid.y().extent())};
+    }
+    double downsample() const {
+        return 1;
+    }
+    const ScientificGrid* scientific_grid() const {
+        return &grid;
+    }
+    Rect image_bounds() const {
+        return {0, 0, double(grid.image_width()), double(grid.image_height())};
+    }
+    const auto& input_sha256() const {
+        return raster.sha256();
+    }
+    std::uint64_t object_id() const {
+        return 0;
+    }
+};
+} // namespace
+std::shared_ptr<const TissueContours>
+trace_label_raster(const LabelRaster& raster, const ScientificGrid& grid, const Roi& clip,
+                   TissueContourOptions options, const std::atomic<bool>* cancelled) {
+    workflow_checkpoint(cancelled);
+    if (grid.width() != raster.width() || grid.height() != raster.height() || !clip.is_area())
+        throw std::invalid_argument("Label contour grid/clip differs from raster");
+    return TissueContourKernel::run(LabelMaskRaster{raster, grid, clip}, options, cancelled);
 }
+} // namespace qpx

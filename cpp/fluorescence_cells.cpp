@@ -4,6 +4,9 @@
 #include "intensity_moments.hpp"
 #include "scientific_cell_recipe.hpp"
 #include "sha256.hpp"
+#include "raw_sample_value.hpp"
+#include "qupathxx/label_measurements.hpp"
+#include "label_analysis_internal.hpp"
 #include <cstring>
 #include <type_traits>
 
@@ -17,11 +20,7 @@ std::size_t lattice(const RawPixelBuffer& pixels) {
     return n;
 }
 template<class T> double value(T x) {
-    if constexpr(std::is_integral_v<T> && sizeof(T)==8) {
-        if constexpr(std::is_signed_v<T>) {if(x<-(std::int64_t(1)<<53) || x>(std::int64_t(1)<<53))throw std::invalid_argument("Raw cell intensity exceeds exact binary64 integer admission");}
-        else if(x>(std::uint64_t(1)<<53))throw std::invalid_argument("Raw cell intensity exceeds exact binary64 integer admission");
-    }
-    return double(x);
+    return detail::exact_raw_binary64(x);
 }
 struct Accumulator {
     detail::IntensityMoment moments;
@@ -128,6 +127,51 @@ std::vector<RawCellMeasurements> measure_raw_cell_compartments(const RawPixelBuf
         for(std::size_t c=0;c<channels;++c) {cell.nucleus.channels[c]=accumulators[i*3*channels+c].finish();cell.cell.channels[c]=accumulators[i*3*channels+channels+c].finish();
             if(cell.cytoplasm)cell.cytoplasm->channels[c]=accumulators[i*3*channels+2*channels+c].finish();}}
     workflow_checkpoint(cancelled);return result;
+}
+std::vector<LabelRegionMeasurements> measure_raw_label_regions(const RawPixelBuffer& pixels,
+                                                               const LabelRaster& raster,
+                                                               std::size_t work,
+                                                               const std::atomic<bool>* cancelled) {
+    workflow_checkpoint(cancelled);
+    detail::label_work_limit(work);
+    detail::require_raw_lattice(pixels);
+    if (pixels.width() != raster.width() || pixels.height() != raster.height())
+        throw std::invalid_argument("Raw measurements and label raster dimensions differ");
+    const auto labels = raster.regions().size(), channels = std::size_t(pixels.channels());
+    std::size_t bytes = 4096;
+    detail::label_charge(bytes, pixels.payload_bytes(), 1, work);
+    detail::label_charge(bytes, raster.payload_bytes(), 1, work);
+    detail::label_charge(bytes, labels, sizeof(LabelRegionMeasurements), work);
+    detail::label_charge(bytes, labels,
+                         channels * (sizeof(Accumulator) + sizeof(RawChannelIntensity)), work);
+    std::vector<LabelRegionMeasurements> result(labels);
+    std::vector<Accumulator> sums(labels * channels);
+    for (std::size_t i = 0; i < labels; ++i) {
+        result[i].label = std::uint32_t(i + 1);
+        result[i].pixels = raster.regions()[i].pixels;
+        result[i].channels.resize(channels);
+    }
+    std::visit(
+        [&](const auto& samples) {
+            for (std::size_t i = 0; i < raster.labels().size(); ++i) {
+                if (!(i & 4095))
+                    workflow_checkpoint(cancelled);
+                const auto id = raster.labels()[i];
+                if (!id || !pixels.valid()[i])
+                    continue;
+                auto& r = result[id - 1];
+                ++r.valid_pixels;
+                for (std::size_t c = 0; c < channels; ++c)
+                    sums[std::size_t(id - 1) * channels + c].add(value(samples[i * channels + c]));
+            }
+        },
+        pixels.storage());
+    for (std::size_t i = 0; i < labels; ++i) {
+        workflow_checkpoint(cancelled);
+        for (std::size_t c = 0; c < channels; ++c)
+            result[i].channels[c] = sums[i * channels + c].finish();
+    }
+    return result;
 }
 void FluorescenceCellOptions::validate() const {
     budget(work_bytes);if((threshold_method!=FluorescenceThreshold::Explicit && threshold_method!=FluorescenceThreshold::Otsu256) ||
