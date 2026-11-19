@@ -8,6 +8,23 @@ and [R2-R16 queue](api-delivery-plan.md#execution-order-for-finishing-the-remain
 own remaining scope. No100% QuPath, universal biological/speed/platform or
 Java/Groovy claim; NC/restricted/unknown required materials stay unadmitted.
 
+## Verified locally - current native Windows spatial and DICOM install
+
+The spatial restore refused an existing destination WAL without changing the
+WAL or publishing a project or managed matrix. One cached build relinked all
+eight shipped entry points after nine compiled inputs changed since the frozen
+handoff. A fresh seven-component Windows install matched the current source
+fingerprint and used the existing admitted ENVI and DICOM provider binaries.
+
+The installed CLI passed 28 matrix and spatial checks and eight guarded DICOM
+checks. The desktop reopened both saved projects without changing their bytes.
+Removal deleted 296 installed files and preserved all 50 research files. There
+were no build or validation retries. The frozen archives retain their earlier
+source identity. A matching archive for the current install is still pending.
+
+[Installed check and removal receipt](../build/native-format-closeout/validation-packet/current-native-spatial-install/installation-removal.json)
+[Current compiled input manifest](../build/native-format-closeout/validation-packet/current-native-spatial-install/SOURCE-INPUTS.sha256)
+
 ## Verified locally - restore exported counts and positions to a project
 
 `project-matrix-import-positions` calls the native backed spatial importer.
