@@ -8,6 +8,25 @@ and [R2-R16 queue](api-delivery-plan.md#execution-order-for-finishing-the-remain
 own remaining scope. No100% QuPath, universal biological/speed/platform or
 Java/Groovy claim; NC/restricted/unknown required materials stay unadmitted.
 
+## Verified locally - index Matrix Market ZIPs with data descriptors
+
+The bounded exchange reader uses the ZIP32 central directory to locate and
+check local records, member boundaries and signed or unsigned data descriptors
+before decoding. Timestamp and Unix owner extra fields are skipped within a
+fixed limit. The Windows `tar.exe` archive that previously refused now produces
+the same QMX and source hashes as the plain files, with its bytes intact.
+
+All 56 CLI checks passed, including exact spatial replay from a streamed ZIP
+and refusal of corrupted descriptors, local sizes and unknown metadata.
+Native project and region checks passed after one cached build. The prior
+50-check profile retains its separate flag. Its first check overlapped a
+shared-source hardlink test and was rerun serially with the same binaries.
+Carry the descriptor coverage into the next Windows handoff.
+
+[Prior Windows tar refusal](../build/native-format-closeout/validation-packet/matrix-stream-zip/baseline.log)
+[Windows tar archive import](../build/native-format-closeout/validation-packet/matrix-stream-zip/libarchive.log)
+[CLI and spatial replay receipts](../build/native-format-closeout/validation-packet/matrix-stream-zip/final/validation.json)
+
 ## Verified locally - Windows Matrix Market ZIP exchange handoff
 
 Eight archives match compiled source

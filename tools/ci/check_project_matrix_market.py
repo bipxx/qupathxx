@@ -4,12 +4,14 @@ import argparse
 from contextlib import closing
 import gzip
 import hashlib
+import io
 import json
 import os
 from pathlib import Path
 import sqlite3
+import struct
 import subprocess
-from zipfile import ZIP_DEFLATED, ZIP_STORED, ZipFile
+from zipfile import ZIP_DEFLATED, ZIP_STORED, ZipFile, ZipInfo
 
 
 def sha(path):
@@ -76,9 +78,10 @@ def check_archive_member_order(run, output, archive, inputs, exact):
     result = output/'reordered.qmx'
     restored = run('archive-reordered', 'matrix-market-index-zip', reordered, result)
     assert sha(result) == sha(exact) == restored['file_sha256']
+    central_name = directory + 46
     for name, payload, diagnostic in [
-        ('duplicate-name', data[:30] + b'features.tsv' + data[42:], 'Duplicate Matrix Market ZIP member name'),
-        ('unknown-name', data[:30] + b'barcodes.txt' + data[42:], 'unexpected ZIP member name'),
+        ('duplicate-name', data[:central_name] + b'features.tsv' + data[central_name+12:], 'duplicate ZIP member name'),
+        ('unknown-name', data[:central_name] + b'barcodes.txt' + data[central_name+12:], 'unexpected ZIP member name'),
         ('duplicate-offset', data[:directory+len(records[0])+42] + bytes(4)
          + data[directory+len(records[0])+46:], 'central directory repeats a ZIP member offset'),
         ('unknown-offset', data[:directory+42] + (1).to_bytes(4, 'little')
@@ -92,7 +95,49 @@ def check_archive_member_order(run, output, archive, inputs, exact):
     return result
 
 
-def check_deflated_archive(run, output, expected):
+def check_streaming_archive(run, output, inputs, reference):
+    class Stream(io.BytesIO):
+        def seek(self, *args):
+            raise OSError('test archive stream cannot seek')
+
+    stream = Stream()
+    timestamp = struct.pack('<HHBI', 0x5455, 5, 1, 0)
+    with ZipFile(stream, 'w') as zipped:
+        for name in ('barcodes.tsv', 'features.tsv', 'matrix.mtx'):
+            entry = ZipInfo(name)
+            entry.extra = timestamp
+            entry.compress_type = ZIP_STORED if name == 'features.tsv' else ZIP_DEFLATED
+            zipped.writestr(entry, inputs[name])
+    data = stream.getvalue()
+    directory = int.from_bytes(data[-6:-2], 'little')
+    with ZipFile(io.BytesIO(data)) as archive:
+        assert archive.testzip() is None and all(member.flag_bits & 8 for member in archive.infolist())
+    signed_offset = directory - 16
+    assert data[signed_offset:signed_offset+4] == b'PK\x07\x08'
+    unsigned = bytearray(data[:signed_offset] + data[signed_offset+4:])
+    unsigned[-6:-2] = (directory-4).to_bytes(4, 'little')
+    for label, payload in [('signed', data), ('unsigned', unsigned)]:
+        archive, result = output/(label+'-descriptor.zip'), output/(label+'-descriptor.qmx')
+        archive.write_bytes(payload)
+        report = run('archive-descriptor-'+label, 'matrix-market-index-zip', archive, result)
+        assert sha(result) == sha(reference) == report['file_sha256']
+        assert archive.read_bytes() == payload
+    for label, offset, diagnostic in [
+        ('crc', signed_offset+4, 'ZIP data descriptor differs'),
+        ('signature', signed_offset, 'invalid ZIP data descriptor signature'),
+        ('placeholder', 18, 'central directory differs from ZIP member'),
+        ('unknown-extra', 30+len('barcodes.tsv'), 'unsupported or repeated ZIP extra field'),
+    ]:
+        damaged = bytearray(data)
+        damaged[offset] ^= 1
+        archive, target = output/('descriptor-bad-'+label+'.zip'), output/('descriptor-bad-'+label+'.qmx')
+        archive.write_bytes(damaged)
+        refused = run('archive-descriptor-bad-'+label, 'matrix-market-index-zip', archive, target, status=2)
+        assert diagnostic in refused['error'] and not target.exists()
+    return result
+
+
+def check_deflated_archive(run, output, expected, descriptors):
     names = ('matrix.mtx', 'features.tsv', 'barcodes.tsv')
     inputs = {name: (output/name).read_bytes() for name in names}
     # Exercise multiple compressed and expanded chunks with legal comments.
@@ -146,7 +191,10 @@ def check_deflated_archive(run, output, expected):
     refused = run('archive-deflate-invalid', 'matrix-market-index-zip', source, destination, status=2)
     assert 'Invalid or truncated Matrix Market ZIP Deflate member' in refused['error'] and not destination.exists()
     assert sha(archive) == archive_hash
-    return check_archive_member_order(run, output, archive, inputs, imported)
+    reordered = check_archive_member_order(run, output, archive, inputs, imported)
+    if descriptors:
+        return check_streaming_archive(run, output, inputs, reordered)
+    return reordered
 
 
 def main():
@@ -172,6 +220,8 @@ def main():
                         help="Check direct ZIP indexing against the unpacked inputs")
     parser.add_argument("--zip-deflate", action="store_true",
                         help="Verify Deflate exchange files against the same decoded inputs")
+    parser.add_argument("--zip-descriptors", action="store_true",
+                        help="Verify streaming ZIP32 data descriptors")
     args = parser.parse_args()
     if args.position_reexport and not args.spatial:
         parser.error("--position-reexport requires --spatial")
@@ -179,6 +229,8 @@ def main():
         parser.error("--gzip uses the native CLI rather than the SDK probe")
     if args.zip_deflate and not args.archive_index:
         parser.error("--zip-deflate requires --archive-index")
+    if args.zip_descriptors and not args.zip_deflate:
+        parser.error("--zip-descriptors requires --zip-deflate")
     args.output.mkdir(parents=True)
     env = {key: value for key, value in os.environ.items()
            if not key.upper().startswith(("PYTHON", "QPX_", "QUPATHXX_"))}
@@ -344,7 +396,7 @@ def main():
         assert "Invalid Matrix Market ZIP member CRC" in status["error"] and not refused.exists()
         if args.zip_deflate:
             assert capability["can_import_zip_deflate"] is True
-            imported = check_deflated_archive(run, args.output, expected)
+            imported = check_deflated_archive(run, args.output, expected, args.zip_descriptors)
 
     if args.spatial:
         positions = args.output / "positions.tsv"

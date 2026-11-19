@@ -35,8 +35,7 @@ namespace zip=detail::stored_zip;
 struct MatrixArchive {
     detail::ReaderFileGuard guard;
     zip::Input input;
-    struct Range {std::uint64_t offset;zip::ExchangeMember entry;};
-    std::array<Range,3> ranges;
+    std::array<zip::ExchangeMember,3> members;
     MatrixArchive(const std::string& path,std::uint64_t limit,const std::atomic<bool>* cancelled)
         :guard(detail::export_path(path)),input(fs::u8path(guard.version()->path),guard.version()->bytes,
             cancelled,"Matrix Market ZIP") {
@@ -44,18 +43,12 @@ struct MatrixArchive {
         if(guard.version()->bytes>maximum)
             throw WorkflowCaptureLimit("Matrix Market ZIP exceeds byte limit");
         constexpr std::array<std::string_view,3> names{"matrix.mtx","features.tsv","barcodes.tsv"};
-        std::array<zip::ExchangeMember,3> members{};
+        members=input.exchange_members(names);
         std::uint64_t expanded=0;
-        for(std::size_t i=0;i<names.size();++i) {
-            const auto [slot,entry]=input.exchange_member(names);
-            if(!members[slot].member.name.empty())throw std::invalid_argument("Duplicate Matrix Market ZIP member name");
-            members[slot]=entry;
+        for(const auto& entry:members) {
             expanded+=entry.member.size;
             if(expanded>maximum)throw WorkflowCaptureLimit("Expanded Matrix Market ZIP exceeds byte limit");
-            ranges[slot]={input.offset(),entry};
-            input.seek(input.offset()+entry.encoded_size);
         }
-        input.finish_exchange(members);
         guard.verify();
     }
 };
@@ -74,7 +67,7 @@ struct CompressedInput {
 class Lines {
     std::optional<detail::ReaderFileGuard> guard_;std::ifstream input_;Sha256 hash_;
     MatrixArchive* archive_=nullptr;
-    MatrixArchive::Range member_{};
+    zip::ExchangeMember member_{};
     zip::Checksum crc_;
     std::array<char,65536> buffer_;std::size_t at_=0,end_=0;
     std::uint64_t bytes_=0,limit_;bool eof_=false;const std::atomic<bool>* cancel_;
@@ -84,9 +77,9 @@ class Lines {
     std::size_t read_raw(char* data,std::size_t size) {
         workflow_checkpoint(cancel_);
         if(archive_) {
-            const auto remaining=member_.entry.encoded_size-bytes_;
+            const auto remaining=member_.encoded_size-bytes_;
             const auto count=static_cast<std::size_t>(std::min<std::uint64_t>(size,remaining));
-            if(count){archive_->input.seek(member_.offset+bytes_);archive_->input.read(data,count);bytes_+=count;}
+            if(count){archive_->input.seek(member_.data_offset+bytes_);archive_->input.read(data,count);bytes_+=count;}
             return count;
         }
         if(input_.eof())return 0;
@@ -143,7 +136,7 @@ class Lines {
         if(archive_) {
             end_=read_raw(buffer_.data(),buffer_.size());
             crc_.write(buffer_.data(),end_);
-            eof_=bytes_==member_.entry.encoded_size;
+            eof_=bytes_==member_.encoded_size;
             return end_!=0;
         }
         end_=read_raw(buffer_.data(),buffer_.size());
@@ -167,9 +160,9 @@ public:
         }
     }
     Lines(MatrixArchive& archive,std::size_t member,const std::atomic<bool>* c)
-        :archive_(&archive),member_(archive.ranges[member]),crc_{c,0xffffffffu,0,&hash_},
-            limit_(member_.entry.member.size),cancel_(c) {
-        if(member_.entry.method==8){
+        :archive_(&archive),member_(archive.members[member]),crc_{c,0xffffffffu,0,&hash_},
+            limit_(member_.member.size),cancel_(c) {
+        if(member_.method==8){
 #ifdef QUPATHXX_HAS_MATRIX_MARKET_GZIP
             compressed_=std::make_unique<CompressedInput>(true);
 #else
@@ -188,11 +181,11 @@ public:
     bool next(std::string& line){line.clear();while(true){if(at_==end_ && !fill()){if(line.empty())return false;break;}const auto* begin=buffer_.data()+at_;const auto* stop=static_cast<const char*>(std::memchr(begin,'\n',end_-at_));const auto n=stop?std::size_t(stop-begin):end_-at_;if(n>4096-line.size())throw std::invalid_argument("Expression input line exceeds4096 bytes");line.append(begin,n);at_+=n;if(stop){++at_;break;}}if(!line.empty() && line.back()=='\r')line.pop_back();if(line.find('\0')!=std::string::npos)throw std::invalid_argument("Expression input contains NUL");return true;}
     bool matrix_line(std::string& line){while(next(line)){const auto at=line.find_first_not_of(" \t");if(at!=std::string::npos && line[at]!='%')return true;}return false;}
     std::string finish() {
-        const auto expected=archive_?member_.entry.encoded_size:guard_->version()->bytes;
+        const auto expected=archive_?member_.encoded_size:guard_->version()->bytes;
         if(at_!=end_ || !eof_ || bytes_!=expected)throw WorkflowInputChanged("Expression input not completely consumed");
-        if(archive_ && crc_.bytes!=member_.entry.member.size)
+        if(archive_ && crc_.bytes!=member_.member.size)
             throw std::invalid_argument("Invalid Matrix Market ZIP expanded member size");
-        if(archive_ && ~crc_.crc!=member_.entry.member.crc)
+        if(archive_ && ~crc_.crc!=member_.member.crc)
             throw std::invalid_argument("Invalid Matrix Market ZIP member CRC");
         verify();return hash_.finish();
     }

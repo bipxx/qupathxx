@@ -245,9 +245,11 @@ This route requires one copy of each of the three root member names and checks
 the ZIP32 directory, decoded lengths and member CRCs. Local and central records
 can appear in any order. The importer streams the members through the
 same indexer. `-DQUPATHXX_BUILD_MATRIX_MARKET_GZIP=ON` also enables Deflate ZIP
-members, including archives with mixed stored and Deflate members. The archive
-profile requires sizes in the local headers and excludes extra fields, comments,
-encryption and split archives. `--formats` reports Deflate support as
+members, including archives with mixed stored and Deflate members. ZIP32 sizes
+and CRCs can be stored in local headers or in data descriptors with or without
+a signature. Timestamp and Unix owner extra fields are accepted and ignored.
+Other extra fields, comments, encryption and split archives are outside the
+profile. `--formats` reports Deflate support as
 `can_import_zip_deflate`.
 
 The resulting QMX bytes match extracting the files and using the Tenx catalogue
