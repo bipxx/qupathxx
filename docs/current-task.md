@@ -8,6 +8,23 @@ and [R2-R16 queue](api-delivery-plan.md#execution-order-for-finishing-the-remain
 own remaining scope. No100% QuPath, universal biological/speed/platform or
 Java/Groovy claim; NC/restricted/unknown required materials stay unadmitted.
 
+## Verified locally - explain missing DICOM pyramid companions on project reopen
+
+The shared native compatibility check now reports the observed and expected
+DICOM pyramid level counts and directs users to restore the original series
+files to one directory. The frozen CLI rejected the incomplete Leica-4 series
+with a generic relink message. The updated CLI reported 1 of 3 expected levels
+and refused to write a crop. Restoring the companions produced the original
+level-one crop byte for byte and left the project unchanged.
+
+The native project suite passed. A second cached rebuild was needed to correct
+the diagnostic wording for a single observed level. The frozen handoff retains
+its source identity. Full companion identity and same-geometry substitutions
+remain outside this check.
+
+[Saved-project companion check](../build/native-format-closeout/validation-packet/dicom-wsi-leica4/saved-project-companion-diagnostic/verification.json)
+[Native project suite](../build/native-format-closeout/validation-packet/dicom-wsi-leica4/companion-project-tests.log)
+
 ## Verified locally - sparse DICOM whole-slide viewing
 
 Review closed the M06 admission investigation with schema reuse terms still

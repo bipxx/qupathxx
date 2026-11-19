@@ -117,6 +117,11 @@ void validate_metadata(const ImageMetadata& m) {
         throw std::invalid_argument("invalid project image calibration");
 }
 void compatible(const ImageMetadata& expected,const ImageMetadata& actual) {
+    if(expected.vendor=="dicom" && actual.vendor=="dicom" && expected.width==actual.width && expected.height==actual.height &&
+       actual.levels.size()<expected.levels.size())
+        throw std::invalid_argument("Found "+std::to_string(actual.levels.size())+" of "+
+            std::to_string(expected.levels.size())+" expected DICOM pyramid levels. "
+            "Check that all files from the original DICOM series are in the same directory.");
     if(expected.width!=actual.width || expected.height!=actual.height || expected.levels.size()!=actual.levels.size() ||
         expected.pixel_type!=actual.pixel_type || expected.layout!=actual.layout)
         throw std::invalid_argument("relinked image dimensions or pyramid do not match project");
