@@ -8,6 +8,27 @@ and [R2-R16 queue](api-delivery-plan.md#execution-order-for-finishing-the-remain
 own remaining scope. No100% QuPath, universal biological/speed/platform or
 Java/Groovy claim; NC/restricted/unknown required materials stay unadmitted.
 
+## Verified locally - Windows packed TIFF and BigTIFF routing handoff
+
+Eight archives match compiled source
+`9b3d96d18b0e2ac59e3c6feb1dacfb932775c3415d4e569d9fd4e6e42f62e296`.
+One cached build relinked the native consumers, reusing all 15 dependency
+payloads and the admitted providers. The corresponding source configured
+offline with Python off.
+
+The extracted runtime passed all 109 TIFF CLI checks. An independent fixture
+verified all three two-bit foreground IDs, exact pixel counts and sums, and
+saved replay. A consumer linked against the extracted SDK opened the three OME
+BigTIFF suffixes for preview and reopened a calibrated spatial import at the
+correct pixels. The fresh-host checker passed 60 commands locally and removal
+preserved all 88 research files. Eight older handoffs kept their original
+preflight scope. No retries were needed. Hosted validation still awaits
+release authorization and a prepared tag.
+
+[Windows handoff](../build/native-format-closeout/validation-packet/current-native-packed-tiff-install/windows-native-handoff/handoff.json)
+[Packaged TIFF CLI checks](../build/native-format-closeout/validation-packet/current-native-packed-tiff-install/handoff-tiff-cli.log)
+[Fresh-host checker local receipt](../build/qpx-host-packed-report/handoff.json)
+
 ## Verified locally - route OME BigTIFF through preview and spatial import
 
 Automatic RGB nominal preview and direct spatial import now recognize
@@ -19,8 +40,8 @@ and exact backed counts above 2^53 after project reopen.
 
 All four affected suites passed after one cached build. The routing check
 also covers mixed case and still requires the OME suffix for `.tf8`. A docs
-patch had an empty hunk and was corrected before the diff check. Carry this
-source delta and the two-bit TIFF workflow into the next Windows checkpoint.
+patch had an empty hunk and was corrected before the diff check. The Windows
+handoff above includes this fix and the two-bit TIFF workflow.
 
 [Prior RGB route refusal](../build/native-format-closeout/validation-packet/ome-bigtiff-routing/baseline-rgb.log)
 [Native routing and spatial verification](../build/native-format-closeout/validation-packet/ome-bigtiff-routing/native-tests.log)
@@ -38,8 +59,8 @@ All 109 TIFF CLI checks and the native region, label workflow and label CLI
 suites passed after one cached build. The first missing-palette test expected
 the later native diagnostic. The fixture refused at LibTIFF open, and the
 corrected assertion verifies that refusal and absence of output. A targeted
-rerun also verified the sums by exact channel ID. This source delta belongs
-in the next selected Windows package. The OME-TIFF handoff below is frozen.
+rerun also verified the sums by exact channel ID. The Windows handoff above
+includes the two-bit workflow.
 
 [Prior reader refusal](../build/native-format-closeout/validation-packet/tiff-two-bit/baseline.log)
 [TIFF CLI checks](../build/native-format-closeout/validation-packet/tiff-two-bit/tiff-cli-final.log)

@@ -6,6 +6,7 @@ PowerShell step; this script never removes a directory or touches an old install
 """
 import argparse
 import ast
+import csv
 import gzip
 import hashlib
 import json
@@ -176,6 +177,12 @@ def published_bundle(source, expected_digest):
             if hashlib.file_digest(module, 'sha256').hexdigest() != validation.get('ome_roi_provider_sha256'):
                 raise ValueError('OME ROI module differs from the verified provider')
         checks.add('ome_tiff_roi')
+    for key in ('tiff_two_bit_labels', 'ome_bigtiff_routes'):
+        enabled = validation.get(key, False)
+        if type(enabled) is not bool:
+            raise ValueError('Invalid TIFF verification flag: ' + key)
+        if enabled:
+            checks.add(key)
     return source_id, archives, None, None, checks
 
 
@@ -536,6 +543,76 @@ def check_ome_tiff_roi(run, native, root, manifest):
             'provider_sha256': sha(manifest.with_name(OME_ROI_MODULE))}
 
 
+def check_two_bit_labels(run, native, root):
+    root.mkdir()
+    source, mask = root/'samples.tif', root/'labels.tif'
+    source.write_bytes(oriented_tiff_fixture(b'grayscale fixture', bytes([11, 12, 13, 21, 22, 23]), 8, 1))
+    # Three labels, one background pixel and nonzero row padding.
+    mask.write_bytes(oriented_tiff_fixture(b'two-bit labels', bytes([0x1b, 0xdb]), 2, 0))
+    importer, labels = native/'qupathxx_format_import.exe', native/'qupathxx_labels.exe'
+    base, selected, saved = root/'base.qpx', root/'selected.qpx', root/'labeled.qpx'
+    run('two-bit-project', [importer, 'project-create', source, base, '--reader', 'tiff'])
+    region = root/'crop.geojson'
+    region.write_text(json.dumps({'type': 'FeatureCollection', 'features': [{
+        'type': 'Feature', 'id': '1', 'properties': {'objectType': 'annotation'},
+        'geometry': {'type': 'Polygon', 'coordinates': [[[0, 0], [2, 0], [2, 3], [0, 3], [0, 0]]]}}]}), encoding='utf8')
+    report = json.loads(run('two-bit-roi', [importer, 'geojson-import', base, 1, region, selected,
+                                            '--assume-pixels']).read_bytes())
+    roi, = report['objects']
+    protected = {path: sha(path) for path in (source, mask, selected)}
+    capture = ['--image', 1, '--roi', roi['object_id'], '--channels', 1]
+    identity = json.loads(run('two-bit-input', [labels, '--label-input', selected, *capture]).read_bytes())['input_sha256']
+    imported = json.loads(run('two-bit-import', [labels, '--import-label-mask', selected, saved, *capture,
+                                               '--mask', mask, '--producer', 'authored-fixture', '--producer-version', 1,
+                                               '--model-sha256', 'a'*64, '--input-sha256', identity]).read_bytes())
+    args = ['--image', 1, '--record', imported['record']]
+    reopened = json.loads(run('two-bit-reopen', [labels, '--verify-labels', saved, *args]).read_bytes())
+    report = root/'measurements.csv'
+    run('two-bit-measurements', [labels, '--export-labels', saved, report, *args])
+    with report.open(newline='', encoding='utf8') as stream:
+        rows = [(int(row['source_label']), int(row['pixels']), float(row['sum'])) for row in csv.DictReader(stream)]
+    if (imported['regions'] != 3 or imported['raster_sha256'] != reopened['raster_sha256']
+            or rows != [(1, 2, 34), (2, 2, 36), (3, 1, 21)]
+            or any(sha(path) != digest for path, digest in protected.items())):
+        raise ValueError('Two-bit label identities, sums or protected inputs differ')
+    return {'raster_sha256': reopened['raster_sha256'], 'measurements_sha256': sha(report)}
+
+
+def add_bigtiff_probe(consumer):
+    shutil.copy2(Path(__file__).with_name('native_tiff_route_probe.cpp'), consumer)
+    with (consumer/'CMakeLists.txt').open('a', encoding='utf8') as cmake:
+        cmake.write('\nadd_executable(native_tiff_route_probe native_tiff_route_probe.cpp)\n'
+                    'target_link_libraries(native_tiff_route_probe PRIVATE qupathxx::core)\n'
+                    'target_compile_options(native_tiff_route_probe PRIVATE /utf-8 /showIncludes)\n'
+                    'qupathxx_stage_runtime(native_tiff_route_probe)\n')
+
+
+def check_bigtiff_routes(run, probe, root):
+    root.mkdir()
+    xml = (b'<OME xmlns="http://www.openmicroscopy.org/Schemas/OME/2016-06"><Image ID="Image:0">'
+           b'<Pixels ID="Pixels:0" SizeX="3" SizeY="2" SizeZ="1" SizeC="1" SizeT="1" '
+           b'DimensionOrder="XYZCT" Type="uint16" PhysicalSizeX="0.5" PhysicalSizeY="2">'
+           b'<Channel ID="Channel:0:0"/><TiffData/></Pixels></Image></OME>\0')
+    xml_offset = 16 + 8 + 20*12 + 8
+    pixel_offset = (xml_offset + len(xml) + 7) & ~7
+    tags = [(256, 4, 1, 3), (257, 4, 1, 2), (258, 3, 1, 16), (259, 3, 1, 1), (262, 3, 1, 1),
+            (270, 2, len(xml), xml_offset), (273, 16, 1, pixel_offset), (277, 3, 1, 1), (278, 4, 1, 2),
+            (279, 16, 1, 12), (284, 3, 1, 1), (339, 3, 1, 1)]
+    fixture = (struct.pack('<2sHHHQQ', b'II', 43, 8, 0, 16, len(tags))
+               + b''.join(struct.pack('<HHQQ', *tag) for tag in tags) + bytes(8) + xml
+               + bytes(pixel_offset-xml_offset-len(xml)) + struct.pack('<6H', 0, 1000, 2000, 3000, 4000, 5000))
+    images = [root/('pixels.ome.'+suffix) for suffix in ('BTF', 'tf2', 'tf8')]
+    for path in images:
+        path.write_bytes(fixture)
+    (root/'counts.mtx').write_bytes(b'%%MatrixMarket matrix coordinate integer general\n1 1 1\n1 1 7\n')
+    (root/'features.tsv').write_bytes(b'feature_id\nG\n')
+    (root/'positions.tsv').write_bytes(b'observation_id\tx_um\ty_um\nA\t0.5\t2\n')
+    run('sdk-bigtiff-routing', [probe, root])
+    if any(path.read_bytes() != fixture for path in images):
+        raise ValueError('BigTIFF routing probe altered an input')
+    return {'fixture_sha256': sha(images[0]), 'project_sha256': sha(root/'spatial.qpx')}
+
+
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--input',type=Path,required=True,help='Frozen Windows handoff directory')
@@ -572,6 +649,8 @@ def main():
     installed={str(p):sha(p) for p in (work/'installed').rglob('*') if p.is_file()}
     consumer,build=work/'example',work/'b'
     shutil.copytree(sdk/'share/qupathxx/examples/native_sdk',consumer)
+    if 'ome_bigtiff_routes' in checks:
+        add_bigtiff_probe(consumer)
     env=os.environ.copy()
     for key in list(env):
         if key.upper() in {'PYTHONPATH','PYTHONHOME','CMAKE_PREFIX_PATH','QUPATHXX_DIR','QUPATHXX_UI_LANGUAGE'}:
@@ -654,6 +733,8 @@ def main():
     verified_spatial = check_verified_spatial_source(run, native, user/'verified spatial source') if 'verified_spatial_imports' in checks else None
     ome_bit = check_ome_tiff_bit(run, native, user/'ome raster') if 'ome_tiff_bit' in checks else None
     ome_roi = check_ome_tiff_roi(run, native, user/'ome annotations', manifests['ome_roi']) if 'ome_tiff_roi' in checks else None
+    two_bit = check_two_bit_labels(run, native, user/'two-bit labels') if 'tiff_two_bit_labels' in checks else None
+    bigtiff = check_bigtiff_routes(run, build/'Release/native_tiff_route_probe.exe', user/'OME BigTIFF') if 'ome_bigtiff_routes' in checks else None
     run('gui-project-open',[native/'qupathxx_app.exe','--project',project,'--layout',user/'preferences.ini','--smoke'])
     if sha(project)!=before_project:raise ValueError('Read-only GUI/CLI changed saved project')
     sentinel=native/'user scratch/research-notes.txt';sentinel.parent.mkdir()
@@ -678,6 +759,10 @@ def main():
         receipt['ome_tiff_bit'] = ome_bit
     if ome_roi:
         receipt['ome_tiff_roi'] = ome_roi
+    if two_bit:
+        receipt['tiff_two_bit_labels'] = two_bit
+    if bigtiff:
+        receipt['ome_bigtiff_routes'] = bigtiff
     (report/'handoff.json').write_text(json.dumps(receipt,indent=2)+'\n',encoding='utf8')
     print('Install/use passed; manifest-owned removal is still required.',flush=True)
 
