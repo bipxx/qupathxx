@@ -8,7 +8,7 @@ and [R2-R16 queue](api-delivery-plan.md#execution-order-for-finishing-the-remain
 own remaining scope. No100% QuPath, universal biological/speed/platform or
 Java/Groovy claim; NC/restricted/unknown required materials stay unadmitted.
 
-## Verified locally - current native Windows spatial and DICOM install
+## Verified locally - current native Windows spatial and DICOM handoff
 
 The spatial restore refused an existing destination WAL without changing the
 WAL or publishing a project or managed matrix. One cached build relinked all
@@ -19,8 +19,22 @@ fingerprint and used the existing admitted ENVI and DICOM provider binaries.
 The installed CLI passed 28 matrix and spatial checks and eight guarded DICOM
 checks. The desktop reopened both saved projects without changing their bytes.
 Removal deleted 296 installed files and preserved all 50 research files. There
-were no build or validation retries. The frozen archives retain their earlier
-source identity. A matching archive for the current install is still pending.
+were no build or validation retries for the component install.
+
+The matching runtime, SDK and source archives authenticated against their
+reviewed member inventories. Staging reused the 15 dependency source payloads
+and independently admitted optional provider packages. The extracted source
+configured offline with Python disabled. The extracted runtime and SDK passed
+the SDK consumer replay, 21 checks on the core optional provider pack, all 36
+matrix and DICOM checks, and both supplemental desktop reopens. Removal deleted
+512 installed files and preserved all 105 research files. All nine checksums
+passed. The archive verifier needed to pass the desktop image ID as a string.
+It reused the completed CLI runs and offline configuration on retry. The
+handoff is local and remains separate from the earlier frozen archive.
+
+[Current Windows archive handoff](../build/native-format-closeout/validation-packet/current-native-spatial-install/windows-native-handoff/handoff.json)
+[Archive checksums](../build/native-format-closeout/validation-packet/current-native-spatial-install/windows-native-handoff/SHA256SUMS.txt)
+[Archive installation and removal](../build/native-format-closeout/validation-packet/current-native-spatial-install/handoff-archive-installation-removal.json)
 
 [Installed check and removal receipt](../build/native-format-closeout/validation-packet/current-native-spatial-install/installation-removal.json)
 [Current compiled input manifest](../build/native-format-closeout/validation-packet/current-native-spatial-install/SOURCE-INPUTS.sha256)
