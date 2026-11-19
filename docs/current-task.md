@@ -8,7 +8,7 @@ and [R2-R16 queue](api-delivery-plan.md#execution-order-for-finishing-the-remain
 own remaining scope. No100% QuPath, universal biological/speed/platform or
 Java/Groovy claim; NC/restricted/unknown required materials stay unadmitted.
 
-## Verified on a hosted Windows runner - continuous Matrix Market exchange handoff
+## Published - Windows native candidate 10
 
 Eight archives match compiled source
 `05d78ca6d4d973fcc4d74d862048aac1ff242e788aed2501fb13dfc1db0e6881`.
@@ -60,8 +60,13 @@ use. Manifest removal deleted 540 installed files and preserved all 104
 research files. The downloaded receipt matches the staged handoff digest and
 has SHA-256 `7b1b53444385f654207c769b6a8f7a4af14c1ec3799e5854d98e0ac3e58bdbaf`.
 The initial receipt lookup missed the artifact's `report/` directory. Reading
-the downloaded file there verified both install and removal. Candidate 10
-awaits separate publication authorization.
+the downloaded file there verified both install and removal.
+
+[Windows native candidate 10](https://github.com/bipxx/qupathxx/releases/tag/v0.1.0-windows-candidate.10)
+was published as a prerelease. Its public tag resolves to `2ae4df1a`, all
+11 public asset digests and sizes match the staged files, and anonymous
+downloads of `handoff.json` and `SHA256SUMS.txt` match the local bytes. No
+repackaging or rerun was needed. This closes the selected Windows handoff.
 
 ## Verified locally - round-trip continuous sparse Matrix Market values
 
