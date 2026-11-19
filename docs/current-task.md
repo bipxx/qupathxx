@@ -8,6 +8,30 @@ and [R2-R16 queue](api-delivery-plan.md#execution-order-for-finishing-the-remain
 own remaining scope. No100% QuPath, universal biological/speed/platform or
 Java/Groovy claim; NC/restricted/unknown required materials stay unadmitted.
 
+## Verified locally - DICOM concatenation and a companion identity gap
+
+The frozen Windows reader assembled two lossless JPEG 2000 instances into one
+`TILED_FULL` level. A crop across the instance boundary reproduced the authored
+reference from either input filename and through a saved project. With the
+second instance removed, direct crop, saved-project crop and new-project import
+refused and wrote no output. An unrelated series in the same directory did not
+substitute for it. Restoring the original file reproduced the crop exactly.
+
+Replacing the second instance with different pixels under its original series,
+instance and geometry metadata changed the saved-project crop while leaving
+the primary and project bytes unchanged. The crop receipt reports `primary_file`.
+Use this reproducer for the next complete-fileset design. Select the decoder's
+actual members, reuse the existing compound reader and project verification
+authorities, and confirm that unrelated series do not enter the identity.
+
+The first probe expected the wrong OpenSlide error text. The corrected probe
+checked the actual one-instance refusal and each CLI's exit status. A typo in
+the roadmap anchor delayed the documentation patch. No build or download was
+needed.
+
+[Concatenation and replacement receipt](../build/native-format-closeout/validation-packet/dicom-wsi-concatenation/verified/verification.json)
+[DICOM full-tile instance ordering](https://dicom.nema.org/Medical/dicom/current/output/chtml/part03/sect_C.7.6.17.3.html)
+
 ## Verified locally - DICOM JPEG 2000 and uncompressed RGB transfer syntaxes
 
 The frozen Windows OpenSlide runtime read three authored `TILED_FULL` profiles:
@@ -20,8 +44,8 @@ the original crop and left the project unchanged.
 
 Small authored frames replaced a large upstream download. The fixture tools
 ran from their existing development cache. No engine build, new runtime
-dependency, or validation retry was needed. Multi-instance concatenation and
-whole-fileset identity remain open.
+dependency, or validation retry was needed. This check used single-instance
+fixtures.
 
 [Transfer syntax verification receipt](../build/native-format-closeout/validation-packet/dicom-wsi-jpeg2000/verification.json)
 [DICOM JPEG 2000 encoding contract](https://dicom.nema.org/medical/dicom/current/output/chtml/part05/sect_8.2.4.html)
