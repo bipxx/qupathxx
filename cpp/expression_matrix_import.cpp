@@ -35,34 +35,38 @@ namespace zip=detail::stored_zip;
 struct MatrixArchive {
     detail::ReaderFileGuard guard;
     zip::Input input;
-    struct Range {std::uint64_t offset;zip::Member member;};
+    struct Range {std::uint64_t offset;zip::ExchangeMember entry;};
     std::array<Range,3> ranges;
     MatrixArchive(const std::string& path,std::uint64_t limit,const std::atomic<bool>* cancelled)
         :guard(detail::export_path(path)),input(fs::u8path(guard.version()->path),guard.version()->bytes,
             cancelled,"Matrix Market ZIP") {
-        if(guard.version()->bytes>std::min<std::uint64_t>(limit,1024ull*1024*1024))
+        const auto maximum=std::min<std::uint64_t>(limit,1024ull*1024*1024);
+        if(guard.version()->bytes>maximum)
             throw WorkflowCaptureLimit("Matrix Market ZIP exceeds byte limit");
         const std::array names{"matrix.mtx","features.tsv","barcodes.tsv"};
-        std::array<zip::Member,3> members;
+        std::array<zip::ExchangeMember,3> members;
+        std::uint64_t expanded=0;
         for(std::size_t i=0;i<names.size();++i) {
-            members[i]=input.member(names[i],static_cast<std::size_t>(guard.version()->bytes));
+            members[i]=input.exchange_member(names[i]);
+            expanded+=members[i].member.size;
+            if(expanded>maximum)throw WorkflowCaptureLimit("Expanded Matrix Market ZIP exceeds byte limit");
             ranges[i]={input.offset(),members[i]};
-            input.seek(input.offset()+members[i].size);
+            input.seek(input.offset()+members[i].encoded_size);
         }
-        input.finish(members);
+        input.finish_exchange(members);
         guard.verify();
     }
 };
 #ifdef QUPATHXX_HAS_MATRIX_MARKET_GZIP
-struct GzipInput {
+struct CompressedInput {
     z_stream stream{};
     std::array<unsigned char,65536> buffer;
     std::uint64_t decoded=0;
-    explicit GzipInput() {
-        if(inflateInit2(&stream,MAX_WBITS+16)!=Z_OK)
-            throw std::runtime_error("Cannot initialize Matrix Market gzip decoder");
+    explicit CompressedInput(bool zip) {
+        if(inflateInit2(&stream,zip?-MAX_WBITS:MAX_WBITS+16)!=Z_OK)
+            throw std::runtime_error("Cannot initialize Matrix Market decompressor");
     }
-    ~GzipInput(){inflateEnd(&stream);}
+    ~CompressedInput(){inflateEnd(&stream);}
 };
 #endif
 class Lines {
@@ -73,10 +77,16 @@ class Lines {
     std::array<char,65536> buffer_;std::size_t at_=0,end_=0;
     std::uint64_t bytes_=0,limit_;bool eof_=false;const std::atomic<bool>* cancel_;
 #ifdef QUPATHXX_HAS_MATRIX_MARKET_GZIP
-    std::unique_ptr<GzipInput> gzip_;
+    std::unique_ptr<CompressedInput> compressed_;
 #endif
     std::size_t read_raw(char* data,std::size_t size) {
         workflow_checkpoint(cancel_);
+        if(archive_) {
+            const auto remaining=member_.entry.encoded_size-bytes_;
+            const auto count=static_cast<std::size_t>(std::min<std::uint64_t>(size,remaining));
+            if(count){archive_->input.seek(member_.offset+bytes_);archive_->input.read(data,count);bytes_+=count;}
+            return count;
+        }
         if(input_.eof())return 0;
         input_.read(data,size);
         const auto read=std::size_t(input_.gcount());
@@ -88,53 +98,52 @@ class Lines {
     }
 #ifdef QUPATHXX_HAS_MATRIX_MARKET_GZIP
     std::size_t inflate_chunk() {
-        auto& stream=gzip_->stream;
-        auto* source=reinterpret_cast<char*>(gzip_->buffer.data());
+        auto& stream=compressed_->stream;
+        auto* source=reinterpret_cast<char*>(compressed_->buffer.data());
         stream.next_out=reinterpret_cast<unsigned char*>(buffer_.data());
         stream.avail_out=static_cast<uInt>(buffer_.size());
         while(stream.avail_out==buffer_.size()) {
             workflow_checkpoint(cancel_);
             if(!stream.avail_in) {
-                stream.next_in=gzip_->buffer.data();
-                stream.avail_in=static_cast<uInt>(read_raw(source,gzip_->buffer.size()));
+                stream.next_in=compressed_->buffer.data();
+                stream.avail_in=static_cast<uInt>(read_raw(source,compressed_->buffer.size()));
             }
             const auto available=stream.avail_in;
             const auto status=inflate(&stream,Z_NO_FLUSH);
             if(status==Z_STREAM_END) {
                 if(stream.avail_in || read_raw(source,1))
-                    throw std::invalid_argument("Matrix Market gzip input must contain exactly one member");
+                    throw std::invalid_argument(archive_?"Trailing bytes in Matrix Market ZIP Deflate member":
+                        "Matrix Market gzip input must contain exactly one member");
                 eof_=true;
                 break;
             }
             if(status!=Z_OK || (stream.avail_in==available && stream.avail_out==buffer_.size()))
-                throw std::invalid_argument("Invalid or truncated Matrix Market gzip input");
+                throw std::invalid_argument(archive_?"Invalid or truncated Matrix Market ZIP Deflate member":
+                    "Invalid or truncated Matrix Market gzip input");
         }
         const auto decoded=buffer_.size()-stream.avail_out;
-        if(decoded>limit_-gzip_->decoded)throw WorkflowCaptureLimit("Expanded Matrix Market gzip input exceeds byte limit");
-        gzip_->decoded+=decoded;
+        if(decoded>limit_-compressed_->decoded)throw WorkflowCaptureLimit(archive_?
+            "Expanded Matrix Market ZIP member exceeds declared size":"Expanded Matrix Market gzip input exceeds byte limit");
+        compressed_->decoded+=decoded;
         return decoded;
     }
 #endif
     bool fill() {
         if(eof_)return false;
         at_=0;
-        if(archive_) {
-            end_=static_cast<std::size_t>(std::min<std::uint64_t>(buffer_.size(),member_.member.size-bytes_));
-            if(end_) {
-                archive_->input.seek(member_.offset+bytes_);
-                archive_->input.read(buffer_.data(),end_);
-                crc_.write(buffer_.data(),end_);
-                bytes_+=end_;
-            }
-            eof_=bytes_==member_.member.size;
-            return end_!=0;
-        }
 #ifdef QUPATHXX_HAS_MATRIX_MARKET_GZIP
-        if(gzip_) {
+        if(compressed_){
             end_=inflate_chunk();
+            if(archive_)crc_.write(buffer_.data(),end_);
             return end_!=0;
         }
 #endif
+        if(archive_) {
+            end_=read_raw(buffer_.data(),buffer_.size());
+            crc_.write(buffer_.data(),end_);
+            eof_=bytes_==member_.entry.encoded_size;
+            return end_!=0;
+        }
         end_=read_raw(buffer_.data(),buffer_.size());
         eof_=input_.eof();
         return end_!=0;
@@ -149,7 +158,7 @@ public:
         const auto suffix=fs::u8path(path).extension().u8string();
         if(suffix.size()==3 && suffix[0]=='.' && (suffix[1]=='g' || suffix[1]=='G') && (suffix[2]=='z' || suffix[2]=='Z')) {
 #ifdef QUPATHXX_HAS_MATRIX_MARKET_GZIP
-            gzip_=std::make_unique<GzipInput>();
+            compressed_=std::make_unique<CompressedInput>(false);
 #else
             throw std::invalid_argument("Matrix Market gzip input requires QUPATHXX_BUILD_MATRIX_MARKET_GZIP");
 #endif
@@ -157,11 +166,19 @@ public:
     }
     Lines(MatrixArchive& archive,std::size_t member,const std::atomic<bool>* c)
         :archive_(&archive),member_(archive.ranges[member]),crc_{c,0xffffffffu,0,&hash_},
-            limit_(member_.member.size),cancel_(c) {}
+            limit_(member_.entry.member.size),cancel_(c) {
+        if(member_.entry.method==8){
+#ifdef QUPATHXX_HAS_MATRIX_MARKET_GZIP
+            compressed_=std::make_unique<CompressedInput>(true);
+#else
+            throw std::invalid_argument("Matrix Market ZIP Deflate requires QUPATHXX_BUILD_MATRIX_MARKET_GZIP");
+#endif
+        }
+    }
     std::size_t extra_work_bytes()const {
 #ifdef QUPATHXX_HAS_MATRIX_MARKET_GZIP
         // Account for both the compressed input buffer and zlib's decoder/window.
-        return gzip_?sizeof(GzipInput)+64u*1024:0;
+        return compressed_?sizeof(CompressedInput)+64u*1024:0;
 #else
         return 0;
 #endif
@@ -169,16 +186,19 @@ public:
     bool next(std::string& line){line.clear();while(true){if(at_==end_ && !fill()){if(line.empty())return false;break;}const auto* begin=buffer_.data()+at_;const auto* stop=static_cast<const char*>(std::memchr(begin,'\n',end_-at_));const auto n=stop?std::size_t(stop-begin):end_-at_;if(n>4096-line.size())throw std::invalid_argument("Expression input line exceeds4096 bytes");line.append(begin,n);at_+=n;if(stop){++at_;break;}}if(!line.empty() && line.back()=='\r')line.pop_back();if(line.find('\0')!=std::string::npos)throw std::invalid_argument("Expression input contains NUL");return true;}
     bool matrix_line(std::string& line){while(next(line)){const auto at=line.find_first_not_of(" \t");if(at!=std::string::npos && line[at]!='%')return true;}return false;}
     std::string finish() {
-        const auto expected=archive_?member_.member.size:guard_->version()->bytes;
+        const auto expected=archive_?member_.entry.encoded_size:guard_->version()->bytes;
         if(at_!=end_ || !eof_ || bytes_!=expected)throw WorkflowInputChanged("Expression input not completely consumed");
-        if(archive_ && ~crc_.crc!=member_.member.crc)throw std::invalid_argument("Invalid Matrix Market ZIP member CRC");
+        if(archive_ && crc_.bytes!=member_.entry.member.size)
+            throw std::invalid_argument("Invalid Matrix Market ZIP expanded member size");
+        if(archive_ && ~crc_.crc!=member_.entry.member.crc)
+            throw std::invalid_argument("Invalid Matrix Market ZIP member CRC");
         verify();return hash_.finish();
     }
     void verify()const {
         try{(archive_?archive_->guard:*guard_).verify();}
         catch(const std::exception& e){throw WorkflowInputChanged(std::string("Expression input changed: ")+e.what());}
     }
-    std::uint64_t bytes()const{return bytes_;}
+    std::uint64_t bytes()const{return archive_?crc_.bytes:bytes_;}
 };
 void feature_rows(Writer& writer,Lines& input,const ExpressionMatrixMetadata& m,ExpressionCatalogueFormat format,const std::atomic<bool>* c){std::string line;if(format==ExpressionCatalogueFormat::Qpx && (!input.next(line) || line!="feature_id"))throw std::invalid_argument("Expected feature_id TSV header");for(std::uint64_t i=0;i<m.features;++i){workflow_checkpoint(c);if(!input.next(line))throw std::invalid_argument("Truncated expression feature catalogue");std::string id,name,type;if(format==ExpressionCatalogueFormat::Tenx){const auto parts=detail::spatial_triple(line,true);id=detail::spatial_identifier(parts[0]);name=detail::spatial_identifier(parts[1]);type=detail::spatial_identifier(parts[2]);}else{id=detail::spatial_identifier(line);name=id;type="Gene Expression";}writer.feature_row(i,id,name,type);}if(input.next(line))throw std::invalid_argument("Extra expression feature records");}
 void observation_rows(Writer& writer,Lines& input,const ExpressionMatrixMetadata& m,ExpressionCatalogueFormat format,const std::atomic<bool>* c){std::string line;if(format==ExpressionCatalogueFormat::Qpx && (!input.next(line) || line!="observation_id"))throw std::invalid_argument("Expected observation_id TSV header");for(std::uint64_t i=0;i<m.observations;++i){workflow_checkpoint(c);if(!input.next(line))throw std::invalid_argument("Truncated expression observation catalogue");writer.observation_row(i,detail::spatial_identifier(line));}if(input.next(line))throw std::invalid_argument("Extra expression observation records");}

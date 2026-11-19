@@ -241,9 +241,16 @@ Re-index this archive directly with the native CLI:
 qupathxx_format_import matrix-market-index-zip COUNTS_ZIP NEW_QMX
 ```
 
-This route checks the exporter's fixed stored ZIP layout and member CRCs, then
-streams the three members through the same indexer. It produces the same QMX
-bytes as manually extracting the files and using the Tenx catalogue option:
+This route checks the three root member names in export order, the ZIP32
+directory, decoded lengths and member CRCs. It streams the members through the
+same indexer. `-DQUPATHXX_BUILD_MATRIX_MARKET_GZIP=ON` also enables Deflate ZIP
+members, including archives with mixed stored and Deflate members. The archive
+profile requires sizes in the local headers and excludes extra fields, comments,
+encryption and split archives. `--formats` reports Deflate support as
+`can_import_zip_deflate`.
+
+The resulting QMX bytes match extracting the files and using the Tenx catalogue
+option.
 
 ```text
 qupathxx_format_import matrix-market-index matrix.mtx features.tsv barcodes.tsv NEW_QMX --catalogue tenx
@@ -251,7 +258,8 @@ qupathxx_format_import matrix-market-index matrix.mtx features.tsv barcodes.tsv 
 
 Use `--catalogue qpx` for the QPX single-column catalogs with `feature_id` and
 `observation_id` headers. The command reports the new QMX SHA-256, source
-identity and axis counts. Export is limited to a 1 GiB ZIP and both commands
+identity and axis counts. ZIP export is limited to 1 GiB. ZIP import bounds
+both the archive and total expanded member bytes to 1 GiB. Both commands
 require new output paths.
 
 Native builds configured with `-DQUPATHXX_BUILD_MATRIX_MARKET_GZIP=ON` also

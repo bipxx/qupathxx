@@ -15,6 +15,7 @@ std::string format_family_catalog_json() {
         if(value.format==MatrixFormat::MatrixMarket) {
             row["can_import_gzip"]=value.can_import_gzip;
             row["can_import_zip"]=value.available;
+            row["can_import_zip_deflate"]=value.can_import_gzip;
         }
         matrices.push_back(std::move(row));
     }

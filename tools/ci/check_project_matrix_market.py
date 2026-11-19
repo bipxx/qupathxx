@@ -9,7 +9,7 @@ import os
 from pathlib import Path
 import sqlite3
 import subprocess
-from zipfile import ZIP_STORED, ZipFile
+from zipfile import ZIP_DEFLATED, ZIP_STORED, ZipFile
 
 
 def sha(path):
@@ -53,6 +53,63 @@ def inspect_archive(path, expected):
         assert [tuple(map(int, line.split())) for line in rows] == counts
 
 
+def check_deflated_archive(run, output, expected):
+    names = ('matrix.mtx', 'features.tsv', 'barcodes.tsv')
+    inputs = {name: (output/name).read_bytes() for name in names}
+    # Exercise multiple compressed and expanded chunks with legal comments.
+    title, rows = inputs['matrix.mtx'].split(b'\n', 1)
+    comments = b''.join(b'% ' + hashlib.sha256(str(i).encode('ascii')).hexdigest().encode('ascii') + b'\n'
+                        for i in range(4096))
+    inputs['matrix.mtx'] = title + b'\n' + comments + rows
+    reference_matrix = output/'deflate-reference.mtx'
+    reference_matrix.write_bytes(inputs['matrix.mtx'])
+    reference = output/'deflate-reference.qmx'
+    plain = run('deflate-reference', 'matrix-market-index', reference_matrix, 'features.tsv',
+                'barcodes.tsv', reference, '--catalogue', 'tenx')
+    stored_archive, stored = output/'stored-reference.zip', output/'stored-reference.qmx'
+    with ZipFile(stored_archive, 'x') as zipped:
+        for name in names:
+            zipped.writestr(name, inputs[name])
+    run('stored-reference', 'matrix-market-index-zip', stored_archive, stored)
+    archive = output/'recompressed.zip'
+    with ZipFile(archive, 'x', ZIP_DEFLATED) as zipped:
+        for name in names:
+            zipped.writestr(name, inputs[name], compress_type=ZIP_STORED if name == 'barcodes.tsv' else ZIP_DEFLATED)
+    with ZipFile(archive) as zipped:
+        assert zipped.getinfo('matrix.mtx').compress_size > 65536
+        assert zipped.testzip() is None
+    archive_hash = sha(archive)
+    imported = output/'recompressed.qmx'
+    direct = run('archive-deflate', 'matrix-market-index-zip', archive, imported)
+    assert plain['source_sha256'] == direct['source_sha256']
+    assert sha(reference) == sha(stored) == sha(imported) == direct['file_sha256'] and stored_rows(imported) == expected
+    original = archive.read_bytes()
+    directory = int.from_bytes(original[-6:-2], 'little')
+    for label, offsets, value, diagnostic in [
+        ('crc', (14, directory+16), int.from_bytes(original[14:18], 'little') ^ 1, 'member CRC'),
+        ('short-size', (22, directory+24), len(inputs['matrix.mtx'])-1, 'exceeds declared size'),
+        ('long-size', (22, directory+24), len(inputs['matrix.mtx'])+1, 'expanded member size'),
+        ('expanded-limit', (22, directory+24), 2**30, 'Expanded Matrix Market ZIP exceeds byte limit'),
+        ('central-conflict', (directory+24,), len(inputs['matrix.mtx'])+1, 'central directory differs'),
+    ]:
+        damaged = bytearray(original)
+        for offset in offsets:
+            damaged[offset:offset+4] = value.to_bytes(4, 'little')
+        source, destination = output/('deflate-'+label+'.zip'), output/('deflate-'+label+'.qmx')
+        source.write_bytes(damaged)
+        refused = run('archive-deflate-'+label, 'matrix-market-index-zip', source, destination, status=2)
+        assert diagnostic in refused['error'] and not destination.exists()
+    damaged = bytearray(original)
+    payload_offset = 30 + len(names[0])
+    damaged[payload_offset:payload_offset+5] = bytes(5)
+    source, destination = output/'invalid-deflate.zip', output/'invalid-deflate.qmx'
+    source.write_bytes(damaged)
+    refused = run('archive-deflate-invalid', 'matrix-market-index-zip', source, destination, status=2)
+    assert 'Invalid or truncated Matrix Market ZIP Deflate member' in refused['error'] and not destination.exists()
+    assert sha(archive) == archive_hash
+    return imported
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     for key in ("host", "project", "output"):
@@ -74,11 +131,15 @@ def main():
                         help="Re-index gzip-wrapped Matrix Market and use it for spatial restore")
     parser.add_argument("--archive-index", action="store_true",
                         help="Check direct ZIP indexing against the unpacked inputs")
+    parser.add_argument("--zip-deflate", action="store_true",
+                        help="Verify Deflate exchange files against the same decoded inputs")
     args = parser.parse_args()
     if args.position_reexport and not args.spatial:
         parser.error("--position-reexport requires --spatial")
     if args.gzip and args.reimport:
         parser.error("--gzip uses the native CLI rather than the SDK probe")
+    if args.zip_deflate and not args.archive_index:
+        parser.error("--zip-deflate requires --archive-index")
     args.output.mkdir(parents=True)
     env = {key: value for key, value in os.environ.items()
            if not key.upper().startswith(("PYTHON", "QPX_", "QUPATHXX_"))}
@@ -242,6 +303,9 @@ def main():
         refused = args.output / "bad-member.qmx"
         status = run("archive-bad-crc", "matrix-market-index-zip", damaged, refused, status=2)
         assert "Invalid Matrix Market ZIP member CRC" in status["error"] and not refused.exists()
+        if args.zip_deflate:
+            assert capability["can_import_zip_deflate"] is True
+            imported = check_deflated_archive(run, args.output, expected)
 
     if args.spatial:
         positions = args.output / "positions.tsv"

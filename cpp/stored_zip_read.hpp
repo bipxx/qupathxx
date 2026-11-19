@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 #pragma once
 #include "stored_zip_write.hpp"
+#include <algorithm>
 #include <fstream>
 
 namespace qpx::detail::stored_zip {
@@ -11,7 +12,13 @@ inline std::uint32_t read_little(const char* data, unsigned size) {
     return result;
 }
 
-// Reads only the same bounded stored-member framing that the writer emits.
+struct ExchangeMember {
+    Member member;
+    std::uint32_t encoded_size;
+    std::uint32_t method;
+    std::array<char,30> local;
+};
+
 class Input {
     std::ifstream file_;
     std::uint64_t size_, offset_ = 0;
@@ -66,6 +73,37 @@ public:
             invalid("truncated ZIP member");
         return result;
     }
+    // Fixed-name ZIP32 exchange members. Other callers keep the canonical
+    // stored format above, including the writer's exact framing.
+    ExchangeMember exchange_member(std::string_view name) {
+        const auto start = zip_size(static_cast<std::size_t>(offset_));
+        const auto header = record<30>();
+        const auto field = [&](unsigned at,unsigned width) {return read_little(header.data()+at,width);};
+        const auto method=field(8,2), encoded=field(18,4), decoded=field(22,4);
+        const auto flags=field(6,2);
+        const auto allowed_flags=method==8?0x806u:0x800u;
+        if(field(0,4)!=0x04034b50u || field(4,2)>20 || (flags & ~allowed_flags) ||
+           (method!=0 && method!=8) || (method==0 && encoded!=decoded) ||
+           field(26,2)!=name.size() || field(28,2)!=0)
+            invalid("unsupported ZIP member header");
+        expect(name);
+        if(encoded>size_-offset_)invalid("truncated ZIP member");
+        return {{name,start,decoded,field(14,4)},encoded,method,header};
+    }
+    template <std::size_t N> void finish_exchange(const std::array<ExchangeMember,N>& members) {
+        const auto start=zip_size(static_cast<std::size_t>(offset_));
+        for(const auto& entry:members){
+            const auto header=record<46>();
+            if(read_little(header.data(),4)!=0x02014b50u ||
+               !std::equal(entry.local.begin()+4,entry.local.end(),header.begin()+6) ||
+               read_little(header.data()+32,4)!=0 ||
+               read_little(header.data()+42,4)!=entry.member.offset)
+                invalid("central directory differs from ZIP member");
+            expect(entry.member.name);
+        }
+        const auto size=zip_size(static_cast<std::size_t>(offset_)-start);
+        finish_directory(N,start,size);
+    }
     template <std::size_t N> void finish(const std::array<Member, N>& members) {
         const auto start = zip_size(static_cast<std::size_t>(offset_));
         for (const auto& member : members) {
@@ -74,7 +112,11 @@ public:
             expect(member.name);
         }
         const auto size = zip_size(static_cast<std::size_t>(offset_) - start);
-        const auto end = end_record(static_cast<unsigned>(N), start, size);
+        finish_directory(N,start,size);
+    }
+private:
+    void finish_directory(unsigned count,std::uint32_t start,std::uint32_t size) {
+        const auto end = end_record(count, start, size);
         expect({end.data(), end.size()});
         if (offset_ != size_)
             invalid("unexpected bytes after ZIP directory");

@@ -8,6 +8,27 @@ and [R2-R16 queue](api-delivery-plan.md#execution-order-for-finishing-the-remain
 own remaining scope. No100% QuPath, universal biological/speed/platform or
 Java/Groovy claim; NC/restricted/unknown required materials stay unadmitted.
 
+## Verified locally - index recompressed Matrix Market ZIP exchange files
+
+The existing Matrix Market zlib build option now enables mixed stored and
+Deflate ZIP32 members. Native indexing bounds the archive and its total
+expanded bytes, checks the local and central records, and verifies lengths,
+complete streams and CRCs. The shared format catalog reports this capability.
+
+The 45 CLI checks verified identical source and QMX bytes from plain, stored
+and mixed inputs, including a multi-chunk Deflate member. A reopened spatial
+project retained exact values above 2^53, UInt64 maximum, explicit zero and
+saved positions after the source QMX moved offline. Six malformed Deflate
+cases refused without output. Native project, catalog and region checks
+passed. The first CLI run lacked the fixture's ENVI manifest. The first
+project test used a working directory too deep for its long scratch case.
+Both reruns used the same binaries with corrected inputs and paths. The next
+Windows checkpoint can stage this source delta with the existing zlib payload.
+
+[Prior refusal](../build/native-format-closeout/validation-packet/matrix-deflate/baseline.log)
+[CLI and saved replay receipts](../build/native-format-closeout/validation-packet/matrix-deflate/roundtrip-envi/validation.json)
+[Native project suite](../build/native-format-closeout/validation-packet/matrix-deflate/native-project-short.log)
+
 ## Verified locally - Windows packed TIFF and BigTIFF routing handoff
 
 Eight archives match compiled source
