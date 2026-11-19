@@ -24,12 +24,15 @@ import check_material_staging as admission
 SUPPLEMENTAL = {
     'envi': 'envi-reader',
     'dicom': 'qupathxx-dicom-wsi',
+    'ome_roi': 'ome-roi',
 }
 DICOM_BIN = 'openslide-sdk/bin/'
 DICOM_MODULE = 'qpx_dicom_wsi_plugin.dll'
 DICOM_MANIFEST = 'dicom-wsi-reader-plugins.json'
 OPENSLIDE_DLL = 'libopenslide-1.dll'
 ENVI_MANIFEST = 'reader-plugins.json'
+OME_ROI_MANIFEST = 'format-plugins.json'
+OME_ROI_MODULE = 'qpx_ome_roi_plugin.dll'
 RAW_SAMPLES = (1, 257, 4096, 65535)
 
 
@@ -135,6 +138,8 @@ def published_bundle(source, expected_digest):
             members = set(bundle.namelist())
             if role == 'envi':
                 required = {ENVI_MANIFEST, 'qpx_envi_plugin.dll', 'licenses/qupathxx/LICENSE'}
+            elif role == 'ome_roi':
+                required = {OME_ROI_MANIFEST, OME_ROI_MODULE, 'NOTICE.txt', 'SOURCE.json', 'PACKAGE.json'}
             else:
                 required = {DICOM_BIN + item for item in (DICOM_MODULE, DICOM_MANIFEST, OPENSLIDE_DLL)}
                 required.update({'licenses/qupathxx/LICENSE', 'licenses/libdicom/LICENSE', 'licenses/uthash/LICENSE',
@@ -163,6 +168,14 @@ def published_bundle(source, expected_digest):
         raise ValueError('Invalid OME-TIFF bit verification flag')
     if ome_tiff_bit:
         checks.add('ome_tiff_bit')
+    ome_tiff_roi = validation.get('ome_tiff_roi', False)
+    if type(ome_tiff_roi) is not bool or (ome_tiff_roi and 'ome_roi' not in archives):
+        raise ValueError('OME-TIFF ROI verification requires the OME ROI provider archive')
+    if ome_tiff_roi:
+        with zipfile.ZipFile(archives['ome_roi']) as bundle, bundle.open(OME_ROI_MODULE) as module:
+            if hashlib.file_digest(module, 'sha256').hexdigest() != validation.get('ome_roi_provider_sha256'):
+                raise ValueError('OME ROI module differs from the verified provider')
+        checks.add('ome_tiff_roi')
     return source_id, archives, None, None, checks
 
 
@@ -178,12 +191,15 @@ def install_supplemental(archives, installed, native):
                     target = provider/name
                 elif role == 'dicom' and name in (DICOM_BIN + DICOM_MODULE, DICOM_BIN + DICOM_MANIFEST):
                     target = native/PurePosixPath(name).name
+                elif role == 'ome_roi' and name in (OME_ROI_MANIFEST, OME_ROI_MODULE, 'NOTICE.txt'):
+                    target = provider/name
                 else:
                     continue
                 target.parent.mkdir(parents=True, exist_ok=True)
                 with bundle.open(name) as stream, target.open('xb') as output:
                     shutil.copyfileobj(stream, output)
-        manifests[role] = provider/ENVI_MANIFEST if role == 'envi' else native/DICOM_MANIFEST
+        manifests[role] = {'envi': provider/ENVI_MANIFEST, 'dicom': native/DICOM_MANIFEST,
+                           'ome_roi': provider/OME_ROI_MANIFEST}[role]
     return manifests
 
 
@@ -415,23 +431,27 @@ def check_verified_spatial_source(run, native, root):
     return {'verified_project_sha256': before, 'backed_sha256': sha(backed), 'selected_sha256': sha(selected)}
 
 
+def oriented_tiff_fixture(xml, pixels, bit_depth, photometric):
+    xml += b'\0'
+    tags = [(256, 4, 1, 3), (257, 4, 1, 2), (258, 3, 1, bit_depth), (259, 3, 1, 1), (262, 3, 1, photometric),
+            (266, 3, 1, 1), (270, 2, len(xml), 0), (273, 4, 1, 0), (274, 3, 1, 6),
+            (277, 3, 1, 1), (278, 4, 1, 2), (279, 4, 1, len(pixels)), (284, 3, 1, 1)]
+    xml_offset = 8 + 2 + 12 * len(tags) + 4
+    offsets = {270: xml_offset, 273: xml_offset + len(xml)}
+    directory = b''.join(struct.pack('<HHII', tag, kind, count, offsets.get(tag, value))
+                         for tag, kind, count, value in tags)
+    return struct.pack('<2sHIH', b'II', 42, 8, len(tags)) + directory + bytes(4) + xml + pixels
+
+
 def check_ome_tiff_bit(run, native, root):
     root.mkdir()
     source = root/'oriented.ome.tif'
     xml = (b'<OME xmlns="http://www.openmicroscopy.org/Schemas/OME/2016-06"><Image ID="Image:0">'
            b'<Pixels ID="Pixels:0" SizeX="3" SizeY="2" SizeZ="1" SizeC="1" SizeT="1" '
            b'DimensionOrder="XYZCT" Type="bit" SignificantBits="1" PhysicalSizeX="2" PhysicalSizeY="4">'
-           b'<Channel ID="Channel:0:0" SamplesPerPixel="1"/><TiffData/></Pixels></Image></OME>\0')
-    # Stored 3x2 MSB-first rows [0,1,1] and [1,0,0]. TIFF orientation 6
-    # rotates them clockwise into a 2x3 image. MINISWHITE defines display polarity.
-    tags = [(256, 4, 1, 3), (257, 4, 1, 2), (258, 3, 1, 1), (259, 3, 1, 1), (262, 3, 1, 0),
-            (266, 3, 1, 1), (270, 2, len(xml), 0), (273, 4, 1, 0), (274, 3, 1, 6),
-            (277, 3, 1, 1), (278, 4, 1, 2), (279, 4, 1, 2), (284, 3, 1, 1)]
-    xml_offset = 8 + 2 + 12 * len(tags) + 4
-    offsets = {270: xml_offset, 273: xml_offset + len(xml)}
-    directory = b''.join(struct.pack('<HHII', tag, kind, count, offsets.get(tag, value))
-                         for tag, kind, count, value in tags)
-    fixture = struct.pack('<2sHIH', b'II', 42, 8, len(tags)) + directory + bytes(4) + xml + b'\x60\x80'
+           b'<Channel ID="Channel:0:0" SamplesPerPixel="1"/><TiffData/></Pixels></Image></OME>')
+    # TIFF orientation 6 rotates the stored 3x2 MSB-first rows clockwise.
+    fixture = oriented_tiff_fixture(xml, b'\x60\x80', 1, 0)
     source.write_bytes(fixture)
     region = native/'qupathxx_region.exe'
     bundle, raw = root/'exact.zip', root/'exact.npy'
@@ -463,6 +483,57 @@ def check_ome_tiff_bit(run, native, root):
     if refused.exists() or b'SignificantBits of one' not in log.read_bytes() or source.read_bytes() != fixture:
         raise ValueError('OME-TIFF contradictory metadata did not refuse cleanly')
     return {'project_sha256': frozen, 'raw_sha256': sha(raw), 'display_sha256': sha(display)}
+
+
+def check_ome_tiff_roi(run, native, root, manifest):
+    root.mkdir()
+    source, companion = root/'oriented.ome.tif', root/'master.ome'
+    namespace = b'xmlns="http://www.openmicroscopy.org/Schemas/OME/2016-06"'
+    pointer = (b'<OME ' + namespace + b' UUID="urn:qpx-pixels">'
+               b'<BinaryOnly MetadataFile="master.ome" UUID="urn:qpx-master"/></OME>')
+    xml = (b'<OME ' + namespace + b' UUID="urn:qpx-master"><Image ID="Image:0">'
+           b'<Pixels ID="Pixels:0" SizeX="3" SizeY="2" SizeZ="1" SizeC="1" SizeT="1" '
+           b'DimensionOrder="XYZCT" Type="uint8"><Channel ID="Channel:0:0"/>'
+           b'<TiffData IFD="0"><UUID FileName="oriented.ome.tif">urn:qpx-pixels</UUID></TiffData></Pixels>'
+           b'<ROIRef ID="ROI:0"/></Image><ROI ID="ROI:0"><Union>'
+           b'<Point ID="Shape:Point" X="1.5" Y="0.5"/>'
+           b'<Mask ID="Shape:Mask" X="0" Y="0" Width="2" Height="1">'
+           b'<BinData Length="4" BigEndian="true">gA==</BinData></Mask></Union></ROI></OME>')
+    fixture = oriented_tiff_fixture(pointer, bytes([11, 12, 13, 21, 22, 23]), 8, 1)
+    source.write_bytes(fixture)
+    companion.write_bytes(xml)
+    importer = native/'qupathxx_format_import.exe'
+    embedded, resolved = root/'embedded.xml', root/'resolved.xml'
+    run('ome-roi-export-pointer', [importer, 'ome-tiff-export-xml', source, embedded])
+    report = json.loads(run('ome-roi-export-master', [importer, 'ome-tiff-export-xml', source, resolved,
+                                                    '--resolve-metadata']).read_bytes())
+    if (embedded.read_bytes() != pointer or resolved.read_bytes() != xml or report['sha256'] != sha(companion)
+            or Path(report['metadata_source']) != companion):
+        raise ValueError('OME-TIFF XML export did not preserve the selected document')
+    base, project = root/'base.qpx', root/'aligned.qpx'
+    created = json.loads(run('ome-roi-create-project', [importer, 'project-create', source, base,
+                                                       '--reader', 'tiff']).read_bytes())
+    before = sha(base)
+    command = [importer, '--format-plugins', manifest, 'annotations-import', 'org.qupathxx.ome-roi',
+               base, created['image_id'], resolved, project]
+    refused = run('ome-roi-refuse-implicit', command, expected_exit=2)
+    if project.exists() or b'requires explicit stored-coordinate' not in refused.read_bytes():
+        raise ValueError('OME-TIFF ROI import allowed implicit orientation')
+    run('ome-roi-import', [*command, '--ome-tiff-coordinates', 'stored'])
+    geojson, raw = root/'reopened.geojson', root/'reopened.npy'
+    run('ome-roi-reopen', [importer, 'geojson-export', project, created['image_id'], geojson])
+    run('ome-roi-raster-replay', [native/'qupathxx_region.exe', '--raw-project', project, created['image_id'], raw])
+    check_raw_samples(raw, bytes([21, 11, 22, 12, 23, 13]), 'OME-TIFF ROI', dtype='|u1', shape=(3, 2, 1))
+    features = {f['properties']['name']: f for f in json.loads(geojson.read_bytes())['features']}
+    point, mask = features['Shape:Point']['geometry'], features['Shape:Mask']['geometry']
+    if point != {'type': 'Point', 'coordinates': [1.5, 1.5]} or mask['type'] != 'Polygon':
+        raise ValueError('OME-TIFF ROI replay changed point or mask geometry')
+    ring, = mask['coordinates']
+    if (len(ring) != 5 or ring[0] != ring[-1] or {tuple(vertex) for vertex in ring} != {(1, 0), (2, 0), (2, 1), (1, 1)}
+            or sha(base) != before or source.read_bytes() != fixture or companion.read_bytes() != xml):
+        raise ValueError('OME-TIFF ROI replay changed coverage or input bytes')
+    return {'xml_sha256': sha(resolved), 'project_sha256': sha(project), 'raw_sha256': sha(raw),
+            'provider_sha256': sha(manifest.with_name(OME_ROI_MODULE))}
 
 
 def main():
@@ -582,6 +653,7 @@ def main():
     spatial = check_position_reexport(run, native, user, manifests['envi'], checks) if 'position_reexport' in checks else None
     verified_spatial = check_verified_spatial_source(run, native, user/'verified spatial source') if 'verified_spatial_imports' in checks else None
     ome_bit = check_ome_tiff_bit(run, native, user/'ome raster') if 'ome_tiff_bit' in checks else None
+    ome_roi = check_ome_tiff_roi(run, native, user/'ome annotations', manifests['ome_roi']) if 'ome_tiff_roi' in checks else None
     run('gui-project-open',[native/'qupathxx_app.exe','--project',project,'--layout',user/'preferences.ini','--smoke'])
     if sha(project)!=before_project:raise ValueError('Read-only GUI/CLI changed saved project')
     sentinel=native/'user scratch/research-notes.txt';sentinel.parent.mkdir()
@@ -604,6 +676,8 @@ def main():
         receipt['verified_spatial_imports'] = verified_spatial
     if ome_bit:
         receipt['ome_tiff_bit'] = ome_bit
+    if ome_roi:
+        receipt['ome_tiff_roi'] = ome_roi
     (report/'handoff.json').write_text(json.dumps(receipt,indent=2)+'\n',encoding='utf8')
     print('Install/use passed; manifest-owned removal is still required.',flush=True)
 

@@ -8,6 +8,27 @@ and [R2-R16 queue](api-delivery-plan.md#execution-order-for-finishing-the-remain
 own remaining scope. No100% QuPath, universal biological/speed/platform or
 Java/Groovy claim; NC/restricted/unknown required materials stay unadmitted.
 
+## Verified locally - Windows OME-TIFF XML and ROI handoff
+
+Eight archives match compiled source
+`878a4dc98857dbfffc69b55877e48ccebb42b7b28400999bf92e9f425abcd88c`.
+One cached build relinked the changed native targets. Offline source
+configuration matched with Python off. The handoff reuses all 15 dependency
+payloads and includes the existing admitted OME ROI 1.3.0 package with notices.
+
+The extracted runtime passed all 101 TIFF CLI checks. An independent fixture
+verified both exact XML export modes, an aligned saved point and mask, exact
+raw samples, and clean refusal of implicit orientation. The existing provider,
+spatial restore and SDK replay checks passed. The fresh-host checker passed
+53 commands locally and removal preserved all 74 research files. Seven older
+handoffs retained their original preflight scope. Preflight refused a missing
+OME ROI archive and an incorrect module digest. No retries were needed.
+Hosted validation still awaits release authorization and a prepared tag.
+
+[Windows handoff](../build/native-format-closeout/validation-packet/current-native-ome-roi-install/windows-native-handoff/handoff.json)
+[Packaged TIFF CLI checks](../build/native-format-closeout/validation-packet/current-native-ome-roi-install/handoff-tiff-cli.log)
+[Fresh-host checker local receipt](../build/qpx-host-ome-roi-report/handoff.json)
+
 ## Verified locally - align stored OME-TIFF ROIs with the normalized raster
 
 The raster reader opens coherent oriented TIFF images with referenced ROIs.
@@ -24,8 +45,7 @@ Mixed orientations, changed XML and implicit import of matching rotated XML
 refuse. The native region suite and four existing import controls passed.
 The first replay exposed the lazy project reader wrapper. A scoped rebuild
 used the existing native reader accessor and passed the same replay checks.
-The next delivery step is one matching Windows handoff for the XML export
-and ROI registration changes. Hosted validation still waits on authorization.
+The Windows handoff above packages the XML export and ROI registration changes.
 
 [TIFF CLI checks](../build/native-format-closeout/validation-packet/ome-roi-orientation/tiff-cli-final.log)
 [Native region checks](../build/native-format-closeout/validation-packet/ome-roi-orientation/native-region.log)
@@ -42,9 +62,8 @@ companions and output collisions.
 All 94 TIFF CLI checks and the native region suite passed. A separate run
 used the admitted OME ROI provider and reopened the companion's point at
 `[2, 3]` in the matching project. One cached build sufficed. The TIFF fixture
-library emitted its existing NumPy warnings. The latest Windows handoff
-predates both XML export modes. The newer stored-coordinate ROI check above
-verifies replay on oriented rasters.
+library emitted its existing NumPy warnings. The Windows handoff above includes
+both XML export modes and saved replay on oriented rasters.
 
 [TIFF CLI checks](../build/native-format-closeout/validation-packet/ome-xml-resolved/tiff-cli.log)
 [Native region checks](../build/native-format-closeout/validation-packet/ome-xml-resolved/region-native.log)
@@ -63,8 +82,8 @@ admitted OME ROI 1.3.0 package imported an extracted point into its matching
 native image and reopened it at the same coordinates. The first module lookup
 found an intermediate DLL. The installed test used the admitted package hash.
 After adding the header's license identifier, a cached relink passed the six
-targeted CLI checks and the complete ROI handoff again. The existing Windows
-handoff predates this route.
+targeted CLI checks and the complete ROI handoff again. The Windows handoff
+above includes this route.
 
 [TIFF CLI checks](../build/native-format-closeout/validation-packet/ome-xml-export/tiff-cli.log)
 [Exact ROI handoff](../build/native-format-closeout/validation-packet/ome-xml-export/workflow-final.json)

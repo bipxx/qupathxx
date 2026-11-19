@@ -157,7 +157,7 @@ jobs:
         run: |
           if ($env:HANDOFF_SHA256) {
             if ($env:HANDOFF_SHA256 -notmatch '^[0-9a-fA-F]{64}$') { throw 'Provide a SHA-256 for handoff.json' }
-            gh release download "$env:CANDIDATE_TAG" --repo "$env:GITHUB_REPOSITORY" --dir build/windows-handoff/input --pattern 'handoff.json' --pattern 'qupathxx-*.zip' --pattern 'envi-reader-*.zip'
+            gh release download "$env:CANDIDATE_TAG" --repo "$env:GITHUB_REPOSITORY" --dir build/windows-handoff/input --pattern 'handoff.json' --pattern 'qupathxx-*.zip' --pattern 'envi-reader-*.zip' --pattern 'ome-roi-*.zip'
           } else {
             gh release download "$env:CANDIDATE_TAG" --repo "$env:GITHUB_REPOSITORY" --dir build/windows-handoff/input --pattern '*.whl' --pattern 'qupathxx-windows-x64-candidate.zip' --pattern 'qupathxx-source-6219a08f.zip' --pattern 'CMU-1.svs'
           }
