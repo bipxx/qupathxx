@@ -13,4 +13,7 @@ std::size_t export_expression_matrix_csv(
 std::size_t export_expression_matrix_positions(
     const ExpressionMatrixSource&, const std::string& output, const std::atomic<bool>* cancelled,
     const std::function<void()>& protect_output);
+std::size_t export_expression_matrix_market(
+    const ExpressionMatrixSource&, const std::string& output, const std::atomic<bool>* cancelled,
+    const std::function<void()>& protect_output);
 }

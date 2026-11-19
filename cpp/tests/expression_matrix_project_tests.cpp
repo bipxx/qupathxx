@@ -7,6 +7,8 @@
 #include "qupathxx/workflow.hpp"
 #include "../filesystem_access.hpp"
 #include "../expression_matrix_project_internal.hpp"
+#include "../expression_matrix_export.hpp"
+#include "../stored_zip_read.hpp"
 #include <chrono>
 #include <filesystem>
 #include <fstream>
@@ -18,7 +20,46 @@ template<class E=std::exception,class F>void rejects(F f){try{f();}catch(const E
 void write(const fs::path& path,const std::string& text){std::ofstream out(path,std::ios::binary);out<<text;out.close();check(bool(out),"Write expression project fixture");}
 std::string bytes(const fs::path& path){std::ifstream in(path,std::ios::binary);return {std::istreambuf_iterator<char>(in),{}};}
 void no_temporary(const fs::path& root){for(const auto& entry:fs::recursive_directory_iterator(root))check(entry.path().filename().u8string().find(".qpx-tmp-")==std::string::npos,"No leaked copy temporary");}
+void market_roundtrip(const fs::path& folder) {
+    fs::create_directory(folder);
+    const auto matrix=folder/"original.mtx", features=folder/"original-features.tsv", observations=folder/"original-barcodes.tsv";
+    write(matrix,"%%MatrixMarket matrix coordinate integer general\n3 4 4\n3 3 18446744073709551615\n1 2 9007199254740993\n3 1 0\n1 1 5\n");
+    write(features,"G2\tDisplay Two\tGene Expression\nG0\tEmpty\tGene Expression\nG1\tDisplay One\tAntibody Capture\n");
+    write(observations,"0001\n1\nZ\nEmpty\n");
+    ExpressionMatrixImportOptions options;
+    options.format=ExpressionCatalogueFormat::Tenx;
+    const auto imported=import_expression_matrix(matrix.u8string(),features.u8string(),observations.u8string(),(folder/"original.qmx").u8string(),options);
+    const auto source=open_expression_matrix(imported.path,imported.file_sha256);
+    const auto zip=folder/"export.zip";
+    const auto size=detail::export_expression_matrix_market(*source,zip.u8string(),nullptr,[]{});
+    check(size==fs::file_size(zip),"Matrix Market ZIP size differs");
+    detail::stored_zip::Input archive(zip,size,nullptr,"Matrix Market test ZIP");
+    const auto extract=[&](const char* name) {
+        const auto member=archive.member(name,4096);
+        std::string data(member.size,'\0');
+        archive.read(data.data(),data.size());
+        write(folder/name,data);
+        return member;
+    };
+    const std::array members{extract("matrix.mtx"),extract("features.tsv"),extract("barcodes.tsv")};
+    archive.finish(members);
+    check(bytes(folder/"features.tsv")==bytes(features) && bytes(folder/"barcodes.tsv")==bytes(observations),"Matrix Market catalog identities or order differ");
+    const auto roundtrip=import_expression_matrix((folder/"matrix.mtx").u8string(),(folder/"features.tsv").u8string(),
+        (folder/"barcodes.tsv").u8string(),(folder/"restored.qmx").u8string(),options);
+    const auto restored=open_expression_matrix(roundtrip.path,roundtrip.file_sha256);
+    const auto block=restored->read({{0,1,2},std::nullopt});
+    check(restored->metadata().observations==4 && block.offsets==std::vector<std::uint64_t>{0,2,2,4} &&
+        block.observation_indices==std::vector<std::uint64_t>{0,1,0,2} &&
+        block.counts==std::vector<std::uint64_t>{5,9007199254740993ull,0,18446744073709551615ull},
+        "Matrix Market count, zero, or empty-axis roundtrip differs");
+    rejects<WorkflowOutputExists>([&]{detail::export_expression_matrix_market(*source,zip.u8string(),nullptr,[]{});});
+    std::atomic<bool> cancel{true};
+    const auto cancelled=folder/"cancelled.zip";
+    rejects<WorkflowCancelled>([&]{detail::export_expression_matrix_market(*source,cancelled.u8string(),&cancel,[]{});});
+    check(!fs::exists(cancelled),"Cancelled Matrix Market export published a ZIP");
+}
 void exercise(const fs::path& root) {
+    market_roundtrip(root/"matrix-market");
     using V=ImageDataValue;
     const auto bundle=root/"linked",assets=bundle/"assets";fs::create_directories(assets);
     write(root/"matrix.mtx","%%MatrixMarket matrix coordinate integer general\n2 3 3\n1 1 9007199254740993\n1 3 5\n2 2 7\n");

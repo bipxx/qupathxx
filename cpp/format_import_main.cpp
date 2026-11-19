@@ -403,11 +403,14 @@ int project_matrix_export(const std::vector<std::string>& args) {
     using namespace qpx::detail;
     const bool positions=args[0]=="project-matrix-export-positions";
     const bool backup=args[0]=="project-matrix-backup";
+    const bool market=args[0]=="project-matrix-export-mtx";
     if(positions && args.size()!=5)
         throw std::invalid_argument("project-matrix-export-positions requires INPUT_PROJECT IMAGE_ID ASSOCIATION_ID NEW_TSV");
     if(backup && args.size()!=5)
         throw std::invalid_argument("project-matrix-backup requires INPUT_PROJECT IMAGE_ID ASSOCIATION_ID NEW_QMX");
-    if(!positions && !backup && (args.size()<7 || (args.size()-5)%2))
+    if(market && args.size()!=5)
+        throw std::invalid_argument("project-matrix-export-mtx requires INPUT_PROJECT IMAGE_ID ASSOCIATION_ID NEW_ZIP");
+    if(!positions && !backup && !market && (args.size()<7 || (args.size()-5)%2))
         throw std::invalid_argument("project-matrix-export-csv requires INPUT_PROJECT IMAGE_ID ASSOCIATION_ID NEW_CSV --feature ID [...]");
     std::vector<std::string> features;
     for(std::size_t at=5;at<args.size();at+=2) {
@@ -426,6 +429,7 @@ int project_matrix_export(const std::vector<std::string>& args) {
     std::size_t bytes;
     if(backup)bytes=backup_expression_matrix(*source,output,&cancelled,protect);
     else if(positions)bytes=export_expression_matrix_positions(*source,output,&cancelled,protect);
+    else if(market)bytes=export_expression_matrix_market(*source,output,&cancelled,protect);
     else bytes=export_expression_matrix_csv(*source,output,features,&cancelled,protect);
     const auto& metadata=source->metadata();
     json report{{"schema","qpx.format-import-cli/1"},{"state","exported"},{"command",args[0]},
@@ -436,6 +440,10 @@ int project_matrix_export(const std::vector<std::string>& args) {
         const auto& frame=*metadata.spatial_frame;
         report["frame_sha256"]=frame.sha256();
         report["plane"]={{"channel",frame.plane.c},{"z",frame.plane.z},{"time",frame.plane.t}};
+    } else if(market) {
+        report["features"]=metadata.features;
+        report["entries"]=metadata.entries;
+        report["value_domain"]=metadata.value_domain;
     } else if(!backup) {
         report["feature_ids"]=features;
         report["value_domain"]=metadata.value_domain;
@@ -539,6 +547,7 @@ void help(){
         "       qupathxx_format_import [bootstrap options] project-matrix-info INPUT_PROJECT IMAGE_ID ASSOCIATION_ID\n"
         "       qupathxx_format_import [bootstrap options] project-matrix-export-csv INPUT_PROJECT IMAGE_ID ASSOCIATION_ID NEW_CSV --feature ID [...]\n"
         "       qupathxx_format_import [bootstrap options] project-matrix-export-positions INPUT_PROJECT IMAGE_ID ASSOCIATION_ID NEW_TSV\n"
+        "       qupathxx_format_import [bootstrap options] project-matrix-export-mtx INPUT_PROJECT IMAGE_ID ASSOCIATION_ID NEW_ZIP\n"
         "       qupathxx_format_import [bootstrap options] project-matrix-backup INPUT_PROJECT IMAGE_ID ASSOCIATION_ID NEW_QMX\n"
         "       qupathxx_format_import [bootstrap options] project-matrix-restore INPUT_PROJECT IMAGE_ID ASSOCIATION_ID BACKUP_QMX\n"
         "       qupathxx_format_import [bootstrap options] project-matrix-relink INPUT_PROJECT IMAGE_ID ASSOCIATION_ID EXACT_QMX NEW_PROJECT\n"
@@ -592,7 +601,7 @@ int execute(std::vector<std::string> args){
             return project_objects_command(args);
         if(args[0]=="project-images")return project_images(args,!reader_manifests.empty());
         if(args[0]=="project-matrices" || args[0]=="project-matrix-info")return project_matrices(args);
-        if(args[0]=="project-matrix-export-csv" || args[0]=="project-matrix-export-positions" ||
+        if(args[0]=="project-matrix-export-csv" || args[0]=="project-matrix-export-positions" || args[0]=="project-matrix-export-mtx" ||
            args[0]=="project-matrix-backup")
             return project_matrix_export(args);
         if(args[0]=="project-matrix-restore") {

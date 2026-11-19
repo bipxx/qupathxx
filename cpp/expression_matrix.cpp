@@ -1,6 +1,7 @@
 #include "expression_matrix_internal.hpp"
 #include "expression_matrix_export.hpp"
 #include "reader_file_guard.hpp"
+#include "stored_zip_write.hpp"
 #include "qupathxx/file_fingerprint.hpp"
 #include "qupathxx/spatial_counts.hpp"
 #include <algorithm>
@@ -221,6 +222,71 @@ std::size_t detail::export_expression_matrix_positions(
         }
         start+=count;
     }
+    protect_matrix_output(source,destination,cancelled,protect_output);
+    file.commit(false);
+    return file.bytes();
+}
+
+std::size_t detail::export_expression_matrix_market(
+    const ExpressionMatrixSource& source,const std::string& output,const std::atomic<bool>* cancelled,
+    const std::function<void()>& protect_output) {
+    const auto& metadata=source.metadata();
+    if(metadata.domain!=ExpressionValueDomain::Counts)
+        throw std::invalid_argument("Matrix Market export requires exact integer counts");
+    const auto destination=export_path(output);
+    protect_matrix_output(source,destination,cancelled,protect_output);
+    if(std::filesystem::exists(std::filesystem::u8path(destination)))
+        throw WorkflowOutputExists("Matrix Market ZIP destination already exists");
+
+    constexpr std::size_t work_bytes=64u*1024*1024, archive_bytes=1024u*1024*1024;
+    constexpr std::size_t page_size=128;
+    AtomicExportFile file(destination,archive_bytes,cancelled);
+    const auto matrix=stored_zip::write_member(file,"matrix.mtx",cancelled,[&](auto& sink) {
+        auto emit=[&](const std::string& row) {sink.write(row.data(),row.size());};
+        emit("%%MatrixMarket matrix coordinate integer general\n"+
+            std::to_string(metadata.features)+" "+std::to_string(metadata.observations)+" "+
+            std::to_string(metadata.entries)+"\n");
+        // Plan by the largest possible sparse block, with at least one feature.
+        const auto block_size=std::clamp<std::uint64_t>(262144/std::max<std::uint64_t>(1,metadata.observations),1,page_size);
+        std::uint64_t entries=0;
+        for(std::uint64_t start=0;start<metadata.features;) {
+            const auto end=start+std::min(block_size,metadata.features-start);
+            ExpressionMatrixSelection selection;
+            for(auto index=start;index<end;++index)selection.features.push_back(index);
+            const auto block=source.read(selection,work_bytes,cancelled);
+            for(std::size_t f=0;f<block.features.size();++f) {
+                const auto prefix=std::to_string(block.features[f]+1)+" ";
+                for(auto at=block.offsets[f];at<block.offsets[f+1];++at) {
+                    if((entries++&1023)==0)workflow_checkpoint(cancelled);
+                    emit(prefix+std::to_string(block.observation_indices[at]+1)+" "+
+                         std::to_string(block.counts[at])+"\n");
+                }
+            }
+            start=end;
+        }
+        if(entries!=metadata.entries)throw WorkflowInputChanged("Matrix Market stored entry count differs");
+    });
+    const auto features=stored_zip::write_member(file,"features.tsv",cancelled,[&](auto& sink) {
+        for(std::uint64_t start=0;start<metadata.features;) {
+            const auto count=static_cast<std::size_t>(std::min<std::uint64_t>(page_size,metadata.features-start));
+            for(const auto& feature:source.feature_page(start,count,work_bytes,cancelled)) {
+                const auto row=feature.id+"\t"+feature.name+"\t"+feature.type+"\n";
+                sink.write(row.data(),row.size());
+            }
+            start+=count;
+        }
+    });
+    const auto barcodes=stored_zip::write_member(file,"barcodes.tsv",cancelled,[&](auto& sink) {
+        for(std::uint64_t start=0;start<metadata.observations;) {
+            const auto count=static_cast<std::size_t>(std::min<std::uint64_t>(page_size,metadata.observations-start));
+            for(const auto& id:source.observation_page(start,count,work_bytes,cancelled)) {
+                sink.write(id.data(),id.size());
+                sink.write("\n",1);
+            }
+            start+=count;
+        }
+    });
+    stored_zip::finish(file,std::array{matrix,features,barcodes});
     protect_matrix_output(source,destination,cancelled,protect_output);
     file.commit(false);
     return file.bytes();

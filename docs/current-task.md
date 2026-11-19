@@ -8,6 +8,24 @@ and [R2-R16 queue](api-delivery-plan.md#execution-order-for-finishing-the-remain
 own remaining scope. No100% QuPath, universal biological/speed/platform or
 Java/Groovy claim; NC/restricted/unknown required materials stay unadmitted.
 
+## Verified locally - saved sparse Matrix Market export
+
+`project-matrix-export-mtx` writes a new ZIP with all sparse count entries,
+feature metadata and observation IDs. Native reimport preserved explicit
+zeros, empty rows and columns, and exact values through `UINT64_MAX`. The CLI
+matched the stored SQLite rows, repeated byte-identically, refused continuous
+matrices, and protected existing outputs, project files, sidecars and hardlinks.
+
+One cached Windows build covered the changed CLI and native project test.
+The test suite's legacy long-path fixture needed a shorter working directory.
+CLI check fixes matched the hardlink diagnostic and picked the continuous
+association by its actual domain. The final native suite and 13 CLI checks
+passed. Coordinates remain available through the saved-position export. The
+new CLI retains its own source identity apart from the frozen Windows handoff.
+
+[CLI export and native reimport receipt](../build/native-format-closeout/validation-packet/matrix-market-export/cli-sdk-verified/validation.json)
+[Native project suite](../build/native-format-closeout/validation-packet/matrix-market-export/native-short.log)
+
 ## Verified locally - optional Windows DICOM WSI handoff
 
 The 43-member plugin ZIP contains the tested module and manifest under

@@ -225,6 +225,21 @@ QMX to retain sparse entry presence, coordinates, calibration and provenance.
 The JSON report includes the selected feature IDs, saved matrix digest and
 value domain. A new destination is required.
 
+Export a complete integer count matrix for exchange as a sparse ZIP:
+
+```text
+qupathxx_format_import project-matrix-export-mtx INPUT_PROJECT IMAGE_ID ASSOCIATION_ID NEW_ZIP
+```
+
+The archive contains `matrix.mtx` with one-based feature and observation
+indices, a headerless `features.tsv` with ID, display name and type, and a
+headerless `barcodes.tsv` with observation IDs. It preserves original axis
+order, empty rows and columns, stored zeros and exact unsigned 64-bit counts. The native
+indexed Matrix Market importer accepts the extracted files with the Tenx
+catalogue option. The ZIP limit is 1 GiB and the export requires a new path.
+Use the position export below for the matching coordinates and the QMX backup
+when you need the original project association and provenance.
+
 Export the associated positions for re-import alongside the CSV:
 
 ```text
