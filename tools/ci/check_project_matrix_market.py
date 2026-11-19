@@ -64,6 +64,8 @@ def main():
                         help="Optional native SDK probe accepting MATRIX FEATURES BARCODES NEW_QMX")
     parser.add_argument("--require-edges", action="store_true",
                         help="Require an explicit zero, 2^53+1 and UINT64_MAX in the fixture")
+    parser.add_argument("--spatial", action="store_true",
+                        help="Restore positions and the re-indexed matrix on an empty saved image")
     args = parser.parse_args()
     args.output.mkdir(parents=True)
     env = {key: value for key, value in os.environ.items()
@@ -186,6 +188,53 @@ def main():
         assert "duplicate" in refusal["error"].lower() and not duplicate_output.exists()
 
     assert stored_rows(imported) == expected
+
+    if args.spatial:
+        positions = args.output / "positions.tsv"
+        position_receipt = run("export-positions", "project-matrix-export-positions", args.project,
+                               args.image, association, positions)
+        plane = position_receipt["plane"]
+        assert plane["channel"] == -1
+        frame = ("--frame-z", str(plane["z"]), "--frame-time", str(plane["time"]))
+        _, *rows = positions.read_text(encoding="utf-8").splitlines()
+        coordinates = {row[0]: [float(row[1]), float(row[2])] for row in (line.split("\t") for line in rows)}
+        assert len(coordinates) == len(expected[1]) and set(coordinates) == set(expected[1])
+
+        restore = ("project-matrix-import-positions", args.project, args.image, imported)
+        mismatch = args.output / "wrong-positions.tsv"
+        mismatch.write_bytes(("observation_id\tx_px\ty_px\n" + "absent-from-matrix\t" + rows[0].split("\t", 1)[1] +
+                              "\n" + "".join(line + "\n" for line in rows[1:])).encode("utf-8"))
+        refused = args.output / "wrong-positions.qpx"
+        run("wrong-position-id", *restore, mismatch, refused, *frame, status=2)
+        assert not refused.exists()
+
+        received = args.output / "received.qpx"
+        imported_digest = sha(imported)
+        saved = run("restore-spatial-project", *restore, positions, received, *frame)
+        assert saved["state"] == "saved" and saved["owned"] and saved["observations"] == len(coordinates)
+        received_digest = sha(received)
+        run("restore-preserves-existing-project", *restore, positions, received, *frame, status=2)
+        assert sha(received) == received_digest
+
+        # Move only the authored outputs of this test to simulate losing the handoff inputs.
+        offline = args.output / "offline-inputs"
+        offline.mkdir()
+        imported.rename(offline / imported.name)
+        positions.rename(offline / positions.name)
+        received_id = saved["matrix_source_sha256"]
+        owned, = [item for item in run("restored-catalogue", "project-matrices", received, args.image)["matrices"]
+                  if item["association_id"] == received_id]
+        assert owned["owned"] and owned["file_sha256"] == imported_digest
+        assert stored_rows(Path(owned["path"]).resolve()) == expected
+        reexport = args.output / "reexport.zip"
+        run("reexport-offline-original", "project-matrix-export-mtx", received, args.image, received_id, reexport)
+        assert sha(reexport) == archive_sha
+        geometry = args.output / "received.geojson"
+        run("export-restored-points", "geojson-export", received, args.image, geometry)
+        points = json.loads(geometry.read_bytes())["features"]
+        assert len(points) == len(coordinates) and all(point["geometry"]["type"] == "Point" for point in points)
+        assert {point["properties"]["name"]:point["geometry"]["coordinates"] for point in points} == coordinates
+        assert sha(received) == received_digest and (sha(args.project), sha(sidecar)) == original
 
     assert not list(args.output.glob("*.qpx-tmp-*"))
     assert not list(args.output.glob(".qpx-expression-*"))

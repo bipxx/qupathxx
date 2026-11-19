@@ -8,7 +8,7 @@ void new_output(const std::string&);
 void digest_argument(const std::string&);
 std::string real_text(double);
 SpatialImportBaseRequest base_request(const SpatialImportRequest&);
-std::shared_ptr<Project> open_base(const SpatialImportBaseRequest&,const std::atomic<bool>*);
+std::shared_ptr<Project> open_base(const SpatialImportBaseRequest&,const std::atomic<bool>*,bool allow_saved_reader_plugins=false);
 inline std::shared_ptr<Project> open_base(const SpatialImportRequest& request,const std::atomic<bool>* cancelled) {
     return open_base(base_request(request),cancelled);
 }

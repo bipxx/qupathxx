@@ -5,6 +5,7 @@
 #include <windows.h>
 #endif
 #include "qupathxx/format_import.hpp"
+#include "qupathxx/backed_spatial_import.hpp"
 #include "qupathxx/expression_matrix_project.hpp"
 #include "qupathxx/interchange.hpp"
 #include "qupathxx/project.hpp"
@@ -378,6 +379,23 @@ int matrix_market_index(const std::vector<std::string>& args) {
         {"domain","counts"},{"value_domain",metadata.value_domain},{"input_profile",metadata.input_profile}}.dump()<<'\n';
     return 0;
 }
+int project_matrix_import_positions(const std::vector<std::string>& args) {
+    if(args.size()<6 || (args.size()-6)%2)
+        throw std::invalid_argument("project-matrix-import-positions requires INPUT_PROJECT IMAGE_ID QMX POSITIONS_TSV NEW_PROJECT");
+    const auto selection=source_options(args,6,SourceOptionsFor::MatrixProject);
+    if(selection.format_options)
+        throw std::invalid_argument("Position import accepts frame options only");
+    qpx::BackedSpatialImportRequest request;
+    request.base.input_project=args[1];
+    request.base.image_id=image_id(args[2]);
+    request.store=args[3];
+    request.positions=args[4];
+    request.base.output_project=args[5];
+    request.base.plane=selection.matrix_plane;
+    const auto preview=qpx::preview_backed_spatial_import(request,&cancelled);
+    std::cout<<qpx::publish_backed_spatial_import(*preview,&cancelled)<<'\n';
+    return 0;
+}
 int project_matrices(const std::vector<std::string>& args) {
     const bool inspect=args[0]=="project-matrix-info";
     if(args.size()!=(inspect?4u:3u))
@@ -559,6 +577,7 @@ void help(){
         "       qupathxx_format_import [bootstrap options] matrix-project-store-index PROVIDER STORE PRIMARY_KEY POSITIONS INPUT_PROJECT IMAGE_ID NEW_QMX [--plugin-options-json JSON]\n"
         "       qupathxx_format_import matrix-info QMX\n"
         "       qupathxx_format_import matrix-market-index MATRIX_MTX FEATURES_TSV OBSERVATIONS_TSV NEW_QMX --catalogue qpx|tenx\n"
+        "       qupathxx_format_import [bootstrap options] project-matrix-import-positions INPUT_PROJECT IMAGE_ID QMX POSITIONS_TSV NEW_PROJECT [--frame-z N] [--frame-time N]\n"
         "       qupathxx_format_import [bootstrap options] project-matrices INPUT_PROJECT IMAGE_ID\n"
         "       qupathxx_format_import [bootstrap options] project-matrix-info INPUT_PROJECT IMAGE_ID ASSOCIATION_ID\n"
         "       qupathxx_format_import [bootstrap options] project-matrix-export-csv INPUT_PROJECT IMAGE_ID ASSOCIATION_ID NEW_CSV --feature ID [...]\n"
@@ -618,6 +637,7 @@ int execute(std::vector<std::string> args){
         if(args[0]=="project-images")return project_images(args,!reader_manifests.empty());
         if(args[0]=="project-matrices" || args[0]=="project-matrix-info")return project_matrices(args);
         if(args[0]=="matrix-market-index")return matrix_market_index(args);
+        if(args[0]=="project-matrix-import-positions")return project_matrix_import_positions(args);
         if(args[0]=="project-matrix-export-csv" || args[0]=="project-matrix-export-positions" || args[0]=="project-matrix-export-mtx" ||
            args[0]=="project-matrix-backup")
             return project_matrix_export(args);

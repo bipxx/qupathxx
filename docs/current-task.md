@@ -8,6 +8,24 @@ and [R2-R16 queue](api-delivery-plan.md#execution-order-for-finishing-the-remain
 own remaining scope. No100% QuPath, universal biological/speed/platform or
 Java/Groovy claim; NC/restricted/unknown required materials stay unadmitted.
 
+## Verified locally - restore exported counts and positions to a project
+
+`project-matrix-import-positions` calls the native backed spatial importer.
+The backed workflow now opens admitted reader-plugin links from saved projects
+and guards their sources across preview and publication. The ENVI fixture
+round-tripped three named points and the complete sparse count matrix from
+Matrix Market and an exported position TSV. The new project retained its own
+exact QMX copy. With the exchanged QMX and TSV offline, it re-exported the ZIP
+byte for byte and returned all three original coordinates.
+
+One cached Windows build passed the native backed suite and 28 CLI checks.
+The import refused an unknown observation ID, an existing output and a missing
+ENVI provider. No build or validation retries were needed. Only the existing
+saved reader and level-zero pixel position workflow was exercised.
+
+[Spatial round-trip receipt](../build/native-format-closeout/validation-packet/matrix-spatial-roundtrip/cli/validation.json)
+[Native backed suite](../build/native-format-closeout/validation-packet/matrix-spatial-roundtrip/native.log)
+
 ## Verified locally - re-index Matrix Market from the native CLI
 
 `matrix-market-index` uses the shared native Matrix Market importer with

@@ -263,6 +263,17 @@ in the original input digest.
 The original positions file and format plugin can be offline during export.
 QMX remains the source of the complete frame and calibration.
 
+Restore a re-indexed QMX and its exported positions on the matching saved image:
+
+```text
+qupathxx_format_import project-matrix-import-positions INPUT_PROJECT IMAGE_ID QMX POSITIONS_TSV NEW_PROJECT
+```
+
+The native backed importer joins observation IDs exactly and saves the points
+and an owned QMX in a new project. It takes level-zero pixel coordinates and
+accepts `--frame-z` and `--frame-time` for the original plane. Supply the saved
+image's admitted `--reader-plugins` manifest when the project uses a plugin.
+
 Restore a missing owned QMX from an exact backup:
 
 ```text

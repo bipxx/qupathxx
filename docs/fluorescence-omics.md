@@ -954,7 +954,7 @@ legends and comparison service for selected-gene reads.
 
 `qupathxx/backed_spatial_import.hpp` adds BackedSpatialImportRequest/Preview and
 native preview_backed_spatial_import / publish_backed_spatial_import. Choose one
-saved native project or admitted PPM/TIFF image, an indexed store, explicit
+saved project with an admitted reader link or a PPM/TIFF image, an indexed store, explicit
 three-column position TSV/header mapping, coordinate units, alignment, plane and
 linked/owned storage. Preview validates barcode membership and image bounds,
 without publishing files. Native unit conversion precedes the explicit alignment;

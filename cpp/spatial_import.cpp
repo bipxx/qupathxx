@@ -8,6 +8,7 @@
 #include "sha256.hpp"
 #include "qupathxx/raw_image.hpp"
 #include "reader_registry.hpp"
+#include "reader_plugin_link.hpp"
 #include "matrix_format_registry.hpp"
 #include "utf8_text.hpp"
 #include "ascii_case.hpp"
@@ -35,7 +36,8 @@ SpatialImportBaseRequest base_request(const SpatialImportRequest& request) {
     return {request.input_project,request.output_project,request.image_path,request.image_reader,
         request.image_id,request.image_series,ObjectPlane(-1,request.options.z,request.options.t)};
 }
-std::shared_ptr<Project> open_base(const SpatialImportBaseRequest& request,const std::atomic<bool>* cancelled) {
+std::shared_ptr<Project> open_base(const SpatialImportBaseRequest& request,const std::atomic<bool>* cancelled,
+                                  bool allow_saved_reader_plugins) {
     workflow_checkpoint(cancelled);std::shared_ptr<Project> project;
     if(!request.input_project.empty())project=Project::open_without_journal_recovery(request.input_project);
     else {
@@ -47,7 +49,9 @@ std::shared_ptr<Project> open_base(const SpatialImportBaseRequest& request,const
         else project->add_image(request.image_path,selection.provider_id);
     }
     const auto document=project->document(request.image_id);const auto reader=document->server()->reader_id();
-    if(reader!="qpx.dense-rgb/1" && reader!="ppm" && reader!="tiff")throw std::invalid_argument("Spatial import requires an admitted native RGB/PPM/TIFF image source");
+    const bool saved_plugin=allow_saved_reader_plugins && !request.input_project.empty() && detail::valid_reader_plugin_id(reader);
+    if(reader!="qpx.dense-rgb/1" && reader!="ppm" && reader!="tiff" && !saved_plugin)
+        throw std::invalid_argument("Spatial import requires an admitted native RGB/PPM/TIFF image source");
     if(reader=="tiff") {auto view=*document->server()->tiff_view();if(request.image_series)view.series=*request.image_series;
         view.z=request.plane.z;view.t=request.plane.t;document->set_tiff_view(view);}
     else if(request.image_series.value_or(0))throw std::invalid_argument("Image series applies only to TIFF");

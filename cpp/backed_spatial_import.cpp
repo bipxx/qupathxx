@@ -4,6 +4,8 @@
 #include "qupathxx/object_properties.hpp"
 #include "qupathxx/workflow.hpp"
 #include "expression_matrix_project_internal.hpp"
+#include "format_import_internal.hpp"
+#include "reader_plugin_link.hpp"
 #include "spatial_import_internal.hpp"
 #include "workflow_input.hpp"
 #include "sha256.hpp"
@@ -43,6 +45,7 @@ struct BackedSpatialImportPreview::Data {
     std::shared_ptr<const detail::WorkflowInput> base,positions;
     SpatialPositionTable table;std::optional<ExpressionMatrixSpatialSnapshot> rows;
     CoordinateFrame target;Affine2D transform;std::vector<Point> mapped;
+    std::optional<detail::FormatImportImageGuard> plugin_image;
     std::shared_ptr<ImageServer> image;std::string recipe,json;bool effective_owned=false;
 };
 BackedSpatialImportPreview::BackedSpatialImportPreview(std::shared_ptr<const Data> d):data_(std::move(d)){}
@@ -93,7 +96,12 @@ std::shared_ptr<const BackedSpatialImportPreview> preview_backed_spatial_import(
         if(d->table.source_sha256!=d->positions->sha256())throw WorkflowInputChanged("Position table changed during import preview");
         coordinate_source.id="explicit-position-table";coordinate_source.source_id=d->table.source_sha256;coordinate_source.unit=request.position_unit;coordinate_source.plane=request.base.plane;
     }
-    auto project=open_base(d->request.base,cancelled);auto doc=project->document(request.base.image_id);
+    auto project=open_base(d->request.base,cancelled,true);auto doc=project->document(request.base.image_id);
+    if(detail::valid_reader_plugin_id(doc->server()->reader_id())) {
+        const auto verified=project->source_verification(request.base.image_id);
+        d->plugin_image.emplace(doc->server(),cancelled,verified.get());
+        d->plugin_image->protect(d->request.base.output_project);
+    }
     const auto base_frame_id=request.base.input_project.empty()?"qpx.import-image/"+d->base->sha256():project->identity()+":"+std::to_string(request.base.image_id);
     d->target=image_coordinate_frame(*doc,base_frame_id,request.base.plane,cancelled);
     d->transform=coordinate_unit_conversion(coordinate_source,d->target).then(request.alignment);
@@ -134,8 +142,9 @@ std::shared_ptr<const BackedSpatialImportPreview> preview_backed_spatial_import(
 }
 std::string publish_backed_spatial_import(const BackedSpatialImportPreview& preview,const std::atomic<bool>* cancelled) {
     workflow_checkpoint(cancelled);const auto& d=*preview.data_;const auto& request=d.request;const auto& source=d.rows->source();
-    auto current=[&]{d.base->verify(false,cancelled);if(d.positions)d.positions->verify(false,cancelled);source->require_current(cancelled);};
-    new_output(request.base.output_project);current();auto project=open_base(request.base,cancelled);auto doc=project->document(request.base.image_id);
+    auto current=[&]{d.base->verify(false,cancelled);if(d.positions)d.positions->verify(false,cancelled);source->require_current(cancelled);
+        if(d.plugin_image){d.plugin_image->verify(cancelled);d.plugin_image->protect(request.base.output_project);}};
+    new_output(request.base.output_project);current();auto project=open_base(request.base,cancelled,true);auto doc=project->document(request.base.image_id);
     if(image_coordinate_frame(*doc,d.target.id,request.base.plane,cancelled).sha256()!=d.target.sha256())throw WorkflowInputChanged("Backed import image/frame changed");
     new_scope(*doc,source->metadata().source_sha256,d.target);validate_positions(*doc,d.mapped,request.base.plane,request.position_options.work_bytes,2048,cancelled);
     const auto& id=source->metadata().source_sha256;
