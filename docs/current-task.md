@@ -8,6 +8,28 @@ and [R2-R16 queue](api-delivery-plan.md#execution-order-for-finishing-the-remain
 own remaining scope. No100% QuPath, universal biological/speed/platform or
 Java/Groovy claim; NC/restricted/unknown required materials stay unadmitted.
 
+## Verified locally - Windows spatial restore correctness handoff
+
+The seven archives match compiled source
+`eff21391c5cdbfe61d478c2615f1158294fa47fd302eff542cc7a2a478e8d31b`.
+One cached relink combined the three changed compiled inputs. The matching
+source configured offline with Python off. Staging reused the 15 dependency
+source payloads and existing admitted provider binaries.
+
+The extracted runtime passed 36 matrix and spatial checks and 32 more on a
+channel-1 ENVI project. Both native spatial import commands refused a same-size
+replacement of a verified PPM source and published after explicit adoption.
+Provider checks, SDK replay, checksums and owned-file removal passed. The
+fresh-host checker passed all 40 commands locally, including channel selection
+and both sides of the native source check. Removal preserved all 59 research
+files. Five earlier layouts passed preflight with their original scope. No
+build or check retries were necessary. Hosted validation awaits release
+authorization and a prepared release tag.
+
+[Windows handoff](../build/native-format-closeout/validation-packet/current-native-spatial-guards-install/windows-native-handoff/handoff.json)
+[Packaged install and removal](../build/native-format-closeout/validation-packet/current-native-spatial-guards-install/handoff-archive-installation-removal.json)
+[Fresh-host checker local receipt](../build/qpx-host-spguard-report/handoff.json)
+
 ## Verified locally - honor verified native spatial import sources
 
 The saved-source guard now applies to verified native images in both spatial

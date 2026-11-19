@@ -151,7 +151,7 @@ def published_bundle(source, expected_digest):
             r'[0-9a-f]{64}', validation['backed_position_export_sha256'])):
         raise ValueError('Backed position replay requires a valid receipt digest and the ENVI archive')
     checks = {'position_reexport'} if position_reexport else set()
-    for key in ('matrix_market_gzip', 'matrix_market_zip'):
+    for key in ('matrix_market_gzip', 'matrix_market_zip', 'spatial_channel', 'verified_spatial_imports'):
         enabled = validation.get(key, False)
         if type(enabled) is not bool or (enabled and not position_reexport):
             raise ValueError(f'{key} verification requires the backed spatial exchange')
@@ -303,10 +303,14 @@ def check_position_reexport(run, native, user, manifest, checks):
     base = user/'envi/spectra.qpx'
     base_sha = sha(base)
     project = root/'restored.qpx'
+    explicit_channel = 'spatial_channel' in checks
+    plane_options = ['--frame-channel', 0] if explicit_channel else []
     restore = json.loads(run('spatial-restore', [*plugin, 'project-matrix-import-positions', base, 1,
-                             indexed, positions, project]).read_bytes())
+                             indexed, positions, project, *plane_options]).read_bytes())
     if not restore['owned'] or restore['observations'] != len(rows):
         raise ValueError('Spatial restore did not retain the whole matrix and point catalogue')
+    if explicit_channel and restore['plane'] != dict(channel=0, z=0, time=0):
+        raise ValueError('Spatial restore did not retain the explicit channel')
     before = sha(project)
     offline = root/'offline inputs'
     offline.mkdir()
@@ -317,12 +321,12 @@ def check_position_reexport(run, native, user, manifest, checks):
     replay = root/'positions-replayed.tsv'
     export = [*plugin, 'project-matrix-export-positions', *common]
     report = json.loads(run('spatial-reexport-positions', [*export, replay, '--frame-id',
-                            restore['coordinate_frame']]).read_bytes())
+                            restore['coordinate_frame'], *plane_options]).read_bytes())
     if (replay.read_bytes() != expected or report['coordinate_frame'] != restore['coordinate_frame']
             or report['matrix_file_sha256'] != index['file_sha256']):
         raise ValueError('Spatial export differs in observation order, positions or saved identity')
     rejected = root/'refused.tsv'
-    log = run('spatial-reject-wrong-frame', [*export, rejected, '--frame-id', 'unrelated'], expected_exit=2)
+    log = run('spatial-reject-wrong-frame', [*export, rejected, '--frame-id', 'unrelated', *plane_options], expected_exit=2)
     if rejected.exists() or 'No backed or indexed expression observations' not in json.loads(log.read_bytes())['error']:
         raise ValueError('Spatial export did not refuse the wrong saved frame')
     counts = root/'counts.zip'
@@ -354,7 +358,55 @@ def check_position_reexport(run, native, user, manifest, checks):
     if sha(project) != before or sha(base) != base_sha:
         raise ValueError('Spatial exchange changed a saved input project')
     return {'project_sha256': before, 'positions_sha256': sha(replay), 'counts_sha256': sha(counts),
-            'matrix_market_gzip': matrix_market_gzip, 'direct_qmx_sha256': direct_qmx_sha256}
+            'matrix_market_gzip': matrix_market_gzip, 'direct_qmx_sha256': direct_qmx_sha256, 'explicit_channel': explicit_channel}
+
+
+def check_verified_spatial_source(run, native, root):
+    root.mkdir()
+    image = root/'target.ppm'
+    ppm_header = b'P6\n2 2\n255\n'
+    image.write_bytes(ppm_header + bytes(range(12)))
+    cli = native/'qupathxx_format_import.exe'
+    base, verified, adopted = (root/name for name in ('base.qpx', 'verified.qpx', 'adopted.qpx'))
+    run('verified-spatial-create', [cli, 'project-create', image, base, '--reader', 'ppm'])
+    first = json.loads(run('verified-spatial-review', [cli, 'project-review-source', base, 1, image]).read_bytes())
+    run('verified-spatial-bind', [cli, 'project-adopt-source', base, 1, image, first['review_sha256'], verified])
+    before = sha(verified)
+
+    matrix, features, barcodes, positions, indexed = (root/name for name in
+        ('matrix.mtx', 'features.tsv', 'barcodes.tsv', 'positions.tsv', 'source.qmx'))
+    matrix.write_bytes(b'%%MatrixMarket matrix coordinate integer general\n1 1 1\n1 1 7\n')
+    features.write_bytes(b'feature_id\nG\n')
+    barcodes.write_bytes(b'observation_id\nA\n')
+    positions.write_bytes(b'observation_id\tx_px\ty_px\nA\t1\t1\n')
+    run('verified-spatial-index', [cli, 'matrix-market-index', matrix, features, barcodes,
+                                  indexed, '--catalogue', 'qpx'])
+    replacement = ppm_header + bytes(range(1, 13))
+    image.write_bytes(replacement)
+    backed, selected = root/'backed.qpx', root/'selected.qpx'
+
+    def backed_import(project):
+        return [cli, 'project-matrix-import-positions', project, 1, indexed, positions, backed]
+
+    def selected_import(project):
+        return [native/'qupathxx_spatial_counts.exe', project, selected, 1, matrix, features, positions, '--gene', 'G']
+
+    for route, command, output in [('backed', backed_import, backed), ('selected', selected_import, selected)]:
+        log = run('verified-spatial-refuse-'+route, command(verified), expected_exit=2)
+        if output.exists() or b'differs from saved source verification' not in log.read_bytes():
+            raise ValueError('Spatial import accepted a changed verified native image: ' + route)
+    review = json.loads(run('verified-spatial-replacement', [cli, 'project-review-source', verified, 1, image]).read_bytes())
+    if review['comparison'] != 'changed_bytes' or not review['requires_acceptance']:
+        raise ValueError('Native source review did not require acceptance of the replacement')
+    run('verified-spatial-adopt', [cli, 'project-adopt-source', verified, 1, image, review['review_sha256'],
+                                   adopted, '--accept-changed'])
+    for route, command in [('backed', backed_import), ('selected', selected_import)]:
+        result = json.loads(run('verified-spatial-import-'+route, command(adopted)).read_bytes())
+        if result['observations'] != 1:
+            raise ValueError('Adopted native image did not publish the expected observation: ' + route)
+    if sha(verified) != before or image.read_bytes() != replacement:
+        raise ValueError('Verified source checks changed an input project or image')
+    return {'verified_project_sha256': before, 'backed_sha256': sha(backed), 'selected_sha256': sha(selected)}
 
 
 def main():
@@ -472,6 +524,7 @@ def main():
         if role in manifests:
             supplemental[role] = check(run, native, user/role, manifests[role])
     spatial = check_position_reexport(run, native, user, manifests['envi'], checks) if 'position_reexport' in checks else None
+    verified_spatial = check_verified_spatial_source(run, native, user/'verified spatial source') if 'verified_spatial_imports' in checks else None
     run('gui-project-open',[native/'qupathxx_app.exe','--project',project,'--layout',user/'preferences.ini','--smoke'])
     if sha(project)!=before_project:raise ValueError('Read-only GUI/CLI changed saved project')
     sentinel=native/'user scratch/research-notes.txt';sentinel.parent.mkdir()
@@ -490,6 +543,8 @@ def main():
         receipt['supplemental_provider_replay'] = supplemental
     if spatial:
         receipt['spatial_position_reexport'] = spatial
+    if verified_spatial:
+        receipt['verified_spatial_imports'] = verified_spatial
     (report/'handoff.json').write_text(json.dumps(receipt,indent=2)+'\n',encoding='utf8')
     print('Install/use passed; manifest-owned removal is still required.',flush=True)
 
