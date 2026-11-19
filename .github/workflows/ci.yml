@@ -180,7 +180,7 @@ jobs:
         shell: powershell
         run: |
           Set-DisplayResolution -Width 1920 -Height 1080 -Force
-          python tools/ci/check_native_handoff.py --input build/windows-handoff/input --handoff-sha256 "$env:HANDOFF_SHA256" --work "$env:RUNNER_TEMP/qpx-native" --report build/windows-handoff/report
+          python tools/ci/check_native_handoff.py --input build/windows-handoff/input --handoff-sha256 "$env:HANDOFF_SHA256" --work "$env:RUNNER_TEMP/qpx-native" --report build/windows-handoff/report --software-gl
           if ($LASTEXITCODE -ne 0) { throw 'Native archive workflow failed' }
       - name: Remove native archives while preserving research outputs
         if: ${{ inputs.native_handoff_sha256 }}

@@ -43,6 +43,13 @@ The live format catalogue now points to the saved export commands and records
 continuous exchange, ZIP32 descriptors and separate position restore. Only the
 documentation changed. Link and diff checks suffice for this correction.
 
+Candidate 10 is staged as a draft. GitHub reported matching sizes and SHA-256
+digests for all 11 uploaded assets. [Hosted run 44574156690](https://github.com/bipxx/qupathxx/actions/runs/44574156690)
+passed the installed SDK, CLI and ENVI raw checks, then failed because the
+hosted runner could not create an OpenGL window. The retry uses existing
+hash-pinned test-only Mesa and the same draft assets. The decisive check is
+the full hosted install, desktop and CLI replay, and manifest removal.
+
 ## Verified locally - round-trip continuous sparse Matrix Market values
 
 Explicit `--real` import and export share the native Matrix Market reader,

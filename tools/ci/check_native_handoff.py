@@ -729,6 +729,7 @@ def main():
     parser.add_argument('--work',type=Path,required=True,help='New, short external validation directory')
     parser.add_argument('--report',type=Path,required=True)
     parser.add_argument('--cmake',type=Path,help='Location of cmake.exe if absent from PATH')
+    parser.add_argument('--software-gl', action='store_true', help='Use pinned test-only Mesa on headless CI hosts')
     args=parser.parse_args()
     if os.name!='nt':parser.error('This handoff is Windows x64 only')
     source,work,report=args.input.resolve(),args.work.absolute(),args.report.resolve()
@@ -766,6 +767,17 @@ def main():
             env.pop(key)
     windows=Path(os.environ['SystemRoot'])
     env['PATH']=os.pathsep.join([str(windows/'System32'),str(windows)])
+    test_driver = {}
+    if args.software_gl:
+        import assets
+
+        mesa = assets.mesa(work/'test-assets')
+        for name in ('opengl32.dll', 'libgallium_wgl.dll'):
+            target = native/name
+            with (mesa/name).open('rb') as source_dll, target.open('xb') as test_dll:
+                shutil.copyfileobj(source_dll, test_dll)
+            test_driver[target] = sha(target)
+        env['LIBGL_ALWAYS_SOFTWARE'], env['GALLIUM_DRIVER'] = '1', 'llvmpipe'
     cmake=args.cmake or shutil.which('cmake.exe') or Path('C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin/cmake.exe')
     commands=[]
 
@@ -851,12 +863,20 @@ def main():
     sentinel.write_text('Authored research notes must survive package removal.\n',encoding='utf8')
     protected={str(p):sha(p) for p in user.rglob('*') if p.is_file()}
     protected[str(sentinel)]=sha(sentinel)
-    if any(sha(Path(p))!=digest for p,digest in installed.items()):raise ValueError('Installed package changed during use')
-    receipt={'state':'install_and_use_passed','scope':'local Windows fresh per-user prefix; native only; no engine build',
+    for target, digest in test_driver.items():
+        if sha(target) != digest:
+            raise ValueError('Test-only graphics driver changed during use')
+        target.unlink()
+    if {str(p):sha(p) for p in (work/'installed').rglob('*') if p.is_file()} != installed:
+        raise ValueError('Installed package changed during use')
+    receipt={'state':'install_and_use_passed','scope':'Windows fresh per-user prefix; native only; no engine build',
         'source_sha256':source_id,'os':platform.platform(),'work':str(work),'native':str(native),'sdk':str(sdk),
         'installed_files':installed,'protected_user_files':protected,'consumer':result,
         'compiler_include_records':len(include_paths),'runtime_PATH':env['PATH'],
         'python_paths':'removed','engine_builds':0,'install_run_verified':True,'uninstall_verified':False}
+    if test_driver:
+        receipt['test_graphics_driver'] = {'backend': 'Mesa llvmpipe', 'files': {
+            path.name: digest for path, digest in test_driver.items()}}
     if args.handoff_sha256:
         receipt['archive_handoff_sha256']=args.handoff_sha256.lower()
     if supplemental:
