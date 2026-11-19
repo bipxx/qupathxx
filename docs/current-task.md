@@ -29,6 +29,16 @@ awaits release authorization and a prepared tag.
 [Packaged exchange verification](../build/native-format-closeout/validation-packet/current-native-matrix-real-install/archive-replay/latest%20research/matrix/validation.json)
 [Fresh-host checker local receipt](../build/qpx-host-real-report/handoff.json)
 
+Hosted dispatch preflight verified all eight archive hashes, source identity,
+and the match between the workflow's download patterns and all nine required
+files (receipt plus archives). The receipt digest is
+`5cacf88845ed1bf26960e7289c0b400b75b524fcc1835aafe2f44a81becbb0ed`.
+The standalone probe initially missed the verifier's sibling imports. Running
+with `tools/ci` on the import path passed without rebuilding. Remote main at
+`87dc5343` lacks the native handoff dispatch input. After authorization, push
+the workflow and checker, point the draft release tag at packaged source commit
+`2ae4df1a`, and dispatch `ci.yml` on updated main with the tag and receipt digest.
+
 ## Verified locally - round-trip continuous sparse Matrix Market values
 
 Explicit `--real` import and export share the native Matrix Market reader,
