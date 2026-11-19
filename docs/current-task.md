@@ -8,6 +8,23 @@ and [R2-R16 queue](api-delivery-plan.md#execution-order-for-finishing-the-remain
 own remaining scope. No100% QuPath, universal biological/speed/platform or
 Java/Groovy claim; NC/restricted/unknown required materials stay unadmitted.
 
+## Verified locally - reopen Matrix Market ZIPs in any member order
+
+The native importer matches one copy of each of the three root filenames and
+checks every central record against its local header and offset. The Windows
+`Compress-Archive` fixture that the baseline refused produced the same source
+and QMX hashes as indexing the original files. Its archive bytes were intact.
+
+All 50 CLI checks passed, including a different local and central order,
+refusals for duplicate and unknown names or offsets, and exact saved spatial
+replay from the reordered archive. Native project and region checks passed.
+One cached build sufficed without retries. The two Matrix Market ZIP changes
+are ready to stage together in the next Windows checkpoint.
+
+[Prior Windows archive refusal](../build/native-format-closeout/validation-packet/matrix-native-zip/baseline.log)
+[Windows archive import](../build/native-format-closeout/validation-packet/matrix-native-zip/windows.log)
+[CLI and spatial replay receipts](../build/native-format-closeout/validation-packet/matrix-native-zip/roundtrip/validation.json)
+
 ## Verified locally - index recompressed Matrix Market ZIP exchange files
 
 The existing Matrix Market zlib build option now enables mixed stored and

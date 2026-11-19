@@ -3,6 +3,7 @@
 #include "stored_zip_write.hpp"
 #include <algorithm>
 #include <fstream>
+#include <utility>
 
 namespace qpx::detail::stored_zip {
 inline std::uint32_t read_little(const char* data, unsigned size) {
@@ -75,31 +76,45 @@ public:
     }
     // Fixed-name ZIP32 exchange members. Other callers keep the canonical
     // stored format above, including the writer's exact framing.
-    ExchangeMember exchange_member(std::string_view name) {
+    template <std::size_t N> std::pair<std::size_t,ExchangeMember> exchange_member(
+            const std::array<std::string_view,N>& names) {
         const auto start = zip_size(static_cast<std::size_t>(offset_));
         const auto header = record<30>();
         const auto field = [&](unsigned at,unsigned width) {return read_little(header.data()+at,width);};
         const auto method=field(8,2), encoded=field(18,4), decoded=field(22,4);
         const auto flags=field(6,2);
         const auto allowed_flags=method==8?0x806u:0x800u;
+        std::array<char,64> name{};
+        const auto length=field(26,2);
         if(field(0,4)!=0x04034b50u || field(4,2)>20 || (flags & ~allowed_flags) ||
            (method!=0 && method!=8) || (method==0 && encoded!=decoded) ||
-           field(26,2)!=name.size() || field(28,2)!=0)
+           !length || length>name.size() || field(28,2)!=0)
             invalid("unsupported ZIP member header");
-        expect(name);
+        read(name.data(),length);
+        const auto found=std::find(names.begin(),names.end(),std::string_view(name.data(),length));
+        if(found==names.end())invalid("unexpected ZIP member name");
         if(encoded>size_-offset_)invalid("truncated ZIP member");
-        return {{name,start,decoded,field(14,4)},encoded,method,header};
+        return {static_cast<std::size_t>(found-names.begin()),
+                {{*found,start,decoded,field(14,4)},encoded,method,header}};
     }
     template <std::size_t N> void finish_exchange(const std::array<ExchangeMember,N>& members) {
         const auto start=zip_size(static_cast<std::size_t>(offset_));
-        for(const auto& entry:members){
+        std::array<bool,N> seen{};
+        for(std::size_t i=0;i<N;++i){
             const auto header=record<46>();
+            const auto offset=read_little(header.data()+42,4);
+            const auto found=std::find_if(members.begin(),members.end(),[&](const auto& entry){
+                return entry.member.offset==offset;
+            });
+            if(found==members.end())invalid("central directory references an unknown member offset");
+            auto& visited=seen[static_cast<std::size_t>(found-members.begin())];
+            if(visited)invalid("central directory repeats a ZIP member offset");
+            visited=true;
             if(read_little(header.data(),4)!=0x02014b50u ||
-               !std::equal(entry.local.begin()+4,entry.local.end(),header.begin()+6) ||
-               read_little(header.data()+32,4)!=0 ||
-               read_little(header.data()+42,4)!=entry.member.offset)
+               !std::equal(found->local.begin()+4,found->local.end(),header.begin()+6) ||
+               read_little(header.data()+32,4)!=0)
                 invalid("central directory differs from ZIP member");
-            expect(entry.member.name);
+            expect(found->member.name);
         }
         const auto size=zip_size(static_cast<std::size_t>(offset_)-start);
         finish_directory(N,start,size);

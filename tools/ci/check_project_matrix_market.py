@@ -53,6 +53,45 @@ def inspect_archive(path, expected):
         assert [tuple(map(int, line.split())) for line in rows] == counts
 
 
+def check_archive_member_order(run, output, archive, inputs, exact):
+    reordered = output/'reordered.zip'
+    names = ('barcodes.tsv', 'matrix.mtx', 'features.tsv')
+    with ZipFile(reordered, 'x', ZIP_DEFLATED) as zipped:
+        for name in names:
+            zipped.writestr(name, inputs[name])
+    data = reordered.read_bytes()
+    directory = int.from_bytes(data[-6:-2], 'little')
+    offset = directory
+    records = []
+    for name in names:
+        # The test producer emits no extra fields or comments.
+        size = 46 + len(name)
+        records.append(data[offset:offset+size])
+        offset += size
+    assert offset == len(data) - 22
+    reordered.write_bytes(data[:directory] + b''.join(reversed(records)) + data[offset:])
+    with ZipFile(reordered) as zipped:
+        assert zipped.namelist() == list(reversed(names)) and zipped.testzip() is None
+    reordered_hash = sha(reordered)
+    result = output/'reordered.qmx'
+    restored = run('archive-reordered', 'matrix-market-index-zip', reordered, result)
+    assert sha(result) == sha(exact) == restored['file_sha256']
+    for name, payload, diagnostic in [
+        ('duplicate-name', data[:30] + b'features.tsv' + data[42:], 'Duplicate Matrix Market ZIP member name'),
+        ('unknown-name', data[:30] + b'barcodes.txt' + data[42:], 'unexpected ZIP member name'),
+        ('duplicate-offset', data[:directory+len(records[0])+42] + bytes(4)
+         + data[directory+len(records[0])+46:], 'central directory repeats a ZIP member offset'),
+        ('unknown-offset', data[:directory+42] + (1).to_bytes(4, 'little')
+         + data[directory+46:], 'central directory references an unknown member offset'),
+    ]:
+        invalid, refused = output/(name+'.zip'), output/(name+'.qmx')
+        invalid.write_bytes(payload)
+        status = run('archive-'+name, 'matrix-market-index-zip', invalid, refused, status=2)
+        assert diagnostic in status['error'] and not refused.exists()
+    assert sha(reordered) == reordered_hash and sha(archive) != reordered_hash
+    return result
+
+
 def check_deflated_archive(run, output, expected):
     names = ('matrix.mtx', 'features.tsv', 'barcodes.tsv')
     inputs = {name: (output/name).read_bytes() for name in names}
@@ -107,7 +146,7 @@ def check_deflated_archive(run, output, expected):
     refused = run('archive-deflate-invalid', 'matrix-market-index-zip', source, destination, status=2)
     assert 'Invalid or truncated Matrix Market ZIP Deflate member' in refused['error'] and not destination.exists()
     assert sha(archive) == archive_hash
-    return imported
+    return check_archive_member_order(run, output, archive, inputs, imported)
 
 
 def main():

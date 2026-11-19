@@ -43,15 +43,17 @@ struct MatrixArchive {
         const auto maximum=std::min<std::uint64_t>(limit,1024ull*1024*1024);
         if(guard.version()->bytes>maximum)
             throw WorkflowCaptureLimit("Matrix Market ZIP exceeds byte limit");
-        const std::array names{"matrix.mtx","features.tsv","barcodes.tsv"};
-        std::array<zip::ExchangeMember,3> members;
+        constexpr std::array<std::string_view,3> names{"matrix.mtx","features.tsv","barcodes.tsv"};
+        std::array<zip::ExchangeMember,3> members{};
         std::uint64_t expanded=0;
         for(std::size_t i=0;i<names.size();++i) {
-            members[i]=input.exchange_member(names[i]);
-            expanded+=members[i].member.size;
+            const auto [slot,entry]=input.exchange_member(names);
+            if(!members[slot].member.name.empty())throw std::invalid_argument("Duplicate Matrix Market ZIP member name");
+            members[slot]=entry;
+            expanded+=entry.member.size;
             if(expanded>maximum)throw WorkflowCaptureLimit("Expanded Matrix Market ZIP exceeds byte limit");
-            ranges[i]={input.offset(),members[i]};
-            input.seek(input.offset()+members[i].encoded_size);
+            ranges[slot]={input.offset(),entry};
+            input.seek(input.offset()+entry.encoded_size);
         }
         input.finish_exchange(members);
         guard.verify();

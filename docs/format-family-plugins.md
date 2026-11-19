@@ -241,8 +241,9 @@ Re-index this archive directly with the native CLI:
 qupathxx_format_import matrix-market-index-zip COUNTS_ZIP NEW_QMX
 ```
 
-This route checks the three root member names in export order, the ZIP32
-directory, decoded lengths and member CRCs. It streams the members through the
+This route requires one copy of each of the three root member names and checks
+the ZIP32 directory, decoded lengths and member CRCs. Local and central records
+can appear in any order. The importer streams the members through the
 same indexer. `-DQUPATHXX_BUILD_MATRIX_MARKET_GZIP=ON` also enables Deflate ZIP
 members, including archives with mixed stored and Deflate members. The archive
 profile requires sizes in the local headers and excludes extra fields, comments,
