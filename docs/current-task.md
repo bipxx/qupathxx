@@ -8,6 +8,24 @@ and [R2-R16 queue](api-delivery-plan.md#execution-order-for-finishing-the-remain
 own remaining scope. No100% QuPath, universal biological/speed/platform or
 Java/Groovy claim; NC/restricted/unknown required materials stay unadmitted.
 
+## Verified locally - DICOM JPEG 2000 and uncompressed RGB transfer syntaxes
+
+The frozen Windows OpenSlide runtime read three authored `TILED_FULL` profiles:
+uncompressed RGB8, JPEG 2000 lossless YBR_RCT, and JPEG 2000 lossy YBR_ICT.
+An RGBA crop across the tile seam matched the authored RGB samples exactly in
+the first two profiles. The lossy crop matched the independent frame decode
+exactly. All three respected the image's right edge and retained distinct
+0.7 µm X and 1.3 µm Y calibration in a saved project. Reopening reproduced
+the original crop and left the project unchanged.
+
+Small authored frames replaced a large upstream download. The fixture tools
+ran from their existing development cache. No engine build, new runtime
+dependency, or validation retry was needed. Multi-instance concatenation and
+whole-fileset identity remain open.
+
+[Transfer syntax verification receipt](../build/native-format-closeout/validation-packet/dicom-wsi-jpeg2000/verification.json)
+[DICOM JPEG 2000 encoding contract](https://dicom.nema.org/medical/dicom/current/output/chtml/part05/sect_8.2.4.html)
+
 ## Verified locally - explain missing DICOM pyramid companions on project reopen
 
 The shared native compatibility check now reports the observed and expected
