@@ -1,5 +1,6 @@
 """Installed standalone native raw exporter, including Unicode argv on Windows."""
 from contextlib import closing
+import csv
 import hashlib
 import json
 import os
@@ -614,9 +615,10 @@ def test_tiff_rejects_pyramid_subifd_palette_without_color_map(tmp_path):
 
 
 def write_packed_tiff(source, pixels, tiled, colormap=None, fill_order=1, compression=1,
-                      orientation=1, gray_photo=None):
+                      orientation=1, gray_photo=None, bits=None):
     height, width = pixels.shape
     bilevel = colormap is None and gray_photo is None
+    bits = bits if bits is not None else (1 if bilevel else 4)
     if tiled:
         grid = np.pad(pixels, ((0, -height % 16), (0, -width % 16)))
         blocks = [grid[y:y+16, x:x+16] for y in range(0, grid.shape[0], 16)
@@ -625,12 +627,14 @@ def write_packed_tiff(source, pixels, tiled, colormap=None, fill_order=1, compre
         blocks = [pixels[y:y+3] for y in range(0, height, 3)]
 
     def pack(block):
-        if bilevel:
+        if bits == 1:
             packed = np.packbits(block, axis=1, bitorder='big' if fill_order == 1 else 'little')
         else:
-            # Nonzero padding nibbles make an accidental continuous row stride visible.
-            padded = np.pad(block, ((0, 0), (0, block.shape[1] % 2)), constant_values=13)
-            packed = (padded[:, 0::2] << 4) | padded[:, 1::2]
+            # Nonzero pad samples make an accidental continuous row stride visible.
+            per_byte = 8 // bits
+            padded = np.pad(block, ((0, 0), (0, -block.shape[1] % per_byte)), constant_values=(1 << bits) - 1)
+            shifts = np.arange(8 - bits, -1, -bits, dtype='u1')
+            packed = np.bitwise_or.reduce(padded.reshape(block.shape[0], -1, per_byte) << shifts, axis=2)
         if compression == 32773:
             return b''.join(bytes([len(row) - 1]) + row.tobytes() for row in packed)
         if compression == 8:
@@ -640,7 +644,7 @@ def write_packed_tiff(source, pixels, tiled, colormap=None, fill_order=1, compre
     encoded = [pack(block) for block in blocks]
     offset_tag, count_tag = (324, 325) if tiled else (273, 279)
     tags = {
-        256: (4, [width]), 257: (4, [height]), 258: (3, [1 if bilevel else 4]),
+        256: (4, [width]), 257: (4, [height]), 258: (3, [bits]),
         259: (3, [compression]), 262: (3, [gray_photo if gray_photo is not None else (1 if bilevel else 3)]),
         266: (3, [fill_order]), 274: (3, [orientation]), 277: (3, [1]),
         offset_tag: (4, [0] * len(encoded)), count_tag: (4, [len(block) for block in encoded]),
@@ -823,6 +827,110 @@ def test_four_bit_grayscale_preserves_exact_codes_and_display(tmp_path, photo, t
         result = run('--raw-project', project, 1, replay)
         assert result.returncode == 0, result.stderr
         assert replay.read_bytes() == raw.read_bytes()
+
+
+@pytest.mark.parametrize(('photo', 'tiled', 'compression', 'orientation'), [
+    (0, False, 32773, 1), (1, True, 8, 6), (3, False, 1, 1), (3, True, 8, 8),
+])
+def test_two_bit_tiff_preserves_codes_and_display(tmp_path, photo, tiled, compression, orientation):
+    source = tmp_path / 'four-codes.tif'
+    y, x = np.indices((19, 21))
+    stored = ((3*y + x) % 4).astype('u1')
+    colormap = (np.arange(12, dtype='u2') * 5000).reshape(3, 4) if photo == 3 else None
+    write_packed_tiff(source, stored, tiled, colormap, compression=compression,
+                      orientation=orientation, gray_photo=photo, bits=2)
+    with tifffile.TiffFile(source) as tiff:
+        page = tiff.pages[0]
+        assert (page.bitspersample, page.photometric, page.is_tiled) == (2, photo, tiled)
+    expected = np.rot90(stored, {1: 0, 6: -1, 8: 1}[orientation])
+    raw, crop = tmp_path / 'raw.npy', tmp_path / 'crop.npy'
+    result = run('--raw', source, raw)
+    assert result.returncode == 0, result.stderr
+    values = np.load(raw)
+    assert values.dtype == np.uint8
+    np.testing.assert_array_equal(values[..., 0], expected)
+    result = run('--raw', source, crop, '--x', 3, '--y', 2, '--width', 14, '--height', 17)
+    assert result.returncode == 0, result.stderr
+    np.testing.assert_array_equal(np.load(crop)[..., 0], expected[2:19, 3:17])
+    h, w = expected.shape
+    pam = tmp_path / 'display.pam'
+    result = run('--reader', 'tiff', source, 0, 0, 0, w, h, pam)
+    assert result.returncode == 0, result.stderr
+    rgba = np.full((h, w, 4), 255, dtype='u1')
+    rgba[..., :3] = (np.rint(colormap.T[expected] / 257).astype('u1') if photo == 3 else
+                     (85 * (3 - expected if photo == 0 else expected))[..., None])
+    assert pam.read_bytes().split(b'ENDHDR\n', 1)[1] == rgba.tobytes()
+    if os.environ.get('QUPATHXX_TEST_FORMAT_IMPORT'):
+        project, replay = tmp_path / 'packed.qpx', tmp_path / 'replayed.npy'
+        result = run_format_import('project-create', source, project, '--reader', 'tiff')
+        assert result.returncode == 0, result.stderr
+        result = run('--raw-project', project, 1, replay)
+        assert result.returncode == 0, result.stderr
+        assert replay.read_bytes() == raw.read_bytes()
+
+
+@pytest.mark.parametrize(('photo', 'diagnostic'), [(0, 'most-significant-bit FillOrder'),
+                                                   (3, 'missing required "Colormap" field')])
+def test_two_bit_tiff_rejects_unsupported_packing_and_missing_palette(tmp_path, photo, diagnostic):
+    source, target = tmp_path / 'invalid.tif', tmp_path / 'never.npy'
+    write_packed_tiff(source, np.ones((2, 5), dtype='u1'), False, gray_photo=photo,
+                      fill_order=2 if photo == 0 else 1, bits=2)
+    result = run('--raw', source, target)
+    assert result.returncode == 2 and diagnostic in result.stderr
+    assert not target.exists()
+
+
+@pytest.mark.parametrize('photo', [0, 3])
+def test_native_label_import_preserves_three_two_bit_tiff_ids(tmp_path, photo):
+    labels = os.environ.get('QUPATHXX_TEST_LABELS')
+    if not labels:
+        pytest.skip('native labels CLI path is required')
+
+    def label_command(*args):
+        result = subprocess.run([labels, *map(str, args)], capture_output=True, encoding='utf-8', timeout=40)
+        assert result.returncode == 0, result.stderr
+        return json.loads(result.stdout)
+
+    image, mask = tmp_path / 'source.tif', tmp_path / 'packed-labels.tif'
+    stored = np.array([[0, 1, 2, 3, 1], [3, 0, 3, 1, 2]], dtype='u1')
+    samples = np.arange(30, dtype='u1').reshape(2, 5, 3)
+    tifffile.imwrite(image, samples, photometric='rgb', metadata=None)
+    # A flat palette deliberately displays every label with the same color.
+    write_packed_tiff(mask, stored, False, np.zeros((3, 4), dtype='u2') if photo == 3 else None,
+                      gray_photo=photo, bits=2)
+    base, selected, annotated = (tmp_path / name for name in ['base.qpx', 'selected.qpx', 'annotated.qpx'])
+    region = tmp_path / 'crop.geojson'
+    region.write_text(json.dumps({'type': 'FeatureCollection', 'features': [
+        {'type': 'Feature', 'id': '1', 'properties': {'objectType': 'annotation'},
+         'geometry': {'type': 'Polygon', 'coordinates': [[[0, 0], [5, 0], [5, 2], [0, 2], [0, 0]]]}}
+    ]}), encoding='utf-8')
+    result = run_format_import('project-create', image, base, '--reader', 'tiff')
+    assert result.returncode == 0, result.stderr
+    result = run_format_import('geojson-import', base, 1, region, selected, '--assume-pixels')
+    assert result.returncode == 0, result.stderr
+    roi, = json.loads(result.stdout)['objects']
+    protected = {p: hashlib.sha256(p.read_bytes()).hexdigest() for p in (image, mask, selected)}
+    capture = ['--image', 1, '--roi', roi['object_id'], '--channels', 3]
+    identity = label_command('--label-input', selected, *capture)['input_sha256']
+    saved = label_command('--import-label-mask', selected, annotated, *capture, '--mask', mask,
+                          '--producer', 'authored-fixture', '--producer-version', 1,
+                          '--model-sha256', 'a' * 64, '--input-sha256', identity)
+    assert saved['regions'] == 3
+    options = ['--image', 1, '--record', saved['record']]
+    replay = label_command('--verify-labels', annotated, *options)
+    assert replay['raster_sha256'] == saved['raster_sha256']
+    measurements = tmp_path / 'measurements.csv'
+    label_command('--export-labels', annotated, measurements, *options)
+    with measurements.open(newline='', encoding='utf-8') as stream:
+        rows = list(csv.DictReader(stream))
+    assert len(rows) == 9 and {int(row['source_label']) for row in rows} == {1, 2, 3}
+    for code in (1, 2, 3):
+        codes = stored == code
+        reported = [row for row in rows if int(row['source_label']) == code]
+        assert all(int(row['pixels']) == np.count_nonzero(codes) for row in reported)
+        sums = {int(row['source_channel_or_rgb_component']): float(row['sum']) for row in reported}
+        assert sums == dict(enumerate(samples[codes].sum(axis=0)))
+    assert all(hashlib.sha256(p.read_bytes()).hexdigest() == digest for p, digest in protected.items())
 
 
 @pytest.mark.parametrize('dtype',['uint16','int64','uint64','float64'])

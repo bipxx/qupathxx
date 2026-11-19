@@ -60,9 +60,9 @@ struct Ifd {
     bool tiled=false,alpha=false,associated_alpha=false;
     std::vector<std::uint64_t> sub;
     std::vector<Ifd> levels;
-    bool packed_palette() const {return photo==PHOTOMETRIC_PALETTE && bits==4;}
+    bool packed_palette() const {return photo==PHOTOMETRIC_PALETTE && (bits==2 || bits==4);}
     bool packed_gray() const {
-        return (bits==1 || bits==4) && (photo==PHOTOMETRIC_MINISBLACK || photo==PHOTOMETRIC_MINISWHITE);
+        return (bits==1 || bits==2 || bits==4) && (photo==PHOTOMETRIC_MINISBLACK || photo==PHOTOMETRIC_MINISWHITE);
     }
     bool packed_samples() const {return packed_gray() || packed_palette();}
     SampleType type() const {
@@ -87,14 +87,14 @@ struct Ifd {
             compression==COMPRESSION_PACKBITS || compression==COMPRESSION_ADOBE_DEFLATE ||
             compression==COMPRESSION_DEFLATE;
         if(photo==PHOTOMETRIC_PALETTE &&
-           (format!=SAMPLEFORMAT_UINT || (bits!=4 && bits!=8 && bits!=16) || samples!=1 || !lossless))
-            throw std::invalid_argument("TIFF palette requires one lossless unsigned 4-, 8- or 16-bit index");
+           (format!=SAMPLEFORMAT_UINT || (!packed_palette() && bits!=8 && bits!=16) || samples!=1 || !lossless))
+            throw std::invalid_argument("TIFF palette requires one lossless unsigned 2-, 4-, 8- or 16-bit index");
         if(packed_palette() && fill_order!=FILLORDER_MSB2LSB)
-            throw std::invalid_argument("TIFF 4-bit palette requires most-significant-bit FillOrder");
+            throw std::invalid_argument("TIFF packed palette requires most-significant-bit FillOrder");
         if(packed_gray() && (samples!=1 || (fill_order!=FILLORDER_MSB2LSB && fill_order!=FILLORDER_LSB2MSB)))
             throw std::invalid_argument("Packed grayscale TIFF requires one unsigned sample and a valid FillOrder");
-        if(packed_gray() && bits==4 && (fill_order!=FILLORDER_MSB2LSB || !lossless))
-            throw std::invalid_argument("TIFF 4-bit grayscale requires lossless compression and most-significant-bit FillOrder");
+        if(packed_gray() && bits>1 && (fill_order!=FILLORDER_MSB2LSB || !lossless))
+            throw std::invalid_argument("TIFF 2- and 4-bit grayscale require lossless compression and most-significant-bit FillOrder");
     }
 };
 struct RasterAxes {

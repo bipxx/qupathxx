@@ -94,6 +94,9 @@ UInt8/UInt16/UInt32 channel, series, Z and time plane, matching the processing c
 dimensions. `--mask-format tiff` is the default, preserving existing TIFF recipes.
 Plain one-bit TIFF masks retain their stored codes as UInt8. Code 0 is background
 and code 1 is foreground for either black-and-white display polarity.
+Lossless MSB-first two-bit grayscale and indexed TIFF masks retain codes 0–3
+as UInt8. Code 0 is background. Distinct codes remain distinct labels even
+when the palette gives them identical colors.
 Select PNG explicitly and configure its admitted native provider before the command:
 
 ```powershell

@@ -8,6 +8,27 @@ and [R2-R16 queue](api-delivery-plan.md#execution-order-for-finishing-the-remain
 own remaining scope. No100% QuPath, universal biological/speed/platform or
 Java/Groovy claim; NC/restricted/unknown required materials stay unadmitted.
 
+## Verified locally - preserve two-bit TIFF labels
+
+The existing packed reader now preserves codes 0–3 as UInt8 for lossless
+MSB-first two-bit plain grayscale and indexed TIFF. The CLI replay verified
+strip and tile boundaries, orientation, both grayscale polarities and exact
+palette display. Native mask import retained three foreground IDs and exact
+per-channel sums after reopening the project, even with an identical color
+for every palette entry.
+
+All 109 TIFF CLI checks and the native region, label workflow and label CLI
+suites passed after one cached build. The first missing-palette test expected
+the later native diagnostic. The fixture refused at LibTIFF open, and the
+corrected assertion verifies that refusal and absence of output. A targeted
+rerun also verified the sums by exact channel ID. This source delta belongs
+in the next selected Windows package. The OME-TIFF handoff below is frozen.
+
+[Prior reader refusal](../build/native-format-closeout/validation-packet/tiff-two-bit/baseline.log)
+[TIFF CLI checks](../build/native-format-closeout/validation-packet/tiff-two-bit/tiff-cli-final.log)
+[Native suites](../build/native-format-closeout/validation-packet/tiff-two-bit/native-tests.log)
+[Label channel sums](../build/native-format-closeout/validation-packet/tiff-two-bit/label-channel-sums.log)
+
 ## Verified locally - Windows OME-TIFF XML and ROI handoff
 
 Eight archives match compiled source
