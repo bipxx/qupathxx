@@ -906,3 +906,4 @@ plugins/coco/COCO-LICENSE.txt -text -whitespace
 
 # Keep the DICOM WSI provider's reviewed source inputs byte-identical on Windows.
 plugins/dicom_wsi/** text eol=lf
+tools/ci/dicom-wsi-fixture/*.dcm binary

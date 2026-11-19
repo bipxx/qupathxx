@@ -19,6 +19,18 @@ import zipfile
 import check_material_staging as admission
 
 
+SUPPLEMENTAL = {
+    'envi': 'envi-reader',
+    'dicom': 'qupathxx-dicom-wsi',
+}
+DICOM_BIN = 'openslide-sdk/bin/'
+DICOM_MODULE = 'qpx_dicom_wsi_plugin.dll'
+DICOM_MANIFEST = 'dicom-wsi-reader-plugins.json'
+OPENSLIDE_DLL = 'libopenslide-1.dll'
+ENVI_MANIFEST = 'reader-plugins.json'
+RAW_SAMPLES = (1, 257, 4096, 65535)
+
+
 def sha(path):
     with Path(path).open('rb') as stream:
         return hashlib.file_digest(stream,'sha256').hexdigest()
@@ -52,6 +64,32 @@ def legacy_bundle(source):
     return source_id, archives, profile['stages'], entries
 
 
+def check_archive(bundle, role):
+    names = set()
+    for member in bundle.infolist():
+        raw = member.orig_filename
+        logical = PurePosixPath(raw)
+        kind = (member.external_attr >> 16) & 0o170000
+        if (not logical.parts or logical.is_absolute() or raw != logical.as_posix()
+                or any(c in '\\:<>"|?*' or ord(c) < 32 for c in raw) or '..' in logical.parts
+                or any(p.casefold() in admission.RESTRICTED_PARTS for p in logical.parts)
+                or any(p.rstrip(' .') != p or Path(p).is_reserved() for p in logical.parts)
+                or raw.casefold() in names or member.is_dir() or kind not in (0, stat.S_IFREG)
+                or member.flag_bits & 1):
+            raise ValueError('Unsafe handoff archive member: ' + raw)
+        if role == 'optional_providers' and not raw.startswith('providers/'):
+            raise ValueError('Provider archive member outside providers directory')
+        names.add(raw.casefold())
+    return len(names)
+
+
+def pinned_archive(source, role, name, record):
+    path = source/name
+    if not path.is_file() or path.stat().st_size != record['bytes'] or sha(path) != record['sha256']:
+        raise ValueError('Handoff archive missing or differs from the pinned receipt: ' + role)
+    return path
+
+
 def published_bundle(source, expected_digest):
     # Pin the independently reviewed handoff receipt, then every archive it names.
     receipt = source/'handoff.json'
@@ -69,26 +107,9 @@ def published_bundle(source, expected_digest):
         name = record['filename']
         if not re.fullmatch(r'qupathxx-[a-z0-9.-]+\.zip', name) or name in {path.name for path in archives.values()}:
             raise ValueError('Invalid or duplicate handoff archive name')
-        path = source/name
-        if path.stat().st_size != record['bytes'] or sha(path) != record['sha256']:
-            raise ValueError('Handoff archive differs from the pinned receipt: ' + role)
+        path = pinned_archive(source, role, name, record)
         with zipfile.ZipFile(path) as bundle:
-            names = set()
-            for member in bundle.infolist():
-                raw = member.orig_filename
-                logical = PurePosixPath(raw)
-                kind = (member.external_attr >> 16) & 0o170000
-                if (not logical.parts or logical.is_absolute() or raw != logical.as_posix()
-                        or any(c in '\\:<>"|?*' or ord(c) < 32 for c in raw) or '..' in logical.parts
-                        or any(p.casefold() in admission.RESTRICTED_PARTS for p in logical.parts)
-                        or any(p.rstrip(' .') != p or Path(p).is_reserved() for p in logical.parts)
-                        or raw.casefold() in names or member.is_dir() or kind not in (0, stat.S_IFREG)
-                        or member.flag_bits & 1):
-                    raise ValueError('Unsafe handoff archive member: ' + raw)
-                if role == 'optional_providers' and not raw.startswith('providers/'):
-                    raise ValueError('Provider archive member outside providers directory')
-                names.add(raw.casefold())
-            if len(names) != record['members']:
+            if check_archive(bundle, role) != record['members']:
                 raise ValueError('Handoff archive membership count differs: ' + role)
             if role in {'native','sdk','source'}:
                 metadata = json.loads(bundle.read('RELEASE.json'))
@@ -99,13 +120,144 @@ def published_bundle(source, expected_digest):
             if role == 'dependency_source' and json.loads(bundle.read('sources.json'))['source_sha256'] != source_id:
                 raise ValueError('Dependency source companion identity differs')
         archives[role] = path
+    for name, record in handoff.get('supplemental_provider_archives', {}).items():
+        roles = [role for role, prefix in SUPPLEMENTAL.items()
+                 if re.fullmatch(prefix + r'-[0-9]+\.[0-9]+\.[0-9]+-windows-x64\.zip', name)]
+        if (len(roles) != 1 or roles[0] in archives
+                or name in {path.name for path in archives.values()}):
+            raise ValueError('Invalid or duplicate supplemental provider archive: ' + name)
+        role = roles[0]
+        path = pinned_archive(source, role, name, record)
+        with zipfile.ZipFile(path) as bundle:
+            check_archive(bundle, role)
+            members = set(bundle.namelist())
+            if role == 'envi':
+                required = {ENVI_MANIFEST, 'qpx_envi_plugin.dll', 'licenses/qupathxx/LICENSE'}
+            else:
+                required = {DICOM_BIN + item for item in (DICOM_MODULE, DICOM_MANIFEST, OPENSLIDE_DLL)}
+                required.update({'licenses/qupathxx/LICENSE', 'licenses/libdicom/LICENSE', 'licenses/uthash/LICENSE',
+                                 'openslide-sdk/licenses/OpenSlide/COPYING.LESSER'})
+            if not required <= members:
+                raise ValueError('Supplemental provider archive lacks install members: ' + role)
+            if role == 'dicom':
+                with zipfile.ZipFile(archives['native']) as runtime:
+                    if bundle.read(DICOM_BIN + OPENSLIDE_DLL) != runtime.read(OPENSLIDE_DLL):
+                        raise ValueError('DICOM OpenSlide dependency differs from the native runtime')
+        archives[role] = path
     return source_id, archives, None, None
+
+
+def install_supplemental(archives, installed, native):
+    manifests = {}
+    for role in (role for role in SUPPLEMENTAL if role in archives):
+        provider = installed/'providers'/role
+        with zipfile.ZipFile(archives[role]) as bundle:
+            for name in bundle.namelist():
+                if name.startswith(('licenses/', 'openslide-sdk/licenses/')):
+                    target = provider/name
+                elif role == 'envi' and name in (ENVI_MANIFEST, 'qpx_envi_plugin.dll'):
+                    target = provider/name
+                elif role == 'dicom' and name in (DICOM_BIN + DICOM_MODULE, DICOM_BIN + DICOM_MANIFEST):
+                    target = native/PurePosixPath(name).name
+                else:
+                    continue
+                target.parent.mkdir(parents=True, exist_ok=True)
+                with bundle.open(name) as stream, target.open('xb') as output:
+                    shutil.copyfileobj(stream, output)
+        manifests[role] = provider/ENVI_MANIFEST if role == 'envi' else native/DICOM_MANIFEST
+    return manifests
+
+
+def check_raw_samples(raw, expected, provider):
+    data = raw.read_bytes()
+    if data[:8] != b'\x93NUMPY\x01\x00':
+        raise ValueError('Unexpected raw result encoding: ' + provider)
+    offset = 10 + int.from_bytes(data[8:10], 'little')
+    header = ast.literal_eval(data[10:offset].decode('ascii'))
+    if header != dict(descr='<u2', fortran_order=False, shape=(2, 2, 1)) or data[offset:] != expected:
+        raise ValueError('Installed provider raw samples differ: ' + provider)
+
+
+def check_envi(run, native, root, manifest):
+    root.mkdir()
+    header = root/'spectra.hdr'
+    header.write_text('''ENVI
+samples = 2
+lines = 2
+bands = 1
+header offset = 0
+file type = ENVI Standard
+data type = 12
+interleave = bip
+byte order = 0
+''', encoding='ascii')
+    samples = b''.join(value.to_bytes(2, 'little') for value in RAW_SAMPLES)
+    header.with_suffix('.img').write_bytes(samples)
+    project, raw = root/'spectra.qpx', root/'spectra.npy'
+    plugin = ['--reader-plugins', manifest]
+    created = json.loads(run('envi-project-create', [native/'qupathxx_format_import.exe', *plugin,
+                         'project-create', header, project, '--reader', 'org.qupathxx.envi']).read_bytes())
+    if created['reader'] != 'org.qupathxx.envi':
+        raise ValueError('Saved ENVI project uses the wrong provider')
+    before = sha(project)
+    image_id = created['image_id']
+    run('envi-project-raw', [native/'qupathxx_region.exe', *plugin, '--raw-project', project, image_id, raw])
+    check_raw_samples(raw, samples, 'ENVI')
+    run('envi-desktop-open', [native/'qupathxx_app.exe', *plugin, '--project', project,
+                            '--image-id', image_id, '--layout', root/'preferences.ini', '--smoke'])
+    if sha(project) != before:
+        raise ValueError('ENVI replay changed the saved project')
+    return {'project_sha256': before, 'raw_sha256': sha(raw)}
+
+
+def check_dicom(run, native, root, manifest):
+    fixture = Path(__file__).resolve().parent/'dicom-wsi-fixture'
+    series = root/'series'
+    series.mkdir(parents=True)
+    primary, companion = series/'z_part1.dcm', series/'a_part2.dcm'
+    for path in (primary, companion):
+        shutil.copyfile(fixture/path.name, path)
+    primary_sha = sha(primary)
+    project = root/'slide.qpx'
+    plugin = ['--reader-plugins', manifest]
+    created = json.loads(run('dicom-project-create', [native/'qupathxx_format_import.exe', *plugin,
+                         'project-create', primary, project, '--reader', 'org.qupathxx.dicom-wsi']).read_bytes())
+    if created['reader'] != 'org.qupathxx.dicom-wsi' or (created['width'], created['height']) != (27, 16):
+        raise ValueError('Saved DICOM project uses the wrong provider or dimensions')
+    before = sha(project)
+    image_id = created['image_id']
+    crop = [native/'qupathxx_region.exe', *plugin, '--project-region', project, image_id, 13, 4, 0, 12, 6]
+    output = root/'crop.pam'
+    replay = json.loads(run('dicom-project-crop', [*crop, output, '--receipt']).read_bytes())
+    expected = '0acd09b59e5c345d2965262bf4aa10205dde048f4653f07df15111d49e649df1'
+    source = replay['reader_source']
+    if (sha(output) != expected or replay['sha256'] != expected or source['scope'] != 'compound_files'
+            or [Path(item['path']) for item in source['companions']] != [companion]):
+        raise ValueError('DICOM replay differs in pixels or guarded companion identity')
+    run('dicom-desktop-open', [native/'qupathxx_app.exe', *plugin, '--project', project,
+                             '--image-id', image_id, '--layout', root/'preferences.ini', '--smoke'])
+    shutil.copyfile(companion, root/'original-companion.dcm')
+    shutil.copyfile(fixture/'changed-instance.dcm', companion)
+    changed = root/'changed.pam'
+    run('dicom-changed-direct-crop', [native/'qupathxx_region.exe', *plugin, '--reader',
+                                    'org.qupathxx.dicom-wsi', primary, 13, 4, 0, 12, 6, changed])
+    changed_expected = '494308305235a2a2bf9ee478db2a609f9e2bd80b046bca01b5f437c54ef56a33'
+    if sha(changed) != changed_expected:
+        raise ValueError('Replacement companion does not yield the expected direct crop')
+    refused = root/'refused.pam'
+    diagnostic = run('dicom-changed-companion', [*crop, refused, '--receipt'], expected_exit=1).read_bytes()
+    if refused.exists() or b'Reader plugin source files changed; review explicitly' not in diagnostic:
+        raise ValueError('DICOM saved replay did not refuse the changed companion')
+    if sha(project) != before or sha(primary) != primary_sha:
+        raise ValueError('DICOM replay changed the saved project or primary instance')
+    return {'project_sha256': before, 'crop_sha256': expected, 'changed_crop_sha256': changed_expected,
+            'changed_companion_refused': True}
 
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--input',type=Path,required=True,help='Frozen Windows handoff directory')
-    parser.add_argument('--handoff-sha256',help='Pinned SHA-256 of handoff.json for a five-archive handoff')
+    parser.add_argument('--handoff-sha256',help='Pinned SHA-256 of handoff.json for a native archive handoff')
     parser.add_argument('--work',type=Path,required=True,help='New, short external validation directory')
     parser.add_argument('--report',type=Path,required=True)
     parser.add_argument('--cmake',type=Path,help='Location of cmake.exe if absent from PATH')
@@ -134,6 +286,7 @@ def main():
     if args.handoff_sha256:
         with zipfile.ZipFile(archives['optional_providers']) as archive:
             archive.extractall(work/'installed')
+    manifests = install_supplemental(archives, work/'installed', native)
     installed={str(p):sha(p) for p in (work/'installed').rglob('*') if p.is_file()}
     consumer,build=work/'example',work/'b'
     shutil.copytree(sdk/'share/qupathxx/examples/native_sdk',consumer)
@@ -146,14 +299,17 @@ def main():
     cmake=args.cmake or shutil.which('cmake.exe') or Path('C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin/cmake.exe')
     commands=[]
 
-    def run(name,command,cwd=work):
+    def run(name,command,cwd=work,expected_exit=0):
         command=[str(x) for x in command]
-        commands.append({'name':name,'argv':command,'cwd':str(cwd)})
+        commands.append({'name':name,'argv':command,'cwd':str(cwd),'expected_exit':expected_exit})
         with (report/(name+'.log')).open('wb') as log:
             result=subprocess.run(command,cwd=cwd,env=env,stdout=log,stderr=subprocess.STDOUT,timeout=180)
+        commands[-1]['exit_code'] = result.returncode
         (report/'commands.json').write_text(json.dumps(commands,indent=2)+'\n',encoding='utf8')
-        if result.returncode:raise RuntimeError(name+' failed; retained '+str(report/(name+'.log')))
+        if result.returncode != expected_exit:
+            raise RuntimeError(name+' failed; retained '+str(report/(name+'.log')))
         print(name+': passed',flush=True)
+        return report/(name+'.log')
 
     run('sdk-configure',[cmake,'-S',consumer,'-B',build,'-G','Visual Studio 17 2022','-A','x64',
         '-Dqupathxx_DIR='+str(sdk/'lib/cmake/qupathxx'),'-DCMAKE_FIND_USE_PACKAGE_REGISTRY=OFF',
@@ -207,13 +363,11 @@ def main():
         manifest=work/'installed/providers/vti/reader-plugins.json'
         run('vti-raw',[native/'qupathxx_region.exe','--reader-plugins',manifest,'--reader','org.qupathxx.vti',
                        '--reader-options','{"point_array":"Samples"}','--raw',image,raw])
-        data=raw.read_bytes()
-        if data[:8]!=b'\x93NUMPY\x01\x00':raise ValueError('Unexpected VTI raw result encoding')
-        offset=10+int.from_bytes(data[8:10],'little')
-        header=ast.literal_eval(data[10:offset].decode('ascii'))
-        expected=b''.join(v.to_bytes(2,'little') for v in (1,257,4096,65535))
-        if (header != dict(descr='<u2',fortran_order=False,shape=(2,2,1)) or data[offset:]!=expected):
-            raise ValueError('Installed VTI provider raw samples differ')
+        check_raw_samples(raw, b''.join(v.to_bytes(2, 'little') for v in RAW_SAMPLES), 'VTI')
+    supplemental = {}
+    for role, check in [('envi', check_envi), ('dicom', check_dicom)]:
+        if role in manifests:
+            supplemental[role] = check(run, native, user/role, manifests[role])
     run('gui-project-open',[native/'qupathxx_app.exe','--project',project,'--layout',user/'preferences.ini','--smoke'])
     if sha(project)!=before_project:raise ValueError('Read-only GUI/CLI changed saved project')
     sentinel=native/'user scratch/research-notes.txt';sentinel.parent.mkdir()
@@ -228,6 +382,8 @@ def main():
         'python_paths':'removed','engine_builds':0,'install_run_verified':True,'uninstall_verified':False}
     if args.handoff_sha256:
         receipt['archive_handoff_sha256']=args.handoff_sha256.lower()
+    if supplemental:
+        receipt['supplemental_provider_replay'] = supplemental
     (report/'handoff.json').write_text(json.dumps(receipt,indent=2)+'\n',encoding='utf8')
     print('Install/use passed; manifest-owned removal is still required.',flush=True)
 

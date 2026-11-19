@@ -13,7 +13,7 @@ on:
         type: string
         default: ''
       native_handoff_sha256:
-        description: SHA-256 of handoff.json for the five-archive native Windows candidate
+        description: SHA-256 of handoff.json for the native Windows candidate
         type: string
         default: ''
       macos_native:
@@ -157,7 +157,7 @@ jobs:
         run: |
           if ($env:HANDOFF_SHA256) {
             if ($env:HANDOFF_SHA256 -notmatch '^[0-9a-fA-F]{64}$') { throw 'Provide a SHA-256 for handoff.json' }
-            gh release download "$env:CANDIDATE_TAG" --repo "$env:GITHUB_REPOSITORY" --dir build/windows-handoff/input --pattern 'handoff.json' --pattern 'qupathxx-*.zip'
+            gh release download "$env:CANDIDATE_TAG" --repo "$env:GITHUB_REPOSITORY" --dir build/windows-handoff/input --pattern 'handoff.json' --pattern 'qupathxx-*.zip' --pattern 'envi-reader-*.zip'
           } else {
             gh release download "$env:CANDIDATE_TAG" --repo "$env:GITHUB_REPOSITORY" --dir build/windows-handoff/input --pattern '*.whl' --pattern 'qupathxx-windows-x64-candidate.zip' --pattern 'qupathxx-source-6219a08f.zip' --pattern 'CMU-1.svs'
           }

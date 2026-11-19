@@ -8,6 +8,27 @@ and [R2-R16 queue](api-delivery-plan.md#execution-order-for-finishing-the-remain
 own remaining scope. No100% QuPath, universal biological/speed/platform or
 Java/Groovy claim; NC/restricted/unknown required materials stay unadmitted.
 
+## Verified locally - Windows supplemental provider handoff check
+
+The candidate workflow fetches the ENVI and DICOM assets. Its runner validates
+them against the pinned seven-archive receipt and checks that the DICOM package
+uses the exact OpenSlide DLL already installed with the runtime. The older
+five-archive receipt still passes preflight. Missing and same-size corrupt ENVI
+archives refused before creating either output directory.
+
+The relocated install passed all 19 commands. The saved ENVI project replayed
+exact UInt16 samples. The saved DICOM project replayed the exact compound crop
+and refused export after a companion replacement that remained directly
+readable. Both plugin projects reopened on the desktop. Removal deleted 532
+installed files and preserved 32 research files. Only the SDK example built.
+The first pass used the wrong expected refusal diagnostic. The corrected pass
+also checked the replacement crop and retained the first run's evidence while
+removing its duplicate installed files. The hosted run awaits a prepared
+release tag carrying the exact pinned assets.
+
+[Install and removal receipt](../build/qpx-sup2-report/handoff.json)
+[Recorded native commands](../build/qpx-sup2-report/commands.json)
+
 ## Verified locally - current native Windows spatial and DICOM handoff
 
 The spatial restore refused an existing destination WAL without changing the
