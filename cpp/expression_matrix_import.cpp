@@ -1,6 +1,7 @@
 #include "expression_matrix_internal.hpp"
 #include "reader_file_guard.hpp"
 #include "expression_matrix_writer.hpp"
+#include "matrix_format_registry.hpp"
 #include "project_database_output.hpp"
 #include <fstream>
 #include <cstring>
@@ -15,6 +16,13 @@ bool has_expression_matrix_storage(){
 return true;
 #else
 return false;
+#endif
+}
+bool detail::matrix_market_gzip_available() noexcept {
+#if defined(QUPATHXX_HAS_PROJECT) && defined(QUPATHXX_HAS_MATRIX_MARKET_GZIP)
+    return true;
+#else
+    return false;
 #endif
 }
 #ifdef QUPATHXX_HAS_PROJECT

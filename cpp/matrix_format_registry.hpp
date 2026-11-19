@@ -6,13 +6,13 @@
 
 namespace qpx::detail {
 enum class MatrixFormat { Qmx, MatrixMarket, H5ad };
-struct MatrixFormatFeatures {bool storage=false,h5ad=false;};
+struct MatrixFormatFeatures {bool storage=false,h5ad=false,matrix_market_gzip=false;};
 struct MatrixFormatDescriptor {
     MatrixFormat format=MatrixFormat::Qmx;
     std::string provider_id,display_name;
     bool available=false;
     std::string unavailable_reason;
-    bool can_open=false,can_import=false;
+    bool can_open=false,can_import=false,can_import_gzip=false;
 };
 struct MatrixFormatSelection {MatrixFormat format=MatrixFormat::Qmx;};
 struct MatrixFormatOpenRequest {
@@ -31,6 +31,7 @@ struct H5adMatrixImportRequest {
 };
 using MatrixFormatImportRequest=std::variant<MatrixMarketImportRequest,H5adMatrixImportRequest>;
 MatrixFormatFeatures matrix_format_features();
+bool matrix_market_gzip_available() noexcept;
 bool known_matrix_format(MatrixFormat) noexcept;
 std::vector<MatrixFormatDescriptor> matrix_format_catalog(MatrixFormatFeatures=matrix_format_features());
 // Selection is explicit and pure: it never opens a source or infers a domain.

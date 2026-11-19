@@ -114,6 +114,9 @@ The shared `--formats` report exposes the separate families, provider IDs,
 operations and actual build availability. A known provider remains listed when
 its backend is disabled, with an owned reason. Availability describes service
 readiness; it does not assert that a particular file, geometry or request is valid.
+Use `qupathxx_format_import --formats` to check `can_import_gzip` on the
+`matrix-market` row. It reports whether the running build can index gzip-wrapped
+inputs. `qupathxx_format_import catalog` lists separately configured plugins.
 The existing image-reader listing and explicitly configured image-module
 bootstrap keep their own behavior.
 
@@ -179,7 +182,7 @@ identity merely because dispatch is now centralized.
 | Boundary | Decisive check |
 | --- | --- |
 | Catalogs | `matrix_format_registry`, `annotation_format_registry` and `format_family_catalog`: exact IDs/operations, known versus available, disabled-feature combinations, unknown/incompatible request refusal and shared discovery |
-| CLI discovery | `format_catalog_routes_cli`: Region and Batch share the native `--formats` report; an available App is checked by the same driver without making GUI a native-only CI requirement |
+| CLI discovery | `format_catalog_routes_cli`: Region, Batch and Format Import share the native `--formats` report. An available App is checked by the same driver. |
 | Indexed matrices | `expression_matrix`: the existing frozen tiny QMX byte hash; exact large counts, sparse/cohort/order behavior, chunk checks, cancellation and no-overwrite |
 | H5AD | `h5ad_matrix` when enabled: dense/CSR/CSC, explicit counts/continuous domains, dataset keys, coordinates and shared decoder/writer budgets |
 | Matrix consumers | `expression_matrix_project`, `expression_matrix_spatial`, `backed_spatial_import`, `spatial_counts` and `spatial_counts_cli`: source association, exact ID joins, owned/linked save/reopen, preview and publication |

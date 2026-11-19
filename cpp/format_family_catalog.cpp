@@ -8,10 +8,13 @@ namespace qpx::detail {
 std::string format_family_catalog_json() {
     using Json=nlohmann::json;
     Json matrices=Json::array(),annotations=Json::array();
-    for(const auto& value:matrix_format_catalog())
-        matrices.push_back({{"provider_id",value.provider_id},{"display_name",value.display_name},
+    for(const auto& value:matrix_format_catalog()) {
+        Json row{{"provider_id",value.provider_id},{"display_name",value.display_name},
             {"available",value.available},{"unavailable_reason",value.unavailable_reason},
-            {"can_open",value.can_open},{"can_import",value.can_import}});
+            {"can_open",value.can_open},{"can_import",value.can_import}};
+        if(value.format==MatrixFormat::MatrixMarket)row["can_import_gzip"]=value.can_import_gzip;
+        matrices.push_back(std::move(row));
+    }
     for(const auto& value:annotation_format_catalog())
         annotations.push_back({{"provider_id",value.provider_id},{"display_name",value.display_name},
             {"available",value.available},{"unavailable_reason",value.unavailable_reason},

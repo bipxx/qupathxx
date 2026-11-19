@@ -36,7 +36,9 @@ const Builtin& builtin(MatrixFormat format) {
     throw std::invalid_argument("Unknown matrix format");
 }
 }
-MatrixFormatFeatures matrix_format_features() {return {has_expression_matrix_storage(),has_h5ad()};}
+MatrixFormatFeatures matrix_format_features() {
+    return {has_expression_matrix_storage(),has_h5ad(),matrix_market_gzip_available()};
+}
 bool known_matrix_format(MatrixFormat format) noexcept {
     for(const auto& entry:builtins())if(entry.format==format)return true;return false;
 }
@@ -47,7 +49,8 @@ std::vector<MatrixFormatDescriptor> matrix_format_catalog(MatrixFormatFeatures f
         std::string reason;
         if(!features.storage)reason=entry.format==MatrixFormat::H5ad?"Indexed H5AD import requires native project/SQLite support":"Expression matrix storage requires native project/SQLite support";
         else if(!available)reason="H5AD requires QUPATHXX_BUILD_H5AD";
-        result.push_back({entry.format,entry.id,entry.name,available,std::move(reason),bool(entry.open),bool(entry.importer)});
+        result.push_back({entry.format,entry.id,entry.name,available,std::move(reason),bool(entry.open),bool(entry.importer),
+            available && entry.format==MatrixFormat::MatrixMarket && features.matrix_market_gzip});
     }
     return result;
 }

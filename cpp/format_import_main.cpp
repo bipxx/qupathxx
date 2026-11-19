@@ -14,6 +14,7 @@
 #include "qupathxx/qupath_project.hpp"
 #include "qupathxx/reader_plugins.hpp"
 #include "format_import_internal.hpp"
+#include "format_family_catalog.hpp"
 #include "matrix_format_registry.hpp"
 #include "expression_matrix_export.hpp"
 #include "expression_matrix_project_internal.hpp"
@@ -589,6 +590,7 @@ int project_objects_command(const std::vector<std::string>& args) {
 }
 void help(){
     std::cout<<"Usage: qupathxx_format_import [--format-plugins ABS_MANIFEST] [--reader-plugins ABS_MANIFEST] catalog\n"
+        "       qupathxx_format_import [bootstrap options] --formats\n"
         "       qupathxx_format_import [bootstrap options] project-create IMAGE NEW_PROJECT [--reader ID] [--series N] [--reader-options JSON]\n"
         "       qupathxx_format_import [bootstrap options] project-add-image INPUT_PROJECT IMAGE NEW_PROJECT [--reader ID] [--series N] [--reader-options JSON]\n"
         "       qupathxx_format_import [bootstrap options] project-images INPUT_PROJECT\n"
@@ -653,6 +655,10 @@ int execute(std::vector<std::string> args){
         args.erase(args.begin(),args.begin()+start);
         if(args.empty() || (args.size()==1 && args[0]=="--help")){help();return 0;}
         qpx::workflow_checkpoint(&cancelled);
+        if(args[0]=="--formats") {
+            if(args.size()!=1)throw std::invalid_argument("--formats accepts no positional arguments");
+            std::cout<<qpx::detail::format_family_catalog_json();return 0;
+        }
         if(args[0]=="catalog"){
             if(args.size()!=1)throw std::invalid_argument("catalog accepts no positional arguments");json providers=json::array();for(const auto& p:qpx::format_plugin_infos())providers.push_back(provider_json(p));
             std::cout<<json{{"schema","qpx.format-plugin-catalog/1"},{"providers",std::move(providers)},{"diagnostics",qpx::format_plugin_diagnostics()}}.dump()<<'\n';return 0;

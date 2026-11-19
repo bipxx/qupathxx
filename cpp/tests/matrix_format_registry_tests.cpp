@@ -74,8 +74,8 @@ std::shared_ptr<const ExpressionMatrixSource> open(const ExpressionMatrixImportR
 }
 void catalog() {
     const std::vector<std::string> ids={"qmx","matrix-market","h5ad"};
-    for(unsigned mask=0;mask<4;++mask) {
-        const mf::MatrixFormatFeatures features{bool(mask&1),bool(mask&2)};const auto entries=mf::matrix_format_catalog(features);
+    for(unsigned mask=0;mask<8;++mask) {
+        const mf::MatrixFormatFeatures features{bool(mask&1),bool(mask&2),bool(mask&4)};const auto entries=mf::matrix_format_catalog(features);
         check(entries.size()==3,"Matrix catalog must retain every built-in format");
         for(std::size_t i=0;i<entries.size();++i) {
             const auto& entry=entries[i];const auto available=features.storage && (entry.format!=mf::MatrixFormat::H5ad || features.h5ad);
@@ -83,6 +83,8 @@ void catalog() {
                 select(entry.format).format==entry.format && entry.available==available && entry.unavailable_reason.empty()==available &&
                 entry.can_open==(entry.format==mf::MatrixFormat::Qmx) && entry.can_import==(entry.format!=mf::MatrixFormat::Qmx),
                 "Matrix catalog changed known/available distinction or operation bounds");
+            check(entry.can_import_gzip==(available && entry.format==mf::MatrixFormat::MatrixMarket && features.matrix_market_gzip),
+                "Matrix Market gzip requires both its codec and native storage");
         }
     }
     const auto actual=mf::matrix_format_features();check(actual.storage==has_expression_matrix_storage() && actual.h5ad==has_h5ad(),

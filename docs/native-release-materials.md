@@ -47,11 +47,11 @@ files or reuse an old candidate's qualification. The dedicated material-admissio
 CI job tests these boundaries with authored inputs, without product compilation
 or external dataset downloads.
 
-## Validate a five-archive Windows handoff
+## Validate a Windows native handoff
 
 Use the reviewed `handoff.json` SHA-256 from the handoff's `SHA256SUMS.txt`.
 On a Windows x64 host with CMake, Visual Studio 2022 and working OpenGL, pass
-the directory containing `handoff.json` and its five ZIP files to the checker.
+the directory containing `handoff.json` and all ZIP files named in it to the checker.
 Use a short, new work path and a separate report directory.
 
 ```powershell
@@ -59,10 +59,11 @@ python tools/ci/check_native_handoff.py --input HANDOFF_DIR --handoff-sha256 PIN
 pwsh -NoProfile -File tools/ci/remove_native_handoff.ps1 -Receipt C:/qpx-report/handoff.json
 ```
 
-The checker authenticates the five ZIPs before installation. It builds only
-the installed SDK example, replays its saved results through the CLI, verifies
-exact raw VTI samples, and opens the saved project in the desktop. Removal
-verifies the manifest-owned files and preserves research outputs. The Windows
+The checker authenticates the core and supplemental ZIPs before installation.
+It builds only the installed SDK example, replays its saved results through the CLI, verifies
+exact raw VTI samples, and opens the saved project in the desktop. The pinned
+receipt selects additional ENVI, DICOM and Matrix Market checks when applicable.
+Removal verifies manifest-owned files and preserves research outputs. The Windows
 candidate workflow supports the same check with `candidate_release_tag` and
 `native_handoff_sha256`; it retrieves the prepared assets and uploads the
 validation receipts.

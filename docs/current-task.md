@@ -8,6 +8,22 @@ and [R2-R16 queue](api-delivery-plan.md#execution-order-for-finishing-the-remain
 own remaining scope. No100% QuPath, universal biological/speed/platform or
 Java/Groovy claim; NC/restricted/unknown required materials stay unadmitted.
 
+## Verified locally - discover Matrix Market gzip support
+
+`qupathxx_format_import --formats` reports `can_import_gzip` for the built-in
+Matrix Market provider. It uses the same native catalog as the other entry
+points. The `catalog` subcommand still lists separately configured providers.
+Both native catalog suites passed with gzip enabled and disabled. The enabled
+Region, Batch and Format Import reports matched byte for byte. The disabled
+import CLI reported false and refused extra arguments.
+
+Both checks reused the same cache with no retry. This change has its own
+source-scoped evidence. The existing gzip archive retains its earlier identity
+and remains ready for a hosted run once a release tag is prepared.
+
+[Enabled runtime catalog](../build/native-format-closeout/validation-packet/matrix-market-catalog/formats-enabled.json)
+[Disabled runtime catalog](../build/native-format-closeout/validation-packet/matrix-market-catalog/formats-disabled.json)
+
 ## Verified locally - Windows gzip Matrix Market handoff
 
 The seven archives match compiled source
