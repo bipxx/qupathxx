@@ -27,6 +27,7 @@ int main() {
         "Matrix Market import contract changed");
     require(matrix[1].at("can_import_gzip")==matrix_market_gzip_available() && !matrix[0].contains("can_import_gzip") &&
         !matrix[2].contains("can_import_gzip"),"Shared catalog does not describe the native Matrix Market gzip route");
+    require(matrix[1].at("can_import_zip")==has_expression_matrix_storage(),"Matrix Market ZIP availability differs from native storage");
     require(matrix[2].at("provider_id")=="h5ad" && matrix[2].at("can_open")==false && matrix[2].at("can_import")==true,
         "H5AD indexed-import contract changed");
     require(matrix[0].at("available")==has_expression_matrix_storage() && matrix[1].at("available")==has_expression_matrix_storage() &&

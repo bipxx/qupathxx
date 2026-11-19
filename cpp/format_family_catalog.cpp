@@ -12,7 +12,10 @@ std::string format_family_catalog_json() {
         Json row{{"provider_id",value.provider_id},{"display_name",value.display_name},
             {"available",value.available},{"unavailable_reason",value.unavailable_reason},
             {"can_open",value.can_open},{"can_import",value.can_import}};
-        if(value.format==MatrixFormat::MatrixMarket)row["can_import_gzip"]=value.can_import_gzip;
+        if(value.format==MatrixFormat::MatrixMarket) {
+            row["can_import_gzip"]=value.can_import_gzip;
+            row["can_import_zip"]=value.available;
+        }
         matrices.push_back(std::move(row));
     }
     for(const auto& value:annotation_format_catalog())

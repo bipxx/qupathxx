@@ -116,7 +116,8 @@ its backend is disabled, with an owned reason. Availability describes service
 readiness; it does not assert that a particular file, geometry or request is valid.
 Use `qupathxx_format_import --formats` to check `can_import_gzip` on the
 `matrix-market` row. It reports whether the running build can index gzip-wrapped
-inputs. `qupathxx_format_import catalog` lists separately configured plugins.
+inputs. `can_import_zip` reports direct import of the native Matrix Market
+export archive. `qupathxx_format_import catalog` lists separately configured plugins.
 The existing image-reader listing and explicitly configured image-module
 bootstrap keep their own behavior.
 

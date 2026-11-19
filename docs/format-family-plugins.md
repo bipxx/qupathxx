@@ -234,8 +234,16 @@ qupathxx_format_import project-matrix-export-mtx INPUT_PROJECT IMAGE_ID ASSOCIAT
 The archive contains `matrix.mtx` with one-based feature and observation
 indices, a headerless `features.tsv` with ID, display name and type, and a
 headerless `barcodes.tsv` with observation IDs. It preserves original axis
-order, empty rows and columns, stored zeros and exact unsigned 64-bit counts. The native
-CLI re-indexes the extracted files with the Tenx catalogue option:
+order, empty rows and columns, stored zeros and exact unsigned 64-bit counts.
+Re-index this archive directly with the native CLI:
+
+```text
+qupathxx_format_import matrix-market-index-zip COUNTS_ZIP NEW_QMX
+```
+
+This route checks the exporter's fixed stored ZIP layout and member CRCs, then
+streams the three members through the same indexer. It produces the same QMX
+bytes as manually extracting the files and using the Tenx catalogue option:
 
 ```text
 qupathxx_format_import matrix-market-index matrix.mtx features.tsv barcodes.tsv NEW_QMX --catalogue tenx

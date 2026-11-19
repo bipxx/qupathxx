@@ -368,10 +368,17 @@ json matrix_metadata(const qpx::ExpressionMatrixSource& source,const std::string
 }
 int matrix_market_index(const std::vector<std::string>& args) {
     using namespace qpx::detail;
-    if(args.size()!=7 || args[5]!="--catalogue" || (args[6]!="qpx" && args[6]!="tenx"))
-        throw std::invalid_argument("matrix-market-index requires MATRIX_MTX FEATURES_TSV OBSERVATIONS_TSV NEW_QMX --catalogue qpx|tenx");
-    MatrixMarketImportRequest request{args[1],args[2],args[3],args[4],{}};
-    request.options.format=args[6]=="tenx"?qpx::ExpressionCatalogueFormat::Tenx:qpx::ExpressionCatalogueFormat::Qpx;
+    MatrixFormatImportRequest request;
+    if(args[0]=="matrix-market-index-zip") {
+        if(args.size()!=3)throw std::invalid_argument("matrix-market-index-zip requires EXPORT_ZIP NEW_QMX");
+        request=MatrixMarketArchiveImportRequest{args[1],args[2],{}};
+    } else {
+        if(args.size()!=7 || args[5]!="--catalogue" || (args[6]!="qpx" && args[6]!="tenx"))
+            throw std::invalid_argument("matrix-market-index requires MATRIX_MTX FEATURES_TSV OBSERVATIONS_TSV NEW_QMX --catalogue qpx|tenx");
+        MatrixMarketImportRequest files{args[1],args[2],args[3],args[4],{}};
+        files.options.format=args[6]=="tenx"?qpx::ExpressionCatalogueFormat::Tenx:qpx::ExpressionCatalogueFormat::Qpx;
+        request=std::move(files);
+    }
     const auto indexed=import_matrix_format(select_matrix_format(MatrixFormat::MatrixMarket),request,&cancelled);
     const auto& metadata=indexed.metadata;
     std::cout<<json{{"schema","qpx.format-import-cli/1"},{"state","indexed"},{"command",args[0]},
@@ -604,6 +611,7 @@ void help(){
         "       qupathxx_format_import [bootstrap options] matrix-project-store-index PROVIDER STORE PRIMARY_KEY POSITIONS INPUT_PROJECT IMAGE_ID NEW_QMX [--plugin-options-json JSON]\n"
         "       qupathxx_format_import matrix-info QMX\n"
         "       qupathxx_format_import matrix-market-index MATRIX_MTX FEATURES_TSV OBSERVATIONS_TSV NEW_QMX --catalogue qpx|tenx\n"
+        "       qupathxx_format_import matrix-market-index-zip EXPORT_ZIP NEW_QMX\n"
         "       qupathxx_format_import [bootstrap options] project-matrix-import-positions INPUT_PROJECT IMAGE_ID QMX POSITIONS_TSV NEW_PROJECT [--frame-z N] [--frame-time N]\n"
         "       qupathxx_format_import [bootstrap options] project-matrices INPUT_PROJECT IMAGE_ID\n"
         "       qupathxx_format_import [bootstrap options] project-matrix-info INPUT_PROJECT IMAGE_ID ASSOCIATION_ID\n"
@@ -667,7 +675,7 @@ int execute(std::vector<std::string> args){
             return project_objects_command(args);
         if(args[0]=="project-images")return project_images(args,!reader_manifests.empty());
         if(args[0]=="project-matrices" || args[0]=="project-matrix-info")return project_matrices(args);
-        if(args[0]=="matrix-market-index")return matrix_market_index(args);
+        if(args[0]=="matrix-market-index" || args[0]=="matrix-market-index-zip")return matrix_market_index(args);
         if(args[0]=="project-matrix-import-positions")return project_matrix_import_positions(args);
         if(args[0]=="project-matrix-export-csv" || args[0]=="project-matrix-export-positions" || args[0]=="project-matrix-export-mtx" ||
            args[0]=="project-matrix-backup")

@@ -8,6 +8,7 @@
 #include "../filesystem_access.hpp"
 #include "../expression_matrix_project_internal.hpp"
 #include "../expression_matrix_export.hpp"
+#include "../matrix_format_registry.hpp"
 #include "../stored_zip_read.hpp"
 #include <chrono>
 #include <filesystem>
@@ -46,6 +47,22 @@ void market_roundtrip(const fs::path& folder) {
     check(bytes(folder/"features.tsv")==bytes(features) && bytes(folder/"barcodes.tsv")==bytes(observations),"Matrix Market catalog identities or order differ");
     const auto roundtrip=import_expression_matrix((folder/"matrix.mtx").u8string(),(folder/"features.tsv").u8string(),
         (folder/"barcodes.tsv").u8string(),(folder/"restored.qmx").u8string(),options);
+    const auto index_zip=[&](const fs::path& input,const fs::path& output) {
+        return detail::import_matrix_format(detail::select_matrix_format(detail::MatrixFormat::MatrixMarket),
+            detail::MatrixMarketArchiveImportRequest{input.u8string(),output.u8string(),options});
+    };
+    const auto direct=index_zip(zip,folder/"direct.qmx");
+    check(direct.file_sha256==roundtrip.file_sha256 && direct.metadata.source_sha256==roundtrip.metadata.source_sha256,
+          "Archive indexing must match extracted member identity bit for bit");
+    const auto crc_path=folder/"crc.zip",bad_output=folder/"bad.qmx";
+    auto corrupt=bytes(zip);
+    const auto entry=corrupt.find("\n1 1 5\n");
+    check(entry!=std::string::npos,"Locate independently known stored count");
+    corrupt[entry+5]='6';write(crc_path,corrupt);
+    rejects<std::invalid_argument>([&]{index_zip(crc_path,bad_output);});
+    write(crc_path,bytes(zip)+"outside archive");
+    rejects<std::invalid_argument>([&]{index_zip(crc_path,bad_output);});
+    check(!fs::exists(bad_output),"Malformed archive cannot publish a QMX");
     const auto restored=open_expression_matrix(roundtrip.path,roundtrip.file_sha256);
     const auto block=restored->read({{0,1,2},std::nullopt});
     check(restored->metadata().observations==4 && block.offsets==std::vector<std::uint64_t>{0,2,2,4} &&

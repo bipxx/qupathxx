@@ -11,6 +11,8 @@ std::shared_ptr<const ExpressionMatrixSource> qmx(const MatrixFormatOpenRequest&
     return open_expression_matrix(request.path,request.expected_file_sha256,request.work_bytes,request.file_bytes,cancelled);
 }
 ExpressionMatrixImportResult matrix_market(const MatrixFormatImportRequest& request,const std::atomic<bool>* cancelled) {
+    if(const auto* archive=std::get_if<MatrixMarketArchiveImportRequest>(&request))
+        return import_expression_matrix_archive(*archive,cancelled);
     const auto* selected=std::get_if<MatrixMarketImportRequest>(&request);
     if(!selected)throw std::invalid_argument("Matrix Market format requires a Matrix Market import request");
     return import_expression_matrix(selected->matrix,selected->features,selected->observations,selected->store,selected->options,cancelled);

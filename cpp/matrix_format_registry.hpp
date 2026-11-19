@@ -24,14 +24,20 @@ struct MatrixMarketImportRequest {
     std::string matrix,features,observations,store;
     ExpressionMatrixImportOptions options;
 };
+struct MatrixMarketArchiveImportRequest {
+    std::string archive,store;
+    ExpressionMatrixImportOptions limits;
+};
 struct H5adMatrixImportRequest {
     std::string input,store;
     H5adOptions options;
     ExpressionMatrixImportOptions limits;
 };
-using MatrixFormatImportRequest=std::variant<MatrixMarketImportRequest,H5adMatrixImportRequest>;
+using MatrixFormatImportRequest=std::variant<MatrixMarketImportRequest,MatrixMarketArchiveImportRequest,H5adMatrixImportRequest>;
 MatrixFormatFeatures matrix_format_features();
 bool matrix_market_gzip_available() noexcept;
+ExpressionMatrixImportResult import_expression_matrix_archive(const MatrixMarketArchiveImportRequest&,
+    const std::atomic<bool>* cancelled);
 bool known_matrix_format(MatrixFormat) noexcept;
 std::vector<MatrixFormatDescriptor> matrix_format_catalog(MatrixFormatFeatures=matrix_format_features());
 // Selection is explicit and pure: it never opens a source or infers a domain.

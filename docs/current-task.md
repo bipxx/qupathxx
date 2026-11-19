@@ -8,6 +8,22 @@ and [R2-R16 queue](api-delivery-plan.md#execution-order-for-finishing-the-remain
 own remaining scope. No100% QuPath, universal biological/speed/platform or
 Java/Groovy claim; NC/restricted/unknown required materials stay unadmitted.
 
+## Verified locally - index the native Matrix Market export archive
+
+`matrix-market-index-zip` streams the three stored members of the native export
+through the shared matrix parser. The fixed ZIP headers, directory and CRCs
+are checked before QMX publication. Direct and manually extracted inputs
+produced byte-identical QMX and source identity. Eleven CLI checks passed,
+including malformed CRC, truncation, layout, SQLite companions and existing
+outputs. The runtime catalog reports the route as `can_import_zip`.
+
+The legacy project fixture could not write under the long CTest directory.
+It passed with a short fixture root. The existing matrix suite passed with gzip
+enabled and disabled, and both catalog suites passed. No archive was rebuilt.
+
+[Native CLI checks](../build/native-format-closeout/validation-packet/matrix-market-zip/validation.json)
+[Native project suite](../build/native-format-closeout/validation-packet/matrix-market-zip/project-short.log)
+
 ## Verified locally - discover Matrix Market gzip support
 
 `qupathxx_format_import --formats` reports `can_import_gzip` for the built-in
