@@ -470,8 +470,20 @@ bytes. The report names the metadata source and includes the byte count and
 SHA-256. By default, `BinaryOnly` references are preserved as written. Pass
 `--resolve-metadata` to export the referenced XML from the verified companion
 document or TIFF. The command checks the master UUID and reads only metadata.
-Use the admitted OME ROI provider and an explicitly matching image frame to
-import the shapes.
+
+When the source shapes use the stored TIFF axes, import them into the matching
+project image using the admitted OME ROI provider and explicit coordinate mode.
+
+```text
+qupathxx_format_import --format-plugins ABSOLUTE_MANIFEST annotations-import org.qupathxx.ome-roi PROJECT IMAGE_ID METADATA.xml NEW_PROJECT --ome-tiff-coordinates stored
+```
+
+The native host matches the original XML bytes to the selected TIFF series
+and uses that image's ROI references. The stored-coordinate mode uses continuous
+pixel-edge coordinates. A reflected coordinate maps to the axis length minus
+the coordinate. Mask cell edges follow the same map, so no resampling is needed.
+Mixed raster orientations still fail. The [native SDK](../cpp/include/qupathxx/format_import.hpp)
+exposes `preview_ome_tiff_annotations` and uses normal guarded annotation apply.
 
 The [ASAP XML profile](../plugins/asap_xml/README.md) adds an independent ABI3
 module over the same frozen native host and shared bounded XML/QOX2 parser.

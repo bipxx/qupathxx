@@ -135,6 +135,10 @@ AnnotationPluginPreview preview_annotation_plugin(const Document&,const std::str
     const std::string& input,const AnnotationPluginImportOptions& = {},
     const std::optional<std::string>& options=std::nullopt,
     const std::atomic<bool>* cancelled=nullptr);
+// Import stored-coordinate ROIs from the exact XML associated with the selected
+// native OME-TIFF series. The optional OME ROI provider must be available.
+AnnotationPluginPreview preview_ome_tiff_annotations(const Document&,const std::string& xml,
+    const AnnotationPluginImportOptions& = {},const std::atomic<bool>* cancelled=nullptr);
 // Owner-thread transaction. Failed/cancelled/stale applications leave both the
 // document and preview unconsumed. One successful append creates one undo entry.
 AnnotationPluginImportResult apply_annotation_plugin(Document&,AnnotationPluginPreview&,

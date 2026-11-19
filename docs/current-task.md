@@ -8,6 +8,29 @@ and [R2-R16 queue](api-delivery-plan.md#execution-order-for-finishing-the-remain
 own remaining scope. No100% QuPath, universal biological/speed/platform or
 Java/Groovy claim; NC/restricted/unknown required materials stay unadmitted.
 
+## Verified locally - align stored OME-TIFF ROIs with the normalized raster
+
+The raster reader opens coherent oriented TIFF images with referenced ROIs.
+The explicit stored-coordinate import binds exact XML bytes and the selected
+image ID, then maps geometry and mask cell edges using the TIFF raster axes.
+It uses the admitted OME ROI 1.3.0 module and the existing native annotation
+transaction. The CLI and native preview use the same implementation.
+
+All 101 TIFF CLI checks passed. Independent asymmetric fixtures proved exact
+raster samples, point registration, rectangle coverage and disconnected mask
+coverage across all eight orientations after project reopen. A two-series
+BinaryOnly fixture refused the wrong series and replayed the selected one.
+Mixed orientations, changed XML and implicit import of matching rotated XML
+refuse. The native region suite and four existing import controls passed.
+The first replay exposed the lazy project reader wrapper. A scoped rebuild
+used the existing native reader accessor and passed the same replay checks.
+The next delivery step is one matching Windows handoff for the XML export
+and ROI registration changes. Hosted validation still waits on authorization.
+
+[TIFF CLI checks](../build/native-format-closeout/validation-packet/ome-roi-orientation/tiff-cli-final.log)
+[Native region checks](../build/native-format-closeout/validation-packet/ome-roi-orientation/native-region.log)
+[Native import controls](../build/native-format-closeout/validation-packet/ome-roi-orientation/native-import.log)
+
 ## Verified locally - resolve BinaryOnly metadata for OME export
 
 `ome-tiff-export-xml --resolve-metadata` exports exact XML from a verified
@@ -20,8 +43,8 @@ All 94 TIFF CLI checks and the native region suite passed. A separate run
 used the admitted OME ROI provider and reopened the companion's point at
 `[2, 3]` in the matching project. One cached build sufficed. The TIFF fixture
 library emitted its existing NumPy warnings. The latest Windows handoff
-predates both XML export modes. A non-top-left OME-TIFF with referenced ROI
-geometry still needs an integrated raster and ROI registration contract.
+predates both XML export modes. The newer stored-coordinate ROI check above
+verifies replay on oriented rasters.
 
 [TIFF CLI checks](../build/native-format-closeout/validation-packet/ome-xml-resolved/tiff-cli.log)
 [Native region checks](../build/native-format-closeout/validation-packet/ome-xml-resolved/region-native.log)
@@ -30,9 +53,9 @@ geometry still needs an integrated raster and ROI registration contract.
 ## Verified locally - export embedded OME-TIFF XML
 
 `ome-tiff-export-xml` preserves the bounded first-IFD OME XML text and reports
-its SHA-256. It reuses the TIFF reader and new-only output protection. The
-export works even when oriented ROI geometry prevents opening the raster.
-It preserves `BinaryOnly` references in the exported document.
+its SHA-256. It reuses the TIFF reader and new-only output protection and
+does not open the raster. It preserves `BinaryOnly` references in the exported
+document.
 
 All 89 TIFF CLI checks and the native region suite passed. They covered exact
 Classic TIFF and BigTIFF text, malformed metadata, and output collisions. The
@@ -89,8 +112,9 @@ warnings. The combined Windows handoff above records the newer archive evidence.
 The reader now accepts coherent OME-TIFF orientations through the existing
 TIFF raster decoder. OME XY dimensions and pitch describe the stored raster
 axes. Normalization swaps dimensions and pitch together where needed and
-preserves the C/Z/T plane map. Non-top-left images with referenced OME ROIs,
-mixed orientations, and incompatible stored geometry refuse.
+preserves the C/Z/T plane map. This checkpoint refused referenced ROIs on
+non-top-left images. The newer alignment check above adds that route. Mixed
+orientations and incompatible stored geometry still refuse.
 
 All 77 TIFF CLI checks and the native region export suite passed. The new
 cases covered all eight orientations, anisotropic calibration, exact C/Z

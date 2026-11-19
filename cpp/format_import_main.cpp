@@ -625,7 +625,7 @@ void help(){
         "       qupathxx_format_import [bootstrap options] project-matrix-relink INPUT_PROJECT IMAGE_ID ASSOCIATION_ID EXACT_QMX NEW_PROJECT\n"
         "       qupathxx_format_import [bootstrap options] project-matrix-own INPUT_PROJECT IMAGE_ID ASSOCIATION_ID EXACT_QMX NEW_PROJECT\n"
         "       qupathxx_format_import [bootstrap options] matrix-attach INPUT_PROJECT IMAGE_ID QMX FILE_SHA256 NEW_PROJECT\n"
-        "       qupathxx_format_import [bootstrap options] annotations-import PROVIDER INPUT_PROJECT IMAGE_ID ANNOTATIONS NEW_PROJECT [--class-map-json JSON]\n"
+        "       qupathxx_format_import [bootstrap options] annotations-import PROVIDER INPUT_PROJECT IMAGE_ID ANNOTATIONS NEW_PROJECT [--class-map-json JSON] [--ome-tiff-coordinates stored]\n"
         "       qupathxx_format_import [bootstrap options] points-import PROVIDER INPUT_PROJECT IMAGE_ID POINTS NEW_PROJECT [--class-map-json JSON]\n"
         "       qupathxx_format_import [bootstrap options] geojson-import INPUT_PROJECT IMAGE_ID GEOJSON NEW_PROJECT [--assume-pixels] [--allow-losses] [--qupath-precision]\n"
         "       qupathxx_format_import [bootstrap options] geojson-export INPUT_PROJECT IMAGE_ID NEW_GEOJSON [--nested-hierarchy] [--allow-losses]\n"
@@ -905,11 +905,17 @@ int execute(std::vector<std::string> args){
         if(args[0]=="points-import" || args[0]=="annotations-import"){
             if(args.size()<6 || (args.size()-6)%2)throw std::invalid_argument("Annotation import requires PROVIDER INPUT_PROJECT IMAGE_ID ANNOTATIONS NEW_PROJECT [OPTIONS]");
             qpx::AnnotationPluginImportOptions options;std::optional<std::string> plugin_options;std::set<std::string> seen;
+            bool stored_ome_tiff=false;
             for(std::size_t at=6;at<args.size();at+=2) {
                 const auto& flag=args[at];const auto& value=args[at+1];
                 if(!seen.insert(flag).second)throw std::invalid_argument("Duplicate annotation import option: "+flag);
                 if(flag=="--plugin-options-json")plugin_options=value;
                 else if(flag=="--class-map-json")options.class_map=class_map(value);
+                else if(flag=="--ome-tiff-coordinates"){
+                    if(value!="stored" || args[0]!="annotations-import" || args[1]!="org.qupathxx.ome-roi")
+                        throw std::invalid_argument("Stored OME-TIFF coordinates require annotations-import with the OME ROI provider");
+                    stored_ome_tiff=true;
+                }
                 else if(flag=="--unpositioned-z" || flag=="--unpositioned-time") {
                     std::uint32_t plane=0;const auto parsed=std::from_chars(value.data(),value.data()+value.size(),plane);
                     if(value.empty() || parsed.ec!=std::errc{} || parsed.ptr!=value.data()+value.size() || plane>=65536)throw std::invalid_argument("Unpositioned plane must be an integer0..65535");
@@ -921,6 +927,7 @@ int execute(std::vector<std::string> args){
                     else throw std::invalid_argument("Legacy position axis must be channel, z or time");
                 } else throw std::invalid_argument("Unknown annotation import option: "+flag);
             }
+            if(stored_ome_tiff && plugin_options)throw std::invalid_argument("Stored-coordinate OME-TIFF import selects ROIs from the saved image series");
             options.validate();
             const auto output=qpx::detail::export_path(args[5]);if(std::filesystem::exists(std::filesystem::u8path(output)))throw qpx::WorkflowOutputExists("Project output already exists");
             qpx::detail::WorkflowInput primary(args[2],1024ull*1024*1024,true,&cancelled),points(args[4],options.file_bytes,false,&cancelled);
@@ -937,7 +944,8 @@ int execute(std::vector<std::string> args){
                 qpx::detail::guard_project_inputs_output(*project,images,output,&cancelled);
                 if(applied_revision && (document->revision()!=applied_revision || qpx::annotation_plugin_target_frame(*document,&cancelled).sha256()!=frame.sha256()))throw qpx::WorkflowInputChanged("Applied annotation document/frame changed before project save");
             };
-            protect();auto preview=qpx::preview_annotation_plugin(*document,args[1],points.path(),options,plugin_options,&cancelled);
+            protect();auto preview=stored_ome_tiff?qpx::preview_ome_tiff_annotations(*document,points.path(),options,&cancelled):
+                qpx::preview_annotation_plugin(*document,args[1],points.path(),options,plugin_options,&cancelled);
             const auto result=qpx::apply_annotation_plugin(*document,preview,&cancelled);applied_revision=document->revision();protect();
             project->save_new(output,512ull*1024*1024,1024ull*1024*1024,&cancelled,protect);
             json objects=json::array();for(const auto& mapping:result.objects)objects.push_back({{"source_id",mapping.source_id},{"object_id",mapping.object_id}});

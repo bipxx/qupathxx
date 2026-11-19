@@ -15,7 +15,9 @@
 #include "spatial_output_guard.hpp"
 #include "spatial_count_text.hpp"
 #include "sha256.hpp"
+#include "tiff_metadata_export.hpp"
 #include "utf8_text.hpp"
+#include <nlohmann/json.hpp>
 #include <algorithm>
 #include <cstring>
 #include <filesystem>
@@ -30,9 +32,38 @@ namespace {
 // assigned DLL allowance and variable retained vectors are charged separately.
 constexpr std::size_t host_workspace=4u*1024*1024;
 constexpr std::size_t max_work=1024ull*1024*1024;
+constexpr auto ome_roi_provider="org.qupathxx.ome-roi";
 void text(Sha256& hash,const std::string& value){hash.integer(value.size());hash.update(value.data(),value.size());}
 void charge(std::size_t& n,std::size_t extra,std::size_t limit){workflow_capture_charge(n,extra,limit);}
 std::size_t product(std::uint64_t a,std::size_t b){if(a>std::numeric_limits<std::size_t>::max()/b)throw WorkflowCaptureLimit("Format import allocation overflows address space");return std::size_t(a)*b;}
+Roi orient_ome_tiff_geometry(const Roi& roi,const detail::OmeTiffRoiFrame& frame,const std::atomic<bool>* cancelled) {
+    if(frame.orientation==1)return roi;
+    const double width=frame.transpose?frame.height:frame.width;
+    const double height=frame.transpose?frame.width:frame.height;
+    const auto map_ring=[&](Ring& ring){
+        for(std::size_t i=0;i<ring.size();++i){
+            if((i&4095)==0)workflow_checkpoint(cancelled);
+            auto& p=ring[i];if(frame.transpose)std::swap(p.x,p.y);
+            if(frame.reverse_x)p.x=width-p.x;
+            if(frame.reverse_y)p.y=height-p.y;
+        }
+    };
+    const auto kind=roi.kind();
+    if(kind==RoiKind::Rectangle || kind==RoiKind::Ellipse){
+        auto bounds=roi.bounds();
+        if(frame.transpose){std::swap(bounds.x,bounds.y);std::swap(bounds.width,bounds.height);}
+        if(frame.reverse_x)bounds.x=width-(bounds.x+bounds.width);
+        if(frame.reverse_y)bounds.y=height-(bounds.y+bounds.height);
+        return kind==RoiKind::Rectangle?Roi::rectangle(bounds):Roi::ellipse(bounds);
+    }
+    if(kind==RoiKind::Polyline || kind==RoiKind::Points){
+        auto paths=roi.paths();map_ring(paths.front());
+        return kind==RoiKind::Polyline?Roi::polyline(std::move(paths.front())):Roi::points(std::move(paths.front()));
+    }
+    auto parts=roi.polygon_parts();
+    for(auto& part:parts){map_ring(part.shell);for(auto& hole:part.holes)map_ring(hole);}
+    return Roi::multipolygon(std::move(parts));
+}
 void work_limits(std::size_t work,std::size_t plugin){
     if(work>max_work || plugin<65536 || plugin>256u*1024*1024)throw std::invalid_argument("Format import work/plugin budget exceeds limits");
     std::size_t used=host_workspace;charge(used,plugin,work);
@@ -453,7 +484,7 @@ struct AnnotationPluginPreview::Data {
     std::thread::id owner;std::size_t payload=0,work=0;bool consumed=false;
 };
 struct FormatImportKernel {
-    static AnnotationPluginPreview capture(const Document& doc,const std::string& provider,const std::string& input,const AnnotationPluginImportOptions& options,const std::optional<std::string>& plugin_options,const std::atomic<bool>* c){
+    static AnnotationPluginPreview capture(const Document& doc,const std::string& provider,const std::string& input,const AnnotationPluginImportOptions& options,const std::optional<std::string>& plugin_options,const std::atomic<bool>* c,bool stored_ome_tiff=false){
         options.validate();workflow_checkpoint(c);
         auto data=std::make_unique<AnnotationPluginPreview::Data>();data->document=doc.analysis_identity_.token;data->revision=doc.revision();data->server=doc.server();data->owner=std::this_thread::get_id();data->work=options.work_bytes;
         std::size_t retained=sizeof(*data)+options.frame_id.capacity()+class_map_payload(options.class_map);
@@ -466,7 +497,16 @@ struct FormatImportKernel {
         // the legacy input class solely for this importer.
         charge(retained,data->input->path().capacity()+data->input->sha256().capacity()+data->frame.id.capacity()+data->frame.source_id.capacity()+data->registry.capacity()+65536,options.work_bytes);
         std::size_t live=host_workspace;charge(live,retained,options.work_bytes);charge(live,options.plugin_work_bytes,options.work_bytes);
-        auto session=detail::AnnotationPluginSession::open(provider,data->input->path(),plugin_options,options.plugin_work_bytes,c);
+        auto effective_options=plugin_options;
+        const auto ome_frame=provider==ome_roi_provider && data->server->reader_id()=="tiff"?
+            detail::ome_tiff_roi_frame(*detail::open_project_image_reader(doc,c),data->input->sha256()):std::nullopt;
+        if(stored_ome_tiff){
+            if(!ome_frame || ome_frame->image_id.empty())throw std::invalid_argument("OME XML must match the selected native OME-TIFF series and its referenced ROIs");
+            effective_options=nlohmann::json{{"image_id",ome_frame->image_id}}.dump();
+        }else if(ome_frame && ome_frame->orientation!=1){
+            throw std::invalid_argument("Matching OME-TIFF ROI XML requires explicit stored-coordinate import for this orientation");
+        }
+        auto session=detail::AnnotationPluginSession::open(provider,data->input->path(),effective_options,options.plugin_work_bytes,c);
         if(session->receipt().source_sha256!=data->input->sha256())throw WorkflowInputChanged("Annotation provider source differs from native snapshot");
         const auto count=session->metadata().points;if(!count || count>options.max_points)throw WorkflowCaptureLimit("Annotation plugin object count exceeds import limit");
         const auto abi=session->receipt().provider.abi;
@@ -499,6 +539,12 @@ struct FormatImportKernel {
             common.emplace("qpx.annotation-plugin.canvas_height",std::to_string(source_metadata.canvas_height));
         }
         if(source_facts){recipe.integer(options.unpositioned_z?*options.unpositioned_z:UINT64_MAX);recipe.integer(options.unpositioned_time?*options.unpositioned_time:UINT64_MAX);recipe.integer(std::uint32_t(options.legacy_position_axis));}
+        if(stored_ome_tiff){
+            text(recipe,"ome-tiff-stored-edge-coordinates/1");recipe.integer(ome_frame->orientation);
+            recipe.integer(ome_frame->width);recipe.integer(ome_frame->height);
+            common.emplace("qpx.annotation-plugin.ome_tiff_coordinates","stored-pixel-edges/1");
+            common.emplace("qpx.annotation-plugin.ome_tiff_orientation",std::to_string(ome_frame->orientation));
+        }
         const auto recipe_sha=recipe.finish();
         const auto object_array=product(count,sizeof(Annotation));
         std::size_t capture_used=host_workspace;charge(capture_used,std::size_t(session->retained_work_bytes()),options.work_bytes);charge(capture_used,retained,options.work_bytes);charge(capture_used,object_array,options.work_bytes);
@@ -511,7 +557,9 @@ struct FormatImportKernel {
             if(rows.size()!=n)throw std::invalid_argument("Annotation object page count differs");
             for(const auto& row:rows){workflow_checkpoint(c);const auto id=detail::spatial_identifier(row.source_id);field(row.class_label,false);
                 if(!source_facts && (row.z<0 || row.t<0))throw std::invalid_argument("Annotation plugin Z/time must be explicit nonnegative indices");
-                if(row.canvas_width && (row.canvas_width!=data->frame.width || row.canvas_height!=data->frame.height))throw std::invalid_argument("Annotation source mask canvas differs from selected native image frame");
+                const auto canvas_width=stored_ome_tiff?ome_frame->width:data->frame.width;
+                const auto canvas_height=stored_ome_tiff?ome_frame->height:data->frame.height;
+                if(row.canvas_width && (row.canvas_width!=canvas_width || row.canvas_height!=canvas_height))throw std::invalid_argument("Annotation source mask canvas differs from the selected image coordinate frame");
                 const auto plane=source_facts?resolve_annotation_plane(doc,row,options,c):ObjectPlane(row.c,std::uint32_t(row.z),std::uint32_t(row.t));doc.validate_object_plane(plane);
                 std::string native_class;if(!row.class_label.empty()){const auto mapped=options.class_map.find(row.class_label);if(mapped==options.class_map.end())throw std::invalid_argument("Annotation source class has no explicit native class mapping");native_class=mapped->second;}
                 if(row.geometry_bytes>expected_geometry-received_geometry)throw std::invalid_argument("Annotation geometry byte total differs");received_geometry+=row.geometry_bytes;
@@ -532,7 +580,13 @@ struct FormatImportKernel {
                     for(const auto& [key,value]:row.source_properties)if(!properties.emplace(prefix+"source."+key,value).second)throw std::invalid_argument("Source fact collides with native receipt");
                 }
                 if(abi>=4)properties.emplace(prefix+"locked",row.locked?"true":"false");
-                Annotation object;object.id=at+1;object.name=source_facts && !row.display_name.empty()?row.display_name:id;object.geometry=row.geometry;object.class_name=std::move(native_class);object.plane=plane;object.properties=std::make_shared<const ObjectProperties>(std::move(properties),std::map<std::string,double>{},row.locked,row.color_rgb);
+                auto imported_geometry=row.geometry;
+                if(stored_ome_tiff && ome_frame->orientation!=1){
+                    auto transform_work=page_used;
+                    charge(transform_work,product(row.geometry.payload_bytes(),8),options.work_bytes);
+                    imported_geometry=orient_ome_tiff_geometry(row.geometry,*ome_frame,c);
+                }
+                Annotation object;object.id=at+1;object.name=source_facts && !row.display_name.empty()?row.display_name:id;object.geometry=std::move(imported_geometry);object.class_name=std::move(native_class);object.plane=plane;object.properties=std::make_shared<const ObjectProperties>(std::move(properties),std::map<std::string,double>{},row.locked,row.color_rgb);
                 auto peak=host_workspace;charge(peak,std::size_t(session->retained_work_bytes()),options.work_bytes);charge(peak,retained,options.work_bytes);charge(peak,object_payload(object),options.work_bytes);
                 charge(retained,object_payload(object),options.work_bytes);data->objects.push_back(std::move(object));++at;
             }
@@ -579,5 +633,6 @@ const std::string& AnnotationPluginPreview::sha256() const {if(!data_)throw std:
 std::size_t AnnotationPluginPreview::payload_bytes() const {if(!data_)throw std::logic_error("Moved annotation preview");return data_->payload;}
 bool AnnotationPluginPreview::consumed() const noexcept {return data_ && data_->consumed;}
 AnnotationPluginPreview preview_annotation_plugin(const Document& doc,const std::string& provider,const std::string& input,const AnnotationPluginImportOptions& options,const std::optional<std::string>& plugin_options,const std::atomic<bool>* c){return FormatImportKernel::capture(doc,provider,input,options,plugin_options,c);}
+AnnotationPluginPreview preview_ome_tiff_annotations(const Document& doc,const std::string& xml,const AnnotationPluginImportOptions& options,const std::atomic<bool>* c){return FormatImportKernel::capture(doc,ome_roi_provider,xml,options,std::nullopt,c,true);}
 AnnotationPluginImportResult apply_annotation_plugin(Document& doc,AnnotationPluginPreview& preview,const std::atomic<bool>* c){return FormatImportKernel::apply(doc,preview,c);}
 } // namespace qpx

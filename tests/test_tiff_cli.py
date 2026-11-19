@@ -27,10 +27,14 @@ def run(*args):
 
 
 def export_ome_xml(source, output, *options):
+    return run_format_import('ome-tiff-export-xml', source, output, *options)
+
+
+def run_format_import(*args):
     importer = os.environ.get('QUPATHXX_TEST_FORMAT_IMPORT')
     if not importer:
         pytest.skip('native format import CLI path is required')
-    return subprocess.run([importer, 'ome-tiff-export-xml', str(source), str(output), *options],
+    return subprocess.run([importer, *map(str, args)],
                           capture_output=True, encoding='utf-8', timeout=40)
 
 
@@ -43,8 +47,7 @@ def test_export_embedded_ome_xml_preserves_source_text(tmp_path, bigtiff):
            'Type="uint8" DimensionOrder="XYZCT"><Channel ID="Channel:0:0"/><TiffData/></Pixels>'
            '<ROIRef ID="ROI:0"/></Image><ROI ID="ROI:0"><Union><Point ID="Shape:0" X="1" Y="1"/>'
            '</Union></ROI></OME>').encode('utf-8')
-    # A non-top-left image with ROIRef has no raster import route. Metadata
-    # extraction must still preserve the source XML without opening its raster.
+    # Extraction returns the original document regardless of raster orientation.
     tifffile.imwrite(source, np.arange(6, dtype='u1').reshape(2, 3), description=xml,
                      metadata=None, bigtiff=bigtiff, byteorder='>' if bigtiff else '<',
                      extratags=[(274, 'H', 1, 6, False)])
@@ -251,18 +254,15 @@ def test_ome_tiff_normalizes_coherent_orientation_and_calibration(tmp_path, orie
 
 @pytest.mark.parametrize(('case', 'diagnostic'), [
     ('mixed', 'plane orientations differ'),
-    ('roi', 'referenced ROI geometry'),
     ('swapped-xml', 'plane geometry/type/pyramid differs'),
 ])
 def test_oriented_ome_tiff_refuses_incompatible_geometry(tmp_path, case, diagnostic):
     source = tmp_path / 'invalid.ome.tif'
     width, height = (5, 7) if case == 'swapped-xml' else (7, 5)
-    roi_ref = '<ROIRef ID="ROI:0"/>' if case == 'roi' else ''
-    roi = '<ROI ID="ROI:0"><Union><Point ID="Shape:0" X="1" Y="2"/></Union></ROI>' if roi_ref else ''
     xml = (f'<OME xmlns="http://www.openmicroscopy.org/Schemas/OME/2016-06"><Image ID="Image:0">'
            f'<Pixels ID="Pixels:0" SizeX="{width}" SizeY="{height}" SizeZ="2" SizeC="1" SizeT="1" '
            'DimensionOrder="XYZCT" Type="uint16"><Channel ID="Channel:0:0" SamplesPerPixel="1"/>'
-           f'<TiffData/></Pixels>{roi_ref}</Image>{roi}</OME>')
+           '<TiffData/></Pixels></Image></OME>')
     pixels = np.arange(35, dtype=np.uint16).reshape(5, 7)
     with tifffile.TiffWriter(source) as writer:
         writer.write(pixels, description=xml, metadata=None, extratags=[(274, 'H', 1, 6, False)])
@@ -293,12 +293,110 @@ def test_oriented_ome_compound_pyramid_shares_one_frame(tmp_path, roi_reference)
     for c, path in enumerate(paths):
         output = tmp_path / f'pyramid-{c}.npy'
         result = run('--raw', path, output, '--channels', 2, '--level', 1)
-        if roi_reference:
-            assert result.returncode == 2 and 'referenced ROI geometry' in result.stderr
-            assert not output.exists()
+        assert result.returncode == 0, result.stderr
+        np.testing.assert_array_equal(np.load(output), expected)
+
+
+@pytest.mark.parametrize('orientation', range(1, 9))
+def test_ome_tiff_registers_exact_source_rois_to_saved_raster(tmp_path, orientation):
+    manifest = os.environ.get('QUPATHXX_TEST_OME_ROI_MANIFEST')
+    if not manifest:
+        pytest.skip('admitted OME ROI provider manifest is required')
+    source, xml_path = tmp_path / 'image.ome.tif', tmp_path / 'image.xml'
+    base, saved = tmp_path / 'base.qpx', tmp_path / 'annotations.qpx'
+    companion = tmp_path / 'master.ome'
+    tiff_data, other_image = '<TiffData/>', ''
+    if orientation == 6:
+        uuid = '<UUID FileName="image.ome.tif">urn:fixture</UUID>'
+        tiff_data = f'<TiffData IFD="1">{uuid}</TiffData>'
+        other_image = ('<Image ID="Image:Decoy"><Pixels ID="Pixels:Decoy" SizeX="7" SizeY="5" '
+                       'SizeZ="1" SizeC="1" SizeT="1" DimensionOrder="XYZCT" Type="uint8">'
+                       f'<Channel ID="Channel:Decoy"/><TiffData IFD="0">{uuid}</TiffData></Pixels></Image>')
+    xml = ('<OME UUID="urn:master" xmlns="http://www.openmicroscopy.org/Schemas/OME/2016-06">'
+           f'{other_image}<Image ID="Image:0"><Pixels ID="Pixels:0" SizeX="7" SizeY="5" SizeZ="1" SizeC="1" SizeT="1" '
+           'DimensionOrder="XYZCT" Type="uint8"><Channel ID="Channel:0"/>'
+           f'{tiff_data}</Pixels><ROIRef ID="ROI:0"/></Image>'
+           '<ROI ID="ROI:0"><Union><Point ID="Shape:Point" X="2.5" Y="1.5"/>'
+           '<Rectangle ID="Shape:Rect" X="1" Y="1" Width="2" Height="3"/>'
+           '<Mask ID="Shape:Mask" X="2" Y="1" Width="3" Height="2">'
+           '<BinData Length="4" BigEndian="true" Compression="none">oA==</BinData></Mask>'
+           '</Union></ROI></OME>').encode('ascii')
+    description = xml
+    if orientation == 6:
+        companion.write_bytes(xml)
+        description = (b'<OME UUID="urn:fixture" xmlns="http://www.openmicroscopy.org/Schemas/OME/2016-06">'
+                       b'<BinaryOnly MetadataFile="master.ome" UUID="urn:master"/></OME>')
+    pixels = np.arange(1, 36, dtype=np.uint8).reshape(5, 7)
+    tags = [(274, 'H', 1, orientation, False)]
+    with tifffile.TiffWriter(source) as writer:
+        if other_image:
+            writer.write(np.zeros_like(pixels), description=description, metadata=None, extratags=tags)
+            writer.write(pixels, metadata=None, extratags=tags)
         else:
-            assert result.returncode == 0, result.stderr
-            np.testing.assert_array_equal(np.load(output), expected)
+            writer.write(pixels, description=description, metadata=None, extratags=tags)
+    source_before = source.read_bytes()
+    result = export_ome_xml(source, xml_path, '--resolve-metadata')
+    assert result.returncode == 0, result.stderr
+    assert xml_path.read_bytes() == xml
+    result = run_format_import('project-create', source, base, '--reader', 'tiff', '--series', int(bool(other_image)))
+    assert result.returncode == 0, result.stderr
+    base_before = base.read_bytes()
+    command = ('--format-plugins', manifest, 'annotations-import', 'org.qupathxx.ome-roi', base, 1)
+    if other_image:
+        decoy = tmp_path / 'decoy.qpx'
+        result = run_format_import('project-create', source, decoy, '--reader', 'tiff')
+        assert result.returncode == 0, result.stderr
+        result = run_format_import(*command[:4], decoy, 1, xml_path, saved, '--ome-tiff-coordinates', 'stored')
+        assert result.returncode == 2 and 'must match the selected native OME-TIFF series' in result.stderr
+        assert not saved.exists()
+    if orientation != 1:
+        result = run_format_import(*command, xml_path, saved)
+        assert result.returncode == 2 and 'requires explicit stored-coordinate' in result.stderr
+        assert not saved.exists()
+    mismatch = tmp_path / 'unverified.xml'
+    mismatch.write_bytes(xml + b'\n')
+    result = run_format_import(*command, mismatch, saved, '--ome-tiff-coordinates', 'stored')
+    assert result.returncode == 2 and 'must match the selected native OME-TIFF series' in result.stderr
+    assert not saved.exists()
+    result = run_format_import(*command, xml_path, saved, '--ome-tiff-coordinates', 'stored')
+    assert result.returncode == 0, result.stderr
+
+    geojson = tmp_path / 'reopened.geojson'
+    result = run_format_import('geojson-export', saved, 1, geojson)
+    assert result.returncode == 0, result.stderr
+    features = {f['properties']['name']: f for f in json.loads(geojson.read_bytes())['features']}
+    assert set(features) == {'Shape:Point', 'Shape:Rect', 'Shape:Mask'}
+    for feature in features.values():
+        metadata = feature['properties']['metadata']
+        assert metadata['qpx.annotation-plugin.ome_tiff_orientation'] == str(orientation)
+        assert metadata['qpx.annotation-plugin.source_sha256'] == hashlib.sha256(xml).hexdigest()
+    expected = (pixels, pixels[:, ::-1], pixels[::-1, ::-1], pixels[::-1], pixels.T,
+                np.rot90(pixels, -1), pixels.T[::-1, ::-1], np.rot90(pixels, 1))[orientation - 1]
+    raw = tmp_path / 'reopened.npy'
+    result = run('--raw-project', saved, 1, raw)
+    assert result.returncode == 0, result.stderr
+    np.testing.assert_array_equal(np.load(raw)[..., 0], expected)
+    y, x = np.argwhere(expected == pixels[1, 2])[0]
+    assert features['Shape:Point']['geometry'] == {'type': 'Point', 'coordinates': [x + .5, y + .5]}
+
+    def geometry_codes(geometry):
+        def contains(ring, x, y):
+            return sum((y1 > y) != (y2 > y) and x < (x2-x1)*(y-y1)/(y2-y1)+x1
+                       for (x1, y1), (x2, y2) in zip(ring, ring[1:])) % 2
+
+        assert geometry['type'] in ('Polygon', 'MultiPolygon')
+        polygons = geometry['coordinates']
+        if geometry['type'] == 'Polygon':
+            polygons = [polygons]
+        return {int(expected[y, x]) for y, x in np.ndindex(expected.shape)
+                if any(contains(rings[0], x+.5, y+.5) and
+                       not any(contains(ring, x+.5, y+.5) for ring in rings[1:]) for rings in polygons)}
+
+    assert geometry_codes(features['Shape:Rect']['geometry']) == set(pixels[1:4, 1:3].flat)
+    assert geometry_codes(features['Shape:Mask']['geometry']) == {pixels[1, 2], pixels[1, 4]}
+    assert source.read_bytes() == source_before and base.read_bytes() == base_before
+    if companion.exists():
+        assert companion.read_bytes() == xml
 
 
 @pytest.mark.parametrize(('photo', 'orientation', 'storage'), [

@@ -47,6 +47,7 @@ std::shared_ptr<ImageServer> open_tiff(const std::string&,TiffOpenOptions,const 
 detail::OmeTiffXmlExport detail::export_ome_tiff_xml(const std::string&,const std::string&,bool,const std::atomic<bool>*) {
     throw std::runtime_error("OME-TIFF XML export requires QUPATHXX_BUILD_TIFF=ON");
 }
+std::optional<detail::OmeTiffRoiFrame> detail::ome_tiff_roi_frame(const ImageServer&,const std::string&) {return {};}
 #else
 namespace {
 namespace fs=std::filesystem;
@@ -252,7 +253,8 @@ class TiffData final {
     std::vector<std::unique_ptr<File>> files_;std::uint32_t active_file_=UINT32_MAX;
     std::size_t xml_bytes_=0,catalog_entries_=0;
     std::vector<Ifd> roots_;std::vector<Mapping> mapping_;
-    bool ome_has_roi_references_=false,ome_bit_=false;
+    std::map<std::string,std::string> roi_images_;
+    bool ome_bit_=false;
     std::shared_ptr<RawImageMetadata> raw_=std::make_shared<RawImageMetadata>();
     std::shared_ptr<TiffView> view_;ImageMetadata display_;
     std::shared_ptr<const TiffOpenOptions> option_snapshot_;
@@ -442,13 +444,20 @@ class TiffData final {
         return std::make_tuple(sizes,bounded(p->Attribute("DimensionOrder"),5),ome_pixel_type(p),channels,
             std::array<std::optional<double>,4>{quantity(p,"PhysicalSizeX","PhysicalSizeXUnit"),quantity(p,"PhysicalSizeY","PhysicalSizeYUnit"),quantity(p,"PhysicalSizeZ","PhysicalSizeZUnit"),quantity(p,"TimeIncrement","TimeIncrementUnit",true)});
     }
+    void remember_roi_image(std::uint32_t metadata,const tinyxml2::XMLElement* image) {
+        if(!child(image,"ROIRef")) return;
+        const auto& xml=files_[metadata]->xml;
+        Sha256 hash;hash.update(xml.data(),xml.size());
+        const auto* id=image->Attribute("ID");
+        roi_images_.emplace(hash.finish(),id && std::strlen(id)<=4096?std::string(id):std::string{});
+    }
     void validate_companion_metadata(std::uint32_t metadata,const tinyxml2::XMLElement* primary,
                                      const std::vector<std::uint32_t>& groups,PlaneCalibration& calibration) {
         tinyxml2::XMLDocument document;parse_ome(files_[metadata]->xml,document);
         const tinyxml2::XMLElement* selected=nullptr;std::uint32_t count=0;
         for(auto* e=document.RootElement()->FirstChildElement();e;e=e->NextSiblingElement()) if(local(e,"Image")) {if(count==raw_->series) selected=e;if(++count>1024) throw std::length_error("OME series count exceeds 1024");}
         const auto* pixels=child(selected,"Pixels");if(count!=raw_->series_count || !pixels || signature(pixels)!=signature(primary)) throw std::invalid_argument("OME companion series metadata differs");
-        ome_has_roi_references_|=child(selected,"ROIRef")!=nullptr;
+        remember_roi_image(metadata,selected);
         if(calibration.z_spacing_um &&
            regular_plane_step(*pixels,*raw_,groups,PlaneAxis::Z,opening_cancel_)!=calibration.z_spacing_um)
             calibration.z_spacing_um.reset();
@@ -495,7 +504,7 @@ class TiffData final {
         const tinyxml2::XMLElement* image=nullptr;std::uint32_t count=0;
         for(auto* e=root->FirstChildElement();e;e=e->NextSiblingElement()) if(local(e,"Image")) {if(count==raw_->series) image=e;if(++count>1024) throw std::length_error("OME series count exceeds 1024");}
         if(!image) throw std::out_of_range("OME series index is outside the file");raw_->series_count=count;const auto* p=child(image,"Pixels");if(!p) throw std::invalid_argument("OME Image has no Pixels");
-        ome_has_roi_references_=child(image,"ROIRef")!=nullptr;
+        remember_roi_image(metadata_file,image);
         // Validate OME XY metadata in the stored raster axes before normalization.
         raw_->width=integer(p,"SizeX");raw_->height=integer(p,"SizeY");raw_->channels=integer(p,"SizeC");raw_->z_planes=integer(p,"SizeZ");raw_->timepoints=integer(p,"SizeT");
         if(!raw_->width || !raw_->height || !raw_->channels || raw_->channels>65536 || !raw_->z_planes || raw_->z_planes>65536 || !raw_->timepoints || raw_->timepoints>65536 ||
@@ -560,8 +569,6 @@ class TiffData final {
     void levels() {
         std::set<std::uint32_t> selected;for(auto m:mapping_) selected.insert(m.ifd);std::size_t count=roots_.size();
         const auto orientation=roots_[mapping_.front().ifd].orientation;
-        if(ome_has_roi_references_ && orientation!=ORIENTATION_TOPLEFT)
-            throw std::invalid_argument("Non-top-left OME-TIFF with referenced ROI geometry is unsupported");
         for(auto index:selected) {auto& root=roots_[index];root.validate();
             if(root.orientation!=orientation)
                 throw std::invalid_argument("OME-TIFF plane orientations differ");
@@ -746,6 +753,14 @@ public:
     std::shared_ptr<const TiffReadStats> tiff_read_stats() const {std::lock_guard<std::mutex> lock(mutex_);return std::make_shared<const TiffReadStats>(stats_);}
     std::string reader_id() const {return "tiff";}std::string source_locator() const {return path_;}
     std::shared_ptr<const ReaderSource> reader_source() const {return source_;}
+    std::optional<detail::OmeTiffRoiFrame> roi_frame(const std::string& sha256) const {
+        const auto at=roi_images_.find(sha256);
+        if(at==roi_images_.end()) return {};
+        const auto& root=roots_[mapping_.front().ifd];
+        const RasterAxes axes(root);
+        return detail::OmeTiffRoiFrame{at->second,root.width,root.height,root.orientation,
+                                      axes.transpose,axes.reverse_x,axes.reverse_y};
+    }
     RawPixelBuffer read_raw(const RawRegionRequest& r,const std::atomic<bool>* cancelled=nullptr) const {std::lock_guard<std::mutex> lock(mutex_);return const_cast<TiffData*>(this)->raw_locked(r,cancelled);}
     PixelBuffer read_view(const RegionRequest& r,const TiffView& display_view) const {
         std::lock_guard<std::mutex> lock(mutex_);if(closed_) throw std::runtime_error("TIFF image server is closed");validate_region(display_,r);auto guards=guard_files();PixelBuffer output(r.width,r.height);auto& bytes=output.writable_bytes();
@@ -817,6 +832,10 @@ public:
     const ImageMetadata& metadata() const override {return metadata_;}
     std::string reader_id() const override {return "tiff";}std::string source_locator() const override {return path_;}
     std::shared_ptr<const ReaderSource> reader_source() const override {return source_;}
+    std::optional<detail::OmeTiffRoiFrame> roi_frame(const std::string& sha256) const {
+        std::lock_guard<std::mutex> lock(mutex_);
+        return data_?data_->roi_frame(sha256):std::nullopt;
+    }
     std::shared_ptr<const RawImageMetadata> raw_metadata(const std::atomic<bool>* cancelled=nullptr) const override {detail::export_checkpoint(cancelled);return raw_;}
     std::shared_ptr<const TiffView> tiff_view() const override {return view_;}
     std::shared_ptr<const TiffOpenOptions> tiff_options() const override {return options_;}
@@ -834,6 +853,10 @@ std::shared_ptr<ImageServer> open_tiff(const std::string& path,TiffOpenOptions o
 detail::OmeTiffXmlExport detail::export_ome_tiff_xml(const std::string& input,const std::string& output,bool resolve_companion,
                                                    const std::atomic<bool>* cancelled) {
     return TiffData::export_xml(input,output,resolve_companion,cancelled);
+}
+std::optional<detail::OmeTiffRoiFrame> detail::ome_tiff_roi_frame(const ImageServer& server,const std::string& sha256) {
+    const auto* tiff=dynamic_cast<const TiffServer*>(&server);
+    return tiff?tiff->roi_frame(sha256):std::nullopt;
 }
 #endif
 }
