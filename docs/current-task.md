@@ -10,6 +10,20 @@ Java/Groovy claim; NC/restricted/unknown required materials stay unadmitted.
 
 ## Verified locally - accumulated native changes from one Windows install
 
+The five-archive Windows native handoff for `4ce0b856` is staged and verified
+locally. It includes the runtime, SDK, matching application and dependency
+sources, and separately versioned optional provider packs. The source ZIP
+configured offline with Python disabled and reproduced the build's exact
+source fingerprint. The runtime dependency scan covered 11 PE binaries.
+From the extracted archives, the SDK consumer saved and replayed its project,
+and the four optional provider packs passed 21 workflow checks. Removal deleted
+505 installed files and preserved 56 research files. All seven handoff checksums
+passed. Publication and a fresh-host run are open.
+
+[Current Windows handoff](../build/native-format-closeout/validation-packet/current-native-workflow-install/windows-native-handoff/handoff.json)
+[Archive checksums](../build/native-format-closeout/validation-packet/current-native-workflow-install/windows-native-handoff/SHA256SUMS.txt)
+[Archive install and removal receipt](../build/native-format-closeout/validation-packet/current-native-workflow-install/handoff-archive-installation-removal.json)
+
 One cached Python-off build brought all eight installed entry points onto the
 current source. The relocated seven-component stage and admitted VTI provider
 passed 126 checks across TIFF, migration, axes, TMA and stain workflows. The
@@ -26,8 +40,13 @@ the current install with the earlier handoff found 17 changed compiled inputs,
 with no paths added or removed. The install has the earlier component membership
 plus 31 files for the VTI provider. The first comparison hit the Windows default
 text encoding on a Unicode path and passed after decoding the manifests as UTF-8.
-Next, carry the reviewed material inventory forward for those exact changes and
-stage the matching Windows archives from the cached native products.
+Staging checked those 17 inputs against the frozen source and matched the 15
+changed install members to the verified build. It reused 15 authenticated
+dependency payloads. The runtime scanner required its canonical candidate
+filename, so verification used a byte-identical hard link. MSBuild failed in
+the deep SDK test directory. A shorter consumer build path passed and reused
+the completed offline configuration and provider replay. No engine rebuild
+or dependency fetch was needed.
 
 [Current install and removal receipt](../build/native-format-closeout/validation-packet/current-native-workflow-install/installation-removal.json)
 [Installed workflow checks](../build/native-format-closeout/validation-packet/current-native-workflow-install/pytest.log)
