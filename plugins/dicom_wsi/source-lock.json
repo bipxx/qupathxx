@@ -1,0 +1,119 @@
+{
+  "carrier": {
+    "filename": "openslide-bin-4.0.1.2.tar.gz",
+    "sha256": "83c9a4a598f3a5fe1dea83e123745e48b94ce7eab99833f04902bdf4fa0af1db",
+    "material_id": "release-src-openslide-sdk-and-dependencies",
+    "prefix": "openslide-bin-4.0.1.2/subprojects/"
+  },
+  "metadata_source_members": {
+    "libdicom-1.3.0/LICENSE": {
+      "sha256": "86287375f6fc517fb9d69a62ec08ebd08f33869d426aec0a4c575376fa3daca8",
+      "bytes": 1075,
+      "license": "MIT"
+    },
+    "libdicom-1.3.0/include/dicom/dicom.h": {
+      "sha256": "428c701924ecff19041fa359097f2712da52cf8a59c69ed4c6dfb9d8c4d9690b",
+      "bytes": 49316,
+      "license": "MIT"
+    },
+    "libdicom-1.3.0/include/dicom/version.h.in": {
+      "sha256": "d2be0c87933ad16dfa5edac5148c9e5d69ff5ee9b78042fe2a10336efd872ccd",
+      "bytes": 683,
+      "license": "MIT"
+    },
+    "libdicom-1.3.0/src/pdicom.h": {
+      "sha256": "ca1bd987728154d749adb883dfacd5d7cae3851eafd3f636f7637c9256155b5b",
+      "bytes": 6088,
+      "license": "MIT"
+    },
+    "libdicom-1.3.0/src/dicom-dict-build.c": {
+      "sha256": "0e7ccb7b7f0a9ed87c60f74b9e3e47cadef98ce271739e5f5005c6e5fb5df0a3",
+      "bytes": 4569,
+      "license": "MIT"
+    },
+    "libdicom-1.3.0/src/dicom-dict-tables.c": {
+      "sha256": "dd6943586229a601ff2b96406f8fa1c467756aecfb13c137074294dc8ceb90bb",
+      "bytes": 298805,
+      "license": "MIT"
+    },
+    "libdicom-1.3.0/src/dicom-dict-tables.h": {
+      "sha256": "a7ba3663b942117dcdb1137021d60dfb3aac4827d08eb83457c5de75ad954c03",
+      "bytes": 1741,
+      "license": "MIT"
+    },
+    "libdicom-1.3.0/src/dicom-data.c": {
+      "sha256": "1340f02fa571f7b4d29f6b33a972f506d5ecc22efc3b2f48669dae153146382a",
+      "bytes": 54220,
+      "license": "MIT"
+    },
+    "libdicom-1.3.0/src/dicom-dict.c": {
+      "sha256": "140f3181df617304d5e9da204efa3df35f37e07cfc503f89be70eea14bfd9b31",
+      "bytes": 5446,
+      "license": "MIT"
+    },
+    "libdicom-1.3.0/src/dicom-file.c": {
+      "sha256": "f8a4f661b40b266ea3676fbcc1f503586c51900872bfc31410376d5ddae7ffa6",
+      "bytes": 52560,
+      "license": "MIT"
+    },
+    "libdicom-1.3.0/src/dicom-io.c": {
+      "sha256": "3f50cdb23f642bd442d9a729b4e5f905941ce48800475bc3b230e3f4a89ab808",
+      "bytes": 9909,
+      "license": "MIT"
+    },
+    "libdicom-1.3.0/src/dicom-parse.c": {
+      "sha256": "f78932e3e2cccb0df0924e722d73c630a492fca0eb5c65f4bdb54b5d2df6a2a6",
+      "bytes": 32335,
+      "license": "MIT"
+    },
+    "libdicom-1.3.0/src/dicom.c": {
+      "sha256": "5297840e774e7d91b7d20499be376013ff0b7cd7833d66abb41f71a54f86e807",
+      "bytes": 9337,
+      "license": "MIT"
+    },
+    "uthash-2.3.0/LICENSE": {
+      "sha256": "e9b9aac8421b6d29176c6f23f6f7a907194245e35ef99ace10839734961cfaa2",
+      "bytes": 1141,
+      "license": "BSD-1-Clause"
+    },
+    "uthash-2.3.0/src/uthash.h": {
+      "sha256": "344175d0ae3d0d7651887f932fc224f6d133559f0fc83ee73fe641697d77211a",
+      "bytes": 73786,
+      "license": "BSD-1-Clause"
+    },
+    "uthash-2.3.0/src/utarray.h": {
+      "sha256": "d186b8af1ce440eb7d086d575a3a753e653d7827a1f4b563115fc3f1dd5f4f12",
+      "bytes": 13457,
+      "license": "BSD-1-Clause"
+    }
+  },
+  "openslide_sdk": {
+    "version": "4.0.1.2",
+    "members": {
+      "include/openslide/openslide.h": "795995c7adb720a280679f7d34da574c64c4bce75a15eac7130e46d57878848f",
+      "include/openslide/openslide-features.h": "6299b18df24a1a65d2733fb55da0321130eb6ede2cc93074a026316b62fe0ffc",
+      "lib/libopenslide.lib": "fee7fd49de26110c1e81d1561dbe7f9cd6e13fcb45280b38126e8b4d7b326ba1",
+      "bin/libopenslide-1.dll": "dc8e35ad0ce001c4e878f2bebc23e87fb85d2bdebec5a542af2ecec3cb5cd635",
+      "versions.json": "3b321f053538a5b1a5cb79b811ac0095eba46cdd4aea262bc140af0e3b6996e5",
+      "licenses/OpenJPEG/LICENSE": "a6af136f3e15038a666b61f376612a07d9a4e48cb7c01adbf3e33b3f14ab49b6",
+      "licenses/OpenSlide/COPYING.LESSER": "20e50fe7aae3e56378ebf0417d9de904f55a0e61e4df315333e632a4d3555d95",
+      "licenses/SQLite/PUBLIC-DOMAIN.txt": "452d1e9b9ac57647fd26b9a0eee6a647e0d090f180897b3626ea1278ccb1cf95",
+      "licenses/Zstandard/LICENSE": "7055266497633c9025b777c78eb7235af13922117480ed5c674677adc381c9d8",
+      "licenses/cairo/COPYING": "67228a9f7c5f9b67c58f556f1be178f62da4d9e2e6285318d8c74d567255abdf",
+      "licenses/cairo/COPYING-LGPL-2.1": "9e9e8608c4cdda51a78cc3a385f4ec9a2e4c96d5ecad74ac8bca5fca3e563b7d",
+      "licenses/cairo/COPYING-MPL-1.1": "53692a2ed6c6a2c6ec9b32dd0b820dfae91e0a1fcdf625ca9ed0bdf8705fcc4f",
+      "licenses/glib/COPYING": "fa6f36630bb1e0c571d34b2bbdf188d08495c9dbf58f28cac112f303fc1f58fb",
+      "licenses/libdicom/LICENSE": "86287375f6fc517fb9d69a62ec08ebd08f33869d426aec0a4c575376fa3daca8",
+      "licenses/libffi/LICENSE": "d5699fa516968e3a1550e6c902b7441c78856f2603d61bedd0b0662a26655366",
+      "licenses/libjpeg-turbo/LICENSE.md": "e10114e6e40f3d0311c401ca25245ac5ef459a43c20f976fd63f03e816f5741f",
+      "licenses/libjpeg-turbo/README.ijg": "75815e3bf6484201a3c3d17a1bbf10f2e8e3237f84df10a2357ea896db2a81d6",
+      "licenses/libpng/LICENSE": "bdb0a645ea18c60507d0368379b1ac5474b92255fcc2d115e07486a7672ba526",
+      "licenses/libtiff/LICENSE.md": "0e27c2382d7b8147972bbb746e04059a1152c8d0fda9d03ef1399d1a433c4ade",
+      "licenses/libxml2/Copyright": "5d4873884a890122a4b9b20ad56ac6f7da1d796a5bfcf04a427970ac96217626",
+      "licenses/pixman/COPYING": "fac9270f0987b96ff4533fca3548c633e02083cbba4a0172a3b149b2e4019793",
+      "licenses/proxy-libintl/COPYING": "d245807f90032872d1438d741ed21e2490e1175dc8aa3afa5ddb6c8e529b58e5",
+      "licenses/uthash/LICENSE": "e9b9aac8421b6d29176c6f23f6f7a907194245e35ef99ace10839734961cfaa2",
+      "licenses/zlib-ng/LICENSE.md": "6c9f0d975b41afaa34d22f55bb8986ce69e5cb7ad327cb2b28820cd425edf5ee"
+    }
+  }
+}

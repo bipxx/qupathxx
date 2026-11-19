@@ -40,12 +40,17 @@ endif()
 if(NOT qpx_image_manifest_name MATCHES "^[A-Za-z0-9_.-]+\\.json$")
   message(FATAL_ERROR "Image plugin manifest must be a plain JSON basename")
 endif()
+if(qpx_image_sdk_runtime_files AND NOT CMAKE_DUMPBIN)
+  get_filename_component(compiler_directory "${CMAKE_CXX_COMPILER}" DIRECTORY)
+  find_program(CMAKE_DUMPBIN NAMES dumpbin HINTS "${compiler_directory}" REQUIRED)
+endif()
 add_custom_command(TARGET ${qpx_image_target} POST_BUILD COMMAND "${CMAKE_COMMAND}"
   "-DMODULE_FILE=$<TARGET_FILE:${qpx_image_target}>" "-DMODULE_NAME=${qpx_image_target}.dll"
   "-DPROVIDER_ID=${qpx_image_id}" "-DDISPLAY_NAME=${qpx_image_name}"
   "-DCONTRACT=${qpx_image_contract}" "-DVERSION=${PROJECT_VERSION}"
   "-DSOURCE_STORE=${qpx_image_source_store}"
   "-DSOURCE_FILES=${qpx_image_source_files}"
+  "-DDISPLAY_ONLY=${qpx_image_display_only}"
   "-DSDK_RUNTIME_FILES=${qpx_image_sdk_runtime_files}" "-DDUMPBIN=${CMAKE_DUMPBIN}"
   "-DPROFILE=windows-x64-msvc${QUPATHXX_READER_PLUGIN_MSVC_VERSION}-release-md"
   "-DOUTPUT=$<TARGET_FILE_DIR:${qpx_image_target}>/${qpx_image_manifest_name}"

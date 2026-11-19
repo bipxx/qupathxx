@@ -42,6 +42,187 @@
     "sha256": "0f4030d670b3a822761cacc8752f6ccd5f84f70d469bfa4e35b654e264c50c03",
     "source": "tools/make_h5ad_fixtures.py; authored values; tests/fixtures/h5ad/manifest.json"
   },
+  "dicom_wsi_provider": [
+    {
+      "filename": "dicom_wsi_reader.cpp",
+      "source": "plugins/dicom_wsi/dicom_wsi_reader.cpp",
+      "bytes": 19149,
+      "sha256": "a5140447f23cd2395f9bf4b87ee65ebeeb0e4901d7ae5a073aebf57dbd40b762",
+      "material": {
+        "id": "dicom-wsi-src-dicom_wsi_reader.cpp",
+        "category": "admitted_open",
+        "kind": "code",
+        "license_id": "AGPL-3.0-only",
+        "license_evidence": "LICENSE; plugins/dicom_wsi/README.md and source-lock.json",
+        "attribution": "qupathxx contributors",
+        "source_ids": [
+          "qupathxx-root-license"
+        ]
+      }
+    },
+    {
+      "filename": "CMakeLists.txt",
+      "source": "plugins/dicom_wsi/CMakeLists.txt",
+      "bytes": 4567,
+      "sha256": "3d93eee1ce931cf4859c657459a3d7a2033eec4ca9341d2e31898ba4edd18ce4",
+      "material": {
+        "id": "dicom-wsi-src-CMakeLists.txt",
+        "category": "admitted_open",
+        "kind": "code",
+        "license_id": "AGPL-3.0-only",
+        "license_evidence": "LICENSE; plugins/dicom_wsi/README.md and source-lock.json",
+        "attribution": "qupathxx contributors",
+        "source_ids": [
+          "qupathxx-root-license"
+        ]
+      }
+    },
+    {
+      "filename": "source-lock.json",
+      "source": "plugins/dicom_wsi/source-lock.json",
+      "bytes": 5849,
+      "sha256": "9eab6fc141180f6b646f5c606a063b944ceda88890b0b753bca4192027b03b82",
+      "material": {
+        "id": "dicom-wsi-src-source-lock.json",
+        "category": "admitted_open",
+        "kind": "code",
+        "license_id": "AGPL-3.0-only",
+        "license_evidence": "LICENSE; plugins/dicom_wsi/README.md and source-lock.json",
+        "attribution": "qupathxx contributors",
+        "source_ids": [
+          "qupathxx-root-license"
+        ]
+      }
+    },
+    {
+      "filename": "plugin_build.cmake",
+      "source": "plugins/image-common/plugin_build.cmake",
+      "bytes": 4315,
+      "sha256": "8cc0d259e056e9835a9a65749ed7d3ae45cb29c9e436dd3be0a21369ec6bf455",
+      "material": {
+        "id": "dicom-wsi-src-plugin_build.cmake",
+        "category": "admitted_open",
+        "kind": "code",
+        "license_id": "AGPL-3.0-only",
+        "license_evidence": "LICENSE; plugins/dicom_wsi/README.md and source-lock.json",
+        "attribution": "qupathxx contributors",
+        "source_ids": [
+          "qupathxx-root-license"
+        ]
+      }
+    },
+    {
+      "filename": "write_manifest.cmake",
+      "source": "plugins/image-common/write_manifest.cmake",
+      "bytes": 1977,
+      "sha256": "2b09171d351926a9c81d1b726fb1fe09bc81ae062cab45c8c0f98c868f1c6755",
+      "material": {
+        "id": "dicom-wsi-src-write_manifest.cmake",
+        "category": "admitted_open",
+        "kind": "code",
+        "license_id": "AGPL-3.0-only",
+        "license_evidence": "LICENSE; plugins/dicom_wsi/README.md and source-lock.json",
+        "attribution": "qupathxx contributors",
+        "source_ids": [
+          "qupathxx-root-license"
+        ]
+      }
+    },
+    {
+      "filename": "stage_sdk_runtime.cmake",
+      "source": "plugins/image-common/stage_sdk_runtime.cmake",
+      "bytes": 1990,
+      "sha256": "02f6217f284dc00d2dd8a975300e5022eb409fb079c791c7ef49412008ad52eb",
+      "material": {
+        "id": "dicom-wsi-src-stage_sdk_runtime.cmake",
+        "category": "admitted_open",
+        "kind": "code",
+        "license_id": "AGPL-3.0-only",
+        "license_evidence": "LICENSE; plugins/dicom_wsi/README.md and source-lock.json",
+        "attribution": "qupathxx contributors",
+        "source_ids": [
+          "qupathxx-root-license"
+        ]
+      }
+    },
+    {
+      "filename": "reader_plugin_profile.hpp.in",
+      "source": "plugins/image-common/reader_plugin_profile.hpp.in",
+      "bytes": 547,
+      "sha256": "2b518d78a7dd9270b8a2614ae1a4e325782772b189b4eb0d2888ffbd7aca49f3",
+      "material": {
+        "id": "dicom-wsi-src-reader_plugin_profile.hpp.in",
+        "category": "admitted_open",
+        "kind": "code",
+        "license_id": "AGPL-3.0-only",
+        "license_evidence": "LICENSE; plugins/dicom_wsi/README.md and source-lock.json",
+        "attribution": "qupathxx contributors",
+        "source_ids": [
+          "qupathxx-root-license"
+        ]
+      }
+    },
+    {
+      "filename": "rgba8_reader.hpp",
+      "source": "plugins/image-common/rgba8_reader.hpp",
+      "bytes": 20930,
+      "sha256": "7b05a4222a5557a8dd1650d25621738c221260a136d7b2afc6631ef60c9d063f",
+      "material": {
+        "id": "dicom-wsi-src-rgba8_reader.hpp",
+        "category": "admitted_open",
+        "kind": "code",
+        "license_id": "AGPL-3.0-only",
+        "license_evidence": "LICENSE; plugins/dicom_wsi/README.md and source-lock.json",
+        "attribution": "qupathxx contributors",
+        "source_ids": [
+          "qupathxx-root-license"
+        ]
+      }
+    },
+    {
+      "filename": "qpx_dicom_wsi_plugin.dll",
+      "source": "Local Windows ABI1 MSVC x64 Release /MD module; installed verification receipt",
+      "bytes": 550912,
+      "sha256": "33c071bb5dd6372ee43105079c09727d95b3bc77e9e46afc2499585a193ea9a6",
+      "material": {
+        "id": "dicom-wsi-windows-x64-module-1.0.0",
+        "category": "admitted_open",
+        "kind": "derived_asset",
+        "license_id": "AGPL-3.0-only",
+        "license_evidence": "LICENSE; plugins/dicom_wsi/README.md and source-lock.json",
+        "attribution": "qupathxx contributors",
+        "source_ids": [
+          "dicom-wsi-src-dicom_wsi_reader.cpp",
+          "dicom-wsi-src-CMakeLists.txt",
+          "dicom-wsi-src-source-lock.json",
+          "dicom-wsi-src-plugin_build.cmake",
+          "dicom-wsi-src-write_manifest.cmake",
+          "dicom-wsi-src-stage_sdk_runtime.cmake",
+          "dicom-wsi-src-reader_plugin_profile.hpp.in",
+          "dicom-wsi-src-rgba8_reader.hpp",
+          "release-src-openslide-sdk-and-dependencies"
+        ]
+      }
+    },
+    {
+      "filename": "dicom-wsi-reader-plugins.json",
+      "source": "Local Windows ABI1 manifest binding the exact module and OpenSlide dependency",
+      "bytes": 622,
+      "sha256": "4763e7838a6006f50e400881ff126d7eedf5f99ad917bee0dde67b98e6a5bcce",
+      "material": {
+        "id": "dicom-wsi-windows-x64-manifest-1.0.0",
+        "category": "admitted_open",
+        "kind": "derived_asset",
+        "license_id": "AGPL-3.0-only",
+        "license_evidence": "LICENSE; plugins/dicom_wsi/README.md and source-lock.json",
+        "attribution": "qupathxx contributors",
+        "source_ids": [
+          "dicom-wsi-windows-x64-module-1.0.0",
+          "release-src-openslide-sdk-and-dependencies"
+        ]
+      }
+    }
+  ],
   "dicom_wsi_leica4": {
     "filename": "Leica-4.zip",
     "bytes": 85348848,

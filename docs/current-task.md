@@ -8,6 +8,27 @@ and [R2-R16 queue](api-delivery-plan.md#execution-order-for-finishing-the-remain
 own remaining scope. No100% QuPath, universal biological/speed/platform or
 Java/Groovy claim; NC/restricted/unknown required materials stay unadmitted.
 
+## Verified locally - optional DICOM WSI companion guard
+
+The optional Windows provider uses OpenSlide for display and the existing
+compound-source ABI for project links. Both concatenation entry files produced
+the exact crop, and the Leica-4 crop matched the existing real-slide result.
+Changing an unrelated series left the saved crop unchanged. Replacing the
+companion at the same geometry made saved-project export refuse before writing.
+An explicit review classified the change as `changed_dependencies`. Adoption
+required acceptance, produced a new project, and reopened to the approved
+crop. Export refused a destination hard-linked to the companion.
+
+The initial build needed `dumpbin` discovery for the import graph. The frozen
+host also required the two unused raw ABI slots to return `UNSUPPORTED`.
+After correcting both, the existing host passed without an engine rebuild.
+The reviewed code and dependency pins are recorded with the provider. The
+metadata scan bounds bytes read. Decoder heap limits and further DICOM profiles
+have separate scope.
+
+[Provider build and use](../plugins/dicom_wsi/README.md)
+[Installed verification receipt](../build/qpx-dicom-plugin/verification.json)
+
 ## Verified locally - native DICOM series discovery probe
 
 The OpenSlide DLL exports display and metadata calls. Its corresponding source

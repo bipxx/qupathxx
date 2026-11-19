@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-only
+cmake_minimum_required(VERSION 3.24)
 foreach(required MODULE_FILE MODULE_NAME PROVIDER_ID DISPLAY_NAME CONTRACT VERSION PROFILE OUTPUT)
   if(NOT DEFINED ${required} OR "${${required}}" STREQUAL "")
     message(FATAL_ERROR "Missing image provider manifest field: ${required}")
@@ -24,6 +25,10 @@ if(SOURCE_FILES)
   set(files_capability ", \"source_files\": true")
 endif()
 set(dependencies "")
+set(raw_samples true)
+if(DISPLAY_ONLY)
+  set(raw_samples false)
+endif()
 if(SDK_RUNTIME_FILES)
   include("${CMAKE_CURRENT_LIST_DIR}/stage_sdk_runtime.cmake")
 endif()
@@ -34,7 +39,7 @@ file(WRITE "${OUTPUT}" "{\n"
   "    \"provider_id\": \"${PROVIDER_ID}\", \"display_name\": \"${DISPLAY_NAME}\",\n"
   "    \"version\": \"${VERSION}\", \"contract\": \"${CONTRACT}\", \"abi\": 1,\n"
   "    \"profile\": \"${PROFILE}\",\n"
-  "    \"capabilities\": {\"display_rgba\": true, \"raw_samples\": true${store_capability}${files_capability}},\n"
+  "    \"capabilities\": {\"display_rgba\": true, \"raw_samples\": ${raw_samples}${store_capability}${files_capability}},\n"
   "    \"module\": {\"path\": \"${MODULE_NAME}\", \"sha256\": \"${digest}\"},\n"
   "    \"dependencies\": [${dependencies}]\n"
   "  }]\n}\n")
