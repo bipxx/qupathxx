@@ -13,9 +13,10 @@ The positional IDs are the project image ID and its target object ID. The model
 is an existing resolution-bound `.qpc` pixel classifier. Its saved feature recipe
 and sampling resolution govern prediction; compatible natural pyramid levels
 are selected using the existing model-resolution contract. The selected object
-must satisfy the same area/ROI requirements as Python prediction. The project
-and model are read without saving or modifying them. No complete output mask is
-assembled; each prediction block is released after encoding.
+must satisfy the same area/ROI requirements as Python prediction. The CLI
+checks saved image verification before export and protects the project,
+SQLite sidecars, model and linked inputs. Review and adopt a changed image
+before exporting predictions. Each prediction block is released after encoding.
 
 Export options:
 

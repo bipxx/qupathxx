@@ -1,6 +1,8 @@
 #include "../reader_plugin.hpp"
+#include "../reader_registry.hpp"
 #include "../reader_file_guard.hpp"
 #include "../project_plugin.hpp"
+#include "../project_source_internal.hpp"
 #include "qupathxx/analysis.hpp"
 #include "qupathxx/file_fingerprint.hpp"
 #include "qupathxx/input_digest.hpp"
@@ -80,9 +82,84 @@ void adoption(const fs::path& root,const std::string& which){const auto kind=whi
     rejects([&]{doc->server()->read_region({0,0,0,1,1});});const auto review=project->review_source_verification(1,*fingerprint_file(input(root,kind).u8string()));check(review->comparison()=="changed_implementation" && review->requires_acceptance(),"Same-version module/dependency/options change escaped exact implementation review");rejects([&]{project->apply_source_review(review,false);});const auto stale_review=project->review_source_verification(1,*fingerprint_file(input(root,kind).u8string()));project->apply_source_review(review,true);check(review->consumed(),"Accepted native implementation review was not consumed");check(rejects<std::runtime_error>([&]{project->apply_source_review(stale_review,true);})=="source review is stale; review the current image again","Stale implementation review refused for an unrelated reason");check_raw(*doc->server());const auto replay=AnalysisRequest::replay(*doc,region_record(*doc));const auto current=analyze(replay);check(current.means==old_means && current.input_sha256!=old_digest && !doc->verify_analysis(region_record(*doc),replay,current),"Numerically identical pixels incorrectly authorized old implementation identity");check(doc->analysis_record(region_record(*doc)).result.input_sha256==old_digest,"Adoption overwrote historical retained identity");if(which=="changed-module")qpx_test::check_plugin_verification_after_adoption(*doc);const auto saved=root/(which+"-adopted.qpx");project->save_new(saved.u8string());check(payload(saved)!=payload(path),"Reviewed adoption retained the old implementation binding");check(query(saved,"SELECT * FROM analysis_records ORDER BY image_id,id")==old_region_rows,"Reviewed adoption rewrote historical RegionAnalysis rows");const auto saved_provenance=binary_rows(saved,provenance_sql),saved_archives=binary_rows(saved,archive_sql);unchanged_rows(old_provenance,saved_provenance);unchanged_rows(old_archives,saved_archives);const auto added=new_keys(old_archives,saved_archives);check(added.size()==(which=="changed-module"?2u:0u) && new_keys(old_provenance,saved_provenance)==added,"Reviewed adoption added provenance outside the explicitly recomputed Tissue/Cell result identities");}
 void options(const fs::path& root){const auto path=project_path(root,"base");const auto project=Project::open(path.u8string());configure(root,"changed-options");const auto doc=project->document(1);const auto prior=rd::plugin_link_of(*doc->server());check_raw(*doc->server());const auto replay=AnalysisRequest::replay(*doc,region_record(*doc));check(doc->verify_analysis(region_record(*doc),replay,analyze(replay)),"Changing provider defaults changed the saved explicit options");
     auto source=rd::open_plugin_image_server(input(root,"base").u8string(),provider(),nullptr,provider()->info.default_options);const auto fresh=rd::capture_native_reader_plugin_link(*source);check(prior && fresh && prior->implementation.options=="{\"a\":{\"x\":0,\"y\":1},\"z\":2}" && fresh->implementation.options=="{\"a\":{\"x\":0,\"y\":1},\"z\":3}" && prior->implementation.sha256()!=fresh->implementation.sha256(),"Explicit changed normalized options retained the old implementation binding");auto fresh_doc=std::make_shared<Document>(source);const auto object=fresh_doc->add_rectangle({0,0,2,2});AnalysisRequest request(*fresh_doc,object,stains(),AnalysisKind::OpticalDensityMeans);const auto result=analyze(request);check(result.means==doc->analysis_record(region_record(*doc)).result.means && result.input_sha256!=doc->analysis_record(region_record(*doc)).result.input_sha256,"Equal pixels with changed explicit options reused the old RGB identity");Project newly_added;newly_added.add_document(fresh_doc);const auto saved=root/"new-options.qpx";newly_added.save_new(saved.u8string());check(payload(saved)!=payload(path),"New native source failed to persist its explicit options");}
-void compound(const fs::path& root){configure(root,"compound");const auto plugin=provider();for(const auto* mode:{"too-many-files","duplicate-files","primary-as-companion"}){const auto file=root/(std::string(mode)+".control");write(file,std::string(mode)+"\n");write(fs::u8path(file.u8string()+".data"),"7\n");rejects([&]{rd::open_plugin_image_server(file.u8string(),plugin);});check(!fs::exists(fs::u8path(file.u8string()+".events")),"Invalid companion set reached decoder open before observation");}
+void offline_companion_guard(const fs::path& root) {
+    const auto path=root/"guard.control",companion=root/"guard.control.data";
+    const auto retained=root/"guard.qpx",held=root/"guard-held.data";
+    write(path,"uint64\n");
+    write(companion,"7\n");
+    {
+        Project seed;
+        seed.add_document(std::make_shared<Document>(rd::open_plugin_image_server(path.u8string(),provider())));
+        seed.save_new(retained.u8string());
+    }
+    fs::rename(companion,held);
+    const auto saved=Project::open(retained.u8string());
+    const auto catalog=saved->images();
+    const auto observed=saved->document(1)->server()->reader_source();
+    check(observed && observed->scope=="unopened","Offline project opened its provider");
+    for(const auto& destination:{companion,root/"GUARD.CONTROL.DATA"}) {
+        const auto error=rejects<std::invalid_argument>([&]{
+            rd::guard_project_inputs_output(*saved,catalog,destination.u8string(),nullptr);
+        });
+        check(error=="fingerprint output must not replace its input" && !fs::exists(destination),
+              "Saved companion output refusal lost its exact or case-alias path");
+    }
+    rd::guard_project_inputs_output(*saved,catalog,(root/"outside.csv").u8string(),nullptr);
+    check(saved->document(1)->server()->reader_source()==observed && read(held)=="7\n",
+          "Offline output check opened the plugin or changed the held file");
+}
+void compound(const fs::path& root){configure(root,"compound");const auto plugin=provider();offline_companion_guard(root);for(const auto* mode:{"too-many-files","duplicate-files","primary-as-companion"}){const auto file=root/(std::string(mode)+".control");write(file,std::string(mode)+"\n");write(fs::u8path(file.u8string()+".data"),"7\n");rejects([&]{rd::open_plugin_image_server(file.u8string(),plugin);});check(!fs::exists(fs::u8path(file.u8string()+".events")),"Invalid companion set reached decoder open before observation");}
     const auto path=input(root,"compound");auto server=rd::open_plugin_image_server(path.u8string(),plugin);check(server->reader_source()->scope=="compound_files" && server->reader_source()->companions.size()==1,"Compound plugin omitted host-owned companion observation");check_raw(*server,7);const auto companion=fs::u8path(path.u8string()+".data");const auto protected_hash=hash(companion);Project output_guard;output_guard.add_document(std::make_shared<Document>(server));rejects([&]{output_guard.save(companion.u8string());});check(hash(companion)==protected_hash,"Project save overwrote its observed data companion");const auto alias=root/"companion-hard-link.qpx";fs::create_hard_link(companion,alias);rejects([&]{output_guard.save(alias.u8string());});check(hash(alias)==protected_hash && hash(companion)==protected_hash,"Project save overwrote a companion hard-link alias");write(companion,"9\n");rejects<WorkflowInputChanged>([&]{RawRegionRequest r;server->read_raw(r);});write(companion,"7\n");
 }
 void corrupt(const fs::path& root){for(const auto* mode:{"missing-link","orphan-link","bad-link","unknown-legacy"}){const auto path=root/(std::string(mode)+".qpx");fs::copy_file(project_path(root,"base"),path);if(std::string(mode)=="missing-link")sql(path,"DELETE FROM plugin_links");else if(std::string(mode)=="orphan-link")sql(path,"UPDATE images SET reader='ppm'");else if(std::string(mode)=="bad-link")sql(path,"UPDATE plugin_links SET payload=X'000102'");else sql(path,"DELETE FROM plugin_links;UPDATE images SET reader='org.unknown.reader'");rejects<std::invalid_argument>([&]{Project::open(path.u8string());});}}
 }
-int main(int argc,char** argv){try{check(argc==3,"Usage: reader_plugin_project_tests CASE ROOT");const std::string which=argv[1];const auto root=fs::absolute(fs::u8path(argv[2]));if(which=="prepare")prepare(root);else if(which.rfind("create-",0)==0)create(root,which.substr(7));else if(which=="missing")missing(root,"base");else if(which=="exact")exact(root,"base","base");else if(which=="canonical-options")exact(root,"base","canonical-options");else if(which=="changed-options")options(root);else if(which=="compound-exact")exact(root,"compound","compound");else if(which=="compound")compound(root);else if(which=="corrupt")corrupt(root);else if(which=="changed-module" || which=="changed-dependency")adoption(root,which);else throw std::invalid_argument("Unknown saved-plugin test case");std::cout<<"Saved plugin "<<which<<" passed\n";}catch(const std::exception& e){std::cerr<<e.what()<<'\n';return 1;}}
+static void installed_pair(int argc,char** argv) {
+    check(argc==9,"Usage: reader_plugin_project_tests installed-create|installed-open PROJECT MANIFEST1 READER1 SOURCE1 MANIFEST2 READER2 SOURCE2");
+    const bool create=std::string(argv[1])=="installed-create";
+    const auto path=fs::absolute(fs::u8path(argv[2]));
+    auto project=create?std::make_shared<Project>():Project::open(path.u8string());
+    const std::string first=argv[3],second=argv[6];
+    check(rejects<std::invalid_argument>([&]{configure_reader_plugin_manifests({first,first});})==
+        "Duplicate reader plugin manifest path","Identical catalog paths were not rejected");
+    configure_reader_plugin_manifests(create?std::vector<std::string>{first,second}:
+                                            std::vector<std::string>{second,first});
+    rejects<std::logic_error>([&]{configure_reader_plugins(first);});
+    const auto& catalog=rd::reader_plugin_catalog();
+    check(catalog.readers.size()==2 && catalog.diagnostics.empty(),"Both installed readers must be admitted");
+    check(std::string(argv[4])!=argv[7],"Pair must use two distinct reader IDs");
+    for(int i=0;i<2;++i) {
+        const std::string id=argv[4+3*i],source=argv[5+3*i];
+        const auto image=std::uint64_t(i+1);
+        auto live=rd::open_reader(source,rd::select_reader(source,id));
+        const auto expected=rd::capture_native_reader_plugin_link(*live);
+        check(expected && expected->implementation.provider_id==id,"Missing direct installed reader identity");
+        if(create) {
+            check(project->add_document(std::make_shared<Document>(live))==image,"Unexpected saved image ID");
+            continue;
+        }
+        const auto saved=project->document(image)->server();
+        check(saved->reader_source()->scope=="unopened","Project opened its linked source eagerly");
+        const auto archived=rd::plugin_link_of(*saved);
+        // Compare live files with the same observation contract as native
+        // reopen. The resave assertion checks the complete archived bytes.
+        check(archived && archived->implementation.sha256()==expected->implementation.sha256() &&
+              rd::same_reader_plugin_metadata(*archived,*expected) &&
+              rd::same_reader_files(archived->observed,expected->observed),
+            "Exact module/options/source identity changed on reopen");
+        RawRegionRequest request;
+        request.region={0,0,0,1,1};
+        request.channels=1;
+        const auto direct=live->read_raw(request),reopened=saved->read_raw(request);
+        check(direct.valid()==std::vector<std::uint8_t>{1} && direct.valid()==reopened.valid() &&
+              direct.storage()==reopened.storage(),"Reopened pixel samples or validity changed");
+    }
+    if(create)project->save_new(path.u8string());
+    else {
+        const auto resaved=path.parent_path()/"resaved.qpx";
+        project->save_new(resaved.u8string());
+        check(!payload(path).empty() && payload(path)==payload(resaved),"Resave changed persisted plugin link bytes");
+    }
+    std::cout<<"Installed reader pair passed\n";
+}
+
+int main(int argc,char** argv){try{if(argc>1 && (std::string(argv[1])=="installed-create" || std::string(argv[1])=="installed-open")){installed_pair(argc,argv);return 0;}check(argc==3,"Usage: reader_plugin_project_tests CASE ROOT");const std::string which=argv[1];const auto root=fs::absolute(fs::u8path(argv[2]));if(which=="prepare")prepare(root);else if(which.rfind("create-",0)==0)create(root,which.substr(7));else if(which=="missing")missing(root,"base");else if(which=="exact")exact(root,"base","base");else if(which=="canonical-options")exact(root,"base","canonical-options");else if(which=="changed-options")options(root);else if(which=="compound-exact")exact(root,"compound","compound");else if(which=="compound")compound(root);else if(which=="corrupt")corrupt(root);else if(which=="changed-module" || which=="changed-dependency")adoption(root,which);else throw std::invalid_argument("Unknown saved-plugin test case");std::cout<<"Saved plugin "<<which<<" passed\n";}catch(const std::exception& e){std::cerr<<e.what()<<'\n';return 1;}}

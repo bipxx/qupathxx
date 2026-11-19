@@ -40,4 +40,5 @@ std::shared_ptr<const ReaderPluginLink> decode_reader_plugin_link(const std::str
 bool same_reader_plugin_metadata(const ReaderPluginLink&,const ReaderPluginLink&);
 // No-op for legacy sources; identical insertion in retained RGB and replay hashes.
 void hash_reader_plugin_binding(Sha256&,const ImageServer&);
+void hash_reader_plugin_binding(Sha256&,const ReaderSource*);
 }

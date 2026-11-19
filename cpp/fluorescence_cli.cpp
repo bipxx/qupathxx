@@ -6,6 +6,7 @@
 #include "qupathxx/project.hpp"
 #include "qupathxx/provenance.hpp"
 #include "spatial_output_guard.hpp"
+#include "project_source_internal.hpp"
 #include "json_string.hpp"
 #include <charconv>
 #include <cmath>
@@ -70,7 +71,7 @@ std::optional<int> fluorescence_cli(const std::vector<std::string>& args,const s
             if(run && captured)require_current_fluorescence_cells(*doc,*captured,*run,&cancelled);
             protect_spatial_path(source,guard.version()->identity,output);
             for(const auto* suffix:{"-journal","-wal","-shm"})protect_spatial_path(source+suffix,"",output);
-            for(const auto& entry:images)if(!entry.embedded && !entry.source_path.empty())protect_spatial_path(export_path(entry.source_path),"",output);
+            guard_project_inputs_output(*project,images,output,&cancelled);
             if(run && !run->correction_record().empty())for(const auto& field:load_dark_flat_recipe(*doc,run->correction_record()).sources)protect_spatial_path(export_path(field.path),"",output);
             if(run && !run->unmix_record().empty()){const auto derived=load_linear_unmix_recipe(*doc,run->unmix_record());protect_spatial_path(export_path(derived.signal.path),"",output);if(!derived.correction_record.empty())for(const auto& field:load_dark_flat_recipe(*doc,derived.correction_record).sources)protect_spatial_path(export_path(field.path),"",output);}
             if(run && run->provenance()->reader_source){const auto& files=*run->provenance()->reader_source;
@@ -85,6 +86,8 @@ std::optional<int> fluorescence_cli(const std::vector<std::string>& args,const s
         if(verify){const auto request=replay_fluorescence_cell_record(*doc,record);run=detect_fluorescence_cells(request,&cancelled);
             if(!verify_fluorescence_cell_record(*doc,record,request,*run,&cancelled))throw std::runtime_error("Fluorescence replay differs from retained result");protect();}
         else {
+            if(const auto verified=project->source_verification(image))
+                require_verified_project_source(*verified,*doc->server(),&cancelled);
             if(!roi){const auto m=doc->server()->raw_metadata(&cancelled);if(!m)throw std::runtime_error("Fluorescence source has no raw capability");
                 if(!seen.count("--width"))region.region.width=m->width-region.region.x;if(!seen.count("--height"))region.region.height=m->height-region.region.y;}
             if(!unmix.empty())captured=std::make_unique<FluorescenceCellRequest>(*doc,replay_linear_unmix_recipe(*doc,unmix,&cancelled),region,roi,options,context);

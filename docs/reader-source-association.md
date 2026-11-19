@@ -230,6 +230,33 @@ are not applicable to this in-process API. Current validation and completion sta
 are recorded in [SOURCE1 local evidence](benchmarks/source-verification-r5/README.md).
 Broader compound byte coverage, recovery and release support remain open.
 
+### Native CLI review and adoption
+
+Use the project's reader manifests to preview a source change and save an
+adopted copy of the project. Supply the candidate primary file, such as a
+MetaImage header. The preview reports comparison, coverage, observed file
+versions and a review digest.
+
+```powershell
+qupathxx_format_import --reader-plugins READER_MANIFEST project-review-source INPUT_PROJECT.qpxproj IMAGE_ID PRIMARY_FILE
+qupathxx_format_import --reader-plugins READER_MANIFEST project-adopt-source INPUT_PROJECT.qpxproj IMAGE_ID PRIMARY_FILE REVIEW_SHA256 NEW_PROJECT.qpxproj --accept-changed
+```
+
+Adoption recomputes the digest from the current project bytes and candidate.
+If either changes, run the preview again. Use `--accept-changed` only after
+reviewing the reported change. The command writes a new project and
+preserves historical measurements. Choose a destination outside both the
+original and replacement linked sources, including the original path if the
+image has moved. Compound primary-only coverage verifies
+the primary file's SHA-256 and observes companion file versions.
+
+For a moved directory-backed image, pass `--directory ROOT` to both
+commands. `PRIMARY_FILE` must be the metadata file selected by the reader
+inside that root. The review digest binds the proposed root and the observed
+directory inventory. The primary checksum covers the metadata file.
+
+### SDK review
+
 ```python
 job = q.FileFingerprintJob()
 assert job.request(candidate_path)
@@ -250,10 +277,23 @@ acceptance. `coverage` is the reader scope, or `compound_primary_only` for a
 compound graph. Missing/unreadable candidates fail review without project mutation;
 there is no fabricated checksum for a missing source.
 
+For a saved native OME-Zarr link, the first review compares the candidate
+against the directory identity already stored in the project. Changed
+dependencies require explicit acceptance even when the primary metadata
+fingerprint matches and no fingerprint baseline has been saved. The
+`directory_primary_only` coverage describes which file was hashed.
+
+Native callers can use `Project::review_directory_source_verification` with the
+new root and a fingerprint of its primary metadata for both native OME-Zarr and
+directory-store plugins. Apply uses the usual change-acceptance rules and keeps
+the historical source observation on existing measurements.
+
 The review owns its private compatible native candidate or a stable reused live
 reader. Apply rejects a consumed token, another workspace, changed entry path,
 reader generation or baseline; it rechecks guarded source/dependency versions
 before mutation. File guards cover that operation, not the entire slide lifetime.
+Directory checks use the candidate reader's captured inventory and resource
+limits during review and apply.
 A matching current-reader recheck consumes the token without dirtying the project
 or changing its generation. Source changes after a review require a fresh review.
 

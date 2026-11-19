@@ -1,7 +1,8 @@
 # Typed import APIs and receipt parsing remain available when dynamic providers
 # are disabled. The loader/runtime implement explicit disabled-provider errors.
 target_sources(qupathxx_core PRIVATE
-  cpp/format_plugin_loader.cpp cpp/format_plugin_runtime.cpp cpp/format_import.cpp)
+  cpp/format_plugin_loader.cpp cpp/format_plugin_runtime.cpp cpp/format_import.cpp
+  cpp/expression_matrix_attach.cpp cpp/annotation_geometry_value.cpp)
 
 if(QUPATHXX_BUILD_FORMAT_PLUGINS)
   if(NOT WIN32 OR NOT MSVC OR NOT CMAKE_SIZEOF_VOID_P EQUAL 8 OR
@@ -32,6 +33,9 @@ if(QUPATHXX_BUILD_FORMAT_PLUGINS)
     "set(QUPATHXX_FORMAT_PLUGIN_MSVC_VERSION \"${MSVC_VERSION}\")\n"
     "set(QUPATHXX_FORMAT_PLUGIN_CXX_COMPILER_VERSION \"${CMAKE_CXX_COMPILER_VERSION}\")\n"
     "set(QUPATHXX_FORMAT_PLUGIN_ABI_VERSION 1)\n"
+    "set(QUPATHXX_FORMAT_PLUGIN_MATRIX_MAX_ABI_VERSION 5)\n"
+    "set(QUPATHXX_FORMAT_PLUGIN_ANNOTATION_ABI_VERSION 2)\n"
+    "set(QUPATHXX_FORMAT_PLUGIN_ANNOTATION_MAX_ABI_VERSION 6)\n"
     "set(QUPATHXX_FORMAT_PLUGIN_PROFILE_ID \"${QUPATHXX_FORMAT_PLUGIN_PROFILE_ID}\")\n")
   install(FILES cpp/include/qupathxx/reader_plugin.h cpp/include/qupathxx/format_plugin.h
     DESTINATION include/qupathxx COMPONENT FormatPluginKit)
@@ -48,6 +52,18 @@ if(QUPATHXX_BUILD_FORMAT_PLUGINS)
     endif()
     add_subdirectory(plugins/counts_tsv "${CMAKE_CURRENT_BINARY_DIR}/format-plugins/counts_tsv" EXCLUDE_FROM_ALL)
     add_subdirectory(plugins/point_tsv "${CMAKE_CURRENT_BINARY_DIR}/format-plugins/point_tsv" EXCLUDE_FROM_ALL)
+    add_subdirectory(plugins/geometry_tsv "${CMAKE_CURRENT_BINARY_DIR}/format-plugins/geometry_tsv" EXCLUDE_FROM_ALL)
+    add_subdirectory(plugins/wkt_wkb "${CMAKE_CURRENT_BINARY_DIR}/format-plugins/wkt_wkb" EXCLUDE_FROM_ALL)
+    add_subdirectory(plugins/coco "${CMAKE_CURRENT_BINARY_DIR}/format-plugins/coco" EXCLUDE_FROM_ALL)
+    if(QUPATHXX_OME_EXPAT_SOURCE_DIR)
+      add_subdirectory(plugins/ome_roi "${CMAKE_CURRENT_BINARY_DIR}/format-plugins/ome_roi" EXCLUDE_FROM_ALL)
+    endif()
+    if(QUPATHXX_ASAP_EXPAT_SOURCE_DIR)
+      add_subdirectory(plugins/asap_xml "${CMAKE_CURRENT_BINARY_DIR}/format-plugins/asap_xml" EXCLUDE_FROM_ALL)
+    endif()
+    if(QUPATHXX_IMAGEJ_ZLIB_SOURCE_DIR)
+      add_subdirectory(plugins/imagej_roi "${CMAKE_CURRENT_BINARY_DIR}/format-plugins/imagej_roi" EXCLUDE_FROM_ALL)
+    endif()
   endif()
 endif()
 
@@ -85,6 +101,60 @@ function(qupathxx_format_plugin_tests)
       qupathxx_core qupathxx_sqlite nlohmann_json::nlohmann_json)
     target_compile_options(qupathxx_format_import_tests PRIVATE /utf-8 /permissive-)
     qupathxx_copy_runtime(qupathxx_format_import_tests)
+
+    add_library(qupathxx_annotation_geometry_bad_module MODULE cpp/tests/annotation_geometry_bad_module.cpp)
+    target_include_directories(qupathxx_annotation_geometry_bad_module PRIVATE
+      "${CMAKE_CURRENT_SOURCE_DIR}/cpp/include" "${CMAKE_CURRENT_BINARY_DIR}/generated")
+    target_compile_features(qupathxx_annotation_geometry_bad_module PRIVATE cxx_std_17)
+    target_compile_options(qupathxx_annotation_geometry_bad_module PRIVATE /utf-8 /permissive-)
+    target_compile_definitions(qupathxx_annotation_geometry_bad_module PRIVATE
+      QPX_FORMAT_PLUGIN_GEOMETRY_EXPORTS _CRT_SECURE_NO_WARNINGS)
+    set_target_properties(qupathxx_annotation_geometry_bad_module PROPERTIES
+      MSVC_RUNTIME_LIBRARY MultiThreadedDLL PREFIX "")
+    add_executable(qupathxx_annotation_geometry_tests cpp/tests/annotation_geometry_tests.cpp)
+    target_include_directories(qupathxx_annotation_geometry_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/cpp")
+    target_link_libraries(qupathxx_annotation_geometry_tests PRIVATE qupathxx_core nlohmann_json::nlohmann_json)
+    target_compile_options(qupathxx_annotation_geometry_tests PRIVATE /utf-8 /permissive-)
+    qupathxx_copy_runtime(qupathxx_annotation_geometry_tests)
+
+    add_library(qupathxx_annotation_source_test_module MODULE cpp/tests/annotation_source_test_module.cpp)
+    target_include_directories(qupathxx_annotation_source_test_module PRIVATE
+      "${CMAKE_CURRENT_SOURCE_DIR}/cpp/include" "${CMAKE_CURRENT_BINARY_DIR}/generated")
+    target_compile_features(qupathxx_annotation_source_test_module PRIVATE cxx_std_17)
+    target_compile_options(qupathxx_annotation_source_test_module PRIVATE /utf-8 /permissive-)
+    target_compile_definitions(qupathxx_annotation_source_test_module PRIVATE QPX_FORMAT_PLUGIN_METADATA_EXPORTS)
+    set_target_properties(qupathxx_annotation_source_test_module PROPERTIES
+      MSVC_RUNTIME_LIBRARY MultiThreadedDLL PREFIX "")
+    add_executable(qupathxx_annotation_source_tests cpp/tests/annotation_source_tests.cpp)
+    target_include_directories(qupathxx_annotation_source_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/cpp")
+    target_link_libraries(qupathxx_annotation_source_tests PRIVATE qupathxx_core nlohmann_json::nlohmann_json)
+    target_compile_options(qupathxx_annotation_source_tests PRIVATE /utf-8 /permissive-)
+    qupathxx_copy_runtime(qupathxx_annotation_source_tests)
+    add_executable(qupathxx_imagej_roi_tests cpp/tests/imagej_roi_tests.cpp)
+    target_include_directories(qupathxx_imagej_roi_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/cpp")
+    target_link_libraries(qupathxx_imagej_roi_tests PRIVATE qupathxx_core nlohmann_json::nlohmann_json)
+    target_compile_options(qupathxx_imagej_roi_tests PRIVATE /utf-8 /permissive-)
+    qupathxx_copy_runtime(qupathxx_imagej_roi_tests)
+    add_executable(qupathxx_wkt_wkb_tests cpp/tests/wkt_wkb_tests.cpp)
+    target_include_directories(qupathxx_wkt_wkb_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/cpp")
+    target_link_libraries(qupathxx_wkt_wkb_tests PRIVATE qupathxx_core nlohmann_json::nlohmann_json)
+    target_compile_options(qupathxx_wkt_wkb_tests PRIVATE /utf-8 /permissive-)
+    qupathxx_copy_runtime(qupathxx_wkt_wkb_tests)
+    add_executable(qupathxx_ome_roi_tests cpp/tests/ome_roi_tests.cpp)
+    target_include_directories(qupathxx_ome_roi_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/cpp")
+    target_link_libraries(qupathxx_ome_roi_tests PRIVATE qupathxx_core nlohmann_json::nlohmann_json)
+    target_compile_options(qupathxx_ome_roi_tests PRIVATE /utf-8 /permissive-)
+    qupathxx_copy_runtime(qupathxx_ome_roi_tests)
+    add_executable(qupathxx_asap_xml_tests cpp/tests/asap_xml_tests.cpp)
+    target_include_directories(qupathxx_asap_xml_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/cpp")
+    target_link_libraries(qupathxx_asap_xml_tests PRIVATE qupathxx_core nlohmann_json::nlohmann_json)
+    target_compile_options(qupathxx_asap_xml_tests PRIVATE /utf-8 /permissive-)
+    qupathxx_copy_runtime(qupathxx_asap_xml_tests)
+    add_executable(qupathxx_coco_tests cpp/tests/coco_tests.cpp)
+    target_include_directories(qupathxx_coco_tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/cpp")
+    target_link_libraries(qupathxx_coco_tests PRIVATE qupathxx_core nlohmann_json::nlohmann_json)
+    target_compile_options(qupathxx_coco_tests PRIVATE /utf-8 /permissive-)
+    qupathxx_copy_runtime(qupathxx_coco_tests)
   endif()
   # The independent controller first creates authored fixtures and hash-bound
   # manifests, then invokes each case in a fresh process. No bare CTest entry

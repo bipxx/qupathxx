@@ -1,7 +1,10 @@
 #include "expression_matrix_internal.hpp"
+#include "expression_matrix_export.hpp"
 #include "reader_file_guard.hpp"
 #include "qupathxx/file_fingerprint.hpp"
+#include "qupathxx/spatial_counts.hpp"
 #include <algorithm>
+#include <charconv>
 namespace qpx {
 #ifdef QUPATHXX_HAS_PROJECT
 namespace {
@@ -99,4 +102,127 @@ std::shared_ptr<const ExpressionMatrixSource> open_expression_matrix(const std::
 #else
 std::shared_ptr<const ExpressionMatrixSource> open_expression_matrix(const std::string&,const std::string&,std::size_t,std::uint64_t,const std::atomic<bool>*){throw std::runtime_error("Expression matrix storage requires native project/SQLite support");}
 #endif
+
+namespace {
+void append_csv_id(std::string& row,const std::string& id) {
+    row.push_back('"');
+    for(char ch:id) {
+        row.push_back(ch);
+        if(ch=='"')row.push_back(ch);
+    }
+    row.push_back('"');
+}
+void append_decimal(std::string& row,double value) {
+    char buffer[64];
+    const auto number=std::to_chars(buffer,buffer+sizeof(buffer),value,std::chars_format::general);
+    if(number.ec!=std::errc{})throw std::runtime_error("Expression table decimal conversion failed");
+    row.append(buffer,number.ptr);
+}
+void protect_matrix_output(const ExpressionMatrixSource& source,const std::string& output,
+                           const std::atomic<bool>* cancelled,const std::function<void()>& protect_project) {
+    protect_project();
+    source.require_current(cancelled);
+    for(const auto* suffix:{"","-journal","-wal","-shm"})
+        detail::guard_file_output(source.path()+suffix,"",output);
+}
+}
+
+std::size_t detail::export_expression_matrix_csv(
+    const ExpressionMatrixSource& source,const std::string& output,
+    const std::vector<std::string>& features,const std::atomic<bool>* cancelled,
+    const std::function<void()>& protect_output) {
+    constexpr std::size_t file_bytes=64u*1024*1024, work_bytes=256u*1024*1024;
+    if(features.empty() || features.size()>63)
+        throw std::invalid_argument("CSV export requires 1 to 63 explicit feature IDs");
+    const auto& metadata=source.metadata();
+    if(metadata.observations>100000)
+        throw WorkflowCaptureLimit("CSV export exceeds 100000 observations");
+    ExpressionMatrixSelection selection;
+    selection.features.reserve(features.size());
+    std::string row="observation_id";
+    for(const auto& id:features) {
+        workflow_checkpoint(cancelled);
+        if(id=="observation_id")throw std::invalid_argument("Feature ID conflicts with the CSV observation_id header");
+        const auto index=source.feature_index(id,cancelled);
+        if(!index)throw std::invalid_argument("Unknown expression feature ID: "+id);
+        selection.features.push_back(*index);
+        row.push_back(',');
+        append_csv_id(row,id);
+    }
+    const auto destination=export_path(output);
+    protect_matrix_output(source,destination,cancelled,protect_output);
+    if(std::filesystem::exists(std::filesystem::u8path(destination)))
+        throw WorkflowOutputExists("CSV destination already exists");
+    const auto values=source.read(selection,work_bytes,cancelled);
+    auto cursors=values.offsets;
+    const bool counts=values.domain==ExpressionValueDomain::Counts;
+    AtomicExportFile file(destination,file_bytes,cancelled);
+    row.push_back('\n');
+    file.write(row.data(),row.size());
+    for(std::uint64_t start=0;start<metadata.observations;) {
+        constexpr std::size_t page_size=128;
+        const auto count=static_cast<std::size_t>(std::min<std::uint64_t>(page_size,metadata.observations-start));
+        const auto ids=source.observation_page(start,count,64u*1024*1024,cancelled);
+        for(const auto& id:ids) {
+            row.clear();
+            append_csv_id(row,id);
+            for(std::size_t f=0;f<features.size();++f) {
+                row.push_back(',');
+                auto& at=cursors[f];
+                if(at==values.offsets[f+1] || values.observation_indices[at]!=start) {
+                    row.push_back('0');
+                } else if(counts) {
+                    row+=std::to_string(values.counts[at++]);
+                } else {
+                    append_decimal(row,values.continuous[at++]);
+                }
+            }
+            row.push_back('\n');
+            file.write(row.data(),row.size());
+            ++start;
+        }
+    }
+    protect_matrix_output(source,destination,cancelled,protect_output);
+    file.commit(false);
+    return file.bytes();
+}
+
+std::size_t detail::export_expression_matrix_positions(
+    const ExpressionMatrixSource& source,const std::string& output,const std::atomic<bool>* cancelled,
+    const std::function<void()>& protect_output) {
+    const auto& metadata=source.metadata();
+    const auto& frame=metadata.spatial_frame;
+    if(!frame || !frame->image_level_zero || frame->unit!=CoordinateUnit::Pixel)
+        throw std::invalid_argument("Position TSV export requires a stored level-zero image pixel frame");
+    const SpatialPositionOptions limits;
+    if(metadata.observations>limits.max_observations)
+        throw WorkflowCaptureLimit("Position TSV export exceeds 100000 observations");
+    const auto destination=export_path(output);
+    protect_matrix_output(source,destination,cancelled,protect_output);
+    if(std::filesystem::exists(std::filesystem::u8path(destination)))
+        throw WorkflowOutputExists("Position TSV destination already exists");
+    AtomicExportFile file(destination,limits.file_bytes,cancelled);
+    const auto header=limits.columns[0]+"\t"+limits.columns[1]+"\t"+limits.columns[2]+"\n";
+    file.write(header.data(),header.size());
+    for(std::uint64_t start=0;start<metadata.observations;) {
+        const auto count=static_cast<std::size_t>(std::min<std::uint64_t>(128,metadata.observations-start));
+        const auto rows=source.spatial_page(start,count,64u*1024*1024,cancelled);
+        for(const auto& observation:rows) {
+            const auto& position=observation.position;
+            if(!std::isfinite(position.x) || !std::isfinite(position.y) || position.x<0 || position.y<0)
+                throw std::invalid_argument("Position TSV requires finite nonnegative pixel coordinates");
+            auto row=observation.id;
+            row.push_back('\t');
+            append_decimal(row,position.x);
+            row.push_back('\t');
+            append_decimal(row,position.y);
+            row.push_back('\n');
+            file.write(row.data(),row.size());
+        }
+        start+=count;
+    }
+    protect_matrix_output(source,destination,cancelled,protect_output);
+    file.commit(false);
+    return file.bytes();
+}
 }

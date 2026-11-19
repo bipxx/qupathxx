@@ -3661,13 +3661,25 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 // worker owns only native factories, metadata and atomics.
                 auto kind=options.startup_kind,path=options.startup_path,base=options.recovery_base_path,reader=options.image_reader;
                 const auto tiff_options=options.tiff_options?*options.tiff_options:TiffOpenOptions{};
+                const auto plugin_options=ui::desktop_application?ui::desktop_application->startup_reader_options:std::nullopt;
                 const auto image_id=options.startup_image_id;
-                project_load=std::async(std::launch::async,[kind,path,base,reader,tiff_options,image_id,progress=startup_progress] {
+                project_load=std::async(std::launch::async,[kind,path,base,reader,tiff_options,plugin_options,image_id,progress=startup_progress] {
                     const auto start=std::chrono::steady_clock::now();
                     std::shared_ptr<Project> candidate;
                     if(kind=="image") {
                         if(progress->cancelled.load()) throw std::runtime_error("image opening cancelled");
-                        candidate=std::make_shared<Project>();const auto route=detail::desktop_startup_selection(path,reader);if(route.raw_route){detail::ReaderOpenOptions reader_options;reader_options.tiff=tiff_options;candidate->add_tiff_source(detail::open_reader(path,route.selection,reader_options,&progress->cancelled));}else candidate->add_image(path,route.selection.provider_id);
+                        candidate=std::make_shared<Project>();
+                        const auto route=detail::desktop_startup_selection(path,reader);
+                        if(plugin_options) {
+                            auto server=detail::open_reader_with_plugin_options(path,route.selection,*plugin_options,&progress->cancelled);
+                            candidate->add_document(std::make_shared<Document>(std::move(server)));
+                        } else if(route.raw_route) {
+                            detail::ReaderOpenOptions reader_options;
+                            reader_options.tiff=tiff_options;
+                            candidate->add_tiff_source(detail::open_reader(path,route.selection,reader_options,&progress->cancelled));
+                        } else {
+                            candidate->add_image(path,route.selection.provider_id);
+                        }
                         progress->total_images.store(1); progress->images.store(1);
                     } else candidate=Project::open_impl(path,kind=="recovery",base,progress.get());
                     if(progress->cancelled.load()) throw std::runtime_error("opening cancelled");

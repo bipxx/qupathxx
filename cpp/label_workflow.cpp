@@ -3,7 +3,9 @@
 #include "qupathxx/object_properties.hpp"
 #include "qupathxx/source_identity.hpp"
 #include "qupathxx/workflow.hpp"
+#include "qupathxx/label_mask_archive.hpp"
 #include "label_analysis_internal.hpp"
+#include "label_project.hpp"
 #include "reader_file_guard.hpp"
 #include "reader_plugin_link.hpp"
 #include "raw_pixel_workflow_snapshot.hpp"
@@ -22,6 +24,10 @@ namespace qpx {
 namespace {
 using Json = nlohmann::json;
 using Value = ImageDataValue;
+using LegacyLabelOptions = std::variant<SuperpixelOptions, SubcellularOptions, ExternalLabelMaskOptions>;
+static_assert(sizeof(LabelAnalysisOptions) == sizeof(LegacyLabelOptions) &&
+              alignof(LabelAnalysisOptions) == alignof(LegacyLabelOptions),
+              "New pointer alternative must preserve legacy captured-option storage");
 constexpr const char* records_key = "qpx.label-analysis/1";
 constexpr const char* run_key = "qpx.label-analysis.run/1";
 constexpr const char* geometry_key = "qpx.label-analysis.geometry/1";
@@ -80,6 +86,100 @@ const std::string& text_value(const Value& v) {
     if (!p)
         throw std::invalid_argument("Invalid label record text");
     return *p;
+}
+Value text_chunks(const std::string& text, std::size_t limit) {
+    detail::bounded_utf8(text, limit);
+    Value::List pieces;
+    for (std::size_t at = 0; at < text.size();) {
+        auto n = std::min<std::size_t>(4096, text.size() - at);
+        while (at + n < text.size() && (std::uint8_t(text[at + n]) & 192) == 128)
+            --n;
+        pieces.push_back(Value{text.substr(at, n)});
+        at += n;
+    }
+    return Value{std::move(pieces)};
+}
+std::string read_text_chunks(const Value& value, std::size_t limit) {
+    const auto* pieces = std::get_if<Value::List>(&value.value);
+    // A UTF-8 boundary may shorten a full chunk by up to three bytes.
+    if (!pieces || pieces->size() > (limit + 4092) / 4093)
+        throw std::invalid_argument("Invalid label-source text chunks");
+    std::string text;
+    for (const auto& part : *pieces) {
+        const auto& s = text_value(part);
+        detail::bounded_utf8(s, 4096);
+        if (s.empty() || s.size() > limit - text.size())
+            throw std::invalid_argument("Invalid label-source text size");
+        text += s;
+    }
+    return text;
+}
+Value ngff_source_record(const ImportedNgffLabelMask& source,
+                         const std::atomic<bool>* cancelled) {
+    return Value{Value::Map{{"schema", Value{std::string("qpx.ngff-label-source/1")}},
+        {"description", text_chunks(source.description->json, label_mask_description_limit)},
+        {"codes", text_chunks(label_code_map_text(source.source_codes, 1024u * 1024, cancelled), 1024u * 1024)},
+        {"observed", Value{source.source->directory_sha256}},
+        {"content", Value{source.content_sha256}}}};
+}
+std::shared_ptr<const LabelMaskReplaySource> read_ngff_source_record(const Value& value) {
+    const auto& map = map_value(value);
+    if (map.size() != 5 || !map.count("schema") || !map.count("description") || !map.count("codes") ||
+        !map.count("observed") || !map.count("content") ||
+        text_value(map.at("schema")) != "qpx.ngff-label-source/1")
+        throw std::invalid_argument("Invalid saved NGFF label-source record");
+    auto source = std::make_shared<LabelMaskReplaySource>();
+    source->description_json = read_text_chunks(map.at("description"), label_mask_description_limit);
+    source->codes_text = read_text_chunks(map.at("codes"), 1024u * 1024);
+    source->observed_store_sha256 = text_value(map.at("observed"));
+    source->content_sha256 = text_value(map.at("content"));
+    if (!digest(source->observed_store_sha256) || !digest(source->content_sha256) || source->description_json.empty())
+        throw std::invalid_argument("Invalid saved NGFF source identity");
+    std::optional<LabelCode> previous;
+    for (std::size_t at = 0; at < source->codes_text.size();) {
+        const auto end = source->codes_text.find('\n', at);
+        if (end == std::string::npos)
+            throw std::invalid_argument("Truncated saved original-code map");
+        const auto code = LabelCode::from_decimal(source->codes_text.substr(at, end - at));
+        if (!code.magnitude() || (previous && !(*previous < code)))
+            throw std::invalid_argument("Saved original-code map is not sorted nonzero codes");
+        previous = code;
+        at = end + 1;
+    }
+    return source;
+}
+void require_ngff_source_record(const Value& saved, const ImportedNgffLabelMask& current,
+                                const std::atomic<bool>* cancelled) {
+    const auto expected = read_ngff_source_record(saved);
+    if (expected->description_json != current.description->json ||
+        expected->codes_text != label_code_map_text(current.source_codes, 1024u * 1024, cancelled) ||
+        expected->observed_store_sha256 != current.source->directory_sha256 ||
+        expected->content_sha256 != current.content_sha256)
+        throw WorkflowInputChanged("Kept NGFF source metadata/codes/identity was changed");
+}
+const LabelMaskSourceProperty* source_property(const LabelMaskSourceDescription& description, LabelCode code) {
+    const auto found = std::lower_bound(description.label_properties.begin(), description.label_properties.end(), code,
+        [](const auto& property, const auto& value) { return property.code < value; });
+    return found != description.label_properties.end() && found->code == code ? &*found : nullptr;
+}
+void metadata_chunks(std::map<std::string, std::string>& metadata, const std::string& key,
+                      const std::string& text) {
+    const auto pieces = text_chunks(text, 24576);
+    metadata[key + ".bytes"] = decimal(text.size());
+    const auto& list = std::get<Value::List>(pieces.value);
+    for (std::size_t i = 0; i < list.size(); ++i)
+        metadata[key + "." + decimal(i)] = text_value(list[i]);
+}
+std::string csv_text(const std::string& s) {
+    if (s.find_first_of(",\"\r\n") == std::string::npos)
+        return s;
+    std::string result = "\"";
+    for (const auto c : s) {
+        result += c;
+        if (c == '"')
+            result += c;
+    }
+    return result + '"';
 }
 Value::Map records(const Document& doc) {
     const auto p = doc.image_data_properties();
@@ -365,15 +465,28 @@ LabelAnalysisRequest LabelAnalysisRequest::external_mask(const Document& doc, st
                                                          ExternalLabelMaskOptions options,
                                                          LabelAnalysisLimits limits) {
     options.validate();
+    detail::capture_label_mask_reader(options);
     auto d = std::make_shared<Data>(doc, area, limits);
     d->document = doc.analysis_identity_.token;
     d->capture_raw(doc, channels);
     detail::label_charge(d->fixed,
                          options.path.capacity() + options.producer.capacity() +
                              options.producer_version.capacity() + options.model_sha256.capacity() +
-                             options.input_sha256.capacity(),
+                             options.input_sha256.capacity() + options.reader_sha256.capacity(),
                          1, d->limits.work_bytes);
     d->options = std::move(options);
+    return LabelAnalysisRequest(std::move(d));
+}
+LabelAnalysisRequest LabelAnalysisRequest::ngff_mask(const Document& doc, std::uint64_t area,
+    RawRegionRequest channels, NgffLabelMaskOptions options, LabelAnalysisLimits limits) {
+    auto captured = capture_ngff_label_mask_options(std::move(options));
+    auto d = std::make_shared<Data>(doc, area, limits);
+    d->document = doc.analysis_identity_.token;
+    d->capture_raw(doc, channels);
+    if (captured.reference_z != d->raw.z || captured.reference_t != d->raw.t)
+        throw std::invalid_argument("Explicit NGFF reference plane differs from the selected target plane");
+    detail::label_charge(d->fixed, captured.payload_bytes(), 1, d->limits.work_bytes);
+    d->options = std::make_shared<const NgffLabelMaskOptions>(std::move(captured));
     return LabelAnalysisRequest(std::move(d));
 }
 bool LabelAnalysisRequest::matches(const Document& doc) const {
@@ -425,7 +538,10 @@ struct LabelAnalysisRun::Data {
     std::vector<std::uint64_t> parents;
     std::vector<SubcellularCellCount> counts;
     std::vector<std::uint32_t> source_labels;
-    std::shared_ptr<const ReaderSource> mask_source;
+    // Same pointer footprint as the legacy ReaderSource owner. Alternative is
+    // controlled by the immutable request: ReaderSource for TIFF/PNG, or an
+    // ImportedNgffLabelMask retaining its exact map/metadata/store snapshot.
+    std::shared_ptr<const void> mask_source;
     LabelAnalysisReport report;
     std::string input, identity, kernel_input, kernel_result;
     Data(std::shared_ptr<const LabelAnalysisRequest::Data> r, LabelRaster value, std::string in,
@@ -437,8 +553,32 @@ struct LabelAnalysisKernel {
     static const auto& request(const LabelAnalysisRun& r) {
         return *r.data_->request;
     }
-    static const auto& mask_source(const LabelAnalysisRun& r) {
-        return r.data_->mask_source;
+    static const ImportedNgffLabelMask* ngff(const LabelAnalysisRun::Data& d) {
+        return d.request->options.index() == 3 ?
+            static_cast<const ImportedNgffLabelMask*>(d.mask_source.get()) : nullptr;
+    }
+    static const ImportedNgffLabelMask* ngff(const LabelAnalysisRun& r) {
+        return ngff(*r.data_);
+    }
+    static std::shared_ptr<const ReaderSource> mask_source(const LabelAnalysisRun::Data& d) {
+        if (const auto* source = ngff(d))
+            return source->source;
+        return std::static_pointer_cast<const ReaderSource>(d.mask_source);
+    }
+    static std::shared_ptr<const ReaderSource> mask_source(const LabelAnalysisRun& r) {
+        return mask_source(*r.data_);
+    }
+    static std::size_t ngff_storage(const ImportedNgffLabelMask& value) {
+        // The raster backing is shared with Run::raster and charged there once.
+        return sizeof(value) + value.source_codes.payload_bytes() + value.store->payload_bytes() +
+            value.store->limits().inventory_bytes + value.description->payload_bytes() +
+            value.content_sha256.capacity() + value.reader_sha256.capacity();
+    }
+    static void mask_current(const LabelAnalysisRun::Data& d, const std::atomic<bool>* cancelled) {
+        if (const auto* source = ngff(d))
+            source->store->require_current(cancelled);
+        else if (const auto source = mask_source(d))
+            observed_current(*source, cancelled);
     }
     static const LabelRaster& raster(const LabelAnalysisRun::Data& d) {
         return d.raster;
@@ -446,8 +586,7 @@ struct LabelAnalysisKernel {
     static void sources_current(const LabelAnalysisRun& run, const std::atomic<bool>* cancelled) {
         const auto& d = *run.data_->request;
         source_current(*d.source, d.metadata, d.observed, cancelled);
-        if (run.data_->mask_source)
-            observed_current(*run.data_->mask_source, cancelled);
+        mask_current(*run.data_, cancelled);
     }
     static std::size_t retained(const LabelAnalysisRun::Data& d) {
         auto bytes = d.request->fixed + sizeof(d) + d.raster.payload_bytes() +
@@ -455,7 +594,8 @@ struct LabelAnalysisKernel {
                      d.counts.capacity() * sizeof(SubcellularCellCount) +
                      d.measurements.capacity() * sizeof(LabelRegionMeasurements) +
                      d.source_labels.capacity() * 4 +
-                     (d.mask_source ? d.mask_source->payload_bytes() : 0) + d.input.capacity() +
+                     (mask_source(d) ? mask_source(d)->payload_bytes() : 0) +
+                     (ngff(d) ? ngff_storage(*ngff(d)) : 0) + d.input.capacity() +
                      d.identity.capacity() + d.kernel_input.capacity() + d.kernel_result.capacity();
         for (const auto& m : d.measurements)
             bytes += m.channels.capacity() * sizeof(RawChannelIntensity);
@@ -468,6 +608,19 @@ struct LabelAnalysisKernel {
             throw WorkflowCaptureLimit("Label archive has no remaining work");
         return d.request->limits.work_bytes - extra;
     }
+    static LabelMaskTargetFrame target_frame(const LabelAnalysisRequest::Data& d) {
+        LabelMaskTargetFrame target;
+        target.width = d.metadata.width;
+        target.height = d.metadata.height;
+        target.crop = d.region;
+        target.pixel_width_um = d.provenance->effective_pixel_width_um;
+        target.pixel_height_um = d.provenance->effective_pixel_height_um;
+        target.z_spacing_um = d.quantitative->metadata.z_spacing_um;
+        target.time_interval_seconds = d.quantitative->metadata.time_interval_seconds;
+        target.z = d.raw.z;
+        target.t = d.raw.t;
+        return target;
+    }
     static Json parameters(const LabelAnalysisRequest::Data& d) {
         if (d.options.index() == 0) {
             const auto& p = std::get<SuperpixelOptions>(d.options);
@@ -479,19 +632,36 @@ struct LabelAnalysisKernel {
                     {"max_regions", p.max_regions},
                     {"max_tests", p.max_assignment_tests}};
         }
+        if (d.options.index() == 3) {
+            const auto& p = *std::get<std::shared_ptr<const NgffLabelMaskOptions>>(d.options);
+            return {{"method", 3}, {"path", p.path}, {"label_group", p.label_group},
+                    {"reference_group", p.reference_group}, {"level", p.level},
+                    {"label_z", p.z}, {"label_t", p.t}, {"reference_z", p.reference_z},
+                    {"reference_t", p.reference_t}, {"origin", int(p.origin)},
+                    {"author", p.author}, {"producer", p.producer}, {"version", p.producer_version},
+                    {"model", p.model_sha256}, {"input", p.input_sha256},
+                    {"reader_sha256", p.reader_sha256}, {"max_regions", p.max_regions},
+                    {"first_channel", d.raw.first_channel}, {"channels", d.raw.channels},
+                    {"z", d.raw.z}, {"t", d.raw.t}};
+        }
         if (d.options.index() == 2) {
             const auto& p = std::get<ExternalLabelMaskOptions>(d.options);
-            return {{"method", 2},
-                    {"path", p.path},
-                    {"producer", p.producer},
-                    {"version", p.producer_version},
-                    {"model", p.model_sha256},
-                    {"input", p.input_sha256},
-                    {"max_regions", p.max_regions},
-                    {"first_channel", d.raw.first_channel},
-                    {"channels", d.raw.channels},
-                    {"z", d.raw.z},
-                    {"t", d.raw.t}};
+            Json result = {{"method", 2},
+                           {"path", p.path},
+                           {"producer", p.producer},
+                           {"version", p.producer_version},
+                           {"model", p.model_sha256},
+                           {"input", p.input_sha256},
+                           {"max_regions", p.max_regions},
+                           {"first_channel", d.raw.first_channel},
+                           {"channels", d.raw.channels},
+                           {"z", d.raw.z},
+                           {"t", d.raw.t}};
+            if (p.format != ExternalLabelMaskFormat::Tiff) {
+                result["format"] = p.format == ExternalLabelMaskFormat::PngIndexed ? "png-indexed" : "png";
+                result["reader_sha256"] = p.reader_sha256;
+            }
+            return result;
         }
         const auto& p = std::get<SubcellularOptions>(d.options);
         return {{"method", 1},
@@ -693,6 +863,43 @@ struct LabelAnalysisKernel {
                 out->measurements.push_back({spot.label, spot.raw.pixels, spot.raw.valid_pixels,
                                              std::move(spot.raw.channels)});
             }
+        } else if (d.options.index() == 3) {
+            const auto& p = *std::get<std::shared_ptr<const NgffLabelMaskOptions>>(d.options);
+            auto pixels = read_raw(d, cancelled);
+            const auto input = raw_identity(d, pixels, cancelled);
+            if (input != p.input_sha256)
+                throw WorkflowInputChanged("NGFF mask names a different target raw input/ROI/plane/calibration");
+            const auto extra = d.fixed + pixels.payload_bytes();
+            if (extra >= d.limits.work_bytes)
+                throw WorkflowCaptureLimit("No work remains for NGFF label import");
+            const auto target = target_frame(d);
+            auto imported = import_ngff_label_mask(p, target, d.limits.work_bytes - extra, cancelled);
+            for (std::size_t i = 0; i < n; ++i) {
+                if (!(i & 4095))
+                    workflow_checkpoint(cancelled);
+                if (imported.raster.labels()[i] && !d.roi.contains_sample(
+                    {d.grid.x().center(i % std::size_t(d.region.width)).binary64(),
+                     d.grid.y().center(i / std::size_t(d.region.width)).binary64()},
+                     RoiSamplingPolicy::GeometryCoverage))
+                    throw std::invalid_argument("NGFF label foreground lies outside the selected ROI");
+            }
+            Sha256 identity;
+            detail::label_hash_text(identity, "qpx.ngff-external-label-mask/1");
+            for (const auto& s : {parameters(d).dump(), input, imported.reader_sha256,
+                                  imported.source->directory_sha256, imported.content_sha256,
+                                  imported.raster.sha256()})
+                detail::label_hash_text(identity, s);
+            out = std::make_shared<LabelAnalysisRun::Data>(request.data_, imported.raster,
+                detail::label_raw_input(pixels, cancelled), identity.finish());
+            auto owned = std::make_shared<const ImportedNgffLabelMask>(std::move(imported));
+            const auto measurement_extra = d.fixed + ngff_storage(*owned) + owned->source->payload_bytes();
+            out->mask_source = std::move(owned);
+            if (measurement_extra >= d.limits.work_bytes)
+                throw WorkflowCaptureLimit("No work remains for NGFF label measurements");
+            out->measurements = measure_raw_label_regions(pixels, out->raster,
+                d.limits.work_bytes - measurement_extra, cancelled);
+            out->parents.assign(out->measurements.size(), d.area);
+            mask_current(*out, cancelled);
         } else {
             const auto& p = std::get<ExternalLabelMaskOptions>(d.options);
             auto pixels = read_raw(d, cancelled);
@@ -703,8 +910,8 @@ struct LabelAnalysisKernel {
             const auto extra = d.fixed + pixels.payload_bytes();
             if (extra >= d.limits.work_bytes)
                 throw WorkflowCaptureLimit("No remaining work for external mask");
-            auto imported = import_label_mask_tiff(p, d.region.width, d.region.height,
-                                                   d.limits.work_bytes - extra, cancelled);
+            auto imported = import_label_mask(p, d.region.width, d.region.height,
+                                              d.limits.work_bytes - extra, cancelled);
             for (std::size_t i = 0; i < n; ++i) {
                 if (!(i & 4095))
                     workflow_checkpoint(cancelled);
@@ -717,7 +924,15 @@ struct LabelAnalysisKernel {
                         "External mask foreground lies outside the selected ROI");
             }
             Sha256 identity;
-            detail::label_hash_text(identity, "qpx.external-label-mask/1");
+            const bool png = p.format != ExternalLabelMaskFormat::Tiff;
+            detail::label_hash_text(identity, png ? "qpx.external-label-mask/2"
+                                                  : "qpx.external-label-mask/1");
+            if (png) {
+                detail::label_hash_text(identity, p.format == ExternalLabelMaskFormat::PngIndexed
+                                                      ? "png-indexed-native-labels/1"
+                                                      : "png-grayscale-native-labels/1");
+                detail::label_hash_text(identity, p.reader_sha256);
+            }
             for (const auto& s : {p.producer, p.producer_version, p.model_sha256, input,
                                   imported.file_sha256, imported.raster.sha256()})
                 detail::label_hash_text(identity, s);
@@ -727,13 +942,13 @@ struct LabelAnalysisKernel {
             out->source_labels = std::move(imported.source_labels);
             out->mask_source = std::move(imported.source);
             auto measurement_extra =
-                d.fixed + out->source_labels.capacity() * 4 + out->mask_source->payload_bytes();
+                d.fixed + out->source_labels.capacity() * 4 + mask_source(*out)->payload_bytes();
             if (measurement_extra >= d.limits.work_bytes)
                 throw WorkflowCaptureLimit("No work remains for external-mask measurements");
             out->measurements = measure_raw_label_regions(
                 pixels, out->raster, d.limits.work_bytes - measurement_extra, cancelled);
             out->parents.assign(out->measurements.size(), d.area);
-            observed_current(*out->mask_source, cancelled);
+            mask_current(*out, cancelled);
         }
         source_current(*d.source, d.metadata, d.observed, cancelled);
         auto contour_options = d.limits.contours;
@@ -758,8 +973,7 @@ struct LabelAnalysisKernel {
                                     out->raster.sha256() != d.expected_raster))
             throw WorkflowInputChanged("Saved label recipe/input/result identity changed");
         source_current(*d.source, d.metadata, d.observed, cancelled);
-        if (out->mask_source)
-            observed_current(*out->mask_source, cancelled);
+        mask_current(*out, cancelled);
         return std::shared_ptr<const LabelAnalysisRun>(new LabelAnalysisRun(std::move(out)));
     }
     static void current(const Document& doc, const LabelAnalysisRequest& request,
@@ -795,6 +1009,21 @@ const std::vector<std::uint64_t>& LabelAnalysisRun::parent_ids() const {
 }
 const std::vector<std::uint32_t>& LabelAnalysisRun::source_labels() const {
     return data_->source_labels;
+}
+LabelCode LabelAnalysisRun::source_code(std::size_t index) const {
+    if (const auto* source = LabelAnalysisKernel::ngff(*data_))
+        return source->source_codes.at(index);
+    if (!data_->source_labels.empty())
+        return LabelCode::from_unsigned(data_->source_labels.at(index));
+    return LabelCode::from_unsigned(data_->measurements.at(index).label);
+}
+const LabelCodeMap* LabelAnalysisRun::exact_source_labels() const {
+    const auto* source = LabelAnalysisKernel::ngff(*data_);
+    return source ? &source->source_codes : nullptr;
+}
+const LabelMaskSourceDescription* LabelAnalysisRun::label_source_description() const {
+    const auto* source = LabelAnalysisKernel::ngff(*data_);
+    return source ? source->description.get() : nullptr;
 }
 const LabelAnalysisOptions& LabelAnalysisRun::options() const {
     return data_->request->options;
@@ -834,6 +1063,29 @@ void require_current_label_analysis_inputs(const LabelAnalysisRun& run,
                                            const std::atomic<bool>* cancelled) {
     LabelAnalysisKernel::sources_current(run, cancelled);
 }
+void detail::visit_label_project_source_stores(const std::shared_ptr<const ImageDataProperties>& properties,
+                                                const std::function<void(const std::string&)>& visit) {
+    if (!properties)
+        return;
+    const auto found = properties->values().find(records_key);
+    if (found == properties->values().end())
+        return;
+    for (const auto& entry : map_value(found->second)) {
+        const auto& record = map_value(entry.second);
+        if (!record.count("ngff_source"))
+            continue;
+        if (!record.count("parameters"))
+            throw std::invalid_argument("NGFF label record has no source parameters");
+        const auto p = parse(text_value(record.at("parameters")));
+        if (!p.is_object() || !p.contains("method") || p.at("method") != 3 || !p.contains("path"))
+            throw std::invalid_argument("NGFF label record has no declared source directory");
+        const auto path = p.at("path").get<std::string>();
+        detail::bounded_utf8(path, 2048);
+        if (path.empty() || !std::filesystem::u8path(path).is_absolute())
+            throw std::invalid_argument("NGFF label source directory must remain absolute");
+        visit(path);
+    }
+}
 LabelAnalysisInputInfo label_analysis_input_info(const Document& doc, std::uint64_t area,
                                                  RawRegionRequest channels,
                                                  LabelAnalysisLimits limits,
@@ -861,11 +1113,12 @@ std::string LabelAnalysisKernel::keep(Document& doc, const LabelAnalysisRequest&
     const auto settings = parameters(d).dump();
     if (settings.size() > 4096)
         throw std::length_error("Label settings exceed metadata text limit");
-    all.emplace(result.sha256(), Value{Value::Map{{"area", Value{decimal(d.area)}},
-                                                  {"parameters", Value{settings}},
-                                                  {"parents", Value{std::move(parents)}},
-                                                  {"input", Value{result.input_sha256()}},
-                                                  {"raster", Value{result.raster().sha256()}}}});
+    Value::Map record{{"area", Value{decimal(d.area)}}, {"parameters", Value{settings}},
+        {"parents", Value{std::move(parents)}}, {"input", Value{result.input_sha256()}},
+        {"raster", Value{result.raster().sha256()}}};
+    if (const auto* source = ngff(*result.data_))
+        record.emplace("ngff_source", ngff_source_record(*source, cancelled));
+    all.emplace(result.sha256(), Value{std::move(record)});
     auto values =
         doc.image_data_properties() ? doc.image_data_properties()->values() : Value::Map{};
     values[records_key] = Value{std::move(all)};
@@ -898,7 +1151,7 @@ LabelAnalysisRequest replay_label_analysis(const Document& doc, const std::strin
     if (found == all.end())
         throw std::out_of_range("Label analysis record not found");
     const auto& r = map_value(found->second);
-    if (r.size() != 5 || !r.count("area") || !r.count("parameters") || !r.count("parents") ||
+    if ((r.size() != 5 && r.size() != 6) || !r.count("area") || !r.count("parameters") || !r.count("parents") ||
         !r.count("input") || !r.count("raster") || !digest(text_value(r.at("input"))) ||
         !digest(text_value(r.at("raster"))))
         throw std::invalid_argument("Unsupported label analysis record");
@@ -912,7 +1165,9 @@ LabelAnalysisRequest replay_label_analysis(const Document& doc, const std::strin
     const auto p = parse(text_value(r.at("parameters")));
     if (!p.is_object() || !p.contains("method"))
         throw std::invalid_argument("Missing label analysis method");
-    const auto method = unsigned_value(p.at("method"), 2);
+    const auto method = unsigned_value(p.at("method"), 3);
+    if (r.size() != (method == 3 ? 6 : 5) || (method == 3 && !r.count("ngff_source")))
+        throw std::invalid_argument("Saved label method/source record differs");
     auto request = [&] {
         if (!method) {
             keys(p, {"method", "region", "iterations", "compactness", "color", "max_regions",
@@ -929,12 +1184,61 @@ LabelAnalysisRequest replay_label_analysis(const Document& doc, const std::strin
             o.work_bytes = limits.work_bytes;
             return LabelAnalysisRequest(doc, area, o, limits);
         }
+        if (method == 3) {
+            keys(p, {"method", "path", "label_group", "reference_group", "level", "label_z", "label_t",
+                     "reference_z", "reference_t", "origin", "author", "producer", "version", "model",
+                     "input", "reader_sha256", "max_regions", "first_channel", "channels", "z", "t"});
+            if (!parents.empty())
+                throw std::invalid_argument("NGFF label recipe contains parent cells");
+            NgffLabelMaskOptions o;
+            o.path = p.at("path").get<std::string>();
+            o.label_group = p.at("label_group").get<std::string>();
+            o.reference_group = p.at("reference_group").get<std::string>();
+            o.level = std::uint32_t(unsigned_value(p.at("level"), 0));
+            o.z = std::uint32_t(unsigned_value(p.at("label_z"), UINT32_MAX));
+            o.t = std::uint32_t(unsigned_value(p.at("label_t"), UINT32_MAX));
+            o.reference_z = std::uint32_t(unsigned_value(p.at("reference_z"), UINT32_MAX));
+            o.reference_t = std::uint32_t(unsigned_value(p.at("reference_t"), UINT32_MAX));
+            o.origin = LabelMaskOrigin(unsigned_value(p.at("origin"), 1));
+            o.author = p.at("author").get<std::string>();
+            o.producer = p.at("producer").get<std::string>();
+            o.producer_version = p.at("version").get<std::string>();
+            o.model_sha256 = p.at("model").get<std::string>();
+            o.input_sha256 = p.at("input").get<std::string>();
+            o.reader_sha256 = p.at("reader_sha256").get<std::string>();
+            if (!digest(o.reader_sha256))
+                throw std::invalid_argument("Saved NGFF labels require an exact decoder identity");
+            o.max_regions = std::size_t(unsigned_value(p.at("max_regions"), 1000000));
+            o.replay_source = read_ngff_source_record(r.at("ngff_source"));
+            RawRegionRequest channels;
+            channels.first_channel = std::uint32_t(unsigned_value(p.at("first_channel"), UINT32_MAX));
+            channels.channels = std::uint32_t(unsigned_value(p.at("channels"), 4096));
+            channels.z = std::uint32_t(unsigned_value(p.at("z"), UINT32_MAX));
+            channels.t = std::uint32_t(unsigned_value(p.at("t"), UINT32_MAX));
+            return LabelAnalysisRequest::ngff_mask(doc, area, channels, std::move(o), limits);
+        }
         if (method == 2) {
-            keys(p, {"method", "path", "producer", "version", "model", "input", "max_regions",
-                     "first_channel", "channels", "z", "t"});
+            const bool png = p.contains("format");
+            if (png)
+                keys(p, {"method", "path", "producer", "version", "model", "input", "max_regions",
+                         "first_channel", "channels", "z", "t", "format", "reader_sha256"});
+            else
+                keys(p, {"method", "path", "producer", "version", "model", "input", "max_regions",
+                         "first_channel", "channels", "z", "t"});
             if (!parents.empty())
                 throw std::invalid_argument("External mask recipe contains parent cells");
             ExternalLabelMaskOptions o;
+            if (png) {
+                if (p.at("format") == "png")
+                    o.format = ExternalLabelMaskFormat::Png;
+                else if (p.at("format") == "png-indexed")
+                    o.format = ExternalLabelMaskFormat::PngIndexed;
+                else
+                    throw std::invalid_argument("Unsupported saved external mask format");
+                o.reader_sha256 = p.at("reader_sha256").get<std::string>();
+                if (!digest(o.reader_sha256))
+                    throw std::invalid_argument("Saved PNG mask needs an exact decoder identity");
+            }
             o.path = p.at("path").get<std::string>();
             o.producer = p.at("producer").get<std::string>();
             o.producer_version = p.at("version").get<std::string>();
@@ -1010,13 +1314,30 @@ std::vector<std::uint64_t> LabelAnalysisKernel::publish(Document& doc,
         throw std::invalid_argument("Keep the label result before publishing its objects");
     const auto& d = *request.data_;
     const auto& saved = map_value(found->second);
-    if (saved.size() != 5 || !saved.count("area") || !saved.count("parameters") ||
+    const auto* ngff_source = ngff(*run.data_);
+    if (saved.size() != (ngff_source ? 6 : 5) || (ngff_source && !saved.count("ngff_source")) ||
+        !saved.count("area") || !saved.count("parameters") ||
         !saved.count("parents") || !saved.count("input") || !saved.count("raster") ||
         id_value(saved.at("area")) != d.area ||
         text_value(saved.at("parameters")) != parameters(d).dump() ||
         text_value(saved.at("input")) != run.input_sha256() ||
         text_value(saved.at("raster")) != run.raster().sha256())
         throw WorkflowInputChanged("Kept label recipe/input/result association was changed");
+    if (ngff_source) {
+        require_ngff_source_record(saved.at("ngff_source"), *ngff_source, cancelled);
+        // New metadata-bearing objects add real staging storage. Reserve the
+        // geometry, property/string maps and transaction copies before creating
+        // any edits; legacy publication's valid budgets remain unchanged.
+        auto publication_work = retained(*run.data_) + run.contours()->retained_bytes();
+        if (doc.image_data_properties())
+            detail::label_charge(publication_work, doc.image_data_properties()->payload_bytes(), 3, d.limits.work_bytes);
+        for (std::size_t i = 0; i < run.measurements().size(); ++i) {
+            const auto* property = source_property(*ngff_source->description, run.source_code(i));
+            const auto text_bytes = property ? property->properties.size() : 0;
+            detail::label_charge(publication_work, 32768 + prefix.size() + text_bytes * 4, 1, d.limits.work_bytes);
+            detail::label_charge(publication_work, run.measurements()[i].channels.size(), 1024, d.limits.work_bytes);
+        }
+    }
     const auto* parents = std::get_if<Value::List>(&saved.at("parents").value);
     if (!parents || parents->size() != d.parents.size())
         throw WorkflowInputChanged("Kept parent-cell cohort was changed");
@@ -1091,6 +1412,27 @@ std::vector<std::uint64_t> LabelAnalysisKernel::publish(Document& doc,
             metadata["qpx.external-mask.version/1"] = p.producer_version;
             metadata["qpx.external-mask.model/1"] = p.model_sha256;
         }
+        if (ngff_source) {
+            const auto& p = *std::get<std::shared_ptr<const NgffLabelMaskOptions>>(d.options);
+            const auto code = run.source_code(index);
+            metadata["qpx.external-mask.source-label/1"] = code.decimal();
+            metadata["qpx.ngff.description/1"] = ngff_source->description->sha256;
+            metadata["qpx.ngff.label-group/1"] = p.label_group;
+            metadata["qpx.ngff.reference-group/1"] = p.reference_group;
+            metadata["qpx.ngff.origin/1"] = p.origin == LabelMaskOrigin::Authored ? "authored" : "producer";
+            if (p.origin == LabelMaskOrigin::Authored)
+                metadata["qpx.ngff.author/1"] = p.author;
+            else {
+                metadata["qpx.external-mask.producer/1"] = p.producer;
+                metadata["qpx.external-mask.version/1"] = p.producer_version;
+                metadata["qpx.external-mask.model/1"] = p.model_sha256;
+            }
+            if (const auto* property = source_property(*ngff_source->description, code)) {
+                metadata_chunks(metadata, "qpx.ngff.properties/1", property->properties);
+                if (property->rgba)
+                    metadata["qpx.ngff.rgba/1"] = Json(*property->rgba).dump();
+            }
+        }
         metadata[facts_key] =
             publication_facts(geometry, parent, plane, "", metadata, measurements);
         auto edit =
@@ -1127,7 +1469,8 @@ std::vector<std::uint64_t> LabelAnalysisKernel::publish(Document& doc,
         edits.push_back(ObjectEdit::properties(a.id, std::move(properties)));
     }
     current(doc, request, run, cancelled);
-    return doc.execute(edits, request.method() == LabelAnalysisMethod::Superpixels
+    return doc.execute(edits, request.method() == LabelAnalysisMethod::NgffMask ? "Import NGFF label regions" :
+                              request.method() == LabelAnalysisMethod::Superpixels
                                   ? "Add SLIC regions"
                                   : "Add subcellular spots");
 }
@@ -1211,6 +1554,8 @@ std::vector<std::string> protected_outputs(const LabelAnalysisRun& run,
             files.push_back(c.path);
     }
     if (const auto& mask = LabelAnalysisKernel::mask_source(run)) {
+        if (mask->scope == "directory_store")
+            files.push_back(mask->locator);
         if (mask->primary)
             files.push_back(mask->primary->path);
         for (const auto& c : mask->companions)
@@ -1253,10 +1598,14 @@ std::size_t save_label_analysis_csv(const LabelAnalysisRun& run, const std::stri
     require_current_label_analysis_inputs(run, cancelled);
     protect_output(run, path, protected_paths);
     detail::AtomicExportFile file(path, bytes, cancelled);
-    const std::string header =
+    std::string header =
         "run_sha256,input_sha256,value_domain,label,source_label,parent_object_id,pixels,valid_"
         "pixels,source_channel_or_rgb_component,finite_samples,nonfinite_samples,sum,mean,minimum,"
         "maximum,sample_sd\n";
+    if (run.method() == LabelAnalysisMethod::NgffMask) {
+        header.pop_back();
+        header += ",ngff_description_sha256,source_origin,source_author,source_producer,source_version,source_model,source_properties_json,source_rgba_json\n";
+    }
     file.write(header.data(), header.size());
     for (std::size_t i = 0; i < run.measurements().size(); ++i) {
         workflow_checkpoint(cancelled);
@@ -1270,7 +1619,7 @@ std::size_t save_label_analysis_csv(const LabelAnalysisRun& run, const std::stri
                 run.method() != LabelAnalysisMethod::Superpixels ? d.raw.first_channel + c : c;
             row << run.sha256() << ',' << run.input_sha256() << ',' << run.measurement_domain()
                 << ',' << m.label << ','
-                << (run.source_labels().empty() ? m.label : run.source_labels().at(i)) << ','
+                << run.source_code(i).decimal() << ','
                 << run.parent_ids().at(i) << ',' << m.pixels << ',' << m.valid_pixels << ','
                 << channel << ',' << v.finite_samples << ',' << v.nonfinite_samples;
             for (const auto& x :
@@ -1278,6 +1627,17 @@ std::size_t save_label_analysis_csv(const LabelAnalysisRun& run, const std::stri
                 row << ',';
                 if (x)
                     row << *x;
+            }
+            if (run.method() == LabelAnalysisMethod::NgffMask) {
+                const auto& p = *std::get<std::shared_ptr<const NgffLabelMaskOptions>>(d.options);
+                const auto* description = run.label_source_description();
+                const auto* property = source_property(*description, run.source_code(i));
+                row << ',' << description->sha256 << ','
+                    << (p.origin == LabelMaskOrigin::Authored ? "authored" : "producer");
+                for (const auto& text : {p.author, p.producer, p.producer_version, p.model_sha256,
+                    property ? property->properties : std::string{},
+                    property && property->rgba ? Json(*property->rgba).dump() : std::string{}})
+                    row << ',' << csv_text(text);
             }
             row << '\n';
             const auto text = row.str();
@@ -1295,8 +1655,27 @@ void save_label_analysis_raster(const LabelAnalysisRun& run, const std::string& 
                                 const std::atomic<bool>* cancelled) {
     require_current_label_analysis_inputs(run, cancelled);
     protect_output(run, path, protected_paths);
-    const auto data = encode_label_raster(
-        run.raster(), {1000000, LabelAnalysisKernel::encoding_work(run)}, cancelled);
+    const auto data = [&] {
+        if (const auto* source = run.label_source_description()) {
+            const auto& d = LabelAnalysisKernel::request(run);
+            const auto& p = *std::get<std::shared_ptr<const NgffLabelMaskOptions>>(d.options);
+            const auto observed = LabelAnalysisKernel::mask_source(run);
+            const auto* ngff = LabelAnalysisKernel::ngff(run);
+            LabelMaskArchiveContext context;
+            context.record_sha256 = run.sha256();
+            context.input_sha256 = run.input_sha256();
+            context.content_sha256 = ngff->content_sha256;
+            context.observed_store_sha256 = observed->directory_sha256;
+            context.reader_sha256 = p.reader_sha256;
+            context.parameters_json = LabelAnalysisKernel::parameters(d).dump();
+            context.target = LabelAnalysisKernel::target_frame(d);
+            context.plane = {p.z, p.t, p.reference_z, p.reference_t};
+            return encode_label_mask_archive(run.raster(), *run.exact_source_labels(), *source, context,
+                {1000000, LabelAnalysisKernel::encoding_work(run)}, cancelled);
+        }
+        return encode_label_raster(run.raster(),
+            {1000000, LabelAnalysisKernel::encoding_work(run)}, cancelled);
+    }();
     detail::AtomicExportFile file(path, data.size(), cancelled);
     file.write(reinterpret_cast<const char*>(data.data()), data.size());
     require_current_label_analysis_inputs(run, cancelled);

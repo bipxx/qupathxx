@@ -1,6 +1,7 @@
 #include "qupathxx/raw_analysis.hpp"
 #include "qupathxx/source_identity.hpp"
 #include "reader_file_guard.hpp"
+#include "project_plugin.hpp"
 #include "qupathxx/tma.hpp"
 #include "raw_statistics_internal.hpp"
 #include "raw_analysis_internal.hpp"
@@ -51,8 +52,14 @@ ScientificRawOptions raw_grid_analysis_sampling_options(const RawImageMetadata& 
     if(extra>=options.work_bytes) throw std::length_error("raw grid statistics exceed work budget");
     options.work_bytes-=std::size_t(extra);return options;
 }
-std::string raw_grid_analysis_hash(const std::string& sampling,std::optional<double> width,std::optional<double> height,const std::optional<Roi>& mask) {
+std::optional<std::uint32_t> raw_analysis_series(const ImageServer& server) {
+    if(const auto view=server.raw_view()) return view->series;
+    if(const auto link=detail::plugin_link_of(server);link && link->raw) return link->raw->series;
+    return {};
+}
+std::string raw_grid_analysis_hash(const std::string& sampling,std::optional<double> width,std::optional<double> height,const std::optional<Roi>& mask,const ReaderSource* source) {
     Sha256 hash;text(hash,"qpx.raw-grid-statistics-input/1");text(hash,sampling);
+    detail::hash_reader_plugin_binding(hash,source);
     number(hash,width);number(hash,height);hash.integer(mask.has_value());
     if(mask) {const auto bytes=GeometryArchiveCodec::encode(*mask);hash.integer(bytes.size());hash.update(bytes.data(),bytes.size());}
     return hash.finish();
@@ -77,7 +84,7 @@ RawAnalysisRequest::RawAnalysisRequest(const Document& doc,RawRegionRequest regi
     grid_(std::move(grid)),grid_options_(options),identity_(doc.analysis_identity_.token),source_(doc.server()),region_(region),object_id_(object),document_revision_(doc.revision()),max_pixels_(maximum),nucleus_(nucleus),tile_size_(tile),
     pixel_width_um_(doc.pixel_width_um()),pixel_height_um_(doc.pixel_height_um()) {
     if(!source_ || source_->closed()) throw std::invalid_argument("raw analysis requires an open source");
-    const auto view=source_->raw_view();if(!view) throw std::invalid_argument("raw analysis requires a quantitative source");series_=view->series;
+    const auto series=raw_analysis_series(*source_);if(!series) throw std::invalid_argument("raw analysis requires a quantitative source");series_=*series;
     if((!grid_ && (tile<16 || tile>1024)) || !maximum || maximum>1000000000000ULL) throw std::invalid_argument("invalid raw analysis tile/pixel limit");
     if(!region_.channels || region_.channels>65536 || region_.first_channel>=65536 || region_.channels>65536-region_.first_channel || region_.z>=65536 || region_.t>=65536)
         throw std::out_of_range("raw analysis channel/Z/time selection exceeds limits");
@@ -128,8 +135,8 @@ bool RawAnalysisRequest::context_matches(const Document& doc,std::uint64_t id,co
 }
 bool RawAnalysisRequest::matches(const Document& doc) const {
     if(identity_!=doc.analysis_identity_.token || doc.pixel_width_um()!=pixel_width_um_ || doc.pixel_height_um()!=pixel_height_um_) return false;
-    const auto current=doc.server();if(!current || current->closed()) return false;const auto view=current->raw_view();
-    if(!view || view->series!=series_ || current->source_locator()!=(source_?source_->source_locator():observed_?observed_->locator:std::string{})) return false;
+    const auto current=doc.server();if(!current || current->closed()) return false;
+    if(raw_analysis_series(*current)!=series_ || current->source_locator()!=(source_?source_->source_locator():observed_?observed_->locator:std::string{})) return false;
     if(current!=source_) {
         const auto before=observed_?observed_:source_?source_->reader_source():nullptr,after=current->reader_source();
         if(!before || !after || !detail::same_reader_files(*before,*after)) return false;
@@ -189,7 +196,7 @@ struct RawAnalysisKernel {
         m.channels=metadata.channels;m.z_planes=metadata.z_planes;m.timepoints=metadata.timepoints;m.series=metadata.series;m.sample_type=metadata.sample_type;
         m.downsample=std::numeric_limits<double>::quiet_NaN();m.z_spacing_um=metadata.z_spacing_um;m.time_interval_seconds=metadata.time_interval_seconds;
         m.channel_names.assign(metadata.channel_names.begin()+options.first_channel,metadata.channel_names.begin()+options.first_channel+channels);
-        output->input_sha256_=raw_grid_analysis_hash(digest.input_sha256,request.pixel_width_um_,request.pixel_height_um_,request.mask_);
+        output->input_sha256_=raw_grid_analysis_hash(digest.input_sha256,request.pixel_width_um_,request.pixel_height_um_,request.mask_,output->source_.get());
         if(collect) {
             std::vector<std::uint8_t> eligible(std::size_t(grid.width()*grid.height()),0);
             auto& stats=output->statistics_;stats.finite_samples.resize(channels);stats.nonfinite_samples.resize(channels);
@@ -246,7 +253,7 @@ struct RawAnalysisKernel {
         auto tile=request.tile_size_;while(std::uint64_t(tile)*tile>256*1024*1024/unit && tile>16) --tile;
         output->tile_size_=tile;const auto nx=(std::uint64_t(region.region.width)+tile-1)/tile,ny=(std::uint64_t(region.region.height)+tile-1)/tile;
         if(total) total->store(nx*ny,std::memory_order_relaxed);
-        Sha256 digest;text(digest,"qpx.raw-roi-input/1");
+        Sha256 digest;text(digest,"qpx.raw-roi-input/1");detail::hash_reader_plugin_binding(digest,output->source_.get());
         for(auto value:{std::uint64_t(capture.width),std::uint64_t(capture.height),std::uint64_t(capture.channels),std::uint64_t(capture.z_planes),std::uint64_t(capture.timepoints),std::uint64_t(capture.series),std::uint64_t(capture.sample_type),
             std::uint64_t(region.region.x),std::uint64_t(region.region.y),std::uint64_t(region.region.width),std::uint64_t(region.region.height),std::uint64_t(region.region.level),std::uint64_t(region.first_channel),std::uint64_t(region.channels),std::uint64_t(region.z),std::uint64_t(region.t),std::uint64_t(tile)}) digest.integer(value);
         number(digest,capture.downsample);number(digest,request.pixel_width_um_);number(digest,request.pixel_height_um_);number(digest,capture.z_spacing_um);number(digest,capture.time_interval_seconds);

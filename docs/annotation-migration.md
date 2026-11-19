@@ -88,11 +88,39 @@ project = preview.import_new("/path/imported.qpxproj")
 
 `source_overrides={"1": "/new/source.ome.tif"}` supplies an explicit source path
 by project entry ID. Relative relocation from the saved project URI is attempted
-when an original image path is missing. `exchange_directory` selects a different
+when an original image path is missing. If that original reappears before apply,
+run a fresh review. An explicit source override binds the chosen path instead.
+`exchange_directory` selects a different
 exchange directory. Paths are local files; arbitrary remote URIs and transformed
 builders are unsupported. Simple URI arguments are empty or a TIFF `--series N`.
 Native adapters determine actual supported formats; recognizing a QuPath provider
 name does not load its Java implementation or add its formats.
+
+The native CLI offers the same preview and publication commands.
+
+```powershell
+qupathxx_format_import qupath-project-preview project.qpproj --source 1 relocated.ome.tif
+qupathxx_format_import qupath-project-import project.qpproj imported.qpx --source 1 relocated.ome.tif --expect-review REVIEW_SHA256
+```
+
+To select an installed native plugin for an entry, add `--reader-plugins` with
+its absolute manifest path before the command, and `--source-reader ENTRY_ID
+PROVIDER_ID` after it. `--source-reader-options ENTRY_ID JSON` selects an
+explicit view. The native API exposes the same selection through
+`preview_qupath_project_with_options`. The source must satisfy the saved
+image's dimensions, axes and sample type. A nonzero QuPath TIFF series cannot
+select a plugin view. Reopen the saved project with the same provider package.
+For a directory-backed source, the review also binds the store inventory and
+the output project must be outside the source directory.
+
+Use the `review_sha256` from the preview report to require the same observed
+inputs and interpretation in a later process. Run both commands with the same
+source overrides, plugin selections and options, and `--exchange DIRECTORY`
+if used. Repeat `--source` for additional entry IDs. The token binds observed
+file versions, expected absences and the exact selected plugin view. If any
+of these change, run a fresh preview. `--allow-losses` accepts the
+reported omissions. Both assisted and direct saved-data inputs use the same
+native importer and new-only project writer.
 
 The preview holds a private native candidate. Properties return snapshots;
 modifying the Python lists cannot alter it. Each image reports source entry ID,
@@ -106,8 +134,14 @@ The exchange binds project, optional classes/metadata, per-image .qpdata and
 GeoJSON hashes. Nested objects use existing strict loss-aware import semantics.
 Unused project class definitions and tested XY calibration are retained; explicit
 unknown XY remains unknown. Image settings, metadata and unsupported object
-properties produce issues. Saved Z/time calibration overrides are not applied;
-source calibration remains authoritative there. Unknown builders, further planes,
+properties produce issues. Project-entry calibration can supply Z and time
+while leaving XY at its acquisition spacing. A complete explicitly uncalibrated
+XY pair clears physical XY. An incomplete XY pair reports a loss and leaves
+acquisition XY intact. Explicit Z spacing and timestamps are saved in the native
+document. Direct saved-data import resolves the XY pair, Z spacing and time
+series independently. Each uses a saved value if present, then the project-entry
+value, then acquisition calibration. Explicit uncalibrated Z and an empty
+timestamp array retain unknown positions. Unknown builders, further planes,
 full project properties and additional saved-data versions/records remain R5 gaps.
 
 Admission limits are16 MiB manifest,1024 images,4 MiB index,1 MiB each optional
@@ -135,8 +169,9 @@ ROI/stream representations fail explicitly. See [object-plane evidence](benchmar
 A malformed/truncated stream or missing terminal EOF never publishes
 an image-only project, even with loss admission.
 
-XY calibration comes from saved server metadata; unknown calibration remains
-unknown. Source dimensions, axis/channel counts and sample type must match.
+The saved XY pair overrides project-entry and acquisition spacing. Explicit
+unknown calibration remains unknown. Source dimensions, axis/channel counts
+and sample type must match.
 Supported object metadata, measurements, lock/color and reported class probability
 are retained through [object properties](object-properties.md). Root historical
 facts use [image properties](image-properties.md); recognized image types and stain

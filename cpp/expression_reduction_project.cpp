@@ -1,7 +1,9 @@
 #include "expression_reduction_internal.hpp"
+#include "expression_reduction_project_internal.hpp"
 #include "qupathxx/project.hpp"
 #include "workflow_input.hpp"
 #include "reader_file_guard.hpp"
+#include "filesystem_access.hpp"
 #include <fstream>
 
 namespace qpx {
@@ -24,11 +26,20 @@ void not_linked(const fs::path& p){
     const auto attributes=GetFileAttributesW(p.c_str());if(attributes!=INVALID_FILE_ATTRIBUTES && (attributes&FILE_ATTRIBUTE_REPARSE_POINT))throw std::invalid_argument("Managed reduction path is a reparse point");
 #endif
 }
-void copy_owned(const Association& a,const std::string& source,const fs::path& directory,const std::atomic<bool>* cancelled){
-    workflow_checkpoint(cancelled);const auto target=directory/fs::u8path(locator(a.file)),folder=target.parent_path();not_linked(folder);not_linked(target);
-    if(fs::exists(target)){const detail::WorkflowInput existing(target.u8string(),archive_limit,false,cancelled);if(existing.sha256()!=a.file)throw WorkflowInputChanged("Managed reduction target differs");return;}
-    const detail::ReaderFileGuard guard(source);if(guard.version()->bytes>archive_limit)throw WorkflowCaptureLimit("Managed reduction exceeds256MiB");fs::create_directories(folder);not_linked(folder);std::ifstream input(fs::u8path(source),std::ios::binary);if(!input)throw WorkflowInputChanged("Managed reduction input unavailable");detail::AtomicExportFile output(target.u8string(),archive_limit,cancelled);std::array<char,65536> buffer;Sha256 hash;
-    while(input){workflow_checkpoint(cancelled);input.read(buffer.data(),buffer.size());const auto n=std::size_t(input.gcount());hash.update(buffer.data(),n);output.write(buffer.data(),n);}if(!input.eof() || input.bad() || output.bytes()!=guard.version()->bytes || hash.finish()!=a.file)throw WorkflowInputChanged("Managed reduction copy differs");guard.verify();not_linked(folder);not_linked(target);workflow_checkpoint(cancelled);output.commit(false);
+void verify_owned_copy(const Association& a,const fs::path& target,const std::atomic<bool>* cancelled) {
+    const detail::WorkflowInput existing(target.u8string(),archive_limit,false,cancelled);
+    if(existing.sha256()!=a.file) throw WorkflowInputChanged("Managed reduction target differs");
+}
+void copy_owned(const Association& a,const std::string& source,const fs::path& directory,
+                const std::atomic<bool>* cancelled,const std::function<void(const std::string&)>& protect_output){
+    workflow_checkpoint(cancelled);const auto target=detail::access_path(directory/fs::u8path(locator(a.file)),true),folder=target.parent_path();not_linked(folder);not_linked(target);
+    if(fs::exists(target)){verify_owned_copy(a,target,cancelled);return;}
+    const auto input_path=detail::access_path(fs::u8path(source));
+    const detail::ReaderFileGuard guard(input_path.u8string());if(guard.version()->bytes>archive_limit)throw WorkflowCaptureLimit("Managed reduction exceeds256MiB");
+    protect_output(target.u8string());
+    fs::create_directories(folder);not_linked(folder);std::ifstream input(input_path,std::ios::binary);if(!input)throw WorkflowInputChanged("Managed reduction input unavailable");detail::AtomicExportFile output(target.u8string(),archive_limit,cancelled);std::array<char,65536> buffer;Sha256 hash;
+    while(input){workflow_checkpoint(cancelled);input.read(buffer.data(),buffer.size());const auto n=std::size_t(input.gcount());hash.update(buffer.data(),n);output.write(buffer.data(),n);}if(!input.eof() || input.bad() || output.bytes()!=guard.version()->bytes || hash.finish()!=a.file)throw WorkflowInputChanged("Managed reduction copy differs");guard.verify();not_linked(folder);not_linked(target);workflow_checkpoint(cancelled);
+    protect_output(target.u8string());output.commit(false);
 }
 void publish(Document& d,V::Map all){auto values=d.image_data_properties()?d.image_data_properties()->values():V::Map{};if(all.empty())values.erase(property);else values[property]=V{std::move(all)};d.set_image_data_properties(std::make_shared<const ImageDataProperties>(std::move(values)));}
 }
@@ -39,10 +50,29 @@ std::string keep_expression_reduction(Project& project,std::uint64_t image,const
 std::vector<std::string> expression_reduction_ids(const Project& project,std::uint64_t image){std::vector<std::string> ids;for(const auto& [id,v]:records(project.document(image)->image_data_properties())){decode(id,v);ids.push_back(id);}return ids;}
 void remove_expression_reduction(Project& project,std::uint64_t image,const std::string& id){auto doc=project.document(image);auto all=records(doc->image_data_properties());const auto i=all.find(id);if(i==all.end())throw std::out_of_range("Reduction record absent");decode(id,i->second);all.erase(i);publish(*doc,std::move(all));}
 ExpressionReductionOpenRequest expression_reduction_open_request(const Project& project,std::uint64_t image,const std::string& id){const auto& all=records(project.document(image)->image_data_properties());const auto i=all.find(id);if(i==all.end())throw std::out_of_range("Reduction record absent");const auto a=decode(id,i->second);auto parent=expression_matrix_open_request(project,image,a.source);if(parent.association.file_sha256!=a.parent_file || parent.association.features!=a.features || parent.association.observations!=a.observations)throw WorkflowInputChanged("Reduction association parent differs");return {std::move(parent),resolve(a,fs::u8path(project.path()).parent_path()),id,a.file};}
-std::shared_ptr<const ExpressionReductionResult> ExpressionReductionOpenRequest::open(std::size_t work,const std::atomic<bool>* cancelled)const{detail::reduction::work_limit(work);detail::reduction::digest(file_sha256);const detail::WorkflowInput file(archive,detail::reduction::archive_limit,false,cancelled);if(file.sha256()!=file_sha256)throw WorkflowInputChanged("Reduction archive file digest differs");const auto result=open_expression_reduction_archive(file.path(),id,work,cancelled);const auto source=parent.open(work,cancelled);detail::reduction::require_parent(*result,*source,work,cancelled);file.verify(false,cancelled);return result;}
+std::shared_ptr<const ExpressionReductionResult> ExpressionReductionOpenRequest::open(std::size_t work,const std::atomic<bool>* cancelled)const{detail::reduction::work_limit(work);detail::reduction::digest(file_sha256);const auto path=detail::access_path(fs::u8path(archive));const detail::WorkflowInput file(path.u8string(),detail::reduction::archive_limit,false,cancelled);if(file.sha256()!=file_sha256)throw WorkflowInputChanged("Reduction archive file digest differs");const auto result=open_expression_reduction_archive(file.path(),id,work,cancelled);const auto source=parent.open(work,cancelled);detail::reduction::require_parent(*result,*source,work,cancelled);file.verify(false,cancelled);return result;}
 namespace detail::reduction {
-std::shared_ptr<const ImageDataProperties> properties_for_save(std::shared_ptr<const ImageDataProperties> props,const fs::path& from,const fs::path& to,const std::atomic<bool>* cancelled){const auto& all=records(props);if(all.empty())return props;auto transformed=all;for(auto& [id,value]:transformed){workflow_checkpoint(cancelled);auto a=decode(id,value);if(a.owned){copy_owned(a,resolve(a,from),to,cancelled);a.path=locator(a.file);}else{std::error_code error;const auto relative=fs::relative(fs::u8path(a.path),to,error);if(!error && !relative.empty() && !relative.is_absolute())a.path=relative.generic_u8string();}value=encode(a);}auto values=props->values();values[property]=V{std::move(transformed)};return std::make_shared<const ImageDataProperties>(std::move(values));}
+void visit_owned_outputs(const std::shared_ptr<const ImageDataProperties>& props,
+    const fs::path& destination, const std::function<void(const std::string&)>& visit) {
+    for (const auto& [id, value] : records(props)) {
+        const auto association = decode(id, value);
+        if (association.owned)
+            visit((destination / fs::u8path(locator(association.file))).u8string());
+    }
+}
+std::shared_ptr<const ImageDataProperties> properties_for_save(std::shared_ptr<const ImageDataProperties> props,const fs::path& from,const fs::path& to,const std::atomic<bool>* cancelled,const std::function<void(const std::string&)>& protect_output){const auto& all=records(props);if(all.empty())return props;auto transformed=all;for(auto& [id,value]:transformed){workflow_checkpoint(cancelled);auto a=decode(id,value);if(a.owned){copy_owned(a,resolve(a,from),to,cancelled,protect_output);a.path=locator(a.file);}else{std::error_code error;const auto relative=fs::relative(fs::u8path(a.path),to,error);if(!error && !relative.empty() && !relative.is_absolute())a.path=relative.generic_u8string();}value=encode(a);}auto values=props->values();values[property]=V{std::move(transformed)};return std::make_shared<const ImageDataProperties>(std::move(values));}
 std::shared_ptr<const ImageDataProperties> properties_after_open(std::shared_ptr<const ImageDataProperties> props,const fs::path& base,bool unsaved){const auto& all=records(props);if(all.empty())return props;auto transformed=all;for(auto& [id,value]:transformed){auto a=decode(id,value,true);if((!a.owned && fs::u8path(a.path).is_relative()) || (a.owned && unsaved))a.path=(base/fs::u8path(a.path)).lexically_normal().u8string();value=encode(a);}auto values=props->values();values[property]=V{std::move(transformed)};return std::make_shared<const ImageDataProperties>(std::move(values));}
 void guard_project_output(std::shared_ptr<const ImageDataProperties> props,const fs::path& base,const std::string& destination){for(const auto& [id,value]:records(props)){const auto a=decode(id,value);guard_file_output(resolve(a,base),"",destination);}}
+void verify_owned_files(const std::shared_ptr<const ImageDataProperties>& props,const fs::path& directory,const std::atomic<bool>* cancelled) {
+    for(const auto& [id,value]:records(props)) {
+        workflow_checkpoint(cancelled);
+        const auto a=decode(id,value);
+        if(!a.owned) continue;
+        const auto target=access_path(directory/fs::u8path(locator(a.file)),true);
+        not_linked(target.parent_path());
+        not_linked(target);
+        verify_owned_copy(a,target,cancelled);
+    }
+}
 }
 }

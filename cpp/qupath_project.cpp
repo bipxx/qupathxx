@@ -4,7 +4,10 @@
 #include "qupathxx/source_identity.hpp"
 #include "reader_file_guard.hpp"
 #include "reader_registry.hpp"
+#include "reader_plugin.hpp"
+#include "format_import_internal.hpp"
 #include "annotation_format_registry.hpp"
+#include "atomic_export.hpp"
 #include "filesystem_access.hpp"
 #include "utf8_text.hpp"
 #include "ascii_case.hpp"
@@ -17,6 +20,7 @@
 #include <set>
 #if defined(QUPATHXX_HAS_PROJECT) && defined(QUPATHXX_HAS_INTERCHANGE)
 #include "strict_json.hpp"
+#include "qupath_axis_calibration.hpp"
 #include "qupath_class_wire.hpp"
 #include "class_registry.hpp"
 #endif
@@ -33,6 +37,8 @@ struct QuPathProjectPreview::Impl {
     std::string path;std::vector<QuPathProjectImage> images;std::vector<InterchangeIssue> issues;
     std::shared_ptr<Project> project=std::make_shared<Project>();
     std::map<std::string,FileVersion> files;std::vector<std::string> missing;
+    std::map<std::string,std::string> reader_bindings;
+    std::vector<detail::FormatImportImageGuard> reader_guards;
     mutable std::mutex mutex;bool consumed=false;
     void record(const std::string& path,const FileVersion& version) {
         const auto old=files.find(path);if(old!=files.end() && !same(old->second,version)) throw std::runtime_error("QuPath import input changed: "+path);
@@ -62,20 +68,51 @@ struct QuPathProjectPreview::Impl {
     void verify(const std::atomic<bool>* cancelled) const {
         for(const auto& [path,version]:files) {check_cancel(cancelled);detail::ReaderFileGuard guard(path);if(!same(*guard.version(),version)) throw std::runtime_error("QuPath import input changed since review: "+path);guard.verify();}
         for(const auto& path:missing) if(fs::exists(detail::access_path(fs::u8path(path)))) throw std::runtime_error("QuPath import input appeared since review: "+path);
+        for(const auto& guard:reader_guards) guard.verify(cancelled);
+    }
+    void protect_output(const std::string& output,const std::atomic<bool>* cancelled) const {
+        for(const auto& [path,version]:files) {
+            check_cancel(cancelled);
+            detail::guard_file_output(path,version.identity,output);
+        }
+        for(const auto& path:missing) {
+            check_cancel(cancelled);
+            detail::guard_file_output(path,"",output);
+        }
+        for(const auto& guard:reader_guards) guard.protect(output);
     }
     void issue(std::string code,std::string message,std::size_t count=1) {issues.push_back({std::move(code),std::move(message),count});}
 };
 const std::string& QuPathProjectPreview::source_path() const {return impl_->path;}
 const std::vector<QuPathProjectImage>& QuPathProjectPreview::images() const {return impl_->images;}
 const std::vector<InterchangeIssue>& QuPathProjectPreview::issues() const {return impl_->issues;}
+std::string QuPathProjectPreview::observed_inputs_sha256() const {
+    Sha256 digest;
+    const auto text=[&](const std::string& value){digest.integer(value.size());digest.update(value.data(),value.size());};
+    text("qpx.qupath-project-observed-inputs/1");
+    digest.integer(impl_->files.size());
+    for(const auto& [path,version]:impl_->files) {
+        text(path);text(version.identity_scheme);text(version.identity);digest.integer(version.bytes);
+        text(version.stamp_scheme);text(version.modified_token);text(version.change_token);
+    }
+    digest.integer(impl_->missing.size());
+    for(const auto& path:impl_->missing)text(path);
+    if(!impl_->reader_bindings.empty()) {
+        text("reader_bindings");digest.integer(impl_->reader_bindings.size());
+        for(const auto& [id,binding]:impl_->reader_bindings) {text(id);text(binding);}
+    }
+    return digest.finish();
+}
 bool QuPathProjectPreview::consumed() const {std::lock_guard<std::mutex> lock(impl_->mutex);return impl_->consumed;}
 std::shared_ptr<Project> QuPathProjectPreview::import_new(const std::string& destination,bool losses,const std::atomic<bool>* cancelled) const {
     std::lock_guard<std::mutex> lock(impl_->mutex);check_cancel(cancelled);
     if(impl_->consumed) throw std::invalid_argument("QuPath import preview already consumed");
     if(!losses && !impl_->issues.empty()) throw std::invalid_argument("QuPath import has reported losses; review before allow_losses=True");
     if(impl_->project->images().empty() && !impl_->images.empty()) throw std::invalid_argument("QuPath import has no available supported images");
-    impl_->verify(cancelled);
-    impl_->project->save_new(destination,512ull*1024*1024,1024ull*1024*1024,cancelled,[&]{impl_->verify(cancelled);});
+    const auto output=detail::export_path(destination);
+    const auto verify=[&]{impl_->verify(cancelled);impl_->protect_output(output,cancelled);};
+    verify();
+    impl_->project->save_new(output,512ull*1024*1024,1024ull*1024*1024,cancelled,verify);
     impl_->consumed=true;return impl_->project;
 }
 #if defined(QUPATHXX_HAS_PROJECT) && defined(QUPATHXX_HAS_INTERCHANGE)
@@ -107,14 +144,26 @@ std::string uri_path(std::string uri,const fs::path& base) {
 }
 std::optional<double> physical(const Json& value) {if(value.is_null()) return {};const auto n=value.get<double>();if(!std::isfinite(n) || n<=0) throw std::invalid_argument("invalid exchange calibration");return n;}
 }
-std::shared_ptr<const QuPathProjectPreview> preview_qupath_project(const std::string& path,const std::map<std::string,std::string>& overrides,const std::string& exchange,const std::atomic<bool>* cancelled) {
+std::shared_ptr<const QuPathProjectPreview> preview_qupath_project_with_options(const std::string& path,
+    const QuPathProjectImportOptions& options,const std::atomic<bool>* cancelled) {
     try {
+    const auto& overrides=options.source_overrides;
+    const auto& exchange=options.exchange_directory;
     auto state=std::make_shared<QuPathProjectPreview::Impl>();state->path=absolute(path);const auto base=fs::u8path(state->path).parent_path();
     const auto bytes=state->read(state->path,16*1024*1024,cancelled);const auto root=parse(bytes);
     if(root.at("version")!="0.7.0" || !root.at("images").is_array() || root.at("images").size()>1024) throw std::invalid_argument("unsupported QuPath project version or image count");
     std::set<std::string> ids;
     for(const auto& image:root.at("images")) if(!ids.insert(entry_id(image.at("entryID"))).second) throw std::invalid_argument("duplicate QuPath project entryID");
     for(const auto& [id,path]:overrides) if(!ids.count(id)) throw std::invalid_argument("source override has unknown entry ID");
+    for(const auto& [id,reader]:options.reader_overrides) {
+        if(!ids.count(id)) throw std::invalid_argument("reader override has unknown entry ID");
+        if(!detail::valid_reader_plugin_id(reader.provider_id))
+            throw std::invalid_argument("reader override requires an explicit native reader plugin ID");
+        if(reader.options) {
+            if(reader.options->empty()) throw std::invalid_argument("reader override options require a JSON object");
+            detail::normalize_reader_plugin_options(*reader.options);
+        }
+    }
     auto index_path=(exchange.empty()?base/"qupathxx-exchange":fs::u8path(absolute(exchange)))/"index.json";
     std::map<std::string,Json> entries;Json bundle_files;bool exchange_v2=false;
     if(state->exists(index_path.u8string())) {
@@ -186,29 +235,58 @@ std::shared_ptr<const QuPathProjectPreview> preview_qupath_project(const std::st
 
         const auto data_path=(base/"data"/info.source_id/"data.qpdata").u8string();const bool has_data=state->exists(data_path);if(has_data) state->observe(data_path);
         if(entries.count(info.source_id) && !has_data) throw std::invalid_argument("exchange saved image data is missing");
-        const auto& builder=image.at("serverBuilder");std::uint32_t series=0;
+        const auto& builder=image.at("serverBuilder");std::uint32_t series=0;bool source_present=false;
         try {
             const auto provider=text(builder.at("providerClassName"));
             for(auto it=builder.begin();it!=builder.end();++it) if(it.key()!="builderType" && it.key()!="providerClassName" && it.key()!="uri" && it.key()!="args" && it.key()!="metadata") throw std::invalid_argument("unsupported server builder field: "+it.key());
             if(builder.at("builderType")!="uri" || (provider!="qupath.lib.images.servers.bioformats.BioFormatsServerBuilder" && provider!="qupath.lib.images.servers.imageio.ImageIoImageServerBuilder" && provider!="qupath.ext.openslide.OpenSlideServerBuilder" && provider!="qupath.lib.images.servers.openslide.OpenSlideServerBuilder")) throw std::invalid_argument("unsupported image server builder");
             const auto args=builder.value("args",Json::array());if(!args.is_array() || (!args.empty() && (args.size()!=2 || args[0]!="--series"))) throw std::invalid_argument("unsupported image server arguments");
             if(!args.empty()) {const auto value=text(args[1]);std::size_t consumed=0;const auto n=std::stoull(value,&consumed);if(consumed!=value.size() || value.empty() || value.find_first_not_of("0123456789")!=std::string::npos || n>65535) throw std::invalid_argument("invalid series");series=std::uint32_t(n);}
-            if(auto replacement=overrides.find(info.source_id);replacement!=overrides.end()) info.source_path=absolute(replacement->second);
+            if(auto replacement=overrides.find(info.source_id);replacement!=overrides.end()) {
+                info.source_path=absolute(replacement->second);
+                source_present=state->exists(info.source_path);
+            }
             else {
                 auto uri=builder.at("uri").get<std::string>();detail::bounded_utf8(uri,98304);info.source_path=uri_path(std::move(uri),base);
-                if(!fs::exists(detail::access_path(fs::u8path(info.source_path))) && root.contains("uri")) {
+                source_present=state->exists(info.source_path);
+                if(!source_present && root.contains("uri")) {
                     const auto previous=fs::u8path(uri_path(root.at("uri").get<std::string>(),base)).parent_path();
                     const auto relative=fs::u8path(info.source_path).lexically_relative(previous);
-                    if(!relative.empty()) {const auto relocated=absolute((base/relative).u8string());if(fs::exists(detail::access_path(fs::u8path(relocated)))) info.source_path=relocated;}
+                    if(!relative.empty()) {
+                        const auto relocated=absolute((base/relative).u8string());
+                        if(relocated!=info.source_path && state->exists(relocated)) {
+                            info.source_path=relocated;
+                            source_present=true;
+                        }
+                    }
                 }
             }
         } catch(const std::exception& e) {state->issue("unsupported_builder",info.name+": "+e.what());state->images.push_back(info);continue;}
-        if(!state->exists(info.source_path)) {state->issue("missing_image",info.name+": source image is missing");state->images.push_back(info);continue;}
+        if(!source_present) {state->issue("missing_image",info.name+": source image is missing");state->images.push_back(info);continue;}
         std::shared_ptr<Document> doc;
         try {
-            const auto selection=detail::select_reader(info.source_path,"auto",detail::ReaderPolicy::QuPathImport,detail::reader_features());
-            if(selection.provider_id=="tiff") {TiffOpenOptions options;options.view.series=series;info.native_id=state->project->add_tiff_image(info.source_path,options,info.name);info.reader=selection.provider_id;}
-            else {if(series) throw std::invalid_argument("non-TIFF series selection unsupported");info.reader=selection.provider_id;info.native_id=state->project->add_image(info.source_path,info.reader,info.name);}
+            const auto override=options.reader_overrides.find(info.source_id);
+            std::shared_ptr<ImageServer> plugin_server;
+            if(override!=options.reader_overrides.end()) {
+                if(series) throw std::invalid_argument("nonzero QuPath TIFF series cannot select a plugin view");
+                const auto& reader=override->second;
+                const auto selection=detail::select_reader(info.source_path,reader.provider_id,detail::ReaderPolicy::Project);
+                info.reader=selection.provider_id;
+                plugin_server=reader.options?detail::open_reader_with_plugin_options(info.source_path,selection,*reader.options,cancelled):
+                    detail::open_reader(info.source_path,selection,{},cancelled);
+                info.native_id=state->project->add_document(std::make_shared<Document>(plugin_server),info.name,
+                                                           plugin_server->source_locator(),info.reader);
+            } else {
+                const auto selection=detail::select_reader(info.source_path,"auto",detail::ReaderPolicy::QuPathImport);
+                info.reader=selection.provider_id;
+                if(selection.provider_id=="tiff") {
+                    TiffOpenOptions opening;opening.view.series=series;
+                    info.native_id=state->project->add_tiff_image(info.source_path,opening,info.name);
+                } else {
+                    if(series) throw std::invalid_argument("non-TIFF series selection unsupported");
+                    info.native_id=state->project->add_image(info.source_path,selection.provider_id,info.name);
+                }
+            }
             doc=state->project->document(info.native_id);const auto& metadata=doc->metadata();
             if(builder.contains("metadata")) {
                 const auto& expected=builder["metadata"];const auto raw=doc->server()->raw_metadata(cancelled);
@@ -220,16 +298,71 @@ std::shared_ptr<const QuPathProjectPreview> preview_qupath_project(const std::st
             if(builder.contains("metadata") && (builder["metadata"].at("width")!=metadata.width || builder["metadata"].at("height")!=metadata.height)) throw std::invalid_argument("image dimensions differ from the project");
             if(const auto source=doc->server()->reader_source()) {if(source->primary)state->observe(source->primary->path,source->primary.get());for(const auto& file:source->companions) state->observe(file.path,&file);}
             else state->observe(info.source_path);
+            if(plugin_server) {
+                const auto link=detail::capture_native_reader_plugin_link(*plugin_server);
+                if(!link) throw std::runtime_error("Selected native reader did not capture a plugin link");
+                state->reader_guards.emplace_back(plugin_server,cancelled);
+                state->reader_bindings.emplace(info.source_id,link->implementation.sha256()+link->observed.directory_sha256);
+            }
         } catch(const std::exception& e) {if(info.native_id)state->project->remove_image(info.native_id);info.native_id=0;state->issue("unavailable_image",info.name+": "+e.what());state->images.push_back(info);continue;}
+        const auto entry=entries.find(info.source_id);
+        const bool native_saved_data=has_data &&
+            (entry==entries.end() || (exchange_v2 && entry->second.at("representation")=="native-saved-data"));
         doc->replace_class_registry(classes,"Import project classes");
-        if(builder.contains("metadata") && builder["metadata"].contains("pixelCalibration")) {
-            const auto& calibration=builder["metadata"]["pixelCalibration"];
-            auto axis=[&](const char* key)->std::optional<double> {if(!calibration.contains(key)) return {};const auto& q=calibration[key];if(q.at("unit")==u8"\u00b5m") return physical(q.at("value"));if(q.at("unit")!="px")state->issue("calibration_unit",info.name+": unsupported calibration unit");return {};};
-            const auto x=axis("pixelWidth"),y=axis("pixelHeight");if(x && y)doc->set_calibration(*x,*y);else if(!x && !y)doc->clear_calibration();else state->issue("partial_calibration",info.name+": partial calibration cannot replace native reader calibration");
-        }
+        auto apply_calibration=[&](const Json& saved) {
+            const Json empty=Json::object();
+            const auto& metadata=builder.contains("metadata")?builder.at("metadata"):empty;
+            const auto& entry_calibration=metadata.contains("pixelCalibration")?metadata.at("pixelCalibration"):empty;
+            const auto& saved_calibration=saved.contains("pixelCalibration")?saved.at("pixelCalibration"):empty;
+            if(!saved_calibration.is_object()) throw std::invalid_argument("invalid saved axis calibration");
+            // Width and height are a pair. Z and the timestamp series fall back independently.
+            const auto& calibration=(saved_calibration.contains("pixelWidth") || saved_calibration.contains("pixelHeight"))
+                ?saved_calibration:entry_calibration;
+            const bool has_x=calibration.contains("pixelWidth"),has_y=calibration.contains("pixelHeight");
+            if(has_x || has_y) {
+                auto axis=[&](const char* key)->std::optional<double> {
+                    if(!calibration.contains(key)) return {};
+                    const auto& quantity=calibration.at(key);
+                    if(quantity.at("unit")==u8"\u00b5m") {
+                        const auto& value=quantity.at("value");
+                        return value=="NaN"?std::nullopt:physical(value);
+                    }
+                    if(quantity.at("unit")!="px")state->issue("calibration_unit",info.name+": unsupported calibration unit");
+                    return {};
+                };
+                const auto x=axis("pixelWidth"),y=axis("pixelHeight");
+                if(x && y)doc->set_calibration(*x,*y);
+                else if(has_x && has_y && !x && !y)doc->clear_calibration();
+                else state->issue("partial_calibration",info.name+": partial calibration cannot replace native reader calibration");
+            }
+            const auto& z_calibration=saved_calibration.contains("zSpacing")?saved_calibration:entry_calibration;
+            const bool saved_has_times=saved_calibration.contains("timepoints");
+            if(!saved_has_times && saved_calibration.contains("timeUnit"))
+                detail::decode_qupath_axis_calibration(empty,saved_calibration);
+            const auto& time_calibration=saved_has_times?saved_calibration:entry_calibration;
+            const bool has_z=z_calibration.contains("zSpacing"),has_times=time_calibration.contains("timepoints");
+            if(has_z || has_times) {
+                auto axes=detail::decode_qupath_axis_calibration(z_calibration,time_calibration);
+                if(!has_z)
+                    axes=ImageAxisCalibration(doc->z_spacing_um(),axes.timepoints_seconds());
+                else if(!has_times) {
+                    const auto raw=doc->server()->raw_metadata(cancelled);
+                    if(raw && raw->time_interval_seconds) {
+                        if(raw->timepoints>ImageAxisCalibration::max_timepoints)
+                            throw std::invalid_argument("source time domain exceeds calibration limit");
+                        std::vector<double> times;
+                        times.reserve(raw->timepoints);
+                        for(std::uint32_t t=0;t<raw->timepoints;++t)
+                            times.push_back(*raw->time_interval_seconds*t);
+                        axes=ImageAxisCalibration(axes.z_spacing_um(),std::move(times));
+                    }
+                }
+                doc->set_image_axis_calibration(std::move(axes));
+            }
+        };
+        if(!native_saved_data) apply_calibration(Json::object());
         if(has_data) {
-            const auto entry=entries.find(info.source_id);
-            if(entry==entries.end() || (exchange_v2 && entry->second.at("representation")=="native-saved-data")) {
+            if(native_saved_data) {
                 const auto contents=state->read(data_path,256ull*1024*1024,cancelled);
                 if(entry!=entries.end() && entry->second.at("qpdata_sha256")!=hash(contents))throw std::invalid_argument("exchange image data is stale");
                 const auto decoded=detail::decode_qupath_saved_data(contents,cancelled);
@@ -251,14 +384,11 @@ std::shared_ptr<const QuPathProjectPreview> preview_qupath_project(const std::st
                 }
                 doc->set_image_properties(decoded.image_properties);
                 doc->set_image_analysis_settings(decoded.image_settings);
-                doc->set_image_axis_calibration(decoded.axis_calibration);
+                apply_calibration(saved);
                 doc->set_image_data_properties(decoded.data_properties);
                 info.source_object_ids=imported.source_ids;info.imported_object_ids=imported.imported_ids;
                 for(auto issue:imported.issues) {issue.message=info.name+": "+issue.message;state->issues.push_back(std::move(issue));}
                 for(auto issue:decoded.issues) {issue.message=info.name+": "+issue.message;state->issues.push_back(std::move(issue));}
-                if(decoded.pixel_width_um && decoded.pixel_height_um)doc->set_calibration(*decoded.pixel_width_um,*decoded.pixel_height_um);
-                else if(!decoded.pixel_width_um && !decoded.pixel_height_um)doc->clear_calibration();
-                else state->issue("partial_calibration",info.name+": partial calibration cannot replace native reader calibration");
             }
             else {
                 FileFingerprintOptions options;options.byte_limit=512ull*1024*1024;
@@ -295,6 +425,10 @@ std::shared_ptr<const QuPathProjectPreview> preview_qupath_project(const std::st
     } catch(const Json::exception& e) {throw std::invalid_argument(std::string("invalid QuPath project metadata: ")+e.what());}
 }
 #else
-std::shared_ptr<const QuPathProjectPreview> preview_qupath_project(const std::string&,const std::map<std::string,std::string>&,const std::string&,const std::atomic<bool>*) {throw std::runtime_error("QuPath project import requires project and interchange support");}
+std::shared_ptr<const QuPathProjectPreview> preview_qupath_project_with_options(const std::string&,const QuPathProjectImportOptions&,const std::atomic<bool>*) {throw std::runtime_error("QuPath project import requires project and interchange support");}
 #endif
+std::shared_ptr<const QuPathProjectPreview> preview_qupath_project(const std::string& path,
+    const std::map<std::string,std::string>& overrides,const std::string& exchange,const std::atomic<bool>* cancelled) {
+    return preview_qupath_project_with_options(path,{overrides,{},exchange},cancelled);
+}
 }

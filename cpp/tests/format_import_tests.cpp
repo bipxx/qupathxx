@@ -1,9 +1,13 @@
 #include "qupathxx/format_import.hpp"
 #include "qupathxx/file_fingerprint.hpp"
 #include "qupathxx/object_properties.hpp"
+#include "qupathxx/ome_zarr.hpp"
 #include "qupathxx/project.hpp"
 #include "qupathxx/raw_image.hpp"
+#include "qupathxx/reader_plugins.hpp"
 #include "qupathxx/workflow.hpp"
+#include "format_import_internal.hpp"
+#include "reader_registry.hpp"
 #include <algorithm>
 #include <atomic>
 #include <chrono>
@@ -65,7 +69,94 @@ void boundary_case(const std::string& mode,const fs::path& f,const fs::path& w){
     bool refused=false;try{if(matrix){const auto call=[&]{return import_expression_matrix_plugin("org.qupathxx.test.bad-matrix",input.u8string(),(f/"positions.tsv").u8string(),destination.u8string(),matrix_options(),std::nullopt,&cancelled);};if(mode=="wait-values"){refuses<WorkflowCancelled>(call);refused=true;}else if(mode=="mutate-source"){try{const auto r=call();check(bytes(input)==mode+"\n","Changed input incorrectly published QMX");check_matrix(*open_expression_matrix(r.path,r.file_sha256));std::cout<<"OS source guard blocked attempted mutation; stable snapshot published\n";}catch(const WorkflowInputChanged&){refused=true;}}else{refuses<std::invalid_argument>(call);refused=true;}}else{const auto call=[&]{return preview_annotation_plugin(*d,"org.qupathxx.test.bad-annotation",input.u8string(),annotation_options(),std::nullopt,&cancelled);};if(mode=="wait-points")refuses<WorkflowCancelled>(call);else if(mode=="point-huge")refuses<WorkflowCaptureLimit>(call);else refuses<std::invalid_argument>(call);refused=true;}done=true;if(observer.valid())observer.get();}catch(...){done=true;if(observer.valid())observer.wait();throw;}
     if(mode.rfind("wait-",0)==0)check(observed,"Cancellation test missed actual provider call");if(refused)check(!fs::exists(destination),"Boundary refusal left published QMX");unchanged(*d,before);no_stage(w);check(bytes(fs::u8path(input.u8string()+".events"))==(mode.rfind("wait-",0)==0?"open\nentered\ndestroy\n":"open\ndestroy\n"),"Boundary context destruction/events differ");
 }
-int dispatch(int argc,char** argv){try{if(argc!=5)throw std::invalid_argument("Usage: CASE MANIFEST FIXTURES WORK");const std::string mode=argv[1];const auto f=fs::absolute(fs::u8path(argv[3])),w=fs::absolute(fs::u8path(argv[4]));configure_format_plugins(fs::absolute(fs::u8path(argv[2])).u8string());check(format_plugin_infos().size()==2&&format_plugin_diagnostics().empty(),"Admit exact typed provider catalog");if(mode=="matrix")matrix_case(f,w);else if(mode=="annotation")annotation_case(f,w);else if(mode=="annotation-stale")stale_case(f,w);else if(mode=="annotation-cancel")cancel_case(f,w);else if(mode=="positions")position_case(f,w);else if(mode=="limits")limit_case(f,w);else if(mode=="legacy")legacy_case(w);else if(mode=="native-id-limits")native_id_limits(f,w);else boundary_case(mode,f,w);std::cout<<"Native import case "<<mode<<" passed\n";return 0;}catch(const std::exception& e){std::cerr<<e.what()<<'\n';return 1;}}
+void stale_file_target_case(const fs::path& w) {
+    const auto image=w/"image.ppm", replacement=w/"replacement.ppm", original=w/"original.ppm";
+    const auto points=w/"points.tsv";
+    const std::string header="P6\n2 2\n255\n";
+    write(image,header+std::string(12,'a'));
+    write(replacement,header+std::string(12,'b'));
+    write(points,"id\tx\ty\tc\tz\tt\tclass\ncell\t1\t1\t-1\t0\t0\t\n");
+    const auto read_image=[&]{return detail::open_reader(image.u8string(),detail::select_reader(image.u8string(),"ppm"));};
+    Document opened(read_image());
+    const auto before=snapshot(opened);
+    fs::rename(image,original);
+    fs::rename(replacement,image);
+    refuses<WorkflowInputChanged>([&] {
+        detail::FormatImportImageGuard guard(opened.server(),nullptr);
+        guard.verify(nullptr);
+    });
+    refuses<WorkflowInputChanged>([&] {
+        preview_annotation_plugin(opened,"org.qupathxx.point-tsv",points.u8string());
+    });
+    unchanged(opened,before);
+    Document current(read_image());
+    auto preview=preview_annotation_plugin(current,"org.qupathxx.point-tsv",points.u8string());
+    check(apply_annotation_plugin(current,preview).objects.size()==1,
+          "A fresh reader must accept the current image");
+    check(bytes(original)==header+std::string(12,'a') && bytes(image)==header+std::string(12,'b'),
+          "The stale or fresh annotation import changed an input");
+}
+void stale_compound_target_case(const fs::path& manifest,const fs::path& w) {
+    configure_reader_plugins(manifest.u8string());
+    const auto image=w/"study.mhd", companion=w/"scan 005 raw.zraw";
+    const auto read_image=[&]{
+        return detail::open_reader(image.u8string(),detail::select_reader(image.u8string(),"org.qupathxx.metaimage"));
+    };
+    auto opened=read_image();
+    check(opened->reader_source()->companions.size()==2,"Expected two declared MetaImage companions");
+    {
+        detail::FormatImportImageGuard guard(opened,nullptr);
+        guard.verify(nullptr);
+    }
+    const auto original=w/"original-slice.zraw";
+    fs::rename(companion,original);
+    fs::copy_file(original,companion);
+    refuses<WorkflowInputChanged>([&] {
+        detail::FormatImportImageGuard guard(opened,nullptr);
+        guard.verify(nullptr);
+    });
+    detail::FormatImportImageGuard fresh(read_image(),nullptr);
+    fresh.verify(nullptr);
+    check(bytes(original)==bytes(companion),"Expected a byte-identical replacement companion");
+}
+void directory_target_case(const fs::path& w) {
+    check(has_ome_zarr(), "Directory target regression requires native OME-Zarr");
+    const auto image = w/"image.zarr", chunk = image/"0"/"0.0";
+    fs::create_directories(image/"0");
+    write(image/".zgroup", R"({"zarr_format":2})");
+    write(image/".zattrs", R"({"multiscales":[{"version":"0.4","axes":[{"name":"y","type":"space"},{"name":"x","type":"space"}],"datasets":[{"path":"0","coordinateTransformations":[{"type":"scale","scale":[1,1]}]}]}]})");
+    write(image/"0"/".zarray", R"({"zarr_format":2,"shape":[2,2],"chunks":[2,2],"dtype":"|u1","compressor":null,"fill_value":0,"order":"C","filters":null})");
+    const auto points=w/"points.tsv", counts=w/"counts.tsv", positions=w/"positions.tsv", output=w/"matrix.qmx";
+    write(points,"id\tx\ty\tc\tz\tt\tclass\ncell\t1\t1\t-1\t0\t0\t\n");
+    write(counts,"observation_id\tgene\ncell\t9007199254740993\n");
+    write(positions,"observation_id\tx_px\ty_px\ncell\t1\t1\n");
+    Document old(open_ome_zarr(image.u8string()));
+    auto preview=preview_annotation_plugin(old,"org.qupathxx.point-tsv",points.u8string());
+    const auto before=snapshot(old);
+    write(chunk,"ABCD");
+    refuses<WorkflowInputChanged>([&]{apply_annotation_plugin(old,preview);});
+    unchanged(old,before);
+
+    auto server=open_ome_zarr(image.u8string());
+    Document current(server);
+    detail::FormatImportImageGuard guard(server,nullptr);
+    auto options=matrix_options();
+    options.frame=image_coordinate_frame(current,"directory-target",ObjectPlane{});
+    unsigned verification=0;
+    refuses<WorkflowInputChanged>([&] {
+        detail::import_matrix_file_guarded("org.qupathxx.counts-tsv",counts.u8string(),
+            positions.u8string(),output.u8string(),options,std::nullopt,[&] {
+                if(++verification==3) write(chunk,"ABCDE");
+                guard.verify(nullptr);
+            },nullptr);
+    });
+    check(verification==3 && !fs::exists(output), "Changed directory at final publication left a QMX");
+    no_stage(w);
+    for(const auto& entry:fs::directory_iterator(w))
+        check(entry.path().filename().u8string().find(".qpx-tmp-")==std::string::npos,
+            "Changed directory left a temporary publication file");
+}
+int dispatch(int argc,char** argv){try{if(argc!=5)throw std::invalid_argument("Usage: CASE MANIFEST FIXTURES WORK");const std::string mode=argv[1];const auto f=fs::absolute(fs::u8path(argv[3])),w=fs::absolute(fs::u8path(argv[4]));configure_format_plugins(fs::absolute(fs::u8path(argv[2])).u8string());check(format_plugin_infos().size()==2&&format_plugin_diagnostics().empty(),"Admit exact typed provider catalog");if(mode=="stale-file-target")stale_file_target_case(w);else if(mode=="stale-compound-target")stale_compound_target_case(f,w);else if(mode=="directory-target")directory_target_case(w);else if(mode=="matrix")matrix_case(f,w);else if(mode=="annotation")annotation_case(f,w);else if(mode=="annotation-stale")stale_case(f,w);else if(mode=="annotation-cancel")cancel_case(f,w);else if(mode=="positions")position_case(f,w);else if(mode=="limits")limit_case(f,w);else if(mode=="legacy")legacy_case(w);else if(mode=="native-id-limits")native_id_limits(f,w);else boundary_case(mode,f,w);std::cout<<"Native import case "<<mode<<" passed\n";return 0;}catch(const std::exception& e){std::cerr<<e.what()<<'\n';return 1;}}
 }
 #ifdef _WIN32
 int wmain(int argc,wchar_t** argv){std::vector<std::string> owned;std::vector<char*> utf8;for(int i=0;i<argc;++i){const int n=WideCharToMultiByte(CP_UTF8,WC_ERR_INVALID_CHARS,argv[i],-1,nullptr,0,nullptr,nullptr);if(n<=0)return 2;std::string s(static_cast<std::size_t>(n),'\0');if(!WideCharToMultiByte(CP_UTF8,WC_ERR_INVALID_CHARS,argv[i],-1,s.data(),n,nullptr,nullptr))return 2;s.pop_back();owned.push_back(std::move(s));}for(auto& s:owned)utf8.push_back(s.data());return dispatch(argc,utf8.data());}

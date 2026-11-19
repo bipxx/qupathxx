@@ -1,6 +1,11 @@
 #include "qupathxx/density_workflow.hpp"
+#include "qupathxx/expression_matrix_project.hpp"
+#include "qupathxx/expression_reduction.hpp"
 #include "qupathxx/project.hpp"
+#include "qupathxx/project_source.hpp"
 #include "qupathxx/file_fingerprint.hpp"
+#include "qupathxx/image_data_properties.hpp"
+#include "qupathxx/ome_zarr.hpp"
 #include "qupathxx/workflow.hpp"
 #include <nlohmann/json.hpp>
 #include <filesystem>
@@ -50,8 +55,210 @@ ProjectDensityReport controlled(Scene& scene,const fs::path& output,const std::f
     }
     check(job.error().empty() && job.result());return *job.result();
 }
+void check_linked_store_outputs(const fs::path& root) {
+    Scene scene(root);
+    const auto label=root/"labels.zarr";
+    fs::create_directory(label);
+    write(label/"sentinel","label input");
+#ifdef QPX_ZARR_FIXTURES
+    const auto image=root/"source.zarr";
+    fs::copy(fs::path(QPX_ZARR_FIXTURES)/"plain",image,fs::copy_options::recursive);
+    const auto image_metadata=read(image/".zattrs");
+    auto linked=std::make_shared<Document>(open_ome_zarr(image.u8string()));
+    scene.project.add_document(linked,"Unselected Zarr image");
+#endif
+    // Only metadata needed by the guard is present. No label provider is loaded.
+    const auto offline_parent=root/"offline-parent";
+    const auto record=[](const fs::path& path) {
+        return ImageDataValue{ImageDataValue::Map{
+            {"ngff_source",ImageDataValue{true}},
+            {"parameters",ImageDataValue{Json{{"method",3},{"path",path.u8string()}}.dump()}}
+        }};
+    };
+    ImageDataValue::Map records{{"1",record(label)},{"2",record(offline_parent/"density.csv")}};
+    scene.project.document(2)->set_image_data_properties(std::make_shared<const ImageDataProperties>(
+        ImageDataValue::Map{{"qpx.label-analysis/1",ImageDataValue{std::move(records)}}}));
+    scene.project.save(scene.source.u8string());
+    scene.value["images"].erase(1);
+    scene.save();
+    const auto manifest=load_project_density_manifest(scene.manifest.u8string());
+    const auto preview=preview_project_density(scene.source.u8string(),manifest.recipe());
+    check(preview.valid());
+    ProjectDensityRecipe selectors;
+    selectors.images={1};
+    selectors.classes[0]={"Window"};
+    selectors.classes[1]={"Tissue"};
+    check(generate_project_density_manifest(scene.source.u8string(),selectors).preview.valid());
+    const auto refuses_manifest=[&](const fs::path& output) {
+        bool guarded=false;
+        try {generate_project_density_manifest(scene.source.u8string(),selectors,output.u8string());}
+        catch(const std::invalid_argument& e) {
+            guarded=std::string(e.what()).find("outside the protected input directory")!=std::string::npos;
+        }
+        check(guarded && !fs::exists(output));
+    };
+    const auto refuses_store=[&](const fs::path& store) {
+        const auto parent=store/"new-parent",output=parent/"run";
+        bool guarded=false;
+        try {run_project_density(manifest,output.u8string());}
+        catch(const std::invalid_argument& e) {
+            guarded=std::string(e.what()).find("outside the protected input directory")!=std::string::npos;
+        }
+        if(!guarded || fs::exists(parent))
+            throw std::runtime_error("Manifest output entered a linked store: "+store.u8string());
+        const auto preview_output=store/"preview-run";
+        guarded=false;
+        try {run_project_density(preview,preview_output.u8string());}
+        catch(const std::invalid_argument& e) {
+            guarded=std::string(e.what()).find("outside the protected input directory")!=std::string::npos;
+        }
+        check(guarded && !fs::exists(preview_output));
+    };
+    refuses_store(label);
+    refuses_manifest(label/"generated.json");
+#ifdef QPX_ZARR_FIXTURES
+    refuses_store(image);
+    refuses_manifest(image/"generated.json");
+#ifdef _WIN32
+    refuses_store(root/"SOURCE.ZARR");
+    refuses_manifest(root/"SOURCE.ZARR"/"generated.json");
+#endif
+    check(read(image/".zattrs")==image_metadata);
+#endif
+    check(read(label/"sentinel")=="label input");
+    fs::rename(label,root/"label-offline");
+    refuses_store(label);
+    refuses_manifest(label);
+    check(!fs::exists(label));
+    rejects([&]{run_project_density(manifest,offline_parent.u8string());});
+    rejects([&]{run_project_density(preview,offline_parent.u8string());});
+    check(!fs::exists(offline_parent));
+    const auto report=run_project_density(manifest,(root/"labels.zarr-output"/"run").u8string());
+    check(report.state=="completed" && report.computed==1);
+    const auto output=root/"labels.zarr-manifest.json";
+    check(generate_project_density_manifest(scene.source.u8string(),selectors,output.u8string()).written);
+    check(load_project_density_manifest(output.u8string()).recipe().selections.size()==1);
+}
+void check_owned_expression_checkpoint(const fs::path& root) {
+    Scene scene(root/"input");
+    write(root/"matrix.mtx","%%MatrixMarket matrix coordinate integer general\n2 3 3\n1 1 9007199254740993\n1 3 5\n2 2 7\n");
+    write(root/"features.tsv","feature_id\nA\nB\n");
+    write(root/"observations.tsv","observation_id\nX\nY\nZ\n");
+    const auto imported=import_expression_matrix((root/"matrix.mtx").u8string(),
+        (root/"features.tsv").u8string(),(root/"observations.tsv").u8string(),(root/"source.qmx").u8string());
+    const auto matrix=open_expression_matrix(imported.path,imported.file_sha256);
+    const ExpressionMatrixSelection selection{{0,1},std::nullopt};
+    const auto block=matrix->read(selection);
+    const auto id=keep_expression_matrix(scene.project,2,matrix,true);
+    std::string reduction_id;
+    if(has_expression_reduction()) {
+        ExpressionReductionOptions options;options.features={1};options.components=1;
+        const auto model=reduce_expression(matrix,options);
+        const auto archive=(root/"source.qpr").u8string();
+        save_expression_reduction_archive(*model,archive);
+        reduction_id=keep_expression_reduction(scene.project,2,*model,archive);
+    }
+    scene.project.save(scene.source.u8string());
+    scene.value["images"].erase(0);scene.save();
+    const auto run=scene.run(root/"first");
+    if(run.computed!=1)
+        throw std::runtime_error("Density checkpoint failed: "+run.images.at(0).error);
+    const auto& row=run.images.at(0);
+    check(row.checkpoint_image==1);
+    const auto saved=Project::open_without_journal_recovery(row.checkpoint);
+    const auto owned=expression_matrix_open_request(*saved,row.checkpoint_image,id);
+    const auto own_path=fs::u8path(owned.path);
+    const auto source_owned=fs::u8path(expression_matrix_open_request(scene.project,2,id).path);
+    check(own_path!=source_owned && read(own_path)==read(source_owned));
+    fs::rename(source_owned,root/"held-source.qmx");
+    check(owned.open()->read(selection).sha256==block.sha256);
+    fs::rename(root/"held-source.qmx",source_owned);
+    const auto before=read(scene.source);
+    ProjectDensityRunOptions resume;resume.resume_from=(root/"first").u8string();
+    check(scene.run(root/"reuse",resume).reused==1);
+    fs::rename(own_path,root/"held-output.qmx");
+    const auto refused=scene.run(root/"refused",resume);
+    check(refused.failed==1 && refused.reused==0 && !fs::exists(own_path));
+    fs::rename(root/"held-output.qmx",own_path);
+    check(scene.run(root/"restored",resume).reused==1);
+    if(!reduction_id.empty()) {
+        const auto reduction=expression_reduction_open_request(*saved,row.checkpoint_image,reduction_id);
+        const auto archive=fs::u8path(reduction.archive);
+        const auto archive_before=read(archive);
+        check(reduction.open()->id()==reduction_id && archive_before==read(root/"source.qpr"));
+        auto damaged=archive_before;damaged.back()^=1;write(archive,damaged);
+        const auto bad=scene.run(root/"bad-model",resume);
+        check(bad.failed==1 && bad.reused==0 && read(archive)==damaged);
+        write(archive,archive_before);
+        check(scene.run(root/"model-restored",resume).reused==1);
+    }
+    check(read(scene.source)==before && read(own_path)==read(source_owned));
+}
+#ifdef QPX_ZARR_FIXTURES
+void check_verified_source_checkpoint(const fs::path& root) {
+    Scene scene(root);
+    const auto store=root/"source.zarr";
+    fs::copy(fs::path(QPX_ZARR_FIXTURES)/"plain",store,fs::copy_options::recursive);
+    auto doc=std::make_shared<Document>(open_ome_zarr(store.u8string()));
+    doc->set_calibration(1,1);
+    const auto area=doc->add_rectangle({0,0,7,5}),cell=doc->add_cell(Roi::rectangle({1,1,2,2}));
+    const auto image=scene.project.add_document(doc,"Reviewed image");
+    const auto fingerprint=fingerprint_file((store/".zattrs").u8string());
+    scene.project.apply_source_review(scene.project.review_source_verification(image,*fingerprint));
+    const auto baseline=scene.project.source_verification(image);
+    check(bool(baseline));
+    const auto baseline_json=source_file_association_json(*baseline);
+    scene.project.save(scene.source.u8string());
+    scene.value["images"]=Json::array({{{"image_id",image},{"windows",{area}},{"tissue",{area}},
+        {"excluded",Json::array()},{"cells",{cell}}}});
+    scene.save();
+    const auto first=scene.run(root/"first");
+    if(first.computed!=1) throw std::runtime_error("Reviewed density run failed: "+first.images.at(0).error);
+    const auto& row=first.images.at(0);
+    const auto checkpoint=Project::open_without_journal_recovery(row.checkpoint);
+    const auto retained=checkpoint->source_verification(row.checkpoint_image);
+    if(!retained || source_file_association_json(*retained)!=baseline_json)
+        throw std::runtime_error("Density checkpoint omitted the saved image source verification");
+    rejects([&]{checkpoint->relink(row.checkpoint_image,store.u8string());});
+    const auto candidate=root/"moved.zarr";
+    fs::copy(store,candidate,fs::copy_options::recursive);
+    const auto candidate_file=fingerprint_file((candidate/".zattrs").u8string());
+    const auto review=checkpoint->review_directory_source_verification(row.checkpoint_image,candidate.u8string(),*candidate_file);
+    check(review->requires_acceptance() && review->comparison()=="changed_dependencies");
+    checkpoint->apply_source_review(review,true);
+    check(fs::u8path(checkpoint->images().at(0).source_path)==candidate);
+    ProjectDensityRunOptions resume;resume.resume_from=(root/"first").u8string();
+    const auto reused=scene.run(root/"reuse",resume);
+    check(reused.reused==1 && reused.images.at(0).checkpoint==row.checkpoint);
+    scene.project.clear_source_verification(image);
+    scene.project.save(scene.source.u8string());
+    const auto updated=scene.run(root/"cleared",resume);
+    check(updated.computed==1 && updated.reused==0 && updated.images.at(0).checkpoint!=row.checkpoint);
+    const auto cleared=Project::open_without_journal_recovery(updated.images.at(0).checkpoint);
+    check(!cleared->source_verification(updated.images.at(0).checkpoint_image));
+    scene.project.apply_source_review(scene.project.review_directory_source_verification(image,candidate.u8string(),*candidate_file),true);
+    scene.project.save(scene.source.u8string());
+    const auto relocated=scene.run(root/"reviewed-move",resume);
+    check(relocated.computed==1 && relocated.reused==0);
+    const auto& moved_row=relocated.images.at(0);
+    const auto moved=Project::open_without_journal_recovery(moved_row.checkpoint);
+    const auto moved_baseline=moved->source_verification(moved_row.checkpoint_image);
+    check(moved_baseline && source_file_association_json(*moved_baseline)==
+        source_file_association_json(*scene.project.source_verification(image)));
+    check(fs::u8path(moved->images().at(0).source_path)==candidate);
+    const auto previous=Project::open_without_journal_recovery(row.checkpoint);
+    const auto previous_baseline=previous->source_verification(row.checkpoint_image);
+    check(previous_baseline && source_file_association_json(*previous_baseline)==baseline_json);
+}
+#endif
 int main(){try{
     Project id;const auto root=fs::current_path()/(id.identity()+"-manifest-run");fs::create_directory(root);
+    check_linked_store_outputs(root/"stores");
+    fs::create_directory(root/"owned");
+    check_owned_expression_checkpoint(root/"owned");
+#ifdef QPX_ZARR_FIXTURES
+    check_verified_source_checkpoint(root/"verified");
+#endif
     Scene scene(root/"base");const auto source_before=read(scene.source),manifest_before=read(scene.manifest);
     ProjectDensityProgress progress;const auto first=scene.run(root/"new-parent/first",{},&progress);
     check(first.state=="completed" && first.computed==2 && first.rows==4 && first.failed==0 && progress.kernel_calls.load()==2);

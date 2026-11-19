@@ -4,7 +4,8 @@
 namespace qpx {
 detail::ScientificRawReserve raw_grid_analysis_reserve(const ScientificGrid&,ScientificRawOptions,bool,const std::optional<Roi>&,const RawObjectContext&,const ReaderSource*,std::uint32_t series);
 ScientificRawOptions raw_grid_analysis_sampling_options(const RawImageMetadata&,const ScientificGrid&,ScientificRawOptions,bool collect);
-std::string raw_grid_analysis_hash(const std::string&,std::optional<double>,std::optional<double>,const std::optional<Roi>&);
+std::optional<std::uint32_t> raw_analysis_series(const ImageServer&);
+std::string raw_grid_analysis_hash(const std::string&,std::optional<double>,std::optional<double>,const std::optional<Roi>&,const ReaderSource* source=nullptr);
 bool same_raw_statistics(const RawRegionStatistics&,const RawRegionStatistics&,bool bitwise);
 bool same_raw_grid(const std::optional<RawAnalysisGrid>&,const std::optional<ScientificGrid>&,const ScientificRawOptions&);
 struct RawAnalysisCodec {

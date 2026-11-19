@@ -7,6 +7,7 @@
 #include "utf8_text.hpp"
 #include "atomic_export.hpp"
 #include "reader_file_guard.hpp"
+#include "reader_plugin_link.hpp"
 #include <algorithm>
 #include <cmath>
 #include <cstring>
@@ -93,7 +94,7 @@ void RawAnalysisRecord::validate(const ImageMetadata& image,const std::atomic<bo
             throw std::invalid_argument("raw grid sampling digest differs from metadata");
         for(const auto& level:raw.levels)
             if(level.width<1 || level.height<1 || !std::isfinite(level.downsample) || level.downsample<1) throw std::invalid_argument("invalid raw grid source level metadata");
-        if(raw_grid_analysis_hash(captured.sampling_input_sha256,result->pixel_width_um(),result->pixel_height_um(),mask)!=result->input_sha256())
+        if(raw_grid_analysis_hash(captured.sampling_input_sha256,result->pixel_width_um(),result->pixel_height_um(),mask,result->source().get())!=result->input_sha256())
             throw std::invalid_argument("raw grid analysis digest differs from capture");
         std::uint64_t eligible=0;
         if(result->validated_grid_eligible_) eligible=*result->validated_grid_eligible_;
@@ -128,11 +129,27 @@ void RawAnalysisRecord::validate(const ImageMetadata& image,const std::atomic<bo
     if(text_bytes>4u*1024*1024) throw std::length_error("raw analysis channel labels exceed limit");
     calibration(result->pixel_width_um());calibration(result->pixel_height_um());calibration(metadata.z_spacing_um);calibration(metadata.time_interval_seconds);
     const auto& hash=result->input_sha256();if(hash.size()!=64 || hash.find_first_not_of("0123456789abcdef")!=std::string::npos) throw std::invalid_argument("invalid raw input digest");
-    const auto observed=result->source();if(!observed || !observed->primary || !((observed->reader.rfind("tiff:",0)==0 && (observed->scope=="single_file" || observed->scope=="compound_files")) || (observed->reader.rfind("ome-zarr:",0)==0 && observed->scope=="directory_store")))throw std::invalid_argument("Raw analysis requires observed native quantitative provenance");observed->validate();
+    const auto observed=result->source();
+    if(!observed || !observed->primary) throw std::invalid_argument("Raw analysis requires observed quantitative provenance");
+    const bool files=observed->scope=="single_file" || observed->scope=="compound_files";
+    const bool directory=observed->scope=="directory_store";
+    if(!((files && observed->reader.rfind("tiff:",0)==0) ||
+         (directory && observed->reader.rfind("ome-zarr:",0)==0) ||
+         ((files || directory) && detail::is_reader_plugin_binding(observed->reader))))
+        throw std::invalid_argument("Raw analysis requires observed quantitative provenance");
+    observed->validate();
     if(payload_bytes()>16u*1024*1024) throw std::length_error("raw analysis record exceeds 16 MiB limit");
 }
 void Document::restore_raw_analysis(std::shared_ptr<const RawAnalysisRecord> record) {
-    if(!record || !record->id || record->id>revision_) throw std::invalid_argument("raw analysis record revision mismatch");record->validate(metadata());const auto projection=server_->raw_view();if(!projection || projection->series!=record->result->metadata().series) throw std::invalid_argument("raw analysis record requires the captured quantitative series");
+    if(!record || !record->id || record->id>revision_) throw std::invalid_argument("raw analysis record revision mismatch");
+    record->validate(metadata());
+    if(raw_analysis_series(*server_)!=record->result->metadata().series) throw std::invalid_argument("raw analysis record requires the captured quantitative series");
+    const auto& archived=record->result->source()->reader;
+    const auto current=server_->reader_source();
+    const bool plugin=detail::is_reader_plugin_binding(archived);
+    if(plugin!=bool(current && detail::is_reader_plugin_binding(current->reader)) ||
+       (plugin && archived.substr(0,archived.find(':'))!=server_->reader_id()))
+        throw std::invalid_argument("raw analysis record requires the captured reader provider");
     const auto id=record->id;if(raw_streams_.count(id) || raw_analysis_.count(id) || raw_pixels_.count(id) || analysis_.count(id) || tissue_.count(id) || cells_.count(id) || classifiers_.count(id) || pixels_.count(id) || streams_.count(id)) throw std::invalid_argument("duplicate raw analysis record ID");
     const auto bytes=record->payload_bytes();if(raw_analysis_.size()>=10000 || bytes>budget-raw_analysis_bytes_) throw std::length_error("raw analysis records exceed 10000-record/64 MiB limit");
     const auto slot=raw_analysis_free_slots_.empty()?raw_analysis_next_slot_:raw_analysis_free_slots_.back(),block_index=slot/256;
@@ -159,7 +176,10 @@ bool Document::verify_raw_analysis(std::uint64_t id,const RawAnalysisRequest& re
        before.pixel_width_um()!=result->pixel_width_um() || before.pixel_height_um()!=result->pixel_height_um() || before.metadata().series!=result->metadata().series || !before.object_context().same_metadata(request.context_))
         throw std::invalid_argument("raw verification parameters differ from the archived capture");
     const auto& a=before.statistics();const auto& b=result->statistics();stored.identity=analysis_identity_.token;stored.observed_source=result->source();
-    stored.verified=before.algorithm()==result->algorithm() && before.input_sha256()==result->input_sha256() && before.tile_size()==result->tile_size() && before.tiles()==result->tiles() &&
+    const auto old=before.source(),now=result->source();
+    const bool plugin=detail::is_reader_plugin_binding(old->reader) || detail::is_reader_plugin_binding(now->reader);
+    stored.verified=(!plugin || detail::same_reader_files(*old,*now)) &&
+        before.algorithm()==result->algorithm() && before.input_sha256()==result->input_sha256() && before.tile_size()==result->tile_size() && before.tiles()==result->tiles() &&
         same_raw_statistics(a,b,before.grid().has_value());
     return stored.verified;
 }
@@ -188,7 +208,8 @@ std::string Document::raw_analysis_status(std::uint64_t id) const {
     if(!RawAnalysisRequest::context_matches(*this,result.object_id(),result.object_context())) return "context_changed";
     if(pixel_width_um_!=result.pixel_width_um() || pixel_height_um_!=result.pixel_height_um()) return "calibration_changed";
     if(!stored.identity || stored.identity!=analysis_identity_.token) return "unverified";
-    if(server_->closed()) return "source_closed";const auto view=server_->raw_view();if(!view || view->series!=result.metadata().series) return "source_changed";
+    if(server_->closed()) return "source_closed";
+    if(raw_analysis_series(*server_)!=result.metadata().series) return "source_changed";
     const auto source=server_->reader_source(),proof=stored.observed_source;
     if(!source || !proof || !source->primary || !proof->primary) return "unverified";
     if(!detail::same_reader_files(*source,*proof)) return "source_changed";
@@ -204,7 +225,9 @@ bool Document::remove_raw_analysis(std::uint64_t id) {
 }
 RawAnalysisRequest RawAnalysisRequest::replay(const Document& document,std::uint64_t id) {
     const auto record=document.raw_analysis_record(id);const auto& result=*record->result;
-    const auto view=document.server()->raw_view();if(!view || view->series!=result.metadata().series) throw std::invalid_argument("raw replay requires the captured quantitative series");
+    const auto source=document.server();
+    if(raw_analysis_series(*source)!=result.metadata().series) throw std::invalid_argument("raw replay requires the captured quantitative series");
+    detail::require_same_reader_plugin_binding(result.source().get(),source->reader_source().get());
     RawAnalysisRequest request=result.grid()?RawAnalysisRequest(document,result.grid()->grid,result.grid()->options,result.object_id(),result.nucleus(),record->max_pixels):
         RawAnalysisRequest(document,result.region(),result.object_id(),result.nucleus(),record->requested_tile_size,record->max_pixels);
     if(!same_raw_grid(result.grid(),request.grid_,request.grid_options_) || (!request.grid_ && !same_region(request.region_,result.region())) || !same_mask(request.mask_,record->mask) || request.object_revision_!=result.object_revision() || request.pixel_width_um_!=result.pixel_width_um() || request.pixel_height_um_!=result.pixel_height_um() || !request.context_.same_metadata(result.object_context())) throw std::invalid_argument("raw replay object/calibration no longer matches capture");

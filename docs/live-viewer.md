@@ -141,6 +141,12 @@ success does not imply a file write. A save/export may commit while its workspac
 is replaced; detached completion preserves that fact. `bytes` reports cached
 result payload charge, not the CSV file size or process RSS.
 
+When a raw prediction file commits before shutdown, cancellation, or workspace
+replacement, its ticket returns `detached` with `committed=true` and the output
+path. This includes a published partial QWS prefix. A detached ticket carries no
+live project record or verification claim. If verification fails after atomic
+publication, the ticket reports failure and still identifies the committed file.
+
 Closing success means the close intent was accepted. Normal close may still
 wait on the existing dirty-project dialog. Explicit discard bypasses that dialog
 and can bypass paused commands; remaining commands are cancelled at shutdown.
@@ -148,7 +154,9 @@ It does not erase previously committed primary files or recovery checkpoints.
 `cancel(ticket)` is best-effort: queued work can be removed immediately, workers
 observe cancellation checkpoints, and already-committed atomic operations win.
 Native decoder calls and a spatial-index build must finish before cancellation
-can complete. A session can run once; after close/failure it rejects new work.
+can complete. A session can run once. At shutdown it stops accepting new work
+before waiting for active work to settle, then cancels queued tickets and wakes
+waiters. Existing terminal tickets can still be consumed.
 
 Workspace replacement advances an epoch and rejects older queued commands.
 Analysis publication checks the captured request against the live document;
@@ -170,12 +178,13 @@ ticket metadata is separately bounded by ticket/string limits. Results are
 shared native buffers; taking a result refunds the cache charge but does not
 limit memory deliberately retained by Python callers or native archives.
 
-One script job runs at a time. Starting another asynchronous job while it is
-busy fails explicitly; metadata queries and edit commands can still run. Native
-kernel/table/work budgets apply in addition to endpoint limits. The owner drains
-one queued command per frame. Atomic edits finish once begun; this is not a
-preemptive time budget. Ordinary mutation commands pause during startup and
-modal workspace transitions, while cancellation/close remain available.
+One script job runs at a time. An accepted asynchronous command stays queued
+and charged until the worker is free. Metadata queries and edits at the front of
+the queue can still execute, and an admitted close request can pass pending
+work when a worker or modal transition holds the queue. Native kernel, table
+and work budgets apply in addition to endpoint limits. The owner dispatches
+at most one command per frame. Atomic edits finish once begun. Ordinary
+mutation commands pause during startup and modal workspace transitions.
 
 The source project, one active work item, queues, archived results, GUI jobs,
 SQLite, decoded tiles and caller-held buffers can coexist. These limits are not

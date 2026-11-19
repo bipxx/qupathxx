@@ -57,11 +57,5 @@ inline std::uint64_t integer(const J& j,std::uint64_t maximum){
 J parameters(const ExpressionReductionOptions&);
 ExpressionReductionOptions parameters(const J&);
 void require_parent(const ExpressionReductionResult&,const ExpressionMatrixSource&,std::size_t,const std::atomic<bool>*);
-// Scoped hooks mirror the existing matrix-association boundaries; no live
-// Document or undo state is mutated during serialization.
-std::shared_ptr<const ImageDataProperties> properties_for_save(std::shared_ptr<const ImageDataProperties>,
-    const std::filesystem::path&,const std::filesystem::path&,const std::atomic<bool>*);
-std::shared_ptr<const ImageDataProperties> properties_after_open(std::shared_ptr<const ImageDataProperties>,
-    const std::filesystem::path&,bool unsaved_recovery=false);
-void guard_project_output(std::shared_ptr<const ImageDataProperties>,const std::filesystem::path&,const std::string&);
+void verify_owned_files(const std::shared_ptr<const ImageDataProperties>&,const std::filesystem::path&,const std::atomic<bool>*);
 }

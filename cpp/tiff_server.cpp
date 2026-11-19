@@ -49,10 +49,17 @@ struct Ifd {
     std::uint32_t file=0;
     std::uint32_t width=0,height=0,block_width=0,block_height=0;
     std::uint16_t bits=0,format=SAMPLEFORMAT_UINT,samples=1,planar=PLANARCONFIG_CONTIG,photo=PHOTOMETRIC_MINISBLACK,orientation=ORIENTATION_TOPLEFT,compression=COMPRESSION_NONE;
+    std::uint16_t fill_order=FILLORDER_MSB2LSB;
     bool tiled=false,alpha=false,associated_alpha=false;
     std::vector<std::uint64_t> sub;
     std::vector<Ifd> levels;
+    bool packed_palette() const {return photo==PHOTOMETRIC_PALETTE && bits==4;}
+    bool packed_gray() const {
+        return (bits==1 || bits==4) && (photo==PHOTOMETRIC_MINISBLACK || photo==PHOTOMETRIC_MINISWHITE);
+    }
+    bool packed_samples() const {return packed_gray() || packed_palette();}
     SampleType type() const {
+        if(packed_samples() && format==SAMPLEFORMAT_UINT) return SampleType::UInt8;
         if(format==SAMPLEFORMAT_IEEEFP) {if(bits==32) return SampleType::Float32;if(bits==64) return SampleType::Float64;}
         if(format==SAMPLEFORMAT_UINT || format==SAMPLEFORMAT_INT) {
             const bool s=format==SAMPLEFORMAT_INT;
@@ -63,23 +70,68 @@ struct Ifd {
     void validate() const {
         if(!TIFFIsCODECConfigured(compression)) throw std::invalid_argument("TIFF compression codec is not enabled in this reader");
         type();if(!width || !height || !samples || samples>1024 || !block_width || !block_height ||
-          (planar!=PLANARCONFIG_CONTIG && planar!=PLANARCONFIG_SEPARATE) || orientation!=ORIENTATION_TOPLEFT ||
-          (photo!=PHOTOMETRIC_MINISBLACK && photo!=PHOTOMETRIC_MINISWHITE && photo!=PHOTOMETRIC_RGB))
-            throw std::invalid_argument("TIFF requires top-left byte-aligned grayscale or RGB samples");
+          (planar!=PLANARCONFIG_CONTIG && planar!=PLANARCONFIG_SEPARATE) ||
+          orientation<ORIENTATION_TOPLEFT || orientation>ORIENTATION_LEFTBOT ||
+          (photo!=PHOTOMETRIC_MINISBLACK && photo!=PHOTOMETRIC_MINISWHITE &&
+           photo!=PHOTOMETRIC_RGB && photo!=PHOTOMETRIC_PALETTE))
+            throw std::invalid_argument("TIFF requires supported grayscale, RGB or palette samples and a valid orientation");
         if(photo==PHOTOMETRIC_RGB && samples<3) throw std::invalid_argument("invalid TIFF RGB sample count");
+        const bool lossless= compression==COMPRESSION_NONE || compression==COMPRESSION_LZW ||
+            compression==COMPRESSION_PACKBITS || compression==COMPRESSION_ADOBE_DEFLATE ||
+            compression==COMPRESSION_DEFLATE;
+        if(photo==PHOTOMETRIC_PALETTE &&
+           (format!=SAMPLEFORMAT_UINT || (bits!=4 && bits!=8 && bits!=16) || samples!=1 || !lossless))
+            throw std::invalid_argument("TIFF palette requires one lossless unsigned 4-, 8- or 16-bit index");
+        if(packed_palette() && fill_order!=FILLORDER_MSB2LSB)
+            throw std::invalid_argument("TIFF 4-bit palette requires most-significant-bit FillOrder");
+        if(packed_gray() && (samples!=1 || (fill_order!=FILLORDER_MSB2LSB && fill_order!=FILLORDER_LSB2MSB)))
+            throw std::invalid_argument("Packed grayscale TIFF requires one unsigned sample and a valid FillOrder");
+        if(packed_gray() && bits==4 && (fill_order!=FILLORDER_MSB2LSB || !lossless))
+            throw std::invalid_argument("TIFF 4-bit grayscale requires lossless compression and most-significant-bit FillOrder");
+    }
+};
+struct RasterAxes {
+    bool transpose,reverse_x,reverse_y;
+    std::int64_t last_x,last_y;
+    explicit RasterAxes(const Ifd& d):
+        transpose(d.orientation>=ORIENTATION_LEFTTOP),
+        reverse_x(d.orientation==ORIENTATION_TOPRIGHT || d.orientation==ORIENTATION_BOTRIGHT ||
+                  d.orientation==ORIENTATION_RIGHTTOP || d.orientation==ORIENTATION_RIGHTBOT),
+        reverse_y(d.orientation==ORIENTATION_BOTRIGHT || d.orientation==ORIENTATION_BOTLEFT ||
+                  d.orientation==ORIENTATION_RIGHTBOT || d.orientation==ORIENTATION_LEFTBOT),
+        last_x(std::int64_t(transpose?d.height:d.width)-1),last_y(std::int64_t(transpose?d.width:d.height)-1) {}
+    std::pair<std::int64_t,std::int64_t> stored(std::int64_t x,std::int64_t y) const {
+        if(reverse_x) x=last_x-x;
+        if(reverse_y) y=last_y-y;
+        return transpose?std::make_pair(y,x):std::make_pair(x,y);
+    }
+    std::pair<std::int64_t,std::int64_t> canvas(std::int64_t x,std::int64_t y) const {
+        if(transpose) std::swap(x,y);
+        return {reverse_x?last_x-x:x,reverse_y?last_y-y:y};
+    }
+    std::int64_t output_step(std::int64_t width) const {
+        return transpose?(reverse_y?-width:width):(reverse_x?-1:1);
     }
 };
 struct Mapping {std::uint32_t ifd=std::numeric_limits<std::uint32_t>::max();std::uint16_t sample=0;};
 bool local(const tinyxml2::XMLElement* e,const char* expected) {if(!e) return false;const char* n=e->Name();const auto* colon=std::strrchr(n,':');return std::strcmp(colon?colon+1:n,expected)==0;}
 const tinyxml2::XMLElement* child(const tinyxml2::XMLElement* e,const char* name) {for(auto* p=e?e->FirstChildElement():nullptr;p;p=p->NextSiblingElement()) if(local(p,name)) return p;return nullptr;}
+std::optional<std::uint32_t> unsigned_decimal(const char* text) {
+    if(!text)return {};
+    std::uint32_t value=0;
+    const auto end=text+std::strlen(text);
+    const auto parsed=std::from_chars(text,end,value);
+    if(parsed.ec!=std::errc{} || parsed.ptr!=end)return {};
+    return value;
+}
 std::uint32_t integer(const tinyxml2::XMLElement* e,const char* key,std::optional<std::uint32_t> fallback={}) {
     const auto* text=e->Attribute(key);if(!text) {if(fallback) return *fallback;throw std::invalid_argument(std::string("missing OME attribute ")+key);}
-    std::uint32_t n=0;const auto* end=text+std::strlen(text);const auto result=std::from_chars(text,end,n);
-    if(result.ec!=std::errc{} || result.ptr!=end) throw std::invalid_argument(std::string("invalid OME integer ")+key);return n;
+    const auto value=unsigned_decimal(text);
+    if(!value)throw std::invalid_argument(std::string("invalid OME integer ")+key);
+    return *value;
 }
-std::optional<double> quantity(const tinyxml2::XMLElement* e,const char* key,const char* unit_key,bool time=false) {
-    const auto parsed=detail::positive_decimal_quantity(e->Attribute(key));if(!parsed) return {};const double n=*parsed;
-    const auto* attr=e->Attribute(unit_key);const std::string unit=attr?attr:(time?"s":u8"\u00b5m");double scale=0;
+double ome_unit_scale(std::string_view unit,bool time) {
+    double scale=0;
     // OME 2016-06 SI range. Store final factors directly so the existing
     // conversions keep their binary64 arithmetic (no pow or extra scaling).
     struct Prefix {const char* symbol;double micrometres,seconds;};
@@ -110,8 +162,69 @@ std::optional<double> quantity(const tinyxml2::XMLElement* e,const char* key,con
             {"ly",9.4607304725808e21},{"pc",3.0856776e22},{"pt",25400./72.}};
         for(const auto& entry:lengths) if(unit==entry.first) {scale=entry.second;break;}
     }
-    const auto value=n*scale;return scale && std::isfinite(value) && value>0?std::optional<double>(value):std::nullopt;
+    return scale;
 }
+std::optional<double> quantity(const tinyxml2::XMLElement* e,const char* key,const char* unit_key,bool time=false) {
+    const auto parsed=detail::positive_decimal_quantity(e->Attribute(key));if(!parsed)return {};
+    const auto* attr=e->Attribute(unit_key);
+    const auto scale=ome_unit_scale(attr?attr:(time?"s":u8"\u00b5m"),time);
+    const auto value=*parsed*scale;
+    return scale && std::isfinite(value) && value>0?std::optional<double>(value):std::nullopt;
+}
+enum class PlaneAxis { Z, Time };
+std::optional<double> plane_coordinate(const tinyxml2::XMLElement& plane,PlaneAxis axis) {
+    const bool time=axis==PlaneAxis::Time;
+    const auto* text=plane.Attribute(time?"DeltaT":"PositionZ");
+    if(!text || std::strlen(text)>128)return {};
+    const auto value=detail::finite_decimal_number(text);
+    const auto* unit=plane.Attribute(time?"DeltaTUnit":"PositionZUnit");
+    const auto scale=ome_unit_scale(unit?unit:(time?"s":"reference frame"),time);
+    if(!value || *value<0 || !scale)return {};
+    const auto coordinate=*value*scale;
+    if(!std::isfinite(coordinate) || (*value!=0 && coordinate==0))return {};
+    return coordinate;
+}
+std::optional<double> regular_plane_step(const tinyxml2::XMLElement& pixels,const RawImageMetadata& metadata,
+                                             const std::vector<std::uint32_t>& groups,
+                                             PlaneAxis axis,const std::atomic<bool>* cancelled) {
+    const bool time=axis==PlaneAxis::Time;
+    const auto extent=time?metadata.timepoints:metadata.z_planes;
+    if(extent<2 || pixels.Attribute(time?"TimeIncrement":"PhysicalSizeZ"))return {};
+    std::vector<bool> seen(std::size_t(metadata.timepoints)*metadata.z_planes*groups.size());
+    std::vector<std::optional<double>> coordinates(extent);
+    std::size_t count=0;
+    for(auto* plane=pixels.FirstChildElement();plane;plane=plane->NextSiblingElement()) {
+        if(!local(plane,"Plane"))continue;
+        detail::export_checkpoint(cancelled);
+        const auto c=unsigned_decimal(plane->Attribute("TheC"));
+        const auto z=unsigned_decimal(plane->Attribute("TheZ"));
+        const auto t=unsigned_decimal(plane->Attribute("TheT"));
+        if(!c || !z || !t || *z>=metadata.z_planes || *t>=metadata.timepoints)return {};
+        const auto group=std::lower_bound(groups.begin(),groups.end(),*c);
+        if(group==groups.end() || *group!=*c)return {};
+        const auto index=(std::size_t(*t)*metadata.z_planes+*z)*groups.size()+
+                         std::size_t(group-groups.begin());
+        const auto value=plane_coordinate(*plane,axis);
+        auto& coordinate=coordinates[time?*t:*z];
+        if(seen[index] || !value || (coordinate && coordinate!=value))return {};
+        seen[index]=true;
+        coordinate=value;
+        ++count;
+    }
+    if(count!=seen.size() || *coordinates[0]!=0 || *coordinates[1]<=0)return {};
+    const auto step=*coordinates[1];
+    for(std::size_t i=2;i<coordinates.size();++i) {
+        const auto expected=step*i;
+        // Decimal-to-binary64 unit conversion can put a regular endpoint one code away.
+        if(*coordinates[i]<=*coordinates[i-1] || !std::isfinite(expected) ||
+           *coordinates[i]<std::nextafter(expected,0.) ||
+           *coordinates[i]>std::nextafter(expected,std::numeric_limits<double>::infinity()))return {};
+    }
+    return step;
+}
+struct PlaneCalibration {
+    std::optional<double> z_spacing_um,time_interval_seconds;
+};
 std::string bounded(const char* text,std::size_t maximum) {if(!text) return {};std::size_t n=0;while(n<=maximum && text[n]) ++n;if(n>maximum) throw std::length_error("TIFF metadata text exceeds limit");return {text,n};}
 std::int64_t floor_div(std::int64_t n,std::int64_t d) {return n/d-(n%d<0);}
 bool same_file(const FileVersion& a,const FileVersion& b) {return a.identity_scheme==b.identity_scheme && a.identity==b.identity && a.bytes==b.bytes && a.stamp_scheme==b.stamp_scheme && a.modified_token==b.modified_token && a.change_token==b.change_token;}
@@ -161,6 +274,66 @@ class TiffData final {
     }
     void select(std::uint32_t file,std::uint64_t offset) {activate(file);error_[0]=0;if(TIFFCurrentDirOffset(handle_)==offset) return;if(!TIFFSetSubDirectory(handle_,offset)) failed("cannot select TIFF directory");++stats_.directory_switches;}
     void select(const Ifd& d) {select(d.file,d.offset);}
+    bool declared_palette(const Ifd& d) {
+        select(d);
+        // LibTIFF can replace a PALETTE declaration with grayscale or RGB
+        // when ColorMap is missing. Inspect only the original inline tag.
+        const bool big=TIFFIsBigTIFF(handle_),big_endian=TIFFIsBigEndian(handle_);
+        const std::size_t count_bytes=big?8:2,entry_bytes=big?20:12,value_offset=big?12:8;
+        const auto word=[&](const std::uint8_t* bytes,std::size_t size) {
+            std::uint64_t value=0;
+            for(std::size_t i=0;i<size;++i) value=(value<<8)|bytes[big_endian?i:size-1-i];
+            return value;
+        };
+        const auto seek=TIFFGetSeekProc(handle_);
+        const auto read=TIFFGetReadProc(handle_);
+        const auto client=TIFFClientdata(handle_);
+        const auto position=seek(client,0,SEEK_CUR);
+        const auto size=files_[d.file]->version->bytes;
+        std::array<std::uint8_t,20*64> bytes;
+        if(position==toff_t(-1) || d.offset>size || count_bytes>size-d.offset ||
+           seek(client,d.offset,SEEK_SET)!=d.offset || read(client,bytes.data(),tmsize_t(count_bytes))!=tmsize_t(count_bytes))
+            throw std::invalid_argument("Cannot read stored TIFF directory count");
+        const auto entries=word(bytes.data(),count_bytes);
+        if(entries>4096 || entries>(size-d.offset-count_bytes)/entry_bytes)
+            throw std::invalid_argument("Stored TIFF directory exceeds bounds");
+        bool palette=false;
+        for(std::uint64_t left=entries;left && !palette;) {
+            detail::export_checkpoint(opening_cancel_);
+            const auto count=std::min<std::uint64_t>(left,64);
+            const auto chunk=tmsize_t(count*entry_bytes);
+            if(read(client,bytes.data(),chunk)!=chunk) throw std::invalid_argument("Cannot read stored TIFF directory tags");
+            for(std::size_t i=0;i<count;++i) {
+                const auto* entry=bytes.data()+i*entry_bytes;
+                if(word(entry,2)==TIFFTAG_PHOTOMETRIC && word(entry+2,2)==TIFF_SHORT &&
+                   word(entry+4,value_offset-4)==1 && word(entry+value_offset,2)==PHOTOMETRIC_PALETTE) {
+                    palette=true;
+                    break;
+                }
+            }
+            left-=count;
+        }
+        if(seek(client,position,SEEK_SET)!=position)
+            throw std::runtime_error("Cannot restore TIFF decoder position");
+        return palette;
+    }
+
+    std::array<std::uint16_t*,3> color_map(const Ifd& d) {
+        select(d);
+        std::array<std::uint16_t*,3> map{};
+        if(!TIFFGetField(handle_,TIFFTAG_COLORMAP,&map[0],&map[1],&map[2]) ||
+           !map[0] || !map[1] || !map[2])
+            throw std::invalid_argument("TIFF palette requires its three ColorMap tables");
+        return map;
+    }
+    void validate_color_map(const Ifd& d) {
+        if(d.photo==PHOTOMETRIC_PALETTE) {
+            if(raw_->dimension_order!="XYC") throw std::invalid_argument("OME-TIFF palette display is unsupported");
+            color_map(d);
+        } else if((d.photo==PHOTOMETRIC_MINISBLACK || d.photo==PHOTOMETRIC_RGB) && declared_palette(d)) {
+            throw std::invalid_argument("TIFF palette requires its three ColorMap tables");
+        }
+    }
     static void parse_ome(const std::string& xml,tinyxml2::XMLDocument& document) {
         if(xml.find("<!DOCTYPE")!=std::string::npos || xml.find("<!ENTITY")!=std::string::npos) throw std::invalid_argument("OME document declarations/entities are unsupported");
         if(document.Parse(xml.data(),xml.size())!=tinyxml2::XML_SUCCESS || !local(document.RootElement(),"OME")) throw std::invalid_argument("malformed OME XML or non-OME companion");
@@ -242,11 +415,18 @@ class TiffData final {
         return std::make_tuple(sizes,bounded(p->Attribute("DimensionOrder"),5),bounded(p->Attribute("Type"),32),channels,
             std::array<std::optional<double>,4>{quantity(p,"PhysicalSizeX","PhysicalSizeXUnit"),quantity(p,"PhysicalSizeY","PhysicalSizeYUnit"),quantity(p,"PhysicalSizeZ","PhysicalSizeZUnit"),quantity(p,"TimeIncrement","TimeIncrementUnit",true)});
     }
-    void validate_companion(std::uint32_t file,const tinyxml2::XMLElement* primary) {
-        if(!file) return;tinyxml2::XMLDocument document;parse_ome(files_[resolve_metadata(file)]->xml,document);
+    void validate_companion_metadata(std::uint32_t metadata,const tinyxml2::XMLElement* primary,
+                                     const std::vector<std::uint32_t>& groups,PlaneCalibration& calibration) {
+        tinyxml2::XMLDocument document;parse_ome(files_[metadata]->xml,document);
         const tinyxml2::XMLElement* selected=nullptr;std::uint32_t count=0;
         for(auto* e=document.RootElement()->FirstChildElement();e;e=e->NextSiblingElement()) if(local(e,"Image")) {if(count==raw_->series) selected=e;if(++count>1024) throw std::length_error("OME series count exceeds 1024");}
         const auto* pixels=child(selected,"Pixels");if(count!=raw_->series_count || !pixels || signature(pixels)!=signature(primary)) throw std::invalid_argument("OME companion series metadata differs");
+        if(calibration.z_spacing_um &&
+           regular_plane_step(*pixels,*raw_,groups,PlaneAxis::Z,opening_cancel_)!=calibration.z_spacing_um)
+            calibration.z_spacing_um.reset();
+        if(calibration.time_interval_seconds &&
+           regular_plane_step(*pixels,*raw_,groups,PlaneAxis::Time,opening_cancel_)!=calibration.time_interval_seconds)
+            calibration.time_interval_seconds.reset();
     }
     using Guards=std::vector<std::unique_ptr<detail::ReaderFileGuard>>;
     Guards guard_files(const std::atomic<bool>* cancelled=nullptr) const {
@@ -260,6 +440,7 @@ class TiffData final {
         Ifd d;d.file=active_file_;d.offset=TIFFCurrentDirOffset(handle_);if(!TIFFGetField(handle_,TIFFTAG_IMAGEWIDTH,&d.width) || !TIFFGetField(handle_,TIFFTAG_IMAGELENGTH,&d.height)) failed("TIFF directory has no dimensions");
         TIFFGetFieldDefaulted(handle_,TIFFTAG_BITSPERSAMPLE,&d.bits);TIFFGetFieldDefaulted(handle_,TIFFTAG_SAMPLEFORMAT,&d.format);TIFFGetFieldDefaulted(handle_,TIFFTAG_SAMPLESPERPIXEL,&d.samples);TIFFGetFieldDefaulted(handle_,TIFFTAG_PLANARCONFIG,&d.planar);TIFFGetFieldDefaulted(handle_,TIFFTAG_PHOTOMETRIC,&d.photo);TIFFGetFieldDefaulted(handle_,TIFFTAG_ORIENTATION,&d.orientation);
         TIFFGetFieldDefaulted(handle_,TIFFTAG_COMPRESSION,&d.compression);
+        if(d.packed_samples()) TIFFGetFieldDefaulted(handle_,TIFFTAG_FILLORDER,&d.fill_order);
         std::uint32_t depth=1;TIFFGetFieldDefaulted(handle_,TIFFTAG_IMAGEDEPTH,&depth);if(depth!=1) throw std::invalid_argument("volumetric TIFF IFDs are unsupported; use OME plane IFDs");
         d.tiled=TIFFIsTiled(handle_)!=0;if(d.tiled) {TIFFGetField(handle_,TIFFTAG_TILEWIDTH,&d.block_width);TIFFGetField(handle_,TIFFTAG_TILELENGTH,&d.block_height);TIFFGetFieldDefaulted(handle_,TIFFTAG_TILEDEPTH,&depth);if(depth!=1) throw std::invalid_argument("volumetric TIFF tiles are unsupported");}
         else {d.block_width=d.width;TIFFGetFieldDefaulted(handle_,TIFFTAG_ROWSPERSTRIP,&d.block_height);d.block_height=std::min(d.block_height,d.height);}
@@ -274,7 +455,7 @@ class TiffData final {
         if(xml.find("<OME")==std::string::npos && xml.find(":OME")==std::string::npos) {
             if(raw_->series>=roots_.size()) throw std::out_of_range("TIFF page/series index is outside the file");const auto& d=roots_[raw_->series];
             raw_->width=d.width;raw_->height=d.height;raw_->channels=d.samples;raw_->series_count=static_cast<std::uint32_t>(roots_.size());raw_->dimension_order="XYC";
-            mapping_.resize(d.samples);for(std::uint32_t c=0;c<d.samples;++c) {mapping_[c]={raw_->series,static_cast<std::uint16_t>(c)};raw_->channel_names.push_back("Channel "+std::to_string(c+1));}
+            mapping_.resize(d.samples);for(std::uint32_t c=0;c<d.samples;++c) {mapping_[c]={raw_->series,static_cast<std::uint16_t>(c)};raw_->channel_names.push_back(d.photo==PHOTOMETRIC_PALETTE?"Palette index":"Channel "+std::to_string(c+1));}
             select(d);std::uint16_t unit=RESUNIT_NONE;float x=0,y=0;TIFFGetFieldDefaulted(handle_,TIFFTAG_RESOLUTIONUNIT,&unit);TIFFGetField(handle_,TIFFTAG_XRESOLUTION,&x);TIFFGetField(handle_,TIFFTAG_YRESOLUTION,&y);
             const double scale=unit==RESUNIT_INCH?25400:unit==RESUNIT_CENTIMETER?10000:0;
             if(scale && std::isfinite(x) && x>0) raw_->pixel_width_um=scale/x;if(scale && std::isfinite(y) && y>0) raw_->pixel_height_um=scale/y;
@@ -300,9 +481,12 @@ class TiffData final {
         if(groups.empty()) {for(std::uint32_t c=0;c<raw_->channels;++c) {groups.push_back(c);raw_->channel_names.push_back("Channel "+std::to_string(c+1));}first=raw_->channels;}
         if(first!=raw_->channels) throw std::invalid_argument("OME Channel samples do not match SizeC");
         const std::uint64_t planes=std::uint64_t(groups.size())*raw_->z_planes*raw_->timepoints;if(planes>65536) throw std::length_error("OME plane count exceeds 65536");
+        PlaneCalibration calibration{
+            regular_plane_step(*p,*raw_,groups,PlaneAxis::Z,opening_cancel_),
+            regular_plane_step(*p,*raw_,groups,PlaneAxis::Time,opening_cancel_)};
         mapping_.resize(std::size_t(raw_->channels)*raw_->z_planes*raw_->timepoints);bool found=false;
         auto group_index=[&](std::uint32_t c) {const auto at=std::find(groups.begin(),groups.end(),c);if(at==groups.end()) throw std::invalid_argument("OME FirstC must identify a channel group");return std::uint32_t(at-groups.begin());};
-        std::set<std::uint32_t> validated{0};
+        std::set<std::uint32_t> validated_metadata{metadata_file};
         auto extent=[&](char axis)->std::uint32_t {return axis=='C'?std::uint32_t(groups.size()):axis=='Z'?raw_->z_planes:raw_->timepoints;};
         for(auto* e=p->FirstChildElement();e;e=e->NextSiblingElement()) if(local(e,"TiffData")) {
             detail::export_checkpoint(opening_cancel_);found=true;std::uint32_t file=metadata_file;
@@ -311,13 +495,20 @@ class TiffData final {
                 if(value.empty() || files_[0]->uuid.empty()) throw std::invalid_argument("OME file reference requires root and target UUIDs");
                 if(!filename.empty()) file=load_file((fs::u8path(files_[metadata_file]->path).parent_path()/fs::u8path(filename)).u8string());
                 else {const auto at=std::find_if(files_.begin(),files_.end(),[&](const auto& f){return f->uuid==value;});if(at==files_.end()) throw std::invalid_argument("unresolved OME UUID without FileName");file=std::uint32_t(at-files_.begin());}
-                if(files_[file]->uuid!=value) throw std::invalid_argument("OME referenced file UUID differs");if(validated.insert(file).second) validate_companion(file,p);
+                if(files_[file]->uuid!=value) throw std::invalid_argument("OME referenced file UUID differs");
+                const auto metadata=resolve_metadata(file);
+                if(validated_metadata.insert(metadata).second)
+                    validate_companion_metadata(metadata,p,groups,calibration);
             }
             if(files_[file]->metadata_only) throw std::invalid_argument("OME TiffData requires an explicit pixel file UUID");
             const auto& catalog=*files_[file];
             std::array<std::uint32_t,3> position{};for(std::size_t i=0;i<3;++i) position[i]=order[i+2]=='C'?group_index(integer(e,"FirstC",0)):integer(e,order[i+2]=='Z'?"FirstZ":"FirstT",0);
             std::uint64_t linear=0,multiplier=1;for(std::size_t i=0;i<3;++i) {if(position[i]>=extent(order[i+2])) throw std::out_of_range("OME first plane exceeds dimensions");linear+=position[i]*multiplier;multiplier*=extent(order[i+2]);}
-            const auto ifd=integer(e,"IFD",0),length=integer(e,"PlaneCount",e->Attribute("IFD")?1:catalog.count);
+            const auto ifd=integer(e,"IFD",0);
+            // The default mapping ignores trailing IFDs outside the OME lattice.
+            // An explicit PlaneCount still has to fit both the lattice and file.
+            const auto inferred=e->Attribute("IFD")?1u:std::min(catalog.count,std::uint32_t(planes-linear));
+            const auto length=integer(e,"PlaneCount",inferred);
             if(length>planes-linear || ifd>=catalog.count || length>catalog.count-ifd) throw std::out_of_range("OME TiffData exceeds plane or IFD bounds");
             for(std::uint32_t step=0;step<length;++step) {detail::export_checkpoint(opening_cancel_);auto value=linear+step;std::uint32_t c=0,z=0,t=0;
                 for(std::size_t i=0;i<3;++i) {const auto coordinate=std::uint32_t(value%extent(order[i+2]));value/=extent(order[i+2]);if(order[i+2]=='C') c=coordinate;else if(order[i+2]=='Z') z=coordinate;else t=coordinate;}
@@ -329,12 +520,26 @@ class TiffData final {
         const auto declared=bounded(p->Attribute("Type"),32);auto actual=sample_name(roots_[mapping_.front().ifd].type());if(actual=="float32") actual="float";if(actual=="float64") actual="double";
         if(declared!=actual) throw std::invalid_argument("OME pixel type differs from TIFF samples");
         raw_->pixel_width_um=quantity(p,"PhysicalSizeX","PhysicalSizeXUnit");raw_->pixel_height_um=quantity(p,"PhysicalSizeY","PhysicalSizeYUnit");raw_->z_spacing_um=quantity(p,"PhysicalSizeZ","PhysicalSizeZUnit");raw_->time_interval_seconds=quantity(p,"TimeIncrement","TimeIncrementUnit",true);
+        if(!raw_->z_spacing_um) raw_->z_spacing_um=calibration.z_spacing_um;
+        if(!raw_->time_interval_seconds) raw_->time_interval_seconds=calibration.time_interval_seconds;
     }
     void levels() {
         std::set<std::uint32_t> selected;for(auto m:mapping_) selected.insert(m.ifd);std::size_t count=roots_.size();
-        for(auto index:selected) {auto& root=roots_[index];root.validate();Ifd base=root;base.sub.clear();root.levels.push_back(std::move(base));
+        for(auto index:selected) {auto& root=roots_[index];root.validate();
+            if(raw_->dimension_order!="XYC" && root.orientation!=ORIENTATION_TOPLEFT)
+                throw std::invalid_argument("OME-TIFF requires top-left raster orientation");
+            if(raw_->dimension_order!="XYC" && root.packed_gray())
+                throw std::invalid_argument("Packed grayscale OME-TIFF is outside the native pixel type profile");
+            validate_color_map(root);
+            Ifd base=root;base.sub.clear();root.levels.push_back(std::move(base));
             for(auto offset:root.sub) {if(++count>131072) throw std::length_error("TIFF directory catalog exceeds limit");select(root.file,offset);auto level=inspect();level.validate();
-                if(!level.sub.empty() || level.samples!=root.samples || level.type()!=root.type() || level.photo!=root.photo) throw std::invalid_argument("incompatible TIFF subresolution samples");root.levels.push_back(std::move(level));}
+                if(level.orientation!=root.orientation) throw std::invalid_argument("TIFF pyramid orientations differ");
+                if(!level.sub.empty() || level.samples!=root.samples || level.type()!=root.type() ||
+                   level.photo!=root.photo ||
+                   ((level.packed_gray() || root.packed_gray()) && level.bits!=root.bits))
+                    throw std::invalid_argument("incompatible TIFF subresolution samples");
+                validate_color_map(level);
+                root.levels.push_back(std::move(level));}
         }
         const auto& reference=roots_[mapping_.front().ifd];raw_->sample_type=reference.type();
         for(std::size_t level=0;level<reference.levels.size();++level) {const auto& d=reference.levels[level];double scale=1;
@@ -343,12 +548,23 @@ class TiffData final {
         }
         for(auto index:selected) {const auto& root=roots_[index];if(root.width!=raw_->width || root.height!=raw_->height || root.type()!=raw_->sample_type || root.levels.size()!=raw_->levels.size()) throw std::invalid_argument("OME plane geometry/type/pyramid differs");
             for(std::size_t i=0;i<root.levels.size();++i) if(root.levels[i].width!=raw_->levels[i].width || root.levels[i].height!=raw_->levels[i].height) throw std::invalid_argument("OME plane subresolution dimensions differ");}
+        if(RasterAxes(reference).transpose) {
+            std::swap(raw_->width,raw_->height);
+            std::swap(raw_->pixel_width_um,raw_->pixel_height_um);
+            for(auto& level:raw_->levels) std::swap(level.width,level.height);
+        }
     }
     std::shared_ptr<Block> block(const Ifd& d,std::uint32_t x,std::uint32_t y,std::uint16_t sample) {
         select(d);const auto number=d.tiled?TIFFComputeTile(handle_,x,y,0,d.planar==PLANARCONFIG_SEPARATE?sample:0):TIFFComputeStrip(handle_,y,d.planar==PLANARCONFIG_SEPARATE?sample:0);const Key key{d.file,d.offset,number};
+        if(d.packed_samples() && !TIFFIsMSB2LSB(handle_))
+            throw std::runtime_error("TIFF decoder did not return MSB-first packed samples");
         if(auto found=cache_.find(key);found!=cache_.end()) {++stats_.cache_hits;lru_.splice(lru_.end(),lru_,found->second.position);return found->second.value;}
         const auto size=d.tiled?TIFFTileSize64(handle_):TIFFVStripSize64(handle_,std::min(d.block_height,d.height-y));
-        const auto expected=std::uint64_t(d.block_width)*(d.tiled?d.block_height:std::min(d.block_height,d.height-y))*(d.bits/8)*(d.planar==PLANARCONFIG_SEPARATE?1:d.samples);
+        const auto samples=d.planar==PLANARCONFIG_SEPARATE?1:d.samples;
+        const auto rows=d.tiled?d.block_height:std::min(d.block_height,d.height-y);
+        const auto row_bytes=(std::uint64_t(d.block_width)*d.bits*samples+7)/8;
+        if(!rows || row_bytes>options_.decode_bytes/rows) throw std::length_error("TIFF decoded block exceeds decode budget");
+        const auto expected=row_bytes*rows;
         if(!size || size!=expected || size>options_.decode_bytes || size>std::uint64_t(std::numeric_limits<tmsize_t>::max())) throw std::length_error("TIFF encoded block exceeds decode budget or has inconsistent geometry");
         auto value=std::make_shared<Block>();value->bytes.resize(std::size_t(size));error_[0]=0;
         const auto read=d.tiled?TIFFReadEncodedTile(handle_,number,value->bytes.data(),tmsize_t(size)):TIFFReadEncodedStrip(handle_,number,value->bytes.data(),tmsize_t(size));
@@ -376,17 +592,39 @@ class TiffData final {
                     if(d.planar==PLANARCONFIG_CONTIG)
                         while(end<r.channels && mapping_[first+end].ifd==m.ifd) ++end;
                     const auto samples=d.planar==PLANARCONFIG_SEPARATE?1:d.samples;
-                    for(auto by=(y0/d.block_height)*d.block_height;by<y1;by+=d.block_height) for(auto bx=(x0/d.block_width)*d.block_width;bx<x1;bx+=d.block_width) {
+                    const RasterAxes axes(d);
+                    const auto [ax,ay]=axes.stored(x0,y0);
+                    const auto [zx,zy]=axes.stored(x1-1,y1-1);
+                    const auto sx0=std::min(ax,zx),sy0=std::min(ay,zy);
+                    const auto sx1=std::max(ax,zx)+1,sy1=std::max(ay,zy)+1;
+                    const auto step=axes.output_step(request.width);
+                    for(auto by=(sy0/d.block_height)*d.block_height;by<sy1;by+=d.block_height) for(auto bx=(sx0/d.block_width)*d.block_width;bx<sx1;bx+=d.block_width) {
                         detail::export_checkpoint(cancelled);
                         const auto decoded=block(d,std::uint32_t(bx),std::uint32_t(by),m.sample);
-                        for(auto y=std::max(y0,by);y<std::min(y1,by+d.block_height);++y) {
+                        for(auto y=std::max(sy0,by);y<std::min(sy1,by+d.block_height);++y) {
                             detail::export_checkpoint(cancelled);
-                            for(auto x=std::max(x0,bx);x<std::min(x1,bx+d.block_width);++x) {
+                            const auto first_x=std::max(sx0,bx);
+                            const auto [cx,cy]=axes.canvas(first_x,y);
+                            auto target=(cy-origin_y)*request.width+cx-origin_x;
+                            if(d.packed_samples()) {
+                                const auto per_byte=8/d.bits;
+                                const auto mask=(1u<<d.bits)-1;
+                                const auto row_bytes=(std::size_t(d.block_width)*d.bits+7)/8;
+                                const auto* row=decoded->bytes.data()+std::size_t(y-by)*row_bytes;
+                                for(auto x=first_x;x<std::min(sx1,bx+d.block_width);++x,target+=step) {
+                                    const auto column=std::size_t(x-bx);
+                                    const auto packed=row[column/per_byte];
+                                    const auto shift=8-d.bits*(1+column%per_byte);
+                                    values[std::size_t(target)*r.channels+begin]=static_cast<T>(
+                                        (packed>>shift)&mask);
+                                }
+                                continue;
+                            }
+                            for(auto x=first_x;x<std::min(sx1,bx+d.block_width);++x,target+=step) {
                                 const auto source=(std::size_t(y-by)*d.block_width+std::size_t(x-bx))*samples;
-                                const auto target=(std::size_t(y-origin_y)*std::size_t(request.width)+std::size_t(x-origin_x))*r.channels;
                                 for(auto c=begin;c<end;++c) {
                                     const auto selected=d.planar==PLANARCONFIG_SEPARATE?0:mapping_[first+c].sample;
-                                    std::memcpy(&values[target+c],decoded->bytes.data()+(source+selected)*sizeof(T),sizeof(T));
+                                    std::memcpy(&values[std::size_t(target)*r.channels+c],decoded->bytes.data()+(source+selected)*sizeof(T),sizeof(T));
                                 }
                             }
                         }
@@ -396,6 +634,11 @@ class TiffData final {
             },output.writable_storage());
         }verify_guards(guards);detail::export_checkpoint(cancelled);return output;
     }
+    std::pair<double,double> display_range() const {
+        const auto& root=roots_[mapping_.front().ifd];
+        if(root.packed_gray()) return {0.,double((1u<<root.bits)-1)};
+        return range(raw_->sample_type);
+    }
 public:
     TiffData(const std::string& path,TiffOpenOptions options,const std::atomic<bool>* cancelled):path_(fs::absolute(fs::u8path(path)).lexically_normal().u8string()),options_(std::move(options)),opening_cancel_(cancelled) {
         detail::export_checkpoint(cancelled);options_.validate();
@@ -403,7 +646,7 @@ public:
             load_file(path_);index(resolve_metadata(0));levels();view_=std::make_shared<TiffView>(options_.view);
             if(view_->z>=raw_->z_planes || view_->t>=raw_->timepoints) throw std::out_of_range("TIFF display Z/time index is outside the image");
             if(view_->channels[0]==-2) {const bool rgb=roots_[mapping_.front().ifd].photo==PHOTOMETRIC_RGB;view_->channels=rgb?std::array<std::int32_t,3>{0,1,2}:std::array<std::int32_t,3>{0,0,0};}
-            const auto limits=range(raw_->sample_type);for(std::size_t i=0;i<3;++i) {if(view_->channels[i]>=std::int32_t(raw_->channels)) throw std::out_of_range("TIFF display channel is outside the image");if(std::isnan(view_->lower[i])) {view_->lower[i]=limits.first;view_->upper[i]=limits.second;}}
+            const auto limits=display_range();for(std::size_t i=0;i<3;++i) {if(view_->channels[i]>=std::int32_t(raw_->channels)) throw std::out_of_range("TIFF display channel is outside the image");if(std::isnan(view_->lower[i])) {view_->lower[i]=limits.first;view_->upper[i]=limits.second;}}
             view_->validate(true);display_.width=raw_->width;display_.height=raw_->height;display_.levels=raw_->levels;display_.pixel_width_um=raw_->pixel_width_um;display_.pixel_height_um=raw_->pixel_height_um;display_.vendor="TIFF / "+sample_name(raw_->sample_type);
             for(const auto& file:files_) file->opening_guard->verify();detail::export_checkpoint(cancelled);
             auto descriptor=tiff_view_encode(*view_);descriptor.resize(descriptor.size()-64);
@@ -417,7 +660,7 @@ public:
         detail::export_checkpoint(cancelled);view.validate();if(view.series!=raw_->series || view.z>=raw_->z_planes || view.t>=raw_->timepoints) throw std::out_of_range("TIFF display selection is outside this series");
         auto guards=guard_files(cancelled);
         if(view.channels[0]==-2) {const bool rgb=roots_[mapping_.front().ifd].photo==PHOTOMETRIC_RGB;view.channels=rgb?std::array<std::int32_t,3>{0,1,2}:std::array<std::int32_t,3>{0,0,0};}
-        const auto limits=range(raw_->sample_type);for(std::size_t i=0;i<3;++i) {if(view.channels[i]>=std::int32_t(raw_->channels)) throw std::out_of_range("TIFF display channel is outside the image");if(std::isnan(view.lower[i])) {view.lower[i]=limits.first;view.upper[i]=limits.second;}}
+        const auto limits=display_range();for(std::size_t i=0;i<3;++i) {if(view.channels[i]>=std::int32_t(raw_->channels)) throw std::out_of_range("TIFF display channel is outside the image");if(std::isnan(view.lower[i])) {view.lower[i]=limits.first;view.upper[i]=limits.second;}}
         view.validate(true);verify_guards(guards);detail::export_checkpoint(cancelled);return view;
     }
     const ImageMetadata& metadata() const {return display_;}
@@ -432,6 +675,11 @@ public:
         std::lock_guard<std::mutex> lock(mutex_);if(closed_) throw std::runtime_error("TIFF image server is closed");validate_region(display_,r);auto guards=guard_files();PixelBuffer output(r.width,r.height);auto& bytes=output.writable_bytes();
         std::vector<std::int32_t> channels;for(auto c:display_view.channels) if(c>=0 && std::find(channels.begin(),channels.end(),c)==channels.end()) channels.push_back(c);
         const auto plane=(std::size_t(display_view.t)*raw_->z_planes+display_view.z)*raw_->channels;const auto first=mapping_[plane+channels.front()];const auto& root=roots_[first.ifd].levels[r.level];std::optional<std::uint32_t> alpha;
+        const auto maximum_index=range(raw_->sample_type).second;
+        const bool palette=root.photo==PHOTOMETRIC_PALETTE &&
+            display_view.channels==std::array<std::int32_t,3>{0,0,0} &&
+            display_view.lower==std::array<double,3>{0,0,0} &&
+            display_view.upper==std::array<double,3>{maximum_index,maximum_index,maximum_index};
         if(root.alpha && std::all_of(channels.begin(),channels.end(),[&](auto c){const auto m=mapping_[plane+c];return m.ifd==first.ifd && m.sample<root.samples-1;}))
             for(std::uint32_t c=0;c<raw_->channels;++c) if(mapping_[plane+c].ifd==first.ifd && mapping_[plane+c].sample==root.samples-1) {alpha=c;break;}
         const auto scale=std::int64_t(raw_->levels[r.level].downsample);
@@ -439,6 +687,26 @@ public:
         // image. Raw conversion uses fixed 256-square blocks plus decoder/cache.
         for(std::int64_t y=0;y<r.height;y+=256) for(std::int64_t x=0;x<r.width;x+=256) {
             RawRegionRequest request;request.region=RegionRequest(r.x+x*scale,r.y+y*scale,r.level,std::min<std::int64_t>(256,r.width-x),std::min<std::int64_t>(256,r.height-y));request.z=display_view.z;request.t=display_view.t;
+            if(palette) {
+                auto& self=*const_cast<TiffData*>(this);
+                const auto indices=self.raw_locked(request,nullptr,true);
+                const auto map=self.color_map(root);
+                const auto render=[&](const auto& values) {
+                    for(std::int64_t row=0;row<indices.height();++row) {
+                        auto* rgba=bytes.data()+4*((y+row)*r.width+x);
+                        for(std::int64_t column=0;column<indices.width();++column,rgba+=4) {
+                            const auto index=std::size_t(row*indices.width()+column);
+                            if(!indices.valid()[index]) continue;
+                            for(std::size_t c=0;c<map.size();++c)
+                                rgba[c]=std::uint8_t((std::uint32_t(map[c][values[index]])*255+32767)/65535);
+                            rgba[3]=255;
+                        }
+                    }
+                };
+                if(root.bits<16) render(std::get<std::vector<std::uint8_t>>(indices.storage()));
+                else render(std::get<std::vector<std::uint16_t>>(indices.storage()));
+                continue;
+            }
             const auto n=std::size_t(request.region.width*request.region.height);std::vector<double> alphas(n,1);std::vector<std::uint8_t> valid(n,1);
             if(alpha) {request.first_channel=*alpha;const auto block=const_cast<TiffData*>(this)->raw_locked(request,nullptr,true);const auto maximum=range(raw_->sample_type).second;
                 std::visit([&](const auto& values){for(std::size_t i=0;i<n;++i) {const auto v=double(values[i]);if(!block.valid()[i] || !std::isfinite(v)) valid[i]=0;else alphas[i]=std::clamp(v/maximum,0.,1.);}},block.storage());}

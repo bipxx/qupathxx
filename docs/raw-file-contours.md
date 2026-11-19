@@ -87,7 +87,7 @@ checks and owner capture prevent applying after edits during file verification.
 
 ```text
 qupathxx_batch --inspect-raw-contours prediction.qws --file-work-bytes 16777216
-qupathxx_batch --replay-raw-contours source.qpx 1 prediction.qws replayed.qpx --file-work-bytes 16777216
+qupathxx_batch --replay-raw-contours source.qpx 1 prediction.qws replayed.qpx
 ```
 
 Inspection emits bounded JSONL `qpx.raw-pixel-file-contours/1`, terminal state
@@ -99,11 +99,13 @@ as axes, object, region or vote are rejected: those semantics come from the file
 Both commands accept file/contour resource limits; replay also accepts project/
 publication limits and annotation prefix. Ctrl+C/Ctrl+Break cancels and joins.
 
-Work admission includes the retained file budget plus the larger boundary/GEOS
-phase; replay also admits its recorded prediction producer budget. Increase the
-explicit total limit or choose a smaller admitted file-reader budget when needed.
-These conservative estimates are separate from measured process RSS, hardware
-budgets and scientific/platform/release acceptance.
+Historical inspection reads blocks during boundary construction and charges the
+file-reader budget with the larger boundary/GEOS phase. Live replay completes
+file verification before fresh prediction. Its total limit covers the larger of
+the verification allowance and the live phase. The live phase includes the
+recorded prediction producer budget, the larger boundary/GEOS phase, retained
+file metadata and scratch for the final framing checks. These are conservative
+admission estimates separate from measured process RSS.
 
 [Installed local evidence](benchmarks/raw-stream-boundaries-local/history-248/receipt.json) binds runtime `3039f0c`: nine Windows positive
 and five Clang all-optional-OFF native suites, 298 Python passes/three declared

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.24)
-project(qupathxx_ics_reader_plugin VERSION 1.0.0 LANGUAGES CXX)
+project(qupathxx_ics_reader_plugin VERSION 1.5.0 LANGUAGES C CXX)
 
 set(QUPATHXX_READER_PLUGIN_KIT_PREFIX "" CACHE PATH "Relocated ReaderPluginKit prefix")
 option(QUPATHXX_ICS_BUILD_TESTS "Build independent ABI and installed-SDK checks" OFF)
@@ -13,8 +13,9 @@ if(NOT WIN32 OR NOT MSVC OR NOT CMAKE_SIZEOF_VOID_P EQUAL 8 OR
   message(FATAL_ERROR "This plugin requires Windows x64 MSVC")
 endif()
 if(NOT MSVC_VERSION STREQUAL QUPATHXX_READER_PLUGIN_MSVC_VERSION OR
-   NOT CMAKE_CXX_COMPILER_VERSION STREQUAL QUPATHXX_READER_PLUGIN_CXX_COMPILER_VERSION)
-  message(FATAL_ERROR "Use the C++ compiler recorded by the ReaderPluginKit")
+   NOT CMAKE_CXX_COMPILER_VERSION STREQUAL QUPATHXX_READER_PLUGIN_CXX_COMPILER_VERSION OR
+   NOT CMAKE_C_COMPILER_VERSION STREQUAL QUPATHXX_READER_PLUGIN_CXX_COMPILER_VERSION)
+  message(FATAL_ERROR "Use the MSVC compiler recorded by the ReaderPluginKit")
 endif()
 if(CMAKE_CONFIGURATION_TYPES)
   set(CMAKE_CONFIGURATION_TYPES Release CACHE STRING "Supported configuration" FORCE)
@@ -29,12 +30,42 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED YES)
 set(CMAKE_CXX_EXTENSIONS NO)
 configure_file(reader_plugin_profile.hpp.in reader_plugin_profile.hpp @ONLY)
+set(QUPATHXX_ICS_ZLIB_ARCHIVE "" CACHE FILEPATH "Admitted offline zlib 1.3.2 source archive")
+if(NOT EXISTS "${QUPATHXX_ICS_ZLIB_ARCHIVE}")
+  message(FATAL_ERROR "Provide the admitted zlib 1.3.2 source archive; no dependency downloads")
+endif()
+file(SHA256 "${QUPATHXX_ICS_ZLIB_ARCHIVE}" zlib_digest)
+if(NOT zlib_digest STREQUAL "bb329a0a2cd0274d05519d61c667c062e06990d72e125ee2dfa8de64f0119d16")
+  message(FATAL_ERROR "ICS requires the exact admitted zlib archive")
+endif()
+set(zlib_root "${CMAKE_CURRENT_BINARY_DIR}/zlib-inputs")
+set(zlib_sources "${zlib_root}/zlib-1.3.2")
+if(NOT EXISTS "${zlib_sources}/CMakeLists.txt")
+  file(ARCHIVE_EXTRACT INPUT "${QUPATHXX_ICS_ZLIB_ARCHIVE}" DESTINATION "${zlib_root}")
+endif()
+set(ZLIB_BUILD_SHARED OFF CACHE BOOL "" FORCE)
+set(ZLIB_BUILD_STATIC ON CACHE BOOL "" FORCE)
+set(ZLIB_BUILD_TESTING OFF CACHE BOOL "" FORCE)
+set(ZLIB_INSTALL OFF CACHE BOOL "" FORCE)
+set(ZLIB_PREFIX ON CACHE BOOL "" FORCE)
+set(Z_PREFIX ON)
+add_subdirectory("${zlib_sources}" "${CMAKE_CURRENT_BINARY_DIR}/zlib" EXCLUDE_FROM_ALL)
+set(zlib_headers "${CMAKE_CURRENT_BINARY_DIR}/zlib/include")
+configure_file("${zlib_sources}/zlib.h" "${zlib_headers}/zlib.h" COPYONLY)
+configure_file("${CMAKE_CURRENT_BINARY_DIR}/zlib/zconf.h" "${zlib_headers}/zconf.h" COPYONLY)
+file(READ "${zlib_headers}/zconf.h" zlib_config)
+if(NOT zlib_config MATCHES "#define Z_PREFIX 1")
+  message(FATAL_ERROR "ICS requires private prefixed zlib symbols")
+endif()
 add_library(qpx_ics_plugin MODULE ics_reader.cpp)
 set_target_properties(qpx_ics_plugin PROPERTIES PREFIX "")
-target_compile_definitions(qpx_ics_plugin PRIVATE QPX_READER_PLUGIN_EXPORTS QPX_READER_PLUGIN_SOURCE_FILES _CRT_SECURE_NO_WARNINGS)
+target_compile_definitions(qpx_ics_plugin PRIVATE
+  QPX_READER_PLUGIN_EXPORTS QPX_READER_PLUGIN_SOURCE_FILES _CRT_SECURE_NO_WARNINGS
+  NOMINMAX WIN32_LEAN_AND_MEAN)
 target_compile_options(qpx_ics_plugin PRIVATE /utf-8 /W4 /permissive-)
 target_include_directories(qpx_ics_plugin PRIVATE
-  "${QUPATHXX_READER_PLUGIN_KIT_PREFIX}/include" "${CMAKE_CURRENT_BINARY_DIR}")
+  "${QUPATHXX_READER_PLUGIN_KIT_PREFIX}/include" "${CMAKE_CURRENT_BINARY_DIR}" "${zlib_headers}")
+target_link_libraries(qpx_ics_plugin PRIVATE zlibstatic)
 add_custom_command(TARGET qpx_ics_plugin POST_BUILD COMMAND "${CMAKE_COMMAND}"
   "-DMODULE_FILE=$<TARGET_FILE:qpx_ics_plugin>"
   "-DPROFILE=windows-x64-msvc${QUPATHXX_READER_PLUGIN_MSVC_VERSION}-release-md"
@@ -43,16 +74,12 @@ add_custom_command(TARGET qpx_ics_plugin POST_BUILD COMMAND "${CMAKE_COMMAND}"
 install(TARGETS qpx_ics_plugin RUNTIME DESTINATION . LIBRARY DESTINATION . CONFIGURATIONS Release)
 install(FILES "$<TARGET_FILE_DIR:qpx_ics_plugin>/reader-plugins.json" DESTINATION . CONFIGURATIONS Release)
 install(FILES "${qpx_kit}/LICENSE" DESTINATION licenses/qupathxx)
+install(FILES "${zlib_sources}/LICENSE" DESTINATION licenses/zlib)
 
 if(QUPATHXX_ICS_BUILD_TESTS)
   # The pinned native reference is a development-only oracle, not a module link.
-  enable_language(C)
   set(CMAKE_C_STANDARD 99)
   set(CMAKE_C_STANDARD_REQUIRED YES)
-  if(NOT CMAKE_C_COMPILER_ID STREQUAL "MSVC" OR
-     NOT CMAKE_C_COMPILER_VERSION STREQUAL QUPATHXX_READER_PLUGIN_CXX_COMPILER_VERSION)
-    message(FATAL_ERROR "Reference tests require the matched MSVC C compiler")
-  endif()
   set(QUPATHXX_ICS_REFERENCE_SOURCE_DIR "" CACHE PATH "Exact libics development reference sources")
   file(READ "${CMAKE_CURRENT_SOURCE_DIR}/tests/libics-reference-lock.json" reference_lock)
   string(JSON reference_commit GET "${reference_lock}" commit)
@@ -83,9 +110,10 @@ if(QUPATHXX_ICS_BUILD_TESTS)
   configure_file("${QUPATHXX_ICS_REFERENCE_SOURCE_DIR}/libics_conf.h.in"
     "${CMAKE_CURRENT_BINARY_DIR}/reference-config/libics_conf.h" COPYONLY)
   add_library(ics_reference_library STATIC ${reference_sources})
-  target_compile_definitions(ics_reference_library PRIVATE _CRT_SECURE_NO_WARNINGS)
+  target_compile_definitions(ics_reference_library PRIVATE _CRT_SECURE_NO_WARNINGS ICS_ZLIB)
   target_include_directories(ics_reference_library PUBLIC "${QUPATHXX_ICS_REFERENCE_SOURCE_DIR}"
-    PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/reference-config")
+    PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/reference-config" "${zlib_headers}")
+  target_link_libraries(ics_reference_library PRIVATE zlibstatic)
   add_executable(ics_reference_dump tests/ics_reference_dump.cpp)
   target_compile_options(ics_reference_dump PRIVATE /utf-8 /permissive-)
   target_link_libraries(ics_reference_dump PRIVATE ics_reference_library)
@@ -99,4 +127,4 @@ if(QUPATHXX_ICS_BUILD_TESTS)
   qupathxx_stage_runtime(ics_project_consumer)
 endif()
 
-# The independently built module has no codec, core or Python runtime dependency.
+# The module uses private static zlib and needs no libics, core or Python runtime.

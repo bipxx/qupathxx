@@ -1,4 +1,4 @@
-foreach(required MODULE_FILE PROFILE OUTPUT)
+foreach(required MODULE_FILE PROFILE OUTPUT VERSION CONTRACT)
   if(NOT DEFINED ${required} OR "${${required}}" STREQUAL "")
     message(FATAL_ERROR "Missing NRRD plugin manifest input: ${required}")
   endif()
@@ -16,11 +16,11 @@ file(WRITE "${OUTPUT}" "{\n"
   "  \"plugins\": [{\n"
   "    \"provider_id\": \"org.qupathxx.nrrd\",\n"
   "    \"display_name\": \"NRRD\",\n"
-  "    \"version\": \"1.0.0\",\n"
-  "    \"contract\": \"nrrd5-raw-scalar-window/1\",\n"
+  "    \"version\": \"${VERSION}\",\n"
+  "    \"contract\": \"${CONTRACT}\",\n"
   "    \"abi\": 1,\n"
   "    \"profile\": \"${PROFILE}\",\n"
-  "    \"capabilities\": {\"display_rgba\": true, \"raw_samples\": true},\n"
+  "    \"capabilities\": {\"display_rgba\": true, \"raw_samples\": true, \"source_files\": true},\n"
   "    \"module\": {\"path\": \"${module_name}\", \"sha256\": \"${digest}\"},\n"
   "    \"options\": {\"window\": [0, 255]},\n"
   "    \"dependencies\": []\n"

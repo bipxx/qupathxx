@@ -1,5 +1,6 @@
 #include "reader_plugin.hpp"
 #include "reader_file_guard.hpp"
+#include "qupathxx/directory_store.hpp"
 #include "utf8_text.hpp"
 #include "qupathxx/raw_image.hpp"
 #include "qupathxx/source_identity.hpp"
@@ -17,6 +18,7 @@
 namespace qpx::detail {
 namespace {
 constexpr std::size_t text_limit=4096,metadata_limit=1024*1024;
+constexpr std::size_t label_description_limit=65536;
 constexpr std::uint64_t work_limit=256u*1024*1024;
 [[noreturn]] void malformed(const char* reason) {
     throw std::invalid_argument(std::string("Reader plugin returned invalid ")+reason);
@@ -35,10 +37,7 @@ struct Text {
         bounded_utf8(result,text_limit);return result;
     }
 };
-template<class Call> void invoke(const char* operation,Call&& call) {
-    Text error;qpx_reader_status_v1 status;
-    try {status=call(&error.value);}
-    catch(...) {throw std::runtime_error(std::string("Reader plugin threw across the C ABI during ")+operation);}
+void finish_invoke(const char* operation,const Text& error,qpx_reader_status_v1 status) {
     if(error.value.data!=error.bytes.data() || error.value.capacity!=error.bytes.size())
         malformed("text buffer descriptor");
     if(status==QPX_READER_BUFFER_TOO_SMALL && error.value.size>error.value.capacity)
@@ -54,6 +53,12 @@ template<class Call> void invoke(const char* operation,Call&& call) {
         throw std::runtime_error(explanation);
     default:throw std::runtime_error("Reader plugin returned an unknown status");
     }
+}
+template<class Call> void invoke(const char* operation,Call&& call) {
+    Text error;qpx_reader_status_v1 status;
+    try {status=call(&error.value);}
+    catch(...) {throw std::runtime_error(std::string("Reader plugin threw across the C ABI during ")+operation);}
+    finish_invoke(operation,error,status);
 }
 int32_t QPX_READER_CALL cancelled_callback(void* context) {
     return context && static_cast<const std::atomic<bool>*>(context)->load(std::memory_order_relaxed)?1:0;
@@ -153,13 +158,17 @@ void padding(const RegionRequest& r,const ImageMetadata& image,const qpx_reader_
 }
 class PluginImageServer final:public ImageServer {
     std::shared_ptr<const AdmittedReaderPlugin> plugin_;
+    std::size_t work_bytes_=work_limit;
     std::string path_;
+    std::shared_ptr<const DirectoryStoreSnapshot> directory_;
+    DirectoryStoreLimits directory_limits_;
     ReaderPluginImplementation implementation_;
     std::string binding_;
     std::shared_ptr<const ReaderPluginLink> link_;
     ImageMetadata image_;
     std::shared_ptr<const RawImageMetadata> raw_;
     std::shared_ptr<const ReaderSource> source_;
+    std::shared_ptr<const std::string> label_description_;
     mutable std::mutex mutex_;
     std::atomic<bool> closed_{false};
     void* handle_=nullptr;
@@ -169,11 +178,17 @@ class PluginImageServer final:public ImageServer {
     void destroy_locked() noexcept {
         closed_=true;auto* old=handle_;handle_=nullptr;
         if(old)try {plugin_->api.destroy(old);}catch(...) {/* ABI violation; never retry destruction. */}
+        directory_.reset();
     }
-    using Guards=std::vector<std::unique_ptr<ReaderFileGuard>>;
+    struct Guards {
+        std::vector<std::unique_ptr<ReaderFileGuard>> files;
+        std::shared_ptr<const DirectoryStoreSnapshot> store;
+        std::shared_ptr<const ReaderSource> source;
+        std::string primary;
+    };
     qpx_reader_open_v1 open_request(const std::atomic<bool>* cancelled) const {
         qpx_reader_open_v1 request{};request.struct_size=sizeof(request);request.path={path_.data(),path_.size()};
-        request.options={implementation_.options.data(),implementation_.options.size()};request.work_bytes=work_limit;request.cancel=cancellation(cancelled);return request;
+        request.options={implementation_.options.data(),implementation_.options.size()};request.work_bytes=work_bytes_;request.cancel=cancellation(cancelled);return request;
     }
     std::vector<std::string> companion_paths(const std::atomic<bool>* cancelled) const {
         std::vector<std::string> result;
@@ -196,16 +211,35 @@ class PluginImageServer final:public ImageServer {
         if(std::adjacent_find(result.begin(),result.end())!=result.end())malformed("duplicate companion paths");
         return result;
     }
+    std::string primary_metadata(const std::atomic<bool>* cancelled) const {
+        auto request=open_request(cancelled);const auto expected=request;
+        Text output;
+        invoke("store primary metadata",[&](auto* error){return plugin_->store.primary_metadata(&request,&output.value,error);});
+        if(request.struct_size!=expected.struct_size || request.reserved!=expected.reserved ||
+            request.path.data!=expected.path.data || request.path.size!=expected.path.size ||
+            request.options.data!=expected.options.data || request.options.size!=expected.options.size ||
+            request.work_bytes!=expected.work_bytes || request.cancel.is_cancelled!=expected.cancel.is_cancelled || request.cancel.context!=expected.cancel.context)
+            malformed("store input descriptor mutation");
+        auto key=output.copy(output.value);if(key.empty())malformed("empty store primary metadata key");
+        return key;
+    }
     Guards file_guards(const std::atomic<bool>* cancelled) const {
-        workflow_checkpoint(cancelled);Guards guards;guards.push_back(std::make_unique<ReaderFileGuard>(path_));
-        for(const auto& path:companion_paths(cancelled))guards.push_back(std::make_unique<ReaderFileGuard>(path));
+        workflow_checkpoint(cancelled);Guards guards;
+        if(directory_) {
+            guards.store=directory_;guards.primary=primary_metadata(cancelled);
+            guards.source=guards.store->reader_source(binding_,guards.primary,cancelled);
+            return guards;
+        }
+        guards.files.push_back(std::make_unique<ReaderFileGuard>(path_));
+        for(const auto& path:companion_paths(cancelled))guards.files.push_back(std::make_unique<ReaderFileGuard>(path));
         (void)observed(guards); // Validate identities/quotas before decoder open.
         return guards;
     }
     std::shared_ptr<const ReaderSource> observed(const Guards& guards) const {
-        std::vector<FileVersion> companions;for(std::size_t i=1;i<guards.size();++i)companions.push_back(*guards[i]->version());
-        if(companions.empty())return make_reader_source(binding_,path_,"single_file",guards.front()->version());
-        return make_compound_reader_source(binding_,path_,guards.front()->version(),std::move(companions));
+        if(guards.store)return guards.source;
+        std::vector<FileVersion> companions;for(std::size_t i=1;i<guards.files.size();++i)companions.push_back(*guards.files[i]->version());
+        if(companions.empty())return make_reader_source(binding_,path_,"single_file",guards.files.front()->version());
+        return make_compound_reader_source(binding_,path_,guards.files.front()->version(),std::move(companions));
     }
     Guards current_guards(const std::atomic<bool>* cancelled=nullptr) const {
         available(cancelled);
@@ -221,12 +255,17 @@ class PluginImageServer final:public ImageServer {
         try {guard.verify();}catch(const std::exception& e){throw WorkflowInputChanged(std::string("Reader plugin source changed during access: ")+e.what());}
     }
     void verify_guards(const Guards& guards,const std::atomic<bool>* cancelled) const {
-        for(const auto& guard:guards)verify_guard(*guard);
+        if(guards.store) {
+            if(path_!=guards.store->directory())malformed("store locator mutation");
+            if(primary_metadata(cancelled)!=guards.primary)throw WorkflowInputChanged("Reader plugin store primary selection changed during access");
+            guards.store->require_current(cancelled);return;
+        }
+        for(const auto& guard:guards.files)verify_guard(*guard);
         const auto paths=companion_paths(cancelled);std::vector<std::string> expected;
-        for(std::size_t i=1;i<guards.size();++i)expected.push_back(guards[i]->version()->path);
+        for(std::size_t i=1;i<guards.files.size();++i)expected.push_back(guards.files[i]->version()->path);
         std::sort(expected.begin(),expected.end());
         if(paths!=expected)throw WorkflowInputChanged("Reader plugin source file set changed during access");
-        for(const auto& guard:guards)verify_guard(*guard);
+        for(const auto& guard:guards.files)verify_guard(*guard);
     }
     template<class Call> void observed_call(const std::atomic<bool>* cancelled,Call&& call) const {
         auto guards=current_guards(cancelled);
@@ -279,27 +318,78 @@ class PluginImageServer final:public ImageServer {
             raw_=std::move(raw);
         }
     }
+    void copy_label_description(const std::atomic<bool>* cancelled) {
+        if(!(plugin_->info.capabilities&QPX_READER_CAP_LABEL_DESCRIPTION))return;
+        if(!raw_)malformed("label description without raw metadata");
+        std::array<char,label_description_limit> bytes{};
+        qpx_reader_text_v1 output{bytes.data(),bytes.size(),0};
+        observed_call(cancelled,[&] {
+            Text error;qpx_reader_status_v1 status;
+            try {status=plugin_->label.describe(handle_,&output,cancellation(cancelled),&error.value);}
+            catch(...) {throw std::runtime_error("Reader plugin threw across the C ABI during label description");}
+            if(output.data!=bytes.data() || output.capacity!=bytes.size())malformed("label description buffer descriptor");
+            if(status==QPX_READER_OK) {
+                if(!output.size || output.size>bytes.size())malformed("label description size");
+                if(error.value.size)malformed("label description success error text");
+            } else if(status==QPX_READER_BUFFER_TOO_SMALL) {
+                if(output.size<=output.capacity)malformed("label description required size");
+            } else if(output.size)malformed("failed label description output size");
+            finish_invoke("label description",error,status);
+        });
+        std::string description(bytes.data(),std::size_t(output.size));
+        bounded_utf8(description,label_description_limit);
+        label_description_=std::make_shared<const std::string>(std::move(description));
+        workflow_checkpoint(cancelled);
+    }
 public:
-    PluginImageServer(const std::string& path,std::shared_ptr<const AdmittedReaderPlugin> plugin,const std::atomic<bool>* cancelled,const std::string& options):plugin_(std::move(plugin)) {
+    PluginImageServer(const std::string& path,std::shared_ptr<const AdmittedReaderPlugin> plugin,const std::atomic<bool>* cancelled,const std::string& options,std::size_t work_bytes):plugin_(std::move(plugin)),work_bytes_(work_bytes) {
+        if(!work_bytes_ || work_bytes_>work_limit)throw std::invalid_argument("Reader plugin work allowance must be1 byte..256MiB");
         workflow_checkpoint(cancelled);bounded_utf8(path,32768);if(path.empty())throw std::invalid_argument("Source path must not be empty");
         if(!plugin_ || plugin_->api.struct_size<sizeof(qpx_reader_api_v1) || plugin_->api.abi_version!=QPX_READER_ABI_V1 ||
             !plugin_->api.open || !plugin_->api.destroy || !plugin_->api.metadata || !plugin_->api.level ||
             !plugin_->api.read_rgba || !(plugin_->info.capabilities&QPX_READER_CAP_RGBA) ||
-            (plugin_->info.capabilities&~(QPX_READER_CAP_RGBA|QPX_READER_CAP_RAW|QPX_READER_CAP_SOURCE_FILES)) ||
+            (plugin_->info.capabilities&~(QPX_READER_CAP_RGBA|QPX_READER_CAP_RAW|QPX_READER_CAP_SOURCE_FILES|QPX_READER_CAP_SOURCE_STORE|QPX_READER_CAP_LABEL_DESCRIPTION)) ||
             ((plugin_->info.capabilities&QPX_READER_CAP_RAW) && (!plugin_->api.read_raw || !plugin_->api.channel_name)) ||
-            ((plugin_->info.capabilities&QPX_READER_CAP_SOURCE_FILES) && (plugin_->files.struct_size!=sizeof(plugin_->files) || plugin_->files.abi_version!=1 || !plugin_->files.count || !plugin_->files.path)))
+            ((plugin_->info.capabilities&QPX_READER_CAP_SOURCE_FILES) && (plugin_->files.struct_size!=sizeof(plugin_->files) || plugin_->files.abi_version!=1 || !plugin_->files.count || !plugin_->files.path)) ||
+            ((plugin_->info.capabilities&QPX_READER_CAP_SOURCE_STORE) && ((plugin_->info.capabilities&QPX_READER_CAP_SOURCE_FILES) || plugin_->store.struct_size!=sizeof(plugin_->store) || plugin_->store.abi_version!=1 || !plugin_->store.primary_metadata)) ||
+            ((plugin_->info.capabilities&QPX_READER_CAP_LABEL_DESCRIPTION) &&
+                ((plugin_->info.capabilities&(QPX_READER_CAP_RAW|QPX_READER_CAP_SOURCE_STORE))!=(QPX_READER_CAP_RAW|QPX_READER_CAP_SOURCE_STORE) ||
+                    plugin_->label.struct_size!=sizeof(plugin_->label) || plugin_->label.abi_version!=1 || !plugin_->label.describe)))
             throw std::invalid_argument("Invalid admitted reader plugin API");
         bounded_utf8(plugin_->info.provider_id,256);if(plugin_->info.provider_id.empty())throw std::invalid_argument("Reader plugin provider ID must not be empty");
         implementation_=reader_plugin_implementation(plugin_->info,options);
         binding_=reader_plugin_binding(implementation_);
         std::lock_guard<std::mutex> lock(mutex_);
-        ReaderFileGuard guard(std::filesystem::absolute(std::filesystem::u8path(path)).lexically_normal().u8string());path_=guard.version()->path;
+        const auto absolute=std::filesystem::absolute(std::filesystem::u8path(path)).lexically_normal().u8string();
+        std::unique_ptr<ReaderFileGuard> guard;
+        if(plugin_->info.capabilities&QPX_READER_CAP_SOURCE_STORE) {
+            const bool labels=(plugin_->info.capabilities&QPX_READER_CAP_LABEL_DESCRIPTION)!=0;
+            if(work_bytes_<(labels?8u:4u)*1024*1024)
+                throw std::invalid_argument(labels?"Label reader requires at least8MiB total store/description/decoder work":"Directory reader requires at least4MiB total store/decoder work");
+            const auto host_overhead=(labels?2u:1u)*1024*1024;
+            directory_limits_.inventory_bytes=std::min<std::size_t>(64u*1024*1024,(work_bytes_-host_overhead)/4);
+            // Reserve a retained and a simultaneous re-observation inventory,
+            // plus wrapper/primary/guard overhead, before private decoder open.
+            work_bytes_-=2*directory_limits_.inventory_bytes+host_overhead;
+            directory_=std::make_shared<DirectoryStoreSnapshot>(absolute,directory_limits_,cancelled);
+            path_=directory_->directory();
+        } else {
+            guard=std::make_unique<ReaderFileGuard>(absolute);path_=guard->version()->path;
+        }
         auto guards=file_guards(cancelled);auto request=open_request(cancelled);
+        const auto expected_request=request;const auto expected_options=directory_?implementation_.options:std::string{};
         try {
             invoke("open",[&](auto* error){return plugin_->api.open(&request,&handle_,error);});
-            if(!handle_)malformed("open handle");verify_guard(guard);
+            if(directory_ && (request.struct_size!=expected_request.struct_size || request.reserved!=expected_request.reserved ||
+                request.path.data!=expected_request.path.data || request.path.size!=expected_request.path.size ||
+                request.options.data!=expected_request.options.data || request.options.size!=expected_request.options.size ||
+                request.work_bytes!=expected_request.work_bytes || request.cancel.is_cancelled!=expected_request.cancel.is_cancelled ||
+                request.cancel.context!=expected_request.cancel.context || implementation_.options!=expected_options || path_!=directory_->directory()))
+                malformed("store open input mutation");
+            if(!handle_)malformed("open handle");if(guard)verify_guard(*guard);
             source_=observed(guards);
-            copy_metadata(cancelled);verify_guards(guards,cancelled);verify_guard(guard);workflow_checkpoint(cancelled);
+            copy_metadata(cancelled);verify_guards(guards,cancelled);if(guard)verify_guard(*guard);workflow_checkpoint(cancelled);
+            copy_label_description(cancelled);
             auto link=std::make_shared<ReaderPluginLink>();link->implementation=implementation_;link->metadata=image_;link->raw=raw_;link->observed=*source_;link->validate();link_=std::move(link);
         }catch(...){destroy_locked();throw;}
     }
@@ -309,6 +399,8 @@ public:
     std::string source_locator() const override {return path_;}
     std::shared_ptr<const ReaderSource> reader_source() const override {return source_;}
     std::shared_ptr<const ReaderPluginLink> link() const {return link_;}
+    std::shared_ptr<const DirectoryStoreSnapshot> store() const {std::lock_guard<std::mutex> lock(mutex_);return directory_;}
+    std::shared_ptr<const std::string> label_description() const {std::lock_guard<std::mutex> lock(mutex_);return label_description_;}
     std::shared_ptr<const RawImageMetadata> raw_metadata(const std::atomic<bool>* cancelled=nullptr) const override {
         std::lock_guard<std::mutex> lock(mutex_);available(cancelled);return raw_;
     }
@@ -339,10 +431,24 @@ public:
 };
 }
 std::shared_ptr<ImageServer> open_plugin_image_server(const std::string& path,std::shared_ptr<const AdmittedReaderPlugin> plugin,const std::atomic<bool>* cancelled,const std::string& options) {
-    return std::make_shared<PluginImageServer>(path,std::move(plugin),cancelled,options);
+    return open_bounded_plugin_image_server(path,std::move(plugin),work_limit,cancelled,options);
+}
+std::shared_ptr<ImageServer> open_bounded_plugin_image_server(const std::string& path,std::shared_ptr<const AdmittedReaderPlugin> plugin,std::size_t work_bytes,const std::atomic<bool>* cancelled,const std::string& options) {
+    return std::make_shared<PluginImageServer>(path,std::move(plugin),cancelled,options,work_bytes);
 }
 bool is_reader_plugin_server(const ImageServer& server) noexcept {return dynamic_cast<const PluginImageServer*>(&server)!=nullptr;}
 std::shared_ptr<const ReaderPluginLink> capture_native_reader_plugin_link(const ImageServer& server) {
     if(const auto* native=dynamic_cast<const PluginImageServer*>(&server))return native->link();return {};
+}
+}
+
+namespace qpx::detail {
+std::shared_ptr<const DirectoryStoreSnapshot> capture_native_reader_plugin_store(const ImageServer& server) {
+    const auto* plugin=dynamic_cast<const PluginImageServer*>(&server);
+    return plugin?plugin->store():nullptr;
+}
+std::shared_ptr<const std::string> capture_native_reader_plugin_label_description(const ImageServer& server) {
+    const auto* plugin=dynamic_cast<const PluginImageServer*>(&server);
+    return plugin?plugin->label_description():nullptr;
 }
 }

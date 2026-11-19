@@ -1,0 +1,38 @@
+{
+  "schema": "qpx.qoi-reference-lock/1",
+  "specification": {
+    "version": "1.0, 2022-01-05",
+    "license": "CC0-1.0",
+    "files": {
+      "qoi-specification.pdf": {
+        "url": "https://qoiformat.org/qoi-specification.pdf",
+        "sha256": "e9389266f56db4e1614810f2a0003e85e11a5dd3c5e46b7ccc09bcfee8b17a42",
+        "bytes": 36221
+      },
+      "spec-license.html": {
+        "url": "https://qoiformat.org/",
+        "sha256": "0496328721b42b68be4f4b163a2a139742186cae163ff0cb4245606f284bcce1",
+        "bytes": 2676
+      }
+    }
+  },
+  "development_oracle": {
+    "repository": "https://github.com/phoboslab/qoi",
+    "revision": "ffb2d2cb74a1de60819b21b939f7209aa53e91c1",
+    "license": "MIT",
+    "runtime_dependency": false,
+    "members": {
+      "qoi.h": {
+        "url": "https://raw.githubusercontent.com/phoboslab/qoi/ffb2d2cb74a1de60819b21b939f7209aa53e91c1/qoi.h",
+        "sha256": "7de6fca1a285b1c20d38f2723dec8b774eb9f144edb9710800a95feeea09375a",
+        "bytes": 18326
+      },
+      "LICENSE": {
+        "url": "https://raw.githubusercontent.com/phoboslab/qoi/ffb2d2cb74a1de60819b21b939f7209aa53e91c1/LICENSE",
+        "sha256": "0caf25d92ae0e7e12107e144a86782ccaad37ddaa3ee51e86e193c7db9ed1487",
+        "bytes": 1075
+      }
+    }
+  },
+  "runtime": "Independently authored AGPL-3.0-only parser; no upstream implementation or images packaged"
+}

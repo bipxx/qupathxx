@@ -11,6 +11,8 @@
 #include "reader_registry.hpp"
 #include "reader_plugin.hpp"
 #include "project_source_internal.hpp"
+#include "project_database_output.hpp"
+#include "project_export_guard.hpp"
 #include "project_zarr.hpp"
 #include "project_plugin.hpp"
 #include "filesystem_access.hpp"
@@ -27,6 +29,7 @@
 #include "qupathxx/source_identity.hpp"
 #include "tissue_archive.hpp"
 #include "cell_archive.hpp"
+#include <string_view>
 #include "geometry_archive.hpp"
 #include "object_classifier_archive.hpp"
 #include "pixel_classifier_archive.hpp"
@@ -34,13 +37,13 @@
 #include "pixel_stream_record.hpp"
 #include "raw_pixel_stream_record.hpp"
 #include "project_schema.hpp"
+#include "project_context.hpp"
 #include "spatial_archive.hpp"
 #include "neighborhood_archive.hpp"
 #include "density_archive.hpp"
 #include <algorithm>
 #include <array>
 #include <fstream>
-#include <array>
 #include <charconv>
 #include <cctype>
 #include <cmath>
@@ -60,17 +63,11 @@ namespace fs=std::filesystem;
 void text(const std::string& value,std::size_t limit=4096) {
     if(value.size()>limit || value.find('\0')!=std::string::npos) throw std::invalid_argument("invalid project text or path");
 }
-std::size_t project_class_bytes(const std::map<std::string,ObjectClass>& classes,const std::vector<std::string>& defaults) {
-    std::size_t bytes=0;
-    for(const auto& [name,value]:classes)bytes+=sizeof(ObjectClass)+128+name.size()+value.name.size()+value.parent.size();
-    for(const auto& name:defaults)bytes+=sizeof(std::string)+name.size();return bytes;
-}
+using detail::project_class_bytes;
+using detail::string_metadata_bytes;
 void validate_project_classes(const std::map<std::string,ObjectClass>& classes,const std::vector<std::string>& defaults) {
     if(classes.size()>65536 || defaults.size()>65536 || project_class_bytes(classes,defaults)>128ull*1024*1024)throw std::length_error("project class registry exceeds admission limits");
     for(const auto& name:defaults) {detail::bounded_utf8(name,4096);if(!classes.count(name))throw std::invalid_argument("project default class is not registered");}
-}
-std::size_t string_metadata_bytes(const std::map<std::string,std::string>& metadata) {
-    std::size_t bytes=sizeof(metadata);for(const auto& [key,value]:metadata)bytes+=128+key.size()+value.size();return bytes;
 }
 std::size_t validate_string_metadata_item(const std::string& key,const std::string& value) {
     detail::bounded_utf8(key,4096);detail::bounded_utf8(value,4096);return 128+key.size()+value.size();
@@ -182,6 +179,11 @@ public:
         return server_->read_region(request);
     }
     std::shared_ptr<const TiffView> tiff_view() const override {return reader_=="tiff"?tiff_view_:nullptr;}
+    std::shared_ptr<ImageServer> open_native(const std::atomic<bool>* c) const {
+        std::lock_guard<std::mutex> lock(mutex_);
+        open_locked(c);
+        return server_;
+    }
     std::shared_ptr<const TiffView> raw_view()const override{return tiff_view_;}
     std::shared_ptr<const detail::ZarrLink> zarr_link()const{return zarr_;}
     std::shared_ptr<const OmeZarrOpenOptions> ome_zarr_options()const override{return zarr_?std::shared_ptr<const OmeZarrOpenOptions>(zarr_,&zarr_->options):nullptr;}
@@ -201,6 +203,14 @@ std::shared_ptr<const detail::ZarrLink> zarr_link_of(const std::shared_ptr<Image
     return detail::capture_zarr_link(*server);
 }
 void advance(std::uint64_t value) { if(value==std::numeric_limits<std::uint64_t>::max()) throw std::overflow_error("project identity/revision exhausted"); }
+}
+std::shared_ptr<ImageServer> detail::open_project_image_reader(const Document& document,const std::atomic<bool>* cancelled) {
+    const auto server=document.server();
+    if(const auto* linked=dynamic_cast<const LinkedServer*>(server.get()))
+        return linked->open_native(cancelled);
+    if(const auto link=plugin_link_of(*server))
+        return reopen_reader_plugin(server->source_locator(),*link,ReaderPluginOpenPolicy::Exact,cancelled);
+    return server;
 }
 Project::Project() {
     std::random_device random; constexpr char hex[]="0123456789abcdef";
@@ -353,7 +363,9 @@ std::vector<ProjectImage> Project::images() const {
     std::vector<ProjectImage> result; result.reserve(entries_.size());
     for(const auto& [id,e]:entries_) {
         auto info=e.info; std::error_code error;
-        info.available=info.embedded || fs::is_regular_file(fs::u8path(info.source_path),error);
+        const auto path=fs::u8path(info.source_path);
+        info.available=info.embedded || (detail::is_project_image_directory_source(*e.document->server())?
+            fs::is_directory(path,error):fs::is_regular_file(path,error));
         if(const auto plugin=detail::plugin_link_of(*e.document->server()))info.available=info.available && detail::reader_plugin_cached_available(*plugin);
         result.push_back(std::move(info));
     }
@@ -439,6 +451,25 @@ void validate_view(const ProjectView& view,const ImageMetadata& image) {
 std::optional<ProjectView> Project::view(std::uint64_t id) const {
     entry(id); auto it=views_.find(id); return it==views_.end()?std::nullopt:std::optional<ProjectView>(it->second);
 }
+std::uint64_t Project::save_image_checkpoint(std::uint64_t id,const std::string& destination,
+    std::size_t snapshot_bytes,std::uint64_t file_bytes,const std::atomic<bool>* cancelled,
+    const std::function<void()>& publication_guard) const {
+    const auto& source=entry(id);
+    Project saved;
+    std::vector<ObjectClass> classes;
+    for(const auto& [name,value]:class_registry_) classes.push_back(value);
+    saved.set_class_registry(classes,class_defaults_);
+    saved.set_metadata(metadata_);
+    const auto image=saved.add_document(source.document,source.info.name,
+        source.info.embedded?"":source.info.source_path,source.info.reader);
+    saved.set_image_metadata(image,source.info.metadata);
+    saved.set_image_details(image,source.info.description,source.info.tags);
+    if(const auto selected_view=view(id)) saved.set_view(image,*selected_view);
+    if(const auto baseline=source_verification(id)) saved.source_verifications_.emplace(image,baseline);
+    saved.path_=path_; // Resolve relative owned assets against the original project for Save As.
+    saved.save_new(destination,snapshot_bytes,file_bytes,cancelled,publication_guard);
+    return image;
+}
 void Project::set_view(std::uint64_t id,ProjectView view) {
     validate_view(view,entry(id).document->metadata());
     auto existing=views_.find(id); if(existing!=views_.end() && existing->second==view) return;
@@ -523,20 +554,36 @@ void Project::clear_source_verification(std::uint64_t id) {
     advance(revision_);source_verifications_.erase(id);++revision_;
 }
 std::shared_ptr<ProjectSourceReview> Project::review_source_verification(std::uint64_t id,const FileFingerprint& fingerprint) const {
+    return review_source_verification_at(id,fingerprint,{});
+}
+std::shared_ptr<ProjectSourceReview> Project::review_directory_source_verification(
+    std::uint64_t id,const std::string& directory,const FileFingerprint& fingerprint) const {
+    const auto& old=entry(id);
+    if(directory.empty() || !detail::is_project_image_directory_source(*old.document->server()))
+        throw std::invalid_argument("Explicit directory review requires a linked directory store and a destination root");
+    return review_source_verification_at(id,fingerprint,absolute(directory));
+}
+std::shared_ptr<ProjectSourceReview> Project::review_source_verification_at(
+    std::uint64_t id,const FileFingerprint& fingerprint,const std::string& directory_override) const {
     if(!has_project())throw std::runtime_error("source verification requires project storage");
     const auto& old=entry(id);if(old.info.embedded)throw std::invalid_argument("embedded images have no source file verification");
-    fingerprint.validate();const auto path=old.info.reader=="ome-zarr"?absolute(fs::u8path(fingerprint.path).parent_path().u8string()):absolute(fingerprint.path);
+    fingerprint.validate();
     const auto previous=old.document->server()->reader_source();
     const auto plugin=detail::plugin_link_of(*old.document->server());
+    const auto zarr=zarr_link_of(old.document->server());
+    // An explicit root takes precedence over path inference from a fingerprint.
+    // Plugin metadata can be nested, so its default review uses the saved root.
+    const auto path=!directory_override.empty()?directory_override:plugin && (plugin->implementation.capabilities&QPX_READER_CAP_SOURCE_STORE)?absolute(old.info.source_path):
+        old.info.reader=="ome-zarr"?absolute(fs::u8path(fingerprint.path).parent_path().u8string()):absolute(fingerprint.path);
     std::shared_ptr<ImageServer> linked;std::vector<std::unique_ptr<detail::ReaderFileGuard>> guards;
     bool matches_live=false;
     if(previous && previous->primary) {const auto status=associate_source_file(*previous,fingerprint).status;matches_live=status=="matching_metadata" || status=="matching_primary_metadata";}
     if(old.native_lifetime && !old.document->server()->closed() && path==old.info.source_path && matches_live && (!plugin || detail::reader_plugin_cached_available(*plugin))) {
-        try {guards=detail::lock_source_verification_files(associate_source_file(*previous,fingerprint));linked=old.document->server();}
+        try {guards=detail::lock_source_verification_files(associate_source_file(*previous,fingerprint),*old.document->server());linked=old.document->server();}
         catch(const std::runtime_error&) { /* Changed/missing native inputs need a fresh candidate; opening errors propagate below. */ }
     }
     if(!linked) {
-        auto candidate=plugin?detail::reopen_reader_plugin(path,*plugin,detail::ReaderPluginOpenPolicy::Review):read_image(path,old.info.reader,old.document->server()->raw_view(),nullptr,old.document->server()->tiff_options(),detail::unbound_zarr_link(zarr_link_of(old.document->server())));
+        auto candidate=plugin?detail::reopen_reader_plugin(path,*plugin,detail::ReaderPluginOpenPolicy::Review):read_image(path,old.info.reader,old.document->server()->raw_view(),nullptr,old.document->server()->tiff_options(),detail::unbound_zarr_link(zarr));
         if(plugin)compatible(old.document->metadata(),candidate->metadata());
         const auto view=candidate->raw_view();const auto budgets=candidate->tiff_options();
         linked=plugin?detail::project_plugin_server(candidate->metadata(),path,detail::plugin_link_of(*candidate),candidate):std::make_shared<LinkedServer>(old.document->metadata(),path,old.info.reader,view,budgets,std::move(candidate));
@@ -544,7 +591,7 @@ std::shared_ptr<ProjectSourceReview> Project::review_source_verification(std::ui
     const auto observed=linked->reader_source();if(!observed || !observed->primary)throw std::invalid_argument("candidate has no observed native source");
     auto association=std::make_shared<const SourceFileAssociation>(associate_source_file(*observed,fingerprint));
     if(association->status!="matching_metadata" && association->status!="matching_primary_metadata")throw std::runtime_error("fingerprint no longer matches candidate; hash and review again");
-    if(guards.empty())guards=detail::lock_source_verification_files(*association);
+    if(guards.empty())guards=detail::lock_source_verification_files(*association,*linked);
     auto review=std::make_shared<ProjectSourceReview::Impl>();review->image=id;review->instance=instance_identity_;
     review->previous_path=old.info.source_path;review->previous_generation=previous?previous->generation:std::string{};
     review->baseline=source_verification(id);review->association=std::move(association);review->candidate=std::move(linked);review->path=path;
@@ -552,6 +599,7 @@ std::shared_ptr<ProjectSourceReview> Project::review_source_verification(std::ui
     const auto candidate_plugin=detail::plugin_link_of(*review->candidate);
     if(plugin && (!candidate_plugin || plugin->implementation.sha256()!=candidate_plugin->implementation.sha256()))review->comparison="changed_implementation";
     else if(plugin && !review->baseline && !detail::same_reader_files(plugin->observed,*observed))review->comparison=(plugin->observed.scope=="compound_files" || observed->scope=="compound_files")?"changed_dependencies":"changed_observed_source";
+    else if(zarr && !review->baseline && zarr->expected!=observed->directory_sha256)review->comparison="changed_dependencies";
     else if(!review->baseline)review->comparison=previous && previous->primary && (!matches_live || !detail::same_reader_files(*previous,*observed))?"changed_observed_source":"unverified";
     else if(review->baseline->fingerprint.sha256!=fingerprint.sha256 || review->baseline->fingerprint.bytes!=fingerprint.bytes)review->comparison="changed_bytes";
     else if((review->baseline->source.scope=="compound_files" || observed->scope=="compound_files" || review->baseline->source.scope=="directory_store" || observed->scope=="directory_store") && !detail::same_reader_files(review->baseline->source,*observed))review->comparison="changed_dependencies";
@@ -569,7 +617,7 @@ void Project::apply_source_review(const std::shared_ptr<ProjectSourceReview>& re
         throw std::runtime_error("source review is stale; review the current image again");
     if(bool(current_plugin)!=bool(r.previous_plugin_link) || (current_plugin && current_plugin->implementation.sha256()!=r.previous_plugin_link->implementation.sha256()))throw std::runtime_error("source review is stale; review the current image again");
     if(review->requires_acceptance() && !accept_changed)throw std::invalid_argument("source or dependency facts changed; explicit accept_changed is required");
-    auto path=r.path;const auto guards=detail::lock_source_verification_files(*r.association);
+    auto path=r.path;const auto guards=detail::lock_source_verification_files(*r.association,*r.candidate);
     if((r.comparison=="matching_bytes" || r.comparison=="matching_observed_directory") && old.info.source_path==r.path && old.document->server()==r.candidate) {r.consumed=true;return;}
     if(old.document->server()!=r.candidate) {old.document->validate_axis_source(*r.candidate);compatible_object_planes(*old.document,*r.candidate);}
     advance(revision_);
@@ -615,6 +663,26 @@ RecoveryInfo Project::inspect_recovery(const std::string&) { throw std::runtime_
 namespace {
 constexpr int application_id=1364219992;
 constexpr int recovery_application_id=1364218456; // QPRX, distinct from ordinary QPXX projects.
+void check_rollback_recovery_headers(const std::string& path) {
+    // The SQLite read-only status also occurs for unrelated nonzero
+    // files named like a journal. A writable retry can remove those files.
+    constexpr char database_magic[]="SQLite format 3";
+    constexpr std::array<unsigned char,8> journal_magic{0xd9,0xd5,0x05,0xf9,0x20,0xa1,0x63,0xd7};
+    constexpr std::size_t application_id_offset=68;
+    std::array<unsigned char,application_id_offset+4> header{};
+    std::ifstream database(detail::access_path(fs::u8path(path)),std::ios::binary);
+    if(!database.read(reinterpret_cast<char*>(header.data()),header.size()) ||
+       std::memcmp(header.data(),database_magic,sizeof(database_magic))!=0)
+        throw std::runtime_error("Rollback recovery requires a native project database");
+    std::uint32_t id=0;
+    for(std::size_t i=application_id_offset;i<header.size();++i)id=(id<<8)|header[i];
+    if(id!=application_id && id!=recovery_application_id)
+        throw std::runtime_error("Rollback recovery requires a native project database");
+    std::array<unsigned char,journal_magic.size()> signature{};
+    std::ifstream journal(detail::access_path(fs::u8path(path+"-journal")),std::ios::binary);
+    if(!journal.read(reinterpret_cast<char*>(signature.data()),signature.size()) || signature!=journal_magic)
+        throw std::runtime_error("Project rollback sidecar lacks a SQLite journal header");
+}
 struct Database {
     sqlite3* db=nullptr;
     Database(const std::string& path,bool write,const std::atomic<bool>* cancelled=nullptr,bool repair_journal=true) {
@@ -647,6 +715,7 @@ struct Database {
                 auto code=sqlite3_exec(db,"PRAGMA user_version",nullptr,nullptr,nullptr);
                 if(code!=SQLITE_OK && sqlite3_extended_errcode(db)==SQLITE_READONLY_ROLLBACK) {
                     if(!repair_journal)throw std::runtime_error("project requires rollback recovery; open it explicitly before source-preserving interchange");
+                    check_rollback_recovery_headers(path);
                     sqlite3_close(db); db=nullptr;
                     connect(SQLITE_OPEN_READWRITE);
                     if(sqlite3_exec(db,"PRAGMA user_version",nullptr,nullptr,nullptr)!=SQLITE_OK)
@@ -824,6 +893,19 @@ Roi decode(Statement& s,int column) {
 }
 
 }
+namespace {
+void guard_project_save_output(const Project& project,const std::vector<ProjectImage>& images,
+                               const std::string& destination,const std::atomic<bool>* cancelled) {
+    if(!project.path().empty())
+        detail::guard_project_companion_output(project.path(),destination);
+    // SQLite may write these paths during a transaction or journal recovery.
+    for(const std::string_view suffix:{"","-journal","-wal","-shm"}) {
+        const auto path=destination+std::string(suffix);
+        if(!suffix.empty() && !project.path().empty())detail::guard_file_output(project.path(),"",path);
+        detail::guard_project_export_output(project,images,path,cancelled);
+    }
+}
+}
 void Project::save(const std::string& path) {
     save_impl(path,"");
 }
@@ -838,13 +920,12 @@ void Project::save_new(const std::string& path,std::size_t budget,std::uint64_t 
     const auto source_path=path_;const auto source_generation=generation_,source_revision=revision_;
     std::map<std::uint64_t,std::uint64_t> revisions;for(const auto& [id,e]:entries_)revisions.emplace(id,e.document->revision());
     const auto protected_images=images();
-    auto protect=[&] {if(!source_path.empty())detail::guard_file_output(source_path,"",destination);
-        for(const auto& image:protected_images) {
-            if(!image.embedded && !image.source_path.empty())detail::guard_file_output(image.source_path,"",destination);
-            detail::guard_project_plugin_output(*document(image.id)->server(),destination);
-            detail::guard_expression_project_output(document(image.id)->image_data_properties(),fs::u8path(source_path).parent_path(),destination);
-            detail::reduction::guard_project_output(document(image.id)->image_data_properties(),fs::u8path(source_path).parent_path(),destination);
-        }};
+    auto protect=[&] {
+        if(!source_path.empty())detail::guard_file_output(source_path,"",destination);
+        guard_project_save_output(*this,protected_images,destination,cancelled);
+        if(detail::has_sqlite_companion(destination))
+            throw std::invalid_argument("New project destination has a SQLite companion");
+    };
     protect();std::size_t captured=0;auto snapshot=snapshot_for_save(budget,captured);
     struct Stage {
         fs::path directory,file;
@@ -876,11 +957,15 @@ void Project::save_new(const std::string& path,std::size_t budget,std::uint64_t 
 
 void Project::save_impl(const std::string& path,const std::string& link_directory,const std::atomic<bool>* cancelled,const RecoveryInfo* recovery,const detail::BatchCheckpoint* batch,std::uint64_t file_bytes) {
     auto destination=absolute(path);
-    for(const auto& [id,e]:entries_)detail::guard_project_plugin_output(*e.document->server(),destination);
-    for(const auto& [id,e]:entries_)
-        detail::guard_expression_project_output(e.document->image_data_properties(),fs::u8path(path_).parent_path(),destination);
-    for(const auto& [id,e]:entries_)
-        detail::reduction::guard_project_output(e.document->image_data_properties(),fs::u8path(path_).parent_path(),destination);
+    const auto directory=link_directory.empty()?fs::u8path(destination).parent_path():fs::u8path(link_directory);
+    const auto catalog=images();
+    guard_project_save_output(*this,catalog,destination,cancelled);
+    if(!fs::exists(detail::access_path(fs::u8path(destination))) && detail::has_sqlite_companion(destination))
+        throw std::invalid_argument("New project destination has a SQLite companion");
+    detail::guard_project_owned_copy_outputs(*this,catalog,directory,cancelled);
+    const auto protect_owned_copy=[&](const std::string& target) {
+        detail::guard_project_inputs_output(*this,catalog,target,cancelled);
+    };
     std::map<std::uint64_t,std::uint64_t> revisions;
     for(const auto& [id,e]:entries_) revisions.emplace(id,e.document->revision());
     Database db(destination,true);
@@ -990,7 +1075,6 @@ void Project::save_impl(const std::string& path,const std::string& link_director
     Statement plugin_link_row(db,"INSERT INTO plugin_links VALUES(?,?)");
     Statement analysis_statistics(db,"INSERT INTO analysis_statistics VALUES(?,?,?)");
     Statement analysis(db,"INSERT INTO analysis_records VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-    auto directory=link_directory.empty()?fs::u8path(destination).parent_path():fs::u8path(link_directory);
     for(const auto& [id,e]:entries_) {
         if(cancelled && cancelled->load()) throw std::runtime_error("recovery cancelled");
         const auto& doc=*e.document; const auto& m=doc.metadata(); validate_metadata(m);
@@ -1014,8 +1098,8 @@ void Project::save_impl(const std::string& path,const std::string& link_director
         }
         if(doc.image_axis_calibration_) {const auto bytes=detail::encode_image_axis_calibration(*doc.image_axis_calibration_);axis_row.string(1,key);axis_row.blob(2,bytes);axis_row.done();}
         if(doc.image_data_properties_) {
-            auto properties=detail::expression_properties_for_save(doc.image_data_properties_,fs::u8path(path_).parent_path(),directory,cancelled);
-            properties=detail::reduction::properties_for_save(std::move(properties),fs::u8path(path_).parent_path(),directory,cancelled);
+            auto properties=detail::expression_properties_for_save(doc.image_data_properties_,fs::u8path(path_).parent_path(),directory,cancelled,protect_owned_copy);
+            properties=detail::reduction::properties_for_save(std::move(properties),fs::u8path(path_).parent_path(),directory,cancelled,protect_owned_copy);
             const auto bytes=detail::encode_image_data_properties(*properties);data_properties_row.string(1,key);data_properties_row.blob(2,bytes);data_properties_row.done();
         }
         if(doc.image_analysis_settings_) {const auto bytes=detail::encode_image_analysis_settings(*doc.image_analysis_settings_);image_settings_row.string(1,key);image_settings_row.blob(2,bytes);image_settings_row.done();}
@@ -1166,6 +1250,12 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
     auto stopped=[&] {if(progress && progress->cancellation()->load()) throw std::runtime_error("project opening cancelled");};
     stopped();
     auto source=absolute(path); Database db(source,false,progress?progress->cancellation():nullptr,repair_journal);
+    auto link_source=source;
+    if(progress && !progress->temporary_link_base_project.empty()) {
+        if(recovery) throw std::invalid_argument("temporary link base requires a regular project");
+        link_source=absolute(progress->temporary_link_base_project);
+    }
+    const auto link_directory=fs::u8path(link_source).parent_path();
     db.cancellation(progress?progress->cancellation():nullptr); Transaction transaction(db,false);
     if(recovery_table(db)!=recovery) throw std::invalid_argument(recovery?"not a recovery snapshot":"use Project.recover for recovery snapshots");
     auto version=schema(db,recovery);
@@ -1261,7 +1351,7 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
         } else {
             if(file.empty() || images.type(14)!=SQLITE_NULL)throw std::invalid_argument("invalid linked image descriptor");
             if(!plugin && (!detail::known_reader_id(info.reader) || reader_name(file,info.reader)!=info.reader))throw std::invalid_argument("invalid linked image descriptor");
-            text(file,32768); auto location=fs::u8path(file); if(location.is_relative()) location=fs::u8path(source).parent_path()/location;
+            text(file,32768); auto location=fs::u8path(file); if(location.is_relative()) location=link_directory/location;
             std::shared_ptr<const TiffView> selected;std::shared_ptr<const detail::ZarrLink> zarr;
             if(version>=12) {Statement row(db,"SELECT payload FROM tiff_views WHERE image_id=?");row.string(1,key);if(row.row()) {const auto n=sqlite3_column_bytes(row.stmt,0);if(row.type(0)!=SQLITE_BLOB || n<0 || n>4096 || (info.reader!="tiff" && info.reader!="ome-zarr")) throw std::invalid_argument("invalid project TIFF view");const auto payload=std::string(static_cast<const char*>(sqlite3_column_blob(row.stmt,0)),std::size_t(n));if(info.reader=="ome-zarr"){zarr=detail::decode_zarr_link(payload);selected=std::make_shared<const TiffView>(zarr->options.view);}else selected=std::make_shared<const TiffView>(tiff_view_decode(payload));if(row.row()) throw std::invalid_argument("duplicate project TIFF view");}}
             info.source_path=absolute(location.u8string());server=plugin?detail::project_plugin_server(metadata,info.source_path,std::move(plugin)):std::make_shared<LinkedServer>(metadata,info.source_path,info.reader,std::move(selected),nullptr,nullptr,std::move(zarr));
@@ -1348,9 +1438,9 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
             Statement row(db,"SELECT payload FROM image_data_properties WHERE image_id=?");row.string(1,key);
             if(row.row()) {const auto n=sqlite3_column_bytes(row.stmt,0);if(row.type(0)!=SQLITE_BLOB || n<0 || n>2*ImageDataProperties::max_payload)throw std::invalid_argument("invalid ImageData properties payload");data_properties=detail::decode_image_data_properties(sqlite3_column_blob(row.stmt,0),std::size_t(n));if(row.row())throw std::invalid_argument("duplicate ImageData properties");}
         }
-        data_properties=detail::expression_properties_after_open(std::move(data_properties),fs::u8path(source).parent_path(),
+        data_properties=detail::expression_properties_after_open(std::move(data_properties),link_directory,
             recovery_info && recovery_info->base_path.empty());
-        data_properties=detail::reduction::properties_after_open(std::move(data_properties),fs::u8path(source).parent_path(),
+        data_properties=detail::reduction::properties_after_open(std::move(data_properties),link_directory,
             recovery_info && recovery_info->base_path.empty());
         if(version>=23) {
             Statement row(db,"SELECT metadata_key,metadata_value FROM image_metadata WHERE image_id=? ORDER BY metadata_key");row.string(1,key);
@@ -1491,10 +1581,10 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
             const auto size=sqlite3_column_bytes(rows.stmt,2);if(rows.type(2)!=SQLITE_BLOB || size<0 || size>128*1024) throw std::invalid_argument("invalid pixel stream record blob");
             const auto* payload=static_cast<const std::uint8_t*>(sqlite3_column_blob(rows.stmt,2));
             if(size>=4 && std::memcmp(payload,"QWL\1",4)==0) {
-                const auto record=RawPixelStreamRecordCodec::decode(payload,std::size_t(size),fs::u8path(source).parent_path().u8string(),progress?progress->cancellation():nullptr);
+                const auto record=RawPixelStreamRecordCodec::decode(payload,std::size_t(size),link_directory.u8string(),progress?progress->cancellation():nullptr);
                 if(record->id!=number(rows.string(1))) throw std::invalid_argument("raw stream record identity mismatch");image->second.document->restore_raw_pixel_stream(record);continue;
             }
-            const auto record=PixelStreamRecordCodec::decode(static_cast<const std::uint8_t*>(sqlite3_column_blob(rows.stmt,2)),static_cast<std::size_t>(size),fs::u8path(source).parent_path().u8string(),progress?progress->cancellation():nullptr);
+            const auto record=PixelStreamRecordCodec::decode(static_cast<const std::uint8_t*>(sqlite3_column_blob(rows.stmt,2)),static_cast<std::size_t>(size),link_directory.u8string(),progress?progress->cancellation():nullptr);
             if(record->id!=number(rows.string(1))) throw std::invalid_argument("pixel stream record identity mismatch");image->second.document->restore_pixel_stream(record);
         }
     }
@@ -1502,7 +1592,7 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
         Statement rows(db,"SELECT image_id,id,payload FROM raw_analysis_records ORDER BY image_id,id");
         while(rows.row()) {
             stopped();const auto image=project->entries_.find(number(rows.string(0)));
-            if(image==project->entries_.end() || image->second.info.embedded || (image->second.info.reader!="tiff" && image->second.info.reader!="ome-zarr")) throw std::invalid_argument("orphaned or incompatible raw analysis record");
+            if(image==project->entries_.end() || image->second.info.embedded) throw std::invalid_argument("orphaned or incompatible raw analysis record");
             const auto size=sqlite3_column_bytes(rows.stmt,2);if(rows.type(2)!=SQLITE_BLOB || size<0 || size>16*1024*1024) throw std::invalid_argument("invalid raw analysis record blob");
             const auto record=RawAnalysisCodec::decode(static_cast<const std::uint8_t*>(sqlite3_column_blob(rows.stmt,2)),std::size_t(size),image->second.document->metadata(),progress?progress->cancellation():nullptr);
             if(record->id!=number(rows.string(1))) throw std::invalid_argument("raw analysis record identity mismatch");image->second.document->restore_raw_analysis(record);
@@ -1582,7 +1672,7 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
         project->path_=associated_base.empty()?recovery_info->base_path:associated_base; project->generation_=recovery_info->base_generation;
         project->recovery_source_=source;
         project->revision_=1; project->saved_revision_=0;
-    } else project->path_.swap(source);
+    } else project->path_.swap(link_source);
     stopped(); if(progress) progress->phase.store(5);
     return project;
 }

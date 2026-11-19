@@ -1,5 +1,91 @@
 # API and workflow delivery paths
 
+Owner selection2026-11-16: close all other qualified catalogue work, confirmed to
+include formats and application/integration gaps. The [current task](current-task.md)
+keeps one bounded workflow active while the full goal persists across packets.
+Existing delivered outcomes and frozen products remain source-scoped; R2-R16 and
+the [format roadmap](format-plugin-coverage-plan.md) retain the remaining inventory.
+Earlier per-candidate stop conditions preserve those deliveries, not a smaller
+definition of this newer goal. Qualification still requires actual eligible terms,
+representable native behavior and workflow-specific evidence; no100% QuPath,
+universal biological or speed claim follows from a task count.
+
+The2026-11-17 [annotation geometry packet](benchmarks/annotation-geometry/README.md)
+adds optional geometry TSV, annotation ABI2 and a source-matched native consumer
+overlay under A06/R4/R15. It preserves exact ABI1 point identities and reuses
+existing geometry, preview/apply, guards, class mapping, project and undo code.
+The full qualified-catalogue goal remains active; named annotation formats and
+other R2-R16 work retain their own contracts and evidence requirements.
+
+The subsequent [ImageJ ROI/ZIP packet](benchmarks/imagej-roi/README.md) delivers
+its selected A02/R4/R15 native profile: optional openly licensed ROI/ZIP provider,
+ABI3 source names/facts/styles and plane declarations, shared even-odd values,
+exact native preview/apply/project/undo/CLI/SDK paths. The earlier SDK/core/runtime
+remain frozen; the matching source/ABI3 native overlay has a separate identity.
+Explicit unsupported shape/archive/plane profiles remain refusals. Other qualified
+catalogue formats and application/integration gaps still keep the full goal active.
+
+The [A03 WKT/WKB packet](benchmarks/wkt-wkb/README.md) adds its selected native
+image-pixel2D import profile and shared bounded ABI3 producer/value support with
+ImageJ. It preserves source membership and exact coordinates while retaining
+explicit dimension/CRS/empty/invalid-topology refusals. Native host/CLI/SDK inputs
+and prior products stay frozen; new DLL sources have their own identities and
+regressions. This advances the formats/application goal without closing it.
+
+The [A04 OME ROI XML packet](benchmarks/ome-roi/README.md) adds its selected
+OME2016-06 vector profile with exact shape/image/plane identities, source metadata
+and explicit image selection. A separate ABI4 capability preserves native lock
+state through the same geometry/import/project/undo services; old ABI1–3 stored
+identities remain exact. Its native module, service/CLI/SDK and corresponding
+source/licenses have separate candidate identities. The frozen base SDK/runtime,
+GUI, bindings and wheels are preserved. Unsupported masks/ellipse transforms and
+the remaining formats/application catalogue stay explicitly outside this packet.
+
+The [A05 ASAP XML packet](benchmarks/asap-xml/README.md) adds its selected native
+annotation profile and shared bounded XML/QOX2 source support with OME. Source
+float32/order/group/root-color semantics remain explicit, with native frame/class/
+plane validation, exact preview/apply/undo/project and CLI/SDK routes. New XML
+module identities are separate from frozen prior deliveries; the A04 host/CLI/
+SDK/base runtime remain exact. Aperio schema terms stay unreviewed. This advances
+the qualified formats AND application/integration goal without closing it.
+
+The [A07 COCO packet](benchmarks/coco/README.md) adds selected polygon-union and
+compressed/uncompressed RLE instance masks, with separate ABI5 full-canvas
+transport. Existing native label/grid/contour and import authorities preserve
+exact pixel coverage, frame/category/instance identities, crowd/source facts and
+atomic persistence through CLI/SDK routes. Its new host/modules retain their own
+source/binary evidence; prior ABI1–4 identities and frozen core/runtime/wheels
+remain separate. The formats AND application/integration goal remains active.
+
+The [A08 NGFF integral-label packet](benchmarks/ngff-labels/README.md) now delivers
+its selected local optional native provider and shared frame/import/publication/
+persistence/CSV/QPLM1 workflow. Exact signed/unsigned IDs and original property
+text survive native, CLI and SDK replay. Separate store/description ABI extensions
+preserve the base reader table; native directory observations protect all inputs
+and output destinations. Candidate2's source/material/archive/install/removal
+evidence is local and distinct from frozen core/runtime/UI/wheel/binding products.
+Other qualified formats and application/integration work keep the full goal open.
+
+The [M05 Loom matrix workflow](benchmarks/loom/README.md) now passes native,
+CLI/public SDK, old-counts compatibility and loader-OFF checks. A separate matrix
+ABI2/schema5 preserves exact UInt64 counts and finite Float64 continuous values
+through the existing QMX/coordinates/project authorities; ABI1/schema4 stays
+byte-exact. Explicit dataset/ID/domain/frame choices and bounded native HDF5
+reading remain required. The local handoff now includes284 admitted source/
+native/plugin package and ZIP members, matching relocated SDK configuration,
+nine installed native commands and three post-removal checks preserving11 user
+files. Frozen SDK/core, A08 application addon, GUI/bindings/wheels and broader
+catalogue scope stay separate; no publication or full-goal completion is claimed.
+
+The [I22 exact-fill source repair](benchmarks/ngff-fill/README.md) now validates
+integral image fills against the original JSON token before binary64 loss.
+All214 focused cases and affected native source/server/project routes pass;
+133 valid cases keep exact pixels/metadata/source identities, and the42 malformed
+cases formerly accepted now refuse. Exact integral floating tokens and the
+separate floating-array/null semantics remain usable. Two changed native units
+have their own candidate/compiler identities over retained products; no frozen
+runtime/SDK, GUI, binding or wheel qualification is transferred.
+
 Owner planning request2026-11-08: [eight-gap native expansion](feature-expansion-plan.md)
 defines22 pending tasks for visualization/import, registration, fluorescence,
 large data/open readers, molecular methods and SDK/release. The active desktop UI
@@ -328,6 +414,9 @@ Choose a later phase from a concrete user need; they are not automatic follow-on
 
 ## Next delivery checkpoint: Windows research workflow
 
+This section records the existing Windows candidate sequence and validation
+contract. The [current task](current-task.md) selects the active workflow.
+
 The representative large-slide tissue workflow is delivered in
 [Windows candidate2](https://github.com/bipxx/qupathxx/releases/tag/v0.1.0-windows-candidate.2):
 canonical native pyramid tissue over CMU-1.svs plus bounded high-resolution
@@ -336,8 +425,8 @@ and its delivery receipt for exact source/support. The next-phase neighborhood p
 The prior candidate1/handoff below is historical delivered evidence, not work to
 repeat. Do not expand this slice into every R12 budget or optional parity feature.
 
-Current continuation selects one release handoff after the delivered local
-checkpoint: one fresh Windows install/run/uninstall job on the frozen packages,
+The earlier release handoff after the delivered local checkpoint used one fresh
+Windows install/run/uninstall job on the frozen packages,
 dependency and corresponding-source availability review, then commit/push and
 candidate publication within the resulting support statement. Reuse installed
 analysis evidence; add only the missing deployment checks. No broad platform
@@ -590,9 +679,9 @@ slice; do not restart R4/R5 reconciliation or import/resource campaigns.
 
 ## Execution order for finishing the remaining work
 
-First finish the selected Windows checkpoint above. The family order in this
-section schedules subsequent parity expansion and must not pull optional
-features into that candidate. The current task owns its actual blocker list.
+Use the current task to identify the selected workflow and its blocker list.
+The family order below schedules remaining application and integration gaps.
+Reuse verified checkpoints as evidence when selecting a concrete next outcome.
 
 The R0-R16 table above remains the only backlog. The slices below refine those
 same rows; they are not additional milestones. Execute left to right within a
@@ -612,6 +701,40 @@ blocker, or R12 earlier for a measured resource failure. This order is schedulin
 not an instruction to finish every possible reader before doing analysis.
 R14-R16 are optional and use the applicable stable contracts if selected.
 
+R7 now has a [native batch route](stain-estimation.md#native-batch-cli) for
+estimating stains from a saved ROI and reusing the exact exported basis in a
+batch measurement. Named presets remain parked under PRESET1. Specimen
+comparisons and a broader model registry still need a selected workflow.
+
+R8 now has an [opt-in model grid](raw-pixel-cli.md#predict-resume-and-verify)
+for native raw export and contours, with exact per-axis physical spacing on
+compatible calibrated targets. The QWS validator shares prediction's sampling
+check and reuses the persisted effective calibration for reopen and resume.
+The same resolver now serves [raw stream and contour project batches](project-raw-pixel-batches.md#native-cli).
+The batch resolves each selected image against its effective calibration and
+records the opt-in choice with its checkpoint parameters.
+
+R10 now accepts native batch measurements in [TMA case and cohort exports](tma-cohorts.md#measurement-and-statistics-contract).
+The CLI verifies supplied project and image IDs before matching core revisions.
+The local two-image check preserves missing-core exclusion and vacant slots.
+Both exports accept separate measurement CSVs with matching headers and retain
+the exact digest of the equivalent combined table.
+
+R11 uses a [full project seal](project-pixel-batches.md#checkpoints-and-reuse)
+for new batch checkpoints, including saved statistics and project metadata.
+Legacy checkpoints remain available to the historical CSV export route.
+The same capture and checkpoint services now accept a
+[pinned raw classifier recipe](project-raw-pixel-batches.md#versioned-raw-batch-recipe)
+with image-specific ROI sets for both stream and contour batches.
+
+Both standalone matrix indexing commands accept an
+[explicit image reader view](format-family-plugins.md#native-cli-and-sdk).
+Standalone and project-indexed plugin frames bind the exact decoder and
+options for later attachment. [ROI aggregation](expression-aggregation.md#roi-membership)
+uses the attached matrix's indexed coordinates when the saved frame is exact
+and no backed detections exist for that matrix. The relocated checks cover
+FITS selection, equal-size APNG views and exact UInt64 ROI sums across pages.
+
 | Existing row | Ordered remaining slices and easiest route | Stop condition / dependency handling |
 | --- | --- | --- |
 | R1 | For the next slice, identify its existing fixture, expected result and tolerance; propose only missing specimen labels, hardware or release decisions to the owner | Record the decision owner and affected claim. Continue independent engineering; synthetic/reference agreement cannot close biological accuracy |
@@ -620,15 +743,15 @@ R14-R16 are optional and use the applicable stable contracts if selected.
 | R5 | ROOT1, SETTINGS1, DATAPROP1 and TMASAVED1 are locally verified for direct native import. ASSISTSTATE1 is locally verified for compatible assisted state exchange. CALIB1 is locally verified for saved Z/time state. ENTRYMETA1 is locally verified for short string maps. ENTRYDETAILS1 is locally verified for nullable description/ordered tags. ENTRYEDIT1 is locally verified for editable sidebar flows through existing atomic setters. PROJECTMETA1 is locally verified for global maps/schema25/zero-image import and GUI editing. CLASS1 is locally verified for shared ancestry and project-default retention/authoring. Remaining calibration/project properties, versions/builders/records, source races and geometry losses need named fixtures/fault contracts | Reuse stain transforms/model identity, requests, import review and transactional storage. Keep defaults distinct from historical root/ROI facts and explicit analysis recipes. Reuse delivered facts, snapshots and ownership/lifetime fixes; assess remaining formats from pinned fixtures |
 | R6 | CONTEXT1 is locally verified: exact RGB-phase support, QCL9/QCA9 identities and retained legacy replay. SAMPLING1 locally verifies the declared lossless TIFF SubIFD workflow. FEATURE1 locally verifies [retained compartment statistics](benchmarks/cell-statistics-r6/README.md), owning SDK, QCL/QCA, CSV/CLI/ImGui and legacy quota compatibility. SPLIT1 trace reuses touching/clipped-domain, policy-edge and body-boundary cases. Remaining work is a named uncovered context/vendor/domain case or representative specimen acceptance; take the next ready R7 slice while no such engineering case is ready | Reuse [CONTEXT1](benchmarks/cell-context-r6/README.md), [lossless pyramid integration](benchmarks/cell-pyramid-r6/README.md) and ordinary context/halo evidence. Inspect existing definitions and pinned reference before adding fields. Extend the shared authority; labels block only biological acceptance |
 | R7 | AREA1 [locally verifies physical tissue filters](benchmarks/tissue-area-r7/README.md) through native/SDK/managed viewer/ImGui/batch/CLI and frozen count-recipe replay. FILTER1 [locally verifies Gaussian smoothing](benchmarks/tissue-smoothing-r7/README.md), QTM3/CSV2, consumers and old quota/replay compatibility. MEDIAN1 [locally verifies fixed binary cleanup](benchmarks/tissue-median-r7/README.md), QTM4/CSV3, consumers and older unfiltered/Gaussian limits. GRID1 locally verifies bounded native/installed area-RGB sampling/context, QTM5/CSV4 and old limits. REGION1 locally verifies natural retained RGB/OD/stain sum/extrema/sample SD, schema27/CSV2 and installed SDK/managed/ImGui/batch/CLI routes; MODEL1 [locally verifies exact model-file reuse](benchmarks/stain-model-r7/README.md#m3-installed-file-reuse-closeout--2026-11-05), old estimate import, async GUI/SDK/CLI and saved full-basis replay; follow with missing stain estimation/model registry and specimen comparisons | Reuse the shared resolver, labeling/morphology, jobs, records and tables. Before filtering changes, pin feature units, neighborhood/halo, eligibility and image/ROI edge behavior against an independent tiny array. Preserve old unfiltered replay; use existing filter/sampling kernels before adding another implementation |
-| R8 | Feature schema/version and missing-data policy; unmatched-grid behavior; independent model comparisons and streamed/full seams | Train, archive, reopen and apply one model through existing native/Python/CLI/UI consumers. Reuse accepted stream publication; shared halo/resource work belongs to R6/R12 |
+| R8 | Ordered feature and existing missing-support contracts, natural/RGB and exact/raw matching, and [RGB prediction display-plane admission](pixel-classifiers.md#source-aware-prediction) are verified for the selected profiles. Additional features, independently labelled model comparisons and explicit resampling remain separate workflow decisions | Reuse trained-model replay, native matching and full/window/stream seams. Select new comparisons or resampling when a research workflow requires them; shared halo/resource work belongs to R6/R12 |
 | R9 | Neighborhoods/candidate3, tissue density/candidate4 and signed boundary distances are delivered within their scoped receipts. Tiled aggregation remains optional. Project-density orchestration reuses candidate4 through Python | Reuse existing native metric/consumer/record routes for selected needs; scaling belongs to R12 |
 | R10 | Vendor-slide/skew/missing-core dearraying; assignment and biological comparisons; per-case pooling on the accepted core set | Reuse QPTMA proposals, edits and batches. Labels block the associated accuracy claim, not codec/editor engineering. No separate TMA qualification campaign |
-| R11 | One versioned open/ROI/analysis/export/save workflow; source/model replacement and partial failures; interrupted/resumed and abandoned work; Python ownership, viewer backpressure and shutdown | Define stage inputs, dependencies and error policy before adding grammar. Keep native jobs/commands as authority. Verify orchestration failures here and numerical results at their existing kernel tests |
+| R11 | [Matrix attachment retry](benchmarks/matrix-attachment/README.md), a [versioned RGB pixel batch recipe](project-pixel-batches.md#versioned-recipe-file), [abandoned batch scratch recovery](project-pixel-batches.md#checkpoints-and-reuse), [viewer backpressure and shutdown intake](live-viewer.md#resource-and-performance-boundaries), and [committed raw viewer export delivery](live-viewer.md) are delivered locally. Further ownership and orchestration changes require an affected workflow | Reuse the native batch and checkpoint authorities. Verify additional orchestration failures in their affected route and numerical results at the existing kernel tests |
 | R3 | Explicit ICC/fluorescence policy and channel behavior; monitor/DPI/resize behavior; uncovered international text and dense navigation | Reuse tile/display/font infrastructure and keep raw measurements unchanged. Test actual affected displays/hosts; route frame, GPU and process budgets to R12 |
 | R12 | First full-versus-tiled correctness/seams; then long-batch process/GPU and whole-export bounds (the4096-property-column admission check is locally verified); then cold/warm decode and end-to-end latency; optimize only the measured bottleneck | Freeze workload, hardware, accuracy/settings and metric before timing. Reuse one representative workload across checks. A faster component alone cannot establish overall superiority |
 | R13 | Prepare license/notices and package inventory; settle support cells; document the accepted sample workflow/limits; package/install/uninstall and clean-machine walkthrough; one frozen release checkpoint | Close applicable M0-M6 exits for each claimed workflow and host. Review the requirement-to-evidence map once. Release/promotion and project-license decisions remain with the owner |
 | R14 | Add one declared Linux/macOS package/GUI/Python/reader support cell at a time through the existing portable targets | Validate the new host surface and affected native risk. Mac native acceptance does not substitute for Python/GUI/OpenSlide runtime evidence |
-| R15 | [Native/CLI offline unsigned TIFF labels](label-analysis.md) share source/result/publication authority. The separately selected [native OMERO client](omero-integration.md) adds explicitly linked NGFF raw blocks and original-coordinate ROI/result exchange to metadata/preview snapshots. Public raw and point exchange pass; IDR live masks remain denied despite native fixture coverage. Private/write-back OMERO, specific model runtimes, further offline exchange and extension contracts remain separate selections | Reuse stable R5/R6/R8/R11 lifecycle, shape, calibration and atomic publication rules. Preview thumbnails do not acquire original raw capability/calibration. The generic mask adapter does not qualify Cellpose/StarDist execution or admit weights; do not generalize a plugin host without a named workflow |
+| R15 | [Native/CLI offline TIFF/PNG and optional NGFF integral labels](label-analysis.md) share frame/result/publication authority. The selected A08 provider preserves exact source IDs, property text and store/decoder identity through authored/producer provenance, persistence, CSV/QPLM1 and native/CLI/SDK replay. The [native OMERO client](omero-integration.md) adds explicitly linked NGFF raw blocks and original-coordinate ROI/result exchange. Public raw/point exchange passes; IDR live masks remain denied despite fixture coverage. Private/write-back OMERO, model runtimes and further exchange remain separate selections | Reuse stable R5/R6/R8/R11 lifecycle, shape, calibration and atomic publication rules. Preview thumbnails never acquire raw capability/calibration. A08's strict integer/null fill guard remains separate from the [I22 native source repair](benchmarks/ngff-fill/README.md), which now rejects rounded/overflowing image fills while preserving exact valid data/identities; frozen delivery binaries remain unchanged. No Cellpose/StarDist execution or weight admission follows from mask import; extend a plugin boundary only for a named workflow |
 | R16 | Extend the proven local workflow to the next named pipeline; add portable/distributed execution only for an included workload | Keep checkpoint ownership, retries, idempotence and partial failures explicit. Reuse R11 jobs and R12 limits before introducing worker coordination |
 
 For each selected slice, the current-task card records the user outcome, existing

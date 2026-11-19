@@ -16,13 +16,17 @@ from pathlib import PurePosixPath
 CATEGORIES = {'admitted_open', 'proprietary', 'noncommercial', 'unreviewed'}
 KINDS = {'code', 'source_archive', 'format', 'codec', 'model_weights',
          'training_data', 'evaluation_data', 'asset', 'derived_asset', 'notice'}
-LICENSES = {'MIT', 'ISC', 'BSD-2-Clause', 'BSD-3-Clause', 'Apache-2.0', 'Zlib',
+LICENSES = {'0BSD', 'MIT', 'ISC', 'BSD-2-Clause', 'BSD-3-Clause', 'Apache-2.0', 'Zlib',
             'BSL-1.0', 'OFL-1.1', 'CC0-1.0', 'CC-BY-4.0', 'CC-BY-SA-4.0',
             'GPL-2.0-only', 'GPL-2.0-or-later', 'GPL-3.0-only', 'GPL-3.0-or-later',
             'LGPL-2.1-only', 'LGPL-2.1-or-later', 'LGPL-3.0-only',
             'LGPL-3.0-or-later', 'AGPL-3.0-only', 'AGPL-3.0-or-later', 'Unlicense',
             'FTL', 'blessing', 'libtiff', 'IJG', 'libpng-2.0', 'LGPL-2.0-or-later',
-            'BSD-1-Clause', 'BSD-3-Clause AND IJG AND Zlib'}
+            'BSD-1-Clause', 'BSD-3-Clause AND IJG AND Zlib',
+            'BSD-3-Clause AND Apache-2.0', 'BSD-3-Clause AND Apache-2.0 AND Zlib',
+            'BSD-2-Clause AND BSD-3-Clause',
+            'BSD-3-Clause AND BSD-2-Clause AND MIT AND Zlib',
+            'LicenseRef-ImageJ-Public-Domain', 'W3C-20150513', 'JasPer-2.0', 'bzip2-1.0.6'}
 RESTRICTED_PARTS = {'qupathxx-restricted', 'proprietary', 'noncommercial', 'unreviewed'}
 
 

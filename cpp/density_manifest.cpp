@@ -1,5 +1,9 @@
 #include "qupathxx/density_workflow.hpp"
+#include "qupathxx/project.hpp"
 #include "density_preview.hpp"
+#include "filesystem_access.hpp"
+#include "project_source_internal.hpp"
+#include "reader_file_guard.hpp"
 #include "strict_json.hpp"
 #include <algorithm>
 #include <fstream>
@@ -93,7 +97,8 @@ ProjectDensityManifestReport generate_project_density_manifest(const std::string
         if(std::filesystem::exists(target) || std::filesystem::exists(scratch))throw WorkflowOutputExists("Manifest destination or legacy scratch already exists");
     }
     detail::WorkflowInput source(path,1024ull*1024*1024,true,c);
-    ProjectDensityManifestReport result;result.preview=detail::preview_density_input(source,recipe,c,progress);
+    const auto project=Project::open_without_journal_recovery(source.path());
+    ProjectDensityManifestReport result;result.preview=detail::preview_density_input(source,*project,recipe,c,progress);
     for(const auto& row:result.preview.images)if(!row.image_present)throw std::invalid_argument("unknown image IDs: "+std::to_string(row.id));
     constexpr const char* roles[]={"windows","tissue","excluded","cells"};
     Json entries=Json::array(),images=Json::array(),names=Json::object();
@@ -123,6 +128,11 @@ ProjectDensityManifestReport generate_project_density_manifest(const std::string
     if(result.json.size()>64u*1024*1024)throw WorkflowCaptureLimit("Manifest preview report exceeds64 MiB");
     result.written=false;source.verify(true,c);
     if(publish) {
+        const auto destination=detail::access_path(target,true).u8string();
+        detail::visit_project_inputs(*project,project->images(),[&](const std::string& path,bool is_directory) {
+            if(is_directory)
+                detail::guard_directory_output(detail::access_path(std::filesystem::u8path(path),true).u8string(),destination);
+        },c);
         if(progress)progress->phase.store(4);
         try{detail::AtomicExportFile file(target.u8string(),16u*1024*1024,c);file.write(result.manifest_json.data(),result.manifest_json.size());source.verify(false,c);file.commit(false);}
         catch(...){workflow_checkpoint(c);std::error_code error;if(std::filesystem::exists(target,error))throw WorkflowOutputExists("Manifest output already exists");throw;}

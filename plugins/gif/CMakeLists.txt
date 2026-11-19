@@ -1,0 +1,10 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+cmake_minimum_required(VERSION 3.24)
+project(qupathxx_gif_reader VERSION 1.0.0 LANGUAGES CXX)
+set(qpx_image_target qpx_gif_plugin)
+set(qpx_image_source "${CMAKE_CURRENT_SOURCE_DIR}/gif_reader.cpp")
+set(qpx_image_id org.qupathxx.gif)
+set(qpx_image_name GIF)
+set(qpx_image_contract gif-static-indexed/1)
+include("../image-common/plugin_build.cmake")
+target_compile_definitions(qpx_gif_plugin PRIVATE QPX_GIF_VERSION="${PROJECT_VERSION}")

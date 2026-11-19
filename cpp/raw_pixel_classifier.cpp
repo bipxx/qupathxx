@@ -1,4 +1,5 @@
 #include "qupathxx/raw_pixel_classifier.hpp"
+#include "qupathxx/core.hpp"
 #include "raw_pixel_classifier_internal.hpp"
 #include "raw_pixel_features.hpp"
 #include "atomic_export.hpp"
@@ -88,16 +89,81 @@ bool RawPixelRecipe::physical_sigmas() const {return data_->physical;}
 std::optional<double> RawPixelRecipe::sampled_pixel_width_um() const {return data_->width_um;}
 std::optional<double> RawPixelRecipe::sampled_pixel_height_um() const {return data_->height_um;}
 std::vector<ClassifierFeature> RawPixelRecipe::feature_schema() const {RawImageMetadata metadata;metadata.sample_type=data_->type;return detail::raw_feature_schema(metadata,data_->selection,data_->resolved);}
+bool raw_pixel_sampling_matches(const RawPixelRecipe& recipe, GridFraction x, GridFraction y, RawClassifierCalibration calibration) {
+    if (recipe.physical_sigmas())
+        return spacing(calibration.x, x) == *recipe.sampled_pixel_width_um() &&
+            spacing(calibration.y, y) == *recipe.sampled_pixel_height_um();
+    return equal(x, recipe.step_x()) && equal(y, recipe.step_y());
+}
 template<class Geometry> bool RawPixelRecipe::matches_geometry(const RawImageMetadata& m,const Geometry& grid,const ScientificRawOptions& s) const {
     metadata_selection(m,grid,s);const auto& d=*data_;
     if(m.sample_type!=d.type || m.series!=d.series || s.first_channel!=d.selection.first_channel || s.channels!=d.selection.channels || s.z!=d.selection.z || s.t!=d.selection.t || selected_channel_names(m,s)!=d.names) return false;
     const GridFraction x{grid.x().extent(),grid.x().samples()},y{grid.y().extent(),grid.y().samples()};
-    if(d.physical) return spacing(m.pixel_width_um,x)==*d.width_um && spacing(m.pixel_height_um,y)==*d.height_um;
-    return equal(x,d.x) && equal(y,d.y);
+    return raw_pixel_sampling_matches(*this, x, y, {m.pixel_width_um, m.pixel_height_um});
 }
 bool RawPixelRecipe::matches(const RawImageMetadata& m,const ScientificGrid& g,const ScientificRawOptions& s) const {return matches_geometry(m,g,s);}
 bool RawPixelRecipe::matches(const RawImageMetadata& m,const ScientificRawWindow& g,const ScientificRawOptions& s) const {return matches_geometry(m,g,s);}
 bool RawPixelRecipe::matches(const RawImageMetadata& m,const ScientificRawLattice& g,const ScientificRawOptions& s) const {return matches_geometry(m,g,s);}
+namespace {
+constexpr std::int64_t model_grid_sample_limit = 1000000;
+
+GridFraction physical_grid_step(double target_spacing, std::optional<double> calibration) {
+    if (!calibration || !std::isfinite(*calibration) || *calibration <= 0)
+        throw std::invalid_argument("raw physical classifier requires known positive calibration on both axes");
+    const double ratio = target_spacing / *calibration;
+    if (ratio >= 1.0 / model_grid_sample_limit && ratio <= ScientificGridAxis::coordinate_limit) {
+        // Try the nearest numerator for each legal denominator, in order of
+        // increasing phase period. Admit only the model's exact spacing check.
+        for (std::int64_t denominator = 1; denominator <= model_grid_sample_limit; ++denominator) {
+            const double scaled = ratio * denominator;
+            if (scaled > ScientificGridAxis::coordinate_limit + 0.5) break;
+            const auto numerator = static_cast<std::int64_t>(std::round(scaled));
+            if (!numerator || numerator > ScientificGridAxis::coordinate_limit) continue;
+            const GridFraction candidate(numerator, denominator);
+            if (*calibration * candidate.binary64() == target_spacing) return candidate;
+        }
+    }
+    throw std::invalid_argument("raw model spacing has no supported exact target-grid step");
+}
+
+ScientificGridAxis model_grid_axis(std::int64_t pixels, GridFraction step, std::int64_t halo) {
+    const auto extent = step.numerator(), samples = step.denominator();
+    const auto periods = (pixels - 1) / extent + 1;
+    if (periods > ScientificGridAxis::coordinate_limit / extent || periods > model_grid_sample_limit / samples)
+        throw std::length_error("raw model grid exceeds supported axis dimensions");
+    return {0, periods * extent, periods * samples, halo};
+}
+}
+
+ScientificRawLattice raw_pixel_model_lattice(const RawPixelRecipe& recipe, const RawImageMetadata& target) {
+    if (target.width < 1 || target.height < 1 || target.width > ScientificGridAxis::coordinate_limit ||
+        target.height > ScientificGridAxis::coordinate_limit)
+        throw std::invalid_argument("invalid raw lattice source dimensions");
+    auto x = recipe.step_x(), y = recipe.step_y();
+    if (recipe.physical_sigmas()) {
+        x = physical_grid_step(*recipe.sampled_pixel_width_um(), target.pixel_width_um);
+        y = physical_grid_step(*recipe.sampled_pixel_height_um(), target.pixel_height_um);
+    }
+    const auto& features = recipe.features();
+    const auto scale = features.sigmas.back();
+    const ScientificRawLattice lattice(target.width, target.height,
+        model_grid_axis(target.width, x, detail::raw_feature_halo(scale.x, features)),
+        model_grid_axis(target.height, y, detail::raw_feature_halo(scale.y, features)));
+    if (!recipe.matches(target, lattice, recipe.selection()))
+        throw std::invalid_argument("raw classifier channel, dtype, selection or sampling recipe mismatch");
+    return lattice;
+}
+ScientificRawLattice raw_pixel_model_lattice(const RawPixelRecipe& recipe, const Document& doc,
+                                             const std::atomic<bool>* cancelled) {
+    const auto source=doc.server();
+    if(!source || source->closed()) throw std::invalid_argument("Model grid requires an open quantitative source");
+    const auto metadata=source->raw_metadata(cancelled);
+    if(!metadata) throw std::invalid_argument("Model grid requires quantitative source metadata");
+    auto target=*metadata;
+    target.pixel_width_um=doc.pixel_width_um();
+    target.pixel_height_um=doc.pixel_height_um();
+    return raw_pixel_model_lattice(recipe,target);
+}
 struct RawPixelModelCodec {
     static void write(Writer& w,const RawPixelRecipe& recipe) {
         const auto& d=*recipe.data_;const auto& o=d.requested;const auto& s=d.selection;

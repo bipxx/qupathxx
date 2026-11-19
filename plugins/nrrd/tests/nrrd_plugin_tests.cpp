@@ -10,6 +10,7 @@
 #include <cstring>
 #include <filesystem>
 #include <fstream>
+#include <iomanip>
 #include <iostream>
 #include <iterator>
 #include <limits>
@@ -36,6 +37,8 @@ struct Module {
     HMODULE library=nullptr;
     qpx_reader_entry_fn_v1 entry=nullptr;
     qpx_reader_api_v1 api{};
+    qpx_reader_files_entry_fn_v1 files_entry=nullptr;
+    qpx_reader_files_api_v1 files{};
     explicit Module(const fs::path& path){
         library=LoadLibraryExW(path.c_str(),nullptr,LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR|LOAD_LIBRARY_SEARCH_SYSTEM32);
         check(library!=nullptr,"Cannot load module: "+std::to_string(GetLastError()));
@@ -43,6 +46,11 @@ struct Module {
         check(entry!=nullptr,"Module omitted C ABI entry");api.struct_size=sizeof(api);Error error;
         status(entry(QPX_READER_ABI_V1,&api,&error.text),QPX_READER_OK,error,"entry");
         check(api.struct_size==sizeof(api)&&api.abi_version==1&&api.describe&&api.open&&api.destroy&&api.metadata&&api.level&&api.channel_name&&api.read_rgba&&api.read_raw,"Incomplete native table");
+        files_entry=reinterpret_cast<qpx_reader_files_entry_fn_v1>(GetProcAddress(library,"qpx_reader_files_entry_v1"));
+        check(files_entry!=nullptr,"Module omitted source-file ABI entry");
+        files.struct_size=sizeof(files);
+        status(files_entry(QPX_READER_ABI_V1,&files,&error.text),QPX_READER_OK,error,"source-file ABI entry");
+        check(files.struct_size==sizeof(files)&&files.abi_version==1&&files.count&&files.path,"Incomplete source-file table");
     }
     ~Module(){if(library)FreeLibrary(library);}
 };
@@ -54,17 +62,23 @@ struct Source {
     }
     ~Source(){if(handle)module.api.destroy(handle);}
 };
-struct Fixture {std::string name,order,options;std::int64_t width=0,height=0;unsigned planes=1,type=0,sample=0,flags=0,channels=1;double px=0,py=0,pz=0;};
-std::vector<Fixture> fixtures(const fs::path& root){
+struct Fixture {std::string name,source,order,companion,options;std::int64_t width=0,height=0;unsigned planes=1,type=0,sample=0,flags=0,channels=1,times=1;double px=0,py=0,pz=0,interval=0;};
+std::vector<Fixture> fixtures(const fs::path& root,bool temporal=false){
     std::ifstream in(root/"fixtures.tsv");check(bool(in),"Missing authored NRRD fixture list");std::vector<Fixture> result;Fixture f;
-    while(in>>f.name>>f.width>>f.height>>f.planes>>f.type>>f.sample>>f.order>>f.flags>>f.px>>f.py>>f.pz>>f.options)result.push_back(f);
-    check(in.eof()&&result.size()==50,"Incomplete NRRD fixture list");return result;
+    while(in>>std::quoted(f.name)>>std::quoted(f.source)>>f.width>>f.height>>f.planes>>f.type>>f.sample>>f.order
+            >>f.flags>>f.px>>f.py>>f.pz>>std::quoted(f.companion)>>f.options){
+        if(temporal)check(bool(in>>f.times>>f.interval),"Missing NRRD time expectations");
+        result.push_back(f);
+    }
+    check(in.eof()&&result.size()==(temporal?11u:157u),"Incomplete NRRD fixture list");return result;
 }
 std::vector<std::string> names(const Fixture& f){check(f.channels==1,"Scalar NRRD must expose one channel");return {"Scalar"};}
 bool same_input(const qpx_reader_pixels_v1& before,qpx_reader_pixels_v1 after){after.written=before.written;after.validity_written=before.validity_written;return std::memcmp(&before,&after,sizeof(before))==0;}
-void exact_region(Source& source,const Fixture& fixture,const std::vector<std::uint8_t>& oracle,bool raw,std::int64_t x,std::int64_t y,std::int64_t width,std::int64_t height,unsigned first=0,unsigned count=0,unsigned z=0){
+void exact_region(Source& source,const Fixture& fixture,const std::vector<std::uint8_t>& oracle,bool raw,std::int64_t x,std::int64_t y,std::int64_t width,std::int64_t height,unsigned first=0,unsigned count=0,unsigned z=0,unsigned time=0){
     const unsigned sample=raw?fixture.sample:1,channels=raw?(count?count:fixture.channels):4;
     qpx_reader_region_v1 request{};request.struct_size=sizeof(request);request.x=x;request.y=y;request.width=width;request.height=height;request.first_channel=first;request.channels=raw?channels:0;request.z=raw?z:0;
+    request.t=raw?time:0;
+    const auto plane=static_cast<std::int64_t>(raw?time*fixture.planes+z:0);
     const auto output_size=static_cast<std::size_t>(width*height*channels*sample);
     std::vector<std::uint8_t> output(output_size+16,0xcd),validity(static_cast<std::size_t>(width*height)+16,0xcd);
     qpx_reader_pixels_v1 pixels{};pixels.struct_size=sizeof(pixels);pixels.sample_type=raw?fixture.type:QPX_READER_UINT8;pixels.width=width;pixels.height=height;pixels.channels=channels;pixels.row_stride=width*channels*sample;pixels.pixel_stride=channels*sample;pixels.channel_stride=sample;pixels.data=output.data();pixels.capacity=output_size;
@@ -78,7 +92,7 @@ void exact_region(Source& source,const Fixture& fixture,const std::vector<std::u
     for(std::int64_t row=0;row<height;++row)for(std::int64_t col=0;col<width;++col){
         const auto sx=x+col,sy=y+row;const bool inside=sx>=0&&sy>=0&&sx<fixture.width&&sy<fixture.height;
         if(raw)check(validity[static_cast<std::size_t>(row*width+col)]==std::uint8_t(inside),"Raw validity lost in-bounds/OOB distinction");
-        if(inside){const auto stride=raw?fixture.channels:4u;const auto from=static_cast<std::size_t>(((static_cast<std::int64_t>(raw?z:0)*fixture.height+sy)*fixture.width+sx)*stride*sample+first*sample);const auto to=static_cast<std::size_t>((row*width+col)*channels*sample);std::copy_n(oracle.data()+from,channels*sample,expected.data()+to);}
+        if(inside){const auto stride=raw?fixture.channels:4u;const auto from=static_cast<std::size_t>(((plane*fixture.height+sy)*fixture.width+sx)*stride*sample+first*sample);const auto to=static_cast<std::size_t>((row*width+col)*channels*sample);std::copy_n(oracle.data()+from,channels*sample,expected.data()+to);}
     }
     check(std::equal(expected.begin(),expected.end(),output.begin()),fixture.name+": exact authored "+(raw?"source samples":"RGBA pixels")+" differ");
     check(std::all_of(output.begin()+output_size,output.end(),[](auto v){return v==0xcd;}),"Pixel output exceeded capacity");
@@ -86,6 +100,41 @@ void exact_region(Source& source,const Fixture& fixture,const std::vector<std::u
 }
 struct Counter {int calls=0,after=1;};
 std::int32_t QPX_READER_CALL cancelled(void* value){auto& c=*static_cast<Counter*>(value);return ++c.calls>=c.after;}
+void source_files(Module& module,const fs::path& root,const Fixture& fixture){
+    const auto input=(root/fs::u8path(fixture.source)).u8string();
+    const auto option=fixture.options=="-"?std::string{}:fixture.options;
+    qpx_reader_open_v1 request{};
+    request.struct_size=sizeof(request);
+    request.path={input.data(),input.size()};
+    request.options={option.data(),option.size()};
+    request.work_bytes=256ull*1024*1024;
+    Error error;
+    std::uint32_t count=99;
+    status(module.files.count(&request,&count,&error.text),QPX_READER_OK,error,"source-file count before open");
+    std::vector<std::string> expected_names;
+    if(fixture.companion!="-") {
+        std::istringstream names(fixture.companion);
+        for(std::string name;std::getline(names,name,'|');)expected_names.push_back(name);
+    }
+    check(count==expected_names.size(),"Source-file count differs for "+fixture.name);
+    std::array<char,4096> buffer{};
+    qpx_reader_text_v1 text{buffer.data(),buffer.size(),0};
+    for(std::uint32_t index=0;index<count;++index){
+        const auto expected=(root/fs::u8path(expected_names[index])).u8string();
+        status(module.files.path(&request,index,&text,&error.text),QPX_READER_OK,error,"declared payload path");
+        check(std::string(text.data,static_cast<std::size_t>(text.size))==expected,"Companion is not the exact absolute sibling path");
+        std::array<char,8> guard{};
+        guard.fill('X');
+        qpx_reader_text_v1 short_text{guard.data(),1,0};
+        status(module.files.path(&request,index,&short_text,&error.text),QPX_READER_BUFFER_TOO_SMALL,error,"short companion path text");
+        check(short_text.size==expected.size()&&short_text.data==guard.data()&&short_text.capacity==1&&
+            std::all_of(guard.begin()+1,guard.end(),[](auto c){return c=='X';}),"Companion text size/input/canary changed");
+    }
+    status(module.files.path(&request,count,&text,&error.text),QPX_READER_INVALID_REQUEST,error,"companion index range");
+    Counter cancel_now;
+    request.cancel={cancelled,&cancel_now};
+    status(module.files.count(&request,&count,&error.text),QPX_READER_CANCELLED,error,"cancel source-file discovery");
+}
 void descriptor(Module& module){
     Error error;qpx_reader_api_v1 short_api{};short_api.struct_size=8;
     status(module.entry(1,&short_api,&error.text),QPX_READER_INVALID_REQUEST,error,"short API table");
@@ -95,8 +144,13 @@ void descriptor(Module& module){
     info.provider_id={buffers[0].data(),buffers[0].size(),0};info.display_name={buffers[1].data(),buffers[1].size(),0};info.version={buffers[2].data(),buffers[2].size(),0};info.contract={buffers[3].data(),buffers[3].size(),0};
     status(module.api.describe(&info,&error.text),QPX_READER_OK,error,"descriptor");
     auto value=[](const auto& t){return std::string(t.data,static_cast<std::size_t>(t.size));};
-    check(value(info.provider_id)=="org.qupathxx.nrrd"&&value(info.version)=="1.0.0"&&value(info.contract)=="nrrd5-raw-scalar-window/1","Provider identity/contract differs");
-    check(value(info.display_name)=="NRRD"&&info.abi_version==1&&info.capabilities==(QPX_READER_CAP_RGBA|QPX_READER_CAP_RAW),"Provider capabilities differ");
+    check(value(info.provider_id)=="org.qupathxx.nrrd"&&value(info.version)==QPX_NRRD_VERSION&&value(info.contract)==QPX_NRRD_CONTRACT,"Provider identity/contract differs");
+    check(value(info.display_name)=="NRRD"&&info.abi_version==1&&info.capabilities==(QPX_READER_CAP_RGBA|QPX_READER_CAP_RAW|QPX_READER_CAP_SOURCE_FILES),"Provider capabilities differ");
+    qpx_reader_files_api_v1 short_files{};
+    short_files.struct_size=8;
+    status(module.files_entry(QPX_READER_ABI_V1,&short_files,&error.text),QPX_READER_INVALID_REQUEST,error,"short source-file table");
+    short_files.struct_size=sizeof(short_files);
+    status(module.files_entry(99,&short_files,&error.text),QPX_READER_INVALID_REQUEST,error,"wrong source-file ABI");
     std::array<char,8> guard{};guard.fill('X');info.provider_id={guard.data(),1,0};
     status(module.api.describe(&info,&error.text),QPX_READER_BUFFER_TOO_SMALL,error,"short descriptor text");
     check(info.provider_id.size==std::strlen("org.qupathxx.nrrd")&&std::all_of(guard.begin()+1,guard.end(),[](auto v){return v=='X';}),"Descriptor short-buffer overrun/size");
@@ -105,8 +159,8 @@ void descriptor(Module& module){
 void metadata(Source& source,const Fixture& f){
     Error error;qpx_reader_metadata_v1 meta{};meta.struct_size=sizeof(meta);std::array<char,256> vendor{},order{};meta.vendor={vendor.data(),vendor.size(),0};meta.dimension_order={order.data(),order.size(),0};
     status(source.module.api.metadata(source.handle,&meta,{},&error.text),QPX_READER_OK,error,"metadata");
-    check(meta.width==f.width&&meta.height==f.height&&meta.level_count==1&&meta.has_raw==1&&meta.channels==f.channels&&meta.sample_type==f.type&&meta.z_planes==f.planes&&meta.timepoints==1&&meta.series==0&&meta.series_count==1,"Metadata dimensions/axes/raw type differs");
-    check(meta.calibration_flags==f.flags&&meta.pixel_width_um==f.px&&meta.pixel_height_um==f.py&&meta.z_spacing_um==f.pz&&meta.time_interval_seconds==0,"Physical calibration differs or was guessed");
+    check(meta.width==f.width&&meta.height==f.height&&meta.level_count==1&&meta.has_raw==1&&meta.channels==f.channels&&meta.sample_type==f.type&&meta.z_planes==f.planes&&meta.timepoints==f.times&&meta.series==0&&meta.series_count==1,"Metadata dimensions/axes/raw type differs");
+    check(meta.calibration_flags==f.flags&&meta.pixel_width_um==f.px&&meta.pixel_height_um==f.py&&meta.z_spacing_um==f.pz&&meta.time_interval_seconds==f.interval,"Physical calibration differs or was guessed");
     qpx_reader_level_v1 level{};level.struct_size=sizeof(level);status(source.module.api.level(source.handle,0,&level,&error.text),QPX_READER_OK,error,"level");check(level.width==f.width&&level.height==f.height&&level.downsample==1&&level.reserved==0,"Level-zero lattice differs");
     status(source.module.api.level(source.handle,1,&level,&error.text),QPX_READER_INVALID_REQUEST,error,"invalid level");level.struct_size=4;status(source.module.api.level(source.handle,0,&level,&error.text),QPX_READER_INVALID_REQUEST,error,"short level structure");
     check(std::string(vendor.data(),static_cast<std::size_t>(meta.vendor.size))=="NRRD"&&std::string(order.data(),static_cast<std::size_t>(meta.dimension_order.size))==f.order,"Semantic vendor/dimension order differs");
@@ -128,7 +182,7 @@ void invalid_reads(Source& source,const Fixture& f){
     region.channels=f.channels;out.sample_type=f.type;out.channels=f.channels;out.channel_stride=f.sample;out.pixel_stride=f.channels*f.sample;out.row_stride=out.pixel_stride;out.capacity=out.pixel_stride;out.validity=valid.data();out.validity_capacity=1;
     auto before=out;Counter c;status(source.module.api.read_raw(source.handle,&region,&out,{cancelled,&c},&error.text),QPX_READER_CANCELLED,error,"cancel raw");check(same_input(before,out)&&out.written==0&&out.validity_written==0,"Cancelled raw read changed inputs or reports data");
     auto invalid_region=region;invalid_region.first_channel=f.channels;status(source.module.api.read_raw(source.handle,&invalid_region,&out,{},&error.text),QPX_READER_INVALID_REQUEST,error,"raw channel range");
-    invalid_region=region;invalid_region.z=f.planes;status(source.module.api.read_raw(source.handle,&invalid_region,&out,{},&error.text),QPX_READER_INVALID_REQUEST,error,"raw Z range");invalid_region=region;invalid_region.t=1;status(source.module.api.read_raw(source.handle,&invalid_region,&out,{},&error.text),QPX_READER_INVALID_REQUEST,error,"raw time range");
+    invalid_region=region;invalid_region.z=f.planes;status(source.module.api.read_raw(source.handle,&invalid_region,&out,{},&error.text),QPX_READER_INVALID_REQUEST,error,"raw Z range");invalid_region=region;invalid_region.t=f.times;status(source.module.api.read_raw(source.handle,&invalid_region,&out,{},&error.text),QPX_READER_INVALID_REQUEST,error,"raw time range");
     auto invalid_out=out;invalid_out.validity_capacity=0;status(source.module.api.read_raw(source.handle,&region,&invalid_out,{},&error.text),QPX_READER_INVALID_REQUEST,error,"raw validity capacity");
     invalid_out=out;invalid_out.sample_type=f.type==QPX_READER_UINT8?QPX_READER_UINT16:QPX_READER_UINT8;status(source.module.api.read_raw(source.handle,&region,&invalid_out,{},&error.text),QPX_READER_INVALID_REQUEST,error,"wrong raw sample type");
 }
@@ -144,22 +198,91 @@ void invalid_open(Module& module,const fs::path& root){
     {Fixture control;control.name="budget-input";control.width=256;control.height=256;control.planes=1;control.channels=1;control.type=QPX_READER_UINT8;control.sample=1;control.order="XY";Source accepted(module,fs::u8path(input));metadata(accepted,control);std::vector<std::uint8_t> raw(256*256,17),rgba(256*256*4);for(std::size_t i=0;i<rgba.size();i+=4){rgba[i]=rgba[i+1]=rgba[i+2]=17;rgba[i+3]=255;}exact_region(accepted,control,raw,true,0,0,1,1);exact_region(accepted,control,rgba,false,0,0,1,1);}
     Counter trace;trace.after=std::numeric_limits<int>::max();bad=request;bad.path={input.data(),input.size()};bad.cancel={cancelled,&trace};handle=nullptr;status(module.api.open(&bad,&handle,&error.text),QPX_READER_OK,error,"noncancelling opening checkpoint control");check(handle!=nullptr,"Controlled open omitted its handle");module.api.destroy(handle);handle=nullptr;check(trace.calls>1,"Open did not expose synchronous checkpoints");Counter during;during.after=trace.calls/2+1;bad=request;bad.path={input.data(),input.size()};bad.cancel={cancelled,&during};refuse(&bad,QPX_READER_CANCELLED,"controlled during-open cancellation");check(during.calls>=during.after,"Open did not reach controlled cancellation threshold");
     bad=request;bad.path={input.data(),input.size()};bad.work_bytes=32768;check(fs::file_size(fs::u8path(input))>bad.work_bytes,"Input-bound fixture fits its caller quota");refuse(&bad,QPX_READER_INVALID_REQUEST,"bounded owned raw input");check(error.message()=="NRRD input exceeds reader work budget","Input quota refusal missed its declared boundary: "+error.message());
+    const auto compressed=fs::absolute(root/"gzip-multiblock.nrrd").u8string();
+    const auto encoded_size=fs::file_size(fs::u8path(compressed));
+    check(encoded_size>2*65536,"Gzip fixture does not span multiple encoded reads");
+    auto gzip_request=request;
+    gzip_request.path={compressed.data(),compressed.size()};
+    gzip_request.work_bytes=encoded_size+8192;
+    refuse(&gzip_request,QPX_READER_INVALID_REQUEST,"gzip workspace budget");
+    check(error.message()=="NRRD gzip workspace exceeds reader work budget","Gzip workspace was not charged");
+    gzip_request.work_bytes+=65536;
+    refuse(&gzip_request,QPX_READER_INVALID_REQUEST,"gzip decoded budget");
+    check(error.message()=="NRRD decoded data exceeds reader work budget","Gzip decoded bytes were not charged");
+    gzip_request.work_bytes+=512*320;
+    Counter gzip_trace;
+    gzip_trace.after=std::numeric_limits<int>::max();
+    gzip_request.cancel={cancelled,&gzip_trace};
+    status(module.api.open(&gzip_request,&handle,&error.text),QPX_READER_OK,error,"gzip bounded opening control");
+    check(handle!=nullptr&&gzip_trace.calls>=9,"Gzip open omitted its slice checkpoints or handle");
+    module.api.destroy(handle);
+    Counter gzip_cancel;
+    // For UInt8 there is only the final open checkpoint after decoding.
+    gzip_cancel.after=gzip_trace.calls-1;
+    gzip_request.cancel={cancelled,&gzip_cancel};
+    refuse(&gzip_request,QPX_READER_CANCELLED,"cancel during gzip inflation");
+    const auto bzip2=fs::absolute(root/"bzip2-multiblock.nrrd").u8string();
+    const auto bzip2_size=fs::file_size(fs::u8path(bzip2));
+    auto bzip2_request=request;
+    bzip2_request.path={bzip2.data(),bzip2.size()};
+    bzip2_request.work_bytes=bzip2_size+2u*1024*1024;
+    refuse(&bzip2_request,QPX_READER_INVALID_REQUEST,"bzip2 workspace budget");
+    check(error.message()=="NRRD bzip2 workspace exceeds reader work budget","Bzip2 workspace was not charged");
+    bzip2_request.work_bytes=bzip2_size+3u*1024*1024+65536;
+    refuse(&bzip2_request,QPX_READER_INVALID_REQUEST,"bzip2 decoded budget");
+    check(error.message()=="NRRD decoded data exceeds reader work budget","Bzip2 decoded bytes were not charged");
     std::ifstream in(root/"negative.tsv");check(bool(in),"Missing negative fixtures");std::string name;unsigned expected;unsigned count=0;
-    while(in>>name>>expected){const auto path=fs::absolute(root/(name+".nrrd")).u8string();auto negative=request;negative.path={path.data(),path.size()};refuse(&negative,expected,("negative "+name).c_str());++count;std::cout<<"Refused "<<name<<" with status "<<expected<<'\n';}check(in.eof()&&count==56,"Incomplete negative fixture list");
+    while(in>>name>>expected){const auto path=(root/fs::u8path(name)).u8string();auto negative=request;negative.path={path.data(),path.size()};refuse(&negative,expected,("negative "+name).c_str());++count;std::cout<<"Refused "<<name<<" with status "<<expected<<'\n';}check(in.eof()&&count==157,"Incomplete negative fixture list");
 }
 
 }
 int run(int argc,char** argv){try{
-    check(argc==3,"Usage: nrrd_plugin_tests MODULE_DLL FIXTURES_DIR");Module module(fs::absolute(fs::u8path(argv[1])));const auto root=fs::absolute(fs::u8path(argv[2]));descriptor(module);
+    check(argc==3||argc==4,"Usage: nrrd_plugin_tests MODULE_DLL FIXTURES_DIR [TIME_FIXTURES_DIR]");Module module(fs::absolute(fs::u8path(argv[1])));const auto root=fs::absolute(fs::u8path(argv[2]));descriptor(module);
     const auto all=fixtures(root);std::size_t count=0;for(const auto& f:all){
-        Source source(module,root/fs::u8path(f.name+".nrrd"),f.options=="-"?"":f.options);metadata(source,f);const auto rgba=bytes(root/fs::u8path(f.name+".rgba")),raw=bytes(root/fs::u8path(f.name+".raw"));check(raw.size()==static_cast<std::size_t>(f.width*f.height*f.planes*f.sample)&&rgba.size()==static_cast<std::size_t>(f.width*f.height*4),"Invalid authored oracle byte lengths");
+        source_files(module,root,f);
+        Source source(module,root/fs::u8path(f.source),f.options=="-"?"":f.options);metadata(source,f);const auto rgba=bytes(root/fs::u8path(f.name+".rgba")),raw=bytes(root/fs::u8path(f.name+".raw"));check(raw.size()==static_cast<std::size_t>(f.width*f.height*f.planes*f.sample)&&rgba.size()==static_cast<std::size_t>(f.width*f.height*4),"Invalid authored oracle byte lengths");
         for(unsigned z=0;z<f.planes;++z){exact_region(source,f,raw,true,0,0,f.width,f.height,0,1,z);exact_region(source,f,raw,true,-2,-1,f.width+3,f.height+2,0,1,z);exact_region(source,f,raw,true,2,1,4,3,0,1,z);}
         exact_region(source,f,rgba,false,0,0,f.width,f.height);exact_region(source,f,rgba,false,-2,-1,f.width+3,f.height+2);exact_region(source,f,rgba,false,2,1,4,3);
         for(unsigned z=0;z<f.planes;++z)exact_region(source,f,raw,true,0,0,f.width,f.height,0,1,z);invalid_reads(source,f);
         ++count;std::cout<<f.name<<": exact scalar type/all Z/raw bits before+after display/window/calibration/crop/padding and ABI failures passed\n";
     }
     const auto main=std::find_if(all.begin(),all.end(),[](const auto& f){return f.name=="u16-main";});check(main!=all.end(),"Missing Unicode control fixture");auto unicode=*main;unicode.name=u8"NRRD-\u03bc-\u56fe";Source unicode_source(module,root/fs::u8path(unicode.name+".nrrd"));metadata(unicode_source,unicode);exact_region(unicode_source,unicode,bytes(root/"u16-main.rgba"),false,0,0,unicode.width,unicode.height);for(unsigned z=0;z<unicode.planes;++z)exact_region(unicode_source,unicode,bytes(root/"u16-main.raw"),true,0,0,unicode.width,unicode.height,0,1,z);
-    check(bytes(root/"u16-main.raw")==bytes(root/"u16-main-wide.raw"),"Window choice changed the authored raw source codes");invalid_open(module,root);std::cout<<"NRRD direct ABI passed "<<count<<" authored profiles, Unicode and exact refusal/cancellation/input-budget/buffer checks\n";return 0;
+    check(bytes(root/"u16-main.raw")==bytes(root/"u16-main-wide.raw"),"Window choice changed the authored raw source codes");invalid_open(module,root);
+    if(argc==4) {
+        const auto time_root=fs::absolute(fs::u8path(argv[3]));
+        for(const auto& f:fixtures(time_root,true)) {
+            source_files(module,time_root,f);
+            Source source(module,time_root/fs::u8path(f.source));
+            metadata(source,f);
+            const auto raw=bytes(time_root/fs::u8path(f.name+".raw"));
+            const auto display=bytes(time_root/fs::u8path(f.name+".rgba"));
+            check(raw.size()==std::size_t(f.width*f.height*f.planes*f.times*f.sample) &&
+                  display.size()==std::size_t(f.width*f.height*4),"Invalid time-series oracle dimensions");
+            exact_region(source,f,display,false,0,0,f.width,f.height);
+            for(unsigned t=0;t<f.times;++t)for(unsigned z=0;z<f.planes;++z)
+                exact_region(source,f,raw,true,-1,-1,f.width+2,f.height+2,0,1,z,t);
+            invalid_reads(source,f);
+            ++count;
+            std::cout<<f.name<<": exact Z/T samples, display and temporal metadata passed\n";
+        }
+        std::ifstream negatives(time_root/"negative.tsv");
+        std::string name;
+        unsigned expected=0,refused=0;
+        while(negatives>>name>>expected) {
+            const auto path=(time_root/fs::u8path(name)).u8string();
+            qpx_reader_open_v1 request{};
+            request.struct_size=sizeof(request);
+            request.path={path.data(),path.size()};
+            request.work_bytes=256ull*1024*1024;
+            void* handle=nullptr;
+            Error error;
+            status(module.api.open(&request,&handle,&error.text),expected,error,name);
+            check(!handle,"Failed temporal header exposed a handle");
+            ++refused;
+        }
+        check(negatives.eof()&&refused==22,"Incomplete supplemental refusal fixtures");
+    }
+    std::cout<<"NRRD direct ABI passed "<<count<<" authored profiles, Unicode and exact refusal/cancellation/input-budget/buffer checks\n";return 0;
 }catch(const std::exception& e){std::cerr<<e.what()<<'\n';return 1;}}
 
 int wmain(int argc,wchar_t** wide_argv){try{

@@ -46,4 +46,7 @@ ReaderRoute desktop_startup_selection(const std::string& path,const std::string&
     ReaderFeatures features=reader_features());
 std::shared_ptr<ImageServer> open_reader(const std::string& path,const ReaderSelection&,
     const ReaderOpenOptions& options={},const std::atomic<bool>* cancelled=nullptr);
+// Invocation options replace the selected plugin's manifest defaults for this open.
+std::shared_ptr<ImageServer> open_reader_with_plugin_options(const std::string& path,
+    const ReaderSelection&,const std::string& options,const std::atomic<bool>* cancelled=nullptr);
 }

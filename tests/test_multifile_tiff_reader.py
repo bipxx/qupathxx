@@ -3,7 +3,10 @@ import gc
 import hashlib
 import importlib.util
 import json
+import os
 from pathlib import Path
+import subprocess
+from xml.etree import ElementTree
 
 import numpy as np
 import pytest
@@ -26,6 +29,68 @@ def request(w,h,*,z=0,t=0,level=0,x=0,y=0):
     r=q.RawRegionRequest();r.region=q.RegionRequest(x,y,level,w,h)
     r.channels=2;r.z=z;r.t=t
     return r
+
+
+def write_compound_plane_metadata(directory, case):
+    ns = fixture.NAMESPACE
+    for index, name in enumerate(fixture.FILES):
+        path = directory / name
+        with tifffile.TiffFile(path) as tiff:
+            root = ElementTree.fromstring(tiff.ome_metadata)
+        if case == 'master' and index == 1:
+            root = ElementTree.Element(f'{{{ns}}}OME', UUID=fixture.UUIDS[index])
+            ElementTree.SubElement(root, f'{{{ns}}}BinaryOnly', UUID=fixture.UUIDS[0],
+                                   MetadataFile='../' + fixture.FILES[0])
+        else:
+            pixels = root.find('.//{*}Pixels')
+            coordinates = fixture.PLANES[index] if case == 'partial' else (
+                (t, z, c) for t in range(2) for z in range(2) for c in range(2))
+            for t, z, c in coordinates:
+                z_step = 500 if case == 'disagree-z' and index == 1 else 375
+                plane = ElementTree.SubElement(pixels, f'{{{ns}}}Plane', TheT=str(t), TheZ=str(z), TheC=str(c),
+                    PositionZ=str(z * z_step), PositionZUnit='nm', DeltaT=str(t * (0.125 if index else 125)),
+                    DeltaTUnit='s' if index else 'ms')
+                if case == 'incomplete-time' and index == t == z == c == 1:
+                    del plane.attrib['DeltaT']
+        tifffile.tiffcomment(path, ElementTree.tostring(root, encoding='ascii').decode('ascii'))
+
+
+@pytest.mark.parametrize(('case', 'z_spacing', 'interval'), [
+    ('matched', 0.375, 0.125), ('master', 0.375, 0.125), ('disagree-z', None, 0.125),
+    ('incomplete-time', 0.375, None), ('partial', None, None),
+])
+def test_compound_ome_plane_calibration_agrees_across_metadata(corpus, tmp_path, case, z_spacing, interval):
+    from test_tiff_cli import run
+
+    directory, _ = corpus
+    write_compound_plane_metadata(directory, case)
+    expected = np.stack([fixture.values(1, 1, c) for c in range(2)], axis=-1)
+
+    def export(args, label):
+        archive = tmp_path / (label + '.zip')
+        result = run(*args, archive, '--z', 1, '--time', 1, '--channels', 2, '--bundle')
+        assert result.returncode == 0, result.stderr
+        array = tmp_path / (label + '.npy')
+        result = run('--extract-raw-bundle', archive, array)
+        assert result.returncode == 0, result.stderr
+        receipt = json.loads(result.stdout)
+        assert receipt['calibration'].get('z_spacing_um') == z_spacing
+        assert receipt['calibration'].get('time_interval_seconds') == interval
+        assert receipt['reader_source']['scope'] == 'compound_files'
+        np.testing.assert_array_equal(np.load(array), expected)
+        return array.read_bytes()
+
+    direct = [export(['--raw', directory / entry], f'direct-{i}') for i, entry in enumerate(fixture.FILES)]
+    assert direct[0] == direct[1]
+    if case in ('matched', 'master') and os.environ.get('QUPATHXX_TEST_FORMAT_IMPORT'):
+        project = tmp_path / 'planes.qpxproj'
+        create = subprocess.run([os.environ['QUPATHXX_TEST_FORMAT_IMPORT'], 'project-create',
+                                 directory / fixture.FILES[1], project, '--reader', 'tiff'],
+                                capture_output=True, encoding='utf-8', timeout=40)
+        assert create.returncode == 0, create.stderr
+        before = project.read_bytes()
+        assert export(['--raw-project', project, '1'], 'saved') == direct[0]
+        assert project.read_bytes() == before
 
 
 @pytest.mark.parametrize('entry',fixture.FILES)
@@ -205,6 +270,36 @@ def test_compound_cli_batch_and_resume(corpus,tmp_path,grid):
         result=q.Project.open(saved['path']).document(image).raw_analysis_records[0].result
         assert len(result.source.companions)==1 and result.source.scope=='compound_files'
         np.testing.assert_allclose(result.statistics.means,[fixture.values(1,1,c).mean() for c in range(2)],rtol=0,atol=1e-10)
+
+
+@pytest.mark.skipif(not q.has_project, reason='project support')
+def test_raw_project_preserves_verified_companion_observation(corpus, tmp_path):
+    from test_project_source import fingerprint
+    from test_tiff_cli import run
+
+    directory, _ = corpus
+    primary, companion = (directory / name for name in fixture.FILES)
+    project = q.Project()
+    image = project.add_tiff_image(str(primary))
+    review = project.review_source_verification(image, fingerprint(primary))
+    assert review.coverage == 'compound_primary_only'
+    project.apply_source_review(review)
+    saved = tmp_path / 'verified-compound.qpx'
+    project.save(str(saved))
+    del review, project
+    before = saved.read_bytes()
+    output = tmp_path / 'compound.npy'
+    result = run('--raw-project', saved, image, output, '--channel', 1, '--z', 1, '--time', 1)
+    assert result.returncode == 0, result.stderr
+    np.testing.assert_array_equal(np.load(output)[..., 0], fixture.values(1, 1, 1))
+
+    replacement = directory / 'replacement'
+    replacement.write_bytes(companion.read_bytes())
+    replacement.replace(companion)
+    refused = tmp_path / 'refused.npy'
+    result = run('--raw-project', saved, image, refused)
+    assert result.returncode == 2 and 'differs from saved source verification' in result.stderr, result
+    assert not refused.exists() and saved.read_bytes() == before
 
 
 def desktop():

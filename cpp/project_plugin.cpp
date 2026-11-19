@@ -95,6 +95,11 @@ std::size_t project_plugin_snapshot_bytes(const ImageServer& server) {
         path.capacity()+link->payload_bytes()+encoded.capacity()+128+
         (source?source->payload_bytes():0);
 }
+bool is_project_image_directory_source(const ImageServer& server) {
+    if(server.reader_id()=="ome-zarr") return true;
+    const auto link=plugin_link_of(server);
+    return link && (link->implementation.capabilities&QPX_READER_CAP_SOURCE_STORE);
+}
 void guard_project_plugin_output(const ImageServer& server,const std::string& destination) {
     const auto link=plugin_link_of(server);if(!link)return;
     guard_file_output(server.source_locator(),"",destination);

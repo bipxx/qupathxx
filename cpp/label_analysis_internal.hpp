@@ -5,7 +5,11 @@
 #include <cstring>
 #include <type_traits>
 
+namespace qpx {
+struct ExternalLabelMaskOptions;
+}
 namespace qpx::detail {
+void capture_label_mask_reader(ExternalLabelMaskOptions&);
 inline void label_work_limit(std::size_t work) {
     if (work < 4096 || work > 1024ull * 1024 * 1024)
         throw std::invalid_argument("Label analysis requires a4096-byte..1GiB work budget");

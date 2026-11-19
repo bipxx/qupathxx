@@ -101,6 +101,7 @@ std::vector<SpatialObservation> position_table(const std::string& text,const std
     std::uint32_t maximum,std::optional<std::size_t> required,Budget& budget,const std::atomic<bool>* cancelled) {
     Lines positions{text};std::string_view line;
     if(!positions.next(line))throw std::invalid_argument("Missing position TSV header");
+    if(line.substr(0,3)=="\xef\xbb\xbf")line.remove_prefix(3);
     const auto headers=words(line,true);if(headers.size()!=3)throw std::invalid_argument("Position TSV requires three explicitly mapped columns");
     std::array<std::size_t,3> mapping{};
     for(std::size_t i=0;i<3;++i) {

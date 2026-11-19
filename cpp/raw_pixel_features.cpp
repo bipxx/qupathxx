@@ -88,9 +88,8 @@ template<class Grid> std::size_t feature_work(const RawImageMetadata& metadata,c
     if(fixed>options.work_bytes-bytes) throw std::length_error("raw feature scratch exceeds memory budget");
     // Context must be supplied even outside the source, where raw support is
     // invalid. This avoids silently inventing a block edge as an image edge.
-    const auto derivative=options.gradient_magnitude || options.laplacian?1:0;
     const auto last=options.sigmas.back();
-    if(grid.x().context()<std::ceil(3*last.x)+derivative || grid.y().context()<std::ceil(3*last.y)+derivative) throw std::invalid_argument("raw feature grid lacks required per-axis halo");
+    if(grid.x().context()<raw_feature_halo(last.x, options) || grid.y().context()<raw_feature_halo(last.y, options)) throw std::invalid_argument("raw feature grid lacks required per-axis halo");
     return bytes+fixed;
 }
 }

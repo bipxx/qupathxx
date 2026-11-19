@@ -4,6 +4,7 @@
 #include "qupathxx/workflow.hpp"
 #include "expression_differential_cli.hpp"
 #include "expression_differential_internal.hpp"
+#include "expression_statistics_export_internal.hpp"
 #include <nlohmann/json.hpp>
 #include <filesystem>
 #include <fstream>
@@ -61,6 +62,22 @@ void exercise(const fs::path& root){
     remove_expression_differential(*saved,image,id);check(expression_differential_ids(*saved,image).empty(),"DE removal failed");saved->document(image)->undo();check(expression_differential_ids(*saved,image)==std::vector<std::string>{id},"DE metadata undo failed");
     const auto relocated=root/"relocated";fs::create_directory(relocated);saved->save_new((relocated/"study.qpx").u8string());const auto moved=Project::open((relocated/"study.qpx").u8string());check(expression_differential_open_request(*moved,image,id).open()->sha256()==result->sha256(),"Owned native source relocation changed exact DE identity");
     remove_expression_aggregation(*moved,image,aggregated->id());rejects([&]{expression_differential_open_request(*moved,image,id);});
+    for (const bool replicates : {false, true}) {
+        const auto destination = root / "guarded-statistics.csv";
+        unsigned calls = 0;
+        const auto protect = [&] {
+            if (++calls == 2)
+                throw WorkflowInputChanged("Project output became protected before publication");
+        };
+        rejects<WorkflowInputChanged>([&] {
+            detail::write_expression_differential_export(*result, destination.u8string(), replicates,
+                                                         1024 * 1024, nullptr, protect);
+        });
+        check(calls == 2 && !fs::exists(destination), "Guard failure published a statistics export");
+        for (const auto& entry : fs::directory_iterator(root))
+            check(entry.path().filename().u8string().find("guarded-statistics.csv.qpx-tmp-") != 0,
+                  "Guard failure left a statistics export temporary file");
+    }
     save_expression_differential_csv(*result,(root/"genes.csv").u8string());save_expression_differential_replicates_csv(*result,(root/"replicates.csv").u8string());check(read(root/"genes.csv").find("effect_mean_log1p_b_minus_a")!=std::string::npos && read(root/"replicates.csv").find("\"R0\",\"R0\",\"A\",100,2,\"C1\"")!=std::string::npos,"CSV semantics or merged association differs");rejects([&]{save_expression_differential_csv(*result,(root/"genes.csv").u8string());});rejects([&]{save_expression_differential_csv(*result,(root/"too-small.csv").u8string(),10);});check(!fs::exists(root/"too-small.csv"),"Failed DE export published partial output");
     std::atomic<bool> cancelled{true};rejects<WorkflowCancelled>([&]{differential_expression(aggregated,options,&cancelled);});rejects<WorkflowCancelled>([&]{save_expression_differential_csv(*result,(root/"cancelled.csv").u8string(),1024,&cancelled);});check(!fs::exists(root/"cancelled.csv"),"Cancelled CSV published output");cancelled.store(false);
     check(source->read({{0,1,2,3,4,5,6},{}}).sha256==unchanged,"DE modified raw input counts");

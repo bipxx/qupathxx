@@ -168,6 +168,7 @@ ReaderSource read_observed(const Json& value) {
         const auto& companions=value.at("companions");if(!companions.is_array() || companions.size()>63)invalid("companion count exceeds limit");
         result.companions.reserve(companions.size());for(const auto& file:companions)result.companions.push_back(read_file(file));
     }
+    if(value.contains("directory_sha256"))result.directory_sha256=string(value,"directory_sha256",64);
     return result;
 }
 std::string sha(const std::string& value) {Sha256 hash;hash.update(value.data(),value.size());return hash.finish();}
@@ -193,7 +194,10 @@ std::size_t ReaderPluginImplementation::payload_bytes() const {
 }
 void ReaderPluginImplementation::validate() const {
     if(!valid_reader_plugin_id(provider_id))invalid("invalid provider ID");for(const auto* value:{&version,&contract,&profile})text(*value,true);
-    if(abi!=QPX_READER_ABI_V1 || !(capabilities&QPX_READER_CAP_RGBA) || (capabilities&~UINT64_C(7)) || !digest(module_sha256))
+    if(abi!=QPX_READER_ABI_V1 || !(capabilities&QPX_READER_CAP_RGBA) || (capabilities&~UINT64_C(31)) ||
+        ((capabilities&QPX_READER_CAP_SOURCE_STORE) && (capabilities&QPX_READER_CAP_SOURCE_FILES)) ||
+        ((capabilities&QPX_READER_CAP_LABEL_DESCRIPTION) &&
+            (capabilities&(QPX_READER_CAP_RAW|QPX_READER_CAP_SOURCE_STORE))!=(QPX_READER_CAP_RAW|QPX_READER_CAP_SOURCE_STORE)) || !digest(module_sha256))
         invalid("invalid ABI, capabilities or module hash");
     text(options);if(normalize_reader_plugin_options(options)!=options)invalid("noncanonical options");
     if(dependencies.size()>63)invalid("dependency count exceeds limit");std::string previous;
@@ -228,8 +232,11 @@ std::size_t ReaderPluginLink::payload_bytes() const {
 }
 void ReaderPluginLink::validate() const {
     implementation.validate();image_metadata(metadata);observed.validate();
-    if((observed.scope!="single_file" && observed.scope!="compound_files") || observed.reader!=reader_plugin_binding(implementation) ||
-        (observed.scope=="compound_files" && !(implementation.capabilities&UINT64_C(4))))invalid("source observation differs from implementation binding");
+    const bool store=(implementation.capabilities&QPX_READER_CAP_SOURCE_STORE)!=0;
+    if((implementation.capabilities&QPX_READER_CAP_LABEL_DESCRIPTION) && !raw)
+        invalid("label description requires observed raw metadata");
+    if((store ? observed.scope!="directory_store" : (observed.scope!="single_file" && observed.scope!="compound_files")) || observed.reader!=reader_plugin_binding(implementation) ||
+        (observed.scope=="compound_files" && !(implementation.capabilities&QPX_READER_CAP_SOURCE_FILES)))invalid("source observation differs from implementation binding");
     if(raw) {
         raw_metadata(*raw);if(!(implementation.capabilities&QPX_READER_CAP_RAW) || raw->width!=metadata.width || raw->height!=metadata.height ||
             !same_levels(raw->levels,metadata.levels) || raw->pixel_width_um!=metadata.pixel_width_um || raw->pixel_height_um!=metadata.pixel_height_um)
@@ -238,7 +245,7 @@ void ReaderPluginLink::validate() const {
     if(payload_bytes()>reader_plugin_link_limit)throw std::length_error("Reader plugin link exceeds 2 MiB");
 }
 std::string encode_reader_plugin_link(const ReaderPluginLink& value) {
-    value.validate();Json result={{"schema","qpx.reader-plugin-link/1"},{"implementation",implementation_json(value.implementation)},
+    value.validate();Json result={{"schema",value.observed.scope=="directory_store"?"qpx.reader-plugin-link/2":"qpx.reader-plugin-link/1"},{"implementation",implementation_json(value.implementation)},
         {"metadata",image_json(value.metadata)},{"raw",value.raw?raw_json(*value.raw):Json(nullptr)},
         {"observed",parse(reader_source_json(value.observed),reader_plugin_link_limit)}};
     result["sha256"]=sha(result.dump());auto encoded=result.dump();
@@ -248,12 +255,14 @@ std::shared_ptr<const ReaderPluginLink> decode_reader_plugin_link(const std::str
     if(encoded.empty() || encoded.size()>reader_plugin_link_limit)invalid("encoded link exceeds bounds");
     try {
         auto document=parse(encoded,reader_plugin_link_limit);
-        if(string(document,"schema")!="qpx.reader-plugin-link/1")invalid("unsupported link schema");
+        const auto schema=string(document,"schema");
+        if(schema!="qpx.reader-plugin-link/1" && schema!="qpx.reader-plugin-link/2")invalid("unsupported link schema");
         const auto checksum=string(document,"sha256",64);if(!digest(checksum))invalid("invalid checksum");
         document.erase("sha256");if(sha(document.dump())!=checksum)invalid("checksum mismatch");
         auto result=std::make_shared<ReaderPluginLink>();result->implementation=read_implementation(document.at("implementation"));
         result->metadata=read_image(document.at("metadata"));if(!document.at("raw").is_null())result->raw=read_raw(document.at("raw"));
         result->observed=read_observed(document.at("observed"));result->validate();
+        if((schema=="qpx.reader-plugin-link/2")!=(result->observed.scope=="directory_store"))invalid("source scope differs from link schema");
         if(encode_reader_plugin_link(*result)!=encoded)invalid("noncanonical encoding");return result;
     }catch(const nlohmann::json::exception&){invalid("malformed link fields");}
 }
@@ -261,7 +270,10 @@ bool same_reader_plugin_metadata(const ReaderPluginLink& a,const ReaderPluginLin
     return same_image(a.metadata,b.metadata) && bool(a.raw)==bool(b.raw) && (!a.raw || same_raw(*a.raw,*b.raw));
 }
 void hash_reader_plugin_binding(Sha256& hash,const ImageServer& server) {
-    const auto source=server.reader_source();if(!source || !is_reader_plugin_binding(source->reader))return;
+    hash_reader_plugin_binding(hash,server.reader_source().get());
+}
+void hash_reader_plugin_binding(Sha256& hash,const ReaderSource* source) {
+    if(!source || !is_reader_plugin_binding(source->reader))return;
     constexpr std::string_view domain="qpx.reader-implementation-binding/1";
     hash.integer(domain.size());hash.update(domain.data(),domain.size());hash.integer(source->reader.size());hash.update(source->reader.data(),source->reader.size());
 }

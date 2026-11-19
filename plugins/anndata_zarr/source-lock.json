@@ -1,0 +1,123 @@
+{
+  "schema": "qpx.anndata-zarr-native-source-profile/1",
+  "provider": "org.qupathxx.anndata-zarr",
+  "contract": "anndata-zarr2-typed/1",
+  "abi": 4,
+  "implementation_license": "AGPL-3.0-only",
+  "references": [
+    {
+      "component": "anndata",
+      "repository": "https://github.com/scverse/anndata",
+      "revision": "b796d59fea77f5e068d4c0ed8bb9d3f7c5316c19",
+      "source_path": "LICENSE",
+      "url": "https://raw.githubusercontent.com/scverse/anndata/b796d59fea77f5e068d4c0ed8bb9d3f7c5316c19/LICENSE",
+      "license": "BSD-3-Clause",
+      "bytes": 1575,
+      "sha256": "55cad7a0454c86d36ebccbca6063fe23994c4fca99ffa7457f6d9fb0bd7cd2a0",
+      "local_path": "build/gui-aggregation/catalogue-closure/anndata-zarr/references/anndata/LICENSE"
+    },
+    {
+      "component": "anndata",
+      "repository": "https://github.com/scverse/anndata",
+      "revision": "b796d59fea77f5e068d4c0ed8bb9d3f7c5316c19",
+      "source_path": "docs/fileformat-prose.md",
+      "url": "https://raw.githubusercontent.com/scverse/anndata/b796d59fea77f5e068d4c0ed8bb9d3f7c5316c19/docs/fileformat-prose.md",
+      "license": "BSD-3-Clause",
+      "bytes": 24138,
+      "sha256": "10cd151082eec951c32e08ce72f73a17f924714f52d99038a1bb42efbbdd99ad",
+      "local_path": "build/gui-aggregation/catalogue-closure/anndata-zarr/references/anndata/docs/fileformat-prose.md"
+    },
+    {
+      "component": "zarr-specs",
+      "repository": "https://github.com/zarr-developers/zarr-specs",
+      "revision": "6e42439084ca766e80ca0877fed9e0d076905cba",
+      "source_path": "LICENSE",
+      "url": "https://raw.githubusercontent.com/zarr-developers/zarr-specs/6e42439084ca766e80ca0877fed9e0d076905cba/LICENSE",
+      "license": "CC-BY-4.0",
+      "bytes": 18655,
+      "sha256": "fe7b4ce83b8381cc5b216bbb4af73c570688d1b819c73bbaed8ca401f4677cd6",
+      "local_path": "build/gui-aggregation/catalogue-closure/anndata-zarr/references/zarr-specs/LICENSE"
+    },
+    {
+      "component": "zarr-specs",
+      "repository": "https://github.com/zarr-developers/zarr-specs",
+      "revision": "6e42439084ca766e80ca0877fed9e0d076905cba",
+      "source_path": "docs/v2/v2.0.rst",
+      "url": "https://raw.githubusercontent.com/zarr-developers/zarr-specs/6e42439084ca766e80ca0877fed9e0d076905cba/docs/v2/v2.0.rst",
+      "license": "CC-BY-4.0",
+      "bytes": 20907,
+      "sha256": "422bd5f5fb27269bcc30da125f0b116c29e5008a5360bb5a5bb77f14b93acea7",
+      "local_path": "build/gui-aggregation/catalogue-closure/anndata-zarr/references/zarr-specs/docs/v2/v2.0.rst"
+    },
+    {
+      "component": "numcodecs",
+      "repository": "https://github.com/zarr-developers/numcodecs",
+      "revision": "3cf8ab1f28e6fbda24fa16c33654cf560a8d4ae2",
+      "source_path": "LICENSE.txt",
+      "url": "https://raw.githubusercontent.com/zarr-developers/numcodecs/3cf8ab1f28e6fbda24fa16c33654cf560a8d4ae2/LICENSE.txt",
+      "license": "MIT",
+      "bytes": 1124,
+      "sha256": "949cac68479e13b6c97924635150b4e1ef5e69766ad9e472ea85a08c1576bb96",
+      "local_path": "build/gui-aggregation/catalogue-closure/anndata-zarr/references/numcodecs/LICENSE.txt"
+    },
+    {
+      "component": "numcodecs",
+      "repository": "https://github.com/zarr-developers/numcodecs",
+      "revision": "3cf8ab1f28e6fbda24fa16c33654cf560a8d4ae2",
+      "source_path": "numcodecs/vlen.pyx",
+      "url": "https://raw.githubusercontent.com/zarr-developers/numcodecs/3cf8ab1f28e6fbda24fa16c33654cf560a8d4ae2/numcodecs/vlen.pyx",
+      "license": "MIT",
+      "bytes": 13694,
+      "sha256": "ee07175b0109eb6ac563c2f266e43f480341396cafbf8d38c067af16bc3654cb",
+      "local_path": "build/gui-aggregation/catalogue-closure/anndata-zarr/references/numcodecs/numcodecs/vlen.pyx"
+    }
+  ],
+  "reference_usage": "Unmodified nonexecuted format/code/notice context; no Python/Cython product implementation or runtime; no upstream datasets/images/models/fixture assets",
+  "zlib": {
+    "version": "1.3.2",
+    "license": "Zlib",
+    "source_archive_sha256": "bb329a0a2cd0274d05519d61c667c062e06990d72e125ee2dfa8de64f0119d16",
+    "static_library_sha256": "4ec525ee88a54ccf5d33ef1a5c8105533ad19f0ac946b71b52c8a824cbefb63d",
+    "headers": "Exact frozen paired qpx-include zlib.h + generated Z_PREFIX1 zconf.h",
+    "external_codec_fallback": false
+  },
+  "frozen_sdk_context": {
+    "core_sha256": "4bf957c9ea6e46294c11b9bfb7d9c2496cf4fca607a9c28ba837768d301eb6bb",
+    "profile": "windows-x64-msvc1944-release-md",
+    "application_core_linked_into_provider": false
+  },
+  "selected_profile": {
+    "container": "Local Zarr2 directory; explicit primary .zattrs",
+    "anndata": "0.1.0",
+    "dataframe": "0.2.0",
+    "dense": "array0.2.0",
+    "sparse": [
+      "csr_matrix0.1.0",
+      "csc_matrix0.1.0"
+    ],
+    "strings": "string-array0.2.0; |O + vlen-utf8 only",
+    "compression": [
+      "null",
+      "zlib",
+      "gzip"
+    ],
+    "decoded_chunk_bytes": 1048576,
+    "encoded_chunk_bytes": 1114112,
+    "metadata_bytes": 1048576,
+    "fixed_provider_workspace_bytes": 12582912,
+    "sparse_index_bytes_per_entry": 16,
+    "max_logical_cells": 100000000,
+    "integral_fills": "In-range JSON integer/null tokens only",
+    "consolidated_metadata": "Optional .zmetadata consolidatedformat1; selected physical members must agree, exact numbertokens, bounded second1MiB input/4MiB arena, depth18; no unselected member interpretation"
+  },
+  "qualification": "Source profile only; native module/compiler/material/workflow/deployment receipts retain their own exact identities",
+  "additional_inspected_reference": {
+    "url": "https://raw.githubusercontent.com/scverse/anndata/b796d59fea77f5e068d4c0ed8bb9d3f7c5316c19/src/anndata/_io/specs/methods.py",
+    "sha256": "6b099d6d43003fd5e3922779e8b01bc963507ca7023ab931d01790e820ca7a4e",
+    "bytes": 46422,
+    "license": "BSD-3-Clause",
+    "local_copy": false,
+    "execution": false,
+    "finding": "Pinned write_sparse_compressed creates internal data/indices/indptr arrays directly, without requiring standalone child encoding attrs; sparse group attributes own the encoding"
+  }
+}

@@ -70,7 +70,7 @@ work and native publication is atomic/new-only. No credentials are saved.
 ## Original raw blocks
 
 ```powershell
-qupathxx_omero raw --server https://idr.openmicroscopy.org/ --id 15190881 --x 256 --y 256 --width 128 --height 128 --channels 2 --z 12 --output raw-new.npy --receipt raw-new.json --reader-plugins C:/ABSOLUTE/PATH/reader-plugins.json
+qupathxx_omero raw --server https://idr.openmicroscopy.org/ --id 15190881 --x 256 --y 256 --width 128 --height 128 --channels 2 --z 12 --bundle raw-new.zip --reader-plugins C:/ABSOLUTE/PATH/reader-plugins.json
 ```
 
 The image must explicitly identify an anonymous NGFF externalInfo association.
@@ -96,9 +96,25 @@ selection, transforms, codec-module identity and exact raw/validity digest.
 This is observed-byte stability, not a server-wide transaction guarantee.
 The returned buffer is native-endian HWC with preserved floating-point bits.
 
-Exports use the existing native `.npy` writer and an independent JSON receipt.
-Both paths must be new and distinct. Each file is published atomically; the pair
-is not a single filesystem transaction. A receipt failure can leave the completed
+Use `--bundle NEW.zip` to publish `raw.npy` and `receipt.json` together
+in one atomic, new-only archive. Both entries use the native standalone
+formats, stored without compression. Verify a native bundle offline:
+
+```powershell
+qupathxx_omero verify-raw-bundle raw-new.zip
+qupathxx_omero extract-raw-bundle raw-new.zip extracted-new.npy
+```
+
+The verifier checks ZIP framing and CRCs, the NPY shape and sample type,
+and the source receipt and raw sample digests. Both commands report the receipt
+and make no network requests. Extraction publishes the exact `raw.npy` member
+to a new file after verification. A failed verification or cancellation leaves
+the destination and archive intact. The native bundle profile bounds sample
+storage to 256 MiB and the receipt to 32 MiB.
+
+The separate
+`--output NEW.npy --receipt NEW.json` mode publishes each file independently.
+Both paths must be new and distinct. A receipt failure can leave the completed
 `.npy`, which the CLI reports as an error. Partial staging stores are never
 published as complete images or raw projects. The original image coordinates and
 channel/Z/T selection in the receipt locate the block; the block's local origin

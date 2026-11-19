@@ -6,6 +6,7 @@
 #include "ascii_case.hpp"
 #include "sha256.hpp"
 #include "raw_statistics_internal.hpp"
+#include "raw_numpy_write.hpp"
 #include "reader_file_guard.hpp"
 #include <algorithm>
 #include <cctype>
@@ -66,9 +67,9 @@ ObjectPlane Document::active_plane() const {
 }
 void Document::validate_object_plane(const ObjectPlane& plane) const {
     plane.validate();if(plane==ObjectPlane{})return;
-    if(!server_->raw_view())throw std::invalid_argument("object plane requires a quantitative source");
     const auto raw=server_->raw_metadata();
-    if(!raw || plane.z>=raw->z_planes || plane.t>=raw->timepoints || (plane.c>=0 && std::uint32_t(plane.c)>=raw->channels))
+    if(!raw)throw std::invalid_argument("object plane requires a quantitative source");
+    if(plane.z>=raw->z_planes || plane.t>=raw->timepoints || (plane.c>=0 && std::uint32_t(plane.c)>=raw->channels))
         throw std::invalid_argument("object plane is unavailable in the source series");
 }
 bool Document::object_visible(std::uint64_t id) const {
@@ -78,7 +79,7 @@ bool Document::object_visible(std::uint64_t id) const {
 }
 void Document::require_object_raw_plane(std::uint64_t id,std::uint32_t first,std::uint32_t channels,std::uint32_t z,std::uint32_t t) const {
     const auto& plane=find(id).plane;
-    if(plane.z!=z || plane.t!=t || (plane.c>=0 && (first!=std::uint32_t(plane.c) || channels!=1)))
+    if(!plane.matches_raw(first,channels,z,t))
         throw std::invalid_argument("raw analysis selection does not match the object plane");
 }
 void Document::require_object_display_plane(std::uint64_t id) const {
@@ -155,15 +156,9 @@ TiffView tiff_view_decode(const std::string& text) {
     input>>std::ws;if(!input.eof()) throw std::invalid_argument("trailing TIFF view data");view.validate(true);if(tiff_view_encode(view)!=text) throw std::invalid_argument("noncanonical TIFF view payload");return view;
 }
 void save_raw_numpy(const RawPixelBuffer& buffer,const std::string& path,bool replace,const std::atomic<bool>* cancelled) {
-    const auto type=buffer.sample_type();const auto size=sample_bytes(type);const std::uint16_t one=1;const bool little=*reinterpret_cast<const unsigned char*>(&one)==1;
-    const bool floating=type==SampleType::Float32 || type==SampleType::Float64;
-    const bool signed_value=type==SampleType::Int8 || type==SampleType::Int16 || type==SampleType::Int32 || type==SampleType::Int64;
-    std::string descriptor(1,size==1?'|':little?'<':'>');descriptor+=floating?'f':signed_value?'i':'u';descriptor+=std::to_string(size);
-    std::string header="{'descr': '"+descriptor+"', 'fortran_order': False, 'shape': ("+std::to_string(buffer.height())+", "+std::to_string(buffer.width())+", "+std::to_string(buffer.channels())+"), }";
-    header.append((64-(10+header.size()+1)%64)%64,' ');header+='\n';
-    detail::AtomicExportFile file(detail::export_path(path),buffer.payload_bytes()+4096,cancelled);const unsigned char magic[]={0x93,'N','U','M','P','Y',1,0,static_cast<unsigned char>(header.size()),static_cast<unsigned char>(header.size()>>8)};
-    file.write(reinterpret_cast<const char*>(magic),sizeof(magic));file.write(header.data(),header.size());
-    std::visit([&](const auto& values){const auto* p=reinterpret_cast<const char*>(values.data());auto n=values.size()*sizeof(typename std::decay_t<decltype(values)>::value_type);while(n) {const auto step=std::min<std::size_t>(n,65536);file.write(p,step);p+=step;n-=step;}},buffer.storage());file.commit(replace);
+    detail::AtomicExportFile file(detail::export_path(path),buffer.payload_bytes()+4096,cancelled);
+    detail::write_raw_numpy(file,buffer);
+    file.commit(replace);
 }
 void RawStatisticsKernel::validate_coordinates(const RawImageMetadata& metadata,const RawRegionRequest& request) {coordinates(metadata,request);}
 RawRegionStatistics RawStatisticsKernel::run(const ImageServer& server,const RawRegionRequest& r,std::size_t tile,const Roi* mask,std::uint64_t maximum,const std::atomic<bool>* cancelled,Sha256* digest,std::atomic<std::uint64_t>* completed,bool collect_statistics) {

@@ -66,14 +66,48 @@ a saved live Python project and the CLI to share checkpoints.
 
 Completed bundles survive cancellation. A restart can reuse committed images
 and generate the remaining images. Normal failure/cancellation removes only
-known outputs from the current exclusively owned incomplete bundle. Unknown
-files, foreign ownership markers and previous bundles are preserved. A process
-crash can leave incomplete directories; these are ignored on restart and are
-not automatically reclaimed. Corrupt/missing completed outputs fail the image
+known outputs from the current exclusively owned incomplete bundle. On restart,
+the batch acquires the output-directory lock before reclaiming abandoned scratch.
+It removes only recognized files from a plain directory with a matching owner
+marker. A completion marker, unexpected contents or a link preserves the
+directory. Cleanup also recognizes the raw-stream batch's temporary files. It
+scans at most 100,000 entries per start and can retry remaining work on a later
+run. A concurrent batch cannot reclaim scratch or write a report in the locked
+output directory. Corrupt/missing completed outputs fail the image
 under the selected stop/continue policy. Disable `resume` to generate a separate
 fresh bundle without replacing the old one. Existing historical descriptors in
 the input project are preserved; their external files are not batch outputs and
 are not required for resume.
+
+The output directory must be outside every linked image directory store and
+every retained NGFF label store in the project.
+The batch checks the destination before creating directories, locks, scratch,
+or reports. This also covers unselected images and missing stores.
+[Windows verification](../build/gui-aggregation/gap-closure/batch-source-output-guard/results.json)
+
+New checkpoints use a version 2 seal that covers the project schema and every
+persisted project table as well as the CSV and request metadata. The batch
+runner uses a separate resume directory for version 2. A run with only a
+legacy checkpoint computes a new result and preserves the earlier file.
+Legacy CSV exports remain readable under their original seal. The
+[Windows verification](../build/gui-aggregation/gap-closure/batch-checkpoint-seal/results.json)
+checks byte-identical legacy export, clean resume, and refusal after changes
+to stored statistics, image metadata, or the table catalog.
+
+Before publishing or reporting reuse, the runner rechecks the linked reader's
+observed primary file and companions. Directory readers also check their
+captured inventory. A source change fails the affected image under the current
+stop/continue policy. The Windows test changed a linked PPM during result
+serialization and verified that a stable retry used the revised pixels.
+[Verification record](../build/gui-aggregation/gap-closure/batch-source-publication/results.json)
+
+For linked sources with a file observation, the resume key and the sealed
+checkpoint input bind the reader's primary file version, companion files, and
+directory inventory where present. A byte-identical file replacement creates
+a new checkpoint and preserves the earlier file. The run report still exposes
+the project snapshot and sampled-pixel digests separately. The Windows test
+verified the new save and reuse, and rejected the old checkpoint after copying
+it into the new resume directory. [Verification record](../build/gui-aggregation/gap-closure/batch-source-identity/results.json)
 
 `snapshot_budget`, `materialize_budget`, `result_budget`, `csv_limit` and
 `checkpoint_limit` retain their existing batch meanings. The pinned model is
@@ -107,6 +141,39 @@ Additional pixel flags are `--pixel-file-bytes`, `--pixel-total-bytes`,
 failure policy, no-resume and resource flags apply. Python and CLI can reuse
 each other's checkpoints with equal options. JSONL image reports include the
 block counters; normal batch exit codes and interrupt cancellation apply.
+
+### Versioned recipe file
+
+`qupathxx_batch --pixel-batch-recipe recipe.json batch-output` accepts the RGB
+recipe below or a [raw classifier recipe](project-raw-pixel-batches.md#versioned-raw-batch-recipe).
+Both pin the project and model and select explicit image and area-object IDs.
+The C++ entry point is `run_project_pixel_batch_recipe`. Use the same recipe and
+output directory to resume. The existing batch engine verifies checkpoints
+before reuse and keeps completed images through cancellation.
+
+```json
+{
+  "schema": "qpx.project-pixel-batch-recipe/1",
+  "project": {"path": "input.qpxproj", "sha256": "<64 lowercase hex characters>"},
+  "model": {"path": "classifier.qpc", "sha256": "<64 lowercase hex characters>"},
+  "selection": [{"image": 1, "objects": [2, 9]}],
+  "pixels": {"block_size": 128, "tile_size": 64, "work_bytes": 8388608, "min_vote_fraction": 0},
+  "failure": "stop",
+  "resume": true
+}
+```
+
+Replace the paths, hashes, and IDs with the project's values. Input paths are
+relative to the recipe file unless absolute. Use whole-file SHA-256 values for
+the saved project and classifier files. A changed file refuses before creating
+the output directory. The remaining native batch limits use the engine's defaults.
+
+`failure` is `stop` or `continue`. With `continue`, an invalid image checkpoint
+is reported as failed and other images can still be processed. The CLI exits
+with 1 for partial or failed runs, 2 for invalid recipe input, and 130 for
+cancellation. Each image report gives the path to its saved project. Open that
+project normally, or run `qupathxx_batch --export-csv CHECKPOINT NEW_OUTPUT.csv`
+to export its class-count table to a new file.
 
 In ImGui, open Project batch with Ctrl+Alt+B, select **Pixel streams**, and pin
 the active model with **Use active pixel model**. If no model is pinned, Run

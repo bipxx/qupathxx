@@ -76,6 +76,8 @@ Creation returns a JSON report containing `record` and `result_sha256`. Export
 and verification replay the retained recipe through the same native reducer.
 CSV and project publication are atomic and new-only. Existing destinations,
 changed parents, invalid specifications and overflowing sums fail visibly.
+The CLI requires export paths outside the saved project's linked inputs,
+including offline stores, and rechecks those paths before publishing.
 `--work-bytes` defaults to 256 MiB; `--project-bytes` bounds input/output project
 files. Creation also accepts `--save-snapshot-bytes`; exports accept `--csv-bytes`.
 
@@ -96,8 +98,15 @@ files. Creation also accepts `--save-snapshot-bytes`; exports accept `--csv-byte
 ```
 
 `roi` is an existing area annotation ID on the selected channel/Z/time plane.
-`frame_id` must match the retained expression point frame; use
-`expression_matrix_spatial_scopes(document)` to discover explicit scopes.
+`frame_id` must match the retained spatial frame. When a matrix has no
+backed detection objects, the workflow uses its indexed coordinates if the
+entire stored frame matches the current image and plane. `matrix-info` reports
+the frame ID and plane under `spatial_frame`. In source mode, omit `frame_id`
+to use the QMX's saved level-zero pixel frame and its channel/Z/time defaults.
+On a plugin image this requires a reader-bound frame. An explicit plane must
+agree with the stored plane when the ID is omitted. Legacy plugin frames and
+registered-mode specifications require an explicit ID. Use
+`expression_matrix_spatial_scopes(document)` to discover backed point scopes.
 `channel` (default all channels), `z` and `time` (default zero) may select a plane.
 Membership tests the observation centre with the existing `Roi::contains`
 geometry/boundary policy, rather than spot or cell area intersection.

@@ -31,6 +31,8 @@ Fix issues before generating a manifest. A valid preview is not a guarantee
 that later area/count work will fit runtime quotas or complete successfully.
 
 Add `--output selections.json` to publish a **new** manifest after validation.
+Choose a destination outside linked image and NGFF label stores, including
+stores belonging to images outside the selection.
 If any selected image has an issue, nothing is published. Existing outputs and
 scratch files are preserved. The source must be closed/saved with no SQLite
 sidecars. Source changes during selection abort publication. Source hashing is

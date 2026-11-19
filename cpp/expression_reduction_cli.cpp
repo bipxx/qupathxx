@@ -1,5 +1,5 @@
 #include "expression_reduction_cli.hpp"
-#include "qupathxx/expression_reduction.hpp"
+#include "expression_reduction_export_internal.hpp"
 #include <charconv>
 #include <iostream>
 #include <limits>
@@ -14,7 +14,17 @@ std::optional<int> expression_reduction_cli(const std::vector<std::string>& args
     if(args.size()<2 || (args[1]!="--reduce-expression" && args[1]!="--verify-expression-reduction" && args[1]!="--replay-expression-reduction" && args[1]!="--export-expression-reduction"))return {};
     const bool run=args[1]=="--reduce-expression",export_result=args[1]=="--export-expression-reduction",replay=args[1]=="--replay-expression-reduction";const std::size_t start=run || export_result?4:3;if(args.size()<start)throw std::invalid_argument("Reduction requires PROJECT and NEW_PROJECT or NEW_EXPORT when creating/exporting");ExpressionReductionWorkflowOptions options;std::size_t file_bytes=256u*1024*1024;bool loadings=false,plot=false;std::set<std::string> seen;
     for(std::size_t i=start;i<args.size();++i){const auto flag=args[i];if(!seen.insert(flag).second)throw std::invalid_argument("Duplicate reduction option: "+flag);if(export_result && (flag=="--loadings" || flag=="--plot")){if(flag=="--plot")plot=true;else loadings=true;continue;}if(++i==args.size())throw std::invalid_argument("Missing reduction option value");const auto& value=args[i];if(flag=="--image")options.image=integer(value);else if(flag=="--matrix" && run)options.matrix_id=value;else if(flag=="--spec" && run)options.spec_path=value;else if(flag=="--record" && !run)options.record_id=value;else if(flag=="--work-bytes")options.work_bytes=size(value);else if(flag=="--project-bytes")options.project_bytes=integer(value);else if(flag=="--save-snapshot-bytes" && run)options.snapshot_bytes=size(value);else if(flag=="--max-operations" && (run || replay))options.max_operations=integer(value);else if(flag=="--max-distance-tests" && (run || replay))options.max_distance_tests=integer(value);else if(flag=="--file-bytes" && export_result)file_bytes=size(value);else throw std::invalid_argument("Unknown reduction option: "+flag);}
-    if(loadings && plot)throw std::invalid_argument("Choose loadings or plot export");const auto result=run?run_expression_reduction(args[2],args[3],options,&cancelled):open_project_expression_reduction(args[2],options,replay,&cancelled);std::size_t written=0;if(export_result)written=plot?save_expression_reduction_svg(*result,args[3],file_bytes,&cancelled):loadings?save_expression_loadings_csv(*result,args[3],file_bytes,&cancelled):save_expression_embedding_csv(*result,args[3],file_bytes,&cancelled);
+    if(loadings && plot)throw std::invalid_argument("Choose loadings or plot export");
+    std::shared_ptr<const ExpressionReductionResult> result;
+    std::size_t written=0;
+    if(export_result){
+        const auto kind=plot?ReductionExport::Plot:loadings?ReductionExport::Loadings:ReductionExport::Embedding;
+        auto exported=export_project_expression_reduction(args[2],args[3],options,kind,file_bytes,&cancelled);
+        result=std::move(exported.first);
+        written=exported.second;
+    }else{
+        result=run?run_expression_reduction(args[2],args[3],options,&cancelled):open_project_expression_reduction(args[2],options,replay,&cancelled);
+    }
     std::cout<<"{\"schema\":\"qpx.expression-reduction-report/1\",\"state\":\""<<(run?"saved":export_result?"exported":replay?"replayed":"verified")<<"\",\"record\":\""<<result->id()<<"\",\"features\":"<<result->features().size()<<",\"observations\":"<<result->observation_ids().size()<<",\"components\":"<<result->options().components<<",\"clusters\":"<<result->options().clusters<<",\"seed\":"<<result->options().seed<<",\"converged\":"<<(result->converged()?"true":"false")<<",\"file_bytes\":"<<written<<"}\n";return 0;
 }
 }

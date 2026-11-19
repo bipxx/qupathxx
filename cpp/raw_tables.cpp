@@ -2,6 +2,7 @@
 #include "qupathxx/source_identity.hpp"
 #include "atomic_export.hpp"
 #include "reader_file_guard.hpp"
+#include "project_plugin.hpp"
 #include "utf8_text.hpp"
 #include <algorithm>
 #include <charconv>
@@ -9,13 +10,21 @@
 #include <future>
 #include <set>
 #include <thread>
+#include <tuple>
 #include <stdexcept>
 
 namespace qpx {
 struct RawTableRequest::Data {
     struct Entry {std::shared_ptr<const RawAnalysisRecord> record;std::string status;};
+    struct ProtectedSource {
+        std::string path,identity;
+        bool directory=false;
+        bool operator<(const ProtectedSource& other) const {
+            return std::tie(path,identity,directory)<std::tie(other.path,other.identity,other.directory);
+        }
+    };
     std::vector<Entry> records;
-    std::vector<std::string> protected_sources;
+    std::vector<ProtectedSource> protected_sources;
     bool grid_schema=false;
     std::uint64_t rows=0;
     std::size_t bytes=0;
@@ -26,16 +35,34 @@ RawTableRequest::RawTableRequest(const Document& document,const std::vector<std:
     if(count>(maximum-sizeof(Data))/(sizeof(Data::Entry)+sizeof(std::shared_ptr<const RawAnalysisRecord>)+64)) throw std::length_error("raw table snapshot exceeds byte limit");
     auto data=std::make_shared<Data>();data->bytes=sizeof(Data);data->records.reserve(count);data->bytes+=data->records.capacity()*sizeof(Data::Entry);
     auto add=[&](std::size_t bytes) {if(bytes>maximum-data->bytes) throw std::length_error("raw table snapshot exceeds byte limit");data->bytes+=bytes;};
-    std::set<std::string> paths;for(const auto& path:protected_paths) paths.insert(detail::export_path(path));const auto current=document.server()->source_locator();if(!current.empty()) paths.insert(current);
+    std::set<Data::ProtectedSource> paths;
+    auto protect=[&](std::string path,std::string identity={},bool directory=false) {
+        if(path.empty()) return;
+        const auto [entry,inserted]=paths.insert({std::move(path),std::move(identity),directory});
+        if(inserted) add(sizeof(Data::ProtectedSource)+entry->path.capacity()+entry->identity.capacity()+2);
+    };
+    auto protect_source=[&](const ReaderSource& source) {
+        if(source.scope=="directory_store" || !source.primary)
+            protect(source.locator,{},source.scope=="directory_store");
+        if(source.primary) protect(source.primary->path,source.primary->identity);
+        for(const auto& file:source.companions) protect(file.path,file.identity);
+    };
+    for(const auto& path:protected_paths) protect(detail::export_path(path));
+    const auto server=document.server();
+    const auto current=server->reader_source();
+    if(current && current->primary) protect_source(*current);
+    else if(const auto link=detail::plugin_link_of(*server)) protect_source(link->observed);
+    else protect(server->source_locator(),{},bool(server->ome_zarr_options()));
     auto capture=[&](const std::shared_ptr<const RawAnalysisRecord>& record) {
         auto status=document.raw_analysis_status(record->id);if(require_current && status!="current") throw std::invalid_argument("raw table contains unverified or stale records");
-        add(record->payload_bytes()+status.capacity()+1);data->grid_schema=data->grid_schema || record->result->grid().has_value();data->rows+=record->result->grid()?record->result->grid()->options.channels:record->result->region().channels;paths.insert(record->result->source()->locator);
+        add(record->payload_bytes()+status.capacity()+1);data->grid_schema=data->grid_schema || record->result->grid().has_value();data->rows+=record->result->grid()?record->result->grid()->options.channels:record->result->region().channels;
+        protect_source(*record->result->source());
         data->records.push_back({record,std::move(status)});
     };
     if(ids.empty()) for(const auto& record:document.raw_analysis_records()) capture(record);
     else {std::set<std::uint64_t> selected(ids.begin(),ids.end());for(auto id:selected) capture(document.raw_analysis_record(id));}
-    data->protected_sources.reserve(paths.size());add(data->protected_sources.capacity()*sizeof(std::string));
-    while(!paths.empty()) {auto item=paths.extract(paths.begin());add(item.value().capacity()+1);data->protected_sources.push_back(std::move(item.value()));}
+    data->protected_sources.reserve(paths.size());
+    while(!paths.empty()) {auto item=paths.extract(paths.begin());data->protected_sources.push_back(std::move(item.value()));}
     data_=std::move(data);
 }
 std::uint64_t RawTableRequest::rows() const {return data_->rows;}
@@ -87,9 +114,17 @@ struct RawTableKernel {
         }detail::export_checkpoint(cancelled);
     }
     static std::size_t save(const RawTableRequest& request,const std::string& path,bool replace,std::size_t maximum,const std::atomic<bool>* cancelled,std::atomic<std::uint64_t>* completed=nullptr) {
-        bytes_limit(maximum);const auto output=detail::export_path(path);for(const auto& source:request.data_->protected_sources) detail::guard_file_output(source,"",output);
+        bytes_limit(maximum);const auto output=detail::export_path(path);
+        const auto protect=[&] {
+            for(const auto& source:request.data_->protected_sources) {
+                detail::export_checkpoint(cancelled);
+                if(source.directory) detail::guard_directory_output(source.path,output);
+                else detail::guard_file_output(source.path,source.identity,output);
+            }
+        };
+        protect();
         detail::AtomicExportFile file(output,maximum,cancelled);write(request,[&](const char* data,std::size_t count){file.write(data,count);},cancelled,completed);
-        for(const auto& source:request.data_->protected_sources) detail::guard_file_output(source,"",output);file.commit(replace);return file.bytes();
+        protect();file.commit(replace);return file.bytes();
     }
 };
 std::string raw_analysis_csv(const RawTableRequest& request,std::size_t maximum,const std::atomic<bool>* cancelled) {

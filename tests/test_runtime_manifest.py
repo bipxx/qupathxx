@@ -237,6 +237,33 @@ def test_native_archive_inventory_has_no_interpreter_entrypoint(tmp_path):
     assert subprocess.run(command+['--verify', str(target)], capture_output=True).returncode == 0
 
 
+@pytest.mark.parametrize('failure', [None, 'missing_provider', 'unresolved_provider_dependency', 'python_provider'])
+def test_native_reader_workflow_audits_provider_closures(tmp_path, failure):
+    path = tmp_path/'qupathxx-windows-x64-reader-workflow-local.zip'
+    counts = 'providers/counts/qpx_counts_tsv_plugin.dll'
+    paths = ('qupathxx/qupathxx_app.exe', 'qupathxx/qupathxx_batch.exe', 'qupathxx/qupathxx_region.exe',
+             'qupathxx/qupathxx_format_import.exe', counts, 'providers/counts/qpx_point_tsv_plugin.dll',
+             'providers/geometry/qpx_geometry_tsv_plugin.dll', 'providers/metaimage/qpx_metaimage_plugin.dll',
+             'providers/vti/qpx_vti_plugin.dll')
+    with zipfile.ZipFile(path, 'w') as archive:
+        for name in paths:
+            if name == counts and failure == 'missing_provider':
+                continue
+            dependency = 'kernel32.dll'
+            if name == counts:
+                dependency = {'python_provider': 'python312.dll',
+                              'unresolved_provider_dependency': 'missing.dll'}.get(failure, 'vcruntime140.dll')
+            archive.writestr(name, image([dependency], dll=name.endswith('.dll')))
+    if failure:
+        with pytest.raises(ValueError):
+            runtime.inspect_archive(path, gui=True, native_archive=True)
+        return
+    result = runtime.inspect_archive(path, gui=True, native_archive=True)
+    entries = {entry['entry_point']: entry for entry in result['entry_points']}
+    assert set(entries) == set(paths)
+    assert entries[counts]['external_requirements'] == [dict(name='vcruntime140.dll', kind='msvc-runtime')]
+
+
 @pytest.mark.parametrize('failure', ['extension', 'runtime', 'transitive', 'missing_cli', 'gui', 'wrong_name'])
 def test_native_archive_rejects_python_and_wrong_layout(tmp_path, failure):
     changes = {}

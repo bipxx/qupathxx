@@ -6,6 +6,10 @@ require Python to run. Use a project with a quantitative TIFF source and at
 least two labelled area classes. Training requires the optional OpenCV backend;
 prediction and historical verification use the portable model.
 
+Training, project prediction and contour publication check any saved image
+verification. Review and adopt a changed image before starting a new run or
+resuming project-backed work.
+
 ## Train and retain
 
 ```text
@@ -58,6 +62,24 @@ recipe spacing and calibration policy. `--object ID` restricts prediction to one
 area; `--region X,Y,W,H` restricts traversal in global sample indices. Additional
 controls are `--min-vote` (tree vote fraction), `--max-samples`,
 `--tile-width`, `--tile-height` and `--max-windows`.
+
+Use `--model-grid` in place of both axis arguments to use the model's spacing
+and required feature halo. The grid starts at the level-zero origin and uses
+complete rational periods to cover the image. Existing raw support rules mark
+footprints beyond an image edge invalid. This option also works for fresh
+`--contour-raw-pixels` runs. Explicit axes let you choose a different origin,
+extent, or additional context.
+
+For a physical model, both calibrated target axes must reproduce the saved
+physical sample spacing exactly. An incompatible calibration or a grid outside
+the supported dimension limits is refused. The QWS descriptor uses the same
+exact spacing check on export, reopen, and resume. Calibration is read from
+the target project image, including any saved override.
+
+The local Windows check compared resolved and explicit grids for fractional
+pixel steps and for independently calibrated X and Y. The calibrated stream
+resumed from a verified prefix and matched the uninterrupted input and
+prediction commitments. [Verification record](../build/gui-aggregation/gap-closure/raw-model-grid/results.json)
 
 Resume validates the previous prefix and hashes its current source inputs before
 inferring the suffix. Changed model, geometry, policy or source rejects without

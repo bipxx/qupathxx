@@ -71,6 +71,11 @@ public:
     void save_new(const std::string& path,std::size_t snapshot_bytes=512ull*1024*1024,
         std::uint64_t file_bytes=1024ull*1024*1024,const std::atomic<bool>* cancelled=nullptr,
         const std::function<void()>& publication_guard={});
+    // Publish one image in a new project, retaining owned assets from this
+    // project's directory. Returns the image ID in the new project.
+    std::uint64_t save_image_checkpoint(std::uint64_t image,const std::string& path,
+        std::size_t snapshot_bytes,std::uint64_t file_bytes,const std::atomic<bool>* cancelled,
+        const std::function<void()>& publication_guard) const;
     std::uint64_t add_image(const std::string& path,std::string reader="auto",std::string name="");
     std::uint64_t add_tiff_image(const std::string& path,const TiffOpenOptions&,std::string name="");
     std::uint64_t add_tiff_source(std::shared_ptr<ImageServer>,std::string name="");
@@ -97,6 +102,10 @@ public:
     void relink(std::uint64_t id,const std::string& path);
     std::shared_ptr<const SourceFileAssociation> source_verification(std::uint64_t id) const;
     std::shared_ptr<ProjectSourceReview> review_source_verification(std::uint64_t id,const FileFingerprint&) const;
+    // Directory plugin primary metadata can be nested. Moving a verified store
+    // names its new root explicitly; a metadata filename cannot imply that root.
+    std::shared_ptr<ProjectSourceReview> review_directory_source_verification(
+        std::uint64_t id,const std::string& directory,const FileFingerprint&) const;
     void apply_source_review(const std::shared_ptr<ProjectSourceReview>&,bool accept_changed=false);
     void clear_source_verification(std::uint64_t id);
     std::optional<ProjectView> view(std::uint64_t id) const;
@@ -123,6 +132,7 @@ private:
     struct LoadProgress {
         std::atomic<bool> cancelled{false};
         const std::atomic<bool>* external_cancelled=nullptr;
+        std::string temporary_link_base_project;
         const std::atomic<bool>* cancellation() const {return external_cancelled?external_cancelled:&cancelled;}
         std::atomic<int> phase{1};
         std::atomic<std::size_t> images{0},objects{0},total_images{0},total_objects{0};
@@ -147,6 +157,8 @@ private:
     // its deleter contain no Python references. External documents default off.
     struct Entry { ProjectImage info; std::shared_ptr<Document> document; bool native_lifetime=false; };
     const Entry& entry(std::uint64_t id) const;
+    std::shared_ptr<ProjectSourceReview> review_source_verification_at(
+        std::uint64_t,const FileFingerprint&,const std::string& directory_override) const;
     std::map<std::string,ObjectClass> class_registry_;
     std::vector<std::string> class_defaults_;
     std::map<std::string,std::string> metadata_;

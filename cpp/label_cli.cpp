@@ -3,6 +3,7 @@
 #include "qupathxx/project.hpp"
 #include "export_output.hpp"
 #include "json_string.hpp"
+#include "project_source_internal.hpp"
 #include <charconv>
 #include <iostream>
 #include <set>
@@ -31,19 +32,39 @@ const char* method_name(LabelAnalysisMethod method) {
         return "subcellular";
     case LabelAnalysisMethod::ExternalMask:
         return "external-mask";
+    case LabelAnalysisMethod::NgffMask:
+        return "ngff-mask";
     }
     throw std::logic_error("Unknown label method");
 }
 } // namespace
+std::string label_cli_help(const std::string& program) {
+    return "Usage: " + program + " [--reader-plugins ABS_MANIFEST]... LABEL_COMMAND ...\n"
+        "  --readers (native provider admission and diagnostics)\n"
+        "  --label-input PROJECT --image ID --roi ID [--first-channel N --channels N --z N --time N]\n"
+        "  --import-label-mask PROJECT NEW_PROJECT --image ID --roi ID --mask LABELS --mask-format tiff|png|png-indexed\n"
+        "    --producer NAME --producer-version VERSION --model-sha256 SHA --input-sha256 SHA\n"
+        "  --import-ngff-label-mask PROJECT NEW_PROJECT --image ID --roi ID --mask-directory STORE\n"
+        "    --label-group GROUP --reference-group GROUP_OR_DOT --origin authored --author NAME --input-sha256 SHA\n"
+        "    producer origin: --origin producer --producer NAME --producer-version VERSION --model-sha256 SHA\n"
+        "    planes: --label-z N --label-time N --reference-z N --reference-time N --z N --time N\n"
+        "    NGFF requires level zero and one-to-one pixels; reference group . selects the store root\n"
+        "  --list-labels PROJECT --image ID\n"
+        "  --verify-labels PROJECT --image ID --record SHA\n"
+        "  --export-labels PROJECT NEW_EXPORT --image ID --record SHA [--format csv|raster|counts]\n"
+        "    NGFF raster export is lossless QPLM1 (metadata/exact IDs); legacy raster export stays QPL1\n"
+        "  Creation: --record-only --max-regions N --work-bytes N --save-snapshot-bytes N --project-bytes N\n";
+}
 std::optional<int> label_cli(const std::vector<std::string>& args,
                              const std::atomic<bool>& cancelled) {
     if (args.size() < 2)
         return {};
     const auto& command = args[1];
     const bool slic = command == "--slic", spots = command == "--subcellular",
-               import = command == "--import-label-mask", input = command == "--label-input";
+               import = command == "--import-label-mask", ngff = command == "--import-ngff-label-mask",
+               input = command == "--label-input";
     const bool list = command == "--list-labels", verify = command == "--verify-labels",
-               exporting = command == "--export-labels", creating = slic || spots || import;
+               exporting = command == "--export-labels", creating = slic || spots || import || ngff;
     if (!creating && !input && !list && !verify && !exporting)
         return {};
     const std::size_t positional = creating || exporting ? 4 : 3;
@@ -56,6 +77,7 @@ std::optional<int> label_cli(const std::vector<std::string>& args,
     SuperpixelOptions superpixels;
     SubcellularOptions subcellular;
     ExternalLabelMaskOptions external;
+    NgffLabelMaskOptions ngff_options;
     LabelAnalysisLimits limits;
     std::string record, format = "csv";
     bool record_only = false;
@@ -74,7 +96,7 @@ std::optional<int> label_cli(const std::vector<std::string>& args,
                             ((verify || exporting) && flag == "--record");
         const bool area = (creating || input) && flag == "--roi";
         const bool raw =
-            (spots || import || input) && (flag == "--first-channel" || flag == "--channels" ||
+            (spots || import || ngff || input) && (flag == "--first-channel" || flag == "--channels" ||
                                            flag == "--z" || flag == "--time");
         const bool super =
             slic && (flag == "--region-size" || flag == "--iterations" || flag == "--compactness" ||
@@ -84,17 +106,61 @@ std::optional<int> label_cli(const std::vector<std::string>& args,
                       flag == "--sigma-x" || flag == "--sigma-y" ||
                       flag == "--background-sigma-x" || flag == "--background-sigma-y" ||
                       flag == "--min-pixels" || flag == "--max-pixels" || flag == "--connectivity");
-        const bool mask =
-            import && (flag == "--mask" || flag == "--producer" || flag == "--producer-version" ||
-                       flag == "--model-sha256" || flag == "--input-sha256");
+        const bool mask = import && (flag == "--mask" || flag == "--producer" ||
+                                     flag == "--producer-version" || flag == "--model-sha256" ||
+                                     flag == "--input-sha256" || flag == "--mask-format");
+        const bool ngff_mask = ngff && (flag == "--mask-directory" || flag == "--label-group" ||
+            flag == "--reference-group" || flag == "--label-level" || flag == "--label-z" ||
+            flag == "--label-time" || flag == "--reference-z" || flag == "--reference-time" ||
+            flag == "--origin" || flag == "--author" || flag == "--producer" ||
+            flag == "--producer-version" || flag == "--model-sha256" || flag == "--input-sha256");
         const bool cap = creating && (flag == "--max-regions" || flag == "--save-snapshot-bytes" ||
                                       flag == "--project-bytes");
         const bool output = exporting && (flag == "--format" || flag == "--csv-bytes");
-        if (!common && !area && !raw && !super && !spot && !mask && !cap && !output)
+        if (!common && !area && !raw && !super && !spot && !mask && !ngff_mask && !cap && !output)
             throw std::invalid_argument("Unknown option for label command: " + flag);
         if (++i == args.size())
             throw std::invalid_argument("Missing label option value: " + flag);
         const auto& v = args[i];
+        if (ngff_mask) {
+            if (flag == "--mask-directory")
+                ngff_options.path = export_path(v);
+            else if (flag == "--label-group")
+                ngff_options.label_group = v;
+            else if (flag == "--reference-group")
+                ngff_options.reference_group = v == "." ? "" : v;
+            else if (flag == "--origin") {
+                if (v == "authored")
+                    ngff_options.origin = LabelMaskOrigin::Authored;
+                else if (v == "producer")
+                    ngff_options.origin = LabelMaskOrigin::Producer;
+                else
+                    throw std::invalid_argument("NGFF origin must be authored or producer");
+            } else if (flag == "--author")
+                ngff_options.author = v;
+            else if (flag == "--producer")
+                ngff_options.producer = v;
+            else if (flag == "--producer-version")
+                ngff_options.producer_version = v;
+            else if (flag == "--model-sha256")
+                ngff_options.model_sha256 = v;
+            else if (flag == "--input-sha256")
+                ngff_options.input_sha256 = v;
+            else {
+                const auto n = std::uint32_t(integer(v, UINT32_MAX));
+                if (flag == "--label-level")
+                    ngff_options.level = n;
+                else if (flag == "--label-z")
+                    ngff_options.z = n;
+                else if (flag == "--label-time")
+                    ngff_options.t = n;
+                else if (flag == "--reference-z")
+                    ngff_options.reference_z = n;
+                else
+                    ngff_options.reference_t = n;
+            }
+            continue;
+        }
         if (flag == "--record") {
             record = v;
             continue;
@@ -106,7 +172,16 @@ std::optional<int> label_cli(const std::vector<std::string>& args,
         if (mask) {
             if (flag == "--mask")
                 external.path = export_path(v);
-            else if (flag == "--producer")
+            else if (flag == "--mask-format") {
+                if (v == "tiff")
+                    external.format = ExternalLabelMaskFormat::Tiff;
+                else if (v == "png")
+                    external.format = ExternalLabelMaskFormat::Png;
+                else if (v == "png-indexed")
+                    external.format = ExternalLabelMaskFormat::PngIndexed;
+                else
+                    throw std::invalid_argument("Label mask format must be tiff, png or png-indexed");
+            } else if (flag == "--producer")
                 external.producer = v;
             else if (flag == "--producer-version")
                 external.producer_version = v;
@@ -177,6 +252,7 @@ std::optional<int> label_cli(const std::vector<std::string>& args,
             if (n > 1000000)
                 throw std::invalid_argument("Label region limit exceeds1000000");
             superpixels.max_regions = subcellular.max_spots = external.max_regions = std::size_t(n);
+            ngff_options.max_regions = std::size_t(n);
         } else {
             if (n > UINT32_MAX)
                 throw std::invalid_argument("Label axis/algorithm integer exceedsUInt32");
@@ -217,6 +293,11 @@ std::optional<int> label_cli(const std::vector<std::string>& args,
         subcellular.validate();
     if (import)
         external.validate();
+    if (ngff) {
+        if (!seen.count("--origin") || !seen.count("--reference-group"))
+            throw std::invalid_argument("NGFF labels require explicit --origin and --reference-group (. selects the store root)");
+        ngff_options.validate();
+    }
     try {
         workflow_checkpoint(&cancelled);
         const auto source = export_path(args[2]);
@@ -230,6 +311,8 @@ std::optional<int> label_cli(const std::vector<std::string>& args,
                 protected_paths.push_back(entry.source_path);
         if (import)
             protected_paths.push_back(external.path);
+        if (ngff)
+            protected_paths.push_back(ngff_options.path);
         const auto output = creating || exporting ? export_path(args[3]) : std::string{};
         std::shared_ptr<const LabelAnalysisRun> run;
         const auto current = [&] {
@@ -255,6 +338,10 @@ std::optional<int> label_cli(const std::vector<std::string>& args,
             }
             std::cout << "]}\n";
             return 0;
+        }
+        if (creating || input) {
+            if (const auto verified = project->source_verification(image))
+                require_verified_project_source(*verified, *doc->server(), &cancelled);
         }
         if (input) {
             const auto info = label_analysis_input_info(*doc, roi, channels, limits, &cancelled);
@@ -289,6 +376,8 @@ std::optional<int> label_cli(const std::vector<std::string>& args,
                 : spots
                     ? LabelAnalysisRequest::subcellular(*doc, roi, std::move(cells), channels,
                                                         subcellular, limits)
+                : ngff
+                    ? LabelAnalysisRequest::ngff_mask(*doc, roi, channels, ngff_options, limits)
                     : LabelAnalysisRequest::external_mask(*doc, roi, channels, external, limits);
             run = run_label_analysis(request, &cancelled);
             current();

@@ -37,6 +37,14 @@ qupathxx_batch --export-expression-reduction fitted.qpx loadings.csv --image 1 -
 qupathxx_batch --export-expression-reduction fitted.qpx scatter.svg --image 1 --record RECORD_SHA256 --plot
 ```
 
+Choose a new export path outside the project's linked input stores and files.
+The CLI protects saved source paths even when the linked reader or store is
+offline, and checks the destination again before publication.
+
+When fitting a new result, the output project and its fitted archive must
+both be outside linked inputs. Fitted archives live in the destination
+project's sibling `.qpx-expression-reductions` directory.
+
 The creation report supplies `record`. Verify/export open the exact stored fitted
 arrays; they do not recompute PCA or clustering. Outputs are atomic and new-only.
 An explicit refit check is available when needed:

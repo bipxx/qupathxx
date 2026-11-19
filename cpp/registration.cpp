@@ -1,8 +1,11 @@
+#include "qupathxx/detail/affine_numeric.hpp"
 #include "qupathxx/registration.hpp"
 #include "qupathxx/core.hpp"
 #include "qupathxx/raw_image.hpp"
 #include "qupathxx/source_identity.hpp"
 #include "qupathxx/workflow.hpp"
+#include "format_import_frame.hpp"
+#include "reader_plugin_link.hpp"
 #include "workflow_file_version.hpp"
 #include "sha256.hpp"
 #include "utf8_text.hpp"
@@ -24,25 +27,8 @@ void hash_real(Sha256& digest,double value) {
 }
 void hash_plane(Sha256& digest,ObjectPlane plane) {digest.integer(static_cast<std::uint64_t>(plane.c+1));digest.integer(plane.z);digest.integer(plane.t);}
 Point mapped(const Affine2D& affine,Point point) {
-    if(!std::isfinite(point.x) || !std::isfinite(point.y))throw std::invalid_argument("Nonfinite coordinate");
-    const auto& m=affine.matrix;
-    Point result{std::fma(m[0],point.x,std::fma(m[1],point.y,m[2])),std::fma(m[3],point.x,std::fma(m[4],point.y,m[5]))};
-    if(!std::isfinite(result.x) || !std::isfinite(result.y))throw std::invalid_argument("Affine coordinate overflow");
-    return result;
-}
-std::array<double,4> inverse_linear(const Affine2D& affine) {
-    const auto& m=affine.matrix;for(auto v:m)if(!std::isfinite(v))throw std::invalid_argument("Nonfinite affine coefficient");
-    const auto scale=std::max({std::abs(m[0]),std::abs(m[1]),std::abs(m[3]),std::abs(m[4])});
-    if(!scale)throw std::invalid_argument("Singular affine transform");
-    const auto a=m[0]/scale,b=m[1]/scale,c=m[3]/scale,d=m[4]/scale;
-    const auto determinant=a*d-b*c;
-    if(!determinant)throw std::invalid_argument("Singular affine transform");
-    const auto norm=std::max(std::abs(a)+std::abs(b),std::abs(c)+std::abs(d));
-    const auto inv_norm=std::max(std::abs(d)+std::abs(b),std::abs(c)+std::abs(a))/std::abs(determinant);
-    if(!std::isfinite(inv_norm) || norm*inv_norm>1e12)throw std::invalid_argument("Ill-conditioned affine transform");
-    std::array<double,4> inverse{d/determinant/scale,-b/determinant/scale,-c/determinant/scale,a/determinant/scale};
-    for(auto v:inverse)if(!std::isfinite(v))throw std::invalid_argument("Affine inverse overflows");
-    return inverse;
+    const auto xy=detail::affine_map_xy(affine.matrix,point.x,point.y);
+    return {xy[0],xy[1]};
 }
 void file_identity(Sha256& digest,const FileVersion& captured,const std::atomic<bool>* cancelled) {
     workflow_checkpoint(cancelled);captured.validate();
@@ -108,10 +94,10 @@ std::string CoordinateFrame::sha256() const {
     digest.integer(bool(micrometres_per_pixel));if(micrometres_per_pixel)for(auto v:*micrometres_per_pixel)hash_real(digest,v);
     return digest.finish();
 }
-void Affine2D::validate() const {inverse_linear(*this);}
+void Affine2D::validate() const {detail::affine_inverse_linear(matrix);}
 Point Affine2D::map(Point p) const {validate();return mapped(*this,p);}
 Affine2D Affine2D::inverse() const {
-    const auto inv=inverse_linear(*this);Affine2D result{{inv[0],inv[1],0,inv[2],inv[3],0}};
+    const auto inv=detail::affine_inverse_linear(matrix);Affine2D result{{inv[0],inv[1],0,inv[2],inv[3],0}};
     const auto offset=mapped(result,{-matrix[2],-matrix[5]});result.matrix[2]=offset.x;result.matrix[5]=offset.y;result.validate();return result;
 }
 Affine2D Affine2D::then(const Affine2D& next) const {
@@ -135,6 +121,11 @@ CoordinateFrame image_coordinate_frame(const Document& document,std::string id,O
     if(source && source->scope=="unopened") {server->read_region({0,0,0,1,1});workflow_checkpoint(cancelled);source=server->reader_source();}
     if(!source)throw std::invalid_argument("Image reader has no registration source identity");source->validate();
     Sha256 digest;hash_text(digest,"qpx.registration-image-source/1");hash_text(digest,server->reader_id());
+    if(id==detail::reader_bound_matrix_frame_id) {
+        if(!detail::is_reader_plugin_binding(source->reader))
+            throw std::invalid_argument("Reader-bound matrix frame requires a native reader plugin");
+        detail::hash_reader_plugin_binding(digest,source.get());
+    }
     digest.integer(document.metadata().width);digest.integer(document.metadata().height);
     if(source->primary) {
         file_identity(digest,*source->primary,cancelled);digest.integer(source->companions.size());
@@ -151,6 +142,11 @@ CoordinateFrame image_coordinate_frame(const Document& document,std::string id,O
     frame.image_level_zero=true;frame.width=document.metadata().width;frame.height=document.metadata().height;
     if(document.pixel_width_um() && document.pixel_height_um())frame.micrometres_per_pixel=std::array<double,2>{*document.pixel_width_um(),*document.pixel_height_um()};
     frame.validate();return frame;
+}
+const char* detail::indexed_matrix_frame_id(const Document& document) {
+    const auto source=document.server()->reader_source();
+    return source && is_reader_plugin_binding(source->reader)?
+        reader_bound_matrix_frame_id:matrix_import_frame_id;
 }
 void RegistrationDefinition::validate() const {
     source.validate();target.validate();transform.validate();

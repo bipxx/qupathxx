@@ -26,7 +26,7 @@ enum class Command {
 
 struct Options {
     Command command;
-    std::string server, output, manifest, input, receipt;
+    std::string server, output, manifest, input, receipt, bundle;
     std::uint64_t id = 0, offset = 0;
     std::uint32_t limit = 100;
     OmeroLimits limits;
@@ -40,11 +40,13 @@ constexpr const char* usage =
     "projects|datasets|images|image|preview|preview-project|raw|rois|roi-exchange --server "
     "HTTPS_URL [--id ID --offset N --limit N --output NEW_FILE --reader-plugins ABS_MANIFEST "
     "--timeout-ms N --preview-bytes N]\n"
-    "raw: --x N --y N --width N --height N [--first-channel N --channels N --z N --t N] --output "
-    "NEW.npy --receipt NEW.json [--transfer-bytes N --max-chunks N]\n"
+    "raw: --x N --y N --width N --height N [--first-channel N --channels N --z N --t N] "
+    "(--bundle NEW.zip | --output NEW.npy --receipt NEW.json) [--transfer-bytes N --max-chunks N]\n"
     "rois: --id IMAGE [--z N --t N] --output NEW.geojson [--reader-plugins ABS_MANIFEST]\n"
     "roi-exchange: --id IMAGE [--z N --t N] --input EDITED.geojson --output NEW.json "
     "[--reader-plugins ABS_MANIFEST]\n"
+    "verify-raw-bundle INPUT.zip: verify a native raw bundle offline\n"
+    "extract-raw-bundle INPUT.zip NEW.npy: extract the verified NPY member offline\n"
     "Public, GET-only OMERO.web API v0. Raw blocks require an explicit anonymous open NGFF "
     "association. ROI updates/results are offline files; no server writes. Previews remain "
     "uncalibrated rendered thumbnails.\n";
@@ -122,7 +124,7 @@ void require_option(Command c, const std::string& flag) {
         allowed = previews_image(c);
     else if (flag == "--reader-plugins")
         allowed = reads_plugins(c);
-    else if (flag == "--receipt")
+    else if (flag == "--receipt" || flag == "--bundle")
         allowed = c == Command::Raw;
     else if (flag == "--input")
         allowed = c == Command::RoiExchange;
@@ -184,6 +186,8 @@ Options parse_options(const std::vector<std::string>& args) {
             options.input = value;
         else if (flag == "--receipt")
             options.receipt = value;
+        else if (flag == "--bundle")
+            options.bundle = value;
         else if (flag == "--id")
             options.id = integer(value);
         else if (flag == "--offset")
@@ -209,11 +213,14 @@ Options parse_options(const std::vector<std::string>& args) {
         } else
             parse_raw_option(options, flag, value);
     }
+    const bool bundle = seen.count("--bundle") != 0;
+    if (bundle && (options.bundle.empty() || seen.count("--output") || seen.count("--receipt")))
+        throw std::invalid_argument("OMERO raw --bundle requires a new ZIP path without --output or --receipt");
     if (options.server.empty() || (options.command != Command::Projects && !options.id) ||
-        (writes_file(options.command) && options.output.empty()) ||
+        (writes_file(options.command) && options.output.empty() && !bundle) ||
         (seen.count("--reader-plugins") && options.manifest.empty()) ||
         (options.command == Command::Raw &&
-         (options.receipt.empty() || !seen.count("--width") || !seen.count("--height"))) ||
+         ((!bundle && options.receipt.empty()) || !seen.count("--width") || !seen.count("--height"))) ||
         (options.command == Command::RoiExchange && options.input.empty()))
         throw std::invalid_argument("OMERO arguments do not match the selected command");
     options.limits.validate();
@@ -240,6 +247,13 @@ std::string read_roi_input(const std::string& path) {
 }
 
 void preflight(const Options& options) {
+    if (!options.bundle.empty()) {
+        const auto destination = export_path(options.bundle);
+        require_new_export(destination);
+        if (!std::filesystem::is_directory(std::filesystem::u8path(destination).parent_path()))
+            throw std::invalid_argument("OMERO bundle parent directory does not exist");
+        return;
+    }
     if (writes_file(options.command))
         require_new_export(export_path(options.output));
     if (options.command == Command::Raw) {
@@ -284,8 +298,13 @@ Json execute(const Options& options, const std::atomic<bool>& cancelled,
         report["image"] = Json::parse(omero_image_json(client.image(options.id, &cancelled)));
     } else if (options.command == Command::Raw) {
         const auto result = client.raw(options.id, options.raw, options.raw_options, &cancelled);
-        save_omero_raw(*result, options.output, &cancelled);
-        save_omero_raw_receipt(*result, options.receipt, &cancelled);
+        if (!options.bundle.empty()) {
+            save_omero_raw_bundle(*result, options.bundle, &cancelled);
+            report["output_layout"] = "raw-and-receipt-zip";
+        } else {
+            save_omero_raw(*result, options.output, &cancelled);
+            save_omero_raw_receipt(*result, options.receipt, &cancelled);
+        }
         report["state"] = "saved";
         report["representation"] = "original-channel-samples";
         report["receipt"] = Json::parse(result->receipt_json());
@@ -322,6 +341,22 @@ int omero_cli(const std::vector<std::string>& args, const std::atomic<bool>& can
         if (args.empty() || args == std::vector<std::string>{"--help"}) {
             std::cout << usage;
             return args.empty() ? 2 : 0;
+        }
+        const bool extract = args.front() == "extract-raw-bundle";
+        if (extract || args.front() == "verify-raw-bundle") {
+            if (args.size() != (extract ? 3u : 2u) || args[1].empty() || (extract && args[2].empty()))
+                throw std::invalid_argument(extract ? "Expected extract-raw-bundle INPUT.zip NEW.npy"
+                                                    : "Expected verify-raw-bundle INPUT.zip");
+            try {
+                const auto receipt = extract ? extract_omero_raw_bundle(args[1], args[2], &cancelled)
+                                             : verify_omero_raw_bundle(args[1], &cancelled);
+                std::cout << Json{{"schema", "qpx.omero-cli/1"}, {"state", extract ? "extracted" : "verified"},
+                                  {"receipt", Json::parse(receipt)}}.dump() << '\n';
+                return 0;
+            } catch (const std::exception& error) {
+                std::cerr << error.what() << '\n';
+                return cancelled.load() ? 130 : 1;
+            }
         }
         const auto options = parse_options(args);
         if (!options.manifest.empty())

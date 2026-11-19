@@ -136,4 +136,13 @@ void save_omero_raw(const OmeroRawBlock&, const std::string& new_numpy,
                     const std::atomic<bool>* cancelled = nullptr);
 void save_omero_raw_receipt(const OmeroRawBlock&, const std::string& new_json,
                             const std::atomic<bool>* cancelled = nullptr);
+// Publish the same NPY and receipt together in one new, atomic ZIP file.
+void save_omero_raw_bundle(const OmeroRawBlock&, const std::string& new_zip,
+                           const std::atomic<bool>* cancelled = nullptr);
+// Check the native bundle offline and return its original, verified receipt.
+std::string verify_omero_raw_bundle(const std::string& zip,
+                                   const std::atomic<bool>* cancelled = nullptr);
+// Publish the exact verified NPY member to a new file and return the receipt.
+std::string extract_omero_raw_bundle(const std::string& zip, const std::string& new_npy,
+                                    const std::atomic<bool>* cancelled = nullptr);
 } // namespace qpx

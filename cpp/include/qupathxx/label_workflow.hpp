@@ -4,13 +4,15 @@
 #include "qupathxx/superpixels.hpp"
 #include "qupathxx/subcellular.hpp"
 #include "qupathxx/label_mask.hpp"
+#include "qupathxx/ngff_label_mask.hpp"
 #include "qupathxx/provenance.hpp"
 #include <variant>
 
 namespace qpx {
-enum class LabelAnalysisMethod { Superpixels, Subcellular, ExternalMask };
+enum class LabelAnalysisMethod { Superpixels, Subcellular, ExternalMask, NgffMask };
 using LabelAnalysisOptions =
-    std::variant<SuperpixelOptions, SubcellularOptions, ExternalLabelMaskOptions>;
+    std::variant<SuperpixelOptions, SubcellularOptions, ExternalLabelMaskOptions,
+                 std::shared_ptr<const NgffLabelMaskOptions>>;
 struct LabelAnalysisReport {
     std::uint64_t rejected_small = 0, rejected_large = 0, nonfinite_pixels = 0, invalid_pixels = 0;
 };
@@ -31,6 +33,9 @@ class LabelAnalysisRequest {
     static LabelAnalysisRequest external_mask(const Document&, std::uint64_t area,
                                               RawRegionRequest channel_block,
                                               ExternalLabelMaskOptions, LabelAnalysisLimits = {});
+    static LabelAnalysisRequest ngff_mask(const Document&, std::uint64_t area,
+                                          RawRegionRequest channel_block,
+                                          NgffLabelMaskOptions, LabelAnalysisLimits = {});
     // Owner-thread metadata check; does not rescan source files or pixels.
     bool matches(const Document&) const;
     LabelAnalysisMethod method() const;
@@ -74,6 +79,11 @@ class LabelAnalysisRun {
     const std::vector<SubcellularCellCount>& cell_counts() const;
     const std::vector<std::uint64_t>& parent_ids() const;
     const std::vector<std::uint32_t>& source_labels() const;
+    // Dense index zero maps native label1. Exact signed/UInt64 values never
+    // enter floating measurement slots. The legacy UInt32 accessor is retained.
+    LabelCode source_code(std::size_t dense_index) const;
+    const LabelCodeMap* exact_source_labels() const;
+    const LabelMaskSourceDescription* label_source_description() const;
     const LabelAnalysisOptions& options() const;
     std::optional<RawRegionRequest> raw_channels() const;
     const LabelAnalysisReport& report() const;

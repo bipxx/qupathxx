@@ -27,6 +27,76 @@ struct Harness {
     ViewerEvent until(detail::ViewerOwner& owner,ViewerSession& session,std::uint64_t ticket) {const auto end=std::chrono::steady_clock::now()+std::chrono::seconds(20);for(;;) {step(owner);const auto event=session.poll(ticket);if(event.state!="queued" && event.state!="running") return event;if(std::chrono::steady_clock::now()>end) throw std::runtime_error("viewer test timeout");std::this_thread::sleep_for(std::chrono::milliseconds(1));}}
 };
 
+void queue_shutdown_contracts() {
+    Harness h;
+    h.project->set_active_image(1);
+    h.context.activate=[](auto){};
+    ViewerLimits limits;
+    limits.tickets=3;
+    ViewerSession session("queue.qpxproj",limits);
+    detail::ViewerOwner owner(session);
+    const auto activating=session.activate(2);
+    h.step(owner);
+    const auto region=session.read_region(1,{0,0,0,4,3});
+    const auto catalog=session.catalog();
+    const auto queued_bytes=session.stats().queued_bytes;
+    rejects([&]{session.catalog();});
+    h.step(owner);
+    check(session.poll(activating).state=="running" && session.poll(region).state=="queued" &&
+          session.poll(catalog).state=="queued" && session.stats().queued_bytes==queued_bytes);
+    h.project->set_active_image(2);
+    check(h.until(owner,session,activating).state=="succeeded");
+    session.take(activating);
+    const auto result=h.until(owner,session,region);
+    check(result.state=="succeeded" && result.pixels && result.pixels->bytes()[0]==16);
+    session.take(region);
+    check(h.until(owner,session,catalog).state=="succeeded");
+    session.take(catalog);
+    check(session.stats().queued_bytes==0 && session.stats().retained_bytes==0);
+    owner.finish(h.context);
+    check(result.pixels->bytes()[0]==16);
+
+    Harness closing;
+    closing.project->set_active_image(1);
+    closing.context.activate=[](auto){};
+    ViewerSession endpoint("close-queue.qpxproj",limits);
+    detail::ViewerOwner controller(endpoint);
+    const auto active=endpoint.activate(2);
+    closing.step(controller);
+    const auto pending=endpoint.read_region(1,{0,0,0,4,3});
+    const auto close=endpoint.close(true);
+    closing.step(controller);
+    check(closing.closed && endpoint.take(close).state=="succeeded" && endpoint.poll(pending).state=="queued");
+    controller.finish(closing.context);
+    check(endpoint.take(active).state=="cancelled" && endpoint.take(pending).state=="cancelled");
+    check(endpoint.stats().state=="closed" && endpoint.stats().queued_bytes==0 && endpoint.stats().tickets==0);
+
+    Harness saving;
+    saving.context.save=[](const auto&){return true;};
+    bool cancelled=false, intake_rejected=false;
+    saving.context.save_stats=[&]{
+        ProjectSaveStats stats;
+        stats.state=cancelled?"cancelled":"saving";
+        return stats;
+    };
+    ViewerSession shutting_down("shutdown.qpxproj",limits);
+    detail::ViewerOwner shutdown(shutting_down);
+    saving.context.cancel_save=[&]{
+        cancelled=true;
+        try {(void)shutting_down.catalog();}
+        catch(const std::runtime_error&) {intake_rejected=true;}
+    };
+    const auto save=shutting_down.save("unwritten.qpxproj");
+    saving.step(shutdown);
+    const auto waiting=shutting_down.catalog();
+    auto waiter=std::async(std::launch::async,[&]{return shutting_down.wait(waiting,10);});
+    shutdown.finish(saving.context);
+    check(intake_rejected && waiter.get().state=="cancelled" &&
+          shutting_down.take(save).state=="cancelled" && shutting_down.take(waiting).state=="cancelled");
+    check(shutting_down.stats().state=="closed" && shutting_down.stats().tickets==0);
+    std::cout<<"Viewer worker queue, close priority, shutdown admission and retained pixels passed\n";
+}
+
 void spatial_session_contracts(const std::filesystem::path& root) {
     Harness h;auto doc=std::make_shared<Document>(Image::demo());const auto a=doc->add_detection(Roi::points({{32,32}})),b=doc->add_detection(Roi::points({{35,36}}));
     const auto image=h.project->add_document(doc);h.images=h.project->images();ViewerSession session("spatial.qpxproj");detail::ViewerOwner owner(session);
@@ -119,6 +189,49 @@ void raw_pixel_session_contracts(const std::filesystem::path& root) {
     RawPixelStreamOptions stream;stream.tile_width=stream.tile_height=2;stream.work_bytes=16u*1024*1024;RawPixelStreamSaveOptions save;save.max_new_windows=1;const auto output=root/"viewer-prediction.qws";
     ticket=session.export_raw_pixels(image,model,lattice,output.u8string(),stream,save,target,false);result=h.until(owner,session,ticket);check(result.state=="partial" && result.committed && result.raw_pixel_link && !result.raw_pixel_link->summary().complete);session.take(ticket);
     save.resume_path=output.u8string();save.replace_existing=true;save.max_new_windows=UINT64_MAX;ticket=session.export_raw_pixels(image,model,lattice,output.u8string(),stream,save,target,true);result=h.until(owner,session,ticket);check(result.state=="succeeded" && result.committed && result.record_id && result.raw_pixel_link->summary().complete);const auto record=result.record_id;session.take(ticket);
+    for(const std::string mode:{"finish","fail","cancel","replace"}) {
+        const auto path=(root/("published-before-"+mode+".qws")).u8string();
+        ViewerSession closing((root/("viewer-"+mode+".qpxproj")).u8string());
+        detail::ViewerOwner closing_owner(closing);
+        h.step(closing_owner);
+        RawPixelStreamSaveOptions limits;
+        if(mode=="fail") limits.max_new_windows=1;
+        const auto pending=closing.export_raw_pixels(image,model,lattice,path,stream,limits,target,true);
+        h.step(closing_owner);
+        const auto deadline=std::chrono::steady_clock::now()+std::chrono::seconds(10);
+        while(!std::filesystem::is_regular_file(std::filesystem::u8path(path)) && std::chrono::steady_clock::now()<deadline)
+            std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        check(std::filesystem::is_regular_file(std::filesystem::u8path(path)) && closing.poll(pending).state=="running");
+        const auto before=doc->raw_pixel_stream_records().size();
+        if(mode=="finish") closing_owner.finish(h.context);
+        else if(mode=="fail") closing_owner.fail("viewer failed after publication");
+        else {
+            const auto epoch=h.context.epoch;
+            if(mode=="cancel") check(closing.cancel(pending));
+            else ++h.context.epoch;
+            (void)h.until(closing_owner,closing,pending);
+            closing_owner.finish(h.context);
+            h.context.epoch=epoch;
+        }
+        const auto detached=closing.take(pending);
+        check(detached.state=="detached" && detached.committed && detached.path==path &&
+              !detached.verified && !detached.record_id &&
+              doc->raw_pixel_stream_records().size()==before);
+        RawPixelStreamFile saved(path);
+        saved.verify();
+        check(saved.declared_summary().complete==(mode!="fail") && saved.link()->model_sha256()==model.sha256());
+    }
+    {
+        ViewerSession refused("refused-export.qpxproj");
+        detail::ViewerOwner refused_owner(refused);
+        h.step(refused_owner);
+        const auto pending=refused.export_raw_pixels(image,model,lattice,output.u8string(),stream,{},target,true);
+        const auto event=h.until(refused_owner,refused,pending);
+        check(event.state=="failed" && !event.committed);
+        refused.take(pending);
+        refused_owner.finish(h.context);
+    }
+    std::cout<<"Raw viewer reports full and partial commits across shutdown, cancellation and workspace replacement\n";
     const auto revision=doc->revision();ticket=session.read_raw_pixel_stream(image,"",0,{},record);result=h.until(owner,session,ticket);check(result.state=="succeeded" && result.verified && result.raw_pixel_prediction && doc->revision()==revision && !result.committed);const auto retained=result.raw_pixel_prediction;session.take(ticket);
     ticket=session.read_raw_pixel_stream(image,"",0,{},record);h.step(owner);++h.context.epoch;check(h.until(owner,session,ticket).state=="stale");session.take(ticket);
     RawPixelTrainingSettings settings;settings.lattice=lattice;settings.selection=selection;settings.features=features;settings.tiles.width=settings.tiles.height=2;settings.forest.trees=5;settings.forest.max_depth=3;settings.forest.work_bytes=2u*1024*1024;
@@ -210,6 +323,7 @@ void nominal_cell_session_contracts(const std::filesystem::path& root) {
 int main() {
     namespace fs=std::filesystem;const auto root=fs::current_path()/("viewer-test-"+std::to_string(std::random_device{}()));
     try {
+        queue_shutdown_contracts();
         fs::create_directory(root);raw_pixel_session_contracts(root);axis_session_contracts(root);ViewerLimits limits;limits.validate();limits.tickets=0;rejects([&]{limits.validate();});
         Harness h;ViewerSession session((root/"source.qpxproj").u8string());detail::ViewerOwner owner(session);rejects([&]{detail::ViewerOwner second(session);});
         auto id=session.catalog();auto e=h.until(owner,session,id);check(e.state=="succeeded" && e.images.size()==2);session.take(id);rejects([&]{session.poll(id);});

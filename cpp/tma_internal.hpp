@@ -1,8 +1,18 @@
 #pragma once
 #include "qupathxx/tma.hpp"
+#include <string_view>
 
 namespace qpx::detail {
 void validate_tma_cohort(const TmaCohort&,std::size_t,const std::atomic<bool>*);
+struct TmaCaseInputScope {
+    std::string_view project_identity;
+    std::uint64_t image_id=0;
+    bool match_columns_by_name=false;
+};
+std::string tma_scoped_case_summary_csv(const TmaGrid&,const std::vector<std::string_view>& tables,
+    const std::string& value,const std::string& weight,std::size_t,bool,const std::atomic<bool>*,TmaCaseInputScope);
+std::string tma_scoped_case_summary_csv(const TmaCohort&,const std::vector<std::string_view>& tables,
+    const std::string& value,const std::string& weight,std::size_t,bool,const std::atomic<bool>*,TmaCaseInputScope);
 struct TmaIndex {
     std::shared_ptr<const TmaGridInfo> info;
     std::map<std::size_t,std::uint64_t> slots;

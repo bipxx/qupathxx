@@ -1,4 +1,5 @@
 #include "expression_reduction_internal.hpp"
+#include "expression_reduction_export_internal.hpp"
 #include "workflow_input.hpp"
 #include "atomic_export.hpp"
 #include <set>
@@ -72,6 +73,29 @@ std::shared_ptr<const ExpressionReductionResult> ExpressionReductionCodec::decod
     const std::array<std::size_t,6> sizes{p,n*k,p*k,k,k,std::size_t(d->options.clusters)*k};std::size_t expected=0;for(auto size:sizes)charge(expected,size,8,archive_limit);charge(expected,n,4,archive_limit);if(expected!=bytes.size()-64-at)throw std::invalid_argument("Reduction archive array lengths differ");std::size_t a=0;for(auto* values:{&d->means,&d->embedding,&d->loadings,&d->singular,&d->energy,&d->centres}){values->reserve(sizes[a]);for(std::size_t i=0;i<sizes[a];++i){if((i&4095)==0)workflow_checkpoint(cancelled);values->push_back(real(get()));}++a;}d->labels.reserve(n);for(std::size_t i=0;i<n;++i)d->labels.push_back(std::uint32_t(get(4)));d->id=id;
     auto result=std::shared_ptr<ExpressionReductionResult>(new ExpressionReductionResult(d));validate_result(*result);if(header(*result).dump(-1,' ',true)!=meta)throw std::invalid_argument("Noncanonical reduction archive metadata");workflow_checkpoint(cancelled);return result;
 }
-std::string save_expression_reduction_archive(const ExpressionReductionResult& result,const std::string& path,std::size_t work,const std::atomic<bool>* cancelled){const auto data=ExpressionReductionCodec::encode(result,work,cancelled);if(result.id()!=std::string(data.end()-64,data.end()))throw std::invalid_argument("Reduction fitted identity differs");detail::AtomicExportFile file(path,archive_limit,cancelled);file.write(reinterpret_cast<const char*>(data.data()),data.size());workflow_checkpoint(cancelled);file.commit(false);Sha256 hash;hash.update(data.data(),data.size());return hash.finish();}
-std::shared_ptr<const ExpressionReductionResult> open_expression_reduction_archive(const std::string& path,const std::string& expected,std::size_t work,const std::atomic<bool>* cancelled){work_limit(work);if(!expected.empty())digest(expected);const detail::WorkflowInput file(path,archive_limit,false,cancelled);if(file.bytes()>work/2)throw WorkflowCaptureLimit("Reduction archive input exceeds decode workspace");const auto text=detail::read_workflow_input(file,cancelled);std::vector<std::uint8_t> bytes(text.begin(),text.end());const auto result=ExpressionReductionCodec::decode(bytes,work-text.capacity(),cancelled);if(!expected.empty() && result->id()!=expected)throw WorkflowInputChanged("Reduction archive identity differs");file.verify(false,cancelled);return result;}
+std::string detail::write_expression_reduction_archive(
+    const ExpressionReductionResult& result, const std::string& path, std::size_t work,
+    const std::atomic<bool>* cancelled, const std::function<void()>& protect) {
+    const auto data = ExpressionReductionCodec::encode(result, work, cancelled);
+    if (result.id() != std::string(data.end() - 64, data.end()))
+        throw std::invalid_argument("Reduction fitted identity differs");
+    if (protect)
+        protect();
+    AtomicExportFile file(path, archive_limit, cancelled);
+    file.write(reinterpret_cast<const char*>(data.data()), data.size());
+    workflow_checkpoint(cancelled);
+    if (protect)
+        protect();
+    file.commit(false);
+    Sha256 hash;
+    hash.update(data.data(), data.size());
+    return hash.finish();
+}
+
+std::string save_expression_reduction_archive(
+    const ExpressionReductionResult& result, const std::string& path,
+    std::size_t work, const std::atomic<bool>* cancelled) {
+    return detail::write_expression_reduction_archive(result, path, work, cancelled, {});
+}
+std::shared_ptr<const ExpressionReductionResult> open_expression_reduction_archive(const std::string& path,const std::string& expected,std::size_t work,const std::atomic<bool>* cancelled){work_limit(work);if(!expected.empty())digest(expected);const auto physical=detail::access_path(std::filesystem::u8path(path));const detail::WorkflowInput file(physical.u8string(),archive_limit,false,cancelled);if(file.bytes()>work/2)throw WorkflowCaptureLimit("Reduction archive input exceeds decode workspace");const auto text=detail::read_workflow_input(file,cancelled);std::vector<std::uint8_t> bytes(text.begin(),text.end());const auto result=ExpressionReductionCodec::decode(bytes,work-text.capacity(),cancelled);if(!expected.empty() && result->id()!=expected)throw WorkflowInputChanged("Reduction archive identity differs");file.verify(false,cancelled);return result;}
 }

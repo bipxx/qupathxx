@@ -18,5 +18,8 @@ struct ObjectPlane {
     bool covers(const ObjectPlane& child) const {
         return z==child.z && t==child.t && (c==-1 || c==child.c);
     }
+    bool matches_raw(std::uint32_t first,std::uint32_t channels,std::uint32_t depth,std::uint32_t time) const {
+        return z==depth && t==time && (c==-1 || (channels==1 && first==std::uint32_t(c)));
+    }
 };
 }

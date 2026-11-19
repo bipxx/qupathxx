@@ -1,6 +1,9 @@
 #include "expression_reduction_internal.hpp"
+#include "expression_reduction_export_internal.hpp"
 #include "expression_reduction_cli.hpp"
 #include "qupathxx/project.hpp"
+#include "qupathxx/project_batch.hpp"
+#include "filesystem_access.hpp"
 #include <fstream>
 #include <sstream>
 #include <iostream>
@@ -62,7 +65,58 @@ void exercise(const fs::path& root){
     std::atomic<bool> cancelled{true};rejects<WorkflowCancelled>([&]{reduce_expression(source,options,&cancelled);});cancelled.store(false);seen->cancel=&cancelled;rejects<WorkflowCancelled>([&]{reduce_expression(seen,options,&cancelled);});seen->cancel=nullptr;cancelled.store(false);seen->stale=true;rejects<WorkflowInputChanged>([&]{reduce_expression(seen,options);});seen->stale=false;seen->malformed=true;rejects([&]{reduce_expression(seen,options);});seen->malformed=false;
     const auto model=root/"model.qpr";save_expression_reduction_archive(*raw,model.u8string());const auto opened=open_expression_reduction_archive(model.u8string(),raw->id(),64u*1024*1024);check(opened->id()==raw->id() && opened->embedding()==raw->embedding() && opened->means()==raw->means() && opened->loadings()==raw->loadings() && opened->labels()==raw->labels(),"Exact fitted arrays did not persist");replay_expression_reduction(source,*opened,64u*1024*1024);rejects<WorkflowCaptureLimit>([&]{replay_expression_reduction(source,*opened,64u*1024*1024,nullptr,1);});rejects([&]{save_expression_reduction_archive(*raw,model.u8string());});write(root/"truncated.qpr",read(model).substr(0,100));rejects([&]{open_expression_reduction_archive((root/"truncated.qpr").u8string());});mutate(model,root/"bad-label.qpr",[](auto& b){for(std::size_t i=0;i<4;++i)b[b.size()-68+i]=char(255);});rejects([&]{open_expression_reduction_archive((root/"bad-label.qpr").u8string());});rejects<WorkflowInputChanged>([&]{open_expression_reduction_archive(model.u8string(),std::string(64,'0'));});
     Project project;const auto image=project.add_document(std::make_shared<Document>(dense_image_server(Image::demo())));keep_expression_matrix(project,image,source,true);project.save_new((root/"input.qpx").u8string());const auto id=keep_expression_reduction(project,image,*raw,model.u8string());rejects<WorkflowOutputExists>([&]{keep_expression_reduction(project,image,*raw,model.u8string());});project.save_new((root/"saved.qpx").u8string());const auto saved=Project::open((root/"saved.qpx").u8string());const auto request=expression_reduction_open_request(*saved,image,id);check(request.open()->id()==id,"Saved project fitted association failed");rejects([&]{saved->save(request.archive);});fs::create_directory(root/"relocated");saved->save_new((root/"relocated/study.qpx").u8string());const auto relocated=Project::open((root/"relocated/study.qpx").u8string());const auto relocated_request=expression_reduction_open_request(*relocated,image,id);check(relocated_request.archive!=request.archive && relocated_request.open()->embedding()==raw->embedding() && read(fs::u8path(relocated_request.archive))==read(fs::u8path(request.archive)),"Owned Save As did not retain exact archive bytes/arrays");remove_expression_reduction(*relocated,image,id);check(expression_reduction_ids(*relocated,image).empty(),"Reduction removal failed");relocated->document(image)->undo();check(expression_reduction_ids(*relocated,image)==std::vector<std::string>{id},"Reduction metadata undo failed");
+    {
+        saved->document(image)->add_rectangle({0,0,2,2});
+        const StainTransform stains({{1,0,0},{0,1,0}});
+        const ProjectBatchRequest batch(*saved,stains);
+        const auto output=(root/"reduction-batch").u8string();
+        const auto exported=run_project_batch(batch,output);
+        if(exported.saved!=1) throw std::runtime_error("Owned reduction batch failed: "+exported.error);
+        const auto checkpoint=Project::open(exported.images.at(0).path);
+        const auto captured=expression_reduction_open_request(*checkpoint,image,id);
+        check(captured.open()->embedding()==raw->embedding(),"Batch checkpoint lost its exact owned reduction");
+        check(run_project_batch(batch,output).reused==1,"Exact reduction did not reuse");
+        const auto archive=detail::access_path(fs::u8path(captured.archive));
+        const auto original=read(archive);
+        auto damaged=original;
+        damaged.back()^=1;
+        write(archive,damaged);
+        const auto refused=run_project_batch(batch,output);
+        check(refused.failed==1 && !refused.reused && read(archive)==damaged,
+              "Resume accepted or replaced a changed owned QPR");
+        write(archive,original);
+        check(run_project_batch(batch,output).reused==1,"Exact restored QPR could not reuse");
+    }
     save_expression_embedding_csv(*raw,(root/"embedding.csv").u8string());save_expression_loadings_csv(*raw,(root/"loadings.csv").u8string());save_expression_reduction_svg(*raw,(root/"scatter.svg").u8string());check(read(root/"embedding.csv").find("\"O0\"")!=std::string::npos && read(root/"scatter.svg").find("data-index=\"5\"")!=std::string::npos && read(root/"scatter.svg").find(raw->id())!=std::string::npos,"Native exports lost IDs/plot associations");rejects([&]{save_expression_embedding_csv(*raw,(root/"embedding.csv").u8string());});rejects([&]{save_expression_reduction_svg(*raw,(root/"small.svg").u8string(),10);});check(!fs::exists(root/"small.svg"),"Failed SVG export published partial output");
+    for (const auto kind : {detail::ReductionExport::Embedding, detail::ReductionExport::Loadings,
+                            detail::ReductionExport::Plot}) {
+        const auto destination = root / "guarded-export";
+        unsigned calls = 0;
+        const auto protect = [&] {
+            if (++calls == 2)
+                throw WorkflowInputChanged("Project output became protected before publication");
+        };
+        rejects<WorkflowInputChanged>([&] {
+            detail::write_expression_reduction_export(*raw, destination.u8string(), kind,
+                                                       1024 * 1024, nullptr, protect);
+        });
+        check(calls == 2 && !fs::exists(destination), "Guard failure published a reduction export");
+        for (const auto& entry : fs::directory_iterator(root))
+            check(entry.path().filename().u8string().find("guarded-export.qpx-tmp-") != 0,
+                  "Guard failure left a reduction export temporary file");
+    }
+    const auto guarded_archive = root / "guarded-result.qpr";
+    unsigned archive_checks = 0;
+    rejects<WorkflowInputChanged>([&] {
+        detail::write_expression_reduction_archive(*raw, guarded_archive.u8string(), options.work_bytes, nullptr, [&] {
+            if (++archive_checks == 2)
+                throw WorkflowInputChanged("Project archive destination became protected");
+        });
+    });
+    check(archive_checks == 2 && !fs::exists(guarded_archive), "Guard failure published a fitted archive");
+    for (const auto& entry : fs::directory_iterator(root))
+        check(entry.path().filename().u8string().find("guarded-result.qpr.qpx-tmp-") != 0,
+              "Guard failure left a fitted archive temporary file");
     auto single_options=options;single_options.components=1;const auto single=reduce_expression(source,single_options);save_expression_reduction_svg(*single,(root/"one-component.svg").u8string());check(read(root/"one-component.svg").find("One-component fit; vertical coordinate is zero")!=std::string::npos,"One-component plot falsely labels a second component");
     const auto escaped_source=fixture(root,"xml-text",4,6,entries.str(),count,"O<0&");const auto escaped=reduce_expression(escaped_source,options);save_expression_reduction_svg(*escaped,(root/"escaped.svg").u8string());check(read(root/"escaped.svg").find("O&lt;0&amp;")!=std::string::npos,"SVG identifier escaping differs");const auto control_source=fixture(root,"xml-control",4,6,entries.str(),count,std::string("O")+char(1));const auto control=reduce_expression(control_source,options);rejects<std::invalid_argument>([&]{save_expression_reduction_svg(*control,(root/"invalid-xml.svg").u8string());});check(!fs::exists(root/"invalid-xml.svg"),"Invalid XML identifier published an unreadable plot");
     J spec={{"schema","qpx.expression-reduction-spec/1"},{"method","centered-pca"},{"features",{"G0","G1","G2"}},{"clusters",2},{"seed",7}};write(root/"spec.json",spec.dump());std::vector<std::string> argv{"batch","--reduce-expression",(root/"input.qpx").u8string(),(root/"cli.qpx").u8string(),"--image",std::to_string(image),"--matrix",source->metadata().source_sha256,"--spec",(root/"spec.json").u8string()};check(detail::expression_reduction_cli(argv,cancelled)==0,"Native reduction CLI creation failed");rejects<WorkflowOutputExists>([&]{detail::expression_reduction_cli(argv,cancelled);});const auto cli_project=Project::open((root/"cli.qpx").u8string());const auto cli_ids=expression_reduction_ids(*cli_project,image);check(cli_ids.size()==1,"Native CLI fitted result association absent");for(const auto* command:{"--verify-expression-reduction","--replay-expression-reduction"})check(detail::expression_reduction_cli({"batch",command,(root/"cli.qpx").u8string(),"--image",std::to_string(image),"--record",cli_ids[0]},cancelled)==0,"Native CLI open/replay failed");check(detail::expression_reduction_cli({"batch","--export-expression-reduction",(root/"cli.qpx").u8string(),(root/"cli-scatter.svg").u8string(),"--image",std::to_string(image),"--record",cli_ids[0],"--plot"},cancelled)==0,"Native CLI plot export failed");

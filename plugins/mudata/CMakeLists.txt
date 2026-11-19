@@ -1,0 +1,36 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+cmake_minimum_required(VERSION 3.24)
+project(qupathxx_mudata_plugin VERSION 1.1.0 LANGUAGES CXX)
+set(qpx_provider_target qpx_mudata_plugin)
+set(qpx_provider_source mudata.cpp)
+set(qpx_provider_id org.qupathxx.mudata)
+set(qpx_format_id h5mu)
+set(qpx_provider_domain matrix)
+set(qpx_provider_name "MuData modality")
+set(qpx_provider_contract mudata-selected-modality/2)
+set(qpx_provider_abi 5)
+include("../format-common/plugin_build.cmake")
+
+set(QUPATHXX_MUDATA_DEPENDENCIES "" CACHE PATH "Admitted offline FP04 HDF5 and zlib header tree")
+find_package(qupathxx 0.1.0 CONFIG REQUIRED COMPONENTS core)
+get_target_property(core qupathxx::core IMPORTED_LOCATION_RELEASE)
+get_filename_component(libdir "${core}" DIRECTORY)
+get_filename_component(sdk "${libdir}/../.." ABSOLUTE)
+set(hdf "${QUPATHXX_MUDATA_DEPENDENCIES}/hdf5")
+set(zlib "${QUPATHXX_MUDATA_DEPENDENCIES}/zlib/include")
+file(SHA256 "${libdir}/deps/qpx-hdf5.lib" hdf_digest)
+file(SHA256 "${libdir}/deps/qpx-zlib.lib" zlib_digest)
+file(SHA256 "${hdf}/generated/H5pubconf.h" config_digest)
+file(READ "${zlib}/zconf.h" zlib_config)
+if(NOT hdf_digest STREQUAL "ef5a6cfebd2fd9d5bf2b5f449980fcf8676cb64fc42048e952f3c9f3b272f43c" OR
+   NOT zlib_digest STREQUAL "4ec525ee88a54ccf5d33ef1a5c8105533ad19f0ac946b71b52c8a824cbefb63d" OR
+   NOT config_digest STREQUAL "e980d2826a23809a3640549fecd587868644c494b1ea6e0ddc4640eed7562f77" OR
+   NOT zlib_config MATCHES "#define Z_PREFIX 1")
+  message(FATAL_ERROR "Use the admitted FP04 HDF5 and prefixed zlib static libraries and headers")
+endif()
+target_include_directories(qpx_mudata_plugin PRIVATE
+  "${hdf}/generated" "${hdf}/src" "${hdf}/src/H5FDsubfiling" "${zlib}")
+target_compile_definitions(qpx_mudata_plugin PRIVATE H5_BUILT_AS_STATIC_LIB NOMINMAX WIN32_LEAN_AND_MEAN)
+target_link_libraries(qpx_mudata_plugin PRIVATE "${libdir}/deps/qpx-hdf5.lib" "${libdir}/deps/qpx-zlib.lib" ws2_32 shlwapi)
+install(FILES "${sdk}/share/qupathxx/licenses/hdf5/LICENSE" DESTINATION licenses/hdf5)
+install(FILES "${sdk}/share/qupathxx/licenses/tiff-zlib/LICENSE" DESTINATION licenses/zlib)

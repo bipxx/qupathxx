@@ -1,0 +1,38 @@
+{
+  "schema": "qpx.loom-native-source-profile/1",
+  "provider": "org.qupathxx.loom",
+  "contract": "loom3-dense-typed/1",
+  "implementation_license": "AGPL-3.0-only",
+  "format_reference": {
+    "repository": "https://github.com/linnarsson-lab/loompy",
+    "tag": "3.0.6",
+    "commit": "6177c213ab59110cea1bdaed08ac5a355fc13524",
+    "license": "BSD-2-Clause",
+    "usage": "Published schema and pinned nonexecuted source reference only; no Python runtime/implementation dependency or upstream fixture admitted",
+    "marker": "Scalar UTF-8 /attrs/LOOM_SPEC_VERSION equals3.0.0; older doc v-prefix is not accepted"
+  },
+  "frozen_sdk": {
+    "profile": "windows-x64-msvc1944-release-md",
+    "core_sha256": "4bf957c9ea6e46294c11b9bfb7d9c2496cf4fca607a9c28ba837768d301eb6bb",
+    "rebuild": false
+  },
+  "hdf5": {
+    "version": "2.2.0",
+    "source_archive_sha256": "5b8d75125ae7b4fef55d3b39e8d3dbfd238cdf63b6518afd67fa69ac80f06542",
+    "static_library_sha256": "ef5a6cfebd2fd9d5bf2b5f449980fcf8676cb64fc42048e952f3c9f3b272f43c",
+    "generated_config_sha256": "e980d2826a23809a3640549fecd587868644c494b1ea6e0ddc4640eed7562f77",
+    "license_notice_sha256": "b384492d25c6e4a49f371b646d9a81bc0a4b97cf0c66c2f3ed1b35f78a148732",
+    "notice": "Original full HDF5 LICENSE,3-clause BSD plus retained component notices",
+    "private_symbol": "H5_checksum_fletcher32(const void*,size_t) from exact H5private.h/static library",
+    "features": "Static non-threadsafe native local instance; external plugins/remote/parallel/SZIP and language bindings disabled"
+  },
+  "zlib": {
+    "version": "1.3.2",
+    "license": "Zlib",
+    "source_archive_sha256": "bb329a0a2cd0274d05519d61c667c062e06990d72e125ee2dfa8de64f0119d16",
+    "static_library_sha256": "4ec525ee88a54ccf5d33ef1a5c8105533ad19f0ac946b71b52c8a824cbefb63d",
+    "headers": "Matching qpx-include/zlib.h + generated zconf.h with Z_PREFIX1",
+    "internal_library_only_rename": "z_errmsg=qpx_tiff_z_errmsg; not a consumer definition"
+  },
+  "qualification": "Source profile only; module/build/workflow/material/deployment receipts carry their own exact identities"
+}

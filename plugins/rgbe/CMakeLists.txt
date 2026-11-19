@@ -1,0 +1,10 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+cmake_minimum_required(VERSION 3.24)
+project(qupathxx_rgbe_reader VERSION 1.0.0 LANGUAGES CXX)
+set(qpx_image_target qpx_rgbe_plugin)
+set(qpx_image_source "${CMAKE_CURRENT_SOURCE_DIR}/rgbe_reader.cpp")
+set(qpx_image_id org.qupathxx.rgbe)
+set(qpx_image_name "Radiance RGBE")
+set(qpx_image_contract radiance-linear-rgbe/1)
+include("../image-common/plugin_build.cmake")
+target_compile_definitions(qpx_rgbe_plugin PRIVATE QPX_RGBE_VERSION="${PROJECT_VERSION}")

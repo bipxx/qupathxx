@@ -21,6 +21,9 @@ public:
     RawPixelStreamSaveJob(const RawPixelStreamSaveJob&)=delete;
     bool request(const RawPixelTiledPredictionRequest&,const std::string&,RawPixelStreamSaveOptions={});
     bool busy() const;void cancel();void await_completion();
+    // True once the current request atomically publishes its file. This
+    // remains true if later verification or owner delivery is interrupted.
+    bool committed() const;
     RawPixelFileJobStats poll(const Document&),wait(const Document&);
     std::optional<RawPixelStreamFileSummary> take(const Document&);
     // Alternative transfer: verified historical metadata for external retention.

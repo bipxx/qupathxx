@@ -2,7 +2,7 @@
 import json
 import pytest
 import qupathxx as q
-from test_qptma_project import cli, no_temporaries
+from test_qptma_project import cli, no_temporaries, values
 from test_tma_dearray import CONTRACT, scene
 
 pytestmark = pytest.mark.skipif(not q.has_project, reason='requires native project storage')
@@ -39,9 +39,113 @@ def test_cli_preview_then_explicit_project_import(tmp_path):
     applied = tmp_path/'applied.qpxproj'
     result = cli('--import-qptma', source, output, applied, '--image', image)
     assert result.returncode == 0, result.stderr
-    project = q.Project.open(str(applied))
-    assert project.document(image).tma_core_count == 12 and project.document(1).tma_core_count == 0
+    exported = tmp_path/'applied.qptma'
+    result = cli('--export-qptma', applied, exported, '--image', image)
+    assert result.returncode == 0, result.stderr
+    assert values(q.load_qptma(str(exported))) == values(q.load_qptma(str(output)))
+    untouched = tmp_path/'untouched.qptma'
+    result = cli('--export-qptma', applied, untouched, '--image', 1)
+    assert result.returncode == 1 and 'selected image has no TMA grid' in result.stderr
+    assert not untouched.exists()
     assert source.read_bytes() == before
+    no_temporaries(tmp_path)
+
+
+def test_cli_detect_tma_requires_review_for_replaced_verified_slide(tmp_path):
+    import numpy as np
+    from test_project_source import fingerprint
+
+    case = CONTRACT['cases'][1]
+    doc, _ = scene(case)
+    pixels = doc.image.numpy()
+    height, width = pixels.shape[:2]
+    header = f'P6\n{width} {height}\n255\n'.encode()
+    slide = tmp_path / 'slide.ppm'
+    slide.write_bytes(header + pixels.tobytes())
+    project = q.Project()
+    image = project.add_image(str(slide), 'ppm')
+    project.apply_source_review(project.review_source_verification(image, fingerprint(slide)))
+    source = tmp_path / 'verified.qpx'
+    project.save(str(source))
+    del project
+    original = source.read_bytes()
+    before = tmp_path / 'before.qptma'
+    result = cli(*arguments(source, before, image))
+    assert result.returncode == 0 and json.loads(result.stdout)['candidates'] == 11, result
+
+    replacement = tmp_path / 'replacement.ppm'
+    shifted = np.pad(pixels[:, :-3], ((0, 0), (3, 0), (0, 0)), constant_values=255)
+    replacement.write_bytes(header + shifted.tobytes())
+    assert replacement.stat().st_size == slide.stat().st_size
+    replacement.replace(slide)
+    denied = tmp_path / 'denied.qptma'
+    result = cli(*arguments(source, denied, image))
+    assert result.returncode == 1 and 'differs from saved source verification' in result.stderr, result
+    assert not denied.exists()
+
+    project = q.Project.open(str(source))
+    review = project.review_source_verification(image, fingerprint(slide))
+    assert review.comparison == 'changed_bytes' and review.requires_acceptance
+    project.apply_source_review(review, accept_changed=True)
+    adopted = tmp_path / 'adopted.qpx'
+    project.save(str(adopted))
+    proposal = tmp_path / 'shifted.qptma'
+    result = cli(*arguments(adopted, proposal, image))
+    assert result.returncode == 0 and json.loads(result.stdout)['candidates'] == 11, result
+    grid = q.load_qptma(str(proposal))
+    for core, expected in zip(grid.cores, case['cores'], strict=True):
+        x, y = expected['center']
+        assert core.missing != expected['present']
+        assert core.bounds.x + core.bounds.width / 2 == pytest.approx(x + 3, abs=2)
+        assert core.bounds.y + core.bounds.height / 2 == pytest.approx(y, abs=2)
+    assert source.read_bytes() == original
+    no_temporaries(tmp_path)
+
+
+def test_cli_grid_workflow_protects_unselected_label_stores(tmp_path):
+    source, image = source_project(tmp_path)
+    project = q.Project.open(str(source))
+    online, offline = tmp_path / 'labels.zarr', tmp_path / 'offline.zarr'
+    online.mkdir()
+    sentinel = online / 'source-marker'
+    sentinel.write_bytes(b'label store fixture')
+    records = {
+        str(index): {'ngff_source': True, 'parameters': json.dumps({'method': 3, 'path': str(path)})}
+        for index, path in enumerate((online, offline), 1)
+    }
+    project.document(1).set_image_data_properties(q.ImageDataProperties({'qpx.label-analysis/1': records}))
+    source = tmp_path / 'with-labels.qpxproj'
+    project.save_new(str(source))
+    original = source.read_bytes()
+
+    def protected(args, target):
+        result = cli(*args)
+        assert result.returncode == 1
+        assert 'outside the protected input directory' in json.loads(result.stderr)['error']
+        assert not target.exists()
+
+    for destination in (online / 'proposal.qptma', offline):
+        protected(arguments(source, destination, image), destination)
+    proposal = tmp_path / 'proposal.qptma'
+    result = cli(*arguments(source, proposal, image))
+    assert result.returncode == 0, result.stderr
+    proposal_bytes = proposal.read_bytes()
+    for destination in (online / 'applied.qpxproj', offline):
+        protected(['--import-qptma', source, proposal, destination, '--image', image], destination)
+    applied = tmp_path / 'applied.qpxproj'
+    result = cli('--import-qptma', source, proposal, applied, '--image', image)
+    assert result.returncode == 0, result.stderr
+    assert json.loads(result.stdout)['cores'] == 12
+    applied_bytes = applied.read_bytes()
+    for destination in (online / 'exported.qptma', offline):
+        protected(['--export-qptma', applied, destination, '--image', image], destination)
+    exported = tmp_path / 'exported.qptma'
+    result = cli('--export-qptma', applied, exported, '--image', image)
+    assert result.returncode == 0, result.stderr
+    cores = q.load_qptma(str(exported)).cores
+    assert len(cores) == 12 and cores[5].missing
+    assert (source.read_bytes(), proposal.read_bytes(), applied.read_bytes()) == (original, proposal_bytes, applied_bytes)
+    assert {path.name: path.read_bytes() for path in online.iterdir()} == {sentinel.name: b'label store fixture'}
     no_temporaries(tmp_path)
 
 

@@ -146,14 +146,32 @@ command and result limits. An existing grid must be cleared explicitly before an
 
 The standalone batch executable exports a proposal from one explicitly selected
 project image. It opens the project without journal recovery, protects project
-and linked-image inputs and atomically creates a new file. Existing output,
+and linked-image inputs, and atomically creates a new file. The destination
+must be outside linked image and NGFF label stores anywhere in the project,
+including saved store locations that are offline. The CLI also protects
+companion paths retained by a saved plugin link or source review. Existing output,
 invalid/duplicate options, missing image selection, cancellation and exhausted
-budgets leave the source and destination unchanged. Applying remains explicit:
+budgets leave the source and destination unchanged.
+
+Linked OME-Zarr images use the saved display view and the reader's directory
+identity checks. The CLI rechecks source currentness before publishing the
+proposal. It checks any saved image-source verification before detection.
+Review and adopt a changed slide before detecting its grid.
+
+Apply a saved proposal with the separate import command.
 
 ```text
 qupathxx_batch --detect-tma source.qpxproj proposal.qptma --image 2 --rows 3 --columns 4 --core-width 32 --core-height 32
 qupathxx_batch --import-qptma source.qpxproj proposal.qptma applied.qpxproj --image 2
 ```
+
+To bind the reviewed proposal to its source, add `--review` to detection and
+retain the `review_sha256` from the JSON output. Pass that value as
+`--expect-review SHA256` when importing. The check covers the source project
+bytes, selected image ID, image frame with reader source identity, and exact
+proposal bytes. A mismatch stops import before a project is published.
+Reviewed commands accept source project files up to 4 GiB. Use ordinary QPTMA
+import for an intentionally edited grid.
 
 `--help` lists polarity, density, component/fit, preview/source pixel, memory,
 candidate/pair-work and output-text bounds. `--core-units px|um` selects size units (default pixels).

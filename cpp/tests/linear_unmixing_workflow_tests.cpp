@@ -1,5 +1,6 @@
 #include "qupathxx/linear_unmixing_workflow.hpp"
 #include "qupathxx/project.hpp"
+#include "qupathxx/project_source.hpp"
 #include "qupathxx/linear_unmixing_io.hpp"
 #include "../linear_unmixing_cli.hpp"
 #include <sstream>
@@ -48,6 +49,21 @@ void cli(const fs::path& root,const fs::path& input,const fs::path& signal,const
     auto stopped=keep;stopped[3]=(root/"cancelled.qpx").u8string();cancel.store(true);{Capture log;check(detail::linear_unmixing_cli(stopped,cancel)==130,"CLI cancellation status");}cancel.store(false);check(!fs::exists(stopped[3]),"Cancelled CLI leaves no output");
     auto duplicate=keep;duplicate.insert(duplicate.end(),{"--image","1"});rejects<std::invalid_argument>([&]{detail::linear_unmixing_cli(duplicate,cancel);});auto wrong=keep;wrong[3]=(root/"wrong-domain.qpx").u8string();wrong[7]=original_file.u8string();{Capture log;check(detail::linear_unmixing_cli(wrong,cancel)==1,"CLI refuses corrected parent with original-domain matrix");}check(!fs::exists(wrong[3]),"Domain failure does not publish");
     rejects([&]{save_linear_mixing_matrix_file(edited,matrix_file.u8string());});check(bytes(matrix_file)==matrix_bytes && bytes(input)==project_bytes,"CLI and matrix IO preserve inputs");
+    const auto verified_image=root/"verified-signal.tif",verified_project=root/"verified-input.qpx";
+    field(verified_image,23,42);
+    {
+        Project verified;
+        const auto id=verified.add_tiff_image(verified_image.u8string(),{});
+        verified.apply_source_review(verified.review_source_verification(id,*fingerprint_file(verified_image.u8string())));
+        verified.save_new(verified_project.u8string());
+    }
+    field(verified_image,99,42);
+    raw[2]=verified_project.u8string();
+    raw[3]=(root/"unreviewed-unmix.qpx").u8string();
+    {Capture log;check(detail::linear_unmixing_cli(raw,cancel)==1 &&
+        log.err.str().find("differs from saved source verification")!=std::string::npos,
+        "Unmixing CLI rejects a changed verified signal");}
+    check(!fs::exists(raw[3]),"Refused unmixing leaves no project");
 }
 void exercise(const fs::path& root,bool handoff){
     const auto signal=root/"signal.tif",dark=root/"dark.tif",flat=root/"flat.tif",project_file=root/"unmix.qpx";

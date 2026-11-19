@@ -13,7 +13,8 @@ import qupathxx as q
 from qupathxx import _native
 
 pytestmark=pytest.mark.skipif(not q.has_project,reason='project backend required for export fixtures')
-CLI=Path(_native.__file__).with_name('qupathxx_batch.exe' if os.name=='nt' else 'qupathxx_batch')
+CLI=Path(os.environ.get('QUPATHXX_TEST_RGB_EXPORT_CLI', Path(_native.__file__).with_name(
+    'qupathxx_batch.exe' if os.name=='nt' else 'qupathxx_batch')))
 FIXTURE=Path(__file__).parent/'data/pixel-streams/rectangle-v1-windows.qps'
 
 
@@ -80,6 +81,72 @@ def test_cli_explicit_verified_replacement_and_default_refusal(tmp_path):
     assert run('--verify-pixels',out).returncode==0
     data=bytearray(out.read_bytes());data[-1]^=1;out.write_bytes(data);old=out.read_bytes()
     denied=run(*args,'--replace-existing');assert denied.returncode==1 and out.read_bytes()==old
+
+
+def test_rgb_export_protects_verified_image_and_missing_project_paths(tmp_path):
+    from test_project_source import fingerprint
+
+    _, _, _, model_path, embedded, model = fixture(tmp_path)
+    rgb = embedded.image.numpy()
+    header = b'P6\n64 64\n255\n'
+    slide = tmp_path / 'slide.ppm'
+    slide.write_bytes(header + rgb.tobytes())
+    other = tmp_path / 'other.ppm'
+    other.write_bytes(b'P6\n1 1\n255\nabc')
+    project = q.Project()
+    image = project.add_image(str(slide), 'ppm')
+    project.add_image(str(other), 'ppm')
+    doc = project.document(image)
+    resolution = model.resolution
+    if resolution.pixel_width_um is not None:
+        doc.set_calibration(resolution.pixel_width_um, resolution.pixel_height_um)
+    roi = doc.add_rectangle(q.Rect(4, 4, 56, 56))
+    project.apply_source_review(project.review_source_verification(image, fingerprint(slide)))
+    saved = tmp_path / 'verified.qpx'
+    project.save(str(saved))
+    del doc, project
+    original = saved.read_bytes()
+    other.rename(tmp_path / 'moved.ppm')
+
+    def invoke(*args, error=None):
+        result = run(*args)
+        assert result.returncode == (1 if error else 0), result
+        report = json.loads(result.stdout.splitlines()[-1])
+        if error:
+            assert report['state'] == 'failed' and error in report['error'], report
+            assert report['completed_blocks'] == 0 and report['summary'] is None
+        return report
+
+    def export(project_path, target, error=None):
+        return invoke('--export-pixels', project_path, image, roi, model_path, target,
+                      '--block-size', 16, '--tile-size', 16, '--work-bytes', 8 * 1024**2, error=error)
+
+    for target in (saved.with_name(saved.name + '-wal'), other):
+        export(saved, target, error='must not replace its input')
+        assert not target.exists()
+    initial = tmp_path / 'initial.qps'
+    first = export(saved, initial)
+    initial_bytes = initial.read_bytes()
+    replacement = tmp_path / 'changed.ppm'
+    replacement.write_bytes(header + np.roll(rgb, 3, axis=1).tobytes())
+    replacement.replace(slide)
+    denied = tmp_path / 'denied.qps'
+    export(saved, denied, error='differs from saved source verification')
+    assert not denied.exists()
+
+    project = q.Project.open(str(saved))
+    review = project.review_source_verification(image, fingerprint(slide))
+    assert review.comparison == 'changed_bytes'
+    project.apply_source_review(review, accept_changed=True)
+    adopted = tmp_path / 'adopted.qpx'
+    project.save(str(adopted))
+    output = tmp_path / 'adopted.qps'
+    result = export(adopted, output)
+    verified = invoke('--verify-pixels', output)
+    assert verified['summary'] == result['summary']
+    assert result['summary']['class_counts'] != first['summary']['class_counts']
+    assert result['summary']['valid_pixels'] == 56 * 56
+    assert saved.read_bytes() == original and initial.read_bytes() == initial_bytes
 
 
 @pytest.mark.parametrize('args',[

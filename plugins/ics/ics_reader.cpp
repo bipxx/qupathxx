@@ -1,5 +1,7 @@
 #include "reader_plugin_profile.hpp"
+#include "../image-common/gzip_member.hpp"
 #include <qupathxx/reader_plugin.h>
+#include <windows.h>
 #include <algorithm>
 #include <array>
 #include <charconv>
@@ -183,20 +185,33 @@ double numeric(std::string_view value) {
     const auto parsed=std::from_chars(value.data(),value.data()+value.size(),result,std::chars_format::general);
     valid(parsed.ec==std::errc{} && parsed.ptr==value.data()+value.size() && std::isfinite(result),"ICS header numbers must be finite and representable");return result;
 }
+enum Axis : unsigned {axis_x,axis_y,axis_z,axis_time,axis_channel,axis_count};
+constexpr std::array<std::string_view,axis_count> axis_names{"x","y","z","t","ch"};
+constexpr std::array<std::string_view,axis_count> reference_labels{"x-position","y-position","z-position","time","ch"};
+constexpr std::array<char,axis_count> axis_letters{'X','Y','Z','T','C'};
 struct Raster {
     unsigned version=0;
     std::int64_t width=0,height=0;
-    std::uint32_t z_planes=1,channels=1,sample_type=0,sample_bytes=0,calibration_flags=0;
-    bool has_channels=false,has_z=false;
+    std::uint32_t z_planes=1,timepoints=1,channels=1,sample_type=0,sample_bytes=0,calibration_flags=0;
+    bool compressed=false;
     std::array<std::uint8_t,4> byte_order{};
+    std::array<std::uint64_t,axis_count> strides{};
+    std::array<char,axis_count+1> dimension_order{};
     std::array<double,3> spacing_um{};
+    double interval_seconds=0;
     Window window;std::size_t payload=0;std::uint64_t data_bytes=0;
     std::unique_ptr<std::uint8_t[]> primary,ids;
     const std::uint8_t* data() const {return ids?ids.get():primary.get()+payload;}
     std::uint8_t* data() {return ids?ids.get():primary.get()+payload;}
 };
 struct Handle {Raster image;};
-Raster parse_header(const ReadFile& file,Window window,qpx_reader_cancel_v1 cancel) {
+struct Header {
+    Raster raster;
+    std::string_view external;
+    std::uint64_t offset=0;
+    bool has_companion() const {return raster.version==1 || !external.empty();}
+};
+Header parse_header(const ReadFile& file,Window window,qpx_reader_cancel_v1 cancel) {
     checkpoint(cancel);
     if(file.size<2 || file.bytes[0]!='\t' || (file.bytes[1]!='\n' && !(file.size>=3 && file.bytes[1]=='\r' && file.bytes[2]=='\n')))
         fail(QPX_READER_UNSUPPORTED,"ICS requires the TAB/newline separator declaration");
@@ -207,8 +222,10 @@ Raster parse_header(const ReadFile& file,Window window,qpx_reader_cancel_v1 canc
         fail(QPX_READER_UNSUPPORTED,"ICS version signature is unsupported");
     const auto filename=split(cursor.line());
     valid(filename.count==2 && filename.values[0]=="filename" && !filename.values[1].empty(),"ICS descriptive filename field is malformed");
-    Raster result;result.window=window;result.version=version.values[1]=="1.0"?1:2;
-    enum Field {Parameters,Order,Sizes,Coordinates,Significant,Format,Sign,ByteOrder,Compression,Origin,Scale,Units,Labels,Count};
+    Header header;
+    auto& result=header.raster;
+    result.window=window;result.version=version.values[1]=="1.0"?1:2;
+    enum Field {Parameters,Order,Sizes,Coordinates,Significant,Format,Sign,ByteOrder,Compression,Origin,Scale,Units,Labels,SourceFile,SourceOffset,Count};
     std::array<std::string_view,Count> fields{};unsigned seen=0;bool ended=false;
     while(cursor.position<file.size) {
         const auto line=cursor.line();if(line.empty())continue;
@@ -221,9 +238,10 @@ Raster parse_header(const ReadFile& file,Window window,qpx_reader_cancel_v1 canc
         const auto first=line.find('\t');const auto category=line.substr(0,first);
         if(category=="history")continue;
         if(category=="ics_version" || category=="filename")fail(QPX_READER_IO_ERROR,"ICS signature field is duplicated");
-        if(category=="source" || category=="sensor")fail(QPX_READER_UNSUPPORTED,"ICS source or sensor interpretation is unsupported");
+        if(category=="sensor" || (category=="source" && result.version==1))
+            fail(QPX_READER_UNSUPPORTED,"ICS source or sensor interpretation is unsupported");
         if(category=="end")fail(QPX_READER_IO_ERROR,"ICS end marker contains extra values");
-        if(category!="layout" && category!="representation" && category!="parameter")
+        if(category!="layout" && category!="representation" && category!="parameter" && category!="source")
             fail(QPX_READER_UNSUPPORTED,"ICS header category is unsupported");
         valid(first!=std::string_view::npos,"ICS header subcategory is missing");
         const auto rest=line.substr(first+1);
@@ -241,34 +259,52 @@ Raster parse_header(const ReadFile& file,Window window,qpx_reader_cancel_v1 canc
             else if(subcategory=="sign")field=Sign;
             else if(subcategory=="byte_order")field=ByteOrder;
             else if(subcategory=="compression")field=Compression;
-        } else {
+        } else if(category=="parameter") {
             if(subcategory=="origin")field=Origin;
             else if(subcategory=="scale")field=Scale;
             else if(subcategory=="units")field=Units;
             else if(subcategory=="labels")field=Labels;
+        } else {
+            if(subcategory=="file")field=SourceFile;
+            else if(subcategory=="offset")field=SourceOffset;
         }
         if(field==Count)fail(QPX_READER_UNSUPPORTED,"ICS header subcategory is unsupported");
         valid(!(seen&(1u<<field)),"ICS header field is duplicated");seen|=1u<<field;fields[field]=value;
     }
     if(file.total_size>file.size && !ended)fail(QPX_READER_INVALID_REQUEST,"ICS header exceeds 64 KiB limit");
-    valid(result.version==1 || ended,"ICS version2 end marker is missing");
+    constexpr unsigned external_fields=(1u<<SourceFile)|(1u<<SourceOffset);
+    if(seen&external_fields) {
+        valid((seen&external_fields)==external_fields && !fields[SourceFile].empty(),
+            "ICS external source requires both a file and an offset");
+        valid(fields[SourceFile].find('\t')==std::string_view::npos,"ICS external source file must occupy one TAB field");
+        header.external=fields[SourceFile];
+        header.offset=integer(fields[SourceOffset],false);
+    }
+    valid(header.has_companion() || ended,"ICS version2 end marker is missing");
     constexpr unsigned mandatory=(1u<<Labels)-1;
     valid((seen&mandatory)==mandatory,"ICS required header fields are missing");
     const auto parameter_count=integer(fields[Parameters]);
-    if(parameter_count<3 || parameter_count>5)fail(QPX_READER_UNSUPPORTED,"ICS axis layout is unsupported");
+    if(parameter_count<3 || parameter_count>6)fail(QPX_READER_UNSUPPORTED,"ICS axis layout is unsupported");
     const auto order=split(fields[Order]),sizes=split(fields[Sizes]);
     valid(order.count==parameter_count && sizes.count==parameter_count,"ICS layout count is inconsistent");
     if(order.values[0]!="bits")fail(QPX_READER_UNSUPPORTED,"ICS requires bits as the first layout parameter");
-    unsigned x=1;
-    if(order.values[1]=="ch") {result.has_channels=true;x=2;}
-    const unsigned y=x+1,z=x+2;
-    if(order.count!=y+1 && order.count!=z+1)fail(QPX_READER_UNSUPPORTED,"ICS supports only XY, XYZ, CXY and CXYZ order");
-    if(order.values[x]!="x" || order.values[y]!="y" || (order.count==z+1 && order.values[z]!="z"))
-        fail(QPX_READER_UNSUPPORTED,"ICS supports only explicit channel-first spatial axes");
-    result.has_z=order.count==z+1;
-    std::array<std::uint64_t,5> shape{};
-    for(unsigned axis=0;axis<order.count;++axis)shape[axis]=integer(sizes.values[axis]);
-    const auto bits=shape[0];
+    std::array<std::uint64_t,axis_count> shape{1,1,1,1,1};
+    std::array<unsigned,axis_count+1> axes{};
+    std::uint64_t samples=1;
+    for(unsigned slot=1;slot<order.count;++slot) {
+        const auto match=std::find(axis_names.begin(),axis_names.end(),order.values[slot]);
+        if(match==axis_names.end())fail(QPX_READER_UNSUPPORTED,"ICS axis name is unsupported");
+        const auto axis=static_cast<unsigned>(match-axis_names.begin());
+        valid(!result.strides[axis],"ICS axis name is duplicated");
+        axes[slot]=axis;
+        shape[axis]=integer(sizes.values[slot]);
+        result.strides[axis]=samples;
+        result.dimension_order[slot-1]=axis_letters[axis];
+        samples=multiply(samples,shape[axis]);
+    }
+    if(!result.strides[axis_x] || !result.strides[axis_y])
+        fail(QPX_READER_UNSUPPORTED,"ICS requires explicit X and Y axes");
+    const auto bits=integer(sizes.values[0]);
     valid(!fields[Format].empty() && !fields[Sign].empty(),"ICS numeric representation is missing");
     if(fields[Sign]!="signed" && fields[Sign]!="unsigned")fail(QPX_READER_UNSUPPORTED,"ICS numeric sign interpretation is unsupported");
     if(fields[Format]=="integer" && bits==8 && fields[Sign]=="unsigned") {result.sample_type=QPX_READER_UINT8;result.sample_bytes=1;}
@@ -276,15 +312,18 @@ Raster parse_header(const ReadFile& file,Window window,qpx_reader_cancel_v1 canc
     else if(fields[Format]=="real" && bits==32) {result.sample_type=QPX_READER_FLOAT32;result.sample_bytes=4;}
     else fail(QPX_READER_UNSUPPORTED,"ICS numeric depth or type is unsupported");
     if(integer(fields[Significant],false)!=bits)fail(QPX_READER_UNSUPPORTED,"ICS requires full-width significant bits");
-    if(fields[Compression]!="uncompressed")fail(QPX_READER_UNSUPPORTED,"ICS compression is unsupported");
+    result.compressed=fields[Compression]=="gzip";
+    if(!result.compressed && fields[Compression]!="uncompressed")
+        fail(QPX_READER_UNSUPPORTED,"ICS compression is unsupported");
     if(fields[Coordinates]!="video")fail(QPX_READER_UNSUPPORTED,"ICS coordinates must explicitly be video");
-    const auto channels=result.has_channels?shape[1]:1,z_planes=result.has_z?shape[z]:1;
-    require(channels<=channel_limit && z_planes<=UINT32_MAX &&
-        shape[x]<=static_cast<std::uint64_t>(INT64_MAX) && shape[y]<=static_cast<std::uint64_t>(INT64_MAX),"ICS dimensions exceed the declared native profile");
+    const auto channels=shape[axis_channel],z_planes=shape[axis_z],timepoints=shape[axis_time];
+    require(channels<=channel_limit && z_planes<=UINT32_MAX && timepoints<=UINT32_MAX &&
+        shape[axis_x]<=static_cast<std::uint64_t>(INT64_MAX) && shape[axis_y]<=static_cast<std::uint64_t>(INT64_MAX),"ICS dimensions exceed the declared native profile");
     result.channels=static_cast<std::uint32_t>(channels);result.z_planes=static_cast<std::uint32_t>(z_planes);
-    result.width=static_cast<std::int64_t>(shape[x]);result.height=static_cast<std::int64_t>(shape[y]);
+    result.timepoints=static_cast<std::uint32_t>(timepoints);
+    result.width=static_cast<std::int64_t>(shape[axis_x]);result.height=static_cast<std::int64_t>(shape[axis_y]);
     require(window.channel<result.channels,"ICS display channel is outside the source");
-    result.data_bytes=multiply(multiply(multiply(shape[x],shape[y]),z_planes),multiply(channels,result.sample_bytes));
+    result.data_bytes=multiply(samples,result.sample_bytes);
     require(result.data_bytes<=work_limit,"ICS data exceeds reader work budget");
     const auto byte_order=split(fields[ByteOrder]);valid(byte_order.count==result.sample_bytes,"ICS byte-order count is invalid");
     unsigned byte_seen=0;
@@ -298,33 +337,48 @@ Raster parse_header(const ReadFile& file,Window window,qpx_reader_cancel_v1 canc
     const auto labels=split(fields[Labels]);
     if(seen&(1u<<Labels)) {
         valid(labels.count==order.count,"ICS axis-label count is inconsistent");
-        for(unsigned axis=0;axis<order.count;++axis)
-            if(labels.values[axis]!=(axis?order.values[axis]:"intensity"))fail(QPX_READER_UNSUPPORTED,"ICS custom axis labels are unsupported");
+        for(unsigned slot=0;slot<order.count;++slot) {
+            const auto label=labels.values[slot];
+            if(label==(slot?order.values[slot]:"intensity") ||
+                (slot && label==reference_labels[axes[slot]])) continue;
+            fail(QPX_READER_UNSUPPORTED,"ICS custom axis labels are unsupported");
+        }
     }
-    for(unsigned axis=0;axis<order.count;++axis) {
-        if(numeric(origin.values[axis])!=0)fail(QPX_READER_UNSUPPORTED,"ICS nonzero spatial or scalar origin cannot be represented");
-        const auto gap=numeric(scale.values[axis]);
-        if(axis==0 || (result.has_channels && axis==1)) {
-            if(gap!=1 || (axis==0?units.values[axis]!="relative":!units.values[axis].empty() && units.values[axis]!="undefined"))
+    for(unsigned slot=0;slot<order.count;++slot) {
+        const auto axis=axes[slot];
+        if(numeric(origin.values[slot])!=0)fail(QPX_READER_UNSUPPORTED,"ICS nonzero origin cannot be represented");
+        const auto gap=numeric(scale.values[slot]);
+        const auto unit=units.values[slot];
+        if(!slot || axis==axis_channel) {
+            if(gap!=1 || (!slot?unit!="relative":!unit.empty() && unit!="undefined"))
                 fail(QPX_READER_UNSUPPORTED,"ICS scalar or channel scaling/units cannot be represented");
             continue;
         }
-        valid(gap!=0,"ICS spatial scale must not be zero");
-        if(gap<0)fail(QPX_READER_UNSUPPORTED,"ICS negative spatial direction cannot be represented");
-        const auto unit=units.values[axis];double factor=0;
+        valid(gap!=0,"ICS axis scale must not be zero");
+        if(gap<0)fail(QPX_READER_UNSUPPORTED,"ICS negative axis direction cannot be represented");
+        double factor=0;
         if(unit.empty() || unit=="undefined")continue;
+        if(axis==axis_time) {
+            if(unit=="s") factor=1; else if(unit=="ms") factor=1000; else if(unit=="us") factor=1000000;
+            else fail(QPX_READER_UNSUPPORTED,"ICS time units are unsupported");
+            result.interval_seconds=gap/factor;
+            if(!(result.interval_seconds>0))
+                fail(QPX_READER_UNSUPPORTED,"ICS calibrated time step exceeds representable bounds");
+            result.calibration_flags|=QPX_READER_CALIBRATION_TIME;
+            continue;
+        }
         if(unit=="nm")factor=0.001;else if(unit=="um")factor=1;else if(unit=="mm")factor=1000;
         else if(unit=="cm")factor=10000;else if(unit=="m")factor=1000000;
         else fail(QPX_READER_UNSUPPORTED,"ICS spatial units are unsupported");
-        const auto spatial=axis-x;result.spacing_um[spatial]=gap*factor;
-        if(!std::isfinite(result.spacing_um[spatial]) || result.spacing_um[spatial]<=0)
+        result.spacing_um[axis]=gap*factor;
+        if(!std::isfinite(result.spacing_um[axis]) || result.spacing_um[axis]<=0)
             fail(QPX_READER_UNSUPPORTED,"ICS calibrated spacing exceeds representable bounds");
-        result.calibration_flags|=1u<<spatial;
+        result.calibration_flags|=1u<<axis;
     }
     result.payload=cursor.position;
-    if(result.version==2)valid(result.data_bytes==file.total_size-cursor.position,"ICS inline data is truncated or has trailing bytes");
-    else valid(cursor.position==file.total_size,"ICS version1 header has trailing data");
-    checkpoint(cancel);return result;
+    if(header.has_companion())valid(cursor.position==file.total_size,"ICS separate header has trailing data");
+    else if(!result.compressed)valid(result.data_bytes==file.total_size-cursor.position,"ICS inline data is truncated or has trailing bytes");
+    checkpoint(cancel);return header;
 }
 void normalize(Raster& image,qpx_reader_cancel_v1 cancel) {
     bool identity=true;for(unsigned byte=0;byte<image.sample_bytes;++byte)identity=identity && image.byte_order[byte]==byte;
@@ -349,12 +403,82 @@ bool display_sample(const Raster& source,std::uint64_t index,double& result) {
     return true;
 }
 std::string path_string(qpx_reader_string_v1 value);
-std::filesystem::path companion_path(const std::filesystem::path& primary) {
+std::filesystem::path companion_path(const std::filesystem::path& primary,const Header& header) {
+    if(!header.external.empty()) {
+        const auto name=header.external;
+        const auto letter=[](char c){return (c>='A' && c<='Z') || (c>='a' && c<='z');};
+        if(name.size()>255 || name.front()=='.' || name.back()=='.' ||
+            !std::all_of(name.begin(),name.end(),[&](char c){return letter(c) || digit(c) || c=='_' || c=='-' || c=='.';}))
+            fail(QPX_READER_UNSUPPORTED,"ICS external source must be one plain relative basename");
+        std::string stem(name.substr(0,name.find('.')));
+        for(auto& c:stem)if(c>='A' && c<='Z')c=static_cast<char>(c-'A'+'a');
+        if(stem=="con" || stem=="prn" || stem=="aux" || stem=="nul" ||
+            (stem.size()==4 && (stem.compare(0,3,"com")==0 || stem.compare(0,3,"lpt")==0) && digit(stem.back())))
+            fail(QPX_READER_UNSUPPORTED,"ICS external source cannot name a Windows device");
+        const auto basename=std::filesystem::u8path(name.begin(),name.end());
+        if(CompareStringOrdinal(primary.filename().c_str(),-1,basename.c_str(),-1,TRUE)==CSTR_EQUAL)
+            fail(QPX_READER_UNSUPPORTED,"ICS external source cannot name its header");
+        return primary.parent_path()/basename;
+    }
     auto value=primary.u8string();
     // prepare() has already checked the .ics extension. Change only its c/C.
     value[value.size()-2]=value[value.size()-2]=='C'?'D':'d';
-    return std::filesystem::u8path(value).lexically_normal();
+    auto derived=std::filesystem::u8path(value).lexically_normal();
+    // The alternate spelling applies only to declared gzip and a missing canonical name.
+    if(header.raster.compressed && GetFileAttributesW(derived.c_str())==INVALID_FILE_ATTRIBUTES
+        && GetLastError()==ERROR_FILE_NOT_FOUND) {
+        auto gzip=derived;
+        gzip+=L".gz";
+        if(GetFileAttributesW(gzip.c_str())!=INVALID_FILE_ATTRIBUTES || GetLastError()!=ERROR_FILE_NOT_FOUND)
+            return gzip;
+    }
+    return derived;
 }
+class ExternalFile {
+public:
+    explicit ExternalFile(const std::filesystem::path& path) {
+        handle_=CreateFileW(path.c_str(),GENERIC_READ,FILE_SHARE_READ,nullptr,OPEN_EXISTING,
+            FILE_FLAG_OPEN_REPARSE_POINT|FILE_FLAG_BACKUP_SEMANTICS,nullptr);
+        if(handle_==INVALID_HANDLE_VALUE)fail(QPX_READER_IO_ERROR,"ICS external source cannot be opened");
+        BY_HANDLE_FILE_INFORMATION info{};
+        if(GetFileType(handle_)!=FILE_TYPE_DISK || !GetFileInformationByHandle(handle_,&info) ||
+            (info.dwFileAttributes&(FILE_ATTRIBUTE_REPARSE_POINT|FILE_ATTRIBUTE_DIRECTORY)) || info.nNumberOfLinks!=1) {
+            CloseHandle(handle_);
+            fail(QPX_READER_UNSUPPORTED,"ICS external source must be a regular file without aliases");
+        }
+        size_=(static_cast<std::uint64_t>(info.nFileSizeHigh)<<32)|info.nFileSizeLow;
+    }
+    ExternalFile(const ExternalFile&)=delete;
+    ExternalFile& operator=(const ExternalFile&)=delete;
+    ~ExternalFile(){CloseHandle(handle_);}
+
+    ReadFile raster(const Header& header,Budget& budget,qpx_reader_cancel_v1 cancel) const {
+        checkpoint(cancel);
+        valid(header.offset<=size_,"ICS external source offset exceeds file size");
+        const auto available=size_-header.offset;
+        const auto count=header.raster.compressed?available:header.raster.data_bytes;
+        valid(count<=available,"ICS external source raster is truncated");
+        // Only the selected range is copied. The host observes the complete file.
+        auto bytes=budget.array(count);
+        require(header.offset<=static_cast<std::uint64_t>(std::numeric_limits<LONGLONG>::max()),
+            "ICS external source offset exceeds native seek range");
+        LARGE_INTEGER offset;
+        offset.QuadPart=static_cast<LONGLONG>(header.offset);
+        valid(SetFilePointerEx(handle_,offset,nullptr,FILE_BEGIN)!=0,"ICS external source seek failed");
+        for(std::uint64_t position=0;position<count;) {
+            checkpoint(cancel);
+            const auto chunk=static_cast<DWORD>(std::min<std::uint64_t>(65536,count-position));
+            DWORD received=0;
+            valid(::ReadFile(handle_,bytes.get()+static_cast<std::size_t>(position),chunk,&received,nullptr) && received==chunk,
+                "ICS external source was truncated during reading");
+            position+=chunk;
+        }
+        return {std::move(bytes),static_cast<std::size_t>(count),size_};
+    }
+private:
+    HANDLE handle_=INVALID_HANDLE_VALUE;
+    std::uint64_t size_=0;
+};
 struct Prepared {Window window;Budget budget;std::string path;std::filesystem::path native;};
 Prepared prepare(const qpx_reader_open_v1* request) {
     require(request && request->struct_size>=sizeof(*request),"ICS open structure is too small");
@@ -376,7 +500,7 @@ qpx_reader_status_v1 QPX_READER_CALL source_count(const qpx_reader_open_v1* requ
         require(output!=nullptr,"ICS source count output is null");*output=0;
         auto prepared=prepare(request);auto primary=read_file(prepared.native,prepared.budget,request->cancel,header_limit);
         const auto parsed=parse_header(primary,prepared.window,request->cancel);
-        *output=parsed.version==1?1:0;return QPX_READER_OK;
+        *output=parsed.has_companion()?1:0;return QPX_READER_OK;
     });
 }
 qpx_reader_status_v1 QPX_READER_CALL source_path(const qpx_reader_open_v1* request,std::uint32_t index,qpx_reader_text_v1* output,qpx_reader_text_v1* error) noexcept {
@@ -384,8 +508,14 @@ qpx_reader_status_v1 QPX_READER_CALL source_path(const qpx_reader_open_v1* reque
         require(output!=nullptr,"ICS source path output is null");
         auto prepared=prepare(request);auto primary=read_file(prepared.native,prepared.budget,request->cancel,header_limit);
         const auto parsed=parse_header(primary,prepared.window,request->cancel);
-        require(parsed.version==1 && index==0,"ICS companion index is out of range");
-        const auto path=companion_path(prepared.native).u8string();
+        require(parsed.has_companion() && index==0,"ICS companion index is out of range");
+        const auto native=companion_path(prepared.native,parsed);
+        if(!parsed.external.empty()) {
+            checkpoint(request->cancel);
+            const ExternalFile observed(native);
+        }
+        const auto path=native.u8string();
+        require(path.size()<=32768,"ICS companion path exceeds reader path limit");
         return text(*output,path.c_str())?QPX_READER_OK:failure(error,QPX_READER_BUFFER_TOO_SMALL,"ICS companion path buffer is too small");
     });
 }
@@ -403,23 +533,42 @@ qpx_reader_status_v1 QPX_READER_CALL describe(qpx_reader_info_v1* output,qpx_rea
         output->abi_version=QPX_READER_ABI_V1;output->capabilities=QPX_READER_CAP_RGBA|QPX_READER_CAP_RAW|QPX_READER_CAP_SOURCE_FILES;
         bool complete=text(output->provider_id,"org.qupathxx.ics");
         complete=text(output->display_name,"ICS") && complete;
-        complete=text(output->version,"1.0.0") && complete;
-        complete=text(output->contract,"ics-raw-channel-window/1") && complete;
+        complete=text(output->version,"1.5.0") && complete;
+        complete=text(output->contract,"ics-raw-gzip-channel-window/3") && complete;
         return complete?QPX_READER_OK:failure(error,QPX_READER_BUFFER_TOO_SMALL,"ICS descriptor text buffer is too small");
     });
+}
+void inflate_raster(Raster& image,std::size_t encoded,Budget& budget,qpx_reader_cancel_v1 cancel) {
+    using namespace qpx::image_plugin;
+    require(budget.remaining>=gzip_workspace_bytes,"ICS gzip workspace exceeds reader work budget");
+    budget.remaining-=gzip_workspace_bytes;
+    auto output=budget.array(image.data_bytes);
+    const auto status=decode_gzip_member(image.data(),encoded,output.get(),static_cast<std::size_t>(image.data_bytes),
+        [&]{checkpoint(cancel);});
+    if(status==GzipResult::workspace_failure)fail(QPX_READER_INTERNAL_ERROR,"ICS gzip decoder workspace allocation failed");
+    valid(status==GzipResult::ok,"ICS gzip member is malformed or differs from the declared raster size");
+    image.ids=std::move(output);
+    image.primary.reset();
+    image.payload=0;
 }
 qpx_reader_status_v1 QPX_READER_CALL open(const qpx_reader_open_v1* request,void** output,qpx_reader_text_v1* error) noexcept {
     return boundary(error,[&]() ->qpx_reader_status_v1 {
         require(output!=nullptr,"ICS reader output handle is null");*output=nullptr;
         auto prepared=prepare(request);
         auto primary=read_file(prepared.native,prepared.budget,request->cancel);
-        auto image=parse_header(primary,prepared.window,request->cancel);
+        auto header=parse_header(primary,prepared.window,request->cancel);
+        auto& image=header.raster;
+        auto encoded=primary.size-image.payload;
         image.primary=std::move(primary.bytes);
-        if(image.version==1) {
-            const auto ids=companion_path(prepared.native);
-            auto data=read_file(ids,prepared.budget,request->cancel,SIZE_MAX,image.data_bytes);
+        if(header.has_companion()) {
+            const auto path=companion_path(prepared.native,header);
+            auto data=header.external.empty()
+                ?read_file(path,prepared.budget,request->cancel,SIZE_MAX,image.compressed?UINT64_MAX:image.data_bytes)
+                :ExternalFile(path).raster(header,prepared.budget,request->cancel);
+            encoded=data.size;
             image.ids=std::move(data.bytes);
         }
+        if(image.compressed)inflate_raster(image,encoded,prepared.budget,request->cancel);
         normalize(image,request->cancel);
         auto result=std::make_unique<Handle>();result->image=std::move(image);
         checkpoint(request->cancel);*output=result.release();return QPX_READER_OK;
@@ -431,9 +580,9 @@ qpx_reader_status_v1 QPX_READER_CALL metadata(void* value,qpx_reader_metadata_v1
         const auto& source=image(value);require(output && output->struct_size>=sizeof(*output),"ICS metadata structure is too small");checkpoint(cancel);
         output->level_count=1;output->width=source.width;output->height=source.height;
         output->has_raw=1;output->channels=source.channels;output->sample_type=source.sample_type;
-        output->z_planes=source.z_planes;output->timepoints=1;output->series=0;output->series_count=1;
-        output->calibration_flags=source.calibration_flags;output->pixel_width_um=source.spacing_um[0];output->pixel_height_um=source.spacing_um[1];output->z_spacing_um=source.spacing_um[2];output->time_interval_seconds=0;
-        bool complete=text(output->vendor,"ICS");complete=text(output->dimension_order,source.has_channels?(source.has_z?"CXYZ":"CXY"):(source.has_z?"XYZ":"XY")) && complete;
+        output->z_planes=source.z_planes;output->timepoints=source.timepoints;output->series=0;output->series_count=1;
+        output->calibration_flags=source.calibration_flags;output->pixel_width_um=source.spacing_um[0];output->pixel_height_um=source.spacing_um[1];output->z_spacing_um=source.spacing_um[2];output->time_interval_seconds=source.interval_seconds;
+        bool complete=text(output->vendor,"ICS");complete=text(output->dimension_order,source.dimension_order.data()) && complete;
         return complete?QPX_READER_OK:failure(error,QPX_READER_BUFFER_TOO_SMALL,"ICS metadata text buffer is too small");
     });
 }
@@ -453,7 +602,7 @@ qpx_reader_status_v1 QPX_READER_CALL channel_name(void* value,std::uint32_t chan
 struct Region {std::int64_t width,height;std::uint64_t pixels;};
 Region region(const qpx_reader_region_v1* request,std::uint64_t bytes_per_pixel) {
     require(request && request->struct_size>=sizeof(*request),"ICS region structure is too small");
-    require(request->level==0 && !request->t,"ICS reader has only level zero and T=0");
+    require(request->level==0,"ICS reader has only level zero");
     const auto width=request->width,height=request->height;
     require(width>0 && height>0 && static_cast<std::uint64_t>(width)<=work_limit/bytes_per_pixel &&
         static_cast<std::uint64_t>(height)<=work_limit/(bytes_per_pixel*static_cast<std::uint64_t>(width)),"ICS output must have positive dimensions and fit 256 MiB");
@@ -464,7 +613,7 @@ Region region(const qpx_reader_region_v1* request,std::uint64_t bytes_per_pixel)
 qpx_reader_status_v1 QPX_READER_CALL read_rgba(void* value,const qpx_reader_region_v1* request,qpx_reader_pixels_v1* output,qpx_reader_text_v1* error) noexcept {
     return boundary(error,[&]() ->qpx_reader_status_v1 {
         const auto& source=image(value);require(output && output->struct_size>=sizeof(*output),"ICS pixel structure is too small");output->written=0;output->validity_written=0;
-        const auto area=region(request,4);require(!request->first_channel && !request->channels && !request->z,"ICS display requires zero channel and Z selectors");
+        const auto area=region(request,4);require(!request->first_channel && !request->channels && !request->z && !request->t,"ICS display requires zero channel, Z and T selectors");
         const auto row_stride=static_cast<std::uint64_t>(area.width)*4,count=area.pixels*4;
         require(output->sample_type==QPX_READER_UINT8 && output->width==area.width && output->height==area.height && output->channels==4 && !output->reserved &&
             output->row_stride==row_stride && output->pixel_stride==4 && output->channel_stride==1,"ICS RGBA output must use packed UInt8x4 layout");
@@ -472,7 +621,8 @@ qpx_reader_status_v1 QPX_READER_CALL read_rgba(void* value,const qpx_reader_regi
         std::fill_n(output->data,static_cast<std::size_t>(count),std::uint8_t(0));
         for(std::int64_t row=0;row<area.height;++row)for(std::int64_t col=0;col<area.width;++col) {
             const auto x=request->x+col,y=request->y+row;if(x<0 || y<0 || x>=source.width || y>=source.height)continue;
-            const auto index=(static_cast<std::uint64_t>(y)*source.width+x)*source.channels+source.window.channel;
+            const auto index=static_cast<std::uint64_t>(y)*source.strides[axis_y]+
+                static_cast<std::uint64_t>(x)*source.strides[axis_x]+source.window.channel*source.strides[axis_channel];
             auto* target=output->data+(static_cast<std::uint64_t>(row)*area.width+col)*4;
             double sample=0;
             if(!display_sample(source,index,sample))continue;
@@ -487,7 +637,7 @@ qpx_reader_status_v1 QPX_READER_CALL read_raw(void* value,const qpx_reader_regio
     return boundary(error,[&]() ->qpx_reader_status_v1 {
         const auto& source=image(value);require(output && output->struct_size>=sizeof(*output),"ICS raw pixel structure is too small");output->written=0;output->validity_written=0;
         require(request && request->struct_size>=sizeof(*request),"ICS raw region structure is too small");
-        require(request->channels>0 && request->first_channel<source.channels && request->channels<=source.channels-request->first_channel && request->z<source.z_planes,"ICS raw channel or Z range is invalid");
+        require(request->channels>0 && request->first_channel<source.channels && request->channels<=source.channels-request->first_channel && request->z<source.z_planes && request->t<source.timepoints,"ICS raw channel, Z or T range is invalid");
         const auto pixel_stride=static_cast<std::uint64_t>(request->channels)*source.sample_bytes;
         const auto area=region(request,pixel_stride);const auto count=area.pixels*pixel_stride,row_stride=static_cast<std::uint64_t>(area.width)*pixel_stride;
         require(area.pixels<=work_limit-count,"ICS raw output and validity exceed 256 MiB");
@@ -497,14 +647,26 @@ qpx_reader_status_v1 QPX_READER_CALL read_raw(void* value,const qpx_reader_regio
         require(output->data && output->capacity>=count && output->validity && output->validity_capacity>=area.pixels,"ICS raw output or validity buffer is invalid");
         checkpoint(cancel);std::fill_n(output->data,static_cast<std::size_t>(count),std::uint8_t(0));std::fill_n(output->validity,static_cast<std::size_t>(area.pixels),std::uint8_t(0));
         const auto sample_interval=4096/request->channels;
+        const auto base=request->t*source.strides[axis_time]+request->z*source.strides[axis_z]+
+            request->first_channel*source.strides[axis_channel];
+        const auto channel_stride=source.strides[axis_channel]*source.sample_bytes;
         for(std::int64_t row=0;row<area.height;++row) {
             checkpoint(cancel);
             for(std::int64_t col=0;col<area.width;++col) {
                 if(static_cast<std::uint64_t>(col)%sample_interval==0)checkpoint(cancel);
                 const auto x=request->x+col,y=request->y+row;if(x<0 || y<0 || x>=source.width || y>=source.height)continue;
                 const auto to=static_cast<std::uint64_t>(row)*area.width+col;
-                const auto from=((static_cast<std::uint64_t>(request->z)*source.height+y)*source.width+x)*source.channels+request->first_channel;
-                std::memcpy(output->data+to*pixel_stride,source.data()+from*source.sample_bytes,static_cast<std::size_t>(pixel_stride));output->validity[to]=1;
+                const auto from=base+static_cast<std::uint64_t>(y)*source.strides[axis_y]+
+                    static_cast<std::uint64_t>(x)*source.strides[axis_x];
+                auto* dst=output->data+to*pixel_stride;
+                const auto* src=source.data()+from*source.sample_bytes;
+                if(request->channels==1 || source.strides[axis_channel]==1) {
+                    std::memcpy(dst,src,static_cast<std::size_t>(pixel_stride));
+                } else {
+                    for(unsigned channel=0;channel<request->channels;++channel)
+                        std::memcpy(dst+channel*source.sample_bytes,src+channel*channel_stride,source.sample_bytes);
+                }
+                output->validity[to]=1;
             }
         }
         checkpoint(cancel);output->written=count;output->validity_written=area.pixels;return QPX_READER_OK;

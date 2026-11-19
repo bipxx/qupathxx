@@ -902,3 +902,4 @@ docs/benchmarks/windows-native-candidate8/source-inputs.sha256 text eol=lf
 
 # Preserve copied upstream license text, including its original whitespace.
 plugins/blosc-bytes/THIRD_PARTY_NOTICES.txt -text -whitespace
+plugins/coco/COCO-LICENSE.txt -text -whitespace

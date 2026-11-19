@@ -59,6 +59,21 @@ inline void run() {
     const RawPixelRecipe physical(changed,grid,selection,physical_options,true);check(physical.features().sigmas[0].x==1 && physical.features().sigmas[0].y==2);
     const RawPixelClassifier calibrated(forest(physical),physical);check(RawPixelClassifier::from_bytes(calibrated.bytes()).bytes()==calibrated.bytes());
     auto other_calibration=changed;other_calibration.pixel_width_um=.25;other_calibration.pixel_height_um=.125;check(physical.matches(other_calibration,coarse,selection));
+    const auto target_lattice=raw_pixel_model_lattice(calibrated.recipe(),other_calibration);
+    check(target_lattice.x().origin()==0 && target_lattice.x().extent()==8 && target_lattice.x().samples()==4 && target_lattice.x().context()==3);
+    check(target_lattice.y().origin()==0 && target_lattice.y().extent()==6 && target_lattice.y().samples()==3 && target_lattice.y().context()==6);
+    const ScientificGrid fractional(7,5,{0,6,4},{0,3,5});
+    const RawPixelRecipe fraction(*reader.raw,fractional,selection,options);
+    const auto fraction_lattice=raw_pixel_model_lattice(fraction,*reader.raw);
+    check(fraction_lattice.x().extent()==9 && fraction_lattice.x().samples()==6 && fraction_lattice.y().extent()==6 && fraction_lattice.y().samples()==10);
+    auto too_wide=*reader.raw;too_wide.width=2000000;
+    rejects<std::length_error>([&]{raw_pixel_model_lattice(fraction,too_wide);});
+    auto missing=other_calibration;missing.pixel_width_um.reset();
+    rejects<std::invalid_argument>([&]{raw_pixel_model_lattice(physical,missing);});
+    auto unmatched=other_calibration;unmatched.pixel_width_um=std::sqrt(2.0);
+    rejects<std::invalid_argument>([&]{raw_pixel_model_lattice(physical,unmatched);});
+    auto wrong_channel=other_calibration;wrong_channel.channel_names[0]="other";
+    rejects<std::invalid_argument>([&]{raw_pixel_model_lattice(physical,wrong_channel);});
     std::swap(other_calibration.pixel_width_um,other_calibration.pixel_height_um);check(!physical.matches(other_calibration,coarse,selection));
     other_calibration.pixel_width_um.reset();rejects<std::invalid_argument>([&]{physical.matches(other_calibration,coarse,selection);});rejects<std::invalid_argument>([&]{RawPixelRecipe unknown(*reader.raw,grid,selection,physical_options,true);});
     // Physical sigma is not capped in micrometres by a grid-pixel limit.

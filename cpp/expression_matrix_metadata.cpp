@@ -1,6 +1,7 @@
 #include "expression_matrix_internal.hpp"
 #include "expression_matrix_external.hpp"
 #include "h5ad_identity.hpp"
+#include "qupathxx/format_plugin.h"
 #ifdef QUPATHXX_HAS_PROJECT
 #include <nlohmann/json.hpp>
 namespace qpx::detail::matrix {
@@ -16,27 +17,120 @@ CoordinateFrame frame_value(const std::string& s){
     f.plane=ObjectPlane(std::int32_t(integer("c",-1,65535)),std::uint32_t(integer("z",0,65535)),std::uint32_t(integer("t",0,65535)));
     f.width=integer("width",0,9007199254740992LL);f.height=integer("height",0,9007199254740992LL);f.image_level_zero=j.at("image_level_zero").get<bool>();const auto& pitch=j.at("micrometres_per_pixel");if(!pitch.is_null()){if(!pitch.is_array() || pitch.size()!=2)throw std::invalid_argument("Expression calibration requires two axes");f.micrometres_per_pixel=pitch.get<std::array<double,2>>();}f.validate();return f;
 }
+void typed_domain(ExpressionValueDomain domain,const std::string& label){
+    bounded_utf8(label,128);
+    if((domain!=ExpressionValueDomain::Counts && domain!=ExpressionValueDomain::Continuous) || label.empty() ||
+        label.find_first_of(std::string("\0\t\r\n",4))!=std::string::npos ||
+        (domain==ExpressionValueDomain::Counts?label!="raw-counts":label=="raw-counts"))
+        throw std::invalid_argument("Typed external expression domain/label differs");
+}
+}
+bool typed_external(const ExpressionMatrixMetadata& m) noexcept{
+    return m.input_profile==typed_external_profile || m.input_profile==sparse_file_external_profile;
+}
+namespace {
+bool typed_file_receipt(const ExpressionMatrixMetadata& m,const ExternalMatrixReceipt& receipt) {
+    const auto abi=receipt.reader.provider.abi;
+    return m.input_profile==sparse_file_external_profile ? abi==QPX_MATRIX_ABI_V5 :
+        abi==QPX_MATRIX_ABI_V2 || abi==QPX_MATRIX_ABI_V5;
+}
+}
+std::string typed_external_source_hash(const ExpressionMatrixMetadata& m){
+    if(!typed_external(m))throw std::invalid_argument("Typed external expression profile differs");
+    if(m.input_profile==sparse_file_external_profile &&
+       (!m.observations || !m.features || m.features>UINT64_MAX/m.observations || m.entries>m.features*m.observations))
+        throw std::invalid_argument("Sparse file matrix entry count exceeds its axes");
+    typed_domain(m.domain,m.value_domain);
+    Sha256 h;text(h,"qpx.expression-matrix/5");text(h,m.input_profile);text(h,m.value_domain);
+    h.integer(m.features);h.integer(m.observations);h.integer(m.entries);for(const auto& s:m.input_sha256)text(h,s);
+    h.integer(std::uint64_t(m.domain));text(h,m.spatial_frame?m.spatial_frame->sha256():"");text(h,m.spatial_sha256);return h.finish();
+}
+std::string typed_external_recipe_identity(const ExternalMatrixReceipt& receipt,const CoordinateFrame& frame,
+        ExpressionValueDomain domain,const std::string& value_domain){
+    typed_domain(domain,value_domain);
+    const auto abi=receipt.reader.provider.abi;
+    if((abi!=QPX_MATRIX_ABI_V2 && abi!=QPX_MATRIX_ABI_V5) || receipt.reader.provider.domain!=FormatPluginDomain::Matrix)
+        throw std::invalid_argument("Typed external expression recipe requires a typed single-file matrix ABI");
+    Sha256 hash;text(hash,"qpx.external-matrix-recipe/2");text(hash,format_plugin_receipt_identity(receipt.reader));
+    text(hash,external_positions_json(receipt));text(hash,frame.sha256());hash.integer(std::uint64_t(domain));text(hash,value_domain);return hash.finish();
+}
+bool store_external(const ExpressionMatrixMetadata& m) noexcept{
+    return m.input_profile==store_external_profile || m.input_profile==sparse_store_external_profile;
+}
+std::string external_store_json(const ExternalMatrixStoreReceipt& receipt){
+    const auto& key=receipt.primary_key;bounded_utf8(key,4096);
+    if(key.empty() || key.front()=='/' || key.find_first_of("\\:")!=std::string::npos)
+        throw std::invalid_argument("Invalid stored matrix primary key");
+    std::size_t begin=0;
+    while(begin<=key.size()){
+        const auto end=key.find('/',begin),length=(end==std::string::npos?key.size():end)-begin;
+        if(!length || (length==1 && key[begin]=='.') || (length==2 && key[begin]=='.' && key[begin+1]=='.'))
+            throw std::invalid_argument("Invalid stored matrix primary key component");
+        if(end==std::string::npos)break;begin=end+1;
+    }
+    digest(receipt.observed_sha256);digest(receipt.content_sha256);
+    if(receipt.matrix.reader.provider.domain!=FormatPluginDomain::Matrix ||
+       (receipt.matrix.reader.provider.abi!=3 && receipt.matrix.reader.provider.abi!=4) ||
+       receipt.matrix.reader.source_sha256!=receipt.content_sha256 || !receipt.files || receipt.files>1000000 ||
+       !receipt.bytes || receipt.bytes>UINT64_C(16)*1024*1024*1024)
+        throw std::invalid_argument("Invalid directory matrix source receipt");
+    (void)external_positions_json(receipt.matrix);
+    const auto value=nlohmann::json{{"schema","qpx.external-matrix-store/1"},{"source_scope","directory_store"},
+        {"primary_key",key},{"observed_sha256",receipt.observed_sha256},{"content_sha256",receipt.content_sha256},
+        {"files",receipt.files},{"bytes",receipt.bytes}}.dump();
+    bounded_utf8(value,32768);return value;
+}
+ExternalMatrixStoreReceipt external_store_receipt_value(const std::string& reader,
+        const std::string& positions,const std::string& store){
+    if(store.size()>32768)throw std::length_error("Directory matrix receipt exceeds bounds");
+    ExternalMatrixStoreReceipt receipt;receipt.matrix=external_receipt_value(reader,positions);
+    const auto value=nlohmann::json::parse(store);
+    if(!value.is_object() || value.size()!=7 || value.at("schema")!="qpx.external-matrix-store/1" || value.at("source_scope")!="directory_store")
+        throw std::invalid_argument("Directory matrix receipt shape/scope differs");
+    receipt.primary_key=value.at("primary_key").get<std::string>();receipt.observed_sha256=value.at("observed_sha256").get<std::string>();receipt.content_sha256=value.at("content_sha256").get<std::string>();
+    const auto integer=[&](const char* key){const auto& v=value.at(key);if(!v.is_number_integer() || (!v.is_number_unsigned() && v.get<std::int64_t>()<0))throw std::invalid_argument("Directory receipt size is not unsigned integer");return v.get<std::uint64_t>();};
+    receipt.files=integer("files");receipt.bytes=integer("bytes");
+    if(external_store_json(receipt)!=store)throw std::invalid_argument("Directory matrix receipt is not canonical");return receipt;
+}
+std::string store_external_recipe_identity(const ExternalMatrixStoreReceipt& receipt,const CoordinateFrame& frame,
+        ExpressionValueDomain domain,const std::string& value_domain){
+    typed_domain(domain,value_domain);
+    Sha256 hash;text(hash,"qpx.external-matrix-store-recipe/1");text(hash,format_plugin_receipt_identity(receipt.matrix.reader));
+    text(hash,external_positions_json(receipt.matrix));text(hash,external_store_json(receipt));text(hash,frame.sha256());
+    hash.integer(std::uint64_t(domain));text(hash,value_domain);return hash.finish();
+}
+std::string store_external_source_hash(const ExpressionMatrixMetadata& m){
+    if(!store_external(m))throw std::invalid_argument("Directory matrix input profile differs");typed_domain(m.domain,m.value_domain);
+    if(!m.features || !m.observations || m.features>UINT64_MAX/m.observations ||
+       (m.input_profile==sparse_store_external_profile ? m.entries>m.features*m.observations :
+                                                       m.entries!=m.features*m.observations))
+        throw std::invalid_argument("Directory matrix entry count differs from its profile and axes");
+    Sha256 h;text(h,"qpx.expression-matrix/6");text(h,m.input_profile);text(h,m.value_domain);
+    h.integer(m.features);h.integer(m.observations);h.integer(m.entries);for(const auto& s:m.input_sha256)text(h,s);
+    h.integer(std::uint64_t(m.domain));text(h,m.spatial_frame?m.spatial_frame->sha256():"");text(h,m.spatial_sha256);return h.finish();
 }
 void store_meta(Database& db,const ExpressionMatrixMetadata& m){
-    if(external(m))throw std::invalid_argument("External expression metadata requires its typed receipt");
+    if(external(m) || typed_external(m) || store_external(m))throw std::invalid_argument("External expression metadata requires its typed receipt");
     const bool old=legacy(m);std::map<std::string,std::string> values{{"schema",old?"qpx.expression-matrix/1":"qpx.expression-matrix/3"},{"domain",m.value_domain},{"format",m.input_profile},{"features",std::to_string(m.features)},{"observations",std::to_string(m.observations)},{"entries",std::to_string(m.entries)},{"matrix_sha256",m.input_sha256[0]},{"features_sha256",m.input_sha256[1]},{"observations_sha256",m.input_sha256[2]},{"source_sha256",m.source_sha256},{"complete","1"}};
     if(!old){if(!m.spatial_frame)throw std::invalid_argument("Schema2 matrix needs explicit coordinates/frame");values.emplace("value_kind",m.domain==ExpressionValueDomain::Counts?"counts":"continuous");values.emplace("coordinate_frame",frame_text(*m.spatial_frame));values.emplace("coordinate_sha256",m.spatial_sha256);values.emplace("input_matrix",m.input_matrix);values.emplace("input_spatial",m.input_spatial);}
     Statement insert(db,"INSERT INTO metadata VALUES(?,?)");for(const auto& [key,value]:values){insert.text(1,key);insert.text(2,value);insert.step();insert.reset();}
 }
 ExpressionMatrixMetadata load_meta(Database& db){
     Statement application(db,"PRAGMA application_id");if(!application.step() || application.number(0)!=0x51505845)throw std::invalid_argument("Not a qupathxx expression sidecar");
-    Statement schema(db,"PRAGMA user_version");if(!schema.step())throw std::invalid_argument("Expression sidecar version absent");const auto version=schema.number(0);if(version!=1 && version!=2 && version!=3 && version!=4)throw std::invalid_argument("Unsupported expression sidecar version");
+    Statement schema(db,"PRAGMA user_version");if(!schema.step())throw std::invalid_argument("Expression sidecar version absent");const auto version=schema.number(0);if(version!=1 && version!=2 && version!=3 && version!=4 && version!=5 && version!=6)throw std::invalid_argument("Unsupported expression sidecar version");
     Statement tables(db,"SELECT name,type,wr,strict FROM pragma_table_list WHERE schema='main' AND name IN ('metadata','features','observations','counts','coordinates')");std::size_t count=0;
     while(tables.step()){const auto name=tables.text(0,32);if(tables.text(1,16)!="table" || tables.number(3)!=1 || tables.number(2)!=(name=="counts" || name=="metadata"?1u:0u))throw std::invalid_argument("Expression sidecar table layout differs");++count;}if(count!=(version==1?4u:5u))throw std::invalid_argument("Expression sidecar tables missing");
     {Statement columns(db,"PRAGMA table_info(counts)");unsigned col=0;const char* names[]={"feature","observation","value"};while(columns.step()){if(col>=3 || columns.text(1,32)!=names[col] || columns.text(2,16)!=(col==2?"BLOB":"INTEGER") || columns.number(3)!=1 || columns.number(5)!=(col==2?0u:col+1))throw std::invalid_argument("Expression sparse index layout differs");++col;}if(col!=3)throw std::invalid_argument("Expression sparse index incomplete");}
     if(version>=2){Statement columns(db,"PRAGMA table_info(coordinates)");unsigned col=0;const char* names[]={"observation","x","y","sha256"};while(columns.step()){if(col>=4 || columns.text(1,32)!=names[col] || columns.text(2,16)!=(col==0?"INTEGER":col==3?"TEXT":"BLOB") || columns.number(3)!=1 || columns.number(5)!=(col==0?1u:0u))throw std::invalid_argument("Expression coordinate index layout differs");++col;}if(col!=4)throw std::invalid_argument("Expression coordinate index incomplete");}
-    Statement rows(db,"SELECT key,value FROM metadata");std::map<std::string,std::string> values;const std::size_t fields=version==1?11:version==2?14:16;while(rows.step()){const auto key=rows.text(0,64);if(values.size()==fields || !values.emplace(key,rows.text(1,version==4 && key=="external_reader"?32768:4096)).second)throw std::invalid_argument("Expression metadata shape differs");}
-    if(values.size()!=fields || values.at("schema")!=(version==1?"qpx.expression-matrix/1":version==2?"qpx.expression-matrix/2":version==3?"qpx.expression-matrix/3":"qpx.expression-matrix/4") || values.at("complete")!="1")throw std::invalid_argument("Incomplete/unsupported expression sidecar");
+    Statement rows(db,"SELECT key,value FROM metadata");std::map<std::string,std::string> values;const std::size_t fields=version==1?11:version==2?14:version==6?17:16;while(rows.step()){const auto key=rows.text(0,64);if(values.size()==fields || !values.emplace(key,rows.text(1,version>=4 && (key=="external_reader" || key=="external_store")?32768:4096)).second)throw std::invalid_argument("Expression metadata shape differs");}
+    if(values.size()!=fields || values.at("schema")!=(version==1?"qpx.expression-matrix/1":version==2?"qpx.expression-matrix/2":version==3?"qpx.expression-matrix/3":version==4?"qpx.expression-matrix/4":version==5?"qpx.expression-matrix/5":"qpx.expression-matrix/6") || values.at("complete")!="1")throw std::invalid_argument("Incomplete/unsupported expression sidecar");
     ExpressionMatrixMetadata m;m.features=spatial_unsigned(values.at("features"));m.observations=spatial_unsigned(values.at("observations"));m.entries=spatial_unsigned(values.at("entries"));
     if(!m.features || m.features>1000000 || !m.observations || m.observations>1000000 || m.entries>1000000000)throw std::invalid_argument("Expression metadata dimensions exceed contract");m.input_profile=values.at("format");m.value_domain=values.at("domain");
     if(version==1){if(!legacy(m) || m.value_domain!="raw-counts")throw std::invalid_argument("Unsupported legacy expression format/domain");}
     else {
         if(version==4){if(m.input_profile!=external_profile)throw std::invalid_argument("Unsupported external expression input profile");}
+        else if(version==5){if(!typed_external(m))throw std::invalid_argument("Unsupported typed external expression input profile");}
+        else if(version==6){if(!store_external(m))throw std::invalid_argument("Unsupported directory expression input profile");}
         else if(m.input_profile!="h5ad-array/1" && m.input_profile!="h5ad-csr_matrix/1" && m.input_profile!="h5ad-csc_matrix/1")throw std::invalid_argument("Unsupported schema2 expression format");
         const auto& kind=values.at("value_kind");if(kind!="counts" && kind!="continuous")throw std::invalid_argument("Unsupported expression value kind");m.domain=kind=="counts"?ExpressionValueDomain::Counts:ExpressionValueDomain::Continuous;bounded_utf8(m.value_domain,128);
         if(m.value_domain.empty() || (m.domain==ExpressionValueDomain::Counts?m.value_domain!="raw-counts":m.value_domain=="raw-counts"))throw std::invalid_argument("Expression domain label differs from stored kind");
@@ -44,8 +138,10 @@ ExpressionMatrixMetadata load_meta(Database& db){
     }
     m.input_sha256={values.at("matrix_sha256"),values.at("features_sha256"),values.at("observations_sha256")};for(const auto& s:m.input_sha256)digest(s);
     if(version==3){H5adOptions p;p.matrix=m.input_matrix;p.spatial=m.input_spatial;p.domain=m.domain;p.value_domain=m.value_domain;p.frame=*m.spatial_frame;p.validate();if(h5ad_input_identity(m.input_sha256[0],p)!=m.input_sha256[1])throw std::invalid_argument("Stored H5AD selection/frame/domain recipe identity differs");}
-    if(version==4){const auto receipt=external_receipt_value(values.at("external_reader"),values.at("external_positions"));if(m.domain!=ExpressionValueDomain::Counts || m.value_domain!="raw-counts" || receipt.reader.source_sha256!=m.input_sha256[0] || external_recipe_identity(receipt,*m.spatial_frame)!=m.input_sha256[1])throw std::invalid_argument("External expression recipe/source identity differs");}
-    m.source_sha256=values.at("source_sha256");digest(m.source_sha256);if(source_hash(m)!=m.source_sha256)throw std::invalid_argument("Expression metadata identity differs");return m;
+    if(version==4){const auto receipt=external_receipt_value(values.at("external_reader"),values.at("external_positions"));if(m.domain!=ExpressionValueDomain::Counts || m.value_domain!="raw-counts" || receipt.reader.provider.abi!=1 || receipt.reader.source_sha256!=m.input_sha256[0] || external_recipe_identity(receipt,*m.spatial_frame)!=m.input_sha256[1])throw std::invalid_argument("External expression recipe/source identity differs");}
+    if(version==5){const auto receipt=external_receipt_value(values.at("external_reader"),values.at("external_positions"));if(!typed_file_receipt(m,receipt) || receipt.reader.source_sha256!=m.input_sha256[0] || typed_external_recipe_identity(receipt,*m.spatial_frame,m.domain,m.value_domain)!=m.input_sha256[1])throw std::invalid_argument("Typed external expression recipe/source identity differs");}
+    if(version==6){const auto receipt=external_store_receipt_value(values.at("external_reader"),values.at("external_positions"),values.at("external_store"));if((m.input_profile==sparse_store_external_profile && receipt.matrix.reader.provider.abi!=4) || receipt.content_sha256!=m.input_sha256[0] || store_external_recipe_identity(receipt,*m.spatial_frame,m.domain,m.value_domain)!=m.input_sha256[1])throw std::invalid_argument("Directory expression recipe/source identity differs");}
+    m.source_sha256=values.at("source_sha256");digest(m.source_sha256);if((version==6?store_external_source_hash(m):version==5?typed_external_source_hash(m):source_hash(m))!=m.source_sha256)throw std::invalid_argument("Expression metadata identity differs");return m;
 }
 std::string external_positions_json(const ExternalMatrixReceipt& receipt){
     digest(receipt.positions_sha256);SpatialPositionOptions positions;positions.columns=receipt.position_columns;positions.validate();
@@ -65,15 +161,42 @@ std::string external_recipe_identity(const ExternalMatrixReceipt& receipt,const 
     Sha256 hash;text(hash,"qpx.external-matrix-recipe/1");text(hash,format_plugin_receipt_identity(receipt.reader));text(hash,external_positions_json(receipt));text(hash,frame.sha256());return hash.finish();
 }
 void store_external_meta(Database& db,const ExpressionMatrixMetadata& m,const ExternalMatrixReceipt& receipt){
-    if(!external(m) || m.domain!=ExpressionValueDomain::Counts || m.value_domain!="raw-counts" || !m.spatial_frame || !m.input_matrix.empty() || !m.input_spatial.empty() || receipt.reader.source_sha256!=m.input_sha256[0] || external_recipe_identity(receipt,*m.spatial_frame)!=m.input_sha256[1])throw std::invalid_argument("Invalid typed external matrix metadata");
+    if(typed_external(m)) {
+        if(!typed_file_receipt(m,receipt) || !m.spatial_frame || !m.input_matrix.empty() || !m.input_spatial.empty() || receipt.reader.source_sha256!=m.input_sha256[0] ||
+            typed_external_recipe_identity(receipt,*m.spatial_frame,m.domain,m.value_domain)!=m.input_sha256[1] ||
+            typed_external_source_hash(m)!=m.source_sha256)throw std::invalid_argument("Invalid typed external matrix metadata");
+        std::map<std::string,std::string> values{{"schema","qpx.expression-matrix/5"},{"domain",m.value_domain},{"format",m.input_profile},{"features",std::to_string(m.features)},{"observations",std::to_string(m.observations)},{"entries",std::to_string(m.entries)},{"matrix_sha256",m.input_sha256[0]},{"features_sha256",m.input_sha256[1]},{"observations_sha256",m.input_sha256[2]},{"source_sha256",m.source_sha256},{"complete","1"},{"value_kind",m.domain==ExpressionValueDomain::Counts?"counts":"continuous"},{"coordinate_frame",frame_text(*m.spatial_frame)},{"coordinate_sha256",m.spatial_sha256},{"external_reader",format_plugin_receipt_json(receipt.reader)},{"external_positions",external_positions_json(receipt)}};
+        Statement insert(db,"INSERT INTO metadata VALUES(?,?)");for(const auto& [key,value]:values){insert.text(1,key);insert.text(2,value);insert.step();insert.reset();}
+        return;
+    }
+    if(!external(m) || m.domain!=ExpressionValueDomain::Counts || m.value_domain!="raw-counts" || receipt.reader.provider.abi!=1 || !m.spatial_frame || !m.input_matrix.empty() || !m.input_spatial.empty() || receipt.reader.source_sha256!=m.input_sha256[0] || external_recipe_identity(receipt,*m.spatial_frame)!=m.input_sha256[1])throw std::invalid_argument("Invalid typed external matrix metadata");
     std::map<std::string,std::string> values{{"schema","qpx.expression-matrix/4"},{"domain",m.value_domain},{"format",m.input_profile},{"features",std::to_string(m.features)},{"observations",std::to_string(m.observations)},{"entries",std::to_string(m.entries)},{"matrix_sha256",m.input_sha256[0]},{"features_sha256",m.input_sha256[1]},{"observations_sha256",m.input_sha256[2]},{"source_sha256",m.source_sha256},{"complete","1"},{"value_kind","counts"},{"coordinate_frame",frame_text(*m.spatial_frame)},{"coordinate_sha256",m.spatial_sha256},{"external_reader",format_plugin_receipt_json(receipt.reader)},{"external_positions",external_positions_json(receipt)}};
     Statement insert(db,"INSERT INTO metadata VALUES(?,?)");for(const auto& [key,value]:values){insert.text(1,key);insert.text(2,value);insert.step();insert.reset();}
 }
 std::optional<ExternalMatrixReceipt> load_external_receipt(Database& db){
-    Statement schema(db,"PRAGMA user_version");if(!schema.step())throw std::invalid_argument("Expression sidecar version absent");if(schema.number(0)!=4)return {};
+    Statement schema(db,"PRAGMA user_version");if(!schema.step())throw std::invalid_argument("Expression sidecar version absent");const auto version=schema.number(0);if(version==6){const auto receipt=load_external_store_receipt(db);if(!receipt)throw std::invalid_argument("Directory matrix receipt is missing");return receipt->matrix;}if(version!=4 && version!=5)return {};
     Statement rows(db,"SELECT key,value FROM metadata WHERE key IN ('external_reader','external_positions')");std::map<std::string,std::string> values;
     while(rows.step()){const auto key=rows.text(0,64);if(!values.emplace(key,rows.text(1,key=="external_reader"?32768:4096)).second)throw std::invalid_argument("Duplicate external matrix receipt");}
-    if(values.size()!=2)throw std::invalid_argument("External matrix receipt is incomplete");return external_receipt_value(values.at("external_reader"),values.at("external_positions"));
+    if(values.size()!=2)throw std::invalid_argument("External matrix receipt is incomplete");auto result=external_receipt_value(values.at("external_reader"),values.at("external_positions"));
+    const auto abi=result.reader.provider.abi;
+    if(version==4?abi!=1:(abi!=QPX_MATRIX_ABI_V2 && abi!=QPX_MATRIX_ABI_V5))
+        throw std::invalid_argument("External matrix receipt ABI differs from stored profile");
+    return result;
+}
+void write_external_store_metadata(Database& db,const ExpressionMatrixMetadata& m,const ExternalMatrixStoreReceipt& receipt){
+    if(!store_external(m) || !m.spatial_frame || !m.input_matrix.empty() || !m.input_spatial.empty() ||
+       (m.input_profile==sparse_store_external_profile && receipt.matrix.reader.provider.abi!=4) ||
+       receipt.content_sha256!=m.input_sha256[0] || store_external_recipe_identity(receipt,*m.spatial_frame,m.domain,m.value_domain)!=m.input_sha256[1] ||
+       store_external_source_hash(m)!=m.source_sha256)throw std::invalid_argument("Invalid directory matrix metadata");
+    std::map<std::string,std::string> values{{"schema","qpx.expression-matrix/6"},{"domain",m.value_domain},{"format",m.input_profile},{"features",std::to_string(m.features)},{"observations",std::to_string(m.observations)},{"entries",std::to_string(m.entries)},{"matrix_sha256",m.input_sha256[0]},{"features_sha256",m.input_sha256[1]},{"observations_sha256",m.input_sha256[2]},{"source_sha256",m.source_sha256},{"complete","1"},{"value_kind",m.domain==ExpressionValueDomain::Counts?"counts":"continuous"},{"coordinate_frame",frame_text(*m.spatial_frame)},{"coordinate_sha256",m.spatial_sha256},{"external_reader",format_plugin_receipt_json(receipt.matrix.reader)},{"external_positions",external_positions_json(receipt.matrix)},{"external_store",external_store_json(receipt)}};
+    Statement insert(db,"INSERT INTO metadata VALUES(?,?)");for(const auto& [key,value]:values){insert.text(1,key);insert.text(2,value);insert.step();insert.reset();}
+}
+std::optional<ExternalMatrixStoreReceipt> load_external_store_receipt(Database& db){
+    Statement schema(db,"PRAGMA user_version");if(!schema.step())throw std::invalid_argument("Expression sidecar version absent");if(schema.number(0)!=6)return {};
+    Statement rows(db,"SELECT key,value FROM metadata WHERE key IN ('external_reader','external_positions','external_store')");std::map<std::string,std::string> values;
+    while(rows.step()){const auto key=rows.text(0,64);if(!values.emplace(key,rows.text(1,key=="external_positions"?4096:32768)).second)throw std::invalid_argument("Duplicate directory matrix receipt");}
+    if(values.size()!=3)throw std::invalid_argument("Directory matrix receipt is incomplete");
+    return external_store_receipt_value(values.at("external_reader"),values.at("external_positions"),values.at("external_store"));
 }
 }
 #endif

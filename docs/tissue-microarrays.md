@@ -97,6 +97,9 @@ Use metadata CSV to retain the full slot inventory.
 or `object_id` and checks `source_object_revision` by default. It rejects stale
 core revisions, non-core selectors, malformed CSV and duplicate context columns.
 Tables without revision selectors require explicit `require_revision=False`.
+The join accepts a leading UTF-8 signature and a complete final record at
+end of file. It preserves the signature at the start of the output, the
+original field bytes and line endings, and the presence of a final newline.
 Input and output are bounded to 64 MiB by default, at most 256 MiB.
 The GUI metadata exporter uses a native background task, a captured snapshot and
 atomic new-file publication. Existing files are preserved.
@@ -143,9 +146,24 @@ The native batch executable provides the equivalent single-image workflow:
 ```console
 qupathxx_batch --export-tma-cases project.qpxproj cases.csv --image 1
 qupathxx_batch --export-tma-cases project.qpxproj cases.csv --image 1 --measurements core-values.csv --value-column mean_red --weight-column pixels
+qupathxx_batch --export-tma-cases project.qpxproj cases.csv --image 1 --measurements run-a.csv --measurements run-b.csv --value-column mean_red --weight-column pixels
 ```
 
 `--image` can be omitted only for a project containing exactly one image.
+The CLI checks any supplied image selector and project identity against its
+selection, including `batch_image_id` and `batch_project_identity` from a native
+batch measurement export. A standalone snapshot accepts a single consistent
+image selector when supplied. Use the [cohort exporter](tma-cohorts.md) for
+rows from multiple images.
+
+Repeat `--measurements` to pool up to 4,096 distinct files for the selected
+grid. Files need matching header fields and complete CSV records. They may mix
+LF and CRLF, and the last record in each file may omit its line ending. Use
+`--match-columns-by-name` to pool files with the same unique column names in
+different orders. The input quota
+includes every byte of every file. The [cohort export contract](tma-cohorts.md#files-cli-and-desktop)
+describes how the same native exporter calculates the digest across files.
+
 `--allow-unversioned` is explicit and never bypasses supplied stale revisions.
 `--csv-bytes` sets the independent input/output limit (default 64 MiB, maximum
 256 MiB). Success emits a `qpx.tma-case-export/1` JSON record with image,

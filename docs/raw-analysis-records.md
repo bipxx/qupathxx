@@ -1,6 +1,7 @@
 # Raw analysis records
 
-This work adds persistent quantitative measurements for the native TIFF reader.
+Persistent quantitative measurements support native TIFF and OME-Zarr and
+admitted native image plugins with an observed quantitative source.
 The declared scope passes [local verification](benchmarks/raw-records-local-windows-linux.json);
 the [hosted verification receipt](benchmarks/raw-records-ci-windows-linux.json)
 also passes all five jobs for implementation commit `bd422ccc21e397549aacf80deddd1c34067db488`.
@@ -13,6 +14,11 @@ Native workers read typed samples in bounded tiles. They calculate finite sample
 counts, nonfinite counts, means, minima and maxima per channel. Means use float64;
 the input hash preserves exact sample bits, including 64-bit integers and NaNs.
 Display channel projections and intensity windows do not affect these values.
+Plugin-backed results also bind the exact decoder implementation in the input
+digest. The existing QRA file and directory layouts retain the implementation
+binding and complete observed source identity. Historical records can be read
+and exported with the decoder absent. Verification requires the matching
+decoder and the original source observation.
 
 ```python
 request = q.RawAnalysisRequest(document, raw_region, object_id=object_id)
@@ -71,7 +77,8 @@ verified = document.verify_raw_analysis(record_id, replay, q.analyze_raw(replay)
 CSV snapshots retain immutable records and status at capture. They can export
 historical values after source deletion. CSV uses UTF-8, RFC-style quoting, CRLF
 record separators and one row per selected channel. Native file exports default
-to new files and protect recorded source paths. Project-aware GUI and viewer
+to new files and protect observed primary and companion files, their aliases,
+and directory stores. Project-aware GUI and viewer
 exports also protect the project path. No decoder is opened by CSV serialization.
 
 The document catalog supports at most 10,000 records and 64 MiB of charged record
@@ -92,12 +99,16 @@ axes from `options.raw`. Each ROI supplies its own bounding rectangle. Resume
 checks canonical checkpoint integrity and freshly hashes the input without
 recomputing statistics. `raw_tiles` and `raw_hashed_tiles` report these scans
 separately. Reuse does not mark an opened document's records as verified.
+Automatic ROI selection includes only objects on the chosen Z and time plane.
+A channel-specific object is included when the batch requests that single
+channel. Explicitly selected out-of-plane objects are errors. A valid plane
+with zero matching objects produces a header-only table.
 
 The native batch CLI accepts `--kind raw`, `--raw-level`, `--raw-channel`,
 `--raw-channels`, `--raw-z`, `--raw-time`, `--raw-explicit-axes` and
-`--raw-max-pixels`. Axes are zero-based. Wider reader support, raw cell feature
-pipelines, full runtime/build manifests and biological equivalence to QuPath
-remain outside this packet.
+`--raw-max-pixels`. Axes are zero-based. Use explicit axes for a quantitative
+image plugin without a saved raw display view. The linked project's reader
+manifest is required for batch reads and reuse.
 
 
 ```text

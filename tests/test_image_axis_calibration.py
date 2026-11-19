@@ -1,4 +1,5 @@
 """Saved physical axes are owning document state, with independent wire witnesses."""
+from contextlib import closing
 import hashlib
 import json
 import math
@@ -7,6 +8,7 @@ from pathlib import Path
 import shutil
 import sqlite3
 import struct
+import subprocess
 
 import numpy as np
 import pytest
@@ -100,6 +102,160 @@ def payload(z,times,flags=None,count=None,extra=b''):
     if z is not None:body+=struct.pack('<d',z)
     body+=struct.pack('<Q',len(times) if count is None else count)+b''.join(struct.pack('<d',t) for t in times)+extra
     return body+hashlib.sha256(body).hexdigest().encode()
+
+
+@pytest.mark.parametrize('label,fields,z,times',[
+    ('nonmonotonic',None,4.5,[5.,3.,3.,-1.]),
+    ('partial',None,4.5,[0.,3.25]),
+    ('unknown',None,None,[]),
+    ('partial',{'zSpacing'},4.5,[0.,.25,.5,.75]),
+    ('partial',{'timeUnit','timepoints'},1.75,[0.,3.25]),
+    ('milliseconds-offset',None,4.5,[1.25,1.5,1.75,2.]),
+])
+def test_cli_migrates_builder_axes_and_prefers_saved_data(tmp_path,label,fields,z,times):
+    cli = Path(os.environ.get('QUPATHXX_TEST_FORMAT_IMPORT') or Path(q.__file__).with_name(
+        'qupathxx_format_import.exe' if os.name == 'nt' else 'qupathxx_format_import'))
+    if not cli.is_file():
+        pytest.skip('native format CLI is unavailable')
+    path = foreign(tmp_path,label)
+    data = json.loads(path.read_bytes())
+    [entry] = data['images']
+    if label != 'milliseconds-offset':
+        (path.parent/'data'/str(entry['entryID'])/'data.qpdata').unlink()
+    if fields is not None:
+        calibration = entry['serverBuilder']['metadata']['pixelCalibration']
+        for key in {'zSpacing','timeUnit','timepoints'} - fields:
+            calibration.pop(key)
+        path.write_text(json.dumps(data),encoding='utf-8')
+    original = path.read_bytes()
+    output = tmp_path/'builder-axes.qpx'
+    result = subprocess.run([cli,'qupath-project-import',path,output],capture_output=True,
+                            encoding='utf-8',timeout=30)
+    assert result.returncode == 0, result.stderr
+    report = json.loads(result.stdout)
+    assert report['issues'] == []
+    [image] = report['images']
+    with closing(sqlite3.connect(output)) as db:
+        assert db.execute('SELECT image_id,payload FROM image_axis_calibration').fetchall() == [
+            (str(image['native_id']),payload(z,times)),
+        ]
+        assert db.execute('PRAGMA integrity_check').fetchone() == ('ok',)
+    reopened = subprocess.run([cli,'project-images',output],capture_output=True,
+                              encoding='utf-8',timeout=30)
+    assert reopened.returncode == 0, reopened.stderr
+    assert path.read_bytes() == original
+    if label == 'partial' and fields is None:
+        entry['serverBuilder']['metadata']['pixelCalibration']['timepoints'] = list(range(5))
+        path.write_text(json.dumps(data),encoding='utf-8')
+        denied = tmp_path/'out-of-domain.qpx'
+        result = subprocess.run([cli,'qupath-project-import',path,denied,'--allow-losses'],
+                                capture_output=True,encoding='utf-8',timeout=30)
+        assert result.returncode == 2 and 'time domain' in json.loads(result.stderr)['error']
+        assert not denied.exists()
+
+
+@pytest.mark.parametrize(('profile', 'expected_xy', 'issues'), [
+    ('omitted', (0.25, 0.5), []),
+    ('uncalibrated', (None, None), []),
+    ('partial', (0.25, 0.5), ['partial_calibration']),
+    ('partial-pixel', (0.25, 0.5), ['partial_calibration']),
+])
+def test_cli_migrates_independent_xy_and_zt_calibration(tmp_path, profile, expected_xy, issues):
+    cli = Path(os.environ.get('QUPATHXX_TEST_FORMAT_IMPORT') or Path(q.__file__).with_name(
+        'qupathxx_format_import.exe' if os.name == 'nt' else 'qupathxx_format_import'))
+    if not cli.is_file():
+        pytest.skip('native format CLI is unavailable')
+    path = foreign(tmp_path, 'partial')
+    project = json.loads(path.read_bytes())
+    [entry] = project['images']
+    (path.parent / 'data' / str(entry['entryID']) / 'data.qpdata').unlink()
+    calibration = entry['serverBuilder']['metadata']['pixelCalibration']
+    calibration.pop('pixelWidth')
+    calibration.pop('pixelHeight')
+    if profile == 'uncalibrated':
+        calibration.update(pixelWidth={'value': 1, 'unit': 'px'}, pixelHeight={'value': 1, 'unit': 'px'})
+    elif profile == 'partial':
+        calibration['pixelWidth'] = {'value': 2, 'unit': 'µm'}
+    elif profile == 'partial-pixel':
+        calibration['pixelWidth'] = {'value': 1, 'unit': 'px'}
+    path.write_text(json.dumps(project), encoding='utf-8')
+    original = path.read_bytes()
+    output = tmp_path / 'independent-axes.qpx'
+    command = [cli, 'qupath-project-import', path, output]
+    if issues:
+        refused = subprocess.run(command, capture_output=True, encoding='utf-8', timeout=30)
+        assert refused.returncode == 2 and 'reported losses' in refused.stderr
+        assert not output.exists()
+        command.append('--allow-losses')
+    result = subprocess.run(command, capture_output=True, encoding='utf-8', timeout=30)
+    assert result.returncode == 0, result.stderr
+    assert [issue['code'] for issue in json.loads(result.stdout)['issues']] == issues
+    with closing(sqlite3.connect(output)) as db:
+        assert db.execute('SELECT server_x,server_y,cal_x,cal_y FROM images').fetchone() == (0.25, 0.5, *expected_xy)
+        assert db.execute('SELECT payload FROM image_axis_calibration').fetchone() == (payload(4.5, [0., 3.25]),)
+    assert path.read_bytes() == original
+
+
+@pytest.mark.parametrize(('omitted', 'expected_xy', 'expected_z', 'expected_times'), [
+    ('xy', (0.75, 1.25), 4.5, [0., 3.25]),
+    ('z', (0.25, 0.5), 6., [0., 3.25]),
+    ('time', (0.25, 0.5), 4.5, [1., 2., 3., 4.]),
+    ('unknown', (None, None), None, []),
+    ('all', (0.25, 0.5), None, None),
+    ('missing-unit', None, None, None),
+])
+def test_cli_saved_calibration_overrides_only_explicit_axes(tmp_path, omitted, expected_xy,
+                                                          expected_z, expected_times):
+    cli = Path(os.environ.get('QUPATHXX_TEST_FORMAT_IMPORT') or Path(q.__file__).with_name(
+        'qupathxx_format_import.exe' if os.name == 'nt' else 'qupathxx_format_import'))
+    if not cli.is_file():
+        pytest.skip('native format CLI is unavailable')
+    path = foreign(tmp_path, 'partial')
+    project = json.loads(path.read_bytes())
+    [entry] = project['images']
+    builder_metadata = entry['serverBuilder']['metadata']
+    builder_metadata['pixelCalibration'] = {
+        'pixelWidth': {'value': 0.75, 'unit': 'µm'}, 'pixelHeight': {'value': 1.25, 'unit': 'µm'},
+        'zSpacing': {'value': 6., 'unit': 'µm'}, 'timeUnit': 'SECONDS', 'timepoints': [1., 2., 3., 4.],
+    }
+    data = path.parent / 'data' / str(entry['entryID']) / 'data.qpdata'
+    raw = data.read_bytes()
+    assert raw[27] == 0x74
+    size = struct.unpack('>H', raw[28:30])[0]
+    header = json.loads(raw[30:30+size])
+    metadata = header['server']['metadata']
+    calibration = metadata['pixelCalibration']
+    if omitted == 'xy':
+        del calibration['pixelWidth'], calibration['pixelHeight']
+    elif omitted == 'z':
+        del calibration['zSpacing']
+    elif omitted == 'time':
+        del calibration['timepoints'], calibration['timeUnit']
+    elif omitted == 'unknown':
+        calibration.update(pixelWidth={'unit': 'px', 'value': 1}, pixelHeight={'unit': 'px', 'value': 1},
+                           zSpacing={'unit': 'z-slice', 'value': 1}, timepoints=[])
+    elif omitted == 'missing-unit':
+        del calibration['timeUnit']
+    else:
+        del metadata['pixelCalibration'], builder_metadata['pixelCalibration']
+    encoded = json.dumps(header).encode()
+    saved = raw[:28] + struct.pack('>H', len(encoded)) + encoded + raw[30+size:]
+    data.write_bytes(saved)
+    path.write_text(json.dumps(project), encoding='utf-8')
+    output = tmp_path / 'saved-independent-axes.qpx'
+    result = subprocess.run([cli, 'qupath-project-import', path, output], capture_output=True,
+                            encoding='utf-8', timeout=30)
+    if omitted == 'missing-unit':
+        assert result.returncode == 2 and 'timestamps require an explicit time unit' in result.stderr
+        assert not output.exists() and data.read_bytes() == saved
+        return
+    assert result.returncode == 0, result.stderr
+    assert json.loads(result.stdout)['issues'] == []
+    with closing(sqlite3.connect(output)) as db:
+        assert db.execute('SELECT cal_x,cal_y FROM images').fetchone() == expected_xy
+        expected = None if expected_times is None else (payload(expected_z, expected_times),)
+        assert db.execute('SELECT payload FROM image_axis_calibration').fetchone() == expected
+    assert data.read_bytes() == saved
 
 
 @pytest.mark.parametrize('damage',['checksum','truncated','flags','nan','negative-z','infinite-time','negative-zero','count','trailing','orphan','wrong-type','duplicate'])

@@ -1,4 +1,36 @@
-# Native lossless WebP plugin: FP01 local Windows delivery
+# Native WebP plugin: FP01 local Windows delivery
+
+## EXIF orientation in 1.2.0
+
+`org.qupathxx.webp` 1.2.0 uses contract `webp-static-uint8-samples/3`.
+It adds a bounded EXIF orientation profile for an extended still with VP8,
+ALPH plus VP8, or VP8L. The primary classic TIFF IFD carries exactly one
+orientation tag. Its eight possible values define the pixel coordinate
+mapping for metadata, display and raw reads. The decoded RGBA raster is
+retained in its original layout and accessed without interpolation or a
+second raster. The [format and metadata limits](../../../plugins/webp/README.md)
+define the admitted scope.
+
+Pillow with libwebp 1.6.0 generated all three extended layouts with orientation
+6. WebP 1.1.0 refused them. Pillow's independent orientation transform supplies
+the expected coordinates and channel bytes for the authored fixtures.
+
+## Still lossy WebP in 1.1.0
+
+`org.qupathxx.webp` 1.1.0 uses contract `webp-static-uint8-samples/2`.
+It accepts an opaque simple VP8 image and an alpha-only extended still with
+exactly VP8X, ALPH and VP8 in that order. The adapter checks both RIFF extents
+and agreement between the canvas and VP8 frame before decoding. The existing
+simple VP8L profile retains its exact lossless sample contract.
+
+Pillow with libwebp 1.6.0 produced the opaque and alpha fixtures that the
+previous module refused. The reference bytes for VP8 are the output of the
+pinned decoder, including its YUV conversion and upsampling. Opaque output
+has alpha 255, and extended output retains decoded alpha without
+premultiplication. See [the selected profile](../../../plugins/webp/README.md)
+for limits and format exclusions.
+
+## Original lossless handoff in 1.0.0
 
 `org.qupathxx.webp` version1.0.0, contract
 `webp-static-lossless-uint8-samples/1`, addresses FP00's demonstrated static

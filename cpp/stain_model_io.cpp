@@ -1,7 +1,11 @@
 #include "qupathxx/stain_model_io.hpp"
 #include "qupathxx/stain_estimation.hpp"
+#include "qupathxx/project.hpp"
 #include "atomic_export.hpp"
+#include "project_database_output.hpp"
+#include "project_export_guard.hpp"
 #include "stain_model_io_internal.hpp"
+#include "workflow_input.hpp"
 #include <array>
 #include <cmath>
 #include <filesystem>
@@ -65,9 +69,10 @@ StainTransform stain_model_from_json(const std::string& text) {
     }
 #endif
 }
-void detail::save_stain_model_guarded(const StainTransform& model,const std::string& path,const std::function<void()>& verify_output) {
-    const auto text=stain_model_json(model);verify_output();detail::AtomicExportFile file(path,model_byte_limit);
-    file.write(text.data(),text.size());verify_output();file.commit();
+void detail::save_stain_model_guarded(const StainTransform& model,const std::string& path,
+    const std::function<void()>& verify_output,bool replace,const std::atomic<bool>* cancelled) {
+    const auto text=stain_model_json(model);verify_output();detail::AtomicExportFile file(path,model_byte_limit,cancelled);
+    file.write(text.data(),text.size());verify_output();file.commit(replace);
 }
 void save_stain_model(const StainTransform& model,const std::string& path) {
     detail::save_stain_model_guarded(model,path,[]{});
@@ -92,5 +97,56 @@ StainTransform load_stain_model(const std::string& path) {
     if(stream.bad()) throw std::runtime_error("cannot read stain model file");
     return stain_model_from_json(text);
 #endif
+}
+
+std::string export_project_stain_model(const std::string& project_path,std::uint64_t image,
+    const std::string& new_model,const std::atomic<bool>* cancelled) {
+    using namespace detail;
+    const WorkflowInput input(project_path,1024ull*1024*1024,true,cancelled);
+    const auto destination=export_path(new_model);
+    const auto project=Project::open_without_journal_recovery(input.path());
+    const auto& settings=project->document(image)->image_analysis_settings();
+    if(!settings || !settings->rgb8_supported())
+        throw std::invalid_argument("Selected image "+std::to_string(image)+" requires saved RGB8 stains");
+    const auto model=settings->transform();
+    const auto images=project->images();
+    save_stain_model_guarded(model,destination,[&] {
+        input.verify(false,cancelled);
+        guard_project_database_output(input.path(),"",destination);
+        guard_project_export_output(*project,images,destination,cancelled);
+    },false,cancelled);
+    return stain_model_sha256(model);
+}
+
+std::string apply_project_stain_model(const std::string& project_path,std::uint64_t image,
+    const std::string& model_path,const std::string& new_project,const std::string& profile_name,
+    const std::atomic<bool>* cancelled) {
+    using namespace detail;
+    const WorkflowInput input(project_path,1024ull*1024*1024,true,cancelled);
+    const WorkflowInput model(model_path,model_byte_limit,false,cancelled);
+    const auto destination=export_path(new_project);
+    const auto transform=stain_model_from_json(read_workflow_input(model,cancelled));
+    const auto project=Project::open_without_journal_recovery(input.path());
+    const auto document=project->document(image);
+    const auto images=project->images();
+    const auto verify=[&] {
+        input.verify(false,cancelled);
+        model.verify(true,cancelled);
+        guard_project_database_output(input.path(),"",destination);
+        for(const auto* suffix:{"","-journal","-wal","-shm"})
+            guard_file_output(model.path(),"",destination+suffix);
+        guard_project_export_output(*project,images,destination,cancelled);
+    };
+    verify();
+    const auto& current=document->image_analysis_settings();
+    auto type=current?current->image_type():"UNSET";
+    if(type=="UNSET") type="BRIGHTFIELD_OTHER";
+    auto settings=ImageAnalysisSettings::from_normalized(std::move(type),transform.stains(),transform.white(),
+        profile_name,{"Stain 1","Stain 2","Stain 3"},false);
+    const auto digest=stain_model_sha256(transform);
+    if(settings.model_sha256()!=digest) throw std::logic_error("Saved image settings changed the stain model identity");
+    document->set_image_analysis_settings(std::move(settings));
+    project->save_new(destination,512ull*1024*1024,1024ull*1024*1024,cancelled,verify);
+    return digest;
 }
 }

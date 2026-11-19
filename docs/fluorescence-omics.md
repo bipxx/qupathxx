@@ -376,6 +376,10 @@ Gaussian context for a cropped/selected ROI (the default32px covers this sigma);
 the full-image pilot needs no outside-source context. Measurements always use
 original samples, independent of smoothing/display colors.
 
+Native CLI detection checks any saved verification for the linked image
+before it reads samples. Review and adopt a changed image before running a
+new detection.
+
 The frozen follow-up has118 predictions:82TP/36FP/28FN, F1=0.7193 and Dice=0.9225.
 It passes all unchanged pilot gates, including raw moments and split/merge/mean
 checks. Native publication and exact saved replay pass for every selected cell;
@@ -620,7 +624,9 @@ qupathxx_batch --preview-dark-flat corrected.qpx --image 1 --record RECORD_SHA25
 Scales above are illustrative source-sample normalization values, not estimated
 from a tile. Keep accepts `--minimum-denominator`, explicit `--dark-series` and
 `--flat-series`, and save budgets `--save-snapshot-bytes`/`--project-bytes`.
-The signal series comes from the selected project image. Preview requires width
+The signal series comes from the selected project image. Recipe creation checks
+any saved signal verification. Review and adopt a changed image before keeping
+a recipe. Preview requires width
 and height; X/Y, first channel, Z/time default0, channels default1. Select them
 with `--x`, `--y`, `--first-channel`, `--channels`, `--z`, `--time`; bound work with
 `--work-bytes`. It reports native block identity and counts, not a second frontend
@@ -795,7 +801,8 @@ For corrected input, use matrix input_domain
 `qpx.dark-flat-corrected-samples/1` and add `--correction-record CORRECTION_SHA256`
 to Keep. The correction must already be retained in the input project. Both the
 parent selection and matrix domain are explicit; neither is inferred or rewritten.
-Keep saves a new project, preserving the input and its existing records. Optional
+Keep checks the saved signal verification and writes a new project with the
+existing records. Optional
 `--save-snapshot-bytes` and `--project-bytes` bound save resources. Output guards
 protect the project and its SQLite sidecars, linked images, selected correction
 fields and matrix input. Existing outputs are never overwritten.

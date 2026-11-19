@@ -25,18 +25,22 @@ std::size_t RawPixelStreamContours::payload_bytes() const {
         contours_->retained_bytes()+(replay_file_?replay_file_->payload_bytes():0)+input_.capacity()+prediction_.capacity()+counts_.capacity()*sizeof(std::uint64_t)+65536;
 }
 struct RawPixelStreamContourKernel {
-    static std::size_t admit(const RawPixelTiledPredictionRequest& request,RawPixelStreamContourOptions options) {
+    static std::size_t admit(const RawPixelTiledPredictionRequest& request,RawPixelStreamContourOptions options,
+                             const RawPixelStreamFile* history=nullptr) {
         options.validate();if(!has_geos()) throw std::runtime_error("raw streamed contours require QUPATHXX_BUILD_GEOS=ON");
         const auto work=131072ull+request.estimated_work_bytes()+std::max(options.boundary_work_bytes,options.contours.work_bytes);
         if(work>options.work_bytes) throw std::length_error("raw streamed contour producer/boundary/geometry work budget exceeded");
         if(options.boundary_work_bytes<65536) throw std::length_error("raw streamed boundary bookkeeping exceeds work budget");
-        return std::size_t(work);
-    }
-    static void replay_admit(const RawPixelTiledPredictionRequest& request,const RawPixelStreamFile& file,RawPixelStreamContourOptions options) {
-        const auto work=admit(request,options)+static_cast<std::uint64_t>(file.limits().work_bytes);
-        if(work>options.work_bytes) throw std::length_error("replay file/producer/boundary/geometry work budget exceeded");
-        if(!file.verified() || !file.declared_summary().complete) throw std::invalid_argument("replay requires a complete verified QWS1 file");
-        const auto link=file.link();if(link->request_sha256()!=request.sha256() || link->model_sha256()!=request.model().sha256()) throw std::invalid_argument("raw replay request differs from verified history");
+        if(!history) return std::size_t(work);
+
+        // Complete block verification precedes live replay. During prediction,
+        // only the stored descriptor/framing and bounded recheck scratch remain.
+        const auto live_work=std::uint64_t(work)+history->payload_bytes()+131072;
+        const auto peak_work=std::max(live_work,std::uint64_t(history->limits().work_bytes));
+        if(peak_work>options.work_bytes) throw std::length_error("replay file/producer/boundary/geometry work budget exceeded");
+        if(!history->verified() || !history->declared_summary().complete) throw std::invalid_argument("replay requires a complete verified QWS1 file");
+        const auto link=history->link();if(link->request_sha256()!=request.sha256() || link->model_sha256()!=request.model().sha256()) throw std::invalid_argument("raw replay request differs from verified history");
+        return std::size_t(peak_work);
     }
     static bool current(const Document& doc,const RawPixelTiledPredictionRequest& request,const RawPixelStreamContours& result) {
         if(request.data_!=result.snapshot_) throw std::invalid_argument("raw streamed contours require the matching live stream capture");
@@ -46,7 +50,7 @@ struct RawPixelStreamContourKernel {
     static std::shared_ptr<const RawPixelStreamContours> run(const RawPixelTiledPredictionRequest& request,
         RawPixelStreamContourOptions options,const std::atomic<bool>* cancelled,
         std::atomic<std::uint64_t>* completed=nullptr,std::atomic<int>* phase=nullptr,std::shared_ptr<const RawPixelStreamFile> history={}) {
-        stopped(cancelled);const auto work=admit(request,options);if(history) replay_admit(request,*history,options);const auto& data=*request.data_;
+        stopped(cancelled);const auto work=admit(request,options,history.get());const auto& data=*request.data_;
         detail::RawStreamBoundaryBuilder builder(data,data.prototype->model.forest().classes().size(),
             {options.max_boundary_runs,options.boundary_work_bytes});
         RawPixelPredictionStream stream(request);
@@ -69,7 +73,7 @@ struct RawPixelStreamContourKernel {
         auto result=std::shared_ptr<RawPixelStreamContours>(new RawPixelStreamContours());
         result->snapshot_=request.data_;result->contours_=std::move(geometry);result->input_=input;result->prediction_=prediction;
         result->counts_=std::move(network.class_counts);result->windows_=network.completed_windows;
-        result->samples_=network.completed_samples;result->valid_=stream.valid_samples();result->work_=work+(history?history->limits().work_bytes:0);
+        result->samples_=network.completed_samples;result->valid_=stream.valid_samples();result->work_=work;
         if(history) {
             const auto& saved=history->declared_summary();
             if(result->input_!=saved.input_sha256 || result->prediction_!=saved.sha256 || result->counts_!=saved.class_counts || result->windows_!=saved.completed_windows || result->valid_!=saved.valid_samples)
@@ -131,7 +135,7 @@ bool RawPixelStreamContourJob::request_replay(const RawPixelTiledPredictionReque
 }
 bool RawPixelStreamContourJob::start(const RawPixelTiledPredictionRequest& request,RawPixelStreamContourOptions options,std::shared_ptr<const RawPixelStreamFile> file) {
     owner(impl_->owner);auto& s=*impl_;if(busy()) return false;
-    RawPixelStreamContourKernel::admit(request,options);if(file) RawPixelStreamContourKernel::replay_admit(request,*file,options);
+    RawPixelStreamContourKernel::admit(request,options,file.get());
     if(s.stats.generation==UINT64_MAX) throw std::overflow_error("raw streamed contour generation exhausted");
     RawPixelStreamJobStats stats;stats.generation=s.stats.generation+1;stats.state="running";stats.phase="predicting";
     stats.total_windows=request.total_windows();stats.total_samples=request.total_samples();stats.class_counts.resize(request.model().forest().classes().size());

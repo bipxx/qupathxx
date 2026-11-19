@@ -58,7 +58,7 @@ struct Fixture {std::string name;std::int64_t width=0,height=0;unsigned channels
 std::vector<Fixture> fixtures(const fs::path& root){
     std::ifstream in(root/"fixtures.tsv");check(bool(in),"Missing authored WebP fixture list");std::vector<Fixture> result;Fixture f;
     while(in>>f.name>>f.width>>f.height)result.push_back(f);
-    check(in.eof()&&result.size()==19,"Incomplete WebP fixture list");return result;
+    check(in.eof()&&result.size()==32,"Incomplete WebP fixture list");return result;
 }
 std::vector<std::string> names(const Fixture& f){check(f.channels==4,"WebP always exposes four raw channels");return {"Red","Green","Blue","Alpha"};}
 bool same_input(const qpx_reader_pixels_v1& before,qpx_reader_pixels_v1 after){after.written=before.written;after.validity_written=before.validity_written;return std::memcmp(&before,&after,sizeof(before))==0;}
@@ -95,7 +95,7 @@ void descriptor(Module& module){
     info.provider_id={buffers[0].data(),buffers[0].size(),0};info.display_name={buffers[1].data(),buffers[1].size(),0};info.version={buffers[2].data(),buffers[2].size(),0};info.contract={buffers[3].data(),buffers[3].size(),0};
     status(module.api.describe(&info,&error.text),QPX_READER_OK,error,"descriptor");
     auto value=[](const auto& t){return std::string(t.data,static_cast<std::size_t>(t.size));};
-    check(value(info.provider_id)=="org.qupathxx.webp"&&value(info.version)=="1.0.0"&&value(info.contract)=="webp-static-lossless-uint8-samples/1","Provider identity/contract differs");
+    check(value(info.provider_id)=="org.qupathxx.webp"&&value(info.version)=="1.2.0"&&value(info.contract)=="webp-static-uint8-samples/3","Provider identity/contract differs");
     check(value(info.display_name)=="WebP"&&info.abi_version==1&&info.capabilities==(QPX_READER_CAP_RGBA|QPX_READER_CAP_RAW),"Provider capabilities differ");
     std::array<char,8> guard{};guard.fill('X');info.provider_id={guard.data(),1,0};
     status(module.api.describe(&info,&error.text),QPX_READER_BUFFER_TOO_SMALL,error,"short descriptor text");
@@ -158,7 +158,7 @@ void invalid_open(Module& module,const fs::path& root){
     check(fs::file_size(fs::u8path(scratch))+8192+8*scratch.size()+128ull*128*4<bad.work_bytes,"Scratch budget fixture does not admit encoded/wrapper/external RGBA before codec work");
     refuse(&bad,QPX_READER_INVALID_REQUEST,"bounded codec scratch allocation");check(error.message()=="WebP decoded data exceeds reader work budget","Scratch budget refusal missed codec allocator boundary: "+error.message());
     std::ifstream in(root/"negative.tsv");check(bool(in),"Missing negative fixtures");std::string name;unsigned expected;unsigned count=0;
-    while(in>>name>>expected){const auto path=fs::absolute(root/(name+".webp")).u8string();auto negative=request;negative.path={path.data(),path.size()};refuse(&negative,expected,("negative "+name).c_str());++count;std::cout<<"Refused "<<name<<" with status "<<expected<<'\n';}check(in.eof()&&count==28,"Incomplete negative fixture list");
+    while(in>>name>>expected){const auto path=fs::absolute(root/(name+".webp")).u8string();auto negative=request;negative.path={path.data(),path.size()};refuse(&negative,expected,("negative "+name).c_str());++count;std::cout<<"Refused "<<name<<" with status "<<expected<<'\n';}check(in.eof()&&count==68,"Incomplete negative fixture list");
 }
 
 }

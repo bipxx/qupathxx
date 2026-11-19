@@ -56,6 +56,13 @@ std::string extension(const std::string& path) {
         throw std::invalid_argument("Image reader must be auto, ppm or tiff");
     throw std::invalid_argument("image reader must be auto, ppm, openslide, tiff or ome-zarr");
 }
+std::shared_ptr<const AdmittedReaderPlugin> selected_plugin(const ReaderSelection& selected,
+    const ReaderPluginCatalog& catalog) {
+    if(selected.policy==ReaderPolicy::RegionCli || selected.policy==ReaderPolicy::Project)
+        for(const auto& entry:catalog.readers)
+            if(selected.provider_id==entry->info.provider_id)return entry;
+    return {};
+}
 }
 
 ReaderFeatures reader_features() {return {has_openslide(),has_tiff(),has_ome_zarr()};}
@@ -138,8 +145,19 @@ std::shared_ptr<ImageServer> open_reader(const std::string& path,const ReaderSel
         throw std::invalid_argument("Memory RGB adapter requires ppm");
     const auto& plugins=reader_plugin_catalog();
     for(const auto& entry:builtins())if(selected.provider_id==entry.id)return entry.open(path,selected,options,cancelled);
-    if(selected.policy==ReaderPolicy::RegionCli || selected.policy==ReaderPolicy::Project)
-        for(const auto& entry:plugins.readers)if(selected.provider_id==entry->info.provider_id)return open_plugin_image_server(path,entry,cancelled,entry->info.default_options);
+    if(const auto entry=selected_plugin(selected,plugins))
+        return open_plugin_image_server(path,entry,cancelled,entry->info.default_options);
     unknown(selected.policy);
+}
+std::shared_ptr<ImageServer> open_reader_with_plugin_options(const std::string& path,
+    const ReaderSelection& selected,const std::string& options,const std::atomic<bool>* cancelled) {
+    if(options.empty())
+        throw std::invalid_argument("Reader options require a JSON object");
+    if(selected.adapter!=ReaderAdapter::FileObserved)
+        throw std::invalid_argument("Reader options require an explicit native reader plugin");
+    const auto entry=selected_plugin(selected,reader_plugin_catalog());
+    if(!entry)
+        throw std::invalid_argument("Reader options require an explicit native reader plugin");
+    return open_plugin_image_server(path,entry,cancelled,normalize_reader_plugin_options(options));
 }
 }

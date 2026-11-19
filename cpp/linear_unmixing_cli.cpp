@@ -5,6 +5,7 @@
 #include "qupathxx/workflow.hpp"
 #include "workflow_input.hpp"
 #include "spatial_output_guard.hpp"
+#include "project_source_internal.hpp"
 #include "json_string.hpp"
 #include <charconv>
 #include <iostream>
@@ -23,7 +24,18 @@ std::optional<int> linear_unmixing_cli(const std::vector<std::string>& args,cons
         std::optional<WorkflowInput> matrix_input;std::optional<LinearUnmixRequest> request;std::optional<DarkFlatRequest> parent;
         auto protect=[&]{workflow_checkpoint(&cancelled);file.verify();if(matrix_input)matrix_input->verify(false,&cancelled);if(request)request->require_current(*doc,&cancelled);if(!keep)return;protect_spatial_path(input,file.version()->identity,output);for(const auto* suffix:{"-journal","-wal","-shm"})protect_spatial_path(input+suffix,"",output);for(const auto& entry:project->images())if(!entry.embedded && !entry.source_path.empty())protect_spatial_path(export_path(entry.source_path),"",output);if(matrix_input)protect_spatial_path(matrix_input->path(),"",output);if(parent)for(const auto& source:parent->recipe().sources)protect_spatial_path(export_path(source.path),"",output);if(request)protect_spatial_path(export_path(request->recipe().signal.path),"",output);};
         if(list){protect();const auto ids=linear_unmix_recipe_ids(*doc);std::cout<<"{\"schema\":\"qpx.linear-unmix-cli/1\",\"state\":\"records\",\"records\":[";for(std::size_t i=0;i<ids.size();++i){if(i)std::cout<<',';std::cout<<json_string(ids[i]);}std::cout<<"]}\n";return 0;}
-        if(keep){matrix_input.emplace(matrix_path,1024u*1024,false,&cancelled);auto matrix=linear_mixing_matrix_from_json(read_workflow_input(*matrix_input,&cancelled));if(!correction.empty()){parent.emplace(replay_dark_flat_recipe(*doc,correction,&cancelled));request.emplace(*doc,*parent,std::move(matrix),&cancelled);}else request.emplace(*doc,std::move(matrix),&cancelled);protect();record=keep_linear_unmix_recipe(*doc,*request,&cancelled);project->save_new(output,save_bytes,file_bytes,&cancelled,protect);}
+        if(keep){
+            if(const auto verified=project->source_verification(image))
+                require_verified_project_source(*verified,*doc->server(),&cancelled);
+            matrix_input.emplace(matrix_path,1024u*1024,false,&cancelled);
+            auto matrix=linear_mixing_matrix_from_json(read_workflow_input(*matrix_input,&cancelled));
+            if(!correction.empty()){
+                parent.emplace(replay_dark_flat_recipe(*doc,correction,&cancelled));
+                request.emplace(*doc,*parent,std::move(matrix),&cancelled);
+            }else request.emplace(*doc,std::move(matrix),&cancelled);
+            protect();record=keep_linear_unmix_recipe(*doc,*request,&cancelled);
+            project->save_new(output,save_bytes,file_bytes,&cancelled,protect);
+        }
         else{request.emplace(replay_linear_unmix_recipe(*doc,record,&cancelled));protect();}
         const auto& recipe=request->recipe();std::cout<<"{\"schema\":\"qpx.linear-unmix-cli/1\",\"state\":"<<json_string(keep?"saved":"verified")<<",\"record\":"<<json_string(record)<<",\"domain\":"<<json_string(request->source()->domain())<<",\"algorithm\":"<<json_string(recipe.algorithm)<<",\"operator_sha256\":"<<json_string(recipe.operator_sha256)<<",\"matrix_sha256\":"<<json_string(recipe.matrix.sha256())<<",\"source_sha256\":"<<json_string(request->source()->sha256())<<",\"correction_record\":"<<json_string(recipe.correction_record)<<"}\n";return 0;
     }catch(const std::exception& e){std::cerr<<e.what()<<'\n';return cancelled.load()?130:1;}

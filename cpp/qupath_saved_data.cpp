@@ -6,6 +6,7 @@
 #include "tma_internal.hpp"
 #include <stdexcept>
 #if defined(QUPATHXX_HAS_PROJECT) && defined(QUPATHXX_HAS_INTERCHANGE)
+#include "qupath_axis_calibration.hpp"
 #include "strict_json.hpp"
 #include "utf8_text.hpp"
 #include <nlohmann/json.hpp>
@@ -530,42 +531,6 @@ public:
         StrictJson strict("QuPath saved server");Json::sax_parse(at(values[1]).text,&strict);const auto server=Json::parse(at(values[1]).text);
         if(server.at("dataVersion")!=3 || server.at("qupathVersion")!="0.7.0")invalid("unsupported saved server version");
         const auto& metadata=server.at("server").at("metadata");result.server_metadata=metadata.dump();
-        if(metadata.contains("pixelCalibration")) {
-            const auto& calibration=metadata["pixelCalibration"];
-            auto axis=[&](const char* key)->std::optional<double> {if(!calibration.contains(key))return {};const auto& quantity=calibration[key];if(quantity.at("unit")=="px")return {};if(quantity.at("unit")!=u8"\u00b5m") {issue("calibration_unit","Unsupported saved XY calibration unit");return {};}const auto& v=quantity.at("value");if(v.is_string() && v=="NaN")return {};if(v.is_null())return {};const auto x=v.get<double>();if(!std::isfinite(x) || x<=0)invalid("invalid saved XY calibration");return x;};
-            result.pixel_width_um=axis("pixelWidth");result.pixel_height_um=axis("pixelHeight");
-        }
-        if(metadata.contains("pixelCalibration")) {
-            const auto& calibration=metadata.at("pixelCalibration");
-            if(!calibration.is_object())invalid("invalid saved axis calibration");
-            std::optional<double> z;
-            if(calibration.contains("zSpacing")) {
-                const auto& quantity=calibration.at("zSpacing");
-                if(!quantity.is_object() || !quantity.at("unit").is_string() || !quantity.at("value").is_number())invalid("invalid saved Z spacing quantity");
-                const auto value=quantity.at("value").get<double>();if(!std::isfinite(value) || value<=0)invalid("invalid saved Z spacing");
-                if(quantity.at("unit")==u8"\u00b5m")z=value;
-                else if(quantity.at("unit")!="z-slice")invalid("unsupported saved Z spacing unit");
-            }
-            double factor=1;
-            if(calibration.contains("timeUnit")) {
-                if(!calibration.at("timeUnit").is_string())invalid("invalid saved time unit");
-                const auto unit=calibration.at("timeUnit").get<std::string>();
-                const std::map<std::string,double> factors{{"NANOSECONDS",1e-9},{"MICROSECONDS",1e-6},{"MILLISECONDS",1e-3},{"SECONDS",1},{"MINUTES",60},{"HOURS",3600},{"DAYS",86400}};
-                const auto found=factors.find(unit);if(found==factors.end())invalid("unsupported saved time unit");factor=found->second;
-            }
-            std::vector<double> times;
-            if(calibration.contains("timepoints")) {
-                const auto& values=calibration.at("timepoints");
-                if(!values.is_array() || values.size()>ImageAxisCalibration::max_timepoints)invalid("invalid saved timestamp array");
-                if(!values.empty() && !calibration.contains("timeUnit"))invalid("saved timestamps require an explicit time unit");
-                times.reserve(values.size());
-                for(const auto& value:values) {
-                    if(!value.is_number())invalid("invalid saved timestamp");const auto input=value.get<double>(),seconds=input*factor;
-                    if(!std::isfinite(input) || !std::isfinite(seconds) || (input!=0 && seconds==0))invalid("saved timestamp unit conversion is not representable");times.push_back(seconds);
-                }
-            }
-            result.axis_calibration.emplace(z,std::move(times));
-        }
         bool hierarchy=false,eof=false,type_seen=false,stains_seen=false,properties_seen=false;std::string image_type="UNSET",stains_text;
         for(std::size_t i=2;i<values.size();++i) {
             const auto id=values[i];if(!id)continue;const auto name=stream.name(id);
@@ -594,6 +559,47 @@ public:
         auto settings=stains_seen?stain_settings(image_type,stains_text):ImageAnalysisSettings(image_type);if(!settings.empty())result.image_settings=std::move(settings);return std::move(result);
     }
 };
+}
+ImageAxisCalibration decode_qupath_axis_calibration(const nlohmann::json& z_calibration,
+                                                     const nlohmann::json& time_calibration) {
+    std::optional<double> z;
+    if(z_calibration.contains("zSpacing")) {
+        const auto& quantity=z_calibration.at("zSpacing");
+        if(!quantity.is_object() || !quantity.at("unit").is_string() || !quantity.at("value").is_number())
+            invalid("invalid saved Z spacing quantity");
+        const auto value=quantity.at("value").get<double>();
+        if(!std::isfinite(value) || value<=0)invalid("invalid saved Z spacing");
+        if(quantity.at("unit")==u8"\u00b5m")z=value;
+        else if(quantity.at("unit")!="z-slice")invalid("unsupported saved Z spacing unit");
+    }
+    double factor=1;
+    if(time_calibration.contains("timeUnit")) {
+        if(!time_calibration.at("timeUnit").is_string())invalid("invalid saved time unit");
+        const auto unit=time_calibration.at("timeUnit").get<std::string>();
+        static const std::map<std::string,double> factors{
+            {"NANOSECONDS",1e-9},{"MICROSECONDS",1e-6},{"MILLISECONDS",1e-3},{"SECONDS",1},
+            {"MINUTES",60},{"HOURS",3600},{"DAYS",86400}};
+        const auto found=factors.find(unit);
+        if(found==factors.end())invalid("unsupported saved time unit");
+        factor=found->second;
+    }
+    std::vector<double> times;
+    if(time_calibration.contains("timepoints")) {
+        const auto& values=time_calibration.at("timepoints");
+        if(!values.is_array() || values.size()>ImageAxisCalibration::max_timepoints)
+            invalid("invalid saved timestamp array");
+        if(!values.empty() && !time_calibration.contains("timeUnit"))
+            invalid("saved timestamps require an explicit time unit");
+        times.reserve(values.size());
+        for(const auto& value:values) {
+            if(!value.is_number())invalid("invalid saved timestamp");
+            const auto input=value.get<double>(),seconds=input*factor;
+            if(!std::isfinite(input) || !std::isfinite(seconds) || (input!=0 && seconds==0))
+                invalid("saved timestamp unit conversion is not representable");
+            times.push_back(seconds);
+        }
+    }
+    return ImageAxisCalibration(z,std::move(times));
 }
 QuPathSavedData decode_qupath_saved_data(const std::string& bytes,const std::atomic<bool>* cancelled) {
     try {Stream stream(bytes,cancelled);std::vector<Id> values;while(!stream.done()) {if(values.size()>=1024)invalid("too many top-level records");values.push_back(stream.value());}return Decoder(stream,cancelled).decode(values);}

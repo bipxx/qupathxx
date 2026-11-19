@@ -18,7 +18,8 @@ int main() {
         std::ifstream input(fixture,std::ios::binary);check(bool(input));
         const std::string data(std::istreambuf_iterator<char>(input),{});
         const auto decoded=detail::decode_qupath_saved_data(data);
-        check(decoded.issues.empty() && decoded.pixel_width_um==.25 && decoded.pixel_height_um==.5);
+        check(decoded.issues.empty() && decoded.server_metadata.find("\"value\":0.25")!=std::string::npos &&
+              decoded.server_metadata.find("\"value\":0.5")!=std::string::npos);
         check(decoded.geojson.find("56f6bd47-e267-456a-a2d0-cfb01922135c")!=std::string::npos);
         for(const auto n:{std::size_t(0),std::size_t(4),std::size_t(27),data.size()/2,data.size()-1})rejects([&]{detail::decode_qupath_saved_data(data.substr(0,n));});
         auto appended=data;appended.push_back(char(0x70));rejects([&]{detail::decode_qupath_saved_data(appended);});
@@ -41,6 +42,32 @@ int main() {
         check(preview->consumed() && project->images().size()==1);
         check(Project::open((root/"native.qpxproj").u8string())->document(1)->metadata().width==2);
         rejects([&]{preview->import_new((root/"twice.qpxproj").u8string());});check(!std::filesystem::exists(root/"twice.qpxproj"));
+
+        const auto moved=root/"moved";
+        const auto original=moved/"old"/"slide.ppm";
+        const auto relocated=moved/"slide.ppm";
+        const auto relocated_project=moved/"project.qpproj";
+        std::filesystem::create_directories(original.parent_path());
+        std::filesystem::copy_file(root/"source.ppm",relocated);
+        {std::ofstream f(relocated_project);f<<R"({"version":"0.7.0","uri":"file:old/project.qpproj","images":[{"entryID":1,"imageName":"relocated","serverBuilder":{"builderType":"uri","providerClassName":"qupath.lib.images.servers.imageio.ImageIoImageServerBuilder","uri":"file:old/slide.ppm","args":[],"metadata":{"width":2,"height":2}}}]})";}
+        const auto relocated_preview=preview_qupath_project(relocated_project.u8string());
+        check(relocated_preview->issues().empty() && relocated_preview->images().at(0).source_path==relocated.u8string());
+        const auto explicit_preview=preview_qupath_project(relocated_project.u8string(),{{"1",relocated.u8string()}});
+        std::filesystem::copy_file(relocated,original);
+        const auto stale_output=moved/"stale-relocation.qpx";
+        try {
+            relocated_preview->import_new(stale_output.u8string());
+        } catch(const std::exception& error) {
+            check(std::string(error.what()).find("appeared since review")!=std::string::npos);
+        }
+        if(relocated_preview->consumed() || std::filesystem::exists(stale_output))
+            throw std::runtime_error("Held relocation review accepted an original source that reappeared");
+        const auto current=preview_qupath_project(relocated_project.u8string());
+        check(current->issues().empty() && current->images().at(0).source_path==original.u8string());
+        check(current->observed_inputs_sha256()!=relocated_preview->observed_inputs_sha256());
+        const auto explicit_project=explicit_preview->import_new((moved/"explicit-source.qpx").u8string());
+        check(explicit_project->images().at(0).source_path==relocated.u8string());
+
         auto stale=preview_qupath_project((root/"project.qpproj").u8string());
         {std::ofstream f(root/"source.ppm",std::ios::binary|std::ios::app);f.put('x');}
         rejects([&]{stale->import_new((root/"stale.qpxproj").u8string());});check(!std::filesystem::exists(root/"stale.qpxproj") && !stale->consumed());

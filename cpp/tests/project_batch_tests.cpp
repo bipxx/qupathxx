@@ -29,11 +29,26 @@ int main(int argc,char** argv) {
         ObjectClassifierJob classifier;const auto model=ForestModel::from_bytes(qpx_test::object_forest_fixture());
         check(classifier.predict(ObjectFeatureRequest(*doc,{object}),model) && classifier.wait(*doc).state=="ready");classifier.apply(*doc);
         const auto audit=doc->classifier_records().back();
+        const std::map<std::string,std::string> study{{"study","breast cohort"},{"control",""}};
+        const std::vector<ObjectClass> definitions{
+            ObjectClass::definition("Review",0x80112233),
+            ObjectClass::definition("Review: Confirmed",{},"Review")};
+        const std::vector<std::string> defaults{"Review: Confirmed","Review"};
+        p.set_metadata(study);
+        p.set_class_registry(definitions,defaults);
+        const auto classes=p.classes();
         const ProjectBatchRequest captured(p,t);check(captured.image_count()==1 && captured.object_count()==1);
+        p.set_metadata({{"study","later"}});
+        p.set_class_registry({});
         doc->rename_annotation(object,"later");
         auto r=run_project_batch(captured,(root/"roi").u8string());if(r.state!="succeeded") throw std::runtime_error(r.error+(r.images.empty()?"":r.images[0].error));
         check(r.saved==1 && r.images[0].records==1 && doc->analysis_records().empty());
         auto restored=Project::open(r.images[0].path);check(restored->document(image)->annotation(object).name!="later" && restored->document(image)->analysis_records().size()==1);
+        if(restored->metadata()!=study || restored->classes()!=classes || restored->class_defaults()!=defaults)
+            throw std::runtime_error("Batch checkpoint lost its captured project metadata or class defaults");
+        restored->apply_class_defaults(image);
+        const auto& restored_classes=restored->document(image)->classes();
+        for(const auto& [name,definition]:classes) check(restored_classes.at(name)==definition);
         check(restored->document(image)->classifier_record_count()==1 && restored->document(image)->classifier_record(audit->id)->archive->sha256()==audit->archive->sha256());
         const auto csv=batch_checkpoint_csv(r.images[0].path);check(csv.find("batch_image_name")!=std::string::npos && csv.find("quoted, image\nname")!=std::string::npos);
         save_batch_checkpoint_csv(r.images[0].path,(root/"measurements.csv").u8string());
@@ -44,6 +59,14 @@ int main(int argc,char** argv) {
         std::atomic<bool> cancelled{true};check(run_project_batch(captured,(root/"cancel").u8string(),&cancelled).state=="cancelled");
         ProjectBatchOptions small;small.materialize_budget=1;small.failure=ProjectBatchFailure::Continue;check(run_project_batch(ProjectBatchRequest(p,t,{},small),(root/"small").u8string()).state=="partial");
         small={};small.snapshot_budget=ProjectBatchRequest(p,t).snapshot_bytes()-1;rejects([&]{ProjectBatchRequest r(p,t,{},small);});
+        ProjectBatchOptions context_limit;
+        std::map<std::string,std::string> large_context;
+        for(int i=0;i<180;++i) large_context.emplace(std::to_string(i),std::string(4000,'x'));
+        p.set_metadata(large_context);
+        context_limit.materialize_budget=512u*1024;
+        const auto context_refused=run_project_batch(ProjectBatchRequest(p,t,{},context_limit),(root/"context-limit").u8string());
+        check(context_refused.saved==0 && context_refused.error.find("materialization budget")!=std::string::npos);
+        p.set_metadata({});
         Project many;many.add_document(doc,"first");auto other=std::make_shared<Document>(Image(32,24,std::vector<std::uint8_t>(32*24*3,32)));other->add_rectangle({0,0,16,16});many.add_document(other,"second");
         ProjectBatchRequest multi(many,t);cancelled.store(false);auto interrupted=run_project_batch(multi,(root/"interrupted").u8string(),&cancelled,[&](const auto& item){if(item.state=="saved") cancelled.store(true);});
         check(interrupted.state=="cancelled" && interrupted.saved==1);cancelled.store(false);auto restarted=run_project_batch(multi,(root/"interrupted").u8string(),&cancelled);check(restarted.state=="succeeded" && restarted.reused==1 && restarted.saved==1);

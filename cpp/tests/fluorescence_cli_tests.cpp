@@ -1,8 +1,10 @@
 #include "fluorescence_cli.hpp"
 #include "qupathxx/fluorescence_cell_objects.hpp"
 #include "qupathxx/project.hpp"
+#include "qupathxx/project_source.hpp"
 #include "qupathxx/object_properties.hpp"
 #include "quantitative_tiff_fixture.hpp"
+#include "label_mask_fixture.hpp"
 #include <filesystem>
 #include <fstream>
 #include <sstream>
@@ -13,13 +15,32 @@ void check(bool v){if(!v)throw std::runtime_error("Fluorescence CLI check failed
 std::string bytes(const fs::path& p){std::ifstream in(p,std::ios::binary);return {std::istreambuf_iterator<char>(in),{}};}
 struct Capture {std::ostringstream out,err;std::streambuf *o=std::cout.rdbuf(out.rdbuf()),*e=std::cerr.rdbuf(err.rdbuf());~Capture(){std::cout.rdbuf(o);std::cerr.rdbuf(e);}};
 template<class F>void rejects(F f){try{f();}catch(const std::invalid_argument&){return;}throw std::runtime_error("Expected argument refusal");}
+void check_verified_source(const fs::path& root,std::atomic<bool>& cancel) {
+    const auto source=root/"verified.tif",input=root/"verified.qpx",output=root/"refused.qpx";
+    qpx_test::label_mask_fixture(source,{23,23,23,23});
+    {
+        Project project;
+        const auto image=project.add_tiff_image(source.u8string(),{});
+        project.apply_source_review(project.review_source_verification(image,*fingerprint_file(source.u8string())));
+        project.save_new(input.u8string());
+    }
+    const auto original=bytes(input);
+    qpx_test::label_mask_fixture(source,{99,99,99,99});
+    Capture log;
+    check(detail::fluorescence_cli({"batch","--detect-fluorescence",input.u8string(),output.u8string(),
+        "--image","1","--channels","1","--threshold","50","--record-only"},cancel)==1);
+    check(log.out.str().empty() && log.err.str().find("differs from saved source verification")!=std::string::npos &&
+          !fs::exists(output) && bytes(input)==original);
+}
 int main(){try{
     std::atomic<bool> cancel{false};check(!detail::fluorescence_cli({"batch","--unrelated"},cancel));
     rejects([&]{detail::fluorescence_cli({"batch","--detect-fluorescence"},cancel);});
     if(!has_project() || !has_tiff()){std::cout<<"Fluorescence CLI: optional project/TIFF disabled\n";return 0;}
     const auto root=fs::current_path()/("fluorescence-cli-"+std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()));check(fs::create_directory(root));
     const auto input=root/"input.qpx",source=root/"source.tif",output=root/"result.qpx";qpx_test::raw_pixel_tiff_fixture(source,15,9);
-    Project project;const auto image=project.add_tiff_image(source.u8string(),{});auto doc=project.document(image);const auto roi=doc->add_rectangle({1,1,12,7},"ROI");project.save_new(input.u8string());const auto original=bytes(input),pixels=bytes(source);
+    Project project;const auto image=project.add_tiff_image(source.u8string(),{});auto doc=project.document(image);const auto roi=doc->add_rectangle({1,1,12,7},"ROI");
+    project.apply_source_review(project.review_source_verification(image,*fingerprint_file(source.u8string())));
+    project.save_new(input.u8string());const auto original=bytes(input),pixels=bytes(source);
     std::vector<std::string> args={"batch","--detect-fluorescence",input.u8string(),output.u8string(),"--image",std::to_string(image),"--roi",std::to_string(roi),"--channels","2","--threshold","100","--expansion","1.5","--context","0"};
     if(!has_geos())args.push_back("--record-only");
     {Capture log;check(detail::fluorescence_cli(args,cancel)==0);check(log.err.str().empty() && log.out.str().find("\"state\":\"saved\"")!=std::string::npos && log.out.str().find("\"cells\":1")!=std::string::npos);}
@@ -41,5 +62,6 @@ int main(){try{
     for(const auto& extra:std::vector<std::vector<std::string>>{{"--width","0"},{"--channels","0"},{"--first-channel","-1"},{"--threshold","inf"}}){auto bad=std::vector<std::string>{"batch","--detect-fluorescence",input.u8string(),(root/"invalid.qpx").u8string(),"--image",std::to_string(image)};bad.insert(bad.end(),extra.begin(),extra.end());rejects([&]{detail::fluorescence_cli(bad,cancel);});}check(!fs::exists(root/"invalid.qpx"));
     for(const auto& extra:std::vector<std::vector<std::string>>{{"--threshold","nan"},{"--image","1"},{"--width","3"},{"--method","otsu"},{"--unexpected","1"}}){auto bad=args;bad.insert(bad.end(),extra.begin(),extra.end());rejects([&]{detail::fluorescence_cli(bad,cancel);});}
     verify.back()="unknown";{Capture log;check(detail::fluorescence_cli(verify,cancel)==1);}check(bytes(output)==saved);
+    check_verified_source(root,cancel);
     std::cout<<"Fluorescence CLI: native detect/list/replay, exact raw facts, empty record, protected inputs, no overwrite, budgets and cancellation passed\n";
 }catch(const std::exception& e){std::cerr<<e.what()<<'\n';return 1;}}

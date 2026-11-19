@@ -173,7 +173,12 @@ void raw_test(const fs::path& root, bool fortran, bool blosc) {
     save_omero_raw(*result, path);
     save_omero_raw_receipt(*result, path + ".json");
     refuses([&] { save_omero_raw(*result, path); });
+    const auto bundle = path + ".zip";
+    save_omero_raw_bundle(*result, bundle);
+    refuses<WorkflowOutputExists>([&] { save_omero_raw_bundle(*result, bundle); });
     std::atomic<bool> stop{true};
+    refuses<WorkflowCancelled>([&] { save_omero_raw_bundle(*result, path + ".cancelled", &stop); });
+    check(!fs::exists(fs::u8path(path + ".cancelled")), "Cancelled bundle left an output");
     refuses<WorkflowCancelled>([&] { client.raw(7, request, {}, &stop); });
     for (const auto& p : s->calls)
         if (p.first.rfind(store + "0/", 0) == 0 && p.first.find(".zarray") == std::string::npos)

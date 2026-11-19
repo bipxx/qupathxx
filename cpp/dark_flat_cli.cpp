@@ -3,6 +3,7 @@
 #include "qupathxx/project.hpp"
 #include "qupathxx/workflow.hpp"
 #include "spatial_output_guard.hpp"
+#include "project_source_internal.hpp"
 #include "json_string.hpp"
 #include <charconv>
 #include <iostream>
@@ -41,7 +42,14 @@ std::optional<int> dark_flat_cli(const std::vector<std::string>& args,const std:
             if(request)for(const auto& source:request->recipe().sources)protect_spatial_path(export_path(source.path),"",output);
         };
         if(list){protect();const auto ids=dark_flat_recipe_ids(*doc);std::cout<<"{\"schema\":\"qpx.dark-flat-cli/1\",\"state\":\"records\",\"records\":[";for(std::size_t i=0;i<ids.size();++i){if(i)std::cout<<',';std::cout<<json_string(ids[i]);}std::cout<<"]}\n";return 0;}
-        if(keep){auto d=open_tiff(dark,dark_open,&cancelled),f=open_tiff(flat,flat_open,&cancelled);request.emplace(*doc,d,f,options,&cancelled);protect();record=keep_dark_flat_recipe(*doc,*request,&cancelled);project->save_new(output,save_bytes,file_bytes,&cancelled,protect);}
+        if(keep){
+            if(const auto verified=project->source_verification(image))
+                require_verified_project_source(*verified,*doc->server(),&cancelled);
+            auto d=open_tiff(dark,dark_open,&cancelled),f=open_tiff(flat,flat_open,&cancelled);
+            request.emplace(*doc,d,f,options,&cancelled);protect();
+            record=keep_dark_flat_recipe(*doc,*request,&cancelled);
+            project->save_new(output,save_bytes,file_bytes,&cancelled,protect);
+        }
         else request.emplace(replay_dark_flat_recipe(*doc,record,&cancelled));
         std::shared_ptr<const DarkFlatBlock> block;if(preview)block=read_dark_flat_block(*request,region,work,&cancelled);if(!keep)protect();
         std::cout<<"{\"schema\":\"qpx.dark-flat-cli/1\",\"state\":"<<json_string(keep?"saved":preview?"preview":"verified")<<",\"record\":"<<json_string(record)<<",\"source_sha256\":"<<json_string(request->source()->sha256())<<",\"domain\":"<<json_string(request->source()->domain());

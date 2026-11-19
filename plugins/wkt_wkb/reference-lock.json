@@ -1,0 +1,18 @@
+{
+  "schema": "qpx.wkt-wkb-reference/1",
+  "ogc": {
+    "id": "06-103r4",
+    "version": "1.2.1",
+    "date": "2011-05-28",
+    "url": "https://docs.ogc.org/is/06-103r4/06-103r4.pdf",
+    "bytes": 887206,
+    "sha256": "4e64b5a22815a680e24c8d07af5d86df3abebc0b9bb7f40939a0c539dd3d56a9",
+    "terms": "Official page1 copyright license permits implementation/use including commercialization, preserving notices on distributed specification; no patent rights or certification/trademark grant. Specification is read/pinned locally, not redistributed in the plugin package. Independently authored parser code uses AGPL-3.0-only."
+  },
+  "reference_only": [
+    "https://libgeos.org/specifications/wkt/",
+    "https://libgeos.org/specifications/wkb/"
+  ],
+  "implementation": "Independent first-party native grammar/binary reader; no copied OGC prose, GEOS reader code/runtime dependency, Java, Python, external codec or reference dataset in the plugin",
+  "selected": "Single 2D geometry in WKT, raw WKB or hex WKB; POINT/LINESTRING/POLYGON/MULTIPOINT/MULTILINESTRING/MULTIPOLYGON/GEOMETRYCOLLECTION; explicit image-pixel contract, no inferred CRS or plane; EMPTY/dimensions/SRID/curves refused; multipart membership retained"
+}

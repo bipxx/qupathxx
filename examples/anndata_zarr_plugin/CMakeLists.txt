@@ -1,0 +1,11 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+cmake_minimum_required(VERSION 3.24)
+project(anndata_zarr_consumer LANGUAGES CXX)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED YES)
+set(CMAKE_MSVC_RUNTIME_LIBRARY MultiThreadedDLL)
+find_package(qupathxx CONFIG REQUIRED COMPONENTS core)
+add_executable(anndata_zarr_consumer main.cpp)
+target_compile_options(anndata_zarr_consumer PRIVATE /utf-8 /W4 /permissive-)
+target_link_libraries(anndata_zarr_consumer PRIVATE qupathxx::core)
+qupathxx_stage_runtime(anndata_zarr_consumer)

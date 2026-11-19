@@ -6,6 +6,11 @@ project, one QWS1 file per target and a class-count CSV. The input project stays
 unchanged. `RAW` / `--kind raw` continues to measure raw channel statistics;
 `PIXELS` continues to classify RGB display inputs.
 
+Raw statistics batches follow each image's saved Z and time axes by default,
+including saved OME-Zarr projections. Object annotations must match the
+selected plane. Use `--raw-z N` and `--raw-time N` to select explicit
+zero-based axes, or `--raw-explicit-axes` to select Z=0 and time=0.
+
 ```python
 import qupathxx as q
 
@@ -44,10 +49,10 @@ an optimization opportunity, with no whole-slide performance claim.
 
 ## Exact lattice compatibility
 
-Omitted `raw_pixel_x`/`raw_pixel_y` use one level-zero sample per source pixel.
+The default uses one level-zero sample per source pixel.
 Different image sizes are compatible with a unit-spacing model when their dtype,
 channels and other recipe properties agree. Native axis limits still apply.
-For a sampled model, set both axes explicitly to `ScientificGridAxis` values:
+For fixed coverage, set both axes explicitly to `ScientificGridAxis` values:
 
 ```python
 options.raw_pixel_x = q.ScientificGridAxis(0, 80000, 4000, 4)
@@ -69,12 +74,63 @@ qupathxx_batch input.qpx batch-output --kind raw-pixels --raw-pixel-model model.
 ```
 
 Use `--raw-pixel-x-axis O,E,N,C` and `--raw-pixel-y-axis O,E,N,C` for explicit
-axes. Other controls are `--raw-pixel-file-work-bytes`,
+axes. To apply the saved model spacing to each image in `raw-pixels` or
+`raw-contours`, use `--raw-pixel-model-grid` without explicit axes. The native
+`ProjectBatchOptions::raw_pixel_model_grid` flag uses the same resolver as the
+[single-image CLI](raw-pixel-cli.md#predict-resume-and-verify). It derives the
+phase-zero lattice from the saved model and each image's dimensions and uses
+the project's effective X and Y calibration for physical models. Images
+without compatible calibration or a representable exact step fail before
+prediction. Choosing the saved grid is recorded in the batch parameters for
+resume.
+
+Other controls are `--raw-pixel-file-work-bytes`,
 `--raw-pixel-max-samples`, `--raw-pixel-max-windows` and `--raw-pixel-min-vote`.
 The existing `--pixel-file-bytes` / `--pixel-total-bytes` fields deliberately
 supply shared RGB/raw output quotas. `--continue-on-error`, `--no-resume`,
 selection, snapshot/materialization/result/CSV/checkpoint limits and structured
 JSONL/exit conventions remain those of the existing batch executable.
+
+### Versioned raw batch recipe
+
+Use `qupathxx_batch --pixel-batch-recipe raw-recipe.json batch-output` to select
+different ROIs for each project image. Paths are relative to the recipe file.
+The project and model pins are lowercase SHA-256 values of the complete files.
+Linked raw inputs still use the native batch's source validation and checkpoint
+rules. The same recipe and output directory resume already verified images.
+
+```json
+{
+  "schema": "qpx.project-raw-pixel-batch-recipe/1",
+  "project": {"path": "input.qpxproj", "sha256": "<64 lowercase hex characters>"},
+  "model": {"path": "model.qrm", "sha256": "<64 lowercase hex characters>"},
+  "selection": [{"image": 1, "objects": [10, 11]}, {"image": 2, "objects": [7]}],
+  "failure": "stop",
+  "resume": true,
+  "raw": {
+    "kind": "raw-pixels",
+    "grid": {"mode": "model"},
+    "stream": {
+      "tile_width": 64,
+      "tile_height": 64,
+      "work_bytes": 67108864,
+      "max_samples": 1000000000,
+      "max_windows": 1000000,
+      "min_vote_fraction": 0
+    }
+  }
+}
+```
+
+Use `raw-pixels` for QWS output or `raw-contours` for native contour projects.
+The `model` grid derives axes per image from the model's saved sampling recipe.
+The `unit` grid uses one sample per level-zero pixel. For explicit axes use
+`{"mode":"explicit","x":[0,80000,4000,4],"y":[0,60000,3000,4]}`, with each
+axis ordered as origin, extent, samples, and context. The model must accept
+the grid on each selected image. File and contour publication use the native
+batch defaults. `failure` accepts `stop` or `continue`. Images and ROI IDs must
+be unique within their respective lists and every image must select at least
+one area object.
 
 ## Completion, reuse and ownership
 

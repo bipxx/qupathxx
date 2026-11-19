@@ -39,6 +39,10 @@ struct ProjectBatchOptions {
     RawRegionRequest raw;bool raw_follow_display=true;std::uint64_t raw_max_pixels=1000000000;
     RoiSamplingPolicy roi_sampling_policy=RoiSamplingPolicy::GeometryCoverage;
     std::shared_ptr<const TissueGridSampling> tissue_grid;
+    // Opt in to the model's saved spacing resolved against each target image.
+    bool raw_pixel_model_grid=false;
+    // Resolve each selected image's saved stain settings from the captured project.
+    bool use_saved_stains=false;
     void validate() const;
 };
 struct ProjectBatchSelection {std::uint64_t image_id=0;std::vector<std::uint64_t> object_ids;};
@@ -68,6 +72,11 @@ struct ProjectBatchStats {
     double capture_ms=0,elapsed_ms=0;
 };
 ProjectBatchReport run_project_batch(const ProjectBatchRequest&,const std::string& output_directory,const std::atomic<bool>* cancelled=nullptr,const std::function<void(const ProjectBatchImageResult&)>& on_image={});
+// Execute a qpx.project-pixel-batch-recipe/1 file using the same capture and
+// checkpoint authority as a directly constructed ProjectBatchRequest.
+ProjectBatchReport run_project_pixel_batch_recipe(const std::string& recipe_path,
+    const std::string& output_directory,const std::atomic<bool>* cancelled=nullptr,
+    const std::function<void(const ProjectBatchImageResult&)>& on_image={});
 std::string project_batch_image_json(const ProjectBatchImageResult&);
 std::string project_batch_report_json(const ProjectBatchReport&);
 std::string batch_checkpoint_csv(const std::string& path);

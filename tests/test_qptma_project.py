@@ -27,6 +27,7 @@ def scene(tmp_path, linked=False):
 
 def cli(*args):
     executable=Path(q.__file__).parent/('qupathxx_batch.exe' if os.name=='nt' else 'qupathxx_batch')
+    executable=Path(os.environ.get('QUPATHXX_TEST_TMA_BATCH', str(executable)))
     assert executable.is_file()
     return subprocess.run([str(executable),*map(str,args)],capture_output=True,text=True,encoding='utf-8',timeout=30)
 

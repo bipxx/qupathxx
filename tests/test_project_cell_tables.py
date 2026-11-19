@@ -2,6 +2,9 @@
 import csv
 import gc
 import io
+import json
+import os
+from pathlib import Path
 import sqlite3
 import subprocess
 import sys
@@ -17,6 +20,13 @@ pytestmark=pytest.mark.skipif(not q.has_project,reason="native projects")
 
 
 def parsed(text):return list(csv.DictReader(io.StringIO(text,newline="")))
+
+
+def cell_table_cli(source, destination, *options):
+    bundled = Path(q.__file__).with_name('qupathxx_batch.exe' if os.name == 'nt' else 'qupathxx_batch')
+    batch = os.environ.get('QUPATHXX_TEST_CELL_BATCH', str(bundled))
+    return subprocess.run([batch, '--export-cell-table', str(source), str(destination), *options],
+                          capture_output=True, text=True, encoding='utf-8', timeout=30)
 
 
 def workspace():
@@ -55,6 +65,36 @@ def test_project_selection_sorts_deduplicates_and_rejects_unknown_images():
     assert {int(r["image_id"]) for r in parsed(q.cell_measurements_csv(project,[images[1]]))}=={images[1]}
     with pytest.raises(IndexError):q.CellTableRequest(project,[images[0],999999])
     with pytest.raises((ValueError,RuntimeError,IndexError),match="10000"):q.CellTableRequest(project,[images[0]]*10001)
+
+
+def test_cell_export_cli_protects_linked_label_stores(tmp_path):
+    project, docs, images, _ = workspace()
+    online, offline = tmp_path / 'labels.zarr', tmp_path / 'offline.zarr'
+    online.mkdir()
+    marker = online / 'existing.csv'
+    marker.write_bytes(b'keep label input')
+    records = {
+        str(index): {'ngff_source': True, 'parameters': json.dumps({'method': 3, 'path': str(path)})}
+        for index, path in enumerate((online, offline), 1)
+    }
+    docs[-1].set_image_data_properties(q.ImageDataProperties({'qpx.label-analysis/1': records}))
+    source = tmp_path / 'measurements.qpxproj'
+    project.save_new(str(source))
+    before = source.read_bytes()
+    for blocked in (marker, online / 'new.csv', offline):
+        result = cell_table_cli(source, blocked)
+        assert result.returncode != 0 and 'outside the protected input directory' in result.stderr
+    assert {path.name: path.read_bytes() for path in online.iterdir()} == {marker.name: b'keep label input'}
+    assert not offline.exists()
+
+    safe = tmp_path / 'external.csv'
+    safe.write_bytes(b'old external table')
+    result = cell_table_cli(source, safe)
+    assert result.returncode == 0, result.stderr
+    rows = parsed(safe.read_text(encoding='utf-8'))
+    assert {int(row['image_id']) for row in rows} == set(images[:2])
+    assert source.read_bytes() == before
+    assert not list(tmp_path.rglob('*.qpx-tmp-*'))
 
 
 def test_project_snapshot_survives_image_rename_remove_run_removal_and_source_close():

@@ -1,0 +1,34 @@
+{
+  "schema": "qpx.coco-references/1",
+  "profile": "coco-instance-pixel-masks/1",
+  "upstream": "https://github.com/cocodataset/cocoapi",
+  "terms": "BSD-2-Clause code and notices only; no dataset/image/model assets admitted",
+  "commit": "8c9bcc3cf640524c4c20a9c40e89cb6a2f2fa0e9",
+  "members": {
+    "license.txt": {
+      "url": "https://raw.githubusercontent.com/cocodataset/cocoapi/8c9bcc3cf640524c4c20a9c40e89cb6a2f2fa0e9/license.txt",
+      "sha256": "bd8ef15597b3b292f3bb0feed9701c1ace5bcebe07f28fb5047ec8d3d89471b1",
+      "bytes": 1533
+    },
+    "common/maskApi.c": {
+      "url": "https://raw.githubusercontent.com/cocodataset/cocoapi/8c9bcc3cf640524c4c20a9c40e89cb6a2f2fa0e9/common/maskApi.c",
+      "sha256": "c629b3a9116b75f79bf04174c0d9b826ffe73bb885bf44c83139a1cb9e7defe4",
+      "bytes": 8308
+    },
+    "common/maskApi.h": {
+      "url": "https://raw.githubusercontent.com/cocodataset/cocoapi/8c9bcc3cf640524c4c20a9c40e89cb6a2f2fa0e9/common/maskApi.h",
+      "sha256": "c9876e28a962d9022b14bf2936377ce6ea604d6665bb8497621e61fc3fa1d017",
+      "bytes": 2176
+    },
+    "PythonAPI/pycocotools/coco.py": {
+      "url": "https://raw.githubusercontent.com/cocodataset/cocoapi/8c9bcc3cf640524c4c20a9c40e89cb6a2f2fa0e9/PythonAPI/pycocotools/coco.py",
+      "sha256": "61b97f193862b48f8e4c61430dd15704794b44d68ae8284f12f8bfbcb420ebbe",
+      "bytes": 18806
+    },
+    "PythonAPI/pycocotools/mask.py": {
+      "url": "https://raw.githubusercontent.com/cocodataset/cocoapi/8c9bcc3cf640524c4c20a9c40e89cb6a2f2fa0e9/PythonAPI/pycocotools/mask.py",
+      "sha256": "4d4788f995971c97c5548f0bd19941f6ec1faaf5d0d7fb6ec489256ff872c617",
+      "bytes": 4591
+    }
+  }
+}

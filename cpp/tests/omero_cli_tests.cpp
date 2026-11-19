@@ -37,7 +37,7 @@ struct Transport : OmeroTransport {
         responses[url] = {200, "application/json", {}, {text.begin(), text.end()}};
     }
 };
-std::shared_ptr<Transport> fixture() {
+std::shared_ptr<Transport> fixture(unsigned dimension = 2) {
     auto transport = std::make_shared<Transport>();
     transport->json(
         server + "api/",
@@ -47,8 +47,8 @@ std::shared_ptr<Transport> fixture() {
                         {"Name", "CLI fixture"},
                         {"Pixels",
                          {{"@id", 19},
-                          {"SizeX", 2},
-                          {"SizeY", 2},
+                          {"SizeX", dimension},
+                          {"SizeY", dimension},
                           {"SizeC", 1},
                           {"SizeZ", 1},
                           {"SizeT", 1},
@@ -85,8 +85,8 @@ std::shared_ptr<Transport> fixture() {
         Json::parse(
             R"({"multiscales":[{"version":"0.4","axes":[{"name":"y","type":"space","unit":"micrometer"},{"name":"x","type":"space","unit":"micrometer"}],"datasets":[{"path":"0","coordinateTransformations":[{"type":"scale","scale":[0.5,0.5]}]}]}]})"));
     transport->json(store + "0/.zarray", {{"zarr_format", 2},
-                                          {"shape", {2, 2}},
-                                          {"chunks", {2, 2}},
+                                          {"shape", {dimension, dimension}},
+                                          {"chunks", {dimension, dimension}},
                                           {"dtype", ">u2"},
                                           {"order", "C"},
                                           {"fill_value", 0},
@@ -94,6 +94,12 @@ std::shared_ptr<Transport> fixture() {
                                           {"compressor", nullptr}});
     transport->responses[store + "0/0.0"] = {
         200, "application/octet-stream", {}, {0, 0, 0, 1, 0, 100, 255, 255}};
+    if (dimension != 2) {
+        auto& payload = transport->responses.at(store + "0/0.0").body;
+        payload.resize(std::size_t(dimension) * dimension * 2);
+        for (std::size_t i = 0; i < payload.size(); ++i)
+            payload[i] = static_cast<std::uint8_t>(i ^ (i >> 8));
+    }
     return transport;
 }
 struct Streams {
@@ -183,6 +189,49 @@ void routes(const fs::path& root, const std::shared_ptr<Transport>& transport) {
     const std::string bytes((std::istreambuf_iterator<char>(file)), {});
     check(bytes.size() >= 4 && bytes.substr(bytes.size() - 4) == std::string("\1\0\xff\xff", 4),
           "CLI raw export lost exact selected values/endian");
+    const auto bundle = root / "raw.zip";
+    const std::vector<std::string> bundle_flags{"--id", "7", "--x", "1", "--width", "1",
+        "--height", "2", "--max-chunks", "1", "--transfer-bytes", "4096", "--bundle", bundle.u8string()};
+    const auto bundled = report(run("raw", bundle_flags, transport));
+    check(bundled.at("output_layout") == "raw-and-receipt-zip" &&
+              bundled.at("receipt") == value.at("receipt") && fs::is_regular_file(bundle),
+          "Bundle changed raw provenance or did not publish");
+    auto offline = fixture();
+    auto verified = invoke({"verify-raw-bundle", bundle.u8string()}, offline);
+    check(verified.status == 0 && verified.error.empty() && offline->requests.empty(),
+          "Bundle verification required transport");
+    const auto verified_report = Json::parse(verified.output);
+    check(verified_report.at("state") == "verified" &&
+              verified_report.at("receipt") == bundled.at("receipt"),
+          "Offline verification changed the bundle receipt");
+    check(invoke({"verify-raw-bundle", bundle.u8string()}, offline, true).status == 130 &&
+              offline->requests.empty(),
+          "Cancelled bundle verification required transport");
+    const auto extracted = root / "extracted.npy";
+    const std::vector<std::string> extract_args{"extract-raw-bundle", bundle.u8string(), extracted.u8string()};
+    check(invoke({"extract-raw-bundle", bundle.u8string()}, offline).status == 2,
+          "Extraction with no destination did not refuse its arguments");
+    check(invoke(extract_args, offline, true).status == 130 && !fs::exists(extracted),
+          "Cancelled bundle extraction created output");
+    const auto extracted_result = invoke(extract_args, offline);
+    check(extracted_result.status == 0 && extracted_result.error.empty() && offline->requests.empty(),
+          "Bundle extraction required transport or failed");
+    const auto extracted_report = Json::parse(extracted_result.output);
+    check(extracted_report.at("state") == "extracted" &&
+              extracted_report.at("receipt") == verified_report.at("receipt"),
+          "Extraction changed the verified receipt");
+    std::ifstream extracted_stream(extracted, std::ios::binary);
+    check(std::string((std::istreambuf_iterator<char>(extracted_stream)), {}) == bytes,
+          "Extracted NPY differs from the standalone export");
+    check(invoke(extract_args, offline).status == 1 && offline->requests.empty(),
+          "Existing extraction destination did not refuse offline");
+
+    const auto large_bundle = root / "multi-block.zip";
+    report(run("raw", {"--id", "7", "--width", "257", "--height", "257", "--max-chunks", "1",
+                       "--transfer-bytes", "1048576", "--bundle", large_bundle.u8string()}, fixture(257)));
+    auto unused = fixture();
+    check(run("raw", bundle_flags, unused).status != 0 && unused->requests.empty(),
+          "Existing bundle did not refuse before network work");
     const auto rois = root / "rois.geojson", exchange = root / "exchange.json";
     check(report(run("rois", {"--id", "7", "--z", "0", "--t", "0", "--output", rois.u8string()},
                      transport))
@@ -214,7 +263,9 @@ void refusals(const fs::path& root) {
         {"image", "--server", server, "--id", "7", "--timeout-ms", "99"},
         {"rois", "--server", server, "--id", "7", "--z", "4294967296", "--output", "unused"},
         {"raw", "--server", server, "--id", "7", "--width", "1", "--output", "unused", "--receipt",
-         "unused-json"}};
+         "unused-json"},
+        {"raw", "--server", server, "--id", "7", "--width", "1", "--height", "1",
+         "--bundle", "mixed.zip", "--receipt", "mixed.json"}};
     for (const auto& args : invalid) {
         auto transport = fixture();
         const auto result = invoke(args, transport);
@@ -230,6 +281,8 @@ void refusals(const fs::path& root) {
     before_io("preview", {"--id", "7", "--output", (root / "preview.jpg").u8string()});
     before_io("raw", {"--id", "7", "--width", "1", "--height", "1", "--output",
                       (root / "same").u8string(), "--receipt", (root / "same").u8string()});
+    before_io("raw", {"--id", "7", "--width", "1", "--height", "1", "--bundle",
+                      (root / "missing-parent" / "raw.zip").u8string()});
 #ifdef _WIN32
     before_io("raw",
               {"--id", "7", "--width", "1", "--height", "1", "--output",

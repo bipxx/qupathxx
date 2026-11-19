@@ -38,6 +38,16 @@ unsaved. Undo history and live selection are preserved. A subsequent save captur
 those newer edits. Save-as resolves relative links against its actual destination
 and preserves the previous primary.
 
+Project saves protect linked inputs and known companions from the SQLite
+database, rollback journal, WAL and SHM paths. New-file publication with
+`Project::save_new` uses a private staging database and checks the final
+project and sidecar paths so the resulting project can reopen safely.
+
+Save As checks the actual destinations for new managed QMX matrices and QPR
+archives against every saved image and attached label source. It rechecks
+before publishing a copy. An offline linked store still reserves its saved
+path.
+
 Completion applies only if the original live instance, base path and generation
 still match. If a caller restored/replaced that project or saved it separately,
 the file can be committed while its live acknowledgment is rejected. Status is
@@ -92,11 +102,14 @@ streaming project serializer claim.
 A killed writer can leave SQLite's hot rollback journal. Read-only connections
 cannot roll it back. The native database opener now probes its header read and
 retries **only** `SQLITE_READONLY_ROLLBACK` using a temporary read/write connection
-without file creation. SQLite recovers its transaction, then the loader returns
-to a read-only connection. Normal opening, including schema 1, stays read-only
+without file creation. Before retrying, the opener checks the native project
+application ID and the SQLite rollback journal signature. If an unrelated
+file occupies the journal path, the opener reports the conflict and preserves
+both files. SQLite recovers a genuine transaction, then the loader returns to
+a read-only connection. Normal opening, including schema 1, stays read-only
 and performs no migration. Recovery requires write access to the database and
-journal directory; permission failure leaves the journal for a later writable
-open. No journal file is guessed at or manually deleted by the application.
+journal directory. Permission failure leaves the journal for a later writable
+open.
 
 ## Evidence
 

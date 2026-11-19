@@ -4,6 +4,7 @@ import json
 import os
 from pathlib import Path
 import shutil
+import subprocess
 
 import numpy as np
 import pytest
@@ -34,6 +35,140 @@ def corpus(tmp_path):
     for item,name in zip(data['images'],('slide%20%CE%B1.ome.tif','gray.ome.tif'),strict=True):
         item['serverBuilder']['uri']='file:///qpx-missing-original/sources/'+name
     update_project(path,data);return path
+
+
+@pytest.fixture
+def project_format_cli(tmp_path):
+    executable = Path(os.environ.get('QUPATHXX_TEST_FORMAT_IMPORT') or Path(q.__file__).with_name(
+        'qupathxx_format_import.exe' if os.name == 'nt' else 'qupathxx_format_import'))
+    if not executable.is_file():
+        pytest.skip('native format CLI is unavailable')
+
+    def run(*args, error=None):
+        result = subprocess.run([executable, *map(str, args)], cwd=tmp_path, capture_output=True,
+                                encoding='utf-8', timeout=30)
+        if error is not None:
+            assert result.returncode == 2 and error in json.loads(result.stderr)['error'], result
+            return None
+        assert result.returncode == 0, result
+        return json.loads(result.stdout)
+
+    return run
+
+
+def test_project_cli_previews_imports_and_reopens_both_images(project_format_cli, tmp_path):
+    run = project_format_cli
+    source = corpus(tmp_path)
+    original = {p: p.read_bytes() for p in source.parent.parent.rglob('*') if p.is_file()}
+    exchange = source.parent / 'alternate-exchange'
+    shutil.copytree(source.parent / 'qupathxx-exchange', exchange)
+    first_image = source.parent.parent / 'sources/slide α.ome.tif'
+    options = ('--exchange', exchange, '--source', '1', first_image)
+    report = run('qupath-project-preview', source, *options)
+    assert report['state'] == 'reviewed' and report['issues'] == []
+    assert [(row['source_id'], row['objects']) for row in report['images']] == [('1', 2), ('2', 2)]
+    assert report['review_sha256'] == run('qupath-project-preview', source, *options)['review_sha256']
+    destination = tmp_path / 'imported.qpx'
+    saved = run('qupath-project-import', source, destination, *options, '--expect-review', report['review_sha256'])
+    assert saved['state'] == 'saved' and saved['images'] == report['images']
+    for image in saved['images']:
+        wire = tmp_path / (image['source_id'] + '.geojson')
+        assert run('geojson-export', destination, image['native_id'], wire)['features'] == 2
+        features = json.loads(wire.read_bytes())['features']
+        assert [row['properties']['name'] for row in features] == ['Parent α', 'Child']
+        assert features[1]['properties']['qupathxx']['parentId'] == features[0]['id']
+    assert all(p.read_bytes() == content for p, content in original.items())
+
+
+def test_project_cli_rejects_stale_review_and_requires_loss_acceptance(project_format_cli, tmp_path):
+    run = project_format_cli
+    source = corpus(tmp_path)
+    first_image = source.parent.parent / 'sources/slide α.ome.tif'
+    preview = run('qupath-project-preview', source)
+    replacement = tmp_path / 'replacement.tif'
+    shutil.copyfile(first_image, replacement)
+    replacement.replace(first_image)
+    output = tmp_path / 'out.qpx'
+    run('qupath-project-import', source, output, '--expect-review', preview['review_sha256'], error='review changed')
+    assert not output.exists()
+
+    first_image.rename(replacement)
+    preview = run('qupath-project-preview', source)
+    assert {issue['code'] for issue in preview['issues']} == {'missing_image'}
+    run('qupath-project-import', source, output, '--expect-review', preview['review_sha256'], error='reported losses')
+    assert not output.exists()
+    replacement.rename(first_image)
+    run('qupath-project-import', source, output, '--expect-review', preview['review_sha256'], error='review changed')
+    assert not output.exists()
+    first_image.rename(replacement)
+    preview = run('qupath-project-preview', source)
+    saved = run('qupath-project-import', source, output, '--expect-review', preview['review_sha256'], '--allow-losses')
+    assert [image['available'] for image in saved['images']] == [False, True]
+    assert run('geojson-export', output, saved['images'][1]['native_id'], tmp_path / 'remaining.geojson')['features'] == 2
+
+
+def test_project_cli_migration_preserves_explicit_native_plugin_view(project_format_cli, tmp_path):
+    manifest = os.environ.get('QUPATHXX_TEST_VTI_READER_MANIFEST')
+    fixture = os.environ.get('QUPATHXX_TEST_VTI_FIXTURE')
+    region = os.environ.get('QUPATHXX_TEST_TIFF_REGION')
+    if not (manifest and fixture and region):
+        pytest.skip('VTI provider, fixture and native region CLI are required')
+    image = tmp_path / 'arrays.vti'
+    shutil.copyfile(fixture, image)
+    project = tmp_path / 'foreign.qpproj'
+    write(project, {'version': '0.7.0', 'images': [{
+        'entryID': 3, 'imageName': 'VTI view', 'serverBuilder': {
+            'builderType': 'uri', 'providerClassName': 'qupath.lib.images.servers.imageio.ImageIoImageServerBuilder',
+            'uri': image.as_uri(), 'args': [], 'metadata': {'width': 3, 'height': 2, 'sizeZ': 2, 'sizeT': 1,
+                                                           'channels': [{}], 'pixelType': 'UINT16'},
+        },
+    }]})
+    original = (project.read_bytes(), image.read_bytes())
+    run = project_format_cli
+    plugin = ('--reader-plugins', manifest)
+    option = {'spacing_unit': 'mm', 'point_array': 'Auxiliary'}
+    flags = (*plugin, 'qupath-project-preview', project, '--source-reader', 3, 'org.qupathxx.vti')
+    preview = run(*flags, '--source-reader-options', 3, json.dumps(option))
+    assert preview['issues'] == [] and preview['images'][0]['reader'] == 'org.qupathxx.vti'
+    assert preview['images'][0]['available']
+    alternative = {**option, 'point_array': 'Research samples'}
+    other = run(*flags, '--source-reader-options', 3, json.dumps(alternative))
+    assert other['issues'] == [] and other['images'] == preview['images']
+    assert other['review_sha256'] != preview['review_sha256']
+    saved = tmp_path / 'saved.qpx'
+    command = (*plugin, 'qupath-project-import', project, saved, '--source-reader', 3, 'org.qupathxx.vti',
+               '--expect-review', preview['review_sha256'], '--source-reader-options', 3)
+    run(*command, json.dumps(alternative), error='review changed')
+    assert not saved.exists()
+    run(*command, json.dumps(option))
+    [restored] = run(*plugin, 'project-images', saved)['images']
+    assert restored['available'] and restored['reader_plugin']['options'] == option
+    pixels = tmp_path / 'plane.npy'
+    result = subprocess.run([region, *plugin, '--raw-project', saved, '1', pixels, '--z', '1'],
+                            capture_output=True, encoding='utf-8', timeout=30)
+    assert result.returncode == 0, result.stderr
+    codes = np.load(pixels)
+    assert codes.dtype == np.uint16 and codes.shape == (2, 3, 1)
+    assert codes.ravel().tolist() == [1000 + 9 * code for code in range(6, 12)]
+    run(*plugin, 'qupath-project-preview', project, '--source-reader-options', 3, '{}', error='requires --source-reader')
+    run(*plugin, 'qupath-project-preview', project, '--source-reader', 4, 'org.qupathxx.vti', error='unknown entry ID')
+    assert (project.read_bytes(), image.read_bytes()) == original
+
+
+def test_project_cli_native_saved_data_and_protected_missing_index(project_format_cli, tmp_path):
+    run = project_format_cli
+    source = corpus(tmp_path)
+    exchange = tmp_path / 'empty-exchange'
+    exchange.mkdir()
+    index = exchange / 'index.json'
+    preview = run('qupath-project-preview', source, '--exchange', exchange)
+    assert preview['issues'] == [] and [row['objects'] for row in preview['images']] == [2, 2]
+    options = ('--exchange', exchange, '--expect-review', preview['review_sha256'])
+    run('qupath-project-import', source, index, *options, error='must not replace its input')
+    assert not index.exists()
+    native = tmp_path / 'native.qpx'
+    assert run('qupath-project-import', source, native, *options)['state'] == 'saved'
+    assert run('geojson-export', native, 1, tmp_path / 'native.geojson')['features'] == 2
 
 
 def test_pinned_project_and_exchange_identity():

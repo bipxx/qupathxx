@@ -12,6 +12,8 @@ import subprocess
 import sys
 
 ROOT = Path(__file__).resolve().parents[2]
+VERSION = "1.2.0"
+CONTRACT = "webp-static-uint8-samples/3"
 PRODUCT = ("CMakeLists.txt", "webp_reader.cpp", "reader_plugin_profile.hpp.in", "write_manifest.cmake",
            "webp_memory_backend.c", "webp_memory_backend.h", "libwebp-source-lock.json")
 OWN_FILES = tuple("plugins/webp/" + name for name in PRODUCT) + (
@@ -63,7 +65,7 @@ def main():
     entries = json.loads(manifest_bytes)["plugins"]
     if (len(entries) != 1 or entries[0]["provider_id"] != "org.qupathxx.webp"
             or entries[0]["module"]["sha256"] != sha(module)
-            or entries[0]["version"] != "1.0.0" or entries[0]["contract"] != "webp-static-lossless-uint8-samples/1"
+            or entries[0]["version"] != VERSION or entries[0]["contract"] != CONTRACT
             or entries[0]["abi"] != 1 or entries[0]["dependencies"] != []
             or "options" in entries[0]
             or entries[0]["capabilities"] != {"display_rgba": True, "raw_samples": True}
@@ -124,13 +126,15 @@ def main():
                  tuple(dict.fromkeys(product_parents + kit_parents + deps)))
     add("reader-plugins.json", manifest_bytes, "Hash-bound WebP runtime manifest", (binary,), kind="asset")
     guide = ("# Native WebP plugin package\n\n"
-             "Provider `org.qupathxx.webp` version1.0.0, contract `webp-static-lossless-uint8-samples/1`.\n\n"
+             f"Provider `org.qupathxx.webp` version {VERSION}, contract `{CONTRACT}`.\n\n"
              "See the [complete profile/build/use guide](source/plugins/webp/README.md) "
              "and [delivery receipt](source/docs/benchmarks/webp-reader-plugin/README.md).\n\n"
              "Keep the DLL, reader-plugins.json and license together. Configure the absolute manifest "
-             "with --reader-plugins and select --reader org.qupathxx.webp. The native profile accepts empty options.\n\n"
-             "source/plugins/webp plus source/reader-plugin-kit are complete offline native build inputs. "
-             "Default tests OFF; the kit supplies private codec sources; no separate codec DLL, host/core or Python is needed. "
+             "with --reader-plugins and select --reader org.qupathxx.webp. Pass empty native options. "
+             "The profile reads still VP8L and VP8, including selected alpha layouts and bounded EXIF orientation. "
+             "Display and raw regions share the same pixel coordinates.\n\n"
+             "source/plugins/webp, source/reader-plugin-kit and source/deps/libwebp supply the complete offline native build inputs. "
+             "Tests default to OFF. "
              "See SOURCE.json and NOTICES.txt. Windows x64 MSVC1944/compiler19.44.35225.0, Release /MD.\n\n"
              "Close applications using the module before removing package-owned files; preserve user data.\n")
     add("README.md", guide.encode(), "Generated package-relative WebP guide", kind="asset")
@@ -140,8 +144,8 @@ def main():
               "Platform CRT requirements follow the recorded kit profile.\n"
               "No upstream test images, encoder, mux/demux or restricted materials are included.\n")
     add("NOTICES.txt", notice.encode(), "Generated WebP component notice", kind="notice")
-    provenance = {"schema": "qpx.webp-reader-package/1", "provider_id": "org.qupathxx.webp", "version": "1.0.0",
-                  "contract": "webp-static-lossless-uint8-samples/1", "profile": entries[0]["profile"], "module_sha256": sha(module),
+    provenance = {"schema": "qpx.webp-reader-package/1", "provider_id": "org.qupathxx.webp", "version": VERSION,
+                  "contract": CONTRACT, "profile": entries[0]["profile"], "module_sha256": sha(module),
                   "product_source_sha256": context, "product_inputs": product_hashes,
                   "validation_sha256": sha(args.validation.read_bytes()), "components": {"adapter": "AGPL-3.0-only", "libwebp": "BSD-3-Clause; PATENTS/AUTHORS retained"},
                   "codec_commit": lock["commit"],

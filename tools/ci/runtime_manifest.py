@@ -22,6 +22,16 @@ pe = importlib.util.module_from_spec(spec)
 exec(compile(Path(spec.origin).read_bytes(),spec.origin,"exec",dont_inherit=True),pe.__dict__)
 
 SCHEMA = 'qpx.windows-package-manifest/1'
+NATIVE_CANDIDATE = 'qupathxx-windows-x64-candidate.zip'
+READER_WORKFLOW = 'qupathxx-windows-x64-reader-workflow-local.zip'
+READER_WORKFLOW_ROOTS = (
+    'qupathxx/qupathxx_format_import.exe',
+    'providers/counts/qpx_counts_tsv_plugin.dll',
+    'providers/counts/qpx_point_tsv_plugin.dll',
+    'providers/geometry/qpx_geometry_tsv_plugin.dll',
+    'providers/metaimage/qpx_metaimage_plugin.dll',
+    'providers/vti/qpx_vti_plugin.dll',
+)
 OS_DLLS = frozenset(('advapi32 bcrypt cabinet cfgmgr32 comctl32 comdlg32 crypt32 d3d11 dbghelp dnsapi dwmapi dxgi '
                     'gdi32 imm32 iphlpapi kernel32 mpr msimg32 ncrypt netapi32 normaliz ntdll ole32 oleaut32 '
                     'opengl32 powrprof propsys psapi rpcrt4 secur32 setupapi shell32 shlwapi user32 userenv '
@@ -98,10 +108,12 @@ def _dependency_closures(roots, edges, python_dll):
                     pending.append(edge['target'])
                 else:
                     requirements.add((edge['dependency'], edge['resolution']))
-        if root.endswith('.exe'):
-            require(not any(category == 'cpython-host-runtime' for _, category in requirements), 'native executable transitively depends on Python')
-        else:
+        if root.endswith('.pyd'):
             require((python_dll, 'cpython-host-runtime') in requirements, 'native extension lacks expected CPython runtime')
+        else:
+            kind = 'executable' if root.endswith('.exe') else 'library'
+            require(not any(category == 'cpython-host-runtime' for _, category in requirements),
+                    f'native {kind} transitively depends on Python')
         closures.append(dict(entry_point=root, bundled_images=sorted(visited),
                              external_requirements=[dict(name=name, kind=kind) for name, kind in sorted(requirements)]))
     return closures
@@ -112,8 +124,10 @@ def inspect_archive(path, gui=False, max_file_bytes=256*1024*1024, max_total_byt
     require(1 <= max_file_bytes <= 256*1024*1024 and 1 <= max_total_bytes <= 1024*1024*1024 and
             1 <= max_files <= 10000 and 1 <= max_dependency_edges <= 100000, 'invalid manifest budgets')
     python_tag = python_dll = None
+    reader_workflow = native_archive and path.name == READER_WORKFLOW
     if native_archive:
-        require(path.name == 'qupathxx-windows-x64-candidate.zip', 'require named Windows native candidate archive')
+        require(path.name == NATIVE_CANDIDATE or reader_workflow, 'require named Windows native candidate archive')
+        require(not reader_workflow or gui, 'the reader workflow requires its desktop entry point')
     else:
         tags = re.fullmatch(r'qupathxx-[A-Za-z0-9_.+]+(?:-[A-Za-z0-9_.]+)?-(cp3[0-9]+)-\1-win_amd64\.whl', path.name)
         require(tags is not None, 'require qupathxx CPython Windows x64 wheel filename')
@@ -181,7 +195,7 @@ def inspect_archive(path, gui=False, max_file_bytes=256*1024*1024, max_total_byt
         for parent in PurePosixPath(directory).parents:
             if str(parent) != '.':
                 require(str(parent).casefold() not in by_case, 'archive directory parent is also a file')
-    prefix = '' if native_archive else 'qupathxx/'
+    prefix = '' if native_archive and not reader_workflow else 'qupathxx/'
     roots = [prefix+'qupathxx_batch.exe', prefix+'qupathxx_region.exe']
     if prefix+'qupathxx_spatial_counts.exe' in binaries:
         roots.append(prefix+'qupathxx_spatial_counts.exe')
@@ -191,6 +205,8 @@ def inspect_archive(path, gui=False, max_file_bytes=256*1024*1024, max_total_byt
         roots.append(prefix+'qupathxx_app.exe')
     else:
         require(prefix+'qupathxx_app.exe' not in binaries, 'GUI app in headless package')
+    if reader_workflow:
+        roots.extend(READER_WORKFLOW_ROOTS)
     require(all(name in binaries for name in roots), 'required native entry point is missing')
     edges, externals = [], set()
     for name, binary in sorted(binaries.items()):

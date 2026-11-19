@@ -1,0 +1,39 @@
+AnnData Zarr native provider: selected component and reference context
+
+The first-party native provider and private Zarr reader retain AGPL-3.0-only.
+The package must retain the complete repository LICENSE and matching source.
+This notice does not replace component license texts or corresponding sources.
+
+The only linked decoder dependency is the exact frozen prefixed zlib1.3.2
+static library under the Zlib license. Its full original LICENSE and matching
+source archive/build configuration accompany or remain explicit required
+companions of a distribution. No system or external codec fallback is used.
+
+Nonexecuted, unmodified schema/reference context, retained separately:
+
+1. AnnData0.12.7, scverse and Theis Lab contributors, BSD-3-Clause.
+   https://github.com/scverse/anndata/tree/b796d59fea77f5e068d4c0ed8bb9d3f7c5316c19
+   Selected files: LICENSE; docs/fileformat-prose.md.
+   The exact version defines AnnData, dataframe, array, sparse and string-array
+   encodings. No AnnData/Python runtime, upstream dataset or example asset is
+   linked, executed or packaged as a scientific fixture.
+
+2. Zarr Storage Specification Version2, Zarr Developers and contributors,
+   Creative Commons Attribution4.0 International (CC-BY-4.0), unmodified.
+   https://github.com/zarr-developers/zarr-specs/tree/6e42439084ca766e80ca0877fed9e0d076905cba
+   Selected files: LICENSE; docs/v2/v2.0.rst.
+   Original specification attribution, source URI, full license text and exact
+   source identity remain with the reference. No endorsement or wider patent
+   rights are asserted. This does not relabel the native implementation CC-BY.
+
+3. Numcodecs0.15.1, copyright2015-2018 Zarr Developers, MIT.
+   https://github.com/zarr-developers/numcodecs/tree/3cf8ab1f28e6fbda24fa16c33654cf560a8d4ae2
+   Selected files: LICENSE.txt; numcodecs/vlen.pyx.
+   The nonexecuted reference establishes VLenUTF8 byte framing. The native
+   reader independently checks count/length/UTF8/chunk bounds; it does not load
+   Python, pickle, arbitrary object codecs or the Cython implementation.
+
+The exact six reference members, their license texts and per-member SHA256 are
+listed in source-lock.json and the packet reference intake. These sources keep
+their distinct original terms when redistributed. No source/image/model/data
+asset is admitted because another component or its container is openly licensed.

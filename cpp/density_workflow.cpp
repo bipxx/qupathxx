@@ -6,6 +6,11 @@
 #include "qupathxx/project.hpp"
 #include "qupathxx/file_fingerprint.hpp"
 #include "atomic_export.hpp"
+#include "expression_matrix_project_internal.hpp"
+#include "expression_reduction_internal.hpp"
+#include "filesystem_access.hpp"
+#include "project_source_internal.hpp"
+#include "reader_file_guard.hpp"
 #include "strict_json.hpp"
 #include <algorithm>
 #include <filesystem>
@@ -41,7 +46,7 @@ std::uint64_t positive_id(const Json& value) {
     if(value.is_number_integer() && !value.is_number_unsigned() && value.get<std::int64_t>()<=0)throw std::invalid_argument("Checkpoint requires positive IDs");
     const auto id=value.get<std::uint64_t>();if(!id)throw std::invalid_argument("Checkpoint requires positive IDs");return id;
 }
-std::shared_ptr<const SpatialDensityResult> reuse_result(const std::filesystem::path& directory,const std::string& project_id,
+std::shared_ptr<const SpatialDensityResult> reuse_result(const std::filesystem::path& directory,const Project& source,
     ProjectDensityImage& row,const SpatialDensityRequest& request,DensityFormat format,std::uint64_t byte_limit,
     const std::atomic<bool>* c,std::vector<ReusedFile>& held) {
     const auto path=directory/("image-"+std::to_string(row.id)+".json");
@@ -54,7 +59,7 @@ std::shared_ptr<const SpatialDensityResult> reuse_result(const std::filesystem::
     const auto value=Json::parse(data);receipt_guard->verify(false,c);
     for(const auto* key:{"schema","project_id","image_id","engine","checkpoint","checkpoint_image_id","checkpoint_sha256","record_id","result_sha256","result_input_sha256"})
         if(!value.is_object() || !value.contains(key))throw std::invalid_argument("Checkpoint receipt is incomplete");
-    if(value.at("schema")!=detail::density_checkpoint_schema(format) || value.at("project_id")!=project_id || positive_id(value.at("image_id"))!=row.id)
+    if(value.at("schema")!=detail::density_checkpoint_schema(format) || value.at("project_id")!=source.identity() || positive_id(value.at("image_id"))!=row.id)
         throw std::invalid_argument("Checkpoint schema/source image identity differs");
     const auto& env=value.at("engine");
     for(const auto* name:{"source_tree_sha256","compiler","compiler_flags","configuration","platform","geos_version"})if(!env.at(name).is_string())throw std::invalid_argument("Invalid checkpoint engine");
@@ -71,6 +76,18 @@ std::shared_ptr<const SpatialDensityResult> reuse_result(const std::filesystem::
         row.reuse_reason="Saved result engine changed";return {};
     }
     if(!density_reuse_compatible(request,*stored)){row.reuse_reason="Captured inputs, policy or admission limits changed";return {};}
+    const auto current=source.source_verification(row.id),retained=saved->source_verification(image);
+    if(source.document(row.id)->server()->source_locator()!=doc->server()->source_locator() ||
+        bool(current)!=bool(retained) ||
+        (current && source_file_association_json(*current)!=source_file_association_json(*retained))) {
+        row.reuse_reason="Saved image source link or verification changed";
+        return {};
+    }
+    const auto checkpoint_directory=std::filesystem::u8path(guard->path()).parent_path();
+    const auto properties=doc->image_data_properties();
+    detail::verify_owned_expression_files(properties,checkpoint_directory,c);
+    detail::reduction::verify_owned_files(properties,checkpoint_directory,c);
+    guard->verify(false,c);receipt_guard->verify(false,c);
     row.reuse=format==DensityFormat::GuiV1?"reused":"checkpoint";
     row.reuse_reason="Unchanged native capture; saved record replayed (not recomputed)";
     row.checkpoint=guard->path();row.checkpoint_sha256=guard->sha256();row.checkpoint_image=image;row.record=record;
@@ -153,12 +170,22 @@ ProjectDensityReport execute_density(ProjectDensityReport report,const std::stri
     report.source=source.path();report.source_sha256=source.sha256();report.project_id=project->identity();
     const auto directory=std::filesystem::weakly_canonical(std::filesystem::u8path(export_path(output)));
     if(std::filesystem::exists(directory))throw WorkflowOutputExists("Choose a new output directory");
-    std::vector<std::filesystem::path> protected_inputs={std::filesystem::u8path(source.path())};
-    if(manifest)protected_inputs.push_back(std::filesystem::u8path(manifest->path()));
+    const auto guard_input=[&](const std::filesystem::path& input) {
+        if(within(input,directory))
+            throw std::invalid_argument("Output directory contains a protected project, manifest, image or label input");
+    };
+    guard_input(std::filesystem::u8path(source.path()));
+    if(manifest) guard_input(std::filesystem::u8path(manifest->path()));
     const auto catalog=project->images();
-    for(const auto& image:catalog)if(!image.embedded && !image.source_path.empty())
-        protected_inputs.push_back(std::filesystem::weakly_canonical(std::filesystem::u8path(export_path(image.source_path))));
-    for(const auto& input:protected_inputs)if(within(input,directory))throw std::invalid_argument("Output directory contains a protected project/manifest/image input");
+    const auto protected_output=detail::access_path(directory,true).u8string();
+    const auto guard_link=[&](const std::string& path) {
+        guard_input(std::filesystem::weakly_canonical(std::filesystem::u8path(export_path(path))));
+    };
+    detail::visit_project_inputs(*project,catalog,[&](const std::string& path,bool is_directory) {
+        if(is_directory)
+            detail::guard_directory_output(detail::access_path(std::filesystem::u8path(path),true).u8string(),protected_output);
+        guard_link(path);
+    },c);
     std::filesystem::path previous;
     if(!options.resume_from.empty()) {
         previous=std::filesystem::canonical(std::filesystem::u8path(export_path(options.resume_from)));
@@ -197,7 +224,7 @@ ProjectDensityReport execute_density(ProjectDensityReport report,const std::stri
                 std::shared_ptr<const SpatialDensityResult> result;
                 if(!options.recompute && !previous.empty()) {
                     if(p)p->phase.store(5);
-                    result=reuse_result(previous,report.project_id,row,request,format,options.checkpoint_bytes,c,held);
+                    result=reuse_result(previous,*project,row,request,format,options.checkpoint_bytes,c,held);
                 }else row.reuse_reason=options.recompute?"Recomputation requested":"No previous run selected";
                 if(!result && format==DensityFormat::ProjectV1 && !options.recompute)result=source_record(*doc,row,request);
                 if(!result){if(p)p->kernel_calls.fetch_add(1);result=measure_spatial_density(request,c);}checkpoint(c);
@@ -207,12 +234,9 @@ ProjectDensityReport execute_density(ProjectDensityReport report,const std::stri
                 std::string chunk;
                 if(format==DensityFormat::GuiV1)chunk=csv_chunk(report,row,request,*result,checkpoint_path,record,format,options.csv_bytes-combined.size(),options.csv_bytes,c);
                 if(!from_checkpoint) {
-                    Project saved;std::vector<ObjectClass> classes;for(const auto& [name,value]:project->classes())classes.push_back(value);
-                    saved.set_class_registry(classes,project->class_defaults());saved.set_metadata(project->metadata());
-                    const auto image=saved.add_document(doc,row.name,found->embedded?"":found->source_path,found->reader);
-                    saved.set_image_metadata(image,project->image_metadata(row.id));saved.set_image_details(image,project->image_description(row.id),project->image_tags(row.id));
-                    if(auto view=project->view(row.id))saved.set_view(image,*view);if(p)p->phase.store(3);
-                    saved.save_new(checkpoint_path,512*mib,options.checkpoint_bytes,c,[&]{verify(false,c);});
+                    if(p)p->phase.store(3);
+                    const auto image=project->save_image_checkpoint(row.id,checkpoint_path,512*mib,
+                        options.checkpoint_bytes,c,[&]{verify(false,c);});
                     auto guard=std::make_unique<detail::WorkflowInput>(checkpoint_path,options.checkpoint_bytes,true,c);
                     row.record=record;row.checkpoint_image=image;row.checkpoint=guard->path();row.checkpoint_sha256=guard->sha256();held.push_back({std::move(guard)});
                 }
@@ -312,14 +336,14 @@ bool ProjectDensityReport::valid() const {
 }
 ProjectDensityReport preview_project_density(const std::string& path,const ProjectDensityRecipe& recipe,const std::atomic<bool>* c,ProjectDensityProgress* p) {
     recipe.validate();detail::WorkflowInput input(path,1024ull*mib,true,c);
-    auto report=detail::preview_density_input(input,recipe,c,p);input.verify(true,c);return report;
+    const auto project=Project::open_without_journal_recovery(input.path());
+    auto report=detail::preview_density_input(input,*project,recipe,c,p);input.verify(true,c);return report;
 }
-ProjectDensityReport detail::preview_density_input(const WorkflowInput& input,const ProjectDensityRecipe& recipe,const std::atomic<bool>* c,ProjectDensityProgress* p) {
+ProjectDensityReport detail::preview_density_input(const WorkflowInput& input,const Project& project,const ProjectDensityRecipe& recipe,const std::atomic<bool>* c,ProjectDensityProgress* p) {
     recipe.validate();checkpoint(c);ProjectDensityReport report;report.recipe=recipe;
     report.source=input.path();report.source_sha256=input.sha256();input.verify(false,c);
-    auto project=Project::open_without_journal_recovery(report.source);input.verify(false,c);
-    report.project_id=project->identity();report.state="preview";
-    const auto catalog=project->images();std::size_t captured_bytes=report.capture_bytes();
+    report.project_id=project.identity();report.state="preview";
+    const auto catalog=project.images();std::size_t captured_bytes=report.capture_bytes();
     auto ids=recipe.images;for(const auto& selected:recipe.selections) ids.push_back(selected.image_id);std::sort(ids.begin(),ids.end());
     if(recipe.all_images)for(const auto& image:catalog)ids.push_back(image.id);
     std::sort(ids.begin(),ids.end());
@@ -331,7 +355,7 @@ ProjectDensityReport detail::preview_density_input(const WorkflowInput& input,co
         try {
             const auto found=std::find_if(catalog.begin(),catalog.end(),[&](const auto& image){return image.id==id;});
             if(found==catalog.end())throw std::invalid_argument("Image is no longer in the source project");row.image_present=true;row.name=found->name;
-            auto doc=project->document(id);row.x=doc->pixel_width_um();row.y=doc->pixel_height_um();
+            auto doc=project.document(id);row.x=doc->pixel_width_um();row.y=doc->pixel_height_um();
             if(!recipe.selections.empty()) {
                 const auto selected=std::find_if(recipe.selections.begin(),recipe.selections.end(),[&](const auto& v){return v.image_id==id;});
                 row.ids=selected->ids;row.hint_record=selected->record_id;

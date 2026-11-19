@@ -1,0 +1,23 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+cmake_minimum_required(VERSION 3.24)
+project(qpx_ngff05_region_host LANGUAGES CXX)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED YES)
+set(CMAKE_MSVC_RUNTIME_LIBRARY MultiThreadedDLL)
+
+find_package(qupathxx 0.1.0 CONFIG REQUIRED COMPONENTS core)
+set(QPX_SOURCE_ROOT "" CACHE PATH "Matching source tree")
+set(QPX_STORE_HOST "" CACHE FILEPATH "Matching native directory-store host overlay archive")
+set(QPX_JSON_INCLUDE "" CACHE PATH "Matching JSON include directory")
+if(NOT EXISTS "${QPX_STORE_HOST}" OR NOT EXISTS "${QPX_JSON_INCLUDE}/nlohmann/json.hpp")
+  message(FATAL_ERROR "Provide the exact native store overlay and matching JSON headers")
+endif()
+
+add_library(qpx_store_host STATIC IMPORTED)
+set_target_properties(qpx_store_host PROPERTIES IMPORTED_LOCATION "${QPX_STORE_HOST}")
+set(src "${QPX_SOURCE_ROOT}/cpp")
+add_executable(qupathxx_region "${src}/region_main.cpp" "${src}/raw_cli.cpp" "${src}/region_export.cpp")
+target_include_directories(qupathxx_region PRIVATE "${src}" "${src}/include" "${QPX_JSON_INCLUDE}")
+target_compile_options(qupathxx_region PRIVATE /utf-8 /W4 /permissive- /bigobj)
+target_link_libraries(qupathxx_region PRIVATE qpx_store_host qupathxx::core)
+qupathxx_stage_runtime(qupathxx_region)

@@ -1,5 +1,7 @@
 #include "qupathxx/raw_pixel_stream_file.hpp"
 #include "raw_pixel_stream_internal.hpp"
+#include "raw_pixel_classifier_internal.hpp"
+#include "raw_pixel_features.hpp"
 #include "qupathxx/raw_pixel_stream_contours.hpp"
 #include "raw_stream_boundaries.hpp"
 #include "raw_pixel_stream_record.hpp"
@@ -71,10 +73,12 @@ void admit(const Descriptor& d,std::size_t header,const RawPixelStreamFileLimits
 void validate_descriptor(const Descriptor& d) {
     hash_check(d.epoch);hash_check(d.request_sha);if(!d.provenance) throw std::invalid_argument("raw stream provenance missing");d.provenance->validate();
     if(d.provenance->source.width!=d.lattice.image_width() || d.provenance->source.height!=d.lattice.image_height() || bool(d.mask)==d.provenance->source_only || (d.mask && !d.mask->is_area())) throw std::invalid_argument("raw stream source/ROI provenance mismatch");
-    const GridFraction x(d.lattice.x().extent(),d.lattice.x().samples()),y(d.lattice.y().extent(),d.lattice.y().samples());const auto sx=d.model.recipe().step_x(),sy=d.model.recipe().step_y();
-    if(x.numerator()!=sx.numerator() || x.denominator()!=sx.denominator() || y.numerator()!=sy.numerator() || y.denominator()!=sy.denominator()) throw std::invalid_argument("raw stream model/global sampling mismatch");
-    const auto& f=d.model.recipe().features();const auto derivative=f.gradient_magnitude || f.laplacian?1:0;if(d.lattice.x().context()<std::ceil(3*f.sigmas.back().x)+derivative || d.lattice.y().context()<std::ceil(3*f.sigmas.back().y)+derivative) throw std::invalid_argument("raw stream feature context mismatch");
-    if(raw_pixel_stream_request_sha256(d,d.model,d.provenance->reader,d.epoch,{d.provenance->effective_pixel_width_um,d.provenance->effective_pixel_height_um},d.mask)!=d.request_sha) throw std::invalid_argument("raw stream request commitment mismatch");
+    const GridFraction x(d.lattice.x().extent(),d.lattice.x().samples()),y(d.lattice.y().extent(),d.lattice.y().samples());
+    const RawClassifierCalibration calibration{d.provenance->effective_pixel_width_um,d.provenance->effective_pixel_height_um};
+    if(!raw_pixel_sampling_matches(d.model.recipe(),x,y,calibration)) throw std::invalid_argument("raw stream model/global sampling mismatch");
+    const auto& f=d.model.recipe().features();
+    if(d.lattice.x().context()<detail::raw_feature_halo(f.sigmas.back().x,f) || d.lattice.y().context()<detail::raw_feature_halo(f.sigmas.back().y,f)) throw std::invalid_argument("raw stream feature context mismatch");
+    if(raw_pixel_stream_request_sha256(d,d.model,d.provenance->reader,d.epoch,calibration,d.mask)!=d.request_sha) throw std::invalid_argument("raw stream request commitment mismatch");
 }
 Bytes encode_header(const Descriptor& d,const RawPixelStreamFileLimits& limits) {
     validate_descriptor(d);const auto capacity=std::min<std::size_t>(header_limit,(limits.work_bytes-131072)/8);

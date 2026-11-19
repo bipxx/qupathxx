@@ -2,6 +2,7 @@
 #include "qupathxx/raw_pixel_classifier.hpp"
 namespace qpx {
 struct RawClassifierCalibration {std::optional<double> x,y;};
+bool raw_pixel_sampling_matches(const RawPixelRecipe&, GridFraction x, GridFraction y, RawClassifierCalibration);
 struct RawPixelClassificationPlan {RawPixelFeatureOptions features;std::size_t work;};
 struct RawPixelClassifierKernel {
     static RawPixelClassificationPlan plan(const RawImageMetadata&,const ScientificGrid&,const ScientificRawOptions&,

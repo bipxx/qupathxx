@@ -51,13 +51,23 @@ limit. These are component quotas; `byte_limit` is not a process-memory ceiling.
 
 ## Measurement and statistics contract
 
-A table requires `image_id` or the preferred `source_image_id`, plus
+A table requires `source_image_id`, `batch_image_id`, or `image_id`, in that
+order of preference, plus
 `source_object_id`/`source_object_revision` (with the existing
 `object_id`/`object_revision` fallback) and the requested numeric columns.
 Image and object selectors are canonical unsigned decimal integers. A row must
 resolve to a captured core in that image and match its recorded revision.
-Existing revision columns are always checked. Tables without revisions require
-explicit `allow_unversioned=True`.
+When a row supplies `source_object_id` and only `object_revision`, the legacy
+revision is checked against the selected core. If `object_id` is also supplied,
+both IDs must match before the legacy revision can be used. Tables without a
+revision column require explicit `allow_unversioned=True`.
+
+The native `--export-csv` command writes `batch_image_id` and
+`batch_project_identity` when exporting a project batch checkpoint. Both TMA
+file commands can use those columns directly. A supplied `batch_project_identity` or
+`project_identity` must match the project opened by the command. Conflicting
+source and batch image IDs are refused. The table digest still covers the exact
+bytes supplied to pooling for a single file. [Local Windows verification](../build/gui-aggregation/gap-closure/tma-batch-pooling/results.json)
 
 Present cores contribute raw rows to case sums, weighted sums, means, extrema
 and measured-core counts. This does not average previously aggregated core or
@@ -94,11 +104,38 @@ new-file publication. Existing destinations, input aliases and protected project
 or image sources are preserved. Failures leave no published result or abandoned
 export temporary. Native cancellation is checked during capture, row parsing,
 metadata construction, hashing and publication; Python bindings release the GIL.
+The case and cohort CLI exporters check saved linked image and NGFF label stores
+across the project before creating temporary files. This includes stores on
+unselected images, saved directory locations that are currently offline,
+and recorded companion paths for linked images.
 
 ```powershell
 qupathxx_batch --export-tma-cohort project.qpxproj cases.csv --image 1 --image 3 --measurements measurements.csv --value-column value --weight-column weight
+qupathxx_batch --export-tma-cohort project.qpxproj cases.csv --image 1 --image 3 --measurements image-1.csv --measurements image-3.csv --value-column mean_channel_1 --weight-column samples
 qupathxx_batch --export-tma-cohort project.qpxproj inventory.csv --all-tma-images
 ```
+
+Repeat `--measurements` to pool up to 4,096 distinct CSVs in either the cohort
+or [single-grid exporter](tissue-microarrays.md). Header fields must match byte
+for byte. Files can mix LF and CRLF record endings, and each file can omit the
+line ending after its final complete record. The input quota covers the sum of
+all file sizes, including repeated headers. A single file's digest covers its
+exact bytes. For multiple files the digest covers the first header and original
+rows in argument order. If an unterminated record needs a separator before
+another file's rows, the exporter inserts the first available header line
+ending. Aliases of the same input are refused, and all input files are rechecked
+before publication.
+
+A leading UTF-8 byte-order mark is accepted on each measurement file. Header
+matching ignores the mark. The exact single-file digest and the pooled digest
+retain a mark from the first file, and later file headers and marks are omitted.
+
+Use `--match-columns-by-name` when files contain the same unique column names
+in different orders. The first file sets the output digest's column order.
+The exporter rearranges the original field bytes into that order, preserving
+quoting, record order and line endings. Column sets must still match. Project,
+image, object and revision checks apply after matching.
+[Local Windows verification](../build/gui-aggregation/gap-closure/tma-column-order/results.json)
 
 Selection is explicit: repeated unique `--image` IDs and `--all-tma-images` are
 mutually exclusive. An explicitly selected image without a grid is an error.

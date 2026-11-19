@@ -3,6 +3,9 @@
 #include "qupathxx/project.hpp"
 #include "qupathxx/workflow.hpp"
 #include "expression_matrix_project_internal.hpp"
+#include "expression_matrix_export.hpp"
+#include "project_database_output.hpp"
+#include "project_source_internal.hpp"
 #include "filesystem_access.hpp"
 #include "reader_file_guard.hpp"
 #include "atomic_export.hpp"
@@ -16,6 +19,7 @@ namespace {
 namespace fs=std::filesystem;
 using V=ImageDataValue;
 constexpr const char* property="qupathxx.expression-matrices/1";
+constexpr const char* pending_property="qupathxx.pending-expression-attachment/1";
 constexpr std::uint64_t maximum_store=64ull*1024*1024*1024;
 
 void digest(const std::string& s) {
@@ -33,10 +37,10 @@ const V& field(const V::Map& m,const char* key) {
     if(it==m.end())throw std::invalid_argument("Incomplete expression association");
     return it->second;
 }
-const V::Map& records(const std::shared_ptr<const ImageDataProperties>& props) {
+const V::Map& records(const std::shared_ptr<const ImageDataProperties>& props,const char* key=property) {
     static const V::Map empty;
     if(!props)return empty;
-    const auto it=props->values().find(property);
+    const auto it=props->values().find(key);
     return it==props->values().end()?empty:typed<V::Map>(it->second);
 }
 ExpressionMatrixAssociation decode(const std::string& id,const V& v,bool disk=false) {
@@ -71,6 +75,12 @@ V encode(const ExpressionMatrixAssociation& a) {
         {"source_sha256",V{a.source_sha256}},{"features",V{std::int64_t(a.features)}},
         {"observations",V{std::int64_t(a.observations)}},{"entries",V{std::int64_t(a.entries)}}}};
 }
+ExpressionMatrixAssociation decode_pending(const std::string& id,const V& value) {
+    const auto association=decode(id,value);
+    if(!association.owned || !fs::u8path(association.path).is_absolute())
+        throw std::invalid_argument("Pending expression attachment requires an absolute owned source");
+    return association;
+}
 fs::path directory(const Project& project) {
     if(project.path().empty())throw std::invalid_argument("Save the project before retaining owned expression data");
     return fs::u8path(project.path()).parent_path();
@@ -99,38 +109,77 @@ void not_linked(const fs::path& path) {
         throw std::invalid_argument("Managed expression paths cannot be reparse points");
 #endif
 }
+void verify_owned_copy(const ExpressionMatrixAssociation& a,const fs::path& target,
+                       const std::atomic<bool>* cancelled) {
+    const auto existing=open_expression_matrix(target.u8string(),a.file_sha256,64u*1024*1024,maximum_store,cancelled);
+    matches(a,*existing);
+}
+
+void write_exact_qmx(const detail::ReaderFileGuard& guard,const std::string& digest,
+                     detail::AtomicExportFile& output,const std::atomic<bool>* cancelled) {
+    std::ifstream input(fs::u8path(guard.version()->path),std::ios::binary);
+    if(!input)throw WorkflowInputChanged("Cannot read expression matrix copy source");
+    std::array<char,65536> buffer;
+    Sha256 hash;
+    while(input) {
+        workflow_checkpoint(cancelled);
+        input.read(buffer.data(),buffer.size());
+        const auto count=std::size_t(input.gcount());
+        hash.update(buffer.data(),count);
+        output.write(buffer.data(),count);
+    }
+    if(!input.eof() || input.bad() || output.bytes()!=guard.version()->bytes || hash.finish()!=digest)
+        throw WorkflowInputChanged("Expression matrix copy differs from retained source");
+    guard.verify();
+}
+
 // No deletion or overwrite: shared content-addressed files survive Undo/removal.
 // A later project commit can fail leaving a complete unreferenced copy, never a
 // partial valid project or an advertised incomplete matrix.
-void copy_owned(const ExpressionMatrixAssociation& a,const std::string& source,
-                const fs::path& base,const std::atomic<bool>* cancelled) {
+bool copy_owned(const ExpressionMatrixAssociation& a,const std::string& source,
+                const fs::path& base,const std::atomic<bool>* cancelled,
+                const std::function<void(const std::string&)>& protect_output) {
     workflow_checkpoint(cancelled);
-    const auto folder=base/".qpx-expression",target=base/fs::u8path(owned_locator(a.file_sha256));
+    const auto target=detail::access_path(base/fs::u8path(owned_locator(a.file_sha256)),true);
+    const auto folder=target.parent_path();
+    const auto input_path=detail::access_path(fs::u8path(source));
     not_linked(folder);not_linked(target);
     if(fs::exists(target)) {
         // Ordinary saves preserve an existing owned reference without rehashing a
         // whole matrix. Exact integrity remains mandatory when opening/reading it.
         std::error_code error;
-        if(fs::equivalent(fs::u8path(source),target,error) && !error)return;
-        auto existing=open_expression_matrix(target.u8string(),a.file_sha256,64u*1024*1024,maximum_store,cancelled);
-        matches(a,*existing);return;
+        if(fs::equivalent(input_path,target,error) && !error)return false;
+        verify_owned_copy(a,target,cancelled);
+        return false;
     }
-    fs::create_directory(folder);not_linked(folder);
-    detail::ReaderFileGuard guard(source);
+    detail::ReaderFileGuard guard(input_path.u8string());
     for(const char* suffix:{"-wal","-shm","-journal"})
-        if(fs::exists(fs::u8path(source+suffix)))throw WorkflowInputChanged("Expression source has an active SQLite writer");
+        if(fs::exists(detail::access_path(fs::u8path(source+suffix))))throw WorkflowInputChanged("Expression source has an active SQLite writer");
     if(guard.version()->bytes>maximum_store)throw WorkflowCaptureLimit("Owned expression store exceeds64GiB");
-    std::ifstream input(fs::u8path(guard.version()->path),std::ios::binary);
-    if(!input)throw WorkflowInputChanged("Cannot read owned expression source");
+    protect_output(target.u8string());
+    fs::create_directory(folder);not_linked(folder);
     detail::AtomicExportFile output(target.u8string(),std::size_t(maximum_store),cancelled);
-    std::array<char,65536> buffer;Sha256 hash;
-    while(input) {
-        workflow_checkpoint(cancelled);input.read(buffer.data(),buffer.size());
-        const auto count=std::size_t(input.gcount());hash.update(buffer.data(),count);output.write(buffer.data(),count);
+    write_exact_qmx(guard,a.file_sha256,output,cancelled);
+    workflow_checkpoint(cancelled);not_linked(folder);not_linked(target);
+    protect_output(target.u8string());
+    try {
+        output.commit(false);
+        return true;
+    } catch(const std::runtime_error&) {
+        // A concurrent writer may publish the same content-addressed asset.
+        workflow_checkpoint(cancelled);
+        if(!fs::exists(target))throw;
+        not_linked(folder);not_linked(target);
+        verify_owned_copy(a,target,cancelled);
+        return false;
     }
-    if(!input.eof() || input.bad() || output.bytes()!=guard.version()->bytes || hash.finish()!=a.file_sha256)
-        throw WorkflowInputChanged("Owned expression copy differs from retained source");
-    guard.verify();workflow_checkpoint(cancelled);not_linked(folder);not_linked(target);output.commit(false);
+}
+void copy_into_project(const Project& project, const ExpressionMatrixAssociation& association,
+                       const std::string& source, const std::atomic<bool>* cancelled) {
+    const auto images = project.images();
+    copy_owned(association, source, directory(project), cancelled, [&](const std::string& target) {
+        detail::guard_project_inputs_output(project, images, target, cancelled);
+    });
 }
 void publish(Document& doc,V::Map all) {
     auto values=doc.image_data_properties()?doc.image_data_properties()->values():V::Map{};
@@ -147,21 +196,41 @@ void ExpressionMatrixAssociation::validate()const {
         throw std::invalid_argument("Invalid expression association locator");
 }
 void ExpressionMatrixAssociation::require_source(const ExpressionMatrixSource& source)const{validate();matches(*this,source);}
-std::string keep_expression_matrix(Project& project,std::uint64_t image,
-    std::shared_ptr<const ExpressionMatrixSource> source,bool owned,const std::atomic<bool>* cancelled) {
+namespace {
+std::string retain_matrix(Project& project,std::uint64_t image,
+    std::shared_ptr<const ExpressionMatrixSource> source,bool owned,bool pending,const std::atomic<bool>* cancelled,
+    detail::ExpressionAttachmentMode mode=detail::ExpressionAttachmentMode::NewOnly) {
     if(!source)throw std::invalid_argument("Expression association requires a source");
     workflow_checkpoint(cancelled);auto doc=project.document(image);
     const auto& m=source->metadata();ExpressionMatrixAssociation a{source->path(),source->file_sha256(),m.source_sha256,m.features,m.observations,m.entries,owned};
-    if(owned && !project.path().empty())a.path=owned_locator(a.file_sha256);a.validate();matches(a,*source);
-    auto all=records(doc->image_data_properties());
-    if(all.count(a.source_sha256))throw WorkflowOutputExists("Expression source already retained");
+    const bool copy_now=owned && !pending && !project.path().empty();
+    if(copy_now)a.path=owned_locator(a.file_sha256);a.validate();matches(a,*source);
+    const auto props=doc->image_data_properties();
+    if(records(props,pending_property).count(a.source_sha256))
+        throw WorkflowOutputExists("Expression source already retained");
+    auto values=props?props->values():V::Map{};
+    const auto& retained=records(props);
+    if(const auto existing=retained.find(a.source_sha256);existing!=retained.end()) {
+        if(mode!=detail::ExpressionAttachmentMode::ReuseExact)
+            throw WorkflowOutputExists("Expression source already retained");
+        matches(decode(existing->first,existing->second),*source);
+        auto remaining=retained;
+        remaining.erase(a.source_sha256);
+        if(remaining.empty())values.erase(property);else values[property]=V{std::move(remaining)};
+    }
+    const auto key=pending?pending_property:property;
+    auto all=records(props,key);
     all.emplace(a.source_sha256,encode(a));
     // Validate metadata capacity before publishing a managed file.
-    auto values=doc->image_data_properties()?doc->image_data_properties()->values():V::Map{};
-    values[property]=V{all};auto prepared=std::make_shared<const ImageDataProperties>(std::move(values));
+    values[key]=V{std::move(all)};auto prepared=std::make_shared<const ImageDataProperties>(std::move(values));
     source->require_current(cancelled);
-    if(owned && !project.path().empty())copy_owned(a,source->path(),directory(project),cancelled);
+    if(copy_now)copy_into_project(project,a,source->path(),cancelled);
     source->require_current(cancelled);doc->set_image_data_properties(std::move(prepared));return a.source_sha256;
+}
+}
+std::string keep_expression_matrix(Project& project,std::uint64_t image,
+    std::shared_ptr<const ExpressionMatrixSource> source,bool owned,const std::atomic<bool>* cancelled) {
+    return retain_matrix(project,image,std::move(source),owned,false,cancelled);
 }
 std::vector<std::string> expression_matrix_ids(const Project& project,std::uint64_t image) {
     std::vector<std::string> ids;
@@ -189,7 +258,7 @@ void relink_expression_matrix(Project& project,std::uint64_t image,const std::st
     std::shared_ptr<const ExpressionMatrixSource> source,const std::atomic<bool>* cancelled) {
     if(!source)throw std::invalid_argument("Expression relink requires a verified source");
     auto a=load_expression_matrix_association(project,image,id);matches(a,*source);source->require_current(cancelled);
-    if(a.owned && !project.path().empty())copy_owned(a,source->path(),directory(project),cancelled);else a.path=source->path();
+    if(a.owned && !project.path().empty())copy_into_project(project,a,source->path(),cancelled);else a.path=source->path();
     auto doc=project.document(image);auto all=records(doc->image_data_properties());all.at(id)=encode(a);
     source->require_current(cancelled);publish(*doc,std::move(all));
 }
@@ -208,20 +277,94 @@ void own_expression_matrix(Project& project,std::uint64_t image,const std::strin
     auto doc=project.document(image);auto all=records(doc->image_data_properties());all.at(id)=encode(a);
     auto values=doc->image_data_properties()->values();values[property]=V{std::move(all)};
     auto prepared=std::make_shared<const ImageDataProperties>(std::move(values));
-    if(!project.path().empty())copy_owned(a,source->path(),directory(project),cancelled);
+    if(!project.path().empty())copy_into_project(project,a,source->path(),cancelled);
     source->require_current(cancelled);doc->set_image_data_properties(std::move(prepared));
 }
 
 namespace detail {
+std::size_t backup_expression_matrix(const ExpressionMatrixSource& source,const std::string& output,
+    const std::atomic<bool>* cancelled,const std::function<void()>& protect_output) {
+    const auto destination=export_path(output);
+    const ReaderFileGuard guard(access_path(fs::u8path(source.path())).u8string());
+    if(guard.version()->bytes>maximum_store)throw WorkflowCaptureLimit("Expression backup exceeds 64 GiB");
+    const auto protect=[&] {
+        protect_output();
+        source.require_current(cancelled);
+        guard_project_database_output(source.path(),guard.version()->identity,destination);
+        if(has_sqlite_companion(destination))
+            throw WorkflowOutputExists("QMX backup destination has a SQLite companion");
+    };
+    protect();
+    if(fs::exists(access_path(fs::u8path(destination))))throw WorkflowOutputExists("QMX backup destination already exists");
+    AtomicExportFile copy(access_path(fs::u8path(destination),true).u8string(),
+                          std::size_t(guard.version()->bytes),cancelled);
+    write_exact_qmx(guard,source.file_sha256(),copy,cancelled);
+    protect();
+    copy.commit(false);
+    return copy.bytes();
+}
+
+RestoredOwnedMatrix restore_owned_expression_matrix(const std::string& input_path,
+    std::uint64_t image,const std::string& association_id,const std::string& backup,
+    const std::atomic<bool>* cancelled) {
+    workflow_checkpoint(cancelled);
+    const ReaderFileGuard input(export_path(input_path));
+    const auto project=Project::open_without_journal_recovery(input.version()->path);
+    const auto request=expression_matrix_open_request(*project,image,association_id);
+    const auto& association=request.association;
+    if(!association.owned)
+        throw std::invalid_argument("Matrix restore requires an owned project association");
+    const auto source=open_expression_matrix(backup,association.file_sha256,64u*1024*1024,
+                                             maximum_store,cancelled);
+    association.require_source(*source);
+    const auto images=project->images();
+    const auto protect=[&](const std::string& target) {
+        input.verify();
+        source->require_current(cancelled);
+        for(const auto* suffix:{"","-journal","-wal","-shm"})
+            guard_file_output(input.version()->path+suffix,"",target);
+        for(const auto* suffix:{"-journal","-wal","-shm"}) {
+            const auto sidecar=access_path(fs::u8path(request.path+suffix));
+            not_linked(sidecar);
+            if(fs::exists(sidecar))throw WorkflowInputChanged("Matrix restore target has SQLite sidecars");
+        }
+        guard_project_inputs_output(*project,images,target,cancelled);
+    };
+    protect(request.path);
+    const bool copied=copy_owned(association,source->path(),directory(*project),cancelled,protect);
+    input.verify();
+    return {request.path,association.file_sha256,copied};
+}
+
+std::string prepare_expression_matrix_attachment(Project& project,std::uint64_t image,
+    std::shared_ptr<const ExpressionMatrixSource> source,const std::atomic<bool>* cancelled,
+    ExpressionAttachmentMode mode) {
+    return retain_matrix(project,image,std::move(source),true,true,cancelled,mode);
+}
+void visit_owned_expression_outputs(const std::shared_ptr<const ImageDataProperties>& props,
+    const fs::path& destination, const std::function<void(const std::string&)>& visit) {
+    for (const auto* key : {property,pending_property})
+        for (const auto& [id, value] : records(props,key)) {
+            const auto association = key==pending_property?decode_pending(id,value):decode(id,value);
+            if (association.owned)
+                visit((destination / fs::u8path(owned_locator(association.file_sha256))).u8string());
+        }
+}
 std::shared_ptr<const ImageDataProperties> expression_properties_for_save(
     std::shared_ptr<const ImageDataProperties> props,const fs::path& from,const fs::path& to,
-    const std::atomic<bool>* cancelled) {
-    const auto& all=records(props);if(all.empty())return props;
+    const std::atomic<bool>* cancelled,const std::function<void(const std::string&)>& protect_output) {
+    const auto& all=records(props);
+    const auto& pending=records(props,pending_property);
+    if(all.empty() && pending.empty())return props;
     auto transformed=all;
+    for(const auto& [id,value]:pending)
+        if(!transformed.emplace(id,value).second)throw WorkflowOutputExists("Expression source already retained");
     for(auto& [id,value]:transformed) {
-        workflow_checkpoint(cancelled);auto a=decode(id,value);
+        workflow_checkpoint(cancelled);const bool attaching=pending.count(id)!=0;
+        auto a=attaching?decode_pending(id,value):decode(id,value);
         if(a.owned) {
-            copy_owned(a,resolve(a,from),to,cancelled);
+            const auto source=attaching?a.path:resolve(a,from);
+            copy_owned(a,source,to,cancelled,protect_output);
             std::get<V::Map>(value.value).at("path")=V{owned_locator(a.file_sha256)};
         }
         else {
@@ -229,11 +372,13 @@ std::shared_ptr<const ImageDataProperties> expression_properties_for_save(
             if(!relative.empty())std::get<V::Map>(value.value).at("path")=V{relative.generic_u8string()};
         }
     }
-    auto values=props->values();values[property]=V{std::move(transformed)};
+    auto values=props->values();values.erase(pending_property);values[property]=V{std::move(transformed)};
     return std::make_shared<const ImageDataProperties>(std::move(values));
 }
 std::shared_ptr<const ImageDataProperties> expression_properties_after_open(
     std::shared_ptr<const ImageDataProperties> props,const fs::path& base,bool unsaved_recovery) {
+    if(props && props->values().count(pending_property))
+        throw std::invalid_argument("Stored project contains a pending expression attachment");
     const auto& all=records(props);if(all.empty())return props;
     auto transformed=all;
     for(auto& [id,value]:transformed) {
@@ -248,7 +393,21 @@ std::shared_ptr<const ImageDataProperties> expression_properties_after_open(
 void guard_expression_project_output(std::shared_ptr<const ImageDataProperties> props,
     const fs::path& base,const std::string& destination) {
     for(const auto& [id,value]:records(props)) {
-        const auto a=decode(id,value);guard_file_output(resolve(a,base),"",destination);
+        const auto a=decode(id,value);guard_project_database_output(resolve(a,base),"",destination);
+    }
+    for(const auto& [id,value]:records(props,pending_property))
+        guard_project_database_output(decode_pending(id,value).path,"",destination);
+}
+void verify_owned_expression_files(const std::shared_ptr<const ImageDataProperties>& props,
+    const fs::path& directory,const std::atomic<bool>* cancelled) {
+    for(const auto& [id,value]:records(props)) {
+        workflow_checkpoint(cancelled);
+        const auto a=decode(id,value);
+        if(!a.owned) continue;
+        const auto target=access_path(directory/fs::u8path(owned_locator(a.file_sha256)),true);
+        not_linked(target.parent_path());
+        not_linked(target);
+        verify_owned_copy(a,target,cancelled);
     }
 }
 }

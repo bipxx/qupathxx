@@ -184,7 +184,14 @@ std::shared_ptr<const AdmittedReaderPlugin> admit(const Json& descriptor,const f
     if(descriptor.at("abi")!=QPX_READER_ABI_V1 || info.profile!=reader_plugin_profile())refuse("ABI/compiler/CRT profile mismatch");
     const auto& caps=descriptor.at("capabilities");if(!caps.at("display_rgba").get<bool>())refuse("pilot provider must support RGBA display");
     info.capabilities=QPX_READER_CAP_RGBA|(caps.at("raw_samples").get<bool>()?QPX_READER_CAP_RAW:0)|
-        (caps.value("source_files",false)?QPX_READER_CAP_SOURCE_FILES:0);
+        (caps.value("source_files",false)?QPX_READER_CAP_SOURCE_FILES:0)|
+        (caps.value("source_store",false)?QPX_READER_CAP_SOURCE_STORE:0)|
+        (caps.value("label_description",false)?QPX_READER_CAP_LABEL_DESCRIPTION:0);
+    if((info.capabilities&QPX_READER_CAP_SOURCE_FILES) && (info.capabilities&QPX_READER_CAP_SOURCE_STORE))
+        refuse("file-set and directory-store capabilities are mutually exclusive");
+    if((info.capabilities&QPX_READER_CAP_LABEL_DESCRIPTION) &&
+        (info.capabilities&(QPX_READER_CAP_RAW|QPX_READER_CAP_SOURCE_STORE))!=(QPX_READER_CAP_RAW|QPX_READER_CAP_SOURCE_STORE))
+        refuse("label description requires raw samples and a directory store");
     if(descriptor.contains("options"))info.default_options=normalize_reader_plugin_options(descriptor.at("options").dump());
     auto package=std::make_shared<Package>();
     const auto add=[&](const Json& entry) {
@@ -227,30 +234,88 @@ std::shared_ptr<const AdmittedReaderPlugin> admit(const Json& descriptor,const f
         if(result->files.struct_size!=sizeof(result->files) || result->files.abi_version!=1)refuse("file-set ABI table mismatch");
         package->callback(result->files.count);package->callback(result->files.path);
     }
+    if(info.capabilities&QPX_READER_CAP_SOURCE_STORE) {
+        const auto store_entry=reinterpret_cast<qpx_reader_store_entry_fn_v1>(GetProcAddress(module,"qpx_reader_store_entry_v1"));
+        if(!store_entry)refuse("missing directory-store ABI entry");package->callback(store_entry);
+        result->store.struct_size=sizeof(result->store);error.size=0;
+        qpx_reader_status_v1 store_status;
+        try {store_status=store_entry(1,&result->store,&error);}catch(...){refuse("directory-store entry threw across C ABI");}
+        const auto store_error=returned(error,error_buffer.data(),error_buffer.size(),store_status);
+        if(store_status!=QPX_READER_OK)refuse("directory-store entry refused: "+store_error);
+        if(result->store.struct_size!=sizeof(result->store) || result->store.abi_version!=1)refuse("directory-store ABI table mismatch");
+        package->callback(result->store.primary_metadata);
+    }
+    if(info.capabilities&QPX_READER_CAP_LABEL_DESCRIPTION) {
+        const auto label_entry=reinterpret_cast<qpx_reader_label_entry_fn_v1>(GetProcAddress(module,"qpx_reader_label_entry_v1"));
+        if(!label_entry)refuse("missing label-description ABI entry");package->callback(label_entry);
+        result->label.struct_size=sizeof(result->label);error.size=0;
+        qpx_reader_status_v1 label_status;
+        try {label_status=label_entry(1,&result->label,&error);}catch(...){refuse("label-description entry threw across C ABI");}
+        const auto label_error=returned(error,error_buffer.data(),error_buffer.size(),label_status);
+        if(label_status!=QPX_READER_OK)refuse("label-description entry refused: "+label_error);
+        if(!label_error.empty())refuse("label-description entry returned error text on success");
+        if(result->label.struct_size!=sizeof(result->label) || result->label.abi_version!=1)refuse("label-description ABI table mismatch");
+        package->callback(result->label.describe);
+    }
     // Only the native library reference is retained. File locks end after all
     // verification/load callbacks; Windows keeps mapped images immutable/loaded.
     package->images.clear();package->files.clear();
     result->keepalive=std::shared_ptr<const void>(package,module);return result;
 }
-}
-ReaderPluginCatalog load_reader_plugin_catalog(const std::string& path) {
-    ReaderPluginCatalog result;
+struct ReaderDeclaration {
+    Json descriptor;
+    fs::path root;
+    std::string id;
+    std::size_t manifest;
+    std::string error;
+};
+
+void discover_readers(const std::string& path,std::size_t manifest,
+                      std::vector<ReaderDeclaration>& declarations) {
     try {
         const auto config=fs::canonical(fs::u8path(path));const auto root=config.parent_path();const auto size=fs::file_size(config);if(!size || size>1024*1024)refuse("manifest size exceeds limit");
         std::ifstream input(config,std::ios::binary);std::string contents(1024*1024+1,'\0');
         input.read(contents.data(),std::streamsize(contents.size()));const auto read=input.gcount();
         if(input.bad() || read<=0 || read>1024*1024)refuse("manifest read exceeds limits or failed");
         contents.resize(std::size_t(read));bounded_utf8(contents,1024*1024);
-        const auto document=Json::parse(contents,[](int depth,Json::parse_event_t,Json&){if(depth>64)refuse("manifest nesting exceeds limit");return true;});if(document.at("schema")!="qpx.reader-plugins/1")refuse("unsupported manifest schema");
-        const auto& entries=document.at("plugins");if(!entries.is_array() || entries.size()>32)refuse("manifest provider count exceeds limit");
+        auto document=Json::parse(contents,[](int depth,Json::parse_event_t,Json&){if(depth>64)refuse("manifest nesting exceeds limit");return true;});if(document.at("schema")!="qpx.reader-plugins/1")refuse("unsupported manifest schema");
+        auto& entries=document.at("plugins");if(!entries.is_array() || entries.size()>32)refuse("manifest provider count exceeds limit");
         std::set<std::string> ids;
-        for(const auto& entry:entries) {
+        for(auto& entry:entries) {
             try {
-                const auto id=text(entry,"provider_id",128);if(!ids.insert(id).second)refuse("duplicate provider ID");
-                result.readers.push_back(admit(entry,root));
-            }catch(const std::exception& error){result.diagnostics.push_back(error.what());}
+                auto id=text(entry,"provider_id",128);
+                if(!ids.insert(id).second)refuse("duplicate provider ID");
+                declarations.push_back({std::move(entry),root,std::move(id),manifest,{}});
+            }catch(const std::exception& error){declarations.push_back({{},{},{},manifest,error.what()});}
         }
-    }catch(const std::exception& error){result.diagnostics.push_back(error.what());}
+    }catch(const std::exception& error){declarations.push_back({{},{},{},manifest,error.what()});}
+}
+}
+ReaderPluginCatalog load_reader_plugin_catalog(const std::vector<std::string>& paths) {
+    ReaderPluginCatalog result;
+    std::vector<ReaderDeclaration> declarations;
+    for(std::size_t i=0;i<paths.size();++i)
+        discover_readers(paths[i],i,declarations);
+
+    // Check all claims before opening any DLL. Pack order cannot select the
+    // implementation for an ID claimed by more than one manifest.
+    std::map<std::string,std::size_t> claims;
+    for(const auto& declaration:declarations)
+        if(declaration.error.empty())++claims[declaration.id];
+
+    for(const auto& declaration:declarations) {
+        auto error=declaration.error;
+        if(error.empty())try {
+            if(claims.at(declaration.id)>1)
+                refuse("provider ID is claimed by multiple manifests: "+declaration.id);
+            result.readers.push_back(admit(declaration.descriptor,declaration.root));
+        }catch(const std::exception& e){error=e.what();}
+        if(!error.empty()) {
+            if(paths.size()>1)
+                error=paths[declaration.manifest]+": "+error;
+            result.diagnostics.push_back(std::move(error));
+        }
+    }
     return result;
 }
 }

@@ -2,6 +2,7 @@
 #include "qupathxx/spatial_import.hpp"
 #include "qupathxx/expression_matrix_project.hpp"
 #include "qupathxx/gene_view.hpp"
+#include "qupathxx/ome_zarr.hpp"
 #include "qupathxx/project_recovery.hpp"
 #include "qupathxx/object_properties.hpp"
 #include "qupathxx/workflow.hpp"
@@ -79,6 +80,75 @@ void exercise(const fs::path& root) {
     const auto old_scope=ExpressionMatrixSpatialSnapshot::capture(*upgraded->document(1),reopen_expression_matrix(*upgraded,1,id),physical->image_frame().id);
     const auto new_scope=ExpressionMatrixSpatialSnapshot::capture(*upgraded->document(1),reopen_expression_matrix(*upgraded,1,id),next->image_frame().id);
     check(old_scope.observations().size()==2 && new_scope.observations().size()==2 && old_scope.observations()[0].position.x==3 && new_scope.observations()[0].position.x==3.25,"Overlapping barcodes in explicit coordinate scopes never merge");
+    if(has_ome_zarr()) {
+        const auto folder=root/"template",store=folder/".qpx-expression",destination=root/"external";
+        fs::create_directories(store/"0");
+        fs::create_directory(destination);
+        write(store/".zgroup",R"({"zarr_format":2})");
+        write(store/".zattrs",R"({"multiscales":[{"version":"0.4","axes":[{"name":"y","type":"space"},{"name":"x","type":"space"}],"datasets":[{"path":"0","coordinateTransformations":[{"type":"scale","scale":[1,1]}]}]}]})");
+        write(store/"0"/".zarray",R"({"zarr_format":2,"shape":[2,2],"chunks":[2,2],"dtype":"|u1","compressor":null,"fill_value":0,"order":"C","filters":null})");
+        const auto template_file=folder/"base.qpx",linked_file=folder/"linked.qpx";
+        auto input=Project::open(base_file.u8string());
+        input->add_image(store.u8string(),"ome-zarr","Protected linked store");
+        input->save_new(template_file.u8string());
+        linked->add_image(store.u8string(),"ome-zarr","Protected linked store");
+        linked->save_new(linked_file.u8string());
+        const auto before_template=bytes(template_file),before_linked=bytes(linked_file);
+        const auto group=bytes(store/".zgroup"),attributes=bytes(store/".zattrs"),array=bytes(store/"0"/".zarray");
+        auto external=calibrated;
+        external.owned=true;
+        external.base.input_project=template_file.u8string();
+        external.base.output_project=(folder/"refused.qpx").u8string();
+        const auto protected_preview=preview_backed_spatial_import(external);
+        rejects<std::invalid_argument>([&]{publish_backed_spatial_import(*protected_preview);});
+        check(!fs::exists(external.base.output_project),"Protected destination refuses backed import publication");
+        for(const auto& input_file:{template_file,linked_file}) {
+            external.base.input_project=input_file.u8string();
+            const auto output_dir=destination/input_file.stem();
+            fs::create_directory(output_dir);
+            external.base.output_project=(output_dir/"study.qpx").u8string();
+            if(input_file==linked_file)external.alignment.matrix[2]+=.25;
+            const auto external_preview=preview_backed_spatial_import(external);
+            publish_backed_spatial_import(*external_preview);
+            const auto output=Project::open(external.base.output_project);
+            check(expression_matrix_ids(*output,1)==std::vector<std::string>{id},"External publication retains one association");
+            const auto stored=load_expression_matrix_association(*output,1,id);
+            const auto asset=output_dir/fs::u8path(stored.path);
+            check(stored.owned && stored.file_sha256==stable->file_sha256() && fs::is_regular_file(asset) &&
+                  bytes(asset)==bytes(fs::u8path(stable->path())),"External project owns the exact source bytes");
+            const auto scope=ExpressionMatrixSpatialSnapshot::capture(*output->document(1),
+                reopen_expression_matrix(*output,1,id),external_preview->image_frame().id);
+            check(scope.observations().size()==2 &&
+                  scope.dataset({0}).counts()==std::vector<std::uint64_t>{5,9007199254740993ull},
+                  "External project replays exact registered counts");
+        }
+        check(bytes(template_file)==before_template && bytes(linked_file)==before_linked &&
+              !fs::exists(folder/fs::u8path(owned.path)) &&
+              bytes(store/".zgroup")==group && bytes(store/".zattrs")==attributes && bytes(store/"0"/".zarray")==array &&
+              std::distance(fs::recursive_directory_iterator(store),fs::recursive_directory_iterator{})==4,
+              "Backed import preserves both input projects and the linked store");
+
+        const auto previous=root/"previous",repaired=root/"repaired";
+        fs::create_directory(previous);fs::create_directory(repaired);
+        const auto previous_file=previous/"study.qpx";
+        upgraded->save_new(previous_file.u8string());
+        const auto before_previous=bytes(previous_file);
+        const auto missing=previous/fs::u8path(owned.path);
+        fs::rename(missing,previous/"offline.qmx");
+        auto repair=external;
+        repair.owned=false;
+        repair.base.input_project=previous_file.u8string();
+        repair.base.output_project=(repaired/"study.qpx").u8string();
+        repair.alignment.matrix[2]+=.25;
+        const auto repair_preview=preview_backed_spatial_import(repair);
+        const auto repaired_report=nlohmann::json::parse(publish_backed_spatial_import(*repair_preview));
+        const auto reopened=Project::open(repair.base.output_project);
+        const auto retained_source=reopen_expression_matrix(*reopened,1,id);
+        check(repaired_report.at("owned")==true && load_expression_matrix_association(*reopened,1,id).owned &&
+              retained_source->file_sha256()==stable->file_sha256() && !fs::exists(missing) &&
+              bytes(previous_file)==before_previous && reopened->document(1)->object_count()==7,
+              "Reusing an owned association preserves ownership and repairs only the new project");
+    }
     const auto conflict=root/"conflict";fs::create_directory(conflict);fs::create_directory(conflict/".qpx-expression");write(conflict/fs::u8path(owned.path),"unrelated");
     auto conflicting=request;conflicting.base.output_project=(conflict/"study.qpx").u8string();const auto conflict_preview=preview_backed_spatial_import(conflicting);
     rejects([&]{publish_backed_spatial_import(*conflict_preview);});check(!fs::exists(conflicting.base.output_project) && bytes(conflict/fs::u8path(owned.path))=="unrelated","Conflicting first-save owned bytes refuse atomic project publication");

@@ -7,6 +7,9 @@
 #include "qupathxx/project.hpp"
 #include "atomic_export.hpp"
 #include "reader_file_guard.hpp"
+#include "project_database_output.hpp"
+#include "project_export_guard.hpp"
+#include "project_source_internal.hpp"
 #include <charconv>
 #include <chrono>
 #include <cmath>
@@ -46,14 +49,14 @@ struct Options {
     std::string checkpoint_path,archive_path,output_project;
     RawPixelStreamContourOptions contours;std::string prefix="Raw pixel";
     std::size_t publication_bytes=64u*1024*1024,snapshot_bytes=512u*1024*1024;std::uint64_t project_bytes=1024ull*1024*1024;
-    bool physical=false;
+    bool physical=false,model_grid=false;
 };
 Options parse(const std::vector<std::string>& args,std::size_t first,bool train,bool verify,bool contours=false,bool history=false) {
     Options o;std::set<std::string> seen;
     for(std::size_t i=first;i<args.size();++i) {
         const auto& f=args[i];if(f!="--object" && !seen.insert(f).second) throw std::invalid_argument("duplicate option: "+f);
         if(contours) {
-            static const std::set<std::string> allowed={"--work-bytes","--x-axis","--y-axis","--tile-width","--tile-height","--max-windows","--object","--min-vote","--max-samples","--region","--contour-work-bytes","--boundary-work-bytes","--max-boundary-runs","--max-components","--max-edges","--max-vertices","--total-work-bytes","--publication-work-bytes","--name-prefix","--no-clip","--snapshot-bytes","--project-bytes"};
+            static const std::set<std::string> allowed={"--work-bytes","--x-axis","--y-axis","--model-grid","--tile-width","--tile-height","--max-windows","--object","--min-vote","--max-samples","--region","--contour-work-bytes","--boundary-work-bytes","--max-boundary-runs","--max-components","--max-edges","--max-vertices","--total-work-bytes","--publication-work-bytes","--name-prefix","--no-clip","--snapshot-bytes","--project-bytes"};
             static const std::set<std::string> file_allowed={"--file-bytes","--file-work-bytes","--contour-work-bytes","--boundary-work-bytes","--max-boundary-runs","--max-components","--max-edges","--max-vertices","--total-work-bytes","--no-clip"};
             const bool file_extra=verify?f=="--json-bytes":(f=="--publication-work-bytes" || f=="--name-prefix" || f=="--snapshot-bytes" || f=="--project-bytes");
             if(history?(!file_allowed.count(f) && !file_extra):!allowed.count(f)) throw std::invalid_argument("unknown raw contour option: "+f);
@@ -78,6 +81,7 @@ Options parse(const std::vector<std::string>& args,std::size_t first,bool train,
         else if(verify) throw std::invalid_argument("unknown raw verification option: "+f);
         else if(f=="--x-axis") o.x=axis(value());
         else if(f=="--y-axis") o.y=axis(value());
+        else if(f=="--model-grid" && !train) o.model_grid=true;
         else if(f=="--tile-width") o.tiles.width=o.stream.tile_width=integer<std::int64_t>(value());
         else if(f=="--tile-height") o.tiles.height=o.stream.tile_height=integer<std::int64_t>(value());
         else if(f=="--max-windows") {auto n=integer<std::size_t>(value());o.tiles.max_windows=n;o.stream.max_windows=n;}
@@ -121,6 +125,7 @@ Options parse(const std::vector<std::string>& args,std::size_t first,bool train,
         if(error || exists) throw std::invalid_argument("output project must be a new file");
     }
     if(bool(o.x)!=bool(o.y)) throw std::invalid_argument("provide both --x-axis and --y-axis");
+    if(o.model_grid && o.x) throw std::invalid_argument("--model-grid conflicts with explicit axes");
     if(train) {o.selection.validate();if(o.features.offsets.empty()) o.features.offsets.assign(o.selection.channels,0);if(o.features.scales.empty()) o.features.scales.assign(o.selection.channels,1);o.features.validate(o.selection.channels);o.sampling.validate();o.tiles.validate();o.forest.validate();o.checkpoint.limits.validate();}
     else {o.save.limits.validate();if(!verify) o.stream.validate();}
     if(contours) {
@@ -133,16 +138,23 @@ Options parse(const std::vector<std::string>& args,std::size_t first,bool train,
 ScientificRawLattice lattice(const Document& doc,const Options& o) {
     const auto& m=doc.metadata();return {m.width,m.height,o.x?*o.x:ScientificGridAxis(0,m.width,m.width),o.y?*o.y:ScientificGridAxis(0,m.height,m.height)};
 }
-// Inputs and outputs are different trust boundaries from the worker's raw-source
-// guard: protect the project, its sidecars, every reader file and other products.
-void guard_outputs(const Project& project,const std::vector<std::string>& outputs,const std::vector<std::string>& inputs) {
+ScientificRawLattice prediction_lattice(const Document& doc,const Options& o,const RawPixelRecipe& recipe) {
+    if(o.model_grid) return raw_pixel_model_lattice(recipe,doc);
+    return lattice(doc,o);
+}
+void guard_outputs(const Project& project,const std::vector<std::string>& outputs,
+                   const std::vector<std::string>& inputs,const std::atomic<bool>& cancelled) {
+    const auto images=project.images();
     for(std::size_t i=0;i<outputs.size();++i) {
         const auto out=export_path(outputs[i]);
         for(const auto& in:inputs) guard_file_output(export_path(in),"",out);
-        for(const auto& suffix:{"","-journal","-wal","-shm",".qpx-lock"}) guard_file_output(export_path(project.path()+suffix),"",out);
+        guard_project_database_output(export_path(project.path()),"",out);
+        guard_file_output(export_path(project.path()+".qpx-lock"),"",out);
         for(std::size_t j=0;j<i;++j) guard_file_output(export_path(outputs[j]),"",out);
-        for(const auto& image:project.images()) {
-            if(!image.source_path.empty()) guard_file_output(export_path(image.source_path),"",out);
+        guard_project_export_output(project,images,out,&cancelled);
+        // Native readers can observe companions that are absent from the saved project.
+        for(const auto& image:images) {
+            export_checkpoint(&cancelled);
             const auto source=project.document(image.id)->server()->reader_source();if(!source) continue;
             if(source->primary) guard_file_output(source->primary->path,source->primary->identity,out);
             for(const auto& file:source->companions) guard_file_output(file.path,file.identity,out);
@@ -171,14 +183,16 @@ int predict(const std::vector<std::string>& args,const std::atomic<bool>& cancel
     if(args.size()<6) throw std::invalid_argument("usage: --export-raw-pixels PROJECT IMAGE_ID MODEL OUTPUT [options]");
     const auto id=integer<std::uint64_t>(args[3]);if(!id) throw std::invalid_argument("image ID must be positive");const auto o=parse(args,6,false,false);
     export_checkpoint(&cancelled);auto model=load_raw_pixel_classifier(args[4],&cancelled);auto project=Project::open(args[2]);auto doc=project->document(id);
-    std::vector<std::string> outputs{args[5]};if(!o.output_project.empty()) outputs.push_back(o.output_project);guard_outputs(*project,outputs,{args[4]});
+    if(const auto verified=project->source_verification(id))
+        require_verified_project_source(*verified,*doc->server(),&cancelled);
+    std::vector<std::string> outputs{args[5]};if(!o.output_project.empty()) outputs.push_back(o.output_project);guard_outputs(*project,outputs,{args[4]},cancelled);
     if(!o.save.resume_path.empty()) for(std::size_t i=1;i<outputs.size();++i) guard_file_output(export_path(o.save.resume_path),"",export_path(outputs[i]));
-    RawPixelTiledPredictionRequest request(*doc,model,lattice(*doc,o),o.stream,o.region,o.object);
+    RawPixelTiledPredictionRequest request(*doc,model,prediction_lattice(*doc,o,model.recipe()),o.stream,o.region,o.object);
     RawPixelStreamSaveJob job;job.request(request,args[5],o.save);line("export","running",args[5],job.poll(*doc),",\"model_sha256\":"+json_string(model.sha256()));
     auto stats=collect(job,[&] {return job.poll(*doc);},cancelled);auto summary=job.take(*doc);if(!summary) stats=job.poll(*doc);
     if(summary && !o.output_project.empty()) {
         RawPixelStreamFile file(args[5],o.save.limits);file.verify(&cancelled);auto link=file.link();doc->keep_raw_pixel_stream(link);
-        guard_outputs(*project,outputs,{args[4]});project->save_new(o.output_project,512ull*1024*1024,1ull<<30,&cancelled);
+        guard_outputs(*project,outputs,{args[4]},cancelled);project->save_new(o.output_project,512ull*1024*1024,1ull<<30,&cancelled);
     }
     const auto state=summary?(summary->complete?"saved":"partial"):stats.state;
     line("export",state,args[5],stats,",\"model_sha256\":"+json_string(model.sha256())+(summary?",\"summary\":"+summary_json(*summary):""));
@@ -222,9 +236,12 @@ int contour(const std::vector<std::string>& args,const std::atomic<bool>& cancel
     const auto observed_model=observe_cli_file(args[4]);std::shared_ptr<const RawPixelStreamFile> history;
     if(replay) {history=std::make_shared<const RawPixelStreamFile>(args[4],o.save.limits);history->verify(&cancelled);}
     const auto model=replay?history->model():load_raw_pixel_classifier(args[4],&cancelled);
-    auto project=Project::open(args[2]);auto doc=project->document(id);const auto observed_project=observe_cli_file(args[2]);const auto observed_source=doc->server()->reader_source();
-    auto guard=[&] {export_checkpoint(&cancelled);guard_outputs(*project,{destination},{args[4]});verify_cli_source(*observed_model);verify_cli_source(*observed_project);if(observed_source) verify_cli_source(*observed_source);};
-    guard();const auto request=replay?capture_raw_pixel_stream_replay(*doc,*history):RawPixelTiledPredictionRequest(*doc,model,lattice(*doc,o),o.stream,o.region,o.object);
+    auto project=Project::open(args[2]);auto doc=project->document(id);const auto observed_project=observe_cli_file(args[2]);
+    if(const auto verified=project->source_verification(id))
+        require_verified_project_source(*verified,*doc->server(),&cancelled);
+    const auto observed_source=doc->server()->reader_source();
+    auto guard=[&] {export_checkpoint(&cancelled);guard_outputs(*project,{destination},{args[4]},cancelled);verify_cli_source(*observed_model);verify_cli_source(*observed_project);if(observed_source) verify_cli_source(*observed_source);};
+    guard();const auto request=replay?capture_raw_pixel_stream_replay(*doc,*history):RawPixelTiledPredictionRequest(*doc,model,prediction_lattice(*doc,o,model.recipe()),o.stream,o.region,o.object);
     RawPixelStreamContourJob job;if(replay) job.request_replay(request,history,o.contours);else job.request(request,o.contours);
     const auto fields=",\"model_sha256\":"+json_string(model.sha256());
     line("contours","running",destination,contour_stats(job.poll(*doc)),fields);
@@ -243,7 +260,9 @@ int train(const std::vector<std::string>& args,const std::atomic<bool>& cancelle
     if(o.checkpoint_path.empty() || o.archive_path.empty()) throw std::invalid_argument("training requires --checkpoint and --archive");
     if(!has_classifier_training()) throw std::runtime_error("raw training requires the optional OpenCV backend");export_checkpoint(&cancelled);
     auto project=Project::open(args[2]);auto doc=project->document(id);
-    std::vector<std::string> outputs{args[4],o.checkpoint_path,o.archive_path};if(!o.output_project.empty()) outputs.push_back(o.output_project);guard_outputs(*project,outputs,{});
+    if(const auto verified=project->source_verification(id))
+        require_verified_project_source(*verified,*doc->server(),&cancelled);
+    std::vector<std::string> outputs{args[4],o.checkpoint_path,o.archive_path};if(!o.output_project.empty()) outputs.push_back(o.output_project);guard_outputs(*project,outputs,{},cancelled);
     if(!o.checkpoint.resume_path.empty()) for(std::size_t i=0;i<outputs.size();++i) if(i!=1) guard_file_output(export_path(o.checkpoint.resume_path),"",export_path(outputs[i]));
     if(o.ids.empty()) for(const auto& a:doc->annotations()) if(!a.class_name.empty() && a.geometry.is_area()) o.ids.push_back(a.id);
     RawPixelTiledTrainingRequest request(*doc,o.ids,lattice(*doc,o),o.selection,o.features,o.sampling,o.tiles,o.physical);
@@ -254,7 +273,7 @@ int train(const std::vector<std::string>& args,const std::atomic<bool>& cancelle
     if(!result->table) {line("train","partial",o.checkpoint_path,stats,fields+",\"model_sha256\":null");return 1;}
     const auto model=train_raw_pixel_tiled_classifier(*result->table,o.forest,&cancelled);
     auto archive=archive_raw_pixel_tiled_training(result->table,std::make_shared<const RawPixelClassifier>(model),&cancelled);
-    guard_outputs(*project,outputs,{});save_raw_pixel_classifier(model,args[4],o.checkpoint.replace_existing,&cancelled);save_raw_pixel_archive(*archive,o.archive_path,o.checkpoint.replace_existing,&cancelled);
+    guard_outputs(*project,outputs,{},cancelled);save_raw_pixel_classifier(model,args[4],o.checkpoint.replace_existing,&cancelled);save_raw_pixel_archive(*archive,o.archive_path,o.checkpoint.replace_existing,&cancelled);
     if(!o.output_project.empty()) {doc->keep_raw_pixel_tiled_training(request,archive);project->save_new(o.output_project,512ull*1024*1024,1ull<<30,&cancelled);}
     line("train","trained",args[4],stats,fields+",\"rows\":"+std::to_string(result->table->row_count())+",\"table_sha256\":"+json_string(result->table->sha256())+",\"model_sha256\":"+json_string(model.sha256())+",\"archive_path\":"+json_string(o.archive_path));return 0;
 }

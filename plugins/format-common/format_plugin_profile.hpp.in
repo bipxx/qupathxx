@@ -12,3 +12,4 @@
 #endif
 static_assert(sizeof(void*)==8,"Typed TSV plugin architecture differs");
 #define QPX_FORMAT_PLUGIN_PROFILE_ID "@QUPATHXX_FORMAT_PLUGIN_PROFILE_ID@"
+#define QPX_FORMAT_PLUGIN_PROVIDER_VERSION "@qpx_provider_version@"

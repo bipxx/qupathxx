@@ -98,6 +98,75 @@ void multifile_cancel_checks(const std::shared_ptr<ImageServer>& server,const st
     std::filesystem::remove(std::filesystem::u8path(output));
     check(std::get<std::vector<std::uint16_t>>(server->read_raw(request,&cancelled).storage())[1]==101);
 }
+void protects_compound_raw_csv(const std::filesystem::path& entry,const std::filesystem::path& companion) {
+    namespace fs=std::filesystem;
+    const auto saved=fs::u8path(entry.u8string()+".qpx");
+    {
+        auto doc=std::make_shared<Document>(open_tiff(entry.u8string(),{}));
+        RawRegionRequest region;
+        region.region={0,0,0,2,2};
+        region.channels=2;
+        const RawAnalysisRequest request(*doc,region);
+        doc->keep_raw_analysis(request,analyze_raw(request));
+        doc->add_rectangle({0,0,2,2},"Batch target");
+        Project project;
+        project.add_document(doc);
+        project.save_new(saved.u8string());
+    }
+    const auto project=Project::open(saved.u8string());
+    const auto doc=project->document(1);
+    check(doc->server()->reader_source()->scope=="unopened");
+    const RawTableRequest table(*doc);
+    const auto before=fingerprint_file(companion.u8string())->sha256;
+    rejects([&]{save_raw_analysis_csv(table,companion.u8string(),true);});
+    check(fingerprint_file(companion.u8string())->sha256==before);
+    const auto alias=fs::u8path(entry.u8string()+".companion-alias");
+    fs::create_hard_link(companion,alias);
+    rejects([&]{save_raw_analysis_csv(table,alias.u8string(),true);});
+    check(fs::equivalent(companion,alias) && fingerprint_file(alias.u8string())->sha256==before);
+    const auto moved=fs::u8path(entry.u8string()+".companion-moved");
+    fs::rename(companion,moved);
+    rejects([&]{save_raw_analysis_csv(table,alias.u8string(),true);});
+    check(fs::equivalent(moved,alias) && fingerprint_file(alias.u8string())->sha256==before);
+    fs::rename(moved,companion);
+    fs::remove(alias);
+
+    const auto output=fs::u8path(entry.u8string()+".measurements.csv");
+    const auto expected=raw_analysis_csv(table);
+    check(save_raw_analysis_csv(table,output.u8string())==expected.size());
+    check(save_raw_analysis_csv(table,output.u8string(),true)==expected.size());
+    std::ifstream csv(output,std::ios::binary);
+    check(std::string(std::istreambuf_iterator<char>(csv),{})==expected);
+    csv.close();
+    check(doc->server()->reader_source()->scope=="unopened");
+    fs::remove(output);
+
+    ProjectBatchOptions options;
+    options.kind=ProjectBatchKind::Raw;
+    options.raw.channels=2;
+    const StainTransform stains({{1,0,0},{0,1,0}});
+    const auto batch=run_project_batch(ProjectBatchRequest(*project,stains,{},options),saved.u8string()+".batch");
+    if(batch.saved!=1) throw std::runtime_error("Compound checkpoint fixture failed: "+batch.error);
+    const auto& checkpoint=batch.images.at(0).path;
+    bool refused=false;
+    try {save_batch_checkpoint_csv(checkpoint,companion.u8string());}
+    catch(const std::exception&) {refused=true;}
+    if(!refused) throw std::runtime_error("Checkpoint CSV overwrote the TIFF companion");
+    check(fingerprint_file(companion.u8string())->sha256==before);
+    fs::create_hard_link(companion,alias);
+    rejects([&]{save_batch_checkpoint_csv(checkpoint,alias.u8string());});
+    check(fs::equivalent(companion,alias) && fingerprint_file(alias.u8string())->sha256==before);
+    fs::remove(alias);
+    save_batch_checkpoint_csv(checkpoint,output.u8string());
+    const auto csv_digest=fingerprint_file(output.u8string())->sha256;
+    rejects([&]{save_batch_checkpoint_csv(checkpoint,output.u8string());});
+    check(fingerprint_file(output.u8string())->sha256==csv_digest);
+    std::ifstream sealed_csv(output,std::ios::binary);
+    check(std::string(std::istreambuf_iterator<char>(sealed_csv),{})==batch_checkpoint_csv(checkpoint));
+    sealed_csv.close();
+    fs::remove(output);
+    fs::remove(saved);
+}
 void multifile_dispatch(const std::filesystem::path& path) {
     namespace fs=std::filesystem;auto companion=path;companion += ".other.tif";
     const auto write=[&](const fs::path& target,bool other) {
@@ -114,6 +183,7 @@ void multifile_dispatch(const std::filesystem::path& path) {
         std::ofstream file(target,std::ios::binary);file.write(reinterpret_cast<const char*>(bytes.data()),bytes.size());file.close();check(bool(file));
     };
     write(path,false);write(companion,true);
+    if(has_project()) protects_compound_raw_csv(path,companion);
     for(const auto& entry:{path,companion}) {
         auto server=open_tiff(entry.u8string(),{});check(server->reader_source()->scope=="compound_files" && server->reader_source()->companions.size()==1);
         RawRegionRequest request;request.region={0,0,0,2,2};request.channels=2;

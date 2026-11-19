@@ -47,6 +47,63 @@ adds its declared8-bit decoded Gray/RGB, EXIF orientation and calibration profil
 through `org.qupathxx.jpeg`, with separate source/notices and strict refusals.
 Neither delivery claims every encoding, recipe admission or full QuPath parity.
 
+Later native image profiles include [QOI](benchmarks/qoi-reader-plugin/README.md)
+under I08/R2. The same receipt adds a shared C++ raw-file export service and its
+thin CLI route for eight admitted image readers, preserving original samples,
+exact saved-source identity and legacy TIFF bytes. Atomic new-only PAM output
+fixes a demonstrated hard-link source overwrite. The local
+[OME-Zarr 0.5 plugin](benchmarks/ngff05/README.md) adds guarded directory-store
+raw export, including exact UInt16 samples and calibrated pyramid reads.
+Other raster profiles and wider R2/R3 acceptance remain open.
+
+[Native geometry annotation plugins](benchmarks/annotation-geometry/README.md)
+now add the declared pixel-geometry TSV profile and separate ABI2 transport under
+A06/R4/R15. Shared native geometry, preview/apply, class/source identity, project
+and undo services remain authoritative. All six geometry kinds, holes/multiple
+parts, exact IDs/planes and offline receipts are locally verified; the original
+point preview/project identities stay exact. The selected
+[ImageJ ROI/ZIP profile](benchmarks/imagej-roi/README.md) now adds optional native
+ABI3 source facts/names/styles, per-point positions and bounded stored/Deflate
+ZIP/ZIP64 through the same native authorities. The selected
+[WKT/WKB image-pixel profile](benchmarks/wkt-wkb/README.md) now reads all seven
+basic2D types with strict closure, exact binary64 and source collection paths,
+using shared bounded producer/value support and unchanged native host services.
+The selected [OME/ASAP XML](benchmarks/asap-xml/README.md) and
+[COCO instance-mask](benchmarks/coco/README.md) profiles are also delivered.
+Further named profiles, GUI/bindings and broader R4/R15 acceptance remain open.
+
+The [A08 NGFF label-mask plugin](benchmarks/ngff-labels/README.md) now adds the
+selected local NGFF0.4/Zarr2 import/publication/export/replay route. Shared native
+services preserve exact signed/unsigned source IDs, opaque property text,
+explicit source/reference planes and crop/calibration, original-raw measurements,
+saved decoder/store identity and protected outputs. CSV/QPLM1, missing-provider
+metadata and installed CLI/SDK/removal pass. This does not qualify model execution,
+broader NGFF variants or the frozen built-in reader's malformed floating fills.
+
+The [M05 Loom matrix plugin](benchmarks/loom/README.md) adds its selected native
+matrix/layer/ID profile with explicit counts or continuous domain and coordinate
+frame. Separate ABI2/schema5 transports exact UInt64 and Float64 values through
+shared QMX/project services; old counts/point-import identities remain exact.
+Native, CLI/SDK and provider-free/OFF checks pass.284 matching source/native/
+plugin package and ZIP members pass material admission; installed SDK/CLI and
+owned removal preserve11 user files and readable retained QMX. No general
+Loom/omics/model, platform or full-catalogue acceptance follows from this slice.
+
+The separate [I22 native source candidate](benchmarks/ngff-fill/README.md)
+repairs original-token integral-fill validation in the image authority.214
+literal cases pass:133 valid cases retain exact old pixels/metadata/source IDs,
+71 malformed fills refuse at open and10 undefined null fills refuse at read.
+The old implementation accepted42 of those malformed cases. Existing native
+source/server/project regressions pass, including saved records and replay.
+Only two native units changed; frozen published/runtime products retain their
+prior bytes and support, with no new format/codec or broader NGFF claim.
+
+The [AnnData Zarr workflow](benchmarks/anndata-zarr/README.md) delivers selected
+local Zarr 2 counts and continuous import through optional matrix ABI3, native
+schema 6 QMX and owned projects. The pinned producer, exact older sidecar
+compatibility, protected output, offline reopen, staged SDK and install/removal
+checks pass. The documented sparse workload measures dense QMX storage costs.
+
 R1 reconciliation (2026-11-04): all23 Partial rows below distinguish delivered
 mechanisms from actual remaining work. [Qualification308](benchmarks/qupath-body-boundary-qualification-308/terminal/README.md)
 is the declared engineering baseline. The later R2-CODEC1 JPEG, R2-SI1/R2-UNIT2 calibration and
@@ -92,7 +149,7 @@ claim of upstream parity. Acceptance applies only to the listed fixture scope.
 | Python scripting | New API replacing Groovy workflow surface | bindings | Partial | Thin bindings, owning arrays, public stubs, native jobs and managed/document waits are delivered. R11: remaining lifecycle/backpressure/shutdown and versioned multi-stage replay. R13/R14: supported host/package compatibility. Avoid adding endpoints for workflows already exposed. |
 | Bio-Formats and multiplex data | qupath-extension-bioformats | io | Partial | Openly licensed TIFF/OME typed channels/axes, explicit multi-file mappings and native/Python/CLI/batch/UI records are implemented. Explicit BinaryOnly XML/TIFF master metadata now has local native/Python/CLI/desktop/source-replay evidence. R2: additional eligible vendor/partial-OME/codec capabilities; JPEG scalar/RGB TIFF now has local R2-CODEC1 evidence and non-SI conversions have local R2-UNIT2 evidence; R3: fluorescence/color; R8/R12: missing features and large-window/process budgets. Proprietary readers remain excluded. |
 | SLIC regions and subcellular spots | qupath-core-processing, qupath-extension-processing | analysis/workflows/CLI | Locally verified native/CLI | [Shared label workflow](label-analysis.md) covers deterministic bounded SLIC, original-raw per-cell spots/zero counts, common geometry/statistics, atomic publication, exact project replay and exports. [Evidence](benchmarks/label-analysis/README.md) is analytical Windows crop scope; new desktop controls/bindings, biological and whole-slide acceptance are not claimed. |
-| External model integrations | Extensions outside the core inventory | analysis/io/jobs/CLI | Partial | [Offline unsigned TIFF labels](label-analysis.md#offline-label-masks) reuse captured native result/publication authority with exact producer/model/input identity, original IDs and original raw measurements. The separately selected [native OMERO client](omero-integration.md) verifies metadata/previews, bounded explicitly linked NGFF raw blocks and original-coordinate ROI/result files. Public raw and4280 point-shape exchange pass; mask fixtures pass but IDR denies the live mask route. Private/write-back OMERO, model runtime/version compatibility and wider interchange remain R15; thumbnails never substitute for raw pixels. |
+| External model integrations | Extensions outside the core inventory | analysis/io/jobs/CLI | Partial | [Offline TIFF/PNG labels and optional NGFF integral masks](label-analysis.md#open-ngff-label-masks) share native frame/result/publication authority with exact original IDs, raw measurements and captured source/decoder identity. NGFF distinguishes authored and producer masks, preserves original property text and exports CSV/QPLM1. The [native OMERO client](omero-integration.md) verifies metadata/previews, bounded explicitly linked NGFF raw blocks and original-coordinate ROI/result files. Public raw and4280 point-shape exchange pass; mask fixtures pass but IDR denies the live mask route. Private/write-back OMERO, model runtime/version compatibility and wider interchange remain R15; thumbnails never substitute for raw pixels. |
 | Java extensions and Groovy | qupath-extension-script-editor, qupath-gui-fx | compatibility | Out of scope | Owner decision2026-11-13: Java/Groovy runtime and QuPath Java-extension compatibility are not required; do not count them as unfinished parity work |
 
 ## Historical execution observations (source-specific)

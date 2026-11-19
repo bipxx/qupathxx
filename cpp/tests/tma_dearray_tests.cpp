@@ -1,4 +1,5 @@
 #include "qupathxx/tma_dearray.hpp"
+#include "qupathxx/ome_zarr.hpp"
 #include "../tma_dearray_cli.hpp"
 #include "../viewer_bridge.hpp"
 #include <chrono>
@@ -239,6 +240,43 @@ void owner_and_cli(const std::filesystem::path& fixtures,const std::filesystem::
     bad=args;bad[3]=(root/"cancelled.qptma").u8string();cancelled=true;check(detail::tma_dearray_cli(bad,cancelled)==130 && !std::filesystem::exists(std::filesystem::u8path(bad[3])));cancelled=false;
     bad=args;bad.insert(bad.end(),{"--rows","3"});rejects([&]{detail::tma_dearray_cli(bad,cancelled);},"usage");
     bad=args;bad.pop_back();bad.pop_back();rejects([&]{detail::tma_dearray_cli(bad,cancelled);},"usage");
+    if(has_ome_zarr()) {
+        namespace fs=std::filesystem;
+        const auto store=root/"tma.zarr";
+        fs::create_directories(store/"0");
+        const auto write=[](const fs::path& path,std::string_view value) {
+            std::ofstream out(path,std::ios::binary);
+            out.write(value.data(),value.size());
+            check(bool(out));
+        };
+        write(store/".zgroup",R"({"zarr_format":2})");
+        write(store/".zattrs",R"({"multiscales":[{"version":"0.4","axes":[{"name":"y","type":"space"},{"name":"x","type":"space"}],"datasets":[{"path":"0","coordinateTransformations":[{"type":"scale","scale":[1,1]}]}]}]})");
+        write(store/"0/.zarray",R"({"zarr_format":2,"shape":[352,480],"chunks":[352,480],"dtype":"|u1","compressor":null,"fill_value":0,"order":"C","filters":null})");
+        const auto rgba=mask(fixtures/"interior_missing.pgm");
+        std::string pixels;
+        pixels.reserve(rgba.bytes().size()/4);
+        for(std::size_t i=0;i<rgba.bytes().size();i+=4) pixels.push_back(static_cast<char>(rgba.bytes()[i]));
+        const auto chunk=store/"0/0.0";
+        write(chunk,pixels);
+        Project linked;
+        check(linked.add_image(store.u8string(),"ome-zarr","Linked TMA")==1);
+        const auto linked_path=(root/"linked.qpxproj").u8string();
+        linked.save_new(linked_path);
+        const auto linked_bytes=bytes(linked_path);
+        auto linked_args=args;
+        linked_args[2]=linked_path;
+        linked_args[3]=(root/"linked.qptma").u8string();
+        check(detail::tma_dearray_cli(linked_args,cancelled)==0 && bytes(linked_args[3])==saved);
+        linked_args[3]=(store/"refused.qptma").u8string();
+        check(detail::tma_dearray_cli(linked_args,cancelled)==1 && !fs::exists(fs::u8path(linked_args[3])));
+        check(bytes(linked_path)==linked_bytes && bytes(chunk.u8string())==pixels);
+        pixels.back()^=1;
+        write(chunk,pixels);
+        linked_args[3]=(root/"stale.qptma").u8string();
+        check(detail::tma_dearray_cli(linked_args,cancelled)==1 && !fs::exists(fs::u8path(linked_args[3])));
+        check(bytes(linked_path)==linked_bytes && bytes(chunk.u8string())==pixels);
+        std::cout<<"TMA_DEARRAY_DIRECTORY_CLI exact linked OME-Zarr proposal, protected store output and stale store refusal passed\n";
+    }
     owner.finish(context);doc->server()->close();check(retained->grid.cores[5].missing && retained->cores.size()==12);
     std::cout<<"TMA_DEARRAY_OWNER copied parameters, immutable retention, atomic apply/history, stale revision, cancellation and budgets passed\n";
     std::cout<<"TMA_DEARRAY_CLI explicit image/options, read-only project, atomic new-file preview, source guards, cancellation and limits passed\n";

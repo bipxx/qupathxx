@@ -39,15 +39,39 @@ libtiff/zlib/tinyxml2/libjpeg-turbo stack and excludes proprietary decoder depen
 | Property | Contract |
 | --- | --- |
 | Containers | TIFF and BigTIFF; one-file OME-TIFF and explicit UUID/FileName multi-file OME (feature-branch synthetic engineering qualification; further fault/resource controls open) |
-| Types | uint8/16/32/64, int8/16/32/64, float32/64 |
+| Types | uint8/16/32/64, int8/16/32/64, float32/64. Plain 1- and 4-bit grayscale TIFF expand to exact UInt8 codes |
 | Layout | Strips or tiles; contiguous or separate planes; both byte orders |
-| Photometric | Top-left grayscale MINISBLACK/MINISWHITE or RGB; source alpha honored per pyramid level in preview |
-| Compression | Uncompressed, LZW, PackBits, Deflate; 8-bit scalar/RGB JPEG with full streams or JPEGTables |
+| Photometric | Grayscale MINISBLACK/MINISWHITE or RGB, with source alpha per pyramid level in preview. Plain TIFF also supports one lossless unsigned 4-, 8- or 16-bit palette index |
+| Orientation | Plain TIFF normalizes all eight TIFF orientations. OME-TIFF requires top-left. SubIFDs must use the base IFD's orientation |
+| Compression | Uncompressed, LZW, PackBits, Deflate. Verified CCITT Groups 3 and 4 for plain bilevel TIFF. 8-bit scalar/RGB JPEG with full streams or JPEGTables |
 | OME axes | All six Z/C/T orders, explicit TiffData mappings, grouped RGB samples |
 | Pyramid | Native SubIFDs with increasing integer isotropic scales |
 | Plain TIFF pages | Separate series; no guessed Z/time axes |
 
-Old-style JPEG (compression6), JPEG2000, palette/YCbCr, rotated orientations, bit-packed and complex
+Raw and display requests use the same oriented top-left frame. The reader
+permutes the exact native samples and swaps the dimensions and X/Y calibration
+for orientations that exchange axes. [TIFF 6.0 Orientation tag](https://www.itu.int/itudoc/itu-t/com16/tiff-fx/docs/tiff6.pdf)
+
+Bilevel TIFF supports both FillOrder values. Raw reads preserve the original
+sample codes and the view maps 0 and 1 to black or white according to the
+photometric tag. Cropped pixels outside the raster keep their separate
+invalid flags. [TIFF 6.0 bilevel images](https://www.itu.int/itudoc/itu-t/com16/tiff-fx/docs/tiff6.pdf)
+
+Plain 4-bit grayscale uses most-significant-bit FillOrder and lossless
+compression. Raw reads preserve codes 0–15. The default view maps the full
+range to grayscale and applies the photometric polarity. Packed grayscale
+pyramids require the same bit depth at each level.
+[LibTIFF grayscale coverage](https://libtiff.gitlab.io/libtiff/specification/coverage.html)
+
+Palette TIFF raw reads expose the stored indices. Packed 4-bit indices use
+most-significant-bit FillOrder and expand to UInt8 values 0–15. The default view maps them
+through the selected level's 16-bit ColorMap tables and scales the components
+to RGBA8. A custom channel or contrast selection displays the index values.
+The reader checks the original photometric tag at selected TIFF and BigTIFF
+directories. A palette declaration whose ColorMap is missing or unusable
+fails before export, including at pyramid levels.
+
+Old-style JPEG (compression6), JPEG2000, YCbCr, OME palette, packed grayscale OME-TIFF, other bit-packed and complex
 samples and noninteger/anisotropic pyramids are rejected by this
 reader. Existing OpenSlide format support remains available separately.
 [R2-CODEC1](benchmarks/tiff-jpeg-r2/README.md) adds JPEG through the existing
@@ -70,6 +94,27 @@ OME physical sizes and time intervals are normalized to micrometers and
 seconds when supported units and positive finite values are present. Missing,
 unknown or invalid calibration remains absent. Raw sample arrays are never
 scaled by calibration or display settings.
+
+For an OME time series without a declared `Pixels TimeIncrement`,
+the reader can use a complete `Plane DeltaT` table. It requires every channel
+and Z plane at a given time index to agree after unit conversion. The series
+must start at zero and increase at every index. Each timestamp must agree
+with its index times the first interval within one binary64 representable
+value. Incomplete, offset and irregular
+plane timing stays unspecified in the regular time-interval field.
+
+When a stack omits `Pixels PhysicalSizeZ`, a complete
+`Plane PositionZ` table can supply regular Z spacing under the same
+zero-origin and increasing-index checks. Each Z plane must have the same
+position across channels and timepoints after conversion to micrometers.
+Every position needs an explicit physical length unit. OME defaults an
+omitted position unit to `reference frame`.
+
+For a multi-file stack, every distinct resolved metadata document must
+independently supply the same regular step for an axis. Files that point to
+one BinaryOnly master use that master. A missing, incomplete or conflicting
+table leaves the affected inferred calibration absent.
+[OME Plane and Pixels metadata](https://www.openmicroscopy.org/Schemas/Documentation/Generated/OME-2016-06/ome_xsd.html)
 
 The [R2-SI1 conversion](benchmarks/ome-calibration-units-r2/README.md) recognizes
 the OME2016-06 SI prefix range (yotta through yocto) for metres and seconds,
@@ -135,6 +180,8 @@ These counters are not a process RSS measurement. Preview conversion uses
 
 ```text
 qupathxx_region --raw sample.ome.tif new-region.npy --z 2 --time 1 --channel 0 --channels 2 --width 512 --height 512
+qupathxx_region --raw-project study.qpx 3 new-region.npy --channel 0 --channels 2 --width 512 --height 512
+qupathxx_region --project-region study.qpx 3 0 0 0 512 512 preview.pam
 qupathxx_app sample.tif --reader tiff --tiff-series 0
 python -m qupathxx sample.tif --reader tiff --tiff-series 0
 ```
@@ -144,6 +191,28 @@ an atomic new-file operation. Coordinates are level-zero; width and height are
 output pixels at the selected native pyramid level. SIGINT/SIGTERM cancel
 unfinished reads/writes (exit 130). The GUI also accepts Reader: TIFF when
 adding an image.
+
+With `--raw-project`, use the native image ID reported by
+`qupathxx_format_import project-images study.qpx`. The saved project selects
+the reader and TIFF series. Z and time follow the saved view by default.
+`--z` and `--time` override them independently, and `--channel` and
+`--channels` address original sample channels. The project and its linked
+inputs are protected during publication.
+If the document has saved axis calibration, the JSON receipt and optional
+bundle include `project_axes` for the actual Z and time indices exported.
+It records document Z spacing, Z position and the timestamp in seconds.
+Unknown positions are explicitly null. The reader's acquisition calibration
+and the array bytes retain their original meaning.
+
+`--project-region` uses the saved reader's display view, including its
+channels and contrast ranges, to write RGBA8 PAM. Supply level-zero X and Y,
+the pyramid level, and output width and height at that level. This route is
+for display previews and uses the reader's normal padding.
+Append `--receipt` to write a JSON record to standard output after the PAM
+is published. It includes the project SHA-256 and image ID, the observed
+reader source, the saved TIFF or OME-Zarr view when present, the crop coordinates
+and the SHA-256 of the exact PAM. Optional reader implementations are identified
+by their saved binding in `reader_source.reader`.
 
 References: [OME-TIFF specification](https://docs.openmicroscopy.org/ome-model/6.2.2/ome-tiff/specification.html),
 [OME schema](https://www.openmicroscopy.org/Schemas/Documentation/Generated/OME-2016-06/ome_xsd.html),

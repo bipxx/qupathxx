@@ -1,8 +1,13 @@
 #include "json_string.hpp"
 #include "format_family_catalog.hpp"
-#include "qupathxx/reader_plugins.hpp"
+#include "reader_plugin_cli.hpp"
 #include "qupathxx/project_batch.hpp"
+#include "qupathxx/project.hpp"
+#include "qupathxx/stain_estimation.hpp"
 #include "qupathxx/stain_model_io.hpp"
+#include "export_output.hpp"
+#include "project_export_guard.hpp"
+#include "format_import_internal.hpp"
 #include "decimal_quantity.hpp"
 #include "pixel_stream_cli.hpp"
 #include "raw_pixel_cli.hpp"
@@ -25,6 +30,8 @@
 #include <csignal>
 #include <filesystem>
 #include <iostream>
+#include <limits>
+#include <set>
 #ifdef _WIN32
 #define NOMINMAX
 #include <windows.h>
@@ -43,16 +50,137 @@ double real(const std::string& s) {std::size_t end=0;const auto n=std::stod(s,&e
 std::vector<double> numbers(const std::string& s) {
     std::vector<double> out;std::size_t at=0;do {const auto end=s.find(',',at);out.push_back(real(s.substr(at,end==std::string::npos?end:end-at)));if(out.size()>9) throw std::invalid_argument("too many vector components");if(end==std::string::npos) break;at=end+1;}while(true);return out;
 }
+int estimate_project_stains(const std::vector<std::string>& args) {
+    using namespace qpx;
+    using namespace qpx::detail;
+    if (args.size() < 4)
+        throw std::invalid_argument("expected --estimate-stains PROJECT NEW_JSON --image ID --roi ID");
+
+    StainEstimateParameters parameters;
+    ColorVector white{255, 255, 255};
+    std::uint64_t image = 0, roi = 0;
+    std::set<std::string> seen;
+    for (std::size_t i = 4; i < args.size(); ++i) {
+        const auto& flag = args[i];
+        if (!seen.insert(flag).second) throw std::invalid_argument("duplicate option: " + flag);
+        if (flag == "--nucleus") continue;
+        if (++i == args.size()) throw std::invalid_argument("missing value for " + flag);
+        const auto& value = args[i];
+        const auto size = [&] {
+            const auto parsed = integer(value);
+            if (parsed > std::numeric_limits<std::size_t>::max())
+                throw std::invalid_argument("value exceeds size range for " + flag);
+            return static_cast<std::size_t>(parsed);
+        };
+        if (flag == "--image") image = integer(value);
+        else if (flag == "--roi") roi = integer(value);
+        else if (flag == "--white") {
+            const auto components = numbers(value);
+            if (components.size() != 3) throw std::invalid_argument("--white requires R,G,B");
+            white = {components[0], components[1], components[2]};
+        } else if (flag == "--level") {
+            if (value == "auto") continue;
+            const auto level = integer(value);
+            if (level > std::numeric_limits<std::int32_t>::max())
+                throw std::invalid_argument("--level exceeds the native level range");
+            parameters.level = static_cast<std::int32_t>(level);
+        } else if (flag == "--min-od") parameters.min_od = real(value);
+        else if (flag == "--trim-quantile") parameters.trim_quantile = real(value);
+        else if (flag == "--min-angle-degrees") parameters.min_angle_degrees = real(value);
+        else if (flag == "--max-residual-fraction") parameters.max_residual_fraction = real(value);
+        else if (flag == "--min-samples") parameters.min_samples = size();
+        else if (flag == "--sample-limit") parameters.sample_limit = size();
+        else if (flag == "--tile-size") parameters.tile_size = size();
+        else if (flag == "--work-bytes") parameters.work_bytes = size();
+        else if (flag == "--max-read-pixels") parameters.max_read_pixels = integer(value);
+        else if (flag == "--seed") parameters.seed = integer(value);
+        else throw std::invalid_argument("unknown stain estimation option: " + flag);
+    }
+    if (!image || !roi) throw std::invalid_argument("--estimate-stains requires positive --image and --roi IDs");
+    parameters.validate();
+
+    export_checkpoint(&cancelled);
+    const auto source = export_path(args[2]);
+    const auto output = export_path(args[3]);
+    require_new_export(output);
+    const std::vector<std::string> protected_paths{source, source + "-journal", source + "-wal", source + "-shm"};
+    ReaderFileGuard observed(source);
+    const auto project = Project::open_without_journal_recovery(source);
+    guard_export_output(output, protected_paths);
+    const auto images = project->images();
+    guard_project_export_output(*project, images, output, &cancelled);
+    const auto document = project->document(image);
+    const auto verified = project->source_verification(image);
+    const FormatImportImageGuard image_files(document->server(), &cancelled, verified.get());
+    image_files.protect(output);
+    const StainEstimateRequest request(*document, roi, parameters, white, seen.count("--nucleus") != 0);
+    const auto result = estimate_stains(request, &cancelled);
+    const auto json = stain_estimate_json(result);
+    AtomicExportFile file(output, 16 * 1024 * 1024, &cancelled);
+    file.write(json.data(), json.size());
+    observed.verify();
+    image_files.verify(&cancelled);
+    image_files.protect(output);
+    guard_project_export_output(*project, images, output, &cancelled);
+    commit_export_output(file, output, ExportWritePolicy::CreateNew, protected_paths);
+    std::cout << json;
+    return 0;
+}
+void print_batch_image(const qpx::ProjectBatchImageResult& image) {
+    std::cout<<qpx::project_batch_image_json(image)<<'\n'<<std::flush;
+}
+int apply_project_stains(const std::vector<std::string>& args) {
+    if(args.size()<8 || args.size()%2)
+        throw std::invalid_argument("expected --apply-stain-model PROJECT NEW_PROJECT --image ID --stain-model FILE");
+    std::uint64_t image=0;
+    std::string model,name;
+    std::set<std::string> seen;
+    for(std::size_t i=4;i<args.size();i+=2) {
+        const auto& flag=args[i];const auto& value=args[i+1];
+        if(!seen.insert(flag).second) throw std::invalid_argument("duplicate option: "+flag);
+        if(flag=="--image") image=integer(value);
+        else if(flag=="--stain-model") model=value;
+        else if(flag=="--profile-name") name=value;
+        else throw std::invalid_argument("unknown stain model apply option: "+flag);
+    }
+    if(!image || model.empty()) throw std::invalid_argument("--apply-stain-model requires --image and --stain-model");
+    const auto output=qpx::detail::export_path(args[3]);
+    const auto digest=qpx::apply_project_stain_model(args[2],image,model,output,name,&cancelled);
+    std::cout<<"{\"schema\":\"qpx.project-stain-model/1\",\"state\":\"saved\",\"image_id\":"<<image
+             <<",\"model_sha256\":"<<qpx::detail::json_string(digest)<<",\"output\":"<<qpx::detail::json_string(output)<<"}\n";
+    return 0;
+}
+int export_project_stains(const std::vector<std::string>& args) {
+    if(args.size()!=6 || args[4]!="--image")
+        throw std::invalid_argument("expected --export-stain-model PROJECT NEW_JSON --image ID");
+    const auto image=integer(args[5]);
+    if(!image) throw std::invalid_argument("--export-stain-model requires a positive image ID");
+    const auto output=qpx::detail::export_path(args[3]);
+    const auto digest=qpx::export_project_stain_model(args[2],image,output,&cancelled);
+    std::cout<<"{\"schema\":\"qpx.project-stain-model/1\",\"state\":\"exported\",\"image_id\":"<<image
+             <<",\"model_sha256\":"<<qpx::detail::json_string(digest)<<",\"output\":"<<qpx::detail::json_string(output)<<"}\n";
+    return 0;
+}
+int print_batch_report(const qpx::ProjectBatchReport& report) {
+    std::cout<<qpx::project_batch_report_json(report)<<std::flush;
+    return report.state=="succeeded"?0:report.state=="cancelled"?130:1;
+}
 int execute_inner(const std::vector<std::string>& args) {
     using namespace qpx;
     if(args.size()==2 && args[1]=="--formats") {std::cout<<detail::format_family_catalog_json();return 0;}
     if(args.size()==1 || (args.size()==2 && args[1]=="--help")) {
-        std::cout<<"Usage: qupathxx_batch PROJECT OUTPUT_DIRECTORY [options]\n"
+        std::cout<<"Usage: qupathxx_batch [--reader-plugins ABS_MANIFEST]... PROJECT OUTPUT_DIRECTORY [options]\n"
             "       qupathxx_batch --formats\n"
+            "       qupathxx_batch --pixel-batch-recipe RECIPE OUTPUT_DIRECTORY\n"
             "       qupathxx_batch --project-density MANIFEST NEW_DIRECTORY [--resume-from DIRECTORY --recompute --stop-on-error]\n"
             "       qupathxx_batch --density-manifest PROJECT --window-class NAME --tissue-class NAME --all-cells [--output NEW_MANIFEST]\n"
             "       qupathxx_batch --import-nucls IMAGES ANNOTATIONS --mpp-x N --mpp-y N --representation outlines|centroids [--output NEW_PROJECT]\n"
-            "       qupathxx_batch --export-csv CHECKPOINT OUTPUT.csv\n"
+            "       qupathxx_batch --export-csv CHECKPOINT NEW_OUTPUT.csv\n"
+            "       qupathxx_batch --estimate-stains PROJECT NEW_JSON --image ID --roi ID [--white R,G,B --nucleus --level auto|N]\n"
+            "       qupathxx_batch --apply-stain-model PROJECT NEW_PROJECT --image ID --stain-model FILE [--profile-name NAME]\n"
+            "       qupathxx_batch --export-stain-model PROJECT NEW_JSON --image ID\n"
+            "         --min-od N --trim-quantile N --min-angle-degrees N --max-residual-fraction N\n"
+            "         --min-samples N --sample-limit N --tile-size N --work-bytes N --max-read-pixels N --seed N\n"
             "       qupathxx_batch --aggregate-expression PROJECT NEW_PROJECT --image ID --matrix SHA256 --spec SPEC.json [--work-bytes N]\n"
             "       qupathxx_batch --reduce-expression PROJECT NEW_PROJECT --image ID --matrix SHA256 --spec SPEC.json\n"
             "       qupathxx_batch --verify-expression-reduction PROJECT --image ID --record SHA256\n"
@@ -73,8 +201,11 @@ int execute_inner(const std::vector<std::string>& args) {
             "       qupathxx_batch --subcellular PROJECT NEW_PROJECT --image ID --roi ID --cell ID ... [--channels N --first-channel N --channel N --threshold N]\n"
             "         --z N --time N --sigma-x N --sigma-y N --background-sigma-x N --background-sigma-y N --min-pixels N --max-pixels N --connectivity 4|8\n"
             "       qupathxx_batch --label-input PROJECT --image ID --roi ID [--first-channel N --channels N --z N --time N]\n"
-            "       qupathxx_batch --import-label-mask PROJECT NEW_PROJECT --image ID --roi ID --mask LABELS.tif --producer NAME --producer-version VERSION\n"
+            "       qupathxx_batch --import-label-mask PROJECT NEW_PROJECT --image ID --roi ID --mask LABELS --mask-format tiff|png --producer NAME --producer-version VERSION\n"
             "         --model-sha256 SHA256 --input-sha256 SHA256 [--first-channel N --channels N --z N --time N]\n"
+            "       qupathxx_batch --import-ngff-label-mask PROJECT NEW_PROJECT --image ID --roi ID --mask-directory STORE --label-group GROUP --reference-group GROUP_OR_DOT\n"
+            "         --origin authored --author NAME --input-sha256 SHA256 [--label-z N --label-time N --reference-z N --reference-time N --first-channel N --channels N --z N --time N]\n"
+            "         producer origin uses --origin producer --producer NAME --producer-version VERSION --model-sha256 SHA256; labels require level zero and one-to-one linked pixels\n"
             "         creation: --record-only --max-regions N --work-bytes N --save-snapshot-bytes N --project-bytes N; SLIC: --max-assignment-tests N\n"
             "       qupathxx_batch --list-labels PROJECT --image ID\n"
             "       qupathxx_batch --verify-labels PROJECT --image ID --record SHA256 [--work-bytes N]\n"
@@ -107,6 +238,8 @@ int execute_inner(const std::vector<std::string>& args) {
             "       qupathxx_batch --export-cell-table PROJECT OUTPUT.csv [--capture-calibration] [--published] [--require-current]\n"
             "       qupathxx_batch --export-tma-cases PROJECT OUTPUT.csv [--image ID]\n"
             "       qupathxx_batch --export-tma-cohort PROJECT OUTPUT.csv (--image ID ... | --all-tma-images)\n"
+            "         both TMA exports accept repeated --measurements INPUT.csv with matching headers\n"
+            "         --match-columns-by-name allows the same columns in a different order\n"
             "       qupathxx_batch --export-pixels PROJECT IMAGE_ID OBJECT_ID MODEL OUTPUT.qps [options]\n"
             "       qupathxx_batch --verify-pixels FILE.qps [--file-bytes N]\n"
             "Pixel export: --block-size N --work-bytes N --tile-size N --file-bytes N\n"
@@ -131,7 +264,7 @@ int execute_inner(const std::vector<std::string>& args) {
             "Pixel batches: --pixel-model MODEL --block-size N --pixel-work-bytes N\n"
             "               --pixel-file-bytes N --pixel-total-bytes N --min-vote NUMBER\n"
             "               --max-pixels N --max-blocks N (per target)\n"
-            "--white R,G,B  --stains R,G,B,R,G,B[,R,G,B]  --normalized  OR --stain-model FILE\n"
+            "--white R,G,B  --stains R,G,B,R,G,B[,R,G,B]  --normalized  OR --stain-model FILE  OR --saved-stains\n"
             "--threshold NUMBER  --level INTEGER  --tile-size INTEGER\n"
             "Tissue grid: --tissue-grid NX NY CX CY (ROI counts, sampled context per axis)\n"
             "Tissue median: --tissue-median (3x3 binary cleanup after threshold)\n"
@@ -145,13 +278,13 @@ int execute_inner(const std::vector<std::string>& args) {
             "--snapshot-bytes N  --materialize-bytes N  --result-bytes N\n"
             "--csv-bytes N  --checkpoint-bytes N\n"
             "Default model: H&E basis (0.65,0.70,0.29), (0.07,0.99,0.11).\n"
-            "--import-qptma PROJECT GRID.qptma OUTPUT.qpxproj --image ID [--qptma-bytes N --snapshot-bytes N --project-bytes N]\n"
+            "--import-qptma PROJECT GRID.qptma OUTPUT.qpxproj --image ID [--expect-review SHA256 --qptma-bytes N --snapshot-bytes N --project-bytes N]\n"
             "--export-qptma PROJECT OUTPUT.qptma --image ID [--qptma-bytes N]\n"
             "--detect-tma PROJECT OUTPUT.qptma --image ID --rows N --columns N --core-width SIZE --core-height SIZE\n"
             "TMA preview: --core-units px|um (default px) --polarity dark|light --missing-density N --bounds-scale N --min-valid-fraction N\n"
             "             --preview-width N --preview-height N --source-pixels N --output-pixels N --work-bytes N\n"
             "             --min-component-area N --max-component-area N --min-component-extent N\n"
-            "             --max-fit-error N --max-rotation N --max-candidates N --pair-checks N --qptma-bytes N --name TEXT\n"
+            "             --max-fit-error N --max-rotation N --max-candidates N --pair-checks N --qptma-bytes N --name TEXT --review\n"
             "       qupathxx_batch --raw-classifier-workflow PROJECT NEW_DIRECTORY IMAGE_ID [--channels N]\n"
             "       qupathxx_batch --train-raw-pixels PROJECT IMAGE_ID MODEL --checkpoint FILE --archive FILE [raw options]\n"
             "       qupathxx_batch --export-raw-pixels PROJECT IMAGE_ID MODEL OUTPUT [raw options]\n"
@@ -167,7 +300,8 @@ int execute_inner(const std::vector<std::string>& args) {
             "  --raw-contour-work-bytes N --raw-contour-total-work-bytes N --raw-contour-boundary-work-bytes N\n"
             "  --raw-contour-max-boundary-runs N --raw-contour-max-components N --raw-contour-max-edges N --raw-contour-max-vertices N\n"
             "  --raw-contour-publication-bytes N\n"
-            "Raw classifier batches: --kind raw-pixels|raw-contours --raw-pixel-model MODEL [--raw-pixel-x-axis O,E,N,C --raw-pixel-y-axis O,E,N,C]\n"
+            "Raw classifier batches: --kind raw-pixels|raw-contours --raw-pixel-model MODEL\n"
+            "                        [--raw-pixel-model-grid | --raw-pixel-x-axis O,E,N,C --raw-pixel-y-axis O,E,N,C]\n"
             "             --raw-pixel-tile-width N --raw-pixel-tile-height N --raw-pixel-work-bytes N\n"
             "             --raw-pixel-file-work-bytes N --raw-pixel-max-samples N --raw-pixel-max-windows N --raw-pixel-min-vote N\n"
             "             --pixel-file-bytes N --pixel-total-bytes N (shared RGB/raw output quotas)\n"
@@ -179,10 +313,18 @@ int execute_inner(const std::vector<std::string>& args) {
             "              --samples-per-class N --max-scanned-samples N --unbalanced --seed N\n"
             "              --trees N --max-depth N --min-samples N --active-features N --forest-work-bytes N --checkpoint-bytes N --checkpoint-work-bytes N\n"
             "Raw prediction: --region X,Y,W,H (sample indices) --min-vote N --max-samples N --file-bytes N --file-work-bytes N\n"
+            "                --model-grid uses the saved sampling recipe for export and fresh contours instead of explicit axes\n"
             "JSONL stdout; exit 0 success, 1 failure/partial, 2 arguments, 130 cancelled.\n";
         return args.size()==1?2:0;
     }
     try {
+        if(args[1]=="--estimate-stains") return estimate_project_stains(args);
+        if(args[1]=="--apply-stain-model") return apply_project_stains(args);
+        if(args[1]=="--export-stain-model") return export_project_stains(args);
+        if(args[1]=="--pixel-batch-recipe") {
+            if(args.size()!=4)throw std::invalid_argument("Expected --pixel-batch-recipe RECIPE OUTPUT_DIRECTORY");
+            return print_batch_report(run_project_pixel_batch_recipe(args[2],args[3],&cancelled,print_batch_image));
+        }
         if(const auto result=detail::native_workflow_cli(args,cancelled)) return *result;
         if(const auto result=detail::expression_aggregation_cli(args,cancelled)) return *result;
         if(const auto result=detail::expression_reduction_cli(args,cancelled)) return *result;
@@ -247,6 +389,7 @@ int execute_inner(const std::vector<std::string>& args) {
             else if(flag=="--raw-contour-prefix") {raw_contour_flags=true;options.raw_contour_prefix=value();}
             else if(flag=="--raw-contour-no-clip") {raw_contour_flags=true;options.raw_contours.contours.clip_to_roi=false;}
             else if(flag=="--raw-pixel-model") raw_pixel_model_path=value();
+            else if(flag=="--raw-pixel-model-grid") options.raw_pixel_model_grid=true;
             else if(flag=="--raw-pixel-x-axis") options.raw_pixel_x=detail::raw_pixel_cli_axis(value());
             else if(flag=="--raw-pixel-y-axis") options.raw_pixel_y=detail::raw_pixel_cli_axis(value());
             else if(flag=="--raw-pixel-tile-width") options.raw_pixels.tile_width=static_cast<std::int64_t>(integer(value()));
@@ -267,6 +410,7 @@ int execute_inner(const std::vector<std::string>& args) {
             else if(flag=="--image") selection.push_back({integer(value()),{}});
             else if(flag=="--object") objects.push_back(integer(value()));
             else if(flag=="--stain-model") {if(stain_model_path)throw std::invalid_argument("duplicate --stain-model");stain_model_path=value();}
+            else if(flag=="--saved-stains") {if(options.use_saved_stains)throw std::invalid_argument("duplicate --saved-stains");options.use_saved_stains=true;}
             else if(flag=="--white") {const auto v=numbers(value());if(v.size()!=3) throw std::invalid_argument("white requires three components");std::copy(v.begin(),v.end(),white.begin());}
             else if(flag=="--stains") {const auto v=numbers(value());if(v.size()!=6 && v.size()!=9) throw std::invalid_argument("stains require six or nine components");stains.clear();for(std::size_t n=0;n<v.size();n+=3) stains.push_back({v[n],v[n+1],v[n+2]});}
             else if(flag=="--normalized") normalized=true;
@@ -350,6 +494,8 @@ int execute_inner(const std::vector<std::string>& args) {
             else throw std::invalid_argument("unknown option: "+flag);
         }
         if(stain_model_path && numeric_stain_model) throw std::invalid_argument("--stain-model conflicts with --white, --stains and --normalized");
+        if(options.use_saved_stains && (stain_model_path || numeric_stain_model))
+            throw std::invalid_argument("--saved-stains conflicts with explicit stain model options");
         if(raw_contour_flags && options.kind!=ProjectBatchKind::RawPixelContours) throw std::invalid_argument("raw contour flags require --kind raw-contours");
         if(raw_pixel_flags && options.kind!=ProjectBatchKind::RawPixels && options.kind!=ProjectBatchKind::RawPixelContours) throw std::invalid_argument("raw classifier flags require --kind raw-pixels or raw-contours");
         if(!raw_pixel_model_path.empty()) options.raw_pixel_model=load_raw_pixel_classifier(raw_pixel_model_path,&cancelled);
@@ -366,18 +512,15 @@ int execute_inner(const std::vector<std::string>& args) {
         if(!pixel_model_path.empty()) {if(options.kind!=ProjectBatchKind::Pixels) throw std::invalid_argument("--pixel-model requires --kind pixels");options.pixel_model=load_pixel_classifier(pixel_model_path,&cancelled);}
         const auto transform=stain_model_path?load_stain_model(*stain_model_path):(normalized?StainTransform::from_normalized({stains[0],stains[1],stains[2]},white):StainTransform(stains,white));options.validate();
         auto project=Project::open(args[1]);ProjectBatchRequest request(*project,transform,selection,options);project.reset();
-        const auto report=run_project_batch(request,args[2],&cancelled,[](const auto& image){std::cout<<project_batch_image_json(image)<<'\n'<<std::flush;});
-        std::cout<<project_batch_report_json(report)<<std::flush;return report.state=="succeeded"?0:report.state=="cancelled"?130:1;
+        return print_batch_report(run_project_batch(request,args[2],&cancelled,print_batch_image));
     } catch(const std::exception& e) {
         std::cerr<<"{\"schema\":\"qpx.batch-error/1\",\"error\":"<<qpx::detail::json_string(e.what())<<"}\n";return cancelled.load()?130:2;
     }
 }
 int execute(std::vector<std::string> args) {
     try {
-        if(args.size()>1 && args[1]=="--reader-plugins") {
-            if(args.size()<4)throw std::invalid_argument("--reader-plugins requires an absolute manifest and a batch command");
-            qpx::configure_reader_plugins(args[2]);args.erase(args.begin()+1,args.begin()+3);
-        }
+        if(qpx::detail::consume_reader_plugin_prefix(args) && args.size()==1)
+            throw std::invalid_argument("--reader-plugins requires an absolute manifest and a batch command");
         return execute_inner(args);
     }catch(const std::exception& error){std::cerr<<"{\"schema\":\"qpx.batch-error/1\",\"error\":"<<qpx::detail::json_string(error.what())<<"}\n";return 2;}
 }

@@ -1,0 +1,352 @@
+{
+  "schema": "qpx.asap-xml-references/1",
+  "profile": "asap-level-zero-xml/1",
+  "reference": {
+    "commit": "b1bf355514edb8bb3653b6529b20178b831ced82",
+    "upstream": "https://github.com/computationalpathologygroup/ASAP",
+    "terms": "GPL-2.0-or-later via Copyright.txt; upstream License.txt is GNU GPL2",
+    "scope": "Development encoding references only; no upstream runtime, images, test corpus, datasets or models admitted",
+    "members": {
+      "Copyright.txt": {
+        "url": "https://raw.githubusercontent.com/computationalpathologygroup/ASAP/b1bf355514edb8bb3653b6529b20178b831ced82/Copyright.txt",
+        "sha256": "c18e3c0bbe926d1664826e2b075abbd56aa7967da09c010dc35b35a74c2e987e",
+        "bytes": 798
+      },
+      "License.txt": {
+        "url": "https://raw.githubusercontent.com/computationalpathologygroup/ASAP/b1bf355514edb8bb3653b6529b20178b831ced82/License.txt",
+        "sha256": "e1e1a4bfa256f54c751229d97d9603391dbc1a2a7e893d0b7d573592e4d8b1c0",
+        "bytes": 15496
+      },
+      "Readme.md": {
+        "url": "https://raw.githubusercontent.com/computationalpathologygroup/ASAP/b1bf355514edb8bb3653b6529b20178b831ced82/Readme.md",
+        "sha256": "2525b67ace97f67ff72efb246ff663c073a1628cd4a9adfe9e767c4a62278a85",
+        "bytes": 4483
+      },
+      "annotation/XmlRepository.cpp": {
+        "url": "https://raw.githubusercontent.com/computationalpathologygroup/ASAP/b1bf355514edb8bb3653b6529b20178b831ced82/annotation/XmlRepository.cpp",
+        "sha256": "46861e60bb9394d31a1b69e4330a62dd66e13bbfff4ba4335efeeee7cc4314e0",
+        "bytes": 7784
+      },
+      "annotation/XmlRepository.h": {
+        "url": "https://raw.githubusercontent.com/computationalpathologygroup/ASAP/b1bf355514edb8bb3653b6529b20178b831ced82/annotation/XmlRepository.h",
+        "sha256": "1cbdef43b0fd4e2cad88e5718c7736f8cae9fe170c0b399c1ad246d4289de6ba",
+        "bytes": 609
+      },
+      "annotation/Annotation.cpp": {
+        "url": "https://raw.githubusercontent.com/computationalpathologygroup/ASAP/b1bf355514edb8bb3653b6529b20178b831ced82/annotation/Annotation.cpp",
+        "sha256": "988d485f578a9d61a928b18d37f6ff47ed72069d3ee88bb33d17a13c55a1d7c3",
+        "bytes": 5675
+      },
+      "annotation/Annotation.h": {
+        "url": "https://raw.githubusercontent.com/computationalpathologygroup/ASAP/b1bf355514edb8bb3653b6529b20178b831ced82/annotation/Annotation.h",
+        "sha256": "31ac69d3ee85de8dbc7822c2911dbc0e24a15142b567eccf93aaf1b35eeb186d",
+        "bytes": 1486
+      },
+      "annotation/AnnotationGroup.cpp": {
+        "url": "https://raw.githubusercontent.com/computationalpathologygroup/ASAP/b1bf355514edb8bb3653b6529b20178b831ced82/annotation/AnnotationGroup.cpp",
+        "sha256": "f09b1ae3c63af710d64a29ce499abb2a7d29bddf16eaaae289f46b44da8425d3",
+        "bytes": 3788
+      },
+      "annotation/AnnotationGroup.h": {
+        "url": "https://raw.githubusercontent.com/computationalpathologygroup/ASAP/b1bf355514edb8bb3653b6529b20178b831ced82/annotation/AnnotationGroup.h",
+        "sha256": "4cc7714a9c9dfe0b242cfd4677fb8a43d178e8f28ce0c7e867951783a134c9fe",
+        "bytes": 1588
+      },
+      "annotation/AnnotationList.cpp": {
+        "url": "https://raw.githubusercontent.com/computationalpathologygroup/ASAP/b1bf355514edb8bb3653b6529b20178b831ced82/annotation/AnnotationList.cpp",
+        "sha256": "699b61661bba14d8b3ebd92c240cfcd486eefed5466f77bfd2d772dd53f2b571",
+        "bytes": 4238
+      },
+      "annotation/AnnotationList.h": {
+        "url": "https://raw.githubusercontent.com/computationalpathologygroup/ASAP/b1bf355514edb8bb3653b6529b20178b831ced82/annotation/AnnotationList.h",
+        "sha256": "df432624b49b5b5879b4705e26da6bce86db2900d20e5206d8ce1ea21aca099f",
+        "bytes": 1400
+      },
+      "core/Point.h": {
+        "url": "https://raw.githubusercontent.com/computationalpathologygroup/ASAP/b1bf355514edb8bb3653b6529b20178b831ced82/core/Point.h",
+        "sha256": "f39e40b8139dad8246ab4dab5aa2c74783e31abfafcd3de7e7465877757a815c",
+        "bytes": 399
+      },
+      "annotation/AnnotationBase.h": {
+        "url": "https://raw.githubusercontent.com/computationalpathologygroup/ASAP/b1bf355514edb8bb3653b6529b20178b831ced82/annotation/AnnotationBase.h",
+        "sha256": "2cf44805d5ba4ceb3d7950a4acc1a527b1dc41ba7934a132e35bd1fc7778bee3",
+        "bytes": 1210
+      },
+      "annotation/AnnotationBase.cpp": {
+        "url": "https://raw.githubusercontent.com/computationalpathologygroup/ASAP/b1bf355514edb8bb3653b6529b20178b831ced82/annotation/AnnotationBase.cpp",
+        "sha256": "0f522dbbbf9b547687659b30af000857e36a57c7bb3e4086659d2e33e47fe672",
+        "bytes": 1103
+      },
+      "ASAP/annotation/RectangleAnnotationTool.cpp": {
+        "url": "https://raw.githubusercontent.com/computationalpathologygroup/ASAP/b1bf355514edb8bb3653b6529b20178b831ced82/ASAP/annotation/RectangleAnnotationTool.cpp",
+        "sha256": "d08c734872dfee8c5f659be400f29347bccba9573447c7de0429f7e2dc305cce",
+        "bytes": 9283
+      },
+      "ASAP/annotation/MeasurementQtAnnotation.cpp": {
+        "url": "https://raw.githubusercontent.com/computationalpathologygroup/ASAP/b1bf355514edb8bb3653b6529b20178b831ced82/ASAP/annotation/MeasurementQtAnnotation.cpp",
+        "sha256": "87cac3b33e61de96c135d1c887ca499b9512e4a7862e064146774b86d9efe516",
+        "bytes": 5948
+      },
+      "ASAP/annotation/PointSetQtAnnotation.cpp": {
+        "url": "https://raw.githubusercontent.com/computationalpathologygroup/ASAP/b1bf355514edb8bb3653b6529b20178b831ced82/ASAP/annotation/PointSetQtAnnotation.cpp",
+        "sha256": "76c7d206aabe8d4e1ee71efa1c4973081749af6281047c286f2e1be83b9b24e8",
+        "bytes": 3956
+      },
+      "ASAP/annotation/DotAnnotationTool.cpp": {
+        "url": "https://raw.githubusercontent.com/computationalpathologygroup/ASAP/b1bf355514edb8bb3653b6529b20178b831ced82/ASAP/annotation/DotAnnotationTool.cpp",
+        "sha256": "5d38f74f74034cdcdca3e01a64ee2e2e9b7e4221741bb4d86b47e444f5a9716e",
+        "bytes": 1338
+      },
+      "ASAP/annotation/QtAnnotation.cpp": {
+        "url": "https://raw.githubusercontent.com/computationalpathologygroup/ASAP/b1bf355514edb8bb3653b6529b20178b831ced82/ASAP/annotation/QtAnnotation.cpp",
+        "sha256": "c78c8dc822bb493d324177d26690983022f7a24628135b2ae2ac5d3f61cb454b",
+        "bytes": 5561
+      }
+    }
+  },
+  "reference_code_license": "GPL-2.0-or-later",
+  "implementation": "Independent native AGPL-3.0-only implementation; no ASAP/Qt/pugixml runtime/code linked or packaged",
+  "no_datasets_or_images": true,
+  "expat": {
+    "schema": "qpx.expat-source-selection/1",
+    "version": "2.10.0",
+    "tag": "R_2_10_0",
+    "tag_object": "c5dc9f930efb4a7584c7be96e60d469ab5f1b767",
+    "commit": "a70841d9ffa64ddde29ab824ed6305035ebe4c47",
+    "upstream": "https://github.com/libexpat/libexpat",
+    "members": {
+      "CMakeLists.txt": {
+        "sha256": "9e4d1f620a33e00e36cb919d7b2973766e6fdd021a706a94e33090fc821001ee",
+        "bytes": 42196
+      },
+      "COPYING": {
+        "sha256": "31b15de82aa19a845156169a17a5488bf597e561b2c318d159ed583139b25e87",
+        "bytes": 1144
+      },
+      "README.md": {
+        "sha256": "06e1508b99779a275adc476fb9ef9b11a596723f3cd187c21e0c8c66c82cb346",
+        "bytes": 9935
+      },
+      "cmake/autotools/expat-config-version.cmake.in": {
+        "sha256": "6bd4f5068d9e13765ad1981f7030680f51409abb62993cbd14f72d3a100b9dc7",
+        "bytes": 2840
+      },
+      "cmake/autotools/expat-noconfig__linux.cmake.in": {
+        "sha256": "31ac473b566478408f09821b2469da941c8350ca9ae4fba1535bbe334ae61193",
+        "bytes": 933
+      },
+      "cmake/autotools/expat-noconfig__macos.cmake.in": {
+        "sha256": "99e82bb80d769adbaf91000fff87c53c1415cc4670250830d0c3cff50f4eec7a",
+        "bytes": 905
+      },
+      "cmake/autotools/expat-noconfig__windows.cmake.in": {
+        "sha256": "83e673741a7ed297866fb39b54f91aae1ae95a1f58661f7db60c7a76d38371d0",
+        "bytes": 996
+      },
+      "cmake/autotools/expat-package-init.cmake": {
+        "sha256": "2b4ffc7c625b15268bb3961b2752950120c713b5d811a40845bf9f2a87b8eaa0",
+        "bytes": 879
+      },
+      "cmake/autotools/expat__linux.cmake.in": {
+        "sha256": "861fd3e8d6ab95b5a4cfad1779367553b1275339d475b9089bc1e1e4a03a737d",
+        "bytes": 4135
+      },
+      "cmake/autotools/expat__macos.cmake.in": {
+        "sha256": "55d2201e6979677d353e081b1e8aba91ef50c78557c9c1b1053427bdd1d0428a",
+        "bytes": 4134
+      },
+      "cmake/autotools/expat__windows.cmake.in": {
+        "sha256": "861fd3e8d6ab95b5a4cfad1779367553b1275339d475b9089bc1e1e4a03a737d",
+        "bytes": 4135
+      },
+      "cmake/expat-config.cmake.in": {
+        "sha256": "4d76627f87cd75a1afee6b7ee9dfaa459ca391e5be4ca12786e75ef97894a5b4",
+        "bytes": 2941
+      },
+      "cmake/mingw-toolchain-win32.cmake": {
+        "sha256": "0ebef88ce46dbbf571dc71987c9db908cb3a64dae184e09c12470511f0c6a1d0",
+        "bytes": 1686
+      },
+      "cmake/mingw-toolchain-win64.cmake": {
+        "sha256": "383dc6ad6b58909c4626d988cc7dab59c148f9c8f417e6ce947b735edea2ec24",
+        "bytes": 1692
+      },
+      "expat_config.h.cmake": {
+        "sha256": "30fcb3695de8bca5056f4e3457939cd59e4fa93e3e65a867d53407b0dcc2bb13",
+        "bytes": 3433
+      },
+      "lib/Makefile.am": {
+        "sha256": "53b0fdc5421e5ac44f10e519fbbc6fbbc362050d99965a2b58422627bcce0899",
+        "bytes": 3758
+      },
+      "lib/ascii.h": {
+        "sha256": "73dd48d5f41e789d5616e8998e5118ea0f25bde65b87a8f04e3e74d4dd51b1a4",
+        "bytes": 3740
+      },
+      "lib/asciitab.h": {
+        "sha256": "5792cb56f285c8876b988d875a70d49019bc7e6d5ebcd0f8224b24e695301832",
+        "bytes": 3553
+      },
+      "lib/entities.h": {
+        "sha256": "ed3546fec0e33f14a99c95753357becfaec7c577965dc442d1cefd437acc5e92",
+        "bytes": 4515
+      },
+      "lib/expat.h": {
+        "sha256": "71be1f9e24a8edf1c27038a28441c947c3d75f19cf36d3a17ce59f8bb7298317",
+        "bytes": 47785
+      },
+      "lib/expat_external.h": {
+        "sha256": "24bed28e7cbc1cbc5f1cda6b918b978f252495c12ddf83fd792c9d6e67bc7119",
+        "bytes": 6923
+      },
+      "lib/fallthrough.h": {
+        "sha256": "5e42477487bca7e7caac6b832ab940f39a1a20b8765c945374e4f6c2670f55b6",
+        "bytes": 2094
+      },
+      "lib/hash_table.h": {
+        "sha256": "ad93851f86df1f4e8f85488dbac53cab3539e59d701ad747c7beea354d69e0dc",
+        "bytes": 3022
+      },
+      "lib/iasciitab.h": {
+        "sha256": "a9cd6f2cf5199ae3c29d22ee4913736fcd984f62132146a0352c88549700e83f",
+        "bytes": 3623
+      },
+      "lib/internal.h": {
+        "sha256": "2a2821fc7a2982978a8630e26cf3b8158ab21a2c2f2d06354f8c0c6547dded44",
+        "bytes": 6137
+      },
+      "lib/latin1tab.h": {
+        "sha256": "b0daf8a75c690e895421f765ddb2ae2fbc1ba14694e06a3215dba84f1ff3427d",
+        "bytes": 3606
+      },
+      "lib/libexpat.def.cmake": {
+        "sha256": "a995b38d006605b25b0b54ae793f3618f8220916bec0d756557faa6752d24c6e",
+        "bytes": 3018
+      },
+      "lib/libexpat.map.in": {
+        "sha256": "0d014c11307df21d8602b249083420c47ff95c01f20cea3f2c456e2354ac55e1",
+        "bytes": 3013
+      },
+      "lib/memory_sanitizer.h": {
+        "sha256": "377ca054fdc531360f42a5cb7c522bcbf88b6c67aebc2e29544c37d14e836bde",
+        "bytes": 2185
+      },
+      "lib/nametab.h": {
+        "sha256": "8f78e64f11e2b23df8b32cb5528cfeda6215acd6abf6bcf1ad59fdc7b1ffd105",
+        "bytes": 9077
+      },
+      "lib/random_arc4random.c": {
+        "sha256": "33b936335d0bbe1bb36b0da65d82e2d656fef9cf2e49660101c74a3f4f9d5c37",
+        "bytes": 2266
+      },
+      "lib/random_arc4random.h": {
+        "sha256": "dd1a23b22604b61e1942e9fccdefe4d876cdf55477cd2e61904e50af162c15bf",
+        "bytes": 1776
+      },
+      "lib/random_arc4random_buf.c": {
+        "sha256": "e9a72469deea3c7faed0fd45e3ac7d81e8ce4e63b52ef7bb647baf71f3d0fd78",
+        "bytes": 2034
+      },
+      "lib/random_arc4random_buf.h": {
+        "sha256": "fccc4650a76f0b4df0b1123abeb248087a22d4eba9acbd1188cd44e21de4377b",
+        "bytes": 1792
+      },
+      "lib/random_dev_urandom.c": {
+        "sha256": "4d2a204c94285b0c459397619acfca5a8f5d690fbd8f419ac45879074e6afebd",
+        "bytes": 2704
+      },
+      "lib/random_dev_urandom.h": {
+        "sha256": "65a0bf3666927824029dd52dc4b6af3218719999ab9f45db8d8406645960f5ab",
+        "bytes": 1803
+      },
+      "lib/random_getentropy.c": {
+        "sha256": "ba99df7b694ff0b62d2871cc13b87e75d1a715af6045102ee7aff120ec1ae332",
+        "bytes": 2394
+      },
+      "lib/random_getentropy.h": {
+        "sha256": "8a122afb95decf1fcf960cf92004d0305d7c9154f84c1ac739e67ef554e02e59",
+        "bytes": 1799
+      },
+      "lib/random_getrandom.c": {
+        "sha256": "7d813973f1b021bd6576820180df180d3b07e5c47072ce083b7cb2029bcaed6d",
+        "bytes": 3551
+      },
+      "lib/random_getrandom.h": {
+        "sha256": "06738fafa3ec5b0148a699efeaa55aa80b8956b78a95bf5f78fcd9e0be998c48",
+        "bytes": 1804
+      },
+      "lib/random_rand_s.c": {
+        "sha256": "39ae3d8d337517ae2db5935a501cc9d6f55cc12e8ba552c03ea78eda6bdc2200",
+        "bytes": 3553
+      },
+      "lib/random_rand_s.h": {
+        "sha256": "941134a3796e544bf44c428cd1e1553506c9f344a5c0c4479a8a819745a0c0ff",
+        "bytes": 1845
+      },
+      "lib/siphash.h": {
+        "sha256": "12ecc9915bccb793ea8bb543cc7d002e226f4e4d6b97ec9839dca41cbe4e2e27",
+        "bytes": 13078
+      },
+      "lib/utf8tab.h": {
+        "sha256": "3fa349a3a19143366e80a58d9aa950152ef9cd7903f557f971051410b47f335c",
+        "bytes": 3555
+      },
+      "lib/winconfig.h": {
+        "sha256": "0ab6446eb98abc492ae341ef7607b535e44dedf52633fdc7c6e1a1361aec3922",
+        "bytes": 2071
+      },
+      "lib/xcs.c": {
+        "sha256": "ab9228cf9662af965bd2222cae6797c6379ab0408501965294c00ca828f6bcb8",
+        "bytes": 3384
+      },
+      "lib/xcs.h": {
+        "sha256": "105e1e3f694821583c6475a8b8bcad23e40c846c98fbe15988aaafbca8f7a8a6",
+        "bytes": 2015
+      },
+      "lib/xmlparse.c": {
+        "sha256": "9443794afe78dfab5cccf27e803b30359a55dbf9eaadbd54297522b72356833c",
+        "bytes": 350036
+      },
+      "lib/xmlrole.c": {
+        "sha256": "b1ad87cc3c0d4722358a7dfb1642df7f62066d1613a0a56dc9289e7112fb3f0c",
+        "bytes": 35068
+      },
+      "lib/xmlrole.h": {
+        "sha256": "8a0b61cd6efcd7427acbc86759e9013e7a61755097a1f82cbb2a79c011af5ee5",
+        "bytes": 4399
+      },
+      "lib/xmltok.c": {
+        "sha256": "44baab2a4970749f6f29992bbbc1b3c62239ef9ec2a20de96332ef4659b9e32d",
+        "bytes": 53557
+      },
+      "lib/xmltok.h": {
+        "sha256": "83dcfa0416240e070eee2217703faf9d28aa2c56372e307e712b7ee80520d9de",
+        "bytes": 12896
+      },
+      "lib/xmltok_impl.c": {
+        "sha256": "dd11f257be67c2a069a91774bcf16acc2fd5052f9abf50d0819b0acb28d4803c",
+        "bytes": 53494
+      },
+      "lib/xmltok_impl.h": {
+        "sha256": "a5053c69219d12788088de9bd670537e1c784302766c331afe6b253460d0417d",
+        "bytes": 3463
+      },
+      "lib/xmltok_ns.c": {
+        "sha256": "ea723a3470d3eed5c4a4e873bec2f996c605326fad25709b45452664261c5465",
+        "bytes": 4728
+      },
+      "ConfigureChecks.cmake": {
+        "sha256": "bded6ccff89d4c66249116cb5c8fff3f28fb96e07663b43dea4f10f65ccf79c1",
+        "bytes": 3990
+      },
+      "Changes": {
+        "sha256": "b200119004e21b89102f35b551bcdd26a479d0b882c98435e6b53e08ca75dd39",
+        "bytes": 124207
+      }
+    },
+    "scope": "Core parser/build/license source only; no upstream test corpus/image/benchmark/model downloaded; compilation waits for exact terms review"
+  },
+  "dependencies": {
+    "expat": "MIT; lib/siphash.h CC0-1.0; exact existing57 files"
+  }
+}

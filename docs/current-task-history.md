@@ -1,5 +1,27 @@
 # Earlier current-task snapshot
 
+##2026-11-17 - A07 native COCO instance masks
+
+Delivered selected polygon unions and compressed/uncompressed RLE through a
+separate ABI5 QBM1 full-canvas transport, reusing existing native label/grid/
+contours and preview/apply/undo/project/CLI/SDK services.32/65,24 pinned-reference
+comparisons,19 workflow checks,50 legacy controls and21 mask trust-boundary cases
+pass. Offline12/8 plus19 workflows and17 installed/coexistence checks pass with
+five providers.194 directory/ZIP members pass admission and exact removal; nine
+user files survive and two saved results reopen provider-free. Exact products,
+component terms/source/notices and evidence are in the [A07 receipt](benchmarks/coco/README.md).
+
+The new host reuses exact delivered label/contour objects after verifying all
+12/55 recorded inputs; the frozen core/runtime and wheels stay exact. Failures
+and corrections are retained: missing symbols in the older SDK, two new-consumer
+profile/API/header spellings, a stale-test undo baseline, relocated control output
+directories, duplicate mock format IDs and an old-source staging borrow rule.
+No numeric/stored-identity contract was relaxed.49 initial snapshots/eight ZIPs,
+1404 earlier products (four recorded archive relocations),43 prior inventory
+groups,18 original dirty snapshots and QOI product sources are verified.
+The full formats AND application/integration goal remains active; no commit,
+push/publication, binding, GUI or wheel phase was selected.
+
 This is a historical snapshot; its counts, outstanding items and timing scopes
 do not describe the current source. See [the workflow inventory](feature-matrix.md).
 
@@ -6729,3 +6751,810 @@ contracts/admission/evidence. The full format roadmap remains open.
 
 Stop after cleanup and the requested source commit. No additional parity,
 platform/corpus, biological, speed or public-release campaign is selected.
+
+
+<!-- Archived current card before PNG label-mask continuation, 2026-11-16. -->
+
+# Current implementation task
+
+## Complete - simplify, organize and commit native integrations
+
+Owner-selected cleanup is complete. The local source commit contains the pending
+native label workflows, OMERO services and optional Blosc provider. OMERO CLI
+parsing, preflight and execution now share one private frontend with native tests;
+repeated atomic/new-only exports share one helper. New C++ is readable, label
+CMake tests are grouped, and completed status detail is preserved exactly in the
+existing [task history](current-task-history.md).
+
+Decisive checks pass: four label/fluorescence/workflow/CLI suites, three OMERO
+CTests, configured codec/mask ABI checks, all nine OMERO CLI routes, offline
+preview reopening and both standalone command entry points. Tests use a Windows-
+only PATH without Python environment variables. Scientific formatting-only
+changes retain canonical source equivalence; no numeric or identity assertion
+was weakened. The root Python-off configuration, local links and staged diff
+checks pass. Verbatim upstream notice bytes/whitespace are preserved through a
+file-specific Git attribute. All 112 preceding products remain byte-identical.
+
+The existing integration cache builds this distinct source under
+build/gui-aggregation/gap-closure/cleanup/. That directory retains the55-file
+initial source snapshot, exact checks/products and cleanup receipt. Windows
+MODULE outputs needed a library-output correction: the prior DLL was restored
+from its verified copy, and output/PDB relocation cost one extra codec compile
+pass. Targeted re-staging preserved original notice bytes after Git line-ending
+normalization was detected. No engine archive, GUI, binding, SDK/wheel, release package or public/corpus
+campaign was rebuilt/repeated. Git records the authorized local commit; no push
+or publication is selected.
+
+## Delivered workflow and support
+
+- [Native labels](label-analysis.md): bounded SLIC, subcellular spots and unsigned
+  TIFF masks; shared native capture, measurements, publication/undo, persistence,
+  exact replay and protected exports. [Evidence](benchmarks/label-analysis/README.md).
+- [Native OMERO](omero-integration.md): public metadata/previews, explicit linked
+  NGFF raw blocks and original-coordinate ROI/result exchange. Public raw and4280
+  point shapes have earlier source-scoped evidence; masks have native fixtures.
+  IDR denies live mask pixels with HTTP403. [Evidence](benchmarks/omero/README.md).
+- [Blosc provider](../plugins/blosc-bytes/README.md): existing native image ABI,
+  pinned open sources, exact module identity and actual component notices.
+- [Windows candidate9](windows-molecular-desktop-candidate.md): preserve its
+  native/runtime/source identities and published assets unchanged.
+
+The [format inventory](format-plugin-coverage-plan.md) and
+[license policy](reader-license-policy.md) retain detailed support/admission
+boundaries. Earlier receipts remain their own qualification authorities and do
+not qualify changed source or instruct another campaign.
+
+## Stop condition
+
+Stop after the local commit with a clean working tree. Private OMERO auth/write-
+back, live IDR masks, raster editing, nonidentity transforms, whole-image streaming,
+desktop/bindings and packaging remain unselected. R0-R16 and the format census are
+reference catalogues, not promises of full QuPath parity. Keep C++ authoritative,
+Python optional and each plugin's actual license/source/distribution obligations.
+
+
+<!-- Archived PNG label card before owner-selected full qualified catalogue goal, 2026-11-16. -->
+
+# Current implementation task
+
+## Complete - native PNG label-mask interoperability
+
+Owner request: close remaining gaps. A08/R15 now imports externally produced
+integer grayscale PNG labels through the existing optional PNG plugin and shared
+native label services. Original label IDs, original-image raw measurements,
+geometry/publication/undo, save/reopen, exact replay and protected CSV/QPL/project
+exports use the existing authorities. C++ owns interpretation; Python is optional.
+The preceding cleanup card is preserved in [task history](current-task-history.md).
+
+### Decisive result
+
+Seven affected native checks pass, including the existing label/fluorescence/
+workflow/CLI suites, reader-plugin host, missing-provider refusal and configured
+PNG integration. Independent1/2/4/8/16-bit fixtures retain stored codes including
+65535. Decoder identity drift, malformed/color/alpha/palette/wrong-size masks,
+changed sources, cancellation and insufficient work refuse. Twelve standalone
+batch routes pass with Windows-only PATH and Python environment variables removed.
+Native and CLI PNG records, CSV and QPL agree exactly.
+
+The pre-change TIFF project retains record48058aca and its original CSV SHA256
+12dba940a9c17894fd7f86394b5538ff9459972f6d264c0948c2cf8679d9de41.
+TIFF's existing parameters and exact identities are preserved. PNG recipes bind
+format and exact provider/version/contract/options/module/dependency identity;
+the composed decoder receives a bounded allowance within remaining work.
+
+The root Python-OFF configuration and actual generated CMake consumer compilation
+pass. The integration test explicitly owns its header-only JSON dependency.
+All398 local documentation links, diff checks and new-test formatting checks pass.
+All130 preceding products remain byte-identical, including the frozen candidate9
+and admitted PNG module. There was no engine archive, GUI, binding, SDK/wheel,
+release packaging or public/corpus campaign. Changes remain local and uncommitted;
+no push or publication is selected.
+
+### Evidence and actual correction
+
+The existing integration cache retains distinct objects/runtime, source/product
+hashes, fixtures, commands and checks under
+build/gui-aggregation/gap-closure/png-labels/. Reuse compatible passing objects.
+A preflight script first used an obsolete receipt key and stopped before native
+execution. One new-test compile needed the explicit workflow-exception header;
+only unfinished targets were resumed. CMake review caught the private JSON include
+before its consumer compile. A documentation patch needed the exact existing
+matrix-row context. No assertion, quota, numeric or exact-identity rule was weakened.
+
+[Guide](label-analysis.md#offline-label-masks) and
+[receipt](benchmarks/label-analysis/README.md#png-label-mask-continuation) record
+support and identity; the [format inventory](format-plugin-coverage-plan.md) and
+[license policy](reader-license-policy.md) retain per-profile admission boundaries.
+
+### Stop condition and remaining scope
+
+The complete native/CLI PNG-mask workflow is delivered. Desktop/bindings/release
+packaging, NGFF labels, color/palette/alpha-mask interpretation, model execution,
+private/write-back OMERO and broader biology/platform/resources/speed acceptance
+remain separate selections. R0-R16 and the format census remain reference
+catalogues under the owner scope policy. Preserve the frozen Windows products;
+select the next concrete workflow before extending their support claims.
+
+
+## Archived QOI interoperability card2026-11-17
+
+# Current implementation task
+
+## Active goal - close all other qualified catalogue
+
+Owner explicitly selected all qualified formats and application/integration gaps,
+confirmed2026-11-16. The full objective persists across packets and turns. Use the
+existing [format roadmap](format-plugin-coverage-plan.md#full-format-roadmap-2026-11-14)
+and [R2-R16 queue](api-delivery-plan.md#execution-order-for-finishing-the-remaining-work)
+as the authorities; this card is the single active implementation outcome, not a
+replacement or smaller definition of the goal. Do not mark the goal complete when
+one plugin/workflow passes. Closed/accepted earlier scopes remain delivered.
+
+Qualification requires actual open/commercial-use-eligible schema, implementation,
+codecs and required materials, a representable native contract and evidence for
+the promised workflow. Investigate remaining candidates and contract-first items;
+unknown terms stay unresolved, not silently admitted or counted as implemented.
+Excluded Java/Groovy, restricted materials and cosmetic pixel parity stay outside
+owner policy. Scientific, resource, host/package and biological acceptance require
+their own actual evidence; no synthetic substitute or inherited qualification.
+
+### In progress - QOI native image interoperability (I08/R2)
+
+The official QOI specification1.0 is CC0; the pinned MIT reference codec is a
+separate development oracle only. Implement a standalone optional C++ plugin
+through the existing image ABI, with no core/Python/codec runtime dependency.
+Expose canonical lossless RGBA8 codes, including hidden RGB and alpha regardless
+of the informative channel hint. Treat color-space0 as encoded sRGB; convert
+linear RGB to sRGB for display only. Raw codes stay exact. Calibration is unknown.
+Use strict bounded decode, all six opcodes, cancellation and exact native source/
+implementation identity. No image/benchmark corpus download is selected.
+
+Before building, finish the codec/ABI/resource contract and consumer tests.
+Decisive checks: independently authored opcode/edge cases and pinned reference
+agreement; native C ABI buffers/requests/status/work/cancel; region CLI crops/raw;
+SDK project attach/save/reopen/replay, missing/changed implementation and source;
+license/staging guard, relocated offline module build and owned-file removal.
+Preserve source/failure/results and exact module identity in the existing evidence
+and material inventories. Reuse the retained ReaderPluginKit/SDK and native
+libraries; no core/GUI/binding rebuild is needed for this reader.
+
+### Current result and build decision
+
+The retained automatic region route refuses an independently authored valid QOI
+with OpenSlide cannot open or recognize (recorded before implementation). The
+CC0 specification and exact MIT oracle revision/hashes are recorded separately.
+Codec, bounded shared ABI helper and native/SDK tests now have settled interfaces.
+One combined plugin/test/reference/consumer CMake build reuses the retained kit
+and SDK; its decisive risk is exact opcode/alpha/linear-display interpretation
+and persisted source/module identity. No native engine/binding build is needed.
+All40 authored/reference profiles pass metadata/raw/display/crops/buffers, but
+the final budget-test precondition still counted the borrowed scaffold's single
+channel instead of RGBA's four. Correct the decoded-byte proof and rebuild only
+that test target. The production module is unchanged; preserve the first failure
+and continue the remaining refusal/native-consumer checks without weakening them.
+
+The corrected direct ABI check passes all40 positives and26 refusals; all five
+native project/source/implementation modes pass. The retained region CLI exposed
+an actual consumer gap: --raw accepts TIFF only. Close it through a shared typed
+C++ raw-file export service, with CLI parsing delegating to that service. Preserve
+legacy TIFF schema1 and NumPy bytes; plugin schema2 retains the existing native
+reader snapshot/metadata. Guard every primary/companion through read/export;
+refuse unsupported directory-store snapshots and missing-validity array exports.
+Before the affected cached frontend/service/test build, pin the old TIFF output
+and exercise raw QOI/linear/channel subsets, source aliases, TIFF-only options,
+work/axis/missing-provider failures and other admitted plugin file profiles.
+The module/SDK/reference objects remain passing; no engine/archive rebuild.
+
+The first raw service/CLI checks pass exact QOI linear codes and the original
+TIFF NumPy bytes/report. A development harness imported unavailable NumPy before
+native work; use independent stdlib header/byte validation instead of installing
+or weakening array checks. An owned hard-link fixture reproduces source corruption
+in the retained preview CLI. Pull this correctness blocker into the same native
+region exporter: shared PAM serialization, atomic/new-only publication and
+existing native source/companion/directory alias protection. Only that service,
+CLI and its affected tests need rebuilding; the QOI module remains unchanged.
+
+Final handoff check now freezes actual module/executable/manifest hashes around
+the small native ABI/SDK/CLI group. Earlier development logs did not bind every
+artifact digest, so the final group supplies that missing source/binary evidence;
+reuse authored/reference fixtures and all unchanged core/codec qualification.
+Include the new shared exporter, legacy TIFF byte/report equality, raw plugin
+samples and preview hard-link regression. This is not a scientific/platform corpus
+campaign. After this group, stage and independently rebuild only the module kit.
+
+The24-member initial package passes admission. Its relocated source kit rebuilds
+without core/Python discovery, and the independent module passes all40/26 ABI
+profiles with its own recorded binary identity. Automatic command review rejected
+the combined deployment/removal proof before execution, without a specific reason;
+no files changed. Split native consumer checks from narrowly scoped, verified
+package-file removal. Preserve the passing module/build instead of rebuilding.
+
+The independent binary passes fresh native project create/reopen. Original-module
+deployment and narrowly checked24-file removal pass, preserving six user files
+and offline metadata/history. The only remaining build-system risk is the root
+CMake wiring for the new service/test: configure native-only with retained JSON
+source and no optional dependencies, verify the generated entries, and do not
+compile the unchanged core. Final docs/package checks reuse the same module.
+
+Native-only root configuration passes and wires the new service/test with Python
+OFF and no discovery. A post-configure harness misspelled `utf-8-sig`; corrected
+only the project-file read and reused the successful configure. No rebuild/retry.
+
+### Evidence and preservation
+
+The preceding PNG-mask work remains passing and uncommitted, with its exact card
+in [history](current-task-history.md) and source-scoped receipt under
+build/gui-aggregation/gap-closure/png-labels/. The initial full-goal snapshot and
+140 protected products are retained under build/gui-aggregation/catalogue-closure/.
+Use the one integration checkout/cache/runtime; do not overwrite prior modules,
+fixtures, packages, qualification or dirty-source work. No commit/push/publication
+is selected by this packet. The published Windows candidate9 stays frozen.
+
+### Completion and next action
+
+After QOI passes, update its existing I08/R2 row with evidence and continue the
+next qualified gap under the full active goal. Admission investigation, additional
+readers/writers/stores, native interoperability, consumer surfaces, automation and
+applicable display/resources/host/delivery work remain open in their existing rows.
+A packet closeout is progress; the goal ends only after a requirement/evidence
+audit proves the whole qualified catalogue scope complete. Run broad validation
+only for changed inputs or a named release/platform/scientific risk.
+
+Final outcome2026-11-17: QOI, the shared native raw/PAM exporter and the thin CLI
+pass the declared local handoff. Final24-member directory and ZIP admission pass;
+all140 protected products and the original18-file dirty snapshot remain exact.
+Results: build/gui-aggregation/catalogue-closure/qoi/results.json. No publication,
+commit or full-goal completion is claimed. Next: typed native annotation geometry
+with a concrete open box/polygon import provider; reuse existing native Roi,
+preview/apply, identity, project and undo authorities.
+
+
+## Archived annotation geometry card2026-11-17
+
+# Current implementation task
+
+## Active goal - close all other qualified catalogue
+
+Owner explicitly selected eligible formats and application/integration gaps on
+2026-11-16. The full goal persists across packets. The existing
+[format roadmap](format-plugin-coverage-plan.md#full-format-roadmap-2026-11-14)
+and [R2-R16 queue](api-delivery-plan.md#execution-order-for-finishing-the-remaining-work)
+own remaining scope. Java/Groovy compatibility, restricted materials and cosmetic
+pixel parity remain excluded. Unknown terms remain unresolved. No packet alone
+completes the goal or establishes broad platform, biological or speed acceptance.
+
+## In progress - native annotation geometry plugins (A06/R4/R15)
+
+The delivered annotation ABI accepts only one point per object, blocking native
+box/polygon exchange. Add a separately versioned annotation ABI2 entry; preserve
+matrix ABI1, point ABI1 and their exact receipt/row identities. The declared
+geometry transport is existing native QRO version1, not arbitrary serialized
+application objects. Bounded host-owned row/text/geometry buffers carry exact
+source IDs, class labels and explicit C/Z/T planes. The existing native geometry
+decoder/Roi authority validates primitives, paths, holes and topology. No plugin
+receives a mutable Document or publishes project/results.
+
+Add one independent, openly licensed pixel-geometry TSV provider with an exact
+named schema for rectangle/ellipse/polyline/points/polygon/multipolygon. Reuse the
+existing preview/apply transaction, explicit class mapping, source/target guards,
+class/source/module identity, native bounds, undo and persisted object receipts.
+Directory-store targets and inferred affine/unit transforms remain unsupported.
+No Java, Python fallback, third-party parser, model or external asset is needed.
+
+Settle the ABI, native quota/identity contract and provider interfaces before one
+combined cached build of the changed host sources, module, CLI and tests. Reuse
+the frozen native SDK/libraries and geometric kernels; do not rebuild bindings,
+GUI, wheels or an entire engine. Decisive checks: C layout/v1 compatibility,
+independent exact primitive/path/plane/ID cases, invalid/malformed buffers and QRO,
+work/cancel/Unicode, stale/invalid atomic apply, undo/save/reopen/offline receipts,
+changed source/module identity, old point preview/receipt identity and mixed
+matrix/annotation catalogs. Then admit the matching module/source and changed
+native consumer overlay with independent offline kit and removal evidence.
+
+## Preceding result and preservation
+
+[QOI and shared raw/PAM export](benchmarks/qoi-reader-plugin/README.md) pass the
+local handoff:40 positive/26 refused profiles,32 native checks, eight-reader raw
+exports, distinct offline module build,24-member directory/ZIP admission and
+owned-file removal preserving six user files/offline history. Results and exact
+source/product identities are in build/gui-aggregation/catalogue-closure/qoi/.
+All140 original protected products and the18-file prior dirty snapshot are exact.
+The [archived card](current-task-history.md) records its diagnosed harness failures
+and automatic review rejection, which was resolved by smaller verified operations.
+
+One integration checkout is active. Preserve earlier PNG work and frozen SDK/core,
+published candidate9, GUI/bindings/wheels and all evidence. The new host/source
+needs its own identity. No commit, push or publication is selected. After this
+packet, continue the next qualified catalogue gap; do not mark the goal complete.
+
+Current implementation: separate ABI2 admission/session dispatch and geometry
+transport reuse the native decoder and preview/apply authority; the standalone
+geometry TSV encoder is in place. No changed host build has run yet. The retained
+point CLI control first replaced its option argument instead of its output path,
+so parsing refused before publication. Correct the selected output argument and
+keep that failure; no product/interface change is involved.
+
+The corrected retained CLI control now pins the original point preview/receipt
+identity. Interfaces and consumers are settled: annotation ABI2 uses bounded QRO1
+pages; original point/matrix ABI1 identities remain separate. Before the combined
+cached build, native and independent controls cover18 encoded profiles,41 parser
+refusals, five native geometry/bounds refusals and malformed-provider seams.
+Compile only changed host sources, the new module/CLI/tests and affected old
+point/matrix tests against retained SDK libraries. Preserve the frozen core and
+use a separate matching source/kit identity, with no Python discovery.
+
+First cached host build compiled the loader/runtime, then stopped because the
+standalone overlay lacked the private SQLite header used by shared matrix import.
+Add the already-retained SQLite include to that development harness and resume
+the affected target. Preserve passing objects; no product/source contract change.
+
+The combined build then passes. Pre-run interface review found that an immutable
+RGB test target cannot represent C0 planes; switch the test to the existing
+authored quantitative TIFF oracle and verify all768 raw codes before capture.
+Rebuild only that test. All44 unchanged transitive host headers match the retained
+SDK source. The extra core.hpp difference is one friend declaration, with no
+layout/behavior change; the four ABI/import/runtime headers are deliberate new
+overlay inputs. This compatibility evidence does not replace the new host identity.
+
+The first hash-bound group passes C layout and reaches cancellation in the direct
+ABI test. That new test expected numeric5, but the unchanged image/format status
+contract defines CANCELLED=1 (5 is INTERNAL_ERROR). Use the named cancellation
+constant and rebuild only the test executable. Preserve the module and first
+failure; no implementation/status contract or assertion strength is changed.
+
+The corrected group passes all18/41 direct profiles, create/reopen/offline,
+native invalid/stale/quota/cancel cases and valid source-change identity. The
+first controlled malformed-metadata case correctly refuses and destroys its
+handle, but its test event writer used Windows text CRLF while the byte oracle
+requires LF. Switch only that test writer to binary mode, rebuild only the bad
+module, and reuse the hash-compatible passing host/module/test evidence. Keep
+the first event bytes and failure; continue the still-missing fault/CLI/v1 checks.
+
+All57 bound native checks now pass; original point preview/receipt/project rows
+remain exact, and mixed ABI1 matrix/point plus ABI2 geometry catalogs load cleanly.
+The new module/host archive/CLI have distinct recorded identities. Next decisive
+handoff: configure root native-only CMake using retained JSON/SQLite sources to
+verify ABI2 kit/module/test wiring, without a core build; admit the standalone
+module/source kit, rebuild it offline against only that kit and verify relocation
+and owned-file removal. The changed native consumer stays a separate overlay over
+the exact earlier SDK; package its exact source context alongside that base's
+existing source archive/notice receipt. Preserve all passing products and failures.
+
+Root native-only configuration passes ABI1/ABI2 kit, module and test wiring with
+Python default OFF; no core compile. The first stager lookup assumed lib/ instead
+of the SDK's imported lib/qupathxx/ location and stopped before staging. Correct
+the lookup from the actual target manifest; reuse the unchanged qualified binaries.
+
+The133-member module/kit/native-overlay package passes material admission. JSON
+headers match the pinned MIT archive with individual notices retained; the
+SQLite interface header/notice matches its pinned public-domain source. Neither
+is a module dependency. Next build risks are offline source completeness and
+public-only C++ header/archive linkage over the exact frozen SDK. Build the
+relocated module, one public SDK consumer and only the three overlay services plus
+CLI from staged sources; verify exact native project/receipt values. No core,
+kernel, GUI, binding, wheel or base SDK rebuild is justified.
+
+The relocated module, public-only SDK consumer and source-rebuilt native overlay/
+CLI all build and pass ten additional native checks. Exact geometry/receipts and
+the original point control agree; both rebuilt binaries keep separate hashes.
+The full native header closure adds one unchanged C ABI header, giving45 exact
+matches plus the documented friend-only and four deliberate overlay differences.
+Private133-file deployment/removal passes, preserving six user files and native
+offline geometry/history. No recursive delete or frozen-product rebuild occurred.
+Finish the final docs/source package/ZIP/link/diff and140-product preservation
+checks; a documentation patch context was corrected without applying partial
+edits. Then record the completed A06 scope and move to the next qualified named
+annotation format. The full goal remains active.
+
+Final outcome2026-11-17: A06 pixel-geometry TSV, ABI2 and native CLI/SDK
+overlay pass57 native and ten offline checks,18 exact/41 refused profiles,
+133-member directory/ZIP admission and owned-only removal preserving six user
+files. All140 protected products, previous snapshots and QOI source remain exact.
+Results: build/gui-aggregation/catalogue-closure/annotation-geometry/results.json.
+The full qualified-catalogue goal remains active; next is A02 ImageJ ROI/ZIP
+admission and native interoperability through this delivered geometry authority.
+
+
+##2026-11-17 - selected native ImageJ ROI/ZIP interoperability delivered
+
+Optional org.qupathxx.imagej-roi1.0.0 uses separate annotation ABI3 for source
+names/properties/colors and explicit native plane interpretation. Shared C++
+Roi/preview/apply/identity/class/project/undo authorities remain authoritative.
+The selected literal ROI217..229/stored-Deflate ZIP/ZIP64 contract passes26
+authored positive/37 refused profiles,28 ABI3 controls,57 affected legacy checks
+and exact native/CLI/SDK/offline paths.185 admitted directory/ZIP members carry
+matching new sources/notices/kit/native overlay/CLI;185 owned files are removed
+while six user files and saved offline results remain exact. All161 prior
+products,12 source-before snapshots,18 original dirty snapshots and QOI product
+sources are preserved. Evidence: build/gui-aggregation/catalogue-closure/
+imagej-roi/results.json and docs/benchmarks/imagej-roi/README.md. This is a
+source-scoped local engineering delivery; the full qualified-catalogue goal
+remains active. No base SDK/core/runtime/GUI/binding/wheel rebuild or publication.
+
+
+##2026-11-17 - selected native WKT/WKB and shared source producer delivered
+
+A03 adds optional org.qupathxx.wkt-wkb1.0.0, image-pixel-wkt-wkb/1, over
+unchanged annotation ABI3/native authorities. Seven basic2D types, raw/both/mixed
+byte-order WKB, hex transports and WKT preserve literal binary64 coordinates,
+strict closure, source membership and exact IDs.48 authored positive/79 refused
+profiles and14 process checks pass. Shared fixed-arena rows/facts/QRO encoding/
+producer callbacks also pass ImageJ26/37 profiles and12 process checks under a
+new source/binary identity. Source/SDK/native host/CLI reuse is input-bound.
+Both independent staged source builds, selected offline10/6 and8/6 profiles,
+coexistence and unchanged public SDK consumer match exact native outputs.194
+individually admitted directory/ZIP members and owned-only removal pass; nine
+user files survive and both results reopen without providers.354 prior products/
+source-package members, seven source-before files,18 original dirty snapshots,
+QOI sources and40 earlier inventory groups remain exact. Evidence: build/
+gui-aggregation/catalogue-closure/wkt-wkb/results.json and the A03 receipt. No
+kernel/host/GUI/binding/wheel rebuild, publication or full-goal closure.
+
+##2026-11-17 - A04 OME ROI XML and native ABI4 metadata integration
+
+Selected OME2016-06 vector annotations are delivered locally through the optional
+org.qupathxx.ome-roi provider. Native image/unbound selection, seven primitives,
+binary64/affine interpretation, planes, immutable source metadata and separately
+negotiated Locked reuse native Roi/frame/capture/apply/undo/project/CLI/SDK.
+QOX2 retains inherited/rebound/undeclared namespace contexts for QName metadata;
+that final correctness repair has its own module/source/package identity.
+Candidate01 source/binaries/packages/ZIP/receipts remain frozen. Expat2.10.0's57
+selected inputs retain MIT/CC0 terms; the exact OME schema remains CC-BY-4.0.
+No upstream image/test/model/NC/unknown asset or Java/Python runtime is admitted.
+
+39 positive/64 refused profiles and17 native/CLI checks pass, with exact independent
+geometry/DOM metadata oracles, source/plane/lock/state/undo/persistence and bounded
+XML/allocator/cancel controls.50 affected native ABI compatibility checks retain
+original ABI1 and ABI2/3 identities; frozen WKT/ImageJ modules match exact previews,
+receipts and objects. The unchanged host/CLI/SDK reused that evidence after the
+module-only namespace repair. Changed producer candidates pass WKT48/79 and
+ImageJ26/37. Offline OME11/8 profiles and15 SDK/coexistence checks pass.207-member
+directory/ZIP admission and removal pass: nine user files remain, two saved
+results reopen provider-free.554 earlier products,24 source-before snapshots,18
+original dirty snapshots, QOI sources and41 prior inventory groups remain exact.
+
+Corrections honored the existing interactive-lock/scripted-edit contract, made
+an intended overflow fixture actually overflow, used UTF-8 for private Expat C
+compilation and corrected source-selection/harness paths. Failed attempts and
+source/fixture variants remain. No numeric/identity assertion was weakened; only
+affected module/test inputs were recompiled over the frozen base SDK. Durable
+lessons were appended to compilexx's canonical note. Evidence: build/gui-
+aggregation/catalogue-closure/ome-roi/results.json and the A04 receipt. No full
+core/kernel/GUI/binding/wheel, corpus/platform, biological/speed, commit, push or
+publication campaign. The broad formats AND application/integration goal remains
+active; A05 eligibility intake is next, not an assertion of universal parity.
+
+##2026-11-17 - A05 ASAP XML and shared bounded XML source support
+
+Selected native ASAP Dot/PointSet/Polygon/Rectangle/two-endpoint Measurement
+are delivered through an optional ABI3 provider. Original decimal text and
+upstream double-to-binary32 values, Coordinate Order, exact document-index IDs,
+independent display names, group ancestry/attributes/class mapping and root-group
+color are retained through the shared native geometry/import/undo/project/CLI/SDK
+authorities. Existing fixed-arena XML/QOX2/Expat support is shared with OME, whose
+separate schema/image/binary64/plane/lock interpretation remains unchanged. New
+XML module identities remain distinct from old frozen products. No ASAP/Qt/
+pugixml runtime/code/dataset/test/image/model dependency; exact reference/author
+notice GPL-2.0-or-later, implementation AGPL-3.0-only, Expat MIT/CC0. Aperio
+schema terms remain unreviewed; open reader code is not format admission.
+
+ASAP33/69 and17 native/CLI checks pass; shared OME39/64 and17 checks pass.
+Direct controls include finite exact float32/ties/subnormals, SSE mode/exception
+mask refusal, bounded XML allocation/cancellation, probe/fill ownership, source
+staleness, explicit planes/classes, undo/redo and persistence.15 offline/SDK/
+coexistence checks pass: ASAP12/8, OME8/6 and four loaded providers.218 directory/
+ZIP members pass exact source/license admission/removal; nine user files remain
+and two saved results reopen without providers.1404 prior products,17 source-
+before snapshots,18 original dirty snapshots, QOI sources and42 prior inventory
+groups remain exact. A04 host/CLI/SDK/base runtime stay byte-exact; only optional
+modules/new tests were compiled in the reused cache.
+
+The controller's extra unused class maps correctly changed recipe identity; the
+repair matched per-case native options and reused the bound passing native suite.
+Staging reused an identical borrowed test after duplicate ownership refusal. A
+final hardware-exception guard has a distinct ASAP candidate and affected checks.
+One intermediate offline test DLL was overwritten before separate archival; its
+source/primary/test/packages/receipts remain, but that offline binary is not
+claimed retained/reused. The corrected offline DLL/manifest are explicitly frozen
+and have fresh evidence. This preservation correction and other durable lessons
+are in compilexx's canonical note; failed attempts remain and no numeric/identity
+assertion was relaxed. Evidence: build/gui-aggregation/catalogue-closure/asap-xml/
+results.json and the A05 receipt. No full core/kernel/GUI/binding/wheel, broad
+platform/corpus, biological/speed, commit/push/publication or full-goal closure.
+
+## 2026-11-17 - A08 NGFF integral-label candidate2 local handoff
+
+
+Continue the named external-label import/publication/export/replay workflow. The
+full goal covers eligible formats AND application/integration gaps; A08 is one
+selected workflow, not full NGFF/QuPath/catalogue completion. No Java, restricted
+material, GUI, binding, wheel, base-core or new scientific kernel build is selected.
+
+The native prerequisites pass19 controller routes and the retained TIFF/PNG exact
+identity consumer. New host-owned bounded directory snapshots share the old
+observer/digest authority without changing frozen ZarrStore layout or old file/
+compound link/1 identities. SOURCE_STORE negotiates a separate16-byte extension
+over the unchanged72-byte image ABI1 table; directories alone use link/2/source/3.
+All eight integral label types normalize through one native authority while exact
+signed/unsigned source codes retain64-bit identity. Deep empty trees, reparse/
+ancestor replacement, whole membership mutation, bounded simultaneous observation,
+cancel, decoder OFF, saved explicit-root review and unavailable providers pass.
+Old saved TIFF/PNG record/CSV bytes and PNG QPL remain exact at original paths.
+The scoped receipt is build/gui-aggregation/catalogue-closure/ngff-labels/
+foundation-results.json;177 retained header/context files and30 products are frozen
+in foundation-source.zip and foundation-products.zip before further cache reuse.
+These checks do not deliver the actual NGFF import workflow.
+The initial collector omitted caret-prefixed translation units, so that source
+ZIP is explicitly a partial header/context snapshot. Its original receipt is
+preserved and corrected; fully enumerated later application/provider sources
+include translation units, headers and shortened MSBuild log names. Their own
+passing A08 receipts provide current qualification without reconstructing or
+claiming an unobserved old source snapshot.
+
+Actual foundation corrections: missing test export macro, retained measurement
+object dependency, test-only JSON include and two mixed-separator Windows path
+expectations. Logs, sources and available products are retained under ngff-labels.
+The second path correction was avoidable duplicate-test repair. No numeric,
+source or persisted identity check was weakened; no algorithm object was rebuilt.
+
+Current settled implementation contract: optional org.qupathxx.ngff-labels owns
+NGFF0.4/Zarr2 interpretation using existing native OmeZarrSource decoding. A new
+separately negotiated LABEL_DESCRIPTION16 callback returns at most64KiB neutral
+owned metadata; core parses that neutral schema, never NGFF files. Plain STORE
+budgets stay exact; label stores reserve an additional1MiB descriptor workspace.
+The generic native frame service checks explicit source/reference/target planes,
+units/calibration, one-to-one level-zero XY lattice and integral crop offsets.
+Relative scale/calibration tolerance is1e-12; index offset tolerance is1e-9.
+Original transforms/metadata still participate in exact persisted identity.
+No resize, external-reference fetch, inferred registration or invented classes.
+
+Native NgffLabelMaskOptions keeps authored and producer provenance distinct;
+both declare the target raw-input SHA, and only producer origin requires a model.
+The new pointer option alternative preserves old captured variant storage. Native
+workflow integration retains the directory snapshot, exact code map, original
+metadata and store/content/decoder identity through measurements, atomic keep/
+publication, save/reopen/replay and protected CSV/lossless QPLM1 bundle export.
+Legacy QPL1/TIFF/PNG methods and encoding remain separate. The native CLI is thin.
+Provider, ABI, frame/archive and actual workflow tests are being implemented in
+parallel with disjoint ownership. Their active source is not yet build-qualified.
+
+Before the next combined cached build: finish these interfaces/consumers, retain
+passing products (done), verify exact reused algorithm inputs, then compile only
+changed application/observer/adapter/consumer objects in the existing A04 cache.
+Decisive checks are actual optional-provider decoding and exact64-bit maps;
+source/reference crop/plane/calibration/metadata; complete publication/replay/CSV/
+bundle routes; mutation after capture and protected directory outputs; ABI/trust/
+budget/cancel/OFF controls; and retained old file/compound/TIFF/PNG identities.
+No broad corpus/platform qualification or packaging of intermediate substeps.
+
+Interfaces and owned sources are now settled; configure02 passes. A demonstrated
+native persistence blocker is also fixed: direct Project.save/save_new previously
+protected target-image sources but not a kept external directory mask. They now
+call the same native label-record output guard before database/staging creation;
+provider-free metadata save outside the source remains available. The new thin
+qupathxx_labels CLI calls the same shared operations as batch/native consumers.
+All five reused scientific object inputs still match exactly. Combined build08
+will compile changed ABI/store-description, neutral import/frame/archive/workflow/
+project guard and thin consumers, the actual optional provider and focused tests;
+then run the decisive routes above. Foundation source/product ZIPs are retained.
+
+Build08 and integration01 pass: actual provider/native workflow, all integral
+types, null/zlib/gzip/chunk boundaries, explicit source/target planes/crops, native
+measurements/contours, authored/producer persistence/publication/replay, CSV and
+QPLM1, metadata/identity tampering, whole-store currentness and native project/
+CSV/bundle protection. Separate OFF-description and ABI trust controls pass,
+alongside19 affected old foundation routes and exact retained TIFF/PNG identities.
+Next missing checks: fresh-process CLI creation over those passing fixtures and
+the same optional-provider workflow with host builtin NGFF decoding disabled.
+Only the latter needs one small OFF-stub/test target; reuse all passing products.
+These source-scoped primary checks precede matching source/native/plugin notices
+and install/run/removal evidence; A08/full goal completion is not claimed yet.
+
+Standalone01's12 fresh-process routes and decoder-off01's unchanged native
+workflow assertions pass. SDK consumer build10/run also pins the exact addon/
+frozen-core libraries and reproduces native CSV/bundle bytes through public APIs.
+No kernel, base core, wheel or binding rebuild occurred.
+
+Before final packaging, review found a real metadata blocker: reserializing a
+precise opaque property through binary64 can change its numeric text. Candidate1
+is preserved separately with232 exact source inputs,49 products and its passing
+receipts. Candidate2 extracts the existing bounded JSON tree into generic reader/
+JSON headers with compatibility adapters; the provider copies original property
+object spans. Only label attributes admit opaque wide integer tokens; source IDs,
+array/options JSON and scientific scalar bounds stay strict. Integral mask arrays
+admit only integer/null fills before successful open, preventing implicit numeric
+fill conversion. No native pixel/measurement kernel or frozen SDK source changes.
+
+Next decisive combined build11: new generic-parser tests, changed provider and
+actual workflow tests (primary and host-decoder-OFF). Keep passing b0c86a addon/
+CLI/SDK products intact. Prove exact opaque integers/decimals through descriptions,
+objects, CSV, bundle and replay, plus strict malformed-fill refusals and unchanged
+default parser/annotation interfaces. Then finish source/material/install/removal
+checks. The material guard adds only the verified W3C-20150513 report license;
+unknown/restricted/NC source admission remains excluded.
+
+Build11 passes. Candidate2 generic parser, primary workflow and host-decoder-OFF
+workflow pass; exact opaque property spans reach all declared outputs and malformed
+integer fills refuse. Standalone02's12 routes and public SDK consumer02 also pass
+with the new manifest/module, exact native CSV/bundle bytes and source tokens.
+Unchanged ABI/frame/archive/normalizer/old-format controls retain their passing
+receipts after exact binary checks; b0c86a addon and scientific objects stay frozen.
+Next: verify root Python/decoder-OFF configuration wiring, then one matching
+source/native/plugin material stage, installed run/removal and final ownership/
+source/retention checks. No further native rebuild is selected absent a failure.
+
+Root native configuration passes with Python/NGFF decoder OFF and reader plugins
+both OFF/ON, without Python discovery or a product build. Stage01 then stops at
+an older exact-SDK-header material record's missing font ancestor. No output or
+inventory write occurred. Preserve failing stager/inventory identity; diagnose
+the exact selected record and use a valid observed matching source lineage.
+Do not relax admission, delete old parents or recreate unrelated font assets.
+Diagnosis isolates the500-byte generated sdk_abi.hpp. Its actual authored
+template and NativeSdk.cmake are eligible and verified in the frozen source ZIP;
+the1944 substitution reproduces its exact bytes. Stage02 keeps that header in
+the already required separate frozen SDK, stages the actual generator sources
+and a derivation receipt, and marks the external input explicitly. No historical
+graph/guard/font/product is changed and no source/header identity is substituted.
+Stage02 passes that boundary, then correctly finds an omitted fourth kit member
+in the controller's input receipt: extensions.cmake was generated beside three
+copied files but not listed. Preserve the old receipt/log; record its exact
+observed bytes and matching native ABI-version declarations. No kit, source,
+binary or admission assertion changes; retry the completed inventory check.
+
+Stage03 passes all364 package members and material admission. The next unresolved
+risk is relocation/runtime loading and ownership-safe removal of that exact
+package. Run the installed CLI and public SDK consumer with co-located provider/
+dependencies in a native-only environment; require exact record/CSV/QPLM1 matches,
+then remove only hash-verified owned files after path/process checks. Preserve
+user projects/results/notes and verify provider-free metadata after removal.
+No source, kernel or binary rebuild is needed for this deployment check.
+
+Deployment01 passes16 native routes using the exact relocated package; all364
+owned members are removed after path/process/hash checks and33 user files remain.
+Saved result metadata reopens provider-free and unavailable replay refuses. The
+remaining checks are archive/member admission, source/product retention and the
+relocated SDK CMake configuration (configure only, reuse matching consumer build).
+Then close this local A08 slice and leave the broader catalogue goal active.
+
+SDK package configure passes. Closeout01 then stops on the development controller's
+invalid encoding alias utf8-sig while reading its generated project. Preserve that
+controller/diagnosis, use utf-8-sig, and reuse the exact successful configure rather
+than rerunning it. Compiled source/product checks already pass; no native or
+package inputs change for this correction.
+
+The pinned NGFF0.4.1 specification commit106c3010dcb4079eb0a69868a11cc5943f942fdf
+and five exact notice/schema/specification references are retained. Reports use
+W3C-20150513; software examples use Apache-2.0. No upstream dataset/model/example
+asset is admitted. The normative nested image-label.source reference profile was
+cross-checked with primary OME implementation; retain the spec-example discrepancy
+and explicit/default reference origin rather than guessing. Additional plugin
+code/dependency identities, licenses, notices and source obligations must accompany
+its actual eventual source/native package. Other eligible work stays in its R row.
+
+Follow the [Windows checkpoint](api-delivery-plan.md#next-delivery-checkpoint-windows-research-workflow)
+and [validation policy](api-delivery-plan.md#validation-and-build-policy). Keep one
+active integration checkout/cache/runtime; earlier frozen products, source/dirty
+snapshots, fixtures, failures and cleanup archives remain preserved. No commit,
+push, publication or further feature phase is selected by this prerequisite work.
+
+Closeout: candidate2 native/CLI/SDK/OFF routes,364 package/ZIP members,16 installed routes,33 preserved user files, source/retention and relocated SDK configuration pass. The controller encoding correction reused the successful configure. Broader formats AND application/integration goal remains active; no commit/push/publication or frozen runtime rebuild. Final evidence: build/gui-aggregation/catalogue-closure/ngff-labels/results.json.
+
+## 2026-11-17 - M05 Loom typed matrix local handoff
+
+
+The [selected native workflow](benchmarks/loom/README.md) imports an explicit
+Loom3 matrix/layer, row/column ID datasets, optional feature names and complete
+native position TSV into QMX. All eight integral and IEEE16/32/64 types follow
+explicit UInt64-counts or finite Float64-continuous semantics; integer-to-double
+conversion requires exact representability. Original IDs, signed zero, frame/
+coordinates, native QMX/project ownership and source/implementation identity stay
+native. Graphs/unselected attributes/layers are declared omissions.
+
+Separate matrix ABI2 transports typed metadata/pages and independent file/work
+allowances. Schema5/external-dense-typed/1 has distinct kind/label-bound recipe/
+source hashes; public DTOs/vtables/options and old inline COMDAT helpers stay
+unchanged. ABI1/schema4 count bytes remain exact. One shared bounded HDF5 helper
+uses the frozen static instance, held read lease and raw filtered-chunk validation
+before HDF5 conversion, including string-reference chunks. No process sandbox or
+total-process bound is claimed. Native source/currentness/cancel/publication
+services remain authoritative; Python is development/control only.
+
+Native delivery checks pass34 effective commands:19 selected successes in
+integration03 plus15 remaining integration04 commands. Actual provider/types/
+codecs/domains/frame/numerical/identity/refusal checks, typed callback and real
+source changes, provider-free/OFF metadata, duplicate options, exact legacy
+schema4 bytes and affected old point-import/undo/quota behavior pass. CLI/public
+SDK QMX bytes/source/frame/receipt identities match native default-budget
+references; owned project save/reopen passes. Root Python/NGFF-OFF configuration
+passes with format plugins OFF/ON and generated ABI2 kit, no Python discovery.
+
+Six application units and thin consumers were compiled over the exact A08
+b0c86a addon and frozen FP04 core4bf957. No core/kernel/UI/binding/wheel rebuild.
+The passing186 observed inputs/10 targets/16 products are recorded;186 source
+inputs and13 non-runtime products are separately frozen in candidate1. Prior23
+source snapshots,15 archives,364 A08 members and45 inventory groups remain exact.
+
+Actual corrections are retained in the packet: transitive HDF5 umbrella-header
+include directory; controlled manifest package-relative paths; a mutation-test
+precondition corrected to distinguish denied writes from actual between-call
+edits; selection of complete retained legacy TIFF fixtures; and format-CLI exit2
+instead of the label CLI's exit1. No numeric, identity, decoded-allocation or
+material assertion was weakened. Six pinned BSD2 upstream Python files are
+nonexecuted references, never product logic/runtime/fallback. Schema prose stays
+metadata-only. Three durable lessons were appended to compilexx's notebook.
+
+## Remaining M05 handoff
+
+Matching licensed source/native/plugin staging, relocatable SDK configuration,
+installed native run/owned-member removal, ZIP admission and final source/
+retention/docs closeout remain. Stager, deployment controller and docs have
+separate owners; only root executes stage/removal and merges inventory/evidence.
+HDF5/zlib source/generated interfaces retain actual component terms. The exact
+A08 companion and FP04 SDK/core/full source remain separate required products;
+external sdk_abi.hpp uses its eligible template/recipe derivation, never a copied
+header admission around old invalid ancestry. No further native build is selected
+without a diagnosed failure. No commit/push/publication is selected.
+
+Stager and deployment controller are ready with static checks. Before executing:
+stage the exact qualified16 products/186 inputs once, preserving45 old inventory
+groups and original HDF5/zlib/host/reference terms. Then verify the relocated SDK
+configuration and installed CLI/SDK outputs, and remove only hash-verified owned
+members after path/process checks while preserving all user/managed results.
+No new native compilation or numerical campaign is needed for these conditions.
+
+The broader formats AND application/integration catalogue remains open. Other
+NGFF/N5/AnnData-Zarr, image/ROI/writer/application profiles and R rows keep their
+own terms/contracts/evidence. The frozen built-in image reader's malformed
+integral floating fills remain I22/R15; A08 protects its own selected profile.
+Follow the [Windows checkpoint](api-delivery-plan.md#next-delivery-checkpoint-windows-research-workflow)
+and [validation policy](api-delivery-plan.md#validation-and-build-policy). Keep
+one active integration cache/runtime and preserve fixtures, passing products,
+source/dirty snapshots, failures and cleanup archives.
+
+Closeout:284 package/ZIP members admitted; relocated SDK configure,9 installed commands and3 post-removal checks pass;11 user files survive owned-member removal. Native34-check scope and frozen-source/product boundaries stay distinct. Exact receipt: build/gui-aggregation/catalogue-closure/loom/results.json. Full formats AND application/integration goal remains active.
+
+## I22/R15 exact native integral-fill source correction (2026-11-17)
+
+The [native source candidate](benchmarks/ngff-fill/README.md) closes the demonstrated
+round-before-validation correctness case in OME-Zarr image fills.214 authored
+cases pass:133 exact old/new valid data/identities,71 open refusals and10 undefined
+null read refusals. The old baseline accepted42 malformed cases; the candidate
+accepts none. Both read the same663 unchanged fixture files/native versions.
+Existing source/server/project regressions pass, including statistics, saved
+records and replay; all170 original fixture hashes are unchanged. Two native
+units,104 observed compiler inputs/six targets/11 products and seven retained
+product identities have their own [receipt](../build/gui-aggregation/catalogue-closure/ngff-fill/results.json).
+Frozen core/runtime/GUI/bindings/wheels and the stricter A08 label profile remain
+separate; no format/codec or release qualification is transferred.
+
+Configure01 failed because the addon import was child-scoped; an explicit parent
+import fixed configure02 before one combined build. The first controller
+preflight used a mixed-case Windows environment dict key; uppercase SYSTEMROOT
+fixed it before any native command. Failed receipts/recipes and the
+[pre-closeout card](../build/gui-aggregation/catalogue-closure/ngff-fill/card-before-closeout.md)
+remain. No scientific assertion or stored identity was weakened. The broader
+formats AND application/integration goal remains active; no new phase or
+publication is selected by this closeout.
+
+## M07 AnnData Zarr local delivery (2026-11-17)
+
+The [workflow](benchmarks/anndata-zarr/README.md) imports selected local Zarr 2
+counts and continuous matrices into native schema 6 QMX and an owned project.
+The 27 native, CLI, SDK and pinned producer commands and nine installed and
+post-removal commands pass. Schema 4 and both schema 5 domains remain byte
+exact. The local package and archive admit 285 members and removal preserves
+nine user files. The sampled 1,024 × 1,024 sparse input required 22.8 MB of QMX
+and 45.6 MB peak output space. One test corrected a comparison between recipe
+and file-bound hashes. A final SDK-only link captured a source edit that landed
+after the combined build started. Both earlier receipts remain preserved.
+
+
+## R11 completed QMX project attachment retry
+
+The [matrix-attach workflow](benchmarks/matrix-attachment/README.md) passed
+sixteen Windows commands over the retained M07 native archive. Saved project
+failures left both counts and continuous QMX outputs available for a later
+attach, with exact owned bytes and receipt checks after offline reopen. Input
+aliases, wrong frame/hash and preexisting outputs refuse. A configure target
+collision was corrected by importing the exact retained M05 archive privately.
+No additional format, GUI, binding or release is selected.

@@ -1,5 +1,5 @@
 #include "expression_aggregation_cli.hpp"
-#include "qupathxx/expression_aggregation_workflow.hpp"
+#include "expression_statistics_export_internal.hpp"
 #include "qupathxx/workflow.hpp"
 #include <charconv>
 #include <iostream>
@@ -16,8 +16,15 @@ std::optional<int> expression_aggregation_cli(const std::vector<std::string>& ar
     for(std::size_t i=start;i<args.size();++i){const auto flag=args[i];if(!seen.insert(flag).second)throw std::invalid_argument("Duplicate aggregation option: "+flag);if(flag=="--members" && export_csv){members=true;continue;}if(++i==args.size())throw std::invalid_argument("Missing aggregation option value");const auto& value=args[i];
         if(flag=="--image")options.image=integer(value);else if(flag=="--matrix" && run)options.matrix_id=value;else if(flag=="--spec" && run)options.spec_path=value;else if(flag=="--record" && !run)options.record_id=value;else if(flag=="--work-bytes")options.work_bytes=integer(value);else if(flag=="--project-bytes")options.project_bytes=integer(value);else if(flag=="--save-snapshot-bytes" && run)options.snapshot_bytes=integer(value);else if(flag=="--csv-bytes" && export_csv)csv_bytes=integer(value);else throw std::invalid_argument("Unknown aggregation option: "+flag);
     }
-    const auto result=run?run_expression_aggregation(args[2],args[3],options,&cancelled):open_project_expression_aggregation(args[2],options,&cancelled);
-    std::size_t written=0;if(export_csv)written=members?save_expression_membership_csv(*result,args[3],csv_bytes,options.work_bytes,&cancelled):save_expression_aggregation_csv(*result,args[3],csv_bytes,&cancelled);
+    std::shared_ptr<const ExpressionAggregationResult> result;
+    std::size_t written=0;
+    if(export_csv){
+        auto exported=export_project_expression_aggregation(args[2],args[3],options,members,csv_bytes,&cancelled);
+        result=std::move(exported.first);
+        written=exported.second;
+    }else{
+        result=run?run_expression_aggregation(args[2],args[3],options,&cancelled):open_project_expression_aggregation(args[2],options,&cancelled);
+    }
     std::cout<<"{\"schema\":\"qpx.expression-aggregation-report/1\",\"state\":\""<<(run?"saved":export_csv?"exported":"verified")<<"\",\"record\":\""<<result->id()<<"\",\"result_sha256\":\""<<result->sha256()<<"\",\"features\":"<<result->features().size()<<",\"cohorts\":"<<result->cohorts().size()<<",\"batches\":"<<result->batches()<<",\"csv_bytes\":"<<written<<"}\n";return 0;
 }
 }

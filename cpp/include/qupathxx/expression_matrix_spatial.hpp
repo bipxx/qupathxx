@@ -18,8 +18,8 @@ public:
     static ExpressionMatrixSpatialSnapshot create(std::shared_ptr<const ExpressionMatrixSource>,
         std::vector<ExpressionObservation>,CoordinateFrame,std::size_t work_bytes=64u*1024*1024,
         const std::atomic<bool>* cancelled=nullptr);
-    // Owner capture of qpx.expression-matrix-points/1 detections on one plane.
-    // The current native image frame must match their retained explicit frame.
+    // Capture backed detections, or embedded rows when this source has no
+    // backed detections. The retained frame must match the live image exactly.
     static ExpressionMatrixSpatialSnapshot capture(const Document&,
         std::shared_ptr<const ExpressionMatrixSource>,const std::string& frame_id,
         ObjectPlane={},std::size_t work_bytes=64u*1024*1024,const std::atomic<bool>* cancelled=nullptr);
@@ -55,6 +55,8 @@ public:
     const std::shared_ptr<const ExpressionMatrixSource>& source() const;
     const std::string& sha256() const;
 private:
+    ExpressionMatrixSpatialRequest(std::shared_ptr<const ExpressionMatrixSource>,
+        std::vector<ExpressionObservation>,CoordinateFrame,std::size_t,bool use_indexed_positions);
     struct Data;std::shared_ptr<const Data> data_;
 };
 // Native point-import vocabulary: identity and explicit level-zero image frame,

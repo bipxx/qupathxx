@@ -238,16 +238,39 @@ def test_join_does_not_open_missing_linked_source_and_aggregate_budget_is_exact(
 
 @pytest.mark.skipif(not q.has_project or not q.has_geos,reason="project cell publication")
 def test_numeric_only_archive_joins_features_when_contours_are_unavailable(tmp_path):
+    from contextlib import closing
     import struct
     from test_cell_records import rewrite_checksum
+    from test_project_cell_tables import cell_table_cli
     doc,_,result,_,ids=published();project=q.Project();image=project.add_document(doc);path=tmp_path/"numeric.qpxproj";project.save(str(path))
-    with sqlite3.connect(path) as db:
-        data=bytearray(db.execute("SELECT run FROM cell_records").fetchone()[0]);struct.pack_into("<Q",data,156,4)
-        rewrite_checksum(data,result.nuclei.roi);db.execute("UPDATE cell_records SET run=?",(data,))
+    contours = result.parameters.contours
+    # The contour parameters are consecutive in the archive. Optional fields
+    # before that block changed its offset between archive versions.
+    encoded = struct.pack("<5Q", contours.clip_to_roi, contours.max_components,
+                          contours.max_edges, contours.max_vertices, contours.work_bytes)
+    with closing(sqlite3.connect(path)) as db, db:
+        data = bytearray(db.execute("SELECT run FROM cell_records").fetchone()[0])
+        start = data.find(encoded)
+        assert data[:3] == b"QCL" and start >= 4 and start == data.rfind(encoded)
+        struct.pack_into("<Q", data, start + struct.calcsize("<3Q"), 4)
+        rewrite_checksum(data, result.nuclei.roi)
+        db.execute("UPDATE cell_records SET run=?", (data,))
     restored=q.Project.open(str(path)).document(image);actual=rows(q.cell_measurements_csv(restored,options=options()))
     assert len(actual)==len(ids) and {r["object_status_at_capture"] for r in actual}=={"geometry_unavailable"}
     assert all(int(r["cell_samples"])==f.cell_pixels for r,f in zip(actual,result.features))
     with pytest.raises(ValueError):q.CellTableRequest(restored,options=options(True))
+    before = path.read_bytes()
+    target = tmp_path / "joined.csv"
+    exported = cell_table_cli(path, target, "--published")
+    assert exported.returncode == 0, exported.stderr
+    saved = target.read_bytes()
+    native_rows = rows(saved.decode("utf-8"))
+    assert [r["object_id"] for r in native_rows] == [str(i) for i in ids]
+    assert {r["object_status_at_capture"] for r in native_rows} == {"geometry_unavailable"}
+    assert [int(r["cell_samples"]) for r in native_rows] == [f.cell_pixels for f in result.features]
+    strict = cell_table_cli(path, target, "--published", "--require-current")
+    assert strict.returncode != 0 and target.read_bytes() == saved
+    assert path.read_bytes() == before and not list(tmp_path.glob("*.qpx-tmp-*"))
 
 
 def test_unrepresentable_physical_metrics_fail_on_worker_without_replacing_file(tmp_path):

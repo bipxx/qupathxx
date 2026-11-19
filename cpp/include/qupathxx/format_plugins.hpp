@@ -19,6 +19,9 @@ struct FormatPluginReceipt {
 };
 // Configure once before the first family catalog/provider query. No hot reload.
 void configure_format_plugins(const std::string& manifest_path);
+// Resolve every module relative to its own manifest. Cross-manifest claims
+// to the same provider ID or domain/format ID are all refused.
+void configure_format_plugin_manifests(const std::vector<std::string>& manifest_paths);
 std::vector<FormatPluginInfo> format_plugin_infos();
 std::vector<std::string> format_plugin_diagnostics();
 std::string format_plugin_receipt_json(const FormatPluginReceipt&);

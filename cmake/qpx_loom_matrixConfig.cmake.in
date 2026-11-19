@@ -1,0 +1,53 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# Source-matched typed matrix addon above the separately retained A08 addon/core.
+get_filename_component(_qpx_loom_prefix "${CMAKE_CURRENT_LIST_DIR}/../../.." ABSOLUTE)
+if(NOT WIN32 OR NOT MSVC OR NOT CMAKE_SIZEOF_VOID_P EQUAL 8 OR
+   NOT CMAKE_CXX_COMPILER_ARCHITECTURE_ID STREQUAL "x64" OR
+   NOT MSVC_VERSION STREQUAL "1944" OR
+   NOT CMAKE_CXX_COMPILER_VERSION STREQUAL "19.44.35225.0")
+  message(FATAL_ERROR "qpx_loom_matrix requires Windows x64 MSVC1944/compiler19.44.35225.0 Release /MD")
+endif()
+if(CMAKE_CONFIGURATION_TYPES)
+  set(CMAKE_CONFIGURATION_TYPES Release CACHE STRING "Supported typed matrix configuration" FORCE)
+elseif(NOT CMAKE_BUILD_TYPE STREQUAL "Release")
+  message(FATAL_ERROR "qpx_loom_matrix requires Release /MD")
+endif()
+if(CMAKE_MSVC_RUNTIME_LIBRARY AND
+   NOT CMAKE_MSVC_RUNTIME_LIBRARY STREQUAL "MultiThreadedDLL" AND
+   NOT CMAKE_MSVC_RUNTIME_LIBRARY STREQUAL "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
+  message(FATAL_ERROR "qpx_loom_matrix requires the dynamic Release CRT (/MD)")
+endif()
+include(CMakeFindDependencyMacro)
+find_dependency(qpx_ngff_labels CONFIG)
+set(_qpx_loom_native "${_qpx_loom_prefix}/native/qupathxx_loom_matrix_native.lib")
+set(_qpx_loom_include "${_qpx_loom_prefix}/source/cpp/include")
+if(NOT EXISTS "${_qpx_loom_native}" OR
+   NOT EXISTS "${_qpx_loom_include}/qupathxx/format_import.hpp" OR
+   NOT EXISTS "${_qpx_loom_include}/qupathxx/format_plugin.h")
+  message(FATAL_ERROR "The typed matrix addon library/public headers are incomplete")
+endif()
+set(qpx_loom_matrix_NATIVE_SHA256 "@QPX_LOOM_MATRIX_NATIVE_SHA256@")
+string(LENGTH "${qpx_loom_matrix_NATIVE_SHA256}" _qpx_loom_sha_length)
+if(NOT qpx_loom_matrix_NATIVE_SHA256 MATCHES "^[0-9a-f]+$" OR
+   NOT _qpx_loom_sha_length EQUAL 64)
+  message(FATAL_ERROR "The typed matrix SDK profile lacks its exact native identity")
+endif()
+file(SHA256 "${_qpx_loom_native}" _qpx_loom_native_sha)
+if(NOT _qpx_loom_native_sha STREQUAL qpx_loom_matrix_NATIVE_SHA256)
+  message(FATAL_ERROR "The typed matrix library differs from its source-matched product")
+endif()
+if(TARGET qupathxx::loom_matrix)
+  get_target_property(_qpx_loom_previous qupathxx::loom_matrix IMPORTED_LOCATION_RELEASE)
+  if(NOT _qpx_loom_previous STREQUAL _qpx_loom_native)
+    message(FATAL_ERROR "A different typed matrix addon is already loaded")
+  endif()
+else()
+  add_library(qupathxx::loom_matrix STATIC IMPORTED)
+  set_target_properties(qupathxx::loom_matrix PROPERTIES
+    IMPORTED_CONFIGURATIONS RELEASE
+    IMPORTED_LOCATION_RELEASE "${_qpx_loom_native}"
+    INTERFACE_INCLUDE_DIRECTORIES "${_qpx_loom_include}"
+    INTERFACE_LINK_LIBRARIES "qupathxx::ngff_labels"
+    INTERFACE_COMPILE_FEATURES cxx_std_17)
+endif()
+set(qpx_loom_matrix_FOUND TRUE)

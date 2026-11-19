@@ -143,6 +143,61 @@ model identity from those normalized vectors. The standalone JSON additionally
 retains the fitting parameters and diagnostics. A project model registry and
 complete portable execution manifests remain future plan work.
 
+## Native batch CLI
+
+Estimate a model from a saved project image and area ROI, then use that exact
+basis in a batch measurement.
+
+```text
+qupathxx_batch --estimate-stains project.qpxproj estimate.json --image 1 --roi 12 --white 255,250,245
+qupathxx_batch project.qpxproj results --kind stains --image 1 --object 12 --stain-model estimate.json
+```
+
+To measure several images using the stain defaults already saved on each image,
+pass `--saved-stains` with `--kind od`, `stains`, `tissue` or `cells`. Every
+selected image must have usable RGB8 stain settings. The batch captures those
+settings with the project, so changing a saved model invalidates its previous
+checkpoint. This flag is mutually exclusive with explicit stain model options.
+
+To make an approved model the default on one image, save it into a new project.
+
+```text
+qupathxx_batch --apply-stain-model project.qpxproj approved.qpx --image 1 --stain-model estimate.json --profile-name "Approved ROI model"
+```
+
+The command accepts a model or estimate JSON file and validates the exact model
+digest. It saves the normalized basis and white values with generic stain names.
+A previously unset image type becomes `BRIGHTFIELD_OTHER`. An existing brightfield
+type is retained. The newly saved project can use `--saved-stains`.
+
+Export an image's saved defaults as portable model JSON, even when the linked
+image is offline.
+
+```text
+qupathxx_batch --export-stain-model approved.qpx portable.json --image 1
+```
+
+The new JSON contains the exact basis, white values and model digest. Use it
+with `--stain-model` for a run or `--apply-stain-model` to save it on an image
+in another project.
+
+Use `--nucleus` to select a saved cell's nucleus and `--level auto|N` to select
+the pyramid policy. White defaults to `255,255,255`. The other estimator
+parameters in the table above are available as hyphenated options, such as
+`--sample-limit` and `--max-read-pixels`. Supply `--reader-plugins ABS_MANIFEST`
+before the command when the project image requires a plugin.
+
+The command returns the estimate JSON on stdout and writes it to a new file.
+If the project has saved image-source verification, review and adopt a changed
+image before estimating a model. The input project and its linked images are
+protected. Interrupting the command
+before publication leaves the destination absent. The exported JSON keeps the
+fit diagnostics and supplies the exact normalized basis to `--stain-model`.
+
+The local Windows check matched SDK input and model identities, reused the
+batch result with the same numeric basis, and reopened and replayed the saved
+project with exact measurements. [Verification record](../build/gui-aggregation/gap-closure/stain-estimation-cli/results.json)
+
 ## Desktop
 
 Select an area object, set **White RGB** and optional **Use nucleus**, then choose

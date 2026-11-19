@@ -1,6 +1,7 @@
 #include "qupathxx/dark_flat_workflow.hpp"
 #include "qupathxx/image_data_properties.hpp"
 #include "qupathxx/project.hpp"
+#include "qupathxx/project_source.hpp"
 #include "qupathxx/workflow.hpp"
 #include "../dark_flat_cli.hpp"
 #include "quantitative_tiff_fixture.hpp"
@@ -51,6 +52,22 @@ void exercise(const fs::path& root){
         auto limited=keep;limited[3]=(root/"limited.qpx").u8string();limited.insert(limited.end(),{"--save-snapshot-bytes","1"});{Capture log;check(detail::dark_flat_cli(limited,cancel)==1,"Save budget enforced");}check(!fs::exists(limited[3]),"Bounded save failure leaves no output");
         auto bad=preview;bad.insert(bad.end(),{"--width","8"});rejects<std::invalid_argument>([&]{detail::dark_flat_cli(bad,cancel);});
         check(bytes(project_file)==original,"CLI leaves original project bytes unchanged");
+        const auto verified_image=root/"verified-signal.tif",verified_project=root/"verified-input.qpx";
+        field(verified_image,23,42);
+        {
+            Project verified;
+            const auto id=verified.add_tiff_image(verified_image.u8string(),{});
+            verified.apply_source_review(verified.review_source_verification(id,*fingerprint_file(verified_image.u8string())));
+            verified.save_new(verified_project.u8string());
+        }
+        field(verified_image,99,42);
+        auto outdated=keep;
+        outdated[2]=verified_project.u8string();
+        outdated[3]=(root/"unreviewed-correction.qpx").u8string();
+        {Capture log;check(detail::dark_flat_cli(outdated,cancel)==1 &&
+            log.err.str().find("differs from saved source verification")!=std::string::npos,
+            "Dark/flat CLI rejects a changed verified signal");}
+        check(!fs::exists(outdated[3]),"Refused correction leaves no project");
     }
     check(bytes(image)==signal_bytes && bytes(dark)==dark_bytes && bytes(flat)==flat_bytes,"Native and CLI preserve all signal/field bytes");
     std::atomic<bool> cancel{true};rejects<WorkflowCancelled>([&]{read_dark_flat_block(request,region,256u*1024*1024,&cancel);});

@@ -49,6 +49,13 @@ private:
     struct Data;
     std::shared_ptr<const Data> data_;
 };
+// Construct phase-zero axes using the exact saved pixel or physical spacing.
+// Supply effective calibration in target metadata when using a physical recipe.
+ScientificRawLattice raw_pixel_model_lattice(const RawPixelRecipe&, const RawImageMetadata& target);
+class Document;
+// Resolve against the document's effective calibration, including saved overrides.
+ScientificRawLattice raw_pixel_model_lattice(const RawPixelRecipe&, const Document&,
+    const std::atomic<bool>* cancelled=nullptr);
 // Captured-grid classifier result. Grid retains both axes; labels are 0 for
 // unclassified or class_index+1. Fractions are tree votes, not probabilities.
 class RawPixelClassification {

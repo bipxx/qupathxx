@@ -3,6 +3,7 @@
 #include "qupathxx/project.hpp"
 #include "qupathxx/object_properties.hpp"
 #include "qupathxx/workflow.hpp"
+#include "expression_matrix_project_internal.hpp"
 #include "spatial_import_internal.hpp"
 #include "workflow_input.hpp"
 #include "sha256.hpp"
@@ -138,10 +139,12 @@ std::string publish_backed_spatial_import(const BackedSpatialImportPreview& prev
     if(image_coordinate_frame(*doc,d.target.id,request.base.plane,cancelled).sha256()!=d.target.sha256())throw WorkflowInputChanged("Backed import image/frame changed");
     new_scope(*doc,source->metadata().source_sha256,d.target);validate_positions(*doc,d.mapped,request.base.plane,request.position_options.work_bytes,2048,cancelled);
     const auto& id=source->metadata().source_sha256;
-    if(retained(*project,request.base.image_id,id)) {
-        if(request.owned)own_expression_matrix(*project,request.base.image_id,id,source,cancelled);
-        else relink_expression_matrix(*project,request.base.image_id,id,source,cancelled);
-    } else keep_expression_matrix(*project,request.base.image_id,source,request.owned,cancelled);
+    if(d.effective_owned) {
+        detail::prepare_expression_matrix_attachment(*project,request.base.image_id,source,cancelled,
+            detail::ExpressionAttachmentMode::ReuseExact);
+    } else if(retained(*project,request.base.image_id,id)) {
+        relink_expression_matrix(*project,request.base.image_id,id,source,cancelled);
+    } else keep_expression_matrix(*project,request.base.image_id,source,false,cancelled);
     std::vector<Annotation> points;points.reserve(d.table.observations.size());
     auto common=expression_matrix_point_properties(id,d.table.observations.front().id,d.target)->metadata();
     common["omics.import_recipe_sha256"]=d.recipe;

@@ -96,7 +96,7 @@ def test_untrusted_text_refuses_before_ids_classes_or_history_change(payload):
 def test_class_conflict_and_late_bad_feature_refuse_the_entire_paste():
     source,parent,child,_=scene();text=q.copy_objects(source,[parent,child]).text
     target=document();target.set_class('Tumor',0x987654);before=target.revision
-    with pytest.raises(ValueError,match='color'):q.paste_objects(target,text)
+    with pytest.raises(ValueError,match='class conflicts with existing definition'):q.paste_objects(target,text)
     assert target.revision==before and not target.annotations and target.object_class('Tumor').color==0x987654
     data=json.loads(text);data['features'].append(feature(rectangle(100,100)))
     clean=document()

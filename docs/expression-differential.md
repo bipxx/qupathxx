@@ -22,6 +22,8 @@ qupathxx_batch --export-expression-differential differential.qpx replicates.csv 
 ```
 
 Creation supplies the new record ID. Every output is atomic and new-only.
+The CLI requires export paths outside the saved project's linked inputs,
+including offline stores, and rechecks those paths before publishing.
 `--library-target N` defaults to10000 and accepts finite values in1..1e12.
 `--work-bytes` accepts32..1024MiB; output uses `--csv-bytes` (default256MiB,
 maximum1GiB). Work budget does not change the scientific identity. The existing

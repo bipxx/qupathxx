@@ -1,6 +1,7 @@
 #include "label_cli.hpp"
 #include "qupathxx/label_workflow.hpp"
 #include "qupathxx/project.hpp"
+#include "qupathxx/project_source.hpp"
 #include "qupathxx/object_properties.hpp"
 #include "fluorescence_fixture.hpp"
 #include "label_mask_fixture.hpp"
@@ -223,6 +224,38 @@ void raw(const fs::path& root, std::atomic<bool>& cancelled) {
     check(bytes(input) == before && bytes(source) == source_before && bytes(mask) == mask_before,
           "CLI changed scientific inputs");
 }
+void verified_raw_source(const fs::path& root, std::atomic<bool>& cancelled) {
+    const auto source = root / "verified-source.tif", input = root / "verified-input.qpx",
+               output = root / "unreviewed-output.qpx", mask = root / "labels.tif";
+    qpx_test::label_mask_fixture(source, {23, 23, 23, 23});
+    {
+        Project project;
+        const auto id = project.add_tiff_image(source.u8string(), {});
+        project.document(id)->add_rectangle({0, 0, 2, 2}, "Crop");
+        project.apply_source_review(project.review_source_verification(id, *fingerprint_file(source.u8string())));
+        project.save_new(input.u8string());
+    }
+    const auto before = bytes(input);
+    const std::vector<std::string> describe{"labels", "--label-input", input.u8string(),
+                                            "--image", "1", "--roi", "1", "--channels", "1"};
+    success(describe, cancelled);
+    qpx_test::label_mask_fixture(source, {99, 99, 99, 99});
+    const auto changed = Project::open(input.u8string());
+    RawRegionRequest channels;
+    channels.channels = 1;
+    const auto replacement = label_analysis_raw_input_sha256(*changed->document(1), 1, channels);
+    const std::vector<std::string> import{"labels", "--import-label-mask", input.u8string(), output.u8string(),
+                                         "--image", "1", "--roi", "1", "--channels", "1", "--mask", mask.u8string(),
+                                         "--producer", "fixture", "--producer-version", "1", "--model-sha256",
+                                         std::string(64, 'a'), "--input-sha256", replacement};
+    for (const auto& command : {describe, import}) {
+        Capture log;
+        check(detail::label_cli(command, cancelled) == 1 && log.out.str().empty() &&
+              log.err.str().find("differs from saved source verification") != std::string::npos,
+              "Label CLI accepted replacement pixels without reviewed adoption");
+    }
+    check(!fs::exists(output) && bytes(input) == before, "Refused label import changed project files");
+}
 } // namespace
 int main() {
     try {
@@ -241,6 +274,7 @@ int main() {
         check(fs::create_directory(root), "Unique CLI fixture directory");
         slic(root, cancelled);
         raw(root, cancelled);
+        verified_raw_source(root, cancelled);
         std::cout << "Native label CLI: SLIC/spots/offline masks, source preservation, "
                      "kept-project reopen/exact verification/exports, protected outputs, quotas "
                      "and cancellation pass\nFixtures: "

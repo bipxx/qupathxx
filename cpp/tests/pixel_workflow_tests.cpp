@@ -16,10 +16,12 @@
 #include "qupathxx/pixel_classifier_archive.hpp"
 #include "qupathxx/pixel_stream.hpp"
 #include "qupathxx/pixel_stream_file.hpp"
+#include "qupathxx/project_batch.hpp"
 #include "../gui_pixel_archives.hpp"
 #include "../sha256.hpp"
 #include "../pixel_stream_record.hpp"
 #include "object_forest_fixture.hpp"
+#include "quantitative_tiff_fixture.hpp"
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -33,7 +35,7 @@ using namespace qpx;
 void checked(bool value,int line) {if(!value) throw std::runtime_error("pixel workflow check failed at line "+std::to_string(line));}
 #define check(v) checked((v),__LINE__)
 template<class F> void rejects(F f) {try {f();}catch(const std::exception&) {return;}throw std::runtime_error("missing pixel workflow rejection");}
-class Pyramid final:public ImageServer {
+class Pyramid:public ImageServer {
 public:
     ImageMetadata info;mutable std::atomic<unsigned> reads{0};mutable std::atomic<bool> entered{false},release{true};std::atomic<bool> shut{false};unsigned fail_after=std::numeric_limits<unsigned>::max();
     Pyramid() {info.width=64;info.height=48;info.levels={{64,48,1},{43,32,1.5},{32,24,2}};}
@@ -45,10 +47,73 @@ public:
     }
     void close() override {shut.store(true);}bool closed() const override {return shut.load();}
 };
+class PlanePyramid final:public Pyramid {
+public:
+    TiffView view;
+    std::shared_ptr<const TiffView> raw_view() const override {
+        return std::make_shared<const TiffView>(view);
+    }
+    std::shared_ptr<const RawImageMetadata> raw_metadata(const std::atomic<bool>*) const override {
+        auto raw=std::make_shared<RawImageMetadata>();
+        raw->width=info.width;raw->height=info.height;raw->levels=info.levels;
+        raw->channels=3;raw->z_planes=2;raw->timepoints=2;
+        return raw;
+    }
+};
 PixelClassifier fixture(const PixelFeatureOptions& options,const StainTransform& transform,std::optional<PixelResolution> resolution={}) {
     std::vector<std::pair<std::string,std::string>> schema;for(const auto& f:pixel_feature_schema(options,transform)) schema.emplace_back(f.name,f.unit);return PixelClassifier(ForestModel::from_bytes(qpx_test::object_forest_fixture(schema)),options,transform,resolution);
 }
+void prediction_display_plane() {
+    const StainTransform transform({{1,0,0},{0,1,0}});
+    const auto model=fixture(PixelFeatureOptions{},transform,PixelResolution{});
+    const auto synthetic=std::make_shared<PlanePyramid>();
+    synthetic->view.channels={0,1,-1};
+    Document doc(synthetic);
+    const auto roi=doc.add_rectangle({1,1,8,8});
+    for(const auto plane:{ObjectPlane{-1,1,0},ObjectPlane{-1,0,1},ObjectPlane{2,0,0},ObjectPlane{0,0,0}}) {
+        doc.set_object_plane(roi,plane);
+        rejects([&]{PixelPredictionRequest request(doc,roi,model);});
+        rejects([&]{PixelPredictionStream stream(doc,roi,model);});
+        check(synthetic->reads==0);
+    }
+    doc.set_object_plane(roi,{-1,0,0});
+    check(predict_pixel_region(PixelPredictionRequest(doc,roi,model))->valid_pixels()>0);
+    const auto single=std::make_shared<PlanePyramid>();
+    single->view.channels={0,-1,-1};
+    Document matched(single);
+    const auto object=matched.add_rectangle({1,1,8,8});
+    matched.set_object_plane(object,{0,0,0});
+    PixelPredictionStream stream(matched,object,model);
+    const auto block=stream.next();
+    check(block && block->valid_pixels()>0 && !stream.next());
+
+    if(has_tiff() && has_project()) {
+        namespace fs=std::filesystem;
+        const auto root=fs::current_path()/("pixel-plane-"+std::to_string(std::random_device{}()));
+        check(fs::create_directory(root));
+        const auto image=root/"channels.tif";
+        qpx_test::raw_pixel_tiff_fixture(image);
+        TiffOpenOptions tiff;
+        tiff.view.channels={0,1,-1};
+        Project project;
+        const auto image_id=project.add_tiff_image(image.u8string(),tiff);
+        auto target=project.document(image_id);
+        const auto area=target->add_rectangle({1,1,5,4});
+        target->set_object_plane(area,{0,0,0});
+        ProjectBatchOptions batch;
+        batch.kind=ProjectBatchKind::Pixels;batch.pixel_model=model;
+        const auto out=root/"batch";
+        const auto report=run_project_batch(ProjectBatchRequest(project,transform,{{image_id,{area}}},batch),out.u8string());
+        check(report.state=="failed" && report.saved==0 && report.images.size()==1 &&
+              report.images.front().error.find("single-channel display")!=std::string::npos);
+        for(const auto& entry:fs::recursive_directory_iterator(out))
+            check(entry.path().extension()!=".qps" && entry.path().filename()!="result.qpxproj");
+        target->server()->close();fs::remove_all(root);
+    }
+    std::cout<<"RGB classifier display planes: direct/stream pre-read refusal, matched prediction and TIFF batch refusal passed\n";
+}
 int main() {try {
+    prediction_display_plane();
     raw_workflow_checks::run();
     raw_archive_checks::run();
     raw_replay_checks::run();

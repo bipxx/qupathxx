@@ -14,6 +14,140 @@
 #include <stdexcept>
 using namespace qpx;
 void check(bool value) { if(!value) throw std::runtime_error("project check failed"); }
+void preserves_unrelated_rollback_sidecar() {
+    namespace fs=std::filesystem;
+    Project fixture;
+    const auto root=fs::temp_directory_path()/fixture.identity();
+    fs::create_directory(root);
+    const auto safe=root/"safe.qpx", legacy=root/"legacy.qpx";
+    const auto image=fs::u8path(legacy.u8string()+"-journal");
+    std::ofstream(image,std::ios::binary)<<"P6\n16 16\n255\n"<<std::string(768,'A');
+    const auto image_id=fixture.add_image(image.u8string(),"ppm");
+    fixture.save_new(safe.u8string());
+    const auto db_sha=fingerprint_file(safe.u8string())->sha256;
+    const auto image_sha=fingerprint_file(image.u8string())->sha256;
+    fs::rename(safe,legacy);
+    bool refused=false;
+    try {Project::open(legacy.u8string());}
+    catch(const std::runtime_error& e) {
+        refused=std::string(e.what()).find("lacks a SQLite journal header")!=std::string::npos;
+    }
+    check(refused && fingerprint_file(image.u8string())->sha256==image_sha &&
+          fingerprint_file(legacy.u8string())->sha256==db_sha);
+    fs::rename(legacy,safe);
+    const auto restored=Project::open(safe.u8string());
+    check(restored->document(image_id)->server()->read_region({0,0,0,1,1}).bytes()==
+          std::vector<std::uint8_t>{65,65,65,255});
+    fs::remove(safe);fs::remove(image);fs::remove(root);
+    std::cout<<"Legacy rollback-sidecar collision preserved the image and project\n";
+}
+void protects_sqlite_sidecar_inputs() {
+    namespace fs=std::filesystem;
+    Project fixture;
+    const auto root=fs::temp_directory_path()/fixture.identity();
+    fs::create_directory(root);
+    const auto ppm=std::string("P6\n1 1\n255\n")+"ABC";
+    for(const auto* suffix:{"-journal","-wal","-shm"}) {
+        Project project;
+        const auto destination=root/(std::string("project")+suffix+".qpx");
+        const auto linked=fs::u8path(destination.u8string()+suffix);
+        std::ofstream(linked,std::ios::binary)<<ppm;
+        const auto image=project.add_image(linked.u8string(),"ppm");
+        const auto before=fingerprint_file(linked.u8string())->sha256;
+        for(const bool save_new:{false,true}) {
+            bool refused=false;
+            try {
+                if(save_new)project.save_new(destination.u8string());
+                else project.save(destination.u8string());
+            } catch(const std::invalid_argument&) {refused=true;}
+            check(refused && !fs::exists(destination) && project.path().empty() && project.dirty() &&
+                  fingerprint_file(linked.u8string())->sha256==before);
+        }
+        const auto safe=root/"safe.qpx";
+        project.save_new(safe.u8string());
+        const auto reopened=Project::open_without_journal_recovery(safe.u8string());
+        const auto pixels=reopened->document(image)->server()->read_region({0,0,0,1,1}).bytes();
+        check(pixels==std::vector<std::uint8_t>{65,66,67,255} &&
+              fingerprint_file(linked.u8string())->sha256==before);
+        fs::remove(safe);
+        fs::remove(linked);
+    }
+    const auto base=root/"relocated.qpx-journal",target=root/"relocated.qpx";
+    fixture.add_document(std::make_shared<Document>(Image(1,1,{0,0,0})));
+    fixture.save_new(base.u8string());
+    const auto original=fingerprint_file(base.u8string())->sha256;
+    for(const bool save_new:{false,true}) {
+        bool refused=false;
+        try {
+            if(save_new)fixture.save_new(target.u8string());
+            else fixture.save(target.u8string());
+        } catch(const std::invalid_argument&) {refused=true;}
+        check(refused && !fs::exists(target) && fixture.path()==base.u8string() &&
+              fingerprint_file(base.u8string())->sha256==original);
+    }
+    fs::remove(base);
+    fs::remove(root);
+    std::cout<<"Save and Save As refused linked journal, WAL and SHM paths, safe Save As preserved the images\n";
+}
+void protects_project_database_companions() {
+    namespace fs=std::filesystem;
+    auto project=std::make_shared<Project>();
+    const auto root=fs::temp_directory_path()/project->identity();
+    fs::create_directory(root);
+    const auto source=root/"source.qpx";
+    const auto id=project->add_document(std::make_shared<Document>(Image(2,2,std::vector<std::uint8_t>(12,10))));
+    project->save_new(source.u8string());
+    const auto original=fingerprint_file(source.u8string())->sha256;
+    const auto generation=project->generation();
+    auto reject_save=[&](const fs::path& destination) {
+        for(const bool new_only:{false,true}) {
+            bool rejected=false;
+            try {
+                if(new_only)project->save_new(destination.u8string());
+                else project->save(destination.u8string());
+            } catch(const std::invalid_argument&) {rejected=true;}
+            check(rejected && !fs::exists(destination) && project->path()==source.u8string());
+        }
+        ProjectSaveJob worker;
+        check(worker.request(project,destination.u8string()));
+        const auto result=worker.wait();
+        check(result.state=="error" && !result.applied && !fs::exists(destination) &&
+              project->path()==source.u8string() && project->generation()==generation);
+    };
+    for(const auto* suffix:{"-journal","-wal","-shm"}) {
+        reject_save(fs::u8path(source.u8string()+suffix));
+        const auto destination=root/"new.qpx";
+        const auto companion=fs::u8path(destination.u8string()+suffix);
+        std::ofstream(companion,std::ios::binary)<<"unrelated companion";
+        const auto expected=fingerprint_file(companion.u8string())->sha256;
+        reject_save(destination);
+        check(fingerprint_file(companion.u8string())->sha256==expected);
+        fs::remove(companion);
+    }
+    const auto late=root/"late.qpx";
+    const auto wal=fs::u8path(late.u8string()+"-wal");
+    bool refused=false;
+    try {
+        project->save_new(late.u8string(),512ull*1024*1024,1024ull*1024*1024,nullptr,[&] {
+            std::ofstream(wal,std::ios::binary)<<"late companion";
+        });
+    } catch(const std::invalid_argument&) {refused=true;}
+    check(refused && !fs::exists(late) && fs::file_size(wal)==14 &&
+          fingerprint_file(source.u8string())->sha256==original);
+    fs::remove(wal);
+    for(const auto& entry:fs::directory_iterator(root))check(entry.path()==source);
+
+    const auto fork=root/"fork.qpx";
+    project->save_new(fork.u8string());
+    project->document(id)->add_rectangle({0,0,1,1},"In-place save");
+    project->save(fork.u8string());
+    const auto reopened=Project::open_without_journal_recovery(fork.u8string());
+    check(reopened->document(id)->object_count()==1 && fingerprint_file(source.u8string())->sha256==original);
+    fs::remove(fork);
+    fs::remove(source);
+    fs::remove(root);
+    std::cout<<"Source, occupied and late SQLite companion paths refused by native Save As\n";
+}
 void verified_relink_handoff() {
     Project project;const auto root=std::filesystem::temp_directory_path()/project.identity();
     std::filesystem::create_directory(root);
@@ -69,6 +203,9 @@ int main() {
             check(rejected); return 0;
         }
         verified_relink_handoff();
+        protects_sqlite_sidecar_inputs();
+        protects_project_database_companions();
+        preserves_unrelated_rollback_sidecar();
         object_property_roundtrip();
         if(const auto fixture=std::getenv("QUPATHXX_HAMAMATSU_FIXTURE");fixture && has_openslide()) {
             auto slide=std::make_shared<Document>(open_slide(fixture));

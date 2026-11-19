@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Development-only literal WebP lossless oracles and native plugin controls."""
+"""Development-only WebP sample oracles and native plugin controls."""
 import argparse
 import hashlib
 from io import BytesIO
@@ -30,10 +30,28 @@ def lossless_payload(data):
     return payload
 
 
+def chunks(data):
+    assert data[:4] == b"RIFF" and data[8:12] == b"WEBP"
+    assert struct.unpack_from("<I", data, 4)[0] == len(data) - 8
+    result = []
+    position = 12
+    while position < len(data):
+        tag = data[position:position + 4]
+        size = struct.unpack_from("<I", data, position + 4)[0]
+        end = position + 8 + size
+        assert end + (size & 1) <= len(data)
+        assert not size & 1 or data[end] == 0
+        result.append((tag, data[position + 8:end]))
+        position = end + (size & 1)
+    assert position == len(data)
+    return result
+
+
 def write_fixtures(directory):
-    from PIL import Image, features, __version__ as pillow_version
+    from PIL import Image, ImageOps, features, __version__ as pillow_version
     directory.mkdir(parents=True, exist_ok=True)
     cases, negatives = [], {}
+    assert features.version("webp") == "1.6.0", "WebP lossy reference requires pinned libwebp 1.6.0"
 
     def encoded(width, height, rgba, method=6, mode="RGBA"):
         assert len(rgba) == width * height * 4
@@ -82,6 +100,41 @@ def write_fixtures(directory):
                       "oracle_basis": "Authored literal RGBA; hint-only variant retains the exactly Pillow-gated seed's literal samples" if hint_seed else "Authored literal RGBA plus exact Pillow adapter roundtrip"})
         return data
 
+    def add_lossy(name, width, height, authored, *, transparent=False, quality=72, data=None):
+        authored = bytes(authored)
+        mode = "RGBA" if transparent else "RGB"
+        image = Image.frombytes("RGBA", (width, height), authored).convert(mode)
+        if data is None:
+            buffer = BytesIO()
+            image.save(buffer, "WEBP", lossless=False, quality=quality, alpha_quality=100, exact=True, method=4)
+            data = buffer.getvalue()
+        parts = chunks(data)
+        tags = [tag for tag, _ in parts]
+        assert tags == ([b"VP8X", b"ALPH", b"VP8 "] if transparent else [b"VP8 "]), name
+        if transparent:
+            assert parts[0][1][:4] == b"\x10\0\0\0"
+        decoded = Image.open(BytesIO(data)).convert("RGBA")
+        assert decoded.size == (width, height)
+        rgba = decoded.tobytes()
+        assert rgba[3::4] == image.convert("RGBA").getchannel("A").tobytes(), name
+        assert decoded.convert("RGB").tobytes() != image.convert("RGB").tobytes(), name
+        if transparent:
+            assert any(a == 0 and any(rgba[i * 4:i * 4 + 3]) for i, a in enumerate(rgba[3::4])), name
+        (directory / (name + ".webp")).write_bytes(data)
+        for extension in (".raw", ".rgba"):
+            (directory / (name + extension)).write_bytes(rgba)
+        if not transparent:
+            (directory / (name + ".rgb")).write_bytes(decoded.convert("RGB").tobytes())
+        cases.append({"name": name, "width": width, "height": height, "channels": 4, "encoder_mode": mode,
+                      "codec": "VP8", "quality": quality, "chunks": [tag.decode("ascii") for tag in tags],
+                      "alpha_compression": parts[1][1][0] & 3 if transparent else None,
+                      "odd_zero_padding": any(len(payload) & 1 for _, payload in parts),
+                      "source_sha256": hashlib.sha256(data).hexdigest(),
+                      "authored_rgba_sha256": hashlib.sha256(authored).hexdigest(),
+                      "raw_sha256": hashlib.sha256(rgba).hexdigest(), "rgba_sha256": hashlib.sha256(rgba).hexdigest(),
+                      "oracle_basis": "Exact pinned libwebp 1.6.0 decoded straight RGBA through Pillow; decoded RGB differs from encoder input"})
+        return parts
+
     rgb = [0, 1, 2, 9, 10, 32, 35, 127, 128, 254, 255, 64, 21, 46, 201,
            73, 99, 133, 200, 17, 240, 3, 222, 88, 155, 111, 42, 31, 63, 95,
            4, 8, 16, 32, 64, 128, 127, 129, 253, 89, 144, 233, 255, 0, 255]
@@ -121,6 +174,92 @@ def write_fixtures(directory):
     assert odd is not None, "Authored profiles must exercise legal odd-size chunk padding"
     odd_data = (directory / (odd["name"] + ".webp")).read_bytes()
 
+    [(vp8_tag, vp8)] = add_lossy("lossy-rgb", 5, 3, opaque)
+    add_lossy("lossy-gradient", 17, 11, gradient, quality=38)
+    [(_, canvas), (_, alpha_encoded), (_, alpha_vp8)] = add_lossy("lossy-alpha", 5, 3, alpha, transparent=True)
+    # Horizontal predictor, with the first sample of later rows predicted from above.
+    plane = alpha[3::4]
+    residuals = bytes((value - (plane[i - 1] if i % 5 else plane[i - 5] if i else 0)) & 255
+                      for i, value in enumerate(plane))
+    alpha_direct = b"\x04" + residuals
+    assert alpha_direct != alpha_encoded
+    encoded_direct = container([chunk(b"VP8X", canvas), chunk(b"ALPH", alpha_direct), chunk(vp8_tag, alpha_vp8)])
+    add_lossy("lossy-alpha-uncompressed", 5, 3, alpha, transparent=True, data=encoded_direct)
+    width, height = 97, 65
+    alpha_grid = bytes(v for y in range(height) for x in range(width) for v in (
+        (37*x + 11*y) % 256, (13*x + 61*y) % 256, (91*x + 17*y) % 256, ((x + y) // 8 * 19) % 256))
+    alpha_blocks = add_lossy("lossy-alpha-compressed", width, height, alpha_grid, transparent=True, quality=91)
+    assert alpha_blocks[1][1][0] & 3 == 1, "Pillow producer must exercise compressed alpha"
+    assert len((directory / "lossy-alpha-compressed.webp").read_bytes()) > 4096
+
+    def orientation_entry(order, value, *, tag=274, field_type=3, count=1):
+        return struct.pack(f"{order}HHIH", tag, field_type, count, value) + bytes(2)
+
+    def tiff_directory(entries, *, order="<", prefix=False, next_ifd=0):
+        signature = b"II" if order == "<" else b"MM"
+        tiff = signature + struct.pack(f"{order}HIH", 42, 8, len(entries))
+        tiff += b"".join(entries) + struct.pack(f"{order}I", next_ifd)
+        return b"Exif\0\0" + tiff if prefix else tiff
+
+    def orientation_webp(width, height, has_alpha, image_chunks, payload, before_image=False):
+        header = bytes((0x18 if has_alpha else 0x08,)) + bytes(3)
+        header += (width - 1).to_bytes(3, "little") + (height - 1).to_bytes(3, "little")
+        exif_chunk = chunk(b"EXIF", payload)
+        encoded_chunks = [chunk(tag, data) for tag, data in image_chunks]
+        ordered = [exif_chunk, *encoded_chunks] if before_image else [*encoded_chunks, exif_chunk]
+        return container([chunk(b"VP8X", header), *ordered])
+
+    def encoded_frame(width, height, rgba, lossless, has_alpha):
+        mode = "RGBA" if has_alpha else "RGB"
+        image = Image.frombytes("RGBA", (width, height), rgba).convert(mode)
+        buffer = BytesIO()
+        image.save(buffer, "WEBP", lossless=lossless, quality=80, alpha_quality=100, exact=True, method=4)
+        parts = chunks(buffer.getvalue())
+        return buffer.getvalue(), [(tag, data) for tag, data in parts if tag != b"VP8X"]
+
+    def add_orientation(orientation, *, order, prefix, lossless, has_alpha, before_image=False):
+        name = f"exif-orientation-{orientation}"
+        width, height = (3, 5) if orientation >= 5 else (5, 3)
+        original, image_chunks = encoded_frame(width, height, alpha if has_alpha else opaque, lossless, has_alpha)
+        exif = tiff_directory([orientation_entry(order, orientation)], order=order, prefix=prefix)
+        data = orientation_webp(width, height, has_alpha, image_chunks, exif, before_image)
+        unoriented = Image.open(BytesIO(original)).convert("RGBA")
+        decoded = Image.open(BytesIO(data))
+        assert decoded.getexif()[274] == orientation, name
+        assert decoded.size == unoriented.size and decoded.convert("RGBA").tobytes() == unoriented.tobytes(), name
+        oriented = ImageOps.exif_transpose(decoded).convert("RGBA")
+        expected_size = (height, width) if orientation >= 5 else (width, height)
+        assert oriented.size == expected_size, name
+        rgba = oriented.tobytes()
+        assert (rgba == unoriented.tobytes()) == (orientation == 1), name
+        encoded_rgba = unoriented.tobytes()
+        positions = range(0, len(rgba), 4)
+        assert sorted(rgba[i:i + 4] for i in positions) == sorted(encoded_rgba[i:i + 4] for i in positions), name
+        (directory / (name + ".webp")).write_bytes(data)
+        (directory / (name + ".raw")).write_bytes(rgba)
+        (directory / (name + ".rgba")).write_bytes(rgba)
+        if not has_alpha:
+            (directory / (name + ".rgb")).write_bytes(oriented.convert("RGB").tobytes())
+        cases.append({"name": name, "width": oriented.width, "height": oriented.height, "channels": 4,
+                      "encoded_width": width, "encoded_height": height, "orientation": orientation,
+                      "ifd_byte_order": "little" if order == "<" else "big", "exif_prefix": prefix,
+                      "chunks": [tag.decode("ascii") for tag, _ in chunks(data)],
+                      "source_sha256": hashlib.sha256(data).hexdigest(),
+                      "raw_sha256": hashlib.sha256(rgba).hexdigest(), "rgba_sha256": hashlib.sha256(rgba).hexdigest(),
+                      "oracle_basis": "Exact pinned libwebp 1.6.0 decode followed by Pillow EXIF transpose"})
+
+    for orientation, order, prefix, lossless, has_alpha, before_image in (
+        (1, "<", True, True, False, False), (2, ">", False, True, True, False),
+        (3, "<", False, False, False, False), (4, ">", True, False, True, False),
+        (5, "<", False, True, True, True), (6, ">", True, False, False, False),
+        (7, "<", True, False, True, True), (8, ">", True, False, False, False),
+    ):
+        add_orientation(orientation, order=order, prefix=prefix, lossless=lossless,
+                        has_alpha=has_alpha, before_image=before_image)
+    rotated = dict(chunks((directory / "exif-orientation-6.webp").read_bytes()))
+    changed_rotation = dict(chunks((directory / "exif-orientation-8.webp").read_bytes()))
+    assert rotated.pop(b"EXIF") != changed_rotation.pop(b"EXIF") and rotated == changed_rotation
+
     def bad(name, content, status):
         (directory / (name + ".webp")).write_bytes(content)
         negatives[name] = {"status": status, "sha256": hashlib.sha256(content).hexdigest()}
@@ -147,12 +286,31 @@ def write_fixtures(directory):
         bad(name, container([chunk(tag, b"Authored"), chunk(b"VP8L", payload)]), 2)
     vp8x = bytes(4) + (4).to_bytes(3, "little") + (2).to_bytes(3, "little")
     bad("vp8x-static-wrapper", container([chunk(b"VP8X", vp8x), chunk(b"VP8L", payload)]), 2)
-    lossy = BytesIO()
-    Image.frombytes("RGBA", (5, 3), opaque).convert("RGB").save(lossy, "WEBP", lossless=False, quality=80)
-    check_lossy = Image.open(BytesIO(lossy.getvalue()))
-    check_lossy.load()
-    assert check_lossy.size == (5, 3) and lossy.getvalue()[12:16] == b"VP8 "
-    bad("lossy-vp8", lossy.getvalue(), 2)
+    color_chunk = chunk(vp8_tag, vp8)
+    canvas_chunk = chunk(b"VP8X", canvas)
+    alpha_chunk = chunk(b"ALPH", alpha_encoded)
+    alpha_color_chunk = chunk(vp8_tag, alpha_vp8)
+    for name, malformed in (
+        ("short", vp8[:9]), ("keyframe", bytes((vp8[0] | 1,)) + vp8[1:]),
+        ("signature", vp8[:3] + b"\0" + vp8[4:]),
+        ("dimension", vp8[:6] + b"\0\0" + vp8[8:]),
+        ("partition", vp8[:1] + b"\xff\xff" + vp8[3:]),
+        ("no-pixels", vp8[:10]),
+    ):
+        bad("lossy-vp8-" + name, container([chunk(vp8_tag, malformed)]), 4)
+    bad("lossy-duplicate-frame", container([color_chunk, color_chunk]), 4)
+    bad("lossy-vp8x-reserved-flag", container([chunk(b"VP8X", bytes((canvas[0] | 1,)) + canvas[1:]), alpha_chunk, alpha_color_chunk]), 4)
+    bad("lossy-vp8x-reserved-field", container([chunk(b"VP8X", canvas[:1] + b"\x01" + canvas[2:]), alpha_chunk, alpha_color_chunk]), 4)
+    bad("lossy-vp8x-short", container([chunk(b"VP8X", canvas[:-1]), alpha_chunk, alpha_color_chunk]), 4)
+    bad("lossy-vp8x-dimension", container([chunk(b"VP8X", canvas[:4] + b"\x02" + canvas[5:]), alpha_chunk, alpha_color_chunk]), 4)
+    bad("lossy-alpha-missing", container([canvas_chunk, alpha_color_chunk]), 4)
+    bad("lossy-frame-missing", container([canvas_chunk, alpha_chunk]), 4)
+    bad("lossy-alpha-duplicate", container([canvas_chunk, alpha_chunk, alpha_chunk, alpha_color_chunk]), 4)
+    bad("lossy-alpha-order", container([canvas_chunk, alpha_color_chunk, alpha_chunk]), 4)
+    bad("lossy-alpha-reserved", container([canvas_chunk, chunk(b"ALPH", bytes((alpha_encoded[0] | 0x80,)) + alpha_encoded[1:]), alpha_color_chunk]), 4)
+    bad("lossy-alpha-short", container([canvas_chunk, chunk(b"ALPH", alpha_encoded[:1]), alpha_color_chunk]), 4)
+    for name, malformed in (("short", alpha_direct[:-1]), ("overlong", alpha_direct + b"\0")):
+        bad("lossy-alpha-uncompressed-" + name, container([canvas_chunk, chunk(b"ALPH", malformed), alpha_color_chunk]), 4)
     animation = BytesIO()
     Image.frombytes("RGBA", (5, 3), opaque).save(animation, "WEBP", save_all=True,
         append_images=[Image.frombytes("RGBA", (5, 3), bytes((17, 65, 201, 255)) * 15)], duration=100, loop=0, lossless=True, exact=True)
@@ -161,6 +319,37 @@ def write_fixtures(directory):
     bad("animation", animation.getvalue(), 2)
     huge = (struct.unpack_from("<I", payload, 1)[0] & 0xf0000000) | 0x0fffffff
     bad("decoded-size-bound", container([chunk(b"VP8L", payload[:1] + struct.pack("<I", huge) + payload[5:])]), 3)
+
+    tiff = tiff_directory([orientation_entry("<", 6)])
+    exif_canvas = chunk(b"VP8X", b"\x08" + vp8x[1:])
+    exif_chunk = chunk(b"EXIF", tiff)
+    for name, metadata, status in (
+        ("empty", b"", 4),
+        ("truncated-tiff", tiff[:7], 4),
+        ("invalid-byte-order", b"XY" + tiff[2:], 4),
+        ("invalid-magic", tiff[:2] + b"\x2b" + tiff[3:], 4),
+        ("ifd-points-into-header", tiff[:4] + struct.pack("<I", 4) + tiff[8:], 4),
+        ("ifd-points-outside-input", tiff[:4] + struct.pack("<I", 0xffffffff) + tiff[8:], 4),
+        ("truncated-ifd", tiff[:-1], 4),
+        ("invalid-orientation-zero", tiff_directory([orientation_entry("<", 0)]), 4),
+        ("invalid-orientation-nine", tiff_directory([orientation_entry("<", 9)]), 4),
+        ("invalid-type", tiff_directory([orientation_entry("<", 6, field_type=4)]), 4),
+        ("invalid-count", tiff_directory([orientation_entry("<", 6, count=2)]), 4),
+        ("duplicate-orientation", tiff_directory([orientation_entry("<", 6), orientation_entry("<", 8)]), 4),
+        ("missing-orientation", tiff_directory([]), 2),
+        ("unsupported-metadata-tag", tiff_directory([orientation_entry("<", 6, tag=282)]), 2),
+        ("next-ifd", tiff_directory([orientation_entry("<", 6)], next_ifd=26) + bytes(6), 2),
+        ("metadata-budget", tiff + bytes(65537 - len(tiff)), 2),
+    ):
+        bad("exif-" + name, container([exif_canvas, color_chunk, chunk(b"EXIF", metadata)]), status)
+    bad("exif-flag-missing-tag", container([exif_canvas, color_chunk]), 4)
+    bad("exif-tag-without-flag", container([canvas_chunk, alpha_chunk, alpha_color_chunk, exif_chunk]), 4)
+    bad("exif-chunk-duplicate", container([exif_canvas, color_chunk, exif_chunk, exif_chunk]), 4)
+    bad("exif-unexpected-alpha", container([exif_canvas, alpha_chunk, color_chunk, exif_chunk]), 4)
+    bad("exif-alpha-on-lossless", container([chunk(b"VP8X", b"\x18" + vp8x[1:]),
+                                            alpha_chunk, chunk(b"VP8L", payload), exif_chunk]), 4)
+    bad("exif-lossless-canvas-mismatch", container([chunk(b"VP8X", b"\x08" + vp8x[1:4] + b"\x05" + vp8x[5:]),
+                                                   chunk(b"VP8L", payload), exif_chunk]), 4)
 
     resources = {}
     for name, size, budget in (("budget-raster", 256, 32768), ("budget-scratch", 128, 98304)):
@@ -181,7 +370,7 @@ def write_fixtures(directory):
     (directory / unicode_name).write_bytes(base)
     manifest = {"schema": "qpx.webp-test-fixtures/1", "cases": cases, "negative": negatives,
                 "oracle": {"Pillow": pillow_version, "libwebp": features.version("webp"),
-                           "basis": "Literal authored RGBA is the authority; lossless=True/exact=True Pillow roundtrip gates encoder output. Pillow uses libwebp and is not a different codec algorithm.",
+                           "basis": "Literal authored RGBA gates lossless output. Pinned libwebp 1.6.0 defines lossy decoded straight RGBA. Pillow EXIF transpose supplies oriented dimensions and bytes independently of native coordinate mapping.",
                            "hint_adapter_limitation": "Pillow chooses RGB mode from the alpha hint; cleared-hint variants retain literal seed alpha and are not judged against Pillow's alpha-discarding adapter output."},
                 "unicode_filename": {"path": unicode_name, "control": "rgba-main", "sha256": hashlib.sha256(base).hexdigest()},
                 "resource_fixtures": resources}
@@ -234,6 +423,26 @@ def validate(args):
             for mode in ("create", "reopen", "missing"):
                 run(consumer + [mode, str(args.manifest.resolve()), str(fixtures), str(work)], output, "project-" + mode, rows)
 
+            def validate_profile_project(profile, opaque, transparent, orientation_change=None):
+                profile_fixtures = output / (profile + "-project-fixtures")
+                profile_fixtures.mkdir()
+                for source, consumer_name, extensions in ((opaque, "rgba-main", ("webp", "raw", "rgba", "rgb")),
+                                                           (transparent, "rgba-alpha", ("webp", "raw", "rgba"))):
+                    for extension in extensions:
+                        shutil.copyfile(fixtures / f"{source}.{extension}", profile_fixtures / f"{consumer_name}.{extension}")
+                profile_work = output / (profile + "-project")
+                profile_work.mkdir()
+                modes = ("create", "reopen", "missing")
+                if orientation_change is not None:
+                    shutil.copyfile(fixtures / (orientation_change + ".webp"), profile_fixtures / "rgba-source-changed.webp")
+                    modes += ("changed-source",)
+                for mode in modes:
+                    run(consumer + [mode, str(args.manifest.resolve()), str(profile_fixtures), str(profile_work)],
+                        output, profile + "-project-" + mode, rows)
+
+            validate_profile_project("lossy", "lossy-rgb", "lossy-alpha")
+            validate_profile_project("exif", "exif-orientation-6", "exif-orientation-7", "exif-orientation-8")
+
             def stage_manifest(directory, *, overlay=False):
                 directory.mkdir()
                 changed = json.loads(args.manifest.read_text(encoding="utf8"))
@@ -257,11 +466,47 @@ def validate(args):
             run(consumer + ["changed-implementation", str(changed_manifest), str(fixtures), str(work)], output, "project-changed-implementation", rows)
             run(consumer + ["changed-source", str(args.manifest.resolve()), str(fixtures), str(work)], output, "project-changed-source", rows)
         if args.region and args.manifest:
-            run([str(args.region.resolve()), "--reader-plugins", str(args.manifest.resolve()), "--readers"], output, "host-catalog", rows)
-            run([str(args.region.resolve()), "--reader-plugins", str(args.manifest.resolve()), "--reader", "org.qupathxx.webp", str(fixtures / "rgba-main.webp"), "0", "0", "0", "5", "3", str(output / "host-region.pam")], output, "host-region", rows)
-            pam = (output / "host-region.pam").read_bytes()
-            end = pam.index(b"ENDHDR\n") + len(b"ENDHDR\n")
-            assert pam[end:] == (fixtures / "rgba-main.rgba").read_bytes(), "Host PAM differs from independent exact WebP oracle"
+            import numpy as np
+
+            host = [str(args.region.resolve()), "--reader-plugins", str(args.manifest.resolve())]
+            run(host + ["--readers"], output, "host-catalog", rows)
+            host += ["--reader", "org.qupathxx.webp"]
+            for stem, width, height in (("rgba-main", 5, 3), ("lossy-rgb", 5, 3), ("lossy-alpha", 5, 3)):
+                name = "host-region" if stem == "rgba-main" else "host-region-" + stem
+                pam_path = output / (name + ".pam")
+                input_path = fixtures / (stem + ".webp")
+                run(host + [str(input_path), "0", "0", "0", str(width), str(height), str(pam_path)],
+                    output, name, rows)
+                pam = pam_path.read_bytes()
+                end = pam.index(b"ENDHDR\n") + len(b"ENDHDR\n")
+                assert pam[end:] == (fixtures / (stem + ".rgba")).read_bytes(), name
+                if stem.startswith("lossy-"):
+                    npy = output / (stem + ".npy")
+                    run(host + ["--raw", str(input_path), str(npy), "--width", str(width),
+                                "--height", str(height), "--channels", "4"],
+                        output, "host-raw-" + stem, rows)
+                    raw = np.load(npy, allow_pickle=False)
+                    assert raw.dtype == np.uint8 and raw.shape == (height, width, 4), stem
+                    assert raw.tobytes() == (fixtures / (stem + ".raw")).read_bytes(), stem
+            for stem in ("exif-orientation-6", "exif-orientation-7"):
+                input_path = fixtures / (stem + ".webp")
+                rgba = np.frombuffer((fixtures / (stem + ".rgba")).read_bytes(), dtype=np.uint8).reshape(3, 5, 4)
+                # Crop in the oriented lattice, whose width is 5 even though the
+                # encoded frame is only 3 pixels wide.
+                expected_crop = rgba[1:3, 1:4]
+                pam_path = output / (stem + ".pam")
+                run(host + [str(input_path), "1", "1", "0", "3", "2", str(pam_path)],
+                    output, "host-region-" + stem, rows)
+                pam = pam_path.read_bytes()
+                header, pixels = pam.split(b"ENDHDR\n", 1)
+                assert b"WIDTH 3\nHEIGHT 2\n" in header and pixels == expected_crop.tobytes(), stem
+                npy = output / (stem + ".npy")
+                run(host + ["--raw", str(input_path), str(npy), "--x", "1", "--y", "1", "--width", "3", "--height", "2",
+                            "--channel", "1", "--channels", "2"],
+                    output, "host-raw-" + stem, rows)
+                raw = np.load(npy, allow_pickle=False)
+                assert raw.dtype == np.uint8 and raw.shape == (2, 3, 2), stem
+                assert raw.tobytes() == expected_crop[..., 1:3].tobytes(), stem
         report["checks_passed"] = True
     finally:
         report["artifacts_after"] = hashes()

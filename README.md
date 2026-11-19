@@ -310,7 +310,8 @@ build/desktop/Release/qupathxx_app.exe
 ```
 
 Python checks: `.venv/Scripts/python -m pytest`.
-The native executable accepts `--smoke` for a finite startup/render/shutdown check.
+The native executable accepts `--smoke` for a finite startup, tile rendering
+and shutdown check. Image tile failures are reported on stderr.
 
 The [CI matrix](docs/ci-distribution.md) checks native configurations, fresh
 installed wheels, typing and software-rendered desktop workflows on hosted

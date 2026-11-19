@@ -192,9 +192,10 @@ struct Document::Staging {
         }
         else {
             a.plane.validate();
-            if(a.plane!=ObjectPlane{} && !document.server_->tiff_view()) {
+            // A saved raw view identifies native quantitative sources even offline.
+            if(a.plane!=ObjectPlane{} && !document.server_->raw_view()) {
                 const auto plugin=detail::plugin_link_of(*document.server_);
-                if(!plugin || !plugin->raw)throw std::invalid_argument("persisted object plane requires a quantitative TIFF source");
+                if(!plugin || !plugin->raw)throw std::invalid_argument("persisted object plane requires a quantitative source");
                 const auto& raw=*plugin->raw;
                 if(a.plane.z>=raw.z_planes || a.plane.t>=raw.timepoints || (a.plane.c>=0 && std::uint32_t(a.plane.c)>=raw.channels))throw std::invalid_argument("persisted object plane exceeds saved plugin source domain");
             }

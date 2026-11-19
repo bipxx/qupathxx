@@ -68,6 +68,10 @@ are not silently marked numerically verified in the source project.
 
 ## Outputs and resume
 
+Choose an output outside the project's linked image and NGFF label stores,
+including stores attached to unselected images or temporarily offline.
+The native runner checks these locations before creating any output folders.
+
 - `density.csv`: complete combined table. It prefixes the unchanged native CSV
   values with source project/image/name, record ID, reuse status, current request
   identity and checkpoint path. Quoting is UTF-8; numeric text comes from native
@@ -80,9 +84,16 @@ are not silently marked numerically verified in the source project.
   fabricated zero-density rows. Default failure handling continues; use
   `--stop-on-error` to stop after the first image failure.
 - `image-ID.qpxproj` and `image-ID.json`: completed single-image native checkpoint
-  and its bounded identity/checksum receipt. Existing metadata/classes/view are
-  retained. Source image IDs map to `checkpoint_image_id` in the receipt; native
+  and its bounded identity/checksum receipt. Existing metadata, classes, view
+  and reviewed source verification are retained. A change to the saved source
+  link or verification calls for a fresh checkpoint. Source image IDs map to
+  `checkpoint_image_id` in the receipt; native
   record IDs remain available for opening/inspection/replay.
+
+The checkpoint directory also carries exact copies of any owned expression
+matrices and reduction archives for that image. Keep the managed
+`.qpx-expression` and `.qpx-expression-reductions` directories with the
+checkpoint. Resume verifies those files before reusing the checkpoint.
 
 `--resume-from` reads ready per-image receipts even if the earlier final report
 was interrupted. Valid unchanged checkpoints skip native jobs. Relevant changes

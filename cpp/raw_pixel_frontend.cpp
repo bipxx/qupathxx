@@ -42,6 +42,7 @@ struct RawPixelFrontend::Impl {
 RawPixelFrontend::RawPixelFrontend():impl_(std::make_unique<Impl>()) {}
 RawPixelFrontend::~RawPixelFrontend() {cancel();auto& s=*impl_;s.training.await_completion();s.checkpoint.await_completion();s.contour_prediction.await_completion();s.contours.await_completion();s.stream_contours.await_completion();s.prediction.await_completion();s.save.await_completion();s.reader.await_completion();if(s.io.valid()) s.io.wait();}
 bool RawPixelFrontend::busy() const {return impl_->stage!=Impl::Stage::Idle;}
+bool RawPixelFrontend::stream_committed() const {return impl_->save.committed();}
 void RawPixelFrontend::cancel() {auto& s=*impl_;s.cancelled.store(true);s.training.cancel();s.checkpoint.cancel();s.contour_prediction.cancel();s.contours.cancel();s.stream_contours.cancel();s.prediction.cancel();s.save.cancel();s.reader.cancel();}
 void RawPixelFrontend::wait(const Document& doc) {while(busy()) {poll(doc);if(busy()) std::this_thread::sleep_for(std::chrono::milliseconds(2));}}
 bool RawPixelFrontend::can_keep_training(const Document& doc) const {return impl_->training_request && impl_->report.training && impl_->training_request->matches(doc);}

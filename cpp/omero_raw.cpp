@@ -8,15 +8,21 @@
 #include "strict_json.hpp"
 #include "sha256.hpp"
 #include "omero_io.hpp"
+#include "raw_numpy_write.hpp"
+#include "stored_zip_read.hpp"
 #include <algorithm>
 #include <filesystem>
 #include <fstream>
+#include <optional>
 #include <random>
 #include <set>
 namespace qpx {
 namespace {
 namespace fs = std::filesystem;
 using Json = nlohmann::json;
+constexpr std::size_t raw_bundle_samples_limit = 256u * 1024 * 1024;
+constexpr std::size_t raw_bundle_receipt_limit = 32u * 1024 * 1024;
+constexpr std::size_t raw_bundle_framing_limit = 8192;
 std::string digest(const void* p, std::size_t n) {
     Sha256 h;
     h.update(p, n);
@@ -378,5 +384,174 @@ void save_omero_raw_receipt(const OmeroRawBlock& b, const std::string& output,
                             const std::atomic<bool>* c) {
     const auto& s = b.receipt_json();
     detail::save_new_omero_file(output, s.data(), s.size(), c);
+}
+void save_omero_raw_bundle(const OmeroRawBlock& block, const std::string& output,
+                           const std::atomic<bool>* cancelled) {
+    workflow_checkpoint(cancelled);
+    const auto path = detail::export_path(output);
+    detail::require_new_export(path);
+    const auto& pixels = block.pixels();
+    const auto& receipt = block.receipt_json();
+    if (pixels.payload_bytes() > raw_bundle_samples_limit || receipt.size() > raw_bundle_receipt_limit)
+        throw std::length_error("OMERO raw bundle exceeds its native size limits");
+    const auto limit = pixels.payload_bytes() + receipt.size() + raw_bundle_framing_limit;
+    detail::AtomicExportFile file(path, limit, cancelled);
+    const auto samples = detail::stored_zip::write_member(file, "raw.npy", cancelled,
+        [&](auto& sink) { detail::write_raw_numpy(sink, pixels); });
+    const auto provenance = detail::stored_zip::write_member(file, "receipt.json", cancelled,
+        [&](auto& sink) { sink.write(receipt.data(), receipt.size()); });
+    detail::stored_zip::finish(file, std::array{samples, provenance});
+    workflow_checkpoint(cancelled);
+    detail::commit_export_output(file, path, ExportWritePolicy::CreateNew);
+}
+
+namespace {
+[[noreturn]] void invalid_bundle(const char* reason) {
+    throw std::invalid_argument(std::string("Invalid OMERO raw bundle: ") + reason);
+}
+
+using detail::stored_zip::read_little;
+
+std::uint64_t positive(const Json& fields, const char* key) {
+    const auto& value = fields.at(key);
+    if (value.is_number_unsigned() && value.get<std::uint64_t>() > 0)
+        return value.get<std::uint64_t>();
+    invalid_bundle("invalid sample dimensions");
+}
+
+SampleType sample_type(const Json& receipt) {
+    const auto name = receipt.at("sample_type").get<std::string>();
+    for (auto type : {SampleType::UInt8, SampleType::Int8, SampleType::UInt16, SampleType::Int16,
+                      SampleType::UInt32, SampleType::Int32, SampleType::UInt64, SampleType::Int64,
+                      SampleType::Float32, SampleType::Float64})
+        if (sample_name(type) == name)
+            return type;
+    invalid_bundle("unknown sample type");
+}
+
+std::uint64_t verify_numpy_header(const std::string& header, const Json& receipt,
+                                 std::size_t payload) {
+    const auto& selection = receipt.at("selection");
+    const auto height = positive(selection, "height"), width = positive(selection, "width");
+    const auto channels = positive(selection, "channels");
+    const auto type = sample_type(receipt);
+    if (width > raw_bundle_samples_limit / height)
+        invalid_bundle("sample dimensions exceed bundle limits");
+    const auto pixels = width * height;
+    const auto element_size = sample_bytes(type);
+    if (channels > raw_bundle_samples_limit / pixels / element_size ||
+        pixels * channels * element_size != payload)
+        invalid_bundle("sample extent differs from the receipt");
+    auto descriptor = detail::numpy_sample_descriptor(type);
+    const auto shape = std::to_string(height) + ", " + std::to_string(width) + ", " +
+                       std::to_string(channels);
+    struct HeaderBytes {
+        std::string bytes;
+        void write(const char* data, std::size_t size) { bytes.append(data, size); }
+    };
+    for (const char order : {'<', '>'}) {
+        if (element_size > 1)
+            descriptor[0] = order;
+        HeaderBytes expected;
+        detail::write_numpy_header(expected, "'" + descriptor + "'", shape);
+        if (header == expected.bytes)
+            return pixels;
+    }
+    invalid_bundle("NPY header differs from the receipt");
+}
+std::string inspect_raw_bundle(const std::string& zip, const std::string* output,
+                               const std::atomic<bool>* cancelled) {
+    workflow_checkpoint(cancelled);
+    const auto path = detail::export_path(zip);
+    const std::vector<std::string> protected_paths{path};
+    std::string destination;
+    if (output) {
+        destination = detail::export_path(*output);
+        detail::require_new_export(destination);
+        detail::guard_export_output(destination, protected_paths);
+    }
+    const detail::ReaderFileGuard guard(path);
+    const auto size = guard.version()->bytes;
+    if (size > raw_bundle_samples_limit + raw_bundle_receipt_limit + raw_bundle_framing_limit)
+        invalid_bundle("archive exceeds its size limit");
+    detail::stored_zip::Input input(fs::u8path(path), size, cancelled, "OMERO raw bundle");
+    const auto samples = input.member("raw.npy", raw_bundle_samples_limit + raw_bundle_framing_limit);
+    if (samples.size < 10)
+        invalid_bundle("truncated NPY header");
+    const auto prefix = input.record<10>();
+    const auto header_size = read_little(prefix.data() + 8, 2);
+    if (header_size > samples.size - prefix.size() || header_size > raw_bundle_framing_limit)
+        invalid_bundle("invalid NPY header extent");
+    std::string header(prefix.data(), prefix.size());
+    header.resize(prefix.size() + header_size);
+    input.read(header.data() + prefix.size(), header_size);
+    std::optional<detail::AtomicExportFile> extracted;
+    if (output) {
+        extracted.emplace(destination, samples.size, cancelled);
+        extracted->write(header.data(), header.size());
+    }
+    detail::stored_zip::Checksum crc{cancelled};
+    crc.write(header.data(), header.size());
+    Sha256 raw;
+    const auto payload = samples.size - header.size();
+    std::array<char, 65536> bytes{};
+    for (auto remaining = payload; remaining;) {
+        const auto count = std::min(remaining, bytes.size());
+        input.read(bytes.data(), count);
+        crc.write(bytes.data(), count);
+        raw.update(bytes.data(), count);
+        if (extracted)
+            extracted->write(bytes.data(), count);
+        remaining -= count;
+    }
+    if (~crc.crc != samples.crc)
+        invalid_bundle("NPY CRC differs");
+
+    const auto provenance = input.member("receipt.json", raw_bundle_receipt_limit);
+    std::string text(provenance.size, '\0');
+    input.read(text.data(), text.size());
+    detail::stored_zip::Checksum receipt_crc{cancelled};
+    receipt_crc.write(text.data(), text.size());
+    if (~receipt_crc.crc != provenance.crc)
+        invalid_bundle("receipt CRC differs");
+    input.finish(std::array{samples, provenance});
+
+    detail::StrictJson strict("OMERO bundle receipt");
+    Json::sax_parse(text, &strict);
+    auto receipt = Json::parse(text);
+    if (receipt.at("schema") != "qpx.omero-raw/1" ||
+        receipt.at("representation") != "original-channel-samples" || receipt.dump() != text)
+        invalid_bundle("unsupported or noncanonical receipt");
+    const auto expected_result = receipt.at("result_sha256").get<std::string>();
+    receipt.erase("result_sha256");
+    const auto canonical = receipt.dump();
+    if (digest(canonical.data(), canonical.size()) != expected_result)
+        invalid_bundle("receipt digest differs");
+    const auto pixels = verify_numpy_header(header, receipt, payload);
+    bytes.fill(1);
+    for (auto remaining = pixels; remaining;) {
+        workflow_checkpoint(cancelled);
+        const auto count = std::min<std::uint64_t>(remaining, bytes.size());
+        raw.update(bytes.data(), static_cast<std::size_t>(count));
+        remaining -= count;
+    }
+    if (raw.finish() != receipt.at("raw_sha256"))
+        invalid_bundle("sample digest differs");
+    guard.verify();
+    workflow_checkpoint(cancelled);
+    if (extracted)
+        detail::commit_export_output(*extracted, destination, ExportWritePolicy::CreateNew,
+                                     protected_paths);
+    return text;
+}
+} // namespace
+
+std::string verify_omero_raw_bundle(const std::string& zip, const std::atomic<bool>* cancelled) {
+    return inspect_raw_bundle(zip, nullptr, cancelled);
+}
+
+std::string extract_omero_raw_bundle(const std::string& zip, const std::string& new_npy,
+                                    const std::atomic<bool>* cancelled) {
+    return inspect_raw_bundle(zip, &new_npy, cancelled);
 }
 } // namespace qpx

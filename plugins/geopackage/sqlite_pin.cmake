@@ -1,0 +1,4 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+set(qpx_sqlite_archive_sha256 "0a9c8e34352dad46006aa82836d5383bff9dc6bc9ce5a60553c05aa30e6ad1f9")
+set(qpx_sqlite3.c_sha256 "0c657666d819f261cc4007526ad57e1669de9949df7a8ea847aa284a2bf0ee52")
+set(qpx_sqlite3.h_sha256 "d6c84557261893439b341d2e6c35187ae3ea24fbfd843ad94616f72d89242b8c")

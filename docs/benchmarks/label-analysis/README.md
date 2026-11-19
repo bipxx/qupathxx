@@ -75,3 +75,44 @@ receipt above remains its own exact scope. New source/product identity and the
 local commit handoff are recorded separately under
 build/gui-aggregation/gap-closure/cleanup/results.json. No public, corpus, GUI,
 binding, SDK/wheel or package campaign is repeated.
+
+## PNG label-mask continuation
+
+The later A08/R15 continuation imports unsigned grayscale PNG labels through the
+existing optional `org.qupathxx.png` module and the same captured native label
+workflow. It adds no decoder, dependency or model asset. The provider remains
+SHA256 `098cb3a15d3e7e5811498023515c41c71404170c6bbb675ef7681483491bfbbf`;
+its existing [source lock, notices and admission](../png-reader-plugin/README.md)
+remain authoritative. New host code is AGPL-3.0-only. Published candidate9 and
+all130 preceding protected products remain byte-identical.
+
+Seven affected native checks pass: label analysis, fluorescence regression,
+label workflow, label CLI, reader-plugin host, missing-PNG refusal and configured
+PNG integration. Independent authored1/2/4/8/16-bit PNGs retain original integer
+codes, including65535. The configured test checks sparse/disconnected IDs, original
+raw sums and area, one-undo publication, save/open/exact replay, CSV/QPL equality,
+decoder/version identity retention and tamper refusal, real decoder work allowance,
+invalid color/alpha/palette/dimension/CRC, stale source and cancellation/budget
+refusal. No numeric tolerance or old stored identity was relaxed.
+
+Twelve standalone native batch routes pass with a Windows-only PATH and Python
+environment variables removed: raw input capture, PNG import, retained records,
+reopen/verification, CSV/QPL exports, missing provider, existing/protected outputs,
+legacy TIFF verification/CSV and help. Native/CLI PNG outputs agree exactly.
+The pre-change TIFF project retains record
+`48058acacffc9a32ce3da2b2498be99d7c05d4aec5a3645c5a1091e6cceb7046`
+and CSV SHA256
+`12dba940a9c17894fd7f86394b5538ff9459972f6d264c0948c2cf8679d9de41`.
+
+Commands, owned fixtures, source/object/product hashes, before/after legacy
+comparison and test results are retained under
+`build/gui-aggregation/gap-closure/png-labels/`. The existing integration cache
+reuses compatible objects and the frozen core/dependency libraries; only changed
+native/CLI/test objects are rebuilt. An initial new-test compile omitted the
+explicit workflow-exception header; fixing that include reused all passing
+objects and linked tests. One preflight receipt-key error stopped before native
+execution. Neither failure changed acceptance assertions or triggered a campaign.
+
+This is analytical Windows native/CLI crop scope. RGB/palette/alpha-channel label
+interpretation, NGFF labels, model execution, new desktop/bindings, release
+packaging, biological and whole-slide acceptance remain separate selections.

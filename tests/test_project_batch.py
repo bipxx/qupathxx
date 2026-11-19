@@ -1,5 +1,6 @@
 """Batch transaction boundaries, independent CSV parsing, restart and native CLI."""
 import csv
+from contextlib import closing
 import gc
 import io
 import json
@@ -108,6 +109,48 @@ def test_resume_rejects_damaged_or_edited_checkpoints(tmp_path,damage):
     assert r.state=='failed' and r.failed==1 and r.reused==r.saved==0 and Path(path).read_bytes()==before
 
 
+@pytest.mark.parametrize('damage, diagnostic', [
+    ('DELETE FROM analysis_statistics', 'data checksum mismatch'),
+    ("INSERT INTO image_metadata VALUES ('1','changed','yes')", 'data checksum mismatch'),
+    ('CREATE TABLE extra_checkpoint_table (value TEXT)', 'unsealed table'),
+])
+def test_cli_checks_full_persisted_batch_seal(tmp_path, damage, diagnostic):
+    bundled = Path(_native.__file__).with_name('qupathxx_batch.exe' if os.name == 'nt' else 'qupathxx_batch')
+    cli = os.environ.get('QUPATHXX_TEST_BATCH_SEAL_CLI', str(bundled))
+
+    def invoke(*args):
+        return subprocess.run([cli, *map(str, args)], capture_output=True, text=True, encoding='utf-8', timeout=30)
+
+    project, _, _ = scene(1)
+    source = tmp_path / 'source.qpx'
+    project.save(str(source))
+    args = (source, tmp_path / 'results', '--roi-intensity-statistics')
+    done = invoke(*args)
+    assert done.returncode == 0, done.stderr + done.stdout
+    path = Path(json.loads(done.stdout.splitlines()[-1])['images'][0]['path'])
+    clean = tmp_path / 'clean.csv'
+    assert invoke('--export-csv', path, clean).returncode == 0
+    done = invoke(*args)
+    assert done.returncode == 0 and json.loads(done.stdout.splitlines()[-1])['reused'] == 1
+    with closing(sqlite3.connect(path)) as db, db:
+        assert db.execute('SELECT version FROM qpx_batch_checkpoint').fetchone()[0] == 2
+        assert db.execute('SELECT count(*) FROM analysis_statistics').fetchone()[0] == 1
+        db.execute(damage)
+    changed = path.read_bytes()
+    failed = tmp_path / 'refused.csv'
+    done = invoke('--export-csv', path, failed)
+    assert done.returncode != 0 and diagnostic in done.stderr and not failed.exists()
+    done = invoke(*args)
+    report = json.loads(done.stdout.splitlines()[-1])
+    assert done.returncode == 1 and diagnostic in report['error'] and report['reused'] == report['saved'] == 0
+    assert path.read_bytes() == changed
+    done = invoke(*args, '--no-resume')
+    assert done.returncode == 0, done.stderr + done.stdout
+    rebuilt = json.loads(done.stdout.splitlines()[-1])['images'][0]['path']
+    assert Path(rebuilt) != path and path.read_bytes() == changed
+    assert invoke('--export-csv', rebuilt, tmp_path / 'rebuilt.csv').returncode == 0
+
+
 def test_linked_pixels_changed_restart_and_source_paths(tmp_path):
     image=tmp_path/'标注.ppm';image.write_bytes(b'P6\n32 24\n255\n'+bytes([16])*32*24*3)
     p=q.Project();id=p.add_image(str(image));p.document(id).add_rectangle(q.Rect(0,0,32,24));t=q.StainTransform([[1,0,0],[0,1,0]])
@@ -118,6 +161,136 @@ def test_linked_pixels_changed_restart_and_source_paths(tmp_path):
     reopened=q.Project.open(second.images[0].path);assert Path(reopened.images[0].source_path).samefile(image)
     assert reopened.document(id).server.read_region(q.RegionRequest(0,0,0,1,1)).data[:3]==bytes([32]*3)
     with pytest.raises((ValueError,RuntimeError)):q.save_batch_checkpoint_csv(second.images[0].path,str(image))
+
+
+def test_cli_batch_binds_checkpoint_to_byte_identical_link_replacement(tmp_path):
+    bundled = Path(_native.__file__).with_name('qupathxx_batch.exe' if os.name == 'nt' else 'qupathxx_batch')
+    cli = os.environ.get('QUPATHXX_TEST_BATCH_SEAL_CLI', str(bundled))
+    pixels = b'P6\n32 24\n255\n' + bytes([64]) * 32 * 24 * 3
+    image = tmp_path / 'source.ppm'
+    image.write_bytes(pixels)
+    project = q.Project()
+    doc = project.document(project.add_image(str(image), 'ppm'))
+    doc.add_rectangle(q.Rect(0, 0, 16, 16))
+    source = tmp_path / 'input.qpx'
+    project.save(str(source))
+    doc.server.close()
+
+    def invoke(*args):
+        return subprocess.run([cli, *map(str, args)], capture_output=True, text=True, encoding='utf-8', timeout=30)
+
+    root = tmp_path / 'batch'
+
+    def batch():
+        done = invoke(source, root)
+        assert done.returncode == 0, done.stderr + done.stdout
+        return json.loads(done.stdout.splitlines()[-1])
+
+    def checkpoint_binding(path):
+        with closing(sqlite3.connect(path)) as db:
+            return db.execute('SELECT input_sha, source_file_identity FROM qpx_batch_checkpoint').fetchone()
+
+    first = batch()
+    assert first['saved'] == 1
+    saved = first['images'][0]
+    old = Path(saved['path'])
+    old_bytes = old.read_bytes()
+    old_input, old_file = checkpoint_binding(old)
+    assert old_file and batch()['reused'] == 1
+
+    replacement = tmp_path / 'new.ppm'
+    replacement.write_bytes(pixels)
+    os.replace(replacement, image)
+    second = batch()
+    assert second['saved'] == 1 and second['reused'] == 0
+    current = second['images'][0]
+    new = Path(current['path'])
+    new_input, new_file = checkpoint_binding(new)
+    assert new_file and new_file != old_file and new_input != old_input
+    assert current['input_sha256'] == saved['input_sha256']
+    assert current['pixel_sha256'] == saved['pixel_sha256']
+    assert new != old and old.read_bytes() == old_bytes
+    assert batch()['images'][0]['path'] == str(new)
+    stale = tmp_path / 'historical.csv'
+    assert invoke('--export-csv', old, stale).returncode == 0 and stale.exists()
+
+    # File placement alone cannot satisfy the source commitment on resume.
+    new.write_bytes(old_bytes)
+    refused = invoke(source, root)
+    assert refused.returncode == 1
+    assert 'checkpoint does not match' in json.loads(refused.stdout.splitlines()[-1])['error']
+    assert old.read_bytes() == new.read_bytes() == old_bytes
+
+
+def test_cli_batch_checks_verified_image_before_save_and_resume(tmp_path):
+    import numpy as np
+    import tifffile
+    from test_project_source import fingerprint
+
+    if not q.has_tiff:
+        pytest.skip('requires native TIFF')
+    bundled = Path(_native.__file__).with_name('qupathxx_batch.exe' if os.name == 'nt' else 'qupathxx_batch')
+    cli = os.environ.get('QUPATHXX_TEST_BATCH_SEAL_CLI', str(bundled))
+    project = q.Project()
+    images = [tmp_path / name for name in ('first.tif', 'healthy.tif')]
+    for image, value in zip(images, (23, 42)):
+        tifffile.imwrite(image, np.full((6, 9), value, dtype=np.uint16), metadata=None)
+        image_id = project.add_tiff_image(str(image))
+        project.document(image_id).add_rectangle(q.Rect(0, 0, 9, 6))
+        project.apply_source_review(project.review_source_verification(image_id, fingerprint(image)))
+    source = tmp_path / 'verified.qpx'
+    project.save(str(source))
+    del project
+    project_bytes = source.read_bytes()
+
+    def invoke(*args, exit_code=0):
+        result = subprocess.run([cli, *map(str, args)], capture_output=True, encoding='utf-8', timeout=30)
+        assert result.returncode == exit_code, result
+        return json.loads(result.stdout.splitlines()[-1]) if result.stdout else None
+
+    def batch(project, output, *args, exit_code=0):
+        return invoke(project, output, '--kind', 'raw', '--raw-channels', 1, '--continue-on-error', *args,
+                      exit_code=exit_code)
+
+    def check_mean(checkpoint, name, mean):
+        csv_path = tmp_path / name
+        invoke('--export-csv', checkpoint, csv_path)
+        with csv_path.open(encoding='utf-8', newline='') as stream:
+            [row] = list(csv.DictReader(stream))
+        assert (row['valid_pixels'], row['mean']) == ('54', str(mean))
+
+    output = tmp_path / 'batch'
+    first = batch(source, output)
+    assert (first['saved'], first['reused'], first['failed']) == (2, 0, 0)
+    old = Path(first['images'][0]['path'])
+    old_bytes = old.read_bytes()
+    check_mean(old, 'original.csv', 23)
+
+    replacement = tmp_path / 'replacement.tif'
+    tifffile.imwrite(replacement, np.full((6, 9), 99, dtype=np.uint16), metadata=None)
+    assert replacement.stat().st_size == images[0].stat().st_size
+    replacement.replace(images[0])
+
+    fresh = tmp_path / 'fresh'
+    for root, healthy_state in ((output, 'reused'), (fresh, 'saved')):
+        partial = batch(source, root, exit_code=1)
+        stale, healthy = partial['images']
+        assert partial['state'] == 'partial' and partial['failed'] == 1
+        assert stale['state'] == 'failed' and not stale['path'] and stale['records'] == 0
+        assert 'differs from saved source verification' in stale['error']
+        assert healthy['state'] == healthy_state
+    assert old.read_bytes() == old_bytes and source.read_bytes() == project_bytes
+    assert not list(fresh.glob('image-1-*'))
+
+    project = q.Project.open(str(source))
+    review = project.review_source_verification(1, fingerprint(images[0]))
+    assert review.comparison == 'changed_bytes' and review.requires_acceptance
+    project.apply_source_review(review, accept_changed=True)
+    adopted = tmp_path / 'adopted.qpx'
+    project.save(str(adopted))
+    approved = batch(adopted, tmp_path / 'adopted-batch', '--image', 1)
+    assert approved['saved'] == 1 and approved['failed'] == 0
+    check_mean(approved['images'][0]['path'], 'adopted.csv', 99)
 
 
 def test_failure_policies_budgets_and_validation(tmp_path):

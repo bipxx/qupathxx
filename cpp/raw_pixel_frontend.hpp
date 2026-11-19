@@ -8,6 +8,7 @@ class RawPixelFrontend {
 public:
     RawPixelFrontend();~RawPixelFrontend();RawPixelFrontend(const RawPixelFrontend&)=delete;
     bool busy() const;void cancel();void wait(const Document&);
+    bool stream_committed() const;
     void poll(const Document&);
     void train(const Document&,const std::vector<std::uint64_t>&,RawPixelTrainingSettings);
     void predict(const Document&,const RawPixelClassifier&,ScientificRawWindow,std::uint64_t,double,std::size_t);

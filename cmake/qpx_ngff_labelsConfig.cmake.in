@@ -1,0 +1,57 @@
+# Relocatable source-matched addon to the exact frozen FP04 native SDK. This
+# template is self-contained: staging may copy it to qpx_ngff_labelsConfig.cmake.
+get_filename_component(_qpx_ngff_labels_prefix "${CMAKE_CURRENT_LIST_DIR}/../../.." ABSOLUTE)
+if(NOT WIN32 OR NOT MSVC OR NOT CMAKE_SIZEOF_VOID_P EQUAL 8 OR
+   NOT CMAKE_CXX_COMPILER_ARCHITECTURE_ID STREQUAL "x64" OR
+   NOT MSVC_VERSION STREQUAL "1944" OR
+   NOT CMAKE_CXX_COMPILER_VERSION STREQUAL "19.44.35225.0")
+  message(FATAL_ERROR "qpx_ngff_labels requires Windows x64 MSVC1944/compiler19.44.35225.0 Release /MD")
+endif()
+if(CMAKE_CONFIGURATION_TYPES)
+  set(CMAKE_CONFIGURATION_TYPES Release CACHE STRING "Supported NGFF labels configuration" FORCE)
+elseif(NOT CMAKE_BUILD_TYPE STREQUAL "Release")
+  message(FATAL_ERROR "qpx_ngff_labels requires Release /MD")
+endif()
+if(CMAKE_MSVC_RUNTIME_LIBRARY AND
+   NOT CMAKE_MSVC_RUNTIME_LIBRARY STREQUAL "MultiThreadedDLL" AND
+   NOT CMAKE_MSVC_RUNTIME_LIBRARY STREQUAL "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
+  message(FATAL_ERROR "qpx_ngff_labels requires the dynamic Release CRT (/MD)")
+endif()
+include(CMakeFindDependencyMacro)
+find_dependency(qupathxx 0.1.0 CONFIG COMPONENTS core)
+get_target_property(_qpx_ngff_labels_base qupathxx::core IMPORTED_LOCATION_RELEASE)
+if(NOT EXISTS "${_qpx_ngff_labels_base}")
+  message(FATAL_ERROR "Missing frozen qupathxx SDK core")
+endif()
+file(SHA256 "${_qpx_ngff_labels_base}" _qpx_ngff_labels_base_sha)
+if(NOT _qpx_ngff_labels_base_sha STREQUAL "4bf957c9ea6e46294c11b9bfb7d9c2496cf4fca607a9c28ba837768d301eb6bb")
+  message(FATAL_ERROR "qpx_ngff_labels requires the exact frozen FP04 SDK/core")
+endif()
+set(_qpx_ngff_labels_native "${_qpx_ngff_labels_prefix}/native/ngff_native.lib")
+set(_qpx_ngff_labels_include "${_qpx_ngff_labels_prefix}/source/cpp/include")
+if(NOT EXISTS "${_qpx_ngff_labels_native}" OR
+   NOT EXISTS "${_qpx_ngff_labels_include}/qupathxx/label_workflow.hpp" OR
+   NOT EXISTS "${_qpx_ngff_labels_include}/qupathxx/ngff_label_mask.hpp" OR
+   NOT EXISTS "${_qpx_ngff_labels_include}/qupathxx/label_mask_archive.hpp")
+  message(FATAL_ERROR "The NGFF labels addon library/public headers are incomplete")
+endif()
+set(qpx_ngff_labels_NATIVE_SHA256 "b0c86a57518c49654359a784f3344a1f15c55e60bf6fa07523ad9a6e7fd94a84")
+file(SHA256 "${_qpx_ngff_labels_native}" _qpx_ngff_labels_native_sha)
+if(NOT _qpx_ngff_labels_native_sha STREQUAL qpx_ngff_labels_NATIVE_SHA256)
+  message(FATAL_ERROR "The NGFF labels addon library differs from its recorded source-matched product")
+endif()
+if(TARGET qupathxx::ngff_labels)
+  get_target_property(_qpx_ngff_labels_previous qupathxx::ngff_labels IMPORTED_LOCATION_RELEASE)
+  if(NOT _qpx_ngff_labels_previous STREQUAL _qpx_ngff_labels_native)
+    message(FATAL_ERROR "A different NGFF labels addon is already loaded")
+  endif()
+else()
+  add_library(qupathxx::ngff_labels STATIC IMPORTED)
+  set_target_properties(qupathxx::ngff_labels PROPERTIES
+    IMPORTED_CONFIGURATIONS RELEASE
+    IMPORTED_LOCATION_RELEASE "${_qpx_ngff_labels_native}"
+    INTERFACE_INCLUDE_DIRECTORIES "${_qpx_ngff_labels_include}"
+    INTERFACE_LINK_LIBRARIES "qupathxx::core"
+    INTERFACE_COMPILE_FEATURES cxx_std_17)
+endif()
+set(qpx_ngff_labels_FOUND TRUE)

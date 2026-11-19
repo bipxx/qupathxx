@@ -13,6 +13,7 @@ and supported releases remain separate requirements.
 python -I tools/ci/runtime_manifest.py --wheel qupathxx-0.1.0-cp312-cp312-win_amd64.whl --gui --output wheel-manifest.json
 python -I tools/ci/runtime_manifest.py --wheel qupathxx-0.1.0-cp312-cp312-win_amd64.whl --gui --verify wheel-manifest.json
 python -I tools/ci/runtime_manifest.py --native-archive qupathxx-windows-x64-candidate.zip --gui --output archive-manifest.json
+python -I tools/ci/runtime_manifest.py --native-archive qupathxx-windows-x64-reader-workflow-local.zip --gui --output reader-workflow-manifest.json
 ```
 
 Omit `--gui` for a headless wheel or native archive. Archive layout and required
@@ -22,6 +23,10 @@ the CPython runtime identified by its ABI tag. Existing output files and package
 artifacts are preserved. A new manifest is published using a same-directory
 hard link after a complete write and flush; filesystems without this operation
 fail explicitly. Verification recomputes the complete inventory and graph.
+
+The local reader workflow layout requires the desktop and three CLI executables
+under `qupathxx/`. Its five provider DLLs are additional roots so their
+dependencies are checked from their own directories.
 
 ## Recorded evidence and limits
 

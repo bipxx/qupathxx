@@ -198,7 +198,11 @@ void axis_edit_contracts() {
 }
 
 int main() {
-    namespace fs=std::filesystem;const auto root=fs::current_path()/("tma-test-"+std::to_string(std::random_device{}()));
+    namespace fs=std::filesystem;
+    // Batch checkpoint names include full digests. Keep their test path short
+    // even when CTest runs from a deeply nested Windows build directory.
+    const auto temp=fs::canonical(fs::temp_directory_path());
+    const auto root=temp/("tma-test-"+std::to_string(std::random_device{}()));
     try {
         axis_edit_contracts();
         case_summary_contracts();
@@ -255,9 +259,32 @@ int main() {
             for(const auto& entry:fs::directory_iterator(root)) check(entry.path().filename().u8string().find(".qpx-tmp-")==std::string::npos);
             std::cout<<"TMA case file exports preserve captured CSV bytes and existing files\n";
         }
-        {const auto a=doc->annotation(ids[0]);const auto table="source_object_id,source_object_revision,value\r\n"+std::to_string(a.id)+','+std::to_string(a.revision)+",\"a,b\n\"\"q\"\"\"\r\n";
-         const auto joined=tma_context_csv(*snapshot,table);check(joined.find("qpx.tma-context/1")!=std::string::npos && joined.find("patient-1")!=std::string::npos);rejects([&]{tma_context_csv(*snapshot,table,1);});rejects([&]{tma_metadata_csv(*snapshot,1);});
-         const auto stale="source_object_id,source_object_revision\r\n"+std::to_string(a.id)+','+std::to_string(a.revision+1)+"\r\n";rejects([&]{tma_context_csv(*snapshot,stale);});}
+        {
+            const auto core=doc->annotation(ids[0]);
+            const std::string signature="\xef\xbb\xbf";
+            const std::string header="\"source_object_id\",source_object_revision,value";
+            const auto selectors=std::to_string(core.id)+','+std::to_string(core.revision);
+            const auto raw_row=selectors+",\"a,b\n\"\"q\"\"\"";
+            const auto table=header+"\r\n"+raw_row+"\r\n";
+            const auto joined=tma_context_csv(*snapshot,table);
+            const auto header_end=joined.find("\r\n");
+            check(header_end!=std::string::npos && joined.find("qpx.tma-context/1")!=std::string::npos &&
+                  joined.find("patient-1")!=std::string::npos && joined.find(header)+header.size()==header_end &&
+                  joined.substr(joined.size()-raw_row.size()-2)==raw_row+"\r\n");
+            check(tma_context_csv(*snapshot,table.substr(0,table.size()-2))==joined.substr(0,joined.size()-2));
+            check(tma_context_csv(*snapshot,signature+table)==signature+joined);
+            check(tma_context_csv(*snapshot,signature+table.substr(0,table.size()-2))==
+                  signature+joined.substr(0,joined.size()-2));
+            check(tma_context_csv(*snapshot,signature+header)==signature+joined.substr(0,header_end));
+            const auto stale=header+"\n"+std::to_string(core.id)+','+std::to_string(core.revision+1)+",1";
+            rejects([&]{tma_context_csv(*snapshot,signature+stale);});
+            rejects([&]{tma_context_csv(*snapshot,signature+header+"\n"+selectors+",\"unfinished");});
+            rejects([&]{tma_context_csv(*snapshot,table.substr(0,table.size()-1));});
+            rejects([&]{tma_context_csv(*snapshot,signature);});
+            rejects([&]{tma_context_csv(*snapshot,table,1);});
+            rejects([&]{tma_metadata_csv(*snapshot,1);});
+            std::cout<<"TMA context CSV preserves the UTF-8 signature and complete EOF records and rejects malformed or stale records\n";
+        }
 
         if(has_project()) {
             auto axis_doc=std::make_shared<Document>(Image(256,192,std::vector<std::uint8_t>(256*192*3,255)));
@@ -274,7 +301,7 @@ int main() {
         }
         doc->clear_tma_grid();check(!doc->tma_grid() && doc->object_count()>0);check(doc->undo() && doc->tma_core_count()==6);doc->clear_tma_grid(true);check(!doc->tma_core_count() && doc->object_count()==1);check(doc->undo() && doc->tma_core_count()==6);
         doc.reset();check(snapshot->core(0,1)->tma_core->missing() && original->core(1,2)->name=="B-3");
-        check(root.parent_path()==fs::current_path());fs::remove_all(root);
+        check(fs::equivalent(root.parent_path(),temp));fs::remove_all(root);
         std::cout<<"TMA grid commands, missing cores, case IDs, snapshots, history and persistence passed\n";
     } catch(const std::exception& e) {std::cerr<<e.what()<<'\n';return 1;}
 }

@@ -1,6 +1,7 @@
 #include "reader_plugin_profile.hpp"
 #include "webp_memory_backend.h"
 #include <qupathxx/reader_plugin.h>
+#include <webp/decode.h>
 #include <algorithm>
 #include <cstdio>
 #include <cstdint>
@@ -68,13 +69,67 @@ std::uint32_t u32(const std::uint8_t* bytes) {
 struct Raster {
     std::int64_t width=0,height=0;
     static constexpr std::uint32_t channels=4,sample_bytes=1;
-    // Quantitative and display samples have identical straight RGBA layout.
+    unsigned orientation=1;
+    // Raw and display samples share the same decoded straight RGBA layout.
     std::unique_ptr<std::uint8_t[]> raw;
+
+    const std::uint8_t* pixel(std::int64_t x,std::int64_t y) const {
+        const auto encoded_width=orientation>=5?height:width;
+        const auto encoded_height=orientation>=5?width:height;
+        if(orientation>=5)std::swap(x,y);
+        if(orientation==2 || orientation==3 || orientation==7 || orientation==8)x=encoded_width-1-x;
+        if(orientation==3 || orientation==4 || orientation==6 || orientation==7)y=encoded_height-1-y;
+        return raw.get()+(static_cast<std::uint64_t>(y)*encoded_width+x)*channels;
+    }
 };
 struct Handle {Raster image;};
 // Generic upstream DSP initialization has static state without its optional
 // threading feature. Serialize all codec work; no host pointer is stored here.
 std::mutex codec_gate;
+struct Chunk {
+    const std::uint8_t* data=nullptr;
+    std::size_t size=0;
+};
+unsigned exif_orientation(Chunk exif) {
+    if(exif.size>65536)fail(QPX_READER_UNSUPPORTED,"WebP EXIF exceeds the orientation profile limit");
+    if(exif.size>=6 && !std::memcmp(exif.data,"Exif\0\0",6)) {
+        exif.data+=6;exif.size-=6;
+    }
+    valid(exif.size>=8,"WebP EXIF TIFF header is truncated");
+    const auto* data=exif.data;
+    const bool big=!std::memcmp(data,"MM",2);
+    valid(big || !std::memcmp(data,"II",2),"WebP EXIF byte order is malformed");
+    const auto short_at=[big,data](std::size_t offset) {
+        const auto* value=data+offset;
+        return big?(unsigned(value[0])<<8)|value[1]:(unsigned(value[1])<<8)|value[0];
+    };
+    const auto long_at=[&](std::size_t offset) {
+        return big?(short_at(offset)<<16)|short_at(offset+2):u32(data+offset);
+    };
+    valid(short_at(2)==42,"WebP EXIF requires a classic TIFF header");
+    const auto ifd=static_cast<std::size_t>(long_at(4));
+    valid(ifd>=8 && !(ifd&1) && ifd<=exif.size && exif.size-ifd>=6,
+        "WebP EXIF primary IFD points outside the chunk");
+    const auto count=short_at(ifd);
+    valid(count<=(exif.size-ifd-6)/12,"WebP EXIF primary IFD entries are truncated");
+    unsigned orientation=0;
+    for(unsigned index=0;index<count;++index) {
+        const auto offset=ifd+2+12*index;
+        if(short_at(offset)!=274)fail(QPX_READER_UNSUPPORTED,"WebP EXIF supports only the primary orientation tag");
+        valid(!orientation && short_at(offset+2)==3 && long_at(offset+4)==1,
+            "WebP EXIF orientation is duplicate or malformed");
+        orientation=short_at(offset+8);
+        valid(orientation>=1 && orientation<=8,"WebP EXIF orientation is outside 1 through 8");
+    }
+    if(!orientation || long_at(ifd+2+12*count))
+        fail(QPX_READER_UNSUPPORTED,"WebP EXIF requires one primary orientation and no secondary IFD");
+    return orientation;
+}
+std::uint32_t u24(const std::uint8_t* bytes) {
+    return static_cast<std::uint32_t>(bytes[0]) |
+        (static_cast<std::uint32_t>(bytes[1])<<8) |
+        (static_cast<std::uint32_t>(bytes[2])<<16);
+}
 Raster decode(const std::uint8_t* input,std::size_t input_size,Budget& budget,qpx_reader_cancel_v1 cancel) {
     checkpoint(cancel);
     if(input_size<4 || std::memcmp(input,"RIFF",4))
@@ -83,8 +138,11 @@ Raster decode(const std::uint8_t* input,std::size_t input_size,Budget& budget,qp
     if(std::memcmp(input+8,"WEBP",4))fail(QPX_READER_UNSUPPORTED,"WebP form signature is not supported");
     valid(static_cast<std::uint64_t>(u32(input+4))+8==input_size,"WebP RIFF size does not match the exact encoded input");
     valid(input_size>=20,"WebP image chunk is missing or truncated");
-    const std::uint8_t* bitstream=nullptr;
-    std::size_t bitstream_size=0;
+    constexpr unsigned alpha_flag=0x10,exif_flag=0x08;
+    Chunk bitstream,alpha,exif;
+    bool lossless=false;
+    unsigned features=0;
+    std::uint32_t canvas_width=0,canvas_height=0;
     for(std::size_t position=12;position<input_size;) {
         checkpoint(cancel);
         valid(input_size-position>=8,"WebP chunk header is truncated");
@@ -93,19 +151,61 @@ Raster decode(const std::uint8_t* input,std::size_t input_size,Budget& budget,qp
         const auto remaining=input_size-position-8;
         valid(length<=remaining && (length&1)<=remaining-length,"WebP chunk payload or padding is truncated");
         if(length&1)valid(chunk[8+length]==0,"WebP odd chunk padding must be zero");
-        if(std::memcmp(chunk,"VP8L",4))
-            fail(QPX_READER_UNSUPPORTED,"WebP reader accepts only a single simple VP8L chunk");
-        valid(bitstream==nullptr,"WebP contains more than one VP8L image chunk");
-        bitstream=chunk+8;bitstream_size=length;
+        const Chunk body{chunk+8,length};
+        if(!std::memcmp(chunk,"VP8X",4)) {
+            valid(position==12 && length==10,"WebP extended header has invalid order or size");
+            valid(!(body.data[0]&0xc1) && u24(body.data+1)==0,"WebP extended header has nonzero reserved bits");
+            features=body.data[0];
+            if(!features || (features&~(alpha_flag|exif_flag)))
+                fail(QPX_READER_UNSUPPORTED,"WebP extended profile supports only alpha and EXIF orientation");
+            canvas_width=u24(body.data+4)+1;
+            canvas_height=u24(body.data+7)+1;
+        } else if(!std::memcmp(chunk,"ALPH",4)) {
+            if(!canvas_width)fail(QPX_READER_UNSUPPORTED,"WebP alpha chunk requires the extended alpha profile");
+            valid(features&alpha_flag && !alpha.data && !bitstream.data && length>1,"WebP alpha chunk has invalid flags, order or size");
+            const auto flags=body.data[0];
+            valid(!(flags&0xc0) && (flags&3)<=1 && ((flags>>4)&3)<=1,"WebP alpha header is malformed");
+            alpha=body;
+        } else if(!std::memcmp(chunk,"EXIF",4)) {
+            if(!canvas_width)fail(QPX_READER_UNSUPPORTED,"WebP EXIF chunk requires the extended orientation profile");
+            valid(features&exif_flag && !exif.data,"WebP EXIF chunk has inconsistent flags or is duplicated");
+            exif=body;
+        } else {
+            const auto vp8l=!std::memcmp(chunk,"VP8L",4);
+            const auto vp8=!std::memcmp(chunk,"VP8 ",4);
+            if((!vp8l && !vp8) || (vp8l && canvas_width && !(features&exif_flag)))
+                fail(QPX_READER_UNSUPPORTED,"WebP image chunk or extended profile is unsupported");
+            valid(!bitstream.data,"WebP contains more than one image chunk");
+            bitstream=body;
+            lossless=vp8l;
+        }
         position+=8+length+(length&1);
     }
-    valid(bitstream && bitstream_size>=5,"WebP lossless frame header is missing or truncated");
-    valid(bitstream[0]==0x2f,"WebP lossless frame signature is invalid");
-    const auto frame=u32(bitstream+1);
-    if(frame>>29)fail(QPX_READER_UNSUPPORTED,"WebP lossless bitstream version is not supported");
+    valid(bitstream.data!=nullptr,"WebP image frame is missing");
+    valid(bool(exif.data)==bool(features&exif_flag),"WebP extended image is missing its EXIF chunk");
     Raster result;
-    result.width=1+(frame&0x3fff);result.height=1+((frame>>14)&0x3fff);
-    // The VP8L alpha_is_used bit is a hint, never a sample/validity decision.
+    if(exif.data)result.orientation=exif_orientation(exif);
+    if(lossless) {
+        valid(!alpha.data,"WebP lossless frame cannot use a separate alpha chunk");
+        valid(bitstream.size>=5,"WebP lossless frame header is truncated");
+        valid(bitstream.data[0]==0x2f,"WebP lossless frame signature is invalid");
+        const auto frame=u32(bitstream.data+1);
+        if(frame>>29)fail(QPX_READER_UNSUPPORTED,"WebP lossless bitstream version is not supported");
+        result.width=1+(frame&0x3fff);result.height=1+((frame>>14)&0x3fff);
+        // The VP8L alpha_is_used bit is a hint, never a sample/validity decision.
+    } else {
+        valid(bool(alpha.data)==bool(features&alpha_flag),"WebP extended lossy image is missing its leading alpha chunk");
+        // Feature probing reads the VP8 frame header without allocating. Probe
+        // the frame alone so the dimensions are independent of the RIFF canvas.
+        WebPBitstreamFeatures frame{};
+        valid(WebPGetFeatures(bitstream.data,bitstream.size,&frame)==VP8_STATUS_OK && frame.format==1,
+            "WebP lossy frame header is malformed or truncated");
+        result.width=frame.width;
+        result.height=frame.height;
+        if(alpha.data && !(alpha.data[0]&3))
+            valid(alpha.size-1==static_cast<std::uint64_t>(result.width)*result.height,"WebP raw alpha extent differs from the frame");
+    }
+    if(canvas_width)valid(result.width==canvas_width && result.height==canvas_height,"WebP canvas does not match the frame");
     const auto bytes=multiply(multiply(static_cast<std::uint64_t>(result.width),static_cast<std::uint64_t>(result.height)),4);
     require(bytes<=work_limit,"WebP decoded data exceeds reader work budget");
     result.raw=budget.array(bytes);
@@ -120,7 +220,8 @@ Raster decode(const std::uint8_t* input,std::size_t input_size,Budget& budget,qp
     if(status==QPX_READER_CANCELLED)fail(status,"WebP operation cancelled");
     if(status==QPX_READER_INVALID_REQUEST)fail(status,"WebP decoded data exceeds reader work budget");
     if(status==QPX_READER_INTERNAL_ERROR)fail(status,"WebP decoder allocation or internal failure");
-    if(status!=QPX_READER_OK)fail(QPX_READER_IO_ERROR,"WebP lossless bitstream is malformed or truncated");
+    if(status!=QPX_READER_OK)fail(QPX_READER_IO_ERROR,"WebP bitstream is malformed or truncated");
+    if(result.orientation>=5)std::swap(result.width,result.height);
     checkpoint(cancel);return result;
 }
 const Raster& image(void* value) {require(value!=nullptr,"WebP reader handle is null");return static_cast<Handle*>(value)->image;}
@@ -137,8 +238,8 @@ qpx_reader_status_v1 QPX_READER_CALL describe(qpx_reader_info_v1* output,qpx_rea
         output->abi_version=QPX_READER_ABI_V1;output->capabilities=QPX_READER_CAP_RGBA|QPX_READER_CAP_RAW;
         bool complete=text(output->provider_id,"org.qupathxx.webp");
         complete=text(output->display_name,"WebP") && complete;
-        complete=text(output->version,"1.0.0") && complete;
-        complete=text(output->contract,"webp-static-lossless-uint8-samples/1") && complete;
+        complete=text(output->version,"1.2.0") && complete;
+        complete=text(output->contract,"webp-static-uint8-samples/3") && complete;
         return complete?QPX_READER_OK:failure(error,QPX_READER_BUFFER_TOO_SMALL,"WebP descriptor text buffer is too small");
     });
 }
@@ -223,7 +324,7 @@ qpx_reader_status_v1 QPX_READER_CALL read_rgba(void* value,const qpx_reader_regi
         std::fill_n(output->data,static_cast<std::size_t>(count),std::uint8_t(0));
         for(std::int64_t row=0;row<area.height;++row)for(std::int64_t col=0;col<area.width;++col) {
             const auto x=request->x+col,y=request->y+row;if(x<0 || y<0 || x>=source.width || y>=source.height)continue;
-            std::memcpy(output->data+(static_cast<std::uint64_t>(row)*area.width+col)*4,source.raw.get()+(static_cast<std::uint64_t>(y)*source.width+x)*4,4);
+            std::memcpy(output->data+(static_cast<std::uint64_t>(row)*area.width+col)*4,source.pixel(x,y),4);
         }
         output->written=count;return QPX_READER_OK;
     });
@@ -247,8 +348,7 @@ qpx_reader_status_v1 QPX_READER_CALL read_raw(void* value,const qpx_reader_regio
                 if((col&4095)==0)checkpoint(cancel);
                 const auto x=request->x+col,y=request->y+row;if(x<0 || y<0 || x>=source.width || y>=source.height)continue;
                 const auto to=static_cast<std::uint64_t>(row)*area.width+col;
-                const auto from=(static_cast<std::uint64_t>(y)*source.width+x)*source.channels+request->first_channel;
-                std::memcpy(output->data+to*pixel_stride,source.raw.get()+from*source.sample_bytes,static_cast<std::size_t>(pixel_stride));output->validity[to]=1;
+                std::memcpy(output->data+to*pixel_stride,source.pixel(x,y)+request->first_channel,static_cast<std::size_t>(pixel_stride));output->validity[to]=1;
             }
         }
         checkpoint(cancel);output->written=count;output->validity_written=area.pixels;return QPX_READER_OK;

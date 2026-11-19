@@ -7,6 +7,7 @@
 #include "gui_desktop_context.hpp"
 #endif
 #include "reader_registry.hpp"
+#include "reader_plugin_link.hpp"
 #include "format_family_catalog.hpp"
 #include "qupathxx/reader_plugins.hpp"
 #include <cmath>
@@ -14,19 +15,31 @@
 #include <vector>
 #include <filesystem>
 #include <string>
+#include <string_view>
 int qpx::run_application(const std::vector<std::string>& arguments) {
     try {
         std::vector<std::string> argv{"qupathxx_app"};argv.insert(argv.end(),arguments.begin(),arguments.end());const auto argc=static_cast<int>(argv.size());
         bool smoke=false,empty=false,compact=false,reset_layout=false; std::string path,project_path,recovery_path,recovery_base,layout_path,reader="auto"; std::uint64_t image_id=0; double ui_scale=1;std::optional<std::uint32_t> tiff_series;
+        std::optional<std::string> reader_options;
         qpx::ThumbnailOptions overview;
+        std::vector<std::string> reader_manifests;
         for (int i=1;i<argc;++i) {
             auto arg=std::string(argv[i]);
-            if(arg=="--readers") {std::cout<<qpx::reader_catalog_json();return 0;}
-            if(arg=="--formats") {std::cout<<qpx::detail::format_family_catalog_json();return 0;}
-            if(arg=="--help" || arg=="-h") {std::cout<<"Usage: qupathxx_app [image | --project file | --recover snapshot | --empty] [--reader-plugins ABS_MANIFEST] [--reader ID] [--readers | --formats] [--tiff-series N] [--image-id N] [--recovery-base path] [--compact | --layout path] [--reset-layout] [--ui-scale N] [--overview-source-pixels N] [--smoke]\n";return 0;}
+            if(arg=="--readers" || arg=="--formats" || arg=="--help" || arg=="-h") {
+                if(!reader_manifests.empty())qpx::configure_reader_plugin_manifests(reader_manifests);
+                if(arg=="--readers")std::cout<<qpx::reader_catalog_json();
+                else if(arg=="--formats")std::cout<<qpx::detail::format_family_catalog_json();
+                else std::cout<<"Usage: qupathxx_app [image | --project file | --recover snapshot | --empty] [--reader-plugins ABS_MANIFEST]... [--reader ID [--reader-options JSON]] [--readers | --formats] [--tiff-series N] [--image-id N] [--recovery-base path] [--compact | --layout path] [--reset-layout] [--ui-scale N] [--overview-source-pixels N] [--smoke]\n";
+                return 0;
+            }
             if(arg=="--smoke") smoke=true;
-            else if(arg=="--reader-plugins" && i+1<argc) qpx::configure_reader_plugins(argv[++i]);
+            else if(arg=="--reader-plugins" && i+1<argc) reader_manifests.push_back(argv[++i]);
             else if(arg=="--reader" && i+1<argc) reader=argv[++i];
+            else if(arg=="--reader-options") {
+                if(reader_options || i+1==argc || std::string_view(argv[i+1]).rfind("--",0)==0)
+                    throw std::invalid_argument("--reader-options requires one JSON object");
+                reader_options=argv[++i];
+            }
             else if(arg=="--tiff-series" && i+1<argc) {std::string value=argv[++i];std::size_t used=0;const auto n=std::stoul(value,&used);if(value.empty() || value[0]=='-' || used!=value.size() || n>65535) throw std::invalid_argument("invalid TIFF series index");tiff_series=std::uint32_t(n);}
             else if(arg=="--ui-scale" && i+1<argc) {std::string value=argv[++i];std::size_t used=0;ui_scale=std::stod(value,&used);if(used!=value.size()) throw std::invalid_argument("invalid UI scale");}
             else if(arg=="--overview-source-pixels" && i+1<argc) {std::string value=argv[++i];std::size_t used=0;const auto n=std::stoull(value,&used);if(value.empty() || value[0]=='-' || used!=value.size()) throw std::invalid_argument("--overview-source-pixels must be between 1 and 67108864");if(n<1 || n>67108864)throw std::invalid_argument("--overview-source-pixels must be between 1 and 67108864");overview.source_pixel_limit=n;overview.validate();}
@@ -41,14 +54,19 @@ int qpx::run_application(const std::vector<std::string>& arguments) {
             else if(path.empty() && arg.rfind("--",0)!=0) path=arg;
             else throw std::invalid_argument("Usage: qupathxx_app [image | --project file | --recover snapshot | --empty] [--recovery-base primary] [--image-id id] [--compact | --layout preferences.ini] [--reset-layout] [--ui-scale multiplier] [--overview-source-pixels count] [--smoke]");
         }
+        if(!reader_manifests.empty())qpx::configure_reader_plugin_manifests(reader_manifests);
         if(!qpx::detail::valid_reader_request(reader))throw std::invalid_argument("invalid image reader");
+        if(reader_options && (path.empty() || !project_path.empty() || !recovery_path.empty() || empty ||
+                             tiff_series || !qpx::detail::valid_reader_plugin_id(reader)))
+            throw std::invalid_argument("--reader-options requires an image path and an explicit native reader plugin");
         if(!std::isfinite(ui_scale) || ui_scale<.5 || ui_scale>3)throw std::invalid_argument("--ui-scale must be between0.5 and3");
         if(!recovery_base.empty() && recovery_path.empty()) throw std::invalid_argument("--recovery-base requires --recover");
         if(tiff_series && path.empty()) throw std::invalid_argument("--tiff-series requires an image path");
 #ifdef QUPATHXX_APPLICATION_HAS_GUI
-        qpx::ui::DesktopApplicationScope desktop_scope;
+        qpx::ui::DesktopApplicationScope desktop_scope(std::move(reader_options));
         auto workspace_options=[&] {
             qpx::GuiOptions options;options.ui_scale=ui_scale;options.docked_workspace=!compact;options.reset_layout=reset_layout;options.overview_source_pixel_limit=overview.source_pixel_limit;
+            options.settle_tiles=smoke;
             options.image_reader=reader;if(tiff_series) {qpx::TiffOpenOptions tiff;tiff.view.series=*tiff_series;options.tiff_options=std::make_shared<const qpx::TiffOpenOptions>(tiff);options.image_reader="tiff";}
             if(compact && (reset_layout || !layout_path.empty())) throw std::invalid_argument("--layout and --reset-layout require the docked workspace");
             if(!compact) options.layout_path=layout_path.empty()?(smoke?std::string{}:qpx::default_workspace_layout_path()):layout_path;

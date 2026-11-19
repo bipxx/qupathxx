@@ -91,21 +91,27 @@ struct ExpressionMatrixSpatialRequest::Data {
     std::shared_ptr<const ExpressionMatrixSource> source;
     std::vector<ExpressionObservation> rows;CoordinateFrame frame;
     std::size_t work=0,bytes=0;std::string sha;
+    bool use_indexed_positions=false;
 };
 ExpressionMatrixSpatialRequest::ExpressionMatrixSpatialRequest(std::shared_ptr<const ExpressionMatrixSource> source,
-    std::vector<ExpressionObservation> rows,CoordinateFrame frame,std::size_t work) {
+    std::vector<ExpressionObservation> rows,CoordinateFrame frame,std::size_t work)
+    :ExpressionMatrixSpatialRequest(std::move(source),std::move(rows),std::move(frame),work,false) {}
+ExpressionMatrixSpatialRequest::ExpressionMatrixSpatialRequest(std::shared_ptr<const ExpressionMatrixSource> source,
+    std::vector<ExpressionObservation> rows,CoordinateFrame frame,std::size_t work,bool use_indexed_positions) {
     budget(work);frame.validate();if(!source)throw std::invalid_argument("Spatial request requires a matrix source");
     digest(source->metadata().source_sha256);
     std::size_t bytes=sizeof(Data)+source->payload_bytes()+frame.id.capacity()+frame.source_id.capacity()+128;
     charge(bytes,rows.capacity(),sizeof(ExpressionObservation),work);
-    Sha256 h;text(h,"qpx.expression-spatial-request/1");text(h,source->metadata().source_sha256);text(h,frame.sha256());h.integer(rows.size());
+    Sha256 h;text(h,use_indexed_positions?"qpx.expression-indexed-spatial-request/1":"qpx.expression-spatial-request/1");
+    text(h,source->metadata().source_sha256);text(h,frame.sha256());h.integer(rows.size());
     for(const auto& row:rows) {
         detail::spatial_identifier(row.id);workflow_capture_charge(bytes,row.id.capacity(),work);
         if(!std::isfinite(row.position.x) || !std::isfinite(row.position.y))throw std::invalid_argument("Nonfinite spatial request position");
         h.integer(row.object_id);text(h,row.id);real(h,row.position.x);real(h,row.position.y);
     }
     auto data=std::make_shared<Data>();data->source=std::move(source);data->rows=std::move(rows);data->frame=std::move(frame);
-    data->work=work;data->bytes=bytes;data->sha=h.finish();data_=std::move(data);
+    data->work=work;data->bytes=bytes;data->sha=h.finish();data->use_indexed_positions=use_indexed_positions;
+    data_=std::move(data);
 }
 ExpressionMatrixSpatialSnapshot ExpressionMatrixSpatialRequest::resolve(const std::atomic<bool>* cancelled)const {
     return resolve(data_->work,cancelled);
@@ -114,7 +120,31 @@ ExpressionMatrixSpatialSnapshot ExpressionMatrixSpatialRequest::resolve(std::siz
     workflow_checkpoint(cancelled);
     budget(work);work=std::min(work,data_->work);
     if(data_->bytes>=work || work-data_->bytes<4u*1024*1024)throw WorkflowCaptureLimit("Spatial request leaves no join workspace");
-    return ExpressionMatrixSpatialSnapshot::create(data_->source,data_->rows,data_->frame,work-data_->bytes,cancelled);
+    const auto available=work-data_->bytes;
+    if(!data_->use_indexed_positions)
+        return ExpressionMatrixSpatialSnapshot::create(data_->source,data_->rows,data_->frame,available,cancelled);
+
+    const auto count=data_->source->metadata().observations;
+    if(!count || count>1000000)throw std::invalid_argument("Spatial matrix observation count exceeds contract");
+    constexpr std::size_t page_size=1024;
+    std::vector<ExpressionObservation> rows;
+    std::size_t retained=0;
+    charge(retained,count,sizeof(ExpressionObservation),available);
+    rows.reserve(count);
+    for(std::uint64_t offset=0;offset<count;) {
+        workflow_checkpoint(cancelled);
+        if(available-retained<4u*1024*1024)throw WorkflowCaptureLimit("Spatial positions leave no read workspace");
+        const auto size=std::min<std::uint64_t>(page_size,count-offset);
+        auto page=data_->source->spatial_page(offset,size,available-retained,cancelled);
+        if(page.size()!=size)throw std::invalid_argument("Indexed spatial page differs from the observation axis");
+        for(auto& row:page) {
+            row.object_id=0; // A stored coordinate does not own a document object.
+            workflow_capture_charge(retained,row.id.capacity(),available);
+            rows.push_back(std::move(row));
+        }
+        offset+=size;
+    }
+    return ExpressionMatrixSpatialSnapshot::create(data_->source,std::move(rows),data_->frame,available,cancelled);
 }
 const std::shared_ptr<const ExpressionMatrixSource>& ExpressionMatrixSpatialRequest::source()const{return data_->source;}
 const std::string& ExpressionMatrixSpatialRequest::sha256()const{return data_->sha;}
@@ -124,9 +154,11 @@ ExpressionMatrixSpatialRequest ExpressionMatrixSpatialRequest::capture(const Doc
     std::size_t work,const std::atomic<bool>* cancelled) {
     budget(work);if(!source)throw std::invalid_argument("Spatial capture requires a matrix source");
     doc.validate_object_plane(plane);auto frame=image_coordinate_frame(doc,frame_id,plane,cancelled);const auto frame_hash=frame.sha256();
-    std::size_t bytes=0;std::vector<ExpressionObservation> rows;
+    std::size_t bytes=0;std::vector<ExpressionObservation> rows;bool has_backed_points=false;
     for(const auto& [id,object]:doc.objects()) {
-        workflow_checkpoint(cancelled);if(object.plane!=plane || !eligible(object,source->metadata().source_sha256))continue;
+        workflow_checkpoint(cancelled);if(!eligible(object,source->metadata().source_sha256))continue;
+        has_backed_points=true;
+        if(object.plane!=plane)continue;
         const auto declared=object.properties->metadata().find("omics.coordinate_frame_id");
         if(declared!=object.properties->metadata().end() && declared->second!=frame_id)continue;
         if(fact(*object.properties,"omics.coordinate_frame_sha256")!=frame_hash)
@@ -141,7 +173,12 @@ ExpressionMatrixSpatialRequest ExpressionMatrixSpatialRequest::capture(const Doc
         workflow_capture_charge(bytes,2*(sizeof(ExpressionObservation)+256),work);
         rows.push_back({id,row_id,paths[0][0]});
     }
-    if(rows.empty())throw std::invalid_argument("No backed expression observations match the source/frame/plane");
+    if(rows.empty()) {
+        const auto& indexed=source->metadata().spatial_frame;
+        if(!has_backed_points && indexed && indexed->sha256()==frame_hash)
+            return ExpressionMatrixSpatialRequest(std::move(source),{},std::move(frame),work,true);
+        throw std::invalid_argument("No backed or indexed expression observations match the source/frame/plane");
+    }
     return ExpressionMatrixSpatialRequest(std::move(source),std::move(rows),std::move(frame),work);
 }
 ExpressionMatrixSpatialSnapshot ExpressionMatrixSpatialSnapshot::capture(const Document& doc,

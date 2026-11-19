@@ -1,5 +1,6 @@
 #pragma once
 #include "atomic_export.hpp"
+#include "filesystem_access.hpp"
 #include "qupathxx/workflow.hpp"
 #include "workflow_file_version.hpp"
 #include "qupathxx/file_fingerprint.hpp"
@@ -50,7 +51,7 @@ public:
 inline std::string read_workflow_input(const WorkflowInput& source,const std::atomic<bool>* c=nullptr) {
     source.verify(false,c);
     if(source.bytes()>std::numeric_limits<std::size_t>::max())throw std::length_error("Workflow input exceeds address space");
-    std::ifstream file(std::filesystem::u8path(source.path()),std::ios::binary);
+    std::ifstream file(access_path(std::filesystem::u8path(source.path())),std::ios::binary);
     if(!file)throw std::runtime_error("Cannot open workflow input");
     std::string data(static_cast<std::size_t>(source.bytes()),'\0');
     for(std::size_t at=0;at<data.size();) {

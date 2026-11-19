@@ -5,6 +5,7 @@
 #include "qupathxx/raw_pixel_stream_file.hpp"
 #include "qupathxx/project.hpp"
 #include "qupathxx/workflow.hpp"
+#include "project_source_internal.hpp"
 #include <algorithm>
 #include <filesystem>
 #ifdef QUPATHXX_HAS_PROJECT
@@ -31,6 +32,8 @@ std::string run_raw_classifier_workflow(const std::string& input,const std::stri
         ~Close() {for(const auto& image:project->images())try {project->document(image.id)->server()->close();}catch(...) {}}
     } close{project};
     const auto doc=project->document(image_id);const auto& metadata=doc->metadata();
+    if(const auto verified=project->source_verification(image_id))
+        detail::require_verified_project_source(*verified,*doc->server(),cancelled);
     ScientificRawLattice lattice(metadata.width,metadata.height,
         ScientificGridAxis(0,metadata.width,std::min<std::int64_t>(metadata.width,256)),
         ScientificGridAxis(0,metadata.height,std::min<std::int64_t>(metadata.height,256)));

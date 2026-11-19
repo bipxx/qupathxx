@@ -1,11 +1,16 @@
 #pragma once
 #include "qupathxx/raw_pixel_features.hpp"
+#include <cmath>
 
 // Private quantitative feature authority, pending the complete request/archive
 // integration. No display conversion, automatic normalization or imputation.
 namespace qpx::detail {
 using RawFeatureScale=RawPixelFeatureScale;
 using RawFeatureOptions=RawPixelFeatureOptions;
+inline std::int64_t raw_feature_halo(double sigma, const RawFeatureOptions& options) {
+    return static_cast<std::int64_t>(std::ceil(3 * sigma)) +
+        (options.gradient_magnitude || options.laplacian ? 1 : 0);
+}
 struct RawFeatureImage {
     std::int64_t width=0,height=0;
     std::vector<ClassifierFeature> features;

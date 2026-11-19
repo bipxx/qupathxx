@@ -16,6 +16,7 @@ the next release. Do not infer that every historical file has already been audit
 | --- | --- | --- |
 | PROP-CLASS-01 | Closed decoder/SDK binaries, NDA-only schemas and permission-restricted source | Excluded reference category; no specific package is admitted or downloaded by this plan |
 | PROP-CLASS-02 | Weights/assets with explicit proprietary permission or redistribution restrictions | Record the actual version/terms; do not infer rights from an open model container or wrapper. Missing/unknown terms belong in the unreviewed register instead |
+| PROP-10X-CELL-RANGER | [Cell Ranger implementation license](https://github.com/10XGenomics/cellranger/blob/669395e208db7ce03354091e271d893074294d28/LICENSE) | Product-tied internal use and no redistribution. Implementation excluded from the open product. The M06 inner schema still needs its own open-format evidence. |
 
 If later explicitly authorized for a separate local study and permitted by its
 terms, keep actual artifacts outside this repository in a proprietary-only pool

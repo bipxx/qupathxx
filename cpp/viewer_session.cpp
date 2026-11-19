@@ -17,6 +17,20 @@ namespace qpx {
 namespace {
 using Clock=std::chrono::steady_clock;
 enum class Action {Catalog,Inspect,Execute,Select,Activate,Region,Analyze,Tissue,Cells,Measurements,CellTable,Save,Close,RawMetadata,RawRegion,TiffView,RawAnalyze,RawVerify,RawTable,TmaAxis,TmaDearray,RawPixelTrain,RawPixelPredict,RawPixelExport,RawPixelRead,RawPixelContours,RawPixelStreamContours,RawPixelFileContours,SpatialMeasure,SpatialInspect,SpatialVerify,SpatialExport,MergeAnnotations};
+bool requires_worker(Action action) {
+    switch(action) {
+    case Action::Catalog:
+    case Action::Inspect:
+    case Action::Execute:
+    case Action::Select:
+    case Action::Close:
+    case Action::TmaAxis:
+    case Action::MergeAnnotations:
+        return false;
+    default:
+        return true;
+    }
+}
 const char* name(Action a) {static const char* values[]={"catalog","inspect","execute","select","activate","region","analyze","tissue","cells","measurements","cell_table","save","close","raw_metadata","raw_region","tiff_view","raw_analyze","raw_verify","raw_table","tma_axis","tma_dearray","raw_pixel_train","raw_pixel_predict","raw_pixel_export","raw_pixel_read","raw_pixel_contours","raw_pixel_stream_contours","raw_pixel_file_contours","spatial_measure","spatial_inspect","spatial_verify","spatial_export","merge_annotations"};return values[static_cast<int>(a)];}
 bool terminal(const std::string& state) {return state!="queued" && state!="running";}
 std::string error_text(const std::exception& e) {std::string text=e.what();try {detail::bounded_utf8(text,8192);}catch(...) {return "viewer operation failed (invalid or oversized error text)";}return text;}
@@ -78,10 +92,11 @@ struct ViewerSession::Impl {
     struct Ticket {ViewerEvent event;std::unique_ptr<Command> command;std::atomic<bool> cancelled{false};std::size_t queued=0,retained=0;};
     const std::string path;const ViewerLimits limits;mutable std::mutex mutex;mutable std::condition_variable changed;
     std::map<std::uint64_t,std::shared_ptr<Ticket>> tickets;std::deque<std::uint64_t> queue;std::uint64_t next=1;ViewerStats stats;
+    bool accepting=true;
     Impl(std::string p,ViewerLimits l):path(std::move(p)),limits(l) {}
     std::uint64_t submit(Command command) {
         const auto bytes=command.bytes();if(bytes>limits.command_bytes) throw std::length_error("viewer command exceeds byte limit");auto ticket=std::make_shared<Ticket>();ticket->command=std::make_unique<Command>(std::move(command));ticket->queued=bytes;
-        std::lock_guard<std::mutex> lock(mutex);if(stats.state=="closed" || stats.state=="failed") throw std::runtime_error("viewer session is closed");
+        std::lock_guard<std::mutex> lock(mutex);if(!accepting) throw std::runtime_error("viewer session is closed");
         if(tickets.size()>=limits.tickets || bytes>limits.queued_bytes-stats.queued_bytes) throw std::length_error("viewer queue is full; consume completed tickets");if(next==std::numeric_limits<std::uint64_t>::max()) throw std::overflow_error("viewer ticket identity exhausted");
         const auto id=next;ticket->event.ticket=id;ticket->event.epoch=stats.epoch;ticket->event.action=name(ticket->command->action);ticket->event.image_id=ticket->command->image;ticket->event.object_id=ticket->command->object;
         tickets.emplace(id,ticket);try {queue.push_back(id);}catch(...) {tickets.erase(id);throw;}++next;stats.queued_bytes+=bytes;stats.queued=queue.size();stats.tickets=tickets.size();changed.notify_all();return id;
@@ -263,6 +278,10 @@ struct ViewerOwner::Impl {
     std::shared_ptr<ViewerSession::Impl> state;std::unique_ptr<Work> work;bool ended=false;
     std::uint64_t cycle=0;
     explicit Impl(ViewerSession& session):state(session.impl_) {std::lock_guard<std::mutex> lock(state->mutex);if(state->stats.state!="created") throw std::runtime_error("viewer session can only be run once");state->stats.state="opening";}
+    void seal_intake() {
+        std::lock_guard<std::mutex> lock(state->mutex);
+        state->accepting=false;
+    }
     void reserve(const std::shared_ptr<Ticket>& t,const ViewerEvent& e) {const auto bytes=payload(e);std::lock_guard<std::mutex> lock(state->mutex);if(bytes>state->limits.result_bytes-(state->stats.retained_bytes-t->retained)) throw std::length_error("viewer result budget exceeded; consume completed tickets or disable retained results");state->stats.retained_bytes=state->stats.retained_bytes-t->retained+bytes;t->retained=bytes;}
     void complete(const std::shared_ptr<Ticket>& t,ViewerEvent e) {
         e.bytes=payload(e);reserve(t,e);std::lock_guard<std::mutex> lock(state->mutex);t->event=std::move(e);++state->stats.completed;state->changed.notify_all();
@@ -270,6 +289,29 @@ struct ViewerOwner::Impl {
     void failure(const std::shared_ptr<Ticket>& t,const std::string& message,const std::string& status="failed",bool committed=false,std::uint64_t record=0) {
         ViewerEvent e;{std::lock_guard<std::mutex> lock(state->mutex);e.ticket=t->event.ticket;e.epoch=t->event.epoch;e.image_id=t->event.image_id;e.object_id=t->event.object_id;e.action=t->event.action;}
         e.state=status;e.error=message;e.committed=committed;e.record_id=record;complete(t,std::move(e));
+    }
+    bool raw_export(const Work& w) const {
+        return w.command->action==Action::RawPixelExport;
+    }
+    void raw_file_outcome(Work& w,const std::string& status,const std::string& message) {
+        if(raw_export(w) && w.raw_pixel->stream_committed()) {
+            auto event=w.seed;
+            event.path=w.command->text;
+            event.state=status=="failed"?"failed":"detached";
+            event.committed=true;
+            event.error=message;
+            event.elapsed_ms=std::chrono::duration<double,std::milli>(Clock::now()-w.started).count();
+            complete(w.ticket,std::move(event));
+        } else {
+            failure(w.ticket,message,status);
+        }
+    }
+    void finish_raw_export(const std::string& message) {
+        auto& w=*work;
+        w.raw_pixel->cancel();
+        w.raw_pixel->wait(*w.raw_pixel_document);
+        raw_file_outcome(w,"cancelled",message);
+        work.reset();
     }
     void update(const ViewerContext& c) {
         if(c.epoch==std::numeric_limits<std::uint64_t>::max()) throw std::overflow_error("viewer workspace epoch exhausted");
@@ -295,13 +337,28 @@ struct ViewerOwner::Impl {
         if(stale || c.closing) w.ticket->cancelled.store(true);
         if(w.raw_pixel) {
             if(w.ticket->cancelled.load()) w.raw_pixel->cancel();
-            std::shared_ptr<Document> doc;try {doc=c.project->document(w.seed.image_id);}catch(const std::exception&) {w.raw_pixel->cancel();w.raw_pixel->poll(*w.raw_pixel_document);if(w.raw_pixel->busy()) return;failure(w.ticket,"source image removed","stale");work.reset();return;}
+            std::shared_ptr<Document> doc;try {doc=c.project->document(w.seed.image_id);}catch(const std::exception&) {w.raw_pixel->cancel();w.raw_pixel->poll(*w.raw_pixel_document);if(w.raw_pixel->busy()) return;raw_file_outcome(w,"stale","source image removed");work.reset();return;}
             w.raw_pixel->poll(*doc);if(w.raw_pixel->busy()) return;
-            if(stale || c.closing || w.ticket->cancelled.load()) {failure(w.ticket,stale?"workspace replaced; committed files may remain":"raw operation cancelled; committed files may remain",stale?"stale":"cancelled");work.reset();return;}
+            if(stale || c.closing || w.ticket->cancelled.load()) {
+                const auto status=stale?"stale":"cancelled";
+                if(raw_export(w))
+                    raw_file_outcome(w,status,stale?"workspace replaced before result delivery":"raw export cancelled before result delivery");
+                else
+                    failure(w.ticket,stale?"workspace replaced; committed files may remain":"raw operation cancelled; committed files may remain",status);
+                work.reset();return;
+            }
             if(c.blocked) return;
             try {
                 const auto report=w.raw_pixel->report();auto e=w.seed;e.error=report.error;e.path=command.text;
-                if(report.state=="failed" || report.state=="cancelled" || report.state=="stale") {e.state=report.state;complete(w.ticket,std::move(e));work.reset();return;}
+                if(report.state=="failed" || report.state=="cancelled" || report.state=="stale") {
+                    if(raw_export(w) && w.raw_pixel->stream_committed())
+                        raw_file_outcome(w,report.state,report.error);
+                    else {
+                        e.state=report.state;
+                        complete(w.ticket,std::move(e));
+                    }
+                    work.reset();return;
+                }
                 if(command.action==Action::RawPixelTrain) {e.raw_pixel_training=report.training;e.raw_pixel_checkpoint=report.checkpoint;e.rows=report.training?report.training->tiled_table()->row_count():0;e.path=command.raw_pixel_settings->checkpoint_path;e.committed=bool(report.checkpoint);}
                 else if(command.action==Action::RawPixelPredict) e.raw_pixel_prediction=report.prediction;
                 else if(command.action==Action::RawPixelContours || command.action==Action::RawPixelStreamContours || command.action==Action::RawPixelFileContours) {
@@ -310,12 +367,12 @@ struct ViewerOwner::Impl {
                     e.path=command.action==Action::RawPixelFileContours?command.raw_file_path:"";e.raw_pixel_file_contours=report.historical_contours;e.raw_pixel_link=report.link;e.verified=bool(report.link);e.raw_pixel_contours=report.contours;e.raw_pixel_stream_contours=report.stream_contours;e.components=geometry->components().size();
                     if(command.flag) {if(e.components>state->limits.max_edits) throw std::length_error("raw contour apply exceeds viewer edit limit");e.object_ids.resize(e.components);}
                 }
-                else {e.raw_pixel_link=report.link;e.raw_pixel_prediction=report.historical;e.verified=bool(report.link);e.committed=command.action==Action::RawPixelExport && bool(report.link);}
+                else {e.raw_pixel_link=report.link;e.raw_pixel_prediction=report.historical;e.verified=bool(report.link);e.committed=raw_export(w) && w.raw_pixel->stream_committed();}
                 e.state=report.state=="partial"?"partial":"succeeded";reserve(w.ticket,e);
                 if((command.action==Action::RawPixelContours || command.action==Action::RawPixelStreamContours || command.action==Action::RawPixelFileContours) && command.flag) {const auto& ids=w.raw_pixel->publish(*doc,command.text);std::copy(ids.begin(),ids.end(),e.object_ids.begin());e.committed=true;}
                 else if(command.flag) {if(command.action==Action::RawPixelTrain && report.training) e.record_id=w.raw_pixel->keep_training(*doc);else if(report.link) e.record_id=w.raw_pixel->keep_link(*doc);}
                 e.committed=e.committed || bool(e.record_id);e.document_revision=doc->revision();e.elapsed_ms=std::chrono::duration<double,std::milli>(Clock::now()-w.started).count();complete(w.ticket,std::move(e));
-            }catch(const std::exception& error) {failure(w.ticket,error_text(error));}work.reset();return;
+            }catch(const std::exception& error) {raw_file_outcome(w,"failed",error_text(error));}work.reset();return;
         }
         if(w.spatial) {
             const bool exporting=command.action==Action::SpatialExport;
@@ -488,12 +545,34 @@ void ViewerOwner::pump(const ViewerContext& context) {
     if(impl_->cycle==std::numeric_limits<std::uint64_t>::max()) throw std::overflow_error("viewer owner cycle exhausted");
     ++impl_->cycle;
     poll(context);if(impl_->ended || context.closing) return;std::shared_ptr<Impl::Ticket> ticket;std::unique_ptr<Command> command;
-    {std::lock_guard<std::mutex> lock(impl_->state->mutex);if(impl_->state->queue.empty()) return;auto position=impl_->state->queue.begin();if(context.blocked) {position=std::find_if(position,impl_->state->queue.end(),[&](auto id){return impl_->state->find(id)->command->action==Action::Close;});if(position==impl_->state->queue.end()) return;}const auto id=*position;impl_->state->queue.erase(position);ticket=impl_->state->find(id);impl_->state->stats.queued_bytes-=ticket->queued;ticket->queued=0;command=std::move(ticket->command);ticket->event.state="running";impl_->state->stats.queued=impl_->state->queue.size();}
+    {
+        auto& state=*impl_->state;
+        std::lock_guard<std::mutex> lock(state.mutex);
+        if(state.queue.empty()) return;
+        auto position=state.queue.begin();
+        if(context.blocked || impl_->work) {
+            const auto close=std::find_if(position,state.queue.end(),[&](auto id){
+                return state.find(id)->command->action==Action::Close;
+            });
+            if(close!=state.queue.end()) position=close;
+            else if(context.blocked || requires_worker(state.find(*position)->command->action)) return;
+        }
+        ticket=state.find(*position);
+        state.queue.erase(position);
+        state.stats.queued_bytes-=ticket->queued;
+        ticket->queued=0;
+        command=std::move(ticket->command);
+        ticket->event.state="running";
+        state.stats.queued=state.queue.size();
+    }
     const auto start=Clock::now();try {impl_->start(context,ticket,std::move(command));}catch(const std::exception& e) {impl_->failure(ticket,error_text(e));}
     const auto ms=std::chrono::duration<double,std::milli>(Clock::now()-start).count();std::lock_guard<std::mutex> lock(impl_->state->mutex);impl_->state->stats.max_command_ms=std::max(impl_->state->stats.max_command_ms,ms);
 }
 void ViewerOwner::finish(const ViewerContext& context) {
     if(impl_->ended) return;
+    impl_->seal_intake();
+    if(impl_->work && impl_->raw_export(*impl_->work))
+        impl_->finish_raw_export("viewer closed before raw result delivery");
     if(impl_->work) {auto& w=*impl_->work;w.ticket->cancelled.store(true);if(w.command->action==Action::Save) {if(context.cancel_save) context.cancel_save();impl_->poll(context);}else if(w.spatial) {w.spatial->finish(*w.spatial_document,false);auto closing=context;closing.closing=true;impl_->poll(closing);}else if(w.future.valid()) {w.future.wait();auto closing=context;closing.closing=true;impl_->poll(closing);}if(impl_->work) {impl_->failure(w.ticket,"viewer closed before completion","cancelled");impl_->work.reset();}}
     fail("");
 }
@@ -502,7 +581,11 @@ void ViewerOwner::cancel_active() {if(impl_->work) impl_->work->ticket->cancelle
 
 void ViewerOwner::fail(const std::string& message) {
     std::string error=message;if(!error.empty()) try {bounded_utf8(error,8192);}catch(...) {error="viewer failed (invalid or oversized error text)";}
-    if(impl_->ended) return;if(impl_->work) {auto ticket=impl_->work->ticket;ticket->cancelled.store(true);if(impl_->work->future.valid()) impl_->work->future.wait();impl_->failure(ticket,error.empty()?"viewer closed":error,"cancelled");impl_->work.reset();}
+    if(impl_->ended) return;
+    impl_->seal_intake();
+    if(impl_->work && impl_->raw_export(*impl_->work))
+        impl_->finish_raw_export(error.empty()?"viewer closed before raw result delivery":error);
+    if(impl_->work) {auto ticket=impl_->work->ticket;ticket->cancelled.store(true);if(impl_->work->future.valid()) impl_->work->future.wait();impl_->failure(ticket,error.empty()?"viewer closed":error,"cancelled");impl_->work.reset();}
     auto& s=*impl_->state;std::vector<std::unique_ptr<Command>> released;
     {std::lock_guard<std::mutex> lock(s.mutex);released.reserve(s.queue.size());
         for(auto id:s.queue) {auto ticket=s.find(id);ticket->queued=0;released.push_back(std::move(ticket->command));ticket->event.state="cancelled";ticket->event.error=error.empty()?"viewer closed before command execution":error;++s.stats.completed;}

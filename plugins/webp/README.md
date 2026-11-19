@@ -1,37 +1,53 @@
-# Native lossless WebP reader plugin
+# Native still-image WebP reader plugin
 
-`org.qupathxx.webp` version1.0.0, contract
-`webp-static-lossless-uint8-samples/1`, reads a declared static lossless profile
-through the native image C ABI. The C++ adapter uses a private, pinned generic-C
-libwebp1.6.0 decoder. Python is optional development control, never a runtime
-decoder. Native options must be empty.
+`org.qupathxx.webp` version 1.2.0 uses the `webp-static-uint8-samples/3`
+contract and the native image ABI 1. The C++ adapter uses a private, pinned
+generic C libwebp 1.6.0 decoder. Native options must be empty.
 
 ## Samples and supported container
 
-The initial profile is SIMPLE RIFF/WEBP with exactly one VP8L chunk, lossless
-version0. Declared RIFF/chunk extents must match the input exactly, including a
-zero byte after an odd-sized chunk. Extra chunks, unexplained gaps/trailing bytes
-and concatenated images refuse. Unsupported VP8, VP8X, ALPH, animation, ICCP,
-EXIF, XMP and unknown chunks are refused rather than silently ignored. Invalid
-selected headers or corrupt/truncated lossless data report native I/O errors;
-unsupported container/encoding/version reports unsupported.
+The reader supports the following RIFF/WEBP still-image layouts.
 
-Raw samples are always original decoded UInt8 `Red`, `Green`, `Blue`, `Alpha`
-in packed HWC order. Display is the same straight RGBA8, without premultiplication,
-color conversion or quantization. Hidden RGB under alpha0 is preserved. The
-VP8L alpha-is-used field is only a hint; it does not erase decoded alpha or change
-raw channel count. Every in-image pixel is valid, including alpha0; outside raw
-samples are zero/invalid and display padding is transparent black.
+- One `VP8L` chunk with a lossless version 0 bitstream.
+- One `VP8 ` chunk with an opaque lossy frame.
+- Exactly `VP8X`, `ALPH`, and `VP8 ` in that order. The extended header declares
+  only the alpha feature and its canvas matches the single lossy frame.
+- A `VP8X` header declaring EXIF, with the alpha flag permitted. The frame is
+  opaque `VP8 `, `ALPH` followed by `VP8 `, or `VP8L`. One orientation-only
+  `EXIF` chunk follows `VP8X` and may appear before or after the frame. The
+  extended canvas matches the encoded frame dimensions.
 
-Lossless samples can differ from pixels that existed before an encoder discarded
-hidden RGB or applied near-lossless preprocessing. The decoder preserves the
-values actually encoded, without claiming recovery of discarded originals.
+Declared RIFF and chunk extents must match the input, including a zero byte
+after an odd-sized chunk. The reader rejects extra chunks, trailing bytes,
+concatenated images, other extended profiles, animation, ICCP, and XMP.
+Malformed selected layouts and corrupt or truncated image data report native
+I/O errors. Unsupported containers, features, and versions report unsupported.
 
-There is one level, `Z=0`, `T=0`; X/Y/Z/time calibration stays unknown. Metadata
-and orientation are not inferred. Typed raw reads do not grant TIFF/Zarr views
-or admit this reader into an otherwise restricted scientific recipe. The codec's
-accepted padding within a VP8L bitstream is not an exact compressed-bitstream
-consumption contract; the outer container's exact extents remain checked.
+Raw samples and display use the pinned decoder's straight UInt8 `Red`,
+`Green`, `Blue`, `Alpha` in packed HWC order. Opaque VP8 yields alpha 255.
+Libwebp reconstructs the lossy RGB values from the encoded frame, so they can
+differ from the original pixels supplied to the encoder. For VP8L, the reader
+preserves the exact decoded values, including hidden RGB under alpha zero.
+The VP8L alpha-is-used field leaves alpha and channel count intact. Every
+in-image pixel is valid, including alpha zero. Outside raw samples are zero
+and invalid, and display padding is transparent black.
+
+There is one level with `Z=0` and `T=0`. X/Y/Z/time calibration is unknown.
+Libwebp determines acceptable bitstream padding within the checked container.
+
+## EXIF orientation
+
+The EXIF chunk is limited to 64 KiB. It contains classic TIFF in either byte
+order, with an optional six-byte `Exif\0\0` prefix. Its first image file
+directory contains exactly one entry, Orientation (tag 274), with TIFF type
+SHORT, count 1, and a value from 1 through 8. The next-directory offset must be
+zero. Other EXIF tags and additional directories are outside this profile.
+
+Metadata, display and raw region reads use the same oriented pixel coordinates.
+Orientations 5 through 8 swap the exposed dimensions. The reader maps each
+requested pixel to its exact decoded RGBA sample, using one decoded raster and
+preserving alpha and channel values across reflections and rotations. Stills
+without EXIF use the encoded frame coordinates.
 
 ## Work, cancellation and build
 
@@ -45,10 +61,10 @@ raw reads check rows/bounded pixel spans. A compact image can finish in one code
 call, so no fixed latency or per-row in-codec cancellation guarantee is made.
 No source, host-buffer or cancellation pointer survives the operation.
 
-Selected profile: Windows x64 MSVC1944/compiler19.44.35225.0, Release `/MD`.
-The exact source selection and all63 upstream member hashes are recorded in
+The selected build uses Windows x64, MSVC 1944 compiler 19.44.35225.0, and
+Release `/MD`. The exact source selection and all 63 upstream member hashes are recorded in
 [the source lock](libwebp-source-lock.json). No build fetches dependencies.
-In a matching Visual Studio developer shell, with absolute paths:
+Use absolute paths in a matching Visual Studio developer shell.
 
 ```powershell
 cmake -S plugins/webp -B BUILD -G Ninja -DCMAKE_BUILD_TYPE=Release `
@@ -63,7 +79,7 @@ In the source kit these paths are `source/plugins/webp`,
 `QUPATHXX_WEBP_BUILD_TESTS=ON` additionally needs the matching native SDK for the
 test consumer. The module links no application core, Python, external codec DLL,
 image library, encoder, mux/demux, SIMD or threading library. Configure before
-catalog/source use and select the provider explicitly:
+catalog/source use and select the provider explicitly.
 
 ```text
 qupathxx_region --reader-plugins ABS_MANIFEST --readers
@@ -72,7 +88,7 @@ qupathxx_region --reader-plugins ABS_MANIFEST --reader org.qupathxx.webp INPUT.w
 
 Automatic routing and existing saved-source/currentness/implementation review
 authorities retain their scope. Restart the host to change configured modules.
-Close module users before removing verified package-owned files; preserve user
+Close module users before removing verified package-owned files. Preserve user
 images, projects and results.
 
 ## Licenses and evidence
@@ -89,5 +105,5 @@ is required. The open format reference is
 from the decoder/adapter licenses.
 
 The [delivery receipt](../../docs/benchmarks/webp-reader-plugin/README.md)
-binds tested source/module/package identities and limits. No broader WebP variant,
-platform, host/GUI/binding build, clinical/biological or speed qualification follows.
+binds the tested source, module and package identities to the selected
+still-image profiles.

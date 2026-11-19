@@ -21,6 +21,7 @@ struct ReadOutput {std::shared_ptr<const RawPixelStreamFile> file;std::shared_pt
 }
 struct RawPixelStreamSaveJob::Impl {
     std::optional<RawPixelTiledPredictionRequest> capture;
+    std::atomic<bool> committed{false};
     detail::RawPixelFileJobState<StreamOutput> state;
 };
 RawPixelStreamSaveJob::RawPixelStreamSaveJob():impl_(std::make_unique<Impl>()) {}
@@ -28,9 +29,22 @@ RawPixelStreamSaveJob::~RawPixelStreamSaveJob()=default;
 bool RawPixelStreamSaveJob::busy() const {return impl_->state.busy();}
 void RawPixelStreamSaveJob::cancel() {impl_->state.cancelled.store(true);}
 void RawPixelStreamSaveJob::await_completion() {impl_->state.join();}
+bool RawPixelStreamSaveJob::committed() const {impl_->state.on_owner();return impl_->committed.load();}
 bool RawPixelStreamSaveJob::request(const RawPixelTiledPredictionRequest& request,const std::string& input,RawPixelStreamSaveOptions options) {
     auto& s=*impl_;s.state.on_owner();if(s.state.future.valid() || s.state.pending) return false;options.limits.validate();const auto path=detail::export_path(input);
-    if(!s.state.start([request,path,options](const std::atomic<bool>* c) {StreamOutput out;out.summary=save_raw_pixel_stream(request,path,options,c);detail::export_checkpoint(c);out.file=std::make_shared<const RawPixelStreamFile>(path,options.limits);out.file->verify(c);same_summary(out.summary,out.file->declared_summary());out.file->check_unchanged();detail::export_checkpoint(c);return out;},"saving prediction file",request.total_windows())) return false;
+    s.committed.store(false);
+    if(!s.state.start([request,path,options,&committed=s.committed](const std::atomic<bool>* c) {
+        StreamOutput out;
+        out.summary=save_raw_pixel_stream(request,path,options,c);
+        committed.store(true);
+        detail::export_checkpoint(c);
+        out.file=std::make_shared<const RawPixelStreamFile>(path,options.limits);
+        out.file->verify(c);
+        same_summary(out.summary,out.file->declared_summary());
+        out.file->check_unchanged();
+        detail::export_checkpoint(c);
+        return out;
+    },"saving prediction file",request.total_windows())) return false;
     s.capture=request;return true;
 }
 RawPixelFileJobStats RawPixelStreamSaveJob::poll(const Document& doc) {

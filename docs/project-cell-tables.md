@@ -74,6 +74,12 @@ revisions are in the rows.
 
 ## Snapshot and file publication
 
+The `qupathxx_batch --export-cell-table` command checks its destination before
+capture and again before publication. It protects linked image and NGFF label
+stores across the project, including saved offline paths and recorded image
+companions. Historical exports to other destinations can proceed with sources
+offline.
+
 Capture reads the native catalog directly and retains immutable native run handles,
 image names/extents, revisions and status strings. It does not call catalog file
 availability checks or open linked readers. Missing linked source files therefore

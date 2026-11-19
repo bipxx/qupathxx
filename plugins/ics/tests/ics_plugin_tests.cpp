@@ -56,17 +56,17 @@ struct Source {
     }
     ~Source(){if(handle)module.api.destroy(handle);}
 };
-struct Fixture {std::string name,order,options;std::int64_t width=0,height=0;unsigned version=1,planes=1,type=0,sample=0,flags=0,channels=1;double px=0,py=0,pz=0;};
+struct Fixture {std::string name,order,options,companion_file="-";std::int64_t width=0,height=0;unsigned version=1,planes=1,times=1,type=0,sample=0,flags=0,channels=1;double px=0,py=0,pz=0,seconds=0;};
 std::vector<Fixture> fixtures(const fs::path& root){
     std::ifstream in(root/"fixtures.tsv");check(bool(in),"Missing authored ICS fixture list");std::vector<Fixture> result;Fixture f;
-    while(in>>f.name>>f.version>>f.width>>f.height>>f.planes>>f.channels>>f.type>>f.sample>>f.order>>f.flags>>f.px>>f.py>>f.pz>>f.options)result.push_back(f);
-    check(in.eof()&&result.size()==66,"Incomplete ICS fixture list");return result;
+    while(in>>f.name>>f.version>>f.width>>f.height>>f.planes>>f.times>>f.channels>>f.type>>f.sample>>f.order>>f.flags>>f.px>>f.py>>f.pz>>f.seconds>>f.companion_file>>f.options)result.push_back(f);
+    check(in.eof()&&result.size()==83,"Incomplete ICS fixture list");return result;
 }
 std::vector<std::string> names(const Fixture& f){std::vector<std::string> result;for(unsigned c=0;c<f.channels;++c)result.push_back("C"+std::to_string(c));return result;}
 bool same_input(const qpx_reader_pixels_v1& before,qpx_reader_pixels_v1 after){after.written=before.written;after.validity_written=before.validity_written;return std::memcmp(&before,&after,sizeof(before))==0;}
-void exact_region(Source& source,const Fixture& fixture,const std::vector<std::uint8_t>& oracle,bool raw,std::int64_t x,std::int64_t y,std::int64_t width,std::int64_t height,unsigned first=0,unsigned count=0,unsigned z=0){
+void exact_region(Source& source,const Fixture& fixture,const std::vector<std::uint8_t>& oracle,bool raw,std::int64_t x,std::int64_t y,std::int64_t width,std::int64_t height,unsigned first=0,unsigned count=0,unsigned z=0,unsigned t=0){
     const unsigned sample=raw?fixture.sample:1,channels=raw?(count?count:fixture.channels):4;
-    qpx_reader_region_v1 request{};request.struct_size=sizeof(request);request.x=x;request.y=y;request.width=width;request.height=height;request.first_channel=first;request.channels=raw?channels:0;request.z=raw?z:0;
+    qpx_reader_region_v1 request{};request.struct_size=sizeof(request);request.x=x;request.y=y;request.width=width;request.height=height;request.first_channel=first;request.channels=raw?channels:0;request.z=raw?z:0;request.t=raw?t:0;
     const auto output_size=static_cast<std::size_t>(width*height*channels*sample);
     std::vector<std::uint8_t> output(output_size+16,0xcd),validity(static_cast<std::size_t>(width*height)+16,0xcd);
     qpx_reader_pixels_v1 pixels{};pixels.struct_size=sizeof(pixels);pixels.sample_type=raw?fixture.type:QPX_READER_UINT8;pixels.width=width;pixels.height=height;pixels.channels=channels;pixels.row_stride=width*channels*sample;pixels.pixel_stride=channels*sample;pixels.channel_stride=sample;pixels.data=output.data();pixels.capacity=output_size;
@@ -80,7 +80,7 @@ void exact_region(Source& source,const Fixture& fixture,const std::vector<std::u
     for(std::int64_t row=0;row<height;++row)for(std::int64_t col=0;col<width;++col){
         const auto sx=x+col,sy=y+row;const bool inside=sx>=0&&sy>=0&&sx<fixture.width&&sy<fixture.height;
         if(raw)check(validity[static_cast<std::size_t>(row*width+col)]==std::uint8_t(inside),"Raw validity lost in-bounds/OOB distinction");
-        if(inside){const auto stride=raw?fixture.channels:4u;const auto from=static_cast<std::size_t>(((static_cast<std::int64_t>(raw?z:0)*fixture.height+sy)*fixture.width+sx)*stride*sample+first*sample);const auto to=static_cast<std::size_t>((row*width+col)*channels*sample);std::copy_n(oracle.data()+from,channels*sample,expected.data()+to);}
+        if(inside){const auto stride=raw?fixture.channels:4u;const auto plane=raw?std::int64_t(t)*fixture.planes+z:0;const auto from=static_cast<std::size_t>(((plane*fixture.height+sy)*fixture.width+sx)*stride*sample+first*sample);const auto to=static_cast<std::size_t>((row*width+col)*channels*sample);std::copy_n(oracle.data()+from,channels*sample,expected.data()+to);}
     }
     check(std::equal(expected.begin(),expected.end(),output.begin()),fixture.name+": exact authored "+(raw?"source samples":"RGBA pixels")+" differ");
     check(std::all_of(output.begin()+output_size,output.end(),[](auto v){return v==0xcd;}),"Pixel output exceeded capacity");
@@ -90,10 +90,13 @@ struct Counter {int calls=0,after=1;};
 std::int32_t QPX_READER_CALL cancelled(void* value){auto& c=*static_cast<Counter*>(value);return ++c.calls>=c.after;}
 void source_files(Module& module,const fs::path& root,const Fixture& f){
     const auto path=fs::absolute(root/fs::u8path(f.name+".ics")).u8string();qpx_reader_open_v1 request{};request.struct_size=sizeof(request);request.path={path.data(),path.size()};request.work_bytes=256ull*1024*1024;const auto option=f.options=="-"?std::string{}:f.options;request.options={option.data(),option.size()};Error error;std::uint32_t count=99;
-    status(module.files.count(&request,&count,&error.text),QPX_READER_OK,error,"source-file count before open");check(count==(f.version==1?1u:0u),"Source-file count did not match ICS1/ICS2 profile");
+    const bool named=f.companion_file!="-";
+    status(module.files.count(&request,&count,&error.text),QPX_READER_OK,error,"source-file count before open");check(count==(f.version==1||named?1u:0u),"Source-file count did not match ICS1/ICS2 profile");
     std::array<char,4096> buffer{};qpx_reader_text_v1 text{buffer.data(),buffer.size(),0};
     if(count){
-        status(module.files.path(&request,0,&text,&error.text),QPX_READER_OK,error,"derived IDS path before open");auto expected=fs::u8path(path);expected.replace_extension(".ids");check(std::string(text.data,static_cast<std::size_t>(text.size))==expected.u8string(),"Companion path was not derived solely from actual primary path");
+        status(module.files.path(&request,0,&text,&error.text),QPX_READER_OK,error,"companion path before open");
+        const auto expected=named?root/fs::u8path(f.companion_file):root/fs::u8path(f.name+".ids");
+        check(std::string(text.data,static_cast<std::size_t>(text.size))==expected.u8string(),f.name+": companion path did not match the expected source file");
         std::array<char,8> guard{};guard.fill('X');qpx_reader_text_v1 short_text{guard.data(),1,0};status(module.files.path(&request,0,&short_text,&error.text),QPX_READER_BUFFER_TOO_SMALL,error,"short companion path text");check(short_text.size==expected.u8string().size()&&short_text.data==guard.data()&&short_text.capacity==1&&std::all_of(guard.begin()+1,guard.end(),[](auto c){return c=='X';}),"Companion text size/input/canary changed");
     }
     status(module.files.path(&request,count,&text,&error.text),QPX_READER_INVALID_REQUEST,error,"companion index range");
@@ -116,7 +119,7 @@ void descriptor(Module& module){
     info.provider_id={buffers[0].data(),buffers[0].size(),0};info.display_name={buffers[1].data(),buffers[1].size(),0};info.version={buffers[2].data(),buffers[2].size(),0};info.contract={buffers[3].data(),buffers[3].size(),0};
     status(module.api.describe(&info,&error.text),QPX_READER_OK,error,"descriptor");
     auto value=[](const auto& t){return std::string(t.data,static_cast<std::size_t>(t.size));};
-    check(value(info.provider_id)=="org.qupathxx.ics"&&value(info.version)=="1.0.0"&&value(info.contract)=="ics-raw-channel-window/1","Provider identity/contract differs");
+    check(value(info.provider_id)=="org.qupathxx.ics"&&value(info.version)=="1.5.0"&&value(info.contract)=="ics-raw-gzip-channel-window/3","Provider identity/contract differs");
     check(value(info.display_name)=="ICS"&&info.abi_version==1&&info.capabilities==(QPX_READER_CAP_RGBA|QPX_READER_CAP_RAW|QPX_READER_CAP_SOURCE_FILES),"Provider capabilities differ");
     std::array<char,8> guard{};guard.fill('X');info.provider_id={guard.data(),1,0};
     status(module.api.describe(&info,&error.text),QPX_READER_BUFFER_TOO_SMALL,error,"short descriptor text");
@@ -126,8 +129,8 @@ void descriptor(Module& module){
 void metadata(Source& source,const Fixture& f){
     Error error;qpx_reader_metadata_v1 meta{};meta.struct_size=sizeof(meta);std::array<char,256> vendor{},order{};meta.vendor={vendor.data(),vendor.size(),0};meta.dimension_order={order.data(),order.size(),0};
     status(source.module.api.metadata(source.handle,&meta,{},&error.text),QPX_READER_OK,error,"metadata");
-    check(meta.width==f.width&&meta.height==f.height&&meta.level_count==1&&meta.has_raw==1&&meta.channels==f.channels&&meta.sample_type==f.type&&meta.z_planes==f.planes&&meta.timepoints==1&&meta.series==0&&meta.series_count==1,"Metadata dimensions/axes/raw type differs");
-    check(meta.calibration_flags==f.flags&&meta.pixel_width_um==f.px&&meta.pixel_height_um==f.py&&meta.z_spacing_um==f.pz&&meta.time_interval_seconds==0,"Physical calibration differs or was guessed");
+    check(meta.width==f.width&&meta.height==f.height&&meta.level_count==1&&meta.has_raw==1&&meta.channels==f.channels&&meta.sample_type==f.type&&meta.z_planes==f.planes&&meta.timepoints==f.times&&meta.series==0&&meta.series_count==1,"Metadata dimensions/axes/raw type differs");
+    check(meta.calibration_flags==f.flags&&meta.pixel_width_um==f.px&&meta.pixel_height_um==f.py&&meta.z_spacing_um==f.pz&&meta.time_interval_seconds==f.seconds,"Physical calibration differs or was guessed");
     qpx_reader_level_v1 level{};level.struct_size=sizeof(level);status(source.module.api.level(source.handle,0,&level,&error.text),QPX_READER_OK,error,"level");check(level.width==f.width&&level.height==f.height&&level.downsample==1&&level.reserved==0,"Level-zero lattice differs");
     status(source.module.api.level(source.handle,1,&level,&error.text),QPX_READER_INVALID_REQUEST,error,"invalid level");level.struct_size=4;status(source.module.api.level(source.handle,0,&level,&error.text),QPX_READER_INVALID_REQUEST,error,"short level structure");
     check(std::string(vendor.data(),static_cast<std::size_t>(meta.vendor.size))=="ICS"&&std::string(order.data(),static_cast<std::size_t>(meta.dimension_order.size))==f.order,"Semantic vendor/dimension order differs");
@@ -149,7 +152,7 @@ void invalid_reads(Source& source,const Fixture& f){
     region.channels=f.channels;out.sample_type=f.type;out.channels=f.channels;out.channel_stride=f.sample;out.pixel_stride=f.channels*f.sample;out.row_stride=out.pixel_stride;out.capacity=out.pixel_stride;out.validity=valid.data();out.validity_capacity=1;
     auto before=out;Counter c;status(source.module.api.read_raw(source.handle,&region,&out,{cancelled,&c},&error.text),QPX_READER_CANCELLED,error,"cancel raw");check(same_input(before,out)&&out.written==0&&out.validity_written==0,"Cancelled raw read changed inputs or reports data");
     auto invalid_region=region;invalid_region.first_channel=f.channels;status(source.module.api.read_raw(source.handle,&invalid_region,&out,{},&error.text),QPX_READER_INVALID_REQUEST,error,"raw channel range");
-    invalid_region=region;invalid_region.z=f.planes;status(source.module.api.read_raw(source.handle,&invalid_region,&out,{},&error.text),QPX_READER_INVALID_REQUEST,error,"raw Z range");invalid_region=region;invalid_region.t=1;status(source.module.api.read_raw(source.handle,&invalid_region,&out,{},&error.text),QPX_READER_INVALID_REQUEST,error,"raw time range");
+    invalid_region=region;invalid_region.z=f.planes;status(source.module.api.read_raw(source.handle,&invalid_region,&out,{},&error.text),QPX_READER_INVALID_REQUEST,error,"raw Z range");invalid_region=region;invalid_region.t=f.times;status(source.module.api.read_raw(source.handle,&invalid_region,&out,{},&error.text),QPX_READER_INVALID_REQUEST,error,"raw time range");
     auto invalid_out=out;invalid_out.validity_capacity=0;status(source.module.api.read_raw(source.handle,&region,&invalid_out,{},&error.text),QPX_READER_INVALID_REQUEST,error,"raw validity capacity");
     invalid_out=out;invalid_out.sample_type=f.type==QPX_READER_UINT8?QPX_READER_UINT16:QPX_READER_UINT8;status(source.module.api.read_raw(source.handle,&region,&invalid_out,{},&error.text),QPX_READER_INVALID_REQUEST,error,"wrong raw sample type");
 }
@@ -165,21 +168,52 @@ void invalid_open(Module& module,const fs::path& root){
     {Fixture control;control.name="budget-input";control.width=256;control.height=256;control.planes=1;control.channels=1;control.type=QPX_READER_UINT8;control.sample=1;control.order="XY";Source accepted(module,fs::u8path(input));metadata(accepted,control);std::vector<std::uint8_t> raw(256*256,17),rgba(256*256*4);for(std::size_t i=0;i<rgba.size();i+=4){rgba[i]=rgba[i+1]=rgba[i+2]=17;rgba[i+3]=255;}exact_region(accepted,control,raw,true,0,0,1,1);exact_region(accepted,control,rgba,false,0,0,1,1);}
     Counter trace;trace.after=std::numeric_limits<int>::max();bad=request;bad.path={input.data(),input.size()};bad.cancel={cancelled,&trace};handle=nullptr;status(module.api.open(&bad,&handle,&error.text),QPX_READER_OK,error,"noncancelling opening checkpoint control");check(handle!=nullptr,"Controlled open omitted its handle");module.api.destroy(handle);handle=nullptr;check(trace.calls>1,"Open did not expose synchronous checkpoints");Counter during;during.after=trace.calls/2+1;bad=request;bad.path={input.data(),input.size()};bad.cancel={cancelled,&during};refuse(&bad,QPX_READER_CANCELLED,"controlled during-open cancellation");check(during.calls>=during.after,"Open did not reach controlled cancellation threshold");
     bad=request;bad.path={input.data(),input.size()};bad.work_bytes=32768;check(fs::file_size(fs::u8path(input))+fs::file_size(root/"budget-input.ids")>bad.work_bytes,"Owned primary+IDS input fits its caller quota");refuse(&bad,QPX_READER_INVALID_REQUEST,"bounded owned raw input");check(error.message()=="ICS input exceeds reader work budget","Input quota refusal missed its declared boundary: "+error.message());
+    const auto compressed=fs::absolute(root/"gzip-multiblock.ics").u8string();
+    const auto encoded=fs::file_size(root/"gzip-multiblock.ids");
+    check(encoded>2*65536,"Gzip fixture does not span multiple encoded reads");
+    auto gzip_request=request;
+    gzip_request.path={compressed.data(),compressed.size()};
+    gzip_request.work_bytes=fs::file_size(fs::u8path(compressed))+encoded+16384;
+    refuse(&gzip_request,QPX_READER_INVALID_REQUEST,"bounded gzip workspace");
+    check(error.message()=="ICS gzip workspace exceeds reader work budget","Gzip workspace was not charged: "+error.message());
+    gzip_request.work_bytes+=65536;
+    refuse(&gzip_request,QPX_READER_INVALID_REQUEST,"bounded gzip decoded bytes");
+    check(error.message()=="ICS input exceeds reader work budget","Gzip decoded bytes were not charged: "+error.message());
+    gzip_request.work_bytes+=512*320;
+    Counter gzip_trace;gzip_trace.after=std::numeric_limits<int>::max();
+    gzip_request.cancel={cancelled,&gzip_trace};
+    status(module.api.open(&gzip_request,&handle,&error.text),QPX_READER_OK,error,"bounded gzip opening control");
+    check(handle!=nullptr&&gzip_trace.calls>=10,"Gzip open omitted its slice checkpoints or handle");
+    module.api.destroy(handle);
+    Counter gzip_cancel;
+    // UInt8 has one normalization and one publication checkpoint after inflation.
+    gzip_cancel.after=gzip_trace.calls-2;
+    gzip_request.cancel={cancelled,&gzip_cancel};
+    refuse(&gzip_request,QPX_READER_CANCELLED,"cancel during gzip inflation");
+    const auto external=(root/"external-large-prefix.ics").u8string();
+    auto external_request=request;
+    external_request.path={external.data(),external.size()};
+    external_request.work_bytes=32768;
+    check(fs::file_size(root/"external-large-prefix.bin")>external_request.work_bytes,
+          "External range budget control fits the whole companion");
+    status(module.api.open(&external_request,&handle,&error.text),QPX_READER_OK,error,"bounded range seek past external prefix");
+    check(handle!=nullptr,"External range open omitted its handle");
+    module.api.destroy(handle);
     std::ifstream in(root/"negative.tsv");check(bool(in),"Missing negative fixtures");std::string name;unsigned expected;unsigned count=0;
-    while(in>>name>>expected){const auto path=fs::absolute(root/(name+".ics")).u8string();auto negative=request;negative.path={path.data(),path.size()};refuse(&negative,expected,("negative "+name).c_str());++count;std::cout<<"Refused "<<name<<" with status "<<expected<<'\n';}check(in.eof()&&count==60,"Incomplete negative fixture list");
+    while(in>>name>>expected){const auto path=fs::absolute(root/(name+".ics")).u8string();auto negative=request;negative.path={path.data(),path.size()};refuse(&negative,expected,("negative "+name).c_str());++count;std::cout<<"Refused "<<name<<" with status "<<expected<<'\n';}check(in.eof()&&count==109,"Incomplete negative fixture list");
 }
 
 }
 int run(int argc,char** argv){try{
     check(argc==3,"Usage: ics_plugin_tests MODULE_DLL FIXTURES_DIR");Module module(fs::absolute(fs::u8path(argv[1])));const auto root=fs::absolute(fs::u8path(argv[2]));descriptor(module);discovery_controls(module,root);
     const auto all=fixtures(root);std::size_t count=0;for(const auto& f:all){
-        source_files(module,root,f);Source source(module,root/fs::u8path(f.name+".ics"),f.options=="-"?"":f.options);metadata(source,f);const auto rgba=bytes(root/fs::u8path(f.name+".rgba")),raw=bytes(root/fs::u8path(f.name+".raw"));check(raw.size()==static_cast<std::size_t>(f.width*f.height*f.planes*f.channels*f.sample)&&rgba.size()==static_cast<std::size_t>(f.width*f.height*4),"Invalid authored oracle byte lengths");
-        for(unsigned z=0;z<f.planes;++z){exact_region(source,f,raw,true,0,0,f.width,f.height,0,f.channels,z);exact_region(source,f,raw,true,-2,-1,f.width+3,f.height+2,0,f.channels,z);exact_region(source,f,raw,true,2,1,4,3,f.channels>1?1:0,f.channels>1?f.channels-1:1,z);}
+        source_files(module,root,f);Source source(module,root/fs::u8path(f.name+".ics"),f.options=="-"?"":f.options);metadata(source,f);const auto rgba=bytes(root/fs::u8path(f.name+".rgba")),raw=bytes(root/fs::u8path(f.name+".raw"));check(raw.size()==static_cast<std::size_t>(f.width*f.height*f.planes*f.times*f.channels*f.sample)&&rgba.size()==static_cast<std::size_t>(f.width*f.height*4),"Invalid authored oracle byte lengths");
+        for(unsigned t=0;t<f.times;++t)for(unsigned z=0;z<f.planes;++z){exact_region(source,f,raw,true,0,0,f.width,f.height,0,f.channels,z,t);exact_region(source,f,raw,true,-2,-1,f.width+3,f.height+2,0,f.channels,z,t);exact_region(source,f,raw,true,2,1,4,3,f.channels>1?1:0,f.channels>1?f.channels-1:1,z,t);}
         exact_region(source,f,rgba,false,0,0,f.width,f.height);exact_region(source,f,rgba,false,-2,-1,f.width+3,f.height+2);exact_region(source,f,rgba,false,2,1,4,3);
-        for(unsigned z=0;z<f.planes;++z)exact_region(source,f,raw,true,0,0,f.width,f.height,0,f.channels,z);invalid_reads(source,f);
+        for(unsigned t=0;t<f.times;++t)for(unsigned z=0;z<f.planes;++z)exact_region(source,f,raw,true,0,0,f.width,f.height,0,f.channels,z,t);invalid_reads(source,f);
         ++count;std::cout<<f.name<<": exact scalar type/all Z/raw bits before+after display/window/calibration/crop/padding and ABI failures passed\n";
     }
-    const auto main=std::find_if(all.begin(),all.end(),[](const auto& f){return f.name=="channels-main";});check(main!=all.end(),"Missing Unicode control fixture");auto unicode=*main;unicode.name=u8"ICS-\u03bc-\u56fe";Source unicode_source(module,root/fs::u8path(unicode.name+".ics"));metadata(unicode_source,unicode);source_files(module,root,unicode);exact_region(unicode_source,unicode,bytes(root/"channels-main.rgba"),false,0,0,unicode.width,unicode.height);for(unsigned z=0;z<unicode.planes;++z)exact_region(unicode_source,unicode,bytes(root/"channels-main.raw"),true,0,0,unicode.width,unicode.height,0,unicode.channels,z);
+    const auto main=std::find_if(all.begin(),all.end(),[](const auto& f){return f.name=="channels-main";});check(main!=all.end(),"Missing Unicode control fixture");auto unicode=*main;unicode.name=u8"ICS-\u03bc-\u56fe";unicode.companion_file="-";Source unicode_source(module,root/fs::u8path(unicode.name+".ics"));metadata(unicode_source,unicode);source_files(module,root,unicode);exact_region(unicode_source,unicode,bytes(root/"channels-main.rgba"),false,0,0,unicode.width,unicode.height);for(unsigned z=0;z<unicode.planes;++z)exact_region(unicode_source,unicode,bytes(root/"channels-main.raw"),true,0,0,unicode.width,unicode.height,0,unicode.channels,z);
     check(bytes(root/"channels-main.raw")==bytes(root/"channels-main-view.raw"),"Window choice changed the authored raw source codes");invalid_open(module,root);std::cout<<"ICS direct ABI passed "<<count<<" authored profiles, Unicode and exact refusal/cancellation/input-budget/buffer checks\n";return 0;
 }catch(const std::exception& e){std::cerr<<e.what()<<'\n';return 1;}}
 

@@ -210,6 +210,11 @@ resampling or reinterpretation of scales occurs. Unbound `QPC\1` models can stil
 use the owned-buffer API; source prediction requires an explicitly declared
 `PixelResolution` or a model produced by annotation training.
 
+The target ROI must match the displayed Z and time planes. A channel-specific
+ROI requires a display using only that source channel. A composite containing
+other channels is refused before pixel reads. Direct predictions, streams and
+project batches use the same display-plane check as annotation training.
+
 `PixelPredictionRequest(document, object_id, recipe, options=...)` captures an
 area ROI, source/grid, provenance and strict live authority. Owner capture checks
 raster output and worst-case tile memory before any image read. The worker reads

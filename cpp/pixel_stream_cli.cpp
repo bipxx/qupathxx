@@ -2,6 +2,10 @@
 #include "pixel_stream_cli.hpp"
 #include "qupathxx/pixel_stream_file.hpp"
 #include "qupathxx/project.hpp"
+#include "atomic_export.hpp"
+#include "project_source_internal.hpp"
+#include "project_export_guard.hpp"
+#include "reader_file_guard.hpp"
 #include <charconv>
 #include <chrono>
 #include <cmath>
@@ -68,7 +72,24 @@ std::optional<int> pixel_stream_cli(const std::vector<std::string>& args,const s
     }
     options.validate();if(limit<128 || limit>(1ULL<<46)) throw std::invalid_argument("invalid pixel stream file byte limit");
     if(cancelled.load()) return 130;
-    const auto model=load_pixel_classifier(args[5],&cancelled);auto project=Project::open(args[2]);const auto doc=project->document(image);
+    const auto model=load_pixel_classifier(args[5],&cancelled);
+    const auto project=Project::open_without_journal_recovery(args[2]);
+    const auto doc=project->document(image);
+    try {
+        const auto output=export_path(args[6]);
+        for(const auto* suffix:{"","-journal","-wal","-shm",".qpx-lock"})
+            guard_file_output(project->path()+suffix,"",output);
+        guard_file_output(export_path(args[5]),"",output);
+        guard_project_export_output(*project,project->images(),output,&cancelled);
+        if(const auto verified=project->source_verification(image))
+            require_verified_project_source(*verified,*doc->server(),&cancelled);
+    }catch(const std::exception& error) {
+        PixelStreamExportStats stats;
+        stats.state=cancelled.load()?"cancelled":"failed";
+        stats.error=error.what();
+        export_line(stats,args[6],image,object,model.sha256());
+        return cancelled.load()?130:1;
+    }
     PixelStreamExportJob job;job.request(*doc,object,model,args[6],options,crop,replace,limit);
     auto stats=job.poll(*doc);if(job.busy()) export_line(stats,args[6],image,object,model.sha256());auto emitted=std::chrono::steady_clock::now();auto blocks=stats.completed_blocks;
     while(job.busy()) {

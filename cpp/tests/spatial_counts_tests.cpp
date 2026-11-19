@@ -43,6 +43,13 @@ int main(int argc,char** argv) {try {
     const auto read=[&]{return read_spatial_counts((root/"counts.mtx").u8string(),(root/"features.tsv").u8string(),(root/"positions.tsv").u8string(),options);};
     auto actual=read();check(actual.matrix_features==3 && actual.matrix_entries==4 && actual.observations.size()==3 && actual.features==options.features);
     check(actual.counts==std::vector<std::uint64_t>({2,5,0,9007199254740992ULL,0,0}));
+    write(root/"positions.tsv","\xef\xbb\xbf"+positions);
+    const auto signed_positions=read_spatial_positions((root/"positions.tsv").u8string());
+    const auto signed_counts=read();
+    check(signed_counts.counts==actual.counts && signed_counts.source_sha256[2]==signed_positions.source_sha256);
+    check(signed_positions.source_sha256!=actual.source_sha256[2] && signed_positions.observations.size()==3);
+    check(signed_positions.observations[0].id=="A" && signed_positions.observations[0].position.x==1.5);
+    write(root/"positions.tsv",positions);
     const auto input_before=bytes(root/"input.qpx");
     const auto imported=[&](const char* name){return import_spatial_counts((root/"input.qpx").u8string(),(root/name).u8string(),1,(root/"counts.mtx").u8string(),(root/"features.tsv").u8string(),(root/"positions.tsv").u8string(),options);};
     check(imported("output.qpx").find("qpx.spatial-counts/1")!=std::string::npos);verify(root/"output.qpx");

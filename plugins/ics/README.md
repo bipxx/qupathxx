@@ -1,28 +1,51 @@
-# Native uncompressed ICS reader plugin
+# Native ICS reader plugin
 
-`org.qupathxx.ics` version1.0.0, contract `ics-raw-channel-window/1`, is an
-independently authored C++ fluorescence-array reader using the native image and
-source-file-set C ABI. The module needs no libics, codec, core or Python runtime.
+`org.qupathxx.ics` version 1.5.0 uses the `ics-raw-gzip-channel-window/3`
+contract and the native image and source-file-set ABI 1. The C++
+fluorescence-array reader links a private, prefixed build of zlib 1.3.2.
 
 ## Files and samples
 
-The `.ics` primary uses ICS1.0 with adjacent same-base `.ids` data at offset0,
-or ICS2.0 with data immediately following its `end` line. Uppercase `.ICS` derives
-`.IDS`. Header `filename` is descriptive, never a path source. External source
-paths/offsets, compressed data and `.ids.gz`/`.ids.Z` auto-discovery refuse.
-Primary/companion extents are exact, without unexplained gaps or trailers.
+ICS1.0 stores data in an adjacent, same-base `.ids` file at offset 0. The
+reader derives `.IDS` for an uppercase `.ICS` header. If that derived name
+is missing and the header declares gzip, the reader also tries the derived
+name with `.gz` appended. The canonical companion takes precedence when both
+names exist. Projects capture the path and identity of the selected companion.
+ICS2.0 supports data
+immediately following its `end` line or a single adjacent data file declared
+by the paired, TAB-separated `source file` and `source offset` fields.
+
+An external ICS2.0 header ends at EOF or at an `end` line followed immediately
+by EOF. Its source offset is an unsigned decimal byte offset, including 0.
+The source filename is one regular same-directory basename using ASCII
+letters, digits, underscores, hyphens and dots, with no leading or trailing
+dot. The reader refuses absolute paths, directory components, Windows device
+names, aliases of the header, hard links, and reparse points.
+
+The header declares `uncompressed` or `gzip` in the representation compression
+field. For an uncompressed external ICS2.0 payload, the reader reads the exact
+raster range declared by the offset and layout. Bytes outside that range are
+left untouched. An external gzip payload spans the declared offset through EOF.
+Gzip data consists of one complete member with a valid CRC32 and stored size
+and exactly the decoded bytes declared by the layout. The reader refuses
+truncated data, concatenated gzip members, bytes following a gzip member, other
+compression schemes including Unix compress (`.ids.Z`).
 
 Headers declare TAB fields and LF/CRLF line endings; canonical keys/enums are case
 sensitive. Required fields declare version/filename, layout parameter count/order/
 sizes/video coordinates/full-width significant bits, representation format/sign/
-byte order/uncompressed encoding and parameter origin/scale/units for every slot.
-Supported orders, fastest axis first after the scalar bits slot:
+byte order/compression and parameter origin/scale/units for every slot.
+The scalar `bits` slot comes first. Storage axes follow from fastest to slowest.
+The reader accepts explicit `x`, `y` and optional `z`, `t` and `ch` in any order.
+Examples:
 
 ```text
 bits x y
 bits x y z
 bits ch x y
 bits ch x y z
+bits x y z ch
+bits t z y x ch
 ```
 
 Only explicit `ch` identifies channels; probe/wavelength/sensor axes are not
@@ -30,27 +53,32 @@ guessed. Channels are limited to1–256 within the frozen host's metadata budget
 UInt8, UInt16, Int16 and Float32 storage is supported. Each byte-order rank must
 form a valid sample-byte permutation, applied without numeric conversion.
 
-Raw arrays are native-endian HWC across all Z planes, with ordinal names `C0`,
+Raw arrays are native-endian HWC at every Z and T index, with ordinal names `C0`,
 `C1`, etc. Scalar images also use `C0`. NaN payloads, signaling NaNs, infinities
 and signed zero stay exact. Every source pixel is valid, including nonfinite
-values; outside raw samples are zero/invalid. There is one level and T0;
-metadata order is `XY`, `XYZ`, `CXY` or `CXYZ`.
+values; outside raw samples are zero/invalid. There is one resolution level.
+Metadata reports the declared storage order, independently of the packed HWC
+layout of each raw result.
 
 ## Interpretation and display
 
-Video coordinates select the upper-left origin. Spatial origins must be0.
+Video coordinates select the upper-left origin. Spatial and temporal origins must be zero.
 Positive finite scales with `nm`, `um`, `mm`, `cm` or `m` supply micrometers per
 pixel/plane; empty/`undefined` spatial units leave calibration unknown. Conversion
 must remain finite and positive. Unrepresented directions/origins/units refuse;
 no registration, rotation or resampling is inferred. Scalar origin/scale/unit
 must be0/1/`relative`; channel origin/scale/unit0/1/empty-or-`undefined`.
 
-Optional axis labels may only repeat canonical `intensity`, `ch`, `x`, `y`, `z`
-meanings. They are not fluorophore names. Other sensor, microscope, SCIL, source
-or unknown semantic fields refuse. Bounded descriptive history never implies
+For time, a positive finite scale with `s`, `ms` or `us` supplies an interval
+in seconds. Empty or `undefined` units leave the interval unspecified.
+
+Optional labels may match their axis token or use libics' default spatial
+labels `x-position`, `y-position`, `z-position` and the label `time` for `t`.
+Sensor, microscope, SCIL, and
+unrecognized semantic fields refuse. Bounded descriptive history never implies
 an orientation change. This is an array profile, not general acquisition metadata.
 
-Native options select Z0 grayscale display independently of raw samples:
+Native options select Z0/T0 grayscale display independently of raw samples:
 
 ```json
 {"channel":0,"window":[0,255]}
@@ -65,17 +93,20 @@ not change with display choices. Saved explicit options survive default changes.
 
 ## Source and resource bounds
 
-Discovery reads only a bounded primary prefix, returning one derived IDS path for
-ICS1 and none for ICS2. It never reads companion pixels. The host observes the
-primary and declared companion identities/versions before open and around reads/
-replay. Discovery and open use the same interpretation/path rule.
+Discovery reads only a bounded primary prefix. It returns the derived IDS path
+for ICS1, the declared sibling path for external ICS2, and zero companions for
+inline ICS2. It never reads companion pixels. Discovery and open use the same
+path rule. The host tracks the identity and version of the primary and entire
+companion before open and around reads and replay, including bytes outside an
+external raw raster range.
 
-Header/options limits are64KiB/512 bytes. Open owns the complete primary and,
-for ICS1, the IDS array. Byte permutation is in place; display has no expanded
-cache. All owned arrays/bookkeeping and conservative path/options/context costs
-fit work≤256MiB. Larger inputs refuse; this is a bounded full-input profile.
-Source/header/permutation/raw operations honor synchronous cancellation at bounded
-spans, retaining no caller pointers.
+The header limit is 64 KiB and the options limit is 512 bytes. The 256 MiB work
+limit covers the primary, the bytes read from any companion, array bookkeeping,
+and path/options/context costs. External reads seek to the declared offset
+before allocating the payload buffer. For gzip the work limit also covers the
+decoded array and 64 KiB of codec workspace. Byte permutation happens in
+place. Source reads, header parsing, inflation, permutation and raw reads check
+cancellation at bounded intervals.
 
 Unsupported formats/semantics report unsupported; malformed selected fields or
 missing/truncated data report I/O error. Request/size/work limits report invalid
@@ -88,17 +119,21 @@ Windows x64 MSVC1944/compiler19.44.35225.0, Release `/MD`, matching ReaderPlugin
 
 ```powershell
 cmake -S plugins/ics -B BUILD -G Ninja -DCMAKE_BUILD_TYPE=Release `
-  "-DQUPATHXX_READER_PLUGIN_KIT_PREFIX=KIT"
+  "-DQUPATHXX_READER_PLUGIN_KIT_PREFIX=KIT" `
+  "-DQUPATHXX_ICS_ZLIB_ARCHIVE=ZLIB_ARCHIVE"
 cmake --build BUILD --config Release
 cmake --install BUILD --config Release --prefix INSTALL
 ```
 
-Kit paths are `source/plugins/ics` and `source/reader-plugin-kit`. Default tests
-OFF need only C++ and the kit, with no network/C-library/Python discovery.
+For a packaged source build, use `source/plugins/ics` as the source directory,
+`source/reader-plugin-kit` as the kit prefix, and
+`source/third_party/zlib-1.3.2.tar.gz` as the zlib archive. Keep the shared
+headers at `source/plugins/image-common`. The default build uses those inputs
+offline with the matching MSVC C and C++ compilers.
 `QUPATHXX_ICS_BUILD_TESTS=ON` additionally requires the matching SDK and exact
 libics development sources at `QUPATHXX_ICS_REFERENCE_SOURCE_DIR`. The
-[reference lock](tests/libics-reference-lock.json) records every source hash;
-the library is neither bundled nor linked into the product module.
+development build enables gzip for the libics oracle. The
+[reference lock](tests/libics-reference-lock.json) records every source hash.
 
 ```text
 qupathxx_region --reader-plugins ABS_MANIFEST --readers
@@ -117,15 +152,17 @@ Independent sources and authored fixtures retain the repository's
 [axis](https://svi-opensource.github.io/libics/Ics_DataRepresentation.html) and
 [scalar](https://svi-opensource.github.io/libics/Ics_ImelRepresentation.html)
 definitions and public reference sources establish the selected reusable layout.
-No upstream implementation/image or closed format branch enters this parser.
+The package includes the exact zlib 1.3.2 source archive and its original
+Zlib notice at `licenses/zlib/LICENSE`.
 
-Development-only libics1.7.2 is pinned at
+The separately sourced development oracle uses libics 1.7.2 pinned at
 `c1a1ae6f46ed1167001c0a14d9ef767c37ff4833`. Its
 [per-file grant](https://github.com/svi-opensource/libics/blob/c1a1ae6f46ed1167001c0a14d9ef767c37ff4833/libics.h)
-is Library GPL2-or-later; bundled
+is Library GPL2-or-later. Its
 [GNU_LICENSE](https://github.com/svi-opensource/libics/blob/c1a1ae6f46ed1167001c0a14d9ef767c37ff4833/GNU_LICENSE)
-contains Lesser GPL2.1, the successor. Those notices stay distinct from the
-adapter's license. No reference images/archive, zlib or NC component is required.
+contains Lesser GPL2.1, the successor. These notices apply to the oracle's
+development sources. The shipped module links only the admitted codec and
+platform runtime.
 
 The [delivery receipt](../../docs/benchmarks/ics-reader-plugin/README.md) records
 actual source/file-set/package qualification. Broader encodings, platforms,

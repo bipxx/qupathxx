@@ -1,3 +1,4 @@
+#include "expression_statistics_export_internal.hpp"
 #include "qupathxx/expression_aggregation_workflow.hpp"
 #include "qupathxx/project.hpp"
 #include "qupathxx/object_properties.hpp"
@@ -62,6 +63,22 @@ void exercise(const fs::path& root){
     const auto overflow=fixture(root,"overflow",1,2,"1 1 18446744073709551615\n1 2 1\n",2);rejects<std::overflow_error>([&]{aggregate_expression(overflow,{expression_observation_cohort(overflow,"overflow",{"O0","O1"})});});
     Project project;const auto image=project.add_document(std::make_shared<Document>(dense_image_server(Image::demo())));keep_expression_matrix(project,image,parent,true);const auto id=keep_expression_aggregation(project,image,*result);rejects<WorkflowOutputExists>([&]{keep_expression_aggregation(project,image,*result);});project.save_new((root/"study.qpx").u8string());const auto saved=Project::open((root/"study.qpx").u8string());const auto replay=expression_aggregation_open_request(*saved,image,id).open(64u*1024*1024);check(replay->recipe()==result->recipe() && replay->counts()==result->counts() && replay->cohorts()[0].id==left.id && replay->cohorts()[0].observations==left.observations,"Owned project aggregation exact replay/association differs");
     remove_expression_aggregation(*saved,image,id);check(expression_aggregation_ids(*saved,image).empty(),"Remove aggregation failed");saved->document(image)->undo();check(expression_aggregation_ids(*saved,image)==std::vector<std::string>{id},"Aggregation metadata undo failed");
+    for (const bool companion_table : {false, true}) {
+        const auto destination = root / "guarded-statistics.csv";
+        unsigned calls = 0;
+        const auto protect = [&] {
+            if (++calls == 2)
+                throw WorkflowInputChanged("Project output became protected before publication");
+        };
+        rejects<WorkflowInputChanged>([&] {
+            detail::write_expression_aggregation_export(*result, destination.u8string(), companion_table,
+                                                 1024 * 1024, 32u * 1024 * 1024, nullptr, protect);
+        });
+        check(calls == 2 && !fs::exists(destination), "Guard failure published a statistics export");
+        for (const auto& entry : fs::directory_iterator(root))
+            check(entry.path().filename().u8string().find("guarded-statistics.csv.qpx-tmp-") != 0,
+                  "Guard failure left a statistics export temporary file");
+    }
     save_expression_aggregation_csv(*result,(root/"regions.csv").u8string());save_expression_membership_csv(*result,(root/"members.csv").u8string());check(read(root/"regions.csv").find("\"left, 伪\"")!=std::string::npos && read(root/"members.csv").find(",1,\"O1\"")!=std::string::npos,"CSV quoting/Unicode/ID association differs");rejects([&]{save_expression_aggregation_csv(*result,(root/"regions.csv").u8string());});rejects([&]{save_expression_aggregation_csv(*result,(root/"too-small.csv").u8string(),8);});check(!fs::exists(root/"too-small.csv"),"Failed export published partial output");
     auto corrupt=result->recipe();corrupt[40]^=1;rejects([&]{replay_expression_aggregation(parent,corrupt);});rejects<WorkflowInputChanged>([&]{replay_expression_aggregation(huge,result->recipe());});observed->stale=true;rejects<WorkflowInputChanged>([&]{save_expression_aggregation_csv(*result,(root/"stale.csv").u8string());});observed->stale=false;observed->malformed=true;rejects([&]{aggregate_expression(observed,{left},options);});observed->malformed=false;
     std::atomic<bool> cancelled{true};rejects<WorkflowCancelled>([&]{aggregate_expression(parent,{left},options,&cancelled);});cancelled.store(false);observed->cancel=&cancelled;rejects<WorkflowCancelled>([&]{aggregate_expression(observed,{left},options,&cancelled);});observed->cancel=nullptr;cancelled.store(false);

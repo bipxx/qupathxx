@@ -30,6 +30,8 @@ typedef uint32_t qpx_reader_status_v1;
 #define QPX_READER_CAP_RGBA UINT64_C(1)
 #define QPX_READER_CAP_RAW UINT64_C(2)
 #define QPX_READER_CAP_SOURCE_FILES UINT64_C(4)
+#define QPX_READER_CAP_SOURCE_STORE UINT64_C(8)
+#define QPX_READER_CAP_LABEL_DESCRIPTION UINT64_C(16)
 #define QPX_READER_UINT8 1u
 #define QPX_READER_UINT16 2u
 #define QPX_READER_INT8 3u
@@ -147,6 +149,60 @@ typedef qpx_reader_status_v1 (QPX_READER_CALL *qpx_reader_files_entry_fn_v1)(uin
 QPX_READER_EXPORT
 #endif
 qpx_reader_status_v1 QPX_READER_CALL qpx_reader_files_entry_v1(uint32_t requested_abi,qpx_reader_files_api_v1* out,qpx_reader_text_v1* error);
+/* Optional local-directory extension; base ABI1/layout stays unchanged.
+ * SOURCE_STORE is mutually exclusive with SOURCE_FILES. Old hosts refuse this
+ * capability rather than treating a directory as a single file. The host owns
+ * bounded recursive membership/file-version observation before open and around
+ * every metadata/read operation. Its digest is NOT a content fingerprint.
+ * primary_metadata returns one existing regular metadata file as a nonempty
+ * <=4096-byte UTF-8 key relative to request.path (the absolute store root).
+ * Use '/' separators; no absolute/rooted/escaping/dot components, backslashes,
+ * NUL, links/reparse traversal or alternate streams. The callback is reentrant,
+ * polls request.cancel and retains no pointers. Input request/pointers/capacities
+ * are immutable. Output obeys the usual caller-owned text/status rules.
+ * The host's directory profile bounds absolute paths to4096 UTF-8 bytes and
+ * descendant depth to64. A total allowance of4MiB..256MiB reserves1MiB for
+ * filesystem/path working storage and both host inventories (each at most
+ * min(64MiB, (total-1MiB)/4), retained + simultaneous re-observation).
+ * Directory opens reserve both host inventories (retained + re-observation)
+ * inside the bounded store allowance; request.work_bytes gives the remaining
+ * private decoder allowance. File/companion work allowances remain unchanged. */
+typedef struct qpx_reader_store_api_v1 {
+    uint32_t struct_size;
+    uint32_t abi_version;
+    qpx_reader_status_v1 (QPX_READER_CALL *primary_metadata)(const qpx_reader_open_v1*,qpx_reader_text_v1*,qpx_reader_text_v1* error);
+} qpx_reader_store_api_v1;
+typedef qpx_reader_status_v1 (QPX_READER_CALL *qpx_reader_store_entry_fn_v1)(uint32_t,qpx_reader_store_api_v1*,qpx_reader_text_v1*);
+#if defined(QPX_READER_PLUGIN_SOURCE_STORE)
+QPX_READER_EXPORT
+#endif
+qpx_reader_status_v1 QPX_READER_CALL qpx_reader_store_entry_v1(uint32_t requested_abi,qpx_reader_store_api_v1* out,qpx_reader_text_v1* error);
+/* Optional label-description extension; base72/files24/store16 stay unchanged.
+ * LABEL_DESCRIPTION requires RAW and SOURCE_STORE and excludes SOURCE_FILES.
+ * The host calls describe once after successful open and source/image metadata
+ * validation, with the whole store observed before and after the callback.
+ * Return nonempty <=65536-byte UTF-8 neutral JSON text in caller-owned output.
+ * The bridge treats this text as opaque; shared native label services validate
+ * its schema, exact source codes, frame/linkage and selected-array semantics.
+ * On OK, output.size is the exact byte count and error.size must be zero.
+ * Other statuses set output.size=0; BUFFER_TOO_SMALL instead reports the
+ * required output size>capacity. Error text follows the usual bounded rules.
+ * Neither output/error data pointers nor capacities may be edited or retained.
+ * describe catches all exceptions and polls cancel during native work.
+ * LABEL totals8..256MiB reserve2MiB of host filesystem/description work and two
+ * inventories (each min(64MiB,(total-2MiB)/4)); open.work_bytes is the remaining
+ * private decoder allowance. Plain STORE and file allowances are unchanged. */
+typedef struct qpx_reader_label_api_v1 {
+    uint32_t struct_size;
+    uint32_t abi_version;
+    qpx_reader_status_v1 (QPX_READER_CALL *describe)(void* handle,qpx_reader_text_v1* output,qpx_reader_cancel_v1 cancel,qpx_reader_text_v1* error);
+} qpx_reader_label_api_v1;
+
+typedef qpx_reader_status_v1 (QPX_READER_CALL *qpx_reader_label_entry_fn_v1)(uint32_t,qpx_reader_label_api_v1*,qpx_reader_text_v1*);
+#if defined(QPX_READER_PLUGIN_LABEL_DESCRIPTION)
+QPX_READER_EXPORT
+#endif
+qpx_reader_status_v1 QPX_READER_CALL qpx_reader_label_entry_v1(uint32_t requested_abi,qpx_reader_label_api_v1* out,qpx_reader_text_v1* error);
 #ifdef __cplusplus
 }
 #endif

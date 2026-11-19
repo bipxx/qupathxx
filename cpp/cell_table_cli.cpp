@@ -1,7 +1,8 @@
 #include "cell_table_cli.hpp"
+#include "project_export_guard.hpp"
 #include "qupathxx/cell_tables.hpp"
 #include "qupathxx/project.hpp"
-#include "reader_file_guard.hpp"
+#include "project_database_output.hpp"
 #include "atomic_export.hpp"
 namespace qpx::detail {
 std::optional<int> cell_table_cli(const std::vector<std::string>& args,const std::atomic<bool>& cancelled) {
@@ -19,12 +20,11 @@ std::optional<int> cell_table_cli(const std::vector<std::string>& args,const std
     export_checkpoint(&cancelled);
     const auto source=export_path(args[2]),destination=export_path(args[3]);
     ReaderFileGuard observed(source);
-    guard_file_output(source,observed.version()->identity,destination);
-    const auto project=Project::open(source);const auto images=project->images();
+    guard_project_database_output(observed,destination);
+    const auto project=Project::open_without_journal_recovery(source);const auto images=project->images();
     auto protect=[&] {
-        guard_file_output(source,observed.version()->identity,destination);
-        for(const auto& image:images) if(!image.embedded && !image.source_path.empty())
-            guard_file_output(export_path(image.source_path),"",destination);
+        guard_project_database_output(observed,destination);
+        guard_project_export_output(*project,images,destination,&cancelled);
     };
     protect();
     const auto csv=cell_measurements_csv(CellTableRequest(*project,{},options),&cancelled);

@@ -4,7 +4,9 @@ import csv
 import io
 import json
 import os
+from pathlib import Path
 import sqlite3
+import subprocess
 
 import numpy as np
 import pytest
@@ -30,6 +32,89 @@ def display(doc,z,t,channels=None):
 def imported(doc,c=-1,z=1,t=1):
     geometry=rectangle(1,2,5,6);geometry['plane']={'c':c,'z':z,'t':t}
     return q.import_geojson(doc,json.dumps(feature(geometry)),assume_pixels=True).imported_ids[0]
+
+
+def test_matrix_index_project_keeps_explicit_plane(tmp_path):
+    executable = os.environ.get('QUPATHXX_TEST_FORMAT_IMPORT')
+    manifest = os.environ.get('QUPATHXX_TEST_COUNTS_MANIFEST')
+    if not executable or not manifest:
+        pytest.skip('native format CLI and counts plugin are required')
+    _, _, image = scene(tmp_path)
+    project = tmp_path / 'plane.qpx'
+    counts, positions = tmp_path / 'counts.tsv', tmp_path / 'positions.tsv'
+    counts.write_text('observation_id\tgene\nspot\t9007199254740993\n', encoding='utf8')
+    positions.write_text('observation_id\tx_px\ty_px\nspot\t0.5\t0.5\n', encoding='utf8')
+
+    def run(*args):
+        result = subprocess.run([executable, *map(str, args)], capture_output=True, encoding='utf8', timeout=30)
+        assert result.returncode == 0, result.stderr
+        return json.loads(result.stdout)
+
+    image_id = run('project-create', image, project, '--reader', 'tiff')['image_id']
+    provider = ('--format-plugins', Path(manifest).resolve())
+    plane = ('--frame-channel', 1, '--frame-z', 1, '--frame-time', 1)
+    independent, indexed = tmp_path / 'direct.qmx', tmp_path / 'indexed.qmx'
+    run(*provider, 'matrix-index', 'org.qupathxx.counts-tsv', counts, positions, image, independent,
+        '--reader', 'tiff', *plane)
+    run(*provider, 'matrix-project-index', 'org.qupathxx.counts-tsv', counts, positions, project, image_id, indexed, *plane)
+    assert independent.read_bytes() == indexed.read_bytes()
+    frame = run('matrix-info', indexed)['spatial_frame']
+    assert frame['plane'] == {'channel': 1, 'z': 1, 'time': 1}
+
+
+def test_project_matrix_index_and_attachment_require_saved_source(tmp_path):
+    executable = os.environ.get('QUPATHXX_TEST_FORMAT_IMPORT')
+    manifest = os.environ.get('QUPATHXX_TEST_COUNTS_MANIFEST')
+    if not executable or not manifest:
+        pytest.skip('native format CLI and counts plugin are required')
+
+    def run(*args, error=None):
+        result = subprocess.run([executable, *map(str, args)], capture_output=True, encoding='utf8', timeout=30)
+        if error:
+            assert result.returncode == 2 and error in json.loads(result.stderr)['error'], result
+            return
+        assert result.returncode == 0, result.stderr
+        return json.loads(result.stdout)
+
+    image = tmp_path / 'source.tif'
+    tifffile.imwrite(image, np.full((6, 9), 23, dtype=np.uint16), metadata=None)
+    counts, positions = tmp_path / 'counts.tsv', tmp_path / 'positions.tsv'
+    counts.write_text('observation_id\tgene\nspot\t9007199254740993\n', encoding='utf8')
+    positions.write_text('observation_id\tx_px\ty_px\nspot\t0.5\t0.5\n', encoding='utf8')
+    before, saved = tmp_path / 'before.qpx', tmp_path / 'verified.qpx'
+    image_id = run('project-create', image, before, '--reader', 'tiff')['image_id']
+    digest = run('project-review-source', before, image_id, image)['review_sha256']
+    run('project-adopt-source', before, image_id, image, digest, saved)
+    original = saved.read_bytes()
+    prefix = ('--format-plugins', Path(manifest).resolve())
+    index = (*prefix, 'matrix-project-index', 'org.qupathxx.counts-tsv', counts, positions)
+    qmx = tmp_path / 'verified.qmx'
+    receipt = run(*index, saved, image_id, qmx)
+    attached = tmp_path / 'attached.qpx'
+    assert run('matrix-attach', saved, image_id, qmx, receipt['file_sha256'], attached)['state'] == 'saved'
+
+    replacement = tmp_path / 'replacement.tif'
+    tifffile.imwrite(replacement, np.full((6, 9), 99, dtype=np.uint16), metadata=None)
+    assert replacement.stat().st_size == image.stat().st_size
+    replacement.replace(image)
+    rejected, rejected_project = tmp_path / 'rejected.qmx', tmp_path / 'rejected.qpx'
+    error = 'differs from saved source verification'
+    run(*index, saved, image_id, rejected, error=error)
+    # A QMX made directly against today's TIFF cannot bypass the saved verification.
+    standalone = tmp_path / 'standalone.qmx'
+    current = run(*prefix, 'matrix-index', 'org.qupathxx.counts-tsv', counts, positions, image, standalone, '--reader', 'tiff')
+    run('matrix-attach', saved, image_id, standalone, current['file_sha256'], rejected_project, error=error)
+    assert not rejected.exists() and not rejected_project.exists() and not list(tmp_path.glob('*.qpx-tmp-*'))
+    assert saved.read_bytes() == original
+
+    updated = tmp_path / 'adopted.qpx'
+    review = run('project-review-source', saved, image_id, image)
+    assert review['requires_acceptance'] and review['comparison'] == 'changed_bytes'
+    run('project-adopt-source', saved, image_id, image, review['review_sha256'], updated, '--accept-changed')
+    reindexed = tmp_path / 'reviewed.qmx'
+    approved = run(*index, updated, image_id, reindexed)
+    assert (approved['observations'], approved['features'], approved['entries']) == (1, 1, 1)
+    assert reindexed.read_bytes() == standalone.read_bytes()
 
 
 def test_import_view_mask_analysis_restart_and_export_use_exact_plane(tmp_path):
@@ -126,9 +211,10 @@ def test_saved_data_plane_uses_a_valid_replacement_source_not_the_invalid_origin
     # Same-length metadata scalar patch declares the derived source truthfully;
     # all original ROI bytes remain unchanged. This is not a new upstream capture.
     data.write_bytes(raw.replace(b'"sizeZ":1',b'"sizeZ":2'))
-    preview=q.preview_qupath_project(str(path));assert {i.code for i in preview.issues}=={'image_settings_dropped'}
-    destination=tmp_path/'native.qpxproj';preview.import_new(str(destination),allow_losses=True)
+    preview=q.preview_qupath_project(str(path));assert not preview.issues
+    destination=tmp_path/'native.qpxproj';preview.import_new(str(destination))
     doc=q.Project.open(str(destination)).document(preview.images[0].native_id);obj=doc.annotations[0]
+    assert doc.image_analysis_settings is None  # QuPath UNSET remains unset.
     assert plane_tuple(obj.plane)==(-1,1,0) and not doc.object_visible(obj.id)
     display(doc,1,0)
     result=q.analyze_raw(q.RawAnalysisRequest(doc,request(1,1,z=1),obj.id,tile_size=16))
@@ -246,6 +332,9 @@ def test_schema17_default_plane_upgrade_rolls_back_without_modifying_old_project
         assert db.execute("SELECT count(*) FROM sqlite_schema WHERE name='object_planes'").fetchone()[0]==0
         db.execute('DROP TRIGGER fail_plane_upgrade')
     loaded.save(str(path));assert plane_tuple(q.Project.open(str(path)).document(image).annotation(obj).plane)==(-1,1,1)
+    with sqlite3.connect(path) as db:
+        assert db.execute('PRAGMA user_version').fetchone()[0]==CURRENT_SCHEMA_VERSION
+        assert db.execute('SELECT c,z,t FROM object_planes').fetchall()==[(-1,1,1)]
 
 
 def test_2d_spatial_measurements_refuse_mixed_z_or_time(tmp_path):

@@ -3,6 +3,8 @@
 #include "reader_plugin_link.hpp"
 namespace qpx::detail {
 std::shared_ptr<const ReaderPluginLink> plugin_link_of(const ImageServer&);
+// Saved source kind, available without opening the reader.
+bool is_project_image_directory_source(const ImageServer&);
 std::shared_ptr<ImageServer> project_plugin_server(ImageMetadata metadata,std::string path,
     std::shared_ptr<const ReaderPluginLink> link,std::shared_ptr<ImageServer> verified={});
 // Includes the saved contract, cached metadata/source and one encoded payload.

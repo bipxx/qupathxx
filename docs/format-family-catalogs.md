@@ -17,8 +17,57 @@ The [format roadmap](format-plugin-coverage-plan.md#full-format-roadmap-2026-11-
 now includes the separately delivered [typed family plugins](format-family-plugins.md):
 counts TSV and point TSV, with their own native host/SDK/source identity and
 [receipt](benchmarks/format-family-plugins/README.md). Their explicit configuration
-adds available external provider records and admission diagnostics. Unconfigured
-built-in catalog bytes and existing dispatch contracts stay unchanged.
+adds available external provider records and admission diagnostics. Matrix and
+annotation packages can be configured together using separate absolute
+manifests and each package's existing module digest. The
+[manifest options](format-family-plugins.md) show the native and CLI routes.
+
+The separately delivered [geometry ABI2/provider](benchmarks/annotation-geometry/README.md)
+extends native annotation import to six geometry kinds, holes and multiple parts.
+It shares the existing native geometry, preview/apply, identity, project and undo
+authorities. ABI1 matrix/point catalogs and exact stored identities are preserved.
+Use its matching native overlay/kit; an older frozen host does not gain ABI2 by
+installing a module. The image ABI and built-in GeoJSON dispatch remain separate.
+
+The [selected Loom matrix workflow](benchmarks/loom/README.md) now passes native,
+CLI and public SDK checks through a separately negotiated matrix ABI2. Explicit
+provider options select counts or continuous values and their value-domain label;
+native QMX schema5 stores the typed receipt. ABI1 counts/schema4 bytes, public
+matrix DTOs and indexed/project authorities remain unchanged. Its 284 source/
+native/package/ZIP members and 12 installed/removal checks also pass locally.
+Frozen hosts gain no new entry point by installing the DLL alone.
+
+The selected [ImageJ ROI/ZIP provider](benchmarks/imagej-roi/README.md) uses a
+separate ABI3 entry for display names/source facts/styles and explicit plane
+interpretation, with a matching native SDK overlay. Shared native authorities
+retain exact IDs, class mapping, even-odd topology, preview/apply, project and
+undo behavior. This does not add those capabilities to frozen older hosts.
+
+The [OME ROI XML provider](benchmarks/ome-roi/README.md) adds selected OME2016-06
+vector shapes with exact IDs, source facts and explicit source-image selection.
+Its separate ABI4 retains native interactive lock state while preserving ABI1–3
+contracts. The optional Expat-backed native module is source/license matched;
+masks and nonrepresentable ellipse transforms remain explicit refused profiles.
+
+The [ASAP XML provider](benchmarks/asap-xml/README.md) selects a distinct native
+annotation contract with upstream float32 coordinates, ordered vertices,
+explicit group/class mapping and root-group color. It shares XML/QOX2 value
+support with OME, while each provider owns its format semantics. These modules
+coexist with frozen WKT/ImageJ providers over the unchanged A04 host; they do not
+become image decoders or add capabilities to older frozen hosts.
+
+The [COCO instance provider](benchmarks/coco/README.md) adds polygon unions and
+compressed/uncompressed RLE through separate ABI5 pixel-mask transport. Full
+canvas/frame validation and existing native label/grid/contours preserve exact
+pixel area, parts and holes; category/instance IDs and crowd/source metadata
+remain independent. Its matching native overlay/CLI/SDK has a new identity and
+retains ABI1–4 behavior. Older products and frozen wheels remain separate.
+
+The selected [WKT/WKB provider](benchmarks/wkt-wkb/README.md) reads declared
+image-pixel XY in WKT, raw WKB or hex WKB. It reuses the exact ABI3 native host
+and shared producer/value support with ImageJ; no geographic CRS/plane/class is
+inferred. The two optional annotation providers coexist in the same catalog,
+with separate source/module/licence identities and explicit unsupported profiles.
 
 ## Providers and native authorities
 
@@ -27,12 +76,19 @@ built-in catalog bytes and existing dispatch contracts stay unchanged.
 | `qmx` | Open an indexed matrix sidecar | [open_expression_matrix](../cpp/include/qupathxx/expression_matrix.hpp) | Native expression matrix storage |
 | `matrix-market` | Index Matrix Market plus explicit Qpx or Tenx TSV catalogs | [import_expression_matrix](../cpp/include/qupathxx/expression_matrix.hpp) | Native expression matrix storage |
 | `h5ad` | Index the admitted AnnData/H5AD profile with explicit interpretation | [import_h5ad_matrix](../cpp/include/qupathxx/h5ad.hpp) | Native expression matrix storage and H5AD support |
+| `org.qupathxx.counts-tsv` | Index explicit dense UInt64 TSV and complete-ID positions | [import_expression_matrix_plugin](../cpp/include/qupathxx/format_import.hpp) | Admitted ABI1 module and matching native host |
+| `org.qupathxx.loom` | Index an explicit Loom3 matrix/layer, axes, domain and complete-ID positions | [import_expression_matrix_plugin](../cpp/include/qupathxx/format_import.hpp) | Selected ABI2 profile delivered locally with matching source/native/package and installed run/removal evidence |
 
 The matrix request carries the existing native options for its operation. Opening
 QMX does not index original inputs again. Matrix Market keeps its explicit
 `ExpressionCatalogueFormat::Qpx` or `Tenx` choice. H5AD keeps `H5adOptions`, including
 the selected matrix/spatial keys, value domain and coordinate frame. A suffix
 never supplies those scientific choices.
+External plugin metadata validates the selected typed domain; a family catalog
+record or ABI2 version does not promise both domains for every provider. The
+catalog exposes generic import/open readiness and identity without guessing a
+particular dataset's type or capabilities. Its existing built-in and ABI1 rows
+retain their bytes.
 
 | Annotation provider ID | Operation and transport | Existing authority | Availability |
 | --- | --- | --- | --- |

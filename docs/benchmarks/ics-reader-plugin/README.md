@@ -1,5 +1,68 @@
 # Native ICS fluorescence plugin: FP02 local Windows delivery
 
+## Gzip-named companions in 1.5.0
+
+The Windows optional module discovers a same-base `.ids.gz` file when the
+ICS1 header declares gzip and the canonical `.ids` file is missing. Both the
+source-file ABI and the decoder resolve the same path. The checks cover
+exact samples, reopening saved projects, canonical-name precedence, and
+refusal to use cached raw or display data after the selected file changes.
+[Pinned libics companion lookup](https://raw.githubusercontent.com/svi-opensource/libics/c1a1ae6f46ed1167001c0a14d9ef767c37ff4833/libics_binary.c#L358-L390)
+
+## Planar and reordered axes in 1.4.0
+
+The C++ reader maps declared X/Y and optional Z/T/channel axes through
+bounded storage strides. Raw data is returned in packed HWC at the
+requested Z and T. Calibrations stay associated with named axes and
+metadata reports their original order. The libics oracle checks physical
+storage order, and separately authored raw and display expectations check
+planar, middle-channel and reordered time-series reads after project reopen.
+[libics dimension metadata](https://svi-opensource.github.io/libics/Ics_Header.html)
+
+## Microscopy time series in 1.3.0
+
+The reader accepts a terminal time axis for scalar or channel-first XY and
+XYZ arrays. Exact native raw samples can be exported from any stored Z/T
+index. Declared seconds, milliseconds and microseconds normalize to seconds.
+Unknown units leave time calibration unspecified. Display stays on Z0/T0.
+The pinned libics oracle verifies authored ICS1/IDS, inline ICS2 and offset
+ICS2 time series, including gzip data and byte permutations. Native tests
+verify later frames, project reopen, offline time metadata and malformed input.
+[libics axis documentation](https://svi-opensource.github.io/libics/Ics_Header.html)
+
+## External ICS2 payloads in 1.2.0
+
+`org.qupathxx.ics` 1.2.0 uses contract `ics-raw-gzip-channel-window/3`.
+An ICS2 header may explicitly name one regular sibling source and its byte
+offset. Raw reads take exactly the declared raster from that range. Gzip reads
+the one declared member from the offset through EOF. Both routes apply the
+existing calibration, channel, endian and display semantics. The project
+retains identities for the header and full companion file, including bytes
+outside a selected raw range.
+
+The pinned libics oracle recovers the original calibrated channel volume
+from both authored offset-24 examples. ICS 1.1.0 refused both. Scope
+and refusal rules are in the [profile guide](../../../plugins/ics/README.md).
+
+## Gzip channel volumes in 1.1.0
+
+`org.qupathxx.ics` 1.1.0 uses contract `ics-raw-gzip-channel-window/2`.
+A declared gzip member occupies the existing adjacent ICS1 `.ids` file
+or the existing ICS2 inline payload position. The decoder checks CRC32,
+ISIZE, exact compressed and decoded extents, and the combined input,
+decoded raster and codec-workspace budget. Byte permutation and the
+channel, calibration and display rules are shared with the raw path.
+The existing compound-source guards track the ICS1 header and IDS file.
+
+ICS 1.0.0 refused the authored gzip ICS1 and ICS2 baselines. The pinned
+libics 1.7.2 reader with gzip enabled reopens both with the same sample
+bytes as the raw control. All four candidate Z exports matched the
+reference channel-interleaved values byte for byte. The source kit includes
+the admitted original zlib 1.3.2 archive and license. Libics remains a
+development oracle.
+
+## Original raw-only handoff in 1.0.0
+
 `org.qupathxx.ics` version1.0.0, contract `ics-raw-channel-window/1`, delivers
 the selected uncompressed fluorescence file/file-set workflow. Its
 [profile/build/use guide](../../../plugins/ics/README.md) defines exact samples,

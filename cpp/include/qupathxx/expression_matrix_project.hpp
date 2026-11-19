@@ -18,6 +18,17 @@ struct ExpressionMatrixOpenRequest {
     std::shared_ptr<const ExpressionMatrixSource> open(std::size_t work_bytes=64u*1024*1024,
         const std::atomic<bool>* cancelled=nullptr) const;
 };
+struct IndexedMatrixAttachment {
+    std::string project_path;
+    ExpressionMatrixAssociation association;
+    std::string frame_sha256;
+};
+// Attach a completed QMX to a new project using its expected exact file hash.
+// The stored image frame must match the chosen project image. Original matrix
+// inputs are unnecessary. The input project remains a read-only template.
+IndexedMatrixAttachment attach_indexed_expression_matrix(const std::string& input_project,
+    std::uint64_t image,const std::string& qmx,const std::string& expected_file_sha256,
+    const std::string& new_project,const std::atomic<bool>* cancelled=nullptr);
 // Owner capture of locator/identity only; no matrix IO. The immutable request may
 // open on a worker without retaining any live Project or Document reference.
 ExpressionMatrixOpenRequest expression_matrix_open_request(const Project&,std::uint64_t image,const std::string& id);

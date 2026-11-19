@@ -4,6 +4,10 @@ For direct native `.qpdata` grid import, see the separate
 [saved-data TMA contract](qupath-saved-tma.md). This page describes QPTMA text
 exchange; its precision and representational limits remain unchanged.
 
+The project CLI protects the input project's SQLite journal, WAL and
+shared-memory paths when publishing an import or export, even before SQLite
+creates those files.
+
 This work targets direct grid exchange using QuPath 0.7.0 `.qptma` text files,
 through the native model, Python, standalone project commands and the ImGui TMA
 panel. The bounded native codec, protected file IO and atomic document import
@@ -130,6 +134,9 @@ The integration uses the same codec and commands as Python and
 `qupathxx_batch --import-qptma PROJECT GRID.qptma OUTPUT.qpxproj --image ID` /
 `--export-qptma PROJECT OUTPUT.qptma --image ID`. Project imports create a new
 project atomically; `Project.save_new` enforces snapshot/file limits and guards
-source continuity. The CLI opens sources without repairing hot rollback journals;
+source continuity. Both commands check the destination against saved image and
+NGFF label stores across the project, including unselected images and offline
+store locations. They also protect recorded companion paths. The CLI opens
+sources without repairing hot rollback journals;
 explicit normal project opening remains the recovery path. Dormant journal
 headers remain readable. Source hints in `.qptma` never select an image.
