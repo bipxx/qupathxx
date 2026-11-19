@@ -188,6 +188,9 @@ ExpressionMatrixSpatialSnapshot ExpressionMatrixSpatialSnapshot::capture(const D
 }
 const std::shared_ptr<const ExpressionMatrixSource>& ExpressionMatrixSpatialSnapshot::source()const{return data_->source;}
 const std::vector<ExpressionObservation>& ExpressionMatrixSpatialSnapshot::observations()const{return data_->observations;}
+const ExpressionObservation& ExpressionMatrixSpatialSnapshot::observation_in_source_order(std::size_t rank)const {
+    return data_->observations[data_->order.at(rank)];
+}
 const CoordinateFrame& ExpressionMatrixSpatialSnapshot::frame()const{return data_->frame;}
 CoordinateFrame ExpressionMatrixSpatialSnapshot::dataset_frame()const{auto frame=data_->frame;frame.source_id=data_->sha;return frame;}
 const std::string& ExpressionMatrixSpatialSnapshot::sha256()const{return data_->sha;}

@@ -437,8 +437,16 @@ int project_matrix_export(const std::vector<std::string>& args) {
     const bool positions=args[0]=="project-matrix-export-positions";
     const bool backup=args[0]=="project-matrix-backup";
     const bool market=args[0]=="project-matrix-export-mtx";
-    if(positions && args.size()!=5)
-        throw std::invalid_argument("project-matrix-export-positions requires INPUT_PROJECT IMAGE_ID ASSOCIATION_ID NEW_TSV");
+    const bool saved_frame=positions && args.size()>5;
+    qpx::ObjectPlane plane;
+    if(positions && (args.size()<5 || (saved_frame && (args.size()<7 || (args.size()-7)%2 ||
+        args[5]!="--frame-id" || args[6].empty()))))
+        throw std::invalid_argument("project-matrix-export-positions requires INPUT_PROJECT IMAGE_ID ASSOCIATION_ID NEW_TSV [--frame-id ID and optional plane]");
+    if(saved_frame) {
+        const auto selection=source_options(args,7,SourceOptionsFor::MatrixProject);
+        if(selection.format_options)throw std::invalid_argument("Position export accepts frame options only");
+        plane=selection.matrix_plane;
+    }
     if(backup && args.size()!=5)
         throw std::invalid_argument("project-matrix-backup requires INPUT_PROJECT IMAGE_ID ASSOCIATION_ID NEW_QMX");
     if(market && args.size()!=5)
@@ -446,7 +454,7 @@ int project_matrix_export(const std::vector<std::string>& args) {
     if(!positions && !backup && !market && (args.size()<7 || (args.size()-5)%2))
         throw std::invalid_argument("project-matrix-export-csv requires INPUT_PROJECT IMAGE_ID ASSOCIATION_ID NEW_CSV --feature ID [...]");
     std::vector<std::string> features;
-    for(std::size_t at=5;at<args.size();at+=2) {
+    for(std::size_t at=5;!positions && at<args.size();at+=2) {
         if(args[at]!="--feature")throw std::invalid_argument("Expected --feature ID");
         features.push_back(args[at+1]);
     }
@@ -460,8 +468,24 @@ int project_matrix_export(const std::vector<std::string>& args) {
         protect_project_output(input,*project,images,output);
     };
     std::size_t bytes;
+    std::optional<qpx::CoordinateFrame> position_frame;
     if(backup)bytes=backup_expression_matrix(*source,output,&cancelled,protect);
-    else if(positions)bytes=export_expression_matrix_positions(*source,output,&cancelled,protect);
+    else if(saved_frame) {
+        if(source->metadata().observations>qpx::SpatialPositionOptions{}.max_observations)
+            throw qpx::WorkflowCaptureLimit("Position TSV export exceeds 100000 observations");
+        const auto document=project->document(id);
+        const auto verified=project->source_verification(id);
+        const FormatImportImageGuard image(document->server(),&cancelled,verified.get());
+        const auto snapshot=qpx::ExpressionMatrixSpatialSnapshot::capture(*document,source,args[6],plane,
+            128u*1024*1024,&cancelled);
+        bytes=export_expression_matrix_positions(snapshot,output,&cancelled,[&]{
+            protect();image.protect(output);image.verify(&cancelled);
+        });
+        position_frame=snapshot.frame();
+    } else if(positions) {
+        bytes=export_expression_matrix_positions(*source,output,&cancelled,protect);
+        position_frame=source->metadata().spatial_frame;
+    }
     else if(market)bytes=export_expression_matrix_market(*source,output,&cancelled,protect);
     else bytes=export_expression_matrix_csv(*source,output,features,&cancelled,protect);
     const auto& metadata=source->metadata();
@@ -470,8 +494,9 @@ int project_matrix_export(const std::vector<std::string>& args) {
         {"output",output},{"bytes",bytes},{"observations",metadata.observations},
         {"matrix_file_sha256",source->file_sha256()}};
     if(positions) {
-        const auto& frame=*metadata.spatial_frame;
+        const auto& frame=*position_frame;
         report["frame_sha256"]=frame.sha256();
+        if(saved_frame)report["coordinate_frame"]=frame.id;
         report["plane"]={{"channel",frame.plane.c},{"z",frame.plane.z},{"time",frame.plane.t}};
     } else if(market) {
         report["features"]=metadata.features;
@@ -581,7 +606,7 @@ void help(){
         "       qupathxx_format_import [bootstrap options] project-matrices INPUT_PROJECT IMAGE_ID\n"
         "       qupathxx_format_import [bootstrap options] project-matrix-info INPUT_PROJECT IMAGE_ID ASSOCIATION_ID\n"
         "       qupathxx_format_import [bootstrap options] project-matrix-export-csv INPUT_PROJECT IMAGE_ID ASSOCIATION_ID NEW_CSV --feature ID [...]\n"
-        "       qupathxx_format_import [bootstrap options] project-matrix-export-positions INPUT_PROJECT IMAGE_ID ASSOCIATION_ID NEW_TSV\n"
+        "       qupathxx_format_import [bootstrap options] project-matrix-export-positions INPUT_PROJECT IMAGE_ID ASSOCIATION_ID NEW_TSV [--frame-id ID [--frame-channel N] [--frame-z N] [--frame-time N]]\n"
         "       qupathxx_format_import [bootstrap options] project-matrix-export-mtx INPUT_PROJECT IMAGE_ID ASSOCIATION_ID NEW_ZIP\n"
         "       qupathxx_format_import [bootstrap options] project-matrix-backup INPUT_PROJECT IMAGE_ID ASSOCIATION_ID NEW_QMX\n"
         "       qupathxx_format_import [bootstrap options] project-matrix-restore INPUT_PROJECT IMAGE_ID ASSOCIATION_ID BACKUP_QMX\n"

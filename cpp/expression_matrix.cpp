@@ -3,6 +3,7 @@
 #include "reader_file_guard.hpp"
 #include "stored_zip_write.hpp"
 #include "qupathxx/file_fingerprint.hpp"
+#include "qupathxx/expression_matrix_spatial.hpp"
 #include "qupathxx/spatial_counts.hpp"
 #include <algorithm>
 #include <charconv>
@@ -188,43 +189,67 @@ std::size_t detail::export_expression_matrix_csv(
     return file.bytes();
 }
 
+namespace {
+template<class Rows>
+std::size_t write_position_table(const ExpressionMatrixSource& source,const CoordinateFrame& frame,
+    const std::string& output,const std::atomic<bool>* cancelled,const std::function<void()>& protect_output,
+    Rows rows) {
+    if(!frame.image_level_zero || frame.unit!=CoordinateUnit::Pixel)
+        throw std::invalid_argument("Position TSV export requires a stored level-zero image pixel frame");
+    const SpatialPositionOptions limits;
+    if(source.metadata().observations>limits.max_observations)
+        throw WorkflowCaptureLimit("Position TSV export exceeds 100000 observations");
+    const auto destination=detail::export_path(output);
+    protect_matrix_output(source,destination,cancelled,protect_output);
+    if(std::filesystem::exists(std::filesystem::u8path(destination)))
+        throw WorkflowOutputExists("Position TSV destination already exists");
+    detail::AtomicExportFile file(destination,limits.file_bytes,cancelled);
+    const auto header=limits.columns[0]+"\t"+limits.columns[1]+"\t"+limits.columns[2]+"\n";
+    file.write(header.data(),header.size());
+    rows([&](const ExpressionObservation& observation) {
+        workflow_checkpoint(cancelled);
+        const auto& position=observation.position;
+        if(!std::isfinite(position.x) || !std::isfinite(position.y) || position.x<0 || position.y<0)
+            throw std::invalid_argument("Position TSV requires finite nonnegative pixel coordinates");
+        auto row=observation.id;
+        row.push_back('\t');
+        append_decimal(row,position.x);
+        row.push_back('\t');
+        append_decimal(row,position.y);
+        row.push_back('\n');
+        file.write(row.data(),row.size());
+    });
+    protect_matrix_output(source,destination,cancelled,protect_output);
+    file.commit(false);
+    return file.bytes();
+}
+}
+
 std::size_t detail::export_expression_matrix_positions(
     const ExpressionMatrixSource& source,const std::string& output,const std::atomic<bool>* cancelled,
     const std::function<void()>& protect_output) {
     const auto& metadata=source.metadata();
-    const auto& frame=metadata.spatial_frame;
-    if(!frame || !frame->image_level_zero || frame->unit!=CoordinateUnit::Pixel)
+    if(!metadata.spatial_frame)
         throw std::invalid_argument("Position TSV export requires a stored level-zero image pixel frame");
-    const SpatialPositionOptions limits;
-    if(metadata.observations>limits.max_observations)
-        throw WorkflowCaptureLimit("Position TSV export exceeds 100000 observations");
-    const auto destination=export_path(output);
-    protect_matrix_output(source,destination,cancelled,protect_output);
-    if(std::filesystem::exists(std::filesystem::u8path(destination)))
-        throw WorkflowOutputExists("Position TSV destination already exists");
-    AtomicExportFile file(destination,limits.file_bytes,cancelled);
-    const auto header=limits.columns[0]+"\t"+limits.columns[1]+"\t"+limits.columns[2]+"\n";
-    file.write(header.data(),header.size());
-    for(std::uint64_t start=0;start<metadata.observations;) {
-        const auto count=static_cast<std::size_t>(std::min<std::uint64_t>(128,metadata.observations-start));
-        const auto rows=source.spatial_page(start,count,64u*1024*1024,cancelled);
-        for(const auto& observation:rows) {
-            const auto& position=observation.position;
-            if(!std::isfinite(position.x) || !std::isfinite(position.y) || position.x<0 || position.y<0)
-                throw std::invalid_argument("Position TSV requires finite nonnegative pixel coordinates");
-            auto row=observation.id;
-            row.push_back('\t');
-            append_decimal(row,position.x);
-            row.push_back('\t');
-            append_decimal(row,position.y);
-            row.push_back('\n');
-            file.write(row.data(),row.size());
+    return write_position_table(source,*metadata.spatial_frame,output,cancelled,protect_output,[&](const auto& emit) {
+        for(std::uint64_t start=0;start<metadata.observations;) {
+            const auto count=static_cast<std::size_t>(std::min<std::uint64_t>(128,metadata.observations-start));
+            for(const auto& observation:source.spatial_page(start,count,64u*1024*1024,cancelled))emit(observation);
+            start+=count;
         }
-        start+=count;
-    }
-    protect_matrix_output(source,destination,cancelled,protect_output);
-    file.commit(false);
-    return file.bytes();
+    });
+}
+
+std::size_t detail::export_expression_matrix_positions(
+    const ExpressionMatrixSpatialSnapshot& snapshot,const std::string& output,const std::atomic<bool>* cancelled,
+    const std::function<void()>& protect_output) {
+    const auto& source=*snapshot.source();
+    const auto size=snapshot.observations().size();
+    if(size!=source.metadata().observations)
+        throw std::invalid_argument("Position TSV requires one backed point for every matrix observation");
+    return write_position_table(source,snapshot.frame(),output,cancelled,protect_output,[&](const auto& emit) {
+        for(std::size_t i=0;i<size;++i)emit(snapshot.observation_in_source_order(i));
+    });
 }
 
 std::size_t detail::export_expression_matrix_market(

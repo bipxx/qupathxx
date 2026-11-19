@@ -2,7 +2,9 @@
 #include "qupathxx/expression_matrix.hpp"
 #include <functional>
 
-namespace qpx::detail {
+namespace qpx {
+class ExpressionMatrixSpatialSnapshot;
+namespace detail {
 std::size_t backup_expression_matrix(
     const ExpressionMatrixSource&,const std::string& output,const std::atomic<bool>* cancelled,
     const std::function<void()>& protect_output);
@@ -13,7 +15,11 @@ std::size_t export_expression_matrix_csv(
 std::size_t export_expression_matrix_positions(
     const ExpressionMatrixSource&, const std::string& output, const std::atomic<bool>* cancelled,
     const std::function<void()>& protect_output);
+std::size_t export_expression_matrix_positions(
+    const ExpressionMatrixSpatialSnapshot&, const std::string& output, const std::atomic<bool>* cancelled,
+    const std::function<void()>& protect_output);
 std::size_t export_expression_matrix_market(
     const ExpressionMatrixSource&, const std::string& output, const std::atomic<bool>* cancelled,
     const std::function<void()>& protect_output);
+}
 }

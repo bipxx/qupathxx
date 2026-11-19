@@ -271,8 +271,21 @@ qupathxx_format_import project-matrix-import-positions INPUT_PROJECT IMAGE_ID QM
 
 The native backed importer joins observation IDs exactly and saves the points
 and an owned QMX in a new project. It takes level-zero pixel coordinates and
-accepts `--frame-z` and `--frame-time` for the original plane. Supply the saved
+accepts `--frame-channel`, `--frame-z` and `--frame-time` for the original plane. Supply the saved
 image's admitted `--reader-plugins` manifest when the project uses a plugin.
+
+Re-export the restored detections by passing the `coordinate_frame` from the
+import report and the restored project's association ID:
+
+```text
+qupathxx_format_import project-matrix-export-positions RESTORED_PROJECT IMAGE_ID ASSOCIATION_ID NEW_TSV --frame-id FRAME_ID
+```
+
+Supply the same plane options and admitted image reader as at import. The
+command verifies the saved image frame and writes the current point coordinates
+in matrix observation order. Every observation must have exactly one point in
+the selected frame. Without `--frame-id`, the command exports the coordinates
+stored in the matrix and can run with the image and reader offline.
 
 Restore a missing owned QMX from an exact backup:
 

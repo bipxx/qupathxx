@@ -6,6 +6,7 @@
 #include "qupathxx/project_recovery.hpp"
 #include "qupathxx/object_properties.hpp"
 #include "qupathxx/workflow.hpp"
+#include "../expression_matrix_export.hpp"
 #include <nlohmann/json.hpp>
 #include <chrono>
 #include <filesystem>
@@ -40,6 +41,12 @@ void exercise(const fs::path& root) {
     auto stable=reopen_expression_matrix(*direct,1,id);
     auto captured=ExpressionMatrixSpatialSnapshot::capture(*doc,stable,preview->image_frame().id);
     check(captured.dataset({0}).counts()==std::vector<std::uint64_t>{5,9007199254740993ull,0},"Owned imported project reopens without original matrix store");
+    const auto exported=root/"replayed.tsv";
+    int export_checks=0;
+    detail::export_expression_matrix_positions(captured,exported.u8string(),nullptr,[&]{++export_checks;});
+    check(export_checks==2,"Position export verifies the publication guard twice");
+    check(bytes(exported)=="observation_id\tx_px\ty_px\nX\t3\t4\nY\t5\t6\nZ\t1\t2\n",
+          "Backed position export follows the complete matrix axis, not object order");
     rejects<WorkflowOutputExists>([&]{publish_backed_spatial_import(*preview);});
     request.store=stable->path();request.base.output_project=(root/"rejected.qpx").u8string();
     auto bad=request;bad.expected_store_sha256=std::string(64,'a');rejects<WorkflowInputChanged>([&]{preview_backed_spatial_import(bad);});
@@ -80,6 +87,9 @@ void exercise(const fs::path& root) {
     const auto old_scope=ExpressionMatrixSpatialSnapshot::capture(*upgraded->document(1),reopen_expression_matrix(*upgraded,1,id),physical->image_frame().id);
     const auto new_scope=ExpressionMatrixSpatialSnapshot::capture(*upgraded->document(1),reopen_expression_matrix(*upgraded,1,id),next->image_frame().id);
     check(old_scope.observations().size()==2 && new_scope.observations().size()==2 && old_scope.observations()[0].position.x==3 && new_scope.observations()[0].position.x==3.25,"Overlapping barcodes in explicit coordinate scopes never merge");
+    const auto partial=root/"partial.tsv";
+    rejects<std::invalid_argument>([&]{detail::export_expression_matrix_positions(old_scope,partial.u8string(),nullptr,[]{});});
+    check(!fs::exists(partial),"A selected spatial frame with a partial cohort cannot publish a position catalogue");
     if(has_ome_zarr()) {
         const auto folder=root/"template",store=folder/".qpx-expression",destination=root/"external";
         fs::create_directories(store/"0");

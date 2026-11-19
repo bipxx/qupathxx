@@ -8,6 +8,25 @@ and [R2-R16 queue](api-delivery-plan.md#execution-order-for-finishing-the-remain
 own remaining scope. No100% QuPath, universal biological/speed/platform or
 Java/Groovy claim; NC/restricted/unknown required materials stay unadmitted.
 
+## Verified locally - re-export restored spatial positions
+
+`project-matrix-export-positions --frame-id` replays coordinates from saved
+backed point detections through the native frame and exact observation-ID
+join. The existing embedded-coordinate route remains available offline. The
+restored ENVI project exported the original TSV byte for byte with the input
+QMX and TSV offline. The CLI refused a wrong frame, wrong plane, existing output
+and unavailable plugin. Both native spatial suites passed, including matrix-axis
+order from shuffled input, complete-cohort refusal and publication guard checks.
+
+The first configure used an incompatible CMake version. The cache's recorded
+executable recovered it. Reused compiled objects after qualifying the shared
+writer's namespace, then rebuilt only the test after correcting its required
+guard callback. This source change has its own CLI receipt. The prior Windows
+handoff awaits hosted validation and no matching new package was staged here.
+
+[Native CLI receipt](../build/native-format-closeout/validation-packet/spatial-position-reexport/validation.json)
+[Backed spatial suite](../build/native-format-closeout/validation-packet/spatial-position-reexport/backed-spatial-final.log)
+
 ## Verified locally - Windows supplemental provider handoff check
 
 The candidate workflow fetches the ENVI and DICOM assets. Its runner validates

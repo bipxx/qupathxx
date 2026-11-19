@@ -25,6 +25,8 @@ public:
         ObjectPlane={},std::size_t work_bytes=64u*1024*1024,const std::atomic<bool>* cancelled=nullptr);
     const std::shared_ptr<const ExpressionMatrixSource>& source() const;
     const std::vector<ExpressionObservation>& observations() const;
+    // Indexed by rank among retained observations, in matrix-axis order.
+    const ExpressionObservation& observation_in_source_order(std::size_t rank) const;
     const CoordinateFrame& frame() const;
     // The derived expression lineage binds matrix, coordinates, units and cohort.
     // Use this frame with the projected dataset in existing registration services.
