@@ -26,6 +26,64 @@ def run(*args):
     return subprocess.run([str(CLI),*map(str,args)],capture_output=True,text=True,encoding='utf-8',timeout=40)
 
 
+def export_ome_xml(source, output):
+    importer = os.environ.get('QUPATHXX_TEST_FORMAT_IMPORT')
+    if not importer:
+        pytest.skip('native format import CLI path is required')
+    return subprocess.run([importer, 'ome-tiff-export-xml', str(source), str(output)],
+                          capture_output=True, encoding='utf-8', timeout=40)
+
+
+@pytest.mark.parametrize('bigtiff', [False, True])
+def test_export_embedded_ome_xml_preserves_source_text(tmp_path, bigtiff):
+    source, output = tmp_path / 'source.tif', tmp_path / 'metadata.xml'
+    xml = ('<?xml version="1.0" encoding="UTF-8"?>\n<!-- retained µm text -->\n'
+           '<OME xmlns="http://www.openmicroscopy.org/Schemas/OME/2016-06">'
+           '<Image ID="Image:0"><Pixels ID="Pixels:0" SizeX="3" SizeY="2" SizeC="1" SizeZ="1" SizeT="1" '
+           'Type="uint8" DimensionOrder="XYZCT"><Channel ID="Channel:0:0"/><TiffData/></Pixels>'
+           '<ROIRef ID="ROI:0"/></Image><ROI ID="ROI:0"><Union><Point ID="Shape:0" X="1" Y="1"/>'
+           '</Union></ROI></OME>').encode('utf-8')
+    # A non-top-left image with ROIRef has no raster import route. Metadata
+    # extraction must still preserve the source XML without opening its raster.
+    tifffile.imwrite(source, np.arange(6, dtype='u1').reshape(2, 3), description=xml,
+                     metadata=None, bigtiff=bigtiff, byteorder='>' if bigtiff else '<',
+                     extratags=[(274, 'H', 1, 6, False)])
+    original = source.read_bytes()
+    result = export_ome_xml(source, output)
+    assert result.returncode == 0, result.stderr
+    info = json.loads(result.stdout)
+    assert output.read_bytes() == xml
+    assert (info['bytes'], info['sha256']) == (len(xml), hashlib.sha256(xml).hexdigest())
+    result = export_ome_xml(source, output)
+    assert result.returncode == 2 and 'destination already exists' in result.stderr
+    result = export_ome_xml(source, source)
+    assert result.returncode == 2 and 'must not replace its input' in result.stderr
+    assert source.read_bytes() == original and output.read_bytes() == xml
+    assert not list(tmp_path.glob('*.qpx-tmp-*'))
+
+
+@pytest.mark.parametrize(('description', 'diagnostic'), [
+    ('ordinary TIFF', 'malformed OME XML'),
+    ('<OME><Image>', 'malformed OME XML'),
+    ('<!DOCTYPE OME><OME/>', 'declarations/entities'),
+])
+def test_export_embedded_ome_xml_refuses_invalid_text(tmp_path, description, diagnostic):
+    source, output = tmp_path / 'source.tif', tmp_path / 'refused.xml'
+    tifffile.imwrite(source, np.ones((2, 3), dtype='u1'), description=description, metadata=None)
+    result = export_ome_xml(source, output)
+    assert result.returncode == 2 and diagnostic in result.stderr
+    assert not output.exists()
+
+
+def test_export_embedded_ome_binaryonly_preserves_reference(tmp_path):
+    source, output = tmp_path / 'binary-only.tif', tmp_path / 'reference.xml'
+    xml = ('<OME UUID="urn:source"><BinaryOnly MetadataFile="offline.ome.xml" UUID="urn:master"/></OME>').encode()
+    tifffile.imwrite(source, np.ones((2, 3), dtype='u1'), description=xml, metadata=None)
+    result = export_ome_xml(source, output)
+    assert result.returncode == 0, result.stderr
+    assert output.read_bytes() == xml
+
+
 @pytest.mark.parametrize('orientation', range(1, 9))
 def test_plain_tiff_orientation_preserves_blocks_pixels_and_calibration(tmp_path, orientation):
     source = tmp_path / 'oriented.tif'

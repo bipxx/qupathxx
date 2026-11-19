@@ -29,6 +29,7 @@
 #include "reader_file_guard.hpp"
 #include "spatial_output_guard.hpp"
 #include "sha256.hpp"
+#include "tiff_metadata_export.hpp"
 #include <nlohmann/json.hpp>
 #include <array>
 #include <charconv>
@@ -601,6 +602,7 @@ void help(){
         "       qupathxx_format_import [bootstrap options] project-create IMAGE NEW_PROJECT [--reader ID] [--series N] [--reader-options JSON]\n"
         "       qupathxx_format_import [bootstrap options] project-add-image INPUT_PROJECT IMAGE NEW_PROJECT [--reader ID] [--series N] [--reader-options JSON]\n"
         "       qupathxx_format_import [bootstrap options] project-images INPUT_PROJECT\n"
+        "       qupathxx_format_import ome-tiff-export-xml TIFF NEW_XML\n"
         "       qupathxx_format_import [bootstrap options] project-set-view INPUT_PROJECT IMAGE_ID NEW_PROJECT [--z N] [--time N]\n"
         "           [--display-channels R,G,B] [--display-lower R,G,B] [--display-upper R,G,B]\n"
         "       qupathxx_format_import [bootstrap options] project-review-source INPUT_PROJECT IMAGE_ID PRIMARY_FILE [--directory ROOT]\n"
@@ -674,6 +676,14 @@ int execute(std::vector<std::string> args){
         if(args[0]=="geojson-import" || args[0]=="geojson-export" || args[0]=="measurements-export")
             return project_objects_command(args);
         if(args[0]=="project-images")return project_images(args,!reader_manifests.empty());
+        if(args[0]=="ome-tiff-export-xml") {
+            if(args.size()!=3)throw std::invalid_argument("ome-tiff-export-xml requires TIFF NEW_XML");
+            const auto result=qpx::detail::export_ome_tiff_xml(args[1],args[2],&cancelled);
+            std::cout<<json{{"schema","qpx.format-import-cli/1"},{"state","exported"},{"command",args[0]},
+                {"source",qpx::detail::export_path(args[1])},{"output",result.path},
+                {"bytes",result.bytes},{"sha256",result.sha256}}.dump()<<'\n';
+            return 0;
+        }
         if(args[0]=="project-matrices" || args[0]=="project-matrix-info")return project_matrices(args);
         if(args[0]=="matrix-market-index" || args[0]=="matrix-market-index-zip")return matrix_market_index(args);
         if(args[0]=="project-matrix-import-positions")return project_matrix_import_positions(args);

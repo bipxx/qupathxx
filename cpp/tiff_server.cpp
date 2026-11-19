@@ -5,6 +5,9 @@
 #include "utf8_text.hpp"
 #include "decimal_quantity.hpp"
 #include "filesystem_access.hpp"
+#include "sha256.hpp"
+#include "tiff_metadata_export.hpp"
+#include "qupathxx/workflow.hpp"
 #include <algorithm>
 #include <array>
 #include <charconv>
@@ -41,6 +44,9 @@ std::string tiff_library_version() {
 }
 #ifndef QUPATHXX_HAS_TIFF
 std::shared_ptr<ImageServer> open_tiff(const std::string&,TiffOpenOptions,const std::atomic<bool>*) {throw std::runtime_error("TIFF reader requires QUPATHXX_BUILD_TIFF=ON");}
+detail::OmeTiffXmlExport detail::export_ome_tiff_xml(const std::string&,const std::string&,const std::atomic<bool>*) {
+    throw std::runtime_error("OME-TIFF XML export requires QUPATHXX_BUILD_TIFF=ON");
+}
 #else
 namespace {
 namespace fs=std::filesystem;
@@ -355,11 +361,16 @@ class TiffData final {
             for(std::uint32_t i=0;i<files_.size();++i) if(i!=ordinal && !entry.uuid.empty() && files_[i]->uuid==entry.uuid) throw std::invalid_argument("duplicate OME UUID across files");
         }
     }
+    std::string embedded_xml() const {
+        char* description=nullptr;
+        TIFFGetField(handle_,TIFFTAG_IMAGEDESCRIPTION,&description);
+        return bounded(description,1024*1024);
+    }
     std::uint32_t load_file(const std::string& path) {
         const auto ordinal=observe_file(path);auto& entry=*files_[ordinal];
         if(entry.metadata_only) throw std::invalid_argument("OME TiffData references an XML metadata file");
         if(entry.count) return ordinal;activate(ordinal);
-        char* description=nullptr;TIFFGetField(handle_,TIFFTAG_IMAGEDESCRIPTION,&description);set_xml(ordinal,bounded(description,1024*1024));
+        set_xml(ordinal,embedded_xml());
         entry.first=std::uint32_t(roots_.size());std::set<std::uint64_t> offsets;
         do {detail::export_checkpoint(opening_cancel_);if(roots_.size()>=65536 || !offsets.insert(TIFFCurrentDirOffset(handle_)).second) throw std::length_error("TIFF primary directory count/cycle limit exceeded");auto directory=inspect();catalog_entries_+=1+directory.sub.size();if(catalog_entries_>131072) throw std::length_error("TIFF directory catalog exceeds limit");roots_.push_back(std::move(directory));error_[0]=0;}while(TIFFReadDirectory(handle_));
         if(error_[0]) failed("cannot index TIFF directories");entry.count=std::uint32_t(roots_.size())-entry.first;return ordinal;
@@ -658,9 +669,14 @@ class TiffData final {
         if(root.packed_gray()) return {0.,double((1u<<root.bits)-1)};
         return range(raw_->sample_type);
     }
-public:
-    TiffData(const std::string& path,TiffOpenOptions options,const std::atomic<bool>* cancelled):path_(fs::absolute(fs::u8path(path)).lexically_normal().u8string()),options_(std::move(options)),opening_cancel_(cancelled) {
+    struct OpenInput {};
+    TiffData(const std::string& path,TiffOpenOptions options,const std::atomic<bool>* cancelled,OpenInput)
+        :path_(detail::export_path(path)),options_(std::move(options)),opening_cancel_(cancelled) {
         detail::export_checkpoint(cancelled);options_.validate();
+    }
+public:
+    TiffData(const std::string& path,TiffOpenOptions options,const std::atomic<bool>* cancelled)
+        :TiffData(path,std::move(options),cancelled,OpenInput{}) {
         try {
             load_file(path_);index(resolve_metadata(0));levels();view_=std::make_shared<TiffView>(options_.view);
             if(view_->z>=raw_->z_planes || view_->t>=raw_->timepoints) throw std::out_of_range("TIFF display Z/time index is outside the image");
@@ -675,6 +691,28 @@ public:
         }catch(...) {if(handle_) TIFFClose(handle_);handle_=nullptr;throw;}
     }
     ~TiffData() {if(handle_) TIFFClose(handle_);}
+    static detail::OmeTiffXmlExport export_xml(const std::string& input,const std::string& output,
+                                             const std::atomic<bool>* cancelled) {
+        TiffData data(input,{},cancelled,OpenInput{});
+        const auto ordinal=data.observe_file(data.path_);
+        const auto& file=*data.files_[ordinal];
+        const auto destination=detail::export_path(output);
+        detail::guard_file_output(file.path,file.version->identity,destination);
+        if(fs::exists(fs::symlink_status(fs::u8path(destination))))throw WorkflowOutputExists("OME XML destination already exists");
+        data.activate(ordinal);
+        const auto xml=data.embedded_xml();
+        detail::bounded_utf8(xml,1024*1024);
+        tinyxml2::XMLDocument parsed;
+        parse_ome(xml,parsed);
+        detail::AtomicExportFile target(destination,1024*1024,cancelled);
+        target.write(xml.data(),xml.size());
+        Sha256 digest;digest.update(xml.data(),xml.size());
+        auto result=detail::OmeTiffXmlExport{destination,xml.size(),digest.finish()};
+        file.opening_guard->verify();
+        detail::guard_file_output(file.path,file.version->identity,destination);
+        target.commit(false);
+        return result;
+    }
     TiffView resolve_view(TiffView view,const std::atomic<bool>* cancelled) const {
         detail::export_checkpoint(cancelled);view.validate();if(view.series!=raw_->series || view.z>=raw_->z_planes || view.t>=raw_->timepoints) throw std::out_of_range("TIFF display selection is outside this series");
         auto guards=guard_files(cancelled);
@@ -773,6 +811,10 @@ public:
 }
 std::shared_ptr<ImageServer> open_tiff(const std::string& path,TiffOpenOptions options,const std::atomic<bool>* cancelled) {
     auto data=std::make_shared<TiffData>(path,std::move(options),cancelled);return std::make_shared<TiffServer>(data,*data->tiff_view(),cancelled);
+}
+detail::OmeTiffXmlExport detail::export_ome_tiff_xml(const std::string& input,const std::string& output,
+                                                   const std::atomic<bool>* cancelled) {
+    return TiffData::export_xml(input,output,cancelled);
 }
 #endif
 }

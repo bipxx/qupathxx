@@ -8,6 +8,25 @@ and [R2-R16 queue](api-delivery-plan.md#execution-order-for-finishing-the-remain
 own remaining scope. No100% QuPath, universal biological/speed/platform or
 Java/Groovy claim; NC/restricted/unknown required materials stay unadmitted.
 
+## Verified locally - export embedded OME-TIFF XML
+
+`ome-tiff-export-xml` preserves the bounded first-IFD OME XML text and reports
+its SHA-256. It reuses the TIFF reader and new-only output protection. The
+export works even when oriented ROI geometry prevents opening the raster.
+It preserves `BinaryOnly` references in the exported document.
+
+All 89 TIFF CLI checks and the native region suite passed. They covered exact
+Classic TIFF and BigTIFF text, malformed metadata, and output collisions. The
+admitted OME ROI 1.3.0 package imported an extracted point into its matching
+native image and reopened it at the same coordinates. The first module lookup
+found an intermediate DLL. The installed test used the admitted package hash.
+After adding the header's license identifier, a cached relink passed the six
+targeted CLI checks and the complete ROI handoff again. The existing Windows
+handoff predates this route.
+
+[TIFF CLI checks](../build/native-format-closeout/validation-packet/ome-xml-export/tiff-cli.log)
+[Exact ROI handoff](../build/native-format-closeout/validation-packet/ome-xml-export/workflow-final.json)
+
 ## Verified locally - Windows OME-TIFF raster handoff
 
 The seven archives match compiled source

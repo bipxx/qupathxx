@@ -458,6 +458,19 @@ and structured annotations reuse native geometry and import/persistence services
 unsupported masks/transforms fail explicitly. Exact Expat MIT/CC0 source and OME
 CC-BY-4.0 schema terms remain separate in the [A04 receipt](benchmarks/ome-roi/README.md).
 
+Extract the first TIFF directory's embedded OME XML for the standalone ROI
+workflow:
+
+```text
+qupathxx_format_import ome-tiff-export-xml SAMPLE.ome.tif NEW_METADATA.xml
+```
+
+The native command validates up to 1 MiB of OME XML and preserves its text
+bytes. The report includes the exported byte count and SHA-256. `BinaryOnly`
+references are preserved as written. The command reads metadata without
+opening the pixel pyramid or resolving external files. Use the admitted OME
+ROI provider and an explicitly matching image frame to import the shapes.
+
 The [ASAP XML profile](../plugins/asap_xml/README.md) adds an independent ABI3
 module over the same frozen native host and shared bounded XML/QOX2 parser.
 Its source coordinates follow upstream binary32 interpretation, complete Order
