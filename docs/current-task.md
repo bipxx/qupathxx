@@ -8,6 +8,25 @@ and [R2-R16 queue](api-delivery-plan.md#execution-order-for-finishing-the-remain
 own remaining scope. No100% QuPath, universal biological/speed/platform or
 Java/Groovy claim; NC/restricted/unknown required materials stay unadmitted.
 
+## Verified locally - normalize coherent OME-TIFF rasters
+
+The reader now accepts coherent OME-TIFF orientations through the existing
+TIFF raster decoder. OME XY dimensions and pitch describe the stored raster
+axes. Normalization swaps dimensions and pitch together where needed and
+preserves the C/Z/T plane map. Non-top-left images with referenced OME ROIs,
+mixed orientations, and incompatible stored geometry refuse.
+
+All 77 TIFF CLI checks and the native region export suite passed. The new
+cases covered all eight orientations, anisotropic calibration, exact C/Z
+samples, compound SubIFD replay through either file, and byte-identical raw
+project replay. The fixture library emitted existing NumPy deprecation
+warnings. One cached build reused LibTIFF with no retries. The staged native
+handoff predates this reader change.
+
+[Retained baseline refusal](../build/native-format-closeout/validation-packet/ome-raster-orientation/baseline.log)
+[TIFF CLI suite](../build/native-format-closeout/validation-packet/ome-raster-orientation/tiff-cli.log)
+[Native region export suite](../build/native-format-closeout/validation-packet/ome-raster-orientation/region-native.log)
+
 ## Verified locally - Windows spatial restore correctness handoff
 
 The seven archives match compiled source
@@ -918,8 +937,9 @@ next demonstrated workflow gap.
 The retained reader refused a valid right-top UInt16 raster. Plain TIFF now
 maps all eight orientations into top-left raw and display coordinates while
 reading only intersecting stored blocks. Dimensions and pitch follow swapped
-axes. SubIFDs use one coherent orientation. The OME reader still requires
-top-left pending an explicit orientation contract for OME-XML geometry.
+axes. SubIFDs use one coherent orientation. The OME reader retained its
+top-left restriction at this checkpoint. The later coherent raster profile
+records the separate OME-XML geometry boundary above.
 
 Forty-six TIFF CLI checks, six compound regressions and the native region
 suite passed. Independent fixtures verified exact pixels, padded crops,

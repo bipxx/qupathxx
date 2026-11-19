@@ -109,15 +109,93 @@ def test_plain_tiff_oriented_pyramid_requires_one_frame(tmp_path, matching_orien
         assert not target.exists()
 
 
-def test_ome_tiff_rejects_ambiguous_xml_orientation_frame(tmp_path):
+@pytest.mark.parametrize('orientation', range(1, 9))
+def test_ome_tiff_normalizes_coherent_orientation_and_calibration(tmp_path, orientation):
     source = tmp_path / 'rotated.ome.tif'
-    pixels = np.arange(3 * 5 * 7, dtype=np.uint16).reshape(3, 5, 7)
-    tifffile.imwrite(source, pixels, ome=True, photometric='minisblack', metadata={'axes': 'ZYX'},
-                     extratags=[(274, 'H', 1, 6, False)])
+    pixels = (np.arange(2 * 2 * 5 * 7, dtype=np.uint16) * 17).reshape(2, 2, 5, 7)
+    tifffile.imwrite(source, pixels, ome=True, photometric='minisblack',
+                     metadata={'axes': 'ZCYX', 'PhysicalSizeX': 2.0, 'PhysicalSizeY': 5.0, 'PhysicalSizeZ': 3.0},
+                     extratags=[(274, 'H', 1, orientation, False)], rowsperstrip=2)
+    before = source.read_bytes()
+    plane = np.moveaxis(pixels[1], 0, -1)
+    transposed = plane.swapaxes(0, 1)
+    expected = (plane, plane[:, ::-1], plane[::-1, ::-1], plane[::-1], transposed,
+                np.rot90(plane, -1), transposed[::-1, ::-1], np.rot90(plane, 1))[orientation - 1]
+    bundle, output = tmp_path / 'channel-stack.zip', tmp_path / 'stack.npy'
+    result = run('--raw', source, bundle, '--z', 1, '--channels', 2, '--bundle')
+    assert result.returncode == 0, result.stderr
+    result = run('--extract-raw-bundle', bundle, output)
+    assert result.returncode == 0, result.stderr
+    np.testing.assert_array_equal(np.load(output), expected)
+    calibration = json.loads(result.stdout)['calibration']
+    assert (calibration['base_pixel_width_um'], calibration['base_pixel_height_um']) == (
+        (5, 2) if orientation >= 5 else (2, 5))
+    assert calibration['z_spacing_um'] == 3
+    if orientation == 6 and os.environ.get('QUPATHXX_TEST_FORMAT_IMPORT'):
+        project = tmp_path / 'rotated.qpx'
+        created = subprocess.run([os.environ['QUPATHXX_TEST_FORMAT_IMPORT'], 'project-create', source,
+                                  project, '--reader', 'tiff'], capture_output=True, encoding='utf-8', timeout=40)
+        assert created.returncode == 0, created.stderr
+        info = json.loads(created.stdout)
+        assert (info['height'], info['width']) == expected.shape[:2]
+        saved = project.read_bytes()
+        replay = tmp_path / 'saved.npy'
+        result = run('--raw-project', project, 1, replay, '--z', 1, '--channels', 2)
+        assert result.returncode == 0, result.stderr
+        assert replay.read_bytes() == output.read_bytes() and project.read_bytes() == saved
+    assert source.read_bytes() == before
+
+
+@pytest.mark.parametrize(('case', 'diagnostic'), [
+    ('mixed', 'plane orientations differ'),
+    ('roi', 'referenced ROI geometry'),
+    ('swapped-xml', 'plane geometry/type/pyramid differs'),
+])
+def test_oriented_ome_tiff_refuses_incompatible_geometry(tmp_path, case, diagnostic):
+    source = tmp_path / 'invalid.ome.tif'
+    width, height = (5, 7) if case == 'swapped-xml' else (7, 5)
+    roi_ref = '<ROIRef ID="ROI:0"/>' if case == 'roi' else ''
+    roi = '<ROI ID="ROI:0"><Union><Point ID="Shape:0" X="1" Y="2"/></Union></ROI>' if roi_ref else ''
+    xml = (f'<OME xmlns="http://www.openmicroscopy.org/Schemas/OME/2016-06"><Image ID="Image:0">'
+           f'<Pixels ID="Pixels:0" SizeX="{width}" SizeY="{height}" SizeZ="2" SizeC="1" SizeT="1" '
+           'DimensionOrder="XYZCT" Type="uint16"><Channel ID="Channel:0:0" SamplesPerPixel="1"/>'
+           f'<TiffData/></Pixels>{roi_ref}</Image>{roi}</OME>')
+    pixels = np.arange(35, dtype=np.uint16).reshape(5, 7)
+    with tifffile.TiffWriter(source) as writer:
+        writer.write(pixels, description=xml, metadata=None, extratags=[(274, 'H', 1, 6, False)])
+        writer.write(pixels + 100, metadata=None, extratags=[(274, 'H', 1, 8 if case == 'mixed' else 6, False)])
     output = tmp_path / 'never.npy'
     result = run('--raw', source, output)
-    assert result.returncode == 2 and 'OME-TIFF requires top-left' in result.stderr
+    assert result.returncode == 2 and diagnostic in result.stderr
     assert not output.exists()
+
+
+@pytest.mark.parametrize('roi_reference', [False, True])
+def test_oriented_ome_compound_pyramid_shares_one_frame(tmp_path, roi_reference):
+    paths = [tmp_path / f'channel-{c}.ome.tif' for c in range(2)]
+    mapping = ''.join(f'<TiffData IFD="0" FirstC="{c}"><UUID FileName="{path.name}">urn:qpx-{c}</UUID></TiffData>'
+                      for c, path in enumerate(paths))
+    pixels = np.arange(19 * 23, dtype=np.uint16).reshape(19, 23)
+    for c, path in enumerate(paths):
+        roi = '<ROIRef ID="ROI:0"/>' if c and roi_reference else ''
+        definition = '<ROI ID="ROI:0"><Union><Point ID="Shape:0" X="1" Y="2"/></Union></ROI>' if roi else ''
+        xml = (f'<OME UUID="urn:qpx-{c}"><Image><Pixels SizeX="23" SizeY="19" SizeZ="1" SizeC="2" SizeT="1" '
+               'DimensionOrder="XYZCT" Type="uint16" PhysicalSizeX="2" PhysicalSizeY="5">'
+               f'<Channel/><Channel/>{mapping}</Pixels>{roi}</Image>{definition}</OME>')
+        plane = pixels + c * 1000
+        with tifffile.TiffWriter(path) as writer:
+            writer.write(plane, description=xml, metadata=None, subifds=1, extratags=[(274, 'H', 1, 6, False)])
+            writer.write(plane[::2, ::2], subfiletype=1, metadata=None, extratags=[(274, 'H', 1, 6, False)])
+    expected = np.stack([np.rot90((pixels + c * 1000)[::2, ::2], -1) for c in range(2)], axis=-1)
+    for c, path in enumerate(paths):
+        output = tmp_path / f'pyramid-{c}.npy'
+        result = run('--raw', path, output, '--channels', 2, '--level', 1)
+        if roi_reference:
+            assert result.returncode == 2 and 'referenced ROI geometry' in result.stderr
+            assert not output.exists()
+        else:
+            assert result.returncode == 0, result.stderr
+            np.testing.assert_array_equal(np.load(output), expected)
 
 
 @pytest.mark.parametrize('dtype', ['uint8', 'uint16'])

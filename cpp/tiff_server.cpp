@@ -246,6 +246,7 @@ class TiffData final {
     std::vector<std::unique_ptr<File>> files_;std::uint32_t active_file_=UINT32_MAX;
     std::size_t xml_bytes_=0,catalog_entries_=0;
     std::vector<Ifd> roots_;std::vector<Mapping> mapping_;
+    bool ome_has_roi_references_=false;
     std::shared_ptr<RawImageMetadata> raw_=std::make_shared<RawImageMetadata>();
     std::shared_ptr<TiffView> view_;ImageMetadata display_;
     std::shared_ptr<const TiffOpenOptions> option_snapshot_;
@@ -421,6 +422,7 @@ class TiffData final {
         const tinyxml2::XMLElement* selected=nullptr;std::uint32_t count=0;
         for(auto* e=document.RootElement()->FirstChildElement();e;e=e->NextSiblingElement()) if(local(e,"Image")) {if(count==raw_->series) selected=e;if(++count>1024) throw std::length_error("OME series count exceeds 1024");}
         const auto* pixels=child(selected,"Pixels");if(count!=raw_->series_count || !pixels || signature(pixels)!=signature(primary)) throw std::invalid_argument("OME companion series metadata differs");
+        ome_has_roi_references_|=child(selected,"ROIRef")!=nullptr;
         if(calibration.z_spacing_um &&
            regular_plane_step(*pixels,*raw_,groups,PlaneAxis::Z,opening_cancel_)!=calibration.z_spacing_um)
             calibration.z_spacing_um.reset();
@@ -467,6 +469,8 @@ class TiffData final {
         const tinyxml2::XMLElement* image=nullptr;std::uint32_t count=0;
         for(auto* e=root->FirstChildElement();e;e=e->NextSiblingElement()) if(local(e,"Image")) {if(count==raw_->series) image=e;if(++count>1024) throw std::length_error("OME series count exceeds 1024");}
         if(!image) throw std::out_of_range("OME series index is outside the file");raw_->series_count=count;const auto* p=child(image,"Pixels");if(!p) throw std::invalid_argument("OME Image has no Pixels");
+        ome_has_roi_references_=child(image,"ROIRef")!=nullptr;
+        // Validate OME XY metadata in the stored raster axes before normalization.
         raw_->width=integer(p,"SizeX");raw_->height=integer(p,"SizeY");raw_->channels=integer(p,"SizeC");raw_->z_planes=integer(p,"SizeZ");raw_->timepoints=integer(p,"SizeT");
         if(!raw_->width || !raw_->height || !raw_->channels || raw_->channels>65536 || !raw_->z_planes || raw_->z_planes>65536 || !raw_->timepoints || raw_->timepoints>65536 ||
           std::uint64_t(raw_->channels)*raw_->z_planes*raw_->timepoints>1048576) throw std::length_error("OME channel/plane map exceeds limits");
@@ -525,9 +529,12 @@ class TiffData final {
     }
     void levels() {
         std::set<std::uint32_t> selected;for(auto m:mapping_) selected.insert(m.ifd);std::size_t count=roots_.size();
+        const auto orientation=roots_[mapping_.front().ifd].orientation;
+        if(ome_has_roi_references_ && orientation!=ORIENTATION_TOPLEFT)
+            throw std::invalid_argument("Non-top-left OME-TIFF with referenced ROI geometry is unsupported");
         for(auto index:selected) {auto& root=roots_[index];root.validate();
-            if(raw_->dimension_order!="XYC" && root.orientation!=ORIENTATION_TOPLEFT)
-                throw std::invalid_argument("OME-TIFF requires top-left raster orientation");
+            if(root.orientation!=orientation)
+                throw std::invalid_argument("OME-TIFF plane orientations differ");
             if(raw_->dimension_order!="XYC" && root.packed_gray())
                 throw std::invalid_argument("Packed grayscale OME-TIFF is outside the native pixel type profile");
             validate_color_map(root);
