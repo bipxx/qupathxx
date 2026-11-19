@@ -39,6 +39,10 @@ with `tools/ci` on the import path passed without rebuilding. Remote main at
 the workflow and checker, point the draft release tag at packaged source commit
 `2ae4df1a`, and dispatch `ci.yml` on updated main with the tag and receipt digest.
 
+The live format catalogue now points to the saved export commands and records
+continuous exchange, ZIP32 descriptors and separate position restore. Only the
+documentation changed. Link and diff checks suffice for this correction.
+
 ## Verified locally - round-trip continuous sparse Matrix Market values
 
 Explicit `--real` import and export share the native Matrix Market reader,

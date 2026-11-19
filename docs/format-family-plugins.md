@@ -210,6 +210,8 @@ dimensions. It reports the value domain, saved frame and available import
 receipt. Inspection needs the QMX file. Both commands work without the original
 matrix inputs, format plugin or image pixels.
 
+### Saved matrix exports
+
 Export selected features from an associated QMX in the requested column order:
 
 ```text
