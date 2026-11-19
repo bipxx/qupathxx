@@ -49,6 +49,11 @@ passed the installed SDK, CLI and ENVI raw checks, then failed because the
 hosted runner could not create an OpenGL window. The retry uses existing
 hash-pinned test-only Mesa and the same draft assets. The decisive check is
 the full hosted install, desktop and CLI replay, and manifest removal.
+Run [44574552905](https://github.com/bipxx/qupathxx/actions/runs/44574552905)
+passed every process and scientific assertion. The added exact package
+inventory check ran after the verifier wrote its research-notes sentinel into
+the install prefix. The retry checks the package before adding that protected
+user file, then tests its survival during removal.
 
 ## Verified locally - round-trip continuous sparse Matrix Market values
 

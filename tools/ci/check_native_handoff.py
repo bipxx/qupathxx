@@ -859,16 +859,16 @@ def main():
     bigtiff = check_bigtiff_routes(run, build/'Release/native_tiff_route_probe.exe', user/'OME BigTIFF') if 'ome_bigtiff_routes' in checks else None
     run('gui-project-open',[native/'qupathxx_app.exe','--project',project,'--layout',user/'preferences.ini','--smoke'])
     if sha(project)!=before_project:raise ValueError('Read-only GUI/CLI changed saved project')
-    sentinel=native/'user scratch/research-notes.txt';sentinel.parent.mkdir()
-    sentinel.write_text('Authored research notes must survive package removal.\n',encoding='utf8')
-    protected={str(p):sha(p) for p in user.rglob('*') if p.is_file()}
-    protected[str(sentinel)]=sha(sentinel)
     for target, digest in test_driver.items():
         if sha(target) != digest:
             raise ValueError('Test-only graphics driver changed during use')
         target.unlink()
     if {str(p):sha(p) for p in (work/'installed').rglob('*') if p.is_file()} != installed:
         raise ValueError('Installed package changed during use')
+    sentinel=native/'user scratch/research-notes.txt';sentinel.parent.mkdir()
+    sentinel.write_text('Authored research notes must survive package removal.\n',encoding='utf8')
+    protected={str(p):sha(p) for p in user.rglob('*') if p.is_file()}
+    protected[str(sentinel)]=sha(sentinel)
     receipt={'state':'install_and_use_passed','scope':'Windows fresh per-user prefix; native only; no engine build',
         'source_sha256':source_id,'os':platform.platform(),'work':str(work),'native':str(native),'sdk':str(sdk),
         'installed_files':installed,'protected_user_files':protected,'consumer':result,
