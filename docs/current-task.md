@@ -8,6 +8,24 @@ and [R2-R16 queue](api-delivery-plan.md#execution-order-for-finishing-the-remain
 own remaining scope. No100% QuPath, universal biological/speed/platform or
 Java/Groovy claim; NC/restricted/unknown required materials stay unadmitted.
 
+## Verified locally - re-index Matrix Market from the native CLI
+
+`matrix-market-index` uses the shared native Matrix Market importer with
+explicit QPX or Tenx catalogues. A saved project exported to ZIP and re-indexed
+through the CLI with identical ordered features, barcodes and UInt64 counts.
+The result reopened with the reported QMX digest and source identity. The CLI
+refused the wrong catalogue, duplicate coordinates and existing destinations.
+
+The former SDK import published a QMX alongside a pre-existing destination WAL.
+The shared importer now checks database companions before staging and before
+publication. The CLI refused the same case, preserved the sentinel WAL and
+wrote no QMX. One cached build was enough. The native project suite and all
+21 round-trip CLI checks passed. Coordinates can be supplied separately in
+the existing spatial import workflow.
+
+[CLI round-trip receipt](../build/native-format-closeout/validation-packet/matrix-market-index/cli/validation.json)
+[Native test suite](../build/native-format-closeout/validation-packet/matrix-market-index/native.log)
+
 ## Verified locally - saved sparse Matrix Market export
 
 `project-matrix-export-mtx` writes a new ZIP with all sparse count entries,

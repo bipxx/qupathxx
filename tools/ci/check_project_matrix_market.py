@@ -132,19 +132,63 @@ def main():
         assert "counts" in refusal["error"].lower(), refusal
         assert not destination.exists()
 
+    with ZipFile(archive) as source:
+        for name in ("matrix.mtx", "features.tsv", "barcodes.tsv"):
+            (args.output / name).write_bytes(source.read(name))
+    imported = args.output / "reimported.qmx"
     if args.reimport:
-        with ZipFile(archive) as source:
-            for name in ("matrix.mtx", "features.tsv", "barcodes.tsv"):
-                (args.output / name).write_bytes(source.read(name))
-        imported = args.output / "reimported.qmx"
         result = subprocess.run(
             [args.reimport, "matrix.mtx", "features.tsv", "barcodes.tsv", imported],
             env=env, cwd=args.output, capture_output=True, encoding="utf-8", timeout=120)
         assert result.returncode == 0, (result.stdout, result.stderr)
-        assert stored_rows(imported) == expected
         checks["native-reimport"] = {"file_sha256": sha(imported)}
+    else:
+        index = ("matrix-market-index", "matrix.mtx", "features.tsv", "barcodes.tsv")
+        receipt = run("native-reimport", *index, imported, "--catalogue", "tenx")
+        assert receipt["state"] == "indexed" and receipt["file_sha256"] == sha(imported)
+        assert receipt["input_profile"] == "tenx-tsv" and receipt["domain"] == "counts"
+        reopened = run("reopened-index", "matrix-info", imported)
+        assert all(receipt[key] == reopened[key] for key in
+                   ("source_sha256", "file_sha256", "features", "observations", "entries", "input_profile"))
+
+        destination = args.output / "refused.qmx"
+        run("missing-catalogue", *index, destination, status=2)
+        run("unknown-catalogue", *index, destination, "--catalogue", "auto", status=2)
+        run("wrong-catalogue", *index, destination, "--catalogue", "qpx", status=2)
+        assert not destination.exists()
+        old_digest = sha(imported)
+        run("index-existing-destination", *index, imported, "--catalogue", "tenx", status=2)
+        assert sha(imported) == old_digest
+
+        wal = destination.with_name(destination.name + "-wal")
+        wal.write_bytes(b"Reserved SQLite companion")
+        refusal = run("index-existing-companion", *index, destination, "--catalogue", "tenx", status=2)
+        assert "SQLite companion" in refusal["error"] and not destination.exists()
+        assert wal.read_bytes() == b"Reserved SQLite companion"
+
+        features, barcodes, counts = expected
+        (args.output / "qpx-features.tsv").write_bytes(
+            ("feature_id\n" + "".join(row[0] + "\n" for row in features)).encode("utf-8"))
+        (args.output / "qpx-observations.tsv").write_bytes(
+            ("observation_id\n" + "".join(name + "\n" for name in barcodes)).encode("utf-8"))
+        qpx_output = args.output / "qpx-catalogue.qmx"
+        qpx = run("native-qpx-index", "matrix-market-index", "matrix.mtx", "qpx-features.tsv",
+                  "qpx-observations.tsv", qpx_output, "--catalogue", "qpx")
+        assert qpx["input_profile"] == "qpx-tsv"
+        assert stored_rows(qpx_output) == ([(row[0], row[0], "Gene Expression") for row in features], barcodes, counts)
+
+        duplicate = args.output / "duplicate.mtx"
+        duplicate.write_bytes(("%%MatrixMarket matrix coordinate integer general\n" +
+                               f"{len(features)} {len(barcodes)} 2\n1 1 2\n1 1 3\n").encode("ascii"))
+        duplicate_output = args.output / "duplicate.qmx"
+        refusal = run("duplicate-coordinate", "matrix-market-index", duplicate, "features.tsv",
+                      "barcodes.tsv", duplicate_output, "--catalogue", "tenx", status=2)
+        assert "duplicate" in refusal["error"].lower() and not duplicate_output.exists()
+
+    assert stored_rows(imported) == expected
 
     assert not list(args.output.glob("*.qpx-tmp-*"))
+    assert not list(args.output.glob(".qpx-expression-*"))
     report = {"passed": True, "host_sha256": sha(args.host), "archive_sha256": archive_sha,
               "checks": checks}
     (args.output / "validation.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")

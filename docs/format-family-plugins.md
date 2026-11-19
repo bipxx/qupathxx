@@ -235,8 +235,16 @@ The archive contains `matrix.mtx` with one-based feature and observation
 indices, a headerless `features.tsv` with ID, display name and type, and a
 headerless `barcodes.tsv` with observation IDs. It preserves original axis
 order, empty rows and columns, stored zeros and exact unsigned 64-bit counts. The native
-indexed Matrix Market importer accepts the extracted files with the Tenx
-catalogue option. The ZIP limit is 1 GiB and the export requires a new path.
+CLI re-indexes the extracted files with the Tenx catalogue option:
+
+```text
+qupathxx_format_import matrix-market-index matrix.mtx features.tsv barcodes.tsv NEW_QMX --catalogue tenx
+```
+
+Use `--catalogue qpx` for the QPX single-column catalogs with `feature_id` and
+`observation_id` headers. The command reports the new QMX SHA-256, source
+identity and axis counts. Export is limited to a 1 GiB ZIP and both commands
+require new output paths.
 Use the position export below for the matching coordinates and the QMX backup
 when you need the original project association and provenance.
 
