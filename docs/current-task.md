@@ -8,6 +8,23 @@ and [R2-R16 queue](api-delivery-plan.md#execution-order-for-finishing-the-remain
 own remaining scope. No100% QuPath, universal biological/speed/platform or
 Java/Groovy claim; NC/restricted/unknown required materials stay unadmitted.
 
+## Verified locally - fresh-host position round trip
+
+The Windows fresh-host checker selects backed position replay when the pinned
+archive receipt records that capability. It restores an independently authored
+Matrix Market exchange on a saved ENVI image, moves the original QMX and TSV
+offline, and verifies exact positions in observation order and exact sparse
+counts through UInt64 maximum. The wrong frame refuses before writing.
+
+The exact seven staged archives passed all 24 commands in a new local prefix.
+Removal deleted 532 installed files and preserved 41 research files. Both
+older archive layouts passed preflight with their original check selection.
+Only the installed SDK example built. No retry was needed. The hosted run
+awaits a prepared release tag with the exact assets.
+
+[Fresh-host checker local receipt](../build/qpx-host-pos-report/handoff.json)
+[Command results](../build/qpx-host-pos-report/commands.json)
+
 ## Verified locally - packaged restored position export
 
 The Windows runtime, SDK and corresponding source match compiled fingerprint

@@ -61,7 +61,7 @@ def legacy_bundle(source):
     if sha(dependency)!=handoff['dependency_companion']['sha256']:
         raise ValueError('Dependency source companion changed')
     admission.check_archive(dependency,entries)
-    return source_id, archives, profile['stages'], entries
+    return source_id, archives, profile['stages'], entries, False
 
 
 def check_archive(bundle, role):
@@ -92,10 +92,10 @@ def pinned_archive(source, role, name, record):
 
 def published_bundle(source, expected_digest):
     # Pin the independently reviewed handoff receipt, then every archive it names.
-    receipt = source/'handoff.json'
-    if sha(receipt) != expected_digest:
+    receipt = (source/'handoff.json').read_bytes()
+    if hashlib.sha256(receipt).hexdigest() != expected_digest:
         raise ValueError('Handoff receipt differs from the pinned SHA-256')
-    handoff = json.loads(receipt.read_bytes())
+    handoff = json.loads(receipt)
     source_id = handoff['source_sha256']
     records = handoff['archives']
     if (handoff['schema'] != 'qpx.windows-native-local-handoff/1' or handoff['state'] != 'verified_local'
@@ -144,7 +144,12 @@ def published_bundle(source, expected_digest):
                     if bundle.read(DICOM_BIN + OPENSLIDE_DLL) != runtime.read(OPENSLIDE_DLL):
                         raise ValueError('DICOM OpenSlide dependency differs from the native runtime')
         archives[role] = path
-    return source_id, archives, None, None
+    validation = handoff.get('validation', {})
+    position_reexport = 'backed_position_export_sha256' in validation
+    if position_reexport and ('envi' not in archives or not re.fullmatch(
+            r'[0-9a-f]{64}', validation['backed_position_export_sha256'])):
+        raise ValueError('Backed position replay requires a valid receipt digest and the ENVI archive')
+    return source_id, archives, None, None, position_reexport
 
 
 def install_supplemental(archives, installed, native):
@@ -254,6 +259,60 @@ def check_dicom(run, native, root, manifest):
             'changed_companion_refused': True}
 
 
+def check_position_reexport(run, native, user, manifest):
+    root = user/'spatial exchange'
+    root.mkdir()
+    matrix, features, barcodes = (root/name for name in ('matrix.mtx', 'features.tsv', 'barcodes.tsv'))
+    market = (b'%%MatrixMarket matrix coordinate integer general\n2 3 3\n'
+              b'1 1 18446744073709551615\n1 3 0\n2 2 9007199254740993\n')
+    matrix.write_bytes(market)
+    features.write_bytes(b'A\tGene A\tGene Expression\nB\tGene B\tGene Expression\n')
+    barcodes.write_bytes('0001\n1\nμ\n'.encode('utf8'))
+    indexed, positions = root/'exchange.qmx', root/'positions.tsv'
+    header = 'observation_id\tx_px\ty_px\n'
+    rows = ['0001\t0.5\t0.75\n', '1\t1.25\t1.25\n', 'μ\t0.25\t1.5\n']
+    positions.write_bytes((header + rows[2] + rows[0] + rows[1]).encode('utf8'))
+    expected = (header + ''.join(rows)).encode('utf8')
+    cli = native/'qupathxx_format_import.exe'
+    index = json.loads(run('spatial-index', [cli, 'matrix-market-index', matrix, features, barcodes,
+                            indexed, '--catalogue', 'tenx']).read_bytes())
+    plugin = [cli, '--reader-plugins', manifest]
+    base = user/'envi/spectra.qpx'
+    base_sha = sha(base)
+    project = root/'restored.qpx'
+    restore = json.loads(run('spatial-restore', [*plugin, 'project-matrix-import-positions', base, 1,
+                             indexed, positions, project]).read_bytes())
+    if not restore['owned'] or restore['observations'] != len(rows):
+        raise ValueError('Spatial restore did not retain the whole matrix and point catalogue')
+    before = sha(project)
+    offline = root/'offline inputs'
+    offline.mkdir()
+    for path in (indexed, positions):
+        path.rename(offline/path.name)
+    association = restore['matrix_source_sha256']
+    common = [project, restore['image_id'], association]
+    replay = root/'positions-replayed.tsv'
+    export = [*plugin, 'project-matrix-export-positions', *common]
+    report = json.loads(run('spatial-reexport-positions', [*export, replay, '--frame-id',
+                            restore['coordinate_frame']]).read_bytes())
+    if (replay.read_bytes() != expected or report['coordinate_frame'] != restore['coordinate_frame']
+            or report['matrix_file_sha256'] != index['file_sha256']):
+        raise ValueError('Spatial export differs in observation order, positions or saved identity')
+    rejected = root/'refused.tsv'
+    log = run('spatial-reject-wrong-frame', [*export, rejected, '--frame-id', 'unrelated'], expected_exit=2)
+    if rejected.exists() or 'No backed or indexed expression observations' not in json.loads(log.read_bytes())['error']:
+        raise ValueError('Spatial export did not refuse the wrong saved frame')
+    counts = root/'counts.zip'
+    run('spatial-reexport-counts', [*plugin, 'project-matrix-export-mtx', *common, counts])
+    with zipfile.ZipFile(counts) as bundle:
+        if (bundle.read('matrix.mtx') != market or bundle.read('features.tsv') != features.read_bytes()
+                or bundle.read('barcodes.tsv') != barcodes.read_bytes()):
+            raise ValueError('Restored counts, sparse zeros or catalogues differ')
+    if sha(project) != before or sha(base) != base_sha:
+        raise ValueError('Spatial exchange changed a saved input project')
+    return {'project_sha256': before, 'positions_sha256': sha(replay), 'counts_sha256': sha(counts)}
+
+
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--input',type=Path,required=True,help='Frozen Windows handoff directory')
@@ -265,9 +324,9 @@ def main():
     if os.name!='nt':parser.error('This handoff is Windows x64 only')
     source,work,report=args.input.resolve(),args.work.absolute(),args.report.resolve()
     if args.handoff_sha256:
-        source_id, archives, stages, entries = published_bundle(source, args.handoff_sha256.lower())
+        source_id, archives, stages, entries, position_reexport = published_bundle(source, args.handoff_sha256.lower())
     else:
-        source_id, archives, stages, entries = legacy_bundle(source)
+        source_id, archives, stages, entries, position_reexport = legacy_bundle(source)
     report.mkdir(parents=True,exist_ok=True)
     # New prefix only, outside the checkout/cache and the old rejected TEMP tree.
     work.mkdir(parents=True,exist_ok=False)
@@ -368,6 +427,7 @@ def main():
     for role, check in [('envi', check_envi), ('dicom', check_dicom)]:
         if role in manifests:
             supplemental[role] = check(run, native, user/role, manifests[role])
+    spatial = check_position_reexport(run, native, user, manifests['envi']) if position_reexport else None
     run('gui-project-open',[native/'qupathxx_app.exe','--project',project,'--layout',user/'preferences.ini','--smoke'])
     if sha(project)!=before_project:raise ValueError('Read-only GUI/CLI changed saved project')
     sentinel=native/'user scratch/research-notes.txt';sentinel.parent.mkdir()
@@ -384,6 +444,8 @@ def main():
         receipt['archive_handoff_sha256']=args.handoff_sha256.lower()
     if supplemental:
         receipt['supplemental_provider_replay'] = supplemental
+    if spatial:
+        receipt['spatial_position_reexport'] = spatial
     (report/'handoff.json').write_text(json.dumps(receipt,indent=2)+'\n',encoding='utf8')
     print('Install/use passed; manifest-owned removal is still required.',flush=True)
 
