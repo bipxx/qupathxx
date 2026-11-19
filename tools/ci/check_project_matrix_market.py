@@ -1,6 +1,8 @@
 """Check native saved-count export against the exact stored sparse rows."""
 
 import argparse
+from contextlib import closing
+import gzip
 import hashlib
 import json
 import os
@@ -68,9 +70,13 @@ def main():
                         help="Restore positions and the re-indexed matrix on an empty saved image")
     parser.add_argument("--position-reexport", action="store_true",
                         help="Verify exact re-export from the restored point frame")
+    parser.add_argument("--gzip", action="store_true",
+                        help="Re-index gzip-wrapped Matrix Market and use it for spatial restore")
     args = parser.parse_args()
     if args.position_reexport and not args.spatial:
         parser.error("--position-reexport requires --spatial")
+    if args.gzip and args.reimport:
+        parser.error("--gzip uses the native CLI rather than the SDK probe")
     args.output.mkdir(parents=True)
     env = {key: value for key, value in os.environ.items()
            if not key.upper().startswith(("PYTHON", "QPX_", "QUPATHXX_"))}
@@ -149,13 +155,32 @@ def main():
         assert result.returncode == 0, (result.stdout, result.stderr)
         checks["native-reimport"] = {"file_sha256": sha(imported)}
     else:
-        index = ("matrix-market-index", "matrix.mtx", "features.tsv", "barcodes.tsv")
+        inputs = [args.output / name for name in ("matrix.mtx", "features.tsv", "barcodes.tsv")]
+        if args.gzip:
+            archives = [path.with_suffix(path.suffix + ".gz") for path in inputs]
+            for source, destination in zip(inputs, archives):
+                destination.write_bytes(gzip.compress(source.read_bytes(), mtime=0))
+            inputs = archives
+        index = ("matrix-market-index", *inputs)
         receipt = run("native-reimport", *index, imported, "--catalogue", "tenx")
         assert receipt["state"] == "indexed" and receipt["file_sha256"] == sha(imported)
         assert receipt["input_profile"] == "tenx-tsv" and receipt["domain"] == "counts"
         reopened = run("reopened-index", "matrix-info", imported)
         assert all(receipt[key] == reopened[key] for key in
                    ("source_sha256", "file_sha256", "features", "observations", "entries", "input_profile"))
+        if args.gzip:
+            with closing(sqlite3.connect(imported.as_uri() + "?mode=ro&immutable=1", uri=True)) as database:
+                recorded = dict(database.execute("SELECT key,value FROM metadata"))
+            assert [recorded[key] for key in ("matrix_sha256", "features_sha256", "observations_sha256")] == [
+                sha(path) for path in inputs]
+            broken = args.output / "bad-crc.tsv.gz"
+            payload = bytearray(inputs[1].read_bytes())
+            payload[-8] ^= 1
+            broken.write_bytes(payload)
+            destination = args.output / "bad-crc.qmx"
+            refusal = run("gzip-bad-trailer", "matrix-market-index", inputs[0], broken, inputs[2],
+                          destination, "--catalogue", "tenx", status=2)
+            assert "Invalid or truncated Matrix Market gzip" in refusal["error"] and not destination.exists()
 
         destination = args.output / "refused.qmx"
         run("missing-catalogue", *index, destination, status=2)

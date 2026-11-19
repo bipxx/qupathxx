@@ -6,6 +6,7 @@ PowerShell step; this script never removes a directory or touches an old install
 """
 import argparse
 import ast
+import gzip
 import hashlib
 import json
 import os
@@ -61,7 +62,7 @@ def legacy_bundle(source):
     if sha(dependency)!=handoff['dependency_companion']['sha256']:
         raise ValueError('Dependency source companion changed')
     admission.check_archive(dependency,entries)
-    return source_id, archives, profile['stages'], entries, False
+    return source_id, archives, profile['stages'], entries, False, False
 
 
 def check_archive(bundle, role):
@@ -149,7 +150,10 @@ def published_bundle(source, expected_digest):
     if position_reexport and ('envi' not in archives or not re.fullmatch(
             r'[0-9a-f]{64}', validation['backed_position_export_sha256'])):
         raise ValueError('Backed position replay requires a valid receipt digest and the ENVI archive')
-    return source_id, archives, None, None, position_reexport
+    matrix_market_gzip = validation.get('matrix_market_gzip', False)
+    if type(matrix_market_gzip) is not bool or (matrix_market_gzip and not position_reexport):
+        raise ValueError('Matrix Market gzip verification requires the backed spatial exchange')
+    return source_id, archives, None, None, position_reexport, matrix_market_gzip
 
 
 def install_supplemental(archives, installed, native):
@@ -259,7 +263,7 @@ def check_dicom(run, native, root, manifest):
             'changed_companion_refused': True}
 
 
-def check_position_reexport(run, native, user, manifest):
+def check_position_reexport(run, native, user, manifest, matrix_market_gzip):
     root = user/'spatial exchange'
     root.mkdir()
     matrix, features, barcodes = (root/name for name in ('matrix.mtx', 'features.tsv', 'barcodes.tsv'))
@@ -274,7 +278,21 @@ def check_position_reexport(run, native, user, manifest):
     positions.write_bytes((header + rows[2] + rows[0] + rows[1]).encode('utf8'))
     expected = (header + ''.join(rows)).encode('utf8')
     cli = native/'qupathxx_format_import.exe'
-    index = json.loads(run('spatial-index', [cli, 'matrix-market-index', matrix, features, barcodes,
+    inputs = [matrix, features, barcodes]
+    if matrix_market_gzip:
+        inputs = [path.with_suffix(path.suffix + '.gz') for path in inputs]
+        for source, dest in zip((matrix, features, barcodes), inputs):
+            dest.write_bytes(gzip.compress(source.read_bytes(), mtime=0))
+        bad = root/'bad-crc.tsv.gz'
+        corrupt = bytearray(inputs[1].read_bytes())
+        corrupt[-8] ^= 1
+        bad.write_bytes(corrupt)
+        rejected = root/'refused.qmx'
+        log = run('spatial-reject-gzip-crc', [cli, 'matrix-market-index', inputs[0], bad, inputs[2], rejected,
+                  '--catalogue', 'tenx'], expected_exit=2)
+        if rejected.exists() or 'Invalid or truncated Matrix Market gzip' not in json.loads(log.read_bytes())['error']:
+            raise ValueError('Spatial index did not refuse the corrupted gzip catalogue')
+    index = json.loads(run('spatial-index', [cli, 'matrix-market-index', *inputs,
                             indexed, '--catalogue', 'tenx']).read_bytes())
     plugin = [cli, '--reader-plugins', manifest]
     base = user/'envi/spectra.qpx'
@@ -310,7 +328,8 @@ def check_position_reexport(run, native, user, manifest):
             raise ValueError('Restored counts, sparse zeros or catalogues differ')
     if sha(project) != before or sha(base) != base_sha:
         raise ValueError('Spatial exchange changed a saved input project')
-    return {'project_sha256': before, 'positions_sha256': sha(replay), 'counts_sha256': sha(counts)}
+    return {'project_sha256': before, 'positions_sha256': sha(replay), 'counts_sha256': sha(counts),
+            'matrix_market_gzip': matrix_market_gzip}
 
 
 def main():
@@ -324,9 +343,9 @@ def main():
     if os.name!='nt':parser.error('This handoff is Windows x64 only')
     source,work,report=args.input.resolve(),args.work.absolute(),args.report.resolve()
     if args.handoff_sha256:
-        source_id, archives, stages, entries, position_reexport = published_bundle(source, args.handoff_sha256.lower())
+        source_id, archives, stages, entries, position_reexport, matrix_market_gzip = published_bundle(source, args.handoff_sha256.lower())
     else:
-        source_id, archives, stages, entries, position_reexport = legacy_bundle(source)
+        source_id, archives, stages, entries, position_reexport, matrix_market_gzip = legacy_bundle(source)
     report.mkdir(parents=True,exist_ok=True)
     # New prefix only, outside the checkout/cache and the old rejected TEMP tree.
     work.mkdir(parents=True,exist_ok=False)
@@ -427,7 +446,7 @@ def main():
     for role, check in [('envi', check_envi), ('dicom', check_dicom)]:
         if role in manifests:
             supplemental[role] = check(run, native, user/role, manifests[role])
-    spatial = check_position_reexport(run, native, user, manifests['envi']) if position_reexport else None
+    spatial = check_position_reexport(run, native, user, manifests['envi'], matrix_market_gzip) if position_reexport else None
     run('gui-project-open',[native/'qupathxx_app.exe','--project',project,'--layout',user/'preferences.ini','--smoke'])
     if sha(project)!=before_project:raise ValueError('Read-only GUI/CLI changed saved project')
     sentinel=native/'user scratch/research-notes.txt';sentinel.parent.mkdir()

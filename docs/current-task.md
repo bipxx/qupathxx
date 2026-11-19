@@ -8,6 +8,32 @@ and [R2-R16 queue](api-delivery-plan.md#execution-order-for-finishing-the-remain
 own remaining scope. No100% QuPath, universal biological/speed/platform or
 Java/Groovy claim; NC/restricted/unknown required materials stay unadmitted.
 
+## Verified locally - Windows gzip Matrix Market handoff
+
+The seven archives match compiled source
+`055ecf83e120e928f718a1427b0d5bb415f83873d139944b07ae701da6c5bb3b`.
+One cached relink enabled gzip with Python off. The corresponding source
+configured offline with the same options. The package reused 15 admitted
+dependency source payloads, including zlib, and the existing provider binaries.
+
+The extracted runtime passed 32 matrix and spatial checks, 21 core provider
+checks, eight guarded DICOM checks and both desktop reopens. The matrix run
+verified all three encoded gzip digests, refused a damaged trailer and restored
+and re-exported exact counts and coordinates. SDK replay, nine checksums and
+removal passed. The first run held a SQLite handle during the offline-input
+check. Closing it allowed the test to finish, with the completed provider and
+offline configuration checks reused.
+
+The fresh-host checker now selects the gzip round trip from the pinned handoff
+receipt. All 25 commands passed locally against these exact archives. Removal
+deleted 532 installed files and preserved all 45 research files. Three older
+handoffs passed preflight with their original check selection. Hosted validation
+awaits a prepared release tag carrying the staged assets.
+
+[Windows handoff](../build/native-format-closeout/validation-packet/current-native-gzip-install/windows-native-handoff/handoff.json)
+[Packaged matrix and spatial checks](../build/native-format-closeout/validation-packet/current-native-gzip-install/archive-replay/latest%20research/matrix-resumed/validation.json)
+[Fresh-host checker local receipt](../build/qpx-host-gzip-report/handoff.json)
+
 ## Verified locally - gzip Matrix Market exchange inputs
 
 `QUPATHXX_BUILD_MATRIX_MARKET_GZIP` enables single-member gzip transport for
