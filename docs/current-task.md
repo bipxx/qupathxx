@@ -8,6 +8,25 @@ and [R2-R16 queue](api-delivery-plan.md#execution-order-for-finishing-the-remain
 own remaining scope. No100% QuPath, universal biological/speed/platform or
 Java/Groovy claim; NC/restricted/unknown required materials stay unadmitted.
 
+## Verified locally - optional Windows DICOM WSI handoff
+
+The 43-member plugin ZIP contains the tested module and manifest under
+`openslide-sdk/bin`, the matching SDK, corresponding source, build sources,
+ReaderPluginKit and license notices. Delivery membership and the archive
+checksum pass against the material inventory.
+
+The module rebuilt offline from the extracted package. The original archive
+binary and the rebuilt binary each passed eight native workflow checks in
+fresh Windows installation directories. Both reproduced exact Leica-4 and
+concatenation crops and refused a changed companion before export. Removal
+preserved all 28 research files in each case. The engine and frozen host
+archives were reused. No retry or additional dependency download was needed.
+The handoff remains local and has its own archive and module identity.
+
+[Windows DICOM WSI archive](../build/qpx-dicom-plugin/delivery/qupathxx-dicom-wsi-1.0.0-windows-x64.zip)
+[Archive verification](../build/qpx-dicom-plugin/delivery/verification.json)
+[Archive installation and removal](../build/qpx-dicom-plugin/delivery/archive/installation-removal.json)
+
 ## Verified locally - optional DICOM WSI companion guard
 
 The optional Windows provider uses OpenSlide for display and the existing

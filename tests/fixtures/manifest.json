@@ -223,6 +223,157 @@
       }
     }
   ],
+  "dicom_wsi_windows_delivery": {
+    "records": [
+      {
+        "filename": "README.md",
+        "source": "Provider guide",
+        "bytes": 2571,
+        "sha256": "e149b45af77c5fff0c23000ec084065e5d1c9390367918f97101eb156700e99f",
+        "material": {
+          "id": "dicom-wsi-handoff-e149b45af77c5fff0c23000ec084065e5d1c9390367918f97101eb156700e99f",
+          "category": "admitted_open",
+          "kind": "asset",
+          "license_id": "AGPL-3.0-only",
+          "license_evidence": "LICENSE; source/plugins/dicom_wsi/source-lock.json and staged license notices",
+          "attribution": "qupathxx contributors",
+          "source_ids": [
+            "qupathxx-root-license"
+          ]
+        }
+      },
+      {
+        "filename": "openslide.h",
+        "source": "Exact OpenSlide 4.0.1.2 SDK member include/openslide/openslide.h",
+        "bytes": 19448,
+        "sha256": "795995c7adb720a280679f7d34da574c64c4bce75a15eac7130e46d57878848f",
+        "material": {
+          "id": "dicom-wsi-handoff-795995c7adb720a280679f7d34da574c64c4bce75a15eac7130e46d57878848f",
+          "category": "admitted_open",
+          "kind": "derived_asset",
+          "license_id": "LGPL-2.1-only",
+          "license_evidence": "LICENSE; source/plugins/dicom_wsi/source-lock.json and staged license notices",
+          "attribution": "OpenSlide contributors",
+          "source_ids": [
+            "release-src-openslide-sdk-and-dependencies"
+          ]
+        }
+      },
+      {
+        "filename": "openslide-features.h",
+        "source": "Exact OpenSlide 4.0.1.2 SDK member include/openslide/openslide-features.h",
+        "bytes": 2084,
+        "sha256": "6299b18df24a1a65d2733fb55da0321130eb6ede2cc93074a026316b62fe0ffc",
+        "material": {
+          "id": "dicom-wsi-handoff-6299b18df24a1a65d2733fb55da0321130eb6ede2cc93074a026316b62fe0ffc",
+          "category": "admitted_open",
+          "kind": "derived_asset",
+          "license_id": "LGPL-2.1-only",
+          "license_evidence": "LICENSE; source/plugins/dicom_wsi/source-lock.json and staged license notices",
+          "attribution": "OpenSlide contributors",
+          "source_ids": [
+            "release-src-openslide-sdk-and-dependencies"
+          ]
+        }
+      },
+      {
+        "filename": "versions.json",
+        "source": "Exact OpenSlide 4.0.1.2 SDK member versions.json",
+        "bytes": 2321,
+        "sha256": "3b321f053538a5b1a5cb79b811ac0095eba46cdd4aea262bc140af0e3b6996e5",
+        "material": {
+          "id": "dicom-wsi-handoff-3b321f053538a5b1a5cb79b811ac0095eba46cdd4aea262bc140af0e3b6996e5",
+          "category": "admitted_open",
+          "kind": "derived_asset",
+          "license_id": "LGPL-2.1-only",
+          "license_evidence": "LICENSE; source/plugins/dicom_wsi/source-lock.json and staged license notices",
+          "attribution": "OpenSlide contributors",
+          "source_ids": [
+            "release-src-openslide-sdk-and-dependencies"
+          ]
+        }
+      },
+      {
+        "filename": "SOURCE.json",
+        "source": "Windows DICOM WSI package provenance",
+        "bytes": 2039,
+        "sha256": "517999b11652a39245d2fa88e3d61b7a648c3d6583fc99644969500cfe310388",
+        "material": {
+          "id": "dicom-wsi-handoff-517999b11652a39245d2fa88e3d61b7a648c3d6583fc99644969500cfe310388",
+          "category": "admitted_open",
+          "kind": "derived_asset",
+          "license_id": "AGPL-3.0-only",
+          "license_evidence": "LICENSE; source/plugins/dicom_wsi/source-lock.json and staged license notices",
+          "attribution": "qupathxx contributors",
+          "source_ids": [
+            "dicom-wsi-windows-x64-module-1.0.0",
+            "dicom-wsi-src-dicom_wsi_reader.cpp",
+            "dicom-wsi-src-CMakeLists.txt",
+            "dicom-wsi-src-source-lock.json",
+            "dicom-wsi-src-plugin_build.cmake",
+            "dicom-wsi-src-write_manifest.cmake",
+            "dicom-wsi-src-stage_sdk_runtime.cmake",
+            "dicom-wsi-src-reader_plugin_profile.hpp.in",
+            "dicom-wsi-src-rgba8_reader.hpp"
+          ]
+        }
+      }
+    ],
+    "delivery": {
+      "archive": "qupathxx-dicom-wsi-1.0.0-windows-x64.zip",
+      "archive_sha256": "31e2ba272680393daf1775c4dc390746478244fa2a1f1d732d5d20dfdfca80e2",
+      "archive_bytes": 22596779,
+      "files": 43,
+      "members": {
+        "source/plugins/dicom_wsi/dicom_wsi_reader.cpp": "dicom-wsi-src-dicom_wsi_reader.cpp",
+        "source/plugins/dicom_wsi/CMakeLists.txt": "dicom-wsi-src-CMakeLists.txt",
+        "source/plugins/dicom_wsi/source-lock.json": "dicom-wsi-src-source-lock.json",
+        "source/plugins/image-common/plugin_build.cmake": "dicom-wsi-src-plugin_build.cmake",
+        "source/plugins/image-common/write_manifest.cmake": "dicom-wsi-src-write_manifest.cmake",
+        "source/plugins/image-common/stage_sdk_runtime.cmake": "dicom-wsi-src-stage_sdk_runtime.cmake",
+        "source/plugins/image-common/reader_plugin_profile.hpp.in": "dicom-wsi-src-reader_plugin_profile.hpp.in",
+        "source/plugins/image-common/rgba8_reader.hpp": "dicom-wsi-src-rgba8_reader.hpp",
+        "source/reader-plugin-kit/include/qupathxx/reader_plugin.h": "ngff-labels-AGPL-3.0-only-code-503cdf136ae6267268f072f3",
+        "source/reader-plugin-kit/share/qupathxx/reader-plugin/profile.cmake": "envi-reader-AGPL-3.0-only-e7bb3b3b030b38a789f83dae",
+        "source/reader-plugin-kit/share/qupathxx/reader-plugin/LICENSE": "png-plugin-AGPL-3-0-only-e0eedba615d5cd1b986afb6c",
+        "README.md": "dicom-wsi-handoff-e149b45af77c5fff0c23000ec084065e5d1c9390367918f97101eb156700e99f",
+        "source/third_party/openslide-bin-4.0.1.2.tar.gz": "release-src-openslide-sdk-and-dependencies",
+        "openslide-sdk/include/openslide/openslide.h": "dicom-wsi-handoff-795995c7adb720a280679f7d34da574c64c4bce75a15eac7130e46d57878848f",
+        "openslide-sdk/include/openslide/openslide-features.h": "dicom-wsi-handoff-6299b18df24a1a65d2733fb55da0321130eb6ede2cc93074a026316b62fe0ffc",
+        "openslide-sdk/lib/libopenslide.lib": "native-output-fee7fd49de26110c1e81d1561dbe7f9cd6e13fcb45280b38126e8b4d7b326ba1",
+        "openslide-sdk/bin/libopenslide-1.dll": "native-output-dc8e35ad0ce001c4e878f2bebc23e87fb85d2bdebec5a542af2ecec3cb5cd635",
+        "openslide-sdk/versions.json": "dicom-wsi-handoff-3b321f053538a5b1a5cb79b811ac0095eba46cdd4aea262bc140af0e3b6996e5",
+        "openslide-sdk/licenses/OpenJPEG/LICENSE": "openslide-notice-openjpeg-LICENSE",
+        "openslide-sdk/licenses/OpenSlide/COPYING.LESSER": "openslide-notice-openslide-COPYING-LESSER",
+        "openslide-sdk/licenses/SQLite/PUBLIC-DOMAIN.txt": "openslide-notice-sqlite-PUBLIC-DOMAIN-txt",
+        "openslide-sdk/licenses/Zstandard/LICENSE": "openslide-notice-zstandard-LICENSE",
+        "openslide-sdk/licenses/cairo/COPYING": "openslide-notice-cairo-COPYING",
+        "openslide-sdk/licenses/cairo/COPYING-LGPL-2.1": "openslide-notice-cairo-COPYING-LGPL-2-1",
+        "openslide-sdk/licenses/cairo/COPYING-MPL-1.1": "openslide-notice-cairo-COPYING-MPL-1-1",
+        "openslide-sdk/licenses/glib/COPYING": "openslide-notice-glib-COPYING",
+        "openslide-sdk/licenses/libdicom/LICENSE": "openslide-notice-libdicom-LICENSE",
+        "openslide-sdk/licenses/libffi/LICENSE": "openslide-notice-libffi-LICENSE",
+        "openslide-sdk/licenses/libjpeg-turbo/LICENSE.md": "openslide-notice-libjpeg-turbo-LICENSE-md",
+        "openslide-sdk/licenses/libjpeg-turbo/README.ijg": "openslide-notice-libjpeg-turbo-README-ijg",
+        "openslide-sdk/licenses/libpng/LICENSE": "openslide-notice-libpng-LICENSE",
+        "openslide-sdk/licenses/libtiff/LICENSE.md": "openslide-notice-libtiff-LICENSE-md",
+        "openslide-sdk/licenses/libxml2/Copyright": "openslide-notice-libxml2-Copyright",
+        "openslide-sdk/licenses/pixman/COPYING": "openslide-notice-pixman-COPYING",
+        "openslide-sdk/licenses/proxy-libintl/COPYING": "openslide-notice-proxy-libintl-COPYING",
+        "openslide-sdk/licenses/uthash/LICENSE": "openslide-notice-uthash-LICENSE",
+        "openslide-sdk/licenses/zlib-ng/LICENSE.md": "openslide-notice-zlib-ng-LICENSE-md",
+        "openslide-sdk/bin/qpx_dicom_wsi_plugin.dll": "dicom-wsi-windows-x64-module-1.0.0",
+        "openslide-sdk/bin/dicom-wsi-reader-plugins.json": "dicom-wsi-windows-x64-manifest-1.0.0",
+        "licenses/libdicom/LICENSE": "openslide-notice-libdicom-LICENSE",
+        "licenses/qupathxx/LICENSE": "png-plugin-AGPL-3-0-only-e0eedba615d5cd1b986afb6c",
+        "licenses/uthash/LICENSE": "openslide-notice-uthash-LICENSE",
+        "SOURCE.json": "dicom-wsi-handoff-517999b11652a39245d2fa88e3d61b7a648c3d6583fc99644969500cfe310388"
+      },
+      "module_sha256": "33c071bb5dd6372ee43105079c09727d95b3bc77e9e46afc2499585a193ea9a6",
+      "state": "verified_local",
+      "compiled_from_archive_offline": true
+    }
+  },
   "dicom_wsi_leica4": {
     "filename": "Leica-4.zip",
     "bytes": 85348848,
