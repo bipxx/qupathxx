@@ -16,6 +16,7 @@ std::string format_family_catalog_json() {
             row["can_import_gzip"]=value.can_import_gzip;
             row["can_import_zip"]=value.available;
             row["can_import_zip_deflate"]=value.can_import_gzip;
+            row["can_import_real"]=value.available;
         }
         matrices.push_back(std::move(row));
     }

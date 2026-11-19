@@ -370,13 +370,15 @@ json matrix_metadata(const qpx::ExpressionMatrixSource& source,const std::string
 int matrix_market_index(const std::vector<std::string>& args) {
     using namespace qpx::detail;
     MatrixFormatImportRequest request;
+    const bool real=args.back()=="--real";
+    const auto argc=args.size()-std::size_t(real);
     if(args[0]=="matrix-market-index-zip") {
-        if(args.size()!=3)throw std::invalid_argument("matrix-market-index-zip requires COUNTS_ZIP NEW_QMX");
-        request=MatrixMarketArchiveImportRequest{args[1],args[2],{}};
+        if(argc!=3)throw std::invalid_argument("matrix-market-index-zip requires EXCHANGE_ZIP NEW_QMX [--real]");
+        request=MatrixMarketArchiveImportRequest{args[1],args[2],{},real};
     } else {
-        if(args.size()!=7 || args[5]!="--catalogue" || (args[6]!="qpx" && args[6]!="tenx"))
-            throw std::invalid_argument("matrix-market-index requires MATRIX_MTX FEATURES_TSV OBSERVATIONS_TSV NEW_QMX --catalogue qpx|tenx");
-        MatrixMarketImportRequest files{args[1],args[2],args[3],args[4],{}};
+        if(argc!=7 || args[5]!="--catalogue" || (args[6]!="qpx" && args[6]!="tenx"))
+            throw std::invalid_argument("matrix-market-index requires MATRIX_MTX FEATURES_TSV OBSERVATIONS_TSV NEW_QMX --catalogue qpx|tenx [--real]");
+        MatrixMarketImportRequest files{args[1],args[2],args[3],args[4],{},real};
         files.options.format=args[6]=="tenx"?qpx::ExpressionCatalogueFormat::Tenx:qpx::ExpressionCatalogueFormat::Qpx;
         request=std::move(files);
     }
@@ -385,7 +387,8 @@ int matrix_market_index(const std::vector<std::string>& args) {
     std::cout<<json{{"schema","qpx.format-import-cli/1"},{"state","indexed"},{"command",args[0]},
         {"output",indexed.path},{"file_sha256",indexed.file_sha256},{"source_sha256",metadata.source_sha256},
         {"features",metadata.features},{"observations",metadata.observations},{"entries",metadata.entries},
-        {"domain","counts"},{"value_domain",metadata.value_domain},{"input_profile",metadata.input_profile}}.dump()<<'\n';
+        {"domain",metadata.domain==qpx::ExpressionValueDomain::Counts?"counts":"continuous"},
+        {"value_domain",metadata.value_domain},{"input_profile",metadata.input_profile}}.dump()<<'\n';
     return 0;
 }
 int project_matrix_import_positions(const std::vector<std::string>& args) {
@@ -458,12 +461,13 @@ int project_matrix_export(const std::vector<std::string>& args) {
     }
     if(backup && args.size()!=5)
         throw std::invalid_argument("project-matrix-backup requires INPUT_PROJECT IMAGE_ID ASSOCIATION_ID NEW_QMX");
-    if(market && args.size()!=5)
-        throw std::invalid_argument("project-matrix-export-mtx requires INPUT_PROJECT IMAGE_ID ASSOCIATION_ID NEW_ZIP");
+    const bool real=market && args.size()==6 && args[5]=="--real";
+    if(market && args.size()!=5 && !real)
+        throw std::invalid_argument("project-matrix-export-mtx requires INPUT_PROJECT IMAGE_ID ASSOCIATION_ID NEW_ZIP [--real]");
     if(!positions && !backup && !market && (args.size()<7 || (args.size()-5)%2))
         throw std::invalid_argument("project-matrix-export-csv requires INPUT_PROJECT IMAGE_ID ASSOCIATION_ID NEW_CSV --feature ID [...]");
     std::vector<std::string> features;
-    for(std::size_t at=5;!positions && at<args.size();at+=2) {
+    for(std::size_t at=5;!positions && !market && at<args.size();at+=2) {
         if(args[at]!="--feature")throw std::invalid_argument("Expected --feature ID");
         features.push_back(args[at+1]);
     }
@@ -495,7 +499,7 @@ int project_matrix_export(const std::vector<std::string>& args) {
         bytes=export_expression_matrix_positions(*source,output,&cancelled,protect);
         position_frame=source->metadata().spatial_frame;
     }
-    else if(market)bytes=export_expression_matrix_market(*source,output,&cancelled,protect);
+    else if(market)bytes=export_expression_matrix_market(*source,output,&cancelled,protect,real);
     else bytes=export_expression_matrix_csv(*source,output,features,&cancelled,protect);
     const auto& metadata=source->metadata();
     json report{{"schema","qpx.format-import-cli/1"},{"state","exported"},{"command",args[0]},
@@ -612,14 +616,14 @@ void help(){
         "       qupathxx_format_import [bootstrap options] matrix-store-index PROVIDER STORE PRIMARY_KEY POSITIONS IMAGE NEW_QMX [--plugin-options-json JSON]\n"
         "       qupathxx_format_import [bootstrap options] matrix-project-store-index PROVIDER STORE PRIMARY_KEY POSITIONS INPUT_PROJECT IMAGE_ID NEW_QMX [--plugin-options-json JSON]\n"
         "       qupathxx_format_import matrix-info QMX\n"
-        "       qupathxx_format_import matrix-market-index MATRIX_MTX FEATURES_TSV OBSERVATIONS_TSV NEW_QMX --catalogue qpx|tenx\n"
-        "       qupathxx_format_import matrix-market-index-zip COUNTS_ZIP NEW_QMX\n"
+        "       qupathxx_format_import matrix-market-index MATRIX_MTX FEATURES_TSV OBSERVATIONS_TSV NEW_QMX --catalogue qpx|tenx [--real]\n"
+        "       qupathxx_format_import matrix-market-index-zip EXCHANGE_ZIP NEW_QMX [--real]\n"
         "       qupathxx_format_import [bootstrap options] project-matrix-import-positions INPUT_PROJECT IMAGE_ID QMX POSITIONS_TSV NEW_PROJECT [--frame-z N] [--frame-time N]\n"
         "       qupathxx_format_import [bootstrap options] project-matrices INPUT_PROJECT IMAGE_ID\n"
         "       qupathxx_format_import [bootstrap options] project-matrix-info INPUT_PROJECT IMAGE_ID ASSOCIATION_ID\n"
         "       qupathxx_format_import [bootstrap options] project-matrix-export-csv INPUT_PROJECT IMAGE_ID ASSOCIATION_ID NEW_CSV --feature ID [...]\n"
         "       qupathxx_format_import [bootstrap options] project-matrix-export-positions INPUT_PROJECT IMAGE_ID ASSOCIATION_ID NEW_TSV [--frame-id ID [--frame-channel N] [--frame-z N] [--frame-time N]]\n"
-        "       qupathxx_format_import [bootstrap options] project-matrix-export-mtx INPUT_PROJECT IMAGE_ID ASSOCIATION_ID NEW_ZIP\n"
+        "       qupathxx_format_import [bootstrap options] project-matrix-export-mtx INPUT_PROJECT IMAGE_ID ASSOCIATION_ID NEW_ZIP [--real]\n"
         "       qupathxx_format_import [bootstrap options] project-matrix-backup INPUT_PROJECT IMAGE_ID ASSOCIATION_ID NEW_QMX\n"
         "       qupathxx_format_import [bootstrap options] project-matrix-restore INPUT_PROJECT IMAGE_ID ASSOCIATION_ID BACKUP_QMX\n"
         "       qupathxx_format_import [bootstrap options] project-matrix-relink INPUT_PROJECT IMAGE_ID ASSOCIATION_ID EXACT_QMX NEW_PROJECT\n"

@@ -23,10 +23,12 @@ struct MatrixFormatOpenRequest {
 struct MatrixMarketImportRequest {
     std::string matrix,features,observations,store;
     ExpressionMatrixImportOptions options;
+    bool real=false;
 };
 struct MatrixMarketArchiveImportRequest {
     std::string archive,store;
     ExpressionMatrixImportOptions limits;
+    bool real=false;
 };
 struct H5adMatrixImportRequest {
     std::string input,store;

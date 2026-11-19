@@ -34,6 +34,72 @@ def stored_rows(path):
     return [row[1:] for row in features], [identifier for _, identifier in barcodes], counts
 
 
+def check_real_exchange(run, output, project, image_id, item):
+    source = Path(item['path'])
+    original = (sha(project), sha(source))
+    archive = output/'continuous-export.zip'
+    report = run('real-export', 'project-matrix-export-mtx', project, image_id,
+                 item['association_id'], archive, '--real')
+    real_dir = output/'real'
+    real_dir.mkdir()
+    names = ('matrix.mtx', 'features.tsv', 'barcodes.tsv')
+    with ZipFile(archive) as bundle:
+        assert bundle.namelist() == list(names) and bundle.testzip() is None
+        for name in names:
+            (real_dir/name).write_bytes(bundle.read(name))
+    matrix, features, barcodes = [real_dir/name for name in names]
+    assert matrix.read_bytes().startswith(b'%%MatrixMarket matrix coordinate real general\n')
+    indexed, plain = real_dir/'indexed.qmx', real_dir/'plain.qmx'
+    imported = run('real-index-zip', 'matrix-market-index-zip', archive, indexed, '--real')
+    run('real-index-files', 'matrix-market-index', matrix, features, barcodes, plain, '--catalogue', 'tenx', '--real')
+    assert imported['domain'] == 'continuous' and imported['value_domain'] == report['value_domain']
+    assert sha(indexed) == sha(plain) == imported['file_sha256'] and stored_rows(indexed) == stored_rows(source)
+
+    sample = real_dir/'edge.mtx'
+    sample.write_bytes(b'%%MatrixMarket matrix coordinate real general\n3 2 5\n'
+                       b'1 1 -0\n1 2 0\n2 1 -1.25\n2 2 +5e-324\n3 1 1.7976931348623157e308\n')
+    features_qpx, observations_qpx = real_dir/'features-qpx.tsv', real_dir/'observations-qpx.tsv'
+    features_qpx.write_bytes(b'feature_id\nA\nB\nC\n')
+    observations_qpx.write_bytes(b'observation_id\n0001\n1\n')
+    edges = real_dir/'edges.qmx'
+
+    def index_real(label, source_path, target, status=0):
+        return run(label, 'matrix-market-index', source_path, features_qpx, observations_qpx,
+                   target, '--catalogue', 'qpx', '--real', status=status)
+
+    report = index_real('real-edge-values', sample, edges)
+    assert report['value_domain'] == 'matrix-market-real'
+    with closing(sqlite3.connect(edges.as_uri() + '?mode=ro&immutable=1', uri=True)) as database:
+        assert database.execute('PRAGMA user_version').fetchone() == (7,)
+        assert database.execute("SELECT name FROM sqlite_schema WHERE name='coordinates'").fetchone() is None
+    _, ids, entries = stored_rows(edges)
+    assert ids == ['0001', '1']
+    values = [-0.0, 0.0, -1.25, 5e-324, float.fromhex('0x1.fffffffffffffp+1023')]
+    assert [entry[2] for entry in entries] == [int.from_bytes(struct.pack('<d', v),'little') for v in values]
+    bad, target = real_dir/'bad.mtx', real_dir/'refused.qmx'
+    for label, row in [('nonfinite', '1 1 nan'), ('overflow', '1 1 1e999'), ('duplicate', '1 1 0\n1 1 -1')]:
+        bad.write_text('%%MatrixMarket matrix coordinate real general\n3 2 '+
+                       str(row.count('\n')+1)+'\n'+row+'\n', encoding='ascii')
+        index_real('real-refuse-'+label, bad, target, status=2)
+        assert not target.exists()
+    run('real-refuse-count-mode', 'matrix-market-index-zip', archive, target, status=2)
+    assert not target.exists()
+
+    labels = stored_rows(indexed)[1]
+    positions = real_dir/'positions.tsv'
+    positions.write_text('observation_id\tx_px\ty_px\n'+''.join(f'{label}\t{i}\t1\n' for i,label in enumerate(labels)),
+                         encoding='utf-8')
+    image, base, saved = real_dir/'source.ppm', real_dir/'base.qpx', real_dir/'restored.qpx'
+    width = max(len(labels), 2)
+    image.write_bytes(f'P6\n{width} 2\n255\n'.encode('ascii')+bytes([80])*(width*6))
+    run('real-project', 'project-create', image, base, '--reader', 'ppm')
+    restored = run('real-restore', 'project-matrix-import-positions', base, '1', indexed, positions, saved)
+    indexed.rename(real_dir/'indexed-offline.qmx')
+    replay = real_dir/'replayed.zip'
+    run('real-reexport', 'project-matrix-export-mtx', saved, '1', restored['matrix_source_sha256'], replay, '--real')
+    assert sha(replay) == sha(archive) and (sha(project), sha(source)) == original
+
+
 def member_lines(archive, name):
     payload = archive.read(name).decode("utf-8")
     assert payload.endswith("\n"), name
@@ -222,6 +288,8 @@ def main():
                         help="Verify Deflate exchange files against the same decoded inputs")
     parser.add_argument("--zip-descriptors", action="store_true",
                         help="Verify streaming ZIP32 data descriptors")
+    parser.add_argument("--real-exchange", action="store_true",
+                        help="Check continuous Matrix Market import, export and spatial replay")
     args = parser.parse_args()
     if args.position_reexport and not args.spatial:
         parser.error("--position-reexport requires --spatial")
@@ -231,6 +299,8 @@ def main():
         parser.error("--zip-deflate requires --archive-index")
     if args.zip_descriptors and not args.zip_deflate:
         parser.error("--zip-descriptors requires --zip-deflate")
+    if args.real_exchange and not args.continuous_project:
+        parser.error("--real-exchange requires --continuous-project")
     args.output.mkdir(parents=True)
     env = {key: value for key, value in os.environ.items()
            if not key.upper().startswith(("PYTHON", "QPX_", "QUPATHXX_"))}
@@ -297,6 +367,8 @@ def main():
                       item["association_id"], destination, status=2)
         assert "counts" in refusal["error"].lower(), refusal
         assert not destination.exists()
+        if args.real_exchange:
+            check_real_exchange(run, args.output, args.continuous_project, args.image, item)
 
     with ZipFile(archive) as source:
         for name in ("matrix.mtx", "features.tsv", "barcodes.tsv"):

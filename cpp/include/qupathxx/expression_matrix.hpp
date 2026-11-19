@@ -95,6 +95,11 @@ bool has_expression_matrix_storage();
 ExpressionMatrixImportResult import_expression_matrix(const std::string& matrix,
     const std::string& features,const std::string& observations,const std::string& store,
     const ExpressionMatrixImportOptions& = {},const std::atomic<bool>* cancelled=nullptr);
+// Explicit Matrix Market real/general import with finite binary64 values and
+// no implicit spatial coordinates.
+ExpressionMatrixImportResult import_real_expression_matrix(const std::string& matrix,
+    const std::string& features,const std::string& observations,const std::string& store,
+    const ExpressionMatrixImportOptions& = {},const std::atomic<bool>* cancelled=nullptr);
 // Fingerprint sidecar bytes once on open; compare when an expected digest is supplied.
 // Queries validate selected gene chunks and file versions, never reopen/rescan
 // the original Matrix Market inputs. Retain the immutable source between queries.

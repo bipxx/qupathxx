@@ -5,6 +5,7 @@
 #include "project_database_output.hpp"
 #include "stored_zip_read.hpp"
 #include <fstream>
+#include <charconv>
 #include <cstring>
 #include <chrono>
 #ifdef QUPATHXX_HAS_MATRIX_MARKET_GZIP
@@ -179,7 +180,18 @@ public:
 #endif
     }
     bool next(std::string& line){line.clear();while(true){if(at_==end_ && !fill()){if(line.empty())return false;break;}const auto* begin=buffer_.data()+at_;const auto* stop=static_cast<const char*>(std::memchr(begin,'\n',end_-at_));const auto n=stop?std::size_t(stop-begin):end_-at_;if(n>4096-line.size())throw std::invalid_argument("Expression input line exceeds4096 bytes");line.append(begin,n);at_+=n;if(stop){++at_;break;}}if(!line.empty() && line.back()=='\r')line.pop_back();if(line.find('\0')!=std::string::npos)throw std::invalid_argument("Expression input contains NUL");return true;}
-    bool matrix_line(std::string& line){while(next(line)){const auto at=line.find_first_not_of(" \t");if(at!=std::string::npos && line[at]!='%')return true;}return false;}
+    bool matrix_line(std::string& line,std::string* value_domain=nullptr){
+        while(next(line)){
+            const auto at=line.find_first_not_of(" \t");
+            if(at==std::string::npos)continue;
+            if(line[at]!='%')return true;
+            if(value_domain && line.compare(at,market_domain_comment.size(),market_domain_comment)==0){
+                if(!value_domain->empty())throw std::invalid_argument("Duplicate Matrix Market value-domain comment");
+                *value_domain=line.substr(at+market_domain_comment.size());validate_market_domain(*value_domain);
+            }
+        }
+        return false;
+    }
     std::string finish() {
         const auto expected=archive_?member_.encoded_size:guard_->version()->bytes;
         if(at_!=end_ || !eof_ || bytes_!=expected)throw WorkflowInputChanged("Expression input not completely consumed");
@@ -201,24 +213,58 @@ void protect_matrix_index_destination(const std::string& destination) {
     if(fs::exists(fs::u8path(destination)))throw WorkflowOutputExists("Expression sidecar output already exists");
     if(detail::has_sqlite_companion(destination))throw WorkflowOutputExists("Expression sidecar destination has a SQLite companion");
 }
+double market_real_value(std::string_view value) {
+    if(!value.empty() && value.front()=='+'){
+        value.remove_prefix(1);
+        if(!value.empty() && value.front()=='-')throw std::invalid_argument("Invalid finite Matrix Market real value");
+    }
+    double parsed=0;
+    const auto end=value.data()+value.size();
+    const auto number=std::from_chars(value.data(),end,parsed,std::chars_format::general);
+    if(number.ec!=std::errc{} || number.ptr!=end || !std::isfinite(parsed))
+        throw std::invalid_argument("Invalid finite Matrix Market real value");
+    return parsed;
+}
 ExpressionMatrixImportResult index_matrix_lines(Lines& entries,Lines& feature_input,Lines& observation_input,
     const std::string& destination,const ExpressionMatrixImportOptions& options,const std::atomic<bool>* cancelled,
-    std::chrono::steady_clock::time_point began) {
-    std::string line;
-    if(!entries.next(line) || line!="%%MatrixMarket matrix coordinate integer general" || !entries.matrix_line(line))throw std::invalid_argument("Expected Matrix Market coordinate integer general and dimensions");
+    std::chrono::steady_clock::time_point began,bool real) {
+    std::string line,label;
+    if(!entries.next(line) || line!=(real?"%%MatrixMarket matrix coordinate real general":"%%MatrixMarket matrix coordinate integer general") ||
+       !entries.matrix_line(line,real?&label:nullptr))
+        throw std::invalid_argument(real?"Expected Matrix Market coordinate real general and dimensions":
+            "Expected Matrix Market coordinate integer general and dimensions");
     const auto dims=detail::spatial_triple(line);ExpressionMatrixMetadata m;m.features=detail::spatial_unsigned(dims[0]);m.observations=detail::spatial_unsigned(dims[1]);m.entries=detail::spatial_unsigned(dims[2]);m.input_profile=options.format==ExpressionCatalogueFormat::Tenx?"tenx-tsv":"qpx-tsv";
+    if(real){
+        m.domain=ExpressionValueDomain::Continuous;
+        m.value_domain=label.empty()?"matrix-market-real":label;
+        m.input_profile=options.format==ExpressionCatalogueFormat::Tenx?"matrix-market-real-tenx/1":"matrix-market-real-qpx/1";
+    }
     const auto decoder_work=entries.extra_work_bytes()+feature_input.extra_work_bytes()+observation_input.extra_work_bytes();
     Writer writer(destination,m,options,decoder_work,cancelled);feature_rows(writer,feature_input,m,options.format,cancelled);observation_rows(writer,observation_input,m,options.format,cancelled);
     const auto feature_hash=feature_input.finish(),observation_hash=observation_input.finish();
-    for(std::uint64_t i=0;i<m.entries;++i){if((i&1023)==0)workflow_checkpoint(cancelled);if(!entries.matrix_line(line))throw std::invalid_argument("Truncated expression matrix entries");const auto values=detail::spatial_triple(line);const auto row=detail::spatial_unsigned(values[0]),column=detail::spatial_unsigned(values[1]),value=detail::spatial_unsigned(values[2]);if(!row || !column)throw std::invalid_argument("Expression matrix index outside dimensions");writer.count(row-1,column-1,value);}
+    for(std::uint64_t i=0;i<m.entries;++i){
+        if((i&1023)==0)workflow_checkpoint(cancelled);
+        if(!entries.matrix_line(line))throw std::invalid_argument("Truncated expression matrix entries");
+        const auto values=detail::spatial_triple(line);
+        const auto row=detail::spatial_unsigned(values[0]),column=detail::spatial_unsigned(values[1]);
+        if(!row || !column)throw std::invalid_argument("Expression matrix index outside dimensions");
+        if(real)writer.continuous(row-1,column-1,market_real_value(values[2]));
+        else writer.count(row-1,column-1,detail::spatial_unsigned(values[2]));
+    }
     if(entries.matrix_line(line))throw std::invalid_argument("Extra expression matrix entries");const auto matrix_hash=entries.finish();auto result=writer.finish({matrix_hash,feature_hash,observation_hash},entries.bytes(),[&]{entries.verify();feature_input.verify();observation_input.verify();protect_matrix_index_destination(destination);});result.elapsed_ms=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-began).count();return result;
 }
-}
-ExpressionMatrixImportResult import_expression_matrix(const std::string& matrix,const std::string& features,const std::string& observations,const std::string& store,const ExpressionMatrixImportOptions& options,const std::atomic<bool>* cancelled){
+ExpressionMatrixImportResult import_market_files(const std::string& matrix,const std::string& features,const std::string& observations,const std::string& store,const ExpressionMatrixImportOptions& options,const std::atomic<bool>* cancelled,bool real){
     options.validate();workflow_checkpoint(cancelled);const auto began=std::chrono::steady_clock::now();
     const auto destination=detail::export_path(store);protect_matrix_index_destination(destination);
     Lines entries(matrix,options.file_bytes,cancelled),feature_input(features,options.file_bytes,cancelled),observation_input(observations,options.file_bytes,cancelled);
-    return index_matrix_lines(entries,feature_input,observation_input,destination,options,cancelled,began);
+    return index_matrix_lines(entries,feature_input,observation_input,destination,options,cancelled,began,real);
+}
+}
+ExpressionMatrixImportResult import_expression_matrix(const std::string& matrix,const std::string& features,const std::string& observations,const std::string& store,const ExpressionMatrixImportOptions& options,const std::atomic<bool>* cancelled){
+    return import_market_files(matrix,features,observations,store,options,cancelled,false);
+}
+ExpressionMatrixImportResult import_real_expression_matrix(const std::string& matrix,const std::string& features,const std::string& observations,const std::string& store,const ExpressionMatrixImportOptions& options,const std::atomic<bool>* cancelled){
+    return import_market_files(matrix,features,observations,store,options,cancelled,true);
 }
 ExpressionMatrixImportResult detail::import_expression_matrix_archive(const MatrixMarketArchiveImportRequest& request,
     const std::atomic<bool>* cancelled) {
@@ -227,10 +273,11 @@ ExpressionMatrixImportResult detail::import_expression_matrix_archive(const Matr
     const auto destination=export_path(request.store);protect_matrix_index_destination(destination);
     MatrixArchive archive(request.archive,options.file_bytes,cancelled);
     Lines entries(archive,0,cancelled),features(archive,1,cancelled),observations(archive,2,cancelled);
-    return index_matrix_lines(entries,features,observations,destination,options,cancelled,began);
+    return index_matrix_lines(entries,features,observations,destination,options,cancelled,began,request.real);
 }
 #else
 ExpressionMatrixImportResult import_expression_matrix(const std::string&,const std::string&,const std::string&,const std::string&,const ExpressionMatrixImportOptions&,const std::atomic<bool>*){throw std::runtime_error("Expression matrix storage requires native project/SQLite support");}
+ExpressionMatrixImportResult import_real_expression_matrix(const std::string&,const std::string&,const std::string&,const std::string&,const ExpressionMatrixImportOptions&,const std::atomic<bool>*){throw std::runtime_error("Expression matrix storage requires native project/SQLite support");}
 ExpressionMatrixImportResult detail::import_expression_matrix_archive(const MatrixMarketArchiveImportRequest&,
     const std::atomic<bool>*) {throw std::runtime_error("Expression matrix storage requires native project/SQLite support");}
 #endif

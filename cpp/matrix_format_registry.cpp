@@ -15,7 +15,8 @@ ExpressionMatrixImportResult matrix_market(const MatrixFormatImportRequest& requ
         return import_expression_matrix_archive(*archive,cancelled);
     const auto* selected=std::get_if<MatrixMarketImportRequest>(&request);
     if(!selected)throw std::invalid_argument("Matrix Market format requires a Matrix Market import request");
-    return import_expression_matrix(selected->matrix,selected->features,selected->observations,selected->store,selected->options,cancelled);
+    const auto importer=selected->real?import_real_expression_matrix:import_expression_matrix;
+    return importer(selected->matrix,selected->features,selected->observations,selected->store,selected->options,cancelled);
 }
 ExpressionMatrixImportResult h5ad(const MatrixFormatImportRequest& request,const std::atomic<bool>* cancelled) {
     const auto* selected=std::get_if<H5adMatrixImportRequest>(&request);

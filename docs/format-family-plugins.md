@@ -265,6 +265,23 @@ identity and axis counts. ZIP export is limited to 1 GiB. ZIP import bounds
 both the archive and total expanded member bytes to 1 GiB. Both commands
 require new output paths.
 
+For continuous matrices, pass `--real` to the export and index commands.
+This selects the [Matrix Market real/general coordinate profile](https://math.nist.gov/MatrixMarket/formats.html)
+and preserves finite binary64 values, both signs of stored zero and ordered
+axis IDs. The exporter records the value-domain label in a
+`% qpx-value-domain LABEL` comment before the dimensions. Independently
+authored files without that comment use `matrix-market-real`.
+
+```text
+qupathxx_format_import project-matrix-export-mtx INPUT_PROJECT IMAGE_ID ASSOCIATION_ID NEW_ZIP --real
+qupathxx_format_import matrix-market-index-zip NEW_ZIP NEW_QMX --real
+```
+
+Plain real Matrix Market files use the same `--real` flag after
+`--catalogue qpx|tenx`. The resulting QMX uses schema 7 and contains the
+matrix and axis catalogues. Restore positions separately through the saved
+project route below. Keep the original QMX backup for exact provenance.
+
 Native builds configured with `-DQUPATHXX_BUILD_MATRIX_MARKET_GZIP=ON` also
 accept `.gz` on any of the three input files, including mixed plain and gzip
 inputs. Each compressed file must contain exactly one gzip member with a valid

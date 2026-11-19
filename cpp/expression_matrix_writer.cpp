@@ -40,6 +40,12 @@ struct Writer::Data {
             if(!external_receipt || !metadata.spatial_frame || metadata.domain!=ExpressionValueDomain::Counts || metadata.value_domain!="raw-counts" || !metadata.input_matrix.empty() || !metadata.input_spatial.empty())throw std::invalid_argument("External count import needs its typed receipt and coordinate frame");
             (void)external_recipe_identity(*external_receipt,*metadata.spatial_frame);frame_sha=metadata.spatial_frame->sha256();
             db->exec("PRAGMA user_version=4; CREATE TABLE coordinates(observation INTEGER PRIMARY KEY NOT NULL,x BLOB NOT NULL CHECK(length(x)=8),y BLOB NOT NULL CHECK(length(y)=8),sha256 TEXT NOT NULL) STRICT;");coordinates=std::make_unique<Statement>(*db,"INSERT INTO coordinates VALUES(?,?,?,?)");text(coordinate_digest,"qpx.expression-coordinates/1");text(coordinate_digest,frame_sha);coordinate_digest.integer(metadata.observations);
+        } else if(market_real(metadata)){
+            if(metadata.domain!=ExpressionValueDomain::Continuous || metadata.spatial_frame ||
+               !metadata.spatial_sha256.empty() || !metadata.input_matrix.empty() || !metadata.input_spatial.empty())
+                throw std::invalid_argument("Invalid Matrix Market real metadata");
+            validate_market_domain(metadata.value_domain);
+            db->exec("PRAGMA user_version=7;");
         } else if(!legacy(metadata)){if(!metadata.spatial_frame || metadata.input_matrix.empty() || metadata.input_spatial.empty())throw std::invalid_argument("H5AD import needs coordinates/frame and explicit dataset keys");frame_sha=metadata.spatial_frame->sha256();db->exec("PRAGMA user_version=3; CREATE TABLE coordinates(observation INTEGER PRIMARY KEY NOT NULL,x BLOB NOT NULL CHECK(length(x)=8),y BLOB NOT NULL CHECK(length(y)=8),sha256 TEXT NOT NULL) STRICT;");coordinates=std::make_unique<Statement>(*db,"INSERT INTO coordinates VALUES(?,?,?,?)");text(coordinate_digest,"qpx.expression-coordinates/1");text(coordinate_digest,frame_sha);coordinate_digest.integer(metadata.observations);}
         if(external_receipt && !external(metadata) && !typed_external(metadata))throw std::invalid_argument("External reader receipt supplied to a legacy matrix writer");
         if(external_store_receipt && !store_external(metadata))throw std::invalid_argument("Directory receipt supplied to another matrix profile");

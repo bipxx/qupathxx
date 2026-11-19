@@ -254,9 +254,13 @@ std::size_t detail::export_expression_matrix_positions(
 
 std::size_t detail::export_expression_matrix_market(
     const ExpressionMatrixSource& source,const std::string& output,const std::atomic<bool>* cancelled,
-    const std::function<void()>& protect_output) {
+    const std::function<void()>& protect_output,bool real) {
     const auto& metadata=source.metadata();
-    if(metadata.domain!=ExpressionValueDomain::Counts)
+    if(real){
+        if(metadata.domain!=ExpressionValueDomain::Continuous)
+            throw std::invalid_argument("Matrix Market real export requires continuous values");
+        matrix::validate_market_domain(metadata.value_domain);
+    } else if(metadata.domain!=ExpressionValueDomain::Counts)
         throw std::invalid_argument("Matrix Market export requires exact integer counts");
     const auto destination=export_path(output);
     protect_matrix_output(source,destination,cancelled,protect_output);
@@ -268,9 +272,10 @@ std::size_t detail::export_expression_matrix_market(
     AtomicExportFile file(destination,archive_bytes,cancelled);
     const auto matrix=stored_zip::write_member(file,"matrix.mtx",cancelled,[&](auto& sink) {
         auto emit=[&](const std::string& row) {sink.write(row.data(),row.size());};
-        emit("%%MatrixMarket matrix coordinate integer general\n"+
-            std::to_string(metadata.features)+" "+std::to_string(metadata.observations)+" "+
-            std::to_string(metadata.entries)+"\n");
+        emit(real?"%%MatrixMarket matrix coordinate real general\n":"%%MatrixMarket matrix coordinate integer general\n");
+        if(real)emit(std::string(matrix::market_domain_comment)+metadata.value_domain+"\n");
+        emit(std::to_string(metadata.features)+" "+std::to_string(metadata.observations)+" "+
+             std::to_string(metadata.entries)+"\n");
         // Plan by the largest possible sparse block, with at least one feature.
         const auto block_size=std::clamp<std::uint64_t>(262144/std::max<std::uint64_t>(1,metadata.observations),1,page_size);
         std::uint64_t entries=0;
@@ -283,8 +288,10 @@ std::size_t detail::export_expression_matrix_market(
                 const auto prefix=std::to_string(block.features[f]+1)+" ";
                 for(auto at=block.offsets[f];at<block.offsets[f+1];++at) {
                     if((entries++&1023)==0)workflow_checkpoint(cancelled);
-                    emit(prefix+std::to_string(block.observation_indices[at]+1)+" "+
-                         std::to_string(block.counts[at])+"\n");
+                    auto row=prefix+std::to_string(block.observation_indices[at]+1)+" ";
+                    if(real)append_decimal(row,block.continuous[at]);
+                    else row+=std::to_string(block.counts[at]);
+                    row+='\n';emit(row);
                 }
             }
             start=end;

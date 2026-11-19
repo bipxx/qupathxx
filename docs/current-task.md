@@ -8,6 +8,26 @@ and [R2-R16 queue](api-delivery-plan.md#execution-order-for-finishing-the-remain
 own remaining scope. No100% QuPath, universal biological/speed/platform or
 Java/Groovy claim; NC/restricted/unknown required materials stay unadmitted.
 
+## Verified locally - round-trip continuous sparse Matrix Market values
+
+Explicit `--real` import and export share the native Matrix Market reader,
+writer and project guards. Schema 7 stores continuous binary64 rows and axis
+catalogues with no inferred coordinates. The archive carries the value-domain
+label. The integer ZIP and QMX retained their previous exact digests.
+
+All 67 CLI checks passed. Plain and archived real imports matched byte for
+byte. Authored values preserved both signs of zero, the smallest positive
+subnormal, a negative fraction and the largest finite binary64 value by exact
+bits. A restored project re-exported the same continuous archive after moving
+the input QMX offline. Native project, H5AD, catalog and matrix checks passed
+after one cached build. The first CLI driver passed an integer image ID to
+the Windows subprocess wrapper. A string ID fixed the test with the same
+binaries. Stage these changes and the ZIP descriptor support together.
+
+[Prior continuous export refusal](../build/native-format-closeout/validation-packet/matrix-real/baseline.log)
+[CLI and spatial replay receipts](../build/native-format-closeout/validation-packet/matrix-real/final-schema/validation.json)
+[Native matrix checks](../build/native-format-closeout/validation-packet/matrix-real/native.log)
+
 ## Verified locally - index Matrix Market ZIPs with data descriptors
 
 The bounded exchange reader uses the ZIP32 central directory to locate and
