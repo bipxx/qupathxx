@@ -164,6 +164,11 @@ def published_bundle(source, expected_digest):
             raise ValueError(f'{key} verification requires the backed spatial exchange')
         if enabled:
             checks.add(key)
+    deflate = validation.get('matrix_market_zip_deflate', False)
+    if type(deflate) is not bool or (deflate and not {'matrix_market_gzip', 'matrix_market_zip'} <= checks):
+        raise ValueError('Matrix Market ZIP Deflate verification requires the gzip and ZIP checks')
+    if deflate:
+        checks.add('matrix_market_zip_deflate')
     ome_tiff_bit = validation.get('ome_tiff_bit', False)
     if type(ome_tiff_bit) is not bool:
         raise ValueError('Invalid OME-TIFF bit verification flag')
@@ -296,6 +301,34 @@ def check_dicom(run, native, root, manifest):
             'changed_companion_refused': True}
 
 
+def check_spatial_deflate_index(run, cli, root, names):
+    matrix, features, barcodes = names
+    archive = root/'reordered.zip'
+    with zipfile.ZipFile(archive, 'x', zipfile.ZIP_DEFLATED) as bundle:
+        for path in (barcodes, features, matrix):
+            mode = zipfile.ZIP_STORED if path == features else zipfile.ZIP_DEFLATED
+            bundle.writestr(path.name, path.read_bytes(), compress_type=mode)
+    archive_sha = sha(archive)
+    indexed = root/'reordered.qmx'
+    reference = json.loads(run('spatial-index-unpacked', [cli, 'matrix-market-index', *names,
+                               root/'unpacked.qmx', '--catalogue', 'tenx']).read_bytes())
+    result = json.loads(run('spatial-index-deflate', [cli, 'matrix-market-index-zip', archive, indexed]).read_bytes())
+    if (sha(indexed) != reference['file_sha256'] or result['file_sha256'] != reference['file_sha256']
+            or result['source_sha256'] != reference['source_sha256']):
+        raise ValueError('Reordered Deflate ZIP indexing differs from the exact unpacked QMX')
+    damaged = bytearray(archive.read_bytes())
+    directory = int.from_bytes(damaged[-6:-2], 'little')
+    damaged[14] ^= 1
+    damaged[directory + 16] ^= 1
+    bad, refused = root/'deflate-bad-crc.zip', root/'deflate-refused.qmx'
+    bad.write_bytes(damaged)
+    log = run('spatial-reject-deflate-crc', [cli, 'matrix-market-index-zip', bad, refused], expected_exit=2)
+    if (refused.exists() or 'Matrix Market ZIP member CRC' not in json.loads(log.read_bytes())['error']
+            or sha(archive) != archive_sha):
+        raise ValueError('Deflate archive CRC handling or source preservation differs')
+    return indexed, result
+
+
 def check_position_reexport(run, native, user, manifest, checks):
     root = user/'spatial exchange'
     root.mkdir()
@@ -328,6 +361,9 @@ def check_position_reexport(run, native, user, manifest, checks):
             raise ValueError('Spatial index did not refuse the corrupted gzip catalogue')
     index = json.loads(run('spatial-index', [cli, 'matrix-market-index', *inputs,
                             indexed, '--catalogue', 'tenx']).read_bytes())
+    matrix_market_zip_deflate = 'matrix_market_zip_deflate' in checks
+    if matrix_market_zip_deflate:
+        indexed, index = check_spatial_deflate_index(run, cli, root, (matrix, features, barcodes))
     plugin = [cli, '--reader-plugins', manifest]
     base = user/'envi/spectra.qpx'
     base_sha = sha(base)
@@ -374,8 +410,10 @@ def check_position_reexport(run, native, user, manifest, checks):
         capability, = [row for row in catalog['matrix'] if row['provider_id'] == 'matrix-market']
         if capability['can_import_zip'] is not True or capability['can_import_gzip'] is not matrix_market_gzip:
             raise ValueError('Installed Matrix Market capabilities differ from the handoff')
+        if matrix_market_zip_deflate and capability.get('can_import_zip_deflate') is not True:
+            raise ValueError('Installed catalog does not advertise Matrix Market ZIP Deflate')
         reference = index
-        if matrix_market_gzip:
+        if matrix_market_gzip and not matrix_market_zip_deflate:
             reference = json.loads(run('spatial-index-unpacked', [cli, 'matrix-market-index', matrix, features,
                                        barcodes, root/'unpacked.qmx', '--catalogue', 'tenx']).read_bytes())
         direct = root/'direct.qmx'
@@ -386,8 +424,11 @@ def check_position_reexport(run, native, user, manifest, checks):
             raise ValueError('Direct ZIP indexing differs from the exact unpacked QMX')
     if sha(project) != before or sha(base) != base_sha:
         raise ValueError('Spatial exchange changed a saved input project')
-    return {'project_sha256': before, 'positions_sha256': sha(replay), 'counts_sha256': sha(counts),
-            'matrix_market_gzip': matrix_market_gzip, 'direct_qmx_sha256': direct_qmx_sha256, 'explicit_channel': explicit_channel}
+    receipt = {'project_sha256': before, 'positions_sha256': sha(replay), 'counts_sha256': sha(counts),
+               'matrix_market_gzip': matrix_market_gzip, 'direct_qmx_sha256': direct_qmx_sha256, 'explicit_channel': explicit_channel}
+    if matrix_market_zip_deflate:
+        receipt['deflate_qmx_sha256'] = index['file_sha256']
+    return receipt
 
 
 def check_verified_spatial_source(run, native, root):

@@ -8,6 +8,26 @@ and [R2-R16 queue](api-delivery-plan.md#execution-order-for-finishing-the-remain
 own remaining scope. No100% QuPath, universal biological/speed/platform or
 Java/Groovy claim; NC/restricted/unknown required materials stay unadmitted.
 
+## Verified locally - Windows Matrix Market ZIP exchange handoff
+
+Eight archives match compiled source
+`5bec9d37b645068c7dc2ad3d07a26b361cd397d4d86a1653af4d3c40c7777009`.
+One cached relink reused all 15 dependency payloads and the admitted providers.
+The corresponding source configured offline with Python off. The local verifier
+generator needed explicit UTF-8 to read the previous handoff script.
+
+The extracted runtime passed 50 Matrix Market checks and 46 additional checks
+on an explicit channel. The Windows-compressed archive matched the plain QMX
+byte for byte. The fresh-host checker restored a spatial project from a mixed,
+reordered ZIP, verified exact counts and positions, and refused a bad member
+CRC. It passed all 62 commands locally. Removal preserved 91 research files.
+Nine older handoffs retained their preflight scope. Hosted validation awaits
+release authorization and a prepared tag.
+
+[Windows handoff](../build/native-format-closeout/validation-packet/current-native-matrix-deflate-install/windows-native-handoff/handoff.json)
+[Packaged spatial verification](../build/native-format-closeout/validation-packet/current-native-matrix-deflate-install/archive-replay/latest%20research/matrix/validation.json)
+[Fresh-host checker local receipt](../build/qpx-host-deflate-report/handoff.json)
+
 ## Verified locally - reopen Matrix Market ZIPs in any member order
 
 The native importer matches one copy of each of the three root filenames and
@@ -18,8 +38,8 @@ and QMX hashes as indexing the original files. Its archive bytes were intact.
 All 50 CLI checks passed, including a different local and central order,
 refusals for duplicate and unknown names or offsets, and exact saved spatial
 replay from the reordered archive. Native project and region checks passed.
-One cached build sufficed without retries. The two Matrix Market ZIP changes
-are ready to stage together in the next Windows checkpoint.
+One cached build sufficed without retries. The Windows handoff above includes
+both Matrix Market ZIP changes.
 
 [Prior Windows archive refusal](../build/native-format-closeout/validation-packet/matrix-native-zip/baseline.log)
 [Windows archive import](../build/native-format-closeout/validation-packet/matrix-native-zip/windows.log)
@@ -39,8 +59,8 @@ saved positions after the source QMX moved offline. Six malformed Deflate
 cases refused without output. Native project, catalog and region checks
 passed. The first CLI run lacked the fixture's ENVI manifest. The first
 project test used a working directory too deep for its long scratch case.
-Both reruns used the same binaries with corrected inputs and paths. The next
-Windows checkpoint can stage this source delta with the existing zlib payload.
+Both reruns used the same binaries with corrected inputs and paths. The Windows
+handoff above includes this source delta with the existing zlib payload.
 
 [Prior refusal](../build/native-format-closeout/validation-packet/matrix-deflate/baseline.log)
 [CLI and saved replay receipts](../build/native-format-closeout/validation-packet/matrix-deflate/roundtrip-envi/validation.json)
