@@ -66,7 +66,11 @@ def main():
                         help="Require an explicit zero, 2^53+1 and UINT64_MAX in the fixture")
     parser.add_argument("--spatial", action="store_true",
                         help="Restore positions and the re-indexed matrix on an empty saved image")
+    parser.add_argument("--position-reexport", action="store_true",
+                        help="Verify exact re-export from the restored point frame")
     args = parser.parse_args()
+    if args.position_reexport and not args.spatial:
+        parser.error("--position-reexport requires --spatial")
     args.output.mkdir(parents=True)
     env = {key: value for key, value in os.environ.items()
            if not key.upper().startswith(("PYTHON", "QPX_", "QUPATHXX_"))}
@@ -234,6 +238,21 @@ def main():
         points = json.loads(geometry.read_bytes())["features"]
         assert len(points) == len(coordinates) and all(point["geometry"]["type"] == "Point" for point in points)
         assert {point["properties"]["name"]:point["geometry"]["coordinates"] for point in points} == coordinates
+        if args.position_reexport:
+            replay = args.output / "replayed-positions.tsv"
+            export_positions = ("project-matrix-export-positions", received, args.image, received_id)
+            selection = ("--frame-id", saved["coordinate_frame"], *frame)
+            receipt = run("reexport-backed-positions", *export_positions, replay, *selection)
+            assert receipt["coordinate_frame"] == saved["coordinate_frame"] and receipt["plane"] == plane
+            assert receipt["matrix_file_sha256"] == imported_digest
+            assert replay.read_bytes() == (offline / positions.name).read_bytes()
+            run("backed-positions-existing-output", *export_positions, replay, *selection, status=2)
+            assert replay.read_bytes() == (offline / positions.name).read_bytes()
+            bad_frame = args.output / "refused-frame.tsv"
+            run("backed-positions-wrong-frame", *export_positions, bad_frame,
+                "--frame-id", "unrelated", *frame, status=2)
+            assert not bad_frame.exists()
+            assert sha(Path(owned["path"])) == imported_digest
         assert sha(received) == received_digest and (sha(args.project), sha(sidecar)) == original
 
     assert not list(args.output.glob("*.qpx-tmp-*"))

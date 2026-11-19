@@ -8,6 +8,32 @@ and [R2-R16 queue](api-delivery-plan.md#execution-order-for-finishing-the-remain
 own remaining scope. No100% QuPath, universal biological/speed/platform or
 Java/Groovy claim; NC/restricted/unknown required materials stay unadmitted.
 
+## Verified locally - packaged restored position export
+
+The Windows runtime, SDK and corresponding source match compiled fingerprint
+`da1b22a2d3203d249eee161d790918e0dbc8cde010d3fc31cacbed4068d766f5`.
+One cached relink covered eight entry points and six changed compiled inputs.
+The seven-archive handoff reused 15 admitted dependency source payloads and all
+provider binaries. The extracted source configured offline with Python off.
+
+The extracted runtime passed 31 matrix and spatial checks, including exact
+saved-frame TSV re-export with the original QMX and TSV offline. The runtime
+also passed 21 core provider checks, eight guarded DICOM checks and both
+supplemental desktop reopens. The SDK consumer replayed its saved project.
+Removal deleted 512 installed files and preserved 106 research files. All nine
+checksums and the seven-archive fresh-host preflight passed locally.
+
+The staging check initially expected the earlier CLI binary hash. It reused
+the installed files and matched the settled relink to the cache. The replay
+harness also needed the existing NumPy test environment for its oracle. The
+retry reused the completed offline configuration. Hosted validation awaits a
+prepared release tag carrying the staged assets.
+
+[Windows handoff](../build/native-format-closeout/validation-packet/current-native-position-install/windows-native-handoff/handoff.json)
+[Archive checksums](../build/native-format-closeout/validation-packet/current-native-position-install/windows-native-handoff/SHA256SUMS.txt)
+[Archive installation and removal](../build/native-format-closeout/validation-packet/current-native-position-install/handoff-archive-installation-removal.json)
+[Packaged matrix and spatial checks](../build/native-format-closeout/validation-packet/current-native-position-install/archive-replay/latest%20research/matrix/validation.json)
+
 ## Verified locally - re-export restored spatial positions
 
 `project-matrix-export-positions --frame-id` replays coordinates from saved
