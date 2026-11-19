@@ -26,11 +26,11 @@ def run(*args):
     return subprocess.run([str(CLI),*map(str,args)],capture_output=True,text=True,encoding='utf-8',timeout=40)
 
 
-def export_ome_xml(source, output):
+def export_ome_xml(source, output, *options):
     importer = os.environ.get('QUPATHXX_TEST_FORMAT_IMPORT')
     if not importer:
         pytest.skip('native format import CLI path is required')
-    return subprocess.run([importer, 'ome-tiff-export-xml', str(source), str(output)],
+    return subprocess.run([importer, 'ome-tiff-export-xml', str(source), str(output), *options],
                           capture_output=True, encoding='utf-8', timeout=40)
 
 
@@ -82,6 +82,51 @@ def test_export_embedded_ome_binaryonly_preserves_reference(tmp_path):
     result = export_ome_xml(source, output)
     assert result.returncode == 0, result.stderr
     assert output.read_bytes() == xml
+
+
+@pytest.mark.parametrize('companion_tiff', [False, True])
+def test_export_resolved_ome_metadata_preserves_exact_master(tmp_path, companion_tiff):
+    source, output = tmp_path / 'binary-only.ome.tif', tmp_path / 'resolved.xml'
+    master = tmp_path / ('master.ome.tif' if companion_tiff else 'master.companion.ome')
+    pointer = f'<OME UUID="urn:source"><BinaryOnly MetadataFile="{master.name}" UUID="urn:master"/></OME>'
+    xml = ('<OME xmlns="http://www.openmicroscopy.org/Schemas/OME/2016-06" UUID="urn:master">\n'
+           '<Image ID="Image:0"><Pixels ID="Pixels:0" SizeX="3" SizeY="2" SizeC="1" SizeZ="1" SizeT="1" '
+           'DimensionOrder="XYZCT" Type="uint8"><Channel ID="Channel:0:0"/>'
+           '<TiffData IFD="100"/><!----></Pixels><ROIRef ID="ROI:0"/></Image>'
+           '<ROI ID="ROI:0"><Union><Point ID="Shape:0" X="1" Y="1"/></Union></ROI></OME>').encode()
+    pixels = np.arange(6, dtype='u1').reshape(2, 3)
+    tifffile.imwrite(source, pixels, description=pointer, metadata=None, ome=False)
+    if companion_tiff:
+        tifffile.imwrite(master, pixels, description=xml, metadata=None, ome=False, bigtiff=True)
+    else:
+        master.write_bytes(xml)
+    before = source.read_bytes(), master.read_bytes()
+    result = export_ome_xml(source, output, '--resolve-metadata')
+    assert result.returncode == 0, result.stderr
+    receipt = json.loads(result.stdout)
+    assert Path(receipt['metadata_source']) == master
+    assert output.read_bytes() == xml
+    assert receipt['sha256'] == hashlib.sha256(xml).hexdigest() and receipt['bytes'] == len(xml)
+    result = export_ome_xml(source, master, '--resolve-metadata')
+    assert result.returncode == 2 and 'must not replace its input' in result.stderr
+    assert (source.read_bytes(), master.read_bytes()) == before
+
+
+@pytest.mark.parametrize(('master', 'diagnostic'), [
+    (None, ''),
+    ('<OME UUID="urn:different"><Image/></OME>', 'metadata file UUID differs'),
+    ('<OME UUID="urn:master"><BinaryOnly MetadataFile="nested.ome" UUID="urn:nested"/></OME>',
+     'metadata master must contain full Image metadata'),
+])
+def test_export_resolved_ome_metadata_refuses_bad_reference(tmp_path, master, diagnostic):
+    source, output = tmp_path / 'binary-only.ome.tif', tmp_path / 'refused.xml'
+    pointer = '<OME UUID="urn:source"><BinaryOnly MetadataFile="master.companion.ome" UUID="urn:master"/></OME>'
+    tifffile.imwrite(source, np.ones((2, 3), dtype='u1'), description=pointer, metadata=None, ome=False)
+    if master is not None:
+        (tmp_path / 'master.companion.ome').write_text(master, encoding='utf-8')
+    result = export_ome_xml(source, output, '--resolve-metadata')
+    assert result.returncode == 2 and diagnostic in result.stderr
+    assert not output.exists()
 
 
 @pytest.mark.parametrize('orientation', range(1, 9))

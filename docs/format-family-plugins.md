@@ -462,14 +462,16 @@ Extract the first TIFF directory's embedded OME XML for the standalone ROI
 workflow:
 
 ```text
-qupathxx_format_import ome-tiff-export-xml SAMPLE.ome.tif NEW_METADATA.xml
+qupathxx_format_import ome-tiff-export-xml SAMPLE.ome.tif NEW_METADATA.xml [--resolve-metadata]
 ```
 
 The native command validates up to 1 MiB of OME XML and preserves its text
-bytes. The report includes the exported byte count and SHA-256. `BinaryOnly`
-references are preserved as written. The command reads metadata without
-opening the pixel pyramid or resolving external files. Use the admitted OME
-ROI provider and an explicitly matching image frame to import the shapes.
+bytes. The report names the metadata source and includes the byte count and
+SHA-256. By default, `BinaryOnly` references are preserved as written. Pass
+`--resolve-metadata` to export the referenced XML from the verified companion
+document or TIFF. The command checks the master UUID and reads only metadata.
+Use the admitted OME ROI provider and an explicitly matching image frame to
+import the shapes.
 
 The [ASAP XML profile](../plugins/asap_xml/README.md) adds an independent ABI3
 module over the same frozen native host and shared bounded XML/QOX2 parser.

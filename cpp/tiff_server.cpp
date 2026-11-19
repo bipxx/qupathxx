@@ -44,7 +44,7 @@ std::string tiff_library_version() {
 }
 #ifndef QUPATHXX_HAS_TIFF
 std::shared_ptr<ImageServer> open_tiff(const std::string&,TiffOpenOptions,const std::atomic<bool>*) {throw std::runtime_error("TIFF reader requires QUPATHXX_BUILD_TIFF=ON");}
-detail::OmeTiffXmlExport detail::export_ome_tiff_xml(const std::string&,const std::string&,const std::atomic<bool>*) {
+detail::OmeTiffXmlExport detail::export_ome_tiff_xml(const std::string&,const std::string&,bool,const std::atomic<bool>*) {
     throw std::runtime_error("OME-TIFF XML export requires QUPATHXX_BUILD_TIFF=ON");
 }
 #else
@@ -366,16 +366,20 @@ class TiffData final {
         TIFFGetField(handle_,TIFFTAG_IMAGEDESCRIPTION,&description);
         return bounded(description,1024*1024);
     }
+    void load_tiff_description(std::uint32_t ordinal) {
+        activate(ordinal);
+        set_xml(ordinal,embedded_xml());
+    }
     std::uint32_t load_file(const std::string& path) {
         const auto ordinal=observe_file(path);auto& entry=*files_[ordinal];
         if(entry.metadata_only) throw std::invalid_argument("OME TiffData references an XML metadata file");
-        if(entry.count) return ordinal;activate(ordinal);
-        set_xml(ordinal,embedded_xml());
+        if(entry.count) return ordinal;
+        load_tiff_description(ordinal);
         entry.first=std::uint32_t(roots_.size());std::set<std::uint64_t> offsets;
         do {detail::export_checkpoint(opening_cancel_);if(roots_.size()>=65536 || !offsets.insert(TIFFCurrentDirOffset(handle_)).second) throw std::length_error("TIFF primary directory count/cycle limit exceeded");auto directory=inspect();catalog_entries_+=1+directory.sub.size();if(catalog_entries_>131072) throw std::length_error("TIFF directory catalog exceeds limit");roots_.push_back(std::move(directory));error_[0]=0;}while(TIFFReadDirectory(handle_));
         if(error_[0]) failed("cannot index TIFF directories");entry.count=std::uint32_t(roots_.size())-entry.first;return ordinal;
     }
-    std::uint32_t load_metadata_file(const std::string& path) {
+    std::uint32_t load_metadata_file(const std::string& path,bool index_tiff) {
         detail::export_checkpoint(opening_cancel_);const auto ordinal=observe_file(path);auto& entry=*files_[ordinal];
         if(entry.count || entry.metadata_only) return ordinal;
         std::ifstream input(detail::access_path(fs::u8path(entry.path)),std::ios::binary);
@@ -383,7 +387,12 @@ class TiffData final {
         std::array<unsigned char,4> prefix{};input.read(reinterpret_cast<char*>(prefix.data()),prefix.size());
         const bool little=prefix[0]=='I' && prefix[1]=='I' && (prefix[2]==42 || prefix[2]==43) && prefix[3]==0;
         const bool big=prefix[0]=='M' && prefix[1]=='M' && prefix[2]==0 && (prefix[3]==42 || prefix[3]==43);
-        if(input.gcount()==4 && (little || big)) {input.close();entry.opening_guard->verify();return load_file(entry.path);}
+        if(input.gcount()==4 && (little || big)) {
+            input.close();entry.opening_guard->verify();
+            if(index_tiff)return load_file(entry.path);
+            load_tiff_description(ordinal);entry.metadata_only=true;
+            return ordinal;
+        }
         if(!entry.version->bytes || entry.version->bytes>1024*1024 || entry.version->bytes>4*1024*1024-xml_bytes_)
             throw std::length_error("OME metadata XML is empty or exceeds XML limits");
         input.clear();input.seekg(0);std::string xml(std::size_t(entry.version->bytes),'\0');
@@ -394,7 +403,7 @@ class TiffData final {
         if(input.peek()!=std::char_traits<char>::eof()) throw std::runtime_error("OME metadata grew during reading");
         entry.opening_guard->verify();detail::export_checkpoint(opening_cancel_);set_xml(ordinal,std::move(xml));entry.metadata_only=true;return ordinal;
     }
-    std::uint32_t resolve_metadata(std::uint32_t file) {
+    std::uint32_t resolve_metadata(std::uint32_t file,bool index_tiff=true) {
         auto& entry=*files_[file];if(entry.metadata_file!=UINT32_MAX) return entry.metadata_file;
         if(entry.xml.find("<OME")==std::string::npos && entry.xml.find(":OME")==std::string::npos) return entry.metadata_file=file;
         tinyxml2::XMLDocument document;parse_ome(entry.xml,document);const auto* root=document.RootElement();const auto* binary=child(root,"BinaryOnly");
@@ -405,7 +414,7 @@ class TiffData final {
         const auto name=bounded(binary->Attribute("MetadataFile"),32768),uuid=bounded(binary->Attribute("UUID"),256);
         if(name.empty() || uuid.empty() || entry.uuid.empty()) throw std::invalid_argument("OME BinaryOnly requires MetadataFile and root/target UUIDs");
         detail::bounded_utf8(name,32768);
-        const auto metadata=load_metadata_file((fs::u8path(entry.path).parent_path()/fs::u8path(name)).u8string());
+        const auto metadata=load_metadata_file((fs::u8path(entry.path).parent_path()/fs::u8path(name)).u8string(),index_tiff);
         if(files_[metadata]->uuid!=uuid) throw std::invalid_argument("OME metadata file UUID differs");
         tinyxml2::XMLDocument master;parse_ome(files_[metadata]->xml,master);
         if(child(master.RootElement(),"BinaryOnly") || !child(master.RootElement(),"Image"))
@@ -691,25 +700,35 @@ public:
         }catch(...) {if(handle_) TIFFClose(handle_);handle_=nullptr;throw;}
     }
     ~TiffData() {if(handle_) TIFFClose(handle_);}
-    static detail::OmeTiffXmlExport export_xml(const std::string& input,const std::string& output,
+    static detail::OmeTiffXmlExport export_xml(const std::string& input,const std::string& output,bool resolve_companion,
                                              const std::atomic<bool>* cancelled) {
         TiffData data(input,{},cancelled,OpenInput{});
         const auto ordinal=data.observe_file(data.path_);
         const auto& file=*data.files_[ordinal];
         const auto destination=detail::export_path(output);
         detail::guard_file_output(file.path,file.version->identity,destination);
+        data.load_tiff_description(ordinal);
+        data.files_[ordinal]->metadata_only=true;
+        const auto metadata=resolve_companion?data.resolve_metadata(ordinal,false):ordinal;
+        const auto verify_inputs=[&] {
+            for(const auto& member:data.files_) {
+                detail::export_checkpoint(cancelled);
+                member->opening_guard->verify();
+                detail::guard_file_output(member->path,member->version->identity,destination);
+            }
+        };
+        verify_inputs();
         if(fs::exists(fs::symlink_status(fs::u8path(destination))))throw WorkflowOutputExists("OME XML destination already exists");
-        data.activate(ordinal);
-        const auto xml=data.embedded_xml();
+        const auto& selected=*data.files_[metadata];
+        const auto& xml=selected.xml;
         detail::bounded_utf8(xml,1024*1024);
         tinyxml2::XMLDocument parsed;
         parse_ome(xml,parsed);
         detail::AtomicExportFile target(destination,1024*1024,cancelled);
         target.write(xml.data(),xml.size());
         Sha256 digest;digest.update(xml.data(),xml.size());
-        auto result=detail::OmeTiffXmlExport{destination,xml.size(),digest.finish()};
-        file.opening_guard->verify();
-        detail::guard_file_output(file.path,file.version->identity,destination);
+        auto result=detail::OmeTiffXmlExport{destination,selected.path,xml.size(),digest.finish()};
+        verify_inputs();
         target.commit(false);
         return result;
     }
@@ -812,9 +831,9 @@ public:
 std::shared_ptr<ImageServer> open_tiff(const std::string& path,TiffOpenOptions options,const std::atomic<bool>* cancelled) {
     auto data=std::make_shared<TiffData>(path,std::move(options),cancelled);return std::make_shared<TiffServer>(data,*data->tiff_view(),cancelled);
 }
-detail::OmeTiffXmlExport detail::export_ome_tiff_xml(const std::string& input,const std::string& output,
+detail::OmeTiffXmlExport detail::export_ome_tiff_xml(const std::string& input,const std::string& output,bool resolve_companion,
                                                    const std::atomic<bool>* cancelled) {
-    return TiffData::export_xml(input,output,cancelled);
+    return TiffData::export_xml(input,output,resolve_companion,cancelled);
 }
 #endif
 }

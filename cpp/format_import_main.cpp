@@ -602,7 +602,7 @@ void help(){
         "       qupathxx_format_import [bootstrap options] project-create IMAGE NEW_PROJECT [--reader ID] [--series N] [--reader-options JSON]\n"
         "       qupathxx_format_import [bootstrap options] project-add-image INPUT_PROJECT IMAGE NEW_PROJECT [--reader ID] [--series N] [--reader-options JSON]\n"
         "       qupathxx_format_import [bootstrap options] project-images INPUT_PROJECT\n"
-        "       qupathxx_format_import ome-tiff-export-xml TIFF NEW_XML\n"
+        "       qupathxx_format_import ome-tiff-export-xml TIFF NEW_XML [--resolve-metadata]\n"
         "       qupathxx_format_import [bootstrap options] project-set-view INPUT_PROJECT IMAGE_ID NEW_PROJECT [--z N] [--time N]\n"
         "           [--display-channels R,G,B] [--display-lower R,G,B] [--display-upper R,G,B]\n"
         "       qupathxx_format_import [bootstrap options] project-review-source INPUT_PROJECT IMAGE_ID PRIMARY_FILE [--directory ROOT]\n"
@@ -677,10 +677,12 @@ int execute(std::vector<std::string> args){
             return project_objects_command(args);
         if(args[0]=="project-images")return project_images(args,!reader_manifests.empty());
         if(args[0]=="ome-tiff-export-xml") {
-            if(args.size()!=3)throw std::invalid_argument("ome-tiff-export-xml requires TIFF NEW_XML");
-            const auto result=qpx::detail::export_ome_tiff_xml(args[1],args[2],&cancelled);
+            const bool resolve=args.size()==4 && args[3]=="--resolve-metadata";
+            if(args.size()!=3 && !resolve)
+                throw std::invalid_argument("ome-tiff-export-xml requires TIFF NEW_XML [--resolve-metadata]");
+            const auto result=qpx::detail::export_ome_tiff_xml(args[1],args[2],resolve,&cancelled);
             std::cout<<json{{"schema","qpx.format-import-cli/1"},{"state","exported"},{"command",args[0]},
-                {"source",qpx::detail::export_path(args[1])},{"output",result.path},
+                {"source",qpx::detail::export_path(args[1])},{"metadata_source",result.metadata_source},{"output",result.path},
                 {"bytes",result.bytes},{"sha256",result.sha256}}.dump()<<'\n';
             return 0;
         }

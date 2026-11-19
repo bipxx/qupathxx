@@ -8,6 +8,25 @@ and [R2-R16 queue](api-delivery-plan.md#execution-order-for-finishing-the-remain
 own remaining scope. No100% QuPath, universal biological/speed/platform or
 Java/Groovy claim; NC/restricted/unknown required materials stay unadmitted.
 
+## Verified locally - resolve BinaryOnly metadata for OME export
+
+`ome-tiff-export-xml --resolve-metadata` exports exact XML from a verified
+standalone or TIFF companion and reports the resolved source and SHA-256.
+The default continues to export the embedded pointer. The resolver reuses
+the existing UUID and input guards and refuses missing, conflicting or nested
+companions and output collisions.
+
+All 94 TIFF CLI checks and the native region suite passed. A separate run
+used the admitted OME ROI provider and reopened the companion's point at
+`[2, 3]` in the matching project. One cached build sufficed. The TIFF fixture
+library emitted its existing NumPy warnings. The latest Windows handoff
+predates both XML export modes. A non-top-left OME-TIFF with referenced ROI
+geometry still needs an integrated raster and ROI registration contract.
+
+[TIFF CLI checks](../build/native-format-closeout/validation-packet/ome-xml-resolved/tiff-cli.log)
+[Native region checks](../build/native-format-closeout/validation-packet/ome-xml-resolved/region-native.log)
+[Exact companion ROI handoff](../build/native-format-closeout/validation-packet/ome-xml-resolved/workflow.json)
+
 ## Verified locally - export embedded OME-TIFF XML
 
 `ome-tiff-export-xml` preserves the bounded first-IFD OME XML text and reports
