@@ -42,6 +42,23 @@
     "sha256": "0f4030d670b3a822761cacc8752f6ccd5f84f70d469bfa4e35b654e264c50c03",
     "source": "tools/make_h5ad_fixtures.py; authored values; tests/fixtures/h5ad/manifest.json"
   },
+  "dicom_wsi_leica4": {
+    "filename": "Leica-4.zip",
+    "bytes": 85348848,
+    "sha256": "71bd6db778d8565b28aa358d1abce0c55985c149183630c2ed31d1f8757185bb",
+    "source": "https://openslide.cs.cmu.edu/download/openslide-testdata/DICOM/Leica-4.zip",
+    "digest_source": "https://raw.githubusercontent.com/openslide/openslide/v4.0.1/test/cases/slides.yaml",
+    "purpose": "Local Windows W02 evaluation of the OpenSlide 4.0.1 sparse DICOM WSI display and project route. External fixture only.",
+    "material": {
+      "id": "openslide-dicom-leica4",
+      "category": "admitted_open",
+      "kind": "evaluation_data",
+      "license_id": "CC0-1.0",
+      "license_evidence": "https://openslide.cs.cmu.edu/download/openslide-testdata/DICOM/",
+      "attribution": "Leica; WG26 PV22 connectathon, distributed by OpenSlide",
+      "source_ids": []
+    }
+  },
   "downloads": [
     {
       "filename": "LuCa-7color_Scan1.ome.tiff",

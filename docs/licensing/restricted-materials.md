@@ -43,6 +43,12 @@ weights or license text copies are needed in this register.
 
 ## Unreviewed material
 
+The M06 feature-barcode HDF5 schema remains unadmitted after checking the
+vendor's public layout and site terms. The independent GPL-3 DropletUtils
+writer demonstrates interoperability. Schema reuse terms remain unresolved.
+Use the admitted Matrix Market/TSV or AnnData profiles for open exports. See
+[M06 in the format roadmap](../format-plugin-coverage-plan.md#matrix-spatial-data-and-annotation-candidates).
+
 The web-view source reference `ome/omero-web`, tag `v5.33.0`,
 `omeroweb/webgateway/views.py`, has an NC statement in its file header despite
 the broader project's open-license description. Treat that implementation file

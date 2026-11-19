@@ -8,6 +8,25 @@ and [R2-R16 queue](api-delivery-plan.md#execution-order-for-finishing-the-remain
 own remaining scope. No100% QuPath, universal biological/speed/platform or
 Java/Groovy claim; NC/restricted/unknown required materials stay unadmitted.
 
+## Verified locally - sparse DICOM whole-slide viewing
+
+Review closed the M06 admission investigation with schema reuse terms still
+unresolved. Independent open producers exist, and the delivered Matrix
+Market/TSV and AnnData routes cover eligible exports.
+
+W02 reused the frozen Windows OpenSlide reader on the six-file CC0 Leica-4
+series. The 8 × 8 level-zero crop matched an independent JPEG frame decode
+exactly. A saved project retained the 23,374 × 22,079 dimensions and both
+1.05105387047 µm pixel axes. Reopening produced the same crop and preserved
+the project bytes. Level 1 worked with companion files present and refused
+when only the primary file was available. The reader reports primary-file
+provenance and refuses raw-sample export. No rebuild or download retry was
+needed. Further W02 claims require their own transfer syntax or companion
+fixture, starting with an affected workflow.
+
+[DICOM verification receipt](../build/native-format-closeout/validation-packet/dicom-wsi-leica4/verification.json)
+[OpenSlide fixture license](https://openslide.cs.cmu.edu/download/openslide-testdata/DICOM/)
+
 ## Verified locally - accumulated native changes from one Windows install
 
 The five-archive Windows native handoff for `4ce0b856` is staged and verified
