@@ -8,6 +8,32 @@ and [R2-R16 queue](api-delivery-plan.md#execution-order-for-finishing-the-remain
 own remaining scope. No100% QuPath, universal biological/speed/platform or
 Java/Groovy claim; NC/restricted/unknown required materials stay unadmitted.
 
+## Verified locally - native DICOM series discovery probe
+
+The OpenSlide DLL exports display and metadata calls. Its corresponding source
+supplied the 16 selected libdicom 1.3.0 (MIT) and uthash 2.3.0 (BSD-1-Clause)
+code and notice files for a standalone native probe. It found the matching
+instances from either concatenation entry, found all five Leica-4 companions,
+excluded an unrelated series and recognized an extensionless Unicode filename.
+It refused a duplicate SOP Instance UID and identified the replacement file at
+the same path. The exact inputs and binary are recorded in the probe receipt.
+
+The initial link needed C linkage for the libdicom header. The narrow CRT API
+missed the Unicode path, so the probe now uses wide file IO. The decoder's
+metadata subset exceeded the probe's 8 MiB read allowance on Leica-4. Reading
+the earlier series and instance tags before image geometry passed within that
+allowance. The app and frozen OpenSlide binary were reused unchanged.
+
+Next wire selected discovery into an optional ABI1 `SOURCE_FILES` provider
+and reuse the host's compound observations across open, read and saved reopen.
+Validate decoder and discovery agreement on ambiguous members, bound native
+metadata allocations, and require the previous same-geometry replacement to
+refuse before publishing a crop. Verify that an unrelated series can change
+without invalidating the project.
+
+[Native discovery receipt](../build/qpx-dicom-probe/verification.json)
+[Selected code and notice hashes](../build/qpx-dicom-probe/source-inputs.json)
+
 ## Verified locally - DICOM concatenation and a companion identity gap
 
 The frozen Windows reader assembled two lossless JPEG 2000 instances into one
