@@ -1,5 +1,6 @@
 #include "qupathxx/spatial_import.hpp"
 #include "spatial_import_internal.hpp"
+#include "format_import_internal.hpp"
 #include "qupathxx/backed_spatial_import.hpp"
 #include "qupathxx/project.hpp"
 #include "qupathxx/object_properties.hpp"
@@ -95,6 +96,7 @@ void SpatialImportRequest::validate() const {
 struct SpatialImportPreview::Data {
     SpatialImportRequest request;SpatialCountsProjection projection;
     std::array<std::shared_ptr<const detail::WorkflowInput>,4> guards;
+    std::optional<detail::FormatImportImageGuard> image_guard;
     std::string frame="image-level-zero-px",json,recipe_sha,empty;
     CoordinateFrame target;Affine2D transform;std::vector<Point> mapped;
     std::shared_ptr<ImageServer> image;
@@ -128,6 +130,10 @@ std::shared_ptr<const SpatialImportPreview> preview_spatial_import(const Spatial
     for(std::size_t i=0;i<paths.size();++i)if(data->projection.source_sha256[i]!=data->guards[i+1]->sha256())
         throw WorkflowInputChanged("Spatial-count input changed during preview");
     auto project=open_base(data->request,cancelled);const auto document=project->document(request.image_id);
+    if(const auto verified=project->source_verification(request.image_id)) {
+        data->image_guard.emplace(document->server(),cancelled,verified.get());
+        data->image_guard->protect(data->request.output_project);
+    }
     const auto frame_id=request.input_project.empty()?"qpx.import-image/"+data->guards[0]->sha256():project->identity()+":"+std::to_string(request.image_id);
     data->target=image_coordinate_frame(*document,frame_id,ObjectPlane(-1,request.options.z,request.options.t),cancelled);
     CoordinateFrame source;source.id="spatial-input";source.source_id=data->projection.source_sha256[2];source.unit=request.position_unit;
@@ -137,6 +143,7 @@ std::shared_ptr<const SpatialImportPreview> preview_spatial_import(const Spatial
     for(const auto& observation:data->projection.observations) {workflow_checkpoint(cancelled);data->mapped.push_back(data->transform.map(observation.position));}
     validate_projection(*document,data->projection,data->mapped,request.options,cancelled);data->image=document->server();
     for(const auto& guard:data->guards)guard->verify(false,cancelled);
+    if(data->image_guard)data->image_guard->verify(cancelled);
     new_output(data->request.output_project);
     data->json=nlohmann::json{{"schema","qpx.spatial-import-preview/1"},{"project_sha256",request.input_project.empty()?"":data->guards[0]->sha256()},
         {"base_sha256",data->guards[0]->sha256()},{"image_path",data->request.image_path},{"image_reader",request.image_reader},
@@ -157,7 +164,14 @@ std::shared_ptr<const SpatialImportPreview> preview_spatial_import(const Spatial
 }
 std::string publish_spatial_import(const SpatialImportPreview& preview,const std::atomic<bool>* cancelled) {
     workflow_checkpoint(cancelled);const auto& data=*preview.data_;const auto& request=data.request;const auto& projection=data.projection;
-    new_output(request.output_project);for(const auto& guard:data.guards)guard->verify(false,cancelled);
+    const auto verify=[&] {
+        for(const auto& guard:data.guards)guard->verify(false,cancelled);
+        if(data.image_guard) {
+            data.image_guard->verify(cancelled);
+            data.image_guard->protect(request.output_project);
+        }
+    };
+    new_output(request.output_project);verify();
     auto project=open_base(request,cancelled);auto document=project->document(request.image_id);
     if(image_coordinate_frame(*document,data.target.id,data.target.plane,cancelled).sha256()!=data.target.sha256())throw WorkflowInputChanged("Import target image/frame changed");
     validate_projection(*document,projection,data.mapped,request.options,cancelled);
@@ -189,7 +203,7 @@ std::string publish_spatial_import(const SpatialImportPreview& preview,const std
         {"source_sha256",projection.source_sha256},{"z",request.options.z},{"t",request.options.t},
         {"projection","selected genes; original full matrix not embedded"}}.dump();
     project->save_new(request.output_project,request.options.work_bytes,1024ULL*1024*1024,cancelled,
-        [&]{for(const auto& guard:data.guards)guard->verify(false,cancelled);
+        [&]{verify();
             if(image_coordinate_frame(*document,data.target.id,data.target.plane,cancelled).sha256()!=data.target.sha256())throw WorkflowInputChanged("Import image changed before publication");});
     return report;
 }

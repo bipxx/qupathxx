@@ -8,6 +8,21 @@ and [R2-R16 queue](api-delivery-plan.md#execution-order-for-finishing-the-remain
 own remaining scope. No100% QuPath, universal biological/speed/platform or
 Java/Groovy claim; NC/restricted/unknown required materials stay unadmitted.
 
+## Verified locally - honor verified native spatial import sources
+
+The saved-source guard now applies to verified native images in both spatial
+import paths. The baseline accepted changed PPM pixels at the same dimensions.
+The corrected routes reject that replacement before publication and both save
+after explicit review and adoption. The input project and image bytes remain
+intact, and the adopted CLI workflow reproduces the original position TSV.
+
+Both affected native suites and six CLI checks passed. The CLI driver initially
+expected different wording for unaccepted adoption. Matching the actual
+diagnostic was the only retry. The staged Windows handoff predates this fix.
+
+[CLI verification and adoption](../build/qpx-verified-spatial/validation.json)
+[Native verified-source tests](../build/qpx-verified-spatial/qupathxx_backed_spatial_import_tests.log)
+
 ## Verified locally - preserve the channel of restored spatial points
 
 Backed spatial import now uses native document plane validation for explicit

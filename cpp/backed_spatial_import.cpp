@@ -45,7 +45,7 @@ struct BackedSpatialImportPreview::Data {
     std::shared_ptr<const detail::WorkflowInput> base,positions;
     SpatialPositionTable table;std::optional<ExpressionMatrixSpatialSnapshot> rows;
     CoordinateFrame target;Affine2D transform;std::vector<Point> mapped;
-    std::optional<detail::FormatImportImageGuard> plugin_image;
+    std::optional<detail::FormatImportImageGuard> image_guard;
     std::shared_ptr<ImageServer> image;std::string recipe,json;bool effective_owned=false;
 };
 BackedSpatialImportPreview::BackedSpatialImportPreview(std::shared_ptr<const Data> d):data_(std::move(d)){}
@@ -97,10 +97,10 @@ std::shared_ptr<const BackedSpatialImportPreview> preview_backed_spatial_import(
         coordinate_source.id="explicit-position-table";coordinate_source.source_id=d->table.source_sha256;coordinate_source.unit=request.position_unit;coordinate_source.plane=request.base.plane;
     }
     auto project=open_base(d->request.base,cancelled,true);auto doc=project->document(request.base.image_id);
-    if(detail::valid_reader_plugin_id(doc->server()->reader_id())) {
-        const auto verified=project->source_verification(request.base.image_id);
-        d->plugin_image.emplace(doc->server(),cancelled,verified.get());
-        d->plugin_image->protect(d->request.base.output_project);
+    const auto verified=project->source_verification(request.base.image_id);
+    if(verified || detail::valid_reader_plugin_id(doc->server()->reader_id())) {
+        d->image_guard.emplace(doc->server(),cancelled,verified.get());
+        d->image_guard->protect(d->request.base.output_project);
     }
     const auto base_frame_id=request.base.input_project.empty()?"qpx.import-image/"+d->base->sha256():project->identity()+":"+std::to_string(request.base.image_id);
     d->target=image_coordinate_frame(*doc,base_frame_id,request.base.plane,cancelled);
@@ -125,6 +125,7 @@ std::shared_ptr<const BackedSpatialImportPreview> preview_backed_spatial_import(
         existing.require_source(*source);d->effective_owned=d->effective_owned || existing.owned;
     }
     d->image=doc->server();d->base->verify(false,cancelled);if(d->positions)d->positions->verify(false,cancelled);source->require_current(cancelled);
+    if(d->image_guard)d->image_guard->verify(cancelled);
     const auto& m=source->metadata();
     auto json=nlohmann::json{{"schema",request.positions.empty()?"qpx.backed-spatial-import/2":"qpx.backed-spatial-import/1"},{"base_sha256",d->base->sha256()},
         {"matrix_source_sha256",m.source_sha256},{"matrix_file_sha256",source->file_sha256()},
@@ -144,7 +145,7 @@ std::shared_ptr<const BackedSpatialImportPreview> preview_backed_spatial_import(
 std::string publish_backed_spatial_import(const BackedSpatialImportPreview& preview,const std::atomic<bool>* cancelled) {
     workflow_checkpoint(cancelled);const auto& d=*preview.data_;const auto& request=d.request;const auto& source=d.rows->source();
     auto current=[&]{d.base->verify(false,cancelled);if(d.positions)d.positions->verify(false,cancelled);source->require_current(cancelled);
-        if(d.plugin_image){d.plugin_image->verify(cancelled);d.plugin_image->protect(request.base.output_project);}};
+        if(d.image_guard){d.image_guard->verify(cancelled);d.image_guard->protect(request.base.output_project);}};
     new_output(request.base.output_project);current();auto project=open_base(request.base,cancelled,true);auto doc=project->document(request.base.image_id);
     if(image_coordinate_frame(*doc,d.target.id,request.base.plane,cancelled).sha256()!=d.target.sha256())throw WorkflowInputChanged("Backed import image/frame changed");
     new_scope(*doc,source->metadata().source_sha256,d.target);validate_positions(*doc,d.mapped,request.base.plane,request.position_options.work_bytes,2048,cancelled);

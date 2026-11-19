@@ -1,9 +1,11 @@
 #include "qupathxx/backed_spatial_import.hpp"
 #include "qupathxx/spatial_import.hpp"
 #include "qupathxx/expression_matrix_project.hpp"
+#include "qupathxx/file_fingerprint.hpp"
 #include "qupathxx/gene_view.hpp"
 #include "qupathxx/ome_zarr.hpp"
 #include "qupathxx/project_recovery.hpp"
+#include "qupathxx/project_source.hpp"
 #include "qupathxx/object_properties.hpp"
 #include "qupathxx/workflow.hpp"
 #include "../expression_matrix_export.hpp"
@@ -19,6 +21,50 @@ void check(bool value,const char* message){if(!value)throw std::runtime_error(me
 template<class E=std::exception,class F>void rejects(F f){try{f();}catch(const E&){return;}throw std::runtime_error("Expected backed spatial import refusal");}
 void write(const fs::path& path,const std::string& text){std::ofstream out(path,std::ios::binary);out<<text;out.close();check(bool(out),"Write backed import fixture");}
 std::string bytes(const fs::path& path){std::ifstream in(path,std::ios::binary);return {std::istreambuf_iterator<char>(in),{}};}
+void verified_image(const fs::path& root) {
+    fs::create_directory(root);
+    const auto image=root/"pixels.ppm",base=root/"verified.qpx";
+    const auto pixels=[](char value){return "P6\n4 3\n255\n"+std::string(36,value);};
+    write(image,pixels(10));
+    {
+        Project project;
+        const auto id=project.add_image(image.u8string(),"ppm");
+        project.apply_source_review(project.review_source_verification(id,*fingerprint_file(image.u8string())));
+        project.save_new(base.u8string());
+    }
+    const auto matrix=root/"values.mtx",features=root/"features.tsv",ids=root/"barcodes.tsv",positions=root/"positions.tsv";
+    write(matrix,"%%MatrixMarket matrix coordinate integer general\n1 1 1\n1 1 7\n");
+    write(features,"feature_id\nG1\n");write(ids,"observation_id\nA\n");
+    write(positions,"observation_id\tx_px\ty_px\nA\t1\t2\n");
+    const auto indexed=import_expression_matrix(matrix.u8string(),features.u8string(),ids.u8string(),(root/"values.qmx").u8string());
+    BackedSpatialImportRequest backed;
+    backed.base.input_project=base.u8string();backed.base.image_id=1;backed.base.output_project=(root/"backed.qpx").u8string();
+    backed.store=indexed.path;backed.positions=positions.u8string();
+    SpatialImportRequest selected;
+    selected.input_project=base.u8string();selected.image_id=1;selected.output_project=(root/"selected.qpx").u8string();
+    selected.matrix=matrix.u8string();selected.features=features.u8string();selected.positions=positions.u8string();selected.options.features={"G1"};
+    check(preview_backed_spatial_import(backed)->mapped_positions().size()==1 &&
+          preview_spatial_import(selected)->mapped_positions().size()==1,"Verified native source admits both previews");
+    const auto prior=bytes(base);
+    write(image,pixels(20));
+    rejects<WorkflowInputChanged>([&]{preview_backed_spatial_import(backed);});
+    rejects<WorkflowInputChanged>([&]{preview_spatial_import(selected);});
+    check(bytes(base)==prior && !fs::exists(backed.base.output_project) && !fs::exists(selected.output_project),
+          "Changed verified native pixels cannot publish either spatial project");
+    const auto adopted=root/"adopted.qpx";
+    {
+        auto project=Project::open(base.u8string());
+        const auto review=project->review_source_verification(1,*fingerprint_file(image.u8string()));
+        check(review->requires_acceptance(),"Replacement native pixels require explicit adoption");
+        project->apply_source_review(review,true);
+        project->save_new(adopted.u8string());
+    }
+    backed.base.input_project=adopted.u8string();selected.input_project=adopted.u8string();
+    publish_backed_spatial_import(*preview_backed_spatial_import(backed));
+    publish_spatial_import(*preview_spatial_import(selected));
+    check(Project::open(backed.base.output_project)->document(1)->object_count()==1 &&
+          Project::open(selected.output_project)->document(1)->object_count()==1,"Both spatial routes publish after adoption");
+}
 void exercise(const fs::path& root) {
     fs::create_directory(root);write(root/"image.ppm","P6\n8 8\n255\n"+std::string(8*8*3,char(40)));
     write(root/"matrix.mtx","%%MatrixMarket matrix coordinate integer general\n2 3 3\n1 1 9007199254740993\n1 3 5\n2 2 7\n");
@@ -194,4 +240,4 @@ void real(const fs::path& root,const fs::path& store,const fs::path& demo) {
         {"gene_request_sha256",view.result()->fields[0]->request_sha256},{"project",request.base.output_project},{"result",report}};
     write(root/"real.json",evidence.dump(2)+"\n");std::cout<<"Real native backed import: all32285 genes retained;2702 coordinates and every six-gene count exact; unprojected gene comparison/reopen passes\n";
 }
-int main(int argc,char** argv){try{if(!has_project() || !has_expression_matrix_storage())return 0;const auto root=argc==5 && std::string(argv[1])=="--real"?fs::u8path(argv[2]):fs::current_path()/("backed-spatial-import-"+std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()));fs::create_directories(root);exercise(root/"tiny");if(argc==5 && std::string(argv[1])=="--real")real(root,fs::u8path(argv[3]),fs::u8path(argv[4]));std::cout<<"Native backed import: shared preview/job/publication, typed coordinate joins, exact/owned/relinked persistence, scope/cancel/stale/conflict and first-save recovery pass\n";}catch(const std::exception& e){std::cerr<<e.what()<<'\n';return 1;}}
+int main(int argc,char** argv){try{if(!has_project() || !has_expression_matrix_storage())return 0;const auto root=argc==5 && std::string(argv[1])=="--real"?fs::u8path(argv[2]):fs::current_path()/("backed-spatial-import-"+std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()));fs::create_directories(root);exercise(root/"tiny");verified_image(root/"source");if(argc==5 && std::string(argv[1])=="--real")real(root,fs::u8path(argv[3]),fs::u8path(argv[4]));std::cout<<"Native backed import: shared preview/job/publication, verified images, exact/owned/relinked persistence, scope/cancel/stale/conflict and first-save recovery pass\n";}catch(const std::exception& e){std::cerr<<e.what()<<'\n';return 1;}}

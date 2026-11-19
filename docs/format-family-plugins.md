@@ -291,6 +291,8 @@ accepts `--frame-channel`, `--frame-z` and `--frame-time` for the original plane
 The saved points retain that plane and the restore report returns it. Channel
 `-1` applies to all channels. A concrete channel must exist in the saved source
 series. Supply the admitted `--reader-plugins` manifest for a plugin-backed image.
+If the project has saved source verification, a changed linked image must be
+reviewed and adopted before either spatial import can use it.
 
 Re-export the restored detections by passing the `coordinate_frame` from the
 import report and the restored project's association ID:
