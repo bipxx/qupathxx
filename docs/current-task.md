@@ -8,6 +8,27 @@ and [R2-R16 queue](api-delivery-plan.md#execution-order-for-finishing-the-remain
 own remaining scope. No100% QuPath, universal biological/speed/platform or
 Java/Groovy claim; NC/restricted/unknown required materials stay unadmitted.
 
+## Verified locally - Windows continuous Matrix Market exchange handoff
+
+Eight archives match compiled source
+`05d78ca6d4d973fcc4d74d862048aac1ff242e788aed2501fb13dfc1db0e6881`.
+Offline source configuration matched with Python off. The first staging check
+found that the public header change also rebuilt the density workflow library.
+The retry admitted its exact cached Release binary alongside the core and
+reused the install tree, all 15 dependency payloads and the admitted providers.
+
+The extracted runtime passed 67 Matrix Market checks and 52 on an explicit
+channel. The Windows `tar.exe` archive produced the same QMX as the plain
+files. The clean-prefix checker restored a continuous project from a streamed
+ZIP and verified exact binary64 bits, domain and positions after moving the
+input QMX offline. It passed 68 commands locally. Removal preserved 104
+research files. Ten older handoffs kept their preflight scope. Hosted validation
+awaits release authorization and a prepared tag.
+
+[Windows handoff](../build/native-format-closeout/validation-packet/current-native-matrix-real-install/windows-native-handoff/handoff.json)
+[Packaged exchange verification](../build/native-format-closeout/validation-packet/current-native-matrix-real-install/archive-replay/latest%20research/matrix/validation.json)
+[Fresh-host checker local receipt](../build/qpx-host-real-report/handoff.json)
+
 ## Verified locally - round-trip continuous sparse Matrix Market values
 
 Explicit `--real` import and export share the native Matrix Market reader,
@@ -22,7 +43,8 @@ bits. A restored project re-exported the same continuous archive after moving
 the input QMX offline. Native project, H5AD, catalog and matrix checks passed
 after one cached build. The first CLI driver passed an integer image ID to
 the Windows subprocess wrapper. A string ID fixed the test with the same
-binaries. Stage these changes and the ZIP descriptor support together.
+binaries. The Windows handoff above includes continuous exchange and ZIP
+descriptor support.
 
 [Prior continuous export refusal](../build/native-format-closeout/validation-packet/matrix-real/baseline.log)
 [CLI and spatial replay receipts](../build/native-format-closeout/validation-packet/matrix-real/final-schema/validation.json)
@@ -41,7 +63,7 @@ and refusal of corrupted descriptors, local sizes and unknown metadata.
 Native project and region checks passed after one cached build. The prior
 50-check profile retains its separate flag. Its first check overlapped a
 shared-source hardlink test and was rerun serially with the same binaries.
-Carry the descriptor coverage into the next Windows handoff.
+The Windows handoff above includes the descriptor coverage.
 
 [Prior Windows tar refusal](../build/native-format-closeout/validation-packet/matrix-stream-zip/baseline.log)
 [Windows tar archive import](../build/native-format-closeout/validation-packet/matrix-stream-zip/libarchive.log)

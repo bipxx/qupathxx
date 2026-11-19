@@ -9,6 +9,7 @@ import ast
 import csv
 import gzip
 import hashlib
+import io
 import json
 import os
 from pathlib import Path, PurePosixPath
@@ -169,6 +170,11 @@ def published_bundle(source, expected_digest):
         raise ValueError('Matrix Market ZIP Deflate verification requires the gzip and ZIP checks')
     if deflate:
         checks.add('matrix_market_zip_deflate')
+    real_exchange = validation.get('matrix_market_real_exchange', False)
+    if type(real_exchange) is not bool or (real_exchange and not deflate):
+        raise ValueError('Continuous Matrix Market verification requires the Deflate ZIP check')
+    if real_exchange:
+        checks.add('matrix_market_real_exchange')
     ome_tiff_bit = validation.get('ome_tiff_bit', False)
     if type(ome_tiff_bit) is not bool:
         raise ValueError('Invalid OME-TIFF bit verification flag')
@@ -412,6 +418,8 @@ def check_position_reexport(run, native, user, manifest, checks):
             raise ValueError('Installed Matrix Market capabilities differ from the handoff')
         if matrix_market_zip_deflate and capability.get('can_import_zip_deflate') is not True:
             raise ValueError('Installed catalog does not advertise Matrix Market ZIP Deflate')
+        if 'matrix_market_real_exchange' in checks and capability.get('can_import_real') is not True:
+            raise ValueError('Installed catalog does not advertise Matrix Market real exchange')
         reference = index
         if matrix_market_gzip and not matrix_market_zip_deflate:
             reference = json.loads(run('spatial-index-unpacked', [cli, 'matrix-market-index', matrix, features,
@@ -429,6 +437,66 @@ def check_position_reexport(run, native, user, manifest, checks):
     if matrix_market_zip_deflate:
         receipt['deflate_qmx_sha256'] = index['file_sha256']
     return receipt
+
+
+def check_real_matrix_exchange(run, native, root):
+    class Stream(io.BytesIO):
+        def seek(self, *args):
+            raise OSError('test archive stream cannot seek')
+
+    root.mkdir()
+    domain = 'fixture-continuous'
+    payloads = {'barcodes.tsv': b'0001\n1\n', 'features.tsv': b'A\tGene A\tGene Expression\nB\tGene B\tGene Expression\n',
+                'matrix.mtx': b'%%MatrixMarket matrix coordinate real general\n% qpx-value-domain fixture-continuous\n'
+                              b'2 2 4\n1 1 -0\n1 2 -1.25\n2 1 5e-324\n2 2 1.7976931348623157e308\n'}
+    stream = Stream()
+    with zipfile.ZipFile(stream, 'w', zipfile.ZIP_DEFLATED) as bundle:
+        for name, data in payloads.items():
+            bundle.writestr(name, data, compress_type=zipfile.ZIP_STORED if name == 'features.tsv' else zipfile.ZIP_DEFLATED)
+            (root/name).write_bytes(data)
+    archive = root/'streamed.zip'
+    archive.write_bytes(stream.getvalue())
+    with zipfile.ZipFile(archive) as bundle:
+        if not all(member.flag_bits & 8 for member in bundle.infolist()):
+            raise ValueError('Authored continuous archive lacks data descriptors')
+    cli = native/'qupathxx_format_import.exe'
+    indexed, plain = root/'streamed.qmx', root/'plain.qmx'
+    result = json.loads(run('real-index-streamed', [cli, 'matrix-market-index-zip', archive, indexed,
+                                                     '--real']).read_bytes())
+    run('real-index-plain', [cli, 'matrix-market-index', root/'matrix.mtx', root/'features.tsv',
+                             root/'barcodes.tsv', plain, '--catalogue', 'tenx', '--real'])
+    indexed_sha = sha(indexed)
+    if (result['domain'] != 'continuous' or result['value_domain'] != domain or
+            result['file_sha256'] != indexed_sha or sha(plain) != indexed_sha):
+        raise ValueError('Streamed and unpacked continuous matrix identities differ')
+    source, base, saved = root/'source.ppm', root/'base.qpx', root/'restored.qpx'
+    positions = root/'positions.tsv'
+    source.write_bytes(b'P6\n2 2\n255\n'+bytes(range(12)))
+    positions.write_bytes(b'observation_id\tx_px\ty_px\n0001\t0.5\t1\n1\t1.5\t1\n')
+    run('real-project', [cli, 'project-create', source, base, '--reader', 'ppm'])
+    base_sha = sha(base)
+    restored = json.loads(run('real-restore', [cli, 'project-matrix-import-positions', base, 1, indexed,
+                                              positions, saved]).read_bytes())
+    indexed.rename(root/'streamed-offline.qmx')
+    common = [saved, 1, restored['matrix_source_sha256']]
+    replay = root/'replayed.zip'
+    run('real-reexport', [cli, 'project-matrix-export-mtx', *common, replay, '--real'])
+    with zipfile.ZipFile(replay) as bundle:
+        rendered = bundle.read('matrix.mtx').splitlines()
+        expected = [-0.0, -1.25, 5e-324, float.fromhex('0x1.fffffffffffffp+1023')]
+        entries = [line.split() for line in rendered[3:]]
+        if (rendered[:3] != [b'%%MatrixMarket matrix coordinate real general',
+                             b'% qpx-value-domain fixture-continuous', b'2 2 4']
+                or [tuple(entry[:2]) for entry in entries] != [(b'1',b'1'), (b'1',b'2'), (b'2',b'1'), (b'2',b'2')]
+                or [struct.pack('<d', float(entry[2])) for entry in entries] != [struct.pack('<d', v) for v in expected]
+                or any(bundle.read(name) != payloads[name] for name in ('features.tsv', 'barcodes.tsv'))):
+            raise ValueError('Saved continuous replay changed binary64 bits, axes or domain')
+    replayed_positions = root/'replayed.tsv'
+    run('real-reexport-positions', [cli, 'project-matrix-export-positions', *common, replayed_positions,
+                                    '--frame-id', restored['coordinate_frame']])
+    if replayed_positions.read_bytes() != positions.read_bytes() or sha(base) != base_sha:
+        raise ValueError('Saved continuous replay changed positions or input project')
+    return {'qmx_sha256': indexed_sha, 'archive_sha256': sha(replay), 'positions_sha256': sha(replayed_positions)}
 
 
 def check_verified_spatial_source(run, native, root):
@@ -771,6 +839,7 @@ def main():
         if role in manifests:
             supplemental[role] = check(run, native, user/role, manifests[role])
     spatial = check_position_reexport(run, native, user, manifests['envi'], checks) if 'position_reexport' in checks else None
+    real_exchange = check_real_matrix_exchange(run, native, user/'continuous exchange') if 'matrix_market_real_exchange' in checks else None
     verified_spatial = check_verified_spatial_source(run, native, user/'verified spatial source') if 'verified_spatial_imports' in checks else None
     ome_bit = check_ome_tiff_bit(run, native, user/'ome raster') if 'ome_tiff_bit' in checks else None
     ome_roi = check_ome_tiff_roi(run, native, user/'ome annotations', manifests['ome_roi']) if 'ome_tiff_roi' in checks else None
@@ -794,6 +863,8 @@ def main():
         receipt['supplemental_provider_replay'] = supplemental
     if spatial:
         receipt['spatial_position_reexport'] = spatial
+    if real_exchange:
+        receipt['matrix_market_real_exchange'] = real_exchange
     if verified_spatial:
         receipt['verified_spatial_imports'] = verified_spatial
     if ome_bit:
