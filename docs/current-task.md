@@ -8,7 +8,7 @@ and [R2-R16 queue](api-delivery-plan.md#execution-order-for-finishing-the-remain
 own remaining scope. No100% QuPath, universal biological/speed/platform or
 Java/Groovy claim; NC/restricted/unknown required materials stay unadmitted.
 
-## Verified locally - Windows continuous Matrix Market exchange handoff
+## Verified on a hosted Windows runner - continuous Matrix Market exchange handoff
 
 Eight archives match compiled source
 `05d78ca6d4d973fcc4d74d862048aac1ff242e788aed2501fb13dfc1db0e6881`.
@@ -22,8 +22,7 @@ channel. The Windows `tar.exe` archive produced the same QMX as the plain
 files. The clean-prefix checker restored a continuous project from a streamed
 ZIP and verified exact binary64 bits, domain and positions after moving the
 input QMX offline. It passed 68 commands locally. Removal preserved 104
-research files. Ten older handoffs kept their preflight scope. Hosted validation
-awaits release authorization and a prepared tag.
+research files. Ten older handoffs kept their preflight scope.
 
 [Windows handoff](../build/native-format-closeout/validation-packet/current-native-matrix-real-install/windows-native-handoff/handoff.json)
 [Packaged exchange verification](../build/native-format-closeout/validation-packet/current-native-matrix-real-install/archive-replay/latest%20research/matrix/validation.json)
@@ -35,9 +34,8 @@ files (receipt plus archives). The receipt digest is
 `5cacf88845ed1bf26960e7289c0b400b75b524fcc1835aafe2f44a81becbb0ed`.
 The standalone probe initially missed the verifier's sibling imports. Running
 with `tools/ci` on the import path passed without rebuilding. Remote main at
-`87dc5343` lacks the native handoff dispatch input. After authorization, push
-the workflow and checker, point the draft release tag at packaged source commit
-`2ae4df1a`, and dispatch `ci.yml` on updated main with the tag and receipt digest.
+`87dc5343` lacked the native handoff dispatch input. The workflow and checker
+are now on main. The draft targets packaged source commit `2ae4df1a`.
 
 The live format catalogue now points to the saved export commands and records
 continuous exchange, ZIP32 descriptors and separate position restore. Only the
@@ -54,6 +52,16 @@ passed every process and scientific assertion. The added exact package
 inventory check ran after the verifier wrote its research-notes sentinel into
 the install prefix. The retry checks the package before adding that protected
 user file, then tests its survival during removal.
+
+[Hosted run 44574922592](https://github.com/bipxx/qupathxx/actions/runs/44574922592)
+passed all 68 commands, including desktop reopen under test-only Mesa,
+exact continuous matrix and position replay, and the installed SDK build and
+use. Manifest removal deleted 540 installed files and preserved all 104
+research files. The downloaded receipt matches the staged handoff digest and
+has SHA-256 `7b1b53444385f654207c769b6a8f7a4af14c1ec3799e5854d98e0ac3e58bdbaf`.
+The initial receipt lookup missed the artifact's `report/` directory. Reading
+the downloaded file there verified both install and removal. Candidate 10
+awaits separate publication authorization.
 
 ## Verified locally - round-trip continuous sparse Matrix Market values
 
