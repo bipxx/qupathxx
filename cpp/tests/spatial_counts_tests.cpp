@@ -1,8 +1,10 @@
 #include "qupathxx/spatial_counts.hpp"
 #include "qupathxx/spatial_import.hpp"
 #include "qupathxx/project.hpp"
+#include "qupathxx/raw_image.hpp"
 #include "qupathxx/object_properties.hpp"
 #include "qupathxx/workflow.hpp"
+#include "quantitative_tiff_fixture.hpp"
 #include <filesystem>
 #include <fstream>
 #include <iostream>
@@ -104,6 +106,27 @@ int main(int argc,char** argv) {try {
     const auto direct_preview=preview_spatial_import(direct);check(direct_preview->project_sha256().empty() && direct_preview->input_sha256().size()==64);publish_spatial_import(*direct_preview);
     check(Project::open(direct.output_project)->document(1)->object_count()==3);
     direct.output_project=(root/"unknown-calibration.qpx").u8string();direct.position_unit=CoordinateUnit::Micrometre;rejects<std::invalid_argument>([&]{preview_spatial_import(direct);});check(!fs::exists(root/"unknown-calibration.qpx"));
+    if(has_tiff()) {
+        const auto image=root/"calibrated.OME.TF8";
+        qpx_test::ome_bigtiff_fixture(image);
+        const auto original=bytes(image);
+        auto bigtiff=direct;
+        bigtiff.image_path=image.u8string();bigtiff.output_project=(root/"bigtiff-spatial.qpx").u8string();
+        bigtiff.positions=mapped.positions;bigtiff.options.position_columns=mapped.options.position_columns;
+        const auto bigtiff_preview=preview_spatial_import(bigtiff);
+        check(bigtiff_preview->image_server()->reader_id()=="tiff" && bigtiff_preview->projection().counts==actual.counts);
+        check(bigtiff_preview->mapped_positions()[0].x==3 && bigtiff_preview->mapped_positions()[0].y==1 &&
+              bigtiff_preview->mapped_positions()[1].x==6 && bigtiff_preview->mapped_positions()[1].y==2.25);
+        publish_spatial_import(*bigtiff_preview);
+        const auto reopened=Project::open(bigtiff.output_project)->document(1);
+        check(reopened->pixel_width_um()==.5 && reopened->pixel_height_um()==2 && reopened->object_count()==3);
+        const auto point=reopened->annotation(2);
+        check(point.name=="B" && point.geometry.centroid().x==6 && point.geometry.centroid().y==2.25 &&
+              point.properties->measurements().at("omics.count:G1")==9007199254740992.);
+        RawRegionRequest raw;raw.region={6,2,0,1,1};
+        check(std::get<std::vector<std::uint16_t>>(reopened->server()->read_raw(raw).storage())==std::vector<std::uint16_t>{22000});
+        check(bytes(image)==original);
+    }
     request.output_project=(root/"async-preview.qpx").u8string();check(job.preview(request));job.wait();job.rethrow_error();
     std::atomic<bool> cancelled{true};rejects<WorkflowCancelled>([&]{read_spatial_counts("missing","missing","missing",options,&cancelled);});
     rejects<WorkflowCancelled>([&]{preview_spatial_import(request,&cancelled);});

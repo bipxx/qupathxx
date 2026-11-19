@@ -103,15 +103,16 @@ The policy names below are proposed IDs; the rules describe current behavior.
 | --- | --- |
 | `project/1`: Project, desktop add-image and startup | `.zarr` selects OME-Zarr; `.ppm` selects file-observed PPM; OME-TIFF names select TIFF when enabled, otherwise OpenSlide; everything else, including plain `.tif/.tiff`, selects OpenSlide. |
 | `region-cli/1` | PPM and OME-TIFF behave as above, but `.zarr` has no special branch and selects OpenSlide. |
-| `rgb-nominal/1` | `.zarr` selects OME-Zarr; `.ppm` uses the existing in-memory dense RGB adapter; `.tif/.tiff` selects TIFF regardless of availability; other suffixes select OpenSlide. |
-| `spatial-import/1` | `.ppm` selects PPM; `.tif/.tiff` selects TIFF; other suffixes refuse the admitted-image profile. |
+| `rgb-nominal/1` | `.zarr` selects OME-Zarr. `.ppm` uses the in-memory dense RGB adapter. `.tif`, `.tiff` and OME BigTIFF suffixes select TIFF regardless of availability. Other suffixes select OpenSlide. |
+| `spatial-import/1` | `.ppm` selects PPM. `.tif`, `.tiff` and OME BigTIFF suffixes select TIFF. Other suffixes refuse the admitted-image profile. |
 
 Preserve these additional behaviors:
 
 - RGB-nominal PPM returns `qpx.dense-rgb/1`, memory scope and no file observation.
   Replacing it with the file-observed PPM adapter changes identity.
-- OME suffix recognition differs: Project accepts `.ome.btf/.ome.tf2/.ome.tf8`,
-  while RGB-nominal follows only `.tif/.tiff` suffixes. Preserve case handling.
+- Project, RGB-nominal and direct spatial import recognize `.ome.btf`, `.ome.tf2`
+  and `.ome.tf8` case-insensitively. The OME suffixes are declared in the
+  [OME-TIFF specification](https://ome-model.readthedocs.io/en/stable/ome-tiff/specification.html).
 - QuPath-project import keeps its explicit entry choice: TIFF/OME with the
   declared series, PPM, or OpenSlide. Raw CLI, dark/flat and unmixing already
   request TIFF explicitly.

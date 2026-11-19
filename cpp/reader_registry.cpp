@@ -112,17 +112,19 @@ ReaderSelection select_reader(const std::string& path,const std::string& request
     auto id=requested;
     if(id=="auto") {
         const auto ext=extension(path);
+        const bool ome_tiff=is_ome_tiff_path(path);
+        const bool tiff_path=ext==".tif" || ext==".tiff" || ome_tiff;
         if(policy==ReaderPolicy::SpatialImport) {
-            if(ext!=".ppm" && ext!=".tif" && ext!=".tiff")
+            if(ext!=".ppm" && !tiff_path)
                 throw std::invalid_argument("Spatial import image must use the admitted PPM/TIFF profile");
             id=ext==".ppm"?"ppm":"tiff";
         } else if(policy==ReaderPolicy::RgbNominal) {
-            id=ext==".zarr"?"ome-zarr":ext==".ppm"?"ppm":ext==".tif" || ext==".tiff"?"tiff":"openslide";
+            id=ext==".zarr"?"ome-zarr":ext==".ppm"?"ppm":tiff_path?"tiff":"openslide";
         } else if(policy==ReaderPolicy::QuPathImport) {
-            id=ext==".tif" || ext==".tiff" || is_ome_tiff_path(path)?"tiff":ext==".ppm"?"ppm":"openslide";
+            id=tiff_path?"tiff":ext==".ppm"?"ppm":"openslide";
         } else {
             id=policy==ReaderPolicy::Project && ext==".zarr"?"ome-zarr":ext==".ppm"?"ppm":
-                features.tiff && is_ome_tiff_path(path)?"tiff":"openslide";
+                features.tiff && ome_tiff?"tiff":"openslide";
         }
     }
     return {id,policy,policy==ReaderPolicy::RgbNominal && id=="ppm"?ReaderAdapter::MemoryRgb:ReaderAdapter::FileObserved};

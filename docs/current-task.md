@@ -8,6 +8,23 @@ and [R2-R16 queue](api-delivery-plan.md#execution-order-for-finishing-the-remain
 own remaining scope. No100% QuPath, universal biological/speed/platform or
 Java/Groovy claim; NC/restricted/unknown required materials stay unadmitted.
 
+## Verified locally - route OME BigTIFF through preview and spatial import
+
+Automatic RGB nominal preview and direct spatial import now recognize
+`.ome.btf`, `.ome.tf2` and `.ome.tf8` through the existing native TIFF selector.
+The baseline opened all three explicitly and sent the automatic RGB route to
+OpenSlide. The new native fixture verifies actual BigTIFF sample reads and RGB
+preview, separate physical X/Y pitches, calibrated spatial point placement,
+and exact backed counts above 2^53 after project reopen.
+
+All four affected suites passed after one cached build. The routing check
+also covers mixed case and still requires the OME suffix for `.tf8`. A docs
+patch had an empty hunk and was corrected before the diff check. Carry this
+source delta and the two-bit TIFF workflow into the next Windows checkpoint.
+
+[Prior RGB route refusal](../build/native-format-closeout/validation-packet/ome-bigtiff-routing/baseline-rgb.log)
+[Native routing and spatial verification](../build/native-format-closeout/validation-packet/ome-bigtiff-routing/native-tests.log)
+
 ## Verified locally - preserve two-bit TIFF labels
 
 The existing packed reader now preserves codes 0–3 as UInt8 for lossless

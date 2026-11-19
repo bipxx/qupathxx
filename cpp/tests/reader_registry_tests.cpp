@@ -37,7 +37,7 @@ template<class F> Failure failure(F action) {
     throw std::runtime_error("Expected the original factory to refuse the source");
 }
 
-// Frozen from the pre-registry callers, including their intentional differences.
+// Includes the pre-registry callers' differences and the OME BigTIFF aliases.
 // Paths need not exist: resolving a saved missing source must not probe the disk.
 void selection_baseline() {
     struct Case {const char* path;const char* project_tiff;const char* project_no_tiff;
@@ -49,9 +49,10 @@ void selection_baseline() {
         {"S.ZARR","ome-zarr","ome-zarr","openslide","openslide","ome-zarr",nullptr,"openslide"},
         {"x.ome.tif","tiff","openslide","tiff","openslide","tiff","tiff","tiff"},
         {"x.OME.TIFF","tiff","openslide","tiff","openslide","tiff","tiff","tiff"},
-        {"x.ome.btf","tiff","openslide","tiff","openslide","openslide",nullptr,"tiff"},
-        {"x.ome.tf2","tiff","openslide","tiff","openslide","openslide",nullptr,"tiff"},
-        {"x.ome.tf8","tiff","openslide","tiff","openslide","openslide",nullptr,"tiff"},
+        {"x.ome.btf","tiff","openslide","tiff","openslide","tiff","tiff","tiff"},
+        {"x.ome.tf2","tiff","openslide","tiff","openslide","tiff","tiff","tiff"},
+        {"x.OME.TF8","tiff","openslide","tiff","openslide","tiff","tiff","tiff"},
+        {"x.tf8","openslide","openslide","openslide","openslide","openslide",nullptr,"openslide"},
         {"x.tif","openslide","openslide","openslide","openslide","tiff","tiff","tiff"},
         {"x.tiff","openslide","openslide","openslide","openslide","tiff","tiff","tiff"},
         {"x.svs","openslide","openslide","openslide","openslide","openslide",nullptr,"openslide"},
@@ -72,7 +73,7 @@ void selection_baseline() {
             for(const auto& [policy,expected]:expectations) {
                 if(!expected) {rejects_invalid([&]{rd::select_reader(c.path,"auto",policy,features);},"Spatial profile admitted an unsupported suffix");continue;}
                 const auto selected=rd::select_reader(c.path,"auto",policy,features);
-                check(selected.provider_id==expected && selected.policy==policy,"Pre-registry path policy changed for "+std::string(c.path));
+                check(selected.provider_id==expected && selected.policy==policy,"Automatic reader routing differs for "+std::string(c.path));
                 const auto memory=policy==rd::ReaderPolicy::RgbNominal && std::string(expected)=="ppm";
                 check(selected.adapter==(memory?rd::ReaderAdapter::MemoryRgb:rd::ReaderAdapter::FileObserved),"PPM source identity route changed");
             }
@@ -247,6 +248,25 @@ void tiff_reads(const fs::path& root) {
     check(tiff_view_encode(*direct->tiff_view())==tiff_view_encode(*selected->tiff_view()) && selected->tiff_options()->decode_bytes==65536 && selected->tiff_options()->cache_bytes==1024,"Registry lost TIFF view/budgets");
     persistence_roundtrip(root,"tiff",selected,path);
 }
+void ome_bigtiff_nominal_reads(const fs::path& root) {
+    if(!has_tiff())return;
+    for(const auto* name:{"source.ome.btf","source.ome.tf2","source.OME.TF8"}) {
+        const auto path=root/name;
+        qpx_test::ome_bigtiff_fixture(path);
+        const auto automatic=open_rgb_nominal_source(path.u8string());
+        const auto explicit_tiff=open_rgb_nominal_source(path.u8string(),"tiff");
+        check(automatic->reader_id()=="tiff","OME BigTIFF nominal preview did not resolve the TIFF reader");
+        same_source(*automatic,*explicit_tiff);
+        check(automatic->metadata().pixel_width_um==.5 && automatic->metadata().pixel_height_um==2,
+              "OME BigTIFF nominal source lost separate XY calibration");
+        RawRegionRequest raw;raw.region={1,2,0,2,1};
+        check(std::get<std::vector<std::uint16_t>>(automatic->read_raw(raw).storage())==std::vector<std::uint16_t>{17000,18000},
+              "OME BigTIFF nominal source changed stored samples");
+        const RgbNominalRequest preview{1,2,4,2,2};
+        check(read_rgb_nominal_region(*automatic,preview).bytes()==read_rgb_nominal_region(*explicit_tiff,preview).bytes(),
+              "Automatic and explicit nominal sources project different pixels");
+    }
+}
 void zarr_reads(const fs::path& root) {
 #ifdef QPX_ZARR_FIXTURES
     if(!has_ome_zarr())return;
@@ -287,7 +307,7 @@ void original_factory_errors(const fs::path& root) {
 int main() {try {
     selection_baseline();desktop_route_baseline();
     const auto root=fs::current_path()/("reader-registry-"+std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()));check(fs::create_directory(root),"Create unique registry fixture directory");
-    const auto ppm=ppm_fixture(root);ppm_reads(ppm);persistence_roundtrip(root,"ppm",registry_open(ppm,"ppm"),ppm);offline_reader_validation(root,ppm);tiff_reads(root);zarr_reads(root);original_factory_errors(root);
+    const auto ppm=ppm_fixture(root);ppm_reads(ppm);persistence_roundtrip(root,"ppm",registry_open(ppm,"ppm"),ppm);offline_reader_validation(root,ppm);tiff_reads(root);ome_bigtiff_nominal_reads(root);zarr_reads(root);original_factory_errors(root);
     // Keep failed fixture directories for diagnosis. Only our verified unique
     // child of the current test directory is retired after all owned readers die.
     check(root.parent_path()==fs::current_path() && root.filename().u8string().find("reader-registry-")==0,"Unsafe fixture cleanup target");fs::remove_all(root);

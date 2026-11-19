@@ -8,6 +8,7 @@
 #include "qupathxx/project_source.hpp"
 #include "qupathxx/object_properties.hpp"
 #include "qupathxx/workflow.hpp"
+#include "quantitative_tiff_fixture.hpp"
 #include "../expression_matrix_export.hpp"
 #include <nlohmann/json.hpp>
 #include <chrono>
@@ -84,6 +85,20 @@ void exercise(const fs::path& root) {
     const auto id=expression_matrix_ids(*direct,1).at(0);const auto owned=load_expression_matrix_association(*direct,1,id);
     check(owned.owned && fs::exists(root/fs::u8path(owned.path)),"First save materializes a canonical owned sidecar");
     for(const auto& [object_id,object]:doc->objects())check(object.properties->measurements().empty(),"Imported points contain no copied double counts");
+    if(has_tiff()) {
+        const auto image=root/"backed.ome.btf";
+        qpx_test::ome_bigtiff_fixture(image);
+        auto bigtiff=request;
+        bigtiff.base.image_path=image.u8string();bigtiff.base.output_project=(root/"backed-bigtiff.qpx").u8string();
+        const auto bigtiff_preview=preview_backed_spatial_import(bigtiff);
+        publish_backed_spatial_import(*bigtiff_preview);
+        const auto reopened=Project::open(bigtiff.base.output_project);
+        const auto image_doc=reopened->document(1);
+        const auto captured=ExpressionMatrixSpatialSnapshot::capture(*image_doc,
+            reopen_expression_matrix(*reopened,1,id),bigtiff_preview->image_frame().id);
+        check(image_doc->server()->reader_id()=="tiff" && captured.dataset({0}).counts()==std::vector<std::uint64_t>{5,9007199254740993ull,0},
+              "OME BigTIFF-backed project reopens with exact counts");
+    }
     fs::rename(root/"source.qmx",root/"source-offline.qmx");
     auto stable=reopen_expression_matrix(*direct,1,id);
     auto captured=ExpressionMatrixSpatialSnapshot::capture(*doc,stable,preview->image_frame().id);
