@@ -8,6 +8,27 @@ and [R2-R16 queue](api-delivery-plan.md#execution-order-for-finishing-the-remain
 own remaining scope. No100% QuPath, universal biological/speed/platform or
 Java/Groovy claim; NC/restricted/unknown required materials stay unadmitted.
 
+## Verified locally - Windows direct Matrix Market ZIP handoff
+
+The seven archives match compiled source
+`618bc962d01300edf8c3e16fc859959041334f8a28745a70c5819b3f9b50df23`.
+One cached relink combined ZIP indexing and catalog discovery with gzip enabled.
+The matching source configured offline with Python off. Staging reused all 15
+dependency source payloads and all admitted provider binaries.
+
+The extracted install passed 36 matrix and spatial checks, including exact
+direct ZIP indexing and changed-member CRC refusal. Core and supplemental
+provider checks, SDK replay, archive checksums and manifest-owned removal passed.
+The fresh-host checker passed all 30 commands locally. Region, Batch and Format
+Import reported identical capabilities. Direct ZIP and plain indexing produced
+the same QMX, and removal preserved all 47 research files. Four older handoffs
+passed preflight with their original check selection. No build or check retries
+were needed. Hosted validation awaits release authorization and a prepared tag.
+
+[Windows handoff](../build/native-format-closeout/validation-packet/current-native-matrix-zip-install/windows-native-handoff/handoff.json)
+[Packaged matrix and spatial checks](../build/native-format-closeout/validation-packet/current-native-matrix-zip-install/archive-replay/latest%20research/matrix/validation.json)
+[Fresh-host checker local receipt](../build/qpx-host-zip-report/handoff.json)
+
 ## Verified locally - index the native Matrix Market export archive
 
 `matrix-market-index-zip` streams the three stored members of the native export

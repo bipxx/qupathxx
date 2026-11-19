@@ -72,6 +72,8 @@ def main():
                         help="Verify exact re-export from the restored point frame")
     parser.add_argument("--gzip", action="store_true",
                         help="Re-index gzip-wrapped Matrix Market and use it for spatial restore")
+    parser.add_argument("--archive-index", action="store_true",
+                        help="Check direct ZIP indexing against the unpacked inputs")
     args = parser.parse_args()
     if args.position_reexport and not args.spatial:
         parser.error("--position-reexport requires --spatial")
@@ -217,6 +219,29 @@ def main():
         assert "duplicate" in refusal["error"].lower() and not duplicate_output.exists()
 
     assert stored_rows(imported) == expected
+    if args.archive_index:
+        catalog = run("archive-capabilities", "--formats")
+        capability, = [row for row in catalog["matrix"] if row["provider_id"] == "matrix-market"]
+        assert capability["can_import_zip"] is True
+        if args.gzip:
+            assert capability["can_import_gzip"] is True
+        plain = args.output / "unpacked.qmx"
+        unpacked = run("unpacked-reference", "matrix-market-index", "matrix.mtx", "features.tsv",
+                       "barcodes.tsv", plain, "--catalogue", "tenx")
+        direct = args.output / "direct.qmx"
+        zipped = run("archive-index", "matrix-market-index-zip", archive, direct)
+        assert zipped["source_sha256"] == unpacked["source_sha256"]
+        assert zipped["file_sha256"] == sha(direct) == sha(plain) and stored_rows(direct) == expected
+        damaged = args.output / "bad-member.zip"
+        payload = bytearray(archive.read_bytes())
+        directory = int.from_bytes(payload[-6:-2], "little")
+        # Change both copies of the first member's CRC while preserving its payload.
+        payload[14] ^= 1
+        payload[directory + 16] ^= 1
+        damaged.write_bytes(payload)
+        refused = args.output / "bad-member.qmx"
+        status = run("archive-bad-crc", "matrix-market-index-zip", damaged, refused, status=2)
+        assert "Invalid Matrix Market ZIP member CRC" in status["error"] and not refused.exists()
 
     if args.spatial:
         positions = args.output / "positions.tsv"
