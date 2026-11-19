@@ -246,7 +246,7 @@ class TiffData final {
     std::vector<std::unique_ptr<File>> files_;std::uint32_t active_file_=UINT32_MAX;
     std::size_t xml_bytes_=0,catalog_entries_=0;
     std::vector<Ifd> roots_;std::vector<Mapping> mapping_;
-    bool ome_has_roi_references_=false;
+    bool ome_has_roi_references_=false,ome_bit_=false;
     std::shared_ptr<RawImageMetadata> raw_=std::make_shared<RawImageMetadata>();
     std::shared_ptr<TiffView> view_;ImageMetadata display_;
     std::shared_ptr<const TiffOpenOptions> option_snapshot_;
@@ -401,6 +401,12 @@ class TiffData final {
             throw std::invalid_argument("OME metadata master must contain full Image metadata");
         files_[metadata]->metadata_file=metadata;return entry.metadata_file=metadata;
     }
+    static std::string ome_pixel_type(const tinyxml2::XMLElement* pixels) {
+        auto type=bounded(pixels->Attribute("Type"),32);
+        if(type=="bit" && integer(pixels,"SignificantBits",1)!=1)
+            throw std::invalid_argument("OME bit pixels require SignificantBits of one");
+        return type;
+    }
     // Compare selected-series semantics; file UUIDs and XML formatting differ.
     static auto signature(const tinyxml2::XMLElement* p) {
         std::array<std::uint32_t,5> sizes{integer(p,"SizeX"),integer(p,"SizeY"),integer(p,"SizeC"),integer(p,"SizeZ"),integer(p,"SizeT")};
@@ -413,7 +419,7 @@ class TiffData final {
         }
         if(channels.empty()) {for(std::uint32_t c=0;c<sizes[2];++c) channels.emplace_back(1,"Channel "+std::to_string(c+1));total=sizes[2];}
         if(total!=sizes[2]) throw std::invalid_argument("OME Channel samples do not match SizeC");
-        return std::make_tuple(sizes,bounded(p->Attribute("DimensionOrder"),5),bounded(p->Attribute("Type"),32),channels,
+        return std::make_tuple(sizes,bounded(p->Attribute("DimensionOrder"),5),ome_pixel_type(p),channels,
             std::array<std::optional<double>,4>{quantity(p,"PhysicalSizeX","PhysicalSizeXUnit"),quantity(p,"PhysicalSizeY","PhysicalSizeYUnit"),quantity(p,"PhysicalSizeZ","PhysicalSizeZUnit"),quantity(p,"TimeIncrement","TimeIncrementUnit",true)});
     }
     void validate_companion_metadata(std::uint32_t metadata,const tinyxml2::XMLElement* primary,
@@ -521,8 +527,12 @@ class TiffData final {
             }
         }
         if(!found || std::any_of(mapping_.begin(),mapping_.end(),[](auto m){return m.ifd==std::numeric_limits<std::uint32_t>::max();})) throw std::invalid_argument("OME plane mapping is incomplete");
-        const auto declared=bounded(p->Attribute("Type"),32);auto actual=sample_name(roots_[mapping_.front().ifd].type());if(actual=="float32") actual="float";if(actual=="float64") actual="double";
-        if(declared!=actual) throw std::invalid_argument("OME pixel type differs from TIFF samples");
+        const auto declared=ome_pixel_type(p);ome_bit_=declared=="bit";
+        if(!ome_bit_) {
+            auto actual=sample_name(roots_[mapping_.front().ifd].type());
+            if(actual=="float32") actual="float";if(actual=="float64") actual="double";
+            if(declared!=actual) throw std::invalid_argument("OME pixel type differs from TIFF samples");
+        }
         raw_->pixel_width_um=quantity(p,"PhysicalSizeX","PhysicalSizeXUnit");raw_->pixel_height_um=quantity(p,"PhysicalSizeY","PhysicalSizeYUnit");raw_->z_spacing_um=quantity(p,"PhysicalSizeZ","PhysicalSizeZUnit");raw_->time_interval_seconds=quantity(p,"TimeIncrement","TimeIncrementUnit",true);
         if(!raw_->z_spacing_um) raw_->z_spacing_um=calibration.z_spacing_um;
         if(!raw_->time_interval_seconds) raw_->time_interval_seconds=calibration.time_interval_seconds;
@@ -535,7 +545,9 @@ class TiffData final {
         for(auto index:selected) {auto& root=roots_[index];root.validate();
             if(root.orientation!=orientation)
                 throw std::invalid_argument("OME-TIFF plane orientations differ");
-            if(raw_->dimension_order!="XYC" && root.packed_gray())
+            if(ome_bit_ && (!root.packed_gray() || root.bits!=1))
+                throw std::invalid_argument("OME bit pixels require one-bit grayscale TIFF storage");
+            if(!ome_bit_ && raw_->dimension_order!="XYC" && root.packed_gray())
                 throw std::invalid_argument("Packed grayscale OME-TIFF is outside the native pixel type profile");
             validate_color_map(root);
             Ifd base=root;base.sub.clear();root.levels.push_back(std::move(base));

@@ -8,6 +8,24 @@ and [R2-R16 queue](api-delivery-plan.md#execution-order-for-finishing-the-remain
 own remaining scope. No100% QuPath, universal biological/speed/platform or
 Java/Groovy claim; NC/restricted/unknown required materials stay unadmitted.
 
+## Verified locally - read packed OME-TIFF bit images
+
+The TIFF reader admits OME `Type="bit"` when every selected IFD carries
+one-bit grayscale samples and the optional `SignificantBits` is one. It reuses
+the plain TIFF unpacking and polarity paths, preserving exact UInt8 0/1 raw
+codes. Conflicting sample depth, mixed bit and byte planes, and contradictory
+OME metadata refuse before export.
+
+All 83 TIFF CLI checks passed, including stripped and tiled bit stacks, two
+photometric polarities, orientation/calibration and byte-identical project
+replay. The native region export suite passed. The cached build reused LibTIFF
+with no retries. The fixture library emitted its existing NumPy deprecation
+warnings. The staged native handoff predates the OME reader changes.
+
+[Retained baseline refusal](../build/native-format-closeout/validation-packet/ome-bit/baseline.log)
+[TIFF CLI checks](../build/native-format-closeout/validation-packet/ome-bit/tiff-cli.log)
+[Native region export suite](../build/native-format-closeout/validation-packet/ome-bit/region-native.log)
+
 ## Verified locally - normalize coherent OME-TIFF rasters
 
 The reader now accepts coherent OME-TIFF orientations through the existing

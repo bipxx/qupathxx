@@ -198,6 +198,76 @@ def test_oriented_ome_compound_pyramid_shares_one_frame(tmp_path, roi_reference)
             np.testing.assert_array_equal(np.load(output), expected)
 
 
+@pytest.mark.parametrize(('photo', 'orientation', 'storage'), [
+    ('minisblack', 1, {'rowsperstrip': 3}),
+    ('miniswhite', 6, {'tile': (16, 16), 'compression': 'deflate'}),
+])
+def test_ome_bit_stacks_preserve_samples_polarity_and_saved_view(tmp_path, photo, orientation, storage):
+    source = tmp_path / 'binary.ome.tif'
+    z, y, x = np.indices((3, 19, 21))
+    bits = (7 * x + 3 * y + 2 * z) % 11 < 4
+    tifffile.imwrite(source, bits, ome=True, photometric=photo,
+                     metadata={'axes': 'ZYX', 'PhysicalSizeX': 2.0, 'PhysicalSizeY': 4.0},
+                     extratags=[(274, 'H', 1, orientation, False)], **storage)
+    with tifffile.TiffFile(source) as tiff:
+        assert all(page.bitspersample == 1 for page in tiff.pages)
+        assert 'Type="bit"' in tiff.ome_metadata
+    before = source.read_bytes()
+    expected = np.rot90(bits, -1, axes=(1, 2)) if orientation == 6 else bits
+    raw, bundle = tmp_path / 'raw.npy', tmp_path / 'bit.zip'
+    result = run('--raw', source, bundle, '--z', 2, '--bundle')
+    assert result.returncode == 0, result.stderr
+    result = run('--extract-raw-bundle', bundle, raw)
+    assert result.returncode == 0, result.stderr
+    assert np.load(raw).dtype == 'u1'
+    np.testing.assert_array_equal(np.load(raw)[..., 0], expected[2])
+    calibration = json.loads(result.stdout)['calibration']
+    assert (calibration['base_pixel_width_um'], calibration['base_pixel_height_um']) == (
+        (4, 2) if orientation == 6 else (2, 4))
+    height, width = expected.shape[1:]
+    pam = tmp_path / 'display.pam'
+    result = run('--reader', 'tiff', source, 0, 0, 0, width, height, pam)
+    assert result.returncode == 0, result.stderr
+    visible = ~expected[0] if photo == 'miniswhite' else expected[0]
+    rgba = np.full((height, width, 4), 255, dtype='u1')
+    rgba[..., :3] = (visible.astype('u1') * 255)[..., None]
+    assert pam.read_bytes().split(b'ENDHDR\n', 1)[1] == rgba.tobytes()
+    if os.environ.get('QUPATHXX_TEST_FORMAT_IMPORT'):
+        project = tmp_path / 'binary.qpx'
+        created = subprocess.run([os.environ['QUPATHXX_TEST_FORMAT_IMPORT'], 'project-create', source,
+                                  project, '--reader', 'tiff'], capture_output=True, encoding='utf-8', timeout=40)
+        assert created.returncode == 0, created.stderr
+        saved = project.read_bytes()
+        replay = tmp_path / 'replay.npy'
+        result = run('--raw-project', project, 1, replay, '--z', 2)
+        assert result.returncode == 0, result.stderr
+        assert replay.read_bytes() == raw.read_bytes() and project.read_bytes() == saved
+    assert source.read_bytes() == before
+
+
+@pytest.mark.parametrize(('case', 'diagnostic'), [
+    ('byte-storage', 'one-bit grayscale TIFF storage'),
+    ('mixed-storage', 'one-bit grayscale TIFF storage'),
+    ('significant-bits', 'SignificantBits of one'),
+    ('wrong-type', 'outside the native pixel type profile'),
+])
+def test_ome_bit_rejects_conflicting_storage(tmp_path, case, diagnostic):
+    source = tmp_path / 'invalid-bit.ome.tif'
+    declared = 'uint8' if case == 'wrong-type' else 'bit'
+    significant = 2 if case == 'significant-bits' else 1
+    xml = (f'<OME><Image><Pixels SizeX="7" SizeY="5" SizeZ="2" SizeC="1" SizeT="1" '
+           f'DimensionOrder="XYZCT" Type="{declared}" SignificantBits="{significant}">'
+           '<Channel/><TiffData/></Pixels></Image></OME>')
+    values = np.arange(35).reshape(5, 7) % 2 == 0
+    with tifffile.TiffWriter(source) as writer:
+        writer.write(values.astype('u1') if case == 'byte-storage' else values, description=xml, metadata=None)
+        writer.write(values.astype('u1') if case in ('byte-storage', 'mixed-storage') else values, metadata=None)
+    target = tmp_path / 'refused.npy'
+    result = run('--raw', source, target)
+    assert result.returncode == 2 and diagnostic in result.stderr
+    assert not target.exists()
+
+
 @pytest.mark.parametrize('dtype', ['uint8', 'uint16'])
 def test_plain_tiff_palette_keeps_indices_and_uses_display_colors(tmp_path, dtype):
     path = tmp_path / 'indexed.tif'
