@@ -20,6 +20,16 @@ and the four optional provider packs passed 21 workflow checks. Removal deleted
 505 installed files and preserved 56 research files. All seven handoff checksums
 passed. Publication and a fresh-host run are open.
 
+The Windows candidate workflow now accepts a pinned five-archive handoff.
+The runner passed locally from the exact ZIPs in a relocated prefix: the SDK
+consumer and native CLI replayed the saved analysis, VTI returned exact UInt16
+samples, and the desktop reopened the project. Removal deleted 505 installed
+files and preserved all 20 research files. A wrong receipt pin refused before
+creating either output directory. The SDK example was the only build. The
+hosted run awaits a prepared release tag carrying these exact assets.
+
+[Fresh-host runner local receipt](../build/qpx-handoff-report/handoff.json)
+
 [Current Windows handoff](../build/native-format-closeout/validation-packet/current-native-workflow-install/windows-native-handoff/handoff.json)
 [Archive checksums](../build/native-format-closeout/validation-packet/current-native-workflow-install/windows-native-handoff/SHA256SUMS.txt)
 [Archive install and removal receipt](../build/native-format-closeout/validation-packet/current-native-workflow-install/handoff-archive-installation-removal.json)

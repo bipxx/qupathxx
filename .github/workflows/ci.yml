@@ -12,6 +12,10 @@ on:
         description: Test frozen Windows release assets only; no engine builds or full matrix
         type: string
         default: ''
+      native_handoff_sha256:
+        description: SHA-256 of handoff.json for the five-archive native Windows candidate
+        type: string
+        default: ''
       macos_native:
         description: Validate native engine and pinned geometry/training SDKs on Intel and Apple silicon
         type: boolean
@@ -148,19 +152,40 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           CANDIDATE_TAG: ${{ inputs.candidate_release_tag }}
+          HANDOFF_SHA256: ${{ inputs.native_handoff_sha256 }}
         shell: pwsh
         run: |
-          gh release download "$env:CANDIDATE_TAG" --repo "$env:GITHUB_REPOSITORY" --dir build/windows-handoff/input --pattern '*.whl' --pattern 'qupathxx-windows-x64-candidate.zip' --pattern 'qupathxx-source-6219a08f.zip' --pattern 'CMU-1.svs'
+          if ($env:HANDOFF_SHA256) {
+            if ($env:HANDOFF_SHA256 -notmatch '^[0-9a-fA-F]{64}$') { throw 'Provide a SHA-256 for handoff.json' }
+            gh release download "$env:CANDIDATE_TAG" --repo "$env:GITHUB_REPOSITORY" --dir build/windows-handoff/input --pattern 'handoff.json' --pattern 'qupathxx-*.zip'
+          } else {
+            gh release download "$env:CANDIDATE_TAG" --repo "$env:GITHUB_REPOSITORY" --dir build/windows-handoff/input --pattern '*.whl' --pattern 'qupathxx-windows-x64-candidate.zip' --pattern 'qupathxx-source-6219a08f.zip' --pattern 'CMU-1.svs'
+          }
           if ($LASTEXITCODE -ne 0) { throw 'Candidate download failed' }
       - name: Fresh host frozen install and user workflow
+        if: ${{ !inputs.native_handoff_sha256 }}
         shell: powershell
         run: |
           Set-DisplayResolution -Width 1920 -Height 1080 -Force
           python -I tools/ci/check_windows_handoff.py --input build/windows-handoff/input --work build/windows-handoff/run
           if ($LASTEXITCODE -ne 0) { throw 'Candidate workflow failed' }
       - name: Uninstall while preserving user outputs
+        if: ${{ !inputs.native_handoff_sha256 }}
         shell: pwsh
         run: ./tools/ci/remove_windows_candidate.ps1 -Work build/windows-handoff/run
+      - name: Fresh host native archive install and use
+        if: ${{ inputs.native_handoff_sha256 }}
+        env:
+          HANDOFF_SHA256: ${{ inputs.native_handoff_sha256 }}
+        shell: powershell
+        run: |
+          Set-DisplayResolution -Width 1920 -Height 1080 -Force
+          python tools/ci/check_native_handoff.py --input build/windows-handoff/input --handoff-sha256 "$env:HANDOFF_SHA256" --work "$env:RUNNER_TEMP/qpx-native" --report build/windows-handoff/report
+          if ($LASTEXITCODE -ne 0) { throw 'Native archive workflow failed' }
+      - name: Remove native archives while preserving research outputs
+        if: ${{ inputs.native_handoff_sha256 }}
+        shell: pwsh
+        run: ./tools/ci/remove_native_handoff.ps1 -Receipt build/windows-handoff/report/handoff.json
       - name: Handoff evidence
         if: always()
         uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
@@ -174,6 +199,8 @@ jobs:
             build/windows-handoff/run/sdk/*.json
             build/windows-handoff/run/desktop/*.json
             build/windows-handoff/run/desktop/*.ppm
+            build/windows-handoff/report/*.json
+            build/windows-handoff/report/*.log
 
   macos-native:
     if: ${{ inputs.macos_native && !inputs.portable_linux }}
