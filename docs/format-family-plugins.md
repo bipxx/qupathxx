@@ -245,6 +245,14 @@ Use `--catalogue qpx` for the QPX single-column catalogs with `feature_id` and
 `observation_id` headers. The command reports the new QMX SHA-256, source
 identity and axis counts. Export is limited to a 1 GiB ZIP and both commands
 require new output paths.
+
+Native builds configured with `-DQUPATHXX_BUILD_MATRIX_MARKET_GZIP=ON` also
+accept `.gz` on any of the three input files, including mixed plain and gzip
+inputs. Each compressed file must contain exactly one gzip member with a valid
+CRC and length. The existing per-file byte limit applies to both encoded and
+expanded bytes. Source identity hashes each original file as supplied, so
+recompression changes source identity while preserving the decoded values.
+
 Use the position export below for the matching coordinates and the QMX backup
 when you need the original project association and provenance.
 

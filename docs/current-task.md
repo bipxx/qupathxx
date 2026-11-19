@@ -8,6 +8,25 @@ and [R2-R16 queue](api-delivery-plan.md#execution-order-for-finishing-the-remain
 own remaining scope. No100% QuPath, universal biological/speed/platform or
 Java/Groovy claim; NC/restricted/unknown required materials stay unadmitted.
 
+## Verified locally - gzip Matrix Market exchange inputs
+
+`QUPATHXX_BUILD_MATRIX_MARKET_GZIP` enables single-member gzip transport for
+each input in the existing native Matrix Market importer. It reuses pinned
+zlib 1.3.2, hashes the original encoded bytes and bounds encoded and expanded
+size. The prior plain fixture retained the exact QMX hash. The native suite
+checked the exact expansion limit and refused corrupt, truncated and trailing
+streams before QMX publication. Nine CLI checks confirmed the all-gzip, mixed,
+multi-buffer and malformed cases. The default-disabled build passed its native
+suite and refused compressed inputs with the build option in its diagnostic.
+
+The cached build compiled only the importer and affected test for each option
+state. The enabled binaries and results were retained before the disabled check.
+No retry was needed. The gzip route is locally verified and awaits a matching
+package when selected for delivery.
+
+[Enabled CLI checks](../build/native-format-closeout/validation-packet/matrix-market-gzip/validation.json)
+[Disabled native suite](../build/native-format-closeout/validation-packet/matrix-market-gzip/native-disabled.log)
+
 ## Verified locally - fresh-host position round trip
 
 The Windows fresh-host checker selects backed position replay when the pinned

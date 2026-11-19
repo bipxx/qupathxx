@@ -26,6 +26,40 @@ void write(const fs::path& p,const std::string& text){std::ofstream out(p,std::i
 std::string bytes(const fs::path& p){std::ifstream in(p,std::ios::binary);return {std::istreambuf_iterator<char>(in),{}};}
 const std::string tiny="%%MatrixMarket matrix coordinate integer general\n% unsorted original entries\n3 4 6\n3 4 7\n1 2 9007199254740993\n2 1 18446744073709551615\n1 1 5\n2 3 0\n3 1 11\n";
 void no_stage(const fs::path& root){for(const auto& item:fs::directory_iterator(root))check(item.path().filename().u8string().rfind(".qpx-expression-",0)!=0,"Private staging directory leaked");}
+void gzip_transport(const fs::path& root) {
+    const auto dir=root/"gzip";
+    fs::create_directory(dir);
+    const auto matrix=dir/"matrix.mtx.Gz",features=dir/"features.tsv",observations=dir/"observations.tsv";
+    // Authored gzip of a one-entry matrix with a 500-character comment (582 decoded bytes).
+    const std::string hex="1f8b08000000000002ff5355f54d2c29caacf04d2cca4e2d51c805731492f3f38b5232f3124b521532f34a52d3538b14d253f3528b1273b8542346c188035c860a4008212d4c4ccccc4d4c0ccc8dcd0d2c4d4d0dcd0c4db900e28fb8d546020000";
+    std::string compressed;
+    for(std::size_t i=0;i<hex.size();i+=2)compressed.push_back(static_cast<char>(std::stoi(hex.substr(i,2),nullptr,16)));
+    write(matrix,compressed);write(features,"feature_id\nG\n");write(observations,"observation_id\nS\n");
+    const auto import=[&](const char* dest,const ExpressionMatrixImportOptions& options={}) {
+        return import_expression_matrix(matrix.u8string(),features.u8string(),observations.u8string(),(dir/dest).u8string(),options);
+    };
+#ifdef QPX_MATRIX_GZIP
+    ExpressionMatrixImportOptions limit;limit.file_bytes=582;
+    const auto result=import("good.qmx",limit);
+    check(result.matrix_bytes==compressed.size() && result.metadata.input_sha256[0]==
+          "d74f25ade003b1163e1a31b961982850b37be0dc6617bf7828a809fb37703655","Gzip import binds the original on-disk bytes");
+    const auto source=open_expression_matrix(result.path,result.file_sha256);
+    check(source->read({{0},{}}).counts==std::vector<std::uint64_t>{UINT64_MAX},"Gzip transport preserves exact native counts");
+    limit.file_bytes=581;
+    rejects<WorkflowCaptureLimit>([&]{import("limited.qmx",limit);});
+    check(!fs::exists(dir/"limited.qmx"),"Gzip expansion limit refuses publication");
+    auto bad_crc=compressed;bad_crc[bad_crc.size()-8]^=1;
+    for(const auto& bad:{compressed+"trailing",compressed+compressed,compressed.substr(0,compressed.size()-1),bad_crc}) {
+        write(matrix,bad);
+        rejects<std::invalid_argument>([&]{import("bad.qmx");});
+        check(!fs::exists(dir/"bad.qmx"),"Malformed gzip refuses publication");
+        no_stage(dir);
+    }
+#else
+    rejects<std::invalid_argument>([&]{import("disabled.qmx");});
+    check(!fs::exists(dir/"disabled.qmx"),"Disabled gzip refuses publication");
+#endif
+}
 #ifdef QPX_MATRIX_SQLITE
 void sql(const fs::path& path,const char* query){sqlite3* db=nullptr;check(sqlite3_open(path.u8string().c_str(),&db)==SQLITE_OK,"Open own corrupt-fixture database");const auto rc=sqlite3_exec(db,query,nullptr,nullptr,nullptr);const std::string error=sqlite3_errmsg(db);sqlite3_close(db);if(rc!=SQLITE_OK)throw std::runtime_error(error);}
 #endif
@@ -60,4 +94,4 @@ void real(const fs::path& root,const fs::path& raw){ExpressionMatrixImportOption
     const auto ids=source->observation_page(0,2702);check(ids.size()==prior.observations.size(),"Real observation axis length");for(std::size_t i=0;i<ids.size();++i)check(ids[i]==prior.observations[i].id,"Real barcode order/identity equals prior independent projection");ExpressionMatrixSelection q;for(const auto& label:selected.features){const auto split=label.find('|');check(split!=std::string::npos,"Prior feature ID carries source identifier");auto index=source->feature_index(label.substr(split+1));check(bool(index),"Full store contains prior marker ID");q.features.push_back(*index);}const auto block=source->read(q);std::size_t nonzero=0;for(std::size_t f=0;f<q.features.size();++f){auto at=block.offsets[f];for(std::size_t i=0;i<ids.size();++i){std::uint64_t value=0;if(at<block.offsets[f+1] && block.observation_indices[at]==i)value=block.counts[at++];check(value==prior.counts[i*q.features.size()+f],"Every real selected count equals independent retained projection");nonzero+=value!=0;}check(at==block.offsets[f+1],"All sparse entries accounted");}check(nonzero==14550,"Retained marker nonzero count unchanged");q.features={0};const auto unprojected=source->feature_page(0,1).at(0);check(std::find(selected.features.begin(),selected.features.end(),unprojected.name+"|"+unprojected.id)==selected.features.end(),"Real query is outside old six-gene projection");const auto unseen=source->read(q);check(!unseen.counts.empty() && open_expression_matrix(result.path,result.file_sha256)->read(q).sha256==unseen.sha256,"Unprojected real gene query/reopen exact identity");
     std::ofstream report(root/"real.json");report<<"{\"features\":"<<result.metadata.features<<",\"observations\":"<<result.metadata.observations<<",\"entries\":"<<result.metadata.entries<<",\"matrix_bytes\":"<<result.matrix_bytes<<",\"store_bytes\":"<<result.file_bytes<<",\"peak_work_bytes\":"<<result.peak_work_bytes<<",\"import_ms\":"<<result.elapsed_ms<<",\"source_sha256\":\""<<result.metadata.source_sha256<<"\",\"file_sha256\":\""<<result.file_sha256<<"\",\"unprojected_id\":\""<<unprojected.id<<"\",\"unprojected_block_sha256\":\""<<unseen.sha256<<"\",\"selected_counts_equal\":true}\n";report.close();check(bool(report),"Write real native matrix evidence");std::cout<<"Full matrix imported natively: "<<result.file_bytes<<" store bytes / "<<result.elapsed_ms<<"ms / peak accounted "<<result.peak_work_bytes<<" bytes; every retained selected count equals and an unprojected gene reopens exactly\n";
 }
-int main(int argc,char** argv){try{if(!has_expression_matrix_storage()){rejects<std::runtime_error>([]{open_expression_matrix("disabled.qmx");});std::cout<<"Disabled native expression storage refuses explicitly\n";return 0;}const auto root=argc>1?fs::u8path(argv[1]):fs::current_path()/("expression-matrix-"+std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()));fs::create_directories(root);exercise(root);interruptions(root,false);interruptions(root,true);if(argc==4 && std::string(argv[2])=="--real")real(root,fs::u8path(argv[3]));std::cout<<"Native indexed expression: exact uint64, sparse/cohort/catalogue reads, identity/reopen/relink, malformed/corrupt/stale/cancel and atomic interruption checks pass\n";}catch(const std::exception& e){std::cerr<<e.what()<<'\n';return 1;}}
+int main(int argc,char** argv){try{if(!has_expression_matrix_storage()){rejects<std::runtime_error>([]{open_expression_matrix("disabled.qmx");});std::cout<<"Disabled native expression storage refuses explicitly\n";return 0;}const auto root=argc>1?fs::u8path(argv[1]):fs::current_path()/("expression-matrix-"+std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()));fs::create_directories(root);exercise(root);gzip_transport(root);interruptions(root,false);interruptions(root,true);if(argc==4 && std::string(argv[2])=="--real")real(root,fs::u8path(argv[3]));std::cout<<"Native indexed expression: exact uint64, sparse/cohort/catalogue reads, identity/reopen/relink, optional gzip, malformed/corrupt/stale/cancel and atomic interruption checks pass\n";}catch(const std::exception& e){std::cerr<<e.what()<<'\n';return 1;}}
