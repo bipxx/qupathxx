@@ -8,6 +8,26 @@ and [R2-R16 queue](api-delivery-plan.md#execution-order-for-finishing-the-remain
 own remaining scope. No100% QuPath, universal biological/speed/platform or
 Java/Groovy claim; NC/restricted/unknown required materials stay unadmitted.
 
+## Verified locally - Windows OME-TIFF raster handoff
+
+The seven archives match compiled source
+`fe6a90faa806aee9636d3037fc3ec983181ab89113db6b6bb71e76a8016f511b`.
+One cached relink packaged both OME-TIFF changes. The matching source configured
+offline with Python off. Staging reused all 15 dependency source payloads and
+the existing admitted provider binaries.
+
+The extracted runtime passed all 83 TIFF CLI checks, the existing matrix and
+provider workflows, SDK replay and manifest-owned removal. An independent
+rotated bit fixture verified exact raw samples, XY pitch and MINISWHITE display
+from the saved project. Contradictory OME metadata refused. The fresh-host
+checker passed all 46 commands locally and removal preserved 66 research files.
+Six earlier handoffs passed preflight with their original scope. No retries
+were necessary. Hosted validation awaits release authorization and a prepared tag.
+
+[Windows handoff](../build/native-format-closeout/validation-packet/current-native-ome-raster-install/windows-native-handoff/handoff.json)
+[Packaged TIFF CLI checks](../build/native-format-closeout/validation-packet/current-native-ome-raster-install/handoff-tiff-cli.log)
+[Fresh-host checker local receipt](../build/qpx-host-ome-report/handoff.json)
+
 ## Verified locally - read packed OME-TIFF bit images
 
 The TIFF reader admits OME `Type="bit"` when every selected IFD carries
@@ -20,7 +40,7 @@ All 83 TIFF CLI checks passed, including stripped and tiled bit stacks, two
 photometric polarities, orientation/calibration and byte-identical project
 replay. The native region export suite passed. The cached build reused LibTIFF
 with no retries. The fixture library emitted its existing NumPy deprecation
-warnings. The staged native handoff predates the OME reader changes.
+warnings. The combined Windows handoff above records the newer archive evidence.
 
 [Retained baseline refusal](../build/native-format-closeout/validation-packet/ome-bit/baseline.log)
 [TIFF CLI checks](../build/native-format-closeout/validation-packet/ome-bit/tiff-cli.log)

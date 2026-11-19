@@ -16,6 +16,7 @@ import re
 import shutil
 import subprocess
 import stat
+import struct
 import zipfile
 import check_material_staging as admission
 
@@ -157,6 +158,11 @@ def published_bundle(source, expected_digest):
             raise ValueError(f'{key} verification requires the backed spatial exchange')
         if enabled:
             checks.add(key)
+    ome_tiff_bit = validation.get('ome_tiff_bit', False)
+    if type(ome_tiff_bit) is not bool:
+        raise ValueError('Invalid OME-TIFF bit verification flag')
+    if ome_tiff_bit:
+        checks.add('ome_tiff_bit')
     return source_id, archives, None, None, checks
 
 
@@ -181,13 +187,13 @@ def install_supplemental(archives, installed, native):
     return manifests
 
 
-def check_raw_samples(raw, expected, provider):
+def check_raw_samples(raw, expected, provider, *, dtype='<u2', shape=(2, 2, 1)):
     data = raw.read_bytes()
     if data[:8] != b'\x93NUMPY\x01\x00':
         raise ValueError('Unexpected raw result encoding: ' + provider)
     offset = 10 + int.from_bytes(data[8:10], 'little')
     header = ast.literal_eval(data[10:offset].decode('ascii'))
-    if header != dict(descr='<u2', fortran_order=False, shape=(2, 2, 1)) or data[offset:] != expected:
+    if header != dict(descr=dtype, fortran_order=False, shape=shape) or data[offset:] != expected:
         raise ValueError('Installed provider raw samples differ: ' + provider)
 
 
@@ -409,6 +415,56 @@ def check_verified_spatial_source(run, native, root):
     return {'verified_project_sha256': before, 'backed_sha256': sha(backed), 'selected_sha256': sha(selected)}
 
 
+def check_ome_tiff_bit(run, native, root):
+    root.mkdir()
+    source = root/'oriented.ome.tif'
+    xml = (b'<OME xmlns="http://www.openmicroscopy.org/Schemas/OME/2016-06"><Image ID="Image:0">'
+           b'<Pixels ID="Pixels:0" SizeX="3" SizeY="2" SizeZ="1" SizeC="1" SizeT="1" '
+           b'DimensionOrder="XYZCT" Type="bit" SignificantBits="1" PhysicalSizeX="2" PhysicalSizeY="4">'
+           b'<Channel ID="Channel:0:0" SamplesPerPixel="1"/><TiffData/></Pixels></Image></OME>\0')
+    # Stored 3x2 MSB-first rows [0,1,1] and [1,0,0]. TIFF orientation 6
+    # rotates them clockwise into a 2x3 image. MINISWHITE defines display polarity.
+    tags = [(256, 4, 1, 3), (257, 4, 1, 2), (258, 3, 1, 1), (259, 3, 1, 1), (262, 3, 1, 0),
+            (266, 3, 1, 1), (270, 2, len(xml), 0), (273, 4, 1, 0), (274, 3, 1, 6),
+            (277, 3, 1, 1), (278, 4, 1, 2), (279, 4, 1, 2), (284, 3, 1, 1)]
+    xml_offset = 8 + 2 + 12 * len(tags) + 4
+    offsets = {270: xml_offset, 273: xml_offset + len(xml)}
+    directory = b''.join(struct.pack('<HHII', tag, kind, count, offsets.get(tag, value))
+                         for tag, kind, count, value in tags)
+    fixture = struct.pack('<2sHIH', b'II', 42, 8, len(tags)) + directory + bytes(4) + xml + b'\x60\x80'
+    source.write_bytes(fixture)
+    region = native/'qupathxx_region.exe'
+    bundle, raw = root/'exact.zip', root/'exact.npy'
+    run('ome-bit-bundle', [region, '--raw', source, bundle, '--bundle'])
+    result = json.loads(run('ome-bit-extract', [region, '--extract-raw-bundle', bundle, raw]).read_bytes())
+    calibration = result['calibration']
+    if (calibration['base_pixel_width_um'], calibration['base_pixel_height_um']) != (4, 2):
+        raise ValueError('OME-TIFF orientation did not preserve physical pitch')
+    samples = bytes([1, 0, 0, 1, 0, 1])
+    check_raw_samples(raw, samples, 'OME-TIFF bit', dtype='|u1', shape=(3, 2, 1))
+    project = root/'oriented.qpx'
+    info = json.loads(run('ome-bit-create-project', [native/'qupathxx_format_import.exe', 'project-create',
+                         source, project, '--reader', 'tiff']).read_bytes())
+    if (info['width'], info['height']) != (2, 3):
+        raise ValueError('Saved OME-TIFF frame does not have oriented dimensions')
+    frozen = sha(project)
+    replay = root/'replay.npy'
+    run('ome-bit-project-raw', [region, '--raw-project', project, info['image_id'], replay])
+    if replay.read_bytes() != raw.read_bytes():
+        raise ValueError('Saved OME-TIFF project raw replay differs')
+    display = root/'display.pam'
+    run('ome-bit-project-display', [region, '--project-region', project, info['image_id'], 0, 0, 0, 2, 3, display])
+    expected_display = b''.join(bytes([0 if bit else 255])*3 + b'\xff' for bit in samples)
+    if display.read_bytes().split(b'ENDHDR\n', 1)[-1] != expected_display or sha(project) != frozen:
+        raise ValueError('Saved OME-TIFF display polarity or project bytes differ')
+    malformed, refused = root/'contradictory.ome.tif', root/'refused.npy'
+    malformed.write_bytes(fixture.replace(b'SignificantBits="1"', b'SignificantBits="2"'))
+    log = run('ome-bit-refuse-metadata', [region, '--raw', malformed, refused], expected_exit=2)
+    if refused.exists() or b'SignificantBits of one' not in log.read_bytes() or source.read_bytes() != fixture:
+        raise ValueError('OME-TIFF contradictory metadata did not refuse cleanly')
+    return {'project_sha256': frozen, 'raw_sha256': sha(raw), 'display_sha256': sha(display)}
+
+
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--input',type=Path,required=True,help='Frozen Windows handoff directory')
@@ -525,6 +581,7 @@ def main():
             supplemental[role] = check(run, native, user/role, manifests[role])
     spatial = check_position_reexport(run, native, user, manifests['envi'], checks) if 'position_reexport' in checks else None
     verified_spatial = check_verified_spatial_source(run, native, user/'verified spatial source') if 'verified_spatial_imports' in checks else None
+    ome_bit = check_ome_tiff_bit(run, native, user/'ome raster') if 'ome_tiff_bit' in checks else None
     run('gui-project-open',[native/'qupathxx_app.exe','--project',project,'--layout',user/'preferences.ini','--smoke'])
     if sha(project)!=before_project:raise ValueError('Read-only GUI/CLI changed saved project')
     sentinel=native/'user scratch/research-notes.txt';sentinel.parent.mkdir()
@@ -545,6 +602,8 @@ def main():
         receipt['spatial_position_reexport'] = spatial
     if verified_spatial:
         receipt['verified_spatial_imports'] = verified_spatial
+    if ome_bit:
+        receipt['ome_tiff_bit'] = ome_bit
     (report/'handoff.json').write_text(json.dumps(receipt,indent=2)+'\n',encoding='utf8')
     print('Install/use passed; manifest-owned removal is still required.',flush=True)
 
