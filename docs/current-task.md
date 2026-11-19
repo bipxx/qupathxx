@@ -8,6 +8,25 @@ and [R2-R16 queue](api-delivery-plan.md#execution-order-for-finishing-the-remain
 own remaining scope. No100% QuPath, universal biological/speed/platform or
 Java/Groovy claim; NC/restricted/unknown required materials stay unadmitted.
 
+## Verified locally - preserve the channel of restored spatial points
+
+Backed spatial import now uses native document plane validation for explicit
+channels. It records the selected plane in the restore report and preserves
+that plane on saved points. The previous all-channel preview metadata shape
+stays exact. The selected-count route continues to construct an all-channel
+request through its existing API.
+
+The two-band ENVI fixture passed 37 CLI checks. Its channel-1 counts and
+positions survived indexing, attach, ZIP exchange, restore, saved GeoJSON and
+byte-identical position re-export. A wrong-channel export and an unavailable
+channel import refused without writing. Both native spatial suites passed.
+The first driver queried the index summary for frame data. It reused the saved
+project and index and read the authoritative plane with `matrix-info`. The
+packaged handoff retains its prior source identity.
+
+[Channel round-trip receipt](../build/native-format-closeout/validation-packet/spatial-channel-roundtrip/validation-final.json)
+[Native backed spatial suite](../build/native-format-closeout/validation-packet/spatial-channel-roundtrip/backed-native.log)
+
 ## Verified locally - Windows direct Matrix Market ZIP handoff
 
 The seven archives match compiled source

@@ -135,6 +135,7 @@ std::shared_ptr<const BackedSpatialImportPreview> preview_backed_spatial_import(
         {"imported_observations",d->mapped.size()},{"image_id",request.base.image_id},{"z",request.base.plane.z},{"t",request.base.plane.t},
         {"owned",d->effective_owned},{"store",d->request.store},{"positions",d->request.positions},
         {"input_project",d->request.base.input_project},{"image_path",d->request.base.image_path},{"output_project",d->request.base.output_project}};
+    if(request.base.plane.c>=0)json["channel"]=request.base.plane.c;
     if(request.positions.empty()){json["position_source"]="embedded";json["source_coordinate_frame_sha256"]=coordinate_source.sha256();json["value_kind"]=m.domain==ExpressionValueDomain::Counts?"counts":"continuous";json["value_domain"]=m.value_domain;}
     d->json=json.dump();
     detail::bounded_utf8(d->json,4096);new_output(d->request.base.output_project);
@@ -172,6 +173,7 @@ std::string publish_backed_spatial_import(const BackedSpatialImportPreview& prev
     });
     return nlohmann::json{{"schema","qpx.backed-spatial-import-result/1"},{"state","saved"},{"project",request.base.output_project},
         {"image_id",request.base.image_id},{"matrix_source_sha256",id},{"recipe_sha256",d.recipe},{"coordinate_frame",d.target.id},
+        {"plane",{{"channel",d.target.plane.c},{"z",d.target.plane.z},{"time",d.target.plane.t}}},
         {"observations",created.size()},{"object_ids",created},{"owned",d.effective_owned}}.dump();
 }
 }

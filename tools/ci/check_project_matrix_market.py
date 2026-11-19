@@ -248,8 +248,8 @@ def main():
         position_receipt = run("export-positions", "project-matrix-export-positions", args.project,
                                args.image, association, positions)
         plane = position_receipt["plane"]
-        assert plane["channel"] == -1
-        frame = ("--frame-z", str(plane["z"]), "--frame-time", str(plane["time"]))
+        frame = ("--frame-channel", str(plane["channel"]), "--frame-z", str(plane["z"]),
+                 "--frame-time", str(plane["time"]))
         _, *rows = positions.read_text(encoding="utf-8").splitlines()
         coordinates = {row[0]: [float(row[1]), float(row[2])] for row in (line.split("\t") for line in rows)}
         assert len(coordinates) == len(expected[1]) and set(coordinates) == set(expected[1])
@@ -288,6 +288,9 @@ def main():
         points = json.loads(geometry.read_bytes())["features"]
         assert len(points) == len(coordinates) and all(point["geometry"]["type"] == "Point" for point in points)
         assert {point["properties"]["name"]:point["geometry"]["coordinates"] for point in points} == coordinates
+        expected_plane = dict(c=plane["channel"], z=plane["z"], t=plane["time"])
+        for point in points:
+            assert point["geometry"].get("plane", dict(c=-1, z=0, t=0)) == expected_plane
         if args.position_reexport:
             replay = args.output / "replayed-positions.tsv"
             export_positions = ("project-matrix-export-positions", received, args.image, received_id)

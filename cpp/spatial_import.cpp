@@ -84,7 +84,7 @@ void SpatialImportBaseRequest::validate() const {
     if(input_project.empty() && image_id!=1)throw std::invalid_argument("A new image uses image ID1");
     if(image_reader!="auto" && image_reader!="ppm" && image_reader!="tiff")throw std::invalid_argument("Image reader must be auto, ppm or tiff");
     if(image_series && *image_series>=65536)throw std::invalid_argument("Image series exceeds65535");
-    plane.validate();if(plane.c!=-1)throw std::invalid_argument("Spatial observations use an all-channel image plane");
+    plane.validate();
 }
 void SpatialImportRequest::validate() const {
     options.validate();base_request(*this).validate();

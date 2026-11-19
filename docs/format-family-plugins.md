@@ -287,8 +287,10 @@ qupathxx_format_import project-matrix-import-positions INPUT_PROJECT IMAGE_ID QM
 
 The native backed importer joins observation IDs exactly and saves the points
 and an owned QMX in a new project. It takes level-zero pixel coordinates and
-accepts `--frame-channel`, `--frame-z` and `--frame-time` for the original plane. Supply the saved
-image's admitted `--reader-plugins` manifest when the project uses a plugin.
+accepts `--frame-channel`, `--frame-z` and `--frame-time` for the original plane.
+The saved points retain that plane and the restore report returns it. Channel
+`-1` applies to all channels. A concrete channel must exist in the saved source
+series. Supply the admitted `--reader-plugins` manifest for a plugin-backed image.
 
 Re-export the restored detections by passing the `coordinate_frame` from the
 import report and the restored project's association ID:

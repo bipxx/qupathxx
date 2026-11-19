@@ -28,6 +28,7 @@ void exercise(const fs::path& root) {
     BackedSpatialImportRequest request;request.base.image_path=(root/"image.ppm").u8string();request.base.image_id=1;request.base.output_project=(root/"direct.qpx").u8string();
     request.store=imported.path;request.expected_store_sha256=imported.file_sha256;request.positions=(root/"positions.tsv").u8string();
     const auto preview=preview_backed_spatial_import(request);
+    check(!nlohmann::json::parse(preview->json()).contains("channel"),"Default preview retains the all-channel metadata shape");
     check(!fs::exists(request.base.output_project) && !fs::exists(root/".qpx-expression"),"Preview publishes neither project nor owned bytes");
     check(preview->spatial().dataset({1,0}).counts()==std::vector<std::uint64_t>{0,5,0,9007199254740993ull,7,0},"Preview joins full exact counts to scrambled explicit coordinates");
     check(preview->mapped_positions()[1].x==3 && preview->position_sha256().size()==64,"Preview preserves declared coordinates/provenance");
